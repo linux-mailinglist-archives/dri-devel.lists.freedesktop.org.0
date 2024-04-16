@@ -2,80 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3747B8A69DB
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 13:44:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5070F8A69DD
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 13:44:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40553112BD9;
-	Tue, 16 Apr 2024 11:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E2D5112BDB;
+	Tue, 16 Apr 2024 11:44:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bMLHQgNd";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="KbFIC/D3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11D90112BDE
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 11:44:17 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B31F3112BDB
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 11:44:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1713267857;
+ s=mimecast20190719; t=1713267880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WPv8+7fIKkpHm0ynwckuUQRsHAq15wX0Hy1ijdKsEto=;
- b=bMLHQgNdjVaE5ckWIsaWbwgEaiI9vb6bkDAKNVxxH5gwitaGl7qODhEjsfXwskGG7zoYDN
- s2crAgAl0DsahI7LVKvAksISMRxct3sKW1bIenPdRCbCnuDdnwEIFDwfeQGnKVE9Uv/OJb
- w+kKH0FQ6rgGnAxeuB8bsiB4fIOXI7I=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QZpT1KHN3Ra85iYsL9oCjeZNH/FA/S5mYHWG+FDh+RY=;
+ b=KbFIC/D3vcA2ANY9hqOdvWY6+5DH1c9MgeR0/tw4IyKIu1EWzSWvUo5NYdVgIv3ESuwDH/
+ qAqz8nT0wceQ/dLT3Y39MJYr+j8ZbY0kFUJnGGaBuIhQh+oo+ZuQutBbupj+Ozn+oRVrmF
+ kYMfjtCvMxVQ0u0IDBb96qVWtQi2YW4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-102-p9jOCawtN82PBQdCvFz4BQ-1; Tue, 16 Apr 2024 07:44:15 -0400
-X-MC-Unique: p9jOCawtN82PBQdCvFz4BQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-4187fb76386so4773105e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 04:44:15 -0700 (PDT)
+ us-mta-199-Z8d5kmb1OIavGOvNJKaEcg-1; Tue, 16 Apr 2024 07:44:39 -0400
+X-MC-Unique: Z8d5kmb1OIavGOvNJKaEcg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-343e00c8979so2971184f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 04:44:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713267854; x=1713872654;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WPv8+7fIKkpHm0ynwckuUQRsHAq15wX0Hy1ijdKsEto=;
- b=OkxRRTbzM+LUqwbWyEl4CQkQvVEG4on1V68+33URk+r7UZJBLlKe+Acfy0gFFVd0+o
- rhd/UAGIIM3SYfHvYVEb8mZJFWyfqWAtkgGzq++aM8gHw7AznQDccfjxjnPairUiAF40
- +5KvKqc05tFm6aFs7bG7nuX5LKgiphdnJQnz6GBmNsxxtaEFEnLuBnWx9Wfz21S0mNzE
- eRKKiZnGC2dBV+3q6L1wSxNks5n37/fESai9LF8lAmv/1pBpys5B+oHc9MBSLGFttInb
- nX+gs/XKhmzqcBu/0bdVSAAENDBUpTKsPLKbLPqe/owh7anUXN9a9b2lz2PdUi/9phMD
- I6tQ==
-X-Gm-Message-State: AOJu0YzADOGWW48oyf+e8KQW9YvV9dBscvs8VLS7NRg4cuVuqS5exYur
- g73uszczcI0ZisbVqGee12bpqP9pXJt2EAhKgJvOCv292JnSpCpdMvpvY4TqHksWuadnz9u5Wnu
- vlaahCD08Y35uuWbzcWXFNYGTF7SlmjBVJmuJIhO7EzO3XDiWKPbCCWW18T/unpq+IWU1h2Q+2A
- ==
-X-Received: by 2002:a05:600c:154b:b0:418:829e:efa5 with SMTP id
- f11-20020a05600c154b00b00418829eefa5mr2749060wmg.20.1713267854438; 
- Tue, 16 Apr 2024 04:44:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEpkddCTQOB59gf1jTW4qRPiWMyYG4kE21ugC5rTENiIr+upORu58OYHGQU37BNwpnmtKfBiQ==
-X-Received: by 2002:a05:600c:154b:b0:418:829e:efa5 with SMTP id
- f11-20020a05600c154b00b00418829eefa5mr2749042wmg.20.1713267853964; 
- Tue, 16 Apr 2024 04:44:13 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1713267878; x=1713872678;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QZpT1KHN3Ra85iYsL9oCjeZNH/FA/S5mYHWG+FDh+RY=;
+ b=u9RCJf9NjTfjBudrVlUxmcS2VJvcyPS3nHVErr0pWckmJrmqRI0dUW7f/5hBRDB+mG
+ Wu3MVgYjngihgbmwiNBmjv5f/2RDB3/rGHY8af/fydhaBmpYaM4ON7ozUnVMLsy5vEoV
+ mdIFaWXgYpBYXAzRmn3H9QUDSoAlwB8e+gwfHMcDrZ3Ul1SCW19Dz/oe6o8Kx9ZbnznI
+ VgPJr8/xUOznwDLASke7qVIrGK/S9j590aqVG/BbehbQdJOUQTGpdyKSnEyx6rh+ZCmu
+ mSyvGPJQx8KyMVnKl2PPPYwFQs/90nwD3I/T6Riiri8ZeSBizhDEtRoM1M3GuMMoR6nW
+ 7fQw==
+X-Gm-Message-State: AOJu0Yw82WPYHny+oZ8fyix44QfeQzMjTRHTrUrp5dh/yS8VTNuOf9ph
+ LmVtQDt/1Wobl/jeA84UdJldtkMwTox4M1WzVDh/1GJjrPi/MhWABv5Ymx53JNkOggFHqw9NzXS
+ Ud/h0QP19GRcO67KHGbs3S3WgCakF7qgPzu/8vByfI/igpn7nzTJbm8dF+oiDhoHBYg==
+X-Received: by 2002:a5d:630c:0:b0:343:7e98:e73e with SMTP id
+ i12-20020a5d630c000000b003437e98e73emr7605339wru.40.1713267878351; 
+ Tue, 16 Apr 2024 04:44:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGHv2uaDfVMQXt3r+gLl6LzXP3JoIZXKlb9D3CptY6IRFB5PAQrjI+yOFUxjeAqv9XQXa10LQ==
+X-Received: by 2002:a5d:630c:0:b0:343:7e98:e73e with SMTP id
+ i12-20020a5d630c000000b003437e98e73emr7605328wru.40.1713267877881; 
+ Tue, 16 Apr 2024 04:44:37 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- q6-20020adff946000000b003479bec98cesm7255243wrr.115.2024.04.16.04.44.13
+ s29-20020adfa29d000000b00348cd3e612esm1784260wra.53.2024.04.16.04.44.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Apr 2024 04:44:13 -0700 (PDT)
+ Tue, 16 Apr 2024 04:44:37 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
  airlied@gmail.com, daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, Thomas
- Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>, Sean
- Paul <sean@poorly.run>
-Subject: Re: [PATCH v2 18/43] drm/udl: Use fbdev-shmem
-In-Reply-To: <20240410130557.31572-19-tzimmermann@suse.de>
+ Zimmermann <tzimmermann@suse.de>, Rodrigo Siqueira
+ <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>,
+ =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>, Haneen Mohammed
+ <hamohammed.sa@gmail.com>
+Subject: Re: [PATCH v2 20/43] drm/vkms: Use fbdev-shmem
+In-Reply-To: <20240410130557.31572-21-tzimmermann@suse.de>
 References: <20240410130557.31572-1-tzimmermann@suse.de>
- <20240410130557.31572-19-tzimmermann@suse.de>
-Date: Tue, 16 Apr 2024 13:44:12 +0200
-Message-ID: <877cgx7cs3.fsf@minerva.mail-host-address-is-not-set>
+ <20240410130557.31572-21-tzimmermann@suse.de>
+Date: Tue, 16 Apr 2024 13:44:36 +0200
+Message-ID: <874jc17crf.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,17 +101,16 @@ Thomas Zimmermann <tzimmermann@suse.de> writes:
 > fbdev-generic's additional shadow buffering. No functional changes.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> Cc: Melissa Wen <melissa.srw@gmail.com>
+> Cc: "Ma=C3=ADra Canal" <mairacanal@riseup.net>
+> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->  drivers/gpu/drm/udl/udl_drv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
--- 
+--=20
 Best regards,
 
 Javier Martinez Canillas
