@@ -2,42 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389FD8A74B1
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 21:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2378A7534
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 22:06:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 025C910F2CE;
-	Tue, 16 Apr 2024 19:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3806112E27;
+	Tue, 16 Apr 2024 20:06:34 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FUemQUdS";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDA6710F2CE
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 19:29:48 +0000 (UTC)
-Received: from Marijn-Arch-PC.localdomain
- (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 88D633F434;
- Tue, 16 Apr 2024 21:29:45 +0200 (CEST)
-From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Tue, 16 Apr 2024 21:29:39 +0200
-Subject: [PATCH] drm: Fix no_vblank field references in documentation
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240416-drm-no_vblank-kdoc-link-v1-1-a1d8d1e9ff34@somainline.org>
-X-B4-Tracking: v=1; b=H4sIAKLRHmYC/x2MQQqAIBAAvxJ7bkHLIvpKRJhutVQaChJEf0+6z
- RxmHogUmCL0xQOBEkf2LossCzCbdish2+xQiUoJJVu04UTnpzQf2u24W2/w4EwLaTk3tRCdriH
- XV6CF7/88jO/7AQakzM5pAAAA
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, dri-devel@lists.freedesktop.org, 
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1EE112E27
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 20:06:33 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-516d0162fa1so6176001e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 13:06:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713297991; x=1713902791; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=5WM/kJl6/lgxNKvGcl2foDF49S8YDknOQYG0ZwPqeq4=;
+ b=FUemQUdSLE5HvjxsRSC1mU9bgfLpx+D0SQSLPOqFALiavpIYdba6PmrUB1I6LKrDLW
+ xUfFY9TGTlwhtTMjdFsG18rg3czBMkOwaPut99/fdBaUmIIdYY7/BNyDbLHQrMNXPqe6
+ 2ABuhEIJDITrzvVlai73xG+/U1KvMYu7Ptzz26XmhXJN3Zp5R/8RHavhL+rLJ6tFKvD5
+ 4Ow9tLSPm3kOXezbldQbI/UTrmgx+JbQ4/csGEmJRrB2osPawIBr6C3N/eQRDF32hbMV
+ JNdBVixBDWn3AZUk0uSvVQYPNq89pV4iaeDL165pwDzCnxnCZblqjDDgBAsAirgB+G9O
+ VnVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713297991; x=1713902791;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5WM/kJl6/lgxNKvGcl2foDF49S8YDknOQYG0ZwPqeq4=;
+ b=WtOjrTXJbzQxFNXIP8n0Our+R+5O9GGvYvrLZee1GE2xoSeICExVNSMMlsjNQBqXWQ
+ 0h9Iz2i9O2U4BoKD+vrJUNyxuW2R0aY3KIAEAgWSNH6SmFLkfDt5JH6B/e2NrT5pPknb
+ VHrEYtuE1ML4pX68vgMy27oCOqDN3qDwj+mJoj8vl2yJB/AD5cTlAD7+OdlgG4qaGyoZ
+ K4BC7I8M5seqt4Xs2uVg+RDM4jk8vY9mYB3iahknRJP+lAIiyBN1SBkrk7COl7/mWfBR
+ OE1basd/jj/sDEz+PDcewMNA0lytsBTIoHdu+QEACAsMkn6ssnDd6mmu3ewSMbDEAQha
+ 33HQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX4+Rkgh6HwfvJRzlMLVus1Z4v8g147MopOLmn1twkHVx1Qmja9JE0HrrImITcQipHAEvNKCKCsZq4qG22eHTkOE+stqKFWdiJmaqWJE4Kt
+X-Gm-Message-State: AOJu0Yw2+5ZSfQSFOjTKMAGfocLSbJjvWGsAvbmAtlPm6NGtXIZjAVwK
+ naz6NZtynUmstEljecFJYeBgXBuU45Fi93ikcvtnRCGaELk12NyUibxYh2ObKTU=
+X-Google-Smtp-Source: AGHT+IFmHOkNwWKSnm1HBfTZnquMULqoBRj7rBVPJKHrN8vOG01l/YisFvkz/QvNtFNORfqb4oKlMA==
+X-Received: by 2002:ac2:4ac8:0:b0:516:d1af:adc1 with SMTP id
+ m8-20020ac24ac8000000b00516d1afadc1mr10003114lfp.9.1713297991264; 
+ Tue, 16 Apr 2024 13:06:31 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ p27-20020ac246db000000b00518948d6910sm1254318lfo.205.2024.04.16.13.06.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Apr 2024 13:06:20 -0700 (PDT)
+Date: Tue, 16 Apr 2024 23:06:19 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: David Wronek <david@mainlining.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>
-X-Mailer: b4 0.13.0
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] drm/panel: Add driver for EDO RM69380 OLED panel
+Message-ID: <ni6kkq6brpnlve2nkcbsi3j5zmcfwurh2wj2nlypwpp2vqxrpd@ktgncxudgeu6>
+References: <20240416-raydium-rm69380-driver-v3-0-21600ac4ce5f@mainlining.org>
+ <20240416-raydium-rm69380-driver-v3-2-21600ac4ce5f@mainlining.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240416-raydium-rm69380-driver-v3-2-21600ac4ce5f@mainlining.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,75 +94,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Browsing the DRM documentation shows that drm_crtc_state.no_vblank
-is not turned into a reference to the no_vblank field, but rather a
-reference to `struct drm_crtc_state`.  The only difference with other
-field references is that the struct name is prefixed by the literal
-`struct` tag, despite also already having a `&` reference prefix in two
-of the three cases.  Remove the `struct` prefix to turn these references
-into proper links to the designated field.
+On Tue, Apr 16, 2024 at 08:30:49PM +0200, David Wronek wrote:
+> Add support for the 2560x1600@90Hz OLED panel by EDO bundled with a
+> Raydium RM69380 controller, as found on the Lenovo Xiaoxin Pad Pro 2021.
+> 
+> Signed-off-by: David Wronek <david@mainlining.org>
+> ---
+>  drivers/gpu/drm/panel/Kconfig                 |  14 +
+>  drivers/gpu/drm/panel/Makefile                |   1 +
+>  drivers/gpu/drm/panel/panel-raydium-rm69380.c | 367 ++++++++++++++++++++++++++
+>  3 files changed, 382 insertions(+)
 
-Fixes: 7beb691f1e6f ("drm: Initialize struct drm_crtc_state.no_vblank from device settings")
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
----
-Note that a simple regex like "&struct \w+\.\w+" shows that there are
-only a handful of violators, most of them inside DRM files.  Let me know
-if you'd like a v2 that addresses all of them in one go (in separate
-patches or one combined change)?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Kind regards,
-Marijn
----
- drivers/gpu/drm/drm_vblank.c        | 2 +-
- include/drm/drm_crtc.h              | 2 +-
- include/drm/drm_simple_kms_helper.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 702a12bc93bd..45504732f98e 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -140,7 +140,7 @@
-  * must not call drm_vblank_init(). For such drivers, atomic helpers will
-  * automatically generate fake vblank events as part of the display update.
-  * This functionality also can be controlled by the driver by enabling and
-- * disabling struct drm_crtc_state.no_vblank.
-+ * disabling &drm_crtc_state.no_vblank.
-  */
- 
- /* Retry timestamp calculation up to 3 times to satisfy
-diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-index 8b48a1974da3..eb75d0aec170 100644
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@ -342,7 +342,7 @@ struct drm_crtc_state {
- 	 *    that case.
- 	 *
- 	 * For very simple hardware without VBLANK interrupt, enabling
--	 * &struct drm_crtc_state.no_vblank makes DRM's atomic commit helpers
-+	 * &drm_crtc_state.no_vblank makes DRM's atomic commit helpers
- 	 * send a fake VBLANK event at the end of the display update after all
- 	 * hardware changes have been applied. See
- 	 * drm_atomic_helper_fake_vblank().
-diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
-index b2486d073763..6e64d91819e7 100644
---- a/include/drm/drm_simple_kms_helper.h
-+++ b/include/drm/drm_simple_kms_helper.h
-@@ -102,7 +102,7 @@ struct drm_simple_display_pipe_funcs {
- 	 * drm_crtc_arm_vblank_event(), when the driver supports vblank
- 	 * interrupt handling, or drm_crtc_send_vblank_event() for more
- 	 * complex case. In case the hardware lacks vblank support entirely,
--	 * drivers can set &struct drm_crtc_state.no_vblank in
-+	 * drivers can set &drm_crtc_state.no_vblank in
- 	 * &struct drm_simple_display_pipe_funcs.check and let DRM's
- 	 * atomic helper fake a vblank event.
- 	 */
-
----
-base-commit: 6bd343537461b57f3efe5dfc5fc193a232dfef1e
-change-id: 20240416-drm-no_vblank-kdoc-link-fea1b53008a3
-
-Best regards,
 -- 
-Marijn Suijten <marijn.suijten@somainline.org>
-
+With best wishes
+Dmitry
