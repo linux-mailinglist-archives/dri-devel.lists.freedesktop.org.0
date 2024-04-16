@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133A38A6C1B
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 15:23:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224B58A6C1E
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 15:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 711BD10F07C;
-	Tue, 16 Apr 2024 13:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3651110EF76;
+	Tue, 16 Apr 2024 13:23:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FROBPTi6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e91JNLcb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2E0A10EE86
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 13:23:01 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E590410EF76
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 13:23:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713273782; x=1744809782;
+ t=1713273788; x=1744809788;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=h3mr/JBZVXgf3FJm/3U0By1+74lqOPO/O5jKmd/b9Ec=;
- b=FROBPTi6H/S1u9KQj81Icc3xp7WI3imGm6e0b39I1csrKYoN8H1M1g11
- v6/d/A0J0uiqt/x11ekyev5HM5yPY13tPdp9uc/lGqYQHhP4A/sHht+1n
- 3PkydljjB/eiaP11ApB7f/PgZ+QZUJn3W02DImwOkVAEqSIbhszQ4cSUX
- Rx7ZW/a7jam6FxZYN3b2wVP1oP7zDMl7EuoQzA++VHL4q1M9HhKvkGY0X
- k3DmEJp1cgCLN68uIMPybIbR8Ri1FwqFV/sBLteTLhgMYu9Lm0QgRORmX
- xcaRgBuQ/ksbdRdvgVo0b/KVnmZfasJE4PRHfJeNv5IuGVpNWyFMubOwO w==;
-X-CSE-ConnectionGUID: z3A7FY9KSeWlKu0fsSdSnQ==
-X-CSE-MsgGUID: nbS0oNEPRyKEYOf/536w3A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="26169383"
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="26169383"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 06:23:02 -0700
-X-CSE-ConnectionGUID: Tq/bTwdtQx2PPNPmK2t2Hg==
-X-CSE-MsgGUID: fRZFHgHxQBaf34ZDhtlsyA==
+ bh=x6jfXcFRBti7KkgtfDl0XTo9aIOmY0FStdfCBjx7DUc=;
+ b=e91JNLcbgFwPz7s+S5K6o1ju0/1D2jX1y0aUBReyfD56Tfbmt0dgaI+x
+ rgb1xfaUrFtWz6s9xFv+JIBHIhe2UNYQX4rtvceCF628nl/qxhpyG6ilB
+ grZ8gk2IyKcLpStWUTXVuHwtt4pWsgx3TPVppadlEW1gbISFMUIC13Tmg
+ ZAn7OCeZMxlsYa+kDsVUQ+Fr2kDT3MRfP1NNBmdYhLeI6fdbmSqisFv1D
+ pNqFyI57Xnvn35UwNoKJgNv/z0x82uXmx1G/v/N5VGQfqDl9WoQTWv2J3
+ zXYqfnGr7eplNzynJnU7vFgtso2Y59pRDZJbBmcdVqYW8XZB+Z5DATirF Q==;
+X-CSE-ConnectionGUID: St+0WYmRTl+n0APRkTdlUQ==
+X-CSE-MsgGUID: AgTszLhLSequDhVNL2IZyw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8571735"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
+   d="scan'208";a="8571735"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 06:23:08 -0700
+X-CSE-ConnectionGUID: RZ3RKF8gQaSfe64ZnDVnrg==
+X-CSE-MsgGUID: xxkEhbmFSTWJcooAB7if5w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="26929184"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="53438742"
 Received: from martakit-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.44.100])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 06:22:59 -0700
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 06:23:04 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 05/15] drm/bridge/analogix/anx78xx: switch to struct drm_edid
-Date: Tue, 16 Apr 2024 16:22:19 +0300
-Message-Id: <d05db9dec2970969f71862910dc3f006817e7223.1713273659.git.jani.nikula@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: [PATCH 06/15] drm/sun4i: hdmi: switch to struct drm_edid
+Date: Tue, 16 Apr 2024 16:22:20 +0300
+Message-Id: <0967dde8ae35cd58ab8ea58397d514bb9df29fd1.1713273659.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1713273659.git.jani.nikula@intel.com>
 References: <cover.1713273659.git.jani.nikula@intel.com>
@@ -79,87 +79,52 @@ Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 ---
 
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
 ---
- .../drm/bridge/analogix/analogix-anx78xx.c    | 23 ++++++++++---------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-index 5748a8581af4..ae79bcd8fa55 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-@@ -67,7 +67,7 @@ struct anx78xx {
- 	struct drm_dp_aux aux;
- 	struct drm_bridge bridge;
- 	struct i2c_client *client;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 2d1880c61b50..245b34adca5a 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -214,20 +214,24 @@ sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
+ static int sun4i_hdmi_get_modes(struct drm_connector *connector)
+ {
+ 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
 -	struct edid *edid;
 +	const struct drm_edid *drm_edid;
- 	struct drm_connector connector;
- 	struct anx78xx_platform_data pdata;
- 	struct mutex lock;
-@@ -830,8 +830,8 @@ static int anx78xx_get_modes(struct drm_connector *connector)
- 	if (WARN_ON(!anx78xx->powered))
+ 	int ret;
+ 
+-	edid = drm_get_edid(connector, hdmi->ddc_i2c ?: hdmi->i2c);
+-	if (!edid)
++	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc_i2c ?: hdmi->i2c);
++
++	drm_edid_connector_update(connector, drm_edid);
++	cec_s_phys_addr(hdmi->cec_adap,
++			connector->display_info.source_physical_address, false);
++
++	if (!drm_edid)
  		return 0;
  
--	if (anx78xx->edid)
--		return drm_add_edid_modes(connector, anx78xx->edid);
-+	if (anx78xx->drm_edid)
-+		return drm_edid_connector_add_modes(connector);
+ 	DRM_DEBUG_DRIVER("Monitor is %s monitor\n",
+ 			 connector->display_info.is_hdmi ? "an HDMI" : "a DVI");
  
- 	mutex_lock(&anx78xx->lock);
- 
-@@ -841,20 +841,21 @@ static int anx78xx_get_modes(struct drm_connector *connector)
- 		goto unlock;
- 	}
- 
--	anx78xx->edid = drm_get_edid(connector, &anx78xx->aux.ddc);
--	if (!anx78xx->edid) {
-+	anx78xx->drm_edid = drm_edid_read_ddc(connector, &anx78xx->aux.ddc);
+-	drm_connector_update_edid_property(connector, edid);
+-	cec_s_phys_addr_from_edid(hdmi->cec_adap, edid);
+-	ret = drm_add_edid_modes(connector, edid);
+-	kfree(edid);
 +
-+	err = drm_edid_connector_update(connector, anx78xx->drm_edid);
-+
-+	if (!anx78xx->drm_edid) {
- 		DRM_ERROR("Failed to read EDID\n");
- 		goto unlock;
- 	}
++	ret = drm_edid_connector_add_modes(connector);
++	drm_edid_free(drm_edid);
  
--	err = drm_connector_update_edid_property(connector,
--						 anx78xx->edid);
- 	if (err) {
- 		DRM_ERROR("Failed to update EDID property: %d\n", err);
- 		goto unlock;
- 	}
- 
--	num_modes = drm_add_edid_modes(connector, anx78xx->edid);
-+	num_modes = drm_edid_connector_add_modes(connector);
- 
- unlock:
- 	mutex_unlock(&anx78xx->lock);
-@@ -1091,8 +1092,8 @@ static bool anx78xx_handle_common_int_4(struct anx78xx *anx78xx, u8 irq)
- 		event = true;
- 		anx78xx_poweroff(anx78xx);
- 		/* Free cached EDID */
--		kfree(anx78xx->edid);
--		anx78xx->edid = NULL;
-+		drm_edid_free(anx78xx->drm_edid);
-+		anx78xx->drm_edid = NULL;
- 	} else if (irq & SP_HPD_PLUG) {
- 		DRM_DEBUG_KMS("IRQ: Hot plug detect - cable plug\n");
- 		event = true;
-@@ -1363,7 +1364,7 @@ static void anx78xx_i2c_remove(struct i2c_client *client)
- 
- 	unregister_i2c_dummy_clients(anx78xx);
- 
--	kfree(anx78xx->edid);
-+	drm_edid_free(anx78xx->drm_edid);
+ 	return ret;
  }
- 
- static const struct of_device_id anx78xx_match_table[] = {
 -- 
 2.39.2
 
