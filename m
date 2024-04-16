@@ -2,81 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BDD8A7569
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 22:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D958A7574
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 22:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D509510F210;
-	Tue, 16 Apr 2024 20:20:59 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dJy5pJv1";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E32FB10F309;
+	Tue, 16 Apr 2024 20:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC11D10F210
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 20:20:58 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-518b9527c60so3730036e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 13:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713298857; x=1713903657; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qywwJq5nbSjHA1aLQQKg5o6c3/lkaJluN4xzLrwZMAw=;
- b=dJy5pJv1ucQJcL09HdktbWlbae9Us8lQJDg8fZBUglAyCzqbwIyEJdVKe8cptiihzf
- 7FejmxW9pQELJ/n8YA6cYruOM98dY2EG3h+P3WHirqr1S92YyVQRHm7WnLRS9Z24iopp
- vf27tcjAKnQelix+uZcAOvwmh8qStJUadudanzm/UC+ubzfMkONnWBfE+zkcZCpGYl8+
- WqrNL0HPESv8oo+w7f/18PGJACoqO51uwgRMr8jikFR+XPXH5cJH2q55SN5Bb1Bhg44i
- UKKUHW6/Z4mhUVwHGMAXnuVScnrAWZ6nqNXzbXKawSMG/RcSbLV4HIdumSp6+RCvAVWh
- u0vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713298857; x=1713903657;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qywwJq5nbSjHA1aLQQKg5o6c3/lkaJluN4xzLrwZMAw=;
- b=peYOZdIGfrbUiXjn1LXWWQ1ziGrk5WIrEzEBY0D+pqVJRSuAvnBcbQvr623oH3g5A1
- 8/F4IecETkBKqbsOH2mqsl3QOio7Sdh/eO973X0+E28qKN4/Bc9+eIKwnJKKspthYGoH
- ejl4B3L9wOLDrfq37XHN++QoTfQQX5KzXFXY1SBDq5vQ5230JDHi+PgL7ZG0u7FuhzAW
- Ro4Fi55x/QMQqzs2lAwFuFblMvgQp/FNXHcuLPJFDRfCTWcWAl2kAvHcR5Gq7Y8Meyh5
- 7xdxy2GpR3Xj5PBP/LhCeVjToCfgskmUGpt9ee01CabwhLwFERzPIirBRqlQKZr9x9XB
- okeQ==
-X-Gm-Message-State: AOJu0Yx4biCswnXJw6oYajfbJ9hrhZY94RzXY2ODrMr7524xQh6KhXIO
- 9nXAMwidDkSO+KgqXXmANyXT2tVBdPxcdyByu63H7hAonI5siabOn1/oWj5jJB8=
-X-Google-Smtp-Source: AGHT+IGvXeB5YIW/C8iZDJh9O5u8lqiFkQF8Sa94t87snOvbhlCLdYH6yE/raC6L6AjmGsPjbyDCtw==
-X-Received: by 2002:ac2:410a:0:b0:518:c69b:3a04 with SMTP id
- b10-20020ac2410a000000b00518c69b3a04mr6070306lfi.0.1713298856688; 
- Tue, 16 Apr 2024 13:20:56 -0700 (PDT)
-Received: from eriador.lan (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00::227]) by smtp.gmail.com with ESMTPSA id
- g10-20020a19e04a000000b00515b5cd2361sm1719519lfj.164.2024.04.16.13.20.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Apr 2024 13:20:56 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matthias Kaehlcke <mka@chromium.org>,
- Harigovindan P <harigovi@codeaurora.org>,
- Ritesh Kumar <quic_riteshk@quicinc.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/6] drm/panel: small fixes for visionox and
- novatek panel drivers
-Date: Tue, 16 Apr 2024 23:20:54 +0300
-Message-ID: <171329879926.1936150.2583859281547375422.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
-References: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40B4710F309
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 20:22:38 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 6CFBF3FC93;
+ Tue, 16 Apr 2024 22:22:35 +0200 (CEST)
+Date: Tue, 16 Apr 2024 22:22:34 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: David Wronek <david@mainlining.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm/panel: Add driver for EDO RM69380 OLED panel
+Message-ID: <e2jkc4gs74pe365danyiq22f7s7wqxvj27jrjlzehgsgigf2dd@gai76zslxr7o>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Wronek <david@mainlining.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+References: <20240415-raydium-rm69380-driver-v2-0-524216461306@mainlining.org>
+ <20240415-raydium-rm69380-driver-v2-2-524216461306@mainlining.org>
+ <yccnqb63gp5svx76rudfnphecpatkpwgp2wlfenojebulrigma@xfztf3ox6q7d>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <yccnqb63gp5svx76rudfnphecpatkpwgp2wlfenojebulrigma@xfztf3ox6q7d>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,29 +72,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 04 Apr 2024 13:07:58 +0300, Dmitry Baryshkov wrote:
-> While taking a glance at the novatek-nt36672e driver I stumbled upon a
-> call to unregister the DSI device for the panel, although it was not the
-> panel driver that registered the device.
+On 2024-04-15 19:50:49, Dmitry Baryshkov wrote:
+> On Mon, Apr 15, 20
+[...]
+> > +static int rm69380_on(struct rm69380_panel *ctx)
+[...]
+> ret = mipi_dsi_dcs_set_display_brightness_large(dsi, 0x7ff);
+
+Downstream may send this here, but why?  As far as I've observed, update_status
+also sets &backlight_properties.brightness which you configure below.
+
+Try removing this line and maybe also set the initial brightness lower to the
+benefit of users' eyes and OLED lifetime?
+
+[...]
+> > +
+> > +	if (dsi_sec) {
+> > +		dev_dbg(dev, "Using Dual-DSI\n");
+> > +
+> > +		const struct mipi_dsi_device_info info = { "RM69380", 0,
+
+Personally I'm never really sure what to put in the name here, maybe something
+that signifies the second DSI interface of the panel?
+
+> > +							   dsi_sec };
+> > +
+> > +		dev_dbg(dev, "Found second DSI `%s`\n", dsi_sec->name);
+> > +
+> > +		dsi_sec_host = of_find_mipi_dsi_host_by_node(dsi_sec);
+> > +		of_node_put(dsi_sec);
+> > +		if (!dsi_sec_host) {
+> > +			return dev_err_probe(dev, -EPROBE_DEFER,
+> > +					     "Cannot get secondary DSI host\n");
+> > +		}
+> > +
+> > +		ctx->dsi[1] =
+> > +			mipi_dsi_device_register_full(dsi_sec_host, &info);
 > 
-> Remove this call and a similar call from the visionox-rm69299 driver.
-> While we are at it, also optimize regulator API calls in these two
-> drivers and in the novatek-nt36672a driver.
+> Either you should be using devm_mipi_dsi_device_register_full() here or
+> you should call mipi_dsi_device_unregister() in the error and remove
+> paths. I'd suggest the former.
+
+There is also devm_mipi_dsi_attach() which may solve inadequate cleanup handling
+in the error paths below, as pointed out by Christophe.
+
 > 
-> [...]
+> > +		if (IS_ERR(ctx->dsi[1])) {
+> > +			return dev_err_probe(dev, PTR_ERR(ctx->dsi[1]),
+> > +					     "Cannot get secondary DSI node\n");
+> > +		}
+> > +
+> > +		dev_dbg(dev, "Second DSI name `%s`\n", ctx->dsi[1]->name);
 
-Applied to drm-misc-fixes, thanks!
+It looks like you inerited /all/ my debug logging when copy-pasting this setup
+from my in-progress dual-DSI dual-DSC Samsung ANA6707 panel driver.  Since it's
+all working now, I suggest to remove mostly-useless debug lines like this.
 
-[1/6] drm/panel: visionox-rm69299: don't unregister DSI device
-      commit: 9e4d3f4f34455abbaa9930bf6b7575a5cd081496
-[2/6] drm/panel: novatek-nt36682e: don't unregister DSI device
-      commit: 941c0bdbc176df825adf77052263b2d63db6fef7
+I'll continue the review on v3, as I mainly wanted to extend the initial devm_
+suggestion from Dmitry done on v2.
 
-Other four patches were not reviewed and they are not fixes, so they are still
-pending.
-
-Best regards,
--- 
-With best wishes
-Dmitry
-
+- Marijn
