@@ -2,72 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DCB08A728F
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 19:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10ED58A7290
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 19:43:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAB0A10E41B;
-	Tue, 16 Apr 2024 17:43:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CBCC10F278;
+	Tue, 16 Apr 2024 17:43:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cv1sempD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UUM+wvP7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com
- [209.85.161.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3D610E41B
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 17:43:15 +0000 (UTC)
-Received: by mail-oo1-f42.google.com with SMTP id
- 006d021491bc7-5aa1b7a37b5so3266991eaf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 10:43:15 -0700 (PDT)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+ [209.85.215.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07CC510F278
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 17:43:37 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id
+ 41be03b00d2f7-5d8b887bb0cso3515830a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 10:43:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713289395; x=1713894195; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713289417; x=1713894217; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=iS06cmSTuyhClYRnGFxyCcy7fL40DKw/box8yhy+mTs=;
- b=cv1sempDAFR3VK3zICoG4kzp8L7nHgYetiaLev8hc1jxkG9UOWqWdLBLH3LCKQnErd
- zmoPkrqkxVmFbIy+UCENxNaDyBe+aQjAzLNlTlP0ewoaY3/pC1zEiy+FXp88mJxaCga9
- nq/MXrFzGsUsCTKnhTvoevUay4Q28rkKXmpnNifvs+jXvSeV4lnX5Vw0Z3tKe0tLJbhM
- rZvSig7o6YfkqZIcH+pUresDWBrE9l/fYCymtgQouRAyN+P5YHKpGHsymD6TJ0Jqthvm
- /0EQs4j4gYFHE5rvNYbrQX26oHmSeOmZhexa0qiw7MkhpzXnwcU4RwmkPBw4JXGWVzUG
- ajJQ==
+ :reply-to; bh=eUEau/pEpt9AkOO4LFO9sGSkzJlYdG9OShqBDzpNMbY=;
+ b=UUM+wvP7b4NZv0BOAggygOAUvMZKfHZbw1qot77HbIwXiVkn2Jh5TbIsvEC2o/IHaY
+ 811Xb1FYl3yx04ccRqNA9lEs34EoKFcnHp9olO+N1NYryKPX6FwANV/whPiFq17glxA7
+ kqBL4XYvN/zLFqub4gMzL5f4XOKpL2g8Ba4ErzKTarWbOoslxDKZKm5UfNBmOVgaZ3f/
+ iNm0YEDgaW1KNgJu3xmVj+FeK+q99wwW3Bb3ryh/NS5kLOQd5rpFM9Ghvw1w4cE+alRL
+ Cnf3kz2Gz9RRnBhbVrph0uw2UUBHsPX3APpsqEextK7FtwXhlq1oWvKc+/JEkSRC5v13
+ f41A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713289395; x=1713894195;
+ d=1e100.net; s=20230601; t=1713289417; x=1713894217;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=iS06cmSTuyhClYRnGFxyCcy7fL40DKw/box8yhy+mTs=;
- b=w0lGQCA8Yx0Z0ZvCim/okZ0y01tTgaycLiduyVl/qrL5HWN+LEw6wDgjuDYg6RQuqu
- qcUhDLCPtThV6wdccUiAf5glJHU/5yJ7b7MDfEHmy/F7NcW6N/FpkRTU44foSzQ88i2A
- 6i87JEsjMe6s4The0Cx/gwY3ZnmC0CMXlJ/sAl/rSjxmt+2fuoytQNP6UkXTIVLstRFF
- LFy27nWGq+KpyOx/ZdzdsB6dY4xCr+412FXI1Fn00gcIbEjlTVW2HtdNK0FT862o8AVx
- v0qc0kfvlneX3+8SETloCe7pjrhOaLa/JuMdSyIz7QfhK7iutxCCwveBQ8ggjj7pIjQp
- MOgQ==
+ bh=eUEau/pEpt9AkOO4LFO9sGSkzJlYdG9OShqBDzpNMbY=;
+ b=pmyLyA644s9L0o4hyK9mCtX5QAeV6hmlJkFuUiMaxqRmtYD1vDHXzwE338FLAuSFlF
+ mU41WcRjaVp4yPIttL0Fcxc3Yam+JQ2IylkO0qAjIILQKdVZmPgQaDVm8KP6BrvL4U2F
+ iMGKAyLKvj93Roh4DrQjTfncy+gdLb6GNlZ0nvC9+EkSy6CHojLa/iS3AhXtJM8MuO9j
+ jE0a72INAQirJu8SmR6nFl2G0uGVNiMfZ+1eoNWUCZ2KAVbNhx7sln1BFvZJHYUwAnoz
+ zGB/cRw+H5J6ZmLgKNPyp/WMDowSzoG7T4K/PN95c2AczOkXO5O7dKvBureWIOFRsAq1
+ 5Jvw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVEYd9wRtPbl4wBaUv3bSJd9+Vylc2i0aXb3gr923IgZGjh0xtsGUFemRurc+qEF/ucMGQ89aw/CwpVbkOZBS6jj43MO4a/uxJb0jOr87VQ
-X-Gm-Message-State: AOJu0Yw3R/I2I+TPm9BSKiAfKRHSUuR0go28I1yZjtVlIwzwupeszE+3
- cy7/cyY7udJN4hGkT1smJ4ShVkwaKqkiynzDYwmj34dL1eVF4YEXzMdT+90Lgyw=
-X-Google-Smtp-Source: AGHT+IGKTynjbsBSHDe8wtUWHIypfxvu6d/NEj8iMtEVbBIccvKFKwJpB/0U0t2I9R0/E5hKO10apA==
-X-Received: by 2002:a05:6871:5a05:b0:21e:b4d0:9961 with SMTP id
- on5-20020a0568715a0500b0021eb4d09961mr14389867oac.55.1713289394967; 
- Tue, 16 Apr 2024 10:43:14 -0700 (PDT)
+ AJvYcCXuwb7YgSUzZQ8zGpXURsQIGXuymZa3mdFvHejjqFkDvIeJs2SD3fbmydlj8Wv3aEeLCHE3HMRJlnjBODt7WijKrZVo5qgKlbMEUmFiw+r3
+X-Gm-Message-State: AOJu0YzUy/kWT0jbp7amCQKEFDwcIFXwRa4hZ08XXL4KaZU0mJDlGryB
+ IZtq3VdkrhyTlpn785vh3I8vnOyTMflRxu5KprqD9Pd0E/8gbartT9g82FLbTGc=
+X-Google-Smtp-Source: AGHT+IFRHoGMcojV7sRgDp2sh67vGhlINTD73jHd6Lrwp10g0HQj6Lso/F+xzibAylchEXJh5urGzg==
+X-Received: by 2002:a05:6a21:2791:b0:1a8:4266:3d02 with SMTP id
+ rn17-20020a056a21279100b001a842663d02mr15369692pzb.30.1713289417249; 
+ Tue, 16 Apr 2024 10:43:37 -0700 (PDT)
 Received: from [10.36.52.145] ([24.75.208.156])
  by smtp.gmail.com with ESMTPSA id
- a24-20020a656558000000b005dc36279d6dsm7883025pgw.73.2024.04.16.10.43.14
+ gx13-20020a056a001e0d00b006ecf25d0b8dsm9284521pfb.184.2024.04.16.10.43.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Apr 2024 10:43:14 -0700 (PDT)
-Message-ID: <832ca3d8-355e-4cf4-81ad-8e47d61e6389@linaro.org>
-Date: Tue, 16 Apr 2024 19:43:13 +0200
+ Tue, 16 Apr 2024 10:43:36 -0700 (PDT)
+Message-ID: <6a05d4ff-1f27-4b7d-88f2-050288d8dc7b@linaro.org>
+Date: Tue, 16 Apr 2024 19:43:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 03/15] drm/panel-edp: switch to struct drm_edid
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: Douglas Anderson <dianders@chromium.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
-References: <cover.1713273659.git.jani.nikula@intel.com>
- <a68ee923449a70cc7a59d0d3c96b0bb6764296bd.1713273659.git.jani.nikula@intel.com>
+Subject: Re: [PATCH v3 8/9] drm/panel: novatek-nt35950: Don't log an error
+ when DSI host can't be found
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ owen <qwt9588@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Vasut <marex@denx.de>, Adrien Grassein <adrien.grassein@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Bjorn Andersson <andersson@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Vinay Simha BN <simhavcs@gmail.com>,
+ Christopher Vollo <chris@renewoutreach.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20240415-anx7625-defer-log-no-dsi-host-v3-0-619a28148e5c@collabora.com>
+ <20240415-anx7625-defer-log-no-dsi-host-v3-8-619a28148e5c@collabora.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -94,9 +113,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <a68ee923449a70cc7a59d0d3c96b0bb6764296bd.1713273659.git.jani.nikula@intel.com>
+In-Reply-To: <20240415-anx7625-defer-log-no-dsi-host-v3-8-619a28148e5c@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,73 +132,37 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/04/2024 15:22, Jani Nikula wrote:
-> Prefer struct drm_edid based functions over struct edid.
+On 15/04/2024 23:49, Nícolas F. R. A. Prado wrote:
+> Given that failing to find a DSI host causes the driver to defer probe,
+> make use of dev_err_probe() to log the reason. This makes the defer
+> probe reason available and avoids alerting userspace about something
+> that is not necessarily an error.
 > 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> 
+> Fixes: 623a3531e9cf ("drm/panel: Add driver for Novatek NT35950 DSI DriverIC panels")
+> Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 > ---
+>   drivers/gpu/drm/panel/panel-novatek-nt35950.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> ---
->   drivers/gpu/drm/panel/panel-edp.c | 17 ++++++++++-------
->   1 file changed, 10 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-> index d29bacf25c12..ece1e3553c1f 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -242,7 +242,7 @@ struct panel_edp {
->   
->   	const struct edp_panel_entry *detected_panel;
->   
-> -	struct edid *edid;
-> +	const struct drm_edid *drm_edid;
->   
->   	struct drm_display_mode override_mode;
->   
-> @@ -617,13 +617,16 @@ static int panel_edp_get_modes(struct drm_panel *panel,
->   	if (p->ddc) {
->   		pm_runtime_get_sync(panel->dev);
->   
-> -		if (!p->edid)
-> -			p->edid = drm_get_edid(connector, p->ddc);
-> +		if (!p->drm_edid)
-> +			p->drm_edid = drm_edid_read_ddc(connector, p->ddc);
-> +
-> +		drm_edid_connector_update(connector, p->drm_edid);
-> +
->   		/*
->   		 * If both edid and hard-coded modes exists, skip edid modes to
->   		 * avoid multiple preferred modes.
->   		 */
-> -		if (p->edid && !has_hard_coded_modes) {
-> +		if (p->drm_edid && !has_hard_coded_modes) {
->   			if (has_override_edid_mode) {
->   				/*
->   				 * override_edid_mode is specified. Use
-> @@ -632,7 +635,7 @@ static int panel_edp_get_modes(struct drm_panel *panel,
->   				num += panel_edp_override_edid_mode(p, connector,
->   						p->detected_panel->override_edid_mode);
->   			} else {
-> -				num += drm_add_edid_modes(connector, p->edid);
-> +				num += drm_edid_connector_add_modes(connector);
->   			}
+> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
+> index 648ce9201426..028fdac293f7 100644
+> --- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
+> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
+> @@ -556,10 +556,8 @@ static int nt35950_probe(struct mipi_dsi_device *dsi)
 >   		}
+>   		dsi_r_host = of_find_mipi_dsi_host_by_node(dsi_r);
+>   		of_node_put(dsi_r);
+> -		if (!dsi_r_host) {
+> -			dev_err(dev, "Cannot get secondary DSI host\n");
+> -			return -EPROBE_DEFER;
+> -		}
+> +		if (!dsi_r_host)
+> +			return dev_err_probe(dev, -EPROBE_DEFER, "Cannot get secondary DSI host\n");
 >   
-> @@ -981,8 +984,8 @@ static void panel_edp_remove(struct device *dev)
->   	if (panel->ddc && (!panel->aux || panel->ddc != &panel->aux->ddc))
->   		put_device(&panel->ddc->dev);
->   
-> -	kfree(panel->edid);
-> -	panel->edid = NULL;
-> +	drm_edid_free(panel->drm_edid);
-> +	panel->drm_edid = NULL;
->   }
->   
->   static void panel_edp_shutdown(struct device *dev)
+>   		nt->dsi[1] = mipi_dsi_device_register_full(dsi_r_host, info);
+>   		if (!nt->dsi[1]) {
+> 
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
