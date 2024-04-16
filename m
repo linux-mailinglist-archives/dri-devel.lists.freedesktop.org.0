@@ -2,64 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CB88A733D
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 20:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADDE8A73EB
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 20:55:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D375112CEF;
-	Tue, 16 Apr 2024 18:31:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4053110F2CA;
+	Tue, 16 Apr 2024 18:55:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="PxREm9Zu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eBoEIs89";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.mainlining.org (mainlining.org [94.241.141.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31CEA112CEF
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 18:31:15 +0000 (UTC)
-Received: from david-ryuzu.localdomain
- (ipbcc3a836.dynamic.kabel-deutschland.de [188.195.168.54])
- by mail.mainlining.org (Postfix) with ESMTPSA id 9A48AE20ED;
- Tue, 16 Apr 2024 18:31:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
- s=psm; t=1713292273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dC0axLGPLQGPGH3I3r5mqHScs8bU+DmnnOi+Wx2Xkjg=;
- b=PxREm9Zuumoq87oUbb6Prd2bMsXl1unmC23CdcJZP6a62hi2WlwSLycazRzf9KDxZf56sf
- mX9QDwCXspj6pobdc+BltxueGkE1Dc6rS90d9k1i9z440CnE8YH5xigdK0a8DaHExCtbQw
- T7f32y+Rzu2u63aZ+L2weRmaWcgAHl7J1nRepBMwHyNjnlcfbYOLasjnpbJH2ZDNI0/zFh
- gxdAw89drwaNBNaP9OHOeVTIZxO82VPAjlJYe7SuOIQRYUaJ+/1I1LNZueNWnYhzHi1eRE
- 2N4c7SeuzZTAQRgOi/+29zAQ1MaXzm5oLITcQhFhfjt1dOJZcdXyIFVcRYjOTQ==
-From: David Wronek <david@mainlining.org>
-Date: Tue, 16 Apr 2024 20:30:49 +0200
-Subject: [PATCH v3 2/2] drm/panel: Add driver for EDO RM69380 OLED panel
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB8CD10F2A2;
+ Tue, 16 Apr 2024 18:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713293730; x=1744829730;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=ajM2nchp0RQpL1p/crk5WDGyLwKhplfwv6hIl9nDOCI=;
+ b=eBoEIs89K96CG3Z7pAz60KR/BT/a8BV4tf6w7LEO35+LFvyhjjpJ2YYh
+ aH57YJlAywI5iBtpDkMZGXJVFNNZZSXYW8YT87HYaJzvXQxnuK9b3TJkK
+ wF0HbkhdScAZSWw1eKmPBCdmdix/Xczd6w2LClz0zppTDRXolSbvoFG8+
+ FGYFq+qnEqBttifxBRP81Cn9t44WywuWG9W6DGFD6o4MY94Ix3fsroaoe
+ THQuq2QeQh0CbwQ+7Z1n6URV2Ydy4JMFhxWgVGz+MjpvhFBY/f3mc0nOc
+ p0jMYXX2rD/QfrYegylmF3QmEgsVsEaxuv5UfDhuY4xGjH+W/K61+aHQB w==;
+X-CSE-ConnectionGUID: il6kN50tTvmxCdL4oB/f3A==
+X-CSE-MsgGUID: BG1qMM2TTriVpNW30wbpBA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8917401"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
+   d="scan'208";a="8917401"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 11:55:29 -0700
+X-CSE-ConnectionGUID: pEoU3Jd0SPWn4znTXPFAWg==
+X-CSE-MsgGUID: bHZNjTQWT4CkOOZevETSKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="22943779"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 16 Apr 2024 11:55:29 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 16 Apr 2024 11:55:28 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 16 Apr 2024 11:55:28 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 16 Apr 2024 11:55:28 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 16 Apr 2024 11:55:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IcubsP84ER7hFFQppbxO5vK6ia51NE5kmrAzGElD0ND885dxVt94Z1ROVAm3xR4MKPoCFlHyjnLIvCoD4WoPk3q4KLN9TN7Q7snLAHxV6vOHt2TOCyaK+CnJa+Q+IMZ9+2x9w3pjOmTS4fiBERKwIJPfB4NUa+FkB5G99sqWxJN7JL5z07WJ4p4pB2sJzPE2/YnFe48BT/xoZnjkx3vh3KnRpU3Bd86Hi7Prtea+zv93R8F/RQIcmnQ4hLCeGQ2pW0subG+bC6nMOqfxHcrQL8r+V+CRvtYv5pl+ofu2nhOuQwFHUX8hfgb7rLOSmY7M6rXqcgUkU3MTYlCe9Fk56g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7yi9RT581W1zPWm6sDHHMCcnE5WFuWBLifJa/g2rLys=;
+ b=G+289xhci0KYCAN16cnbDt5k+KHUcSWOu3MPS/ONlhdYOtPtxgyBZmmc1vUKgJexkcssOyZtyvz8COUiKhVIEVvcGAYsr7KU5Go1FrZFc1L6lubSSwpcw3e67vDD8HOUZNhz4Hjn7Iy/HAYgVa/uucBfdEOTePg570/ZLD3+ik0GC9ieZASmO9AFDOMk5NaU33gWqBVs6s+pFw/Muhgza0kJyt3h9v0P1v8j47obc1kPC1byBSScmecQHtKJsBMm5OB/uPsNj7IdL4NXjwA8Z5ciyYwQRG1+jRS711fI0xpERtu1exTdB5f0FHa/ORp2gGu5M+viibuUklSMxcpXAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6053.namprd11.prod.outlook.com (2603:10b6:510:1d1::8)
+ by SA2PR11MB4811.namprd11.prod.outlook.com (2603:10b6:806:11d::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7430.46; Tue, 16 Apr
+ 2024 18:55:26 +0000
+Received: from PH7PR11MB6053.namprd11.prod.outlook.com
+ ([fe80::9461:3f2e:134a:9506]) by PH7PR11MB6053.namprd11.prod.outlook.com
+ ([fe80::9461:3f2e:134a:9506%7]) with mapi id 15.20.7472.025; Tue, 16 Apr 2024
+ 18:55:26 +0000
+Date: Tue, 16 Apr 2024 14:55:20 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Ashutosh Dixit <ashutosh.dixit@intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, Badal Nilawar
+ <badal.nilawar@intel.com>, Andi Shyti <andi.shyti@intel.com>, Ville
+ =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ <linux-hwmon@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v2] drm/i915/hwmon: Get rid of devm
+Message-ID: <Zh7JmPQ8XRJwMQnQ@intel.com>
+References: <20240415223612.738535-1-ashutosh.dixit@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240415223612.738535-1-ashutosh.dixit@intel.com>
+X-ClientProxiedBy: BYAPR07CA0102.namprd07.prod.outlook.com
+ (2603:10b6:a03:12b::43) To PH7PR11MB6053.namprd11.prod.outlook.com
+ (2603:10b6:510:1d1::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240416-raydium-rm69380-driver-v3-2-21600ac4ce5f@mainlining.org>
-References: <20240416-raydium-rm69380-driver-v3-0-21600ac4ce5f@mainlining.org>
-In-Reply-To: <20240416-raydium-rm69380-driver-v3-0-21600ac4ce5f@mainlining.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- phone-devel@vger.kernel.org, David Wronek <david@mainlining.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1713292268; l=12448;
- i=david@mainlining.org; s=20240121; h=from:subject:message-id;
- bh=hV66KasErP66A0HeOCuVXIYZF2GvRJOI9XddzmFMwHg=;
- b=z7IWPn/48HQ/sZA8MIiTaTCdBKciGbPJw0Bu60sp5eIaRypPfJkVr7vYhbH6/A1uKBbf/FEH9
- XQrkiARUMDsAev6u34CL9CECfNa3Yg5pbRRyHMFGgjXzvx0WL0B8sh2
-X-Developer-Key: i=david@mainlining.org; a=ed25519;
- pk=PJIYyFK3VrK6x+9W6ih8IGSJ5dxRXHiYay+gG1qQzqs=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6053:EE_|SA2PR11MB4811:EE_
+X-MS-Office365-Filtering-Correlation-Id: bfde97b4-bb3c-4398-98a8-08dc5e46c6ca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: evFEhkFu/pPlNXK55HXUtOUJXhzf6qXGM8O9PzGf2oLQrfppYw9BuNT4v8Nnksx8sjVI1kAQGokF5QtAu0y7N+4t3SEfqvYKjX46CRBom5mIEpCRQ0c3X18Srr1AKwwK0QwXWCZzw3ciCGK/Bzkgmoe3Sh/ZIqMMyCcWhZz6AKkUnDLGvgQANwt6iZtl0ZOqSVh8XLLJT3SwNfh2t67Mws9BjS6KYj+m0Zk37P6k0GHLGIo4ltRlOmAIk6dmHuc1DbHqqDCfrTVML/94b/46TrExvM4NJ+6kH+NsXQCiHJlZCWA6nnq7bDcdRC3PbYyv59u8NzHciw19ONZhHSWUQi+ACZgls/1E5Uji543ZFBXaIojdZyXBeGXqEvEk4jOrYTnX4OeHoGmC9Ovoy/ejCYO0ojM5GT90O8BIP2tBo0ZFf1gAtvQCp1unxN35+sMOe4gUFSxo2opdL7F7fQuWnvuUVF7FYdFbLK4pVYZke0PysLqC/0RFiujheq46EAT5C6DRwLSctyUoOPeH2WO3k/PDuLpqhB7DUCMIlJfUu+MEyHRneMsrwbfNVhit56AhaiduFjlOfOw1GhVkAXdS1r63HsHdoyfWTtQf3FlKBiU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6053.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(1800799015)(376005); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aThMjupp1UOd6SFM92OhwUdGxVAghJCs7bkSBdN4YAdPjtlHGxnE8EPY3dax?=
+ =?us-ascii?Q?g9Sb9dueDrMNMT6VXTiVEG4JSq/CdPeO4By/OheQlnW7DNOCUh4IO5TGo0id?=
+ =?us-ascii?Q?MwuaJ+ySEuNCG6K6lwhhJzNScihf384zughDi6DqsfCFmx6FE+KqLPCdk8gY?=
+ =?us-ascii?Q?ZxhPI0hpzk9k0AOTBFq0duNY17WGcxH8GBLVgRsGgBHMdt2DK9kp2zHOPlyk?=
+ =?us-ascii?Q?jHpI+eQhM+FQDtulLXFGKvIg6GER7kvbQLTKXgc+lSNR2C30zhJzJwAmWjvj?=
+ =?us-ascii?Q?/SDrnEFLixiYlW4kE2sJLhPKVvGL3tq9R05zSmWQR2/8CmG0lpwGb42D2LB9?=
+ =?us-ascii?Q?9I8u5OHz5u3JHgy9wnGG432g8YcsDhNedQzr/Rv+5SVCHunjYBmpBLE2ngNn?=
+ =?us-ascii?Q?uTHKH3s7vq/g3JXsMC1W0HbHRC4MixaQiOPGjFSHvrj59tSvNvSAdr7BboS1?=
+ =?us-ascii?Q?X30Hsyke1B28J1/Yp2LyUiy5XQFXVV6Fr4o8cLoS/NmFHq7ruopNqRCckWeh?=
+ =?us-ascii?Q?A32UoxXvt/vwgN4YZAT+QzKwit/fATU9/fyPB9Mp+FKrMFENakkS+gJwgr+v?=
+ =?us-ascii?Q?QzcS1icvuEhk7+GX62cT4au0wKWQOzRMcTNuL57Xvff4H/TSe1iuWingjE60?=
+ =?us-ascii?Q?2/F77b/qM5AfVLABF1o42zSnckRsqX99lVz2RsfN8xXqpNP3v+V0g3FNtiKC?=
+ =?us-ascii?Q?jmS91zcWyDoS2pRGbKI/27IPsTE58KsbzbseDcxeMi8iBAizcC3wEJe/CDQ1?=
+ =?us-ascii?Q?HBb0f82IQ3bEVXiCuvcL7DLcksD7wVbBwhR+lsyRxyMAR3b1waDYRULeAP8y?=
+ =?us-ascii?Q?BtdIayu/G/q0FnF1h7vW3JGDVAAbQxxgis2ZhX2Bs26SqJDIdakbhG3FcS1e?=
+ =?us-ascii?Q?3AgOnrFhYi98pk2dvgVYuWfcAPg5hSNKglSLC07oQhkYDOP5oQ1vFt51TmS2?=
+ =?us-ascii?Q?w7k5qAlHGld2lRXA0UqV7qq+brgUbcarBkO4+/dX9wKSy8J27hvQ2XR2GGnK?=
+ =?us-ascii?Q?2HZTRGdotS0O1Naeq3PGzP588iudFmPNP4KqkHBIGAUxJCn/DBK7/tbjNSBy?=
+ =?us-ascii?Q?gtbSg6Jg7PW7QjnHccR2eA2BtRLKaWAFctfbP7Tr3IiXff818WDHXh9ZOKGs?=
+ =?us-ascii?Q?VueuE6mWStMuZgJdz89ekc679onJVzaU1cBO74+yuvStjeH3XFwvbdMVOD83?=
+ =?us-ascii?Q?Y2ImMer6lf141ba2ygOX4vVs2q4wygF5d8K0/Cjlw8zxNNCKdt9XzWZBcX3B?=
+ =?us-ascii?Q?PpUIFcQGxE6lcmbII8EV68Wf+rBCAzky+GEszOAm6xhRhL8k4erwnTcuD5RI?=
+ =?us-ascii?Q?7bCfkNnN91A9MCN8gTiB7dG+JayZsMYNFFHJbg+95Pu9O0p9XP4D/Zcq8qw7?=
+ =?us-ascii?Q?SkKtzJrxm+kweZHyNwC7FbtMb4YoK7plbsuJKyhjs37oHoHJvzlnW6H1eJW8?=
+ =?us-ascii?Q?ngPsDhSUQb3av0JZe3zm/FPS4OKpUvmRZTsgNV+lLcziQqVPYyFA3J8Hn94g?=
+ =?us-ascii?Q?PVGKupNQkKsK/KPQrUArPNsE59nx6Ay/cjR8BDFLwmzTwrZp7Wb3Mg+wSOmy?=
+ =?us-ascii?Q?/x6GW4w698TIxhVkKNvVkl7L7IvkqtCrSm83ZKlm?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfde97b4-bb3c-4398-98a8-08dc5e46c6ca
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6053.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2024 18:55:26.0394 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GnRgs3nRqSQcvdj5jUC6zQuyzzFj4yqThhewTvBvEFUFqc2cJp+w24kQ6J6INu/SwZm8hNXRgthOZ7cuIAAL/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4811
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,427 +159,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the 2560x1600@90Hz OLED panel by EDO bundled with a
-Raydium RM69380 controller, as found on the Lenovo Xiaoxin Pad Pro 2021.
+On Mon, Apr 15, 2024 at 03:36:12PM -0700, Ashutosh Dixit wrote:
+> When both hwmon and hwmon drvdata (on which hwmon depends) are device
+> managed resources, the expectation, on device unbind, is that hwmon will be
+> released before drvdata. However, in i915 there are two separate code
+> paths, which both release either drvdata or hwmon and either can be
+> released before the other. These code paths (for device unbind) are as
+> follows (see also the bug referenced below):
+> 
+> Call Trace:
+> release_nodes+0x11/0x70
+> devres_release_group+0xb2/0x110
+> component_unbind_all+0x8d/0xa0
+> component_del+0xa5/0x140
+> intel_pxp_tee_component_fini+0x29/0x40 [i915]
+> intel_pxp_fini+0x33/0x80 [i915]
+> i915_driver_remove+0x4c/0x120 [i915]
+> i915_pci_remove+0x19/0x30 [i915]
+> pci_device_remove+0x32/0xa0
+> device_release_driver_internal+0x19c/0x200
+> unbind_store+0x9c/0xb0
+> 
+> and
+> 
+> Call Trace:
+> release_nodes+0x11/0x70
+> devres_release_all+0x8a/0xc0
+> device_unbind_cleanup+0x9/0x70
+> device_release_driver_internal+0x1c1/0x200
+> unbind_store+0x9c/0xb0
+> 
+> This means that in i915, if use devm, we cannot gurantee that hwmon will
+> always be released before drvdata. Which means that we have a uaf if hwmon
+> sysfs is accessed when drvdata has been released but hwmon hasn't.
+> 
+> The only way out of this seems to be do get rid of devm_ and release/free
+> everything explicitly during device unbind.
+> 
+> v2: Change commit message and other minor code changes
+> 
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10366
+> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> ---
+>  drivers/gpu/drm/i915/i915_hwmon.c | 41 +++++++++++++++++++++++--------
+>  1 file changed, 31 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+> index 8c3f443c8347..46c24b1ee6df 100644
+> --- a/drivers/gpu/drm/i915/i915_hwmon.c
+> +++ b/drivers/gpu/drm/i915/i915_hwmon.c
+> @@ -792,7 +792,7 @@ void i915_hwmon_register(struct drm_i915_private *i915)
+>  	if (!IS_DGFX(i915))
+>  		return;
+>  
+> -	hwmon = devm_kzalloc(dev, sizeof(*hwmon), GFP_KERNEL);
+> +	hwmon = kzalloc(sizeof(*hwmon), GFP_KERNEL);
+>  	if (!hwmon)
+>  		return;
+>  
+> @@ -818,10 +818,10 @@ void i915_hwmon_register(struct drm_i915_private *i915)
+>  	hwm_get_preregistration_info(i915);
+>  
+>  	/*  hwmon_dev points to device hwmon<i> */
+> -	hwmon_dev = devm_hwmon_device_register_with_info(dev, ddat->name,
+> -							 ddat,
+> -							 &hwm_chip_info,
+> -							 hwm_groups);
+> +	hwmon_dev = hwmon_device_register_with_info(dev, ddat->name,
+> +						    ddat,
+> +						    &hwm_chip_info,
+> +						    hwm_groups);
+>  	if (IS_ERR(hwmon_dev)) {
+>  		i915->hwmon = NULL;
+>  		return;
+> @@ -838,10 +838,10 @@ void i915_hwmon_register(struct drm_i915_private *i915)
+>  		if (!hwm_gt_is_visible(ddat_gt, hwmon_energy, hwmon_energy_input, 0))
+>  			continue;
+>  
+> -		hwmon_dev = devm_hwmon_device_register_with_info(dev, ddat_gt->name,
+> -								 ddat_gt,
+> -								 &hwm_gt_chip_info,
+> -								 NULL);
+> +		hwmon_dev = hwmon_device_register_with_info(dev, ddat_gt->name,
+> +							    ddat_gt,
+> +							    &hwm_gt_chip_info,
+> +							    NULL);
+>  		if (!IS_ERR(hwmon_dev))
+>  			ddat_gt->hwmon_dev = hwmon_dev;
+>  	}
+> @@ -849,5 +849,26 @@ void i915_hwmon_register(struct drm_i915_private *i915)
+>  
+>  void i915_hwmon_unregister(struct drm_i915_private *i915)
+>  {
+> -	fetch_and_zero(&i915->hwmon);
+> +	struct i915_hwmon *hwmon = fetch_and_zero(&i915->hwmon);
+> +	struct hwm_drvdata *ddat = &hwmon->ddat;
+> +	struct intel_gt *gt;
+> +	int i;
+> +
+> +	if (!hwmon)
+> +		return;
 
-Signed-off-by: David Wronek <david@mainlining.org>
----
- drivers/gpu/drm/panel/Kconfig                 |  14 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-raydium-rm69380.c | 367 ++++++++++++++++++++++++++
- 3 files changed, 382 insertions(+)
+"that's too late", we are going to hear from static analyzer tools.
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 154f5bf82980..5b3eeb93b1a2 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -542,6 +542,20 @@ config DRM_PANEL_RAYDIUM_RM692E5
- 	  Say Y here if you want to enable support for Raydium RM692E5-based
- 	  display panels, such as the one found in the Fairphone 5 smartphone.
- 
-+config DRM_PANEL_RAYDIUM_RM69380
-+	tristate "Raydium RM69380-based DSI panel"
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	depends on DRM_DISPLAY_DP_HELPER
-+	depends on DRM_DISPLAY_HELPER
-+	depends on DRM_MIPI_DSI
-+	depends on OF
-+	help
-+	  Say Y here if you want to enable support for Raydium RM69380-based
-+	  display panels.
-+
-+	  This panel controller can be found in the Lenovo Xiaoxin Pad Pro 2021
-+	  in combination with an EDO OLED panel.
-+
- config DRM_PANEL_RONBO_RB070D30
- 	tristate "Ronbo Electronics RB070D30 panel"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 24a02655d726..e2a2807d4ef0 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -55,6 +55,7 @@ obj-$(CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN) += panel-raspberrypi-touchscreen
- obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM67191) += panel-raydium-rm67191.o
- obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM68200) += panel-raydium-rm68200.o
- obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM692E5) += panel-raydium-rm692e5.o
-+obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM69380) += panel-raydium-rm69380.o
- obj-$(CONFIG_DRM_PANEL_RONBO_RB070D30) += panel-ronbo-rb070d30.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20) += panel-samsung-atna33xc20.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_DB7430) += panel-samsung-db7430.o
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm69380.c b/drivers/gpu/drm/panel/panel-raydium-rm69380.c
-new file mode 100644
-index 000000000000..f89230c969b7
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm69380.c
-@@ -0,0 +1,367 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree.
-+ * Copyright (c) 2024 David Wronek <david@mainlining.org>
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/of_graph.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_probe_helper.h>
-+
-+struct rm69380_panel {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi[2];
-+	struct regulator_bulk_data supplies[2];
-+	struct gpio_desc *reset_gpio;
-+};
-+
-+static inline
-+struct rm69380_panel *to_rm69380_panel(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct rm69380_panel, panel);
-+}
-+
-+static void rm69380_reset(struct rm69380_panel *ctx)
-+{
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(15000, 16000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	usleep_range(10000, 11000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	msleep(30);
-+}
-+
-+static int rm69380_on(struct rm69380_panel *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi[0];
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+	if (ctx->dsi[1])
-+		ctx->dsi[1]->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0xd4);
-+	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x80);
-+	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0xd0);
-+	mipi_dsi_dcs_write_seq(dsi, 0x48, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0x26);
-+	mipi_dsi_dcs_write_seq(dsi, 0x75, 0x3f);
-+	mipi_dsi_dcs_write_seq(dsi, 0x1d, 0x1a);
-+	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x28);
-+	mipi_dsi_dcs_write_seq(dsi, 0xc2, 0x08);
-+
-+	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set tear on: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x7ff);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display brightness: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(20);
-+
-+	ret = mipi_dsi_dcs_set_display_on(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display on: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(36);
-+
-+	return 0;
-+}
-+
-+static int rm69380_off(struct rm69380_panel *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi[0];
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+	if (ctx->dsi[1])
-+		ctx->dsi[1]->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display off: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(35);
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(20);
-+
-+	return 0;
-+}
-+
-+static int rm69380_prepare(struct drm_panel *panel)
-+{
-+	struct rm69380_panel *ctx = to_rm69380_panel(panel);
-+	struct device *dev = &ctx->dsi[0]->dev;
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+
-+	rm69380_reset(ctx);
-+
-+	ret = rm69380_on(ctx);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-+		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rm69380_unprepare(struct drm_panel *panel)
-+{
-+	struct rm69380_panel *ctx = to_rm69380_panel(panel);
-+	struct device *dev = &ctx->dsi[0]->dev;
-+	int ret;
-+
-+	ret = rm69380_off(ctx);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+
-+	return 0;
-+}
-+
-+static const struct drm_display_mode rm69380_mode = {
-+	.clock = (2560 + 32 + 12 + 38) * (1600 + 20 + 4 + 8) * 90 / 1000,
-+	.hdisplay = 2560,
-+	.hsync_start = 2560 + 32,
-+	.hsync_end = 2560 + 32 + 12,
-+	.htotal = 2560 + 32 + 12 + 38,
-+	.vdisplay = 1600,
-+	.vsync_start = 1600 + 20,
-+	.vsync_end = 1600 + 20 + 4,
-+	.vtotal = 1600 + 20 + 4 + 8,
-+	.width_mm = 248,
-+	.height_mm = 155,
-+	.type = DRM_MODE_TYPE_DRIVER,
-+};
-+
-+static int rm69380_get_modes(struct drm_panel *panel,
-+					struct drm_connector *connector)
-+{
-+	return drm_connector_helper_get_modes_fixed(connector, &rm69380_mode);
-+}
-+
-+static const struct drm_panel_funcs rm69380_panel_funcs = {
-+	.prepare = rm69380_prepare,
-+	.unprepare = rm69380_unprepare,
-+	.get_modes = rm69380_get_modes,
-+};
-+
-+static int rm69380_bl_update_status(struct backlight_device *bl)
-+{
-+	struct mipi_dsi_device *dsi = bl_get_data(bl);
-+	u16 brightness = backlight_get_brightness(bl);
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
-+	if (ret < 0)
-+		return ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	return 0;
-+}
-+
-+static int rm69380_bl_get_brightness(struct backlight_device *bl)
-+{
-+	struct mipi_dsi_device *dsi = bl_get_data(bl);
-+	u16 brightness;
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_get_display_brightness_large(dsi, &brightness);
-+	if (ret < 0)
-+		return ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	return brightness;
-+}
-+
-+static const struct backlight_ops rm69380_bl_ops = {
-+	.update_status = rm69380_bl_update_status,
-+	.get_brightness = rm69380_bl_get_brightness,
-+};
-+
-+static struct backlight_device *
-+rm69380_create_backlight(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	const struct backlight_properties props = {
-+		.type = BACKLIGHT_RAW,
-+		.brightness = 2047,
-+		.max_brightness = 2047,
-+	};
-+
-+	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
-+					      &rm69380_bl_ops, &props);
-+}
-+
-+static int rm69380_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct mipi_dsi_host *dsi_sec_host;
-+	struct rm69380_panel *ctx;
-+	struct device *dev = &dsi->dev;
-+	struct device_node *dsi_sec;
-+	int ret, i;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->supplies[0].supply = "vddio";
-+	ctx->supplies[1].supply = "avdd";
-+	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
-+				      ctx->supplies);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to get regulators\n");
-+
-+	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ctx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-+				     "Failed to get reset-gpios\n");
-+
-+	dsi_sec = of_graph_get_remote_node(dsi->dev.of_node, 1, -1);
-+
-+	if (dsi_sec) {
-+		const struct mipi_dsi_device_info info = { "RM69380", 0,
-+							   dsi_sec };
-+
-+		dev_dbg(dev, "Using Dual-DSI: found `%s`\n", dsi_sec->name);
-+
-+		dsi_sec_host = of_find_mipi_dsi_host_by_node(dsi_sec);
-+		of_node_put(dsi_sec);
-+		if (!dsi_sec_host)
-+			return dev_err_probe(dev, -EPROBE_DEFER,
-+					     "Cannot get secondary DSI host\n");
-+
-+		ctx->dsi[1] =
-+			devm_mipi_dsi_device_register_full(dev, dsi_sec_host, &info);
-+		if (IS_ERR(ctx->dsi[1]))
-+			return dev_err_probe(dev, PTR_ERR(ctx->dsi[1]),
-+					     "Cannot get secondary DSI node\n");
-+
-+		dev_dbg(dev, "Second DSI name `%s`\n", ctx->dsi[1]->name);
-+		mipi_dsi_set_drvdata(ctx->dsi[1], ctx);
-+	} else {
-+		dev_dbg(dev, "Using Single-DSI\n");
-+	}
-+
-+	ctx->dsi[0] = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	drm_panel_init(&ctx->panel, dev, &rm69380_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+	ctx->panel.prepare_prev_first = true;
-+
-+	ctx->panel.backlight = rm69380_create_backlight(dsi);
-+	if (IS_ERR(ctx->panel.backlight))
-+		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
-+				     "Failed to create backlight\n");
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	for (i = 0; i < ARRAY_SIZE(ctx->dsi); i++) {
-+		if (!ctx->dsi[i])
-+			continue;
-+
-+		dev_dbg(&ctx->dsi[i]->dev, "Binding DSI %d\n", i);
-+
-+		ctx->dsi[i]->lanes = 4;
-+		ctx->dsi[i]->format = MIPI_DSI_FMT_RGB888;
-+		ctx->dsi[i]->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
-+					  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+
-+		ret = mipi_dsi_attach(ctx->dsi[i]);
-+		if (ret < 0) {
-+			mipi_dsi_detach(ctx->dsi[i]);
-+			drm_panel_remove(&ctx->panel);
-+			return dev_err_probe(dev, ret,
-+					     "Failed to attach to DSI%d\n", i);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void rm69380_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct rm69380_panel *ctx = mipi_dsi_get_drvdata(dsi);
-+	int i;
-+	int ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(ctx->dsi); i++) {
-+		if (!ctx->dsi[i])
-+			continue;
-+
-+		ret = mipi_dsi_detach(ctx->dsi[i]);
-+		if (ret < 0)
-+			dev_err(&dsi->dev, "Failed to detach from DSI%d host: %d\n", i, ret);
-+	}
-+
-+	drm_panel_remove(&ctx->panel);
-+}
-+
-+static const struct of_device_id rm69380_of_match[] = {
-+	{ .compatible = "lenovo,j716f-edo-rm69380" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, rm69380_of_match);
-+
-+static struct mipi_dsi_driver rm69380_panel_driver = {
-+	.probe = rm69380_probe,
-+	.remove = rm69380_remove,
-+	.driver = {
-+		.name = "panel-raydium-rm69380",
-+		.of_match_table = rm69380_of_match,
-+	},
-+};
-+module_mipi_dsi_driver(rm69380_panel_driver);
-+
-+MODULE_AUTHOR("David Wronek <david@mainlining.org");
-+MODULE_DESCRIPTION("DRM driver for Raydium RM69380-equipped DSI panels");
-+MODULE_LICENSE("GPL");
+beter to move ddat = &hwmon->ddat; after this return.
 
--- 
-2.44.0
+with that,
 
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+> +
+> +	for_each_gt(gt, i915, i) {
+> +		struct hwm_drvdata *ddat_gt = hwmon->ddat_gt + i;
+> +
+> +		if (ddat_gt->hwmon_dev) {
+> +			hwmon_device_unregister(ddat_gt->hwmon_dev);
+> +			ddat_gt->hwmon_dev = NULL;
+> +		}
+> +	}
+> +
+> +	if (ddat->hwmon_dev)
+> +		hwmon_device_unregister(ddat->hwmon_dev);
+> +
+> +	mutex_destroy(&hwmon->hwmon_lock);
+> +	kfree(hwmon);
+>  }
+> -- 
+> 2.41.0
+> 
