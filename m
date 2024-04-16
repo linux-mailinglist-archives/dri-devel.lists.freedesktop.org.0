@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996D78A66F4
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 11:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFB78A66F6
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 11:20:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA98B112B3F;
-	Tue, 16 Apr 2024 09:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 741C610FCBC;
+	Tue, 16 Apr 2024 09:20:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="L8Gx2U5z";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZB1F+raN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7714710FCBC;
- Tue, 16 Apr 2024 09:20:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45CB5112B3C;
+ Tue, 16 Apr 2024 09:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713259220; x=1744795220;
+ t=1713259225; x=1744795225;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=qj8Y9E33Ohcq7vRBOVReilOeWjY+ZrfZOEay1NYYdVA=;
- b=L8Gx2U5z0ZFmvIXZ8pdfKAJkq4v9TaOM5oSKgUG0KoKpD3RXHuOEkgNK
- F8O0Bn1Hl1y3QOPEzPHEfoDbcs7pIowJbIo0IEkwFkIMIl1pQi+JjFwem
- ZxiVPv2+7g0BJMwJIdYm3KT4paOII/2PitBhEHj9ZfDAgDtNexAENTm5t
- XRdYcQKOTvBmAHdjlA23FEZlVvS8zxd5hD8IcwkxfGENopmzkc3Z433hI
- 8wIN+p8ObipCFRwJIVtjuzVGYhNuX43ss2tuEBFsTTY1E2Vximw0UbFHr
- 75gj0OdOzuUZYvBrBZeU9bB8fQbpBsvKLlqhQC140qhiUcjuMQSJJTJou w==;
-X-CSE-ConnectionGUID: AVgP98wTRvqrbEbIHUsfkQ==
-X-CSE-MsgGUID: sJv0d9UPQeiRb9dWOk3cIg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8606011"
+ bh=GpTl6PJVlS+qLZrFmuqHgMUcLhVl4aOiw0wi3Zpd5hk=;
+ b=ZB1F+raNtox2RW1jD0ZQxchpMGWdXtqEhNkaJPItNCv9ojllbQbrdyjN
+ e4f3dMEXuJIBVgcs4XV+LHC3OU63RkkMVpn1GnUfGNrSySuZ4akGcM0op
+ IuA5Fo8v2cp9OOPYwMfEMF7Q0k2o7CuD1AN+TWg6GSF7SEWYodwDyblGG
+ xLc06/j3Dprn0TnKwVfCyrndHFxOm+V1rZ4jXrBKMCS3MdReXCbffHQDT
+ 5aoupHI3XAZZNn9Aork1XD2vNO0rj1vRypu2biNpayUh1mchuxp9EYbaZ
+ ot57NFCqwuUf7C4ZnEwU3JRI0P6WnFoB38mESeAHl5TPchVoTAQ8nBtjW w==;
+X-CSE-ConnectionGUID: FgnBzClHQ++5grX6L6SUPQ==
+X-CSE-MsgGUID: BQjFXIJrTMudSJLg4KpBEg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8849716"
 X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="8606011"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 02:20:20 -0700
-X-CSE-ConnectionGUID: NWQlPjmZQEub1trDbcmkXA==
-X-CSE-MsgGUID: t0Hr1Ua7Sw+AILEVG9Z2kA==
+   d="scan'208";a="8849716"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 02:20:25 -0700
+X-CSE-ConnectionGUID: gLro8R3+RT2x7U8K2iXR0g==
+X-CSE-MsgGUID: 9O7TQlaXQZ2vFaeBF8X11Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; d="scan'208";a="22199341"
+X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; d="scan'208";a="26995888"
 Received: from martakit-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.44.100])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 02:20:19 -0700
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 02:20:23 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Jani Nikula <jani.nikula@intel.com>
-Subject: [REBASE 3/7] drm/edid: group struct drm_edid based declarations
- together
-Date: Tue, 16 Apr 2024 12:19:56 +0300
-Message-Id: <2634de73734dfbf0a772511a80eab966c8206cf2.1713259151.git.jani.nikula@intel.com>
+Subject: [REBASE 4/7] drm/edid: rename drm_find_edid_extension() to
+ drm_edid_find_extension()
+Date: Tue, 16 Apr 2024 12:19:57 +0300
+Message-Id: <b7a2c2509409de02bbd751541206586424a34725.1713259151.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1713259151.git.jani.nikula@intel.com>
 References: <cover.1713259151.git.jani.nikula@intel.com>
@@ -72,45 +72,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Keep the declarations for struct drm_edid based functions together.
+Follow the drm_edid_ naming convention.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/drm_edid.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_crtc_internal.h | 2 +-
+ drivers/gpu/drm/drm_displayid.c     | 3 ++-
+ drivers/gpu/drm/drm_edid.c          | 4 ++--
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 324e900cc287..92fff199aa78 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -431,10 +431,6 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
- 	void *data);
- struct edid *drm_get_edid(struct drm_connector *connector,
- 			  struct i2c_adapter *adapter);
--const struct drm_edid *drm_edid_read_base_block(struct i2c_adapter *adapter);
--u32 drm_edid_get_panel_id(const struct drm_edid *drm_edid);
--bool drm_edid_match(const struct drm_edid *drm_edid,
--		    const struct drm_edid_ident *ident);
- struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
- 				     struct i2c_adapter *adapter);
- struct edid *drm_edid_duplicate(const struct edid *edid);
-@@ -474,6 +470,7 @@ const struct drm_edid *drm_edid_read_ddc(struct drm_connector *connector,
- const struct drm_edid *drm_edid_read_custom(struct drm_connector *connector,
- 					    int (*read_block)(void *context, u8 *buf, unsigned int block, size_t len),
- 					    void *context);
-+const struct drm_edid *drm_edid_read_base_block(struct i2c_adapter *adapter);
- const struct drm_edid *drm_edid_read_switcheroo(struct drm_connector *connector,
- 						struct i2c_adapter *adapter);
- int drm_edid_connector_update(struct drm_connector *connector,
-@@ -484,5 +481,8 @@ void drm_edid_get_product_id(const struct drm_edid *drm_edid,
- 			     struct drm_edid_product_id *id);
- void drm_edid_print_product_id(struct drm_printer *p,
- 			       const struct drm_edid_product_id *id, bool raw);
-+u32 drm_edid_get_panel_id(const struct drm_edid *drm_edid);
-+bool drm_edid_match(const struct drm_edid *drm_edid,
-+		    const struct drm_edid_ident *ident);
+diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+index 2256893d7d67..25aaae937ceb 100644
+--- a/drivers/gpu/drm/drm_crtc_internal.h
++++ b/drivers/gpu/drm/drm_crtc_internal.h
+@@ -299,7 +299,7 @@ void drm_mode_fixup_1366x768(struct drm_display_mode *mode);
+ int drm_edid_override_show(struct drm_connector *connector, struct seq_file *m);
+ int drm_edid_override_set(struct drm_connector *connector, const void *edid, size_t size);
+ int drm_edid_override_reset(struct drm_connector *connector);
+-const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
++const u8 *drm_edid_find_extension(const struct drm_edid *drm_edid,
+ 				  int ext_id, int *ext_index);
+ void drm_edid_cta_sad_get(const struct cea_sad *cta_sad, u8 *sad);
+ void drm_edid_cta_sad_set(struct cea_sad *cta_sad, const u8 *sad);
+diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displayid.c
+index f800dc0906d5..9d01d762801f 100644
+--- a/drivers/gpu/drm/drm_displayid.c
++++ b/drivers/gpu/drm/drm_displayid.c
+@@ -55,9 +55,10 @@ static const u8 *drm_find_displayid_extension(const struct drm_edid *drm_edid,
+ 					      int *length, int *idx,
+ 					      int *ext_index)
+ {
+-	const u8 *displayid = drm_find_edid_extension(drm_edid, DISPLAYID_EXT, ext_index);
+ 	const struct displayid_header *base;
++	const u8 *displayid;
  
- #endif /* __DRM_EDID_H__ */
++	displayid = drm_edid_find_extension(drm_edid, DISPLAYID_EXT, ext_index);
+ 	if (!displayid)
+ 		return NULL;
+ 
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index c4f799059522..c29f31dcc818 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -4200,7 +4200,7 @@ static int add_detailed_modes(struct drm_connector *connector,
+  *
+  * FIXME: Prefer not returning pointers to raw EDID data.
+  */
+-const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
++const u8 *drm_edid_find_extension(const struct drm_edid *drm_edid,
+ 				  int ext_id, int *ext_index)
+ {
+ 	const u8 *edid_ext = NULL;
+@@ -4234,7 +4234,7 @@ static bool drm_edid_has_cta_extension(const struct drm_edid *drm_edid)
+ 	bool found = false;
+ 
+ 	/* Look for a top level CEA extension block */
+-	if (drm_find_edid_extension(drm_edid, CEA_EXT, &ext_index))
++	if (drm_edid_find_extension(drm_edid, CEA_EXT, &ext_index))
+ 		return true;
+ 
+ 	/* CEA blocks can also be found embedded in a DisplayID block */
 -- 
 2.39.2
 
