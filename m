@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38CB18A7050
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 17:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373CB8A704C
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 17:53:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA736112671;
-	Tue, 16 Apr 2024 15:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50BB110F90F;
+	Tue, 16 Apr 2024 15:53:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="m4IxYYo3";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="jvOYb6rk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1C310F19D
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 15:53:41 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-a450bedffdfso583334466b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 08:53:41 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2817510F90F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 15:53:43 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a450bedffdfso583340466b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 08:53:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713282819; x=1713887619;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713282821; x=1713887621;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hFmw2QUwgoo6nZ5hxL4W4XLY0gvCpX+AxZ6V2ssaQtQ=;
- b=m4IxYYo3I822+Zes3N+e9nfC+i/Tu6Gks9HoXxH08HPj3LM8xWSMJVKPb2CKnagr54
- TtyZ4uoZGQyQw+QB3ii/6sm46DmzbX9I72oNXMc4I7Qw1MdVJX/CCmK7dHJsTRt4uOrE
- U+Y11+Ee69zFIlB9WAjStMRLPFbUlvfsdpiWUYsGeErP5Rz1fNWFg32ASIQWl6X7o7tT
- pv/gthzvE7EcZVB0Dxwj0BCT8hKWloFLZSzTH6NOQOi2WASHPkrLlZdD4d0V/DRfI7IE
- pF0ZH6nSceBOc53jQahb2/HJNPs4kuoA20894UU7NJpsbrY9i15+xHpiw1MXEn0MFaLf
- /XWg==
+ :reply-to; bh=jMggw4eAIIMNoOqD82TuIffDCB4kGTedXkImx4hYDjA=;
+ b=jvOYb6rkPLcAv/zZrVNcRdqf43ICjueHKk81W8sMhs0zo/SXvNfmiOdzRomooXm1mW
+ lAih3Surzl7QM2QVIJJVpz3wLbj0nclCVxWGycVe3TfXzQ5TJywp4UpXQDeyLqkSRm1D
+ mup8577G77h9mYlJRix86vVuBQE70uB38d2VbWWnuutjJrMdGag1tyGrZjz5+3uN3ch/
+ qfPxICJNJQdzIfT1Vv+VlIjuNxHFyeJhBBqGgdtBUYNIFInpjGM1IbOMcjmXvUagli6G
+ Qx7Loav6L84njrSjyIScyUfsc62Vi+Nx+8F60ZL7OKjwl3Lx/2fgyiaFceW1RETDowdh
+ ylBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713282819; x=1713887619;
+ d=1e100.net; s=20230601; t=1713282821; x=1713887621;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hFmw2QUwgoo6nZ5hxL4W4XLY0gvCpX+AxZ6V2ssaQtQ=;
- b=opwtK1/AWJB+AT2tp72YTuhcFlmYaMh1XnNpn7QNyrqnwJt0dXBZ8zzNo75SRFC4Br
- ac6s3Rx4Lyz+ZgB261xrAxk+Ojjujqmf1u8ae19JCoQ4flX/+fULdaXjPP9MfHln9tDY
- rWLQFyoKhjS/TQ7BXE3EJLJ823yzgDW5pfSDY85urY75mAQJvlPczWXgTdKqF/Pj9Hao
- FwXGg44SbvsaJ34T8t7nYTGMXw+0BnDkaWV8crCrjAsoRM5dX4Rud26/+zsebMGzuiY+
- 9tnFdpCX2h2VefxrL3pt275HzVwtiB5X2c/5BvcD4EaEMvx5H66AA6s6cRh4GmTblidD
- JBlg==
-X-Gm-Message-State: AOJu0Yy7S7EQnOeteXAR+fArSEzeeAJTDBUD75mu2Ft/HAqF00VitU4O
- aOuV6u4MGXPdH/yCBlNsNZCnSs5fKBR87AEqI4GsY3Zusp//ub0xLVQLXIKUrfc=
-X-Google-Smtp-Source: AGHT+IFLuDathaTJ/JKT8tzf/JfCbHfCCiKvf02dGKCca6MyDMPKZyO9ZLGIiBsYtjUEtqmWCS3Ycg==
-X-Received: by 2002:a17:906:d10a:b0:a52:71bf:2c4c with SMTP id
- b10-20020a170906d10a00b00a5271bf2c4cmr3533190ejz.0.1713282819612; 
- Tue, 16 Apr 2024 08:53:39 -0700 (PDT)
+ bh=jMggw4eAIIMNoOqD82TuIffDCB4kGTedXkImx4hYDjA=;
+ b=NZGbPWlPxqMHYg7IP5oU5lQJz9bOysmi5K0cgeJ6KNkjsTSHVeZKKmR1c0XSxNvG8n
+ cWNUZYBuYqW6zyU7vgsl79ZfZhwSPu/gu9U+p/7krAJacAMJH5yKo1UbfqYTaSI8tpi+
+ u2iTg03Vxw3C/NKV4sRftMNblPqNM9jXhLlAuIjQ0xynfi2xjrpJp6Tqa0JwropW/FbV
+ BbJopmQEsmww0TZhkY2PjUnF6oeRBbeTOfXzWzLqnLCBSaOA+2TQz2pFInuZcJpeRTln
+ FSpEooUcV3jRS8/8tWw2kApd1/S5i0Fl33LfyhLTR99Eo9wxlr6/DVxKxVcuUfajdbyh
+ 5m/w==
+X-Gm-Message-State: AOJu0YyzW3e95hA+2WXdmWfY1KWK4RdaTFHOb49lCaBYTvm+qwkiZ0di
+ 4Wwi9suS0eUMAhFLNkkqzKXBIT/rnE413z6KKbp2mQizI8Cr7yFtEHXfYEo8tL4yEf82QJfCQoi
+ ZkXE=
+X-Google-Smtp-Source: AGHT+IG4kHPNppMzbZ+TqGer4WN/sT4qiIADE/xGhBqwrUJLC7I/hWwKiyTjJz3tShpT/DsfMFbnmg==
+X-Received: by 2002:a17:906:f809:b0:a52:140c:5724 with SMTP id
+ kh9-20020a170906f80900b00a52140c5724mr7675563ejb.14.1713282821426; 
+ Tue, 16 Apr 2024 08:53:41 -0700 (PDT)
 Received: from [127.0.1.1] ([93.5.22.158])
  by smtp.googlemail.com with ESMTPSA id
- d12-20020a170906174c00b00a52567ca1b6sm4156691eje.94.2024.04.16.08.53.38
+ d12-20020a170906174c00b00a52567ca1b6sm4156691eje.94.2024.04.16.08.53.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Apr 2024 08:53:39 -0700 (PDT)
+ Tue, 16 Apr 2024 08:53:40 -0700 (PDT)
 From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Tue, 16 Apr 2024 17:53:14 +0200
-Subject: [PATCH v2 13/18] drm/mediatek: dsi: Improves the DSI lane setup
- robustness
+Date: Tue, 16 Apr 2024 17:53:15 +0200
+Subject: [PATCH v2 14/18] drm/mediatek: add mt8365 dpi support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231023-display-support-v2-13-33ce8864b227@baylibre.com>
+Message-Id: <20231023-display-support-v2-14-33ce8864b227@baylibre.com>
 References: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
 In-Reply-To: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -84,20 +84,20 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org, 
  linux-clk@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1234; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2579; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=2MnuLxaHZbaJPVARTKFt1rzwpEZuIuXZwcM1ZfvOkrE=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmHp7qd8Sx/coFLTSFkDfsduMzD+AJNcJ4tDhOCv0h
- 3ncqyFaJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZh6e6gAKCRArRkmdfjHURdFBEA
- CJgnEAdPK62hUZxj5SmThZ5GkBCuZIyk3P52tbmYtB+jyZS+Tm9SamHgXoImaoOJxr2c/eLN6dvvPN
- RXqbf2LoKutEccLUvet1qjcG1VQ3Y97HO+Af0mpbAIXcckeiQWZEQAuASMUTjEOpyc8WYeFadNOFWY
- xpVRY+nVMyYX5MTFxrqlCzSgB0RGJYQnily350VHOpioNsNSS+M4n23mW4liEOaXow+a08pqBx4hC1
- ARNjftB0eGqrwymHP//U+jEA8HFu7aOnmkeqpQf1wv16F4hsqhDAQNxlaAe87s1p1fuk2E3MzMShm3
- h5C/GK45SLykya4NZfpzz8sFaln1av/ogexAQ3L64zlC8WrZapNXaf3rbnt5wH41KWvP9jCZGKJ/Eq
- liW/EqvlQGqHX+OWDejwMbtuxVdsPwBpQ9pVZiyzEjlpLz/aXtSl5NxFI0Tew83KmZbSIwrECeoqyU
- snhRMJNiEcf1Qx8EWqsQzdpYLd10GadAI6SF8toslrmcGUnlGAnV25AmCD/a48L6hKuAYcw/bO6jaF
- DfhzlGkbVb1mxLE07cd5xEqQqLpQljHkx4YqwGO5ZhFc/K3ECQ7xPQeeGlB1Z9hz21ZldwS1U/3tr1
- sHz2UEwm99UXyQnV+OmKp0j0n4LYTdJazChU72qVtzvtZca+boZXyAULWhyw==
+ bh=3PSa4tH/zyI8rzr1s/aLzOhrBB2HeNT52fzU5eMeOeM=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmHp7qMcxUGRm8N5OCd/Fk/xRizSuW+tNcwCsX+kwb
+ hyW8FuWJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZh6e6gAKCRArRkmdfjHURVoZEA
+ CFkEfMS2RbJUzeU6UYxk1MOpg5EO2+mBMtUQwYEm/fkmqVz8IMLq8JRBoeGwIrqDp52D3NZBrv4UC9
+ zYr5HViOOH/XWzdzZRExf41VNixp1v7P+sFbq4KFTIZZAAQxFkRKOnTssfGv3neRvlmRVLK9UlVAwB
+ NJWV/c5Q4XLE0uicMBKvujjV/6V5bTH9Ib7QW6PvjzHqsA4fRGsyHvalWdMaK9FcbPnxiL/h9ZhBpQ
+ bcIkJ8YihSLmSsvoZ+QloMjK2kCnbpUx1jFvp2jOGkrvehOks0xj+9BretUNGKVXewIHeHl6DC90uV
+ WEuoeK+eL4EXNQPWAgL3daPdSf2FhIEPleids+MByUqzmHUruYs6aNX5whxcptdbtITgjDmU9NGter
+ 4KnosCp4CmigOqdwDzfaFdNtvZQ/Kp05yWzz2axkq2PZoN0rucO1wLGmAiwNz7ysc1VYr4DGd3viwc
+ Ct5qF/tfBu6PkETYife2PCGSSi3KyIfqCSEphmSHrnXcKqpyioJg+HPoS+NHUmz0jWWiArYahDd8Ad
+ h2CD1UfpWXJ3lAeF3eYhI9Ek5Ija1G9DKMz0YHlS0TbBWuQAlbGFIk6HwzRZ1c/GhioWc90RkVERM3
+ BYrWNdeIrcnO0zfoecsPlaOQQaR0Gp5bFu6C6PcQ3APMlvG4p2HnlvZTd+sQ==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,37 +115,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, mtk_dsi_lane_ready (which setup the DSI lane) is triggered
-before mtk_dsi_poweron. lanes_ready flag toggle to true during
-mtk_dsi_lane_ready function, and the DSI module is set up during
-mtk_dsi_poweron.
+- Add compatibles and platform data into the Mediatek DPI driver.
+- Fix the DPI0 parent clock to be consistent.
 
-Later, during panel driver init, mtk_dsi_lane_ready is triggered but does
-nothing because lanes are considered ready. Unfortunately, when the panel
-driver try to communicate, the DSI returns a timeout.
-
-The solution found here is to put lanes_ready flag to false after the DSI
-module setup into mtk_dsi_poweron to init the DSI lanes after the power /
-setup of the DSI module.
+This SoC is compatible with the mt8183 calculate factor.
 
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/clk/mediatek/clk-mt8365-mm.c |  2 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c   | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 9501f4019199..b3f33d4d3d5c 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -642,6 +642,8 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
- 	mtk_dsi_config_vdo_timing(dsi);
- 	mtk_dsi_set_interrupt_enable(dsi);
+diff --git a/drivers/clk/mediatek/clk-mt8365-mm.c b/drivers/clk/mediatek/clk-mt8365-mm.c
+index 01a2ef8f594e..3f62ec750733 100644
+--- a/drivers/clk/mediatek/clk-mt8365-mm.c
++++ b/drivers/clk/mediatek/clk-mt8365-mm.c
+@@ -53,7 +53,7 @@ static const struct mtk_gate mm_clks[] = {
+ 	GATE_MM0(CLK_MM_MM_DSI0, "mm_dsi0", "mm_sel", 17),
+ 	GATE_MM0(CLK_MM_MM_DISP_RDMA1, "mm_disp_rdma1", "mm_sel", 18),
+ 	GATE_MM0(CLK_MM_MM_MDP_RDMA1, "mm_mdp_rdma1", "mm_sel", 19),
+-	GATE_MM0(CLK_MM_DPI0_DPI0, "mm_dpi0_dpi0", "vpll_dpix", 20),
++	GATE_MM0(CLK_MM_DPI0_DPI0, "mm_dpi0_dpi0", "dpi0_sel", 20),
+ 	GATE_MM0(CLK_MM_MM_FAKE, "mm_fake", "mm_sel", 21),
+ 	GATE_MM0(CLK_MM_MM_SMI_COMMON, "mm_smi_common", "mm_sel", 22),
+ 	GATE_MM0(CLK_MM_MM_SMI_LARB0, "mm_smi_larb0", "mm_sel", 23),
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index beb7d9d08e97..a4f9376ee472 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -997,6 +997,23 @@ static const struct mtk_dpi_conf mt8195_dpintf_conf = {
+ 	.csc_enable_bit = DPINTF_CSC_ENABLE,
+ };
  
-+	dsi->lanes_ready = false;
++static const struct mtk_dpi_conf mt8365_conf = {
++	.cal_factor = mt8183_calculate_factor,
++	.reg_h_fre_con = 0xe0,
++	.max_clock_khz = 150000,
++	.output_fmts = mt8183_output_fmts,
++	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
++	.pixels_per_iter = 1,
++	.is_ck_de_pol = true,
++	.swap_input_support = true,
++	.support_direct_pin = true,
++	.dimension_mask = HPW_MASK,
++	.hvsize_mask = HSIZE_MASK,
++	.channel_swap_shift = CH_SWAP,
++	.yuv422_en_bit = YUV422_EN,
++	.csc_enable_bit = CSC_ENABLE,
++};
 +
- 	return 0;
- err_disable_engine_clk:
- 	clk_disable_unprepare(dsi->engine_clk);
+ static int mtk_dpi_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -1092,6 +1109,7 @@ static const struct of_device_id mtk_dpi_of_ids[] = {
+ 	{ .compatible = "mediatek,mt8188-dp-intf", .data = &mt8195_dpintf_conf },
+ 	{ .compatible = "mediatek,mt8192-dpi", .data = &mt8192_conf },
+ 	{ .compatible = "mediatek,mt8195-dp-intf", .data = &mt8195_dpintf_conf },
++	{ .compatible = "mediatek,mt8365-dpi", .data = &mt8365_conf },
+ 	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
 
 -- 
 2.25.1
