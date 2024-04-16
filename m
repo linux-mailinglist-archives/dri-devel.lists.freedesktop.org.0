@@ -2,59 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896A68A6AE4
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 14:28:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B538A6B01
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 14:33:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2CA310F05F;
-	Tue, 16 Apr 2024 12:28:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 485D010F06C;
+	Tue, 16 Apr 2024 12:33:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nMmdJG+1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Uucimjug";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 491E910F05C;
- Tue, 16 Apr 2024 12:28:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713270483; x=1744806483;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ET/e1zQSLNAHBMFREalWJxxiSJdwMcYsufnfC0a1jB4=;
- b=nMmdJG+1abdJ2ZCri5jWkY1ErQ64uONvrLqV/JE7W218SMRmMs4S1Yyx
- S+jl0wCdUSGwkKlIFUEqR42AiNFG5ynZtTri58nwo5ZpOte7CJK3SdiDz
- pUvGpbCk6RrUQj0JMGx0TjRmModPrtFUKyxo8HSwxm+9bWHG0HfX5AWoa
- pMndoyKwPbA2JbA882Cmie39VundCxs83qQvqXmP7/dpzVCBXVrVi9JVm
- Y9E6kMlnxFwQjQnBg6UwbeF2ypkzHSdekJ9vrogKtJXsW4OA1PNaHG9he
- iR8OlikIMueCgSo7IORU6bt4ov2Ox8JZYkvtwFuwrjhtYPN807QGkWTik g==;
-X-CSE-ConnectionGUID: YU+lAKIdTFi8lRTz24apFg==
-X-CSE-MsgGUID: weM2nWNDQ1S1nJXvTEUvKw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12480523"
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="12480523"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 05:28:02 -0700
-X-CSE-ConnectionGUID: VARXVk0URlWu0PlRBcLJSQ==
-X-CSE-MsgGUID: 4wUXCZAhThSeiRSaKefu2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="26908988"
-Received: from martakit-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.44.100])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 05:28:01 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [REBASE 7/7] drm/edid: make drm_edid_are_equal() more
- convenient for its single user
-In-Reply-To: <a2e36f83-0e5c-4a57-bf31-37665f8ece71@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1713259151.git.jani.nikula@intel.com>
- <1011a285d30babce3aabd8218abb7ece7dcf58a2.1713259151.git.jani.nikula@intel.com>
- <a2e36f83-0e5c-4a57-bf31-37665f8ece71@suse.de>
-Date: Tue, 16 Apr 2024 15:27:57 +0300
-Message-ID: <87h6g1ze42.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63A3D112C31
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 12:33:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1713270792;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xteOWPcjWbwNGVchkja51XJnWeQI8eB6ajK9N4gBt+o=;
+ b=UucimjugR9z9p6iPit+NatbTGKEDiuJM1Pe50qSrmfCjWZWB8fSE6L3zmwXG3xq5e4AMBW
+ RDpLeA9zKCOiCnbBUuOd5KYQuaWgrdEOWSX7hgX5Mhsu9OVGel5SDaPTp+dtMWXHdhuxx4
+ 1K72qyKtxVQCYhMNZecIZ+JTGajOhMY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-680-Vunk7Y6iOeK_2yWTgLxnvg-1; Tue, 16 Apr 2024 08:33:10 -0400
+X-MC-Unique: Vunk7Y6iOeK_2yWTgLxnvg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-417bf71efb4so22960645e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 05:33:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713270789; x=1713875589;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xteOWPcjWbwNGVchkja51XJnWeQI8eB6ajK9N4gBt+o=;
+ b=S3JLQDg1alscl77WD5EE+72Cda6eQivyGSK+okzw9jJk7kb+2uvH5EdH613SOc1B7i
+ ZjYsFEbajySWJ3OfuH5WjWE43uebnVG5f2B3x2nYWnrmGAONYxxOX35UuE2Q+2GAUsxH
+ maNHuxSDgxoq/Jfc7r1NLaO7RMju+HEWDQbVjLP9aHOXiIDVpKdc90hk/qXUxRiM40eD
+ dajqVeG7Tvwj/FeIynSiPICZNqd7rzlHY+s1ePjYRKkPeyUAxeK0+y2O7KAWxhjT8axH
+ 2u+csXl5eFw3AgvC6DjH0eDJDbnFHT5b5ta0yb8878jHZ0CfbmR+abBuTkNANHgsa4p7
+ 9DOA==
+X-Gm-Message-State: AOJu0YxVpDN9PMRo3JKZQa3knXGzbOvofTyrR9iQfqzUJVtNMvAfv79k
+ Sgs8HrrUvT923uxAaW+kBvEwg5pKrf3u28EO1rGT91OfQMCfZzYHNZ5g9KPvlMD2UnYp7PYsYr9
+ vQBZt8bk0mb6F7tV6YR1PtN0E29QMcoPVPTxCcZzcN5ykpHUbuZ3MWcatPG1kIplciQ==
+X-Received: by 2002:a05:600c:1d22:b0:418:7ec1:7bdb with SMTP id
+ l34-20020a05600c1d2200b004187ec17bdbmr2355525wms.5.1713270789554; 
+ Tue, 16 Apr 2024 05:33:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF6QlHuOYFx5st5AynBIsSw9LG3X1l/uiKueZt8fUqUQ3eyo5dEWcdcofbF7Vx3r0j/oQ4jGg==
+X-Received: by 2002:a05:600c:1d22:b0:418:7ec1:7bdb with SMTP id
+ l34-20020a05600c1d2200b004187ec17bdbmr2355502wms.5.1713270789093; 
+ Tue, 16 Apr 2024 05:33:09 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ p15-20020a05600c468f00b00417da22df18sm19407022wmo.9.2024.04.16.05.33.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Apr 2024 05:33:08 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong
+ <kong.kongxinwei@hisilicon.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>
+Subject: Re: [PATCH v2 23/43] drm/hisilicon/kirin: Use fbdev-dma
+In-Reply-To: <20240410130557.31572-24-tzimmermann@suse.de>
+References: <20240410130557.31572-1-tzimmermann@suse.de>
+ <20240410130557.31572-24-tzimmermann@suse.de>
+Date: Tue, 16 Apr 2024 14:33:07 +0200
+Message-ID: <87v84h5vy4.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,100 +92,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Apr 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 16.04.24 um 11:20 schrieb Jani Nikula:
->> Repurpose drm_edid_are_equal() to be more helpful for its single user,
->> and rename drm_edid_eq(). Functionally deduce the length from the blob
->> size, not the blob data, making it more robust against any errors.
->
-> Could be squashed into patch 6.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Ack.
-
-Thanks for the review. I'll hold of on resending these until there are
-some R-b's... I've send them a few times already with no comments. :(
-
-BR,
-Jani.
-
+> Implement fbdev emulation with fbdev-dma. Fbdev-dma now supports
+> damage handling, which is required by kirin. Avoids the overhead of
+> fbdev-generic's additional shadow buffering. No functional changes.
 >
-> Best regards
-> Thomas
->
->>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>   drivers/gpu/drm/drm_edid.c | 41 ++++++++++++++------------------------
->>   1 file changed, 15 insertions(+), 26 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index 463fbad85d90..513590931cc5 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -1820,30 +1820,20 @@ static bool edid_block_is_zero(const void *edid)
->>   	return !memchr_inv(edid, 0, EDID_LENGTH);
->>   }
->>   
->> -/**
->> - * drm_edid_are_equal - compare two edid blobs.
->> - * @edid1: pointer to first blob
->> - * @edid2: pointer to second blob
->> - * This helper can be used during probing to determine if
->> - * edid had changed.
->> - */
->> -static bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
->> +static bool drm_edid_eq(const struct drm_edid *drm_edid,
->> +			const void *raw_edid, size_t raw_edid_size)
->>   {
->> -	int edid1_len, edid2_len;
->> -	bool edid1_present = edid1 != NULL;
->> -	bool edid2_present = edid2 != NULL;
->> +	bool edid1_present = drm_edid && drm_edid->edid && drm_edid->size;
->> +	bool edid2_present = raw_edid && raw_edid_size;
->>   
->>   	if (edid1_present != edid2_present)
->>   		return false;
->>   
->> -	if (edid1) {
->> -		edid1_len = edid_size(edid1);
->> -		edid2_len = edid_size(edid2);
->> -
->> -		if (edid1_len != edid2_len)
->> +	if (edid1_present) {
->> +		if (drm_edid->size != raw_edid_size)
->>   			return false;
->>   
->> -		if (memcmp(edid1, edid2, edid1_len))
->> +		if (memcmp(drm_edid->edid, raw_edid, drm_edid->size))
->>   			return false;
->>   	}
->>   
->> @@ -6936,15 +6926,14 @@ static int _drm_edid_connector_property_update(struct drm_connector *connector,
->>   	int ret;
->>   
->>   	if (connector->edid_blob_ptr) {
->> -		const struct edid *old_edid = connector->edid_blob_ptr->data;
->> -
->> -		if (old_edid) {
->> -			if (!drm_edid_are_equal(drm_edid ? drm_edid->edid : NULL, old_edid)) {
->> -				connector->epoch_counter++;
->> -				drm_dbg_kms(dev, "[CONNECTOR:%d:%s] EDID changed, epoch counter %llu\n",
->> -					    connector->base.id, connector->name,
->> -					    connector->epoch_counter);
->> -			}
->> +		const void *old_edid = connector->edid_blob_ptr->data;
->> +		size_t old_edid_size = connector->edid_blob_ptr->length;
->> +
->> +		if (old_edid && !drm_edid_eq(drm_edid, old_edid, old_edid_size)) {
->> +			connector->epoch_counter++;
->> +			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] EDID changed, epoch counter %llu\n",
->> +				    connector->base.id, connector->name,
->> +				    connector->epoch_counter);
->>   		}
->>   	}
->>   
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> Cc: Tian Tao <tiantao6@hisilicon.com>
+> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Yongqin Liu <yongqin.liu@linaro.org>
+> Cc: John Stultz <jstultz@google.com>
+> ---
+>  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Jani Nikula, Intel
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
