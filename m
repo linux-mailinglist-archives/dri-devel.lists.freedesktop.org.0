@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362798A61E3
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 05:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366D68A61E7
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 05:56:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 210E31129C2;
-	Tue, 16 Apr 2024 03:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE7481129D5;
+	Tue, 16 Apr 2024 03:56:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SaYbIhxS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O7bwyjmV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11E7A1129C2;
- Tue, 16 Apr 2024 03:55:08 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4E81129D2;
+ Tue, 16 Apr 2024 03:56:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713239709; x=1744775709;
+ t=1713239805; x=1744775805;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
  bh=mn0gisJNrsD7GRbKuZiSaG2WypB8+MdvqgCCZc6EMbs=;
- b=SaYbIhxSSogN6EVbu98tcTcnG2qi+RgQAfYcyYG8LIKPAMK9Wjwi8d/e
- jQPwuCwlVDiDaEOXhOG4/iJ0y8u024EnNtoJthAI++rW/zqopF20ecifx
- 7zKb7ri9FOjKwrad0Lz92G0gMKJayvSvTuQAMA4ezqeByRhhUsmf1ig6l
- GVz90MMl0lMZ2lZqlRPzfhKX82nl5rPnBzFB0c4rhcxe6km1gO0AkVxY+
- E89kcaGzXTCyfs2RP9VoLiDTztEC5qNrmBmMf6Xydp/d1W3r6fHElh///
- dqzcGcEU2OGbGsrF/rnwq7nyZhOliFQSvwIYy27RNaFfdzPSK3LC9k2bl g==;
-X-CSE-ConnectionGUID: tFOlcROnRGmVGvnX53/3Lg==
-X-CSE-MsgGUID: rjvdu+AjS6e+mH9OY6r1kA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="19260319"
-X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; d="scan'208";a="19260319"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2024 20:55:08 -0700
-X-CSE-ConnectionGUID: tMW3Qk2KRWmjrlIyQCAXjw==
-X-CSE-MsgGUID: 4CMleALOTWyOBrpC+HkLGA==
+ b=O7bwyjmVYCsKqKwWOyXcCDhaZ7awdjrFYH29GX9W+hMnIiB6EEjwkK8Q
+ 6EstFyv76UG53arXoFnrxXkQV0L4HSwstWImkzC5jubeg0DO61QV3UrYi
+ gKtsbeCLvYgSOEFDP/ZsgIsLAjZBKGUqb6RB3gy32A+diF76pMW5forDy
+ usjcRZR7C1lyK9+SLxKcq+bD/YLpWjqniyhWLiTn+iQ9fbjDRNTwIqKc0
+ 3TPNg/1yho9fPcqd1cy/vDUl+7K6QQPkeI+KA3RNW0McKpmlIRYwx9BUM
+ UaCsOlsQ3L96fHpcZlL1nXglAOvt8TEzXfyyeD6PbaptBvMk8mSp4L//H Q==;
+X-CSE-ConnectionGUID: Ut4YCQ7BQ6aU+FmiIcdHYA==
+X-CSE-MsgGUID: nVk1bfSVSKeGn+wlb45/+w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="20047648"
+X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; d="scan'208";a="20047648"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2024 20:56:44 -0700
+X-CSE-ConnectionGUID: N+0V+VM+Tj2pSGeuvYlqTA==
+X-CSE-MsgGUID: 5rqTD1LjSga+1b2ILh+wwA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; d="scan'208";a="26917438"
+X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; d="scan'208";a="22200896"
 Received: from orsosgc001.jf.intel.com ([10.165.21.138])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2024 20:55:08 -0700
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2024 20:56:44 -0700
 From: Ashutosh Dixit <ashutosh.dixit@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: Badal Nilawar <badal.nilawar@intel.com>, Andi Shyti <andi.shyti@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  linux-hwmon@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/hwmon: Get rid of devm
-Date: Mon, 15 Apr 2024 20:55:01 -0700
-Message-ID: <20240416035501.755728-1-ashutosh.dixit@intel.com>
+Subject: [PATCH v3] drm/i915/hwmon: Get rid of devm
+Date: Mon, 15 Apr 2024 20:56:40 -0700
+Message-ID: <20240416035640.755811-1-ashutosh.dixit@intel.com>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
