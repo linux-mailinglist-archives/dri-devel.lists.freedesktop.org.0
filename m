@@ -2,83 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F0C88A7218
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 19:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2468A7225
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 19:22:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81736112D78;
-	Tue, 16 Apr 2024 17:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60944112D82;
+	Tue, 16 Apr 2024 17:22:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="HdGwIGTN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Mvf256EO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 667AB10F242
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 17:19:19 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-1e3c89f3d32so15915ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 10:19:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1713287958; x=1713892758;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pMzpM+93sB8KN+aihvsI4sj2s8RINAbT1I+ikFGc/QQ=;
- b=HdGwIGTNz0YQh9NdAKMFvnfrzFaux1bC3cS7CrPhyCCP8y4I0DdrhenuZeGZxmWrm0
- p1aDUnpVHdPBT5MSP7R+U06N+OvqQpDSPc5NG/SQS9GanH+lygBX/CgoO+ORG0ZqgBnZ
- //YtgyNE44lcwiydprbU7ZIxvcLhxaJBvr3C3sy+55zNFc5FqlVZt3MfG2bdw7C+6wOl
- 90+9IrvsfhUEbKSs9suok0lA5QU9pSCVykgqKwofczL8KRSyy0XzrJNGXy6E7rjSiZVJ
- LIJcwwV40ikk1jkPmLA2CTAgf3KocPxNMdNCar3PqCWfGK28CLVLkFdEo5tVoJbpwnXe
- y3cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713287958; x=1713892758;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pMzpM+93sB8KN+aihvsI4sj2s8RINAbT1I+ikFGc/QQ=;
- b=q8l4SZDIRqQXLoTnRspqjMDmhaAPDc6ceZTysDytMVcz2f7aScoIdbECAjWmM2g0wi
- u2bxTjET9r65OOOQok/TFot785ujhsADsIHJYVXZ6zqdLUDClwzNvoYFOEoQGJ1RN/95
- 1Z8oPRRKVc9PcKv0pQYkxNfgwiYTvZFeo2AgzudAG/dFFQn0fYu56UuOQ76sFwtCrkZk
- DITuh5mKr+sWrev32k0bUQj2id4GAVVSHygXD+iBKaV7fVEIz4+SL+mv4uSVpktC/6DD
- HOtTlMiSzcyrGv00WrGTM06/knEEFeQULtFF3p5LDT227TbOS+gzSu+vjTGSu7XOhn4m
- umeQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+nwyX9LERTBnhT+OQMHumY/xNeDdZF2UKpQqYHLCmuECOvedkxESmp1yzQuSeyrrBdY12xqPlmVmMFJy6QuyrFC4Bx7/s0QdTFjN51m2n
-X-Gm-Message-State: AOJu0YxVnJUnokjMDfxbLepsEGcKa3uELlW2kt7BlSOlYDgiOGp3Mw0d
- uGBZ2NMxdKYu1X7WhpTQyEZ/4U+gMKECprTapbxWUwWtCaP4/G2wIeL54SVnSXpw9FdpaRuuz6B
- TpurrKdp+NqyegA9I6H3rEw43HUOCGI2DQas=
-X-Google-Smtp-Source: AGHT+IE+6v3wDbegK+Ux9rAhzTqqKq8TNFIZbmfaam/cohc7jxMrIVpQZc4dbB+03Ft2nzo9gRjOdyXae1RXd7Onh9g=
-X-Received: by 2002:a17:902:fc8b:b0:1e4:33a6:b0d4 with SMTP id
- mf11-20020a170902fc8b00b001e433a6b0d4mr258654plb.9.1713287958225; Tue, 16 Apr
- 2024 10:19:18 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98462112D84
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 17:22:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8926561251;
+ Tue, 16 Apr 2024 17:22:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D553BC113CE;
+ Tue, 16 Apr 2024 17:21:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1713288121;
+ bh=hZrqs2gZL+76dYi3e/z9nBWdr14gBomL/4WEqDdx1aA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Mvf256EOmyywMINpWZnqHFOEFTsuYiTVDbPfXnIgHlVnmLfeJACvSbl9vj/Q0LQLW
+ S2hFFxFHz3QpnzdWnjZ+raECN8Mf6BLiPlyIRb6OAYDw1iakufo3tfOTlccL7T3QWW
+ RvLnlKI0NBKy2VPX2w6gQwLhG6BxNvIka9spQ+WgJP27isgkgwys7eOjj0Qy+YMP/+
+ UUq92NddEHhZvnHOdGsYs3ht2OQuFCtGFC4zwAXKa8UhB3d1HyVlD4IjA61m4Bp+Y3
+ saJFpgfiQwWerLAHHuFc/dOFUP0teZ3AkgoqeZ8P0j+akJTcxtIcDGBt75UpZp8/io
+ KbyXtaqnjE7xg==
+Date: Tue, 16 Apr 2024 18:21:55 +0100
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Cc: Stefan Wahren <wahrenst@gmx.net>, Andre Przywara <andre.przywara@arm.com>,
+ Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Romain Perier <romain.perier@gmail.com>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, kernel-dev@igalia.com
+Subject: Re: [PATCH v2] ARM: dts: bcm2835: Enable 3D rendering through V3D
+Message-ID: <20240416-gave-upchuck-fcf973214266@spud>
+References: <20240415160129.14149-2-mcanal@igalia.com>
+ <20240415175433.6e63d40f@donnerap.manchester.arm.com>
+ <dc9f2926-3a8f-4191-9319-3d7e78c6758b@igalia.com>
+ <41629496-9be6-470c-931b-146ca22cdd7e@gmx.net>
+ <2f6e13c7-e6d6-414f-b97d-d9a02ae6a696@igalia.com>
 MIME-Version: 1.0
-References: <20240403102701.369-1-shawn.sung@mediatek.com>
- <20240403102701.369-2-shawn.sung@mediatek.com>
- <70733fe5c919527796bd3d9735ced522bcdd7a25.camel@ndufresne.ca>
-In-Reply-To: <70733fe5c919527796bd3d9735ced522bcdd7a25.camel@ndufresne.ca>
-From: Jeffrey Kardatzke <jkardatzke@google.com>
-Date: Tue, 16 Apr 2024 10:19:02 -0700
-Message-ID: <CA+ddPcMWein69X6U46pZbDy51gFHHxXV5d+6BvFq7ma6n0E22w@mail.gmail.com>
-Subject: Re: [PATCH v5 1/9] drm/mediatek/uapi: Add DRM_MTK_GEM_CREATE_ENCRYPTED
- flag
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Shawn Sung <shawn.sung@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Geu4vb0sP+eqi7Vr"
+Content-Disposition: inline
+In-Reply-To: <2f6e13c7-e6d6-414f-b97d-d9a02ae6a696@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,48 +70,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I would argue 'restricted' is the proper name since that was what was
-settled on for the dma-buf code.  :)  But you are definitely right
-that this memory is not encrypted.
 
+--Geu4vb0sP+eqi7Vr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 16, 2024 at 7:09=E2=80=AFAM Nicolas Dufresne <nicolas@ndufresne=
-.ca> wrote:
->
-> Hi,
->
-> Le mercredi 03 avril 2024 =C3=A0 18:26 +0800, Shawn Sung a =C3=A9crit :
-> > From: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-> >
-> > Add DRM_MTK_GEM_CREATE_ENCRYPTED flag to allow user to allocate
->
-> Is "ENCRYPTED" a proper naming ? My expectation is that this would hold d=
-ata in
-> a PROTECTED memory region but that no cryptographic algorithm will be inv=
-olved.
->
-> Nicolas
->
-> > a secure buffer to support secure video path feature.
-> >
-> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> > Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
-> > ---
-> >  include/uapi/drm/mediatek_drm.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/include/uapi/drm/mediatek_drm.h b/include/uapi/drm/mediate=
-k_drm.h
-> > index b0dea00bacbc4..e9125de3a24ad 100644
-> > --- a/include/uapi/drm/mediatek_drm.h
-> > +++ b/include/uapi/drm/mediatek_drm.h
-> > @@ -54,6 +54,7 @@ struct drm_mtk_gem_map_off {
-> >
-> >  #define DRM_MTK_GEM_CREATE           0x00
-> >  #define DRM_MTK_GEM_MAP_OFFSET               0x01
-> > +#define DRM_MTK_GEM_CREATE_ENCRYPTED 0x02
-> >
-> >  #define DRM_IOCTL_MTK_GEM_CREATE     DRM_IOWR(DRM_COMMAND_BASE + \
-> >               DRM_MTK_GEM_CREATE, struct drm_mtk_gem_create)
->
->
+On Tue, Apr 16, 2024 at 07:13:51AM -0300, Ma=EDra Canal wrote:
+> On 4/16/24 02:30, Stefan Wahren wrote:
+> > Hi Ma=EDra,
+> >=20
+> > Am 16.04.24 um 03:02 schrieb Ma=EDra Canal:
+> > > On 4/15/24 13:54, Andre Przywara wrote:
+> > > > On Mon, 15 Apr 2024 13:00:39 -0300
+> > > > Ma=EDra Canal <mcanal@igalia.com> wrote:
+> > > >=20
+> > > > Hi,
+> > > >=20
+> > > > > RPi 0-3 is packed with a GPU that provides 3D rendering capabilit=
+ies to
+> > > > > the RPi. Currently, the downstream kernel uses an overlay to enab=
+le the
+> > > > > GPU and use GPU hardware acceleration. When deploying a mainline =
+kernel
+> > > > > to the RPi 0-3, we end up without any GPU hardware acceleration
+> > > > > (essentially, we can't use the OpenGL driver).
+> > > > >=20
+> > > > > Therefore, enable the V3D core for the RPi 0-3 in the mainline ke=
+rnel.
+> > > >=20
+> > > > So I think Krzysztof's initial comment still stands: What does that
+> > > > patch
+> > > > actually change? If I build those DTBs as of now, none of them has a
+> > > > status property in the v3d node. Which means it's enabled:
+> > > > https://github.com/devicetree-org/devicetree-specification/blob/mai=
+n/source/chapter2-devicetree-basics.rst#status
+> > > >=20
+> > > > So adding an explicit 'status =3D "okay";' doesn't make a differenc=
+e.
+> > > >=20
+> > > > What do I miss here?
+> > >=20
+> > > As mentioned by Stefan in the last version, in Raspberry Pi OS, there=
+ is
+> > > a systemd script which is trying to check for the V3D driver (/usr/lib
+> > > /systemd/scripts/gldriver_test.sh). Within the first check, "raspi-
+> > > config nonint is_kms" is called, which always seems to fail. What
+> > > "raspi-config" does is check if
+> > > /proc/device-tree/soc/v3d@7ec00000/status is equal to "okay". As
+> > > /proc/device-tree/soc/v3d@7ec00000/status doesn't exists, it returns
+> > > false.
+> > yes, but i also mention that the V3D driver starts without this patch.
+> > The commit message of this patch suggests this is a DT issue, which is =
+not.
+> >=20
+> > I hadn't the time to update my SD card to Bookworm yet. Does the issue
+> > still exists with this version?
+>=20
+> I'm using a 32-bit kernel and the recommended OS for 32-bit is Bullseye.
+> But I checked the Bookworm code and indeed, Bookworm doesn't check
+> the device tree [1].
+>=20
+> I'm thinking about sending a patch to the Bullseye branch to fix this
+> issue.
+
+I think you should, sounds like they're making invalid assumptions about
+the status property.
+
+--Geu4vb0sP+eqi7Vr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh6zswAKCRB4tDGHoIJi
+0tEuAP9r4syGC747XjiKE0ocT88fnt3btSA+4oxB5C/nqWWFZwEA0IH/JkEXCeGS
+2Ub88UKpPcPILr0/bvTojULx/V5GaQg=
+=27v6
+-----END PGP SIGNATURE-----
+
+--Geu4vb0sP+eqi7Vr--
