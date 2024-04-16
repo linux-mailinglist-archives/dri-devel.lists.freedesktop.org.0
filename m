@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F069B8A7972
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 01:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156C88A7979
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 01:58:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B54B610F41C;
-	Tue, 16 Apr 2024 23:57:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00885112F7F;
+	Tue, 16 Apr 2024 23:57:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03D5B10F415
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 23:57:50 +0000 (UTC)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA4810F41C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 23:57:51 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id D756A3F01F;
- Wed, 17 Apr 2024 01:57:47 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id E00553F032;
+ Wed, 17 Apr 2024 01:57:48 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Wed, 17 Apr 2024 01:57:44 +0200
-Subject: [PATCH 4/7] drm/msm/dpu: Allow configuring multiple active DSC blocks
+Date: Wed, 17 Apr 2024 01:57:45 +0200
+Subject: [PATCH 5/7] drm/msm/dpu: Correct dual-ctl -> dual-intf typo in comment
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-4-78ae3ee9a697@somainline.org>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-5-78ae3ee9a697@somainline.org>
 References: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-0-78ae3ee9a697@somainline.org>
 In-Reply-To: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-0-78ae3ee9a697@somainline.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -62,69 +62,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just like the active interface and writeback block in ctl_intf_cfg_v1(),
-and later the rest of the blocks in followup active-CTL fixes or
-reworks, multiple calls to this function should enable additional DSC
-blocks instead of overwriting the blocks that are enabled.
+This comment one line down references a single, "same CTL" that controls
+two interfaces, so the comment should clearly describe two interfaces
+used with a single active CTL and not "two CTLs".
 
-This pattern is observed in an active-CTL scenario since DPU 5.0.0 where
-for example bonded-DSI uses a single CTL to drive multiple INTFs, and
-each encoder calls this function individually with the INTF (hence the
-pre-existing update instead of overwrite of this bitmask) and DSC blocks
-it wishes to be enabled, and expects them to be OR'd into the bitmask.
-
-The reverse already exists in reset_intf_cfg_v1() where only specified
-DSC blocks are removed out of the CTL_DSC_ACTIVE bitmask (same for all
-other blocks and ACTIVE bitmasks), leaving the rest enabled.
-
-Fixes: 77f6da90487c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
+Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index a06f69d0b257..2e50049f2f85 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -545,6 +545,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
- {
- 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
- 	u32 intf_active = 0;
-+	u32 dsc_active = 0;
- 	u32 wb_active = 0;
- 	u32 mode_sel = 0;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index d9e7dbf0499c..7e849fe74801 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -428,7 +428,7 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
+ 	dpu_encoder_phys_vid_setup_timing_engine(phys_enc);
  
-@@ -560,6 +561,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
- 
- 	intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
- 	wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
-+	dsc_active = DPU_REG_READ(c, CTL_DSC_ACTIVE);
- 
- 	if (cfg->intf)
- 		intf_active |= BIT(cfg->intf - INTF_0);
-@@ -567,17 +569,18 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
- 	if (cfg->wb)
- 		wb_active |= BIT(cfg->wb - WB_0);
- 
-+	if (cfg->dsc)
-+		dsc_active |= cfg->dsc;
-+
- 	DPU_REG_WRITE(c, CTL_TOP, mode_sel);
- 	DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
- 	DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
-+	DPU_REG_WRITE(c, CTL_DSC_ACTIVE, dsc_active);
- 
- 	if (cfg->merge_3d)
- 		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
- 			      BIT(cfg->merge_3d - MERGE_3D_0));
- 
--	if (cfg->dsc)
--		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
--
- 	if (cfg->cdm)
- 		DPU_REG_WRITE(c, CTL_CDM_ACTIVE, cfg->cdm);
- }
+ 	/*
+-	 * For single flush cases (dual-ctl or pp-split), skip setting the
++	 * For single flush cases (dual-intf or pp-split), skip setting the
+ 	 * flush bit for the slave intf, since both intfs use same ctl
+ 	 * and HW will only flush the master.
+ 	 */
 
 -- 
 2.44.0
