@@ -2,86 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5418A6F06
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 16:53:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622728A6F46
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 17:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4664310F128;
-	Tue, 16 Apr 2024 14:53:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22A3112D06;
+	Tue, 16 Apr 2024 15:03:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WaC2iXR1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GN9ryUfo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A225C10F128
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 14:53:13 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2d82713f473so84277011fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 07:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713279192; x=1713883992;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=jl7BVtQwBTSlw5Q7jIravMMMPvXbs3wbcyyUN/ZkIBg=;
- b=WaC2iXR1WWYxmvajzhLT2eXHBlivsvw/PsIMqspv8Elt3X2lF5XeLaUPt3TTnXJk1I
- 6GhihxHZPbFhTFkf+7PfSIl7VLykeeFb4ppVwjOcu8d2+LSNnsGUe2XXGxjA6jS0yzq9
- bzVVhvSN5Rd9qhpg/KDQqHxBpec/Q0DY/85pNBYPCSyrnRvS3LlliaALsmGU8qEp5qme
- BjDvtW1/FLY4Lm3krUEDWzT4g+NUxzPq0/gVnSgLlhW2akfuTTzd7MLrj+N7N8icsaWf
- QbEOoWy5mX4pMhIo2PIQZziCRhFN2LvCVzBpCsPq7C96NMY6oZ/tCndanOS1lc329iFY
- 5cZQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45C69112D06
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 15:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1713279827;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GFCaHUQAAko0RRVSDJc61hDaFS6t6T6owwvQCc5GkIo=;
+ b=GN9ryUfoPwpdMQbjevWNbWZI6R3mP0yBu5Zffn2AFsi/VYrXzLJ/JublWCzuiwjVmfonwu
+ 7iiDJYH98S8kAFn4H+TcUO7h1gQt5dlWHKUww/sTB5T0faNzqt4gODEAgFH8w+/swEMS1g
+ ViHn8qiJL1yHkikcjcLGqLJy5KWNgmI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-8-onBgHfLjOIy9Ma5fMzNp7A-1; Tue, 16 Apr 2024 11:03:45 -0400
+X-MC-Unique: onBgHfLjOIy9Ma5fMzNp7A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-41634d6c008so15410175e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 08:03:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713279192; x=1713883992;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1713279824; x=1713884624;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jl7BVtQwBTSlw5Q7jIravMMMPvXbs3wbcyyUN/ZkIBg=;
- b=lohJzFmHWzg9QwVsxi3Dh2JkE4lMvVKO2teooZuh/+RztKtnK8a3j1cM3EAA8odlUM
- KhH7v/gLUCaczaKj3avtboYx3eKFAv/U/DjXCZv8dDbwQPej7GMB7+0fVnPTUOX7+JvM
- z9iR8bk29aGoAlVNV144xYVmyv4nHqJnVZptWX7afXoLRgU576PiZ22Mk+M3Pm3EfWQa
- WRc4sNubVID+bBsK6TEU2u+EkoKNTosbYOGr6Hor8qzluCOIK2JfuBoHMj5KALmHyldo
- s1Wm0MhIqDF5jvWJAfpnq1gDnq3fpZ/HJxzAH3ynZklIo6o7hTah/Fu4qV2aBat8yk5o
- PqyA==
-X-Gm-Message-State: AOJu0Yz8hyKsowBYg0NPTWOe8mJW2u1r++UEPRV3JmjuEFFmaq8I7wOg
- XfVQCbiooUk26pJ1DxqnjXEgaaVeQRwM+UpmKa8nMWikfenzaiydAKOu2cGRhU4=
-X-Google-Smtp-Source: AGHT+IEBkb7ExU6KDoUwKQB+1TjGigkCAfuqOmSxkIfxlJN0jQEFEyh9q8oXdurLDbr/zM7/PUjBBw==
-X-Received: by 2002:a2e:9517:0:b0:2d8:19fe:4863 with SMTP id
- f23-20020a2e9517000000b002d819fe4863mr10223169ljh.41.1713279189026; 
- Tue, 16 Apr 2024 07:53:09 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
+ bh=GFCaHUQAAko0RRVSDJc61hDaFS6t6T6owwvQCc5GkIo=;
+ b=T2rrmCLp8nTb0IawkbiUpK3cu5VsvyOuJIwOGErYf/zy9f90sj5jZdul1b23O9wErl
+ umJCVpShlUPotGSuKjsxV48Bj4lla8ksQaREz3Ez1QoKl4CittjnFaO+NEvgzz7f8yQ3
+ 0XY8owpDHxcqbj3sQzPn0qFFTcy8jYol/OmWVUsSw2RUBTOpf6+UOB+8YHUJ3YlQK+VX
+ gdBv4va2/U2clARPSxL+qCRE4a0WlL8BotJX4LEPdcFOYUEVZMwqXR4USfn6deqK9sT7
+ g6YbKNjgvIbwT+TNI5C/F0gk9n7vEYA9p9GuOh4B6XK1gH0Y56lAKw0xI7pmjp7cT30h
+ JuNw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUJu9mvD7xGRhxZ9b+0H9KZsirLTlpdEJHz7zhr/zjvoagwsYq8BtgcrJVn6SHE85wKQXekEDiy65bNBBJvRa3yphM19dkyQ6dumX7GR2lO
+X-Gm-Message-State: AOJu0YxOrZI+KDyZms6HmEgoNfyJ7nHWEKFccPsVpeMTrdGsCRX/2+Fp
+ 0Cm6l+g3A/Xn93lCKTeR3w69vbwCJbGSO1ZMof/Mi42A13lQa22sEdvh1R1uhHpGai0e4g/2W0u
+ bV0xix+skq55MfBsXXe0XOvd4q3tPJjBQLvY4YKnXAhYyH9yHGfaFsIiRAOhEglbKUQ==
+X-Received: by 2002:a05:600c:35c8:b0:416:34c0:de9 with SMTP id
+ r8-20020a05600c35c800b0041634c00de9mr13518357wmq.29.1713279824365; 
+ Tue, 16 Apr 2024 08:03:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGWIus5XfPAgYELw2OkMF+lbgol/KXXcD+0uXxwz1+sxLT35QetyVVtVycmvsy9n0zLsBm9gw==
+X-Received: by 2002:a05:600c:35c8:b0:416:34c0:de9 with SMTP id
+ r8-20020a05600c35c800b0041634c00de9mr13518336wmq.29.1713279823961; 
+ Tue, 16 Apr 2024 08:03:43 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- c19-20020a170906529300b00a4da28f42f1sm6995974ejm.177.2024.04.16.07.53.07
+ fm15-20020a05600c0c0f00b004186f979543sm6702324wmb.33.2024.04.16.08.03.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Apr 2024 07:53:08 -0700 (PDT)
-Message-ID: <96d90ddd-2910-4419-ba90-64a09a3dbf1e@baylibre.com>
-Date: Tue, 16 Apr 2024 16:53:06 +0200
+ Tue, 16 Apr 2024 08:03:43 -0700 (PDT)
+Message-ID: <4fb5088a-11da-426e-86a7-f53d964e2e7f@redhat.com>
+Date: Tue, 16 Apr 2024 17:03:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Subject: Re: [PATCH 14/18] drm/mediatek: dpi: add support for dpi clock
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-mediatek@lists.infradead.org, Will Deacon <will@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, CK Hu <ck.hu@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Xinlei Lee <xinlei.lee@mediatek.com>,
- Jitao Shi <jitao.shi@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- linux-pwm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Fabien Parent <fparent@baylibre.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
-References: <20231023-display-support-v1-0-5c860ed5c33b@baylibre.com>
- <20231023-display-support-v1-14-5c860ed5c33b@baylibre.com>
- <cf25a3cc-6411-45f5-bc7a-6b69cf28c860@collabora.com>
-Content-Language: en-US
-In-Reply-To: <cf25a3cc-6411-45f5-bc7a-6b69cf28c860@collabora.com>
+Subject: Re: [PATCH] drm/fb_dma: Fix parameter name in htmldocs
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ daniel@ffwll.ch
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20240416090601.237286-1-jfalempe@redhat.com>
+ <50a08e1c-094c-4735-a176-fd2f6694c01e@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <50a08e1c-094c-4735-a176-fd2f6694c01e@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,107 +99,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 24/10/2023 11:12, AngeloGioacchino Del Regno wrote:
-> Il 23/10/23 16:40, amergnat@baylibre.com ha scritto:
->> From: Fabien Parent <fparent@baylibre.com>
+On 16/04/2024 14:12, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 16.04.24 um 11:05 schrieb Jocelyn Falempe:
+>> The parameter name is 'sb' and not 'drm_scanout_buffer'.
+>> It fixes the following warnings:
 >>
->> MT8365 requires an additional clock for DPI. Add support for that
->> additional clock.
+>> drivers/gpu/drm/drm_fb_dma_helper.c:166: warning: Excess function 
+>> parameter 'drm_scanout_buffer' description in 
+>> 'drm_fb_dma_get_scanout_buffer'
+>> drivers/gpu/drm/drm_fb_dma_helper.c:166: warning: Function parameter 
+>> or struct member 'sb' not described in 'drm_fb_dma_get_scanout_buffer'
+>> drivers/gpu/drm/drm_fb_dma_helper.c:166: warning: Excess function 
+>> parameter 'drm_scanout_buffer' description in 
+>> 'drm_fb_dma_get_scanout_buffer'
 >>
->> Signed-off-by: Fabien Parent <fparent@baylibre.com>
->> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> Fixes: 879b3b6511fe ("drm/fb_dma: Add generic get_scanout_buffer() for 
+>> drm_panic")
+>> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 > 
-> I'm not convinced that this is right... at all.
-> 
->  From a fast check of the MT8365 DPI clocks, I can see that the DPI0 
-> clock declares
-> parent VPLL_DPIX (a fixed clock), but nothing ever has VPLL_DPIX_EN 
-> (which is the
-> GATE clock, enabling output of DPIx VPLL?).
-> 
-> But then, there's even more: no clock ever references the 
-> CLK_TOP_DPI0_SEL nor the
-> CLK_TOP_DPI1_SEL gate, which is a PLL parent selector... in other 
-> platforms, that
-> is muxing through the TVDPLL, but on MT8365 that is LVDSPLL?!
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-AFAI see into mt8365 documentation, there is no TVDPLL, only LVDSPLL
+pushed to drm-misc-next
 
-> 
-> I have many questions now:
-> * Two PLLs are apparently brought up, but which one is the right one?!
->    * Is the LVDS PLL really used for DisplayPort? (dpi0_sel)
-
-Seems to be LVDS
-
-                                  enable  prepare  protect                                duty  hardware
-    clock                          count    count    count        rate   accuracy phase  cycle    enable
--------------------------------------------------------------------------------------------------------
-  clk26m                              18       19        1    26000000          0     0         Y
-     vpll_dpix                         1        1        0    75000000          0     0  50000         Y
-        mm_flvdstx_pxl                 0        0        0    75000000          0     0  50000         N
-        mm_dpi0_dpi0                   1        1        0    75000000          0     0  50000         Y
-        vpll_dpix_en                   0        0        0    75000000          0     0  50000         N
-     lvdspll                           1        1        0   283999497          0     0  50000         Y
-        lvdspll_d16                    0        0        0    17749968          0     0  50000         Y
-        lvdspll_d8                     0        0        0    35499937          0     0  50000         Y
-        lvdspll_d4                     0        0        0    70999874          0     0  50000         Y
-        lvdspll_d2                     1        1        0   141999748          0     0  50000         Y
-           dpi0_sel                    1        1        0   141999748          0     0  50000         Y
-           dpi1_sel                    0        0        0   141999748          0     0  50000         N
-     mmpll                             1        1        0   456999909          0     0  50000         Y
-        mmpll_ck                       1        1        0   456999909          0     0  50000         Y
-           mm_sel                     15       15        0   456999909          0     0  50000         Y
-              mm_dpi0                  1        1        0   456999909          0     0  50000         Y
-
-
-
-> * Are you sure that CLK_MM_DPI0_DPI0's parent shouldn't be dpi0_sel 
-> instead?
-
-I'm agree with you. After few change, it works.
-
--       GATE_MM0(CLK_MM_DPI0_DPI0, "mm_dpi0_dpi0", "vpll_dpix", 20),
-+       GATE_MM0(CLK_MM_DPI0_DPI0, "mm_dpi0_dpi0", "dpi0_sel", 20),
-
--                       clocks = <&topckgen CLK_TOP_DPI0_SEL>,
-+                       clocks = <&mmsys CLK_MM_DPI0_DPI0>,
-
-
-                                  enable  prepare  protect                                duty  hardware
-    clock                          count    count    count        rate   accuracy phase  cycle    enable
--------------------------------------------------------------------------------------------------------
-     vpll_dpix                        0       0        0        75000000    0          0     50000      Y
-        mm_flvdstx_pxl                0       0        0        75000000    0          0     50000      N
-        vpll_dpix_en                  0       0        0        75000000    0          0     50000      N
-
-     lvdspll                          1       1        0        283999497   0          0     50000      Y
-        lvdspll_d16                   0       0        0        17749968    0          0     50000      Y
-        lvdspll_d8                    0       0        0        35499937    0          0     50000      Y
-        lvdspll_d4                    0       0        0        70999874    0          0     50000      Y
-        lvdspll_d2                    1       1        0        141999748   0          0     50000      Y
-           dpi0_sel                   1       1        0        141999748   0          0     50000      Y
-              mm_dpi0_dpi0            1       1        0        141999748   0          0     50000      Y
-           dpi1_sel                   0       0        0        141999748   0          0     50000      N
-
-     mmpll                            1       1        0        456999909   0          0     50000      Y
-        mmpll_d2                      0       0        0        228499954   0          0     50000      Y
-        mmpll_ck                      1       1        0        456999909   0          0     50000      Y
-           mm_sel                     15      15       0        456999909   0          0     50000      Y
-              mm_dpi0                 1       1        0        456999909   0          0     50000      Y
-
-
-> * Where is DPI1 in this SoC? Why is there a dpi1_sel clock, but no MM clock
->    for the DPI1 controller? Is there any DPI1 controller, even?!
-
-DPI1 isn't documented.
-
->    * Why is there a DPI1 MUX, if there's no DPI1 controller?!
-
-Good question, I don't know. Legacy of the downstream code.
-
-That will be fixed for the next version.
+Thanks,
 
 -- 
-Regards,
-Alexandre
+
+Jocelyn
+> 
+> Best regards
+> Thomas
+> 
+>> ---
+>>   drivers/gpu/drm/drm_fb_dma_helper.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c 
+>> b/drivers/gpu/drm/drm_fb_dma_helper.c
+>> index c79b5078303f..96e5ab960f12 100644
+>> --- a/drivers/gpu/drm/drm_fb_dma_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
+>> @@ -153,7 +153,7 @@ EXPORT_SYMBOL_GPL(drm_fb_dma_sync_non_coherent);
+>>   /**
+>>    * drm_fb_dma_get_scanout_buffer - Provide a scanout buffer in case 
+>> of panic
+>>    * @plane: DRM primary plane
+>> - * @drm_scanout_buffer: scanout buffer for the panic handler
+>> + * @sb: scanout buffer for the panic handler
+>>    * Returns: 0 or negative error code
+>>    *
+>>    * Generic get_scanout_buffer() implementation, for drivers that 
+>> uses the
+>>
+>> base-commit: 7b0062036c3b71b4a69e244ecf0502c06c4cf5f0
+> 
+
