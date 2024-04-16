@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176118A6ADA
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 14:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896A68A6AE4
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 14:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC1810F065;
-	Tue, 16 Apr 2024 12:24:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2CA310F05F;
+	Tue, 16 Apr 2024 12:28:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MU6dYIS0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nMmdJG+1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F102310F062;
- Tue, 16 Apr 2024 12:24:38 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 491E910F05C;
+ Tue, 16 Apr 2024 12:28:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713270279; x=1744806279;
+ t=1713270483; x=1744806483;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=uxsjQHuhxxD2zkPITtQUCN2fmYVf/bf10CIt3VGM6nE=;
- b=MU6dYIS09uPLSGjSQ4jc6Xe7BMiHJ05vK4GIXmmDqMCtEs/zCEJNPLgm
- XVnfhV4zO+qea4gpU4X/3lNAYNLAwcOC8wfIKHr71bQR8eGVeYQ3qwvpC
- 5KR0HtInCb/lOTc1wQf1r65Kr6VVsssygGR/+JuH7ZoJFWE99hi5HVO0b
- ksvwvIU7GIuiFeaek0UMZLSDwlYNdH05bu8M3NkK8/giUGAUeg9osT1jY
- WLYAGyJnr9M6YdQbMWj/qLGZyR1Lvd85APl+8ac2RSmFta2mKapVWPInQ
- 36+IIvsCej1Jiunkxp4XznYWvttwX/DCDstIODtAmZvj5z1n7stIlAiXl w==;
-X-CSE-ConnectionGUID: /h+6qj5URACWtaXIeAbRrQ==
-X-CSE-MsgGUID: Gyber7reT5eyJ66fShMHcA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="11649601"
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="11649601"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 05:24:38 -0700
-X-CSE-ConnectionGUID: fHdp9ieCSceU83gdmgUNUQ==
-X-CSE-MsgGUID: itQRKseASZS2kESCmYFjsA==
+ bh=ET/e1zQSLNAHBMFREalWJxxiSJdwMcYsufnfC0a1jB4=;
+ b=nMmdJG+1abdJ2ZCri5jWkY1ErQ64uONvrLqV/JE7W218SMRmMs4S1Yyx
+ S+jl0wCdUSGwkKlIFUEqR42AiNFG5ynZtTri58nwo5ZpOte7CJK3SdiDz
+ pUvGpbCk6RrUQj0JMGx0TjRmModPrtFUKyxo8HSwxm+9bWHG0HfX5AWoa
+ pMndoyKwPbA2JbA882Cmie39VundCxs83qQvqXmP7/dpzVCBXVrVi9JVm
+ Y9E6kMlnxFwQjQnBg6UwbeF2ypkzHSdekJ9vrogKtJXsW4OA1PNaHG9he
+ iR8OlikIMueCgSo7IORU6bt4ov2Ox8JZYkvtwFuwrjhtYPN807QGkWTik g==;
+X-CSE-ConnectionGUID: YU+lAKIdTFi8lRTz24apFg==
+X-CSE-MsgGUID: weM2nWNDQ1S1nJXvTEUvKw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12480523"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="12480523"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 05:28:02 -0700
+X-CSE-ConnectionGUID: VARXVk0URlWu0PlRBcLJSQ==
+X-CSE-MsgGUID: 4wUXCZAhThSeiRSaKefu2w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="22306159"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="26908988"
 Received: from martakit-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.44.100])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 05:24:37 -0700
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 05:28:01 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [REBASE 5/7] drm/edid: avoid drm_edid_find_extension() internally
-In-Reply-To: <fb57c317-25ec-4001-abb4-cb52b0aff741@suse.de>
+Subject: Re: [REBASE 7/7] drm/edid: make drm_edid_are_equal() more
+ convenient for its single user
+In-Reply-To: <a2e36f83-0e5c-4a57-bf31-37665f8ece71@suse.de>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <cover.1713259151.git.jani.nikula@intel.com>
- <9fa366147b06a28304527be48f1b363c3484c8a3.1713259151.git.jani.nikula@intel.com>
- <fb57c317-25ec-4001-abb4-cb52b0aff741@suse.de>
-Date: Tue, 16 Apr 2024 15:24:34 +0300
-Message-ID: <87jzkxze9p.fsf@intel.com>
+ <1011a285d30babce3aabd8218abb7ece7dcf58a2.1713259151.git.jani.nikula@intel.com>
+ <a2e36f83-0e5c-4a57-bf31-37665f8ece71@suse.de>
+Date: Tue, 16 Apr 2024 15:27:57 +0300
+Message-ID: <87h6g1ze42.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,61 +74,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, 16 Apr 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 > Hi
 >
-> Am 16.04.24 um 11:19 schrieb Jani Nikula:
->> Prefer the EDID iterators over drm_edid_find_extension() in
->> drm_edid_has_cta_extension(), even if this leads to more code. The key
->> is to use the same patterns as much as possible.
+> Am 16.04.24 um 11:20 schrieb Jani Nikula:
+>> Repurpose drm_edid_are_equal() to be more helpful for its single user,
+>> and rename drm_edid_eq(). Functionally deduce the length from the blob
+>> size, not the blob data, making it more robust against any errors.
 >
-> Should this patch go before patch 4? That would limit the impact of the 
-> latter.
+> Could be squashed into patch 6.
 
-I can if you want, IMO not a big deal.
+Ack.
 
-> Why is this instance different than the one in 
-> drm_find_displayid_extension()? Best regards Thomas
-
-Overall I'd like to get rid of the function altogether, but I'm
-undecided what the replacement interface towards drm_displayid.c should
-be. Maybe expose the drm_edid_iter_* stuff? But I really don't want
-anyone to export and start using them in drivers.
+Thanks for the review. I'll hold of on resending these until there are
+some R-b's... I've send them a few times already with no comments. :(
 
 BR,
 Jani.
 
+>
+> Best regards
+> Thomas
+>
 >>
 >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 >> ---
->>   drivers/gpu/drm/drm_edid.c | 14 ++++++++++++--
->>   1 file changed, 12 insertions(+), 2 deletions(-)
+>>   drivers/gpu/drm/drm_edid.c | 41 ++++++++++++++------------------------
+>>   1 file changed, 15 insertions(+), 26 deletions(-)
 >>
 >> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index c29f31dcc818..4b3ad42a8f95 100644
+>> index 463fbad85d90..513590931cc5 100644
 >> --- a/drivers/gpu/drm/drm_edid.c
 >> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -4230,11 +4230,21 @@ static bool drm_edid_has_cta_extension(const struct drm_edid *drm_edid)
+>> @@ -1820,30 +1820,20 @@ static bool edid_block_is_zero(const void *edid)
+>>   	return !memchr_inv(edid, 0, EDID_LENGTH);
+>>   }
+>>   
+>> -/**
+>> - * drm_edid_are_equal - compare two edid blobs.
+>> - * @edid1: pointer to first blob
+>> - * @edid2: pointer to second blob
+>> - * This helper can be used during probing to determine if
+>> - * edid had changed.
+>> - */
+>> -static bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
+>> +static bool drm_edid_eq(const struct drm_edid *drm_edid,
+>> +			const void *raw_edid, size_t raw_edid_size)
 >>   {
->>   	const struct displayid_block *block;
->>   	struct displayid_iter iter;
->> -	int ext_index = 0;
->> +	struct drm_edid_iter edid_iter;
->> +	const u8 *ext;
->>   	bool found = false;
+>> -	int edid1_len, edid2_len;
+>> -	bool edid1_present = edid1 != NULL;
+>> -	bool edid2_present = edid2 != NULL;
+>> +	bool edid1_present = drm_edid && drm_edid->edid && drm_edid->size;
+>> +	bool edid2_present = raw_edid && raw_edid_size;
 >>   
->>   	/* Look for a top level CEA extension block */
->> -	if (drm_edid_find_extension(drm_edid, CEA_EXT, &ext_index))
->> +	drm_edid_iter_begin(drm_edid, &edid_iter);
->> +	drm_edid_iter_for_each(ext, &edid_iter) {
->> +		if (ext[0] == CEA_EXT) {
->> +			found = true;
->> +			break;
->> +		}
->> +	}
->> +	drm_edid_iter_end(&edid_iter);
+>>   	if (edid1_present != edid2_present)
+>>   		return false;
+>>   
+>> -	if (edid1) {
+>> -		edid1_len = edid_size(edid1);
+>> -		edid2_len = edid_size(edid2);
+>> -
+>> -		if (edid1_len != edid2_len)
+>> +	if (edid1_present) {
+>> +		if (drm_edid->size != raw_edid_size)
+>>   			return false;
+>>   
+>> -		if (memcmp(edid1, edid2, edid1_len))
+>> +		if (memcmp(drm_edid->edid, raw_edid, drm_edid->size))
+>>   			return false;
+>>   	}
+>>   
+>> @@ -6936,15 +6926,14 @@ static int _drm_edid_connector_property_update(struct drm_connector *connector,
+>>   	int ret;
+>>   
+>>   	if (connector->edid_blob_ptr) {
+>> -		const struct edid *old_edid = connector->edid_blob_ptr->data;
+>> -
+>> -		if (old_edid) {
+>> -			if (!drm_edid_are_equal(drm_edid ? drm_edid->edid : NULL, old_edid)) {
+>> -				connector->epoch_counter++;
+>> -				drm_dbg_kms(dev, "[CONNECTOR:%d:%s] EDID changed, epoch counter %llu\n",
+>> -					    connector->base.id, connector->name,
+>> -					    connector->epoch_counter);
+>> -			}
+>> +		const void *old_edid = connector->edid_blob_ptr->data;
+>> +		size_t old_edid_size = connector->edid_blob_ptr->length;
 >> +
->> +	if (found)
->>   		return true;
+>> +		if (old_edid && !drm_edid_eq(drm_edid, old_edid, old_edid_size)) {
+>> +			connector->epoch_counter++;
+>> +			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] EDID changed, epoch counter %llu\n",
+>> +				    connector->base.id, connector->name,
+>> +				    connector->epoch_counter);
+>>   		}
+>>   	}
 >>   
->>   	/* CEA blocks can also be found embedded in a DisplayID block */
 
 -- 
 Jani Nikula, Intel
