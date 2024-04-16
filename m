@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F7E8A66F7
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 11:20:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7982E8A66FD
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 11:20:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E06A0112B38;
-	Tue, 16 Apr 2024 09:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C487112B47;
+	Tue, 16 Apr 2024 09:20:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DFNf5TeR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HEz6Crsa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C98610FCBC;
- Tue, 16 Apr 2024 09:20:33 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2FEC112B39;
+ Tue, 16 Apr 2024 09:20:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713259233; x=1744795233;
+ t=1713259236; x=1744795236;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=aVX/KLDb5ph19KSJlUR0eMkyxqZVQdZFk2NRtwqhnSo=;
- b=DFNf5TeRC+XxM7uEj89VkjlJH8Adv70gskLFSYZ5nxK+O8dz4S4HljpD
- 6f6TLDmxeiNf9imviWN85b95odvW8DUBbpfIfoZd+/2InQ24sZhwem00u
- SIl6irmJ7KOaywAtO+QSMlDTAcUiX1yuyWwGm8XL40mtJk47NAiLTvme0
- oViKNjSO1qus/hBXc3/WylcsV1PtvX+Ye050syrI/e1eHFcRTwgaZLQYH
- s87HuxV5OJSnIYDQtKnBMf3yg/vhDwvV1Xit9ZStqxTboS7tNC+jJDpiU
- 6HJhfiFRCYlC4u4VcjL4dxFiMp7jCfzx9DHtC9eW2+kn2RrjBEePDKAIy Q==;
-X-CSE-ConnectionGUID: sVA//DhoTxujbw15feBuvw==
-X-CSE-MsgGUID: lTU4y6ZxTBmkFeHGwgUHxA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8606029"
+ bh=9z1X51hbJ2DUM6OlJFZk114S+RFqzGk3iPdtCggJM+A=;
+ b=HEz6CrsajS9iVcHkuodr2nz5xTinbDL/T8svHF9TKyv7j6Ar3uqJYd9Z
+ eR/2ERGepyh4gQCNCNq+x6GJsjMzQU/Vb3dLqlUi6t0jq0yqXVZ28wo4X
+ Rxc2mGBNeyXJvToRmqx0IXKhs0njFoBg3Pzd4TmVjZslHGaOUe1NfqnDL
+ mnu9ACXELJG8pW3e7shlgoaVYoNC4S6wnyEyD+wUoo6ge0+JIAW5nbcjP
+ AwgpPb35yX+OHNhCiUBYvEeferrPd4tC9NPVpSOj2RpKQcpr4zRoYC7K/
+ mkNVsqHxhWXX86I7UxnTOreeeG+6oPsvld8L8M/kpKDJ4rZHYJgII99zY Q==;
+X-CSE-ConnectionGUID: mbxSmQ5cSa+jJsrTKsfJ0g==
+X-CSE-MsgGUID: fPCZPNuDRD25P85K+siaoQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8908147"
 X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="8606029"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 02:20:29 -0700
-X-CSE-ConnectionGUID: tG2ZTvWVQnqomxwblTbpkQ==
-X-CSE-MsgGUID: 1i04zhOhSwCU1NyCS060ig==
+   d="scan'208";a="8908147"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 02:20:34 -0700
+X-CSE-ConnectionGUID: g3jiIdS5T7yWkZTbUN9DCQ==
+X-CSE-MsgGUID: vMeOHsWjQwSNFQEDD/Zn2g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; d="scan'208";a="22199407"
+X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; d="scan'208";a="22265937"
 Received: from martakit-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.44.100])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 02:20:29 -0700
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 02:20:32 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Jani Nikula <jani.nikula@intel.com>
-Subject: [REBASE 5/7] drm/edid: avoid drm_edid_find_extension() internally
-Date: Tue, 16 Apr 2024 12:19:58 +0300
-Message-Id: <9fa366147b06a28304527be48f1b363c3484c8a3.1713259151.git.jani.nikula@intel.com>
+Subject: [REBASE 6/7] drm/edid: make drm_edid_are_equal() static
+Date: Tue, 16 Apr 2024 12:19:59 +0300
+Message-Id: <aa79be9a5d0b08c71b82b86b5a8ff0f332e13c6a.1713259151.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1713259151.git.jani.nikula@intel.com>
 References: <cover.1713259151.git.jani.nikula@intel.com>
@@ -71,43 +71,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer the EDID iterators over drm_edid_find_extension() in
-drm_edid_has_cta_extension(), even if this leads to more code. The key
-is to use the same patterns as much as possible.
+drm_edid_are_equal() is only used within drm_edid.c. Make it static. Do
+not encourage more uses of struct edid.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 3 +--
+ include/drm/drm_edid.h     | 2 --
+ 2 files changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index c29f31dcc818..4b3ad42a8f95 100644
+index 4b3ad42a8f95..463fbad85d90 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -4230,11 +4230,21 @@ static bool drm_edid_has_cta_extension(const struct drm_edid *drm_edid)
+@@ -1827,7 +1827,7 @@ static bool edid_block_is_zero(const void *edid)
+  * This helper can be used during probing to determine if
+  * edid had changed.
+  */
+-bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
++static bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
  {
- 	const struct displayid_block *block;
- 	struct displayid_iter iter;
--	int ext_index = 0;
-+	struct drm_edid_iter edid_iter;
-+	const u8 *ext;
- 	bool found = false;
+ 	int edid1_len, edid2_len;
+ 	bool edid1_present = edid1 != NULL;
+@@ -1849,7 +1849,6 @@ bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
  
- 	/* Look for a top level CEA extension block */
--	if (drm_edid_find_extension(drm_edid, CEA_EXT, &ext_index))
-+	drm_edid_iter_begin(drm_edid, &edid_iter);
-+	drm_edid_iter_for_each(ext, &edid_iter) {
-+		if (ext[0] == CEA_EXT) {
-+			found = true;
-+			break;
-+		}
-+	}
-+	drm_edid_iter_end(&edid_iter);
-+
-+	if (found)
- 		return true;
+ 	return true;
+ }
+-EXPORT_SYMBOL(drm_edid_are_equal);
  
- 	/* CEA blocks can also be found embedded in a DisplayID block */
+ enum edid_block_status {
+ 	EDID_BLOCK_OK = 0,
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index 92fff199aa78..b085525e53e2 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -348,8 +348,6 @@ int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb);
+ int drm_av_sync_delay(struct drm_connector *connector,
+ 		      const struct drm_display_mode *mode);
+ 
+-bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2);
+-
+ int
+ drm_hdmi_avi_infoframe_from_display_mode(struct hdmi_avi_infoframe *frame,
+ 					 const struct drm_connector *connector,
 -- 
 2.39.2
 
