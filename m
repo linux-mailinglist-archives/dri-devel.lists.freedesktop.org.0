@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224B58A6C1E
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 15:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B858A6C23
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 15:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3651110EF76;
-	Tue, 16 Apr 2024 13:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB7CE10EE1C;
+	Tue, 16 Apr 2024 13:23:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e91JNLcb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BYpkng3w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E590410EF76
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 13:23:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A955A112C93
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 13:23:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713273788; x=1744809788;
+ t=1713273792; x=1744809792;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=x6jfXcFRBti7KkgtfDl0XTo9aIOmY0FStdfCBjx7DUc=;
- b=e91JNLcbgFwPz7s+S5K6o1ju0/1D2jX1y0aUBReyfD56Tfbmt0dgaI+x
- rgb1xfaUrFtWz6s9xFv+JIBHIhe2UNYQX4rtvceCF628nl/qxhpyG6ilB
- grZ8gk2IyKcLpStWUTXVuHwtt4pWsgx3TPVppadlEW1gbISFMUIC13Tmg
- ZAn7OCeZMxlsYa+kDsVUQ+Fr2kDT3MRfP1NNBmdYhLeI6fdbmSqisFv1D
- pNqFyI57Xnvn35UwNoKJgNv/z0x82uXmx1G/v/N5VGQfqDl9WoQTWv2J3
- zXYqfnGr7eplNzynJnU7vFgtso2Y59pRDZJbBmcdVqYW8XZB+Z5DATirF Q==;
-X-CSE-ConnectionGUID: St+0WYmRTl+n0APRkTdlUQ==
-X-CSE-MsgGUID: AgTszLhLSequDhVNL2IZyw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8571735"
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="8571735"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 06:23:08 -0700
-X-CSE-ConnectionGUID: RZ3RKF8gQaSfe64ZnDVnrg==
-X-CSE-MsgGUID: xxkEhbmFSTWJcooAB7if5w==
+ bh=/2eyRN2tFOLOyGvhEuQRmqO9TN7u+bw4aPtw6GuWg3U=;
+ b=BYpkng3wti55Bdyv+eODdXv16Q1OypccrQk7oxMspl4zsIC0uiYPIlhy
+ fpWgx+g2g5EN5fiU1UWz3JZT/gYgFpStScNm0cAAaE4NWY+9OCX3Hq9ql
+ daSqbZ2zKzrvF+Ck+Qe2bsED5D5LTe1EIcpdfKkDGeUm0EIHuvV69GHMP
+ 9tDrpx+tAhE7PSAOUoqyjzxwfMS2n18PIWP7LRYQMbT/SUUNyeMgboTgz
+ qduOZuzGnAFTqByJNJqnhjJdcwlKVEuoN+9BF/Hi210zFofwLWz+dTtsK
+ ntp6KP7l7SVFxcGej2j30965ccMvBgmqBa5W5SGcrJgw3Xqkns7A+44sQ Q==;
+X-CSE-ConnectionGUID: fFh/Yi0PQDOBiL0Wuq8yvw==
+X-CSE-MsgGUID: ct2/rS5yRo+xEcm5Oxwn2Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="26169403"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="26169403"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 06:23:12 -0700
+X-CSE-ConnectionGUID: j7l4fJUrS0qkac29SAAxOQ==
+X-CSE-MsgGUID: WNNQxbfKR8mu2nwlEMbMyA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="53438742"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="26929228"
 Received: from martakit-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.44.100])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 06:23:04 -0700
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 06:23:10 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: [PATCH 06/15] drm/sun4i: hdmi: switch to struct drm_edid
-Date: Tue, 16 Apr 2024 16:22:20 +0300
-Message-Id: <0967dde8ae35cd58ab8ea58397d514bb9df29fd1.1713273659.git.jani.nikula@intel.com>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 07/15] drm/vc4: hdmi: switch to struct drm_edid
+Date: Tue, 16 Apr 2024 16:22:21 +0300
+Message-Id: <eabece3ca7fae28395dcad0d2c221113cd924180.1713273659.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1713273659.git.jani.nikula@intel.com>
 References: <cover.1713273659.git.jani.nikula@intel.com>
@@ -80,51 +78,99 @@ Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
 
 Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 46 ++++++++++++++++++----------------
+ 1 file changed, 25 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 2d1880c61b50..245b34adca5a 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -214,20 +214,24 @@ sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 5f8d51b29370..d30f8e8e8967 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -412,15 +412,14 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+ 				    enum drm_connector_status status)
  {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
+ 	struct drm_connector *connector = &vc4_hdmi->connector;
 -	struct edid *edid;
 +	const struct drm_edid *drm_edid;
  	int ret;
  
--	edid = drm_get_edid(connector, hdmi->ddc_i2c ?: hdmi->i2c);
+ 	/*
+-	 * NOTE: This function should really be called with
+-	 * vc4_hdmi->mutex held, but doing so results in reentrancy
+-	 * issues since cec_s_phys_addr_from_edid might call
+-	 * .adap_enable, which leads to that funtion being called with
+-	 * our mutex held.
++	 * NOTE: This function should really be called with vc4_hdmi->mutex
++	 * held, but doing so results in reentrancy issues since
++	 * cec_s_phys_addr() might call .adap_enable, which leads to that
++	 * funtion being called with our mutex held.
+ 	 *
+ 	 * A similar situation occurs with vc4_hdmi_reset_link() that
+ 	 * will call into our KMS hooks if the scrambling was enabled.
+@@ -435,12 +434,16 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+ 		return;
+ 	}
+ 
+-	edid = drm_get_edid(connector, vc4_hdmi->ddc);
 -	if (!edid)
-+	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc_i2c ?: hdmi->i2c);
++	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
 +
 +	drm_edid_connector_update(connector, drm_edid);
-+	cec_s_phys_addr(hdmi->cec_adap,
++	cec_s_phys_addr(vc4_hdmi->cec_adap,
 +			connector->display_info.source_physical_address, false);
 +
 +	if (!drm_edid)
+ 		return;
+ 
+-	cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
+-	kfree(edid);
++	drm_edid_free(drm_edid);
+ 
+ 	for (;;) {
+ 		ret = vc4_hdmi_reset_link(connector, ctx);
+@@ -492,28 +495,29 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+ 	struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
++	const struct drm_edid *drm_edid;
+ 	int ret = 0;
+-	struct edid *edid;
+ 
+ 	/*
+-	 * NOTE: This function should really take vc4_hdmi->mutex, but
+-	 * doing so results in reentrancy issues since
+-	 * cec_s_phys_addr_from_edid might call .adap_enable, which
+-	 * leads to that funtion being called with our mutex held.
++	 * NOTE: This function should really take vc4_hdmi->mutex, but doing so
++	 * results in reentrancy issues since cec_s_phys_addr() might call
++	 * .adap_enable, which leads to that funtion being called with our mutex
++	 * held.
+ 	 *
+ 	 * Concurrency isn't an issue at the moment since we don't share
+ 	 * any state with any of the other frameworks so we can ignore
+ 	 * the lock for now.
+ 	 */
+ 
+-	edid = drm_get_edid(connector, vc4_hdmi->ddc);
+-	cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
+-	if (!edid)
++	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
++	drm_edid_connector_update(connector, drm_edid);
++	cec_s_phys_addr(vc4_hdmi->cec_adap,
++			connector->display_info.source_physical_address, false);
++	if (!drm_edid)
  		return 0;
  
- 	DRM_DEBUG_DRIVER("Monitor is %s monitor\n",
- 			 connector->display_info.is_hdmi ? "an HDMI" : "a DVI");
- 
 -	drm_connector_update_edid_property(connector, edid);
--	cec_s_phys_addr_from_edid(hdmi->cec_adap, edid);
 -	ret = drm_add_edid_modes(connector, edid);
 -	kfree(edid);
-+
 +	ret = drm_edid_connector_add_modes(connector);
 +	drm_edid_free(drm_edid);
  
- 	return ret;
- }
+ 	if (!vc4->hvs->vc5_hdmi_enable_hdmi_20) {
+ 		struct drm_device *drm = connector->dev;
 -- 
 2.39.2
 
