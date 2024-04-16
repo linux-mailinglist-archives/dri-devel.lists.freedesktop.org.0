@@ -2,80 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33348A6B20
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 14:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D7B8A6B29
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 14:36:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFFB2112C38;
-	Tue, 16 Apr 2024 12:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5605112C3C;
+	Tue, 16 Apr 2024 12:36:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JKiqqro5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NmcVaX9i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B77E112C38
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 12:36:15 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA00112C3C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 12:36:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1713270975;
+ s=mimecast20190719; t=1713271006;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4E2yQzFw0tRwPq3m+OASOzA8/elGwcx9OxMy90Dldfc=;
- b=JKiqqro5zZTHyqB/9EnnlLKBpW8tkpfi+W+OIjVKZVS9oILcqc90/NYeb7TAiXlYXetIPV
- zs58qNemEfvejtZ59z2aCa7lZsO8ysBAyPq5LUkLEsZGIZn5VZ+Jp6ItoUIuSPhQc8ixyb
- G1CBqOK9nVWxGlqfn+b9DEoV1x2GDdY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fzdzmaQpsP6qFq57RDebOQTXPO8ko95PIygsDfOUjtE=;
+ b=NmcVaX9iElXZCR+/SyHYz2SO7KfLVhCXzSyYJRkBwfDUbdBBhDmMI2C/tHaA4yG7R6mJMX
+ 563ZmHRCgzcVFZ0tzM5Zd7+And4rGfLWxwhGhVJxfYAHhVMWPo8/nPt/eBEK/9guca4LWw
+ 5BSnzxO0PejsQ1S3+/hddVo36gTKG5k=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-488-kEJhbhE7NTSKSX58rQ4m4A-1; Tue, 16 Apr 2024 08:36:11 -0400
-X-MC-Unique: kEJhbhE7NTSKSX58rQ4m4A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-34619c30076so3051780f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 05:36:11 -0700 (PDT)
+ us-mta-561-0cR3URPSPVqeNszWNzE8Kg-1; Tue, 16 Apr 2024 08:36:45 -0400
+X-MC-Unique: 0cR3URPSPVqeNszWNzE8Kg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4183d08093bso10778715e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 05:36:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713270970; x=1713875770;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4E2yQzFw0tRwPq3m+OASOzA8/elGwcx9OxMy90Dldfc=;
- b=XzhBDAxZf7mEyLBoOP3aHkmpV4fE+sqGwDUy5jjCqX6LG6sfUegOCgWTH01Q+VYnWi
- so7JaqITbMCRaxZKUU8ldaZlRBtfFq7IfDTRZszn5Zp8g+J6N9wvMMmKP5hBo1lflHVq
- vYREpelI1ge1CYDZS75pD9jinjt+rurYrH5KMv6PmVf6oQyCqjkMnlH+ngOopcxRm20H
- ZPjx8lxPC+YGZxFZWWCPHg/AooSAQzrqKFJ1Guh0AQehLsC9vFcyzld1aTGZ80jaT198
- D42nlNb6OSFgIrSdJpsZJViznBorByI7IYIMJB/Dk3/e+UGzCZylLxBws6sLWtfnUiWH
- RdTg==
-X-Gm-Message-State: AOJu0YwxuDK8bbOagIkBL4CprKf0gwp4us5Ot9KWCu2yQQY2Q8eE3+Jg
- /2F9DoR0AlNDl5lRU7TlVgV1PhKMQgxHFl9v45r+dsbVLJBBLfTLpBXajuhk0IteIe6Bo+0DKxs
- dY+fQJ8QYq4MjOVIGb9NIMzib4bvFz5bvUy7jY3VkcoqA4hB4fixiNaqu0WjI/IOCwQ==
-X-Received: by 2002:a5d:6483:0:b0:347:9c4d:4e19 with SMTP id
- o3-20020a5d6483000000b003479c4d4e19mr5575583wri.70.1713270970428; 
- Tue, 16 Apr 2024 05:36:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEOjnBD9YZr1IuDPEzQiyEvL0p/5MKtQssuqlXB/PTv8G5ulknmrqVK8CVSXBSXhre1om5ezg==
-X-Received: by 2002:a5d:6483:0:b0:347:9c4d:4e19 with SMTP id
- o3-20020a5d6483000000b003479c4d4e19mr5575568wri.70.1713270970085; 
- Tue, 16 Apr 2024 05:36:10 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1713271004; x=1713875804;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fzdzmaQpsP6qFq57RDebOQTXPO8ko95PIygsDfOUjtE=;
+ b=NU3XaTQ/ZmE51vBiRoC9GNcN1oxW3UqpD0dTaqwn+kRhBXL0a/MX2FwvCnswM1+Eeg
+ z7wVEkIYuPtmd+UkWHoiNp4+ty8doXW3McVshqRbAFwfAfOXxeiKVuaWSGL17hqt/5Sr
+ l+GoPtlYTBLkXe4DAJJNfZnlgEnlXTDBAdpzH2hSDJ8lk5GPFd00gF9KmkpSmUXAJYrO
+ V8rCNmovP9gEkJUyCYkenBLynpOnAkaphHFrzL9YGf3oCTE179jzsYDeTLa9fuFA3Qjc
+ 5EfCfsg6529nFhtHIfnk1CGuPkiQZzId2+Ko9/CrUfA7EwgazLBc6KhanRYukSDgIzk9
+ 0MOw==
+X-Gm-Message-State: AOJu0Yz/AwIWO0rGgh4IVEaGtFVhtgcOCetoJlmn538ISBWrwjEwztfO
+ pRFp97LsiDSm99UO18tthQegQoDvM6TYLtfPh+dMZF7kaRFUOr+MNZXpMgDe5e8x5XzX53DMVSq
+ SvCZG3rKdIm400qwK7E7SiIYbNZkgH+MHSnJwK3EiAeBCrwR1T6ON8N6MDAe1WwZp74/Fb8Zj6w
+ ==
+X-Received: by 2002:a05:600c:35ca:b0:416:8091:a39e with SMTP id
+ r10-20020a05600c35ca00b004168091a39emr10783138wmq.10.1713271003735; 
+ Tue, 16 Apr 2024 05:36:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFaadVrQyFNMHCnMTbyWE2LjjeIhfUT4D+QboertmyRjaD6xw/Yym7WIMwNnFYiLJ2zSjeUyw==
+X-Received: by 2002:a05:600c:35ca:b0:416:8091:a39e with SMTP id
+ r10-20020a05600c35ca00b004168091a39emr10783127wmq.10.1713271003372; 
+ Tue, 16 Apr 2024 05:36:43 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- x9-20020adfcc09000000b0034997769ae4sm438219wrh.15.2024.04.16.05.36.09
+ dl5-20020a0560000b8500b00345fb949c28sm14748889wrb.100.2024.04.16.05.36.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Apr 2024 05:36:09 -0700 (PDT)
+ Tue, 16 Apr 2024 05:36:43 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
  airlied@gmail.com, daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, Thomas
- Zimmermann <tzimmermann@suse.de>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 27/43] drm/panel/panel-ilitek-9341: Use fbdev-dma
-In-Reply-To: <20240410130557.31572-28-tzimmermann@suse.de>
+ Zimmermann <tzimmermann@suse.de>, Sandy Huang <hjc@rock-chips.com>, Heiko
+ =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan
+ <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v2 31/43] drm/rockchip: Use fbdev-dma
+In-Reply-To: <20240410130557.31572-32-tzimmermann@suse.de>
 References: <20240410130557.31572-1-tzimmermann@suse.de>
- <20240410130557.31572-28-tzimmermann@suse.de>
-Date: Tue, 16 Apr 2024 14:36:08 +0200
-Message-ID: <87mspt5vt3.fsf@minerva.mail-host-address-is-not-set>
+ <20240410130557.31572-32-tzimmermann@suse.de>
+Date: Tue, 16 Apr 2024 14:36:41 +0200
+Message-ID: <87jzkx5vs6.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,19 +98,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
 > Implement fbdev emulation with fbdev-dma. Fbdev-dma now supports
-> damage handling, which is required by panel-ilitek-9341. Avoids
-> the overhead of fbdev-generic's additional shadow buffering. No
-> functional changes.
+> damage handling, which is required by rockchip. Avoids the overhead of
+> fbdev-generic's additional shadow buffering. No functional changes.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: "Heiko St=C3=BCbner" <heiko@sntech.de>
+> Cc: Andy Yan <andy.yan@rock-chips.com>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
--- 
+--=20
 Best regards,
 
 Javier Martinez Canillas
