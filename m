@@ -2,47 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F218A6525
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 09:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C334A8A6556
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 09:44:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F8D10EEFB;
-	Tue, 16 Apr 2024 07:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B2D810ED5F;
+	Tue, 16 Apr 2024 07:44:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="fLbbpvtq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RmBY2CeL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABA4310EEFB;
- Tue, 16 Apr 2024 07:31:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1713252675;
- bh=eOK/bCV7IyfygWV9u4shyKXmqc9QPsYNWN/ruKFTjn0=;
- h=Date:From:To:Cc:Subject:From;
- b=fLbbpvtqB5ohUbohD+5h0tTJFVqVyLEOJdJziboW0356r5MKQEkZqAbhfp1clFcey
- +LFSNWb/hV47tZfyzxiREouTRd8su67dnHBgW0YXkQp+6EQIRAImVZHmcSYOXOy6Sy
- XY1P4Oah3eKDhVuyBtMAD7Z4vNJIOReRqUCfFddPv2tFC29c1RjnZZBPJKbydbUUw7
- dIA4aYJTpwDvp6VwKYJgau6N4GkEOtNrqv3njMgYDwG4+AlfBn+zDp7VrZ93GoFNKa
- VHsbVO+3AHpfc4t+3/DDIzDEompn2pt96XO+efd7SziDDnB3lbNp4MyEe/CXJ/m3CL
- gpdwArMAPLmDA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4VJbLp6YNdz4wnv;
- Tue, 16 Apr 2024 17:31:14 +1000 (AEST)
-Date: Tue, 16 Apr 2024 17:31:12 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build warnings after merge of the drm-misc tree
-Message-ID: <20240416173112.04579e40@canb.auug.org.au>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B06610EE83;
+ Tue, 16 Apr 2024 07:44:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713253460; x=1744789460;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=K1q1+4LndZnbflXCqVazF7Av2lnURkJBr8LQJjdOjes=;
+ b=RmBY2CeL7bFnulD6F4Z+tpbYroJZ6l37Jz8UHiGH+zeUY7Wl1L5EnK8P
+ bfCX1GVWvIOi3jLkU4mdW1iC6bp7MuXnOZyFzv6Q5eTTpwYLri8FBhCVL
+ cJ4dKRpqG8sTN+BkjE4+nS+ol77ODDo5EbQatFG+xvNqssffg5/I/XPc8
+ vBuVmJCJdXqciMzYcoxNO0PX6q4xvCBra8Ie+Zs+2lfQBNhTBJ4KvGToy
+ AT4iRBk6YR+F2uP9lSDyK8Bkf1G54k7jzC5t37t+j/9pflo7F29Pqv2j1
+ JzwBG6BUEL6F2slsr0vXzD6OJty5yeJqo5Q05qMiYsch9Eu+3DVll3YKF Q==;
+X-CSE-ConnectionGUID: ju2DKAjcTVC5PZJqN42OkQ==
+X-CSE-MsgGUID: teBeI2LOQiCGH/CYthk4NA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12452333"
+X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; d="scan'208";a="12452333"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 00:44:15 -0700
+X-CSE-ConnectionGUID: 6NrNlSPoT6y8Y6E+T9WTwQ==
+X-CSE-MsgGUID: wfA0atppRRGA9vkY6ucx9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; d="scan'208";a="22073048"
+Received: from martakit-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.44.100])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Apr 2024 00:44:12 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>, Armin Wolf <W_Armin@gmx.de>
+Cc: intel-gfx@lists.freedesktop.org, Badal Nilawar
+ <badal.nilawar@intel.com>, Andi Shyti <andi.shyti@intel.com>, Ville
+ =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ linux-hwmon@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/i915/hwmon: Get rid of devm
+In-Reply-To: <857cgyt0iv.wl-ashutosh.dixit@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240415223612.738535-1-ashutosh.dixit@intel.com>
+ <020612d1-2e6b-4bd7-87a6-dbd31574fdd8@gmx.de>
+ <857cgyt0iv.wl-ashutosh.dixit@intel.com>
+Date: Tue, 16 Apr 2024 10:44:09 +0300
+Message-ID: <87wmoxzr92.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/jKM7rW28KcV_xG8kmBaV5Jf";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,45 +73,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/jKM7rW28KcV_xG8kmBaV5Jf
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, 15 Apr 2024, "Dixit, Ashutosh" <ashutosh.dixit@intel.com> wrote:
+> On Mon, 15 Apr 2024 16:35:02 -0700, Armin Wolf wrote:
+>>
+>
+> Hi Armin,
+>
+>> Am 16.04.24 um 00:36 schrieb Ashutosh Dixit:
+>> > @@ -818,10 +818,10 @@ void i915_hwmon_register(struct drm_i915_private *i915)
+>> >	hwm_get_preregistration_info(i915);
+>> >
+>> >	/*  hwmon_dev points to device hwmon<i> */
+>> > -	hwmon_dev = devm_hwmon_device_register_with_info(dev, ddat->name,
+>> > -							 ddat,
+>> > -							 &hwm_chip_info,
+>> > -							 hwm_groups);
+>> > +	hwmon_dev = hwmon_device_register_with_info(dev, ddat->name,
+>> > +						    ddat,
+>> > +						    &hwm_chip_info,
+>> > +						    hwm_groups);
+>> >	if (IS_ERR(hwmon_dev)) {
+>> >		i915->hwmon = NULL;
+>>
+>> you need to free hwmon here, since it is not managed by devres anymore.
+>
+> Thanks a lot for catching this, I had missed it in v2, it's fixed in v3. I
+> am actually reusing i915_hwmon_unregister() for error unwinding in v3.
+>
+>>
+>> >		return;
+>> > @@ -838,10 +838,10 @@ void i915_hwmon_register(struct drm_i915_private *i915)
+>> >		if (!hwm_gt_is_visible(ddat_gt, hwmon_energy, hwmon_energy_input, 0))
+>> >			continue;
+>> >
+>> > -		hwmon_dev = devm_hwmon_device_register_with_info(dev, ddat_gt->name,
+>> > -								 ddat_gt,
+>> > -								 &hwm_gt_chip_info,
+>> > -								 NULL);
+>> > +		hwmon_dev = hwmon_device_register_with_info(dev, ddat_gt->name,
+>> > +							    ddat_gt,
+>> > +							    &hwm_gt_chip_info,
+>> > +							    NULL);
+>> >		if (!IS_ERR(hwmon_dev))
+>> >			ddat_gt->hwmon_dev = hwmon_dev;
+>> >	}
+>> > @@ -849,5 +849,26 @@ void i915_hwmon_register(struct drm_i915_private *i915)
+>> >
+>> >   void i915_hwmon_unregister(struct drm_i915_private *i915)
+>> >   {
+>> > -	fetch_and_zero(&i915->hwmon);
+>> > +	struct i915_hwmon *hwmon = fetch_and_zero(&i915->hwmon);
+>>
+>> Why is fetch_and_zero() necessary here?
+>
+> As mentioned, in v3 i915_hwmon_unregister() itself is used for error
+> unwinding so we need to prevent multiple device_unregister's etc. That is
+> the purpose of setting i915->hwmon to NULL. But even earlier, though it is
+> not obvious, i915_hwmon_unregister() is called multiple times. So e.g. it
+> will be called at device unbind as well as module unload. So once again we
+> prevent multiple device_unregister's by setting and checking for NULL
+> i915->hwmon.
 
-Hi all,
+IMO it's more obvious to set i915->hwmon to NULL separately.
 
-After merging the drm-misc tree, today's linux-next build (htmldocs)
-produced these warnings:
+BR,
+Jani.
 
-drivers/gpu/drm/drm_fb_dma_helper.c:166: warning: Excess function parameter=
- 'drm_scanout_buffer' description in 'drm_fb_dma_get_scanout_buffer'
-drivers/gpu/drm/drm_fb_dma_helper.c:166: warning: Function parameter or str=
-uct member 'sb' not described in 'drm_fb_dma_get_scanout_buffer'
-drivers/gpu/drm/drm_fb_dma_helper.c:166: warning: Excess function parameter=
- 'drm_scanout_buffer' description in 'drm_fb_dma_get_scanout_buffer'
+>
+>>
+>> > +	struct hwm_drvdata *ddat = &hwmon->ddat;
+>> > +	struct intel_gt *gt;
+>> > +	int i;
+>> > +
+>> > +	if (!hwmon)
+>> > +		return;
+>> > +
+>> > +	for_each_gt(gt, i915, i) {
+>> > +		struct hwm_drvdata *ddat_gt = hwmon->ddat_gt + i;
+>> > +
+>> > +		if (ddat_gt->hwmon_dev) {
+>> > +			hwmon_device_unregister(ddat_gt->hwmon_dev);
+>> > +			ddat_gt->hwmon_dev = NULL;
+>> > +		}
+>> > +	}
+>> > +
+>> > +	if (ddat->hwmon_dev)
+>> > +		hwmon_device_unregister(ddat->hwmon_dev);
+>> > +
+>> > +	mutex_destroy(&hwmon->hwmon_lock);
+>> > +	kfree(hwmon);
+>> >   }
+>
+> Thanks.
+> --
+> Ashutosh
 
-Introduced by commit
-
-  879b3b6511fe ("drm/fb_dma: Add generic get_scanout_buffer() for drm_panic=
-")
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/jKM7rW28KcV_xG8kmBaV5Jf
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmYeKUAACgkQAVBC80lX
-0Gw/Ugf9GCtTwfsqYN6Q9KQJP18BmL2JZH5PKYqdWlunZ5miF5JWklZFbmtc/c+y
-3OSqOq9JJEQYZjENLc8JuaiRfljIzOWXa8rDPY5ozXTIRaJYaWcEJcBeoQtkgUvM
-fyfM6hxh6NvtxZ+m4p5UxPt+rJloNc/I2QADH91xkLzD2SaXBR7Cby35sSj37K3S
-SVx52L7Kia/A3DCb6QRzYEBPvY+waP2geLe+UJk8e049itVjYFvzV9bZjT0phRj1
-dMZ+KraFIktK8AhJsi5Z9HdKi8liTgfxMMMMGgioR6OZ+ZxMPU/IdfFLuY6xDKap
-sIzKNEQ3ExRB1BpsOZoRKA/EXx0FTg==
-=NNr4
------END PGP SIGNATURE-----
-
---Sig_/jKM7rW28KcV_xG8kmBaV5Jf--
+-- 
+Jani Nikula, Intel
