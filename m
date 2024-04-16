@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780108A7052
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 17:53:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7442C8A7054
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 17:54:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 168C1112D2B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3A3112D2F;
 	Tue, 16 Apr 2024 15:53:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="rGR9RYSR";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WJ3gEgYx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E54BE10F19B
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 15:53:44 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-a526d0b2349so289336066b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 08:53:44 -0700 (PDT)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8C4C10F199
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 15:53:46 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-570097653faso3256609a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 08:53:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713282823; x=1713887623;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713282825; x=1713887625;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=nGhN4tMDnWFook0es8LuAXt5ZA9TrdmyBXYcCQvtS3Y=;
- b=rGR9RYSR45I13Wp8H9pGyMHkIGaODCI9Jx9DcRM9g4o85dvIjx7wsNpyH9pud+Hx4M
- KBdcTI4vEDgSE0T3MCHTdsjQ7sDUQRE05Xv3Ubv4BWM9X1d4GotDAkIkI1SVopRPc8HX
- QahcnraKnempLRNdSNwSCtMPKM9o4Ay10/8hLAC+33ZruZKEZJtUt8XtyvhEFIymK6rQ
- SfdHAHlCFp80JXQwS6lhH+INVBqKGqrCEChkOH+MvtiGF7nqsY4WcPFx6GZPbTYIEi7I
- IgKPSRb6gGcW2XNsFWt/ID+zv4Rvlu4pqyNm+DfDD88aFcyOZFRWfXjLOZIxt3F2K1rF
- hqww==
+ :reply-to; bh=6ngpZb20B2h9Qc9IbX5I/ZiczUNGoVVnils8jWsBLdA=;
+ b=WJ3gEgYxMC0tRCR9LA9fibWLHhKWk8dvc/dkfLxd+Y89czK3VBmSGneT058UKze0co
+ p8WK+l3PL204ITSwHvFm6xwBWdcaG/tTOq6nuy+fsWo5YXo56RwoOXG8wCi24h0O56wF
+ AlWdK27f7mcnVRlcGPaclVXc7n/q6P7S2sMf53QEbjW2jQ5T6i9LaMCCHRv2FM1+QKu8
+ sqOY0DKmQuUxRG0cmjpHJYfMaikLwjB0TvBJsPncItQD/WUvAfCP2CNS4wFFLGYF59FL
+ tXGRsWcsnujv7I0cbFe17gLJNyexo2SCW6G9UPK8K7h62A48vel3nPQAai1dErRClrFz
+ ghmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713282823; x=1713887623;
+ d=1e100.net; s=20230601; t=1713282825; x=1713887625;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nGhN4tMDnWFook0es8LuAXt5ZA9TrdmyBXYcCQvtS3Y=;
- b=fEyhwo5AmawlgntOeKy7TFU4/4IHFj/T0k1+Y171dnxXYPoAesVJoWfpcWfLQnt+ND
- 91/JRKcJTet2qioaHANnIU19KCDwumr+St/c3aRZM5fKoqU3BEuKxmVQ/27fXYeiQyKC
- Hcoe7itKSILSEy9Kbb5reX54koLl7xVZ8y40o4PVm4HhN0JESJKXeHGLXD1I3amzYaIE
- 3KHVsfaSIbXl1kbrbMny0/Xm0wsUvLfX5bqk3d4+3ug2YXFwbTaBkIeG5za1Ep5uWn4M
- vAU6M2dX8R5xzf1S2JinHq/aK41Tv6N3dlN4HVJf14eX22tY2J2hZ0BfIUIgYugODdzz
- KrdA==
-X-Gm-Message-State: AOJu0Yy93Wjuq3iGVEvhLwG30fsdqoZr/aIdSycdmLugwe/eunEybMBA
- LjkyGYJ8O59FBjBvbHbjYxQxQWp35kkjcYdBJ4tseaEEp+uGqgtqG+HD8JkLr5M=
-X-Google-Smtp-Source: AGHT+IHE3IMPQIqSmq6KIJpD1JErkwc/ZC6yokArJ+CPVqxWkiFzKoESqoTqA+wQ8DzRyw7HJwxPgA==
-X-Received: by 2002:a17:906:815:b0:a51:ff7e:7a7 with SMTP id
- e21-20020a170906081500b00a51ff7e07a7mr7894409ejd.31.1713282823327; 
- Tue, 16 Apr 2024 08:53:43 -0700 (PDT)
+ bh=6ngpZb20B2h9Qc9IbX5I/ZiczUNGoVVnils8jWsBLdA=;
+ b=FGEft13QiVKXx+Hwgnfg6ftsK1phL76dkOeVB9PPqACqPIJz1Zgeg6ZYPWA4HV4gPL
+ xoicxhaPkcl1gcRkMmkIfi4HMtKzPGrNAfifaffWocHXRAJUJapUhdCkNL3J8mLmuuqH
+ wKd47Zn3HwDjt9/aEsvwZa8pNJx31SDoqMxiCJl48IZDAYbLwiOwBZksqajE5YGA+Tpq
+ K5iBfI5xnTJGqcHy+OMRPy0quJXdDMRhdaVZzwSnamlggj4Pm0chijQvgazXSpTO/O5i
+ 0mwLa3m0WJXCC3Nwz9HE7728UP5NMLND40d4uI5GXApYoy1b8cq+vhJbWtWNopx8krk8
+ 54+Q==
+X-Gm-Message-State: AOJu0YwPOVkgZ/4vMG0l7IF6IUm/YSvx6pEScw8PFu9W53uPVPl+4XAu
+ 010vhuN/rGhGPVCfVcurhe21jbatxUMlt5XhttF4P/4N4v6kPFB83dCKDCR2TVY=
+X-Google-Smtp-Source: AGHT+IHS8gkjj052p63IxLAZQoDwSNpts+GSvD3Ttdv8alHt/Cx4qP4IbNw7Ik0JeHFuC8d5NxqZ8A==
+X-Received: by 2002:a17:906:70b:b0:a52:6e54:1c96 with SMTP id
+ y11-20020a170906070b00b00a526e541c96mr3885284ejb.15.1713282825054; 
+ Tue, 16 Apr 2024 08:53:45 -0700 (PDT)
 Received: from [127.0.1.1] ([93.5.22.158])
  by smtp.googlemail.com with ESMTPSA id
- d12-20020a170906174c00b00a52567ca1b6sm4156691eje.94.2024.04.16.08.53.41
+ d12-20020a170906174c00b00a52567ca1b6sm4156691eje.94.2024.04.16.08.53.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Apr 2024 08:53:42 -0700 (PDT)
-From: amergnat@baylibre.com
-Date: Tue, 16 Apr 2024 17:53:16 +0200
-Subject: [PATCH v2 15/18] drm/mediatek: add MT8365 SoC support
+ Tue, 16 Apr 2024 08:53:44 -0700 (PDT)
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Date: Tue, 16 Apr 2024 17:53:17 +0200
+Subject: [PATCH v2 16/18] arm64: defconfig: enable display connector
+ support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231023-display-support-v2-15-33ce8864b227@baylibre.com>
+Message-Id: <20231023-display-support-v2-16-33ce8864b227@baylibre.com>
 References: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
 In-Reply-To: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -81,23 +82,22 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org, 
- linux-clk@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>, 
- Fabien Parent <fparent@baylibre.com>
+ linux-clk@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2801; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=693; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=r/rf6DH3u4/RIc/AgVSnOwA+TJLknIEXoBhT9allVNg=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmHp7qMFH+7sfSqeWLXOz/HUS4LGcd89tLTKMjKVO/
- 0NzGpSWJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZh6e6gAKCRArRkmdfjHURYmZD/
- 92TsXLF05lBYvoV/0KqLPJzeJU4k+zDii6If4+OxnLLmQj/rTZQICYhBS+7EDJmQzZfqau6EvpxklL
- iWd4cz9FNDLn97xOw8qS6XS7a+gZdP0YKxg2ifs0+suc6UKmw//n26Hq5MhL7y1pwebRsv9RV2OqxG
- jeuC5azqD53hm3WT5KLxS3LHpH+6f63na1tFgZnY34Sevc7Q5/E9gUVCjV9K79Nh4Rj3Ai5YLtUKFE
- fUp8KD44okwab+ALRkWRrQocbXZITXD7q7+eAvwDJ+ZchHPpv9mi45qbuPIdm3CMQ0yqzy3ohLfg+I
- NbmgIpXCC9E4dry6GEbCiEGi+C4S0YSx/0skFgKVYWdMXekpAYkZXhoxPVQhXc56tiuWYxUCRo/UE1
- ARFQbEja65OF7bPPtE5ga46JcEX7AGNIC+ycAKk9TMzA5+rEyzIjAeMFydRrRwBRENYVg4/83Ji3eS
- E+uMdRQQAjxOxN6hCvuyBo8U/q+mfMAZjMz5I9J6u0nqkqeUGMBJwJMSeaKPYiljCQMnPmpjb0mdTJ
- +gOUCPWxYPVbdeNBZHFiosO1ZMDPdz3vkybZ6OnMqX3YBuuVgvBKaznDvvayRiqD0T9seflYAXLcuS
- IkqmHyuBsh9Cx/edcgOveyIcGywpSXm94jO2vKGVQpPm/LEJlbJVw/xhIAcQ==
+ bh=woF6NgCy9sWp4jU9xhCym7WDVQPI/tzmO1lBDEzOVXQ=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmHp7qIwtSSbyVpXRpUFOdzU8YlXuq4amJoGc3u/12
+ S1MzvACJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZh6e6gAKCRArRkmdfjHURd5DEA
+ CxggRzPxIw7OeYNeMDqJ2rnFJ5h7mlJ9X2EP80Dokttj2mIP4Bk+vPXL/6hYoAmzTjqzWSaiekP1h5
+ a2SWzg4kNXkdFyooQxYqwPPXjeM0+sJETbmIWw6c8v2ePq8ZYCsJmKO1bqaI99a3OLVwRA1G2jlrIl
+ zzBJe4HOehi4zwzV4FFxaDRznY1+sPKrT7fNcham2SDvEeoI5flZvTAm3j1hKMYVO049HUWJ1pNTZo
+ dLFiwMlTUHLQJvdFuuzahgPAk3UgJkTW8BVqGDf9vA3wcnlfDrVostJvktfroFrgFd56zqvGUgVJza
+ mH2J4qvmYVlaz5wiQZdgtgN8BGQopSjvQCwFacVTz98+UdmmNmEjxp3SC79KGYJdUSZDfLcWORGlzy
+ gLkB6ZuHZSJI+y/CEXRz8bdVfKFoYCGZsYx5z0WcRQginyxYUzPd/NOofzxfd6sxeXLE9DJZyrDAgX
+ TObwzMlqvAes96Z5e1PUy/juWu9QKPIZmGCNFfjdo/0dpKzTSRI+14BTGvPULQhxrrdu57vJLFVeuR
+ MleDRGDahrsn6feV2eDPRhMHNTWBLMGuP10Nr7V6N9yHirzp/jJK5ZIB1ibq0LWVgLH7KSvKmxFiKL
+ uwHmdBqyhnNhKh7m6Dt/emc6Hcusn/f0ocbUSLIHNvWwDZsIU4b6ngOBc1kw==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,86 +115,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabien Parent <fparent@baylibre.com>
+Enable this feature for the i350-evk HDMI connector support.
 
-Add DRM support for MT8365 SoC.
-
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 74832c213092..427b601309c4 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -230,6 +230,22 @@ static const unsigned int mt8195_mtk_ddp_ext[] = {
- 	DDP_COMPONENT_DP_INTF1,
- };
- 
-+static const unsigned int mt8365_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_DITHER0,
-+	DDP_COMPONENT_DSI0,
-+};
-+
-+static const unsigned int mt8365_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_RDMA1,
-+	DDP_COMPONENT_DPI0,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -317,6 +333,14 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
- 	.mmsys_dev_num = 2,
- };
- 
-+static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data = {
-+	.main_path = mt8365_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8365_mtk_ddp_main),
-+	.ext_path = mt8365_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8365_mtk_ddp_ext),
-+	.mmsys_dev_num = 1,
-+};
-+
- static const struct of_device_id mtk_drm_of_ids[] = {
- 	{ .compatible = "mediatek,mt2701-mmsys",
- 	  .data = &mt2701_mmsys_driver_data},
-@@ -344,6 +368,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8195_vdosys0_driver_data},
- 	{ .compatible = "mediatek,mt8195-vdosys1",
- 	  .data = &mt8195_vdosys1_driver_data},
-+	{ .compatible = "mediatek,mt8365-mmsys",
-+	  .data = &mt8365_mmsys_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
-@@ -729,6 +755,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8195-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8365-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8173-disp-od",
- 	  .data = (void *)MTK_DISP_OD },
- 	{ .compatible = "mediatek,mt2701-disp-ovl",
-@@ -793,6 +821,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt8188-dsi",
- 	  .data = (void *)MTK_DSI },
-+	{ .compatible = "mediatek,mt8365-dpi",
-+	  .data = (void *)MTK_DPI },
- 	{ }
- };
- 
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index fce98a150014..1df337882835 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -872,6 +872,7 @@ CONFIG_DRM_PANEL_STARTEK_KD070FHFID015=m
+ CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA=m
+ CONFIG_DRM_PANEL_VISIONOX_VTDR6130=m
+ CONFIG_DRM_FSL_LDB=m
++CONFIG_DRM_DISPLAY_CONNECTOR=m
+ CONFIG_DRM_LONTIUM_LT8912B=m
+ CONFIG_DRM_LONTIUM_LT9611=m
+ CONFIG_DRM_LONTIUM_LT9611UXC=m
 
 -- 
 2.25.1
