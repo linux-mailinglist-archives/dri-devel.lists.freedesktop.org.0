@@ -2,79 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5C78A64F2
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 09:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F218A6525
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 09:31:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D66C112AAD;
-	Tue, 16 Apr 2024 07:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F8D10EEFB;
+	Tue, 16 Apr 2024 07:31:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="lKXJA8VM";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="fLbbpvtq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEB93112AAC
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 07:21:40 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-6eff9dc1821so1589748b3a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 00:21:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1713252100; x=1713856900;
- darn=lists.freedesktop.org; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KfZXB2BpFfIoHxhagie2lEibr4RlvT9R7XTtuJHOq8g=;
- b=lKXJA8VMByElKoD5nLZWRj7VOA0cwGERIPnc9hGg6YRYl3FTzLQgDZzCgkyB1woZ6d
- 3+arUNmrvhIicJd5OXQvhLRPvRlSnQAPoUrb31UbKJbsFeN1plyeb9bW5YAwKlOb9GP+
- lr6GA83xA+0E5oWopOC3PajkVPWnY9AeODuE8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713252100; x=1713856900;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KfZXB2BpFfIoHxhagie2lEibr4RlvT9R7XTtuJHOq8g=;
- b=tKigF2vSDV2yhRR6zs9hc4PhJsCIDeHydYBKf/ZjURUozrXJnzmr1xCxvN8X0WQp6e
- BKMS4j4n1eNOvG4GLiOzqhn42EyLBeYlHUAWUm+gUODeny4/j66IcRuyc/Ta3eISaZtf
- 1LFjXNqBPa6eBQrCFt685gTf1ZmnlrXFLenzibZwXOmgo0fjYv1/3uBtdr4omkCXqZTo
- f1lsUbyscOCfGMWbS2U76612NfydkS0gFoXxtViZfXjuYhE2vM94dWXsFEVeupNCCo6K
- 0LxbM85iiG/jyecePIy0Zbeq/SVtLLMc2zELYdhN9uLrL+Heg2kkaI1jsalyFV2DBX1Y
- L7fA==
-X-Gm-Message-State: AOJu0Yw3vRMJY94So7VWZVQTYSf9hYYuJWa5eQknaaYZIeMXtWX3faNo
- XvkLWyYDe4JAFZLf7h+U8nJwzVjFGEprfCFPVj+D46rzRIrONFO1XXvvO7pfyg==
-X-Google-Smtp-Source: AGHT+IE7afWFhGfCo8YNIeMgjqQi06GV4Qk3C+gWZbRMgAZZl4K/rVD0mwLMuSGHZpf8I9hBZPpmJg==
-X-Received: by 2002:a05:6a20:2d08:b0:1a9:ab88:f938 with SMTP id
- g8-20020a056a202d0800b001a9ab88f938mr10966169pzl.19.1713252100098; 
- Tue, 16 Apr 2024 00:21:40 -0700 (PDT)
-Received: from yuanhsinte1.c.googlers.com
- (88.216.124.34.bc.googleusercontent.com. [34.124.216.88])
- by smtp.gmail.com with ESMTPSA id
- j4-20020a056a00234400b006ead47a65d1sm8323679pfj.109.2024.04.16.00.21.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Apr 2024 00:21:39 -0700 (PDT)
-From: Hsin-Te Yuan <yuanhsinte@chromium.org>
-Date: Tue, 16 Apr 2024 07:21:35 +0000
-Subject: [PATCH RESEND v3] drm/bridge: anx7625: Update audio status while
- detecting
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABA4310EEFB;
+ Tue, 16 Apr 2024 07:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1713252675;
+ bh=eOK/bCV7IyfygWV9u4shyKXmqc9QPsYNWN/ruKFTjn0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=fLbbpvtqB5ohUbohD+5h0tTJFVqVyLEOJdJziboW0356r5MKQEkZqAbhfp1clFcey
+ +LFSNWb/hV47tZfyzxiREouTRd8su67dnHBgW0YXkQp+6EQIRAImVZHmcSYOXOy6Sy
+ XY1P4Oah3eKDhVuyBtMAD7Z4vNJIOReRqUCfFddPv2tFC29c1RjnZZBPJKbydbUUw7
+ dIA4aYJTpwDvp6VwKYJgau6N4GkEOtNrqv3njMgYDwG4+AlfBn+zDp7VrZ93GoFNKa
+ VHsbVO+3AHpfc4t+3/DDIzDEompn2pt96XO+efd7SziDDnB3lbNp4MyEe/CXJ/m3CL
+ gpdwArMAPLmDA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4VJbLp6YNdz4wnv;
+ Tue, 16 Apr 2024 17:31:14 +1000 (AEST)
+Date: Tue, 16 Apr 2024 17:31:12 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>
+Subject: linux-next: build warnings after merge of the drm-misc tree
+Message-ID: <20240416173112.04579e40@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240416-anx7625-v3-1-f916ae31bdd7@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAP4mHmYC/3XNPQ+CMBAG4L9COlvT9qCgk4OsDjoah9IP6ACYV
- hsM4b/bdNH4Mb5397w3I6+d1R5tsxk5Hay34xADrDIkOzG0GlsVM2KE5QRIgcUwlZwV2GjKFYi
- NglKheH112tgpNZ3RsT7Vhz26xHln/W10j/Qg0LT96goUU1yBViClETyXO9m5sbf3fj26NtUE9
- k75i7JISwqVJqRhRWN+UPhDIdINgZxxaEwB5IMuy/IE9nwxMh8BAAA=
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Xin Ji <xji@analogixsemi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Hsin-Te Yuan <yuanhsinte@chromium.org>
-X-Mailer: b4 0.12.4
+Content-Type: multipart/signed; boundary="Sig_/jKM7rW28KcV_xG8kmBaV5Jf";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,62 +58,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously, the audio status was not updated during detection, leading
-to a persistent audio despite hot plugging events. To resolve this
-issue, update the audio status during detection.
+--Sig_/jKM7rW28KcV_xG8kmBaV5Jf
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 566fef1226c1 ("drm/bridge: anx7625: add HDMI audio function")
-Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
----
+Hi all,
 
+After merging the drm-misc tree, today's linux-next build (htmldocs)
+produced these warnings:
 
-Change-Id: I0b36c27d426b2988886db98452700cb7227d868c
----
-Changes in v3:
-- Add Fixes tag.
-- Link to v2: https://lore.kernel.org/r/20240306-anx7625-v2-1-7138e00b25bf@chromium.org
+drivers/gpu/drm/drm_fb_dma_helper.c:166: warning: Excess function parameter=
+ 'drm_scanout_buffer' description in 'drm_fb_dma_get_scanout_buffer'
+drivers/gpu/drm/drm_fb_dma_helper.c:166: warning: Function parameter or str=
+uct member 'sb' not described in 'drm_fb_dma_get_scanout_buffer'
+drivers/gpu/drm/drm_fb_dma_helper.c:166: warning: Excess function parameter=
+ 'drm_scanout_buffer' description in 'drm_fb_dma_get_scanout_buffer'
 
-Changes in v2:
-- Add a space after the colons in the subject line.
-- Link to v1: https://lore.kernel.org/r/20240305-anx7625-v1-1-83ed3ccfa64c@chromium.org
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Introduced by commit
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 29d91493b101a..9f0d0c5b8ebf5 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2481,15 +2481,22 @@ static void anx7625_bridge_atomic_disable(struct drm_bridge *bridge,
- 	mutex_unlock(&ctx->aux_lock);
- }
- 
-+static void
-+anx7625_audio_update_connector_status(struct anx7625_data *ctx,
-+				      enum drm_connector_status status);
-+
- static enum drm_connector_status
- anx7625_bridge_detect(struct drm_bridge *bridge)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
- 	struct device *dev = ctx->dev;
-+	enum drm_connector_status status;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "drm bridge detect\n");
- 
--	return anx7625_sink_detect(ctx);
-+	status = anx7625_sink_detect(ctx);
-+	anx7625_audio_update_connector_status(ctx, status);
-+	return status;
- }
- 
- static struct edid *anx7625_bridge_get_edid(struct drm_bridge *bridge,
+  879b3b6511fe ("drm/fb_dma: Add generic get_scanout_buffer() for drm_panic=
+")
 
----
-base-commit: 90d35da658da8cff0d4ecbb5113f5fac9d00eb72
-change-id: 20240305-anx7625-fe16d3a9d37d
+--=20
+Cheers,
+Stephen Rothwell
 
-Best regards,
--- 
-Hsin-Te Yuan <yuanhsinte@chromium.org>
+--Sig_/jKM7rW28KcV_xG8kmBaV5Jf
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmYeKUAACgkQAVBC80lX
+0Gw/Ugf9GCtTwfsqYN6Q9KQJP18BmL2JZH5PKYqdWlunZ5miF5JWklZFbmtc/c+y
+3OSqOq9JJEQYZjENLc8JuaiRfljIzOWXa8rDPY5ozXTIRaJYaWcEJcBeoQtkgUvM
+fyfM6hxh6NvtxZ+m4p5UxPt+rJloNc/I2QADH91xkLzD2SaXBR7Cby35sSj37K3S
+SVx52L7Kia/A3DCb6QRzYEBPvY+waP2geLe+UJk8e049itVjYFvzV9bZjT0phRj1
+dMZ+KraFIktK8AhJsi5Z9HdKi8liTgfxMMMMGgioR6OZ+ZxMPU/IdfFLuY6xDKap
+sIzKNEQ3ExRB1BpsOZoRKA/EXx0FTg==
+=NNr4
+-----END PGP SIGNATURE-----
+
+--Sig_/jKM7rW28KcV_xG8kmBaV5Jf--
