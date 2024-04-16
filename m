@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D218A6C25
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 15:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1ABB8A6C28
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 15:23:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08784112C86;
-	Tue, 16 Apr 2024 13:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A546112C85;
+	Tue, 16 Apr 2024 13:23:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QLp7XSBK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QYsMtS3f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01843112C84
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 13:23:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46832112C83
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 13:23:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713273802; x=1744809802;
+ t=1713273807; x=1744809807;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uJKT3zSQDtsEV59tUJnmdRikdm58Nt2Nz1vDhuoO1Dc=;
- b=QLp7XSBKr33zoEE0g/MCmCrP0DqRgp58/01Gu6Nv+Z01P9hFowecthnW
- DssoxRev/ilzGGV6ZRvOQTHJvRqFkYvYFSxuQQXh9vhtahPA1BZ3tPoAW
- ufU1LfH1jov0QLcZPetpTTDRj5GwaxfC3Co+TdZTUylvqxII5ProVsXxp
- bcwE6/0Sv3aBeoDs7+OIc9B4JDJjTZBZ3HscvjSLI9EGTTPr2DEEcCReL
- 1wQDnlAD7dRM4XZN4vvQyDcZos32MIJ8VzSc1GjVec/x1MKSG6KdRik5L
- 1HSDxL4HjIAHweR2fMzAb+NBg3u1N7lil1QlUETZ3vAXrVpj5EcoM0/Bi A==;
-X-CSE-ConnectionGUID: jrGnWWe5Ra6cNPkWnew94A==
-X-CSE-MsgGUID: lee2PwJ3Riu0iDc/iZPmww==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="26169424"
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="26169424"
+ bh=b4rFXO4I5gNMTvpzxi2svMqDHQ3KZ32z6a0swYTaFRk=;
+ b=QYsMtS3fBMkywcseK0OKL4Aatjru5jCSObdRQALgXzr+pBNZhMqiosCL
+ ZnpyaL+wI/8hsWvMGq5JwWF5dHkMNevhEBNjV+b0rRwEZNm5QPXLRO/Sy
+ cshrhm5xfpM0Ks0MwUZDOvOoCwXXScrzHMJdung2bRETfe6KKu3J552nT
+ eYwU1dlrPVIUvgROzqC+Q3auWqwxjfPjeooBCNL4G9P24nKIL5N38c2nS
+ 3jaQaCe3OM4LlW2JYhA+2vxsaAsQeAhZljO6agd5MWSY29TTA21ITYx+k
+ ib9KHyDFmKkWgu4eQ0NrBHwWMg2oQg85iJr7OFBJOMoh1aP8mk8i8EHaH A==;
+X-CSE-ConnectionGUID: Up/8GFXuR7S7+2mVRj+a6A==
+X-CSE-MsgGUID: H3vMZwNMRK6X38ZznmiCew==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="26169427"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="26169427"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 06:23:22 -0700
-X-CSE-ConnectionGUID: oQcA1rY6S1m6jaKEnTNzkw==
-X-CSE-MsgGUID: dFfSigjKTMSmfEfzEX1gKA==
+ 16 Apr 2024 06:23:27 -0700
+X-CSE-ConnectionGUID: dt5bx7s4RfivJZrLy9u59w==
+X-CSE-MsgGUID: HdqczchgRiCdTQvsmsyNLg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="26929275"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; d="scan'208";a="26929299"
 Received: from martakit-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.44.100])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 06:23:21 -0700
+ 16 Apr 2024 06:23:25 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@intel.com>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH 09/15] drm/gud: switch to struct drm_edid
-Date: Tue, 16 Apr 2024 16:22:23 +0300
-Message-Id: <c519a9b9d3c3c9a413de33b99b97a1120f774f2d.1713273659.git.jani.nikula@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, Russell King <linux@armlinux.org.uk>
+Subject: [PATCH 10/15] drm/i2c: tda998x: switch to struct drm_edid
+Date: Tue, 16 Apr 2024 16:22:24 +0300
+Message-Id: <3b93bd58e07284bc21c56f10e5df4f322dd8427d.1713273659.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1713273659.git.jani.nikula@intel.com>
 References: <cover.1713273659.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,54 +75,59 @@ Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 ---
 
-Cc: "Noralf Trønnes" <noralf@tronnes.org>
+Cc: Russell King <linux@armlinux.org.uk>
 ---
- drivers/gpu/drm/gud/gud_connector.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i2c/tda998x_drv.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
-index 034e78360d4f..0f07d77c5d52 100644
---- a/drivers/gpu/drm/gud/gud_connector.c
-+++ b/drivers/gpu/drm/gud/gud_connector.c
-@@ -221,7 +221,7 @@ static int gud_connector_get_modes(struct drm_connector *connector)
- 	struct gud_display_mode_req *reqmodes = NULL;
- 	struct gud_connector_get_edid_ctx edid_ctx;
- 	unsigned int i, num_modes = 0;
--	struct edid *edid = NULL;
-+	const struct drm_edid *drm_edid = NULL;
- 	int idx, ret;
+diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+index d8d7de18dd65..2160f05bbd16 100644
+--- a/drivers/gpu/drm/i2c/tda998x_drv.c
++++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+@@ -1283,7 +1283,7 @@ static int read_edid_block(void *data, u8 *buf, unsigned int blk, size_t length)
+ static int tda998x_connector_get_modes(struct drm_connector *connector)
+ {
+ 	struct tda998x_priv *priv = conn_to_tda998x_priv(connector);
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 	int n;
  
- 	if (!drm_dev_enter(connector->dev, &idx))
-@@ -238,13 +238,13 @@ static int gud_connector_get_modes(struct drm_connector *connector)
- 		gud_conn_err(connector, "Invalid EDID size", ret);
- 	} else if (ret > 0) {
- 		edid_ctx.len = ret;
--		edid = drm_do_get_edid(connector, gud_connector_get_edid_block, &edid_ctx);
-+		drm_edid = drm_edid_read_custom(connector, gud_connector_get_edid_block, &edid_ctx);
- 	}
+ 	/*
+@@ -1297,25 +1297,26 @@ static int tda998x_connector_get_modes(struct drm_connector *connector)
+ 	if (priv->rev == TDA19988)
+ 		reg_clear(priv, REG_TX4, TX4_PD_RAM);
  
- 	kfree(edid_ctx.buf);
--	drm_connector_update_edid_property(connector, edid);
+-	edid = drm_do_get_edid(connector, read_edid_block, priv);
++	drm_edid = drm_edid_read_custom(connector, read_edid_block, priv);
+ 
+ 	if (priv->rev == TDA19988)
+ 		reg_set(priv, REG_TX4, TX4_PD_RAM);
+ 
+-	if (!edid) {
 +	drm_edid_connector_update(connector, drm_edid);
- 
--	if (edid && edid_ctx.edid_override)
-+	if (drm_edid && edid_ctx.edid_override)
- 		goto out;
- 
- 	reqmodes = kmalloc_array(GUD_CONNECTOR_MAX_NUM_MODES, sizeof(*reqmodes), GFP_KERNEL);
-@@ -276,10 +276,10 @@ static int gud_connector_get_modes(struct drm_connector *connector)
++	cec_notifier_set_phys_addr(priv->cec_notify,
++				   connector->display_info.source_physical_address);
++
++	if (!drm_edid) {
+ 		dev_warn(&priv->hdmi->dev, "failed to read EDID\n");
+ 		return 0;
  	}
- out:
- 	if (!num_modes)
--		num_modes = drm_add_edid_modes(connector, edid);
-+		num_modes = drm_edid_connector_add_modes(connector);
  
- 	kfree(reqmodes);
+-	drm_connector_update_edid_property(connector, edid);
+-	cec_notifier_set_phys_addr_from_edid(priv->cec_notify, edid);
+-
+ 	mutex_lock(&priv->audio_mutex);
+-	n = drm_add_edid_modes(connector, edid);
+-	priv->sink_has_audio = drm_detect_monitor_audio(edid);
++	n = drm_edid_connector_add_modes(connector);
++	priv->sink_has_audio = connector->display_info.has_audio;
+ 	mutex_unlock(&priv->audio_mutex);
+ 
 -	kfree(edid);
 +	drm_edid_free(drm_edid);
- 	drm_dev_exit(idx);
  
- 	return num_modes;
+ 	return n;
+ }
 -- 
 2.39.2
 
