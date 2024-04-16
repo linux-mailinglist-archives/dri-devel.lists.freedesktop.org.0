@@ -2,67 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CBB8A5F98
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 03:03:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557AE8A600E
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 03:16:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76F8010EB86;
-	Tue, 16 Apr 2024 01:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E680F11291B;
+	Tue, 16 Apr 2024 01:16:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="efjccQK4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kUjB1KY2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81E8410EB86
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 01:02:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=r6v8D9TW+LwrpiBOH9iITekYpMdbv3kxY/ZROV9FYEk=; b=efjccQK47MqJxu9WzXwZnmvXVi
- cscjJnHJU8XsQlVyWkdknWrRv04P5ztIBSkunc2wHLdYwimRjfOvYFVVK0bqFxa7NkJxvX5IZKZPH
- uHkdXhRzEUeB2xI6p4f4t1lc6qsEmOZVo3OztHmcsc1jmOm7495LRSIuDkHos1J84spJIykkCpaPy
- mECCmbmTaZFSKZyxuWdzfV0YvM3AM9Y94pihM8BOPGCdiNknrV6iCK1UelLZKQRd2A3gGTIjMV6cE
- dG1hQyaHTYzw8rvcVSmplWIE3+wO8QRdniT+gp0UsLR1wzCw03glGslwNMaYJWHFcHbqFigw+PJhe
- t8f5Thcg==;
-Received: from [177.34.169.177] (helo=[192.168.0.139])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rwXDZ-004xoX-So; Tue, 16 Apr 2024 03:02:38 +0200
-Message-ID: <dc9f2926-3a8f-4191-9319-3d7e78c6758b@igalia.com>
-Date: Mon, 15 Apr 2024 22:02:30 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52E2F11291B;
+ Tue, 16 Apr 2024 01:16:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713230201; x=1744766201;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=9EMDeYaTBtthAe/R2HuO8zjdXc5yLBI8MM2LyI1S4b4=;
+ b=kUjB1KY2lW4UQJyYmozxxLKwtrN9H667nqeyvSBVg2ShvYsFjPeCrxlK
+ nT+Fo9ia2aZL3pCUYalnOsFlk0vz20/ZoTRAyg/DHoCAlTKav6KbNKTXJ
+ 11VDOpikhQkcL1PKoYOfeZq+wmz8IIFWZYSZMArzo0CjKUjH/4CwEZBdN
+ 909Qbvjc/9+nS+lgKYVwNEygs+fF9JiuN8RmMDklXMbZuYNRwfkJqhTmF
+ 1i8oMAxtK4suKFheaKwHOUyoVTUN5HCPt29D7ejK76DJ/TGYVkIagAoVZ
+ pDNv+kmpFV/3PE0p4NtlF6kQZuPbuHEbNkeEbSKzTtA2bj3sqgUKZqbMh w==;
+X-CSE-ConnectionGUID: mwLvMyLNTW+39W4I8txzuw==
+X-CSE-MsgGUID: vh1n8f+zSyqZlO15RyZMkQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="31125699"
+X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; d="scan'208";a="31125699"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2024 18:16:40 -0700
+X-CSE-ConnectionGUID: OPv2Wxa2SwCNTH8jXAkdUQ==
+X-CSE-MsgGUID: /11cIAvtQxiVpTekjevqew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; d="scan'208";a="22107131"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 15 Apr 2024 18:16:39 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 15 Apr 2024 18:16:39 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 15 Apr 2024 18:16:38 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 15 Apr 2024 18:16:38 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 15 Apr 2024 18:16:37 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AGCzwHnksAdMYOOJq0jr1v+BK2VCiP/4zcC1QiN9g1ntlE0cSb3HPZI75ZS+EfCxl+F6MTMXwfMrJZbqdzjdo+vSwBvrYjdjTispu5H8aQgN/S8/RqdirxPeR5ZjZTJvrifWxbjiz2TLDSncV2dlWD3k2FcXHtbT929mAr8li5vzX22x6g+r+FmREGs07j/+0hoFtZIY7jB6C8tgl5QqGsn8PwQfXzX1lSSKU1sPuSNmMP3U7sKZpS8qyGnKaZaaOp/uuSC55TPXpgU+dDFVLt7vj8GLcK2yfbF2x955T7OCYwgnpk/f6EGjxGJT3fsVc5FOubZOGqmeEsE6ZxOx9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g8fJmK2AGZGIF5JIzRn9RafJfFWVGu0n+v0yNBRD7o8=;
+ b=nRSqFFYB6it/2p7lSBOHgYOF7gHqVr6BGs5l6OQLFJq+7SEYsTOgDP4AufKQSMua5h3o4zHQYPYjBta9gclYofiDPVfGsRPhrEFYRk7hp1cMp1gZULWg8R2wnNQvL0o9A6K41bI3XDuv8GkJetwd2scfXscarMJjHOUvPPxl0/6C8guuoE4c8+NJKAcPaouK2bUoXzQhI+/a1HF1pRARu2XSt0143V2odBx3FIy+R9WLHPPg4/dgNraHRU2lxquc/ByRGPm+ll5Kby7MLuCLFSjunI83qGbZLxuZHwYjZxQ5AyDV5psNyf4kIXs4yiOjJqdQnfA+4R4StNFo6Ko/bg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6053.namprd11.prod.outlook.com (2603:10b6:510:1d1::8)
+ by IA0PR11MB8377.namprd11.prod.outlook.com (2603:10b6:208:487::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.26; Tue, 16 Apr
+ 2024 01:16:35 +0000
+Received: from PH7PR11MB6053.namprd11.prod.outlook.com
+ ([fe80::9461:3f2e:134a:9506]) by PH7PR11MB6053.namprd11.prod.outlook.com
+ ([fe80::9461:3f2e:134a:9506%7]) with mapi id 15.20.7472.025; Tue, 16 Apr 2024
+ 01:16:35 +0000
+Date: Mon, 15 Apr 2024 21:16:31 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Jani
+ Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Nirmoy Das <nirmoy.das@intel.com>, Jonathan Cavitt
+ <jonathan.cavitt@intel.com>, Chris Wilson <chris.p.wilson@linux.intel.com>
+Subject: Re: [PATCH v3] drm/i915/vma: Fix UAF on reopen vs destroy race
+Message-ID: <Zh3Rb15jVJeg1nex@intel.com>
+References: <20240415195310.165934-2-janusz.krzysztofik@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240415195310.165934-2-janusz.krzysztofik@linux.intel.com>
+X-ClientProxiedBy: SJ0PR03CA0164.namprd03.prod.outlook.com
+ (2603:10b6:a03:338::19) To PH7PR11MB6053.namprd11.prod.outlook.com
+ (2603:10b6:510:1d1::8)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ARM: dts: bcm2835: Enable 3D rendering through V3D
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Romain Perier <romain.perier@gmail.com>, Stefan Wahren <wahrenst@gmx.net>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, kernel-dev@igalia.com
-References: <20240415160129.14149-2-mcanal@igalia.com>
- <20240415175433.6e63d40f@donnerap.manchester.arm.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240415175433.6e63d40f@donnerap.manchester.arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6053:EE_|IA0PR11MB8377:EE_
+X-MS-Office365-Filtering-Correlation-Id: 680ca16a-2408-4cf7-de05-08dc5db2dba3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: o4bsSl5qnT7/3mt9VeQQk79tue3TSsuyy7Bs3Hl0P84XEubQE1YyK+KNbBg3VGZQmecq+ESvkunasPjmpRepLsSN4uuX9nBuC1Jr/5UxWVHZFL8HddsgSkB4Qu19noVSBIM37FJe2PZ0sAvOKeB/5rAzp8KbzahdWUwSGQDxRS2+zo0HGH7VaJyvZvsvnCF1MP5nm8RHjJURJBMSIEqVyTjoxSxsybIMY3I2A6D0Ru5uMT0C7dAuJ2D3/EvB+hzeXSM3hDEVNu4+VtzBmH5WO3ndB4t1OszLZ8HmJdafkkx92n8my/qVc6IVlOEcxFpM4qBsc1iLwt4RHvefMtNSpFW2G2M9iVPgt5FPkzIVWmkavpPw2LEeFC3eibn1D2jwV/y/MxzsvEdPCgb0kCAGBBhWdj0xtY8c212A930071y3dJdhb5o1Akuh38C4TeUA0/cfJSxyVgl0/dDdyLqmqLdfe0yj+gnG2wnKQw2lj1uy1xB9rlkAK+Ek+NtRc1JdJJP/Q9WhQ2RXStxwiG/GQrbM5nG2Cjer/v237MpG/JloQqfOwG6aVitegmfKeYVb02zXJIsMPw1vGzUiaU4PExbwXv0jQ4ov7utWxOJPcOo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6053.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KhD5S5dtslJykf6oC2bU+AbVdNVb32gq1/w0e2wPGX1XoMPGJin09eV3NADd?=
+ =?us-ascii?Q?us5U9P7FlabKGbyuJUsubL7rXBPKsv/Cmjoazhh3Fo/kDTXCNrkE4XQigVN3?=
+ =?us-ascii?Q?SaVuO4IquA+k5TmfJ9Yqj50fsWlSagkbW+1rZNjXpLa4LdiOFylTBDdfPHgf?=
+ =?us-ascii?Q?e4nJY8d3tXfeqOgVnXFuJarW8n/U5046OtsK/BjebokonXpvSe75IQjT+ooz?=
+ =?us-ascii?Q?0Z35oUuooAnmaNYtTnEPrX2RS/i9i9kRNVy+mVMscTc5Q3OGsEhZnI/QuHpM?=
+ =?us-ascii?Q?Z7LX/bzb3VNzon8B2lFMlOW34uT33OyqHi+OZp+Z9VvfmEXKUNanVd/Oor3o?=
+ =?us-ascii?Q?gAvc0JLayDO0TYY8dmBxh5xKf11gOxzELkgwknreUhCxpK48c3IqVwfAKoSQ?=
+ =?us-ascii?Q?j4WoIkaJv4WbJNaa/D/kN7Pz3/rc7Ui5dN6ewd3tPmbAtD7Q6d4gyLbS1b+B?=
+ =?us-ascii?Q?NrjVT6kb+PFTY6OJWcePbJCRKInEijYXG9VUoWyPTjQjrOq+YGMIZL08zlLh?=
+ =?us-ascii?Q?w4lR7T2of7jLbit7Sn9t+kt59W4sRIPIoCXiG6YhquPxd1ZjGWxYq2ZoKLvq?=
+ =?us-ascii?Q?12l0ZYlJVvef96Xo8TO2ZnW9Z3YmWy2hh8tMqRf7XIBwjqqX6078kCBROG/I?=
+ =?us-ascii?Q?dFHWuJYVRxxhf2SCZTRctINowhUe2EbN8DTKn+i83FVUUdN7fY9AZoKhM33t?=
+ =?us-ascii?Q?wiKSxa+rmz2x1Msy2C2LxkANAFF52/ms/KDO5K1kNarSsoVKMACgfscX9H3+?=
+ =?us-ascii?Q?YtAZuc9FnK5KBBkH+Ze53sUGedHd840beRcM0pCOva1t8GTJD4iY6bVcORcY?=
+ =?us-ascii?Q?CgHTsfBCdXLZJ0k6lFnt96QgXtko9OceC2mpDkrbZU/Q7lVqL/X2zf95y3bW?=
+ =?us-ascii?Q?WPRpe0PPzB8SeuwmqznPCky+pujwXycawuwIEf6Z5dsqNC1nGiaHKlAplAP1?=
+ =?us-ascii?Q?roPsRO1Xn+nw6pKhpwSVkTM95Efj78HY+uEitofJ5ODz4+0nhdaVlFI0tIrl?=
+ =?us-ascii?Q?urdGJQ9LLzolDYhs4+oeEtyalHsKOB+jBrU+qydpY6E7xBJR1lySQYhnkmTW?=
+ =?us-ascii?Q?ZV45aa4/P5ppF9QhkNsoLfkS+zRlYJutZFsDrP11rGA0glbQJrvmjE9AerEk?=
+ =?us-ascii?Q?ivvAM4gAIHn2rCW+BrkksGG5G9S21Kkef8/fVUpLrrKX4mqwUVyp4ImsnmaQ?=
+ =?us-ascii?Q?Su0/DsdoKtlxc/2bw1CWBXcD5hEogCDTexjsBvZ74HIECyVUpk/i1Qxo9R9+?=
+ =?us-ascii?Q?jSvq2tsP/Y2gXfNIi7HA3sstNzJJdi8w1uPUxKKk1Umo2pMHXZiHXleVCn2C?=
+ =?us-ascii?Q?vvItKLkfyj6NTFXukw6tct1SJRw0M84oaY4lIuf9pzcT/PVTml3ffmmztntb?=
+ =?us-ascii?Q?f91c6dTeuxn2q+n9ehc3eIPnKV1Z9/B2BIFglyHpjRJk2IbawYPxZb8DrSKf?=
+ =?us-ascii?Q?iVFuyoq4sOORW3q655A2Ma41t2S3uDjAkK5qSjoLOzV8vglf9t6sOuLpouE/?=
+ =?us-ascii?Q?XTg24oXlzW0oOD9wx6+tqxFhWv6BWxkUvu7emi9zXY/TsXe3QW7HhWT3CgTn?=
+ =?us-ascii?Q?o5tvbh+/MZ78aA9KAjy1ifnUdHMcsBygwrUOOwownaEo6jyNIGqm2i0m/j3I?=
+ =?us-ascii?Q?qQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 680ca16a-2408-4cf7-de05-08dc5db2dba3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6053.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2024 01:16:35.2670 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k8ZdSbYnOqpCqir6+o0gpbWRSDvLySy/8pfeXLyzb0aGNIwk0ZV+PMaKQvRISH6YL3uFygt2oLMmqWJHnvi9eg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8377
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,261 +161,208 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/15/24 13:54, Andre Przywara wrote:
-> On Mon, 15 Apr 2024 13:00:39 -0300
-> Maíra Canal <mcanal@igalia.com> wrote:
+On Mon, Apr 15, 2024 at 09:53:09PM +0200, Janusz Krzysztofik wrote:
+> We defer actually closing, unbinding and destroying a VMA until next idle
+> point, or until the object is freed in the meantime.  By postponing the
+> unbind, we allow for the VMA to be reopened by the client, avoiding the
+> work required to rebind the VMA.
 > 
-> Hi,
+> It was assumed that as long as a GT is held idle, no VMA would be reopened
+> while we destroy them.  That assumption is no longer true in multi-GT
+> configurations, where a VMA we reopen may be handled by a GT different
+> from the one that we already keep active via its engine while we set up
+> an execbuf request.
 > 
->> RPi 0-3 is packed with a GPU that provides 3D rendering capabilities to
->> the RPi. Currently, the downstream kernel uses an overlay to enable the
->> GPU and use GPU hardware acceleration. When deploying a mainline kernel
->> to the RPi 0-3, we end up without any GPU hardware acceleration
->> (essentially, we can't use the OpenGL driver).
->>
->> Therefore, enable the V3D core for the RPi 0-3 in the mainline kernel.
+> <4> [260.290809] ------------[ cut here ]------------
+> <4> [260.290988] list_del corruption. prev->next should be ffff888118c5d990, but was ffff888118c5a510. (prev=ffff888118c5a510)
+> <4> [260.291004] WARNING: CPU: 2 PID: 1143 at lib/list_debug.c:62 __list_del_entry_valid_or_report+0xb7/0xe0
+> ..
+> <4> [260.291055] CPU: 2 PID: 1143 Comm: kms_plane Not tainted 6.9.0-rc2-CI_DRM_14524-ga25d180c6853+ #1
+> <4> [260.291058] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
+> <4> [260.291060] RIP: 0010:__list_del_entry_valid_or_report+0xb7/0xe0
+> ...
+> <4> [260.291087] Call Trace:
+> <4> [260.291089]  <TASK>
+> <4> [260.291124]  i915_vma_reopen+0x43/0x80 [i915]
+> <4> [260.291298]  eb_lookup_vmas+0x9cb/0xcc0 [i915]
+> <4> [260.291579]  i915_gem_do_execbuffer+0xc9a/0x26d0 [i915]
+> <4> [260.291883]  i915_gem_execbuffer2_ioctl+0x123/0x2a0 [i915]
+> ...
+> <4> [260.292301]  </TASK>
+> ...
+> <4> [260.292506] ---[ end trace 0000000000000000 ]---
+> <4> [260.292782] general protection fault, probably for non-canonical address 0x6b6b6b6b6b6b6ca3: 0000 [#1] PREEMPT SMP NOPTI
+> <4> [260.303575] CPU: 2 PID: 1143 Comm: kms_plane Tainted: G        W          6.9.0-rc2-CI_DRM_14524-ga25d180c6853+ #1
+> <4> [260.313851] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
+> <4> [260.326359] RIP: 0010:eb_validate_vmas+0x114/0xd80 [i915]
+> ...
+> <4> [260.428756] Call Trace:
+> <4> [260.431192]  <TASK>
+> <4> [639.283393]  i915_gem_do_execbuffer+0xd05/0x26d0 [i915]
+> <4> [639.305245]  i915_gem_execbuffer2_ioctl+0x123/0x2a0 [i915]
+> ...
+> <4> [639.411134]  </TASK>
+> ...
+> <4> [639.449979] ---[ end trace 0000000000000000 ]---
 > 
-> So I think Krzysztof's initial comment still stands: What does that patch
-> actually change? If I build those DTBs as of now, none of them has a
-> status property in the v3d node. Which means it's enabled:
-> https://github.com/devicetree-org/devicetree-specification/blob/main/source/chapter2-devicetree-basics.rst#status
-> So adding an explicit 'status = "okay";' doesn't make a difference.
+> As soon as we start unbinding and destroying a VMA, marked it as parked,
+> and also keep it marked as closed for the rest of its life.  When a VMA
+> to be opened occurs closed, reopen it only if not yet parked.
 > 
-> What do I miss here?
+> v3: Fix misplaced brackets.
+> v2: Since we no longer re-init the VMA closed list link on VMA park so it
+>     looks like still on a list, don't try to delete it from the list again
+>     after the VMA has been marked as parked.
+> 
+> Fixes: b0647a5e79b1 ("drm/i915: Avoid live-lock with i915_vma_parked()")
 
-As mentioned by Stefan in the last version, in Raspberry Pi OS, there is
-a systemd script which is trying to check for the V3D driver (/usr/lib
-/systemd/scripts/gldriver_test.sh). Within the first check, "raspi-
-config nonint is_kms" is called, which always seems to fail. What 
-"raspi-config" does is check if 
-/proc/device-tree/soc/v3d@7ec00000/status is equal to "okay". As 
-/proc/device-tree/soc/v3d@7ec00000/status doesn't exists, it returns false.
+what about reverting that?
 
-I'll send if I can improve the userspace tool by just checking if the
-folder /proc/device-tree/soc/v3d@7ec00000/ exists.
-
-Thanks for the explanation!
-
-Best Regards,
-- Maíra
-
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10608
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: stable@vger.kernel.org # v6.0+
+> ---
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 ++++--
+>  drivers/gpu/drm/i915/i915_vma.c               | 32 +++++++++++++++----
+>  drivers/gpu/drm/i915/i915_vma.h               |  2 +-
+>  drivers/gpu/drm/i915/i915_vma_types.h         |  3 ++
+>  4 files changed, 37 insertions(+), 10 deletions(-)
 > 
-> Cheers,
-> Andre
-> 
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>
->> v1 -> v2: https://lore.kernel.org/dri-devel/41694292-af1f-4760-a7b6-101ed5dd6f9d@gmx.net/T/
->>
->> * As mentioned by Krzysztof, enabling should be done in last place of
->> 	override/extend. Therefore, I'm disabling V3D in the common dtsi
->> 	and enabling in the last place of extend, i.e. the RPi DTS files.
->>
->>   arch/arm/boot/dts/broadcom/bcm2835-common.dtsi      | 1 +
->>   arch/arm/boot/dts/broadcom/bcm2835-rpi-a-plus.dts   | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2835-rpi-a.dts        | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2835-rpi-b-plus.dts   | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2835-rpi-b-rev2.dts   | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2835-rpi-b.dts        | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2835-rpi-cm1-io1.dts  | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2835-rpi-zero-w.dts   | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2835-rpi-zero.dts     | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dts      | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dts | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b.dts      | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dts  | 4 ++++
->>   arch/arm/boot/dts/broadcom/bcm2837-rpi-zero-2-w.dts | 4 ++++
->>   15 files changed, 57 insertions(+)
->>
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi b/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
->> index 9261b67dbee1..69e34831de51 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
->> +++ b/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
->> @@ -139,6 +139,7 @@ v3d: v3d@7ec00000 {
->>   			compatible = "brcm,bcm2835-v3d";
->>   			reg = <0x7ec00000 0x1000>;
->>   			interrupts = <1 10>;
->> +			status = "disabled";
->>   		};
->>   
->>   		vc4: gpu {
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-a-plus.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-a-plus.dts
->> index 069b48272aa5..495ab1dfd2ce 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-a-plus.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-a-plus.dts
->> @@ -128,3 +128,7 @@ &uart0 {
->>   	pinctrl-0 = <&uart0_gpio14>;
->>   	status = "okay";
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-a.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-a.dts
->> index 2726c00431e8..4634d88ce3af 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-a.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-a.dts
->> @@ -121,3 +121,7 @@ &uart0 {
->>   	pinctrl-0 = <&uart0_gpio14>;
->>   	status = "okay";
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-plus.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-plus.dts
->> index c57b999a4520..45fa0f6851fc 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-plus.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-plus.dts
->> @@ -130,3 +130,7 @@ &uart0 {
->>   	pinctrl-0 = <&uart0_gpio14>;
->>   	status = "okay";
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-rev2.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-rev2.dts
->> index ae6d3a9586ab..c1dac5d704aa 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-rev2.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b-rev2.dts
->> @@ -121,3 +121,7 @@ &uart0 {
->>   	pinctrl-0 = <&uart0_gpio14>;
->>   	status = "okay";
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b.dts
->> index 72764be75a79..72ca31f2a7d6 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-b.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-b.dts
->> @@ -115,3 +115,7 @@ &uart0 {
->>   	pinctrl-0 = <&uart0_gpio14>;
->>   	status = "okay";
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-cm1-io1.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-cm1-io1.dts
->> index 3f9d198ac3ab..881a07d2f28f 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-cm1-io1.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-cm1-io1.dts
->> @@ -95,3 +95,7 @@ &uart0 {
->>   	pinctrl-0 = <&uart0_gpio14>;
->>   	status = "okay";
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero-w.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero-w.dts
->> index 1f0b163e400c..1c7324067442 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero-w.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero-w.dts
->> @@ -134,6 +134,10 @@ &uart1 {
->>   	status = "okay";
->>   };
->>   
->> +&v3d {
->> +	status = "okay";
->> +};
->> +
->>   &wifi_pwrseq {
->>   	reset-gpios = <&gpio 41 GPIO_ACTIVE_LOW>;
->>   };
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero.dts b/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero.dts
->> index 539c19c10946..1568ddc78f22 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2835-rpi-zero.dts
->> @@ -117,3 +117,7 @@ &uart0 {
->>   	pinctrl-0 = <&uart0_gpio14>;
->>   	status = "okay";
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dts b/arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dts
->> index 79918033750e..8fab6293d1c7 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2836-rpi-2-b.dts
->> @@ -129,3 +129,7 @@ &uart0 {
->>   	pinctrl-0 = <&uart0_gpio14>;
->>   	status = "okay";
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts
->> index 3548306dfbcb..dc45b56054c7 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dts
->> @@ -156,3 +156,7 @@ &uart1 {
->>   	pinctrl-0 = <&uart1_gpio14>;
->>   	status = "okay";
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dts
->> index 2f1800cbc522..ce3a9f7ff529 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dts
->> @@ -161,3 +161,7 @@ &uart1 {
->>   &wifi_pwrseq {
->>   	reset-gpios = <&expgpio 1 GPIO_ACTIVE_LOW>;
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b.dts
->> index 61270340075c..e398546d105b 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-3-b.dts
->> @@ -149,6 +149,10 @@ &sdhost {
->>   	bus-width = <4>;
->>   };
->>   
->> +&v3d {
->> +	status = "okay";
->> +};
->> +
->>   &wifi_pwrseq {
->>   	reset-gpios = <&expgpio 1 GPIO_ACTIVE_LOW>;
->>   };
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dts
->> index 72d26d130efa..50471ada79b3 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dts
->> @@ -94,3 +94,7 @@ &uart0 {
->>   	pinctrl-0 = <&uart0_gpio14>;
->>   	status = "okay";
->>   };
->> +
->> +&v3d {
->> +	status = "okay";
->> +};
->> diff --git a/arch/arm/boot/dts/broadcom/bcm2837-rpi-zero-2-w.dts b/arch/arm/boot/dts/broadcom/bcm2837-rpi-zero-2-w.dts
->> index 85cf594724ef..876f697e7300 100644
->> --- a/arch/arm/boot/dts/broadcom/bcm2837-rpi-zero-2-w.dts
->> +++ b/arch/arm/boot/dts/broadcom/bcm2837-rpi-zero-2-w.dts
->> @@ -132,6 +132,10 @@ &uart1 {
->>   	status = "okay";
->>   };
->>   
->> +&v3d {
->> +	status = "okay";
->> +};
->> +
->>   &wifi_pwrseq {
->>   	reset-gpios = <&gpio 41 GPIO_ACTIVE_LOW>;
->>   };
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 42619fc05de48..97e014f94002e 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -847,9 +847,12 @@ static int __eb_add_lut(struct i915_execbuffer *eb,
+>  	if (unlikely(!lut))
+>  		return -ENOMEM;
+>  
+> +	if (!i915_vma_open(vma)) {
+> +		err = -EEXIST;	/* let eb_vma_lookup() retry */
+> +		goto err_lut_free;
+> +	}
+> +
+>  	i915_vma_get(vma);
+> -	if (!atomic_fetch_inc(&vma->open_count))
+> -		i915_vma_reopen(vma);
+>  	lut->handle = handle;
+>  	lut->ctx = ctx;
+>  
+> @@ -880,8 +883,9 @@ static int __eb_add_lut(struct i915_execbuffer *eb,
+>  	return 0;
+>  
+>  err:
+> -	i915_vma_close(vma);
+>  	i915_vma_put(vma);
+> +	i915_vma_close(vma);
+> +err_lut_free:
+>  	i915_lut_handle_free(lut);
+>  	return err;
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index d2f064d2525cc..4435c76f28c8c 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -1735,14 +1735,33 @@ static void __i915_vma_remove_closed(struct i915_vma *vma)
+>  	list_del_init(&vma->closed_link);
+>  }
+>  
+> -void i915_vma_reopen(struct i915_vma *vma)
+> +static struct i915_vma *i915_vma_reopen(struct i915_vma *vma)
+> +{
+> +	if (atomic_read(&vma->flags) & I915_VMA_PARKED)
+> +		return NULL;
+> +
+> +	__i915_vma_remove_closed(vma);
+> +	return vma;
+> +}
+> +
+> +struct i915_vma *i915_vma_open(struct i915_vma *vma)
+>  {
+>  	struct intel_gt *gt = vma->vm->gt;
+>  
+> +	if (atomic_inc_not_zero(&vma->open_count))
+> +		return vma;
+> +
+>  	spin_lock_irq(&gt->closed_lock);
+> -	if (i915_vma_is_closed(vma))
+> -		__i915_vma_remove_closed(vma);
+> +	if (!atomic_inc_not_zero(&vma->open_count)) {
+> +		if (i915_vma_is_closed(vma))
+> +			vma = i915_vma_reopen(vma);
+> +
+> +		if (vma)
+> +			atomic_inc(&vma->open_count);
+> +	}
+>  	spin_unlock_irq(&gt->closed_lock);
+> +
+> +	return vma;
+>  }
+>  
+>  static void force_unbind(struct i915_vma *vma)
+> @@ -1770,7 +1789,8 @@ static void release_references(struct i915_vma *vma, struct intel_gt *gt,
+>  	spin_unlock(&obj->vma.lock);
+>  
+>  	spin_lock_irq(&gt->closed_lock);
+> -	__i915_vma_remove_closed(vma);
+> +	if (!(atomic_read(&vma->flags) & I915_VMA_PARKED))
+> +		__i915_vma_remove_closed(vma);
+>  	spin_unlock_irq(&gt->closed_lock);
+>  
+>  	if (vm_ddestroy)
+> @@ -1854,22 +1874,22 @@ void i915_vma_parked(struct intel_gt *gt)
+>  		}
+>  
+>  		list_move(&vma->closed_link, &closed);
+> +		atomic_or(I915_VMA_PARKED, &vma->flags);
+>  	}
+>  	spin_unlock_irq(&gt->closed_lock);
+>  
+> -	/* As the GT is held idle, no vma can be reopened as we destroy them */
+>  	list_for_each_entry_safe(vma, next, &closed, closed_link) {
+>  		struct drm_i915_gem_object *obj = vma->obj;
+>  		struct i915_address_space *vm = vma->vm;
+>  
+>  		if (i915_gem_object_trylock(obj, NULL)) {
+> -			INIT_LIST_HEAD(&vma->closed_link);
+>  			i915_vma_destroy(vma);
+>  			i915_gem_object_unlock(obj);
+>  		} else {
+>  			/* back you go.. */
+>  			spin_lock_irq(&gt->closed_lock);
+>  			list_add(&vma->closed_link, &gt->closed_vma);
+> +			atomic_andnot(I915_VMA_PARKED, &vma->flags);
+>  			spin_unlock_irq(&gt->closed_lock);
+>  		}
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+> index e356dfb883d34..331d19672c764 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.h
+> +++ b/drivers/gpu/drm/i915/i915_vma.h
+> @@ -268,7 +268,7 @@ int __must_check i915_vma_unbind_async(struct i915_vma *vma, bool trylock_vm);
+>  int __must_check i915_vma_unbind_unlocked(struct i915_vma *vma);
+>  void i915_vma_unlink_ctx(struct i915_vma *vma);
+>  void i915_vma_close(struct i915_vma *vma);
+> -void i915_vma_reopen(struct i915_vma *vma);
+> +struct i915_vma *i915_vma_open(struct i915_vma *vma);
+>  
+>  void i915_vma_destroy_locked(struct i915_vma *vma);
+>  void i915_vma_destroy(struct i915_vma *vma);
+> diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
+> index 559de74d0b114..41784c3025349 100644
+> --- a/drivers/gpu/drm/i915/i915_vma_types.h
+> +++ b/drivers/gpu/drm/i915/i915_vma_types.h
+> @@ -263,6 +263,9 @@ struct i915_vma {
+>  #define I915_VMA_SCANOUT_BIT	17
+>  #define I915_VMA_SCANOUT	((int)BIT(I915_VMA_SCANOUT_BIT))
+>  
+> +#define I915_VMA_PARKED_BIT	18
+> +#define I915_VMA_PARKED		((int)BIT(I915_VMA_PARKED_BIT))
+> +
+>  	struct i915_active active;
+>  
+>  #define I915_VMA_PAGES_BIAS 24
+> -- 
+> 2.44.0
 > 
