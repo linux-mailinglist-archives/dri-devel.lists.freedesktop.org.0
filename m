@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441698A7051
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 17:53:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38CB18A7050
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Apr 2024 17:53:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6750112D29;
-	Tue, 16 Apr 2024 15:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA736112671;
+	Tue, 16 Apr 2024 15:53:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bUcrukuG";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="m4IxYYo3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9744F10F1BE
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 15:53:39 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a51a7dc45easo514606066b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 08:53:39 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1C310F19D
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 15:53:41 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-a450bedffdfso583334466b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 08:53:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713282818; x=1713887618;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713282819; x=1713887619;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=lMzjdnJXuF3c5mxPh4yfDUlaYNvWD0FrUY1FJvWIAwc=;
- b=bUcrukuGDpQgDBqNW/B9DAI/yHEk8RjKqujnrueZAvIXp6+d4th2JGQYsLE2CRfMzS
- evUgSMlriSwqTzyfemZ9kUeYZvL/BaG9cArmNPoWAZ95cYrfkbdXRFUFSSFzrMlZi/6z
- foMwrRVLEruDdQjDZbpn6yX8SwZfwPwLebE3lwMx54X+3ASg9fqkxXJMZM4Tm+kb1S6v
- whSlhzIZbnpjTBbGBYtAW3DvUHB4hrsqmo7iB74pPpzEd2bPYHagYrNguvjeBu/OjI9W
- /TmymvGJmaFjVz/At7A/5oaX6tMUct2z2ogyXT2QNJXMYJUt4+2VuMFaeVvXu+otbmoC
- chog==
+ :reply-to; bh=hFmw2QUwgoo6nZ5hxL4W4XLY0gvCpX+AxZ6V2ssaQtQ=;
+ b=m4IxYYo3I822+Zes3N+e9nfC+i/Tu6Gks9HoXxH08HPj3LM8xWSMJVKPb2CKnagr54
+ TtyZ4uoZGQyQw+QB3ii/6sm46DmzbX9I72oNXMc4I7Qw1MdVJX/CCmK7dHJsTRt4uOrE
+ U+Y11+Ee69zFIlB9WAjStMRLPFbUlvfsdpiWUYsGeErP5Rz1fNWFg32ASIQWl6X7o7tT
+ pv/gthzvE7EcZVB0Dxwj0BCT8hKWloFLZSzTH6NOQOi2WASHPkrLlZdD4d0V/DRfI7IE
+ pF0ZH6nSceBOc53jQahb2/HJNPs4kuoA20894UU7NJpsbrY9i15+xHpiw1MXEn0MFaLf
+ /XWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713282818; x=1713887618;
+ d=1e100.net; s=20230601; t=1713282819; x=1713887619;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lMzjdnJXuF3c5mxPh4yfDUlaYNvWD0FrUY1FJvWIAwc=;
- b=IC3XZ4bjGyz7jxHN8T5rYj/j/WtIz+M0ieqg6nJuRDiw4G4Bz2V9Ul4yMiIVJueTS+
- vk3LsMHO7Ic9WuYfGbnS522YcWFMzuYoLofvY2SYkLtZGzoJyaaxNKgOP24Gb9IxfPLV
- PB3rr37g6FMzKRmel8+wMShPUsdZRaHDUG4lPMrFAmvbTBxCJsluIpiQWKsVi9AQfMDt
- IY1zFZiKdjOjpbD3bJurfuzJfCV8vcue0rvugzRS5CzKDaDaBaVKoH8RQ1B29IHfucN5
- 4B8xHV0MzAQeJQq3LkwsTMh0rPYpFVjfevt3LxL04VVbXOUWH/mwLNx7ceRrvTyX+hTx
- lBIg==
-X-Gm-Message-State: AOJu0Yx9iANRuHU8jzkQOqBnNUi8NkixOCPymavJDchODI5Gsr5p0gYR
- Eex3bECSZiRRoO6WJUCl33XGKBApHMdzGN3yc2QA23NjPZc6RvfLPlb/rrOFECA=
-X-Google-Smtp-Source: AGHT+IFk1yoWGLqoBymQWKpJEhd6iWeTqSjELga+zlWWHUviknE2SG8H+UAr/d3dYsubXWOrLr++WQ==
-X-Received: by 2002:a17:906:48ce:b0:a55:339d:bd20 with SMTP id
- d14-20020a17090648ce00b00a55339dbd20mr3437290ejt.51.1713282817957; 
- Tue, 16 Apr 2024 08:53:37 -0700 (PDT)
+ bh=hFmw2QUwgoo6nZ5hxL4W4XLY0gvCpX+AxZ6V2ssaQtQ=;
+ b=opwtK1/AWJB+AT2tp72YTuhcFlmYaMh1XnNpn7QNyrqnwJt0dXBZ8zzNo75SRFC4Br
+ ac6s3Rx4Lyz+ZgB261xrAxk+Ojjujqmf1u8ae19JCoQ4flX/+fULdaXjPP9MfHln9tDY
+ rWLQFyoKhjS/TQ7BXE3EJLJ823yzgDW5pfSDY85urY75mAQJvlPczWXgTdKqF/Pj9Hao
+ FwXGg44SbvsaJ34T8t7nYTGMXw+0BnDkaWV8crCrjAsoRM5dX4Rud26/+zsebMGzuiY+
+ 9tnFdpCX2h2VefxrL3pt275HzVwtiB5X2c/5BvcD4EaEMvx5H66AA6s6cRh4GmTblidD
+ JBlg==
+X-Gm-Message-State: AOJu0Yy7S7EQnOeteXAR+fArSEzeeAJTDBUD75mu2Ft/HAqF00VitU4O
+ aOuV6u4MGXPdH/yCBlNsNZCnSs5fKBR87AEqI4GsY3Zusp//ub0xLVQLXIKUrfc=
+X-Google-Smtp-Source: AGHT+IFLuDathaTJ/JKT8tzf/JfCbHfCCiKvf02dGKCca6MyDMPKZyO9ZLGIiBsYtjUEtqmWCS3Ycg==
+X-Received: by 2002:a17:906:d10a:b0:a52:71bf:2c4c with SMTP id
+ b10-20020a170906d10a00b00a5271bf2c4cmr3533190ejz.0.1713282819612; 
+ Tue, 16 Apr 2024 08:53:39 -0700 (PDT)
 Received: from [127.0.1.1] ([93.5.22.158])
  by smtp.googlemail.com with ESMTPSA id
- d12-20020a170906174c00b00a52567ca1b6sm4156691eje.94.2024.04.16.08.53.36
+ d12-20020a170906174c00b00a52567ca1b6sm4156691eje.94.2024.04.16.08.53.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Apr 2024 08:53:37 -0700 (PDT)
+ Tue, 16 Apr 2024 08:53:39 -0700 (PDT)
 From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Tue, 16 Apr 2024 17:53:13 +0200
-Subject: [PATCH v2 12/18] dt-bindings: pwm: mediatek,pwm-disp: add
- compatible for mt8365 SoC
+Date: Tue, 16 Apr 2024 17:53:14 +0200
+Subject: [PATCH v2 13/18] drm/mediatek: dsi: Improves the DSI lane setup
+ robustness
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20231023-display-support-v2-12-33ce8864b227@baylibre.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20231023-display-support-v2-13-33ce8864b227@baylibre.com>
 References: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
 In-Reply-To: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -84,20 +84,20 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org, 
  linux-clk@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1010; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1234; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=f9Dg3+1sA9zIqMbmOSkIqYRfnGnKgRgwjxFViDKWg4s=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmHp7qCtkudbE2FgoQGnKNS8vlj9WP5d+Q1enfhm+3
- WS7W4ryJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZh6e6gAKCRArRkmdfjHURauREA
- C8elBHPUwyryiqhU/JftMEstWEhAI7HacOE+GjDLuT91DQoGocSdM/By6VXYsbFsuP3J2Exczi6frz
- ba2GCWSVUwiLb92u1hQpINL7ls0qmmh0r7yGgl5HnwjxAX+Zg4C8yBRoPI8RVLyfU9S/r3fPMRYni6
- Wpr0HozZOKrEQ5d0E7N2R0yj8mjdbLL7woEJYhC0OB6iOVGvyfeJqrSAD1z2BjdwlAlogg6zn4eWwC
- /asr3730Ub39vA+1gIunga8bVsoqsBzHP2xH2WIsGpLHvnHuWyGehFvyUFRY/VhKwNk/myhcyGWAdV
- Y7R57eYwNSHunhPoPnXrH+s5tGAIXqTHmctxoTL1WEd1ASFeCDB4fTxebJYFkaYyULZiWXDuE9Dt0o
- 9eLZX9QjD3wcbt6howeDIggSZ3VAY2T+cS0ibSSqBOLMtALjTGE4VHqb1dD/xA2X8dTwyNeNL6eLsK
- MlNvds64Wab3wKigMbpCRWW41CI+jbomgQENOsjcrkA63E7UwXX9i3CWKbIFNn7yYXRnQtF9/ou9oB
- 0/4QjL4id4kIukWNLEgjLCA0Wmwdp+jELa8HzLKgqyT13FBTs4FIX/w4if4EN86mMTaKGGznQSt+cY
- sIxk3H1lFvV+liAj3rGgvXTfPVUrOH+OqtB1mIROI0BYACxwnQsLCcUCN7cQ==
+ bh=2MnuLxaHZbaJPVARTKFt1rzwpEZuIuXZwcM1ZfvOkrE=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmHp7qd8Sx/coFLTSFkDfsduMzD+AJNcJ4tDhOCv0h
+ 3ncqyFaJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZh6e6gAKCRArRkmdfjHURdFBEA
+ CJgnEAdPK62hUZxj5SmThZ5GkBCuZIyk3P52tbmYtB+jyZS+Tm9SamHgXoImaoOJxr2c/eLN6dvvPN
+ RXqbf2LoKutEccLUvet1qjcG1VQ3Y97HO+Af0mpbAIXcckeiQWZEQAuASMUTjEOpyc8WYeFadNOFWY
+ xpVRY+nVMyYX5MTFxrqlCzSgB0RGJYQnily350VHOpioNsNSS+M4n23mW4liEOaXow+a08pqBx4hC1
+ ARNjftB0eGqrwymHP//U+jEA8HFu7aOnmkeqpQf1wv16F4hsqhDAQNxlaAe87s1p1fuk2E3MzMShm3
+ h5C/GK45SLykya4NZfpzz8sFaln1av/ogexAQ3L64zlC8WrZapNXaf3rbnt5wH41KWvP9jCZGKJ/Eq
+ liW/EqvlQGqHX+OWDejwMbtuxVdsPwBpQ9pVZiyzEjlpLz/aXtSl5NxFI0Tew83KmZbSIwrECeoqyU
+ snhRMJNiEcf1Qx8EWqsQzdpYLd10GadAI6SF8toslrmcGUnlGAnV25AmCD/a48L6hKuAYcw/bO6jaF
+ DfhzlGkbVb1mxLE07cd5xEqQqLpQljHkx4YqwGO5ZhFc/K3ECQ7xPQeeGlB1Z9hz21ZldwS1U/3tr1
+ sHz2UEwm99UXyQnV+OmKp0j0n4LYTdJazChU72qVtzvtZca+boZXyAULWhyw==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,28 +115,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a compatible string for MediaTek Genio 350 MT8365's display PWM
-block: this is the same as MT8183.
+Currently, mtk_dsi_lane_ready (which setup the DSI lane) is triggered
+before mtk_dsi_poweron. lanes_ready flag toggle to true during
+mtk_dsi_lane_ready function, and the DSI module is set up during
+mtk_dsi_poweron.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Acked-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Later, during panel driver init, mtk_dsi_lane_ready is triggered but does
+nothing because lanes are considered ready. Unfortunately, when the panel
+driver try to communicate, the DSI returns a timeout.
+
+The solution found here is to put lanes_ready flag to false after the DSI
+module setup into mtk_dsi_poweron to init the DSI lanes after the power /
+setup of the DSI module.
+
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml b/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
-index f8988af05287..180dd8366935 100644
---- a/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
-+++ b/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
-@@ -31,6 +31,7 @@ properties:
-               - mediatek,mt8188-disp-pwm
-               - mediatek,mt8192-disp-pwm
-               - mediatek,mt8195-disp-pwm
-+              - mediatek,mt8365-disp-pwm
-           - const: mediatek,mt8183-disp-pwm
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 9501f4019199..b3f33d4d3d5c 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -642,6 +642,8 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+ 	mtk_dsi_config_vdo_timing(dsi);
+ 	mtk_dsi_set_interrupt_enable(dsi);
  
-   reg:
++	dsi->lanes_ready = false;
++
+ 	return 0;
+ err_disable_engine_clk:
+ 	clk_disable_unprepare(dsi->engine_clk);
 
 -- 
 2.25.1
