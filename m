@@ -2,58 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1356B8A822F
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 13:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FF88A8238
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 13:38:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D92211340E;
-	Wed, 17 Apr 2024 11:34:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBA810F1B9;
+	Wed, 17 Apr 2024 11:38:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="zQAC1B3S";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ImiivPXb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC4811340F
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 11:34:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713353684;
- bh=XlIkHEl9YP8QzzT01r9cxyH8iKbEFGbZFUWmqtKOhGU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=zQAC1B3SB0udRMknK1EEu3nqJ0MlSW42n3B/J+YlyHsWELOrplw6ioLOjjBFFZUSL
- JwwKcJDpAd0fyqTv+NNl8itmEAwlzDrx/h0k7xGcBQU6sov3LI23nlNJzSbSBptn9p
- 1j6t+uiv2hy8szo5qxiFI8R2K/cmTldSXwka71OSLjz/VN73jZHkrEA5ahtJHOmZYG
- B2X+c0gLvuo5FzM6njj5ywxRfGe3KLexDamnmcAreDa2YAENtg1jFDsjPbkImWrLDS
- F7+sg4TQkU6NH/6p3qxcdPlTH7obgTMMkOw2X8gW+VimDIbrGK0cVUU6ACH4HiYyH5
- uALccWT81BL5w==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id E2AB5378208C;
- Wed, 17 Apr 2024 11:34:43 +0000 (UTC)
-Date: Wed, 17 Apr 2024 14:34:35 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH 2/3] drm: drm_blend.c: Improve
- drm_plane_create_rotation_property kernel doc
-Message-ID: <20240417143435.6e1e414a.pekka.paalanen@collabora.com>
-In-Reply-To: <Zh78IolP2rwpk1Ti@localhost.localdomain>
-References: <20240409-google-drm-doc-v1-0-033d55cc8250@bootlin.com>
- <20240409-google-drm-doc-v1-2-033d55cc8250@bootlin.com>
- <20240415143622.7e600508.pekka.paalanen@collabora.com>
- <Zh78IolP2rwpk1Ti@localhost.localdomain>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 930D410F4AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 11:38:05 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-dc25e12cc63so713042276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 04:38:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713353884; x=1713958684; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AV+ezv3Q1OXIIhO4Jc07dgDEaW8muc+EmoE8hQ3M33M=;
+ b=ImiivPXbHVQ4PebFA7VwMdOLfjajGeYiVwdEmp+vbzpJFoc0uItxYvyXkGXJjue9r9
+ HZPee0NYeWXtK/OQhmWnwky+CWI3hZLAuQdpf1pL2q9qUJO51vpOmxyk4LZ6NBnJgJKi
+ Se23Jsq8bJCGFG2f8jANq9nlLlYFvcHz9J0ST4KjupnwJ+oPJLGuCpTYpv6nTeRIiCCC
+ KI4/lRfWifC9WNJhDkC1YRb6KCZucfKa8KDlZE1yIGj7gvW+14jUlc1Rq6PPgay+WX3A
+ Vl884zGwgWBizErj/cRR9reDSWAod9/4fNelkrlEvUx00tTvw40mzRUUj/Hr7zeDXnL4
+ 9Ycg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713353884; x=1713958684;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AV+ezv3Q1OXIIhO4Jc07dgDEaW8muc+EmoE8hQ3M33M=;
+ b=d8djJtb53FJzhVh1iLFQZVPIPIRR+LaKK0kq90APhLniULTfFGn2vzM7405C1w4p4x
+ uJypIdQ/Ckh++Ly8kVC01gBC8z6YVKcqBn9svIAO3R2mODdWhDPPfZmklbZ4u9XN8MKU
+ BBbJbLJzqHp0RMpPcCe5XoSy0I5VtJWyU+58d/IR/vTVXJXgblPVSlY7dduafaqxQefc
+ 8VRX7XxEWSwjUtQ2u6EVayOeSkATQIgHINl4auIG9592c4P/a/pS6obasolPmYDKzgOn
+ 5tM3fmOuiMRjNupF9M1pM4aYIxxTc5p7OgKTxDkeWtLplzr1F0+jCvtVbujF5t5TvsEO
+ LuAQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXe53eYejlVLBBT5rjz942hYcFfrCed0YL6k0Fw2yLP8r0buDjL7VQHAdffzy2n74to64gEWkERvJzg9XBfIeDH9cdAnuI6Wg6Fl6IFU+P0
+X-Gm-Message-State: AOJu0YzbaDLA6IKoJKJF446lBTi7h/FcHpW/7u/L5tkBAMoX20ynhW+q
+ xUPB7BkKeF0kWMksKbE7t+UCr5SAIc7UlaTw3BlRTVtDwmMkwcIBRZybXGi8f2gWlZhAX8nedbV
+ SWgtFhmEwu+bml2V3xhc4nz0pIo0=
+X-Google-Smtp-Source: AGHT+IFATaiFru7OZftoOyeINZOjl8q6SBcai1Hbg8oG27Ra0FwYxxfY2ZHZjtDmlYMhn586Y8X55F/fIeABVDRTIfA=
+X-Received: by 2002:a0d:cad4:0:b0:614:35a7:4c40 with SMTP id
+ m203-20020a0dcad4000000b0061435a74c40mr4372978ywd.22.1713353884168; Wed, 17
+ Apr 2024 04:38:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/3/Qm647ZkFj/Jf89mUkhkF3";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20240415112731.31841-1-patrik.r.jakobsson@gmail.com>
+ <e13df911-c91d-491a-97d8-ca0e1cd0eed0@suse.de>
+ <CAMeQTsYoNpYiyWbn7YF71QM+6bxsOeKFfV4LFEfGVVvbOJw-Tg@mail.gmail.com>
+ <CAKh_tsoK=pE0c6Ecr6f_iD=iFc2bkT=-ESEa2ZN0duUZq2a90Q@mail.gmail.com>
+In-Reply-To: <CAKh_tsoK=pE0c6Ecr6f_iD=iFc2bkT=-ESEa2ZN0duUZq2a90Q@mail.gmail.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Wed, 17 Apr 2024 13:37:53 +0200
+Message-ID: <CAMeQTsarOyFL1D_vj0XdRp26y=eS9PgyNe0z2Lk0+eD-J-+WQw@mail.gmail.com>
+Subject: Re: [PATCH] drm/gma500: Remove lid code
+To: Enrico Bartky <enrico.bartky@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,206 +81,251 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/3/Qm647ZkFj/Jf89mUkhkF3
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, Apr 17, 2024 at 11:47=E2=80=AFAM Enrico Bartky <enrico.bartky@gmail=
+.com> wrote:
+>
+> Hi,
+>
+> sorry for the delay. This patch fixes the crash during boot! (tested agai=
+nst linux 6.9-rc3)
+>
+> Greetings
 
-On Wed, 17 Apr 2024 00:30:58 +0200
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+Thanks for testing. Then I'll push this to drm-next-fixes.
 
-> Le 15/04/24 - 14:36, Pekka Paalanen a =C3=A9crit :
-> > On Tue, 09 Apr 2024 12:04:06 +0200
-> > Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> >  =20
-> > > The expected behavior of the rotation property was not very clear. Add
-> > > more examples to explain what is the expected result.
-> > >=20
-> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_blend.c | 52 +++++++++++++++++++++++++++++++++--=
-----------
-> > >  1 file changed, 38 insertions(+), 14 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> > > index 8d4b317eb9d7..6fbb8730d8b0 100644
-> > > --- a/drivers/gpu/drm/drm_blend.c
-> > > +++ b/drivers/gpu/drm/drm_blend.c
-> > > @@ -104,6 +104,9 @@
-> > >   *	Without this property the rectangle is only scaled, but not rotat=
-ed or
-> > >   *	reflected.
-> > >   *
-> > > + *	See drm_plane_create_rotation_property() for details about the ex=
-pected rotation and
-> > > + *	reflection behavior. =20
-> >=20
-> > I think internal function docs should be referring to UAPI docs, and
-> > not vice versa. Internal functions can change, but UAPI cannot.
-> >  =20
-> > > + *
-> > >   *	Possbile values:
-> > >   *
-> > >   *	"rotate-<degrees>":
-> > > @@ -114,18 +117,6 @@
-> > >   *		Signals that the contents of a drm plane is reflected along the
-> > >   *		<axis> axis, in the same way as mirroring.
-> > >   *
-> > > - *	reflect-x::
-> > > - *
-> > > - *			|o |    | o|
-> > > - *			|  | -> |  |
-> > > - *			| v|    |v |
-> > > - *
-> > > - *	reflect-y::
-> > > - *
-> > > - *			|o |    | ^|
-> > > - *			|  | -> |  |
-> > > - *			| v|    |o |
-> > > - *
-> > >   * zpos:
-> > >   *	Z position is set up with drm_plane_create_zpos_immutable_propert=
-y() and
-> > >   *	drm_plane_create_zpos_property(). It controls the visibility of o=
-verlapping
-> > > @@ -266,8 +257,41 @@ EXPORT_SYMBOL(drm_plane_create_alpha_property);
-> > >   *
-> > >   * Rotation is the specified amount in degrees in counter clockwise =
-direction,
-> > >   * the X and Y axis are within the source rectangle, i.e.  the X/Y a=
-xis before
-> > > - * rotation. After reflection, the rotation is applied to the image =
-sampled from
-> > > - * the source rectangle, before scaling it to fit the destination re=
-ctangle.
-> > > + * rotation.
-> > > + *
-> > > + * Here are some examples of rotation and reflections:
-> > > + *
-> > > + * |o  +|  REFLECT_X  |+  o|
-> > > + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
-> > > + * |    |             |    |
-> > > + *
-> > > + * |o   |  REFLECT_Y  |+   |
-> > > + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
-> > > + * |+   |             |o   |
-> > > + *
-> > > + * |o  +|  ROTATE_90  |+   |
-> > > + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
-> > > + * |    |             |o   |
-> > > + *
-> > > + * |o   |  ROTATE_180 |   +|
-> > > + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
-> > > + * |+   |             |   o|
-> > > + *
-> > > + * |o   |  ROTATE_270 |+  o|
-> > > + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |
-> > > + * |+   |             |    |
-> > > + *
-> > > + * Rotation and reflection can be combined to handle more situations=
-. In this condition, the
-> > > + * reflection is applied first and the rotation in second. =20
-> >=20
-> > When going in which direction? Is the first image the FB source
-> > rectangle contents, and the second image what the plane looks like in
-> > CRTC frame of reference? =20
->=20
-> The first is the FB source, the second is the expected result on the CRTC=
-=20
-> output.
->=20
-> I will add a sentence before the schemas:
->=20
->  * Here are some examples of rotation and reflections, on the left it is=
-=20
->  * the content of the source frame buffer, on the right is the expected=20
->  * result on the CRTC output.
->=20
-> >  =20
-> > > + *
-> > > + * For example the expected result for DRM_MODE_ROTATE_90 | DRM_MODE=
-_REFLECT_X is:
-> > > + *
-> > > + * |o  +|  REFLECT_X  |+  o|  ROTATE_90  |o   |
-> > > + * |    |  =3D=3D=3D=3D=3D=3D=3D=3D>  |    |  =3D=3D=3D=3D=3D=3D=3D=
-=3D>  |    |
-> > > + * |    |             |    |             |+   |
-> > > + *
-> > > + * It is not possible to pass multiple rotation at the same time. (i=
-.e ROTATE_90 | ROTATE_180 is
-> > > + * not the same as ROTATE_270 and is not accepted).
-> > >   */
-> > >  int drm_plane_create_rotation_property(struct drm_plane *plane,
-> > >  				       unsigned int rotation,
-> > >  =20
-> >=20
-> > These are definitely improvements. I think they should just be in the
-> > UAPI section rather than implementation details. =20
->=20
-> So, somewhere in [1]? It feel strange because this is in the `GPU Driver=
-=20
-> Developer=E2=80=99s Guide` section, not a `UAPI interfaces`.
+-Patrik
 
-The whole kernel documentation layout is a big mess. I *still*
-spend ages trying to find the pages I know exist.
-
-https://docs.kernel.org/gpu/drm-kms.html#plane-composition-properties
-is where properties are documented for userspace developers to look at.
-
-Let's see... I'm cheating and looking what hierarchy I need to follow
-to find the place I am at:
-
-The Linux Kernel
--> Subsystems
-  -> Human Interfaces: GPU Driver Developer's Guide
-    -> Kernel Mode Setting (KMS)
-    <- oops, don't click that, take a step back
-    -> Kernel Mode Setting (KMS): KMS properties
-    <- oops, don't click that, take a step back
-    -> Kernel Mode Setting (KMS): KMS properties: Plane Composition Propert=
-ies
-
-So yeah, UAPI docs are under graphics driver developer's guide, inside
-human interface subsystems.
-
-
-Thanks,
-pq
-
-> [1]: https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html
->=20
-> Thanks,
-> Louis Chauvet
->=20
-> > Disclaimer again to everyone else: I cannot tell if this is the correct
-> > documentation or its inverse.
-> >=20
-> >=20
-> > Thanks,
-> > pq =20
->=20
->=20
->=20
-
-
---Sig_/3/Qm647ZkFj/Jf89mUkhkF3
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYfs8sACgkQI1/ltBGq
-qqcT8Q/+OBYf2NAZgLUekE+MvjRISG6F4JGzL5Yyb4Cn9ngO/DNT2gNAIrjqYvqW
-G1cHKG5F9PBK7kuAIpWvD5Xu9vNxdKMCIQjY4NkW/wex5ywF8Kv0oMjYgzzlyiXQ
-siWcMiZLgnPffvMSBhlJwRbHTHIUreGcXO2AZ8DuDGxLLaDXRdIULf1KDgta4xKF
-KDpE9Pf4w27Vz7gdr5tJUkPuQPNd5cwnGlRbU1U2F7qWhrUikK3ujfQJLVqTSltR
-X97P4lEWPZTCMypas1YII1GklZEHyS2Kz9ov7CHlGAeLPVDss0LNb34t2MD/uHWT
-k3SR9WYiNtzp9ooMQFaw8JRZJb7u/taIJZeJYW0+P4l0nSQh2RITs2m/v5RfeZNU
-/+IdkmTTrHDGUKHrs4/eY9Z/HX7ojZWpwo5lWPXuBIMTrf4YvqXlJkXKL59unqAU
-HrEU3BwluurOjhxerr1hJt2+rof+m8wbW9c9VLqXMTb59udJtgQ9lZJXCU4oytSD
-eoqd3iCnVBJ+u5G1McZG8S0B0qwGC/pYxXNRgrdW1cV2Eo5YjqVocO7kPr4PcI5s
-IWJMsxduVL3P3VvZ1FvWPuqp5DwGMI7JQ9kU03RTb5NJ+9egOhBp0YylAgQmDPX8
-g+YuoJX4ZtPVGGyBvrHXFFEDfmb8SayhrC5ysBaPJiKdAyr/Yd4=
-=AWgn
------END PGP SIGNATURE-----
-
---Sig_/3/Qm647ZkFj/Jf89mUkhkF3--
+>
+> Am Mo., 15. Apr. 2024 um 13:57 Uhr schrieb Patrik Jakobsson <patrik.r.jak=
+obsson@gmail.com>:
+>>
+>> On Mon, Apr 15, 2024 at 1:45=E2=80=AFPM Thomas Zimmermann <tzimmermann@s=
+use.de> wrote:
+>> >
+>> > Hi
+>> >
+>> > Am 15.04.24 um 13:27 schrieb Patrik Jakobsson:
+>> > > Due to a change in the order of initialization, the lid timer got
+>> > > started before proper setup was made. This resulted in a crash durin=
+g
+>> > > boot.
+>> > >
+>> > > The lid switch is handled by gma500 through a timer that periodicall=
+y
+>> > > polls the opregion for changes. These types of ACPI events shouldn't=
+ be
+>> > > handled by the graphics driver so let's get rid of the lid code.  Th=
+is
+>> > > fixes the crash during boot.
+>> > >
+>> > > Fixes: 8f1aaccb04b7 ("drm/gma500: Implement client-based fbdev emula=
+tion")
+>> > > Cc: Enrico Bartky <enrico.bartky@gmail.com>
+>> >
+>> > The patch deserves a Reported-by: from Enrico.
+>>
+>> Enrico, can you test this patch to make sure it works for you as well?
+>>
+>> Thanks
+>> Patrik
+>>
+>> >
+>> > With this fixed:
+>> >
+>> > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> >
+>> > Best regards
+>> > Thomas
+>> >
+>> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> > > Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+>> > > ---
+>> > >   drivers/gpu/drm/gma500/Makefile     |  1 -
+>> > >   drivers/gpu/drm/gma500/psb_device.c |  5 +-
+>> > >   drivers/gpu/drm/gma500/psb_drv.h    |  9 ----
+>> > >   drivers/gpu/drm/gma500/psb_lid.c    | 80 -------------------------=
+----
+>> > >   4 files changed, 1 insertion(+), 94 deletions(-)
+>> > >   delete mode 100644 drivers/gpu/drm/gma500/psb_lid.c
+>> > >
+>> > > diff --git a/drivers/gpu/drm/gma500/Makefile b/drivers/gpu/drm/gma50=
+0/Makefile
+>> > > index 4f302cd5e1a6..58fed80c7392 100644
+>> > > --- a/drivers/gpu/drm/gma500/Makefile
+>> > > +++ b/drivers/gpu/drm/gma500/Makefile
+>> > > @@ -34,7 +34,6 @@ gma500_gfx-y +=3D \
+>> > >         psb_intel_lvds.o \
+>> > >         psb_intel_modes.o \
+>> > >         psb_intel_sdvo.o \
+>> > > -       psb_lid.o \
+>> > >         psb_irq.o
+>> > >
+>> > >   gma500_gfx-$(CONFIG_ACPI) +=3D  opregion.o
+>> > > diff --git a/drivers/gpu/drm/gma500/psb_device.c b/drivers/gpu/drm/g=
+ma500/psb_device.c
+>> > > index dcfcd7b89d4a..6dece8f0e380 100644
+>> > > --- a/drivers/gpu/drm/gma500/psb_device.c
+>> > > +++ b/drivers/gpu/drm/gma500/psb_device.c
+>> > > @@ -73,8 +73,7 @@ static int psb_backlight_setup(struct drm_device *=
+dev)
+>> > >       }
+>> > >
+>> > >       psb_intel_lvds_set_brightness(dev, PSB_MAX_BRIGHTNESS);
+>> > > -     /* This must occur after the backlight is properly initialised=
+ */
+>> > > -     psb_lid_timer_init(dev_priv);
+>> > > +
+>> > >       return 0;
+>> > >   }
+>> > >
+>> > > @@ -259,8 +258,6 @@ static int psb_chip_setup(struct drm_device *dev=
+)
+>> > >
+>> > >   static void psb_chip_teardown(struct drm_device *dev)
+>> > >   {
+>> > > -     struct drm_psb_private *dev_priv =3D to_drm_psb_private(dev);
+>> > > -     psb_lid_timer_takedown(dev_priv);
+>> > >       gma_intel_teardown_gmbus(dev);
+>> > >   }
+>> > >
+>> > > diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma5=
+00/psb_drv.h
+>> > > index c5edfa4aa4cc..83c17689c454 100644
+>> > > --- a/drivers/gpu/drm/gma500/psb_drv.h
+>> > > +++ b/drivers/gpu/drm/gma500/psb_drv.h
+>> > > @@ -162,7 +162,6 @@
+>> > >   #define PSB_NUM_VBLANKS 2
+>> > >
+>> > >   #define PSB_WATCHDOG_DELAY (HZ * 2)
+>> > > -#define PSB_LID_DELAY (HZ / 10)
+>> > >
+>> > >   #define PSB_MAX_BRIGHTNESS          100
+>> > >
+>> > > @@ -491,11 +490,7 @@ struct drm_psb_private {
+>> > >       /* Hotplug handling */
+>> > >       struct work_struct hotplug_work;
+>> > >
+>> > > -     /* LID-Switch */
+>> > > -     spinlock_t lid_lock;
+>> > > -     struct timer_list lid_timer;
+>> > >       struct psb_intel_opregion opregion;
+>> > > -     u32 lid_last_state;
+>> > >
+>> > >       /* Watchdog */
+>> > >       uint32_t apm_reg;
+>> > > @@ -591,10 +586,6 @@ struct psb_ops {
+>> > >       int i2c_bus;            /* I2C bus identifier for Moorestown *=
+/
+>> > >   };
+>> > >
+>> > > -/* psb_lid.c */
+>> > > -extern void psb_lid_timer_init(struct drm_psb_private *dev_priv);
+>> > > -extern void psb_lid_timer_takedown(struct drm_psb_private *dev_priv=
+);
+>> > > -
+>> > >   /* modesetting */
+>> > >   extern void psb_modeset_init(struct drm_device *dev);
+>> > >   extern void psb_modeset_cleanup(struct drm_device *dev);
+>> > > diff --git a/drivers/gpu/drm/gma500/psb_lid.c b/drivers/gpu/drm/gma5=
+00/psb_lid.c
+>> > > deleted file mode 100644
+>> > > index 58a7fe392636..000000000000
+>> > > --- a/drivers/gpu/drm/gma500/psb_lid.c
+>> > > +++ /dev/null
+>> > > @@ -1,80 +0,0 @@
+>> > > -// SPDX-License-Identifier: GPL-2.0-only
+>> > > -/******************************************************************=
+********
+>> > > - * Copyright (c) 2007, Intel Corporation.
+>> > > - *
+>> > > - * Authors: Thomas Hellstrom <thomas-at-tungstengraphics-dot-com>
+>> > > - ******************************************************************=
+********/
+>> > > -
+>> > > -#include <linux/spinlock.h>
+>> > > -
+>> > > -#include "psb_drv.h"
+>> > > -#include "psb_intel_reg.h"
+>> > > -#include "psb_reg.h"
+>> > > -
+>> > > -static void psb_lid_timer_func(struct timer_list *t)
+>> > > -{
+>> > > -     struct drm_psb_private *dev_priv =3D from_timer(dev_priv, t, l=
+id_timer);
+>> > > -     struct drm_device *dev =3D (struct drm_device *)&dev_priv->dev=
+;
+>> > > -     struct timer_list *lid_timer =3D &dev_priv->lid_timer;
+>> > > -     unsigned long irq_flags;
+>> > > -     u32 __iomem *lid_state =3D dev_priv->opregion.lid_state;
+>> > > -     u32 pp_status;
+>> > > -
+>> > > -     if (readl(lid_state) =3D=3D dev_priv->lid_last_state)
+>> > > -             goto lid_timer_schedule;
+>> > > -
+>> > > -     if ((readl(lid_state)) & 0x01) {
+>> > > -             /*lid state is open*/
+>> > > -             REG_WRITE(PP_CONTROL, REG_READ(PP_CONTROL) | POWER_TAR=
+GET_ON);
+>> > > -             do {
+>> > > -                     pp_status =3D REG_READ(PP_STATUS);
+>> > > -             } while ((pp_status & PP_ON) =3D=3D 0 &&
+>> > > -                      (pp_status & PP_SEQUENCE_MASK) !=3D 0);
+>> > > -
+>> > > -             if (REG_READ(PP_STATUS) & PP_ON) {
+>> > > -                     /*FIXME: should be backlight level before*/
+>> > > -                     psb_intel_lvds_set_brightness(dev, 100);
+>> > > -             } else {
+>> > > -                     DRM_DEBUG("LVDS panel never powered up");
+>> > > -                     return;
+>> > > -             }
+>> > > -     } else {
+>> > > -             psb_intel_lvds_set_brightness(dev, 0);
+>> > > -
+>> > > -             REG_WRITE(PP_CONTROL, REG_READ(PP_CONTROL) & ~POWER_TA=
+RGET_ON);
+>> > > -             do {
+>> > > -                     pp_status =3D REG_READ(PP_STATUS);
+>> > > -             } while ((pp_status & PP_ON) =3D=3D 0);
+>> > > -     }
+>> > > -     dev_priv->lid_last_state =3D  readl(lid_state);
+>> > > -
+>> > > -lid_timer_schedule:
+>> > > -     spin_lock_irqsave(&dev_priv->lid_lock, irq_flags);
+>> > > -     if (!timer_pending(lid_timer)) {
+>> > > -             lid_timer->expires =3D jiffies + PSB_LID_DELAY;
+>> > > -             add_timer(lid_timer);
+>> > > -     }
+>> > > -     spin_unlock_irqrestore(&dev_priv->lid_lock, irq_flags);
+>> > > -}
+>> > > -
+>> > > -void psb_lid_timer_init(struct drm_psb_private *dev_priv)
+>> > > -{
+>> > > -     struct timer_list *lid_timer =3D &dev_priv->lid_timer;
+>> > > -     unsigned long irq_flags;
+>> > > -
+>> > > -     spin_lock_init(&dev_priv->lid_lock);
+>> > > -     spin_lock_irqsave(&dev_priv->lid_lock, irq_flags);
+>> > > -
+>> > > -     timer_setup(lid_timer, psb_lid_timer_func, 0);
+>> > > -
+>> > > -     lid_timer->expires =3D jiffies + PSB_LID_DELAY;
+>> > > -
+>> > > -     add_timer(lid_timer);
+>> > > -     spin_unlock_irqrestore(&dev_priv->lid_lock, irq_flags);
+>> > > -}
+>> > > -
+>> > > -void psb_lid_timer_takedown(struct drm_psb_private *dev_priv)
+>> > > -{
+>> > > -     del_timer_sync(&dev_priv->lid_timer);
+>> > > -}
+>> > > -
+>> >
+>> > --
+>> > --
+>> > Thomas Zimmermann
+>> > Graphics Driver Developer
+>> > SUSE Software Solutions Germany GmbH
+>> > Frankenstrasse 146, 90461 Nuernberg, Germany
+>> > GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+>> > HRB 36809 (AG Nuernberg)
+>> >
