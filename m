@@ -2,51 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D3D8A878F
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 17:28:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6FC8A8802
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 17:46:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B089410F5BA;
-	Wed, 17 Apr 2024 15:28:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16DB111363D;
+	Wed, 17 Apr 2024 15:46:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=tronnes.org header.i=@tronnes.org header.b="P1Ufu0Bl";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=smtpcorp.com header.i=@smtpcorp.com header.b="eSeXQ/2W";
+	dkim=pass (2048-bit key; unprotected) header.d=asem.it header.i=@asem.it header.b="dKnn8c04";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EF7910F5BA
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 15:28:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202312;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:Cc:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID
- :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
- Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
- :List-Post:List-Owner:List-Archive;
- bh=HVzZeJ247p1V1u0rlIku8RLkTZYvH0Jt2c8PrKArliw=; b=P1Ufu0BleuygiAAjzsdXeY0gjD
- cs/q4bZh88qdyH8ZAX1siqDGKWdn+gTgHw16ztJtlMSBTmAU8ikWXkh248nwqbe2aInFWxTXZQwd1
- UAgrpM5ZOghUf28YStNto2US9RsYOq0vhi/3DEMYwPDipsYpScBWenO4101ggIznXsmPaNd/VB2Lj
- YwjA8an0XER3gYOoLkNW6BQEzPH1jhWQTEH5bWa6fxz9nXkCcB4dKhp8vlKmfx4iLgs6hPzgz20n8
- cEPxfF2ihHIakEB7hvC6FgPpOZ20b6LXgWiBsO1knFNCzJf65MNkSKrcVMegFaPRfdkc+4Ndkmr6E
- H+6wDNEA==;
-Received: from 239.81-166-173.customer.lyse.net ([81.166.173.239]:54210
- helo=[192.168.10.99]) by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <noralf@tronnes.org>) id 1rx7Aq-000HI7-8U;
- Wed, 17 Apr 2024 17:26:12 +0200
-Message-ID: <a34be968-74ac-4bd3-9b67-ede2ff96ee28@tronnes.org>
-Date: Wed, 17 Apr 2024 17:26:10 +0200
+X-Greylist: delayed 902 seconds by postgrey-1.36 at gabe;
+ Wed, 17 Apr 2024 15:46:19 UTC
+Received: from e3i51.smtp2go.com (e3i51.smtp2go.com [158.120.84.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFBCF11363D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 15:46:19 +0000 (UTC)
+Received: from [10.86.249.198] (helo=asas054.asem.intra)
+ by smtpcorp.com with esmtpa (Exim 4.96.1-S2G)
+ (envelope-from <f.suligoi@asem.it>) id 1rx7Fg-g2w585-0j
+ for dri-devel@lists.freedesktop.org; Wed, 17 Apr 2024 15:31:12 +0000
+Received: from flavio-x.asem.intra ([172.16.18.47]) by asas054.asem.intra with
+ Microsoft SMTPSVC(10.0.14393.4169); Wed, 17 Apr 2024 17:31:10 +0200
+From: Flavio Suligoi <f.suligoi@asem.it>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Flavio Suligoi <f.suligoi@asem.it>
+Subject: [PATCH v1 0/1] backlight: mp3309c: fix leds flickering in pwm mode
+Date: Wed, 17 Apr 2024 17:31:04 +0200
+Message-Id: <20240417153105.1794134-1-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/15] drm/gud: switch to struct drm_edid
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-References: <cover.1713273659.git.jani.nikula@intel.com>
- <c519a9b9d3c3c9a413de33b99b97a1120f774f2d.1713273659.git.jani.nikula@intel.com>
-Content-Language: en-US
-Cc: noralf@tronnes.org
-From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-In-Reply-To: <c519a9b9d3c3c9a413de33b99b97a1120f774f2d.1713273659.git.jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 17 Apr 2024 15:31:10.0467 (UTC)
+ FILETIME=[4621B530:01DA90DC]
+X-smtpcorp-track: 1rx7Fgg2w5850M.HztUDgdIVRjKa
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpcorp.com;
+ i=@smtpcorp.com; q=dns/txt; s=a1-4; t=1713367874; h=feedback-id :
+ x-smtpcorp-track : date : message-id : to : subject : from : reply-to
+ : sender : list-unsubscribe;
+ bh=krcOgqXsGe7x+1M7PzgJWjOituJS8hooQQYOs5GAeeo=;
+ b=eSeXQ/2Wmck1NpS88BM4fOtUsGzHEaegOZfk1LK14X4z05BUxtoaaIovukQPjwAZF8HAn
+ 146JN5Asxr0b6j7l5XvHhx+g7vjm24ThYnsAey+dogkNs/VEuB9doV2wgGBwlusALF6jwMc
+ bPGUv3dYDn8/l293dZrzDsyT9nZYF6K5ovkrrDdzOp21VQei2mIHawfbTQcEwveYZUKMpje
+ h/beFnI9/hSkil0WFL17jsB66VgmPFfiKDTIqBFvjJtJlM++U4zCGScSDdfE/NVvrAvSSup
+ YllSusF6gCE2Pi6oUnSSwjHq7RW/iV5rnN9kmRuwdnGkWB6fu+Qb62KTB9ug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it;
+ i=@asem.it; q=dns/txt; s=s1174574; t=1713367874; h=from : subject : to
+ : message-id : date; bh=krcOgqXsGe7x+1M7PzgJWjOituJS8hooQQYOs5GAeeo=;
+ b=dKnn8c04Pb0OQdeecLKZQxnnthStE8ighfdrx+VQ6GaNf1BEY4eIbgfXEH0vtKcwVtRSI
+ 1EKUIcTSZCyitv2ds1QeOhhKEmGgxtRAxCe7MZy8EPD3tInMtKpu34AArfoqk3W0ZzRv4PG
+ EYn75vewSDpNRyZ6uMo5ZFBx0v9qalaO1ks9ZZr+WdJYN5tZqIjC9vxJ5gbJ50c45Nn736h
+ cRvEhjDdwa9H7CR1p7gLc2TzUZJvjH2ou3AIlcF3+qdEytDO2U0afGjfP9dQ7HIPEQXx9bk
+ HlFmKAVAhXBnBdsdSYQIZLNdrsoB7cnR92cc+nEQ17+sqvtxjp8an3mEzGpg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,16 +72,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The mp3309 has two configuration registers, named according to their
+address (0x00 and 0x01).
+In the second register (0x01), the bit DIMS (Dimming Mode Select) must
+be always 0 (zero), in both analog (via i2c commands) and pwm dimming
+mode.
 
+In the initial driver version, the DIMS bit was set in pwm mode and
+reset in analog mode.
+But if the DIMS bit is set in pwm dimming mode and other devices are
+connected on the same i2c bus, every i2c commands on the bus generates a
+flickering on the LEDs powered by the mp3309c.
 
-On 4/16/24 15:22, Jani Nikula wrote:
-> Prefer struct drm_edid based functions over struct edid.
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> ---
-> 
+This change concerns the chip initialization and does not impact any
+existing device-tree configuration.
 
-Thanks,
+I created this device driver for one of our boards, where both dimming
+modes (pwm and analog by i2c commands) can be used.
+This board uses the same i2c bus for the mp3309c and for an at24cs32
+eeprom.
+During further tests, I realized that, when the mp3309c is used in pwm
+mode, every read operation on the eeprom caused a backlight flickering.
+This is why I made this device driver modification.
 
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+Flavio Suligoi (1):
+  backlight: mp3309c: fix leds flickering in pwm mode
+
+ drivers/video/backlight/mp3309c.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+-- 
+2.34.1
+
