@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458EE8A7E17
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 10:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D511E8A7E3C
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 10:29:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC101132BE;
-	Wed, 17 Apr 2024 08:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91CF510F2CF;
+	Wed, 17 Apr 2024 08:29:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cJnCgPOS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="F1nOdFbP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2804A1132BA;
- Wed, 17 Apr 2024 08:22:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FEAC10EB61;
+ Wed, 17 Apr 2024 08:29:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713342124; x=1744878124;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ToIXFLsalA81kqrXe5Pngmqo3hSzK5CiSqKl/FIsk4s=;
- b=cJnCgPOSx8mG32IRRhYUqQaLw9thFc7AYGiiEr+g8wAAw+dkgVFOGlmw
- EK6zZXl/IW8wLD4gBji2Qe7jRfzmi2LGzOcAsfwD700p3P8yCBvpwhEqe
- Qtfqzb5EoaSdZrdauothCG0ZXuF04NvbB4Qq3TGlgwUr6r56SKsRoeC1g
- TpBE2PEDAP+4sbi5kkzrefydQDMZjwrjucN2YTHuIniynId+aanvIUZeK
- VtrOxra17Jx1Q0gpcVMf4MdGZcuNdCq75HQhLOuYVKPAN8NfUX+XI8Jmq
- IEU1jQdxWxclJWnt/ek0ke/t9KJDUPZ45gKr1fvoOlAU2d83PBjPHZw5w g==;
-X-CSE-ConnectionGUID: c9sQ3xHVR5G41QrHGL0zNA==
-X-CSE-MsgGUID: Wl1y3YC0QtOnp2pBMpWaCQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="31303045"
-X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; d="scan'208";a="31303045"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2024 01:22:03 -0700
-X-CSE-ConnectionGUID: 69GeIadEQBW73U1TI1YO6Q==
-X-CSE-MsgGUID: rmCNWOpPSTSf54qTXkhwxw==
+ t=1713342541; x=1744878541;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fLwc5QJKW9xWSzTV50z4nM9GSFcxa5YEMRBtnSrODm8=;
+ b=F1nOdFbPDVLSZ+e46MF5eAZKj8kmllqdj3tl+uc+6rTmztxBbP+to9w1
+ SsmUpI6OOuo/GfMuUx1ulQpPYKNGZhbq7G6XruAzx7zKAHsrU1GTE07yk
+ KBe48e84K8wGhHJXyiWSqMZ2d92+GUUGvjR2keGtrEz4aiQE/jZWHVGKk
+ YKqVSAl0e4TTKdpImW4piIwoDMsEzTt6veZru9vXicvnQuC21nh/4rGyo
+ qmL5Q35zVQoO4jUpdCHikZ8jhakyLDXKCs06rabImKNJdikn24ClYmH6T
+ JNwbYh0zDmHfzwR1PNOHIHyJWxP5i5wfiHc2LX75E/qC10Jm0NNhLQ6yy g==;
+X-CSE-ConnectionGUID: 13H1nD0/S+WDNv4lhX/JaA==
+X-CSE-MsgGUID: wP6BODrBRNSY2tLvrkedqQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="19380792"
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; d="scan'208";a="19380792"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2024 01:29:00 -0700
+X-CSE-ConnectionGUID: pxGiJCywTGqYzrP6I/mu2g==
+X-CSE-MsgGUID: Whn9xkY8QmOAwTSMPF0lHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; d="scan'208";a="22418633"
-Received: from vpus-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.45.164])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2024 01:22:01 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [REBASE 7/7] drm/edid: make drm_edid_are_equal() more
- convenient for its single user
-In-Reply-To: <deb7918d-03dd-49f4-8a5d-3470ed05800e@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1713259151.git.jani.nikula@intel.com>
- <1011a285d30babce3aabd8218abb7ece7dcf58a2.1713259151.git.jani.nikula@intel.com>
- <a2e36f83-0e5c-4a57-bf31-37665f8ece71@suse.de> <87h6g1ze42.fsf@intel.com>
- <deb7918d-03dd-49f4-8a5d-3470ed05800e@suse.de>
-Date: Wed, 17 Apr 2024 11:21:58 +0300
-Message-ID: <878r1cz9eh.fsf@intel.com>
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; d="scan'208";a="27104397"
+Received: from unknown (HELO intel.com) ([10.247.119.38])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2024 01:28:54 -0700
+Date: Wed, 17 Apr 2024 10:28:48 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Badal Nilawar <badal.nilawar@intel.com>,
+ Ville =?iso-8859-15?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ linux-hwmon@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4] drm/i915/hwmon: Get rid of devm
+Message-ID: <Zh-IQENH0hHokBbv@ashyti-mobl2.lan>
+References: <20240417051642.788740-1-ashutosh.dixit@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240417051642.788740-1-ashutosh.dixit@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +71,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Apr 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 16.04.24 um 14:27 schrieb Jani Nikula:
->> On Tue, 16 Apr 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>> Hi
->>>
->>> Am 16.04.24 um 11:20 schrieb Jani Nikula:
->>>> Repurpose drm_edid_are_equal() to be more helpful for its single user,
->>>> and rename drm_edid_eq(). Functionally deduce the length from the blob
->>>> size, not the blob data, making it more robust against any errors.
->>> Could be squashed into patch 6.
->> Ack.
->>
->> Thanks for the review. I'll hold of on resending these until there are
->> some R-b's... I've send them a few times already with no comments. :(
->
-> Feel free to add
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
-> to the series.
+Hi Ashutosh,
 
-Many thanks! Just to double check, do you want me to move patch 5
-earlier and squash patches 6&7?
+> @@ -839,16 +837,38 @@ void i915_hwmon_register(struct drm_i915_private *i915)
+>  		if (!hwm_gt_is_visible(ddat_gt, hwmon_energy, hwmon_energy_input, 0))
+>  			continue;
+>  
+> -		hwmon_dev = devm_hwmon_device_register_with_info(dev, ddat_gt->name,
+> -								 ddat_gt,
+> -								 &hwm_gt_chip_info,
+> -								 NULL);
+> -		if (!IS_ERR(hwmon_dev))
+> -			ddat_gt->hwmon_dev = hwmon_dev;
+> +		hwmon_dev = hwmon_device_register_with_info(dev, ddat_gt->name,
+> +							    ddat_gt,
+> +							    &hwm_gt_chip_info,
+> +							    NULL);
+> +		if (IS_ERR(hwmon_dev))
+> +			goto err;
 
-BR,
-Jani.
+here the logic is changing, though. Before we were not leaving if
+hwmon_device_register_with_info() was returning error.
 
+Is this wanted? And why isn't it described in the log?
 
--- 
-Jani Nikula, Intel
+Thanks,
+Andi
+
+> +
+> +		ddat_gt->hwmon_dev = hwmon_dev;
+>  	}
