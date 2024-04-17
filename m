@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BECE8A8740
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 17:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2E78A8761
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 17:20:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6451E10E5BF;
-	Wed, 17 Apr 2024 15:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D18211360C;
+	Wed, 17 Apr 2024 15:20:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ue5F6FPH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DIDHPvGS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E9910E7CE
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 15:17:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 80694614F0;
- Wed, 17 Apr 2024 15:17:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8725CC072AA;
- Wed, 17 Apr 2024 15:17:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713367072;
- bh=7yUA2jvJOr59LgOV0dNeP1KEF/46tQCssXhwNevw0jk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ue5F6FPHnOL678DL2/9QaVKJxkFHLib2iST9fdO1L1DqVuQLwpSnn0egwI8VXOzhh
- LFsGHcMiju8mmTJOYIS8Y9+CCV6vK7CMDOAFASU9B3+nci/5W1LyK+X7yPLqzm3pJ/
- eDDGZfj2e4s8xLceRvdIcC91uGBPgSkNP8SuU9QmxwHKEV+e2YNjiQKQyytEesYgY7
- RQVwnwqv7V4wVJlhGyLzi04W+9NRyccDMGiwcruWywBs2oXbXCWSFGjKjIRQuD9vCl
- NfylHouYCztjVEuEI2Ie5JRFpluNauRX0op/bF8/b8bw/7enGM/Rm8OW7GO2U8kChS
- gSwovAp1+cV5w==
-Date: Wed, 17 Apr 2024 16:17:45 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org,
- Tomi Valkeinen <tomi.valkainen@ideasonboard.com>
-Subject: Re: [PATCH v4 0/7] Managing live video input format for ZynqMP DPSUB
-Message-ID: <20240417-stifling-saline-c401b7ba73e2@spud>
-References: <20240416-dp-live-fmt-v4-0-c7f379b7168e@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C857113608;
+ Wed, 17 Apr 2024 15:20:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713367245; x=1744903245;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=llN7GSHhN95iQPRuN03mjpEElAHvmfCPtBkJjSjJ7u0=;
+ b=DIDHPvGSdcershlQi0NZy2ddlkrw8ySOwSbUGlKP8SE9fEh2WGe27umq
+ EMW2HgqM0m8J+owQDboksppjOXNKmZZhJ7FAVglq8dnBfXSVOvxleoQHT
+ cO5/g1DXIQHyxdwXlLIXRfROrWGuJfuDQwLpmgy75iK7MnCFSioI31tiO
+ XygfrhQeFretUuT0xR5BIULxRudHONmKOwkRR13oJYsPyGtf/DdeAnMRu
+ xHmorzBsOuil7yf9vKujJ8diyBqrF4P1dFW3J0OEkyOv1j3VoY/zCQn9W
+ gyn8gKmHnxzWr0CJThp2N8uixstSSUS/ulIx0TEFwdVsOqf00sLzLCgQk Q==;
+X-CSE-ConnectionGUID: l8SKMHpPTuewLNKB/xD+2Q==
+X-CSE-MsgGUID: E78oaXXXQuSsHhHbO1VUMw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8730579"
+X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
+   d="scan'208";a="8730579"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2024 08:20:44 -0700
+X-CSE-ConnectionGUID: DjT0wy8fQOSvetW85i9Xsg==
+X-CSE-MsgGUID: 2hVv52VoRT2u3nXY4As5Dg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; d="scan'208";a="22741008"
+Received: from vpus-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.45.164])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2024 08:20:43 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [REBASE 7/7] drm/edid: make drm_edid_are_equal() more
+ convenient for its single user
+In-Reply-To: <b63cb8b9-4b91-422d-96ba-c8e25b6e267f@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1713259151.git.jani.nikula@intel.com>
+ <1011a285d30babce3aabd8218abb7ece7dcf58a2.1713259151.git.jani.nikula@intel.com>
+ <a2e36f83-0e5c-4a57-bf31-37665f8ece71@suse.de> <87h6g1ze42.fsf@intel.com>
+ <deb7918d-03dd-49f4-8a5d-3470ed05800e@suse.de> <878r1cz9eh.fsf@intel.com>
+ <b63cb8b9-4b91-422d-96ba-c8e25b6e267f@suse.de>
+Date: Wed, 17 Apr 2024 18:20:40 +0300
+Message-ID: <87a5lsxbg7.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qNv7Ubbsw1/3mR4p"
-Content-Disposition: inline
-In-Reply-To: <20240416-dp-live-fmt-v4-0-c7f379b7168e@amd.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,27 +73,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 17 Apr 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Many thanks! Just to double check, do you want me to move patch 5
+>> earlier and squash patches 6&7?
+>
+> Your choice. Either is fine by me.
 
---qNv7Ubbsw1/3mR4p
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I jumped at the easy option and merged this as-is. :)
 
-On Tue, Apr 16, 2024 at 01:31:35PM -0700, Anatoliy Klymenko wrote:
-> Implement live video input format setting for ZynqMP DPSUB.
+Thanks again,
+Jani.
 
-> To: Conor Dooley <conor+dt@kernel.org>
 
-If there's nothing dt related here anymore, you can drop me :)
 
---qNv7Ubbsw1/3mR4p
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh/oGQAKCRB4tDGHoIJi
-0schAP98nHZnfFSME0zR7T2jkF0LbZDaU+MuGab26eGkYG765AEAt9tVsTAZnaX6
-UmEjaoo4QyCmxz3wnRuiLAPA1WaPbwo=
-=ni7T
------END PGP SIGNATURE-----
-
---qNv7Ubbsw1/3mR4p--
+-- 
+Jani Nikula, Intel
