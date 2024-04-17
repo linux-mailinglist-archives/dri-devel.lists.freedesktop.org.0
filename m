@@ -2,83 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617F58A7C5E
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 08:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421718A7CD0
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 09:07:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 665131131D1;
-	Wed, 17 Apr 2024 06:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A80A8113211;
+	Wed, 17 Apr 2024 07:07:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YuwJxCRE";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aN4QeJ/V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0411131D1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 06:35:08 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2d8b4778f5fso37691891fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 23:35:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713335706; x=1713940506; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2Xb24KjnVD8H3G5GkJAAV0E3O47INRr7NamuW4Oc84A=;
- b=YuwJxCREFR78y0cL6MkMHxwOkZzdT+AJN7p7QTmrU2vvGuvE++QZ9hkNsENebaYOgW
- skYR3RX7mP8ikRJL2aK8S5dAuNVa5kG9gD+QIlN3smRtHEx/29/fWbK8xesuo4LaYHZH
- sBpLYPghIVJP2rGlu2yZilK8Uy5Esc3Zsrn+XvAfB9XrHg7g7nQrCi/j8dq8C7efQ1V3
- c8rrdYqudLEk4NeDxNssQNlwEE8F865VWhqVUA8PXH9GSu83nk4MODrS7HdCfJTsNb9c
- u3WeNppXjcWF0w8H46tw0iQoI5BvNqj04k80Lhc/oUuzU6VMrahXvILSS6/IBoP0sxph
- aa9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713335706; x=1713940506;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2Xb24KjnVD8H3G5GkJAAV0E3O47INRr7NamuW4Oc84A=;
- b=E4gRYltgOdhvDEj9FxgjKK3MELKdpJYF422+Vxv6mW8qsjths+sCy95OfKrKVwEWgx
- X+ncPwuclyC68AQy/t85TmOLl7NpxNhehjKelTjvCuoK2j4p1yhovO4lnxGMWJfwbWOO
- HaRJV1a7ZzXrUSTVtA8wEKMV37MvtL7f0b+DHLz/weli9W9oODJS/JUn3FeiIuw+Zdzm
- UNDrxnbTAi9EEhRe5sa6NqV92wDYzC9g60S24KPjIEHZ6gZsQLACm1YlQ/WekXnDvkdo
- 98DNeWdBDov5d1+fVKvU4N5/1e2tSWNW+98qTqQwQLW+W7KgHZTnAp7M2tsNabaPUh+B
- rdWg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX0IP5TeK00B+QuHyIpB/vLnj9wC+q/VEZ0yFqH3Nrt3OHMV5FcB31IWkLPxpu+nB9hlMhzZvpGFY3qUCWf/vAXl0HuEe02pHV212nlMJJO
-X-Gm-Message-State: AOJu0YxeJ6XlgrTL5k3oHlOz5+7pU7NEoXP+la5yhrUI0EzvDxCUDvVi
- fHgQl5q8kFESZBGuEp6uyOK1fzlElkpNeWgRhM3s2JPwAIVQRKji7gDjgdI6f94=
-X-Google-Smtp-Source: AGHT+IH65Sawq2nFbVz2eJjUlQ0Y/zsiekJC7R9FVP82pwC7pqNX9qf+KBXaMzJCakWnL8hpm23f9Q==
-X-Received: by 2002:a2e:6e12:0:b0:2d8:3eaf:86d2 with SMTP id
- j18-20020a2e6e12000000b002d83eaf86d2mr9582302ljc.47.1713335706222; 
- Tue, 16 Apr 2024 23:35:06 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- s21-20020a2e83d5000000b002daedd9c696sm336801ljh.53.2024.04.16.23.35.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Apr 2024 23:35:05 -0700 (PDT)
-Date: Wed, 17 Apr 2024 09:35:04 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Dharma Balasubiramani <dharma.b@microchip.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
- conor+dt@kernel.org, linux@armlinux.org.uk, Nicolas.Ferre@microchip.com, 
- alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev,
- Manikandan.M@microchip.com, 
- arnd@arndb.de, geert+renesas@glider.be, Jason@zx2c4.com, mpe@ellerman.id.au, 
- gerg@linux-m68k.org, rdunlap@infradead.org, vbabka@suse.cz, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 2/4] drm/bridge: add lvds controller support for sam9x7
-Message-ID: <xbefyxiyiwckjsi5wyqaf5thqgpyyizy7sjojed4yc7bvm46l3@omffdudkxyhl>
-References: <20240417024137.144727-1-dharma.b@microchip.com>
- <20240417024137.144727-3-dharma.b@microchip.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25B55113213
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 07:07:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id F25146127C;
+ Wed, 17 Apr 2024 07:07:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC31C072AA;
+ Wed, 17 Apr 2024 07:07:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1713337636;
+ bh=mH1Op3mNuCa9nI4NldsC+UBBMwUWlrZl8DwT/K1vkac=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aN4QeJ/V0+eD/+MifPfYMhJ+1zhx+Uowm9hvTUc/eXfW3SztydKBvFTRshnoFmQpl
+ WAFNITwr9Vz68Onkkrz2QpYOI9FlcbgfwEtk9La1bghA7hghu+ZJp8CLMAn5LeiTOw
+ rjeq3xK5qMwN4CtKNSAEhqorx2osAORynYLLY9Z8=
+Date: Wed, 17 Apr 2024 09:07:11 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: A <ashokemailat@yahoo.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: fbtft Removed redundant parentheses
+Message-ID: <2024041724-barricade-hardly-c554@gregkh>
+References: <cc9b9357d30c4abac7301767ff01fe7947f811c4.camel.ref@yahoo.com>
+ <cc9b9357d30c4abac7301767ff01fe7947f811c4.camel@yahoo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240417024137.144727-3-dharma.b@microchip.com>
+In-Reply-To: <cc9b9357d30c4abac7301767ff01fe7947f811c4.camel@yahoo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,338 +56,272 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 17, 2024 at 08:11:35AM +0530, Dharma Balasubiramani wrote:
-> Add a new LVDS controller driver for sam9x7 which does the following:
-> - Prepares and enables the LVDS Peripheral clock
-> - Defines its connector type as DRM_MODE_CONNECTOR_LVDS and adds itself
-> to the global bridge list.
-> - Identifies its output endpoint as panel and adds it to the encoder
-> display pipeline
-> - Enables the LVDS serializer
+On Tue, Apr 16, 2024 at 01:14:52PM -0700, A wrote:
+> >From 6dbcb120581fc7cb45812193227b0a197abd8ba4 Mon Sep 17 00:00:00 2001
+> From: Ashok Kumar <ashokemailat@yahoo.com>
+> Date: Tue, 16 Apr 2024 09:19:32 -0700
+> Subject: [PATCH] [PATCH] staging: fbtft Removed redundant parentheses on
+>  logical expr
 > 
-> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-> ---
-> Changelog
-> v5 -> v6
-> - No Changes.
-> v4 -> v5
-> - Drop the unused variable 'format'.
-> - Use DRM wrapper for dev_err() to maintain uniformity.
-> - return -ENODEV instead of -EINVAL to maintain consistency with other DRM
->   bridge drivers.
-> v3 -> v4
-> - No changes.
-> v2 ->v3
-> - Correct Typo error "serializer".
-> - Consolidate get() and prepare() functions and use devm_clk_get_prepared().
-> - Remove unused variable 'ret' in probe().
-> - Use devm_pm_runtime_enable() and drop the mchp_lvds_remove().
-> v1 -> v2
-> - Drop 'res' variable and combine two lines into one.
-> - Handle deferred probe properly, use dev_err_probe().
-> - Don't print anything on deferred probe. Dropped print.
-> - Remove the MODULE_ALIAS and add MODULE_DEVICE_TABLE().
-> - symbol 'mchp_lvds_driver' was not declared. It should be static.
-> ---
->  drivers/gpu/drm/bridge/Kconfig          |   7 +
->  drivers/gpu/drm/bridge/Makefile         |   1 +
->  drivers/gpu/drm/bridge/microchip-lvds.c | 228 ++++++++++++++++++++++++
->  3 files changed, 236 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
+> Adhere to Linux Kernel coding style removed redundant parentheses,
+> multiple blank lines and indentation alignment.
 > 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index efd996f6c138..889098e2d65f 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -190,6 +190,13 @@ config DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW
->  	  to DP++. This is used with the i.MX6 imx-ldb
->  	  driver. You are likely to say N here.
+> Reported by checkpatch.pl
+> 
+> ------
+> fb_ili9320.c
+> 
+> +       if ((devcode != 0x0000) && (devcode != 0x9320))
+> 
+> ------
+> fb_ra8875.c
+> 
+> CHECK: Unnecessary parentheses around 'par->info->var.xres == 320'
+> +      if ((par->info->var.xres == 320) && (par->info->var.yres ==
+> 240)) {
+> 
+> ------
+> fb_ssd1325.c
+> 
+> CHECK: Please don't use multiple blank lines
+> ------
+> 
+> fb_tinylcd.c    - indentation adjustment
+> 
+> -----
+> fbtft-bus.c
+> 
+> CHECK: Unnecessary parentheses around 'par->spi->bits_per_word == 8'
+> 
+> ------
+> fbtft-core.c
+> 
+> CHECK: Please don't use multiple blank lines
+> 
+> CHECK: Unnecessary parentheses around '!txbuflen'
+> 
+> CHECK: Please don't use multiple blank lines
+> ------
+> 
+> Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
+> ---
+>  drivers/staging/fbtft/fb_ili9320.c | 2 +-
+>  drivers/staging/fbtft/fb_ra8875.c  | 8 ++++----
+>  drivers/staging/fbtft/fb_ssd1325.c | 2 --
+>  drivers/staging/fbtft/fb_tinylcd.c | 2 +-
+>  drivers/staging/fbtft/fbtft-bus.c  | 6 +++---
+>  drivers/staging/fbtft/fbtft-core.c | 7 +------
+>  6 files changed, 10 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/staging/fbtft/fb_ili9320.c
+> b/drivers/staging/fbtft/fb_ili9320.c
+> index 0be7c2d51548..409b54cc562e 100644
+> --- a/drivers/staging/fbtft/fb_ili9320.c
+> +++ b/drivers/staging/fbtft/fb_ili9320.c
+> @@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
+>  	devcode = read_devicecode(par);
+>  	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code:
+> 0x%04X\n",
+>  		      devcode);
+> -	if ((devcode != 0x0000) && (devcode != 0x9320))
+> +	if (devcode != 0x0000 && devcode != 0x9320)
+>  		dev_warn(par->info->device,
+>  			 "Unrecognized Device code: 0x%04X (expected
+> 0x9320)\n",
+>  			devcode);
+> diff --git a/drivers/staging/fbtft/fb_ra8875.c
+> b/drivers/staging/fbtft/fb_ra8875.c
+> index 398bdbf53c9a..4b79fb48c5f0 100644
+> --- a/drivers/staging/fbtft/fb_ra8875.c
+> +++ b/drivers/staging/fbtft/fb_ra8875.c
+> @@ -50,7 +50,7 @@ static int init_display(struct fbtft_par *par)
 >  
-> +config DRM_MICROCHIP_LVDS_SERIALIZER
-> +	tristate "Microchip LVDS serializer support"
-> +	depends on OF
-> +	depends on DRM_ATMEL_HLCDC
-> +	help
-> +	  Support for Microchip's LVDS serializer.
-> +
->  config DRM_NWL_MIPI_DSI
->  	tristate "Northwest Logic MIPI DSI Host controller"
->  	depends on DRM
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 017b5832733b..7df87b582dca 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -13,6 +13,7 @@ obj-$(CONFIG_DRM_LONTIUM_LT9611) += lontium-lt9611.o
->  obj-$(CONFIG_DRM_LONTIUM_LT9611UXC) += lontium-lt9611uxc.o
->  obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
->  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
-> +obj-$(CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER) += microchip-lvds.o
->  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
->  obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
->  obj-$(CONFIG_DRM_PARADE_PS8640) += parade-ps8640.o
-> diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
-> new file mode 100644
-> index 000000000000..149704f498a6
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/microchip-lvds.c
-> @@ -0,0 +1,228 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries
-> + *
-> + * Author: Manikandan Muralidharan <manikandan.m@microchip.com>
-> + * Author: Dharma Balasubiramani <dharma.b@microchip.com>
-> + *
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/component.h>
-> +#include <linux/delay.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/pinctrl/devinfo.h>
-> +#include <linux/phy/phy.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regmap.h>
-> +#include <linux/reset.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_panel.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#define LVDS_POLL_TIMEOUT_MS 1000
-> +
-> +/* LVDSC register offsets */
-> +#define LVDSC_CR	0x00
-> +#define LVDSC_CFGR	0x04
-> +#define LVDSC_SR	0x0C
-> +#define LVDSC_WPMR	0xE4
-> +
-> +/* Bitfields in LVDSC_CR (Control Register) */
-> +#define LVDSC_CR_SER_EN	BIT(0)
-> +
-> +/* Bitfields in LVDSC_CFGR (Configuration Register) */
-> +#define LVDSC_CFGR_PIXSIZE_24BITS	0
-> +#define LVDSC_CFGR_DEN_POL_HIGH		0
-> +#define LVDSC_CFGR_DC_UNBALANCED	0
-> +#define LVDSC_CFGR_MAPPING_JEIDA	BIT(6)
-> +
-> +/*Bitfields in LVDSC_SR */
-> +#define LVDSC_SR_CS	BIT(0)
-> +
-> +/* Bitfields in LVDSC_WPMR (Write Protection Mode Register) */
-> +#define LVDSC_WPMR_WPKEY_MASK	GENMASK(31, 8)
-> +#define LVDSC_WPMR_WPKEY_PSSWD	0x4C5644
-> +
-> +struct mchp_lvds {
-> +	struct device *dev;
-> +	void __iomem *regs;
-> +	struct clk *pclk;
-> +	struct drm_panel *panel;
-> +	struct drm_bridge bridge;
-> +	struct drm_bridge *panel_bridge;
-> +};
-> +
-> +static inline struct mchp_lvds *bridge_to_lvds(struct drm_bridge *bridge)
-> +{
-> +	return container_of(bridge, struct mchp_lvds, bridge);
-> +}
-> +
-> +static inline u32 lvds_readl(struct mchp_lvds *lvds, u32 offset)
-> +{
-> +	return readl_relaxed(lvds->regs + offset);
-> +}
-> +
-> +static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
-> +{
-> +	writel_relaxed(val, lvds->regs + offset);
-> +}
-> +
-> +static void lvds_serialiser_on(struct mchp_lvds *lvds)
-> +{
-> +	unsigned long timeout = jiffies + msecs_to_jiffies(LVDS_POLL_TIMEOUT_MS);
-> +
-> +	/* The LVDSC registers can only be written if WPEN is cleared */
-> +	lvds_writel(lvds, LVDSC_WPMR, (LVDSC_WPMR_WPKEY_PSSWD &
-> +				LVDSC_WPMR_WPKEY_MASK));
-> +
-> +	/* Wait for the status of configuration registers to be changed */
-> +	while (lvds_readl(lvds, LVDSC_SR) & LVDSC_SR_CS) {
-> +		if (time_after(jiffies, timeout)) {
-> +			DRM_DEV_ERROR(lvds->dev, "%s: timeout error\n",
-> +				      __func__);
-> +			return;
-> +		}
-> +		usleep_range(1000, 2000);
-> +	}
-> +
-> +	/* Configure the LVDSC */
-> +	lvds_writel(lvds, LVDSC_CFGR, (LVDSC_CFGR_MAPPING_JEIDA |
-> +				LVDSC_CFGR_DC_UNBALANCED |
-> +				LVDSC_CFGR_DEN_POL_HIGH |
-> +				LVDSC_CFGR_PIXSIZE_24BITS));
-> +
-> +	/* Enable the LVDS serializer */
-> +	lvds_writel(lvds, LVDSC_CR, LVDSC_CR_SER_EN);
-> +}
-> +
-> +static int mchp_lvds_attach(struct drm_bridge *bridge,
-> +			    enum drm_bridge_attach_flags flags)
-> +{
-> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-> +
-> +	bridge->encoder->encoder_type = DRM_MODE_ENCODER_LVDS;
-
-Why do you need to touch encoder_type here? It's not your bridge's
-responsibility.
-
-> +
-> +	return drm_bridge_attach(bridge->encoder, lvds->panel_bridge,
-> +				 bridge, flags);
-> +}
-> +
-> +static void mchp_lvds_enable(struct drm_bridge *bridge)
-> +{
-> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-> +	int ret;
-> +
-> +	ret = clk_enable(lvds->pclk);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(lvds->dev, "failed to enable lvds pclk %d\n", ret);
-> +		return;
-> +	}
-> +
-> +	ret = pm_runtime_get_sync(lvds->dev);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(lvds->dev, "failed to get pm runtime: %d\n", ret);
-> +		clk_disable(lvds->pclk);
-
-This can result in unbalanced clk_disable(), if pm_runtime_get_sync()
-fails. This function calls clk_disable(), but the framework has no way
-to know that .enable() was not successful and calls .disable(), which
-also calls clk_disable().
-
-Please consider turning pclk into pm_clk so that its state is managed
-automatically (or at least moving clk_enable/disable into pm_ops).
-
-> +		return;
-> +	}
-> +
-> +	lvds_serialiser_on(lvds);
-> +}
-> +
-> +static void mchp_lvds_disable(struct drm_bridge *bridge)
-> +{
-> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-> +
-> +	pm_runtime_put(lvds->dev);
-> +	clk_disable(lvds->pclk);
-> +}
-> +
-> +static const struct drm_bridge_funcs mchp_lvds_bridge_funcs = {
-> +	.attach = mchp_lvds_attach,
-> +	.enable = mchp_lvds_enable,
-> +	.disable = mchp_lvds_disable,
-> +};
-> +
-> +static int mchp_lvds_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct mchp_lvds *lvds;
-> +	struct device_node *port;
-> +
-> +	if (!dev->of_node)
-> +		return -ENODEV;
-> +
-> +	lvds = devm_kzalloc(&pdev->dev, sizeof(*lvds), GFP_KERNEL);
-> +	if (!lvds)
-> +		return -ENOMEM;
-> +
-> +	lvds->dev = dev;
-> +
-> +	lvds->regs = devm_ioremap_resource(lvds->dev,
-> +			platform_get_resource(pdev, IORESOURCE_MEM, 0));
-> +	if (IS_ERR(lvds->regs))
-> +		return PTR_ERR(lvds->regs);
-> +
-> +	lvds->pclk = devm_clk_get_prepared(lvds->dev, "pclk");
-
-Why do you need _prepared version?
-
-> +	if (IS_ERR(lvds->pclk))
-> +		return dev_err_probe(lvds->dev, PTR_ERR(lvds->pclk),
-> +				"could not get pclk_lvds prepared\n");
-> +
-> +	port = of_graph_get_remote_node(dev->of_node, 1, 0);
-> +	if (!port) {
-> +		DRM_DEV_ERROR(dev,
-> +			      "can't find port point, please init lvds panel port!\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	lvds->panel = of_drm_find_panel(port);
-> +	of_node_put(port);
-> +
-> +	if (IS_ERR(lvds->panel))
-> +		return -EPROBE_DEFER;
-> +
-> +	lvds->panel_bridge = devm_drm_panel_bridge_add(dev, lvds->panel);
-
-Please use instead:
-
-devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-
-> +
-> +	if (IS_ERR(lvds->panel_bridge))
-> +		return PTR_ERR(lvds->panel_bridge);
-> +
-> +	lvds->bridge.of_node = dev->of_node;
-> +	lvds->bridge.type = DRM_MODE_CONNECTOR_LVDS;
-> +	lvds->bridge.funcs = &mchp_lvds_bridge_funcs;
-> +
-> +	dev_set_drvdata(dev, lvds);
-> +	devm_pm_runtime_enable(dev);
-
-Error check is missing.
-
-> +
-> +	drm_bridge_add(&lvds->bridge);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id mchp_lvds_dt_ids[] = {
-> +	{
-> +		.compatible = "microchip,sam9x75-lvds",
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, mchp_lvds_dt_ids);
-> +
-> +static struct platform_driver mchp_lvds_driver = {
-> +	.probe = mchp_lvds_probe,
-> +	.driver = {
-> +		   .name = "microchip-lvds",
-> +		   .of_match_table = mchp_lvds_dt_ids,
-> +	},
-> +};
-> +module_platform_driver(mchp_lvds_driver);
-> +
-> +MODULE_AUTHOR("Manikandan Muralidharan <manikandan.m@microchip.com>");
-> +MODULE_AUTHOR("Dharma Balasubiramani <dharma.b@microchip.com>");
-> +MODULE_DESCRIPTION("Low Voltage Differential Signaling Controller Driver");
-> +MODULE_LICENSE("GPL");
+>  	par->fbtftops.reset(par);
+>  
+> -	if ((par->info->var.xres == 320) && (par->info->var.yres ==
+> 240)) {
+> +	if (par->info->var.xres == 320 && par->info->var.yres == 240)
+> {
+>  		/* PLL clock frequency */
+>  		write_reg(par, 0x88, 0x0A);
+>  		write_reg(par, 0x89, 0x02);
+> @@ -74,8 +74,8 @@ static int init_display(struct fbtft_par *par)
+>  		write_reg(par, 0x1D, 0x0E);
+>  		write_reg(par, 0x1E, 0x00);
+>  		write_reg(par, 0x1F, 0x02);
+> -	} else if ((par->info->var.xres == 480) &&
+> -		   (par->info->var.yres == 272)) {
+> +	} else if (par->info->var.xres == 480 &&
+> +		   par->info->var.yres == 272) {
+>  		/* PLL clock frequency  */
+>  		write_reg(par, 0x88, 0x0A);
+>  		write_reg(par, 0x89, 0x02);
+> @@ -111,7 +111,7 @@ static int init_display(struct fbtft_par *par)
+>  		write_reg(par, 0x04, 0x01);
+>  		mdelay(1);
+>  		/* horizontal settings */
+> -		write_reg(par, 0x14, 0x4F);
+> +write_reg(par, 0x14, 0x4F);
+>  		write_reg(par, 0x15, 0x05);
+>  		write_reg(par, 0x16, 0x0F);
+>  		write_reg(par, 0x17, 0x01);
+> diff --git a/drivers/staging/fbtft/fb_ssd1325.c
+> b/drivers/staging/fbtft/fb_ssd1325.c
+> index 796a2ac3e194..69aa808c7e23 100644
+> --- a/drivers/staging/fbtft/fb_ssd1325.c
+> +++ b/drivers/staging/fbtft/fb_ssd1325.c
+> @@ -109,8 +109,6 @@ static int set_gamma(struct fbtft_par *par, u32
+> *curves)
+>  {
+>  	int i;
+>  
+> -	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "%s()\n", __func__);
+> -
+>  	for (i = 0; i < GAMMA_LEN; i++) {
+>  		if (i > 0 && curves[i] < 1) {
+>  			dev_err(par->info->device,
+> diff --git a/drivers/staging/fbtft/fb_tinylcd.c
+> b/drivers/staging/fbtft/fb_tinylcd.c
+> index 9469248f2c50..60cda57bcb33 100644
+> --- a/drivers/staging/fbtft/fb_tinylcd.c
+> +++ b/drivers/staging/fbtft/fb_tinylcd.c
+> @@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
+>  	write_reg(par, 0xE5, 0x00);
+>  	write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
+>  	write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
+> -		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
+> +		  0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
+>  	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+>  	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+>  	udelay(250);
+> diff --git a/drivers/staging/fbtft/fbtft-bus.c
+> b/drivers/staging/fbtft/fbtft-bus.c
+> index 3d422bc11641..02d7dbd38678 100644
+> --- a/drivers/staging/fbtft/fbtft-bus.c
+> +++ b/drivers/staging/fbtft/fbtft-bus.c
+> @@ -62,9 +62,9 @@
+> out:									      \
+>  }                                                                    
+> \
+>  EXPORT_SYMBOL(func);
+>  
+> -define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
+> +define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8,)
+>  define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16,
+> cpu_to_be16)
+> -define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
+> +define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16,)
+>  
+>  void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+>  {
+> @@ -85,7 +85,7 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int
+> len, ...)
+>  	if (len <= 0)
+>  		return;
+>  
+> -	if (par->spi && (par->spi->bits_per_word == 8)) {
+> +	if (par->spi && par->spi->bits_per_word == 8) {
+>  		/* we're emulating 9-bit, pad start of buffer with no-
+> ops
+>  		 * (assuming here that zero is a no-op)
+>  		 */
+> diff --git a/drivers/staging/fbtft/fbtft-core.c
+> b/drivers/staging/fbtft/fbtft-core.c
+> index 38845f23023f..98ffca49df81 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -216,8 +216,6 @@ static void fbtft_reset(struct fbtft_par *par)
+>  	if (!par->gpio.reset)
+>  		return;
+>  
+> -	fbtft_par_dbg(DEBUG_RESET, par, "%s()\n", __func__);
+> -
+>  	gpiod_set_value_cansleep(par->gpio.reset, 1);
+>  	usleep_range(20, 40);
+>  	gpiod_set_value_cansleep(par->gpio.reset, 0);
+> @@ -667,7 +665,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct
+> fbtft_display *display,
+>  		txbuflen = 0;
+>  
+>  #ifdef __LITTLE_ENDIAN
+> -	if ((!txbuflen) && (bpp > 8))
+> +	if (!txbuflen && bpp > 8)
+>  		txbuflen = PAGE_SIZE; /* need buffer for byteswapping
+> */
+>  #endif
+>  
+> @@ -1053,8 +1051,6 @@ static int fbtft_verify_gpios(struct fbtft_par
+> *par)
+>  	struct fbtft_platform_data *pdata = par->pdata;
+>  	int i;
+>  
+> -	fbtft_par_dbg(DEBUG_VERIFY_GPIOS, par, "%s()\n", __func__);
+> -
+>  	if (pdata->display.buswidth != 9 &&  par->startbyte == 0 &&
+>  	    !par->gpio.dc) {
+>  		dev_err(par->info->device,
+> @@ -1159,7 +1155,6 @@ int fbtft_probe_common(struct fbtft_display
+> *display,
+>  		dev = &pdev->dev;
+>  
+>  	if (unlikely(display->debug & DEBUG_DRIVER_INIT_FUNCTIONS))
+> -		dev_info(dev, "%s()\n", __func__);
+>  
+>  	pdata = dev->platform_data;
+>  	if (!pdata) {
 > -- 
-> 2.25.1
+> 2.34.1
+> 
 > 
 
--- 
-With best wishes
-Dmitry
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch contains warnings and/or errors noticed by the
+  scripts/checkpatch.pl tool.
+
+- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
+  and can not be applied.  Please read the file,
+  Documentation/process/email-clients.rst in order to fix this.
+
+- Your patch was attached, please place it inline so that it can be
+  applied directly from the email message itself.
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
