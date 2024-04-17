@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 596AB8A824A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 13:44:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31408A8253
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 13:47:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81FF410E50E;
-	Wed, 17 Apr 2024 11:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F75D11342A;
+	Wed, 17 Apr 2024 11:47:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="v+zY0X//";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SvGoOKn9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE63B10E50E
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 11:44:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713354249;
- bh=bRyQj2GJcNbcJkYLFZw5uapb+DmVEQYziMDpedn3jFI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=v+zY0X//NAcGnmJP1n9ADE5RxDR3RQIbhJUamc5bAFnXZtGt4PS2ztoMRGRQWFNgO
- Ln1MD+UKjZTs6HZvwNyJugzCi/HeeG9spIqgZVz2xCaMo0CDCWkJC4r7hIyG7/1Y1U
- rPwlmwYXxRXItMuwSi5p5ML/XgnnxPp/r2M6nonY+nOaUAFVUVTd2JKbFuEBOVn71W
- 5ZePO7J2GFatG1JiUE6T3ZKnE9YAkt97bJW+FjE8aWLlOBXh0GHFlljpfUPFRg/INZ
- 9XDFIG+tNT6TjYA+xgSjRhIrtJMjCzpPs08UJoWkS0SA3zdOWdXVe1v9rr5D5WrEEf
- T6MyDGgN/cq0Q==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id AA47A378208C;
- Wed, 17 Apr 2024 11:44:08 +0000 (UTC)
-Date: Wed, 17 Apr 2024 14:44:07 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
- thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH 3/3] drm/fourcc: Add documentation around drm_format_info
-Message-ID: <20240417144407.4d7d3eb8.pekka.paalanen@collabora.com>
-In-Reply-To: <Zh78It5SLbSVZAd8@localhost.localdomain>
-References: <20240409-google-drm-doc-v1-0-033d55cc8250@bootlin.com>
- <20240409-google-drm-doc-v1-3-033d55cc8250@bootlin.com>
- <20240415150021.13d9b637.pekka.paalanen@collabora.com>
- <Zh78It5SLbSVZAd8@localhost.localdomain>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A25610F440;
+ Wed, 17 Apr 2024 11:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713354462; x=1744890462;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=5O/UY6KKSSFkCoHiliCdx69CPIb+bCc6pWrtePdxBu8=;
+ b=SvGoOKn9UCDawvapaVObs5aETu2UwUN4ql8e8myVha1n7y0R1PHrDd0U
+ PTzwsmr4odwrqZW2cJLs32cFsxMBuowe658POQWIbHdPV3r7cG70JDnDA
+ 1qJj2ER5O+K2fZ6eNLC4p6vCpVKJI1jYcssCeBOe4M6TFfK27/nRV0hKZ
+ ZR542ofLKd0rdgPmIcQ9GSuEMRbSkqzEwSgJgBy3pa6rsAYdFd4ZzmhDH
+ sFYPd4mirDXssufOdzlceYmj9mkkVMjlkAfmWjZq4slLimvQiiJ+5On69
+ tI6Z8OEqF7lqgxeSdoREw8KDAhSpvjFb7wznKRfB2a2YblZJzi7wmVtYm g==;
+X-CSE-ConnectionGUID: ELh/h6NaRdCaOeOSHRRsdw==
+X-CSE-MsgGUID: So8et1cCRjCWJJ00TQ3tKA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="12679736"
+X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; d="scan'208";a="12679736"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2024 04:47:41 -0700
+X-CSE-ConnectionGUID: Ku2L2GNQRfqHzQ665pN3YQ==
+X-CSE-MsgGUID: Q6h4EmPXRJO/RefYOaRfLg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; d="scan'208";a="23193554"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2024 04:46:23 -0700
+Date: Wed, 17 Apr 2024 14:46:56 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Khaled Almahallawy <khaled.almahallawy@intel.com>
+Subject: Re: [PATCH v2 11/11] drm/i915/dp_mst: Enable HBLANK expansion quirk
+ for UHBR rates
+Message-ID: <Zh+2sLqFQ//J8m3W@ideak-desk.fi.intel.com>
+References: <20240416221010.376865-1-imre.deak@intel.com>
+ <20240416221010.376865-12-imre.deak@intel.com>
+ <87y19cxr8j.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/rR9Kf+9TSUkAda/q4ChRKXC";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87y19cxr8j.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,208 +69,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/rR9Kf+9TSUkAda/q4ChRKXC
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, Apr 17, 2024 at 12:39:40PM +0300, Jani Nikula wrote:
+> On Wed, 17 Apr 2024, Imre Deak <imre.deak@intel.com> wrote:
+> > Enabling the 5k@60Hz uncompressed mode on the MediaTek/Dell U3224KBA
+> > monitor results in a blank screen, at least on MTL platforms on UHBR
+> > link rates with some (<30) uncompressed bpp values. Enabling compression
+> > fixes the problem, so do that for now. Windows enables DSC always if the
+> > sink supports it and forcing it to enable the mode without compression
+> > leads to the same problem above (which suggests a panel issue with
+> > uncompressed mode).
+> >
+> > The same 5k mode on non-UHBR link rates is not affected and lower
+> > resolution modes are not affected either. The problem is similar to the
+> > one fixed by the HBLANK expansion quirk on Synaptics hubs, with the
+> > difference that the problematic mode has a longer HBLANK duration. Also
+> > the monitor doesn't report supporting HBLANK expansion; either its
+> > internal MST hub does the expansion internally - similarly to the
+> > Synaptics hub - or the issue has another root cause, but still related
+> > to the mode's short HBLANK duration. Enable the quirk for the monitor
+> > adjusting the detection for the above differences.
+> >
+> > Cc: dri-devel@lists.freedesktop.org
+> > Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> > Tested-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
+> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > ---
+> >  drivers/gpu/drm/display/drm_dp_helper.c     |  2 ++
+> >  drivers/gpu/drm/i915/display/intel_dp_mst.c | 22 +++++++++++++++++----
+> >  2 files changed, 20 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> > index 023907da98581..79a615667aab1 100644
+> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> > @@ -2281,6 +2281,8 @@ static const struct dpcd_quirk dpcd_quirk_list[] = {
+> >  	{ OUI(0x90, 0xCC, 0x24), DEVICE_ID_ANY, true, BIT(DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) },
+> >  	/* Synaptics DP1.4 MST hubs require DSC for some modes on which it applies HBLANK expansion. */
+> >  	{ OUI(0x90, 0xCC, 0x24), DEVICE_ID_ANY, true, BIT(DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC) },
+> > +	/* MediaTek panels (at least in U3224KBA) require DSC for modes with a short HBLANK on UHBR links. */
+> > +	{ OUI(0x00, 0x0C, 0xE7), DEVICE_ID_ANY, false, BIT(DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC) },
+> >  	/* Apple MacBookPro 2017 15 inch eDP Retina panel reports too low DP_MAX_LINK_RATE */
+> >  	{ OUI(0x00, 0x10, 0xfa), DEVICE_ID(101, 68, 21, 101, 98, 97), false, BIT(DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS) },
+> >  };
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > index fb5e167c3c659..71b01f7631919 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > @@ -421,15 +421,22 @@ static int mode_hblank_period_ns(const struct drm_display_mode *mode)
+> >  
+> >  static bool
+> >  hblank_expansion_quirk_needs_dsc(const struct intel_connector *connector,
+> > -				 const struct intel_crtc_state *crtc_state)
+> > +				 const struct intel_crtc_state *crtc_state,
+> > +				 const struct link_config_limits *limits)
+> >  {
+> >  	const struct drm_display_mode *adjusted_mode =
+> >  		&crtc_state->hw.adjusted_mode;
+> > +	bool is_uhbr_sink = connector->mst_port &&
+> > +			    drm_dp_uhbr_channel_coding_supported(connector->mst_port->dpcd);
+> 
+> Why do you combine connector->mst_port to "is uhbr sink"? I think it's
+> confusing.
 
-On Wed, 17 Apr 2024 00:30:58 +0200
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+It is a way to get the DPCD of the root port, to determine if it
+supports UHBR.
 
-> Le 15/04/24 - 15:00, Pekka Paalanen a =C3=A9crit :
-> > On Tue, 09 Apr 2024 12:04:07 +0200
-> > Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> >  =20
-> > > Let's provide more details about the drm_format_info structure because
-> > > its content may not be straightforward for someone not used to video
-> > > formats and drm internals.
-> > >=20
-> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > ---
-> > >  include/drm/drm_fourcc.h | 45 ++++++++++++++++++++++++++++++++++++++=
--------
-> > >  1 file changed, 38 insertions(+), 7 deletions(-)
-> > >=20
-> > > diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
-> > > index ccf91daa4307..66cc30e28f79 100644
-> > > --- a/include/drm/drm_fourcc.h
-> > > +++ b/include/drm/drm_fourcc.h
-> > > @@ -58,6 +58,44 @@ struct drm_mode_fb_cmd2;
-> > > =20
-> > >  /**
-> > >   * struct drm_format_info - information about a DRM format
-> > > + *
-> > > + * A drm_format_info describes how planes and pixels are stored in m=
-emory.
-> > > + *
-> > > + * Some format like YUV can have multiple planes, counted in @num_pl=
-anes. It
-> > > + * means that a full pixel can be stored in multiple non-continuous =
-buffers.
-> > > + * For example, NV12 is a YUV format using two planes: one for the Y=
- values and
-> > > + * one for the UV values.
-> > > + *
-> > > + * On each plane, the "pixel" unit can be different in case of subsa=
-mpling. For
-> > > + * example with the NV12 format, a pixel in the UV plane is used for=
- four pixels
-> > > + * in the Y plane.
-> > > + * The fields @hsub and @vsub are the relation between the size of t=
-he main
-> > > + * plane and the size of the subsampled planes in pixels:
-> > > + *	plane[0] width =3D hsub * plane[1] width
-> > > + *	plane[0] height =3D vsub * plane[1] height =20
-> >=20
-> > This makes it sound like plane[1] would be the one determining the
-> > image size. It is plane[0] that determines the image size (I don't know
-> > of a format that would have it otherwise), and vsub and hsub are used
-> > as divisors. It's in their name, too: horizontal/vertical sub-sampling.
-> >=20
-> > This is important for images with odd dimensions. If plane[1]
-> > determined the image size, it would be impossible to have odd sized
-> > NV12 images, for instance.
-> >=20
-> > Odd dimensions also imply something about rounding the size of the
-> > sub-sampled planes. I guess the rounding is up, not down? =20
->=20
-> I will change the equation to:
->=20
-> plane[1] =3D plane[0] / hsub (round up)
->=20
-> Can a DRM maintainer confirm the rounding up?
-> =20
-> > > + *
-> > > + * In some formats, pixels are not independent in memory. It can be =
-a packed =20
-> >=20
-> > "Independent in memory" sounds to me like it describes sub-sampling:
-> > some pixel components are shared between multiple pixels. Here you seem
-> > to refer to just packing: one pixel's data may take a fractional number
-> > of bytes. =20
->=20
->  * In some formats, pixels are not individually addressable. It ...
->=20
-> > > + * representation to store more pixels per byte (for example P030 us=
-es 4 bytes
-> > > + * for three 10 bit pixels). It can also be used to represent tiled =
-formats, =20
-> >=20
-> > s/tiled/block/
-> >=20
-> > Tiling is given by format modifiers rather than formats. =20
->=20
-> Fixed in the v2.
->=20
-> > > + * where a continuous buffer in memory can represent a rectangle of =
-pixels (for
-> > > + * example, in DRM_FORMAT_Y0L0, a buffer of 8 bytes represents a 2x2=
- pixel
-> > > + * region of the picture).
-> > > + *	The field @char_per_block is the size of a block on a specific pl=
-ane, in
-> > > + *	bytes.
-> > > + *	The fields @block_w and @block_h are the size of a block in pixel=
-s.
-> > > + *
-> > > + * The older format representation (which only uses @cpp, kept for h=
-istorical =20
-> >=20
-> > Move the paren to: representation which only uses @cpp (kept
-> >=20
-> > so that the sentence is still understandable if one skips the
-> > parenthesised part. =20
->=20
-> Fixed in v2.
->=20
-> > > + * reasons because there are a lot of places in drivers where it's u=
-sed) is
-> > > + * assuming that a block is always 1x1 pixel.
-> > > + *
-> > > + * To keep the compatibility with older format representations and t=
-reat block
-> > > + * and non-block formats in the same way one should use:
-> > > + *	- @char_per_block to access the size of a block on a specific pla=
-ne, in
-> > > + *	bytes.
-> > > + *	- drm_format_info_block_width() to access the width of a block of=
- a
-> > > + *	specific plane, in pixels.
-> > > + *	- drm_format_info_block_height() to access the height of a block =
-of a
-> > > + *	specific plane, in pixels.
-> > >   */
-> > >  struct drm_format_info {
-> > >  	/** @format: 4CC format identifier (DRM_FORMAT_*) */
-> > > @@ -97,13 +135,6 @@ struct drm_format_info {
-> > >  		 * formats for which the memory needed for a single pixel is not
-> > >  		 * byte aligned.
-> > >  		 *
-> > > -		 * @cpp has been kept for historical reasons because there are
-> > > -		 * a lot of places in drivers where it's used. In drm core for
-> > > -		 * generic code paths the preferred way is to use
-> > > -		 * @char_per_block, drm_format_info_block_width() and
-> > > -		 * drm_format_info_block_height() which allows handling both
-> > > -		 * block and non-block formats in the same way.
-> > > -		 *
-> > >  		 * For formats that are intended to be used only with non-linear
-> > >  		 * modifiers both @cpp and @char_per_block must be 0 in the
-> > >  		 * generic format table. Drivers could supply accurate
-> > >  =20
-> >=20
-> > Other than that, sounds fine to me.
-> >=20
-> > Perhaps one thing to clarify is that chroma sub-sampling and blocks are
-> > two different things. Chroma sub-sampling is about the resolution of
-> > the chroma (image). Blocks are about packing multiple pixels' components
-> > into a contiguous addressable block of memory. Blocks could appear
-> > inside a separate sub-sampled UV plane, for example. =20
->=20
-> Is this clear? i will add it just before "In some formats,=20
-> pixels...
->=20
->  * Chroma subsamping (hsub/vsub) must not be confused with pixel blocks. =
-The
->  * first describe the relation between the resolution of each color compo=
-nents
->  * (for YUV format, the relation between the "y" resolution and the "uv"
->  * resolution), the second describe the way to pack multiple pixels into =
-one
->  * contiguous block of memory (for example, DRM_FORMAT_Y0L0, one block is=
- 2x2
->  * pixels).
+> > +	int hblank_limit = is_uhbr_sink ? 500 : 300;
+> >  
+> >  	if (!connector->dp.dsc_hblank_expansion_quirk)
+> >  		return false;
+> >  
+> > -	if (mode_hblank_period_ns(adjusted_mode) > 300)
+> > +	if (is_uhbr_sink && !drm_dp_is_uhbr_rate(limits->max_rate))
+> 
+> I'm not saying that's not correct, but I find that condition a bit
+> surprising. "This does not apply to sinks capable of 128b/132b, but not
+> running at UHBR."
+> 
+> IOW, this applies to sinks not capable of 128b/132b, and sinks capable
+> of 128b/132b and running at UHBR.
 
-A different example would be better, e.g. DRM_FORMAT_R2, because chroma
-sub-sampling too can share U and V for a 2x2 set of pixels. R2 is in
-the RGB family, so chroma sub-sampling does not even apply.
+Yes, on the particular monitor I tested and enabled the quirk for - DELL
+U3224KBA - all the modes work fine in decompressed mode on non-UHBR link
+rates, so it remains possible to enable those modes without DSC on non-UHBR
+link rates.
 
-Yes, sounds fine.
+> A head scratcher.
+> 
+> > +		return false;
+> > +
+> > +	if (mode_hblank_period_ns(adjusted_mode) > hblank_limit)
+> >  		return false;
+> >  
+> >  	return true;
+> > @@ -445,7 +452,7 @@ adjust_limits_for_dsc_hblank_expansion_quirk(const struct intel_connector *conne
+> >  	const struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+> >  	int min_bpp_x16 = limits->link.min_bpp_x16;
+> >  
+> > -	if (!hblank_expansion_quirk_needs_dsc(connector, crtc_state))
+> > +	if (!hblank_expansion_quirk_needs_dsc(connector, crtc_state, limits))
+> >  		return true;
+> >  
+> >  	if (!dsc) {
+> > @@ -1604,7 +1611,14 @@ static bool detect_dsc_hblank_expansion_quirk(const struct intel_connector *conn
+> >  			      DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC))
+> >  		return false;
+> >  
+> > -	if (!(dpcd[DP_RECEIVE_PORT_0_CAP_0] & DP_HBLANK_EXPANSION_CAPABLE))
+> > +	/*
+> > +	 * UHBR (MST sink) devices requiring this quirk doesn't advertise the
+> 
+> What are you trying to say with "UHBR (MST sink)"? We've (read: I) have
+> been confused by this in the past, and casually equating UHBR and MST
+> isn't helping.
 
+"MST sink" above is a distinction vs. the MST hubs the quirk is also
+enabled for, the latter ones setting the HBLANK expansion cap flag,
+while the former one doesn't.
 
-Thanks,
-pq
-
---Sig_/rR9Kf+9TSUkAda/q4ChRKXC
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYftgcACgkQI1/ltBGq
-qqcmFw/9H2qBmE/pueElg5BnyyEAYJVtm1zyOmPSV300waWIB1p2S7oqBKrZVcu4
-UAEKTA7vld4hpSfiRJi4YXEBzLFErBYCpCnv5kCtVahDT2bJ5F6qKXxWurfVG+aD
-tMy03ehbLJVZ4zUcZASScTGSzS3Xb7omjFL9w5zR9s1q6y94l3y9jH1knWt/J5D9
-aV3dF3uyWc18emvbX4g7AvBtK9zGfdVVrNgZvTMz3Kd0H4jDpRbxNY+Z0/tNBNtQ
-LHoEuFk3UTgNPsGOBNpS2Te46+28mnEdfbEhhITbuU0NMcQE5HVnWqN0mhIgXIAW
-B0/NoAyGPZ9Euqj166oMigp2lwm4CxI1gzn+o0mjPrDWkbT6i+NQtx6XSRpmp5Dn
-jtRkWH1IqFKfrE0pa40hzIiKaxxfV1HNQSxxKB63UlTFGWCoYBfAPHWnrHVOJ8Bc
-vVAWxNRqyiOCMC+FZqSZkice2cVgxoE3VKx8que1dGoAB5z4tFDAdsjJNO+OS9ZD
-WYPtLzgxJvkOmAowki2znZbb/7nLBVU+lvUAXStvjGT8THO7eaAPqNeWkR73DKoe
-XThjl8DceC7S5QWt5DW+oiZmBqiwm3ghM9S0B82yv9FQbbZHAo6ew0uC7jMJeQSP
-pq3AokHX4Tsuayy1o4VnYGIb+lehUEF9HmJKIhfH/Bfhu2F1rDs=
-=i05E
------END PGP SIGNATURE-----
-
---Sig_/rR9Kf+9TSUkAda/q4ChRKXC--
+> BR,
+> Jani.
+> 
+> 
+> > +	 * HBLANK expansion support. Presuming that they perform HBLANK
+> > +	 * expansion internally, or are affected by this issue on modes with a
+> > +	 * short HBLANK for other reasons.
+> > +	 */
+> > +	if (!drm_dp_uhbr_channel_coding_supported(dpcd) &&
+> > +	    !(dpcd[DP_RECEIVE_PORT_0_CAP_0] & DP_HBLANK_EXPANSION_CAPABLE))
+> >  		return false;
+> >  
+> >  	drm_dbg_kms(&i915->drm,
+> 
+> -- 
+> Jani Nikula, Intel
