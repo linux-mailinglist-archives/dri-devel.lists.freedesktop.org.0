@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5128A85D2
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 16:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E908A85DE
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 16:21:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18F9E113582;
-	Wed, 17 Apr 2024 14:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDEC3113591;
+	Wed, 17 Apr 2024 14:21:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="F/3izpA2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PAweRiOo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E165113582;
- Wed, 17 Apr 2024 14:19:05 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A034911358B;
+ Wed, 17 Apr 2024 14:21:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713363545; x=1744899545;
+ t=1713363706; x=1744899706;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+FCa5qvS26MzPEhvh2KI/7Q0Pi3gyvCy5z9Gr65XXFo=;
- b=F/3izpA29LCB8yWiawBjIh6ZW1jYjpdRhGVhvhV57d06kqT6WsOw2Q39
- ZA1o+6fczzw8yb1Xle6lXYwJx0XDgHh42dukIi5cNbp8X4p4EFDb3itRj
- ApdZGjG/o+7pJVKsQIMisHXNTShD9eFNQJ9PqxTBZKR5NErYUgosiokB4
- VFtHf4oXZlLy+t5rJ2M9nG/0cb9zn9nBajrNoUry2/BMURn2xxgDBemwm
- DricRl0V0whWyfuW4a0aGbGuADZVBFJJOVchFttH5sFvL84PcX97uE3UY
- vhzUNYqYWnUpM70SKJEXnwt1pYwf6OEV4Ih2xt1M/g+isBaNp4seNDUDi Q==;
-X-CSE-ConnectionGUID: f4asS/YLT+2cQEFQ4/MM9Q==
-X-CSE-MsgGUID: OxH2I2w2SvOsKJrTWkcoqg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="9408294"
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="9408294"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2024 07:19:05 -0700
-X-CSE-ConnectionGUID: mzTQvoYYToq7wruYje1miA==
-X-CSE-MsgGUID: b5MA+iRERUCapY630IZDuQ==
+ bh=AOcwL2jt4VZMfrlAEhTzL5msvC4sa6nfk6yLjySxLiI=;
+ b=PAweRiOoe992Gx8JSY3C5FXQGjOdEK//aRu31kWf/Z8r60QxyXQP6Tei
+ rLI+xh7ST+4k+yx4j3pdCfLs6NWMh1LnkUatpaWccE1wOyDK2UrafB2fE
+ tKJvtlliPMgmaHrOhjOJkV/ETPjdvADv8LC4fczKHr6DOqp8OmSZLsIDm
+ VZ+C8tezSmO2MYFYZFgxip6us8s5vYw7ooLHkQYP37iiUw0CBKRo/Wzwg
+ YFms/XprW8pMeVAZc0eR9LR+yzPq43EZfYkJCcus1dkcAdGm13gnRw5Js
+ pjC77xWByQsv6h73iYopNA4eJYpJdcZFWzJg6swWoClcDWhvdgpazqKgJ g==;
+X-CSE-ConnectionGUID: jTBu/RFqTM28vjNdNRCKCQ==
+X-CSE-MsgGUID: YKC5y+g7SLqMb8zN28U4jw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="34253263"
+X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; d="scan'208";a="34253263"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2024 07:21:45 -0700
+X-CSE-ConnectionGUID: oXLKZO6zRbiYWs7jeOq/Nw==
+X-CSE-MsgGUID: QrhCogAKSp66W9Ez+ZH+lw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; d="scan'208";a="27429292"
+X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; d="scan'208";a="22710790"
 Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2024 07:19:03 -0700
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2024 07:21:44 -0700
 From: Imre Deak <imre.deak@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
+Cc: dri-devel@lists.freedesktop.org,
  Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- Manasi Navare <navaremanasi@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH v3 07/11] drm/dp: Add drm_dp_128b132b_supported()
-Date: Wed, 17 Apr 2024 17:19:35 +0300
-Message-ID: <20240417141936.457796-1-imre.deak@intel.com>
+ Khaled Almahallawy <khaled.almahallawy@intel.com>
+Subject: [PATCH v3 11/11] drm/i915/dp_mst: Enable HBLANK expansion quirk for
+ UHBR rates
+Date: Wed, 17 Apr 2024 17:22:17 +0300
+Message-ID: <20240417142217.457902-1-imre.deak@intel.com>
 X-Mailer: git-send-email 2.43.3
-In-Reply-To: <20240416221010.376865-8-imre.deak@intel.com>
-References: <20240416221010.376865-8-imre.deak@intel.com>
+In-Reply-To: <20240416221010.376865-12-imre.deak@intel.com>
+References: <20240416221010.376865-12-imre.deak@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,53 +70,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Factor out a function to check for 128b/132b channel coding support used
-by a follow-up patch in the patchset.
+Enabling the 5k@60Hz uncompressed mode on the MediaTek/Dell U3224KBA
+monitor results in a blank screen, at least on MTL platforms on UHBR
+link rates with some (<30) uncompressed bpp values. Enabling compression
+fixes the problem, so do that for now. Windows enables DSC always if the
+sink supports it and forcing it to enable the mode without compression
+leads to the same problem above (which suggests a panel issue with
+uncompressed mode).
 
-v2: s/drm_dp_uhbr_channel_coding_supported()/drm_dp128b132b_supported()
-    (Jani)
+The same 5k mode on non-UHBR link rates is not affected and lower
+resolution modes are not affected either. The problem is similar to the
+one fixed by the HBLANK expansion quirk on Synaptics hubs, with the
+difference that the problematic mode has a longer HBLANK duration. Also
+the monitor doesn't report supporting HBLANK expansion; either its
+internal MST hub does the expansion internally - similarly to the
+Synaptics hub - or the issue has another root cause, but still related
+to the mode's short HBLANK duration. Enable the quirk for the monitor
+adjusting the detection for the above differences.
+
+v2: Rebase on drm_dp_128132b_supported() change.
 
 Cc: dri-devel@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@intel.com>
 Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Reviewed-by: Manasi Navare <navaremanasi@chromium.org>
-Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Tested-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
 Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 2 +-
- include/drm/display/drm_dp_helper.h     | 6 ++++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/display/drm_dp_helper.c     |  2 ++
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 22 +++++++++++++++++----
+ 2 files changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 23808e9d41d5d..e05e25cd4a940 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -225,7 +225,7 @@ static void intel_dp_set_dpcd_sink_rates(struct intel_dp *intel_dp)
- 	 * Sink rates for 128b/132b. If set, sink should support all 8b/10b
- 	 * rates and 10 Gbps.
- 	 */
--	if (intel_dp->dpcd[DP_MAIN_LINK_CHANNEL_CODING] & DP_CAP_ANSI_128B132B) {
-+	if (drm_dp_128b132b_supported(intel_dp->dpcd)) {
- 		u8 uhbr_rates = 0;
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index 023907da98581..79a615667aab1 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -2281,6 +2281,8 @@ static const struct dpcd_quirk dpcd_quirk_list[] = {
+ 	{ OUI(0x90, 0xCC, 0x24), DEVICE_ID_ANY, true, BIT(DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) },
+ 	/* Synaptics DP1.4 MST hubs require DSC for some modes on which it applies HBLANK expansion. */
+ 	{ OUI(0x90, 0xCC, 0x24), DEVICE_ID_ANY, true, BIT(DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC) },
++	/* MediaTek panels (at least in U3224KBA) require DSC for modes with a short HBLANK on UHBR links. */
++	{ OUI(0x00, 0x0C, 0xE7), DEVICE_ID_ANY, false, BIT(DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC) },
+ 	/* Apple MacBookPro 2017 15 inch eDP Retina panel reports too low DP_MAX_LINK_RATE */
+ 	{ OUI(0x00, 0x10, 0xfa), DEVICE_ID(101, 68, 21, 101, 98, 97), false, BIT(DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS) },
+ };
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index fb5e167c3c659..1cd375963f243 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -421,15 +421,22 @@ static int mode_hblank_period_ns(const struct drm_display_mode *mode)
  
- 		BUILD_BUG_ON(ARRAY_SIZE(intel_dp->sink_rates) < ARRAY_SIZE(dp_rates) + 3);
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index baf9949ff96fc..8bed890eec2c6 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -251,6 +251,12 @@ drm_dp_channel_coding_supported(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
- 	return dpcd[DP_MAIN_LINK_CHANNEL_CODING] & DP_CAP_ANSI_8B10B;
- }
- 
-+static inline bool
-+drm_dp_128b132b_supported(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-+{
-+	return dpcd[DP_MAIN_LINK_CHANNEL_CODING] & DP_CAP_ANSI_128B132B;
-+}
-+
- static inline bool
- drm_dp_alternate_scrambler_reset_cap(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+ static bool
+ hblank_expansion_quirk_needs_dsc(const struct intel_connector *connector,
+-				 const struct intel_crtc_state *crtc_state)
++				 const struct intel_crtc_state *crtc_state,
++				 const struct link_config_limits *limits)
  {
+ 	const struct drm_display_mode *adjusted_mode =
+ 		&crtc_state->hw.adjusted_mode;
++	bool is_uhbr_sink = connector->mst_port &&
++			    drm_dp_128b132b_supported(connector->mst_port->dpcd);
++	int hblank_limit = is_uhbr_sink ? 500 : 300;
+ 
+ 	if (!connector->dp.dsc_hblank_expansion_quirk)
+ 		return false;
+ 
+-	if (mode_hblank_period_ns(adjusted_mode) > 300)
++	if (is_uhbr_sink && !drm_dp_is_uhbr_rate(limits->max_rate))
++		return false;
++
++	if (mode_hblank_period_ns(adjusted_mode) > hblank_limit)
+ 		return false;
+ 
+ 	return true;
+@@ -445,7 +452,7 @@ adjust_limits_for_dsc_hblank_expansion_quirk(const struct intel_connector *conne
+ 	const struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+ 	int min_bpp_x16 = limits->link.min_bpp_x16;
+ 
+-	if (!hblank_expansion_quirk_needs_dsc(connector, crtc_state))
++	if (!hblank_expansion_quirk_needs_dsc(connector, crtc_state, limits))
+ 		return true;
+ 
+ 	if (!dsc) {
+@@ -1604,7 +1611,14 @@ static bool detect_dsc_hblank_expansion_quirk(const struct intel_connector *conn
+ 			      DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC))
+ 		return false;
+ 
+-	if (!(dpcd[DP_RECEIVE_PORT_0_CAP_0] & DP_HBLANK_EXPANSION_CAPABLE))
++	/*
++	 * UHBR (MST sink) devices requiring this quirk don't advertise the
++	 * HBLANK expansion support. Presuming that they perform HBLANK
++	 * expansion internally, or are affected by this issue on modes with a
++	 * short HBLANK for other reasons.
++	 */
++	if (!drm_dp_128b132b_supported(dpcd) &&
++	    !(dpcd[DP_RECEIVE_PORT_0_CAP_0] & DP_HBLANK_EXPANSION_CAPABLE))
+ 		return false;
+ 
+ 	drm_dbg_kms(&i915->drm,
 -- 
 2.43.3
 
