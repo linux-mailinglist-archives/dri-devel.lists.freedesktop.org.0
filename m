@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4598A8091
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 12:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BF78A8095
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 12:19:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07BFB113386;
-	Wed, 17 Apr 2024 10:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7FC113385;
+	Wed, 17 Apr 2024 10:19:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IlCqquzr";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="vDSbxNMs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8045113385
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 10:19:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F4008113385
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 10:19:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713349161;
- bh=ZXvKnOxAWKtA1ZyEyD4xHHi6jtBiRKSNgjQUwwOb1yU=;
+ s=mail; t=1713349162;
+ bh=OivqhnUpMqFeeojlBGSOYUiH7mtq6DFbxtNBz50s9KE=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IlCqquzrqUlQvCl+clDNR1MpbKDu6k//HytgxLI1g7MrwNNTpm5Rx0l8/2tqSrorC
- uDwRQ7dnsfDiZIX339ue5ahjkjK4fmI4+YbZy5enye6rbMpldSSI71ZrR/av3jiGY1
- st6A4Z3hzYqTuyxQxL8Pq81AWby27Xn7zukuc42lO9ajFKdD6UfpLHU3Xa3y+nTy9h
- XkQSzZCCCszHy4P57NGwXnin0UpC5ur80SC2uNQhXqeb/c3Le/rcSR63/uNPCysMEW
- PQNc4TrOySDRAStEXSJA6Sk34nRnV6Kkjln4VA42e3rfohLmBo55BWB3XjWN0Pp4fa
- /XlPbG5u7uwPA==
+ b=vDSbxNMsN7AlnShyxPaIdVFfJAizJwHxb7CHyTuNez0PGEXedmuKR/TrTFdQ8vcOb
+ URBWG0/Ac6t2FtI7M6o5/OiR/Rp8XxVsLMwaPB8AkAl0RkfZbTZiTaWppHIe51AEpX
+ q6FqVBkFlT8Nd+usZZutHbQ3LFD8OIW772LC8dtU2G6j0WIJgUea+J+nzAp1zfAfaK
+ Tp3Y+fx6A+jSMvbsHIr/LHfdYPJpXrwTAia6oZ5hso+P8MSoBKaoIISzuMm0DSNBpQ
+ fHNuft1TaDzDzbLxU1o9PIkhSzOcEtXRz+l7bFu0yBSOqVKMHCYhBG/rLtqE6C5T7S
+ 1jXDtIoHVwOXQ==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id BCBEF37820F1;
- Wed, 17 Apr 2024 10:19:19 +0000 (UTC)
-Message-ID: <1db01bd8-0936-40e5-9f1b-7ea34746bef1@collabora.com>
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 73CB137820F9;
+ Wed, 17 Apr 2024 10:19:21 +0000 (UTC)
+Message-ID: <86cb43d7-1c1c-48f6-8848-04340e04603a@collabora.com>
 Date: Wed, 17 Apr 2024 12:19:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/18] dt-bindings: pwm: mediatek,pwm-disp: add
- power-domains property
+Subject: Re: [PATCH v2 10/18] dt-bindings: display: mediatek: rdma: add
+ compatible for MT8365 SoC
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
@@ -57,10 +57,10 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
  linux-clk@vger.kernel.org
 References: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
- <20231023-display-support-v2-11-33ce8864b227@baylibre.com>
+ <20231023-display-support-v2-10-33ce8864b227@baylibre.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20231023-display-support-v2-11-33ce8864b227@baylibre.com>
+In-Reply-To: <20231023-display-support-v2-10-33ce8864b227@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,15 +79,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 16/04/24 17:53, Alexandre Mergnat ha scritto:
-> According to the Mediatek MT8365 datasheet, the display PWM block has
-> a power domain.
+> Document the display Data Path Read DMA on MT8365, which is compatible
+> with that of the MT8183.
 > 
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-It's the same for at least MT8195, MT8183 and I think MT8192 as well... so
-not having that from the beginning is actually a mistake.
-
-Please add a Fixes tag and resend, after which:
-
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
 
