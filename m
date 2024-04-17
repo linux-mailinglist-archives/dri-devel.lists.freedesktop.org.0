@@ -2,80 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01AC98A82A6
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 13:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37CAD8A836A
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 14:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3675F112F82;
-	Wed, 17 Apr 2024 11:59:48 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qMWzFe7O";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 128A1113495;
+	Wed, 17 Apr 2024 12:50:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 939D8112133
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 11:59:46 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-dd02fb9a31cso4802875276.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 04:59:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713355185; x=1713959985; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Ka4Traa7ftszXUlTUn8V8lFxKGAbUY9Jgg8OQaEdzk0=;
- b=qMWzFe7OUcuWyhqiu8ld06ia6zSeDXjogP3nGONfGo6UoIN3mOYcbL/eSzS28FpXKv
- Y88WiKMuHbVbe5ajCi7Jz23exN1wK/azTpEZXAURQNQ15JmT+yBZRL4Jn9ONjX6hD64Y
- fPcYk+wZp5Cy1TZjEWuSerTfzPI1f8fUiKUsO8YCZlGJ1l1M3rTGivWrfYHNr24Hva0C
- G6akXLa/+Yp4csbUD4qkHm0EYmoXeZwsKiYQs3ajf9tZ+oMlMNl9aXyNoiXtpba2STXC
- Ward/yaw637BXN7MW3vyjxi51G3H+blAVvwfwM47Hz09e76QygBsA0S4EDvUGZz9xM44
- tlwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713355185; x=1713959985;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ka4Traa7ftszXUlTUn8V8lFxKGAbUY9Jgg8OQaEdzk0=;
- b=cql9iWu3haMniK+zYCYxKQzoATHP45fvwOdq9xwL8OmwY1Ciq6DOyiE10Ccw3vMGPc
- xRiqH95u/9KRV1Uk9yCEKj8eJHz3kNMJuwKQ8pGmqJDcbqABttRKxJjSBga//T7QsE1o
- AllxzFwFioCm0QUMYShkvjPCJTY7+jfReJtjkreFlhWrT/qXsWsSU9n/vQbDdVBDQN5v
- gpfrkr+yxdso9zz+/4XvnIHxLdoHAC1HCgPwpfC1eyGmU6jYLsyWt5nLCxY7V633ZC7k
- rSy4nZ/FKrcbfzu7hKqWREyF3LMfBfA9cCUulhFec3uJm8AFweYPXy0SQGlF+fVk0M9J
- bx1w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU4ald7XF8zdWGsIAqEZHzk7ymPN3zx+ZINg82hbi6tNdNqM+NV7ciMxezlckinCZ/yNhHqzOpk3pkpLpB6qGb1Ee2JaqfMfgyuGvtmYhuc
-X-Gm-Message-State: AOJu0Yyjq1px7KYdHlkSyz0SJAVhvo8qcZ+XAV0MzRRut9BsgZlK/aOy
- ZmI4CHam6eQlNpYCtJqmUb7aqxdn/qLtI27Xk15hYS6Q3f3GVugRi9CnwAStfh1jSENPlTKl6dM
- /mD+5ryENPdhgCflHwPeNMx+1ki6bljoM9/inJQ==
-X-Google-Smtp-Source: AGHT+IFIYioWeJvin6gmStJ8KBQcUCJDKaGylQGDoJsTxsTjK1zWYmQIPOgobokhDNprh6Xmzq0t0x4PNZ8rgZDheDE=
-X-Received: by 2002:a25:aca0:0:b0:dd1:2f58:292b with SMTP id
- x32-20020a25aca0000000b00dd12f58292bmr16998050ybi.9.1713355185554; Wed, 17
- Apr 2024 04:59:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-0-78ae3ee9a697@somainline.org>
- <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-4-78ae3ee9a697@somainline.org>
-In-Reply-To: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-4-78ae3ee9a697@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 17 Apr 2024 14:59:34 +0300
-Message-ID: <CAA8EJprJ2zY=MoHt6YnFV7qU3H=who+YPAzXG+bUZHHmFLzyxg@mail.gmail.com>
-Subject: Re: [PATCH 4/7] drm/msm/dpu: Allow configuring multiple active DSC
- blocks
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Archit Taneja <architt@codeaurora.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>, 
- Vinod Koul <vkoul@kernel.org>, Sravanthi Kollukuduru <skolluku@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7321113495
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 12:50:08 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 2AB341F68B;
+ Wed, 17 Apr 2024 14:50:05 +0200 (CEST)
+Date: Wed, 17 Apr 2024 14:50:03 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Archit Taneja <architt@codeaurora.org>, 
+ Chandan Uddaraju <chandanu@codeaurora.org>, Vinod Koul <vkoul@kernel.org>, 
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Jordan Crouse <jordan@cosmicpenguin.net>, Rajesh Yadav <ryadav@codeaurora.org>,
  Jeykumar Sankaran <jsanka@codeaurora.org>,
  ~postmarketos/upstreaming@lists.sr.ht, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Martin Botka <martin.botka@somainline.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Martin Botka <martin.botka@somainline.org>,
  Jami Kettunen <jami.kettunen@somainline.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 6/7] drm/msm/dsi: Set PHY usescase before registering DSI
+ host
+Message-ID: <dwda6pf5e5k2ohxexxxrqdzvcgaxp3p7g3erqoqha4ouhtvzez@dmuxgqlvyp6x>
+References: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-0-78ae3ee9a697@somainline.org>
+ <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-6-78ae3ee9a697@somainline.org>
+ <CAA8EJpry5Gct7Q2sAwFBVYV163X9BOcuKu9So47FEJaeXcdSaQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpry5Gct7Q2sAwFBVYV163X9BOcuKu9So47FEJaeXcdSaQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,33 +62,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 Apr 2024 at 02:57, Marijn Suijten
-<marijn.suijten@somainline.org> wrote:
->
-> Just like the active interface and writeback block in ctl_intf_cfg_v1(),
-> and later the rest of the blocks in followup active-CTL fixes or
-> reworks, multiple calls to this function should enable additional DSC
-> blocks instead of overwriting the blocks that are enabled.
->
-> This pattern is observed in an active-CTL scenario since DPU 5.0.0 where
-> for example bonded-DSI uses a single CTL to drive multiple INTFs, and
-> each encoder calls this function individually with the INTF (hence the
-> pre-existing update instead of overwrite of this bitmask) and DSC blocks
-> it wishes to be enabled, and expects them to be OR'd into the bitmask.
->
-> The reverse already exists in reset_intf_cfg_v1() where only specified
-> DSC blocks are removed out of the CTL_DSC_ACTIVE bitmask (same for all
-> other blocks and ACTIVE bitmasks), leaving the rest enabled.
->
-> Fixes: 77f6da90487c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+On 2024-04-17 11:18:58, Dmitry Baryshkov wrote:
+> On Wed, 17 Apr 2024 at 02:57, Marijn Suijten
+> <marijn.suijten@somainline.org> wrote:
+> >
+> > Ordering issues here cause an uninitalized (default STANDALONE)
+> > usecase to be programmed (which appears to be a MUX) in some cases
+> > when msm_dsi_host_register() is called, leading to the slave PLL in
+> > bonded-DSI mode to source from a clock parent (dsi1vco) that is off.
+> >
+> > This should seemingly not be a problem as the actual dispcc clocks from
+> > DSI1 that are muxed in the clock tree of DSI0 are way further down, this
+> > bit still seems to have an effect on them somehow and causes the right
+> > side of the panel controlled by DSI1 to not function.
+> >
+> > In an ideal world this code is refactored to no longer have such
+> > error-prone calls "across subsystems", and instead model the "PLL src"
+> > register field as a regular mux so that changing the clock parents
+> > programmatically or in DTS via `assigned-clock-parents` has the
+> > desired effect.
+> > But for the avid reader, the clocks that we *are* muxing into DSI0's
+> > tree are way further down, so if this bit turns out to be a simple mux
+> > between dsiXvco and out_div, that shouldn't have any effect as this
+> > whole tree is off anyway.
+> >
+> > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > ---
+> >  drivers/gpu/drm/msm/dsi/dsi_manager.c | 15 +++++++++++----
+> >  1 file changed, 11 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > index af2a287cb3bd..17f43b3c0494 100644
+> > --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > @@ -85,6 +85,17 @@ static int dsi_mgr_setup_components(int id)
+> >                                                         msm_dsi : other_dsi;
+> >                 struct msm_dsi *slave_link_dsi = IS_MASTER_DSI_LINK(id) ?
+> >                                                         other_dsi : msm_dsi;
+> > +
+> > +               /* PLL0 is to drive both 2 DSI link clocks in bonded DSI mode.
+> > +                *
+> > +                * Set the usecase before calling msm_dsi_host_register() to prevent it from
+> > +                * enabling and configuring the usecase (which is just a mux bit) first.
+> > +                */
+> > +               msm_dsi_phy_set_usecase(clk_master_dsi->phy,
+> > +                                       MSM_DSI_PHY_MASTER);
+> > +               msm_dsi_phy_set_usecase(clk_slave_dsi->phy,
+> > +                                       MSM_DSI_PHY_SLAVE);
+> > +
+> >                 /* Register slave host first, so that slave DSI device
+> >                  * has a chance to probe, and do not block the master
+> >                  * DSI device's probe.
+> > @@ -100,10 +111,6 @@ static int dsi_mgr_setup_components(int id)
+> >                         return ret;
+> >
+> >                 /* PLL0 is to drive both 2 DSI link clocks in bonded DSI mode. */
+> > -               msm_dsi_phy_set_usecase(clk_master_dsi->phy,
+> > -                                       MSM_DSI_PHY_MASTER);
+> > -               msm_dsi_phy_set_usecase(clk_slave_dsi->phy,
+> > -                                       MSM_DSI_PHY_SLAVE);
+> >                 msm_dsi_host_set_phy_mode(msm_dsi->host, msm_dsi->phy);
+> >                 msm_dsi_host_set_phy_mode(other_dsi->host, other_dsi->phy);
+> 
+> Please move msm_dsi_host_set_phy_mode() calls too.
 
+Ack.  Yeah, given that msm_dsi_host_register() causes a modeset and finally the
+PLL turning on, these should be set up as well.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+For anyone else following along, I have pasted the stacktrace that showcases
+the execution flow in the drm/msm tracker:
 
--- 
-With best wishes
-Dmitry
+https://gitlab.freedesktop.org/drm/msm/-/issues/41#note_2376115
+
+Abhinav also pointed out that this PLL source was correctly set in earlier
+devcoredump reports, so it might have been a recent development/regression?
+This seems to be the only issue originating from it, but folks were adamant that
+dsi_mgr_setup_components() (ultimately) would never turn the PLL on, which is
+"debunked" by said stacktrace.  Maybe other assumptions are affected by this
+change?
+
+> Also please update the non-bonded case.
+
+Definitely, as suggested in the cover letter.  A similar stacktrace to the above
+is acquired on a non-bonded setup, which is also relying on the variable to be
+initialized to 0 to select the "local PLL source", rather than being correctly
+set via this msm_dsi_phy_set_usecase() configuration.
+
+- Marijn
+
+> >         }
+> >
+> > --
+> > 2.44.0
+> >
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
