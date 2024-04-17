@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BF78A8095
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 12:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078B08A8098
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 12:19:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7FC113385;
-	Wed, 17 Apr 2024 10:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24FD7113388;
+	Wed, 17 Apr 2024 10:19:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="vDSbxNMs";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mWZHwN+S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F4008113385
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 10:19:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58383113385
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 10:19:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713349162;
- bh=OivqhnUpMqFeeojlBGSOYUiH7mtq6DFbxtNBz50s9KE=;
+ s=mail; t=1713349166;
+ bh=Szzgxmq1uily16b3FrtzPmtlOA6Oz+XiGmAlFkhAWfg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=vDSbxNMsN7AlnShyxPaIdVFfJAizJwHxb7CHyTuNez0PGEXedmuKR/TrTFdQ8vcOb
- URBWG0/Ac6t2FtI7M6o5/OiR/Rp8XxVsLMwaPB8AkAl0RkfZbTZiTaWppHIe51AEpX
- q6FqVBkFlT8Nd+usZZutHbQ3LFD8OIW772LC8dtU2G6j0WIJgUea+J+nzAp1zfAfaK
- Tp3Y+fx6A+jSMvbsHIr/LHfdYPJpXrwTAia6oZ5hso+P8MSoBKaoIISzuMm0DSNBpQ
- fHNuft1TaDzDzbLxU1o9PIkhSzOcEtXRz+l7bFu0yBSOqVKMHCYhBG/rLtqE6C5T7S
- 1jXDtIoHVwOXQ==
+ b=mWZHwN+SJSF4qii40JMjO4a0mZ0xd0frPpAsO6zE3jF5by96Ss23cKU7WPM003pc8
+ unemdGp3KvaI2VGVHed5crgnBn3c+TF+1/2mehtDuxybZMGIzchvLPTUtuSQYtqYJO
+ wOiHXXtlektNyLXF+SU9Wi25GJhuOf/IS6ycCuzqcezUJutD9gdM9Yj20n67VtSNoj
+ jJ+NNNawmROsc+pneLvoC1MzDmzLczdqMBZk+ybAmeJ3iHWKamWz92AXRl/HoziQ4i
+ Xy5+0vGmebmBs0b00R0T/z38ez5aqCSrCjwxg/InedNXHMRUAq/c0qmVqRmMmEYl88
+ bFjgmeC5t/uSg==
 Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 73CB137820F9;
- Wed, 17 Apr 2024 10:19:21 +0000 (UTC)
-Message-ID: <86cb43d7-1c1c-48f6-8848-04340e04603a@collabora.com>
-Date: Wed, 17 Apr 2024 12:19:19 +0200
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id BF8443782143;
+ Wed, 17 Apr 2024 10:19:24 +0000 (UTC)
+Message-ID: <ecff5045-105f-4e46-b44f-a8892086d19a@collabora.com>
+Date: Wed, 17 Apr 2024 12:19:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/18] dt-bindings: display: mediatek: rdma: add
+Subject: Re: [PATCH v2 08/18] dt-bindings: display: mediatek: gamma: add
  compatible for MT8365 SoC
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>,
@@ -57,10 +57,10 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
  linux-clk@vger.kernel.org
 References: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
- <20231023-display-support-v2-10-33ce8864b227@baylibre.com>
+ <20231023-display-support-v2-8-33ce8864b227@baylibre.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20231023-display-support-v2-10-33ce8864b227@baylibre.com>
+In-Reply-To: <20231023-display-support-v2-8-33ce8864b227@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,7 +79,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 16/04/24 17:53, Alexandre Mergnat ha scritto:
-> Document the display Data Path Read DMA on MT8365, which is compatible
+> Document the display Gamma on MT8365, which is compatible
 > with that of the MT8183.
 > 
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
