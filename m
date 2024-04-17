@@ -2,65 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CA48A7DB9
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 10:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780DA8A7DBB
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 10:07:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92F8011328C;
-	Wed, 17 Apr 2024 08:06:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9235111328E;
+	Wed, 17 Apr 2024 08:06:58 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="e6SJL+GV";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1035911328C
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 08:06:43 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rx0J8-0007Ur-OT; Wed, 17 Apr 2024 10:06:18 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rx0J4-00CkpM-Fr; Wed, 17 Apr 2024 10:06:14 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
- (envelope-from <ukl@pengutronix.de>) id 1rx0J4-002eR5-1F;
- Wed, 17 Apr 2024 10:06:14 +0200
-Date: Wed, 17 Apr 2024 10:06:14 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jitao Shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 12/18] dt-bindings: pwm: mediatek,pwm-disp: add
- compatible for mt8365 SoC
-Message-ID: <vasuzy7cf5x6p5rnrmdrk5z54oncu2yuutupf25h5fgd5y6fpl@mnkf67agw64g>
-References: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
- <20231023-display-support-v2-12-33ce8864b227@baylibre.com>
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1F4B11328E
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 08:06:56 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a55630378b1so6287066b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 01:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713341215; x=1713946015;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BuvMTKrS538OQBDa2jdh/t6qnPEHbqMc8PN+mILzuvs=;
+ b=e6SJL+GVlGL57C4M+7kN7HniBDGbJz9X91HjG+C2QTaIH0y4L6dMe4tND9ynl32Nwz
+ VJaTo6wUf5luYdc8DwgcUrUbtt7vcRsi+d4nXeenWvqNN5SoRWOv3z77LLh9T/1ORtzW
+ xAC7hMfnQfSCtwIpXjdMynjEe1x0cLju7yf0BsTFk2GE9Kyt4j54pnuZdmjy6OSf16XK
+ ly9qHlitvlO5n/6hN0tHUmox2ga3xOJJLU4jY199wJyhJe6gS3092lHRhBe4tZ4OkAgC
+ u4IAUq4V+4+dOsm3W3kP/DnibBSYf9ccS3l80dp6uwpyPGjpWO8ArBzxbNBa3K+D4uG9
+ ZbaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713341215; x=1713946015;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BuvMTKrS538OQBDa2jdh/t6qnPEHbqMc8PN+mILzuvs=;
+ b=vU1SeKFjLNalrd/S+jCIkWr1HRkzAPzxzqyFYADH7RgMvmwEOpgzvSHxFGRrv/D3ji
+ wWCWTJszk4cSrU7tX/YBbQPKCTb0qyLCAonbMLXIKio6PaTD2iuySsPCCGJwr8KzoXor
+ V58nOJOgIWO6icg+Gt2GDFXO/rf8ULJ3SgvLYxxwwBKgfsj1tOquFbW0YoO1oPBWtsJZ
+ Y0WimKxRdT0oY23LnnQnxpAN8BOr+5Vq9gHn0hQNKt4L7YT9coIS7k8ckakT7+VBvCcP
+ A2J5tE9Op37nRDV1i+26s+wzaeatSDqob75XC5ywW5nSV7n8a2MiqCsmtjdRm6tEyJlU
+ lRrg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVIekY+T7JVMIbVVCBWt0jRzVy4rTG3qHgGKTYBkcZHf83HHVKTGmCHLT3nxrF56xuv/9MRlWWThgDECksAf9INxK6qD1//bXkMNOVt244A
+X-Gm-Message-State: AOJu0YxwgE4/bNtR05hwATod7TSVp/VeWscZvL5yp38p+AXGQ7SpTkhx
+ QM2zfBJQv0/sjUL1xm4zOAmQJqiMU1DAwH+BteO5A9UZNj6ehKocg6wZlsOnN4w=
+X-Google-Smtp-Source: AGHT+IF9QNj2+LEOTDvCsMmUjHTc38pjE+FDvplPR3KiswRdx9pL2ELeUrxLu0thmtQsPq4SfA0PEQ==
+X-Received: by 2002:a17:906:a016:b0:a52:4d96:85e with SMTP id
+ p22-20020a170906a01600b00a524d96085emr6795036ejy.53.1713341214788; 
+ Wed, 17 Apr 2024 01:06:54 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+ by smtp.gmail.com with ESMTPSA id
+ cx10-20020a170906c80a00b00a51b5282837sm7852622ejb.15.2024.04.17.01.06.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Apr 2024 01:06:54 -0700 (PDT)
+Message-ID: <cd5dcc90-bd34-40d5-af79-4943883411ad@baylibre.com>
+Date: Wed, 17 Apr 2024 10:06:51 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="io3h7fqcywjsjxa4"
-Content-Disposition: inline
-In-Reply-To: <20231023-display-support-v2-12-33ce8864b227@baylibre.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/18] dt-bindings: pwm: mediatek,pwm-disp: add
+ power-domains property
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jitao Shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-pwm@vger.kernel.org, linux-clk@vger.kernel.org
+References: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
+ <20231023-display-support-v2-11-33ce8864b227@baylibre.com>
+ <22yeoik77sdhmg43odjftzjn2douq74zhxwy6qx3hsrvr53r5e@7w3f3zbgxult>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <22yeoik77sdhmg43odjftzjn2douq74zhxwy6qx3hsrvr53r5e@7w3f3zbgxult>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,47 +105,32 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---io3h7fqcywjsjxa4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+
+On 17/04/2024 10:01, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Tue, Apr 16, 2024 at 05:53:12PM +0200, Alexandre Mergnat wrote:
+>> According to the Mediatek MT8365 datasheet, the display PWM block has
+>> a power domain.
+>>
+>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> 
+> I already pointed that out in reply to the cover letter, so just to make
+> it more easily to spot for people considering to apply this patch:
+> 
+> This is already fixed in next.
+> 
 
 Hello,
+Sorry I've misunderstood the previous message.
+I will remove this patch for the next revision and notify it in the cover letter.
 
-On Tue, Apr 16, 2024 at 05:53:13PM +0200, Alexandre Mergnat wrote:
-> Add a compatible string for MediaTek Genio 350 MT8365's display PWM
-> block: this is the same as MT8183.
->=20
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
-> Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+Thanks
 
-I already asked in reply to v1 what the merge plan is here. There are
-changes in my pwm tree to the mediatek,pwm-disp binding already. I don't
-think they conflict with this patch, but maybe it's still easier to take
-this via pwm?!
+> Best regards
+> Uwe
+> 
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---io3h7fqcywjsjxa4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYfgvUACgkQj4D7WH0S
-/k78IAgAhF2CBY2gx+0pIvPzhA01LKYoH1PW7O9/VqjB74kUiFSUlcSeRrutEtNX
-ZEg4pND9OmmBG82ECTvIccPKIL/n/aJOrZmng5N69kS14q4JUBYSVXbDDAF1dCbX
-0PieK7SFo9D87VIaJATg+qpjGibELEWpKVbPeTeO5J2wzUJSltGSG5oNzJ8dX3XO
-uqQoTu0bGayvkTeIy6I1XXkNDC8OGER+18nco1/s6w0zkBdm26UUbc3DCy/o5eeA
-R0WD+DHqWiTxA80vpSEGFJ2RBPB96z3bbFBz4U0n5Q9vU34oqBr3oyvOd9qPXTMt
-ok+B9O4U4Q0Cag8pOsGc7GXkD41LXA==
-=hlSO
------END PGP SIGNATURE-----
-
---io3h7fqcywjsjxa4--
+-- 
+Regards,
+Alexandre
