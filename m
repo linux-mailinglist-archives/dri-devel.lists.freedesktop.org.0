@@ -2,83 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FEF8A7D10
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 09:31:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7538A7C1B
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 08:09:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B01D11323A;
-	Wed, 17 Apr 2024 07:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39AC21131A0;
+	Wed, 17 Apr 2024 06:09:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=yahoo.com header.i=@yahoo.com header.b="B4EKl7sK";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="M3jeEJEM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic310-24.consmr.mail.ne1.yahoo.com
- (sonic310-24.consmr.mail.ne1.yahoo.com [66.163.186.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD6F112E39
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 20:14:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1713298495; bh=iZgtGGZ+o2qQOMTF6tCLpgz1PmbtD2vBGZSP/gGVln0=;
- h=Subject:From:To:Date:References:From:Subject:Reply-To;
- b=B4EKl7sKCyiEi7IfleyQbwq/fvyU7ZcHZ9WO/LLg4B3Hxlx1Zsl4GxAcZwbOW8YTiUWWLRZ3uMrZQxSiFVkhW2N8YdNVcxNV5eNx77/3I3OrQE6Bzn9ZNZz7iTab1sxwD9VpD6B8BmVXJIm7Ye0obhXL562MU+GL0HsJkrUb9TGHzuMue/mjZARgjsjSL+YhRQBKHX4CyCAsQkQmgTQzZcPeoEO+Efw1FQ6EV5O7PXaffl00+l1nO7Y2QsjDhYPN8zNonBIurrTViPhblXvZnrRq0fxEb9UneDQ9GYw/CncdjOTALXBudRDTNjNzNgkk2JmNurW7+ggMfwIpbJiWOw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1713298495; bh=PW1mmMDFh3DNKfOKZFou1Dz2YeRrclHmgXlImryPW7v=;
- h=X-Sonic-MF:Subject:From:To:Date:From:Subject;
- b=MQD9A6H/llQn2sxcvGLKqiuBN+a6wyeW8TdbwAQDCHUZIn3rb23u88tqVMa0zAEt1LkN+N4kiricxrvCfDzl64NiK7EcdmZqGDvINyaW0Xo30PEmk57tSEQ4Mmrqf4tKyTzbZe1RNEnepZSWZ6BTm6CnCn/fBhuoL4MV9dqbxmifIcs9Djo2CQ37/Jl4wvc4ZMHR9Z8688qhzymzFCVTvZhaFg0CNxkX4Q5naXIB7TBtI8mZgtNyH9e/WUyu4gzIAJr1rr/6Agcjjew0xRrF/i7QHF9BaB+HENRpRwuDMdUdC7QGe2xsjNzDOSfhIL0v81J7268NhuWiB1KigJ6uOg==
-X-YMail-OSG: 3uyJAa4VM1mFnDbn1AszT5Z1T1FdAIgJd.uGwonq0dv90Dg8qZefmyMR4a5crzo
- zcDOcXPMX.p7eotL0mX7GLOokG9NbbF3B28QJujXy9dN3C_Dkl6nkdA6QL_iE9eY5FpqtwuPFZDI
- fhGiER0shB_H7wHWBfDSJ6w77BEqjUFK9o.1ykVOZNhZx2Pfr4Ww9Azq363FI6lDZHqWwFDtkhkM
- yPhvwP1IKon5OCMJqoP2hYe8nJ9NJPwRNIKTP.fRUbbAKYZm_zjorQ7yA_9jwe5xtEWyBgOCtYJT
- i_aaL90r.va8vMBmVx0WIYvu_YB1HGg98zVgJiv6mDpLEu8MQiGRPWB4q8gppxmJXcwgf.hTNLTL
- xzw__3MLrAQHUvrV.zmftIzyMiipYvqowzrUouAxDE1vZt7T.OIui3vhB_wS24RW32PxLGYeMrVr
- xO0Y1QRqTTWBK13BdCeQlcCAx6vXG6d1Zm5OnQEDw1mkhsPQiEo5uioCeK.kajMz39OZuZn3daUU
- k8b.CDb8z3WUH7XHHb3Qs07V.AXNObu4ZbFo7sNJadF1Po4TzoH9W8Swbr_7zp0TyAV3u_e79BPH
- _e.allV.wohi6C5lhtlN8V.G3BUDpd01UZE9GxxQFu9iKRKijmzAdG6f6YC51pDXJbw9vuMIA.4t
- HGZONj0wYtFyYCaVGLFCokrqdOICEyBVcHoxFUIlZ9nLgX.q91dGr2I81gzEf0YEH1Dd.7cVzo.9
- 34MkwDyZW8tKD8qozG1S30uNx1Hh1GH1uzRgLiUDRmjs8cjhZxAlDMja2BqrBEeXuzuPPucujw7i
- w.tgSiBrvrI67h40UcjaXxqwHTTHAigSMZiXGrgbU8tF61EdEhCbzJaF0YwKbk2in5KLLt0d185D
- dkRMI0FmKTlreXMsc.0Y3bDK.j.LFrNonJmlKzmk.DQyxH75b8GzYL7O_01xzaourOkdB8YDeUDC
- r9vV9ZOdudx27osU7fQ.HOVgQFvaLmaBovHN3NqhFzya5TYW_R4fpjUwfwYLVqP2vmxycsfFaiu1
- BAYAxYBHtnj3pXOytGzKuS9lpa.s9NnOBnLTj0xJcorXXhr.pW1mzDpY.q9pcEfiWdiKP3TifdZj
- IS2Dpxcuq07f_WE9WDsoLFyR7GJ3vk0mcquYOb.wbnxT1y.gmJnEyprfRVCetXXtemeAg7B7v2vF
- Ifxi41YX.5lg1d0vmXEsjIVvTiEq2aqZjlIt5dQiM44SXfQ6RL1A0vFs2EXLcvsRc0EeO8gASWCL
- uwPbPQXbkZY5ZTQt0_ihB3FaHqBq.6C0pINcWN25VIWzbYy.ufGhL6gzrIW4c2sN3uarPiLTwGfl
- Dq1Au9gy9VLqd_L_cwnjQWlaNnhTlengvsbvFoES21LPvAoN7zqC0PZggZ52s.jd1ZeqdKGItZbf
- G5L3LrVEhDd8PECPtVw2CSvEjKXjI8PbbKL2dpptERsq3TVXxke_ua5dh6ErB5m5xQ2PkoE6YJXX
- Gfjw.94560LxkNW8ldvRJCE4x4yiDGHYJviI5XfGKEnojtxfkqm0e.XKjiIobAhvRGl2XtDO66BW
- Mx9lB1hpfD_fBiiwJLWtyoWWlSBCFNLrJva_0SLJlsLNYRmxzKYqmSa7Bt2CvOkfyc0iMkemJjNa
- 1lkAP8lUQ1fQqr3.PhnoUZUbjVUC4npjZfs15fs28XlSLCisv6FXttsN_HaIcq8sUIyHJu5dF2Z8
- bLmyWS6Vyebf04YcrKch4Y.oIU2BuwRkkBkTAYxqk9RQGXy_YxDLYWX_H846XemuJN.n_o4OUms2
- 7FGiJXyHVElXLCK0LunJkd7ceB3V6BrbqfPGDkSgRiHmKgWhmEqUQeJNcu1khve3wSyYHDL.67a5
- 7VfJYBC2.xRxtkytCLklkot6CVG_wF4J.1dpvIvXc25qqgB4imuM8oZ_lj954BnASTQ9yuFeZoCe
- Ff6llHlg3HbRYZZuPl82XfHLvzsxeAyqnlMmlS9JF1y6jBM_nlIEKkbZhGIeGbrJA57l785YmX3F
- uydyli9mhcSxDFmWC0vPxLwEm.nZHaNhWxAMCBwZXUQWxVqF2KG_RhNFSkK2qrPcjmLW0KmU.mf5
- ZgVj_UwpZLsMPWYrpFaXw0OtMH733LsTEjwJ5YnmXM6wMM1BYcshi5he_b1jaNYSk8FERob4DyYk
- Id1f3BbcpEAKvn2HWQIR7fsXclAsGS7BTn8OXNJd9UznMlOj1UyndHhEFZ_igewkxBp37VLV0Kxt
- sKfH0dTYNIDsTprxqbNFp8JQsXZKsgp4.F09Aml7az1OzJSrvbECuojGf5oBPsadvgmST.Lgd_gz
- GARoauBtmLG7Nas_mzVIYWZRweWo43xFkeXRtTKAknig-
-X-Sonic-MF: <ashokemailat@yahoo.com>
-X-Sonic-ID: e776ce5b-2ecd-4172-a11d-16b719dd513e
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic310.consmr.mail.ne1.yahoo.com with HTTP; Tue, 16 Apr 2024 20:14:55 +0000
-Received: by hermes--production-bf1-5cc9fc94c8-tmzjr (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID f7cd3a3627d699b4c5bb0c83112631a2; 
- Tue, 16 Apr 2024 20:14:54 +0000 (UTC)
-Message-ID: <cc9b9357d30c4abac7301767ff01fe7947f811c4.camel@yahoo.com>
-Subject: [PATCH] staging: fbtft Removed redundant parentheses
-From: A <ashokemailat@yahoo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- outreachy@lists.linux.dev
-Date: Tue, 16 Apr 2024 13:14:52 -0700
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0387910EF74;
+ Wed, 17 Apr 2024 06:09:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PFcBmXSBgElERnuz5zR3Ovg9MQQPpyEQREAsPTStTI/fOy++SHhtUANgZNWqCzntSkrMviuIpevv4wVXGMfyAd0QzEgdQ9MuERulxdTp2XVOQXLQPij2G/EPCzBXwyVx5dtSMHxf7LcYvRFjQcPFDYFxR5Ug+1ybQtGYIWQv6Ap3hl4cj1h5iHdxZ+NTYSUn0XPYDPkzIf/CEyVvKZY9Z61iVbL58I3JMz/WA4V9n1LB5p/ptJYY8LICJav16c3VMikrO9YDWYFmzPNC3kfxw47MNxnX/66g/RDKvAvq2ib6eSetYcICjkp+kMX/9hCmPBMLn0+X7NgfdkyQWkIcfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IdqKb8uykcz68kikCkREaPkTD5yb1tXeapF3Zzwz2Dk=;
+ b=i5nbh1mE/Bobk20bbsPLRY6TEkf2jL5U6C+5wby2V0DyXpN5bAJ8DINB+2ajkoeGThU7njZjRQCXa8HC+u8Ci2K39KdiSkYAlsnLhLkqJ5GXaer1RHHHxnBCK1aW4g2KUZFV5Ij1O8guYvY5vvniRI0u7W09nnU9ARarakT2FSeMbkKnF39xIdJi90vtoN0ci7FfT7MLyai7dm6e4yf4hJoaMVp+hxSL90CSAwDNhM+nz6hrLxerSWySDZEZ0wRxEwkOK9FD9W8+XicrTAU+fo+LN60x+BA619f0mVn/UdI1RvWhB0k09o/KQBEUS3HJYxvdPUjbNpU6g6WpHBWAcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IdqKb8uykcz68kikCkREaPkTD5yb1tXeapF3Zzwz2Dk=;
+ b=M3jeEJEMHUbHc0bGmqq5yFPnM8osDqFpVeUMRO5bDu9hrF3ZiDmNOSjgDGLFDx7sBajEDGZgfUHUoXASwC1wJFNS3AKtfwhkRRwUALWLj3EHSb64QyPZML/R1TBARYgJQ/INq54zVw8vtLqms2k16MdYcQBsETDeCY3UagrMt58=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY8PR12MB8340.namprd12.prod.outlook.com (2603:10b6:930:7a::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Wed, 17 Apr
+ 2024 06:09:12 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7452.049; Wed, 17 Apr 2024
+ 06:09:12 +0000
+Message-ID: <aa06fb7e-19d6-4161-a659-70cf953e534a@amd.com>
+Date: Wed, 17 Apr 2024 08:09:07 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/9] drm/ttm: Allow TTM LRU list nodes of different
+ types
+To: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ dri-devel@lists.freedesktop.org
+References: <20240416100730.6666-1-thomas.hellstrom@linux.intel.com>
+ <20240416100730.6666-2-thomas.hellstrom@linux.intel.com>
+ <Zh8isq+3btgEJGTx@DUT025-TGLU.fm.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <Zh8isq+3btgEJGTx@DUT025-TGLU.fm.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0080.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <cc9b9357d30c4abac7301767ff01fe7947f811c4.camel.ref@yahoo.com>
-X-Mailer: WebService/1.1.22205
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Mailman-Approved-At: Wed, 17 Apr 2024 07:31:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB8340:EE_
+X-MS-Office365-Filtering-Correlation-Id: 935e9962-28c6-4f27-c5d6-08dc5ea4e709
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5AQ2Yk7hgLsr5BpcyFHIXX1fuv61xfGyChsDUSEJmKVsFlkqJqTZsF+CI8VfOru7NIe4IYcn9CwYVAmXs4qF+bv/HA0QJBFEfTAzPppK2SrOH9dww2Nt+8XRMVtKddUeRZZkscm9VfjbtqqT49DOQTaPxX71CPqUK0AFEBemup1n2yFAVN+2ZRbo7Ke/ns78m21ICJUUeAFirJBm3uqQwZ/STDz4nhN3jbYQpZrcT1XruqrY3eoAmOFlPs/Lit2ADPztamojHrNs24c6WiFx2O/8OH+KrjD3vKku25tzwKuL3+q5q+7snJLaQCHeMtSvPd2CU3h+kHJFNKa+wW2nwcDsq5tITlqmw3UUjP90KCdPlwQzs4zH3xLLUzcJSphvsE3yQzgoxbFWUY/IQ1vLsdqjRukVanFF7uhFtMn2wQc+W4Pja3bcypVSjptWYeUI15SLdFlX05ChVqs4jo5tffyreVxlSWw0vVaClaCJF8utp5rA2oxWjOJ0q2Qdd2LF1/yPz0xKzqWk2stxX0ta06gUGWEQ8JFaEmufixTkxURp1oxf4b1gfKmKzClgnkFNbCqVj8O6sfvlaIh3t36IpQq6fXCyzIfqaR5Y96vNtw/WLb4kiOzuJzYWYD36ESEjU8aQJ3cdrG7fGZGfCLbjqEBXXuyAzifOZMoVdRVwQ5k=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bGxkL1VUeWdYS0JTaUdKV3dFcFNvZUUrV1pscVdYMHRzRHpKVmJuaXNvRDky?=
+ =?utf-8?B?NXNWVWxHNU9paVh6cmNtSnFVcTN6cHg5aEFXbUI0TWZEVy85b294RENzdEc3?=
+ =?utf-8?B?Q1RLdHoxRnZQM0tyZ0ZsUUJtcHRhdEdWZVpyb1M0WHdnOGFqaU5lUDhNNm43?=
+ =?utf-8?B?cDRzMnN4cU9YUW5HNmVPUk9Lankwc1QxNVhoU0VHeUpWbVh4TU15STZzWW1Y?=
+ =?utf-8?B?YkV4ODl4YWZjU2hXRjM4SEtYSE5qUkJ5aXN5RTlsaGJobXhPM2lIaTlCeHVE?=
+ =?utf-8?B?alYzUWdMalhKU1g5VURLVnVFaEhyWTUrN0ppK1ZGWlRVSjJ1ZCtyMmtBVE9N?=
+ =?utf-8?B?eUhURytnTmFWSUlVT1JTVFNzV0RrNTY1R1QvQ3M1bUdFL05ZWW5wb29HN3Fk?=
+ =?utf-8?B?MU4wVmlSbVBRUk1jSzZLR3VaQlhKWndWK0pNY1RualkzdENZbFZiY25ZK3RG?=
+ =?utf-8?B?NVVSUkhMcGJ3Z29nRHhXdjZBd3N3bFIzRTVCdGdZdVRXbDRNOWc5b1R6K2Va?=
+ =?utf-8?B?b0xsd3cvSnR0Ukx2M0hlK2l6eW5xY1lpNERidXYwd3kwNkxaeVcxbkpGS3Jh?=
+ =?utf-8?B?bWNBcTNmUGpJS0hmUjhydUc3SUJhR2dvajNvTkwyOWNvbExGbm5VK1MyNGVh?=
+ =?utf-8?B?VWxwZmQxRjNENCtGNTVRTFJmaFgyVTBTM3JleVlRQ0VnWkRYVXpnc1lRU3N2?=
+ =?utf-8?B?NUVhVGdlUDNEakRYVWlVTmthdWlDVU9nT0tkYkQvditxeTBxVFFNK3dEQXds?=
+ =?utf-8?B?MHh6Q1pTaldkK1hUN1BPT0cxRGhkOHZrWFlyVmxKaHVTQlhubTNLNE0wSWRQ?=
+ =?utf-8?B?SE5wR1JPUUJpOEJVOEZ4WU1QcEF3SzMyZmx6T3ZoQnRXZWNSWHo4OFAyaHdm?=
+ =?utf-8?B?NWpIVGdvT1ZEZ3l6UUV0dVJXMkJPK0dGTGpBM1dncGd6LzZrL2FzM3JwUkpl?=
+ =?utf-8?B?NUF5UUVvUjlyZ25pOVFvUTAzZ0ZsWlZDNTdJcUFieUtMd1E0Q3E2MFFRSy9Q?=
+ =?utf-8?B?WWd3UDFpNHNXVUtJR01GQ3EvVE80YmRiaTVFWUtDaHR2YzFIM1VPMDJPMVRp?=
+ =?utf-8?B?ODVzYm0xMVV3ak9raTJyTHZtSUVDU1prSWpXa1RrRmlhMmRhZStndGMrcnlq?=
+ =?utf-8?B?a2JMVGVmbzVnRUZZOXZqUDRvV2pJQjBhUVJlUFVLUko2UU1zWk1hWTBqSUow?=
+ =?utf-8?B?QVUvQXFzU2JTZGlMc2h4WTJVSW9pOUlLU2l4N0pqdW5qeFJaazFFOXlyd0Qw?=
+ =?utf-8?B?QWNoV3JDWTZZeE0wYUt3d0pEaWE2NUVYQUVKMU43REJaNU1uak5nRys0YmxH?=
+ =?utf-8?B?OXQ3YUUxQ2IwM0pkUUhRejRVeWxUSHdsa1d5eks0TG1RaHcxOUZpSDVsc0Rt?=
+ =?utf-8?B?RE53cFl2bVUzY085OXNMT09BbHg0RnU3TGxBUksvMUtZQ2k0aTZ6UVhtU0Ev?=
+ =?utf-8?B?eXRwMEVNaVg0SHVON2xobUVjTUJrNEkwQXRwaFZ6bWUrWkZkZWVaVFlMYXMv?=
+ =?utf-8?B?VnVEVWx6SnJsRnU1a21wS0RXd1RIb2k1YzJEQnNidy9oSlhqRExtbFlNYlc0?=
+ =?utf-8?B?VWw5alFnbHB3VGUyUVo1ek53aUZiNDRqV3V5RUlsZkdqdXBnQ1VVNDdGbXg2?=
+ =?utf-8?B?NDl2NWlBQ3o2OXpMT0crZkR3YndaQkxpMkdxa2czY3VmcGZoSGMzQjd0cytB?=
+ =?utf-8?B?ZElvQjRXaVdtYzhTcXVCNjJPZFV5TEFiOWJTSGNOZFhRT2pWT0NPaUZJUlZG?=
+ =?utf-8?B?ZmlMSk5jRkJYemF2UTcwbkZpeURSV2E1ZHpWY083VXVnYnA3c2lja0dQanBS?=
+ =?utf-8?B?djFxaUdaYmZBR2VlZkdxNThwa0xHOG5uSWxKU1NiYzcvandhd0cra0FhdWQ4?=
+ =?utf-8?B?Z21EeUQ3TStnenJQMDY4d2lpekUza3kxYmJpU0xrR2dscFl3ZmtGekM5MnhU?=
+ =?utf-8?B?UW9wRGdPM2dSU3BkV093Z0RIMUZkVW9KaUxOUGc5YUFjbzN0LzRkMlZYdU1V?=
+ =?utf-8?B?YnkxbThUNyt5U1A5bWdxUDNZN2tkOUI1YXZMUFFOcjNZS29ZT2Q5ZGZsSUhx?=
+ =?utf-8?B?NWZYM0E4RXN1eFVuT3YwTkNhckYwWXp0OUdnTUdSUDlwbFRoSk5waEZaL0ho?=
+ =?utf-8?Q?M7+f5Y3q/o1SSeV6lfZ2D8bNu?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 935e9962-28c6-4f27-c5d6-08dc5ea4e709
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2024 06:09:12.6094 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7hGDphmeNeHd7bpUY8cIhacpMjrq3s1jh/OVu3GNmxTmAei5J/wbx7V2H6Wxju0B
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8340
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,219 +135,326 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From 6dbcb120581fc7cb45812193227b0a197abd8ba4 Mon Sep 17 00:00:00 2001
-From: Ashok Kumar <ashokemailat@yahoo.com>
-Date: Tue, 16 Apr 2024 09:19:32 -0700
-Subject: [PATCH] [PATCH] staging: fbtft Removed redundant parentheses on
- logical expr
+Am 17.04.24 um 03:15 schrieb Matthew Brost:
+> On Tue, Apr 16, 2024 at 12:07:22PM +0200, Thomas Hellström wrote:
+>> To be able to handle list unlocking while traversing the LRU
+>> list, we want the iterators not only to point to the next
+>> position of the list traversal, but to insert themselves as
+>> list nodes at that point to work around the fact that the
+>> next node might otherwise disappear from the list while
+>> the iterator is pointing to it.
+>>
+>> These list nodes need to be easily distinguishable from other
+>> list nodes so that others traversing the list can skip
+>> over them.
+>>
+>> So declare a struct ttm_lru_item, with a struct list_head member
+>> and a type enum. This will slightly increase the size of a
+>> struct ttm_resource.
+>>
+>> Changes in previous series:
+>> - Update enum ttm_lru_item_type documentation.
+>>
+> Patch itself makes sense to me. One style question (or maybe
+> suggestion?) below.
+>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+>> Cc: <dri-devel@lists.freedesktop.org>
+>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_device.c   | 13 ++++--
+>>   drivers/gpu/drm/ttm/ttm_resource.c | 70 ++++++++++++++++++++++--------
+>>   include/drm/ttm/ttm_resource.h     | 51 +++++++++++++++++++++-
+>>   3 files changed, 110 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+>> index 76027960054f..f27406e851e5 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_device.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+>> @@ -270,17 +270,22 @@ EXPORT_SYMBOL(ttm_device_fini);
+>>   static void ttm_device_clear_lru_dma_mappings(struct ttm_device *bdev,
+>>   					      struct list_head *list)
+>>   {
+>> -	struct ttm_resource *res;
+>> +	struct ttm_lru_item *lru;
+>>   
+>>   	spin_lock(&bdev->lru_lock);
+>> -	while ((res = list_first_entry_or_null(list, typeof(*res), lru))) {
+>> -		struct ttm_buffer_object *bo = res->bo;
+>> +	while ((lru = list_first_entry_or_null(list, typeof(*lru), link))) {
+>> +		struct ttm_buffer_object *bo;
+>> +
+>> +		if (!ttm_lru_item_is_res(lru))
+>> +			continue;
+>> +
+>> +		bo = ttm_lru_item_to_res(lru)->bo;
+>>   
+>>   		/* Take ref against racing releases once lru_lock is unlocked */
+>>   		if (!ttm_bo_get_unless_zero(bo))
+>>   			continue;
+>>   
+>> -		list_del_init(&res->lru);
+>> +		list_del_init(&bo->resource->lru.link);
+>>   		spin_unlock(&bdev->lru_lock);
+>>   
+>>   		if (bo->ttm)
+>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+>> index be8d286513f9..7aa5ca5c0e33 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+>> @@ -69,8 +69,8 @@ void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk)
+>>   			dma_resv_assert_held(pos->last->bo->base.resv);
+>>   
+>>   			man = ttm_manager_type(pos->first->bo->bdev, i);
+>> -			list_bulk_move_tail(&man->lru[j], &pos->first->lru,
+>> -					    &pos->last->lru);
+>> +			list_bulk_move_tail(&man->lru[j], &pos->first->lru.link,
+>> +					    &pos->last->lru.link);
+>>   		}
+>>   	}
+>>   }
+>> @@ -83,14 +83,38 @@ ttm_lru_bulk_move_pos(struct ttm_lru_bulk_move *bulk, struct ttm_resource *res)
+>>   	return &bulk->pos[res->mem_type][res->bo->priority];
+>>   }
+>>   
+>> +/* Return the previous resource on the list (skip over non-resource list items) */
+>> +static struct ttm_resource *ttm_lru_prev_res(struct ttm_resource *cur)
+>> +{
+>> +	struct ttm_lru_item *lru = &cur->lru;
+>> +
+>> +	do {
+>> +		lru = list_prev_entry(lru, link);
+>> +	} while (!ttm_lru_item_is_res(lru));
+>> +
+>> +	return ttm_lru_item_to_res(lru);
+>> +}
+>> +
+>> +/* Return the next resource on the list (skip over non-resource list items) */
+>> +static struct ttm_resource *ttm_lru_next_res(struct ttm_resource *cur)
+>> +{
+>> +	struct ttm_lru_item *lru = &cur->lru;
+>> +
+>> +	do {
+>> +		lru = list_next_entry(lru, link);
+>> +	} while (!ttm_lru_item_is_res(lru));
+>> +
+>> +	return ttm_lru_item_to_res(lru);
+>> +}
+>> +
+>>   /* Move the resource to the tail of the bulk move range */
+>>   static void ttm_lru_bulk_move_pos_tail(struct ttm_lru_bulk_move_pos *pos,
+>>   				       struct ttm_resource *res)
+>>   {
+>>   	if (pos->last != res) {
+>>   		if (pos->first == res)
+>> -			pos->first = list_next_entry(res, lru);
+>> -		list_move(&res->lru, &pos->last->lru);
+>> +			pos->first = ttm_lru_next_res(res);
+>> +		list_move(&res->lru.link, &pos->last->lru.link);
+>>   		pos->last = res;
+>>   	}
+>>   }
+>> @@ -121,11 +145,11 @@ static void ttm_lru_bulk_move_del(struct ttm_lru_bulk_move *bulk,
+>>   		pos->first = NULL;
+>>   		pos->last = NULL;
+>>   	} else if (pos->first == res) {
+>> -		pos->first = list_next_entry(res, lru);
+>> +		pos->first = ttm_lru_next_res(res);
+>>   	} else if (pos->last == res) {
+>> -		pos->last = list_prev_entry(res, lru);
+>> +		pos->last = ttm_lru_prev_res(res);
+>>   	} else {
+>> -		list_move(&res->lru, &pos->last->lru);
+>> +		list_move(&res->lru.link, &pos->last->lru.link);
+>>   	}
+>>   }
+>>   
+>> @@ -154,7 +178,7 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res)
+>>   	lockdep_assert_held(&bo->bdev->lru_lock);
+>>   
+>>   	if (bo->pin_count) {
+>> -		list_move_tail(&res->lru, &bdev->pinned);
+>> +		list_move_tail(&res->lru.link, &bdev->pinned);
+>>   
+>>   	} else	if (bo->bulk_move) {
+>>   		struct ttm_lru_bulk_move_pos *pos =
+>> @@ -165,7 +189,7 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res)
+>>   		struct ttm_resource_manager *man;
+>>   
+>>   		man = ttm_manager_type(bdev, res->mem_type);
+>> -		list_move_tail(&res->lru, &man->lru[bo->priority]);
+>> +		list_move_tail(&res->lru.link, &man->lru[bo->priority]);
+>>   	}
+>>   }
+>>   
+>> @@ -196,9 +220,9 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>>   	man = ttm_manager_type(bo->bdev, place->mem_type);
+>>   	spin_lock(&bo->bdev->lru_lock);
+>>   	if (bo->pin_count)
+>> -		list_add_tail(&res->lru, &bo->bdev->pinned);
+>> +		list_add_tail(&res->lru.link, &bo->bdev->pinned);
+>>   	else
+>> -		list_add_tail(&res->lru, &man->lru[bo->priority]);
+>> +		list_add_tail(&res->lru.link, &man->lru[bo->priority]);
+>>   	man->usage += res->size;
+>>   	spin_unlock(&bo->bdev->lru_lock);
+>>   }
+>> @@ -220,7 +244,7 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
+>>   	struct ttm_device *bdev = man->bdev;
+>>   
+>>   	spin_lock(&bdev->lru_lock);
+>> -	list_del_init(&res->lru);
+>> +	list_del_init(&res->lru.link);
+>>   	man->usage -= res->size;
+>>   	spin_unlock(&bdev->lru_lock);
+>>   }
+>> @@ -471,14 +495,16 @@ struct ttm_resource *
+>>   ttm_resource_manager_first(struct ttm_resource_manager *man,
+>>   			   struct ttm_resource_cursor *cursor)
+>>   {
+>> -	struct ttm_resource *res;
+>> +	struct ttm_lru_item *lru;
+>>   
+>>   	lockdep_assert_held(&man->bdev->lru_lock);
+>>   
+>>   	for (cursor->priority = 0; cursor->priority < TTM_MAX_BO_PRIORITY;
+>>   	     ++cursor->priority)
+>> -		list_for_each_entry(res, &man->lru[cursor->priority], lru)
+>> -			return res;
+>> +		list_for_each_entry(lru, &man->lru[cursor->priority], link) {
+>> +			if (ttm_lru_item_is_res(lru))
+>> +				return ttm_lru_item_to_res(lru);
+>> +		}
+>>   
+>>   	return NULL;
+>>   }
+>> @@ -497,15 +523,21 @@ ttm_resource_manager_next(struct ttm_resource_manager *man,
+>>   			  struct ttm_resource_cursor *cursor,
+>>   			  struct ttm_resource *res)
+>>   {
+>> +	struct ttm_lru_item *lru = &res->lru;
+>> +
+>>   	lockdep_assert_held(&man->bdev->lru_lock);
+>>   
+>> -	list_for_each_entry_continue(res, &man->lru[cursor->priority], lru)
+>> -		return res;
+>> +	list_for_each_entry_continue(lru, &man->lru[cursor->priority], link) {
+>> +		if (ttm_lru_item_is_res(lru))
+>> +			return ttm_lru_item_to_res(lru);
+>> +	}
+>>   
+>>   	for (++cursor->priority; cursor->priority < TTM_MAX_BO_PRIORITY;
+>>   	     ++cursor->priority)
+>> -		list_for_each_entry(res, &man->lru[cursor->priority], lru)
+>> -			return res;
+>> +		list_for_each_entry(lru, &man->lru[cursor->priority], link) {
+>> +			if (ttm_lru_item_is_res(lru))
+>> +				ttm_lru_item_to_res(lru);
+>> +		}
+>>   
+>>   	return NULL;
+>>   }
+>> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+>> index 69769355139f..4babc4ff10b0 100644
+>> --- a/include/drm/ttm/ttm_resource.h
+>> +++ b/include/drm/ttm/ttm_resource.h
+>> @@ -49,6 +49,43 @@ struct io_mapping;
+>>   struct sg_table;
+>>   struct scatterlist;
+>>   
+>> +/**
+>> + * enum ttm_lru_item_type - enumerate ttm_lru_item subclasses
+>> + */
+>> +enum ttm_lru_item_type {
+>> +	/** @TTM_LRU_RESOURCE: The resource subclass */
+>> +	TTM_LRU_RESOURCE,
+>> +	/** @TTM_LRU_HITCH: The iterator hitch subclass */
+>> +	TTM_LRU_HITCH
+>> +};
+>> +
+>> +/**
+>> + * struct ttm_lru_item - The TTM lru list node base class
+>> + * @link: The list link
+>> + * @type: The subclass type
+>> + */
+>> +struct ttm_lru_item {
+>> +	struct list_head link;
+>> +	enum ttm_lru_item_type type;
+>> +};
+>> +
+>> +/**
+>> + * ttm_lru_item_init() - initialize a struct ttm_lru_item
+>> + * @item: The item to initialize
+>> + * @type: The subclass type
+>> + */
+>> +static inline void ttm_lru_item_init(struct ttm_lru_item *item,
+>> +				     enum ttm_lru_item_type type)
+>> +{
+>> +	item->type = type;
+>> +	INIT_LIST_HEAD(&item->link);
+>> +}
+>> +
+>> +static inline bool ttm_lru_item_is_res(const struct ttm_lru_item *item)
+>> +{
+>> +	return item->type == TTM_LRU_RESOURCE;
+>> +}
+>> +
+>>   struct ttm_resource_manager_func {
+>>   	/**
+>>   	 * struct ttm_resource_manager_func member alloc
+>> @@ -217,9 +254,21 @@ struct ttm_resource {
+>>   	/**
+>>   	 * @lru: Least recently used list, see &ttm_resource_manager.lru
+>>   	 */
+>> -	struct list_head lru;
+>> +	struct ttm_lru_item lru;
+>>   };
+>>   
+>> +/**
+>> + * ttm_lru_item_to_res() - Downcast a struct ttm_lru_item to a struct ttm_resource
+>> + * @item: The struct ttm_lru_item to downcast
+>> + *
+>> + * Return: Pointer to the embedding struct ttm_resource
+>> + */
+>> +static inline struct ttm_resource *
+>> +ttm_lru_item_to_res(struct ttm_lru_item *item)
+> Pretty much everywhere in this series we have the following coding
+> pattern:
+>
+> if (ttm_lru_item_is_res(item))
+> 	do something with ttm_lru_item_to_res(item);
+>
+> Would it make more sense to squash these functions together with only
+> ttm_lru_item_to_res which returns NULL if item is not TTM_LRU_RESOURCE?
+>
+> The new pattern would be:
+>
+> res = ttm_lru_item_is_res(item)
+> if (res)
+> 	do something with res
+>
+> What do you think?
 
-Adhere to Linux Kernel coding style removed redundant parentheses,
-multiple blank lines and indentation alignment.
+I would even say we should put that filtering into the iterator.
 
-Reported by checkpatch.pl
+Nobody except the code which inserted the anchor into the LRU is 
+interested in it.
 
-------
-fb_ili9320.c
+Regards,
+Christian.
 
-+       if ((devcode !=3D 0x0000) && (devcode !=3D 0x9320))
-
-------
-fb_ra8875.c
-
-CHECK: Unnecessary parentheses around 'par->info->var.xres =3D=3D 320'
-+      if ((par->info->var.xres =3D=3D 320) && (par->info->var.yres =3D=3D
-240)) {
-
-------
-fb_ssd1325.c
-
-CHECK: Please don't use multiple blank lines
-------
-
-fb_tinylcd.c    - indentation adjustment
-
------
-fbtft-bus.c
-
-CHECK: Unnecessary parentheses around 'par->spi->bits_per_word =3D=3D 8'
-
-------
-fbtft-core.c
-
-CHECK: Please don't use multiple blank lines
-
-CHECK: Unnecessary parentheses around '!txbuflen'
-
-CHECK: Please don't use multiple blank lines
-------
-
-Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
----
- drivers/staging/fbtft/fb_ili9320.c | 2 +-
- drivers/staging/fbtft/fb_ra8875.c  | 8 ++++----
- drivers/staging/fbtft/fb_ssd1325.c | 2 --
- drivers/staging/fbtft/fb_tinylcd.c | 2 +-
- drivers/staging/fbtft/fbtft-bus.c  | 6 +++---
- drivers/staging/fbtft/fbtft-core.c | 7 +------
- 6 files changed, 10 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/staging/fbtft/fb_ili9320.c
-b/drivers/staging/fbtft/fb_ili9320.c
-index 0be7c2d51548..409b54cc562e 100644
---- a/drivers/staging/fbtft/fb_ili9320.c
-+++ b/drivers/staging/fbtft/fb_ili9320.c
-@@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
- 	devcode =3D read_devicecode(par);
- 	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code:
-0x%04X\n",
- 		      devcode);
--	if ((devcode !=3D 0x0000) && (devcode !=3D 0x9320))
-+	if (devcode !=3D 0x0000 && devcode !=3D 0x9320)
- 		dev_warn(par->info->device,
- 			 "Unrecognized Device code: 0x%04X (expected
-0x9320)\n",
- 			devcode);
-diff --git a/drivers/staging/fbtft/fb_ra8875.c
-b/drivers/staging/fbtft/fb_ra8875.c
-index 398bdbf53c9a..4b79fb48c5f0 100644
---- a/drivers/staging/fbtft/fb_ra8875.c
-+++ b/drivers/staging/fbtft/fb_ra8875.c
-@@ -50,7 +50,7 @@ static int init_display(struct fbtft_par *par)
-=20
- 	par->fbtftops.reset(par);
-=20
--	if ((par->info->var.xres =3D=3D 320) && (par->info->var.yres =3D=3D
-240)) {
-+	if (par->info->var.xres =3D=3D 320 && par->info->var.yres =3D=3D 240)
-{
- 		/* PLL clock frequency */
- 		write_reg(par, 0x88, 0x0A);
- 		write_reg(par, 0x89, 0x02);
-@@ -74,8 +74,8 @@ static int init_display(struct fbtft_par *par)
- 		write_reg(par, 0x1D, 0x0E);
- 		write_reg(par, 0x1E, 0x00);
- 		write_reg(par, 0x1F, 0x02);
--	} else if ((par->info->var.xres =3D=3D 480) &&
--		   (par->info->var.yres =3D=3D 272)) {
-+	} else if (par->info->var.xres =3D=3D 480 &&
-+		   par->info->var.yres =3D=3D 272) {
- 		/* PLL clock frequency  */
- 		write_reg(par, 0x88, 0x0A);
- 		write_reg(par, 0x89, 0x02);
-@@ -111,7 +111,7 @@ static int init_display(struct fbtft_par *par)
- 		write_reg(par, 0x04, 0x01);
- 		mdelay(1);
- 		/* horizontal settings */
--		write_reg(par, 0x14, 0x4F);
-+write_reg(par, 0x14, 0x4F);
- 		write_reg(par, 0x15, 0x05);
- 		write_reg(par, 0x16, 0x0F);
- 		write_reg(par, 0x17, 0x01);
-diff --git a/drivers/staging/fbtft/fb_ssd1325.c
-b/drivers/staging/fbtft/fb_ssd1325.c
-index 796a2ac3e194..69aa808c7e23 100644
---- a/drivers/staging/fbtft/fb_ssd1325.c
-+++ b/drivers/staging/fbtft/fb_ssd1325.c
-@@ -109,8 +109,6 @@ static int set_gamma(struct fbtft_par *par, u32
-*curves)
- {
- 	int i;
-=20
--	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "%s()\n", __func__);
--
- 	for (i =3D 0; i < GAMMA_LEN; i++) {
- 		if (i > 0 && curves[i] < 1) {
- 			dev_err(par->info->device,
-diff --git a/drivers/staging/fbtft/fb_tinylcd.c
-b/drivers/staging/fbtft/fb_tinylcd.c
-index 9469248f2c50..60cda57bcb33 100644
---- a/drivers/staging/fbtft/fb_tinylcd.c
-+++ b/drivers/staging/fbtft/fb_tinylcd.c
-@@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
- 	write_reg(par, 0xE5, 0x00);
- 	write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
- 	write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
--		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
-+		  0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
- 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
- 	udelay(250);
-diff --git a/drivers/staging/fbtft/fbtft-bus.c
-b/drivers/staging/fbtft/fbtft-bus.c
-index 3d422bc11641..02d7dbd38678 100644
---- a/drivers/staging/fbtft/fbtft-bus.c
-+++ b/drivers/staging/fbtft/fbtft-bus.c
-@@ -62,9 +62,9 @@
-out:									      \
- }                                                                   =20
-\
- EXPORT_SYMBOL(func);
-=20
--define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
-+define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8,)
- define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16,
-cpu_to_be16)
--define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
-+define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16,)
-=20
- void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
- {
-@@ -85,7 +85,7 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int
-len, ...)
- 	if (len <=3D 0)
- 		return;
-=20
--	if (par->spi && (par->spi->bits_per_word =3D=3D 8)) {
-+	if (par->spi && par->spi->bits_per_word =3D=3D 8) {
- 		/* we're emulating 9-bit, pad start of buffer with no-
-ops
- 		 * (assuming here that zero is a no-op)
- 		 */
-diff --git a/drivers/staging/fbtft/fbtft-core.c
-b/drivers/staging/fbtft/fbtft-core.c
-index 38845f23023f..98ffca49df81 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -216,8 +216,6 @@ static void fbtft_reset(struct fbtft_par *par)
- 	if (!par->gpio.reset)
- 		return;
-=20
--	fbtft_par_dbg(DEBUG_RESET, par, "%s()\n", __func__);
--
- 	gpiod_set_value_cansleep(par->gpio.reset, 1);
- 	usleep_range(20, 40);
- 	gpiod_set_value_cansleep(par->gpio.reset, 0);
-@@ -667,7 +665,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct
-fbtft_display *display,
- 		txbuflen =3D 0;
-=20
- #ifdef __LITTLE_ENDIAN
--	if ((!txbuflen) && (bpp > 8))
-+	if (!txbuflen && bpp > 8)
- 		txbuflen =3D PAGE_SIZE; /* need buffer for byteswapping
-*/
- #endif
-=20
-@@ -1053,8 +1051,6 @@ static int fbtft_verify_gpios(struct fbtft_par
-*par)
- 	struct fbtft_platform_data *pdata =3D par->pdata;
- 	int i;
-=20
--	fbtft_par_dbg(DEBUG_VERIFY_GPIOS, par, "%s()\n", __func__);
--
- 	if (pdata->display.buswidth !=3D 9 &&  par->startbyte =3D=3D 0 &&
- 	    !par->gpio.dc) {
- 		dev_err(par->info->device,
-@@ -1159,7 +1155,6 @@ int fbtft_probe_common(struct fbtft_display
-*display,
- 		dev =3D &pdev->dev;
-=20
- 	if (unlikely(display->debug & DEBUG_DRIVER_INIT_FUNCTIONS))
--		dev_info(dev, "%s()\n", __func__);
-=20
- 	pdata =3D dev->platform_data;
- 	if (!pdata) {
---=20
-2.34.1
-
+>
+> Matt
+>
+>> +{
+>> +	return container_of(item, struct ttm_resource, lru);
+>> +}
+>> +
+>>   /**
+>>    * struct ttm_resource_cursor
+>>    *
+>> -- 
+>> 2.44.0
+>>
 
