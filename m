@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E266F8A7FA6
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 11:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C75D8A7FF3
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 11:39:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16F6C10F4E7;
-	Wed, 17 Apr 2024 09:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1F4A113333;
+	Wed, 17 Apr 2024 09:39:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gNzKNU3C";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h9h0uxBk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6243910F4E7
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 09:29:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713346192;
- bh=Ormw5AVhPtSXTp2jJ8sC6rhaainrrqZ/5k5Tyhe5EfA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gNzKNU3CgHpeu82+4b7H5uV234wnnQxCAmvrWkN8XEB+u3zDTEMAC7hAt7M1juXJV
- 36BRNkk8wsvVCs4diVstgpvHNBYeUIR9poqLGn0M4iLXUytVoktgkAveHAOZTnOVkB
- feOLzy76ruTRBiPsKsTOwqZ0q7S/rReY+i0S1JF4IeSCVOrDb8poQrPHWE2YGfiftE
- jJSaIstliBVBvScSPE/k5Kfl2/iRucLrkgqXZ1jjMHvu39yZNSfcAHVGTBrLpbdtpU
- GLALInGHAGlq68JNfBNs64AZXimOZ9vu7iDoFKwq64C8zUSGEHq1o9hdJzdBQ1cgGV
- N3PJtPZ5lRTnw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 091D5378020A;
- Wed, 17 Apr 2024 09:29:51 +0000 (UTC)
-Date: Wed, 17 Apr 2024 11:29:50 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Liviu Dudau
- <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: clean up some types in
- panthor_sched_suspend()
-Message-ID: <20240417112950.6873ebc4@collabora.com>
-In-Reply-To: <effb8ca8-9d45-45d1-afab-467d0ac20fbd@arm.com>
-References: <85356b15-4840-4e64-8c75-922cdd6a5fef@moroto.mountain>
- <effb8ca8-9d45-45d1-afab-467d0ac20fbd@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2680113330;
+ Wed, 17 Apr 2024 09:39:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713346785; x=1744882785;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=zvVugPyu+y2p2fBl+xfTnAm3IxTYfe1nJK3ynLtEv1g=;
+ b=h9h0uxBkZmd1b9wPw80IUP2dETbUApqEWfdwWAhsvP6AWIaDexFN1IpG
+ etnrEcVUHS9LKHObTmgiPUlghOv9HPN1hksQcwVxRjXpltjcnlCdWydKY
+ ivN6NWjKZAzSeCYz7k1NBD0ZIpHOSsRynsmu/58v/mohVYSapP6/Bw6cy
+ +C72oeFXFNmtW3RfMn/zTnMlETXUgNmYJsEw/+2E2tDOooySRHw7HyDul
+ 8HniCT9hkhb5I4ZWUHpyCIcahMAixTsCBAl/nmgScDDC7Nhhz2ZBsxAvd
+ /9ES7SJjF3ubiVbKCc3bP7Ftm8teLPqSOSrBqVvneoiVTnS0W8MPx+sas w==;
+X-CSE-ConnectionGUID: hN2TbvpeTn2fE+EmJdQV+w==
+X-CSE-MsgGUID: Wr883DPfTKW6uGTtNt1vIQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="20248711"
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; d="scan'208";a="20248711"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2024 02:39:45 -0700
+X-CSE-ConnectionGUID: lBACt1ONRJCPpw3H1K1KuQ==
+X-CSE-MsgGUID: iCk7aqxPReqKpSKk8Y6N6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; d="scan'208";a="45865502"
+Received: from vpus-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.45.164])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Apr 2024 02:39:43 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Ankit Nautiyal
+ <ankit.k.nautiyal@intel.com>, Khaled Almahallawy
+ <khaled.almahallawy@intel.com>
+Subject: Re: [PATCH v2 11/11] drm/i915/dp_mst: Enable HBLANK expansion quirk
+ for UHBR rates
+In-Reply-To: <20240416221010.376865-12-imre.deak@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240416221010.376865-1-imre.deak@intel.com>
+ <20240416221010.376865-12-imre.deak@intel.com>
+Date: Wed, 17 Apr 2024 12:39:40 +0300
+Message-ID: <87y19cxr8j.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,58 +71,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 8 Apr 2024 13:27:17 +0100
-Steven Price <steven.price@arm.com> wrote:
+On Wed, 17 Apr 2024, Imre Deak <imre.deak@intel.com> wrote:
+> Enabling the 5k@60Hz uncompressed mode on the MediaTek/Dell U3224KBA
+> monitor results in a blank screen, at least on MTL platforms on UHBR
+> link rates with some (<30) uncompressed bpp values. Enabling compression
+> fixes the problem, so do that for now. Windows enables DSC always if the
+> sink supports it and forcing it to enable the mode without compression
+> leads to the same problem above (which suggests a panel issue with
+> uncompressed mode).
+>
+> The same 5k mode on non-UHBR link rates is not affected and lower
+> resolution modes are not affected either. The problem is similar to the
+> one fixed by the HBLANK expansion quirk on Synaptics hubs, with the
+> difference that the problematic mode has a longer HBLANK duration. Also
+> the monitor doesn't report supporting HBLANK expansion; either its
+> internal MST hub does the expansion internally - similarly to the
+> Synaptics hub - or the issue has another root cause, but still related
+> to the mode's short HBLANK duration. Enable the quirk for the monitor
+> adjusting the detection for the above differences.
+>
+> Cc: dri-devel@lists.freedesktop.org
+> Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> Tested-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c     |  2 ++
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c | 22 +++++++++++++++++----
+>  2 files changed, 20 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 023907da98581..79a615667aab1 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2281,6 +2281,8 @@ static const struct dpcd_quirk dpcd_quirk_list[] = {
+>  	{ OUI(0x90, 0xCC, 0x24), DEVICE_ID_ANY, true, BIT(DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) },
+>  	/* Synaptics DP1.4 MST hubs require DSC for some modes on which it applies HBLANK expansion. */
+>  	{ OUI(0x90, 0xCC, 0x24), DEVICE_ID_ANY, true, BIT(DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC) },
+> +	/* MediaTek panels (at least in U3224KBA) require DSC for modes with a short HBLANK on UHBR links. */
+> +	{ OUI(0x00, 0x0C, 0xE7), DEVICE_ID_ANY, false, BIT(DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC) },
+>  	/* Apple MacBookPro 2017 15 inch eDP Retina panel reports too low DP_MAX_LINK_RATE */
+>  	{ OUI(0x00, 0x10, 0xfa), DEVICE_ID(101, 68, 21, 101, 98, 97), false, BIT(DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS) },
+>  };
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index fb5e167c3c659..71b01f7631919 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -421,15 +421,22 @@ static int mode_hblank_period_ns(const struct drm_display_mode *mode)
+>  
+>  static bool
+>  hblank_expansion_quirk_needs_dsc(const struct intel_connector *connector,
+> -				 const struct intel_crtc_state *crtc_state)
+> +				 const struct intel_crtc_state *crtc_state,
+> +				 const struct link_config_limits *limits)
+>  {
+>  	const struct drm_display_mode *adjusted_mode =
+>  		&crtc_state->hw.adjusted_mode;
+> +	bool is_uhbr_sink = connector->mst_port &&
+> +			    drm_dp_uhbr_channel_coding_supported(connector->mst_port->dpcd);
 
-> On 08/04/2024 08:36, Dan Carpenter wrote:
-> > These variables should be u32 instead of u64 because they're only
-> > storing u32 values.  Also static checkers complain when we do:
-> > 
-> > 	suspended_slots &= ~upd_ctx.timedout_mask;
-> > 
-> > In this code "suspended_slots" is a u64 and "upd_ctx.timedout_mask".  The
+Why do you combine connector->mst_port to "is uhbr sink"? I think it's
+confusing.
 
-                                            'and "upd_ctx.timedout_mask" an u32.'?
+> +	int hblank_limit = is_uhbr_sink ? 500 : 300;
+>  
+>  	if (!connector->dp.dsc_hblank_expansion_quirk)
+>  		return false;
+>  
+> -	if (mode_hblank_period_ns(adjusted_mode) > 300)
+> +	if (is_uhbr_sink && !drm_dp_is_uhbr_rate(limits->max_rate))
 
-> > mask clears out the top 32 bits which would likely be a bug if anything
-> > were stored there.
-> > 
-> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>  
-> 
-> Reviewed-by: Steven Price <steven.price@arm.com>
+I'm not saying that's not correct, but I find that condition a bit
+surprising. "This does not apply to sinks capable of 128b/132b, but not
+running at UHBR."
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+IOW, this applies to sinks not capable of 128b/132b, and sinks capable
+of 128b/132b and running at UHBR.
 
-> 
-> If you fancy a bit more clean-up then I think faulty_slots is completely
-> redundant as a separate variable. In particular in the "if
-> (suspended_slots)" section it's updated but that updated value is never
-> used... otherwise I'll put it on my list for cleaning up later.
+A head scratcher.
 
-Yeah, I think this variable predates the upd_ctx stuff and is now useless.
-I you post such a patch, please add my R-b directly.
+> +		return false;
+> +
+> +	if (mode_hblank_period_ns(adjusted_mode) > hblank_limit)
+>  		return false;
+>  
+>  	return true;
+> @@ -445,7 +452,7 @@ adjust_limits_for_dsc_hblank_expansion_quirk(const struct intel_connector *conne
+>  	const struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+>  	int min_bpp_x16 = limits->link.min_bpp_x16;
+>  
+> -	if (!hblank_expansion_quirk_needs_dsc(connector, crtc_state))
+> +	if (!hblank_expansion_quirk_needs_dsc(connector, crtc_state, limits))
+>  		return true;
+>  
+>  	if (!dsc) {
+> @@ -1604,7 +1611,14 @@ static bool detect_dsc_hblank_expansion_quirk(const struct intel_connector *conn
+>  			      DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC))
+>  		return false;
+>  
+> -	if (!(dpcd[DP_RECEIVE_PORT_0_CAP_0] & DP_HBLANK_EXPANSION_CAPABLE))
+> +	/*
+> +	 * UHBR (MST sink) devices requiring this quirk doesn't advertise the
 
-Thanks,
+What are you trying to say with "UHBR (MST sink)"? We've (read: I) have
+been confused by this in the past, and casually equating UHBR and MST
+isn't helping.
 
-Boris
+BR,
+Jani.
 
-> 
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_sched.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> > index d4bc652b34d5..b3a51a6de523 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> > @@ -2546,7 +2546,7 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
-> >  {
-> >  	struct panthor_scheduler *sched = ptdev->scheduler;
-> >  	struct panthor_csg_slots_upd_ctx upd_ctx;
-> > -	u64 suspended_slots, faulty_slots;
-> > +	u32 suspended_slots, faulty_slots;
-> >  	struct panthor_group *group;
-> >  	u32 i;
-> >    
-> 
 
+> +	 * HBLANK expansion support. Presuming that they perform HBLANK
+> +	 * expansion internally, or are affected by this issue on modes with a
+> +	 * short HBLANK for other reasons.
+> +	 */
+> +	if (!drm_dp_uhbr_channel_coding_supported(dpcd) &&
+> +	    !(dpcd[DP_RECEIVE_PORT_0_CAP_0] & DP_HBLANK_EXPANSION_CAPABLE))
+>  		return false;
+>  
+>  	drm_dbg_kms(&i915->drm,
+
+-- 
+Jani Nikula, Intel
