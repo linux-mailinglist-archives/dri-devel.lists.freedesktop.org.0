@@ -2,85 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3DAD8A8DB9
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 23:21:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACF18A8F52
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 01:31:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDFDA1137EA;
-	Wed, 17 Apr 2024 21:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9EC310F940;
+	Wed, 17 Apr 2024 23:31:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZxSOuU9M";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F5ypeMcH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58C991137EA
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 21:21:05 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 43HKJkjh027275; Wed, 17 Apr 2024 21:20:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=2GZtLTSkn5P8Go1e017CsTki1su+ecSi7B1HZK8D7Ag=; b=Zx
- SOuU9MUT6Do9lgPChdz+op/Ov2gin+jA9cYSbOOLIkHaYFE0tgAvJanRzH28T3dK
- NO3ydQP/w6Fwf5flVgP15bZbyBczEnWJ16N48ywLo6P1hvrCD2W89ao4ZV8FlHNF
- Lwl5a877NHXQtqmbAXBjdUeFRPq10JOFkfNW4fW7O4OtcbTb0so7V9cqDJ1u4ZKb
- zN6PM1zp58eNp27yYnoXaZP9QpdmAa24i4xEZmRFNxCdvXVEZ44cF0+WVdwjYuRR
- jjMB6xIxUbyse3vPJxLgy7LCkhnsH1jSjZ9m+r7rp3KWi0CuHdI70zleahtStUDn
- gdWbqnkEJ/lHS4lOup+g==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xj9w5a79s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Apr 2024 21:20:33 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43HLKW9u001962
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Apr 2024 21:20:32 GMT
-Received: from [10.71.108.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 17 Apr
- 2024 14:20:31 -0700
-Message-ID: <e89c5c19-7c8f-476b-a96a-a5bc330278ab@quicinc.com>
-Date: Wed, 17 Apr 2024 14:20:31 -0700
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C21F11387D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 23:31:05 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-516d487659bso224241e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 16:31:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713396662; x=1714001462; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=GoRisbGnaphvkOMl0BaR8O6Ht/Z9FTi+nAoLdKSqnlw=;
+ b=F5ypeMcHtPT2keRBcquIp7uOJrqcCcm914BS15ydqpMUOPwbnV/h/gAFi7LIc8n/v+
+ ybEAg5rroSIjN944FgFboSw0Q2pfGiYVujQpRG9OMemD3ht3oeTde57/2dAuluAgCNMu
+ xFMwvXVAcdHV8XQqnweqqLt7V5nqlc/CLlaRBMSvdRmVDmYLT6Vx38pXptu43FTpgL8E
+ UEcjeJGn+PF7mMP8x1hPmYbwND5aWh1QE5XIO8+WIRIRddRPSmHi3XPmHUutoXxSX0GH
+ vHTsPB0H9Grv2e4CRvVJJXXOQPfNaooaulK1aOWgkfh0HzB3L7Mgi9NGA/wgCzP+n3/y
+ 688Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713396662; x=1714001462;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GoRisbGnaphvkOMl0BaR8O6Ht/Z9FTi+nAoLdKSqnlw=;
+ b=uby1zUtdOMJeSYdTqWHcHKpJxm3f0SoD4zylEQNLl7ZakgdnI5yf6ft71UhTpDUnin
+ 0mqjT2kVkTkAerkrsn0Qb7n1hpyFEzyJjJV6mGpZinmkc9FZOzl56gHiDns80gHgKRjf
+ XjSr9l3ieT/Z94R4F0uvDXZndTi+a07IY/LAeXf1ifmeMZxdu6iXx+Tz6Yakq0POjCnh
+ M3lGgd7Bw6QPAe5ATDAW4QqzUJ17F/tcKLlSLQ4Vb4iPptyF5N2ouEINHvzFmlykboW1
+ CsUPQgrnLBWUHrAuQjjXQ8P7qgZ6s+kBGBV5KNaSWAvH2yRc9k9VF9qI/sL8jSFRsqSP
+ ATqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXNntPaYDl04vvH32f/AQsypKTc5WhzMr6DCLOp5ogtefRWR+gEsIZ3EiGLT/NLK9CTh4masKxTNTPsQXiJCEI3HZX+/xZMhL5+BYEuXoyG
+X-Gm-Message-State: AOJu0YySiCp8U1TP9NDbYgYKwR9xAdDbacru0AESdykgftKmaPcopdf6
+ asziEslmEM12PHQZ+6oQKH186klZATL6NblixUAkO5vU87vyuxNR8gYwYDXQsh4=
+X-Google-Smtp-Source: AGHT+IFdNJlkHn8NQV8zP3hm/RjD7xvcRdfYhoYaJN6camRxCnIHqiip6JS4Fiw3DsaEK+EVXCYA8g==
+X-Received: by 2002:ac2:4e4f:0:b0:515:c102:c825 with SMTP id
+ f15-20020ac24e4f000000b00515c102c825mr352459lfr.19.1713396662157; 
+ Wed, 17 Apr 2024 16:31:02 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ y22-20020a197516000000b005195b134404sm34870lfe.103.2024.04.17.16.31.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Apr 2024 16:31:01 -0700 (PDT)
+Date: Thu, 18 Apr 2024 02:30:59 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Archit Taneja <architt@codeaurora.org>, 
+ Chandan Uddaraju <chandanu@codeaurora.org>, Vinod Koul <vkoul@kernel.org>, 
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Jordan Crouse <jordan@cosmicpenguin.net>, Rajesh Yadav <ryadav@codeaurora.org>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>
+Subject: Re: [PATCH 5/7] drm/msm/dpu: Correct dual-ctl -> dual-intf typo in
+ comment
+Message-ID: <76hjmo4sq6sfjgmnvjoienc5aij74pfjtwevnnls65kxinyaxu@y3yydacvcflm>
+References: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-0-78ae3ee9a697@somainline.org>
+ <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-5-78ae3ee9a697@somainline.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] drm/panel: novatek-nt36672e: stop calling
- regulator_set_load manually
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Matthias Kaehlcke
- <mka@chromium.org>, Harigovindan P <harigovi@codeaurora.org>, Ritesh Kumar
- <quic_riteshk@quicinc.com>, Sumit Semwal <sumit.semwal@linaro.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
- <20240404-drop-panel-unregister-v1-4-9f56953c5fb9@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240404-drop-panel-unregister-v1-4-9f56953c5fb9@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: sUN5mEQ1ForeJ8f8PSD1eri1RLzGU2nn
-X-Proofpoint-GUID: sUN5mEQ1ForeJ8f8PSD1eri1RLzGU2nn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-17_18,2024-04-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- bulkscore=0 lowpriorityscore=0 mlxlogscore=999 priorityscore=1501
- spamscore=0 phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404170151
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-5-78ae3ee9a697@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,62 +98,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/4/2024 3:08 AM, Dmitry Baryshkov wrote:
-> Use .init_load_uA part of the bulk regulator API instead of calling
-> register_set_load() manually.
-
-Hi Dmitry,
-
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
-Thanks,
-
-Jessica Zhang
-
+On Wed, Apr 17, 2024 at 01:57:45AM +0200, Marijn Suijten wrote:
+> This comment one line down references a single, "same CTL" that controls
+> two interfaces, so the comment should clearly describe two interfaces
+> used with a single active CTL and not "two CTLs".
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
->   drivers/gpu/drm/panel/panel-novatek-nt36672e.c | 16 ++++------------
->   1 file changed, 4 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-> index 9a870b9b6765..20b7bfe4aa12 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
-> @@ -343,17 +343,7 @@ static int nt36672e_1080x2408_60hz_init(struct mipi_dsi_device *dsi)
->   static int nt36672e_power_on(struct nt36672e_panel *ctx)
->   {
->   	struct mipi_dsi_device *dsi = ctx->dsi;
-> -	int ret, i;
-> -
-> -	for (i = 0; i < ARRAY_SIZE(ctx->supplies); i++) {
-> -		ret = regulator_set_load(ctx->supplies[i].consumer,
-> -				regulator_enable_loads[i]);
-> -		if (ret) {
-> -			dev_err(&dsi->dev, "regulator set load failed for supply %s: %d\n",
-> -				ctx->supplies[i].supply, ret);
-> -			return ret;
-> -		}
-> -	}
-> +	int ret;
->   
->   	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->   	if (ret < 0) {
-> @@ -550,8 +540,10 @@ static int nt36672e_panel_probe(struct mipi_dsi_device *dsi)
->   		return -ENODEV;
->   	}
->   
-> -	for (i = 0; i < ARRAY_SIZE(ctx->supplies); i++)
-> +	for (i = 0; i < ARRAY_SIZE(ctx->supplies); i++) {
->   		ctx->supplies[i].supply = regulator_names[i];
-> +		ctx->supplies[i].init_load_uA = regulator_enable_loads[i];
-> +	}
->   
->   	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
->   			ctx->supplies);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> index d9e7dbf0499c..7e849fe74801 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> @@ -428,7 +428,7 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
+>  	dpu_encoder_phys_vid_setup_timing_engine(phys_enc);
+>  
+>  	/*
+> -	 * For single flush cases (dual-ctl or pp-split), skip setting the
+> +	 * For single flush cases (dual-intf or pp-split), skip setting the
+
+It should be fixed, but in the other way: it's 'single-ctl'. See
+sde_encoder_phys_needs_single_flush().
+
+>  	 * flush bit for the slave intf, since both intfs use same ctl
+>  	 * and HW will only flush the master.
+>  	 */
 > 
 > -- 
-> 2.39.2
+> 2.44.0
 > 
+
+-- 
+With best wishes
+Dmitry
