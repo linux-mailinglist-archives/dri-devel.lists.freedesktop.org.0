@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E388A7ABC
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 04:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 716628A7ABB
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 04:50:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEAB8113095;
-	Wed, 17 Apr 2024 02:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88396113092;
+	Wed, 17 Apr 2024 02:50:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="lYXOKnMa";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="jL+62hz0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E6E5113095
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 02:50:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC80011308B
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 02:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1713322229; x=1744858229;
+ t=1713322210; x=1744858210;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=RW42ADRJHbjCU+N4jM5hsf6GoRXrS/Cmrp4V+FIUu5E=;
- b=lYXOKnMaZyrWuMXppWaL6Lc9NwTDRVDIaqoGmZFNX29DURIC2Cut4XcG
- FV4RzZOuMABsxXtu5KmKG5ZbRUTShgGv+gmLLb01ptEefw8epvXuk7Osx
- pvKWJLhf9XOZsaJibxw+6YFG1Z/fkU1oNSD6Vc3a3uSpyUoBI1xYOUgnn
- 29Wfp5WTChJ83U3WeAZnqTuLiezifXtw9NF4ueukq3m01j3l5AhM9UZ4k
- hg8N7nGyG+00uoz6+fryMSN1at425TolR4qvg4aORBsJhmFIgqE/VJS0N
- U1+JhCcXPglppsUJdH8IEZtK0LT+gjCH4ngPJL5pM5BQK4gdHAB8v4zfV Q==;
-X-CSE-ConnectionGUID: lGxh+0ByRtCkzh726CowEg==
-X-CSE-MsgGUID: TmGpvyGHREyqXt8rLiNfvA==
-X-IronPort-AV: E=Sophos;i="6.07,207,1708412400"; d="scan'208";a="252174814"
+ bh=po9zb6Qn/5fT2i3jnTl0DLe9EyYWr9PtZv3ZiG+LgXk=;
+ b=jL+62hz0mHu1Pw9AsSGeC822Xiffj7UoK61HPHufhlkvNM9PhZOcHG+D
+ BuaHBn5424slexNP5242OMdAND+FrpX09QFTwn/vwB+uXZCQ3oVXiHJnF
+ 0/Ukpcj1GV18Wop3ygedn+EpNWkQ4TQ0F17/4a1P42ojaEUWTCBhqJ2v0
+ W4mQeaGRFNTtlErifD9dbaRYxhQr/CgsmigUUDJauBL+idH0cA1hyjsfw
+ ReD5XRgjnqZGrHjw79zQcsK9C9dIYiuutxROsi0W7mj31tUvGSKTiBTsn
+ AsjtggxGVedZAQF1ipocXfK58FewlY+kKo7VRLNAfPpG6uiqVjStTZjFw A==;
+X-CSE-ConnectionGUID: lhqfj+ClRBmMsnzlRSNyvA==
+X-CSE-MsgGUID: /4SB2i6AQ1W1hSmKUxDBJw==
+X-IronPort-AV: E=Sophos;i="6.07,207,1708412400"; d="scan'208";a="23379754"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 16 Apr 2024 19:43:23 -0700
+ by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 16 Apr 2024 19:43:03 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 16 Apr 2024 19:42:43 -0700
+ 15.1.2507.35; Tue, 16 Apr 2024 19:42:54 -0700
 Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Tue, 16 Apr 2024 19:42:32 -0700
+ 15.1.2507.35 via Frontend Transport; Tue, 16 Apr 2024 19:42:43 -0700
 From: Dharma Balasubiramani <dharma.b@microchip.com>
 To: <Dharma.B@microchip.com>, <andrzej.hajda@intel.com>,
  <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
@@ -57,10 +57,11 @@ To: <Dharma.B@microchip.com>, <andrzej.hajda@intel.com>,
  <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>
 CC: <oe-kbuild-all@lists.linux.dev>, Dharma Balasubiramani
- <dharma.b@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>
-Subject: [PATCH v6 3/4] MAINTAINERS: add SAM9X7 SoC's LVDS controller
-Date: Wed, 17 Apr 2024 08:11:36 +0530
-Message-ID: <20240417024137.144727-4-dharma.b@microchip.com>
+ <dharma.b@microchip.com>, Hari Prasath Gujulan Elango
+ <hari.prasathge@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>
+Subject: [PATCH v6 4/4] ARM: configs: at91: Enable LVDS serializer support
+Date: Wed, 17 Apr 2024 08:11:37 +0530
+Message-ID: <20240417024137.144727-5-dharma.b@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240417024137.144727-1-dharma.b@microchip.com>
 References: <20240417024137.144727-1-dharma.b@microchip.com>
@@ -82,46 +83,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the newly added LVDS controller for the SAM9X7 SoC to the existing
-MAINTAINERS entry.
+Enable LVDS serializer support for display pipeline.
 
 Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Acked-by: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
 Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
 ---
 Changelog
-v5 -> v6
-- Correct the file name sam9x7-lvds.yaml -> sam9x75-lvds.yaml.
 v4 -> v5
 v3 -> v4
-- No changes.
 v2 -> v3
-- Move the entry before "MICROCHIP SAMA5D2-COMPATIBLE ADC DRIVER".
-v1 -> v2
 - No Changes.
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm/configs/at91_dt_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c23fda1aa1f0..e49347eac596 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14563,6 +14563,14 @@ S:	Supported
- F:	Documentation/devicetree/bindings/pwm/atmel,at91sam-pwm.yaml
- F:	drivers/pwm/pwm-atmel.c
- 
-+MICROCHIP SAM9x7-COMPATIBLE LVDS CONTROLLER
-+M:	Manikandan Muralidharan <manikandan.m@microchip.com>
-+M:	Dharma Balasubiramani <dharma.b@microchip.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
-+F:	drivers/gpu/drm/bridge/microchip-lvds.c
-+
- MICROCHIP SAMA5D2-COMPATIBLE ADC DRIVER
- M:	Eugen Hristev <eugen.hristev@microchip.com>
- L:	linux-iio@vger.kernel.org
+diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
+index 1d53aec4c836..6eabe2313c9a 100644
+--- a/arch/arm/configs/at91_dt_defconfig
++++ b/arch/arm/configs/at91_dt_defconfig
+@@ -143,6 +143,7 @@ CONFIG_VIDEO_OV2640=m
+ CONFIG_VIDEO_OV7740=m
+ CONFIG_DRM=y
+ CONFIG_DRM_ATMEL_HLCDC=y
++CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER=y
+ CONFIG_DRM_PANEL_SIMPLE=y
+ CONFIG_DRM_PANEL_EDP=y
+ CONFIG_FB_ATMEL=y
 -- 
 2.25.1
 
