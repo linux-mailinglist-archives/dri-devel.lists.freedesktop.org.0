@@ -2,62 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1F38A8256
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 13:49:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BC18A8295
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 13:57:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6EA310F5CE;
-	Wed, 17 Apr 2024 11:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC7E113446;
+	Wed, 17 Apr 2024 11:57:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eA/QTbAz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mFZb7vu8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A647910F5CE;
- Wed, 17 Apr 2024 11:49:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713354552; x=1744890552;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=MSFjM1wFm498R7+Qx9WSvsBaGc1P6ZItYlb+++8OHCM=;
- b=eA/QTbAzojpvRPKHXDBzn9L86r0sdX7bL1s11dJwPnTtjdLf7OiM0AiA
- GEB1C2RwjKhDuHDteDHeMZvnQVMaPrXKbW2RO7ifZ1OJ8G/44Uy4wkd/9
- 6jok5OB3sHpuzMFVA5Bc6KpsV6TK0xKembumgVZt2z6BuQ71Mbtm7w1/B
- pDAmkZKFSFrIkq506iV4qrDI1wuwtKYgclfAAe3TnHT922JS88NeBq+sf
- L8NIM5SjUx2a8wbW8SyEgnY3RZgvgg2CyBte+zKROoBI/EkwkeIzUUQ4q
- OMO+pYhvrntN9dR012HGHqKdB1WhtS1rQ/kHic8dZ9ylFMem+vfqH/RpS g==;
-X-CSE-ConnectionGUID: Ms4A2it4SI2VVINq3jOvuw==
-X-CSE-MsgGUID: A8tvNTuMTAeIatVI3iLqwg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="12680014"
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; d="scan'208";a="12680014"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2024 04:49:10 -0700
-X-CSE-ConnectionGUID: E+GUTB39STSHZwdLoKv/cQ==
-X-CSE-MsgGUID: OnJuknJeSpmevLgE/h20cA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; d="scan'208";a="23193817"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2024 04:49:08 -0700
-Date: Wed, 17 Apr 2024 14:49:41 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- Manasi Navare <navaremanasi@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH v2 07/11] drm/dp: Add
- drm_dp_uhbr_channel_coding_supported()
-Message-ID: <Zh+3VXaC+EJKZqAd@ideak-desk.fi.intel.com>
-References: <20240416221010.376865-1-imre.deak@intel.com>
- <20240416221010.376865-8-imre.deak@intel.com>
- <871q74z6mh.fsf@intel.com>
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7D6A113444
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 11:57:00 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-dc74e33fe1bso4908343276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 04:57:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713355020; x=1713959820; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7V6DnLCsUFkJaBmXGBgPYovHMmnV4qT3enJ4vhqHZQM=;
+ b=mFZb7vu89CdLkeJyH7p9rX9G+yn80/6UopoQdbDtmBYSOl7UNErjxGj5uznWiG0imE
+ BZnWLXNK9k5DkB55YCkIVZ/T7xh/xMRseUI0utG3E10lKFyWdz++k7QboerkVhob9aex
+ pz86DL0BdLD8OCrkmep2crPAM203riNlCeWF11etvCzhnCdD2Sj+1EbEorGRqPvYgjt3
+ Dfn45Ptj38Bxc2GSxJuGVsBliWI/RzlfaX3UjW9clddXpzfQd/jQGR6QQ0+uvBJTz4JR
+ gX43ycTDOY6rk5G+7gmZroYe1zAN3erkApIQqnkIW3hulcQH8kVKdn7PHnOzzRDUbNF5
+ vFTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713355020; x=1713959820;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7V6DnLCsUFkJaBmXGBgPYovHMmnV4qT3enJ4vhqHZQM=;
+ b=WO7HtfRO1Y7HSLbqIBgMT6gV1GvzndZUFaw2ZKcQlnyKa8y+NKBns3QtWuR6Jbbjsw
+ NUp257wTZ1D6ou/O6/gRSbAoocJf9Yg1U4dATsnJdv128FjalSV1kzakqOSxJM+rOln/
+ Wc15gflhcSmrfM7aaP6YSI8p98KUYzbIftJIKda0Zq1A+S2DCN74bla7Nm4YIBlf38Nj
+ disRt/WaHtQhszG6bjzXP7KJRsvssddxw9/f/IYGxnXE5gWVPie1vYiGEPreC0DFrRwv
+ C4NvXbWduCuxaIcM7iso+7MBujLG8pc2KgCZPZeFo4kiO4PeqbRRjh6QHW5KQ8T853n6
+ v1hw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWldSw8A3KqaA1a7X3gMAVkjILDj4rk+94YEVhEwGFGr88EVdRNE79vdInLzSI2OoQdOXE+cbgSwUyXGdVxNsMasmQNJe23QiE0SmdW60Ff
+X-Gm-Message-State: AOJu0YxMduDWrIgE10wSiE6XEokP2ICfXTtYY6JBgy1DQBTO9FBXrWY2
+ g4uBGOk5zEcxOxTBXyflzBzb4tIOeE/yAqrWRBDXhImthq/7U3DeJVqh75UzT1f7eK+Vuqv5uk0
+ qee0SBMQVsrn1HLyXk6NXo9NYJ6OUAlt63A/6nw==
+X-Google-Smtp-Source: AGHT+IHuJ+P0+tIP8Ja/s31hcE/lLfe8rzFJZRFTNiK24q6dN5Ov40yhIbmq423DTWh9Cjd7EAZUIsIKaKherzh7G/4=
+X-Received: by 2002:a25:4ec2:0:b0:dcc:1449:71ea with SMTP id
+ c185-20020a254ec2000000b00dcc144971eamr15228037ybb.50.1713355019639; Wed, 17
+ Apr 2024 04:56:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <871q74z6mh.fsf@intel.com>
+References: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-0-78ae3ee9a697@somainline.org>
+ <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-1-78ae3ee9a697@somainline.org>
+In-Reply-To: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-1-78ae3ee9a697@somainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 17 Apr 2024 14:56:48 +0300
+Message-ID: <CAA8EJpqJfkRd3hN-QoHaxhP2dUaEOyaqnGzA5MiGk96oTLRO2g@mail.gmail.com>
+Subject: Re: [PATCH 1/7] drm/msm/dsi: Print dual-DSI-adjusted pclk instead of
+ original mode pclk
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Archit Taneja <architt@codeaurora.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>, 
+ Vinod Koul <vkoul@kernel.org>, Sravanthi Kollukuduru <skolluku@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Jordan Crouse <jordan@cosmicpenguin.net>, Rajesh Yadav <ryadav@codeaurora.org>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>, 
+ Jami Kettunen <jami.kettunen@somainline.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,78 +88,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 17, 2024 at 12:21:58PM +0300, Jani Nikula wrote:
-> On Wed, 17 Apr 2024, Imre Deak <imre.deak@intel.com> wrote:
-> > Factor out a function to check for UHBR channel coding support used by a
-> > follow-up patch in the patchset.
-> >
-> > Cc: dri-devel@lists.freedesktop.org
-> > Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> > Reviewed-by: Manasi Navare <navaremanasi@chromium.org>
-> > Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_dp.c | 2 +-
-> >  include/drm/display/drm_dp_helper.h     | 6 ++++++
-> >  2 files changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> > index 23808e9d41d5d..41127069b55e4 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > @@ -225,7 +225,7 @@ static void intel_dp_set_dpcd_sink_rates(struct intel_dp *intel_dp)
-> >  	 * Sink rates for 128b/132b. If set, sink should support all 8b/10b
-> >  	 * rates and 10 Gbps.
-> >  	 */
-> > -	if (intel_dp->dpcd[DP_MAIN_LINK_CHANNEL_CODING] & DP_CAP_ANSI_128B132B) {
-> > +	if (drm_dp_uhbr_channel_coding_supported(intel_dp->dpcd)) {
-> >  		u8 uhbr_rates = 0;
-> >  
-> >  		BUILD_BUG_ON(ARRAY_SIZE(intel_dp->sink_rates) < ARRAY_SIZE(dp_rates) + 3);
-> > diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> > index baf9949ff96fc..8a64fe8d97af2 100644
-> > --- a/include/drm/display/drm_dp_helper.h
-> > +++ b/include/drm/display/drm_dp_helper.h
-> > @@ -251,6 +251,12 @@ drm_dp_channel_coding_supported(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-> >  	return dpcd[DP_MAIN_LINK_CHANNEL_CODING] & DP_CAP_ANSI_8B10B;
-> >  }
-> >  
-> > +static inline bool
-> > +drm_dp_uhbr_channel_coding_supported(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-> > +{
-> > +	return dpcd[DP_MAIN_LINK_CHANNEL_CODING] & DP_CAP_ANSI_128B132B;
-> > +}
-> 
-> Nitpick, "uhbr channel coding" is not pedantically correct, and it does
-> rub me the wrong way.
-> 
-> Yes, using 128b/132b channel coding implies UHBR, and UHBR requires
-> 128b/132b channel coding, but they are not the same thing. We do
-> conflate the two quite a bit in the code, checking for UHBR when we
-> really mean 128b/132b, but embedding this confusion in the function name
-> directly is a bit much.
-> 
-> I've named the link training functions drm_dp_128b132b_* in the same
-> file, and I think this one should be named similarly. Maybe just
-> drm_dp_128b132b_supported(), and rename
-> drm_dp_channel_coding_supported() to drm_dp_8b10b_supported() to unify?
+On Wed, 17 Apr 2024 at 02:57, Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
+>
+> When dual-DSI (bonded DSI) was added in commit ed9976a09b48
+> ("drm/msm/dsi: adjust dsi timing for dual dsi mode") some DBG() prints
+> were not updated, leading to print the original mode->clock rather
+> than the adjusted (typically the mode clock divided by two, though more
+> recently also adjusted for DSC compression) msm_host->pixel_clk_rate
+> which is passed to clk_set_rate() just below.  Fix that by printing the
+> actual pixel_clk_rate that is being set.
+>
+> Fixes: ed9976a09b48 ("drm/msm/dsi: adjust dsi timing for dual dsi mode")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
-Ok, makes sense, will rename it to drm_dp_128b132b_supported() and
-can do the same - as a follow-up - for 8b10b.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-> BR,
-> Jani.
-> 
-> 
-> 
-> > +
-> >  static inline bool
-> >  drm_dp_alternate_scrambler_reset_cap(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-> >  {
-> 
-> -- 
-> Jani Nikula, Intel
+-- 
+With best wishes
+Dmitry
