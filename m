@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D298A7BBE
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 07:16:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAEB68A7BF0
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 07:40:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1FBD11315F;
-	Wed, 17 Apr 2024 05:16:49 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bsjCIBSV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4025B113175;
+	Wed, 17 Apr 2024 05:40:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EAC4113155;
- Wed, 17 Apr 2024 05:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713331009; x=1744867009;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=jtOytK7oWiptXH7Uo5vykc9AUFCufqIq7p1qkcmyN6c=;
- b=bsjCIBSVKV77MrjHHSnyfLtYuBOuvLM5uiZEGGFATCmnYcf0y05Ma9ld
- 5h63t20W1M3W1Q9X0VS79YFb61qd3FLividfj3boehL9Z9u1odIfkfw8R
- 0FigHu6bsqmKxGtYMONLFPC3PiU7x8YjwoY9t+DM24qtgzgMWDiqJ+CPx
- 8iLdjo2FFQ3pBg3JjN+knbZl1C4u0Ec7pJPzDQvWpOJ1x03QrntkbIZIH
- 6DPyM6XGuIrwHLrNZjEgmAlmRc4N8d97AkC12IHVEQe6vnG3sBBvjOKNV
- hePm3NoQwdn9BteH5C9ENkkKdp9Dj32qWdkeBXkp5i/nS2X1Zf2hwkfog g==;
-X-CSE-ConnectionGUID: jxGNjvJ8TNS2GSuGuL/u5Q==
-X-CSE-MsgGUID: hgG/4A12TUKKbgNQVMuLYQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="31286423"
-X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; d="scan'208";a="31286423"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 22:16:48 -0700
-X-CSE-ConnectionGUID: T8V37fKZRQaWYVN0MzdbKw==
-X-CSE-MsgGUID: 5h5+VWK+TjOfEYLKoAh/Xw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; d="scan'208";a="22570339"
-Received: from orsosgc001.jf.intel.com ([10.165.21.138])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Apr 2024 22:16:47 -0700
-From: Ashutosh Dixit <ashutosh.dixit@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: Badal Nilawar <badal.nilawar@intel.com>, Andi Shyti <andi.shyti@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, linux-hwmon@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v4] drm/i915/hwmon: Get rid of devm
-Date: Tue, 16 Apr 2024 22:16:42 -0700
-Message-ID: <20240417051642.788740-1-ashutosh.dixit@intel.com>
-X-Mailer: git-send-email 2.41.0
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7B21113174
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 05:40:42 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-654-ydoKEAtIPTS-JvCA_0Di7g-1; Wed,
+ 17 Apr 2024 01:40:39 -0400
+X-MC-Unique: ydoKEAtIPTS-JvCA_0Di7g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3047828EC114;
+ Wed, 17 Apr 2024 05:40:39 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.64.136.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27D102166B31;
+ Wed, 17 Apr 2024 05:40:37 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Subject: [PATCH] nouveau: rip out busy fence waits
+Date: Wed, 17 Apr 2024 15:40:32 +1000
+Message-ID: <20240417054032.3145721-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,134 +55,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When both hwmon and hwmon drvdata (on which hwmon depends) are device
-managed resources, the expectation, on device unbind, is that hwmon will be
-released before drvdata. However, in i915 there are two separate code
-paths, which both release either drvdata or hwmon and either can be
-released before the other. These code paths (for device unbind) are as
-follows (see also the bug referenced below):
+From: Dave Airlie <airlied@redhat.com>
 
-Call Trace:
-release_nodes+0x11/0x70
-devres_release_group+0xb2/0x110
-component_unbind_all+0x8d/0xa0
-component_del+0xa5/0x140
-intel_pxp_tee_component_fini+0x29/0x40 [i915]
-intel_pxp_fini+0x33/0x80 [i915]
-i915_driver_remove+0x4c/0x120 [i915]
-i915_pci_remove+0x19/0x30 [i915]
-pci_device_remove+0x32/0xa0
-device_release_driver_internal+0x19c/0x200
-unbind_store+0x9c/0xb0
+I'm pretty sure this optimisation is actually not a great idea,
+and is racy with other things waiting for fences.
 
-and
+Just nuke it, there should be no need to do fence waits in a
+busy CPU loop.
 
-Call Trace:
-release_nodes+0x11/0x70
-devres_release_all+0x8a/0xc0
-device_unbind_cleanup+0x9/0x70
-device_release_driver_internal+0x1c1/0x200
-unbind_store+0x9c/0xb0
-
-This means that in i915, if use devm, we cannot gurantee that hwmon will
-always be released before drvdata. Which means that we have a uaf if hwmon
-sysfs is accessed when drvdata has been released but hwmon hasn't.
-
-The only way out of this seems to be do get rid of devm_ and release/free
-everything explicitly during device unbind.
-
-v2: Change commit message and other minor code changes
-v3: Cleanup from i915_hwmon_register on error (Armin Wolf)
-v4: Eliminate potential static analyzer warning (Rodrigo)
-    Eliminate fetch_and_zero (Jani)
-
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10366
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/i915/i915_hwmon.c | 52 +++++++++++++++++++++----------
- 1 file changed, 36 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_bo.c    |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_chan.c  |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_dmem.c  |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 30 +------------------------
+ drivers/gpu/drm/nouveau/nouveau_fence.h |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.c   |  2 +-
+ 6 files changed, 6 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-index b758fd110c20..1551a40a675e 100644
---- a/drivers/gpu/drm/i915/i915_hwmon.c
-+++ b/drivers/gpu/drm/i915/i915_hwmon.c
-@@ -793,7 +793,7 @@ void i915_hwmon_register(struct drm_i915_private *i915)
- 	if (!IS_DGFX(i915))
- 		return;
- 
--	hwmon = devm_kzalloc(dev, sizeof(*hwmon), GFP_KERNEL);
-+	hwmon = kzalloc(sizeof(*hwmon), GFP_KERNEL);
- 	if (!hwmon)
- 		return;
- 
-@@ -819,14 +819,12 @@ void i915_hwmon_register(struct drm_i915_private *i915)
- 	hwm_get_preregistration_info(i915);
- 
- 	/*  hwmon_dev points to device hwmon<i> */
--	hwmon_dev = devm_hwmon_device_register_with_info(dev, ddat->name,
--							 ddat,
--							 &hwm_chip_info,
--							 hwm_groups);
--	if (IS_ERR(hwmon_dev)) {
--		i915->hwmon = NULL;
--		return;
--	}
-+	hwmon_dev = hwmon_device_register_with_info(dev, ddat->name,
-+						    ddat,
-+						    &hwm_chip_info,
-+						    hwm_groups);
-+	if (IS_ERR(hwmon_dev))
-+		goto err;
- 
- 	ddat->hwmon_dev = hwmon_dev;
- 
-@@ -839,16 +837,38 @@ void i915_hwmon_register(struct drm_i915_private *i915)
- 		if (!hwm_gt_is_visible(ddat_gt, hwmon_energy, hwmon_energy_input, 0))
- 			continue;
- 
--		hwmon_dev = devm_hwmon_device_register_with_info(dev, ddat_gt->name,
--								 ddat_gt,
--								 &hwm_gt_chip_info,
--								 NULL);
--		if (!IS_ERR(hwmon_dev))
--			ddat_gt->hwmon_dev = hwmon_dev;
-+		hwmon_dev = hwmon_device_register_with_info(dev, ddat_gt->name,
-+							    ddat_gt,
-+							    &hwm_gt_chip_info,
-+							    NULL);
-+		if (IS_ERR(hwmon_dev))
-+			goto err;
-+
-+		ddat_gt->hwmon_dev = hwmon_dev;
- 	}
-+	return;
-+err:
-+	i915_hwmon_unregister(i915);
- }
- 
- void i915_hwmon_unregister(struct drm_i915_private *i915)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau=
+/nouveau_bo.c
+index 8a30f5a0525b..a4e8f625fce6 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -902,7 +902,7 @@ nouveau_bo_move_m2mf(struct ttm_buffer_object *bo, int =
+evict,
+ =09 * Without this the operation can timeout and we'll fallback to a
+ =09 * software copy, which might take several minutes to finish.
+ =09 */
+-=09nouveau_fence_wait(fence, false, false);
++=09nouveau_fence_wait(fence, false);
+ =09ret =3D ttm_bo_move_accel_cleanup(bo, &fence->base, evict, false,
+ =09=09=09=09=09new_reg);
+ =09nouveau_fence_unref(&fence);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouve=
+au/nouveau_chan.c
+index 7c97b2886807..66fca95c10c7 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_chan.c
++++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
+@@ -72,7 +72,7 @@ nouveau_channel_idle(struct nouveau_channel *chan)
+=20
+ =09=09ret =3D nouveau_fence_new(&fence, chan);
+ =09=09if (!ret) {
+-=09=09=09ret =3D nouveau_fence_wait(fence, false, false);
++=09=09=09ret =3D nouveau_fence_wait(fence, false);
+ =09=09=09nouveau_fence_unref(&fence);
+ =09=09}
+=20
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouve=
+au/nouveau_dmem.c
+index 12feecf71e75..033a09cd3c8f 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+@@ -128,7 +128,7 @@ static void nouveau_dmem_page_free(struct page *page)
+ static void nouveau_dmem_fence_done(struct nouveau_fence **fence)
  {
--	fetch_and_zero(&i915->hwmon);
-+	struct i915_hwmon *hwmon = i915->hwmon;
-+	struct intel_gt *gt;
-+	int i;
-+
-+	if (!hwmon)
-+		return;
-+
-+	for_each_gt(gt, i915, i)
-+		if (hwmon->ddat_gt[i].hwmon_dev)
-+			hwmon_device_unregister(hwmon->ddat_gt[i].hwmon_dev);
-+
-+	if (hwmon->ddat.hwmon_dev)
-+		hwmon_device_unregister(hwmon->ddat.hwmon_dev);
-+
-+	mutex_destroy(&hwmon->hwmon_lock);
-+
-+	kfree(i915->hwmon);
-+	i915->hwmon = NULL;
+ =09if (fence) {
+-=09=09nouveau_fence_wait(*fence, true, false);
++=09=09nouveau_fence_wait(*fence, false);
+ =09=09nouveau_fence_unref(fence);
+ =09} else {
+ =09=09/*
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouv=
+eau/nouveau_fence.c
+index c3ea3cd933cd..8de941379324 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -312,39 +312,11 @@ nouveau_fence_wait_legacy(struct dma_fence *f, bool i=
+ntr, long wait)
+ =09return timeout - t;
  }
--- 
-2.41.0
+=20
+-static int
+-nouveau_fence_wait_busy(struct nouveau_fence *fence, bool intr)
+-{
+-=09int ret =3D 0;
+-
+-=09while (!nouveau_fence_done(fence)) {
+-=09=09if (time_after_eq(jiffies, fence->timeout)) {
+-=09=09=09ret =3D -EBUSY;
+-=09=09=09break;
+-=09=09}
+-
+-=09=09__set_current_state(intr ?
+-=09=09=09=09    TASK_INTERRUPTIBLE :
+-=09=09=09=09    TASK_UNINTERRUPTIBLE);
+-
+-=09=09if (intr && signal_pending(current)) {
+-=09=09=09ret =3D -ERESTARTSYS;
+-=09=09=09break;
+-=09=09}
+-=09}
+-
+-=09__set_current_state(TASK_RUNNING);
+-=09return ret;
+-}
+-
+ int
+-nouveau_fence_wait(struct nouveau_fence *fence, bool lazy, bool intr)
++nouveau_fence_wait(struct nouveau_fence *fence, bool intr)
+ {
+ =09long ret;
+=20
+-=09if (!lazy)
+-=09=09return nouveau_fence_wait_busy(fence, intr);
+-
+ =09ret =3D dma_fence_wait_timeout(&fence->base, intr, 15 * HZ);
+ =09if (ret < 0)
+ =09=09return ret;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouv=
+eau/nouveau_fence.h
+index bc13110bdfa4..88213014b675 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.h
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+@@ -23,7 +23,7 @@ void nouveau_fence_unref(struct nouveau_fence **);
+=20
+ int  nouveau_fence_emit(struct nouveau_fence *);
+ bool nouveau_fence_done(struct nouveau_fence *);
+-int  nouveau_fence_wait(struct nouveau_fence *, bool lazy, bool intr);
++int  nouveau_fence_wait(struct nouveau_fence *, bool intr);
+ int  nouveau_fence_sync(struct nouveau_bo *, struct nouveau_channel *, boo=
+l exclusive, bool intr);
+=20
+ struct nouveau_fence_chan {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouvea=
+u/nouveau_gem.c
+index 49c2bcbef129..f715e381da69 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -928,7 +928,7 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, void =
+*data,
+ =09}
+=20
+ =09if (sync) {
+-=09=09if (!(ret =3D nouveau_fence_wait(fence, false, false))) {
++=09=09if (!(ret =3D nouveau_fence_wait(fence, false))) {
+ =09=09=09if ((ret =3D dma_fence_get_status(&fence->base)) =3D=3D 1)
+ =09=09=09=09ret =3D 0;
+ =09=09}
+--=20
+2.43.2
 
