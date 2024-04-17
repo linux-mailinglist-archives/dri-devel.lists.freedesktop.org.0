@@ -2,124 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7538A7C1B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 08:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 617F58A7C5E
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Apr 2024 08:35:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39AC21131A0;
-	Wed, 17 Apr 2024 06:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 665131131D1;
+	Wed, 17 Apr 2024 06:35:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="M3jeEJEM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YuwJxCRE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0387910EF74;
- Wed, 17 Apr 2024 06:09:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PFcBmXSBgElERnuz5zR3Ovg9MQQPpyEQREAsPTStTI/fOy++SHhtUANgZNWqCzntSkrMviuIpevv4wVXGMfyAd0QzEgdQ9MuERulxdTp2XVOQXLQPij2G/EPCzBXwyVx5dtSMHxf7LcYvRFjQcPFDYFxR5Ug+1ybQtGYIWQv6Ap3hl4cj1h5iHdxZ+NTYSUn0XPYDPkzIf/CEyVvKZY9Z61iVbL58I3JMz/WA4V9n1LB5p/ptJYY8LICJav16c3VMikrO9YDWYFmzPNC3kfxw47MNxnX/66g/RDKvAvq2ib6eSetYcICjkp+kMX/9hCmPBMLn0+X7NgfdkyQWkIcfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IdqKb8uykcz68kikCkREaPkTD5yb1tXeapF3Zzwz2Dk=;
- b=i5nbh1mE/Bobk20bbsPLRY6TEkf2jL5U6C+5wby2V0DyXpN5bAJ8DINB+2ajkoeGThU7njZjRQCXa8HC+u8Ci2K39KdiSkYAlsnLhLkqJ5GXaer1RHHHxnBCK1aW4g2KUZFV5Ij1O8guYvY5vvniRI0u7W09nnU9ARarakT2FSeMbkKnF39xIdJi90vtoN0ci7FfT7MLyai7dm6e4yf4hJoaMVp+hxSL90CSAwDNhM+nz6hrLxerSWySDZEZ0wRxEwkOK9FD9W8+XicrTAU+fo+LN60x+BA619f0mVn/UdI1RvWhB0k09o/KQBEUS3HJYxvdPUjbNpU6g6WpHBWAcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IdqKb8uykcz68kikCkREaPkTD5yb1tXeapF3Zzwz2Dk=;
- b=M3jeEJEMHUbHc0bGmqq5yFPnM8osDqFpVeUMRO5bDu9hrF3ZiDmNOSjgDGLFDx7sBajEDGZgfUHUoXASwC1wJFNS3AKtfwhkRRwUALWLj3EHSb64QyPZML/R1TBARYgJQ/INq54zVw8vtLqms2k16MdYcQBsETDeCY3UagrMt58=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY8PR12MB8340.namprd12.prod.outlook.com (2603:10b6:930:7a::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Wed, 17 Apr
- 2024 06:09:12 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7452.049; Wed, 17 Apr 2024
- 06:09:12 +0000
-Message-ID: <aa06fb7e-19d6-4161-a659-70cf953e534a@amd.com>
-Date: Wed, 17 Apr 2024 08:09:07 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/9] drm/ttm: Allow TTM LRU list nodes of different
- types
-To: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: intel-xe@lists.freedesktop.org,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- dri-devel@lists.freedesktop.org
-References: <20240416100730.6666-1-thomas.hellstrom@linux.intel.com>
- <20240416100730.6666-2-thomas.hellstrom@linux.intel.com>
- <Zh8isq+3btgEJGTx@DUT025-TGLU.fm.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <Zh8isq+3btgEJGTx@DUT025-TGLU.fm.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0080.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0411131D1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Apr 2024 06:35:08 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2d8b4778f5fso37691891fa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Apr 2024 23:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713335706; x=1713940506; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2Xb24KjnVD8H3G5GkJAAV0E3O47INRr7NamuW4Oc84A=;
+ b=YuwJxCREFR78y0cL6MkMHxwOkZzdT+AJN7p7QTmrU2vvGuvE++QZ9hkNsENebaYOgW
+ skYR3RX7mP8ikRJL2aK8S5dAuNVa5kG9gD+QIlN3smRtHEx/29/fWbK8xesuo4LaYHZH
+ sBpLYPghIVJP2rGlu2yZilK8Uy5Esc3Zsrn+XvAfB9XrHg7g7nQrCi/j8dq8C7efQ1V3
+ c8rrdYqudLEk4NeDxNssQNlwEE8F865VWhqVUA8PXH9GSu83nk4MODrS7HdCfJTsNb9c
+ u3WeNppXjcWF0w8H46tw0iQoI5BvNqj04k80Lhc/oUuzU6VMrahXvILSS6/IBoP0sxph
+ aa9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713335706; x=1713940506;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2Xb24KjnVD8H3G5GkJAAV0E3O47INRr7NamuW4Oc84A=;
+ b=E4gRYltgOdhvDEj9FxgjKK3MELKdpJYF422+Vxv6mW8qsjths+sCy95OfKrKVwEWgx
+ X+ncPwuclyC68AQy/t85TmOLl7NpxNhehjKelTjvCuoK2j4p1yhovO4lnxGMWJfwbWOO
+ HaRJV1a7ZzXrUSTVtA8wEKMV37MvtL7f0b+DHLz/weli9W9oODJS/JUn3FeiIuw+Zdzm
+ UNDrxnbTAi9EEhRe5sa6NqV92wDYzC9g60S24KPjIEHZ6gZsQLACm1YlQ/WekXnDvkdo
+ 98DNeWdBDov5d1+fVKvU4N5/1e2tSWNW+98qTqQwQLW+W7KgHZTnAp7M2tsNabaPUh+B
+ rdWg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX0IP5TeK00B+QuHyIpB/vLnj9wC+q/VEZ0yFqH3Nrt3OHMV5FcB31IWkLPxpu+nB9hlMhzZvpGFY3qUCWf/vAXl0HuEe02pHV212nlMJJO
+X-Gm-Message-State: AOJu0YxeJ6XlgrTL5k3oHlOz5+7pU7NEoXP+la5yhrUI0EzvDxCUDvVi
+ fHgQl5q8kFESZBGuEp6uyOK1fzlElkpNeWgRhM3s2JPwAIVQRKji7gDjgdI6f94=
+X-Google-Smtp-Source: AGHT+IH65Sawq2nFbVz2eJjUlQ0Y/zsiekJC7R9FVP82pwC7pqNX9qf+KBXaMzJCakWnL8hpm23f9Q==
+X-Received: by 2002:a2e:6e12:0:b0:2d8:3eaf:86d2 with SMTP id
+ j18-20020a2e6e12000000b002d83eaf86d2mr9582302ljc.47.1713335706222; 
+ Tue, 16 Apr 2024 23:35:06 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ s21-20020a2e83d5000000b002daedd9c696sm336801ljh.53.2024.04.16.23.35.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Apr 2024 23:35:05 -0700 (PDT)
+Date: Wed, 17 Apr 2024 09:35:04 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dharma Balasubiramani <dharma.b@microchip.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ conor+dt@kernel.org, linux@armlinux.org.uk, Nicolas.Ferre@microchip.com, 
+ alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev,
+ Manikandan.M@microchip.com, 
+ arnd@arndb.de, geert+renesas@glider.be, Jason@zx2c4.com, mpe@ellerman.id.au, 
+ gerg@linux-m68k.org, rdunlap@infradead.org, vbabka@suse.cz, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v6 2/4] drm/bridge: add lvds controller support for sam9x7
+Message-ID: <xbefyxiyiwckjsi5wyqaf5thqgpyyizy7sjojed4yc7bvm46l3@omffdudkxyhl>
+References: <20240417024137.144727-1-dharma.b@microchip.com>
+ <20240417024137.144727-3-dharma.b@microchip.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB8340:EE_
-X-MS-Office365-Filtering-Correlation-Id: 935e9962-28c6-4f27-c5d6-08dc5ea4e709
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5AQ2Yk7hgLsr5BpcyFHIXX1fuv61xfGyChsDUSEJmKVsFlkqJqTZsF+CI8VfOru7NIe4IYcn9CwYVAmXs4qF+bv/HA0QJBFEfTAzPppK2SrOH9dww2Nt+8XRMVtKddUeRZZkscm9VfjbtqqT49DOQTaPxX71CPqUK0AFEBemup1n2yFAVN+2ZRbo7Ke/ns78m21ICJUUeAFirJBm3uqQwZ/STDz4nhN3jbYQpZrcT1XruqrY3eoAmOFlPs/Lit2ADPztamojHrNs24c6WiFx2O/8OH+KrjD3vKku25tzwKuL3+q5q+7snJLaQCHeMtSvPd2CU3h+kHJFNKa+wW2nwcDsq5tITlqmw3UUjP90KCdPlwQzs4zH3xLLUzcJSphvsE3yQzgoxbFWUY/IQ1vLsdqjRukVanFF7uhFtMn2wQc+W4Pja3bcypVSjptWYeUI15SLdFlX05ChVqs4jo5tffyreVxlSWw0vVaClaCJF8utp5rA2oxWjOJ0q2Qdd2LF1/yPz0xKzqWk2stxX0ta06gUGWEQ8JFaEmufixTkxURp1oxf4b1gfKmKzClgnkFNbCqVj8O6sfvlaIh3t36IpQq6fXCyzIfqaR5Y96vNtw/WLb4kiOzuJzYWYD36ESEjU8aQJ3cdrG7fGZGfCLbjqEBXXuyAzifOZMoVdRVwQ5k=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bGxkL1VUeWdYS0JTaUdKV3dFcFNvZUUrV1pscVdYMHRzRHpKVmJuaXNvRDky?=
- =?utf-8?B?NXNWVWxHNU9paVh6cmNtSnFVcTN6cHg5aEFXbUI0TWZEVy85b294RENzdEc3?=
- =?utf-8?B?Q1RLdHoxRnZQM0tyZ0ZsUUJtcHRhdEdWZVpyb1M0WHdnOGFqaU5lUDhNNm43?=
- =?utf-8?B?cDRzMnN4cU9YUW5HNmVPUk9Lankwc1QxNVhoU0VHeUpWbVh4TU15STZzWW1Y?=
- =?utf-8?B?YkV4ODl4YWZjU2hXRjM4SEtYSE5qUkJ5aXN5RTlsaGJobXhPM2lIaTlCeHVE?=
- =?utf-8?B?alYzUWdMalhKU1g5VURLVnVFaEhyWTUrN0ppK1ZGWlRVSjJ1ZCtyMmtBVE9N?=
- =?utf-8?B?eUhURytnTmFWSUlVT1JTVFNzV0RrNTY1R1QvQ3M1bUdFL05ZWW5wb29HN3Fk?=
- =?utf-8?B?MU4wVmlSbVBRUk1jSzZLR3VaQlhKWndWK0pNY1RualkzdENZbFZiY25ZK3RG?=
- =?utf-8?B?NVVSUkhMcGJ3Z29nRHhXdjZBd3N3bFIzRTVCdGdZdVRXbDRNOWc5b1R6K2Va?=
- =?utf-8?B?b0xsd3cvSnR0Ukx2M0hlK2l6eW5xY1lpNERidXYwd3kwNkxaeVcxbkpGS3Jh?=
- =?utf-8?B?bWNBcTNmUGpJS0hmUjhydUc3SUJhR2dvajNvTkwyOWNvbExGbm5VK1MyNGVh?=
- =?utf-8?B?VWxwZmQxRjNENCtGNTVRTFJmaFgyVTBTM3JleVlRQ0VnWkRYVXpnc1lRU3N2?=
- =?utf-8?B?NUVhVGdlUDNEakRYVWlVTmthdWlDVU9nT0tkYkQvditxeTBxVFFNK3dEQXds?=
- =?utf-8?B?MHh6Q1pTaldkK1hUN1BPT0cxRGhkOHZrWFlyVmxKaHVTQlhubTNLNE0wSWRQ?=
- =?utf-8?B?SE5wR1JPUUJpOEJVOEZ4WU1QcEF3SzMyZmx6T3ZoQnRXZWNSWHo4OFAyaHdm?=
- =?utf-8?B?NWpIVGdvT1ZEZ3l6UUV0dVJXMkJPK0dGTGpBM1dncGd6LzZrL2FzM3JwUkpl?=
- =?utf-8?B?NUF5UUVvUjlyZ25pOVFvUTAzZ0ZsWlZDNTdJcUFieUtMd1E0Q3E2MFFRSy9Q?=
- =?utf-8?B?WWd3UDFpNHNXVUtJR01GQ3EvVE80YmRiaTVFWUtDaHR2YzFIM1VPMDJPMVRp?=
- =?utf-8?B?ODVzYm0xMVV3ak9raTJyTHZtSUVDU1prSWpXa1RrRmlhMmRhZStndGMrcnlq?=
- =?utf-8?B?a2JMVGVmbzVnRUZZOXZqUDRvV2pJQjBhUVJlUFVLUko2UU1zWk1hWTBqSUow?=
- =?utf-8?B?QVUvQXFzU2JTZGlMc2h4WTJVSW9pOUlLU2l4N0pqdW5qeFJaazFFOXlyd0Qw?=
- =?utf-8?B?QWNoV3JDWTZZeE0wYUt3d0pEaWE2NUVYQUVKMU43REJaNU1uak5nRys0YmxH?=
- =?utf-8?B?OXQ3YUUxQ2IwM0pkUUhRejRVeWxUSHdsa1d5eks0TG1RaHcxOUZpSDVsc0Rt?=
- =?utf-8?B?RE53cFl2bVUzY085OXNMT09BbHg0RnU3TGxBUksvMUtZQ2k0aTZ6UVhtU0Ev?=
- =?utf-8?B?eXRwMEVNaVg0SHVON2xobUVjTUJrNEkwQXRwaFZ6bWUrWkZkZWVaVFlMYXMv?=
- =?utf-8?B?VnVEVWx6SnJsRnU1a21wS0RXd1RIb2k1YzJEQnNidy9oSlhqRExtbFlNYlc0?=
- =?utf-8?B?VWw5alFnbHB3VGUyUVo1ek53aUZiNDRqV3V5RUlsZkdqdXBnQ1VVNDdGbXg2?=
- =?utf-8?B?NDl2NWlBQ3o2OXpMT0crZkR3YndaQkxpMkdxa2czY3VmcGZoSGMzQjd0cytB?=
- =?utf-8?B?ZElvQjRXaVdtYzhTcXVCNjJPZFV5TEFiOWJTSGNOZFhRT2pWT0NPaUZJUlZG?=
- =?utf-8?B?ZmlMSk5jRkJYemF2UTcwbkZpeURSV2E1ZHpWY083VXVnYnA3c2lja0dQanBS?=
- =?utf-8?B?djFxaUdaYmZBR2VlZkdxNThwa0xHOG5uSWxKU1NiYzcvandhd0cra0FhdWQ4?=
- =?utf-8?B?Z21EeUQ3TStnenJQMDY4d2lpekUza3kxYmJpU0xrR2dscFl3ZmtGekM5MnhU?=
- =?utf-8?B?UW9wRGdPM2dSU3BkV093Z0RIMUZkVW9KaUxOUGc5YUFjbzN0LzRkMlZYdU1V?=
- =?utf-8?B?YnkxbThUNyt5U1A5bWdxUDNZN2tkOUI1YXZMUFFOcjNZS29ZT2Q5ZGZsSUhx?=
- =?utf-8?B?NWZYM0E4RXN1eFVuT3YwTkNhckYwWXp0OUdnTUdSUDlwbFRoSk5waEZaL0ho?=
- =?utf-8?Q?M7+f5Y3q/o1SSeV6lfZ2D8bNu?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 935e9962-28c6-4f27-c5d6-08dc5ea4e709
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2024 06:09:12.6094 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7hGDphmeNeHd7bpUY8cIhacpMjrq3s1jh/OVu3GNmxTmAei5J/wbx7V2H6Wxju0B
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8340
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240417024137.144727-3-dharma.b@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,326 +94,338 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 17.04.24 um 03:15 schrieb Matthew Brost:
-> On Tue, Apr 16, 2024 at 12:07:22PM +0200, Thomas Hellström wrote:
->> To be able to handle list unlocking while traversing the LRU
->> list, we want the iterators not only to point to the next
->> position of the list traversal, but to insert themselves as
->> list nodes at that point to work around the fact that the
->> next node might otherwise disappear from the list while
->> the iterator is pointing to it.
->>
->> These list nodes need to be easily distinguishable from other
->> list nodes so that others traversing the list can skip
->> over them.
->>
->> So declare a struct ttm_lru_item, with a struct list_head member
->> and a type enum. This will slightly increase the size of a
->> struct ttm_resource.
->>
->> Changes in previous series:
->> - Update enum ttm_lru_item_type documentation.
->>
-> Patch itself makes sense to me. One style question (or maybe
-> suggestion?) below.
->
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
->> Cc: <dri-devel@lists.freedesktop.org>
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/ttm/ttm_device.c   | 13 ++++--
->>   drivers/gpu/drm/ttm/ttm_resource.c | 70 ++++++++++++++++++++++--------
->>   include/drm/ttm/ttm_resource.h     | 51 +++++++++++++++++++++-
->>   3 files changed, 110 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
->> index 76027960054f..f27406e851e5 100644
->> --- a/drivers/gpu/drm/ttm/ttm_device.c
->> +++ b/drivers/gpu/drm/ttm/ttm_device.c
->> @@ -270,17 +270,22 @@ EXPORT_SYMBOL(ttm_device_fini);
->>   static void ttm_device_clear_lru_dma_mappings(struct ttm_device *bdev,
->>   					      struct list_head *list)
->>   {
->> -	struct ttm_resource *res;
->> +	struct ttm_lru_item *lru;
->>   
->>   	spin_lock(&bdev->lru_lock);
->> -	while ((res = list_first_entry_or_null(list, typeof(*res), lru))) {
->> -		struct ttm_buffer_object *bo = res->bo;
->> +	while ((lru = list_first_entry_or_null(list, typeof(*lru), link))) {
->> +		struct ttm_buffer_object *bo;
->> +
->> +		if (!ttm_lru_item_is_res(lru))
->> +			continue;
->> +
->> +		bo = ttm_lru_item_to_res(lru)->bo;
->>   
->>   		/* Take ref against racing releases once lru_lock is unlocked */
->>   		if (!ttm_bo_get_unless_zero(bo))
->>   			continue;
->>   
->> -		list_del_init(&res->lru);
->> +		list_del_init(&bo->resource->lru.link);
->>   		spin_unlock(&bdev->lru_lock);
->>   
->>   		if (bo->ttm)
->> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
->> index be8d286513f9..7aa5ca5c0e33 100644
->> --- a/drivers/gpu/drm/ttm/ttm_resource.c
->> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
->> @@ -69,8 +69,8 @@ void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk)
->>   			dma_resv_assert_held(pos->last->bo->base.resv);
->>   
->>   			man = ttm_manager_type(pos->first->bo->bdev, i);
->> -			list_bulk_move_tail(&man->lru[j], &pos->first->lru,
->> -					    &pos->last->lru);
->> +			list_bulk_move_tail(&man->lru[j], &pos->first->lru.link,
->> +					    &pos->last->lru.link);
->>   		}
->>   	}
->>   }
->> @@ -83,14 +83,38 @@ ttm_lru_bulk_move_pos(struct ttm_lru_bulk_move *bulk, struct ttm_resource *res)
->>   	return &bulk->pos[res->mem_type][res->bo->priority];
->>   }
->>   
->> +/* Return the previous resource on the list (skip over non-resource list items) */
->> +static struct ttm_resource *ttm_lru_prev_res(struct ttm_resource *cur)
->> +{
->> +	struct ttm_lru_item *lru = &cur->lru;
->> +
->> +	do {
->> +		lru = list_prev_entry(lru, link);
->> +	} while (!ttm_lru_item_is_res(lru));
->> +
->> +	return ttm_lru_item_to_res(lru);
->> +}
->> +
->> +/* Return the next resource on the list (skip over non-resource list items) */
->> +static struct ttm_resource *ttm_lru_next_res(struct ttm_resource *cur)
->> +{
->> +	struct ttm_lru_item *lru = &cur->lru;
->> +
->> +	do {
->> +		lru = list_next_entry(lru, link);
->> +	} while (!ttm_lru_item_is_res(lru));
->> +
->> +	return ttm_lru_item_to_res(lru);
->> +}
->> +
->>   /* Move the resource to the tail of the bulk move range */
->>   static void ttm_lru_bulk_move_pos_tail(struct ttm_lru_bulk_move_pos *pos,
->>   				       struct ttm_resource *res)
->>   {
->>   	if (pos->last != res) {
->>   		if (pos->first == res)
->> -			pos->first = list_next_entry(res, lru);
->> -		list_move(&res->lru, &pos->last->lru);
->> +			pos->first = ttm_lru_next_res(res);
->> +		list_move(&res->lru.link, &pos->last->lru.link);
->>   		pos->last = res;
->>   	}
->>   }
->> @@ -121,11 +145,11 @@ static void ttm_lru_bulk_move_del(struct ttm_lru_bulk_move *bulk,
->>   		pos->first = NULL;
->>   		pos->last = NULL;
->>   	} else if (pos->first == res) {
->> -		pos->first = list_next_entry(res, lru);
->> +		pos->first = ttm_lru_next_res(res);
->>   	} else if (pos->last == res) {
->> -		pos->last = list_prev_entry(res, lru);
->> +		pos->last = ttm_lru_prev_res(res);
->>   	} else {
->> -		list_move(&res->lru, &pos->last->lru);
->> +		list_move(&res->lru.link, &pos->last->lru.link);
->>   	}
->>   }
->>   
->> @@ -154,7 +178,7 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res)
->>   	lockdep_assert_held(&bo->bdev->lru_lock);
->>   
->>   	if (bo->pin_count) {
->> -		list_move_tail(&res->lru, &bdev->pinned);
->> +		list_move_tail(&res->lru.link, &bdev->pinned);
->>   
->>   	} else	if (bo->bulk_move) {
->>   		struct ttm_lru_bulk_move_pos *pos =
->> @@ -165,7 +189,7 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res)
->>   		struct ttm_resource_manager *man;
->>   
->>   		man = ttm_manager_type(bdev, res->mem_type);
->> -		list_move_tail(&res->lru, &man->lru[bo->priority]);
->> +		list_move_tail(&res->lru.link, &man->lru[bo->priority]);
->>   	}
->>   }
->>   
->> @@ -196,9 +220,9 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->>   	man = ttm_manager_type(bo->bdev, place->mem_type);
->>   	spin_lock(&bo->bdev->lru_lock);
->>   	if (bo->pin_count)
->> -		list_add_tail(&res->lru, &bo->bdev->pinned);
->> +		list_add_tail(&res->lru.link, &bo->bdev->pinned);
->>   	else
->> -		list_add_tail(&res->lru, &man->lru[bo->priority]);
->> +		list_add_tail(&res->lru.link, &man->lru[bo->priority]);
->>   	man->usage += res->size;
->>   	spin_unlock(&bo->bdev->lru_lock);
->>   }
->> @@ -220,7 +244,7 @@ void ttm_resource_fini(struct ttm_resource_manager *man,
->>   	struct ttm_device *bdev = man->bdev;
->>   
->>   	spin_lock(&bdev->lru_lock);
->> -	list_del_init(&res->lru);
->> +	list_del_init(&res->lru.link);
->>   	man->usage -= res->size;
->>   	spin_unlock(&bdev->lru_lock);
->>   }
->> @@ -471,14 +495,16 @@ struct ttm_resource *
->>   ttm_resource_manager_first(struct ttm_resource_manager *man,
->>   			   struct ttm_resource_cursor *cursor)
->>   {
->> -	struct ttm_resource *res;
->> +	struct ttm_lru_item *lru;
->>   
->>   	lockdep_assert_held(&man->bdev->lru_lock);
->>   
->>   	for (cursor->priority = 0; cursor->priority < TTM_MAX_BO_PRIORITY;
->>   	     ++cursor->priority)
->> -		list_for_each_entry(res, &man->lru[cursor->priority], lru)
->> -			return res;
->> +		list_for_each_entry(lru, &man->lru[cursor->priority], link) {
->> +			if (ttm_lru_item_is_res(lru))
->> +				return ttm_lru_item_to_res(lru);
->> +		}
->>   
->>   	return NULL;
->>   }
->> @@ -497,15 +523,21 @@ ttm_resource_manager_next(struct ttm_resource_manager *man,
->>   			  struct ttm_resource_cursor *cursor,
->>   			  struct ttm_resource *res)
->>   {
->> +	struct ttm_lru_item *lru = &res->lru;
->> +
->>   	lockdep_assert_held(&man->bdev->lru_lock);
->>   
->> -	list_for_each_entry_continue(res, &man->lru[cursor->priority], lru)
->> -		return res;
->> +	list_for_each_entry_continue(lru, &man->lru[cursor->priority], link) {
->> +		if (ttm_lru_item_is_res(lru))
->> +			return ttm_lru_item_to_res(lru);
->> +	}
->>   
->>   	for (++cursor->priority; cursor->priority < TTM_MAX_BO_PRIORITY;
->>   	     ++cursor->priority)
->> -		list_for_each_entry(res, &man->lru[cursor->priority], lru)
->> -			return res;
->> +		list_for_each_entry(lru, &man->lru[cursor->priority], link) {
->> +			if (ttm_lru_item_is_res(lru))
->> +				ttm_lru_item_to_res(lru);
->> +		}
->>   
->>   	return NULL;
->>   }
->> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
->> index 69769355139f..4babc4ff10b0 100644
->> --- a/include/drm/ttm/ttm_resource.h
->> +++ b/include/drm/ttm/ttm_resource.h
->> @@ -49,6 +49,43 @@ struct io_mapping;
->>   struct sg_table;
->>   struct scatterlist;
->>   
->> +/**
->> + * enum ttm_lru_item_type - enumerate ttm_lru_item subclasses
->> + */
->> +enum ttm_lru_item_type {
->> +	/** @TTM_LRU_RESOURCE: The resource subclass */
->> +	TTM_LRU_RESOURCE,
->> +	/** @TTM_LRU_HITCH: The iterator hitch subclass */
->> +	TTM_LRU_HITCH
->> +};
->> +
->> +/**
->> + * struct ttm_lru_item - The TTM lru list node base class
->> + * @link: The list link
->> + * @type: The subclass type
->> + */
->> +struct ttm_lru_item {
->> +	struct list_head link;
->> +	enum ttm_lru_item_type type;
->> +};
->> +
->> +/**
->> + * ttm_lru_item_init() - initialize a struct ttm_lru_item
->> + * @item: The item to initialize
->> + * @type: The subclass type
->> + */
->> +static inline void ttm_lru_item_init(struct ttm_lru_item *item,
->> +				     enum ttm_lru_item_type type)
->> +{
->> +	item->type = type;
->> +	INIT_LIST_HEAD(&item->link);
->> +}
->> +
->> +static inline bool ttm_lru_item_is_res(const struct ttm_lru_item *item)
->> +{
->> +	return item->type == TTM_LRU_RESOURCE;
->> +}
->> +
->>   struct ttm_resource_manager_func {
->>   	/**
->>   	 * struct ttm_resource_manager_func member alloc
->> @@ -217,9 +254,21 @@ struct ttm_resource {
->>   	/**
->>   	 * @lru: Least recently used list, see &ttm_resource_manager.lru
->>   	 */
->> -	struct list_head lru;
->> +	struct ttm_lru_item lru;
->>   };
->>   
->> +/**
->> + * ttm_lru_item_to_res() - Downcast a struct ttm_lru_item to a struct ttm_resource
->> + * @item: The struct ttm_lru_item to downcast
->> + *
->> + * Return: Pointer to the embedding struct ttm_resource
->> + */
->> +static inline struct ttm_resource *
->> +ttm_lru_item_to_res(struct ttm_lru_item *item)
-> Pretty much everywhere in this series we have the following coding
-> pattern:
->
-> if (ttm_lru_item_is_res(item))
-> 	do something with ttm_lru_item_to_res(item);
->
-> Would it make more sense to squash these functions together with only
-> ttm_lru_item_to_res which returns NULL if item is not TTM_LRU_RESOURCE?
->
-> The new pattern would be:
->
-> res = ttm_lru_item_is_res(item)
-> if (res)
-> 	do something with res
->
-> What do you think?
+On Wed, Apr 17, 2024 at 08:11:35AM +0530, Dharma Balasubiramani wrote:
+> Add a new LVDS controller driver for sam9x7 which does the following:
+> - Prepares and enables the LVDS Peripheral clock
+> - Defines its connector type as DRM_MODE_CONNECTOR_LVDS and adds itself
+> to the global bridge list.
+> - Identifies its output endpoint as panel and adds it to the encoder
+> display pipeline
+> - Enables the LVDS serializer
+> 
+> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+> ---
+> Changelog
+> v5 -> v6
+> - No Changes.
+> v4 -> v5
+> - Drop the unused variable 'format'.
+> - Use DRM wrapper for dev_err() to maintain uniformity.
+> - return -ENODEV instead of -EINVAL to maintain consistency with other DRM
+>   bridge drivers.
+> v3 -> v4
+> - No changes.
+> v2 ->v3
+> - Correct Typo error "serializer".
+> - Consolidate get() and prepare() functions and use devm_clk_get_prepared().
+> - Remove unused variable 'ret' in probe().
+> - Use devm_pm_runtime_enable() and drop the mchp_lvds_remove().
+> v1 -> v2
+> - Drop 'res' variable and combine two lines into one.
+> - Handle deferred probe properly, use dev_err_probe().
+> - Don't print anything on deferred probe. Dropped print.
+> - Remove the MODULE_ALIAS and add MODULE_DEVICE_TABLE().
+> - symbol 'mchp_lvds_driver' was not declared. It should be static.
+> ---
+>  drivers/gpu/drm/bridge/Kconfig          |   7 +
+>  drivers/gpu/drm/bridge/Makefile         |   1 +
+>  drivers/gpu/drm/bridge/microchip-lvds.c | 228 ++++++++++++++++++++++++
+>  3 files changed, 236 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
+> 
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index efd996f6c138..889098e2d65f 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -190,6 +190,13 @@ config DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW
+>  	  to DP++. This is used with the i.MX6 imx-ldb
+>  	  driver. You are likely to say N here.
+>  
+> +config DRM_MICROCHIP_LVDS_SERIALIZER
+> +	tristate "Microchip LVDS serializer support"
+> +	depends on OF
+> +	depends on DRM_ATMEL_HLCDC
+> +	help
+> +	  Support for Microchip's LVDS serializer.
+> +
+>  config DRM_NWL_MIPI_DSI
+>  	tristate "Northwest Logic MIPI DSI Host controller"
+>  	depends on DRM
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 017b5832733b..7df87b582dca 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -13,6 +13,7 @@ obj-$(CONFIG_DRM_LONTIUM_LT9611) += lontium-lt9611.o
+>  obj-$(CONFIG_DRM_LONTIUM_LT9611UXC) += lontium-lt9611uxc.o
+>  obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
+>  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
+> +obj-$(CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER) += microchip-lvds.o
+>  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
+>  obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
+>  obj-$(CONFIG_DRM_PARADE_PS8640) += parade-ps8640.o
+> diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
+> new file mode 100644
+> index 000000000000..149704f498a6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/microchip-lvds.c
+> @@ -0,0 +1,228 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries
+> + *
+> + * Author: Manikandan Muralidharan <manikandan.m@microchip.com>
+> + * Author: Dharma Balasubiramani <dharma.b@microchip.com>
+> + *
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/component.h>
+> +#include <linux/delay.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/pinctrl/devinfo.h>
+> +#include <linux/phy/phy.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/regmap.h>
+> +#include <linux/reset.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> +
+> +#define LVDS_POLL_TIMEOUT_MS 1000
+> +
+> +/* LVDSC register offsets */
+> +#define LVDSC_CR	0x00
+> +#define LVDSC_CFGR	0x04
+> +#define LVDSC_SR	0x0C
+> +#define LVDSC_WPMR	0xE4
+> +
+> +/* Bitfields in LVDSC_CR (Control Register) */
+> +#define LVDSC_CR_SER_EN	BIT(0)
+> +
+> +/* Bitfields in LVDSC_CFGR (Configuration Register) */
+> +#define LVDSC_CFGR_PIXSIZE_24BITS	0
+> +#define LVDSC_CFGR_DEN_POL_HIGH		0
+> +#define LVDSC_CFGR_DC_UNBALANCED	0
+> +#define LVDSC_CFGR_MAPPING_JEIDA	BIT(6)
+> +
+> +/*Bitfields in LVDSC_SR */
+> +#define LVDSC_SR_CS	BIT(0)
+> +
+> +/* Bitfields in LVDSC_WPMR (Write Protection Mode Register) */
+> +#define LVDSC_WPMR_WPKEY_MASK	GENMASK(31, 8)
+> +#define LVDSC_WPMR_WPKEY_PSSWD	0x4C5644
+> +
+> +struct mchp_lvds {
+> +	struct device *dev;
+> +	void __iomem *regs;
+> +	struct clk *pclk;
+> +	struct drm_panel *panel;
+> +	struct drm_bridge bridge;
+> +	struct drm_bridge *panel_bridge;
+> +};
+> +
+> +static inline struct mchp_lvds *bridge_to_lvds(struct drm_bridge *bridge)
+> +{
+> +	return container_of(bridge, struct mchp_lvds, bridge);
+> +}
+> +
+> +static inline u32 lvds_readl(struct mchp_lvds *lvds, u32 offset)
+> +{
+> +	return readl_relaxed(lvds->regs + offset);
+> +}
+> +
+> +static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
+> +{
+> +	writel_relaxed(val, lvds->regs + offset);
+> +}
+> +
+> +static void lvds_serialiser_on(struct mchp_lvds *lvds)
+> +{
+> +	unsigned long timeout = jiffies + msecs_to_jiffies(LVDS_POLL_TIMEOUT_MS);
+> +
+> +	/* The LVDSC registers can only be written if WPEN is cleared */
+> +	lvds_writel(lvds, LVDSC_WPMR, (LVDSC_WPMR_WPKEY_PSSWD &
+> +				LVDSC_WPMR_WPKEY_MASK));
+> +
+> +	/* Wait for the status of configuration registers to be changed */
+> +	while (lvds_readl(lvds, LVDSC_SR) & LVDSC_SR_CS) {
+> +		if (time_after(jiffies, timeout)) {
+> +			DRM_DEV_ERROR(lvds->dev, "%s: timeout error\n",
+> +				      __func__);
+> +			return;
+> +		}
+> +		usleep_range(1000, 2000);
+> +	}
+> +
+> +	/* Configure the LVDSC */
+> +	lvds_writel(lvds, LVDSC_CFGR, (LVDSC_CFGR_MAPPING_JEIDA |
+> +				LVDSC_CFGR_DC_UNBALANCED |
+> +				LVDSC_CFGR_DEN_POL_HIGH |
+> +				LVDSC_CFGR_PIXSIZE_24BITS));
+> +
+> +	/* Enable the LVDS serializer */
+> +	lvds_writel(lvds, LVDSC_CR, LVDSC_CR_SER_EN);
+> +}
+> +
+> +static int mchp_lvds_attach(struct drm_bridge *bridge,
+> +			    enum drm_bridge_attach_flags flags)
+> +{
+> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
+> +
+> +	bridge->encoder->encoder_type = DRM_MODE_ENCODER_LVDS;
 
-I would even say we should put that filtering into the iterator.
+Why do you need to touch encoder_type here? It's not your bridge's
+responsibility.
 
-Nobody except the code which inserted the anchor into the LRU is 
-interested in it.
+> +
+> +	return drm_bridge_attach(bridge->encoder, lvds->panel_bridge,
+> +				 bridge, flags);
+> +}
+> +
+> +static void mchp_lvds_enable(struct drm_bridge *bridge)
+> +{
+> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
+> +	int ret;
+> +
+> +	ret = clk_enable(lvds->pclk);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(lvds->dev, "failed to enable lvds pclk %d\n", ret);
+> +		return;
+> +	}
+> +
+> +	ret = pm_runtime_get_sync(lvds->dev);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(lvds->dev, "failed to get pm runtime: %d\n", ret);
+> +		clk_disable(lvds->pclk);
 
-Regards,
-Christian.
+This can result in unbalanced clk_disable(), if pm_runtime_get_sync()
+fails. This function calls clk_disable(), but the framework has no way
+to know that .enable() was not successful and calls .disable(), which
+also calls clk_disable().
 
->
-> Matt
->
->> +{
->> +	return container_of(item, struct ttm_resource, lru);
->> +}
->> +
->>   /**
->>    * struct ttm_resource_cursor
->>    *
->> -- 
->> 2.44.0
->>
+Please consider turning pclk into pm_clk so that its state is managed
+automatically (or at least moving clk_enable/disable into pm_ops).
 
+> +		return;
+> +	}
+> +
+> +	lvds_serialiser_on(lvds);
+> +}
+> +
+> +static void mchp_lvds_disable(struct drm_bridge *bridge)
+> +{
+> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
+> +
+> +	pm_runtime_put(lvds->dev);
+> +	clk_disable(lvds->pclk);
+> +}
+> +
+> +static const struct drm_bridge_funcs mchp_lvds_bridge_funcs = {
+> +	.attach = mchp_lvds_attach,
+> +	.enable = mchp_lvds_enable,
+> +	.disable = mchp_lvds_disable,
+> +};
+> +
+> +static int mchp_lvds_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct mchp_lvds *lvds;
+> +	struct device_node *port;
+> +
+> +	if (!dev->of_node)
+> +		return -ENODEV;
+> +
+> +	lvds = devm_kzalloc(&pdev->dev, sizeof(*lvds), GFP_KERNEL);
+> +	if (!lvds)
+> +		return -ENOMEM;
+> +
+> +	lvds->dev = dev;
+> +
+> +	lvds->regs = devm_ioremap_resource(lvds->dev,
+> +			platform_get_resource(pdev, IORESOURCE_MEM, 0));
+> +	if (IS_ERR(lvds->regs))
+> +		return PTR_ERR(lvds->regs);
+> +
+> +	lvds->pclk = devm_clk_get_prepared(lvds->dev, "pclk");
+
+Why do you need _prepared version?
+
+> +	if (IS_ERR(lvds->pclk))
+> +		return dev_err_probe(lvds->dev, PTR_ERR(lvds->pclk),
+> +				"could not get pclk_lvds prepared\n");
+> +
+> +	port = of_graph_get_remote_node(dev->of_node, 1, 0);
+> +	if (!port) {
+> +		DRM_DEV_ERROR(dev,
+> +			      "can't find port point, please init lvds panel port!\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	lvds->panel = of_drm_find_panel(port);
+> +	of_node_put(port);
+> +
+> +	if (IS_ERR(lvds->panel))
+> +		return -EPROBE_DEFER;
+> +
+> +	lvds->panel_bridge = devm_drm_panel_bridge_add(dev, lvds->panel);
+
+Please use instead:
+
+devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+
+> +
+> +	if (IS_ERR(lvds->panel_bridge))
+> +		return PTR_ERR(lvds->panel_bridge);
+> +
+> +	lvds->bridge.of_node = dev->of_node;
+> +	lvds->bridge.type = DRM_MODE_CONNECTOR_LVDS;
+> +	lvds->bridge.funcs = &mchp_lvds_bridge_funcs;
+> +
+> +	dev_set_drvdata(dev, lvds);
+> +	devm_pm_runtime_enable(dev);
+
+Error check is missing.
+
+> +
+> +	drm_bridge_add(&lvds->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id mchp_lvds_dt_ids[] = {
+> +	{
+> +		.compatible = "microchip,sam9x75-lvds",
+> +	},
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, mchp_lvds_dt_ids);
+> +
+> +static struct platform_driver mchp_lvds_driver = {
+> +	.probe = mchp_lvds_probe,
+> +	.driver = {
+> +		   .name = "microchip-lvds",
+> +		   .of_match_table = mchp_lvds_dt_ids,
+> +	},
+> +};
+> +module_platform_driver(mchp_lvds_driver);
+> +
+> +MODULE_AUTHOR("Manikandan Muralidharan <manikandan.m@microchip.com>");
+> +MODULE_AUTHOR("Dharma Balasubiramani <dharma.b@microchip.com>");
+> +MODULE_DESCRIPTION("Low Voltage Differential Signaling Controller Driver");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.25.1
+> 
+
+-- 
+With best wishes
+Dmitry
