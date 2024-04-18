@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59AD68AA58D
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 00:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49E088AA593
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 00:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A49311A07C;
-	Thu, 18 Apr 2024 22:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D4F11A085;
+	Thu, 18 Apr 2024 22:59:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sw7MXq7l";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fvSUbABy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA35211A07C
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 22:55:48 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-2a614b0391dso1227915a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 15:55:48 -0700 (PDT)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E4A511A085
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 22:59:23 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-1e4266673bbso13501425ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 15:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713480948; x=1714085748; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713481162; x=1714085962; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=j/AgmAZ6+RAasgCGPbj9vxrfH+4BA1gKwCa1XaUTckY=;
- b=sw7MXq7lGqeIsNli4CJHVUBzBbb/tJ1ktcoy50i+hHdxYVqSlaekEx6x8qiH5zVkDe
- Cfw5YQrcopHDQwC1fyBkxLBhGjD8neoXfxJXTZWA1QPvE8eJ2MOYZxI7LxAnC8gbvnj0
- YIT7cQzrWhOyUPGfyB5M+GJ8CkZfeDi1ISCL76FUFOf1hhtsRTctJVN7fQ9cQuDGO1cw
- z8MEkuscNjK+al+IGDQdN03TG97TeaFOJ+34kck/vZX5v7CtWgpAHPX4g/QEkTi51zbg
- apUrUJZuDATv7o+eVUSHCOD+aBYIAyXReeIZbKsSnrYGpB81r+zqJJdYLdcOWNDmNZUU
- rkDg==
+ bh=DdL3HzCb+5J1PYorhrvryxPtw9PH/EG3K3drRBpUY2s=;
+ b=fvSUbAByHegqXC5d97D9JMepMHWlYCz2dkPhqb7xChgIjynIDjm7gPOtXRSjHiI+dh
+ 9sM9N9V6/y+3qJ4c9Ys+3CY15HVvmsOACfVZqoMaV9P7QpYeNe5e8Kdk2x4e+Uia2Ly4
+ n745oFT7BeidfRJjuCHF8wROkg040morf2yaZRi3bkLqHI3zGlgMWxl+Pxr/5wS2/5hK
+ 9r2KbG9U93SszU8xupBzFArVvipi2osAnK4kqL1zh776OImzRKkRPjRlbvW5dd1QhRyU
+ 87XjmI2RuIU2sN1aU8Vl9KxfdDQ9RUvf3PdNdHXib0QpsBPbTqwvEYRConOadDWAZqpU
+ 7J+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713480948; x=1714085748;
+ d=1e100.net; s=20230601; t=1713481162; x=1714085962;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=j/AgmAZ6+RAasgCGPbj9vxrfH+4BA1gKwCa1XaUTckY=;
- b=X+kl4eR6NvO3YY/vj/9L7w8gLPCIuUBKsPXB4m4HodqRSiLQO3FlzUxfhio5PtsdMl
- cDEYoo0y/6uzUFsMoNk1aQ3Wz7p4JZkMr6mzybF19KKxzQHjNYS3LSitQbgIgXAyILWV
- sS+oTWf2gq22WOebHBDvq/5aFyTpIKBIxV2nrLwz1Hz6OWLVO91QEnSxopLxRNFuFwOt
- hh6NxkXl10VxCRlfCsUDBtuX8DobDIwn5TSwnsN6uVVWGS/qTUV/jlkl33leEjmgTsJk
- hyH27DSPb6OYC3OHvfVZZIsVZIZTm38oD6P7nXUyLp5UeH7BVpKKqQk8YVd0Ze/uVvhU
- K2Vw==
-X-Gm-Message-State: AOJu0Yzj8wnvhirLWtf4ekh4ZqOq3E59u6bfo/dcTwgAFRSpf29ho6Jl
- sK41l514UPjG64Vrf9gsZzpbjXiaDBHIlENb+dEWLYEmSEjN/cJiIYVqOcg4UAc=
-X-Google-Smtp-Source: AGHT+IFS6dDxC2D+6Tvg/9J9cHYpZDpn5UX5r6bXsft6wNHl1PtvfxAL+kEVmFKphnwqwSrUUkUbJw==
-X-Received: by 2002:a17:90a:bb81:b0:2ac:9ee:5250 with SMTP id
- v1-20020a17090abb8100b002ac09ee5250mr606727pjr.35.1713480948032; 
- Thu, 18 Apr 2024 15:55:48 -0700 (PDT)
+ bh=DdL3HzCb+5J1PYorhrvryxPtw9PH/EG3K3drRBpUY2s=;
+ b=W9+jWSl0zo5aBkU+IxI68y10T4iz+2ytzHdSGWkkxsvJBJ3QttPywIm/xVgQNDtIo6
+ FZLHK2476V6BCSC5Q2vhweXEpgkVamdZ9adf39mHT42oqipw4SIGNk3ptAXnDsnj6L72
+ e5RCqV7XsPuq1WZPDnfipCPzc/iqYW0CdK/HeC43YHtOYpPWxCQriResmeALJ1OSZw0p
+ Maw09h+54dozBdgE6KXMaDHuJOp+PJk6OUqoBVzeE/dzanh6DHexNDJGmqjLndqU5nZC
+ 0CsbwRs5p0LZEEWB9d+cUY4ZQl+rnHw5bFS7Q5bIhpRyToTv1grXfx4KNsW8T7O0C1Mz
+ VtEw==
+X-Gm-Message-State: AOJu0Yxg0JcYxhikBxqiUts/sN7jgFmswIyTiJuwjt0cay6wXfjUC1rG
+ +czPOYBPrQOVJbnokk4+lN63wFErtH6P4978vsc2iFAwASii+Uo1xtD85HIsr8PyT3Kh+Tb7G37
+ qKbI=
+X-Google-Smtp-Source: AGHT+IGApT+hk2W1hlIDYOgCV0D14ijYcg4EQ8LzX3CAhRR+ar44aUioTQl9gQA+S9JbjymjV0Q5GA==
+X-Received: by 2002:a17:902:f681:b0:1e0:c0dd:c5eb with SMTP id
+ l1-20020a170902f68100b001e0c0ddc5ebmr636265plg.9.1713481162482; 
+ Thu, 18 Apr 2024 15:59:22 -0700 (PDT)
 Received: from [10.36.51.174] ([24.75.208.147])
  by smtp.gmail.com with ESMTPSA id
- gk1-20020a17090b118100b002a5290ad3d4sm1994328pjb.3.2024.04.18.15.55.39
+ r11-20020a170902c60b00b001e54f250ca9sm2044761plr.212.2024.04.18.15.59.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Apr 2024 15:55:47 -0700 (PDT)
-Message-ID: <086f2bb6-c8d7-477b-9048-bce12961d20e@linaro.org>
-Date: Fri, 19 Apr 2024 00:55:37 +0200
+ Thu, 18 Apr 2024 15:59:21 -0700 (PDT)
+Message-ID: <e0cc524b-82f2-4343-a1a8-9244464824f6@linaro.org>
+Date: Fri, 19 Apr 2024 00:59:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] dt-bindings: input: i2c-hid: Introduce Ilitek
- ili2900
+Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: Add KD101NE3-40TI
+ support
 To: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>,
- dmitry.torokhov@gmail.com, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
- benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, dianders@google.com,
+ hsinyi@google.com
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20240418124815.31897-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240418124815.31897-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240418081548.12160-2-lvzhaoxiong@huaqin.corp-partner.google.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -115,7 +116,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240418124815.31897-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20240418081548.12160-2-lvzhaoxiong@huaqin.corp-partner.google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -133,14 +134,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/04/2024 14:48, lvzhaoxiong wrote:
-> The ili2900 touch screen chip same as ilitek ili9882t controller
-> has a reset gpio.
+On 18/04/2024 10:15, lvzhaoxiong wrote:
+> Create a new dt-scheam for the kd101ne3-40ti.
+
+There is another thread like this, which is confusing. Please version
+your patches. patman solves it. b4 as well.
+
+Read the guidelines provided to you by Google.
+
 > 
 > Signed-off-by: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
 
-Except that this was not tested, please use full name, not login, if
-possible.
+Same comment as for all your other patches: please use full name.
+
+> ---
+>  .../panel/kingdisplay,kd101ne3-40ti.yaml      | 63 +++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
+> new file mode 100644
+> index 000000000000..dc79a49eea3b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
+> @@ -0,0 +1,63 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/kingdisplay,kd101ne3-40ti.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: King Display KD035G6-40TI based MIPI-DSI panels
+> +
+> +description: |
+> +  -This binding is for display panels using an JD9365DA controller
+> +
+> +maintainers:
+> +  - Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: kingdisplay,kd101ne3-40ti
+> +
+> +  backlight: true
+> +  port: true
+
+Drop both
+
+> +  pp3300-supply: true
+> +  reg: true
+> +  enable-gpios: true
+> +  rotation: true
+
+Drop these three. panel-common defines them.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - enable-gpios
+> +  - pp3300-supply
+> +  - backlight
+> +  - port
+
+These can stay.
+
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    dsi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        panel: panel@0 {
+> +            compatible = "kingdisplay,kd101ne3-40ti";
+> +            reg = <0>;
+> +            enable-gpios = <&pio 98 0>;
+
+You included the header, so use it.
+
 
 
 Best regards,
