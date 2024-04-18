@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335628AA01B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 18:34:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5B78AA102
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 19:25:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C94B113DCD;
-	Thu, 18 Apr 2024 16:34:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC264113E4A;
+	Thu, 18 Apr 2024 17:24:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SmzhN8RY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dIbg1GZm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD0A113DCD
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 16:33:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 55DD261735;
- Thu, 18 Apr 2024 16:33:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A046BC113CC;
- Thu, 18 Apr 2024 16:33:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713458037;
- bh=lArloNKVKGEPKb6sLd3btLeNdS79IuMsK6F6Ge4DTP4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SmzhN8RYacSUvgmQeoSoei5bqe+spnwnlZfh3M/5/2LphAsoTy3X4yDNKUr+kZjOP
- nI0GUpxnlrDcVtXz+2C2GDMRMcaYoupRC+vwqbixVNYW4O5NZRoV9ROmQp6WigP2Fl
- t9vpZxB85aIoGbE8IH878QDLPSg7WdqjGxSQKAsQmNervesyvQvVJdtcVT92gND8Hp
- OrEs566wYq0tBLwzGRcI7M9vwdTElQ+NWCqgQTLv19g7AafiALvoigjgN73I3vj8eC
- 5h8fooNygIBvJ6jTi9EYpXgRpuQDti2BMJsvmDnne0PGqJSFdCPbNGETCdelbl4o+J
- /I4Qof48Leebw==
-Date: Thu, 18 Apr 2024 18:33:54 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v11 09/28] drm/display: hdmi: Add HDMI compute clock helper
-Message-ID: <20240418-spiritual-loyal-hornet-2fbbfd@houat>
-References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
- <20240326-kms-hdmi-connector-state-v11-9-c5680ffcf261@kernel.org>
- <Zh6Ars8z1ESz-LQO@intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 334EE113E49;
+ Thu, 18 Apr 2024 17:24:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713461098; x=1744997098;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NzulTEbpYhzMpFTXlJcvih1nCohXnoYCUt+j0mfdPsM=;
+ b=dIbg1GZmmUi+VDvzeKTu+jAcwmbS5qPsHpCNFehtdlX/J/7JaxbVTMuk
+ 01KEQSQkEwmZwgtI/WPqSdpDWAh8zde7BLdN8MaYQSzDKrAW23Cug7BfO
+ 0G0It5bk/OifZKIfyf1mjGhUKai2+yGlybMqZIU6ucNRQ5LZAVI82vyPd
+ B/2oRRUKgdFVxpWpf7z6a4dmTbTDM2yM93fDmhSCzyawj2TWp0w7WNFSo
+ CXzKNVI0x6uFl0/KVZjsqir0lgH0yb/S041pERut+kSPPWusH7oG2fk0l
+ VIt53KIc9dqL4xl5UAk7LoPNw48srCO54+jEL9xOr1YjYHccz0s2Qizkk w==;
+X-CSE-ConnectionGUID: lBDWLPUwSQCvGdFvzoZ6WQ==
+X-CSE-MsgGUID: Knq+D79/QKSPvBMvzvW5NA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="34424184"
+X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; d="scan'208";a="34424184"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2024 10:24:57 -0700
+X-CSE-ConnectionGUID: 0Ca4RiXNSV2T+TsxGQbyvA==
+X-CSE-MsgGUID: DEZlZcehQX+jSMK6N/lIyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; d="scan'208";a="27881192"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2024 10:24:56 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, John.C.Harrison@Intel.com,
+ Nirmoy Das <nirmoy.das@intel.com>
+Subject: [PATCH 1/3] drm/i915: Refactor confusing __intel_gt_reset()
+Date: Thu, 18 Apr 2024 19:10:53 +0200
+Message-ID: <20240418171055.31371-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="wahmhb7ukfwggb5k"
-Content-Disposition: inline
-In-Reply-To: <Zh6Ars8z1ESz-LQO@intel.com>
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,156 +69,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+__intel_gt_reset() is really for resetting engines though
+the name might suggest something else. So add two helper functions
+to remove confusions with no functional changes.
 
---wahmhb7ukfwggb5k
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         | 43 ++++++++++++++-----
+ drivers/gpu/drm/i915/gt/intel_reset.h         |  3 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  2 +-
+ drivers/gpu/drm/i915/i915_driver.c            |  2 +-
+ 8 files changed, 41 insertions(+), 17 deletions(-)
 
-On Tue, Apr 16, 2024 at 04:44:14PM +0300, Ville Syrj=E4l=E4 wrote:
-> On Tue, Mar 26, 2024 at 04:40:13PM +0100, Maxime Ripard wrote:
-> > A lot of HDMI drivers have some variation of the formula to calculate
-> > the TMDS character rate from a mode, but few of them actually take all
-> > parameters into account.
-> >=20
-> > Let's create a helper to provide that rate taking all parameters into
-> > account.
-> >=20
-> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  drivers/gpu/drm/display/drm_hdmi_helper.c | 70 +++++++++++++++++++++++=
-++++++++
-> >  include/drm/display/drm_hdmi_helper.h     |  4 ++
-> >  2 files changed, 74 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/dr=
-m/display/drm_hdmi_helper.c
-> > index faf5e9efa7d3..2518dd1a07e7 100644
-> > --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
-> > @@ -193,5 +193,75 @@ void drm_hdmi_avi_infoframe_content_type(struct hd=
-mi_avi_infoframe *frame,
-> >  	}
-> > =20
-> >  	frame->itc =3D conn_state->content_type !=3D DRM_MODE_CONTENT_TYPE_NO=
-_DATA;
-> >  }
-> >  EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
-> > +
-> > +/**
-> > + * drm_hdmi_compute_mode_clock() - Computes the TMDS Character Rate
-> > + * @mode: Display mode to compute the clock for
-> > + * @bpc: Bits per character
-> > + * @fmt: Output Pixel Format used
-> > + *
-> > + * Returns the TMDS Character Rate for a given mode, bpc count and out=
-put format.
-> > + *
-> > + * RETURNS:
-> > + * The TMDS Character Rate, in Hertz, or 0 on error.
->=20
-> Everything generally uses kHz. Sticking to common units
-> would be better.
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 8c44af1c3451..5c8e9ee3b008 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -678,7 +678,7 @@ void intel_engines_release(struct intel_gt *gt)
+ 	 */
+ 	GEM_BUG_ON(intel_gt_pm_is_awake(gt));
+ 	if (!INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
+-		__intel_gt_reset(gt, ALL_ENGINES);
++		intel_gt_reset_all_engines(gt);
+ 
+ 	/* Decouple the backend; but keep the layout for late GPU resets */
+ 	for_each_engine(engine, gt, id) {
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 355aab5b38ba..21829439e686 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -2898,7 +2898,7 @@ static void enable_error_interrupt(struct intel_engine_cs *engine)
+ 		drm_err(&engine->i915->drm,
+ 			"engine '%s' resumed still in error: %08x\n",
+ 			engine->name, status);
+-		__intel_gt_reset(engine->gt, engine->mask);
++		intel_gt_reset_engine(engine);
+ 	}
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 580b5141ce1e..626b166e67ef 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -832,7 +832,7 @@ void intel_gt_driver_unregister(struct intel_gt *gt)
+ 
+ 	/* Scrub all HW state upon release */
+ 	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
+-		__intel_gt_reset(gt, ALL_ENGINES);
++		intel_gt_reset_all_engines(gt);
+ }
+ 
+ void intel_gt_driver_release(struct intel_gt *gt)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+index 220ac4f92edf..c08fdb65cc69 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+@@ -159,7 +159,7 @@ static bool reset_engines(struct intel_gt *gt)
+ 	if (INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
+ 		return false;
+ 
+-	return __intel_gt_reset(gt, ALL_ENGINES) == 0;
++	return intel_gt_reset_all_engines(gt) == 0;
+ }
+ 
+ static void gt_sanitize(struct intel_gt *gt, bool force)
+diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+index c8e9aa41fdea..b825daace58e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_reset.c
++++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+@@ -764,7 +764,7 @@ wa_14015076503_end(struct intel_gt *gt, intel_engine_mask_t engine_mask)
+ 			 HECI_H_GS1_ER_PREP, 0);
+ }
+ 
+-int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask)
++static int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask)
+ {
+ 	const int retries = engine_mask == ALL_ENGINES ? RESET_MAX_RETRIES : 1;
+ 	reset_func reset;
+@@ -795,6 +795,34 @@ int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask)
+ 	return ret;
+ }
+ 
++/**
++ * intel_gt_reset_all_engines() - Reset all engines in the given gt.
++ * @gt: the GT to reset all engines for.
++ *
++ * This function resets all engines within the given gt.
++ *
++ * Returns:
++ * Zero on success, negative error code on failure.
++ */
++int intel_gt_reset_all_engines(struct intel_gt *gt)
++{
++	return __intel_gt_reset(gt, ALL_ENGINES);
++}
++
++/**
++ * intel_gt_reset_engine() - Reset a specific engine within a gt.
++ * @engine: engine to be reset.
++ *
++ * This function resets the specified engine within a gt.
++ *
++ * Returns:
++ * Zero on success, negative error code on failure.
++ */
++int intel_gt_reset_engine(struct intel_engine_cs *engine)
++{
++	return __intel_gt_reset(engine->gt, engine->mask);
++}
++
+ bool intel_has_gpu_reset(const struct intel_gt *gt)
+ {
+ 	if (!gt->i915->params.reset)
+@@ -978,7 +1006,7 @@ static void __intel_gt_set_wedged(struct intel_gt *gt)
+ 
+ 	/* Even if the GPU reset fails, it should still stop the engines */
+ 	if (!INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
+-		__intel_gt_reset(gt, ALL_ENGINES);
++		intel_gt_reset_all_engines(gt);
+ 
+ 	for_each_engine(engine, gt, id)
+ 		engine->submit_request = nop_submit_request;
+@@ -1089,7 +1117,7 @@ static bool __intel_gt_unset_wedged(struct intel_gt *gt)
+ 	/* We must reset pending GPU events before restoring our submission */
+ 	ok = !HAS_EXECLISTS(gt->i915); /* XXX better agnosticism desired */
+ 	if (!INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
+-		ok = __intel_gt_reset(gt, ALL_ENGINES) == 0;
++		ok = intel_gt_reset_all_engines(gt) == 0;
+ 	if (!ok) {
+ 		/*
+ 		 * Warn CI about the unrecoverable wedged condition.
+@@ -1133,10 +1161,10 @@ static int do_reset(struct intel_gt *gt, intel_engine_mask_t stalled_mask)
+ {
+ 	int err, i;
+ 
+-	err = __intel_gt_reset(gt, ALL_ENGINES);
++	err = intel_gt_reset_all_engines(gt);
+ 	for (i = 0; err && i < RESET_MAX_RETRIES; i++) {
+ 		msleep(10 * (i + 1));
+-		err = __intel_gt_reset(gt, ALL_ENGINES);
++		err = intel_gt_reset_all_engines(gt);
+ 	}
+ 	if (err)
+ 		return err;
+@@ -1270,11 +1298,6 @@ void intel_gt_reset(struct intel_gt *gt,
+ 	goto finish;
+ }
+ 
+-static int intel_gt_reset_engine(struct intel_engine_cs *engine)
+-{
+-	return __intel_gt_reset(engine->gt, engine->mask);
+-}
+-
+ int __intel_engine_reset_bh(struct intel_engine_cs *engine, const char *msg)
+ {
+ 	struct intel_gt *gt = engine->gt;
+diff --git a/drivers/gpu/drm/i915/gt/intel_reset.h b/drivers/gpu/drm/i915/gt/intel_reset.h
+index f615b30b81c5..c00de353075c 100644
+--- a/drivers/gpu/drm/i915/gt/intel_reset.h
++++ b/drivers/gpu/drm/i915/gt/intel_reset.h
+@@ -54,7 +54,8 @@ int intel_gt_terminally_wedged(struct intel_gt *gt);
+ void intel_gt_set_wedged_on_init(struct intel_gt *gt);
+ void intel_gt_set_wedged_on_fini(struct intel_gt *gt);
+ 
+-int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask);
++int intel_gt_reset_engine(struct intel_engine_cs *engine);
++int intel_gt_reset_all_engines(struct intel_gt *gt);
+ 
+ int intel_reset_guc(struct intel_gt *gt);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+index f40de408cd3a..2cfc23c58e90 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_reset.c
++++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+@@ -281,7 +281,7 @@ static int igt_atomic_reset(void *arg)
+ 		awake = reset_prepare(gt);
+ 		p->critical_section_begin();
+ 
+-		err = __intel_gt_reset(gt, ALL_ENGINES);
++		err = intel_gt_reset_all_engines(gt);
+ 
+ 		p->critical_section_end();
+ 		reset_finish(gt, awake);
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index 4b9233c07a22..622a24305bc2 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -202,7 +202,7 @@ static void sanitize_gpu(struct drm_i915_private *i915)
+ 		unsigned int i;
+ 
+ 		for_each_gt(gt, i915, i)
+-			__intel_gt_reset(gt, ALL_ENGINES);
++			intel_gt_reset_all_engines(gt);
+ 	}
+ }
+ 
+-- 
+2.42.0
 
-Not everything, no. The clock framework is using Hz for example, and on
-drm-misc drivers it's usually going to be the consumer of that field.
-
-And there's almost 200 hits on mode->clock * 1000 in drivers/gpu/drm as
-of today, including some in i915. This is a bit less than a third of all
-the mode->clock usage, including the one that are unit-neutral (like
-comparisons between two mode->clock fields).
-
-Given how the rest of the DRM code is structured, yes, there's going to
-be some impedance mismatch, but it's really not as clear cut as you make
-it to be.
-
-> > + */
-> > +unsigned long long
-> > +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
-> > +			    unsigned int bpc, enum hdmi_colorspace fmt)
-> > +{
-> > +	unsigned long long clock =3D mode->clock * 1000ULL;
-> > +	unsigned int vic =3D drm_match_cea_mode(mode);
-> > +
-> > +	/*
-> > +	 * CTA-861-G Spec, section 5.4 - Color Coding and Quantization
-> > +	 * mandates that VIC 1 always uses 8 bpc.
-> > +	 */
-> > +	if (vic =3D=3D 1 && bpc !=3D 8)
-> > +		return 0;
-> > +
-> > +	/*
-> > +	 * HDMI 2.0 Spec, section 7.1 - YCbCr 4:2:0 Pixel Encoding
-> > +	 * specifies that YUV420 encoding is only available for those
-> > +	 * VICs.
-> > +	 */
-> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV420 &&
-> > +	    !(vic =3D=3D 96 || vic =3D=3D 97 || vic =3D=3D 101 ||
-> > +	      vic =3D=3D 102 || vic =3D=3D 106 || vic =3D=3D 107))
-> > +		return 0;
->=20
-> I believe that is already outdated. I would just rip this out since the=
-=20
-> sink is anyway required to declare for which timings it will support
-> 4:2:0 via the Y420CMDB/VDB data blocks (see
-> drm_mode_is_420_{only,also}().
-
-Should we use drm_mode_is_420() then or rip it out entirely?
-
-> > +
-> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV422) {
-> > +		/*
-> > +		 * HDMI 1.4b Spec, section 6.2.3 - Pixel Encoding Requirements
-> > +		 * specifies that YUV422 is 36-bit only.
-> > +		 */
-> > +		if (bpc !=3D 12)
-> > +			return 0;
-> > +
-> > +		/*
-> > +		 * HDMI 1.0 Spec, section 6.5 - Pixel Encoding
-> > +		 * specifies that YUV422 requires two 12-bits components per
-> > +		 * pixel clock, which is equivalent in our calculation to three
-> > +		 * 8-bits components
-> > +		 */
-> > +		bpc =3D 8;
-> > +	}
-> > +
-> > +	/*
-> > +	 * HDMI 2.0 Spec, Section 7.1 - YCbCr 4:2:0 Pixel Encoding
-> > +	 * specifies that YUV420 encoding is carried at a TMDS Character Rate
-> > +	 * equal to half the pixel clock rate.
-> > +	 */
-> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV420)
-> > +		clock =3D clock / 2;
-> > +
-> > +	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
-> > +		clock =3D clock * 2;
-> > +
-> > +	clock =3D clock * bpc;
-> > +	do_div(clock, 8);
->=20
-> IMO one shouldn't use bare do_div(). There are
-> more sensible wrappers for it.
->=20
-> In this case I would use DIV_ROUND_CLOSEST_ULL().
-
-Ack.
-
-Thanks!
-Maxime
-
-
---wahmhb7ukfwggb5k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZiFLagAKCRAnX84Zoj2+
-dlldAX9qCzh/RA7mK7FqSsjMey+9M1jDrHEO4/u17NwCJ+/AYaHi+wppWxmtK+K+
-sLdIITcBgOE4oCoHKzJp+1JalYFdUKenCg0IWTcdxL0i3zyaXi9LePr+JzQS6ptm
-EHgy3onxJA==
-=/Ryj
------END PGP SIGNATURE-----
-
---wahmhb7ukfwggb5k--
