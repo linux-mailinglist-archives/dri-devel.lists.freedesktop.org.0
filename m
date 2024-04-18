@@ -2,122 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1AD8AA316
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 21:44:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D772F8AA46C
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 22:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C36E1113F69;
-	Thu, 18 Apr 2024 19:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34CF910E263;
+	Thu, 18 Apr 2024 20:55:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="qEYkmnur";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O1FpQ4mb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2044.outbound.protection.outlook.com [40.107.243.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D61113F68;
- Thu, 18 Apr 2024 19:43:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EG3TCRqjdwF+PY5hRI9+vLpN6XA6/L/CgGJmmBkKEu8gSTOK4hfrjduYjEAVAFUZcKdBQUAxaV+MRHm/PkX1Ob/sEM3yCmnpLTy4iv2p3iR6OueYIojJ3CyAt0ybclRrjqCxFm1MIM+jTAwgnmgBhtDZDCmj5OSajCBHqD6ET910zdTUsYtt8LcRh64TZdqTMrTtFLFBZa4cNPynZaAhl3s51cA2oHOskict2YlBMylBzFf48VkvwG4NNStpUd2Q9nWdKwRN1hEnmJqeJcECo+VGf3W+oKlIeLkqtYE4GpLpfqv+wJvObPYgdld4LOwKSxkcg5JXXeu+JrBYZxIpLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M3dU7MV7NIAPioE9LeDvqOQCDHJyG5Y9hSOHMXkoH+4=;
- b=HmeeG4uSHN3fU0H1lcVbvxSMzAK5Rwsb9y0bN3FmAVrlfCPesc3jutJLawNL8t03IOqUoYAF4UX2QYcragTcpR1Zo0GjoOgA8JomDlIfGVzt3II+fxuf/DvFWXyyVmHI+ZYWdSBnwzKzI7Rnrfu/zEaXFzTSLqL5uJFTzt7fXeh8uq4i6hfuVE6OcMPJfTCiMU1vz2KmRyLBgFN5LbzwXFB9YFCqUuWMG2X5LDHg6S+THDIxxx9qjRIK345bHgK2ck6ImdtUW2WHm95RGL+md4rNJlqbHWAshwiDHY1pISc3ge7ZpSqQFcBmz+Yids3sJMnY2+e2+vBprIprJviHMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M3dU7MV7NIAPioE9LeDvqOQCDHJyG5Y9hSOHMXkoH+4=;
- b=qEYkmnurs59tooEzp2FH6DYWb5dwCZOPW6mkZuz52g50uJakeSZSNvUM1dKWqHVmWUhIF9jLBMMC7yD7MoZDJqN3MOSKDR+QcarEInPLHMyfizvmXgvzQdKdR03BLwkuz6osOSFSQTjo5kd7WsJpF7TSlaeHxTmI0If1JAPjCwA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by DM4PR12MB5940.namprd12.prod.outlook.com (2603:10b6:8:6b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.39; Thu, 18 Apr
- 2024 19:43:54 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062%5]) with mapi id 15.20.7452.049; Thu, 18 Apr 2024
- 19:43:54 +0000
-Message-ID: <0847dc03-c7db-47d7-998b-bda2e82ed442@amd.com>
-Date: Thu, 18 Apr 2024 15:43:50 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mst: Fix NULL pointer dereference at
- drm_dp_add_payload_part2
-To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Cc: lyude@redhat.com, imre.deak@intel.com,
- =?UTF-8?Q?Leon_Wei=C3=9F?= <leon.weiss@ruhr-uni-bochum.de>,
- stable@vger.kernel.org, regressions@lists.linux.dev
-References: <20240307062957.2323620-1-Wayne.Lin@amd.com>
-Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20240307062957.2323620-1-Wayne.Lin@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0024.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:85::21) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F048710E2D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 20:55:39 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-343d1003106so950072f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 13:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713473738; x=1714078538; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:subject:cc:autocrypt:from:to
+ :content-language:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=E6G6hXATHHbhhEyyLqUvtbfj42Xjg4y1kL4uuSMBOaA=;
+ b=O1FpQ4mbSF3bn1Zni+N7/ivPZFlhuv3B0sAOmakkrPu2rbPj4XbPxWGVztZ43JIUeX
+ Ihaavf8LkLeduzcADzZuzgF0q8NFU38KJRUzIRRAgy/BaRi7IYnDgptsffRzDGnQX/zK
+ 8DNdWMvK3pm+A8mCjrLXA36Lca5Xb5wGnqQXdnO4QYDsqWGd5nJTH9crduKuBz75n2py
+ aaaZ1igys72DJu/uixI+bLAbI0Um49yMWRerxCea7ln3pJl30PhUifyYNHqiZKChAEUP
+ 0KQpbDh95dA/bgI5uLGwywKLiknJ0UnyltXQt4AE0KjsLkWrXMgzlE8N8D/Ln2C2upZD
+ AEcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713473738; x=1714078538;
+ h=content-transfer-encoding:subject:cc:autocrypt:from:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=E6G6hXATHHbhhEyyLqUvtbfj42Xjg4y1kL4uuSMBOaA=;
+ b=tDpL0iQu118kraNcWzpiUTKOlA2yh+ASUKqPUV3hxpMBLMIK0djZKQj8TzERbU+lXN
+ TMYkWEUrEJSzE4pHcXHX5N3Vnn7bB5N1+Tm0speXvyEdFEaxwKzDtshvI8if2BIi6r6T
+ vA+wbONsWFfdX/dSuZpiMUGzzmdmKwVR1i0Sr6rPyGcXa3SafHet8K2FQhdkm51Vy+7D
+ sImLSqeVbMvuQe3oxbNfY4DxthmYPBRiMSDhXy7BMNgEsY8i9e0v3oEz+lARFhsAz2WK
+ sPD5p+yOBcxACKfV761muON3O3yqqHehQmlynL66DzShsEb6dupHGpohhlyhe7r6NbS1
+ uYrw==
+X-Gm-Message-State: AOJu0YxciQMdwv/FRgpbKCnZLvBQhDICPGR/OHdZdPhXrQAb0Mx7qV1m
+ fFpf1oWR1xWcdD61AuyhKax9b1LjYisHWgkV74iTWrnHs6+27ndr
+X-Google-Smtp-Source: AGHT+IG0lh5CvZoLRcJQEBh9+F8J+kd12EiPNafW79t0BfSpd/Y2P/zkaJFg3Orj4hayd226eac+zw==
+X-Received: by 2002:adf:f2d1:0:b0:346:c912:3e97 with SMTP id
+ d17-20020adff2d1000000b00346c9123e97mr48482wrp.44.1713473737630; 
+ Thu, 18 Apr 2024 13:55:37 -0700 (PDT)
+Received: from ?IPV6:2a01:c22:7a7c:3800:df8:a4c3:282a:f888?
+ (dynamic-2a01-0c22-7a7c-3800-0df8-a4c3-282a-f888.c22.pool.telefonica.de.
+ [2a01:c22:7a7c:3800:df8:a4c3:282a:f888])
+ by smtp.googlemail.com with ESMTPSA id
+ u17-20020adfeb51000000b00347321735a6sm2669086wrn.66.2024.04.18.13.55.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Apr 2024 13:55:37 -0700 (PDT)
+Message-ID: <17145dc5-e68e-4566-bedf-251bebe36ebb@gmail.com>
+Date: Thu, 18 Apr 2024 22:55:39 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|DM4PR12MB5940:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8ca3cebe-8704-4504-0f7a-08dc5fdfe199
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KnBAlGFELnMU//Nx9vnChoRNaplOi3q/dhCmIcUyW5Gr/Y6V4mGaEabLTQQ5HkX5C53dUrv5xYNulrxWxrEMs+gaKn8ZMtiJgEqZWQZqVRopLa8nIOm0aaV3xw1aZtfUaIqEWKy1ciGa33Wf5Z1LD3CnWo6gI1Vp8FGRZWMdIaj072YM8gPjvnT2/Jcux6r5KnfyMfwywm4bwriqZ/+KDXNNYR6zV1DuuqBfcjYJQs+xO+ggQ8CML0Ruim2wYd2r1fpWXKa+s0CShLNr0tFgNlS1v7aD/qmaS6Ud3zJDXbEfZ9it/dIwQJn9jLFjcuhAIOTXyrj+vPUyA0C/meIyeJ8KHA4jgrE7qxzVJQkpg8KlD/ia8BWJxxtvLbIw4IQCRp1XvH4XQXnF19dB51ufjgE3xHckEVCFE0tNBKdQf+gt9v2aSAC3tbYxp/rnO7kv6s1upfgvfHd5yoWnyydUHBN43ThkUC6nYd7CKmagQKslmpul9UF3lnhEXwgGUxEOU6BaO4bUC6eQUi4nF6dIA739z+dQoVVQ5R9Q6ePhhTBXHVygLUjf3KVWMUnc7jpuvmcbuYLTNqz8o9CbSwu69KZD6tRASB/hgkzqQu3SxBrv+//RcGwCqTEPC6gJ7THJdGvmake5ERr5lLb+i9A2Sm4kjKT/R5DUXKbHhiXE0cU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TzlrcnJnQXIvSW8rVVByN1pFQ0ppTlFWK2xuZUVUVFVmOVZ2YXA5MDFjNHRE?=
- =?utf-8?B?OTNLd2ZmVFAxcHpaNy9rYU5xWkRBRjBwTlZacGorTWtycU9BQ0hPUTRRa0Q2?=
- =?utf-8?B?NU8vZWtNOEZYWWJhQ0lUS3Z2VEEvcTBzSTVINkFva2p4aDJHUm94WEpHbTZO?=
- =?utf-8?B?RHBTUnAwZnF0R2p4NDMxN2toWXZrMWFHWkQwc2d2VjBFNlZ0dE9LSXNoL3pn?=
- =?utf-8?B?RFZJaEpxMzE5am9teXVHTVUwL1J1aUNSOEJ4QXBhSUMxZlNpWWlNNTh3VDQ0?=
- =?utf-8?B?Mk9XSFB5VmczU1NnVldjU1NDUlR0SDNrTEJCN1VjYlR1ckhQMzk0cW51a2hD?=
- =?utf-8?B?NkhHYTNzWDRBeWpIa0pIZHNHZ1AralU0ekpzTVVPK0hZc2NzUWNxY3h3Szk2?=
- =?utf-8?B?dmdMTk5zalVzZGJiSDlRTmxnUkVoa3pUcEV2TFFXckZpR1lxcUZCci9ZVnhK?=
- =?utf-8?B?cmhDUkxXc3ZCZGdDSXFZdmhCa0NwcHpPd2ViVU9YMXhoeFNCbklhYkVPSzN6?=
- =?utf-8?B?ZEdXZmVNWGlLYWVCRWRob2I5ejd2QXRTNnJZcU1LTDlFRGJWVC9wcnlHTmFJ?=
- =?utf-8?B?YmhzaUlsQXdFdW1XdnBsQU5aMSsvbFgwbW42aDl4SEFtaVJoQkEwOG9nVGZH?=
- =?utf-8?B?b3c3a3FycnpWWXMzaXZjQkwra1pQR00vTyswWU8wZ2RmQXhIOU9JYlRKL0Fn?=
- =?utf-8?B?Q0t2TUxLRG1hRWNjUjcwYVY3SXdxU2xpcURiQlVJT3BMTnNxL04zTW9Md2Zi?=
- =?utf-8?B?b0ZqTXlUczBsbjM3OGNMK3g2S1lNUWprSDQ5bkFCR1dwaGpLeW1PMkVTZm1O?=
- =?utf-8?B?T1pvS0ZGQXpzZTdIdkJFMEFmL1Y0eTVUSTMxbmFzV0d6MGZRQ0lIZE10aXR1?=
- =?utf-8?B?RDRENUVZbVZpQVFUWkF4c1QvL0s0Z1FKeFgwZmppdVFFT2RIamlod3hOWHph?=
- =?utf-8?B?ZDIySEVoUk53SnBlRGtWcEY2NTY1RW9rczh6RTNHNmQyUnJkbk5CbFNEa2kr?=
- =?utf-8?B?N1ZQQ1lYdllwVGRLVjZpeTljZmk1NXpvdVBNOXFSZzVZa21VRWZneDJNZFZs?=
- =?utf-8?B?QSs0T3FDRlZieHNuMXRycnppTXg0dE1zRGJPOGlod2FiNzB2QldNTXAxbXhv?=
- =?utf-8?B?emRVL0hDamQvZk5ZT3lnaUxRenpCdWsrdjRabXc4SXRZd1ZSTTR0d2pObHU4?=
- =?utf-8?B?Sk1ENTZ4MzJ1VWtiZGl0VVVrRStUYW1wd2hYdHZTNnRXTXo5UnNEVW1XUnRm?=
- =?utf-8?B?a2cwVlVrSkhUNE5vTUhWaTBlTkRmYUNyOW45OWZnVm1UTXdvdG9wNXdFcXo3?=
- =?utf-8?B?MzQrQ3FZOEZ3Z3RCdVdpb3ZYM3EwMmdxZSs5MHVSWVJWZDE1UHZRQmpxeXNi?=
- =?utf-8?B?RlZwOGVwWmlWWkU3SHEvUE9RQVdoQ3J5TGVUV1o2MThYSjdHay93aFdkbzUz?=
- =?utf-8?B?d01mU3JoWVVnOHFXajZBRW52WC91bUp4dDQzbUV2YXB6OEo5aFVGWUpROC84?=
- =?utf-8?B?Z3VLOVZjZi9oajFSUTI2T3lMb2EyT3dDSVBhdmVid0tlTlNqQXhIcWRyWnIv?=
- =?utf-8?B?Nlc3bTFJTnVBT2NqWnVYOFBUOEZITEdCcGgzcDhrUU5jaFJkVEhaV25aT3Nu?=
- =?utf-8?B?MGdwWTVCV3ZtbjFjQllWK3c4UjZudXJRanhwN3pMTzNlMUxsY2dCOEhDbjEz?=
- =?utf-8?B?MXk3QUQ0T3ZDM1VXSnpkYkR6bjUwYnhydTRFRmdzV1dlMnF3NTh6T3NIM3dm?=
- =?utf-8?B?YlF5T1lZOWIrR08yZndZb1BtUjZBUll0S2w3b2ZGY092MFlzRDZMamtXVTZZ?=
- =?utf-8?B?dHNtN3lKZ3ZlbnlMZk0yc0xOaEx5QlZpemFLTncwdDJoZmx3NlNyYndoNUtx?=
- =?utf-8?B?T0NodzlxWjlESFdNaGFLbDVEUE54SmRUUEJ3WEhjeVY4OHBTdTY1RUNUanFk?=
- =?utf-8?B?OTZwdmkyNEV3YUlrQkFNR014d0wyWWxZNHNHSEkzeEhYdFM0WWVoUGxmWTBW?=
- =?utf-8?B?Y1Y2QmlOeFBIWEt1MkFlekNjc25DRGRGL3diSmVwNUR1bi9RNndyd0ZKMTJw?=
- =?utf-8?B?M01ibk54dXI3RmNEdmFwUkJmdzlUT1FNTU83TEd5dmd3c1hNcWtiZnY4eExP?=
- =?utf-8?Q?f3AW1w1EyJ/9AyHO7zzMqRfsV?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ca3cebe-8704-4504-0f7a-08dc5fdfe199
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2024 19:43:54.8198 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GCt2HhIEenntXKoCH8ofhM3/D4af0d6cs0ctlX9gFD8Yoedmu84tVI8ZchlPd8AYQxXq+EsunvQwsAxvudz3Qg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5940
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Wolfram Sang <wsa@kernel.org>, Peter Rosin <peda@axentia.se>,
+ Peter Korsgaard <peter.korsgaard@barco.com>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Vadim Pasternak <vadimp@nvidia.com>, Michael Shych <michaelsh@nvidia.com>,
+ Guenter Roeck <linux@roeck-us.net>, Linus Walleij
+ <linus.walleij@linaro.org>, Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+Cc: "open list:AMD KFD" <dri-devel@lists.freedesktop.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ linux-media@vger.kernel.org,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: [PATCH] i2c: mux: Remove class argument from i2c_mux_add_adapter()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,121 +147,380 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+99a741aa7a2d ("i2c: mux: gpio: remove support for class-based device
+instantiation") removed the last call to i2c_mux_add_adapter() with a
+non-null class argument. Therefore the class argument can be removed.
 
+Note: Class-based device instantiation is a legacy mechanism which
+shouldn't be used in new code, so we can rule out that this argument
+may be needed again in the future.
 
-On 2024-03-07 01:29, Wayne Lin wrote:
-> [Why]
-> Commit:
-> - commit 5aa1dfcdf0a4 ("drm/mst: Refactor the flow for payload allocation/removement")
-> accidently overwrite the commit
-> - commit 54d217406afe ("drm: use mgr->dev in drm_dbg_kms in drm_dp_add_payload_part2")
-> which cause regression.
-> 
-> [How]
-> Recover the original NULL fix and remove the unnecessary input parameter 'state' for
-> drm_dp_add_payload_part2().
-> 
-> Fixes: 5aa1dfcdf0a4 ("drm/mst: Refactor the flow for payload allocation/removement")
-> Reported-by: Leon Weiß <leon.weiss@ruhr-uni-bochum.de>
-> Link: https://lore.kernel.org/r/38c253ea42072cc825dc969ac4e6b9b600371cc8.camel@ruhr-uni-bochum.de/
-> Cc: lyude@redhat.com
-> Cc: imre.deak@intel.com
-> Cc: stable@vger.kernel.org
-> Cc: regressions@lists.linux.dev
-> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/gpu/drm/bridge/sii902x.c           |  2 +-
+ drivers/i2c/i2c-mux.c                      | 24 +---------------------
+ drivers/i2c/muxes/i2c-arb-gpio-challenge.c |  2 +-
+ drivers/i2c/muxes/i2c-mux-gpio.c           |  2 +-
+ drivers/i2c/muxes/i2c-mux-gpmux.c          |  2 +-
+ drivers/i2c/muxes/i2c-mux-ltc4306.c        |  2 +-
+ drivers/i2c/muxes/i2c-mux-mlxcpld.c        |  2 +-
+ drivers/i2c/muxes/i2c-mux-pca9541.c        |  2 +-
+ drivers/i2c/muxes/i2c-mux-pca954x.c        |  2 +-
+ drivers/i2c/muxes/i2c-mux-pinctrl.c        |  2 +-
+ drivers/i2c/muxes/i2c-mux-reg.c            |  2 +-
+ drivers/iio/gyro/mpu3050-i2c.c             |  2 +-
+ drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c  |  2 +-
+ drivers/media/dvb-frontends/af9013.c       |  2 +-
+ drivers/media/dvb-frontends/lgdt3306a.c    |  2 +-
+ drivers/media/dvb-frontends/m88ds3103.c    |  2 +-
+ drivers/media/dvb-frontends/rtl2830.c      |  2 +-
+ drivers/media/dvb-frontends/rtl2832.c      |  2 +-
+ drivers/media/dvb-frontends/si2168.c       |  2 +-
+ drivers/media/i2c/max9286.c                |  2 +-
+ drivers/media/usb/cx231xx/cx231xx-i2c.c    |  5 +----
+ drivers/of/unittest.c                      |  2 +-
+ include/linux/i2c-mux.h                    |  3 +--
+ 23 files changed, 23 insertions(+), 49 deletions(-)
 
-I haven't been deep in MST code in a while but this all looks
-pretty straightforward and good.
-
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-
-Harry
-
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 +-
->  drivers/gpu/drm/display/drm_dp_mst_topology.c             | 4 +---
->  drivers/gpu/drm/i915/display/intel_dp_mst.c               | 2 +-
->  drivers/gpu/drm/nouveau/dispnv50/disp.c                   | 2 +-
->  include/drm/display/drm_dp_mst_helper.h                   | 1 -
->  5 files changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> index c27063305a13..2c36f3d00ca2 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> @@ -363,7 +363,7 @@ void dm_helpers_dp_mst_send_payload_allocation(
->  	mst_state = to_drm_dp_mst_topology_state(mst_mgr->base.state);
->  	new_payload = drm_atomic_get_mst_payload_state(mst_state, aconnector->mst_output_port);
->  
-> -	ret = drm_dp_add_payload_part2(mst_mgr, mst_state->base.state, new_payload);
-> +	ret = drm_dp_add_payload_part2(mst_mgr, new_payload);
->  
->  	if (ret) {
->  		amdgpu_dm_set_mst_status(&aconnector->mst_status,
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index 03d528209426..95fd18f24e94 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -3421,7 +3421,6 @@ EXPORT_SYMBOL(drm_dp_remove_payload_part2);
->  /**
->   * drm_dp_add_payload_part2() - Execute payload update part 2
->   * @mgr: Manager to use.
-> - * @state: The global atomic state
->   * @payload: The payload to update
->   *
->   * If @payload was successfully assigned a starting time slot by drm_dp_add_payload_part1(), this
-> @@ -3430,14 +3429,13 @@ EXPORT_SYMBOL(drm_dp_remove_payload_part2);
->   * Returns: 0 on success, negative error code on failure.
->   */
->  int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
-> -			     struct drm_atomic_state *state,
->  			     struct drm_dp_mst_atomic_payload *payload)
->  {
->  	int ret = 0;
->  
->  	/* Skip failed payloads */
->  	if (payload->payload_allocation_status != DRM_DP_MST_PAYLOAD_ALLOCATION_DFP) {
-> -		drm_dbg_kms(state->dev, "Part 1 of payload creation for %s failed, skipping part 2\n",
-> +		drm_dbg_kms(mgr->dev, "Part 1 of payload creation for %s failed, skipping part 2\n",
->  			    payload->port->connector->name);
->  		return -EIO;
->  	}
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index 53aec023ce92..2fba66aec038 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -1160,7 +1160,7 @@ static void intel_mst_enable_dp(struct intel_atomic_state *state,
->  	if (first_mst_stream)
->  		intel_ddi_wait_for_fec_status(encoder, pipe_config, true);
->  
-> -	drm_dp_add_payload_part2(&intel_dp->mst_mgr, &state->base,
-> +	drm_dp_add_payload_part2(&intel_dp->mst_mgr,
->  				 drm_atomic_get_mst_payload_state(mst_state, connector->port));
->  
->  	if (DISPLAY_VER(dev_priv) >= 12)
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> index 0c3d88ad0b0e..88728a0b2c25 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -915,7 +915,7 @@ nv50_msto_cleanup(struct drm_atomic_state *state,
->  		msto->disabled = false;
->  		drm_dp_remove_payload_part2(mgr, new_mst_state, old_payload, new_payload);
->  	} else if (msto->enabled) {
-> -		drm_dp_add_payload_part2(mgr, state, new_payload);
-> +		drm_dp_add_payload_part2(mgr, new_payload);
->  		msto->enabled = false;
->  	}
->  }
-> diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-> index 9b19d8bd520a..6c9145abc7e2 100644
-> --- a/include/drm/display/drm_dp_mst_helper.h
-> +++ b/include/drm/display/drm_dp_mst_helper.h
-> @@ -851,7 +851,6 @@ int drm_dp_add_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
->  			     struct drm_dp_mst_topology_state *mst_state,
->  			     struct drm_dp_mst_atomic_payload *payload);
->  int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
-> -			     struct drm_atomic_state *state,
->  			     struct drm_dp_mst_atomic_payload *payload);
->  void drm_dp_remove_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
->  				 struct drm_dp_mst_topology_state *mst_state,
+diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+index 8f84e9824..2fbeda902 100644
+--- a/drivers/gpu/drm/bridge/sii902x.c
++++ b/drivers/gpu/drm/bridge/sii902x.c
+@@ -1092,7 +1092,7 @@ static int sii902x_init(struct sii902x *sii902x)
+ 	}
+ 
+ 	sii902x->i2cmux->priv = sii902x;
+-	ret = i2c_mux_add_adapter(sii902x->i2cmux, 0, 0, 0);
++	ret = i2c_mux_add_adapter(sii902x->i2cmux, 0, 0);
+ 	if (ret)
+ 		goto err_unreg_audio;
+ 
+diff --git a/drivers/i2c/i2c-mux.c b/drivers/i2c/i2c-mux.c
+index 57ff09f18..fda72e8be 100644
+--- a/drivers/i2c/i2c-mux.c
++++ b/drivers/i2c/i2c-mux.c
+@@ -127,19 +127,6 @@ static u32 i2c_mux_functionality(struct i2c_adapter *adap)
+ 	return parent->algo->functionality(parent);
+ }
+ 
+-/* Return all parent classes, merged */
+-static unsigned int i2c_mux_parent_classes(struct i2c_adapter *parent)
+-{
+-	unsigned int class = 0;
+-
+-	do {
+-		class |= parent->class;
+-		parent = i2c_parent_is_i2c_adapter(parent);
+-	} while (parent);
+-
+-	return class;
+-}
+-
+ static void i2c_mux_lock_bus(struct i2c_adapter *adapter, unsigned int flags)
+ {
+ 	struct i2c_mux_priv *priv = adapter->algo_data;
+@@ -281,8 +268,7 @@ static const struct i2c_lock_operations i2c_parent_lock_ops = {
+ };
+ 
+ int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
+-			u32 force_nr, u32 chan_id,
+-			unsigned int class)
++			u32 force_nr, u32 chan_id)
+ {
+ 	struct i2c_adapter *parent = muxc->parent;
+ 	struct i2c_mux_priv *priv;
+@@ -340,14 +326,6 @@ int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
+ 	else
+ 		priv->adap.lock_ops = &i2c_parent_lock_ops;
+ 
+-	/* Sanity check on class */
+-	if (i2c_mux_parent_classes(parent) & class & ~I2C_CLASS_DEPRECATED)
+-		dev_err(&parent->dev,
+-			"Segment %d behind mux can't share classes with ancestors\n",
+-			chan_id);
+-	else
+-		priv->adap.class = class;
+-
+ 	/*
+ 	 * Try to populate the mux adapter's of_node, expands to
+ 	 * nothing if !CONFIG_OF.
+diff --git a/drivers/i2c/muxes/i2c-arb-gpio-challenge.c b/drivers/i2c/muxes/i2c-arb-gpio-challenge.c
+index 24168e9f7..7aa6e795d 100644
+--- a/drivers/i2c/muxes/i2c-arb-gpio-challenge.c
++++ b/drivers/i2c/muxes/i2c-arb-gpio-challenge.c
+@@ -167,7 +167,7 @@ static int i2c_arbitrator_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	/* Actually add the mux adapter */
+-	ret = i2c_mux_add_adapter(muxc, 0, 0, 0);
++	ret = i2c_mux_add_adapter(muxc, 0, 0);
+ 	if (ret)
+ 		i2c_put_adapter(muxc->parent);
+ 
+diff --git a/drivers/i2c/muxes/i2c-mux-gpio.c b/drivers/i2c/muxes/i2c-mux-gpio.c
+index 0fbb33a3d..d6bbb8b68 100644
+--- a/drivers/i2c/muxes/i2c-mux-gpio.c
++++ b/drivers/i2c/muxes/i2c-mux-gpio.c
+@@ -207,7 +207,7 @@ static int i2c_mux_gpio_probe(struct platform_device *pdev)
+ 	for (i = 0; i < mux->data.n_values; i++) {
+ 		u32 nr = mux->data.base_nr ? (mux->data.base_nr + i) : 0;
+ 
+-		ret = i2c_mux_add_adapter(muxc, nr, mux->data.values[i], 0);
++		ret = i2c_mux_add_adapter(muxc, nr, mux->data.values[i]);
+ 		if (ret)
+ 			goto add_adapter_failed;
+ 	}
+diff --git a/drivers/i2c/muxes/i2c-mux-gpmux.c b/drivers/i2c/muxes/i2c-mux-gpmux.c
+index 8305661e1..10d63307b 100644
+--- a/drivers/i2c/muxes/i2c-mux-gpmux.c
++++ b/drivers/i2c/muxes/i2c-mux-gpmux.c
+@@ -124,7 +124,7 @@ static int i2c_mux_probe(struct platform_device *pdev)
+ 			goto err_children;
+ 		}
+ 
+-		ret = i2c_mux_add_adapter(muxc, 0, chan, 0);
++		ret = i2c_mux_add_adapter(muxc, 0, chan);
+ 		if (ret)
+ 			goto err_children;
+ 	}
+diff --git a/drivers/i2c/muxes/i2c-mux-ltc4306.c b/drivers/i2c/muxes/i2c-mux-ltc4306.c
+index 23766d853..19a7c3709 100644
+--- a/drivers/i2c/muxes/i2c-mux-ltc4306.c
++++ b/drivers/i2c/muxes/i2c-mux-ltc4306.c
+@@ -279,7 +279,7 @@ static int ltc4306_probe(struct i2c_client *client)
+ 
+ 	/* Now create an adapter for each channel */
+ 	for (num = 0; num < chip->nchans; num++) {
+-		ret = i2c_mux_add_adapter(muxc, 0, num, 0);
++		ret = i2c_mux_add_adapter(muxc, 0, num);
+ 		if (ret) {
+ 			i2c_mux_del_adapters(muxc);
+ 			return ret;
+diff --git a/drivers/i2c/muxes/i2c-mux-mlxcpld.c b/drivers/i2c/muxes/i2c-mux-mlxcpld.c
+index 4c6ed1d58..3f06aa333 100644
+--- a/drivers/i2c/muxes/i2c-mux-mlxcpld.c
++++ b/drivers/i2c/muxes/i2c-mux-mlxcpld.c
+@@ -154,7 +154,7 @@ static int mlxcpld_mux_probe(struct platform_device *pdev)
+ 
+ 	/* Create an adapter for each channel. */
+ 	for (num = 0; num < pdata->num_adaps; num++) {
+-		err = i2c_mux_add_adapter(muxc, 0, pdata->chan_ids[num], 0);
++		err = i2c_mux_add_adapter(muxc, 0, pdata->chan_ids[num]);
+ 		if (err)
+ 			goto virt_reg_failed;
+ 	}
+diff --git a/drivers/i2c/muxes/i2c-mux-pca9541.c b/drivers/i2c/muxes/i2c-mux-pca9541.c
+index ce0fb6924..e28694d99 100644
+--- a/drivers/i2c/muxes/i2c-mux-pca9541.c
++++ b/drivers/i2c/muxes/i2c-mux-pca9541.c
+@@ -314,7 +314,7 @@ static int pca9541_probe(struct i2c_client *client)
+ 
+ 	i2c_set_clientdata(client, muxc);
+ 
+-	ret = i2c_mux_add_adapter(muxc, 0, 0, 0);
++	ret = i2c_mux_add_adapter(muxc, 0, 0);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/i2c/muxes/i2c-mux-pca954x.c b/drivers/i2c/muxes/i2c-mux-pca954x.c
+index c3f4ff08a..6f8401825 100644
+--- a/drivers/i2c/muxes/i2c-mux-pca954x.c
++++ b/drivers/i2c/muxes/i2c-mux-pca954x.c
+@@ -644,7 +644,7 @@ static int pca954x_probe(struct i2c_client *client)
+ 
+ 	/* Now create an adapter for each channel */
+ 	for (num = 0; num < data->chip->nchans; num++) {
+-		ret = i2c_mux_add_adapter(muxc, 0, num, 0);
++		ret = i2c_mux_add_adapter(muxc, 0, num);
+ 		if (ret)
+ 			goto fail_cleanup;
+ 	}
+diff --git a/drivers/i2c/muxes/i2c-mux-pinctrl.c b/drivers/i2c/muxes/i2c-mux-pinctrl.c
+index 6ebca7bfd..02aaf0781 100644
+--- a/drivers/i2c/muxes/i2c-mux-pinctrl.c
++++ b/drivers/i2c/muxes/i2c-mux-pinctrl.c
+@@ -151,7 +151,7 @@ static int i2c_mux_pinctrl_probe(struct platform_device *pdev)
+ 
+ 	/* Do not add any adapter for the idle state (if it's there at all). */
+ 	for (i = 0; i < num_names - !!muxc->deselect; i++) {
+-		ret = i2c_mux_add_adapter(muxc, 0, i, 0);
++		ret = i2c_mux_add_adapter(muxc, 0, i);
+ 		if (ret)
+ 			goto err_del_adapter;
+ 	}
+diff --git a/drivers/i2c/muxes/i2c-mux-reg.c b/drivers/i2c/muxes/i2c-mux-reg.c
+index 8489971ba..ef765fcd3 100644
+--- a/drivers/i2c/muxes/i2c-mux-reg.c
++++ b/drivers/i2c/muxes/i2c-mux-reg.c
+@@ -213,7 +213,7 @@ static int i2c_mux_reg_probe(struct platform_device *pdev)
+ 	for (i = 0; i < mux->data.n_values; i++) {
+ 		nr = mux->data.base_nr ? (mux->data.base_nr + i) : 0;
+ 
+-		ret = i2c_mux_add_adapter(muxc, nr, mux->data.values[i], 0);
++		ret = i2c_mux_add_adapter(muxc, nr, mux->data.values[i]);
+ 		if (ret)
+ 			goto err_del_mux_adapters;
+ 	}
+diff --git a/drivers/iio/gyro/mpu3050-i2c.c b/drivers/iio/gyro/mpu3050-i2c.c
+index 52b6feed2..29ecfa6fd 100644
+--- a/drivers/iio/gyro/mpu3050-i2c.c
++++ b/drivers/iio/gyro/mpu3050-i2c.c
+@@ -72,7 +72,7 @@ static int mpu3050_i2c_probe(struct i2c_client *client)
+ 	else {
+ 		mpu3050->i2cmux->priv = mpu3050;
+ 		/* Ignore failure, not critical */
+-		i2c_mux_add_adapter(mpu3050->i2cmux, 0, 0, 0);
++		i2c_mux_add_adapter(mpu3050->i2cmux, 0, 0);
+ 	}
+ 
+ 	return 0;
+diff --git a/drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c b/drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c
+index 410ea39fd..0e03137fb 100644
+--- a/drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c
++++ b/drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c
+@@ -142,7 +142,7 @@ static int inv_mpu_probe(struct i2c_client *client)
+ 		if (!st->muxc)
+ 			return -ENOMEM;
+ 		st->muxc->priv = dev_get_drvdata(&client->dev);
+-		result = i2c_mux_add_adapter(st->muxc, 0, 0, 0);
++		result = i2c_mux_add_adapter(st->muxc, 0, 0);
+ 		if (result)
+ 			return result;
+ 		result = inv_mpu_acpi_create_mux_client(client);
+diff --git a/drivers/media/dvb-frontends/af9013.c b/drivers/media/dvb-frontends/af9013.c
+index a829c8979..5afdbe244 100644
+--- a/drivers/media/dvb-frontends/af9013.c
++++ b/drivers/media/dvb-frontends/af9013.c
+@@ -1480,7 +1480,7 @@ static int af9013_probe(struct i2c_client *client)
+ 		goto err_regmap_exit;
+ 	}
+ 	state->muxc->priv = state;
+-	ret = i2c_mux_add_adapter(state->muxc, 0, 0, 0);
++	ret = i2c_mux_add_adapter(state->muxc, 0, 0);
+ 	if (ret)
+ 		goto err_regmap_exit;
+ 
+diff --git a/drivers/media/dvb-frontends/lgdt3306a.c b/drivers/media/dvb-frontends/lgdt3306a.c
+index 263887592..91c71b24c 100644
+--- a/drivers/media/dvb-frontends/lgdt3306a.c
++++ b/drivers/media/dvb-frontends/lgdt3306a.c
+@@ -2203,7 +2203,7 @@ static int lgdt3306a_probe(struct i2c_client *client)
+ 		goto err_kfree;
+ 	}
+ 	state->muxc->priv = client;
+-	ret = i2c_mux_add_adapter(state->muxc, 0, 0, 0);
++	ret = i2c_mux_add_adapter(state->muxc, 0, 0);
+ 	if (ret)
+ 		goto err_kfree;
+ 
+diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
+index e0272054f..6c69bcc7a 100644
+--- a/drivers/media/dvb-frontends/m88ds3103.c
++++ b/drivers/media/dvb-frontends/m88ds3103.c
+@@ -1866,7 +1866,7 @@ static int m88ds3103_probe(struct i2c_client *client)
+ 		goto err_kfree;
+ 	}
+ 	dev->muxc->priv = dev;
+-	ret = i2c_mux_add_adapter(dev->muxc, 0, 0, 0);
++	ret = i2c_mux_add_adapter(dev->muxc, 0, 0);
+ 	if (ret)
+ 		goto err_kfree;
+ 
+diff --git a/drivers/media/dvb-frontends/rtl2830.c b/drivers/media/dvb-frontends/rtl2830.c
+index 35c969fd2..30d10fe4b 100644
+--- a/drivers/media/dvb-frontends/rtl2830.c
++++ b/drivers/media/dvb-frontends/rtl2830.c
+@@ -838,7 +838,7 @@ static int rtl2830_probe(struct i2c_client *client)
+ 		goto err_regmap_exit;
+ 	}
+ 	dev->muxc->priv = client;
+-	ret = i2c_mux_add_adapter(dev->muxc, 0, 0, 0);
++	ret = i2c_mux_add_adapter(dev->muxc, 0, 0);
+ 	if (ret)
+ 		goto err_regmap_exit;
+ 
+diff --git a/drivers/media/dvb-frontends/rtl2832.c b/drivers/media/dvb-frontends/rtl2832.c
+index 601cf45c3..5142820b1 100644
+--- a/drivers/media/dvb-frontends/rtl2832.c
++++ b/drivers/media/dvb-frontends/rtl2832.c
+@@ -1082,7 +1082,7 @@ static int rtl2832_probe(struct i2c_client *client)
+ 		goto err_regmap_exit;
+ 	}
+ 	dev->muxc->priv = dev;
+-	ret = i2c_mux_add_adapter(dev->muxc, 0, 0, 0);
++	ret = i2c_mux_add_adapter(dev->muxc, 0, 0);
+ 	if (ret)
+ 		goto err_regmap_exit;
+ 
+diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+index dae1f2153..26828fd41 100644
+--- a/drivers/media/dvb-frontends/si2168.c
++++ b/drivers/media/dvb-frontends/si2168.c
+@@ -744,7 +744,7 @@ static int si2168_probe(struct i2c_client *client)
+ 		goto err_kfree;
+ 	}
+ 	dev->muxc->priv = client;
+-	ret = i2c_mux_add_adapter(dev->muxc, 0, 0, 0);
++	ret = i2c_mux_add_adapter(dev->muxc, 0, 0);
+ 	if (ret)
+ 		goto err_kfree;
+ 
+diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+index d685d445c..dfcb3fc03 100644
+--- a/drivers/media/i2c/max9286.c
++++ b/drivers/media/i2c/max9286.c
+@@ -383,7 +383,7 @@ static int max9286_i2c_mux_init(struct max9286_priv *priv)
+ 	for_each_source(priv, source) {
+ 		unsigned int index = to_index(priv, source);
+ 
+-		ret = i2c_mux_add_adapter(priv->mux, 0, index, 0);
++		ret = i2c_mux_add_adapter(priv->mux, 0, index);
+ 		if (ret < 0)
+ 			goto error;
+ 	}
+diff --git a/drivers/media/usb/cx231xx/cx231xx-i2c.c b/drivers/media/usb/cx231xx/cx231xx-i2c.c
+index c6659253c..6da8e7943 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-i2c.c
++++ b/drivers/media/usb/cx231xx/cx231xx-i2c.c
+@@ -567,10 +567,7 @@ int cx231xx_i2c_mux_create(struct cx231xx *dev)
+ 
+ int cx231xx_i2c_mux_register(struct cx231xx *dev, int mux_no)
+ {
+-	return i2c_mux_add_adapter(dev->muxc,
+-				   0,
+-				   mux_no /* chan_id */,
+-				   0 /* class */);
++	return i2c_mux_add_adapter(dev->muxc, 0, mux_no);
+ }
+ 
+ void cx231xx_i2c_mux_unregister(struct cx231xx *dev)
+diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+index 6b5c36b6a..c8ee866d7 100644
+--- a/drivers/of/unittest.c
++++ b/drivers/of/unittest.c
+@@ -2815,7 +2815,7 @@ static int unittest_i2c_mux_probe(struct i2c_client *client)
+ 	if (!muxc)
+ 		return -ENOMEM;
+ 	for (i = 0; i < nchans; i++) {
+-		if (i2c_mux_add_adapter(muxc, 0, i, 0)) {
++		if (i2c_mux_add_adapter(muxc, 0, i)) {
+ 			dev_err(dev, "Failed to register mux #%d\n", i);
+ 			i2c_mux_del_adapters(muxc);
+ 			return -ENODEV;
+diff --git a/include/linux/i2c-mux.h b/include/linux/i2c-mux.h
+index 98ef73b7c..1784ac7af 100644
+--- a/include/linux/i2c-mux.h
++++ b/include/linux/i2c-mux.h
+@@ -56,8 +56,7 @@ struct i2c_adapter *i2c_root_adapter(struct device *dev);
+  * callback functions to perform hardware-specific mux control.
+  */
+ int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
+-			u32 force_nr, u32 chan_id,
+-			unsigned int class);
++			u32 force_nr, u32 chan_id);
+ 
+ void i2c_mux_del_adapters(struct i2c_mux_core *muxc);
+ 
+-- 
+2.44.0
 
