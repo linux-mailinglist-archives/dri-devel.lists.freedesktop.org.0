@@ -2,61 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4228A97A0
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 12:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E998A9897
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 13:32:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF91113B6D;
-	Thu, 18 Apr 2024 10:41:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64ACF10F77F;
+	Thu, 18 Apr 2024 11:32:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HZY+XR2+";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="QxZGlHNu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43E77113B6C;
- Thu, 18 Apr 2024 10:41:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713436898; x=1744972898;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=2baLznhnvbg3EhW1OX9p8kTZbLK3O9qwOqU+VpH3dWA=;
- b=HZY+XR2+pfZESuPHeRXGWZpDYMGNcfTk7ox0X1hT/cGB5JqDturDReI7
- G5wkWoGY6FxL7naF3JXq4CRu6MlAsAT2FH0hNeBzFLwEyc4hFItY20pd+
- fmwhxawdHPxw5THvzOWE6IJMHe6Pik34RdLob5IMM8LEmNKVPJS9+j/8Y
- Hq59qfD7c5lLyNbys2V+Opy/JtbrXSplGNjbs7IeyMadO50d1ejagJgpw
- pbCR+XUm54hFKtAd+azlhakxXXN6ZKCmePE8Bv78YkchYRr+20BIWbW3V
- gi2icedUzOy4Smkzx1HnkNeKL29r7IEbzuy3PvkgSTBQE2fKBXHY9HRXH Q==;
-X-CSE-ConnectionGUID: eZdyPntbS1qwG4/lQMZ2Aw==
-X-CSE-MsgGUID: YJMAAJIMRYitr6HTC3SENA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8848718"
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="8848718"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Apr 2024 03:41:38 -0700
-X-CSE-ConnectionGUID: PkXRqyE7TWyER3xBoa5DTg==
-X-CSE-MsgGUID: g0JYtQmYSrOPv9tMVHERRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; d="scan'208";a="23014486"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 18 Apr 2024 03:41:35 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 18 Apr 2024 13:41:34 +0300
-Date: Thu, 18 Apr 2024 13:41:34 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 1/5] drm/vblank: Introduce drm_crtc_vblank_crtc()
-Message-ID: <ZiD43mw4jyKlfCtB@intel.com>
-References: <20240408190611.24914-1-ville.syrjala@linux.intel.com>
- <zbme6rzphmwtaky3r6ozo27hevms2smixn3wjh2msnwmfy5akz@rqjkwpxlvdck>
+X-Greylist: delayed 1661 seconds by postgrey-1.36 at gabe;
+ Thu, 18 Apr 2024 11:28:43 UTC
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E33A113BBF
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 11:28:43 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 43IB0Nta078283;
+ Thu, 18 Apr 2024 06:00:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1713438023;
+ bh=at/Dt6MSNlVNPyZjMygOEL5FNpd0NMfncK9CjfBmIac=;
+ h=Date:CC:Subject:To:References:From:In-Reply-To;
+ b=QxZGlHNu5wFp9UtqUY7hG11xXZySfQsvIQRSN5rcgjLYP9jUu7AtOj5CG3MWaymXV
+ 3ofJ/MT3wFpFVjGC2l+qrvCXfWlKC0DBoJ8GwN8C0LqlmdusYWtacsG4ePa2cnjy+o
+ OxAZqRvaUBfbqxYl0CuKxxYzNsgOw/PCHrNnajm4=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 43IB0Nq3068002
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 18 Apr 2024 06:00:23 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 18
+ Apr 2024 06:00:23 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 18 Apr 2024 06:00:23 -0500
+Received: from [172.24.21.253] (lt5cd112gssc.dhcp.ti.com [172.24.21.253])
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 43IB0E3B059919;
+ Thu, 18 Apr 2024 06:00:15 -0500
+Message-ID: <260d258f-87a1-4aac-8883-aab4746b32d8@ti.com>
+Date: Thu, 18 Apr 2024 16:30:13 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <zbme6rzphmwtaky3r6ozo27hevms2smixn3wjh2msnwmfy5akz@rqjkwpxlvdck>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla Thunderbird
+CC: <danishanwar@ti.com>, <yuehaibing@huawei.com>, <rogerq@kernel.org>,
+ <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+ <s-vadapalli@ti.com>
+Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
+ Ethernet driver
+Content-Language: en-US
+To: Julien Panis <jpanis@baylibre.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Russell King
+ <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, John
+ Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Simon Horman
+ <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Ratheesh Kannoth
+ <rkannoth@marvell.com>, Naveen Mamindlapalli <naveenm@marvell.com>, Jacob
+ Keller <jacob.e.keller@intel.com>
+References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
+From: Siddharth Vadapalli <s-vadapalli@ti.com>
+In-Reply-To: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Approved-At: Thu, 18 Apr 2024 11:32:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,33 +88,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 09, 2024 at 06:02:49PM +0300, Dmitry Baryshkov wrote:
-> On Mon, Apr 08, 2024 at 10:06:07PM +0300, Ville Syrjala wrote:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > 
-> > Make life easier by providing a function that hands
-> > out the the correct drm_vblank_crtc for a given a drm_crtc.
-> > 
-> > Also abstract the lower level internals of the vblank
-> > code in a similar fashion.
-> > 
-> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_vblank.c      | 58 ++++++++++++++++++-------------
-> >  drivers/gpu/drm/drm_vblank_work.c |  2 +-
-> >  include/drm/drm_vblank.h          |  1 +
-> >  3 files changed, 36 insertions(+), 25 deletions(-)
+On 12-04-2024 21:08, Julien Panis wrote:
+> This patch adds XDP support to TI AM65 CPSW Ethernet driver.
 > 
+> The following features are implemented: NETDEV_XDP_ACT_BASIC,
+> NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
 > 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Zero-copy and non-linear XDP buffer supports are NOT implemented.
 > 
-> I'm looking forward to using this in drm/msm
+> Besides, the page pool memory model is used to get better performance.
+> 
+> Signed-off-by: Julien Panis <jpanis@baylibre.com>
 
-This+nouveau+vkms parts push to the drm-misc-next.
-Thanks for the reviews.
+Hello Julien,
 
-amdgpu and i915 parts still pending.
+This series crashes Linux on AM62ax SoC which also uses the
+AM65-CPSW-NUSS driver:
+https://gist.github.com/Siddharth-Vadapalli-at-TI/5ed0e436606001c247a7da664f75edee
 
--- 
-Ville Syrjälä
-Intel
+Regards,
+Siddharth.
