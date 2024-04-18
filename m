@@ -2,85 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461308A957C
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 10:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4298A9694
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 11:46:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 570DD113AF1;
-	Thu, 18 Apr 2024 08:59:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2253710FB82;
+	Thu, 18 Apr 2024 09:46:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="usvMwDNr";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="HQOrU0GE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C47E113AF1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 08:59:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1713430758; x=1744966758;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=0CpQwN2sY7E8w9r+RH403hk74qO8mXZSxBiz6OoTlT8=;
- b=usvMwDNrOOHV1aZm15tDshDISJCglxYqPaH+KrED4C6evXwpNF1JSACD
- t4kLZeYCD0hdHNwlEZHiNyzD3urciijCKe5uwDsHT5fx4gsijSglM9C3K
- xpHLAurbwkDguUlsSAYjgsn86EKpswug7XA/i0Tnr+Cd4fL5SpWMBL4iM
- n3q0+T2VgU8x9WtjfxCPveaIvWK+8EclhFSi9IywtXAN47yfT0Sx6Vz0Y
- Nh+QbGrv5+iO+KZO7dXTDD1B1ToG2IUp6HWEQj3n8v6UvEytd9ZmZbdyG
- GyUFWe2hV/HY2PIa9pU3sX2n2wgnOHQ6QoP/HtBSEegG/tmF8Um/R/j8W Q==;
-X-CSE-ConnectionGUID: R+PXq/rzTeCdCQmY8Xy7jA==
-X-CSE-MsgGUID: hF1xpleMR0K5xu0Z7/mHaw==
-X-IronPort-AV: E=Sophos;i="6.07,211,1708412400"; d="scan'208";a="188866875"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Apr 2024 01:59:17 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 18 Apr 2024 01:58:57 -0700
-Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Thu, 18 Apr 2024 01:58:45 -0700
-From: Dharma Balasubiramani <dharma.b@microchip.com>
-To: "dmitry . baryshkov @ linaro . org" <dmitry.baryshkov@linaro.org>,
- "andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>, "neil . armstrong
- @ linaro . org" <neil.armstrong@linaro.org>, "rfoss @ kernel . org"
- <rfoss@kernel.org>, "Laurent . pinchart @ ideasonboard . com"
- <Laurent.pinchart@ideasonboard.com>, "jonas @ kwiboo . se" <jonas@kwiboo.se>, 
- "jernej . skrabec @ gmail . com" <jernej.skrabec@gmail.com>, "maarten .
- lankhorst @ linux . intel . com" <maarten.lankhorst@linux.intel.com>,
- "mripard @ kernel . org" <mripard@kernel.org>, "tzimmermann @ suse . de"
- <tzimmermann@suse.de>, "airlied @ gmail . com" <airlied@gmail.com>, "daniel @
- ffwll . ch" <daniel@ffwll.ch>, "robh+dt @ kernel . org" <robh+dt@kernel.org>, 
- "krzysztof . kozlowski+dt @ linaro . org"
- <krzysztof.kozlowski+dt@linaro.org>, "conor+dt @ kernel . org"
- <conor+dt@kernel.org>, "linux @ armlinux . org . uk" <linux@armlinux.org.uk>, 
- "Nicolas . Ferre @ microchip . com" <Nicolas.Ferre@microchip.com>, "alexandre
- . belloni @ bootlin . com" <alexandre.belloni@bootlin.com>, "claudiu . beznea
- @ tuxon . dev" <claudiu.beznea@tuxon.dev>, "Manikandan . M @ microchip . com"
- <Manikandan.M@microchip.com>, "arnd @ arndb . de" <arnd@arndb.de>,
- "geert+renesas @ glider . be" <geert+renesas@glider.be>, "Jason @ zx2c4 .
- com" <Jason@zx2c4.com>, "mpe @ ellerman . id . au" <mpe@ellerman.id.au>,
- "gerg @ linux-m68k . org" <gerg@linux-m68k.org>, "rdunlap @ infradead . org"
- <rdunlap@infradead.org>, "vbabka @ suse . cz" <vbabka@suse.cz>, "dri-devel @
- lists . freedesktop . org" <dri-devel@lists.freedesktop.org>, "devicetree @
- vger . kernel . org" <devicetree@vger.kernel.org>, "linux-kernel @ vger .
- kernel . org" <linux-kernel@vger.kernel.org>, "oe-kbuild-all @ lists . linux
- . dev" <oe-kbuild-all@lists.linux.dev>, "Hari . PrasathGE @ microchip . com"
- <Hari.PrasathGE@microchip.com>
-CC: Dharma Balasubiramani <dharma.b@microchip.com>, "Hari Prasath Gujulan
- Elango" <hari.prasathge@microchip.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>
-Subject: [PATCH v7 4/4] ARM: configs: at91: Enable LVDS serializer support
-Date: Thu, 18 Apr 2024 14:27:25 +0530
-Message-ID: <20240418085725.373797-5-dharma.b@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240418085725.373797-1-dharma.b@microchip.com>
-References: <20240418085725.373797-1-dharma.b@microchip.com>
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D66610FB82
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 09:46:16 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-518a56cdbcfso981490e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 02:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713433574; x=1714038374;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qHTQNdaixaJmXmKKuqa6bURMHudpKto3SJOTxQWsB1k=;
+ b=HQOrU0GExtgt7KjggVLfDER7sNKrd4z1JgOXKigCmiZ3jtQXsViBCU32azqSaLVlm7
+ gRQaWJNiBhwfNijgOGSOvjclHvJW1xP6rFHMhBHE40CMIiudNg5VS3VG4/ULTdy+dEhg
+ FaN/v9FZlCpe7FC9iPVNqgSZ9cPX3mx8dffzyHJiaCGeIZy6NYLutA3K5x3mrq+yIpZ3
+ 88EkydSTt8AvpHXZ2GDUk4/m8e8kdZLOVmN0Q52lyXXZzhtKG/X31ZQCn9SyZPbS923s
+ 9uaoovE5ge2+++3ThBomLlVyNAk7htJYoSJ6KWBGhqR62vPQYd8fOTAcro9dh0wkbBCp
+ e2Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713433574; x=1714038374;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qHTQNdaixaJmXmKKuqa6bURMHudpKto3SJOTxQWsB1k=;
+ b=l52sFMXv7QvnneB9Xnsf/uNoul5w2hdoAnVDeEdM6THkZy2RG6LKaw+u/sbfwn0UEv
+ 4blQ5Cvb5OzAvtgF6oCpYfUOSZ3mnAnfjyzoen1FlG+UF/O3Zis94ENWXXzKyPhWRJ4D
+ 1nIJovGxNAXm+as8GI8dhAPBtZYLkLxvdtLXkWQcUjFUhdTEw200EWpDiO72W6uB9JfB
+ 0bJv0zdz9pBqAu8TGs5LQm25GFkNGZnYRi9QvgWpUaJI5yW9LSIUxVf0DUPG+s3PKYAp
+ PoDdMVZqCNci5VOuOMMILxsqNnwN4R8bJ0/Xs7ShDvDm4tJSiRnNwlbK4b3M1wrvvIcG
+ kFKQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXkcF7cezndzwnsvEwRWSgou1IBZId9bgwZU4x32T0tZXROFU9kaX7i+AnYcwQ0I5zX+N8ASe32ArNilU7qcY/z1x5LEpCPvQUW9orR1Naj
+X-Gm-Message-State: AOJu0YzEC68hjYyWSXNKxauxAxERzh6iBsXz/DgZs5Ps2jZgqJvi3RyH
+ b76Z+zUfRXpWwRp2J4vVZD6f9nDEplrs8Cp54Mk2VmSPxmBs4SixHG9c7mUgJDI=
+X-Google-Smtp-Source: AGHT+IFKKdpyMPlE5wECrwePw/LL4UVvAqkEhlLOtaK+0nLQSsDUk8IMg3W91iM2KaJpK31eRkk28Q==
+X-Received: by 2002:a05:6512:ea5:b0:518:e7ed:3c7c with SMTP id
+ bi37-20020a0565120ea500b00518e7ed3c7cmr1799688lfb.14.1713433573769; 
+ Thu, 18 Apr 2024 02:46:13 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+ by smtp.gmail.com with ESMTPSA id
+ q10-20020a170906388a00b00a46aba003eesm647759ejd.215.2024.04.18.02.46.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Apr 2024 02:46:13 -0700 (PDT)
+Message-ID: <286945bc-f207-4373-9589-0a9b62df1b36@baylibre.com>
+Date: Thu, 18 Apr 2024 11:46:11 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 12/18] dt-bindings: pwm: mediatek,pwm-disp: add
+ compatible for mt8365 SoC
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jitao Shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-pwm@vger.kernel.org, linux-clk@vger.kernel.org
+References: <20231023-display-support-v2-0-33ce8864b227@baylibre.com>
+ <20231023-display-support-v2-12-33ce8864b227@baylibre.com>
+ <vasuzy7cf5x6p5rnrmdrk5z54oncu2yuutupf25h5fgd5y6fpl@mnkf67agw64g>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <vasuzy7cf5x6p5rnrmdrk5z54oncu2yuutupf25h5fgd5y6fpl@mnkf67agw64g>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,35 +104,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable LVDS serializer support for display pipeline.
+Hi Uwe
 
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-Acked-by: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
----
-Changelog
-v6 -> v7
-v5 -> v6
-v4 -> v5
-v3 -> v4
-v2 -> v3
-- No Changes.
----
- arch/arm/configs/at91_dt_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+On 17/04/2024 10:06, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Tue, Apr 16, 2024 at 05:53:13PM +0200, Alexandre Mergnat wrote:
+>> Add a compatible string for MediaTek Genio 350 MT8365's display PWM
+>> block: this is the same as MT8183.
+>>
+>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> Acked-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> 
+> I already asked in reply to v1 what the merge plan is here. There are
+> changes in my pwm tree to the mediatek,pwm-disp binding already. I don't
+> think they conflict with this patch, but maybe it's still easier to take
+> this via pwm?!
 
-diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
-index 1d53aec4c836..6eabe2313c9a 100644
---- a/arch/arm/configs/at91_dt_defconfig
-+++ b/arch/arm/configs/at91_dt_defconfig
-@@ -143,6 +143,7 @@ CONFIG_VIDEO_OV2640=m
- CONFIG_VIDEO_OV7740=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=y
-+CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER=y
- CONFIG_DRM_PANEL_SIMPLE=y
- CONFIG_DRM_PANEL_EDP=y
- CONFIG_FB_ATMEL=y
+Sorry, I though the merge strategy wasn't addressed to me because I'm not a maintainer.
+It's fine for me to merge it in the PWM tree.
+IMO, this change [1] shouldn't conflict with this patch.
+
+Can you add the "Acked-by: Rob Herring (Arm) <robh@kernel.org>" please if you merge this version ?
+
+Thanks for the review and help.
+
+[1]: 
+https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git/commit/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml?h=pwm/for-next&id=fb7c3d8ba039df877886fd457538d8b24ca9c84b
+
 -- 
-2.25.1
-
+Regards,
+Alexandre
