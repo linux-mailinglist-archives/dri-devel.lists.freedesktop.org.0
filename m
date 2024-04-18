@@ -2,71 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05AB18A9700
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 12:09:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2ED98A96FF
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 12:08:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD5CB10EB6F;
-	Thu, 18 Apr 2024 10:09:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3383310F009;
+	Thu, 18 Apr 2024 10:08:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="ALC8WIWX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ARC222UZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
- [209.85.210.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C3D810FB3E
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 08:16:15 +0000 (UTC)
-Received: by mail-ot1-f46.google.com with SMTP id
- 46e09a7af769-6e9e1a52b74so161501a34.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 01:16:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1713428174; x=1714032974; darn=lists.freedesktop.org; 
- h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=YI++royKKBEGzn4ZdNLD2YG0nCfqJuUcPsyVGC3PWBo=;
- b=ALC8WIWX5FwQWDG+L8ilnVIrbs0MvlV2dFa6U9EDXO1DBb2h5P0Bb9RmAYxiFsN6fR
- WW6S1yWCck3vGo/BTTBFo/pRPaa8nGq7XZkczIEhBM3uwlEDc/ESAjxTuu83PVxyIsGb
- 3RqDsJTasnDg/+SmbP2siVDOYyOsALzH/nmxgRGVl+Zt4W8oYtYaW1pujHX5/bmnnmoU
- y/kIw+H1MUxF/6iAUy2xCoysWqGcjProrvpzJesuq1yXONkE97vIhw7jXbVNDBsLT/RD
- DbNgegM7/tV+n+p5GS9qsIMbPVIj+AU4rGDdes9LTnYimB+alBC2hFdLYpQFQtjG/eZY
- UKhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713428174; x=1714032974;
- h=references:in-reply-to:message-id:date:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YI++royKKBEGzn4ZdNLD2YG0nCfqJuUcPsyVGC3PWBo=;
- b=mmdlg9l0JtcyiMrTGJFjnbVOBAyQ4qCB0X1ogpX6Dh902g1ZVdjs3RWJ4FGs3f6lf5
- WHSyEm3XJhCu8KujjbJueAE1adVlKaLU34SfmVaCEogJfg/CBQO6s1B5jYGZle7NTzTP
- VmNGEp+4iQ+h3sA9mwb64oeKzb1l99vjzgSIUupa3ubqZTaA5qiTngVPA+Oy3YyETdAK
- ZjtvD96MvtdjyIn6SyC8tDGFFR+86vahg5zuUzJlwRQUj6hhVonPksJSvHMeuRU+vSvd
- BEJPN48TegScB7JQ1dFHmkqp61cpI2glGSiCp6zppb6E6QisScg1J3Oqu6mV2KqeGMBw
- XjJg==
-X-Gm-Message-State: AOJu0Yyi69Ab1pAG/p2Iuu2CEFHzshlA6wNZtcxfZxprt5Tr4sajqt8a
- FOEKyxuzAinlpPF4DzDx7vnAhMOEGDUy0lCgDEmLSrlht6rG8KUAucnvK3Ayvqw=
-X-Google-Smtp-Source: AGHT+IFaS8d7xX8Vdhv+fWPlod2E0mr7Ym0OVZ1VbnMTF8PCPIzPTDD/RUOjOrZ+R80RweZ9Akv99w==
-X-Received: by 2002:a05:6870:e98d:b0:235:3d0:2bd4 with SMTP id
- r13-20020a056870e98d00b0023503d02bd4mr2393991oao.31.1713428174539; 
- Thu, 18 Apr 2024 01:16:14 -0700 (PDT)
-Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- o18-20020a634e52000000b005f3d54c0a57sm881394pgl.49.2024.04.18.01.16.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Apr 2024 01:16:14 -0700 (PDT)
-From: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-To: mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- dianders@google.com, hsinyi@google.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: [PATCH v1 2/2] drm/panel: kd101ne3: add new panel driver
-Date: Thu, 18 Apr 2024 16:15:48 +0800
-Message-Id: <20240418081548.12160-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
-References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
-X-Mailman-Approved-At: Thu, 18 Apr 2024 10:09:14 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5475B10EB6F;
+ Thu, 18 Apr 2024 10:08:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713434933; x=1744970933;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=col07l0f9QvfGcrr/JtHZEuvX+oqQuc2dEM2Eo0ULms=;
+ b=ARC222UZDpc3VPH+5A8mtQ4gyP0/O95xeRdxPfM+6L/UOzuYBmdYi4fj
+ Ub6FDTX6Z+ZD3bgRhOpqzZYwHRNYjedDxOJg6Z45BBEG7Xr4od1RsmY1l
+ KWl9xMFLqauqyPHqG3gPZMIXRD59o5mi8i3Om3DtuRbLLum0Uet9gjDqs
+ bcN84mCLi4vpbARBOqLZtNa3XVt54v3rFPZAGCSNr7xWNOxWOos7+16+m
+ i6UiG/FgkXQ4UZEezoty4u0DHk4eBE/oT/jHosuFVGdsHNPtJlBAzaqLh
+ p3Y/cWmcup9C0+BrbV3BW/O4ZOZ3L7HaKLiVCIeRonWpV7Pe5TIpdND3O w==;
+X-CSE-ConnectionGUID: KW7MqqlpTKeeH51JoIxndA==
+X-CSE-MsgGUID: 61lYjaIpRFSZTD/2Sdgogw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="11915203"
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; d="scan'208";a="11915203"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2024 03:08:52 -0700
+X-CSE-ConnectionGUID: Tr2oRbG9SfqubXPhn1lXzQ==
+X-CSE-MsgGUID: 8Lsq/fefR72mehHALJ9g2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; d="scan'208";a="60357071"
+Received: from aravind-dev.iind.intel.com (HELO [10.145.162.146])
+ ([10.145.162.146])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Apr 2024 03:08:50 -0700
+Message-ID: <0b8d22cd-2253-49ed-9375-f16d644bde02@linux.intel.com>
+Date: Thu, 18 Apr 2024 15:41:37 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] drm/xe/FLR: Support PCIe FLR
+Content-Language: en-US
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, airlied@gmail.com, mripard@kernel.org,
+ tzimmermann@suse.de, rodrigo.vivi@intel.com
+Cc: intel-xe@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>
+References: <20240417084145.242480-1-aravind.iddamsetty@linux.intel.com>
+ <20240417084145.242480-5-aravind.iddamsetty@linux.intel.com>
+ <b738001d-8165-4b52-9f89-f810573be29f@intel.com>
+From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+In-Reply-To: <b738001d-8165-4b52-9f89-f810573be29f@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,662 +75,263 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kingdisplay panel is based on JD9365DA controller.
-Add a driver for it.
 
-Signed-off-by: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
----
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../drm/panel/panel-kingdisplay-kd101ne3.c    | 607 ++++++++++++++++++
- 3 files changed, 617 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
+On 17/04/24 19:29, Michal Wajdeczko wrote:
+>
+> On 17.04.2024 10:41, Aravind Iddamsetty wrote:
+>> PCI subsystem provides callbacks to inform the driver about a request to
+>> do function level reset by user, initiated by writing to sysfs entry
+>> /sys/bus/pci/devices/.../reset. This will allow the driver to handle FLR
+>> without the need to do unbind and rebind as the driver needs to
+>> reinitialize the device afresh post FLR.
+>>
+>> v2:
+>> 1. separate out gt idle and pci save/restore to a separate patch (Lucas)
+>> 2. Fixed the warnings seen around xe_guc_submit_stop, xe_guc_puc_fini
+>>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>
+>> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+>> ---
+>>  drivers/gpu/drm/xe/Makefile          |  1 +
+>>  drivers/gpu/drm/xe/xe_device_types.h |  3 +
+>>  drivers/gpu/drm/xe/xe_guc_pc.c       |  4 ++
+>>  drivers/gpu/drm/xe/xe_pci.c          |  9 ++-
+>>  drivers/gpu/drm/xe/xe_pci.h          |  2 +
+>>  drivers/gpu/drm/xe/xe_pci_err.c      | 93 ++++++++++++++++++++++++++++
+>>  drivers/gpu/drm/xe/xe_pci_err.h      | 13 ++++
+>>  7 files changed, 124 insertions(+), 1 deletion(-)
+>>  create mode 100644 drivers/gpu/drm/xe/xe_pci_err.c
+>>  create mode 100644 drivers/gpu/drm/xe/xe_pci_err.h
+>>
+>> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+>> index 522bffa5c4e1..9686ea181ad1 100644
+>> --- a/drivers/gpu/drm/xe/Makefile
+>> +++ b/drivers/gpu/drm/xe/Makefile
+>> @@ -117,6 +117,7 @@ xe-y += xe_bb.o \
+>>  	xe_module.o \
+>>  	xe_pat.o \
+>>  	xe_pci.o \
+>> +	xe_pci_err.o \
+>>  	xe_pcode.o \
+>>  	xe_pm.o \
+>>  	xe_preempt_fence.o \
+>> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+>> index 0a66555229e9..8c749b378a92 100644
+>> --- a/drivers/gpu/drm/xe/xe_device_types.h
+>> +++ b/drivers/gpu/drm/xe/xe_device_types.h
+>> @@ -465,6 +465,9 @@ struct xe_device {
+>>  	/** @pci_state: PCI state of device */
+>>  	struct pci_saved_state *pci_state;
+>>  
+>> +	/** @pci_device_is_reset: device went through PCIe FLR */
+>> +	bool pci_device_is_reset;
+>> +
+>>  	/* private: */
+>>  
+>>  #if IS_ENABLED(CONFIG_DRM_XE_DISPLAY)
+>> diff --git a/drivers/gpu/drm/xe/xe_guc_pc.c b/drivers/gpu/drm/xe/xe_guc_pc.c
+>> index 521ae24f2314..6108a4dfa05f 100644
+>> --- a/drivers/gpu/drm/xe/xe_guc_pc.c
+>> +++ b/drivers/gpu/drm/xe/xe_guc_pc.c
+>> @@ -902,6 +902,10 @@ static void xe_guc_pc_fini(struct drm_device *drm, void *arg)
+>>  		return;
+>>  	}
+>>  
+>> +	/* We already have done this before going through a reset, so skip here */
+>> +	if (xe->pci_device_is_reset)
+>> +		return;
+>> +
+>>  	XE_WARN_ON(xe_force_wake_get(gt_to_fw(pc_to_gt(pc)), XE_FORCEWAKE_ALL));
+>>  	XE_WARN_ON(xe_guc_pc_gucrc_disable(pc));
+>>  	XE_WARN_ON(xe_guc_pc_stop(pc));
+>> diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
+>> index f9957cd16356..d986ae7fc7f7 100644
+>> --- a/drivers/gpu/drm/xe/xe_pci.c
+>> +++ b/drivers/gpu/drm/xe/xe_pci.c
+>> @@ -23,6 +23,7 @@
+>>  #include "xe_macros.h"
+>>  #include "xe_mmio.h"
+>>  #include "xe_module.h"
+>> +#include "xe_pci_err.h"
+>>  #include "xe_pci_types.h"
+>>  #include "xe_pm.h"
+>>  #include "xe_sriov.h"
+>> @@ -736,7 +737,7 @@ static void xe_pci_remove(struct pci_dev *pdev)
+>>  	pci_set_drvdata(pdev, NULL);
+>>  }
+>>  
+>> -static int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>> +int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>>  {
+>>  	const struct xe_device_desc *desc = (const void *)ent->driver_data;
+>>  	const struct xe_subplatform_desc *subplatform_desc;
+>> @@ -976,6 +977,11 @@ static const struct dev_pm_ops xe_pm_ops = {
+>>  };
+>>  #endif
+>>  
+>> +const struct pci_error_handlers xe_pci_err_handlers = {
+> static ?
+thanks will fix it.
+>
+>> +	.reset_prepare = xe_pci_reset_prepare,
+>> +	.reset_done = xe_pci_reset_done,
+>> +};
+>> +
+>>  static struct pci_driver xe_pci_driver = {
+>>  	.name = DRIVER_NAME,
+>>  	.id_table = pciidlist,
+>> @@ -985,6 +991,7 @@ static struct pci_driver xe_pci_driver = {
+>>  #ifdef CONFIG_PM_SLEEP
+>>  	.driver.pm = &xe_pm_ops,
+>>  #endif
+>> +	.err_handler = &xe_pci_err_handlers,
+>>  };
+>>  
+>>  int xe_register_pci_driver(void)
+>> diff --git a/drivers/gpu/drm/xe/xe_pci.h b/drivers/gpu/drm/xe/xe_pci.h
+>> index 73b90a430d1f..9faf5380a09e 100644
+>> --- a/drivers/gpu/drm/xe/xe_pci.h
+>> +++ b/drivers/gpu/drm/xe/xe_pci.h
+>> @@ -7,8 +7,10 @@
+>>  #define _XE_PCI_H_
+>>  
+>>  struct pci_dev;
+>> +struct pci_device_id;
+>>  
+>>  int xe_register_pci_driver(void);
+>>  void xe_unregister_pci_driver(void);
+>>  void xe_load_pci_state(struct pci_dev *pdev);
+>> +int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent);
+>>  #endif
+>> diff --git a/drivers/gpu/drm/xe/xe_pci_err.c b/drivers/gpu/drm/xe/xe_pci_err.c
+>> new file mode 100644
+>> index 000000000000..81c440e08fbc
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/xe/xe_pci_err.c
+>> @@ -0,0 +1,93 @@
+>> +// SPDX-License-Identifier: MIT
+>> +/*
+>> + * Copyright © 2024 Intel Corporation
+>> + */
+>> +
+>> +#include <linux/pci.h>
+>> +#include <drm/drm_drv.h>
+>> +
+>> +#include "xe_device.h"
+>> +#include "xe_gt.h"
+>> +#include "xe_gt_printk.h"
+>> +#include "xe_pci.h"
+>> +#include "xe_pci_err.h"
+>> +#include "xe_pm.h"
+>> +#include "xe_uc.h"
+>> +
+>> +/**
+>> + * xe_pci_reset_prepare - Called when user issued a PCIe reset
+>> + * via /sys/bus/pci/devices/.../reset.
+>> + * @pdev: PCI device struct
+>> + */
+>> +void xe_pci_reset_prepare(struct pci_dev *pdev)
+>> +{
+>> +	struct xe_device *xe = pci_get_drvdata(pdev);
+>> +	struct xe_gt *gt;
+>> +	int id, err;
+>> +
+>> +	pci_warn(pdev, "preparing for PCIe reset\n");
+>> +
+>> +	drm_warn(&xe->drm, "removing device access to userspace\n");
+> do we need two separate warnings here?
+>
+> [ ] xe 0000:4d:00.0: preparing for PCIe FLR reset
+> [ ] xe 0000:4d:00.0: [drm] removing device access to userspace
+well yes i wanted to convey that a PCIe reset is triggered by the PCIe subsystem and
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 154f5bf82980..2c73086cf102 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -297,6 +297,15 @@ config DRM_PANEL_KINGDISPLAY_KD097D04
- 	  24 bit RGB per pixel. It provides a MIPI DSI interface to
- 	  the host and has a built-in LED backlight.
- 
-+config DRM_PANEL_KINGDISPLAY_KD101NE3
-+	tristate "Kingdisplay kd101ne3 panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y if you want to enable support for panels based on the
-+	  Kingdisplay kd101ne3 controller.
-+
- config DRM_PANEL_LEADTEK_LTK050H3146W
- 	tristate "Leadtek LTK050H3146W panel"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 24a02655d726..cbd414b98bb0 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -30,6 +30,7 @@ obj-$(CONFIG_DRM_PANEL_JDI_LPM102A188A) += panel-jdi-lpm102a188a.o
- obj-$(CONFIG_DRM_PANEL_JDI_R63452) += panel-jdi-fhd-r63452.o
- obj-$(CONFIG_DRM_PANEL_KHADAS_TS050) += panel-khadas-ts050.o
- obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04) += panel-kingdisplay-kd097d04.o
-+obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD101NE3) += panel-kingdisplay-kd101ne3.o
- obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) += panel-leadtek-ltk050h3146w.o
- obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) += panel-leadtek-ltk500hd1829.o
- obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
-diff --git a/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c b/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
-new file mode 100644
-index 000000000000..dbf0992f8b81
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
-@@ -0,0 +1,607 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Panels based on the JD9365DA display controller.
-+ * Author: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <drm/drm_connector.h>
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_panel.h>
-+
-+#include <video/mipi_display.h>
-+
-+struct panel_desc {
-+	const struct drm_display_mode *modes;
-+	unsigned int bpc;
-+
-+	/**
-+	 * @width_mm: width of the panel's active display area
-+	 * @height_mm: height of the panel's active display area
-+	 */
-+	struct {
-+		unsigned int width_mm;
-+		unsigned int height_mm;
-+	} size;
-+
-+	unsigned long mode_flags;
-+	enum mipi_dsi_pixel_format format;
-+	const struct panel_init_cmd *init_cmds;
-+	unsigned int lanes;
-+	bool discharge_on_disable;
-+	bool lp11_before_reset;
-+};
-+
-+struct kingdisplay_panel {
-+	struct drm_panel base;
-+	struct mipi_dsi_device *dsi;
-+
-+	const struct panel_desc *desc;
-+
-+	enum drm_panel_orientation orientation;
-+	struct regulator *pp3300;
-+	struct gpio_desc *enable_gpio;
-+};
-+
-+enum dsi_cmd_type {
-+	INIT_DCS_CMD,
-+	DELAY_CMD,
-+};
-+
-+struct panel_init_cmd {
-+	enum dsi_cmd_type type;
-+	size_t len;
-+	const char *data;
-+};
-+
-+#define _INIT_DCS_CMD(...) { \
-+	.type = INIT_DCS_CMD, \
-+	.len = sizeof((char[]){__VA_ARGS__}), \
-+	.data = (char[]){__VA_ARGS__} }
-+
-+#define _INIT_DELAY_CMD(...) { \
-+	.type = DELAY_CMD,\
-+	.len = sizeof((char[]){__VA_ARGS__}), \
-+	.data = (char[]){__VA_ARGS__} }
-+
-+static const struct panel_init_cmd kingdisplay_kd101ne3_init_cmd[] = {
-+	_INIT_DELAY_CMD(50),
-+	_INIT_DCS_CMD(0xE0, 0x00),
-+	_INIT_DCS_CMD(0xE1, 0x93),
-+	_INIT_DCS_CMD(0xE2, 0x65),
-+	_INIT_DCS_CMD(0xE3, 0xF8),
-+	_INIT_DCS_CMD(0x80, 0x03),
-+	_INIT_DCS_CMD(0xE0, 0x01),
-+	_INIT_DCS_CMD(0x0C, 0x74),
-+	_INIT_DCS_CMD(0x17, 0x00),
-+	_INIT_DCS_CMD(0x18, 0xC7),
-+	_INIT_DCS_CMD(0x19, 0x01),
-+	_INIT_DCS_CMD(0x1A, 0x00),
-+	_INIT_DCS_CMD(0x1B, 0xC7),
-+	_INIT_DCS_CMD(0x1C, 0x01),
-+	_INIT_DCS_CMD(0x24, 0xFE),
-+	_INIT_DCS_CMD(0x37, 0x19),
-+	_INIT_DCS_CMD(0x35, 0x28),
-+	_INIT_DCS_CMD(0x38, 0x05),
-+	_INIT_DCS_CMD(0x39, 0x08),
-+	_INIT_DCS_CMD(0x3A, 0x12),
-+	_INIT_DCS_CMD(0x3C, 0x7E),
-+	_INIT_DCS_CMD(0x3D, 0xFF),
-+	_INIT_DCS_CMD(0x3E, 0xFF),
-+	_INIT_DCS_CMD(0x3F, 0x7F),
-+	_INIT_DCS_CMD(0x40, 0x06),
-+	_INIT_DCS_CMD(0x41, 0xA0),
-+	_INIT_DCS_CMD(0x43, 0x1E),
-+	_INIT_DCS_CMD(0x44, 0x0B),
-+	_INIT_DCS_CMD(0x55, 0x02),
-+	_INIT_DCS_CMD(0x57, 0x6A),
-+	_INIT_DCS_CMD(0x59, 0x0A),
-+	_INIT_DCS_CMD(0x5A, 0x2E),
-+	_INIT_DCS_CMD(0x5B, 0x1A),
-+	_INIT_DCS_CMD(0x5C, 0x15),
-+	_INIT_DCS_CMD(0x5D, 0x7F),
-+	_INIT_DCS_CMD(0x5E, 0x61),
-+	_INIT_DCS_CMD(0x5F, 0x50),
-+	_INIT_DCS_CMD(0x60, 0x43),
-+	_INIT_DCS_CMD(0x61, 0x3F),
-+	_INIT_DCS_CMD(0x62, 0x32),
-+	_INIT_DCS_CMD(0x63, 0x35),
-+	_INIT_DCS_CMD(0x64, 0x1F),
-+	_INIT_DCS_CMD(0x65, 0x38),
-+	_INIT_DCS_CMD(0x66, 0x36),
-+	_INIT_DCS_CMD(0x67, 0x36),
-+	_INIT_DCS_CMD(0x68, 0x54),
-+	_INIT_DCS_CMD(0x69, 0x42),
-+	_INIT_DCS_CMD(0x6A, 0x48),
-+	_INIT_DCS_CMD(0x6B, 0x39),
-+	_INIT_DCS_CMD(0x6C, 0x34),
-+	_INIT_DCS_CMD(0x6D, 0x26),
-+	_INIT_DCS_CMD(0x6E, 0x14),
-+	_INIT_DCS_CMD(0x6F, 0x02),
-+	_INIT_DCS_CMD(0x70, 0x7F),
-+	_INIT_DCS_CMD(0x71, 0x61),
-+	_INIT_DCS_CMD(0x72, 0x50),
-+	_INIT_DCS_CMD(0x73, 0x43),
-+	_INIT_DCS_CMD(0x74, 0x3F),
-+	_INIT_DCS_CMD(0x75, 0x32),
-+	_INIT_DCS_CMD(0x76, 0x35),
-+	_INIT_DCS_CMD(0x77, 0x1F),
-+	_INIT_DCS_CMD(0x78, 0x38),
-+	_INIT_DCS_CMD(0x79, 0x36),
-+	_INIT_DCS_CMD(0x7A, 0x36),
-+	_INIT_DCS_CMD(0x7B, 0x54),
-+	_INIT_DCS_CMD(0x7C, 0x42),
-+	_INIT_DCS_CMD(0x7D, 0x48),
-+	_INIT_DCS_CMD(0x7E, 0x39),
-+	_INIT_DCS_CMD(0x7F, 0x34),
-+	_INIT_DCS_CMD(0x80, 0x26),
-+	_INIT_DCS_CMD(0x81, 0x14),
-+	_INIT_DCS_CMD(0x82, 0x02),
-+	_INIT_DCS_CMD(0xE0, 0x02),
-+	_INIT_DCS_CMD(0x00, 0x52),
-+	_INIT_DCS_CMD(0x01, 0x5F),
-+	_INIT_DCS_CMD(0x02, 0x5F),
-+	_INIT_DCS_CMD(0x03, 0x50),
-+	_INIT_DCS_CMD(0x04, 0x77),
-+	_INIT_DCS_CMD(0x05, 0x57),
-+	_INIT_DCS_CMD(0x06, 0x5F),
-+	_INIT_DCS_CMD(0x07, 0x4E),
-+	_INIT_DCS_CMD(0x08, 0x4C),
-+	_INIT_DCS_CMD(0x09, 0x5F),
-+	_INIT_DCS_CMD(0x0A, 0x4A),
-+	_INIT_DCS_CMD(0x0B, 0x48),
-+	_INIT_DCS_CMD(0x0C, 0x5F),
-+	_INIT_DCS_CMD(0x0D, 0x46),
-+	_INIT_DCS_CMD(0x0E, 0x44),
-+	_INIT_DCS_CMD(0x0F, 0x40),
-+	_INIT_DCS_CMD(0x10, 0x5F),
-+	_INIT_DCS_CMD(0x11, 0x5F),
-+	_INIT_DCS_CMD(0x12, 0x5F),
-+	_INIT_DCS_CMD(0x13, 0x5F),
-+	_INIT_DCS_CMD(0x14, 0x5F),
-+	_INIT_DCS_CMD(0x15, 0x5F),
-+	_INIT_DCS_CMD(0x16, 0x53),
-+	_INIT_DCS_CMD(0x17, 0x5F),
-+	_INIT_DCS_CMD(0x18, 0x5F),
-+	_INIT_DCS_CMD(0x19, 0x51),
-+	_INIT_DCS_CMD(0x1A, 0x77),
-+	_INIT_DCS_CMD(0x1B, 0x57),
-+	_INIT_DCS_CMD(0x1C, 0x5F),
-+	_INIT_DCS_CMD(0x1D, 0x4F),
-+	_INIT_DCS_CMD(0x1E, 0x4D),
-+	_INIT_DCS_CMD(0x1F, 0x5F),
-+	_INIT_DCS_CMD(0x20, 0x4B),
-+	_INIT_DCS_CMD(0x21, 0x49),
-+	_INIT_DCS_CMD(0x22, 0x5F),
-+	_INIT_DCS_CMD(0x23, 0x47),
-+	_INIT_DCS_CMD(0x24, 0x45),
-+	_INIT_DCS_CMD(0x25, 0x41),
-+	_INIT_DCS_CMD(0x26, 0x5F),
-+	_INIT_DCS_CMD(0x27, 0x5F),
-+	_INIT_DCS_CMD(0x28, 0x5F),
-+	_INIT_DCS_CMD(0x29, 0x5F),
-+	_INIT_DCS_CMD(0x2A, 0x5F),
-+	_INIT_DCS_CMD(0x2B, 0x5F),
-+	_INIT_DCS_CMD(0x2C, 0x13),
-+	_INIT_DCS_CMD(0x2D, 0x1F),
-+	_INIT_DCS_CMD(0x2E, 0x1F),
-+	_INIT_DCS_CMD(0x2F, 0x01),
-+	_INIT_DCS_CMD(0x30, 0x17),
-+	_INIT_DCS_CMD(0x31, 0x17),
-+	_INIT_DCS_CMD(0x32, 0x1F),
-+	_INIT_DCS_CMD(0x33, 0x0D),
-+	_INIT_DCS_CMD(0x34, 0x0F),
-+	_INIT_DCS_CMD(0x35, 0x1F),
-+	_INIT_DCS_CMD(0x36, 0x05),
-+	_INIT_DCS_CMD(0x37, 0x07),
-+	_INIT_DCS_CMD(0x38, 0x1F),
-+	_INIT_DCS_CMD(0x39, 0x09),
-+	_INIT_DCS_CMD(0x3A, 0x0B),
-+	_INIT_DCS_CMD(0x3B, 0x11),
-+	_INIT_DCS_CMD(0x3C, 0x1F),
-+	_INIT_DCS_CMD(0x3D, 0x1F),
-+	_INIT_DCS_CMD(0x3E, 0x1F),
-+	_INIT_DCS_CMD(0x3F, 0x1F),
-+	_INIT_DCS_CMD(0x40, 0x1F),
-+	_INIT_DCS_CMD(0x41, 0x1F),
-+	_INIT_DCS_CMD(0x42, 0x12),
-+	_INIT_DCS_CMD(0x43, 0x1F),
-+	_INIT_DCS_CMD(0x44, 0x1F),
-+	_INIT_DCS_CMD(0x45, 0x00),
-+	_INIT_DCS_CMD(0x46, 0x17),
-+	_INIT_DCS_CMD(0x47, 0x17),
-+	_INIT_DCS_CMD(0x48, 0x1F),
-+	_INIT_DCS_CMD(0x49, 0x0C),
-+	_INIT_DCS_CMD(0x4A, 0x0E),
-+	_INIT_DCS_CMD(0x4B, 0x1F),
-+	_INIT_DCS_CMD(0x4C, 0x04),
-+	_INIT_DCS_CMD(0x4D, 0x06),
-+	_INIT_DCS_CMD(0x4E, 0x1F),
-+	_INIT_DCS_CMD(0x4F, 0x08),
-+	_INIT_DCS_CMD(0x50, 0x0A),
-+	_INIT_DCS_CMD(0x51, 0x10),
-+	_INIT_DCS_CMD(0x52, 0x1F),
-+	_INIT_DCS_CMD(0x53, 0x1F),
-+	_INIT_DCS_CMD(0x54, 0x1F),
-+	_INIT_DCS_CMD(0x55, 0x1F),
-+	_INIT_DCS_CMD(0x56, 0x1F),
-+	_INIT_DCS_CMD(0x57, 0x1F),
-+	_INIT_DCS_CMD(0x58, 0x40),
-+	_INIT_DCS_CMD(0x5B, 0x10),
-+	_INIT_DCS_CMD(0x5C, 0x06),
-+	_INIT_DCS_CMD(0x5D, 0x40),
-+	_INIT_DCS_CMD(0x5E, 0x00),
-+	_INIT_DCS_CMD(0x5F, 0x00),
-+	_INIT_DCS_CMD(0x60, 0x40),
-+	_INIT_DCS_CMD(0x61, 0x03),
-+	_INIT_DCS_CMD(0x62, 0x04),
-+	_INIT_DCS_CMD(0x63, 0x6C),
-+	_INIT_DCS_CMD(0x64, 0x6C),
-+	_INIT_DCS_CMD(0x65, 0x75),
-+	_INIT_DCS_CMD(0x66, 0x08),
-+	_INIT_DCS_CMD(0x67, 0xB4),
-+	_INIT_DCS_CMD(0x68, 0x08),
-+	_INIT_DCS_CMD(0x69, 0x6C),
-+	_INIT_DCS_CMD(0x6A, 0x6C),
-+	_INIT_DCS_CMD(0x6B, 0x0C),
-+	_INIT_DCS_CMD(0x6D, 0x00),
-+	_INIT_DCS_CMD(0x6E, 0x00),
-+	_INIT_DCS_CMD(0x6F, 0x88),
-+	_INIT_DCS_CMD(0x75, 0xBB),
-+	_INIT_DCS_CMD(0x76, 0x00),
-+	_INIT_DCS_CMD(0x77, 0x05),
-+	_INIT_DCS_CMD(0x78, 0x2A),
-+	_INIT_DCS_CMD(0xE0, 0x04),
-+	_INIT_DCS_CMD(0x00, 0x0E),
-+	_INIT_DCS_CMD(0x02, 0xB3),
-+	_INIT_DCS_CMD(0x09, 0x61),
-+	_INIT_DCS_CMD(0x0E, 0x48),
-+
-+	_INIT_DCS_CMD(0xE0, 0x00),
-+	_INIT_DCS_CMD(0X11),
-+	/* T6: 120ms */
-+	_INIT_DELAY_CMD(120),
-+	_INIT_DCS_CMD(0X29),
-+	_INIT_DELAY_CMD(20),
-+	{},
-+};
-+
-+static inline struct kingdisplay_panel *to_kingdisplay_panel(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct kingdisplay_panel, base);
-+}
-+
-+static int kingdisplay_panel_init_dcs_cmd(struct kingdisplay_panel *kingdisplay)
-+{
-+	struct mipi_dsi_device *dsi = kingdisplay->dsi;
-+	struct drm_panel *panel = &kingdisplay->base;
-+	int i, err = 0;
-+
-+	if (kingdisplay->desc->init_cmds) {
-+		const struct panel_init_cmd *init_cmds = kingdisplay->desc->init_cmds;
-+
-+		for (i = 0; init_cmds[i].len != 0; i++) {
-+			const struct panel_init_cmd *cmd = &init_cmds[i];
-+
-+			switch (cmd->type) {
-+			case DELAY_CMD:
-+				msleep(cmd->data[0]);
-+				err = 0;
-+				break;
-+
-+			case INIT_DCS_CMD:
-+				err = mipi_dsi_dcs_write(dsi, cmd->data[0],
-+							 cmd->len <= 1 ? NULL :
-+							 &cmd->data[1],
-+							 cmd->len - 1);
-+				break;
-+
-+			default:
-+				err = -EINVAL;
-+			}
-+
-+			if (err < 0) {
-+				dev_err(panel->dev,
-+					"failed to write command %u\n", i);
-+				return err;
-+			}
-+		}
-+	}
-+	return 0;
-+}
-+
-+static int kingdisplay_panel_enter_sleep_mode(struct kingdisplay_panel *kingdisplay)
-+{
-+	struct mipi_dsi_device *dsi = kingdisplay->dsi;
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	usleep_range(1000, 2000);
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0)
-+		return ret;
-+
-+	msleep(50);
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int kingdisplay_panel_disable(struct drm_panel *panel)
-+{
-+	struct kingdisplay_panel *kingdisplay = to_kingdisplay_panel(panel);
-+	int ret;
-+
-+	ret = kingdisplay_panel_enter_sleep_mode(kingdisplay);
-+	if (ret < 0) {
-+		dev_err(panel->dev, "failed to set panel off: %d\n", ret);
-+		return ret;
-+	}
-+
-+	msleep(100);
-+
-+	return 0;
-+}
-+
-+static int kingdisplay_panel_unprepare(struct drm_panel *panel)
-+{
-+	struct kingdisplay_panel *kingdisplay = to_kingdisplay_panel(panel);
-+	int err;
-+
-+	gpiod_set_value_cansleep(kingdisplay->enable_gpio, 0);
-+
-+	/* T15: 2ms */
-+	usleep_range(1000, 2000);
-+
-+	err = regulator_disable(kingdisplay->pp3300);
-+	if (err < 0)
-+		return err;
-+
-+	return 0;
-+}
-+
-+static int kingdisplay_panel_prepare(struct drm_panel *panel)
-+{
-+	struct kingdisplay_panel *kingdisplay = to_kingdisplay_panel(panel);
-+	int ret;
-+
-+	gpiod_set_value(kingdisplay->enable_gpio, 0);
-+
-+	ret = regulator_enable(kingdisplay->pp3300);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* T1: 5ms */
-+	usleep_range(5000, 6000);
-+
-+	if (kingdisplay->desc->lp11_before_reset) {
-+		mipi_dsi_dcs_nop(kingdisplay->dsi);
-+		usleep_range(1000, 2000);
-+	}
-+
-+	/* T2: 10ms, T1 + T2 > 5ms*/
-+	usleep_range(10000, 11000);
-+
-+	gpiod_set_value_cansleep(kingdisplay->enable_gpio, 1);
-+
-+	ret = kingdisplay_panel_init_dcs_cmd(kingdisplay);
-+	if (ret < 0) {
-+		dev_err(panel->dev, "failed to init panel: %d\n", ret);
-+		goto poweroff;
-+	}
-+
-+	return 0;
-+
-+poweroff:
-+	regulator_disable(kingdisplay->pp3300);
-+		/* T6: 2ms */
-+	usleep_range(1000, 2000);
-+	gpiod_set_value(kingdisplay->enable_gpio, 0);
-+
-+	return ret;
-+}
-+
-+static int kingdisplay_panel_enable(struct drm_panel *panel)
-+{
-+	msleep(130);
-+	return 0;
-+}
-+
-+static const struct drm_display_mode kingdisplay_kd101ne3_40ti_default_mode = {
-+	.clock = 70595,
-+	.hdisplay = 800,
-+	.hsync_start = 800 + 30,
-+	.hsync_end = 800 + 30 + 30,
-+	.htotal = 800 + 30 + 30 + 30,
-+	.vdisplay = 1280,
-+	.vsync_start = 1280 + 30,
-+	.vsync_end = 1280 + 30 + 4,
-+	.vtotal = 1280 + 30 + 4 + 8,
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static const struct panel_desc kingdisplay_kd101ne3_40ti_desc = {
-+	.modes = &kingdisplay_kd101ne3_40ti_default_mode,
-+	.bpc = 8,
-+	.size = {
-+		.width_mm = 135,
-+		.height_mm = 216,
-+	},
-+	.lanes = 4,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+		      MIPI_DSI_MODE_LPM,
-+	.init_cmds = kingdisplay_kd101ne3_init_cmd,
-+	.lp11_before_reset = true,
-+};
-+
-+static int kingdisplay_panel_get_modes(struct drm_panel *panel,
-+			       struct drm_connector *connector)
-+{
-+	struct kingdisplay_panel *kingdisplay = to_kingdisplay_panel(panel);
-+	const struct drm_display_mode *m = kingdisplay->desc->modes;
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, m);
-+	if (!mode) {
-+		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
-+			m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
-+		return -ENOMEM;
-+	}
-+
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	drm_mode_set_name(mode);
-+	drm_mode_probed_add(connector, mode);
-+
-+	connector->display_info.width_mm = kingdisplay->desc->size.width_mm;
-+	connector->display_info.height_mm = kingdisplay->desc->size.height_mm;
-+	connector->display_info.bpc = kingdisplay->desc->bpc;
-+	/*
-+	 * TODO: Remove once all drm drivers call
-+	 * drm_connector_set_orientation_from_panel()
-+	 */
-+	drm_connector_set_panel_orientation(connector, kingdisplay->orientation);
-+
-+	return 1;
-+}
-+
-+static enum drm_panel_orientation kingdisplay_panel_get_orientation(struct drm_panel *panel)
-+{
-+	struct kingdisplay_panel *kingdisplay = to_kingdisplay_panel(panel);
-+
-+	return kingdisplay->orientation;
-+}
-+
-+static const struct drm_panel_funcs kingdisplay_panel_funcs = {
-+	.disable = kingdisplay_panel_disable,
-+	.unprepare = kingdisplay_panel_unprepare,
-+	.prepare = kingdisplay_panel_prepare,
-+	.enable = kingdisplay_panel_enable,
-+	.get_modes = kingdisplay_panel_get_modes,
-+	.get_orientation = kingdisplay_panel_get_orientation,
-+};
-+
-+static int kingdisplay_panel_add(struct kingdisplay_panel *kingdisplay)
-+{
-+	struct device *dev = &kingdisplay->dsi->dev;
-+	int err;
-+
-+	kingdisplay->pp3300 = devm_regulator_get(dev, "pp3300");
-+	if (IS_ERR(kingdisplay->pp3300))
-+		return PTR_ERR(kingdisplay->pp3300);
-+
-+
-+	kingdisplay->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
-+	if (IS_ERR(kingdisplay->enable_gpio)) {
-+		dev_err(dev, "cannot get reset-gpios %ld\n",
-+			PTR_ERR(kingdisplay->enable_gpio));
-+		return PTR_ERR(kingdisplay->enable_gpio);
-+	}
-+
-+	gpiod_set_value(kingdisplay->enable_gpio, 0);
-+
-+	drm_panel_init(&kingdisplay->base, dev, &kingdisplay_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+	err = of_drm_get_panel_orientation(dev->of_node, &kingdisplay->orientation);
-+	if (err < 0) {
-+		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, err);
-+		return err;
-+	}
-+
-+	err = drm_panel_of_backlight(&kingdisplay->base);
-+	if (err)
-+		return err;
-+
-+	kingdisplay->base.funcs = &kingdisplay_panel_funcs;
-+	kingdisplay->base.dev = &kingdisplay->dsi->dev;
-+
-+	drm_panel_add(&kingdisplay->base);
-+
-+	return 0;
-+}
-+
-+static int kingdisplay_panel_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct kingdisplay_panel *kingdisplay;
-+	int ret;
-+	const struct panel_desc *desc;
-+
-+	kingdisplay = devm_kzalloc(&dsi->dev, sizeof(*kingdisplay), GFP_KERNEL);
-+	if (!kingdisplay)
-+		return -ENOMEM;
-+
-+	desc = of_device_get_match_data(&dsi->dev);
-+	dsi->lanes = desc->lanes;
-+	dsi->format = desc->format;
-+	dsi->mode_flags = desc->mode_flags;
-+	kingdisplay->desc = desc;
-+	kingdisplay->dsi = dsi;
-+	ret = kingdisplay_panel_add(kingdisplay);
-+	if (ret < 0)
-+		return ret;
-+
-+	mipi_dsi_set_drvdata(dsi, kingdisplay);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret)
-+		drm_panel_remove(&kingdisplay->base);
-+
-+	return ret;
-+}
-+
-+static void kingdisplay_panel_shutdown(struct mipi_dsi_device *dsi)
-+{
-+	struct kingdisplay_panel *kingdisplay = mipi_dsi_get_drvdata(dsi);
-+
-+	drm_panel_disable(&kingdisplay->base);
-+	drm_panel_unprepare(&kingdisplay->base);
-+}
-+
-+static void kingdisplay_panel_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct kingdisplay_panel *kingdisplay = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	kingdisplay_panel_shutdown(dsi);
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
-+
-+	if (kingdisplay->base.dev)
-+		drm_panel_remove(&kingdisplay->base);
-+}
-+
-+static const struct of_device_id kingdisplay_of_match[] = {
-+	{ .compatible = "kingdisplay,kd101ne3-40ti",
-+	  .data = &kingdisplay_kd101ne3_40ti_desc
-+	},
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, kingdisplay_of_match);
-+
-+static struct mipi_dsi_driver kingdisplay_panel_driver = {
-+	.driver = {
-+		.name = "panel-kingdisplay-kd101ne3",
-+		.of_match_table = kingdisplay_of_match,
-+	},
-+	.probe = kingdisplay_panel_probe,
-+	.remove = kingdisplay_panel_remove,
-+	.shutdown = kingdisplay_panel_shutdown,
-+};
-+module_mipi_dsi_driver(kingdisplay_panel_driver);
-+
-+MODULE_AUTHOR("Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>");
-+MODULE_DESCRIPTION("kingdisplay kd101ne3-40ti 800x1280 video mode panel driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.17.1
+in response to that we are removing the drm device hence a drm warn.
 
+Thanks,
+Aravind.
+>
+>> +	drm_dev_unplug(&xe->drm);
+>> +
+>> +	xe_pm_runtime_get(xe);
+>> +	/* idle the GTs */
+>> +	for_each_gt(gt, xe, id) {
+>> +		err = xe_force_wake_get(gt_to_fw(gt), XE_FORCEWAKE_ALL);
+>> +		if (err)
+>> +			goto reset;
+>> +		xe_uc_reset_prepare(&gt->uc);
+>> +		err = xe_gt_idle(gt);
+>> +		if (err) {
+>> +			xe_gt_err(gt, "failed to idle gt (%pe)\n", ERR_PTR(err));
+>> +			goto reset;
+>> +		}
+>> +
+>> +		err = xe_force_wake_put(gt_to_fw(gt), XE_FORCEWAKE_ALL);
+>> +		XE_WARN_ON(err);
+>> +	}
+>> +	xe_pm_runtime_put(xe);
+>> +
+>> +reset:
+>> +	pci_disable_device(pdev);
+>> +}
+>> +
+>> +/**
+>> + * xe_pci_reset_done - Called when PCIe reset is done.
+>> + * @pdev: PCI device struct
+>> + */
+>> +void xe_pci_reset_done(struct pci_dev *pdev)
+>> +{
+>> +	const struct pci_device_id *ent = pci_match_id(pdev->driver->id_table, pdev);
+>> +	struct xe_device *xe = pci_get_drvdata(pdev);
+>> +
+>> +	dev_info(&pdev->dev,
+>> +		 "device went through PCIe reset, reenabling the device\n");
+>> +
+>> +	if (pci_enable_device(pdev)) {
+>> +		dev_err(&pdev->dev,
+>> +			"Cannot re-enable PCI device after reset\n");
+>> +		return;
+>> +	}
+>> +	pci_set_master(pdev);
+>> +	xe_load_pci_state(pdev);
+>> +
+>> +	xe->pci_device_is_reset = true;
+>> +	/*
+>> +	 * We want to completely clean the driver and even destroy
+>> +	 * the xe private data and reinitialize afresh similar to
+>> +	 * probe
+>> +	 */
+>> +	pdev->driver->remove(pdev);
+>> +	if (pci_dev_msi_enabled(pdev))
+>> +		pci_free_irq_vectors(pdev);
+>> +
+>> +	devm_drm_dev_release_action(&xe->drm);
+>> +	pci_disable_device(pdev);
+>> +
+>> +	/*
+>> +	 * if this fails the driver might be in a stale state, only option is
+>> +	 * to unbind and rebind
+>> +	 */
+>> +	xe_pci_probe(pdev, ent);
+>> +}
+>> diff --git a/drivers/gpu/drm/xe/xe_pci_err.h b/drivers/gpu/drm/xe/xe_pci_err.h
+>> new file mode 100644
+>> index 000000000000..95a4c8ce9cf1
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/xe/xe_pci_err.h
+>> @@ -0,0 +1,13 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +/*
+>> + * Copyright © 2024 Intel Corporation
+>> + */
+>> +
+>> +#ifndef _XE_PCI_ERR_H_
+>> +#define _XE_PCI_ERR_H_
+>> +
+>> +struct pci_dev;
+>> +
+>> +void xe_pci_reset_prepare(struct pci_dev *pdev);
+>> +void xe_pci_reset_done(struct pci_dev *pdev);
+>> +#endif
