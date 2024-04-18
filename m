@@ -2,75 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6C98A9532
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 10:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E488A9572
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 10:58:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 656BD113ADA;
-	Thu, 18 Apr 2024 08:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6425010F8D4;
+	Thu, 18 Apr 2024 08:58:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rtPoLt2y";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="GZJJ04iM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FEA3113ADA
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 08:41:57 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-418dc00a31dso4947585e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 01:41:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713429715; x=1714034515; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=lcAKWCMj+reGzv/SxgQTObCQDHvEXKI5uKBcKnB6ORw=;
- b=rtPoLt2yT41mu3ljWDiYGlw6jr1F3PgS2RcdDHojO63hAFL8I71hgM6jXo44gEPomX
- s6Tl8u6IZT4oHJp8m97ajQt+wgTSOoGj7hRBL50aJyhzn7w4PK5obvAmt8/RCEQsRVFF
- JcqccqiiilVgYF54JwCd8mxH85dFo8Kia4ndlhSc1JjP0+yjk8FgXIglSP5Mqm13o2sT
- VuAjJEnHFBPEL+FkWYJ9tjxYHb/qC+QUeqgPFIKLG4xzc31RRISguWOSOKG686vb/0ma
- jNKqtbXq8VjlCqt78uzpwGg26xVln8lyeRjXeaAKbu39vlRN+qgARncszNDp/4iBOqgi
- Eabg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713429715; x=1714034515;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lcAKWCMj+reGzv/SxgQTObCQDHvEXKI5uKBcKnB6ORw=;
- b=uOAz0KvzexrUaUeMkCxr7TkkS9O9FUU9L9qc/Lgls/gKh+dTYlbPqwrDW8m5EMBMRB
- 8LXIvuYC3ZTlUv+OyqJ/2g8MGPONP8U5I1dJGao9bx1uNR6fv4xUlSEutGW/stQmbtgN
- bDzy+ZKymjnlLo+nil7atgsgQsaPfmyb5GLUxabsADZiYHcHFTpOA9cwN1LevhJE0VP2
- 8j65yc972u020aMt2qb5HT4uR89qESrWkJHKY3z6wB3dXHoPHlHSvsQY/XSPNAd6Kot6
- 7kITqiUj5Iv5m0Aa8vPyXl2skAn88oF7kA4TzD6bqxZ8Ma6Kpf/jbwkEqxZVyJg+zPwM
- DEOg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVJZ3zk57v5gxOYCMryxUWxHYdkPnl4J//oT3+w18y+HU5VRtU2kPSkCz2kt9bGoAPPZKDmx8RRvNaFXTTUJoJWyHcFaF8BNaVL2y+Kq4vB
-X-Gm-Message-State: AOJu0Yxxr4OrwT1ClUsOthE741NACan3XzQWcs0d+aaveSHNYc+8jgaa
- 0/I+1p04plm9MJ5Iu5fRnIxhFwZgM1bevx/IfkXHHqMsn6N3kJ2gy682dRSLN0A=
-X-Google-Smtp-Source: AGHT+IGtSojqwzGCY7o8kpFDZjkynQ3UI+S+NsFqETzKmtJMJWjWSr5MyuisF3yopc1Ssg3dQzg7tg==
-X-Received: by 2002:a05:600c:3555:b0:418:f400:4af1 with SMTP id
- i21-20020a05600c355500b00418f4004af1mr12010wmq.38.1713429715231; 
- Thu, 18 Apr 2024 01:41:55 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- t18-20020a05600c199200b00417ee784fcasm1894342wmq.45.2024.04.18.01.41.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Apr 2024 01:41:54 -0700 (PDT)
-Date: Thu, 18 Apr 2024 09:41:57 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Flavio Suligoi <f.suligoi@asem.it>
-Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Dan Carpenter <dan.carpenter@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/1] backlight: mp3309c: fix leds flickering in pwm mode
-Message-ID: <20240418084157.GA162404@aspen.lan>
-References: <20240417153105.1794134-1-f.suligoi@asem.it>
- <20240417153105.1794134-2-f.suligoi@asem.it>
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.154.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD43E10E2C7
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 08:58:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1713430694; x=1744966694;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+NHndyStgBNaGg0Gu44NeibBjRQjp+j8aiNKkV+bNiI=;
+ b=GZJJ04iMjkaxMe28V9vUj8qOE5F9oL/pEbT8Lv11kUVDynXYYsPUci+A
+ hSuh3W2MOZZAm3f29iEv+zCBP2VpwmQsy61lLk4p1GayMEPZlH9reVyav
+ iynoFdiBzHQpA864I8UJ2ah31cLRdmjEKFrQeTm0JrrCBQOS6kBiB4Bh9
+ EbggCPUzq0OZzbJHO5PeFjR10VtYVU+eRcCplzHI3geYEjzQFwR9G+iMk
+ kfjN+zRKX1qG9HjxFwTFn993fuXOqi73DrUFuRplKdhn2SiR5Qm4cU1Z0
+ +zDnAu3ZjN9INmHSvNWgiByRkGZgnqcza/EeHrEf3TcQ3qAi0NeTzO9IP w==;
+X-CSE-ConnectionGUID: iLCxEmpnRg6xON07P7n66A==
+X-CSE-MsgGUID: riTDQJH0S2CtnfOFsFMeNw==
+X-IronPort-AV: E=Sophos;i="6.07,211,1708412400"; d="scan'208";a="188866754"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 18 Apr 2024 01:58:12 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 18 Apr 2024 01:58:09 -0700
+Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Thu, 18 Apr 2024 01:57:57 -0700
+From: Dharma Balasubiramani <dharma.b@microchip.com>
+To: "dmitry . baryshkov @ linaro . org" <dmitry.baryshkov@linaro.org>,
+ "andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>, "neil . armstrong
+ @ linaro . org" <neil.armstrong@linaro.org>, "rfoss @ kernel . org"
+ <rfoss@kernel.org>, "Laurent . pinchart @ ideasonboard . com"
+ <Laurent.pinchart@ideasonboard.com>, "jonas @ kwiboo . se" <jonas@kwiboo.se>, 
+ "jernej . skrabec @ gmail . com" <jernej.skrabec@gmail.com>, "maarten .
+ lankhorst @ linux . intel . com" <maarten.lankhorst@linux.intel.com>,
+ "mripard @ kernel . org" <mripard@kernel.org>, "tzimmermann @ suse . de"
+ <tzimmermann@suse.de>, "airlied @ gmail . com" <airlied@gmail.com>, "daniel @
+ ffwll . ch" <daniel@ffwll.ch>, "robh+dt @ kernel . org" <robh+dt@kernel.org>, 
+ "krzysztof . kozlowski+dt @ linaro . org"
+ <krzysztof.kozlowski+dt@linaro.org>, "conor+dt @ kernel . org"
+ <conor+dt@kernel.org>, "linux @ armlinux . org . uk" <linux@armlinux.org.uk>, 
+ "Nicolas . Ferre @ microchip . com" <Nicolas.Ferre@microchip.com>, "alexandre
+ . belloni @ bootlin . com" <alexandre.belloni@bootlin.com>, "claudiu . beznea
+ @ tuxon . dev" <claudiu.beznea@tuxon.dev>, "Manikandan . M @ microchip . com"
+ <Manikandan.M@microchip.com>, "arnd @ arndb . de" <arnd@arndb.de>,
+ "geert+renesas @ glider . be" <geert+renesas@glider.be>, "Jason @ zx2c4 .
+ com" <Jason@zx2c4.com>, "mpe @ ellerman . id . au" <mpe@ellerman.id.au>,
+ "gerg @ linux-m68k . org" <gerg@linux-m68k.org>, "rdunlap @ infradead . org"
+ <rdunlap@infradead.org>, "vbabka @ suse . cz" <vbabka@suse.cz>, "dri-devel @
+ lists . freedesktop . org" <dri-devel@lists.freedesktop.org>, "devicetree @
+ vger . kernel . org" <devicetree@vger.kernel.org>, "linux-kernel @ vger .
+ kernel . org" <linux-kernel@vger.kernel.org>, "oe-kbuild-all @ lists . linux
+ . dev" <oe-kbuild-all@lists.linux.dev>, "Hari . PrasathGE @ microchip . com"
+ <Hari.PrasathGE@microchip.com>
+CC: Dharma Balasubiramani <dharma.b@microchip.com>
+Subject: [PATCH v7 0/4] LVDS Controller Support for SAM9X75 SoC
+Date: Thu, 18 Apr 2024 14:27:21 +0530
+Message-ID: <20240418085725.373797-1-dharma.b@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240417153105.1794134-2-f.suligoi@asem.it>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,25 +92,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 17, 2024 at 05:31:05PM +0200, Flavio Suligoi wrote:
-> The mp3309 has two configuration registers, named according to their
-> address (0x00 and 0x01).
-> In the second register (0x01), the bit DIMS (Dimming Mode Select) must
-> be always 0 (zero), in both analog (via i2c commands) and pwm dimming
-> mode.
->
-> In the initial driver version, the DIMS bit was set in pwm mode and
-> reset in analog mode.
-> But if the DIMS bit is set in pwm dimming mode and other devices are
-> connected on the same i2c bus, every i2c commands on the bus generates a
-> flickering on the LEDs powered by the mp3309c.
->
-> This change concerns the chip initialization and does not impact any
-> existing device-tree configuration.
->
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+This patch series introduces LVDS controller support for the SAM9X75 SoC. The
+LVDS controller is designed to work with Microchip's sam9x7 series
+System-on-Chip (SoC) devices, providing Low Voltage Differential Signaling
+capabilities.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Patch series Changelog:
+- Include configs: at91: Enable LVDS serializer
+- include all necessary To/Cc entries.
+The Individual Changelogs are available on the respective patches.
 
+Dharma Balasubiramani (4):
+  dt-bindings: display: bridge: add sam9x75-lvds binding
+  drm/bridge: add lvds controller support for sam9x7
+  MAINTAINERS: add SAM9X7 SoC's LVDS controller
+  ARM: configs: at91: Enable LVDS serializer support
 
-Daniel.
+ .../bridge/microchip,sam9x75-lvds.yaml        |  55 +++++
+ MAINTAINERS                                   |   8 +
+ arch/arm/configs/at91_dt_defconfig            |   1 +
+ drivers/gpu/drm/bridge/Kconfig                |   7 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/microchip-lvds.c       | 229 ++++++++++++++++++
+ 6 files changed, 301 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
+ create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
+
+-- 
+2.25.1
+
