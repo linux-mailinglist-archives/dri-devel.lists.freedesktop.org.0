@@ -2,157 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128E68A9371
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 08:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D8F8A93EC
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 09:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8033B113A4D;
-	Thu, 18 Apr 2024 06:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B467A10FB21;
+	Thu, 18 Apr 2024 07:22:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="r/UpCe65";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="KC8pprqa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mnAvlcNm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KC8pprqa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mnAvlcNm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2055.outbound.protection.outlook.com [40.107.243.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41438113A4D
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 06:46:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L4LRLAyyxNwe1fZK59qRyKewvZQUJtJwALO3DIvcR0RqDE5xBvyfFlYXBT2OLX+eVtLfbuOSiQg9wfA7OJrqxTH1KeasaThKWvlW2GI7T9JKnljSoxBQvppcPAb+MGXswJDB+2LFA8VwWh3N3LuUDQogYrOoqMf9aYfQBZByL3r47z3Vz6U6k4TOTN6ETOaC500zvtQS86i71K2UHkWUYj3bz8DNskM9AxFuDovVBWvyfmrhnD3mc1BPkx18zCCH5be9Y1d4DndQt5LKecBg8+d2/m7IpIpGdXk5YqH2SiN31v6ZGBK2NonrL/L9Fo8fwgmif36StylkQ07uOlhgBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TARrtCyDCfzkoT0VW9l2Z8qCWst5hEfR07nQejtsTFQ=;
- b=fMf2paEpRpTwH3cjCPCS05ymrKEDr+gOaXhJEmE8otVspPueVevDnB05oJirFi5+xpGpmMfkVQpgBhJ+97DhX/nmOi3iSBM031ecZ9I7zwWSGkxFIfSIIAbdfFby0Jtc1va+x1HpIzw6adje4sB8xcUr8IkqMpaRXRdGwqKnoRfzIHQ2d6ppz1dOyNFsLoFmvedeBM+REH7JheO4vqZHr4RB1Uu88NERpIzTU2uGYRn03qT1ctugog4Zy7BSavjzzMhh7JzPu/cVYrCAykBIMcTCU+0NIzy+JWUoIXh1EOUwFbRYPYfgWqq5l/M84GbAMVxawomzsZA7ByJDkcuVLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TARrtCyDCfzkoT0VW9l2Z8qCWst5hEfR07nQejtsTFQ=;
- b=r/UpCe65DDNQnNwOFnkg+vCI4BPpsRlJ0RcWSErtRz+A+UY61GFWGohqni+jjmuFFdvKBvbeCiOO66WrJPnaUiBu6VKh3EM2gUW4YxY3mCNI8w/2AqkzpbzimbuPRLgmXzcSAdIY8n4MSXmn71tQm/i+zVd4MM8Y9T0ha66tXgk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
- by CH3PR12MB9023.namprd12.prod.outlook.com (2603:10b6:610:17b::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.37; Thu, 18 Apr
- 2024 06:46:16 +0000
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::f7eb:b717:d637:dcf7]) by SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::f7eb:b717:d637:dcf7%6]) with mapi id 15.20.7452.049; Thu, 18 Apr 2024
- 06:46:16 +0000
-Message-ID: <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com>
-Date: Thu, 18 Apr 2024 08:46:09 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
-To: zhiguojiang <justinjiang@vivo.com>, "T.J. Mercier" <tjmercier@google.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-References: <20240327022903.776-1-justinjiang@vivo.com>
- <5cf29162-a29d-4af7-b68e-aac5c862d20e@amd.com>
- <cc7defae-60c1-4cc8-aee5-475d4460e574@vivo.com>
- <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
- <CABdmKX2Kf4ZmVzv3LGTz2GyP-9+rAtFY9hSAxdkrwK8mG0gDvQ@mail.gmail.com>
- <e55cad9b-a361-4d27-a351-f6a4f5b8b734@vivo.com>
- <40ac02bb-efe2-4f52-a4f2-7b56d9b93d2c@amd.com>
- <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
- <aab5ec51-fcff-44f2-a4f5-2979bd776a03@amd.com>
- <2ebca2fd-9465-4e64-b3cc-ffb88ef87800@vivo.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <2ebca2fd-9465-4e64-b3cc-ffb88ef87800@vivo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1P190CA0038.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:800:1bb::9) To SJ0PR12MB5673.namprd12.prod.outlook.com
- (2603:10b6:a03:42b::13)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46E8F10F5E7;
+ Thu, 18 Apr 2024 07:22:33 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1376A5C5BC;
+ Thu, 18 Apr 2024 07:22:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1713424951; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2m0LDKh5j6ZeXWaIZyy0/3+5aPcg6P/dgbYhl/SJAz4=;
+ b=KC8pprqacNGoA+p4XL/7VaKi20MLlmTD0ZbMRHfEXLKPHl5+wMf3Or3hnriXDKCRW3836t
+ 2T/M8aoJ3wkpcg1g4n+4w1AQnjd7WDVxO6FubZChxSCkhtcswlKkjUue74bIODeBgHXwXU
+ JEu6sjMeMBHsyGmigr6fstk7RzCPseM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1713424951;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2m0LDKh5j6ZeXWaIZyy0/3+5aPcg6P/dgbYhl/SJAz4=;
+ b=mnAvlcNmFNagkRqqk4yaJKJGCmjah1aFynCDJS31HgvSfH9LunZQFjzGY43uUWUjF9Uk0e
+ V2+x3n1KsMlmgHDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1713424951; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2m0LDKh5j6ZeXWaIZyy0/3+5aPcg6P/dgbYhl/SJAz4=;
+ b=KC8pprqacNGoA+p4XL/7VaKi20MLlmTD0ZbMRHfEXLKPHl5+wMf3Or3hnriXDKCRW3836t
+ 2T/M8aoJ3wkpcg1g4n+4w1AQnjd7WDVxO6FubZChxSCkhtcswlKkjUue74bIODeBgHXwXU
+ JEu6sjMeMBHsyGmigr6fstk7RzCPseM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1713424951;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2m0LDKh5j6ZeXWaIZyy0/3+5aPcg6P/dgbYhl/SJAz4=;
+ b=mnAvlcNmFNagkRqqk4yaJKJGCmjah1aFynCDJS31HgvSfH9LunZQFjzGY43uUWUjF9Uk0e
+ V2+x3n1KsMlmgHDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A85981384C;
+ Thu, 18 Apr 2024 07:22:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id sYOrJzbKIGahBwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 18 Apr 2024 07:22:30 +0000
+Date: Thu, 18 Apr 2024 09:22:29 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20240418072229.GA8983@localhost.localdomain>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|CH3PR12MB9023:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef0750dd-0b95-4ebe-c1a6-08dc5f733ec2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YzhXKzhxUFZwSVJWbUEweGR3YUY3TVE3ckhjUklEYTZ1ZEQ3VUQ0WDVGU0Jl?=
- =?utf-8?B?MTY1QVUrNGMvMElKaitvcXB1eFZ0R0NaYmlTMGFTR0wwM3d2MXpDWEhSbkhx?=
- =?utf-8?B?aUZ2YkZPbmZxMUR4WWYzelRuSEUrcUJENUZIay9HaXlzb2dQU2tYekc0TWFt?=
- =?utf-8?B?L3M4alo5M1IyRjE4eldjdnpUR1lIOTloYmo4NTdNYmhLV21WZ0pFYU55VmNy?=
- =?utf-8?B?c2ZwTnJSdFN2MkVzSXhUWlFZeDJidGt0SUx1Y0gyVTJyNU1JQ0hGVE82dXhP?=
- =?utf-8?B?Ui9TeUNHSXlOKzJJRmRqajQzWkZFZ3FlUHpycTJ2UTdjbHF6YUdOZVlsblRN?=
- =?utf-8?B?bkp6eWtxWjlEM0N5WFFzM3kwZjdxMkVHUm4xVGFQM1dzZS8wSkduZVlTU1N6?=
- =?utf-8?B?U2NJa3ZmYjB5Z2JXc3o4UE16clpDTk5JVHVic1RhNkc5TXZYY3NhQ3A4UU9P?=
- =?utf-8?B?OGdvditGaXF3VSs5WFBuMk01d1FmQWY2dUVIS21RdGYwTjJITlR3blNSemQ2?=
- =?utf-8?B?NkdvMm5OWVNaKzQwa1FVS0RObzVwQXcxMGZwQktPbG5ySFBHN2RnR2JkNkFR?=
- =?utf-8?B?cksvZXlHTllRRnUvMHhudHVKVzdNUzNzdXozb2dEdGpzQ0QrSGwvNVcwWCtT?=
- =?utf-8?B?VFN4L0xudUlJVzhpQmZ5dHBzWm1CL1hJNzBIb3VUL05vc1grZDkzbmFKVHNE?=
- =?utf-8?B?Z1R5aHpabkJ3S1JaUHFRbmI0Z3VpMjgrOUhUK0RQUERpbzR3SDZOc0QwUmxB?=
- =?utf-8?B?S3NpSW1iMVVmbnphb3BlOUNaRi83djJ1SGpkejJSb09BTTVyZE1qSWZoNm1r?=
- =?utf-8?B?bHlnc2tNcGloOVlPMWxVb3BJN0xmWmIwQ3hpV3laTGNzTW5pZGZDVVJ0ZDZC?=
- =?utf-8?B?KzJuakkzbnVxaWRTYXlkaEl0dEcyRmxGZjFYTnZzTXhONlN6VGpxcnp6dWtU?=
- =?utf-8?B?RFRpd2txRkw4NkthcW92TUk4dUcwRnBUSDZpcWZNRDZma040eXZSVzNTNVhK?=
- =?utf-8?B?T3lVaEY3SUt2OW10SnhuVkJjbk9rcjA0SlcrT3VOL0VPS1hQYnMvUGw2Z3NY?=
- =?utf-8?B?NklQa1Y5SWFXZHA5eUk1S0tGcDlBRFc4OWdNM1FtaDQrV0dDQTFBOTBkM2Zh?=
- =?utf-8?B?T3lMVWZ3VCtlRHNNa3FJMXNrUlY5RjI1amhmVkRsdkZkMlBXNjUxYzFUOCs1?=
- =?utf-8?B?OUlYSHkwWlF0bTcwbk1RR2ZXK202T2FFdUxoazNibFE2dWlwekUrN3BIaDdx?=
- =?utf-8?B?MWFDZzcySWpSbjRJR1pLWFFvckFpN0tlNjN4bzAyRXZtMW5zVkRzcjZyOG1D?=
- =?utf-8?B?S0V6aUdZVW1ud2dLbzZURGREaWxoek9rUGJPOCtTdVhCYkNhTXEvUVc2cE5Z?=
- =?utf-8?B?SmIvc2RPOW9zKzM2Z3FsRUdVV3QvYVRWcFpZOE1DUjhsaHRJTUdLT3pEV00x?=
- =?utf-8?B?WFR0bkZDRGIzL3FGNWlPWmVqMFRrRWFkYmQ2UmFUVWZjQldzNkY1cG1ldmRr?=
- =?utf-8?B?QWFuN3RGeG5pYkZQVHVLcUUyU3Q3UHNEMFlUOFkzSlNTc1RwYzhQYjRsUHFy?=
- =?utf-8?B?QzYwcnQxaG8zTHpGSEcyem1QRk9NTkN1UWhsTkhrM2VVVTg4UEpyQnZRcHAr?=
- =?utf-8?B?S3NLeVhUa3pUSlovb2VidmE2V3l1SnBFV1JVTy84SnNTZzhYYkFzcE5ZNHBV?=
- =?utf-8?B?UjdldFloU21MdnJIekV2Yi9PVWJ2cU0xajdDWTE3eUx4MVZGczVrZkN3PT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR12MB5673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(376005)(1800799015); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGVZMDRiYitseE9oOW1PM1YrejNyc2lERlE1M2VKZFQzbFVCbDhwUnJ1djRo?=
- =?utf-8?B?MUJ6RXptRlpPZUYrdktzdmZnNVl3ejlhR3F6bkxJdFhTaG9vdHljbzNXSGxW?=
- =?utf-8?B?SkFINnVPakVwZkdWZll0UnlWekp6UnI5c2x4YjlXL0pJVGo5dGNiaVNRMUVy?=
- =?utf-8?B?QjJ1dmhxMGJ3VmtremQvQmJRV1htYkw5Qm0yYWRhd2hwb2o4RVN5MWxPWGNN?=
- =?utf-8?B?VGU0VGpNNlZ2Mmt1bGRxLzMzeGZTWThRcU1LQWlkSjFRZUE1K2sxNEorVWNv?=
- =?utf-8?B?YUdhTzdqenFPd1JGMjZUcnpFaS9mOWVmTXZPYXNpeHNVNDE3b0VJUm5jdmla?=
- =?utf-8?B?b3FQa0FxdGg0WUhRbXN3SHh4UE56UStwOGt3N2tDVlBpNk5CVlVvSmVPRy8y?=
- =?utf-8?B?WXFKd3BxZTNMUW5IQW1GamdXQmI2bWF3QTYzSlVSQ1M1VFFCUjR3L1drQnJD?=
- =?utf-8?B?ZSt5dzI2dHAxdmcrK1U5RTZXWEtRWjE2WVk2UE5BemhhVmZuaGtPL3krcmtJ?=
- =?utf-8?B?N2orRnkyckNIWHFBVFVTb0VuNmhqWHJuN3E2emE4LzBjdUdwbEdEb2g2Q2Zk?=
- =?utf-8?B?elgrZW50U25ZL0pGSWZWdFNySG9DSmV6S2dVWFhpT0cvR1BzUDNMZkp2bjla?=
- =?utf-8?B?TFRPQnIzck9XbUdZbFdRTVhRYzVleGFSNUlPWEU3SmZsV3I1MHNVTWVUcUMw?=
- =?utf-8?B?MVZ2YVBYNTQxZUU3T3MzQzd2NXZmS0xEUUxldHFDaFhTdHpJR01kcVVCTkZx?=
- =?utf-8?B?ayt6TWlHN3hKeU94dXdCZTFiR2FUcmlOeDgzVTdnUmIwcmd6YkNMOGVkSVVr?=
- =?utf-8?B?VzBlaUlpNTB1MFQvSHJibC80N1ptOUVGbXZIcWtnMktFVVR1dW4wS1NRUUxx?=
- =?utf-8?B?d0hPUmVNVEx2R3U0cjZOcytGeGtxTC9lRWFpNlJPMEp3dnVoVWtjTGpOMjFp?=
- =?utf-8?B?bjFIeG43RDl3aDRlelBzZFkzOVpTTVFsZWljL1ppRHhUamhXNnpQYmN5dFBH?=
- =?utf-8?B?ZSt0U0dvQmFXNkFyd3BWV2FRNEVOWWpybUtHdjlpanB5ODgrSXhsbW9RUnZL?=
- =?utf-8?B?VXgwYjIrRkNsVGNHamNiQkc5SDc2ZExVU3NDdEhaS3BLSVlGcjY4empoSlNR?=
- =?utf-8?B?cUkzanpXWmpjYkZzd2Z2OE5zUlFkK1JRZW9rYVp2SDFXYWVwaU9RODAxYXlT?=
- =?utf-8?B?anlMajVYUUlZajFIdFRhTkRmV2hIUFZEWlNKZ3Y5WnRRVXFnTmRWaDdZU0Vz?=
- =?utf-8?B?NjlLM0wzMDV4SHNIbmp6SE1kT2cvbmszY2EwdHM4V201RVRsT1c0RHA3aEoz?=
- =?utf-8?B?ZEtGc21WVzFwSmN4c25iMnBRZ252Zllrb0F5NTcrWXdva3c3ekljcDFMS0Iy?=
- =?utf-8?B?Z2NaNEt1UzZRMGJQQjNxVzdqeHJFTThiMW9lczBQNDMxV0NPOEoyQlNySVdI?=
- =?utf-8?B?eHNNalVkbE1OeUZwMEQwYkhEVkJQZU1DMEx1UXQ0UFVjb0pON3dFOG5JZ1Q0?=
- =?utf-8?B?ZWJTZlFQTVNtQkJiTDR6TVVWYmwyQ2xuQnlPYjEyMzdpa3VuTFhUYzh2OWFn?=
- =?utf-8?B?VURKdVhzSCtxS2dOMDY3RVdLT21wUmRERTJVd1hGQTZVRFA1TGdyT0VWTVEr?=
- =?utf-8?B?MGJKNGxBQWgrUFphazgxWXJlTlZ4Yi9pQ1E4UkpmZGZaTXRsRk5Fa2l1cFYw?=
- =?utf-8?B?aTZvcDdaZFFoV1o0L1RuMXpDcnQrcmFEWllSTWdDNnNMOXd6TEFEMkxKa1d2?=
- =?utf-8?B?bWpMOUU2YkhQaFFDaitCUlNhU0w5K2V2S01sZktFYW1Fb2ljdk5ncWVhblg2?=
- =?utf-8?B?Z1VXZ1p1YWlkZlEvaS9LT3E3QkZ3SVhNODNaQk4wYzM5eTdITlFGOGZYdFhY?=
- =?utf-8?B?dzl1UUNycU5zT1lWUmtOZm8rL0Y4L21MUzhhb2c3TmFmNHFhOUxxakFkSEo4?=
- =?utf-8?B?QlVzeTNMZ014MDVoeWFqc1pMQzdzNW42UUFZeUM5UTV2eE1XTU9PZnM5aGtv?=
- =?utf-8?B?TlRNbHJXWjYyMG9ibUlIMjRUbmdrbkU3SWt1MTFENmhzamlRZFlrdGVJVGYr?=
- =?utf-8?B?UGVxSHJvdXBoMEt3VTRrMXN4dkNEN3hqWU1xaC94OVlEUklPY2k1T0JqSldn?=
- =?utf-8?Q?Y9IivweqMQOM6Rjal1V1K8te7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef0750dd-0b95-4ebe-c1a6-08dc5f733ec2
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2024 06:46:15.9665 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SGH65eWGuKOkKAh7WbK5lVN+x/Zdy53towuLOY6CotaM1gF9kRo9vjBONLEtuBmF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9023
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ MISSING_XM_UA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,176 +120,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 18.04.24 um 03:33 schrieb zhiguojiang:
-> 在 2024/4/15 19:57, Christian König 写道:
->> [Some people who received this message don't often get email from 
->> christian.koenig@amd.com. Learn why this is important at 
->> https://aka.ms/LearnAboutSenderIdentification ]
->>
->> Am 15.04.24 um 12:35 schrieb zhiguojiang:
->>> 在 2024/4/12 14:39, Christian König 写道:
->>>> [Some people who received this message don't often get email from
->>>> christian.koenig@amd.com. Learn why this is important at
->>>> https://aka.ms/LearnAboutSenderIdentification ]
->>>>
->>>> Am 12.04.24 um 08:19 schrieb zhiguojiang:
->>>>> [SNIP]
->>>>> -> Here task 2220 do epoll again where internally it will get/put 
->>>>> then
->>>>> start to free twice and lead to final crash.
->>>>>
->>>>> Here is the basic flow:
->>>>>
->>>>> 1. Thread A install the dma_buf_fd via dma_buf_export, the fd 
->>>>> refcount
->>>>> is 1
->>>>>
->>>>> 2. Thread A add the fd to epoll list via epoll_ctl(EPOLL_CTL_ADD)
->>>>>
->>>>> 3. After use the dma buf, Thread A close the fd, then here fd 
->>>>> refcount
->>>>> is 0,
->>>>>   and it will run __fput finally to release the file
->>>>
->>>> Stop, that isn't correct.
->>>>
->>>> The fs layer which calls dma_buf_poll() should make sure that the file
->>>> can't go away until the function returns.
->>>>
->>>> Then inside dma_buf_poll() we add another reference to the file while
->>>> installing the callback:
->>>>
->>>>                         /* Paired with fput in dma_buf_poll_cb */
->>>>                         get_file(dmabuf->file);
->>> Hi,
->>>
->>> The problem may just occurred here.
->>>
->>> Is it possible file reference count already decreased to 0 and fput
->>> already being in progressing just before calling
->>> get_file(dmabuf->file) in dma_buf_poll()?
->>
->> No, exactly that isn't possible.
->>
->> If a function gets a dma_buf pointer or even more general any reference
->> counted pointer which has already decreased to 0 then that is a major
->> bug in the caller of that function.
->>
->> BTW: It's completely illegal to work around such issues by using
->> file_count() or RCU functions. So when you suggest stuff like that it
->> will immediately face rejection.
->>
->> Regards,
->> Christian.
-> Hi,
->
-> Thanks for your kind comment.
->
-> 'If a function gets a dma_buf pointer or even more general any reference
->
-> counted pointer which has already decreased to 0 then that is a major
->
-> bug in the caller of that function.'
->
-> According to the issue log, we can see the dma buf file close and 
-> epoll operation running in parallel.
->
-> Apparently at the moment caller calls epoll, although another task 
-> caller already called close on the same fd, but this fd was still in 
-> progress to close, so fd is still valid, thus no EBADF returned to 
-> caller.
+Hi Dave, Sima,
 
-No, exactly that can't happen either.
+this is the PR for drm-misc-fixes for this week.
 
-As far as I can see the EPOLL holds a reference to the files it 
-contains. So it is perfectly valid to add the file descriptor to EPOLL 
-and then close it.
+Best regards
+Thomas
 
-In this case the file won't be closed, but be kept alive by it's 
-reference in the EPOLL file descriptor.
+drm-misc-fixes-2024-04-18:
+Short summary of fixes pull:
 
->
-> Then the two task contexts operate on same dma buf fd(one is close, 
-> another is epoll) in kernel space.
->
-> Please kindly help to comment whether above scenario is possible.
->
-> If there is some bug in the caller logic, Can u help to point it out? :)
+nouveau:
+- dp: Don't probe DP ports twice
+- nv04: Fix OOB access
+- nv50: Disable AUX bus for disconnected DP ports
+- nvkm: Fix race condition
 
-Well what could be is that the EPOLL implementation is broken somehow, 
-but I have really doubts on that.
+panel:
+- Don't unregister DSI devices in several drivers
 
-As I said before the most likely explanation is that you have a broken 
-device driver which messes up the DMA-buf file reference count somehow.
+ttm:
+- Stop pooling cached NUMA pages
 
-Regards,
-Christian.
+v3d:
+- Fix enabled_ns increment
 
->
-> Regards,
-> Zhiguo
->>
->>>
->>>>
->>>> This reference is only dropped after the callback is completed in
->>>> dma_buf_poll_cb():
->>>>
->>>>         /* Paired with get_file in dma_buf_poll */
->>>>         fput(dmabuf->file);
->>>>
->>>> So your explanation for the issue just seems to be incorrect.
->>>>
->>>>>
->>>>> 4. Here Thread A not do epoll_ctl(EPOLL_CTL_DEL) manunally, so it
->>>>> still resides in one epoll_list.
->>>>>   Although __fput will call eventpoll_release to remove the file from
->>>>> binded epoll list,
->>>>>   but it has small time window where Thread B jumps in.
->>>>
->>>> Well if that is really the case then that would then be a bug in
->>>> epoll_ctl().
->>>>
->>>>>
->>>>> 5. During the small window, Thread B do the poll action for
->>>>> dma_buf_fd, where it will fget/fput for the file,
->>>>>   this means the fd refcount will be 0 -> 1 -> 0, and it will call
->>>>> __fput again.
->>>>>   This will lead to __fput twice for the same file.
->>>>>
->>>>> 6. So the potenial fix is use get_file_rcu which to check if file
->>>>> refcount already zero which means under free.
->>>>>   If so, we just return and no need to do the dma_buf_poll.
->>>>
->>>> Well to say it bluntly as far as I can see this suggestion is 
->>>> completely
->>>> nonsense.
->>>>
->>>> When the reference to the file goes away while dma_buf_poll() is
->>>> executed then that's a massive bug in the caller of that function.
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>
->>>>> Here is the race condition:
->>>>>
->>>>> Thread A Thread B
->>>>> dma_buf_export
->>>>> fd_refcount is 1
->>>>> epoll_ctl(EPOLL_ADD)
->>>>> add dma_buf_fd to epoll list
->>>>> close(dma_buf_fd)
->>>>> fd_refcount is 0
->>>>> __fput
->>>>> dma_buf_poll
->>>>> fget
->>>>> fput
->>>>> fd_refcount is zero again
->>>>>
->>>>> Thanks
->>>>>
->>>>
->>>
->>
->
+vmwgfx:
+- Fix PRIME import/export
+- Fix CRTC's atomic check for primary planes
+- Sort plane formats by preference
+The following changes since commit 4c08f01934ab67d1d283d5cbaa52b923abcfe4cd:
 
+  drm/vmwgfx: Enable DMA mappings with SEV (2024-04-09 13:36:05 -0400)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-04-18
+
+for you to fetch changes up to 941c0bdbc176df825adf77052263b2d63db6fef7:
+
+  drm/panel: novatek-nt36682e: don't unregister DSI device (2024-04-16 23:17:59 +0300)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+nouveau:
+- dp: Don't probe DP ports twice
+- nv04: Fix OOB access
+- nv50: Disable AUX bus for disconnected DP ports
+- nvkm: Fix race condition
+
+panel:
+- Don't unregister DSI devices in several drivers
+
+ttm:
+- Stop pooling cached NUMA pages
+
+v3d:
+- Fix enabled_ns increment
+
+vmwgfx:
+- Fix PRIME import/export
+- Fix CRTC's atomic check for primary planes
+- Sort plane formats by preference
+
+----------------------------------------------------------------
+Christian K�nig (1):
+      drm/ttm: stop pooling cached NUMA pages v2
+
+Dave Airlie (1):
+      nouveau: fix instmem race condition around ptr stores
+
+Dmitry Baryshkov (2):
+      drm/panel: visionox-rm69299: don't unregister DSI device
+      drm/panel: novatek-nt36682e: don't unregister DSI device
+
+Lyude Paul (2):
+      drm/nouveau/kms/nv50-: Disable AUX bus for disconnected DP ports
+      drm/nouveau/dp: Don't probe eDP ports twice harder
+
+Ma�ra Canal (1):
+      drm/v3d: Don't increment `enabled_ns` twice
+
+Mikhail Kobuk (1):
+      drm: nv04: Fix out of bounds access
+
+Zack Rusin (3):
+      drm/vmwgfx: Fix prime import/export
+      drm/vmwgfx: Fix crtc's atomic check conditional
+      drm/vmwgfx: Sort primary plane formats by order of preference
+
+ drivers/gpu/drm/nouveau/nouveau_bios.c             | 13 ++++---
+ drivers/gpu/drm/nouveau/nouveau_dp.c               | 23 ++++++++---
+ drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c |  7 +++-
+ drivers/gpu/drm/panel/panel-novatek-nt36672e.c     |  2 -
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c     |  2 -
+ drivers/gpu/drm/ttm/ttm_pool.c                     | 38 ++++++++++++++-----
+ drivers/gpu/drm/v3d/v3d_irq.c                      |  4 --
+ drivers/gpu/drm/vmwgfx/vmwgfx_blit.c               | 35 +++++++++++++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 |  7 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h                 |  2 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |  1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |  3 ++
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                | 32 ++++++++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                | 11 ++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_prime.c              | 15 +++++++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c         | 44 +++++++++++++++-------
+ 17 files changed, 186 insertions(+), 57 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
