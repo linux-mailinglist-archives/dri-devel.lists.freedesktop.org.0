@@ -2,80 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E204D8A9C52
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 16:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7548A9C6A
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 16:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7467113CC5;
-	Thu, 18 Apr 2024 14:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF32113CD0;
+	Thu, 18 Apr 2024 14:16:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="y0XQalP1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f/4aFP1J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41B8E113CC5
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 14:11:06 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2d8a2cbe1baso12417431fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 07:11:06 -0700 (PDT)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03D9F113CCA;
+ Thu, 18 Apr 2024 14:16:06 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id
+ 41be03b00d2f7-5c66b093b86so1465551a12.0; 
+ Thu, 18 Apr 2024 07:16:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713449464; x=1714054264; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LNtnra4jIvx0MSD1gfimaj73u3w4g6I0rnPlaCiirlk=;
- b=y0XQalP189PGcEFkXBCbqJopidi3cjp3ib7Sx2zzUIhB+2vFT+xGVhPtri6FQ1INuU
- OT823JzufggmWexU0A6ynlARWZ/E7lrSjNUaj0OCFYGsIRMlFlbHYTPXp+tuEcILQThg
- ZVMMSEaphRw5Se9CZ1v6NMTv8SnVbLs8j8S317KprmXRg070IZZnurMTeMuO1EI/Yd46
- eQJKNqqCswLdO+OhW4hFvRVfKK3dmzmF04jgAVeKFKOleaw/c5kpYcZ7p+920RtOGyOc
- 7lTAx2CALe8kQlJVG2g8JxX/+zrVyEboetPBVARx1iJwiq5Tx/RO0wZgwkIxVW7yUI3V
- HGfg==
+ d=gmail.com; s=20230601; t=1713449766; x=1714054566; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=moo2/Q0I4e+0pVWR8KV3lFeGCDDdXA9IltM3T9wFqic=;
+ b=f/4aFP1Jskl0ao65PmP6cRqzT68zpr9wHYPjYPIwCDbmHrjE1X4/C8ge5AnxebEJQk
+ sK8R3oTOu2mOq2l3WRyVkdEFJdCFus72tXhr27QwDmYYKxi3TegOfhXD0bCGXBIOIk0V
+ aWZ8JB2eDs0pTJZSYc9OFW9+lvIiyqxsUV3A7a+FOBUTQi+FUDLLLH1M8h8dpwwmc9ZT
+ Tm4AyFubRQUvHZ7+L8zLfSgR/cemM80BrTz3t1BZYDDKW2UK9PaoPxxmdhLXAMZ6maMJ
+ AzquTnj1wHpq8GCEia/ULhUQ11+1z0O5vss/tKTNIRfO2smvuMqRHYUMzEfnPepsQKxu
+ ayeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713449464; x=1714054264;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LNtnra4jIvx0MSD1gfimaj73u3w4g6I0rnPlaCiirlk=;
- b=fltrOjH4U0aoTzhNwuJq0dYfJ6/0KRAUlma4m/2oFoao6ahxTkEypDkFQx12XHI78m
- 6Z42VCOfH+bSux3ahLle/iM3veU5NM/wvuvRRAV4MKpuXbl5y11Cw0p4Qr/Vs86/oKG4
- GIB7UGtMzQSIZsLbnTssbROHDG5tHoa+CVAgosVrSWGYAeZMLxQ4hdbYKMVGE4MDZ7W7
- R/Qr51s4v635L9J7KUCnMpgXdmb+DA5deF1Vu6Nd+6LADv+oQnNYkhCXmI5BeUP+lH+B
- r0kK3p24pA9kkkFfPANO7CyY3sB0AhVezmzUPfPRqr6r/CkdNID6nhf9rjVtvkNCIW8o
- kUQg==
+ d=1e100.net; s=20230601; t=1713449766; x=1714054566;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=moo2/Q0I4e+0pVWR8KV3lFeGCDDdXA9IltM3T9wFqic=;
+ b=XvLEECZ7l5NO1xXQ3+C/ko7EdOlwAWZXlGP9Cjb396mndnRpScU0T0la04ypJTmc28
+ 6xFGhi2a7uzeiuXe+/55lT40FrQfNTFP5oF2osgwDz0/gcpQxUp0is+38GfqpAPfPMB7
+ xW11JKAtgZEIY2UR0yT/JyAk+GRTX8+VsYZzN1a9zdIXlXuTvGs92Ro7T2pfsskO+lb0
+ o099NbWrkG2oGVJ3BbN1osqbQIZ0QvtF8dcpN5ukp5USFbBoM+pMUYHsM3/YewZ2t2Ma
+ L+g3GlRDL5aijTN8WDQk3EBHXJC3cUu8L9Bji4G7CGpJsdGxBme0Dq4b6LWoHL5dxhTj
+ wrPQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUHGbFXVe0g20EujPr2OWQM2dSovDwRQXv7FDYhglY4tW+fQhPYF2QUOYegePDnQdzWMKlW8TUa6Wst+B8jH2FYBIW+TVzMtgTFa6+xPUoB
-X-Gm-Message-State: AOJu0YzYA2pLbsb/dcGA7yIteXSgK1GQShIrhxWetkYu0Q6a9UavDKz6
- WhvCDQ44nftQY0+4im1Fb5rULrrK/2N4n+Yg4P9R8f7ubgoeErp2AHz9T8gR3FA=
-X-Google-Smtp-Source: AGHT+IFdCUq3VqS+paDye/Ke7ewPYXel2f5bzxTKTI331K5OcS+VUSO1hNgDYfa3ldwMDWUI512s/Q==
-X-Received: by 2002:a2e:9789:0:b0:2da:5f41:10c8 with SMTP id
- y9-20020a2e9789000000b002da5f4110c8mr2170989lji.3.1713449464276; 
- Thu, 18 Apr 2024 07:11:04 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- z28-20020a2eb53c000000b002d6c88b9addsm213024ljm.50.2024.04.18.07.11.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Apr 2024 07:11:03 -0700 (PDT)
-Date: Thu, 18 Apr 2024 17:11:02 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Hsin-Yi Wang <hsinyi@google.com>
-Cc: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>, 
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, dianders@google.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] drm/panel: kd101ne3: add new panel driver
-Message-ID: <vbt2nxddw2dc7hkreq4iybv5zv5xyp32oajybeqsphgfrhzmn7@tskvckljmxpe>
-References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240418081548.12160-3-lvzhaoxiong@huaqin.corp-partner.google.com>
- <zanx5y3obqmewnbooovf52hx6vh7tpi4zsbse2dyzcqzddmzhw@kewxoa6n3mja>
- <CACb=7PURWtS8bwT5EcAFHhu7deHd2Y8cNOattfdwyEYpOUcbnQ@mail.gmail.com>
+ AJvYcCW374CaljkpaToIQ/2NXWqoDG41bt/Nsx7X4qcgBlJOqDzxpWUKTmK8suVBdpk5oTl18sN4alWShQBZWN1Cv1xHZUY8CFXIaN90xRtXO/603CTlMJqW8+9BAht9C/12mooDLgEuV2aAYic0mkkZkA==
+X-Gm-Message-State: AOJu0Yz1lS7jUq2n4nhgVM13ymHRG3bLJTphufmE8tUBB08RB/XkL9mf
+ Z83s87905MeDOv+ElbeAVWN0aUiQutpBIcl7QDe06RDXcOI/PnDqIVaHS8vfakPfKB6ApAsN0TG
+ cRwn6PARZQChm/hxp5ctWLxU3YvU=
+X-Google-Smtp-Source: AGHT+IEdyd0JATd51DcGbv6THoQN/0K3QOYQ7h6+Uta4jclpsLKEG8cNeixgOGO2GEKCzQBJTjF5GXxvDkfsBPD0c2s=
+X-Received: by 2002:a17:90b:1090:b0:2aa:c389:c9f0 with SMTP id
+ gj16-20020a17090b109000b002aac389c9f0mr3770698pjb.12.1713449766156; Thu, 18
+ Apr 2024 07:16:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACb=7PURWtS8bwT5EcAFHhu7deHd2Y8cNOattfdwyEYpOUcbnQ@mail.gmail.com>
+References: <20240416035240.2450127-1-wangzhu9@huawei.com>
+ <2024041658-imagines-unlatch-a9b6@gregkh>
+ <036c3371d3a64ef8881260197ce37dbc@huawei.com>
+ <CADnq5_NML_BiqQx2UmwH86d3qv57D3tFRL--dro1qA99r0Qr5w@mail.gmail.com>
+ <b9ab29ad37f94dfa81da3aa88c6456c2@huawei.com>
+In-Reply-To: <b9ab29ad37f94dfa81da3aa88c6456c2@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 18 Apr 2024 10:15:53 -0400
+Message-ID: <CADnq5_PF=hynw-Fdt6JGxULXjBSCh1bM8dOgSbpeR4nAjh1pUw@mail.gmail.com>
+Subject: Re: [PATCH v6.6] drm/amd/display: Wake DMCUB before executing GPINT
+ commands
+To: wangzhu <wangzhu9@huawei.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, 
+ "harry.wentland@amd.com" <harry.wentland@amd.com>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>, 
+ "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>, 
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>, 
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "qingqing.zhuo@amd.com" <qingqing.zhuo@amd.com>, 
+ "stylon.wang@amd.com" <stylon.wang@amd.com>,
+ "Josip.Pavic@amd.com" <Josip.Pavic@amd.com>, 
+ "trix@redhat.com" <trix@redhat.com>,
+ "cruise.hung@amd.com" <cruise.hung@amd.com>, 
+ "Eric.Yang2@amd.com" <Eric.Yang2@amd.com>, 
+ "mario.limonciello@amd.com" <mario.limonciello@amd.com>,
+ "alvin.lee2@amd.com" <alvin.lee2@amd.com>, 
+ "jun.lei@amd.com" <jun.lei@amd.com>,
+ "austin.zheng@amd.com" <austin.zheng@amd.com>, 
+ "sunglee@amd.com" <sunglee@amd.com>, "paul.hsieh@amd.com" <paul.hsieh@amd.com>,
+ "hanghong.ma@amd.com" <hanghong.ma@amd.com>,
+ "JinZe.Xu@amd.com" <JinZe.Xu@amd.com>, 
+ "lewis.huang@amd.com" <lewis.huang@amd.com>,
+ "alex.hung@amd.com" <alex.hung@amd.com>, 
+ "syed.hassan@amd.com" <syed.hassan@amd.com>,
+ "wayne.lin@amd.com" <wayne.lin@amd.com>, 
+ "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>, 
+ "chiahsuan.chung@amd.com" <chiahsuan.chung@amd.com>, 
+ "aurabindo.pillai@amd.com" <aurabindo.pillai@amd.com>,
+ "aric.cyr@amd.com" <aric.cyr@amd.com>, 
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,191 +114,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 18, 2024 at 09:11:37PM +0800, Hsin-Yi Wang wrote:
-> On Thu, Apr 18, 2024 at 7:46 PM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
+On Wed, Apr 17, 2024 at 11:14=E2=80=AFPM wangzhu <wangzhu9@huawei.com> wrot=
+e:
+>
+> The CVE-2023-52624 is fixed in linux-6.7 stable, while it is not fixed in=
+ 6.6, this commit is presented to fix it in linux-6.6 stable.
+
+Why is there a CVE in the first place?  Is this actually an issue you
+have seen?  It seems like you just picked a random patch and opened a
+CVE.
+
+Alex
+
+
+>
+> -----=E9=82=AE=E4=BB=B6=E5=8E=9F=E4=BB=B6-----
+> =E5=8F=91=E4=BB=B6=E4=BA=BA: Alex Deucher [mailto:alexdeucher@gmail.com]
+> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2024=E5=B9=B44=E6=9C=8818=E6=97=A5 =
+9:58
+> =E6=94=B6=E4=BB=B6=E4=BA=BA: wangzhu <wangzhu9@huawei.com>
+> =E6=8A=84=E9=80=81: Greg KH <gregkh@linuxfoundation.org>; harry.wentland@=
+amd.com; sunpeng.li@amd.com; Rodrigo.Siqueira@amd.com; alexander.deucher@am=
+d.com; christian.koenig@amd.com; airlied@linux.ie; daniel@ffwll.ch; qingqin=
+g.zhuo@amd.com; stylon.wang@amd.com; Josip.Pavic@amd.com; trix@redhat.com; =
+cruise.hung@amd.com; Eric.Yang2@amd.com; mario.limonciello@amd.com; alvin.l=
+ee2@amd.com; jun.lei@amd.com; austin.zheng@amd.com; sunglee@amd.com; paul.h=
+sieh@amd.com; hanghong.ma@amd.com; JinZe.Xu@amd.com; lewis.huang@amd.com; Z=
+hengzengkai <zhengzengkai@huawei.com>; alex.hung@amd.com; syed.hassan@amd.c=
+om; wayne.lin@amd.com; nicholas.kazlauskas@amd.com; chiahsuan.chung@amd.com=
+; aurabindo.pillai@amd.com; aric.cyr@amd.com; amd-gfx@lists.freedesktop.org=
+; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org
+> =E4=B8=BB=E9=A2=98: Re: [PATCH v6.6] drm/amd/display: Wake DMCUB before e=
+xecuting GPINT commands
+>
+> On Wed, Apr 17, 2024 at 9:51=E2=80=AFPM wangzhu <wangzhu9@huawei.com> wro=
+te:
 > >
-> > On Thu, Apr 18, 2024 at 04:15:48PM +0800, lvzhaoxiong wrote:
-> > > The kingdisplay panel is based on JD9365DA controller.
-> > > Add a driver for it.
+> > Hi Greg, thanks for your reply. Since there is no patch to fix CVE-2023=
+-52624 in linux-5.10, there is a patch in the linux-6.7 branch, its commit =
+is 2ef98c6d753a744e333b7e34b9cf687040fba57d ("drm/amd/display: Wake DMCUB b=
+efore executing GPINT commands"). When we apply this patch to linux-5.10, t=
+here are lots of conflicts, and we found there are lots of dependent patche=
+s, and lots of patches are not proposed to fix the cve, they are presented =
+to add new functions of the kernel.
+> >
+>
+> Why is there a CVE?  Have you uncovered some specific issue?
+>
+> Alex
+>
+> > My commit comes from nearly 20 patches. For each patch, not all of its =
+content is meant to fix the cve, so I just get the part which is helpful to=
+ fix. It is why I don't present the patches one by one instead of merging t=
+hem into one big patch.
+> >
+> >
+> > -----=E9=82=AE=E4=BB=B6=E5=8E=9F=E4=BB=B6-----
+> > =E5=8F=91=E4=BB=B6=E4=BA=BA: Greg KH [mailto:gregkh@linuxfoundation.org=
+]
+> > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2024=E5=B9=B44=E6=9C=8816=E6=97=
+=A5 12:54
+> > =E6=94=B6=E4=BB=B6=E4=BA=BA: wangzhu <wangzhu9@huawei.com>
+> > =E6=8A=84=E9=80=81: harry.wentland@amd.com; sunpeng.li@amd.com;
+> > Rodrigo.Siqueira@amd.com; alexander.deucher@amd.com;
+> > christian.koenig@amd.com; airlied@linux.ie; daniel@ffwll.ch;
+> > qingqing.zhuo@amd.com; stylon.wang@amd.com; Josip.Pavic@amd.com;
+> > trix@redhat.com; cruise.hung@amd.com; Eric.Yang2@amd.com;
+> > mario.limonciello@amd.com; alvin.lee2@amd.com; jun.lei@amd.com;
+> > austin.zheng@amd.com; sunglee@amd.com; paul.hsieh@amd.com;
+> > hanghong.ma@amd.com; JinZe.Xu@amd.com; lewis.huang@amd.com;
+> > Zhengzengkai <zhengzengkai@huawei.com>; alex.hung@amd.com;
+> > syed.hassan@amd.com; wayne.lin@amd.com; nicholas.kazlauskas@amd.com;
+> > chiahsuan.chung@amd.com; aurabindo.pillai@amd.com; aric.cyr@amd.com;
+> > amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org;
+> > linux-kernel@vger.kernel.org
+> > =E4=B8=BB=E9=A2=98: Re: [PATCH v6.6] drm/amd/display: Wake DMCUB before=
+ executing
+> > GPINT commands
+> >
+> > On Tue, Apr 16, 2024 at 03:52:40AM +0000, Zhu Wang wrote:
+> > > From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 > > >
-> > > Signed-off-by: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-> > > ---
-> > >  drivers/gpu/drm/panel/Kconfig                 |   9 +
-> > >  drivers/gpu/drm/panel/Makefile                |   1 +
-> > >  .../drm/panel/panel-kingdisplay-kd101ne3.c    | 607 ++++++++++++++++++
-> > >  3 files changed, 617 insertions(+)
-> > >  create mode 100644 drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
+> > > stable inclusion
+> > > from stable-v6.7.3
+> > > commit 2ef98c6d753a744e333b7e34b9cf687040fba57d
+> > > category: bugfix
+> > > bugzilla: https://gitee.com/src-openeuler/kernel/issues/I9BV4C
+> > > CVE: CVE-2023-52624
 > > >
-> > > diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> > > index 154f5bf82980..2c73086cf102 100644
-> > > --- a/drivers/gpu/drm/panel/Kconfig
-> > > +++ b/drivers/gpu/drm/panel/Kconfig
-> > > @@ -297,6 +297,15 @@ config DRM_PANEL_KINGDISPLAY_KD097D04
-> > >         24 bit RGB per pixel. It provides a MIPI DSI interface to
-> > >         the host and has a built-in LED backlight.
+> > > Reference:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/c
+> > > om mit/?id=3D2ef98c6d753a744e333b7e34b9cf687040fba57d
 > > >
-> > > +config DRM_PANEL_KINGDISPLAY_KD101NE3
-> > > +     tristate "Kingdisplay kd101ne3 panel"
-> > > +     depends on OF
-> > > +     depends on DRM_MIPI_DSI
-> > > +     depends on BACKLIGHT_CLASS_DEVICE
-> > > +     help
-> > > +       Say Y if you want to enable support for panels based on the
-> > > +       Kingdisplay kd101ne3 controller.
-> > > +
-> > >  config DRM_PANEL_LEADTEK_LTK050H3146W
-> > >       tristate "Leadtek LTK050H3146W panel"
-> > >       depends on OF
-> > > diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> > > index 24a02655d726..cbd414b98bb0 100644
-> > > --- a/drivers/gpu/drm/panel/Makefile
-> > > +++ b/drivers/gpu/drm/panel/Makefile
-> > > @@ -30,6 +30,7 @@ obj-$(CONFIG_DRM_PANEL_JDI_LPM102A188A) += panel-jdi-lpm102a188a.o
-> > >  obj-$(CONFIG_DRM_PANEL_JDI_R63452) += panel-jdi-fhd-r63452.o
-> > >  obj-$(CONFIG_DRM_PANEL_KHADAS_TS050) += panel-khadas-ts050.o
-> > >  obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04) += panel-kingdisplay-kd097d04.o
-> > > +obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD101NE3) += panel-kingdisplay-kd101ne3.o
-> > >  obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) += panel-leadtek-ltk050h3146w.o
-> > >  obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) += panel-leadtek-ltk500hd1829.o
-> > >  obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
-> > > diff --git a/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c b/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
-> > > new file mode 100644
-> > > index 000000000000..dbf0992f8b81
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
-> > > @@ -0,0 +1,607 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * Panels based on the JD9365DA display controller.
-> > > + * Author: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-> > > + */
-> > > +
-> > > +#include <linux/delay.h>
-> > > +#include <linux/gpio/consumer.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/of_device.h>
-> > > +#include <linux/regulator/consumer.h>
-> > > +
-> > > +#include <drm/drm_connector.h>
-> > > +#include <drm/drm_crtc.h>
-> > > +#include <drm/drm_mipi_dsi.h>
-> > > +#include <drm/drm_panel.h>
-> > > +
-> > > +#include <video/mipi_display.h>
-> > > +
-> > > +struct panel_desc {
-> > > +     const struct drm_display_mode *modes;
-> > > +     unsigned int bpc;
-> > > +
-> > > +     /**
-> > > +      * @width_mm: width of the panel's active display area
-> > > +      * @height_mm: height of the panel's active display area
-> > > +      */
-> > > +     struct {
-> > > +             unsigned int width_mm;
-> > > +             unsigned int height_mm;
+> > > --------------------------------
+> > >
+> > > [ Upstream commit e5ffd1263dd5b44929c676171802e7b6af483f21 ]
+> > >
+> > > [Why]
+> > > DMCUB can be in idle when we attempt to interface with the HW
+> > > through the GPINT mailbox resulting in a system hang.
+> > >
+> > > [How]
+> > > Add dc_wake_and_execute_gpint() to wrap the wake, execute, sleep
+> > > sequence.
+> > >
+> > > If the GPINT executes successfully then DMCUB will be put back into
+> > > sleep after the optional response is returned.
+> > >
+> > > It functions similar to the inbox command interface.
+> > >
+> > > Cc: Mario Limonciello <mario.limonciello@amd.com>
+> > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > Cc: stable@vger.kernel.org
+> > > Reviewed-by: Hansen Dsouza <hansen.dsouza@amd.com>
+> > > Acked-by: Wayne Lin <wayne.lin@amd.com>
+> > > Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+> > > Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+> > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> > >
+> > > This commit comes from following commits:
+> > >
+> > >  8774029f76b9 ("drm/amd/display: Add DCN35 CLK_MGR")  65138eb72e1f
+> > > ("drm/amd/display: Add DCN35 DMUB")  dc01c4b79bfe ("drm/amd/display:
+> > > Update driver and IPS interop")
+> > >  820c3870c491 ("drm/amd/display: Refactor DMCUB enter/exit idle
+> > > interface")  2ef98c6d753a ("drm/amd/display: Wake DMCUB before
+> > > executing GPINT commands")
 > >
-> > Please move to the declared mode;
+> > Why are you putting multiple commits together and not just submitting t=
+he individual ones?  And what is this for?
 > >
-> > > +     } size;
-> > > +
-> > > +     unsigned long mode_flags;
-> > > +     enum mipi_dsi_pixel_format format;
-> > > +     const struct panel_init_cmd *init_cmds;
-> > > +     unsigned int lanes;
-> > > +     bool discharge_on_disable;
-> > > +     bool lp11_before_reset;
-> > > +};
-> > > +
-> > > +struct kingdisplay_panel {
-> > > +     struct drm_panel base;
-> > > +     struct mipi_dsi_device *dsi;
-> > > +
-> > > +     const struct panel_desc *desc;
-> > > +
-> > > +     enum drm_panel_orientation orientation;
-> > > +     struct regulator *pp3300;
-> > > +     struct gpio_desc *enable_gpio;
-> > > +};
-> > > +
-> > > +enum dsi_cmd_type {
-> > > +     INIT_DCS_CMD,
-> > > +     DELAY_CMD,
-> > > +};
-> > > +
-> > > +struct panel_init_cmd {
-> > > +     enum dsi_cmd_type type;
-> > > +     size_t len;
-> > > +     const char *data;
-> > > +};
-> > > +
-> > > +#define _INIT_DCS_CMD(...) { \
-> > > +     .type = INIT_DCS_CMD, \
-> > > +     .len = sizeof((char[]){__VA_ARGS__}), \
-> > > +     .data = (char[]){__VA_ARGS__} }
-> > > +
-> > > +#define _INIT_DELAY_CMD(...) { \
-> > > +     .type = DELAY_CMD,\
-> > > +     .len = sizeof((char[]){__VA_ARGS__}), \
-> > > +     .data = (char[]){__VA_ARGS__} }
+> > confused,
 > >
-> > This is the third panel driver using the same appoach. Can you use
-> > mipi_dsi_generic_write_seq() instead of the huge table? Or if you prefer
-> > the table, we should extract this framework to a common helper.
-> > (my preference is shifted towards mipi_dsi_generic_write_seq()).
-> >
-> The drawback of mipi_dsi_generic_write_seq() is that it can cause the
-> kernel size grows a lot since every sequence will be expanded.
-> 
-> Similar discussion in here:
-> https://lore.kernel.org/dri-devel/CAD=FV=Wju3WS45=EpXMUg7FjYDh3-=mvm_jS7TF1tsaAzbb4Uw@mail.gmail.com/
-> 
-> This patch would increase the module size from 157K to 572K.
-> scripts/bloat-o-meter shows chg +235.95%.
-> 
-> So maybe the common helper is better regarding the kernel module size?
-
-Yes, let's get a framework done in a useful way.
-I'd say, drop the _INIT_DELAY_CMD. msleep() and usleep_range() should be
-used instead (and it's up to the developer to select correct delay
-function).
-
-> 
-> > > +
-> > > +static const struct panel_init_cmd kingdisplay_kd101ne3_init_cmd[] = {
-> > > +     _INIT_DELAY_CMD(50),
-> > > +     _INIT_DCS_CMD(0xE0, 0x00),
-
-[skipped the body of the table]
-
-> > > +     _INIT_DCS_CMD(0x0E, 0x48),
-> > > +
-> > > +     _INIT_DCS_CMD(0xE0, 0x00),
-
-> > > +     _INIT_DCS_CMD(0X11),
-
-Also, at least this is mipi_dsi_dcs_exit_sleep_mode().
-
-> > > +     /* T6: 120ms */
-> > > +     _INIT_DELAY_CMD(120),
-> > > +     _INIT_DCS_CMD(0X29),
-
-And this is mipi_dsi_dcs_set_display_on().
-
-Having a single table enourages people to put known commands into the
-table, the practice that must be frowned upon and forbidden.
-
-We have functions for some of the standard DCS commands. So, maybe
-instead of adding a single-table based approach we can improve
-mipi_dsi_generic_write_seq() to reduce the bloat. E.g. by moving the
-error handling to a common part of enable() / prepare() function.
-
-> > > +     _INIT_DELAY_CMD(20),
-> > > +     {},
-> > > +};
-
--- 
-With best wishes
-Dmitry
+> > greg k-h
