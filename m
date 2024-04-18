@@ -2,77 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92578A9C06
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 16:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0F68A9C28
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 16:03:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 191FC113CB3;
-	Thu, 18 Apr 2024 14:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2AC10F09B;
+	Thu, 18 Apr 2024 14:03:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mHy5s0OS";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="jq8c3uWS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6086E113CB3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 14:00:38 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-de462979e00so1144507276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 07:00:38 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E28D910F09B
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 14:03:22 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-518a56cdbcfso1452116e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 07:03:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713448837; x=1714053637; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LfdRxoYWFZnh1Pzjp/pkGuOdpYAMzwLC3mfVu9MRkXs=;
- b=mHy5s0OSaaA6mO8HSV+cGR8w8tGdrH0Kg19NKEf6CC8qwTRDoOiUzmgU7NFXDy0aRz
- Pr+dwUqIR7nhctMo3VAMmbZWNXkST1rV8PpvfHxr6h1iQDCpoeodz+sCbgp0y726gcZ3
- Cq22M0QhYBI494aiUv5ZDPJmQ7jlTvKi9HDHqjFv9jkz4n48Xltmwac233KAItNyNiT3
- VOiM8fq9HXeH/C2XUqEn3VO+NTHDTkCr3Swck1/06h/jalTBmh5bbSwz9ae3GIadh6oS
- apXqgjcTO4E6cEHMwaUeIMb4xfWVmX39mOKIoGn3RecUGWbbs5a2iPquDg08Wl30DrcW
- 93NA==
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713449001; x=1714053801;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=29NSP3ckhchgCk/BenPgTMkiEk28YJODiPFZQnpe0GQ=;
+ b=jq8c3uWSMvtWtc13VNfEPXXVsBPj+zkXUVUqaAqssw3rzicFbQGsBL037zEzbTqgrh
+ DzqFmkz6ldZFP/xQ6U/sr32d86Xco+fIv9pLiatLyPUfwHx83OCiVnnSoh4a/SLn2rHt
+ +TBd6GKYxia8Gu7boyAafjAYoIk0c6qWJyLvV/gUPLBk/jElBxSaL1WrfUHOu2A+ghwu
+ YqSFSdty6JqeKS/XX9jE3NQKlsEACU8DO0HsnYAnzWTdh49KAz9p+tg8Thx9LTpAQ4kU
+ dghEufVi8zb3De/o9ax7Lqt2kZnBABd1whuop2qQcrbhZUsYbwKn6VdaG06G6Hh7fEZp
+ Wr4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713448837; x=1714053637;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LfdRxoYWFZnh1Pzjp/pkGuOdpYAMzwLC3mfVu9MRkXs=;
- b=ifx6NBQKm8LLY6quLkkHLbshkEE8n8mOyRknxHww/+nZXSgkaxL+GegQSTPVCrSu4X
- ch8i46QIXNR8cSgAyA0SveHljMzvaLR5yZOIBG/fe/tuhzXijV1VRpbn4L4BZxcFykfs
- dzEHBB0dbhr823PxiU8fW0iJa4AdrVttmT5YVwkNgza17qkMM9tZLT3UnWzCt84bUC3V
- nQhHMwGjO/GbNfzOdm+TTlXGGMX6PTrXQRitp04tWEktpdJL0btDxbJn7INUNP5xCpEY
- Q0FPl9lcR3KdP3fJ1uZ7fwf8EifXmVJZGR3FTpGIh7X3ymsdQLVzAiX8VlwIYpOOw0PI
- Mh5w==
+ d=1e100.net; s=20230601; t=1713449001; x=1714053801;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=29NSP3ckhchgCk/BenPgTMkiEk28YJODiPFZQnpe0GQ=;
+ b=QktNPOL+F0JqyJ5W6dUdFO77WoH6OD90q5ePK2Yb04jqWUvVJkVdZw2CeDbrwzBZQZ
+ soijXOgqdgMP02MOdPMqSRyAPJkyshrYfmoUKXwVHtNJSm2z6FbxFzGiIOnqKD7nnLZy
+ jelYCgHt/XpTjGNay/P8l1+4f0HVaBYeipw/Ls6fblyTDhmm0U289g3BG6hrk1N4xzl7
+ ilgRpnLTowF2uxyEXcRv5pWGd4rKNYVo9biNYnnvMA5QioX4kk5BSL5BWQ6vLtWN3z5C
+ BhVSkpewVAqEeRD3fyZ9o4fg3V8fOUnSaYNupaQ/6rhL4rFn7wC8B60ymjf99Rn95Jk2
+ 2Nig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVXtGOJScGqlkSBgKJR8Zxq+AijCQJFAOZvpyPBYW86xApMRjRZe7b9Rk3P3Gw9LDxZzMdi4geJWMMbKOWawTk6N3Dryc1S5C/+CEiPd+L6
-X-Gm-Message-State: AOJu0YyVIOM134NeXW/wy19l8v1Qi1sasVW81ywXXzipFRc3hg+IU+Kx
- 5kkdnfIxUYSSXCXE2XfJYCib3GzXdbafSbtdd7H5wZGL5ATy6yVJCHCTwah4KntoZ2jeGawC3nq
- 7AvSkF/JEFaRDARrJAb6C3HL7cYQMgnb8qtBIww==
-X-Google-Smtp-Source: AGHT+IG6AB7cK4gQyrTBcYydPTwRbBVUhUDB6blxZ1fiVtij9UP56RzjDgGZ+5mPHYa0AbKtxwlXvMzWeyimBXDNk1Y=
-X-Received: by 2002:a25:ef05:0:b0:dcc:96db:fc0d with SMTP id
- g5-20020a25ef05000000b00dcc96dbfc0dmr2573050ybd.25.1713448836586; Thu, 18 Apr
- 2024 07:00:36 -0700 (PDT)
+ AJvYcCXhZyWR5bfFaMLV2lXlV8aNqF3C42mboFVdg5Wbp8iN6jZ3sqxmC3VJPIY0bEF0zR7awE04HgsPVkk1K291eNSkDK34DhtB0y/6FQ4lksXJ
+X-Gm-Message-State: AOJu0YwZwAnBkDPCFkarsa9766uXBuM6hEr9N2hhSHt7cM2Iy81GhwMn
+ 3Yi+0KuvDmNKojEP8ayKMdf8dlCyDFVWKXS8jir0oguepwcQSfgFn4NgJrLuUis=
+X-Google-Smtp-Source: AGHT+IEEaAqAaRn0OgbuNYh5fB4s3wbKRYCkPSN2nyv1oCLgvcIRJoVOQEt5V3SOR++8k+CwHg+lTQ==
+X-Received: by 2002:ac2:5b5b:0:b0:518:d5c4:d9b7 with SMTP id
+ i27-20020ac25b5b000000b00518d5c4d9b7mr1966338lfp.16.1713449000512; 
+ Thu, 18 Apr 2024 07:03:20 -0700 (PDT)
+Received: from [192.168.1.70] ([84.102.31.74])
+ by smtp.gmail.com with ESMTPSA id
+ w25-20020a17090633d900b00a51cdde5d9bsm931130eja.225.2024.04.18.07.03.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Apr 2024 07:03:19 -0700 (PDT)
+Message-ID: <7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com>
+Date: Thu, 18 Apr 2024 16:03:15 +0200
 MIME-Version: 1.0
-References: <20240410071439.2152588-1-yangcong5@huaqin.corp-partner.google.com>
- <20240410071439.2152588-3-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=V2J=Tth2zhpo-kPo4uvESt70mFneO2V6TV-haac0VZuQ@mail.gmail.com>
- <CACRpkdYtM=5jdQddCqRFgBRXvcJEjk1ULJNKKFz7jhhkGxV59Q@mail.gmail.com>
- <CAHwB_NLfaQWhFSbZ2ASmYgXJaVOTrjac3F0hyCJdwTTo-zHJrQ@mail.gmail.com>
-In-Reply-To: <CAHwB_NLfaQWhFSbZ2ASmYgXJaVOTrjac3F0hyCJdwTTo-zHJrQ@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 18 Apr 2024 16:00:24 +0200
-Message-ID: <CACRpkdYoM40RZyjTxLwDNta2+uV31_zzoj7XrXqhyyqrDtd5zQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/4] drm/panel: boe-tv101wum-nl6: Support for BOE
- nv110wum-l60 MIPI-DSI panel
-To: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: Doug Anderson <dianders@chromium.org>, sam@ravnborg.org,
- neil.armstrong@linaro.org, 
- daniel@ffwll.ch, airlied@gmail.com, robh+dt@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
+ Ethernet driver
+To: Siddharth Vadapalli <s-vadapalli@ti.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Naveen Mamindlapalli <naveenm@marvell.com>,
+ Jacob Keller <jacob.e.keller@intel.com>, danishanwar@ti.com,
+ yuehaibing@huawei.com, rogerq@kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
+ <260d258f-87a1-4aac-8883-aab4746b32d8@ti.com>
+ <08319f88-36a9-445a-9920-ad1fba666b6a@baylibre.com>
+ <1da48c7e-ba87-4f7a-b6d1-d35961005ab0@ti.com>
+Content-Language: en-US
+From: Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <1da48c7e-ba87-4f7a-b6d1-d35961005ab0@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,49 +104,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 18, 2024 at 2:42=E2=80=AFPM cong yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
-
-> I learned from himax that even if the same controller is used with
-> different glasses, the corresponding parameters are not fixed.
+On 4/18/24 13:25, Siddharth Vadapalli wrote:
+> On Thu, Apr 18, 2024 at 01:17:47PM +0200, Julien Panis wrote:
+>> On 4/18/24 13:00, Siddharth Vadapalli wrote:
+>>> On 12-04-2024 21:08, Julien Panis wrote:
+>>>> This patch adds XDP support to TI AM65 CPSW Ethernet driver.
+>>>>
+>>>> The following features are implemented: NETDEV_XDP_ACT_BASIC,
+>>>> NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
+>>>>
+>>>> Zero-copy and non-linear XDP buffer supports are NOT implemented.
+>>>>
+>>>> Besides, the page pool memory model is used to get better performance.
+>>>>
+>>>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+>>> Hello Julien,
+>>>
+>>> This series crashes Linux on AM62ax SoC which also uses the
+>>> AM65-CPSW-NUSS driver:
+>>> https://gist.github.com/Siddharth-Vadapalli-at-TI/5ed0e436606001c247a7da664f75edee
+>>>
+>>> Regards,
+>>> Siddharth.
+>> Hello Siddharth.
+>>
+>> Thanks for the log. I can read:
+>> [    1.966094] Missing net_device from driver
+>>
+>> Did you check that nodes exist in the device tree for the net devices ?
+> Yes it exists. The device-tree used was also built with linux-next
+> tagged next-20240417. The node corresponding to eth0 is cpsw_port1 which
+> is present and enabled in the device-tree:
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm64/boot/dts/ti/k3-am62a7-sk.dts?h=next-20240417#n644
 >
-> For example: _INIT_DCS_CMD(0xB9, 0x83, 0x10, 0x21, 0x55, 0x00),
->
-> even in the group initial code, the same register will be loaded with
-> parameters twice.
-(...)
-> So assuming that the registers of the two screens is the same now,
-> it cannot be set as a common parameter.
-> Otherwise, it may be a bit troublesome for the maintainers.
->
-> If necessary, I can break out starry_himax83102_j02, boe_nv110wum and
-> ivo_t109nw41
-> as separate driver. Then add some define to these registers.
+> Regards,
+> Siddharth.
 
-Why would you do a separate driver per panel despite they have
-the same display controller? I don't get it.
+I could reproduce the bug by disabling 'cpsw_port2' in my device tree,
+which is 'k3-am625-sk.dts' for the board I use.
 
-Use one driver, use different compatible strings for the different
-panels and use the corresponding sequence for each panel
-selected by compatible string.
+A condition is missing in am65_cpsw_create_xdp_rxqs() and
+am65_cpsw_destroy_xdp_rxqs() functions.
 
-For example, see drivers/gpu/drm/panel/panel-novatek-nt35510.c:
+For these 2 functions, the code which is in the for loop should be
+run only when port ethX is enabled. That's why it crashes with
+your device tree (cpsw_port2 is disabled, which is not the case by
+default for the board I developed with).
 
-static const struct of_device_id nt35510_of_match[] =3D {
-        {
-                .compatible =3D "frida,frd400b25025",
-                .data =3D &nt35510_frida_frd400b25025,
-        },
-        {
-                .compatible =3D "hydis,hva40wv1",
-                .data =3D &nt35510_hydis_hva40wv1,
-        },
-        { }
-};
+I'll send a patch to fix the issue. Thanks for reporting it.
 
-
-Take some inspiration from this driver and how we parameterize
-the different data depending on compatible string.
-
-Yours,
-Linus Walleij
+Julien
