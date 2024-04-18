@@ -2,83 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343078A9837
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 13:07:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA11C8A9865
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 13:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8F0A10FA47;
-	Thu, 18 Apr 2024 11:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80DCB10FBFD;
+	Thu, 18 Apr 2024 11:17:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zg0GNVIe";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tuZLsytu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0A5410EE3C
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 11:07:34 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-518f8a69f82so867063e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 04:07:34 -0700 (PDT)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A143710F947
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 11:17:55 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-563cb3ba9daso641227a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 04:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713438453; x=1714043253; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MyO/GjotGUHlFltRGjYbztp9IACAS8Q+nLylpcG9+Rw=;
- b=zg0GNVIeh1nvNZank60CqUFXrSLhy/2xgLwv4hHzTOPVY13GD2H6WDwFjewX4ERZfJ
- mPrUyHSkgYOSsYyh0adUwWoaYg/tueIyn0ilgcgrLgu7qOcJG04gpxHoold+MNTmZ4ix
- qbAXRjHPfMAVCiMefmhibUiUUcY/nLbfuC2WOKDcQgx9+ml/Qm/0go5m6zZ3axbU6CSj
- zQbA8UWN56TRkf4Huz9TrhOmjkAcLo7via1Ddb32MgiEvWDFz1+l7AxwPsS3k7osDCtc
- gAYrcbnnBaqARvDo8hqPBD/BEmZhTsQhPWK70Nh4Gn6blbknI0R+noqhnDS8TfTyMKIh
- NVlA==
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713439073; x=1714043873;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dadbVw0ZN8KGcZgqWT52RSFUotZfDdsINMbi0GWd0pk=;
+ b=tuZLsytumaj+cuGbawISj5ha+xkOuIzaEsHDnfnPNxdC6e+D+k1DM9I4q5eZ7Kw9er
+ O/D2NOOn9X1HGkHtrGm86kM6/dTUDnVR9fXyTIyos3jWSF4JCGT30seW/gTkZmiEBGUV
+ cOEMMIDqwG2S3lCzPCi7ToEceOnozME5Nx3M8mB8PCaCZGgKQnJr8yB0KdA9PGNY58vW
+ QVw1KYXtnhjRDeg6vfwRNeYoxLYu93OXHyQGelBLg1fXSoifkl3Db+nkXz0D4KlyosKA
+ X9/vywLIx7eqqH8nEY17hc20jSjNHczFuxZYNv3zmjwvypw0sGZKARu0dev9c37fuTqI
+ k0Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713438453; x=1714043253;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MyO/GjotGUHlFltRGjYbztp9IACAS8Q+nLylpcG9+Rw=;
- b=H2R/ibhUvZnJ8ubhdCMdFqvcFjIZaDkI/DhgyX0WB1beCgO4+Sczk1mVov2tW5aMeK
- 6OEgWtBU3rtGkMpu+EAkQEVMX2qykPNKbMnmREJTlfwti8hedNxGNRy44+FXxqlqCGHp
- WPYkYy/l1feGTRT67HrC3Fqo2Sbdp0uQRQl35PPHx0FplHnWLmXK7EMfOCEMmDut0ILo
- UYNOZJXgKQ9ai3H2ZdBKmJeZkJMSvIDOtJl5k3xxrlDXyrWiQYFXBMUiisTHL2EEKa3N
- Hobv0+CYcr8dpphXxJvQVH21mhC4Dl9z2qq1BGc5xFF0vNugDpG3xO8k57q0DZv5S5dn
- yNyg==
+ d=1e100.net; s=20230601; t=1713439073; x=1714043873;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dadbVw0ZN8KGcZgqWT52RSFUotZfDdsINMbi0GWd0pk=;
+ b=pU7q1mQ+R5g7m0NFphs5ncsrYA145mhdCzIGpugG4wl+yORivdIKLxMblWPyigPX08
+ wNQ40EqC1EuHS8d/OjBsc7ld4AiMYFWPckWHwblcI7JPXGgV5AHC2XSoVytUDTQofktH
+ B2K2r9eS6aR+ecb/SsVxq72KkrFlaeKyL2BxLsdEnZOytteYd4tQdccD94GekbF1RI6E
+ v8ZNiIF9onhsomtvJGx6PLB4O2XFy9jzntlD5oe5uOIWPQOxMxbNDeFqcOITES68cxX+
+ afw05Rv8Rk6vY7vzHzlMEb6lY9qbRUXEf931EBZo5jI0LVoAcz4sfur0cG63fTkzNXEM
+ OXzQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVTILAu0hrn66q6ecAM6LW1HtBHbwIhJfzBFC2YwU+F5EBpnKELhEMqtv+F8Mn9/hqozonP73ht8Y1yJ87sPUhq742+BWm/0Yllx0FpRKUM
-X-Gm-Message-State: AOJu0YyK2ZiAVzE1KSgrXrIWoKq9D+E0Hg/EGNWPIot3CKpcFE5QmlW5
- v1pLW1iOXRn9vW+KaHOL+2KjTWm/k0WXNeyAHmJylYmG5D1/JWO+L7kGRJQhQL4=
-X-Google-Smtp-Source: AGHT+IEwPXTDTwrWeLYeoadFGaTFA9rHj1W+CNy99dyVg08+5SUOCAzomXSQbfzVVzpXPPNwtz7O1Q==
-X-Received: by 2002:ac2:4853:0:b0:518:b4a3:dee1 with SMTP id
- 19-20020ac24853000000b00518b4a3dee1mr1574836lfy.66.1713438452661; 
- Thu, 18 Apr 2024 04:07:32 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ AJvYcCVBw7ZVCMJKmw+YATngTaIZ6fmH844AK7LgoIrGKHj5qb16U9GeaV1rMPBAt4/DH2MaxDcElxrplT0MqIuB1M1EiGopIe7lMGbalPoB5xhm
+X-Gm-Message-State: AOJu0YwSmvJMLPPPnxdzzFFcuQBAQ9LuHY89ENw6k2ZSm0Qf8/wcid1p
+ ofTYDMEKNQDZTZ6BRVeOr7zAQyAnXprgYmF5xCnd7DjPZFMozwsar8/s8r6nORo=
+X-Google-Smtp-Source: AGHT+IHmqSTkMUPGya8bnbl4tVCYR5pgohc+bRojwZq6H6mlk6lXfXDEJpU5L7fvxPN2Mb70UrGa9g==
+X-Received: by 2002:a17:906:1156:b0:a55:54ec:a2fe with SMTP id
+ i22-20020a170906115600b00a5554eca2femr1963102eja.29.1713439073194; 
+ Thu, 18 Apr 2024 04:17:53 -0700 (PDT)
+Received: from [192.168.1.70] ([84.102.31.74])
  by smtp.gmail.com with ESMTPSA id
- t14-20020ac24c0e000000b00517374e92e9sm191076lfq.167.2024.04.18.04.07.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Apr 2024 04:07:32 -0700 (PDT)
-Date: Thu, 18 Apr 2024 14:07:30 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 3/7] drm/msm/adreno: Implement SMEM-based speed bin
-Message-ID: <7ynodjzjuxwwqkjgns5jtnkckw52qyldfpsqpjh7645swva4xk@7wucftyjyyy3>
-References: <20240404-topic-smem_speedbin-v2-0-c84f820b7e5b@linaro.org>
- <20240404-topic-smem_speedbin-v2-3-c84f820b7e5b@linaro.org>
- <hi7vzqm5ebypzs6m6bw64ghgfwsdzuaxy65jpah37iw5ww7fku@n3c5sucic27i>
- <bfd6aa32-a28e-47a4-82c7-76c5dd99a44d@linaro.org>
+ j21-20020a170906431500b00a521e5856f6sm747685ejm.51.2024.04.18.04.17.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Apr 2024 04:17:52 -0700 (PDT)
+Message-ID: <08319f88-36a9-445a-9920-ad1fba666b6a@baylibre.com>
+Date: Thu, 18 Apr 2024 13:17:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bfd6aa32-a28e-47a4-82c7-76c5dd99a44d@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
+ Ethernet driver
+To: Siddharth Vadapalli <s-vadapalli@ti.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Naveen Mamindlapalli <naveenm@marvell.com>,
+ Jacob Keller <jacob.e.keller@intel.com>
+Cc: danishanwar@ti.com, yuehaibing@huawei.com, rogerq@kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
+ <260d258f-87a1-4aac-8883-aab4746b32d8@ti.com>
+Content-Language: en-US
+From: Julien Panis <jpanis@baylibre.com>
+In-Reply-To: <260d258f-87a1-4aac-8883-aab4746b32d8@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,80 +102,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 18, 2024 at 11:51:16AM +0200, Konrad Dybcio wrote:
-> On 18.04.2024 1:43 AM, Dmitry Baryshkov wrote:
-> > On Wed, Apr 17, 2024 at 10:02:55PM +0200, Konrad Dybcio wrote:
-> >> On recent (SM8550+) Snapdragon platforms, the GPU speed bin data is
-> >> abstracted through SMEM, instead of being directly available in a fuse.
-> >>
-> >> Add support for SMEM-based speed binning, which includes getting
-> >> "feature code" and "product code" from said source and parsing them
-> >> to form something that lets us match OPPs against.
-> >>
-> >> Due to the product code being ignored in the context of Adreno on
-> >> production parts (as of SM8650), hardcode it to SOCINFO_PC_UNKNOWN.
-> >>
-> >> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> >> ---
-> 
-> [...]
-> 
-> >> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> >> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> >> @@ -6,6 +6,8 @@
-> >>   * Copyright (c) 2014,2017 The Linux Foundation. All rights reserved.
-> >>   */
-> >>  
-> >> +#include <linux/soc/qcom/socinfo.h>
-> >> +
-> > 
-> > Stray leftover?
-> 
-> Looks like
-> 
-> [...]
-> 
-> >> +
-> >> +#ifdef CONFIG_QCOM_SMEM
-> > 
-> > Please extract to a separate function and put the function under ifdef
-> > (providing a stub otherwise). Having #ifndefs inside funciton body is
-> > frowned upon.
-> 
-> Hm, this looked quite sparse and straightforward, but I can do that.
-> 
-> [...]
-> 
-> >> +/* As of SM8650, PCODE on production SoCs is meaningless wrt the GPU bin */
-> >> +#define ADRENO_SKU_ID_FCODE		GENMASK(15, 0)
-> >> +#define ADRENO_SKU_ID(fcode)	(SOCINFO_PC_UNKNOWN << 16 | fcode)
-> > 
-> > If we got rid of PCode matching, is there a need to actually use
-> > SOCINFO_PC_UNKNOWN here? Or just 0 would be fine?
-> 
-> The IDs need to stay constant for mesa
-> 
-> I used the define here to:
-> 
-> a) define the SKU_ID structure so that it's clear what it's comprised of
-> b) make it easy to add back Pcode in case it becomes useful with future SoCs
-> c) avoid mistakes - PC_UNKNOWN happens to be zero, but that's a lucky
->    coincidence
-> 
-> We don't *match* based on PCODE, but still need to construct the ID properly
-> 
-> Another option would be to pass the real pcode and add some sort of
-> "pcode_invalid" property that if found would ignore this part of the
-> SKU_ID in mesa, but that sounds overly and unnecessarily complex.
+On 4/18/24 13:00, Siddharth Vadapalli wrote:
+> On 12-04-2024 21:08, Julien Panis wrote:
+>> This patch adds XDP support to TI AM65 CPSW Ethernet driver.
+>>
+>> The following features are implemented: NETDEV_XDP_ACT_BASIC,
+>> NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
+>>
+>> Zero-copy and non-linear XDP buffer supports are NOT implemented.
+>>
+>> Besides, the page pool memory model is used to get better performance.
+>>
+>> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> Hello Julien,
+>
+> This series crashes Linux on AM62ax SoC which also uses the
+> AM65-CPSW-NUSS driver:
+> https://gist.github.com/Siddharth-Vadapalli-at-TI/5ed0e436606001c247a7da664f75edee
+>
+> Regards,
+> Siddharth.
 
-It's fine, just add a comment please. Maybe we can rename PC_UNKNOWN to
-PC_PRODUCTION?
+Hello Siddharth.
 
-> 
-> Konrad
-> 
-> Konrad
+Thanks for the log. I can read:
+[    1.966094] Missing net_device from driver
 
--- 
-With best wishes
-Dmitry
+Did you check that nodes exist in the device tree for the net devices ?
+
+Julien
+
