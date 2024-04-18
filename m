@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91CA8A9701
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 12:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BBE48A9702
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 12:09:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C987210FBA9;
-	Thu, 18 Apr 2024 10:09:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B75CF10FF8D;
+	Thu, 18 Apr 2024 10:09:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="J3cJG67L";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="dLo+nFKV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
- [209.85.210.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF26E10FB41
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 08:16:09 +0000 (UTC)
-Received: by mail-ot1-f50.google.com with SMTP id
- 46e09a7af769-6eb7d1a5d39so316278a34.2
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 01:16:09 -0700 (PDT)
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
+ [209.85.167.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87FEA10FB3E
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 08:16:12 +0000 (UTC)
+Received: by mail-oi1-f175.google.com with SMTP id
+ 5614622812f47-3c61486d3fcso391445b6e.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 01:16:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1713428169; x=1714032969; darn=lists.freedesktop.org; 
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1jJd4b5GIeq3KKj5gKwLyS3L0URtHswHqGyOVSmgZgE=;
- b=J3cJG67Lh9WB2mwUQCEGExlEQKoaqWTM+oM5bFUoBcFyU3piEitNBB0gfS5addDnSW
- kAHx1cxU25eXSchWzMI9ax+3jqmws62qmO8Pz6hy9Kz+PHmxTlaPaU72NgvQ/dk41CL2
- fy1BjC3JMKr0YwBuWqEUQoAnpjqKaLYwKeqcBCI449e9pYMMW2JAVEY828ngMddd0NQk
- tgB7CemGWX/n0K4YiSChn2E5cRXWm3CkCUrQJfdWGc+tePmk7UH3V3P+kDgSa9+0yzMq
- XHdsZqa2exOSGuuiaSgrcG7MJGbfJIpF2J5vbxVUx279TMKAM2o0epfuZa0xLxlZM4fI
- QnBQ==
+ t=1713428171; x=1714032971; darn=lists.freedesktop.org; 
+ h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=hGbb639QF70AM8GOOwhigEAHZ87qriZbyNLY03o71uo=;
+ b=dLo+nFKVErljJEfGiRZqOLOBNBLbpF9al4pTFGxDeBK2ManmnmagZUuCaBjmAUArGh
+ 6gXjNYgf1VyIrL48LQ078ZIeefUocoNP8Qhni/7bqg98CM9w/0tI1MAdYmnXHRbpZFU4
+ q/tLlSZ1+foH+01mV9BAK3INoqKt+oqXHFPnzm/Hmfdg74OeH0/e/9nXkOy8dx9Hqwwk
+ I3+1yCvUdHXQ1OW97uQzazHbfXJIHgRBmbC8XcpwYLhOYeAfxit71DSVm+LS3NNSc9OC
+ 6T2eR20pDPPSJsy0daXr47c5ARrGpPlVZtxNmB56sUlaJXB9OUs27Bbmgi2tuk22yVoU
+ iM1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713428169; x=1714032969;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1jJd4b5GIeq3KKj5gKwLyS3L0URtHswHqGyOVSmgZgE=;
- b=dU2oy5JPVGsDgn5QkdQEjjcUO5NFxfc/sNHZEzEY4l7MqnMJWYrPgC6j5X+Jv53D48
- psMcvdx/HS9rS4mTslcb0t3iVaXfmltYwovAsTzmcKXV3O5cGIugb4XYcJVHoakn5Cr5
- 3XhkHk5JDuvhLM48a5LUepWbGGLa7Xk30gD/uDm0ekb6x60nn+Xj2u7zhnPmDT7ZAfNq
- QeNoxALLWkcs26N/kF9eQfoYy4Rz/KK3susNB/SQqr+X7MeQt37FgIO4PiSJT6sPWQzm
- SA8ERHwjoxD9HuZPK/ktQ9MuHrq5QIWu/fWK7qj8GHN03labj33EFqDdIOuEuDxFodAe
- l+aQ==
-X-Gm-Message-State: AOJu0YzhQoUE7ibENLDX2LHKIbktILzzvk47g+XOHyCL6n9oYG41RmTS
- LozamXk0Hda/m+898/bj+kiz3w2LlChZ7WzmLWRMh1J5f9xqtx2FjGpH8izxZ0I=
-X-Google-Smtp-Source: AGHT+IFjDUrGwm9kDxD+zeSPOCUBeTz3i7kYis3qMb3lTFVeiheqy30dloEzF9ToaqSHJSuHws4RCw==
-X-Received: by 2002:a05:6808:60a:b0:3c6:e0a:f3c8 with SMTP id
- y10-20020a056808060a00b003c60e0af3c8mr2096740oih.35.1713428168829; 
- Thu, 18 Apr 2024 01:16:08 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1713428171; x=1714032971;
+ h=references:in-reply-to:message-id:date:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hGbb639QF70AM8GOOwhigEAHZ87qriZbyNLY03o71uo=;
+ b=mv6qbo4jwbX6XluY6agqJbg6dG0CoCGmyxEjU/uQ2DPocco+cbxJZTGVVMm/PEeo/x
+ jitxytA8sgbJSnSm9XIfWGZ7+AFuwD+FdKyv8ikb1MFQzRzWtZPS7j/ONo58yS+Km9xs
+ 6gX2PM+YfcszLpp5tNHp2f9usY8iRlIgnIbVX7WCFb3prgbBbrACT+uC845Wuap5AJAF
+ sTCEdOcdekK5UDQTK1YaxqkI8pu9WN9kyiRaV/A+Ggbctvkn4pur+bOD5XgoHoQKuysq
+ 9+BjdWCl8NPm4MTB8uw+pFmiotrMBMHjtKpvgmREs3C5Ib1hUYsrUQIlsT66U2ECCrvJ
+ eKvw==
+X-Gm-Message-State: AOJu0Yy9LKlrvISajyc8Bwl8UFAKwtp1pUSROxx4j2i+ii2zTgFZf1j5
+ RcMuK7Mwbvb2OfTo/xf2LIE7YvhXiWJXniAYv2FaD5VrHAeQVkgxCtRn+WQScMg=
+X-Google-Smtp-Source: AGHT+IEspyv9P8EY2/qDTHNT4YTY3kFSzuMcr1c0VmB+mBMOVEN4Z9B8GjikmMM/QmHPGVxM51js8g==
+X-Received: by 2002:aca:220e:0:b0:3c6:62f:4fd4 with SMTP id
+ b14-20020aca220e000000b003c6062f4fd4mr2408154oic.4.1713428171706; 
+ Thu, 18 Apr 2024 01:16:11 -0700 (PDT)
 Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- o18-20020a634e52000000b005f3d54c0a57sm881394pgl.49.2024.04.18.01.16.05
+ o18-20020a634e52000000b005f3d54c0a57sm881394pgl.49.2024.04.18.01.16.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Apr 2024 01:16:07 -0700 (PDT)
+ Thu, 18 Apr 2024 01:16:11 -0700 (PDT)
 From: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
 To: mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -60,10 +60,12 @@ To: mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: [PATCH v1 0/2] Add kd101ne3 bindings and driver.
-Date: Thu, 18 Apr 2024 16:15:46 +0800
-Message-Id: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v1 1/2] dt-bindings: display: panel: Add KD101NE3-40TI support
+Date: Thu, 18 Apr 2024 16:15:47 +0800
+Message-Id: <20240418081548.12160-2-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-Mailman-Approved-At: Thu, 18 Apr 2024 10:09:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,20 +82,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add bindings and driver for kd101ne3.
+Create a new dt-scheam for the kd101ne3-40ti.
 
-lvzhaoxiong (2):
-  dt-bindings: display: panel: Add KD101NE3-40TI support
-  drm/panel: kd101ne3: add new panel driver
-
- .../panel/kingdisplay,kd101ne3-40ti.yaml      |  63 ++
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../drm/panel/panel-kingdisplay-kd101ne3.c    | 607 ++++++++++++++++++
- 4 files changed, 680 insertions(+)
+Signed-off-by: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
+---
+ .../panel/kingdisplay,kd101ne3-40ti.yaml      | 63 +++++++++++++++++++
+ 1 file changed, 63 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-kingdisplay-kd101ne3.c
 
+diff --git a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
+new file mode 100644
+index 000000000000..dc79a49eea3b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
+@@ -0,0 +1,63 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/kingdisplay,kd101ne3-40ti.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: King Display KD035G6-40TI based MIPI-DSI panels
++
++description: |
++  -This binding is for display panels using an JD9365DA controller
++
++maintainers:
++  - Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: kingdisplay,kd101ne3-40ti
++
++  backlight: true
++  port: true
++  pp3300-supply: true
++  reg: true
++  enable-gpios: true
++  rotation: true
++
++required:
++  - compatible
++  - reg
++  - enable-gpios
++  - pp3300-supply
++  - backlight
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        panel: panel@0 {
++            compatible = "kingdisplay,kd101ne3-40ti";
++            reg = <0>;
++            enable-gpios = <&pio 98 0>;
++            pinctrl-names = "default";
++            pinctrl-0 = <&panel_pins_default>;
++            pp3300-supply = <&en_pp6000_mipi_disp>;
++            backlight = <&backlight_lcd0>;
++            rotation = <90>;
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi_out>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.17.1
 
