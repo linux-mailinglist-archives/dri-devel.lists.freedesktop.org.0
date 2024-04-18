@@ -2,60 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520518AA4EB
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 23:57:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59AD68AA58D
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 00:55:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D982113B37;
-	Thu, 18 Apr 2024 21:57:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A49311A07C;
+	Thu, 18 Apr 2024 22:55:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Kc2y2rwn";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sw7MXq7l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E68AE11A03C;
- Thu, 18 Apr 2024 21:57:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713477431; x=1745013431;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=YTAwvbMycwG5cb3j7vIP93lVwZ8xj4iKyrEBeO9eL4w=;
- b=Kc2y2rwnY8HfRxvDoj/cIjpGoRxPUisu6eBTPFvnWWjCTOpWIHRmPZ3v
- oU+Dgbrt9jf0kBQhFVrAfRLca0qtoE8QxTHcTFdQiwtwvvJwrhLfk6pxc
- vwu8gRh4S6z/uqXmnz5IO40of6jHhbltYK7lR+xtxgwsvu49JVVyFEDJR
- b32FZBMhq7JKuk4JTSc8df0eVoL9IGQQ9Gf5AA/8jKGU6xnnxiLRwVNBh
- U6f16fl2B0s0IvwvgJQAIOdpzkybk5ZjotZWYk2MfqntulYnZ645ct+K4
- 1/LmGBWjoUE/NeDthmT8t2RqxgV0NPYR68Fd1DCsRmbYViwYyBWUITHQC g==;
-X-CSE-ConnectionGUID: jYeL70nXRbuJhDjeiqTG9A==
-X-CSE-MsgGUID: t1ml1ga0Rl2+PATmJAViOw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="19664977"
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="19664977"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Apr 2024 14:57:10 -0700
-X-CSE-ConnectionGUID: 1BB1O1PHRtGMYYpDSinWww==
-X-CSE-MsgGUID: RtenSBPEQoaLM7kXIE5B4A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="46417112"
-Received: from unknown (HELO intel.com) ([10.247.119.51])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Apr 2024 14:57:05 -0700
-Date: Thu, 18 Apr 2024 23:56:58 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, Badal Nilawar <badal.nilawar@intel.com>,
- Ville =?iso-8859-15?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- linux-hwmon@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/hwmon: Get rid of devm
-Message-ID: <ZiGXKrheNEJlk56X@ashyti-mobl2.lan>
-References: <20240417145646.793223-1-ashutosh.dixit@intel.com>
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA35211A07C
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 22:55:48 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-2a614b0391dso1227915a91.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 15:55:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713480948; x=1714085748; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=j/AgmAZ6+RAasgCGPbj9vxrfH+4BA1gKwCa1XaUTckY=;
+ b=sw7MXq7lGqeIsNli4CJHVUBzBbb/tJ1ktcoy50i+hHdxYVqSlaekEx6x8qiH5zVkDe
+ Cfw5YQrcopHDQwC1fyBkxLBhGjD8neoXfxJXTZWA1QPvE8eJ2MOYZxI7LxAnC8gbvnj0
+ YIT7cQzrWhOyUPGfyB5M+GJ8CkZfeDi1ISCL76FUFOf1hhtsRTctJVN7fQ9cQuDGO1cw
+ z8MEkuscNjK+al+IGDQdN03TG97TeaFOJ+34kck/vZX5v7CtWgpAHPX4g/QEkTi51zbg
+ apUrUJZuDATv7o+eVUSHCOD+aBYIAyXReeIZbKsSnrYGpB81r+zqJJdYLdcOWNDmNZUU
+ rkDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713480948; x=1714085748;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=j/AgmAZ6+RAasgCGPbj9vxrfH+4BA1gKwCa1XaUTckY=;
+ b=X+kl4eR6NvO3YY/vj/9L7w8gLPCIuUBKsPXB4m4HodqRSiLQO3FlzUxfhio5PtsdMl
+ cDEYoo0y/6uzUFsMoNk1aQ3Wz7p4JZkMr6mzybF19KKxzQHjNYS3LSitQbgIgXAyILWV
+ sS+oTWf2gq22WOebHBDvq/5aFyTpIKBIxV2nrLwz1Hz6OWLVO91QEnSxopLxRNFuFwOt
+ hh6NxkXl10VxCRlfCsUDBtuX8DobDIwn5TSwnsN6uVVWGS/qTUV/jlkl33leEjmgTsJk
+ hyH27DSPb6OYC3OHvfVZZIsVZIZTm38oD6P7nXUyLp5UeH7BVpKKqQk8YVd0Ze/uVvhU
+ K2Vw==
+X-Gm-Message-State: AOJu0Yzj8wnvhirLWtf4ekh4ZqOq3E59u6bfo/dcTwgAFRSpf29ho6Jl
+ sK41l514UPjG64Vrf9gsZzpbjXiaDBHIlENb+dEWLYEmSEjN/cJiIYVqOcg4UAc=
+X-Google-Smtp-Source: AGHT+IFS6dDxC2D+6Tvg/9J9cHYpZDpn5UX5r6bXsft6wNHl1PtvfxAL+kEVmFKphnwqwSrUUkUbJw==
+X-Received: by 2002:a17:90a:bb81:b0:2ac:9ee:5250 with SMTP id
+ v1-20020a17090abb8100b002ac09ee5250mr606727pjr.35.1713480948032; 
+ Thu, 18 Apr 2024 15:55:48 -0700 (PDT)
+Received: from [10.36.51.174] ([24.75.208.147])
+ by smtp.gmail.com with ESMTPSA id
+ gk1-20020a17090b118100b002a5290ad3d4sm1994328pjb.3.2024.04.18.15.55.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Apr 2024 15:55:47 -0700 (PDT)
+Message-ID: <086f2bb6-c8d7-477b-9048-bce12961d20e@linaro.org>
+Date: Fri, 19 Apr 2024 00:55:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240417145646.793223-1-ashutosh.dixit@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] dt-bindings: input: i2c-hid: Introduce Ilitek
+ ili2900
+To: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>,
+ dmitry.torokhov@gmail.com, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
+ benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240418124815.31897-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240418124815.31897-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240418124815.31897-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,53 +133,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ashutosh,
+On 18/04/2024 14:48, lvzhaoxiong wrote:
+> The ili2900 touch screen chip same as ilitek ili9882t controller
+> has a reset gpio.
+> 
+> Signed-off-by: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
 
-On Wed, Apr 17, 2024 at 07:56:46AM -0700, Ashutosh Dixit wrote:
-> When both hwmon and hwmon drvdata (on which hwmon depends) are device
-> managed resources, the expectation, on device unbind, is that hwmon will be
-> released before drvdata. However, in i915 there are two separate code
-> paths, which both release either drvdata or hwmon and either can be
-> released before the other. These code paths (for device unbind) are as
-> follows (see also the bug referenced below):
-> 
-> Call Trace:
-> release_nodes+0x11/0x70
-> devres_release_group+0xb2/0x110
-> component_unbind_all+0x8d/0xa0
-> component_del+0xa5/0x140
-> intel_pxp_tee_component_fini+0x29/0x40 [i915]
-> intel_pxp_fini+0x33/0x80 [i915]
-> i915_driver_remove+0x4c/0x120 [i915]
-> i915_pci_remove+0x19/0x30 [i915]
-> pci_device_remove+0x32/0xa0
-> device_release_driver_internal+0x19c/0x200
-> unbind_store+0x9c/0xb0
-> 
-> and
-> 
-> Call Trace:
-> release_nodes+0x11/0x70
-> devres_release_all+0x8a/0xc0
-> device_unbind_cleanup+0x9/0x70
-> device_release_driver_internal+0x1c1/0x200
-> unbind_store+0x9c/0xb0
-> 
-> This means that in i915, if use devm, we cannot gurantee that hwmon will
-> always be released before drvdata. Which means that we have a uaf if hwmon
-> sysfs is accessed when drvdata has been released but hwmon hasn't.
-> 
-> The only way out of this seems to be do get rid of devm_ and release/free
-> everything explicitly during device unbind.
-> 
-> v2: Change commit message and other minor code changes
-> v3: Cleanup from i915_hwmon_register on error (Armin Wolf)
-> v4: Eliminate potential static analyzer warning (Rodrigo)
->     Eliminate fetch_and_zero (Jani)
-> v5: Restore previous logic for ddat_gt->hwmon_dev error return (Andi)
+Except that this was not tested, please use full name, not login, if
+possible.
 
-Thanks!
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Best regards,
+Krzysztof
 
-Andi
