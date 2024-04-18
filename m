@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59548A9D2F
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 16:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BB38A9D44
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 16:39:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B336310FCA4;
-	Thu, 18 Apr 2024 14:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64364113D06;
+	Thu, 18 Apr 2024 14:39:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SUI0Y1Yp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cwOwRh9y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 380C810FCA4
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 14:34:35 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-61874a5b8ecso10273057b3.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 07:34:35 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE6CA113D07
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 14:39:28 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-516d4d80d00so1196221e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 07:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1713450874; x=1714055674; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AWhqJ/PhhN6VwcvGP4fb2OzJCE4W/q26RaYjel+sdg0=;
- b=SUI0Y1YpNnwmmD69nP9K93r+OyaL9xyOIBYSJ7z+MkKlx2OTGujcyHfdxUo/tfb5C5
- 6YDACAEgmlvzbHZcuVhHj+W8LS/KemrG4Yk7qOG/PtsbvCREu3RgI5YIGBVLeIU+hGFP
- uhhvYdloih2rdyROZIneyIP8dPq/1uJPcOQek3MxLpaNWvN81+f3EwPKcdlODAGJgqlK
- lm9SP4joxLbzry/9ntmbK+R29px65FAaNvq98HYxoPJYQDN4xgclzBBdu1O4Yz+kOKO/
- EM+veuwSNzSc7jhsuiExdQER8qSTEpTbWTv4g7NMG6b95ckahrUlUh2VJh1MLFhhPV72
- tClg==
+ d=linaro.org; s=google; t=1713451167; x=1714055967; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=nuCjQiCriLW2FeQ8Vl9Z1Bwf8E1dBE3lBb7kgfpErko=;
+ b=cwOwRh9ylUveLRiuJF0qOnLf6Bejum2IXxhdtPFJ3gSumIu0HYyvcZXFBsl1y3sfqn
+ grc0zqyRHoHvX+H6XjvRPDQ8ey2sIdpK4tmpPBqG1gZhUB1efa/cmFgMGqpHNY66nXxq
+ 4evPy2OA6sPEX/YvY2un2D2lgS78Rva4Yjihu7U+KFjJhikjf3NVmHcYYN4MbAMLVT+B
+ u8h4bPTCxzL1S+wpHuUdbEFQlhjTCp+EmeUrun2uqg9wCDyVErC/DuVE08TXCYRXPt3u
+ irU/KgRAG0si4brviIq2nhqDgEQwSwLIU7Z8LYmoUvliB0vprN3J3RNgeMwQXzUHiuNE
+ bdpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713450874; x=1714055674;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AWhqJ/PhhN6VwcvGP4fb2OzJCE4W/q26RaYjel+sdg0=;
- b=snIeOoKd17kE+f6ac1EEA5lnmMogYqiKOVfYDwSsq6VedD9dyKLrMT/EtjN7Au4BDe
- zN6KxazB0ZSrXrFFMr0B68eEi1Fz4I3EreSz0CE9foODJDyoWfwfOzPPxaBPa0WadX1k
- 7f8KkdEJ5whDehJiBR5NUnl8ZA+qla6Vdq7hcv7fPXEdihil4YqP6dNvwkvTehjT4LOH
- XvpDtsKiMBIdwSG38GqYvMhIxu9jJ7EWiFtF4aa2QaeWNfgFFj7x6efr7cnGdjHOSiZJ
- vcsgOczd/A/Tg3SuFc7UKZlIiGCiJYBqIlayOBmTzmGAJHQiUSsIeYaHmhvzWlD1Wm0+
- YSRA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX5X8RUW77MFGUAW7PXPDS+YSCwVeCa2v4MnTGjUAmOLFDEcDerj9wl0PWZ2prRd/XLbbZoChccvumffo2HMd9tTubhzHVdlp01uzIXYFQz
-X-Gm-Message-State: AOJu0Ywewj/hWyJuNEH0hzlkYeS1Tub6FKlkglnZtUHfKBNz8saASSLJ
- jbCkJEihW2FL+Zfug73esO8YIUUQtNQaxUWhy0cGr06fOwqBsPFc4CBbRjV+4YNaRzQjYuSKr2U
- OneoM/6r1EJHYkPey70y1hVRFDSo=
-X-Google-Smtp-Source: AGHT+IHPljfyR5qozrc6exU2JcpOuPMAZ8pZtMm0j+hGfBQ8TM8Ir1vjxTKtwDJRN4TQtvGjjcG18rN15x9F7IeAmPc=
-X-Received: by 2002:a05:690c:d18:b0:61a:af67:1cfd with SMTP id
- cn24-20020a05690c0d1800b0061aaf671cfdmr3008285ywb.5.1713450874003; Thu, 18
- Apr 2024 07:34:34 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1713451167; x=1714055967;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nuCjQiCriLW2FeQ8Vl9Z1Bwf8E1dBE3lBb7kgfpErko=;
+ b=oLrDdEMTKLTaJMjl9l6Vyc4M/UPBxjvXsabK6ZY3HJ4J8vuNsiSz8ldhpOsWYnjFcm
+ b7jVsDiwmyX2VXTHD+7NgxQaUH/T2mTagwYpnTO50zef+s2hr5d+hj7o11YkPGLCRLcq
+ O1mh6bHJQfUS2DhMfpZnwfd4fNFczjPPwh2UjQuh8F4rJ4foM+S36oB9mjEWV0AhIikF
+ C8cNwoTsGfREEMWwPU1TOcE0z8fI5BzVlgdYMCy4fYg00YP8WctsJMohT5E4czbuHHxj
+ BogepFCvfazme4+NgvvgwSc/v2NRGJqcFQ1GG+SQceALeAsWZzufWqPUg0azd9m4Y0v5
+ eSDA==
+X-Gm-Message-State: AOJu0YzJs916QZB5qmgNp5TBxXu076tm6OI0m765+nKpDh4l+ImphqV/
+ /LvFXb8n5U5GHGNb8NejRaBo+mu40gPQI1H0rX699hxovCsAVWC5Og/CzGz0/AFtoxg3T71FQP5
+ n
+X-Google-Smtp-Source: AGHT+IH6ZSAITdTGttxI8HjAidoq2cPW28dkgxxA5rLpHAEeM4CFY3Lj2uq1wH4jAn/2mamOzDIiuw==
+X-Received: by 2002:ac2:41d9:0:b0:519:231:e4c0 with SMTP id
+ d25-20020ac241d9000000b005190231e4c0mr1680815lfi.43.1713451166872; 
+ Thu, 18 Apr 2024 07:39:26 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ j11-20020ac2550b000000b005195b745303sm265586lfk.116.2024.04.18.07.39.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Apr 2024 07:39:26 -0700 (PDT)
+Date: Thu, 18 Apr 2024 17:39:25 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] drm: Fix plane SIZE_HINTS property docs
+Message-ID: <t62wd52nu3xogigldvzpg6cidq3b43xcchkxnhigclaborzotj@qp5cllnmqlpv>
+References: <20240418114218.9162-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-References: <271372d6-e665-4e7f-b088-dee5f4ab341a@oracle.com>
- <CAMeQTsbCESSTrEyHgqF9HreSuzQ9kMBnGpKLT0QNJ+n4hv9qOw@mail.gmail.com>
- <20240418160526.3b3c385f@namcao>
-In-Reply-To: <20240418160526.3b3c385f@namcao>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Thu, 18 Apr 2024 16:34:22 +0200
-Message-ID: <CAMeQTsaGXv6hUmXg3ROLb83JZEAfoSuQGCQgz0wG38Me8UtQYA@mail.gmail.com>
-Subject: Re: [bug-report] task info hung problem in fb_deferred_io_work()
-To: Nam Cao <namcao@linutronix.de>
-Cc: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, jayalk@intworks.biz,
- Daniel Vetter <daniel@ffwll.ch>, deller@gmx.de, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, tiwai@suse.de, bigeasy@linutronix.de, 
- LKML <linux-kernel@vger.kernel.org>, Vegard Nossum <vegard.nossum@oracle.com>, 
- George Kennedy <george.kennedy@oracle.com>,
- Darren Kenny <darren.kenny@oracle.com>, chuansheng.liu@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240418114218.9162-1-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,38 +83,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 18, 2024 at 4:05=E2=80=AFPM Nam Cao <namcao@linutronix.de> wrot=
-e:
->
-> On 2024-04-18 Patrik Jakobsson wrote:
-> > This sounds similar to the SUSE bug [1]. We fixed it by reverting [2]
-> > in the SUSE kernel. The problem seems to be that flush_delayed_work()
-> > kills the timer and re-queues the work but doesn't guarantee that it
-> > is finished when returning. So when the device is closed, the
-> > fb_deferred_io_work() function can still be queued and tries to access
-> > memory that's been freed.
->
-> flush_delayed_work() *does* guarantee the work is finished before
-> returning.
+On Thu, Apr 18, 2024 at 02:42:18PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> Fix the typos in the plane SIZE_HINTS kernel docs.
+> 
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Fixes: 9677547d8362 ("drm: Introduce plane SIZE_HINTS property")
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_plane.c   | 2 +-
+>  include/drm/drm_mode_config.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
 
-Right, flush_work() does guarantee that the work is finished, but it
-doesn't guarantee that the queue is idle if work has been requeued
-since flush started. So fb_deferred_io_work() should be able to happen
-after the device is closed. Or am I missing something?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
->
-> > Patch [2] tries to solve the problem of not throwing away pending data
-> > when closing the device. Perhaps calling cancel_delayed_work_sync()
-> > and then follow up with a manual call to fb_deferred_io_work() would
-> > be enough to flush the remaining data?
-> >
-> > -Patrik
-> >
-> > [1] https://bugzilla.suse.com/show_bug.cgi?id=3D1221814
-> > [2] 33cd6ea9c067 fbdev: flush deferred IO before closing
-> >
-> > >
-> > >
-> > > Thanks,
-> > > Harshit
->
+-- 
+With best wishes
+Dmitry
