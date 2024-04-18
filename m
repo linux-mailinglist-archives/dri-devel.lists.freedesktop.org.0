@@ -2,77 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3265A8A9CE7
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 16:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053D38A9CF7
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 16:26:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28C1A113CF8;
-	Thu, 18 Apr 2024 14:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F93B10F6E5;
+	Thu, 18 Apr 2024 14:26:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="oVn8UC/W";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="IXVU/xSu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sMNUrgxx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tNY4FVYd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZAQ5t7EA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E38D10F6E5
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 14:24:23 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 43IENhfk047904;
- Thu, 18 Apr 2024 09:23:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1713450223;
- bh=d7W/YpTIZxIdyewzNIraH7hxkKMvrK+9RnPBHoiRgYU=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=oVn8UC/WraJiR9DfhqgRAMmWCKRPIN5gA4g9LgtVfHyr9ZYa0wpT1D1L9eCfM7V0I
- 1kGeA3ACt202+YA8etLSCi4dNNilaO9oBQFFqcvrsUeQegCCSt1xx61Wj3XLbh5lUN
- TOOZmxV7HXQassnk1lpdykUeIfQeyrSrA+F0zYJo=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 43IENhFG118313
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 18 Apr 2024 09:23:43 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 18
- Apr 2024 09:23:42 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 18 Apr 2024 09:23:42 -0500
-Received: from localhost (uda0492258.dhcp.ti.com [172.24.227.9])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 43IENfLj049819;
- Thu, 18 Apr 2024 09:23:42 -0500
-Date: Thu, 18 Apr 2024 19:53:41 +0530
-From: Siddharth Vadapalli <s-vadapalli@ti.com>
-To: Julien Panis <jpanis@baylibre.com>
-CC: Siddharth Vadapalli <s-vadapalli@ti.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Russell King
- <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>, John
- Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Simon Horman
- <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Ratheesh Kannoth
- <rkannoth@marvell.com>, Naveen Mamindlapalli <naveenm@marvell.com>, Jacob
- Keller <jacob.e.keller@intel.com>, <danishanwar@ti.com>,
- <yuehaibing@huawei.com>, <rogerq@kernel.org>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
- Ethernet driver
-Message-ID: <b406c8bd-5d25-4516-8553-4041705b2211@ti.com>
-References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
- <260d258f-87a1-4aac-8883-aab4746b32d8@ti.com>
- <08319f88-36a9-445a-9920-ad1fba666b6a@baylibre.com>
- <1da48c7e-ba87-4f7a-b6d1-d35961005ab0@ti.com>
- <7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1210410ECCE
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 14:26:16 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 107A02081D;
+ Thu, 18 Apr 2024 14:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1713450375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=f7YVjJr+W3wk5uH+Tl4rlF4cuoUA+Yq43EM2JvCzVts=;
+ b=IXVU/xSup5fCS+dLaf7wlCHZjBRgfMCDRZLeBvRstnCUxsgUBTbj//VyiIdWyULbfOMiwR
+ vvr0KyKSOsRZLXpI7nNxgfAzfH2Wqv1eWiW2WC398rj+bGL578O3tpqaXgAbezfKsBNIRg
+ 4djpy1nPvGA8RV6c/KzY2oiL+qEkTLk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1713450375;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=f7YVjJr+W3wk5uH+Tl4rlF4cuoUA+Yq43EM2JvCzVts=;
+ b=sMNUrgxxeyE5i0gG2T2EZnfcoiXLrhthug86NEAUFxbBEJAUvo6O/pfeI16nrsZ++KPFdk
+ IirTgAlMZ8f+D3Aw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1713450374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=f7YVjJr+W3wk5uH+Tl4rlF4cuoUA+Yq43EM2JvCzVts=;
+ b=tNY4FVYdQG/CBJKeWtWSRM2IaW3t9DnG7//VoZyuaaT6ZnonCEWJpXctyo2Ez80BEehYxf
+ 5v4B7JLDAY9pC5NBNn4AMT/jM01mx5bQ8ORbvL/Yt+2sqATxlnJ7qI7W6bo0pqirGzcSYU
+ WLOmzzPndlvga03+QZYrE0uzuNgx0mk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1713450374;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=f7YVjJr+W3wk5uH+Tl4rlF4cuoUA+Yq43EM2JvCzVts=;
+ b=ZAQ5t7EAsFA5Xeu/aleZ7itWOzNV81up3+9GXkvariYnqYkotnFBXLIzWNtIAWag2t0J+O
+ 3GzzToQ4LNo4D/AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0A7B13687;
+ Thu, 18 Apr 2024 14:26:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id NqMFJoUtIWY0JAAAD6G6ig
+ (envelope-from <tiwai@suse.de>); Thu, 18 Apr 2024 14:26:13 +0000
+Date: Thu, 18 Apr 2024 16:26:22 +0200
+Message-ID: <87ttjywxv5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Nam Cao <namcao@linutronix.de>
+Cc: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+ jayalk@intworks.biz, Daniel Vetter <daniel@ffwll.ch>, deller@gmx.de,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tiwai@suse.de, bigeasy@linutronix.de, patrik.r.jakobsson@gmail.com, LKML
+ <linux-kernel@vger.kernel.org>, Vegard Nossum <vegard.nossum@oracle.com>,
+ George Kennedy <george.kennedy@oracle.com>, Darren Kenny
+ <darren.kenny@oracle.com>, chuansheng.liu@intel.com
+Subject: Re: [bug-report] task info hung problem in fb_deferred_io_work()
+In-Reply-To: <20240418160652.68df1a86@namcao>
+References: <271372d6-e665-4e7f-b088-dee5f4ab341a@oracle.com>
+ <20240418160652.68df1a86@namcao>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -1.48
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.48 / 50.00]; BAYES_HAM(-2.68)[98.61%];
+ SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[15];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ FREEMAIL_CC(0.00)[oracle.com,intworks.biz,ffwll.ch,gmx.de,vger.kernel.org,lists.freedesktop.org,suse.de,linutronix.de,gmail.com,intel.com];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TAGGED_RCPT(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,57 +119,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 18, 2024 at 04:03:15PM +0200, Julien Panis wrote:
-> On 4/18/24 13:25, Siddharth Vadapalli wrote:
-> > On Thu, Apr 18, 2024 at 01:17:47PM +0200, Julien Panis wrote:
-> > > On 4/18/24 13:00, Siddharth Vadapalli wrote:
-> > > > On 12-04-2024 21:08, Julien Panis wrote:
-> > > > > This patch adds XDP support to TI AM65 CPSW Ethernet driver.
-> > > > > 
-> > > > > The following features are implemented: NETDEV_XDP_ACT_BASIC,
-> > > > > NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
-> > > > > 
-> > > > > Zero-copy and non-linear XDP buffer supports are NOT implemented.
-> > > > > 
-> > > > > Besides, the page pool memory model is used to get better performance.
-> > > > > 
-> > > > > Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> > > > Hello Julien,
-> > > > 
-> > > > This series crashes Linux on AM62ax SoC which also uses the
-> > > > AM65-CPSW-NUSS driver:
-> > > > https://gist.github.com/Siddharth-Vadapalli-at-TI/5ed0e436606001c247a7da664f75edee
-> > > > 
-> > > > Regards,
-> > > > Siddharth.
-> > > Hello Siddharth.
-> > > 
-> > > Thanks for the log. I can read:
-> > > [    1.966094] Missing net_device from driver
-> > > 
-> > > Did you check that nodes exist in the device tree for the net devices ?
-> > Yes it exists. The device-tree used was also built with linux-next
-> > tagged next-20240417. The node corresponding to eth0 is cpsw_port1 which
-> > is present and enabled in the device-tree:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm64/boot/dts/ti/k3-am62a7-sk.dts?h=next-20240417#n644
-> > 
-> > Regards,
-> > Siddharth.
+On Thu, 18 Apr 2024 16:06:52 +0200,
+Nam Cao wrote:
 > 
-> I could reproduce the bug by disabling 'cpsw_port2' in my device tree,
-> which is 'k3-am625-sk.dts' for the board I use.
+> On 2024-04-18 Harshit Mogalapalli wrote:
+> > While fuzzing 5.15.y kernel with Syzkaller, we noticed a INFO: task hung 
+> > bug in fb_deferred_io_work()
 > 
-> A condition is missing in am65_cpsw_create_xdp_rxqs() and
-> am65_cpsw_destroy_xdp_rxqs() functions.
-> 
-> For these 2 functions, the code which is in the for loop should be
-> run only when port ethX is enabled. That's why it crashes with
-> your device tree (cpsw_port2 is disabled, which is not the case by
-> default for the board I developed with).
-> 
-> I'll send a patch to fix the issue. Thanks for reporting it.
+> Which framebuffer device are you using exactly? It is possible that
+> the problem is with the device driver, not core framebuffer.
 
-Thank you for root-causing and working on the fix for this issue.
+Note that it was already known that using flush_delayed_work() caused
+a problem.  See the thread of the fix patch:
+  https://lore.kernel.org/all/20230129082856.22113-1-tiwai@suse.de/
 
-Regards,
-Siddharth.
+BTW, the problem is seen with bochs drm.
+
+
+Takashi
