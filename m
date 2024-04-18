@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7BE8A9A4B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 14:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D245D8A9A4C
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Apr 2024 14:48:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C91BE10FC4D;
-	Thu, 18 Apr 2024 12:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACAA10ED26;
+	Thu, 18 Apr 2024 12:48:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="0IGK8/Aw";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="ZNEELSp6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6512E10FC4D
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 12:48:26 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-1e8b03fa5e5so288905ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 05:48:26 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9404113134
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 12:48:31 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-2a7e19c440dso667252a91.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 05:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1713444505; x=1714049305; darn=lists.freedesktop.org; 
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vBVJjQh/Nx8BXhkrFisIjtogBH13cAN8LyyArAUlFGo=;
- b=0IGK8/AwA+X/mIo78LjtuSshNYiosZ+PX6lmNi9lw1mzg191s4cpXP0Zvrbgq4WGgP
- vrJpe4XwUbZYwMqp802X7c4JQH8qpMAmzp1P8LpBjm7kOlyyxuNwpjuXs0xTOWG8qg/2
- OuhGgsmCzmPfvGDaq+1OmMuQpZs0PowlBWvx7ionALfu74H9ulzwdmDiSrUiAzuumJIZ
- zw1RsVASxazj/seL0I54/S2Pgb1fl/qkQulyQ1QY3kbtt6DHaWzW0pRmhlGLTtg3oY2a
- f7XKLfZ7lYMWcbHlhh/AHnZyFyUFDPylIkSryUS74aKhhUvk/amAhFgG7nDLYlF+aQPv
- Z3VQ==
+ t=1713444511; x=1714049311; darn=lists.freedesktop.org; 
+ h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=uGDsLEb5BghVT9qGOK/loQQdaX4v11rqejOU2LWrdN0=;
+ b=ZNEELSp6dJZSOV0mBRcvgWnPWICQ1Clf3q0ZAK3ZRiY/s1Fb77u2rRtqd7mBBAP82P
+ 1MX9Wc+JNpI+HLRuD3j8S9hGpKRWllL1h5NFAB5JASUSVseO85k5+q+L36+Q+lZB8vG/
+ G0JXMBo4oWD1jRTEsAAmwIS0XqVr6+IpH0Jy3IbSrn7SJHrAeXinINehwNrdiHmG9UXQ
+ pZXI+KsMDOEPyHhqPk+efVV9QSW5AoYE/Ck6tkleXkV+2zbEVxJZ2pUAdqoXjzvwRTel
+ 3ZVzeoNKk8532oj+5LV61HexFyVZdzHK/IhIrswbPXhh1ehWfSGpNX4rc9xBJFVMzxCE
+ YkLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713444505; x=1714049305;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vBVJjQh/Nx8BXhkrFisIjtogBH13cAN8LyyArAUlFGo=;
- b=dBXwA1w6fxChLi0rJhBJZuU3SakQTiy2w7ZMZ0hfEZysNhHqxCkHdlOJpWCb0YSo35
- /J19JsCZ+CV8kALVU/PQs+NHuXzqL5i+QQbDp/r6HeCJ/pBgc7ySxc2CKvphwxQWsF8E
- 8VwfglQRTuK2JIERk8DGE0UgyTHHhKUZXiZ9X+wnhMydUnCwCAqo4lAYOMnmhrfdXmPC
- Sf+7nkT77Hukr8gQZPQl0uGg3R0XFy8RjQgCBrrS+eASjUdMMaRCile35dJqAgnyrFUH
- BUJ2sXXnYCR64DULexR9yIHh7WLHnFCivP8OA0/W3rxLTTWEz062c+psVVYtWcO9vQgb
- tICg==
-X-Gm-Message-State: AOJu0Yw3vELXcvgXqVOyeGhjAxVceONAu7Jxj4CUagdxyHsS1U5YmbQm
- TwVaYSlO5h0ADZpAZ1LlMqT3r4WlLlWQgWJ5+aZt+Fx82IP7sDEA0MWLs5Vvvi8=
-X-Google-Smtp-Source: AGHT+IGSiSDDmR8LYcqwjG3haTEKWA5AkubEyL3ysc5fD6DHGQT11eT1vAj07i5o5JXkET0KZpz3OA==
-X-Received: by 2002:a17:902:9a0a:b0:1e4:24cc:e025 with SMTP id
- v10-20020a1709029a0a00b001e424cce025mr2713328plp.59.1713444505581; 
- Thu, 18 Apr 2024 05:48:25 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1713444511; x=1714049311;
+ h=references:in-reply-to:message-id:date:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uGDsLEb5BghVT9qGOK/loQQdaX4v11rqejOU2LWrdN0=;
+ b=mxOK43UVKqh572bnEEtSDnNU6Z6Xx2emFFRZreIK61b/B7WkA3N0eI2RIbh7KoxQVK
+ HPL1zNfkrvOUxiKPPWKIIBc5xMYIVsnXv5xvtC5qet0EP4Nb/vtltbpRphua0cnxlJc8
+ XcTP9eOY8No7/Y/4p/EAm6iJPa5ukQIcQPhAy/Pop5kbRk6OUALBQMzwlHNPb3iVRNND
+ gPaKfj9GqPwiuWbBqADHoJDKW/XijboxiuY2jAwQZ6mWKvow0A86UUfeFFnuT7o3u3oW
+ ttgH+dDT4mmgspeAjwBbZ2tf5HwhHt7OID5VWMSu/Ji0sTIdZQWvN0lkAswLvJzGcjfR
+ MdYA==
+X-Gm-Message-State: AOJu0Yy0hoIUnLWMH9LXrH/pjP+Eu9ihpa6kcD6fLPYrFrlQLgcFJPrQ
+ gJ2gIOqXlAa90H/PLQfbStxjdYbRQbWdkqfzro89ZKS6jf3jxA0s3Bkph6XM5UE=
+X-Google-Smtp-Source: AGHT+IFp+L1hQ3/71MRE5nC1up3U+FLG4bqHqA86kwgOkj44rzc6HfpwUAixZbMftqOKs33+zrh95Q==
+X-Received: by 2002:a17:90a:88d:b0:2aa:c2ba:3758 with SMTP id
+ v13-20020a17090a088d00b002aac2ba3758mr2382354pjc.42.1713444511114; 
+ Thu, 18 Apr 2024 05:48:31 -0700 (PDT)
 Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- ju24-20020a170903429800b001e3d8c237a2sm1423509plb.260.2024.04.18.05.48.22
+ ju24-20020a170903429800b001e3d8c237a2sm1423509plb.260.2024.04.18.05.48.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Apr 2024 05:48:25 -0700 (PDT)
+ Thu, 18 Apr 2024 05:48:30 -0700 (PDT)
 From: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
 To: dmitry.torokhov@gmail.com, robh@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
@@ -60,10 +60,12 @@ To: dmitry.torokhov@gmail.com, robh@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: [PATCH v1 0/2] Add ili2900 timing
-Date: Thu, 18 Apr 2024 20:48:13 +0800
-Message-Id: <20240418124815.31897-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v1 1/2] dt-bindings: input: i2c-hid: Introduce Ilitek ili2900
+Date: Thu, 18 Apr 2024 20:48:14 +0800
+Message-Id: <20240418124815.31897-2-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240418124815.31897-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+References: <20240418124815.31897-1-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,19 +81,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ILI2900 requires reset to pull down time greater than 10ms,
-so the configuration post_power_delay_ms is 10, and the chipset
-initial time is required to be greater than 100ms,
-so the post_gpio_reset_on_delay_ms is set to 100.
+The ili2900 touch screen chip same as ilitek ili9882t controller
+has a reset gpio.
 
-lvzhaoxiong (2):
-  dt-bindings: input: i2c-hid: Introduce Ilitek ili2900
-  HID: i2c-hid: elan: Add ili2900 timing
+Signed-off-by: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
+---
+ Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../devicetree/bindings/input/ilitek,ili9882t.yaml        | 1 +
- drivers/hid/i2c-hid/i2c-hid-of-elan.c                     | 8 ++++++++
- 2 files changed, 9 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml b/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
+index c5d9e0e919f9..5063ea2c8375 100644
+--- a/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
++++ b/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
+@@ -19,6 +19,7 @@ allOf:
+ properties:
+   compatible:
+     const: ilitek,ili9882t
++    const: ilitek,ili2900
+ 
+   reg:
+     const: 0x41
 -- 
 2.17.1
 
