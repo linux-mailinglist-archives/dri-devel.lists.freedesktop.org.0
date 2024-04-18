@@ -2,74 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E088AA593
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 00:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640FC8AA599
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 01:04:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D4F11A085;
-	Thu, 18 Apr 2024 22:59:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D048310F1B6;
+	Thu, 18 Apr 2024 23:04:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fvSUbABy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="o8wBWpvP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E4A511A085
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 22:59:23 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-1e4266673bbso13501425ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 15:59:23 -0700 (PDT)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE25610EF9B
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 23:04:50 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-5ce07cf1e5dso958620a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 16:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713481162; x=1714085962; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713481490; x=1714086290; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=DdL3HzCb+5J1PYorhrvryxPtw9PH/EG3K3drRBpUY2s=;
- b=fvSUbAByHegqXC5d97D9JMepMHWlYCz2dkPhqb7xChgIjynIDjm7gPOtXRSjHiI+dh
- 9sM9N9V6/y+3qJ4c9Ys+3CY15HVvmsOACfVZqoMaV9P7QpYeNe5e8Kdk2x4e+Uia2Ly4
- n745oFT7BeidfRJjuCHF8wROkg040morf2yaZRi3bkLqHI3zGlgMWxl+Pxr/5wS2/5hK
- 9r2KbG9U93SszU8xupBzFArVvipi2osAnK4kqL1zh776OImzRKkRPjRlbvW5dd1QhRyU
- 87XjmI2RuIU2sN1aU8Vl9KxfdDQ9RUvf3PdNdHXib0QpsBPbTqwvEYRConOadDWAZqpU
- 7J+g==
+ bh=cSRxbDm9eRcYsgpOAF3L6ZbI9LzmxpWl8JR/uimnOO8=;
+ b=o8wBWpvPhl6tNQpd9WGEpFHodnTzhDA+go1AsWjJgd1UcyUBeSnRECbwv297nzEZVY
+ u0vKodz8hrl6XEiQG13Q7F08yjRoILHAnyLKIJKoeR4k8Vkvph1xOwz43E2diCtjuwV+
+ mZYCxglag4/i44uUdMbjNsiWv0IECH80WwVKC6oQjcDHc3UtXcFPL/hgT0e1Gr6JEOAI
+ CwMhfg+rP1l5vro7hpBa3sOx8n11mrt5NNKPnJIRpJgIAXHV/ccuvZASpWQ4Yan1iFKK
+ hwA6R6vcX7QBh3OB9qaVwnG0Xivp87y9xUaKVK5+qo1KcTLPF2rWj/XRPx2wqRjjJYWf
+ Vivg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713481162; x=1714085962;
+ d=1e100.net; s=20230601; t=1713481490; x=1714086290;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DdL3HzCb+5J1PYorhrvryxPtw9PH/EG3K3drRBpUY2s=;
- b=W9+jWSl0zo5aBkU+IxI68y10T4iz+2ytzHdSGWkkxsvJBJ3QttPywIm/xVgQNDtIo6
- FZLHK2476V6BCSC5Q2vhweXEpgkVamdZ9adf39mHT42oqipw4SIGNk3ptAXnDsnj6L72
- e5RCqV7XsPuq1WZPDnfipCPzc/iqYW0CdK/HeC43YHtOYpPWxCQriResmeALJ1OSZw0p
- Maw09h+54dozBdgE6KXMaDHuJOp+PJk6OUqoBVzeE/dzanh6DHexNDJGmqjLndqU5nZC
- 0CsbwRs5p0LZEEWB9d+cUY4ZQl+rnHw5bFS7Q5bIhpRyToTv1grXfx4KNsW8T7O0C1Mz
- VtEw==
-X-Gm-Message-State: AOJu0Yxg0JcYxhikBxqiUts/sN7jgFmswIyTiJuwjt0cay6wXfjUC1rG
- +czPOYBPrQOVJbnokk4+lN63wFErtH6P4978vsc2iFAwASii+Uo1xtD85HIsr8PyT3Kh+Tb7G37
- qKbI=
-X-Google-Smtp-Source: AGHT+IGApT+hk2W1hlIDYOgCV0D14ijYcg4EQ8LzX3CAhRR+ar44aUioTQl9gQA+S9JbjymjV0Q5GA==
-X-Received: by 2002:a17:902:f681:b0:1e0:c0dd:c5eb with SMTP id
- l1-20020a170902f68100b001e0c0ddc5ebmr636265plg.9.1713481162482; 
- Thu, 18 Apr 2024 15:59:22 -0700 (PDT)
-Received: from [10.36.51.174] ([24.75.208.147])
+ bh=cSRxbDm9eRcYsgpOAF3L6ZbI9LzmxpWl8JR/uimnOO8=;
+ b=w16wLZDKil5gW+ZjH4E4XLywD1HV7OsCWBohm9IANZxqgyPXZZsWgBxsdMtkKEqytv
+ sVBLdOIdmhXT5DbZABUCi//wrEanJiQBhWtQu7GU1io9ldtAUhFuz1xHiDhX9k5ZRN+q
+ UVTqT0kok6OrhDI4cjLhS/9i4dXbrq/yNZD1fA99MFZzczGhU+bfQzFz/rdlcMD7Luyj
+ Uy9nGpjazrb2oWNrJQkZ/j7xMk1JFSBw4u9f4R8ytyz25nwKwDj056GiYK1coNLqp4mZ
+ NNuqorlI8nGbZUDpA/YvZrhRe9NLEtMTBGCpWXsSJ7W/QAXifTqUTmtcMfb3rmaV2X23
+ igtg==
+X-Gm-Message-State: AOJu0YzCG/E1RUtHXDFfi8I3gTif4iMIjz8sop7sfFMObqRCgg5bYwhl
+ 7+mex1kGHI5DN6qtsGeRvtnr5tAz6Ve+1R/dB1FUf34w4P5l7DOfzmjMV3H51bU=
+X-Google-Smtp-Source: AGHT+IGWSEGrJUSHpMRZQLEhk/JeUtHmmp5mTuNYqwUq/Qzt29DXzBa8vUG8bWcP5F4MwANeTcE6dQ==
+X-Received: by 2002:a05:6a20:7f84:b0:1a9:68c6:c0a7 with SMTP id
+ d4-20020a056a207f8400b001a968c6c0a7mr862610pzj.9.1713481490165; 
+ Thu, 18 Apr 2024 16:04:50 -0700 (PDT)
+Received: from [10.36.51.174] ([24.75.208.146])
  by smtp.gmail.com with ESMTPSA id
- r11-20020a170902c60b00b001e54f250ca9sm2044761plr.212.2024.04.18.15.59.21
+ i193-20020a636dca000000b005f7ff083182sm33322pgc.36.2024.04.18.16.04.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Apr 2024 15:59:21 -0700 (PDT)
-Message-ID: <e0cc524b-82f2-4343-a1a8-9244464824f6@linaro.org>
-Date: Fri, 19 Apr 2024 00:59:20 +0200
+ Thu, 18 Apr 2024 16:04:49 -0700 (PDT)
+Message-ID: <c739a512-9a75-4f48-b5ef-801191c298f5@linaro.org>
+Date: Fri, 19 Apr 2024 01:04:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: Add KD101NE3-40TI
- support
-To: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, dianders@google.com,
- hsinyi@google.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240418081548.12160-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: Re: [PATCH 2/2] dt-bindings: panel-simple-dsi: Add generic panel-dsi
+To: Johan Adolfsson <johan.adolfsson@axis.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, kernel@axis.com
+References: <20240418-foo-fix-v1-0-461bcc8f5976@axis.com>
+ <20240418-foo-fix-v1-2-461bcc8f5976@axis.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -116,7 +119,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240418081548.12160-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20240418-foo-fix-v1-2-461bcc8f5976@axis.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -134,92 +137,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/04/2024 10:15, lvzhaoxiong wrote:
-> Create a new dt-scheam for the kd101ne3-40ti.
+On 18/04/2024 16:01, Johan Adolfsson wrote:
+> panel-dsi is similar to panel-dpi with overridable timings
 
-There is another thread like this, which is confusing. Please version
-your patches. patman solves it. b4 as well.
-
-Read the guidelines provided to you by Google.
+???
 
 > 
-> Signed-off-by: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-
-Same comment as for all your other patches: please use full name.
-
+> Signed-off-by: Johan Adolfsson <johan.adolfsson@axis.com>
 > ---
->  .../panel/kingdisplay,kd101ne3-40ti.yaml      | 63 +++++++++++++++++++
->  1 file changed, 63 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
+>  Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
-> new file mode 100644
-> index 000000000000..dc79a49eea3b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/kingdisplay,kd101ne3-40ti.yaml
-> @@ -0,0 +1,63 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/kingdisplay,kd101ne3-40ti.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: King Display KD035G6-40TI based MIPI-DSI panels
-> +
-> +description: |
-> +  -This binding is for display panels using an JD9365DA controller
-> +
-> +maintainers:
-> +  - Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: kingdisplay,kd101ne3-40ti
-> +
-> +  backlight: true
-> +  port: true
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> index f9160d7bac3c..4c9dd4f66a8f 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+> @@ -56,6 +56,8 @@ properties:
+>        - samsung,sofef00
+>          # Shangai Top Display Optoelectronics 7" TL070WSH30 1024x600 TFT LCD panel
+>        - tdo,tl070wsh30
+> +        # Generic dsi panel with timing overridable
+> +      - panel-dsi
 
-Drop both
-
-> +  pp3300-supply: true
-> +  reg: true
-> +  enable-gpios: true
-> +  rotation: true
-
-Drop these three. panel-common defines them.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - enable-gpios
-> +  - pp3300-supply
-> +  - backlight
-> +  - port
-
-These can stay.
-
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        panel: panel@0 {
-> +            compatible = "kingdisplay,kd101ne3-40ti";
-> +            reg = <0>;
-> +            enable-gpios = <&pio 98 0>;
-
-You included the header, so use it.
-
-
+? Devices are not generic. This is very confusing and commit msg does
+not help me. Compatibles *must* be specific, see writing-bindings.
 
 Best regards,
 Krzysztof
