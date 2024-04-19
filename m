@@ -2,85 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E93358AADA8
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 13:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6038AADAE
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 13:28:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4E0410E297;
-	Fri, 19 Apr 2024 11:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B616310E5F0;
+	Fri, 19 Apr 2024 11:28:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jdF3RFt5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eYMdwXiA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC61110EDB3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 11:24:38 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-518b9527c60so2108764e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 04:24:38 -0700 (PDT)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0C2E10E5F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 11:28:41 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-571c22d9de4so1976429a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 04:28:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713525877; x=1714130677; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MwvCeAUNO+rgXSg2G7IWncCCquc5f0yHXUdIPMY2MPI=;
- b=jdF3RFt5tF05nAuS3bEVZwqwC8n8d0Ca8sCy5cYyhCZSIf89H9kELk7TjPBGhaEW3W
- Dx+bfmugNhJC9pZcJEib0vJmW9qNrsdhsnJnyFaCdTvFtR1zOHOCfij8I16Q/dn22nnq
- gG6W3Q5YK1EkkWGmedKI4AnnyDJdDidm2j3RpxL27UZB9LSobM6vXxgV+IIwRblAlPBC
- axLZohfaMugCfqvQ9B/sX6q55rKZLMpeQs0ZrtG0UsgbWv1TMjWJJj4qlruyX1cE6FGE
- 0ySQI5kt6EMtPws9PNFCv5aJnG04m9wthKD/psgGk1SaPl5cbls8wSR1BJLNuKqqbCtA
- K7mQ==
+ d=gmail.com; s=20230601; t=1713526120; x=1714130920; darn=lists.freedesktop.org;
+ h=in-reply-to:references:subject:cc:to:from:message-id:date
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3vJkoh0Y88E8xelvHUeCB5ZFGBjLcpHSC6lZET6ARl0=;
+ b=eYMdwXiAn04fxU/Ktdu1oAx/iZSqTw5CHnCUs6/oRJEEtwn+XXB7Smhshx+0pABcw2
+ 7fCMLcHArF4/sbdmpZJr6JWLy0NEzJH53CVZ5mlERcnA9ktTrP5p58hwlIf1xb946od2
+ FJdq3LFL3uyjjU9xQtTY4Nu6Q1JUZOmPMGQARriQS39yuW6m5YGR4n0H/F5i0FJYjGuw
+ lbt6z9RTWB0K91Uh3i7hXxooHnb6yD8s8SdBk4R3i4/ga0LHCb3P7szX2ivB810HmPMd
+ 0uBZOli+cBRIm96ibn9Q+PpPE8FbRdyQbmlK15cymgVSK7K7oUPVexaCJQsIbD2Fqrtw
+ 5TUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713525877; x=1714130677;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MwvCeAUNO+rgXSg2G7IWncCCquc5f0yHXUdIPMY2MPI=;
- b=ccJdv7ciOSrZC4SH1krjDMUa9eKZBb3jfKvA31YYKId9fABjXpoT2aKgsNTlASD21Z
- YQBCDn1xieZ/qoK2wuKFQ5Qfc4lYX8HfoHDL9yZQ9XGQjz/A2lTkhhAYZM2H/QR5nUjH
- 6dTIMqH6ybm/DbFAkTN79f4qUpyCUcuctF03rEvMCc3kTartDAlD0lhjNO1/76VcDRMb
- llaGxeMee/S+crgoi/+U00Gjmg2tDjPGst6GoJbf+pcmGmWHwTCpc9jMXRgXzocQx1hd
- F+L5e0He4wb7o318/GfQtYcnt+226eXk2jnNmFHSrQ5n/jVGFkriQi8oXafntpXLWwYI
- jZtg==
+ d=1e100.net; s=20230601; t=1713526120; x=1714130920;
+ h=in-reply-to:references:subject:cc:to:from:message-id:date
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3vJkoh0Y88E8xelvHUeCB5ZFGBjLcpHSC6lZET6ARl0=;
+ b=HFyUIdMf+WX3P4/S+QaFuB436cdWD4O6S+JxKdAqsxRyXsxQPCUfDEe+ZZfzQa1FJn
+ JUTixH6L8Cx5WtWL3qEQuP8VWNTMkxaLhfF8To/WsGEAEZQ8RssMsPQoBY6XcWSODHst
+ 5bsdRhboEBEQWmbk4E8riduqZpRUqaESkGDse0DywfCHaHg/zDDSPnT4TmEZRl4Z3rcc
+ 3n+sxQG3eTnYoT/xznT0YceeymG0zkJrYFNnQTYlr2QRQuSqMXrzSZeSliiYRqG+fE8i
+ x/QCPFSxYcL0DQJp4pBVPeEjV42e1BRlvlHwuURpITuZtq22UNxPlYeXDpYIqQrcHYQ0
+ MZig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX/M16vYVdk3XXqhlNvHrKoqPSet8/5KeR6IPpbz8glthoqBcfXDGPRUI2r1f3V3Q6/tSmddJfY014oq/YlEvT9SrtzW32vgHYFXHLqc6RS
-X-Gm-Message-State: AOJu0YyvHCPjtiTjRrC9rPEBBWgpxNnFe1UHpM2GMtjeikcxwOHnarYo
- EqnBtNvm9NBv38B21wGfY2xJAGBkOQ02Ww8Xa/9iwDNPKjv2z2WJ/NInUcAb7X8=
-X-Google-Smtp-Source: AGHT+IFyCOPkhisTDpbq53VipCfhKB4DLaR7MMdCd6PwJ9EbyXU3vLpcrrHU055gY63rlscgjAuQUg==
-X-Received: by 2002:ac2:4a71:0:b0:518:d956:5c5e with SMTP id
- q17-20020ac24a71000000b00518d9565c5emr1533956lfp.67.1713525876651; 
- Fri, 19 Apr 2024 04:24:36 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ AJvYcCU4Tb6cwwUbmcXMn/V2XDFQKvXvqrHAqMjXHCCuiburX7CDyfPaxPKj6pwCLVr7KUzUuuK8KJL1CH8sxzduqVqvIgJsbKF4ApGxEUqnShRr
+X-Gm-Message-State: AOJu0YyhJpOBv56EPKGN5CvK2gRHKD/hY7ZeQsRbz/6PCYuvfthXfbA9
+ HnmOAuJu7v5P9tjfEMclEe/bSikxJFjBV0hGJNz22Wh4kxDQ7a1z
+X-Google-Smtp-Source: AGHT+IFKiwmp4FLKAWcTXgidfN19IfMXqqvkx3T/mYwog55rvnWpsnKvb8Yadb5rRXuT3dRv4qU4Xg==
+X-Received: by 2002:a17:906:2a4b:b0:a52:1770:965 with SMTP id
+ k11-20020a1709062a4b00b00a5217700965mr1248210eje.42.1713526119786; 
+ Fri, 19 Apr 2024 04:28:39 -0700 (PDT)
+Received: from localhost
+ (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- f15-20020a19380f000000b0051aaf26f4a0sm418919lfa.101.2024.04.19.04.24.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Apr 2024 04:24:36 -0700 (PDT)
-Date: Fri, 19 Apr 2024 14:24:34 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: kuro <kuro.chung@ite.com.tw>
-Cc: Allen Chen <allen.chen@ite.com.tw>, 
- Pin-yen Lin <treapking@chromium.org>, Kenneth Haung <kenneth.hung@ite.com.tw>, 
- Kuro Chung <kuro.chung@ite.corp-partner.google.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 1/1] UPSTREAM: drm/bridge: it6505: fix hibernate to
- resume no display issue
-Message-ID: <wk5v2qd3if22t5obgqeyrestc4bc464gtagimq4lpgtx2n3f6v@2s4cuyvgwvbo>
-References: <20240419073809.706471-1-kuro.chung@ite.com.tw>
- <20240419073809.706471-2-kuro.chung@ite.com.tw>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240419073809.706471-2-kuro.chung@ite.com.tw>
+ bi14-20020a170907368e00b00a5588ed8fa2sm552797ejc.113.2024.04.19.04.28.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Apr 2024 04:28:39 -0700 (PDT)
+Content-Type: multipart/signed;
+ boundary=cd669ce6bdd8f9700a6a46cb06d3d090071a64c757641859cb60bdf1475c;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Mime-Version: 1.0
+Date: Fri, 19 Apr 2024 13:28:38 +0200
+Message-Id: <D0O2BBOL89ME.QEWHYL0GV4MY@gmail.com>
+From: "Thierry Reding" <thierry.reding@gmail.com>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>
+Cc: "Frank Binns" <frank.binns@imgtec.com>, "Matt Coster"
+ <matt.coster@imgtec.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Matthias Brugger" <matthias.bgg@gmail.com>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Mikko Perttunen"
+ <mperttunen@nvidia.com>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 0/4] gpu: Convert to platform remove callback returning
+ void
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <cover.1712681770.git.u.kleine-koenig@pengutronix.de>
+ <xqwcrxfrg3ogplh35c5etl6nbzw6zueilm4h6euh7bnpszyir4@6dtn5qdvijv3>
+In-Reply-To: <xqwcrxfrg3ogplh35c5etl6nbzw6zueilm4h6euh7bnpszyir4@6dtn5qdvijv3>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,374 +98,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 19, 2024 at 03:38:07PM +0800, kuro wrote:
-> From: Kuro <kuro.chung@ite.com.tw>
-> 
-> ITE added a FIFO reset bit for input video. When system power resume,
-> the TTL input of it6505 may get some noise before video signal stable
-> and the hardware function reset is required.
-> But the input FIFO reset will also trigger error interrupts of output module rising.
-> Thus, it6505 have to wait a period can clear those expected error interrupts
-> caused by manual hardware reset in one interrupt handler calling to avoid interrupt looping.
-> 
-> Signed-off-by: Kuro Chung <kuro.chung@ite.corp-partner.google.com>
+--cd669ce6bdd8f9700a6a46cb06d3d090071a64c757641859cb60bdf1475c
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Generic, please drop 'UPSTREAM' part of the subject. Do not use such
-tags for sending patches upstream.
+On Fri Apr 19, 2024 at 9:20 AM CEST, Uwe Kleine-K=C3=B6nig wrote:
+> Hello,
+>
+> On Tue, Apr 09, 2024 at 07:02:47PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > with some patches sent earlier[1], this series converts all platform
+> > drivers below drivers/gpu to not use struct platform_device::remove()
+> > any more.
+> >=20
+> > See commit 5c5a7680e67b ("platform: Provide a remove callback that
+> > returns no value") for an extended explanation and the eventual goal.
+> >=20
+> > All conversations are trivial, because the driver's .remove() callbacks
+> > returned zero unconditionally.
+> >=20
+> > There are no interdependencies between these patches. This is merge
+> > window material.
+>
+> I wonder how this series will make it in. While I would prefer these
+> patches to go in together (that I can consider this thread completed in
+> one go), I think with how drm maintenace works, it's best if the patches
+> are picked up by their individual maintainers. I guess that's:
+>
+>  - Frank Binns + Matt Coster for imagination
+>
+>  - Chun-Kuang Hu + Philipp Zabel for mediatek
+>
+>  - Thierry Reding + Mikko Perttunen for the host1x driver
+>    (Note there is another patch for this driver set at
+>     20240409165043.105137-2-u.kleine-koenig@pengutronix.de that is
+>     relevant for the same quest.)
+>
+>  - Philipp Zabel for ipu-v3
+>
+> I plan to send a patch changing struct platform_driver::remove after the
+> end of the merge window leading to 6.10-rc1 for inclusion in next via
+> Greg's driver core. So please either care the patches land in 6.10-rc1
+> or ack that I include them in the submission to Greg.
 
-> 
-> ---
->  drivers/gpu/drm/bridge/ite-it6505.c | 181 +++++++++++++++++++---------
->  1 file changed, 124 insertions(+), 57 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index b53da9bb65a16..4fd693b4b68ca 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -802,8 +802,8 @@ static void it6505_int_mask_enable(struct it6505 *it6505)
->  		     BIT(INT_RECEIVE_HPD_IRQ) | BIT(INT_SCDT_CHANGE) |
->  		     BIT(INT_HDCP_FAIL) | BIT(INT_HDCP_DONE));
->  
-> -	it6505_write(it6505, INT_MASK_02, BIT(INT_AUX_CMD_FAIL) |
-> -		     BIT(INT_HDCP_KSV_CHECK) | BIT(INT_AUDIO_FIFO_ERROR));
-> +	it6505_write(it6505, INT_MASK_02, BIT(INT_HDCP_KSV_CHECK) |
-> +			 BIT(INT_AUDIO_FIFO_ERROR));
->  
->  	it6505_write(it6505, INT_MASK_03, BIT(INT_LINK_TRAIN_FAIL) |
->  		     BIT(INT_VID_FIFO_ERROR) | BIT(INT_IO_LATCH_FIFO_OVERFLOW));
-> @@ -1317,10 +1317,17 @@ static void it6505_video_reset(struct it6505 *it6505)
->  	it6505_link_reset_step_train(it6505);
->  	it6505_set_bits(it6505, REG_DATA_MUTE_CTRL, EN_VID_MUTE, EN_VID_MUTE);
->  	it6505_set_bits(it6505, REG_INFOFRAME_CTRL, EN_VID_CTRL_PKT, 0x00);
-> -	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, VIDEO_RESET);
-> +
-> +	it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, 0x02);
-> +	it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, 0x00);
-> +
->  	it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, RST_501_FIFO);
->  	it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, 0x00);
-> +
-> +	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, VIDEO_RESET);
-> +	usleep_range(1000, 2000);
->  	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, 0x00);
-> +
+I think the latter would make more sense. I'll go ack those patches.
 
-Extra empty line.
+Thierry
 
->  }
->  
->  static void it6505_update_video_parameter(struct it6505 *it6505,
-> @@ -1861,16 +1868,29 @@ static void it6505_reset_hdcp(struct it6505 *it6505)
->  	/* Disable CP_Desired */
->  	it6505_set_bits(it6505, REG_HDCP_CTRL1, HDCP_CP_ENABLE, 0x00);
->  	it6505_set_bits(it6505, REG_RESET_CTRL, HDCP_RESET, HDCP_RESET);
-> +	it6505_set_bits(it6505, REG_RESET_CTRL, HDCP_RESET, 0x00);
->  }
->  
->  static void it6505_start_hdcp(struct it6505 *it6505)
->  {
->  	struct device *dev = &it6505->client->dev;
->  
-> -	DRM_DEV_DEBUG_DRIVER(dev, "start");
-> -	it6505_reset_hdcp(it6505);
-> -	queue_delayed_work(system_wq, &it6505->hdcp_work,
-> -			   msecs_to_jiffies(2400));
-> +	/*
-> +	 * If video not stable, no need turn on HDCP
-> +	 * After video stable
-> +	 * SCDT IRQ ->Link Training-> HDCP
-> +	 */
-> +	if (it6505_get_video_status(it6505)) {
+--cd669ce6bdd8f9700a6a46cb06d3d090071a64c757641859cb60bdf1475c
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Won't this be easier:
+-----BEGIN PGP SIGNATURE-----
 
-if (!it6505_get_video_status(it6505)) {
-	DRM_DEV_DEBUG_DRIVER(dev, "Video not ready for HDCP");
-	return;
-}
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmYiVWcACgkQ3SOs138+
+s6EMWxAAuBhTV9ovczgI1JfXW9dVlwEMXj4ZN4Wo303HNjKbzE/U9v17jp2EZP+t
+s35e09Yav10cM7qTAnoTkHG/O7TbJ1j1eFN0dYuog+C28+u3a7FKYFzjxrDdohFD
+nWXufe9EklSmTeDiA9LVY/hQgiebLT6zHLh4QxIPwhE2HpnZcT9JOq5Q95w9HYY+
+wMSiJ0eQCGLCWgtDGZoWtCPNkp39ViRF59soniQuEHhm5pXc5eFfYbUOP940CJ44
+8UWu69np3LlX7Gx0TMaqIuzlBWaG+MfU7vBI7hnyA5VgSjcuT0iEJwFW6lZAeBgm
+I4h1xdDIMbrHoVIXqj81dZWFTCO6FILwyb7X1sEKAWqN/axoa6C/PPt4UrURzPfD
+mMiWc006q+mYajFqk2S31q/WBfssrmC4F4boDphofmJHmsKT0z9Oj8jCpPM8+RHP
+lpATu13Rq+zzNIGeqpodAvPEQrX8QGpE9xxncQwWPiXJ7PnG1UdZoiERW5hdE8zN
+XcaZB7crWn1A0NbseWFFAb09WoPQmvR2JIO8gzsQ1a9CKs0UK4O8UNlfwnJp7suo
+TkG+kqH5kUunGRVpvJbF9sS7raVtB0HRN28xWCY/jFpd0nmfi1tcfxcLBJhDBLRS
+KtLx+oMwRhWxpalupIX1hLGY+QmcLxEi4tjYfCd/vHRoAShnV0Y=
+=abck
+-----END PGP SIGNATURE-----
 
-
-> +		DRM_DEV_DEBUG_DRIVER(dev, "start");
-> +		it6505_reset_hdcp(it6505);
-> +
-> +		queue_delayed_work(system_wq, &it6505->hdcp_work,
-> +				   msecs_to_jiffies(2400));
-> +
-> +			return;
-> +	}
-> +
-> +	DRM_DEV_DEBUG_DRIVER(dev, "Video not ready for HDCP");
->  }
->  
->  static void it6505_stop_hdcp(struct it6505 *it6505)
-> @@ -2249,12 +2269,11 @@ static void it6505_link_training_work(struct work_struct *work)
->  	if (ret) {
->  		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
->  		it6505_link_train_ok(it6505);
-> -		return;
->  	} else {
->  		it6505->auto_train_retry--;
-> +		it6505_dump(it6505);
-
-This seems like an unrelated change. Please split this to a separate
-commit.
-
->  	}
->  
-> -	it6505_dump(it6505);
->  }
->  
->  static void it6505_plugged_status_to_codec(struct it6505 *it6505)
-> @@ -2309,14 +2328,24 @@ static int it6505_process_hpd_irq(struct it6505 *it6505)
->  	DRM_DEV_DEBUG_DRIVER(dev, "dp_irq_vector = 0x%02x", dp_irq_vector);
->  
->  	if (dp_irq_vector & DP_CP_IRQ) {
-> -		it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CPIRQ,
-> -				HDCP_TRIGGER_CPIRQ);
-> +
-> +		DRM_DEV_DEBUG_DRIVER(dev, "DP_CP_IRQ :hdcp_status = 0x%02x", it6505->hdcp_status);
-> +
-> +		/*
-> +		 * Some TYPE-C devces trigger CP_IRQ when system resume
-> +		 * And IT6505 HDCP is in idle state
-> +		 * No Need trigger 6505 HDCP control.
-> +		 */
-> +		if (it6505->hdcp_status == HDCP_AUTH_GOING)
-> +			it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CPIRQ,
-> +					HDCP_TRIGGER_CPIRQ);
->  
->  		bstatus = it6505_dpcd_read(it6505, DP_AUX_HDCP_BSTATUS);
->  		if (bstatus < 0)
->  			return bstatus;
->  
->  		DRM_DEV_DEBUG_DRIVER(dev, "Bstatus = 0x%02x", bstatus);
-> +
-
-Separate commit too.
-
->  	}
->  
->  	ret = drm_dp_dpcd_read_link_status(&it6505->aux, link_status);
-> @@ -2328,9 +2357,24 @@ static int it6505_process_hpd_irq(struct it6505 *it6505)
->  	DRM_DEV_DEBUG_DRIVER(dev, "link status = 0x%*ph",
->  			     (int)ARRAY_SIZE(link_status), link_status);
->  
-> -	if (!drm_dp_channel_eq_ok(link_status, it6505->lane_count)) {
-> +	/*
-> +	 * when recive HPD_IRQ signal from DP SINK
-> +	 * No need to process link status when DP link is not in ready state
-> +	 */
-> +	if ((it6505->link_state == LINK_OK) &&
-> +		(!drm_dp_channel_eq_ok(link_status, it6505->lane_count))) {
-
-Please indent to the opening bracket.
-
-> +
-> +		if (it6505->hdcp_desired)
-> +			it6505_stop_hdcp(it6505);
-> +
->  		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-> -		it6505_video_reset(it6505);
-> +
-> +		/*
-> +		 * Link symble lost , need restart trainig
-> +		 * if no video, wait for video SCDT IRQ
-> +		 */
-> +		if (it6505_get_video_status(it6505))
-> +			schedule_work(&it6505->link_works);
->  	}
->  
->  	return 0;
-> @@ -2408,21 +2452,6 @@ static void it6505_irq_hpd_irq(struct it6505 *it6505)
->  		DRM_DEV_DEBUG_DRIVER(dev, "process hpd_irq fail!");
->  }
->  
-> -static void it6505_irq_scdt(struct it6505 *it6505)
-> -{
-> -	struct device *dev = &it6505->client->dev;
-> -	bool data;
-> -
-> -	data = it6505_get_video_status(it6505);
-> -	DRM_DEV_DEBUG_DRIVER(dev, "video stable change interrupt, %s",
-> -			     data ? "stable" : "unstable");
-> -	it6505_calc_video_info(it6505);
-> -	it6505_link_reset_step_train(it6505);
-> -
-> -	if (data)
-> -		schedule_work(&it6505->link_works);
-> -}
-> -
-
-It looks now that you have a separate set of changes here, realted to
-IRQ processing. Please split HDCP fixes and the IRQ-related changes.
-
->  static void it6505_irq_hdcp_done(struct it6505 *it6505)
->  {
->  	struct device *dev = &it6505->client->dev;
-> @@ -2442,13 +2471,6 @@ static void it6505_irq_hdcp_fail(struct it6505 *it6505)
->  	it6505_start_hdcp(it6505);
->  }
->  
-> -static void it6505_irq_aux_cmd_fail(struct it6505 *it6505)
-> -{
-> -	struct device *dev = &it6505->client->dev;
-> -
-> -	DRM_DEV_DEBUG_DRIVER(dev, "AUX PC Request Fail Interrupt");
-> -}
-> -
->  static void it6505_irq_hdcp_ksv_check(struct it6505 *it6505)
->  {
->  	struct device *dev = &it6505->client->dev;
-> @@ -2475,31 +2497,69 @@ static void it6505_irq_link_train_fail(struct it6505 *it6505)
->  	schedule_work(&it6505->link_works);
->  }
->  
-> -static void it6505_irq_video_fifo_error(struct it6505 *it6505)
-> +static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
-
-Any reason for not using the existing test_bit() ?
-
->  {
-> -	struct device *dev = &it6505->client->dev;
-> -
-> -	DRM_DEV_DEBUG_DRIVER(dev, "video fifo overflow interrupt");
-> -	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-> -	flush_work(&it6505->link_works);
-> -	it6505_stop_hdcp(it6505);
-> -	it6505_video_reset(it6505);
-> +	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
->  }
->  
-> -static void it6505_irq_io_latch_fifo_overflow(struct it6505 *it6505)
-> +static void it6505_irq_scdt(struct it6505 *it6505)
-
-Please refrain from moving the functions in the same commit as changing
-them. It is hard to check what happened with it6505_irq_scdt().
-
->  {
->  	struct device *dev = &it6505->client->dev;
-> +	bool data;
->  
-> -	DRM_DEV_DEBUG_DRIVER(dev, "IO latch fifo overflow interrupt");
-> -	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-> -	flush_work(&it6505->link_works);
-> -	it6505_stop_hdcp(it6505);
-> -	it6505_video_reset(it6505);
-> +	data = it6505_get_video_status(it6505);
-> +	DRM_DEV_DEBUG_DRIVER(dev, "video stable change interrupt, %s", data ? "stable" : "unstable");
-> +
-> +	it6505_calc_video_info(it6505);
-> +	it6505_link_reset_step_train(it6505);
-> +
-> +	if (data)
-> +		schedule_work(&it6505->link_works);
->  }
->  
-> -static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
-> +
-> +static void it6505_irq_video_handler(struct it6505 *it6505, const int *int_status)
->  {
-> -	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
-> +	struct device *dev = &it6505->client->dev;
-> +	int reg_0d, reg_int03;
-> +
-> +	/*
-> +	 * When video SCDT change with video not stable,
-> +	 * Or video FIFO error, need video reset
-> +	 */
-> +
-> +	if ((!it6505_get_video_status(it6505) &&
-> +		(it6505_test_bit(INT_SCDT_CHANGE, (unsigned int *) int_status))) ||
-> +		(it6505_test_bit(BIT_INT_IO_FIFO_OVERFLOW, (unsigned int *) int_status)) ||
-> +		(it6505_test_bit(BIT_INT_VID_FIFO_ERROR, (unsigned int *) int_status))) {
-> +
-> +		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-> +		flush_work(&it6505->link_works);
-> +		it6505_stop_hdcp(it6505);
-> +		it6505_video_reset(it6505);
-> +
-> +		usleep_range(10000, 11000);
-> +
-> +		/*
-> +		 * Clear FIFO error IRQ to prevent fifo error -> reset loop
-> +		 * HW will trigger SCDT change IRQ again when video stable
-> +		 */
-> +
-> +		reg_int03 = it6505_read(it6505, INT_STATUS_03);
-> +		reg_0d = it6505_read(it6505, REG_SYSTEM_STS);
-> +
-> +		reg_int03 &= (BIT(INT_VID_FIFO_ERROR) | BIT(INT_IO_LATCH_FIFO_OVERFLOW));
-> +		it6505_write(it6505, INT_STATUS_03, reg_int03);
-> +
-> +		DRM_DEV_DEBUG_DRIVER(dev, "reg08 = 0x%02x", reg_int03);
-> +		DRM_DEV_DEBUG_DRIVER(dev, "reg0D = 0x%02x", reg_0d);
-> +
-> +		return;
-> +	}
-> +
-> +
-> +	if (it6505_test_bit(INT_SCDT_CHANGE, (unsigned int *) int_status))
-> +		it6505_irq_scdt(it6505);
->  }
->  
->  static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
-> @@ -2512,15 +2572,11 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
->  	} irq_vec[] = {
->  		{ BIT_INT_HPD, it6505_irq_hpd },
->  		{ BIT_INT_HPD_IRQ, it6505_irq_hpd_irq },
-> -		{ BIT_INT_SCDT, it6505_irq_scdt },
->  		{ BIT_INT_HDCP_FAIL, it6505_irq_hdcp_fail },
->  		{ BIT_INT_HDCP_DONE, it6505_irq_hdcp_done },
-> -		{ BIT_INT_AUX_CMD_FAIL, it6505_irq_aux_cmd_fail },
->  		{ BIT_INT_HDCP_KSV_CHECK, it6505_irq_hdcp_ksv_check },
->  		{ BIT_INT_AUDIO_FIFO_ERROR, it6505_irq_audio_fifo_error },
->  		{ BIT_INT_LINK_TRAIN_FAIL, it6505_irq_link_train_fail },
-> -		{ BIT_INT_VID_FIFO_ERROR, it6505_irq_video_fifo_error },
-> -		{ BIT_INT_IO_FIFO_OVERFLOW, it6505_irq_io_latch_fifo_overflow },
->  	};
->  	int int_status[3], i;
->  
-> @@ -2546,10 +2602,13 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
->  		irq_vec[0].handler(it6505);
->  
->  	if (it6505->hpd_state) {
-> +
->  		for (i = 1; i < ARRAY_SIZE(irq_vec); i++) {
->  			if (it6505_test_bit(irq_vec[i].bit, (unsigned int *)int_status))
->  				irq_vec[i].handler(it6505);
->  		}
-> +
-> +		it6505_irq_video_handler(it6505, (unsigned int *) int_status);
->  	}
->  
->  	pm_runtime_put_sync(dev);
-> @@ -3072,9 +3131,17 @@ static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
->  	DRM_DEV_DEBUG_DRIVER(dev, "start");
->  
->  	if (it6505->powered) {
-> -		it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
-> -					     DP_SET_POWER_D3);
-> +
->  		it6505_video_disable(it6505);
-> +
-> +		/*
-> +		 * After Set link video mute,
-> +		 * wait 20ms before send D3 to DP sink
-> +		 */
-> +		usleep_range(20000, 25000);
-
-Separate commit.
-
-> +
-> +		it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
-> +						DP_SET_POWER_D3);
->  	}
->  }
->  
-> -- 
-> 2.25.1
-> 
-
--- 
-With best wishes
-Dmitry
+--cd669ce6bdd8f9700a6a46cb06d3d090071a64c757641859cb60bdf1475c--
