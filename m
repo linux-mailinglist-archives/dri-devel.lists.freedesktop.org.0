@@ -2,89 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271AA8AB760
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 00:59:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B26D08AB789
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 01:43:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55EB410E646;
-	Fri, 19 Apr 2024 22:59:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 532E510EBA0;
+	Fri, 19 Apr 2024 23:43:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rcH3zaFR";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="NBDy1mOW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B288410E646
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 22:59:21 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-516d6c1e238so3185666e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 15:59:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713567559; x=1714172359; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Y/pykJ+iNZaZvxsy5yVJ+QnkNtTRNc8ccYnjEfcauKg=;
- b=rcH3zaFRIcRRAIoGYyBPPgJEV9+9lLnNqReqML693loPXZKh5BkooMLx3iGdLUK6km
- c6z08HRUI74tb90hEvB44r0F4YCJyBUt2w7BuNDaLx0lZAGiomb2oEkmPbS8Bhhi6qWZ
- dyLhAMnnS3UBSWMomcl9UskyrPXtLPFPIWBJRsTDtluAFLXWrPtNov069HW6owBuLR2n
- vgQ3aOQ4NTq2H09tnd+LpicUe+zFOIG8QwlOn5tzxtdJ6srCMPILDVRsCQZYeCdINUjv
- B1+wkmfWHkfzppxWuEnvNiB83fWmJc18GHN2cW/GJnAT5lSbJm3g+3QRJqppw2B2iZw3
- L2sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713567559; x=1714172359;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Y/pykJ+iNZaZvxsy5yVJ+QnkNtTRNc8ccYnjEfcauKg=;
- b=j/EYw+NlCFaKoGVlN/K9+SIsSj35DEk/3fpGtqMMk2SYryHG64rPEGvNihYs13EcyJ
- Qq3kavcchwpOpiOeDmOY48Ib5/7V1I+gtdi6Vaxqynl9pIP9IN2v3PnoSIPF8T/NtjDZ
- OMRIxfR/Y3Q0QgTqSpisVXuzrjg537urtJ0SBU2oZ5YsCmVdgVzf6CYVA/HuNy9QECkt
- 7lwWQqhB5p+otyqL0NT2lPzdlweqTFWj7YCfnbBI60dl98J8sjHfh+65ycgcpS2xnVpt
- voiYiEqZE+K0YOYgARH7skbQsGe4G6cobp8JmmtE1ofM6lOeDybWPSv8xbm4OUD1AB6A
- /+7Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXiRWwU+kOjnO5LL3pk/9BVbvXnkz6ekmLlsfyrqM6gROixaMwTtv2nQGOIO4/E3SP/Sd/Jw5VdE5Ve7+rmXhFyC+5JrTZnKUZPrn84xJlp
-X-Gm-Message-State: AOJu0Yxmbk0h/HFcFsVXAv4vbVUV/ztl77FtuqNDaAB8hkahHFRAtitE
- ddktNN/XjswW5UZl+Mus4czvBDCBJ65oILGRGgbZJ1kyyazumMMjEVUUliIx+O8=
-X-Google-Smtp-Source: AGHT+IESWYEtVXjigtQ0L5bOUF7zr3weAYEinceRJ7EB6HeSNIHj7J9wJmp0cfKzhv8mnoUheJDP1A==
-X-Received: by 2002:ac2:58cd:0:b0:51a:bdd6:e718 with SMTP id
- u13-20020ac258cd000000b0051abdd6e718mr1877655lfo.31.1713567559098; 
- Fri, 19 Apr 2024 15:59:19 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
- by smtp.gmail.com with ESMTPSA id
- s6-20020a197706000000b00518d7c38cb9sm913814lfc.284.2024.04.19.15.59.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Apr 2024 15:59:18 -0700 (PDT)
-Date: Sat, 20 Apr 2024 01:59:16 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Archit Taneja <architt@codeaurora.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>, Vinod Koul <vkoul@kernel.org>, 
- Sravanthi Kollukuduru <skolluku@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jordan Crouse <jordan@cosmicpenguin.net>, Rajesh Yadav <ryadav@codeaurora.org>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- ~postmarketos/upstreaming@lists.sr.ht, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>
-Subject: Re: [PATCH 2/7] drm/msm/dsi: Pass bonded-DSI hdisplay/2 to DSC
- timing configuration
-Message-ID: <omnlm4e6yq5u2iurxld5gwo7rma4jpfmmhvpzsddjz5aensumc@ffsolnsblmyx>
-References: <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-0-78ae3ee9a697@somainline.org>
- <20240417-drm-msm-initial-dualpipe-dsc-fixes-v1-2-78ae3ee9a697@somainline.org>
- <CAA8EJpq-1QwoM2hEyegpfKnVH+qrswjmTd_hpYs9d9B7gikHjg@mail.gmail.com>
- <7fqwkryeumkt7zxsec6va7ys22nfs3tr4rrcz323extdz3f6zv@w4uu2lk4uh7v>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE6710EBA0;
+ Fri, 19 Apr 2024 23:43:31 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 43JNdIqh025225; Fri, 19 Apr 2024 23:43:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ content-type:message-id:date:mime-version:subject:to:cc
+ :references:from:in-reply-to; s=qcppdkim1; bh=8U8ngmUrrcLsKX+zeW
+ 9SkzlBu7dqCRfeWUXhwbNfv90=; b=NBDy1mOW6HhVpSFotuw+31IeyS2cJ6PPxA
+ 4JgAUW8qoA66Ru3wGQzib6NhWQWVtzL0LWC+cHVvrK1wdCN2UVQhBd4kQG5/BsDt
+ uQ+YiSvcCHg1OKl6qa8JeRpj2UJ54yoZsuSPJFD4TnLjV36iWG/z/CzxfzXmErMd
+ m+ozww8uNT4DwhhVig8OExL+seXxSTUmvMbo3rW8ZS1rKYklaD//YetcoKyPJTJh
+ iL3DNvmdn5kfatwWy60toE9BSrmboxnCmRSWYtuko0fOZxQvgtfaBWKNekDUxtum
+ dSfsDfNiEZMjX/UqSORGB5L0F3eA7n8Psr2zBZxB5QR9nkiyCOxg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xkt3mh1rf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Apr 2024 23:43:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43JNhMrC015010
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Apr 2024 23:43:22 GMT
+Received: from [10.110.104.191] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 19 Apr
+ 2024 16:43:21 -0700
+Content-Type: multipart/mixed; boundary="------------jPJkR2zjsog9xHLAQWo8XIkw"
+Message-ID: <9c2f5f63-291c-c2b5-41a1-d2004055cf7a@quicinc.com>
+Date: Fri, 19 Apr 2024 16:43:20 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7fqwkryeumkt7zxsec6va7ys22nfs3tr4rrcz323extdz3f6zv@w4uu2lk4uh7v>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/9] drm/msm/dpu: drop dpu_format_check_modified_format
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+CC: Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>, 
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20240319-dpu-mode-config-width-v1-0-d0fe6bf81bf1@linaro.org>
+ <20240319-dpu-mode-config-width-v1-1-d0fe6bf81bf1@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240319-dpu-mode-config-width-v1-1-d0fe6bf81bf1@linaro.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: dTbBVsk8VEA5UWPhR-xASIY7WLo-3y1u
+X-Proofpoint-ORIG-GUID: dTbBVsk8VEA5UWPhR-xASIY7WLo-3y1u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-19_16,2024-04-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0
+ bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404190184
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,74 +93,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 20, 2024 at 12:18:39AM +0200, Marijn Suijten wrote:
-> On 2024-04-17 14:58:25, Dmitry Baryshkov wrote:
-> > On Wed, 17 Apr 2024 at 02:57, Marijn Suijten
-> > <marijn.suijten@somainline.org> wrote:
-> > >
-> > > When configuring the timing of DSI hosts (interfaces) in
-> > > dsi_timing_setup() all values written to registers are taking bonded
-> > > DSI into account by dividing the original mode width by 2 (half the
-> > > data is sent over each of the two DSI hosts), but the full width
-> > > instead of the interface width is passed as hdisplay parameter to
-> > > dsi_update_dsc_timing().
-> > >
-> > > Currently only msm_dsc_get_slices_per_intf() is called within
-> > > dsi_update_dsc_timing() with the `hdisplay` argument which clearly
-> > > documents that it wants the width of a single interface (which, again,
-> > > in bonded DSI mode is half the total width of the mode).  Thus pass the
-> > > bonded-mode-adjusted hdisplay parameter into dsi_update_dsc_timing()
-> > > otherwise all values written to registers by this function (i.e. the
-> > > number of slices per interface or packet, and derived from this the EOL
-> > > byte number) are twice too large.
-> > >
-> > > Inversely the panel driver is expected to only set the slice width and
-> > > number of slices for half the panel, i.e. what will be sent by each
-> > > host individually, rather than fixing that up like hdisplay here.
-> > >
-> > > Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
-> > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > > ---
-> > >  drivers/gpu/drm/msm/dsi/dsi_host.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Thanks, it seems this patch has already been picked up for 6.10 [1] to test at
-> least, but I'd advise you to drop it until I resend it in v2, as it no longer
-> performs as written in the title.
+--------------jPJkR2zjsog9xHLAQWo8XIkw
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Ok, dropping.
 
-> 
-> When I wrote this patch in in June 2023, commit efcbd6f9cdeb ("drm/msm/
-> dsi: Enable widebus for DSI") from August 2023 wasn't there yet.  That patch
-> updates hdisplay (because it is unused after that point) with the number
-> of compressed bytes to be sent over each interface, which is effectively
-> hdisplay (based on slice_count * slice_width, so as explained in the commit
-> message that corresponds to half the panel width), divided by a compression
-> ratio of 3 or 6 depending on widebus, thus passing a way too low value into
-> dsi_update_dsc_timing().
-> 
-> As a result this patch regresses the DSC panel on my SM8150 Sony Xperia 1, and
-> likely also explains why it was quite hard to get the porches "just right" on
-> the Xperia 1 III with its dual-DSI dual-DSC 4k@120Hz panel (that these patches
-> are specifically for).
-> 
-> I'm still thinking of how to best fix that: probably introducing a new separate
-> local variable, though dsi_update_dsc_timing() only uses it to calculate
-> the number of slices per interface, which again as written in the commit
-> description, is currently required to already be for one interface (in other
-> words, the Xperia 1 with only a single intf sets slice_count=2, but the Xperia 1
-> III with 2 bonded DSI interfaces sets slice_count=1).  Which means that this is
-> always equivalent to slice_per_intf = dsc->slice_count.
-> 
-> Let me know which approach is preferred.
-> 
-> - Marijn
-> 
-> [1]: https://gitlab.freedesktop.org/drm/msm/-/merge_requests/110
 
--- 
-With best wishes
-Dmitry
+On 3/19/2024 6:21 AM, Dmitry Baryshkov wrote:
+> The msm_kms_funcs::check_modified_format() callback is not used by the
+> driver. Drop it completely.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c | 45 -----------------------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h | 15 ----------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  1 -
+>   drivers/gpu/drm/msm/msm_kms.h               |  5 ----
+>   4 files changed, 66 deletions(-)
+> 
+
+I think in this case, I am leaning towards completing the implementation 
+rather than dropping it as usual.
+
+It seems its easier to just add the support to call this like the 
+attached patch?
+
+WDYT?
+
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+> index e366ab134249..ff0df478c958 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+> @@ -960,51 +960,6 @@ int dpu_format_populate_layout(
+>   	return ret;
+>   }
+>   
+> -int dpu_format_check_modified_format(
+> -		const struct msm_kms *kms,
+> -		const struct msm_format *msm_fmt,
+> -		const struct drm_mode_fb_cmd2 *cmd,
+> -		struct drm_gem_object **bos)
+> -{
+> -	const struct drm_format_info *info;
+> -	const struct dpu_format *fmt;
+> -	struct dpu_hw_fmt_layout layout;
+> -	uint32_t bos_total_size = 0;
+> -	int ret, i;
+> -
+> -	if (!msm_fmt || !cmd || !bos) {
+> -		DRM_ERROR("invalid arguments\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	fmt = to_dpu_format(msm_fmt);
+> -	info = drm_format_info(fmt->base.pixel_format);
+> -	if (!info)
+> -		return -EINVAL;
+> -
+> -	ret = dpu_format_get_plane_sizes(fmt, cmd->width, cmd->height,
+> -			&layout, cmd->pitches);
+> -	if (ret)
+> -		return ret;
+> -
+> -	for (i = 0; i < info->num_planes; i++) {
+> -		if (!bos[i]) {
+> -			DRM_ERROR("invalid handle for plane %d\n", i);
+> -			return -EINVAL;
+> -		}
+> -		if ((i == 0) || (bos[i] != bos[0]))
+> -			bos_total_size += bos[i]->size;
+> -	}
+> -
+> -	if (bos_total_size < layout.total_size) {
+> -		DRM_ERROR("buffers total size too small %u expected %u\n",
+> -				bos_total_size, layout.total_size);
+> -		return -EINVAL;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>   const struct dpu_format *dpu_get_dpu_format_ext(
+>   		const uint32_t format,
+>   		const uint64_t modifier)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h
+> index 84b8b3289f18..9442445f1a86 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h
+> @@ -54,21 +54,6 @@ const struct msm_format *dpu_get_msm_format(
+>   		const uint32_t format,
+>   		const uint64_t modifiers);
+>   
+> -/**
+> - * dpu_format_check_modified_format - validate format and buffers for
+> - *                   dpu non-standard, i.e. modified format
+> - * @kms:             kms driver
+> - * @msm_fmt:         pointer to the msm_fmt base pointer of an dpu_format
+> - * @cmd:             fb_cmd2 structure user request
+> - * @bos:             gem buffer object list
+> - *
+> - * Return: error code on failure, 0 on success
+> - */
+> -int dpu_format_check_modified_format(
+> -		const struct msm_kms *kms,
+> -		const struct msm_format *msm_fmt,
+> -		const struct drm_mode_fb_cmd2 *cmd,
+> -		struct drm_gem_object **bos);
+>   
+>   /**
+>    * dpu_format_populate_layout - populate the given format layout based on
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index a1f5d7c4ab91..7257ac4020d8 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -969,7 +969,6 @@ static const struct msm_kms_funcs kms_funcs = {
+>   	.complete_commit = dpu_kms_complete_commit,
+>   	.enable_vblank   = dpu_kms_enable_vblank,
+>   	.disable_vblank  = dpu_kms_disable_vblank,
+> -	.check_modified_format = dpu_format_check_modified_format,
+>   	.get_format      = dpu_get_msm_format,
+>   	.destroy         = dpu_kms_destroy,
+>   	.snapshot        = dpu_kms_mdp_snapshot,
+> diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+> index 0641f6111b93..b794ed918b56 100644
+> --- a/drivers/gpu/drm/msm/msm_kms.h
+> +++ b/drivers/gpu/drm/msm/msm_kms.h
+> @@ -96,11 +96,6 @@ struct msm_kms_funcs {
+>   	const struct msm_format *(*get_format)(struct msm_kms *kms,
+>   					const uint32_t format,
+>   					const uint64_t modifiers);
+> -	/* do format checking on format modified through fb_cmd2 modifiers */
+> -	int (*check_modified_format)(const struct msm_kms *kms,
+> -			const struct msm_format *msm_fmt,
+> -			const struct drm_mode_fb_cmd2 *cmd,
+> -			struct drm_gem_object **bos);
+>   
+>   	/* misc: */
+>   	long (*round_pixclk)(struct msm_kms *kms, unsigned long rate,
+> 
+--------------jPJkR2zjsog9xHLAQWo8XIkw
+Content-Type: text/plain; charset="UTF-8"; name="modifiers.patch"
+Content-Disposition: attachment; filename="modifiers.patch"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2ZiLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vbXNtL21zbV9mYi5jCmluZGV4IDgwMTY2ZjcwMmEwZC4uMWViZjE2OTliYTk0IDEw
+MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9mYi5jCisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9tc20vbXNtX2ZiLmMKQEAgLTE3NSw2ICsxNzUsNyBAQCBzdGF0aWMgc3RydWN0
+IGRybV9mcmFtZWJ1ZmZlciAqbXNtX2ZyYW1lYnVmZmVyX2luaXQoc3RydWN0IGRybV9kZXZp
+Y2UgKmRldiwKIAlzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYjsKIAljb25zdCBzdHJ1Y3Qg
+bXNtX2Zvcm1hdCAqZm9ybWF0OwogCWludCByZXQsIGksIG47CisJYm9vbCBpc19tb2RpZmll
+ZCA9IGZhbHNlOwogCiAJZHJtX2RiZ19zdGF0ZShkZXYsICJjcmVhdGUgZnJhbWVidWZmZXI6
+IG1vZGVfY21kPSVwICglZHglZEAlNC40cylcbiIsCiAJCQltb2RlX2NtZCwgbW9kZV9jbWQt
+PndpZHRoLCBtb2RlX2NtZC0+aGVpZ2h0LApAQCAtMjAwLDI4ICsyMDEsNTIgQEAgc3RhdGlj
+IHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKm1zbV9mcmFtZWJ1ZmZlcl9pbml0KHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYsCiAKIAltc21fZmItPmZvcm1hdCA9IGZvcm1hdDsKIAorCWlmICht
+b2RlX2NtZC0+ZmxhZ3MgJiBEUk1fTU9ERV9GQl9NT0RJRklFUlMpIHsKKwkJZm9yIChpID0g
+MDsgaSA8IEFSUkFZX1NJWkUobW9kZV9jbWQtPm1vZGlmaWVyKTsgaSsrKSB7CisJCQlpZiAo
+bW9kZV9jbWQtPm1vZGlmaWVyW2ldKSB7CisJCQkJaXNfbW9kaWZpZWQgPSB0cnVlOworCQkJ
+CWJyZWFrOworCQkJfQorCQl9CisJfQorCiAJaWYgKG4gPiBBUlJBWV9TSVpFKGZiLT5vYmop
+KSB7CiAJCXJldCA9IC1FSU5WQUw7CiAJCWdvdG8gZmFpbDsKIAl9CiAKLQlmb3IgKGkgPSAw
+OyBpIDwgbjsgaSsrKSB7Ci0JCXVuc2lnbmVkIGludCB3aWR0aCA9IG1vZGVfY21kLT53aWR0
+aCAvIChpID8gaW5mby0+aHN1YiA6IDEpOwotCQl1bnNpZ25lZCBpbnQgaGVpZ2h0ID0gbW9k
+ZV9jbWQtPmhlaWdodCAvIChpID8gaW5mby0+dnN1YiA6IDEpOwotCQl1bnNpZ25lZCBpbnQg
+bWluX3NpemU7Ci0KLQkJbWluX3NpemUgPSAoaGVpZ2h0IC0gMSkgKiBtb2RlX2NtZC0+cGl0
+Y2hlc1tpXQotCQkJICsgd2lkdGggKiBpbmZvLT5jcHBbaV0KLQkJCSArIG1vZGVfY21kLT5v
+ZmZzZXRzW2ldOwotCi0JCWlmIChib3NbaV0tPnNpemUgPCBtaW5fc2l6ZSkgeworCWlmIChp
+c19tb2RpZmllZCkgeworCQlpZiAoIWttcy0+ZnVuY3MtPmNoZWNrX21vZGlmaWVkX2Zvcm1h
+dCkgeworCQkJRFJNX0RFVl9FUlJPUihkZXYtPmRldiwgImNhbid0IGNoZWNrIG1vZGlmaWVk
+IGZiIGZvcm1hdFxuIik7CiAJCQlyZXQgPSAtRUlOVkFMOwogCQkJZ290byBmYWlsOworCQl9
+IGVsc2UgeworCQkJcmV0ID0ga21zLT5mdW5jcy0+Y2hlY2tfbW9kaWZpZWRfZm9ybWF0KAor
+CQkJCQlrbXMsIG1zbV9mYi0+Zm9ybWF0LCBtb2RlX2NtZCwgYm9zKTsKKwkJCWlmIChyZXQp
+CisJCQkJZ290byBmYWlsOwogCQl9CisJfSBlbHNlIHsKKwkJZm9yIChpID0gMDsgaSA8IG47
+IGkrKykgeworCQkJdW5zaWduZWQgaW50IHdpZHRoID0gbW9kZV9jbWQtPndpZHRoIC8gKGkg
+PyBpbmZvLT5oc3ViIDogMSk7CisJCQl1bnNpZ25lZCBpbnQgaGVpZ2h0ID0gbW9kZV9jbWQt
+PmhlaWdodCAvIChpID8gaW5mby0+dnN1YiA6IDEpOworCQkJdW5zaWduZWQgaW50IG1pbl9z
+aXplOwogCi0JCW1zbV9mYi0+YmFzZS5vYmpbaV0gPSBib3NbaV07CisJCQltaW5fc2l6ZSA9
+IChoZWlnaHQgLSAxKSAqIG1vZGVfY21kLT5waXRjaGVzW2ldCisJCQkJKyB3aWR0aCAqIGlu
+Zm8tPmNwcFtpXQorCQkJCSsgbW9kZV9jbWQtPm9mZnNldHNbaV07CisKKwkJCWlmIChib3Nb
+aV0tPnNpemUgPCBtaW5fc2l6ZSkgeworCQkJCXJldCA9IC1FSU5WQUw7CisJCQkJZ290byBm
+YWlsOworCQkJfQorCisJCX0KIAl9CiAKKwlmb3IgKGkgPSAwOyBpIDwgbjsgaSsrKQorCQlt
+c21fZmItPmJhc2Uub2JqW2ldID0gYm9zW2ldOworCiAJZHJtX2hlbHBlcl9tb2RlX2ZpbGxf
+ZmJfc3RydWN0KGRldiwgZmIsIG1vZGVfY21kKTsKIAogCXJldCA9IGRybV9mcmFtZWJ1ZmZl
+cl9pbml0KGRldiwgZmIsICZtc21fZnJhbWVidWZmZXJfZnVuY3MpOwo=
+
+--------------jPJkR2zjsog9xHLAQWo8XIkw--
