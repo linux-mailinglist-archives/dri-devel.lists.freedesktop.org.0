@@ -2,77 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D9B8AA8D8
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 09:04:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3658AA8DC
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 09:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0502E10E281;
-	Fri, 19 Apr 2024 07:04:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 354B210E7A4;
+	Fri, 19 Apr 2024 07:04:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fGXCCNpA";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QE+b5leQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8872F10E281
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 07:04:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE78110E7A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 07:04:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1713510243;
+ s=mimecast20190719; t=1713510273;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sHuEH/8T8ho9ggnTIrjh4+mWTVgr/tS94Z/G4jbQNR0=;
- b=fGXCCNpAkSMFFXrYVC5bu9ZtNiFn1q8+LKoJklaZNRgLtC8HXl4wZ9fagcZ35p98raw84C
- 2KxA5HkFAlxXpFFCfhBqN5/6ODk0S0/yRbHqvRUitmofVVZdJ52svKmPo3jBgi2yrGrCRX
- 7AtJ7gaAy8iEc/ne6/lDKe/Z4SiCe2g=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RrF53ndQa9Sgu43CWLxXlJZq6iA0dd4wA/lH76Cjdg8=;
+ b=QE+b5leQxVrQ2iwm760KN44GOl5RNHFsGfHHsK6jFrpdkOnX5kzHTNLOT1QzOGS15+tpcf
+ CTvmosOYjilDOl18XV/m8u9iHdU0kYW4jbsaSzfo3y1QIK7vRlVsF3Z+tYMyuY3KEVGZHc
+ Hc8hAp5ChG0kl0vkFmc64vnjy9FWIDk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-433-PLXZoDXHNiqCI_vxALpZTQ-1; Fri, 19 Apr 2024 03:03:59 -0400
-X-MC-Unique: PLXZoDXHNiqCI_vxALpZTQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-347ddb973dcso1036038f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 00:03:59 -0700 (PDT)
+ us-mta-455-b0y5HYfbOCWZOShURv4j3Q-1; Fri, 19 Apr 2024 03:04:32 -0400
+X-MC-Unique: b0y5HYfbOCWZOShURv4j3Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3455cbdea2cso1188816f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 00:04:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713510238; x=1714115038;
+ d=1e100.net; s=20230601; t=1713510271; x=1714115071;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sHuEH/8T8ho9ggnTIrjh4+mWTVgr/tS94Z/G4jbQNR0=;
- b=wVso0SEgiB7WkBce+FMwkdlBWsVO3hgE8bP6LvJz7wRxIGQCVBaSTZhu6mhdNALQ34
- Qur344D2rxgJ87nulL9wbRa0VMmmGQ/ba5ugt0UssAdjQsWg4vEeqpqv3GkMnHwc97jI
- Sj+oSAgUozC1v9XsDO1U03Vfb5BBbL7mDsJMEk3+BGvG2+8Bp/nNRlWfExogbGa0npPP
- MRRuXuN+uyQFe3lIKoAOd3pFrVUgN8g3t/eXi6uM1wM/ZnxCCMrjO4zPBSUrm+foZLY2
- 7SpAgqe6y/IW+q5WNauKxLV9l6fQEFvKwYkpmwLXOieFCn5FSBY/5iTftnKMHuB+vRTe
- n63Q==
-X-Gm-Message-State: AOJu0Yyb3x+5xQ0xIN6D/r+Jb18DJrUx9v/NrU1wosmNH8nFvRxUYyLM
- rBq45ExIy0UkOf0ArWBBW4FjXI9KKl/Dqk5uRF/avrWzsODFTmuHqUZSRuY8MsKt1moM64ZV4lz
- 7he5uC6s68k06AHbnXGjeoKWxAuE3nzDmCjZ9CDxOR53VJ4qRFQaOEolAFHcVSNMo5g==
-X-Received: by 2002:adf:eed0:0:b0:33e:c410:a1cd with SMTP id
- a16-20020adfeed0000000b0033ec410a1cdmr607074wrp.69.1713510238210; 
- Fri, 19 Apr 2024 00:03:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGhqZub95bPXvsIY1tEqRueopWbhOus1raU6vUAD6cUmDrmcejh0jPcsNh/gyKe2VFyuLRWsA==
-X-Received: by 2002:adf:eed0:0:b0:33e:c410:a1cd with SMTP id
- a16-20020adfeed0000000b0033ec410a1cdmr607052wrp.69.1713510237664; 
- Fri, 19 Apr 2024 00:03:57 -0700 (PDT)
+ bh=RrF53ndQa9Sgu43CWLxXlJZq6iA0dd4wA/lH76Cjdg8=;
+ b=pp50OOW+vSppT8ZTc9PL4UsPdlmldDIqzwfPyFi1CDRcdQE3RT6gUlcZvTEuO5TPgo
+ Rv5LVWDmPlKVs+oRjosSSGxB3UcbBJX5a1cBtRkVPZ2mEcYZrSI2n/qKMq8Cfpz40B0v
+ lBT68rzZnrC1qWJn3KCbvAjig4+n7njrK7Th8zWEy1hF2SqdJWaWEg3xrrF0kR0A7K3X
+ q/9k4ZA4yvqkSskNgtm32rizbJJW4IfgeKa6VbWvwbWIhaUzDvodbjHWSBHKUF15AGGY
+ EY0kxSeq9T1C4EpY5rEs3D4/AH4KlMqGvLv1rvkCoznCBMe3zmEk0gWr6UWAGc5V30SX
+ NxRQ==
+X-Gm-Message-State: AOJu0YzMDlW6i3vGx5uQH9qVpYNQ7mfZLMmz1Z2Oa4FFqxLdP0h0dp1w
+ XmGytMCilqy2IAMMCXaKj7nHTaU5udPcppSlvvYOo5lxPO/xqIrlWaDr6+CNxG7qPLBaz5ndtil
+ yQsYywOQ5+CxKLf0PB379M8zpBM6n8tKf2dVRrwS/PQIKr/V9Oqvd7wIVVgPzGVRg8A==
+X-Received: by 2002:a05:6000:1868:b0:349:af80:9b67 with SMTP id
+ d8-20020a056000186800b00349af809b67mr3789506wri.30.1713510270824; 
+ Fri, 19 Apr 2024 00:04:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFPpkcAcvPPXH0B3Lun7mewkPmrcqy/fRLjlykJWcvyGXZveMZJ9WqJmQsdTv0gouAOu6XXhw==
+X-Received: by 2002:a05:6000:1868:b0:349:af80:9b67 with SMTP id
+ d8-20020a056000186800b00349af809b67mr3789487wri.30.1713510270437; 
+ Fri, 19 Apr 2024 00:04:30 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- cp37-20020a056000402500b00341de3abb0esm3703659wrb.20.2024.04.19.00.03.57
+ u24-20020a05600c00d800b004185be4baefsm7724246wmm.0.2024.04.19.00.04.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Apr 2024 00:03:57 -0700 (PDT)
+ Fri, 19 Apr 2024 00:04:30 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
  airlied@gmail.com, daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, Thomas
- Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@redhat.com>, Gerd
- Hoffmann <kraxel@redhat.com>, Gurchetan Singh
- <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, Dmitry
- Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v2 19/43] drm/virtio: Use fbdev-shmem
-In-Reply-To: <20240410130557.31572-20-tzimmermann@suse.de>
+ Zimmermann <tzimmermann@suse.de>, Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2 29/43] drm/renesas/rz-du: Use fbdev-dma
+In-Reply-To: <20240410130557.31572-30-tzimmermann@suse.de>
 References: <20240410130557.31572-1-tzimmermann@suse.de>
- <20240410130557.31572-20-tzimmermann@suse.de>
-Date: Fri, 19 Apr 2024 09:03:56 +0200
-Message-ID: <878r19esv7.fsf@minerva.mail-host-address-is-not-set>
+ <20240410130557.31572-30-tzimmermann@suse.de>
+Date: Fri, 19 Apr 2024 09:04:29 +0200
+Message-ID: <875xwdesua.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -94,15 +91,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Implement fbdev emulation with fbdev-shmem. Avoids the overhead of
+> Implement fbdev emulation with fbdev-dma. Fbdev-dma now supports
+> damage handling, which is required by rz-du. Avoids the overhead of
 > fbdev-generic's additional shadow buffering. No functional changes.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Gurchetan Singh <gurchetansingh@chromium.org>
-> Cc: Chia-I Wu <olvaffe@gmail.com>
-> Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Cc: Biju Das <biju.das.jz@bp.renesas.com>
+> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
