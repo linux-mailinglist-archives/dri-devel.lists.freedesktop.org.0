@@ -2,60 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C058AAEFE
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 15:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4A58AAF3A
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 15:23:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14CBF10FECF;
-	Fri, 19 Apr 2024 13:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F160F10F188;
+	Fri, 19 Apr 2024 13:23:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ptQj5J08";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RGXeBv0a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9D4510FECF
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 13:01:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EE808619D6;
- Fri, 19 Apr 2024 13:01:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47E96C3277B;
- Fri, 19 Apr 2024 13:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713531672;
- bh=EfEgmbr1ktf8i8gBDSOo61C9Hr8ROwzxRco0v2/O6p0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ptQj5J08aVwRnk47dfnXt/VPP/OEroo0Ee3+LnY69c9iZQT0W4DMNG9ylpWGszuZB
- gEu3xNS/DD8Gqoid0m2dxfvDVwpDFkfD0hY6j8cWwrVepuhzb7rXz4nWuc36LeAdKu
- OLnbmOYR91KYbBuPRyF9z6RpmQJeWmQO0ZhrGIFP/dZDNdUuafj8uN/QEEaYInB95u
- s5okAtlwaotbluwnSOh4f/zLc7tkY5q2lGgKSGSYWOVA1RlpeHbdyu0i02voCfwRGg
- 5uLLK/yQ374jR5e/ncIen4j1LbZTQ8eAx1GfgHVV5em2SudjN0fSJEjkML8EcUJH3U
- 1hXX1OTWS/04g==
-Date: Fri, 19 Apr 2024 15:01:10 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v11 15/28] drm/connector: hdmi: Compute bpc and format
- automatically
-Message-ID: <20240419-illegal-rose-heron-e2ff64@houat>
-References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
- <20240326-kms-hdmi-connector-state-v11-15-c5680ffcf261@kernel.org>
- <Zh6CQhD-2Yl5LUVb@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E55510E6EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 13:23:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1713532996;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4w2okfnWt4A2mGL+WlGEy1UeRfHqnVgV2LwGrY3KH3E=;
+ b=RGXeBv0a1MYFnTOkYPEN6BiyR2Y8iQp5ojeNdERj/PtOVViz4Tx04JuwJfx31yknHAHexM
+ ciR4S3lnuwWu93ssn8INB0KMf6BQblpmzAIWGnT/84jt/QOQpnQG+eYy/A1npc6P6piGII
+ Zb66h7ocjTHFAo7rr+6+j/fXYUkp4Lc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-611-7cupQ4r_OkOp8N44e634KQ-1; Fri, 19 Apr 2024 09:23:13 -0400
+X-MC-Unique: 7cupQ4r_OkOp8N44e634KQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED68D810602;
+ Fri, 19 Apr 2024 13:23:12 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.194.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEF4A400059;
+ Fri, 19 Apr 2024 13:23:10 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: daniel@ffwll.ch, tzimmermann@suse.de, airlied@redhat.com, deller@gmx.de,
+ geert@linux-m68k.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH] lib/fonts: Allow to select fonts for drm_panic
+Date: Fri, 19 Apr 2024 15:20:19 +0200
+Message-ID: <20240419132243.154466-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="27joxh4slrq34bs4"
-Content-Disposition: inline
-In-Reply-To: <Zh6CQhD-2Yl5LUVb@intel.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,152 +66,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+drm_panic has been introduced recently, and uses the same fonts as
+FRAMEBUFFER_CONSOLE.
 
---27joxh4slrq34bs4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ lib/fonts/Kconfig | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-On Tue, Apr 16, 2024 at 04:50:58PM +0300, Ville Syrj=E4l=E4 wrote:
-> On Tue, Mar 26, 2024 at 04:40:19PM +0100, Maxime Ripard wrote:
-> > Now that we have all the infrastructure needed, we can add some code
-> > that will, for a given connector state and mode, compute the best output
-> > format and bpc.
-> >=20
-> > The algorithm is equivalent to the one already found in i915 and vc4.
-> >=20
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c    | 197 +++++++++++++=
-+++++++-
-> >  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  25 ++-
-> >  2 files changed, 210 insertions(+), 12 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/=
-gpu/drm/display/drm_hdmi_state_helper.c
-> > index 063421835dba..b9bc0fb027ea 100644
-> > --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> > @@ -1,9 +1,11 @@
-> >  // SPDX-License-Identifier: MIT
-> > =20
-> >  #include <drm/drm_atomic.h>
-> >  #include <drm/drm_connector.h>
-> > +#include <drm/drm_edid.h>
-> > +#include <drm/drm_print.h>
-> > =20
-> >  #include <drm/display/drm_hdmi_helper.h>
-> >  #include <drm/display/drm_hdmi_state_helper.h>
-> > =20
-> >  /**
-> > @@ -46,10 +48,110 @@ connector_state_get_mode(const struct drm_connecto=
-r_state *conn_state)
-> >  		return NULL;
-> > =20
-> >  	return &crtc_state->mode;
-> >  }
-> > =20
-> > +static bool
-> > +sink_supports_format_bpc(const struct drm_connector *connector,
-> > +			 const struct drm_display_info *info,
-> > +			 const struct drm_display_mode *mode,
-> > +			 unsigned int format, unsigned int bpc)
-> > +{
-> > +	struct drm_device *dev =3D connector->dev;
-> > +	u8 vic =3D drm_match_cea_mode(mode);
-> > +
-> > +	/*
-> > +	 * CTA-861-F, section 5.4 - Color Coding & Quantization states
-> > +	 * that the bpc must be 8, 10, 12 or 16 except for the default
-> > +	 * 640x480 VIC1 where the value must be 8.
-> > +	 *
-> > +	 * The definition of default here is ambiguous but the spec
-> > +	 * refers to VIC1 being the default timing in several occasions
-> > +	 * so our understanding is that for the default timing (ie,
-> > +	 * VIC1), the bpc must be 8.
-> > +	 */
-> > +	if (vic =3D=3D 1 && bpc !=3D 8) {
-> > +		drm_dbg_kms(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
-> > +		return false;
-> > +	}
-> > +
-> > +	if (!info->is_hdmi &&
-> > +	    (format !=3D HDMI_COLORSPACE_RGB || bpc !=3D 8)) {
-> > +		drm_dbg_kms(dev, "DVI Monitors require an RGB output at 8 bpc\n");
-> > +		return false;
-> > +	}
-> > +
-> > +	if (!(connector->hdmi.supported_formats & BIT(format))) {
->=20
-> These are the capabilities of the souce I take it?
->
-> > +		drm_dbg_kms(dev, "%s format unsupported by the connector.\n",
-> > +			    drm_hdmi_connector_get_output_format_name(format));
-> > +		return false;
-> > +	}
-> > +
-> > +	switch (format) {
-> > +	case HDMI_COLORSPACE_RGB:
-> > +		drm_dbg_kms(dev, "RGB Format, checking the constraints.\n");
-> > +
-> > +		if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
-> > +			return false;
->=20
-> and this is the sink.
->
-> Maybe we should use the same bits for both? Anyways, that seems like
-> material for a followup series.
+diff --git a/lib/fonts/Kconfig b/lib/fonts/Kconfig
+index 7e945fdcbf11..befcb463f738 100644
+--- a/lib/fonts/Kconfig
++++ b/lib/fonts/Kconfig
+@@ -10,7 +10,7 @@ if FONT_SUPPORT
+ 
+ config FONTS
+ 	bool "Select compiled-in fonts"
+-	depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE
++	depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC
+ 	help
+ 	  Say Y here if you would like to use fonts other than the default
+ 	  your frame buffer console usually use.
+@@ -23,7 +23,7 @@ config FONTS
+ 
+ config FONT_8x8
+ 	bool "VGA 8x8 font" if FONTS
+-	depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE
++	depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC
+ 	default y if !SPARC && !FONTS
+ 	help
+ 	  This is the "high resolution" font for the VGA frame buffer (the one
+@@ -46,7 +46,7 @@ config FONT_8x16
+ 
+ config FONT_6x11
+ 	bool "Mac console 6x11 font (not supported by all drivers)" if FONTS
+-	depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE
++	depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC
+ 	default y if !SPARC && !FONTS && MAC
+ 	help
+ 	  Small console font with Macintosh-style high-half glyphs.  Some Mac
+@@ -54,7 +54,7 @@ config FONT_6x11
+ 
+ config FONT_7x14
+ 	bool "console 7x14 font (not supported by all drivers)" if FONTS
+-	depends on FRAMEBUFFER_CONSOLE
++	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+ 	help
+ 	  Console font with characters just a bit smaller than the default.
+ 	  If the standard 8x16 font is a little too big for you, say Y.
+@@ -62,7 +62,7 @@ config FONT_7x14
+ 
+ config FONT_PEARL_8x8
+ 	bool "Pearl (old m68k) console 8x8 font" if FONTS
+-	depends on FRAMEBUFFER_CONSOLE
++	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+ 	default y if !SPARC && !FONTS && AMIGA
+ 	help
+ 	  Small console font with PC-style control-character and high-half
+@@ -70,7 +70,7 @@ config FONT_PEARL_8x8
+ 
+ config FONT_ACORN_8x8
+ 	bool "Acorn console 8x8 font" if FONTS
+-	depends on FRAMEBUFFER_CONSOLE
++	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+ 	default y if !SPARC && !FONTS && ARM && ARCH_ACORN
+ 	help
+ 	  Small console font with PC-style control characters and high-half
+@@ -90,7 +90,7 @@ config FONT_6x10
+ 
+ config FONT_10x18
+ 	bool "console 10x18 font (not supported by all drivers)" if FONTS
+-	depends on FRAMEBUFFER_CONSOLE
++	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+ 	help
+ 	  This is a high resolution console font for machines with very
+ 	  big letters. It fits between the sun 12x22 and the normal 8x16 font.
+@@ -105,7 +105,7 @@ config FONT_SUN8x16
+ 
+ config FONT_SUN12x22
+ 	bool "Sparc console 12x22 font (not supported by all drivers)"
+-	depends on FRAMEBUFFER_CONSOLE && (!SPARC && FONTS || SPARC)
++	depends on (FRAMEBUFFER_CONSOLE && (!SPARC && FONTS || SPARC)) || DRM_PANIC
+ 	help
+ 	  This is the high resolution console font for Sun machines with very
+ 	  big letters (like the letters used in the SPARC PROM). If the
+@@ -113,7 +113,7 @@ config FONT_SUN12x22
+ 
+ config FONT_TER16x32
+ 	bool "Terminus 16x32 font (not supported by all drivers)"
+-	depends on FRAMEBUFFER_CONSOLE && (!SPARC && FONTS || SPARC)
++	depends on (FRAMEBUFFER_CONSOLE && (!SPARC && FONTS || SPARC)) || DRM_PANIC
+ 	help
+ 	  Terminus Font is a clean, fixed width bitmap font, designed
+ 	  for long (8 and more hours per day) work with computers.
+@@ -122,7 +122,7 @@ config FONT_TER16x32
+ 
+ config FONT_6x8
+ 	bool "OLED 6x8 font" if FONTS
+-	depends on FRAMEBUFFER_CONSOLE
++	depends on FRAMEBUFFER_CONSOLE || DRM_PANIC
+ 	help
+ 	  This font is useful for small displays (OLED).
+ 
 
-Ack
+base-commit: a35e92ef04c07bd473404b9b73d489aea19a60a8
+-- 
+2.44.0
 
-> > +
-> > +		if (bpc =3D=3D 10 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HD=
-MI_DC_30)) {
-> > +			drm_dbg_kms(dev, "10 BPC but sink doesn't support Deep Color 30.\n"=
-);
-> > +			return false;
-> > +		}
-> > +
-> > +		if (bpc =3D=3D 12 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HD=
-MI_DC_36)) {
-> > +			drm_dbg_kms(dev, "12 BPC but sink doesn't support Deep Color 36.\n"=
-);
-> > +			return false;
-> > +		}
-> > +
-> > +		drm_dbg_kms(dev, "RGB format supported in that configuration.\n");
-> > +
-> > +		return true;
-> > +
-> > +	case HDMI_COLORSPACE_YUV422:
-> > +		drm_dbg_kms(dev, "YUV422 format, checking the constraints.\n");
-> > +
-> > +		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
-> > +			drm_dbg_kms(dev, "Sink doesn't support YUV422.\n");
-> > +			return false;
-> > +		}
-> > +
-> > +		if (bpc !=3D 12) {
-> > +			drm_dbg_kms(dev, "YUV422 only supports 12 bpc.\n");
-> > +			return false;
-> > +		}
->=20
-> Did something change around here from the last time?
-
-The format selection code now prefers to select a lower bpc rather than
-another format, which is what you asked for in the previous version.
-
-
---27joxh4slrq34bs4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZiJrFQAKCRAnX84Zoj2+
-dm//AYDBcbHF1j+MBygRYjzArO/7IC8ROQ0TnbdGU1QgBsuY7d6sseYpeJlG6wy4
-nb4N4n8BgNUIdF8BxMB0oSpFmbipxEdz7fBTk7U7cq968A6gd9ZS3VCDFSZ+M67f
-FOZCYGxFQQ==
-=tQ9L
------END PGP SIGNATURE-----
-
---27joxh4slrq34bs4--
