@@ -2,73 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEF78AB610
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 22:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDA38AB631
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 22:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6183B10E992;
-	Fri, 19 Apr 2024 20:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D34321120DC;
+	Fri, 19 Apr 2024 20:59:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bdzVPYbD";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="dM9Ob2Yk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C971110E992
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 20:41:52 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-4348110e888so19801cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 13:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1713559311; x=1714164111;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6K3dsqSlYNszsCn1h++dCBb6+hru/S0oFdAjebQTHM0=;
- b=bdzVPYbDTinwUlZCmou4fa+ni6hPA/cZnh0snxidS4IYDKdibzS2Yh0VjY/8JXwqdo
- v3MTzZBUq6nzCx5lcDCjYFlW4xSaMlR5Nlv+HvEg8BfUyGKktHk9rG+hSd5ZP0S/4tFq
- 6zxmIbEVdAYW7Ze/YJI6pNtYaRV2IPAJNFUQzuOQAy8UQzzkNcvPVUnKMy/xHej00gvG
- +J4spUcUzCCqIwrVhU/Y4uSAQVn7a0XS5ZGCYZ5BNKeJ9MnyULFYj2OFoUkfHrwZ3T4c
- T0t6kQbN2rlcKMUqHxVayCwQwemfv+/3F8nwrwFe1LpT0WAXMZT6RMQmKelS3Dh3sPJ6
- p3mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713559311; x=1714164111;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6K3dsqSlYNszsCn1h++dCBb6+hru/S0oFdAjebQTHM0=;
- b=AKNS64quLCLPDHH2gXklELGPIa5scFDRgAiFLLfgJ8Mb7NXDHLe1HHRNbjMOKqcOCm
- bDhEwKdVvD4RWLQ/pngoR5UyEBnJmETsdykbjTAfJ3w38MYV+mkqKaejg/f4m6YX7sm2
- R+RVo2OWsqM9/sQu9Xv7Gsw224RLBTPJLhtqbq40fblHZ0zD41xRaHxhRlv/KhWmIXsU
- 47r6fEixYq6l6HCU834N72W/XwFtVgpDktep3QG4eYnDWCV9oRvayPc7vlCCmWd8LQdF
- cANn09mU/qWRgcZOTgqsqICEL3Hv14euQp2HNuNCJgpzwb7qA4LHkx5GJ6DN2MVTaTnT
- TYXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUWs0PdhcMpdat+d74itj1375EpXRgUwfndjo7DPikAUx75f+HrOmCndw3wXOV6qlKd4nfs7z8OaVh1ftfYdAHn49uqU892pyqN3YXm71yE
-X-Gm-Message-State: AOJu0YybbdeWIrxYa7Fn6pZZACWM6MPl8JRUl3axtk8j1pIlwRcyBcvl
- kTMSoayBaKMIRGV8cBv3sLtV1NE7+xQcbUXG7g187Zf/1jxvDft3nQcItJWFp0hPvt0fHg5pZap
- Lno+BofqHGrePdzwY35FDBbwf6qkQ8AAIy+ma
-X-Google-Smtp-Source: AGHT+IHZbGtaHsrDZJlMeCvL5n3nHY8v9RvCEAZmDRwJuRM5kQHZzdgDzoyAqJc7HDUdc4L091tykzPFVNpxeTYTWEk=
-X-Received: by 2002:ac8:729a:0:b0:437:b99c:dbf7 with SMTP id
- v26-20020ac8729a000000b00437b99cdbf7mr9471qto.11.1713559311445; Fri, 19 Apr
- 2024 13:41:51 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 860A91120E6;
+ Fri, 19 Apr 2024 20:59:38 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 43JKkdV1002066; Fri, 19 Apr 2024 20:59:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=6TjaU0uEodvAKMAF8xEL9q8RGEq5iJ4cmkVbLGO6X6w=; b=dM
+ 9Ob2YkuCt137+5ipqqbozZnBjCfnri47rXzY/UjQmnvvVgOO9tTiOWlgFn8yYHZB
+ T6pq+5dVFGfhShmzpslmXk/umthY+f7BJd8QOL6RCnob0LrN+sBdTgbjdRnYHY/3
+ Mk/Xe4nXP/4hRRQqWdfKo+rR/BBAN1UhWhfodPK/jZKUvgc343uMtx6RYzWlFTGI
+ 87KQPMLR9yTbutInNRvFNPp0ZQwakEZedEmNJBppAruE7KTkToxJiVsmFuwXwReH
+ PiNesAnXtpI+4nGihvPLiEsXoG/43VLggvTdevJQ44oRCanUveAgGAU3l5eofRCG
+ SpqXCOstKxDGejPAn/Gg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xkjy3hqfu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Apr 2024 20:59:32 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43JKxVKe025608
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Apr 2024 20:59:31 GMT
+Received: from [10.110.104.191] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 19 Apr
+ 2024 13:59:31 -0700
+Message-ID: <dbfc9b4d-1035-c98f-13c7-9d98aa18d41c@quicinc.com>
+Date: Fri, 19 Apr 2024 13:59:23 -0700
 MIME-Version: 1.0
-References: <20240418124815.31897-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240418124815.31897-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-In-Reply-To: <20240418124815.31897-3-lvzhaoxiong@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@google.com>
-Date: Fri, 19 Apr 2024 13:41:34 -0700
-Message-ID: <CAD=FV=X5tk0tCcDa+vLnu0aoas1TDWuqvkMzM-278dOCX8K1gw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] HID: i2c-hid: elan: Add ili2900 timing
-To: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
- benjamin.tissoires@redhat.co, hsinyi@google.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 03/12] drm/msm/dpu: use format-related definitions from
+ mdp_common.xml.h
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
+ Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
+ <20231202214016.1257621-4-dmitry.baryshkov@linaro.org>
+ <bb448864-b974-55ac-4709-ea89bbd2694f@quicinc.com>
+ <CAA8EJpqnjY35RF52yJ8gFRKHoh1ArnnviacDtfntSYZdALD3bQ@mail.gmail.com>
+ <83b45b20-fb7e-564b-4e32-2b6a12c4dc6d@quicinc.com>
+ <uhyqwsevbgvayqf7ky2tasvutpqgvuaa5o7y7scqete3jueuhk@zgji4hgmh4lu>
+ <c0274d67-ae15-8b08-a6af-bd1d77698ab9@quicinc.com>
+ <CAA8EJppmyU246kFE3Xk7SLG9GDgfhfT4ONCu8ZzQg3ssx+njbQ@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJppmyU246kFE3Xk7SLG9GDgfhfT4ONCu8ZzQg3ssx+njbQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: PfAyoa3MzD0KdKBtuh0CsHVXftekaH8N
+X-Proofpoint-ORIG-GUID: PfAyoa3MzD0KdKBtuh0CsHVXftekaH8N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-19_15,2024-04-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ mlxlogscore=999 lowpriorityscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ impostorscore=0 adultscore=0 suspectscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404190162
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,71 +102,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Thu, Apr 18, 2024 at 5:48=E2=80=AFAM lvzhaoxiong
-<lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
->
-> ILI2900 requires reset to pull down time greater than 10ms,
-> so the configuration post_power_delay_ms is 10, and the chipset
-> initial time is required to be greater than 100ms,
-> so the post_gpio_reset_on_delay_ms is set to 100.
->
-> Signed-off-by: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-
-Please use a proper name instead of "lvzhaoxiong".
 
 
-> ---
->  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/=
-i2c-hid-of-elan.c
-> index 5b91fb106cfc..3073620b2dec 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-> @@ -137,10 +137,18 @@ static const struct elan_i2c_hid_chip_data ilitek_i=
-li2901_chip_data =3D {
->         .main_supply_name =3D "vcc33",
->  };
->
-> +static const struct elan_i2c_hid_chip_data ilitek_ili2900_chip_data =3D =
-{
-> +       .post_power_delay_ms =3D 10,
-> +       .post_gpio_reset_on_delay_ms =3D 100,
-> +       .hid_descriptor_address =3D 0x0001,
-> +       .main_supply_name =3D NULL,
+On 4/10/2024 7:38 PM, Dmitry Baryshkov wrote:
+> On Thu, 11 Apr 2024 at 02:54, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 4/10/2024 2:12 PM, Dmitry Baryshkov wrote:
+>>> On Wed, Apr 10, 2024 at 01:18:42PM -0700, Abhinav Kumar wrote:
+>>>>
+>>>>
+>>>> On 4/10/2024 1:16 PM, Dmitry Baryshkov wrote:
+>>>>> On Wed, 10 Apr 2024 at 23:00, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
+>>>>>>> Instead of having DPU-specific defines, switch to the definitions from
+>>>>>>> the mdp_common.xml.h file. This is the preparation for merged of DPU and
+>>>>>>> MDP format tables.
+>>>>>>>
+>>>>>>
+>>>>>> Adding MDP_***__ usages in DPU driver is quite confusing.
+>>>>>>
+>>>>>> Can we align to a common naming scheme such as DISP_***?
+>>>>>
+>>>>> No, it's not something display-generic. It is specific to MDP
+>>>>> platforms. In the end DPU is a continuation of the MDP lineup, isn't
+>>>>> it?
+>>>>>
+>>>>
+>>>> No some aspects of the hw are completely different as you already know
+>>>> between MDP4/MDP5 and DPU. Bringing back MDP usages into DPU does not seem
+>>>> right.
+>>>
+>>> MDP4 is different, it's true. But there is a lot of common between MDP5
+>>> and DPU. Frakly speaking, I don't see an issue with using the constant
+>>> that was defined for MDP5 for DPU layer. Especially since we are also
+>>> going to use mdp_ functions for format handling.
+>>>
+>>
+>> All the HW naming etc in the doc has migrated to DPU and in fact it only
+>> makes sense to start using DPU for MDP5 as we plan to move mdp5 targets
+>> to DPU anyway. Not the other way around.
+>>
+>> MDP4 remains different.
+>>
+>> How about MSM_DISP then? I dont get why this is MDP platform specific.
+>> Because the term MDP no longer holds true for DPU.
+>>
+>> I am even looking for future chipsets. We cannot live with MDP5 names.
+>> Have to think of generic names for formats.
+> 
+> Another point: MDP_ is still frequently used in the DPU driver. See
+> dpu_hwio.h, dpu_hw_catalog.h or dpu_hw_interrupts.c
+> 
 
-There's really no main power supply for this device? It feels likely
-that there is one.
+As I wrote in 
+https://patchwork.freedesktop.org/patch/570148/?series=127230&rev=1, 
+lets go ahead with the MDP naming which you have. If we see its not
+working out later on, please be open to a mass renaming that time.
 
-Also: other than the main power supply, there is no difference between
-this and the ili2901. If you actually do have a main power supply,
-then you probably don't need a new table. You probably don't even need
-your own compatible string and in the device tree you could just
-specify:
-
-compatible =3D "ilitek,ili2900, "ilitek,ili2901";
-
-...which says "I actually have an ILI 2900, but if you don't have any
-special driver for the ILI 2900 it's likely that the driver for the
-ILI 2901 will work because the hardware is almost the same."
+With that expectation set,
 
 
-> +};
-> +
->  static const struct of_device_id elan_i2c_hid_of_match[] =3D {
->         { .compatible =3D "elan,ekth6915", .data =3D &elan_ekth6915_chip_=
-data },
->         { .compatible =3D "ilitek,ili9882t", .data =3D &ilitek_ili9882t_c=
-hip_data },
->         { .compatible =3D "ilitek,ili2901", .data =3D &ilitek_ili2901_chi=
-p_data },
-> +       { .compatible =3D "ilitek,ili2900", .data =3D &ilitek_ili2900_chi=
-p_data },
-
-If you do need this, these should be sorted. 2900 should come before 2901.
-
-
--Doug
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
