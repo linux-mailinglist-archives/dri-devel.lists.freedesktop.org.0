@@ -2,89 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CAB8AB135
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 17:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 187BF8AB13C
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 17:03:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B354810E108;
-	Fri, 19 Apr 2024 15:02:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3877310E417;
+	Fri, 19 Apr 2024 15:03:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g1Hbt7Ny";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zibTBwUT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62B9210E108
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 15:02:27 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-518a56cdbcfso3461783e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 08:02:27 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94A4810E405
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 15:03:12 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-518b9527c60so2408764e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 08:03:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713538945; x=1714143745; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713538991; x=1714143791; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Q5l3DrKtVmRlu1zHtwVyAGR5CrXZw06HBbbhzszuOCs=;
- b=g1Hbt7Ny39fPCtYrum3EDInbmXLBP+YBtbBjApGCZLxMFcjjs99yQ9lCQPsC6zKfCC
- lVNCZzjBtnhY0qq+rEK5+wXXqlpy/J+2AaNprAG/wrp76T6xw6ixVtRpWhtxHehZE5kQ
- JaUU2c+mqfGIK2UbG1az6nt/KYb9gBAGx30rlR55DHyxX+PrfmE5LBfmTjdq5XK1fWxg
- b3Nfs9dhruiPv5HAnyddjG3k6/XrQqhPTr9QKNbTJLbDKlwAUWJ3wX0uR+YYWQ6mDaxc
- t/X4Twov0BVs4W6sF+OR/sl9cMcfeUZsJS9raDd3pPbGLKn43RE6yh5D24a12hb6LhZO
- EmIw==
+ bh=vJfnYZByoznqV4E5LwTYL8ExQfIwOVzSYp6IyIU3pkk=;
+ b=zibTBwUTyTXu0qf0yJCW5lh0yV7Kz1AmKcBSa7IDclH4IJHx5yNuRZOJDAYPHdm2ya
+ j3wHMecQoU7oeK3LiImF2NyVVoDlcbBXN4QSwSCbcjR00WTiGWjyds35JqodWzmWgf8w
+ wBGKNlDILgPGfxIfLcWWuSOvLZ4K+KNLeWpmZiI+hxwG0N+j1ihx0YzW4t8bhHKtv4mg
+ mfCNyDsPs/vujTgwgW8LbhVbqJQ1bGI/QD74DdJzuy0a3qTbUwWTyCuYqVDvG+ss11ac
+ tVfgQESmjsCW/a0FvflvZ5fYO3RjRmwy4Q4BRRQIho4hLjudFAr7KD2nzVznxJYAhwMc
+ iRmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713538945; x=1714143745;
+ d=1e100.net; s=20230601; t=1713538991; x=1714143791;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Q5l3DrKtVmRlu1zHtwVyAGR5CrXZw06HBbbhzszuOCs=;
- b=ttHi4wbjHAv5GHgP8UcSy+HzZ4rmSjFB4Fvqm6FUv5CeZ+8iRzEDmMw1Tw0BHAFMMo
- GiILb4N/qcl3v93PZ9+pn1jXwzlpNrMpG2LvV7eSN/0MCvUMtOO+TwFJ0ckzXNiMJ+AJ
- 7Ipnr0/sbNo1vI7bAkpc8qEWfrmYO11xyVxHmwhOk3qwzNyzGg9m1GuanaExwnYr5qgC
- o8kC+3RmD2FwJlIZELPmY0y8UlqxKkK5mp9ywL83BJHj+dbr/VzeNP9QgznT05m1mIdQ
- 0iEvoPiQikia50LBVi4+XOey1bzdLUKOj6yGH1s82sJmdYT7EeBjZsp7ueYgH2mTodr1
- qBow==
+ bh=vJfnYZByoznqV4E5LwTYL8ExQfIwOVzSYp6IyIU3pkk=;
+ b=VjmLpVb8BVbUIdA8PyE/D64EbV4gG34VPAeW6ZLsmRvwvD1Bwn9VeAYgBqKMNpZ0B+
+ 1b4P2/4gOm9cQwQ8i377bpuZDPTQHLMc8y/E2nrz4MLx7l4U0GKUSMbhson07MTVbmwG
+ FR2egh3s6wEA2etx0lc1SxxxruFephRmurAtmEIZU0bKKgnh12lC3iRbLGip94I+h4Y2
+ TDWLZfKeo8d4ZJ53xXhFMi7eswnChZIWteGpkK8B3ZFshGL7bbvmtzMmeVawWE6gTqcW
+ /qO/AEEDRwTtb6as2bb5+0mxL2f1iBnFGaySC0ez915oxKug9heh9jLNKVR28lMrLgPJ
+ DhAQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWoPimNEw1KQEirKrgbskIxREz4QKHrwNz0at7HVjqN2DEBYoGuocqvYjFqPr4XYWcF20FaRhyBLB/dX9rVNLg+2Im+sZF16SnOS4TPxudZ
-X-Gm-Message-State: AOJu0Yx9Pd3gFE3+pjaGnoa9mIUJQ+lyWMu+zRKnd1BIVb0DQff/HPOu
- k69gAwKWqtq6zjj7/4wxYndxRMk/q9QTi0vNzaPtdJsyEwLJS+RFliKZNslXwLg=
-X-Google-Smtp-Source: AGHT+IFZjrcp1mUuV6AiLWBqjl9YPyYjAFAcHbb4bUs3L2gqHQFdPg1/mX9b9o6ObWKJe26tsbZinQ==
-X-Received: by 2002:a2e:3209:0:b0:2d8:2714:38e6 with SMTP id
- y9-20020a2e3209000000b002d8271438e6mr1865865ljy.25.1713538945291; 
- Fri, 19 Apr 2024 08:02:25 -0700 (PDT)
+ AJvYcCWMMXwt0k0iEV94D+2E7BWHAukP1cqZL8tMUjMdjDBHCgCvGrP21HgevELQpe3UMcd9QWFaGh6mz1YXdGaeHLWNR/Rmma/p+DP5/S96gbuJ
+X-Gm-Message-State: AOJu0YwzNY/SJo1qhBK6ZWDdUpterLUSm8xhZUWFnAVHkb+MxlV8KSfu
+ clL5JCOuY2OsuOOS3rX+/YeYMxOA/6TY2P5Ec1WW/y2rEYadKeAyTjLHI4MvBbY=
+X-Google-Smtp-Source: AGHT+IHwq2o3uW4PSBY4kcgDT3W2C9YBTiK8FKFdrI3qyLtn31Z5RjDG0xyVaYRX8cnMM1wh1zOKMg==
+X-Received: by 2002:ac2:52bb:0:b0:515:ab7f:b13e with SMTP id
+ r27-20020ac252bb000000b00515ab7fb13emr1993365lfm.33.1713538990549; 
+ Fri, 19 Apr 2024 08:03:10 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
  by smtp.gmail.com with ESMTPSA id
- y18-20020a05651c021200b002d9f3bed88dsm636898ljn.77.2024.04.19.08.02.24
+ f5-20020ac251a5000000b00516c077a312sm735082lfk.308.2024.04.19.08.03.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Apr 2024 08:02:24 -0700 (PDT)
-Date: Fri, 19 Apr 2024 18:02:23 +0300
+ Fri, 19 Apr 2024 08:03:10 -0700 (PDT)
+Date: Fri, 19 Apr 2024 18:03:08 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Aleksandr Mishin <amishin@t-argos.ru>
-Cc: Robert Foss <rfoss@kernel.org>, Swapnil Jakhade <sjakhade@cadence.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Tomi Valkeinen <tomi.valkeinen@ti.com>, 
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Nikhil Devshatwar <nikhil.nd@ti.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>, Jani Nikula <jani.nikula@intel.com>, 
- Rob Herring <robh@kernel.org>, Zhu Wang <wangzhu9@huawei.com>, 
- Yuti Amonkar <yamonkar@cadence.com>, Jyri Sarha <jsarha@ti.com>, 
- Quentin Schulz <quentin.schulz@free-electrons.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- lvc-project@linuxtesting.org
-Subject: Re: [PATCH] drm: bridge: cdns-mhdp8546: Fix missing mutex unlock on
- error path
-Message-ID: <4ytkvuigcxhs437rp46sawpzs6ewhgcldgvsy5c5ohpajt76vh@jg45sjwtwlgx>
-References: <20240419113637.25745-1-amishin@t-argos.ru>
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH] drm/msm: Fix gen_header.py for older python3 versions
+Message-ID: <ggnnlu67nsc7szqj2ndvmwtrbuyk3by2ja6ytcsr45q3tswvio@ehgbpnyxmvyz>
+References: <20240412165407.42163-1-jonathanh@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240419113637.25745-1-amishin@t-argos.ru>
+In-Reply-To: <20240412165407.42163-1-jonathanh@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,26 +85,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 19, 2024 at 02:36:37PM +0300, Aleksandr Mishin wrote:
-> In cdns_mhdp_atomic_enable(), there is an error return on failure of
-> drm_mode_duplicate() which leads to the mutex remaining locked.
-> Add a mutex unlock call.
+On Fri, Apr 12, 2024 at 05:54:07PM +0100, Jon Hunter wrote:
+> The gen_header.py script is failing for older versions of python3 such
+> as python 3.5. Two issues observed with python 3.5 are ...
 > 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+>  1. Python 3 versions prior to 3.6 do not support the f-string format.
+>  2. Early python 3 versions do not support the 'required' argument for
+>     the argparse add_subparsers().
 > 
-> Fixes: 935a92a1c400 ("drm: bridge: cdns-mhdp8546: Fix possible null pointer dereference")
-> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
-> ---
-> This patch is against drm-misc-next branch of drm-misc repo.
+> Fix both of the above so that older versions of python 3 still work.
 > 
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> 
-
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
 
 -- 
 With best wishes
