@@ -2,67 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429BF8AA9A1
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 10:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DB68AAA01
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 10:22:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE7910FDEF;
-	Fri, 19 Apr 2024 08:01:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 429A310E828;
+	Fri, 19 Apr 2024 08:22:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="M/JB5bjQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="a6Ee57M2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8521610FDF1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 08:01:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713513663;
- bh=bmmrpG9twzfl+7I9bjJ8i79tB8/NSeisn+ds2RBa2jc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=M/JB5bjQ9tMmBy/2sL9FqxKtsvP0vRNp1Dip2qCJGzQp1mXq/TtcKSmfrt8NCxqX9
- 1C95N632nY+EA35Ny0jSzfyOcnkdKsn6O4LcSiNmYUbMmQTvVviP/DYSRDIYMEK4oK
- CBAJ4tyuZHbTx59JXDEgqnsA/h5lTqr3xEXThitNy4iguMgnwFH8YGZ83nAxnuz0uX
- tzw5ZGWf0gcg+nHzPehvGmhqG42uH7nX/4WtFfnAniRLzparrTnMGV4uKQoCkceKyu
- nCWrJc1fVwgk9sFLVgRud+YA7lXx2yKulGRcXi4gj2iEf8liLZIc5RgTji8UfW65rc
- g39BSWODH7vXw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7449E3781116;
- Fri, 19 Apr 2024 08:01:01 +0000 (UTC)
-Message-ID: <9ef43fff-ee2a-4b2c-a595-30f5bf7588c2@collabora.com>
-Date: Fri, 19 Apr 2024 10:01:00 +0200
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2D9F10E828
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 08:22:31 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-de45f3f092bso2183358276.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 01:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713514950; x=1714119750; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=R+lW8U2rIcGFEawJxZSXhfE6ZoNKFCIGHTbAbeVXNxg=;
+ b=a6Ee57M2H7OTY3a6xrM4nmSM/OiwarnM24KTEJwb6TgzZ2dkFhdrELHWwtvMV6xzgK
+ 6ocZ1Zm+fc5pFDPTZWGGY0o6dsvSBVZoVNmX42PW8LhuhvogNhvUCTg91dojr/QEnj7W
+ KLJ4fW868kIC4fIwzz+r71VQPLB5QN38fLeyhvzB74sDwbMDtUL+nFuQJ23HvjTNGZSs
+ OTdvW0WUM1947DAKNfvz5tkCz40d1aG8dczgNqdw9HqemvL3/JstYrKeRKLLXFTLXeoa
+ Tok8+n+Iv2vUugRSpuRF/5/awqjW9VNjjgbjMkdfAuHaH3bgA7KwOLUBKS7HUEKnvN/X
+ xxNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713514950; x=1714119750;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=R+lW8U2rIcGFEawJxZSXhfE6ZoNKFCIGHTbAbeVXNxg=;
+ b=Z/ToPP2hehx6YVsY2BSnDoWlTCuKrWEtWtpbd4bgFpcBahInYxkgFuUclvvGTW2XNU
+ XBdoioljFtXdZwwGAecBwbmRIM3Z9coy1hlqov7makVjmuJqr7yM1KC1fUc+ptI7UVku
+ 0hgrpfpFtprjiDWi9YrdyxGHIt6hNSxEAYhd5E0Pv1wK0SIN1kVhWJ0Dzb47JoGP4kqH
+ uWVL1z65nZMWGUE05LEisAcE4TNLuVEPjaGinWbY/eTpgDkAzwz+Jzjaa42FCYmFnefk
+ ro7ZQDSaqYf6Y4+wryIOC9dT7Jvg0wn5sSGcD25c+VqBQrN5TGVK4m3iPV8qnPLoL+7m
+ Yn+w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVtIbNWC7afPVUOEtO3OypTpRVr/C+yDCZ9Nwt3EqBKi0MSUcNTUlUE5gRPfQvb6c+an09MABcKvZcQ7Xm9Pt5sLzkuYyoi9pOiSskVgnh5
+X-Gm-Message-State: AOJu0YzUHl7/l0y+b2ajzu2awadBORx8UqAV9y6HfssS019Q8EOcVRW0
+ TPq7T6G65qSyvedQB0XlBH1SrVt9AtocBZ+MYh0q+8JuxwbS50XhZBGDsuux4hr+0vh4PaEH6JF
+ l2/d9mBFb9/ZKQU80tAnfEd9q5c5sSRFhKsXpLA==
+X-Google-Smtp-Source: AGHT+IFPyhBOcKsumPvUAGu+ybltqO/6sX6k0ocwJKMsoJgn5Y5t185Co/wULm06e1qdXJ1gmr8tw6bnd8/ohyJChO0=
+X-Received: by 2002:a5b:bcf:0:b0:de0:d32b:52bf with SMTP id
+ c15-20020a5b0bcf000000b00de0d32b52bfmr1058038ybr.39.1713514950675; Fri, 19
+ Apr 2024 01:22:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 14/17] drm/mediatek: add MT8365 SoC support
-To: amergnat@baylibre.com, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Jitao Shi <jitao.shi@mediatek.com>,
- CK Hu <ck.hu@mediatek.com>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <u.kleine-koenig@pengutronix.de>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Fabien Parent <fparent@baylibre.com>,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
- linux-clk@vger.kernel.org
-References: <20231023-display-support-v3-0-53388f3ed34b@baylibre.com>
- <20231023-display-support-v3-14-53388f3ed34b@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20231023-display-support-v3-14-53388f3ed34b@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240417-component-dummy-v1-1-b0854665c760@herrie.org>
+ <CACRpkdbijfwYFhg2XigzVKoPDjU00K+arqaL_kP3FNxsS82gHg@mail.gmail.com>
+ <4xywfprr7qkxpncmnhqjc3lrrcjbv46tsmlzz5yxvcr4xr2dnq@w57ni7u2hpvu>
+In-Reply-To: <4xywfprr7qkxpncmnhqjc3lrrcjbv46tsmlzz5yxvcr4xr2dnq@w57ni7u2hpvu>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 19 Apr 2024 10:22:19 +0200
+Message-ID: <CACRpkdYT9my4KETHybHPQ3ksXhiEgYQLSdP8TsBmwzNd+r-qxA@mail.gmail.com>
+Subject: Re: [PATCH] component: Support masters with no subcomponents
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Herman van Hazendonk <github.com@herrie.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,57 +83,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 18/04/24 16:17, amergnat@baylibre.com ha scritto:
-> From: Fabien Parent <fparent@baylibre.com>
-> 
-> Add DRM support for MT8365 SoC.
-> 
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+On Thu, Apr 18, 2024 at 1:36=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 
-There are two things that I want to point out. Please check below.
+> I have LVDS working on apq8064, but it requires fixes in the MMCC
+> driver, in the MDP4 driver and in DTS. I need to clean up them first
+> before even attempting to send them out. Also a PWM/LPG driver would
+> help as otherwise the power supply is quick to be overloaded by the
+> backlight.
 
-The series that I've sent for adding OF Graphs [1] support to MediaTek DRM is
-not going to be picked in time for v6.10, but I think neither your MT8365 support
-series is, and that's why I'm telling you this.
+Thanks then I bet the prototype 8060 MMCC driver needs similar fixes
+before it will work as well, so we should work to merge this, then look at
+8060 support after that.
 
-If your work was based off my series, you would not need to add the MT8365 ddp
-MAIN and EXT paths to mtk_drm_drv: you'd just add it to the bindings and then
-you would declare the paths in devicetree.
-
-
-[1]: 
-https://lore.kernel.org/r/20240409120211.321153-1-angelogioacchino.delregno@collabora.com
-
-There's also one more comment....
-
-> ---
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c | 30 ++++++++++++++++++++++++++++++
->   1 file changed, 30 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 74832c213092..427b601309c4 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-
-..snip..
-
-> @@ -793,6 +821,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
->   	  .data = (void *)MTK_DSI },
->   	{ .compatible = "mediatek,mt8188-dsi",
->   	  .data = (void *)MTK_DSI },
-> +	{ .compatible = "mediatek,mt8365-dpi",
-
-You removed the mt8365 specific compatible from the DPI driver - why did you keep
-it here?! that's not needed! :-)
-
-Cheers,
-Angelo
-
-> +	  .data = (void *)MTK_DPI },
->   	{ }
->   };
->   
-> 
-
+Yours,
+Linus Walleij
