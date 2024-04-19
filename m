@@ -2,155 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F1F8AAADE
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 10:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B268B8AAAFC
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 10:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4A1610EBBF;
-	Fri, 19 Apr 2024 08:48:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6B2910F223;
+	Fri, 19 Apr 2024 08:56:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ekf+ZWih";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NZaQ0DxT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65C1810E3EE;
- Fri, 19 Apr 2024 08:48:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713516509; x=1745052509;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=lkwI3W5aQ+7K2euVy5UGWpCGxGqA8d67aRps624YJC8=;
- b=Ekf+ZWihoSQ236VxvJDpkTLKWLFnjeOFeyPwtNkekKlur12c/zalzTom
- WuLfxVEnm56u+GTyuMw8GGWhZOttA+TRA9o8HuPxAyYTiT60rF+grvNG2
- yb9d8VejRIB2cj8F1NLm1QbUTn8sMAaZN3b1JrWHALa66+qTEboZNdRbd
- ywHZT9YFNuM/K3a7NUbDIugHaFW8EPq4TWPdQrcm9uc5e7poDky6JVrCx
- j04476NoM7/KmFgijDL6U6h7ypErCfXqbi/uIO9iApb5eZ+SFfgz7MtwV
- lpQgOZkSWGcwZPYllgwRxbVFSSMk/1s5yUFqgMYBHIAmGKbZFXhWSiD3y Q==;
-X-CSE-ConnectionGUID: TKxXthtATKygjq0x01CNnQ==
-X-CSE-MsgGUID: B8/JRzB7TI6ZJ/gpv/AEMw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="19804482"
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="19804482"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2024 01:48:29 -0700
-X-CSE-ConnectionGUID: 7RJ4/OyfT8uTz5lJGcyJyQ==
-X-CSE-MsgGUID: 4xoCOaBTS0qPxfCGzDcUrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="23249268"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 19 Apr 2024 01:48:29 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 19 Apr 2024 01:48:28 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 19 Apr 2024 01:48:28 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 19 Apr 2024 01:48:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fRicF6B0Gb2mGR6SlKcl7L+sEXZ+UxM9cEjI0sQZUM+TXlQlwYxQrCQ+GAtL1g+E4HTqLdwywIZ2rChk73yTrCCVOhESjLN81i0Z4eW+PBTIr2afnpEjuQVjW+f5DvrQCVlpzG66x1O08vPkGYjxoJWpoP9bsFcIgdHdZs9IYRBji9y8H3qsiOYC33PPl0IbjMN6vE1QzSV5+hrG5CW2NCuj2wYaW6n+yYhfz9nJSeULd2usAQWjMTiexggKNyLmcfRtAU6ftOY7GhJChwNooE7MX9lNAilxh2U7yiMSVu5qvHl6MRHbSJeWUv34/AYLIiVpeEzhUaEwyanagM7uyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n343YkJ70ljcdI/xckEvQzBKitdM8MpOIT0V9dRkLzc=;
- b=KQKyOa1gYxbMBcBgyqpX/VKwV2fW+rIUdLlTt1c93uBHjh9zokvDTkNFdf15h7Rirmgztat/hqN8yRS6qDg8bDb5yNTVY6ihZ3wonaFOzJVkddqgHkU90X5e4UL19pOe/rE/533LahiBVlU+n96qgg4bP45SUm21aNrgERAveP6x0v3HnjFlj0dip5+s+aC562IdpAngbM2pVVdEw/tyfyz9d6oBV++tVt98sKDgwPM7uNcXn+ZKj3PwCSQTzGVmuq6JLebIz7hyK/GBPPpKW94qPE6hQ5qgZkN2P7gQn5zs7p/hHmdw5cg71xEDimU8frCL8SrlAWebnth5VyFR5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB6541.namprd11.prod.outlook.com (2603:10b6:8:d3::14) by
- MW4PR11MB7030.namprd11.prod.outlook.com (2603:10b6:303:22f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.11; Fri, 19 Apr
- 2024 08:48:25 +0000
-Received: from DS0PR11MB6541.namprd11.prod.outlook.com
- ([fe80::d616:a889:aeb0:3724]) by DS0PR11MB6541.namprd11.prod.outlook.com
- ([fe80::d616:a889:aeb0:3724%7]) with mapi id 15.20.7472.037; Fri, 19 Apr 2024
- 08:48:25 +0000
-Message-ID: <081c3d53-9ef2-4d1f-9a6c-d22c36bdbe8f@intel.com>
-Date: Fri, 19 Apr 2024 10:48:21 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/i915 Rename intel_engine_reset to
- intel_gt_engine_recover
-To: John Harrison <john.c.harrison@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-CC: <dri-devel@lists.freedesktop.org>
-References: <20240418171055.31371-1-nirmoy.das@intel.com>
- <20240418171055.31371-2-nirmoy.das@intel.com>
- <c76fc94d-7759-4908-bbff-9845931234b8@intel.com>
-Content-Language: en-US
-From: Nirmoy Das <nirmoy.das@intel.com>
-In-Reply-To: <c76fc94d-7759-4908-bbff-9845931234b8@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ZR0P278CA0048.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1d::17) To DS0PR11MB6541.namprd11.prod.outlook.com
- (2603:10b6:8:d3::14)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19B5D10F223
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 08:56:43 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 009272E7;
+ Fri, 19 Apr 2024 10:55:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1713516953;
+ bh=Su3PmaVNOzde9Z/eb9fUgcxmqTUamzA7XmO+88l776Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NZaQ0DxT1LH8CmTzm3Ou+DOyjQ7K0TGXdy2TF0XoI6An5AxSDbr5OlTqCNq8f2Yu1
+ rrgGSGX7iTBgXCVEI1+UFTQvEFalOOrjxMNOWJsnTOnnANlY3jeIEuLxH5pgIPNXhs
+ aUa/a/Ntnfanun1/gcaX3/EHQQ7VFXToz2Pb2S3Q=
+Date: Fri, 19 Apr 2024 11:56:33 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Wolfram Sang <wsa@kernel.org>, Peter Rosin <peda@axentia.se>,
+ Peter Korsgaard <peter.korsgaard@barco.com>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Vadim Pasternak <vadimp@nvidia.com>, Michael Shych <michaelsh@nvidia.com>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ "open list:AMD KFD" <dri-devel@lists.freedesktop.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ linux-media@vger.kernel.org,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH] i2c: mux: Remove class argument from i2c_mux_add_adapter()
+Message-ID: <20240419085633.GA12651@pendragon.ideasonboard.com>
+References: <17145dc5-e68e-4566-bedf-251bebe36ebb@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6541:EE_|MW4PR11MB7030:EE_
-X-MS-Office365-Filtering-Correlation-Id: f75907e0-7c4f-4411-d91f-08dc604d79c6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|1800799015|366007;
-X-Microsoft-Antispam-Message-Info: 8W1zEZXigekAvLqhCO5OIAcqC0PXfby9C/8ngSWvhlHjvPKyJH8GKM8x2vLVbvFMbzQN7GLmC8YZ6SpLuhxZdxwEwHkAQpZapZiQfxdDyAFEluuLt9HMkcrKXyZzWWSNpzXfESuuig2DQ4npS9fgZI1tYndU3xpQDezPsKhc/GJUqcyNMVKmqvzAEf1qjhSs6+BWGei1QgHk5gjVRi2moYRXP5QYE1Trk5fHZYz/m7qnQibVCbn2BxH7XLgpeZlqzzFwfkx2ilZeVccxd59yxmwWlc/Rv2uDQdv6jhO/MolMPsy47KbzoYeMhhSRvqKsz9QrjFRoHxu3F7v36CNzo3ayuefQFYM7nK7ynVDlyKE8PepO8VGIXnwNdc0FYkdoat1/AxlMiTS9lOlMO+iDHQ2vwHmrX7KwdPUXBycVEo2D+So2OuiZki/dxnM16X+4SArPGN4RPqSP0fJUZNiePXD147hjQAd5GoEE4l0coB0s4//FrxwPTuJD0BTO5eRUDL981zmme1wKelDtYpejA+Utz30btuqICREt+kNjcNhB5XDoBg0AjZARFNpzpPDvJifcqDS0+Z5CrcSFVwmDr0lyxxq/T8kX7Z28V7qVb7s8aSSC4wkv2s3U/FTUA2L26jkeHcvYBsn1xFeGKEZUN/igR4Jb7Js0UZf2Qgm37XI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB6541.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WjVOc1IrMFNZemUrb05Md2ZncjJURFh5WU5tclRpN1JwUDQxekw4NU9lSitU?=
- =?utf-8?B?SlVlY1gzVTJhdmRjdnNPa1lHb1FOa0FCa3JCbEtoLzRMakJXWWZ3QWsySWNI?=
- =?utf-8?B?eHBSNThkT0hLRXpqK0JWc1N2eXJrS0dJYVZMYXVlcWJUd0ZYWkg4eXRwdUZy?=
- =?utf-8?B?RGpuUjJwWUM1T3JHRHpBNkRBNTQ5Zk5CREJ0RmtXMUQ5VzJZNGFoenZTMDQw?=
- =?utf-8?B?RUE1L25iaTRLVFUxYUdpYTI5VGdGNWxHWFV6QjBaUkFuR25ITGgxdndhbHZH?=
- =?utf-8?B?T2pSbUNRY2JOV0k4ZkRQSjRVUGFBNFhUUTZBUnJlQ3N3TzNsY1I5NktYZ2lG?=
- =?utf-8?B?a1BCUStBcnlTeFkwVGkvWUlaS08xdHZXdEFxejFOTjFYNTh1RFV3N0RiRkJR?=
- =?utf-8?B?Zkg3cHhvM3RVOXFoUkxMOUF2ZE1rSC84SHAwbEFlNW5zS0tpTEFMQ3g1M1JZ?=
- =?utf-8?B?Y0JWNmtaNGNQT2MzWktlSmNOVjlXa01KSHE4eFhUa1dMWE5PdUhjOUVsNUxw?=
- =?utf-8?B?V2hKdFRhSDNsMXlUdkRBWVo1WWM4SWkvN1hzWThpMjRmQ3VLS3Jzc2FzMG1Y?=
- =?utf-8?B?KzFES3o1M1dlVVdjWmI3eEFnanNTQ0xPam5TMzJXUWhGSWlIRXNvUmVVcFNZ?=
- =?utf-8?B?TTRXME44YklnMVZFUmdQUldFMTNFOXNMMnZ1UnRhZXZ6SGhqNGF0SG1hK3RJ?=
- =?utf-8?B?WC9SRmtzWTRHVDdUcTAwM3hMSml2ZE5WMUFrSEpabDFyWUtXWUI2eXN0WSs3?=
- =?utf-8?B?azI4am5kNFNyTDdiRyszaXI4MTJyeTNROVR6ZjNsdjZzcndkaGw0bXRBTUM5?=
- =?utf-8?B?ZzZnR1ZUM29vZE9qeEZNNW5GNXhGL3VzM1ZTYWtMRzNwaUdnSEk0MlRkV2Ns?=
- =?utf-8?B?by9kL25Dd200ay83MldEak1FeUxQT2FmNU9kY1BZR3Bvc2kvU2g0V1I2VmJI?=
- =?utf-8?B?WXdwQjhMRC9ob1hCc0IrZVlsWVFmUFB1c1pjbllpYVNjYS9QbTlMNG9ON1VL?=
- =?utf-8?B?QkhiWTA5MXp5SkZCWWswRzVMdDhWN3JWWkVnU3pIMXk3ZTVzSUdLdjNsRVpW?=
- =?utf-8?B?OE5DWkZ6V1A3TURDSVl5dTQ0VU5ZRkd6UVJwLy8wMS9JYTlsRC9NM2dzSUJp?=
- =?utf-8?B?YXk2bXNOZGRuaGpxdkxnOXJ2Z3ZsaEdPL3RLZVpsU0ROMW5XbkxFYlZWazQ0?=
- =?utf-8?B?eVVjemZMY0o3SjczZEVsMkI2djNJS2N6VE1yYlRYdERsOEUzTytja211NU5J?=
- =?utf-8?B?TSs4RGpUZmZDV0JtNEVLdFFXMCt3OFZuMTY4eXFRemFyNWhRcE43REhFYXdx?=
- =?utf-8?B?eStLTVkwTmFzOXU1U0pBME51UDNlWHJJRGNFa05QNm9saDMvR0hoNGFvN0VG?=
- =?utf-8?B?d0dKZ2JWZHdzeU5uQTJHNWwvU3lvQ1pGdTRFamlpTEZYNW1oTXBwZXpwQkgr?=
- =?utf-8?B?S0p1RUNYQXFDZ2VhQUNqWWowcE1TZHNZM2FDeXVDTTR6b2JsZzBtRklXVHpG?=
- =?utf-8?B?a21xQkZaR3hxTlpYNHdTalJ3eXZrVVVyeGUyVzYzeGZ5ZGNvdXRYMnBCdHl5?=
- =?utf-8?B?aXJZMXhhRnFsRU1ROEJCSndpVjRERXB5Y2dReVg3MzJQdVBGWmliMFRGOFd6?=
- =?utf-8?B?L0xsRjY2YWRTcEVUSmhaWnFLTHFpYStCOXFycHh1NGRoTzNLbWtac3B2REN0?=
- =?utf-8?B?OWVNeEsxdk1penNIelBzSmpHQUhFY3pYZkk4UEtNN1YvRnNobTh6eEsvQkIw?=
- =?utf-8?B?MXQ0eFEySDY4N2pGbkZ4djVNNWU4cHF1NkhxVTkzcXptUEZuR2FrbWorMHNJ?=
- =?utf-8?B?ZzBRMUVpTnZlZGpPcjFmaTBGeE9IanpRZWQ4WS9DS1FYRFFCMjNOTDVhRndB?=
- =?utf-8?B?VUtPTEFwMXY4ZUxJK0ovbGxrNGdWT1cwQnY3THhNS2Q4VFpXUXdLZlVma1ph?=
- =?utf-8?B?TWkxeFVOTnM1bm5XWGI5dXFzTUxsQjNwWjRiT3BHZzRUS0dWVlRuMnB1aFQy?=
- =?utf-8?B?Ti9oLzRESTIrS2wvUFFYTGRhWjV3SkdmZlk1Y2h4K1hJZVlKektpYmZxUkVu?=
- =?utf-8?B?T3YzQ1FScFBkWW81YjVaNHcwN2grZmVCeEVnNXpSMEZDSVE5cWM2bW9HbkRG?=
- =?utf-8?Q?gxcVZ5P1BkdCsyrDHGytGS1Xz?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f75907e0-7c4f-4411-d91f-08dc604d79c6
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6541.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2024 08:48:25.3763 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jJOrAJrmiV2SQ825bQ64HBoeqf2UHjdBCL/RS2greZkboLjdJX/oXs6HLOHR+eCI1rqgZmXUsPmbVOKr+Q1MtA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7030
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <17145dc5-e68e-4566-bedf-251bebe36ebb@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,253 +77,390 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi John,
+Hi Heiner,
 
-On 4/19/2024 1:27 AM, John Harrison wrote:
-> On 4/18/2024 10:10, Nirmoy Das wrote:
->> intel_engine_reset() not only reset a engine but also
->> tries to recover it so give it a proper name without
->> any functional changes.
-> Not seeing what the difference is. If this was a super low level 
-> function (with an __ prefix for example) then one might expect it to 
-> literally just poke the reset register and leave the engine in a dead 
-> state. But as a high level function, I think it is reasonable to 
-> expect a reset function to 'recover' the entity being reset.
->
-> Also, many of the callers are tests that are explicitly testing reset. 
-> So now the tests all talk about attempting resets, resets failing, 
-> etc. but around a call to 'recover' instead of 'reset', which seems 
-> confusing.
+Thank you for the patch.
 
+On Thu, Apr 18, 2024 at 10:55:39PM +0200, Heiner Kallweit wrote:
+> 99a741aa7a2d ("i2c: mux: gpio: remove support for class-based device
+> instantiation") removed the last call to i2c_mux_add_adapter() with a
+> non-null class argument. Therefore the class argument can be removed.
+> 
+> Note: Class-based device instantiation is a legacy mechanism which
+> shouldn't be used in new code, so we can rule out that this argument
+> may be needed again in the future.
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Didn't think about it, I will drop it.
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
+> ---
+>  drivers/gpu/drm/bridge/sii902x.c           |  2 +-
+>  drivers/i2c/i2c-mux.c                      | 24 +---------------------
+>  drivers/i2c/muxes/i2c-arb-gpio-challenge.c |  2 +-
+>  drivers/i2c/muxes/i2c-mux-gpio.c           |  2 +-
+>  drivers/i2c/muxes/i2c-mux-gpmux.c          |  2 +-
+>  drivers/i2c/muxes/i2c-mux-ltc4306.c        |  2 +-
+>  drivers/i2c/muxes/i2c-mux-mlxcpld.c        |  2 +-
+>  drivers/i2c/muxes/i2c-mux-pca9541.c        |  2 +-
+>  drivers/i2c/muxes/i2c-mux-pca954x.c        |  2 +-
+>  drivers/i2c/muxes/i2c-mux-pinctrl.c        |  2 +-
+>  drivers/i2c/muxes/i2c-mux-reg.c            |  2 +-
+>  drivers/iio/gyro/mpu3050-i2c.c             |  2 +-
+>  drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c  |  2 +-
+>  drivers/media/dvb-frontends/af9013.c       |  2 +-
+>  drivers/media/dvb-frontends/lgdt3306a.c    |  2 +-
+>  drivers/media/dvb-frontends/m88ds3103.c    |  2 +-
+>  drivers/media/dvb-frontends/rtl2830.c      |  2 +-
+>  drivers/media/dvb-frontends/rtl2832.c      |  2 +-
+>  drivers/media/dvb-frontends/si2168.c       |  2 +-
+>  drivers/media/i2c/max9286.c                |  2 +-
+>  drivers/media/usb/cx231xx/cx231xx-i2c.c    |  5 +----
+>  drivers/of/unittest.c                      |  2 +-
+>  include/linux/i2c-mux.h                    |  3 +--
+>  23 files changed, 23 insertions(+), 49 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+> index 8f84e9824..2fbeda902 100644
+> --- a/drivers/gpu/drm/bridge/sii902x.c
+> +++ b/drivers/gpu/drm/bridge/sii902x.c
+> @@ -1092,7 +1092,7 @@ static int sii902x_init(struct sii902x *sii902x)
+>  	}
+>  
+>  	sii902x->i2cmux->priv = sii902x;
+> -	ret = i2c_mux_add_adapter(sii902x->i2cmux, 0, 0, 0);
+> +	ret = i2c_mux_add_adapter(sii902x->i2cmux, 0, 0);
+>  	if (ret)
+>  		goto err_unreg_audio;
+>  
+> diff --git a/drivers/i2c/i2c-mux.c b/drivers/i2c/i2c-mux.c
+> index 57ff09f18..fda72e8be 100644
+> --- a/drivers/i2c/i2c-mux.c
+> +++ b/drivers/i2c/i2c-mux.c
+> @@ -127,19 +127,6 @@ static u32 i2c_mux_functionality(struct i2c_adapter *adap)
+>  	return parent->algo->functionality(parent);
+>  }
+>  
+> -/* Return all parent classes, merged */
+> -static unsigned int i2c_mux_parent_classes(struct i2c_adapter *parent)
+> -{
+> -	unsigned int class = 0;
+> -
+> -	do {
+> -		class |= parent->class;
+> -		parent = i2c_parent_is_i2c_adapter(parent);
+> -	} while (parent);
+> -
+> -	return class;
+> -}
+> -
+>  static void i2c_mux_lock_bus(struct i2c_adapter *adapter, unsigned int flags)
+>  {
+>  	struct i2c_mux_priv *priv = adapter->algo_data;
+> @@ -281,8 +268,7 @@ static const struct i2c_lock_operations i2c_parent_lock_ops = {
+>  };
+>  
+>  int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
+> -			u32 force_nr, u32 chan_id,
+> -			unsigned int class)
+> +			u32 force_nr, u32 chan_id)
+>  {
+>  	struct i2c_adapter *parent = muxc->parent;
+>  	struct i2c_mux_priv *priv;
+> @@ -340,14 +326,6 @@ int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
+>  	else
+>  		priv->adap.lock_ops = &i2c_parent_lock_ops;
+>  
+> -	/* Sanity check on class */
+> -	if (i2c_mux_parent_classes(parent) & class & ~I2C_CLASS_DEPRECATED)
+> -		dev_err(&parent->dev,
+> -			"Segment %d behind mux can't share classes with ancestors\n",
+> -			chan_id);
+> -	else
+> -		priv->adap.class = class;
+> -
+>  	/*
+>  	 * Try to populate the mux adapter's of_node, expands to
+>  	 * nothing if !CONFIG_OF.
+> diff --git a/drivers/i2c/muxes/i2c-arb-gpio-challenge.c b/drivers/i2c/muxes/i2c-arb-gpio-challenge.c
+> index 24168e9f7..7aa6e795d 100644
+> --- a/drivers/i2c/muxes/i2c-arb-gpio-challenge.c
+> +++ b/drivers/i2c/muxes/i2c-arb-gpio-challenge.c
+> @@ -167,7 +167,7 @@ static int i2c_arbitrator_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	/* Actually add the mux adapter */
+> -	ret = i2c_mux_add_adapter(muxc, 0, 0, 0);
+> +	ret = i2c_mux_add_adapter(muxc, 0, 0);
+>  	if (ret)
+>  		i2c_put_adapter(muxc->parent);
+>  
+> diff --git a/drivers/i2c/muxes/i2c-mux-gpio.c b/drivers/i2c/muxes/i2c-mux-gpio.c
+> index 0fbb33a3d..d6bbb8b68 100644
+> --- a/drivers/i2c/muxes/i2c-mux-gpio.c
+> +++ b/drivers/i2c/muxes/i2c-mux-gpio.c
+> @@ -207,7 +207,7 @@ static int i2c_mux_gpio_probe(struct platform_device *pdev)
+>  	for (i = 0; i < mux->data.n_values; i++) {
+>  		u32 nr = mux->data.base_nr ? (mux->data.base_nr + i) : 0;
+>  
+> -		ret = i2c_mux_add_adapter(muxc, nr, mux->data.values[i], 0);
+> +		ret = i2c_mux_add_adapter(muxc, nr, mux->data.values[i]);
+>  		if (ret)
+>  			goto add_adapter_failed;
+>  	}
+> diff --git a/drivers/i2c/muxes/i2c-mux-gpmux.c b/drivers/i2c/muxes/i2c-mux-gpmux.c
+> index 8305661e1..10d63307b 100644
+> --- a/drivers/i2c/muxes/i2c-mux-gpmux.c
+> +++ b/drivers/i2c/muxes/i2c-mux-gpmux.c
+> @@ -124,7 +124,7 @@ static int i2c_mux_probe(struct platform_device *pdev)
+>  			goto err_children;
+>  		}
+>  
+> -		ret = i2c_mux_add_adapter(muxc, 0, chan, 0);
+> +		ret = i2c_mux_add_adapter(muxc, 0, chan);
+>  		if (ret)
+>  			goto err_children;
+>  	}
+> diff --git a/drivers/i2c/muxes/i2c-mux-ltc4306.c b/drivers/i2c/muxes/i2c-mux-ltc4306.c
+> index 23766d853..19a7c3709 100644
+> --- a/drivers/i2c/muxes/i2c-mux-ltc4306.c
+> +++ b/drivers/i2c/muxes/i2c-mux-ltc4306.c
+> @@ -279,7 +279,7 @@ static int ltc4306_probe(struct i2c_client *client)
+>  
+>  	/* Now create an adapter for each channel */
+>  	for (num = 0; num < chip->nchans; num++) {
+> -		ret = i2c_mux_add_adapter(muxc, 0, num, 0);
+> +		ret = i2c_mux_add_adapter(muxc, 0, num);
+>  		if (ret) {
+>  			i2c_mux_del_adapters(muxc);
+>  			return ret;
+> diff --git a/drivers/i2c/muxes/i2c-mux-mlxcpld.c b/drivers/i2c/muxes/i2c-mux-mlxcpld.c
+> index 4c6ed1d58..3f06aa333 100644
+> --- a/drivers/i2c/muxes/i2c-mux-mlxcpld.c
+> +++ b/drivers/i2c/muxes/i2c-mux-mlxcpld.c
+> @@ -154,7 +154,7 @@ static int mlxcpld_mux_probe(struct platform_device *pdev)
+>  
+>  	/* Create an adapter for each channel. */
+>  	for (num = 0; num < pdata->num_adaps; num++) {
+> -		err = i2c_mux_add_adapter(muxc, 0, pdata->chan_ids[num], 0);
+> +		err = i2c_mux_add_adapter(muxc, 0, pdata->chan_ids[num]);
+>  		if (err)
+>  			goto virt_reg_failed;
+>  	}
+> diff --git a/drivers/i2c/muxes/i2c-mux-pca9541.c b/drivers/i2c/muxes/i2c-mux-pca9541.c
+> index ce0fb6924..e28694d99 100644
+> --- a/drivers/i2c/muxes/i2c-mux-pca9541.c
+> +++ b/drivers/i2c/muxes/i2c-mux-pca9541.c
+> @@ -314,7 +314,7 @@ static int pca9541_probe(struct i2c_client *client)
+>  
+>  	i2c_set_clientdata(client, muxc);
+>  
+> -	ret = i2c_mux_add_adapter(muxc, 0, 0, 0);
+> +	ret = i2c_mux_add_adapter(muxc, 0, 0);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/i2c/muxes/i2c-mux-pca954x.c b/drivers/i2c/muxes/i2c-mux-pca954x.c
+> index c3f4ff08a..6f8401825 100644
+> --- a/drivers/i2c/muxes/i2c-mux-pca954x.c
+> +++ b/drivers/i2c/muxes/i2c-mux-pca954x.c
+> @@ -644,7 +644,7 @@ static int pca954x_probe(struct i2c_client *client)
+>  
+>  	/* Now create an adapter for each channel */
+>  	for (num = 0; num < data->chip->nchans; num++) {
+> -		ret = i2c_mux_add_adapter(muxc, 0, num, 0);
+> +		ret = i2c_mux_add_adapter(muxc, 0, num);
+>  		if (ret)
+>  			goto fail_cleanup;
+>  	}
+> diff --git a/drivers/i2c/muxes/i2c-mux-pinctrl.c b/drivers/i2c/muxes/i2c-mux-pinctrl.c
+> index 6ebca7bfd..02aaf0781 100644
+> --- a/drivers/i2c/muxes/i2c-mux-pinctrl.c
+> +++ b/drivers/i2c/muxes/i2c-mux-pinctrl.c
+> @@ -151,7 +151,7 @@ static int i2c_mux_pinctrl_probe(struct platform_device *pdev)
+>  
+>  	/* Do not add any adapter for the idle state (if it's there at all). */
+>  	for (i = 0; i < num_names - !!muxc->deselect; i++) {
+> -		ret = i2c_mux_add_adapter(muxc, 0, i, 0);
+> +		ret = i2c_mux_add_adapter(muxc, 0, i);
+>  		if (ret)
+>  			goto err_del_adapter;
+>  	}
+> diff --git a/drivers/i2c/muxes/i2c-mux-reg.c b/drivers/i2c/muxes/i2c-mux-reg.c
+> index 8489971ba..ef765fcd3 100644
+> --- a/drivers/i2c/muxes/i2c-mux-reg.c
+> +++ b/drivers/i2c/muxes/i2c-mux-reg.c
+> @@ -213,7 +213,7 @@ static int i2c_mux_reg_probe(struct platform_device *pdev)
+>  	for (i = 0; i < mux->data.n_values; i++) {
+>  		nr = mux->data.base_nr ? (mux->data.base_nr + i) : 0;
+>  
+> -		ret = i2c_mux_add_adapter(muxc, nr, mux->data.values[i], 0);
+> +		ret = i2c_mux_add_adapter(muxc, nr, mux->data.values[i]);
+>  		if (ret)
+>  			goto err_del_mux_adapters;
+>  	}
+> diff --git a/drivers/iio/gyro/mpu3050-i2c.c b/drivers/iio/gyro/mpu3050-i2c.c
+> index 52b6feed2..29ecfa6fd 100644
+> --- a/drivers/iio/gyro/mpu3050-i2c.c
+> +++ b/drivers/iio/gyro/mpu3050-i2c.c
+> @@ -72,7 +72,7 @@ static int mpu3050_i2c_probe(struct i2c_client *client)
+>  	else {
+>  		mpu3050->i2cmux->priv = mpu3050;
+>  		/* Ignore failure, not critical */
+> -		i2c_mux_add_adapter(mpu3050->i2cmux, 0, 0, 0);
+> +		i2c_mux_add_adapter(mpu3050->i2cmux, 0, 0);
+>  	}
+>  
+>  	return 0;
+> diff --git a/drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c b/drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c
+> index 410ea39fd..0e03137fb 100644
+> --- a/drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c
+> +++ b/drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c
+> @@ -142,7 +142,7 @@ static int inv_mpu_probe(struct i2c_client *client)
+>  		if (!st->muxc)
+>  			return -ENOMEM;
+>  		st->muxc->priv = dev_get_drvdata(&client->dev);
+> -		result = i2c_mux_add_adapter(st->muxc, 0, 0, 0);
+> +		result = i2c_mux_add_adapter(st->muxc, 0, 0);
+>  		if (result)
+>  			return result;
+>  		result = inv_mpu_acpi_create_mux_client(client);
+> diff --git a/drivers/media/dvb-frontends/af9013.c b/drivers/media/dvb-frontends/af9013.c
+> index a829c8979..5afdbe244 100644
+> --- a/drivers/media/dvb-frontends/af9013.c
+> +++ b/drivers/media/dvb-frontends/af9013.c
+> @@ -1480,7 +1480,7 @@ static int af9013_probe(struct i2c_client *client)
+>  		goto err_regmap_exit;
+>  	}
+>  	state->muxc->priv = state;
+> -	ret = i2c_mux_add_adapter(state->muxc, 0, 0, 0);
+> +	ret = i2c_mux_add_adapter(state->muxc, 0, 0);
+>  	if (ret)
+>  		goto err_regmap_exit;
+>  
+> diff --git a/drivers/media/dvb-frontends/lgdt3306a.c b/drivers/media/dvb-frontends/lgdt3306a.c
+> index 263887592..91c71b24c 100644
+> --- a/drivers/media/dvb-frontends/lgdt3306a.c
+> +++ b/drivers/media/dvb-frontends/lgdt3306a.c
+> @@ -2203,7 +2203,7 @@ static int lgdt3306a_probe(struct i2c_client *client)
+>  		goto err_kfree;
+>  	}
+>  	state->muxc->priv = client;
+> -	ret = i2c_mux_add_adapter(state->muxc, 0, 0, 0);
+> +	ret = i2c_mux_add_adapter(state->muxc, 0, 0);
+>  	if (ret)
+>  		goto err_kfree;
+>  
+> diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
+> index e0272054f..6c69bcc7a 100644
+> --- a/drivers/media/dvb-frontends/m88ds3103.c
+> +++ b/drivers/media/dvb-frontends/m88ds3103.c
+> @@ -1866,7 +1866,7 @@ static int m88ds3103_probe(struct i2c_client *client)
+>  		goto err_kfree;
+>  	}
+>  	dev->muxc->priv = dev;
+> -	ret = i2c_mux_add_adapter(dev->muxc, 0, 0, 0);
+> +	ret = i2c_mux_add_adapter(dev->muxc, 0, 0);
+>  	if (ret)
+>  		goto err_kfree;
+>  
+> diff --git a/drivers/media/dvb-frontends/rtl2830.c b/drivers/media/dvb-frontends/rtl2830.c
+> index 35c969fd2..30d10fe4b 100644
+> --- a/drivers/media/dvb-frontends/rtl2830.c
+> +++ b/drivers/media/dvb-frontends/rtl2830.c
+> @@ -838,7 +838,7 @@ static int rtl2830_probe(struct i2c_client *client)
+>  		goto err_regmap_exit;
+>  	}
+>  	dev->muxc->priv = client;
+> -	ret = i2c_mux_add_adapter(dev->muxc, 0, 0, 0);
+> +	ret = i2c_mux_add_adapter(dev->muxc, 0, 0);
+>  	if (ret)
+>  		goto err_regmap_exit;
+>  
+> diff --git a/drivers/media/dvb-frontends/rtl2832.c b/drivers/media/dvb-frontends/rtl2832.c
+> index 601cf45c3..5142820b1 100644
+> --- a/drivers/media/dvb-frontends/rtl2832.c
+> +++ b/drivers/media/dvb-frontends/rtl2832.c
+> @@ -1082,7 +1082,7 @@ static int rtl2832_probe(struct i2c_client *client)
+>  		goto err_regmap_exit;
+>  	}
+>  	dev->muxc->priv = dev;
+> -	ret = i2c_mux_add_adapter(dev->muxc, 0, 0, 0);
+> +	ret = i2c_mux_add_adapter(dev->muxc, 0, 0);
+>  	if (ret)
+>  		goto err_regmap_exit;
+>  
+> diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+> index dae1f2153..26828fd41 100644
+> --- a/drivers/media/dvb-frontends/si2168.c
+> +++ b/drivers/media/dvb-frontends/si2168.c
+> @@ -744,7 +744,7 @@ static int si2168_probe(struct i2c_client *client)
+>  		goto err_kfree;
+>  	}
+>  	dev->muxc->priv = client;
+> -	ret = i2c_mux_add_adapter(dev->muxc, 0, 0, 0);
+> +	ret = i2c_mux_add_adapter(dev->muxc, 0, 0);
+>  	if (ret)
+>  		goto err_kfree;
+>  
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index d685d445c..dfcb3fc03 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -383,7 +383,7 @@ static int max9286_i2c_mux_init(struct max9286_priv *priv)
+>  	for_each_source(priv, source) {
+>  		unsigned int index = to_index(priv, source);
+>  
+> -		ret = i2c_mux_add_adapter(priv->mux, 0, index, 0);
+> +		ret = i2c_mux_add_adapter(priv->mux, 0, index);
+>  		if (ret < 0)
+>  			goto error;
+>  	}
+> diff --git a/drivers/media/usb/cx231xx/cx231xx-i2c.c b/drivers/media/usb/cx231xx/cx231xx-i2c.c
+> index c6659253c..6da8e7943 100644
+> --- a/drivers/media/usb/cx231xx/cx231xx-i2c.c
+> +++ b/drivers/media/usb/cx231xx/cx231xx-i2c.c
+> @@ -567,10 +567,7 @@ int cx231xx_i2c_mux_create(struct cx231xx *dev)
+>  
+>  int cx231xx_i2c_mux_register(struct cx231xx *dev, int mux_no)
+>  {
+> -	return i2c_mux_add_adapter(dev->muxc,
+> -				   0,
+> -				   mux_no /* chan_id */,
+> -				   0 /* class */);
+> +	return i2c_mux_add_adapter(dev->muxc, 0, mux_no);
+>  }
+>  
+>  void cx231xx_i2c_mux_unregister(struct cx231xx *dev)
+> diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+> index 6b5c36b6a..c8ee866d7 100644
+> --- a/drivers/of/unittest.c
+> +++ b/drivers/of/unittest.c
+> @@ -2815,7 +2815,7 @@ static int unittest_i2c_mux_probe(struct i2c_client *client)
+>  	if (!muxc)
+>  		return -ENOMEM;
+>  	for (i = 0; i < nchans; i++) {
+> -		if (i2c_mux_add_adapter(muxc, 0, i, 0)) {
+> +		if (i2c_mux_add_adapter(muxc, 0, i)) {
+>  			dev_err(dev, "Failed to register mux #%d\n", i);
+>  			i2c_mux_del_adapters(muxc);
+>  			return -ENODEV;
+> diff --git a/include/linux/i2c-mux.h b/include/linux/i2c-mux.h
+> index 98ef73b7c..1784ac7af 100644
+> --- a/include/linux/i2c-mux.h
+> +++ b/include/linux/i2c-mux.h
+> @@ -56,8 +56,7 @@ struct i2c_adapter *i2c_root_adapter(struct device *dev);
+>   * callback functions to perform hardware-specific mux control.
+>   */
+>  int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
+> -			u32 force_nr, u32 chan_id,
+> -			unsigned int class);
+> +			u32 force_nr, u32 chan_id);
+>  
+>  void i2c_mux_del_adapters(struct i2c_mux_core *muxc);
+>  
 
-Thanks,
+-- 
+Regards,
 
-Nirmoy
-
->
-> John.
->
->>
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->> ---
->>   .../drm/i915/gem/selftests/i915_gem_context.c |  2 +-
->>   .../drm/i915/gt/intel_execlists_submission.c  |  2 +-
->>   drivers/gpu/drm/i915/gt/intel_reset.c         |  4 ++--
->>   drivers/gpu/drm/i915/gt/intel_reset.h         |  4 ++--
->>   drivers/gpu/drm/i915/gt/selftest_hangcheck.c  | 20 +++++++++----------
->>   drivers/gpu/drm/i915/gt/selftest_mocs.c       |  4 ++--
->>   drivers/gpu/drm/i915/gt/selftest_reset.c      |  2 +-
->>   .../gpu/drm/i915/gt/selftest_workarounds.c    |  6 +++---
->>   8 files changed, 22 insertions(+), 22 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c 
->> b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->> index 89d4dc8b60c6..4f4cde55f621 100644
->> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->> @@ -1171,7 +1171,7 @@ __sseu_finish(const char *name,
->>       int ret = 0;
->>         if (flags & TEST_RESET) {
->> -        ret = intel_engine_reset(ce->engine, "sseu");
->> +        ret = intel_gt_engine_recover(ce->engine, "sseu");
->>           if (ret)
->>               goto out;
->>       }
->> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
->> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> index 21829439e686..9485a622a704 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> @@ -2404,7 +2404,7 @@ static void execlists_reset(struct 
->> intel_engine_cs *engine, const char *msg)
->>         ring_set_paused(engine, 1); /* Freeze the current request in 
->> place */
->>       execlists_capture(engine);
->> -    intel_engine_reset(engine, msg);
->> +    intel_gt_engine_recover(engine, msg);
->> tasklet_enable(&engine->sched_engine->tasklet);
->>       clear_and_wake_up_bit(bit, lock);
->> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c 
->> b/drivers/gpu/drm/i915/gt/intel_reset.c
->> index b825daace58e..6504e8ba9c58 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
->> @@ -1348,7 +1348,7 @@ int __intel_engine_reset_bh(struct 
->> intel_engine_cs *engine, const char *msg)
->>   }
->>     /**
->> - * intel_engine_reset - reset GPU engine to recover from a hang
->> + * intel_gt_engine_recover - reset GPU engine to recover from a hang
->>    * @engine: engine to reset
->>    * @msg: reason for GPU reset; or NULL for no drm_notice()
->>    *
->> @@ -1360,7 +1360,7 @@ int __intel_engine_reset_bh(struct 
->> intel_engine_cs *engine, const char *msg)
->>    *  - reset engine (which will force the engine to idle)
->>    *  - re-init/configure engine
->>    */
->> -int intel_engine_reset(struct intel_engine_cs *engine, const char *msg)
->> +int intel_gt_engine_recover(struct intel_engine_cs *engine, const 
->> char *msg)
->>   {
->>       int err;
->>   diff --git a/drivers/gpu/drm/i915/gt/intel_reset.h 
->> b/drivers/gpu/drm/i915/gt/intel_reset.h
->> index c00de353075c..be984357bf27 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_reset.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_reset.h
->> @@ -31,8 +31,8 @@ void intel_gt_handle_error(struct intel_gt *gt,
->>   void intel_gt_reset(struct intel_gt *gt,
->>               intel_engine_mask_t stalled_mask,
->>               const char *reason);
->> -int intel_engine_reset(struct intel_engine_cs *engine,
->> -               const char *reason);
->> +int intel_gt_engine_recover(struct intel_engine_cs *engine,
->> +                const char *reason);
->>   int __intel_engine_reset_bh(struct intel_engine_cs *engine,
->>                   const char *reason);
->>   diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c 
->> b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->> index 9ce8ff1c04fe..9bfda3f2bd24 100644
->> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->> @@ -495,9 +495,9 @@ static int igt_reset_nop_engine(void *arg)
->>                     i915_request_add(rq);
->>               }
->> -            err = intel_engine_reset(engine, NULL);
->> +            err = intel_gt_engine_recover(engine, NULL);
->>               if (err) {
->> -                pr_err("intel_engine_reset(%s) failed, err:%d\n",
->> +                pr_err("intel_gt_engine_recover(%s) failed, err:%d\n",
->>                          engine->name, err);
->>                   break;
->>               }
->> @@ -574,7 +574,7 @@ static int igt_reset_fail_engine(void *arg)
->>                           &gt->reset.flags));
->>             force_reset_timeout(engine);
->> -        err = intel_engine_reset(engine, NULL);
->> +        err = intel_gt_engine_recover(engine, NULL);
->>           cancel_reset_timeout(engine);
->>           if (err == 0) /* timeouts only generated on gen8+ */
->>               goto skip;
->> @@ -623,9 +623,9 @@ static int igt_reset_fail_engine(void *arg)
->>               }
->>                 if (count & 1) {
->> -                err = intel_engine_reset(engine, NULL);
->> +                err = intel_gt_engine_recover(engine, NULL);
->>                   if (err) {
->> -                    GEM_TRACE_ERR("intel_engine_reset(%s) failed, 
->> err:%d\n",
->> +                    GEM_TRACE_ERR("intel_gt_engine_recover(%s) 
->> failed, err:%d\n",
->>                                 engine->name, err);
->>                       GEM_TRACE_DUMP();
->>                       i915_request_put(last);
->> @@ -633,10 +633,10 @@ static int igt_reset_fail_engine(void *arg)
->>                   }
->>               } else {
->>                   force_reset_timeout(engine);
->> -                err = intel_engine_reset(engine, NULL);
->> +                err = intel_gt_engine_recover(engine, NULL);
->>                   cancel_reset_timeout(engine);
->>                   if (err != -ETIMEDOUT) {
->> -                    pr_err("intel_engine_reset(%s) did not fail, 
->> err:%d\n",
->> +                    pr_err("intel_gt_engine_recover(%s) did not 
->> fail, err:%d\n",
->>                              engine->name, err);
->>                       i915_request_put(last);
->>                       break;
->> @@ -765,9 +765,9 @@ static int __igt_reset_engine(struct intel_gt 
->> *gt, bool active)
->>               }
->>                 if (!using_guc) {
->> -                err = intel_engine_reset(engine, NULL);
->> +                err = intel_gt_engine_recover(engine, NULL);
->>                   if (err) {
->> -                    pr_err("intel_engine_reset(%s) failed, err:%d\n",
->> +                    pr_err("intel_gt_engine_recover(%s) failed, 
->> err:%d\n",
->>                              engine->name, err);
->>                       goto skip;
->>                   }
->> @@ -1085,7 +1085,7 @@ static int __igt_reset_engines(struct intel_gt 
->> *gt,
->>               }
->>                 if (!using_guc) {
->> -                err = intel_engine_reset(engine, NULL);
->> +                err = intel_gt_engine_recover(engine, NULL);
->>                   if (err) {
->>                       pr_err("i915_reset_engine(%s:%s): failed, 
->> err=%d\n",
->>                              engine->name, test_name, err);
->> diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c 
->> b/drivers/gpu/drm/i915/gt/selftest_mocs.c
->> index d73e438fb85f..b7b15dd3163f 100644
->> --- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
->> +++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
->> @@ -336,7 +336,7 @@ static int active_engine_reset(struct 
->> intel_context *ce,
->>         err = request_add_spin(rq, &spin);
->>       if (err == 0 && !using_guc)
->> -        err = intel_engine_reset(ce->engine, reason);
->> +        err = intel_gt_engine_recover(ce->engine, reason);
->>         /* Ensure the reset happens and kills the engine */
->>       if (err == 0)
->> @@ -356,7 +356,7 @@ static int __live_mocs_reset(struct live_mocs *mocs,
->>         if (intel_has_reset_engine(gt)) {
->>           if (!using_guc) {
->> -            err = intel_engine_reset(ce->engine, "mocs");
->> +            err = intel_gt_engine_recover(ce->engine, "mocs");
->>               if (err)
->>                   return err;
->>   diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c 
->> b/drivers/gpu/drm/i915/gt/selftest_reset.c
->> index 2cfc23c58e90..9eaa1aed9f58 100644
->> --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
->> +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
->> @@ -115,7 +115,7 @@ __igt_reset_stolen(struct intel_gt *gt,
->>       } else {
->>           for_each_engine(engine, gt, id) {
->>               if (mask & engine->mask)
->> -                intel_engine_reset(engine, NULL);
->> +                intel_gt_engine_recover(engine, NULL);
->>           }
->>       }
->>   diff --git a/drivers/gpu/drm/i915/gt/selftest_workarounds.c 
->> b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
->> index 14a8b25b6204..eb7516c7cb56 100644
->> --- a/drivers/gpu/drm/i915/gt/selftest_workarounds.c
->> +++ b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
->> @@ -256,7 +256,7 @@ static int do_device_reset(struct intel_engine_cs 
->> *engine)
->>     static int do_engine_reset(struct intel_engine_cs *engine)
->>   {
->> -    return intel_engine_reset(engine, "live_workarounds");
->> +    return intel_gt_engine_recover(engine, "live_workarounds");
->>   }
->>     static int do_guc_reset(struct intel_engine_cs *engine)
->> @@ -1282,7 +1282,7 @@ live_engine_reset_workarounds(void *arg)
->>                   goto err;
->>               }
->>   -            ret = intel_engine_reset(engine, 
->> "live_workarounds:idle");
->> +            ret = intel_gt_engine_recover(engine, 
->> "live_workarounds:idle");
->>               if (ret) {
->>                   pr_err("%s: Reset failed while idle\n", engine->name);
->>                   goto err;
->> @@ -1320,7 +1320,7 @@ live_engine_reset_workarounds(void *arg)
->>           }
->>             if (!using_guc) {
->> -            ret = intel_engine_reset(engine, 
->> "live_workarounds:active");
->> +            ret = intel_gt_engine_recover(engine, 
->> "live_workarounds:active");
->>               if (ret) {
->>                   pr_err("%s: Reset failed on an active spinner\n",
->>                          engine->name);
->
+Laurent Pinchart
