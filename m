@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242A08AAAF7
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 10:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06218AAAF8
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 10:55:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA5C10FE53;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F413810FE5F;
 	Fri, 19 Apr 2024 08:55:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cUSw7jkx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nxMoLtQ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EBB810F223;
- Fri, 19 Apr 2024 08:55:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E99EB10FE5F;
+ Fri, 19 Apr 2024 08:55:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713516949; x=1745052949;
+ t=1713516953; x=1745052953;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oKDh0tCdZ35+8S2F0CA1q+1VXVUT7hkULDasdL+Utcs=;
- b=cUSw7jkxYcEYZhymel9+bfQVP0d8kEbMfBDnLj/U7b1g7g2auA6scg77
- MCC3zQmRASPGrY6t9KEO9Me7faU5Zb/xTwk3e27OXifMmKQvIgFqA/UFY
- kwaMma7uFd621bRsZoWYSDlQmlR8fDLyGUMIF99paQ+BcrcRjunOZ5Ii1
- ILXlLxaxY52J2J4lKEk601wVKRBmBGpRYHLFPavUeXQ82lDbr9jPzsNw0
- j19TuyvSsIrli8rfaxHOLfjOR22NPDvM12rOEqEa+EqW/wiIpJNoAlKr4
- Xm+8Hf+l0+H0lcdvr9iC3F7HCrq2WzbJFcYqip8LpVN/FIdTyqekQvAOU w==;
-X-CSE-ConnectionGUID: vZJeV/4QSNWJ3ZlYAqkvvg==
-X-CSE-MsgGUID: NTUhSPSWSpCrTDdtpKjZeg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12051595"
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="12051595"
+ bh=BgAFvYdClgCdHbN2f09QhyKkMBik53tx4VXsBPQf+fg=;
+ b=nxMoLtQ5t8bna6XT0KQ1XztO1zGc2Ndu2wdm+4vSQVN2VsIwnHqM/IDv
+ P5XWwzxxjNVhNsLQ1T2PeoHMbfLVckuvjfy5LXfgHOCrzfxv2FKpKWl+y
+ 100RNC+zA5IPvFVEf48WHkzC5d7UORh++BAm2r4EqbrER0tlZeDPtbHdE
+ 7ioLUEJ9cpH3wpl09Cp6CZITuizVmbbbF2X8BlHzYVghaI4xTLyDrpzC0
+ X374qiPjALp0WSzbtI+s6uyO3TBpS3yYjsjlZmUopztQH6w0vVqONXXVr
+ kY85d4R4ZkkFRW8baTMla67dhEXaz1vKif7P1pN105CntIKJPYSO2gbxG A==;
+X-CSE-ConnectionGUID: r7AGS1DVSbu8ZQ10u9nTiA==
+X-CSE-MsgGUID: YVIlCitFTlO3cy+kjN3gfA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12051609"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="12051609"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2024 01:55:49 -0700
-X-CSE-ConnectionGUID: H4gjHtbnSE2nk39Ar+bw7A==
-X-CSE-MsgGUID: 3yVfl7OLS7eGoa7byYJfrA==
+ 19 Apr 2024 01:55:52 -0700
+X-CSE-ConnectionGUID: EcgVVzS2TI6q8yRubX/6hA==
+X-CSE-MsgGUID: nvQRPoNRS6Kqfg3MvP4Nag==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="27890713"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="27890729"
 Received: from aravind-dev.iind.intel.com ([10.145.162.146])
  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2024 01:55:46 -0700
+ 19 Apr 2024 01:55:49 -0700
 From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
 To: dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
  maarten.lankhorst@linux.intel.com, airlied@gmail.com, mripard@kernel.org,
  tzimmermann@suse.de, rodrigo.vivi@intel.com
-Cc: intel-xe@lists.freedesktop.org,
- Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v2 1/4] drm: add devm release action
-Date: Fri, 19 Apr 2024 14:28:23 +0530
-Message-Id: <20240419085826.263743-2-aravind.iddamsetty@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [PATCH 2/4] drm/xe: Save and restore PCI state
+Date: Fri, 19 Apr 2024 14:28:24 +0530
+Message-Id: <20240419085826.263743-3-aravind.iddamsetty@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240419085826.263743-1-aravind.iddamsetty@linux.intel.com>
 References: <20240419085826.263743-1-aravind.iddamsetty@linux.intel.com>
@@ -70,53 +69,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In scenarios where drm_dev_put is directly called by driver we want to
-release devm_drm_dev_init_release action associated with struct
-drm_device.
+Save and restore PCI states where ever needed.
 
-v2: Directly expose the original function, instead of introducing a
-helper (Rodrigo)
-
-Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
 
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
 ---
- drivers/gpu/drm/drm_drv.c | 6 ++++++
- include/drm/drm_drv.h     | 2 ++
- 2 files changed, 8 insertions(+)
+ drivers/gpu/drm/xe/xe_device_types.h |  3 ++
+ drivers/gpu/drm/xe/xe_pci.c          | 48 ++++++++++++++++++++++++++--
+ drivers/gpu/drm/xe/xe_pci.h          |  4 ++-
+ 3 files changed, 51 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 243cacb3575c..ba60cbb0725f 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -714,6 +714,12 @@ static int devm_drm_dev_init(struct device *parent,
- 					devm_drm_dev_init_release, dev);
+diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+index 8244b177a6a3..0a66555229e9 100644
+--- a/drivers/gpu/drm/xe/xe_device_types.h
++++ b/drivers/gpu/drm/xe/xe_device_types.h
+@@ -462,6 +462,9 @@ struct xe_device {
+ 	/** @needs_flr_on_fini: requests function-reset on fini */
+ 	bool needs_flr_on_fini;
+ 
++	/** @pci_state: PCI state of device */
++	struct pci_saved_state *pci_state;
++
+ 	/* private: */
+ 
+ #if IS_ENABLED(CONFIG_DRM_XE_DISPLAY)
+diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
+index 65ea44672cab..fd45f235b35c 100644
+--- a/drivers/gpu/drm/xe/xe_pci.c
++++ b/drivers/gpu/drm/xe/xe_pci.c
+@@ -391,6 +391,41 @@ MODULE_DEVICE_TABLE(pci, pciidlist);
+ 
+ #undef INTEL_VGA_DEVICE
+ 
++static bool xe_save_pci_state(struct pci_dev *pdev)
++{
++	struct xe_device *xe = pci_get_drvdata(pdev);
++
++	if (pci_save_state(pdev))
++		return false;
++
++	kfree(xe->pci_state);
++
++	xe->pci_state = pci_store_saved_state(pdev);
++	if (!xe->pci_state) {
++		drm_err(&xe->drm, "Failed to store PCI saved state\n");
++		return false;
++	}
++
++	return true;
++}
++
++void xe_load_pci_state(struct pci_dev *pdev)
++{
++	struct xe_device *xe = pci_get_drvdata(pdev);
++	int ret;
++
++	if (!xe->pci_state)
++		return;
++
++	ret = pci_load_saved_state(pdev, xe->pci_state);
++	if (ret) {
++		drm_warn(&xe->drm, "Failed to load PCI state err:%d\n", ret);
++		return;
++	}
++
++	pci_restore_state(pdev);
++}
++
+ /* is device_id present in comma separated list of ids */
+ static bool device_id_in_list(u16 device_id, const char *devices, bool negative)
+ {
+@@ -696,6 +731,8 @@ static void xe_pci_remove(struct pci_dev *pdev)
+ 
+ 	xe_device_remove(xe);
+ 	xe_pm_runtime_fini(xe);
++
++	kfree(xe->pci_state);
+ 	pci_set_drvdata(pdev, NULL);
  }
  
-+void devm_drm_dev_release_action(struct drm_device *dev)
-+{
-+	devm_release_action(dev->dev, devm_drm_dev_init_release, dev);
-+}
-+EXPORT_SYMBOL(devm_drm_dev_release_action);
-+
- void *__devm_drm_dev_alloc(struct device *parent,
- 			   const struct drm_driver *driver,
- 			   size_t size, size_t offset)
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index 8878260d7529..fa9123684874 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -444,6 +444,8 @@ struct drm_driver {
- 	const struct file_operations *fops;
- };
+@@ -796,6 +833,9 @@ static int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	drm_dbg(&xe->drm, "d3cold: capable=%s\n",
+ 		str_yes_no(xe->d3cold.capable));
  
-+void devm_drm_dev_release_action(struct drm_device *dev);
++	if (xe_save_pci_state(pdev))
++		pci_restore_state(pdev);
 +
- void *__devm_drm_dev_alloc(struct device *parent,
- 			   const struct drm_driver *driver,
- 			   size_t size, size_t offset);
+ 	return 0;
+ 
+ err_driver_cleanup:
+@@ -847,7 +887,7 @@ static int xe_pci_suspend(struct device *dev)
+ 	 */
+ 	d3cold_toggle(pdev, D3COLD_ENABLE);
+ 
+-	pci_save_state(pdev);
++	xe_save_pci_state(pdev);
+ 	pci_disable_device(pdev);
+ 
+ 	return 0;
+@@ -871,6 +911,8 @@ static int xe_pci_resume(struct device *dev)
+ 
+ 	pci_set_master(pdev);
+ 
++	xe_load_pci_state(pdev);
++
+ 	err = xe_pm_resume(pdev_to_xe_device(pdev));
+ 	if (err)
+ 		return err;
+@@ -888,7 +930,7 @@ static int xe_pci_runtime_suspend(struct device *dev)
+ 	if (err)
+ 		return err;
+ 
+-	pci_save_state(pdev);
++	xe_save_pci_state(pdev);
+ 
+ 	if (xe->d3cold.allowed) {
+ 		d3cold_toggle(pdev, D3COLD_ENABLE);
+@@ -913,7 +955,7 @@ static int xe_pci_runtime_resume(struct device *dev)
+ 	if (err)
+ 		return err;
+ 
+-	pci_restore_state(pdev);
++	xe_load_pci_state(pdev);
+ 
+ 	if (xe->d3cold.allowed) {
+ 		err = pci_enable_device(pdev);
+diff --git a/drivers/gpu/drm/xe/xe_pci.h b/drivers/gpu/drm/xe/xe_pci.h
+index 611c1209b14c..73b90a430d1f 100644
+--- a/drivers/gpu/drm/xe/xe_pci.h
++++ b/drivers/gpu/drm/xe/xe_pci.h
+@@ -6,7 +6,9 @@
+ #ifndef _XE_PCI_H_
+ #define _XE_PCI_H_
+ 
++struct pci_dev;
++
+ int xe_register_pci_driver(void);
+ void xe_unregister_pci_driver(void);
+-
++void xe_load_pci_state(struct pci_dev *pdev);
+ #endif
 -- 
 2.25.1
 
