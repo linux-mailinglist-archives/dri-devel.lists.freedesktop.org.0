@@ -2,73 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6578AB667
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 23:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311F58AB66B
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 23:28:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE33D10E81E;
-	Fri, 19 Apr 2024 21:22:08 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OeLmtiPD";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEDE410E068;
+	Fri, 19 Apr 2024 21:28:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D36710E81E
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 21:22:07 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-617ddc988f5so27091817b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 14:22:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713561727; x=1714166527; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=tM8bv0/XuiSnFU08HBK9V9VgoiYOmYXBN5vef9CJivs=;
- b=OeLmtiPD1m4hwKtKraX8HcpmExkAzlVtLBkQNYGEDHRhn4O2AsVp20Z4RkO93lOyci
- bprjsS3W7jjzZaemrpilhCWTUDMdj1ooNinkbw562OmaxyPl2zct6aQgJHv0/FpW1JT6
- g0IG/ya+wYujfrWIO9tfWYAJ+a36u9DrMp/PRSDdO2zPuPTEpimtoXBCWPbO0guqw6EE
- Cii2hYjVoJmv0G1jt6aBsxI6klE5bFFjUryQbT640UxK59E63RtailrKSCNCgMbgVg5s
- al4VGCE5ZlZvYcblssIJ8iVkH2wYnHcJ7yPbCD8ifKEBOdee9mD/IlbG0DCq7sxrKJCS
- mRsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713561727; x=1714166527;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tM8bv0/XuiSnFU08HBK9V9VgoiYOmYXBN5vef9CJivs=;
- b=EQI53mOxfG46OIEHziTLsvrLnTyTsFOqxmhnJSp3R1p8QEWaGlqylDyyxJTEa8l+D4
- kP2T7L8eTRg5RaJK3BHvVVosEO0zB5qk79vZ1JnQP7r5iov1d7lT+pF/utiEZ0j0vb0r
- 19J+Xze1ctWb5EW2IIKhFLx8t5Q0dkF16Aype9gsBq7I9RRNRfbo5IA2OLZ4ipHd/LMO
- CJMMPEOkAJ7qs45xrkPXpZUSeXVWC59aI8oixQl+NX4ITcmmdLri6dhE338oZwMzQK2S
- 967R8s2TpbvA1X8S51+r/zZBjkyWZljwiWjtdo2GG4GdghyjiHPrfQ7Bs+OzL62Pyf40
- oNNw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0sGJO70WZMvWflQdSvJ0/2kPbD3lO4v6wSKvB+oQ8CZTTpE3Rzr/5zf1W1LsnrAYK+Yi1nFPtkc1xCOTGIL5O/nTq0UFpYwGHuEjnCkt/
-X-Gm-Message-State: AOJu0YzKKB0UUVZJ/O997pHRxc6x4J5zvH5F6T2dii2Q61gW36KcGYLn
- T3BKhqDBtP5bSl7kzb9UgtwP2WF2gJ3FFvhaV49wsat/G/TE9GVtsVtuuKWRw6jgojMoGRt3dFp
- eE0coJln2AoDsSTontIO7qxZzIRhMjrEStAiwkg==
-X-Google-Smtp-Source: AGHT+IGhzEMaV0X0p6+rKVqZI49NZ16cVdfLETG6UDXqzV+cSLuQqCYKuDIlZ1CzV2fl5DT0UeHZvD/bHCfrMflSeAA=
-X-Received: by 2002:a25:c789:0:b0:dc7:32ea:c89f with SMTP id
- w131-20020a25c789000000b00dc732eac89fmr3321829ybe.15.1713561726826; Fri, 19
- Apr 2024 14:22:06 -0700 (PDT)
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53BA810E068
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 21:28:05 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 621D6405E7;
+ Fri, 19 Apr 2024 23:28:01 +0200 (CEST)
+Date: Fri, 19 Apr 2024 23:27:59 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: David Wronek <david@mainlining.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] drm/panel: Add driver for EDO RM69380 OLED panel
+Message-ID: <2ril3lznqamiexdfgumxv3qa2fo3lprqt26qbjg2qhxxsxx5wb@yqwz7hm4ipha>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Wronek <david@mainlining.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+References: <20240417-raydium-rm69380-driver-v4-0-e9c2337d0049@mainlining.org>
+ <20240417-raydium-rm69380-driver-v4-2-e9c2337d0049@mainlining.org>
 MIME-Version: 1.0
-References: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
- <20231202214016.1257621-5-dmitry.baryshkov@linaro.org>
- <b4e725ad-19c3-a344-9504-674ae17f7027@quicinc.com>
-In-Reply-To: <b4e725ad-19c3-a344-9504-674ae17f7027@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 20 Apr 2024 00:21:56 +0300
-Message-ID: <CAA8EJpqGjJSKqggN3KyTTVog7rZx6pjekr=mOcvneKYcG7_Lrg@mail.gmail.com>
-Subject: Re: [PATCH 04/12] drm/msm: add arrays listing formats supported by
- MDP4/MDP5 hardware
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240417-raydium-rm69380-driver-v4-2-e9c2337d0049@mainlining.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,195 +70,407 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 20 Apr 2024 at 00:06, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 12/2/2023 1:40 PM, Dmitry Baryshkov wrote:
-> > MDP4 and MDP5 drivers enumerate supported formats each time the plane is
-> > created. In preparation to merger of MDP DPU format databases, define
-> > precise formats list, so that changes to the database do not cause the
-> > driver to add unsupported format to the list.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c | 57 ++++++++++++++++++++--
-> >   drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 36 +++++++++++---
-> >   drivers/gpu/drm/msm/disp/mdp_format.c      | 28 -----------
-> >   drivers/gpu/drm/msm/disp/mdp_kms.h         |  1 -
-> >   4 files changed, 80 insertions(+), 42 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-> > index b689b618da78..cebe20c82a54 100644
-> > --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-> > +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
-> > @@ -371,6 +371,47 @@ static const uint64_t supported_format_modifiers[] = {
-> >       DRM_FORMAT_MOD_INVALID
-> >   };
-> >
-> > +const uint32_t mdp4_rgb_formats[] = {
-> > +     DRM_FORMAT_ARGB8888,
-> > +     DRM_FORMAT_ABGR8888,
-> > +     DRM_FORMAT_RGBA8888,
-> > +     DRM_FORMAT_BGRA8888,
-> > +     DRM_FORMAT_XRGB8888,
-> > +     DRM_FORMAT_XBGR8888,
-> > +     DRM_FORMAT_RGBX8888,
-> > +     DRM_FORMAT_BGRX8888,
-> > +     DRM_FORMAT_RGB888,
-> > +     DRM_FORMAT_BGR888,
-> > +     DRM_FORMAT_RGB565,
-> > +     DRM_FORMAT_BGR565,
-> > +};
-> > +
-> > +const uint32_t mdp4_rgb_yuv_formats[] = {
-> > +     DRM_FORMAT_ARGB8888,
-> > +     DRM_FORMAT_ABGR8888,
-> > +     DRM_FORMAT_RGBA8888,
-> > +     DRM_FORMAT_BGRA8888,
-> > +     DRM_FORMAT_XRGB8888,
-> > +     DRM_FORMAT_XBGR8888,
-> > +     DRM_FORMAT_RGBX8888,
-> > +     DRM_FORMAT_BGRX8888,
-> > +     DRM_FORMAT_RGB888,
-> > +     DRM_FORMAT_BGR888,
-> > +     DRM_FORMAT_RGB565,
-> > +     DRM_FORMAT_BGR565,
-> > +
-> > +     DRM_FORMAT_NV12,
-> > +     DRM_FORMAT_NV21,
-> > +     DRM_FORMAT_NV16,
-> > +     DRM_FORMAT_NV61,
-> > +     DRM_FORMAT_VYUY,
-> > +     DRM_FORMAT_UYVY,
-> > +     DRM_FORMAT_YUYV,
-> > +     DRM_FORMAT_YVYU,
-> > +     DRM_FORMAT_YUV420,
-> > +     DRM_FORMAT_YVU420,
-> > +};
-> > +
-> >   /* initialize plane */
-> >   struct drm_plane *mdp4_plane_init(struct drm_device *dev,
-> >               enum mdp4_pipe pipe_id, bool private_plane)
-> > @@ -379,6 +420,8 @@ struct drm_plane *mdp4_plane_init(struct drm_device *dev,
-> >       struct mdp4_plane *mdp4_plane;
-> >       int ret;
-> >       enum drm_plane_type type;
-> > +     const uint32_t *formats;
-> > +     unsigned int nformats;
-> >
-> >       mdp4_plane = kzalloc(sizeof(*mdp4_plane), GFP_KERNEL);
-> >       if (!mdp4_plane) {
-> > @@ -392,13 +435,17 @@ struct drm_plane *mdp4_plane_init(struct drm_device *dev,
-> >       mdp4_plane->name = pipe_names[pipe_id];
-> >       mdp4_plane->caps = mdp4_pipe_caps(pipe_id);
-> >
-> > -     mdp4_plane->nformats = mdp_get_formats(mdp4_plane->formats,
-> > -                     ARRAY_SIZE(mdp4_plane->formats),
-> > -                     !pipe_supports_yuv(mdp4_plane->caps));
-> > -
-> >       type = private_plane ? DRM_PLANE_TYPE_PRIMARY : DRM_PLANE_TYPE_OVERLAY;
-> > +
-> > +     if (pipe_supports_yuv(mdp4_plane->caps)) {
-> > +             formats = mdp4_rgb_yuv_formats;
-> > +             nformats = ARRAY_SIZE(mdp4_rgb_yuv_formats);
-> > +     } else {
-> > +             formats = mdp4_rgb_formats;
-> > +             nformats = ARRAY_SIZE(mdp4_rgb_formats);
-> > +     }
-> >       ret = drm_universal_plane_init(dev, plane, 0xff, &mdp4_plane_funcs,
-> > -                              mdp4_plane->formats, mdp4_plane->nformats,
-> > +                              formats, nformats,
-> >                                supported_format_modifiers, type, NULL);
-> >       if (ret)
-> >               goto fail;
-> > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> > index 0d5ff03cb091..aa8342d93393 100644
-> > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> > @@ -17,9 +17,6 @@
-> >
-> >   struct mdp5_plane {
-> >       struct drm_plane base;
-> > -
-> > -     uint32_t nformats;
-> > -     uint32_t formats[32];
-> >   };
-> >   #define to_mdp5_plane(x) container_of(x, struct mdp5_plane, base)
-> >
-> > @@ -1007,6 +1004,32 @@ uint32_t mdp5_plane_get_flush(struct drm_plane *plane)
-> >       return mask;
-> >   }
-> >
-> > +const uint32_t mdp5_plane_formats[] = {
-> > +     DRM_FORMAT_ARGB8888,
-> > +     DRM_FORMAT_ABGR8888,
-> > +     DRM_FORMAT_RGBA8888,
-> > +     DRM_FORMAT_BGRA8888,
-> > +     DRM_FORMAT_XRGB8888,
-> > +     DRM_FORMAT_XBGR8888,
-> > +     DRM_FORMAT_RGBX8888,
-> > +     DRM_FORMAT_BGRX8888,
-> > +     DRM_FORMAT_RGB888,
-> > +     DRM_FORMAT_BGR888,
-> > +     DRM_FORMAT_RGB565,
-> > +     DRM_FORMAT_BGR565,
-> > +
-> > +     DRM_FORMAT_NV12,
-> > +     DRM_FORMAT_NV21,
-> > +     DRM_FORMAT_NV16,
-> > +     DRM_FORMAT_NV61,
-> > +     DRM_FORMAT_VYUY,
-> > +     DRM_FORMAT_UYVY,
-> > +     DRM_FORMAT_YUYV,
-> > +     DRM_FORMAT_YVYU,
-> > +     DRM_FORMAT_YUV420,
-> > +     DRM_FORMAT_YVU420,
-> > +};
-> > +
-> >   /* initialize plane */
-> >   struct drm_plane *mdp5_plane_init(struct drm_device *dev,
-> >                                 enum drm_plane_type type)
-> > @@ -1023,12 +1046,9 @@ struct drm_plane *mdp5_plane_init(struct drm_device *dev,
-> >
-> >       plane = &mdp5_plane->base;
-> >
-> > -     mdp5_plane->nformats = mdp_get_formats(mdp5_plane->formats,
-> > -             ARRAY_SIZE(mdp5_plane->formats), false);
-> > -
-> >       ret = drm_universal_plane_init(dev, plane, 0xff, &mdp5_plane_funcs,
-> > -                     mdp5_plane->formats, mdp5_plane->nformats,
-> > -                     NULL, type, NULL);
-> > +                                    mdp5_plane_formats, ARRAY_SIZE(mdp5_plane_formats),
-> > +                                    NULL, type, NULL);
-> >       if (ret)
-> >               goto fail;
-> >
->
-> Did you accidentally drop checking for YUV format cap before adding the
-> formats for the plane similar to
+On 2024-04-17 18:29:34, David Wronek wrote:
+> Add support for the 2560x1600@90Hz OLED panel by EDO bundled with a
+> Raydium RM69380 controller, as found on the Lenovo Xiaoxin Pad Pro 2021.
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: David Wronek <david@mainlining.org>
 
-No. MDP5 driver asks RGB+YUV planes see the mdp_get_formats() arguments.
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
->
->  > +    if (pipe_supports_yuv(mdp4_plane->caps)) {
->  > +            formats = mdp4_rgb_yuv_formats;
->  > +            nformats = ARRAY_SIZE(mdp4_rgb_yuv_formats);
->  > +    } else {
->  > +            formats = mdp4_rgb_formats;
->  > +            nformats = ARRAY_SIZE(mdp4_rgb_formats);
->  > +    }
->
->
-> Also, from what I checked the format table is identical between mdp4 and
-> mdp5. Even if we cannot unify mdp4/5 and dpu tables, we can atleast have
-> mdp_4_5_rgb and mdp_4_5_rgb_yuv?
-
-I'd rather not do that. If we are to change mdp4 or mdp5 planes at
-some point, I don't want to think about the second driver. The amount
-of duplication is minimal compared to the burden of thinking about the
-second driver.
-
--- 
-With best wishes
-Dmitry
+> ---
+>  drivers/gpu/drm/panel/Kconfig                 |  12 +
+>  drivers/gpu/drm/panel/Makefile                |   1 +
+>  drivers/gpu/drm/panel/panel-raydium-rm69380.c | 344 ++++++++++++++++++++++++++
+>  3 files changed, 357 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 154f5bf82980..e2a66c21349f 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -542,6 +542,18 @@ config DRM_PANEL_RAYDIUM_RM692E5
+>  	  Say Y here if you want to enable support for Raydium RM692E5-based
+>  	  display panels, such as the one found in the Fairphone 5 smartphone.
+>  
+> +config DRM_PANEL_RAYDIUM_RM69380
+> +	tristate "Raydium RM69380-based DSI panel"
+> +	depends on OF && GPIOLIB
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  Say Y here if you want to enable support for Raydium RM69380-based
+> +	  display panels.
+> +
+> +	  This panel controller can be found in the Lenovo Xiaoxin Pad Pro 2021
+> +	  in combination with an EDO OLED panel.
+> +
+>  config DRM_PANEL_RONBO_RB070D30
+>  	tristate "Ronbo Electronics RB070D30 panel"
+>  	depends on OF
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index 24a02655d726..e2a2807d4ef0 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -55,6 +55,7 @@ obj-$(CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN) += panel-raspberrypi-touchscreen
+>  obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM67191) += panel-raydium-rm67191.o
+>  obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM68200) += panel-raydium-rm68200.o
+>  obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM692E5) += panel-raydium-rm692e5.o
+> +obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM69380) += panel-raydium-rm69380.o
+>  obj-$(CONFIG_DRM_PANEL_RONBO_RB070D30) += panel-ronbo-rb070d30.o
+>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20) += panel-samsung-atna33xc20.o
+>  obj-$(CONFIG_DRM_PANEL_SAMSUNG_DB7430) += panel-samsung-db7430.o
+> diff --git a/drivers/gpu/drm/panel/panel-raydium-rm69380.c b/drivers/gpu/drm/panel/panel-raydium-rm69380.c
+> new file mode 100644
+> index 000000000000..4dca6802faef
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-raydium-rm69380.c
+> @@ -0,0 +1,344 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree.
+> + * Copyright (c) 2024 David Wronek <david@mainlining.org>
+> + */
+> +
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#include <video/mipi_display.h>
+> +
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_probe_helper.h>
+> +
+> +struct rm69380_panel {
+> +	struct drm_panel panel;
+> +	struct mipi_dsi_device *dsi[2];
+> +	struct regulator_bulk_data supplies[2];
+> +	struct gpio_desc *reset_gpio;
+> +};
+> +
+> +static inline
+> +struct rm69380_panel *to_rm69380_panel(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct rm69380_panel, panel);
+> +}
+> +
+> +static void rm69380_reset(struct rm69380_panel *ctx)
+> +{
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> +	usleep_range(15000, 16000);
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +	usleep_range(10000, 11000);
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> +	msleep(30);
+> +}
+> +
+> +static int rm69380_on(struct rm69380_panel *ctx)
+> +{
+> +	struct mipi_dsi_device *dsi = ctx->dsi[0];
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
+> +
+> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +	if (ctx->dsi[1])
+> +		ctx->dsi[1]->mode_flags |= MIPI_DSI_MODE_LPM;
+> +
+> +	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0xd4);
+> +	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x80);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0xd0);
+> +	mipi_dsi_dcs_write_seq(dsi, 0x48, 0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0x26);
+> +	mipi_dsi_dcs_write_seq(dsi, 0x75, 0x3f);
+> +	mipi_dsi_dcs_write_seq(dsi, 0x1d, 0x1a);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xfe, 0x00);
+> +	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x28);
+> +	mipi_dsi_dcs_write_seq(dsi, 0xc2, 0x08);
+> +
+> +	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set tear on: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(20);
+> +
+> +	ret = mipi_dsi_dcs_set_display_on(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set display on: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(36);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rm69380_off(struct rm69380_panel *ctx)
+> +{
+> +	struct mipi_dsi_device *dsi = ctx->dsi[0];
+> +	struct device *dev = &dsi->dev;
+> +	int ret;
+> +
+> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> +	if (ctx->dsi[1])
+> +		ctx->dsi[1]->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> +
+> +	ret = mipi_dsi_dcs_set_display_off(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to set display off: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(35);
+> +
+> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> +		return ret;
+> +	}
+> +	msleep(20);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rm69380_prepare(struct drm_panel *panel)
+> +{
+> +	struct rm69380_panel *ctx = to_rm69380_panel(panel);
+> +	struct device *dev = &ctx->dsi[0]->dev;
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to enable regulators: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	rm69380_reset(ctx);
+> +
+> +	ret = rm69380_on(ctx);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to initialize panel: %d\n", ret);
+> +		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rm69380_unprepare(struct drm_panel *panel)
+> +{
+> +	struct rm69380_panel *ctx = to_rm69380_panel(panel);
+> +	struct device *dev = &ctx->dsi[0]->dev;
+> +	int ret;
+> +
+> +	ret = rm69380_off(ctx);
+> +	if (ret < 0)
+> +		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
+> +
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct drm_display_mode rm69380_mode = {
+> +	.clock = (2560 + 32 + 12 + 38) * (1600 + 20 + 4 + 8) * 90 / 1000,
+> +	.hdisplay = 2560,
+> +	.hsync_start = 2560 + 32,
+> +	.hsync_end = 2560 + 32 + 12,
+> +	.htotal = 2560 + 32 + 12 + 38,
+> +	.vdisplay = 1600,
+> +	.vsync_start = 1600 + 20,
+> +	.vsync_end = 1600 + 20 + 4,
+> +	.vtotal = 1600 + 20 + 4 + 8,
+> +	.width_mm = 248,
+> +	.height_mm = 155,
+> +	.type = DRM_MODE_TYPE_DRIVER,
+> +};
+> +
+> +static int rm69380_get_modes(struct drm_panel *panel,
+> +					struct drm_connector *connector)
+> +{
+> +	return drm_connector_helper_get_modes_fixed(connector, &rm69380_mode);
+> +}
+> +
+> +static const struct drm_panel_funcs rm69380_panel_funcs = {
+> +	.prepare = rm69380_prepare,
+> +	.unprepare = rm69380_unprepare,
+> +	.get_modes = rm69380_get_modes,
+> +};
+> +
+> +static int rm69380_bl_update_status(struct backlight_device *bl)
+> +{
+> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
+> +	u16 brightness = backlight_get_brightness(bl);
+> +	int ret;
+> +
+> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> +
+> +	ret = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +
+> +	return 0;
+> +}
+> +
+> +static int rm69380_bl_get_brightness(struct backlight_device *bl)
+> +{
+> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
+> +	u16 brightness;
+> +	int ret;
+> +
+> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> +
+> +	ret = mipi_dsi_dcs_get_display_brightness_large(dsi, &brightness);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +
+> +	return brightness;
+> +}
+> +
+> +static const struct backlight_ops rm69380_bl_ops = {
+> +	.update_status = rm69380_bl_update_status,
+> +	.get_brightness = rm69380_bl_get_brightness,
+> +};
+> +
+> +static struct backlight_device *
+> +rm69380_create_backlight(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	const struct backlight_properties props = {
+> +		.type = BACKLIGHT_RAW,
+> +		.brightness = 511,
+> +		.max_brightness = 2047,
+> +	};
+> +
+> +	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
+> +					      &rm69380_bl_ops, &props);
+> +}
+> +
+> +static int rm69380_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct mipi_dsi_host *dsi_sec_host;
+> +	struct rm69380_panel *ctx;
+> +	struct device *dev = &dsi->dev;
+> +	struct device_node *dsi_sec;
+> +	int ret, i;
+> +
+> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	ctx->supplies[0].supply = "vddio";
+> +	ctx->supplies[1].supply = "avdd";
+> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
+> +				      ctx->supplies);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Failed to get regulators\n");
+> +
+> +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(ctx->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
+> +				     "Failed to get reset-gpios\n");
+> +
+> +	dsi_sec = of_graph_get_remote_node(dsi->dev.of_node, 1, -1);
+> +
+> +	if (dsi_sec) {
+> +		const struct mipi_dsi_device_info info = { "RM69380 DSI1", 0,
+> +							   dsi_sec };
+> +
+> +		dsi_sec_host = of_find_mipi_dsi_host_by_node(dsi_sec);
+> +		of_node_put(dsi_sec);
+> +		if (!dsi_sec_host)
+> +			return dev_err_probe(dev, -EPROBE_DEFER,
+> +					     "Cannot get secondary DSI host\n");
+> +
+> +		ctx->dsi[1] =
+> +			devm_mipi_dsi_device_register_full(dev, dsi_sec_host, &info);
+> +		if (IS_ERR(ctx->dsi[1]))
+> +			return dev_err_probe(dev, PTR_ERR(ctx->dsi[1]),
+> +					     "Cannot get secondary DSI node\n");
+> +
+> +		mipi_dsi_set_drvdata(ctx->dsi[1], ctx);
+> +	}
+> +
+> +	ctx->dsi[0] = dsi;
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +	drm_panel_init(&ctx->panel, dev, &rm69380_panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +	ctx->panel.prepare_prev_first = true;
+> +
+> +	ctx->panel.backlight = rm69380_create_backlight(dsi);
+> +	if (IS_ERR(ctx->panel.backlight))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
+> +				     "Failed to create backlight\n");
+> +
+> +	drm_panel_add(&ctx->panel);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ctx->dsi); i++) {
+> +		if (!ctx->dsi[i])
+> +			continue;
+> +
+> +		dev_dbg(&ctx->dsi[i]->dev, "Binding DSI %d\n", i);
+> +
+> +		ctx->dsi[i]->lanes = 4;
+> +		ctx->dsi[i]->format = MIPI_DSI_FMT_RGB888;
+> +		ctx->dsi[i]->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
+> +					  MIPI_DSI_CLOCK_NON_CONTINUOUS;
+> +
+> +		ret = devm_mipi_dsi_attach(dev, ctx->dsi[i]);
+> +		if (ret < 0) {
+> +			drm_panel_remove(&ctx->panel);
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to attach to DSI%d\n", i);
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void rm69380_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct rm69380_panel *ctx = mipi_dsi_get_drvdata(dsi);
+> +
+> +	drm_panel_remove(&ctx->panel);
+> +}
+> +
+> +static const struct of_device_id rm69380_of_match[] = {
+> +	{ .compatible = "lenovo,j716f-edo-rm69380" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, rm69380_of_match);
+> +
+> +static struct mipi_dsi_driver rm69380_panel_driver = {
+> +	.probe = rm69380_probe,
+> +	.remove = rm69380_remove,
+> +	.driver = {
+> +		.name = "panel-raydium-rm69380",
+> +		.of_match_table = rm69380_of_match,
+> +	},
+> +};
+> +module_mipi_dsi_driver(rm69380_panel_driver);
+> +
+> +MODULE_AUTHOR("David Wronek <david@mainlining.org");
+> +MODULE_DESCRIPTION("DRM driver for Raydium RM69380-equipped DSI panels");
+> +MODULE_LICENSE("GPL");
+> 
+> -- 
+> 2.44.0
+> 
