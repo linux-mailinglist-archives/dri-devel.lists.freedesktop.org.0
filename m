@@ -2,77 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2630D8AA65A
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 02:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F1F8AA65E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 02:53:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C923110F81B;
-	Fri, 19 Apr 2024 00:48:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACE7511A0DD;
+	Fri, 19 Apr 2024 00:53:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="4c5jPEAZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DbBIIJ1Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4893F10F81B
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 00:48:54 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id
- 41be03b00d2f7-5e152c757a5so865839a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 17:48:54 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E21F411A0DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 00:53:19 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-3454fbdd88aso1105523f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Apr 2024 17:53:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1713487733; x=1714092533;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1713487997; x=1714092797; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+i6MbUVulprM4w6RPq5RF1Rimz1Zb3d0BGvo/86t4ac=;
- b=4c5jPEAZDBkVho00/JNZhgbuW6oL3edvQtNljiJ6a8V4nhYOHIo97OBYr40+oTfA/k
- DNgXuqhS0DV/vyqKgJjlqxmTxnpwU6Iaqi16jXkl0lOOzPIQPaxT5lMut/VkLyTJRBM3
- 3uzUpRe52kcXjhX2sB7fmL8z+lEhKOcjItf6wTTNb+T1cKhYOvrJ2Kc7+jEOtt+RZ0+a
- Hh/vJj24jJlOX09jklkxrckc4x1VEyBMwNn5lRJsr5sMwq9eqcYfNAAVPKZXrTcEfcSM
- QZ96FRhhV8mwSfGg/RdGYmvy0W7Kofluhrzs7OsbKCKn906zoI/1lm36PEQI7XjT80+J
- 2C7A==
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=75zr9p/fh/PWCweFikTRplCtvZIMjSWtAwBUBiqCtJY=;
+ b=DbBIIJ1QdmjxA9cRovmTDXjPy3snpOvMGfzKmuhkr2wg4RcRcGXUlNVpSEtQ7l6NoM
+ QwGoy5xSzmWlOe7K0veE8I3wbCd0z0VnKDX//BcYQNFVgMpRdse9SYwDeSxZrDvOroAw
+ yAh+NpS8DzDf2G1treQFGlbmzDfWUzHufwJ7+ASiZ4G/tkNqwOi2N8kAgIWKI1UK2fPW
+ wIq3f5R7Nn/oVzv9Rc47ZUIgtqgn7uZhnlcJWoZ6wpciP6a73SOORrR6pDmfa+vNcgBv
+ J1qsw+saUWfcsVW4gtwUY3meU8+N6OUklNdIDEGpo+kFELpu3oLaVVoDzW9QrJoIrlCl
+ xNOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713487733; x=1714092533;
+ d=1e100.net; s=20230601; t=1713487997; x=1714092797;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+i6MbUVulprM4w6RPq5RF1Rimz1Zb3d0BGvo/86t4ac=;
- b=PpYiXzmhuUTL0YvcufRYcQnGpU4/Sk0kM8zVXOEQSVe9yhHRr3fXLGu5WmrrPKOE/9
- OPNcw5oM7G/TTItZev8Zg4rc0ydvawktSfNUfYRkrZSdxU3p8W7A1HE4HjijiLYsdLb2
- uj7PWbb7yGFkX00YYvkbKp/O3CnFuKpHsFE+DZFLTiudvUUI60/e0oAx+ZeIpaTL5tag
- EihJKNBq40gDY0X+pUJn1BlmEZcluR5h3cFeP7wpBSnnAshCejE4p9Y4/kFV9y7II1hf
- k4CiC+HurSqDojPZQ3JwSUmEZiXoGYsuoApiWaspOakL5wToMoGgRB4qZdpBodpkQk+r
- DyUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX5WJqOX4P7JkxxarP2jfQV+d1zl+gQLtiWeu8yM7i5EJWhrKbQ5cHC+lvPBAfCFz3jRPUU2k9DtaKCMxufzgx2125yXt/tk/k4s24yYxO1
-X-Gm-Message-State: AOJu0YyBpYU8kCtpgKGuYVF9KAg3gg0hmwKBcwyzsuLoiGPRZmLqGqP5
- Cbvsv5QkbKY/nVb3jkSfeWLJui7DF8uVYUPVc32LrC78lkfRieWKBoDTBFIG2BeGAejb81UooSN
- aOt6m4svk5LTXY97fQ6aks8TslAXdoMsXHCP60Q==
-X-Google-Smtp-Source: AGHT+IHvhJAZ8u8NbdyyMWW9Qdo19ozFbcLnpn2nmLxzT6yaxoL9DdwJWbhTCPyHaoQcP7I5NTV0L5vVt0pITogV8iU=
-X-Received: by 2002:a17:90a:c907:b0:2ab:9f04:703a with SMTP id
- v7-20020a17090ac90700b002ab9f04703amr782215pjt.41.1713487733583; Thu, 18 Apr
- 2024 17:48:53 -0700 (PDT)
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=75zr9p/fh/PWCweFikTRplCtvZIMjSWtAwBUBiqCtJY=;
+ b=r682VSm28xWhhCqGm2XQXU9srr++ukIvzRaRFaNfhBjgXzbIG0u3EayX9kHGk/fM5O
+ Bctj/MSrT2gy7YYSsSXKd6Q+7tLgEGEF+66X5g5BXaZp3xqqj+rUWWefRD2Uwlacadcb
+ rRxpT4HS7z/y4JfJaNUUzbNim0zEPtbrDoE47eiaZRI56QHIvmI9Iu++vqIldhzVABAR
+ Zb0rPtaWYEUN9OY0HcKS1XDSKDWtV18LpZlPE3YKy278plFvdOzAAsRa29wqeGa3Eny1
+ 1YkRwLCj7jrEPbrwayjQJc2m+YKzOp1UFUOV05C91Voj6mNlJlsZCjaA6zqJaKb4mHAq
+ YM3g==
+X-Gm-Message-State: AOJu0Yy2KtTpC56QkMyhPkWyQMXf+8WN6eDU07YWyD3I23RepphjP63Y
+ gaZxYwPaQ/istSH6hmHwvZ4hlv4sRsASso6FzaP8osowGK0DSBfqjaK8TiBOZBGhjGzsm8hwcDg
+ U8oopKgaCB/KqpmEf0eDLk0z4p1s=
+X-Google-Smtp-Source: AGHT+IHDxhNcglaeB2Qft4xeEEFXKNdWCvstiy/xJVZXvE2C3LfODAnguT6hDp2iE94yPOgU9gbPKG4J1PLVijHSinM=
+X-Received: by 2002:a5d:4147:0:b0:34a:2d0c:4463 with SMTP id
+ c7-20020a5d4147000000b0034a2d0c4463mr393091wrq.4.1713487997324; Thu, 18 Apr
+ 2024 17:53:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240410071439.2152588-1-yangcong5@huaqin.corp-partner.google.com>
- <20240410071439.2152588-3-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=V2J=Tth2zhpo-kPo4uvESt70mFneO2V6TV-haac0VZuQ@mail.gmail.com>
- <CACRpkdYtM=5jdQddCqRFgBRXvcJEjk1ULJNKKFz7jhhkGxV59Q@mail.gmail.com>
- <CAHwB_NLfaQWhFSbZ2ASmYgXJaVOTrjac3F0hyCJdwTTo-zHJrQ@mail.gmail.com>
- <CACRpkdYoM40RZyjTxLwDNta2+uV31_zzoj7XrXqhyyqrDtd5zQ@mail.gmail.com>
-In-Reply-To: <CACRpkdYoM40RZyjTxLwDNta2+uV31_zzoj7XrXqhyyqrDtd5zQ@mail.gmail.com>
-From: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date: Fri, 19 Apr 2024 08:48:42 +0800
-Message-ID: <CAHwB_N+39-kTcNX91JvNGM4HEJ_ZArKt2Vs61g-OR-Mz6akocw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/4] drm/panel: boe-tv101wum-nl6: Support for BOE
- nv110wum-l60 MIPI-DSI panel
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Doug Anderson <dianders@chromium.org>, sam@ravnborg.org,
- neil.armstrong@linaro.org, 
- daniel@ffwll.ch, airlied@gmail.com, robh+dt@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 19 Apr 2024 10:53:05 +1000
+Message-ID: <CAPM=9tyKSyw-hDGcGSHom+C0iiagDbgrX=1oxv08jV+KRL=m8w@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.9-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,67 +75,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Linus,
 
-Linus Walleij <linus.walleij@linaro.org> =E4=BA=8E2024=E5=B9=B44=E6=9C=8818=
-=E6=97=A5=E5=91=A8=E5=9B=9B 22:00=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Thu, Apr 18, 2024 at 2:42=E2=80=AFPM cong yang
-> <yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> > I learned from himax that even if the same controller is used with
-> > different glasses, the corresponding parameters are not fixed.
-> >
-> > For example: _INIT_DCS_CMD(0xB9, 0x83, 0x10, 0x21, 0x55, 0x00),
-> >
-> > even in the group initial code, the same register will be loaded with
-> > parameters twice.
-> (...)
-> > So assuming that the registers of the two screens is the same now,
-> > it cannot be set as a common parameter.
-> > Otherwise, it may be a bit troublesome for the maintainers.
-> >
-> > If necessary, I can break out starry_himax83102_j02, boe_nv110wum and
-> > ivo_t109nw41
-> > as separate driver. Then add some define to these registers.
->
-> Why would you do a separate driver per panel despite they have
-> the same display controller? I don't get it.
->
-> Use one driver, use different compatible strings for the different
-> panels and use the corresponding sequence for each panel
-> selected by compatible string.
+Regular week of fixes, seems to be about right for this time in the
+release cycle, amdgpu, and nouveau are the main one with some
+scattered fixes otherwise.
 
-I mean add starry_himax83102_j02, boe_nv110wum and ivo_t109nw41
-together to make a separate driver and break out boe-tv101wum-nl6 ,
-because they belong to the same controller.
+Dave.
 
-As Doug said =EF=BC=9A
-=E2=80=9CI'm just guessing, but if those are the same controller as
-the two new ones you're adding in this series, maybe all
-3 of them should be in their own driver? Maybe we can do something to
-make more sense of some of these commands too? =E2=80=9D
+drm-fixes-2024-04-19:
+drm fixes for v6.9-rc5
 
+ttm:
+- Stop pooling cached NUMA pages
 
-Thanks.
->
-> For example, see drivers/gpu/drm/panel/panel-novatek-nt35510.c:
->
-> static const struct of_device_id nt35510_of_match[] =3D {
->         {
->                 .compatible =3D "frida,frd400b25025",
->                 .data =3D &nt35510_frida_frd400b25025,
->         },
->         {
->                 .compatible =3D "hydis,hva40wv1",
->                 .data =3D &nt35510_hydis_hva40wv1,
->         },
->         { }
-> };
->
->
-> Take some inspiration from this driver and how we parameterize
-> the different data depending on compatible string.
->
-> Yours,
-> Linus Walleij
+amdgpu:
+- Fix invalid resource->start check
+- USB-C DSC fix
+- Fix a potential UAF in VA IOCTL
+- Fix visible VRAM handling during faults
+
+amdkfd:
+- Fix memory leak in create_process failure
+
+radeon:
+- Silence UBSAN warnings from variable sized arrays
+
+nouveau:
+- dp: Don't probe DP ports twice
+- nv04: Fix OOB access
+- nv50: Disable AUX bus for disconnected DP ports
+- nvkm: Fix instmem race condition
+
+panel:
+- Don't unregister DSI devices in several drivers
+
+v3d:
+- Fix enabled_ns increment
+
+xe:
+- Fix bo leak on error path during fb init
+- Fix use-after-free due to order vm is put and destroyed
+The following changes since commit 0bbac3facb5d6cc0171c45c9873a2dc96bea9680=
+:
+
+  Linux 6.9-rc4 (2024-04-14 13:38:39 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-04-19
+
+for you to fetch changes up to 52c8b6e1c007b93d35058508fbe1ec80a1d9ca39:
+
+  Merge tag 'drm-xe-fixes-2024-04-18' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+(2024-04-19 10:40:47 +1000)
+
+----------------------------------------------------------------
+drm fixes for v6.9-rc5
+
+ttm:
+- Stop pooling cached NUMA pages
+
+amdgpu:
+- Fix invalid resource->start check
+- USB-C DSC fix
+- Fix a potential UAF in VA IOCTL
+- Fix visible VRAM handling during faults
+
+amdkfd:
+- Fix memory leak in create_process failure
+
+radeon:
+- Silence UBSAN warnings from variable sized arrays
+
+nouveau:
+- dp: Don't probe DP ports twice
+- nv04: Fix OOB access
+- nv50: Disable AUX bus for disconnected DP ports
+- nvkm: Fix instmem race condition
+
+panel:
+- Don't unregister DSI devices in several drivers
+
+v3d:
+- Fix enabled_ns increment
+
+xe:
+- Fix bo leak on error path during fb init
+- Fix use-after-free due to order vm is put and destroyed
+
+----------------------------------------------------------------
+Alex Deucher (3):
+      Revert "drm/amd/display: fix USB-C flag update after enc10 feature in=
+it"
+      drm/radeon: make -fstrict-flex-arrays=3D3 happy
+      drm/radeon: silence UBSAN warning (v3)
+
+Christian K=C3=B6nig (3):
+      drm/ttm: stop pooling cached NUMA pages v2
+      drm/amdgpu: remove invalid resource->start check v2
+      drm/amdgpu: fix visible VRAM handling during faults
+
+Dave Airlie (4):
+      nouveau: fix instmem race condition around ptr stores
+      Merge tag 'amd-drm-fixes-6.9-2024-04-17' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2024-04-18' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-xe-fixes-2024-04-18' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+
+Dmitry Baryshkov (2):
+      drm/panel: visionox-rm69299: don't unregister DSI device
+      drm/panel: novatek-nt36682e: don't unregister DSI device
+
+Felix Kuehling (1):
+      drm/amdkfd: Fix memory leak in create_process failure
+
+Lyude Paul (2):
+      drm/nouveau/kms/nv50-: Disable AUX bus for disconnected DP ports
+      drm/nouveau/dp: Don't probe eDP ports twice harder
+
+Maarten Lankhorst (1):
+      drm/xe: Fix bo leak in intel_fb_bo_framebuffer_init
+
+Matthew Auld (1):
+      drm/xe/vm: prevent UAF with asid based lookup
+
+Ma=C3=ADra Canal (1):
+      drm/v3d: Don't increment `enabled_ns` twice
+
+Mikhail Kobuk (1):
+      drm: nv04: Fix out of bounds access
+
+Zack Rusin (3):
+      drm/vmwgfx: Fix prime import/export
+      drm/vmwgfx: Fix crtc's atomic check conditional
+      drm/vmwgfx: Sort primary plane formats by order of preference
+
+xinhui pan (1):
+      drm/amdgpu: validate the parameters of bo mapping operations more cle=
+arly
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         | 22 +++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h         | 22 -------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            | 65 +++++++++++-------=
+-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |  3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             | 72 ++++++++++++++----=
+----
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c           |  4 +-
+ .../amd/display/dc/dcn32/dcn32_dio_link_encoder.c  |  8 +--
+ .../amd/display/dc/dcn35/dcn35_dio_link_encoder.c  |  4 +-
+ drivers/gpu/drm/nouveau/nouveau_bios.c             | 13 ++--
+ drivers/gpu/drm/nouveau/nouveau_dp.c               | 23 +++++--
+ drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c |  7 ++-
+ drivers/gpu/drm/panel/panel-novatek-nt36672e.c     |  2 -
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c     |  2 -
+ drivers/gpu/drm/radeon/pptable.h                   | 10 +--
+ drivers/gpu/drm/radeon/radeon_atombios.c           |  8 ++-
+ drivers/gpu/drm/ttm/ttm_pool.c                     | 38 +++++++++---
+ drivers/gpu/drm/v3d/v3d_irq.c                      |  4 --
+ drivers/gpu/drm/vmwgfx/vmwgfx_blit.c               | 35 ++++++++++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 |  7 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h                 |  2 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |  1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |  3 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                | 32 ++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                | 11 +++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_prime.c              | 15 ++++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c         | 44 ++++++++-----
+ drivers/gpu/drm/xe/display/intel_fb_bo.c           |  8 ++-
+ drivers/gpu/drm/xe/xe_vm.c                         | 21 ++++---
+ 30 files changed, 320 insertions(+), 172 deletions(-)
