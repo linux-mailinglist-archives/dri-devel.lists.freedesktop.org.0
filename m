@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4828AAAF6
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 10:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 242A08AAAF7
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 10:55:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1F2F10F00F;
-	Fri, 19 Apr 2024 08:55:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA5C10FE53;
+	Fri, 19 Apr 2024 08:55:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZaiywM/2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cUSw7jkx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA66E10EFA3;
- Fri, 19 Apr 2024 08:55:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EBB810F223;
+ Fri, 19 Apr 2024 08:55:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713516947; x=1745052947;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=nVPxrcaYzHM8mG5y4RCTn6D2ry7nTjBYAlGLG/6lrxc=;
- b=ZaiywM/2CjbjVO3iOu2Y+rziuR+mMWVX58OWcft8H9YTFSI1fZ4Ms9tw
- 4Ay0WR6+EmG20hOIMYis2MK27iwm65C60qV3SmGu6yv7NC6TMsDB0qrAc
- 1KT0K+HOxXGk+kzZACuuk2Gqh36ta1x6FuLwiCPghxZy5fxwVl8ttEOjj
- kx0jpeNrnwFerd4+zKgxzvw8uabPk9Q6lMRRyMueiJfXOqJDT0kWxZ1qu
- FxAmACct3XEZyZo+R6WiNkifdvNsa7IB5/N1rtWexKmuvoVVQOOXX9Sj6
- sWMEPBroCDR0m2af+IlNQEmtsNWII3e7EBimHNGBzmXkqpkUhXwO7yRek g==;
-X-CSE-ConnectionGUID: OJbucYi5TUSjIEueS3KdWg==
-X-CSE-MsgGUID: wxdT3DJ6TN+/0Vl51qCajg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12051590"
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="12051590"
+ t=1713516949; x=1745052949;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=oKDh0tCdZ35+8S2F0CA1q+1VXVUT7hkULDasdL+Utcs=;
+ b=cUSw7jkxYcEYZhymel9+bfQVP0d8kEbMfBDnLj/U7b1g7g2auA6scg77
+ MCC3zQmRASPGrY6t9KEO9Me7faU5Zb/xTwk3e27OXifMmKQvIgFqA/UFY
+ kwaMma7uFd621bRsZoWYSDlQmlR8fDLyGUMIF99paQ+BcrcRjunOZ5Ii1
+ ILXlLxaxY52J2J4lKEk601wVKRBmBGpRYHLFPavUeXQ82lDbr9jPzsNw0
+ j19TuyvSsIrli8rfaxHOLfjOR22NPDvM12rOEqEa+EqW/wiIpJNoAlKr4
+ Xm+8Hf+l0+H0lcdvr9iC3F7HCrq2WzbJFcYqip8LpVN/FIdTyqekQvAOU w==;
+X-CSE-ConnectionGUID: vZJeV/4QSNWJ3ZlYAqkvvg==
+X-CSE-MsgGUID: NTUhSPSWSpCrTDdtpKjZeg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12051595"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="12051595"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2024 01:55:46 -0700
-X-CSE-ConnectionGUID: 7g8AuHqvSCWQmfjnBxuLrg==
-X-CSE-MsgGUID: ijUnJLp7QMKvd+2dMQ1OCw==
+ 19 Apr 2024 01:55:49 -0700
+X-CSE-ConnectionGUID: H4gjHtbnSE2nk39Ar+bw7A==
+X-CSE-MsgGUID: 3yVfl7OLS7eGoa7byYJfrA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="27890705"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; d="scan'208";a="27890713"
 Received: from aravind-dev.iind.intel.com ([10.145.162.146])
  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2024 01:55:43 -0700
+ 19 Apr 2024 01:55:46 -0700
 From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
 To: dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
  maarten.lankhorst@linux.intel.com, airlied@gmail.com, mripard@kernel.org,
  tzimmermann@suse.de, rodrigo.vivi@intel.com
-Cc: intel-xe@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH v3 0/4] drm/xe: Support PCIe FLR
-Date: Fri, 19 Apr 2024 14:28:22 +0530
-Message-Id: <20240419085826.263743-1-aravind.iddamsetty@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org,
+ Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 1/4] drm: add devm release action
+Date: Fri, 19 Apr 2024 14:28:23 +0530
+Message-Id: <20240419085826.263743-2-aravind.iddamsetty@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240419085826.263743-1-aravind.iddamsetty@linux.intel.com>
+References: <20240419085826.263743-1-aravind.iddamsetty@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,167 +70,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PCI subsystem provides callbacks to inform the driver about a request to
-do function level reset by user, initiated by writing to sysfs entry
-/sys/bus/pci/devices/.../reset. This will allow the driver to handle FLR
-without the need to do unbind and rebind as the driver needs to
-reinitialize the device afresh post FLR.
+In scenarios where drm_dev_put is directly called by driver we want to
+release devm_drm_dev_init_release action associated with struct
+drm_device.
 
-v3: Trivial fix
+v2: Directly expose the original function, instead of introducing a
+helper (Rodrigo)
 
-v2:
-1. Directly expose the devm_drm_dev_release_action instead of introducing
-a helper (Rodrigo)
-2. separate out gt idle and pci save/restore to a separate patch (Lucas)
-3. Fixed the warnings seen around xe_guc_submit_stop, xe_guc_puc_fini
-
-Rodrigo, retaining your r-b's since there are no functional changes.
-
+Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
 Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
 
-dmesg snip showing FLR recovery:
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+---
+ drivers/gpu/drm/drm_drv.c | 6 ++++++
+ include/drm/drm_drv.h     | 2 ++
+ 2 files changed, 8 insertions(+)
 
-[  590.486336] xe 0000:4d:00.0: enabling device (0140 -> 0142)
-[  590.506933] xe 0000:4d:00.0: [drm] Using GuC firmware from
-xe/pvc_guc_70.20.0.bin version 70.20.0
-[  590.542355] xe 0000:4d:00.0: [drm] Using GuC firmware from
-xe/pvc_guc_70.20.0.bin version 70.20.0
-[  590.578532] xe 0000:4d:00.0: [drm] VISIBLE VRAM: 0x0000202000000000,
-0x0000002000000000
-[  590.578556] xe 0000:4d:00.0: [drm] VRAM[0, 0]: Actual physical size
-0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
-accessible size 0x0000000fff000000
-[  590.578560] xe 0000:4d:00.0: [drm] VRAM[0, 0]: DPA range:
-[0x0000000000000000-1000000000], io range:
-[0x0000202000000000-202fff000000]
-[  590.578585] xe 0000:4d:00.0: [drm] VRAM[1, 1]: Actual physical size
-0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
-accessible size 0x0000000fff000000
-[  590.578589] xe 0000:4d:00.0: [drm] VRAM[1, 1]: DPA range:
-[0x0000001000000000-2000000000], io range:
-[0x0000203000000000-203fff000000]
-[  590.578592] xe 0000:4d:00.0: [drm] Total VRAM: 0x0000202000000000,
-0x0000002000000000
-[  590.578594] xe 0000:4d:00.0: [drm] Available VRAM:
-0x0000202000000000, 0x0000001ffe000000
-[  590.738899] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  590.889991] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  590.892835] [drm] Initialized xe 1.1.0 20201103 for 0000:4d:00.0 on
-minor 1
-[  590.900215] xe 0000:9a:00.0: enabling device (0140 -> 0142)
-[  590.915991] xe 0000:9a:00.0: [drm] Using GuC firmware from
-xe/pvc_guc_70.20.0.bin version 70.20.0
-[  590.957450] xe 0000:9a:00.0: [drm] Using GuC firmware from
-xe/pvc_guc_70.20.0.bin version 70.20.0
-[  590.989863] xe 0000:9a:00.0: [drm] VISIBLE VRAM: 0x000020e000000000,
-0x0000002000000000
-[  590.989888] xe 0000:9a:00.0: [drm] VRAM[0, 0]: Actual physical size
-0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
-accessible size 0x0000000fff000000
-[  590.989893] xe 0000:9a:00.0: [drm] VRAM[0, 0]: DPA range:
-[0x0000000000000000-1000000000], io range:
-[0x000020e000000000-20efff000000]
-[  590.989918] xe 0000:9a:00.0: [drm] VRAM[1, 1]: Actual physical size
-0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
-accessible size 0x0000000fff000000
-[  590.989921] xe 0000:9a:00.0: [drm] VRAM[1, 1]: DPA range:
-[0x0000001000000000-2000000000], io range:
-[0x000020f000000000-20ffff000000]
-[  590.989924] xe 0000:9a:00.0: [drm] Total VRAM: 0x000020e000000000,
-0x0000002000000000
-[  590.989927] xe 0000:9a:00.0: [drm] Available VRAM:
-0x000020e000000000, 0x0000001ffe000000
-[  591.142061] xe 0000:9a:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  591.293505] xe 0000:9a:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  591.295487] [drm] Initialized xe 1.1.0 20201103 for 0000:9a:00.0 on
-minor 2
-[  610.685993] Console: switching to colour dummy device 80x25
-[  610.686118] [IGT] xe_exec_basic: executing
-[  610.755398] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  610.771783] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  610.773542] [IGT] xe_exec_basic: starting subtest once-basic
-[  610.960251] [IGT] xe_exec_basic: finished subtest once-basic, SUCCESS
-[  610.962741] [IGT] xe_exec_basic: exiting, ret=0
-[  610.977203] Console: switching to colour frame buffer device 128x48
-[  611.006675] xe_exec_basic (3237) used greatest stack depth: 11128
-bytes left
-[  644.682201] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  644.699060] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  644.699118] xe 0000:4d:00.0: preparing for PCIe FLR reset
-[  644.699149] xe 0000:4d:00.0: [drm] removing device access to
-userspace
-[  644.928577] xe 0000:4d:00.0: PCI device went through FLR, reenabling
-the device
-[  656.104233] xe 0000:4d:00.0: [drm] Using GuC firmware from
-xe/pvc_guc_70.20.0.bin version 70.20.0
-[  656.149525] xe 0000:4d:00.0: [drm] Using GuC firmware from
-xe/pvc_guc_70.20.0.bin version 70.20.0
-[  656.182711] xe 0000:4d:00.0: [drm] VISIBLE VRAM: 0x0000202000000000,
-0x0000002000000000
-[  656.182737] xe 0000:4d:00.0: [drm] VRAM[0, 0]: Actual physical size
-0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
-accessible size 0x0000000fff000000
-[  656.182742] xe 0000:4d:00.0: [drm] VRAM[0, 0]: DPA range:
-[0x0000000000000000-1000000000], io range:
-[0x0000202000000000-202fff000000]
-[  656.182768] xe 0000:4d:00.0: [drm] VRAM[1, 1]: Actual physical size
-0x0000001000000000, usable size exclude stolen 0x0000000fff000000, CPU
-accessible size 0x0000000fff000000
-[  656.182772] xe 0000:4d:00.0: [drm] VRAM[1, 1]: DPA range:
-[0x0000001000000000-2000000000], io range:
-[0x0000203000000000-203fff000000]
-[  656.182775] xe 0000:4d:00.0: [drm] Total VRAM: 0x0000202000000000,
-0x0000002000000000
-[  656.182778] xe 0000:4d:00.0: [drm] Available VRAM:
-0x0000202000000000, 0x0000001ffe000000
-[  656.348657] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  656.507619] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  656.510848] [drm] Initialized xe 1.1.0 20201103 for 0000:4d:00.0 on
-minor 1
-[  665.754402] Console: switching to colour dummy device 80x25
-[  665.754484] [IGT] xe_exec_basic: executing
-[  665.805853] xe 0000:4d:00.0: [drm] GT0: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  665.819825] xe 0000:4d:00.0: [drm] GT1: CCS_MODE=0 config:00400000,
-num_engines:1, num_slices:4
-[  665.820359] [IGT] xe_exec_basic: starting subtest once-basic
-[  665.968899] [IGT] xe_exec_basic: finished subtest once-basic, SUCCESS
-[  665.969534] [IGT] xe_exec_basic: exiting, ret=0
-[  665.981027] Console: switching to colour frame buffer device 128x48
-
-
-Aravind Iddamsetty (4):
-  drm: add devm release action
-  drm/xe: Save and restore PCI state
-  drm/xe: Extract xe_gt_idle() helper
-  drm/xe/FLR: Support PCIe FLR
-
- drivers/gpu/drm/drm_drv.c            |  6 ++
- drivers/gpu/drm/xe/Makefile          |  1 +
- drivers/gpu/drm/xe/xe_device_types.h |  6 ++
- drivers/gpu/drm/xe/xe_gt.c           | 28 +++++----
- drivers/gpu/drm/xe/xe_gt.h           |  1 +
- drivers/gpu/drm/xe/xe_guc_pc.c       |  4 ++
- drivers/gpu/drm/xe/xe_pci.c          | 57 ++++++++++++++++--
- drivers/gpu/drm/xe/xe_pci.h          |  6 +-
- drivers/gpu/drm/xe/xe_pci_err.c      | 88 ++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_pci_err.h      | 13 ++++
- include/drm/drm_drv.h                |  2 +
- 11 files changed, 197 insertions(+), 15 deletions(-)
- create mode 100644 drivers/gpu/drm/xe/xe_pci_err.c
- create mode 100644 drivers/gpu/drm/xe/xe_pci_err.h
-
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 243cacb3575c..ba60cbb0725f 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -714,6 +714,12 @@ static int devm_drm_dev_init(struct device *parent,
+ 					devm_drm_dev_init_release, dev);
+ }
+ 
++void devm_drm_dev_release_action(struct drm_device *dev)
++{
++	devm_release_action(dev->dev, devm_drm_dev_init_release, dev);
++}
++EXPORT_SYMBOL(devm_drm_dev_release_action);
++
+ void *__devm_drm_dev_alloc(struct device *parent,
+ 			   const struct drm_driver *driver,
+ 			   size_t size, size_t offset)
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index 8878260d7529..fa9123684874 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -444,6 +444,8 @@ struct drm_driver {
+ 	const struct file_operations *fops;
+ };
+ 
++void devm_drm_dev_release_action(struct drm_device *dev);
++
+ void *__devm_drm_dev_alloc(struct device *parent,
+ 			   const struct drm_driver *driver,
+ 			   size_t size, size_t offset);
 -- 
 2.25.1
 
