@@ -2,78 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3658AA8DC
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 09:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246C48AA905
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Apr 2024 09:20:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 354B210E7A4;
-	Fri, 19 Apr 2024 07:04:36 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QE+b5leQ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 790EF10FDA4;
+	Fri, 19 Apr 2024 07:20:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE78110E7A4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 07:04:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1713510273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RrF53ndQa9Sgu43CWLxXlJZq6iA0dd4wA/lH76Cjdg8=;
- b=QE+b5leQxVrQ2iwm760KN44GOl5RNHFsGfHHsK6jFrpdkOnX5kzHTNLOT1QzOGS15+tpcf
- CTvmosOYjilDOl18XV/m8u9iHdU0kYW4jbsaSzfo3y1QIK7vRlVsF3Z+tYMyuY3KEVGZHc
- Hc8hAp5ChG0kl0vkFmc64vnjy9FWIDk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-455-b0y5HYfbOCWZOShURv4j3Q-1; Fri, 19 Apr 2024 03:04:32 -0400
-X-MC-Unique: b0y5HYfbOCWZOShURv4j3Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3455cbdea2cso1188816f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 00:04:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713510271; x=1714115071;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RrF53ndQa9Sgu43CWLxXlJZq6iA0dd4wA/lH76Cjdg8=;
- b=pp50OOW+vSppT8ZTc9PL4UsPdlmldDIqzwfPyFi1CDRcdQE3RT6gUlcZvTEuO5TPgo
- Rv5LVWDmPlKVs+oRjosSSGxB3UcbBJX5a1cBtRkVPZ2mEcYZrSI2n/qKMq8Cfpz40B0v
- lBT68rzZnrC1qWJn3KCbvAjig4+n7njrK7Th8zWEy1hF2SqdJWaWEg3xrrF0kR0A7K3X
- q/9k4ZA4yvqkSskNgtm32rizbJJW4IfgeKa6VbWvwbWIhaUzDvodbjHWSBHKUF15AGGY
- EY0kxSeq9T1C4EpY5rEs3D4/AH4KlMqGvLv1rvkCoznCBMe3zmEk0gWr6UWAGc5V30SX
- NxRQ==
-X-Gm-Message-State: AOJu0YzMDlW6i3vGx5uQH9qVpYNQ7mfZLMmz1Z2Oa4FFqxLdP0h0dp1w
- XmGytMCilqy2IAMMCXaKj7nHTaU5udPcppSlvvYOo5lxPO/xqIrlWaDr6+CNxG7qPLBaz5ndtil
- yQsYywOQ5+CxKLf0PB379M8zpBM6n8tKf2dVRrwS/PQIKr/V9Oqvd7wIVVgPzGVRg8A==
-X-Received: by 2002:a05:6000:1868:b0:349:af80:9b67 with SMTP id
- d8-20020a056000186800b00349af809b67mr3789506wri.30.1713510270824; 
- Fri, 19 Apr 2024 00:04:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFPpkcAcvPPXH0B3Lun7mewkPmrcqy/fRLjlykJWcvyGXZveMZJ9WqJmQsdTv0gouAOu6XXhw==
-X-Received: by 2002:a05:6000:1868:b0:349:af80:9b67 with SMTP id
- d8-20020a056000186800b00349af809b67mr3789487wri.30.1713510270437; 
- Fri, 19 Apr 2024 00:04:30 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- u24-20020a05600c00d800b004185be4baefsm7724246wmm.0.2024.04.19.00.04.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Apr 2024 00:04:30 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, Thomas
- Zimmermann <tzimmermann@suse.de>, Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 29/43] drm/renesas/rz-du: Use fbdev-dma
-In-Reply-To: <20240410130557.31572-30-tzimmermann@suse.de>
-References: <20240410130557.31572-1-tzimmermann@suse.de>
- <20240410130557.31572-30-tzimmermann@suse.de>
-Date: Fri, 19 Apr 2024 09:04:29 +0200
-Message-ID: <875xwdesua.fsf@minerva.mail-host-address-is-not-set>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 284F310F8F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 07:20:52 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rxiYB-0005ps-9Y; Fri, 19 Apr 2024 09:20:47 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rxiY9-00D7BW-2B; Fri, 19 Apr 2024 09:20:45 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <ukl@pengutronix.de>) id 1rxiY8-003uPa-36;
+ Fri, 19 Apr 2024 09:20:44 +0200
+Date: Fri, 19 Apr 2024 09:20:44 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Frank Binns <frank.binns@imgtec.com>, 
+ Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 0/4] gpu: Convert to platform remove callback returning
+ void
+Message-ID: <xqwcrxfrg3ogplh35c5etl6nbzw6zueilm4h6euh7bnpszyir4@6dtn5qdvijv3>
+References: <cover.1712681770.git.u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zqtl7cbpfineoepn"
+Content-Disposition: inline
+In-Reply-To: <cover.1712681770.git.u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,23 +69,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Implement fbdev emulation with fbdev-dma. Fbdev-dma now supports
-> damage handling, which is required by rz-du. Avoids the overhead of
-> fbdev-generic's additional shadow buffering. No functional changes.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Biju Das <biju.das.jz@bp.renesas.com>
-> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
+--zqtl7cbpfineoepn
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Hello,
 
--- 
-Best regards,
+On Tue, Apr 09, 2024 at 07:02:47PM +0200, Uwe Kleine-K=F6nig wrote:
+> with some patches sent earlier[1], this series converts all platform
+> drivers below drivers/gpu to not use struct platform_device::remove()
+> any more.
+>=20
+> See commit 5c5a7680e67b ("platform: Provide a remove callback that
+> returns no value") for an extended explanation and the eventual goal.
+>=20
+> All conversations are trivial, because the driver's .remove() callbacks
+> returned zero unconditionally.
+>=20
+> There are no interdependencies between these patches. This is merge
+> window material.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+I wonder how this series will make it in. While I would prefer these
+patches to go in together (that I can consider this thread completed in
+one go), I think with how drm maintenace works, it's best if the patches
+are picked up by their individual maintainers. I guess that's:
 
+ - Frank Binns + Matt Coster for imagination
+
+ - Chun-Kuang Hu + Philipp Zabel for mediatek
+
+ - Thierry Reding + Mikko Perttunen for the host1x driver
+   (Note there is another patch for this driver set at
+    20240409165043.105137-2-u.kleine-koenig@pengutronix.de that is
+    relevant for the same quest.)
+
+ - Philipp Zabel for ipu-v3
+
+I plan to send a patch changing struct platform_driver::remove after the
+end of the merge window leading to 6.10-rc1 for inclusion in next via
+Greg's driver core. So please either care the patches land in 6.10-rc1
+or ack that I include them in the submission to Greg.
+
+Thanks for your cooperation,
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--zqtl7cbpfineoepn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYiG0sACgkQj4D7WH0S
+/k5uYwf/bmP6h2EDhf4HeD6t6iH04mtOMqGj0P+x7unUIW9fwa+06Vtnjj0TW/DR
+WgWu8rFS3I02j3D51b14SGZRNrIEXwSkNNVQLPZbe8pu9akVVYtymL7xxNM4ksLk
+83PrwKdtdx2khdWfc7kOWM+zu2IkKTkHvRQqrx/jCrz9OpAA+2DJpqtt0CnYOMgu
+eF4ev9d7wG7VdP8jks1/anWuqbDAIVStCnA1MaCISsXl2e2ZGZfSE99Mg1h94eLd
+AX2IRPASplCkOA1L2Klfkye65Pqyfi1gnxnawcUbhkcZ4ffdg7jFAEaCXPqfHEKP
+w+LYkIVZlBBGdz0EuoGrVlGwPo7Ixg==
+=stkl
+-----END PGP SIGNATURE-----
+
+--zqtl7cbpfineoepn--
