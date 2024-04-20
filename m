@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD48E8ABCCF
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 20:50:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21208ABCD1
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 20:50:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC4410E25E;
-	Sat, 20 Apr 2024 18:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB8F110E22E;
+	Sat, 20 Apr 2024 18:50:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=usp.br header.i=@usp.br header.b="ynsgcbee";
+	dkim=pass (2048-bit key; secure) header.d=usp.br header.i=@usp.br header.b="zoVJhBOb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3EF010E23A
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 18:50:40 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-1e9451d8b71so3520605ad.0
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 11:50:40 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0168D10E286
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 18:50:47 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1e8b03fa5e5so19818445ad.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 11:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=usp.br; s=usp-google; t=1713639040; x=1714243840; darn=lists.freedesktop.org;
+ d=usp.br; s=usp-google; t=1713639047; x=1714243847; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CWyAz1u4xj57V45jlhvKvlDv1eG35fXBf7jPQkau5eE=;
- b=ynsgcbee2L9Ky2dSogWYbvTVVCCCZr+AgK36FJ7rXLeEixkIEH7sJYC4p/xUrxIIKk
- TuI6RbJB5WkEhAE45qLXki7tn+xdqlCtDZVlPAqiI2LUPwp/h8/eavgP3c+ABbr0LVVr
- aCudEA5nB5j2w+O2WNycShdJYrqbqRR9wuyhWzPiWEmqclM3LbMZOlKnbd2DyEwykSlo
- rqhSHZ/JO51TRpKKCoGLZV5/0Sp2mQu+OOYO12As4cY9iEvC8d7Q+MgxU3cdDcohibfw
- fJ9RiUPRyLwQsZjg3hT+UF56JnGWRrduXtu6HalEepMTZCjY8vTV3DCTjpHLEGkOxYo3
- 6XjQ==
+ bh=VQjFYwxXugp5kZIt490GmWy6VzHRTTztx48u5ltsIaI=;
+ b=zoVJhBObPfeOGDqtIWkaj0HlbvdR1UjYQh6k4GLCCFlTR6aKJ3OSXeDbaKRqW6wkjc
+ eH9Ac5Y0f2zmhSXipDxG2JPfjk2RXwR++weZp019MlAcTMDUMdyLmII6DZQnGv76WszL
+ kiJ4dfsIlzv/roGbQQ0NsUNz8gz6kBMEG+X0SWAnb9vbRuO3jaTtCRmIQNlYCF1ZMN27
+ /qMbXbXUJJ0UxWSBkYTYJxO7GYxhkvH+QlqrlrbjBwaXI9lRUiv/9STP5Johh3AAoABt
+ IiQNh0oM7jk34bI2o0Hfx9ID884Gnm02BS5OQhpsyA/9v0SEPuYglfdrvO52wjz5dy9z
+ 6DpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713639040; x=1714243840;
+ d=1e100.net; s=20230601; t=1713639047; x=1714243847;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CWyAz1u4xj57V45jlhvKvlDv1eG35fXBf7jPQkau5eE=;
- b=mw2xSH/rb/sF+3R2eYkOBkmSu+eKXxmmgQheTyzngVjMmHZmLZ5cIJWcKVfBphqnWW
- v/GesKLbtN+eh1O3CWFMsrnnWzKN/u2CKfCi1XXkhvF64av2LE/ykIWm8gtD/fWrjZt4
- ZHS2GjsuH4lYlCy8Q55DDqVxrBCfOi5+56akuCFNXw1Qna+P++tYtsFAH8/qgR8OEtCT
- Ecl1malht9IGnRFp7vf6LVNXNKhCM8YH905nVeHaVC7cdfVcqIUXhGmz/Ks6tAeX9Ceg
- tnpdM6YJ5Xe3F7zY1A5wjFZMhHwxfAfahG6ABn/QII3KKnyACyc73oA0uceJtOt4vvXg
- VMiA==
+ bh=VQjFYwxXugp5kZIt490GmWy6VzHRTTztx48u5ltsIaI=;
+ b=vfjjvItYT/mTClLyijztUvMOYPoyKga1149LAVSQegTKymle0BQkauGb+TElTZ+jG6
+ XpY9fiTOLz6Js3GXAXK5DIlrDo81eqP+pOmwcd+w5E38Hg7hkuea/JYZqF8qeNTGRtXf
+ DqCSQ0zGSnrceuCe3NoT6sY6pCANZi1YfqKtMq8sSUE4S0CHfCNYRhTfM/G7qShvtiL9
+ wDkk1k+CRN5z0Ug6hBb7ZYl5XQKSxG8U/4N9UslYFtoHmWfVVDE60bBOHWxNoDmy4jxV
+ 3xVKn/D8jGBVKA2fuBzwgFUum83EgxZqTZGFClD7KhiXbI4CgCiNKijv7x/YjOuaajXY
+ hCeQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVF+xqJKjjMe7gW6BcNf7tGSmJlTkT2cwl/K28y/klAX1Flh4D5WyEC8G6Dmeeh6wNvX/UjbJXCOkJE6N0ItSdYES+w1Dayn5VIDeY68wnD
-X-Gm-Message-State: AOJu0YzuF7fHRsS5Lwr3nK4YBXQ5E+v8jitf7gvLZIIBGUYWBrnc5G2Z
- 9S2ifNG3dcofZ4curkWozwnTZVAZ70Jc/zQkCb8uFv7BnyW4liyA/VIZhblbWQ==
-X-Google-Smtp-Source: AGHT+IEo9kHV50Oez+zEhmV7fo1Ifywqglffw4YlvuyleNm+Ws53MueCqFrD12SgkDGOOd2ppyZEWw==
-X-Received: by 2002:a17:902:b182:b0:1e2:1805:52c5 with SMTP id
- s2-20020a170902b18200b001e2180552c5mr4531576plr.16.1713639040397; 
- Sat, 20 Apr 2024 11:50:40 -0700 (PDT)
+ AJvYcCWK7t9kshUfQtSp1IYH+lSO9S62fA4VvOv8a34tWFRGN1ZGsP7KVMRnDB8fTiVp7jcKObBCfLEhmD0V2w4H+cG9htUnyLKLs3W04fFzVI/i
+X-Gm-Message-State: AOJu0YwH79oGY+kowtXbI7tSRC1peWyQjhfvgpLkNaSP4KKZNi70Q+a4
+ W4W44kkdjxoH+f0hKBFoJ5gLmnBsf5gSPmmR58oTsuYhK/ZtPI4Fty5v6fgT8A==
+X-Google-Smtp-Source: AGHT+IHH4/m+EBY2e4cPGddiRdYGqBEbkiiJFT9yYcnFl8IC8VOHlIKkMncZx2O2K29kEMQSVBhUBw==
+X-Received: by 2002:a17:902:e807:b0:1e5:d021:cf58 with SMTP id
+ u7-20020a170902e80700b001e5d021cf58mr8150095plg.36.1713639047490; 
+ Sat, 20 Apr 2024 11:50:47 -0700 (PDT)
 Received: from fedora.. ([2804:14c:71:5fb7::1001])
  by smtp.gmail.com with ESMTPSA id
- l5-20020a170902d34500b001dd578121d4sm5321995plk.204.2024.04.20.11.50.33
+ l5-20020a170902d34500b001dd578121d4sm5321995plk.204.2024.04.20.11.50.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Apr 2024 11:50:40 -0700 (PDT)
+ Sat, 20 Apr 2024 11:50:47 -0700 (PDT)
 From: Joao Paulo Pereira da Silva <jppaulo11@usp.br>
 To: rodrigo.siqueira@amd.com
 Cc: paulormm@ime.usp.br, Xinhui.Pan@amd.com, airlied@linux.ie,
@@ -69,9 +69,10 @@ Cc: paulormm@ime.usp.br, Xinhui.Pan@amd.com, airlied@linux.ie,
  nicholas.choi@amd.com, sunpeng.li@amd.com, tales.aparecida@gmail.com,
  twoerner@gmail.com, tzimmermann@suse.de,
  Joao Paulo Pereira da Silva <jppaulo11@usp.br>
-Subject: [PATCH 2/4] drm/amd/display/test: Fix kunit test that is not running
-Date: Sat, 20 Apr 2024 15:48:17 -0300
-Message-ID: <20240420184929.97854-3-jppaulo11@usp.br>
+Subject: [PATCH 3/4] drm/amd/display/test: Optimize kunit test suite
+ dml_dcn20_fpu_dcn21_update_bw_bounding_box_test
+Date: Sat, 20 Apr 2024 15:48:18 -0300
+Message-ID: <20240420184929.97854-4-jppaulo11@usp.br>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240420184929.97854-1-jppaulo11@usp.br>
 References: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
@@ -93,34 +94,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The KUnit test file test/kunit/dc/dml/calcs/bw_fixed_test.c does not have the
-correct path relative to the file being tested, dc/basics/bw_fixed.c.
-Also, it is neither compiling nor running.
-Therefore, change the test file path and import it conditionally in the file
-dc/basics/bw_fixed.c to make it runnable.
+The KUnit init function of the suite
+dml_dcn20_fpu_dcn21_update_bw_bounding_box_test does not need to be executed
+before every test, but only once before the test suite, since it's just
+used to store backup copies of DCN global structures.
+So, turn it into a suite_init.
 
 Signed-off-by: Joao Paulo Pereira da Silva <jppaulo11@usp.br>
 ---
- drivers/gpu/drm/amd/display/dc/basics/bw_fixed.c               | 3 +++
- .../test/kunit/dc/{dml/calcs => basics}/bw_fixed_test.c        | 0
- 2 files changed, 3 insertions(+)
- rename drivers/gpu/drm/amd/display/test/kunit/dc/{dml/calcs => basics}/bw_fixed_test.c (100%)
+ .../amd/display/test/kunit/dc/dml/dcn20/dcn20_fpu_test.c    | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/basics/bw_fixed.c b/drivers/gpu/drm/amd/display/dc/basics/bw_fixed.c
-index c8cb89e0d4d0..f18945fc84b9 100644
---- a/drivers/gpu/drm/amd/display/dc/basics/bw_fixed.c
-+++ b/drivers/gpu/drm/amd/display/dc/basics/bw_fixed.c
-@@ -186,3 +186,6 @@ struct bw_fixed bw_mul(const struct bw_fixed arg1, const struct bw_fixed arg2)
- 	return res;
- }
+diff --git a/drivers/gpu/drm/amd/display/test/kunit/dc/dml/dcn20/dcn20_fpu_test.c b/drivers/gpu/drm/amd/display/test/kunit/dc/dml/dcn20/dcn20_fpu_test.c
+index c51a0afbe518..b13a952e0227 100644
+--- a/drivers/gpu/drm/amd/display/test/kunit/dc/dml/dcn20/dcn20_fpu_test.c
++++ b/drivers/gpu/drm/amd/display/test/kunit/dc/dml/dcn20/dcn20_fpu_test.c
+@@ -449,10 +449,10 @@ static struct _vcs_dpi_soc_bounding_box_st original_dcn2_1_soc;
+ static struct _vcs_dpi_ip_params_st original_dcn2_1_ip;
  
-+#if IS_ENABLED(CONFIG_DRM_AMD_DC_BASICS_KUNIT_TEST)
-+#include "../../test/kunit/dc/basics/bw_fixed_test.c"
-+#endif
-diff --git a/drivers/gpu/drm/amd/display/test/kunit/dc/dml/calcs/bw_fixed_test.c b/drivers/gpu/drm/amd/display/test/kunit/dc/basics/bw_fixed_test.c
-similarity index 100%
-rename from drivers/gpu/drm/amd/display/test/kunit/dc/dml/calcs/bw_fixed_test.c
-rename to drivers/gpu/drm/amd/display/test/kunit/dc/basics/bw_fixed_test.c
+ /**
+- * dcn20_fpu_dcn21_update_bw_bounding_box_test_init - Store backup copies of DCN global structures
++ * dcn20_fpu_dcn21_update_bw_bounding_box_test_suite_init - Store backup copies of DCN global structures
+  * @test: represents a running instance of a test.
+  */
+-static int dcn20_fpu_dcn21_update_bw_bounding_box_test_init(struct kunit *test)
++static int dcn20_fpu_dcn21_update_bw_bounding_box_test_suite_init(struct kunit_suite *suite)
+ {
+ 	memcpy(&original_dcn2_1_soc, &dcn2_1_soc, sizeof(struct _vcs_dpi_soc_bounding_box_st));
+ 	memcpy(&original_dcn2_1_ip, &dcn2_1_ip, sizeof(struct _vcs_dpi_ip_params_st));
+@@ -553,7 +553,7 @@ static struct kunit_case dcn20_fpu_dcn21_update_bw_bounding_box_test_cases[] = {
+ 
+ static struct kunit_suite dcn21_update_bw_bounding_box_test_suite = {
+ 	.name = "dml_dcn20_fpu_dcn21_update_bw_bounding_box_test",
+-	.init = dcn20_fpu_dcn21_update_bw_bounding_box_test_init,
++	.suite_init = dcn20_fpu_dcn21_update_bw_bounding_box_test_suite_init,
+ 	.exit = dcn20_fpu_dcn21_update_bw_bounding_box_test_exit,
+ 	.test_cases = dcn20_fpu_dcn21_update_bw_bounding_box_test_cases,
+ };
 -- 
 2.44.0
 
