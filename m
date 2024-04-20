@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BA98AB953
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 06:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F488AB95D
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 06:01:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7288510F346;
-	Sat, 20 Apr 2024 04:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF6110F3BE;
+	Sat, 20 Apr 2024 04:01:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wYeHY4ba";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eW19e/AO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6738410F341
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 04:01:16 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-516f2e0edb7so3822476e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 21:01:16 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57B6710F341
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 04:01:17 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-516db2214e6so3546893e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 21:01:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713585674; x=1714190474; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=c7zMmX875gSAYfPxrt2gup6kdyziGB5KH+g5wBsmz5o=;
- b=wYeHY4ba5s7V2yAEvJNZN+g4Fb29mRyOzyGEL1DMelBtYXEGMWfm7GLWeI42APdn/N
- b24OXTqXjQkKXb64gUkQjTGH35Uy++BBhofgUFr6uq8sWeSPOSmbtCnnS1i0tq6ZKdet
- LL790JmeehHEEJ/x8cNGd44reNRbzpvvVpLAnVUsjM1xSOkAZef65TeN9SAXXk6vfjQd
- quKT2x9hsEp990sgCHl3jRPzIa8k4T5eZlJPU7UWkSbkQJSLRLncLNBgIO03vVhSm9RX
- 22NFOCtie1LjT9PgaH5OqTfgmHdqbRMro4lVJwwHVWFE/xBajslnW/fpKP4uzAaheL7v
- u+pA==
+ d=linaro.org; s=google; t=1713585675; x=1714190475; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=rxyWG4yYIvf9uPeMWGErWSirlpq06SYD5MK+llU4huY=;
+ b=eW19e/AOz452hIUuNLUnZSPJ1gFH7GcMK+xy8LXILLohODeAMiNQKdbYJoXZvwPSV8
+ Sq2p9LaWQ195CodDg4ZhZfcyXjdijXEw5A9nsphaF2m9ArfO+yluhp0vewEf+BvOo2V6
+ ZLB9l7LN2MuvWM5/uiqFsCaqBQ3Q/ggoe+tHIpqjSSU6Pz30RTFfGOCNqN/52IKdW+qo
+ 6xKr2CLxggtOP8LbQ3on7wGuu268yikh663Odxft//NdUhpDsJFLPbbN0fsqHgGOab8q
+ BurBHBcVKWUq5uq9Mpf2YnsLN5DqVOwCVuVkDLtmj8UAqHTTrxfK3kPsb0qbkIDQH0Tl
+ U4eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713585674; x=1714190474;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=c7zMmX875gSAYfPxrt2gup6kdyziGB5KH+g5wBsmz5o=;
- b=nFee6VzPHEei+7tVvRW7ElcckUww5aSRGC0EuQjm8qS5ME9exp9AieiNMn7kNvKtXw
- 4X0AxKjwKlXcosCwHzR5LnMqHs/+UVz0XfeG088xxA0kDQkEg91dmBDMxfPscvB26RaX
- uvzc233imk6JosbE7L7jGqSOzXUthXpFyknC7Ds8lOVYyQajWop4Ln91RNb1vCWpAmeN
- 5GUJdvH4ZSxnCRBHCDOh8wRXdbhs7pj8FcQ885R+DeqKFARHyV2CFAsSrvXCPPFnt7qn
- CCmHSMubgcAVfA+Ah5AMblc3A/z6kwEqtrxDPhtoLuUFaAww7g1cO8tEZbPlzv5t4ZbD
- K5wA==
+ d=1e100.net; s=20230601; t=1713585675; x=1714190475;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rxyWG4yYIvf9uPeMWGErWSirlpq06SYD5MK+llU4huY=;
+ b=tcqHwZcDMKQH2/R4pqARMvoCZy+LYrsKSGg9OcAgHaWTbCPM3U+iTXTrcnuopWdQwM
+ /6Rld6DKhRACtvSUrMyICdxxaHzNKg5C/HjtNPwD4jwuDg2Zd5/NA2ZTxf+vB9sVRr2B
+ Pp+0tAErhsPgYWFCNI4soeQdn1B3o2rfuXNDO5QT76dvOkEtn3LBkNVnscWy5aq00avr
+ TXFK3MfiAbXQIo3cu1w1hhpr5PGZho4cEmHNXkr0bahLGqBYSJxAduF4Aba0ATEan0Em
+ bAgTt7fTYxxndr8uDR640WOB1SB5Ihlsor3/A5rd0wSJSvt1kshMRXGBZg9vmNQ0obVA
+ 0bmg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUucHRsUhiEvqmhumfOg8aQvYoT/FSyUihhgqzg4lOj5UtDv4JuEAQsON7hvvDO62Kq/EO00XCuJmfiqw9BaAcWTpyNm+QXL0wCsqONobBl
-X-Gm-Message-State: AOJu0Yy76yT1BkruHKDJ4aXEfS7jvrh6Vi1DFi5k6AENXD6xuhkB7O5+
- zF3P9KuBhxfjdR6BPks1ey7HSl9ecj3yiXQtdR0nrXS2Jfgjhu009DHCDDr+P8s=
-X-Google-Smtp-Source: AGHT+IExMBZwNO2q828JEytFfTTwoyASRHe4cwU14b4d6yyMpKBkYpHI10gdQdohpz86O1ZDestIzQ==
-X-Received: by 2002:a05:6512:548:b0:518:d08c:b44e with SMTP id
- h8-20020a056512054800b00518d08cb44emr2476060lfl.10.1713585674258; 
- Fri, 19 Apr 2024 21:01:14 -0700 (PDT)
+ AJvYcCUlHJCxgP4k/C7pPg5m+GUXjmpeGBHh9LS6no3yzIF7qwKfe8lsja2T5nE3YMyIrnCRhiOSKdSfntWk+ilrM/9wUu3DTe7LKAHV7EyM0NnT
+X-Gm-Message-State: AOJu0YyWdUXi24NFANhbZBrw2ByFRYk4TRldfGRcXMx9enGyW4Y8+7uX
+ MZXg87ARCUOgAxXol8mi81Fvk6FRORsA0PYTqyw/bms0t2Bm3ewwfAbG1ZSth8lDel1Xpk7FUJg
+ a
+X-Google-Smtp-Source: AGHT+IF/8lCxIIdfZHUuQbvTipjsZy9IfgE2/6GrAwiQq4q2eBrGzCI3k9uRhP0RCJulZofZhR5hVA==
+X-Received: by 2002:a05:6512:1321:b0:516:c5b1:1b21 with SMTP id
+ x33-20020a056512132100b00516c5b11b21mr2441809lfu.45.1713585675197; 
+ Fri, 19 Apr 2024 21:01:15 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- n2-20020a0565120ac200b00518c9ccef2esm1003993lfu.22.2024.04.19.21.01.13
+ n2-20020a0565120ac200b00518c9ccef2esm1003993lfu.22.2024.04.19.21.01.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Apr 2024 21:01:13 -0700 (PDT)
+ Fri, 19 Apr 2024 21:01:14 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2 0/9] drm/msm: fold dpu_format into mdp_formats database
-Date: Sat, 20 Apr 2024 07:00:57 +0300
-Message-Id: <20240420-dpu-format-v2-0-9e93226cbffd@linaro.org>
+Date: Sat, 20 Apr 2024 07:00:58 +0300
+Subject: [PATCH v2 1/9] drm/msm/dpu: use format-related definitions from
+ mdp_common.xml.h
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPk9I2YC/zXMQQ6CMBCF4auYWTukHWkxrryHcVFpCxOFkikSC
- eHuNiZuXvIt3r9BDsIhw+WwgYSFM6exgI4HaHs3dgHZFwMpqlVNCv30xphkcDN6a0xr1bkxPkI
- 5TBIif36x2704Shpw7iW4f+Kky5CulbaVJtNY0qjRDzzLWj2crLl/puX64tFJqpJ0sO9f12Z6Q
- 6MAAAA=
+Message-Id: <20240420-dpu-format-v2-1-9e93226cbffd@linaro.org>
+References: <20240420-dpu-format-v2-0-9e93226cbffd@linaro.org>
+In-Reply-To: <20240420-dpu-format-v2-0-9e93226cbffd@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -73,16 +73,16 @@ To: Rob Clark <robdclark@gmail.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3818;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=32734;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=rKaZDNh5kxx7GJ2yJxrftfiGZtSLdTIFtoRuKDDePD4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmIz4Hz64i1wyEy1v1J+UXyvu6pBnDRO6iv2sSL
- aousQ/DgKWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZiM+BwAKCRCLPIo+Aiko
- 1SQ+CAChq6lq2Ix9i1eeXVe4bbp6TIys8qnGZIcV7rulyB9NcmA3geYQzcEmjMDPS838uViykRX
- y8c9SZaJzTIrmjjIK/xGLQetzGHO0wcETBZQtSbC96Gy0KfELQR+7Zm72p537roFxD4qFq7ISrJ
- 6UHv3M5v2ileMnRxFPW4AGb/g1ST5nuynRWfLa/LuhbGsCFwQBRH6GqM5rmlbr2CeALPLs7vCjj
- FObrvTzRvWUDJ7ih3zq5BHpLW+2+cQDzpAd2KG8ts+a3WcgPBZWjyzVvEIKMt3q+wiUdccK9UgX
- eJGoTcI/iKft/16s46OeDfQ7+vRAU/Eq9109CwV8c9hx3F25
+ bh=MwYVwVMvB5jxr43N4hwVfaTKlXV2S3ABYTdgVmhYE0c=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmIz4IsgqvX3cbX8x7fQ3w6bO7F0EvkRnfricdr
+ u3czPvfd6qJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZiM+CAAKCRCLPIo+Aiko
+ 1U5ZB/9NN97sf/vSAryOzEUmNLNzfvFnYYUnIr3B8hKZ4e3Z1TSfVY+GAeygRbewB/IYSKO+Wr7
+ bNEUGVJ1bpP/RclUqdXHdZ1xwaNdEddxoeCpaw7MxpaJLIxJTl3Qf1mVVjlofzJ5y5gVoolVePi
+ WDFhbME+RzWnqjVnSFfTcaHAmvVbICWr7To0UIJpGCCBu5X+meKIAyVJnJYkN6r/NG9vY9Yp7+/
+ 3tDYnsRPHvu1z+vySCRvsyxr1l7mfGaRPKZV0N55k3z63fzGbT7+aN8Kond2V0op9AjwlCzUq+I
+ KsyS1l76q+GMNuW6h4jOpxQsSRKojf7dAyVA6CXgVqt63Evd
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,74 +100,883 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During the review of [1] Abhinav pointed out that mdp_rgb_formats and
-mdp_rgb_yuv_formats arrays from patch 1 are directly based on the struct
-mdp_format formats array. This was true, because MDP4 / MDP5 drivers
-used their own (small) list of supported formats. The DPU driver,
-supporting more formats, had larger database of the formats and their
-properties. While we don't have plans to expand MDP5 formats support, it
-make sense to merge these two databases into a common dataset.
+Instead of having DPU-specific defines, switch to the definitions from
+the mdp_common.xml.h file. This is the preparation for merged of DPU and
+MDP format tables.
 
-[1] https://patchwork.freedesktop.org/series/120377/
---
-Changes in v2:
-- Rebased on top of msm-next
-- Moved all formats data to the new header mdp_formats.h (Abhinav)
-- Dropped the alpha_enable flag changes (Abhinav)
-- Link to v1: https://lore.kernel.org/r/20231202214016.1257621-1-dmitry.baryshkov@linaro.org
-
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Dmitry Baryshkov (9):
-      drm/msm/dpu: use format-related definitions from mdp_common.xml.h
-      drm/msm: add arrays listing formats supported by MDP4/MDP5 hardware
-      drm/msm/dpu: in dpu_format replace bitmap with unsigned long field
-      drm/msm/dpu: pull format flag definitions to mdp_format.h
-      drm/msm: merge dpu_format and mdp_format in struct msm_format
-      drm/msm: convert msm_format::unpack_tight to the flag
-      drm/msm: convert msm_format::unpack_align_msb to the flag
-      drm/msm: merge dpu format database to MDP formats
-      drm/msm: drop msm_kms_funcs::get_format() callback
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |   8 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        | 290 ++++++++++-----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c         |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |  64 +----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |   4 +-
+ 8 files changed, 169 insertions(+), 219 deletions(-)
 
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  12 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  20 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |   2 +-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   8 +-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  10 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        | 658 +--------------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h        |  27 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c         |   6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h         |   4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  16 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        | 124 +---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |  40 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |   6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c        |  14 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h        |   4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |  22 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  75 +--
- drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c          |   4 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |   1 -
- drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c         |  86 ++-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c          |   7 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |   1 -
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c         |  95 +--
- drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c           |   4 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.h           |   2 +-
- drivers/gpu/drm/msm/disp/mdp_format.c              | 630 +++++++++++++++++---
- drivers/gpu/drm/msm/disp/mdp_format.h              |  77 +++
- drivers/gpu/drm/msm/disp/mdp_kms.h                 |  18 +-
- drivers/gpu/drm/msm/msm_drv.h                      |   4 +-
- drivers/gpu/drm/msm/msm_fb.c                       |   2 +-
- drivers/gpu/drm/msm/msm_kms.h                      |   4 -
- 34 files changed, 913 insertions(+), 1075 deletions(-)
----
-base-commit: a35e92ef04c07bd473404b9b73d489aea19a60a8
-change-id: 20240420-dpu-format-d655c60875df
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index aa1e68379d9f..43431cb55421 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -2223,19 +2223,19 @@ void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc,
+ 
+ 	/* enable 10 bit logic */
+ 	switch (cdm_cfg->output_fmt->chroma_sample) {
+-	case DPU_CHROMA_RGB:
++	case CHROMA_FULL:
+ 		cdm_cfg->h_cdwn_type = CDM_CDWN_DISABLE;
+ 		cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
+ 		break;
+-	case DPU_CHROMA_H2V1:
++	case CHROMA_H2V1:
+ 		cdm_cfg->h_cdwn_type = CDM_CDWN_COSITE;
+ 		cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
+ 		break;
+-	case DPU_CHROMA_420:
++	case CHROMA_420:
+ 		cdm_cfg->h_cdwn_type = CDM_CDWN_COSITE;
+ 		cdm_cfg->v_cdwn_type = CDM_CDWN_OFFSITE;
+ 		break;
+-	case DPU_CHROMA_H1V2:
++	case CHROMA_H1V2:
+ 	default:
+ 		DPU_ERROR("[enc:%d] unsupported chroma sampling type\n",
+ 			  DRMID(phys_enc->parent));
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+index 9dbb8ddcddec..ff41493147ab 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+@@ -594,7 +594,7 @@ static void dpu_encoder_phys_wb_prepare_wb_job(struct dpu_encoder_phys *phys_enc
+ 	wb_cfg->dest.height = job->fb->height;
+ 	wb_cfg->dest.num_planes = wb_cfg->dest.format->num_planes;
+ 
+-	if ((wb_cfg->dest.format->fetch_planes == DPU_PLANE_PLANAR) &&
++	if ((wb_cfg->dest.format->fetch_planes == MDP_PLANE_PLANAR) &&
+ 			(wb_cfg->dest.format->element[0] == C1_B_Cb))
+ 		swap(wb_cfg->dest.plane_addr[1], wb_cfg->dest.plane_addr[2]);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+index 95e6e58b1a21..87fa14fc5dd0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+@@ -35,11 +35,11 @@
+ bp, flg, fm, np)                                                          \
+ {                                                                         \
+ 	.base.pixel_format = DRM_FORMAT_ ## fmt,                          \
+-	.fetch_planes = DPU_PLANE_INTERLEAVED,                            \
++	.fetch_planes = MDP_PLANE_INTERLEAVED,                            \
+ 	.alpha_enable = alpha,                                            \
+ 	.element = { (e0), (e1), (e2), (e3) },                            \
+ 	.bits = { g, b, r, a },                                           \
+-	.chroma_sample = DPU_CHROMA_RGB,                                  \
++	.chroma_sample = CHROMA_FULL,                                     \
+ 	.unpack_align_msb = 0,                                            \
+ 	.unpack_tight = 1,                                                \
+ 	.unpack_count = uc,                                               \
+@@ -54,11 +54,11 @@ bp, flg, fm, np)                                                          \
+ alpha, bp, flg, fm, np, th)                                               \
+ {                                                                         \
+ 	.base.pixel_format = DRM_FORMAT_ ## fmt,                          \
+-	.fetch_planes = DPU_PLANE_INTERLEAVED,                            \
++	.fetch_planes = MDP_PLANE_INTERLEAVED,                            \
+ 	.alpha_enable = alpha,                                            \
+ 	.element = { (e0), (e1), (e2), (e3) },                            \
+ 	.bits = { g, b, r, a },                                           \
+-	.chroma_sample = DPU_CHROMA_RGB,                                  \
++	.chroma_sample = CHROMA_FULL,                                     \
+ 	.unpack_align_msb = 0,                                            \
+ 	.unpack_tight = 1,                                                \
+ 	.unpack_count = uc,                                               \
+@@ -74,7 +74,7 @@ alpha, bp, flg, fm, np, th)                                               \
+ alpha, chroma, count, bp, flg, fm, np)                                    \
+ {                                                                         \
+ 	.base.pixel_format = DRM_FORMAT_ ## fmt,                          \
+-	.fetch_planes = DPU_PLANE_INTERLEAVED,                            \
++	.fetch_planes = MDP_PLANE_INTERLEAVED,                            \
+ 	.alpha_enable = alpha,                                            \
+ 	.element = { (e0), (e1), (e2), (e3)},                             \
+ 	.bits = { g, b, r, a },                                           \
+@@ -92,7 +92,7 @@ alpha, chroma, count, bp, flg, fm, np)                                    \
+ #define PSEUDO_YUV_FMT(fmt, a, r, g, b, e0, e1, chroma, flg, fm, np)      \
+ {                                                                         \
+ 	.base.pixel_format = DRM_FORMAT_ ## fmt,                          \
+-	.fetch_planes = DPU_PLANE_PSEUDO_PLANAR,                          \
++	.fetch_planes = MDP_PLANE_PSEUDO_PLANAR,                          \
+ 	.alpha_enable = false,                                            \
+ 	.element = { (e0), (e1), 0, 0 },                                  \
+ 	.bits = { g, b, r, a },                                           \
+@@ -111,7 +111,7 @@ alpha, chroma, count, bp, flg, fm, np)                                    \
+ flg, fm, np, th)                                                          \
+ {                                                                         \
+ 	.base.pixel_format = DRM_FORMAT_ ## fmt,                          \
+-	.fetch_planes = DPU_PLANE_PSEUDO_PLANAR,                          \
++	.fetch_planes = MDP_PLANE_PSEUDO_PLANAR,                          \
+ 	.alpha_enable = false,                                            \
+ 	.element = { (e0), (e1), 0, 0 },                                  \
+ 	.bits = { g, b, r, a },                                           \
+@@ -129,7 +129,7 @@ flg, fm, np, th)                                                          \
+ #define PSEUDO_YUV_FMT_LOOSE(fmt, a, r, g, b, e0, e1, chroma, flg, fm, np)\
+ {                                                                         \
+ 	.base.pixel_format = DRM_FORMAT_ ## fmt,                          \
+-	.fetch_planes = DPU_PLANE_PSEUDO_PLANAR,                          \
++	.fetch_planes = MDP_PLANE_PSEUDO_PLANAR,                          \
+ 	.alpha_enable = false,                                            \
+ 	.element = { (e0), (e1), 0, 0 },                                  \
+ 	.bits = { g, b, r, a },                                           \
+@@ -148,7 +148,7 @@ flg, fm, np, th)                                                          \
+ flg, fm, np, th)                                                          \
+ {                                                                         \
+ 	.base.pixel_format = DRM_FORMAT_ ## fmt,                          \
+-	.fetch_planes = DPU_PLANE_PSEUDO_PLANAR,                          \
++	.fetch_planes = MDP_PLANE_PSEUDO_PLANAR,                          \
+ 	.alpha_enable = false,                                            \
+ 	.element = { (e0), (e1), 0, 0 },                                  \
+ 	.bits = { g, b, r, a },                                           \
+@@ -168,7 +168,7 @@ flg, fm, np, th)                                                          \
+ flg, fm, np)                                                      \
+ {                                                                         \
+ 	.base.pixel_format = DRM_FORMAT_ ## fmt,                          \
+-	.fetch_planes = DPU_PLANE_PLANAR,                                 \
++	.fetch_planes = MDP_PLANE_PLANAR,                                 \
+ 	.alpha_enable = alpha,                                            \
+ 	.element = { (e0), (e1), (e2), 0 },                               \
+ 	.bits = { g, b, r, a },                                           \
+@@ -195,286 +195,286 @@ struct dpu_media_color_map {
+ 
+ static const struct dpu_format dpu_format_map[] = {
+ 	INTERLEAVED_RGB_FMT(ARGB8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
+ 		true, 4, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(ABGR8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		true, 4, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(XBGR8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		false, 4, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(RGBA8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
+ 		true, 4, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(BGRA8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
+ 		true, 4, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(BGRX8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
+ 		false, 4, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(XRGB8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
+ 		false, 4, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(RGBX8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
+ 		false, 4, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(RGB888,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, 0, 3,
+ 		false, 3, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(BGR888,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, 0, 3,
+ 		false, 3, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(RGB565,
+-		0, COLOR_5BIT, COLOR_6BIT, COLOR_5BIT,
++		0, BPC5, BPC6, BPC5,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, 0, 3,
+ 		false, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(BGR565,
+-		0, COLOR_5BIT, COLOR_6BIT, COLOR_5BIT,
++		0, BPC5, BPC6, BPC5,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, 0, 3,
+ 		false, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(ARGB1555,
+-		COLOR_ALPHA_1BIT, COLOR_5BIT, COLOR_5BIT, COLOR_5BIT,
++		BPC1A, BPC5, BPC5, BPC5,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
+ 		true, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(ABGR1555,
+-		COLOR_ALPHA_1BIT, COLOR_5BIT, COLOR_5BIT, COLOR_5BIT,
++		BPC1A, BPC5, BPC5, BPC5,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		true, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(RGBA5551,
+-		COLOR_ALPHA_1BIT, COLOR_5BIT, COLOR_5BIT, COLOR_5BIT,
++		BPC1A, BPC5, BPC5, BPC5,
+ 		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
+ 		true, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(BGRA5551,
+-		COLOR_ALPHA_1BIT, COLOR_5BIT, COLOR_5BIT, COLOR_5BIT,
++		BPC1A, BPC5, BPC5, BPC5,
+ 		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
+ 		true, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(XRGB1555,
+-		COLOR_ALPHA_1BIT, COLOR_5BIT, COLOR_5BIT, COLOR_5BIT,
++		BPC1A, BPC5, BPC5, BPC5,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
+ 		false, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(XBGR1555,
+-		COLOR_ALPHA_1BIT, COLOR_5BIT, COLOR_5BIT, COLOR_5BIT,
++		BPC1A, BPC5, BPC5, BPC5,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		false, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(RGBX5551,
+-		COLOR_ALPHA_1BIT, COLOR_5BIT, COLOR_5BIT, COLOR_5BIT,
++		BPC1A, BPC5, BPC5, BPC5,
+ 		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
+ 		false, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(BGRX5551,
+-		COLOR_ALPHA_1BIT, COLOR_5BIT, COLOR_5BIT, COLOR_5BIT,
++		BPC1A, BPC5, BPC5, BPC5,
+ 		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
+ 		false, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(ARGB4444,
+-		COLOR_ALPHA_4BIT, COLOR_4BIT, COLOR_4BIT, COLOR_4BIT,
++		BPC4A, BPC4, BPC4, BPC4,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
+ 		true, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(ABGR4444,
+-		COLOR_ALPHA_4BIT, COLOR_4BIT, COLOR_4BIT, COLOR_4BIT,
++		BPC4A, BPC4, BPC4, BPC4,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		true, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(RGBA4444,
+-		COLOR_ALPHA_4BIT, COLOR_4BIT, COLOR_4BIT, COLOR_4BIT,
++		BPC4A, BPC4, BPC4, BPC4,
+ 		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
+ 		true, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(BGRA4444,
+-		COLOR_ALPHA_4BIT, COLOR_4BIT, COLOR_4BIT, COLOR_4BIT,
++		BPC4A, BPC4, BPC4, BPC4,
+ 		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
+ 		true, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(XRGB4444,
+-		COLOR_ALPHA_4BIT, COLOR_4BIT, COLOR_4BIT, COLOR_4BIT,
++		BPC4A, BPC4, BPC4, BPC4,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
+ 		false, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(XBGR4444,
+-		COLOR_ALPHA_4BIT, COLOR_4BIT, COLOR_4BIT, COLOR_4BIT,
++		BPC4A, BPC4, BPC4, BPC4,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		false, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(RGBX4444,
+-		COLOR_ALPHA_4BIT, COLOR_4BIT, COLOR_4BIT, COLOR_4BIT,
++		BPC4A, BPC4, BPC4, BPC4,
+ 		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
+ 		false, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(BGRX4444,
+-		COLOR_ALPHA_4BIT, COLOR_4BIT, COLOR_4BIT, COLOR_4BIT,
++		BPC4A, BPC4, BPC4, BPC4,
+ 		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
+ 		false, 2, 0,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(BGRA1010102,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
+ 		true, 4, DPU_FORMAT_FLAG_DX,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(RGBA1010102,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
+ 		true, 4, DPU_FORMAT_FLAG_DX,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(ABGR2101010,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		true, 4, DPU_FORMAT_FLAG_DX,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(ARGB2101010,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
+ 		true, 4, DPU_FORMAT_FLAG_DX,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(XRGB2101010,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
+ 		false, 4, DPU_FORMAT_FLAG_DX,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(BGRX1010102,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
+ 		false, 4, DPU_FORMAT_FLAG_DX,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(XBGR2101010,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		false, 4, DPU_FORMAT_FLAG_DX,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	INTERLEAVED_RGB_FMT(RGBX1010102,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
+ 		false, 4, DPU_FORMAT_FLAG_DX,
+-		DPU_FETCH_LINEAR, 1),
++		MDP_FETCH_LINEAR, 1),
+ 
+ 	PSEUDO_YUV_FMT(NV12,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C2_R_Cr,
+-		DPU_CHROMA_420, DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 2),
++		CHROMA_420, DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 2),
+ 
+ 	PSEUDO_YUV_FMT(NV21,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C1_B_Cb,
+-		DPU_CHROMA_420, DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 2),
++		CHROMA_420, DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 2),
+ 
+ 	PSEUDO_YUV_FMT(NV16,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C2_R_Cr,
+-		DPU_CHROMA_H2V1, DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 2),
++		CHROMA_H2V1, DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 2),
+ 
+ 	PSEUDO_YUV_FMT(NV61,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C1_B_Cb,
+-		DPU_CHROMA_H2V1, DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 2),
++		CHROMA_H2V1, DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 2),
+ 
+ 	PSEUDO_YUV_FMT_LOOSE(P010,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C2_R_Cr,
+-		DPU_CHROMA_420, DPU_FORMAT_FLAG_DX | DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 2),
++		CHROMA_420, DPU_FORMAT_FLAG_DX | DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 2),
+ 
+ 	INTERLEAVED_YUV_FMT(VYUY,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C0_G_Y,
+-		false, DPU_CHROMA_H2V1, 4, 2, DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 2),
++		false, CHROMA_H2V1, 4, 2, DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 2),
+ 
+ 	INTERLEAVED_YUV_FMT(UYVY,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C0_G_Y, C2_R_Cr, C0_G_Y,
+-		false, DPU_CHROMA_H2V1, 4, 2, DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 2),
++		false, CHROMA_H2V1, 4, 2, DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 2),
+ 
+ 	INTERLEAVED_YUV_FMT(YUYV,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C0_G_Y, C1_B_Cb, C0_G_Y, C2_R_Cr,
+-		false, DPU_CHROMA_H2V1, 4, 2, DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 2),
++		false, CHROMA_H2V1, 4, 2, DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 2),
+ 
+ 	INTERLEAVED_YUV_FMT(YVYU,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C0_G_Y, C2_R_Cr, C0_G_Y, C1_B_Cb,
+-		false, DPU_CHROMA_H2V1, 4, 2, DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 2),
++		false, CHROMA_H2V1, 4, 2, DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 2),
+ 
+ 	PLANAR_YUV_FMT(YUV420,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C1_B_Cb, C0_G_Y,
+-		false, DPU_CHROMA_420, 1, DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 3),
++		false, CHROMA_420, 1, DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 3),
+ 
+ 	PLANAR_YUV_FMT(YVU420,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C2_R_Cr, C0_G_Y,
+-		false, DPU_CHROMA_420, 1, DPU_FORMAT_FLAG_YUV,
+-		DPU_FETCH_LINEAR, 3),
++		false, CHROMA_420, 1, DPU_FORMAT_FLAG_YUV,
++		MDP_FETCH_LINEAR, 3),
+ };
+ 
+ /*
+@@ -485,88 +485,88 @@ static const struct dpu_format dpu_format_map[] = {
+  */
+ static const struct dpu_format dpu_format_map_ubwc[] = {
+ 	INTERLEAVED_RGB_FMT_TILED(BGR565,
+-		0, COLOR_5BIT, COLOR_6BIT, COLOR_5BIT,
++		0, BPC5, BPC6, BPC5,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, 0, 3,
+ 		false, 2, DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
++		MDP_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
+ 
+ 	INTERLEAVED_RGB_FMT_TILED(ABGR8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		true, 4, DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
++		MDP_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
+ 
+ 	/* ARGB8888 and ABGR8888 purposely have the same color
+ 	 * ordering.  The hardware only supports ABGR8888 UBWC
+ 	 * natively.
+ 	 */
+ 	INTERLEAVED_RGB_FMT_TILED(ARGB8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		true, 4, DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
++		MDP_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
+ 
+ 	INTERLEAVED_RGB_FMT_TILED(XBGR8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		false, 4, DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
++		MDP_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
+ 
+ 	INTERLEAVED_RGB_FMT_TILED(XRGB8888,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		false, 4, DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
++		MDP_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
+ 
+ 	INTERLEAVED_RGB_FMT_TILED(ABGR2101010,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		true, 4, DPU_FORMAT_FLAG_DX | DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
++		MDP_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
+ 
+ 	INTERLEAVED_RGB_FMT_TILED(XBGR2101010,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		true, 4, DPU_FORMAT_FLAG_DX | DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
++		MDP_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
+ 
+ 	INTERLEAVED_RGB_FMT_TILED(XRGB2101010,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		true, 4, DPU_FORMAT_FLAG_DX | DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
++		MDP_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
+ 
+ 	/* XRGB2101010 and ARGB2101010 purposely have the same color
+ 	* ordering.  The hardware only supports ARGB2101010 UBWC
+ 	* natively.
+ 	*/
+ 	INTERLEAVED_RGB_FMT_TILED(ARGB2101010,
+-		COLOR_8BIT, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		BPC8A, BPC8, BPC8, BPC8,
+ 		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
+ 		true, 4, DPU_FORMAT_FLAG_DX | DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
++		MDP_FETCH_UBWC, 2, DPU_TILE_HEIGHT_UBWC),
+ 
+ 	PSEUDO_YUV_FMT_TILED(NV12,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C2_R_Cr,
+-		DPU_CHROMA_420, DPU_FORMAT_FLAG_YUV |
++		CHROMA_420, DPU_FORMAT_FLAG_YUV |
+ 				DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 4, DPU_TILE_HEIGHT_NV12),
++		MDP_FETCH_UBWC, 4, DPU_TILE_HEIGHT_NV12),
+ 
+ 	PSEUDO_YUV_FMT_TILED(P010,
+-		0, COLOR_8BIT, COLOR_8BIT, COLOR_8BIT,
++		0, BPC8, BPC8, BPC8,
+ 		C1_B_Cb, C2_R_Cr,
+-		DPU_CHROMA_420, DPU_FORMAT_FLAG_DX |
++		CHROMA_420, DPU_FORMAT_FLAG_DX |
+ 				DPU_FORMAT_FLAG_YUV |
+ 				DPU_FORMAT_FLAG_COMPRESSED,
+-		DPU_FETCH_UBWC, 4, DPU_TILE_HEIGHT_UBWC),
++		MDP_FETCH_UBWC, 4, DPU_TILE_HEIGHT_UBWC),
+ };
+ 
+ /* _dpu_get_v_h_subsample_rate - Get subsample rates for all formats we support
+  *   Note: Not using the drm_format_*_subsampling since we have formats
+  */
+ static void _dpu_get_v_h_subsample_rate(
+-	enum dpu_chroma_samp_type chroma_sample,
++	enum mdp_chroma_samp_type chroma_sample,
+ 	uint32_t *v_sample,
+ 	uint32_t *h_sample)
+ {
+@@ -574,15 +574,15 @@ static void _dpu_get_v_h_subsample_rate(
+ 		return;
+ 
+ 	switch (chroma_sample) {
+-	case DPU_CHROMA_H2V1:
++	case CHROMA_H2V1:
+ 		*v_sample = 1;
+ 		*h_sample = 2;
+ 		break;
+-	case DPU_CHROMA_H1V2:
++	case CHROMA_H1V2:
+ 		*v_sample = 2;
+ 		*h_sample = 1;
+ 		break;
+-	case DPU_CHROMA_420:
++	case CHROMA_420:
+ 		*v_sample = 2;
+ 		*h_sample = 2;
+ 		break;
+@@ -724,7 +724,7 @@ static int _dpu_format_get_plane_sizes_linear(
+ 	layout->num_planes = fmt->num_planes;
+ 
+ 	/* Due to memset above, only need to set planes of interest */
+-	if (fmt->fetch_planes == DPU_PLANE_INTERLEAVED) {
++	if (fmt->fetch_planes == MDP_PLANE_INTERLEAVED) {
+ 		layout->num_planes = 1;
+ 		layout->plane_size[0] = width * height * layout->format->bpp;
+ 		layout->plane_pitch[0] = width * layout->format->bpp;
+@@ -751,7 +751,7 @@ static int _dpu_format_get_plane_sizes_linear(
+ 		layout->plane_size[1] = layout->plane_pitch[1] *
+ 				(height / v_subsample);
+ 
+-		if (fmt->fetch_planes == DPU_PLANE_PSEUDO_PLANAR) {
++		if (fmt->fetch_planes == MDP_PLANE_PSEUDO_PLANAR) {
+ 			layout->num_planes = 2;
+ 			layout->plane_size[1] *= 2;
+ 			layout->plane_pitch[1] *= 2;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
+index 9016b3ade6bc..3602cbda793e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
+@@ -186,7 +186,7 @@ static int dpu_hw_cdm_enable(struct dpu_hw_cdm *ctx, struct dpu_hw_cdm_cfg *cdm)
+ 	dpu_hw_cdm_setup_cdwn(ctx, cdm);
+ 
+ 	if (cdm->output_type == CDM_CDWN_OUTPUT_HDMI) {
+-		if (fmt->chroma_sample == DPU_CHROMA_H1V2)
++		if (fmt->chroma_sample == CHROMA_H1V2)
+ 			return -EINVAL; /*unsupported format */
+ 		opmode = CDM_HDMI_PACK_OP_MODE_EN;
+ 		opmode |= (fmt->chroma_sample << 1);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index 965692ef7892..55c7e941e163 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -201,9 +201,9 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 				(0x21 << 8));
+ 	else
+ 		/* Interface treats all the pixel data in RGB888 format */
+-		panel_format = (COLOR_8BIT |
+-				(COLOR_8BIT << 2) |
+-				(COLOR_8BIT << 4) |
++		panel_format = (BPC8 |
++				(BPC8 << 2) |
++				(BPC8 << 4) |
+ 				(0x21 << 8));
+ 
+ 	DPU_REG_WRITE(c, INTF_HSYNC_CTL, hsync_ctl);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+index 5df545904057..31f97f535ce9 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+@@ -9,6 +9,7 @@
+ #include <linux/err.h>
+ 
+ #include "msm_drv.h"
++#include "mdp_common.xml.h"
+ 
+ #define DPU_DBG_NAME			"dpu"
+ 
+@@ -49,12 +50,12 @@ enum dpu_format_flags {
+ 	(test_bit(DPU_FORMAT_FLAG_YUV_BIT, (X)->flag))
+ #define DPU_FORMAT_IS_DX(X)		\
+ 	(test_bit(DPU_FORMAT_FLAG_DX_BIT, (X)->flag))
+-#define DPU_FORMAT_IS_LINEAR(X)		((X)->fetch_mode == DPU_FETCH_LINEAR)
++#define DPU_FORMAT_IS_LINEAR(X)		((X)->fetch_mode == MDP_FETCH_LINEAR)
+ #define DPU_FORMAT_IS_TILE(X) \
+-	(((X)->fetch_mode == DPU_FETCH_UBWC) && \
++	(((X)->fetch_mode == MDP_FETCH_UBWC) && \
+ 			!test_bit(DPU_FORMAT_FLAG_COMPRESSED_BIT, (X)->flag))
+ #define DPU_FORMAT_IS_UBWC(X) \
+-	(((X)->fetch_mode == DPU_FETCH_UBWC) && \
++	(((X)->fetch_mode == MDP_FETCH_UBWC) && \
+ 			test_bit(DPU_FORMAT_FLAG_COMPRESSED_BIT, (X)->flag))
+ 
+ #define DPU_BLEND_FG_ALPHA_FG_CONST	(0 << 0)
+@@ -300,57 +301,6 @@ enum {
+ 	C3_ALPHA = 3
+ };
+ 
+-/**
+- * enum dpu_plane_type - defines how the color component pixel packing
+- * @DPU_PLANE_INTERLEAVED   : Color components in single plane
+- * @DPU_PLANE_PLANAR        : Color component in separate planes
+- * @DPU_PLANE_PSEUDO_PLANAR : Chroma components interleaved in separate plane
+- */
+-enum dpu_plane_type {
+-	DPU_PLANE_INTERLEAVED,
+-	DPU_PLANE_PLANAR,
+-	DPU_PLANE_PSEUDO_PLANAR,
+-};
+-
+-/**
+- * enum dpu_chroma_samp_type - chroma sub-samplng type
+- * @DPU_CHROMA_RGB   : No chroma subsampling
+- * @DPU_CHROMA_H2V1  : Chroma pixels are horizontally subsampled
+- * @DPU_CHROMA_H1V2  : Chroma pixels are vertically subsampled
+- * @DPU_CHROMA_420   : 420 subsampling
+- */
+-enum dpu_chroma_samp_type {
+-	DPU_CHROMA_RGB,
+-	DPU_CHROMA_H2V1,
+-	DPU_CHROMA_H1V2,
+-	DPU_CHROMA_420
+-};
+-
+-/**
+- * dpu_fetch_type - Defines How DPU HW fetches data
+- * @DPU_FETCH_LINEAR   : fetch is line by line
+- * @DPU_FETCH_TILE     : fetches data in Z order from a tile
+- * @DPU_FETCH_UBWC     : fetch and decompress data
+- */
+-enum dpu_fetch_type {
+-	DPU_FETCH_LINEAR,
+-	DPU_FETCH_TILE,
+-	DPU_FETCH_UBWC
+-};
+-
+-/**
+- * Value of enum chosen to fit the number of bits
+- * expected by the HW programming.
+- */
+-enum {
+-	COLOR_ALPHA_1BIT = 0,
+-	COLOR_ALPHA_4BIT = 1,
+-	COLOR_4BIT = 0,
+-	COLOR_5BIT = 1, /* No 5-bit Alpha */
+-	COLOR_6BIT = 2, /* 6-Bit Alpha also = 2 */
+-	COLOR_8BIT = 3, /* 8-Bit Alpha also = 3 */
+-};
+-
+ /**
+  * enum dpu_3d_blend_mode
+  * Desribes how the 3d data is blended
+@@ -390,17 +340,17 @@ enum dpu_3d_blend_mode {
+  */
+ struct dpu_format {
+ 	struct msm_format base;
+-	enum dpu_plane_type fetch_planes;
++	enum mdp_fetch_type fetch_planes;
+ 	u8 element[DPU_MAX_PLANES];
+ 	u8 bits[DPU_MAX_PLANES];
+-	enum dpu_chroma_samp_type chroma_sample;
++	enum mdp_chroma_samp_type chroma_sample;
+ 	u8 unpack_align_msb;
+ 	u8 unpack_tight;
+ 	u8 unpack_count;
+ 	u8 bpp;
+ 	u8 alpha_enable;
+ 	u8 num_planes;
+-	enum dpu_fetch_type fetch_mode;
++	enum mdp_fetch_mode fetch_mode;
+ 	DECLARE_BITMAP(flag, DPU_FORMAT_FLAG_BIT_MAX);
+ 	u16 tile_width;
+ 	u16 tile_height;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+index 0bf8a83e8df3..896fb576f5b5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+@@ -241,10 +241,10 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
+ 
+ 	chroma_samp = fmt->chroma_sample;
+ 	if (flags & DPU_SSPP_SOURCE_ROTATED_90) {
+-		if (chroma_samp == DPU_CHROMA_H2V1)
+-			chroma_samp = DPU_CHROMA_H1V2;
+-		else if (chroma_samp == DPU_CHROMA_H1V2)
+-			chroma_samp = DPU_CHROMA_H2V1;
++		if (chroma_samp == CHROMA_H2V1)
++			chroma_samp = CHROMA_H1V2;
++		else if (chroma_samp == CHROMA_H1V2)
++			chroma_samp = CHROMA_H2V1;
+ 	}
+ 
+ 	src_format = (chroma_samp << 23) | (fmt->fetch_planes << 19) |
+@@ -254,7 +254,7 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
+ 	if (flags & DPU_SSPP_ROT_90)
+ 		src_format |= BIT(11); /* ROT90 */
+ 
+-	if (fmt->alpha_enable && fmt->fetch_planes == DPU_PLANE_INTERLEAVED)
++	if (fmt->alpha_enable && fmt->fetch_planes == MDP_PLANE_INTERLEAVED)
+ 		src_format |= BIT(8); /* SRCC3_EN */
+ 
+ 	if (flags & DPU_SSPP_SOLID_FILL)
+@@ -267,7 +267,7 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
+ 		(fmt->unpack_align_msb << 18) |
+ 		((fmt->bpp - 1) << 9);
+ 
+-	if (fmt->fetch_mode != DPU_FETCH_LINEAR) {
++	if (fmt->fetch_mode != MDP_FETCH_LINEAR) {
+ 		if (DPU_FORMAT_IS_UBWC(fmt))
+ 			opmode |= MDSS_MDP_OP_BWC_EN;
+ 		src_format |= (fmt->fetch_mode & 3) << 30; /*FRAME_FORMAT */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index ff4ac4daaeca..daaf6fe7e904 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -214,8 +214,8 @@ static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
+ 
+ 	/* FIXME: in multirect case account for the src_width of all the planes */
+ 
+-	if (fmt->fetch_planes == DPU_PLANE_PSEUDO_PLANAR) {
+-		if (fmt->chroma_sample == DPU_CHROMA_420) {
++	if (fmt->fetch_planes == MDP_PLANE_PSEUDO_PLANAR) {
++		if (fmt->chroma_sample == CHROMA_420) {
+ 			/* NV12 */
+ 			total_fl = (fixed_buff_size / 2) /
+ 				((src_width + 32) * fmt->bpp);
 
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.2
 
