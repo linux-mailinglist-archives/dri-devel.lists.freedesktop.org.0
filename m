@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AEA8AB810
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 02:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4E28AB813
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 02:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F134A10E6FD;
-	Sat, 20 Apr 2024 00:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9F810F055;
+	Sat, 20 Apr 2024 00:16:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ENajL2kq";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="K6NN8vvF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994EB10E6FD;
- Sat, 20 Apr 2024 00:14:39 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEC4910EF47;
+ Sat, 20 Apr 2024 00:16:37 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 43JNpkYb011743; Sat, 20 Apr 2024 00:14:35 GMT
+ 43JNdIrc025225; Sat, 20 Apr 2024 00:16:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  message-id:date:mime-version:subject:to:cc:references:from
  :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=GyUDVrFZwwln78QGXjMt684doRtuODlliPK2CTJb5S4=; b=EN
- ajL2kqvgb6FMx5HaUdiM2sXkA52t9VXM8neHuZMB0Z31V/sMEcEH41cnodu8+tHO
- Yqa6GkTFrdbQW+4YtAZdYBNeQWsqq4AE/wV5tvreVfu0ehVWXYUavka0gHzB/cd5
- RgmGmJHxAeA2r1mvoo5rd+UVdfFnv1tUgEWvdFsdvfpCV6dbrq6alWvOrArCj/4o
- lfNRqLx1ALMx3f98mYYwKxv4VQS9x0tlqYNAOdpNAauVlOIaLtXNYd2YxHDz5ivX
- vo8p0uGYXNTKfoij18dQZonnm+VISPB4mVBszzAjXLsDzT0TAEuQd4B/tjFFyuIG
- dsr7sLK3H17G5buplV7g==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ qcppdkim1; bh=v2jkwk2Q2bfqWwAEK2Q0cws0YbSB/bnuvrYVTOyrFAs=; b=K6
+ NN8vvFFiXzuHQVTSzA88KNTz6MDuNYm8BWqKvcLl3bj6mglfzctHRLe4p7Ot2iMD
+ wgOWELCSalYHOEyyAUm/Jm3clhM7LK/XJpJrgfv+ebet85tkyLemugXr1wJ+8Bq2
+ PAIDhjxIqCaKNxVsp4NsZ83At5GYVn/bqP8+wMtGEMj4Alps+/mfSbr/9G/bF3uP
+ 59q4lTLTWOJBXI31cL537CWGa95T6UaQWQAuxIDHcrYqU3BmfU0vca0Kie0SDpwg
+ 4rXarvxRsRw0obWtgmyNKkjwr/dvq4kao9XoNjq/eFbeJfvx4qTVNHGd+05I5bDs
+ IcHsb3WzhyCGMn3Xc4jQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xkkss9w6k-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xkt3mh37y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 20 Apr 2024 00:14:34 +0000 (GMT)
+ Sat, 20 Apr 2024 00:16:33 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43K0E2Iq017381
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43K0GVIx010267
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 20 Apr 2024 00:14:02 GMT
+ Sat, 20 Apr 2024 00:16:31 GMT
 Received: from [10.110.104.191] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 19 Apr
- 2024 17:14:02 -0700
-Message-ID: <a122a43a-8def-0c11-41ef-b01fab33f98e@quicinc.com>
-Date: Fri, 19 Apr 2024 17:14:01 -0700
+ 2024 17:16:31 -0700
+Message-ID: <2d0e922f-8d68-aa5b-ebbf-b1bde3e9e2af@quicinc.com>
+Date: Fri, 19 Apr 2024 17:16:30 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 4/9] drm/msm/dpu: move dpu_format_populate_plane_sizes to
- atomic_check
+Subject: Re: [PATCH 5/9] drm/msm/dpu: check for the plane pitch overflow
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
  <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
@@ -59,9 +58,9 @@ CC: Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>,
  <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <freedreno@lists.freedesktop.org>
 References: <20240319-dpu-mode-config-width-v1-0-d0fe6bf81bf1@linaro.org>
- <20240319-dpu-mode-config-width-v1-4-d0fe6bf81bf1@linaro.org>
+ <20240319-dpu-mode-config-width-v1-5-d0fe6bf81bf1@linaro.org>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240319-dpu-mode-config-width-v1-4-d0fe6bf81bf1@linaro.org>
+In-Reply-To: <20240319-dpu-mode-config-width-v1-5-d0fe6bf81bf1@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -70,16 +69,16 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: GeIsBMv4tRoXbN6l6zt_hCxtWqUyPLfV
-X-Proofpoint-GUID: GeIsBMv4tRoXbN6l6zt_hCxtWqUyPLfV
+X-Proofpoint-GUID: r3s7YrrP-VBWTsLs7OnyZjEwmlzesZNO
+X-Proofpoint-ORIG-GUID: r3s7YrrP-VBWTsLs7OnyZjEwmlzesZNO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-04-19_16,2024-04-19_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 priorityscore=1501
- mlxscore=0 mlxlogscore=999 adultscore=0 bulkscore=0 clxscore=1015
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0
+ impostorscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0
+ bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2404010003 definitions=main-2404190188
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,48 +98,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 3/19/2024 6:22 AM, Dmitry Baryshkov wrote:
-> Move a call to dpu_format_populate_plane_sizes() to the atomic_check
-> step, so that any issues with the FB layout can be reported as early as
-> possible.
+> Check that the plane pitch doesn't overflow the maximum pitch size
+> allowed by the hardware.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 2 ++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 6 +++++-
+>   2 files changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index d9631fe90228..a9de1fbd0df3 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -673,12 +673,6 @@ static int dpu_plane_prepare_fb(struct drm_plane *plane,
->   		}
->   	}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> index b7dc52312c39..86b1defa5d21 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> @@ -12,6 +12,8 @@
 >   
-> -	ret = dpu_format_populate_plane_sizes(new_state->fb, &pstate->layout);
-> -	if (ret) {
-> -		DPU_ERROR_PLANE(pdpu, "failed to get format plane sizes, %d\n", ret);
-> -		return ret;
-> -	}
-> -
->   	/* validate framebuffer layout before commit */
->   	ret = dpu_format_populate_addrs(pstate->aspace,
->   					new_state->fb,
-> @@ -864,6 +858,12 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   		return -E2BIG;
->   	}
+>   struct dpu_hw_sspp;
 >   
-> +	ret = dpu_format_populate_plane_sizes(new_plane_state->fb, &pstate->layout);
-> +	if (ret) {
-> +		DPU_ERROR_PLANE(pdpu, "failed to get format plane sizes, %d\n", ret);
-> +		return ret;
-> +	}
+> +#define DPU_SSPP_MAX_PITCH_SIZE		0xffff
 > +
 
-I think we need another function to do the check. It seems incorrect to 
-populate the layout to the plane state knowing it can potentially fail.
+You obtained this value from below code right?
 
-Can we move the validation part of dpu_format_populate_plane_sizes() out 
-to another helper dpu_format_validate_plane_sizes() and use that?
+	if (pipe->multirect_index == DPU_SSPP_RECT_0) {
+487 			ystride0 = (ystride0 & 0xFFFF0000) |
+488 				(layout->plane_pitch[0] & 0x0000FFFF);
+489 			ystride1 = (ystride1 & 0xFFFF0000)|
+490 				(layout->plane_pitch[2] & 0x0000FFFF);
+491 		} else {
+492 			ystride0 = (ystride0 & 0x0000FFFF) |
+493 				((layout->plane_pitch[0] << 16) &
+494 				 0xFFFF0000);
+495 			ystride1 = (ystride1 & 0x0000FFFF) |
+496 				((layout->plane_pitch[2] << 16) &
+497 				 0xFFFF0000);
+498 		}
 
-And then make the remaining dpu_format_populate_plane_sizes() just a 
-void API to fill the layout?
+Seems correct, but was just curious
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
