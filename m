@@ -2,79 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0718ABA0A
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 09:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD748ABA38
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 10:09:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1615C10FB60;
-	Sat, 20 Apr 2024 07:11:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84D9710FD0B;
+	Sat, 20 Apr 2024 08:09:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j8Is7bCv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mFbbuhkv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6367F10FC30
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 07:11:22 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-6ed2170d89fso2539952b3a.1
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 00:11:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1713597081; x=1714201881; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:subject:references
- :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FHbZcO9eBlYnt7XFS3eJVcq/xDUoC37Q2+wGWYF99lU=;
- b=j8Is7bCvkGQXI4EGaMqsYymNVqH2Q5/Id3NYcH8oohVUHMeFwqXjQzImx7v4ymWxU1
- g2C5yhGYFpE8Txiqsb0APGQQjj6ToEnru77k26XwrMuxIOxwzGHTMWk4kEBiBPi4vbMi
- R7ifclq9QY5ed6+j4+c5A9bPSRuDvuAQexyArAWP1cQf4iTbosJT2lQVF6yAhu/3RzhT
- 1CNV9aBYmbImtKBEX6DDzAEtkg+yDPmAtByxiK917Bw64/En8k9Cr4abhbMu96ftjxKc
- nxGQzZ8ma9gnfxJt3n2gxjcIo0seC71MmVUhhoupnbDg/nYtDSFY5rOJ6lfeesgifilt
- PB0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713597081; x=1714201881;
- h=content-transfer-encoding:mime-version:subject:references
- :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=FHbZcO9eBlYnt7XFS3eJVcq/xDUoC37Q2+wGWYF99lU=;
- b=n4NUb2z0ewZdXWMmrsKg7aZ+mvCTjhp2k6NeQR9HhCCHPLy2mxdYtO0OOv4Kofb7Nn
- 3tYTDEwg3S7xiCQnELB2sszrcTs2o9VgRiyhWTNmCm+1fBm4+6MWX5+s3TBeXkK2ELFg
- zJRxZizI+Bk6Kdlf8p/hXzAN0T/9Znan6J0NLJK6bB8+5euVSr5ozwGZ/RDPIQeKzS6N
- pJG6UrqCiQoVG1ktMB6aU4vVOouRYm3qvzBAjzfwiCnOD8Y6eYuOGJY1Kw0JsC/2atHv
- Byovab4T3DI2o1PbCzbeiaBRdyPxG04nGHbs+BOGImyNdVqqDNaLxhW8oLGPgnQcsi1h
- VVAQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWGUA7DA0cncTekMzpsKBW4m+vbj2vhl0OiXak5YWyFwHaJfdkwZf3ht7JRdwp2iiiQoj7WRpjO6D5LQ7VZ6rOw7iImTYlgyAZvgM6uEt3y
-X-Gm-Message-State: AOJu0YzM6c6uYqQ64CzggjdPzkqPYnZmIUgCGHT4wf1Bkam5+ox8kG9l
- 0UyDGbrb0HMFBGbglZ5ELM9XQOOSuPS9fL0FgDwHQTDXoH8jtq4S
-X-Google-Smtp-Source: AGHT+IF7/BjkCTlEQA9k75Hm9RDDzMxIE7GIDqYigrbGxhJScjrrK4MvQMABkzfgKwFrdwg3rGG2Mw==
-X-Received: by 2002:a05:6a21:3406:b0:1a7:52db:6711 with SMTP id
- yn6-20020a056a21340600b001a752db6711mr10716105pzb.2.1713597081476; 
- Sat, 20 Apr 2024 00:11:21 -0700 (PDT)
-Received: from [127.0.0.1] ([106.194.121.201])
- by smtp.gmail.com with ESMTPSA id
- m2-20020a638c02000000b005e857e39b10sm4210958pgd.56.2024.04.20.00.11.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Apr 2024 00:11:20 -0700 (PDT)
-Date: Sat, 20 Apr 2024 12:41:07 +0530 (GMT+05:30)
-From: Shresth Prasad <shresthprasad7@gmail.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: daniel.thompson@linaro.org, deller@gmx.de,
- dri-devel@lists.freedesktop.org, javier.carrasco.cruz@gmail.com,
- jingoohan1@gmail.com, julia.lawall@inria.fr, lee@kernel.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org
-Message-ID: <fe7df45c-b61f-4e8a-a13f-1e6a85cf83bf@gmail.com>
-In-Reply-To: <yelspf4hfmmj3lnk3exyc6tm2lrsqlet623q2s5zrm2unba6nw@43ewuqdzckdg>
-References: <20240419111613.GA12884@aspen.lan>
- <819a56c3-bbaf-4d5e-87de-78c1312c56d1@gmail.com>
- <yelspf4hfmmj3lnk3exyc6tm2lrsqlet623q2s5zrm2unba6nw@43ewuqdzckdg>
-Subject: Re: [PATCH][next] drivers: video: Simplify device_node cleanup
- using __free
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3F410FD06;
+ Sat, 20 Apr 2024 08:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713600587; x=1745136587;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=iHGqxMZGYV0xw6S1BxgVHQ+xofYdWkr5SzbbZY3VejI=;
+ b=mFbbuhkvwfjb4JdpMOrMqU3y3lqnQ3Hy8+12PFzNYesR6qato4IjPC3x
+ TLuzOGUOHZZTNA4bt89jRKwD0Eqg/513kHlvM3+pNgdIUxZpm/s0Bf0LA
+ ZyyF7YLXogk4JgD72CnqtbWlbrgEpNA59zPgdbjmUDObOD6WhXV6H7TJ7
+ tG06Tr+nKQX9aNDvkWFikeHfAxgK2ZGltSIWvsZLxgKK1oQRBgDu2WZGu
+ Q9jXHqUv6q+xRMCQcsGISgAF534hAQcau6mSpj8p0rWQ6h8ajyu04XNim
+ RW7N20OMzxQd7UWPiDbj2ygqhRxbW8NO1f2ACZzgjNf5buJhb+PCQgBaj Q==;
+X-CSE-ConnectionGUID: hoBdadzBSpGqsB+9nCYwSw==
+X-CSE-MsgGUID: okO4JLcfRDKH9r1zOTNrNQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="9326976"
+X-IronPort-AV: E=Sophos;i="6.07,215,1708416000"; 
+   d="scan'208";a="9326976"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2024 01:09:46 -0700
+X-CSE-ConnectionGUID: DWwAgZgQRjKF1yNzJaSaFg==
+X-CSE-MsgGUID: bmiPqiTgT6ypOvDnNSagbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,215,1708416000"; d="scan'208";a="28366091"
+Received: from aravind-dev.iind.intel.com (HELO [10.145.162.146])
+ ([10.145.162.146])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2024 01:09:44 -0700
+Message-ID: <4aabb36d-3e84-457a-bf64-64720029114c@linux.intel.com>
+Date: Sat, 20 Apr 2024 13:42:32 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] drm: add devm release action
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, airlied@gmail.com, tzimmermann@suse.de,
+ rodrigo.vivi@intel.com, intel-xe@lists.freedesktop.org,
+ Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
+References: <20240419085826.263743-1-aravind.iddamsetty@linux.intel.com>
+ <20240419085826.263743-2-aravind.iddamsetty@linux.intel.com>
+ <20240419-stimulating-passionate-mule-bbd4b2@houat>
+From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+In-Reply-To: <20240419-stimulating-passionate-mule-bbd4b2@houat>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <fe7df45c-b61f-4e8a-a13f-1e6a85cf83bf@gmail.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,34 +76,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-20 Apr 2024 1:13:42 am Dmitry Baryshkov <dmitry.baryshkov@linaro.org>:
 
-> On Sat, Apr 20, 2024 at 12:22:41AM +0530, Shresth Prasad wrote:
->>=20
->>> Please fix the subject line to be "backlight: <driver>: ...". I came
->>> very close to deleting this patch without reading it ;-) .
->>=20
->> Really sorry about that, I'll fix it.
->>=20
->>> Do we need to get dev->of_node at all? The device, which we are
->>> borrowing, already owns a reference to the node so I don't see
->>> any point in this function taking an extra one.
->>>=20
->>> So why not simply make this:
->>>=20
->>> =C2=A0=C2=A0=C2=A0 struct device_node *np =3D dev->of_node;
->>=20
->> Looking at it again, I'm not sure why the call to `of_node_put` is there=
- in the first place. I think removing it will be fine.
->>=20
->> I'll fix both of these issues and send a patch v2.
->=20
-> Just a stupid quesiton: on which platform was this patch tested?
->=20
-> --=20
-> With best wishes
-> Dmitry
-I tested the patch on a x86_64 qemu virtual machine
+On 19/04/24 14:41, Maxime Ripard wrote:
+> On Fri, Apr 19, 2024 at 02:28:23PM +0530, Aravind Iddamsetty wrote:
+>> In scenarios where drm_dev_put is directly called by driver we want to
+>> release devm_drm_dev_init_release action associated with struct
+>> drm_device.
+>>
+>> v2: Directly expose the original function, instead of introducing a
+>> helper (Rodrigo)
+>>
+>> Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>
+>> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_drv.c | 6 ++++++
+>>  include/drm/drm_drv.h     | 2 ++
+>>  2 files changed, 8 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>> index 243cacb3575c..ba60cbb0725f 100644
+>> --- a/drivers/gpu/drm/drm_drv.c
+>> +++ b/drivers/gpu/drm/drm_drv.c
+>> @@ -714,6 +714,12 @@ static int devm_drm_dev_init(struct device *parent,
+>>  					devm_drm_dev_init_release, dev);
+>>  }
+>>  
+>> +void devm_drm_dev_release_action(struct drm_device *dev)
+>> +{
+>> +	devm_release_action(dev->dev, devm_drm_dev_init_release, dev);
+>> +}
+>> +EXPORT_SYMBOL(devm_drm_dev_release_action);
+> Again, this needs to be documented.
 
-Regards,
-Shresth
+sorry I missed your earlier email, will address this.
+
+Thanks,
+Aravind.
+>
+> Maxime
