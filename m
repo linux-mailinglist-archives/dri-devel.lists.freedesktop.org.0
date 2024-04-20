@@ -2,72 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31C08ABBCA
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 15:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 420C88ABCCB
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 20:50:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3AF9112057;
-	Sat, 20 Apr 2024 13:42:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 918D810E02C;
+	Sat, 20 Apr 2024 18:50:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZHmgCeed";
+	dkim=pass (2048-bit key; secure) header.d=usp.br header.i=@usp.br header.b="Kf56nHIO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A8D2112056;
- Sat, 20 Apr 2024 13:42:05 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-56e37503115so2595581a12.1; 
- Sat, 20 Apr 2024 06:42:05 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4890210E02C
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 18:50:26 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-1e65b29f703so24054305ad.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 11:50:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1713620523; x=1714225323; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=xUWMQtOMtHcstc/cIjPR41dHaXRQKi9outRFsvRo7/4=;
- b=ZHmgCeedLzojPuv11h/j3p4JIOT+SSrrAUdDEer1hdKGo6mHbJ0RBUAv0Vr0QJURQZ
- 4e1XkxGYHg/WlMwBQyMs0XV/QKJuujsnDnqWB5lgkOwVi7C2RS4A0EbAYpFlO/DuciaI
- vxZZ8CfyFVqLCw/ORCYZ1Mzur3ZNbe7zDtg72cdHlPp4gAmOlWIV4oun+cpA+E3ASmdS
- mcDrXxdB4mfJwX1vlDtAFRYPaY094f9vpp93JzJcOsxXbYwOt6/gQVgTVH0bMCp3pHnQ
- nu/gNljUy8h72hhIMXGBTiVRA+hJjMTFiN3Mj4b99EAxVUUaa2tdPfII4WtJlO7s7xFx
- 8C4A==
+ d=usp.br; s=usp-google; t=1713639026; x=1714243826; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=69d0O+5fM8Yt3nBud30EjYozGnnBdHocwTktgDdGO/c=;
+ b=Kf56nHIOaKqYh8mrUNcb04x7tZ5s/L6kjSszHtX6jKJ/f468spxPe/QOC3boLjalp6
+ Te0lanktw++9uqPvtC2IGnFzhnENzJRda5JD3nQI/R9YzjXP2XabsLNR1kmon+pdQK3m
+ diva0i/vQQfEcdv9i75/bO4zYMpBTcMnohPF4JcU0s/mTkUY3fMkE8ty2NCDaZ5q6Se3
+ +hW8ck0Pa8zJJHAAW4Le1Qx9bU3VuKaMtbgtRNfvex6Ty+y45QK5Sio9DJKDc3hPJeeX
+ rg2ZjxLT5ArR9YvUQKzSRuT2QVxI10Q3+qcTEjDGELEcnfm6JWHaKIIu8XRZp8boZr/4
+ yKyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713620523; x=1714225323;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xUWMQtOMtHcstc/cIjPR41dHaXRQKi9outRFsvRo7/4=;
- b=KIGiOSYPuOEoVC+ehgUO+/zQbTLgLpeO1PbGXwSLu9pqD+DFY3UugmMVpZ8InWcKWQ
- //OJ8Q4IijZPRBpJSut5poRsCVJgZMXyphwrJywxC3j4ofzU1HbaE39nnNg8i9V8wW6u
- Hmsfebmy7lxrZ19FhYP4Y5feF0/PdNCRc6MZMHCiiTFm7dKrK54CJC+MzyXk9NHlGc7n
- uyjjAIanNaFTYB0JJocYHjRZ8xkG/ilr+px/LrynRzv5x3FqeSAbgszd4AARETV8kPs2
- u7PZZFFBaDtPjD7jiACctHrIuo2dCkQs1giR36yTtjxveIyRktGMkgTPjXy4VpGhJfV4
- gQpQ==
+ d=1e100.net; s=20230601; t=1713639026; x=1714243826;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=69d0O+5fM8Yt3nBud30EjYozGnnBdHocwTktgDdGO/c=;
+ b=SqRxHZgUBzH+CWgHpRT/kUi+ybgd9RK3s5JAMp/BJ8+FXyJqh1tcABMjZsPmOqUcYT
+ fzcNPo4JB58pi1ppl4hxE0XKp1htiEshZHrLHAG0Hj7V4cCvjbjOf8H1S5USimS3Hvvt
+ VT80naG7fpF76F49eXqby/u5SDDP7SLvGEHPc/Z+21PeZgankIp7TzbbGtTjKpIDkLoE
+ zFOXVmq4iuzImS6prkqSAHhLRl2H94BMa701BS24r2ui1CK01p4BiYAOI+12EOt1OwXx
+ PGfmU7aR/FNdQgdOGY2gWh3GRAUilz2Ksj6HtCwnjPHjrNO/anjGPg8umFTRnxrWIfWA
+ rmAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWVK5xtkjCASlgV7h6xUbFnTS2gWYqq6whZ9o+ZbXbx2q/CTIBmg3aZRmQgjCrvpLtv/NJOKnHKJCAGrV9MDLXiOfAz/RI53Nwbkgeuewa2gDkpUBzURB4aZR7vVhvfEfr9uCCBcrLg2IksvvkURA==
-X-Gm-Message-State: AOJu0Yy0YaVG4RU8Ry/ZagJ5EpNc/MeJBPDGp+gy8gJtblk+qweU8uKB
- c6eaw2RqjGNhulf08OBKSxIgLH4Htv6VtxOMUAitv3NvGOupLgf1
-X-Google-Smtp-Source: AGHT+IHH4R60EIxELY/Wj8xRTZADYWhGrR4yjgB29K8+ermTi0DbqyVVI4gtEkMLOuV4PYDPtk0lCw==
-X-Received: by 2002:a50:d6c5:0:b0:56e:3175:6065 with SMTP id
- l5-20020a50d6c5000000b0056e31756065mr3067740edj.9.1713620522735; 
- Sat, 20 Apr 2024 06:42:02 -0700 (PDT)
-Received: from localhost.localdomain (80-108-76-242.cable.dynamic.surfer.at.
- [80.108.76.242]) by smtp.gmail.com with ESMTPSA id
- fd21-20020a056402389500b0056e2495f92esm3347042edb.59.2024.04.20.06.42.01
+ AJvYcCW0/uKMIgLLmM6MIi07wiDq44rzrAZ1UEjWO08Lqds4xVjW13JD7wVexV79N0+/aLCcMfWWDQSIRpFwLbW/3K2egu9YZMOJp094F0B65pfT
+X-Gm-Message-State: AOJu0Yy7geIRtuY3RDInU/P8p8ZJgFO/rIz2wx5nikyP/+AYCtJvs6Bb
+ XDlj8kZAyojUumh5cKpmBF+oGXxN0AfTprGB13MjxMmuFeLVn3qnLeLRASDwUA==
+X-Google-Smtp-Source: AGHT+IG7wdpD31V/mV9SZ9Z9bEhieOqV6SqkRO2QWssC+nP2fRjbcc/5NQPLDZMSiwwhJKYxFzsQ8g==
+X-Received: by 2002:a17:902:c952:b0:1e2:7356:aa36 with SMTP id
+ i18-20020a170902c95200b001e27356aa36mr7754665pla.42.1713639026179; 
+ Sat, 20 Apr 2024 11:50:26 -0700 (PDT)
+Received: from fedora.. ([2804:14c:71:5fb7::1001])
+ by smtp.gmail.com with ESMTPSA id
+ l5-20020a170902d34500b001dd578121d4sm5321995plk.204.2024.04.20.11.50.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Apr 2024 06:42:02 -0700 (PDT)
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-To: tomeu@tomeuvizoso.net, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Christian Gmeiner <cgmeiner@igalia.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "drm/etnaviv: Expose a few more chipspecs to userspace"
-Date: Sat, 20 Apr 2024 15:41:58 +0200
-Message-ID: <20240420134159.110509-1-christian.gmeiner@gmail.com>
+ Sat, 20 Apr 2024 11:50:25 -0700 (PDT)
+From: Joao Paulo Pereira da Silva <jppaulo11@usp.br>
+To: rodrigo.siqueira@amd.com, airlied@gmail.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, corbet@lwn.net, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ Xinhui.Pan@amd.com
+Cc: paulormm@ime.usp.br, airlied@linux.ie, amd-gfx@lists.freedesktop.org,
+ andrealmeid@riseup.net, davidgow@google.com, dlatypov@google.com,
+ dri-devel@lists.freedesktop.org, harry.wentland@amd.com,
+ hersenxs.wu@amd.com, isabbasso@riseup.net, javierm@redhat.com,
+ kunit-dev@googlegroups.com, magalilemes00@gmail.com, mairacanal@riseup.net,
+ mwen@igalia.com, nicholas.choi@amd.com, sunpeng.li@amd.com,
+ tales.aparecida@gmail.com, twoerner@gmail.com,
+ Joao Paulo Pereira da Silva <jppaulo11@usp.br>, linux-doc@vger.kernel.org
+Subject: [PATCH 0/4] drm/amd/display: Update Display Core unit tests
+Date: Sat, 20 Apr 2024 15:48:15 -0300
+Message-ID: <20240420184929.97854-1-jppaulo11@usp.br>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
+References: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,185 +92,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian Gmeiner <cgmeiner@igalia.com>
+Hey, I'm interested in contributing for display tests from this patch-set.
+I've noticed potential updates related to both refactoring and optimization.
+This patch-set applies these suggestions.
 
-This reverts commit 1dccdba084897443d116508a8ed71e0ac8a031a4.
 
-In userspace a different approach was choosen - hwdb. As a result, there
-is no need for these values.
+[WHY]
 
-Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 20 ---------------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 12 ---------
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 34 --------------------------
- include/uapi/drm/etnaviv_drm.h         |  5 ----
- 4 files changed, 71 deletions(-)
+1.	The single test suite in the file
+	test/kunit/dc/dml/calcs/bw_fixed_test.c, which tests some static
+	functions defined in the dc/basics/bpw_fixed.c, is not being run.
+	According to kunit documentation
+	(https://www.kernel.org/doc/html/latest/dev-tools/kunit/usage.html#testing-static-functions),
+	there are two strategies for testing
+	static functions, but none of them seem to be configured. Additionally,
+	it appears that the Config DCE_KUNIT_TEST should be associated with this
+	test, since it was introduced in the same patch of the test
+	(https://lore.kernel.org/amd-gfx/20240222155811.44096-3-Rodrigo.Siqueira@amd.com/),
+	but it is not being used anywhere in the display driver.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 734412aae94d..e47e5562535a 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -164,26 +164,6 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
- 		*value = gpu->identity.eco_id;
- 		break;
- 
--	case ETNAVIV_PARAM_GPU_NN_CORE_COUNT:
--		*value = gpu->identity.nn_core_count;
--		break;
--
--	case ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE:
--		*value = gpu->identity.nn_mad_per_core;
--		break;
--
--	case ETNAVIV_PARAM_GPU_TP_CORE_COUNT:
--		*value = gpu->identity.tp_core_count;
--		break;
--
--	case ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE:
--		*value = gpu->identity.on_chip_sram_size;
--		break;
--
--	case ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE:
--		*value = gpu->identity.axi_sram_size;
--		break;
--
- 	default:
- 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 7d5e9158e13c..197e0037732e 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -54,18 +54,6 @@ struct etnaviv_chip_identity {
- 	/* Number of Neural Network cores. */
- 	u32 nn_core_count;
- 
--	/* Number of MAD units per Neural Network core. */
--	u32 nn_mad_per_core;
--
--	/* Number of Tensor Processing cores. */
--	u32 tp_core_count;
--
--	/* Size in bytes of the SRAM inside the NPU. */
--	u32 on_chip_sram_size;
--
--	/* Size in bytes of the SRAM across the AXI bus. */
--	u32 axi_sram_size;
--
- 	/* Size of the vertex cache. */
- 	u32 vertex_cache_size;
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-index d8e7334de8ce..8665f2658d51 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-@@ -17,10 +17,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.thread_count = 128,
- 		.shader_core_count = 1,
- 		.nn_core_count = 0,
--		.nn_mad_per_core = 0,
--		.tp_core_count = 0,
--		.on_chip_sram_size = 0,
--		.axi_sram_size = 0,
- 		.vertex_cache_size = 8,
- 		.vertex_output_buffer_size = 1024,
- 		.pixel_pipes = 1,
-@@ -52,11 +48,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.register_max = 64,
- 		.thread_count = 256,
- 		.shader_core_count = 1,
--		.nn_core_count = 0,
--		.nn_mad_per_core = 0,
--		.tp_core_count = 0,
--		.on_chip_sram_size = 0,
--		.axi_sram_size = 0,
- 		.vertex_cache_size = 8,
- 		.vertex_output_buffer_size = 512,
- 		.pixel_pipes = 1,
-@@ -89,10 +80,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.thread_count = 512,
- 		.shader_core_count = 2,
- 		.nn_core_count = 0,
--		.nn_mad_per_core = 0,
--		.tp_core_count = 0,
--		.on_chip_sram_size = 0,
--		.axi_sram_size = 0,
- 		.vertex_cache_size = 16,
- 		.vertex_output_buffer_size = 1024,
- 		.pixel_pipes = 1,
-@@ -125,10 +112,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.thread_count = 512,
- 		.shader_core_count = 2,
- 		.nn_core_count = 0,
--		.nn_mad_per_core = 0,
--		.tp_core_count = 0,
--		.on_chip_sram_size = 0,
--		.axi_sram_size = 0,
- 		.vertex_cache_size = 16,
- 		.vertex_output_buffer_size = 1024,
- 		.pixel_pipes = 1,
-@@ -160,11 +143,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.register_max = 64,
- 		.thread_count = 512,
- 		.shader_core_count = 2,
--		.nn_core_count = 0,
--		.nn_mad_per_core = 0,
--		.tp_core_count = 0,
--		.on_chip_sram_size = 0,
--		.axi_sram_size = 0,
- 		.vertex_cache_size = 16,
- 		.vertex_output_buffer_size = 1024,
- 		.pixel_pipes = 1,
-@@ -197,10 +175,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.thread_count = 1024,
- 		.shader_core_count = 4,
- 		.nn_core_count = 0,
--		.nn_mad_per_core = 0,
--		.tp_core_count = 0,
--		.on_chip_sram_size = 0,
--		.axi_sram_size = 0,
- 		.vertex_cache_size = 16,
- 		.vertex_output_buffer_size = 1024,
- 		.pixel_pipes = 2,
-@@ -233,10 +207,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.thread_count = 256,
- 		.shader_core_count = 1,
- 		.nn_core_count = 8,
--		.nn_mad_per_core = 64,
--		.tp_core_count = 4,
--		.on_chip_sram_size = 524288,
--		.axi_sram_size = 1048576,
- 		.vertex_cache_size = 16,
- 		.vertex_output_buffer_size = 1024,
- 		.pixel_pipes = 1,
-@@ -269,10 +239,6 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
- 		.thread_count = 256,
- 		.shader_core_count = 1,
- 		.nn_core_count = 6,
--		.nn_mad_per_core = 64,
--		.tp_core_count = 3,
--		.on_chip_sram_size = 262144,
--		.axi_sram_size = 0,
- 		.vertex_cache_size = 16,
- 		.vertex_output_buffer_size = 1024,
- 		.pixel_pipes = 1,
-diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
-index d87410a8443a..af024d90453d 100644
---- a/include/uapi/drm/etnaviv_drm.h
-+++ b/include/uapi/drm/etnaviv_drm.h
-@@ -77,11 +77,6 @@ struct drm_etnaviv_timespec {
- #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
- #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
- #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
--#define ETNAVIV_PARAM_GPU_NN_CORE_COUNT             0x1f
--#define ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE           0x20
--#define ETNAVIV_PARAM_GPU_TP_CORE_COUNT             0x21
--#define ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE         0x22
--#define ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE             0x23
- 
- #define ETNA_MAX_PIPES 4
- 
+2.	Also, according to the documentation, "The display/tests folder replicates
+	the folder hierarchy of the display folder". However, note that this test file
+	(test/kunit/dc/dml/calcs/bw_fixed_test.c) has a conflicting path with the file
+	that is being tested (dc/basics/bw_fixed.c).
+
+3.	Config Names and Helps are a bit misleading and don't follow a strict
+	pattern. For example, the config DML_KUNIT_TEST indicates that it is used
+	to activate tests for the Display Core Engine, but instead activates tests
+	for the Display Core Next. Also, note the different name patterns in
+	DML_KUNIT_TEST and AMD_DC_BASICS_KUNIT_TEST.
+
+4.	The test suite dcn21_update_bw_bounding_box_test_suite configures an init
+	function that doesn't need to be executed before every test, but only once
+	before the suite runs.
+
+5.	There are some not updated info in the Documentation, such as the
+	recommended command to run the tests:
+	$ ./tools/testing/kunit/kunit.py run --arch=x86_64 \
+	--kunitconfig=drivers/gpu/drm/amd/display/tests
+	(it doesn't work since there is no .kunitconfig in
+	drivers/gpu/drm/amd/display/tests)
+
+
+[HOW]
+
+1. Revise Config names and Help blocks.
+
+2.	Change the path of the test file bw_fixed_test from
+	test/kunit/dc/dml/calcs/bw_fixed_test.c to test/kunit/dc/basics/bw_fixed_test.c
+	to make it consistent with the Documentation and the other display driver
+	tests. Make this same test file run by importing it conditionally in the file
+	dc/basics/bw_fixed_test.c.
+
+3.	Turn the test init function of the suite
+	dcn21_update_bw_bounding_box_test_suite into a suite init.
+
+4.	Update Documentation
+
+Joao Paulo Pereira da Silva (4):
+  drm/amd/display: Refactor AMD display KUnit tests configs
+  drm/amd/display/test: Fix kunit test that is not running
+  drm/amd/display/test: Optimize kunit test suite
+    dml_dcn20_fpu_dcn21_update_bw_bounding_box_test
+  Documentation/gpu: Update AMD Display Core Unit Test documentation
+
+ .../gpu/amdgpu/display/display-test.rst       | 20 ++++++------
+ drivers/gpu/drm/amd/display/Kconfig           | 31 ++++++-------------
+ .../gpu/drm/amd/display/dc/basics/bw_fixed.c  |  3 ++
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |  2 +-
+ .../dc/dml/dcn20/display_mode_vba_20.c        |  2 +-
+ .../dc/dml/dcn20/display_rq_dlg_calc_20.c     |  2 +-
+ .../drm/amd/display/test/kunit/.kunitconfig   |  7 ++---
+ .../gpu/drm/amd/display/test/kunit/Makefile   |  4 +--
+ .../dc/{dml/calcs => basics}/bw_fixed_test.c  |  0
+ .../test/kunit/dc/dml/dcn20/dcn20_fpu_test.c  |  6 ++--
+ 10 files changed, 32 insertions(+), 45 deletions(-)
+ rename drivers/gpu/drm/amd/display/test/kunit/dc/{dml/calcs => basics}/bw_fixed_test.c (100%)
+
 -- 
 2.44.0
 
