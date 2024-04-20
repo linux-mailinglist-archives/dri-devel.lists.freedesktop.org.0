@@ -2,87 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94FA8AB8D1
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 04:37:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B273C8AB8D4
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 04:41:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDBF810E34A;
-	Sat, 20 Apr 2024 02:37:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C649F10E59C;
+	Sat, 20 Apr 2024 02:41:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RpY5abcJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HmRiounJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD4E710E34A;
- Sat, 20 Apr 2024 02:37:52 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43K2PI7Z012975;
- Sat, 20 Apr 2024 02:37:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=qQeJxd3XpNCrhcCAyF6vFunW9hdhRagP8XVaq3dxLCY=; b=Rp
- Y5abcJji7V+RRDFVcxglFOtqExW9mFNGFnSraAhN0qw7fuM2uUSkJKeGJgfXjzOA
- XKb+EIyw041VpFK1uMr17jkkI5HPeCKYcJCHtX3C1jMZrSFB94p9ug2VYRGj9ZLn
- 2u2ABbz6g9i9whE7bRHBGKykaebZ8lBuuTixzLWcvwcNmL8ElLHVgslrTlkRl7Vr
- pqFLtVx9/WLeEhsyvvw1DhMmiCBs0A4/eMygfzrrOpsVpLT9a7VAwNufxWHf4RyS
- UG0smepDn+ROwxvYyRYssFcejF+CdHaw2g0nvEYJrcucgzs9MsnefeiajIY8dJwa
- gzi9hBkFh8qVN+qPjmag==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xm4w7r0g5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 20 Apr 2024 02:37:47 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43K2bkjf003833
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 20 Apr 2024 02:37:46 GMT
-Received: from [10.110.104.191] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 19 Apr
- 2024 19:37:45 -0700
-Message-ID: <81322c16-8d82-16e7-dafd-93c29b07f169@quicinc.com>
-Date: Fri, 19 Apr 2024 19:37:44 -0700
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70BA810E59C
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 02:41:05 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-5193363d255so3475234e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Apr 2024 19:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713580863; x=1714185663; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ka09RLa2D8cd7MUnxWwNSTSulzyGO8xmtqt8/hCCE6E=;
+ b=HmRiounJCu41BGtBJ+mjLngFoUHg6JFBPwdBDRJGC80T0jpqHSc1hFQ4Gj3ZFVNRi9
+ oSMCKcauZ+sJqb5CsvzCvCQRhgMvJFtFTIbs5VdN8rAnon+Nz7D4DPfmdwoUoyqH99Ei
+ LqKymGL7dqdum4pxBH0Z2pSnhJHA1Ji3DpwHGmZndVodYKjCuaOMJde6GmhbaGaOV0xh
+ olBv4mGUbTeWYlmeO4YNR0kBVzTR65vw8Cam1u61fmykfityapfv2s/huiSaU2CU79yf
+ Kp756Mhy/2WftqSPjqAX9jRIEkGn59d/zRzzPwrtHnxitViw64Jf5dp3wJ5AFyZ6FzjG
+ Dk3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713580863; x=1714185663;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ka09RLa2D8cd7MUnxWwNSTSulzyGO8xmtqt8/hCCE6E=;
+ b=OuHUffplKYd9lAMR7WXBss44us2Ljk6TaYC3yyAYfLpLwjYybNn+OxIaBnHCiiL05Q
+ lAvlEUy6XFItGsahyc7PCMv+rLflEnj0j3dR1Tv5mHBlmQhyVOAQ/t08nSG5Y4lngVxv
+ GvsfPvT7/L/lVO7rmaYpLV0GghzZubvixWRwvo0gmCC+TZ/3pzVVDyRkm/FMRoqSdMcz
+ 8zNWnE89IzF21rI3DBuq74cXq2yQCiW38MieKAztvj6UTksW6MJ4yDInhU1+IqFPj7Qk
+ 13uDuhlHVocsW11gQdLtlh/sCAfRnagEN+HNPILaZhNP7fhzaGW5bko3Ze2x2/ceGp0c
+ +63g==
+X-Gm-Message-State: AOJu0YyT6QJ7+YHWAY5HgF3+7H3ZCdl+PFYsA0TjBevjYwQK5hAXLOMh
+ LSeZMFO3bctm9jsOcPwVlfCP+np+WcDbmk38tG28Ba3GVicjItkwCdht0/BtcMclWmSKJC9jzQA
+ J
+X-Google-Smtp-Source: AGHT+IEdjJXBFb5w49+fE8NoJQfuH+OO2sjGj2Uz4GZt2MgBoQ+8VACBUKhVAr7kAgjhUCv+o8HcSA==
+X-Received: by 2002:a05:6512:2027:b0:516:d18b:eaea with SMTP id
+ s7-20020a056512202700b00516d18beaeamr2100925lfs.33.1713580863266; 
+ Fri, 19 Apr 2024 19:41:03 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ p1-20020a19f001000000b00518c69b3903sm956951lfc.84.2024.04.19.19.41.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Apr 2024 19:41:02 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/2] drm/panel: two fixes for lg-sw43408
+Date: Sat, 20 Apr 2024 05:41:00 +0300
+Message-Id: <20240420-panel-sw43408-fix-v1-0-b282ff725242@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 4/9] drm/msm/dpu: move dpu_format_populate_plane_sizes to
- atomic_check
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Abel Vesa <abel.vesa@linaro.org>, Johan Hovold <johan+linaro@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20240319-dpu-mode-config-width-v1-0-d0fe6bf81bf1@linaro.org>
- <20240319-dpu-mode-config-width-v1-4-d0fe6bf81bf1@linaro.org>
- <a122a43a-8def-0c11-41ef-b01fab33f98e@quicinc.com>
- <rqddqmqznhq4liusiyvowt4lfybb25qfdxak6ql6hdrreduutt@6uwkrlsxa4gw>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <rqddqmqznhq4liusiyvowt4lfybb25qfdxak6ql6hdrreduutt@6uwkrlsxa4gw>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: NcxkCZXvuy6n7YWIZG1c9YbwFzfGeG8_
-X-Proofpoint-ORIG-GUID: NcxkCZXvuy6n7YWIZG1c9YbwFzfGeG8_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-20_02,2024-04-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- impostorscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404200016
+X-B4-Tracking: v=1; b=H4sIADwrI2YC/x2MWwqAIBAAryL73YLaFtVVoo8eay2EhUIF0t2TP
+ mdgJkHkIByhUwkCXxLl8BlMoWDeRr8yypIZrLakyWo8R887xptK0g06edC5uqJ2NtZMDLk7A2f
+ 9P/vhfT+h6DYrYwAAAA==
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Caleb Connolly <caleb.connolly@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel test robot <lkp@intel.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=646;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=WnDKoF43rGKHBFX9wId0eAqt9FNHwqM5SXYYZGgXU40=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmIys+0HvzUeklhoAa/Wvr+hJ00ZA693pY2m20+
+ MDs211otJGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZiMrPgAKCRCLPIo+Aiko
+ 1UJeB/9eALufS4MclyWW91OqSYOkuYXZm1GgWZ4tvkSA2otVRDZdCjAtmOOfQIxEYr2v3LgsRnI
+ ZZRQtwhgvgIp5iS25hSeHFOZp3Mtl11m1Jz4DmGoNXMPlWh1hw0qe1F2ArWZEc8KQvgS1bJk6L4
+ /XTyWI0iuY+i/PDMrz5s5KLMMkL4pSOteMEhY/CjGHhBkThxdkT2WdAtt+oUIEWIVda+5YTUqt8
+ 1j+DNMF05je9MYIH/MFm/aua27MjPIzwCaXobYcEF7CgdTcxpgCtItP5g6em5jpvdkMbTPJeC3B
+ Dum2Ej6r5ciu385ngagFZQAS6EV2fob2UGRSp2z/coh5oSu5
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,69 +100,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fix two issues with the panel-lg-sw43408 driver reported by the kernel
+test robot.
 
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Dmitry Baryshkov (2):
+      drm/panel/lg-sw43408: depends on CONFIG_DRM_DISPLAY_DP_HELPER
+      drm/panel/lg-sw43408: mark sw43408_backlight_ops as static
 
-On 4/19/2024 6:34 PM, Dmitry Baryshkov wrote:
-> On Fri, Apr 19, 2024 at 05:14:01PM -0700, Abhinav Kumar wrote:
->>
->>
->> On 3/19/2024 6:22 AM, Dmitry Baryshkov wrote:
->>> Move a call to dpu_format_populate_plane_sizes() to the atomic_check
->>> step, so that any issues with the FB layout can be reported as early as
->>> possible.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 12 ++++++------
->>>    1 file changed, 6 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> index d9631fe90228..a9de1fbd0df3 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> @@ -673,12 +673,6 @@ static int dpu_plane_prepare_fb(struct drm_plane *plane,
->>>    		}
->>>    	}
->>> -	ret = dpu_format_populate_plane_sizes(new_state->fb, &pstate->layout);
->>> -	if (ret) {
->>> -		DPU_ERROR_PLANE(pdpu, "failed to get format plane sizes, %d\n", ret);
->>> -		return ret;
->>> -	}
->>> -
->>>    	/* validate framebuffer layout before commit */
->>>    	ret = dpu_format_populate_addrs(pstate->aspace,
->>>    					new_state->fb,
->>> @@ -864,6 +858,12 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->>>    		return -E2BIG;
->>>    	}
->>> +	ret = dpu_format_populate_plane_sizes(new_plane_state->fb, &pstate->layout);
->>> +	if (ret) {
->>> +		DPU_ERROR_PLANE(pdpu, "failed to get format plane sizes, %d\n", ret);
->>> +		return ret;
->>> +	}
->>> +
->>
->> I think we need another function to do the check. It seems incorrect to
->> populate the layout to the plane state knowing it can potentially fail.
-> 
-> why? The state is interim object, which is subject to checks. In other
-> parts of the atomic_check we also fill parts of the state, perform
-> checks and then destroy it if the check fails.
-> 
+ drivers/gpu/drm/panel/Kconfig            | 1 +
+ drivers/gpu/drm/panel/panel-lg-sw43408.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+---
+base-commit: a35e92ef04c07bd473404b9b73d489aea19a60a8
+change-id: 20240420-panel-sw43408-fix-ff6549c121be
 
-Yes, the same thing you wrote.
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-I felt we can perform the validation and reject it before populating it 
-in the state as it seems thats doable here rather than populating it 
-without knowing whether it can be discarded.
-
-> Maybe I'm missing your point here. Could you please explain what is the
-> problem from your point of view?
-> 
->>
->> Can we move the validation part of dpu_format_populate_plane_sizes() out to
->> another helper dpu_format_validate_plane_sizes() and use that?
->>
->> And then make the remaining dpu_format_populate_plane_sizes() just a void
->> API to fill the layout?
-> 
