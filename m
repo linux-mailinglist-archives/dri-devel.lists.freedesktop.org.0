@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4FF8ABD1D
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 23:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410998ABD20
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 23:38:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C510810EAA9;
-	Sat, 20 Apr 2024 21:37:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFB0F10EAE3;
+	Sat, 20 Apr 2024 21:37:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bcOAtk9h";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pqbCCC8e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCC4A10EACE
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 21:37:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C24BD10EACE
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 21:37:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=l3N6v9FD+E01sPaC3vO1aQbMYuq2ub7/Vb5pJjHbAMo=; b=bcOAtk9hQoh6Amgg+mazE0FX0C
- +buepXrQR/IE1nAECdUE1qpa2ifnOLKrdYCHPXtJQ/r/IZGPLUq9hmkXQFjDTh2T/UANh2mfXOrMg
- 2fG98T8WeyhJFHVtYzlLuuJJIJZ/ngOYw1skpXZZe/jPmWYZnTohaxi+AvZCUm77Wg2kYPj73KSmD
- bjyvWVddscWYsxQFbccgDurcyPOEDti3yf0md74rIHrh0Vcv1SunbvN2Rn0DWCoI8BkvDW+7UTd2T
- JqC5M0aaB1FcUfLqZCLTFeAXJtVToiNyNyp002T0MZsS/Shyv2qOabGq/5JbFTgbTOMEbU8m0ckDM
- Obg45bfA==;
+ bh=tQOJOdR7R8fPlGzGpAxIDtGIt/YwPd67iplbtKJy1G0=; b=pqbCCC8eWv2SvqHdXKB3G0VNPi
+ SZ63j/wTIuXNMf6jZzIhKuLXAHV93Mx7mxh1+ZXHfNGF670878NfSwrH0pZ03hUIsHADSGafOnF/V
+ +MHFsPakiMkbFmb4/ssfUUQ8McNC0DzOasn2wfBLPIJWlAJTa6KyjcEs4OIndjttJcC8vsCMkFS+K
+ JUjrzq83mfLP6/vEJl/8+c1pKYdVS/ksgx6H7RVBj+66u3TX9pM9jpcXHkKNIsxt7k29XNi/iYQQ8
+ zsy0QSzHr1UOa309CZPyFuqb+qCmiSD4m10um1XsDAP95xF5xlo7nBSdQmzYFglIUKMJmLZyhDYJU
+ aBVTZSXA==;
 Received: from [179.234.232.152] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ryIOx-006j7P-P9; Sat, 20 Apr 2024 23:37:40 +0200
+ id 1ryIP2-006j7P-PS; Sat, 20 Apr 2024 23:37:45 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Chema Casanova <jmcasanova@igalia.com>,
  Tvrtko Ursulin <tursulin@igalia.com>,
@@ -42,9 +42,9 @@ To: Melissa Wen <mwen@igalia.com>, Chema Casanova <jmcasanova@igalia.com>,
 Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
  =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH v3 2/5] drm/v3d: Create a struct to store the GPU stats
-Date: Sat, 20 Apr 2024 18:32:10 -0300
-Message-ID: <20240420213632.339941-4-mcanal@igalia.com>
+Subject: [PATCH v3 3/5] drm/v3d: Create function to update a set of GPU stats
+Date: Sat, 20 Apr 2024 18:32:11 -0300
+Message-ID: <20240420213632.339941-5-mcanal@igalia.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240420213632.339941-2-mcanal@igalia.com>
 References: <20240420213632.339941-2-mcanal@igalia.com>
@@ -66,204 +66,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will make it easier to instantiate the GPU stats variables and it
-will create a structure where we can store all the variables that refer
-to GPU stats.
-
-Note that, when we created the struct `v3d_stats`, we renamed
-`jobs_sent` to `jobs_completed`. This better express the semantics of
-the variable, as we are only accounting jobs that have been completed.
+Given a set of GPU stats, that is, a `struct v3d_stats` related to a
+queue in a given context, create a function that can update this set
+of GPU stats.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Reviewed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_drv.c   | 15 +++++++--------
- drivers/gpu/drm/v3d/v3d_drv.h   | 18 ++++++++++--------
- drivers/gpu/drm/v3d/v3d_gem.c   |  8 ++++----
- drivers/gpu/drm/v3d/v3d_sched.c | 20 ++++++++++++--------
- drivers/gpu/drm/v3d/v3d_sysfs.c | 10 ++++++----
- 5 files changed, 39 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/v3d/v3d_sched.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 3debf37e7d9b..52e3ba9df46f 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -115,14 +115,12 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
- 	v3d_priv->v3d = v3d;
- 
- 	for (i = 0; i < V3D_MAX_QUEUES; i++) {
--		v3d_priv->enabled_ns[i] = 0;
--		v3d_priv->start_ns[i] = 0;
--		v3d_priv->jobs_sent[i] = 0;
--
- 		sched = &v3d->queue[i].sched;
- 		drm_sched_entity_init(&v3d_priv->sched_entity[i],
- 				      DRM_SCHED_PRIORITY_NORMAL, &sched,
- 				      1, NULL);
-+
-+		memset(&v3d_priv->stats[i], 0, sizeof(v3d_priv->stats[i]));
- 	}
- 
- 	v3d_perfmon_open_file(v3d_priv);
-@@ -151,20 +149,21 @@ static void v3d_show_fdinfo(struct drm_printer *p, struct drm_file *file)
- 	enum v3d_queue queue;
- 
- 	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
-+		struct v3d_stats *stats = &file_priv->stats[queue];
-+
- 		/* Note that, in case of a GPU reset, the time spent during an
- 		 * attempt of executing the job is not computed in the runtime.
- 		 */
- 		drm_printf(p, "drm-engine-%s: \t%llu ns\n",
- 			   v3d_queue_to_string(queue),
--			   file_priv->start_ns[queue] ? file_priv->enabled_ns[queue]
--						      + timestamp - file_priv->start_ns[queue]
--						      : file_priv->enabled_ns[queue]);
-+			   stats->start_ns ? stats->enabled_ns + timestamp - stats->start_ns
-+					   : stats->enabled_ns);
- 
- 		/* Note that we only count jobs that completed. Therefore, jobs
- 		 * that were resubmitted due to a GPU reset are not computed.
- 		 */
- 		drm_printf(p, "v3d-jobs-%s: \t%llu jobs\n",
--			   v3d_queue_to_string(queue), file_priv->jobs_sent[queue]);
-+			   v3d_queue_to_string(queue), stats->jobs_completed);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index ee3545226d7f..5a198924d568 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -36,15 +36,20 @@ static inline char *v3d_queue_to_string(enum v3d_queue queue)
- 	return "UNKNOWN";
- }
- 
-+struct v3d_stats {
-+	u64 start_ns;
-+	u64 enabled_ns;
-+	u64 jobs_completed;
-+};
-+
- struct v3d_queue_state {
- 	struct drm_gpu_scheduler sched;
- 
- 	u64 fence_context;
- 	u64 emit_seqno;
- 
--	u64 start_ns;
--	u64 enabled_ns;
--	u64 jobs_sent;
-+	/* Stores the GPU stats for this queue in the global context. */
-+	struct v3d_stats stats;
- };
- 
- /* Performance monitor object. The perform lifetime is controlled by userspace
-@@ -188,11 +193,8 @@ struct v3d_file_priv {
- 
- 	struct drm_sched_entity sched_entity[V3D_MAX_QUEUES];
- 
--	u64 start_ns[V3D_MAX_QUEUES];
--
--	u64 enabled_ns[V3D_MAX_QUEUES];
--
--	u64 jobs_sent[V3D_MAX_QUEUES];
-+	/* Stores the GPU stats for a specific queue for this fd. */
-+	struct v3d_stats stats[V3D_MAX_QUEUES];
- };
- 
- struct v3d_bo {
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index afc565078c78..0086081a9261 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -247,10 +247,10 @@ v3d_gem_init(struct drm_device *dev)
- 	int ret, i;
- 
- 	for (i = 0; i < V3D_MAX_QUEUES; i++) {
--		v3d->queue[i].fence_context = dma_fence_context_alloc(1);
--		v3d->queue[i].start_ns = 0;
--		v3d->queue[i].enabled_ns = 0;
--		v3d->queue[i].jobs_sent = 0;
-+		struct v3d_queue_state *queue = &v3d->queue[i];
-+
-+		queue->fence_context = dma_fence_context_alloc(1);
-+		memset(&queue->stats, 0, sizeof(queue->stats));
- 	}
- 
- 	spin_lock_init(&v3d->mm_lock);
 diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 8ca61bcd4b1c..b6b5542c3fcf 100644
+index b6b5542c3fcf..b9614944931c 100644
 --- a/drivers/gpu/drm/v3d/v3d_sched.c
 +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -110,10 +110,12 @@ v3d_job_start_stats(struct v3d_job *job, enum v3d_queue queue)
- {
- 	struct v3d_dev *v3d = job->v3d;
- 	struct v3d_file_priv *file = job->file->driver_priv;
-+	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
-+	struct v3d_stats *local_stats = &file->stats[queue];
- 	u64 now = local_clock();
- 
--	file->start_ns[queue] = now;
--	v3d->queue[queue].start_ns = now;
-+	local_stats->start_ns = now;
-+	global_stats->start_ns = now;
+@@ -118,6 +118,14 @@ v3d_job_start_stats(struct v3d_job *job, enum v3d_queue queue)
+ 	global_stats->start_ns = now;
  }
  
++static void
++v3d_stats_update(struct v3d_stats *stats, u64 now)
++{
++	stats->enabled_ns += now - stats->start_ns;
++	stats->jobs_completed++;
++	stats->start_ns = 0;
++}
++
  void
-@@ -121,15 +123,17 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
+ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
  {
- 	struct v3d_dev *v3d = job->v3d;
- 	struct v3d_file_priv *file = job->file->driver_priv;
-+	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
-+	struct v3d_stats *local_stats = &file->stats[queue];
+@@ -127,13 +135,8 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
+ 	struct v3d_stats *local_stats = &file->stats[queue];
  	u64 now = local_clock();
  
--	file->enabled_ns[queue] += now - file->start_ns[queue];
--	file->jobs_sent[queue]++;
--	file->start_ns[queue] = 0;
-+	local_stats->enabled_ns += now - local_stats->start_ns;
-+	local_stats->jobs_completed++;
-+	local_stats->start_ns = 0;
- 
--	v3d->queue[queue].enabled_ns += now - v3d->queue[queue].start_ns;
--	v3d->queue[queue].jobs_sent++;
--	v3d->queue[queue].start_ns = 0;
-+	global_stats->enabled_ns += now - global_stats->start_ns;
-+	global_stats->jobs_completed++;
-+	global_stats->start_ns = 0;
+-	local_stats->enabled_ns += now - local_stats->start_ns;
+-	local_stats->jobs_completed++;
+-	local_stats->start_ns = 0;
+-
+-	global_stats->enabled_ns += now - global_stats->start_ns;
+-	global_stats->jobs_completed++;
+-	global_stats->start_ns = 0;
++	v3d_stats_update(local_stats, now);
++	v3d_stats_update(global_stats, now);
  }
  
  static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
-diff --git a/drivers/gpu/drm/v3d/v3d_sysfs.c b/drivers/gpu/drm/v3d/v3d_sysfs.c
-index d106845ba890..6a8e7acc8b82 100644
---- a/drivers/gpu/drm/v3d/v3d_sysfs.c
-+++ b/drivers/gpu/drm/v3d/v3d_sysfs.c
-@@ -21,8 +21,10 @@ gpu_stats_show(struct device *dev, struct device_attribute *attr, char *buf)
- 	len += sysfs_emit(buf, "queue\ttimestamp\tjobs\truntime\n");
- 
- 	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
--		if (v3d->queue[queue].start_ns)
--			active_runtime = timestamp - v3d->queue[queue].start_ns;
-+		struct v3d_stats *stats = &v3d->queue[queue].stats;
-+
-+		if (stats->start_ns)
-+			active_runtime = timestamp - stats->start_ns;
- 		else
- 			active_runtime = 0;
- 
-@@ -39,8 +41,8 @@ gpu_stats_show(struct device *dev, struct device_attribute *attr, char *buf)
- 		len += sysfs_emit_at(buf, len, "%s\t%llu\t%llu\t%llu\n",
- 				     v3d_queue_to_string(queue),
- 				     timestamp,
--				     v3d->queue[queue].jobs_sent,
--				     v3d->queue[queue].enabled_ns + active_runtime);
-+				     stats->jobs_completed,
-+				     stats->enabled_ns + active_runtime);
- 	}
- 
- 	return len;
 -- 
 2.44.0
 
