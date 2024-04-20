@@ -2,65 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD748ABA38
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 10:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BE78ABB63
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 13:28:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84D9710FD0B;
-	Sat, 20 Apr 2024 08:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E862810E43F;
+	Sat, 20 Apr 2024 11:28:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mFbbuhkv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Vhwh4mjD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD3F410FD06;
- Sat, 20 Apr 2024 08:09:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713600587; x=1745136587;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=iHGqxMZGYV0xw6S1BxgVHQ+xofYdWkr5SzbbZY3VejI=;
- b=mFbbuhkvwfjb4JdpMOrMqU3y3lqnQ3Hy8+12PFzNYesR6qato4IjPC3x
- TLuzOGUOHZZTNA4bt89jRKwD0Eqg/513kHlvM3+pNgdIUxZpm/s0Bf0LA
- ZyyF7YLXogk4JgD72CnqtbWlbrgEpNA59zPgdbjmUDObOD6WhXV6H7TJ7
- tG06Tr+nKQX9aNDvkWFikeHfAxgK2ZGltSIWvsZLxgKK1oQRBgDu2WZGu
- Q9jXHqUv6q+xRMCQcsGISgAF534hAQcau6mSpj8p0rWQ6h8ajyu04XNim
- RW7N20OMzxQd7UWPiDbj2ygqhRxbW8NO1f2ACZzgjNf5buJhb+PCQgBaj Q==;
-X-CSE-ConnectionGUID: hoBdadzBSpGqsB+9nCYwSw==
-X-CSE-MsgGUID: okO4JLcfRDKH9r1zOTNrNQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="9326976"
-X-IronPort-AV: E=Sophos;i="6.07,215,1708416000"; 
-   d="scan'208";a="9326976"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2024 01:09:46 -0700
-X-CSE-ConnectionGUID: DWwAgZgQRjKF1yNzJaSaFg==
-X-CSE-MsgGUID: bmiPqiTgT6ypOvDnNSagbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,215,1708416000"; d="scan'208";a="28366091"
-Received: from aravind-dev.iind.intel.com (HELO [10.145.162.146])
- ([10.145.162.146])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2024 01:09:44 -0700
-Message-ID: <4aabb36d-3e84-457a-bf64-64720029114c@linux.intel.com>
-Date: Sat, 20 Apr 2024 13:42:32 +0530
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+ [209.85.222.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A56610E43F
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 11:28:44 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id
+ af79cd13be357-78f03917484so185032585a.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 04:28:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713612523; x=1714217323; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tKoATs+ZIoHNDyy8oxy4Gs6SKIXsj2sSrJmnOyn8fCY=;
+ b=Vhwh4mjDlR2FoF3N1jFbu8zUoDeWPn6aHg96rEgYhwYGmtK011zt9yY+obOVXPU9e5
+ Z/QQXiKpKyRwKmOiO08W5CKAl2s1wtvC80zSEqO3yFjF25zFlO8U7VYqNz6rRO4fv38Q
+ Arx5llfPduxeYfkSngi/PBH2rtKrm3gbzg2lV68F0UrWYv66dz4HbJztKSIdlNTOgu9n
+ DVruQBfrv7WROi9tTgfpd745UWgb8pTX9tYuKpN7BBFZRXVmDDvtr/6SWy2OJPcPY0pl
+ HKM7LJWxeT+0/f83slFqnF6bK8TlvYdXzOIkN36onarpRISlbkJ46mEjDf1Wbw67FfHQ
+ Qqkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713612523; x=1714217323;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tKoATs+ZIoHNDyy8oxy4Gs6SKIXsj2sSrJmnOyn8fCY=;
+ b=weEglXcKcvSAeMfywK0v8UkJBCSTpZwOJPEOeHTNHLaR/7wHlD7Umcgz44/7kdmNL2
+ qi0kCAlk0Hz5z/1vvTB18BH9PTBsoDNg7OXOMDW0QnUpBGpCEY9upkHVXV+JaGadHhd2
+ g/G+tgC+YCJvV0gatfscOZH5p8pVcSIbR7eEOYpUAuabPxRwMlrq3EMams3EzfggUdUV
+ zgBL7ZL+8StRq9nrVPrnouP8ZkLsNJ6E3VDBSwpPXU/gkyl7CuYmq9YG7WCSP5/1EflL
+ uh3OyD43rcWc3/2QUVogqqOWQ5Xn6XNML72P5PIV/ptYe20VAGZFshW/burRz0/To1C1
+ onjQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXY2QHCMamP7inaXAAZQ+HVt9XyMoKUiWi8Pl7+uSigXJpPbYoyO0iTJvORURHYwq9URXTCDlYQ0CGi9HT3+0Mtxfd3LvTpFnwxt3yRPGh3
+X-Gm-Message-State: AOJu0YzKFB6OIPOCkTQG0yeMO5ew3wL+Pgb8oTmVpLQIQzW384vG+kSV
+ KClnch7ISnV6cp+L6Zn9FGN+zuFNwmF713EMolpzMvGtzNjyWtAr
+X-Google-Smtp-Source: AGHT+IHUv7Gq5Bx5h+ndQV7V3ptdOzZY46MxtRUHLR0evtc/5NlIjWXFLv7Vys6xP0NpfUZZlbibsw==
+X-Received: by 2002:a05:620a:2987:b0:790:676d:b7c6 with SMTP id
+ r7-20020a05620a298700b00790676db7c6mr532426qkp.67.1713612522545; 
+ Sat, 20 Apr 2024 04:28:42 -0700 (PDT)
+Received: from aford-System-Version.lan
+ ([2601:447:d002:5be:8379:f9d5:1d94:be66])
+ by smtp.gmail.com with ESMTPSA id
+ o15-20020a05620a0d4f00b0078ee090baa3sm2422559qkl.10.2024.04.20.04.28.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Apr 2024 04:28:41 -0700 (PDT)
+From: Adam Ford <aford173@gmail.com>
+To: linux-arm-kernel@lists.infradead.org
+Cc: aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
+ kernel test robot <lkp@intel.com>, Liu Ying <victor.liu@nxp.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bridge: imx: Fix unmet depenency for
+ PHY_FSL_SAMSUNG_HDMI_PHY
+Date: Sat, 20 Apr 2024 06:28:31 -0500
+Message-ID: <20240420112831.5942-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] drm: add devm release action
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, airlied@gmail.com, tzimmermann@suse.de,
- rodrigo.vivi@intel.com, intel-xe@lists.freedesktop.org,
- Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
-References: <20240419085826.263743-1-aravind.iddamsetty@linux.intel.com>
- <20240419085826.263743-2-aravind.iddamsetty@linux.intel.com>
- <20240419-stimulating-passionate-mule-bbd4b2@houat>
-From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-In-Reply-To: <20240419-stimulating-passionate-mule-bbd4b2@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,44 +95,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When enabling i.MX8MP DWC HDMI driver, it automatically selects
+PHY_FSL_SAMSUNG_HDMI_PHY, since it wont' work without the phy.
+This may cause some Kconfig warnings during various build tests.
+Fix this by implying the phy instead of selecting the phy.
 
-On 19/04/24 14:41, Maxime Ripard wrote:
-> On Fri, Apr 19, 2024 at 02:28:23PM +0530, Aravind Iddamsetty wrote:
->> In scenarios where drm_dev_put is directly called by driver we want to
->> release devm_drm_dev_init_release action associated with struct
->> drm_device.
->>
->> v2: Directly expose the original function, instead of introducing a
->> helper (Rodrigo)
->>
->> Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>
->> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
->> ---
->>  drivers/gpu/drm/drm_drv.c | 6 ++++++
->>  include/drm/drm_drv.h     | 2 ++
->>  2 files changed, 8 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->> index 243cacb3575c..ba60cbb0725f 100644
->> --- a/drivers/gpu/drm/drm_drv.c
->> +++ b/drivers/gpu/drm/drm_drv.c
->> @@ -714,6 +714,12 @@ static int devm_drm_dev_init(struct device *parent,
->>  					devm_drm_dev_init_release, dev);
->>  }
->>  
->> +void devm_drm_dev_release_action(struct drm_device *dev)
->> +{
->> +	devm_release_action(dev->dev, devm_drm_dev_init_release, dev);
->> +}
->> +EXPORT_SYMBOL(devm_drm_dev_release_action);
-> Again, this needs to be documented.
+Fixes: 1f36d634670d ("drm/bridge: imx: add bridge wrapper driver for i.MX8MP DWC HDMI")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202404190103.lLm8LtuP-lkp@intel.com/
+Signed-off-by: Adam Ford <aford173@gmail.com>
 
-sorry I missed your earlier email, will address this.
+diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+index 7687ed652df5..8f125c75050d 100644
+--- a/drivers/gpu/drm/bridge/imx/Kconfig
++++ b/drivers/gpu/drm/bridge/imx/Kconfig
+@@ -9,7 +9,7 @@ config DRM_IMX8MP_DW_HDMI_BRIDGE
+ 	depends on DRM_DW_HDMI
+ 	depends on OF
+ 	select DRM_IMX8MP_HDMI_PVI
+-	select PHY_FSL_SAMSUNG_HDMI_PHY
++	imply PHY_FSL_SAMSUNG_HDMI_PHY
+ 	help
+ 	  Choose this to enable support for the internal HDMI encoder found
+ 	  on the i.MX8MP SoC.
+-- 
+2.43.0
 
-Thanks,
-Aravind.
->
-> Maxime
