@@ -2,89 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4D98ABCDB
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 21:08:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D88908ABD1E
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Apr 2024 23:37:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98BEF10E08E;
-	Sat, 20 Apr 2024 19:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D04D10EAC8;
+	Sat, 20 Apr 2024 21:37:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MKzfkxtc";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="AsKUd0Eh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98ED010E08E
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 19:08:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713640116; x=1745176116;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DAWRxBbWwkIdn3sqEiU4w/Wb8Qe6Fk/DbaiAUfMnst8=;
- b=MKzfkxtc7c8vXtWhKonznoQ2RLWjohjfiChYW7WXjs7qEkiBAMAuY9mR
- D3d99z2aLTphSBG4+W+G7JeUKh0lHyJU1sdb3sOh79+GBGNJ6TlDaxWvY
- hxxqD0EgfT6GAbvYBmdnoHZzF1Zx+DDLiapBTrEx6N1bcwvN3pwjOz4be
- /xPuHLsmC7fpJzilBU71yj9QbYlCViqVWmwax4v6ZwK5dmc1U6MkZwWpN
- dlH39Pcn+oF7g/kAcb1X6gXWxdpcTCTWQfbeGUa6BfguBbBBgbgByMXqG
- ljxO8paYob/GoAll8wGAkoac2+7lJOFznQw62QD5dXy8X0l7iyuhwKToF Q==;
-X-CSE-ConnectionGUID: qm6TRDx/TJmG0PJyNJel1w==
-X-CSE-MsgGUID: IjofQAS0Smy9fcK7gzy49A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11050"; a="13064058"
-X-IronPort-AV: E=Sophos;i="6.07,217,1708416000"; d="scan'208";a="13064058"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2024 12:08:35 -0700
-X-CSE-ConnectionGUID: cJ9Qkz74RXu81siqOtt3yg==
-X-CSE-MsgGUID: EjS+I7MQTmicvy6dYuLD2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,217,1708416000"; d="scan'208";a="24249702"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
- by orviesa008.jf.intel.com with ESMTP; 20 Apr 2024 12:08:28 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ryG4X-000BQl-1h;
- Sat, 20 Apr 2024 19:08:25 +0000
-Date: Sun, 21 Apr 2024 03:07:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dharma Balasubiramani <dharma.b@microchip.com>,
- "dmitry . baryshkov @ linaro . org" <dmitry.baryshkov@linaro.org>,
- "andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>,
- "neil . armstrong @ linaro . org" <neil.armstrong@linaro.org>,
- "rfoss @ kernel . org" <rfoss@kernel.org>,
- "Laurent . pinchart @ ideasonboard . com" <Laurent.pinchart@ideasonboard.com>, 
- "jonas @ kwiboo . se" <jonas@kwiboo.se>,
- "jernej . skrabec @ gmail . com" <jernej.skrabec@gmail.com>,
- "maarten . lankhorst @ linux . intel . com"
- <maarten.lankhorst@linux.intel.com>, 
- "mripard @ kernel . org" <mripard@kernel.org>,
- "tzimmermann @ suse . de" <tzimmermann@suse.de>,
- "airlied @ gmail . com" <airlied@gmail.com>,
- "daniel @ ffwll . ch" <daniel@ffwll.ch>,
- "robh+dt @ kernel . org" <robh+dt@kernel.org>,
- "krzysztof . kozlowski+dt @ linaro . org" <krzysztof.kozlowski+dt@linaro.org>, 
- "conor+dt @ kernel . org" <conor+dt@kernel.org>,
- "linux @ armlinux . org . uk" <linux@armlinux.org.uk>,
- "Nicolas . Ferre @ microchip . com" <Nicolas.Ferre@microchip.com>,
- "alexandre . belloni @ bootlin . com" <alexandre.belloni@bootlin.com>,
- "claudiu . beznea @ tuxon . dev" <claudiu.beznea@tuxon.dev>,
- "Manikandan . M @ microchip . com" <Manikandan.M@microchip.com>,
- "arnd @ arndb . de" <arnd@arndb.de>,
- "geert+renesas @ glider . be" <geert+renesas@glider.be>,
- "Jason @ zx2c4 . com" <Jason@zx2c4.com>,
- "mpe @ ellerman . id . au" <mpe@ellerman.id.au>,
- "gerg @ linux-m68k . org" <gerg@linux-m68k.org>,
- "rdunlap @ infradead . org" <rdunlap@infradead.org>,
- "vbabka @ suse . cz" <vbabka@suse.cz>,
- "dri-devel @ lists . freedesktop . org" <dri-devel@lists.freedesktop.org>,
- "devicetree @ vger . kernel . org" <devicetree@vger.kernel.org>,
- "linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 2/4] drm/bridge: add lvds controller support for sam9x7
-Message-ID: <202404210232.jI4lxq3k-lkp@intel.com>
-References: <20240418085725.373797-3-dharma.b@microchip.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC3BE10EAC8
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Apr 2024 21:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=CSvxPPIQl144EPu0gUqhYNse9OWjQakJW8etmpPzUkI=; b=AsKUd0Eh4mkq1Nsnha2U8jW9cF
+ EjKuQUXlyw9Qnqn0KRJNp4jVoxPUvPa91nz7MEdEG2vIwj3cWh+lUMArZEF0EpYeaY14zpbocCmdt
+ ZQlANbtsJqW44gGt0RJm2SeZLnQsg4J05TXdHZNMIEo8LlZdl1uT8kPNQI/B7dRzvu/ZGvmplEjJp
+ MUhFKRlHfzcd+h1FC+8rwHouvWIkrJEpH9D47wkSn7oVnfBTM5R7ispehr8R5OG8LuGeD3hHq1w8B
+ yvi/tQCs+d9kAos0cGkXnXTidwJeCAfg+zVyzpDT6q2Lj1aKxIGIbf5gsg50bonySLLcX4fDuYYnp
+ kbjOXjjA==;
+Received: from [179.234.232.152] (helo=morissey..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1ryIOo-006j7P-7z; Sat, 20 Apr 2024 23:37:30 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Melissa Wen <mwen@igalia.com>, Chema Casanova <jmcasanova@igalia.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH v3 0/5] drm/v3d: Fix GPU stats inconsistencies and
+ race-condition
+Date: Sat, 20 Apr 2024 18:32:08 -0300
+Message-ID: <20240420213632.339941-2-mcanal@igalia.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240418085725.373797-3-dharma.b@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,115 +64,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dharma,
+The first version of this series had the intention to fix two major
+issues with the GPU stats:
 
-kernel test robot noticed the following build warnings:
+1. We were incrementing `enabled_ns` twice by the end of each job.
+2. There is a race-condition between the IRQ handler and the users
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.9-rc4 next-20240419]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The first of the issues was already addressed and the fix was applied to
+drm-misc-fixes. Now, what is left, addresses the second issue.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dharma-Balasubiramani/dt-bindings-display-bridge-add-sam9x75-lvds-binding/20240418-170157
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240418085725.373797-3-dharma.b%40microchip.com
-patch subject: [PATCH v7 2/4] drm/bridge: add lvds controller support for sam9x7
-config: arm-at91_dt_defconfig (https://download.01.org/0day-ci/archive/20240421/202404210232.jI4lxq3k-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240421/202404210232.jI4lxq3k-lkp@intel.com/reproduce)
+Apart from addressing this issue, this series improved the GPU stats
+code as a whole. We reduced code repetition, creating functions to start and
+update the GPU stats. This will likely reduce the odds of issue #1 happen again.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404210232.jI4lxq3k-lkp@intel.com/
+v1 -> v2: https://lore.kernel.org/dri-devel/20240403203517.731876-1-mcanal@igalia.com/T/
 
-All warnings (new ones prefixed by >>):
+- As the first patch was a bugfix, it was pushed to drm-misc-fixes.
+- [1/4] Add Chema Casanova's R-b
+- [2/4] s/jobs_sent/jobs_completed and add the reasoning in the commit message
+				(Chema Casanova)
+- [2/4] Add Chema Casanova's and Tvrtko Ursulin's R-b
+- [3/4] Call `local_clock()` only once, by adding a new parameter to the
+				`v3d_stats_update` function (Chema Casanova)
+- [4/4] Move new line to the correct patch [2/4] (Tvrtko Ursulin)
+- [4/4] Use `seqcount_t` as locking primitive instead of a `rw_lock` (Tvrtko Ursulin)
 
-   In file included from drivers/gpu/drm/bridge/microchip-lvds.c:17:
-   In file included from include/linux/phy/phy.h:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/bridge/microchip-lvds.c:199:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     199 |         if (ret < 0) {
-         |             ^~~
-   drivers/gpu/drm/bridge/microchip-lvds.c:154:9: note: initialize the variable 'ret' to silence this warning
-     154 |         int ret;
-         |                ^
-         |                 = 0
-   2 warnings generated.
+v2 -> v3: https://lore.kernel.org/dri-devel/20240417011021.600889-1-mcanal@igalia.com/T/
 
+- [4/5] New patch: separates the code refactor from the race-condition fix (Tvrtko Ursulin)
+- [5/5] s/interruption/interrupt (Tvrtko Ursulin)
+- [5/5] s/matches/match (Tvrtko Ursulin)
+- [5/5] Add Tvrtko Ursulin's R-b
 
-vim +/ret +199 drivers/gpu/drm/bridge/microchip-lvds.c
+Best Regards,
+- Maíra
 
-   148	
-   149	static int mchp_lvds_probe(struct platform_device *pdev)
-   150	{
-   151		struct device *dev = &pdev->dev;
-   152		struct mchp_lvds *lvds;
-   153		struct device_node *port;
-   154		int ret;
-   155	
-   156		if (!dev->of_node)
-   157			return -ENODEV;
-   158	
-   159		lvds = devm_kzalloc(&pdev->dev, sizeof(*lvds), GFP_KERNEL);
-   160		if (!lvds)
-   161			return -ENOMEM;
-   162	
-   163		lvds->dev = dev;
-   164	
-   165		lvds->regs = devm_ioremap_resource(lvds->dev,
-   166				platform_get_resource(pdev, IORESOURCE_MEM, 0));
-   167		if (IS_ERR(lvds->regs))
-   168			return PTR_ERR(lvds->regs);
-   169	
-   170		lvds->pclk = devm_clk_get(lvds->dev, "pclk");
-   171		if (IS_ERR(lvds->pclk))
-   172			return dev_err_probe(lvds->dev, PTR_ERR(lvds->pclk),
-   173					"could not get pclk_lvds\n");
-   174	
-   175		port = of_graph_get_remote_node(dev->of_node, 1, 0);
-   176		if (!port) {
-   177			dev_err(dev,
-   178				"can't find port point, please init lvds panel port!\n");
-   179			return -ENODEV;
-   180		}
-   181	
-   182		lvds->panel = of_drm_find_panel(port);
-   183		of_node_put(port);
-   184	
-   185		if (IS_ERR(lvds->panel))
-   186			return -EPROBE_DEFER;
-   187	
-   188		lvds->panel_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-   189	
-   190		if (IS_ERR(lvds->panel_bridge))
-   191			return PTR_ERR(lvds->panel_bridge);
-   192	
-   193		lvds->bridge.of_node = dev->of_node;
-   194		lvds->bridge.type = DRM_MODE_CONNECTOR_LVDS;
-   195		lvds->bridge.funcs = &mchp_lvds_bridge_funcs;
-   196	
-   197		dev_set_drvdata(dev, lvds);
-   198		devm_pm_runtime_enable(dev);
- > 199		if (ret < 0) {
-   200			dev_err(lvds->dev, "failed to enable pm runtime: %d\n", ret);
-   201			return ret;
-   202		}
-   203	
-   204		drm_bridge_add(&lvds->bridge);
-   205	
-   206		return 0;
-   207	}
-   208	
+Maíra Canal (5):
+  drm/v3d: Create two functions to update all GPU stats variables
+  drm/v3d: Create a struct to store the GPU stats
+  drm/v3d: Create function to update a set of GPU stats
+  drm/v3d: Decouple stats calculation from printing
+  drm/v3d: Fix race-condition between sysfs/fdinfo and interrupt handler
+
+ drivers/gpu/drm/v3d/v3d_drv.c   | 33 ++++++++----
+ drivers/gpu/drm/v3d/v3d_drv.h   | 30 ++++++++---
+ drivers/gpu/drm/v3d/v3d_gem.c   |  9 ++--
+ drivers/gpu/drm/v3d/v3d_irq.c   | 48 ++---------------
+ drivers/gpu/drm/v3d/v3d_sched.c | 94 +++++++++++++++++----------------
+ drivers/gpu/drm/v3d/v3d_sysfs.c | 13 ++---
+ 6 files changed, 109 insertions(+), 118 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.44.0
+
