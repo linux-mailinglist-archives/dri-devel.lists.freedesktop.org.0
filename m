@@ -2,78 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79CED8AC11E
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 21:53:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA7E8AC148
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 23:53:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C123410E28A;
-	Sun, 21 Apr 2024 19:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D96D10F0D2;
+	Sun, 21 Apr 2024 21:53:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b6wjIFRp";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JY3fcx+L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 273FE10E473
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 19:53:02 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-345b857d7adso2838854f8f.1
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 12:53:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1713729180; x=1714333980; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=IMaenB/28UTgVBO1bvU65I16JiSLNMn+INLi6fNav7Q=;
- b=b6wjIFRp4/O9TIWZGW2MmeuNXvqScaKZY4LtFNNbnVx9xmA6aISvswoQM9Kxu0uXdC
- cEo8PFC1kVvhDUIEeuIGkLVSeJ3tIOuR457X+T/tXJbUMe54iv7q8BF8cN1NOSIoqu42
- tc5CYVSrWYJrDSb0JD9Q+JwVh7NH04hCycpBUIsNoAXtEGp4/mSOktDfRcgCOOhd9kFc
- FEk9FUFpbUAyX61MSm5gk8A84MvU8+1aaVQgNNNJfHNJq6hfq7YYH23RqeLySiKrlBxX
- rK5+SysHBt9IlFpJBiDX04IWHcsoPC2G+LBH3a0iydXbkAcWutNjPC/Yi7cVnoAj49lH
- HhCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713729180; x=1714333980;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IMaenB/28UTgVBO1bvU65I16JiSLNMn+INLi6fNav7Q=;
- b=jtHW+WrnE8XlSYHBJz2/DZRTRrKg2lmVW/hIVYyKSCB6Kfgl68QRSC/BhgLFK9LG3R
- 0ZJPkfR7DjQCQ6rcdVo04OOBZRUfrlGG5HU2L90/0qSDZSGR7Xlm6GGOwHFx7VMxuyue
- 5LiRF5UewOBe/sOw9zcoTj/QnI2JtNj9LhWuRgWrFblJilBGZsGPDriMU8gfT33JbvQe
- BN8+mfiRmhXZ9NzckLaTxD9V1rdp6aFNkKq2QNSXySuG0/k9I6Av2//fLS+9pdoZ7C4M
- whfQEwvWfB+3qOeb6rHhhV+zKfjoEeDZFGgEh8fuEmgp+vGleH9+mc8yg5/eYKBzz63u
- BVwQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXTOZIjd9YC6R1vJbvrhKXCwDTaiDc7uLfcLHEM6hvZt+dKxnud8wrv/Dv15VGdA7tJHCU6jK7ktlNpbW0dEgu3D8znah/K9eYX0TADB2mX
-X-Gm-Message-State: AOJu0YyQr3VAHQKxwL/qUwaH8kKJOfWSLmxPiQoDTakIStHBHqqtHTee
- rHdNa4yZbhElyVHe6Y/92RONp3kpmDrJTaDdyfIphB9KglcjSjQo
-X-Google-Smtp-Source: AGHT+IH+FOSeFQjKP56pJvGYgnwg2xOA1gAlCxEdbMe/MGWtoLYfC/TIEOFAPaMrgTx6JTqFla3PYQ==
-X-Received: by 2002:a5d:6083:0:b0:347:f94b:94df with SMTP id
- w3-20020a5d6083000000b00347f94b94dfmr5847674wrt.2.1713729179923; 
- Sun, 21 Apr 2024 12:52:59 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net.
- [86.58.6.171]) by smtp.gmail.com with ESMTPSA id
- x5-20020a5d6b45000000b003472489d26fsm10129829wrw.19.2024.04.21.12.52.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Apr 2024 12:52:59 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: =?utf-8?B?T25kxZllag==?= Jirman <megi@xff.cz>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>,
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32EEC10F0D2
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 21:53:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=emgwsLPUEDxO5gGa089CYKcIeYgE47COgjSLvIsIvxI=; b=JY3fcx+LI9wwLkEa0df5dAJOO1
+ W1pEm1UeYl5ygGCf68424SAn0NfWkM3A5TMpPZ1R4UUUNadOdaOJWvnSMhAgyC++V4tt5O1Jc0nlN
+ QRy47yDVBCqqtDXN/UCD7xX/42Iovpch56x20wGERQQXDxyuQZdsC5n2ReqTiqk02lBIYvLvSgbxs
+ eswVqQqIxCsu1Anxomyz9zITNGPFub+t/ERmodMafgkrjaD22cI35Z1Wffl2cUhmVMZhOcyOgc8wi
+ UGXa7yNn8/H2KGw3eUJ8i56Tb340rqjlGJbyOHR+NRH+KcWATWbGmY3xDUDVKSFUVlRYlhUmbtrcL
+ dX1zPFPg==;
+Received: from [179.234.232.152] (helo=morissey..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1ryf7i-0072SJ-Nh; Sun, 21 Apr 2024 23:53:23 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 0/3] Move blender setup from individual planes to crtc
- commit in sun4i-drm
-Date: Sun, 21 Apr 2024 21:52:58 +0200
-Message-ID: <2725781.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <wynuwtyn2skchb7gc5qixql2pxnb2nqvbmrda6s53u7nt5ki7n@hqb46kttkhee>
-References: <20240224150604.3855534-1-megi@xff.cz>
- <wynuwtyn2skchb7gc5qixql2pxnb2nqvbmrda6s53u7nt5ki7n@hqb46kttkhee>
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH v3 0/8] drm/v3d: Enable Big and Super Pages
+Date: Sun, 21 Apr 2024 18:44:18 -0300
+Message-ID: <20240421215309.660018-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,59 +63,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne petek, 19. april 2024 ob 15:36:17 GMT +2 je Ond=C5=99ej Jirman napisal(=
-a):
-> Hi,
->=20
-> On Sat, Feb 24, 2024 at 04:05:57PM GMT, megi xff wrote:
-> > From: Ondrej Jirman <megi@xff.cz>
-> >=20
-> > This series refactors blender setup from individual planes to a common
-> > place where it can be performed at once and is easier to reason about.
-> >=20
-> > In the process this fixes a few bugs that allowed blender pipes to be
-> > disabled while corresponding DRM planes were requested to be enabled.
-> >=20
-> > Please take a look. :)
-> >=20
-> > v2:
-> > - use regmap_write where possible
-> > - add review tags
->=20
-> It would be nice to have this applied.
+This series introduces support for big and super pages in V3D. The V3D MMU has
+support for 64KB and 1MB pages, called big pages and super pages, which are
+currently not used. Therefore, this patchset has the intention to enable big and
+super pages in V3D. The advantage of enabling big and super pages is that if any
+entry for a page within a big/super page is cached in the MMU, it will be used
+for the translation of all virtual addresses in the range of that super page
+without requiring fetching any other entries.
 
-Maxime,
+Big/Super pages essentially mean a slightly better performance for users,
+especially in applications with high memory requirements (e.g. applications
+that use multiple large BOs).
 
-do you mind applying?
+Using a Raspberry Pi 4 (with a PAGE_SIZE=4KB downstream kernel), when running
+traces from multiple applications, we were able to see the following
+improvements:
 
-Best regards,
-Jernej
+fps_avg  helped:  warzone2100.70secs.1024x768.trace:                    1.98 -> 2.42     (22.19%)
+fps_avg  helped:  warzone2100.30secs.1024x768.trace:                    2 -> 2.45        (21.96%)
+fps_avg  helped:  supertuxkart-menus_1024x768.trace:                    123.12 -> 128.39 (4.28%)
+fps_avg  helped:  vkQuake_capture_frames_1_through_1200_1280x720.gfxr:  61.26 -> 62.89   (2.67%)
+fps_avg  helped:  quake2-gles3-1280x720.trace:                          63.42 -> 64.86   (2.27%)
+fps_avg  helped:  ue4_sun_temple_640x480.gfxr:                          25.15 -> 25.63   (1.89%)
+fps_avg  helped:  ue4_shooter_game_high_quality_640x480.gfxr:           19.28 -> 19.61   (1.72%)
+fps_avg  helped:  ue4_shooter_game_shooting_high_quality_640x480.gfxr:  23.58 -> 23.91   (1.39%)
+fps_avg  helped:  quake3e_capture_frames_1_through_1800_1920x1080.gfxr: 61.40 -> 62.00   (0.96%)
+fps_avg  helped:  serious_sam_trace02_1280x720.gfxr:                    49.41 -> 49.84   (0.86%)
+fps_avg  helped:  supertuxkart-racing_1024x768.trace:                   8.69 -> 8.74     (0.56%)
+fps_avg  helped:  sponza_demo01_800x600.gfxr:                           17.55 -> 17.64   (0.50%)
+fps_avg  helped:  quake2-gl1.4-1280x720.trace:                          36.43 -> 36.58   (0.43%)
+fps_avg  helped:  quake3e-1280x720.trace:                               94.49 -> 94.87   (0.40%)
+fps_avg  helped:  sponza_demo02_800x600.gfxr:                           19.79 -> 19.87   (0.39%)
 
->=20
-> Kind regards,
-> 	o.
->=20
-> > Thank you very much,
-> > 	Ond=C5=99ej Jirman
-> >=20
-> > Ondrej Jirman (3):
-> >   drm/sun4i: Unify sun8i_*_layer structs
-> >   drm/sun4i: Add more parameters to sunxi_engine commit callback
-> >   drm/sun4i: Fix layer zpos change/atomic modesetting
-> >=20
-> >  drivers/gpu/drm/sun4i/sun4i_backend.c  |  4 +-
-> >  drivers/gpu/drm/sun4i/sun4i_crtc.c     |  2 +-
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 70 ++++++++++++++++++++-
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.h    | 20 ++++++
-> >  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 85 +++----------------------
-> >  drivers/gpu/drm/sun4i/sun8i_ui_layer.h | 20 ++----
-> >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 86 +++-----------------------
-> >  drivers/gpu/drm/sun4i/sun8i_vi_layer.h | 20 ++----
-> >  drivers/gpu/drm/sun4i/sunxi_engine.h   | 13 +++-
-> >  9 files changed, 125 insertions(+), 195 deletions(-)
-> >=20
->=20
+Using a Raspberry Pi 5 (with a PAGE_SIZE=16KB downstream kernel), when running
+traces from multiple applications, we were able to see the following
+improvements:
 
+fps_avg  helped:  warzone2100.30secs.1024x768.trace:                       4.40 -> 4.95     (12.58%)
+fps_avg  helped:  vkQuake_capture_frames_1_through_1200_1280x720.gfxr:     135.05 -> 141.21 (4.56%)
+fps_avg  helped:  supertuxkart-menus_1024x768.trace:                       291.73 -> 302.05 (3.54%)
+fps_avg  helped:  quake2-gles3-1280x720.trace:                             148.90 -> 153.57 (3.13%)
+fps_avg  helped:  quake2-gl1.4-1280x720.trace:                             82.60 -> 84.46   (2.25%)
+fps_avg  helped:  ue4_shooter_game_shooting_low_quality_640x480.gfxr:      49.59 -> 50.54   (1.92%)
+fps_avg  helped:  ue4_shooter_game_shooting_high_quality_640x480.gfxr:     51.03 -> 51.93   (1.76%)
+fps_avg  helped:  ue4_shooter_game_high_quality_640x480.gfxr:              31.15 -> 31.64   (1.60%)
+fps_avg  helped:  ue4_sun_temple_640x480.gfxr:                             40.26 -> 40.88   (1.54%)
+fps_avg  helped:  sponza_demo01_800x600.gfxr:                              43.23 -> 43.84   (1.40%)
+fps_avg  helped:  warzone2100.70secs.1024x768.trace:                       4.36 -> 4.42     (1.39%)
+fps_avg  helped:  sponza_demo02_800x600.gfxr:                              48.94 -> 49.51   (1.17%)
+fps_avg  helped:  quake3e_capture_frames_1_through_1800_1920x1080.gfxr:    162.11 -> 163.13 (0.63%)
+fps_avg  helped:  quake3e-1280x720.trace:                                  229.82 -> 231.00 (0.51%)
+fps_avg  helped:  supertuxkart-racing_1024x768.trace:                      20.42 -> 20.48   (0.30%)
+fps_avg  helped:  quake3e_capture_frames_1800_through_2400_1920x1080.gfxr: 157.45 -> 157.61 (0.10%)
+fps_avg  helped:  serious_sam_trace02_1280x720.gfxr:                       59.99 -> 60.02   (0.05%)
 
+This series also introduces changes in the GEM helpers, in order to enable V3D
+to have a separate mount point for shmfs GEM objects. Any feedback from the
+community about the changes in the GEM helpers is welcomed!
 
+v1 -> v2: https://lore.kernel.org/dri-devel/20240311100959.205545-1-mcanal@igalia.com/
+
+* [1/6] Add Iago's R-b to PATCH 1/5 (Iago Toral)
+* [2/6] Create a new function `drm_gem_object_init_with_mnt()` to define the
+        shmfs mountpoint. Now, we don't touch a bunch of drivers, as
+				`drm_gem_object_init()` preserves its signature. (Tvrtko Ursulin)
+* [3/6] Use `huge=within_size` instead of `huge=always`, in order to avoid OOM.
+        This also allow us to move away from the 2MB hack. (Tvrtko Ursulin)
+* [3/6] Add Iago's R-b to PATCH 3/5 (Iago Toral)
+* [5/6] Create a separate patch to reduce the alignment of the node allocation.
+        (Iago Toral)
+* [6/6] Complete refactoring to the way that we iterate through the memory.
+        (Tvrtko Ursulin)
+* [6/6] Don't use drm_prime_get_contiguous_size(), as it could give us
+        misleading data. (Tvrtko Ursulin)
+* [6/6] Use both Big Pages (64K) and Super Pages (1MB).
+
+v2 -> v3: https://lore.kernel.org/dri-devel/20240405201753.1176914-1-mcanal@igalia.com/T/
+
+* [2/8] Add Tvrtko's R-b to PATCH 2/8 (Tvrtko Ursulin)
+* [4/8] Add Tvrtko's R-b to PATCH 4/8 (Tvrtko Ursulin)
+* [6/8] Now, PATCH 6/8 only adds support to big/super pages when writing out
+        PTEs. BO creation with THP and addition of modparam are moved to
+				other patches. (Tvrtko Ursulin)
+* [6/8] s/page_address/pfn (Tvrtko Ursulin)
+* [6/8] As `sg_dma_len()` returns `unsigned int`, then `len` must be
+        `unsigned int` too. (Tvrtko Ursulin)
+* [6/8] `i` and `page_size` are `unsigned int` as well. (Tvrtko Ursulin)
+* [6/8] Move `i`, `page_prot` and `page_size` to the inner scope. (Tvrtko Ursulin)
+* [6/8] s/pte/page_address/ (Tvrtko Ursulin)
+* [7/8] New patch: Use gemfs/THP in BO creation if available (Tvrtko Ursulin)
+* [8/8] New patch: Add modparam for turning off Big/Super Pages (Tvrtko Ursulin)
+* [8/8] Don't expose the modparam `super_pages` unless CONFIG_TRANSPARENT_HUGEPAGE
+        is enabled. (Tvrtko Ursulin)
+* [8/8] Use `v3d->gemfs` to check if the user disabled Super Pages support.
+        (Tvrtko Ursulin)
+
+Best Regards,
+- Maíra
+
+Maíra Canal (8):
+  drm/v3d: Fix return if scheduler initialization fails
+  drm/gem: Create a drm_gem_object_init_with_mnt() function
+  drm/v3d: Introduce gemfs
+  drm/gem: Create shmem GEM object in a given mountpoint
+  drm/v3d: Reduce the alignment of the node allocation
+  drm/v3d: Support Big/Super Pages when writing out PTEs
+  drm/v3d: Use gemfs/THP in BO creation if available
+  drm/v3d: Add modparam for turning off Big/Super Pages
+
+ drivers/gpu/drm/drm_gem.c              | 34 +++++++++++++++--
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 30 +++++++++++++--
+ drivers/gpu/drm/v3d/Makefile           |  3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c           | 21 ++++++++++-
+ drivers/gpu/drm/v3d/v3d_drv.c          |  8 ++++
+ drivers/gpu/drm/v3d/v3d_drv.h          | 12 +++++-
+ drivers/gpu/drm/v3d/v3d_gem.c          |  6 ++-
+ drivers/gpu/drm/v3d/v3d_gemfs.c        | 51 +++++++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_mmu.c          | 52 +++++++++++++++++++-------
+ include/drm/drm_gem.h                  |  3 ++
+ include/drm/drm_gem_shmem_helper.h     |  3 ++
+ 11 files changed, 196 insertions(+), 27 deletions(-)
+ create mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+
+-- 
+2.44.0
 
