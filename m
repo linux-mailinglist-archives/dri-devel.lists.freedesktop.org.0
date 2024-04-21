@@ -2,58 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6058ABDD7
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 02:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 731A38ABE34
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 03:12:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9C410E8CB;
-	Sun, 21 Apr 2024 00:23:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46A4210FC87;
+	Sun, 21 Apr 2024 01:11:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="IpnHOKUG";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="Lq1J1tC+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFF7E10E8CB
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 00:23:51 +0000 (UTC)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 913C48825A;
- Sun, 21 Apr 2024 02:23:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1713659029;
- bh=CdPWfkaruhSSMkZ/UtsjxPabArNBr6LA6zfCTatS0Jc=;
- h=From:To:Cc:Subject:Date:From;
- b=IpnHOKUG7bulT3vvIpV8UDEa2LSDein+QidY7g1abrucwskWoPj4KuOEkMl+T7p/Z
- yto+PwSnvURcAC1PBgKG4Oa0GFRWokJbHs20LhFVTp5+CQZTccnMpwm+/VwMr6+9TB
- U2x5OmX5qvgd9bsbNbTH2o3+Avy9Bfzhv/hRsmf0AOfOgTsy5pE2WfWv0NgtwubmoC
- zvRFpmvb5Z3++kJQAm8dnG0rIBC4bndXs5ktS59VDWG3A6BKpjT3+62hxrz/GFWT01
- 0msI++wh/2JBA8zBcmR9+T6KBWP65PntQSUiZlWFY4JcvsuAA47MYDK9k7XaHU1sIX
- SwZmTjEJJ5oKQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Biju Das <biju.das.jz@bp.renesas.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Liu Ying <victor.liu@nxp.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Ondrej Jirman <megi@xff.cz>,
- Rob Herring <robh@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-Subject: [RFC][PATCH] drm: bridge: dw-mipi-dsi: Call modeset in modeset
- callback
-Date: Sun, 21 Apr 2024 02:22:35 +0200
-Message-ID: <20240421002330.172723-1-marex@denx.de>
-X-Mailer: git-send-email 2.43.0
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFA610FC87
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 01:11:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1713661915; x=1745197915;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+NHndyStgBNaGg0Gu44NeibBjRQjp+j8aiNKkV+bNiI=;
+ b=Lq1J1tC+LYr8kQtapUDQV6tUZyiQrKvJ+uj6yZ0k9VRsMmB5/z8MdTsb
+ L93zAifgqplgPo6hjwRWnkBTJ9IKehsQnmsr1PV792iybxn0E51EDUeK5
+ 1FCBzXDf48LGg5KfZS7/GfS8Yz8K+otVi5qnyQbbV2B66g79BuvTCAigc
+ vHIks2uwU94vtsuk5W2gQ90c6fAATqYlJavl/Ics11gKJOSirjeWCvBWH
+ rYKjg+P6Ztx5Nwlf0Y1wUKbSnS09eGPyKTFt2d2st8+Toiyl5RqW/o91I
+ IRsAiNOg8hPNXAEKnff1acmIhoSU7dKDhkR45diTOIXz8tbYSSo4qbdOx g==;
+X-CSE-ConnectionGUID: Z31Mwg63QjairJeGchYeZw==
+X-CSE-MsgGUID: CoUCdzXmTfOWVot30AcwdQ==
+X-IronPort-AV: E=Sophos;i="6.07,217,1708412400"; d="scan'208";a="24025071"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 20 Apr 2024 18:11:54 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sat, 20 Apr 2024 18:11:23 -0700
+Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Sat, 20 Apr 2024 18:11:10 -0700
+From: Dharma Balasubiramani <dharma.b@microchip.com>
+To: "dmitry . baryshkov @ linaro . org" <dmitry.baryshkov@linaro.org>,
+ "andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>, "neil . armstrong
+ @ linaro . org" <neil.armstrong@linaro.org>, "rfoss @ kernel . org"
+ <rfoss@kernel.org>, "Laurent . pinchart @ ideasonboard . com"
+ <Laurent.pinchart@ideasonboard.com>, "jonas @ kwiboo . se" <jonas@kwiboo.se>, 
+ "jernej . skrabec @ gmail . com" <jernej.skrabec@gmail.com>, "maarten .
+ lankhorst @ linux . intel . com" <maarten.lankhorst@linux.intel.com>,
+ "mripard @ kernel . org" <mripard@kernel.org>, "tzimmermann @ suse . de"
+ <tzimmermann@suse.de>, "airlied @ gmail . com" <airlied@gmail.com>, "daniel @
+ ffwll . ch" <daniel@ffwll.ch>, "robh+dt @ kernel . org" <robh+dt@kernel.org>, 
+ "krzysztof . kozlowski+dt @ linaro . org"
+ <krzysztof.kozlowski+dt@linaro.org>, "conor+dt @ kernel . org"
+ <conor+dt@kernel.org>, "linux @ armlinux . org . uk" <linux@armlinux.org.uk>, 
+ "Nicolas . Ferre @ microchip . com" <Nicolas.Ferre@microchip.com>, "alexandre
+ . belloni @ bootlin . com" <alexandre.belloni@bootlin.com>, "claudiu . beznea
+ @ tuxon . dev" <claudiu.beznea@tuxon.dev>, "Manikandan . M @ microchip . com"
+ <Manikandan.M@microchip.com>, "arnd @ arndb . de" <arnd@arndb.de>,
+ "geert+renesas @ glider . be" <geert+renesas@glider.be>, "Jason @ zx2c4 .
+ com" <Jason@zx2c4.com>, "mpe @ ellerman . id . au" <mpe@ellerman.id.au>,
+ "gerg @ linux-m68k . org" <gerg@linux-m68k.org>, "rdunlap @ infradead . org"
+ <rdunlap@infradead.org>, "vbabka @ suse . cz" <vbabka@suse.cz>, "dri-devel @
+ lists . freedesktop . org" <dri-devel@lists.freedesktop.org>, "devicetree @
+ vger . kernel . org" <devicetree@vger.kernel.org>, "linux-kernel @ vger .
+ kernel . org" <linux-kernel@vger.kernel.org>, "oe-kbuild-all @ lists . linux
+ . dev" <oe-kbuild-all@lists.linux.dev>, "Hari . PrasathGE @ microchip . com"
+ <Hari.PrasathGE@microchip.com>
+CC: Dharma Balasubiramani <dharma.b@microchip.com>
+Subject: [PATCH v8 0/4] LVDS Controller Support for SAM9X75 SoC
+Date: Sun, 21 Apr 2024 06:40:46 +0530
+Message-ID: <20240421011050.43265-1-dharma.b@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,88 +92,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Doing modeset in .atomic_pre_enable callback instead of dedicated .mode_set
-callback does not seem right. Undo this change, which was added as part of
-commit 05aa61334592 ("drm: bridge: dw-mipi-dsi: Fix enable/disable of DSI
-controller") as it breaks STM32MP15xx LTDC scanout (DSI)->TC358762 DSI-to-DPI
-bridge->PT800480 DPI panel pipeline. The original fix for HX8394 panel likely
-requires HX8394 panel side fix instead.
+This patch series introduces LVDS controller support for the SAM9X75 SoC. The
+LVDS controller is designed to work with Microchip's sam9x7 series
+System-on-Chip (SoC) devices, providing Low Voltage Differential Signaling
+capabilities.
 
-Fixes: 05aa61334592 ("drm: bridge: dw-mipi-dsi: Fix enable/disable of DSI controller")
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Liu Ying <victor.liu@nxp.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Ondrej Jirman <megi@xff.cz>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+Patch series Changelog:
+- Include configs: at91: Enable LVDS serializer
+- include all necessary To/Cc entries.
+The Individual Changelogs are available on the respective patches.
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 824fb3c65742e..ca5894393dba4 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -268,7 +268,6 @@ struct dw_mipi_dsi {
- 	struct dw_mipi_dsi *master; /* dual-dsi master ptr */
- 	struct dw_mipi_dsi *slave; /* dual-dsi slave ptr */
- 
--	struct drm_display_mode mode;
- 	const struct dw_mipi_dsi_plat_data *plat_data;
- };
- 
-@@ -1016,25 +1015,15 @@ static void dw_mipi_dsi_mode_set(struct dw_mipi_dsi *dsi,
- 		phy_ops->power_on(dsi->plat_data->priv_data);
- }
- 
--static void dw_mipi_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
--						 struct drm_bridge_state *old_bridge_state)
--{
--	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
--
--	/* Power up the dsi ctl into a command mode */
--	dw_mipi_dsi_mode_set(dsi, &dsi->mode);
--	if (dsi->slave)
--		dw_mipi_dsi_mode_set(dsi->slave, &dsi->mode);
--}
--
- static void dw_mipi_dsi_bridge_mode_set(struct drm_bridge *bridge,
- 					const struct drm_display_mode *mode,
- 					const struct drm_display_mode *adjusted_mode)
- {
- 	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
- 
--	/* Store the display mode for later use in pre_enable callback */
--	drm_mode_copy(&dsi->mode, adjusted_mode);
-+	dw_mipi_dsi_mode_set(dsi, adjusted_mode);
-+	if (dsi->slave)
-+		dw_mipi_dsi_mode_set(dsi->slave, adjusted_mode);
- }
- 
- static void dw_mipi_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
-@@ -1090,7 +1079,6 @@ static const struct drm_bridge_funcs dw_mipi_dsi_bridge_funcs = {
- 	.atomic_get_input_bus_fmts = dw_mipi_dsi_bridge_atomic_get_input_bus_fmts,
- 	.atomic_check		= dw_mipi_dsi_bridge_atomic_check,
- 	.atomic_reset		= drm_atomic_helper_bridge_reset,
--	.atomic_pre_enable	= dw_mipi_dsi_bridge_atomic_pre_enable,
- 	.atomic_enable		= dw_mipi_dsi_bridge_atomic_enable,
- 	.atomic_post_disable	= dw_mipi_dsi_bridge_post_atomic_disable,
- 	.mode_set		= dw_mipi_dsi_bridge_mode_set,
+Dharma Balasubiramani (4):
+  dt-bindings: display: bridge: add sam9x75-lvds binding
+  drm/bridge: add lvds controller support for sam9x7
+  MAINTAINERS: add SAM9X7 SoC's LVDS controller
+  ARM: configs: at91: Enable LVDS serializer support
+
+ .../bridge/microchip,sam9x75-lvds.yaml        |  55 +++++
+ MAINTAINERS                                   |   8 +
+ arch/arm/configs/at91_dt_defconfig            |   1 +
+ drivers/gpu/drm/bridge/Kconfig                |   7 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/microchip-lvds.c       | 229 ++++++++++++++++++
+ 6 files changed, 301 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
+ create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
+
 -- 
-2.43.0
+2.25.1
 
