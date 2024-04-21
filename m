@@ -2,103 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391858AC043
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 19:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CED8AC11E
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 21:53:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82ECF10F217;
-	Sun, 21 Apr 2024 17:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C123410E28A;
+	Sun, 21 Apr 2024 19:53:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="a15IbEAI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b6wjIFRp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2FB610F217
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 17:24:29 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2db13ca0363so56889281fa.3
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 10:24:29 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 273FE10E473
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 19:53:02 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-345b857d7adso2838854f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 12:53:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713720268; x=1714325068; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qP4QRJgU1BApHuToLH0DTtNB0ZEyDCq59t66ZEJwTQg=;
- b=a15IbEAIFSpBCxND+YkerGtsxYiWxKItPfVjKovN10LZVJy8eeINJz8ZjFA2Jhx1EZ
- sDh0DUV2fq0KTqZEIqzPkqqZoeOW2tq/aK0I8KbRd8o6RxZG7e8fNXNmzLN8YNG30RFb
- xVaWBZQgJJUY8UWmLea616T/b7p4GsNZ0Wd/ykhiCdJ+Wvx0EraS5w596/6QKo4CvFC1
- ITbaYx/HAYt3KFd5EWum7OTXw5aoK7PVFZmqb073wDgmru2LiGLu4aZdUBtVWpIhGULw
- mBSgWtQH8js+ER6g1BvO4OUvdSpQyWVj5u0wR2RcKtKbgEiOrh6fpHKqj5lSFmGNqyji
- l9fg==
+ d=gmail.com; s=20230601; t=1713729180; x=1714333980; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=IMaenB/28UTgVBO1bvU65I16JiSLNMn+INLi6fNav7Q=;
+ b=b6wjIFRp4/O9TIWZGW2MmeuNXvqScaKZY4LtFNNbnVx9xmA6aISvswoQM9Kxu0uXdC
+ cEo8PFC1kVvhDUIEeuIGkLVSeJ3tIOuR457X+T/tXJbUMe54iv7q8BF8cN1NOSIoqu42
+ tc5CYVSrWYJrDSb0JD9Q+JwVh7NH04hCycpBUIsNoAXtEGp4/mSOktDfRcgCOOhd9kFc
+ FEk9FUFpbUAyX61MSm5gk8A84MvU8+1aaVQgNNNJfHNJq6hfq7YYH23RqeLySiKrlBxX
+ rK5+SysHBt9IlFpJBiDX04IWHcsoPC2G+LBH3a0iydXbkAcWutNjPC/Yi7cVnoAj49lH
+ HhCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713720268; x=1714325068;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qP4QRJgU1BApHuToLH0DTtNB0ZEyDCq59t66ZEJwTQg=;
- b=UD2S8cncP8FIz0f+D3nVcsYK/h2pdwQYT5MidueLnuhxzdODn4WODSlVCk4shXjyw6
- 8g21QDPwoe7/21ckSZh0daDawiPN97zAtGP32MV6baj6fY3N++nUd6ko8dFQLrp01Asa
- LBbWUIyepkS0EuRb8QV/unPD85GwyoCEnrKcFz+KTdqkp/MdOVwfun332MpBKXCQ6Iej
- pfKAPCYUM++Ax2E7a8xKGtgidflCOsu+ccb4pb2bkY/Jm8YOFiRKDiCY6t5AAFqWr4Wb
- R88LlIW2OcRcyws8jSbw8HGdGL57gPRll0oKLyg0eoRBCa/oehonBEOekddfPKHXe8xI
- /Jjg==
+ d=1e100.net; s=20230601; t=1713729180; x=1714333980;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IMaenB/28UTgVBO1bvU65I16JiSLNMn+INLi6fNav7Q=;
+ b=jtHW+WrnE8XlSYHBJz2/DZRTRrKg2lmVW/hIVYyKSCB6Kfgl68QRSC/BhgLFK9LG3R
+ 0ZJPkfR7DjQCQ6rcdVo04OOBZRUfrlGG5HU2L90/0qSDZSGR7Xlm6GGOwHFx7VMxuyue
+ 5LiRF5UewOBe/sOw9zcoTj/QnI2JtNj9LhWuRgWrFblJilBGZsGPDriMU8gfT33JbvQe
+ BN8+mfiRmhXZ9NzckLaTxD9V1rdp6aFNkKq2QNSXySuG0/k9I6Av2//fLS+9pdoZ7C4M
+ whfQEwvWfB+3qOeb6rHhhV+zKfjoEeDZFGgEh8fuEmgp+vGleH9+mc8yg5/eYKBzz63u
+ BVwQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXs2ihc5YsDCBqg/1KlasYJjX+Kzsprok6duG9mEfn0Hbs2Pj+8ZB/QbxoervyjKQuq0MLn4ZI9sqi5p3QfT+RIJQwyxosD5qCGVNPZPpCU
-X-Gm-Message-State: AOJu0YwXqDMiMSvvpeyu09MnC6ck16EBrN/JQkcAEHQF8Xoq+sIfF2pa
- qp2dvcCmDdETcsG4L1ZX6TaEoQUq/llUOuNVyNcUkWAbc+m/tUOdpcfHppD9iv8=
-X-Google-Smtp-Source: AGHT+IFLvHBYF/HR8/m7asEk356ewfwQEIZ3ux1d+BGEv1g/KRonZRM89ywg48Iy/h82lTw96asb1w==
-X-Received: by 2002:a05:6512:370f:b0:518:c8e1:478 with SMTP id
- z15-20020a056512370f00b00518c8e10478mr5802469lfr.58.1713720267513; 
- Sun, 21 Apr 2024 10:24:27 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
- by smtp.gmail.com with ESMTPSA id
- u18-20020ac25192000000b00518d5c5740esm1507389lfi.180.2024.04.21.10.24.26
+ AJvYcCXTOZIjd9YC6R1vJbvrhKXCwDTaiDc7uLfcLHEM6hvZt+dKxnud8wrv/Dv15VGdA7tJHCU6jK7ktlNpbW0dEgu3D8znah/K9eYX0TADB2mX
+X-Gm-Message-State: AOJu0YyQr3VAHQKxwL/qUwaH8kKJOfWSLmxPiQoDTakIStHBHqqtHTee
+ rHdNa4yZbhElyVHe6Y/92RONp3kpmDrJTaDdyfIphB9KglcjSjQo
+X-Google-Smtp-Source: AGHT+IH+FOSeFQjKP56pJvGYgnwg2xOA1gAlCxEdbMe/MGWtoLYfC/TIEOFAPaMrgTx6JTqFla3PYQ==
+X-Received: by 2002:a5d:6083:0:b0:347:f94b:94df with SMTP id
+ w3-20020a5d6083000000b00347f94b94dfmr5847674wrt.2.1713729179923; 
+ Sun, 21 Apr 2024 12:52:59 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net.
+ [86.58.6.171]) by smtp.gmail.com with ESMTPSA id
+ x5-20020a5d6b45000000b003472489d26fsm10129829wrw.19.2024.04.21.12.52.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Apr 2024 10:24:26 -0700 (PDT)
-Date: Sun, 21 Apr 2024 20:24:25 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Dharma Balasubiramani <dharma.b@microchip.com>
-Cc: "andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>, 
- "neil . armstrong @ linaro . org" <neil.armstrong@linaro.org>,
- "rfoss @ kernel . org" <rfoss@kernel.org>, 
- "Laurent . pinchart @ ideasonboard . com" <Laurent.pinchart@ideasonboard.com>,
- "jonas @ kwiboo . se" <jonas@kwiboo.se>, 
- "jernej . skrabec @ gmail . com" <jernej.skrabec@gmail.com>, 
- "maarten . lankhorst @ linux . intel . com"
- <maarten.lankhorst@linux.intel.com>,
- "mripard @ kernel . org" <mripard@kernel.org>, 
- "tzimmermann @ suse . de" <tzimmermann@suse.de>,
- "airlied @ gmail . com" <airlied@gmail.com>, 
- "daniel @ ffwll . ch" <daniel@ffwll.ch>,
- "robh+dt @ kernel . org" <robh+dt@kernel.org>, 
- "krzysztof . kozlowski+dt @ linaro . org" <krzysztof.kozlowski+dt@linaro.org>,
- "conor+dt @ kernel . org" <conor+dt@kernel.org>, 
- "linux @ armlinux . org . uk" <linux@armlinux.org.uk>, 
- "Nicolas . Ferre @ microchip . com" <Nicolas.Ferre@microchip.com>, 
- "alexandre . belloni @ bootlin . com" <alexandre.belloni@bootlin.com>,
- "claudiu . beznea @ tuxon . dev" <claudiu.beznea@tuxon.dev>, 
- "Manikandan . M @ microchip . com" <Manikandan.M@microchip.com>,
- "arnd @ arndb . de" <arnd@arndb.de>, 
- "geert+renesas @ glider . be" <geert+renesas@glider.be>,
- "Jason @ zx2c4 . com" <Jason@zx2c4.com>, 
- "mpe @ ellerman . id . au" <mpe@ellerman.id.au>,
- "gerg @ linux-m68k . org" <gerg@linux-m68k.org>, 
- "rdunlap @ infradead . org" <rdunlap@infradead.org>,
- "vbabka @ suse . cz" <vbabka@suse.cz>, 
- "dri-devel @ lists . freedesktop . org" <dri-devel@lists.freedesktop.org>,
- "devicetree @ vger . kernel . org" <devicetree@vger.kernel.org>, 
- "linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>, 
- "oe-kbuild-all @ lists . linux . dev" <oe-kbuild-all@lists.linux.dev>, 
- "Hari . PrasathGE @ microchip . com" <Hari.PrasathGE@microchip.com>
-Subject: Re: [PATCH v8 2/4] drm/bridge: add lvds controller support for sam9x7
-Message-ID: <2ct5tav52onwd6ceuzqbbam4qsqfvxdjpsrbn72jbsyjtcgtsl@j3d7piqqheel>
-References: <20240421011050.43265-1-dharma.b@microchip.com>
- <20240421011050.43265-3-dharma.b@microchip.com>
+ Sun, 21 Apr 2024 12:52:59 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: =?utf-8?B?T25kxZllag==?= Jirman <megi@xff.cz>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 0/3] Move blender setup from individual planes to crtc
+ commit in sun4i-drm
+Date: Sun, 21 Apr 2024 21:52:58 +0200
+Message-ID: <2725781.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <wynuwtyn2skchb7gc5qixql2pxnb2nqvbmrda6s53u7nt5ki7n@hqb46kttkhee>
+References: <20240224150604.3855534-1-megi@xff.cz>
+ <wynuwtyn2skchb7gc5qixql2pxnb2nqvbmrda6s53u7nt5ki7n@hqb46kttkhee>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240421011050.43265-3-dharma.b@microchip.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,62 +89,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 21, 2024 at 06:40:48AM +0530, Dharma Balasubiramani wrote:
-> Add a new LVDS controller driver for sam9x7 which does the following:
-> - Prepares and enables the LVDS Peripheral clock
-> - Defines its connector type as DRM_MODE_CONNECTOR_LVDS and adds itself
-> to the global bridge list.
-> - Identifies its output endpoint as panel and adds it to the encoder
-> display pipeline
-> - Enables the LVDS serializer
-> 
-> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-> Acked-by: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
-> ---
-> Changelog
-> v7 -> v8
-> - Assign ret variable properly before checking it for err.
-> v6 -> v7
-> - Remove setting encoder type from bridge driver.
-> - Drop clk_disable() from pm_runtime_get_sync() error handling.
-> - Use devm_clk_get() instead of prepared version.
-> - Hence use clk_prepare_enable() and clk_disable_unprepare().
-> - Use devm_drm_of_get_bridge() instead of devm_drm_panel_bridge_add().
-> - Add error check for devm_pm_runtime_enable().
-> - Use dev_err() instead of DRM_DEV_ERROR() as it is deprecated.
-> - Add missing Acked-by tag.
-> v5 -> v6
-> - No Changes.
-> v4 -> v5
-> - Drop the unused variable 'format'.
-> - Use DRM wrapper for dev_err() to maintain uniformity.
-> - return -ENODEV instead of -EINVAL to maintain consistency with other DRM
->   bridge drivers.
-> v3 -> v4
-> - No changes.
-> v2 ->v3
-> - Correct Typo error "serializer".
-> - Consolidate get() and prepare() functions and use devm_clk_get_prepared().
-> - Remove unused variable 'ret' in probe().
-> - Use devm_pm_runtime_enable() and drop the mchp_lvds_remove().
-> v1 -> v2
-> - Drop 'res' variable and combine two lines into one.
-> - Handle deferred probe properly, use dev_err_probe().
-> - Don't print anything on deferred probe. Dropped print.
-> - Remove the MODULE_ALIAS and add MODULE_DEVICE_TABLE().
-> - symbol 'mchp_lvds_driver' was not declared. It should be static.
-> ---
->  drivers/gpu/drm/bridge/Kconfig          |   7 +
->  drivers/gpu/drm/bridge/Makefile         |   1 +
->  drivers/gpu/drm/bridge/microchip-lvds.c | 229 ++++++++++++++++++++++++
->  3 files changed, 237 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
-> 
+Dne petek, 19. april 2024 ob 15:36:17 GMT +2 je Ond=C5=99ej Jirman napisal(=
+a):
+> Hi,
+>=20
+> On Sat, Feb 24, 2024 at 04:05:57PM GMT, megi xff wrote:
+> > From: Ondrej Jirman <megi@xff.cz>
+> >=20
+> > This series refactors blender setup from individual planes to a common
+> > place where it can be performed at once and is easier to reason about.
+> >=20
+> > In the process this fixes a few bugs that allowed blender pipes to be
+> > disabled while corresponding DRM planes were requested to be enabled.
+> >=20
+> > Please take a look. :)
+> >=20
+> > v2:
+> > - use regmap_write where possible
+> > - add review tags
+>=20
+> It would be nice to have this applied.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Maxime,
+
+do you mind applying?
+
+Best regards,
+Jernej
+
+>=20
+> Kind regards,
+> 	o.
+>=20
+> > Thank you very much,
+> > 	Ond=C5=99ej Jirman
+> >=20
+> > Ondrej Jirman (3):
+> >   drm/sun4i: Unify sun8i_*_layer structs
+> >   drm/sun4i: Add more parameters to sunxi_engine commit callback
+> >   drm/sun4i: Fix layer zpos change/atomic modesetting
+> >=20
+> >  drivers/gpu/drm/sun4i/sun4i_backend.c  |  4 +-
+> >  drivers/gpu/drm/sun4i/sun4i_crtc.c     |  2 +-
+> >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 70 ++++++++++++++++++++-
+> >  drivers/gpu/drm/sun4i/sun8i_mixer.h    | 20 ++++++
+> >  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 85 +++----------------------
+> >  drivers/gpu/drm/sun4i/sun8i_ui_layer.h | 20 ++----
+> >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 86 +++-----------------------
+> >  drivers/gpu/drm/sun4i/sun8i_vi_layer.h | 20 ++----
+> >  drivers/gpu/drm/sun4i/sunxi_engine.h   | 13 +++-
+> >  9 files changed, 125 insertions(+), 195 deletions(-)
+> >=20
+>=20
 
 
--- 
-With best wishes
-Dmitry
+
+
