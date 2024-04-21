@@ -2,57 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B7F8AC023
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 18:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 391858AC043
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 19:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF5AF112510;
-	Sun, 21 Apr 2024 16:40:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82ECF10F217;
+	Sun, 21 Apr 2024 17:24:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FHMf4LCm";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="a15IbEAI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BFA1112510
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 16:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713717625;
- bh=ukg6qw8U5Z46p/Fn0ryD5cc6wFsTS2m4KBCjmzl/FDw=;
- h=From:To:Cc:Subject:Date:From;
- b=FHMf4LCmyFf5sixIFOITfaBalimO45l0A7Outx06Sts1yx4+4MvBT2JPMxy1t/BJ0
- oc2+KwLuAjRJWikNO8C9f5/H5GrNs3nz8ExTEKMj+MJ2B8usgSmIW/GhGrNn/110fc
- znsUyXRpHE83zjhERdl2mpfr/NmwLvN7Lbzzw5SYjedXUbvVO+TKlLOI3Dt28TjssR
- s4qQkOTsrZahKRFRkDryXUSLj441cAqF3Dt8EtDhfHoJ3Ce/jbofap91a576mZdDy8
- 5dJ1o1Swd4+4fXwECbqbkmV95oeksFSu2HulSgd2s9fScDNmKHW0a+1/hry2ByKTN8
- Y41a+E3i2DgwQ==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: alarumbe)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4523F37804B2;
- Sun, 21 Apr 2024 16:40:24 +0000 (UTC)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Zack Rusin <zack.rusin@broadcom.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] drm/panfrost: Fix dma_resv deadlock at drm object pin time
-Date: Sun, 21 Apr 2024 17:39:47 +0100
-Message-ID: <20240421163951.3398622-1-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.44.0
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2FB610F217
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 17:24:29 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2db13ca0363so56889281fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 10:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713720268; x=1714325068; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qP4QRJgU1BApHuToLH0DTtNB0ZEyDCq59t66ZEJwTQg=;
+ b=a15IbEAIFSpBCxND+YkerGtsxYiWxKItPfVjKovN10LZVJy8eeINJz8ZjFA2Jhx1EZ
+ sDh0DUV2fq0KTqZEIqzPkqqZoeOW2tq/aK0I8KbRd8o6RxZG7e8fNXNmzLN8YNG30RFb
+ xVaWBZQgJJUY8UWmLea616T/b7p4GsNZ0Wd/ykhiCdJ+Wvx0EraS5w596/6QKo4CvFC1
+ ITbaYx/HAYt3KFd5EWum7OTXw5aoK7PVFZmqb073wDgmru2LiGLu4aZdUBtVWpIhGULw
+ mBSgWtQH8js+ER6g1BvO4OUvdSpQyWVj5u0wR2RcKtKbgEiOrh6fpHKqj5lSFmGNqyji
+ l9fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713720268; x=1714325068;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qP4QRJgU1BApHuToLH0DTtNB0ZEyDCq59t66ZEJwTQg=;
+ b=UD2S8cncP8FIz0f+D3nVcsYK/h2pdwQYT5MidueLnuhxzdODn4WODSlVCk4shXjyw6
+ 8g21QDPwoe7/21ckSZh0daDawiPN97zAtGP32MV6baj6fY3N++nUd6ko8dFQLrp01Asa
+ LBbWUIyepkS0EuRb8QV/unPD85GwyoCEnrKcFz+KTdqkp/MdOVwfun332MpBKXCQ6Iej
+ pfKAPCYUM++Ax2E7a8xKGtgidflCOsu+ccb4pb2bkY/Jm8YOFiRKDiCY6t5AAFqWr4Wb
+ R88LlIW2OcRcyws8jSbw8HGdGL57gPRll0oKLyg0eoRBCa/oehonBEOekddfPKHXe8xI
+ /Jjg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXs2ihc5YsDCBqg/1KlasYJjX+Kzsprok6duG9mEfn0Hbs2Pj+8ZB/QbxoervyjKQuq0MLn4ZI9sqi5p3QfT+RIJQwyxosD5qCGVNPZPpCU
+X-Gm-Message-State: AOJu0YwXqDMiMSvvpeyu09MnC6ck16EBrN/JQkcAEHQF8Xoq+sIfF2pa
+ qp2dvcCmDdETcsG4L1ZX6TaEoQUq/llUOuNVyNcUkWAbc+m/tUOdpcfHppD9iv8=
+X-Google-Smtp-Source: AGHT+IFLvHBYF/HR8/m7asEk356ewfwQEIZ3ux1d+BGEv1g/KRonZRM89ywg48Iy/h82lTw96asb1w==
+X-Received: by 2002:a05:6512:370f:b0:518:c8e1:478 with SMTP id
+ z15-20020a056512370f00b00518c8e10478mr5802469lfr.58.1713720267513; 
+ Sun, 21 Apr 2024 10:24:27 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ u18-20020ac25192000000b00518d5c5740esm1507389lfi.180.2024.04.21.10.24.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 21 Apr 2024 10:24:26 -0700 (PDT)
+Date: Sun, 21 Apr 2024 20:24:25 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dharma Balasubiramani <dharma.b@microchip.com>
+Cc: "andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>, 
+ "neil . armstrong @ linaro . org" <neil.armstrong@linaro.org>,
+ "rfoss @ kernel . org" <rfoss@kernel.org>, 
+ "Laurent . pinchart @ ideasonboard . com" <Laurent.pinchart@ideasonboard.com>,
+ "jonas @ kwiboo . se" <jonas@kwiboo.se>, 
+ "jernej . skrabec @ gmail . com" <jernej.skrabec@gmail.com>, 
+ "maarten . lankhorst @ linux . intel . com"
+ <maarten.lankhorst@linux.intel.com>,
+ "mripard @ kernel . org" <mripard@kernel.org>, 
+ "tzimmermann @ suse . de" <tzimmermann@suse.de>,
+ "airlied @ gmail . com" <airlied@gmail.com>, 
+ "daniel @ ffwll . ch" <daniel@ffwll.ch>,
+ "robh+dt @ kernel . org" <robh+dt@kernel.org>, 
+ "krzysztof . kozlowski+dt @ linaro . org" <krzysztof.kozlowski+dt@linaro.org>,
+ "conor+dt @ kernel . org" <conor+dt@kernel.org>, 
+ "linux @ armlinux . org . uk" <linux@armlinux.org.uk>, 
+ "Nicolas . Ferre @ microchip . com" <Nicolas.Ferre@microchip.com>, 
+ "alexandre . belloni @ bootlin . com" <alexandre.belloni@bootlin.com>,
+ "claudiu . beznea @ tuxon . dev" <claudiu.beznea@tuxon.dev>, 
+ "Manikandan . M @ microchip . com" <Manikandan.M@microchip.com>,
+ "arnd @ arndb . de" <arnd@arndb.de>, 
+ "geert+renesas @ glider . be" <geert+renesas@glider.be>,
+ "Jason @ zx2c4 . com" <Jason@zx2c4.com>, 
+ "mpe @ ellerman . id . au" <mpe@ellerman.id.au>,
+ "gerg @ linux-m68k . org" <gerg@linux-m68k.org>, 
+ "rdunlap @ infradead . org" <rdunlap@infradead.org>,
+ "vbabka @ suse . cz" <vbabka@suse.cz>, 
+ "dri-devel @ lists . freedesktop . org" <dri-devel@lists.freedesktop.org>,
+ "devicetree @ vger . kernel . org" <devicetree@vger.kernel.org>, 
+ "linux-kernel @ vger . kernel . org" <linux-kernel@vger.kernel.org>, 
+ "oe-kbuild-all @ lists . linux . dev" <oe-kbuild-all@lists.linux.dev>, 
+ "Hari . PrasathGE @ microchip . com" <Hari.PrasathGE@microchip.com>
+Subject: Re: [PATCH v8 2/4] drm/bridge: add lvds controller support for sam9x7
+Message-ID: <2ct5tav52onwd6ceuzqbbam4qsqfvxdjpsrbn72jbsyjtcgtsl@j3d7piqqheel>
+References: <20240421011050.43265-1-dharma.b@microchip.com>
+ <20240421011050.43265-3-dharma.b@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240421011050.43265-3-dharma.b@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,55 +114,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When Panfrost must pin an object that is being prepared a dma-buf
-attachment for on behalf of another driver, the core drm gem object pinning
-code already takes a lock on the object's dma reservation.
+On Sun, Apr 21, 2024 at 06:40:48AM +0530, Dharma Balasubiramani wrote:
+> Add a new LVDS controller driver for sam9x7 which does the following:
+> - Prepares and enables the LVDS Peripheral clock
+> - Defines its connector type as DRM_MODE_CONNECTOR_LVDS and adds itself
+> to the global bridge list.
+> - Identifies its output endpoint as panel and adds it to the encoder
+> display pipeline
+> - Enables the LVDS serializer
+> 
+> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+> Acked-by: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
+> ---
+> Changelog
+> v7 -> v8
+> - Assign ret variable properly before checking it for err.
+> v6 -> v7
+> - Remove setting encoder type from bridge driver.
+> - Drop clk_disable() from pm_runtime_get_sync() error handling.
+> - Use devm_clk_get() instead of prepared version.
+> - Hence use clk_prepare_enable() and clk_disable_unprepare().
+> - Use devm_drm_of_get_bridge() instead of devm_drm_panel_bridge_add().
+> - Add error check for devm_pm_runtime_enable().
+> - Use dev_err() instead of DRM_DEV_ERROR() as it is deprecated.
+> - Add missing Acked-by tag.
+> v5 -> v6
+> - No Changes.
+> v4 -> v5
+> - Drop the unused variable 'format'.
+> - Use DRM wrapper for dev_err() to maintain uniformity.
+> - return -ENODEV instead of -EINVAL to maintain consistency with other DRM
+>   bridge drivers.
+> v3 -> v4
+> - No changes.
+> v2 ->v3
+> - Correct Typo error "serializer".
+> - Consolidate get() and prepare() functions and use devm_clk_get_prepared().
+> - Remove unused variable 'ret' in probe().
+> - Use devm_pm_runtime_enable() and drop the mchp_lvds_remove().
+> v1 -> v2
+> - Drop 'res' variable and combine two lines into one.
+> - Handle deferred probe properly, use dev_err_probe().
+> - Don't print anything on deferred probe. Dropped print.
+> - Remove the MODULE_ALIAS and add MODULE_DEVICE_TABLE().
+> - symbol 'mchp_lvds_driver' was not declared. It should be static.
+> ---
+>  drivers/gpu/drm/bridge/Kconfig          |   7 +
+>  drivers/gpu/drm/bridge/Makefile         |   1 +
+>  drivers/gpu/drm/bridge/microchip-lvds.c | 229 ++++++++++++++++++++++++
+>  3 files changed, 237 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
+> 
 
-However, Panfrost GEM object's pinning callback would eventually try taking
-the lock on the same dma reservation when delegating pinning of the object
-onto the shmem subsystem, which led to a deadlock.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-This can be shown by enabling CONFIG_DEBUG_WW_MUTEX_SLOWPATH, which throws
-the following recursive locking situation:
 
-weston/3440 is trying to acquire lock:
-ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_shmem_pin+0x34/0xb8 [drm_shmem_helper]
-but task is already holding lock:
-ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_pin+0x2c/0x80 [drm]
-
-Fix it by assuming the object's reservation had already been locked by the
-time we reach panfrost_gem_pin.
-
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>
-Fixes: a78027847226 ("drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()")
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_gem.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index d47b40b82b0b..6c26652d425d 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -192,7 +192,12 @@ static int panfrost_gem_pin(struct drm_gem_object *obj)
- 	if (bo->is_heap)
- 		return -EINVAL;
- 
--	return drm_gem_shmem_pin(&bo->base);
-+	/*
-+	 * Pinning can only happen in response to a prime attachment request from
-+	 * another driver, but that's already being handled by drm_gem_pin
-+	 */
-+	drm_WARN_ON(obj->dev, obj->import_attach);
-+	return drm_gem_shmem_pin_locked(&bo->base);
- }
- 
- static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_object *obj)
-
-base-commit: 04687bff66b8a4b22748aa7215d3baef0b318e5b
 -- 
-2.44.0
-
+With best wishes
+Dmitry
