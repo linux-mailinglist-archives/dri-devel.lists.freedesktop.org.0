@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731A38ABE34
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 03:12:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FB98ABE36
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 03:12:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46A4210FC87;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EBA610FCC2;
 	Sun, 21 Apr 2024 01:11:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="Lq1J1tC+";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="ols9oq1/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFA610FC87
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA48E10FC8A
  for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 01:11:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
  t=1713661915; x=1745197915;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=+NHndyStgBNaGg0Gu44NeibBjRQjp+j8aiNKkV+bNiI=;
- b=Lq1J1tC+LYr8kQtapUDQV6tUZyiQrKvJ+uj6yZ0k9VRsMmB5/z8MdTsb
- L93zAifgqplgPo6hjwRWnkBTJ9IKehsQnmsr1PV792iybxn0E51EDUeK5
- 1FCBzXDf48LGg5KfZS7/GfS8Yz8K+otVi5qnyQbbV2B66g79BuvTCAigc
- vHIks2uwU94vtsuk5W2gQ90c6fAATqYlJavl/Ics11gKJOSirjeWCvBWH
- rYKjg+P6Ztx5Nwlf0Y1wUKbSnS09eGPyKTFt2d2st8+Toiyl5RqW/o91I
- IRsAiNOg8hPNXAEKnff1acmIhoSU7dKDhkR45diTOIXz8tbYSSo4qbdOx g==;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=dbO5rAvrQSJWbWQBjrLFv/aoQtaQpow7bmVOVv2wkmM=;
+ b=ols9oq1/jE8nSukIMFH5Q3F9Q+wfkCi5uxYwzQVIoN70hA4EejzqUDRh
+ YitK58TlvCFEMJOn3ecgg01rf5jk5VZ2iBPRNxIB4NJjtBARPunYKmAlr
+ f5zy3fJ3PF4Gr94xEag0SJLx5dkooqqKJHK3RrG0ENfkuYMl8+jfnnxhN
+ mgGb32QhvzympOGzgJGDo3NuPFQvSOHzVKc9c4Yl9pZoGMGW1a+SaLft7
+ ORmnlBdxbdNXQIqzGWod2/fdOu0nMR0CJjyLy6DOiJJvAxkDwtDwrhdcw
+ LrJONTPJgzG8+DFI1cmajOMsYY48erRMuSnfFznXCmBbrRrbCjn/XcAtD g==;
 X-CSE-ConnectionGUID: Z31Mwg63QjairJeGchYeZw==
-X-CSE-MsgGUID: CoUCdzXmTfOWVot30AcwdQ==
-X-IronPort-AV: E=Sophos;i="6.07,217,1708412400"; d="scan'208";a="24025071"
+X-CSE-MsgGUID: 9SNeaMcHSHG7FRnrHhMVCw==
+X-IronPort-AV: E=Sophos;i="6.07,217,1708412400"; d="scan'208";a="24025073"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
@@ -38,10 +38,10 @@ Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sat, 20 Apr 2024 18:11:23 -0700
+ 15.1.2507.35; Sat, 20 Apr 2024 18:11:38 -0700
 Received: from che-lt-i70843lx.microchip.com (10.10.85.11) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Sat, 20 Apr 2024 18:11:10 -0700
+ 15.1.2507.35 via Frontend Transport; Sat, 20 Apr 2024 18:11:24 -0700
 From: Dharma Balasubiramani <dharma.b@microchip.com>
 To: "dmitry . baryshkov @ linaro . org" <dmitry.baryshkov@linaro.org>,
  "andrzej . hajda @ intel . com" <andrzej.hajda@intel.com>, "neil . armstrong
@@ -69,11 +69,14 @@ To: "dmitry . baryshkov @ linaro . org" <dmitry.baryshkov@linaro.org>,
  kernel . org" <linux-kernel@vger.kernel.org>, "oe-kbuild-all @ lists . linux
  . dev" <oe-kbuild-all@lists.linux.dev>, "Hari . PrasathGE @ microchip . com"
  <Hari.PrasathGE@microchip.com>
-CC: Dharma Balasubiramani <dharma.b@microchip.com>
-Subject: [PATCH v8 0/4] LVDS Controller Support for SAM9X75 SoC
-Date: Sun, 21 Apr 2024 06:40:46 +0530
-Message-ID: <20240421011050.43265-1-dharma.b@microchip.com>
+CC: Dharma Balasubiramani <dharma.b@microchip.com>, Rob Herring
+ <robh@kernel.org>
+Subject: [PATCH v8 1/4] dt-bindings: display: bridge: add sam9x75-lvds binding
+Date: Sun, 21 Apr 2024 06:40:47 +0530
+Message-ID: <20240421011050.43265-2-dharma.b@microchip.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240421011050.43265-1-dharma.b@microchip.com>
+References: <20240421011050.43265-1-dharma.b@microchip.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -92,32 +95,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series introduces LVDS controller support for the SAM9X75 SoC. The
-LVDS controller is designed to work with Microchip's sam9x7 series
-System-on-Chip (SoC) devices, providing Low Voltage Differential Signaling
-capabilities.
+Add the 'sam9x75-lvds' compatible binding, which describes the Low Voltage
+Differential Signaling (LVDS) Controller found on some Microchip's sam9x7
+series System-on-Chip (SoC) devices. This binding will be used to define
+the properties and configuration for the LVDS Controller in DT.
 
-Patch series Changelog:
-- Include configs: at91: Enable LVDS serializer
-- include all necessary To/Cc entries.
-The Individual Changelogs are available on the respective patches.
-
-Dharma Balasubiramani (4):
-  dt-bindings: display: bridge: add sam9x75-lvds binding
-  drm/bridge: add lvds controller support for sam9x7
-  MAINTAINERS: add SAM9X7 SoC's LVDS controller
-  ARM: configs: at91: Enable LVDS serializer support
-
- .../bridge/microchip,sam9x75-lvds.yaml        |  55 +++++
- MAINTAINERS                                   |   8 +
- arch/arm/configs/at91_dt_defconfig            |   1 +
- drivers/gpu/drm/bridge/Kconfig                |   7 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/microchip-lvds.c       | 229 ++++++++++++++++++
- 6 files changed, 301 insertions(+)
+Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+Changelog
+v7 -> v8
+v6 -> v7
+v5 -> v6
+v4 -> v5
+- No changes.
+v3 -> v4
+- Rephrase the commit subject.
+v2 -> v3
+- No changes.
+v1 -> v2
+- Remove '|' in description, as there is no formatting to preserve.
+- Remove 'gclk' from clock-names as there is only one clock(pclk).
+- Remove the unused headers and include only used ones.
+- Change the compatible name specific to SoC (sam9x75) instead of entire series.
+- Change file name to match the compatible name.
+---
+ .../bridge/microchip,sam9x75-lvds.yaml        | 55 +++++++++++++++++++
+ 1 file changed, 55 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
- create mode 100644 drivers/gpu/drm/bridge/microchip-lvds.c
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
+new file mode 100644
+index 000000000000..862ef441ac9f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/microchip,sam9x75-lvds.yaml
+@@ -0,0 +1,55 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/microchip,sam9x75-lvds.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip SAM9X75 LVDS Controller
++
++maintainers:
++  - Dharma Balasubiramani <dharma.b@microchip.com>
++
++description:
++  The Low Voltage Differential Signaling Controller (LVDSC) manages data
++  format conversion from the LCD Controller internal DPI bus to OpenLDI
++  LVDS output signals. LVDSC functions include bit mapping, balanced mode
++  management, and serializer.
++
++properties:
++  compatible:
++    const: microchip,sam9x75-lvds
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Peripheral Bus Clock
++
++  clock-names:
++    items:
++      - const: pclk
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/at91.h>
++    lvds-controller@f8060000 {
++      compatible = "microchip,sam9x75-lvds";
++      reg = <0xf8060000 0x100>;
++      interrupts = <56 IRQ_TYPE_LEVEL_HIGH 0>;
++      clocks = <&pmc PMC_TYPE_PERIPHERAL 56>;
++      clock-names = "pclk";
++    };
 -- 
 2.25.1
 
