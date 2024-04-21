@@ -2,191 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961608ABE8C
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 06:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDAA78ABEB3
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 09:11:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43C941120F0;
-	Sun, 21 Apr 2024 04:12:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0B611224C;
+	Sun, 21 Apr 2024 07:11:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aDUHyTgq";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="iAffYuQa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7F71120EF;
- Sun, 21 Apr 2024 04:12:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713672726; x=1745208726;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=dWrTol8pAiZH9zJ1GxnWDUAGj2S5+zLxA3SwjHzwx5Y=;
- b=aDUHyTgqeQb+oasr7LHlqkddCBA2U/X0pusnfVVYsef5kTf9gS/l9mc2
- GbKQHP5+92ZS7FXIRk5jER5+wPwUqvHhkaIMm2iF6SwalGEvPwO07R7Mw
- 07MJiHJjUbdubKT3TLcXdheHBrz9t19KaWrSBdkDqHF2Ygqkm11nuDMnx
- 5af76E5guk+nqCS9JNOvyRGK8KxbDJC17Ijx217AYnHZdWw0vGTjebdpA
- 1CenrDE2NyeOFEiNAuWks2q4GiRrax2fP3EcEm2k/SkM4VISTjjHaZQIk
- syK8fVVdjwV/Xsj68EI/qbTytozaAXqn0tZCHFC3ukqLTc6HzpRtVR+bW Q==;
-X-CSE-ConnectionGUID: b8p+jfvMQHCL1jIemwlbrw==
-X-CSE-MsgGUID: vLRZ14HDQve9fdY9rob7hw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11050"; a="9457153"
-X-IronPort-AV: E=Sophos;i="6.07,217,1708416000"; 
-   d="scan'208";a="9457153"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2024 21:12:05 -0700
-X-CSE-ConnectionGUID: p51fxSTATHSmLb6J93y+qg==
-X-CSE-MsgGUID: lUK3pjk9S3mlsCD2k0sevQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,217,1708416000"; d="scan'208";a="28158878"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 20 Apr 2024 21:12:05 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sat, 20 Apr 2024 21:12:04 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sat, 20 Apr 2024 21:12:04 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sat, 20 Apr 2024 21:12:04 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sat, 20 Apr 2024 21:12:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BFwVctIkjEn8HgVCpORzsIlYnRA6sWTZgMPbVSE7T4tiO5GRGZdBTVh7gO2ZY0G9u8qBImanBZFoVEDZfknsxugAol8TgTAFeveA5yOAecEwxND8hLk9gs8TgscEWA3FyiPjrhNWso9HQEg2RfalLCl1/GVeVUqufsP+Lq4Vlb2RZ7qhVHcwpTg34cLcyoLG2mph0tH73awGy8WAv827bGwUlXFTwPNw+/e2J9ktWoBvGlDSZhAcnMvLZhmt1dAPws0RdV+HENb3QVhc7glu66ix54m+UIoq0YIyxTc16RQ+b8ta6Y36YAINkLJwOY153rrCFY1abOw6ikjERpKqUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N4kErBGmsR8dYA1AFrptXgldututuDGEjddcz5D1gRQ=;
- b=RZ/JwDwIfOMKT3mGIIwgJuLC7mfdt7G6GSrFHsZ/LvCN2kcXQsvKgyxHbc5ufwDs9hkk7D3FuSxb0PiBaaU479n6TlNthhgEyMTd/Pec9xSvbOUqzu2MJPEMgwdFFsUbowoYsE0cmrhTSnNNcZQHXnLUiT0gPRsuRhA9aKtpwQ7ff4rSfvmCZ7EZss2DWFrbcS/7+3E4NTNpkzfbZxndtmoyXqgnzoIhbYMvGLhOZ9Bq2wqImyIWeme2pjIO5PVbFXdus+nF7sPAFt7czZY4R3mXFVkHJHVrIqeRkDAc7qqKlSz7GGzIdRkygYhmpkKJaFkOVpZUcIcOiZkN1HbQ0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by SA2PR11MB5162.namprd11.prod.outlook.com (2603:10b6:806:114::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.20; Sun, 21 Apr
- 2024 04:11:57 +0000
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::31a1:93ed:8501:f2c9]) by DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::31a1:93ed:8501:f2c9%3]) with mapi id 15.20.7519.018; Sun, 21 Apr 2024
- 04:11:56 +0000
-Message-ID: <95af603b-10b4-47e1-bbb6-7a819e6d49f1@intel.com>
-Date: Sun, 21 Apr 2024 09:41:49 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v17 0/9] Enable Adaptive Sync SDP Support for DP
-To: Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>
-CC: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20240311094238.3320888-1-mitulkumar.ajitkumar.golani@intel.com>
- <87a5mvppvd.fsf@intel.com> <20240319-devious-natural-rook-df5f43@houat>
- <f3ec8e22-1963-47e0-8c5d-53a7e6fc73ae@intel.com> <871q71wmvo.fsf@intel.com>
-Content-Language: en-US
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <871q71wmvo.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0193.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:be::22) To DM4PR11MB5341.namprd11.prod.outlook.com
- (2603:10b6:5:390::22)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
+ [209.85.128.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D676F11224D
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 07:11:13 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-61b4387ae4fso14560727b3.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 00:11:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1713683472;
+ x=1714288272; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=evj6QeiKgaPz6ngMgofjmH590OyUhTsBSPNeTpTFRVY=;
+ b=iAffYuQaebZm2Q1YSz3MD4Hz63hWf0pA8LeFS2Kszwg6TulahZhMTj7Umqjr0dRbuV
+ IwwcQdSkSkn8uH3+1J30jLjT3y3rfZZLcBSbuXTUDwXDxaIxUbyKp7HDJ0Ue7uuQshc8
+ 6oPFgrZukNJM4LB1+UmgfAuhTruQ7BAioEfYehCACnbc0Jvo+Brd4kC/YSw/OOVXEIg6
+ 95sOyplsk6wUWc6zOsWqWOy/koqPB+6nE3yAlE0tmqWMoBviMjq9ol6BfRsf4hk9xMaL
+ QA1pF8EXH2tw9PnhnrS0N+oiHbRPiipXJJFenou1yBGZKEUpqvdJbHp/AEyUHUlcRr2w
+ HegQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713683472; x=1714288272;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=evj6QeiKgaPz6ngMgofjmH590OyUhTsBSPNeTpTFRVY=;
+ b=KL5oiE6NY9Q4xn1Hsmm3IMTJJwjTZXjlH4eF2WdwY0ZWDlsVGcLhBowHNm6eTUIlO9
+ pHmKXjngl+OFC2pMCTkzAHEr/QovYWwexqrdROINTCebPdOhrfUr540erHhxtosZialg
+ 1TdT0lxYVzk8FYBJQEV4wtOHwsfSiHEWJzXlUn1h445FnLzKOTPWH1G/hy+JxRL1tYcj
+ XDHS9pn6WgZpBp+HieEkEnlFiTSadQ02yz6O3t1JeVsSTXANxtKqruFhXMxYeM1GXdTt
+ zKa2fAD6dJk3b6ShfoDvgQbywejDua/rciKWxO/ItMBl4FSuTqj1InALgC6n3yhD+rUR
+ bZKQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU5r2VHlfQf3s8qHvejqKKH06V5fRwlpdO213sFrhcq26j+48DRqoO3XjVuYhZI1h7fH4atOw0yghvU/UYSEw9Iq+uKtX0YzfgFNzuAyUmQ
+X-Gm-Message-State: AOJu0YyNsFcfFPqBt165CL/spiTTyE30cWne1vAjyKnaOOjA7EQltTOl
+ kB2R6ziiS7gOXejnHx3+z5V9XsusEzZuK/MdirOSJZRrYNTCIyVzWtAUTTTU4Hg=
+X-Google-Smtp-Source: AGHT+IEUMPZ0wIkIicOkhEWqo4uMJiYP+xxGRjROL1Ku7fAU1cYnpEG4qdiFjoT8FkNGkb8akQmyZg==
+X-Received: by 2002:a05:690c:6410:b0:618:1034:f4ef with SMTP id
+ hr16-20020a05690c641000b006181034f4efmr7023558ywb.16.1713683472494; 
+ Sun, 21 Apr 2024 00:11:12 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
+ [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
+ x30-20020a81af5e000000b0061b1f325755sm1473179ywj.123.2024.04.21.00.11.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 21 Apr 2024 00:11:12 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-de45e5c3c68so3679124276.0; 
+ Sun, 21 Apr 2024 00:11:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX7IkmfEcj8jg8VJrcQbwaUY6QfYxvxP9W7D+4uYFldldI26qJdZtIOhid+elXoJvkzz0Mn018MVpRw/eFcz0yhINJ1ZUeLC/DXibkUbPB2KMDIyen3X5NoWrZ+ihjZWwc1YPaXTFXHpEKI0VbheA==
+X-Received: by 2002:a25:d354:0:b0:dcb:e0dc:67ee with SMTP id
+ e81-20020a25d354000000b00dcbe0dc67eemr6744553ybf.45.1713683471702; Sun, 21
+ Apr 2024 00:11:11 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|SA2PR11MB5162:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b5d1064-a680-4395-df3e-08dc61b92f16
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|366007|376005;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WmppTWlXTkJKUHRuUnFJNmpkYndJcFNHNEQrM1NqTVlObk1Hc2ErTjF6OHpp?=
- =?utf-8?B?c3Y3eXVkYWZidjNiNEZqTXlPTWpOZVpsUURLM21BTVN3K09ORXU3WGRkdGlQ?=
- =?utf-8?B?a2prV2xHMmNnS0ZrbCtyc0R1U3FkcXd6WUpIVU52VGkzSjNsSXJ1NVZmWmo3?=
- =?utf-8?B?VGRCbWFhbU9GM3RMSU9pVnNWcm5BQWhTN1kxSkpkRHRXSmc4dWVCL3Zic0o1?=
- =?utf-8?B?bEVVbERBMzN5WWVJMVRIbm5NU2Q0bEhicVYyaHpaTXhhQ1Jpb2s1SzN1SjBh?=
- =?utf-8?B?TSs1UWxCOGIzRVJXMTBHWTBRams4T2YrL0JVZVhXd0pLZytHam52VUZJQ05M?=
- =?utf-8?B?dmw5OUZ1VzFVdHhoc1hwQnlEYTQvSGpUNFFBbFB5eDV3MmVWTU0xcStGT0Jw?=
- =?utf-8?B?aWY4N29kNWd6YnArQjRVMW1KRHI1ZmRkWlM4bVB2THh5Yzl2RnhsNk85VXFI?=
- =?utf-8?B?S3JmWnpNV1V2K2VWQS9ETzF2UnlIN0FHSS9GYVJXL3JLQmppUDl4OGlqM1ZI?=
- =?utf-8?B?dGNnRHYydE5Jam9ua21wYWlrcEdsZVIyWVpxSDBQeEtTaEVCRzlRUEdRejZQ?=
- =?utf-8?B?b3JSeGpQTkJSSHdpVXp2NVR6dGdLSlVXa2hJYVpKN2hHelBXbnZVZkZrZGNq?=
- =?utf-8?B?bGNDbyt6eXAyV3c2UUVXTGJHTGNmNTUrbk9odDNpQTVVbElTcjR1ZWYyMTdO?=
- =?utf-8?B?ek5BU3RyOXZVdUJUcTBjYVRucjA3WnhPSFVPV3d5UHhQZ1BmUWFDcEZ4Q1dP?=
- =?utf-8?B?a3JmbE5sRy9UUmxObThWVnBZS0hXTFhyNFRKN3d3alBPVHVHM2JTRlBOa0sy?=
- =?utf-8?B?bUgxWDBqdVNqS3lnRS95a3J4YmVtWWhhZSt2VXQxbkU2cXU2MUozd05VTStk?=
- =?utf-8?B?NkJIeHN5Z2ltQklZdG5udnNpcDNRemhwQitoMHNyRjNOMWtiZ05SZFNQWEZH?=
- =?utf-8?B?dTB4VHJNU2V6U2QxTDZPYTlyNXBaNGJRNjhrN2l3RnJuTFEzYmhjUFNBQ3lB?=
- =?utf-8?B?aGpHYjREQTZlb3VQdURKUXJ5QklUSm95SnJZdG5wcVBpN2V6WHozTlhMcXRk?=
- =?utf-8?B?d2xnWFVrang2aGgrVzJxd3NZN2VYNU1LQ1BaODVMcXFFVW5lNmVzaXhsRzM1?=
- =?utf-8?B?QXJpajVvWWF3YkJZQk5EN242TGFiNE45ekp5NU1uOUZzMTRaNFVsUG9WeUtK?=
- =?utf-8?B?bW1kcUJaRFo2a1NXZWZpWG9lRlpDYXZqRDRzN2Z4aEMxMmt4S1lXSDArU0Rz?=
- =?utf-8?B?eThUb2cxSXI4K1hqd2tIeW4yWlo1aXlVUjF5TUdCditDdWR6RU5KdFlFNlo1?=
- =?utf-8?B?aFhZNnlPWit0OS9wZXN2MzVRMEVPY0VId2pNUnhvdHAvWXMrWDN1ZWhSSmJa?=
- =?utf-8?B?VlNQYU5TVkdVMUhYVXZKSTFJbnJWZ1JKWmppQTdLY0lqTFdEamwyZ1kxYlNi?=
- =?utf-8?B?WFBtNTZHY3VmZ2cyeGs0OTdBWnAxRG9EbjJFdjVBTmtKTGRFdU53TFF4MEtK?=
- =?utf-8?B?Y1ZWVDFpYWh5Q1NROFh4R0hpMDMvdEpzTHQ3T0NPS0MxSHlNd3RITW5UZmpY?=
- =?utf-8?B?bHB4YUVCNnNmVyt1QmxVa0JvS3F1TFpsRWlKUlJwc1RlZnRlOVZyaUxxckRx?=
- =?utf-8?B?KzRkbmptajRPVHowOHpJWDcreXgxaGhwdWxoUDNLc0JVOCtwbGRxN2dIdHBT?=
- =?utf-8?B?OUF6dkJWNlNkYjMyKzF5dk1SWXJtUmpWZkpucWJaREYrRlVSL1lDRnlnPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(366007)(376005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?elJ6a3JjT0RHQm45R1J1djlqbVMxSG4wWWhud1pUZnJHcm9sUlMrN2JDM3ZM?=
- =?utf-8?B?YVVxVnVvY0JXcnVTcS9tcnI1SkZiUDNYcVJEVnJGR1U3ZXBsbVlpT3piOVVH?=
- =?utf-8?B?MWt2NjJRdXV2b3lia3A2bVk2VWV5UEZ2azYrbFhVRUhzQmI3ZnVIMnFDR2w2?=
- =?utf-8?B?d1N5eThDSHBzemtZTDJaNHZ5bmV1OTErY3NiZFJWSHY3YnBJYjdZbUVPenAr?=
- =?utf-8?B?bkhLSVg0YkNwdmdqcm5EWjk3dkFpbzFuS3dvd1c2bjlVcmowcjNzdHlRRnpa?=
- =?utf-8?B?cmF3UDI1azlFdk5iTVkzVmhYbERSU25XNVFPRW1VQU02eDBrdmh0ZEh5M3VJ?=
- =?utf-8?B?VFM2cHk0bUwvckhqazFmeThLL2oreTBaRUlodTVFdFlKTUNraGJ1cHh6STdE?=
- =?utf-8?B?QWhCcm9XMVNsNmxidVBya1dKT3NmajNVMFFJc3EweU1QRXpqUm9pbEorTDg1?=
- =?utf-8?B?K1JNdm5zb1BTY3J0alJwTVU1OGNyTkJQZkZLMDhvUVdubW40ZmNxUmpvVmh2?=
- =?utf-8?B?cWsxOFhvUCtEbXlMQkdqeTdzamRhY09IZXhIQmt2aWUrUzdURUkzenpLZlFw?=
- =?utf-8?B?RzdzNnJ4SVdkb1BGS0RnMHlEQzRVL29YRXNGVXBIVzhLclJYbnBwQ2FnMU1w?=
- =?utf-8?B?MWMrNHY0cUdHWnl6bEpPRk5XWTVjaWZlaE5ldzJtZlh3bFFYY05tS1o5bGZk?=
- =?utf-8?B?cGE5VUMwSXBsc0llTU9TbzZOVGZnanhZWmJMNVYwL3hUS0kvOVdUOEhSWTEw?=
- =?utf-8?B?QjkyU0FhZzRKWWx5QUx0OFEyOUpSODZ6UStHYmxQR0U1MURESWN3WHRualh5?=
- =?utf-8?B?QytiZ3VHZXpKUG1hVEdNQlg3RCtINFV0SnlkZWVqeWxwUXFHL1RSeTdKaGZU?=
- =?utf-8?B?MFBTeVBnUGFGSUxJZFlPNHBaMzVqTUJIK1ZzekFFQXRjaGxLRTFRUWtIN3d4?=
- =?utf-8?B?Y1ZSS1hwS2xuNUNPYjV3VThtUkRRZG45RU5PZ1RQcGRxeFlhdG0zRzZSUElT?=
- =?utf-8?B?bm1vaEc2VjFGU0Nha3l5SURyeDhPcDRkeHB4OHVWK1BqMkoxTlRSMnNCMzVQ?=
- =?utf-8?B?cXB6dXMrNzZhL3hyZzFNQ1psaklLL0tXR3cwSkJ3S3RMYWJhK3lGMlpjWEtk?=
- =?utf-8?B?OFRHYStSRFRpV0w2bHlDMSt0Ui9rdlFLMGQ1My9SQlRRT2NjZ213Q2MvemxG?=
- =?utf-8?B?dGFlZFNVT0NpdDF0V2Fmc21sUUtsbEtRK2pZOFF5OUdiNDZaNHRObXlETVBO?=
- =?utf-8?B?YXlkVk5XWVQrcGtHRjJuMVA1dW5MT1NLVTlhS3E1eTc2aXNJOHNrd3NPV2Vt?=
- =?utf-8?B?NGFBYjhMRnpvUXNsUW9VRnJJYkozT1AzQ0IwUHZ2TmEyTUhCbEl1dTVXbjc1?=
- =?utf-8?B?blJtc2RLT1Y0NXF2YnhnMGttWCtuZkpWcjJQSElGRXZtMHZ2em9QWGxncmJp?=
- =?utf-8?B?VFZnQ2ZFbXJvSEp0cUo1dUVXRGxHTGFrKzlkMTlCb1luc2k4YTB6d2laQXBR?=
- =?utf-8?B?am9qL0NvbWpjUG8vUVg1YWRhbFVSa2VJWk1wQkZTNjhNS0NyZXcvOWlWcXhE?=
- =?utf-8?B?S1IxYXBORFdnRXpKSHdmZmpFOCt1bTZ0cW5TMmxhVHkvK2lNMUR5WTl3S2dz?=
- =?utf-8?B?ejQyeU9ocE9iVlVuVEd5RkVEL3RNVi9SZUY0aXRrRDBGUDl5TjlST0hJeG9S?=
- =?utf-8?B?dWpBRHJTemE0K3NlZFRNU2NCVXB3R05keUJQWndmTko4MGxMbFRJaldYZGtL?=
- =?utf-8?B?blFkMFoyeEg2aGY5NmkxNlVnZ1J1bGNmSVRVTHpnMFpzTzlIMGxGWVQ4QlJj?=
- =?utf-8?B?TkZ1TkJJb3pPVHNXZXRZVk5Ic3d0UUNhVk1DL1pPTXgrMnZOcnpYQVNEVjZz?=
- =?utf-8?B?WEN5VlBYczdob1FLN3M0c2MzVkFoc3l2ZzN6ZlNNNWtwRVJuZzBoN2pLSEMx?=
- =?utf-8?B?bjVYQVFzaVJva0VwUm9wMTk3TUQ4U1BTRURKZFRXdkFIamFFZ1czYm9EazBz?=
- =?utf-8?B?WDZnV3RWZXN2MWR1MWx3dER0M21xbGo3dytHVEJQWS9od3NTeFVoNlQ3QlVl?=
- =?utf-8?B?ZXBaUkNodmpZcFZab3RyR3RncDhjUXU5eCtBUHV2ZVMyS2lCOEFGMkdoZjVB?=
- =?utf-8?B?OTJDLzY1YzRhZG5UL2FGTzRCa0VFMmRVRCtrVTlXZjEyaGxBU1FJYzkyRnU0?=
- =?utf-8?B?Umc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b5d1064-a680-4395-df3e-08dc61b92f16
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2024 04:11:56.8112 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l+8ji6+Y7jgLXFTIfu2B5eE4xYKHDGogKM2oEIY4t5ntSq5qdgvQUY6t9p5Cir0ZRYVt7HivFC28DFczVcjR51VKWr/vzVw3oRYlCHazmac=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5162
-X-OriginatorOrg: intel.com
+References: <20240420134159.110509-1-christian.gmeiner@gmail.com>
+In-Reply-To: <20240420134159.110509-1-christian.gmeiner@gmail.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Sun, 21 Apr 2024 09:11:00 +0200
+X-Gmail-Original-Message-ID: <CAAObsKBT3udZ-=iKRq_ekoxxnmseR_ZH59WvNFzdywWx2E_W3A@mail.gmail.com>
+Message-ID: <CAAObsKBT3udZ-=iKRq_ekoxxnmseR_ZH59WvNFzdywWx2E_W3A@mail.gmail.com>
+Subject: Re: [PATCH] Revert "drm/etnaviv: Expose a few more chipspecs to
+ userspace"
+To: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian Gmeiner <cgmeiner@igalia.com>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -202,47 +100,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Agreed, thanks for doing this, Christian.
 
-On 4/19/2024 6:05 PM, Jani Nikula wrote:
-> On Thu, 04 Apr 2024, "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com> wrote:
->> On 3/19/2024 3:16 PM, Maxime Ripard wrote:
->>> On Mon, Mar 18, 2024 at 04:37:58PM +0200, Jani Nikula wrote:
->>>> On Mon, 11 Mar 2024, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com> wrote:
->>>>>    An Adaptive-Sync-capable DP protocol converter indicates its
->>>>> support by setting the related bit in the DPCD register. This
->>>>> is valid for DP and edp as well.
->>>>>
->>>>> Computes AS SDP values based on the display configuration,
->>>>> ensuring proper handling of Variable Refresh Rate (VRR)
->>>>> in the context of Adaptive Sync.
->>>> [snip]
->>>>
->>>>> Mitul Golani (9):
->>>>>     drm/dp: Add support to indicate if sink supports AS SDP
->>>>>     drm: Add Adaptive Sync SDP logging
->>>> Maarten, Maxime, Thomas, ack for merging these two patches via
->>>> drm-intel-next?
->>> Ack
->>>
->>> Maxime
->> Thanks for the patch, ack and reviews, pushed to drm-intel-next.
-> This came up again today [1]. The acks absolutely must be recorded in
-> the commit messages when pushing the patches.
+Reviewed-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-I apologize for the oversight. Moving forward, I will ensure to 
-consistently include the "acked-by" tag when pushing such changes.
+Cheers,
 
-Regards,
+Tomeu
 
-Ankit
-
+On Sat, Apr 20, 2024 at 3:41=E2=80=AFPM Christian Gmeiner
+<christian.gmeiner@gmail.com> wrote:
 >
-> dim should complain about applying non-i915 patches without acks.
+> From: Christian Gmeiner <cgmeiner@igalia.com>
 >
-> BR,
-> Jani.
+> This reverts commit 1dccdba084897443d116508a8ed71e0ac8a031a4.
 >
+> In userspace a different approach was choosen - hwdb. As a result, there
+> is no need for these values.
 >
-> [1] https://lore.kernel.org/r/Zh_Q72gYKMMbge9A@intel.com
+> Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 20 ---------------
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 12 ---------
+>  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 34 --------------------------
+>  include/uapi/drm/etnaviv_drm.h         |  5 ----
+>  4 files changed, 71 deletions(-)
 >
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gpu.c
+> index 734412aae94d..e47e5562535a 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -164,26 +164,6 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u=
+32 param, u64 *value)
+>                 *value =3D gpu->identity.eco_id;
+>                 break;
+>
+> -       case ETNAVIV_PARAM_GPU_NN_CORE_COUNT:
+> -               *value =3D gpu->identity.nn_core_count;
+> -               break;
+> -
+> -       case ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE:
+> -               *value =3D gpu->identity.nn_mad_per_core;
+> -               break;
+> -
+> -       case ETNAVIV_PARAM_GPU_TP_CORE_COUNT:
+> -               *value =3D gpu->identity.tp_core_count;
+> -               break;
+> -
+> -       case ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE:
+> -               *value =3D gpu->identity.on_chip_sram_size;
+> -               break;
+> -
+> -       case ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE:
+> -               *value =3D gpu->identity.axi_sram_size;
+> -               break;
+> -
+>         default:
+>                 DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+>                 return -EINVAL;
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etna=
+viv/etnaviv_gpu.h
+> index 7d5e9158e13c..197e0037732e 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> @@ -54,18 +54,6 @@ struct etnaviv_chip_identity {
+>         /* Number of Neural Network cores. */
+>         u32 nn_core_count;
+>
+> -       /* Number of MAD units per Neural Network core. */
+> -       u32 nn_mad_per_core;
+> -
+> -       /* Number of Tensor Processing cores. */
+> -       u32 tp_core_count;
+> -
+> -       /* Size in bytes of the SRAM inside the NPU. */
+> -       u32 on_chip_sram_size;
+> -
+> -       /* Size in bytes of the SRAM across the AXI bus. */
+> -       u32 axi_sram_size;
+> -
+>         /* Size of the vertex cache. */
+>         u32 vertex_cache_size;
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etn=
+aviv/etnaviv_hwdb.c
+> index d8e7334de8ce..8665f2658d51 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> @@ -17,10 +17,6 @@ static const struct etnaviv_chip_identity etnaviv_chip=
+_identities[] =3D {
+>                 .thread_count =3D 128,
+>                 .shader_core_count =3D 1,
+>                 .nn_core_count =3D 0,
+> -               .nn_mad_per_core =3D 0,
+> -               .tp_core_count =3D 0,
+> -               .on_chip_sram_size =3D 0,
+> -               .axi_sram_size =3D 0,
+>                 .vertex_cache_size =3D 8,
+>                 .vertex_output_buffer_size =3D 1024,
+>                 .pixel_pipes =3D 1,
+> @@ -52,11 +48,6 @@ static const struct etnaviv_chip_identity etnaviv_chip=
+_identities[] =3D {
+>                 .register_max =3D 64,
+>                 .thread_count =3D 256,
+>                 .shader_core_count =3D 1,
+> -               .nn_core_count =3D 0,
+> -               .nn_mad_per_core =3D 0,
+> -               .tp_core_count =3D 0,
+> -               .on_chip_sram_size =3D 0,
+> -               .axi_sram_size =3D 0,
+>                 .vertex_cache_size =3D 8,
+>                 .vertex_output_buffer_size =3D 512,
+>                 .pixel_pipes =3D 1,
+> @@ -89,10 +80,6 @@ static const struct etnaviv_chip_identity etnaviv_chip=
+_identities[] =3D {
+>                 .thread_count =3D 512,
+>                 .shader_core_count =3D 2,
+>                 .nn_core_count =3D 0,
+> -               .nn_mad_per_core =3D 0,
+> -               .tp_core_count =3D 0,
+> -               .on_chip_sram_size =3D 0,
+> -               .axi_sram_size =3D 0,
+>                 .vertex_cache_size =3D 16,
+>                 .vertex_output_buffer_size =3D 1024,
+>                 .pixel_pipes =3D 1,
+> @@ -125,10 +112,6 @@ static const struct etnaviv_chip_identity etnaviv_ch=
+ip_identities[] =3D {
+>                 .thread_count =3D 512,
+>                 .shader_core_count =3D 2,
+>                 .nn_core_count =3D 0,
+> -               .nn_mad_per_core =3D 0,
+> -               .tp_core_count =3D 0,
+> -               .on_chip_sram_size =3D 0,
+> -               .axi_sram_size =3D 0,
+>                 .vertex_cache_size =3D 16,
+>                 .vertex_output_buffer_size =3D 1024,
+>                 .pixel_pipes =3D 1,
+> @@ -160,11 +143,6 @@ static const struct etnaviv_chip_identity etnaviv_ch=
+ip_identities[] =3D {
+>                 .register_max =3D 64,
+>                 .thread_count =3D 512,
+>                 .shader_core_count =3D 2,
+> -               .nn_core_count =3D 0,
+> -               .nn_mad_per_core =3D 0,
+> -               .tp_core_count =3D 0,
+> -               .on_chip_sram_size =3D 0,
+> -               .axi_sram_size =3D 0,
+>                 .vertex_cache_size =3D 16,
+>                 .vertex_output_buffer_size =3D 1024,
+>                 .pixel_pipes =3D 1,
+> @@ -197,10 +175,6 @@ static const struct etnaviv_chip_identity etnaviv_ch=
+ip_identities[] =3D {
+>                 .thread_count =3D 1024,
+>                 .shader_core_count =3D 4,
+>                 .nn_core_count =3D 0,
+> -               .nn_mad_per_core =3D 0,
+> -               .tp_core_count =3D 0,
+> -               .on_chip_sram_size =3D 0,
+> -               .axi_sram_size =3D 0,
+>                 .vertex_cache_size =3D 16,
+>                 .vertex_output_buffer_size =3D 1024,
+>                 .pixel_pipes =3D 2,
+> @@ -233,10 +207,6 @@ static const struct etnaviv_chip_identity etnaviv_ch=
+ip_identities[] =3D {
+>                 .thread_count =3D 256,
+>                 .shader_core_count =3D 1,
+>                 .nn_core_count =3D 8,
+> -               .nn_mad_per_core =3D 64,
+> -               .tp_core_count =3D 4,
+> -               .on_chip_sram_size =3D 524288,
+> -               .axi_sram_size =3D 1048576,
+>                 .vertex_cache_size =3D 16,
+>                 .vertex_output_buffer_size =3D 1024,
+>                 .pixel_pipes =3D 1,
+> @@ -269,10 +239,6 @@ static const struct etnaviv_chip_identity etnaviv_ch=
+ip_identities[] =3D {
+>                 .thread_count =3D 256,
+>                 .shader_core_count =3D 1,
+>                 .nn_core_count =3D 6,
+> -               .nn_mad_per_core =3D 64,
+> -               .tp_core_count =3D 3,
+> -               .on_chip_sram_size =3D 262144,
+> -               .axi_sram_size =3D 0,
+>                 .vertex_cache_size =3D 16,
+>                 .vertex_output_buffer_size =3D 1024,
+>                 .pixel_pipes =3D 1,
+> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_dr=
+m.h
+> index d87410a8443a..af024d90453d 100644
+> --- a/include/uapi/drm/etnaviv_drm.h
+> +++ b/include/uapi/drm/etnaviv_drm.h
+> @@ -77,11 +77,6 @@ struct drm_etnaviv_timespec {
+>  #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
+>  #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
+>  #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
+> -#define ETNAVIV_PARAM_GPU_NN_CORE_COUNT             0x1f
+> -#define ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE           0x20
+> -#define ETNAVIV_PARAM_GPU_TP_CORE_COUNT             0x21
+> -#define ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE         0x22
+> -#define ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE             0x23
+>
+>  #define ETNA_MAX_PIPES 4
+>
+> --
+> 2.44.0
 >
