@@ -2,77 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC13E8ABE52
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 03:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961608ABE8C
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 06:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAFD010FDD2;
-	Sun, 21 Apr 2024 01:36:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43C941120F0;
+	Sun, 21 Apr 2024 04:12:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UZhxndhy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aDUHyTgq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
- [209.85.167.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DCD210FDD2;
- Sun, 21 Apr 2024 01:36:06 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id
- 5614622812f47-3c749aa444fso1264324b6e.0; 
- Sat, 20 Apr 2024 18:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1713663365; x=1714268165; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FvPFBsNaoZ1H9tXzQ7l5Efl5qiniTP5oTQ2Kk1YN9Z4=;
- b=UZhxndhyAcPYDxPPAkBCHT2UPKO0VCj/EWNV+OzO+tbnqJJqqs1aKraz+F20j/LhsY
- It2JmSnfdFib26fBUrZRPy8AsS0ZskRq3WyFP1Ev3OEVZiKg0MyFc49njidVKGkYjyUp
- 3fQTwUiH5wntQQGURzuM3b5SSIn+wPl2NTD+0oO/aKVASQzynIVRgwFCRoNClCf/6jKQ
- FUjN8Rb5h/IlkxDdHmRdS4eCizvJAb3wW7TDeNZdfnXzgLqYN6w1YhtqLkJ+wd4JpA45
- SXKKJpY8InPWZKCgpdhabUI+9LQJYfsuc1uKpfGhyZoUNNzJB5hwja8rY9JObWhGE7U9
- 8uoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713663365; x=1714268165;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FvPFBsNaoZ1H9tXzQ7l5Efl5qiniTP5oTQ2Kk1YN9Z4=;
- b=jGgTvfzLaksMc5uDuUExn68+XrRwaKzXkD8m7IOp6k+clQ7nO4RvrESkO09c+Ya62N
- 2ENG+LfoZvYG0zaNrAQ6hf+hnpEXpHuQm3lj+z7xEs82tVRXqEzN3JkMYBh3vz5s9x8i
- hlsjEgZ+ImFBc1beG3K6PicSf4WgHY26MJ9oeD25HQxcv/EMi3iVdLBMsly9nekfQV6J
- GgG5zbySmirKfvdcYT14hE/nnDBIf9WViiUxwnkJKGNn7F10MMwpV9iBplrTzFMMcMVL
- ubrUzsrmfyH5Nm4TDD2OK67MzBHFyT7nixSHuwZnCcRcu2FSpq9moYvXIbF8+nPmWxsY
- NDaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWu0OtCNrM7/fRs1tfusz4G6s9NxlVy0y6/e09rwuLfKHGXBCS4H1u9UKXSjKzjeGXZBhzpgq6XqYHSQCCM7VEv08U3ieTSZy3zzil0L8AerOJ6vKCwm8cy0drVfNed4bT01ncM/kttfnjHokpckg==
-X-Gm-Message-State: AOJu0YxTVBtLzlM4uht3eUVv9WZH5aoxqbLvz+XKWUCN4QU1mJaP8aRA
- Zy0fveNsXZXU+ggPTXVbrWh2rgnKh75s2bBLg632jZafOBcckh53aeb+CiJRLPWzlkUJxnQcET9
- Cj/kBacJ2JwEms13terF7GWmR3n0=
-X-Google-Smtp-Source: AGHT+IFkyNsm4CrTyqXtqeNnnXaWtM3d85vgw+7Flih8SIL+lQ+nvAR4sw2pWcV0cfw8r5+XjtFntMOiXCgwJhS8K+c=
-X-Received: by 2002:a05:6808:1a8f:b0:3c6:f7b1:b228 with SMTP id
- bm15-20020a0568081a8f00b003c6f7b1b228mr5853968oib.31.1713663365360; Sat, 20
- Apr 2024 18:36:05 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7F71120EF;
+ Sun, 21 Apr 2024 04:12:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713672726; x=1745208726;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=dWrTol8pAiZH9zJ1GxnWDUAGj2S5+zLxA3SwjHzwx5Y=;
+ b=aDUHyTgqeQb+oasr7LHlqkddCBA2U/X0pusnfVVYsef5kTf9gS/l9mc2
+ GbKQHP5+92ZS7FXIRk5jER5+wPwUqvHhkaIMm2iF6SwalGEvPwO07R7Mw
+ 07MJiHJjUbdubKT3TLcXdheHBrz9t19KaWrSBdkDqHF2Ygqkm11nuDMnx
+ 5af76E5guk+nqCS9JNOvyRGK8KxbDJC17Ijx217AYnHZdWw0vGTjebdpA
+ 1CenrDE2NyeOFEiNAuWks2q4GiRrax2fP3EcEm2k/SkM4VISTjjHaZQIk
+ syK8fVVdjwV/Xsj68EI/qbTytozaAXqn0tZCHFC3ukqLTc6HzpRtVR+bW Q==;
+X-CSE-ConnectionGUID: b8p+jfvMQHCL1jIemwlbrw==
+X-CSE-MsgGUID: vLRZ14HDQve9fdY9rob7hw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11050"; a="9457153"
+X-IronPort-AV: E=Sophos;i="6.07,217,1708416000"; 
+   d="scan'208";a="9457153"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2024 21:12:05 -0700
+X-CSE-ConnectionGUID: p51fxSTATHSmLb6J93y+qg==
+X-CSE-MsgGUID: lUK3pjk9S3mlsCD2k0sevQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,217,1708416000"; d="scan'208";a="28158878"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 20 Apr 2024 21:12:05 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sat, 20 Apr 2024 21:12:04 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sat, 20 Apr 2024 21:12:04 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Sat, 20 Apr 2024 21:12:04 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Sat, 20 Apr 2024 21:12:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BFwVctIkjEn8HgVCpORzsIlYnRA6sWTZgMPbVSE7T4tiO5GRGZdBTVh7gO2ZY0G9u8qBImanBZFoVEDZfknsxugAol8TgTAFeveA5yOAecEwxND8hLk9gs8TgscEWA3FyiPjrhNWso9HQEg2RfalLCl1/GVeVUqufsP+Lq4Vlb2RZ7qhVHcwpTg34cLcyoLG2mph0tH73awGy8WAv827bGwUlXFTwPNw+/e2J9ktWoBvGlDSZhAcnMvLZhmt1dAPws0RdV+HENb3QVhc7glu66ix54m+UIoq0YIyxTc16RQ+b8ta6Y36YAINkLJwOY153rrCFY1abOw6ikjERpKqUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N4kErBGmsR8dYA1AFrptXgldututuDGEjddcz5D1gRQ=;
+ b=RZ/JwDwIfOMKT3mGIIwgJuLC7mfdt7G6GSrFHsZ/LvCN2kcXQsvKgyxHbc5ufwDs9hkk7D3FuSxb0PiBaaU479n6TlNthhgEyMTd/Pec9xSvbOUqzu2MJPEMgwdFFsUbowoYsE0cmrhTSnNNcZQHXnLUiT0gPRsuRhA9aKtpwQ7ff4rSfvmCZ7EZss2DWFrbcS/7+3E4NTNpkzfbZxndtmoyXqgnzoIhbYMvGLhOZ9Bq2wqImyIWeme2pjIO5PVbFXdus+nF7sPAFt7czZY4R3mXFVkHJHVrIqeRkDAc7qqKlSz7GGzIdRkygYhmpkKJaFkOVpZUcIcOiZkN1HbQ0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
+ by SA2PR11MB5162.namprd11.prod.outlook.com (2603:10b6:806:114::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.20; Sun, 21 Apr
+ 2024 04:11:57 +0000
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::31a1:93ed:8501:f2c9]) by DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::31a1:93ed:8501:f2c9%3]) with mapi id 15.20.7519.018; Sun, 21 Apr 2024
+ 04:11:56 +0000
+Message-ID: <95af603b-10b4-47e1-bbb6-7a819e6d49f1@intel.com>
+Date: Sun, 21 Apr 2024 09:41:49 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v17 0/9] Enable Adaptive Sync SDP Support for DP
+To: Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <mripard@kernel.org>
+CC: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20240311094238.3320888-1-mitulkumar.ajitkumar.golani@intel.com>
+ <87a5mvppvd.fsf@intel.com> <20240319-devious-natural-rook-df5f43@houat>
+ <f3ec8e22-1963-47e0-8c5d-53a7e6fc73ae@intel.com> <871q71wmvo.fsf@intel.com>
+Content-Language: en-US
+From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+In-Reply-To: <871q71wmvo.fsf@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0193.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:be::22) To DM4PR11MB5341.namprd11.prod.outlook.com
+ (2603:10b6:5:390::22)
 MIME-Version: 1.0
-References: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
- <20240420184929.97854-1-jppaulo11@usp.br>
-In-Reply-To: <20240420184929.97854-1-jppaulo11@usp.br>
-From: Tales <tales.aparecida@gmail.com>
-Date: Sat, 20 Apr 2024 22:36:58 -0300
-Message-ID: <CAGVoLp5W0DT-RZbUvjoh6+=oNAi6A9V3P2syBMMVPXtiUY9K0A@mail.gmail.com>
-Subject: Re: [PATCH 0/4] drm/amd/display: Update Display Core unit tests
-To: Joao Paulo Pereira da Silva <jppaulo11@usp.br>
-Cc: rodrigo.siqueira@amd.com, airlied@gmail.com, alexander.deucher@amd.com, 
- christian.koenig@amd.com, corbet@lwn.net, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- Xinhui.Pan@amd.com, paulormm@ime.usp.br, airlied@linux.ie, 
- amd-gfx@lists.freedesktop.org, andrealmeid@riseup.net, davidgow@google.com, 
- dlatypov@google.com, dri-devel@lists.freedesktop.org, harry.wentland@amd.com, 
- hersenxs.wu@amd.com, isabbasso@riseup.net, javierm@redhat.com, 
- kunit-dev@googlegroups.com, magalilemes00@gmail.com, mairacanal@riseup.net, 
- mwen@igalia.com, nicholas.choi@amd.com, sunpeng.li@amd.com, 
- twoerner@gmail.com, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|SA2PR11MB5162:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b5d1064-a680-4395-df3e-08dc61b92f16
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|366007|376005;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WmppTWlXTkJKUHRuUnFJNmpkYndJcFNHNEQrM1NqTVlObk1Hc2ErTjF6OHpp?=
+ =?utf-8?B?c3Y3eXVkYWZidjNiNEZqTXlPTWpOZVpsUURLM21BTVN3K09ORXU3WGRkdGlQ?=
+ =?utf-8?B?a2prV2xHMmNnS0ZrbCtyc0R1U3FkcXd6WUpIVU52VGkzSjNsSXJ1NVZmWmo3?=
+ =?utf-8?B?VGRCbWFhbU9GM3RMSU9pVnNWcm5BQWhTN1kxSkpkRHRXSmc4dWVCL3Zic0o1?=
+ =?utf-8?B?bEVVbERBMzN5WWVJMVRIbm5NU2Q0bEhicVYyaHpaTXhhQ1Jpb2s1SzN1SjBh?=
+ =?utf-8?B?TSs1UWxCOGIzRVJXMTBHWTBRams4T2YrL0JVZVhXd0pLZytHam52VUZJQ05M?=
+ =?utf-8?B?dmw5OUZ1VzFVdHhoc1hwQnlEYTQvSGpUNFFBbFB5eDV3MmVWTU0xcStGT0Jw?=
+ =?utf-8?B?aWY4N29kNWd6YnArQjRVMW1KRHI1ZmRkWlM4bVB2THh5Yzl2RnhsNk85VXFI?=
+ =?utf-8?B?S3JmWnpNV1V2K2VWQS9ETzF2UnlIN0FHSS9GYVJXL3JLQmppUDl4OGlqM1ZI?=
+ =?utf-8?B?dGNnRHYydE5Jam9ua21wYWlrcEdsZVIyWVpxSDBQeEtTaEVCRzlRUEdRejZQ?=
+ =?utf-8?B?b3JSeGpQTkJSSHdpVXp2NVR6dGdLSlVXa2hJYVpKN2hHelBXbnZVZkZrZGNq?=
+ =?utf-8?B?bGNDbyt6eXAyV3c2UUVXTGJHTGNmNTUrbk9odDNpQTVVbElTcjR1ZWYyMTdO?=
+ =?utf-8?B?ek5BU3RyOXZVdUJUcTBjYVRucjA3WnhPSFVPV3d5UHhQZ1BmUWFDcEZ4Q1dP?=
+ =?utf-8?B?a3JmbE5sRy9UUmxObThWVnBZS0hXTFhyNFRKN3d3alBPVHVHM2JTRlBOa0sy?=
+ =?utf-8?B?bUgxWDBqdVNqS3lnRS95a3J4YmVtWWhhZSt2VXQxbkU2cXU2MUozd05VTStk?=
+ =?utf-8?B?NkJIeHN5Z2ltQklZdG5udnNpcDNRemhwQitoMHNyRjNOMWtiZ05SZFNQWEZH?=
+ =?utf-8?B?dTB4VHJNU2V6U2QxTDZPYTlyNXBaNGJRNjhrN2l3RnJuTFEzYmhjUFNBQ3lB?=
+ =?utf-8?B?aGpHYjREQTZlb3VQdURKUXJ5QklUSm95SnJZdG5wcVBpN2V6WHozTlhMcXRk?=
+ =?utf-8?B?d2xnWFVrang2aGgrVzJxd3NZN2VYNU1LQ1BaODVMcXFFVW5lNmVzaXhsRzM1?=
+ =?utf-8?B?QXJpajVvWWF3YkJZQk5EN242TGFiNE45ekp5NU1uOUZzMTRaNFVsUG9WeUtK?=
+ =?utf-8?B?bW1kcUJaRFo2a1NXZWZpWG9lRlpDYXZqRDRzN2Z4aEMxMmt4S1lXSDArU0Rz?=
+ =?utf-8?B?eThUb2cxSXI4K1hqd2tIeW4yWlo1aXlVUjF5TUdCditDdWR6RU5KdFlFNlo1?=
+ =?utf-8?B?aFhZNnlPWit0OS9wZXN2MzVRMEVPY0VId2pNUnhvdHAvWXMrWDN1ZWhSSmJa?=
+ =?utf-8?B?VlNQYU5TVkdVMUhYVXZKSTFJbnJWZ1JKWmppQTdLY0lqTFdEamwyZ1kxYlNi?=
+ =?utf-8?B?WFBtNTZHY3VmZ2cyeGs0OTdBWnAxRG9EbjJFdjVBTmtKTGRFdU53TFF4MEtK?=
+ =?utf-8?B?Y1ZWVDFpYWh5Q1NROFh4R0hpMDMvdEpzTHQ3T0NPS0MxSHlNd3RITW5UZmpY?=
+ =?utf-8?B?bHB4YUVCNnNmVyt1QmxVa0JvS3F1TFpsRWlKUlJwc1RlZnRlOVZyaUxxckRx?=
+ =?utf-8?B?KzRkbmptajRPVHowOHpJWDcreXgxaGhwdWxoUDNLc0JVOCtwbGRxN2dIdHBT?=
+ =?utf-8?B?OUF6dkJWNlNkYjMyKzF5dk1SWXJtUmpWZkpucWJaREYrRlVSL1lDRnlnPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(1800799015)(366007)(376005); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?elJ6a3JjT0RHQm45R1J1djlqbVMxSG4wWWhud1pUZnJHcm9sUlMrN2JDM3ZM?=
+ =?utf-8?B?YVVxVnVvY0JXcnVTcS9tcnI1SkZiUDNYcVJEVnJGR1U3ZXBsbVlpT3piOVVH?=
+ =?utf-8?B?MWt2NjJRdXV2b3lia3A2bVk2VWV5UEZ2azYrbFhVRUhzQmI3ZnVIMnFDR2w2?=
+ =?utf-8?B?d1N5eThDSHBzemtZTDJaNHZ5bmV1OTErY3NiZFJWSHY3YnBJYjdZbUVPenAr?=
+ =?utf-8?B?bkhLSVg0YkNwdmdqcm5EWjk3dkFpbzFuS3dvd1c2bjlVcmowcjNzdHlRRnpa?=
+ =?utf-8?B?cmF3UDI1azlFdk5iTVkzVmhYbERSU25XNVFPRW1VQU02eDBrdmh0ZEh5M3VJ?=
+ =?utf-8?B?VFM2cHk0bUwvckhqazFmeThLL2oreTBaRUlodTVFdFlKTUNraGJ1cHh6STdE?=
+ =?utf-8?B?QWhCcm9XMVNsNmxidVBya1dKT3NmajNVMFFJc3EweU1QRXpqUm9pbEorTDg1?=
+ =?utf-8?B?K1JNdm5zb1BTY3J0alJwTVU1OGNyTkJQZkZLMDhvUVdubW40ZmNxUmpvVmh2?=
+ =?utf-8?B?cWsxOFhvUCtEbXlMQkdqeTdzamRhY09IZXhIQmt2aWUrUzdURUkzenpLZlFw?=
+ =?utf-8?B?RzdzNnJ4SVdkb1BGS0RnMHlEQzRVL29YRXNGVXBIVzhLclJYbnBwQ2FnMU1w?=
+ =?utf-8?B?MWMrNHY0cUdHWnl6bEpPRk5XWTVjaWZlaE5ldzJtZlh3bFFYY05tS1o5bGZk?=
+ =?utf-8?B?cGE5VUMwSXBsc0llTU9TbzZOVGZnanhZWmJMNVYwL3hUS0kvOVdUOEhSWTEw?=
+ =?utf-8?B?QjkyU0FhZzRKWWx5QUx0OFEyOUpSODZ6UStHYmxQR0U1MURESWN3WHRualh5?=
+ =?utf-8?B?QytiZ3VHZXpKUG1hVEdNQlg3RCtINFV0SnlkZWVqeWxwUXFHL1RSeTdKaGZU?=
+ =?utf-8?B?MFBTeVBnUGFGSUxJZFlPNHBaMzVqTUJIK1ZzekFFQXRjaGxLRTFRUWtIN3d4?=
+ =?utf-8?B?Y1ZSS1hwS2xuNUNPYjV3VThtUkRRZG45RU5PZ1RQcGRxeFlhdG0zRzZSUElT?=
+ =?utf-8?B?bm1vaEc2VjFGU0Nha3l5SURyeDhPcDRkeHB4OHVWK1BqMkoxTlRSMnNCMzVQ?=
+ =?utf-8?B?cXB6dXMrNzZhL3hyZzFNQ1psaklLL0tXR3cwSkJ3S3RMYWJhK3lGMlpjWEtk?=
+ =?utf-8?B?OFRHYStSRFRpV0w2bHlDMSt0Ui9rdlFLMGQ1My9SQlRRT2NjZ213Q2MvemxG?=
+ =?utf-8?B?dGFlZFNVT0NpdDF0V2Fmc21sUUtsbEtRK2pZOFF5OUdiNDZaNHRObXlETVBO?=
+ =?utf-8?B?YXlkVk5XWVQrcGtHRjJuMVA1dW5MT1NLVTlhS3E1eTc2aXNJOHNrd3NPV2Vt?=
+ =?utf-8?B?NGFBYjhMRnpvUXNsUW9VRnJJYkozT1AzQ0IwUHZ2TmEyTUhCbEl1dTVXbjc1?=
+ =?utf-8?B?blJtc2RLT1Y0NXF2YnhnMGttWCtuZkpWcjJQSElGRXZtMHZ2em9QWGxncmJp?=
+ =?utf-8?B?VFZnQ2ZFbXJvSEp0cUo1dUVXRGxHTGFrKzlkMTlCb1luc2k4YTB6d2laQXBR?=
+ =?utf-8?B?am9qL0NvbWpjUG8vUVg1YWRhbFVSa2VJWk1wQkZTNjhNS0NyZXcvOWlWcXhE?=
+ =?utf-8?B?S1IxYXBORFdnRXpKSHdmZmpFOCt1bTZ0cW5TMmxhVHkvK2lNMUR5WTl3S2dz?=
+ =?utf-8?B?ejQyeU9ocE9iVlVuVEd5RkVEL3RNVi9SZUY0aXRrRDBGUDl5TjlST0hJeG9S?=
+ =?utf-8?B?dWpBRHJTemE0K3NlZFRNU2NCVXB3R05keUJQWndmTko4MGxMbFRJaldYZGtL?=
+ =?utf-8?B?blFkMFoyeEg2aGY5NmkxNlVnZ1J1bGNmSVRVTHpnMFpzTzlIMGxGWVQ4QlJj?=
+ =?utf-8?B?TkZ1TkJJb3pPVHNXZXRZVk5Ic3d0UUNhVk1DL1pPTXgrMnZOcnpYQVNEVjZz?=
+ =?utf-8?B?WEN5VlBYczdob1FLN3M0c2MzVkFoc3l2ZzN6ZlNNNWtwRVJuZzBoN2pLSEMx?=
+ =?utf-8?B?bjVYQVFzaVJva0VwUm9wMTk3TUQ4U1BTRURKZFRXdkFIamFFZ1czYm9EazBz?=
+ =?utf-8?B?WDZnV3RWZXN2MWR1MWx3dER0M21xbGo3dytHVEJQWS9od3NTeFVoNlQ3QlVl?=
+ =?utf-8?B?ZXBaUkNodmpZcFZab3RyR3RncDhjUXU5eCtBUHV2ZVMyS2lCOEFGMkdoZjVB?=
+ =?utf-8?B?OTJDLzY1YzRhZG5UL2FGTzRCa0VFMmRVRCtrVTlXZjEyaGxBU1FJYzkyRnU0?=
+ =?utf-8?B?Umc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b5d1064-a680-4395-df3e-08dc61b92f16
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2024 04:11:56.8112 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l+8ji6+Y7jgLXFTIfu2B5eE4xYKHDGogKM2oEIY4t5ntSq5qdgvQUY6t9p5Cir0ZRYVt7HivFC28DFczVcjR51VKWr/vzVw3oRYlCHazmac=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5162
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,128 +202,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em s=C3=A1b., 20 de abr. de 2024 =C3=A0s 15:50, Joao Paulo Pereira da Silva
-<jppaulo11@usp.br> escreveu:
->
-> Hey, I'm interested in contributing for display tests from this patch-set=
-.
-> I've noticed potential updates related to both refactoring and optimizati=
-on.
-> This patch-set applies these suggestions.
->
 
-Hi,
+On 4/19/2024 6:05 PM, Jani Nikula wrote:
+> On Thu, 04 Apr 2024, "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com> wrote:
+>> On 3/19/2024 3:16 PM, Maxime Ripard wrote:
+>>> On Mon, Mar 18, 2024 at 04:37:58PM +0200, Jani Nikula wrote:
+>>>> On Mon, 11 Mar 2024, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com> wrote:
+>>>>>    An Adaptive-Sync-capable DP protocol converter indicates its
+>>>>> support by setting the related bit in the DPCD register. This
+>>>>> is valid for DP and edp as well.
+>>>>>
+>>>>> Computes AS SDP values based on the display configuration,
+>>>>> ensuring proper handling of Variable Refresh Rate (VRR)
+>>>>> in the context of Adaptive Sync.
+>>>> [snip]
+>>>>
+>>>>> Mitul Golani (9):
+>>>>>     drm/dp: Add support to indicate if sink supports AS SDP
+>>>>>     drm: Add Adaptive Sync SDP logging
+>>>> Maarten, Maxime, Thomas, ack for merging these two patches via
+>>>> drm-intel-next?
+>>> Ack
+>>>
+>>> Maxime
+>> Thanks for the patch, ack and reviews, pushed to drm-intel-next.
+> This came up again today [1]. The acks absolutely must be recorded in
+> the commit messages when pushing the patches.
 
-It's great to see this moving forward!
+I apologize for the oversight. Moving forward, I will ensure to 
+consistently include the "acked-by" tag when pushing such changes.
 
-Overall the suggested changes make sense to me, and honestly I already don'=
-t
-remember the discussions that went behind some of them. The only thing that
-I would like to raise for you, and anyone else reviewing this, is that
-apparently
-there are now stronger feeling towards the "preferred way"[1] to handle tes=
-ts in
-static functions, using EXPORT_SYMBOL_IF_KUNIT (or EXPORT_SYMBOL_FOR_TESTS_=
-ONLY
-in the case of DRM), so they might be more adequate to work on
-refactoring this code.
+Regards,
 
-[1]: https://lore.kernel.org/all/5z66ivuhfrzrnuzt6lwjfm5fuozxlgqsco3qb5rfzy=
-f6mil5ms@2svqtlcncyjj/
-
-Kind regards,
-Tales
+Ankit
 
 >
-> [WHY]
+> dim should complain about applying non-i915 patches without acks.
 >
-> 1.      The single test suite in the file
->         test/kunit/dc/dml/calcs/bw_fixed_test.c, which tests some static
->         functions defined in the dc/basics/bpw_fixed.c, is not being run.
->         According to kunit documentation
->         (https://www.kernel.org/doc/html/latest/dev-tools/kunit/usage.htm=
-l#testing-static-functions),
->         there are two strategies for testing
->         static functions, but none of them seem to be configured. Additio=
-nally,
->         it appears that the Config DCE_KUNIT_TEST should be associated wi=
-th this
->         test, since it was introduced in the same patch of the test
->         (https://lore.kernel.org/amd-gfx/20240222155811.44096-3-Rodrigo.S=
-iqueira@amd.com/),
->         but it is not being used anywhere in the display driver.
->
-> 2.      Also, according to the documentation, "The display/tests folder r=
-eplicates
->         the folder hierarchy of the display folder". However, note that t=
-his test file
->         (test/kunit/dc/dml/calcs/bw_fixed_test.c) has a conflicting path =
-with the file
->         that is being tested (dc/basics/bw_fixed.c).
->
-> 3.      Config Names and Helps are a bit misleading and don't follow a st=
-rict
->         pattern. For example, the config DML_KUNIT_TEST indicates that it=
- is used
->         to activate tests for the Display Core Engine, but instead activa=
-tes tests
->         for the Display Core Next. Also, note the different name patterns=
- in
->         DML_KUNIT_TEST and AMD_DC_BASICS_KUNIT_TEST.
->
-> 4.      The test suite dcn21_update_bw_bounding_box_test_suite configures=
- an init
->         function that doesn't need to be executed before every test, but =
-only once
->         before the suite runs.
->
-> 5.      There are some not updated info in the Documentation, such as the
->         recommended command to run the tests:
->         $ ./tools/testing/kunit/kunit.py run --arch=3Dx86_64 \
->         --kunitconfig=3Ddrivers/gpu/drm/amd/display/tests
->         (it doesn't work since there is no .kunitconfig in
->         drivers/gpu/drm/amd/display/tests)
+> BR,
+> Jani.
 >
 >
-> [HOW]
+> [1] https://lore.kernel.org/r/Zh_Q72gYKMMbge9A@intel.com
 >
-> 1. Revise Config names and Help blocks.
->
-> 2.      Change the path of the test file bw_fixed_test from
->         test/kunit/dc/dml/calcs/bw_fixed_test.c to test/kunit/dc/basics/b=
-w_fixed_test.c
->         to make it consistent with the Documentation and the other displa=
-y driver
->         tests. Make this same test file run by importing it conditionally=
- in the file
->         dc/basics/bw_fixed_test.c.
->
-> 3.      Turn the test init function of the suite
->         dcn21_update_bw_bounding_box_test_suite into a suite init.
->
-> 4.      Update Documentation
->
-> Joao Paulo Pereira da Silva (4):
->   drm/amd/display: Refactor AMD display KUnit tests configs
->   drm/amd/display/test: Fix kunit test that is not running
->   drm/amd/display/test: Optimize kunit test suite
->     dml_dcn20_fpu_dcn21_update_bw_bounding_box_test
->   Documentation/gpu: Update AMD Display Core Unit Test documentation
->
->  .../gpu/amdgpu/display/display-test.rst       | 20 ++++++------
->  drivers/gpu/drm/amd/display/Kconfig           | 31 ++++++-------------
->  .../gpu/drm/amd/display/dc/basics/bw_fixed.c  |  3 ++
->  drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |  2 +-
->  .../dc/dml/dcn20/display_mode_vba_20.c        |  2 +-
->  .../dc/dml/dcn20/display_rq_dlg_calc_20.c     |  2 +-
->  .../drm/amd/display/test/kunit/.kunitconfig   |  7 ++---
->  .../gpu/drm/amd/display/test/kunit/Makefile   |  4 +--
->  .../dc/{dml/calcs =3D> basics}/bw_fixed_test.c  |  0
->  .../test/kunit/dc/dml/dcn20/dcn20_fpu_test.c  |  6 ++--
->  10 files changed, 32 insertions(+), 45 deletions(-)
->  rename drivers/gpu/drm/amd/display/test/kunit/dc/{dml/calcs =3D> basics}=
-/bw_fixed_test.c (100%)
->
-> --
-> 2.44.0
 >
