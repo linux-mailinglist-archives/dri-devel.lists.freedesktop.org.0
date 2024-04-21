@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570798AC14F
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Apr 2024 23:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 922C98AC1A4
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 00:19:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6FD112585;
-	Sun, 21 Apr 2024 21:54:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8499810F3A5;
+	Sun, 21 Apr 2024 22:19:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="s3W0xWYq";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="ZWQiPBEl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6B92112584
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 21:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=9vox/2l58IcxASSd09IlHXviPXoo98abDsDOC4qoO/E=; b=s3W0xWYqaURReY9iFQOMHI0R32
- VW/uldaI+cnQjfMe0c1RRf0X5Fzvx2r/mgGrf3KbZSIg/8WwLjEdXzTDfo/5ehGLp9hrMgPytBGtN
- jdeyOnqj9Gn31mu84RqhW6DhCi1c2TUBCsAuSthynSIwW/Y9+egYh1CPJhR/PGAfkLlRod9+PlxiF
- nI25A0DJMyZGIvi3R3AyaxpNHRycuLso/EJJckk0M8sISMi3oVVYCpZVLONSmgfExmoRVX3rer4xI
- uAaDhncoOL2Qyx3isdDGHVIVnqhJvFsHZO1T51sDGMg7MrGaRvTfRN0zaELFw3UmncRdkSJO5pxk0
- H2HsH/2A==;
-Received: from [179.234.232.152] (helo=morissey..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ryf8J-0072SJ-Ol; Sun, 21 Apr 2024 23:54:00 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Tvrtko Ursulin <tursulin@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH v3 8/8] drm/v3d: Add modparam for turning off Big/Super Pages
-Date: Sun, 21 Apr 2024 18:44:26 -0300
-Message-ID: <20240421215309.660018-9-mcanal@igalia.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240421215309.660018-1-mcanal@igalia.com>
-References: <20240421215309.660018-1-mcanal@igalia.com>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30AD210F3A5
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 22:19:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1713737980;
+ bh=KDRWTdY/BdehO8gYSGZjXUGgjh95qAwgwfLuKoyBYbQ=;
+ h=Date:From:To:Cc:Subject:From;
+ b=ZWQiPBEluaoclAncRL44AJ1ntXmrOWYbttWsW2e/3ysjZqlsAJ6XFM5Bs9Nnz+51o
+ mx3E1gCRBC0DgJTD9EtorvngvhrYIzx+nc7SO79INbd1hBjp9e82hVbs7o6OgdosZC
+ sUHOK/LjNYXjhUhBqfL/1QhL7JuzBs3xyYB9oCpBTtKducuCnjL2aSFYEv3pBzjRfa
+ BIaWaezxeHIpfkkhN+/I18uV8iXNTbQoDs2Zwt0GxCzpYLu1N4gBoLKVgTxxqigpQJ
+ 04WWBbiZDuMsNOCfd/LyayDJKp3OaqEwpVGrjlJagVXjZvmyBOC2uViSzowo7tg3VR
+ pA0vLofASCJqQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4VN2qc04kMz4wc5;
+ Mon, 22 Apr 2024 08:19:39 +1000 (AEST)
+Date: Mon, 22 Apr 2024 08:19:39 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, DRI
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: warning while fetching the drm tree
+Message-ID: <20240422081939.7d61cfa5@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/1XdrssMqPnKOZyM8fpylqaQ";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,51 +58,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a modparam for turning off Big/Super Pages to make sure that if an
-user doesn't want Big/Super Pages enabled, it can disabled it by setting
-the modparam to false.
+--Sig_/1XdrssMqPnKOZyM8fpylqaQ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/v3d/v3d_drv.c   | 8 ++++++++
- drivers/gpu/drm/v3d/v3d_gemfs.c | 5 +++++
- 2 files changed, 13 insertions(+)
+Hi all,
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 3debf37e7d9b..bc8c8905112a 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -36,6 +36,14 @@
- #define DRIVER_MINOR 0
- #define DRIVER_PATCHLEVEL 0
- 
-+bool super_pages = true;
-+
-+/* Only expose the `super_pages` modparam if THP is enabled. */
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+module_param_named(super_pages, super_pages, bool, 0400);
-+MODULE_PARM_DESC(super_pages, "Enable/Disable Super Pages support.");
-+#endif
-+
- static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
- 			       struct drm_file *file_priv)
- {
-diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c b/drivers/gpu/drm/v3d/v3d_gemfs.c
-index 31cf5bd11e39..5fa08263cff2 100644
---- a/drivers/gpu/drm/v3d/v3d_gemfs.c
-+++ b/drivers/gpu/drm/v3d/v3d_gemfs.c
-@@ -11,6 +11,11 @@ void v3d_gemfs_init(struct v3d_dev *v3d)
- 	char huge_opt[] = "huge=within_size";
- 	struct file_system_type *type;
- 	struct vfsmount *gemfs;
-+	extern bool super_pages;
-+
-+	/* The user doesn't want to enable Super Pages */
-+	if (!super_pages)
-+		goto err;
- 
- 	/*
- 	 * By creating our own shmemfs mountpoint, we can pass in
--- 
-2.44.0
+Fetching the drm tree produced this warning:
 
+Commit
+
+  326e30e4624c ("drm/i915: Drop dead code for pvc")
+
+added this unexpected file:
+
+  drivers/gpu/drm/i915/gt/intel_workarounds.c.rej
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/1XdrssMqPnKOZyM8fpylqaQ
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmYlkPsACgkQAVBC80lX
+0GyRegf8DG88Tc2ajFce9SaiKMtc1R291H0Yx8bJRd1QRT0Nc+bsZPHmaw8SDDYK
+e880Nn6u/R6JlO/bfYezdYNIVyQZ+JTRmROPqNYvAlI/D5c5KVLyFvTIMutMQkMF
+kn+7ud6Vcbn2atoikFAIKegroDdTco/alpBl2gv6bTuZ9k9T+0MGrXxtU5D31QZJ
+B3EMvIiECd5iS5EStJHlM3ikKGM1lfA7lE1SpnzXJNFapop6X06ewKA22a/kGlSg
+wcDyjnRDbKW/WYFhYQzGF3yOcJvOCrVfIGEVri4fXHpbuZwbszf4ptFwXEUuJpi0
+qwleqOQcnIwnkKon3NNspiiBoqWioA==
+=sdp2
+-----END PGP SIGNATURE-----
+
+--Sig_/1XdrssMqPnKOZyM8fpylqaQ--
