@@ -2,49 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13588ACA6A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 12:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26C68ACA9F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 12:30:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0AF10F4D2;
-	Mon, 22 Apr 2024 10:19:39 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="gk8bVHbC";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCB94112982;
+	Mon, 22 Apr 2024 10:30:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2729010F4D2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 10:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=p2ORg
- ZDzSKVifuuO/4694cN5BzMQozrvf4hgWYIQay0=; b=gk8bVHbCll4il7G5c+K8e
- fPSYPWXboelLycremu9396QGozJZywTHOj/3HbM+w4Aozz1KqdgHL1BB0elDGegP
- NlUmgQ19uM1Tu6KK+VUsBKoW1N9fxb+gnoCoBmruvhVIp9zNWIZpf3MRZJolpJGD
- lp22RovFMEWP5UwpcclMW8=
-Received: from ProDesk.. (unknown [58.22.7.114])
- by gzga-smtp-mta-g1-3 (Coremail) with SMTP id _____wB3fymbOSZmRwO9Bw--.23790S3;
- Mon, 22 Apr 2024 18:19:10 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: heiko@sntech.de
-Cc: tzimmermann@suse.de, mripard@kernel.org, hjc@rock-chips.com,
- s.hauer@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH 1/1] drm/rockchip: vop2: Fix the port mux of VP2
-Date: Mon, 22 Apr 2024 18:19:05 +0800
-Message-Id: <20240422101905.32703-2-andyshrk@163.com>
+Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C073112988
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 10:30:48 +0000 (UTC)
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by riemann.telenet-ops.be (Postfix) with ESMTPS id 4VNM392w5Nz4wxSW
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:30:45 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
+ by michel.telenet-ops.be with bizsmtp
+ id EAWj2C00B0SSLxL06AWjTr; Mon, 22 Apr 2024 12:30:45 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1ryqw1-001cvn-4S;
+ Mon, 22 Apr 2024 12:30:43 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1ryqwd-005i3S-3e;
+ Mon, 22 Apr 2024 12:30:43 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 00/11] drm: Restore helper usability
+Date: Mon, 22 Apr 2024 12:30:28 +0200
+Message-Id: <cover.1713780345.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240422101905.32703-1-andyshrk@163.com>
-References: <20240422101905.32703-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wB3fymbOSZmRwO9Bw--.23790S3
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Jw13Gw1fWF4fZF4rXFW8JFb_yoWDCFc_Ga
- y7XrnxWa1kuwnxAw1UCw4fGrW2y3ZFkF4vya10vF9IvanxJ3Wvqa4Sv3y7XF1UAF13Wr1D
- Was0gr1xZFnxCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUeb6pDUUUUU==
-X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEAPIXmVODidz9QAAsB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,31 +56,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+	Hi all,
 
-The port mux of VP2 should be RK3568_OVL_PORT_SET__PORT2_MUX.
+As discussed on IRC with Maxime and Arnd, this series reverts the
+conversion of select to depends for various DRM helpers in series
+"[PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols to
+depends on"[1], and various fixes for it.  This conversion introduced a
+big usability issue when configuring a kernel and enabling DRM drivers
+that use DRM helper code: as drivers now depend on helpers, the user
+needs to know which helpers to enable, before the driver he is
+interested even becomes visible.  The user should not need to know that,
+and drivers should select the helpers they need.
 
-Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+Hence revert back to what we had before, where drivers selected the
+helpers (and any of their dependencies, if they can be met) they need.
+In general, when a symbol selects another symbol, it should just make
+sure the dependencies of the target symbol are met, which may mean
+adding dependencies to the source symbol.
 
----
+Thanks for applying!
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1] https://lore.kernel.org/r/20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org/
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 97b0ab4b6db8..1f4250de570f 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2377,7 +2377,7 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
- 		port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT2_MUX,
- 			(vp2->nlayers + vp1->nlayers + vp0->nlayers - 1));
- 	else
--		port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT1_MUX, 8);
-+		port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT2_MUX, 8);
- 
- 	layer_sel = vop2_readl(vop2, RK3568_OVL_LAYER_SEL);
- 
+Geert Uytterhoeven (11):
+  Revert "drm: fix DRM_DISPLAY_DP_HELPER dependencies, part 2"
+  Revert "drm/display: Select DRM_KMS_HELPER for DP helpers"
+  Revert "drm/bridge: dw-hdmi: Make DRM_DW_HDMI selectable"
+  Revert "drm: fix DRM_DISPLAY_DP_HELPER dependencies"
+  Revert "drm: Switch DRM_DISPLAY_HDMI_HELPER to depends on"
+  Revert "drm: Switch DRM_DISPLAY_HDCP_HELPER to depends on"
+  Revert "drm: Switch DRM_DISPLAY_DP_HELPER to depends on"
+  Revert "drm: Switch DRM_DISPLAY_DP_AUX_BUS to depends on"
+  Revert "drm: Switch DRM_DISPLAY_HELPER to depends on"
+  Revert "drm: Make drivers depends on DRM_DW_HDMI"
+  Revert "drm/display: Make all helpers visible and switch to depends
+    on"
+
+ drivers/gpu/drm/Kconfig                 |  8 +++----
+ drivers/gpu/drm/amd/amdgpu/Kconfig      | 12 ++++------
+ drivers/gpu/drm/bridge/Kconfig          | 28 +++++++++++-----------
+ drivers/gpu/drm/bridge/analogix/Kconfig | 18 +++++++-------
+ drivers/gpu/drm/bridge/cadence/Kconfig  |  8 +++----
+ drivers/gpu/drm/bridge/imx/Kconfig      |  4 ++--
+ drivers/gpu/drm/bridge/synopsys/Kconfig |  6 ++---
+ drivers/gpu/drm/display/Kconfig         | 32 ++++++++++---------------
+ drivers/gpu/drm/exynos/Kconfig          |  4 ++--
+ drivers/gpu/drm/i915/Kconfig            |  8 +++----
+ drivers/gpu/drm/imx/ipuv3/Kconfig       |  5 ++--
+ drivers/gpu/drm/ingenic/Kconfig         |  2 +-
+ drivers/gpu/drm/mediatek/Kconfig        |  6 ++---
+ drivers/gpu/drm/meson/Kconfig           |  2 +-
+ drivers/gpu/drm/msm/Kconfig             |  8 +++----
+ drivers/gpu/drm/nouveau/Kconfig         | 10 ++++----
+ drivers/gpu/drm/panel/Kconfig           | 32 ++++++++++++-------------
+ drivers/gpu/drm/radeon/Kconfig          |  8 +++----
+ drivers/gpu/drm/renesas/rcar-du/Kconfig |  2 +-
+ drivers/gpu/drm/rockchip/Kconfig        | 10 ++++----
+ drivers/gpu/drm/sun4i/Kconfig           |  2 +-
+ drivers/gpu/drm/tegra/Kconfig           |  8 +++----
+ drivers/gpu/drm/vc4/Kconfig             | 10 ++++----
+ drivers/gpu/drm/xe/Kconfig              | 13 ++++------
+ drivers/gpu/drm/xlnx/Kconfig            |  8 +++----
+ 25 files changed, 116 insertions(+), 138 deletions(-)
+
 -- 
 2.34.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
