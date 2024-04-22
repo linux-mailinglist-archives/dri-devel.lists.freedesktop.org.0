@@ -2,79 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A748AD518
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:46:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A523C8AD536
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:51:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29F20112D24;
-	Mon, 22 Apr 2024 19:46:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE9BB10F7A7;
+	Mon, 22 Apr 2024 19:51:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="P9iNfJaR";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="X/xwG0p1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74BD2112D22
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:45:59 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-51abd580902so3136680e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:45:59 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D972B10F7A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:51:45 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2db7c6b5598so64108051fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:51:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713815157; x=1714419957; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713815504; x=1714420304; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oczHlzSC/UPaNc2LgQ5vSBFQ2KcNspCQ4fkb6GlVJw8=;
- b=P9iNfJaRa1gWu7AEvsZpyrPZ7G6AGUFgFITrsW50vvR7zVj/hr+BixlGk1zxzf2QDu
- wfKMgyFwqetE+7cyfurwQGG+igykHJZWWF8iJ6mnIYrEzUiu5hTvC85YjQ0RYjHKJfOD
- 5mYAkj2euhUwMqMGUelYoa2sqVu1ErjGhUQtox9l293wx0MVy51h7jA8i0sJ8ujA3odB
- 9vZuD12m2W2hxKl94usr9tvDydWROMg7IMUgvNW5TIOvvmekQ0V8/+zH2S9a5SV7aJKA
- dNstxyTZEWaeBxGDdoCAFB1MN8OgmQnN230XtlQ4qDEfOMfK1peD+OWHLjO4l2/hJHCf
- uUkQ==
+ bh=geu7O3+m3HJ/3o9N5bHvMzVI9k+cw0GEArJbMvVCgjk=;
+ b=X/xwG0p1Fapek6Q6E2vGtEd7hBLCRiYUp0GusxG4gZNpINk8Z/5x6qftn94JFBRDDj
+ PFxKaoqs/dsx0Ga7RG80kFe2S8mX+kslY1+islfsBe/UDwNitSQA3ql5D1CPQGlvtq38
+ Upl4Clb0pcAuTHeNiXFTc7iu3yx4/nxGjckEFmf4YkMgS/lpolMDSywqpFh2um8cRbJ8
+ vTW+E2Q+LzAgGgY3z4HWBBD3IGDDLxGX4dRK80Wl6B9PaLnrUCgCx7AG0+Gozu3H58vB
+ KHSd4HGAjobsfA/oYAL12y1e7Nsv/ziV/DcoKwHr/HRw8LiH9JyaAEP8Mut+0nMP/nEH
+ mDHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713815157; x=1714419957;
+ d=1e100.net; s=20230601; t=1713815504; x=1714420304;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oczHlzSC/UPaNc2LgQ5vSBFQ2KcNspCQ4fkb6GlVJw8=;
- b=pFwiHSW7AB4uCgOj5EyZxF/8P3QZElBQrzCp6LgelWLcr+XmGZId82zMIw3g0hDETX
- Uh4NSku7648L5gkT53e3igojRdmSRx4riFv7MQVkrRxHOUp/KvJsB1axy4m0b1ni3UGk
- n25duhGXtejS7863fCWqOJ6CeffkUnwUvB/CdwB1d81Zci3iSJmVBg+P6emXkNE8M3Et
- kx4momfjxeFPK66v3ODT8MQoarwV3eMn+GVycERALatx/b7ZYcnkCmlJ25MrPutfwYbB
- 8cS8hdSFFMSJhi1uMyfg6oQrnSLpgrwBOgOefxtixYvakgH6fkZwLNMnsZB1noXFBfGY
- wmwQ==
+ bh=geu7O3+m3HJ/3o9N5bHvMzVI9k+cw0GEArJbMvVCgjk=;
+ b=LnqZiNszny4M6ztmwXhZVEwui1RToNsmctO+HIuB8stjWn2crLlBoI1Xte2JdBvEvN
+ 6lW5/8LxCiBg+DWKbkdM2YHh+CbHeWlmL3X85juG8fzCQYZ10CF5EII9I424e3PQMhz4
+ rf/AX7odHVl0DEJaYo7Y4Dl607ygJljnRgl5RG1eOyjojcr1iK/g5FjQsrj++yIeB5RU
+ 2JDcUyXlkVQtdn8LpNVNmtB41AsKpSunx+q+59KuohMG1mNyUOvArosy3ZQ1qq0JecDx
+ YmpLLIp1S3JENxLoDBq7nd0YZiDR+EfI91CcPTbhWuv5Ti9Ek1KpwWRc2MZI/FnNakpx
+ GHug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWRwy/pWZI+poP1vRxXUzlZKEd2xHmuEVP2I+x4lgWNej3fNYJrN9J7PUpUTVgH2ezVK+HLr7uvRX4WG+vaJIV6C3f9Lz0bDAyzrzT/icOf
-X-Gm-Message-State: AOJu0YzWKOOoNf7pPu2yKuRm50PNfZ+XpQk5LNep66eMvyLY4p5vVC+z
- UwygKlLt4IPx5tqofyptt0wzbweNA3FPAG1u5ohoA/k3l392oXEGVDlDZOH4DAI=
-X-Google-Smtp-Source: AGHT+IF14L/T9IvkeZrOwqfHcwk2Y0hm4EP/cfe8FF6+164kRjiuEYO6k5CY9HCaFE2rH8uTWbvqcw==
-X-Received: by 2002:a05:6512:20f:b0:519:65fe:ac10 with SMTP id
- a15-20020a056512020f00b0051965feac10mr201015lfo.32.1713815157475; 
- Mon, 22 Apr 2024 12:45:57 -0700 (PDT)
+ AJvYcCX2cFyYc4ihcJuyDq1Fe3n0yS3l2tBF/CcCLF+1l2549vKdv3uJIrLCfUF6XZliN7OCo1WH78ueIp3L715PRSWG3clZ+HWc4M2zexiY2RD0
+X-Gm-Message-State: AOJu0YxE4Wy0AN92Seitv9awqgEBd4Obu2IPFf9KsprYmMmV50Caw/xU
+ TYYyZ0gTCo/KsyHvJKZUAV8uOW4FXolyE/0Y8WNt7EIDLEPl77dT+967F4qJP7M=
+X-Google-Smtp-Source: AGHT+IFBToLOpSsjPI8pjqEB5XqsvUzOWG8mujF7Bwog8+VxvvQHLSw7DikZG1Z+rLu3IV4Obwe7Jw==
+X-Received: by 2002:a2e:9ccb:0:b0:2d6:d351:78ae with SMTP id
+ g11-20020a2e9ccb000000b002d6d35178aemr7467468ljj.29.1713815503853; 
+ Mon, 22 Apr 2024 12:51:43 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a19f50e000000b005194167c042sm1806503lfb.171.2024.04.22.12.45.56
+ t3-20020a2e9c43000000b002dcb831d958sm1317363ljj.56.2024.04.22.12.51.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Apr 2024 12:45:57 -0700 (PDT)
-Date: Mon, 22 Apr 2024 22:45:55 +0300
+ Mon, 22 Apr 2024 12:51:43 -0700 (PDT)
+Date: Mon, 22 Apr 2024 22:51:41 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] drm/msm/mdp4: don't destroy mdp4_kms in
- mdp4_kms_init error path
-Message-ID: <4aovv43qe3nm7uwb32b655lv54rion6lw4ofegi4vkr4si2y27@w3rvyvcw7mda>
-References: <20240420-mdp4-fixes-v1-0-96a70f64fa85@linaro.org>
- <20240420-mdp4-fixes-v1-2-96a70f64fa85@linaro.org>
- <313d9eed-098f-c09b-eb5d-ac9ad56a8e1d@quicinc.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Phong LE <ple@baylibre.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/9] drm/bridge: Allow using fwnode API to get the
+ next bridge
+Message-ID: <xsfrnucued63q2amv7betkvgks6bhssubhjcryghkcloytixj4@ukmak4xwyjtg>
+References: <20240422191903.255642-1-sui.jingfeng@linux.dev>
+ <20240422191903.255642-2-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <313d9eed-098f-c09b-eb5d-ac9ad56a8e1d@quicinc.com>
+In-Reply-To: <20240422191903.255642-2-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,134 +91,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 22, 2024 at 11:17:15AM -0700, Abhinav Kumar wrote:
+On Tue, Apr 23, 2024 at 03:18:55AM +0800, Sui Jingfeng wrote:
+> Currently, the various display bridge drivers rely on OF infrastructures
+> to works very well, yet there are platforms and/or devices absence of 'OF'
+> support. Such as virtual display drivers, USB display apapters and ACPI
+> based systems etc.
 > 
+> Add fwnode based helpers to fill the niche, this allows part of the display
+> bridge drivers to work across systems. As the fwnode API has wider coverage
+> than DT counterpart and the fwnode graphs are compatible with the OF graph,
+> so the provided helpers can be used on all systems in theory. Assumed that
+> the system has valid fwnode graphs established before drm bridge drivers
+> are probed, and there has fwnode assigned to involved drm bridge instance.
 > 
-> On 4/19/2024 7:33 PM, Dmitry Baryshkov wrote:
-> > Since commit 3c74682637e6 ("drm/msm/mdp4: move resource allocation to
-> > the _probe function") the mdp4_kms data is allocated during probe. It is
-> > an error to destroy it during mdp4_kms_init(), as the data is still
-> > referenced by the drivers's data and can be used later in case of probe
-> > deferral.
-> > 
+> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 74 ++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_bridge.h     | 16 ++++++++
+>  2 files changed, 90 insertions(+)
 > 
-> mdp4_destroy() currently detaches mmu, calls msm_kms_destroy() which
-> destroys pending timers and releases refcount on the aspace.
-> 
-> It does not touch the mdp4_kms as that one is devm managed.
-> 
-> In the comment https://patchwork.freedesktop.org/patch/590411/?series=132664&rev=1#comment_1074306,
-> we had discussed that the last component's reprobe attempt is affected
-> (which is not dpu or mdp4 or mdp5 right? )
-> 
-> If it was an interface (such as DSI OR DP), is it the aspace detach which is
-> causing the crash?
 
-I should have retained the trace log. I'll trigger the issue and post the trace.
+[skipped]
 
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 4baca0d9107b..a3f5d12a308c 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -26,6 +26,7 @@
+>  #include <linux/ctype.h>
+>  #include <linux/list.h>
+>  #include <linux/mutex.h>
+> +#include <linux/of.h>
+>  
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_encoder.h>
+> @@ -721,6 +722,8 @@ struct drm_bridge {
+>  	struct list_head chain_node;
+>  	/** @of_node: device node pointer to the bridge */
+>  	struct device_node *of_node;
+> +	/** @fwnode: fwnode pointer to the bridge */
+> +	struct fwnode_handle *fwnode;
+
+My comment is still the same: plese replace of_node with fwnode. It is
+more intrusive, however it will lower the possible confusion if the
+driver sets both of_node and fwnode. Also it will remove the necessity
+for helpers like drm_bridge_set_node().
+
+>  	/** @list: to keep track of all added bridges */
+>  	struct list_head list;
+>  	/**
+> @@ -788,6 +791,13 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+>  		      struct drm_bridge *previous,
+>  		      enum drm_bridge_attach_flags flags);
+>  
+> +static inline void
+> +drm_bridge_set_node(struct drm_bridge *bridge, struct fwnode_handle *fwnode)
+> +{
+> +	bridge->fwnode = fwnode;
+> +	bridge->of_node = to_of_node(fwnode);
+> +}
+> +
+>  #ifdef CONFIG_OF
+>  struct drm_bridge *of_drm_find_bridge(struct device_node *np);
+>  #else
+> @@ -797,6 +807,12 @@ static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+>  }
+>  #endif
+>  
+> +struct drm_bridge *
+> +drm_bridge_find_by_fwnode(struct fwnode_handle *fwnode);
+> +
+> +struct drm_bridge *
+> +drm_bridge_find_next_bridge_by_fwnode(struct fwnode_handle *fwnode, u32 port);
+> +
+>  /**
+>   * drm_bridge_get_next_bridge() - Get the next bridge in the chain
+>   * @bridge: bridge object
+> -- 
+> 2.34.1
 > 
-> Another note is, mdp5 needs the same fix in that case.
-> 
-> dpu_kms_init() looks fine.
-> 
-> > Fixes: 3c74682637e6 ("drm/msm/mdp4: move resource allocation to the _probe function")
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 28 +++++++++-------------------
-> >   1 file changed, 9 insertions(+), 19 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> > index 4ba1cb74ad76..4c5f72b7e0e5 100644
-> > --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> > +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> > @@ -392,7 +392,7 @@ static int mdp4_kms_init(struct drm_device *dev)
-> >   	ret = mdp_kms_init(&mdp4_kms->base, &kms_funcs);
-> >   	if (ret) {
-> >   		DRM_DEV_ERROR(dev->dev, "failed to init kms\n");
-> > -		goto fail;
-> > +		return ret;
-> >   	}
-> >   	kms = priv->kms;
-> > @@ -403,7 +403,7 @@ static int mdp4_kms_init(struct drm_device *dev)
-> >   		ret = regulator_enable(mdp4_kms->vdd);
-> >   		if (ret) {
-> >   			DRM_DEV_ERROR(dev->dev, "failed to enable regulator vdd: %d\n", ret);
-> > -			goto fail;
-> > +			return ret;
-> >   		}
-> >   	}
-> > @@ -414,8 +414,7 @@ static int mdp4_kms_init(struct drm_device *dev)
-> >   	if (major != 4) {
-> >   		DRM_DEV_ERROR(dev->dev, "unexpected MDP version: v%d.%d\n",
-> >   			      major, minor);
-> > -		ret = -ENXIO;
-> > -		goto fail;
-> > +		return -ENXIO;
-> >   	}
-> >   	mdp4_kms->rev = minor;
-> > @@ -423,8 +422,7 @@ static int mdp4_kms_init(struct drm_device *dev)
-> >   	if (mdp4_kms->rev >= 2) {
-> >   		if (!mdp4_kms->lut_clk) {
-> >   			DRM_DEV_ERROR(dev->dev, "failed to get lut_clk\n");
-> > -			ret = -ENODEV;
-> > -			goto fail;
-> > +			return -ENODEV;
-> >   		}
-> >   		clk_set_rate(mdp4_kms->lut_clk, max_clk);
-> >   	}
-> > @@ -445,8 +443,7 @@ static int mdp4_kms_init(struct drm_device *dev)
-> >   	mmu = msm_iommu_new(&pdev->dev, 0);
-> >   	if (IS_ERR(mmu)) {
-> > -		ret = PTR_ERR(mmu);
-> > -		goto fail;
-> > +		return PTR_ERR(mmu);
-> >   	} else if (!mmu) {
-> >   		DRM_DEV_INFO(dev->dev, "no iommu, fallback to phys "
-> >   				"contig buffers for scanout\n");
-> > @@ -458,8 +455,7 @@ static int mdp4_kms_init(struct drm_device *dev)
-> >   		if (IS_ERR(aspace)) {
-> >   			if (!IS_ERR(mmu))
-> >   				mmu->funcs->destroy(mmu);
-> > -			ret = PTR_ERR(aspace);
-> > -			goto fail;
-> > +			return PTR_ERR(aspace);
-> >   		}
-> >   		kms->aspace = aspace;
-> > @@ -468,7 +464,7 @@ static int mdp4_kms_init(struct drm_device *dev)
-> >   	ret = modeset_init(mdp4_kms);
-> >   	if (ret) {
-> >   		DRM_DEV_ERROR(dev->dev, "modeset_init failed: %d\n", ret);
-> > -		goto fail;
-> > +		return ret;
-> >   	}
-> >   	mdp4_kms->blank_cursor_bo = msm_gem_new(dev, SZ_16K, MSM_BO_WC | MSM_BO_SCANOUT);
-> > @@ -476,14 +472,14 @@ static int mdp4_kms_init(struct drm_device *dev)
-> >   		ret = PTR_ERR(mdp4_kms->blank_cursor_bo);
-> >   		DRM_DEV_ERROR(dev->dev, "could not allocate blank-cursor bo: %d\n", ret);
-> >   		mdp4_kms->blank_cursor_bo = NULL;
-> > -		goto fail;
-> > +		return ret;
-> >   	}
-> >   	ret = msm_gem_get_and_pin_iova(mdp4_kms->blank_cursor_bo, kms->aspace,
-> >   			&mdp4_kms->blank_cursor_iova);
-> >   	if (ret) {
-> >   		DRM_DEV_ERROR(dev->dev, "could not pin blank-cursor bo: %d\n", ret);
-> > -		goto fail;
-> > +		return ret;
-> >   	}
-> >   	dev->mode_config.min_width = 0;
-> > @@ -492,12 +488,6 @@ static int mdp4_kms_init(struct drm_device *dev)
-> >   	dev->mode_config.max_height = 2048;
-> >   	return 0;
-> > -
-> > -fail:
-> > -	if (kms)
-> > -		mdp4_destroy(kms);
-> > -
-> > -	return ret;
-> >   }
-> >   static const struct dev_pm_ops mdp4_pm_ops = {
-> > 
 
 -- 
 With best wishes
