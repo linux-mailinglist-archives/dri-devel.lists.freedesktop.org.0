@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F498AD97E
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9DB68AD981
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:55:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16939112E67;
-	Mon, 22 Apr 2024 23:55:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA276112E69;
+	Mon, 22 Apr 2024 23:55:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ol9kyWTF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qLi+Gp7o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01328112E66;
- Mon, 22 Apr 2024 23:55:01 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5687112E68;
+ Mon, 22 Apr 2024 23:55:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4EBDF61119;
- Mon, 22 Apr 2024 23:55:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F49C3277B;
- Mon, 22 Apr 2024 23:54:58 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id E3FBECE0A54;
+ Mon, 22 Apr 2024 23:55:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2BA8C32782;
+ Mon, 22 Apr 2024 23:55:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713830101;
- bh=MwuY0hLb+N6b9YB79jB7wWRz6DDBHF+sgVjco9EEbO0=;
+ s=k20201202; t=1713830104;
+ bh=SCqaqHScQMAM4fAgeyxAFEvwYQwaAdVCBYbZCjn+uas=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ol9kyWTFAm94kQuApkaCUnnP4G+JAueJpcCHG5V7ZIJ2hIyAOB8UbskPyLmg5M63N
- rMibFgMsrykG9Ls4PPAuclkEOj2W5kZ0ZI9G6/hcUiB3Nvblr+jnblPdLnFgrteG9F
- CI0nXqORkmoOGnmxUcdA5+0dwZW28bMSTuEeCBIC2diZ+us+ih699vConGmc4Gxiaj
- uJOTPOu0VDCo2CmW2gGD2+XtJfnlyaw4DlUzIrycu1z494Y4g5xkg9l0j83nIi2Vj6
- YOtw1sWlM5DwCaLq1vB+fpZ2Uvs6n4WpFu6u1dCEKu2scpduHv9L00z0Yyw5hpAvpS
- KZ6pCw9KcChaw==
+ b=qLi+Gp7oT1k8yUeZM6CeASG+pS3kDKRikzHuSU5W4uOwXiIpboZthsp7cTNkC3LQo
+ EwsyLNhcnzp/wP/dlaABjjD1ydLVSao4tonKhVgP/WV5mHURBdMGLsayteTJn5v3DZ
+ eiUfN6k/ww3mMJ9eBlmX4np/Xt2881FclD2VM8gXJKuGlgSQgq9HEfR5PlnE3wMSnA
+ w9eB4SoU9bmHRdh0E3qlYASnX1qkq0V3y9g2j5NjqH8D4b27bL5Ehav8lg9lypsFJy
+ XTSzKXI9n+oIShZY+kfpCkU1AuIQ2jDls/p3FbRamAnwyvs/fcK426Fo2zbWvc61PE
+ uVj3Lrykj/7RA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Li Ma <li.ma@amd.com>, Yifan Zhang <yifan1.zhang@amd.com>,
+Cc: Yifan Zhang <yifan1.zhang@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, alex.hung@amd.com, hamza.mahfooz@amd.com,
- wayne.lin@amd.com, srinivasan.shanmugam@amd.com, joshua@froggi.es,
- haoping.liu@amd.com, amd-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch, Hawking.Zhang@amd.com, lijo.lazar@amd.com, le.ma@amd.com,
+ Prike.Liang@amd.com, Lang.Yu@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.8 27/43] drm/amd/display: add DCN 351 version for
- microcode load
-Date: Mon, 22 Apr 2024 19:14:13 -0400
-Message-ID: <20240422231521.1592991-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 28/43] drm/amdgpu: add smu 14.0.1 discovery support
+Date: Mon, 22 Apr 2024 19:14:14 -0400
+Message-ID: <20240422231521.1592991-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240422231521.1592991-1-sashal@kernel.org>
 References: <20240422231521.1592991-1-sashal@kernel.org>
@@ -68,45 +65,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Li Ma <li.ma@amd.com>
+From: Yifan Zhang <yifan1.zhang@amd.com>
 
-[ Upstream commit d4396924c3d44f34d0643f650e70892e07f3677f ]
+[ Upstream commit 533eefb9be76c3b23d220ee18edfda8eb56cefff ]
 
-There is a new DCN veriosn 3.5.1 need to load
+This patch to add smu 14.0.1 support
 
-Signed-off-by: Li Ma <li.ma@amd.com>
-Reviewed-by: Yifan Zhang <yifan1.zhang@amd.com>
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 718e533ab46dd..0d3e553647993 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -147,6 +147,9 @@ MODULE_FIRMWARE(FIRMWARE_NAVI12_DMCU);
- #define FIRMWARE_DCN_35_DMUB "amdgpu/dcn_3_5_dmcub.bin"
- MODULE_FIRMWARE(FIRMWARE_DCN_35_DMUB);
- 
-+#define FIRMWARE_DCN_351_DMUB "amdgpu/dcn_3_5_1_dmcub.bin"
-+MODULE_FIRMWARE(FIRMWARE_DCN_351_DMUB);
-+
- /* Number of bytes in PSP header for firmware. */
- #define PSP_HEADER_BYTES 0x100
- 
-@@ -4776,6 +4779,9 @@ static int dm_init_microcode(struct amdgpu_device *adev)
- 	case IP_VERSION(3, 5, 0):
- 		fw_name_dmub = FIRMWARE_DCN_35_DMUB;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+index 4f9900779ef9e..ff28265838ec0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+@@ -1867,6 +1867,7 @@ static int amdgpu_discovery_set_smu_ip_blocks(struct amdgpu_device *adev)
+ 		amdgpu_device_ip_block_add(adev, &smu_v13_0_ip_block);
  		break;
-+	case IP_VERSION(3, 5, 1):
-+		fw_name_dmub = FIRMWARE_DCN_351_DMUB;
-+		break;
+ 	case IP_VERSION(14, 0, 0):
++	case IP_VERSION(14, 0, 1):
+ 		amdgpu_device_ip_block_add(adev, &smu_v14_0_ip_block);
+ 		break;
  	default:
- 		/* ASIC doesn't support DMUB. */
- 		return 0;
 -- 
 2.43.0
 
