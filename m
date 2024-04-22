@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6F08AD569
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 22:00:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A168AD570
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 22:01:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD617112D2E;
-	Mon, 22 Apr 2024 20:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B470112D30;
+	Mon, 22 Apr 2024 20:01:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Dq+PDcyx";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Vzy/xvia";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5770C112D2E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 20:00:21 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-51abd580902so3147775e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 13:00:21 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DFDE112D30
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 20:01:04 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2dcbcfe117dso42089781fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 13:01:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713816019; x=1714420819; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713816062; x=1714420862; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ycyox+a8uTJtkdg98AL9SQ6vby8NQcffWAyye0IOB3k=;
- b=Dq+PDcyxezUbfXW2imjHIgn7KyLWeWsoZkUhZeVUUNiUFf2K/Z61Cqajov/WlO7EXd
- ct/YKL3PVQJ3f19Unt5F1uitfrEwIFEoywRO840E/mUcdI3K8MvU0T+81vDvyAuDN48G
- UGdkbBLP6Nqrzob54WZNT+Z1KmHrWmV6lGRPiHQjr8axiVycT9L29/GnUZ6I/its2kPm
- GqFGmi3CG3qBLuExeYH06FONqSKc4B9uAA7gZITBXrIvwJeNpqKtcoDOg3qtsNbNieDR
- GFpsfmoLNVTwLF3XIoyvcCjkTrdm6hf8oTYj56KY+eEriFIQeJVxOeKyuijdLFeMSVUC
- XfeA==
+ bh=l/KzyeGjVvjPl3mw44prJgmddutMprerCYD3mvCURuo=;
+ b=Vzy/xviaYQz8ChgEJt71iFLdmO5ahp+Kx356O87J5NKCsPHhIgRrKb6Q8WV/p2RtlM
+ ipRn4f9mevMuaXGlHJVVbjK9ydvkiCtIFxuF50BURdDFG2N9OxLuswl2wEHTQ+kSJmWw
+ 5WxL7yk0aWNrvZzYmzYolfI6Y9L2oWxV/WDXaD3lu89oNJwmzZKGrWYDF7GVYygqSgvS
+ XUvYb8tNTbCKn67SwUKXbQrcVKWpbW4WPXAPFUOCZjryLC+RaDBwT44sdNfrBtTipZ8K
+ hS7PCqJlWCTLSjEpeITEZ0GtwSZjOYB5/ycu8pGhIx71bcO8mOu+jg96m0YFS+l133xy
+ meNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713816019; x=1714420819;
+ d=1e100.net; s=20230601; t=1713816062; x=1714420862;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ycyox+a8uTJtkdg98AL9SQ6vby8NQcffWAyye0IOB3k=;
- b=bhazsWAAneGYk9iZUJrqmpMyD61UCDiKtG4VB/Z/SrDUsKd6Co6e48mPytiAU3feO9
- jza7v/ifLnKPsJs4UDYJRLL4I4D2lHyTAW1lQmMUsxk10SWx0Dg4ZU98kzOYuh9LnTGl
- J5vAoySoL58whX4WLTQURV1lRS2K9sBQ1ZXZyrVvs58zafwgZCn0nnXMFlIHjlS4Cl9q
- 8iHtrhW7zSPPIHhZ99meCg6XwIzaOTI/uvcAhtr6EzmCr2nsmpk93k14RjYaKgoKuW/K
- 5AIiJI4Dp++p8oCBEG/RXqaFBhnP95HQUALtDT6eCUVZigpXYfr/m5nEn45PLtf8txZN
- SkEA==
+ bh=l/KzyeGjVvjPl3mw44prJgmddutMprerCYD3mvCURuo=;
+ b=HTrvIREQUjANhTv4yA1CF+aV/XtTTnb7lcu35Tc0x0ulJPheZseDkfLhui7gkavwbe
+ VfNufmxXZIEFr6IsTtJ9+7nsDLeYFTY9xiInLJkzg4sNLyhmj1veb7R3WgNnS9IrFKUg
+ fspe+CocZj6i9UCihHOnoa+00zVIusbLjQ7W0IQx7TM1xKO7Gb9cgEozKFVk1N0/ubaP
+ 7+7NW5d5+7iwEpyMiSPu3ROpzWI/LEV0/RIc8VSv3DbT+AX1ymokCdqcfU35hnxyEafC
+ 7DnCAgkOUborll2ob01nt/MD8FT3TUpvCO98uhc10KcZwAE4Pswmw90ZKPn6ew3KsMHm
+ Qf7Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWxmGMXVKJCW9zG1H0XH+kPf8lJ4u7sgsLl1k+DVh0W0ciBPoB0wPnvvEQoURtMXbT9yEuK1MgQoN5Y0nTUbHUd/4wxrFzoaEr+jxMT032h
-X-Gm-Message-State: AOJu0YzSUqcUMO7hE+5x8LMx2NYM9nd6uLbYoomobktWKfugufRZfCff
- KfQsSK0slvOk1Eg+YKyBy8IByxTkyBF4Ozpz4BL+O4r1pJgZ1oqYZmIQnxYrSeM=
-X-Google-Smtp-Source: AGHT+IFmcE/rLlQhhc5SXh6s9hDx2crTlCqCj2zT4cYpiu/1t32umou3INKWd2Lj3g3peUhc8hk+aw==
-X-Received: by 2002:a05:6512:20ce:b0:51a:bd8e:b3d0 with SMTP id
- u14-20020a05651220ce00b0051abd8eb3d0mr180760lfr.22.1713816019354; 
- Mon, 22 Apr 2024 13:00:19 -0700 (PDT)
+ AJvYcCWIghI/j9EB/Fb3m+3qmReJlFmMqTBvqXV/NpLJG8DRntXP70iM1BYCUOIv8eQtL10YshOK4J26qw0YfogM+wh321CSdLymnS5a8kFKgUIS
+X-Gm-Message-State: AOJu0YzsrRMrTD5F5pdo2pOo7J6d92S22Daifv9k/ezhP1qS1RFkYmY8
+ wcADupxMl2MMD8WbQ9dhOgVchcGfp1b0yrMARyXmVBwqsDFZHHkAWDu+6SlUsV0=
+X-Google-Smtp-Source: AGHT+IEabZul5dxrpvaBVDKaplbJ0k/VcioOxOo78Zun52uaBZKpKHIJ3dRySN39XbdI9/aYEoQmOg==
+X-Received: by 2002:a05:651c:2010:b0:2d8:3eaf:86d2 with SMTP id
+ s16-20020a05651c201000b002d83eaf86d2mr7011409ljo.47.1713816062402; 
+ Mon, 22 Apr 2024 13:01:02 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
  by smtp.gmail.com with ESMTPSA id
- h23-20020a19ca57000000b005178e88b4adsm1834219lfj.86.2024.04.22.13.00.18
+ r28-20020a2e8e3c000000b002d28db9ce7bsm1556971ljk.20.2024.04.22.13.01.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Apr 2024 13:00:18 -0700 (PDT)
-Date: Mon, 22 Apr 2024 23:00:16 +0300
+ Mon, 22 Apr 2024 13:01:01 -0700 (PDT)
+Date: Mon, 22 Apr 2024 23:01:00 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -67,15 +67,15 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>, Phong LE <ple@baylibre.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/9] drm-bridge: display-connector: Use fwnode API to
- acquire device properties
-Message-ID: <nprf453sxgh3dyy4zh67dty5avuuqnpqf3ua4qpydmfuxb2zjs@jinatrfgjg6u>
+Subject: Re: [PATCH v4 5/9] drm/bridge: display-connector: Add platform
+ module alias
+Message-ID: <d7rnvde4hlp2umn6usgfvbuwcz4x4ahoxp2lq7lcmdbv35k7ee@5lxfk5aw6slo>
 References: <20240422191903.255642-1-sui.jingfeng@linux.dev>
- <20240422191903.255642-5-sui.jingfeng@linux.dev>
+ <20240422191903.255642-6-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240422191903.255642-5-sui.jingfeng@linux.dev>
+In-Reply-To: <20240422191903.255642-6-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,102 +91,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 23, 2024 at 03:18:58AM +0800, Sui Jingfeng wrote:
-> Make this driver less DT-dependent by using the fwnode helper functions,
-> should be no functional changes for DT based systems. Do the necessary
-> works before it can be truely DT-independent, this patch do no harms even
-> though there is no user yet.
+On Tue, Apr 23, 2024 at 03:18:59AM +0800, Sui Jingfeng wrote:
+> Otherwise when compiled as module, this driver will not be probed on
+> non-DT environment. This is a fundamential step to make this driver
+> truely OF-independent.
 > 
 > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 > ---
->  drivers/gpu/drm/bridge/display-connector.c | 24 +++++++++++-----------
->  1 file changed, 12 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/bridge/display-connector.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-> index ab8e00baf3f1..d80cb7bc59e6 100644
+> index d80cb7bc59e6..7d9b4edf4025 100644
 > --- a/drivers/gpu/drm/bridge/display-connector.c
 > +++ b/drivers/gpu/drm/bridge/display-connector.c
-> @@ -204,6 +204,7 @@ static int display_connector_get_supply(struct platform_device *pdev,
->  
->  static int display_connector_probe(struct platform_device *pdev)
->  {
-> +	struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
->  	struct display_connector *conn;
->  	unsigned int type;
->  	const char *label = NULL;
-> @@ -215,15 +216,15 @@ static int display_connector_probe(struct platform_device *pdev)
->  
->  	platform_set_drvdata(pdev, conn);
->  
-> -	type = (uintptr_t)of_device_get_match_data(&pdev->dev);
-> +	type = (uintptr_t)device_get_match_data(&pdev->dev);
->  
->  	/* Get the exact connector type. */
->  	switch (type) {
->  	case DRM_MODE_CONNECTOR_DVII: {
->  		bool analog, digital;
->  
-> -		analog = of_property_read_bool(pdev->dev.of_node, "analog");
-> -		digital = of_property_read_bool(pdev->dev.of_node, "digital");
-> +		analog = fwnode_property_present(fwnode, "analog");
-> +		digital = fwnode_property_present(fwnode, "digital");
->  		if (analog && !digital) {
->  			conn->bridge.type = DRM_MODE_CONNECTOR_DVIA;
->  		} else if (!analog && digital) {
-> @@ -240,8 +241,7 @@ static int display_connector_probe(struct platform_device *pdev)
->  	case DRM_MODE_CONNECTOR_HDMIA: {
->  		const char *hdmi_type;
->  
-> -		ret = of_property_read_string(pdev->dev.of_node, "type",
-> -					      &hdmi_type);
-> +		ret = fwnode_property_read_string(fwnode, "type", &hdmi_type);
->  		if (ret < 0) {
->  			dev_err(&pdev->dev, "HDMI connector with no type\n");
->  			return -EINVAL;
-> @@ -271,7 +271,7 @@ static int display_connector_probe(struct platform_device *pdev)
->  	conn->bridge.interlace_allowed = true;
->  
->  	/* Get the optional connector label. */
-> -	of_property_read_string(pdev->dev.of_node, "label", &label);
-> +	fwnode_property_read_string(fwnode, "label", &label);
->  
->  	/*
->  	 * Get the HPD GPIO for DVI, HDMI and DP connectors. If the GPIO can provide
-> @@ -309,12 +309,12 @@ static int display_connector_probe(struct platform_device *pdev)
->  	if (type == DRM_MODE_CONNECTOR_DVII ||
->  	    type == DRM_MODE_CONNECTOR_HDMIA ||
->  	    type == DRM_MODE_CONNECTOR_VGA) {
-> -		struct device_node *phandle;
-> +		struct fwnode_handle *phandle;
->  
-> -		phandle = of_parse_phandle(pdev->dev.of_node, "ddc-i2c-bus", 0);
-> -		if (phandle) {
-> -			conn->bridge.ddc = of_get_i2c_adapter_by_node(phandle);
-> -			of_node_put(phandle);
-> +		phandle = fwnode_find_reference(fwnode, "ddc-i2c-bus", 0);
-> +		if (!IS_ERR_OR_NULL(phandle)) {
+> @@ -434,3 +434,4 @@ module_platform_driver(display_connector_driver);
+>  MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
+>  MODULE_DESCRIPTION("Display connector driver");
+>  MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:display-connector");
 
-s/IS_ERR_OR_NULL/IS_ERR/
-
-LGTM otherwise.
-
-> +			conn->bridge.ddc = i2c_get_adapter_by_fwnode(phandle);
-> +			fwnode_handle_put(phandle);
->  			if (!conn->bridge.ddc)
->  				return -EPROBE_DEFER;
->  		} else {
-> @@ -358,7 +358,7 @@ static int display_connector_probe(struct platform_device *pdev)
->  	}
->  
->  	conn->bridge.funcs = &display_connector_bridge_funcs;
-> -	conn->bridge.of_node = pdev->dev.of_node;
-> +	drm_bridge_set_node(&conn->bridge, fwnode);
->  
->  	if (conn->bridge.ddc)
->  		conn->bridge.ops |= DRM_BRIDGE_OP_EDID
-> -- 
-> 2.34.1
-> 
+Same comment as for one of the previous patches. Please add
+platform_device_id table and corresponding MODULE_DEVICE_TABLE instead.
 
 -- 
 With best wishes
