@@ -2,54 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF878ACE97
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 15:45:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629BA8ACED3
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 15:55:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62CCB112AF5;
-	Mon, 22 Apr 2024 13:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA76E112B06;
+	Mon, 22 Apr 2024 13:55:17 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="WRbIBn01";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="I0eKgKrD";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 29886 seconds by postgrey-1.36 at gabe;
- Mon, 22 Apr 2024 13:45:07 UTC
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.74.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C848112AF5;
- Mon, 22 Apr 2024 13:45:06 +0000 (UTC)
-X-QQ-mid: bizesmtpsz6t1713793491tn5a1gu
-X-QQ-Originating-IP: 4T9vFwtcN5bxuKVyJbWNoCazsGTJce4anorEd6nw19M=
-Received: from john-PC ( [123.114.60.34]) by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 22 Apr 2024 21:44:48 +0800 (CST)
-X-QQ-SSF: 01400000000000E0L000000A0000000
-X-QQ-FEAT: TxLxcJtIk++bAQsC+7kYDxGgt3lLYoKlJnOLtIMzDcO0Iriok2aBG9QN2pBfi
- LgZDfkJs6Q13EeO5ul+C1abhuuv5Cnf26b7STHZ35jLbjInDsCKgvJPRocX5o8TI3UngAdr
- NYKQ1wdA/VFOR4QlWz/ibm7GWPGXvH6y+uoPNJq9wWcXKOrbPMh9HLHmkMBqLxxuHiX5Dk8
- qfnDosogiJqEPf43tQN7faSqfabqkL980q6gdeSefosXjn9lKCnromtz+RnKOM+/RFJ7eIx
- T85e4sp+VVVdOsNYLd6mT7TWa2zUfP1AlngWgLeTE+Jm/Uj9SJ6YSrzIGw8V5lLNl2/3Bpj
- VOQNr6E1GpfR45nCdCCJDzrmw2MwgiUX4kmWRMlkYZdBOah/HuA0hGkqpZnDTnAf86DzP64
- 9C7Hw976CtmHPt88OeQEz9cBrn37R36R
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 12248589611114575822
-Date: Mon, 22 Apr 2024 21:44:47 +0800
-From: Qiang Ma <maqianga@uniontech.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: alexander.deucher@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, srinivasan.shanmugam@amd.com,
- Arunpravin.PaneerSelvam@amd.com, le.ma@amd.com, Felix.Kuehling@amd.com,
- mukul.joshi@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/amdgpu: Fixup bad vram size on gmc v6 and v7
-Message-ID: <2778C515DE59A537+20240422214447.231a09de@john-PC>
-In-Reply-To: <bde48eef-4d8a-4cfa-b824-6de88c0f87fd@amd.com>
-References: <20240422052608.5297-1-maqianga@uniontech.com>
- <68f02c5c-5591-4d6f-9926-b0fc6f9f6287@amd.com>
- <D94775003178862D+20240422203329.49844e71@john-PC>
- <bde48eef-4d8a-4cfa-b824-6de88c0f87fd@amd.com>
-Organization: UOS
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from wfout5-smtp.messagingengine.com
+ (wfout5-smtp.messagingengine.com [64.147.123.148])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75650112B06
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 13:55:15 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailfout.west.internal (Postfix) with ESMTP id 5D7F41C00146;
+ Mon, 22 Apr 2024 09:55:12 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute5.internal (MEProxy); Mon, 22 Apr 2024 09:55:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm2; t=1713794111; x=1713880511; bh=dP7QCkFa2V
+ pxgbo7VoSL0Ax5/oZR8Zm98IoSxqALypA=; b=WRbIBn01+ZTKiwdI+kbkFZYLlv
+ DbnR+igCrIB7pg54qU3/sgTfBzX+NzVL6avdBv6bphUJoNdjj7jOpOZpxxKERIq7
+ g57eE3+jVN7sEvdXClIGbthIhtfYsoFAkawL8ABBdvlZcS1Hz3kS4yzsCDVYPOEI
+ fanwNiqQKn2110G2Crq+hitaUYyhBm4ssTbX11RpWo/BHMfpjJsIneKgikBN1GF1
+ bBxlHEb8Y6Kn7aGlDSY0b2iIyTVb9LHLBAsgt6SlbA7bUZV6zZ5W6v2IEERRYo0m
+ W33EzoFqYC1otRExYN+GNZxQ/A1QKp+WzM5DthIRLqJARgMjEPbzxEFsE2Ug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1713794111; x=1713880511; bh=dP7QCkFa2Vpxgbo7VoSL0Ax5/oZR
+ 8Zm98IoSxqALypA=; b=I0eKgKrDC+E6gWxO9Me5fy3ATo2uFYlCdYRqCeoQwYws
+ xUc9dl6JIznVsG15WXqt0I0nNvOQxQTT28LGv0jHohdbeZTIOvEY5ggcYfus7x5g
+ vkYsN3cr9LyBlOcoCpTRNm3AY/cUal3W5RxWUHvsNDsUtLroudk9wQNG19f/pIJE
+ Pl7ypDFzQCpjO+CNd95GC8LR0trRoUAo+SrI+R/qMmskTQdmRvP6k4UqbfwwZPwo
+ 9w2ig/DwiHEo+HXlCb/WP3+KRQF9i9sNcihRDBWJpX+ZQv6stxNgxkowxbZpLnBK
+ +1kOpLGgZmgYV1016rjkgVhwJFoVFcRLf2Oxka0fDA==
+X-ME-Sender: <xms:P2wmZiTuiP3S70d73RwJIoMICgdm4i2Ny2KzRLnUuzBApE4U8UZXrA>
+ <xme:P2wmZnzZZwI5pA6NtoUHHJCPtcXjFBprwaCbQuHliF2ft4M_SU8LyXPM08-s1pKlk
+ pf39IiyjQHFk77eZS4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudekledgjeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+ htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+ teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+ hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:P2wmZv1ZTVFKUSoQkTre2JiKFEekZNnItFIGuVO3knRED9JUFc6P-w>
+ <xmx:P2wmZuAK6LxqZ6Y5xdvMrYZBoPWohQBIbcZssMc0-kSlatRSZAWoRw>
+ <xmx:P2wmZrilVWsz7DLaux6VO4KX5RyIaMbD3gJw3mMd8F9Mc82K9ucgkQ>
+ <xmx:P2wmZqp74Xz4FQAnYl0B0SqA783ctvB8DfSQTvXDr8NYLq6VDDdwRQ>
+ <xmx:P2wmZqOjldHJblvtYtnnBYvnJTLvlm4ouUbZe5jP52ax7Wfv4bfp1HnE>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id E1310B60092; Mon, 22 Apr 2024 09:55:10 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-386-g4cb8e397f9-fm-20240415.001-g4cb8e397
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+Message-Id: <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
+In-Reply-To: <875xw9ttl6.fsf@intel.com>
+References: <cover.1713780345.git.geert+renesas@glider.be>
+ <87il09ty4u.fsf@intel.com>
+ <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
+ <875xw9ttl6.fsf@intel.com>
+Date: Mon, 22 Apr 2024 15:54:50 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>, 
+ "Daniel Vetter" <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 00/11] drm: Restore helper usability
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,138 +99,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 22 Apr 2024 14:59:36 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+On Mon, Apr 22, 2024, at 15:28, Jani Nikula wrote:
+> On Mon, 22 Apr 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
+>> On Mon, Apr 22, 2024, at 13:50, Jani Nikula wrote:
+>>
+>>> I still disagree with this, because fundamentally the source symbol
+>>> really should not have to care about the dependencies of the target
+>>> symbol.
+>>
+>> Sorry you missed the IRC discussion on #armlinux, we should have
+>> included you as well since you applied the original patch.
+>>
+>> I think the reason for this revert is a bit more nuanced than
+>> just the usability problem. Sorry if I'm dragging this out too
+>> much, but I want to be sure that two points come across:
+>>
+>> 1. There is a semantic problem that is mostly subjective, but
+>>    with the naming as "helper", I generally expect it as a hidden
+>>    symbol that gets selected by its users, while calling same module
+>>    "feature" would be something that is user-enabled and that
+>>    other modules depend on. Both ways are commonly used in the
+>>    kernel and are not mistakes on their own.
+>
+> Fair enough. I believe for (optional) "feature" the common pattern would
+> then be depends on FEATURE || FEATURE=n.
+>
+>> 2. Using "select" on user visible symbols that have dependencies
+>>    is a common source for bugs, and this is is a problem in
+>>    drivers/gpu/drm more than elsewhere in the kernel, as these
+>>    drivers traditionally select entire subsystems or drivers
+>>    (I2C, VIRTIO, INPUT, ACPI_WMI, BACKLIGHT_CLASS_DEVICE,
+>>    POWER_SUPPLY, SND_PCM, INTERCONNECT, ...). This regularly
+>>    leads to circular dependencies and we should fix all of them.
+>
+> What annoys me is that the fixes tend to fall in two categories:
+>
+> - Play catch with selecting the dependencies of the selected
+>   symbols. "depends on" handles this recursively, while select does
+>   not.
 
-> Am 22.04.24 um 14:33 schrieb Qiang Ma:
-> > On Mon, 22 Apr 2024 11:40:26 +0200
-> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> > =20
-> >> Am 22.04.24 um 07:26 schrieb Qiang Ma: =20
-> >>> Some boards(like Oland PRO: 0x1002:0x6613) seem to have
-> >>> garbage in the upper 16 bits of the vram size register,
-> >>> kern log as follows:
-> >>>
-> >>> [    6.000000] [drm] Detected VRAM RAM=3D2256537600M, BAR=3D256M
-> >>> [    6.007812] [drm] RAM width 64bits GDDR5
-> >>> [    6.031250] [drm] amdgpu: 2256537600M of VRAM memory ready
-> >>>
-> >>> This is obviously not true, check for this and clamp the size
-> >>> properly. Fixes boards reporting bogus amounts of vram,
-> >>> kern log as follows:
-> >>>
-> >>> [    2.789062] [drm] Probable bad vram size: 0x86800800
-> >>> [    2.789062] [drm] Detected VRAM RAM=3D2048M, BAR=3D256M
-> >>> [    2.789062] [drm] RAM width 64bits GDDR5
-> >>> [    2.789062] [drm] amdgpu: 2048M of VRAM memory ready =20
-> >> Well we had patches like this one here before and so far we always
-> >> rejected them.
-> >>
-> >> When the mmCONFIG_MEMSIZE register isn't properly initialized then
-> >> there is something wrong with your hardware.
-> >>
-> >> Working around that in the software driver is not going to fly.
-> >>
-> >> Regards,
-> >> Christian.
-> >> =20
-> > Hi Christian:
-> > I see that two patches for this issue have been merged, and the
-> > patches are as follows:
-> >
-> > 11544d77e397 drm/amdgpu: fixup bad vram size on gmc v8
-> > 0ca223b029a2 drm/radeon: fixup bad vram size on SI =20
->=20
-> Mhm, I remember that we discussed reverting those but it looks like
-> that never happened. I need to ask around internally.
->=20
-> Question is do you see any other problems with the board? E.g.
-> incorrect connector or harvesting configuration?
->=20
-> Regards,
-> Christian.
->=20
+I'm not sure where this misunderstanding comes from, as you
+seem to be repeating the same incorrect assumption about
+how select works that Maxime wrote in his changelog. To clarify,
+this works exactly as one would expect:
 
-At present, no other problems have been found.
-Configured as radeon driver, display is normal.=20
-But this problem is found when I switch to amdgpu driver, and the
-startup fails with black screen.
-After add the patch, the startup was successful, display is normal.
+config HELPER_A
+       tristate
 
-Qiang Ma
+config HELPER_B
+       tristate
+       select HELPER_A
 
-> >
-> > Qiang Ma
-> > =20
-> >>> Signed-off-by: Qiang Ma <maqianga@uniontech.com>
-> >>> ---
-> >>>    drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 11 +++++++++--
-> >>>    drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 13 ++++++++++---
-> >>>    2 files changed, 19 insertions(+), 5 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-> >>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c index
-> >>> 23b478639921..3703695f7789 100644 ---
-> >>> a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c +++
-> >>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c @@ -309,8 +309,15 @@
-> >>> static int gmc_v6_0_mc_init(struct amdgpu_device *adev) }
-> >>>    	adev->gmc.vram_width =3D numchan * chansize;
-> >>>    	/* size in MB on si */
-> >>> -	adev->gmc.mc_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
-> >>> 1024ULL * 1024ULL;
-> >>> -	adev->gmc.real_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
-> >>> 1024ULL * 1024ULL;
-> >>> +	tmp =3D RREG32(mmCONFIG_MEMSIZE);
-> >>> +	/* some boards may have garbage in the upper 16 bits */
-> >>> +	if (tmp & 0xffff0000) {
-> >>> +		DRM_INFO("Probable bad vram size: 0x%08x\n",
-> >>> tmp);
-> >>> +		if (tmp & 0xffff)
-> >>> +			tmp &=3D 0xffff;
-> >>> +	}
-> >>> +	adev->gmc.mc_vram_size =3D tmp * 1024ULL * 1024ULL;
-> >>> +	adev->gmc.real_vram_size =3D adev->gmc.mc_vram_size;
-> >>>   =20
-> >>>    	if (!(adev->flags & AMD_IS_APU)) {
-> >>>    		r =3D amdgpu_device_resize_fb_bar(adev);
-> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-> >>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c index
-> >>> 3da7b6a2b00d..1df1fc578ff6 100644 ---
-> >>> a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c +++
-> >>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c @@ -316,10 +316,10 @@
-> >>> static void gmc_v7_0_mc_program(struct amdgpu_device *adev) static
-> >>> int gmc_v7_0_mc_init(struct amdgpu_device *adev) {
-> >>>    	int r;
-> >>> +	u32 tmp;
-> >>>   =20
-> >>>    	adev->gmc.vram_width =3D
-> >>> amdgpu_atombios_get_vram_width(adev); if (!adev->gmc.vram_width) {
-> >>> -		u32 tmp;
-> >>>    		int chansize, numchan;
-> >>>   =20
-> >>>    		/* Get VRAM informations */
-> >>> @@ -363,8 +363,15 @@ static int gmc_v7_0_mc_init(struct
-> >>> amdgpu_device *adev) adev->gmc.vram_width =3D numchan * chansize;
-> >>>    	}
-> >>>    	/* size in MB on si */
-> >>> -	adev->gmc.mc_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
-> >>> 1024ULL * 1024ULL;
-> >>> -	adev->gmc.real_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
-> >>> 1024ULL * 1024ULL;
-> >>> +	tmp =3D RREG32(mmCONFIG_MEMSIZE);
-> >>> +	/* some boards may have garbage in the upper 16 bits */
-> >>> +	if (tmp & 0xffff0000) {
-> >>> +		DRM_INFO("Probable bad vram size: 0x%08x\n",
-> >>> tmp);
-> >>> +		if (tmp & 0xffff)
-> >>> +			tmp &=3D 0xffff;
-> >>> +	}
-> >>> +	adev->gmc.mc_vram_size =3D tmp * 1024ULL * 1024ULL;
-> >>> +	adev->gmc.real_vram_size =3D adev->gmc.mc_vram_size;
-> >>>   =20
-> >>>    	if (!(adev->flags & AMD_IS_APU)) {
-> >>>    		r =3D amdgpu_device_resize_fb_bar(adev); =20
-> >> =20
->=20
->=20
+config DRIVER
+       tristate "Turn on the driver and the helpers it uses"
+       select HELPER_B # this recursively selects HELPER_A
 
+Whereas this one is broken:
+
+config FEATURE_A
+       tristate "user visible if I2C is enabled"
+       depends on I2C
+
+config HELPER_B
+       tristate # hidden
+       select FEATURE_A
+
+config DRIVER
+       tristate "This driver is broken if I2C is disabled"
+       select HELPER_B
+
+>   There is no end to this, it just goes on and on, as the
+>   dependencies of the selected symbols change over time. Often the
+>   selects require unintuitive if patterns that are about the
+>   implementation details of the symbol being selected.
+
+Agreed, that is the problem I frequently face with drivers/gpu/drm,
+and most of the time it can only be solved by rewriting the whole
+system to not select user-visible symbol at all.
+
+Using 'depends on' by itself is unfortunately not enough to
+avoid /all/ the problems. See e.g. today's failure
+
+config DRM_DISPLAY_HELPER
+       tristate "DRM Display Helpers"
+       default y
+
+config DRM_DISPLAY_DP_HELPER
+       bool "DRM DisplayPort Helpers"
+       depends on DRM_DISPLAY_HELPER
+
+config DRM_PANEL_LG_SW43408
+       tristate "LG SW43408 panel"
+       depends on DRM_DISPLAY_DP_HELPER
+
+This version is still broken for DRM_DISPLAY_HELPER=m,
+DRM_DISPLAY_DP_HELPER=m, DRM_PANEL_LG_SW43408=y because
+the dependency on the bool symbol is not enough to
+ensure that DRM_DISPLAY_HELPER is also built-in, so you
+still need explicit dependencies on both
+DRM_DISPLAY_HELPER and DRM_DISPLAY_DP_HELPER in the users.
+
+This can be solved by making DRM_DISPLAY_DP_HELPER a
+tristate symbol and adjusting the #ifdef checks and
+Makefile logic accordingly, which is exactly what you'd
+need to do to make it work with 'select' as well.
+
+> - Brush the invalid configs under the rug by using IS_REACHABLE(),
+>   switching from a loud link time failure to a silent runtime
+>   failure. (I regularly reject patches adding IS_REACHABLE() to i915,
+>   because from my pov e.g. i915=y backlight=m is an invalid
+>   configuration that the user shouldn't have to debug at runtime. But I
+>   can't express that in kconfig while everyone selects backlight.)
+
+Thanks a lot for rejecting the IS_REACHABLE() patches, it is
+indeed the worst way to handle those (I know, as I introduced
+IS_REACHABLE() only to replace open-coded versions of the same,
+not to have it as a feature or to use it in new code).
+
+> If you have other ideas how these should be fixed, I'm all ears.
+>
+>>    The display helpers however don't have this problem because
+>>    they do not have any dependencies outside of drivers/gpu/
+>
+> Fair enough, though I think they still suffer from some of them having
+> dependencies. (Wasn't this how the original patches and the debate all
+> got started?)
+
+I believe that Maxime said on IRC that he only did the patches
+originally because he expected problems with them based on his
+understanding on how Kconfig works. I'm not aware of any
+particular problem here.
+
+Let me know if you see a problem with any of the symbols that
+Geert has proposed for reverting, and I'll try to find a solution.
+In my randconfig test environment, I have several patches that
+I sent in the past to clean up the ACPI_VIDEO, I2C, BACKLIGHT and
+LED dependencies to stop using 'select' as I could not otherwise
+get nouveau, i915 and xe to build reliably, but that means I
+may be missing some of the other problems.
+
+     Arnd
