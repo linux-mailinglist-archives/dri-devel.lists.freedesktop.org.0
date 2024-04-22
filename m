@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0600E8AD990
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE678AD98C
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:55:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 108D5112E75;
-	Mon, 22 Apr 2024 23:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 469FC112E74;
+	Mon, 22 Apr 2024 23:55:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CatXjEky";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a7iazVTH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB51B112E72;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB65112E71;
  Mon, 22 Apr 2024 23:55:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4B60CCE0EA3;
- Mon, 22 Apr 2024 23:55:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7CD7C113CC;
- Mon, 22 Apr 2024 23:55:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E1E6B61207;
+ Mon, 22 Apr 2024 23:55:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD96AC4AF07;
+ Mon, 22 Apr 2024 23:55:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713830125;
- bh=lnvIOJj/IGMQDafBUv1yF33TZxFbdiH9DMsFoH1973E=;
+ s=k20201202; t=1713830127;
+ bh=Thz1QMoJ49mQ5FBVVdAHFumjxd2hBOeSF8CzaMI3W4U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CatXjEkyKT8/nWoBp4BU1MkY+LdsZwk+P6UjUlie2MYG3ZRHq6nwNRKDasz0zxEg1
- xSoz9v1CzxRAeKjQgGeg5gXmlw7NVmiSPDW7Eb9K4oc05N2ZydQ0kSVQ786ODxzFgf
- z+OeUbNX2yXVt12p2/ou+FQeJZq1nnk3Y6hQmm6o4CQqa2H/+PgE6sstFKgjcTrDqn
- 2JolQTUWy1G1bHITrRm6R8+j7KP5Yw4B7Zalo0P3v4l64rKPo9/AGOg954/ANu79kk
- 2HBCxL1iI/jZPdwqwGZKMgEm9PVRkaAjuydFqzctyT3dWdzdmtpFcy0ycLIHzmdA9B
- MYE/ebZk8OnkQ==
+ b=a7iazVTHO/iw4xgBSabABXDOB4XMq6o4UWoRPjlFoqAWP9mYHkIGO3+3dWAGnW4gP
+ GxDEFHZOvz/WUIisb3Hxq0So0AiZcxiYQnj3CPUIpqiEx8ONlMrdLVkJ47eAHVTg8H
+ vOlqwUNORcMVEs/Ad+sE6QBU9JH2vWuYp9DklQ9B4kmUHjEn0ED8Z6CrY8uvwsY9N2
+ CPE9NUJhP+AD5MMvWok4C61ysIfNrXHxqsBampemEd4et+ahXdH7Kt/UgVgUJEe0G1
+ lhKFk27F8iGkVzbvrhhqMee4fhf7ckB8WvOeUkZHMyTJDfvluQ1Y1Aj0M8I8A+nfL5
+ 6Ek0CDWrfqM2Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Lijo Lazar <lijo.lazar@amd.com>, James Zhu <James.Zhu@amd.com>,
- Asad Kamal <asad.kamal@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- Hawking.Zhang@amd.com, le.ma@amd.com, Philip.Yang@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.8 32/43] drm/amdgpu: Fix VCN allocation in CPX
- partition
-Date: Mon, 22 Apr 2024 19:14:18 -0400
-Message-ID: <20240422231521.1592991-32-sashal@kernel.org>
+Cc: Zhigang Luo <Zhigang.Luo@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.8 33/43] amd/amdkfd: sync all devices to wait all
+ processes being evicted
+Date: Mon, 22 Apr 2024 19:14:19 -0400
+Message-ID: <20240422231521.1592991-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240422231521.1592991-1-sashal@kernel.org>
 References: <20240422231521.1592991-1-sashal@kernel.org>
@@ -66,65 +65,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lijo Lazar <lijo.lazar@amd.com>
+From: Zhigang Luo <Zhigang.Luo@amd.com>
 
-[ Upstream commit f7e232de51bb1b45646e5b7dc4ebcf13510f2630 ]
+[ Upstream commit d06af584be5a769d124b7302b32a033e9559761d ]
 
-VCN need not be shared in CPX mode always for all GFX 9.4.3 SOC SKUs. In
-certain configs, VCN instance can be exclusively allocated to a
-partition even under CPX mode.
+If there are more than one device doing reset in parallel, the first
+device will call kfd_suspend_all_processes() to evict all processes
+on all devices, this call takes time to finish. other device will
+start reset and recover without waiting. if the process has not been
+evicted before doing recover, it will be restored, then caused page
+fault.
 
-Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
-Reviewed-by: James Zhu <James.Zhu@amd.com>
-Reviewed-by: Asad Kamal <asad.kamal@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Zhigang Luo <Zhigang.Luo@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c b/drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c
-index d6f808acfb17b..fbb43ae7624f4 100644
---- a/drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c
-+++ b/drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c
-@@ -62,6 +62,11 @@ void aqua_vanjaram_doorbell_index_init(struct amdgpu_device *adev)
- 	adev->doorbell_index.max_assignment = AMDGPU_DOORBELL_LAYOUT1_MAX_ASSIGNMENT << 1;
- }
- 
-+static bool aqua_vanjaram_xcp_vcn_shared(struct amdgpu_device *adev)
-+{
-+	return (adev->xcp_mgr->num_xcps > adev->vcn.num_vcn_inst);
-+}
-+
- static void aqua_vanjaram_set_xcp_id(struct amdgpu_device *adev,
- 			     uint32_t inst_idx, struct amdgpu_ring *ring)
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+index 0a9cf9dfc2243..fcf6558d019e5 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+@@ -944,7 +944,6 @@ void kgd2kfd_suspend(struct kfd_dev *kfd, bool run_pm)
  {
-@@ -87,7 +92,7 @@ static void aqua_vanjaram_set_xcp_id(struct amdgpu_device *adev,
- 	case AMDGPU_RING_TYPE_VCN_ENC:
- 	case AMDGPU_RING_TYPE_VCN_JPEG:
- 		ip_blk = AMDGPU_XCP_VCN;
--		if (adev->xcp_mgr->mode == AMDGPU_CPX_PARTITION_MODE)
-+		if (aqua_vanjaram_xcp_vcn_shared(adev))
- 			inst_mask = 1 << (inst_idx * 2);
- 		break;
- 	default:
-@@ -140,10 +145,12 @@ static int aqua_vanjaram_xcp_sched_list_update(
+ 	struct kfd_node *node;
+ 	int i;
+-	int count;
  
- 		aqua_vanjaram_xcp_gpu_sched_update(adev, ring, ring->xcp_id);
- 
--		/* VCN is shared by two partitions under CPX MODE */
-+		/* VCN may be shared by two partitions under CPX MODE in certain
-+		 * configs.
-+		 */
- 		if ((ring->funcs->type == AMDGPU_RING_TYPE_VCN_ENC ||
--			ring->funcs->type == AMDGPU_RING_TYPE_VCN_JPEG) &&
--			adev->xcp_mgr->mode == AMDGPU_CPX_PARTITION_MODE)
-+		     ring->funcs->type == AMDGPU_RING_TYPE_VCN_JPEG) &&
-+		    aqua_vanjaram_xcp_vcn_shared(adev))
- 			aqua_vanjaram_xcp_gpu_sched_update(adev, ring, ring->xcp_id + 1);
+ 	if (!kfd->init_complete)
+ 		return;
+@@ -952,12 +951,10 @@ void kgd2kfd_suspend(struct kfd_dev *kfd, bool run_pm)
+ 	/* for runtime suspend, skip locking kfd */
+ 	if (!run_pm) {
+ 		mutex_lock(&kfd_processes_mutex);
+-		count = ++kfd_locked;
+-		mutex_unlock(&kfd_processes_mutex);
+-
+ 		/* For first KFD device suspend all the KFD processes */
+-		if (count == 1)
++		if (++kfd_locked == 1)
+ 			kfd_suspend_all_processes();
++		mutex_unlock(&kfd_processes_mutex);
  	}
  
+ 	for (i = 0; i < kfd->num_nodes; i++) {
+@@ -968,7 +965,7 @@ void kgd2kfd_suspend(struct kfd_dev *kfd, bool run_pm)
+ 
+ int kgd2kfd_resume(struct kfd_dev *kfd, bool run_pm)
+ {
+-	int ret, count, i;
++	int ret, i;
+ 
+ 	if (!kfd->init_complete)
+ 		return 0;
+@@ -982,12 +979,10 @@ int kgd2kfd_resume(struct kfd_dev *kfd, bool run_pm)
+ 	/* for runtime resume, skip unlocking kfd */
+ 	if (!run_pm) {
+ 		mutex_lock(&kfd_processes_mutex);
+-		count = --kfd_locked;
+-		mutex_unlock(&kfd_processes_mutex);
+-
+-		WARN_ONCE(count < 0, "KFD suspend / resume ref. error");
+-		if (count == 0)
++		if (--kfd_locked == 0)
+ 			ret = kfd_resume_all_processes();
++		WARN_ONCE(kfd_locked < 0, "KFD suspend / resume ref. error");
++		mutex_unlock(&kfd_processes_mutex);
+ 	}
+ 
+ 	return ret;
 -- 
 2.43.0
 
