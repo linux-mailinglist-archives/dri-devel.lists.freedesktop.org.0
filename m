@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9DB68AD981
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0C88AD983
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:55:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA276112E69;
-	Mon, 22 Apr 2024 23:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C270B112E6A;
+	Mon, 22 Apr 2024 23:55:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qLi+Gp7o";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jNPO8Zx1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5687112E68;
- Mon, 22 Apr 2024 23:55:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75A67112E69;
+ Mon, 22 Apr 2024 23:55:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id E3FBECE0A54;
- Mon, 22 Apr 2024 23:55:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2BA8C32782;
- Mon, 22 Apr 2024 23:55:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E8F14611F8;
+ Mon, 22 Apr 2024 23:55:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F09B2C113CC;
+ Mon, 22 Apr 2024 23:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713830104;
- bh=SCqaqHScQMAM4fAgeyxAFEvwYQwaAdVCBYbZCjn+uas=;
+ s=k20201202; t=1713830107;
+ bh=A9NcAssscdfvlTZZwTtNGIo8MQooUxoGJFtl3frCGLQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qLi+Gp7oT1k8yUeZM6CeASG+pS3kDKRikzHuSU5W4uOwXiIpboZthsp7cTNkC3LQo
- EwsyLNhcnzp/wP/dlaABjjD1ydLVSao4tonKhVgP/WV5mHURBdMGLsayteTJn5v3DZ
- eiUfN6k/ww3mMJ9eBlmX4np/Xt2881FclD2VM8gXJKuGlgSQgq9HEfR5PlnE3wMSnA
- w9eB4SoU9bmHRdh0E3qlYASnX1qkq0V3y9g2j5NjqH8D4b27bL5Ehav8lg9lypsFJy
- XTSzKXI9n+oIShZY+kfpCkU1AuIQ2jDls/p3FbRamAnwyvs/fcK426Fo2zbWvc61PE
- uVj3Lrykj/7RA==
+ b=jNPO8Zx1rXqD7AZ8xq7sDLuWy7HukbJqfXe7H48JiXtwzjicB9vuEz15VWjRcZGx0
+ hDU8IUbGboQmD068Gh61DSqsvHRuMel0Vc2ARRQpBG4la1s2PNPWYK1/EQgRESn+4h
+ HGP9MYcnNw37fbI+5D2kdrGP/nQe9xRpMQ4JC9c1zOw4n87izu17gnsnuv81rWHcze
+ Lh5cL8svkyOv4OSRJCovoIcNnM3kPE8o3NP5jWp5rTzTRfw6AcBQ9cJXpz8zLurZAI
+ bYDPjuTLhBQ4KxlGieVdakyrG5/Tf4A1nhRejnlWhZeqfpXQICjUPDrkD3lVNPJbGZ
+ icS+rUPAEL/Tw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Yifan Zhang <yifan1.zhang@amd.com>,
+Cc: Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Hawking.Zhang@amd.com, lijo.lazar@amd.com, le.ma@amd.com,
- Prike.Liang@amd.com, Lang.Yu@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.8 28/43] drm/amdgpu: add smu 14.0.1 discovery support
-Date: Mon, 22 Apr 2024 19:14:14 -0400
-Message-ID: <20240422231521.1592991-28-sashal@kernel.org>
+ daniel@ffwll.ch, lijo.lazar@amd.com, le.ma@amd.com,
+ srinivasan.shanmugam@amd.com, kevinyang.wang@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.8 29/43] drm/amdgpu: implement IRQ_STATE_ENABLE for
+ SDMA v4.4.2
+Date: Mon, 22 Apr 2024 19:14:15 -0400
+Message-ID: <20240422231521.1592991-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240422231521.1592991-1-sashal@kernel.org>
 References: <20240422231521.1592991-1-sashal@kernel.org>
@@ -65,32 +66,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yifan Zhang <yifan1.zhang@amd.com>
+From: Tao Zhou <tao.zhou1@amd.com>
 
-[ Upstream commit 533eefb9be76c3b23d220ee18edfda8eb56cefff ]
+[ Upstream commit f886b49feaae30acd599e37d4284836024b0f3ed ]
 
-This patch to add smu 14.0.1 support
+SDMA_CNTL is not set in some cases, driver configures it by itself.
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
+v2: simplify code
+
+Signed-off-by: Tao Zhou <tao.zhou1@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-index 4f9900779ef9e..ff28265838ec0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-@@ -1867,6 +1867,7 @@ static int amdgpu_discovery_set_smu_ip_blocks(struct amdgpu_device *adev)
- 		amdgpu_device_ip_block_add(adev, &smu_v13_0_ip_block);
- 		break;
- 	case IP_VERSION(14, 0, 0):
-+	case IP_VERSION(14, 0, 1):
- 		amdgpu_device_ip_block_add(adev, &smu_v14_0_ip_block);
- 		break;
- 	default:
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+index 45a67a77455ee..17eb160b7bcea 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+@@ -1600,19 +1600,9 @@ static int sdma_v4_4_2_set_ecc_irq_state(struct amdgpu_device *adev,
+ 	u32 sdma_cntl;
+ 
+ 	sdma_cntl = RREG32_SDMA(type, regSDMA_CNTL);
+-	switch (state) {
+-	case AMDGPU_IRQ_STATE_DISABLE:
+-		sdma_cntl = REG_SET_FIELD(sdma_cntl, SDMA_CNTL,
+-					  DRAM_ECC_INT_ENABLE, 0);
+-		WREG32_SDMA(type, regSDMA_CNTL, sdma_cntl);
+-		break;
+-	/* sdma ecc interrupt is enabled by default
+-	 * driver doesn't need to do anything to
+-	 * enable the interrupt */
+-	case AMDGPU_IRQ_STATE_ENABLE:
+-	default:
+-		break;
+-	}
++	sdma_cntl = REG_SET_FIELD(sdma_cntl, SDMA_CNTL, DRAM_ECC_INT_ENABLE,
++					state == AMDGPU_IRQ_STATE_ENABLE ? 1 : 0);
++	WREG32_SDMA(type, regSDMA_CNTL, sdma_cntl);
+ 
+ 	return 0;
+ }
 -- 
 2.43.0
 
