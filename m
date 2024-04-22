@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59338AD508
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:44:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E768AD511
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:44:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE7F2112D1E;
-	Mon, 22 Apr 2024 19:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43897112D1D;
+	Mon, 22 Apr 2024 19:44:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xLNabV3c";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vqWg573b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B56112D1D
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:44:23 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2d8a24f8a3cso61029471fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:44:23 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2266112D20
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:44:47 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-51acc258075so3805068e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713815062; x=1714419862; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713815086; x=1714419886; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=PNSqhnViCny5sGqp7Qjs50p3XAx1lbvYw/hoV+0zczM=;
- b=xLNabV3c9JRSj15EfDPG7Jj1XMz6lPEE9FWMrU7Y8poBQ+tAlYqQQK9ffFwfB/T+cH
- ujDeX6kc1BRa1eI1OO2MhOFlcwAhDuQXAzUPVVi8QSIFcbR6OU2p8UdwABnARIVY2HvP
- sWeREy1Blnv77s93AotWIAtryWp7LsNpd86ybGKuHMPx4742HdGEOF1IBjFvAxxnUpAA
- Fxn9zapVcv5QH+U4bw7/Kx8VtwpLgnyQYaz20ScM4F/WWJ8XlsyvckP+QKzP+Fvu24o0
- 1zxAPAMaVOXeq1dOPDvfIcW5J7zWSIxg6NDw4uLXYd8XXHkVf2n7E5sDxDmdtXv27JxV
- V8/Q==
+ bh=O5xyyivQsMTHQ7dLcNsluj0Jp99yRb62wMbu9zf5p5s=;
+ b=vqWg573bjFvkbJvyNgAyj/SLqfjjjJ3uA/uEZNbNxAP8/vR/szxLhrKdlX8nauqh3H
+ 6Bw1fy9Zlzm/6GYtlTVRj+xmYrkOUss7wQu5Q1cPA/QfiWX62uiqRiN9XGFPyH7ErS99
+ hmbWztF/wTjy4GWS/dWPRs/qgr7sFGY6LIrZEd/3/+0L5BYQ7LKosrFEbYgLt4PCBEnm
+ y8s05Y/Qx26d+e4t4u/jjtXsNJQpFLPiiDn29sMAnCpTPnDv3vHRf5pv0DMuzU3DGRZ2
+ TjQcdlyje1dDYYHGj8xY3T006Dxstx9gmAdgXhTgDHhP3rWb0nWEMpSosVp9GXyiF3S5
+ XoQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713815062; x=1714419862;
+ d=1e100.net; s=20230601; t=1713815086; x=1714419886;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PNSqhnViCny5sGqp7Qjs50p3XAx1lbvYw/hoV+0zczM=;
- b=ZCnFZNR1aftxFwjqS6jgoW6u3++QxNRbxhPfxID4H6yels9dU5TjC3Cx7zhYi83xzW
- aG5bDYveuDVKueTs/3qQIOrZB0q6s2al7zz4bIfdVCRGwa/chuuFrCOIv9I8LR6xlpyi
- /6oEvk25YfprEx2cwg5jdtP23eCCK5EWV87SLYXO6QohV85ZVMrtKW/T3N6E9Rh4qQnb
- 1juXiP9/EZatgYN1JRDoqpYO710vhm6oXvKnPcQWbmBv7aKt0E/0j1HAsWUF+i0ZFiN1
- 0voEzkwHBVnhs2h2YsRbhi3r+cYbATeNLgNCo9CWhB54PR/vDHufrChI1goh0IGOUhMG
- JdnQ==
+ bh=O5xyyivQsMTHQ7dLcNsluj0Jp99yRb62wMbu9zf5p5s=;
+ b=YslF0tY+Yrfk4ExXR4vWyjfuE0teoLDgxy6GAZtInCst2BNi/ZOBS/J56HLplkMuSH
+ eEPDsOj0V8+2I//YCIswOXgX9xJ9PmZ44qn8yUamJqBV+Sp2DXVFWxWxuN4itFi356Sh
+ R53UrpIdcz3G/yGaZi5TQsp39daLFKkFqL/i0ERHViA9N8AZmRZ8rxnppEC6lHvBdZHJ
+ zreEo0BaURTLiAgnSkuz/OiQc9rD5Dgj9Tif8TaegV5ngCGDkKnRXr2IZ6COt5piuNUn
+ Yp6iP2kDRfSGIlowtnPA23M2FwBtoM6x+4Nqo7sWg22AmyY6VZQXxHhZLQKJzkhGonTe
+ Sc9w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWXXMPvhUcMUMLeEjZ1Y4XuNLHnZ3Hv/8xPDTpc1G0css1v8Z3aErbB2et8i3N0WiliSAcEPbzrhElfzavsd9Jpi8nKiaA8Za9VcIk2F49a
-X-Gm-Message-State: AOJu0Yx83hFt7r1VRFtRS11zifNFyT9wm0MpRqnwcuNcFRJi+hYiZLtp
- OLXdJe0eU7VIJUbZcbIvBJkuGYiLstJJdypVNli6VceeeR266OFCTLh0Zwd9n1M=
-X-Google-Smtp-Source: AGHT+IFB4vlO61dRgJLfBsF513ju46qQFEo5RGhENHLFJUifWdD3Ld8YIEwoMTEdpoaSF4uOjBiDJA==
-X-Received: by 2002:a05:651c:2102:b0:2dc:f188:a073 with SMTP id
- a2-20020a05651c210200b002dcf188a073mr7128155ljq.35.1713815061649; 
- Mon, 22 Apr 2024 12:44:21 -0700 (PDT)
+ AJvYcCVYV81ilpBcU3v33c1ThdvZ1HIF3douxxdqhW3KPjUkfaeWuCKWA3y9lS8m8EkzgYRqTgfNdIAcRey/zOhzBAeWF0IxRsut408F15zsVZx8
+X-Gm-Message-State: AOJu0YymDKPaPUuFOLD09Rm8HsXC2/e9f+5euEps6hNGNhzPaZaz8XTP
+ FeKWekphR3mHlBZmOX4eIEzJ+Svg16bCVWkjO1g4yLyvknvO7oBf0PUmxtiwUbQ=
+X-Google-Smtp-Source: AGHT+IFB1Kv7g4uVpDs46ZAzOEBDJZtGjxsU0UGxK762fiEgaJ1n/WHkpnV0MuYvu79JTdl4W3x0SQ==
+X-Received: by 2002:a05:6512:3af:b0:51a:d7c7:769f with SMTP id
+ v15-20020a05651203af00b0051ad7c7769fmr4830577lfp.65.1713815085997; 
+ Mon, 22 Apr 2024 12:44:45 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
  by smtp.gmail.com with ESMTPSA id
- l3-20020a2e9083000000b002da6fb7ce36sm1533716ljg.135.2024.04.22.12.44.21
+ r1-20020ac25a41000000b00516c1fa74e3sm1824681lfn.207.2024.04.22.12.44.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Apr 2024 12:44:21 -0700 (PDT)
-Date: Mon, 22 Apr 2024 22:44:19 +0300
+ Mon, 22 Apr 2024 12:44:45 -0700 (PDT)
+Date: Mon, 22 Apr 2024 22:44:44 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -66,16 +66,16 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/3] drm/msm: don't clean up priv->kms prematurely
-Message-ID: <pirzyu6ki7hfrax2uo3qlg7fdzlvzpg7vfgfqawogtybdd6e3c@zvgh3n4o67zi>
+Message-ID: <ohzwt5llvvogo46757iemkrnqwdzwqldi3bhbgvk4pxsp3wpuo@enc4bzir3uur>
 References: <20240420-mdp4-fixes-v1-0-96a70f64fa85@linaro.org>
  <20240420-mdp4-fixes-v1-1-96a70f64fa85@linaro.org>
  <67fbd629-3e80-b706-83a3-7baff3efd6c1@quicinc.com>
  <n7eet54g72usmuh4hdz6yce3i4ieweu4orgd7gewu7y53ejucc@dzmq2a2wdxkc>
- <7daeeaba-a33d-bf05-1371-d9b5fa0bf0a5@quicinc.com>
+ <456bb6f6-03cc-aae1-b7d5-9d97300ba383@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7daeeaba-a33d-bf05-1371-d9b5fa0bf0a5@quicinc.com>
+In-Reply-To: <456bb6f6-03cc-aae1-b7d5-9d97300ba383@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,7 +91,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 22, 2024 at 10:23:18AM -0700, Abhinav Kumar wrote:
+On Mon, Apr 22, 2024 at 09:12:20AM -0700, Abhinav Kumar wrote:
 > 
 > 
 > On 4/21/2024 3:35 PM, Dmitry Baryshkov wrote:
@@ -116,37 +116,13 @@ On Mon, Apr 22, 2024 at 10:23:18AM -0700, Abhinav Kumar wrote:
 > > attempt when possible (once the next device is added or probed). However
 > > as priv->kms is NULL, probe crashes.
 > > 
-> > > 
-> > > > Fixes: a2ab5d5bb6b1 ("drm/msm: allow passing struct msm_kms to msm_drv_probe()")
 > 
-> Actually, Is this Fixes tag correct?
-> 
-> OR is this one better
-> 
-> Fixes: 506efcba3129 ("drm/msm: carve out KMS code from msm_drv.c")
+> Got it, a better commit text would have helped here. Either way,
 
-No. The issue existed even before the carve-out.
+I'll update the commit text with the text above.
 
 > 
-> 
-> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > ---
-> > > >    drivers/gpu/drm/msm/msm_kms.c | 1 -
-> > > >    1 file changed, 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
-> > > > index af6a6fcb1173..6749f0fbca96 100644
-> > > > --- a/drivers/gpu/drm/msm/msm_kms.c
-> > > > +++ b/drivers/gpu/drm/msm/msm_kms.c
-> > > > @@ -244,7 +244,6 @@ int msm_drm_kms_init(struct device *dev, const struct drm_driver *drv)
-> > > >    	ret = priv->kms_init(ddev);
-> > > >    	if (ret) {
-> > > >    		DRM_DEV_ERROR(dev, "failed to load kms\n");
-> > > > -		priv->kms = NULL;
-> > > >    		return ret;
-> > > >    	}
-> > > > 
-> > 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
 -- 
 With best wishes
