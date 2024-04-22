@@ -2,152 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34878ACD9B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 15:00:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119D08ACDBB
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 15:04:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6336110F5E0;
-	Mon, 22 Apr 2024 12:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E39E1112AB9;
+	Mon, 22 Apr 2024 13:04:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VrG9amHW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jBln0LAB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2084.outbound.protection.outlook.com [40.107.223.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D7D10F5E0;
- Mon, 22 Apr 2024 12:59:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HmQd+JG1cfNA2Sta1e6cdsPU+ivHYst5iJzul93OIjiuMRoLHdpqh/RpIcKPmxZtoQxiZRnBGjwfecLoXSMFfpP38sGIvD1uHSA8LaTfZORu8u7hB2M9gRZqQdVFclQGRZF6USeOAqsncamAUJCOFcwnJV8AmnwSvkXD77N0g/KRe6B6XLu99nhD9GfIv+Jn87z9pOXR+zFwnTW/3pAuVGC10PGdtt5d5nfD1xkW/ay80QOnAvGIh8ZQ9IOrkNH6827E2l108uEmqPS/baipLs/NnW7fg+SheoS/4zFf6sOOv4stENh6mjYYo6gk917dgoqGxNRM9QE9DEx1migrxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L8jgRiAYAd1BsPB6QpTsacuss6Jx1qChFCNYuIK215I=;
- b=G3D/R4iWy0jyorEA83la6N/NBHshh2uTwrXL34z9VZK37XcENICVK7ygbxDexO5kPwjThbuUszbgeiGmXJPmg1isiunMWeOSdQv4tJHy0t84U4FONghLah//sew8Sl07nQYmi5savrBEsGo20G/6+DCZ5THgJZ7SJVGzd0UAi2dLb5aoRZzt/eLSbO0SvH14s14TNggN4zl0k9o5oWzeJmEcSryCIvlG4NfGSLOSXCASx3C0ISai9JYEMF2gZzq+IZuTG0eoajfNJFWD/IpKLYJgnPn5Ek4WscFyIEJ8umJmLtJBGA1QWpuieh1xgdHfl31iZsUdnZlBBfH0yEXIog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L8jgRiAYAd1BsPB6QpTsacuss6Jx1qChFCNYuIK215I=;
- b=VrG9amHWqzPkBcKsU6fPuCmvcRrj3iFRPN5ta1O4w8IWSKInCMGqOulhI/lTYRNYV7VOLJp9U1kzKisNOCdx3EB1FZ4+tTLy8iFo5LAoTJ33iHBnryFxoc0fbWtWW3FQiKmOTbF1dly4xJLXZ7Qy7mrRGTj1Gjx/neLw2uYtJfQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA0PR12MB7478.namprd12.prod.outlook.com (2603:10b6:806:24b::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Mon, 22 Apr
- 2024 12:59:54 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7472.044; Mon, 22 Apr 2024
- 12:59:54 +0000
-Message-ID: <bde48eef-4d8a-4cfa-b824-6de88c0f87fd@amd.com>
-Date: Mon, 22 Apr 2024 14:59:36 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: Fixup bad vram size on gmc v6 and v7
-To: Qiang Ma <maqianga@uniontech.com>
-Cc: alexander.deucher@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, srinivasan.shanmugam@amd.com,
- Arunpravin.PaneerSelvam@amd.com, le.ma@amd.com, Felix.Kuehling@amd.com,
- mukul.joshi@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240422052608.5297-1-maqianga@uniontech.com>
- <68f02c5c-5591-4d6f-9926-b0fc6f9f6287@amd.com>
- <D94775003178862D+20240422203329.49844e71@john-PC>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <D94775003178862D+20240422203329.49844e71@john-PC>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA9PR13CA0173.namprd13.prod.outlook.com
- (2603:10b6:806:28::28) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 254B0112AAD
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 13:04:38 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-2adce8f7814so823397a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 06:04:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713791077; x=1714395877; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rssIs5Z4PDRLHwlKnxXtcDFwbhBTkpedIgqO4pjxlBA=;
+ b=jBln0LAB+DzhtUG/OL8cVNYRiHj0OSyRYB2mslCMrcJQ0Vtz7DatlR8VunZY8dQkb+
+ PJcdcGsZLA5F1wLoLTI7Vuk3TlZyTQKMpCE9RWJA/5uTrZK2nLOg1S1WSunSXwKMqv9I
+ FHB0rQh1HMRCoxjY3JPMadVpPpSB2sckf0ynmJl+UA+wQaK2GbANtdG/huMuB6oaJsmb
+ 4GZjwoRs+zDKw0/cxVLCDFRmZLfSvZJAReL/JopHcknn7pIYTjO7ZkM7axOdNd4Yg7Dt
+ uXzNLjcrfT7MxtVZmjSAMbguO9mpJz73eSiBnapHuLHtwQ0uCAEA7oJVLkYSeIGqGUqH
+ sIQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713791077; x=1714395877;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rssIs5Z4PDRLHwlKnxXtcDFwbhBTkpedIgqO4pjxlBA=;
+ b=La9mqpBXZqflsL+l2yLBuVAcu7MJ7ESDznnfGVxg4nMNzLMUoRXGFeoEgS2WX9c9KU
+ 6dVyA1XyJetHPlgZVKh0mBs3dcBmxpILnrr3Gci/+yt8GkpNwjRiATBTWkcsKSNxewJu
+ 8YUKGe5sIwRdbOM8patlxuqPxvH4Ei2WcQ4pPwJeMF5W2u87qUj8QY0z8uNAo+1lW01q
+ ZMw70u/jnvU8v24ISkCgaZG9dLwlp76IRd4/Y8dOLc0rOwOQVB2tdnoqm6Ac9gjFMxvV
+ 3D6UMojmdoe+Jeo6wqHUu9zIj+U5MB3G7LLX6ybgKXLBVZwj8GpdxwimZNq2Zu0E/GV1
+ ZUTA==
+X-Gm-Message-State: AOJu0YwSvpdX5RBQEVMn/GnUpxi99AJ6BqTsBOLiE/H6U9qXLpIweBPV
+ uaqGD/5REbK0NzWPVjvzya6bBt+9xkB6uzcnEmFvr+5BcHJ9drJ6NR+PsuhAUoqO5IND/uVggkw
+ Zem2+HHHyIYvWK173xj3SeTSpurs=
+X-Google-Smtp-Source: AGHT+IF1ksQignCW8zAnmCOI9fglM8+zEJqk8wCkLDa2hG4T31IAsm25alnnLSKjWG2VHZKc0xg72Ht8S/v613xvPiI=
+X-Received: by 2002:a17:90a:cc15:b0:2a4:7133:7e02 with SMTP id
+ b21-20020a17090acc1500b002a471337e02mr8467438pju.35.1713791077126; Mon, 22
+ Apr 2024 06:04:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA0PR12MB7478:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8cb35cd7-65a1-4eb6-601e-08dc62cc1ad2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dTN3M1I2aG1qTkJETDJwMVFjN1hiUlNuTlRRcy96MWszQzBTcWRLVVVOZTlO?=
- =?utf-8?B?ei9Ga1ZjSU4zUmkwVjNXb21jYlBJa0dKeW9GeDh2V0lTRW5za1h0cHM0bGd5?=
- =?utf-8?B?R005V2wvUjRCcUtqRk1uS1FFczh1WDB2TUtuM1VzMlNtZ0cwdWMxSFFqMGV0?=
- =?utf-8?B?YUQrZE5wOERSdUhjQ01BeTByc3F5MUNnMXBJVklsS2FlVE9WbjdObGx2Umpy?=
- =?utf-8?B?M2hDOHgwemhTZ29tWkMrcDhrdndvMTZ4VWwwWDRXM0VRb0NCNi9pYTUxQ2xW?=
- =?utf-8?B?MElPK0dLL3AvNDNVNVdFcnd3bXdsRlIyOXd4aklmb1VSMW5pNUwyV0JKZXMy?=
- =?utf-8?B?OUxxT1JUa05lSUE4SWFsayt1QUhvMmN3ZE1BYmdNQUZHdHNOY3pyRkc4ajVN?=
- =?utf-8?B?cUdKdmZrTWF1Um1Mb2xEZm9teHc0RGd0K3F5amlMdStmZXo0ZGwvYWhMOHRS?=
- =?utf-8?B?RVc0UlFRVEhvYjVpSUgrWUl3Z1BCYm9HZWt6TnROTHpKcVB5aUhXSjlZL29K?=
- =?utf-8?B?L2RoVElQSlRGUHZOZXdpaTVydTlIeVgxTjlOdXNkSFcyN1kybkl1anBWUUFh?=
- =?utf-8?B?OHpDU25EYTBkUkRKUmlLTEhOUlZyb1JrendsRXZ6NGcyVVJFV1N5TkV2b0ow?=
- =?utf-8?B?dDlDTkVGY3hQY1ZDMEMvL2Jpdkp1YlVIZldEeFVaeFkzd3hsT0R2Y0RxYWRR?=
- =?utf-8?B?Qmg0TVl5cTEzZk55RVpWWmN3RHJNZkdxNDFQUDFsUmxYOWJpeEpkRFVMa05l?=
- =?utf-8?B?aC9mWFV1S0xNZGZ6L2VzT1RtRXg2V2NYWDZrQ0tNUVNYRnZ3QUpOS1ArSzJY?=
- =?utf-8?B?cmdaOU9yZDlMNHZmQndqSGFEZHJTeGRFSHpJeDFlR2djbHFpbEZTQXBaaTFY?=
- =?utf-8?B?L21mRVlSK2I2Qk9iMHhaVVk2MHJTdjhsSUpkTUpQV3pKazQxRGVDZ2pjdFpP?=
- =?utf-8?B?U3RsOUFoWVYyaUZrUEZ3N3l6ZUxLV0hMM1dHUXVFb3VrVDJXcS9lYzZ0V1RZ?=
- =?utf-8?B?ZzA4TWF4dm5aa0xFUkJRVWJ2OEY0WGNvSEMwMitCRVRGZllzbEZVczB4eTBL?=
- =?utf-8?B?REx5YkVvZWxBcWVYdzl2cHdhWnFyY2h1aWYzY2oxRy9wN3lXRk43c3IzY1py?=
- =?utf-8?B?S3ZLditBT3B5NzEra1ZKUEl0RWV0YVI5YTdxL1hRdWl1d2N5TFV4MDU0ODhV?=
- =?utf-8?B?MTIyKzN5OXUxeEw0K2Vmbk9BckFYTmp5WTFrenZvRmVzQkZMKytvQVFhSSt4?=
- =?utf-8?B?bExkbk5qd0NXKzQwNWV2SUFhbk01TEYrQmhLTXBwelc4WEkvMEU4LzJUWVZp?=
- =?utf-8?B?cTErakFCbnFJR0Ruei91dGowdVErVXZ6RkdWMzJrNWZPV3JlcGpDa3dPTk1L?=
- =?utf-8?B?eVRiOUVLSmFCZis0VWtZZnJhNDdnckhIbDN5dTJBR1pqWTZ4d0JXWUtvTFhr?=
- =?utf-8?B?UStTZlk3a0NNd1h6QVJTeDcxYmhUS1M0QjJmREw3eWNBaFJhOUw5ZW00UlNL?=
- =?utf-8?B?dS9OS0UwY0FPbnZRMVF6ajFHZHlGdVJUNWdCWFVSMGoxMkk0cENnVjZDRUgy?=
- =?utf-8?B?dDdnOTNYUjJJNXBGUVlWUmQ4UFJ2Z0xIR3Yyd1RoV1pWWEhkWlVMYzFVNXZa?=
- =?utf-8?B?OVY5NjZ2ODdTK3lyYjFQVlM0UFFKYlk5K3NXeG5yazJUejRiSERWWVVVV0V1?=
- =?utf-8?B?YVMxenJzb2M1L3FENi9wZ3c3M0x4VUl5UFQvNXl2TVN2aFpFU2pxTit3PT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(376005)(1800799015); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWxVcmF3VnNZT2VBSVZORGV1QUhXSks5Um1xMFIxT29ib3N1L1RySStsUThF?=
- =?utf-8?B?TWNiS1FKa1FTWmlraWhFNDM0WmhZU2xhYzJvcWhsR1lkUXNWNmhuWlpsS1ly?=
- =?utf-8?B?Qkk3NkRCWkxlcysvRjVVWGdqTzdPUENMbVBScE5oVTFrR3VSM0wrdUx5dGp0?=
- =?utf-8?B?Q0VkQmd4VHhOVkFRbVFmYnRsYW1VclBVTnlTUG9EdU14Y0s2Y05WSmlvS3M1?=
- =?utf-8?B?YmFML0NGZHpJRlNFL3BTV05IcDRvSkoxOUZrYVFDRFd5WjJ2Y0pjTUVLNU9m?=
- =?utf-8?B?M29uUWtnMndtMERMUnBqNVBJRFk5c1hXY0VKZWJlbjZlVnY5NXNuL2VzTCtk?=
- =?utf-8?B?OVJBVlhpMFNHQmFDNGNtVmY5bm5jeElnQ1JJMHMrVDBvY1NldFhxYjIxc1Bt?=
- =?utf-8?B?U25maFFXUVp6MkRUZzM4cDFMODN1MmpGZlpGZUVWK3YxL1U1U1Q0RTd5c3pG?=
- =?utf-8?B?Ny92RTNRSmtpNG51TWhuQ05yQVhXZU9tcm90OVRwbUdRVkZCcVVodXhZaWVv?=
- =?utf-8?B?dmRYQUtzUVprS21UOE9YUVZja0hVZnY5SE9YeU9BVk5aaWl5bEVyU3REc0pY?=
- =?utf-8?B?M2t0bE9ZUnlQRHNYVUZLQkkvQ3llTEExN1NhSVE3TjBSU3JZdnlOVmptakZx?=
- =?utf-8?B?WUFBOXdkS3k0L1JRejUrcDZXZ1YxZEN5MndkZDB0aVdJUkZmV2srOFBrZ1RY?=
- =?utf-8?B?NWMza2pYN0JPNmxLTm1QR3dhT1d4VkRzTi9xa0FZaFVxdm5CR3lHWmNBWTVZ?=
- =?utf-8?B?UXEzb29tWFFVbmhFQ0p3cGY5eitKSldCZ2l1L2NlQjc1aDgvdmlncmlmVXE3?=
- =?utf-8?B?bWpGaWwvajhXbnVpQ3ZsT21oazRtbWh1NWhGamIxTEhidXJhU2thSENCYWQ2?=
- =?utf-8?B?U29BNWNFcTJWZTFOZ0sySWs0cXdBQitUc3BhZzVTbnhKRnc0SUhNVjQzNVFQ?=
- =?utf-8?B?UmtnSTZia0YrbmdaMG84NWVWT00wNEhTK2d2bGZzajU1S3dEYW5uYU9qM0tH?=
- =?utf-8?B?bGYyS3N6VGI2ZDM0RzBWeERpRmoxNEx5MG9xdnVrOXRTbno3OWpXWEt3aGo0?=
- =?utf-8?B?TCt1bktPbEtrRVVpZzV5bFF0N1lENDFlNC9GdCswRGZMb1R3M05nNlp1OTZv?=
- =?utf-8?B?OVU0cXpTWlYxNjVzdWRsSlI3dkNCU0MwdWppQWt2TDRtVEpTdzN6UTRXam5t?=
- =?utf-8?B?Nld2K2JDWkNyWld4bmErSWIvemJUTlByZ2Zpd1VIdXg3ZVVKMnJ5MTNSTUlz?=
- =?utf-8?B?Y2FGcGNsbDJDUVB2TFZ6ODkwSFJKZUY1UWh4bDF1cm5zUzlEYXZBUjFodTFZ?=
- =?utf-8?B?Y2tOVXZ5VjJxUDBxZVQvcEp6L2NYcGxtR09VYTZRS0pxMHpJTGRoT0l0ei9l?=
- =?utf-8?B?TzBFek8wREY2RnRVNmhESlB4dmVzRG55Y2l6S2ExNmRxM0pVNjMzM1IvSTQr?=
- =?utf-8?B?LzBuQ1ArTG5RN2lST042aW5DcUVkMUVFWVJlMllvWW9LczArOFQyYzRVK2l6?=
- =?utf-8?B?K09YaXNGdWNlNGdDV2U5Z294Q1lRYmZ6Z09iUmVBcWxmaENkN3hOZkd4anZV?=
- =?utf-8?B?bTFwTTk0OXBldlVVdm9RdFltUFI1S0h1RnpCUU51SW9Pa0hFTTcvRlU0cXhr?=
- =?utf-8?B?NlFrVEk5dGJQbmhNam1idEdDUzdvTHZ2b2kxSEwrSm5zbHhrYUZPOERYdlg3?=
- =?utf-8?B?NUs4SUdZejJURGNZYkZGbzJoSFV6eEdmdjBOK1prTEJyQXBHVnlPbDZuQWht?=
- =?utf-8?B?ZzZyTEV4eTZidTJCYkF4ZFk2UzdhRDNYZ1M0SEtrMnFBTmx2aFRrb2VGV012?=
- =?utf-8?B?dFJtdEpDTTg5NnNKMGppdktwemFCVkliaDRmRUVRdlZVZndjUEx1VWhXWGoz?=
- =?utf-8?B?UkZsckQxOXR2NjJENXQwUDdOdVJLNTJ6NnNFQ3pSeGtibVBzdS90eGRVdFoy?=
- =?utf-8?B?MnpSZk1CaHRTWjJLc00zRVVNWHg2blpGNUxwNE9vdXhMT0QvMTROblQyS1Nq?=
- =?utf-8?B?eElMdGhCdVU3ZTdxaHBQZlRkS283V3FmRkNVR0FRVU9pL2diZURoRlBJZzBp?=
- =?utf-8?B?d0ZkNWZ5VGw2SlkrTzM1TlNvcDdsUTB4ZTgyZ3RvZVppRWsrVjV5ajd1Y1cz?=
- =?utf-8?Q?4Mi8=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cb35cd7-65a1-4eb6-601e-08dc62cc1ad2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2024 12:59:54.4206 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iPuy+/5XAhyCCUqu40EEp+IM/iQqRMqkJ+6BhvAiiEf+0N91B3W2rvw/C0U0VgxV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7478
+References: <20240211230931.188194-1-aford173@gmail.com>
+ <20240211230931.188194-2-aford173@gmail.com>
+ <6111fe04-4ecb-428e-9a0c-dc02cadfe3e7@denx.de>
+ <CAHCN7x+DwSSabhGYZ1dnZzwRe+BJfz2H-AXbxjUQWytrq3OMpQ@mail.gmail.com>
+ <47b26a19-9aba-4380-9d05-f06bd8bc20b1@denx.de>
+In-Reply-To: <47b26a19-9aba-4380-9d05-f06bd8bc20b1@denx.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 22 Apr 2024 08:04:25 -0500
+Message-ID: <CAHCN7x+R5t5o13tFrQ1trH1LTPshSOOvuerDpUTY++Umqwr=WA@mail.gmail.com>
+Subject: Re: [PATCH V2 2/2] drm/bridge: samsung-dsim: Fix porch calcalcuation
+ rounding
+To: Marek Vasut <marex@denx.de>
+Cc: dri-devel@lists.freedesktop.org, aford@beaconembedded.com, 
+ Frieder Schrempf <frieder.schrempf@kontron.de>, Inki Dae <inki.dae@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Marco Felsch <m.felsch@pengutronix.de>,
+ Michael Tretter <m.tretter@pengutronix.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,122 +94,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 22.04.24 um 14:33 schrieb Qiang Ma:
-> On Mon, 22 Apr 2024 11:40:26 +0200
-> Christian König <christian.koenig@amd.com> wrote:
+On Mon, Apr 22, 2024 at 8:01=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
 >
->> Am 22.04.24 um 07:26 schrieb Qiang Ma:
->>> Some boards(like Oland PRO: 0x1002:0x6613) seem to have
->>> garbage in the upper 16 bits of the vram size register,
->>> kern log as follows:
->>>
->>> [    6.000000] [drm] Detected VRAM RAM=2256537600M, BAR=256M
->>> [    6.007812] [drm] RAM width 64bits GDDR5
->>> [    6.031250] [drm] amdgpu: 2256537600M of VRAM memory ready
->>>
->>> This is obviously not true, check for this and clamp the size
->>> properly. Fixes boards reporting bogus amounts of vram,
->>> kern log as follows:
->>>
->>> [    2.789062] [drm] Probable bad vram size: 0x86800800
->>> [    2.789062] [drm] Detected VRAM RAM=2048M, BAR=256M
->>> [    2.789062] [drm] RAM width 64bits GDDR5
->>> [    2.789062] [drm] amdgpu: 2048M of VRAM memory ready
->> Well we had patches like this one here before and so far we always
->> rejected them.
->>
->> When the mmCONFIG_MEMSIZE register isn't properly initialized then
->> there is something wrong with your hardware.
->>
->> Working around that in the software driver is not going to fly.
->>
->> Regards,
->> Christian.
->>
-> Hi Christian:
-> I see that two patches for this issue have been merged, and the
-> patches are as follows:
+> On 4/22/24 2:09 PM, Adam Ford wrote:
+> > On Sun, Apr 21, 2024 at 9:36=E2=80=AFAM Marek Vasut <marex@denx.de> wro=
+te:
+> >>
+> >> On 2/12/24 12:09 AM, Adam Ford wrote:
+> >>> When using video sync pulses, the HFP, HBP, and HSA are divided betwe=
+en
+> >>> the available lanes if there is more than one lane.  For certain
+> >>> timings and lane configurations, the HFP may not be evenly divisible.
+> >>> If the HFP is rounded down, it ends up being too small which can caus=
+e
+> >>> some monitors to not sync properly. In these instances, adjust htotal
+> >>> and hsync to round the HFP up, and recalculate the htotal.
+> >>>
+> >>> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron B=
+L i.MX8MM with HDMI monitor
+> >>> Signed-off-by: Adam Ford <aford173@gmail.com>
+> >>> ---
+> >>> V2:  No changes
+> >>>
+> >>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/=
+bridge/samsung-dsim.c
+> >>> index 8476650c477c..52939211fe93 100644
+> >>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> >>> @@ -1606,6 +1606,27 @@ static int samsung_dsim_atomic_check(struct dr=
+m_bridge *bridge,
+> >>>                adjusted_mode->flags |=3D (DRM_MODE_FLAG_PHSYNC | DRM_=
+MODE_FLAG_PVSYNC);
+> >>>        }
+> >>>
+> >>> +     /*
+> >>> +      * When using video sync pulses, the HFP, HBP, and HSA are divi=
+ded between
+> >>> +      * the available lanes if there is more than one lane.  For cer=
+tain
+> >>> +      * timings and lane configurations, the HFP may not be evenly d=
+ivisible.
+> >>> +      * If the HFP is rounded down, it ends up being too small which=
+ can cause
+> >>> +      * some monitors to not sync properly. In these instances, adju=
+st htotal
+> >>> +      * and hsync to round the HFP up, and recalculate the htotal. T=
+hrough trial
+> >>> +      * and error, it appears that the HBP and HSA do not appearto n=
+eed the same
+> >>> +      * correction that HFP does.
+> >>> +      */
+> >>> +     if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE && dsi->la=
+nes > 1) {
+> >>
+> >> Does this also apply to mode with sync events (I suspect it does), so
+> >> the condition here should likely be if (!...burst mode) , right ?
+> >
+> > Thanks for the review!
+> >
+> > I was only able to test it with the DSI->ADV6535 bridge, and I'll
+> > admit I don't know a lot about DSI interface since I don't have a copy
+> > of the spec to read.
+> >
+> > Are you proposing this should be:
+> >
+> >   if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) && dsi->lanes > 1)=
+ {
+> >
+> > I just want to make sure I understand what you're requesting.
 >
-> 11544d77e397 drm/amdgpu: fixup bad vram size on gmc v8
-> 0ca223b029a2 drm/radeon: fixup bad vram size on SI
+> Yes, exactly this.
 
-Mhm, I remember that we discussed reverting those but it looks like that 
-never happened. I need to ask around internally.
+Do you think it should also include checks for
+MIPI_DSI_MODE_VIDEO_NO_HFP, MIPI_DSI_MODE_VIDEO_NO_HBP or
+MIPI_DSI_MODE_VIDEO_NO_HSA?
 
-Question is do you see any other problems with the board? E.g. incorrect 
-connector or harvesting configuration?
+It seems like if any of these are set, we should skip this rounding stuff.
 
-Regards,
-Christian.
-
->
-> Qiang Ma
->
->>> Signed-off-by: Qiang Ma <maqianga@uniontech.com>
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 11 +++++++++--
->>>    drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 13 ++++++++++---
->>>    2 files changed, 19 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
->>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c index
->>> 23b478639921..3703695f7789 100644 ---
->>> a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c +++
->>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c @@ -309,8 +309,15 @@ static
->>> int gmc_v6_0_mc_init(struct amdgpu_device *adev) }
->>>    	adev->gmc.vram_width = numchan * chansize;
->>>    	/* size in MB on si */
->>> -	adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) *
->>> 1024ULL * 1024ULL;
->>> -	adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) *
->>> 1024ULL * 1024ULL;
->>> +	tmp = RREG32(mmCONFIG_MEMSIZE);
->>> +	/* some boards may have garbage in the upper 16 bits */
->>> +	if (tmp & 0xffff0000) {
->>> +		DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
->>> +		if (tmp & 0xffff)
->>> +			tmp &= 0xffff;
->>> +	}
->>> +	adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
->>> +	adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
->>>    
->>>    	if (!(adev->flags & AMD_IS_APU)) {
->>>    		r = amdgpu_device_resize_fb_bar(adev);
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c index
->>> 3da7b6a2b00d..1df1fc578ff6 100644 ---
->>> a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c +++
->>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c @@ -316,10 +316,10 @@
->>> static void gmc_v7_0_mc_program(struct amdgpu_device *adev) static
->>> int gmc_v7_0_mc_init(struct amdgpu_device *adev) {
->>>    	int r;
->>> +	u32 tmp;
->>>    
->>>    	adev->gmc.vram_width =
->>> amdgpu_atombios_get_vram_width(adev); if (!adev->gmc.vram_width) {
->>> -		u32 tmp;
->>>    		int chansize, numchan;
->>>    
->>>    		/* Get VRAM informations */
->>> @@ -363,8 +363,15 @@ static int gmc_v7_0_mc_init(struct
->>> amdgpu_device *adev) adev->gmc.vram_width = numchan * chansize;
->>>    	}
->>>    	/* size in MB on si */
->>> -	adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) *
->>> 1024ULL * 1024ULL;
->>> -	adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) *
->>> 1024ULL * 1024ULL;
->>> +	tmp = RREG32(mmCONFIG_MEMSIZE);
->>> +	/* some boards may have garbage in the upper 16 bits */
->>> +	if (tmp & 0xffff0000) {
->>> +		DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
->>> +		if (tmp & 0xffff)
->>> +			tmp &= 0xffff;
->>> +	}
->>> +	adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
->>> +	adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
->>>    
->>>    	if (!(adev->flags & AMD_IS_APU)) {
->>>    		r = amdgpu_device_resize_fb_bar(adev);
->>
-
+adam
