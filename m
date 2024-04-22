@@ -2,49 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45638AD977
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:54:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180FD8AD97B
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:55:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6E82112E63;
-	Mon, 22 Apr 2024 23:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00A0C112E65;
+	Mon, 22 Apr 2024 23:55:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gIC0kYq8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C0swuiy7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DFB0112E61
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 23:54:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A971112E64;
+ Mon, 22 Apr 2024 23:54:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id E3F26CE0EC5;
- Mon, 22 Apr 2024 23:54:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7861C113CC;
- Mon, 22 Apr 2024 23:54:40 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 4A99ACE0EB3;
+ Mon, 22 Apr 2024 23:54:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFEB1C113CC;
+ Mon, 22 Apr 2024 23:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713830082;
- bh=GEpnhiSTG1TbEnLT97kCT5VbQj9dur5yP9sjIze/XLU=;
+ s=k20201202; t=1713830096;
+ bh=gIpt0jg6RoCpx8IHqcH5wx4Cw6Zia2ez0g7IR8/YrqY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gIC0kYq8VfIdk7oXV+VB+pvqt9XPP8u+rUOfM5A74gp5RWcKw+7kOSWhqF59W0sse
- I9K0dgntbrzXTPRBmaee6yBsf/j4e2G4KiXFbOeuW0d7HQjr+S7kUwOuhkwidKdcKy
- x5+46PqKFBKlnSAVxc6tnPznPEM2ZGHl+LPYtu/pjF96p8xMXhqXc/jaUdtfYeJEvn
- 2kk7YSPz3I+geZ/aM/FyhFoDdv7fC2UYKuSpaG6S46nQ8WvolK+vKDBiAzPi7l+Lgp
- 0V3MQGirdgkar/Oe7g7WAh3OKcx6su3lUel7y3JomlCSz+x9M00o2Va+JepIj9FtH/
- v2VCAfR8o2YoQ==
+ b=C0swuiy7/xSa8V7lzTLjZvGOz9tHiDvoEQhPATwDsiI1y/m+2D9RQ2nsV0EswQoAw
+ ptEarySgSR0Zs+f403qzx+ifqZ2uRU/iuNItCVXxlOmuJht9DZM/COywJDztPrTjWF
+ k+JrG81OzZEpeKc/AccJ6MD07j3tHIlropVPCRaQefaEZPcHHR5jJq16mnIxGf3bSD
+ F8/kbUuercVp2DUozimq06xGGttVfgcYsBSIqOpcMLs54MZ7+tqf9ssFXTSCFAv8jo
+ 64Q0SMQThsfM6G3wxaSMKDbalMJoCC7rXKWEeI1qg75K2AyjEvzLjMx+Py5euVigiO
+ 2NdmUKytxqXrA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Thierry Reding <treding@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>,
- Sasha Levin <sashal@kernel.org>, thierry.reding@gmail.com,
- mperttunen@nvidia.com, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 21/43] gpu: host1x: Do not setup DMA for virtual
- devices
-Date: Mon, 22 Apr 2024 19:14:07 -0400
-Message-ID: <20240422231521.1592991-21-sashal@kernel.org>
+Cc: Lijo Lazar <lijo.lazar@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Asad Kamal <asad.kamal@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, ltuikov89@gmail.com, dakr@redhat.com, zhenguo.yin@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.8 26/43] drm/amdgpu: Refine IB schedule error logging
+Date: Mon, 22 Apr 2024 19:14:12 -0400
+Message-ID: <20240422231521.1592991-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240422231521.1592991-1-sashal@kernel.org>
 References: <20240422231521.1592991-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.7
@@ -64,59 +66,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+From: Lijo Lazar <lijo.lazar@amd.com>
 
-[ Upstream commit 8ab58f6841b19423231c5db3378691ec80c778f8 ]
+[ Upstream commit 4b18a91faf1752f9bd69a4ed3aed2c8f6e5b0528 ]
 
-The host1x devices are virtual compound devices and do not perform DMA
-accesses themselves, so they do not need to be set up for DMA.
+Downgrade to debug information when IBs are skipped. Also, use dev_* to
+identify the device.
 
-Ideally we would also not need to set up DMA masks for the virtual
-devices, but we currently still need those for legacy support on old
-hardware.
-
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-Acked-by: Jon Hunter <jonathanh@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240314154943.2487549-1-thierry.reding@gmail.com
+Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Asad Kamal <asad.kamal@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/host1x/bus.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 84d042796d2e6..3937889fa912d 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -351,11 +351,6 @@ static int host1x_device_uevent(const struct device *dev,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index 71a5cf37b472d..0b8c6581b62c0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -300,12 +300,15 @@ static struct dma_fence *amdgpu_job_run(struct drm_sched_job *sched_job)
+ 		dma_fence_set_error(finished, -ECANCELED);
  
--static int host1x_dma_configure(struct device *dev)
--{
--	return of_dma_configure(dev, dev->of_node, true);
--}
--
- static const struct dev_pm_ops host1x_device_pm_ops = {
- 	.suspend = pm_generic_suspend,
- 	.resume = pm_generic_resume,
-@@ -369,7 +364,6 @@ struct bus_type host1x_bus_type = {
- 	.name = "host1x",
- 	.match = host1x_device_match,
- 	.uevent = host1x_device_uevent,
--	.dma_configure = host1x_dma_configure,
- 	.pm = &host1x_device_pm_ops,
- };
+ 	if (finished->error < 0) {
+-		DRM_INFO("Skip scheduling IBs!\n");
++		dev_dbg(adev->dev, "Skip scheduling IBs in ring(%s)",
++			ring->name);
+ 	} else {
+ 		r = amdgpu_ib_schedule(ring, job->num_ibs, job->ibs, job,
+ 				       &fence);
+ 		if (r)
+-			DRM_ERROR("Error scheduling IBs (%d)\n", r);
++			dev_err(adev->dev,
++				"Error scheduling IBs (%d) in ring(%s)", r,
++				ring->name);
+ 	}
  
-@@ -458,8 +452,6 @@ static int host1x_device_add(struct host1x *host1x,
- 	device->dev.bus = &host1x_bus_type;
- 	device->dev.parent = host1x->dev;
- 
--	of_dma_configure(&device->dev, host1x->dev->of_node, true);
--
- 	device->dev.dma_parms = &device->dma_parms;
- 	dma_set_max_seg_size(&device->dev, UINT_MAX);
- 
+ 	job->job_run_counter++;
 -- 
 2.43.0
 
