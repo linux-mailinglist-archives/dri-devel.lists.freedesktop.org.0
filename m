@@ -2,75 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3448AC7F5
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 10:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647788AC837
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 10:59:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93A4610F0CB;
-	Mon, 22 Apr 2024 08:54:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E0971128ED;
+	Mon, 22 Apr 2024 08:59:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="arTOujMU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Dfm+sy++";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E9AF10F0CB
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 08:54:31 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-41a5b68eceeso4020295e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 01:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713776069; x=1714380869; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Ojlb8Qt0GEEE4R5EwrEjmiMm5jfeRBt1cc/0bYnuMEU=;
- b=arTOujMUVsgZK79wOdqio027gOnqcvrHZBiieWA9IEtiHPrqeZrtIUlq2xJB7v1Pqc
- vysxEIRlIqCYe9TDPr/23bF53skHKIo4Ycwngt4tXezXF+WkKR2ExD5jBfQugRnbtjrj
- TckVdIQTc2P1mN2ji7PBA0+SJnIaCupNw9aiUMAGqhVjLMW5FK+s69mGZ+WFRl9VJXPx
- y1nJd43+er2HW4FK23zI3ck3obP8+txo+DcL1hcx/bYNTJPOWeU6OqGzMoEjZt/E7iYd
- UGkTz9upNeS+C3DzOWN5OlhHCIicVOJmxRUuKjp6Lk5IchED7FkkPfKXokE+Nmwf/Cze
- eadA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713776069; x=1714380869;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ojlb8Qt0GEEE4R5EwrEjmiMm5jfeRBt1cc/0bYnuMEU=;
- b=jPRiVAnmk4dThthL/nzxqCE1Pfevx0rNPKkxpgWcXUapZpqS5mqrg9omk10GhOcKa0
- mlpW/RCiRmmOhNMD7kaUgZ4aNALJPIlGBG2L/ZLcaf2mxYrTPizePA4ylUpbwD3KxcHQ
- VMyyFa50IVpGnTAN17UGLIJ4wP/w+vi159U981nYSCG/pJERQTVqlfp7v3FzNCYGgZuM
- TNE9c2L/qiJdGSvuUhIxuhHKDHZZeR1XAH8XDQ+TjXEY8vweUmuHsNPiZEmth3fisT+/
- xd3MZ8W0+zuhAzMgwvdRpyO5hGVE/1gi9tu+IZqs1YtYPQLW/r/oEHqDQhrQtKEU8ogb
- njDw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXZl7XeO4KigQj+8ovMAf7Zwc81kMCM89UQ5MfzYi3BKZImFLYtnLpk4cpXS9zCmzPNeVqcF/XGnHxjtkxwbSgF+iUDzN7JnYGrMJGorFu6
-X-Gm-Message-State: AOJu0YwQPw1hT34ltp4sxTYr+axlt2UBDLm6FyiiOCNAiQGhTbmNH8HE
- bXNJzoyshsblNTWX9HLwkOhlIfBbqy9HMhiFPDaNljQhqP9EV7jfBOXZbs3qysw=
-X-Google-Smtp-Source: AGHT+IE7k4brxBhxy5f7GNJIFfsaxDyj1gLwlLlyGFa1Xx9lcO7UuR/zgUeMyHEzAhs2lPsesXwQ/g==
-X-Received: by 2002:a05:600c:3586:b0:419:f447:c323 with SMTP id
- p6-20020a05600c358600b00419f447c323mr5006365wmq.27.1713776069623; 
- Mon, 22 Apr 2024 01:54:29 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- jx12-20020a05600c578c00b0041674bf7d4csm19372412wmb.48.2024.04.22.01.54.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Apr 2024 01:54:29 -0700 (PDT)
-Date: Mon, 22 Apr 2024 09:54:27 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Shresth Prasad <shresthprasad7@gmail.com>
-Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- javier.carrasco.cruz@gmail.com
-Subject: Re: [PATCH v2][next] backlight: sky81452-backlight: Remove
- unnecessary call to of_node_get
-Message-ID: <20240422085427.GA1290623@aspen.lan>
-References: <20240421104916.312588-2-shresthprasad7@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F96C1128ED
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 08:59:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713776341; x=1745312341;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=m4yua6SrFY3YlHpyq5Z/v7TMFpqgNaYvrMBWCDiS6J0=;
+ b=Dfm+sy++iFWOj1t8ouepO3fmcf/N7tWfs6nIYekju4qT5TwDX/5qYScZ
+ MxOEZFs+CNhU+ylZXX2xzsm08rW4Yo+gRLiAFMKfHltwh1Cx/WqYZDE5Q
+ l+h4aSQ4bx3u2nRX11NrbuUPCG+j5EXnM+QVI3EZDamLQjZA49fvxWH6v
+ wVcfEUw6MtBe2HlkUPvu8oiEBZ6IHroymV5cX5afNwA38oAzQWYjS6Z7D
+ rVOa3KegprqnBrUWQaE8strgDxErPfdPsOvjSH8ZLfDd6CyWBZbROqwlY
+ Qk+H7BAkTTGxMzJLnUzki3EhgsxDNzkjDvWG2vpOl/6/6UYxNR4fx1RCu A==;
+X-CSE-ConnectionGUID: ZDPszVhQQTiMR4RAg2aN3w==
+X-CSE-MsgGUID: 03mzYg8ZQHWqHqtyvfm8ZA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11051"; a="20705138"
+X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; d="scan'208";a="20705138"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2024 01:59:01 -0700
+X-CSE-ConnectionGUID: 9hRwtDIxQ3203nrZDkRHOQ==
+X-CSE-MsgGUID: YXuiFbouTum6O9ayzFHCuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; d="scan'208";a="24028504"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 22 Apr 2024 01:58:58 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 22 Apr 2024 11:58:57 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Harry Wentland <harry.wentland@amd.com>, Joshua Ashton <joshua@froggi.es>,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH] drm/uapi: Move drm_color_ctm_3x4 out from drm_mode.h
+Date: Mon, 22 Apr 2024 11:58:57 +0300
+Message-ID: <20240422085857.17651-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240421104916.312588-2-shresthprasad7@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,14 +68,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 21, 2024 at 04:19:17PM +0530, Shresth Prasad wrote:
-> `dev->of_node` already has a reference to the device_node and calling
-> of_node_get on it is unnecessary. All conresponding calls to
-> of_node_put are also removed.
->
-> Signed-off-by: Shresth Prasad <shresthprasad7@gmail.com>
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+drm_color_ctm_3x4 is some undocumented amgdpu private
+uapi and thus has no business being in drm_mode.h.
+At least move it to some amdgpu specific header, albeit
+with the wrong namespace as maybe something somewhere
+is using this already?
 
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Joshua Ashton <joshua@froggi.es>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Fixes: 6872a189be50 ("drm/amd/display: Add 3x4 CTM support for plane CTM")
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ include/uapi/drm/amdgpu_drm.h | 9 +++++++++
+ include/uapi/drm/drm_mode.h   | 8 --------
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-Daniel.
+diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_drm.h
+index 96e32dafd4f0..d5ebafacdd70 100644
+--- a/include/uapi/drm/amdgpu_drm.h
++++ b/include/uapi/drm/amdgpu_drm.h
+@@ -1269,6 +1269,15 @@ struct drm_amdgpu_info_gpuvm_fault {
+ #define AMDGPU_FAMILY_GC_10_3_7			151 /* GC 10.3.7 */
+ #define AMDGPU_FAMILY_GC_11_5_0			150 /* GC 11.5.0 */
+ 
++/* FIXME wrong namespace! */
++struct drm_color_ctm_3x4 {
++	/*
++	 * Conversion matrix with 3x4 dimensions in S31.32 sign-magnitude
++	 * (not two's complement!) format.
++	 */
++	__u64 matrix[12];
++};
++
+ #if defined(__cplusplus)
+ }
+ #endif
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 1ca5c7e418fd..d390011b89b4 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -846,14 +846,6 @@ struct drm_color_ctm {
+ 	__u64 matrix[9];
+ };
+ 
+-struct drm_color_ctm_3x4 {
+-	/*
+-	 * Conversion matrix with 3x4 dimensions in S31.32 sign-magnitude
+-	 * (not two's complement!) format.
+-	 */
+-	__u64 matrix[12];
+-};
+-
+ struct drm_color_lut {
+ 	/*
+ 	 * Values are mapped linearly to 0.0 - 1.0 range, with 0x0 == 0.0 and
+-- 
+2.43.2
+
