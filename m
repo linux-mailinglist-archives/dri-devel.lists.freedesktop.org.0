@@ -2,155 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925118ACFDE
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 16:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1158ACFE2
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 16:49:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA7F10F673;
-	Mon, 22 Apr 2024 14:47:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12AA2112B9E;
+	Mon, 22 Apr 2024 14:49:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EmU2IE11";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LIT12U2Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2087.outbound.protection.outlook.com [40.107.93.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0918010F673;
- Mon, 22 Apr 2024 14:47:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZtF6WOX9fcfvpLO62WgFlfNa4Es3nKcRIBov5N3mlZ41pDwPbJI5hXV2x3CgE+om4ZxBG2XJ7FtV/Qx9anG+McfPjISEPvUKAgJwAYV3UFG7kkY/0lA8iTW4bvrmK194baQR6ElrJyoB7fn4jh1eApS5MuCd5XeHbUWO2/7PkjTcMoYIKTEuDuuBQqXLeY5NTpCzl+X/gBDtfmFTlyymagViNAgVgp9tJEgYFORAAbmApNwhWr5wSYFpC2w9SYPPRkJywT0hKvuFEa04KiFQNJTfir/jvkoSLyKb6lJovPuVwhjzQspGedXfiYq2CVFye5NDMlez614X7//COVoOXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zrzmz1EIVLPWs8tzLs6uTH4t8nqT6MPTTStUQzxSZiM=;
- b=fYNPq2qyRE/n6/qul7nvc3CjPxIGNmNW6+Vcm5DHp0vDkT0+4I8QRkQoq0BGXjUrVZ6NEl1Vh/s/1+3U7wABxYjeZeMiOT2hwOQGVZZwFYFuVS7s6eAib1nsyrYN5koQWgNdDQ2bSA04eZIVtnG+AC8jxZUPqDpA940Cllh+Vw4F7wrHVJerG4NvzM7Yqr2aCmhQ2/0FwgFi+SEXLJOqbHZ69VlcBmp/9DuIVBucl+2qc/dL4fMQWX9ZYJDK8LsHtsNTtOS2vhHXnSD9Rh0sGwl0bWiDz2YK9H7q+gGYkuL+XtrxDZrGc5yQ96A3LO/x7CimEcOUHI7Z+ck9QNgByw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zrzmz1EIVLPWs8tzLs6uTH4t8nqT6MPTTStUQzxSZiM=;
- b=EmU2IE11wFQ8EEorqtIlmQaclerA308Q6rRXNBG8OegZpI1GX+QLdqwRwMD3v6LRRU3g+a0RgPMt5njmfcNNVtMYNmjvB+yG90P/gi9vsZJ5zHkYXECrvJLOtQ+xc4MlV2FGHIpqQwFwtZo5Gp1PeCTB/urM3rfQHTy3QOpnNCc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB7269.namprd12.prod.outlook.com (2603:10b6:806:2be::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.42; Mon, 22 Apr
- 2024 14:47:46 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7472.044; Mon, 22 Apr 2024
- 14:47:46 +0000
-Message-ID: <f2e1b969-ce9c-450c-9882-99813b7334a0@amd.com>
-Date: Mon, 22 Apr 2024 16:47:36 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: Fixup bad vram size on gmc v6 and v7
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Qiang Ma <maqianga@uniontech.com>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- srinivasan.shanmugam@amd.com, Arunpravin.PaneerSelvam@amd.com,
- le.ma@amd.com, Felix.Kuehling@amd.com, mukul.joshi@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240422052608.5297-1-maqianga@uniontech.com>
- <68f02c5c-5591-4d6f-9926-b0fc6f9f6287@amd.com>
- <D94775003178862D+20240422203329.49844e71@john-PC>
- <bde48eef-4d8a-4cfa-b824-6de88c0f87fd@amd.com>
- <CADnq5_PQ67J9ytb89-DqOgDw5V-s98TOyVjT5BGfkWMYv5sMQg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CADnq5_PQ67J9ytb89-DqOgDw5V-s98TOyVjT5BGfkWMYv5sMQg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR5P281CA0009.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f2::8) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 502AB112B9D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 14:49:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1713797365;
+ bh=ANj2lwCdF1e5x2y4t0N/qQl7GamrLnoXCuiQ6qmUnRY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=LIT12U2Zq14xHhLBBEFLI3q7TtVSuT5LClXc3jRoXLYcGysNofNq+4bVb7DGFVdW5
+ gmkl/GC4N8wLiF7FZam1KRR2JU5Xdgq22S0DN26y+yqLI0BSlli+QJLAaUTpBYwPlX
+ Od0bl5TEOTS5ssCX7zEZ34xMuqqeRSlj3wWXDx9ny7zjCTAXxi+dWX40ZyY7X/1iVW
+ DHiWjAqvavUKVCKNgJAPHm2rA7+zgpTv/7FC2t+2y1t/Shho2at5p3wyl71gKFDXT2
+ /4vRYPTecym8dYkA/ICimmg0B2LduSRBnqVBP6PYTTH1MgudjyOQLhvtyi7Zcf6oEl
+ UOt2zg26FYf0g==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8888E3782123;
+ Mon, 22 Apr 2024 14:49:24 +0000 (UTC)
+Date: Mon, 22 Apr 2024 17:49:22 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
+ <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ rdunlap@infradead.org, arthurgrillo@riseup.net, Jonathan Corbet
+ <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v6 13/17] drm/vkms: Add range and encoding properties to
+ the plane
+Message-ID: <20240422174922.6bac5683.pekka.paalanen@collabora.com>
+In-Reply-To: <20240409-yuv-v6-13-de1c5728fd70@bootlin.com>
+References: <20240409-yuv-v6-0-de1c5728fd70@bootlin.com>
+ <20240409-yuv-v6-13-de1c5728fd70@bootlin.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB7269:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6f0f2fd-2aea-47a4-f1ba-08dc62db2c34
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZmJKNTl4T1o5YW5scUErOTlTczVnMmNOOGZ2K1k1ejJiem9pRmVTYVppR0hp?=
- =?utf-8?B?Tjd6UmlJTGxIL2k1dHM4bkhLejZNcjV3N1IrVWRod3VMSmo4Z3EvM3ZvUTFQ?=
- =?utf-8?B?Y2RVa3lQV05GeG83RzhndmJ4elZqbXZSVDh1b3BVVXphb0trcTBRNXVYK05a?=
- =?utf-8?B?N0FlYnhnUkJ5WWlETFJMZEVFejNsMDljRE8zcXA3UXdwR3VBaEVWMEEvckh0?=
- =?utf-8?B?MEoreHZ6eXZrMGZWQjVud1BXRXhUNld5NnFrWW1wYkNQdUxRTGlTT2NSdU04?=
- =?utf-8?B?d1R2UVIyM2U5bXpEU1NoL3pTcWdJbnNRVi9NanEyNHk2V09KUC95SmxFcER3?=
- =?utf-8?B?U0JGOGRpUEV4dEE0bng2YUJvN1hoSlpZWWNueGxQNGJUR2RCaFpoS3ZzY3dq?=
- =?utf-8?B?aU5oNlZuQnFKK0lNYmRhZEc4dlpXc2lBR3ptNjArenYyNWpWNGkyYklnbzZ6?=
- =?utf-8?B?R1l6bnZNdCtUOGxFWGhFY0tDcGJvU2I2TzhKclpIdGR0ekVTNnpBb1M1RzNU?=
- =?utf-8?B?OFRmamZTNUxCNzUxSGNZdDEraUt6TW1BQ05VcEp3NWRZTzZsMllXQ1c5cmgv?=
- =?utf-8?B?amUxNkxlSElrK0NCbC9LN0o0THJNc1QwaXFaamtwTktXbHZpYWQwUy9OM3pl?=
- =?utf-8?B?UjJLaXFxSWhlUVZPN05JQmlMRGNldWJxU2UwbFlDdDlDMndNOU1iaG1MM2lF?=
- =?utf-8?B?b0tJWTNZMllLbEFnWmw4SGZQbG4ySEt5SXJFcWdrQWJGRmdGWit1N2hZR0h1?=
- =?utf-8?B?M0JWT25RODQ1TTRCM3VNQmtqRktnYVpPdWVITmU0Z0hRaHdRaGY2ZmtpSGl0?=
- =?utf-8?B?czFQcnk2c3A2Z0FBTVgvS29nQUpqRlc5WXVDRzZDMWhqMFhEOTlJMU9Sb0NO?=
- =?utf-8?B?K3BiVEhuakRoWkFTcFdLdHE4ZjNPeVI0WXVpOTdtWE1FTG1oOE1yazVhTThs?=
- =?utf-8?B?ekp5U0MweityQjBTay8yU2lwYjIvYk1VeStuR09GRk1xaDVUcGY0U1ZRU2dn?=
- =?utf-8?B?dCtWL1NOS1BOemFKd051SkpDWXpNZnlwcG1KcDc2bnJYTm1LaURndlYvMWtV?=
- =?utf-8?B?Z0tEQlFlc09EbVlWMGtUdmVKNFpjWEU1VzMySHMvKzJsYk5OaEhYbjNOTzRK?=
- =?utf-8?B?VlhFK3ppYTM1QnhCV1NKOEVxYmovcHRHdnRHVjhBSExjdnBndHh1aTVOL1NM?=
- =?utf-8?B?T3ByMUpWay9OUlhseGxqdTdUQzVDMUhITUZQWXhYdlhEMDF6c3YreXpVd09k?=
- =?utf-8?B?cVZJVE5SbzhkanMwaXVoSkF2OUp2T3VLc05lK1JFOU1XOHdPTXZ5eFRHTEsy?=
- =?utf-8?B?R1RXNjR3bGR3WE4wZC9ZVkJRVTNXQmxRbXAyVEltVjlvelJvaXE1dU5mV0Ft?=
- =?utf-8?B?TDVUZEdtN1JvYXppTzBGdk5sMkdqK2p1cVFxMS9IaFNhcjBlTFdWMllubTVv?=
- =?utf-8?B?NlZmSE9KM3p4LzZMdTJDcm52Qk43c0JmZ0c0TjI1Wm5RYlF4aGpwK0dhVUdN?=
- =?utf-8?B?MDRRUFJSRCsrckxVdjlYS2pQNXVKenZSdnk0eWRjWHRzUDVwQzBWUnpmRGZr?=
- =?utf-8?B?d2tFdkhwL1BaQjR6ODNnUXBXSzJHdXg0T09tZGtTRkRLZzdIYUxFNElSbGZv?=
- =?utf-8?B?bUJrVWxEYlJiYXFEN0lDU1ZvTUpQTmVmb0k3UktoVnlkMG1ZVWsvY0FTZDFu?=
- =?utf-8?B?MTUrOWlOOEVnaFBlUE9vSUdTVHFaVUpMK1JXeUxBbFIzTzlIeDhGdUZ3PT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkVyZE5iN2ZRTHFobnV1dmM4c3hEK1ZTNVkzUktBOEhwRFVGM3Jxc1ZPdTgr?=
- =?utf-8?B?MmZ3aGxFMmZWckRFemZya08xM3FNdjdwYWQzWnI2Wmh6aFd3VEFXUW1UVjBQ?=
- =?utf-8?B?R09SL1FDOTVaWUVSMUdkQ0sxUGZsZDYxaXg1NnRYQ2E1RWRuUHp5VWJWc3BQ?=
- =?utf-8?B?ZWpLVVR6ZEhmRTJ5aVJNc2UzUlpiKzdJU01mMUNLazVwZWZrQ1RWL1BJa2Rw?=
- =?utf-8?B?RDJHVUttZTI2azhTRVBtT01sdkdEbG1YMjRUbkU1Qi9velZiYVhIb0NWd1Jy?=
- =?utf-8?B?aVBxRmI3RklCNS8xakJIRzY1dXNpRDhydC90QnI0WlczWXlqWFVqRStTeFNK?=
- =?utf-8?B?U2FGeU9qY1Y0c3M3bHUxbTh1M3VCS0dRR0xOZDl5QllmMWJFTXVKR2o1RHdh?=
- =?utf-8?B?K0N0TTJ4VlZrSGxVRTNLYmdmMTZuTlJiWjVKUWhJLzFhWE8zcW9Ybjl2YXhF?=
- =?utf-8?B?UGthY2Y2VUN5TWhBdStQV0EybHQ2YUs4a3YvVXpycmM5eEk3TTBhamZBWEov?=
- =?utf-8?B?eTgwb3JNVzE4cVJ1WU5UNms4SU5oSGVsanFyS04vTm1TWkJzaGxxMXBmNDdR?=
- =?utf-8?B?aGRFR21SbHlzVjFGMXlzYlVKeWpjRHZtcE1ra1NrVTVQR1VXektXclhwMGlr?=
- =?utf-8?B?T0ZjL2Y2c2ZzTXU4RndtM08xWHZCaWdBenB6aWNOVnZrV3NzeUtLM3pycXBs?=
- =?utf-8?B?SnFMSmd0enFCbTF5QVJDWHVYcGF4akM5QVB2WnFXZ20xKzZCZ0l3R0thNjQ4?=
- =?utf-8?B?WTFzUWZMUnZrTGd5dFlBLzZVOERxVHN5WmtQVzNRYjBGd2RlVFBzVi9CQjB1?=
- =?utf-8?B?bjF2TldxOFpFekYwOUVVOWw2OG5ZMzVUYWgxK2dUYUZjZTlpblQySDhJSXhJ?=
- =?utf-8?B?aGNhSEt5MElmSm56Y1ZhNGdzRXBldnBzZmJPTTJpaDhJRzdSR0l6R2ExYmFp?=
- =?utf-8?B?MGcwdFI5OXdPb2RLOEVHUTdsRGlZSDFSUUxxcGorZENOcUQvTXlMb2JDRTJU?=
- =?utf-8?B?eDRiR0Jpc3Q4c2gydVJWTmRKZHNObk5IeE1HMkd6MUtsL29kRnhKRytqYXlw?=
- =?utf-8?B?RG9BdThQRDZlbktmQm96dmZSbEpVQ0VQUE1PNFdFc1lRb3lOdWJNZ0lqN1JJ?=
- =?utf-8?B?MDY2TkRBUFNVdmZldUM2Tk11MEdpZWVJQVBZVFQwc1BDSGJqSE9zd0RQYXlL?=
- =?utf-8?B?ZzdvOHluekJuZXlWSE04djM4bUVTV0JqYUdDdHRLSHdpbkkyUzNsQjlkdVpY?=
- =?utf-8?B?WGRDajBXWEd2VnpUQnNaSmh1OXdpMFAxVGpwQXBNdGc0VU5JK0k3cllPZDBO?=
- =?utf-8?B?VTYwN3BFK1U1YnN5cnlrczlHbWhBT011aHNFcXdqOUtXZ3FQSXg2SHZXUDhT?=
- =?utf-8?B?VDk4U0VxNXdNbmMyUFdXcTd3dFkvL1FNYThZN1p2ZjFtOGVReC90YnlVY0x5?=
- =?utf-8?B?bWZXS0ZqQjRYYTNISXNmemlnaVRWZERPRHh6K0VmaFp2ZHRHSHAxSGlNRG42?=
- =?utf-8?B?RVVGdmdvckxZWTREQkc4S3loWU4zTnpmUVVmZFFaaElob0FtUkJWaFZ2WXIy?=
- =?utf-8?B?amxCaHF4MDR0V0lHZ005R0EyblF5d3h4SVZadUp0MHo3NldYRk5SVUxLM25Z?=
- =?utf-8?B?Vks5Yng4NFlxR05FYXV4UkVKMExPRWgzSFFtU0d1c2N6RWM2b1dUeXNDWFl5?=
- =?utf-8?B?NkV4ME5xQnp1VHJsSHF5SDRsV3NmUEx6WE83UjhUUmwrdFZBRGRVbDBTa0VW?=
- =?utf-8?B?L0hQZnhxVWJYdjNveTlWWm1ISk5ZZ1MwZWt1MTV0Qm80UzNuYzZsZnBrOE1P?=
- =?utf-8?B?WmpvWGRGVm1oWmtIKzVTM1V5WE5HTVBDVy9BSWFaejhVYVJIUXlGNEFqQWk4?=
- =?utf-8?B?V0l6cGUvdzY3enNoUjZKcnNnK2ZtZkJZR1BiRExudDJkczlxVnI4NW5SVHdi?=
- =?utf-8?B?VkRNMEswYys2RXNFdUJMV2xEbXUrcGJxeFBOam9MMTM4SHdTazFxQlZWb2s0?=
- =?utf-8?B?bi93QTgxQ1FTeFFYMGJLNElrWEMva1o1bDlXaCtlU1dsaTZTVzZVd3pqdnRh?=
- =?utf-8?B?RUpGTUpvWUNud2MyaHl6TVQ2UkQySGlHNzFsR2tJbTRiTHpDZXMzWFFwQ1lX?=
- =?utf-8?Q?0SAaHHp+GLyJayjWXYjz0vgew?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6f0f2fd-2aea-47a4-f1ba-08dc62db2c34
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2024 14:47:46.1634 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cH9dNdeiMAq2Ndyg1Im77U1/ZEvkI4XeK8i1w7nlvw9DONrl2832QrrYe/npoMqf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7269
+Content-Type: multipart/signed; boundary="Sig_/4k48lEW_QdEbCmFp+XKPuuC";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,137 +72,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 22.04.24 um 16:40 schrieb Alex Deucher:
-> On Mon, Apr 22, 2024 at 9:00 AM Christian König
-> <christian.koenig@amd.com> wrote:
->> Am 22.04.24 um 14:33 schrieb Qiang Ma:
->>> On Mon, 22 Apr 2024 11:40:26 +0200
->>> Christian König <christian.koenig@amd.com> wrote:
->>>
->>>> Am 22.04.24 um 07:26 schrieb Qiang Ma:
->>>>> Some boards(like Oland PRO: 0x1002:0x6613) seem to have
->>>>> garbage in the upper 16 bits of the vram size register,
->>>>> kern log as follows:
->>>>>
->>>>> [    6.000000] [drm] Detected VRAM RAM=2256537600M, BAR=256M
->>>>> [    6.007812] [drm] RAM width 64bits GDDR5
->>>>> [    6.031250] [drm] amdgpu: 2256537600M of VRAM memory ready
->>>>>
->>>>> This is obviously not true, check for this and clamp the size
->>>>> properly. Fixes boards reporting bogus amounts of vram,
->>>>> kern log as follows:
->>>>>
->>>>> [    2.789062] [drm] Probable bad vram size: 0x86800800
->>>>> [    2.789062] [drm] Detected VRAM RAM=2048M, BAR=256M
->>>>> [    2.789062] [drm] RAM width 64bits GDDR5
->>>>> [    2.789062] [drm] amdgpu: 2048M of VRAM memory ready
->>>> Well we had patches like this one here before and so far we always
->>>> rejected them.
->>>>
->>>> When the mmCONFIG_MEMSIZE register isn't properly initialized then
->>>> there is something wrong with your hardware.
->>>>
->>>> Working around that in the software driver is not going to fly.
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>> Hi Christian:
->>> I see that two patches for this issue have been merged, and the
->>> patches are as follows:
->>>
->>> 11544d77e397 drm/amdgpu: fixup bad vram size on gmc v8
->>> 0ca223b029a2 drm/radeon: fixup bad vram size on SI
->> Mhm, I remember that we discussed reverting those but it looks like that
->> never happened. I need to ask around internally.
->>
->> Question is do you see any other problems with the board? E.g. incorrect
->> connector or harvesting configuration?
-> I'll need to dig up the past discussion again, but IIRC, the issue was
-> only seen on some non-x86 platforms.  Maybe something specific to MMIO
-> on those?
+--Sig_/4k48lEW_QdEbCmFp+XKPuuC
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I honestly doesn't remember it either, but in general it's the job of 
-the VBIOS to init this register.
+On Tue, 09 Apr 2024 15:25:31 +0200
+Louis Chauvet <louis.chauvet@bootlin.com> wrote:
 
-So if we see the upper bits mangled the VBIOS hasn't done that correctly 
-and it's quite likely that this is only the tip of the iceberg of problems.
+> From: Arthur Grillo <arthurgrillo@riseup.net>
+>=20
+> Now that the driver internally handles these quantization ranges and YUV
+> encoding matrices, expose the UAPI for setting them.
+>=20
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> [Louis Chauvet: retained only relevant parts, updated the commit message]
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_formats.c | 2 +-
+>  drivers/gpu/drm/vkms/vkms_plane.c   | 9 +++++++++
+>  2 files changed, 10 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/v=
+kms_formats.c
+> index 2d7445a3de93..a294744d29d6 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -238,7 +238,7 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(con=
+st u16 *pixel)
+>  static struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8=
+ channel_2,
+>  						  const struct conversion_matrix *matrix)
+>  {
+> -	u8 r, g, b;
+> +	u16 r, g, b;
+>  	s64 fp_y, fp_channel_1, fp_channel_2;
+>  	s64 fp_r, fp_g, fp_b;
 
-Christian.
+This part belongs in the previous patch.
 
->
-> Alex
->
->
->> Regards,
->> Christian.
->>
->>> Qiang Ma
->>>
->>>>> Signed-off-by: Qiang Ma <maqianga@uniontech.com>
->>>>> ---
->>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 11 +++++++++--
->>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 13 ++++++++++---
->>>>>     2 files changed, 19 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
->>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c index
->>>>> 23b478639921..3703695f7789 100644 ---
->>>>> a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c +++
->>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c @@ -309,8 +309,15 @@ static
->>>>> int gmc_v6_0_mc_init(struct amdgpu_device *adev) }
->>>>>      adev->gmc.vram_width = numchan * chansize;
->>>>>      /* size in MB on si */
->>>>> -   adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) *
->>>>> 1024ULL * 1024ULL;
->>>>> -   adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) *
->>>>> 1024ULL * 1024ULL;
->>>>> +   tmp = RREG32(mmCONFIG_MEMSIZE);
->>>>> +   /* some boards may have garbage in the upper 16 bits */
->>>>> +   if (tmp & 0xffff0000) {
->>>>> +           DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
->>>>> +           if (tmp & 0xffff)
->>>>> +                   tmp &= 0xffff;
->>>>> +   }
->>>>> +   adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
->>>>> +   adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
->>>>>
->>>>>      if (!(adev->flags & AMD_IS_APU)) {
->>>>>              r = amdgpu_device_resize_fb_bar(adev);
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
->>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c index
->>>>> 3da7b6a2b00d..1df1fc578ff6 100644 ---
->>>>> a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c +++
->>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c @@ -316,10 +316,10 @@
->>>>> static void gmc_v7_0_mc_program(struct amdgpu_device *adev) static
->>>>> int gmc_v7_0_mc_init(struct amdgpu_device *adev) {
->>>>>      int r;
->>>>> +   u32 tmp;
->>>>>
->>>>>      adev->gmc.vram_width =
->>>>> amdgpu_atombios_get_vram_width(adev); if (!adev->gmc.vram_width) {
->>>>> -           u32 tmp;
->>>>>              int chansize, numchan;
->>>>>
->>>>>              /* Get VRAM informations */
->>>>> @@ -363,8 +363,15 @@ static int gmc_v7_0_mc_init(struct
->>>>> amdgpu_device *adev) adev->gmc.vram_width = numchan * chansize;
->>>>>      }
->>>>>      /* size in MB on si */
->>>>> -   adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) *
->>>>> 1024ULL * 1024ULL;
->>>>> -   adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) *
->>>>> 1024ULL * 1024ULL;
->>>>> +   tmp = RREG32(mmCONFIG_MEMSIZE);
->>>>> +   /* some boards may have garbage in the upper 16 bits */
->>>>> +   if (tmp & 0xffff0000) {
->>>>> +           DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
->>>>> +           if (tmp & 0xffff)
->>>>> +                   tmp &= 0xffff;
->>>>> +   }
->>>>> +   adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
->>>>> +   adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
->>>>>
->>>>>      if (!(adev->flags & AMD_IS_APU)) {
->>>>>              r = amdgpu_device_resize_fb_bar(adev);
+Otherwise,
 
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+
+Thanks,
+pq
+
+> =20
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
+s_plane.c
+> index d4e375913122..8f764a108b00 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -218,5 +218,14 @@ struct vkms_plane *vkms_plane_init(struct vkms_devic=
+e *vkmsdev,
+>  	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0,
+>  					   DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK);
+> =20
+> +	drm_plane_create_color_properties(&plane->base,
+> +					  BIT(DRM_COLOR_YCBCR_BT601) |
+> +					  BIT(DRM_COLOR_YCBCR_BT709) |
+> +					  BIT(DRM_COLOR_YCBCR_BT2020),
+> +					  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+> +					  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
+> +					  DRM_COLOR_YCBCR_BT601,
+> +					  DRM_COLOR_YCBCR_FULL_RANGE);
+> +
+>  	return plane;
+>  }
+>=20
+
+
+--Sig_/4k48lEW_QdEbCmFp+XKPuuC
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYmePMACgkQI1/ltBGq
+qqePdxAAl9TTUVJlL6mpTRB9D+p6M0JTBNIqCo7ZbrR/n8GcWTvxguqpClJgxXIy
+AXd/N5WYaKqf0Rrs5JefeD8inQ2yFWIv5lwjw4Kph0QzsBstnUGrSoONLG9aLQNq
+SxUyE24TFz1jRH6H7Frthvv/8QebFoyaAMP9YBFDC6R7/8DJIoEAJPAoe/0F3oQw
+Z5Lje7gyIaNNHDUjHxmJMCp3eSnW3N6nzA9hc0lynnkj3YdP3pjFYLkujGJ7kKPU
+LOsxer8hzVOMu+5BkBIfHnqrHB/a3klSA0ar77ylJ+I4aEiFz9q4ESoVIVV2ya1P
+iuvhZN1AVM9owHTrxoLOZBSzo0zuEOS7xoTZKGBH55i++DTm8yE+1fOfKQmjMioM
++NIDmHQNvtF2wV95+T0htxqJ6HnsIE56XqZPSzjmISHzrhLY3Ve2JgMp8uFoO0ZG
+ty9ScqQRHdLDr3g60T4v4nWV3T72WRrile48VQ+lwtg0Tqo68Y0LzKgxbg94DU2D
+rmIDNuSK+AeUySRP8xQ+dIij7NBQ7BqHCx+ZVpnvF+oSI4Pd/+51I9iVKcfkCO4b
+vfezyqJwGERRo4W8nJZ0lH3cyQEzVmBQcsIxQZkfVIo5jqwE+XefAJtVkM3uudWv
+jy7rswGSNevz/hZ55S0mIy/Vs279I65kvCWyP/63oBGzvlLKKDI=
+=db9e
+-----END PGP SIGNATURE-----
+
+--Sig_/4k48lEW_QdEbCmFp+XKPuuC--
