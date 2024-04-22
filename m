@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A523C8AD536
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C878AD54F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:56:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE9BB10F7A7;
-	Mon, 22 Apr 2024 19:51:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30D4810F803;
+	Mon, 22 Apr 2024 19:56:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="X/xwG0p1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tl0kRLOW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D972B10F7A7
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:51:45 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-2db7c6b5598so64108051fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:51:45 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F17410F803
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:56:26 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-518a56cdc03so5898173e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:56:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713815504; x=1714420304; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713815784; x=1714420584; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=geu7O3+m3HJ/3o9N5bHvMzVI9k+cw0GEArJbMvVCgjk=;
- b=X/xwG0p1Fapek6Q6E2vGtEd7hBLCRiYUp0GusxG4gZNpINk8Z/5x6qftn94JFBRDDj
- PFxKaoqs/dsx0Ga7RG80kFe2S8mX+kslY1+islfsBe/UDwNitSQA3ql5D1CPQGlvtq38
- Upl4Clb0pcAuTHeNiXFTc7iu3yx4/nxGjckEFmf4YkMgS/lpolMDSywqpFh2um8cRbJ8
- vTW+E2Q+LzAgGgY3z4HWBBD3IGDDLxGX4dRK80Wl6B9PaLnrUCgCx7AG0+Gozu3H58vB
- KHSd4HGAjobsfA/oYAL12y1e7Nsv/ziV/DcoKwHr/HRw8LiH9JyaAEP8Mut+0nMP/nEH
- mDHw==
+ bh=5UbtjWVwUCJ/Ep0G6WAYIECvngUoQOMEOfVKfxhjW0A=;
+ b=tl0kRLOWm7GvBWzxW5GAv2o4N/iWP5Qy6I+EN/LOrX+b5CII0rbf3hdDaMxGSv8OHh
+ SuLrsW77BA+frygg2L29ursljtUBlPlMHDlCCCWv/tzaSVSGUrc/N4lI43dNiB8ErwDA
+ WiDryPeGWkkXNpTF32fG7VZUscoW2RPwzXD8S5m5hBPU3TbbEXwOHiEHMv3l99X5QJcj
+ 2UZHWNCFY+jYDOE7U/hwoYJi6bHP8pfbLGspi+SgdCTdxd6VGOOUbmYFnOtcpH2jCjsc
+ 0JpsaZQmj25m4Ym2vVTmIVYk9UzLKVzILQmF3J3B72en52sCfE84w/koN+u6Ytl7mnSh
+ nNGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713815504; x=1714420304;
+ d=1e100.net; s=20230601; t=1713815784; x=1714420584;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=geu7O3+m3HJ/3o9N5bHvMzVI9k+cw0GEArJbMvVCgjk=;
- b=LnqZiNszny4M6ztmwXhZVEwui1RToNsmctO+HIuB8stjWn2crLlBoI1Xte2JdBvEvN
- 6lW5/8LxCiBg+DWKbkdM2YHh+CbHeWlmL3X85juG8fzCQYZ10CF5EII9I424e3PQMhz4
- rf/AX7odHVl0DEJaYo7Y4Dl607ygJljnRgl5RG1eOyjojcr1iK/g5FjQsrj++yIeB5RU
- 2JDcUyXlkVQtdn8LpNVNmtB41AsKpSunx+q+59KuohMG1mNyUOvArosy3ZQ1qq0JecDx
- YmpLLIp1S3JENxLoDBq7nd0YZiDR+EfI91CcPTbhWuv5Ti9Ek1KpwWRc2MZI/FnNakpx
- GHug==
+ bh=5UbtjWVwUCJ/Ep0G6WAYIECvngUoQOMEOfVKfxhjW0A=;
+ b=dMzMhqxFk4hlDxwnPaL9LygFEwiXX77HS3pW9nGoPR6UOGKkoT0FDgH85jDwScmoCO
+ lzboYFcNV2pQukl2T2c4ACjFKYnQs2ilMnvmjC2yqJYRyzoJWnTnyN4zq1C/QZZGqEt/
+ FtCb1cy8wNw/jwmYnd5EOtdviFCHntqzbWgqSJOi+xZpMtVJD/WOTtlrjGZBh8fipP0l
+ SZoIENYJSkjE3Fc//aw8IV4c7iCFpJrIxgXl1gmv1rVbdUSZerGUECvvCNtbHSRdEPY+
+ YnCxfoQUZ6RrGe0x8NsH4iatipbJ/U93HxsIS7vHkBAlmIBJHnMytggTotEAxIfMueGQ
+ kqYQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX2cFyYc4ihcJuyDq1Fe3n0yS3l2tBF/CcCLF+1l2549vKdv3uJIrLCfUF6XZliN7OCo1WH78ueIp3L715PRSWG3clZ+HWc4M2zexiY2RD0
-X-Gm-Message-State: AOJu0YxE4Wy0AN92Seitv9awqgEBd4Obu2IPFf9KsprYmMmV50Caw/xU
- TYYyZ0gTCo/KsyHvJKZUAV8uOW4FXolyE/0Y8WNt7EIDLEPl77dT+967F4qJP7M=
-X-Google-Smtp-Source: AGHT+IFBToLOpSsjPI8pjqEB5XqsvUzOWG8mujF7Bwog8+VxvvQHLSw7DikZG1Z+rLu3IV4Obwe7Jw==
-X-Received: by 2002:a2e:9ccb:0:b0:2d6:d351:78ae with SMTP id
- g11-20020a2e9ccb000000b002d6d35178aemr7467468ljj.29.1713815503853; 
- Mon, 22 Apr 2024 12:51:43 -0700 (PDT)
+ AJvYcCWZO8HgMFZqt4lDaM/jBPg8ClJ0UMQyNCfQVWhAkc6AkSmPfJ0a8nh1Gnjy3s4FUQrBzhn9s9Ty6g7nW2fX7JqRue0megk7awNbV3lprzzX
+X-Gm-Message-State: AOJu0Yyamae+8Wf4j2jcqACOTWBWFY4P5HCcfIDFT6G/rOIOkDL8LWl6
+ NaQGc3ChdiQcoUQg8QgpEodkMqhoZirIodrR9/oakcZhh3BVD21iTEwCrLZEBLo=
+X-Google-Smtp-Source: AGHT+IHRbKEd6Kb15twuNssTvNEBKSZ42gFAuOCW2DQijOTq7xBj6uhy/G5TKRMrCuOF62WWZsyRJQ==
+X-Received: by 2002:a05:6512:4d0:b0:516:c7c2:23b6 with SMTP id
+ w16-20020a05651204d000b00516c7c223b6mr6355450lfq.9.1713815784231; 
+ Mon, 22 Apr 2024 12:56:24 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
  by smtp.gmail.com with ESMTPSA id
- t3-20020a2e9c43000000b002dcb831d958sm1317363ljj.56.2024.04.22.12.51.42
+ q5-20020ac24a65000000b00515cd3bab8fsm1798550lfp.154.2024.04.22.12.56.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Apr 2024 12:51:43 -0700 (PDT)
-Date: Mon, 22 Apr 2024 22:51:41 +0300
+ Mon, 22 Apr 2024 12:56:23 -0700 (PDT)
+Date: Mon, 22 Apr 2024 22:56:21 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -67,15 +67,15 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>, Phong LE <ple@baylibre.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/9] drm/bridge: Allow using fwnode API to get the
- next bridge
-Message-ID: <xsfrnucued63q2amv7betkvgks6bhssubhjcryghkcloytixj4@ukmak4xwyjtg>
+Subject: Re: [PATCH v4 2/9] drm/bridge: simple-bridge: Use fwnode API to
+ acquire device properties
+Message-ID: <7xlzd62dvwjjv6zwbgjwphcgwpjpfxbv5rp243a2duobrpcvmd@gtr6cnm7ndrl>
 References: <20240422191903.255642-1-sui.jingfeng@linux.dev>
- <20240422191903.255642-2-sui.jingfeng@linux.dev>
+ <20240422191903.255642-3-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240422191903.255642-2-sui.jingfeng@linux.dev>
+In-Reply-To: <20240422191903.255642-3-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,82 +91,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 23, 2024 at 03:18:55AM +0800, Sui Jingfeng wrote:
-> Currently, the various display bridge drivers rely on OF infrastructures
-> to works very well, yet there are platforms and/or devices absence of 'OF'
-> support. Such as virtual display drivers, USB display apapters and ACPI
-> based systems etc.
-> 
-> Add fwnode based helpers to fill the niche, this allows part of the display
-> bridge drivers to work across systems. As the fwnode API has wider coverage
-> than DT counterpart and the fwnode graphs are compatible with the OF graph,
-> so the provided helpers can be used on all systems in theory. Assumed that
-> the system has valid fwnode graphs established before drm bridge drivers
-> are probed, and there has fwnode assigned to involved drm bridge instance.
+On Tue, Apr 23, 2024 at 03:18:56AM +0800, Sui Jingfeng wrote:
+> Make this driver less DT-dependent by calling the freshly created helpers,
+> should be no functional changes for DT based systems. But open the door for
+> otherwise use cases. Even though there is no user emerged yet, this still
+> do no harms.
 > 
 > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 > ---
->  drivers/gpu/drm/drm_bridge.c | 74 ++++++++++++++++++++++++++++++++++++
->  include/drm/drm_bridge.h     | 16 ++++++++
->  2 files changed, 90 insertions(+)
+>  drivers/gpu/drm/bridge/simple-bridge.c | 22 ++++++++++------------
+>  1 file changed, 10 insertions(+), 12 deletions(-)
 > 
-
-[skipped]
-
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 4baca0d9107b..a3f5d12a308c 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -26,6 +26,7 @@
->  #include <linux/ctype.h>
->  #include <linux/list.h>
->  #include <linux/mutex.h>
-> +#include <linux/of.h>
+> diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+> index 5813a2c4fc5e..3b09bdd5ad4d 100644
+> --- a/drivers/gpu/drm/bridge/simple-bridge.c
+> +++ b/drivers/gpu/drm/bridge/simple-bridge.c
+> @@ -9,7 +9,6 @@
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> -#include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/regulator/consumer.h>
 >  
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_encoder.h>
-> @@ -721,6 +722,8 @@ struct drm_bridge {
->  	struct list_head chain_node;
->  	/** @of_node: device node pointer to the bridge */
->  	struct device_node *of_node;
-> +	/** @fwnode: fwnode pointer to the bridge */
-> +	struct fwnode_handle *fwnode;
-
-My comment is still the same: plese replace of_node with fwnode. It is
-more intrusive, however it will lower the possible confusion if the
-driver sets both of_node and fwnode. Also it will remove the necessity
-for helpers like drm_bridge_set_node().
-
->  	/** @list: to keep track of all added bridges */
->  	struct list_head list;
->  	/**
-> @@ -788,6 +791,13 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
->  		      struct drm_bridge *previous,
->  		      enum drm_bridge_attach_flags flags);
+> @@ -169,33 +168,32 @@ static const struct drm_bridge_funcs simple_bridge_bridge_funcs = {
 >  
-> +static inline void
-> +drm_bridge_set_node(struct drm_bridge *bridge, struct fwnode_handle *fwnode)
-> +{
-> +	bridge->fwnode = fwnode;
-> +	bridge->of_node = to_of_node(fwnode);
-> +}
-> +
->  #ifdef CONFIG_OF
->  struct drm_bridge *of_drm_find_bridge(struct device_node *np);
->  #else
-> @@ -797,6 +807,12 @@ static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->  }
->  #endif
+>  static int simple_bridge_probe(struct platform_device *pdev)
+>  {
+> +	struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
+>  	struct simple_bridge *sbridge;
+> -	struct device_node *remote;
+> +	int ret;
 >  
-> +struct drm_bridge *
-> +drm_bridge_find_by_fwnode(struct fwnode_handle *fwnode);
-> +
-> +struct drm_bridge *
-> +drm_bridge_find_next_bridge_by_fwnode(struct fwnode_handle *fwnode, u32 port);
-> +
->  /**
->   * drm_bridge_get_next_bridge() - Get the next bridge in the chain
->   * @bridge: bridge object
+>  	sbridge = devm_kzalloc(&pdev->dev, sizeof(*sbridge), GFP_KERNEL);
+>  	if (!sbridge)
+>  		return -ENOMEM;
+>  	platform_set_drvdata(pdev, sbridge);
+>  
+> -	sbridge->info = of_device_get_match_data(&pdev->dev);
+> +	sbridge->info = device_get_match_data(&pdev->dev);
+>  
+>  	/* Get the next bridge in the pipeline. */
+> -	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
+> -	if (!remote)
+> -		return -EINVAL;
+> -
+> -	sbridge->next_bridge = of_drm_find_bridge(remote);
+> -	of_node_put(remote);
+> -
+> +	sbridge->next_bridge = drm_bridge_find_next_bridge_by_fwnode(fwnode, 1);
+
+Can we please stick to the interface of drm_of_find_panel_or_bridge()?
+
+Also note, the driver isn't looking for the next_bridge. It is looking
+for the bridge at the fwnode remote endpoint.
+
+>  	if (!sbridge->next_bridge) {
+>  		dev_dbg(&pdev->dev, "Next bridge not found, deferring probe\n");
+>  		return -EPROBE_DEFER;
+> +	} else if (IS_ERR(sbridge->next_bridge)) {
+> +		ret = PTR_ERR(sbridge->next_bridge);
+> +		dev_err(&pdev->dev, "Error on finding the next bridge: %d\n", ret);
+> +		return ret;
+>  	}
+>  
+>  	/* Get the regulator and GPIO resources. */
+>  	sbridge->vdd = devm_regulator_get_optional(&pdev->dev, "vdd");
+>  	if (IS_ERR(sbridge->vdd)) {
+> -		int ret = PTR_ERR(sbridge->vdd);
+> +		ret = PTR_ERR(sbridge->vdd);
+>  		if (ret == -EPROBE_DEFER)
+>  			return -EPROBE_DEFER;
+>  		sbridge->vdd = NULL;
+> @@ -210,9 +208,9 @@ static int simple_bridge_probe(struct platform_device *pdev)
+>  
+>  	/* Register the bridge. */
+>  	sbridge->bridge.funcs = &simple_bridge_bridge_funcs;
+> -	sbridge->bridge.of_node = pdev->dev.of_node;
+>  	sbridge->bridge.timings = sbridge->info->timings;
+>  
+> +	drm_bridge_set_node(&sbridge->bridge, fwnode);
+
+Please don't move the code. Having it in place of of_node setter
+simplifies the review.
+
+LGTM otherwise.
+
+>  	drm_bridge_add(&sbridge->bridge);
+>  
+>  	return 0;
 > -- 
 > 2.34.1
 > 
