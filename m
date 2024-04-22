@@ -2,56 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633F18ACA23
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 12:02:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2626C8ACA6B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 12:19:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6286810F553;
-	Mon, 22 Apr 2024 10:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBB1410F554;
+	Mon, 22 Apr 2024 10:19:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mMaGX+5r";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="XhedbwYI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D7C310F553
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 10:02:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=PSojjO61pmwfadO2uUCv8NjPvAimnxrdkOfUbDXyGUc=; b=mMaGX+5rLeBSJoU4c83Eybmqos
- MFQSPDFt6r6Dc46R7SQLMRpuSdy5Mf5ZSWUPhobOwhTL9dDp5Kw+V2AnGy/nCTBeN5brREZf1tZHS
- 6GbVcsoz85SfzyJngM5VbeQVT4e7Txor1/0gZquqkMRJKkxkli6563P154at9WOb9SmAZYCEIqQW5
- D5EiN5iZuIS3PvJQaZK4Lqkk2/sF2twwO2HBKSHWKb3kLAc9ZF+eT4x+V1yQoKEx2SkbBEUy9H3vc
- w8SYshcc3QRzue+pNZox/UVChzf6F7Q/0GoQvZEjAqgbEt677oCFxNmavC1LxfREeL22J/nHvcfcA
- MJmLulmQ==;
-Received: from [84.65.0.132] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ryqV9-007Cqv-W3; Mon, 22 Apr 2024 12:02:20 +0200
-Message-ID: <b96ad8b9-882d-4e82-97cd-5723a4770863@igalia.com>
-Date: Mon, 22 Apr 2024 11:02:18 +0100
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5892D10F554
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 10:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=twF0f
+ VgcdFbRYd/8dnq/6sOb23kJ0H7GRTQUDCTRWBs=; b=XhedbwYIfrJsCpytTVmBT
+ SkUg6r7FCcyJ9FMdWtN6caV/Kl7evm6meMcy8/oktADqbZ0x8dMXHvrAKukQMqsn
+ wODY0j/7hUPTieJA1v75vb2jp6MHjppMUbinip34iTpv0yw7th47gygJgAipiIT6
+ FXbpeDxdRNrDxEpLV7gXLQ=
+Received: from ProDesk.. (unknown [58.22.7.114])
+ by gzga-smtp-mta-g1-3 (Coremail) with SMTP id _____wB3fymbOSZmRwO9Bw--.23790S2;
+ Mon, 22 Apr 2024 18:19:10 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: heiko@sntech.de
+Cc: tzimmermann@suse.de, mripard@kernel.org, hjc@rock-chips.com,
+ s.hauer@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH 0/1] Fix the port mux of VP2
+Date: Mon, 22 Apr 2024 18:19:04 +0800
+Message-Id: <20240422101905.32703-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/8] drm/v3d: Add modparam for turning off Big/Super
- Pages
-Content-Language: en-GB
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Tvrtko Ursulin <tursulin@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20240421215309.660018-1-mcanal@igalia.com>
- <20240421215309.660018-9-mcanal@igalia.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20240421215309.660018-9-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wB3fymbOSZmRwO9Bw--.23790S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxU3FksUUUUU
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMwDIXmXAkyK0RAAAsB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,61 +56,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Andy Yan <andy.yan@rock-chips.com>
 
-On 21/04/2024 22:44, Maíra Canal wrote:
-> Add a modparam for turning off Big/Super Pages to make sure that if an
-> user doesn't want Big/Super Pages enabled, it can disabled it by setting
-> the modparam to false.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> ---
->   drivers/gpu/drm/v3d/v3d_drv.c   | 8 ++++++++
->   drivers/gpu/drm/v3d/v3d_gemfs.c | 5 +++++
->   2 files changed, 13 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index 3debf37e7d9b..bc8c8905112a 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -36,6 +36,14 @@
->   #define DRIVER_MINOR 0
->   #define DRIVER_PATCHLEVEL 0
->   
-> +bool super_pages = true;
-> +
-> +/* Only expose the `super_pages` modparam if THP is enabled. */
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
 
-I would have put bool super_pages in here so it can get compiled out.
+The port mux bits of VP2 should be defined by RK3568_OVL_PORT_SET__PORT2_MUX,
+this maybe a copy and paste error when this driver first introduced.
+Hi Heiko:
+   Maybe thi is the problem you met when you porting the dsi2 driver.
+I previously sent you this patch when you ask me about this issue on
+email,but I'm not sure if you received it.
 
-> +module_param_named(super_pages, super_pages, bool, 0400);
-> +MODULE_PARM_DESC(super_pages, "Enable/Disable Super Pages support.");
-> +#endif
-> +
->   static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
->   			       struct drm_file *file_priv)
->   {
-> diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c b/drivers/gpu/drm/v3d/v3d_gemfs.c
-> index 31cf5bd11e39..5fa08263cff2 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gemfs.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gemfs.c
-> @@ -11,6 +11,11 @@ void v3d_gemfs_init(struct v3d_dev *v3d)
->   	char huge_opt[] = "huge=within_size";
->   	struct file_system_type *type;
->   	struct vfsmount *gemfs;
-> +	extern bool super_pages;
-> +
-> +	/* The user doesn't want to enable Super Pages */
-> +	if (!super_pages)
-> +		goto err;
 
-And if this hunk is moved after the CONFIG_TRANSPARENT_HUGEPAGE check 
-just below I hope compiler can be happy with that.
+Andy Yan (1):
+  drm/rockchip: vop2: Fix the port mux of VP2
 
-Regards,
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Tvrtko
+-- 
+2.34.1
 
->   
->   	/*
->   	 * By creating our own shmemfs mountpoint, we can pass in
