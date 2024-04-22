@@ -2,63 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D80F8AD192
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 18:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A188AD19B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 18:12:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E15010F6F3;
-	Mon, 22 Apr 2024 16:09:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB3A10F6EB;
+	Mon, 22 Apr 2024 16:12:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="U5lLGh27";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="EkdefmYe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D66D310F6F3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 16:09:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Cvz+j1g3XA2XYGPL0u+L6Aob0fUdpORyX4fouI3EeRY=; b=U5lLGh27AMfgEprh7eyDCbO+Pu
- Hpui9X5bFCVP4Q0XOlZqb7u3IfFjcZka6cQKmC8M6lz+Ocl8T/1ggV7HFNAq+Ox6jSCe2TSiDqORh
- zhrVYjLd79Ap2CWRKdHkqy9pxFK1ZBPVVTh8hsWM4KU94r/v2F4PITMOqEnJ861vBX8LKXKCk80R3
- XkPIZLbAf0j16X+/eESmeKwd+sN84yVBxEFXsqvBk99ATy0mPiDoQESXZ5nPZwmR0dUGjVR9razqY
- S05srgFw9Sre925H/DpqzY3Qyuq5ff/7V4M9vJwz5mbP4oaRbwdKqWczwsdW0OXJ9Hhuw9GTlpvsv
- 8DwxRWFQ==;
-Received: from [179.234.232.152] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1rywDr-007Jm2-25; Mon, 22 Apr 2024 18:08:51 +0200
-Message-ID: <37b63903-3b5c-49e4-9732-116e6653a8cf@igalia.com>
-Date: Mon, 22 Apr 2024 13:08:44 -0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1FA4112C45;
+ Mon, 22 Apr 2024 16:12:25 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43M8mKK3000381;
+ Mon, 22 Apr 2024 16:12:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=sCyLpknTZwvWXYoyKMfM/GI5z3ThcbGqTFkPKhPm5us=; b=Ek
+ defmYeeppshj66AFg3XqOQORVJDDHxCQrzCtg2X0eaU7JMlWRHgYf7Ro44HOMKuQ
+ miMmQ02Aw1eOsxVUIAg9cKmnV3fhDP+xksRN6oX1llCtKWIeayjmmFklawfWo+4M
+ SXh30pEfKOeenhNtaYY7r1IB7NrZ1ypq1G8IZsYnqugxNChCVTTo3cMAn+EGp9QG
+ wK+kC13cP3gfGtpBRiuuixu6P5C/tfJbIqsWzq7X7Gg0B3km7UKAUwFWmoQOiAIg
+ zNBMeIxPWwp0oJl/MXJNgUYN9Ok3thuAHdOi5D/2zM2rTdPb3o7mSkjLpHnIapdC
+ XijGzpCOZaJAyefPELoQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xm4qdd18v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Apr 2024 16:12:22 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43MGCL0V031372
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Apr 2024 16:12:21 GMT
+Received: from [10.110.104.191] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 22 Apr
+ 2024 09:12:21 -0700
+Message-ID: <456bb6f6-03cc-aae1-b7d5-9d97300ba383@quicinc.com>
+Date: Mon, 22 Apr 2024 09:12:20 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] drm/v3d: Fix GPU stats inconsistencies and
- race-condition
-To: Melissa Wen <mwen@igalia.com>, Chema Casanova <jmcasanova@igalia.com>,
- Tvrtko Ursulin <tursulin@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20240420213632.339941-2-mcanal@igalia.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/3] drm/msm: don't clean up priv->kms prematurely
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <20240420213632.339941-2-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
+ Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20240420-mdp4-fixes-v1-0-96a70f64fa85@linaro.org>
+ <20240420-mdp4-fixes-v1-1-96a70f64fa85@linaro.org>
+ <67fbd629-3e80-b706-83a3-7baff3efd6c1@quicinc.com>
+ <n7eet54g72usmuh4hdz6yce3i4ieweu4orgd7gewu7y53ejucc@dzmq2a2wdxkc>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <n7eet54g72usmuh4hdz6yce3i4ieweu4orgd7gewu7y53ejucc@dzmq2a2wdxkc>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 2Y9GD3Dd-GNRSN9jpGiRQi3o-1st-3iv
+X-Proofpoint-ORIG-GUID: 2Y9GD3Dd-GNRSN9jpGiRQi3o-1st-3iv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-22_09,2024-04-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ spamscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0
+ mlxlogscore=601 bulkscore=0 suspectscore=0 malwarescore=0 clxscore=1015
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404220068
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,74 +96,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-@drm-misc maintainers, is there any chance you could backport commit
-35f4f8c9fc97 ("drm/v3d: Don't increment `enabled_ns` twice") [1] to drm-
-misc-next?
 
-I would like to apply this series to drm-misc-next because it fixes
-another issue with the GPU stats, but this series depends on commit
-35f4f8c9fc97, as it has plenty of refactors on the GPU stats code.
+On 4/21/2024 3:35 PM, Dmitry Baryshkov wrote:
+> On Sat, Apr 20, 2024 at 04:02:00PM -0700, Abhinav Kumar wrote:
+>>
+>>
+>> On 4/19/2024 7:33 PM, Dmitry Baryshkov wrote:
+>>> MSM display drivers provide kms structure allocated during probe().
+>>> Don't clean up priv->kms field in case of an error. Otherwise probe
+>>> functions might fail after KMS probe deferral.
+>>>
+>>
+>> So just to understand this more, this will happen when master component
+>> probe (dpu) succeeded but other sub-component probe (dsi) deferred?
+>>
+>> Because if master component probe itself deferred it will allocate priv->kms
+>> again isnt it and we will not even hit here.
+> 
+> Master probing succeeds (so priv->kms is set), then kms_init fails at
+> runtime, during binding of the master device. This results in probe
+> deferral from the last component's component_add() function and reprobe
+> attempt when possible (once the next device is added or probed). However
+> as priv->kms is NULL, probe crashes.
+> 
 
-Although I could theoretically apply this series in drm-misc-fixes, I
-don't believe it would be ideal, as discussed in #dri-devel earlier
-today.
+Got it, a better commit text would have helped here. Either way,
 
-[1] 
-https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/35f4f8c9fc972248055096d63b782060e473311b
-
-Best Regards,
-- Maíra
-
-On 4/20/24 18:32, Maíra Canal wrote:
-> The first version of this series had the intention to fix two major
-> issues with the GPU stats:
-> 
-> 1. We were incrementing `enabled_ns` twice by the end of each job.
-> 2. There is a race-condition between the IRQ handler and the users
-> 
-> The first of the issues was already addressed and the fix was applied to
-> drm-misc-fixes. Now, what is left, addresses the second issue.
-> 
-> Apart from addressing this issue, this series improved the GPU stats
-> code as a whole. We reduced code repetition, creating functions to start and
-> update the GPU stats. This will likely reduce the odds of issue #1 happen again.
-> 
-> v1 -> v2: https://lore.kernel.org/dri-devel/20240403203517.731876-1-mcanal@igalia.com/T/
-> 
-> - As the first patch was a bugfix, it was pushed to drm-misc-fixes.
-> - [1/4] Add Chema Casanova's R-b
-> - [2/4] s/jobs_sent/jobs_completed and add the reasoning in the commit message
-> 				(Chema Casanova)
-> - [2/4] Add Chema Casanova's and Tvrtko Ursulin's R-b
-> - [3/4] Call `local_clock()` only once, by adding a new parameter to the
-> 				`v3d_stats_update` function (Chema Casanova)
-> - [4/4] Move new line to the correct patch [2/4] (Tvrtko Ursulin)
-> - [4/4] Use `seqcount_t` as locking primitive instead of a `rw_lock` (Tvrtko Ursulin)
-> 
-> v2 -> v3: https://lore.kernel.org/dri-devel/20240417011021.600889-1-mcanal@igalia.com/T/
-> 
-> - [4/5] New patch: separates the code refactor from the race-condition fix (Tvrtko Ursulin)
-> - [5/5] s/interruption/interrupt (Tvrtko Ursulin)
-> - [5/5] s/matches/match (Tvrtko Ursulin)
-> - [5/5] Add Tvrtko Ursulin's R-b
-> 
-> Best Regards,
-> - Maíra
-> 
-> Maíra Canal (5):
->    drm/v3d: Create two functions to update all GPU stats variables
->    drm/v3d: Create a struct to store the GPU stats
->    drm/v3d: Create function to update a set of GPU stats
->    drm/v3d: Decouple stats calculation from printing
->    drm/v3d: Fix race-condition between sysfs/fdinfo and interrupt handler
-> 
->   drivers/gpu/drm/v3d/v3d_drv.c   | 33 ++++++++----
->   drivers/gpu/drm/v3d/v3d_drv.h   | 30 ++++++++---
->   drivers/gpu/drm/v3d/v3d_gem.c   |  9 ++--
->   drivers/gpu/drm/v3d/v3d_irq.c   | 48 ++---------------
->   drivers/gpu/drm/v3d/v3d_sched.c | 94 +++++++++++++++++----------------
->   drivers/gpu/drm/v3d/v3d_sysfs.c | 13 ++---
->   6 files changed, 109 insertions(+), 118 deletions(-)
-> 
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
