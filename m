@@ -2,62 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 666168ACC4A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 13:50:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B055D8ACC7F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 14:09:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FEFC112A1F;
-	Mon, 22 Apr 2024 11:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 178D010F5CE;
+	Mon, 22 Apr 2024 12:09:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k02c+1bR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WIp7A/VY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D16112A1F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 11:50:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713786616; x=1745322616;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Gd76lsOo4VGGSyfVLdRqHseFbsa9HDkzoH11UyZQ6eI=;
- b=k02c+1bR1AwwnYXD2Bx6YaoGLP3gX0qQC5imjXLVI8JAxgca1Ig0j6Ca
- DX0oLr9XJIOp71gHASgBlkf7JgAdFr49encfXXFsRWZX0aXbzbTgIUaqp
- jaHLwBGtdZO7kvu8cq43WCfwHZqKml5mMBWwFNsGJRt/EBF8tg7yceTyi
- RzrGv9RxESjBeVvLCi55xtoduwBWijrccmP6BckuUNYre3PkbnHlki4HE
- bSlw8GuOLwr+JFnXlGUezngqSd5Kbh4vem2V19vGmgyti2PKa+CQZRpPP
- 21zFlikf5GvX6NQCfSPu3YF7uhxVI/sdpsty1Z7YJp+txAeEwzVhXV/NF w==;
-X-CSE-ConnectionGUID: jnVkY1ZmSkqWjqVdcebhKQ==
-X-CSE-MsgGUID: 69MzbU9WQf23W9znQUFijg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11051"; a="19871592"
-X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; d="scan'208";a="19871592"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2024 04:50:16 -0700
-X-CSE-ConnectionGUID: ClJyYI3LQfiTqjN1U6lXYw==
-X-CSE-MsgGUID: KltWatPSRn+GzrwENKC0qQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; d="scan'208";a="61438122"
-Received: from ralbanes-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.63.128])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2024 04:50:12 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven
- <geert+renesas@glider.be>
-Subject: Re: [PATCH 00/11] drm: Restore helper usability
-In-Reply-To: <cover.1713780345.git.geert+renesas@glider.be>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1713780345.git.geert+renesas@glider.be>
-Date: Mon, 22 Apr 2024 14:50:09 +0300
-Message-ID: <87il09ty4u.fsf@intel.com>
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8D1310F5CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:09:26 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-5f7fc45fe1bso2171874a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 05:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713787766; x=1714392566; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nSYUfPUp3aHKYRSJHW3nsNdjnok3doEHFDPHNf1mUD8=;
+ b=WIp7A/VY3oRDzEPKNU3bplQZo2FZQUtc31TxWZG5/ry+tYJUiiEe4k2GbwnhfnEkfb
+ zvMi3D5C8ZxJne8Qxuw8FF8UrirrTTheUgqA4M+UTYF5ytpCShixE3V4Nx+25G6lt8Zu
+ W+FskxrOWbWIzNJJhwwijL4NQtLRCAJ6a8T/mlITKvfYCIRXxN6ZozDNnNM60yCkzIlw
+ 3bKf/EE7ikzVDeqS3kKFzKUasRvxyn1hXiy00GyLjZz4coRIcL/O3y5YvCo4SPdtorDx
+ lVz40tNRjPhctrrM8xuqv1HmY2A3bn05G+hTkhQ3xNbzz0+5jR2lRpYhdmqZS5aQDN5j
+ BiJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713787766; x=1714392566;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nSYUfPUp3aHKYRSJHW3nsNdjnok3doEHFDPHNf1mUD8=;
+ b=u/KOAGRUO0ky/ACjvp2NYoTh31OIrAP4xGLQXLnplqpULEAOIu6pmpTtr0SDSKkz8j
+ G31uZY1XJ1fIJaA7NNgKYdvYTktG5pDWQ+uiSoKUMn1aKVdgMuISopNIAJYiYUu0LBPc
+ WRG6P92Cn0N7z2CymGL1w+DjYNiND6uWk7+r7EoAIFw1D6s+nF7Bp/4KFQBX9hFrEQMh
+ Y0wqZulOYeQtv7sqYoamKNkOKsV2ohhJvLOc0WAWsDSy+RzAEPVGBxbjRuGUhUqZk6MV
+ XTARyuDX8LEw4dRe/dzNdBEO7gLo1f1g6aM1lHQ6QP0o8ITiFMvvmg6UrDjpOYrSbxGH
+ Wi3Q==
+X-Gm-Message-State: AOJu0YyXB6NBGUk2enSdIbwVEAtXOyZIcluNpUwvswTRRVb4dLb9AXgs
+ ZxLakN8CkBHTt/hXekOPbuX9IX5cteO0MOsiG8M4LVlujY5sB3S9Pz7ZsnusqpFYKUGqAcwhBq3
+ VMSEfUa+mq+eyBmhEnSIAAZlJ0TU=
+X-Google-Smtp-Source: AGHT+IFConWUkZnbQRk4mS4bFa6lsrcKDBb9vKgKVpJXgVDjWzDvLQf0IWRNOLuTc1NoKmLWbeSfic7yMeiQEHlbacg=
+X-Received: by 2002:a17:90b:384d:b0:2ae:5bdb:1960 with SMTP id
+ nl13-20020a17090b384d00b002ae5bdb1960mr550537pjb.3.1713787765992; Mon, 22 Apr
+ 2024 05:09:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240211230931.188194-1-aford173@gmail.com>
+ <20240211230931.188194-2-aford173@gmail.com>
+ <6111fe04-4ecb-428e-9a0c-dc02cadfe3e7@denx.de>
+In-Reply-To: <6111fe04-4ecb-428e-9a0c-dc02cadfe3e7@denx.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 22 Apr 2024 07:09:13 -0500
+Message-ID: <CAHCN7x+DwSSabhGYZ1dnZzwRe+BJfz2H-AXbxjUQWytrq3OMpQ@mail.gmail.com>
+Subject: Re: [PATCH V2 2/2] drm/bridge: samsung-dsim: Fix porch calcalcuation
+ rounding
+To: Marek Vasut <marex@denx.de>
+Cc: dri-devel@lists.freedesktop.org, aford@beaconembedded.com, 
+ Frieder Schrempf <frieder.schrempf@kontron.de>, Inki Dae <inki.dae@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Marco Felsch <m.felsch@pengutronix.de>,
+ Michael Tretter <m.tretter@pengutronix.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,81 +92,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 22 Apr 2024, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> 	Hi all,
+On Sun, Apr 21, 2024 at 9:36=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
 >
-> As discussed on IRC with Maxime and Arnd, this series reverts the
-> conversion of select to depends for various DRM helpers in series
-> "[PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols to
-> depends on"[1], and various fixes for it.  This conversion introduced a
-> big usability issue when configuring a kernel and enabling DRM drivers
-> that use DRM helper code: as drivers now depend on helpers, the user
-> needs to know which helpers to enable, before the driver he is
-> interested even becomes visible.  The user should not need to know that,
-> and drivers should select the helpers they need.
+> On 2/12/24 12:09 AM, Adam Ford wrote:
+> > When using video sync pulses, the HFP, HBP, and HSA are divided between
+> > the available lanes if there is more than one lane.  For certain
+> > timings and lane configurations, the HFP may not be evenly divisible.
+> > If the HFP is rounded down, it ends up being too small which can cause
+> > some monitors to not sync properly. In these instances, adjust htotal
+> > and hsync to round the HFP up, and recalculate the htotal.
+> >
+> > Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron BL =
+i.MX8MM with HDMI monitor
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > ---
+> > V2:  No changes
+> >
+> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/br=
+idge/samsung-dsim.c
+> > index 8476650c477c..52939211fe93 100644
+> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > @@ -1606,6 +1606,27 @@ static int samsung_dsim_atomic_check(struct drm_=
+bridge *bridge,
+> >               adjusted_mode->flags |=3D (DRM_MODE_FLAG_PHSYNC | DRM_MOD=
+E_FLAG_PVSYNC);
+> >       }
+> >
+> > +     /*
+> > +      * When using video sync pulses, the HFP, HBP, and HSA are divide=
+d between
+> > +      * the available lanes if there is more than one lane.  For certa=
+in
+> > +      * timings and lane configurations, the HFP may not be evenly div=
+isible.
+> > +      * If the HFP is rounded down, it ends up being too small which c=
+an cause
+> > +      * some monitors to not sync properly. In these instances, adjust=
+ htotal
+> > +      * and hsync to round the HFP up, and recalculate the htotal. Thr=
+ough trial
+> > +      * and error, it appears that the HBP and HSA do not appearto nee=
+d the same
+> > +      * correction that HFP does.
+> > +      */
+> > +     if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE && dsi->lane=
+s > 1) {
 >
-> Hence revert back to what we had before, where drivers selected the
-> helpers (and any of their dependencies, if they can be met) they need.
-> In general, when a symbol selects another symbol, it should just make
-> sure the dependencies of the target symbol are met, which may mean
-> adding dependencies to the source symbol.
+> Does this also apply to mode with sync events (I suspect it does), so
+> the condition here should likely be if (!...burst mode) , right ?
 
-I still disagree with this, because fundamentally the source symbol
-really should not have to care about the dependencies of the target
-symbol.
+Thanks for the review!
 
-That said, I'm not going to keep arguing against this. Whatever.
+I was only able to test it with the DSI->ADV6535 bridge, and I'll
+admit I don't know a lot about DSI interface since I don't have a copy
+of the spec to read.
 
+Are you proposing this should be:
 
-BR,
-Jani.
+ if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) && dsi->lanes > 1) {
 
+I just want to make sure I understand what you're requesting.
 
->
-> Thanks for applying!
->
-> [1] https://lore.kernel.org/r/20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org/
->
-> Geert Uytterhoeven (11):
->   Revert "drm: fix DRM_DISPLAY_DP_HELPER dependencies, part 2"
->   Revert "drm/display: Select DRM_KMS_HELPER for DP helpers"
->   Revert "drm/bridge: dw-hdmi: Make DRM_DW_HDMI selectable"
->   Revert "drm: fix DRM_DISPLAY_DP_HELPER dependencies"
->   Revert "drm: Switch DRM_DISPLAY_HDMI_HELPER to depends on"
->   Revert "drm: Switch DRM_DISPLAY_HDCP_HELPER to depends on"
->   Revert "drm: Switch DRM_DISPLAY_DP_HELPER to depends on"
->   Revert "drm: Switch DRM_DISPLAY_DP_AUX_BUS to depends on"
->   Revert "drm: Switch DRM_DISPLAY_HELPER to depends on"
->   Revert "drm: Make drivers depends on DRM_DW_HDMI"
->   Revert "drm/display: Make all helpers visible and switch to depends
->     on"
->
->  drivers/gpu/drm/Kconfig                 |  8 +++----
->  drivers/gpu/drm/amd/amdgpu/Kconfig      | 12 ++++------
->  drivers/gpu/drm/bridge/Kconfig          | 28 +++++++++++-----------
->  drivers/gpu/drm/bridge/analogix/Kconfig | 18 +++++++-------
->  drivers/gpu/drm/bridge/cadence/Kconfig  |  8 +++----
->  drivers/gpu/drm/bridge/imx/Kconfig      |  4 ++--
->  drivers/gpu/drm/bridge/synopsys/Kconfig |  6 ++---
->  drivers/gpu/drm/display/Kconfig         | 32 ++++++++++---------------
->  drivers/gpu/drm/exynos/Kconfig          |  4 ++--
->  drivers/gpu/drm/i915/Kconfig            |  8 +++----
->  drivers/gpu/drm/imx/ipuv3/Kconfig       |  5 ++--
->  drivers/gpu/drm/ingenic/Kconfig         |  2 +-
->  drivers/gpu/drm/mediatek/Kconfig        |  6 ++---
->  drivers/gpu/drm/meson/Kconfig           |  2 +-
->  drivers/gpu/drm/msm/Kconfig             |  8 +++----
->  drivers/gpu/drm/nouveau/Kconfig         | 10 ++++----
->  drivers/gpu/drm/panel/Kconfig           | 32 ++++++++++++-------------
->  drivers/gpu/drm/radeon/Kconfig          |  8 +++----
->  drivers/gpu/drm/renesas/rcar-du/Kconfig |  2 +-
->  drivers/gpu/drm/rockchip/Kconfig        | 10 ++++----
->  drivers/gpu/drm/sun4i/Kconfig           |  2 +-
->  drivers/gpu/drm/tegra/Kconfig           |  8 +++----
->  drivers/gpu/drm/vc4/Kconfig             | 10 ++++----
->  drivers/gpu/drm/xe/Kconfig              | 13 ++++------
->  drivers/gpu/drm/xlnx/Kconfig            |  8 +++----
->  25 files changed, 116 insertions(+), 138 deletions(-)
+thanks
 
--- 
-Jani Nikula, Intel
+adam
