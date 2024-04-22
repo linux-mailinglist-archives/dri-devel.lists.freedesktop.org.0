@@ -2,73 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028148AD4FE
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 675C68AD523
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:48:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7209510EDAC;
-	Mon, 22 Apr 2024 19:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F46B10E9E4;
+	Mon, 22 Apr 2024 19:48:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HFO2Ppps";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="FAgAEY2V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4644110EDAC
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:42:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6CD6C61085
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:42:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9F3C4AF09
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:42:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713814970;
- bh=X5NGLyhlmkWiEztUhkG/dYmbEnrBjLWsUuPd6etmt3g=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=HFO2Ppps/oZr9UBPkLMNSFWLF8JT0mQUjb6KEmKTavUYAzUBfRay7wviM9/lYJ1ox
- VGD9BugBnxpekoWlFpo267NnDA//Jp5Q03vIdUlgWRdD5s8i+dVQ9wvKVAa/kA+Lf7
- rcg23e19F5+xrsUNWPs6AGzRt2dud8+yPRn9eWr+QBAVHGly6fogMw1Dyv/kknlIiX
- p9k2P5UGa39I2lZ1fXX16QOFEj+llvJVWZp/i64mCSjL875AMlg1avpPvOhxsKBeCj
- 8wfk/8dB14dU5dPWZ/HfY//p4xmc1x/tuJsCKA8Vq8GFKQwH/ROYrfcbP1V7YQH6F9
- UWocTlyMx3Vfg==
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5176f217b7bso8015904e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:42:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUGQj7P0USUJ/4fMvBrqXE6NnNK8OW3JCV0bwmSMekRb+1D5wS5Z+ifjuyw7R7AJNjTk2ZLlhJEc4ds4CYdFP0GnTsbGEtq+OPpJSFK+5oB
-X-Gm-Message-State: AOJu0Yy2DT4Dk+yPJxJN1QBvVvQnUy5zuZQXESi7Byz9XzRUv7EFi9ND
- OElOIKJRArdzn3IDAJz0Rvh/343jQuoMGt+08ETYeV3s7aX5S8rEmRBuqQIryc6Rt5pV+ZaVElK
- inXUk5QxWMYQthm/aNuCa51WwF3g=
-X-Google-Smtp-Source: AGHT+IFUc94RfCXq+iQAJz7qjewz+jSCFsONec3F2z9I3xwsiexX4d/Q6fXVP4Y2744DYOS3241u2oWO23s5CFrO6bQ=
-X-Received: by 2002:ac2:46f6:0:b0:513:d5ec:afb with SMTP id
- q22-20020ac246f6000000b00513d5ec0afbmr8808090lfo.40.1713814969390; Mon, 22
- Apr 2024 12:42:49 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1411610E9E4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:48:34 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 264E2889CE;
+ Mon, 22 Apr 2024 21:48:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1713815313;
+ bh=d6DTcCkviDP0v1O7ttuxDHJ02Adt5DLSxBw0N/2grEc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=FAgAEY2V9WPgM2z1fh7FrcvgPCb7VGCTa6eJqNa6fO4umeCVtnVEYMFKXllD9mzjT
+ 1py8nC1swpmWJl3FZ8NfACOdoCgrNAFfsbtkdphoXIUl3aLyZutfCwluwTHplJY1kD
+ bmP3nOF43K1ZCn4/p5NfS8TpG8udK/uqVMTiZgz95jRy7xWxCCAONny6AHG7iq3e+Q
+ WdWFOec2qMBMXieCwlVrr3npE5SQTo4+VRDm2JegwnOnXHGbu9liZQq72bbSEUN78H
+ xGBLsYNapWiH7rbSkSFRnFxDENRf7O6nbsr6bX1PvLxuLydpQDWovUuFGC8Md0L5nX
+ 9oVYktCpH9sYA==
+Message-ID: <75006c7a-34e4-40a6-9336-b1e2e2d966d4@denx.de>
+Date: Mon, 22 Apr 2024 21:43:13 +0200
 MIME-Version: 1.0
-References: <cover.1713780345.git.geert+renesas@glider.be>
- <87il09ty4u.fsf@intel.com>
- <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
- <875xw9ttl6.fsf@intel.com>
- <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
- <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
- <d3f406ed-1b93-4fcf-850a-743d27f20dc2@app.fastmail.com>
-In-Reply-To: <d3f406ed-1b93-4fcf-850a-743d27f20dc2@app.fastmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 23 Apr 2024 04:42:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARNb0kB=cytOmJn+K59vQ8ekESqY-=1SFDOQox-B3GJrQ@mail.gmail.com>
-Message-ID: <CAK7LNARNb0kB=cytOmJn+K59vQ8ekESqY-=1SFDOQox-B3GJrQ@mail.gmail.com>
-Subject: Re: [PATCH 00/11] drm: Restore helper usability
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 2/2] drm/bridge: samsung-dsim: Fix porch calcalcuation
+ rounding
+To: Adam Ford <aford173@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, aford@beaconembedded.com,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
- linux-kbuild <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ Michael Tretter <m.tretter@pengutronix.de>, linux-kernel@vger.kernel.org
+References: <20240211230931.188194-1-aford173@gmail.com>
+ <20240211230931.188194-2-aford173@gmail.com>
+ <6111fe04-4ecb-428e-9a0c-dc02cadfe3e7@denx.de>
+ <CAHCN7x+DwSSabhGYZ1dnZzwRe+BJfz2H-AXbxjUQWytrq3OMpQ@mail.gmail.com>
+ <47b26a19-9aba-4380-9d05-f06bd8bc20b1@denx.de>
+ <CAHCN7x+R5t5o13tFrQ1trH1LTPshSOOvuerDpUTY++Umqwr=WA@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAHCN7x+R5t5o13tFrQ1trH1LTPshSOOvuerDpUTY++Umqwr=WA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,113 +79,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 23, 2024 at 3:24=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
-:
->
-> On Mon, Apr 22, 2024, at 18:58, Geert Uytterhoeven wrote:
-> > On Mon, Apr 22, 2024 at 3:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> w=
-rote:
-> >> On Mon, Apr 22, 2024, at 15:28, Jani Nikula wrote:
-> >> Whereas this one is broken:
-> >>
-> >> config FEATURE_A
-> >>        tristate "user visible if I2C is enabled"
-> >>        depends on I2C
-> >>
-> >> config HELPER_B
-> >>        tristate # hidden
-> >>        select FEATURE_A
-> >>
-> >> config DRIVER
-> >>        tristate "This driver is broken if I2C is disabled"
-> >>        select HELPER_B
-> >
-> > So the DRIVER section should gain a "depends on I2C" statement.
->
-> That is of course the common workaround, but my point was
-> that nothing should ever 'select I2C' or any of the other
-> subsystems that are user visible.
->
-> > Yamada-san: would it be difficult to modify Kconfig to ignore symbols
-> > like DRIVER that select other symbols with unmet dependencies?
-> > Currently it already warns about that.
-> >
-> > Handling this implicitly (instead of the current explict "depends
-> > on") would have the disadvantage though: a user who is not aware of
-> > the implicit dependency may wonder why DRIVER is invisible in his
-> > config interface.
->
-> I think hiding this would make it much harder to get anything
-> right. The symbols in question are almost all ones that should
-> be enabled in normal configs, and the 'make menuconfig' help
-> doesn't make it too hard to figure things out normally, we just
-> have to find a way to avoid regressions when converting things
-> to 'depends on' that used an incorrect 'select'.
->
->      Arnd
+On 4/22/24 3:04 PM, Adam Ford wrote:
+> On Mon, Apr 22, 2024 at 8:01 AM Marek Vasut <marex@denx.de> wrote:
+>>
+>> On 4/22/24 2:09 PM, Adam Ford wrote:
+>>> On Sun, Apr 21, 2024 at 9:36 AM Marek Vasut <marex@denx.de> wrote:
+>>>>
+>>>> On 2/12/24 12:09 AM, Adam Ford wrote:
+>>>>> When using video sync pulses, the HFP, HBP, and HSA are divided between
+>>>>> the available lanes if there is more than one lane.  For certain
+>>>>> timings and lane configurations, the HFP may not be evenly divisible.
+>>>>> If the HFP is rounded down, it ends up being too small which can cause
+>>>>> some monitors to not sync properly. In these instances, adjust htotal
+>>>>> and hsync to round the HFP up, and recalculate the htotal.
+>>>>>
+>>>>> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron BL i.MX8MM with HDMI monitor
+>>>>> Signed-off-by: Adam Ford <aford173@gmail.com>
+>>>>> ---
+>>>>> V2:  No changes
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>> index 8476650c477c..52939211fe93 100644
+>>>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+>>>>> @@ -1606,6 +1606,27 @@ static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
+>>>>>                 adjusted_mode->flags |= (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+>>>>>         }
+>>>>>
+>>>>> +     /*
+>>>>> +      * When using video sync pulses, the HFP, HBP, and HSA are divided between
+>>>>> +      * the available lanes if there is more than one lane.  For certain
+>>>>> +      * timings and lane configurations, the HFP may not be evenly divisible.
+>>>>> +      * If the HFP is rounded down, it ends up being too small which can cause
+>>>>> +      * some monitors to not sync properly. In these instances, adjust htotal
+>>>>> +      * and hsync to round the HFP up, and recalculate the htotal. Through trial
+>>>>> +      * and error, it appears that the HBP and HSA do not appearto need the same
+>>>>> +      * correction that HFP does.
+>>>>> +      */
+>>>>> +     if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE && dsi->lanes > 1) {
+>>>>
+>>>> Does this also apply to mode with sync events (I suspect it does), so
+>>>> the condition here should likely be if (!...burst mode) , right ?
+>>>
+>>> Thanks for the review!
+>>>
+>>> I was only able to test it with the DSI->ADV6535 bridge, and I'll
+>>> admit I don't know a lot about DSI interface since I don't have a copy
+>>> of the spec to read.
+>>>
+>>> Are you proposing this should be:
+>>>
+>>>    if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) && dsi->lanes > 1) {
+>>>
+>>> I just want to make sure I understand what you're requesting.
+>>
+>> Yes, exactly this.
+> 
+> Do you think it should also include checks for
+> MIPI_DSI_MODE_VIDEO_NO_HFP, MIPI_DSI_MODE_VIDEO_NO_HBP or
+> MIPI_DSI_MODE_VIDEO_NO_HSA?
+> 
+> It seems like if any of these are set, we should skip this rounding stuff.
 
-
-
-I am confused because you repeatedly discussed
-the missing I2C dependency.
-
-
-Are you talking about DRM drivers,
-or is it just "an example" in general?
-
-
-
-DRM selects I2C.
-
-https://github.com/torvalds/linux/blob/v6.9-rc4/drivers/gpu/drm/Kconfig#L16
-
-
-
-If you make sure individual DRM drivers depend on DRM,
-none of them can be enabled without I2C.
-
-
-
-Currently, this is not guaranteed just because
-DRM folks do not know how to use the "menuconfig" syntax.
-
-
-
-The "menuconfig" makes sense only when it is
-followed by "if".
-
-
-
-
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 5a0c476361c3..6984b3fea271 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -29,6 +29,8 @@ menuconfig DRM
-          details.  You should also select and configure AGP
-          (/dev/agpgart) support if it is available for your platform.
-
-+if DRM
-+
- config DRM_MIPI_DBI
-        tristate
-        depends on DRM
-@@ -414,3 +416,5 @@ config DRM_LIB_RANDOM
- config DRM_PRIVACY_SCREEN
-        bool
-        default n
-+
-+endif
-
-
-
-
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+Now that you ask this question, shouldn't this actually apply 
+unconditionally , no matter which mode is in use ?
