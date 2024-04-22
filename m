@@ -2,61 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1158ACFE2
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 16:49:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D588AD065
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 17:14:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12AA2112B9E;
-	Mon, 22 Apr 2024 14:49:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46C2B112BC9;
+	Mon, 22 Apr 2024 15:14:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LIT12U2Z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hbLfiK2u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 502AB112B9D
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 14:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713797365;
- bh=ANj2lwCdF1e5x2y4t0N/qQl7GamrLnoXCuiQ6qmUnRY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=LIT12U2Zq14xHhLBBEFLI3q7TtVSuT5LClXc3jRoXLYcGysNofNq+4bVb7DGFVdW5
- gmkl/GC4N8wLiF7FZam1KRR2JU5Xdgq22S0DN26y+yqLI0BSlli+QJLAaUTpBYwPlX
- Od0bl5TEOTS5ssCX7zEZ34xMuqqeRSlj3wWXDx9ny7zjCTAXxi+dWX40ZyY7X/1iVW
- DHiWjAqvavUKVCKNgJAPHm2rA7+zgpTv/7FC2t+2y1t/Shho2at5p3wyl71gKFDXT2
- /4vRYPTecym8dYkA/ICimmg0B2LduSRBnqVBP6PYTTH1MgudjyOQLhvtyi7Zcf6oEl
- UOt2zg26FYf0g==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8888E3782123;
- Mon, 22 Apr 2024 14:49:24 +0000 (UTC)
-Date: Mon, 22 Apr 2024 17:49:22 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- rdunlap@infradead.org, arthurgrillo@riseup.net, Jonathan Corbet
- <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v6 13/17] drm/vkms: Add range and encoding properties to
- the plane
-Message-ID: <20240422174922.6bac5683.pekka.paalanen@collabora.com>
-In-Reply-To: <20240409-yuv-v6-13-de1c5728fd70@bootlin.com>
-References: <20240409-yuv-v6-0-de1c5728fd70@bootlin.com>
- <20240409-yuv-v6-13-de1c5728fd70@bootlin.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A198112BBF
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 15:14:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 216AECE0B8B;
+ Mon, 22 Apr 2024 15:14:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C6B3C113CC;
+ Mon, 22 Apr 2024 15:14:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1713798867;
+ bh=jnc8O2OGDn/sskDkfr8kRfCzr/w39Wo4NtWiEW/JWM8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hbLfiK2ufzKxA6jCwnKjq433CsonhZ0Ilo5x0049M1HyXqulkL8q/0V93hQ9+B3o4
+ tL6PIoI/CHaQR6hcmn534Fc8yhmcXcIbyRrciLKyx+EFioKfkr5vnzgqFXe1RQytAe
+ K3Rlg3uw39b4QRM7FeyFSWAwT/+JW4/PAT6FHjHoKHhayBjUIC7OvhaGnIjM2MH9y/
+ GyfRUDB7IPeiWlyccDj98BIr8Es2A6hvdlSglgtOqeLGqyP0P6K5uWDVmna2lIrjge
+ n1FsoHDD/W4w5E8z/uBz7qoLRiwIVuavumTN9FYiLbx0+osUjZLuAvbJhHmQ8kcaI5
+ wW0UGuhsMDtiA==
+Date: Mon, 22 Apr 2024 10:14:24 -0500
+From: Rob Herring <robh@kernel.org>
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@chromium.org, linus.walleij@linaro.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ airlied@gmail.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ xuxinxiong@huaqin.corp-partner.google.com
+Subject: Re: [PATCH v2 1/7] dt-bindings: display: panel: Add himax hx83102
+ panel bindings
+Message-ID: <20240422151424.GA1273350-robh@kernel.org>
+References: <20240422090310.3311429-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240422090310.3311429-2-yangcong5@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/4k48lEW_QdEbCmFp+XKPuuC";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240422090310.3311429-2-yangcong5@huaqin.corp-partner.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,96 +63,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/4k48lEW_QdEbCmFp+XKPuuC
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, Apr 22, 2024 at 05:03:04PM +0800, Cong Yang wrote:
+> In V1, discussed with Doug and Linus [1], we need break out as separate
+> driver for the himax83102-j02 controller. So add new documentation for
+> "starry,himax83102-j02" panel.
+> 
+> [1]: https://lore.kernel.org/all/CACRpkdbzYZAS0=zBQJUC4CB2wj4s1h6n6aSAZQvdMV95r3zRUw@mail.gmail.com
 
-On Tue, 09 Apr 2024 15:25:31 +0200
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+Please summarize this in the commit message rather than referring to a 
+link to understand "why" you doing this.
 
-> From: Arthur Grillo <arthurgrillo@riseup.net>
->=20
-> Now that the driver internally handles these quantization ranges and YUV
-> encoding matrices, expose the UAPI for setting them.
->=20
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> [Louis Chauvet: retained only relevant parts, updated the commit message]
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> 
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 > ---
->  drivers/gpu/drm/vkms/vkms_formats.c | 2 +-
->  drivers/gpu/drm/vkms/vkms_plane.c   | 9 +++++++++
->  2 files changed, 10 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/v=
-kms_formats.c
-> index 2d7445a3de93..a294744d29d6 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -238,7 +238,7 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(con=
-st u16 *pixel)
->  static struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8=
- channel_2,
->  						  const struct conversion_matrix *matrix)
->  {
-> -	u8 r, g, b;
-> +	u16 r, g, b;
->  	s64 fp_y, fp_channel_1, fp_channel_2;
->  	s64 fp_r, fp_g, fp_b;
-
-This part belongs in the previous patch.
-
-Otherwise,
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
-> =20
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
-s_plane.c
-> index d4e375913122..8f764a108b00 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -218,5 +218,14 @@ struct vkms_plane *vkms_plane_init(struct vkms_devic=
-e *vkmsdev,
->  	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0,
->  					   DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK);
-> =20
-> +	drm_plane_create_color_properties(&plane->base,
-> +					  BIT(DRM_COLOR_YCBCR_BT601) |
-> +					  BIT(DRM_COLOR_YCBCR_BT709) |
-> +					  BIT(DRM_COLOR_YCBCR_BT2020),
-> +					  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-> +					  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
-> +					  DRM_COLOR_YCBCR_BT601,
-> +					  DRM_COLOR_YCBCR_FULL_RANGE);
+>  .../display/panel/boe,tv101wum-nl6.yaml       |  2 -
+>  .../bindings/display/panel/himax,hx83102.yaml | 73 +++++++++++++++++++
+>  2 files changed, 73 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+> index 906ef62709b8..53fb35f5c9de 100644
+> --- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+> @@ -32,8 +32,6 @@ properties:
+>        - innolux,hj110iz-01a
+>          # STARRY 2081101QFH032011-53G 10.1" WUXGA TFT LCD panel
+>        - starry,2081101qfh032011-53g
+> -        # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
+> -      - starry,himax83102-j02
+>          # STARRY ili9882t 10.51" WUXGA TFT LCD panel
+>        - starry,ili9882t
+>  
+> diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
+> new file mode 100644
+> index 000000000000..2e0cd6998ba8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/himax,hx83102.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  	return plane;
->  }
->=20
+> +title: Himax HX83102 MIPI-DSI LCD panel controller
+> +
+> +maintainers:
+> +  - Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +        # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
+> +      - starry,himax83102-j02
+> +
+> +  reg:
+> +    description: the virtual channel number of a DSI peripheral
+> +
+> +  enable-gpios:
+> +    description: a GPIO spec for the enable pin
+> +
+> +  pp1800-supply:
+> +    description: core voltage supply
+> +
+> +  avdd-supply:
+> +    description: phandle of the regulator that provides positive voltage
+> +
+> +  avee-supply:
+> +    description: phandle of the regulator that provides negative voltage
+> +
+> +  backlight:
+> +    description: phandle of the backlight device attached to the panel
+> +
+> +  port: true
+> +  rotation: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - enable-gpios
+> +  - pp1800-supply
+> +  - avdd-supply
+> +  - avee-supply
+> +
+> +additionalProperties: false
 
+Perhaps 'unevaluatedProperties' instead. Don't you want to support 
+standard properties such as width-mm/height-mm?
 
---Sig_/4k48lEW_QdEbCmFp+XKPuuC
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYmePMACgkQI1/ltBGq
-qqePdxAAl9TTUVJlL6mpTRB9D+p6M0JTBNIqCo7ZbrR/n8GcWTvxguqpClJgxXIy
-AXd/N5WYaKqf0Rrs5JefeD8inQ2yFWIv5lwjw4Kph0QzsBstnUGrSoONLG9aLQNq
-SxUyE24TFz1jRH6H7Frthvv/8QebFoyaAMP9YBFDC6R7/8DJIoEAJPAoe/0F3oQw
-Z5Lje7gyIaNNHDUjHxmJMCp3eSnW3N6nzA9hc0lynnkj3YdP3pjFYLkujGJ7kKPU
-LOsxer8hzVOMu+5BkBIfHnqrHB/a3klSA0ar77ylJ+I4aEiFz9q4ESoVIVV2ya1P
-iuvhZN1AVM9owHTrxoLOZBSzo0zuEOS7xoTZKGBH55i++DTm8yE+1fOfKQmjMioM
-+NIDmHQNvtF2wV95+T0htxqJ6HnsIE56XqZPSzjmISHzrhLY3Ve2JgMp8uFoO0ZG
-ty9ScqQRHdLDr3g60T4v4nWV3T72WRrile48VQ+lwtg0Tqo68Y0LzKgxbg94DU2D
-rmIDNuSK+AeUySRP8xQ+dIij7NBQ7BqHCx+ZVpnvF+oSI4Pd/+51I9iVKcfkCO4b
-vfezyqJwGERRo4W8nJZ0lH3cyQEzVmBQcsIxQZkfVIo5jqwE+XefAJtVkM3uudWv
-jy7rswGSNevz/hZ55S0mIy/Vs279I65kvCWyP/63oBGzvlLKKDI=
-=db9e
------END PGP SIGNATURE-----
-
---Sig_/4k48lEW_QdEbCmFp+XKPuuC--
+> +
+> +examples:
+> +  - |
+> +    dsi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        panel@0 {
+> +            compatible = "starry,himax83102-j02";
+> +            reg = <0>;
+> +            enable-gpios = <&pio 45 0>;
+> +            avdd-supply = <&ppvarn_lcd>;
+> +            avee-supply = <&ppvarp_lcd>;
+> +            pp1800-supply = <&pp1800_lcd>;
+> +            backlight = <&backlight_lcd0>;
+> +            port {
+> +                panel_in: endpoint {
+> +                    remote-endpoint = <&dsi_out>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> 2.25.1
+> 
