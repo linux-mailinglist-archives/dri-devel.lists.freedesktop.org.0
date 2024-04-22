@@ -2,96 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7E48AD3D7
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 20:24:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9AC48AD430
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 20:46:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F60510EC6C;
-	Mon, 22 Apr 2024 18:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01BE3112CDA;
+	Mon, 22 Apr 2024 18:46:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="IioDOQLK";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Nt9T+mKn";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="xGEpfK+3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wfout7-smtp.messagingengine.com
- (wfout7-smtp.messagingengine.com [64.147.123.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C30BA10F257
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 18:24:11 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfout.west.internal (Postfix) with ESMTP id 3CC091C00124;
- Mon, 22 Apr 2024 14:24:09 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute5.internal (MEProxy); Mon, 22 Apr 2024 14:24:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1713810248;
- x=1713896648; bh=4tISaTjKm7Keny+zSA/5yJF7vEg/YCHm8XeIP3SBn8Q=; b=
- IioDOQLKUlfXtmHQgZWRGTP20woHG+m0RuSsHmypLIgi0wu2qGwYXrKfClD7dD+G
- MyRfnW6awXbuF2kd5QEHka5zK2iTeYmq/YNk9IrOUe+lwRwUAqsTDVMhZOoj1qi0
- 8vBH17xHZug/Qyg6xKoy1t+tIiyOijdsUFIyk3wG/gPnp7KV1+8ul3oN8Xaiwha+
- GADkVyLMV7q0cSlE94l1nT1+SotvDiPWq/xA8Zey5JUL4ZuMA4I7c14S+DfIG7f6
- f8WSO+LPIXU4yok5R5NVO2XpcDGHtOAKkUHwe93Xq4X62MpMNWHticDasluhGzd4
- srSuIQKaxkAWn3w49X66Dw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1713810248; x=
- 1713896648; bh=4tISaTjKm7Keny+zSA/5yJF7vEg/YCHm8XeIP3SBn8Q=; b=N
- t9T+mKnsgBURMXg+OWFQJTJmdcY0Qocet1v+0rphAG6YV/di6D9rVirWDYvk8sWm
- bSfrNu+4a/0lHPHJ/y21xo4I+LFBST97FFEHJwBEkWUWMVSG2H5rOgtuRbrTXJtL
- 6AVA66B+FAdd0zs3SNs+4uCxs7QDnwpkfyLKIolOwuCXEzvXQQ1BfgSD8JiC6isv
- Vtjb81vqCPrXgwQzAeT+ujZ+O9B60x+yTHM8isBvnZ+5gEd0n6YzRt6/swHgUy+n
- qh8EBuNSStkPA1enrxeTDCz9PieKKUNtQVcxA9IGjs95rC8sdhfHKh5MYNcq7Krn
- WyeaZmVzBNcfNhBlj2UFQ==
-X-ME-Sender: <xms:R6smZrTxU7woavcUjP4z6wapKWPXc8dPlgFoAZtdZwetVi3uZ0kyOg>
- <xme:R6smZsy9y8w3xvrhXR8HSDDPEUzNR3z0Mm3KBApIqyoBznUugeaKaVqyPttyO6DA4
- rWeIEntw8WOEnd0R4c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudekledguddvhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
- tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
- grthhtvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudek
- tdfgjeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:R6smZg1wtRbHYMelWVpTbUAvwMzDjKBG901AwkExDomwAUz8zX2yCA>
- <xmx:R6smZrDPy4QA0ruj09hSOn7d3kplIjX52OTpTRuOP9ZYBALw6ilbsw>
- <xmx:R6smZkhS4_l9Qzy41YOMCsZkHpmqtB9381ghYNbfZzNNe3Z9oOhsAw>
- <xmx:R6smZvpU_WypBYLJGMocq9XBOjWeFyydTL_6gYIHxG0jE4G-Z8E8OQ>
- <xmx:SKsmZlZK5lOFTFB_neSxwAvXStKO7uOEWTJbUrlsmmWQe4pB5VLUK62e>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 8187FB6008D; Mon, 22 Apr 2024 14:24:07 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-386-g4cb8e397f9-fm-20240415.001-g4cb8e397
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com
+ [91.218.175.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2D910F7A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 18:46:01 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1713811558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=amqB6+ngfAeMK7LFbICEVIOkozkmR392D+egwlKyyE8=;
+ b=xGEpfK+3vqXV26cx1iQXhOPoewDDeufjuKlIDsyF2JNrn1F4qSdEufgjrLTCpF5uXsuD+X
+ aOzx2lBRTJv0nM+5UxTbuqEbB2w0tWkBBdzrVcBNnTajfwnbXYxkOlcxgPZj3URSYPskYu
+ YRnWH2Xn6QBGdQ0apXLNlnH7yQLD7es=
+From: Sean Anderson <sean.anderson@linux.dev>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Michal Simek <michal.simek@amd.com>,
+ Sean Anderson <sean.anderson@linux.dev>
+Subject: [PATCH v3 00/13] drm: zynqmp_dp: IRQ cleanups and debugfs support
+Date: Mon, 22 Apr 2024 14:45:40 -0400
+Message-Id: <20240422184553.3573009-1-sean.anderson@linux.dev>
 MIME-Version: 1.0
-Message-Id: <d3f406ed-1b93-4fcf-850a-743d27f20dc2@app.fastmail.com>
-In-Reply-To: <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
-References: <cover.1713780345.git.geert+renesas@glider.be>
- <87il09ty4u.fsf@intel.com>
- <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
- <875xw9ttl6.fsf@intel.com>
- <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
- <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
-Date: Mon, 22 Apr 2024 20:23:36 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>
-Cc: "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>, 
- "Daniel Vetter" <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>,
- linux-kbuild <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH 00/11] drm: Restore helper usability
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,44 +57,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 22, 2024, at 18:58, Geert Uytterhoeven wrote:
-> On Mon, Apr 22, 2024 at 3:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> =
-wrote:
->> On Mon, Apr 22, 2024, at 15:28, Jani Nikula wrote:
->> Whereas this one is broken:
->>
->> config FEATURE_A
->>        tristate "user visible if I2C is enabled"
->>        depends on I2C
->>
->> config HELPER_B
->>        tristate # hidden
->>        select FEATURE_A
->>
->> config DRIVER
->>        tristate "This driver is broken if I2C is disabled"
->>        select HELPER_B
->
-> So the DRIVER section should gain a "depends on I2C" statement.
+This series cleans up the zyqnmp_dp IRQ and locking situation. Once
+that's done, it adds debugfs support. The intent is to enable compliance
+testing or to help debug signal-integrity issues.
 
-That is of course the common workaround, but my point was
-that nothing should ever 'select I2C' or any of the other
-subsystems that are user visible.
+Last time I discussed converting the HPD work(s) to a threaded IRQ. I
+did not end up doing that for this series since the steps would be
 
-> Yamada-san: would it be difficult to modify Kconfig to ignore symbols
-> like DRIVER that select other symbols with unmet dependencies?
-> Currently it already warns about that.
->
-> Handling this implicitly (instead of the current explict "depends
-> on") would have the disadvantage though: a user who is not aware of
-> the implicit dependency may wonder why DRIVER is invisible in his
-> config interface.
+- Add locking
+- Move link retraining to a work function
+- Harden the IRQ
+- Merge the works into a threaded IRQ (omitted)
 
-I think hiding this would make it much harder to get anything
-right. The symbols in question are almost all ones that should
-be enabled in normal configs, and the 'make menuconfig' help
-doesn't make it too hard to figure things out normally, we just
-have to find a way to avoid regressions when converting things
-to 'depends on' that used an incorrect 'select'.
+Which with the exception of the final step is the same as leaving those
+works as-is. Conversion to a threaded IRQ can be done as a follow-up.
 
-     Arnd
+Changes in v3:
+- Store base pointers in zynqmp_disp directly
+- Don't delay work
+- Convert to a hard IRQ
+- Use AUX IRQs instead of polling
+- Take dp->lock in zynqmp_dp_hpd_work_func
+
+Changes in v2:
+- Fix kerneldoc
+- Rearrange zynqmp_dp for better padding
+- Split off the HPD IRQ work into another commit
+- Expand the commit message
+- Document hpd_irq_work
+- Document debugfs files
+- Add ignore_aux_errors and ignore_hpd debugfs files to replace earlier
+  implicit functionality
+- Attempt to fix unreproducable, spurious build warning
+- Drop "Optionally ignore DPCD errors" in favor of a debugfs file
+  directly affecting zynqmp_dp_aux_transfer.
+
+Sean Anderson (13):
+  drm: xlnx: Store base pointers in zynqmp_disp directly
+  drm: xlnx: Fix kerneldoc
+  drm: zynqmp_dp: Downgrade log level for aux retries message
+  drm: zynqmp_dp: Adjust training values per-lane
+  drm: zynqmp_dp: Rearrange zynqmp_dp for better padding
+  drm: zynqmp_dp: Don't delay work
+  drm: zynqmp_dp: Add locking
+  drm: zynqmp_dp: Don't retrain the link in our IRQ
+  drm: zynqmp_dp: Convert to a hard IRQ
+  drm: zynqmp_dp: Use AUX IRQs instead of polling
+  drm: zynqmp_dp: Split off several helper functions
+  drm: zynqmp_dp: Take dp->lock in zynqmp_dp_hpd_work_func
+  drm: zynqmp_dp: Add debugfs interface for compliance testing
+
+ Documentation/gpu/drivers.rst       |   1 +
+ Documentation/gpu/zynqmp.rst        | 149 +++++
+ MAINTAINERS                         |   1 +
+ drivers/gpu/drm/xlnx/zynqmp_disp.c  |  44 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c    | 909 +++++++++++++++++++++++++---
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h |   1 +
+ drivers/gpu/drm/xlnx/zynqmp_kms.h   |   4 +-
+ 7 files changed, 1000 insertions(+), 109 deletions(-)
+ create mode 100644 Documentation/gpu/zynqmp.rst
+
+-- 
+2.35.1.1320.gc452695387.dirty
+
