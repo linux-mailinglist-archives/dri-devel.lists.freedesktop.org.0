@@ -2,85 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A188AD19B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 18:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A508AD1E1
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 18:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB3A10F6EB;
-	Mon, 22 Apr 2024 16:12:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1DC10F712;
+	Mon, 22 Apr 2024 16:28:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="EkdefmYe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f062FH+C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1FA4112C45;
- Mon, 22 Apr 2024 16:12:25 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43M8mKK3000381;
- Mon, 22 Apr 2024 16:12:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=sCyLpknTZwvWXYoyKMfM/GI5z3ThcbGqTFkPKhPm5us=; b=Ek
- defmYeeppshj66AFg3XqOQORVJDDHxCQrzCtg2X0eaU7JMlWRHgYf7Ro44HOMKuQ
- miMmQ02Aw1eOsxVUIAg9cKmnV3fhDP+xksRN6oX1llCtKWIeayjmmFklawfWo+4M
- SXh30pEfKOeenhNtaYY7r1IB7NrZ1ypq1G8IZsYnqugxNChCVTTo3cMAn+EGp9QG
- wK+kC13cP3gfGtpBRiuuixu6P5C/tfJbIqsWzq7X7Gg0B3km7UKAUwFWmoQOiAIg
- zNBMeIxPWwp0oJl/MXJNgUYN9Ok3thuAHdOi5D/2zM2rTdPb3o7mSkjLpHnIapdC
- XijGzpCOZaJAyefPELoQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xm4qdd18v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Apr 2024 16:12:22 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43MGCL0V031372
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Apr 2024 16:12:21 GMT
-Received: from [10.110.104.191] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 22 Apr
- 2024 09:12:21 -0700
-Message-ID: <456bb6f6-03cc-aae1-b7d5-9d97300ba383@quicinc.com>
-Date: Mon, 22 Apr 2024 09:12:20 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 437C510F98B;
+ Mon, 22 Apr 2024 16:28:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713803281; x=1745339281;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=L+B5dd2ITsEvtL/InMl+d+eOIxITm6YJHF2AkFELy1w=;
+ b=f062FH+CCRCWPq+5Ex/bzxdcm200ewsfXMRogKBfYxPFLpbUReY06V6l
+ lseLP7XV+wiCdypbdZ8m45CqWOu4WPHM0AKKkE2wVymMwOjqlMRgqeEKr
+ 4kXxk4eOZOklWNGLXOCG6PiPt56+RS7fbK9Tu9/knWzkW0LW9g30R7Nm2
+ YpI9AlC7B2D78s/uW2l+5OcdBc8oi8xZ5UKzlK+r98+n1OSnWy21GMIOm
+ SwH8QWtGwIqMsnLxVfXDT8y7z0jEmjHGOkO1ZkvqYbV1WwTshOzmvwa5x
+ zFafkj3rSTxuvFCQvHa4SoqhI2VxblE6QNIz+822nnVwQFUU7t9+q9VIg g==;
+X-CSE-ConnectionGUID: klfmmJaLRfa33ttrDkxbqw==
+X-CSE-MsgGUID: khxWQdblR0aYF+dZSR48wQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="13136918"
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; d="scan'208";a="13136918"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2024 09:28:01 -0700
+X-CSE-ConnectionGUID: pWO+h2tzRHqjElP6HmYpDw==
+X-CSE-MsgGUID: l8lyRpC9Qc6f1sKBEueEkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; d="scan'208";a="47347741"
+Received: from unknown (HELO intel.com) ([10.247.119.74])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2024 09:27:55 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+Subject: [CI 0/2] Force CCS mode to the maximum
+Date: Mon, 22 Apr 2024 18:27:29 +0200
+Message-ID: <20240422162731.7046-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/3] drm/msm: don't clean up priv->kms prematurely
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240420-mdp4-fixes-v1-0-96a70f64fa85@linaro.org>
- <20240420-mdp4-fixes-v1-1-96a70f64fa85@linaro.org>
- <67fbd629-3e80-b706-83a3-7baff3efd6c1@quicinc.com>
- <n7eet54g72usmuh4hdz6yce3i4ieweu4orgd7gewu7y53ejucc@dzmq2a2wdxkc>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <n7eet54g72usmuh4hdz6yce3i4ieweu4orgd7gewu7y53ejucc@dzmq2a2wdxkc>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 2Y9GD3Dd-GNRSN9jpGiRQi3o-1st-3iv
-X-Proofpoint-ORIG-GUID: 2Y9GD3Dd-GNRSN9jpGiRQi3o-1st-3iv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-22_09,2024-04-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- spamscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0
- mlxlogscore=601 bulkscore=0 suspectscore=0 malwarescore=0 clxscore=1015
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404220068
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,31 +67,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+There has been a regression apparently caused by the CCS mode
+forced to be 1[*]. But, because I think the kernel approach is
+correct and there might be something hardcoded in userspace, I
+want to show that with this series we won't see the regression.
 
-On 4/21/2024 3:35 PM, Dmitry Baryshkov wrote:
-> On Sat, Apr 20, 2024 at 04:02:00PM -0700, Abhinav Kumar wrote:
->>
->>
->> On 4/19/2024 7:33 PM, Dmitry Baryshkov wrote:
->>> MSM display drivers provide kms structure allocated during probe().
->>> Don't clean up priv->kms field in case of an error. Otherwise probe
->>> functions might fail after KMS probe deferral.
->>>
->>
->> So just to understand this more, this will happen when master component
->> probe (dpu) succeeded but other sub-component probe (dsi) deferred?
->>
->> Because if master component probe itself deferred it will allocate priv->kms
->> again isnt it and we will not even hit here.
-> 
-> Master probing succeeds (so priv->kms is set), then kms_init fails at
-> runtime, during binding of the master device. This results in probe
-> deferral from the last component's component_add() function and reprobe
-> attempt when possible (once the next device is added or probed). However
-> as priv->kms is NULL, probe crashes.
-> 
+What this series does is to force CCS mode to 4 (or to the
+maximum). This way we will understand whether the issue comes
+because of disabling the automatic load balancing or by forcing
+it to use only one CCS.
 
-Got it, a better commit text would have helped here. Either way,
+Thanks gnattu for your report, i will appreciate if you can give
+this a try.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Andi
+
+[*] https://gitlab.freedesktop.org/drm/intel/-/issues/10895
+
+Andi Shyti (2):
+  Revert "drm/i915/gt: Do not generate the command streamer for all the
+    CCS"
+  drm/i915/gt: Force ccs_mode 4
+
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c   | 17 -----------------
+ drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 12 ++++++++----
+ 2 files changed, 8 insertions(+), 21 deletions(-)
+
+-- 
+2.43.0
+
