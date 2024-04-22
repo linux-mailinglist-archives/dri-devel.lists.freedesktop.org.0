@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16E98AD15E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 17:58:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D80F8AD192
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 18:09:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0178C10F6DE;
-	Mon, 22 Apr 2024 15:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E15010F6F3;
+	Mon, 22 Apr 2024 16:09:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="agfmB3ew";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="U5lLGh27";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE65B10F6DE
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 15:58:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1713801503;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WeGa2QESaSAKwW885WTwjCXbB74N5sziUqCsVcD6+/Y=;
- b=agfmB3ewStnbS/UOxCzGfdvRzu5zbMhdigefWEXXMYshLOTbWOKYv06/L+HDT/CXySIkxU
- nXs8jl4gKRoqMZyYB335dCJZ1GKI8YqwvL25sh4guqYyomxatHpRficsDozrMVmxlZ3+8A
- yczIZTPu0FCCUUshCki+gXYIWXDFrso=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-328-GrFx7gGfORu5GwD_XaOnIQ-1; Mon, 22 Apr 2024 11:58:18 -0400
-X-MC-Unique: GrFx7gGfORu5GwD_XaOnIQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D6EF81B561;
- Mon, 22 Apr 2024 15:58:18 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 327C2492BC6;
- Mon, 22 Apr 2024 15:58:17 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH 2/2] drm/panic: Allows to run with fbcon
-Date: Mon, 22 Apr 2024 17:57:33 +0200
-Message-ID: <20240422155811.83648-3-jfalempe@redhat.com>
-In-Reply-To: <20240422155811.83648-1-jfalempe@redhat.com>
-References: <20240422155811.83648-1-jfalempe@redhat.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D66D310F6F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 16:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Cvz+j1g3XA2XYGPL0u+L6Aob0fUdpORyX4fouI3EeRY=; b=U5lLGh27AMfgEprh7eyDCbO+Pu
+ Hpui9X5bFCVP4Q0XOlZqb7u3IfFjcZka6cQKmC8M6lz+Ocl8T/1ggV7HFNAq+Ox6jSCe2TSiDqORh
+ zhrVYjLd79Ap2CWRKdHkqy9pxFK1ZBPVVTh8hsWM4KU94r/v2F4PITMOqEnJ861vBX8LKXKCk80R3
+ XkPIZLbAf0j16X+/eESmeKwd+sN84yVBxEFXsqvBk99ATy0mPiDoQESXZ5nPZwmR0dUGjVR9razqY
+ S05srgFw9Sre925H/DpqzY3Qyuq5ff/7V4M9vJwz5mbP4oaRbwdKqWczwsdW0OXJ9Hhuw9GTlpvsv
+ 8DwxRWFQ==;
+Received: from [179.234.232.152] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1rywDr-007Jm2-25; Mon, 22 Apr 2024 18:08:51 +0200
+Message-ID: <37b63903-3b5c-49e4-9732-116e6653a8cf@igalia.com>
+Date: Mon, 22 Apr 2024 13:08:44 -0300
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/5] drm/v3d: Fix GPU stats inconsistencies and
+ race-condition
+To: Melissa Wen <mwen@igalia.com>, Chema Casanova <jmcasanova@igalia.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20240420213632.339941-2-mcanal@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
+ H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
+ hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
+ GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
+ rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
+ s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
+ GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
+ pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
+In-Reply-To: <20240420213632.339941-2-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,51 +74,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Disable the framebuffer emulation when a panic occurs, to avoid fbcon
-to overwrite the panic screen.
-So it's now safe to enable DRM_PANIC and FRAMEBUFFER_CONSOLE.
+Hi,
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/Kconfig     | 2 +-
- drivers/gpu/drm/drm_panic.c | 4 ++++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+@drm-misc maintainers, is there any chance you could backport commit
+35f4f8c9fc97 ("drm/v3d: Don't increment `enabled_ns` twice") [1] to drm-
+misc-next?
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 959b19a041018..7a8b1ef4c6bcf 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -106,7 +106,7 @@ config DRM_KMS_HELPER
- 
- config DRM_PANIC
- 	bool "Display a user-friendly message when a kernel panic occurs"
--	depends on DRM && !FRAMEBUFFER_CONSOLE
-+	depends on DRM
- 	select DRM_KMS_HELPER
- 	select FONT_SUPPORT
- 	help
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index 7ece67086cecb..c46a2b878e759 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -15,6 +15,7 @@
- #include <linux/types.h>
- 
- #include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
- #include <drm/drm_format_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-@@ -470,6 +471,9 @@ static void draw_panic_plane(struct drm_plane *plane)
- 	int ret;
- 	unsigned long flags;
- 
-+	/* Prevent fbcon from overwriting the panic screen */
-+	drm_fb_helper_emergency_disable(plane->dev->fb_helper);
-+
- 	if (!drm_panic_trylock(plane->dev, flags))
- 		return;
- 
--- 
-2.44.0
+I would like to apply this series to drm-misc-next because it fixes
+another issue with the GPU stats, but this series depends on commit
+35f4f8c9fc97, as it has plenty of refactors on the GPU stats code.
 
+Although I could theoretically apply this series in drm-misc-fixes, I
+don't believe it would be ideal, as discussed in #dri-devel earlier
+today.
+
+[1] 
+https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/35f4f8c9fc972248055096d63b782060e473311b
+
+Best Regards,
+- Maíra
+
+On 4/20/24 18:32, Maíra Canal wrote:
+> The first version of this series had the intention to fix two major
+> issues with the GPU stats:
+> 
+> 1. We were incrementing `enabled_ns` twice by the end of each job.
+> 2. There is a race-condition between the IRQ handler and the users
+> 
+> The first of the issues was already addressed and the fix was applied to
+> drm-misc-fixes. Now, what is left, addresses the second issue.
+> 
+> Apart from addressing this issue, this series improved the GPU stats
+> code as a whole. We reduced code repetition, creating functions to start and
+> update the GPU stats. This will likely reduce the odds of issue #1 happen again.
+> 
+> v1 -> v2: https://lore.kernel.org/dri-devel/20240403203517.731876-1-mcanal@igalia.com/T/
+> 
+> - As the first patch was a bugfix, it was pushed to drm-misc-fixes.
+> - [1/4] Add Chema Casanova's R-b
+> - [2/4] s/jobs_sent/jobs_completed and add the reasoning in the commit message
+> 				(Chema Casanova)
+> - [2/4] Add Chema Casanova's and Tvrtko Ursulin's R-b
+> - [3/4] Call `local_clock()` only once, by adding a new parameter to the
+> 				`v3d_stats_update` function (Chema Casanova)
+> - [4/4] Move new line to the correct patch [2/4] (Tvrtko Ursulin)
+> - [4/4] Use `seqcount_t` as locking primitive instead of a `rw_lock` (Tvrtko Ursulin)
+> 
+> v2 -> v3: https://lore.kernel.org/dri-devel/20240417011021.600889-1-mcanal@igalia.com/T/
+> 
+> - [4/5] New patch: separates the code refactor from the race-condition fix (Tvrtko Ursulin)
+> - [5/5] s/interruption/interrupt (Tvrtko Ursulin)
+> - [5/5] s/matches/match (Tvrtko Ursulin)
+> - [5/5] Add Tvrtko Ursulin's R-b
+> 
+> Best Regards,
+> - Maíra
+> 
+> Maíra Canal (5):
+>    drm/v3d: Create two functions to update all GPU stats variables
+>    drm/v3d: Create a struct to store the GPU stats
+>    drm/v3d: Create function to update a set of GPU stats
+>    drm/v3d: Decouple stats calculation from printing
+>    drm/v3d: Fix race-condition between sysfs/fdinfo and interrupt handler
+> 
+>   drivers/gpu/drm/v3d/v3d_drv.c   | 33 ++++++++----
+>   drivers/gpu/drm/v3d/v3d_drv.h   | 30 ++++++++---
+>   drivers/gpu/drm/v3d/v3d_gem.c   |  9 ++--
+>   drivers/gpu/drm/v3d/v3d_irq.c   | 48 ++---------------
+>   drivers/gpu/drm/v3d/v3d_sched.c | 94 +++++++++++++++++----------------
+>   drivers/gpu/drm/v3d/v3d_sysfs.c | 13 ++---
+>   6 files changed, 109 insertions(+), 118 deletions(-)
+> 
