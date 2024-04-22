@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C528AD9A1
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68BB78AD9A3
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:56:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8899F112E7D;
-	Mon, 22 Apr 2024 23:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9B98112E81;
+	Mon, 22 Apr 2024 23:56:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="krPMNfJF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N3TKDLqD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10FBA112E7D;
- Mon, 22 Apr 2024 23:56:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5015F112E7F;
+ Mon, 22 Apr 2024 23:56:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3DC38CE0EB3;
+ by sin.source.kernel.org (Postfix) with ESMTP id 7D6C8CE0EA3;
+ Mon, 22 Apr 2024 23:56:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06C9BC2BD11;
  Mon, 22 Apr 2024 23:56:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C802FC2BD11;
- Mon, 22 Apr 2024 23:56:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713830204;
- bh=EUGFj9Mtq+6MugVf19sjasOnoCDVrjYyF0aW0FnC7M0=;
+ s=k20201202; t=1713830207;
+ bh=7CwhetpXAtpSEN/yT616JyLPfDCP7DfK169cXlQsEJ4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=krPMNfJFnvwsyDiRFHqqwfqvyccMWpKBPcr4mZEbhfJ5w5ZUfjf9H0L0GjPIHYTrw
- MrsZmiT2mLWJc0j7qwM512O9/dANqdmOpozOTsNoZbbs7i2wod2kijl4Dw1p+zsl2q
- 8W3oJ5IBVCwtJ/W2Vw9rdLJx6PAJxJ3r8mdepZlbAfCnDtquVST5sK4qBSULLWcCUF
- YzDjDd4bh4srbFICBupHU/sgH1uuWHqqUwKldEVOWMvcVpI+fSXU39CEAP1fQvzekq
- EmnoX7/HZa2oVyZfZRB8E/OtAenUk/fY/cuexE3HkU0RCRXplos+CKaRGE1MRpszsf
- aEL7Lxy80YHjA==
+ b=N3TKDLqDLYhPn4UlBwZo6S0DmxP6fOXiIN2faPRzqcKyAzvSbFbpNoha0wcKS/oMu
+ JrXJspKo8iE5lVKKUMmPzpyEbnrxy3Phe6r9HaTWKlwA+m+v7hGR3/TmJtmvGitutb
+ wp/FbAEsUiUfF4JoXworykzO6BXPzTiltMDHrbYi+fQzyPyU1pQaZuHW1DPPpzjdt8
+ VPm9hqGi6ZAoQ40a3BeEAR5X/AIeyE6Df2r0lFtZ76nSLuT6cDvX+BwWxUdHSwM4aB
+ y5wd8n8UGd5Lw3WhGLlro57Z6xXagkwsM9SGEIyJel/SJ1mxOC2eNAlPUSHdUIFqI2
+ bS3/U5rtA9qJw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Lijo Lazar <lijo.lazar@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Asad Kamal <asad.kamal@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, ltuikov89@gmail.com, zhenguo.yin@amd.com, dakr@redhat.com,
+Cc: Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, lijo.lazar@amd.com, le.ma@amd.com,
+ srinivasan.shanmugam@amd.com, kevinyang.wang@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 17/29] drm/amdgpu: Refine IB schedule error logging
-Date: Mon, 22 Apr 2024 19:16:58 -0400
-Message-ID: <20240422231730.1601976-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 18/29] drm/amdgpu: implement IRQ_STATE_ENABLE for
+ SDMA v4.4.2
+Date: Mon, 22 Apr 2024 19:16:59 -0400
+Message-ID: <20240422231730.1601976-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240422231730.1601976-1-sashal@kernel.org>
 References: <20240422231730.1601976-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.28
@@ -66,44 +66,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lijo Lazar <lijo.lazar@amd.com>
+From: Tao Zhou <tao.zhou1@amd.com>
 
-[ Upstream commit 4b18a91faf1752f9bd69a4ed3aed2c8f6e5b0528 ]
+[ Upstream commit f886b49feaae30acd599e37d4284836024b0f3ed ]
 
-Downgrade to debug information when IBs are skipped. Also, use dev_* to
-identify the device.
+SDMA_CNTL is not set in some cases, driver configures it by itself.
 
-Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Asad Kamal <asad.kamal@amd.com>
+v2: simplify code
+
+Signed-off-by: Tao Zhou <tao.zhou1@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-index 78476bc75b4e1..de9d7f3dc2336 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-@@ -300,12 +300,15 @@ static struct dma_fence *amdgpu_job_run(struct drm_sched_job *sched_job)
- 		dma_fence_set_error(finished, -ECANCELED);
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+index f413898dda37d..7288bbdd1c264 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+@@ -1612,19 +1612,9 @@ static int sdma_v4_4_2_set_ecc_irq_state(struct amdgpu_device *adev,
+ 	u32 sdma_cntl;
  
- 	if (finished->error < 0) {
--		DRM_INFO("Skip scheduling IBs!\n");
-+		dev_dbg(adev->dev, "Skip scheduling IBs in ring(%s)",
-+			ring->name);
- 	} else {
- 		r = amdgpu_ib_schedule(ring, job->num_ibs, job->ibs, job,
- 				       &fence);
- 		if (r)
--			DRM_ERROR("Error scheduling IBs (%d)\n", r);
-+			dev_err(adev->dev,
-+				"Error scheduling IBs (%d) in ring(%s)", r,
-+				ring->name);
- 	}
+ 	sdma_cntl = RREG32_SDMA(type, regSDMA_CNTL);
+-	switch (state) {
+-	case AMDGPU_IRQ_STATE_DISABLE:
+-		sdma_cntl = REG_SET_FIELD(sdma_cntl, SDMA_CNTL,
+-					  DRAM_ECC_INT_ENABLE, 0);
+-		WREG32_SDMA(type, regSDMA_CNTL, sdma_cntl);
+-		break;
+-	/* sdma ecc interrupt is enabled by default
+-	 * driver doesn't need to do anything to
+-	 * enable the interrupt */
+-	case AMDGPU_IRQ_STATE_ENABLE:
+-	default:
+-		break;
+-	}
++	sdma_cntl = REG_SET_FIELD(sdma_cntl, SDMA_CNTL, DRAM_ECC_INT_ENABLE,
++					state == AMDGPU_IRQ_STATE_ENABLE ? 1 : 0);
++	WREG32_SDMA(type, regSDMA_CNTL, sdma_cntl);
  
- 	job->job_run_counter++;
+ 	return 0;
+ }
 -- 
 2.43.0
 
