@@ -2,56 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8E78AD995
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D5C8AD99E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:56:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB043112E77;
-	Mon, 22 Apr 2024 23:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B849112E7C;
+	Mon, 22 Apr 2024 23:56:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZjPWbYS9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N7mDDBcP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0217A112E77;
- Mon, 22 Apr 2024 23:55:49 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F301112E7C
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 23:56:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id F0DFCCE0EB9;
- Mon, 22 Apr 2024 23:55:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B209C2BD11;
- Mon, 22 Apr 2024 23:55:44 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 880EE611FA;
+ Mon, 22 Apr 2024 23:56:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D329C113CC;
+ Mon, 22 Apr 2024 23:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713830146;
- bh=JZovStquSIaFzvyDi9CKIc+HCVtPwfuX7GXprIPv8QI=;
+ s=k20201202; t=1713830194;
+ bh=GEpnhiSTG1TbEnLT97kCT5VbQj9dur5yP9sjIze/XLU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZjPWbYS90b8MjKLmVkB25PQTvQwaotI0ea01GaiHmEgk+ccbhOfvZ8Eqr+xonM3f8
- H7YQna0k00/q6NRZalq0BnECwl+29D1ZFr2u0dIf/M5nzEZ+FTwpnWPbeDpvncLyGh
- aC2iIbc+m8EUMF7Cn+KROS00txoz2yv1ibCsX4ZhjccF681q5873gj9TiPNcyI4F+K
- HzEPKEMxWhZrjbbC0Jm1UHx69EcVQ/soCVnRnSwJcjApblgNqkmcXdRnt0pPbf0Vs9
- nt6QBDm/FX6Ugcc3XBeeAShGvAKzOdcQGRZEvJjXyw8iDuWFtMZAo+3OSXbd+eQEni
- sIlXRNJ8GxqKg==
+ b=N7mDDBcPgCrZw+vB2Gm0H7cXzvXIjDpGazSB3YgNek7efWdn3gIUUnYDbivPG6zd2
+ 6fVio7GDYYTcI9ZKMcrNCoBGUnT7OOUROu1htr3lhP3JT/Y4d6vdZL+vFW/iATrIuJ
+ aVEG3vUr00rhFGq9HQV3u0MWVfuzQ63+Q8qrqFjh7yJ23vtQsuWYRGYbHcwcqBeDOb
+ Ww3cexKpczJd8cm3QwHnxS3sLCB2RcgC04VImXi57VsnNhJ8fdS8HyahPIvoqSCDjU
+ LjFZXc6YnczsqyN5NR/OKzjY2lvxsZPjiGJpnt7z1LQ1p6eYLTOulQMPdFVYdzIsMn
+ Usz6VNFHwH1Ow==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Sasha Levin <sashal@kernel.org>, ogabbay@kernel.org,
- thomas.hellstrom@linux.intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, rodrigo.vivi@intel.com, jose.souza@intel.com,
- tejas.upadhyay@intel.com, niranjana.vishwanathapura@intel.com,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.8 41/43] drm/xe: Label RING_CONTEXT_CONTROL as masked
-Date: Mon, 22 Apr 2024 19:14:27 -0400
-Message-ID: <20240422231521.1592991-41-sashal@kernel.org>
+Cc: Thierry Reding <treding@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>,
+ Sasha Levin <sashal@kernel.org>, thierry.reding@gmail.com,
+ mperttunen@nvidia.com, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 14/29] gpu: host1x: Do not setup DMA for virtual
+ devices
+Date: Mon, 22 Apr 2024 19:16:55 -0400
+Message-ID: <20240422231730.1601976-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240422231521.1592991-1-sashal@kernel.org>
-References: <20240422231521.1592991-1-sashal@kernel.org>
+In-Reply-To: <20240422231730.1601976-1-sashal@kernel.org>
+References: <20240422231730.1601976-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.8.7
+X-stable-base: Linux 6.6.28
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,55 +64,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+From: Thierry Reding <treding@nvidia.com>
 
-[ Upstream commit f76646c83f028c62853c23dac49204232e903597 ]
+[ Upstream commit 8ab58f6841b19423231c5db3378691ec80c778f8 ]
 
-RING_CONTEXT_CONTROL is a masked register.
+The host1x devices are virtual compound devices and do not perform DMA
+accesses themselves, so they do not need to be set up for DMA.
 
-v2: Also clean up setting register value (Lucas)
+Ideally we would also not need to set up DMA masks for the virtual
+devices, but we currently still need those for legacy support on old
+hardware.
 
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240404161256.3852502-1-ashutosh.dixit@intel.com
-(cherry picked from commit dc30c6e7149baaae4288c742de95212b31f07438)
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240314154943.2487549-1-thierry.reding@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xe/regs/xe_engine_regs.h | 2 +-
- drivers/gpu/drm/xe/xe_lrc.c              | 5 ++---
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ drivers/gpu/host1x/bus.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/regs/xe_engine_regs.h b/drivers/gpu/drm/xe/regs/xe_engine_regs.h
-index 5592774fc6903..81b8362e93406 100644
---- a/drivers/gpu/drm/xe/regs/xe_engine_regs.h
-+++ b/drivers/gpu/drm/xe/regs/xe_engine_regs.h
-@@ -120,7 +120,7 @@
- #define RING_EXECLIST_STATUS_LO(base)		XE_REG((base) + 0x234)
- #define RING_EXECLIST_STATUS_HI(base)		XE_REG((base) + 0x234 + 4)
- 
--#define RING_CONTEXT_CONTROL(base)		XE_REG((base) + 0x244)
-+#define RING_CONTEXT_CONTROL(base)		XE_REG((base) + 0x244, XE_REG_OPTION_MASKED)
- #define	  CTX_CTRL_INHIBIT_SYN_CTX_SWITCH	REG_BIT(3)
- #define	  CTX_CTRL_ENGINE_CTX_RESTORE_INHIBIT	REG_BIT(0)
- 
-diff --git a/drivers/gpu/drm/xe/xe_lrc.c b/drivers/gpu/drm/xe/xe_lrc.c
-index b38319d2801e0..ae5cfad646ec7 100644
---- a/drivers/gpu/drm/xe/xe_lrc.c
-+++ b/drivers/gpu/drm/xe/xe_lrc.c
-@@ -525,9 +525,8 @@ static const u8 *reg_offsets(struct xe_device *xe, enum xe_engine_class class)
- 
- static void set_context_control(u32 *regs, struct xe_hw_engine *hwe)
- {
--	regs[CTX_CONTEXT_CONTROL] = _MASKED_BIT_ENABLE(CTX_CTRL_INHIBIT_SYN_CTX_SWITCH) |
--				    _MASKED_BIT_DISABLE(CTX_CTRL_ENGINE_CTX_RESTORE_INHIBIT) |
--				    CTX_CTRL_ENGINE_CTX_RESTORE_INHIBIT;
-+	regs[CTX_CONTEXT_CONTROL] = _MASKED_BIT_ENABLE(CTX_CTRL_INHIBIT_SYN_CTX_SWITCH |
-+						       CTX_CTRL_ENGINE_CTX_RESTORE_INHIBIT);
- 
- 	/* TODO: Timestamp */
+diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+index 84d042796d2e6..3937889fa912d 100644
+--- a/drivers/gpu/host1x/bus.c
++++ b/drivers/gpu/host1x/bus.c
+@@ -351,11 +351,6 @@ static int host1x_device_uevent(const struct device *dev,
+ 	return 0;
  }
+ 
+-static int host1x_dma_configure(struct device *dev)
+-{
+-	return of_dma_configure(dev, dev->of_node, true);
+-}
+-
+ static const struct dev_pm_ops host1x_device_pm_ops = {
+ 	.suspend = pm_generic_suspend,
+ 	.resume = pm_generic_resume,
+@@ -369,7 +364,6 @@ struct bus_type host1x_bus_type = {
+ 	.name = "host1x",
+ 	.match = host1x_device_match,
+ 	.uevent = host1x_device_uevent,
+-	.dma_configure = host1x_dma_configure,
+ 	.pm = &host1x_device_pm_ops,
+ };
+ 
+@@ -458,8 +452,6 @@ static int host1x_device_add(struct host1x *host1x,
+ 	device->dev.bus = &host1x_bus_type;
+ 	device->dev.parent = host1x->dev;
+ 
+-	of_dma_configure(&device->dev, host1x->dev->of_node, true);
+-
+ 	device->dev.dma_parms = &device->dma_parms;
+ 	dma_set_max_seg_size(&device->dev, UINT_MAX);
+ 
 -- 
 2.43.0
 
