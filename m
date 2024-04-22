@@ -2,95 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBB78AD87B
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1318AD751
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 00:37:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4148510F6C8;
-	Mon, 22 Apr 2024 23:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A2EB112DF6;
+	Mon, 22 Apr 2024 22:37:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="PwmZozK+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cOLG8IWF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D8CB112C99
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 17:40:58 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-61816fc256dso41151337b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 10:40:58 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB1F5112DF5
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 22:37:11 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-51b09c3a111so2674616e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 15:37:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713807657; x=1714412457;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8oSz86JzOY9DQvGvueAGk0oxmVKc1JpB72xgEu0TDts=;
- b=PwmZozK+p0Sh5XOfn95YKalyGX7Ro5/LBRYWFohsFktTmo/yGZSW+dPpMmnZ4LNRTR
- 32/TApE3m8Er2HsiEuyVnkcysAtmWcL654QshPyKc7RGeF9czo37yHLbw+kihF13e48E
- lN96RC0fWoJc0s5e/Z74ClMQPIVUOMWD+zPTV3ByZGWbUb8lGSPb8VnDg1ZYlz4O0Rn3
- UcWGWWFT/I1JDZg9wrEJrN3ziM5Lh8uNoGrC8yrCUcKugMO5dZgNJh2jsiO4SKPX+8go
- VF60QsqFpVd0+3eKlrM8+AnmDJHa/LXm+ymLi1inH0bZvHQ6iC4KkUAPtTKJCihwZ66Z
- 7gCw==
+ d=linaro.org; s=google; t=1713825430; x=1714430230; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ohFmgglIcQlxE3MPNy1+YrogD02CaIJJKPILpDHEK2E=;
+ b=cOLG8IWFfcdpGRkWrkPJHgUIEiaaEuvx+lDk6mza0YsuvBrdRuaX8mNextxumn1yB2
+ Tl0TooNTwP+f2ZZBqvC/is3DEF5GDDjgNofCIRYPPgb1NZ8qoS+GfrBYH3sCkwbyg7Oc
+ vHha4ic3Fw0U1y6WoRJB62LYBo2Bg1OIySsvWEFStgdxRdlL/2GrQSCIqG8xFZNQVOxl
+ l1G5LWHiSyhk2OnHJxxBsJk2eCC5SHTcAsLdCIwNxEMbHFFTXLYBNkb8ynPpAFtwsqR4
+ 4Dq2vhI0x/sbtYpyyQx9+ViMMrratmOFkLDI3itz9679xQtRwlho+l0qYblvcGstJjiH
+ F3PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713807657; x=1714412457;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8oSz86JzOY9DQvGvueAGk0oxmVKc1JpB72xgEu0TDts=;
- b=Hvcqd9RC5ddwH7+s1gRiAeIik2f/LU4Sb70zihGN6+PI7JDd7VTg+TwPfKvJoA6EYi
- Id9Bq0p7kTFimN4V9KDrRAblz9NkeIITouUyV1ZKyy1IJZDQYYdJaam8FOnGAUAKIvCB
- SYByxrk7Sg9vHbxmCXNDor859+Pu2BFsiIsW0Y2E1EtbewF6n79eKgWhGYGjje03zxrf
- uB/bIvqYlRKZYV2opxJzHpkkVoitJT/C2mKFIOt5/WiZl3nQJH6/E/ay2bdvTdTmTCmR
- Iq6i4HjUJXaalRwrjUXW/ZelmjyUVsL/0i9dXHGIIK17h6IUg7kvEJ3BD7N2Yms3UzI2
- l4tg==
+ d=1e100.net; s=20230601; t=1713825430; x=1714430230;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ohFmgglIcQlxE3MPNy1+YrogD02CaIJJKPILpDHEK2E=;
+ b=MGa41haLfHVsPm4uDgVvzNEyPESkfadye9YlVpuU4sl7FnRrdW2+1pqZ0irnPYMRSB
+ 4egU29U24KMT8Qar7W2He4yN5Q80ly39Mr3Kl9qWsG5P9nJoztVil4YGQ7M08V3g+Xi2
+ O0LOGKCMvd26PlZjWdq+Euum8I1p2dSYuHbZJbcf55y0Cm+l3//ZE233te/raFhpbmgo
+ SMpP7521BmKCH+o5ekYk3wsnakbypT5VP4kwr7ZBbR/q3EAR9j8PcqS/SSAMh9YhBLbH
+ kZsQuEimFgoJN+OgPEA6ydvFCSL9s0JkGQ/P+mzHB0WkakKe8cN6ER/Qfue5SnuDu6fl
+ 4RWQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXNsxRyW3KJ1jwvo3GjalBJnSXVr6p8g1q+S063oeVrVdWctWD0Epqbl2MguioVWVq169gYl3YMOAZeiWrgDaA3uGhvboLLJEJSzCzGt0wO
-X-Gm-Message-State: AOJu0YytKhNS2rs6ISyGksallLBZaZc/WsvQRisYieNpFzfFJAA04rIi
- 9o9j7T00uRFBkIFf5Fk6RpLHgKKd4kDRBlZ5cfG4mL3bAMhG08lvqoVgxRGs4wc=
-X-Google-Smtp-Source: AGHT+IF6LQ8zdofhxJ/PNSOv5IQXexYxxfrsaWAs34RmUulyK1yyuZ4SFyNwWs4DcElioVxSqpYRPw==
-X-Received: by 2002:a05:690c:3685:b0:617:c9b0:e12c with SMTP id
- fu5-20020a05690c368500b00617c9b0e12cmr10651242ywb.38.1713807655898; 
- Mon, 22 Apr 2024 10:40:55 -0700 (PDT)
-Received: from ghost ([50.146.0.2]) by smtp.gmail.com with ESMTPSA id
- r29-20020a81441d000000b00608876ed731sm2060370ywa.126.2024.04.22.10.40.54
+ AJvYcCXIUFhHDIyra9DioH2iWgRJUGCiUTAZUP7i61Pb3dSTLf/+cli30bC7SjlE2bB9bI4mvKcqUJHTaXPCeI1J9wHKMg+UPK1oyW7cR1NQcxlv
+X-Gm-Message-State: AOJu0YzgeKqljOyZ6zudX0G5viTK62afrkOb8lXagVQb41MX8Sw9l3ti
+ m7Hd5h8qsDs58bqwsxixBGIojsce/Aff81bFpZBsspCdVWD0bzpv0Yu5QaXtR8k=
+X-Google-Smtp-Source: AGHT+IE3m5uOC+ZmUmnZKf0riA6458/IhT/zPbv8SmhhSaid1ucuuBTYN37T3Pzrf8uaJHQYmrV0OA==
+X-Received: by 2002:a19:381a:0:b0:515:cfaf:737 with SMTP id
+ f26-20020a19381a000000b00515cfaf0737mr6928150lfa.9.1713825429819; 
+ Mon, 22 Apr 2024 15:37:09 -0700 (PDT)
+Received: from [127.0.1.1] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ r3-20020ac25f83000000b00513c4e41140sm1841271lfe.204.2024.04.22.15.37.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Apr 2024 10:40:55 -0700 (PDT)
-Date: Mon, 22 Apr 2024 13:40:53 -0400
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maxime Ripard <mripard@kernel.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
- netdev@vger.kernel.org, x86@kernel.org,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>
-Subject: Re: [PATCH v3 14/15] riscv: Add support for suppressing warning
- backtraces
-Message-ID: <ZiahJT8MTFqAlD5A@ghost>
-References: <20240403131936.787234-1-linux@roeck-us.net>
- <20240403131936.787234-15-linux@roeck-us.net>
+ Mon, 22 Apr 2024 15:37:09 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH 0/2] Remove more useless wrappers
+Date: Tue, 23 Apr 2024 00:36:58 +0200
+Message-Id: <20240423-topic-msm_cleanup-v1-0-b30f39f43b90@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240403131936.787234-15-linux@roeck-us.net>
-X-Mailman-Approved-At: Mon, 22 Apr 2024 23:04:40 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIvmJmYC/x3MWwqAIBBA0a3EfCfkA4q2EhFpUw3kA60Iwr0nf
+ Z6Pe19IGAkT9NULEW9K5F0Brysw++w2ZLQUg2iEapSQ7PSBDLPJTubA2V2BaYmq1aZTnC9QuhB
+ xped/DmPOH+Q0mQBjAAAA
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.14-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,116 +89,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 03, 2024 at 06:19:35AM -0700, Guenter Roeck wrote:
-> Add name of functions triggering warning backtraces to the __bug_table
-> object section to enable support for suppressing WARNING backtraces.
-> 
-> To limit image size impact, the pointer to the function name is only added
-> to the __bug_table section if both CONFIG_KUNIT_SUPPRESS_BACKTRACE and
-> CONFIG_DEBUG_BUGVERBOSE are enabled. Otherwise, the __func__ assembly
-> parameter is replaced with a (dummy) NULL parameter to avoid an image size
-> increase due to unused __func__ entries (this is necessary because __func__
-> is not a define but a virtual variable).
-> 
-> To simplify the implementation, unify the __BUG_ENTRY_ADDR and
-> __BUG_ENTRY_FILE macros into a single macro named __BUG_REL() which takes
-> the address, file, or function reference as parameter.
-> 
-> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Cc: Paul Walmsley <paul.walmsley@sifive.com>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Albert Ou <aou@eecs.berkeley.edu>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
-> v2:
-> - Rebased to v6.9-rc1
-> - Added Tested-by:, Acked-by:, and Reviewed-by: tags
-> - Introduced KUNIT_SUPPRESS_BACKTRACE configuration option
-> v3:
-> - Rebased to v6.9-rc2
-> 
->  arch/riscv/include/asm/bug.h | 38 ++++++++++++++++++++++++------------
->  1 file changed, 26 insertions(+), 12 deletions(-)
-> 
-> diff --git a/arch/riscv/include/asm/bug.h b/arch/riscv/include/asm/bug.h
-> index 1aaea81fb141..79f360af4ad8 100644
-> --- a/arch/riscv/include/asm/bug.h
-> +++ b/arch/riscv/include/asm/bug.h
-> @@ -30,26 +30,39 @@
->  typedef u32 bug_insn_t;
->  
->  #ifdef CONFIG_GENERIC_BUG_RELATIVE_POINTERS
-> -#define __BUG_ENTRY_ADDR	RISCV_INT " 1b - ."
-> -#define __BUG_ENTRY_FILE	RISCV_INT " %0 - ."
-> +#define __BUG_REL(val)	RISCV_INT " " __stringify(val) " - ."
->  #else
-> -#define __BUG_ENTRY_ADDR	RISCV_PTR " 1b"
-> -#define __BUG_ENTRY_FILE	RISCV_PTR " %0"
-> +#define __BUG_REL(val)	RISCV_PTR " " __stringify(val)
->  #endif
->  
->  #ifdef CONFIG_DEBUG_BUGVERBOSE
-> +
-> +#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
-> +# define HAVE_BUG_FUNCTION
-> +# define __BUG_FUNC_PTR	__BUG_REL(%1)
-> +#else
-> +# define __BUG_FUNC_PTR
-> +#endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
-> +
->  #define __BUG_ENTRY			\
-> -	__BUG_ENTRY_ADDR "\n\t"		\
-> -	__BUG_ENTRY_FILE "\n\t"		\
-> -	RISCV_SHORT " %1\n\t"		\
-> -	RISCV_SHORT " %2"
-> +	__BUG_REL(1b) "\n\t"		\
-> +	__BUG_REL(%0) "\n\t"		\
-> +	__BUG_FUNC_PTR "\n\t"		\
-> +	RISCV_SHORT " %2\n\t"		\
-> +	RISCV_SHORT " %3"
->  #else
->  #define __BUG_ENTRY			\
-> -	__BUG_ENTRY_ADDR "\n\t"		\
-> -	RISCV_SHORT " %2"
-> +	__BUG_REL(1b) "\n\t"		\
-> +	RISCV_SHORT " %3"
->  #endif
->  
->  #ifdef CONFIG_GENERIC_BUG
-> +#ifdef HAVE_BUG_FUNCTION
-> +# define __BUG_FUNC	__func__
-> +#else
-> +# define __BUG_FUNC	NULL
-> +#endif
-> +
->  #define __BUG_FLAGS(flags)					\
->  do {								\
->  	__asm__ __volatile__ (					\
-> @@ -58,10 +71,11 @@ do {								\
->  			".pushsection __bug_table,\"aw\"\n\t"	\
->  		"2:\n\t"					\
->  			__BUG_ENTRY "\n\t"			\
-> -			".org 2b + %3\n\t"                      \
-> +			".org 2b + %4\n\t"                      \
->  			".popsection"				\
->  		:						\
-> -		: "i" (__FILE__), "i" (__LINE__),		\
-> +		: "i" (__FILE__), "i" (__BUG_FUNC),		\
-> +		  "i" (__LINE__),				\
->  		  "i" (flags),					\
->  		  "i" (sizeof(struct bug_entry)));              \
->  } while (0)
-> -- 
-> 2.39.2
-> 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Shaving off some cruft
 
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
+obj files seem to be identical pre and post cleanup which is always
+a good sign
 
-- Charlie
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+Konrad Dybcio (2):
+      drm/msm/dsi: Remove dsi_phy_read/write()
+      drm/msm/dsi: Remove dsi_phy_write_[un]delay()
+
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h           |   5 -
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      | 273 +++++++++-----------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      | 218 ++++++++--------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c      | 109 ++++----
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      | 305 +++++++++++-----------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 205 +++++++--------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       | 320 ++++++++++++------------
+ 7 files changed, 699 insertions(+), 736 deletions(-)
+---
+base-commit: 33edc5592466996fe9610efc712da0a3539027ae
+change-id: 20240423-topic-msm_cleanup-b3e47bc8411d
+
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
