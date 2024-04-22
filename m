@@ -2,163 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9C18ACF86
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 16:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EC48AD031
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 17:05:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93AC6112B71;
-	Mon, 22 Apr 2024 14:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F43B112BC4;
+	Mon, 22 Apr 2024 15:05:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=axis.com header.i=@axis.com header.b="CVoS+AEN";
+	dkim=pass (1024-bit key; unprotected) header.d=netflix.com header.i=@netflix.com header.b="nslx70Ka";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur02on2076.outbound.protection.outlook.com [40.107.249.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0148B112B71
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 14:34:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jPkSUY5y3k4KsKSLEFQGDJNrGziKZ97xKsqyVwklyHAkIIexMJfjFbeqKP+R/2hUqiYi+0PE8hjhx7zRPG+Uis+QW68EUOfb1DxFZN0LiRJspv+BDWnL5kubZkEgk807LkngdvQabHjcXKOAMuEcHvpDiyGqEBdP8oeTgA+ELC2YDxnbw5EOAXOUui+oFL1njvDQLzr8fLklVFnl+kGW6ruBrz6ITjWH7HqY04TY3URfStQOBaf/m5i86pZb8q95eRA8yOuinBQlfHUN/i4k6q3gNzeK7wX6bxVaG6z98m+5a8u9PLW/Iy8ziRccQa/FlEdDU+nlcsEqEQbUdEpPrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EATr0ba9cDTJVATWCDjfhdkGD121xlN0u/yahVns2zc=;
- b=f8S66jf3x70pcs7lT1mr0hZvUw96U//xUH7cbEc5QeBIEKAUyCg6BiB6JQIjI4aIF1X+7IDnI1N0Y4baGx8APsyMeMF0Nn7B2DiwGhl0z1MVS12aMw211ffDUoUD0CvoraYApQ7If6Lwh0aR4zF+kTk+ibgm28PZetaJumN9yklikYwut7v+t703OuSXZjlaOFAALGVTQOjk5k2nGBmNI8FWHTY+3EVWwQZWS4iBwHyjIhsKGlUtxFsjadx4k2P/7Mhx8dEFtsSVVrx0tHX0xrFXiIr5JURLfEH2xfrzON//2MVqZ9VkDc3VN6GDxDJM6aVuha6sGIa3buPUao5dnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EATr0ba9cDTJVATWCDjfhdkGD121xlN0u/yahVns2zc=;
- b=CVoS+AENt0wOtI2Q1KWdz2ty1SHXQFrO/JUBllAeG/110keSCnB120ErjvQEvePIh2PgCo4OohgVMreQdrcjvCaQFb1IW7zpmCVSDdGH1DIUvRVBVtJNmeiuqY+CIKSCMzC+WMGWl4HMJCkbENgeLTlQYDvRdPyUM2bXrRkq18A=
-Received: from PAWPR02MB9281.eurprd02.prod.outlook.com (2603:10a6:102:330::10)
- by PAVPR02MB9747.eurprd02.prod.outlook.com (2603:10a6:102:313::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Mon, 22 Apr
- 2024 14:34:35 +0000
-Received: from PAWPR02MB9281.eurprd02.prod.outlook.com
- ([fe80::a909:d7c8:d64d:8c1a]) by PAWPR02MB9281.eurprd02.prod.outlook.com
- ([fe80::a909:d7c8:d64d:8c1a%4]) with mapi id 15.20.7472.044; Mon, 22 Apr 2024
- 14:34:34 +0000
-From: Johan Adolfsson <Johan.Adolfsson@axis.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, Sam
- Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, kernel
- <kernel@axis.com>, Johan Adolfsson <Johan.Adolfsson@axis.com>
-Subject: RE: [PATCH 2/2] dt-bindings: panel-simple-dsi: Add generic panel-dsi
-Thread-Topic: [PATCH 2/2] dt-bindings: panel-simple-dsi: Add generic panel-dsi
-Thread-Index: AQHakZjqxmgDfsPuIEK+T0Zct7BqebFupm0AgAWz0NA=
-Date: Mon, 22 Apr 2024 14:34:34 +0000
-Message-ID: <PAWPR02MB928111F5EEB4A46B56A89B239B122@PAWPR02MB9281.eurprd02.prod.outlook.com>
-References: <20240418-foo-fix-v1-0-461bcc8f5976@axis.com>
- <20240418-foo-fix-v1-2-461bcc8f5976@axis.com>
- <c739a512-9a75-4f48-b5ef-801191c298f5@linaro.org>
-In-Reply-To: <c739a512-9a75-4f48-b5ef-801191c298f5@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAWPR02MB9281:EE_|PAVPR02MB9747:EE_
-x-ms-office365-filtering-correlation-id: 76ab9609-c298-45df-f44b-08dc62d954c1
-x-ld-processed: 78703d3c-b907-432f-b066-88f7af9ca3af,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: =?utf-8?B?WXgrOE9tY0tHQ3BqQmZBMmxvZUpvRHVyRTdTaHRYS2VjdDZ3Qk9JYWRKWm1l?=
- =?utf-8?B?VnZ4czJobGMraENKaUdDZ1lmM2tzZ25ZdENqRUlEaFdIVkVUQm5xSmQ1eUJK?=
- =?utf-8?B?bm45Qko1YnRLbldyaGh6QWtZemFnTkk5dUk2OTdzcTZ2S25YeXB4SjBOYS9K?=
- =?utf-8?B?S0lrTVM1Q2R6T0JlaXNOSGxpTEkwQkFaSjgxRFFNRktoZURTN0hUVmx1dDhi?=
- =?utf-8?B?MDZzVnJKakJBMmJwc3FHWWY0bVRYS1BPZHY3ZmZIUFJIV09oZCs5VW1CUnQz?=
- =?utf-8?B?NFpQUFE4NVJJVzN6YlVKNmhKL0NtVk1Fa0UycTdVNGc0aEpEbjBRV0llS2dB?=
- =?utf-8?B?Tkg4ck5CV3FEV1VsNTdMaDhjQTcrNjVVY3MrQlNsMXJTYmFUd1Yzenp0VkRX?=
- =?utf-8?B?YS9PTk4yakhDZi9vZTlZUkp6L2lmTWZXMnZORTNpZWJveFIxK3JXRlJ5UmJr?=
- =?utf-8?B?VGFFRk1aeVNORWsydmtMUkYwTkV2enJaQzQwZnd1WHBmR21Jdm8zTFhGL3Jn?=
- =?utf-8?B?UnkwODNiaGx4N1Znc0xTZkdyaTBHdllORW5qQ285MklSZzFESk9mL0hRMnFh?=
- =?utf-8?B?K01JRlNzcWp2TWlDRWhBVkxib2k2Sll3dlY0MGx2eklUMGwrQkxsSDN3ZEFx?=
- =?utf-8?B?S21DR2lSandyM3pyOStEaUVWU1NubkVDRnRSd3lvN2tORVFEeHhqSVlnWVRB?=
- =?utf-8?B?UVBCYzEyUThCNTNSRzBZL05ROEM1YVpVMXB3Mkl4cmJFWUtXYjdOcHl6TGRE?=
- =?utf-8?B?M29CMVFER01oZXFGVTFydmNEcnU4dVc3TEhhS1pOWC8yN2cyMk1ZN3MzZW55?=
- =?utf-8?B?VW8zTTdmallWd29ZbVNRbDdNTnM0cTBaV3czQlBkcjZFbDUyQzArU2lJV1or?=
- =?utf-8?B?cVZNakJNS3B5YWVUWkF5QTZWWTYyY1hTUUQ4b3ZDdVI1aDNLUDdCYmhMbWdL?=
- =?utf-8?B?SnNHTUthUGs0ZzN4ZjMxaU0vWS9Wd1dkRE53VE9wTlBRQ0dIYm01MmZ5UW1P?=
- =?utf-8?B?WGVyVlJhUXEzY0hEcGNRd3ZXUmVIUDVXTU0vV0p3WnpXUitVVWIxY2hxaVRw?=
- =?utf-8?B?N3NKYStCeWJGT3h4bUlWZDBaWlV1eS9Rc3JPUmtxU3h6a00vZVprWGorOW9p?=
- =?utf-8?B?VTdzczZDTlFGMHowc0VqWWFrL2pLamZSSnQ1Nk94UjE3V1hKNVVJVkhpa0Q2?=
- =?utf-8?B?L2dzdm1jakdWaWhhalovSGx2Qlc2b1JpL2dQT3lpSDNTRFlMZFFsVzM3UmZS?=
- =?utf-8?B?NThaTTF2UHh1eEhaL3I3MmdPRkFoUG42R1BFdFZ6T2llTWxVUHJoTnJ5UXcz?=
- =?utf-8?B?L3N1L2s4VUxWRG1yalpLUDMvRUNJei9ObmxkVWxSb0pPUHNOMTdkRE1peGVv?=
- =?utf-8?B?K3dUdkRxQUZlSURQQ3ZQdXJmRkFWd29MbGs3dnRUSHl4blZhdDFudGdpejBw?=
- =?utf-8?B?WUJuenh3encyTnNocmZLRXVSMURXWFdhK3prNFhhVk5wamdnNlBneFRSZ2pv?=
- =?utf-8?B?ejBpeUFPNVpqam9hUU1LWFVsL1ZBbkxPY2x6TThqbjRXZWF4dkJrS0pZT1N3?=
- =?utf-8?B?RjJkWDl4Vytlckplbm93WU9yTFhIR0l1cWtYUEd5eEJuL3ZYSFVqdVluYXRQ?=
- =?utf-8?B?ZzRIKzVDNzRNSnM5UUx5ZUpWaVRhaVU3Ry8yaUFqSzRRMTJKOG5DaitzMmJR?=
- =?utf-8?B?Mjl1cVd4NjNHcm5MbmxmdFBFcFFuMzJwQll1Tmt0WHdYSEN0UzZrRVZvcHNP?=
- =?utf-8?B?a2w4MndtVVFIcDhGRW9iMTB0MENRYTZ4Zys0TXdscE5XcktOY2hQZWpmTEd4?=
- =?utf-8?Q?kjFC/I5TYf+ROMy4NCu7r8TXAAw3FkN5/qNg0=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAWPR02MB9281.eurprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(7416005)(376005)(366007)(921011)(38070700009);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UmNFVkt0QlhrTVNRZWdNZW1FN0pndzlLV1RSaVVzNHh2ZENIcSs0bFVzMHNP?=
- =?utf-8?B?WXliMkxRbTd6MmQ2UXpTT2RXRUdsNE5XM0JMb0lZODl0UjdobDk0U0xiZTNs?=
- =?utf-8?B?L3VDdzN0OGJvZnp3QnZ4OFpmWXRWWkRaTy8zZjVmS1FPQ2JkZUZDYjhhQ25C?=
- =?utf-8?B?dk9JOHJDSThTMEJwNjFjS3l2cTlCeEFYM3QxU0hodWtNUFZvNDdzd2RBamlS?=
- =?utf-8?B?TjJqM2xIMkpiUlMvZTdJc1U0R2JrNkJuOVllVUJ0WHJnQ1hsNC92cGtRQ0RP?=
- =?utf-8?B?U0RUcEJzN29DUmRsTmIxeWhYV0ZoSUdvQ0FoNjUyWjVkZ3lOWDdaNks1M2Rr?=
- =?utf-8?B?Z1E3a1pMcEFwT21WdFN1U1dKdVYwNlVPV1hXMFhFbmw0MUNDdUJYeGgyZkhL?=
- =?utf-8?B?QTQ0czhjekUrZGdvVGRqVmUxd2wwMWNsbnJpWmZ5b054bVpSbnllNEFnNElr?=
- =?utf-8?B?RWZzQkJSQjN0VmZqU1hMbzdrYXhDV0ZLdXpZWmNGcDRwMTlCSVozVkxwZ3ll?=
- =?utf-8?B?TDRGQzY4ZnA3QWxzQWFkVFhDcXowVjZnUlRRS3JhQ0ZqMkhNN1N4djJydnVt?=
- =?utf-8?B?TGFhMXA2OS9JZ1RjREVPb0R6bjVZdUVlZ1MxM2ppdkpVSlZ0V1VnTnpPb2Vv?=
- =?utf-8?B?Y3VuLzFOem42eWowaDBDVTl5MUR6bUxvQU4yeDhjSlRSQm9BSGt4MHIxMnZu?=
- =?utf-8?B?cnR6bFpqQVFRcEVRWk14ME1xekZjNmJoeTEvMlFncHFjbVVEVEVzOXVUK1Bl?=
- =?utf-8?B?OXVaMlg1akZKczRZYkYwTG9hQTVMVW1xUWdKTHNOYW5WVWxWcERFeWZHM3pI?=
- =?utf-8?B?ZmhhSnRVbHhzd0xBaHNHUks4VHhrcGRFSnJBdEd5NDNxWU03Y2I1UzQzSWRj?=
- =?utf-8?B?ZVdDNmducFZTOTZsWEZlQng0MVRKdEpONkt2ZG5LdGsydjVKRU8zN2FMNm9N?=
- =?utf-8?B?dEN6cXVrK0lYTVVQSkg5S2VzdDlPRHZ3Y2ZPQkhoT2c4N1lqaUtIWE4xcWRv?=
- =?utf-8?B?ejVPcnRra2RxRWRLOHcyeEtqYi9NUmhZNFJ2SmhSRnd3bTFoZXpuQ0J5aTgy?=
- =?utf-8?B?dEJXQk1OeVFwZGw5YWxxS3Q3SkFxR1ZpTGtkaTMrT2xQM0JSS1RzcW9yaXpy?=
- =?utf-8?B?cytISUI4WkpEQjJGZUR5VjkwZTgzYXlNYjFvK0V2ZlJJTGxwbS93WE1MbzNt?=
- =?utf-8?B?dTluaWdaOThNa21iaEFtWnlLcEFVVVBtM1RIOTJ2U0NQS1hVQ1ZSZis3YmNS?=
- =?utf-8?B?cEgyMCtYS2p3N2hqS0s0NVVWLzdSMUV1MENSVjlyZk9KZmdyK1ByWTJqY3Np?=
- =?utf-8?B?M1pMWW1MU3FvZWwrNDNKaVpEVnZiWWx5K0J4R0VWZ0VCbVFmbEN2eXFJRFVZ?=
- =?utf-8?B?ZksvT2hVQUZodE0yeXplWFRNOGR4NHdFU0tvREllam1uRnpLYVd6SHR2Q2pR?=
- =?utf-8?B?a243S3lCcXpiS01tM2xCR2U4azErTm9GMDNDSERGL3BlYlF4SWN3b1ZNQmlH?=
- =?utf-8?B?ZDU4TGJlZ0RnSVM5WWJnL1RnMDR5SUtmd29HUzFndUpsMGQyQ1E5bkE2UldJ?=
- =?utf-8?B?VWRMekRqWjVFMTF5d3hvWHFWL3FsWTlrQnhtVUFJcEorajBUQ0M2YWFjaXpP?=
- =?utf-8?B?RHhHZzUyQ2VraXdYVGd2dmJIMG04azcyOGRqNVEwSUk1SW9JSmRNZTFXMStB?=
- =?utf-8?B?bG5ObDVWaEd5ZHQ2WFNsRWJUR2JPVnVXUTVkZjV1UU44NkpVNU1jeVk5UWhk?=
- =?utf-8?B?RGxoV0Z6TU0rNGRZWEpvbmZhUlFJVXFCdlJIVERSMFZxamFRcWtxYnZTTnQ3?=
- =?utf-8?B?emE0eFl4Nk5NNkptQW9WNEpFN1ZwOTduNWsrcXdmWDZaYWxZcWwvOERic21C?=
- =?utf-8?B?dmVkRHhUZWF4aTBJWGlTbWZ1R0xVWUVpV2V2cUJ0MlF5RTZzYTJIK0phL2NX?=
- =?utf-8?B?d24xS1FKSTdDTnhqVkVzZ0g2U215UnNUa2dWbStMTldTSlB5M3FNMm9PQVZQ?=
- =?utf-8?B?ZStIaHNUUzczQnZXTndKRWZnWUpjNGQ4NDViQm9EK0RnVW5NVjd1bzJsd3Z5?=
- =?utf-8?B?REY0RjVnbEtxdlRKVzk4MDk5b0VIWmR5b1RjNUhpL2pOVDFJZXRXc2N3dndm?=
- =?utf-8?Q?5TUM=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+ [209.85.166.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49B5C112B82
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 14:35:57 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id
+ ca18e2360f4ac-7d6a772af5bso164423839f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 07:35:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=netflix.com; s=google; t=1713796556; x=1714401356; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=a/JPFUxV2ArWkhwNnn1v7zuWOs9XoBJjsryMcg9Mcoo=;
+ b=nslx70KarQ4HhxXGyp2t1E6v16EEd5ZT54unFmRWNKHae6THD8Z6h501lFS4+Dkprv
+ 8KbxJw2txgECTG4hd3EVQIOna/x7Bl25AIXxhNsdK18BgHfklXdACCnnwE8uPLHAUQ2k
+ XGplYxmFSwBeFH8rys6v6QB6aJORBC6122yI4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713796556; x=1714401356;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=a/JPFUxV2ArWkhwNnn1v7zuWOs9XoBJjsryMcg9Mcoo=;
+ b=qJ89NfbW3TL1fc4rb8MFfsLWU9xfBLOFc6Kn9tUCQbL44adHJpKuMiBmU82N4xdhpk
+ CbWIEBX5fe328nUT720sRfphXmrmnyURHuxE3KdKc6F4e8jZKM74zIPIGNgCwrrF+rHd
+ Agz5RejLC6Wn6mh/lhuMVKX4vG4yBKpmodyjnWghE3iLtn8ukFARs1aZ8lgoCXA5RUGe
+ GkCekqNFc3HJo+F+mLGo8N9srFVfs762YxH8MesZkmBrHMMz1rTn6OYv3QF1s+xONQn4
+ NwOcF4y1XRPbr/hkjR4jAMTvA4OwqGOS+iTSI9+zHk5s3nYyv/F8sStsL4Rp2iqJ5TZ6
+ GW/w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWYyiRedAczeuSLRK67Z4R5MrhbQQfFDSgo5sow69Vy7YIxC4+dHwHiwwqf0fopvuZtLbXQj1aCSNcOvOUWqWkLsztwUTkcHPHM+jN5YQI8
+X-Gm-Message-State: AOJu0YzlnOWb6h5IGBF7As2TjF67RuTt9KplL06jIZ7vJ3pcgqECkszb
+ R8/aA10navyqXW/ll4Bh+eHHS7QFTcUqhYJPDxul82gREMl4k/kPvPpDJ9blPjU=
+X-Google-Smtp-Source: AGHT+IGDHc8HUrs0iww/TdL2zMyyadTokjPSQhWtaZ8TbB4GbBiQ8FO8zM77jN0fCSdoCB79InX/Ew==
+X-Received: by 2002:a05:6602:1b92:b0:7cb:ffe6:b320 with SMTP id
+ dq18-20020a0566021b9200b007cbffe6b320mr11608580iob.5.1713796555960; 
+ Mon, 22 Apr 2024 07:35:55 -0700 (PDT)
+Received: from localhost ([2601:285:8700:8f20:e98c:6f5c:74a4:9a12])
+ by smtp.gmail.com with UTF8SMTPSA id
+ dv10-20020a056638608a00b00482f7427748sm2849642jab.135.2024.04.22.07.35.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Apr 2024 07:35:55 -0700 (PDT)
+From: Jose Fernandez <josef@netflix.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Wenjing Liu <wenjing.liu@amd.com>,
+ Alan Liu <haoping.liu@amd.com>, George Shen <george.shen@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
+ Ilya Bakoulin <ilya.bakoulin@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Fangzhi Zuo <jerry.zuo@amd.com>,
+ Leo Ma <hanghong.ma@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org,
+	Jose Fernandez <josef@netflix.com>
+Subject: [PATCH RESEND] drm/amd/display: Fix division by zero in
+ setup_dsc_config
+Date: Mon, 22 Apr 2024 08:35:44 -0600
+Message-Id: <20240422143544.20481-1-josef@netflix.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAWPR02MB9281.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76ab9609-c298-45df-f44b-08dc62d954c1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2024 14:34:34.8940 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C+7ZJ7ciSBHq8g5H+BM+AmKoReb7ea/OE3BEhIIoR5lLk2T+WwH/3N/6sCZz6Jin
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR02MB9747
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 22 Apr 2024 15:05:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,38 +89,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBLcnp5c3p0b2YgS296bG93c2tp
-IDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+IA0KU2VudDogZGVuIDE5IGFwcmlsIDIw
-MjQgMDE6MDUNClRvOiBKb2hhbiBBZG9sZnNzb24gPEpvaGFuLkFkb2xmc3NvbkBheGlzLmNvbT47
-IE5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPjsgSmVzc2ljYSBaaGFu
-ZyA8cXVpY19qZXNzemhhbkBxdWljaW5jLmNvbT47IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3Jn
-Lm9yZz47IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5j
-b20+OyBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+OyBUaG9tYXMgWmltbWVybWFu
-biA8dHppbW1lcm1hbm5Ac3VzZS5kZT47IERhdmlkIEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+
-OyBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+OyBSb2IgSGVycmluZyA8cm9iaCtkdEBr
-ZXJuZWwub3JnPjsgS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6eXN6dG9mLmtvemxvd3NraStkdEBs
-aW5hcm8ub3JnPjsgQ29ub3IgRG9vbGV5IDxjb25vcitkdEBrZXJuZWwub3JnPjsgVGhpZXJyeSBS
-ZWRpbmcgPHRoaWVycnkucmVkaW5nQGdtYWlsLmNvbT4NCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBkZXZpY2V0cmVlQHZn
-ZXIua2VybmVsLm9yZzsga2VybmVsIDxrZXJuZWxAYXhpcy5jb20+DQpTdWJqZWN0OiBSZTogW1BB
-VENIIDIvMl0gZHQtYmluZGluZ3M6IHBhbmVsLXNpbXBsZS1kc2k6IEFkZCBnZW5lcmljIHBhbmVs
-LWRzaQ0KDQo+T24gMTgvMDQvMjAyNCAxNjowMSwgSm9oYW4gQWRvbGZzc29uIHdyb3RlOg0KPj4g
-cGFuZWwtZHNpIGlzIHNpbWlsYXIgdG8gcGFuZWwtZHBpIHdpdGggb3ZlcnJpZGFibGUgdGltaW5n
-cw0KPg0KPj8/Pw0KDQpJIGd1ZXNzIGEgbW9yZSBjb3JyZWN0IGRlc2NyaXB0aW9uIHdvdWxkIGJl
-IA0KInBhbmVsLWRzaSBpcyBhIGZhbGxiYWNrIGluIGEgc2ltaWxhciB3YXkgdGhhdCBwYW5lbC1k
-cGkgaXMgaW4gcGFuZWwtZHBpLnlhbWwgLi4iPw0KDQouLi4NCj4+IGEvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLWRzaS55YW0NCj4+
-IGwNCj4+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3Bh
-bmVsL3BhbmVsLXNpbXBsZS1kc2kNCj4+ICsrKyAueWFtbA0KPj4gQEAgLTU2LDYgKzU2LDggQEAg
-cHJvcGVydGllczoNCj4+ICAgICAgICAtIHNhbXN1bmcsc29mZWYwMA0KPj4gICAgICAgICAgIyBT
-aGFuZ2FpIFRvcCBEaXNwbGF5IE9wdG9lbGVjdHJvbmljcyA3IiBUTDA3MFdTSDMwIDEwMjR4NjAw
-IFRGVCBMQ0QgcGFuZWwNCj4+ICAgICAgICAtIHRkbyx0bDA3MHdzaDMwDQo+PiArICAgICAgICAj
-IEdlbmVyaWMgZHNpIHBhbmVsIHdpdGggdGltaW5nIG92ZXJyaWRhYmxlDQo+PiArICAgICAgLSBw
-YW5lbC1kc2kNCj4NCj4/IERldmljZXMgYXJlIG5vdCBnZW5lcmljLiBUaGlzIGlzIHZlcnkgY29u
-ZnVzaW5nIGFuZCBjb21taXQgbXNnIGRvZXMgbm90IGhlbHAgbWUuIENvbXBhdGlibGVzICptdXN0
-KiBiZSBzcGVjaWZpYywgc2VlIHdyaXRpbmctYmluZGluZ3MuDQoNCkkgZ3Vlc3MgSSBzZWUgdGhp
-cyBhIGdlbmVyaWMgZmFsbGJhY2ssIHRoYXQgaGFuZGxlcyBhbnkgZHNpIHBhbmVsIGFzIGxvbmcg
-YXMgdGhlIGNvcnJlY3QgdGltaW5nIGV0YyBpcyBzcGVjaWZpZWQgaW4gZGV2aWN0cmVlLCBzaW1p
-bGFyIHRvIHdoYXQgcGFuZWwtZHBpIGlzIGluIHBhbmVsLWRwaS55YW1sDQpNYXliZSBwaHJhc2lu
-ZyBpdCBzaW1pbGFyIHRvIHBhbmVsLWRwaS55YW1sIGlzIGJldHRlcj8NCg0KPkJlc3QgcmVnYXJk
-cywNCj5Lcnp5c3p0b2YNCg0KQmVzdCByZWdhcmRzDQovSm9oYW4NCg0K
+When slice_height is 0, the division by slice_height in the calculation
+of the number of slices will cause a division by zero driver crash. This
+leaves the kernel in a state that requires a reboot. This patch adds a
+check to avoid the division by zero.
+
+The stack trace below is for the 6.8.4 Kernel. I reproduced the issue on
+a Z16 Gen 2 Lenovo Thinkpad with a Apple Studio Display monitor
+connected via Thunderbolt. The amdgpu driver crashed with this exception
+when I rebooted the system with the monitor connected.
+
+kernel: ? die (arch/x86/kernel/dumpstack.c:421 arch/x86/kernel/dumpstack.c:434 arch/x86/kernel/dumpstack.c:447)
+kernel: ? do_trap (arch/x86/kernel/traps.c:113 arch/x86/kernel/traps.c:154)
+kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
+kernel: ? do_error_trap (./arch/x86/include/asm/traps.h:58 arch/x86/kernel/traps.c:175)
+kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
+kernel: ? exc_divide_error (arch/x86/kernel/traps.c:194 (discriminator 2))
+kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
+kernel: ? asm_exc_divide_error (./arch/x86/include/asm/idtentry.h:548)
+kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
+kernel: dc_dsc_compute_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1109) amdgpu
+
+After applying this patch, the driver no longer crashes when the monitor
+is connected and the system is rebooted. I believe this is the same
+issue reported for 3113.
+
+Signed-off-by: Jose Fernandez <josef@netflix.com>
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3113
+---
+ drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+index ac41f9c0a283..597d5425d6cb 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
++++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+@@ -1055,7 +1055,12 @@ static bool setup_dsc_config(
+ 	if (!is_dsc_possible)
+ 		goto done;
+ 
+-	dsc_cfg->num_slices_v = pic_height/slice_height;
++	if (slice_height > 0)
++		dsc_cfg->num_slices_v = pic_height/slice_height;
++	else {
++		is_dsc_possible = false;
++		goto done;
++	}
+ 
+ 	if (target_bandwidth_kbps > 0) {
+ 		is_dsc_possible = decide_dsc_target_bpp_x16(
+-- 
+2.44.0
+
