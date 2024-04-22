@@ -2,78 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EC48AD031
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 17:05:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC28D8ACFA2
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 16:41:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F43B112BC4;
-	Mon, 22 Apr 2024 15:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10B0C112B8D;
+	Mon, 22 Apr 2024 14:41:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=netflix.com header.i=@netflix.com header.b="nslx70Ka";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZseN3s+a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
- [209.85.166.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49B5C112B82
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 14:35:57 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id
- ca18e2360f4ac-7d6a772af5bso164423839f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 07:35:57 -0700 (PDT)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3808112B84;
+ Mon, 22 Apr 2024 14:41:01 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-5dcc4076c13so3041206a12.0; 
+ Mon, 22 Apr 2024 07:41:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=netflix.com; s=google; t=1713796556; x=1714401356; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=a/JPFUxV2ArWkhwNnn1v7zuWOs9XoBJjsryMcg9Mcoo=;
- b=nslx70KarQ4HhxXGyp2t1E6v16EEd5ZT54unFmRWNKHae6THD8Z6h501lFS4+Dkprv
- 8KbxJw2txgECTG4hd3EVQIOna/x7Bl25AIXxhNsdK18BgHfklXdACCnnwE8uPLHAUQ2k
- XGplYxmFSwBeFH8rys6v6QB6aJORBC6122yI4=
+ d=gmail.com; s=20230601; t=1713796861; x=1714401661; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=R9LOOxnp6uDCj3fmcKccLPiFpdOHLZ+RePrbPeCtdEE=;
+ b=ZseN3s+a4AEar6Sh8QxsJggbR3oaj627Gxa8zn9UBZvwHX059pbSSzhf0Lu+ukueJ1
+ Os1tnghs4vfAwgV1wrGn4mI4OCSteiYzPMzzNbetRMWGrMR14307OeGWtPco+eB28uad
+ HSFMCJCxuMjnVu10AiinqrxODpb5BhGyDNSRT/NTksYoO4yjqu4LtPEGumskILI6Lmk6
+ NZJn1tBBM+UctduZ3bYprEHzN5JXrFZKMqQ37dwqgaEbLjQwrKTX21bMOVZ/PZsfpkQX
+ AG1kbZVV/OA39f6nWgxZyfJlJSSi5qvdqSEFKJ+kmPHcn/OByGZnzvghf/Iu2omJlK4h
+ orkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713796556; x=1714401356;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=a/JPFUxV2ArWkhwNnn1v7zuWOs9XoBJjsryMcg9Mcoo=;
- b=qJ89NfbW3TL1fc4rb8MFfsLWU9xfBLOFc6Kn9tUCQbL44adHJpKuMiBmU82N4xdhpk
- CbWIEBX5fe328nUT720sRfphXmrmnyURHuxE3KdKc6F4e8jZKM74zIPIGNgCwrrF+rHd
- Agz5RejLC6Wn6mh/lhuMVKX4vG4yBKpmodyjnWghE3iLtn8ukFARs1aZ8lgoCXA5RUGe
- GkCekqNFc3HJo+F+mLGo8N9srFVfs762YxH8MesZkmBrHMMz1rTn6OYv3QF1s+xONQn4
- NwOcF4y1XRPbr/hkjR4jAMTvA4OwqGOS+iTSI9+zHk5s3nYyv/F8sStsL4Rp2iqJ5TZ6
- GW/w==
+ d=1e100.net; s=20230601; t=1713796861; x=1714401661;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=R9LOOxnp6uDCj3fmcKccLPiFpdOHLZ+RePrbPeCtdEE=;
+ b=igHgmOAa7NGstcgW6Eut/eXcpwEFtOs3d9qZmKrGoWXdGkyVkwo2qyZiuFM6G+R3z8
+ JVi9aeWig1/BDFXZ6YwYYYabM+yf0nYzquBdnDG7Gv2SKejWMKwy2uEpW2hIYprjujxy
+ 63GhMLLk2QP9IdmPtuB7DBBM6atrAN/GyybDGNwMAtKzSdasDX9+en9HU11FYdON9wd1
+ os4ZdnJ8ttuefLJpnbDslllpNq2sqS1u0KtWqVRSU3u1+NT40j7cl89O/Z2Yd/fsBI/T
+ KCJ1dQcawLds9uYz/fNCwTTNwumvPfCfWyX2WWK3RAU84DXBp5L4Yi1HCCateh7vkK4r
+ AJ9g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWYyiRedAczeuSLRK67Z4R5MrhbQQfFDSgo5sow69Vy7YIxC4+dHwHiwwqf0fopvuZtLbXQj1aCSNcOvOUWqWkLsztwUTkcHPHM+jN5YQI8
-X-Gm-Message-State: AOJu0YzlnOWb6h5IGBF7As2TjF67RuTt9KplL06jIZ7vJ3pcgqECkszb
- R8/aA10navyqXW/ll4Bh+eHHS7QFTcUqhYJPDxul82gREMl4k/kPvPpDJ9blPjU=
-X-Google-Smtp-Source: AGHT+IGDHc8HUrs0iww/TdL2zMyyadTokjPSQhWtaZ8TbB4GbBiQ8FO8zM77jN0fCSdoCB79InX/Ew==
-X-Received: by 2002:a05:6602:1b92:b0:7cb:ffe6:b320 with SMTP id
- dq18-20020a0566021b9200b007cbffe6b320mr11608580iob.5.1713796555960; 
- Mon, 22 Apr 2024 07:35:55 -0700 (PDT)
-Received: from localhost ([2601:285:8700:8f20:e98c:6f5c:74a4:9a12])
- by smtp.gmail.com with UTF8SMTPSA id
- dv10-20020a056638608a00b00482f7427748sm2849642jab.135.2024.04.22.07.35.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Apr 2024 07:35:55 -0700 (PDT)
-From: Jose Fernandez <josef@netflix.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Wenjing Liu <wenjing.liu@amd.com>,
- Alan Liu <haoping.liu@amd.com>, George Shen <george.shen@amd.com>,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
- Ilya Bakoulin <ilya.bakoulin@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>, Fangzhi Zuo <jerry.zuo@amd.com>,
- Leo Ma <hanghong.ma@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org,
-	Jose Fernandez <josef@netflix.com>
-Subject: [PATCH RESEND] drm/amd/display: Fix division by zero in
- setup_dsc_config
-Date: Mon, 22 Apr 2024 08:35:44 -0600
-Message-Id: <20240422143544.20481-1-josef@netflix.com>
-X-Mailer: git-send-email 2.34.1
+ AJvYcCXfRDSE2KoE9eOcdnb9BCHnkdkrfNzgKYvE+0bUQ045zxL6ErvT/VKCCAifxNc/OQqFfmpzHpZEG2YeuCCq0dJsBQDyx2LksB9HIY62pBZuhT4qs5YlUMfcMKqMB3VXX03KEnREH7Hw+HPoibam0w==
+X-Gm-Message-State: AOJu0Ywjm+s4kQrNzJuy4Niz2Kzms/BS0H1E4wc7hE9f9Tt9Ffxm5x0L
+ acpXldvkf8ZHFDz7PY3+0Rl/WIDB8bd2OzA+42/ziD49JHdtKTJjuO0AvbHVRMMJMT3JXo568Tx
+ nrcaafcLkIu/FTFWkhjSAjbzAZdU=
+X-Google-Smtp-Source: AGHT+IEgc0XiwfDp8RVTyTAd5lS2sDXiuF3v9HjTRhVsGc5NIcwymNn2hdprUQwLiFncA8Ojla8Wfuwk9H/w2el4HR8=
+X-Received: by 2002:a17:90b:4aca:b0:29b:c31:1fe1 with SMTP id
+ mh10-20020a17090b4aca00b0029b0c311fe1mr14464782pjb.10.1713796861204; Mon, 22
+ Apr 2024 07:41:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 22 Apr 2024 15:05:43 +0000
+References: <20240422052608.5297-1-maqianga@uniontech.com>
+ <68f02c5c-5591-4d6f-9926-b0fc6f9f6287@amd.com>
+ <D94775003178862D+20240422203329.49844e71@john-PC>
+ <bde48eef-4d8a-4cfa-b824-6de88c0f87fd@amd.com>
+In-Reply-To: <bde48eef-4d8a-4cfa-b824-6de88c0f87fd@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 22 Apr 2024 10:40:48 -0400
+Message-ID: <CADnq5_PQ67J9ytb89-DqOgDw5V-s98TOyVjT5BGfkWMYv5sMQg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Fixup bad vram size on gmc v6 and v7
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Qiang Ma <maqianga@uniontech.com>, alexander.deucher@amd.com,
+ Xinhui.Pan@amd.com, 
+ airlied@gmail.com, daniel@ffwll.ch, srinivasan.shanmugam@amd.com, 
+ Arunpravin.PaneerSelvam@amd.com, le.ma@amd.com, Felix.Kuehling@amd.com, 
+ mukul.joshi@amd.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,55 +86,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When slice_height is 0, the division by slice_height in the calculation
-of the number of slices will cause a division by zero driver crash. This
-leaves the kernel in a state that requires a reboot. This patch adds a
-check to avoid the division by zero.
+On Mon, Apr 22, 2024 at 9:00=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 22.04.24 um 14:33 schrieb Qiang Ma:
+> > On Mon, 22 Apr 2024 11:40:26 +0200
+> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> >
+> >> Am 22.04.24 um 07:26 schrieb Qiang Ma:
+> >>> Some boards(like Oland PRO: 0x1002:0x6613) seem to have
+> >>> garbage in the upper 16 bits of the vram size register,
+> >>> kern log as follows:
+> >>>
+> >>> [    6.000000] [drm] Detected VRAM RAM=3D2256537600M, BAR=3D256M
+> >>> [    6.007812] [drm] RAM width 64bits GDDR5
+> >>> [    6.031250] [drm] amdgpu: 2256537600M of VRAM memory ready
+> >>>
+> >>> This is obviously not true, check for this and clamp the size
+> >>> properly. Fixes boards reporting bogus amounts of vram,
+> >>> kern log as follows:
+> >>>
+> >>> [    2.789062] [drm] Probable bad vram size: 0x86800800
+> >>> [    2.789062] [drm] Detected VRAM RAM=3D2048M, BAR=3D256M
+> >>> [    2.789062] [drm] RAM width 64bits GDDR5
+> >>> [    2.789062] [drm] amdgpu: 2048M of VRAM memory ready
+> >> Well we had patches like this one here before and so far we always
+> >> rejected them.
+> >>
+> >> When the mmCONFIG_MEMSIZE register isn't properly initialized then
+> >> there is something wrong with your hardware.
+> >>
+> >> Working around that in the software driver is not going to fly.
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> > Hi Christian:
+> > I see that two patches for this issue have been merged, and the
+> > patches are as follows:
+> >
+> > 11544d77e397 drm/amdgpu: fixup bad vram size on gmc v8
+> > 0ca223b029a2 drm/radeon: fixup bad vram size on SI
+>
+> Mhm, I remember that we discussed reverting those but it looks like that
+> never happened. I need to ask around internally.
+>
+> Question is do you see any other problems with the board? E.g. incorrect
+> connector or harvesting configuration?
 
-The stack trace below is for the 6.8.4 Kernel. I reproduced the issue on
-a Z16 Gen 2 Lenovo Thinkpad with a Apple Studio Display monitor
-connected via Thunderbolt. The amdgpu driver crashed with this exception
-when I rebooted the system with the monitor connected.
+I'll need to dig up the past discussion again, but IIRC, the issue was
+only seen on some non-x86 platforms.  Maybe something specific to MMIO
+on those?
 
-kernel: ? die (arch/x86/kernel/dumpstack.c:421 arch/x86/kernel/dumpstack.c:434 arch/x86/kernel/dumpstack.c:447)
-kernel: ? do_trap (arch/x86/kernel/traps.c:113 arch/x86/kernel/traps.c:154)
-kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
-kernel: ? do_error_trap (./arch/x86/include/asm/traps.h:58 arch/x86/kernel/traps.c:175)
-kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
-kernel: ? exc_divide_error (arch/x86/kernel/traps.c:194 (discriminator 2))
-kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
-kernel: ? asm_exc_divide_error (./arch/x86/include/asm/idtentry.h:548)
-kernel: ? setup_dsc_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1053) amdgpu
-kernel: dc_dsc_compute_config (drivers/gpu/drm/amd/amdgpu/../display/dc/dsc/dc_dsc.c:1109) amdgpu
+Alex
 
-After applying this patch, the driver no longer crashes when the monitor
-is connected and the system is rebooted. I believe this is the same
-issue reported for 3113.
 
-Signed-off-by: Jose Fernandez <josef@netflix.com>
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3113
----
- drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-index ac41f9c0a283..597d5425d6cb 100644
---- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-@@ -1055,7 +1055,12 @@ static bool setup_dsc_config(
- 	if (!is_dsc_possible)
- 		goto done;
- 
--	dsc_cfg->num_slices_v = pic_height/slice_height;
-+	if (slice_height > 0)
-+		dsc_cfg->num_slices_v = pic_height/slice_height;
-+	else {
-+		is_dsc_possible = false;
-+		goto done;
-+	}
- 
- 	if (target_bandwidth_kbps > 0) {
- 		is_dsc_possible = decide_dsc_target_bpp_x16(
--- 
-2.44.0
-
+>
+> Regards,
+> Christian.
+>
+> >
+> > Qiang Ma
+> >
+> >>> Signed-off-by: Qiang Ma <maqianga@uniontech.com>
+> >>> ---
+> >>>    drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 11 +++++++++--
+> >>>    drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 13 ++++++++++---
+> >>>    2 files changed, 19 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+> >>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c index
+> >>> 23b478639921..3703695f7789 100644 ---
+> >>> a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c +++
+> >>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c @@ -309,8 +309,15 @@ static
+> >>> int gmc_v6_0_mc_init(struct amdgpu_device *adev) }
+> >>>     adev->gmc.vram_width =3D numchan * chansize;
+> >>>     /* size in MB on si */
+> >>> -   adev->gmc.mc_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> >>> 1024ULL * 1024ULL;
+> >>> -   adev->gmc.real_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> >>> 1024ULL * 1024ULL;
+> >>> +   tmp =3D RREG32(mmCONFIG_MEMSIZE);
+> >>> +   /* some boards may have garbage in the upper 16 bits */
+> >>> +   if (tmp & 0xffff0000) {
+> >>> +           DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
+> >>> +           if (tmp & 0xffff)
+> >>> +                   tmp &=3D 0xffff;
+> >>> +   }
+> >>> +   adev->gmc.mc_vram_size =3D tmp * 1024ULL * 1024ULL;
+> >>> +   adev->gmc.real_vram_size =3D adev->gmc.mc_vram_size;
+> >>>
+> >>>     if (!(adev->flags & AMD_IS_APU)) {
+> >>>             r =3D amdgpu_device_resize_fb_bar(adev);
+> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+> >>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c index
+> >>> 3da7b6a2b00d..1df1fc578ff6 100644 ---
+> >>> a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c +++
+> >>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c @@ -316,10 +316,10 @@
+> >>> static void gmc_v7_0_mc_program(struct amdgpu_device *adev) static
+> >>> int gmc_v7_0_mc_init(struct amdgpu_device *adev) {
+> >>>     int r;
+> >>> +   u32 tmp;
+> >>>
+> >>>     adev->gmc.vram_width =3D
+> >>> amdgpu_atombios_get_vram_width(adev); if (!adev->gmc.vram_width) {
+> >>> -           u32 tmp;
+> >>>             int chansize, numchan;
+> >>>
+> >>>             /* Get VRAM informations */
+> >>> @@ -363,8 +363,15 @@ static int gmc_v7_0_mc_init(struct
+> >>> amdgpu_device *adev) adev->gmc.vram_width =3D numchan * chansize;
+> >>>     }
+> >>>     /* size in MB on si */
+> >>> -   adev->gmc.mc_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> >>> 1024ULL * 1024ULL;
+> >>> -   adev->gmc.real_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> >>> 1024ULL * 1024ULL;
+> >>> +   tmp =3D RREG32(mmCONFIG_MEMSIZE);
+> >>> +   /* some boards may have garbage in the upper 16 bits */
+> >>> +   if (tmp & 0xffff0000) {
+> >>> +           DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
+> >>> +           if (tmp & 0xffff)
+> >>> +                   tmp &=3D 0xffff;
+> >>> +   }
+> >>> +   adev->gmc.mc_vram_size =3D tmp * 1024ULL * 1024ULL;
+> >>> +   adev->gmc.real_vram_size =3D adev->gmc.mc_vram_size;
+> >>>
+> >>>     if (!(adev->flags & AMD_IS_APU)) {
+> >>>             r =3D amdgpu_device_resize_fb_bar(adev);
+> >>
+>
