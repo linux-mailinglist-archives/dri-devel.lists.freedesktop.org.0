@@ -2,78 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452C08ACFC8
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 16:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10BB98ACFDB
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 16:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4248C10F63B;
-	Mon, 22 Apr 2024 14:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D12C10E1A6;
+	Mon, 22 Apr 2024 14:47:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JMC3a54C";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="1MQ+Tqbu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 714C010F63B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 14:44:42 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-41a5b68ed85so6082625e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 07:44:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1713797080; x=1714401880; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=vDWbGa8maG8Iw8x1I8Ywl77W0jRn/UC+uqATAgFyavw=;
- b=JMC3a54Cem+KComZ+ge47apCYCR6hMuCoGz1Hy9X2fl67WKeSNSDaWTEvA8jmQnJrp
- 23T4wpgqpUkVsdhYoIXp+E5/bVhBAoLBDWwQ8yCX58RV5V10mMzHmLlvCvXbWYs0rg64
- XhJsRKCitVGd20ZU3Aw3PlpFqZJVRwXKwQRmauYFEBPAuv3503hPmnoscLGPogfGyzkC
- 1rU/nR4NMFkL/05YD7PJvYhJu9uQapQ5K7eLkTM1DaZrUeTRO/2mzLAes6Anetxd8veG
- 5XDs+XkZNbNHt3NXjU+4jn4gkgJrIkjqv8Z9d/XQWZ62WDYkPhxEyucOnuR/ixrTRXmk
- SStQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713797080; x=1714401880;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:user-agent:mime-version:date:message-id:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vDWbGa8maG8Iw8x1I8Ywl77W0jRn/UC+uqATAgFyavw=;
- b=bf0RaTBX69q4sxYtXSYxK+dVF9/PdJL8A6phDyeJst5e1riI6go9AHjB5xebD1DQVU
- 6pEgdpegx0ErYeG2bMQTV3nxoRSj93DmsBhiEozeExaKYHK6HwnjFQ7gPNtNHGAJfN8b
- dTgY5DfzhPraM+G9br3US3oUmaSJd3Mp8b0BE//i8HVScpBdVWSa8aE43BrdbzI5yOi6
- u0gwhH/iPNP2r5A1pzIQz8jZSvBRRy5OH4zbQLPxP7FZOuckIzLWlT1nE4vu2gpNywZN
- TktsT5+xODkC0ej5KpyBp9ZODmDfi8rpoIdddbWuoKEHpVW9cfJS5BYsgXC2qJoaabL2
- p0aA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXkt+Jw4RJOXq/jUGCXZZxdsbc0QZ2Op9hKGMahzudMwMgM/dKG2yHc1mSdd93brL5Iv8LLy6X/PTjjqt35n61Ibd7xyHz27Cm49jHd7d1u
-X-Gm-Message-State: AOJu0YwzJwG4jkWwhwwLCNGrW1UbQqEqZZRz35vzeP9UvSZlKvce/iZ7
- 9EJ+SjQVldoJkclmMYf79Xhjh5nQUbWCogzDtMwW09M+Jq6p8RGT
-X-Google-Smtp-Source: AGHT+IGTJVDV53SvCHVd9C3udpd1MZBEced2KBo4BwrLR81iO/sW69n3KHswjsroP/cPDIMC/Xk9Ng==
-X-Received: by 2002:a05:600c:3b19:b0:418:de31:7148 with SMTP id
- m25-20020a05600c3b1900b00418de317148mr7793236wms.3.1713797080185; 
- Mon, 22 Apr 2024 07:44:40 -0700 (PDT)
-Received: from [10.16.124.60] ([212.227.34.98])
- by smtp.gmail.com with ESMTPSA id
- he5-20020a05600c540500b00418e3c5bc8esm16045956wmb.18.2024.04.22.07.44.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Apr 2024 07:44:39 -0700 (PDT)
-From: Zhu Yanjun <zyjzyj2000@gmail.com>
-X-Google-Original-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-Message-ID: <00c270c7-dff9-4682-9bf8-44195b72cf04@linux.dev>
-Date: Mon, 22 Apr 2024 16:44:39 +0200
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9659710E1A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 14:47:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1713797250;
+ bh=Y6uJ8OR4QHQSy1/6nKIm9u0cX+hi6Lch2omdJnSs3to=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=1MQ+TqbuvMXFGdEFpWEMbhI0eFZfuyDh8RNLAXHjFji8xrO3nVvUFJQQKKTzZpBhn
+ XIoW7vqZg5q2ZiKq+02PIaju9Jn+o3wTETUDi/phxiKr96/l1lw57IY1TLSxLivPz1
+ xPDeOeLAUDHYGeGM2hmp4bc2ZKC+NcX+lhx6+lTRrhjesD/ZHEQkze2r9nhr5i5w4O
+ Sb2MvVGbGTwYPvOF8I/8iliQz/DmlUv1maHReU3Br0UW6al+P10zdx7fXsZ8/H7DQG
+ eUh4MRVv+aZl4E5BGtudLpqg697TbXOw6oNd/GCX01AYbScDZBWyJO9ddT++qCnt/5
+ SAIPN0YFzLwEw==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4915D3782123;
+ Mon, 22 Apr 2024 14:47:29 +0000 (UTC)
+Date: Mon, 22 Apr 2024 17:47:19 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
+ <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ rdunlap@infradead.org, arthurgrillo@riseup.net, Jonathan Corbet
+ <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v6 12/17] drm/vkms: Add YUV support
+Message-ID: <20240422174719.12f9ba2f.pekka.paalanen@collabora.com>
+In-Reply-To: <20240409-yuv-v6-12-de1c5728fd70@bootlin.com>
+References: <20240409-yuv-v6-0-de1c5728fd70@bootlin.com>
+ <20240409-yuv-v6-12-de1c5728fd70@bootlin.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
- linux-rdma@vger.kernel.org
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-References: <20240422063602.3690124-1-vivek.kasireddy@intel.com>
- <20240422063602.3690124-3-vivek.kasireddy@intel.com>
-Content-Language: en-US
-In-Reply-To: <20240422063602.3690124-3-vivek.kasireddy@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/yBBHk4gee2SlMKrzL2ZGVgC";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,612 +71,672 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.04.24 08:30, Vivek Kasireddy wrote:
->  From Jason Gunthorpe:
-> "dma-buf has become a way to safely acquire a handle to non-struct page
-> memory that can still have lifetime controlled by the exporter. Notably
-> RDMA can now import dma-buf FDs and build them into MRs which allows for
-> PCI P2P operations. Extend this to allow vfio-pci to export MMIO memory
-> from PCI device BARs.
-> 
-> The patch design loosely follows the pattern in commit
-> db1a8dd916aa ("habanalabs: add support for dma-buf exporter") except this
-> does not support pinning.
-> 
-> Instead, this implements what, in the past, we've called a revocable
-> attachment using move. In normal situations the attachment is pinned, as a
-> BAR does not change physical address. However when the VFIO device is
-> closed, or a PCI reset is issued, access to the MMIO memory is revoked.
-> 
-> Revoked means that move occurs, but an attempt to immediately re-map the
-> memory will fail. In the reset case a future move will be triggered when
-> MMIO access returns. As both close and reset are under userspace control
-> it is expected that userspace will suspend use of the dma-buf before doing
-> these operations, the revoke is purely for kernel self-defense against a
-> hostile userspace."
-> 
-> Following enhancements are made to the original patch:
-> - Use P2P DMA APIs to create pages (ZONE_DEVICE) instead of DMA addrs
-> - Add a mmap handler to provide CPU access to the dmabuf
-> - Add support for creating dmabuf from multiple areas (or ranges)
-> 
-> Original-patch-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+--Sig_/yBBHk4gee2SlMKrzL2ZGVgC
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 09 Apr 2024 15:25:30 +0200
+Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+
+> From: Arthur Grillo <arthurgrillo@riseup.net>
+>=20
+> Add support to the YUV formats bellow:
+>=20
+> - NV12/NV16/NV24
+> - NV21/NV61/NV42
+> - YUV420/YUV422/YUV444
+> - YVU420/YVU422/YVU444
+>=20
+> The conversion from yuv to rgb is done with fixed-point arithmetic, using
+> 32.32 fixed-point numbers and the drm_fixed helpers.
+>=20
+> To do the conversion, a specific matrix must be used for each color range
+> (DRM_COLOR_*_RANGE) and encoding (DRM_COLOR_*). This matrix is stored in
+> the `conversion_matrix` struct, along with the specific y_offset needed.
+> This matrix is queried only once, in `vkms_plane_atomic_update` and
+> stored in a `vkms_plane_state`. Those conversion matrices of each
+> encoding and range were obtained by rounding the values of the original
+> conversion matrices multiplied by 2^32. This is done to avoid the use of
+> floating point operations.
+>=20
+> The same reading function is used for YUV and YVU formats. As the only
+> difference between those two category of formats is the order of field, a
+> simple swap in conversion matrix columns allows using the same function.
+>=20
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> [Louis Chauvet:
+> - Adapted Arthur's work
+> - Implemented the read_line_t callbacks for yuv
+> - add struct conversion_matrix
+> - store the whole conversion_matrix in the plane state
+> - remove struct pixel_yuv_u8
+> - update the commit message
+> - Merge the modifications from Arthur]
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
->   drivers/vfio/pci/Makefile          |   1 +
->   drivers/vfio/pci/dma_buf.c         | 348 +++++++++++++++++++++++++++++
->   drivers/vfio/pci/vfio_pci_config.c |   8 +-
->   drivers/vfio/pci/vfio_pci_core.c   |  28 ++-
->   drivers/vfio/pci/vfio_pci_priv.h   |  23 ++
->   include/linux/vfio_pci_core.h      |   1 +
->   include/uapi/linux/vfio.h          |  25 +++
->   7 files changed, 426 insertions(+), 8 deletions(-)
->   create mode 100644 drivers/vfio/pci/dma_buf.c
-> 
-> diff --git a/drivers/vfio/pci/Makefile b/drivers/vfio/pci/Makefile
-> index ce7a61f1d912..b2374856ff62 100644
-> --- a/drivers/vfio/pci/Makefile
-> +++ b/drivers/vfio/pci/Makefile
-> @@ -2,6 +2,7 @@
->   
->   vfio-pci-core-y := vfio_pci_core.o vfio_pci_intrs.o vfio_pci_rdwr.o vfio_pci_config.o
->   vfio-pci-core-$(CONFIG_VFIO_PCI_ZDEV_KVM) += vfio_pci_zdev.o
-> +vfio-pci-core-$(CONFIG_DMA_SHARED_BUFFER) += dma_buf.o
->   obj-$(CONFIG_VFIO_PCI_CORE) += vfio-pci-core.o
->   
->   vfio-pci-y := vfio_pci.o
-> diff --git a/drivers/vfio/pci/dma_buf.c b/drivers/vfio/pci/dma_buf.c
-> new file mode 100644
-> index 000000000000..7bf00fdee69b
-> --- /dev/null
-> +++ b/drivers/vfio/pci/dma_buf.c
-> @@ -0,0 +1,348 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (c) 2022, NVIDIA CORPORATION & AFFILIATES.
-
-Not sure if this Copyright (c) is 2022 or 2024.
-
-Zhu Yanjun
-
-> + */
-> +#include <linux/dma-buf.h>
-> +#include <linux/pci-p2pdma.h>
-> +#include <linux/dma-resv.h>
-> +
-> +#include "vfio_pci_priv.h"
-> +
-> +MODULE_IMPORT_NS(DMA_BUF);
-> +
-> +struct vfio_pci_dma_buf {
-> +	struct dma_buf *dmabuf;
-> +	struct vfio_pci_core_device *vdev;
-> +	struct list_head dmabufs_elm;
-> +	struct page **pages;
-> +	struct sg_table *sg;
-> +	unsigned int nr_pages;
-> +	bool revoked;
-> +};
-> +
-> +static vm_fault_t vfio_pci_dma_buf_fault(struct vm_fault *vmf)
-> +{
-> +	struct vm_area_struct *vma = vmf->vma;
-> +	struct vfio_pci_dma_buf *priv = vma->vm_private_data;
-> +	pgoff_t pgoff = vmf->pgoff;
-> +
-> +	if (pgoff >= priv->nr_pages)
-> +		return VM_FAULT_SIGBUS;
-> +
-> +	return vmf_insert_pfn(vma, vmf->address,
-> +			      page_to_pfn(priv->pages[pgoff]));
-> +}
-> +
-> +static const struct vm_operations_struct vfio_pci_dma_buf_vmops = {
-> +	.fault = vfio_pci_dma_buf_fault,
-> +};
-> +
-> +static int vfio_pci_dma_buf_mmap(struct dma_buf *dmabuf,
-> +				 struct vm_area_struct *vma)
-> +{
-> +	struct vfio_pci_dma_buf *priv = dmabuf->priv;
-> +
-> +	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
-> +		return -EINVAL;
-> +
-> +	vma->vm_ops = &vfio_pci_dma_buf_vmops;
-> +	vma->vm_private_data = priv;
-> +	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
-> +	return 0;
-> +}
-> +
-> +static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
-> +				   struct dma_buf_attachment *attachment)
-> +{
-> +	struct vfio_pci_dma_buf *priv = dmabuf->priv;
-> +	int rc;
-> +
-> +	rc = pci_p2pdma_distance_many(priv->vdev->pdev, &attachment->dev, 1,
-> +				      true);
-> +	if (rc < 0)
-> +		attachment->peer2peer = false;
-> +	return 0;
-> +}
-> +
-> +static void vfio_pci_dma_buf_unpin(struct dma_buf_attachment *attachment)
-> +{
-> +}
-> +
-> +static int vfio_pci_dma_buf_pin(struct dma_buf_attachment *attachment)
-> +{
-> +	/*
-> +	 * Uses the dynamic interface but must always allow for
-> +	 * dma_buf_move_notify() to do revoke
-> +	 */
-> +	return -EINVAL;
-> +}
-> +
-> +static struct sg_table *
-> +vfio_pci_dma_buf_map(struct dma_buf_attachment *attachment,
-> +		     enum dma_data_direction dir)
-> +{
-> +	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
-> +	struct scatterlist *sgl;
-> +	struct sg_table *sgt;
-> +	unsigned int i = 0;
-> +	int ret;
-> +
-> +	dma_resv_assert_held(priv->dmabuf->resv);
-> +
-> +	if (!attachment->peer2peer)
-> +		return ERR_PTR(-EPERM);
-> +
-> +	if (priv->revoked)
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-> +	if (!sgt)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ret = sg_alloc_table(sgt, priv->nr_pages, GFP_KERNEL);
-> +	if (ret)
-> +		goto err_kfree_sgt;
-> +
-> +	for_each_sg(sgt->sgl, sgl, priv->nr_pages, i)
-> +		sg_set_page(sgl, priv->pages[i], PAGE_SIZE, 0);
-> +
-> +	ret = dma_map_sgtable(attachment->dev, sgt, dir, 0);
-> +	if (ret < 0)
-> +		goto err_free_sgt;
-> +
-> +	return sgt;
-> +
-> +err_free_sgt:
-> +	sg_free_table(sgt);
-> +err_kfree_sgt:
-> +	kfree(sgt);
-> +	return ERR_PTR(ret);
-> +}
-> +
-> +static void vfio_pci_dma_buf_unmap(struct dma_buf_attachment *attachment,
-> +				   struct sg_table *sgt,
-> +				   enum dma_data_direction dir)
-> +{
-> +	dma_unmap_sgtable(attachment->dev, sgt, dir, 0);
-> +	sg_free_table(sgt);
-> +	kfree(sgt);
-> +}
-> +
-> +static void release_p2p_pages(struct vfio_pci_dma_buf *priv,
-> +			      unsigned int nr_pages)
-> +{
-> +	while (nr_pages > 0 && priv->pages[--nr_pages])
-> +		pci_free_p2pmem(priv->vdev->pdev,
-> +				page_to_virt(priv->pages[nr_pages]),
-> +				PAGE_SIZE);
-> +}
-> +
-> +static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
-> +{
-> +	struct vfio_pci_dma_buf *priv = dmabuf->priv;
-> +
-> +	/*
-> +	 * Either this or vfio_pci_dma_buf_cleanup() will remove from the list.
-> +	 * The refcount prevents both.
-> +	 */
-> +	if (priv->vdev) {
-> +		release_p2p_pages(priv, priv->nr_pages);
-> +		kfree(priv->pages);
-> +		down_write(&priv->vdev->memory_lock);
-> +		list_del_init(&priv->dmabufs_elm);
-> +		up_write(&priv->vdev->memory_lock);
-> +		vfio_device_put_registration(&priv->vdev->vdev);
-> +	}
-> +	kfree(priv);
-> +}
-> +
-> +static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
-> +	.attach = vfio_pci_dma_buf_attach,
-> +	.map_dma_buf = vfio_pci_dma_buf_map,
-> +	.pin = vfio_pci_dma_buf_pin,
-> +	.unpin = vfio_pci_dma_buf_unpin,
-> +	.release = vfio_pci_dma_buf_release,
-> +	.unmap_dma_buf = vfio_pci_dma_buf_unmap,
-> +	.mmap = vfio_pci_dma_buf_mmap,
-> +};
-> +
-> +static int create_p2p_pages(struct vfio_pci_dma_buf *priv, uint32_t nr_areas,
-> +			    struct vfio_region_p2p_area *p2p_areas)
-> +{
-> +	struct pci_dev *pdev = priv->vdev->pdev;
-> +	resource_size_t bar_size;
-> +	unsigned int pg = 0;
-> +	void *vaddr;
-> +	size_t size;
-> +	int i, ret;
-> +
-> +	for (i = 0; i < nr_areas; i++) {
-> +		bar_size = pci_resource_len(pdev, p2p_areas[i].region_index);
-> +		if (p2p_areas[i].offset > bar_size ||
-> +		    p2p_areas[i].offset + p2p_areas[i].length > bar_size) {
-> +			ret = -ERANGE;
-> +			goto err;
-> +		}
-> +
-> +		ret = pci_p2pdma_add_resource(pdev,
-> +					      p2p_areas[i].region_index,
-> +					      p2p_areas[i].length,
-> +					      p2p_areas[i].offset);
-> +		if (ret)
-> +			goto err;
-> +
-> +		vaddr = pci_alloc_p2pmem(pdev, p2p_areas[i].length);
-> +		if (!vaddr) {
-> +			ret = -EINVAL;
-> +			goto err;
-> +		}
-> +
-> +		for (size = 0; size < p2p_areas[i].length;) {
-> +			priv->pages[pg++] = virt_to_page(vaddr + size);
-> +			size += PAGE_SIZE;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +
-> +err:
-> +	release_p2p_pages(priv, pg);
-> +	return ret;
-> +}
-> +
-> +int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
-> +				  struct vfio_device_feature_dma_buf __user *arg,
-> +				  size_t argsz)
-> +{
-> +	struct vfio_device_feature_dma_buf get_dma_buf;
-> +	struct vfio_region_p2p_area *p2p_areas;
-> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> +	struct vfio_pci_dma_buf *priv;
-> +	int i, ret;
-> +
-> +	ret = vfio_check_feature(flags, argsz, VFIO_DEVICE_FEATURE_GET,
-> +				 sizeof(get_dma_buf));
-> +	if (ret != 1)
-> +		return ret;
-> +
-> +	if (copy_from_user(&get_dma_buf, arg, sizeof(get_dma_buf)))
-> +		return -EFAULT;
-> +
-> +	p2p_areas = memdup_array_user(&arg->p2p_areas,
-> +				      get_dma_buf.nr_areas,
-> +				      sizeof(*p2p_areas));
-> +	if (IS_ERR(p2p_areas))
-> +		return PTR_ERR(p2p_areas);
-> +
-> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	ret = -ERANGE;
-> +	for (i = 0; i < get_dma_buf.nr_areas; i++) {
-> +		/*
-> +		 * For PCI the region_index is the BAR number like
-> +		 * everything else.
-> +		 */
-> +		if (p2p_areas[i].region_index >= VFIO_PCI_ROM_REGION_INDEX) {
-> +			goto err_free_priv;
-> +		}
-> +
-> +		if (!IS_ALIGNED(p2p_areas[i].offset, PAGE_SIZE) ||
-> +		    !IS_ALIGNED(p2p_areas[i].length, PAGE_SIZE))
-> +			goto err_free_priv;
-> +
-> +		priv->nr_pages += p2p_areas[i].length >> PAGE_SHIFT;
-> +	}
-> +
-> +	if (!priv->nr_pages)
-> +		goto err_free_priv;
-> +
-> +	priv->pages = kmalloc_array(priv->nr_pages,
-> +				    sizeof(*priv->pages), GFP_KERNEL);
-> +	if (!priv->pages) {
-> +		ret = -ENOMEM;
-> +		goto err_free_priv;
-> +	}
-> +
-> +	priv->vdev = vdev;
-> +	ret = create_p2p_pages(priv, get_dma_buf.nr_areas, p2p_areas);
-> +	if (ret)
-> +		goto err_free_priv;
-> +
-> +	exp_info.ops = &vfio_pci_dmabuf_ops;
-> +	exp_info.size = priv->nr_pages << PAGE_SHIFT;
-> +	exp_info.flags = get_dma_buf.open_flags;
-> +	exp_info.priv = priv;
-> +
-> +	priv->dmabuf = dma_buf_export(&exp_info);
-> +	if (IS_ERR(priv->dmabuf)) {
-> +		ret = PTR_ERR(priv->dmabuf);
-> +		goto err_free_pages;
-> +	}
-> +
-> +	/* dma_buf_put() now frees priv */
-> +	INIT_LIST_HEAD(&priv->dmabufs_elm);
-> +	down_write(&vdev->memory_lock);
-> +	dma_resv_lock(priv->dmabuf->resv, NULL);
-> +	priv->revoked = !__vfio_pci_memory_enabled(vdev);
-> +	vfio_device_try_get_registration(&vdev->vdev);
-> +	list_add_tail(&priv->dmabufs_elm, &vdev->dmabufs);
-> +	dma_resv_unlock(priv->dmabuf->resv);
-> +	up_write(&vdev->memory_lock);
-> +	kfree(p2p_areas);
-> +
-> +	/*
-> +	 * dma_buf_fd() consumes the reference, when the file closes the dmabuf
-> +	 * will be released.
-> +	 */
-> +	return dma_buf_fd(priv->dmabuf, get_dma_buf.open_flags);
-> +
-> +err_free_pages:
-> +	release_p2p_pages(priv, priv->nr_pages);
-> +err_free_priv:
-> +	kfree(p2p_areas);
-> +	kfree(priv->pages);
-> +	kfree(priv);
-> +	return ret;
-> +}
-> +
-> +void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
-> +{
-> +	struct vfio_pci_dma_buf *priv;
-> +	struct vfio_pci_dma_buf *tmp;
-> +
-> +	lockdep_assert_held_write(&vdev->memory_lock);
-> +
-> +	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
-> +		if (!get_file_rcu(&priv->dmabuf->file))
-> +			continue;
-> +		if (priv->revoked != revoked) {
-> +			dma_resv_lock(priv->dmabuf->resv, NULL);
-> +			priv->revoked = revoked;
-> +			dma_buf_move_notify(priv->dmabuf);
-> +			dma_resv_unlock(priv->dmabuf->resv);
-> +		}
-> +		dma_buf_put(priv->dmabuf);
-> +	}
-> +}
-> +
-> +void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
-> +{
-> +	struct vfio_pci_dma_buf *priv;
-> +	struct vfio_pci_dma_buf *tmp;
-> +
-> +	down_write(&vdev->memory_lock);
-> +	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
-> +		if (!get_file_rcu(&priv->dmabuf->file))
-> +			continue;
-> +		dma_resv_lock(priv->dmabuf->resv, NULL);
-> +		list_del_init(&priv->dmabufs_elm);
-> +		priv->vdev = NULL;
-> +		priv->revoked = true;
-> +		dma_buf_move_notify(priv->dmabuf);
-> +		dma_resv_unlock(priv->dmabuf->resv);
-> +		vfio_device_put_registration(&vdev->vdev);
-> +		dma_buf_put(priv->dmabuf);
-> +	}
-> +	up_write(&vdev->memory_lock);
-> +}
-> diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
-> index 97422aafaa7b..c605c5cb0078 100644
-> --- a/drivers/vfio/pci/vfio_pci_config.c
-> +++ b/drivers/vfio/pci/vfio_pci_config.c
-> @@ -585,10 +585,12 @@ static int vfio_basic_config_write(struct vfio_pci_core_device *vdev, int pos,
->   		virt_mem = !!(le16_to_cpu(*virt_cmd) & PCI_COMMAND_MEMORY);
->   		new_mem = !!(new_cmd & PCI_COMMAND_MEMORY);
->   
-> -		if (!new_mem)
-> +		if (!new_mem) {
->   			vfio_pci_zap_and_down_write_memory_lock(vdev);
-> -		else
-> +			vfio_pci_dma_buf_move(vdev, true);
-> +		} else {
->   			down_write(&vdev->memory_lock);
-> +		}
->   
->   		/*
->   		 * If the user is writing mem/io enable (new_mem/io) and we
-> @@ -623,6 +625,8 @@ static int vfio_basic_config_write(struct vfio_pci_core_device *vdev, int pos,
->   		*virt_cmd &= cpu_to_le16(~mask);
->   		*virt_cmd |= cpu_to_le16(new_cmd & mask);
->   
-> +		if (__vfio_pci_memory_enabled(vdev))
-> +			vfio_pci_dma_buf_move(vdev, false);
->   		up_write(&vdev->memory_lock);
->   	}
->   
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> index d94d61b92c1a..d2ef982bdb3e 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -700,6 +700,8 @@ void vfio_pci_core_close_device(struct vfio_device *core_vdev)
->   #endif
->   	vfio_pci_core_disable(vdev);
->   
-> +	vfio_pci_dma_buf_cleanup(vdev);
-> +
->   	mutex_lock(&vdev->igate);
->   	if (vdev->err_trigger) {
->   		eventfd_ctx_put(vdev->err_trigger);
-> @@ -1246,7 +1248,10 @@ static int vfio_pci_ioctl_reset(struct vfio_pci_core_device *vdev,
->   	 */
->   	vfio_pci_set_power_state(vdev, PCI_D0);
->   
-> +	vfio_pci_dma_buf_move(vdev, true);
->   	ret = pci_try_reset_function(vdev->pdev);
-> +	if (__vfio_pci_memory_enabled(vdev))
-> +		vfio_pci_dma_buf_move(vdev, false);
->   	up_write(&vdev->memory_lock);
->   
->   	return ret;
-> @@ -1467,11 +1472,10 @@ long vfio_pci_core_ioctl(struct vfio_device *core_vdev, unsigned int cmd,
->   }
->   EXPORT_SYMBOL_GPL(vfio_pci_core_ioctl);
->   
-> -static int vfio_pci_core_feature_token(struct vfio_device *device, u32 flags,
-> -				       uuid_t __user *arg, size_t argsz)
-> +static int vfio_pci_core_feature_token(struct vfio_pci_core_device *vdev,
-> +				       u32 flags, uuid_t __user *arg,
-> +				       size_t argsz)
->   {
-> -	struct vfio_pci_core_device *vdev =
-> -		container_of(device, struct vfio_pci_core_device, vdev);
->   	uuid_t uuid;
->   	int ret;
->   
-> @@ -1498,6 +1502,9 @@ static int vfio_pci_core_feature_token(struct vfio_device *device, u32 flags,
->   int vfio_pci_core_ioctl_feature(struct vfio_device *device, u32 flags,
->   				void __user *arg, size_t argsz)
->   {
-> +	struct vfio_pci_core_device *vdev =
-> +			container_of(device, struct vfio_pci_core_device, vdev);
-> +
->   	switch (flags & VFIO_DEVICE_FEATURE_MASK) {
->   	case VFIO_DEVICE_FEATURE_LOW_POWER_ENTRY:
->   		return vfio_pci_core_pm_entry(device, flags, arg, argsz);
-> @@ -1507,7 +1514,9 @@ int vfio_pci_core_ioctl_feature(struct vfio_device *device, u32 flags,
->   	case VFIO_DEVICE_FEATURE_LOW_POWER_EXIT:
->   		return vfio_pci_core_pm_exit(device, flags, arg, argsz);
->   	case VFIO_DEVICE_FEATURE_PCI_VF_TOKEN:
-> -		return vfio_pci_core_feature_token(device, flags, arg, argsz);
-> +		return vfio_pci_core_feature_token(vdev, flags, arg, argsz);
-> +	case VFIO_DEVICE_FEATURE_DMA_BUF:
-> +		return vfio_pci_core_feature_dma_buf(vdev, flags, arg, argsz);
->   	default:
->   		return -ENOTTY;
->   	}
-> @@ -2182,6 +2191,7 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
->   	mutex_init(&vdev->vma_lock);
->   	INIT_LIST_HEAD(&vdev->vma_list);
->   	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
-> +	INIT_LIST_HEAD(&vdev->dmabufs);
->   	init_rwsem(&vdev->memory_lock);
->   	xa_init(&vdev->ctx);
->   
-> @@ -2576,11 +2586,17 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->   	 * cause the PCI config space reset without restoring the original
->   	 * state (saved locally in 'vdev->pm_save').
->   	 */
-> -	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list)
-> +	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list) {
-> +		vfio_pci_dma_buf_move(cur, true);
->   		vfio_pci_set_power_state(cur, PCI_D0);
-> +	}
->   
->   	ret = pci_reset_bus(pdev);
->   
-> +	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list)
-> +		if (__vfio_pci_memory_enabled(cur))
-> +			vfio_pci_dma_buf_move(cur, false);
-> +
->   err_undo:
->   	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list) {
->   		if (cur == cur_mem)
-> diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
-> index 5e4fa69aee16..09d3c300918c 100644
-> --- a/drivers/vfio/pci/vfio_pci_priv.h
-> +++ b/drivers/vfio/pci/vfio_pci_priv.h
-> @@ -101,4 +101,27 @@ static inline bool vfio_pci_is_vga(struct pci_dev *pdev)
->   	return (pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA;
->   }
->   
-> +#ifdef CONFIG_DMA_SHARED_BUFFER
-> +int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
-> +				  struct vfio_device_feature_dma_buf __user *arg,
-> +				  size_t argsz);
-> +void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev);
-> +void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked);
-> +#else
-> +static int
-> +vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
-> +			      struct vfio_device_feature_dma_buf __user *arg,
-> +			      size_t argsz)
-> +{
-> +	return -ENOTTY;
-> +}
-> +static inline void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
-> +{
-> +}
-> +static inline void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev,
-> +					 bool revoked)
-> +{
-> +}
-> +#endif
-> +
->   #endif
-> diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-> index a2c8b8bba711..387cce561dad 100644
-> --- a/include/linux/vfio_pci_core.h
-> +++ b/include/linux/vfio_pci_core.h
-> @@ -96,6 +96,7 @@ struct vfio_pci_core_device {
->   	struct mutex		vma_lock;
->   	struct list_head	vma_list;
->   	struct rw_semaphore	memory_lock;
-> +	struct list_head	dmabufs;
->   };
->   
->   /* Will be exported for vfio pci drivers usage */
-> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index 2b68e6cdf190..47d230c5df25 100644
-> --- a/include/uapi/linux/vfio.h
-> +++ b/include/uapi/linux/vfio.h
-> @@ -1458,6 +1458,31 @@ struct vfio_device_feature_bus_master {
->   };
->   #define VFIO_DEVICE_FEATURE_BUS_MASTER 10
->   
+>  drivers/gpu/drm/vkms/vkms_drv.h     |  18 ++
+>  drivers/gpu/drm/vkms/vkms_formats.c | 356 ++++++++++++++++++++++++++++++=
+++++++
+>  drivers/gpu/drm/vkms/vkms_formats.h |   4 +
+>  drivers/gpu/drm/vkms/vkms_plane.c   |  16 +-
+>  4 files changed, 393 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
+drv.h
+> index a62a11e67ab1..831454325d9d 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -99,17 +99,35 @@ typedef void (*pixel_read_line_t)(const struct vkms_p=
+lane_state *plane, int x_st
+>  				  int y_start, enum pixel_read_direction direction, int count,
+>  				  struct pixel_argb_u16 out_pixel[]);
+> =20
 > +/**
-> + * Upon VFIO_DEVICE_FEATURE_GET create a dma_buf fd for the
-> + * region selected.
+> + * struct conversion_matrix - Matrix to use for a specific encoding and =
+range
 > + *
-> + * open_flags are the typical flags passed to open(2), eg O_RDWR, O_CLOEXEC,
-> + * etc. offset/length specify a slice of the region to create the dmabuf from.
-> + * If both are 0 then the whole region is used.
-> + *
-> + * Return: The fd number on success, -1 and errno is set on failure.
+> + * @matrix: Conversion matrix from yuv to rgb. The matrix is stored in a=
+ row-major manner and is
+> + * used to compute rgb values from yuv values:
+> + *     [[r],[g],[b]] =3D @matrix * [[y],[u],[v]]
+> + *   OR for yvu formats:
+> + *     [[r],[g],[b]] =3D @matrix * [[y],[v],[u]]
+> + *  The values of the matrix are signed fixed-point values with 32 bits =
+fractional part.
+> + * @y_offset: Offset to apply on the y value.
 > + */
-> +#define VFIO_DEVICE_FEATURE_DMA_BUF 11
-> +
-> +struct vfio_region_p2p_area {
-> +	__u32	region_index;
-> +	__u32	__pad;
-> +	__u64	offset;
-> +	__u64	length;
+> +struct conversion_matrix {
+> +	s64 matrix[3][3];
+> +	int y_offset;
 > +};
 > +
-> +struct vfio_device_feature_dma_buf {
-> +	__u32	open_flags;
-> +	__u32	nr_areas;
-> +	struct vfio_region_p2p_area p2p_areas[];
-> +};
+>  /**
+>   * struct vkms_plane_state - Driver specific plane state
+>   * @base: base plane state
+>   * @frame_info: data required for composing computation
+>   * @pixel_read_line: function to read a pixel line in this plane. The cr=
+eator of a vkms_plane_state
+>   * must ensure that this pointer is valid
+> + * @conversion_matrix: matrix used for yuv formats to convert to rgb
+>   */
+>  struct vkms_plane_state {
+>  	struct drm_shadow_plane_state base;
+>  	struct vkms_frame_info *frame_info;
+>  	pixel_read_line_t pixel_read_line;
+> +	struct conversion_matrix conversion_matrix;
+>  };
+> =20
+>  struct vkms_plane {
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/v=
+kms_formats.c
+> index 302c7f3ea54c..2d7445a3de93 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -134,6 +134,51 @@ static void packed_pixels_addr_1x1(const struct vkms=
+_frame_info *frame_info,
+>  	*addr =3D (u8 *)frame_info->map[0].vaddr + offset;
+>  }
+> =20
+> +/**
+> + * get_subsampling() - Get the subsampling divisor value on a specific d=
+irection
+> + *
+> + * @format: format to extarct the subsampling from
+> + * @direction: direction of the subsampling requested
+> + */
+> +static int get_subsampling(const struct drm_format_info *format,
+> +			   enum pixel_read_direction direction)
+> +{
+> +	switch (direction) {
+> +	case READ_BOTTOM_TO_TOP:
+> +	case READ_TOP_TO_BOTTOM:
+> +		return format->vsub;
+> +	case READ_RIGHT_TO_LEFT:
+> +	case READ_LEFT_TO_RIGHT:
+> +		return format->hsub;
+> +	}
+> +	WARN_ONCE(true, "Invalid direction for pixel reading: %d\n", direction);
+> +	return 1;
+> +}
 > +
->   /* -------- API for Type1 VFIO IOMMU -------- */
->   
->   /**
+> +/**
+> + * get_subsampling_offset() - An offset for keeping the chroma siting co=
+nsistent regardless of
+> + * x_start and y_start values
+> + *
+> + * @direction: direction of the reading to properly compute this offset
+> + * @x_start: x coordinate of the starting point of the readed line
+> + * @y_start: y coordinate of the starting point of the readed line
+> + */
+> +static int get_subsampling_offset(enum pixel_read_direction direction, i=
+nt x_start, int y_start)
+> +{
+> +	switch (direction) {
+> +	case READ_BOTTOM_TO_TOP:
+> +		return -y_start - 1;
+> +	case READ_TOP_TO_BOTTOM:
+> +		return y_start;
+> +	case READ_RIGHT_TO_LEFT:
+> +		return -x_start - 1;
+> +	case READ_LEFT_TO_RIGHT:
+> +		return x_start;
+> +	}
+> +	WARN_ONCE(true, "Invalid direction for pixel reading: %d\n", direction);
+> +	return 0;
+> +}
+> +
+>  /*
+>   * The following functions take pixel data (a, r, g, b, pixel, ...) and =
+convert them to
+>   * &struct pixel_argb_u16
+> @@ -190,6 +235,38 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(co=
+nst u16 *pixel)
+>  	return out_pixel;
+>  }
+> =20
+> +static struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8=
+ channel_2,
+> +						  const struct conversion_matrix *matrix)
+> +{
+> +	u8 r, g, b;
+> +	s64 fp_y, fp_channel_1, fp_channel_2;
+> +	s64 fp_r, fp_g, fp_b;
+> +
+> +	fp_y =3D drm_int2fixp(((int)y - matrix->y_offset) * 257);
+> +	fp_channel_1 =3D drm_int2fixp(((int)channel_1 - 128) * 257);
+> +	fp_channel_2 =3D drm_int2fixp(((int)channel_2 - 128) * 257);
+> +
+> +	fp_r =3D drm_fixp_mul(matrix->matrix[0][0], fp_y) +
+> +	       drm_fixp_mul(matrix->matrix[0][1], fp_channel_1) +
+> +	       drm_fixp_mul(matrix->matrix[0][2], fp_channel_2);
+> +	fp_g =3D drm_fixp_mul(matrix->matrix[1][0], fp_y) +
+> +	       drm_fixp_mul(matrix->matrix[1][1], fp_channel_1) +
+> +	       drm_fixp_mul(matrix->matrix[1][2], fp_channel_2);
+> +	fp_b =3D drm_fixp_mul(matrix->matrix[2][0], fp_y) +
+> +	       drm_fixp_mul(matrix->matrix[2][1], fp_channel_1) +
+> +	       drm_fixp_mul(matrix->matrix[2][2], fp_channel_2);
+> +
+> +	fp_r =3D drm_fixp2int_round(fp_r);
+> +	fp_g =3D drm_fixp2int_round(fp_g);
+> +	fp_b =3D drm_fixp2int_round(fp_b);
 
+Technically they are not fixed-point after fixp2int anymore.
+
+Except there is a second level of the 16-bit encoding, that is, the 0 -
+0xffff range that you convert to with the 257 multiplier. But that's
+ok, the final result needs that, and the matrix is given in proper
+fixed-point, so that all works out.
+
+> +
+> +	r =3D clamp(fp_r, 0, 0xffff);
+> +	g =3D clamp(fp_g, 0, 0xffff);
+> +	b =3D clamp(fp_b, 0, 0xffff);
+
+You've declared r, g, b as u8, how does this work? Oh, you have that
+fixed in the next patch.
+
+Otherwise excellent.
+
+I did come to think if it would make sense to have a
+
+static u16
+dot_product_clamp_u16(const s64 row[3], s64 fp_y, s64 fp_channel_1, s64 fp_=
+channel_2)
+{
+	s64 v;
+
+	v =3D drm_fixp_mul(row[0], fp_y) +
+	    drm_fixp_mul(row[1], fp_channel_1) +
+	    drm_fixp_mul(row[2], fp_channel_2);
+
+	return clamp(drm_fixp2int_round(v), 0, 0xffff);
+}
+
+and then call that three times with different matrix rows, but I don't
+know if that makes it any more readable than it already is.
+
+> +
+> +	return argb_u16_from_u16161616(0xffff, r, g, b);
+> +}
+> +
+>  /*
+>   * The following functions are read_line function for each pixel format =
+supported by VKMS.
+>   *
+> @@ -318,6 +395,92 @@ static void RGB565_read_line(const struct vkms_plane=
+_state *plane, int x_start,
+>  	}
+>  }
+> =20
+> +/*
+> + * This callback can be used for YUV format where each color component is
+> + * stored in a different plane (often called planar formats). It will
+
+This function handles two planes, not three.
+
+> + * handle correctly subsampling.
+
+I vaguely remember us having a discussion about sub-sampling handling
+not being fully correct sometimes, for vertical reading direction was
+it? Or divisor greater than 2? I couldn't find that discussion again.
+Does it apply here?
+
+> + *
+> + * The conversion matrix stored in the @plane is used to:
+> + * - Apply the correct color range and encoding
+> + * - Convert YUV and YVU with the same function (a simple column swap is
+> + *   needed)
+
+...a column swap is needed when setting up plane->conversion_matrix)
+
+Otherwise one may wonder what swap where.
+
+> + */
+> +static void semi_planar_yuv_read_line(const struct vkms_plane_state *pla=
+ne, int x_start,
+> +				      int y_start, enum pixel_read_direction direction, int count,
+> +				      struct pixel_argb_u16 out_pixel[])
+> +{
+> +	u8 *y_plane;
+> +	u8 *uv_plane;
+> +
+> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0,
+> +			       &y_plane);
+> +	packed_pixels_addr_1x1(plane->frame_info,
+> +			       x_start / plane->frame_info->fb->format->hsub,
+> +			       y_start / plane->frame_info->fb->format->vsub, 1,
+> +			       &uv_plane);
+> +	int step_y =3D get_block_step_byte(plane->frame_info->fb, direction, 0);
+> +	int step_uv =3D get_block_step_byte(plane->frame_info->fb, direction, 1=
+);
+> +	int subsampling =3D get_subsampling(plane->frame_info->fb->format, dire=
+ction);
+> +	int subsampling_offset =3D get_subsampling_offset(direction, x_start, y=
+_start);
+> +	const struct conversion_matrix *conversion_matrix =3D &plane->conversio=
+n_matrix;
+> +
+> +	for (int i =3D 0; i < count; i++) {
+> +		*out_pixel =3D argb_u16_from_yuv888(y_plane[0], uv_plane[0], uv_plane[=
+1],
+> +						  conversion_matrix);
+> +		out_pixel +=3D 1;
+> +		y_plane +=3D step_y;
+> +		if ((i + subsampling_offset + 1) % subsampling =3D=3D 0)
+> +			uv_plane +=3D step_uv;
+> +	}
+> +}
+> +
+> +/*
+> + * This callback can be used for YUV formats where U and V values are
+> + * stored in the same plane (often called semi-planar formats). It will
+
+Ah, this doc belongs to the earlier function, and the doc there belongs
+here.
+
+> + * correctly handle subsampling.
+> + *
+> + * The conversion matrix stored in the @plane is used to:
+> + * - Apply the correct color range and encoding
+> + * - Convert YUV and YVU with the same function (a simple column swap is
+> + *   needed)
+> + */
+> +static void planar_yuv_read_line(const struct vkms_plane_state *plane, i=
+nt x_start,
+> +				 int y_start, enum pixel_read_direction direction, int count,
+> +				 struct pixel_argb_u16 out_pixel[])
+> +{
+> +	u8 *y_plane;
+> +	u8 *channel_1_plane;
+> +	u8 *channel_2_plane;
+> +
+> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0,
+> +			       &y_plane);
+> +	packed_pixels_addr_1x1(plane->frame_info,
+> +			       x_start / plane->frame_info->fb->format->hsub,
+> +			       y_start / plane->frame_info->fb->format->vsub, 1,
+> +			       &channel_1_plane);
+> +	packed_pixels_addr_1x1(plane->frame_info,
+> +			       x_start / plane->frame_info->fb->format->hsub,
+> +			       y_start / plane->frame_info->fb->format->vsub, 2,
+> +			       &channel_2_plane);
+> +	int step_y =3D get_block_step_byte(plane->frame_info->fb, direction, 0);
+> +	int step_channel_1 =3D get_block_step_byte(plane->frame_info->fb, direc=
+tion, 1);
+> +	int step_channel_2 =3D get_block_step_byte(plane->frame_info->fb, direc=
+tion, 2);
+> +	int subsampling =3D get_subsampling(plane->frame_info->fb->format, dire=
+ction);
+> +	int subsampling_offset =3D get_subsampling_offset(direction, x_start, y=
+_start);
+> +	const struct conversion_matrix *conversion_matrix =3D &plane->conversio=
+n_matrix;
+> +
+> +	for (int i =3D 0; i < count; i++) {
+> +		*out_pixel =3D argb_u16_from_yuv888(*y_plane, *channel_1_plane, *chann=
+el_2_plane,
+> +						  conversion_matrix);
+> +		out_pixel +=3D 1;
+> +		y_plane +=3D step_y;
+> +		if ((i + subsampling_offset + 1) % subsampling =3D=3D 0) {
+> +			channel_1_plane +=3D step_channel_1;
+> +			channel_2_plane +=3D step_channel_2;
+> +		}
+> +	}
+> +}
+> +
+>  /*
+>   * The following functions take one &struct pixel_argb_u16 and convert i=
+t to a specific format.
+>   * The result is stored in @out_pixel.
+> @@ -445,6 +608,20 @@ pixel_read_line_t get_pixel_read_line_function(u32 f=
+ormat)
+>  		return &XRGB16161616_read_line;
+>  	case DRM_FORMAT_RGB565:
+>  		return &RGB565_read_line;
+> +	case DRM_FORMAT_NV12:
+> +	case DRM_FORMAT_NV16:
+> +	case DRM_FORMAT_NV24:
+> +	case DRM_FORMAT_NV21:
+> +	case DRM_FORMAT_NV61:
+> +	case DRM_FORMAT_NV42:
+> +		return &semi_planar_yuv_read_line;
+> +	case DRM_FORMAT_YUV420:
+> +	case DRM_FORMAT_YUV422:
+> +	case DRM_FORMAT_YUV444:
+> +	case DRM_FORMAT_YVU420:
+> +	case DRM_FORMAT_YVU422:
+> +	case DRM_FORMAT_YVU444:
+> +		return &planar_yuv_read_line;
+>  	default:
+>  		/*
+>  		 * This is a bug in vkms_plane_atomic_check(). All the supported
+> @@ -462,6 +639,185 @@ pixel_read_line_t get_pixel_read_line_function(u32 =
+format)
+>  	}
+>  }
+> =20
+> +/*
+> + * Those matrices were generated using the colour python framework
+> + *
+> + * Below are the function calls used to generate each matrix, go to
+> + * https://colour.readthedocs.io/en/develop/generated/colour.matrix_YCbC=
+r.html
+> + * for more info:
+> + *
+> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.6=
+01"],
+> + *                                  is_legal =3D False,
+> + *                                  bits =3D 8) * 2**32).astype(int)
+> + */
+> +static struct conversion_matrix no_operation =3D {
+
+const
+
+> +	.matrix =3D {
+> +		{ 4294967296, 0,          0, },
+> +		{ 0,          4294967296, 0, },
+> +		{ 0,          0,          4294967296, },
+> +	},
+> +	.y_offset =3D 0,
+> +};
+> +
+> +static const struct conversion_matrix yuv_bt601_full =3D {
+> +	.matrix =3D {
+> +		{ 4294967296, 0,           6021544149 },
+> +		{ 4294967296, -1478054095, -3067191994 },
+> +		{ 4294967296, 7610682049,  0 },
+> +	},
+> +	.y_offset =3D 0,
+> +};
+> +
+> +/*
+> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.6=
+01"],
+> + *                                  is_legal =3D True,
+> + *                                  bits =3D 8) * 2**32).astype(int)
+> + */
+> +static const struct conversion_matrix yuv_bt601_limited =3D {
+> +	.matrix =3D {
+> +		{ 5020601039, 0,           6881764740 },
+> +		{ 5020601039, -1689204679, -3505362278 },
+> +		{ 5020601039, 8697922339,  0 },
+> +	},
+> +	.y_offset =3D 16,
+> +};
+> +
+> +/*
+> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.7=
+09"],
+> + *                                  is_legal =3D False,
+> + *                                  bits =3D 8) * 2**32).astype(int)
+> + */
+> +static const struct conversion_matrix yuv_bt709_full =3D {
+> +	.matrix =3D {
+> +		{ 4294967296, 0,          6763714498 },
+> +		{ 4294967296, -804551626, -2010578443 },
+> +		{ 4294967296, 7969741314, 0 },
+> +	},
+> +	.y_offset =3D 0,
+> +};
+> +
+> +/*
+> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.7=
+09"],
+> + *                                  is_legal =3D True,
+> + *                                  bits =3D 8) * 2**32).astype(int)
+> + */
+> +static const struct conversion_matrix yuv_bt709_limited =3D {
+> +	.matrix =3D {
+> +		{ 5020601039, 0,          7729959424 },
+> +		{ 5020601039, -919487572, -2297803934 },
+> +		{ 5020601039, 9108275786, 0 },
+> +	},
+> +	.y_offset =3D 16,
+> +};
+> +
+> +/*
+> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.2=
+020"],
+> + *                                  is_legal =3D False,
+> + *                                  bits =3D 8) * 2**32).astype(int)
+> + */
+> +static const struct conversion_matrix yuv_bt2020_full =3D {
+> +	.matrix =3D {
+> +		{ 4294967296, 0,          6333358775 },
+> +		{ 4294967296, -706750298, -2453942994 },
+> +		{ 4294967296, 8080551471, 0 },
+> +	},
+> +	.y_offset =3D 0,
+> +};
+> +
+> +/*
+> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.2=
+020"],
+> + *                                  is_legal =3D True,
+> + *                                  bits =3D 8) * 2**32).astype(int)
+> + */
+> +static const struct conversion_matrix yuv_bt2020_limited =3D {
+> +	.matrix =3D {
+> +		{ 5020601039, 0,          7238124312 },
+> +		{ 5020601039, -807714626, -2804506279 },
+> +		{ 5020601039, 9234915964, 0 },
+> +	},
+> +	.y_offset =3D 16,
+> +};
+> +
+> +/**
+> + * swap_uv_columns() - Swap u and v column of a given matrix
+> + *
+> + * @matrix: Matrix in which column are swapped
+> + */
+> +static void swap_uv_columns(struct conversion_matrix *matrix)
+> +{
+> +	swap(matrix->matrix[0][2], matrix->matrix[0][1]);
+> +	swap(matrix->matrix[1][2], matrix->matrix[1][1]);
+> +	swap(matrix->matrix[2][2], matrix->matrix[2][1]);
+> +}
+> +
+> +/**
+> + * get_conversion_matrix_to_argb_u16() - Retrieve the correct yuv to rgb=
+ conversion matrix for a
+> + * given encoding and range.
+> + *
+> + * @format: DRM_FORMAT_* value for which to obtain a conversion function=
+ (see [drm_fourcc.h])
+> + * @encoding: DRM_COLOR_* value for which to obtain a conversion matrix
+> + * @range: DRM_COLOR_*_RANGE value for which to obtain a conversion matr=
+ix
+> + * @matrix: Pointer to store the value into
+> + */
+> +void get_conversion_matrix_to_argb_u16(u32 format,
+> +				       enum drm_color_encoding encoding,
+> +				       enum drm_color_range range,
+> +				       struct conversion_matrix *matrix)
+> +{
+> +	const struct conversion_matrix *matrix_to_copy;
+> +	bool limited_range;
+> +
+> +	switch (range) {
+> +	case DRM_COLOR_YCBCR_LIMITED_RANGE:
+> +		limited_range =3D true;
+> +		break;
+> +	case DRM_COLOR_YCBCR_FULL_RANGE:
+> +		limited_range =3D false;
+> +		break;
+> +	case DRM_COLOR_RANGE_MAX:
+> +		limited_range =3D false;
+> +		WARN_ONCE(true, "The requested range is not supported.");
+> +		break;
+> +	}
+> +
+> +	switch (encoding) {
+> +	case DRM_COLOR_YCBCR_BT601:
+> +		matrix_to_copy =3D limited_range ? &yuv_bt601_limited :
+> +						 &yuv_bt601_full;
+> +		break;
+> +	case DRM_COLOR_YCBCR_BT709:
+> +		matrix_to_copy =3D limited_range ? &yuv_bt709_limited :
+> +						 &yuv_bt709_full;
+> +		break;
+> +	case DRM_COLOR_YCBCR_BT2020:
+> +		matrix_to_copy =3D limited_range ? &yuv_bt2020_limited :
+> +						 &yuv_bt2020_full;
+> +		break;
+> +	case DRM_COLOR_ENCODING_MAX:
+> +		matrix_to_copy =3D &no_operation;
+> +		WARN_ONCE(true, "The requested encoding is not supported.");
+> +		break;
+> +	}
+> +
+> +	memcpy(matrix, matrix_to_copy, sizeof(*matrix_to_copy));
+> +
+> +	/*
+> +	 * Breaking in this switch means that the color format + encoding + ran=
+ge is not supported
+> +	 */
+
+Stale comment?
+
+> +	switch (format) {
+> +	case DRM_FORMAT_YVU420:
+> +	case DRM_FORMAT_YVU422:
+> +	case DRM_FORMAT_YVU444:
+> +	case DRM_FORMAT_NV21:
+> +	case DRM_FORMAT_NV61:
+> +	case DRM_FORMAT_NV42:
+> +		swap_uv_columns(matrix);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +}
+> +
+>  /**
+>   * get_pixel_write_function() - Retrieve the correct write_pixel functio=
+n for a specific format.
+>   * If the format is not supported by VKMS a warning is emitted and a dum=
+my "don't do anything"
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/v=
+kms_formats.h
+> index 8d2bef95ff79..d583855cb320 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.h
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
+> @@ -9,4 +9,8 @@ pixel_read_line_t get_pixel_read_line_function(u32 format=
+);
+> =20
+>  pixel_write_t get_pixel_write_function(u32 format);
+> =20
+> +void get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encodi=
+ng encoding,
+> +				       enum drm_color_range range,
+> +				       struct conversion_matrix *matrix);
+> +
+>  #endif /* _VKMS_FORMATS_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
+s_plane.c
+> index 5a028ee96c91..d4e375913122 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -17,7 +17,19 @@ static const u32 vkms_formats[] =3D {
+>  	DRM_FORMAT_XRGB8888,
+>  	DRM_FORMAT_XRGB16161616,
+>  	DRM_FORMAT_ARGB16161616,
+> -	DRM_FORMAT_RGB565
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_NV12,
+> +	DRM_FORMAT_NV16,
+> +	DRM_FORMAT_NV24,
+> +	DRM_FORMAT_NV21,
+> +	DRM_FORMAT_NV61,
+> +	DRM_FORMAT_NV42,
+> +	DRM_FORMAT_YUV420,
+> +	DRM_FORMAT_YUV422,
+> +	DRM_FORMAT_YUV444,
+> +	DRM_FORMAT_YVU420,
+> +	DRM_FORMAT_YVU422,
+> +	DRM_FORMAT_YVU444,
+>  };
+> =20
+>  static struct drm_plane_state *
+> @@ -118,6 +130,8 @@ static void vkms_plane_atomic_update(struct drm_plane=
+ *plane,
+>  	frame_info->rotation =3D new_state->rotation;
+> =20
+>  	vkms_plane_state->pixel_read_line =3D get_pixel_read_line_function(fmt);
+> +	get_conversion_matrix_to_argb_u16(fmt, new_state->color_encoding, new_s=
+tate->color_range,
+> +					  &vkms_plane_state->conversion_matrix);
+>  }
+> =20
+>  static int vkms_plane_atomic_check(struct drm_plane *plane,
+>=20
+
+Some comments, but nothing big, mostly cosmetic.
+
+
+Thanks,
+pq
+
+--Sig_/yBBHk4gee2SlMKrzL2ZGVgC
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYmeHcACgkQI1/ltBGq
+qqea/BAAi78M8Co1CZOoXYoWbaY4dj6tcsCmD4Dq2waz6z/EB74CoOw3AqegNhrR
+guKYdOg5WlkSDP/Ex+j/4aiVX7LgQWdHvaTVppcR418+XvI+ey+BHu/pTQpfFTnm
+50ju52elerBvxyXT7ontw1vFPLK/Gy+AyLeeluIBQkXpkPuE6atI4l+473nC0D4V
+/y4G2Xh1H/3yxWuecNPDxzFmp395gLA+00q80s5K44lYHIJo57/VlnW1bC281lYj
+5rngpgTZCZIQWrZvzupAlQFIofwKUc9OH67R5LZ+K7UkSq0deS/4+Kc5ed2+bcpy
+/0Kb0FPxj1h9LIbnJkwljear++o4ekmPe/wFZCeLOcknRsio0cKN1Bwe4v04Xa47
+5/OQj1c7hu4KMiE9zzDAKtrUlgvmIrF0atyrWgxV/7fjEqE8VRfYxd6C7ktzuzug
+5v82u/X1b9fuasXpa1pYv5aTAmmyuOPQxYe9UHihQEVc3AAdf1tM8V3NK8/H5VGD
+yFnksLSjHNkGmr3u/5yNJB4hwmWZh3ryVuOHRhSUqArDovIETtatu1IwKWf8Za2C
+HBRA9vmhGtuWF2OZc0QJbUUtomgnb3cu1hgFNFaYwhtcln7uU+2vAidbbz2/j+ce
+b/97v9x2urpbG0VE0v/UwL+Zb6K8tGz38wr/CsnkM2QF8X32jc0=
+=2RNS
+-----END PGP SIGNATURE-----
+
+--Sig_/yBBHk4gee2SlMKrzL2ZGVgC--
