@@ -2,45 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C343E8AC3A7
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 07:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42BF8AC404
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 08:09:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91745112784;
-	Mon, 22 Apr 2024 05:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA6D1127BE;
+	Mon, 22 Apr 2024 06:09:16 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="wYJamqyO";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 126FE112784;
- Mon, 22 Apr 2024 05:27:04 +0000 (UTC)
-X-QQ-mid: bizesmtp83t1713763605tapnhxvm
-X-QQ-Originating-IP: IlITxjeKZMItJ6L/mAP+PlOCOE5Up/4g6uFI5ptulAM=
-Received: from localhost.localdomain ( [123.114.60.34])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 22 Apr 2024 13:26:43 +0800 (CST)
-X-QQ-SSF: 01400000000000E0L000000A0000000
-X-QQ-FEAT: 3M0okmaRx3jJF+U+0sbRbMtRZ+cqdB72lcfAEiXlzzlf5ijaRGDqdQi0oLasc
- OKrVIjRsrdJAYl+DnzY3uCPY3LJ2NG8Kdu/uojBPeNPib2ltLG1+VHvWe+cQH5Xov4uExIk
- e/XYRDWzd5eFgdHrB427tEwBAk4yZMMKOL8UG3gGwXDVzQzcuFSnLaWjcWKsqd/fXxUffNQ
- V0+38LRNd9JX0o6bqq1fjLyn+vierbhBeBswBy0J2xzF+y3Qy24M7WDHbsEYTdTAxg0omI4
- 9agGSmCz4ON0XFpA4tHHSttXd6bB3YqdvWuLsQndl6+obQXYbp+JU49gzc3Lh720rd94eLD
- C+EvQxJd4EUXK3DmqcHl4hXerj1ZpYubr2ZAIT3G7W7UK3euzb24+vEjbOcb4TUPLvq5Nod
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 1870312449968284138
-From: Qiang Ma <maqianga@uniontech.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, srinivasan.shanmugam@amd.com,
- Arunpravin.PaneerSelvam@amd.com, maqianga@uniontech.com, le.ma@amd.com,
- Felix.Kuehling@amd.com, mukul.joshi@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: Fixup bad vram size on gmc v6 and v7
-Date: Mon, 22 Apr 2024 13:26:08 +0800
-Message-Id: <20240422052608.5297-1-maqianga@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 524C41127BE
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 06:09:15 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id
+ 41be03b00d2f7-5dbcfa0eb5dso3090603a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Apr 2024 23:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1713766154; x=1714370954; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WPdE9YfOY6tF7QVVshsJe8Xe/FfKSmz53cCLcrBPnoE=;
+ b=wYJamqyOQStQkiYzQqBzCcNWtl/Ebk599zj2Nqc/wshPDSoWvQNKhhARCOdg/pJHoV
+ YRW6dUTs2y/5xVPeYrJRO0FAMgYwely1ZQyf2BzQzlThoFjvf4QxxEi74iuCNfhO2pi/
+ e09C557uUM8aJ3/6iv4PsRjVqZKkWE1yGVsg9y9BB9YYYwXuuMsJj+jCzu3Vn4T1Foo4
+ pVguK0+Mop13hlNEVbTNLIfsjwb6wTYbv+pdN9q+HKZ+aOGlXM7S+YhvKG1VjirgtB3/
+ US/tYm4Xio353Vk8uzn0BYfhdtTheuobp/7sRmfheY/2kIHAQE7MeXlGaap9ewperqKS
+ YuvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713766154; x=1714370954;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WPdE9YfOY6tF7QVVshsJe8Xe/FfKSmz53cCLcrBPnoE=;
+ b=XboVHJS+S2aHmGHx/HIrmKMGUD0RcFHrh5X9wawYPZKe73KKe++Pq9usOR88SaOx2r
+ ceb1xmPHEXcHhYzQ5uRe5mnHFu6kOdSLBSu/EocGYpp+51+DPAd7UnndVsXMZzU8Vpr1
+ V/RlVRmS54LT/inTACEPTFYutwZYZKBvCCTJMbi9lBCl6QTv5gJHTg4NDXiTW7PJ0cxd
+ U6NH60wLMOiZM1tmZOHIDvhVg3qRlKqviiqq+ODilPsdMj6Wv2X4QIFK6M9xc+E6l1+Q
+ 41w2UGwUnb90LX8q1vk6xrUttnZkzm284Ag1IkpOSzom2kAoRQkoRtp0pH62WJeWLIHp
+ WTFQ==
+X-Gm-Message-State: AOJu0YyQv3GpU5bSLGAURtq2phbQOAMmsmfVLaVGCRNe0LRlEmpd/Lws
+ HfRMqkpBZc+jeKgVRGjA/bpCfm3W6nmVEZbClOMxORtA0d9nGiFsf4G4R5yksms=
+X-Google-Smtp-Source: AGHT+IE7uuh+ywoyBucKduzYL7bX2Qw9Sd/LYqw1wAGxX4QfchDgzdgePUmiui6ueBcvQf1bgrpoXg==
+X-Received: by 2002:a05:6a20:3213:b0:1a7:242a:cb69 with SMTP id
+ hl19-20020a056a20321300b001a7242acb69mr7435722pzc.40.1713766154336; 
+ Sun, 21 Apr 2024 23:09:14 -0700 (PDT)
+Received: from xu.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ f25-20020a056a000b1900b006ed97aa7975sm7057014pfu.111.2024.04.21.23.09.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 21 Apr 2024 23:09:14 -0700 (PDT)
+From: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@chromium.org, hsinyi@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH] drm/panel-edp: Add panel CSOT MNB601LS1-1
+Date: Mon, 22 Apr 2024 14:08:11 +0800
+Message-Id: <20240422060811.670693-1-xuxinxiong@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4a-0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,85 +81,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some boards(like Oland PRO: 0x1002:0x6613) seem to have
-garbage in the upper 16 bits of the vram size register,
-kern log as follows:
+Add support for the following panel:
+CSOT MNB601LS1-1
 
-[    6.000000] [drm] Detected VRAM RAM=2256537600M, BAR=256M
-[    6.007812] [drm] RAM width 64bits GDDR5
-[    6.031250] [drm] amdgpu: 2256537600M of VRAM memory ready
-
-This is obviously not true, check for this and clamp the size
-properly. Fixes boards reporting bogus amounts of vram,
-kern log as follows:
-
-[    2.789062] [drm] Probable bad vram size: 0x86800800
-[    2.789062] [drm] Detected VRAM RAM=2048M, BAR=256M
-[    2.789062] [drm] RAM width 64bits GDDR5
-[    2.789062] [drm] amdgpu: 2048M of VRAM memory ready
-
-Signed-off-by: Qiang Ma <maqianga@uniontech.com>
+Signed-off-by: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
 ---
- drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 11 +++++++++--
- drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 13 ++++++++++---
- 2 files changed, 19 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panel/panel-edp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-index 23b478639921..3703695f7789 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-@@ -309,8 +309,15 @@ static int gmc_v6_0_mc_init(struct amdgpu_device *adev)
- 	}
- 	adev->gmc.vram_width = numchan * chansize;
- 	/* size in MB on si */
--	adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) * 1024ULL * 1024ULL;
--	adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) * 1024ULL * 1024ULL;
-+	tmp = RREG32(mmCONFIG_MEMSIZE);
-+	/* some boards may have garbage in the upper 16 bits */
-+	if (tmp & 0xffff0000) {
-+		DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
-+		if (tmp & 0xffff)
-+			tmp &= 0xffff;
-+	}
-+	adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
-+	adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index d58f90bc48fb..5e0b1c94bc62 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -2036,6 +2036,8 @@ static const struct edp_panel_entry edp_panels[] = {
  
- 	if (!(adev->flags & AMD_IS_APU)) {
- 		r = amdgpu_device_resize_fb_bar(adev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-index 3da7b6a2b00d..1df1fc578ff6 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
-@@ -316,10 +316,10 @@ static void gmc_v7_0_mc_program(struct amdgpu_device *adev)
- static int gmc_v7_0_mc_init(struct amdgpu_device *adev)
- {
- 	int r;
-+	u32 tmp;
+ 	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1200, &delay_200_500_e50, "MNC207QS1-1"),
  
- 	adev->gmc.vram_width = amdgpu_atombios_get_vram_width(adev);
- 	if (!adev->gmc.vram_width) {
--		u32 tmp;
- 		int chansize, numchan;
- 
- 		/* Get VRAM informations */
-@@ -363,8 +363,15 @@ static int gmc_v7_0_mc_init(struct amdgpu_device *adev)
- 		adev->gmc.vram_width = numchan * chansize;
- 	}
- 	/* size in MB on si */
--	adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) * 1024ULL * 1024ULL;
--	adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) * 1024ULL * 1024ULL;
-+	tmp = RREG32(mmCONFIG_MEMSIZE);
-+	/* some boards may have garbage in the upper 16 bits */
-+	if (tmp & 0xffff0000) {
-+		DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
-+		if (tmp & 0xffff)
-+			tmp &= 0xffff;
-+	}
-+	adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
-+	adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
- 
- 	if (!(adev->flags & AMD_IS_APU)) {
- 		r = amdgpu_device_resize_fb_bar(adev);
++	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1100, &delay_200_500_e80_d50, "MNB601LS1-1"),
++
+ 	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d51, &delay_200_500_e200, "Unknown"),
+ 	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d5b, &delay_200_500_e200, "Unknown"),
+ 	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d5c, &delay_200_500_e200, "MB116AN01-2"),
 -- 
-2.20.1
+2.40.1
 
