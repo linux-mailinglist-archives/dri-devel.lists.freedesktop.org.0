@@ -2,78 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0368AD3AC
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 20:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32758AD3C1
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 20:17:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6F0510F543;
-	Mon, 22 Apr 2024 18:11:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 878BF112CBC;
+	Mon, 22 Apr 2024 18:17:25 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="G919xZXz";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEF8C10F543
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 18:11:31 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-61587aa9f4cso52616027b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 11:11:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713809490; x=1714414290;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BIYJICZAHp3tuVglFyrlAugeozSb8a+qq+gPa6pnnj4=;
- b=xKSMhglY0z97FRZeQzYySr/sHeVJK6gxeU7Zp1dEaWy0w7HtYA6HgE7p+3wNv4fSVg
- X+j8ThIqDn01cTauXcRObn9b6Z/C/vvjpiA10bnO/gX3LuLFAgSG9bvFoeb0ooZdgiw9
- LLz5ofa9i5vxW7Lki/gDlnN1O049yS/PUJMih/n371wQ7LsuDMdLu2IGMXS3tkDl+am6
- pQVlqamUJkiN0iKG9VRyotSn6TiKOajHb7d3YkuG6PI3Uv6FH3M+3A1ILMRMZN0IAl0b
- IRqO61tH1WWyN3jqzE1jmmlh0gIDjLLqtFzVHiwUU7Jd/6+BmIngYBBPU50l/JESmc9W
- ZDwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWHnWiKiJ3lVLMHLtg1XsHLUlnLlBiFiAN2USaqU8hWzZICMVefHdMQCM/CkgNLtRMD/4NcT8gIBABsdHdIlTVtIkHCf8KyrXs3oPQxy6Az
-X-Gm-Message-State: AOJu0Yx/pJldOgRA5guB9o1OdU6lgU/NbAmlk0E/4CCNQqeyUVY10VfV
- SxB39jbG6JlTNto9nziu39ssIMh9/Etn6DXZhmQ8EWf1jJf6nVz0v6znnt7o
-X-Google-Smtp-Source: AGHT+IHwD+Biqj0pBPyMUCGdpah67jxyYYjwepiCj0HrgdenA4jbVEbS24wWdIzcOdPXH2BuhKlFzA==
-X-Received: by 2002:a05:690c:74c6:b0:61b:472:fa92 with SMTP id
- jw6-20020a05690c74c600b0061b0472fa92mr13072276ywb.32.1713809489717; 
- Mon, 22 Apr 2024 11:11:29 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com.
- [209.85.128.176]) by smtp.gmail.com with ESMTPSA id
- w126-20020a817b84000000b006156ced7476sm2041184ywc.62.2024.04.22.11.11.29
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Apr 2024 11:11:29 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-618874234c9so51662947b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 11:11:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9SPAruz9MyFGPlyibpLOAjHUrIEp4ETmz5W94ZyrrIy2n581KMpjdzsnphR7COdxQ5UFWDwcHMBUu2zEO+8s3mB2ecv3AlJvuIPqbh0Tl
-X-Received: by 2002:a25:d655:0:b0:dcc:58ed:6ecc with SMTP id
- n82-20020a25d655000000b00dcc58ed6eccmr10979493ybg.41.1713809488807; Mon, 22
- Apr 2024 11:11:28 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57997112CBC;
+ Mon, 22 Apr 2024 18:17:24 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43M5dqwu022705;
+ Mon, 22 Apr 2024 18:17:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=fhtoU6wrZha9yXgeF9yhzKdvL23EjHQpIAGTzb24zgw=; b=G9
+ 19xZXzcYUCeX6aD7IL+a3f77tfqOkRSjeMYgxuZKSrQXObWW7tNnkqq9rIO9zEu6
+ o0j3WxLuHuO3gMG2k7VlCUVhXeJ5iCzRIGMNr7w4Qbs3ug6aMmCemJ4yZrID2m+I
+ 8IrwIYU2WRO4cPQ4zrzEyJIQNctViHun0rJVz7pv0jOoDeIHvQhWKBcBeiZm6TQs
+ IlB0UYD5WgCC805xN+6fP2HKteuadOH3fuBgq5JBnzJFEia93U0wl9XfinYVqolj
+ V4bJI9SsLN5bRsYUCSjeqBSeLPAMaR5W555gLFNoj+hRt7yeQJHZL144j+s9dh2W
+ VLgZeWUeN42TY40wY+FA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xm5sx58x1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Apr 2024 18:17:21 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43MIHFJg007592
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Apr 2024 18:17:15 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 22 Apr
+ 2024 11:17:15 -0700
+Message-ID: <313d9eed-098f-c09b-eb5d-ac9ad56a8e1d@quicinc.com>
+Date: Mon, 22 Apr 2024 11:17:15 -0700
 MIME-Version: 1.0
-References: <cover.1713780345.git.geert+renesas@glider.be>
- <87il09ty4u.fsf@intel.com>
- <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
- <875xw9ttl6.fsf@intel.com>
- <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
- <87wmops57s.fsf@intel.com>
-In-Reply-To: <87wmops57s.fsf@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 22 Apr 2024 20:11:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWU5R-C-sKs1GsF9Jt9giRD_moUs=1jvXastBwhWRYMJg@mail.gmail.com>
-Message-ID: <CAMuHMdWU5R-C-sKs1GsF9Jt9giRD_moUs=1jvXastBwhWRYMJg@mail.gmail.com>
-Subject: Re: [PATCH 00/11] drm: Restore helper usability
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>, 
- linux-kbuild <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/3] drm/msm/mdp4: don't destroy mdp4_kms in mdp4_kms_init
+ error path
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20240420-mdp4-fixes-v1-0-96a70f64fa85@linaro.org>
+ <20240420-mdp4-fixes-v1-2-96a70f64fa85@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240420-mdp4-fixes-v1-2-96a70f64fa85@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: HtMI5gdiaWWW4jtP--Qo4wsUXMZYqC1Y
+X-Proofpoint-GUID: HtMI5gdiaWWW4jtP--Qo4wsUXMZYqC1Y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-22_13,2024-04-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 phishscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ spamscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404220077
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,110 +95,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
 
-CC kbuild
 
-On Mon, Apr 22, 2024 at 7:00=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
-> On Mon, 22 Apr 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
-> > I'm not sure where this misunderstanding comes from, as you
-> > seem to be repeating the same incorrect assumption about
-> > how select works that Maxime wrote in his changelog. To clarify,
-> > this works exactly as one would expect:
-> >
-> > config HELPER_A
-> >        tristate
-> >
-> > config HELPER_B
-> >        tristate
-> >        select HELPER_A
-> >
-> > config DRIVER
-> >        tristate "Turn on the driver and the helpers it uses"
-> >        select HELPER_B # this recursively selects HELPER_A
-> >
-> > Whereas this one is broken:
-> >
-> > config FEATURE_A
-> >        tristate "user visible if I2C is enabled"
-> >        depends on I2C
-> >
-> > config HELPER_B
-> >        tristate # hidden
-> >        select FEATURE_A
-> >
-> > config DRIVER
-> >        tristate "This driver is broken if I2C is disabled"
-> >        select HELPER_B
->
-> This case is really what I was referring to, although I was sloppy with
-> words there. I understand that select does work recursively for selects.
->
-> >>   There is no end to this, it just goes on and on, as the
-> >>   dependencies of the selected symbols change over time. Often the
-> >>   selects require unintuitive if patterns that are about the
-> >>   implementation details of the symbol being selected.
-> >
-> > Agreed, that is the problem I frequently face with drivers/gpu/drm,
-> > and most of the time it can only be solved by rewriting the whole
-> > system to not select user-visible symbol at all.
-> >
-> > Using 'depends on' by itself is unfortunately not enough to
-> > avoid /all/ the problems. See e.g. today's failure
-> >
-> > config DRM_DISPLAY_HELPER
-> >        tristate "DRM Display Helpers"
-> >        default y
-> >
-> > config DRM_DISPLAY_DP_HELPER
-> >        bool "DRM DisplayPort Helpers"
-> >        depends on DRM_DISPLAY_HELPER
-> >
-> > config DRM_PANEL_LG_SW43408
-> >        tristate "LG SW43408 panel"
-> >        depends on DRM_DISPLAY_DP_HELPER
-> >
-> > This version is still broken for DRM_DISPLAY_HELPER=3Dm,
-> > DRM_DISPLAY_DP_HELPER=3Dm, DRM_PANEL_LG_SW43408=3Dy because
-> > the dependency on the bool symbol is not enough to
-> > ensure that DRM_DISPLAY_HELPER is also built-in, so you
-> > still need explicit dependencies on both
-> > DRM_DISPLAY_HELPER and DRM_DISPLAY_DP_HELPER in the users.
-> >
-> > This can be solved by making DRM_DISPLAY_DP_HELPER a
-> > tristate symbol and adjusting the #ifdef checks and
-> > Makefile logic accordingly, which is exactly what you'd
-> > need to do to make it work with 'select' as well.
->
-> So bool is kind of problematic for depends on and select even when it's
-> not really used for describing builtin vs. no, but rather yes vs. no?
+On 4/19/2024 7:33 PM, Dmitry Baryshkov wrote:
+> Since commit 3c74682637e6 ("drm/msm/mdp4: move resource allocation to
+> the _probe function") the mdp4_kms data is allocated during probe. It is
+> an error to destroy it during mdp4_kms_init(), as the data is still
+> referenced by the drivers's data and can be used later in case of probe
+> deferral.
+> 
 
-Yes, the underlying issue is that bool is used for two different things:
-  A. To enable a driver module that can be only built-in,
-  B. To enable an option or feature of a driver or subsystem.
+mdp4_destroy() currently detaches mmu, calls msm_kms_destroy() which 
+destroys pending timers and releases refcount on the aspace.
 
-Without this distinction, dependencies cannot be auto-propagated 100%
-correctly.  Fixing that would require introducing a third type (and possibl=
-y
-renaming the existing ones to end up with 3 good names).
+It does not touch the mdp4_kms as that one is devm managed.
 
-Actually two types could work:
-  1. driver,
-  2. option,
-as case A is just a driver that can only be built-in (i.e. "depends on y",
-which is similar to the behavior with CONFIG_MODULES=3Dn).
+In the comment 
+https://patchwork.freedesktop.org/patch/590411/?series=132664&rev=1#comment_1074306, 
+we had discussed that the last component's reprobe attempt is affected 
+(which is not dpu or mdp4 or mdp5 right? )
 
-Gr{oetje,eeting}s,
+If it was an interface (such as DSI OR DP), is it the aspace detach 
+which is causing the crash?
 
-                        Geert
+Another note is, mdp5 needs the same fix in that case.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+dpu_kms_init() looks fine.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> Fixes: 3c74682637e6 ("drm/msm/mdp4: move resource allocation to the _probe function")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 28 +++++++++-------------------
+>   1 file changed, 9 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+> index 4ba1cb74ad76..4c5f72b7e0e5 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+> @@ -392,7 +392,7 @@ static int mdp4_kms_init(struct drm_device *dev)
+>   	ret = mdp_kms_init(&mdp4_kms->base, &kms_funcs);
+>   	if (ret) {
+>   		DRM_DEV_ERROR(dev->dev, "failed to init kms\n");
+> -		goto fail;
+> +		return ret;
+>   	}
+>   
+>   	kms = priv->kms;
+> @@ -403,7 +403,7 @@ static int mdp4_kms_init(struct drm_device *dev)
+>   		ret = regulator_enable(mdp4_kms->vdd);
+>   		if (ret) {
+>   			DRM_DEV_ERROR(dev->dev, "failed to enable regulator vdd: %d\n", ret);
+> -			goto fail;
+> +			return ret;
+>   		}
+>   	}
+>   
+> @@ -414,8 +414,7 @@ static int mdp4_kms_init(struct drm_device *dev)
+>   	if (major != 4) {
+>   		DRM_DEV_ERROR(dev->dev, "unexpected MDP version: v%d.%d\n",
+>   			      major, minor);
+> -		ret = -ENXIO;
+> -		goto fail;
+> +		return -ENXIO;
+>   	}
+>   
+>   	mdp4_kms->rev = minor;
+> @@ -423,8 +422,7 @@ static int mdp4_kms_init(struct drm_device *dev)
+>   	if (mdp4_kms->rev >= 2) {
+>   		if (!mdp4_kms->lut_clk) {
+>   			DRM_DEV_ERROR(dev->dev, "failed to get lut_clk\n");
+> -			ret = -ENODEV;
+> -			goto fail;
+> +			return -ENODEV;
+>   		}
+>   		clk_set_rate(mdp4_kms->lut_clk, max_clk);
+>   	}
+> @@ -445,8 +443,7 @@ static int mdp4_kms_init(struct drm_device *dev)
+>   
+>   	mmu = msm_iommu_new(&pdev->dev, 0);
+>   	if (IS_ERR(mmu)) {
+> -		ret = PTR_ERR(mmu);
+> -		goto fail;
+> +		return PTR_ERR(mmu);
+>   	} else if (!mmu) {
+>   		DRM_DEV_INFO(dev->dev, "no iommu, fallback to phys "
+>   				"contig buffers for scanout\n");
+> @@ -458,8 +455,7 @@ static int mdp4_kms_init(struct drm_device *dev)
+>   		if (IS_ERR(aspace)) {
+>   			if (!IS_ERR(mmu))
+>   				mmu->funcs->destroy(mmu);
+> -			ret = PTR_ERR(aspace);
+> -			goto fail;
+> +			return PTR_ERR(aspace);
+>   		}
+>   
+>   		kms->aspace = aspace;
+> @@ -468,7 +464,7 @@ static int mdp4_kms_init(struct drm_device *dev)
+>   	ret = modeset_init(mdp4_kms);
+>   	if (ret) {
+>   		DRM_DEV_ERROR(dev->dev, "modeset_init failed: %d\n", ret);
+> -		goto fail;
+> +		return ret;
+>   	}
+>   
+>   	mdp4_kms->blank_cursor_bo = msm_gem_new(dev, SZ_16K, MSM_BO_WC | MSM_BO_SCANOUT);
+> @@ -476,14 +472,14 @@ static int mdp4_kms_init(struct drm_device *dev)
+>   		ret = PTR_ERR(mdp4_kms->blank_cursor_bo);
+>   		DRM_DEV_ERROR(dev->dev, "could not allocate blank-cursor bo: %d\n", ret);
+>   		mdp4_kms->blank_cursor_bo = NULL;
+> -		goto fail;
+> +		return ret;
+>   	}
+>   
+>   	ret = msm_gem_get_and_pin_iova(mdp4_kms->blank_cursor_bo, kms->aspace,
+>   			&mdp4_kms->blank_cursor_iova);
+>   	if (ret) {
+>   		DRM_DEV_ERROR(dev->dev, "could not pin blank-cursor bo: %d\n", ret);
+> -		goto fail;
+> +		return ret;
+>   	}
+>   
+>   	dev->mode_config.min_width = 0;
+> @@ -492,12 +488,6 @@ static int mdp4_kms_init(struct drm_device *dev)
+>   	dev->mode_config.max_height = 2048;
+>   
+>   	return 0;
+> -
+> -fail:
+> -	if (kms)
+> -		mdp4_destroy(kms);
+> -
+> -	return ret;
+>   }
+>   
+>   static const struct dev_pm_ops mdp4_pm_ops = {
+> 
