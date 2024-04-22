@@ -2,66 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 144C78ACDA4
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 15:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831B08ACCF9
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 14:42:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55A52112889;
-	Mon, 22 Apr 2024 13:01:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="K13OrbP5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50318112A7E;
+	Mon, 22 Apr 2024 12:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7DB112889
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 13:01:12 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 46CEB882F0;
- Mon, 22 Apr 2024 15:01:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1713790870;
- bh=Id/NSNaXyVXY6rBoqDKvTGFS4QH4FIlYm4f/5nPxJnw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=K13OrbP5qgRfQrO584HKME2f6P7aPXqk8CP/Dp6Aek6PqBDW3amI+gmIzxmjmB9gu
- DdKNNDDbReArJYtr59e8OTwDiYYQy6W/hpj865hr9il/rEexi2/jQ51yO99OTl8CPs
- OX6s1AU+xl9scUWb8nSGGRTvQpnXp+YLP8jiywO8r/6q+oImRLQKAJTestnWA/waoe
- 6Oya8yTiWkmqiVIFJg7JGEzevkk+UAKdDtedvxzDckHirFCl/h0/nrmTOhgi4btWJ/
- C3x2xnWeU3RFWM8TQWcy46O9LQC+hWpsf15ngvepppVjeoAnbsDYk+xwmi/eRi6kFx
- MZq4w8QyTEC+w==
-Message-ID: <47b26a19-9aba-4380-9d05-f06bd8bc20b1@denx.de>
-Date: Mon, 22 Apr 2024 14:30:59 +0200
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.73.137])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F137112A7E;
+ Mon, 22 Apr 2024 12:41:54 +0000 (UTC)
+X-QQ-mid: bizesmtp78t1713789213twu623c6
+X-QQ-Originating-IP: SgAL1Fy0MsgGKP0Q72PwOFeCfZvjOSyZkPnWSd2RTOc=
+Received: from john-PC ( [123.114.60.34]) by bizesmtp.qq.com (ESMTP) with 
+ id ; Mon, 22 Apr 2024 20:33:31 +0800 (CST)
+X-QQ-SSF: 01400000000000E0L000000A0000000
+X-QQ-FEAT: qO3Ke1AXI6FiX0mGox2a5JZ77O06KnVfxkdt7WtRNjoT1WRzGh5l1fnB0ZwWu
+ CdROfDylGJoUzIMN80a1mSt3qhH4vbxVy8ODa3oAv79JlhAhl8aROUnVD47efmI2SLS1Lua
+ 3yAquli3UAvvvQvTlZ+/XfNZwK5cbQfZErFg3LXaD4oVu035s5PhflGhnhJP3yJKjSP0Hvu
+ fHdv+9OnNJIt9B2YAoWxO/JbtzLR2FsLgIde47bINZO0UkIwpjvVs+lepIdXLmTjnpqSU5j
+ y+tdONxLDd38Dv3OfFGenyYvjQAzPSlt7Rf2ijMIctPuXxzAKGh7cP380S0I5iRryoadHgi
+ WL9UvsQ/w5tf7OJJv+0OKfdoYkyqkUSfKPQhDXUIPcFTjyw4Fqh/9N8ovpwzuZOeic4XqyY
+ bYAyUFOm7rZjNCxga892TYmsBl/gAz3S
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 13358882969841256668
+Date: Mon, 22 Apr 2024 20:33:29 +0800
+From: Qiang Ma <maqianga@uniontech.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: alexander.deucher@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, srinivasan.shanmugam@amd.com,
+ Arunpravin.PaneerSelvam@amd.com, le.ma@amd.com, Felix.Kuehling@amd.com,
+ mukul.joshi@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/amdgpu: Fixup bad vram size on gmc v6 and v7
+Message-ID: <D94775003178862D+20240422203329.49844e71@john-PC>
+In-Reply-To: <68f02c5c-5591-4d6f-9926-b0fc6f9f6287@amd.com>
+References: <20240422052608.5297-1-maqianga@uniontech.com>
+ <68f02c5c-5591-4d6f-9926-b0fc6f9f6287@amd.com>
+Organization: UOS
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 2/2] drm/bridge: samsung-dsim: Fix porch calcalcuation
- rounding
-To: Adam Ford <aford173@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, aford@beaconembedded.com,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Marco Felsch <m.felsch@pengutronix.de>,
- Michael Tretter <m.tretter@pengutronix.de>, linux-kernel@vger.kernel.org
-References: <20240211230931.188194-1-aford173@gmail.com>
- <20240211230931.188194-2-aford173@gmail.com>
- <6111fe04-4ecb-428e-9a0c-dc02cadfe3e7@denx.de>
- <CAHCN7x+DwSSabhGYZ1dnZzwRe+BJfz2H-AXbxjUQWytrq3OMpQ@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAHCN7x+DwSSabhGYZ1dnZzwRe+BJfz2H-AXbxjUQWytrq3OMpQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4a-0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,55 +61,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/22/24 2:09 PM, Adam Ford wrote:
-> On Sun, Apr 21, 2024 at 9:36 AM Marek Vasut <marex@denx.de> wrote:
->>
->> On 2/12/24 12:09 AM, Adam Ford wrote:
->>> When using video sync pulses, the HFP, HBP, and HSA are divided between
->>> the available lanes if there is more than one lane.  For certain
->>> timings and lane configurations, the HFP may not be evenly divisible.
->>> If the HFP is rounded down, it ends up being too small which can cause
->>> some monitors to not sync properly. In these instances, adjust htotal
->>> and hsync to round the HFP up, and recalculate the htotal.
->>>
->>> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron BL i.MX8MM with HDMI monitor
->>> Signed-off-by: Adam Ford <aford173@gmail.com>
->>> ---
->>> V2:  No changes
->>>
->>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
->>> index 8476650c477c..52939211fe93 100644
->>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
->>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
->>> @@ -1606,6 +1606,27 @@ static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
->>>                adjusted_mode->flags |= (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
->>>        }
->>>
->>> +     /*
->>> +      * When using video sync pulses, the HFP, HBP, and HSA are divided between
->>> +      * the available lanes if there is more than one lane.  For certain
->>> +      * timings and lane configurations, the HFP may not be evenly divisible.
->>> +      * If the HFP is rounded down, it ends up being too small which can cause
->>> +      * some monitors to not sync properly. In these instances, adjust htotal
->>> +      * and hsync to round the HFP up, and recalculate the htotal. Through trial
->>> +      * and error, it appears that the HBP and HSA do not appearto need the same
->>> +      * correction that HFP does.
->>> +      */
->>> +     if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE && dsi->lanes > 1) {
->>
->> Does this also apply to mode with sync events (I suspect it does), so
->> the condition here should likely be if (!...burst mode) , right ?
-> 
-> Thanks for the review!
-> 
-> I was only able to test it with the DSI->ADV6535 bridge, and I'll
-> admit I don't know a lot about DSI interface since I don't have a copy
-> of the spec to read.
-> 
-> Are you proposing this should be:
-> 
->   if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) && dsi->lanes > 1) {
-> 
-> I just want to make sure I understand what you're requesting.
+On Mon, 22 Apr 2024 11:40:26 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-Yes, exactly this.
+> Am 22.04.24 um 07:26 schrieb Qiang Ma:
+> > Some boards(like Oland PRO: 0x1002:0x6613) seem to have
+> > garbage in the upper 16 bits of the vram size register,
+> > kern log as follows:
+> >
+> > [    6.000000] [drm] Detected VRAM RAM=3D2256537600M, BAR=3D256M
+> > [    6.007812] [drm] RAM width 64bits GDDR5
+> > [    6.031250] [drm] amdgpu: 2256537600M of VRAM memory ready
+> >
+> > This is obviously not true, check for this and clamp the size
+> > properly. Fixes boards reporting bogus amounts of vram,
+> > kern log as follows:
+> >
+> > [    2.789062] [drm] Probable bad vram size: 0x86800800
+> > [    2.789062] [drm] Detected VRAM RAM=3D2048M, BAR=3D256M
+> > [    2.789062] [drm] RAM width 64bits GDDR5
+> > [    2.789062] [drm] amdgpu: 2048M of VRAM memory ready =20
+>=20
+> Well we had patches like this one here before and so far we always=20
+> rejected them.
+>=20
+> When the mmCONFIG_MEMSIZE register isn't properly initialized then
+> there is something wrong with your hardware.
+>=20
+> Working around that in the software driver is not going to fly.
+>=20
+> Regards,
+> Christian.
+>=20
+Hi Christian:
+I see that two patches for this issue have been merged, and the
+patches are as follows:
+
+11544d77e397 drm/amdgpu: fixup bad vram size on gmc v8
+0ca223b029a2 drm/radeon: fixup bad vram size on SI
+
+Qiang Ma
+
+> > Signed-off-by: Qiang Ma <maqianga@uniontech.com>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 11 +++++++++--
+> >   drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 13 ++++++++++---
+> >   2 files changed, 19 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+> > b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c index
+> > 23b478639921..3703695f7789 100644 ---
+> > a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c +++
+> > b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c @@ -309,8 +309,15 @@ static
+> > int gmc_v6_0_mc_init(struct amdgpu_device *adev) }
+> >   	adev->gmc.vram_width =3D numchan * chansize;
+> >   	/* size in MB on si */
+> > -	adev->gmc.mc_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> > 1024ULL * 1024ULL;
+> > -	adev->gmc.real_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> > 1024ULL * 1024ULL;
+> > +	tmp =3D RREG32(mmCONFIG_MEMSIZE);
+> > +	/* some boards may have garbage in the upper 16 bits */
+> > +	if (tmp & 0xffff0000) {
+> > +		DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
+> > +		if (tmp & 0xffff)
+> > +			tmp &=3D 0xffff;
+> > +	}
+> > +	adev->gmc.mc_vram_size =3D tmp * 1024ULL * 1024ULL;
+> > +	adev->gmc.real_vram_size =3D adev->gmc.mc_vram_size;
+> >  =20
+> >   	if (!(adev->flags & AMD_IS_APU)) {
+> >   		r =3D amdgpu_device_resize_fb_bar(adev);
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+> > b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c index
+> > 3da7b6a2b00d..1df1fc578ff6 100644 ---
+> > a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c +++
+> > b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c @@ -316,10 +316,10 @@
+> > static void gmc_v7_0_mc_program(struct amdgpu_device *adev) static
+> > int gmc_v7_0_mc_init(struct amdgpu_device *adev) {
+> >   	int r;
+> > +	u32 tmp;
+> >  =20
+> >   	adev->gmc.vram_width =3D
+> > amdgpu_atombios_get_vram_width(adev); if (!adev->gmc.vram_width) {
+> > -		u32 tmp;
+> >   		int chansize, numchan;
+> >  =20
+> >   		/* Get VRAM informations */
+> > @@ -363,8 +363,15 @@ static int gmc_v7_0_mc_init(struct
+> > amdgpu_device *adev) adev->gmc.vram_width =3D numchan * chansize;
+> >   	}
+> >   	/* size in MB on si */
+> > -	adev->gmc.mc_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> > 1024ULL * 1024ULL;
+> > -	adev->gmc.real_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> > 1024ULL * 1024ULL;
+> > +	tmp =3D RREG32(mmCONFIG_MEMSIZE);
+> > +	/* some boards may have garbage in the upper 16 bits */
+> > +	if (tmp & 0xffff0000) {
+> > +		DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
+> > +		if (tmp & 0xffff)
+> > +			tmp &=3D 0xffff;
+> > +	}
+> > +	adev->gmc.mc_vram_size =3D tmp * 1024ULL * 1024ULL;
+> > +	adev->gmc.real_vram_size =3D adev->gmc.mc_vram_size;
+> >  =20
+> >   	if (!(adev->flags & AMD_IS_APU)) {
+> >   		r =3D amdgpu_device_resize_fb_bar(adev); =20
+>=20
+>=20
+
