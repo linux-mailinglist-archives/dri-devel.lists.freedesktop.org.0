@@ -2,58 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771958AD1E6
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 18:29:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7F68AD2AB
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 18:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0840112C59;
-	Mon, 22 Apr 2024 16:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A98112C71;
+	Mon, 22 Apr 2024 16:47:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SYNwGcOX";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="nyJSqJyr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 376B0112C59;
- Mon, 22 Apr 2024 16:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713803338; x=1745339338;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=wZ/2/oyjSTOKxjDP7J7CQRzKasV07S7HKUDBvq/K1Lg=;
- b=SYNwGcOX2V4MovTTIhOhr7UCJuGhwyVczgw/cAhHCxbscPLSA03yZT6j
- CaTG8PBNJ3YWmhVgOuBQlNZhqMCXow5/fNDVCEbhBgSJD1cbRCYC1clyc
- Je52pmHdtmfKwjY97TRJ+OJ7uOfWWYxPlPKYMRgmAh6eq9r87IBXwkB+K
- NV0aBPvB906esc695cia21TeUH72Npq/4ORjqJM1C6cP9XCUajHVQ1c5A
- VtBxd9bmLliSwx6lfxYPzmR4av8JmML/zYOs4wcaDjoEG0x/+jMrTCf7W
- lGV9YFHeG7t3dDHMmIzcgDBuHqzvgsaGpE5O6XVOjnYH8PPdnsD0y4Xuo A==;
-X-CSE-ConnectionGUID: gl53+043SvWNdxrE0RHDqA==
-X-CSE-MsgGUID: QC27d9efS3u4IiHJNthBKA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="19959107"
-X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; d="scan'208";a="19959107"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2024 09:28:58 -0700
-X-CSE-ConnectionGUID: Ea6s723yQ1yVzOTv4kGAOA==
-X-CSE-MsgGUID: +LH2wVSoQYiLiSGPb8WfcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; d="scan'208";a="28727253"
-Received: from unknown (HELO intel.com) ([10.247.119.74])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2024 09:28:50 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [CI 2/2] drm/i915/gt: Force ccs_mode 4
-Date: Mon, 22 Apr 2024 18:27:31 +0200
-Message-ID: <20240422162731.7046-3-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240422162731.7046-1-andi.shyti@linux.intel.com>
-References: <20240422162731.7046-1-andi.shyti@linux.intel.com>
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
+ [91.218.175.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 585B8112C71
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 16:47:14 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1713804431;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dcyoi5sOG2B7iFToO0Fnv1/d2q+P/6hiQ3YBRfUehOg=;
+ b=nyJSqJyrY26dfbyJrlebkOGESL+TILpfJMgByW5Gme7yAkGMcsxCBV/561pBkf37GgT3RY
+ gxiqUdN2qtNaxojlEvtFrjMgOozleQs22/d/dyG6n/Q9b9BypzmtAvNcVkH+6hhO7sLUrh
+ deOYvS9qGZtw0XMzcWoaJ/nThDdC3Hc=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [PATCH v2] software node: Implement device_get_match_data fwnode
+ callback
+Date: Tue, 23 Apr 2024 00:46:58 +0800
+Message-Id: <20240422164658.217037-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,53 +58,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+Because the software node backend of the fwnode API framework lacks an
+implementation for the .device_get_match_data function callback. This
+makes it difficult to use(and/or test) a few drivers that originates
+from DT world on the non-DT platform.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-index 044219c5960a..d0f181a8e73e 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_ccs_mode.c
-@@ -10,29 +10,33 @@
+Implement the .device_get_match_data fwnode callback, device drivers or
+platform setup codes are expected to provide a string property, named as
+"compatible", the value of this software node string property is used to
+match against the compatible entries in the of_device_id table.
+
+This also helps to keep the three backends of the fwnode API aligned as
+much as possible, which is a fundamential step to make device driver
+OF-independent truely possible.
+
+Fixes: ffb42e64561e ("drm/tiny/repaper: Make driver OF-independent")
+Fixes: 5703d6ae9573 ("drm/tiny/st7735r: Make driver OF-independent")
+Closes: https://lore.kernel.org/lkml/20230223203713.hcse3mkbq3m6sogb@skbuf/
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Daniel Scally <djrscally@gmail.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+---
+ V2: Update commit message
+ drivers/base/swnode.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index eb6eb25b343b..48d18a90b97b 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -14,6 +14,7 @@
+ #include <linux/init.h>
+ #include <linux/kobject.h>
+ #include <linux/kstrtox.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/list.h>
+ #include <linux/property.h>
+ #include <linux/slab.h>
+@@ -390,6 +391,30 @@ static void software_node_put(struct fwnode_handle *fwnode)
+ 	kobject_put(&swnode->kobj);
+ }
  
- void intel_gt_apply_ccs_mode(struct intel_gt *gt)
++static const void *
++software_node_get_match_data(const struct fwnode_handle *fwnode,
++			     const struct device *dev)
++{
++	struct swnode *swnode = to_swnode(fwnode);
++	const struct of_device_id *matches = dev->driver->of_match_table;
++	const char *val = NULL;
++	int ret;
++
++	ret = property_entry_read_string_array(swnode->node->properties,
++					       "compatible", &val, 1);
++	if (ret < 0 || !val)
++		return NULL;
++
++	while (matches && matches->compatible[0]) {
++		if (!strcmp(matches->compatible, val))
++			return matches->data;
++
++		matches++;
++	}
++
++	return NULL;
++}
++
+ static bool software_node_property_present(const struct fwnode_handle *fwnode,
+ 					   const char *propname)
  {
-+	unsigned long ccs_mask = CCS_MASK(gt);
- 	int cslice;
- 	u32 mode = 0;
--	int first_ccs = __ffs(CCS_MASK(gt));
-+	int first_ccs = __ffs(ccs_mask);
- 
- 	if (!IS_DG2(gt->i915))
- 		return;
- 
- 	/* Build the value for the fixed CCS load balancing */
- 	for (cslice = 0; cslice < I915_MAX_CCS; cslice++) {
--		if (CCS_MASK(gt) & BIT(cslice))
-+		if (CCS_MASK(gt) & BIT(cslice)) {
- 			/*
- 			 * If available, assign the cslice
- 			 * to the first available engine...
- 			 */
- 			mode |= XEHP_CCS_MODE_CSLICE(cslice, first_ccs);
--
--		else
-+			first_ccs = find_next_bit(&ccs_mask,
-+						  I915_MAX_CCS,
-+						  first_ccs + 1);
-+		} else {
- 			/*
- 			 * ... otherwise, mark the cslice as
- 			 * unavailable if no CCS dispatches here
- 			 */
- 			mode |= XEHP_CCS_MODE_CSLICE(cslice,
- 						     XEHP_CCS_MODE_CSLICE_MASK);
-+		}
- 	}
- 
- 	intel_uncore_write(gt->uncore, XEHP_CCS_MODE, mode);
+@@ -676,6 +701,7 @@ software_node_graph_parse_endpoint(const struct fwnode_handle *fwnode,
+ static const struct fwnode_operations software_node_ops = {
+ 	.get = software_node_get,
+ 	.put = software_node_put,
++	.device_get_match_data = software_node_get_match_data,
+ 	.property_present = software_node_property_present,
+ 	.property_read_int_array = software_node_read_int_array,
+ 	.property_read_string_array = software_node_read_string_array,
 -- 
-2.43.0
+2.34.1
 
