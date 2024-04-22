@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF0F8AD3A2
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 20:02:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0368AD3AC
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 20:11:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 897B510E0F0;
-	Mon, 22 Apr 2024 18:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F0510F543;
+	Mon, 22 Apr 2024 18:11:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B80D710E0F0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 18:02:29 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-61ae4743d36so51190387b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 11:02:29 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEF8C10F543
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 18:11:31 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-61587aa9f4cso52616027b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 11:11:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713808947; x=1714413747;
+ d=1e100.net; s=20230601; t=1713809490; x=1714414290;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MIzcre4L/EBUlEtvCuRrxfW3XnVYCAdmaiVZhZRHwg0=;
- b=KBl4H6ZiVaCemX00lzaND0EzpFS5fTskdOBnLUzpDLBiLn3n+oTNNsB25nNqfFpfID
- xsSjAsqhcJOzm0JiJaVIrWCqjvtNX4Ua6pQ670HVwp3zccrd7IQFkJUx54FFo545rJ7r
- 2ebptn94gSIVBRiDxzhE2Ass2wm1+pzqqqfHBFrSWgqNTpYZIcKcl8Ex5gQ1Ndx8Heve
- Nje9O2ps2h6djF72NhCKGDUIOPbyz/ml6TTCZOLVUZxLfMcDnb2ppfcEP2Z+V5k1XS7U
- HaE1Ly0fXCCYsOP/jXeKr5KIgB/GrufNnunb76ZluR+MHJ96Peg6DZw25+e+rZppZlTY
- RnpA==
+ bh=BIYJICZAHp3tuVglFyrlAugeozSb8a+qq+gPa6pnnj4=;
+ b=xKSMhglY0z97FRZeQzYySr/sHeVJK6gxeU7Zp1dEaWy0w7HtYA6HgE7p+3wNv4fSVg
+ X+j8ThIqDn01cTauXcRObn9b6Z/C/vvjpiA10bnO/gX3LuLFAgSG9bvFoeb0ooZdgiw9
+ LLz5ofa9i5vxW7Lki/gDlnN1O049yS/PUJMih/n371wQ7LsuDMdLu2IGMXS3tkDl+am6
+ pQVlqamUJkiN0iKG9VRyotSn6TiKOajHb7d3YkuG6PI3Uv6FH3M+3A1ILMRMZN0IAl0b
+ IRqO61tH1WWyN3jqzE1jmmlh0gIDjLLqtFzVHiwUU7Jd/6+BmIngYBBPU50l/JESmc9W
+ ZDwA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXjI39+t4AOAZZvfu5deVFqvHraME9HO4rRXwyT/k1Y9O94aVDbLDYG5InomdKOHqnqrcu/7nMI+q1EBq2+pTpgkaspYanbyYkSs+JQywcH
-X-Gm-Message-State: AOJu0Yw7TTgkJju0BFbD9N9NLKcwDsT5RYaVZkizsz5z86ssc265iw8g
- Vvd17ipnmbf9c212tBrLna2LD/AufMb+zsWMi9O9BJWe0c8MBSPO1bsQlVWR
-X-Google-Smtp-Source: AGHT+IE0DwBFgoPYXrX1X8xj5P6pKGe/xBb9ngeEvU9xdiWz8q6sRCd48VhlsQC+9b+7Y6FVTod8Zg==
-X-Received: by 2002:a05:690c:f16:b0:618:b08:2ab6 with SMTP id
- dc22-20020a05690c0f1600b006180b082ab6mr10634017ywb.47.1713808946600; 
- Mon, 22 Apr 2024 11:02:26 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com.
- [209.85.219.181]) by smtp.gmail.com with ESMTPSA id
- r11-20020a81440b000000b0061824f9a78esm2077323ywa.79.2024.04.22.11.02.26
+ AJvYcCWHnWiKiJ3lVLMHLtg1XsHLUlnLlBiFiAN2USaqU8hWzZICMVefHdMQCM/CkgNLtRMD/4NcT8gIBABsdHdIlTVtIkHCf8KyrXs3oPQxy6Az
+X-Gm-Message-State: AOJu0Yx/pJldOgRA5guB9o1OdU6lgU/NbAmlk0E/4CCNQqeyUVY10VfV
+ SxB39jbG6JlTNto9nziu39ssIMh9/Etn6DXZhmQ8EWf1jJf6nVz0v6znnt7o
+X-Google-Smtp-Source: AGHT+IHwD+Biqj0pBPyMUCGdpah67jxyYYjwepiCj0HrgdenA4jbVEbS24wWdIzcOdPXH2BuhKlFzA==
+X-Received: by 2002:a05:690c:74c6:b0:61b:472:fa92 with SMTP id
+ jw6-20020a05690c74c600b0061b0472fa92mr13072276ywb.32.1713809489717; 
+ Mon, 22 Apr 2024 11:11:29 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com.
+ [209.85.128.176]) by smtp.gmail.com with ESMTPSA id
+ w126-20020a817b84000000b006156ced7476sm2041184ywc.62.2024.04.22.11.11.29
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Apr 2024 11:02:26 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-d9b9adaf291so4554454276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 11:02:26 -0700 (PDT)
+ Mon, 22 Apr 2024 11:11:29 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-618874234c9so51662947b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 11:11:29 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUgvwd5azUp+rAoNymAdu/LD7b5ldWXPijEubs7pPanGB6wL+yOJXUPESaC6QpQsFsjIP6doX5bDYuOVtxUdl2fyAso3p33oiUzIzIJNheq
-X-Received: by 2002:a25:fc08:0:b0:de4:6efa:debd with SMTP id
- v8-20020a25fc08000000b00de46efadebdmr9818662ybd.29.1713808946217; Mon, 22 Apr
- 2024 11:02:26 -0700 (PDT)
+ AJvYcCX9SPAruz9MyFGPlyibpLOAjHUrIEp4ETmz5W94ZyrrIy2n581KMpjdzsnphR7COdxQ5UFWDwcHMBUu2zEO+8s3mB2ecv3AlJvuIPqbh0Tl
+X-Received: by 2002:a25:d655:0:b0:dcc:58ed:6ecc with SMTP id
+ n82-20020a25d655000000b00dcc58ed6eccmr10979493ybg.41.1713809488807; Mon, 22
+ Apr 2024 11:11:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1713780345.git.geert+renesas@glider.be>
  <87il09ty4u.fsf@intel.com>
  <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
  <875xw9ttl6.fsf@intel.com>
  <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
- <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
- <87ttjts4j6.fsf@intel.com>
-In-Reply-To: <87ttjts4j6.fsf@intel.com>
+ <87wmops57s.fsf@intel.com>
+In-Reply-To: <87wmops57s.fsf@intel.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 22 Apr 2024 20:02:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWb5sqhk1m4kD_72k0OzB5MTEFcP+QHFo+4rs8j8WEzPQ@mail.gmail.com>
-Message-ID: <CAMuHMdWb5sqhk1m4kD_72k0OzB5MTEFcP+QHFo+4rs8j8WEzPQ@mail.gmail.com>
+Date: Mon, 22 Apr 2024 20:11:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWU5R-C-sKs1GsF9Jt9giRD_moUs=1jvXastBwhWRYMJg@mail.gmail.com>
+Message-ID: <CAMuHMdWU5R-C-sKs1GsF9Jt9giRD_moUs=1jvXastBwhWRYMJg@mail.gmail.com>
 Subject: Re: [PATCH 00/11] drm: Restore helper usability
 To: Jani Nikula <jani.nikula@linux.intel.com>
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -92,59 +91,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Jani,
 
-On Mon, Apr 22, 2024 at 7:15=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
+CC kbuild
+
+On Mon, Apr 22, 2024 at 7:00=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
 l.com> wrote:
-> On Mon, 22 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Mon, Apr 22, 2024 at 3:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> w=
-rote:
-> >> I'm not sure where this misunderstanding comes from, as you
-> >> seem to be repeating the same incorrect assumption about
-> >> how select works that Maxime wrote in his changelog. To clarify,
-> >> this works exactly as one would expect:
-> >>
-> >> config HELPER_A
-> >>        tristate
-> >>
-> >> config HELPER_B
-> >>        tristate
-> >>        select HELPER_A
-> >>
-> >> config DRIVER
-> >>        tristate "Turn on the driver and the helpers it uses"
-> >>        select HELPER_B # this recursively selects HELPER_A
-> >>
-> >> Whereas this one is broken:
-> >>
-> >> config FEATURE_A
-> >>        tristate "user visible if I2C is enabled"
-> >>        depends on I2C
-> >>
-> >> config HELPER_B
-> >>        tristate # hidden
-> >>        select FEATURE_A
-> >>
-> >> config DRIVER
-> >>        tristate "This driver is broken if I2C is disabled"
-> >>        select HELPER_B
+> On Mon, 22 Apr 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
+> > I'm not sure where this misunderstanding comes from, as you
+> > seem to be repeating the same incorrect assumption about
+> > how select works that Maxime wrote in his changelog. To clarify,
+> > this works exactly as one would expect:
 > >
-> > So the DRIVER section should gain a "depends on I2C" statement.
+> > config HELPER_A
+> >        tristate
+> >
+> > config HELPER_B
+> >        tristate
+> >        select HELPER_A
+> >
+> > config DRIVER
+> >        tristate "Turn on the driver and the helpers it uses"
+> >        select HELPER_B # this recursively selects HELPER_A
+> >
+> > Whereas this one is broken:
+> >
+> > config FEATURE_A
+> >        tristate "user visible if I2C is enabled"
+> >        depends on I2C
+> >
+> > config HELPER_B
+> >        tristate # hidden
+> >        select FEATURE_A
+> >
+> > config DRIVER
+> >        tristate "This driver is broken if I2C is disabled"
+> >        select HELPER_B
 >
-> Why should DRIVER have to care that HELPER_B needs either FEATURE_A or
-> I2C? It should only have to care about HELPER_B. And if the dependencies
-> of FEATURE_A or HELPER_B later change, that's their business, not
-> DRIVER's.
-
-That's correct. But currently the dependency on I2C is not handled
-automatically.
-
-> > Yamada-san: would it be difficult to modify Kconfig to ignore symbols
-> > like DRIVER that select other symbols with unmet dependencies?
-> > Currently it already warns about that.
+> This case is really what I was referring to, although I was sloppy with
+> words there. I understand that select does work recursively for selects.
+>
+> >>   There is no end to this, it just goes on and on, as the
+> >>   dependencies of the selected symbols change over time. Often the
+> >>   selects require unintuitive if patterns that are about the
+> >>   implementation details of the symbol being selected.
 > >
-> > Handling this implicitly (instead of the current explict "depends
-> > on") would have the disadvantage though: a user who is not aware of
-> > the implicit dependency may wonder why DRIVER is invisible in his
-> > config interface.
+> > Agreed, that is the problem I frequently face with drivers/gpu/drm,
+> > and most of the time it can only be solved by rewriting the whole
+> > system to not select user-visible symbol at all.
+> >
+> > Using 'depends on' by itself is unfortunately not enough to
+> > avoid /all/ the problems. See e.g. today's failure
+> >
+> > config DRM_DISPLAY_HELPER
+> >        tristate "DRM Display Helpers"
+> >        default y
+> >
+> > config DRM_DISPLAY_DP_HELPER
+> >        bool "DRM DisplayPort Helpers"
+> >        depends on DRM_DISPLAY_HELPER
+> >
+> > config DRM_PANEL_LG_SW43408
+> >        tristate "LG SW43408 panel"
+> >        depends on DRM_DISPLAY_DP_HELPER
+> >
+> > This version is still broken for DRM_DISPLAY_HELPER=3Dm,
+> > DRM_DISPLAY_DP_HELPER=3Dm, DRM_PANEL_LG_SW43408=3Dy because
+> > the dependency on the bool symbol is not enough to
+> > ensure that DRM_DISPLAY_HELPER is also built-in, so you
+> > still need explicit dependencies on both
+> > DRM_DISPLAY_HELPER and DRM_DISPLAY_DP_HELPER in the users.
+> >
+> > This can be solved by making DRM_DISPLAY_DP_HELPER a
+> > tristate symbol and adjusting the #ifdef checks and
+> > Makefile logic accordingly, which is exactly what you'd
+> > need to do to make it work with 'select' as well.
+>
+> So bool is kind of problematic for depends on and select even when it's
+> not really used for describing builtin vs. no, but rather yes vs. no?
+
+Yes, the underlying issue is that bool is used for two different things:
+  A. To enable a driver module that can be only built-in,
+  B. To enable an option or feature of a driver or subsystem.
+
+Without this distinction, dependencies cannot be auto-propagated 100%
+correctly.  Fixing that would require introducing a third type (and possibl=
+y
+renaming the existing ones to end up with 3 good names).
+
+Actually two types could work:
+  1. driver,
+  2. option,
+as case A is just a driver that can only be built-in (i.e. "depends on y",
+which is similar to the behavior with CONFIG_MODULES=3Dn).
 
 Gr{oetje,eeting}s,
 
