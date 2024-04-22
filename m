@@ -2,60 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10BB98ACFDB
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 16:47:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925118ACFDE
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 16:47:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D12C10E1A6;
-	Mon, 22 Apr 2024 14:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA7F10F673;
+	Mon, 22 Apr 2024 14:47:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="1MQ+Tqbu";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EmU2IE11";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9659710E1A6
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 14:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713797250;
- bh=Y6uJ8OR4QHQSy1/6nKIm9u0cX+hi6Lch2omdJnSs3to=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=1MQ+TqbuvMXFGdEFpWEMbhI0eFZfuyDh8RNLAXHjFji8xrO3nVvUFJQQKKTzZpBhn
- XIoW7vqZg5q2ZiKq+02PIaju9Jn+o3wTETUDi/phxiKr96/l1lw57IY1TLSxLivPz1
- xPDeOeLAUDHYGeGM2hmp4bc2ZKC+NcX+lhx6+lTRrhjesD/ZHEQkze2r9nhr5i5w4O
- Sb2MvVGbGTwYPvOF8I/8iliQz/DmlUv1maHReU3Br0UW6al+P10zdx7fXsZ8/H7DQG
- eUh4MRVv+aZl4E5BGtudLpqg697TbXOw6oNd/GCX01AYbScDZBWyJO9ddT++qCnt/5
- SAIPN0YFzLwEw==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4915D3782123;
- Mon, 22 Apr 2024 14:47:29 +0000 (UTC)
-Date: Mon, 22 Apr 2024 17:47:19 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- rdunlap@infradead.org, arthurgrillo@riseup.net, Jonathan Corbet
- <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v6 12/17] drm/vkms: Add YUV support
-Message-ID: <20240422174719.12f9ba2f.pekka.paalanen@collabora.com>
-In-Reply-To: <20240409-yuv-v6-12-de1c5728fd70@bootlin.com>
-References: <20240409-yuv-v6-0-de1c5728fd70@bootlin.com>
- <20240409-yuv-v6-12-de1c5728fd70@bootlin.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2087.outbound.protection.outlook.com [40.107.93.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0918010F673;
+ Mon, 22 Apr 2024 14:47:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZtF6WOX9fcfvpLO62WgFlfNa4Es3nKcRIBov5N3mlZ41pDwPbJI5hXV2x3CgE+om4ZxBG2XJ7FtV/Qx9anG+McfPjISEPvUKAgJwAYV3UFG7kkY/0lA8iTW4bvrmK194baQR6ElrJyoB7fn4jh1eApS5MuCd5XeHbUWO2/7PkjTcMoYIKTEuDuuBQqXLeY5NTpCzl+X/gBDtfmFTlyymagViNAgVgp9tJEgYFORAAbmApNwhWr5wSYFpC2w9SYPPRkJywT0hKvuFEa04KiFQNJTfir/jvkoSLyKb6lJovPuVwhjzQspGedXfiYq2CVFye5NDMlez614X7//COVoOXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Zrzmz1EIVLPWs8tzLs6uTH4t8nqT6MPTTStUQzxSZiM=;
+ b=fYNPq2qyRE/n6/qul7nvc3CjPxIGNmNW6+Vcm5DHp0vDkT0+4I8QRkQoq0BGXjUrVZ6NEl1Vh/s/1+3U7wABxYjeZeMiOT2hwOQGVZZwFYFuVS7s6eAib1nsyrYN5koQWgNdDQ2bSA04eZIVtnG+AC8jxZUPqDpA940Cllh+Vw4F7wrHVJerG4NvzM7Yqr2aCmhQ2/0FwgFi+SEXLJOqbHZ69VlcBmp/9DuIVBucl+2qc/dL4fMQWX9ZYJDK8LsHtsNTtOS2vhHXnSD9Rh0sGwl0bWiDz2YK9H7q+gGYkuL+XtrxDZrGc5yQ96A3LO/x7CimEcOUHI7Z+ck9QNgByw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zrzmz1EIVLPWs8tzLs6uTH4t8nqT6MPTTStUQzxSZiM=;
+ b=EmU2IE11wFQ8EEorqtIlmQaclerA308Q6rRXNBG8OegZpI1GX+QLdqwRwMD3v6LRRU3g+a0RgPMt5njmfcNNVtMYNmjvB+yG90P/gi9vsZJ5zHkYXECrvJLOtQ+xc4MlV2FGHIpqQwFwtZo5Gp1PeCTB/urM3rfQHTy3QOpnNCc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA1PR12MB7269.namprd12.prod.outlook.com (2603:10b6:806:2be::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.42; Mon, 22 Apr
+ 2024 14:47:46 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7472.044; Mon, 22 Apr 2024
+ 14:47:46 +0000
+Message-ID: <f2e1b969-ce9c-450c-9882-99813b7334a0@amd.com>
+Date: Mon, 22 Apr 2024 16:47:36 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: Fixup bad vram size on gmc v6 and v7
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Qiang Ma <maqianga@uniontech.com>, alexander.deucher@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ srinivasan.shanmugam@amd.com, Arunpravin.PaneerSelvam@amd.com,
+ le.ma@amd.com, Felix.Kuehling@amd.com, mukul.joshi@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240422052608.5297-1-maqianga@uniontech.com>
+ <68f02c5c-5591-4d6f-9926-b0fc6f9f6287@amd.com>
+ <D94775003178862D+20240422203329.49844e71@john-PC>
+ <bde48eef-4d8a-4cfa-b824-6de88c0f87fd@amd.com>
+ <CADnq5_PQ67J9ytb89-DqOgDw5V-s98TOyVjT5BGfkWMYv5sMQg@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CADnq5_PQ67J9ytb89-DqOgDw5V-s98TOyVjT5BGfkWMYv5sMQg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR5P281CA0009.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f2::8) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/yBBHk4gee2SlMKrzL2ZGVgC";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB7269:EE_
+X-MS-Office365-Filtering-Correlation-Id: e6f0f2fd-2aea-47a4-f1ba-08dc62db2c34
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZmJKNTl4T1o5YW5scUErOTlTczVnMmNOOGZ2K1k1ejJiem9pRmVTYVppR0hp?=
+ =?utf-8?B?Tjd6UmlJTGxIL2k1dHM4bkhLejZNcjV3N1IrVWRod3VMSmo4Z3EvM3ZvUTFQ?=
+ =?utf-8?B?Y2RVa3lQV05GeG83RzhndmJ4elZqbXZSVDh1b3BVVXphb0trcTBRNXVYK05a?=
+ =?utf-8?B?N0FlYnhnUkJ5WWlETFJMZEVFejNsMDljRE8zcXA3UXdwR3VBaEVWMEEvckh0?=
+ =?utf-8?B?MEoreHZ6eXZrMGZWQjVud1BXRXhUNld5NnFrWW1wYkNQdUxRTGlTT2NSdU04?=
+ =?utf-8?B?d1R2UVIyM2U5bXpEU1NoL3pTcWdJbnNRVi9NanEyNHk2V09KUC95SmxFcER3?=
+ =?utf-8?B?U0JGOGRpUEV4dEE0bng2YUJvN1hoSlpZWWNueGxQNGJUR2RCaFpoS3ZzY3dq?=
+ =?utf-8?B?aU5oNlZuQnFKK0lNYmRhZEc4dlpXc2lBR3ptNjArenYyNWpWNGkyYklnbzZ6?=
+ =?utf-8?B?R1l6bnZNdCtUOGxFWGhFY0tDcGJvU2I2TzhKclpIdGR0ekVTNnpBb1M1RzNU?=
+ =?utf-8?B?OFRmamZTNUxCNzUxSGNZdDEraUt6TW1BQ05VcEp3NWRZTzZsMllXQ1c5cmgv?=
+ =?utf-8?B?amUxNkxlSElrK0NCbC9LN0o0THJNc1QwaXFaamtwTktXbHZpYWQwUy9OM3pl?=
+ =?utf-8?B?UjJLaXFxSWhlUVZPN05JQmlMRGNldWJxU2UwbFlDdDlDMndNOU1iaG1MM2lF?=
+ =?utf-8?B?b0tJWTNZMllLbEFnWmw4SGZQbG4ySEt5SXJFcWdrQWJGRmdGWit1N2hZR0h1?=
+ =?utf-8?B?M0JWT25RODQ1TTRCM3VNQmtqRktnYVpPdWVITmU0Z0hRaHdRaGY2ZmtpSGl0?=
+ =?utf-8?B?czFQcnk2c3A2Z0FBTVgvS29nQUpqRlc5WXVDRzZDMWhqMFhEOTlJMU9Sb0NO?=
+ =?utf-8?B?K3BiVEhuakRoWkFTcFdLdHE4ZjNPeVI0WXVpOTdtWE1FTG1oOE1yazVhTThs?=
+ =?utf-8?B?ekp5U0MweityQjBTay8yU2lwYjIvYk1VeStuR09GRk1xaDVUcGY0U1ZRU2dn?=
+ =?utf-8?B?dCtWL1NOS1BOemFKd051SkpDWXpNZnlwcG1KcDc2bnJYTm1LaURndlYvMWtV?=
+ =?utf-8?B?Z0tEQlFlc09EbVlWMGtUdmVKNFpjWEU1VzMySHMvKzJsYk5OaEhYbjNOTzRK?=
+ =?utf-8?B?VlhFK3ppYTM1QnhCV1NKOEVxYmovcHRHdnRHVjhBSExjdnBndHh1aTVOL1NM?=
+ =?utf-8?B?T3ByMUpWay9OUlhseGxqdTdUQzVDMUhITUZQWXhYdlhEMDF6c3YreXpVd09k?=
+ =?utf-8?B?cVZJVE5SbzhkanMwaXVoSkF2OUp2T3VLc05lK1JFOU1XOHdPTXZ5eFRHTEsy?=
+ =?utf-8?B?R1RXNjR3bGR3WE4wZC9ZVkJRVTNXQmxRbXAyVEltVjlvelJvaXE1dU5mV0Ft?=
+ =?utf-8?B?TDVUZEdtN1JvYXppTzBGdk5sMkdqK2p1cVFxMS9IaFNhcjBlTFdWMllubTVv?=
+ =?utf-8?B?NlZmSE9KM3p4LzZMdTJDcm52Qk43c0JmZ0c0TjI1Wm5RYlF4aGpwK0dhVUdN?=
+ =?utf-8?B?MDRRUFJSRCsrckxVdjlYS2pQNXVKenZSdnk0eWRjWHRzUDVwQzBWUnpmRGZr?=
+ =?utf-8?B?d2tFdkhwL1BaQjR6ODNnUXBXSzJHdXg0T09tZGtTRkRLZzdIYUxFNElSbGZv?=
+ =?utf-8?B?bUJrVWxEYlJiYXFEN0lDU1ZvTUpQTmVmb0k3UktoVnlkMG1ZVWsvY0FTZDFu?=
+ =?utf-8?B?MTUrOWlOOEVnaFBlUE9vSUdTVHFaVUpMK1JXeUxBbFIzTzlIeDhGdUZ3PT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkVyZE5iN2ZRTHFobnV1dmM4c3hEK1ZTNVkzUktBOEhwRFVGM3Jxc1ZPdTgr?=
+ =?utf-8?B?MmZ3aGxFMmZWckRFemZya08xM3FNdjdwYWQzWnI2Wmh6aFd3VEFXUW1UVjBQ?=
+ =?utf-8?B?R09SL1FDOTVaWUVSMUdkQ0sxUGZsZDYxaXg1NnRYQ2E1RWRuUHp5VWJWc3BQ?=
+ =?utf-8?B?ZWpLVVR6ZEhmRTJ5aVJNc2UzUlpiKzdJU01mMUNLazVwZWZrQ1RWL1BJa2Rw?=
+ =?utf-8?B?RDJHVUttZTI2azhTRVBtT01sdkdEbG1YMjRUbkU1Qi9velZiYVhIb0NWd1Jy?=
+ =?utf-8?B?aVBxRmI3RklCNS8xakJIRzY1dXNpRDhydC90QnI0WlczWXlqWFVqRStTeFNK?=
+ =?utf-8?B?U2FGeU9qY1Y0c3M3bHUxbTh1M3VCS0dRR0xOZDl5QllmMWJFTXVKR2o1RHdh?=
+ =?utf-8?B?K0N0TTJ4VlZrSGxVRTNLYmdmMTZuTlJiWjVKUWhJLzFhWE8zcW9Ybjl2YXhF?=
+ =?utf-8?B?UGthY2Y2VUN5TWhBdStQV0EybHQ2YUs4a3YvVXpycmM5eEk3TTBhamZBWEov?=
+ =?utf-8?B?eTgwb3JNVzE4cVJ1WU5UNms4SU5oSGVsanFyS04vTm1TWkJzaGxxMXBmNDdR?=
+ =?utf-8?B?aGRFR21SbHlzVjFGMXlzYlVKeWpjRHZtcE1ra1NrVTVQR1VXektXclhwMGlr?=
+ =?utf-8?B?T0ZjL2Y2c2ZzTXU4RndtM08xWHZCaWdBenB6aWNOVnZrV3NzeUtLM3pycXBs?=
+ =?utf-8?B?SnFMSmd0enFCbTF5QVJDWHVYcGF4akM5QVB2WnFXZ20xKzZCZ0l3R0thNjQ4?=
+ =?utf-8?B?WTFzUWZMUnZrTGd5dFlBLzZVOERxVHN5WmtQVzNRYjBGd2RlVFBzVi9CQjB1?=
+ =?utf-8?B?bjF2TldxOFpFekYwOUVVOWw2OG5ZMzVUYWgxK2dUYUZjZTlpblQySDhJSXhJ?=
+ =?utf-8?B?aGNhSEt5MElmSm56Y1ZhNGdzRXBldnBzZmJPTTJpaDhJRzdSR0l6R2ExYmFp?=
+ =?utf-8?B?MGcwdFI5OXdPb2RLOEVHUTdsRGlZSDFSUUxxcGorZENOcUQvTXlMb2JDRTJU?=
+ =?utf-8?B?eDRiR0Jpc3Q4c2gydVJWTmRKZHNObk5IeE1HMkd6MUtsL29kRnhKRytqYXlw?=
+ =?utf-8?B?RG9BdThQRDZlbktmQm96dmZSbEpVQ0VQUE1PNFdFc1lRb3lOdWJNZ0lqN1JJ?=
+ =?utf-8?B?MDY2TkRBUFNVdmZldUM2Tk11MEdpZWVJQVBZVFQwc1BDSGJqSE9zd0RQYXlL?=
+ =?utf-8?B?ZzdvOHluekJuZXlWSE04djM4bUVTV0JqYUdDdHRLSHdpbkkyUzNsQjlkdVpY?=
+ =?utf-8?B?WGRDajBXWEd2VnpUQnNaSmh1OXdpMFAxVGpwQXBNdGc0VU5JK0k3cllPZDBO?=
+ =?utf-8?B?VTYwN3BFK1U1YnN5cnlrczlHbWhBT011aHNFcXdqOUtXZ3FQSXg2SHZXUDhT?=
+ =?utf-8?B?VDk4U0VxNXdNbmMyUFdXcTd3dFkvL1FNYThZN1p2ZjFtOGVReC90YnlVY0x5?=
+ =?utf-8?B?bWZXS0ZqQjRYYTNISXNmemlnaVRWZERPRHh6K0VmaFp2ZHRHSHAxSGlNRG42?=
+ =?utf-8?B?RVVGdmdvckxZWTREQkc4S3loWU4zTnpmUVVmZFFaaElob0FtUkJWaFZ2WXIy?=
+ =?utf-8?B?amxCaHF4MDR0V0lHZ005R0EyblF5d3h4SVZadUp0MHo3NldYRk5SVUxLM25Z?=
+ =?utf-8?B?Vks5Yng4NFlxR05FYXV4UkVKMExPRWgzSFFtU0d1c2N6RWM2b1dUeXNDWFl5?=
+ =?utf-8?B?NkV4ME5xQnp1VHJsSHF5SDRsV3NmUEx6WE83UjhUUmwrdFZBRGRVbDBTa0VW?=
+ =?utf-8?B?L0hQZnhxVWJYdjNveTlWWm1ISk5ZZ1MwZWt1MTV0Qm80UzNuYzZsZnBrOE1P?=
+ =?utf-8?B?WmpvWGRGVm1oWmtIKzVTM1V5WE5HTVBDVy9BSWFaejhVYVJIUXlGNEFqQWk4?=
+ =?utf-8?B?V0l6cGUvdzY3enNoUjZKcnNnK2ZtZkJZR1BiRExudDJkczlxVnI4NW5SVHdi?=
+ =?utf-8?B?VkRNMEswYys2RXNFdUJMV2xEbXUrcGJxeFBOam9MMTM4SHdTazFxQlZWb2s0?=
+ =?utf-8?B?bi93QTgxQ1FTeFFYMGJLNElrWEMva1o1bDlXaCtlU1dsaTZTVzZVd3pqdnRh?=
+ =?utf-8?B?RUpGTUpvWUNud2MyaHl6TVQ2UkQySGlHNzFsR2tJbTRiTHpDZXMzWFFwQ1lX?=
+ =?utf-8?Q?0SAaHHp+GLyJayjWXYjz0vgew?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6f0f2fd-2aea-47a4-f1ba-08dc62db2c34
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2024 14:47:46.1634 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cH9dNdeiMAq2Ndyg1Im77U1/ZEvkI4XeK8i1w7nlvw9DONrl2832QrrYe/npoMqf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7269
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,672 +166,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/yBBHk4gee2SlMKrzL2ZGVgC
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Am 22.04.24 um 16:40 schrieb Alex Deucher:
+> On Mon, Apr 22, 2024 at 9:00 AM Christian König
+> <christian.koenig@amd.com> wrote:
+>> Am 22.04.24 um 14:33 schrieb Qiang Ma:
+>>> On Mon, 22 Apr 2024 11:40:26 +0200
+>>> Christian König <christian.koenig@amd.com> wrote:
+>>>
+>>>> Am 22.04.24 um 07:26 schrieb Qiang Ma:
+>>>>> Some boards(like Oland PRO: 0x1002:0x6613) seem to have
+>>>>> garbage in the upper 16 bits of the vram size register,
+>>>>> kern log as follows:
+>>>>>
+>>>>> [    6.000000] [drm] Detected VRAM RAM=2256537600M, BAR=256M
+>>>>> [    6.007812] [drm] RAM width 64bits GDDR5
+>>>>> [    6.031250] [drm] amdgpu: 2256537600M of VRAM memory ready
+>>>>>
+>>>>> This is obviously not true, check for this and clamp the size
+>>>>> properly. Fixes boards reporting bogus amounts of vram,
+>>>>> kern log as follows:
+>>>>>
+>>>>> [    2.789062] [drm] Probable bad vram size: 0x86800800
+>>>>> [    2.789062] [drm] Detected VRAM RAM=2048M, BAR=256M
+>>>>> [    2.789062] [drm] RAM width 64bits GDDR5
+>>>>> [    2.789062] [drm] amdgpu: 2048M of VRAM memory ready
+>>>> Well we had patches like this one here before and so far we always
+>>>> rejected them.
+>>>>
+>>>> When the mmCONFIG_MEMSIZE register isn't properly initialized then
+>>>> there is something wrong with your hardware.
+>>>>
+>>>> Working around that in the software driver is not going to fly.
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>> Hi Christian:
+>>> I see that two patches for this issue have been merged, and the
+>>> patches are as follows:
+>>>
+>>> 11544d77e397 drm/amdgpu: fixup bad vram size on gmc v8
+>>> 0ca223b029a2 drm/radeon: fixup bad vram size on SI
+>> Mhm, I remember that we discussed reverting those but it looks like that
+>> never happened. I need to ask around internally.
+>>
+>> Question is do you see any other problems with the board? E.g. incorrect
+>> connector or harvesting configuration?
+> I'll need to dig up the past discussion again, but IIRC, the issue was
+> only seen on some non-x86 platforms.  Maybe something specific to MMIO
+> on those?
 
-On Tue, 09 Apr 2024 15:25:30 +0200
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+I honestly doesn't remember it either, but in general it's the job of 
+the VBIOS to init this register.
 
-> From: Arthur Grillo <arthurgrillo@riseup.net>
->=20
-> Add support to the YUV formats bellow:
->=20
-> - NV12/NV16/NV24
-> - NV21/NV61/NV42
-> - YUV420/YUV422/YUV444
-> - YVU420/YVU422/YVU444
->=20
-> The conversion from yuv to rgb is done with fixed-point arithmetic, using
-> 32.32 fixed-point numbers and the drm_fixed helpers.
->=20
-> To do the conversion, a specific matrix must be used for each color range
-> (DRM_COLOR_*_RANGE) and encoding (DRM_COLOR_*). This matrix is stored in
-> the `conversion_matrix` struct, along with the specific y_offset needed.
-> This matrix is queried only once, in `vkms_plane_atomic_update` and
-> stored in a `vkms_plane_state`. Those conversion matrices of each
-> encoding and range were obtained by rounding the values of the original
-> conversion matrices multiplied by 2^32. This is done to avoid the use of
-> floating point operations.
->=20
-> The same reading function is used for YUV and YVU formats. As the only
-> difference between those two category of formats is the order of field, a
-> simple swap in conversion matrix columns allows using the same function.
->=20
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> [Louis Chauvet:
-> - Adapted Arthur's work
-> - Implemented the read_line_t callbacks for yuv
-> - add struct conversion_matrix
-> - store the whole conversion_matrix in the plane state
-> - remove struct pixel_yuv_u8
-> - update the commit message
-> - Merge the modifications from Arthur]
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_drv.h     |  18 ++
->  drivers/gpu/drm/vkms/vkms_formats.c | 356 ++++++++++++++++++++++++++++++=
-++++++
->  drivers/gpu/drm/vkms/vkms_formats.h |   4 +
->  drivers/gpu/drm/vkms/vkms_plane.c   |  16 +-
->  4 files changed, 393 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index a62a11e67ab1..831454325d9d 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -99,17 +99,35 @@ typedef void (*pixel_read_line_t)(const struct vkms_p=
-lane_state *plane, int x_st
->  				  int y_start, enum pixel_read_direction direction, int count,
->  				  struct pixel_argb_u16 out_pixel[]);
-> =20
-> +/**
-> + * struct conversion_matrix - Matrix to use for a specific encoding and =
-range
-> + *
-> + * @matrix: Conversion matrix from yuv to rgb. The matrix is stored in a=
- row-major manner and is
-> + * used to compute rgb values from yuv values:
-> + *     [[r],[g],[b]] =3D @matrix * [[y],[u],[v]]
-> + *   OR for yvu formats:
-> + *     [[r],[g],[b]] =3D @matrix * [[y],[v],[u]]
-> + *  The values of the matrix are signed fixed-point values with 32 bits =
-fractional part.
-> + * @y_offset: Offset to apply on the y value.
-> + */
-> +struct conversion_matrix {
-> +	s64 matrix[3][3];
-> +	int y_offset;
-> +};
-> +
->  /**
->   * struct vkms_plane_state - Driver specific plane state
->   * @base: base plane state
->   * @frame_info: data required for composing computation
->   * @pixel_read_line: function to read a pixel line in this plane. The cr=
-eator of a vkms_plane_state
->   * must ensure that this pointer is valid
-> + * @conversion_matrix: matrix used for yuv formats to convert to rgb
->   */
->  struct vkms_plane_state {
->  	struct drm_shadow_plane_state base;
->  	struct vkms_frame_info *frame_info;
->  	pixel_read_line_t pixel_read_line;
-> +	struct conversion_matrix conversion_matrix;
->  };
-> =20
->  struct vkms_plane {
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/v=
-kms_formats.c
-> index 302c7f3ea54c..2d7445a3de93 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -134,6 +134,51 @@ static void packed_pixels_addr_1x1(const struct vkms=
-_frame_info *frame_info,
->  	*addr =3D (u8 *)frame_info->map[0].vaddr + offset;
->  }
-> =20
-> +/**
-> + * get_subsampling() - Get the subsampling divisor value on a specific d=
-irection
-> + *
-> + * @format: format to extarct the subsampling from
-> + * @direction: direction of the subsampling requested
-> + */
-> +static int get_subsampling(const struct drm_format_info *format,
-> +			   enum pixel_read_direction direction)
-> +{
-> +	switch (direction) {
-> +	case READ_BOTTOM_TO_TOP:
-> +	case READ_TOP_TO_BOTTOM:
-> +		return format->vsub;
-> +	case READ_RIGHT_TO_LEFT:
-> +	case READ_LEFT_TO_RIGHT:
-> +		return format->hsub;
-> +	}
-> +	WARN_ONCE(true, "Invalid direction for pixel reading: %d\n", direction);
-> +	return 1;
-> +}
-> +
-> +/**
-> + * get_subsampling_offset() - An offset for keeping the chroma siting co=
-nsistent regardless of
-> + * x_start and y_start values
-> + *
-> + * @direction: direction of the reading to properly compute this offset
-> + * @x_start: x coordinate of the starting point of the readed line
-> + * @y_start: y coordinate of the starting point of the readed line
-> + */
-> +static int get_subsampling_offset(enum pixel_read_direction direction, i=
-nt x_start, int y_start)
-> +{
-> +	switch (direction) {
-> +	case READ_BOTTOM_TO_TOP:
-> +		return -y_start - 1;
-> +	case READ_TOP_TO_BOTTOM:
-> +		return y_start;
-> +	case READ_RIGHT_TO_LEFT:
-> +		return -x_start - 1;
-> +	case READ_LEFT_TO_RIGHT:
-> +		return x_start;
-> +	}
-> +	WARN_ONCE(true, "Invalid direction for pixel reading: %d\n", direction);
-> +	return 0;
-> +}
-> +
->  /*
->   * The following functions take pixel data (a, r, g, b, pixel, ...) and =
-convert them to
->   * &struct pixel_argb_u16
-> @@ -190,6 +235,38 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(co=
-nst u16 *pixel)
->  	return out_pixel;
->  }
-> =20
-> +static struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8=
- channel_2,
-> +						  const struct conversion_matrix *matrix)
-> +{
-> +	u8 r, g, b;
-> +	s64 fp_y, fp_channel_1, fp_channel_2;
-> +	s64 fp_r, fp_g, fp_b;
-> +
-> +	fp_y =3D drm_int2fixp(((int)y - matrix->y_offset) * 257);
-> +	fp_channel_1 =3D drm_int2fixp(((int)channel_1 - 128) * 257);
-> +	fp_channel_2 =3D drm_int2fixp(((int)channel_2 - 128) * 257);
-> +
-> +	fp_r =3D drm_fixp_mul(matrix->matrix[0][0], fp_y) +
-> +	       drm_fixp_mul(matrix->matrix[0][1], fp_channel_1) +
-> +	       drm_fixp_mul(matrix->matrix[0][2], fp_channel_2);
-> +	fp_g =3D drm_fixp_mul(matrix->matrix[1][0], fp_y) +
-> +	       drm_fixp_mul(matrix->matrix[1][1], fp_channel_1) +
-> +	       drm_fixp_mul(matrix->matrix[1][2], fp_channel_2);
-> +	fp_b =3D drm_fixp_mul(matrix->matrix[2][0], fp_y) +
-> +	       drm_fixp_mul(matrix->matrix[2][1], fp_channel_1) +
-> +	       drm_fixp_mul(matrix->matrix[2][2], fp_channel_2);
-> +
-> +	fp_r =3D drm_fixp2int_round(fp_r);
-> +	fp_g =3D drm_fixp2int_round(fp_g);
-> +	fp_b =3D drm_fixp2int_round(fp_b);
+So if we see the upper bits mangled the VBIOS hasn't done that correctly 
+and it's quite likely that this is only the tip of the iceberg of problems.
 
-Technically they are not fixed-point after fixp2int anymore.
+Christian.
 
-Except there is a second level of the 16-bit encoding, that is, the 0 -
-0xffff range that you convert to with the 257 multiplier. But that's
-ok, the final result needs that, and the matrix is given in proper
-fixed-point, so that all works out.
+>
+> Alex
+>
+>
+>> Regards,
+>> Christian.
+>>
+>>> Qiang Ma
+>>>
+>>>>> Signed-off-by: Qiang Ma <maqianga@uniontech.com>
+>>>>> ---
+>>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 11 +++++++++--
+>>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 13 ++++++++++---
+>>>>>     2 files changed, 19 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c index
+>>>>> 23b478639921..3703695f7789 100644 ---
+>>>>> a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c +++
+>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c @@ -309,8 +309,15 @@ static
+>>>>> int gmc_v6_0_mc_init(struct amdgpu_device *adev) }
+>>>>>      adev->gmc.vram_width = numchan * chansize;
+>>>>>      /* size in MB on si */
+>>>>> -   adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) *
+>>>>> 1024ULL * 1024ULL;
+>>>>> -   adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) *
+>>>>> 1024ULL * 1024ULL;
+>>>>> +   tmp = RREG32(mmCONFIG_MEMSIZE);
+>>>>> +   /* some boards may have garbage in the upper 16 bits */
+>>>>> +   if (tmp & 0xffff0000) {
+>>>>> +           DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
+>>>>> +           if (tmp & 0xffff)
+>>>>> +                   tmp &= 0xffff;
+>>>>> +   }
+>>>>> +   adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
+>>>>> +   adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
+>>>>>
+>>>>>      if (!(adev->flags & AMD_IS_APU)) {
+>>>>>              r = amdgpu_device_resize_fb_bar(adev);
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c index
+>>>>> 3da7b6a2b00d..1df1fc578ff6 100644 ---
+>>>>> a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c +++
+>>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c @@ -316,10 +316,10 @@
+>>>>> static void gmc_v7_0_mc_program(struct amdgpu_device *adev) static
+>>>>> int gmc_v7_0_mc_init(struct amdgpu_device *adev) {
+>>>>>      int r;
+>>>>> +   u32 tmp;
+>>>>>
+>>>>>      adev->gmc.vram_width =
+>>>>> amdgpu_atombios_get_vram_width(adev); if (!adev->gmc.vram_width) {
+>>>>> -           u32 tmp;
+>>>>>              int chansize, numchan;
+>>>>>
+>>>>>              /* Get VRAM informations */
+>>>>> @@ -363,8 +363,15 @@ static int gmc_v7_0_mc_init(struct
+>>>>> amdgpu_device *adev) adev->gmc.vram_width = numchan * chansize;
+>>>>>      }
+>>>>>      /* size in MB on si */
+>>>>> -   adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) *
+>>>>> 1024ULL * 1024ULL;
+>>>>> -   adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) *
+>>>>> 1024ULL * 1024ULL;
+>>>>> +   tmp = RREG32(mmCONFIG_MEMSIZE);
+>>>>> +   /* some boards may have garbage in the upper 16 bits */
+>>>>> +   if (tmp & 0xffff0000) {
+>>>>> +           DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
+>>>>> +           if (tmp & 0xffff)
+>>>>> +                   tmp &= 0xffff;
+>>>>> +   }
+>>>>> +   adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
+>>>>> +   adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
+>>>>>
+>>>>>      if (!(adev->flags & AMD_IS_APU)) {
+>>>>>              r = amdgpu_device_resize_fb_bar(adev);
 
-> +
-> +	r =3D clamp(fp_r, 0, 0xffff);
-> +	g =3D clamp(fp_g, 0, 0xffff);
-> +	b =3D clamp(fp_b, 0, 0xffff);
-
-You've declared r, g, b as u8, how does this work? Oh, you have that
-fixed in the next patch.
-
-Otherwise excellent.
-
-I did come to think if it would make sense to have a
-
-static u16
-dot_product_clamp_u16(const s64 row[3], s64 fp_y, s64 fp_channel_1, s64 fp_=
-channel_2)
-{
-	s64 v;
-
-	v =3D drm_fixp_mul(row[0], fp_y) +
-	    drm_fixp_mul(row[1], fp_channel_1) +
-	    drm_fixp_mul(row[2], fp_channel_2);
-
-	return clamp(drm_fixp2int_round(v), 0, 0xffff);
-}
-
-and then call that three times with different matrix rows, but I don't
-know if that makes it any more readable than it already is.
-
-> +
-> +	return argb_u16_from_u16161616(0xffff, r, g, b);
-> +}
-> +
->  /*
->   * The following functions are read_line function for each pixel format =
-supported by VKMS.
->   *
-> @@ -318,6 +395,92 @@ static void RGB565_read_line(const struct vkms_plane=
-_state *plane, int x_start,
->  	}
->  }
-> =20
-> +/*
-> + * This callback can be used for YUV format where each color component is
-> + * stored in a different plane (often called planar formats). It will
-
-This function handles two planes, not three.
-
-> + * handle correctly subsampling.
-
-I vaguely remember us having a discussion about sub-sampling handling
-not being fully correct sometimes, for vertical reading direction was
-it? Or divisor greater than 2? I couldn't find that discussion again.
-Does it apply here?
-
-> + *
-> + * The conversion matrix stored in the @plane is used to:
-> + * - Apply the correct color range and encoding
-> + * - Convert YUV and YVU with the same function (a simple column swap is
-> + *   needed)
-
-...a column swap is needed when setting up plane->conversion_matrix)
-
-Otherwise one may wonder what swap where.
-
-> + */
-> +static void semi_planar_yuv_read_line(const struct vkms_plane_state *pla=
-ne, int x_start,
-> +				      int y_start, enum pixel_read_direction direction, int count,
-> +				      struct pixel_argb_u16 out_pixel[])
-> +{
-> +	u8 *y_plane;
-> +	u8 *uv_plane;
-> +
-> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0,
-> +			       &y_plane);
-> +	packed_pixels_addr_1x1(plane->frame_info,
-> +			       x_start / plane->frame_info->fb->format->hsub,
-> +			       y_start / plane->frame_info->fb->format->vsub, 1,
-> +			       &uv_plane);
-> +	int step_y =3D get_block_step_byte(plane->frame_info->fb, direction, 0);
-> +	int step_uv =3D get_block_step_byte(plane->frame_info->fb, direction, 1=
-);
-> +	int subsampling =3D get_subsampling(plane->frame_info->fb->format, dire=
-ction);
-> +	int subsampling_offset =3D get_subsampling_offset(direction, x_start, y=
-_start);
-> +	const struct conversion_matrix *conversion_matrix =3D &plane->conversio=
-n_matrix;
-> +
-> +	for (int i =3D 0; i < count; i++) {
-> +		*out_pixel =3D argb_u16_from_yuv888(y_plane[0], uv_plane[0], uv_plane[=
-1],
-> +						  conversion_matrix);
-> +		out_pixel +=3D 1;
-> +		y_plane +=3D step_y;
-> +		if ((i + subsampling_offset + 1) % subsampling =3D=3D 0)
-> +			uv_plane +=3D step_uv;
-> +	}
-> +}
-> +
-> +/*
-> + * This callback can be used for YUV formats where U and V values are
-> + * stored in the same plane (often called semi-planar formats). It will
-
-Ah, this doc belongs to the earlier function, and the doc there belongs
-here.
-
-> + * correctly handle subsampling.
-> + *
-> + * The conversion matrix stored in the @plane is used to:
-> + * - Apply the correct color range and encoding
-> + * - Convert YUV and YVU with the same function (a simple column swap is
-> + *   needed)
-> + */
-> +static void planar_yuv_read_line(const struct vkms_plane_state *plane, i=
-nt x_start,
-> +				 int y_start, enum pixel_read_direction direction, int count,
-> +				 struct pixel_argb_u16 out_pixel[])
-> +{
-> +	u8 *y_plane;
-> +	u8 *channel_1_plane;
-> +	u8 *channel_2_plane;
-> +
-> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0,
-> +			       &y_plane);
-> +	packed_pixels_addr_1x1(plane->frame_info,
-> +			       x_start / plane->frame_info->fb->format->hsub,
-> +			       y_start / plane->frame_info->fb->format->vsub, 1,
-> +			       &channel_1_plane);
-> +	packed_pixels_addr_1x1(plane->frame_info,
-> +			       x_start / plane->frame_info->fb->format->hsub,
-> +			       y_start / plane->frame_info->fb->format->vsub, 2,
-> +			       &channel_2_plane);
-> +	int step_y =3D get_block_step_byte(plane->frame_info->fb, direction, 0);
-> +	int step_channel_1 =3D get_block_step_byte(plane->frame_info->fb, direc=
-tion, 1);
-> +	int step_channel_2 =3D get_block_step_byte(plane->frame_info->fb, direc=
-tion, 2);
-> +	int subsampling =3D get_subsampling(plane->frame_info->fb->format, dire=
-ction);
-> +	int subsampling_offset =3D get_subsampling_offset(direction, x_start, y=
-_start);
-> +	const struct conversion_matrix *conversion_matrix =3D &plane->conversio=
-n_matrix;
-> +
-> +	for (int i =3D 0; i < count; i++) {
-> +		*out_pixel =3D argb_u16_from_yuv888(*y_plane, *channel_1_plane, *chann=
-el_2_plane,
-> +						  conversion_matrix);
-> +		out_pixel +=3D 1;
-> +		y_plane +=3D step_y;
-> +		if ((i + subsampling_offset + 1) % subsampling =3D=3D 0) {
-> +			channel_1_plane +=3D step_channel_1;
-> +			channel_2_plane +=3D step_channel_2;
-> +		}
-> +	}
-> +}
-> +
->  /*
->   * The following functions take one &struct pixel_argb_u16 and convert i=
-t to a specific format.
->   * The result is stored in @out_pixel.
-> @@ -445,6 +608,20 @@ pixel_read_line_t get_pixel_read_line_function(u32 f=
-ormat)
->  		return &XRGB16161616_read_line;
->  	case DRM_FORMAT_RGB565:
->  		return &RGB565_read_line;
-> +	case DRM_FORMAT_NV12:
-> +	case DRM_FORMAT_NV16:
-> +	case DRM_FORMAT_NV24:
-> +	case DRM_FORMAT_NV21:
-> +	case DRM_FORMAT_NV61:
-> +	case DRM_FORMAT_NV42:
-> +		return &semi_planar_yuv_read_line;
-> +	case DRM_FORMAT_YUV420:
-> +	case DRM_FORMAT_YUV422:
-> +	case DRM_FORMAT_YUV444:
-> +	case DRM_FORMAT_YVU420:
-> +	case DRM_FORMAT_YVU422:
-> +	case DRM_FORMAT_YVU444:
-> +		return &planar_yuv_read_line;
->  	default:
->  		/*
->  		 * This is a bug in vkms_plane_atomic_check(). All the supported
-> @@ -462,6 +639,185 @@ pixel_read_line_t get_pixel_read_line_function(u32 =
-format)
->  	}
->  }
-> =20
-> +/*
-> + * Those matrices were generated using the colour python framework
-> + *
-> + * Below are the function calls used to generate each matrix, go to
-> + * https://colour.readthedocs.io/en/develop/generated/colour.matrix_YCbC=
-r.html
-> + * for more info:
-> + *
-> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.6=
-01"],
-> + *                                  is_legal =3D False,
-> + *                                  bits =3D 8) * 2**32).astype(int)
-> + */
-> +static struct conversion_matrix no_operation =3D {
-
-const
-
-> +	.matrix =3D {
-> +		{ 4294967296, 0,          0, },
-> +		{ 0,          4294967296, 0, },
-> +		{ 0,          0,          4294967296, },
-> +	},
-> +	.y_offset =3D 0,
-> +};
-> +
-> +static const struct conversion_matrix yuv_bt601_full =3D {
-> +	.matrix =3D {
-> +		{ 4294967296, 0,           6021544149 },
-> +		{ 4294967296, -1478054095, -3067191994 },
-> +		{ 4294967296, 7610682049,  0 },
-> +	},
-> +	.y_offset =3D 0,
-> +};
-> +
-> +/*
-> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.6=
-01"],
-> + *                                  is_legal =3D True,
-> + *                                  bits =3D 8) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix yuv_bt601_limited =3D {
-> +	.matrix =3D {
-> +		{ 5020601039, 0,           6881764740 },
-> +		{ 5020601039, -1689204679, -3505362278 },
-> +		{ 5020601039, 8697922339,  0 },
-> +	},
-> +	.y_offset =3D 16,
-> +};
-> +
-> +/*
-> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.7=
-09"],
-> + *                                  is_legal =3D False,
-> + *                                  bits =3D 8) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix yuv_bt709_full =3D {
-> +	.matrix =3D {
-> +		{ 4294967296, 0,          6763714498 },
-> +		{ 4294967296, -804551626, -2010578443 },
-> +		{ 4294967296, 7969741314, 0 },
-> +	},
-> +	.y_offset =3D 0,
-> +};
-> +
-> +/*
-> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.7=
-09"],
-> + *                                  is_legal =3D True,
-> + *                                  bits =3D 8) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix yuv_bt709_limited =3D {
-> +	.matrix =3D {
-> +		{ 5020601039, 0,          7729959424 },
-> +		{ 5020601039, -919487572, -2297803934 },
-> +		{ 5020601039, 9108275786, 0 },
-> +	},
-> +	.y_offset =3D 16,
-> +};
-> +
-> +/*
-> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.2=
-020"],
-> + *                                  is_legal =3D False,
-> + *                                  bits =3D 8) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix yuv_bt2020_full =3D {
-> +	.matrix =3D {
-> +		{ 4294967296, 0,          6333358775 },
-> +		{ 4294967296, -706750298, -2453942994 },
-> +		{ 4294967296, 8080551471, 0 },
-> +	},
-> +	.y_offset =3D 0,
-> +};
-> +
-> +/*
-> + * numpy.around(colour.matrix_YCbCr(K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.2=
-020"],
-> + *                                  is_legal =3D True,
-> + *                                  bits =3D 8) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix yuv_bt2020_limited =3D {
-> +	.matrix =3D {
-> +		{ 5020601039, 0,          7238124312 },
-> +		{ 5020601039, -807714626, -2804506279 },
-> +		{ 5020601039, 9234915964, 0 },
-> +	},
-> +	.y_offset =3D 16,
-> +};
-> +
-> +/**
-> + * swap_uv_columns() - Swap u and v column of a given matrix
-> + *
-> + * @matrix: Matrix in which column are swapped
-> + */
-> +static void swap_uv_columns(struct conversion_matrix *matrix)
-> +{
-> +	swap(matrix->matrix[0][2], matrix->matrix[0][1]);
-> +	swap(matrix->matrix[1][2], matrix->matrix[1][1]);
-> +	swap(matrix->matrix[2][2], matrix->matrix[2][1]);
-> +}
-> +
-> +/**
-> + * get_conversion_matrix_to_argb_u16() - Retrieve the correct yuv to rgb=
- conversion matrix for a
-> + * given encoding and range.
-> + *
-> + * @format: DRM_FORMAT_* value for which to obtain a conversion function=
- (see [drm_fourcc.h])
-> + * @encoding: DRM_COLOR_* value for which to obtain a conversion matrix
-> + * @range: DRM_COLOR_*_RANGE value for which to obtain a conversion matr=
-ix
-> + * @matrix: Pointer to store the value into
-> + */
-> +void get_conversion_matrix_to_argb_u16(u32 format,
-> +				       enum drm_color_encoding encoding,
-> +				       enum drm_color_range range,
-> +				       struct conversion_matrix *matrix)
-> +{
-> +	const struct conversion_matrix *matrix_to_copy;
-> +	bool limited_range;
-> +
-> +	switch (range) {
-> +	case DRM_COLOR_YCBCR_LIMITED_RANGE:
-> +		limited_range =3D true;
-> +		break;
-> +	case DRM_COLOR_YCBCR_FULL_RANGE:
-> +		limited_range =3D false;
-> +		break;
-> +	case DRM_COLOR_RANGE_MAX:
-> +		limited_range =3D false;
-> +		WARN_ONCE(true, "The requested range is not supported.");
-> +		break;
-> +	}
-> +
-> +	switch (encoding) {
-> +	case DRM_COLOR_YCBCR_BT601:
-> +		matrix_to_copy =3D limited_range ? &yuv_bt601_limited :
-> +						 &yuv_bt601_full;
-> +		break;
-> +	case DRM_COLOR_YCBCR_BT709:
-> +		matrix_to_copy =3D limited_range ? &yuv_bt709_limited :
-> +						 &yuv_bt709_full;
-> +		break;
-> +	case DRM_COLOR_YCBCR_BT2020:
-> +		matrix_to_copy =3D limited_range ? &yuv_bt2020_limited :
-> +						 &yuv_bt2020_full;
-> +		break;
-> +	case DRM_COLOR_ENCODING_MAX:
-> +		matrix_to_copy =3D &no_operation;
-> +		WARN_ONCE(true, "The requested encoding is not supported.");
-> +		break;
-> +	}
-> +
-> +	memcpy(matrix, matrix_to_copy, sizeof(*matrix_to_copy));
-> +
-> +	/*
-> +	 * Breaking in this switch means that the color format + encoding + ran=
-ge is not supported
-> +	 */
-
-Stale comment?
-
-> +	switch (format) {
-> +	case DRM_FORMAT_YVU420:
-> +	case DRM_FORMAT_YVU422:
-> +	case DRM_FORMAT_YVU444:
-> +	case DRM_FORMAT_NV21:
-> +	case DRM_FORMAT_NV61:
-> +	case DRM_FORMAT_NV42:
-> +		swap_uv_columns(matrix);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +}
-> +
->  /**
->   * get_pixel_write_function() - Retrieve the correct write_pixel functio=
-n for a specific format.
->   * If the format is not supported by VKMS a warning is emitted and a dum=
-my "don't do anything"
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/v=
-kms_formats.h
-> index 8d2bef95ff79..d583855cb320 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.h
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
-> @@ -9,4 +9,8 @@ pixel_read_line_t get_pixel_read_line_function(u32 format=
-);
-> =20
->  pixel_write_t get_pixel_write_function(u32 format);
-> =20
-> +void get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encodi=
-ng encoding,
-> +				       enum drm_color_range range,
-> +				       struct conversion_matrix *matrix);
-> +
->  #endif /* _VKMS_FORMATS_H_ */
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
-s_plane.c
-> index 5a028ee96c91..d4e375913122 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -17,7 +17,19 @@ static const u32 vkms_formats[] =3D {
->  	DRM_FORMAT_XRGB8888,
->  	DRM_FORMAT_XRGB16161616,
->  	DRM_FORMAT_ARGB16161616,
-> -	DRM_FORMAT_RGB565
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_NV12,
-> +	DRM_FORMAT_NV16,
-> +	DRM_FORMAT_NV24,
-> +	DRM_FORMAT_NV21,
-> +	DRM_FORMAT_NV61,
-> +	DRM_FORMAT_NV42,
-> +	DRM_FORMAT_YUV420,
-> +	DRM_FORMAT_YUV422,
-> +	DRM_FORMAT_YUV444,
-> +	DRM_FORMAT_YVU420,
-> +	DRM_FORMAT_YVU422,
-> +	DRM_FORMAT_YVU444,
->  };
-> =20
->  static struct drm_plane_state *
-> @@ -118,6 +130,8 @@ static void vkms_plane_atomic_update(struct drm_plane=
- *plane,
->  	frame_info->rotation =3D new_state->rotation;
-> =20
->  	vkms_plane_state->pixel_read_line =3D get_pixel_read_line_function(fmt);
-> +	get_conversion_matrix_to_argb_u16(fmt, new_state->color_encoding, new_s=
-tate->color_range,
-> +					  &vkms_plane_state->conversion_matrix);
->  }
-> =20
->  static int vkms_plane_atomic_check(struct drm_plane *plane,
->=20
-
-Some comments, but nothing big, mostly cosmetic.
-
-
-Thanks,
-pq
-
---Sig_/yBBHk4gee2SlMKrzL2ZGVgC
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYmeHcACgkQI1/ltBGq
-qqea/BAAi78M8Co1CZOoXYoWbaY4dj6tcsCmD4Dq2waz6z/EB74CoOw3AqegNhrR
-guKYdOg5WlkSDP/Ex+j/4aiVX7LgQWdHvaTVppcR418+XvI+ey+BHu/pTQpfFTnm
-50ju52elerBvxyXT7ontw1vFPLK/Gy+AyLeeluIBQkXpkPuE6atI4l+473nC0D4V
-/y4G2Xh1H/3yxWuecNPDxzFmp395gLA+00q80s5K44lYHIJo57/VlnW1bC281lYj
-5rngpgTZCZIQWrZvzupAlQFIofwKUc9OH67R5LZ+K7UkSq0deS/4+Kc5ed2+bcpy
-/0Kb0FPxj1h9LIbnJkwljear++o4ekmPe/wFZCeLOcknRsio0cKN1Bwe4v04Xa47
-5/OQj1c7hu4KMiE9zzDAKtrUlgvmIrF0atyrWgxV/7fjEqE8VRfYxd6C7ktzuzug
-5v82u/X1b9fuasXpa1pYv5aTAmmyuOPQxYe9UHihQEVc3AAdf1tM8V3NK8/H5VGD
-yFnksLSjHNkGmr3u/5yNJB4hwmWZh3ryVuOHRhSUqArDovIETtatu1IwKWf8Za2C
-HBRA9vmhGtuWF2OZc0QJbUUtomgnb3cu1hgFNFaYwhtcln7uU+2vAidbbz2/j+ce
-b/97v9x2urpbG0VE0v/UwL+Zb6K8tGz38wr/CsnkM2QF8X32jc0=
-=2RNS
------END PGP SIGNATURE-----
-
---Sig_/yBBHk4gee2SlMKrzL2ZGVgC--
