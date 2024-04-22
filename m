@@ -2,77 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11688AD4D7
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028148AD4FE
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:42:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC3D10F7CF;
-	Mon, 22 Apr 2024 19:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7209510EDAC;
+	Mon, 22 Apr 2024 19:42:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JuLSGdvS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HFO2Ppps";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF2710F7CF
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:29:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4644110EDAC
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:42:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1D9F760DD8;
- Mon, 22 Apr 2024 19:29:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 864CDC116B1;
- Mon, 22 Apr 2024 19:29:20 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6CD6C61085
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:42:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9F3C4AF09
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:42:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713814160;
- bh=Sl3bg4WlJGYpNQQ2XrWaH54qrlh04DWMOhfUk4PpecA=;
- h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
- b=JuLSGdvS461N5tgKKFcKRNK3/ne22I9lj+6AnRVSB6FTV0J88YpyGjs2YTxncB6CI
- lpbx8vtkov0/sJ0VpDibs2jtt/tnaXd4HcC0rFisrKhmf6tu9nHvKxWMcB5AwZ32/H
- mbQoEKAKDRNg16wEzhYhKmQ3w1x6lI4GzuRCBYDFO6WfWmX/99OXKTZbNg/tgmcNCt
- rKAqmaeTfevfAP7c/48hFz4zv5ejs6jZu/upGRSAAxa0szl4+AvspgRvaV3+83kJP4
- ZqSW23z/rryMI1zFi6xahUG/nl3M8R3dXnDN+TPXvxPoGOR3uomx/VLJQkWuGl8+g7
- OpLdcu17Kpj2g==
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfauth.nyi.internal (Postfix) with ESMTP id 7EF181200066;
- Mon, 22 Apr 2024 15:29:19 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute5.internal (MEProxy); Mon, 22 Apr 2024 15:29:19 -0400
-X-ME-Sender: <xms:j7omZhjlP81AZHYOK7fB-YL4puJb2jcvH7SRTVbSUlPZViGspNXMyQ>
- <xme:j7omZmA3HhaaFT3AokDixKUozs2VMXaNQVEhb0keRZ59x9q15dIbSFNYJGTevw89j
- PKe3FtnS1aBQ-vk7do>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudekledgudeflecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
- rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtf
- frrghtthgvrhhnpedvveeigfetudegveeiledvgfevuedvgfetgeefieeijeejffeggeeh
- udegtdevheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpegrrhhnugdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidquddvkeehudej
- tddvgedqvdekjedttddvieegqdgrrhhnugeppehkvghrnhgvlhdrohhrghesrghrnhgusg
- druggv
-X-ME-Proxy: <xmx:j7omZhEsftRQyr4t7KGM57W5nx9vhCHXsNRcnzCuXPLc-kt3W7W27A>
- <xmx:j7omZmR133dXUwOEhLDCN4ECAkYyDyP98bWp4qj3nw9lQTKuzOv-vg>
- <xmx:j7omZuyXEPq5fKcU6bu36b_MeUgMUNRHoCkhyDQ97KFDPRP4jCYQtg>
- <xmx:j7omZs5TBZh7F08mE_vcVF4LJKrMba23xrU7LeHj5TsCR5tggSUqfA>
- <xmx:j7omZjxUFdxBz5hzgZ3VciArKk1jsZrREZlmc6rgvwh78sWWeaLLzBHp>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 3515AB6008D; Mon, 22 Apr 2024 15:29:19 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-386-g4cb8e397f9-fm-20240415.001-g4cb8e397
+ s=k20201202; t=1713814970;
+ bh=X5NGLyhlmkWiEztUhkG/dYmbEnrBjLWsUuPd6etmt3g=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=HFO2Ppps/oZr9UBPkLMNSFWLF8JT0mQUjb6KEmKTavUYAzUBfRay7wviM9/lYJ1ox
+ VGD9BugBnxpekoWlFpo267NnDA//Jp5Q03vIdUlgWRdD5s8i+dVQ9wvKVAa/kA+Lf7
+ rcg23e19F5+xrsUNWPs6AGzRt2dud8+yPRn9eWr+QBAVHGly6fogMw1Dyv/kknlIiX
+ p9k2P5UGa39I2lZ1fXX16QOFEj+llvJVWZp/i64mCSjL875AMlg1avpPvOhxsKBeCj
+ 8wfk/8dB14dU5dPWZ/HfY//p4xmc1x/tuJsCKA8Vq8GFKQwH/ROYrfcbP1V7YQH6F9
+ UWocTlyMx3Vfg==
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5176f217b7bso8015904e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:42:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUGQj7P0USUJ/4fMvBrqXE6NnNK8OW3JCV0bwmSMekRb+1D5wS5Z+ifjuyw7R7AJNjTk2ZLlhJEc4ds4CYdFP0GnTsbGEtq+OPpJSFK+5oB
+X-Gm-Message-State: AOJu0Yy2DT4Dk+yPJxJN1QBvVvQnUy5zuZQXESi7Byz9XzRUv7EFi9ND
+ OElOIKJRArdzn3IDAJz0Rvh/343jQuoMGt+08ETYeV3s7aX5S8rEmRBuqQIryc6Rt5pV+ZaVElK
+ inXUk5QxWMYQthm/aNuCa51WwF3g=
+X-Google-Smtp-Source: AGHT+IFUc94RfCXq+iQAJz7qjewz+jSCFsONec3F2z9I3xwsiexX4d/Q6fXVP4Y2744DYOS3241u2oWO23s5CFrO6bQ=
+X-Received: by 2002:ac2:46f6:0:b0:513:d5ec:afb with SMTP id
+ q22-20020ac246f6000000b00513d5ec0afbmr8808090lfo.40.1713814969390; Mon, 22
+ Apr 2024 12:42:49 -0700 (PDT)
 MIME-Version: 1.0
-Message-Id: <a666e39d-a894-4e27-aac4-65d11a18358a@app.fastmail.com>
-In-Reply-To: <26c23fb8557d806c12a246caa575e4f4fc4ea27a.camel@linux.ibm.com>
-References: <20240410142329.3567824-1-schnelle@linux.ibm.com>
- <20240410142329.3567824-2-schnelle@linux.ibm.com> <Zhfs8CN5XdgldKUn@carbonx1>
- <26c23fb8557d806c12a246caa575e4f4fc4ea27a.camel@linux.ibm.com>
-Date: Mon, 22 Apr 2024 21:28:58 +0200
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: "Niklas Schnelle" <schnelle@linux.ibm.com>,
- "Helge Deller" <deller@kernel.org>
-Cc: "Helge Deller" <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Heiko Carstens" <hca@linux.ibm.com>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] video: Handle HAS_IOPORT dependencies
-Content-Type: text/plain
+References: <cover.1713780345.git.geert+renesas@glider.be>
+ <87il09ty4u.fsf@intel.com>
+ <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
+ <875xw9ttl6.fsf@intel.com>
+ <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
+ <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
+ <d3f406ed-1b93-4fcf-850a-743d27f20dc2@app.fastmail.com>
+In-Reply-To: <d3f406ed-1b93-4fcf-850a-743d27f20dc2@app.fastmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 23 Apr 2024 04:42:12 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARNb0kB=cytOmJn+K59vQ8ekESqY-=1SFDOQox-B3GJrQ@mail.gmail.com>
+Message-ID: <CAK7LNARNb0kB=cytOmJn+K59vQ8ekESqY-=1SFDOQox-B3GJrQ@mail.gmail.com>
+Subject: Re: [PATCH 00/11] drm: Restore helper usability
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+ linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,120 +84,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 22, 2024, at 10:34, Niklas Schnelle wrote:
-> On Thu, 2024-04-11 at 16:00 +0200, Helge Deller wrote:
->> * Niklas Schnelle <schnelle@linux.ibm.com>:
->> > In a future patch HAS_IOPORT=n will disable inb()/outb() and friends at
->> > compile time. We thus need to #ifdef functions and their callsites which
->> > unconditionally use these I/O accessors. In the include/video/vga.h
->> > these are conveniently all those functions with the vga_io_* prefix.
->> 
->> Why don't you code it like in the patch below?
->> inb_p(), outb_p() and outw() would then need to be defined externally
->> without an implementation so that they would generate link time errors
->> (instead of compile time errors).
+On Tue, Apr 23, 2024 at 3:24=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
+:
 >
-> This may be personal preference but I feel like link time errors would
-> be very late to catch a configuration that can't work. Also this would
-> bypass the __compiletime_error("inb()) requires CONFIG_HAS_IOPORT");
-> added instead of the in*()/out*() helpers to make it easy to spot the
-> problem.
+> On Mon, Apr 22, 2024, at 18:58, Geert Uytterhoeven wrote:
+> > On Mon, Apr 22, 2024 at 3:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> w=
+rote:
+> >> On Mon, Apr 22, 2024, at 15:28, Jani Nikula wrote:
+> >> Whereas this one is broken:
+> >>
+> >> config FEATURE_A
+> >>        tristate "user visible if I2C is enabled"
+> >>        depends on I2C
+> >>
+> >> config HELPER_B
+> >>        tristate # hidden
+> >>        select FEATURE_A
+> >>
+> >> config DRIVER
+> >>        tristate "This driver is broken if I2C is disabled"
+> >>        select HELPER_B
+> >
+> > So the DRIVER section should gain a "depends on I2C" statement.
 >
-> I'm not a fan of #ifdeffery either but I think in this case it is
-> simple, well enough contained and overall there aren't that many spots
-> where we need to exclude just some sections of code vs entire drivers
-> with vga.h probably being the worst of them all.
+> That is of course the common workaround, but my point was
+> that nothing should ever 'select I2C' or any of the other
+> subsystems that are user visible.
+>
+> > Yamada-san: would it be difficult to modify Kconfig to ignore symbols
+> > like DRIVER that select other symbols with unmet dependencies?
+> > Currently it already warns about that.
+> >
+> > Handling this implicitly (instead of the current explict "depends
+> > on") would have the disadvantage though: a user who is not aware of
+> > the implicit dependency may wonder why DRIVER is invisible in his
+> > config interface.
+>
+> I think hiding this would make it much harder to get anything
+> right. The symbols in question are almost all ones that should
+> be enabled in normal configs, and the 'make menuconfig' help
+> doesn't make it too hard to figure things out normally, we just
+> have to find a way to avoid regressions when converting things
+> to 'depends on' that used an incorrect 'select'.
+>
+>      Arnd
 
-Agreed. I also tried to see if we can move stuff out of vga.h
-to have it included in fewer places, as almost everything that
-uses this header already has a HAS_IOPORT dependency, but that
-would be a lot more work.
-
-The other one that gains a few ugly #ifdefs is the 8250 driver,
-everything else is already merged in linux-next or needs a simple
-Kconfig dependency.
-
-I think we can make the vga.h file a little more readable
-by duplicating the functions and still keep the __compiletime_error()
-version in asm/io.h, see below.
-
-    Arnd
 
 
-diff --git a/include/video/vga.h b/include/video/vga.h
-index 947c0abd04ef..7e1d8252b732 100644
---- a/include/video/vga.h
-+++ b/include/video/vga.h
-@@ -197,6 +197,23 @@ struct vgastate {
- extern int save_vga(struct vgastate *state);
- extern int restore_vga(struct vgastate *state);
- 
-+static inline unsigned char vga_mm_r (void __iomem *regbase, unsigned short port)
-+{
-+	return readb (regbase + port);
-+}
+I am confused because you repeatedly discussed
+the missing I2C dependency.
+
+
+Are you talking about DRM drivers,
+or is it just "an example" in general?
+
+
+
+DRM selects I2C.
+
+https://github.com/torvalds/linux/blob/v6.9-rc4/drivers/gpu/drm/Kconfig#L16
+
+
+
+If you make sure individual DRM drivers depend on DRM,
+none of them can be enabled without I2C.
+
+
+
+Currently, this is not guaranteed just because
+DRM folks do not know how to use the "menuconfig" syntax.
+
+
+
+The "menuconfig" makes sense only when it is
+followed by "if".
+
+
+
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 5a0c476361c3..6984b3fea271 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -29,6 +29,8 @@ menuconfig DRM
+          details.  You should also select and configure AGP
+          (/dev/agpgart) support if it is available for your platform.
+
++if DRM
 +
-+static inline void vga_mm_w (void __iomem *regbase, unsigned short port, unsigned char val)
-+{
-+	writeb (val, regbase + port);
-+}
+ config DRM_MIPI_DBI
+        tristate
+        depends on DRM
+@@ -414,3 +416,5 @@ config DRM_LIB_RANDOM
+ config DRM_PRIVACY_SCREEN
+        bool
+        default n
 +
-+static inline void vga_mm_w_fast (void __iomem *regbase, unsigned short port,
-+				  unsigned char reg, unsigned char val)
-+{
-+	writew (VGA_OUT16VAL (val, reg), regbase + port);
-+}
-+
-+#ifdef CONFIG_HAS_IOPORT
- /*
-  * generic VGA port read/write
-  */
-@@ -217,22 +234,6 @@ static inline void vga_io_w_fast (unsigned short port, unsigned char reg,
- 	outw(VGA_OUT16VAL (val, reg), port);
- }
- 
--static inline unsigned char vga_mm_r (void __iomem *regbase, unsigned short port)
--{
--	return readb (regbase + port);
--}
--
--static inline void vga_mm_w (void __iomem *regbase, unsigned short port, unsigned char val)
--{
--	writeb (val, regbase + port);
--}
--
--static inline void vga_mm_w_fast (void __iomem *regbase, unsigned short port,
--				  unsigned char reg, unsigned char val)
--{
--	writew (VGA_OUT16VAL (val, reg), regbase + port);
--}
--
- static inline unsigned char vga_r (void __iomem *regbase, unsigned short port)
- {
- 	if (regbase)
-@@ -258,7 +259,25 @@ static inline void vga_w_fast (void __iomem *regbase, unsigned short port,
- 	else
- 		vga_io_w_fast (port, reg, val);
- }
-+#else
- 
-+static inline unsigned char vga_r (void __iomem *regbase, unsigned short port)
-+{
-+	return vga_mm_r(regbase, port);
-+}
-+
-+static inline void vga_w(void __iomem *regbase, unsigned short port, unsigned char val)
-+{
-+	vga_mm_w (regbase, port, val);
-+}
-+
-+static inline void vga_w_fast (void __iomem *regbase, unsigned short port,
-+			       unsigned char reg, unsigned char val)
-+{
-+	vga_mm_w_fast(regbase, port, reg, val);
-+}
-+
-+#endif
- 
- /*
-  * VGA CRTC register read/write
++endif
+
+
+
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
