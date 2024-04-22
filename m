@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE678AD98C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B86DB8AD992
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:55:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 469FC112E74;
-	Mon, 22 Apr 2024 23:55:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAC07112E73;
+	Mon, 22 Apr 2024 23:55:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a7iazVTH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rdg2WDT+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB65112E71;
- Mon, 22 Apr 2024 23:55:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1595E112E73;
+ Mon, 22 Apr 2024 23:55:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E1E6B61207;
- Mon, 22 Apr 2024 23:55:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD96AC4AF07;
- Mon, 22 Apr 2024 23:55:25 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6C252611E3;
+ Mon, 22 Apr 2024 23:55:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F63C32782;
+ Mon, 22 Apr 2024 23:55:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713830127;
- bh=Thz1QMoJ49mQ5FBVVdAHFumjxd2hBOeSF8CzaMI3W4U=;
+ s=k20201202; t=1713830140;
+ bh=9m0rXRdGMqKho7pfIeai8tfeVTeCCClMqcN6ko1ovPY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=a7iazVTHO/iw4xgBSabABXDOB4XMq6o4UWoRPjlFoqAWP9mYHkIGO3+3dWAGnW4gP
- GxDEFHZOvz/WUIisb3Hxq0So0AiZcxiYQnj3CPUIpqiEx8ONlMrdLVkJ47eAHVTg8H
- vOlqwUNORcMVEs/Ad+sE6QBU9JH2vWuYp9DklQ9B4kmUHjEn0ED8Z6CrY8uvwsY9N2
- CPE9NUJhP+AD5MMvWok4C61ysIfNrXHxqsBampemEd4et+ahXdH7Kt/UgVgUJEe0G1
- lhKFk27F8iGkVzbvrhhqMee4fhf7ckB8WvOeUkZHMyTJDfvluQ1Y1Aj0M8I8A+nfL5
- 6Ek0CDWrfqM2Q==
+ b=rdg2WDT+4UDcJQmVo1gk+YTKchLUCkEQDBJlv3C8X9icLYiPtQ8Ogh/hRh6Y/nCEu
+ dGC6QIM57EJ6UJIQRzLZvcGQg2kKegeaDokRgFkxC7g4WngGOD56wypYHbseSRU3A0
+ tONYIfHua20NZ2Xjyhm3ovQ1ft8+XJq26TpGs4PUNTbebPyktQGFx8moPozqgQh95+
+ JIsn3HKqtZxqN2HQuAkQgPwoPMxS9+7fsvdU+D/gRKwu726F9o4SyLu3AbcbUdEkpD
+ SXP/vFT43hvLMomzK0OaKzXfSAHj+PUrq0hCZ7658RmxFtONepaCRqpB8xIGhE+82i
+ +U0h+bEhUbm2w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zhigang Luo <Zhigang.Luo@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Sasha Levin <sashal@kernel.org>, ogabbay@kernel.org,
+ thomas.hellstrom@linux.intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.8 33/43] amd/amdkfd: sync all devices to wait all
- processes being evicted
-Date: Mon, 22 Apr 2024 19:14:19 -0400
-Message-ID: <20240422231521.1592991-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 40/43] drm/xe/xe_migrate: Cast to output precision
+ before multiplying operands
+Date: Mon, 22 Apr 2024 19:14:26 -0400
+Message-ID: <20240422231521.1592991-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240422231521.1592991-1-sashal@kernel.org>
 References: <20240422231521.1592991-1-sashal@kernel.org>
@@ -65,77 +68,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zhigang Luo <Zhigang.Luo@amd.com>
+From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
 
-[ Upstream commit d06af584be5a769d124b7302b32a033e9559761d ]
+[ Upstream commit 9cb46b31f3d08ed3fce86349e8c12f96d7c88717 ]
 
-If there are more than one device doing reset in parallel, the first
-device will call kfd_suspend_all_processes() to evict all processes
-on all devices, this call takes time to finish. other device will
-start reset and recover without waiting. if the process has not been
-evicted before doing recover, it will be restored, then caused page
-fault.
+Addressing potential overflow in result of  multiplication of two lower
+precision (u32) operands before widening it to higher precision
+(u64).
 
-Signed-off-by: Zhigang Luo <Zhigang.Luo@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+-v2
+Fix commit message and description. (Rodrigo)
+
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240401175300.3823653-1-himal.prasad.ghimiray@intel.com
+Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+(cherry picked from commit 34820967ae7b45411f8f4f737c2d63b0c608e0d7)
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_device.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/xe/xe_migrate.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-index 0a9cf9dfc2243..fcf6558d019e5 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-@@ -944,7 +944,6 @@ void kgd2kfd_suspend(struct kfd_dev *kfd, bool run_pm)
- {
- 	struct kfd_node *node;
- 	int i;
--	int count;
+diff --git a/drivers/gpu/drm/xe/xe_migrate.c b/drivers/gpu/drm/xe/xe_migrate.c
+index 70480c3056021..7a6ad3469d748 100644
+--- a/drivers/gpu/drm/xe/xe_migrate.c
++++ b/drivers/gpu/drm/xe/xe_migrate.c
+@@ -216,7 +216,7 @@ static int xe_migrate_prepare_vm(struct xe_tile *tile, struct xe_migrate *m,
+ 		if (vm->flags & XE_VM_FLAG_64K && level == 1)
+ 			flags = XE_PDE_64K;
  
- 	if (!kfd->init_complete)
- 		return;
-@@ -952,12 +951,10 @@ void kgd2kfd_suspend(struct kfd_dev *kfd, bool run_pm)
- 	/* for runtime suspend, skip locking kfd */
- 	if (!run_pm) {
- 		mutex_lock(&kfd_processes_mutex);
--		count = ++kfd_locked;
--		mutex_unlock(&kfd_processes_mutex);
--
- 		/* For first KFD device suspend all the KFD processes */
--		if (count == 1)
-+		if (++kfd_locked == 1)
- 			kfd_suspend_all_processes();
-+		mutex_unlock(&kfd_processes_mutex);
- 	}
+-		entry = vm->pt_ops->pde_encode_bo(bo, map_ofs + (level - 1) *
++		entry = vm->pt_ops->pde_encode_bo(bo, map_ofs + (u64)(level - 1) *
+ 						  XE_PAGE_SIZE, pat_index);
+ 		xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE * level, u64,
+ 			  entry | flags);
+@@ -224,7 +224,7 @@ static int xe_migrate_prepare_vm(struct xe_tile *tile, struct xe_migrate *m,
  
- 	for (i = 0; i < kfd->num_nodes; i++) {
-@@ -968,7 +965,7 @@ void kgd2kfd_suspend(struct kfd_dev *kfd, bool run_pm)
+ 	/* Write PDE's that point to our BO. */
+ 	for (i = 0; i < num_entries - num_level; i++) {
+-		entry = vm->pt_ops->pde_encode_bo(bo, i * XE_PAGE_SIZE,
++		entry = vm->pt_ops->pde_encode_bo(bo, (u64)i * XE_PAGE_SIZE,
+ 						  pat_index);
  
- int kgd2kfd_resume(struct kfd_dev *kfd, bool run_pm)
- {
--	int ret, count, i;
-+	int ret, i;
+ 		xe_map_wr(xe, &bo->vmap, map_ofs + XE_PAGE_SIZE +
+@@ -280,7 +280,7 @@ static int xe_migrate_prepare_vm(struct xe_tile *tile, struct xe_migrate *m,
+ #define VM_SA_UPDATE_UNIT_SIZE		(XE_PAGE_SIZE / NUM_VMUSA_UNIT_PER_PAGE)
+ #define NUM_VMUSA_WRITES_PER_UNIT	(VM_SA_UPDATE_UNIT_SIZE / sizeof(u64))
+ 	drm_suballoc_manager_init(&m->vm_update_sa,
+-				  (map_ofs / XE_PAGE_SIZE - NUM_KERNEL_PDE) *
++				  (size_t)(map_ofs / XE_PAGE_SIZE - NUM_KERNEL_PDE) *
+ 				  NUM_VMUSA_UNIT_PER_PAGE, 0);
  
- 	if (!kfd->init_complete)
- 		return 0;
-@@ -982,12 +979,10 @@ int kgd2kfd_resume(struct kfd_dev *kfd, bool run_pm)
- 	/* for runtime resume, skip unlocking kfd */
- 	if (!run_pm) {
- 		mutex_lock(&kfd_processes_mutex);
--		count = --kfd_locked;
--		mutex_unlock(&kfd_processes_mutex);
--
--		WARN_ONCE(count < 0, "KFD suspend / resume ref. error");
--		if (count == 0)
-+		if (--kfd_locked == 0)
- 			ret = kfd_resume_all_processes();
-+		WARN_ONCE(kfd_locked < 0, "KFD suspend / resume ref. error");
-+		mutex_unlock(&kfd_processes_mutex);
- 	}
+ 	m->pt_bo = bo;
+@@ -479,7 +479,7 @@ static void emit_pte(struct xe_migrate *m,
+ 	struct xe_vm *vm = m->q->vm;
+ 	u16 pat_index;
+ 	u32 ptes;
+-	u64 ofs = at_pt * XE_PAGE_SIZE;
++	u64 ofs = (u64)at_pt * XE_PAGE_SIZE;
+ 	u64 cur_ofs;
  
- 	return ret;
+ 	/* Indirect access needs compression enabled uncached PAT index */
 -- 
 2.43.0
 
