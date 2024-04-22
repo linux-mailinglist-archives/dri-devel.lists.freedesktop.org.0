@@ -2,61 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6E578ACAC3
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 12:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8695D8ACB9E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 13:06:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44D3E10F8C1;
-	Mon, 22 Apr 2024 10:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDDAA10F5AF;
+	Mon, 22 Apr 2024 11:06:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ErOpX/ai";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Iky/XuzD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F22D010F8C1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 10:34:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713782048;
- bh=MG9YQbs1kO+rb1+HfkydhLTVRcZ+uJduytT4/2s2HTw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ErOpX/aidrIQqDtcw67rtMayccqP4EcoyBlJSMLQ4dHadUxCqy95mi5g9NNUtx++k
- 8n/A0az3yfeIEnTPgO8evVuR5pYi5DMhuvMfiHNgjgyy0wbuMTjv7acJcQ77/VO3Tr
- +g4N3xz01pv4n1KzBJV+0nSDA8edO7bfSymofVu7W4mNsjKUdoCdIKLLoQ3PwJr5sr
- Wf11S5P0qdf38gk9Wn9pKGVBzZT5Pp9sma1kgsSMlDu9YQpKvX5FsUiTbPck41sr/P
- T4M70tYzGcbG83pyyDo2OshC5QV/VyJOwPNJ264isDXTNCkLmRm30ms/pWKefOw4jC
- kYs4g3gYUlFYg==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id F1BB33780C22;
- Mon, 22 Apr 2024 10:34:06 +0000 (UTC)
-Date: Mon, 22 Apr 2024 13:33:58 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- rdunlap@infradead.org, arthurgrillo@riseup.net, Jonathan Corbet
- <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v6 03/17] drm/vkms: write/update the documentation for
- pixel conversion and pixel write functions
-Message-ID: <20240422133358.59fb6221.pekka.paalanen@collabora.com>
-In-Reply-To: <20240409-yuv-v6-3-de1c5728fd70@bootlin.com>
-References: <20240409-yuv-v6-0-de1c5728fd70@bootlin.com>
- <20240409-yuv-v6-3-de1c5728fd70@bootlin.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29B8410F5AF
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 11:06:20 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-51967f75763so4976661e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 04:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713783978; x=1714388778; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=YpQrXbEcCU95VEbn1ht9SCgCeWNIV1UG30wM8nT8/HA=;
+ b=Iky/XuzDU939TRD0uKh9pae4sLOsmNllVURQBSupkQecrzOisYuV5bSSASeeis7+h6
+ 3Yx2eRT5RNuWzc4S6SXmguch4GAun+n57oAgVzHHm47IIBc6dvmm91f6fukMwO3ydQGk
+ a+tk6+zfzcFip1LWPSKflz1r7Fc8KnesjTHH9a0lRxpqAuSSk4fsnoIuA2/GNn4qmayD
+ pp8ofj2Os5XxRBG9v5ShuIegizTztagYcKWWbdKCq5C7ATSgEND+c3ReqqJQGCWqtL6j
+ j0fdA68YBRrnpIqZNEiQrGdyFCY0CFZCikuMJoXCVFGtTqt0QaQSTMFcA8SqUsgzUJgU
+ yYTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713783978; x=1714388778;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YpQrXbEcCU95VEbn1ht9SCgCeWNIV1UG30wM8nT8/HA=;
+ b=Q4JQmTtu8e9IdbsWquJvUxNWwR35zOBRv6Vz/21Hvzb1/hQN4TOPbIPbcIBVdIVdjE
+ L9a9+TQL9h+ajdAgj4y2UeGRkvlUWO6TAzNA9DjkLa39h5FjwzGmgO+0hKZa6nBuFFs3
+ 7BtrjeqohTX7jhkBuUdxB4jPV7cTXkXtZggk5TsCUGEd5Vr0HXbeAy9f25o8tqoHjlOM
+ KSVUBVprjkwec/53ixEek8n3DXnHGdM4OKFWpG2LJAj/hJ46b76Ief4hd8DGc2zaWQVP
+ LnbSdJsMGwbzhqpZiP0QjWyiA+HnRV8I3n4fNYPRgdbR6wkIjP4qWmcK5spJkAVfauCK
+ Ta3Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUkzcuFw5zGwqBZyBR28od8hiWcw5NKB4Vt2Fcdb3/Qg8vsDgasOGy4DYF4PdhOHhH2zJDPspMv8jFxQyNTqpPaU4+4b0iOsq+2FrbvCpF+
+X-Gm-Message-State: AOJu0YwfJKH2vXXZKqYJ/GFXo1T1tk2f3rF7Wdvvz4FkB712D0yd56yV
+ kb/PZYG47eMY/SxeVWRM88xzQ/EqHWHXMNfxZW0WrmK8hM8GYsewdIfCLTt31YJcAsLO6MnJMyu
+ K
+X-Google-Smtp-Source: AGHT+IGvMJPnVtav8C7a9RvZzJ6oUxfqmZc0E21ejXxuWH9bYRI8cN0vx9XysiMv+sjyZIgD4/s9rw==
+X-Received: by 2002:ac2:4182:0:b0:518:dae6:d0ec with SMTP id
+ z2-20020ac24182000000b00518dae6d0ecmr5805319lfh.4.1713783978031; 
+ Mon, 22 Apr 2024 04:06:18 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ z4-20020ac24184000000b0051589cc26afsm1707031lfh.72.2024.04.22.04.06.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Apr 2024 04:06:17 -0700 (PDT)
+Date: Mon, 22 Apr 2024 14:06:16 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Abel Vesa <abel.vesa@linaro.org>, 
+ Johan Hovold <johan+linaro@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 1/9] drm/msm/dpu: drop dpu_format_check_modified_format
+Message-ID: <wpc7hzr2xol6mz6j4se2a3j7u52fvs6rpikcbpzet7ebz24dbf@g7rlhiz72q46>
+References: <20240319-dpu-mode-config-width-v1-0-d0fe6bf81bf1@linaro.org>
+ <20240319-dpu-mode-config-width-v1-1-d0fe6bf81bf1@linaro.org>
+ <9c2f5f63-291c-c2b5-41a1-d2004055cf7a@quicinc.com>
+ <ccgx5mjsxf2asvadithitzl7shkboj6ipcg6onfawa5pskchgd@etighi5usone>
+ <c3021397-5d2e-c331-663f-eb3803cfc0e0@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/EIm6IB..eFYrq.HVSRXLgeq";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c3021397-5d2e-c331-663f-eb3803cfc0e0@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,273 +92,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/EIm6IB..eFYrq.HVSRXLgeq
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Fri, Apr 19, 2024 at 07:32:35PM -0700, Abhinav Kumar wrote:
+> 
+> 
+> On 4/19/2024 6:26 PM, Dmitry Baryshkov wrote:
+> > On Fri, Apr 19, 2024 at 04:43:20PM -0700, Abhinav Kumar wrote:
+> > > 
+> > > 
+> > > On 3/19/2024 6:21 AM, Dmitry Baryshkov wrote:
+> > > > The msm_kms_funcs::check_modified_format() callback is not used by the
+> > > > driver. Drop it completely.
+> > > > 
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > ---
+> > > >    drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c | 45 -----------------------------
+> > > >    drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h | 15 ----------
+> > > >    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  1 -
+> > > >    drivers/gpu/drm/msm/msm_kms.h               |  5 ----
+> > > >    4 files changed, 66 deletions(-)
+> > > > 
+> > > 
+> > > I think in this case, I am leaning towards completing the implementation
+> > > rather than dropping it as usual.
+> > > 
+> > > It seems its easier to just add the support to call this like the attached
+> > > patch?
+> > 
+> > Please don't attach patches to the email. It makes it impossible to
+> > respond to them.
+> > 
+> 
+> I attached it because it was too much to paste over here.
+> 
+> Please review msm_framebuffer_init() in the downstream sources.
+> 
+> The only missing piece I can see is the handling of DRM_MODE_FB_MODIFIERS
+> flags.
 
-On Tue, 09 Apr 2024 15:25:21 +0200
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+I checked and I don't like this approach.
 
-> Add some documentation on pixel conversion functions.
-> Update of outdated comments for pixel_write functions.
->=20
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c |  7 ++++
->  drivers/gpu/drm/vkms/vkms_drv.h      | 15 ++++++++-
->  drivers/gpu/drm/vkms/vkms_formats.c  | 62 ++++++++++++++++++++++++++++++=
-------
->  3 files changed, 74 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
-vkms_composer.c
-> index c6d9b4a65809..da0651a94c9b 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -189,6 +189,13 @@ static void blend(struct vkms_writeback_job *wb,
-> =20
->  	size_t crtc_y_limit =3D crtc_state->base.crtc->mode.vdisplay;
-> =20
-> +	/*
-> +	 * The planes are composed line-by-line to avoid heavy memory usage. It=
- is a necessary
-> +	 * complexity to avoid poor blending performance.
-> +	 *
-> +	 * The function vkms_compose_row is used to read a line, pixel-by-pixel=
-, into the staging
-> +	 * buffer.
-> +	 */
->  	for (size_t y =3D 0; y < crtc_y_limit; y++) {
->  		fill_background(&background_color, output_buffer);
-> =20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index b4b357447292..a86cb537d6aa 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -25,6 +25,17 @@
-> =20
->  #define VKMS_LUT_SIZE 256
-> =20
-> +/**
-> + * struct vkms_frame_info - structure to store the state of a frame
-> + *
-> + * @fb: backing drm framebuffer
-> + * @src: source rectangle of this frame in the source framebuffer
-> + * @dst: destination rectangle in the crtc buffer
+With the generic formats database in place, there should be no
+driver-specific code that handles formats. Moreover, I think this should
+be handled by the generic code in framebuffer_check() if msm driver
+implements a proper get_format_info() callback. Please consider sending
+a patch that does it. For now I can only consider the function in
+question to be a dead code which should be dropped.
 
-Are both src and dst using whole pixel units, or is src using 1/65536th
-pixel units?
+> 
+> I am unable to trace back why this support was not present.
+> 
+> > Anyway, what are we missing with the current codebase? Why wasn't the
+> > callback / function used in the first place?
+> > 
+> > > 
+> > > WDYT?
+> > > 
+> > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+> > > > index e366ab134249..ff0df478c958 100644
+> > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+> > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+> > > > @@ -960,51 +960,6 @@ int dpu_format_populate_layout(
+> > > >    	return ret;
+> > > >    }
+> > > > -int dpu_format_check_modified_format(
+> > > > -		const struct msm_kms *kms,
+> > > > -		const struct msm_format *msm_fmt,
+> > > > -		const struct drm_mode_fb_cmd2 *cmd,
+> > > > -		struct drm_gem_object **bos)
+> > > > -{
+> > > > -	const struct drm_format_info *info;
+> > > > -	const struct dpu_format *fmt;
+> > > > -	struct dpu_hw_fmt_layout layout;
+> > > > -	uint32_t bos_total_size = 0;
+> > > > -	int ret, i;
+> > > > -
+> > > > -	if (!msm_fmt || !cmd || !bos) {
+> > > > -		DRM_ERROR("invalid arguments\n");
+> > > > -		return -EINVAL;
+> > > > -	}
+> > > > -
+> > > > -	fmt = to_dpu_format(msm_fmt);
+> > > > -	info = drm_format_info(fmt->base.pixel_format);
+> > > > -	if (!info)
+> > > > -		return -EINVAL;
+> > > > -
+> > > > -	ret = dpu_format_get_plane_sizes(fmt, cmd->width, cmd->height,
+> > > > -			&layout, cmd->pitches);
+> > > > -	if (ret)
+> > > > -		return ret;
+> > > > -
+> > > > -	for (i = 0; i < info->num_planes; i++) {
+> > > > -		if (!bos[i]) {
+> > > > -			DRM_ERROR("invalid handle for plane %d\n", i);
+> > > > -			return -EINVAL;
+> > > > -		}
+> > > > -		if ((i == 0) || (bos[i] != bos[0]))
+> > > > -			bos_total_size += bos[i]->size;
+> > > > -	}
+> > > > -
+> > > > -	if (bos_total_size < layout.total_size) {
+> > > > -		DRM_ERROR("buffers total size too small %u expected %u\n",
+> > > > -				bos_total_size, layout.total_size);
+> > > > -		return -EINVAL;
+> > > > -	}
+> > > > -
+> > > > -	return 0;
+> > > > -}
+> > > > -
+> > > >    const struct dpu_format *dpu_get_dpu_format_ext(
+> > > >    		const uint32_t format,
+> > > >    		const uint64_t modifier)
+> > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h
+> > > > index 84b8b3289f18..9442445f1a86 100644
+> > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h
+> > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h
+> > > > @@ -54,21 +54,6 @@ const struct msm_format *dpu_get_msm_format(
+> > > >    		const uint32_t format,
+> > > >    		const uint64_t modifiers);
+> > > > -/**
+> > > > - * dpu_format_check_modified_format - validate format and buffers for
+> > > > - *                   dpu non-standard, i.e. modified format
+> > > > - * @kms:             kms driver
+> > > > - * @msm_fmt:         pointer to the msm_fmt base pointer of an dpu_format
+> > > > - * @cmd:             fb_cmd2 structure user request
+> > > > - * @bos:             gem buffer object list
+> > > > - *
+> > > > - * Return: error code on failure, 0 on success
+> > > > - */
+> > > > -int dpu_format_check_modified_format(
+> > > > -		const struct msm_kms *kms,
+> > > > -		const struct msm_format *msm_fmt,
+> > > > -		const struct drm_mode_fb_cmd2 *cmd,
+> > > > -		struct drm_gem_object **bos);
+> > > >    /**
+> > > >     * dpu_format_populate_layout - populate the given format layout based on
+> > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > > > index a1f5d7c4ab91..7257ac4020d8 100644
+> > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> > > > @@ -969,7 +969,6 @@ static const struct msm_kms_funcs kms_funcs = {
+> > > >    	.complete_commit = dpu_kms_complete_commit,
+> > > >    	.enable_vblank   = dpu_kms_enable_vblank,
+> > > >    	.disable_vblank  = dpu_kms_disable_vblank,
+> > > > -	.check_modified_format = dpu_format_check_modified_format,
+> > > >    	.get_format      = dpu_get_msm_format,
+> > > >    	.destroy         = dpu_kms_destroy,
+> > > >    	.snapshot        = dpu_kms_mdp_snapshot,
+> > > > diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+> > > > index 0641f6111b93..b794ed918b56 100644
+> > > > --- a/drivers/gpu/drm/msm/msm_kms.h
+> > > > +++ b/drivers/gpu/drm/msm/msm_kms.h
+> > > > @@ -96,11 +96,6 @@ struct msm_kms_funcs {
+> > > >    	const struct msm_format *(*get_format)(struct msm_kms *kms,
+> > > >    					const uint32_t format,
+> > > >    					const uint64_t modifiers);
+> > > > -	/* do format checking on format modified through fb_cmd2 modifiers */
+> > > > -	int (*check_modified_format)(const struct msm_kms *kms,
+> > > > -			const struct msm_format *msm_fmt,
+> > > > -			const struct drm_mode_fb_cmd2 *cmd,
+> > > > -			struct drm_gem_object **bos);
+> > > >    	/* misc: */
+> > > >    	long (*round_pixclk)(struct msm_kms *kms, unsigned long rate,
+> > > > 
+> > 
 
-Asking because UAPI has src rect in 16.16 fixed-point, IIRC.
-
-With that clarified:
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
-> + * @map: see drm_shadow_plane_state@data
-> + * @rotation: rotation applied to the source.
-> + *
-> + * @src and @dst should have the same size modulo the rotation.
-> + */
->  struct vkms_frame_info {
->  	struct drm_framebuffer *fb;
->  	struct drm_rect src, dst;
-> @@ -49,9 +60,11 @@ struct vkms_writeback_job {
->  };
-> =20
->  /**
-> - * vkms_plane_state - Driver specific plane state
-> + * struct vkms_plane_state - Driver specific plane state
->   * @base: base plane state
->   * @frame_info: data required for composing computation
-> + * @pixel_read: function to read a pixel in this plane. The creator of a=
- vkms_plane_state must
-> + * ensure that this pointer is valid
->   */
->  struct vkms_plane_state {
->  	struct drm_shadow_plane_state base;
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/v=
-kms_formats.c
-> index d597c48452ac..f157c43da4d6 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -9,6 +9,18 @@
-> =20
->  #include "vkms_formats.h"
-> =20
-> +/**
-> + * pixel_offset() - Get the offset of the pixel at coordinates x/y in th=
-e first plane
-> + *
-> + * @frame_info: Buffer metadata
-> + * @x: The x coordinate of the wanted pixel in the buffer
-> + * @y: The y coordinate of the wanted pixel in the buffer
-> + *
-> + * The caller must ensure that the framebuffer associated with this requ=
-est uses a pixel format
-> + * where block_h =3D=3D block_w =3D=3D 1.
-> + * If this requirement is not fulfilled, the resulting offset can point =
-to an other pixel or
-> + * outside of the buffer.
-> + */
->  static size_t pixel_offset(const struct vkms_frame_info *frame_info, int=
- x, int y)
->  {
->  	struct drm_framebuffer *fb =3D frame_info->fb;
-> @@ -16,18 +28,22 @@ static size_t pixel_offset(const struct vkms_frame_in=
-fo *frame_info, int x, int
->  	return fb->offsets[0] + (y * fb->pitches[0]) + (x * fb->format->cpp[0]);
->  }
-> =20
-> -/*
-> - * packed_pixels_addr - Get the pointer to pixel of a given pair of coor=
-dinates
-> +/**
-> + * packed_pixels_addr() - Get the pointer to the block containing the pi=
-xel at the given
-> + * coordinates
->   *
->   * @frame_info: Buffer metadata
-> - * @x: The x(width) coordinate of the 2D buffer
-> - * @y: The y(Heigth) coordinate of the 2D buffer
-> + * @x: The x (width) coordinate inside the plane
-> + * @y: The y (height) coordinate inside the plane
->   *
->   * Takes the information stored in the frame_info, a pair of coordinates=
-, and
->   * returns the address of the first color channel.
->   * This function assumes the channels are packed together, i.e. a color =
-channel
->   * comes immediately after another in the memory. And therefore, this fu=
-nction
->   * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
-> + *
-> + * The caller must ensure that the framebuffer associated with this requ=
-est uses a pixel format
-> + * where block_h =3D=3D block_w =3D=3D 1, otherwise the returned pointer=
- can be outside the buffer.
->   */
->  static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
->  				int x, int y)
-> @@ -52,6 +68,13 @@ static int get_x_position(const struct vkms_frame_info=
- *frame_info, int limit, i
->  	return x;
->  }
-> =20
-> +/*
-> + * The following functions take pixel data from the buffer and convert t=
-hem to the format
-> + * ARGB16161616 in out_pixel.
-> + *
-> + * They are used in the vkms_compose_row() function to handle multiple f=
-ormats.
-> + */
-> +
->  static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *=
-out_pixel)
->  {
->  	/*
-> @@ -144,12 +167,11 @@ void vkms_compose_row(struct line_buffer *stage_buf=
-fer, struct vkms_plane_state
->  }
-> =20
->  /*
-> - * The following  functions take an line of argb_u16 pixels from the
-> - * src_buffer, convert them to a specific format, and store them in the
-> - * destination.
-> + * The following functions take one &struct pixel_argb_u16 and convert i=
-t to a specific format.
-> + * The result is stored in @dst_pixels.
->   *
-> - * They are used in the `compose_active_planes` to convert and store a l=
-ine
-> - * from the src_buffer to the writeback buffer.
-> + * They are used in vkms_writeback_row() to convert and store a pixel fr=
-om the src_buffer to
-> + * the writeback buffer.
->   */
->  static void argb_u16_to_ARGB8888(u8 *dst_pixels, struct pixel_argb_u16 *=
-in_pixel)
->  {
-> @@ -215,6 +237,14 @@ static void argb_u16_to_RGB565(u8 *dst_pixels, struc=
-t pixel_argb_u16 *in_pixel)
->  	*pixels =3D cpu_to_le16(r << 11 | g << 5 | b);
->  }
-> =20
-> +/**
-> + * vkms_writeback_row() - Generic loop for all supported writeback forma=
-t. It is executed just
-> + * after the blending to write a line in the writeback buffer.
-> + *
-> + * @wb: Job where to insert the final image
-> + * @src_buffer: Line to write
-> + * @y: Row to write in the writeback buffer
-> + */
->  void vkms_writeback_row(struct vkms_writeback_job *wb,
->  			const struct line_buffer *src_buffer, int y)
->  {
-> @@ -228,6 +258,13 @@ void vkms_writeback_row(struct vkms_writeback_job *w=
-b,
->  		wb->pixel_write(dst_pixels, &in_pixels[x]);
->  }
-> =20
-> +/**
-> + * get_pixel_conversion_function() - Retrieve the correct read_pixel fun=
-ction for a specific
-> + * format. The returned pointer is NULL for unsupported pixel formats. T=
-he caller must ensure that
-> + * the pointer is valid before using it in a vkms_plane_state.
-> + *
-> + * @format: DRM_FORMAT_* value for which to obtain a conversion function=
- (see [drm_fourcc.h])
-> + */
->  void *get_pixel_conversion_function(u32 format)
->  {
->  	switch (format) {
-> @@ -246,6 +283,13 @@ void *get_pixel_conversion_function(u32 format)
->  	}
->  }
-> =20
-> +/**
-> + * get_pixel_write_function() - Retrieve the correct write_pixel functio=
-n for a specific format.
-> + * The returned pointer is NULL for unsupported pixel formats. The calle=
-r must ensure that the
-> + * pointer is valid before using it in a vkms_writeback_job.
-> + *
-> + * @format: DRM_FORMAT_* value for which to obtain a conversion function=
- (see [drm_fourcc.h])
-> + */
->  void *get_pixel_write_function(u32 format)
->  {
->  	switch (format) {
->=20
-
-
---Sig_/EIm6IB..eFYrq.HVSRXLgeq
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYmPRYACgkQI1/ltBGq
-qqewxhAAsYnpt/DIidHlYBwpB+wldfXfwL7esJ18ZaI3oUlBqJM4ys8w9dRH/8cZ
-VoBam+/xCUUwVB1E5AsW7840IAEiCHAVZGWbSN16Q/cDNgn289aD5taR+A43DyW2
-ahsOVkNvMsOvvvPlgcX5VIaegFZ+N/5W55nzDFpJKAMIBioWVwYOG6JNCPr5Bber
-6cnwt6dFSn4VkXWDZfVVQUecI1Vj6x85dJIdDDaKLpV571sUsgwGsiATWMwBP8CE
-+EFrM89303ZMLzMkcVtBuv5yRYjVV8xGI1tLVqeIWpUtXM8sr+RbjWJaqmG66kiX
-/lLam7juC4PeZzI4/djd/B7H/6rkBmMLt+sbifU1S2DGtoT8Wa4zYMPr3/KJ83U7
-ANdtarYO+ck65F/eCJlXgBI+OblFuIL0Hchw0HLlpY+8CRbCY4wmyXBkLJCdxly/
-R4hhOp0dBTWg7Y56oCmFUuX33R7Ycru0ochzrzGi1P22mWxrLkLFLZNVdHCjDqK7
-MSmIaz5b39QjGInyAsBjfJ1X0TkoCX6yc3bfyte2wu8SDTiNi5PDlKCjqSSoHLnT
-h9v99dgfeE9QbD3W9JdvULjr0mQhlYR0vZ88rk+ulW8aQCftOHdW+5tJTRWMd7Io
-8Ap6pRkMSHFChi5zs3IUYj4WRMOs1aa0uwvk9bptOcz1joxTt8A=
-=dlf9
------END PGP SIGNATURE-----
-
---Sig_/EIm6IB..eFYrq.HVSRXLgeq--
+-- 
+With best wishes
+Dmitry
