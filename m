@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D110B8AD9C2
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6C88AD9C8
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0E7112E8C;
-	Mon, 22 Apr 2024 23:58:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB18112E8E;
+	Mon, 22 Apr 2024 23:58:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t/pwF3kU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a0WSWj0S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B155112E8B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 23:58:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85B7B112E8E
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 23:58:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CC01ECE0EBC;
- Mon, 22 Apr 2024 23:58:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C227BC2BD11;
- Mon, 22 Apr 2024 23:58:19 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 8768CCE0EB3;
+ Mon, 22 Apr 2024 23:58:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B6BC2BD11;
+ Mon, 22 Apr 2024 23:58:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713830301;
- bh=dAATtIO+PHk+nCVuy1FR/y8lxxhRnQCB9SvS8GX/v3o=;
+ s=k20201202; t=1713830327;
+ bh=JKVsaxJo/pKtxdhByvwKTlGoDkDpTOFdoHcj/OwxayA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=t/pwF3kUBgLGaRE6clVEPwwZhmC3JaIUseVFBD+LIpINSGnMmktYvARCJBxmQ48FD
- XVkQqNaL7TP+t2ffFwBYp+bInPmiEYrINPorvhM2pz++ViLplMosbZEt0KpXnWFkjf
- BH2NyyO9N7f4El5eVirXgFX/Tz0hs5pbSurKWaGMjko9T3xns/WVraganHQlm8+6H1
- eFw0cY0oZA/KzQZiv3W1mE19BKB0IPf9n7f9zpTCRKCw9xy7MZ51zVNpT7yQxJX4pJ
- 7mZoKHodUX+mXvttbLY3Dl19GmbsvG8JSAoLEo7uj1+YBLzwfM5eKmAHjc6wknJByA
- GZzMFSzf0lEkw==
+ b=a0WSWj0SW3qzA7D/RxuSId0O5pjTIEvISrvpCYI4wh1NF4+xWYv36pq3UsGxi3YRk
+ HiYQ7aSqGYjYu7MC1Rj/FJsiLgNBiyqfuAJUrZDT2VOmVGnVYiXWd0n+IsNwX/zCh9
+ tU7JnIEOYe73CEBQhgbvhjAfNZZso6h4hHP0QGsIT9ljcf8pFqsZtFDDvPpntMrEMe
+ vqPkCtWUGSjsn4pdnQyyZdxi+smGz2hdUQb5T1MGZP/a/kj6it++Ge1VEl9Nd4JYt+
+ FJUpJaHUFp2DokG9yekPsaMptkgiRNLvweuMTikigW48cPHvxR4rNf1xWbnPfIjtKr
+ 7eDkaFLR+IFWw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,17 +37,17 @@ Cc: Thierry Reding <treding@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>,
  Sasha Levin <sashal@kernel.org>, thierry.reding@gmail.com,
  mperttunen@nvidia.com, airlied@gmail.com, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 07/10] gpu: host1x: Do not setup DMA for virtual
+Subject: [PATCH AUTOSEL 5.10 7/9] gpu: host1x: Do not setup DMA for virtual
  devices
-Date: Mon, 22 Apr 2024 19:19:20 -0400
-Message-ID: <20240422231929.1611680-7-sashal@kernel.org>
+Date: Mon, 22 Apr 2024 19:19:48 -0400
+Message-ID: <20240422231955.1613650-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240422231929.1611680-1-sashal@kernel.org>
-References: <20240422231929.1611680-1-sashal@kernel.org>
+In-Reply-To: <20240422231955.1613650-1-sashal@kernel.org>
+References: <20240422231955.1613650-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.156
+X-stable-base: Linux 5.10.215
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,10 +85,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 deletions(-)
 
 diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 218e3718fd68c..96737ddc81209 100644
+index 6e3b49d0de66d..b113c8e0acd02 100644
 --- a/drivers/gpu/host1x/bus.c
 +++ b/drivers/gpu/host1x/bus.c
-@@ -367,11 +367,6 @@ static int host1x_device_uevent(struct device *dev,
+@@ -335,11 +335,6 @@ static int host1x_device_uevent(struct device *dev,
  	return 0;
  }
  
@@ -100,7 +100,7 @@ index 218e3718fd68c..96737ddc81209 100644
  static const struct dev_pm_ops host1x_device_pm_ops = {
  	.suspend = pm_generic_suspend,
  	.resume = pm_generic_resume,
-@@ -385,7 +380,6 @@ struct bus_type host1x_bus_type = {
+@@ -353,7 +348,6 @@ struct bus_type host1x_bus_type = {
  	.name = "host1x",
  	.match = host1x_device_match,
  	.uevent = host1x_device_uevent,
@@ -108,7 +108,7 @@ index 218e3718fd68c..96737ddc81209 100644
  	.pm = &host1x_device_pm_ops,
  };
  
-@@ -474,8 +468,6 @@ static int host1x_device_add(struct host1x *host1x,
+@@ -442,8 +436,6 @@ static int host1x_device_add(struct host1x *host1x,
  	device->dev.bus = &host1x_bus_type;
  	device->dev.parent = host1x->dev;
  
