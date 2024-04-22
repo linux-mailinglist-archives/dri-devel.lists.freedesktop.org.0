@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998808AD4BB
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CFB8AD4BD
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:19:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2652112D06;
-	Mon, 22 Apr 2024 19:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9C7112D07;
+	Mon, 22 Apr 2024 19:19:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="grekojdB";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="tkeZhKjV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
- [95.215.58.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59A73112D07
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:19:47 +0000 (UTC)
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
+ [95.215.58.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 781D4112D07
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:19:52 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1713813585;
+ t=1713813590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6tEoow3QlZGEbyC23DthOGK7n4k2QNy+D7Afpqn4m4E=;
- b=grekojdBfk5IRS1AuUtJx9mglk/CpIRleMxyBUxlK5LaySMjdhQaMGbN6vbnhyBdbFTznE
- RK2njiinQPUzemCRsUx6Pa4vGXlQYvb/9ybEQhBv17JNscdUsW7M9I5td3VipSkIMuzC5a
- o/ZnnMZ8lZCzvy0oyynUBDOnPvslrII=
+ bh=gqEhBcfnv9rUbWN96BkVZjg/A8+GnWYlmO3Ge72EuvE=;
+ b=tkeZhKjVLuvfh6Foyzk3MbB2uAvEY5upHeSRQ+blEYlElqGcK63pkFZY0N3cCd3XH2JdF/
+ huv7OpW7uxnTL+qtFVG+Isu7CoTzn8Exnttl2egWGTj0p3+3+NVSO6UbTvV0MLeRO0z4/u
+ o2sk53FsT3BzwQVRuUBUpra9pTTgNjM=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Neil Armstrong <neil.armstrong@linaro.org>
 Cc: Robert Foss <rfoss@kernel.org>,
@@ -39,10 +39,10 @@ Cc: Robert Foss <rfoss@kernel.org>,
  Daniel Vetter <daniel@ffwll.ch>, Phong LE <ple@baylibre.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v4 6/9] drm-bridge: sii902x: Use fwnode API to acquire device
+Subject: [PATCH v4 7/9] drm-bridge: it66121: Use fwnode API to acquire device
  properties
-Date: Tue, 23 Apr 2024 03:19:00 +0800
-Message-Id: <20240422191903.255642-7-sui.jingfeng@linux.dev>
+Date: Tue, 23 Apr 2024 03:19:01 +0800
+Message-Id: <20240422191903.255642-8-sui.jingfeng@linux.dev>
 In-Reply-To: <20240422191903.255642-1-sui.jingfeng@linux.dev>
 References: <20240422191903.255642-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -63,104 +63,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make this driver less DT-dependent by calling the freshly created helper
-functions, which reduce boilerplate. Should be no functional changes for
-DT based systems.
+Make this driver DT-independent by calling the freshly created helpers,
+which reduce boilerplate and open the door for otherwise use cases. No
+functional changes for DT based systems.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/bridge/sii902x.c | 43 +++++++++++---------------------
- 1 file changed, 14 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/bridge/ite-it66121.c | 57 +++++++++++++++++-----------
+ 1 file changed, 35 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index 8f84e98249c7..04436f318c7f 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -827,20 +827,19 @@ static int sii902x_audio_codec_init(struct sii902x *sii902x,
- 		.spdif = 0,
- 		.max_i2s_channels = 0,
- 	};
-+	struct fwnode_handle *fwnode = dev_fwnode(dev);
- 	u8 lanes[4];
- 	int num_lanes, i;
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index 925e42f46cd8..688dc1830654 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -15,7 +15,6 @@
+ #include <linux/bitfield.h>
+ #include <linux/property.h>
+ #include <linux/regmap.h>
+-#include <linux/of_graph.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/regulator/consumer.h>
+@@ -1480,7 +1479,7 @@ static int it66121_audio_codec_init(struct it66121_ctx *ctx, struct device *dev)
+ 
+ 	dev_dbg(dev, "%s\n", __func__);
  
 -	if (!of_property_read_bool(dev->of_node, "#sound-dai-cells")) {
-+	if (!fwnode_property_present(fwnode, "#sound-dai-cells")) {
- 		dev_dbg(dev, "%s: No \"#sound-dai-cells\", no audio\n",
- 			__func__);
++	if (!fwnode_property_present(dev_fwnode(dev), "#sound-dai-cells")) {
+ 		dev_info(dev, "No \"#sound-dai-cells\", no audio\n");
  		return 0;
  	}
+@@ -1503,13 +1502,36 @@ static const char * const it66121_supplies[] = {
+ 	"vcn33", "vcn18", "vrf12"
+ };
  
--	num_lanes = of_property_read_variable_u8_array(dev->of_node,
--						       "sil,i2s-data-lanes",
--						       lanes, 1,
--						       ARRAY_SIZE(lanes));
--
-+	num_lanes = fwnode_property_read_u8_array(fwnode,
-+						  "sil,i2s-data-lanes",
-+						  lanes, ARRAY_SIZE(lanes));
- 	if (num_lanes == -EINVAL) {
- 		dev_dbg(dev,
- 			"%s: No \"sil,i2s-data-lanes\", use default <0>\n",
-@@ -1097,13 +1096,13 @@ static int sii902x_init(struct sii902x *sii902x)
- 		goto err_unreg_audio;
- 
- 	sii902x->bridge.funcs = &sii902x_bridge_funcs;
--	sii902x->bridge.of_node = dev->of_node;
- 	sii902x->bridge.timings = &default_sii902x_timings;
- 	sii902x->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
- 
- 	if (sii902x->i2c->irq > 0)
- 		sii902x->bridge.ops |= DRM_BRIDGE_OP_HPD;
- 
-+	drm_bridge_set_node(&sii902x->bridge, dev_fwnode(dev));
- 	drm_bridge_add(&sii902x->bridge);
- 
- 	return 0;
-@@ -1118,7 +1117,6 @@ static int sii902x_init(struct sii902x *sii902x)
- static int sii902x_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
--	struct device_node *endpoint;
- 	struct sii902x *sii902x;
- 	static const char * const supplies[] = {"iovcc", "cvcc12"};
- 	int ret;
-@@ -1147,27 +1145,14 @@ static int sii902x_probe(struct i2c_client *client)
- 		return PTR_ERR(sii902x->reset_gpio);
- 	}
- 
--	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
--	if (endpoint) {
--		struct device_node *remote = of_graph_get_remote_port_parent(endpoint);
--
--		of_node_put(endpoint);
--		if (!remote) {
--			dev_err(dev, "Endpoint in port@1 unconnected\n");
--			return -ENODEV;
--		}
--
--		if (!of_device_is_available(remote)) {
--			dev_err(dev, "port@1 remote device is disabled\n");
--			of_node_put(remote);
--			return -ENODEV;
--		}
--
--		sii902x->next_bridge = of_drm_find_bridge(remote);
--		of_node_put(remote);
--		if (!sii902x->next_bridge)
--			return dev_err_probe(dev, -EPROBE_DEFER,
--					     "Failed to find remote bridge\n");
-+	sii902x->next_bridge = drm_bridge_find_next_bridge_by_fwnode(dev_fwnode(dev), 1);
-+	if (!sii902x->next_bridge) {
-+		return dev_err_probe(dev, -EPROBE_DEFER,
-+				     "Failed to find the next bridge\n");
-+	} else if (IS_ERR(sii902x->next_bridge)) {
-+		ret = PTR_ERR(sii902x->next_bridge);
-+		dev_err(dev, "Error on find the next bridge: %d\n", ret);
++static int it66121_read_bus_width(struct fwnode_handle *fwnode, u32 *bus_width)
++{
++	struct fwnode_handle *endpoint;
++	u32 val;
++	int ret;
++
++	endpoint = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
++	if (!endpoint)
++		return -EINVAL;
++
++	ret = fwnode_property_read_u32(endpoint, "bus-width", &val);
++	fwnode_handle_put(endpoint);
++	if (ret)
 +		return ret;
++
++	if (val != 12 && val != 24)
++		return -EINVAL;
++
++	*bus_width = val;
++
++	return 0;
++}
++
+ static int it66121_probe(struct i2c_client *client)
+ {
+ 	u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
+-	struct device_node *ep;
+ 	int ret;
+ 	struct it66121_ctx *ctx;
+ 	struct device *dev = &client->dev;
++	struct fwnode_handle *fwnode = dev_fwnode(dev);
+ 
+ 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+ 		dev_err(dev, "I2C check functionality failed.\n");
+@@ -1520,29 +1542,20 @@ static int it66121_probe(struct i2c_client *client)
+ 	if (!ctx)
+ 		return -ENOMEM;
+ 
+-	ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+-	if (!ep)
+-		return -EINVAL;
+-
+ 	ctx->dev = dev;
+ 	ctx->client = client;
+ 	ctx->info = i2c_get_match_data(client);
+ 
+-	of_property_read_u32(ep, "bus-width", &ctx->bus_width);
+-	of_node_put(ep);
+-
+-	if (ctx->bus_width != 12 && ctx->bus_width != 24)
+-		return -EINVAL;
+-
+-	ep = of_graph_get_remote_node(dev->of_node, 1, -1);
+-	if (!ep) {
+-		dev_err(ctx->dev, "The endpoint is unconnected\n");
+-		return -EINVAL;
+-	}
++	ret = it66121_read_bus_width(fwnode, &ctx->bus_width);
++	if (ret)
++		return ret;
+ 
+-	ctx->next_bridge = of_drm_find_bridge(ep);
+-	of_node_put(ep);
+-	if (!ctx->next_bridge) {
++	ctx->next_bridge = drm_bridge_find_next_bridge_by_fwnode(fwnode, 1);
++	if (IS_ERR(ctx->next_bridge)) {
++		ret = PTR_ERR(ctx->next_bridge);
++		dev_err(dev, "Error in founding the next bridge: %d\n", ret);
++		return ret;
++	} else if (!ctx->next_bridge) {
+ 		dev_dbg(ctx->dev, "Next bridge not found, deferring probe\n");
+ 		return -EPROBE_DEFER;
+ 	}
+@@ -1577,8 +1590,8 @@ static int it66121_probe(struct i2c_client *client)
+ 		return -ENODEV;
  	}
  
- 	mutex_init(&sii902x->mutex);
++	drm_bridge_set_node(&ctx->bridge, fwnode);
+ 	ctx->bridge.funcs = &it66121_bridge_funcs;
+-	ctx->bridge.of_node = dev->of_node;
+ 	ctx->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+ 	ctx->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
+ 	if (client->irq > 0) {
 -- 
 2.34.1
 
