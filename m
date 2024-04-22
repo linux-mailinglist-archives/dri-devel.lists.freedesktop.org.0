@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943248AD558
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 21:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6F08AD569
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 22:00:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F069110F804;
-	Mon, 22 Apr 2024 19:59:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD617112D2E;
+	Mon, 22 Apr 2024 20:00:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I4mrlvZi";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Dq+PDcyx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6E910F804
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 19:59:01 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-518931f8d23so5122136e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 12:59:01 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5770C112D2E
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 20:00:21 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-51abd580902so3147775e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 13:00:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713815940; x=1714420740; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713816019; x=1714420819; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=BCaWoKLrALkIbA4A/YaIT+eUoN1vxXvgvkVTJTvpm9w=;
- b=I4mrlvZir1Npz3IRI9GXYgZ+hDh8F7TvAhH/EF0NnEKgeJp/F0+Pa5HFGXtssBPLeq
- E03sgmgyGlaCB6fhJcmRe1V9c/31geUYH2gVPCC5K2vhByvBWEJeazgI6zL8poqVsaXZ
- O9TLmlMnJnSdJfJM85Mtd4UHXMc1aiX2H9mIJDHiNK9lV5U5gLf8IOkX4DV0JByV43s/
- fQecDJv8Xu35KZjaMBw47WJTdI6JF3QXo//OvcPn7p9Cm1G2hCiLsI1xlCuWAlX03Doj
- +WN/zSJMT81ZT5C5aSR89/5N7fmWEPshep+JRX/YAn1tsQyO1zBu5qQ4FfCnTvkYCFOK
- FADA==
+ bh=ycyox+a8uTJtkdg98AL9SQ6vby8NQcffWAyye0IOB3k=;
+ b=Dq+PDcyxezUbfXW2imjHIgn7KyLWeWsoZkUhZeVUUNiUFf2K/Z61Cqajov/WlO7EXd
+ ct/YKL3PVQJ3f19Unt5F1uitfrEwIFEoywRO840E/mUcdI3K8MvU0T+81vDvyAuDN48G
+ UGdkbBLP6Nqrzob54WZNT+Z1KmHrWmV6lGRPiHQjr8axiVycT9L29/GnUZ6I/its2kPm
+ GqFGmi3CG3qBLuExeYH06FONqSKc4B9uAA7gZITBXrIvwJeNpqKtcoDOg3qtsNbNieDR
+ GFpsfmoLNVTwLF3XIoyvcCjkTrdm6hf8oTYj56KY+eEriFIQeJVxOeKyuijdLFeMSVUC
+ XfeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713815940; x=1714420740;
+ d=1e100.net; s=20230601; t=1713816019; x=1714420819;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BCaWoKLrALkIbA4A/YaIT+eUoN1vxXvgvkVTJTvpm9w=;
- b=JvSZkZTbiI0g/iNuE2qx7fZ6tZ1d0Sgj2aKnJHMKOjTfUVW60exayIVIj9ZwA5GB2m
- U1MX5eMlAgwfDmymYnZSllzjsdbTpx0nvNC3uEiFiz/MwpgfSOadsqmYxCak687bn/tX
- 0XdezmU1XeAkK1znR1qeVnvIErqUUCSRcbIPIsxf26e9z14/Tb593pMZsdgz2o1GR2Dc
- 1o7FOIZAvdDKxW6IHLT4YuXzhFMg+jnRyTyNZuLMumpH+lALozt/EnNLPbBH7SLEobzg
- nbRR3o3+lk5nZgAijGnmP9H0/DujAim8ztoYN6XyGNx/DtXXNbAXbuyn4UbfzHkLgMrq
- XaWw==
+ bh=ycyox+a8uTJtkdg98AL9SQ6vby8NQcffWAyye0IOB3k=;
+ b=bhazsWAAneGYk9iZUJrqmpMyD61UCDiKtG4VB/Z/SrDUsKd6Co6e48mPytiAU3feO9
+ jza7v/ifLnKPsJs4UDYJRLL4I4D2lHyTAW1lQmMUsxk10SWx0Dg4ZU98kzOYuh9LnTGl
+ J5vAoySoL58whX4WLTQURV1lRS2K9sBQ1ZXZyrVvs58zafwgZCn0nnXMFlIHjlS4Cl9q
+ 8iHtrhW7zSPPIHhZ99meCg6XwIzaOTI/uvcAhtr6EzmCr2nsmpk93k14RjYaKgoKuW/K
+ 5AIiJI4Dp++p8oCBEG/RXqaFBhnP95HQUALtDT6eCUVZigpXYfr/m5nEn45PLtf8txZN
+ SkEA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUvT6t/oqri+2589M+8kplOzb5G+Vic6D6FixA26OIFCWmHUEm0oj1tZ/MXnq6OA6PVgzRzZ40NDclS/VSykeW587UrZ/Io0g+1xrV6U3HB
-X-Gm-Message-State: AOJu0Ywn6hfiy7Q0QKP1igFLigqJyUfjrqELgiscvNWrriOHCIjaOHsc
- VtXBsMMG/Luh+W6WjQ+GIyNhFw/fxZ6JoWNTzU1mgSLLmylJ/fpOxod7/pbMjmw=
-X-Google-Smtp-Source: AGHT+IFUb73EfVZYDKKz5Mp4KXCiEORIldm2g3t08iybjPl3d+C9b5pMwoTT+328QacufrKQEVzKOg==
-X-Received: by 2002:a05:6512:2016:b0:51b:180a:7b7c with SMTP id
- a22-20020a056512201600b0051b180a7b7cmr3000623lfb.3.1713815939653; 
- Mon, 22 Apr 2024 12:58:59 -0700 (PDT)
+ AJvYcCWxmGMXVKJCW9zG1H0XH+kPf8lJ4u7sgsLl1k+DVh0W0ciBPoB0wPnvvEQoURtMXbT9yEuK1MgQoN5Y0nTUbHUd/4wxrFzoaEr+jxMT032h
+X-Gm-Message-State: AOJu0YzSUqcUMO7hE+5x8LMx2NYM9nd6uLbYoomobktWKfugufRZfCff
+ KfQsSK0slvOk1Eg+YKyBy8IByxTkyBF4Ozpz4BL+O4r1pJgZ1oqYZmIQnxYrSeM=
+X-Google-Smtp-Source: AGHT+IFmcE/rLlQhhc5SXh6s9hDx2crTlCqCj2zT4cYpiu/1t32umou3INKWd2Lj3g3peUhc8hk+aw==
+X-Received: by 2002:a05:6512:20ce:b0:51a:bd8e:b3d0 with SMTP id
+ u14-20020a05651220ce00b0051abd8eb3d0mr180760lfr.22.1713816019354; 
+ Mon, 22 Apr 2024 13:00:19 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
  by smtp.gmail.com with ESMTPSA id
- j11-20020ac2550b000000b005195b745303sm1812574lfk.116.2024.04.22.12.58.58
+ h23-20020a19ca57000000b005178e88b4adsm1834219lfj.86.2024.04.22.13.00.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Apr 2024 12:58:58 -0700 (PDT)
-Date: Mon, 22 Apr 2024 22:58:57 +0300
+ Mon, 22 Apr 2024 13:00:18 -0700 (PDT)
+Date: Mon, 22 Apr 2024 23:00:16 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -67,15 +67,15 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>, Phong LE <ple@baylibre.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/9] drm/bridge: simple-bridge: Add platform module
- alias
-Message-ID: <rkmyhgdfyowtec3yfoyubtkb4v55qc5vn3kltc2mapml6qsbed@qdilwjw2hqgf>
+Subject: Re: [PATCH v4 4/9] drm-bridge: display-connector: Use fwnode API to
+ acquire device properties
+Message-ID: <nprf453sxgh3dyy4zh67dty5avuuqnpqf3ua4qpydmfuxb2zjs@jinatrfgjg6u>
 References: <20240422191903.255642-1-sui.jingfeng@linux.dev>
- <20240422191903.255642-4-sui.jingfeng@linux.dev>
+ <20240422191903.255642-5-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240422191903.255642-4-sui.jingfeng@linux.dev>
+In-Reply-To: <20240422191903.255642-5-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,32 +91,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 23, 2024 at 03:18:57AM +0800, Sui Jingfeng wrote:
-> Otherwise when compiled as module, this driver will not be probed on
-> non-DT environment. This is a fundamential step to make this driver
-> truely OF-independent.
+On Tue, Apr 23, 2024 at 03:18:58AM +0800, Sui Jingfeng wrote:
+> Make this driver less DT-dependent by using the fwnode helper functions,
+> should be no functional changes for DT based systems. Do the necessary
+> works before it can be truely DT-independent, this patch do no harms even
+> though there is no user yet.
 > 
 > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 > ---
->  drivers/gpu/drm/bridge/simple-bridge.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/bridge/display-connector.c | 24 +++++++++++-----------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-> index 3b09bdd5ad4d..6be271d1394b 100644
-> --- a/drivers/gpu/drm/bridge/simple-bridge.c
-> +++ b/drivers/gpu/drm/bridge/simple-bridge.c
-> @@ -308,3 +308,4 @@ module_platform_driver(simple_bridge_driver);
->  MODULE_AUTHOR("Maxime Ripard <maxime.ripard@free-electrons.com>");
->  MODULE_DESCRIPTION("Simple DRM bridge driver");
->  MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("platform:simple-bridge");
+> diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+> index ab8e00baf3f1..d80cb7bc59e6 100644
+> --- a/drivers/gpu/drm/bridge/display-connector.c
+> +++ b/drivers/gpu/drm/bridge/display-connector.c
+> @@ -204,6 +204,7 @@ static int display_connector_get_supply(struct platform_device *pdev,
+>  
+>  static int display_connector_probe(struct platform_device *pdev)
+>  {
+> +	struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
+>  	struct display_connector *conn;
+>  	unsigned int type;
+>  	const char *label = NULL;
+> @@ -215,15 +216,15 @@ static int display_connector_probe(struct platform_device *pdev)
+>  
+>  	platform_set_drvdata(pdev, conn);
+>  
+> -	type = (uintptr_t)of_device_get_match_data(&pdev->dev);
+> +	type = (uintptr_t)device_get_match_data(&pdev->dev);
+>  
+>  	/* Get the exact connector type. */
+>  	switch (type) {
+>  	case DRM_MODE_CONNECTOR_DVII: {
+>  		bool analog, digital;
+>  
+> -		analog = of_property_read_bool(pdev->dev.of_node, "analog");
+> -		digital = of_property_read_bool(pdev->dev.of_node, "digital");
+> +		analog = fwnode_property_present(fwnode, "analog");
+> +		digital = fwnode_property_present(fwnode, "digital");
+>  		if (analog && !digital) {
+>  			conn->bridge.type = DRM_MODE_CONNECTOR_DVIA;
+>  		} else if (!analog && digital) {
+> @@ -240,8 +241,7 @@ static int display_connector_probe(struct platform_device *pdev)
+>  	case DRM_MODE_CONNECTOR_HDMIA: {
+>  		const char *hdmi_type;
+>  
+> -		ret = of_property_read_string(pdev->dev.of_node, "type",
+> -					      &hdmi_type);
+> +		ret = fwnode_property_read_string(fwnode, "type", &hdmi_type);
+>  		if (ret < 0) {
+>  			dev_err(&pdev->dev, "HDMI connector with no type\n");
+>  			return -EINVAL;
+> @@ -271,7 +271,7 @@ static int display_connector_probe(struct platform_device *pdev)
+>  	conn->bridge.interlace_allowed = true;
+>  
+>  	/* Get the optional connector label. */
+> -	of_property_read_string(pdev->dev.of_node, "label", &label);
+> +	fwnode_property_read_string(fwnode, "label", &label);
+>  
+>  	/*
+>  	 * Get the HPD GPIO for DVI, HDMI and DP connectors. If the GPIO can provide
+> @@ -309,12 +309,12 @@ static int display_connector_probe(struct platform_device *pdev)
+>  	if (type == DRM_MODE_CONNECTOR_DVII ||
+>  	    type == DRM_MODE_CONNECTOR_HDMIA ||
+>  	    type == DRM_MODE_CONNECTOR_VGA) {
+> -		struct device_node *phandle;
+> +		struct fwnode_handle *phandle;
+>  
+> -		phandle = of_parse_phandle(pdev->dev.of_node, "ddc-i2c-bus", 0);
+> -		if (phandle) {
+> -			conn->bridge.ddc = of_get_i2c_adapter_by_node(phandle);
+> -			of_node_put(phandle);
+> +		phandle = fwnode_find_reference(fwnode, "ddc-i2c-bus", 0);
+> +		if (!IS_ERR_OR_NULL(phandle)) {
 
-I think it would be better to use MODULE_DEVICE_TABLE(platform,
-simple_bridge_platform)id_table). Note, there is no such thing as
-generic 'simple_bridge'. I'd expect platform device to have a
-device-specific name which can be matched by the driver. This requires a
-platform_device_id table.
+s/IS_ERR_OR_NULL/IS_ERR/
 
+LGTM otherwise.
+
+> +			conn->bridge.ddc = i2c_get_adapter_by_fwnode(phandle);
+> +			fwnode_handle_put(phandle);
+>  			if (!conn->bridge.ddc)
+>  				return -EPROBE_DEFER;
+>  		} else {
+> @@ -358,7 +358,7 @@ static int display_connector_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	conn->bridge.funcs = &display_connector_bridge_funcs;
+> -	conn->bridge.of_node = pdev->dev.of_node;
+> +	drm_bridge_set_node(&conn->bridge, fwnode);
+>  
+>  	if (conn->bridge.ddc)
+>  		conn->bridge.ops |= DRM_BRIDGE_OP_EDID
 > -- 
 > 2.34.1
 > 
