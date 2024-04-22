@@ -2,80 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D498AD5A4
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 22:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C915F8AD5DB
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Apr 2024 22:34:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23BA510E034;
-	Mon, 22 Apr 2024 20:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C96DA10EE07;
+	Mon, 22 Apr 2024 20:33:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MilZg4DH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q5RHuB3R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F0110E034
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 20:08:05 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5193363d255so6432239e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 13:08:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713816483; x=1714421283; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=NVxew0E36HKPg7AKuhliQt/Kpg8mBmNBvlWMdBa5HCE=;
- b=MilZg4DHKMyu/AQHjquVE7zZtryZgDK/j+4MdGXzBcrNiP7lJnHL7NCr3/lO2+KcHV
- LRlxWMg4SglG/Q+yxb7ajX6t4zWgZq7rs1VPseOcHXEhDNAJVxBI+zOsjaQDUxcf/OIh
- /6is4/hfxR8MLdssCLlPQTuRh1AvrsGzkVdymdBqk8IO7UluZoUEK58WmL5kpeIa4zGd
- AK5Z7IjlHtfYJz4BcPeNSGeoXCilVGOMJZujx0h6jsjqKJqnWtGu36JN9Z5FjHy2FNed
- QGTTk7gJi2AsmEcVQvWUQne5hLYEgOAdTgnXZI9cw8viqJrHrwvC5ADZzzO65dnH6ieq
- 3fdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713816483; x=1714421283;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NVxew0E36HKPg7AKuhliQt/Kpg8mBmNBvlWMdBa5HCE=;
- b=KIT3/5cyucDSVDrK/PVcDPTNZB9uOlWfXN7YSlEdMqsLQ3Daji+wpOvf+4bjO84NlR
- EK5QVV7Bke/EJb/AcbDjo6ZwbY7MP4yfKpTx54RHA4J61ksJS1LhMVbXk9y59Bs8v2Sr
- 6Vcm0eyQRPXEHK8y4bwWW+7Jd+AsMkcdL9xrPiV4HEYJPMaVEUOAZDLKFI2mdSb0rj15
- y0Joho3s2YFnvik8CJWklkypLdouhncthhHBy0sxfjXkgJvhKynWLfP1u4LyVufQRYxJ
- o6CSZ3GOj9H8bHJ2sMmOu+psrpYxBOjY2beU9DdRg0oq/jQlL1aafWT12+78/E8ewuFV
- Dksg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVcu3kXoO8IHVOCteicyAd6RHZcBZtg3usMfpjF5ktTanW//j+st+NzNH8azM0mnzq0DtVUOg5zLrgdLkmC2A2JsL8I9ckbbitE9+MZ0Oxl
-X-Gm-Message-State: AOJu0YzF3fagCBOEDMynM4DQCQLErDwCw1nxBkXJlli04j6RezA2YLKC
- AA7Hj9wk4yjtr9DfaoOAnxfwV4E1HU19+Z+fSc3+Eqx5McNe0LDjUCwUUgQGjkI=
-X-Google-Smtp-Source: AGHT+IFPGYLrnfC3K/xb3EGS4ldKQPJdw5ZGmVAcLa4hP1Zp5GAI5xifZBtuZ2/Dsg9KJmM0cwpD/g==
-X-Received: by 2002:a19:7516:0:b0:51a:c21b:73fb with SMTP id
- y22-20020a197516000000b0051ac21b73fbmr6120268lfe.44.1713816483582; 
- Mon, 22 Apr 2024 13:08:03 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
- by smtp.gmail.com with ESMTPSA id
- s14-20020a19770e000000b005188ea5d2b5sm1855484lfc.303.2024.04.22.13.08.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Apr 2024 13:08:03 -0700 (PDT)
-Date: Mon, 22 Apr 2024 23:08:01 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Phong LE <ple@baylibre.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 8/9] drm/bridge: tfp410: Use fwnode API to acquire
- device properties
-Message-ID: <gwpgunhe3frumjtxjapdw3nxlavrhseleddqqn6qpqeqg2ku56@ec6log4zl6ds>
-References: <20240422191903.255642-1-sui.jingfeng@linux.dev>
- <20240422191903.255642-9-sui.jingfeng@linux.dev>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DEA810EB5E;
+ Mon, 22 Apr 2024 20:33:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713818038; x=1745354038;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=rHjb9dn/8s5k2vqqkRS8COycFlT+zzP7jHa4lafViak=;
+ b=Q5RHuB3R/EJriX9ivas9dklzX1d8eGr5OuagGF89XV/BaoFFYufyVpCe
+ OAn7GDjljPV10/6oRBVKEm/kO5kSE05iaOpRDrAtwZkO7LZHAcy5FYj/M
+ dvqZ09Gyr8PbZzFNnIWmVPXAYKA98MVPBARGks0Dr1bbYv1q2JkmB2WIl
+ LAKc+sPFc+do3GhiXqG724VZtLY4fP2SzO82vJ8k7GeYpXKeZ1ExG1gGl
+ httTNVF4/1HEdYpHe+tn9Ufj68Sl7X0WpxOpAihnnia/A5UhacnePJlct
+ XurpHcpxmO6CKbfpa5Yio6MUoqA65olD4tfw2O2NnlnIc5X24rmMpEQoZ w==;
+X-CSE-ConnectionGUID: /cKx5N20Rcq1zwAU6vgVzg==
+X-CSE-MsgGUID: BpvydWxeR6ictoR4zKI3/Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="20781594"
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; d="scan'208";a="20781594"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2024 13:33:58 -0700
+X-CSE-ConnectionGUID: sZpNf4E4RLG2cTdDm/WErg==
+X-CSE-MsgGUID: 07NcmmcIR8qk5CeCku2CCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; d="scan'208";a="24191719"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2024 13:33:56 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, John.C.Harrison@Intel.com,
+ Nirmoy Das <nirmoy.das@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
+Subject: [PATCH v2 1/2] drm/i915: Refactor confusing __intel_gt_reset()
+Date: Mon, 22 Apr 2024 22:19:50 +0200
+Message-ID: <20240422201951.633-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240422191903.255642-9-sui.jingfeng@linux.dev>
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,136 +70,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 23, 2024 at 03:19:02AM +0800, Sui Jingfeng wrote:
-> Make this driver DT-independent by calling the freshly created helpers,
-> which reduce boilerplate and open the door for otherwise use cases. No
-> functional changes for DT based systems.
-> 
-> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-> ---
->  drivers/gpu/drm/bridge/ti-tfp410.c | 41 +++++++++++++++---------------
->  1 file changed, 21 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-> index c7bef5c23927..58dc7492844f 100644
-> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
-> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-> @@ -266,8 +266,9 @@ static const struct drm_bridge_timings tfp410_default_timings = {
->  
->  static int tfp410_parse_timings(struct tfp410 *dvi, bool i2c)
->  {
-> +	struct fwnode_handle *fwnode = dev_fwnode(dvi->dev);
->  	struct drm_bridge_timings *timings = &dvi->timings;
-> -	struct device_node *ep;
-> +	struct fwnode_handle *ep;
->  	u32 pclk_sample = 0;
->  	u32 bus_width = 24;
->  	u32 deskew = 0;
-> @@ -288,14 +289,14 @@ static int tfp410_parse_timings(struct tfp410 *dvi, bool i2c)
->  	 * and EDGE pins. They are specified in DT through endpoint properties
->  	 * and vendor-specific properties.
->  	 */
-> -	ep = of_graph_get_endpoint_by_regs(dvi->dev->of_node, 0, 0);
-> +	ep = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
->  	if (!ep)
->  		return -EINVAL;
->  
->  	/* Get the sampling edge from the endpoint. */
-> -	of_property_read_u32(ep, "pclk-sample", &pclk_sample);
-> -	of_property_read_u32(ep, "bus-width", &bus_width);
-> -	of_node_put(ep);
-> +	fwnode_property_read_u32(ep, "pclk-sample", &pclk_sample);
-> +	fwnode_property_read_u32(ep, "bus-width", &bus_width);
-> +	fwnode_handle_put(ep);
->  
->  	timings->input_bus_flags = DRM_BUS_FLAG_DE_HIGH;
->  
-> @@ -324,7 +325,7 @@ static int tfp410_parse_timings(struct tfp410 *dvi, bool i2c)
->  	}
->  
->  	/* Get the setup and hold time from vendor-specific properties. */
-> -	of_property_read_u32(dvi->dev->of_node, "ti,deskew", &deskew);
-> +	fwnode_property_read_u32(fwnode, "ti,deskew", &deskew);
->  	if (deskew > 7)
->  		return -EINVAL;
->  
-> @@ -336,12 +337,12 @@ static int tfp410_parse_timings(struct tfp410 *dvi, bool i2c)
->  
->  static int tfp410_init(struct device *dev, bool i2c)
->  {
-> -	struct device_node *node;
-> +	struct fwnode_handle *fwnode = dev_fwnode(dev);
->  	struct tfp410 *dvi;
->  	int ret;
->  
-> -	if (!dev->of_node) {
-> -		dev_err(dev, "device-tree data is missing\n");
-> +	if (!fwnode) {
-> +		dev_err(dev, "firmware data is missing\n");
->  		return -ENXIO;
->  	}
->  
-> @@ -352,8 +353,8 @@ static int tfp410_init(struct device *dev, bool i2c)
->  	dvi->dev = dev;
->  	dev_set_drvdata(dev, dvi);
->  
-> +	drm_bridge_set_node(&dvi->bridge, fwnode);
->  	dvi->bridge.funcs = &tfp410_bridge_funcs;
-> -	dvi->bridge.of_node = dev->of_node;
->  	dvi->bridge.timings = &dvi->timings;
->  	dvi->bridge.type = DRM_MODE_CONNECTOR_DVID;
->  
-> @@ -362,15 +363,15 @@ static int tfp410_init(struct device *dev, bool i2c)
->  		return ret;
->  
->  	/* Get the next bridge, connected to port@1. */
-> -	node = of_graph_get_remote_node(dev->of_node, 1, -1);
-> -	if (!node)
-> -		return -ENODEV;
-> -
-> -	dvi->next_bridge = of_drm_find_bridge(node);
-> -	of_node_put(node);
-> -
-> -	if (!dvi->next_bridge)
-> +	dvi->next_bridge = drm_bridge_find_next_bridge_by_fwnode(fwnode, 1);
-> +	if (IS_ERR(dvi->next_bridge)) {
-> +		ret = PTR_ERR(dvi->next_bridge);
-> +		dev_err(dev, "Error in founding the next bridge: %d\n", ret);
-> +		return ret;
+__intel_gt_reset() is really for resetting engines though
+the name might suggest something else. So add a helper function
+to remove confusions with no functional changes.
 
-Same comment regarding dev_err_probe().
+v2: Move intel_gt_reset_all_engines() next to
+    intel_gt_reset_engine() to make diff simple(John)
 
-LGTM otherwise.
+Cc: John Harrison <john.c.harrison@intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         | 35 +++++++++++++++----
+ drivers/gpu/drm/i915/gt/intel_reset.h         |  3 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  2 +-
+ drivers/gpu/drm/i915/i915_driver.c            |  2 +-
+ 8 files changed, 37 insertions(+), 13 deletions(-)
 
-> +	} else if (!dvi->next_bridge) {
-> +		dev_dbg(dev, "Next bridge not found, deferring probe\n");
->  		return -EPROBE_DEFER;
-
-Looking at the bolerplate code, I think it would be better to make
-drm_bridge_find_next_bridge_by_fwnode() reutrn -EPROBE_DEFER on its own.
-
-
-> +	}
->  
->  	/* Get the powerdown GPIO. */
->  	dvi->powerdown = devm_gpiod_get_optional(dev, "powerdown",
-> @@ -422,10 +423,10 @@ static struct platform_driver tfp410_platform_driver = {
->  /* There is currently no i2c functionality. */
->  static int tfp410_i2c_probe(struct i2c_client *client)
->  {
-> +	struct fwnode_handle *fwnode = dev_fwnode(&client->dev);
->  	int reg;
->  
-> -	if (!client->dev.of_node ||
-> -	    of_property_read_u32(client->dev.of_node, "reg", &reg)) {
-> +	if (!fwnode || fwnode_property_read_u32(fwnode, "reg", &reg)) {
->  		dev_err(&client->dev,
->  			"Can't get i2c reg property from device-tree\n");
->  		return -ENXIO;
-> -- 
-> 2.34.1
-> 
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 8c44af1c3451..5c8e9ee3b008 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -678,7 +678,7 @@ void intel_engines_release(struct intel_gt *gt)
+ 	 */
+ 	GEM_BUG_ON(intel_gt_pm_is_awake(gt));
+ 	if (!INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
+-		__intel_gt_reset(gt, ALL_ENGINES);
++		intel_gt_reset_all_engines(gt);
+ 
+ 	/* Decouple the backend; but keep the layout for late GPU resets */
+ 	for_each_engine(engine, gt, id) {
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 355aab5b38ba..21829439e686 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -2898,7 +2898,7 @@ static void enable_error_interrupt(struct intel_engine_cs *engine)
+ 		drm_err(&engine->i915->drm,
+ 			"engine '%s' resumed still in error: %08x\n",
+ 			engine->name, status);
+-		__intel_gt_reset(engine->gt, engine->mask);
++		intel_gt_reset_engine(engine);
+ 	}
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 580b5141ce1e..626b166e67ef 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -832,7 +832,7 @@ void intel_gt_driver_unregister(struct intel_gt *gt)
+ 
+ 	/* Scrub all HW state upon release */
+ 	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
+-		__intel_gt_reset(gt, ALL_ENGINES);
++		intel_gt_reset_all_engines(gt);
+ }
+ 
+ void intel_gt_driver_release(struct intel_gt *gt)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+index 220ac4f92edf..c08fdb65cc69 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+@@ -159,7 +159,7 @@ static bool reset_engines(struct intel_gt *gt)
+ 	if (INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
+ 		return false;
+ 
+-	return __intel_gt_reset(gt, ALL_ENGINES) == 0;
++	return intel_gt_reset_all_engines(gt) == 0;
+ }
+ 
+ static void gt_sanitize(struct intel_gt *gt, bool force)
+diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+index c8e9aa41fdea..b1393863ca9b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_reset.c
++++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+@@ -764,7 +764,7 @@ wa_14015076503_end(struct intel_gt *gt, intel_engine_mask_t engine_mask)
+ 			 HECI_H_GS1_ER_PREP, 0);
+ }
+ 
+-int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask)
++static int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask)
+ {
+ 	const int retries = engine_mask == ALL_ENGINES ? RESET_MAX_RETRIES : 1;
+ 	reset_func reset;
+@@ -978,7 +978,7 @@ static void __intel_gt_set_wedged(struct intel_gt *gt)
+ 
+ 	/* Even if the GPU reset fails, it should still stop the engines */
+ 	if (!INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
+-		__intel_gt_reset(gt, ALL_ENGINES);
++		intel_gt_reset_all_engines(gt);
+ 
+ 	for_each_engine(engine, gt, id)
+ 		engine->submit_request = nop_submit_request;
+@@ -1089,7 +1089,7 @@ static bool __intel_gt_unset_wedged(struct intel_gt *gt)
+ 	/* We must reset pending GPU events before restoring our submission */
+ 	ok = !HAS_EXECLISTS(gt->i915); /* XXX better agnosticism desired */
+ 	if (!INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
+-		ok = __intel_gt_reset(gt, ALL_ENGINES) == 0;
++		ok = intel_gt_reset_all_engines(gt) == 0;
+ 	if (!ok) {
+ 		/*
+ 		 * Warn CI about the unrecoverable wedged condition.
+@@ -1133,10 +1133,10 @@ static int do_reset(struct intel_gt *gt, intel_engine_mask_t stalled_mask)
+ {
+ 	int err, i;
+ 
+-	err = __intel_gt_reset(gt, ALL_ENGINES);
++	err = intel_gt_reset_all_engines(gt);
+ 	for (i = 0; err && i < RESET_MAX_RETRIES; i++) {
+ 		msleep(10 * (i + 1));
+-		err = __intel_gt_reset(gt, ALL_ENGINES);
++		err = intel_gt_reset_all_engines(gt);
+ 	}
+ 	if (err)
+ 		return err;
+@@ -1270,7 +1270,30 @@ void intel_gt_reset(struct intel_gt *gt,
+ 	goto finish;
+ }
+ 
+-static int intel_gt_reset_engine(struct intel_engine_cs *engine)
++/**
++ * intel_gt_reset_all_engines() - Reset all engines in the given gt.
++ * @gt: the GT to reset all engines for.
++ *
++ * This function resets all engines within the given gt.
++ *
++ * Returns:
++ * Zero on success, negative error code on failure.
++ */
++int intel_gt_reset_all_engines(struct intel_gt *gt)
++{
++	return __intel_gt_reset(gt, ALL_ENGINES);
++}
++
++/**
++ * intel_gt_reset_engine() - Reset a specific engine within a gt.
++ * @engine: engine to be reset.
++ *
++ * This function resets the specified engine within a gt.
++ *
++ * Returns:
++ * Zero on success, negative error code on failure.
++ */
++int intel_gt_reset_engine(struct intel_engine_cs *engine)
+ {
+ 	return __intel_gt_reset(engine->gt, engine->mask);
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_reset.h b/drivers/gpu/drm/i915/gt/intel_reset.h
+index f615b30b81c5..c00de353075c 100644
+--- a/drivers/gpu/drm/i915/gt/intel_reset.h
++++ b/drivers/gpu/drm/i915/gt/intel_reset.h
+@@ -54,7 +54,8 @@ int intel_gt_terminally_wedged(struct intel_gt *gt);
+ void intel_gt_set_wedged_on_init(struct intel_gt *gt);
+ void intel_gt_set_wedged_on_fini(struct intel_gt *gt);
+ 
+-int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask);
++int intel_gt_reset_engine(struct intel_engine_cs *engine);
++int intel_gt_reset_all_engines(struct intel_gt *gt);
+ 
+ int intel_reset_guc(struct intel_gt *gt);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+index f40de408cd3a..2cfc23c58e90 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_reset.c
++++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+@@ -281,7 +281,7 @@ static int igt_atomic_reset(void *arg)
+ 		awake = reset_prepare(gt);
+ 		p->critical_section_begin();
+ 
+-		err = __intel_gt_reset(gt, ALL_ENGINES);
++		err = intel_gt_reset_all_engines(gt);
+ 
+ 		p->critical_section_end();
+ 		reset_finish(gt, awake);
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index 4b9233c07a22..622a24305bc2 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -202,7 +202,7 @@ static void sanitize_gpu(struct drm_i915_private *i915)
+ 		unsigned int i;
+ 
+ 		for_each_gt(gt, i915, i)
+-			__intel_gt_reset(gt, ALL_ENGINES);
++			intel_gt_reset_all_engines(gt);
+ 	}
+ }
+ 
 -- 
-With best wishes
-Dmitry
+2.42.0
+
