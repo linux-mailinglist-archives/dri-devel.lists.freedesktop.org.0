@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000238AD9AF
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:57:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B6A8AD9B8
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 01:57:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17B2B112E8A;
-	Mon, 22 Apr 2024 23:57:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47FFA10E146;
+	Mon, 22 Apr 2024 23:57:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ICIJlkTZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kI8ZsfEZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA62112E89;
- Mon, 22 Apr 2024 23:57:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9479210E146
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 23:57:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D93AECE0EB9;
- Mon, 22 Apr 2024 23:56:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5585C3277B;
- Mon, 22 Apr 2024 23:56:57 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 6F602CE0EC5;
+ Mon, 22 Apr 2024 23:57:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB3BC113CC;
+ Mon, 22 Apr 2024 23:57:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713830219;
- bh=EXCJ+V8SmdEPBMqU6mG4n8sBBWp3gDKxqrjHcoHQGeI=;
+ s=k20201202; t=1713830265;
+ bh=PYllO4P0w1bEO6gQFn/31ZkUIJ2oyI8dlVzxp96YQDA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ICIJlkTZAHiaFlIf7jJNeVExAnK/V7O8x8NBOblaXt9RAehnYdjBB7jcFQMK1lVJ1
- NnqMInHkUCxVxviUlMX/Z7pJzLBqXRgKaxFLnN0jbZLWQ74LY0Jx7az6gbw2LtBguX
- DN/3cfZnY7sCNdvnlQSaPRUKDZ1su14OnZ+FX4JjO50XvKHfWjAxDtsxiiSmGer7ex
- tGLfFM0Y3osEGZ81nBN5zGsT1lAt1eRzLedtgEPwFCuvZbgQw+3UomEWsDnu1Iv8gu
- OAkWD5WLOQWj4fnvQsy/BuDpJEXJpk5PBOr0bDWG/EtculgiQ2+k74PIwBwq6RbiAt
- j64AEotj+knVQ==
+ b=kI8ZsfEZE0fg7doLG+t1Ex1eCrNEs5E4Ec2X+ZZLoavUygj3N/OjCFbplfflYLE87
+ L/CVE3F/UQlEDhuprpnrEhMqf3l1ucJByDcpQSE4qr+zzFltfSKFI3FyTy/mtZre7j
+ QVEomNY2v2iy/6MhV96KsF4lqJFdxqt8Ju6no+hRie4k8HuIF3ZPE76CavM0TSiwWy
+ QqTtU1xJpWwAjZ2lWQZ/iofghh4auXWljT6bfjTcXga2APNruQImKXyu8ssiuA5i/V
+ C6o2y5vcQNuTMDNxNn2EtPjXFhx8g16frvmGsVPOiAAXg9yV03QC9ZJQqpSD+JALGY
+ 1tugQqpG1WD9A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zhigang Luo <Zhigang.Luo@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 21/29] amd/amdkfd: sync all devices to wait all
- processes being evicted
-Date: Mon, 22 Apr 2024 19:17:02 -0400
-Message-ID: <20240422231730.1601976-21-sashal@kernel.org>
+Cc: Thierry Reding <treding@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>,
+ Sasha Levin <sashal@kernel.org>, thierry.reding@gmail.com,
+ mperttunen@nvidia.com, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 11/19] gpu: host1x: Do not setup DMA for virtual
+ devices
+Date: Mon, 22 Apr 2024 19:18:25 -0400
+Message-ID: <20240422231845.1607921-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240422231730.1601976-1-sashal@kernel.org>
-References: <20240422231730.1601976-1-sashal@kernel.org>
+In-Reply-To: <20240422231845.1607921-1-sashal@kernel.org>
+References: <20240422231845.1607921-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.28
+X-stable-base: Linux 6.1.87
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,77 +64,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zhigang Luo <Zhigang.Luo@amd.com>
+From: Thierry Reding <treding@nvidia.com>
 
-[ Upstream commit d06af584be5a769d124b7302b32a033e9559761d ]
+[ Upstream commit 8ab58f6841b19423231c5db3378691ec80c778f8 ]
 
-If there are more than one device doing reset in parallel, the first
-device will call kfd_suspend_all_processes() to evict all processes
-on all devices, this call takes time to finish. other device will
-start reset and recover without waiting. if the process has not been
-evicted before doing recover, it will be restored, then caused page
-fault.
+The host1x devices are virtual compound devices and do not perform DMA
+accesses themselves, so they do not need to be set up for DMA.
 
-Signed-off-by: Zhigang Luo <Zhigang.Luo@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Ideally we would also not need to set up DMA masks for the virtual
+devices, but we currently still need those for legacy support on old
+hardware.
+
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240314154943.2487549-1-thierry.reding@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_device.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ drivers/gpu/host1x/bus.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-index 93ce181eb3baa..913c70a0ef44f 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-@@ -935,7 +935,6 @@ void kgd2kfd_suspend(struct kfd_dev *kfd, bool run_pm)
- {
- 	struct kfd_node *node;
- 	int i;
--	int count;
+diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+index bdee16a0bb8e2..ba622fb5e4822 100644
+--- a/drivers/gpu/host1x/bus.c
++++ b/drivers/gpu/host1x/bus.c
+@@ -368,11 +368,6 @@ static int host1x_device_uevent(struct device *dev,
+ 	return 0;
+ }
  
- 	if (!kfd->init_complete)
- 		return;
-@@ -943,12 +942,10 @@ void kgd2kfd_suspend(struct kfd_dev *kfd, bool run_pm)
- 	/* for runtime suspend, skip locking kfd */
- 	if (!run_pm) {
- 		mutex_lock(&kfd_processes_mutex);
--		count = ++kfd_locked;
--		mutex_unlock(&kfd_processes_mutex);
+-static int host1x_dma_configure(struct device *dev)
+-{
+-	return of_dma_configure(dev, dev->of_node, true);
+-}
 -
- 		/* For first KFD device suspend all the KFD processes */
--		if (count == 1)
-+		if (++kfd_locked == 1)
- 			kfd_suspend_all_processes();
-+		mutex_unlock(&kfd_processes_mutex);
- 	}
+ static const struct dev_pm_ops host1x_device_pm_ops = {
+ 	.suspend = pm_generic_suspend,
+ 	.resume = pm_generic_resume,
+@@ -386,7 +381,6 @@ struct bus_type host1x_bus_type = {
+ 	.name = "host1x",
+ 	.match = host1x_device_match,
+ 	.uevent = host1x_device_uevent,
+-	.dma_configure = host1x_dma_configure,
+ 	.pm = &host1x_device_pm_ops,
+ };
  
- 	for (i = 0; i < kfd->num_nodes; i++) {
-@@ -959,7 +956,7 @@ void kgd2kfd_suspend(struct kfd_dev *kfd, bool run_pm)
+@@ -475,8 +469,6 @@ static int host1x_device_add(struct host1x *host1x,
+ 	device->dev.bus = &host1x_bus_type;
+ 	device->dev.parent = host1x->dev;
  
- int kgd2kfd_resume(struct kfd_dev *kfd, bool run_pm)
- {
--	int ret, count, i;
-+	int ret, i;
- 
- 	if (!kfd->init_complete)
- 		return 0;
-@@ -973,12 +970,10 @@ int kgd2kfd_resume(struct kfd_dev *kfd, bool run_pm)
- 	/* for runtime resume, skip unlocking kfd */
- 	if (!run_pm) {
- 		mutex_lock(&kfd_processes_mutex);
--		count = --kfd_locked;
--		mutex_unlock(&kfd_processes_mutex);
+-	of_dma_configure(&device->dev, host1x->dev->of_node, true);
 -
--		WARN_ONCE(count < 0, "KFD suspend / resume ref. error");
--		if (count == 0)
-+		if (--kfd_locked == 0)
- 			ret = kfd_resume_all_processes();
-+		WARN_ONCE(kfd_locked < 0, "KFD suspend / resume ref. error");
-+		mutex_unlock(&kfd_processes_mutex);
- 	}
+ 	device->dev.dma_parms = &device->dma_parms;
+ 	dma_set_max_seg_size(&device->dev, UINT_MAX);
  
- 	return ret;
 -- 
 2.43.0
 
