@@ -2,180 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BD88AF384
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 18:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98A28AF3C4
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 18:19:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 309EE11347C;
-	Tue, 23 Apr 2024 16:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2D20113483;
+	Tue, 23 Apr 2024 16:19:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="EDVSKn9Z";
-	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="VRYrGmcz";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="RQXJDRRY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
- [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD1F811347C
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 16:10:11 +0000 (UTC)
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43NE6DHA004668;
- Tue, 23 Apr 2024 17:09:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
- from:to:cc:subject:date:message-id:content-type:mime-version; s=
- dk201812; bh=4J3718iqHmUqRJ30WshlhjiS880Y34b0ConiL9B6o84=; b=EDV
- SKn9Zr+FwViT6DC0iOmaju5rxkNqCbKVLwfcRfWlLvZvVWeFp8c4xhutDDVUSPL7
- +i5HVjn8tkUDqgeisDzLENNmzVjXAMBuMjXG77A9swn70PqDxNSxqhLmO4OIB6Ev
- hXFjywCsTCgo714cRUXuk9TNC4Ag+uqmRn7ai7ZkEwQDCAGwacPmouVvfA8mtHXy
- M8Ahlsb5gmpYUrZ1yTQxKVsBZMHz3QQm5JH/kdG8yjgJKNwVwfY9SdLtKDdeyKpC
- tuKuqwnV3H7aB+fC4wUjOUxwnhT+nusfhaHxm93S0BMlilpMSUn+pSnHm3/jfCFA
- aK0mcNnF79yYln7ElMQ==
-Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3xm3ynkmy2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Tue, 23 Apr 2024 17:09:45 +0100 (BST)
-Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
- HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Tue, 23 Apr 2024 17:09:44 +0100
-Received: from LO2P265CU024.outbound.protection.outlook.com (40.93.67.0) by
- email.imgtec.com (10.100.10.121) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37 via Frontend
- Transport; Tue, 23 Apr 2024 17:09:44 +0100
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EXkaM3em+jnlnxkvrDIw5NeFYplcF9Zr8HHCpEczNaArp1+CX+sODKRLXSnbq87DDKGDzhAM0gjw8lZZHrFEFXbhkEkCw18AQffqNP9MB/tlgdPm2QOPCQBrQZZgXzC4zjKX3IwY1+DPbLTwW3F4HKGREkqxCFw4nZCOAmFzGkBhqBEABKSC9vWW7G3ExwFjDAjI73/5s9pfK2s7Jhd6kntDyPANNiw3fU6u1KnIQC/fhBNldJd8k0XHBx1oawDwR3mBNdZywA3rinwMQPtvvgRB3eFyglL2qSheZFCFKskm2my3H+BSFFsVV/3u4oLqzoHAXQrYlT9WGvpbF6ZoLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4J3718iqHmUqRJ30WshlhjiS880Y34b0ConiL9B6o84=;
- b=VHEE2IwQp5ObCfQgSAReCtj/wRrGH4XjD4YZ6K0YCKvHXtvLb10hXWt6fIsjC8RN9UJdd5KHjyuzxdbd/1uUzwsgwxJX0Ga2jTgxr6BUKzS7J5fw41Brsnx/AjEYL2iPtI0J/sar2W3L1luYUc0gHia4HOwp5pAYif8snc0Imq6c3vKyuZILOF5ONQCT6kD72ffy5NL4LXnnp/ufiPbJJAiRVgIYCvxhB9FL3VdlZBadK5yUa2W9YhILjkiN+g5cO25X3alTuN+Ziykz9ourOzy4ptg5zoDIpn1/TN51f6u7U+js+qczDjMKGnEvwTphPMrPemePHzTebshuIv7xfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
- dkim=pass header.d=imgtec.com; arc=none
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
+ [209.85.222.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3137E113483
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 16:19:49 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id
+ af79cd13be357-78f04581a66so396061785a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 09:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4J3718iqHmUqRJ30WshlhjiS880Y34b0ConiL9B6o84=;
- b=VRYrGmczYn3SBpk0g09WRWQJOOq/l/G5Iis896A+Jp3a2tBVfCQWMfK/00Xpc9dEicIk6SCcrXebibYEDrHIkL0mV2FB0ibdgjll/azvoHRdQeI7y5ZH34gfqbAygLPgTtMfhc3EDKSW8C39EL0RFYUY9q8CQ0YKXKKYGPy9FtM=
-Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
- LO7P265MB7763.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:413::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7472.44; Tue, 23 Apr 2024 16:09:42 +0000
-Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
- ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
- ([fe80::8e9d:6b2f:9881:1e15%6]) with mapi id 15.20.7472.044; Tue, 23 Apr 2024
- 16:09:40 +0000
-From: Matt Coster <Matt.Coster@imgtec.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC: Frank Binns <Frank.Binns@imgtec.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/imagination: Ensure PVR_MIPS_PT_PAGE_COUNT is never zero
-Thread-Topic: [PATCH] drm/imagination: Ensure PVR_MIPS_PT_PAGE_COUNT is never
- zero
-Thread-Index: AQHalZilaE7HTvidvkqz+oS3jgfrlg==
-Date: Tue, 23 Apr 2024 16:09:40 +0000
-Message-ID: <489aa9ab-3de1-4bfb-aaae-b093536d16ce@imgtec.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CWXP265MB3397:EE_|LO7P265MB7763:EE_
-x-ms-office365-filtering-correlation-id: 8b5774a2-9685-4059-4cc1-08dc63afc7f2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: =?utf-8?B?b1RLRkpsaExGekhpSWpvSkltQWQwcDRaVG5FR1F1Q1IwNmJKYkM0MWdsNjJ2?=
- =?utf-8?B?QmY3WGRNSFh2c3ZORkVwQThoeEV4eFU5Wm43c1dSOVJpZThkQUZBNjUyWjNM?=
- =?utf-8?B?SHVYZjVUd0M0elJnc2NiUXNhT0xlVi80QVJURVU4eVMxclZLaTRnYjBzNVp1?=
- =?utf-8?B?dWJOMm9XQ1lBMmdYTXhzRXFNb3ZwVTZ4Z3k2eUJiY2JibVN4bk95bUEvdzJZ?=
- =?utf-8?B?RHpwMmU4U3pUSlVPVGgzT0hLL25lR1ZPQUpkZzloL3U3aXZVYVhiS2JEVXdS?=
- =?utf-8?B?Q0Q3WTVUMUtDdWlzUGxETG5FbEwwckpPODdKc3d5d0cyVkRkekdjMVkwQUdL?=
- =?utf-8?B?bmJnbTExNjdmV2dhWnhFZjIyZ0ZUWTdNNG01WTRkcFkreThjdHFoa2hVRGs4?=
- =?utf-8?B?MjMxc3NXSlZhVUh2Q2djci9YSDNldUROWkNDY3UyazlSdkdYeldETmtESGV0?=
- =?utf-8?B?WXBPdmFDYUhTai93aG1TZ3Qva1M3bldCcHQ5YzVobkxLYlVTeGsrV2NTdkF0?=
- =?utf-8?B?R3BYbGNxYTZuSWdQdDZKUWFLZkZIbTBOcEhZblorMDdwZTZONldkN0l6WS9C?=
- =?utf-8?B?eUtOZ1Z5KzZiQTV0YmcwOWt4bkZIYUNudHovZ2J0bjY2eVl1UWpWSFRMbnp0?=
- =?utf-8?B?TWJwcytWMDFjeVdDQ0krSWFrQjVJcTRHWkduN1NkRmdJcjRSZ2xFdmtIbTJN?=
- =?utf-8?B?clFqODBlL2FwdUZGMkx2SGJIOWFLUStOMjIvbTJuQmE5Q3F4Z0JmUkppcHRp?=
- =?utf-8?B?bDluU09Sak1rSGVUMDZ4dWcrYUNEdnpBbzcrOXZzNXpKNlpaWE5mZXl4MFhY?=
- =?utf-8?B?OXNnMlY2UVMvZ3RoN0owVTQ2bHRERVZXS2puQ2RYRWRzRWlzb3ZISXNoUExs?=
- =?utf-8?B?ZWtOSGV3emFqbGZVd2NSMlhYeEN5ZFF1VS9uNTNpUHpNU1hkclJZb3Y1ZERm?=
- =?utf-8?B?L1VWUU81c3pHbjhhQ3pFY0phSEp2cC8wVG9VZVkvU0NMTTBoSE82UnQ3S3No?=
- =?utf-8?B?NzhmZlVtVUtCT3BiNlRieFo2SUZkbDNKQnpVLzh2cisyS2QyS01wa1FXdlVu?=
- =?utf-8?B?Ym9yQ0lkVUtOQ3FLcm1CT0lSMFJtS0pBUFdKSWhNQSt4MFlqdkRRY0dIanAy?=
- =?utf-8?B?WHhsSlZaQzM0NnM2eThHQTFjUGJPQ21RcGlmc3Z0c3FXNEUvMEIrR0Ztc2Qx?=
- =?utf-8?B?OFZUUEt6dm1pdXZUSmhrMHFCbXc4Um5zaU1wVTJFQmFzb2NHVnc0QjlrTENB?=
- =?utf-8?B?anZlSW0yd0RIZFVDYkIrVlhVL1UxK1A1eGxiM1M2K0dOWDI5WHBPQ0lXZy9t?=
- =?utf-8?B?WXM4cGNudXpjaWJ6UTF2eU1tK09jZHpOZkhNL0tFZHREcUIxdEtuTE02S3da?=
- =?utf-8?B?SXBzbnIzUkp5eWFjcG1XbmovRzZwM3lNT1JRZ3VWZTZkK0U0M2FJZEdrSEhw?=
- =?utf-8?B?TzRET1I0Z2FsajA0UG1ocFF5MFpQTWVlQVQ5VFBDVHY5NElYZWFIZkF4cE12?=
- =?utf-8?B?TFRIS09zd05yeW1lNDFiRFBmUkE1Uk5PUlUycGpTSGVpVXhNaEhmNk1ZdFZ5?=
- =?utf-8?B?Q0xjUVFvNkllM3ZnUkpPekswL1hmVHNtZGNLVGp1T1RxdG0xTlcvb0syMmFJ?=
- =?utf-8?B?WFJFMVNwU290UkhzMXoycjBYMEYxZFVoellrb2hMdEVVOEg5dTdqSGtIekZs?=
- =?utf-8?B?UC83TlFSdFpud0hLQ0N1cXZ4NjR2dTMzbEFUYUk0NE04dGtZS1ByZ1RJeFBv?=
- =?utf-8?B?TE5mOUZpQm16K2Y5SVpGbGxZYUxMbHBya1p6RC8rNjBtK0JIaUZISnJUQnQv?=
- =?utf-8?B?WlV6WlFKS01aMEVzSDVQQT09?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(366007)(1800799015)(38070700009); DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R1NycDd3a21mb2RKVStmWm8vYVBJNURKWmhWZFR0dTFrRXlpSlo3WGlyZ0gr?=
- =?utf-8?B?Rm1Kajg0ZXA2anp4R0F2R3o0WnBWUmN4YWxIT2RoaVJBRVhveWFJaTdSTVdj?=
- =?utf-8?B?cXFoUEJlUlFyeWJYVDN3ZS9hd0ViMXRrUHFnZEJKSkU0Wi9ic2srOFYxT1gw?=
- =?utf-8?B?NnVON3lGSEtiYXBtL1F3VS9pcmtwUFltQ2tTcTlFcWw1d2VlcVZqa0VTVEEr?=
- =?utf-8?B?OFJCeU9CVHFBdGk1MFh3Y1ZUTHlwaTUwRWdQZ0IyWkdFa2N5RTN4VFcxbjZs?=
- =?utf-8?B?VTJZak04b3pVU3NZY3lVSjFlUkpZZTBSTlQyY1cvaVB1ZjZuMGlnR2xmbkFx?=
- =?utf-8?B?c2NKeU9ZNkZmNWhpeWhtYU54azJzS3VNaGlCeklYYWYwRlNUYVRnRGpZMk9F?=
- =?utf-8?B?czNHdVhJbDVYSHpJUEY0VmpUWXNLeml2d0p2U2l6WlVrQkJBbmdXU0FrTE9r?=
- =?utf-8?B?K3QrbXF5T3RyVHRXK1N4NENiQVdJbXhKbEhYK3dsNndnRmcxUmkwMldGeVl0?=
- =?utf-8?B?U3cveUNLT0d5VEg5YnRBa09IaGE2L3NwOWVCN2VTSGNYcXBYMGhleEM1ZWg0?=
- =?utf-8?B?Qno2ZE4yRHZERytTT3dFUW1wSjhJNURtbUIwZUdQOW5la3krNlg1UzJLaGFh?=
- =?utf-8?B?OFRCZTZPb1RhZWwydDRHamxzMXBKTzR6Y3ovZG9XZVEyMEd2YnYrSFlWNG43?=
- =?utf-8?B?QndXcVBEM2YzTDk5TEl0SnI1U05xMXhhb0VBWnJTazBsNmYxd2x4SDBFNFlO?=
- =?utf-8?B?SUxmLzdHTHlSQ3hNdy8yK1B4ZHdhU1dJcTdKYnJTcEZCT2xmOEVhUHJZK1pV?=
- =?utf-8?B?Yk5EQ0M1Mjc5QTRsMGQ2TDFGVWY4djNMdHFPay9Pc0lVekxGcDhrMkNXbVY0?=
- =?utf-8?B?TnpyYUk0RG14Z3VyeVRqUFdKV3BJSEF3ZWhjUy8rdFhWMVRXV3pJVzdmeTlj?=
- =?utf-8?B?RkZ0c0lqN2RzV0FFREgyNUV2VWkrZm0yRUtkM09vNG0rdW1oWU1sL296NUVG?=
- =?utf-8?B?Yms3Yk9aZEh0L3J5Y0Y0dFpXSnVlTU5lQ0NnZndkL0hPeXptUHRiRG9YYm1u?=
- =?utf-8?B?VGRjYVU2bHRaVlQxTk42M3BZdEt6N3B6NjlwTjdjenlmbG8xUzBLc2ZsN3RX?=
- =?utf-8?B?VDNObXZUbFplcktwbVB5NGRLTXpKZlFNZjdXd09OM1RuMXBONUVjNWVQa3Z3?=
- =?utf-8?B?bWlDdWJENHZ4Z2doOFlXeHVXOUFnZElQM2VQTGxuZHUzSkZUTllQMTRYWVlh?=
- =?utf-8?B?dHN5RXdrUUo4c1ZDMVk3emR4QXVIQ21NMythODhFdCtBQndZQW84TDdvS20x?=
- =?utf-8?B?UFlhSXdSeEphcHp5eGQwOE5zNEltRGtuOFZaOXZDZi9JMDVxbW4vNGJvWUJD?=
- =?utf-8?B?THRZcGY5V3g2RHZTdVZaeGxscFpHQzB5TGY1NEJSeHgxNzVpdWJWYVRhWUpJ?=
- =?utf-8?B?VWttcU12dFRhN1NHMm9LZDVMR1drc0ZkbEpMSFBIbzlwUXI0VC9DRURTU3o0?=
- =?utf-8?B?NHlsV0hlN2w2ZWM5Y1VUK1QwZURHM1NEMFJmVk1rNXErK2ZnZHZ4cXJFRUpv?=
- =?utf-8?B?OHdMR3VGZFl1d3c3Z200ZHBXU2lHaW13NE5IelNVelk5WWFUb0I1Z3pGWjVC?=
- =?utf-8?B?WUZhdFhRaTBiRWxmbFlYTzRFQVFORXFLRTBVQmNpWFJpaWJLVE9xdnRwN2ht?=
- =?utf-8?B?UUhNNFhrcDZtOXlHMGJDOWdkY3RrbVI5bUdnTkRqR2Fwc0ZrbzBqRDcrZXNX?=
- =?utf-8?B?ekllV1dnMHhjTERKaDJPSXc4dE5YYzNOZnRYM3pSSktGdTJ3Tkl3emwwTXJT?=
- =?utf-8?B?NDJCK20weWE5UEFmRy82a2FyaFBkRzdta3ZHUlo2eDNscEVXdUNvVUh1WFRu?=
- =?utf-8?B?Q3c2MzJMc2RIUjk3bHhBZm5ici91aTlHNkpKR1NjRmwrL01ZdTdOamtxSWl5?=
- =?utf-8?B?dkt0OGlISTZvWUJWbDh4ZlB0aTVEeDhvMEhCVVdiVkp0MytLa2d3MkZOWUhR?=
- =?utf-8?B?MXNTRDEwNEZrRkQvT1NnUWV4Q0dXblV1Y01DZW9qR2xVelNGR3NzQTNBRU9O?=
- =?utf-8?B?ejhqdHB6K0czS081YjNPamczbjJvdkxpOUlmVFlYOS9BeVdJeDExa2xQYVV3?=
- =?utf-8?B?VjFiMlIrcm8weW9rakdnQ25TWmNoSGV5cnZwUjlaMWI2ZGtKNHRGdHkwTzND?=
- =?utf-8?B?anc9PQ==?=
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------jQnLKfGFbDXiPllSRghZJPys"
+ d=chromium.org; s=google; t=1713889186; x=1714493986;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wanqofR/Nuk2X7+WPgVh3aZdwvGB0rIxPhS4chd4Kfw=;
+ b=RQXJDRRYunIx2k05XjPk5RfhxznMyfD5bWf1qZ5ZhVs0cuautE82pn/G21I4OmjlfK
+ qXz3BGlqCvTb10nkt2DdVJ1M5m/JuA5DUDA3xAIwuJ81Puu7wnhzuPp97vpy07JTnAgo
+ ZDNCkA2fQZ80k/nwOUyheRrl/MTN2LA4UARsE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713889186; x=1714493986;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wanqofR/Nuk2X7+WPgVh3aZdwvGB0rIxPhS4chd4Kfw=;
+ b=vspL6QUMAszU2qZ6Ul+dp/HrU9nQ2bbWl6ecfj1gF/VonDPwEVtEcvVmMLKcyDPpIB
+ 6UHYFR2uhY1fks55eySbBG58PeookydjPiqiRZGiQviIHdcIQVvFtEQseiRObZuLv7L5
+ C5JL4+w5zBYS4O0pGqaa/oHDQW6MgHLWZ0lmsGrM3GaLC+qMS/BLGi8YfoObvpUGP+po
+ lvfGrdU6e2copGbl2gvs7KhsMdUZ9gALU03oJZsiZmTIwnce5nTMyxHvdLUM/4WtSPTH
+ dcws2ZCcMv8O6iaVK0TBqcXTGQciubAGenG36PcmUQ8zQI1JyANDsYFXITF/3XS39ZQr
+ sLKw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXo672PLenr2S7ChMlhxgiSH5SJodiUlktrfQglhyhbvO8isRynjFaUMiXy0neVA+ucb0mKaHK11ebr8UrED3S6GmkJm12JX6BWSewe+duL
+X-Gm-Message-State: AOJu0YxcrDtD1UAzU11A2+rAXY2Ly0iDl2wMjKirs69c1hyoNoNA3B38
+ EvaGxKeRhHhuDkIfr5+cdzP5uiBwpsV8aQspXj1t/Bhg3X6MUA1efaU6T8kmkWd6WNlpz80epIz
+ FgiMs
+X-Google-Smtp-Source: AGHT+IEeZYBNEohgR7UieU4PvXdW+iumfa/cCeKYQ5waQwl4/dYOZzP3IgUpvrYtAzv0wqpDXj755g==
+X-Received: by 2002:a05:620a:b0e:b0:790:676e:3bbf with SMTP id
+ t14-20020a05620a0b0e00b00790676e3bbfmr10919561qkg.12.1713889186006; 
+ Tue, 23 Apr 2024 09:19:46 -0700 (PDT)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com.
+ [209.85.160.178]) by smtp.gmail.com with ESMTPSA id
+ j12-20020a05620a0a4c00b0078d6120fad0sm5380832qka.108.2024.04.23.09.19.44
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Apr 2024 09:19:45 -0700 (PDT)
+Received: by mail-qt1-f178.google.com with SMTP id
+ d75a77b69052e-434ffc2b520so219851cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 09:19:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUsRpuoYhM3a8C86bOeGLPYocS0v4Oy+xpnJd+5/d7IDLAiBcEXvWIKC8PaUc/8xxOuwVpVqiQDnO8GYtwASyYHk5XCg5KGIITAxJJOkHjW
+X-Received: by 2002:ac8:4053:0:b0:437:9875:9671 with SMTP id
+ j19-20020ac84053000000b0043798759671mr278456qtl.0.1713889184337; Tue, 23 Apr
+ 2024 09:19:44 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b5774a2-9685-4059-4cc1-08dc63afc7f2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2024 16:09:40.4216 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: g+xJniw2dtE2t6Um5XXVwZsS/8mrbjPgCP3ADmaafmob3b1PMreFimD8bgOAM2urGTswppNws/uxOkAdaiuWmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB7763
-X-OriginatorOrg: imgtec.com
-X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: maMLkjh2kXjMdu3vORVVTkqNisJ4tLbF
-X-Proofpoint-GUID: maMLkjh2kXjMdu3vORVVTkqNisJ4tLbF
+References: <20240422090310.3311429-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240422090310.3311429-3-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=V2O2aFDVn5CjbXfgcOLkmNp-G3ChVqQKouB2mDB+NZug@mail.gmail.com>
+ <CAHwB_NJsDsTc=gjP8TJ+6ipo10uMYFLmuf+tKGVgxnznhuAcUQ@mail.gmail.com>
+In-Reply-To: <CAHwB_NJsDsTc=gjP8TJ+6ipo10uMYFLmuf+tKGVgxnznhuAcUQ@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 23 Apr 2024 09:19:27 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UGDbNvAMjzWSOvxybGikQcvW9JsRtbxHVg8_97YPEQCA@mail.gmail.com>
+Message-ID: <CAD=FV=UGDbNvAMjzWSOvxybGikQcvW9JsRtbxHVg8_97YPEQCA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] drm/panel: himax-hx83102: Break out as separate
+ driver
+To: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
+ linus.walleij@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
+ robh+dt@kernel.org, conor+dt@kernel.org, airlied@gmail.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -191,80 +99,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------jQnLKfGFbDXiPllSRghZJPys
-Content-Type: multipart/mixed; boundary="------------s1YEidU6Bv56KK2J1DKb9TlL";
- protected-headers="v1"
-From: Matt Coster <matt.coster@imgtec.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Frank Binns <frank.binns@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <489aa9ab-3de1-4bfb-aaae-b093536d16ce@imgtec.com>
-Subject: [PATCH] drm/imagination: Ensure PVR_MIPS_PT_PAGE_COUNT is never zero
+Hi,
 
---------------s1YEidU6Bv56KK2J1DKb9TlL
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Tue, Apr 23, 2024 at 2:37=E2=80=AFAM cong yang
+<yangcong5@huaqin.corp-partner.google.com> wrote:
+>
+> > > +static int starry_init_cmd(struct hx83102 *ctx)
+> > > +{
+> > > +       struct mipi_dsi_device *dsi =3D ctx->dsi;
+> > > +
+> > > +       mipi_dsi_dcs_write_seq(dsi, HX83102_SETEXTC, 0x83, 0x10, 0x21=
+, 0x55, 0x00);
+> > > +
+> > > +       mipi_dsi_dcs_write_seq(dsi, HX83102_SETPOWER, 0x2C, 0xB5, 0xB=
+5, 0x31, 0xF1, 0x31, 0xD7, 0x2F,
+> > > +                                                 0x36, 0x36, 0x36, 0=
+x36, 0x1A, 0x8B, 0x11, 0x65, 0x00, 0x88, 0xFA, 0xFF,
+> > > +                                                 0xFF, 0x8F, 0xFF, 0=
+x08, 0x74, 0x33);
+> >
+> > I know this is a sticking point between Linus W. and me, but I'm
+> > really not a fan of all the hardcoded function calls since it bloats
+> > the code so much. I think we need to stick with something more table
+> > based at least for the majority of the commands. If I understand
+> > correctly, Linus was OK w/ something table based as long as it was in
+> > common code [1]. I think he also wanted the "delay" out of the table,
+> > but since those always seem to be at the beginning or the end it seems
+> > like we could still have the majority of the code as table based. Do
+> > you want to make an attempt at that? If not I can try to find some
+> > time to write up a patch in the next week or so.
+>
+> Do you mean not add "delay" in the table?  However, the delay
+> required by each panel may be different. How should this be handled?
 
-When the host page size was more than 4 times larger than the FW page
-size, this macro evaluated to zero resulting in zero-sized arrays.
+In the case of the "himax-hx83102" driver, it looks as if all the
+delays are at the beginning or end of the init sequence. That means
+you could just make those extra parameters that are set per-panel and
+you're back to having a simple sequence without delays.
 
-Use DIV_ROUND_UP() to ensure the correct behavior.
+If you had panels that needed delays in a more complicated way, you
+could keep the per-panel functions but just make the bulk of the
+function calls apply a sequence. For instance:
 
-Reported-by: 20240228012313.5934-1-yaolu@kylinos.cn
-Closes: https://lore.kernel.org/dri-devel/20240228012313.5934-1-yaolu@kyl=
-inos.cn
-Fixes: 927f3e0253c1 ("drm/imagination: Implement MIPS firmware processor =
-and MMU support")
-Signed-off-by: Matt Coster <matt.coster@imgtec.com>
----
- drivers/gpu/drm/imagination/pvr_fw_mips.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+static int my_panel_init_cmd(...)
+{
+  ret =3D mipi_dsi_dcs_write_cmd_seq(dsi, my_panel_init_cmd_seq);
+  if (ret)
+    return ret;
+  mdelay(100);
+  ret =3D mipi_dsi_dcs_write(dsi, ...);
+  if (ret)
+    return ret;
+  mdelay(50);
+  ret =3D mipi_dsi_dcs_write_cmd_seq(dsi, ...);
+  if (ret)
+    return ret;
+}
 
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_mips.h b/drivers/gpu/drm/=
-imagination/pvr_fw_mips.h
-index 408dbe63a90c..a0c5c41c8aa2 100644
---- a/drivers/gpu/drm/imagination/pvr_fw_mips.h
-+++ b/drivers/gpu/drm/imagination/pvr_fw_mips.h
-@@ -7,13 +7,14 @@
- #include "pvr_rogue_mips.h"
-=20
- #include <asm/page.h>
-+#include <linux/math.h>
- #include <linux/types.h>
-=20
- /* Forward declaration from pvr_gem.h. */
- struct pvr_gem_object;
-=20
--#define PVR_MIPS_PT_PAGE_COUNT ((ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES * =
-ROGUE_MIPSFW_PAGE_SIZE_4K) \
--				>> PAGE_SHIFT)
-+#define PVR_MIPS_PT_PAGE_COUNT DIV_ROUND_UP(ROGUE_MIPSFW_MAX_NUM_PAGETAB=
-LE_PAGES * ROGUE_MIPSFW_PAGE_SIZE_4K, PAGE_SIZE)
-+
- /**
-  * struct pvr_fw_mips_data - MIPS-specific data
-  */
+The vast majority of the work is still table driven so it doesn't
+bloat the code, but you don't have the "delay" in the command sequence
+since Linus didn't like it. I think something like the above would
+make Linus happy and I'd be OK w/ it as well. Ideally you should still
+make your command sequence as easy to understand as possible, kind of
+like how we did with _INIT_SWITCH_PAGE_CMD() in
+"panel-ilitek-ili9882t.c"
 
-base-commit: e95752752eaf06c860811ac5ddf9badf6c1b43ca
---=20
-2.44.0
+As part of this, you'd have to add a patch to create
+mipi_dsi_dcs_write_cmd_seq(), but hopefully that shouldn't be too
+complicated?
 
 
---------------s1YEidU6Bv56KK2J1DKb9TlL--
+> It would be great if you could help provide a patch. Thank you so much.
 
---------------jQnLKfGFbDXiPllSRghZJPys
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Sure, I can, though maybe you want to give it a shot with the above descrip=
+tion?
 
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCZifdRAUDAAAAAAAKCRB5vBnz2d5qsOyt
-AP96HBJQwbU2Mjv/qB39mrpgji33atMTjknlmZPmi7OxJAD7Btbcxlg8Hbo+3OdDKlDhyaQdtJeS
-EnUKGiHi1vICSwo=
-=Lsy9
------END PGP SIGNATURE-----
-
---------------jQnLKfGFbDXiPllSRghZJPys--
+-Doug
