@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125758AE91A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 16:08:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA30B8AE924
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 16:09:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C38D10FC6C;
-	Tue, 23 Apr 2024 14:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBAE410FC83;
+	Tue, 23 Apr 2024 14:09:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZvJ+WK4/";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gzTjScCG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76D5010FC6C
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 14:08:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28F4510FC83
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 14:09:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1C648CE10E0;
- Tue, 23 Apr 2024 14:08:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2952C2BD11;
- Tue, 23 Apr 2024 14:08:15 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id D43D2CE10DC;
+ Tue, 23 Apr 2024 14:09:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDB30C32786;
+ Tue, 23 Apr 2024 14:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1713881296;
- bh=Vvqjp4AJMRbZ5LQp8bCVULn7npfqazovHyrSgMyNc5w=;
+ s=korg; t=1713881357;
+ bh=ylzQHRh1xhLplxfxYDXaInS8tuETCl+ngK07m4tWdrQ=;
  h=Subject:To:Cc:From:Date:From;
- b=ZvJ+WK4/8HL3+Eh1yylWWOdueVvRuwHprakHwjwMd40otNr5p5MM0/lrDKvEBkjVH
- 2AJ9+9l9ys8Sbv6GhkVtd7mHU5ZwAPl2hFb5njJzbSUEAbyWihHhYKnvDCRRG6Yntd
- 8+z/ZbDvQHC4Oc6eeB9Zvmte8PNpEGn0Tt4+nRxU=
-Subject: Patch "drm/vmwgfx: Sort primary plane formats by order of preference"
- has been added to the 6.6-stable tree
+ b=gzTjScCGC8HloTj4LyGXU7l1RlM8aTlXDGgYIyFXHtiWyClWT0v9shdvwg1833puV
+ 6vbkzTOy/ZFZ76QcefDpB9A6b8WZZD8CWUsb3ZFrmbnlwmdh9GonYHMu0cVp75VoxK
+ FceUPKuXOjJk1my+CtQAd3JVul919p9DMIcv3zTo=
+Subject: Patch "drm/vmwgfx: Fix crtc's atomic check conditional" has been
+ added to the 6.8-stable tree
 To: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, pekka.paalanen@collabora.com,
- zack.rusin@broadcom.com
+ gregkh@linuxfoundation.org, ian.forbes@broadcom.com,
+ martin.krastev@broadcom.com, zack.rusin@broadcom.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Tue, 23 Apr 2024 07:07:36 -0700
-Message-ID: <2024042336-thursday-fructose-7b54@gregkh>
+Date: Tue, 23 Apr 2024 07:08:22 -0700
+Message-ID: <2024042322-dominion-corset-f92a@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -59,71 +59,81 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    drm/vmwgfx: Sort primary plane formats by order of preference
+    drm/vmwgfx: Fix crtc's atomic check conditional
 
-to the 6.6-stable tree which can be found at:
+to the 6.8-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     drm-vmwgfx-sort-primary-plane-formats-by-order-of-preference.patch
-and it can be found in the queue-6.6 subdirectory.
+     drm-vmwgfx-fix-crtc-s-atomic-check-conditional.patch
+and it can be found in the queue-6.8 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From d4c972bff3129a9dd4c22a3999fd8eba1a81531a Mon Sep 17 00:00:00 2001
+From a60ccade88f926e871a57176e86a34bbf0db0098 Mon Sep 17 00:00:00 2001
 From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Thu, 11 Apr 2024 22:55:11 -0400
-Subject: drm/vmwgfx: Sort primary plane formats by order of preference
+Date: Thu, 11 Apr 2024 22:55:10 -0400
+Subject: drm/vmwgfx: Fix crtc's atomic check conditional
 
 From: Zack Rusin <zack.rusin@broadcom.com>
 
-commit d4c972bff3129a9dd4c22a3999fd8eba1a81531a upstream.
+commit a60ccade88f926e871a57176e86a34bbf0db0098 upstream.
 
-The table of primary plane formats wasn't sorted at all, leading to
-applications picking our least desirable formats by defaults.
+The conditional was supposed to prevent enabling of a crtc state
+without a set primary plane. Accidently it also prevented disabling
+crtc state with a set primary plane. Neither is correct.
 
-Sort the primary plane formats according to our order of preference.
+Fix the conditional and just driver-warn when a crtc state has been
+enabled without a primary plane which will help debug broken userspace.
 
-Nice side-effect of this change is that it makes IGT's kms_atomic
-plane-invalid-params pass because the test picks the first format
-which for vmwgfx was DRM_FORMAT_XRGB1555 and uses fb's with odd sizes
-which make Pixman, which IGT depends on assert due to the fact that our
-16bpp formats aren't 32 bit aligned like Pixman requires all formats
-to be.
+Fixes IGT's kms_atomic_interruptible and kms_atomic_transition tests.
 
 Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: 36cc79bc9077 ("drm/vmwgfx: Add universal plane support")
+Fixes: 06ec41909e31 ("drm/vmwgfx: Add and connect CRTC helper functions")
 Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org
 Cc: <stable@vger.kernel.org> # v4.12+
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240412025511.78553-6-zack.rusin@broadcom.com
+Reviewed-by: Ian Forbes <ian.forbes@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240412025511.78553-5-zack.rusin@broadcom.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c |   11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -243,10 +243,10 @@ struct vmw_framebuffer_bo {
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -932,6 +932,7 @@ int vmw_du_cursor_plane_atomic_check(str
+ int vmw_du_crtc_atomic_check(struct drm_crtc *crtc,
+ 			     struct drm_atomic_state *state)
+ {
++	struct vmw_private *vmw = vmw_priv(crtc->dev);
+ 	struct drm_crtc_state *new_state = drm_atomic_get_new_crtc_state(state,
+ 									 crtc);
+ 	struct vmw_display_unit *du = vmw_crtc_to_du(new_state->crtc);
+@@ -939,9 +940,13 @@ int vmw_du_crtc_atomic_check(struct drm_
+ 	bool has_primary = new_state->plane_mask &
+ 			   drm_plane_mask(crtc->primary);
+ 
+-	/* We always want to have an active plane with an active CRTC */
+-	if (has_primary != new_state->enable)
+-		return -EINVAL;
++	/*
++	 * This is fine in general, but broken userspace might expect
++	 * some actual rendering so give a clue as why it's blank.
++	 */
++	if (new_state->enable && !has_primary)
++		drm_dbg_driver(&vmw->drm,
++			       "CRTC without a primary plane will be blank.\n");
  
  
- static const uint32_t __maybe_unused vmw_primary_plane_formats[] = {
--	DRM_FORMAT_XRGB1555,
--	DRM_FORMAT_RGB565,
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_XRGB1555,
- };
- 
- static const uint32_t __maybe_unused vmw_cursor_plane_formats[] = {
+ 	if (new_state->connector_mask != connector_mask &&
 
 
 Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
 
-queue-6.6/drm-vmwgfx-fix-prime-import-export.patch
-queue-6.6/drm-vmwgfx-sort-primary-plane-formats-by-order-of-preference.patch
-queue-6.6/drm-vmwgfx-fix-crtc-s-atomic-check-conditional.patch
+queue-6.8/drm-vmwgfx-fix-prime-import-export.patch
+queue-6.8/drm-vmwgfx-sort-primary-plane-formats-by-order-of-preference.patch
+queue-6.8/drm-vmwgfx-fix-crtc-s-atomic-check-conditional.patch
