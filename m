@@ -2,77 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919078AFBAC
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 00:22:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AE38AFC23
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 00:47:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDA1010ED29;
-	Tue, 23 Apr 2024 22:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79955113737;
+	Tue, 23 Apr 2024 22:47:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OeE1Eicm";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="E+gmPWpk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F18981136CB
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 20:55:20 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-41a0979b9aeso24619205e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1713905719; x=1714510519; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=TbfLpkC6sUOo8U9culftXF70TNu8J3c2HXxMlG6vGno=;
- b=OeE1EicmPlLbUoHRo6VbXL/aocOYV71Y5V/ZFYeU4qGRkwT6jjN/ASoTZLzG1C0HP6
- d+Oar6tBoPYgB5GDo87TbvOEZq+FFSvJF4Qn+uOT8VXeXFyhCpNvoOxBAc24qtxSUb6r
- F2DO3d5qs8cS8U4tVwZJmBD9LeWck9X93hm3w4SgUkjFF/mzePyUdtT8fF02Hqkf/6+p
- wdK9/D5Dao+zzONRw/CdLT84upiMCiCdilzftuK1UHLoZe4D9phm1Ri6d8N13OyOfMvN
- zZ+qM5l80TX6KPyBkevuSkY4b2PulDfpaZfBOT2hc4OnqGhKUZqiDMLokAby0+QcI63S
- yuBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713905719; x=1714510519;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TbfLpkC6sUOo8U9culftXF70TNu8J3c2HXxMlG6vGno=;
- b=VE+ZFrFapH/TF2IdmObsnIpTAv370yNFoyPZkVcapX3baBYW9QLYs+trQhlk2lXGU0
- w0ZAd+JkG1MPNgj5r19igROpqvp8tGsUp8C0sbTke+9g8FiJ+nCBrlD5zWjte1FNmbda
- CXr1C/gl9UweDIyQ+nAuWUZLQ5+JFF7JpSqm7uzC/c8nLSqlXwvDlFrZiLdA1mEwPWq5
- kJWwYVkKEzmRkwiyZ2Slx25C2VQXgzHA94qKVVzYYdcmPO9CFfjxgcBcoNnXJRl+pbnS
- TEFTO++MgaU+xzxNW/RK+E9uCXZQNGRKIfnkL3hTJ2yGEQOYGEQg9Aih3W9BrRkGXfkh
- 7HRQ==
-X-Gm-Message-State: AOJu0Yw3U9+rebhEUF1p0aJktM60SV65ZTUnQ9Y5iYIgnsE85dMbUlna
- yLDz6mEzjL9rxwzUZL6Qfbx8eQ5SC7ZE47HSfEJ27YyjT6znbNRg
-X-Google-Smtp-Source: AGHT+IEbJO5sd+0HnvGDWDkavS9ctSks7YgX/fPrRil0nJ1UKoMxDRyYkerrE1jAXCQAZZdWz6LmdQ==
-X-Received: by 2002:a05:600c:4ec9:b0:41a:bf5d:c30a with SMTP id
- g9-20020a05600c4ec900b0041abf5dc30amr441241wmq.18.1713905718653; 
- Tue, 23 Apr 2024 13:55:18 -0700 (PDT)
-Received: from [192.168.1.130] (BC249051.unconfigured.pool.telekom.hu.
- [188.36.144.81]) by smtp.gmail.com with ESMTPSA id
- fc9-20020a05600c524900b0041ac5f19213sm2960332wmb.8.2024.04.23.13.55.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Apr 2024 13:55:18 -0700 (PDT)
-From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
-Date: Tue, 23 Apr 2024 22:54:33 +0200
-Subject: [PATCH] drm/panel: jdi-fhd-r63452: make use of prepare_prev_first
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B783D113737;
+ Tue, 23 Apr 2024 22:47:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1713912421;
+ bh=3CYseH+FU0vBKnt2WiMn8qQr3YasgNMroL1dksT8+ec=;
+ h=From:To:Cc:Subject:Date:From;
+ b=E+gmPWpkN8TEBota5F4adiG1zxgXpWkcuAt5RrETOOslgqXXQge/S11Rfvb7sT/ac
+ NL755WrATlQ/T1M6xL37YKS2Eop0AVT4VkpSogy1yi0Le6IgLCHqZFRJrY962/LMN3
+ 26uojcImUl4pBPWvttouhjF3SzLNl9fZycmbxiaexlVZfhrfidhFX8+nSsh2iwUujt
+ KwXCDRdVn7wgOnveA8ZjfkYmbQQT4rcsYvIzF1RWu06jxCet0J9bjk6IJzqdQr4ivZ
+ D5D19giasvFoNVl+ssCQYvyzFwmRJhiNDC9f9dJ5KpYMByEsWXUhGTuNO4R1aKevOQ
+ EaumuDIFvq49g==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id DFE3F3781013;
+ Tue, 23 Apr 2024 22:47:00 +0000 (UTC)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Qiang Yu <yuq825@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Zack Rusin <zack.rusin@broadcom.com>
+Cc: kernel@collabora.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v2] drm/panfrost: Fix dma_resv deadlock at drm object pin time
+Date: Tue, 23 Apr 2024 23:46:23 +0100
+Message-ID: <20240423224651.138163-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240423-jdi-fix-v1-1-808970662b40@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAggKGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDEyNj3ayUTN20zApdSwuzRHNLs0RjQwNDJaDqgqJUoDDYpOjY2loAgWt
- gkFkAAAA=
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- y.oudjana@protonmail.com, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
-X-Mailer: b4 0.13.0
-X-Mailman-Approved-At: Tue, 23 Apr 2024 22:22:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,32 +71,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSI host must be enabled for the panel to be initialized in
-prepare(). Set the prepare_prev_first flag to guarantee this.
+When Panfrost must pin an object that is being prepared a dma-buf
+attachment for on behalf of another driver, the core drm gem object pinning
+code already takes a lock on the object's dma reservation.
 
-Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+However, Panfrost GEM object's pinning callback would eventually try taking
+the lock on the same dma reservation when delegating pinning of the object
+onto the shmem subsystem, which led to a deadlock.
+
+This can be shown by enabling CONFIG_DEBUG_WW_MUTEX_SLOWPATH, which throws
+the following recursive locking situation:
+
+weston/3440 is trying to acquire lock:
+ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_shmem_pin+0x34/0xb8 [drm_shmem_helper]
+but task is already holding lock:
+ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_pin+0x2c/0x80 [drm]
+
+Fix it by assuming the object's reservation had already been locked by the
+time we reach panfrost_gem_pin.
+
+Do the same thing for the Lima driver, as it most likely suffers from the
+same issue.
+
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>
+Fixes: a78027847226 ("drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()")
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/lima/lima_gem.c         | 9 +++++++--
+ drivers/gpu/drm/panfrost/panfrost_gem.c | 8 +++++++-
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-index 3e0a8e0d58a0..483dc88d16d8 100644
---- a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-@@ -247,6 +247,7 @@ static int jdi_fhd_r63452_probe(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+index 7ea244d876ca..8a5bcf498ef6 100644
+--- a/drivers/gpu/drm/lima/lima_gem.c
++++ b/drivers/gpu/drm/lima/lima_gem.c
+@@ -184,8 +184,13 @@ static int lima_gem_pin(struct drm_gem_object *obj)
  
- 	drm_panel_init(&ctx->panel, dev, &jdi_fhd_r63452_panel_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
-+	ctx->panel.prepare_prev_first = true;
+ 	if (bo->heap_size)
+ 		return -EINVAL;
+-
+-	return drm_gem_shmem_pin(&bo->base);
++	/*
++	 * Pinning can only happen in response to a prime attachment request
++	 * from another driver, but dma reservation locking is already being
++	 * handled by drm_gem_pin
++	 */
++	drm_WARN_ON(obj->dev, obj->import_attach);
++	return drm_gem_shmem_object_pin(obj);
+ }
  
- 	ret = drm_panel_of_backlight(&ctx->panel);
- 	if (ret)
-
----
-base-commit: a59668a9397e7245b26e9be85d23f242ff757ae8
-change-id: 20240423-jdi-fix-986a796a3101
-
-Best regards,
+ static int lima_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index d47b40b82b0b..e3fbcb020617 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -192,7 +192,13 @@ static int panfrost_gem_pin(struct drm_gem_object *obj)
+ 	if (bo->is_heap)
+ 		return -EINVAL;
+ 
+-	return drm_gem_shmem_pin(&bo->base);
++	/*
++	 * Pinning can only happen in response to a prime attachment request
++	 * from another driver, but dma reservation locking is already being
++	 * handled by drm_gem_pin
++	 */
++	drm_WARN_ON(obj->dev, obj->import_attach);
++	return drm_gem_shmem_object_pin(obj);
+ }
+ 
+ static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_object *obj)
 -- 
-Barnabás Czémán <trabarni@gmail.com>
+2.44.0
 
