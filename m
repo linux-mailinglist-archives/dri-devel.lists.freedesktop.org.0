@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B318A8AE7EC
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 15:21:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6D08AE7F3
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 15:21:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D083B10F7F2;
-	Tue, 23 Apr 2024 13:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04CC8112D0E;
+	Tue, 23 Apr 2024 13:21:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VzKnDJwR";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sT8V1U3o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC24F1133B8
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:21:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27CBC10EE60
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:21:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 002D9CE105F;
- Tue, 23 Apr 2024 13:21:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A203C2BD11;
- Tue, 23 Apr 2024 13:21:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6244561472;
+ Tue, 23 Apr 2024 13:21:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2329C116B1;
+ Tue, 23 Apr 2024 13:21:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1713878463;
- bh=ia8FMG14Dw7OmATKnZNgzEfAN/5T1CiG/MzB6aEqpyM=;
+ s=korg; t=1713878508;
+ bh=SVYWS0or3P+E7K794uRPb+k2LeFcksQWRYRR5vwwK7A=;
  h=Subject:To:Cc:From:Date:From;
- b=VzKnDJwRiDpECo2+aq0Fww7VGqB5YxnuUamRZJFIV31bdamN4zqJXSvBB4tBt661M
- 7lQ2QU/46eS6uRqAz+gljBLsR/j///iY1k6luOqUEyNdzBxWB6LNK/7UUWMPWQFwlJ
- YMI1FUVv2tUs86IeHO6pp+/Gn2aubM0+Xh0ZOGk8=
+ b=sT8V1U3o46wHEcA2j7yR8B7UnjheGsQvaQn2qpuo+hjta1WfdbTqyRsEq282zA3p8
+ AzAf14lxWxnPW3ow8VeXuQ3aab246iUZIfktn9aNe5Gjp2HsIgYZxG9Mub+Ywi7/44
+ lKcvppKeL2uZXaoI+UsVCCjfjQL/AkgL1tRSd4CM=
 Subject: Patch "drm/vmwgfx: Sort primary plane formats by order of preference"
- has been added to the 6.1-stable tree
+ has been added to the 5.15-stable tree
 To: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, pekka.paalanen@collabora.com,
  zack.rusin@broadcom.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Tue, 23 Apr 2024 06:20:43 -0700
-Message-ID: <2024042342-sadden-defile-e5c1@gregkh>
+Date: Tue, 23 Apr 2024 06:21:37 -0700
+Message-ID: <2024042334-chug-rumble-1cff@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -61,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/vmwgfx: Sort primary plane formats by order of preference
 
-to the 6.1-stable tree which can be found at:
+to the 5.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-vmwgfx-sort-primary-plane-formats-by-order-of-preference.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-5.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -124,6 +124,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
 
-queue-6.1/drm-vmwgfx-sort-primary-plane-formats-by-order-of-preference.patch
-queue-6.1/drm-vmwgfx-fix-crtc-s-atomic-check-conditional.patch
-queue-6.1/drm-vmwgfx-enable-dma-mappings-with-sev.patch
+queue-5.15/drm-vmwgfx-sort-primary-plane-formats-by-order-of-preference.patch
