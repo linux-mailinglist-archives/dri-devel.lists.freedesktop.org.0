@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331868AE456
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 13:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79ED18AE459
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 13:41:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21B6C113322;
-	Tue, 23 Apr 2024 11:41:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB749113323;
+	Tue, 23 Apr 2024 11:41:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oQCQjWdx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Oym0uKzB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF811113320;
- Tue, 23 Apr 2024 11:41:13 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC11113323;
+ Tue, 23 Apr 2024 11:41:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 457A4CE1009;
- Tue, 23 Apr 2024 11:41:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 401E8C2BD11;
- Tue, 23 Apr 2024 11:41:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9304360ADA;
+ Tue, 23 Apr 2024 11:41:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FCF4C32783;
+ Tue, 23 Apr 2024 11:41:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713872470;
- bh=uCPG6m19kD+YR4Q/y4RzPCRHPnyhZ5d1jJ0v2RVxk+A=;
+ s=k20201202; t=1713872486;
+ bh=1rAcXaRtX0KBbx6LkVQstBRs2T9F0UMhbuLUo4pWZ4I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oQCQjWdxSE5DubXpRErPyxk2HvAaco97cOolhoFiXeEgNpXJBirFKbFYJTeGS51D+
- pMklN1bFfj4mSuUFZQ38RJumJT2NfUKYJf98aAAfSThk281hfJYZcqMl8S8b4e0jSC
- X4saV8EWsyfxdoeE/d9pdjD0rbEp5gD0gAzF7Pu/ttLQgix1xmdykCxQjO2XGQSarB
- RWDHEpQ9v2ZSl3zJ4GS6RmeGTUfQIDnDF8RJStFbJoK+ouktilhP67njJ1WGz+eg+I
- 8VRV34PnL8m/R5El8BWEfymFBiny6N+SOC801VgxrTf785/MfY0BalMZWtszLC3mUA
- SwZxXVYUifQrA==
+ b=Oym0uKzBUlbeBtY1B89Ak7a7CoxfaFfsrxP8Ugp+X+lDKeSrQi9lQSSC1ZlqWDTLh
+ AQhKJUfGWiDlOzLTIhE0ZsSSaaUxahEtsjUVjil6vKYil6ft7p2BeaUUPBI3LDpPbB
+ 7Hw+9rQPN38V+41DDXwIm0lC1y5X+HXdottNCVXoVKYkq1gJ4yrnXG2c95xpnUa2a+
+ SAd5/0fHFA6/3zZaudM+fdhQ6R11RKB3k37kPwzOco57/rTjbQrMSOKusc5MyOQdyy
+ yuUwAHC3x7zmnzo5rmX/+O2gBVDsbxolLlwh+nS4+9IjwbbKdNIkftszzPrm3rWG53
+ OgpbiBAxKDATA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,17 +37,17 @@ Cc: Lyude Paul <lyude@redhat.com>, Dave Airlie <airlied@redhat.com>,
  Sasha Levin <sashal@kernel.org>, kherbst@redhat.com, dakr@redhat.com,
  airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 8/9] drm/nouveau/dp: Don't probe eDP ports twice
+Subject: [PATCH AUTOSEL 5.15 8/9] drm/nouveau/dp: Don't probe eDP ports twice
  harder
-Date: Tue, 23 Apr 2024 07:02:14 -0400
-Message-ID: <20240423110217.1658879-8-sashal@kernel.org>
+Date: Tue, 23 Apr 2024 07:02:30 -0400
+Message-ID: <20240423110233.1659071-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240423110217.1658879-1-sashal@kernel.org>
-References: <20240423110217.1658879-1-sashal@kernel.org>
+In-Reply-To: <20240423110233.1659071-1-sashal@kernel.org>
+References: <20240423110233.1659071-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.87
+X-stable-base: Linux 5.15.156
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,12 +89,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-index 53185746fb3d1..17e1e23a780e0 100644
+index 447b7594b35ae..0107a21dc9f9b 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_dp.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
 @@ -109,12 +109,15 @@ nouveau_dp_detect(struct nouveau_connector *nv_connector,
  	u8 *dpcd = nv_encoder->dp.dpcd;
- 	int ret = NOUVEAU_DP_NONE, hpd;
+ 	int ret = NOUVEAU_DP_NONE;
  
 -	/* If we've already read the DPCD on an eDP device, we don't need to
 -	 * reread it as it won't change
