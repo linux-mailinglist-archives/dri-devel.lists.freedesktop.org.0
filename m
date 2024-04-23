@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBCB8AE1C0
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 12:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A9D8AE1DD
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 12:12:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC2E610FB82;
-	Tue, 23 Apr 2024 10:05:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 407E810EDD4;
+	Tue, 23 Apr 2024 10:12:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M88zFfaU";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="gx0IoUlb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7243710FB64;
- Tue, 23 Apr 2024 10:05:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713866732; x=1745402732;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=JlqaQjHeeUnkbHgGAnCGAm0JwArhkJonGKKlfTLIK3A=;
- b=M88zFfaUtJBgmXpv+Bd9Gl1sdmOokATdu71+zRdhJXncvLL8dmyXEIQ9
- E2ku0CZJj+LXx1JdIvhnd08+1ZClsz8zFxd133hu8wZRPvg67IGiA1PK1
- oTItDYHqXShIA1pgbOKKyjoFBS/+qfqg7h7dq44K9t6hDyheRtiq8T6/B
- n4c0J0Kk2LocyOyx4iQntjUhQO9VsmBaSu7SXtZ5O8hVBPIsfHkelOJ7r
- AYfOzRHhe9PaKuFXZCw+RZMnNe2ucOsvSnpApp70hQRBHgd7G4SMC2Mw6
- hr6+ZTwfnjs2my6PRvRR07BmH3BjdxPMshWXNGYqDVzTfAtV1xKdDdG00 g==;
-X-CSE-ConnectionGUID: oxNnmVsYTj6q2DAPldytiA==
-X-CSE-MsgGUID: UtWcBbQBQ9661MLZ8DEJ6w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="12375481"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="12375481"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 03:05:31 -0700
-X-CSE-ConnectionGUID: ujT31sNvT8m43mBzGYsaFg==
-X-CSE-MsgGUID: lSM4gHXyS1Ke78Nv+tXzEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="24763526"
-Received: from unknown (HELO intel.com) ([10.247.119.79])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 03:05:19 -0700
-Date: Tue, 23 Apr 2024 12:05:09 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@linux.intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Tvrtko Ursulin <tursulin@ursulin.net>
-Subject: Re: [PATCH] drm/i915/gt: Refactor uabi engine class/instance list
- creation
-Message-ID: <ZieH1WjOS8cyPfXl@ashyti-mobl2.lan>
-References: <20240416224953.385726-1-andi.shyti@linux.intel.com>
- <3e69af0e-11e5-4bfc-8400-8ebbec7d34ef@linux.intel.com>
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com
+ [95.215.58.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1165810EDD4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 10:12:32 +0000 (UTC)
+Message-ID: <08e81099-77d6-4d6d-9e7b-b086c17818c9@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1713867150;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HN/p+WditlGUuZClm6toX5fexU+Fy5ogSGpPxKBmU9M=;
+ b=gx0IoUlbU8vUCPYm8K5V7+vjnSMaNPiilzGxlQunoD/Ee9c8Dwf8P87iURnWP9xAgoMKjo
+ 9Pmwr3lt50OBvadfVJtfIiDOfgeH4oeHZyblQhSOIgpe0kFCgCpFxghCGGW2UtjgDZSrpR
+ MeR51uo3vnGo98R0LG1IfWrJPUEjjCA=
+Date: Tue, 23 Apr 2024 18:12:20 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3e69af0e-11e5-4bfc-8400-8ebbec7d34ef@linux.intel.com>
+Subject: Re: [PATCH v4 9/9] drm/bridge: tfp410: Add platform module alias
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240422191903.255642-1-sui.jingfeng@linux.dev>
+ <20240422191903.255642-10-sui.jingfeng@linux.dev>
+ <050ff49d-516c-41fc-a205-4c259384058f@kernel.org>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <050ff49d-516c-41fc-a205-4c259384058f@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,51 +66,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
+Hi,
 
-On Tue, Apr 23, 2024 at 11:02:06AM +0200, Nirmoy Das wrote:
-> On 4/17/2024 12:49 AM, Andi Shyti wrote:
+On 2024/4/23 16:05, Krzysztof Kozlowski wrote:
+> On 22/04/2024 21:19, Sui Jingfeng wrote:
+>> Otherwise when compiled as module, this driver will not be probed on
+>> non-DT environment. This is a fundamential step to make this driver
+>> truely OF-independent.
+> NAK.
 
-...
 
->      void intel_engines_driver_register(struct drm_i915_private *i915)
->      {
->     -       u16 name_instance, other_instance = 0;
->     +       u16 class_instance[I915_LAST_UABI_ENGINE_CLASS + 2] = { };
-> 
-> +2 is confusing here. I think we need a better macro.
+:( ...
 
-This is to avoid buffer overflow, otherwise we will always hit
-the GEM_BUG_ON below.
 
->             struct legacy_ring ring = {};
->             struct list_head *it, *next;
->             struct rb_node **p, *prev;
+>
+> You should not need MODULE_ALIAS() in normal cases. If you need it,
+> usually it means your device ID table is wrong (e.g. misses either
+> entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
+> for incomplete ID table.
 
-...
 
->     +               GEM_BUG_ON(uabi_class >=
->     +                          ARRAY_SIZE(i915->engine_uabi_class_count));
->     +               i915->engine_uabi_class_count[uabi_class]++;
-> 
-> Shouldn't this be  i915->engine_uabi_class_count[uabi_class] =  class_instance
-> [uabi_class]; ?
+I think I could give you a reason.
 
-that's mostly a counter, we don't really need to be on sync with
-the real instance of the engines.
+1) When compile this driver into linux kernel
 
-> What I see is that this patch mainly adding this class_instance array and rest
-> looks the same.
-> May be it make sense to add other upcoming  patches to better understand why we
-> need this patch.
+This driver will be probed if we create a platform device manually with the name "tfp410".
+This is also true for the display-connector driver(drivers/gpu/drm/bridge/display-connector.c),
+see patch 0005 of this series  and the simple-bridge driver(drivers/gpu/drm/bridge/simple-bridge.c)
+see patch 0003 of this series.
 
-yes, this patch simplifies the coming patches and the logic
-inside, as well.
+2) But when compile this driver as module, creating a platform device manually with the same name
+*won't* make those platform driver probed. I think, this is *inconsistent behavior*. Therefore, I
+add MODULE_ALIAS() to keep the behavior consistent. That is, a driver, should be able to be probed
+regardless it is compile as a kernel module or it is built into the kernel.
 
-I just wanted to anticipate some of the refactorings so that we
-could speed up the reviews. There is no functional change in
-here, that's why I thought it was harmless.
 
-Thanks for taking a look into it.
+> Just check your aliases and look what is there. You already have
+> i2c:tfp410 alias.
 
-Andi
+Right, but the i2c:tfp410 alias only guarantee the driver can be probed successfully
+when tfp410 working as I2C slave. tfp410 can also works as a transparent bridge.
+
+
+>   If you need platform one, for some reason, explain
+> what is your matching path and add appropriate ID table. With that
+> explanation, of course.
+
+When tfp410 works as a transparent bridge. The device itself is just a platform device.
+similar with the display-connector.c and simple-bridge.c.
+
+It is not discoverable by the system on non-DT environment, this is the root problem.
+I said the various display bridges drivers are fully DT dependent, Dimtry didn't agree!
+
+He said "I can not agree here. It doesn't depend on DT." and then asks me to developing
+some other solution witch could preserve code sharing. So here it is.
+
+
+> Best regards,
+> Krzysztof
+>
+-- 
+Best regards,
+Sui
+
