@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79ED18AE459
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 13:41:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCA98AE464
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 13:41:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB749113323;
-	Tue, 23 Apr 2024 11:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31FBD113327;
+	Tue, 23 Apr 2024 11:41:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Oym0uKzB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lPhUEFW5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC11113323;
- Tue, 23 Apr 2024 11:41:27 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF259113325;
+ Tue, 23 Apr 2024 11:41:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9304360ADA;
- Tue, 23 Apr 2024 11:41:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FCF4C32783;
- Tue, 23 Apr 2024 11:41:24 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 11B2DCE1017;
+ Tue, 23 Apr 2024 11:41:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CF7DC3277B;
+ Tue, 23 Apr 2024 11:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713872486;
+ s=k20201202; t=1713872502;
  bh=1rAcXaRtX0KBbx6LkVQstBRs2T9F0UMhbuLUo4pWZ4I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Oym0uKzBUlbeBtY1B89Ak7a7CoxfaFfsrxP8Ugp+X+lDKeSrQi9lQSSC1ZlqWDTLh
- AQhKJUfGWiDlOzLTIhE0ZsSSaaUxahEtsjUVjil6vKYil6ft7p2BeaUUPBI3LDpPbB
- 7Hw+9rQPN38V+41DDXwIm0lC1y5X+HXdottNCVXoVKYkq1gJ4yrnXG2c95xpnUa2a+
- SAd5/0fHFA6/3zZaudM+fdhQ6R11RKB3k37kPwzOco57/rTjbQrMSOKusc5MyOQdyy
- yuUwAHC3x7zmnzo5rmX/+O2gBVDsbxolLlwh+nS4+9IjwbbKdNIkftszzPrm3rWG53
- OgpbiBAxKDATA==
+ b=lPhUEFW5qBWbcw1PMcL5CEB+UNSrorPhIJ31dpOH8URT2Vw0uTYTuE/birieB4ww9
+ QG42nVLKPmURny2Kjub7PwqaUart61sJYXXWabmVG09rXAelOIA5u6A+fByD3hWBdX
+ RnuZGhy50reDEtFAHtUe/7F3ZGaRBzWtmYBt2aZZxOBp0U0MUErjAzcfIPe4yStVDC
+ DcXlF9F2eYySueuB3YDdInDN5p/oLD3G5AUtQDi5uSfrrTTijSTlBWzCxM/9MUJpTv
+ BsRcZ4HdrBWSIE10NmD4ZvY8Rng6uKNK5ePfiuKBKlzzKua598Un8FsujXTmrH8LmB
+ 2XbAdIoh/PuFw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,17 +37,17 @@ Cc: Lyude Paul <lyude@redhat.com>, Dave Airlie <airlied@redhat.com>,
  Sasha Levin <sashal@kernel.org>, kherbst@redhat.com, dakr@redhat.com,
  airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 8/9] drm/nouveau/dp: Don't probe eDP ports twice
+Subject: [PATCH AUTOSEL 5.10 8/9] drm/nouveau/dp: Don't probe eDP ports twice
  harder
-Date: Tue, 23 Apr 2024 07:02:30 -0400
-Message-ID: <20240423110233.1659071-8-sashal@kernel.org>
+Date: Tue, 23 Apr 2024 07:02:46 -0400
+Message-ID: <20240423110249.1659263-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240423110233.1659071-1-sashal@kernel.org>
-References: <20240423110233.1659071-1-sashal@kernel.org>
+In-Reply-To: <20240423110249.1659263-1-sashal@kernel.org>
+References: <20240423110249.1659263-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.156
+X-stable-base: Linux 5.10.215
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
