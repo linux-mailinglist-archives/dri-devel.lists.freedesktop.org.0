@@ -2,93 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877E98AE843
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 15:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DC28AE848
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 15:34:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEC1A10F66C;
-	Tue, 23 Apr 2024 13:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 988E9112E3B;
+	Tue, 23 Apr 2024 13:34:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LOeBAy00";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="WTKjNeqY";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="V+R4HkPd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFF5F10F66C
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:34:02 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
- [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F600250;
- Tue, 23 Apr 2024 15:33:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1713879190;
- bh=CCBJ6ijz16CbNQxyoa/WaJdn+s9btfi5aDii7evdQsY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LOeBAy00QcpeScOb7ZUmpwpsA5qs7K1axhtqVxYs6IRnHNFM/sTlQg84gg9jH0oby
- qw2ilA9MbIXT6pDa4PPbHvb62VKrzm8VdEGhKpA6TZ8MLlTQxcXOQ8XNjp+BNYrvHW
- igVqSknPY1F+32vgJBHjpWhCLjIkued1tK/nMCLo=
-Message-ID: <5334a3cc-bcf9-4791-9ca9-1d0093899707@ideasonboard.com>
-Date: Tue, 23 Apr 2024 16:33:57 +0300
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B7291133C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:34:53 +0000 (UTC)
+Date: Tue, 23 Apr 2024 15:34:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1713879290;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zQzgTOJxdV+4HqjR4K2Hng/ZiXcnP1iJM/wR6D3wAb4=;
+ b=WTKjNeqY8xkmjrafgK3JHTMFWg4OmmtvBoHyR86Fz5DQGc8/m4JRw1pNturj88beqVCLmT
+ u/3GvaY+7s3kCWvaUaDifQlr/v2fxGWoZwZRKq36MpJfVSR7U9iqQiDsb+Yaf1Yl8XWA6u
+ kUIMap3Meje3OFinYmlFLMk4SyWh/0Pynrwvhp1WDbZ3SJZggVNkDtsfGMKqyUt4fy/nSl
+ Gm04YqUim+3+mFh2FGUyWtktXFd37D71LIDKndamiMbkQgJczzSQOkBl0xmHIKKPAmT6QX
+ tH0EeGkij45IWOvEoXwmtEvj3nwaeCN4OEiiEDYVuvd/7eoSzjoma6p9BB98rg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1713879290;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zQzgTOJxdV+4HqjR4K2Hng/ZiXcnP1iJM/wR6D3wAb4=;
+ b=V+R4HkPdnpgdtc0lWO90//+/pjHU2Wv+1ovkWI/lI/cCJ3k3ME+ubW3PIOsWmJQb2JUHs+
+ Kju2+Ap2WqZxpOAA==
+From: Nam Cao <namcao@linutronix.de>
+To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Jaya Kumar <jayalk@intworks.biz>, Daniel Vetter <daniel@ffwll.ch>,
+ Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, tiwai@suse.de, bigeasy@linutronix.de,
+ patrik.r.jakobsson@gmail.com, Vegard Nossum <vegard.nossum@oracle.com>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Darren Kenny <darren.kenny@oracle.com>, chuansheng.liu@intel.com,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v2] fbdev: fix incorrect address computation in deferred IO
+Message-ID: <20240423133445.h44pcNzq@linutronix.de>
+References: <20240423115053.4490-1-namcao@linutronix.de>
+ <1722c1b6-59a5-429d-905c-bc1951a68a68@suse.de>
+ <c2bf36b5-3145-491b-b272-d5afae73db7f@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/13] drm: zynqmp_dp: IRQ cleanups and debugfs support
-To: Sean Anderson <sean.anderson@linux.dev>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Michal Simek <michal.simek@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-References: <20240422184553.3573009-1-sean.anderson@linux.dev>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240422184553.3573009-1-sean.anderson@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c2bf36b5-3145-491b-b272-d5afae73db7f@oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,75 +72,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sean,
+On Tue, Apr 23, 2024 at 06:56:52PM +0530, Harshit Mogalapalli wrote:
+> Thanks everyone!
+> 
+> I have tested the patched kernel with the syzkaller reproducer and couldn't
+> see a problem.
 
-On 22/04/2024 21:45, Sean Anderson wrote:
-> This series cleans up the zyqnmp_dp IRQ and locking situation. Once
-> that's done, it adds debugfs support. The intent is to enable compliance
-> testing or to help debug signal-integrity issues.
-> 
-> Last time I discussed converting the HPD work(s) to a threaded IRQ. I
-> did not end up doing that for this series since the steps would be
-> 
-> - Add locking
-> - Move link retraining to a work function
-> - Harden the IRQ
-> - Merge the works into a threaded IRQ (omitted)
-> 
-> Which with the exception of the final step is the same as leaving those
-> works as-is. Conversion to a threaded IRQ can be done as a follow-up.
+If you want to take credit for testing it, send us:
 
-What is the base for this series? I'm having trouble applying it.
+	Tested-by: Your Name <your@email>
 
-I managed to mostly apply it, but I see the board hang when I unload the 
-modules. I didn't debug it as it might as well be caused by my conflict 
-resolution.
+And that tag will appear in the final commit.
 
-  Tomi
+But completely up to you.
 
-> Changes in v3:
-> - Store base pointers in zynqmp_disp directly
-> - Don't delay work
-> - Convert to a hard IRQ
-> - Use AUX IRQs instead of polling
-> - Take dp->lock in zynqmp_dp_hpd_work_func
-> 
-> Changes in v2:
-> - Fix kerneldoc
-> - Rearrange zynqmp_dp for better padding
-> - Split off the HPD IRQ work into another commit
-> - Expand the commit message
-> - Document hpd_irq_work
-> - Document debugfs files
-> - Add ignore_aux_errors and ignore_hpd debugfs files to replace earlier
->    implicit functionality
-> - Attempt to fix unreproducable, spurious build warning
-> - Drop "Optionally ignore DPCD errors" in favor of a debugfs file
->    directly affecting zynqmp_dp_aux_transfer.
-> 
-> Sean Anderson (13):
->    drm: xlnx: Store base pointers in zynqmp_disp directly
->    drm: xlnx: Fix kerneldoc
->    drm: zynqmp_dp: Downgrade log level for aux retries message
->    drm: zynqmp_dp: Adjust training values per-lane
->    drm: zynqmp_dp: Rearrange zynqmp_dp for better padding
->    drm: zynqmp_dp: Don't delay work
->    drm: zynqmp_dp: Add locking
->    drm: zynqmp_dp: Don't retrain the link in our IRQ
->    drm: zynqmp_dp: Convert to a hard IRQ
->    drm: zynqmp_dp: Use AUX IRQs instead of polling
->    drm: zynqmp_dp: Split off several helper functions
->    drm: zynqmp_dp: Take dp->lock in zynqmp_dp_hpd_work_func
->    drm: zynqmp_dp: Add debugfs interface for compliance testing
-> 
->   Documentation/gpu/drivers.rst       |   1 +
->   Documentation/gpu/zynqmp.rst        | 149 +++++
->   MAINTAINERS                         |   1 +
->   drivers/gpu/drm/xlnx/zynqmp_disp.c  |  44 +-
->   drivers/gpu/drm/xlnx/zynqmp_dp.c    | 909 +++++++++++++++++++++++++---
->   drivers/gpu/drm/xlnx/zynqmp_dpsub.h |   1 +
->   drivers/gpu/drm/xlnx/zynqmp_kms.h   |   4 +-
->   7 files changed, 1000 insertions(+), 109 deletions(-)
->   create mode 100644 Documentation/gpu/zynqmp.rst
-> 
-
+Best regards,
+Nam
