@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBA08AF9C3
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 23:44:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FAF68AF963
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 23:42:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA172113716;
-	Tue, 23 Apr 2024 21:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA35510E4E0;
+	Tue, 23 Apr 2024 21:42:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GK7U/j6g";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="o7c3TZt0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9ACE113716
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 21:44:31 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB20E10E741
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 21:42:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AE7436179B;
- Tue, 23 Apr 2024 21:44:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D262C116B1;
- Tue, 23 Apr 2024 21:44:30 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 07A62CE1303;
+ Tue, 23 Apr 2024 21:42:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 862A2C116B1;
+ Tue, 23 Apr 2024 21:42:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1713908670;
- bh=VHCnlKquvVOtnkxjzK6/ACbVX1C4gxB1O3lKrAFYC6c=;
+ s=korg; t=1713908559;
+ bh=wtIbt6hKLI9SYaTZFUwU2/J3b5auzSYLLV6jtbqPsfw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GK7U/j6gmPpvdmBypfv5LHCVRppF9xuU8sAbHZutKbf0U/wNmd0EB/HYmHaffrC8t
- nmlSMi0/7RFxPvjUEBkOKefRshvIXQDgv0ZE0j32qXhgYgrjRVa6eOiDywl2YJ2OS2
- CRyOuTzezJMR8ICyCzNhHME6/mXjbDISvEC/1ypo=
+ b=o7c3TZt01Th3MyJ3C0nKnr+bcTzamLGc9nOh6FekG3Erb/2oGU/bm0Syg/PxCk/mI
+ gvKXK3wAVy3shDKiPqPP1tjC5Xf+Cac3qsGwkRWxZPE8oXKO3sZiWgKeMx/HhKtoNP
+ P6zx+7hrrCkx4unxw8MhP7M+7qs9kDhXJbNuVveo=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Zack Rusin <zack.rusin@broadcom.com>, Ye Li <ye.li@broadcom.com>,
+ Zack Rusin <zack.rusin@broadcom.com>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
  dri-devel@lists.freedesktop.org,
- Martin Krastev <martin.krastev@broadcom.com>,
- Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.1 001/141] drm/vmwgfx: Enable DMA mappings with SEV
-Date: Tue, 23 Apr 2024 14:37:49 -0700
-Message-ID: <20240423213853.403789102@linuxfoundation.org>
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: [PATCH 6.8 146/158] drm/vmwgfx: Sort primary plane formats by order
+ of preference
+Date: Tue, 23 Apr 2024 14:39:28 -0700
+Message-ID: <20240423213900.605907888@linuxfoundation.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240423213853.356988651@linuxfoundation.org>
-References: <20240423213853.356988651@linuxfoundation.org>
+In-Reply-To: <20240423213855.824778126@linuxfoundation.org>
+References: <20240423213855.824778126@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -61,58 +61,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.1-stable review patch.  If anyone has any objections, please let me know.
+6.8-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Zack Rusin <zack.rusin@broadcom.com>
 
-[ Upstream commit 4c08f01934ab67d1d283d5cbaa52b923abcfe4cd ]
+commit d4c972bff3129a9dd4c22a3999fd8eba1a81531a upstream.
 
-Enable DMA mappings in vmwgfx after TTM has been fixed in commit
-3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for page-based iomem")
+The table of primary plane formats wasn't sorted at all, leading to
+applications picking our least desirable formats by defaults.
 
-This enables full guest-backed memory support and in particular allows
-usage of screen targets as the presentation mechanism.
+Sort the primary plane formats according to our order of preference.
+
+Nice side-effect of this change is that it makes IGT's kms_atomic
+plane-invalid-params pass because the test picks the first format
+which for vmwgfx was DRM_FORMAT_XRGB1555 and uses fb's with odd sizes
+which make Pixman, which IGT depends on assert due to the fact that our
+16bpp formats aren't 32 bit aligned like Pixman requires all formats
+to be.
 
 Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Reported-by: Ye Li <ye.li@broadcom.com>
-Tested-by: Ye Li <ye.li@broadcom.com>
-Fixes: 3b0d6458c705 ("drm/vmwgfx: Refuse DMA operation when SEV encryption is active")
+Fixes: 36cc79bc9077 ("drm/vmwgfx: Add universal plane support")
 Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.6+
-Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240408022802.358641-1-zack.rusin@broadcom.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Cc: <stable@vger.kernel.org> # v4.12+
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240412025511.78553-6-zack.rusin@broadcom.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 9d7a1b710f48f..53f63ad656a41 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -663,11 +663,12 @@ static int vmw_dma_select_mode(struct vmw_private *dev_priv)
- 		[vmw_dma_map_populate] = "Caching DMA mappings.",
- 		[vmw_dma_map_bind] = "Giving up DMA mappings early."};
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+@@ -243,10 +243,10 @@ struct vmw_framebuffer_bo {
  
--	/* TTM currently doesn't fully support SEV encryption. */
--	if (cc_platform_has(CC_ATTR_MEM_ENCRYPT))
--		return -EINVAL;
--
--	if (vmw_force_coherent)
-+	/*
-+	 * When running with SEV we always want dma mappings, because
-+	 * otherwise ttm tt pool pages will bounce through swiotlb running
-+	 * out of available space.
-+	 */
-+	if (vmw_force_coherent || cc_platform_has(CC_ATTR_MEM_ENCRYPT))
- 		dev_priv->map_mode = vmw_dma_alloc_coherent;
- 	else if (vmw_restrict_iommu)
- 		dev_priv->map_mode = vmw_dma_map_bind;
--- 
-2.43.0
-
+ 
+ static const uint32_t __maybe_unused vmw_primary_plane_formats[] = {
+-	DRM_FORMAT_XRGB1555,
+-	DRM_FORMAT_RGB565,
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_XRGB1555,
+ };
+ 
+ static const uint32_t __maybe_unused vmw_cursor_plane_formats[] = {
 
 
