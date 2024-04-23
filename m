@@ -2,79 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1275E8AF81B
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 22:42:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA828AF85B
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 22:51:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C98D1136B6;
-	Tue, 23 Apr 2024 20:42:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E4EC1136C1;
+	Tue, 23 Apr 2024 20:51:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="0bksULoN";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="u4BXH/sY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5E691136B6
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 20:42:15 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id
- d75a77b69052e-439b1c72676so33611cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:42:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1713904934; x=1714509734;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gBaEPajCkSnKrTb2DDUtDRO7q5j6yIsYeUTfCcOrMGA=;
- b=0bksULoNo5GN1+Y9vhZwrCJap58mKs2+x9jT5wTV5AzpXJllQc5rqDLpa/GxutZ5hG
- RHiOtAB+mCWeUce4crm0qSrsEswY5MqHiMzNrLyGJ+88KKDkIfzCskcJ9OTpUCqLvTpA
- C6U9W8JJEEXdDTn/gW3zQqIx/lgX+qx4ss56R9B0y3KZ0fkcm3FKgAJ/CW+FslXLjVi9
- 0nCvLGYAfenw3tms5gqFK1yl5F/A0+wPeyhhQRw/l63S5ao71kufd7aAy5fOhGSUo0oM
- NoA/VWLLxXhLr+9nCCuMM6dZobAK7uUDViZq6IaO+MknDwkZrvSqjUurIXpALRlQFbUE
- 24RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713904934; x=1714509734;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gBaEPajCkSnKrTb2DDUtDRO7q5j6yIsYeUTfCcOrMGA=;
- b=TZkjk8wtJtYtUK4q1/SwMxGMMz7uGnfqRKht49WSW9Ogh9+sogBG+uhivH9HJtIruz
- j46VgHwuwcyabRcDLCYjIeaRxbsrFPenvdI7DcuH4tNkl1822Q+deDTe8pisvaT73Xia
- 1kypUm4fvuuOuWqRtRfTjrwseyJXwJk2qrMU+gc7ifwlwHSoREZYDKx/YiUyS75QndjV
- oDKcRSngkYI7lTduo/FpCy33gp8D/dgSntYR422Hk203s6HoMz1j5I7jh5rkoMg+xn94
- vkYLCUcoj3eHQe3oBBDg9CBYGewSRLlwaWGl5M13rXBTFQFMy67x5GLcEAcBg4CpLEd+
- jMqg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQpuA/SVZljMCD083Nl3/NtKzUzW78LbYVGrZNGyPahvm05XY4v2adk2i33nR5cy91zw4czaq8Ayd9LcdmLSYf2O18bLkGNNkpDwpr2H9A
-X-Gm-Message-State: AOJu0Yx3GhsQv/HCF8f9Z4Fun7yLtzACkjDD+xoE789ljbguwDv6v2Z8
- rnHNdCFT6llpuE610eIRgDiuB1/yORJzr7mU4YdFtB586ojvaYiXWCIj+/vU1siFKExTPfk/1NK
- wJVy4p478iuxlpbBifIe+Wej28sO4puKgVNfQ
-X-Google-Smtp-Source: AGHT+IHM5cqjg54cb9ro/IxJNIkES3D9cFrBeXaYCys/rrJyRDxCkf4sLwPEhC9IJaInYueqnzKY2005j/7L4KiVNz0=
-X-Received: by 2002:a05:622a:4402:b0:434:d055:5b00 with SMTP id
- ka2-20020a05622a440200b00434d0555b00mr63892qtb.20.1713904934205; Tue, 23 Apr
- 2024 13:42:14 -0700 (PDT)
+X-Greylist: delayed 419 seconds by postgrey-1.36 at gabe;
+ Tue, 23 Apr 2024 20:51:38 UTC
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A34C1136C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 20:51:37 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20240423204436euoutp0104bdcb9bd073874a7a7ecc063e928881~JA5YZyt7t0994209942euoutp01J
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 20:44:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20240423204436euoutp0104bdcb9bd073874a7a7ecc063e928881~JA5YZyt7t0994209942euoutp01J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1713905076;
+ bh=h8e/uzOGG9alR5TqJbZSWl8yJHNgm6AunoUkZ/Nzuu0=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=u4BXH/sYksXWEhePjFRpWaLdoCLyCrf619SXauvKBLUcAuvDYjlK2O8iapqj/Reri
+ CJHb5csnZfyOM8TndRNc38jRQFJNyjERmpbPBec1t504BfciLL1WFK0NAkEzf+KRf4
+ 1V9M2N98muVLRw/ue5GBRsraZD/wYEkbb4Axpb/4=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20240423204435eucas1p1928c6bb8134fd2ad904072aa6bab0d1f~JA5XvLNvI1155811558eucas1p1Q;
+ Tue, 23 Apr 2024 20:44:35 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 7A.E9.09875.3BD18266; Tue, 23
+ Apr 2024 21:44:35 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20240423204435eucas1p2c0a9a75f87b31d11faa59fec40878f23~JA5XY1WfI2538925389eucas1p2N;
+ Tue, 23 Apr 2024 20:44:35 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20240423204435eusmtrp1084d009601a002a5424fd1c0951acf7b~JA5XYTFma1907419074eusmtrp19;
+ Tue, 23 Apr 2024 20:44:35 +0000 (GMT)
+X-AuditID: cbfec7f4-11bff70000002693-44-66281db3355c
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 93.07.08810.3BD18266; Tue, 23
+ Apr 2024 21:44:35 +0100 (BST)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20240423204434eusmtip179b0bdf8e6cafaadec2530490ede99de~JA5W6SNte0260002600eusmtip1J;
+ Tue, 23 Apr 2024 20:44:34 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Inki Dae
+ <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Krzysztof
+ Kozlowski <krzk@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH] drm/exynos: fix .get_modes return value in case of errors
+Date: Tue, 23 Apr 2024 22:44:31 +0200
+Message-Id: <20240423204431.3288578-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240418081548.12160-3-lvzhaoxiong@huaqin.corp-partner.google.com>
- <zanx5y3obqmewnbooovf52hx6vh7tpi4zsbse2dyzcqzddmzhw@kewxoa6n3mja>
- <CACb=7PURWtS8bwT5EcAFHhu7deHd2Y8cNOattfdwyEYpOUcbnQ@mail.gmail.com>
- <vbt2nxddw2dc7hkreq4iybv5zv5xyp32oajybeqsphgfrhzmn7@tskvckljmxpe>
- <CACb=7PVTvV9nsFu1ZAXu7YTjSOAGZka+c__EJq3J3qgSJGEShw@mail.gmail.com>
-In-Reply-To: <CACb=7PVTvV9nsFu1ZAXu7YTjSOAGZka+c__EJq3J3qgSJGEShw@mail.gmail.com>
-From: Doug Anderson <dianders@google.com>
-Date: Tue, 23 Apr 2024 13:41:59 -0700
-Message-ID: <CAD=FV=VYAzqsGEBJai9b9n+HxHiG59L1vF73AEWcTwLS_ryjWw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] drm/panel: kd101ne3: add new panel driver
-To: Hsin-Yi Wang <hsinyi@google.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>, mripard@kernel.org, 
- airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- cong yang <yangcong5@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGKsWRmVeSWpSXmKPExsWy7djPc7qbZTXSDE5OVLK48vU9m8Wk+xNY
+ LM6f38BusenxNVaLGef3MVmsPXKX3WLBxkeMFjMmv2Rz4PDYtKqTzeN+93Emj81L6j36tqxi
+ 9Pi8SS6ANYrLJiU1J7MstUjfLoEr43erXUEPf8WxvoNsDYx3eboYOTkkBEwk9q9vZe9i5OIQ
+ EljBKNF08T+U84VRYunXJkYI5zOjxJ1vm9lhWr7vXsIGkVjOKLH92BKEls41x1hBqtgEDCW6
+ 3naxgdgiAnkSV6e1s4IUMQvsZpTYNm8+C0hCWMBLYkf/HbCxLAKqEosf9gLFOTh4Bewlbqyw
+ h9gmL7H/4FlmEJtXQFDi5MwnYK3MQPHmrbOZQWZKCKzkkFj+4TkLRIOLxJn7MxghbGGJV8e3
+ QJ0tI3F6cg8LREM7o8SC3/eZIJwJjBINz29BdVhL3Dn3iw3kCmYBTYn1u/Qhwo4SU68fBAtL
+ CPBJ3HgrCHEEn8SkbdOZIcK8Eh1tQhDVahKzjq+DW3vwwiVmCNtD4u3jG2C2kECsxM6+c2wT
+ GBVmIXltFpLXZiHcsICReRWjeGppcW56arFRXmq5XnFibnFpXrpecn7uJkZg0jn97/iXHYzL
+ X33UO8TIxMF4iFGCg1lJhPfXH5U0Id6UxMqq1KL8+KLSnNTiQ4zSHCxK4ryqKfKpQgLpiSWp
+ 2ampBalFMFkmDk6pBqbe10ybVs/KvMR2OmVypfwu6T9P2OWO2FzwlXT/zGJe9mbVcS6evMtG
+ v2Vm3NrmXCCXef96oXtWjaLMHG4GNZsOYRE5OdPFWtFz7m4S7TKeOPVDWPx+RlsOyU62ok7x
+ qqUeD7sKq9RWFL1dz3VSzWu2/MYvy1inZBpfnbj+mZX9I/upHCw3lkm+ym6oWP6Lz6hn5fHe
+ xiWC186JN+7b5+xssOzRhKWmUyNX/6+9P1ucqUy1/nuf+K1798ITWHp33Hm8+7UO24OQLXvt
+ F/i+iGU+uauhiun4sp9qrClPk05n8mp+mrxscxz7pAdSW2N3rZvqbjnLYmfkv/xXr5ivK6xP
+ fF4/S7h5+dfWCPFFgb+UWIozEg21mIuKEwFs25eHqQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFLMWRmVeSWpSXmKPExsVy+t/xu7qbZTXSDNb85Le48vU9m8Wk+xNY
+ LM6f38BusenxNVaLGef3MVmsPXKX3WLBxkeMFjMmv2Rz4PDYtKqTzeN+93Emj81L6j36tqxi
+ 9Pi8SS6ANUrPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjf
+ LkEv43erXUEPf8WxvoNsDYx3eboYOTkkBEwkvu9ewtbFyMUhJLCUUWL/pf+MEAkZiZPTGlgh
+ bGGJP9e62EBsIYFPjBInf1mC2GwChhJdbyHiIgIFEn+XHmECGcQssJ9R4ve1m2DNwgJeEjv6
+ 77CD2CwCqhKLH/aydDFycPAK2EvcWGEPMV9eYv/Bs8wgNq+AoMTJmU9YQGxmoHjz1tnMExj5
+ ZiFJzUKSWsDItIpRJLW0ODc9t9hQrzgxt7g0L10vOT93EyMw0Lcd+7l5B+O8Vx/1DjEycTAe
+ YpTgYFYS4f31RyVNiDclsbIqtSg/vqg0J7X4EKMp0HkTmaVEk/OBsZZXEm9oZmBqaGJmaWBq
+ aWasJM7rWdCRKCSQnliSmp2aWpBaBNPHxMEp1cBUuLs97s2nz+6XZyiLbrd5mvFtg8qTP0c3
+ dS84UstdOSvq3YPaltB9nRPNdUQ+xl25JcBfLMt77Zoyq2zis/Pym2cmVQd98uY9/v3b1Lep
+ tcUb/K8U6Wyb7HxyQWvs8fhdPWKT9EpUlk/66czF82oxz7+47uW2cmGxftFXn0xf8TAreGlV
+ dWCx072XJ6t5RA/c5W5+xOzYXDz/zNbk1H9zX0dERN/+I6katvINxzu3NcbX3E7WF3I7+s/Z
+ dClWT6aW17rIM3oGy7wgyXCxxrDlTZo7mNmUin+In5q7YfnUdPkNqr5lTLM229/Vv1PsYrbJ
+ 5+yUBy/fdDz7bcTmY+hVU+2/PD/v25IJE5u/JtYrsRRnJBpqMRcVJwIA7MECf/0CAAA=
+X-CMS-MailID: 20240423204435eucas1p2c0a9a75f87b31d11faa59fec40878f23
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20240423204435eucas1p2c0a9a75f87b31d11faa59fec40878f23
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240423204435eucas1p2c0a9a75f87b31d11faa59fec40878f23
+References: <CGME20240423204435eucas1p2c0a9a75f87b31d11faa59fec40878f23@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,84 +119,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Commit 7af03e688792 ("drm/probe-helper: warn about negative
+.get_modes()") clarified, that .get_modes callback must not return
+negative values on failure, so fix sub-drivers to return 0 in case of
+errors. This fixes strange Exynos DRM initialization failure on boot
+(timeout waiting for VSYNC) observed on Trats2 board.
 
-On Tue, Apr 23, 2024 at 11:10=E2=80=AFAM Hsin-Yi Wang <hsinyi@google.com> w=
-rote:
->
-> > > > > +#define _INIT_DCS_CMD(...) { \
-> > > > > +     .type =3D INIT_DCS_CMD, \
-> > > > > +     .len =3D sizeof((char[]){__VA_ARGS__}), \
-> > > > > +     .data =3D (char[]){__VA_ARGS__} }
-> > > > > +
-> > > > > +#define _INIT_DELAY_CMD(...) { \
-> > > > > +     .type =3D DELAY_CMD,\
-> > > > > +     .len =3D sizeof((char[]){__VA_ARGS__}), \
-> > > > > +     .data =3D (char[]){__VA_ARGS__} }
-> > > >
-> > > > This is the third panel driver using the same appoach. Can you use
-> > > > mipi_dsi_generic_write_seq() instead of the huge table? Or if you p=
-refer
-> > > > the table, we should extract this framework to a common helper.
-> > > > (my preference is shifted towards mipi_dsi_generic_write_seq()).
-> > > >
-> > > The drawback of mipi_dsi_generic_write_seq() is that it can cause the
-> > > kernel size grows a lot since every sequence will be expanded.
-> > >
-> > > Similar discussion in here:
-> > > https://lore.kernel.org/dri-devel/CAD=3DFV=3DWju3WS45=3DEpXMUg7FjYDh3=
--=3Dmvm_jS7TF1tsaAzbb4Uw@mail.gmail.com/
-> > >
-> > > This patch would increase the module size from 157K to 572K.
-> > > scripts/bloat-o-meter shows chg +235.95%.
-> > >
-> > > So maybe the common helper is better regarding the kernel module size=
-?
-> >
-> > Yes, let's get a framework done in a useful way.
-> > I'd say, drop the _INIT_DELAY_CMD. msleep() and usleep_range() should b=
-e
-> > used instead (and it's up to the developer to select correct delay
-> > function).
-> >
-> > >
-> > > > > +
-> > > > > +static const struct panel_init_cmd kingdisplay_kd101ne3_init_cmd=
-[] =3D {
-> > > > > +     _INIT_DELAY_CMD(50),
-> > > > > +     _INIT_DCS_CMD(0xE0, 0x00),
-> >
-> > [skipped the body of the table]
-> >
-> > > > > +     _INIT_DCS_CMD(0x0E, 0x48),
-> > > > > +
-> > > > > +     _INIT_DCS_CMD(0xE0, 0x00),
-> >
-> > > > > +     _INIT_DCS_CMD(0X11),
-> >
-> > Also, at least this is mipi_dsi_dcs_exit_sleep_mode().
-> >
-> > > > > +     /* T6: 120ms */
-> > > > > +     _INIT_DELAY_CMD(120),
-> > > > > +     _INIT_DCS_CMD(0X29),
-> >
-> > And this is mipi_dsi_dcs_set_display_on().
-> >
-> > Having a single table enourages people to put known commands into the
-> > table, the practice that must be frowned upon and forbidden.
-> >
-> > We have functions for some of the standard DCS commands. So, maybe
-> > instead of adding a single-table based approach we can improve
-> > mipi_dsi_generic_write_seq() to reduce the bloat. E.g. by moving the
-> > error handling to a common part of enable() / prepare() function.
-> >
->
-> For this panel, I think it can also refer to how
-> panel-kingdisplay-kd097d04.c does. Create the table for init cmd data,
-> not what operation to use, and use mipi_dsi_generic_write_seq() when
-> looping through the table.
+Cc: stable@vger.kernel.org
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 4 ++--
+ drivers/gpu/drm/exynos/exynos_hdmi.c     | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Even more similar discussion:
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+index e5662bdcbbde..e3868956eb88 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+@@ -315,14 +315,14 @@ static int vidi_get_modes(struct drm_connector *connector)
+ 	 */
+ 	if (!ctx->raw_edid) {
+ 		DRM_DEV_DEBUG_KMS(ctx->dev, "raw_edid is null.\n");
+-		return -EFAULT;
++		return 0;
+ 	}
+ 
+ 	edid_len = (1 + ctx->raw_edid->extensions) * EDID_LENGTH;
+ 	edid = kmemdup(ctx->raw_edid, edid_len, GFP_KERNEL);
+ 	if (!edid) {
+ 		DRM_DEV_DEBUG_KMS(ctx->dev, "failed to allocate edid\n");
+-		return -ENOMEM;
++		return 0;
+ 	}
+ 
+ 	drm_connector_update_edid_property(connector, edid);
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index c5ba32fca5f3..603d8bb0b03a 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -878,11 +878,11 @@ static int hdmi_get_modes(struct drm_connector *connector)
+ 	int ret;
+ 
+ 	if (!hdata->ddc_adpt)
+-		return -ENODEV;
++		return 0;
+ 
+ 	edid = drm_get_edid(connector, hdata->ddc_adpt);
+ 	if (!edid)
+-		return -ENODEV;
++		return 0;
+ 
+ 	hdata->dvi_mode = !drm_detect_hdmi_monitor(edid);
+ 	DRM_DEV_DEBUG_KMS(hdata->dev, "%s : width[%d] x height[%d]\n",
+-- 
+2.34.1
 
-https://lore.kernel.org/r/CAD=3DFV=3DUGDbNvAMjzWSOvxybGikQcvW9JsRtbxHVg8_97=
-YPEQCA@mail.gmail.com
