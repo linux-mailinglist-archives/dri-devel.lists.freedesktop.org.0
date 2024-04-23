@@ -2,61 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DC28AE848
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 15:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DD28AE89C
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 15:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 988E9112E3B;
-	Tue, 23 Apr 2024 13:34:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2293D1133CF;
+	Tue, 23 Apr 2024 13:49:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="WTKjNeqY";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="V+R4HkPd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PzWX+VMv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B7291133C4
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:34:53 +0000 (UTC)
-Date: Tue, 23 Apr 2024 15:34:45 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1713879290;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zQzgTOJxdV+4HqjR4K2Hng/ZiXcnP1iJM/wR6D3wAb4=;
- b=WTKjNeqY8xkmjrafgK3JHTMFWg4OmmtvBoHyR86Fz5DQGc8/m4JRw1pNturj88beqVCLmT
- u/3GvaY+7s3kCWvaUaDifQlr/v2fxGWoZwZRKq36MpJfVSR7U9iqQiDsb+Yaf1Yl8XWA6u
- kUIMap3Meje3OFinYmlFLMk4SyWh/0Pynrwvhp1WDbZ3SJZggVNkDtsfGMKqyUt4fy/nSl
- Gm04YqUim+3+mFh2FGUyWtktXFd37D71LIDKndamiMbkQgJczzSQOkBl0xmHIKKPAmT6QX
- tH0EeGkij45IWOvEoXwmtEvj3nwaeCN4OEiiEDYVuvd/7eoSzjoma6p9BB98rg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1713879290;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zQzgTOJxdV+4HqjR4K2Hng/ZiXcnP1iJM/wR6D3wAb4=;
- b=V+R4HkPdnpgdtc0lWO90//+/pjHU2Wv+1ovkWI/lI/cCJ3k3ME+ubW3PIOsWmJQb2JUHs+
- Kju2+Ap2WqZxpOAA==
-From: Nam Cao <namcao@linutronix.de>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Jaya Kumar <jayalk@intworks.biz>, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, tiwai@suse.de, bigeasy@linutronix.de,
- patrik.r.jakobsson@gmail.com, Vegard Nossum <vegard.nossum@oracle.com>,
- George Kennedy <george.kennedy@oracle.com>,
- Darren Kenny <darren.kenny@oracle.com>, chuansheng.liu@intel.com,
- stable@vger.kernel.org
-Subject: Re: [PATCH v2] fbdev: fix incorrect address computation in deferred IO
-Message-ID: <20240423133445.h44pcNzq@linutronix.de>
-References: <20240423115053.4490-1-namcao@linutronix.de>
- <1722c1b6-59a5-429d-905c-bc1951a68a68@suse.de>
- <c2bf36b5-3145-491b-b272-d5afae73db7f@oracle.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6BE51133CD;
+ Tue, 23 Apr 2024 13:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713880191; x=1745416191;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=F5ZwzNOM8YYxa0GgmYoO/rKq3WxU/435xGcYnQ0eYjg=;
+ b=PzWX+VMvPsRUWZ2dMw1gp9kehl0fE0RL9fYu1Tk0TKta+ioV0bUfkSoZ
+ IoWYCzeENBSrjmiDQw4gB7CZQSN3s6zMw4yg6mPW14JqxXpz+MKisrCmh
+ F85VKqC911Ag0+/k0+vNQkOJaG/yG46/DH37+22sa+0+Jlw5ZAwICUrfv
+ CyesPUpFyOrJI8CihHPODE1xkzXF2ZHH00r7W+bKLoDvYmof69dsE44uq
+ dyTQ1XcnO2RQ6RmgpnB2BQrgOetItz4xhVcUD7dJ2Nko/XX5+PzNoFE7V
+ x+Aker0hxr0TFKd+xvPpkqi7NKPNwaOOCesNpC2jSXOKLUhvvuDbFzpCk Q==;
+X-CSE-ConnectionGUID: sIi4O1rxQTeYM5BNmzaNAQ==
+X-CSE-MsgGUID: 2QHVrWbgTGyVBIOdWkaOkw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9328676"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="9328676"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2024 06:49:50 -0700
+X-CSE-ConnectionGUID: XYVmQ3A3TiirawFUXYiPfQ==
+X-CSE-MsgGUID: xcwfNnyjTre0QeCTDMC3KQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="61835295"
+Received: from fpirou-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.46.117])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2024 06:49:45 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Hogander, Jouni" <jouni.hogander@intel.com>, "Upadhyay, Tejas"
+ <tejas.upadhyay@intel.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>, "joonas.lahtinen@linux.intel.com"
+ <joonas.lahtinen@linux.intel.com>, "ogabbay@kernel.org"
+ <ogabbay@kernel.org>, "javierm@redhat.com" <javierm@redhat.com>,
+ "airlied@gmail.com" <airlied@gmail.com>, "Deak, Imre"
+ <imre.deak@intel.com>, "thomas.hellstrom@linux.intel.com"
+ <thomas.hellstrom@linux.intel.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH v8 6/6] drm/{i915,xe}: Implement fbdev emulation as
+ in-kernel client
+In-Reply-To: <275e85aa8165204bcfe8ff6039356cd0f3577c61.camel@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240409081029.17843-1-tzimmermann@suse.de>
+ <20240409081029.17843-7-tzimmermann@suse.de>
+ <d164f7d9b0fab2573c9c9781cab17b02c4cdce46.camel@intel.com>
+ <1517673a-50da-4f66-958c-1222b1dfc4a6@suse.de>
+ <275e85aa8165204bcfe8ff6039356cd0f3577c61.camel@intel.com>
+Date: Tue, 23 Apr 2024 16:49:42 +0300
+Message-ID: <87a5lkrxxl.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c2bf36b5-3145-491b-b272-d5afae73db7f@oracle.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,19 +85,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 23, 2024 at 06:56:52PM +0530, Harshit Mogalapalli wrote:
-> Thanks everyone!
-> 
-> I have tested the patched kernel with the syzkaller reproducer and couldn't
-> see a problem.
+On Tue, 23 Apr 2024, "Hogander, Jouni" <jouni.hogander@intel.com> wrote:
+> On Tue, 2024-04-23 at 13:13 +0200, Thomas Zimmermann wrote:
+>> Thank you so much. All patches has R-bs. Can you add the series to
+>> the intel tree?
+>
+> Is it ok to merge patch 01/06 via intel tree as well?
+>
+> Rodrigo, This set is containing Xe display changes as well. Is it ok to
+> push this via drm-intel?
 
-If you want to take credit for testing it, send us:
+For that we'll need an ack from the xe maintainers; usually Lucas for
+the display stuff.
 
-	Tested-by: Your Name <your@email>
+BR,
+Jani.
 
-And that tag will appear in the final commit.
 
-But completely up to you.
-
-Best regards,
-Nam
+-- 
+Jani Nikula, Intel
