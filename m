@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AC78AFCEF
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 01:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533788AFCF0
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 01:56:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF9D8113781;
-	Tue, 23 Apr 2024 23:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3297B113783;
+	Tue, 23 Apr 2024 23:56:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O6qZVhBb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OY4pyapX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 111FC11377A;
- Tue, 23 Apr 2024 23:56:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7097B113778;
+ Tue, 23 Apr 2024 23:56:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713916586; x=1745452586;
+ t=1713916585; x=1745452585;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=FkOi2zVfaSw9XbSlrMCfXPWMasGyyPIA+qtei/cco54=;
- b=O6qZVhBbPQAoRZkHHAi14hH8+cYUFTKA8OT0Eb4NtpBt4WnuI5Irj9Iz
- qw96x7HRcQ1m4nYLfmA1tG4RJ0vyRKGyRM7ppv0quQbnWSZmcJhDOaqBW
- N0yioIb4aLFvIuoGHQt+oB/m2hKlOK6bJvz5oQcigh8/w+qPiuiINlWZd
- Hqlg0UBZERdJJk3EXrm0RJcoCE3qqDDybdcbXXiY7uZhuTG6jl8II2e4A
- uXWg7IMKpQVdRAY8Rg+HtOirAEFPhkEsHWKtu65RezdnC0ko3Zig605Qf
- jHwD7KGIq03A3YOCfHrfJzMR+3HWZKeJOc1ZfpZ8eLxI8IP/T35eigpJK A==;
-X-CSE-ConnectionGUID: L8J4WJ7oSnSeLhm2PivDKw==
-X-CSE-MsgGUID: AfRdTSV0RKmcKOQfBLZevA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="27040648"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="27040648"
+ bh=5HXHKqxQ4p0nnt+4a0+f2LTkpWqwTFswsf+sD18myqo=;
+ b=OY4pyapXIlH7YcSj2nZ9W7me+uBPr6caoROKryeZahBtaFBi0m8Jfga5
+ NP/MCk9NZvY/kBEnCfkTNSyKJoKQQvxlgB9YD37O84lpBGj35vOZZLnB/
+ rnZ0hEdZyUOb+RrnIZ/cdC56gis7N3WcOpGZDHMu+3F4rPPt4IjZNmgpS
+ BskhfAg06HnzaC5BVz73RpdxfhBJAGnv1HcoUEyL+amy3zQV6/8S9Bgid
+ P+3WDVFFZZJb/diTVyPnwquOjZuLzfXxNimIHuc1C99RIJPRrOJfijIEs
+ 2SaiIccQhubhHgwRfdw3EGPLR4l7jI2srQ6o/YFioijrMwmZ4E6ogNkYo g==;
+X-CSE-ConnectionGUID: WJpSnWsoSj2p73JNUx5Lgg==
+X-CSE-MsgGUID: OOYoKYx1QpKAH2OdLifEtA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="27040640"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="27040640"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 16:56:25 -0700
-X-CSE-ConnectionGUID: WnFq/9/RTpS+Brd22YKs4w==
-X-CSE-MsgGUID: H8Rd3Cv9TFiVvbK2jMU5eg==
+ 23 Apr 2024 16:56:24 -0700
+X-CSE-ConnectionGUID: ThkI/cBIQVehNSo7qA4F1w==
+X-CSE-MsgGUID: p4iKcYK8TGinXm070OwE4Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="29170915"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="29170918"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Apr 2024 16:56:24 -0700
@@ -46,10 +46,11 @@ To: <intel-xe@lists.freedesktop.org>
 Cc: dri-devel@lists.freedesktop.org,
  Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
  Tvrtko Ursulin <tursulin@ursulin.net>,
- Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH v2 3/6] drm/xe: Add helper to accumulate exec queue runtime
-Date: Tue, 23 Apr 2024 16:56:48 -0700
-Message-ID: <20240423235652.1959945-4-lucas.demarchi@intel.com>
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, Oak Zeng <oak.zeng@intel.com>
+Subject: [PATCH v2 4/6] drm/xe: Promote xe_hw_engine_class_to_str()
+Date: Tue, 23 Apr 2024 16:56:49 -0700
+Message-ID: <20240423235652.1959945-5-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240423235652.1959945-1-lucas.demarchi@intel.com>
 References: <20240423235652.1959945-1-lucas.demarchi@intel.com>
@@ -70,122 +71,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Move it out of the sysfs compilation unit so it can be re-used in other
+places.
 
-Add a helper to accumulate per-client runtime of all its
-exec queues. Currently that is done in 2 places:
-
-	1. when the exec_queue is destroyed
-	2. when the sched job is completed
-
-Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+Reviewed-by: Oak Zeng <oak.zeng@intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/xe/xe_device_types.h |  9 +++++++
- drivers/gpu/drm/xe/xe_exec_queue.c   | 37 ++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_exec_queue.h   |  1 +
- drivers/gpu/drm/xe/xe_sched_job.c    |  2 ++
- 4 files changed, 49 insertions(+)
+ drivers/gpu/drm/xe/xe_hw_engine.c             | 18 ++++++++++++++++++
+ drivers/gpu/drm/xe/xe_hw_engine.h             |  1 +
+ drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c | 18 ------------------
+ 3 files changed, 19 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-index 2e62450d86e1..33d3bf93a2f1 100644
---- a/drivers/gpu/drm/xe/xe_device_types.h
-+++ b/drivers/gpu/drm/xe/xe_device_types.h
-@@ -547,6 +547,15 @@ struct xe_file {
- 		struct mutex lock;
- 	} exec_queue;
- 
-+	/**
-+	 * @runtime: hw engine class runtime in ticks for this drm client
-+	 *
-+	 * Only stats from xe_exec_queue->lrc[0] are accumulated. For multi-lrc
-+	 * case, since all jobs run in parallel on the engines, only the stats
-+	 * from lrc[0] are sufficient.
-+	 */
-+	u64 runtime[XE_ENGINE_CLASS_MAX];
-+
- 	/** @client: drm client */
- 	struct xe_drm_client *client;
- };
-diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
-index 395de93579fa..b7b6256cb96a 100644
---- a/drivers/gpu/drm/xe/xe_exec_queue.c
-+++ b/drivers/gpu/drm/xe/xe_exec_queue.c
-@@ -214,6 +214,8 @@ void xe_exec_queue_fini(struct xe_exec_queue *q)
+diff --git a/drivers/gpu/drm/xe/xe_hw_engine.c b/drivers/gpu/drm/xe/xe_hw_engine.c
+index f357de532685..e1b167149166 100644
+--- a/drivers/gpu/drm/xe/xe_hw_engine.c
++++ b/drivers/gpu/drm/xe/xe_hw_engine.c
+@@ -960,3 +960,21 @@ u64 xe_hw_engine_read_timestamp(struct xe_hw_engine *hwe)
  {
- 	int i;
- 
-+	xe_exec_queue_update_runtime(q);
+ 	return xe_mmio_read64_2x32(hwe->gt, RING_TIMESTAMP(hwe->mmio_base));
+ }
 +
- 	for (i = 0; i < q->width; ++i)
- 		xe_lrc_finish(q->lrc + i);
- 	if (!(q->flags & EXEC_QUEUE_FLAG_PERMANENT) && (q->flags & EXEC_QUEUE_FLAG_VM || !q->vm))
-@@ -769,6 +771,41 @@ bool xe_exec_queue_is_idle(struct xe_exec_queue *q)
- 		q->lrc[0].fence_ctx.next_seqno - 1;
++const char *xe_hw_engine_class_to_str(enum xe_engine_class class)
++{
++	switch (class) {
++	case XE_ENGINE_CLASS_RENDER:
++		return "rcs";
++	case XE_ENGINE_CLASS_VIDEO_DECODE:
++		return "vcs";
++	case XE_ENGINE_CLASS_VIDEO_ENHANCE:
++		return "vecs";
++	case XE_ENGINE_CLASS_COPY:
++		return "bcs";
++	case XE_ENGINE_CLASS_COMPUTE:
++		return "ccs";
++	default:
++		return NULL;
++	}
++}
+diff --git a/drivers/gpu/drm/xe/xe_hw_engine.h b/drivers/gpu/drm/xe/xe_hw_engine.h
+index a10d5e528958..d0ab2652667f 100644
+--- a/drivers/gpu/drm/xe/xe_hw_engine.h
++++ b/drivers/gpu/drm/xe/xe_hw_engine.h
+@@ -68,5 +68,6 @@ static inline bool xe_hw_engine_is_valid(struct xe_hw_engine *hwe)
  }
  
-+/**
-+ * xe_exec_queue_update_runtime() - Update runtime for this exec queue from hw
-+ * @q: The exec queue
-+ *
-+ * Update the timestamp saved by HW for this exec queue and save runtime
-+ * calculated by using the delta from last update. On multi-lrc case, only the
-+ * first is considered.
-+ */
-+void xe_exec_queue_update_runtime(struct xe_exec_queue *q)
-+{
-+	struct xe_file *xef;
-+	struct xe_lrc *lrc;
-+	u32 old_ts, new_ts;
-+
-+	/*
-+	 * Jobs that are run during driver load may use an exec_queue, but are
-+	 * not associated with a user xe file, so avoid accumulating busyness
-+	 * for kernel specific work.
-+	 */
-+	if (!q->vm || !q->vm->xef)
-+		return;
-+
-+	xef = q->vm->xef;
-+	lrc = &q->lrc[0];
-+
-+	new_ts = xe_lrc_update_timestamp(lrc, &old_ts);
-+
-+	/*
-+	 * Special case the very first timestamp: we don't want the
-+	 * initial delta to be a huge value
-+	 */
-+	if (old_ts)
-+		xef->runtime[q->class] += new_ts - old_ts;
-+}
-+
- void xe_exec_queue_kill(struct xe_exec_queue *q)
- {
- 	struct xe_exec_queue *eq = q, *next;
-diff --git a/drivers/gpu/drm/xe/xe_exec_queue.h b/drivers/gpu/drm/xe/xe_exec_queue.h
-index 02ce8d204622..45b72daa2db3 100644
---- a/drivers/gpu/drm/xe/xe_exec_queue.h
-+++ b/drivers/gpu/drm/xe/xe_exec_queue.h
-@@ -66,5 +66,6 @@ struct dma_fence *xe_exec_queue_last_fence_get(struct xe_exec_queue *e,
- 					       struct xe_vm *vm);
- void xe_exec_queue_last_fence_set(struct xe_exec_queue *e, struct xe_vm *vm,
- 				  struct dma_fence *fence);
-+void xe_exec_queue_update_runtime(struct xe_exec_queue *q);
+ u64 xe_hw_engine_read_timestamp(struct xe_hw_engine *hwe);
++const char *xe_hw_engine_class_to_str(enum xe_engine_class class);
  
  #endif
-diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
-index cd8a2fba5438..6a081a4fa190 100644
---- a/drivers/gpu/drm/xe/xe_sched_job.c
-+++ b/drivers/gpu/drm/xe/xe_sched_job.c
-@@ -242,6 +242,8 @@ bool xe_sched_job_completed(struct xe_sched_job *job)
- {
- 	struct xe_lrc *lrc = job->q->lrc;
+diff --git a/drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c b/drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c
+index 844ec68cbbb8..efce6c7dd2a2 100644
+--- a/drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c
++++ b/drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c
+@@ -618,24 +618,6 @@ static void hw_engine_class_sysfs_fini(struct drm_device *drm, void *arg)
+ 	kobject_put(kobj);
+ }
  
-+	xe_exec_queue_update_runtime(job->q);
-+
- 	/*
- 	 * Can safely check just LRC[0] seqno as that is last seqno written when
- 	 * parallel handshake is done.
+-static const char *xe_hw_engine_class_to_str(enum xe_engine_class class)
+-{
+-	switch (class) {
+-	case XE_ENGINE_CLASS_RENDER:
+-		return "rcs";
+-	case XE_ENGINE_CLASS_VIDEO_DECODE:
+-		return "vcs";
+-	case XE_ENGINE_CLASS_VIDEO_ENHANCE:
+-		return "vecs";
+-	case XE_ENGINE_CLASS_COPY:
+-		return "bcs";
+-	case XE_ENGINE_CLASS_COMPUTE:
+-		return "ccs";
+-	default:
+-		return NULL;
+-	}
+-}
+-
+ /**
+  * xe_hw_engine_class_sysfs_init - Init HW engine classes on GT.
+  * @gt: Xe GT.
 -- 
 2.43.0
 
