@@ -2,63 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72DB8AF4B4
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 18:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8961D8AF49D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 18:49:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F21161134D1;
-	Tue, 23 Apr 2024 16:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73A2910FDFE;
+	Tue, 23 Apr 2024 16:49:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MyFM31V0";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="nxKPOILR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37D6E1134D1;
- Tue, 23 Apr 2024 16:55:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713891347; x=1745427347;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=tXjUDOZF2ddLUV7yNvrGXlTpSFtspbrju3zfG0tbCzI=;
- b=MyFM31V0+md6px3M79JzL2VCvtgbcd7K0dI5wU2NWXRjgaBxoAN5XfqS
- g23GCtvyn2jam6+s+So3t42ocWyBdN+HMkpFm2QfzZ4rgEO//6qSQ9PLT
- bzCcA4LeagFvIegMMxkvV4i1yXm+S6ZCnWC5O3i/vUDZXcNnniCRhSyaJ
- fOiB1I/JIWRJbDHxCpGNBQNYLyMuZhgJkstXQL+xB6xiL/jUV48q2+7db
- sL1J/wvBqZhE+OWlZ23CFq9yWuvkpF3dUtEmSD9sR/yFTQpu2qqsgjYhO
- sov5m/ClKMy8M/WsfUGVWEYrGGA9+6lrVeO6wShd0m6di484Xj66WPgXL w==;
-X-CSE-ConnectionGUID: lH4GA5YYSfKBwvVPMkGetg==
-X-CSE-MsgGUID: nnCoPp4QTW2CbWFWbEhp+w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9357369"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="9357369"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 09:55:46 -0700
-X-CSE-ConnectionGUID: SZKV1nIjT/W8l48dhL9Uig==
-X-CSE-MsgGUID: 9QzzMQ0/Qiyp+DfWSzMvdw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="24485621"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
- jkrzyszt-mobl2.intranet) ([10.213.21.18])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 09:55:43 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH] drm/i915/gt: Disarm breadcrumbs if engines are already idle
-Date: Tue, 23 Apr 2024 18:23:10 +0200
-Message-ID: <20240423165505.465734-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
+ [95.215.58.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA5781134BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 16:49:34 +0000 (UTC)
+Message-ID: <d5bc1e73-a553-451e-ab74-f5f0ca259c6b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1713890972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NpkgavKs1CpvzyYWvr/KmghPS7XN/sSEyN3iKhZAgIE=;
+ b=nxKPOILREIiSPcSzvRoxxF7C3v1XYuoI7y/JLtnsFqYWO1VZyiR2Ag3rmvwEgZLbM//UoP
+ TM/mbZDshJBwF9wBvF8KmECASF+XwmF6PrYWWs3jQ6GPDcLFT5iwxHisR7ESWNRTSVAA7o
+ 0SMfw5XgcfT5O23of6TrhSgzXD+ek+g=
+Date: Wed, 24 Apr 2024 00:49:18 +0800
 MIME-Version: 1.0
+Subject: Re: [PATCH v2] software node: Implement device_get_match_data fwnode
+ callback
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+References: <20240422164658.217037-1-sui.jingfeng@linux.dev>
+ <Zie3ebHOEpWHj1qV@smile.fi.intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <Zie3ebHOEpWHj1qV@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,100 +63,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+Hi,
 
-The breadcrumbs use a GT wakeref for guarding the interrupt, but are
-disarmed during release of the engine wakeref. This leaves a hole where
-we may attach a breadcrumb just as the engine is parking (after it has
-parked its breadcrumbs), execute the irq worker with some signalers still
-attached, but never be woken again.
+Thanks a for you reviewing my patch.
 
-That issue manifests itself in CI with IGT runner timeouts while tests
-are waiting indefinitely for release of all GT wakerefs.
 
-<6> [209.151778] i915: Running live_engine_pm_selftests/live_engine_busy_stats
-<7> [209.231628] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_5
-<7> [209.231816] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_4
-<7> [209.231944] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_3
-<7> [209.232056] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_2
-<7> [209.232166] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling DC_off
-<7> [209.232270] i915 0000:00:02.0: [drm:skl_enable_dc6 [i915]] Enabling DC6
-<7> [209.232368] i915 0000:00:02.0: [drm:gen9_set_dc_state.part.0 [i915]] Setting DC state from 00 to 02
-<4> [299.356116] [IGT] Inactivity timeout exceeded. Killing the current test with SIGQUIT.
-...
-<6> [299.356526] sysrq: Show State
-...
-<6> [299.373964] task:i915_selftest   state:D stack:11784 pid:5578  tgid:5578  ppid:873    flags:0x00004002
-<6> [299.373967] Call Trace:
-<6> [299.373968]  <TASK>
-<6> [299.373970]  __schedule+0x3bb/0xda0
-<6> [299.373974]  schedule+0x41/0x110
-<6> [299.373976]  intel_wakeref_wait_for_idle+0x82/0x100 [i915]
-<6> [299.374083]  ? __pfx_var_wake_function+0x10/0x10
-<6> [299.374087]  live_engine_busy_stats+0x9b/0x500 [i915]
-<6> [299.374173]  __i915_subtests+0xbe/0x240 [i915]
-<6> [299.374277]  ? __pfx___intel_gt_live_setup+0x10/0x10 [i915]
-<6> [299.374369]  ? __pfx___intel_gt_live_teardown+0x10/0x10 [i915]
-<6> [299.374456]  intel_engine_live_selftests+0x1c/0x30 [i915]
-<6> [299.374547]  __run_selftests+0xbb/0x190 [i915]
-<6> [299.374635]  i915_live_selftests+0x4b/0x90 [i915]
-<6> [299.374717]  i915_pci_probe+0x10d/0x210 [i915]
+On 2024/4/23 21:28, Andy Shevchenko wrote:
+> On Tue, Apr 23, 2024 at 12:46:58AM +0800, Sui Jingfeng wrote:
+>> Because the software node backend of the fwnode API framework lacks an
+>> implementation for the .device_get_match_data function callback. This
+>> makes it difficult to use(and/or test) a few drivers that originates
+> Missing space before opening parenthesis.
 
-At the end of the interrupt worker, if there are no more engines awake,
-disarm the breadcrumb and go to sleep.
+OK, will be fixed at the next version.
 
-Fixes: 9d5612ca165a ("drm/i915/gt: Defer enabling the breadcrumb interrupt to after submission")
-Closes: https://gitlab.freedesktop.org/drm/intel/issues/10026
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: <stable@vger.kernel.org> # v5.12+
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-index d650beb8ed22f..20b9b04ec1e0b 100644
---- a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-@@ -263,8 +263,13 @@ static void signal_irq_work(struct irq_work *work)
- 		i915_request_put(rq);
- 	}
- 
-+	/* Lazy irq enabling after HW submission */
- 	if (!READ_ONCE(b->irq_armed) && !list_empty(&b->signalers))
- 		intel_breadcrumbs_arm_irq(b);
-+
-+	/* And confirm that we still want irqs enabled before we yield */
-+	if (READ_ONCE(b->irq_armed) && !atomic_read(&b->active))
-+		intel_breadcrumbs_disarm_irq(b);
- }
- 
- struct intel_breadcrumbs *
-@@ -315,13 +320,7 @@ void __intel_breadcrumbs_park(struct intel_breadcrumbs *b)
- 		return;
- 
- 	/* Kick the work once more to drain the signalers, and disarm the irq */
--	irq_work_sync(&b->irq_work);
--	while (READ_ONCE(b->irq_armed) && !atomic_read(&b->active)) {
--		local_irq_disable();
--		signal_irq_work(&b->irq_work);
--		local_irq_enable();
--		cond_resched();
--	}
-+	irq_work_queue(&b->irq_work);
- }
- 
- void intel_breadcrumbs_free(struct kref *kref)
-@@ -404,7 +403,7 @@ static void insert_breadcrumb(struct i915_request *rq)
- 	 * the request as it may have completed and raised the interrupt as
- 	 * we were attaching it into the lists.
- 	 */
--	if (!b->irq_armed || __i915_request_is_complete(rq))
-+	if (!READ_ONCE(b->irq_armed) || __i915_request_is_complete(rq))
- 		irq_work_queue(&b->irq_work);
- }
- 
+>> from DT world on the non-DT platform.
+>>
+>> Implement the .device_get_match_data fwnode callback, device drivers or
+>> platform setup codes are expected to provide a string property, named as
+>> "compatible", the value of this software node string property is used to
+>> match against the compatible entries in the of_device_id table.
+> Yep and again, how is this related? If you want to test a driver originating
+> from DT, you would probably want to have a DT (overlay) to be provided.
+
+There are a few reasons, please fixed me if I'm wrong.
+
+DT (overlay) can be possible solution, but DT (overlay) still depend on DT.
+For example, one of my x86 computer with Ubuntu 22.04 Linux/x86 6.5.0-28-generic
+kernel configuration do not has the DT enabled. This means that the default kernel
+configuration is decided by the downstream OS distribution. It is not decided by
+usual programmers. This means that out-of-tree device drivers can never utilize
+DT or DT overlay, right?
+
+I means that Linux kernel is intended to be used by both in-tree drivers and out-of-tree drivers.
+Out-of-tree device drivers don't have a chance to alter kernel config, they can only managed to
+get their source code compiled against the Linux kernel the host in-using.
+
+Some out-of-tree device drivers using DKMS to get their source code compiled,
+with the kernel configuration already *fixed*. So they don't have a opportunity
+to use DT overlay.
+
+Relying on DT overlay is *still* *DT* *dependent*, and I not seeing matured solution
+get merged into upstream kernel yet. However, software node has *already* been merged
+into Linux kernel. It can be used on both DT systems and non-DT systems. Software node
+has the least requirement, it is *handy* for interact with drivers who only need a small
+set properties.
+
+In short, I still think my patch maybe useful for some peoples. DT overlay support on
+X86 is not matured yet, need some extra work. For out-of-tree kernel module on
+downstream kernel. Select DT and DT overlay on X86 is out-of-control. And I don't want
+to restrict the freedom of developers.
+  
+
+
+>> This also helps to keep the three backends of the fwnode API aligned as
+>> much as possible, which is a fundamential step to make device driver
+>> OF-independent truely possible.
+>>
+>> Fixes: ffb42e64561e ("drm/tiny/repaper: Make driver OF-independent")
+>> Fixes: 5703d6ae9573 ("drm/tiny/st7735r: Make driver OF-independent")
+> How is it a fix?
+
+
+Because the drm/tiny/repaper driver and drm/tiny/st7735r driver requires extra
+device properties. We can not make them OF-independent simply by switching to
+device_get_match_data(). As the device_get_match_data() is a *no-op* on non-DT
+environment.
+
+Hence, before my patch is applied, the two "Make driver OF-independent" patch
+have no effect. Using device_get_match_data() itself is exactly *same* with
+using of_device_get_match_data() as long as the .device_get_match_data hook is
+not implemented.
+
+
+See my analysis below:
+
+When the .device_get_match_data hook is not implemented:
+
+1) On DT systems, device_get_match_data() just redirect to of_fwnode_device_get_match_data(),
+    which is just a wrapper of of_device_get_match_data().
+
+2) On Non-DT system, device_get_match_data() has *ZERO* effect, it just return NULL.
+
+
+Therefore, device_get_match_data() adds *ZERO* benefits to the mentioned drivers if
+the .device_get_match_data is not implemented.
+
+  
+Only when the .device_get_match_data hook get implemented, device_get_match_data()
+can redirect tosoftware_node_get_match_data() function in this patch. Therefore, the 
+two driver has a way to get a proper driver match data on non-DT 
+environment. Beside, the users of those two driver can provide 
+additional software node property at platform setup code. as long as at 
+somewhere before the driver is probed.
+
+So the two driver really became OF-independent after applied my patch.
+
+
+>> Closes: https://lore.kernel.org/lkml/20230223203713.hcse3mkbq3m6sogb@skbuf/
+> Yes, and then Reported-by, which is missing here.
+>
+>> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> Cc: Daniel Scally <djrscally@gmail.com>
+>> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Please, move these after the cutter '---' line (note you may have that line in
+> your local repo).
+>
+> ...
+>
+
+OK, thanks a lot for teaching me.
+
+
+>> +static const void *
+>> +software_node_get_match_data(const struct fwnode_handle *fwnode,
+>> +			     const struct device *dev)
+>> +{
+>> +	struct swnode *swnode = to_swnode(fwnode);
+>> +	const struct of_device_id *matches = dev->driver->of_match_table;
+>> +	const char *val = NULL;
+>> +	int ret;
+>> +	ret = property_entry_read_string_array(swnode->node->properties,
+>> +					       "compatible", &val, 1);
+> And if there are more than one compatible provided?
+
+Nope, I think this is kind of limitation of the software node,
+platform setup code generally could provide a compatible property.
+No duplicate name is allowed. But we the best explanation would be
+platform setup code should provide the "best" or "default" compatible
+property.
+
+
+>> +	if (ret < 0 || !val)
+>> +		return NULL;
+>> +	while (matches && matches->compatible[0]) {
+> First part of the conditional is invariant to the loop. Can be simply
+
+
+Right, thanks.
+
+
+> 	matches = dev->driver->of_match_table;
+> 	if (!matches)
+> 		return NULL;
+>
+> 	while (...)
+>
+>> +		if (!strcmp(matches->compatible, val))
+>> +			return matches->data;
+>> +
+>> +		matches++;
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+
 -- 
-2.44.0
+Best regards,
+Sui
 
