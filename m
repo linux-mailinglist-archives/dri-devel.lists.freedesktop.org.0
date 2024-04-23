@@ -2,77 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15778AE5EC
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 14:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5304E8AE62D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 14:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6761610FC23;
-	Tue, 23 Apr 2024 12:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E05DE11336C;
+	Tue, 23 Apr 2024 12:36:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Beag5LIJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cLAytuRk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9F0A10FC21
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 12:23:18 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-de45385a1b4so5240886276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 05:23:18 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1E2B113146
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 12:36:00 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2dd6a7ae2dcso39084321fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 05:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713874997; x=1714479797; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zdEuS8XRlyMWs8i+nahfC/xh1vWX2u7uUNV94NmtyxI=;
- b=Beag5LIJTSmA6WUKg7LoR8J/hhNLUcpSOzopilPTTr4NRZiIwfZFoVJvsieSfIWfou
- Vjoe5EDC1HV2tH4WRhlJfTXIsh64l/fYGwXkJWXUzcyb1JxN/NPwKFAj40tSfWyOKPmM
- I1lU4eKgtfk32BkJRCsfMerlbsmqwzPnB8aqZneOAdMycq7TrDMq3/0atYvk8Dr5O/T+
- h8yA9ONVMUM0LWOcNS3jKAFnIymxHp5hDQBehgFftKBEsLGtbBYbEtUtFH0jtspmvj9g
- cH+j8nIPDx4Kac+PUWy5PvRxEk+10M5abhSVuVBfb+YUy7DIuPDfV3akUVwFYPP24fzq
- slyw==
+ d=linaro.org; s=google; t=1713875759; x=1714480559; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=nUm4YW1UwAedF7qs6RwnQnQDlQCeY2lio1mQAuIl2hA=;
+ b=cLAytuRkbzqHLshDThUPjpzQiGVJGAQlhEcyPJHgs/1lo9WK5vzf3+yNwvRWnvhR92
+ 37m8NY7Knqg5wKD45N5SIsNb0u/KFomcS+PUB+YhA011s0bncDZtVFjsnD0ACuFtelmd
+ YpZIipAQAXz1xAGz7m0wcvRkVY6ZOTcA5nIohzkHE0sGsHJeW3rpG6b4eBTz6wvqggjL
+ JZRPGF+T/WLakJRPQbZXjptUsJXgX8y4jUrd36cpK4ZtM49Qoid5byPaO0xvDR/hE5x9
+ RjY5qxaHnq0GggY9NKe3ee2Ku581Dis0ud+Ru3pTMKkRATWekUkw23aa432QtwM8oqAZ
+ C7Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713874997; x=1714479797;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zdEuS8XRlyMWs8i+nahfC/xh1vWX2u7uUNV94NmtyxI=;
- b=uMri0ELyiyJ/If69qgJiLW2kTScmP4lDfxs+o4wLcuPJp03yCsibjSFMtIxW9E3phr
- p7cEM+rJX4U/+9Gcw3A0z3VTkCq5pnO54O83q8Y5Fkb6KCsS7JpYiGNlxF6uKHiwGBbC
- rwN6NW+YGPqW+2Mp/hCo4+8RqXRhCzLVUYFH7ONGXZfgF7G7qWan/uXxuGzmborynCuH
- JEYJ+NNKleNTnqTwh6GlVR+2tUiuVLODr6dB7OoSaxdJwfAdWGR5gRIwTeGVysm9YGWG
- G3WHNd95ye6xxvHflcR6mVkeBwr9//Ezr2aGQiOTF3QzmPlTl5jTDfVvIpppeLTQbdDl
- yKQg==
+ d=1e100.net; s=20230601; t=1713875759; x=1714480559;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nUm4YW1UwAedF7qs6RwnQnQDlQCeY2lio1mQAuIl2hA=;
+ b=ICeMN2uouHu3+Mau1eh9kjDJ8siuLU9AX45c7KwZpO1uXLWAF/npP7PegzOr+K/iCn
+ z4EDq+dP8RUCMKIqr+kHVohQcJEQVP1dUjGOA4fvspgXvv9akC6ZsKEGgDgTk8IlBho7
+ JngeXE2UJrkiDwrZoSClamvxn6bwe7AaNzFHh1E3cQ4YYIy14X3PXWhadgLjdodWLPN1
+ 6PjejWic7TMhUCblsKTmUSj0c+Y4tnqEnVlOuZ5m7KTFYjK8L1e+G2Dp7FhfxI4h4nrc
+ 7YIfxpvi2ETe79zfVHzXwSXBWCuO8fbPAim/ZiWascdgjCN7B1KB14TaWznKyVMicQ+x
+ aeNQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUKxzykoAWIBd88/IGMlK9k4gHH/KiVkh1W78HMnytbk7uBh9ZxaGk+QYXFcA0DZyPuCmJqzckD/fCdKrUs4pjokwCZGkrrGafKU9axHOHF
-X-Gm-Message-State: AOJu0YzfEEqOgOc1uPNhZvq9DXP/iKCV5OEf5rMBxyzZd+5BK16er5if
- 1vtwsFxhSugr5siqZvHF4+y0O311ZkV64pmqqRr/p7ae1JVS1ptAHgHDhocrvLKGuP2a07SlsCP
- OwS46SNrmvX53cYv8O5Dyrz6lssd0mKzc/icbUQ==
-X-Google-Smtp-Source: AGHT+IFGEmHXL5CwAkBYa70XCoYWKwe8UnjgAcbc2h7iJmpsycDinZVPrwrOVKWCKX5O935DZ/QH6hClp73iSys2pzI=
-X-Received: by 2002:a25:8251:0:b0:dc7:4067:9f85 with SMTP id
- d17-20020a258251000000b00dc740679f85mr12766959ybn.58.1713874997608; Tue, 23
- Apr 2024 05:23:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240423040243.448091-1-vignesh.raman@collabora.com>
- <20240423040243.448091-4-vignesh.raman@collabora.com>
- <e3a0ea8f-d306-488c-a69c-aa18078e5e03@igalia.com>
-In-Reply-To: <e3a0ea8f-d306-488c-a69c-aa18078e5e03@igalia.com>
+ AJvYcCUFsdDo5LqbT5JMGAhs5JVlXGuIE9042MmlfNdn4fb3P/n9iYXnJaH5iUw3fLpA5+lLYr+9Pz1u56X8CCgZSTfI3J5b+Uzcbn3t6CQQdyU0
+X-Gm-Message-State: AOJu0Yx1yuMuet7vmjaB8UpNP4vj+WiojYkLk3XC9NrgXrE32mJWedtu
+ 6Tx7PjVpz7Q3koMFhTKz6xLCXEuZhB3VxDGDCC8zwffWvuuPiqpQxG1zQB42IPg=
+X-Google-Smtp-Source: AGHT+IEjshmlgcGx5nklIUdU+NXP1sYIs4i4QNvD/BiRJQIPm+n+8UatxQVPrvg7Lboi3hBwptw75w==
+X-Received: by 2002:a05:651c:2214:b0:2d8:5af9:90c5 with SMTP id
+ y20-20020a05651c221400b002d85af990c5mr13373645ljq.39.1713875758967; 
+ Tue, 23 Apr 2024 05:35:58 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ o23-20020a2e9b57000000b002d46df91965sm1711649ljj.80.2024.04.23.05.35.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Apr 2024 05:35:58 -0700 (PDT)
+Date: Tue, 23 Apr 2024 15:35:57 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 23 Apr 2024 15:23:06 +0300
-Message-ID: <CAA8EJppaaitcXkXSFTB4-S2CbBcrAVHouB0wWiU5Nw2FvpagqA@mail.gmail.com>
-Subject: Re: [PATCH v1 3/4] drm/ci: uprev IGT and generate testlist from build
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc: Vignesh Raman <vignesh.raman@collabora.com>,
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, 
- daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com, 
- daniel@ffwll.ch, robdclark@gmail.com, david.heidelberg@collabora.com, 
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com, 
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/msm/dsi: Remove dsi_phy_read/write()
+Message-ID: <njceeizdk2pea3oqni3qpzl323dwrjtdin4cd4hqqewyrg6y74@pkpi42gvrv74>
+References: <20240423-topic-msm_cleanup-v1-0-b30f39f43b90@linaro.org>
+ <20240423-topic-msm_cleanup-v1-1-b30f39f43b90@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240423-topic-msm_cleanup-v1-1-b30f39f43b90@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,40 +89,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Apr 2024 at 13:24, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
->
-> On 4/23/24 01:02, Vignesh Raman wrote:
-> > Uprev IGT to the latest version and stop vendoring the
-> > testlist into the kernel. Instead, use the testlist from
-> > the IGT build to ensure we do not miss renamed or newly
-> > added tests.
->
-> Nitpick: wouldn't it be better to (1) stop vendoring the
-> testlist into the kernel in one patch and then (2) uprev
-> IGT to the latest version? I feel that this patch is changing
-> a lot of different stuff.
+On Tue, Apr 23, 2024 at 12:36:59AM +0200, Konrad Dybcio wrote:
+> These are dummy wrappers that do literally nothing interesting.
+> Remove them.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h           |   2 -
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      | 273 +++++++++-----------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      | 215 ++++++++--------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c      | 109 ++++----
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      | 224 ++++++++---------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 205 +++++++--------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       | 320 ++++++++++++------------
+>  7 files changed, 645 insertions(+), 703 deletions(-)
+> 
 
-Definitely. Otherwise it's hard to understand whether a change to
-fails/flakes is caused by the uprev or by the testlist change. E.g. in
-several cases the list of failing subtests seems to be replaced with
-the test itself.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
->
-> Best Regards,
-> - Ma=C3=ADra
->
-> >
-> > Skip kms tests for panfrost driver since it is not a kms
-> > driver and skip driver-specific tests. Update xfails with
-> > the latest testlist.
-> >
-> > Increase the timoout of i915 jobs to 2h30m since some jobs
-> > takes more than 2 hours to complete.
-> >
-> > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> > ---
-
-
---=20
+-- 
 With best wishes
 Dmitry
