@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FFB8AE5CD
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 14:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A04988AE5D3
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 14:17:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 100D210FC1D;
-	Tue, 23 Apr 2024 12:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC97113351;
+	Tue, 23 Apr 2024 12:17:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SU2htrQy";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aiLD5LSv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 847E210FC1D
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 12:16:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D384B113351
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 12:17:21 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12923E4;
- Tue, 23 Apr 2024 14:15:38 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 436ABE4;
+ Tue, 23 Apr 2024 14:16:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1713874538;
- bh=lOpQcn4MtBfmmDN35Auoa7Jf7iRLuuP28iIGHSawomQ=;
+ s=mail; t=1713874589;
+ bh=oeQP9mOXRPHgSIsPLZUeIs2IsfEPP/PTMFH8HzGINec=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SU2htrQyuMLCN6ndjBJHOvhe20o+D+Yu5VOxVWWjPZRu/d+BhKFaSQTytUEe78BSF
- RUXo7qCZp8e/jr3kXRrGB2jytueDF4lj5oOLcqs9t/aBKNBaO4U3WEiXBsKcafrynM
- ZzlAm52hJQPTFlGdi5bxY1ogpmfCo6WfJkEztSis=
-Message-ID: <68d14afc-d641-4a4f-b3c8-37d280b5f571@ideasonboard.com>
-Date: Tue, 23 Apr 2024 15:16:25 +0300
+ b=aiLD5LSvyBMyyOOJFS+ZE+s6hIgcZFfoq7M+/5uaqsl39/GPjRxOxtPEmGIPG1vWt
+ n7CVPH3bh7MY4oebtMvpFsr/Prz2a6LZYIXHGbG+lii/TWJ+1QIsQRPQQ9vbhjJ65i
+ NIFOOQdUEy0UxIuTlll/dovinuOxL80ANFDhlCa8=
+Message-ID: <73ef6fe9-0f32-48ce-8be0-6a9fe43f46f9@ideasonboard.com>
+Date: Tue, 23 Apr 2024 15:17:17 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/13] drm: xlnx: Store base pointers in zynqmp_disp
- directly
+Subject: Re: [PATCH v3 02/13] drm: xlnx: Fix kerneldoc
 To: Sean Anderson <sean.anderson@linux.dev>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -42,7 +41,7 @@ Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Michal Simek <michal.simek@amd.com>
 References: <20240422184553.3573009-1-sean.anderson@linux.dev>
- <20240422184553.3573009-2-sean.anderson@linux.dev>
+ <20240422184553.3573009-3-sean.anderson@linux.dev>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -88,7 +87,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240422184553.3573009-2-sean.anderson@linux.dev>
+In-Reply-To: <20240422184553.3573009-3-sean.anderson@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,123 +106,53 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 22/04/2024 21:45, Sean Anderson wrote:
-> The blend, avbuf, and audio members of zynqmp_disp are anonymous structs
-> with only one member each. This is rather pointless, so move the members
-> up a level.
+> Fix a few errors in the kerneldoc. Mostly this addresses missing/renamed
+> members.
 > 
 > Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 > ---
-> 
-> Changes in v3:
-> - New
-
-I would have renamed the fields to, e.g., "blend_base", but it doesn't 
-really matter as they are accessed only in a couple of places.
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
 
->   drivers/gpu/drm/xlnx/zynqmp_disp.c | 44 +++++++++++++-----------------
->   1 file changed, 19 insertions(+), 25 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index 407bc07cec69..94a3ac046373 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -128,24 +128,18 @@ struct zynqmp_disp_layer {
->    * struct zynqmp_disp - Display controller
->    * @dev: Device structure
->    * @dpsub: Display subsystem
-> - * @blend.base: Register I/O base address for the blender
-> - * @avbuf.base: Register I/O base address for the audio/video buffer manager
-> - * @audio.base: Registers I/O base address for the audio mixer
-> + * @blend: Register I/O base address for the blender
-> + * @avbuf: Register I/O base address for the audio/video buffer manager
-> + * @audio: Registers I/O base address for the audio mixer
->    * @layers: Layers (planes)
+> Changes in v3:
+> - Split off documentation for base pointers to previous commit
+> 
+> Changes in v2:
+> - New
+> 
+>   drivers/gpu/drm/xlnx/zynqmp_dpsub.h | 1 +
+>   drivers/gpu/drm/xlnx/zynqmp_kms.h   | 4 ++--
+>   2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+> index 09ea01878f2a..b18554467e9c 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+> @@ -53,6 +53,7 @@ enum zynqmp_dpsub_format {
+>    * @drm: The DRM/KMS device data
+>    * @bridge: The DP encoder bridge
+>    * @disp: The display controller
+> + * @layers: Video and graphics layers
+>    * @dp: The DisplayPort controller
+>    * @dma_align: DMA alignment constraint (must be a power of 2)
 >    */
->   struct zynqmp_disp {
->   	struct device *dev;
->   	struct zynqmp_dpsub *dpsub;
->   
-> -	struct {
-> -		void __iomem *base;
-> -	} blend;
-> -	struct {
-> -		void __iomem *base;
-> -	} avbuf;
-> -	struct {
-> -		void __iomem *base;
-> -	} audio;
-> +	void __iomem *blend;
-> +	void __iomem *avbuf;
-> +	void __iomem *audio;
->   
->   	struct zynqmp_disp_layer layers[ZYNQMP_DPSUB_NUM_LAYERS];
->   };
-> @@ -356,12 +350,12 @@ static const struct zynqmp_disp_format avbuf_gfx_fmts[] = {
->   
->   static u32 zynqmp_disp_avbuf_read(struct zynqmp_disp *disp, int reg)
->   {
-> -	return readl(disp->avbuf.base + reg);
-> +	return readl(disp->avbuf + reg);
->   }
->   
->   static void zynqmp_disp_avbuf_write(struct zynqmp_disp *disp, int reg, u32 val)
->   {
-> -	writel(val, disp->avbuf.base + reg);
-> +	writel(val, disp->avbuf + reg);
->   }
->   
->   static bool zynqmp_disp_layer_is_video(const struct zynqmp_disp_layer *layer)
-> @@ -587,7 +581,7 @@ static void zynqmp_disp_avbuf_disable(struct zynqmp_disp *disp)
->   
->   static void zynqmp_disp_blend_write(struct zynqmp_disp *disp, int reg, u32 val)
->   {
-> -	writel(val, disp->blend.base + reg);
-> +	writel(val, disp->blend + reg);
->   }
->   
->   /*
-> @@ -813,7 +807,7 @@ static void zynqmp_disp_blend_layer_disable(struct zynqmp_disp *disp,
->   
->   static void zynqmp_disp_audio_write(struct zynqmp_disp *disp, int reg, u32 val)
->   {
-> -	writel(val, disp->audio.base + reg);
-> +	writel(val, disp->audio + reg);
->   }
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.h b/drivers/gpu/drm/xlnx/zynqmp_kms.h
+> index 01be96b00e3f..cb13c6b8008e 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.h
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.h
+> @@ -22,9 +22,9 @@
+>   struct zynqmp_dpsub;
 >   
 >   /**
-> @@ -1237,21 +1231,21 @@ int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub)
->   	disp->dev = &pdev->dev;
->   	disp->dpsub = dpsub;
->   
-> -	disp->blend.base = devm_platform_ioremap_resource_byname(pdev, "blend");
-> -	if (IS_ERR(disp->blend.base)) {
-> -		ret = PTR_ERR(disp->blend.base);
-> +	disp->blend = devm_platform_ioremap_resource_byname(pdev, "blend");
-> +	if (IS_ERR(disp->blend)) {
-> +		ret = PTR_ERR(disp->blend);
->   		goto error;
->   	}
->   
-> -	disp->avbuf.base = devm_platform_ioremap_resource_byname(pdev, "av_buf");
-> -	if (IS_ERR(disp->avbuf.base)) {
-> -		ret = PTR_ERR(disp->avbuf.base);
-> +	disp->avbuf = devm_platform_ioremap_resource_byname(pdev, "av_buf");
-> +	if (IS_ERR(disp->avbuf)) {
-> +		ret = PTR_ERR(disp->avbuf);
->   		goto error;
->   	}
->   
-> -	disp->audio.base = devm_platform_ioremap_resource_byname(pdev, "aud");
-> -	if (IS_ERR(disp->audio.base)) {
-> -		ret = PTR_ERR(disp->audio.base);
-> +	disp->audio = devm_platform_ioremap_resource_byname(pdev, "aud");
-> +	if (IS_ERR(disp->audio)) {
-> +		ret = PTR_ERR(disp->audio);
->   		goto error;
->   	}
->   
+> - * struct zynqmp_dpsub - ZynqMP DisplayPort Subsystem DRM/KMS data
+> + * struct zynqmp_dpsub_drm - ZynqMP DisplayPort Subsystem DRM/KMS data
+>    * @dpsub: Backpointer to the DisplayPort subsystem
+> - * @drm: The DRM/KMS device
+> + * @dev: The DRM/KMS device
+>    * @planes: The DRM planes
+>    * @crtc: The DRM CRTC
+>    * @encoder: The dummy DRM encoder
 
