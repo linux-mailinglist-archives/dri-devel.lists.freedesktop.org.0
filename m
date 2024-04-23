@@ -2,60 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DF38AE82E
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 15:30:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF8A8AE83E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 15:32:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4263810FC52;
-	Tue, 23 Apr 2024 13:30:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B44112937;
+	Tue, 23 Apr 2024 13:32:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="A9N/00xH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RXJB8wsp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 675CE10FC52
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:30:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713879007;
- bh=ruMTP2I/pC5dW35z/5uCVwpk0VQNtJqujZBT/QxGijY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=A9N/00xHOW33Li8AX1oCVOo1ha1wX31oXg71vYwzCYSZtcMWpaq6Kr4UEcrKWDXWK
- Gea0iiwDw+Km951jibghUdJzoufp5Hyp6HDl2i5xCjKG7Mf8eL0uo7Uu0cRjNewJdI
- OQkruLlnJZJnCyTUoAqjnMdlbM0PpvypSP9JDKlBflVv7jZFPy34X8JQm3Om6+3w2C
- UDSXLIF/HaH/a1jTWZcsOjXZA9LokQCR2ylvheenVJwuTsb4xC9jo0+YqQ3M9gIs7b
- id0qDtelop77UJB/41hVBLhZcgoWymU8NLltKYnEodtFOMncVh6etErrdyc/TRK+XS
- lnLAT031dI46Q==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id B4F323782136;
- Tue, 23 Apr 2024 13:30:06 +0000 (UTC)
-Date: Tue, 23 Apr 2024 16:29:57 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- rdunlap@infradead.org, arthurgrillo@riseup.net, Jonathan Corbet
- <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v6 15/17] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <20240423162957.071b8f54.pekka.paalanen@collabora.com>
-In-Reply-To: <20240409-yuv-v6-15-de1c5728fd70@bootlin.com>
-References: <20240409-yuv-v6-0-de1c5728fd70@bootlin.com>
- <20240409-yuv-v6-15-de1c5728fd70@bootlin.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D414D10F66C
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:32:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 3ADC2CE10C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:32:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B29C116B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 13:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1713879148;
+ bh=AP67NgULme2krqQcPsRIs+2ZN6mA5krVB1+iZidsmpQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=RXJB8wspxP8pk4Ow4/JgUdQxDYSuMWXtvwZcHMcygIfsV8CZfR5piUq+ffZvqfEf8
+ QaaKf3bHJBXR8vawtx32iwMO76Si+wymzaiCe6XIsb0qQN4qg6yOpwkVFwPNV5XJzz
+ w3QwhPpK1HIqxgI4nzYSjmrhJExmGY8HDD9LPiymmpo+Rc9iIGYzaXP46hW/p9JnmC
+ F7ENkaz77czs+clx3X06vxLdZusskiyvM8EZsWZiLYrN/BfDsp0h0KshKepGB/wZhq
+ i7VE5ACvBL2q/FXyyXhWltW+bwyXFIMkKY/KXY0At5eUGls3my/FvtWLlPMvg2Rzcf
+ dHMzq6OZow9ww==
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-61b68644ab4so18421657b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 06:32:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV9NuTP2LgN2q8+CZWf0ccgSBB6irdKXvGLhv4IqwiIOaTLPdQ2DM50G9cfiyPNqS0l99N2rSUQBot6zJ4yT23yqB6Mpo8/O20gimUeWKNc
+X-Gm-Message-State: AOJu0Yyc0N+x6/vLaSGFjpmnD+uuWsrQLtNUUGXKkWe6KkY/lAjyzY7p
+ 45Q48Vw10780zCDp2spI8IJuYYyV2hS+YnUJrYS+do+ZSSdXppCGA5OHw4X+uIqy4Rrtyu8Siag
+ j1sN7e4iyiLH0tOaVLe1S8IYc5jl8N3VXT5dr1Q==
+X-Google-Smtp-Source: AGHT+IFshLz5spQ5CQ8dKF+BBgEo+ryWs5tFujTBrjKdLYE1dJu8PqqxFbvK93HDcogCUI2Ar0hY5OF8o/XSbAfFJgs=
+X-Received: by 2002:a25:6c0b:0:b0:de3:e1ea:d23 with SMTP id
+ h11-20020a256c0b000000b00de3e1ea0d23mr2464770ybc.51.1713879146752; Tue, 23
+ Apr 2024 06:32:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/W.z6f=.NMUolWFGBtJaoEiF";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20240322104732.2327060-1-sean@geanix.com>
+ <lkrxoqhcitmvjvzslhx6mrdjaa6lpxtpmdjt7wwollm6z4h65q@jk5esjje6ppy>
+In-Reply-To: <lkrxoqhcitmvjvzslhx6mrdjaa6lpxtpmdjt7wwollm6z4h65q@jk5esjje6ppy>
+From: Robert Foss <rfoss@kernel.org>
+Date: Tue, 23 Apr 2024 15:32:15 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi40-gGgG3Bw-rS4TZBO+=JthWkPh-XqErGvkHdvhqx6tA@mail.gmail.com>
+Message-ID: <CAN6tsi40-gGgG3Bw-rS4TZBO+=JthWkPh-XqErGvkHdvhqx6tA@mail.gmail.com>
+Subject: Re: [PATCH] drm/stm: dsi: relax mode_valid clock tolerance
+To: Sean Nyekjaer <sean@geanix.com>
+Cc: Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Antonio Borneo <antonio.borneo@foss.st.com>, dri-devel@lists.freedesktop.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,222 +81,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/W.z6f=.NMUolWFGBtJaoEiF
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, Apr 22, 2024 at 4:06=E2=80=AFPM Sean Nyekjaer <sean@geanix.com> wro=
+te:
+>
+> On Fri, Mar 22, 2024 at 11:47:31AM +0100, Sean Nyekjaer wrote:
+> > When using the DSI interface via DSI2LVDS bridge, it seems a bit harsh
+> > to reguire the requested and the actual px clock to be within
+> > 50Hz. A typical LVDS display requires the px clock to be within +-10%.
+> >
+> > In case for HDMI .5% tolerance is required.
+> >
+> > Fixes: e01356d18273 ("drm/stm: dsi: provide the implementation of mode_=
+valid()")
+> > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+> > ---
+> Any feedback on this?
+>
+> >  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 7 +++----
+> >  1 file changed, 3 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/st=
+m/dw_mipi_dsi-stm.c
+> > index d5f8c923d7bc..97936b0ef702 100644
+> > --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> > +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> > @@ -322,8 +322,6 @@ dw_mipi_dsi_phy_get_timing(void *priv_data, unsigne=
+d int lane_mbps,
+> >       return 0;
+> >  }
+> >
+> > -#define CLK_TOLERANCE_HZ 50
+> > -
+> >  static enum drm_mode_status
+> >  dw_mipi_dsi_stm_mode_valid(void *priv_data,
+> >                          const struct drm_display_mode *mode,
+> > @@ -375,9 +373,10 @@ dw_mipi_dsi_stm_mode_valid(void *priv_data,
+> >               /*
+> >                * Filter modes according to the clock value, particularl=
+y useful for
+> >                * hdmi modes that require precise pixel clocks.
+> > +              * Check that px_clock is within .5% tolerance.
+> >                */
+> > -             if (px_clock_hz < target_px_clock_hz - CLK_TOLERANCE_HZ |=
+|
+> > -                 px_clock_hz > target_px_clock_hz + CLK_TOLERANCE_HZ)
+> > +             if (px_clock_hz < mult_frac(target_px_clock_hz, 995, 1000=
+) ||
+> > +                 px_clock_hz > mult_frac(target_px_clock_hz, 1005, 100=
+0))
+> >                       return MODE_CLOCK_RANGE;
+> >
+> >               /* sync packets are codes as DSI short packets (4 bytes) =
+*/
+> > --
+> > 2.44.0
+> >
+>
 
-On Tue, 09 Apr 2024 15:25:33 +0200
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-
-> From: Arthur Grillo <arthurgrillo@riseup.net>
->=20
-> Create KUnit tests to test the conversion between YUV and RGB. Test each
-> conversion and range combination with some common colors.
->=20
-> The code used to compute the expected result can be found in comment.
->=20
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> [Louis Chauvet:
-> - fix minor formating issues (whitespace, double line)
-> - change expected alpha from 0x0000 to 0xffff
-> - adapt to the new get_conversion_matrix usage
-> - apply the changes from Arthur
-> - move struct pixel_yuv_u8 to the test itself]
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/Kconfig                  |  15 ++
->  drivers/gpu/drm/vkms/Makefile                 |   1 +
->  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
->  drivers/gpu/drm/vkms/tests/Makefile           |   3 +
->  drivers/gpu/drm/vkms/tests/vkms_format_test.c | 230 ++++++++++++++++++++=
-++++++
->  drivers/gpu/drm/vkms/vkms_formats.c           |   7 +-
->  drivers/gpu/drm/vkms/vkms_formats.h           |   5 +
->  7 files changed, 263 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
-> index b9ecdebecb0b..5b6efabdbb17 100644
-> --- a/drivers/gpu/drm/vkms/Kconfig
-> +++ b/drivers/gpu/drm/vkms/Kconfig
-> @@ -13,3 +13,18 @@ config DRM_VKMS
->  	  a VKMS.
-> =20
->  	  If M is selected the module will be called vkms.
-> +
-> +config DRM_VKMS_KUNIT_TESTS
-> +	tristate "KUnit tests for VKMS." if !KUNIT_ALL_TESTS
-> +	depends on DRM_VKMS && KUNIT
-> +	default KUNIT_ALL_TESTS
-> +	help
-> +	  This builds unit tests for VKMS. This option is not useful for
-> +	  distributions or general kernels, but only for kernel
-> +	  developers working on VKMS.
-> +
-> +	  For more information on KUnit and unit tests in general,
-> +	  please refer to the KUnit documentation in
-> +	  Documentation/dev-tools/kunit/.
-> +
-> +	  If in doubt, say "N".
-> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-> index 1b28a6a32948..8d3e46dde635 100644
-> --- a/drivers/gpu/drm/vkms/Makefile
-> +++ b/drivers/gpu/drm/vkms/Makefile
-> @@ -9,3 +9,4 @@ vkms-y :=3D \
->  	vkms_writeback.o
-> =20
->  obj-$(CONFIG_DRM_VKMS) +=3D vkms.o
-> +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) +=3D tests/
-> diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vk=
-ms/tests/.kunitconfig
-> new file mode 100644
-> index 000000000000..70e378228cbd
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
-> @@ -0,0 +1,4 @@
-> +CONFIG_KUNIT=3Dy
-> +CONFIG_DRM=3Dy
-> +CONFIG_DRM_VKMS=3Dy
-> +CONFIG_DRM_VKMS_KUNIT_TESTS=3Dy
-> diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/t=
-ests/Makefile
-> new file mode 100644
-> index 000000000000..2d1df668569e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) +=3D vkms_format_test.o
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/=
-drm/vkms/tests/vkms_format_test.c
-> new file mode 100644
-> index 000000000000..c7c556b4fd98
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-> @@ -0,0 +1,230 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-
-Hi,
-
-what's the kernel licensing convention here, can it really be GPL 2.0
-*or later*?
-
-Anyway, while I don't have the knowledge to review the code, the test
-cases look good to me, and I love the python snippets.
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
-> +
-> +#include <kunit/test.h>
-> +
-> +#include <drm/drm_fixed.h>
-> +#include <drm/drm_fourcc.h>
-> +#include <drm/drm_print.h>
-> +
-> +#include "../../drm_crtc_internal.h"
-> +
-> +#include "../vkms_drv.h"
-> +#include "../vkms_formats.h"
-> +
-> +#define TEST_BUFF_SIZE 50
-> +
-> +struct pixel_yuv_u8 {
-> +	u8 y, u, v;
-> +};
-> +
-> +struct yuv_u8_to_argb_u16_case {
-> +	enum drm_color_encoding encoding;
-> +	enum drm_color_range range;
-> +	size_t n_colors;
-> +	struct format_pair {
-> +		char *name;
-> +		struct pixel_yuv_u8 yuv;
-> +		struct pixel_argb_u16 argb;
-> +	} colors[TEST_BUFF_SIZE];
-> +};
-> +
-> +/*
-> + * The YUV color representation were acquired via the colour python fram=
-ework.
-> + * Below are the function calls used for generating each case.
-> + *
-> + * For more information got to the docs:
-> + * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr=
-.html
-> + */
-> +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] =3D {
-> +	/*
-> +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> +	 *                     in_bits =3D 16,
-> +	 *                     in_legal =3D False,
-> +	 *                     in_int =3D True,
-> +	 *                     out_bits =3D 8,
-> +	 *                     out_legal =3D False,
-> +	 *                     out_int =3D True)
-> +	 */
-> +	{
-> +		.encoding =3D DRM_COLOR_YCBCR_BT601,
-> +		.range =3D DRM_COLOR_YCBCR_FULL_RANGE,
-> +		.n_colors =3D 6,
-> +		.colors =3D {
-> +			{ "white", { 0xff, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
-> +			{ "gray",  { 0x80, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
-> +			{ "black", { 0x00, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
-> +			{ "red",   { 0x4c, 0x55, 0xff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
-> +			{ "green", { 0x96, 0x2c, 0x15 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
-> +			{ "blue",  { 0x1d, 0xff, 0x6b }, { 0xffff, 0x0000, 0x0000, 0xffff }},
-> +		},
-> +	},
-> +	/*
-> +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> +	 *                     in_bits =3D 16,
-> +	 *                     in_legal =3D False,
-> +	 *                     in_int =3D True,
-> +	 *                     out_bits =3D 8,
-> +	 *                     out_legal =3D True,
-> +	 *                     out_int =3D True)
-> +	 */
-> +	{
-> +		.encoding =3D DRM_COLOR_YCBCR_BT601,
-> +		.range =3D DRM_COLOR_YCBCR_LIMITED_RANGE,
-> +		.n_colors =3D 6,
-> +		.colors =3D {
-> +			{ "white", { 0xeb, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
-> +			{ "gray",  { 0x7e, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
-> +			{ "black", { 0x10, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
-> +			{ "red",   { 0x51, 0x5a, 0xf0 }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
-> +			{ "green", { 0x91, 0x36, 0x22 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
-> +			{ "blue",  { 0x29, 0xf0, 0x6e }, { 0xffff, 0x0000, 0x0000, 0xffff }},
-> +		},
-> +	},
-
-...
-
---Sig_/W.z6f=.NMUolWFGBtJaoEiF
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmYnt9UACgkQI1/ltBGq
-qqd16RAApID9YLzOvw5NieiDg02b7dN6cDRKs5grp0ht6IoKS8UWs5TB207wZZW8
-2D0renS5f265mGES3k42tGyg5Mb8gV5UUafQO4v9UFhrpnxF5Ycd9jbg+EeSDJyA
-tm3ijBeAW0wC6FGD37a00Np+MMAyhh3SE6ikZObk+vP4rgK8npv1KKIvhJ+GNvLB
-vxroiGtFLU5NjcFbtGJ1VKcCRhPH7gdUF1/7olBI5eFhzRRZ6LOXueXFOuav8FNX
-e5d+CUsVnJ9Dp/JsB+4YWFjZhx/8/4pSZS8ouRv1dzdUx90IbibITmDbGwZQgoGZ
-0ZDxD8RbIVTLH8z+Gmm7XMzqDmbY9z0I9AEu8eLj/IcBHFLEmx5eZLiLRuIYzBtN
-kyoPnhROPuWqlbFLhTICKX0qtVkx/oxRE8gN3niilEmcR/IxWceQ6ANYH3Gv6sKI
-ED5SDeAYMDcL3AlJDNWR1BJfGGh4UI/dSFgjGhsDu/be0wWNoioAGSefjw2mU9jb
-PtGho4hpov6wE2cEs41njuI881HnoMv2dejrIbcOfS7BLC0tBi9G5Kwil+erY0r5
-H3TX9BXrw5+D00wIQ1H1fQsvSAS9HISXCPgHfS+N6dYxVWQj5/VOmIPM6dsc2c2X
-n9Us8QrFYmluWNZHbuOoC02YhSSWQhBLokPgzeWUXKH4/BdkMpI=
-=XRne
------END PGP SIGNATURE-----
-
---Sig_/W.z6f=.NMUolWFGBtJaoEiF--
+Reviewed-by: Robert Foss <rfoss@kernel.org>
