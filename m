@@ -2,99 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4148ADF64
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 10:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B84738ADF69
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 10:06:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7527A10EF4F;
-	Tue, 23 Apr 2024 08:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C67C11129A1;
+	Tue, 23 Apr 2024 08:06:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="strJDnHz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GBTvbE7w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82E421131AF
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 08:05:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 22D626124C;
- Tue, 23 Apr 2024 08:05:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74AD9C116B1;
- Tue, 23 Apr 2024 08:05:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713859544;
- bh=XAgHQErbyTv6Q6IVmckNVUZze7guJEtpU0dAUvgqbQo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=strJDnHzxMNsrawv7GLNEmpBj0DF/8rc7W6RjJ/cpZ2xntnFstXCOA1lDXJCBzong
- 1g2XKlOkWAVzyZ+rY3mwptWjU8SIOYDwoo/HX4bLKMAZfXClnrYgoJPNBYUxTUuak9
- hy83h+/WpRPc3INbXEt6dbxzNhX1n1upAWCWHUev80lu5CDCLUuORMZy0q26Fq48R8
- vol4I909zX2f5gIIrHXMe2gFNDZALhmWgZfmJCVO3HTHQS+Ace0dIKOg3nBkpv1JHJ
- POLzuHh0FXqpaS9M+frYuXmvIFsZOTh1K2HN5TzmL3rFdJMA9mPN41u+pbjPz4gGcy
- VZP/UOgRoErsw==
-Message-ID: <050ff49d-516c-41fc-a205-4c259384058f@kernel.org>
-Date: Tue, 23 Apr 2024 10:05:38 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC7B1131B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 08:06:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713859565; x=1745395565;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=1G2wfwFlzUQsBtBXl3QVOUc+WealeiEYe1NA+eUKk9w=;
+ b=GBTvbE7wQRc21Y3OqM0TlLugeQk0gMfA0Ksqe5lFmfItBEEUwOqodlWK
+ OvSrv8OY6/PFTFSBxoIHr2ZOW7I9sonsd51EA5YiJIr+0IvKD1biS9KJd
+ 8D97n73uPsUJLg4l5yNfzTHQBcRWaajIJPbGxuSNEmSimM26l8C500lme
+ NiSRnegI86YqN8kwn5tNd0DEnuGZtpLPmnWynGcCIhrkHpN//vpbrHwu6
+ sBz6W+k+rd4IrO9KhiMMlFLgeGArUem1+/4UnSYWleUHlT6yQ8/4x5lPN
+ puRLMpCrBwfLy2r03w9h7i7hBqiYC/wx9Czr+m/tBKjX936wkI3Y0lq81 w==;
+X-CSE-ConnectionGUID: wof96NCGRAme3c4Hvk3fRQ==
+X-CSE-MsgGUID: z+nkRK2gRhWC7pGfmeTihg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9649881"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="9649881"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2024 01:06:05 -0700
+X-CSE-ConnectionGUID: 2pZv5y+bRdWiLyPwdQlQmg==
+X-CSE-MsgGUID: PVL+lBr9SF6FJ1Vhx70a/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="24736040"
+Received: from fpirou-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.46.117])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2024 01:06:01 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, kernel test robot
+ <lkp@intel.com>, soc@kernel.org
+Subject: Re: [PATCH v3 07/13] drm: Make drivers depends on DRM_DW_HDMI
+In-Reply-To: <ZidLFpREqwKd9FHK@finisterre.sirena.org.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
+ <20240327-kms-kconfig-helpers-v3-7-eafee11b84b3@kernel.org>
+ <2c78772a-1d3f-47dd-9c3f-a3011703e1ab@sirena.org.uk>
+ <ZidLFpREqwKd9FHK@finisterre.sirena.org.uk>
+Date: Tue, 23 Apr 2024 11:05:58 +0300
+Message-ID: <87le54sduh.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 9/9] drm/bridge: tfp410: Add platform module alias
-To: Sui Jingfeng <sui.jingfeng@linux.dev>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240422191903.255642-1-sui.jingfeng@linux.dev>
- <20240422191903.255642-10-sui.jingfeng@linux.dev>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240422191903.255642-10-sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,23 +75,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/04/2024 21:19, Sui Jingfeng wrote:
-> Otherwise when compiled as module, this driver will not be probed on
-> non-DT environment. This is a fundamential step to make this driver
-> truely OF-independent.
+On Tue, 23 Apr 2024, Mark Brown <broonie@kernel.org> wrote:
+> On Tue, Apr 02, 2024 at 04:43:46PM +0100, Mark Brown wrote:
+>> On Wed, Mar 27, 2024 at 11:57:02AM +0100, Maxime Ripard wrote:
+>> 
+>> > DRM_DW_HDMI has a number of dependencies that might not be enabled.
+>> > However, drivers were used to selecting it while not enforcing the
+>> > DRM_DW_HDMI dependencies.
+>> > 
+>> > This could result in Kconfig warnings (and further build breakages) such
+>> > as:
+>> > 
+>> >   Kconfig warnings: (for reference only)
+>> >      WARNING: unmet direct dependencies detected for DRM_DW_HDMI
+>> >      Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && DRM_BRIDGE [=y] && DRM_DISPLAY_HELPER [=n]
+>> >      Selected by [m]:
+>> >      - DRM_SUN8I_DW_HDMI [=m] && HAS_IOMEM [=y] && DRM_SUN4I [=m]
+>
+>> This has landed in -next and appears to be causing breakage for several
+>> platforms using these devices.  For example I'm seeing the HDMI fail to
+>> probe on sun50i-a64-pin64-plus with arm64 defconfig, the DT kselftest
+>> result isn't terribly informative but it can be seen here:
+>
+> It has now been *three* weeks that this breakage has sat unaddressed in
+> -next, this has been making my CI for -next unusable.  Given that
+> getting the defconfig bits of this merged appears somwhow unreasonably
+> difficult can we please drop these changes from the DRM tree until some
+> strategy for getting everything merged is put into place?
 
-NAK.
+This is what's being done [1].
 
-You should not need MODULE_ALIAS() in normal cases. If you need it,
-usually it means your device ID table is wrong (e.g. misses either
-entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
-for incomplete ID table.
 
-Just check your aliases and look what is there. You already have
-i2c:tfp410 alias. If you need platform one, for some reason, explain
-what is your matching path and add appropriate ID table. With that
-explanation, of course.
+BR,
+Jani.
 
-Best regards,
-Krzysztof
 
+[1] https://lore.kernel.org/r/cover.1713780345.git.geert+renesas@glider.be
+
+
+-- 
+Jani Nikula, Intel
