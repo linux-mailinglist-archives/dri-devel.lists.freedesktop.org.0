@@ -2,108 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA828AF85B
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 22:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18DCA8AF852
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 22:51:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E4EC1136C1;
-	Tue, 23 Apr 2024 20:51:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E02B01136BC;
+	Tue, 23 Apr 2024 20:51:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="u4BXH/sY";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="PPud5hXC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 419 seconds by postgrey-1.36 at gabe;
- Tue, 23 Apr 2024 20:51:38 UTC
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A34C1136C0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 20:51:37 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20240423204436euoutp0104bdcb9bd073874a7a7ecc063e928881~JA5YZyt7t0994209942euoutp01J
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 20:44:36 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20240423204436euoutp0104bdcb9bd073874a7a7ecc063e928881~JA5YZyt7t0994209942euoutp01J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1713905076;
- bh=h8e/uzOGG9alR5TqJbZSWl8yJHNgm6AunoUkZ/Nzuu0=;
- h=From:To:Cc:Subject:Date:References:From;
- b=u4BXH/sYksXWEhePjFRpWaLdoCLyCrf619SXauvKBLUcAuvDYjlK2O8iapqj/Reri
- CJHb5csnZfyOM8TndRNc38jRQFJNyjERmpbPBec1t504BfciLL1WFK0NAkEzf+KRf4
- 1V9M2N98muVLRw/ue5GBRsraZD/wYEkbb4Axpb/4=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20240423204435eucas1p1928c6bb8134fd2ad904072aa6bab0d1f~JA5XvLNvI1155811558eucas1p1Q;
- Tue, 23 Apr 2024 20:44:35 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 7A.E9.09875.3BD18266; Tue, 23
- Apr 2024 21:44:35 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20240423204435eucas1p2c0a9a75f87b31d11faa59fec40878f23~JA5XY1WfI2538925389eucas1p2N;
- Tue, 23 Apr 2024 20:44:35 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20240423204435eusmtrp1084d009601a002a5424fd1c0951acf7b~JA5XYTFma1907419074eusmtrp19;
- Tue, 23 Apr 2024 20:44:35 +0000 (GMT)
-X-AuditID: cbfec7f4-11bff70000002693-44-66281db3355c
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 93.07.08810.3BD18266; Tue, 23
- Apr 2024 21:44:35 +0100 (BST)
-Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20240423204434eusmtip179b0bdf8e6cafaadec2530490ede99de~JA5W6SNte0260002600eusmtip1J;
- Tue, 23 Apr 2024 20:44:34 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Inki Dae
- <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Krzysztof
- Kozlowski <krzk@kernel.org>, stable@vger.kernel.org
-Subject: [PATCH] drm/exynos: fix .get_modes return value in case of errors
-Date: Tue, 23 Apr 2024 22:44:31 +0200
-Message-Id: <20240423204431.3288578-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.34.1
+Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
+ [95.215.58.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 598211136BC
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 20:50:59 +0000 (UTC)
+Message-ID: <ffd53a0e-9f72-4129-92aa-30c62a134676@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1713905456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uomJjCahNPJJRHdkxYcrPpdrf73kWiA2w/xyGNFhF8g=;
+ b=PPud5hXC1Dy/t0SfmHygc6+TivtNFBP+EXei/cj+wj8mZZYoGvuimZtgJ2oyZNhReLPKKL
+ YW6sIqRXbzUyG4XTWu7Sihtjg6RMsGca4xlR612Yf/9SOROS9NtkVDJEPFnk1qTBpTDtWX
+ qy4uOC4Gbnt3pSLkjby/ClpPt1Q3UyA=
+Date: Tue, 23 Apr 2024 16:50:52 -0400
 MIME-Version: 1.0
+Subject: Re: [PATCH] drm: zynqmp_dpsub: Always register bridge
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-arm-kernel@lists.infradead.org, Michal Simek
+ <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240308204741.3631919-1-sean.anderson@linux.dev>
+ <222c0245-b8bc-48d8-b4e1-a9fb276774ae@ideasonboard.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <222c0245-b8bc-48d8-b4e1-a9fb276774ae@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGKsWRmVeSWpSXmKPExsWy7djPc7qbZTXSDE5OVLK48vU9m8Wk+xNY
- LM6f38BusenxNVaLGef3MVmsPXKX3WLBxkeMFjMmv2Rz4PDYtKqTzeN+93Emj81L6j36tqxi
- 9Pi8SS6ANYrLJiU1J7MstUjfLoEr43erXUEPf8WxvoNsDYx3eboYOTkkBEwk9q9vZe9i5OIQ
- EljBKNF08T+U84VRYunXJkYI5zOjxJ1vm9lhWr7vXsIGkVjOKLH92BKEls41x1hBqtgEDCW6
- 3naxgdgiAnkSV6e1s4IUMQvsZpTYNm8+C0hCWMBLYkf/HbCxLAKqEosf9gLFOTh4Bewlbqyw
- h9gmL7H/4FlmEJtXQFDi5MwnYK3MQPHmrbOZQWZKCKzkkFj+4TkLRIOLxJn7MxghbGGJV8e3
- QJ0tI3F6cg8LREM7o8SC3/eZIJwJjBINz29BdVhL3Dn3iw3kCmYBTYn1u/Qhwo4SU68fBAtL
- CPBJ3HgrCHEEn8SkbdOZIcK8Eh1tQhDVahKzjq+DW3vwwiVmCNtD4u3jG2C2kECsxM6+c2wT
- GBVmIXltFpLXZiHcsICReRWjeGppcW56arFRXmq5XnFibnFpXrpecn7uJkZg0jn97/iXHYzL
- X33UO8TIxMF4iFGCg1lJhPfXH5U0Id6UxMqq1KL8+KLSnNTiQ4zSHCxK4ryqKfKpQgLpiSWp
- 2ampBalFMFkmDk6pBqbe10ybVs/KvMR2OmVypfwu6T9P2OWO2FzwlXT/zGJe9mbVcS6evMtG
- v2Vm3NrmXCCXef96oXtWjaLMHG4GNZsOYRE5OdPFWtFz7m4S7TKeOPVDWPx+RlsOyU62ok7x
- qqUeD7sKq9RWFL1dz3VSzWu2/MYvy1inZBpfnbj+mZX9I/upHCw3lkm+ym6oWP6Lz6hn5fHe
- xiWC186JN+7b5+xssOzRhKWmUyNX/6+9P1ucqUy1/nuf+K1798ITWHp33Hm8+7UO24OQLXvt
- F/i+iGU+uauhiun4sp9qrClPk05n8mp+mrxscxz7pAdSW2N3rZvqbjnLYmfkv/xXr5ivK6xP
- fF4/S7h5+dfWCPFFgb+UWIozEg21mIuKEwFs25eHqQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFLMWRmVeSWpSXmKPExsVy+t/xu7qbZTXSDNb85Le48vU9m8Wk+xNY
- LM6f38BusenxNVaLGef3MVmsPXKX3WLBxkeMFjMmv2Rz4PDYtKqTzeN+93Emj81L6j36tqxi
- 9Pi8SS6ANUrPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjf
- LkEv43erXUEPf8WxvoNsDYx3eboYOTkkBEwkvu9ewtbFyMUhJLCUUWL/pf+MEAkZiZPTGlgh
- bGGJP9e62EBsIYFPjBInf1mC2GwChhJdbyHiIgIFEn+XHmECGcQssJ9R4ve1m2DNwgJeEjv6
- 77CD2CwCqhKLH/aydDFycPAK2EvcWGEPMV9eYv/Bs8wgNq+AoMTJmU9YQGxmoHjz1tnMExj5
- ZiFJzUKSWsDItIpRJLW0ODc9t9hQrzgxt7g0L10vOT93EyMw0Lcd+7l5B+O8Vx/1DjEycTAe
- YpTgYFYS4f31RyVNiDclsbIqtSg/vqg0J7X4EKMp0HkTmaVEk/OBsZZXEm9oZmBqaGJmaWBq
- aWasJM7rWdCRKCSQnliSmp2aWpBaBNPHxMEp1cBUuLs97s2nz+6XZyiLbrd5mvFtg8qTP0c3
- dS84UstdOSvq3YPaltB9nRPNdUQ+xl25JcBfLMt77Zoyq2zis/Pym2cmVQd98uY9/v3b1Lep
- tcUb/K8U6Wyb7HxyQWvs8fhdPWKT9EpUlk/66czF82oxz7+47uW2cmGxftFXn0xf8TAreGlV
- dWCx072XJ6t5RA/c5W5+xOzYXDz/zNbk1H9zX0dERN/+I6katvINxzu3NcbX3E7WF3I7+s/Z
- dClWT6aW17rIM3oGy7wgyXCxxrDlTZo7mNmUin+In5q7YfnUdPkNqr5lTLM229/Vv1PsYrbJ
- 5+yUBy/fdDz7bcTmY+hVU+2/PD/v25IJE5u/JtYrsRRnJBpqMRcVJwIA7MECf/0CAAA=
-X-CMS-MailID: 20240423204435eucas1p2c0a9a75f87b31d11faa59fec40878f23
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20240423204435eucas1p2c0a9a75f87b31d11faa59fec40878f23
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20240423204435eucas1p2c0a9a75f87b31d11faa59fec40878f23
-References: <CGME20240423204435eucas1p2c0a9a75f87b31d11faa59fec40878f23@eucas1p2.samsung.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,58 +63,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 7af03e688792 ("drm/probe-helper: warn about negative
-.get_modes()") clarified, that .get_modes callback must not return
-negative values on failure, so fix sub-drivers to return 0 in case of
-errors. This fixes strange Exynos DRM initialization failure on boot
-(timeout waiting for VSYNC) observed on Trats2 board.
+Hi,
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
- drivers/gpu/drm/exynos/exynos_drm_vidi.c | 4 ++--
- drivers/gpu/drm/exynos/exynos_hdmi.c     | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+On 3/22/24 02:01, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 08/03/2024 22:47, Sean Anderson wrote:
+>> We must always register the DRM bridge, since zynqmp_dp_hpd_work_func
+>> calls drm_bridge_hpd_notify, which in turn expects hpd_mutex to be
+>> initialized. We do this before zynqmp_dpsub_drm_init since that calls
+>> drm_bridge_attach. This fixes the following lockdep warning:
+>>
+>> [   19.217084] ------------[ cut here ]------------
+>> [   19.227530] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+>> [   19.227768] WARNING: CPU: 0 PID: 140 at kernel/locking/mutex.c:582 __mutex_lock+0x4bc/0x550
+>> [   19.241696] Modules linked in:
+>> [   19.244937] CPU: 0 PID: 140 Comm: kworker/0:4 Not tainted 6.6.20+ #96
+>> [   19.252046] Hardware name: xlnx,zynqmp (DT)
+>> [   19.256421] Workqueue: events zynqmp_dp_hpd_work_func
+>> [   19.261795] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>> [   19.269104] pc : __mutex_lock+0x4bc/0x550
+>> [   19.273364] lr : __mutex_lock+0x4bc/0x550
+>> [   19.277592] sp : ffffffc085c5bbe0
+>> [   19.281066] x29: ffffffc085c5bbe0 x28: 0000000000000000 x27: ffffff88009417f8
+>> [   19.288624] x26: ffffff8800941788 x25: ffffff8800020008 x24: ffffffc082aa3000
+>> [   19.296227] x23: ffffffc080d90e3c x22: 0000000000000002 x21: 0000000000000000
+>> [   19.303744] x20: 0000000000000000 x19: ffffff88002f5210 x18: 0000000000000000
+>> [   19.311295] x17: 6c707369642e3030 x16: 3030613464662072 x15: 0720072007200720
+>> [   19.318922] x14: 0000000000000000 x13: 284e4f5f4e524157 x12: 0000000000000001
+>> [   19.326442] x11: 0001ffc085c5b940 x10: 0001ff88003f388b x9 : 0001ff88003f3888
+>> [   19.334003] x8 : 0001ff88003f3888 x7 : 0000000000000000 x6 : 0000000000000000
+>> [   19.341537] x5 : 0000000000000000 x4 : 0000000000001668 x3 : 0000000000000000
+>> [   19.349054] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff88003f3880
+>> [   19.356581] Call trace:
+>> [   19.359160]  __mutex_lock+0x4bc/0x550
+>> [   19.363032]  mutex_lock_nested+0x24/0x30
+>> [   19.367187]  drm_bridge_hpd_notify+0x2c/0x6c
+>> [   19.371698]  zynqmp_dp_hpd_work_func+0x44/0x54
+>> [   19.376364]  process_one_work+0x3ac/0x988
+>> [   19.380660]  worker_thread+0x398/0x694
+>> [   19.384736]  kthread+0x1bc/0x1c0
+>> [   19.388241]  ret_from_fork+0x10/0x20
+>> [   19.392031] irq event stamp: 183
+>> [   19.395450] hardirqs last  enabled at (183): [<ffffffc0800b9278>] finish_task_switch.isra.0+0xa8/0x2d4
+>> [   19.405140] hardirqs last disabled at (182): [<ffffffc081ad3754>] __schedule+0x714/0xd04
+>> [   19.413612] softirqs last  enabled at (114): [<ffffffc080133de8>] srcu_invoke_callbacks+0x158/0x23c
+>> [   19.423128] softirqs last disabled at (110): [<ffffffc080133de8>] srcu_invoke_callbacks+0x158/0x23c
+>> [   19.432614] ---[ end trace 0000000000000000 ]---
+>>
+>> Fixes: eb2d64bfcc17 ("drm: xlnx: zynqmp_dpsub: Report HPD through the bridge")
+>> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+>> ---
+>>
+>>   drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 6 ++----
+>>   1 file changed, 2 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>> index 88eb33acd5f0..639fff2c693f 100644
+>> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>> @@ -256,12 +256,11 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+>>       if (ret)
+>>           goto err_dp;
+>>   +    drm_bridge_add(dpsub->bridge);
+>>       if (dpsub->dma_enabled) {
+>>           ret = zynqmp_dpsub_drm_init(dpsub);
+>>           if (ret)
+>>               goto err_disp;
+>> -    } else {
+>> -        drm_bridge_add(dpsub->bridge);
+>>       }
+>>         dev_info(&pdev->dev, "ZynqMP DisplayPort Subsystem driver probed");
+>> @@ -288,9 +287,8 @@ static void zynqmp_dpsub_remove(struct platform_device *pdev)
+>>         if (dpsub->drm)
+>>           zynqmp_dpsub_drm_cleanup(dpsub);
+>> -    else
+>> -        drm_bridge_remove(dpsub->bridge);
+>>   +    drm_bridge_remove(dpsub->bridge);
+>>       zynqmp_disp_remove(dpsub);
+>>       zynqmp_dp_remove(dpsub);
+>>   
+> 
+> I sent a similar patch:
+> 
+> https://lore.kernel.org/all/20240312-xilinx-dp-lock-fix-v1-1-1698f9f03bac@ideasonboard.com/
+> 
+> I have the drm_bridge_add() call in zynqmp_dp_probe(), as that's where the bridge is set up, so it felt like a logical place. You add it later, just before the bridge is used the first time.
+> 
+> I like mine a bit more as it has all the bridge code in the same place, but I also wonder if there might be some risks in adding the bridge early (before zynqmp_disp_probe()), although I can't see any issue right away...
+> 
+> In any case, as this works for me too:
+> 
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> 
+>  Tomi
+> 
+Can someone pick up this fix before the release? I am still running into this bug on linux-next/master.
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-index e5662bdcbbde..e3868956eb88 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-@@ -315,14 +315,14 @@ static int vidi_get_modes(struct drm_connector *connector)
- 	 */
- 	if (!ctx->raw_edid) {
- 		DRM_DEV_DEBUG_KMS(ctx->dev, "raw_edid is null.\n");
--		return -EFAULT;
-+		return 0;
- 	}
- 
- 	edid_len = (1 + ctx->raw_edid->extensions) * EDID_LENGTH;
- 	edid = kmemdup(ctx->raw_edid, edid_len, GFP_KERNEL);
- 	if (!edid) {
- 		DRM_DEV_DEBUG_KMS(ctx->dev, "failed to allocate edid\n");
--		return -ENOMEM;
-+		return 0;
- 	}
- 
- 	drm_connector_update_edid_property(connector, edid);
-diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-index c5ba32fca5f3..603d8bb0b03a 100644
---- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-+++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-@@ -878,11 +878,11 @@ static int hdmi_get_modes(struct drm_connector *connector)
- 	int ret;
- 
- 	if (!hdata->ddc_adpt)
--		return -ENODEV;
-+		return 0;
- 
- 	edid = drm_get_edid(connector, hdata->ddc_adpt);
- 	if (!edid)
--		return -ENODEV;
-+		return 0;
- 
- 	hdata->dvi_mode = !drm_detect_hdmi_monitor(edid);
- 	DRM_DEV_DEBUG_KMS(hdata->dev, "%s : width[%d] x height[%d]\n",
--- 
-2.34.1
-
+--Sean
