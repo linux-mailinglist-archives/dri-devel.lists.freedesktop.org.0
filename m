@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04988AE5D3
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 14:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54EE38AE5DA
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 14:18:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC97113351;
-	Tue, 23 Apr 2024 12:17:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6526710E7E3;
+	Tue, 23 Apr 2024 12:18:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aiLD5LSv";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U5g9dHm4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D384B113351
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 12:17:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F083910E7E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 12:18:44 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
  [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 436ABE4;
- Tue, 23 Apr 2024 14:16:29 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 581F7E4;
+ Tue, 23 Apr 2024 14:17:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1713874589;
- bh=oeQP9mOXRPHgSIsPLZUeIs2IsfEPP/PTMFH8HzGINec=;
+ s=mail; t=1713874672;
+ bh=NabbVF+SCVrT/r9KyGCzPz2WqiIbBsdruSFMeu+luAs=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aiLD5LSvyBMyyOOJFS+ZE+s6hIgcZFfoq7M+/5uaqsl39/GPjRxOxtPEmGIPG1vWt
- n7CVPH3bh7MY4oebtMvpFsr/Prz2a6LZYIXHGbG+lii/TWJ+1QIsQRPQQ9vbhjJ65i
- NIFOOQdUEy0UxIuTlll/dovinuOxL80ANFDhlCa8=
-Message-ID: <73ef6fe9-0f32-48ce-8be0-6a9fe43f46f9@ideasonboard.com>
-Date: Tue, 23 Apr 2024 15:17:17 +0300
+ b=U5g9dHm4VC2Vf9sRn6cU8bQywz5RhkmesRw6QVBrYBltci2lWtvtfhG8Pwh8tfoy3
+ dJEeEQQTV/Le2upY5XlGJkRCz13zVdXap+xoqX2ZSHEk+Fl2Cc4Y3eI6P9ZfrnOe7F
+ RUMhwdAueF9taINnrkzJ/gNyBaxkQb1whVqOa9yo=
+Message-ID: <c108019b-866f-4e20-a069-5774d6ff032e@ideasonboard.com>
+Date: Tue, 23 Apr 2024 15:18:40 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/13] drm: xlnx: Fix kerneldoc
+Subject: Re: [PATCH v3 06/13] drm: zynqmp_dp: Don't delay work
 To: Sean Anderson <sean.anderson@linux.dev>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -41,9 +41,9 @@ Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Michal Simek <michal.simek@amd.com>
 References: <20240422184553.3573009-1-sean.anderson@linux.dev>
- <20240422184553.3573009-3-sean.anderson@linux.dev>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ <20240422184553.3573009-7-sean.anderson@linux.dev>
 Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -87,7 +87,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240422184553.3573009-3-sean.anderson@linux.dev>
+In-Reply-To: <20240422184553.3573009-7-sean.anderson@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,8 +106,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 22/04/2024 21:45, Sean Anderson wrote:
-> Fix a few errors in the kerneldoc. Mostly this addresses missing/renamed
-> members.
+> We always call scheduled_delayed_work with no delay, so just use a
+> non-delayed work_struct instead.
 > 
 > Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 > ---
@@ -118,41 +118,68 @@ Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 > 
 > Changes in v3:
-> - Split off documentation for base pointers to previous commit
-> 
-> Changes in v2:
 > - New
 > 
->   drivers/gpu/drm/xlnx/zynqmp_dpsub.h | 1 +
->   drivers/gpu/drm/xlnx/zynqmp_kms.h   | 4 ++--
->   2 files changed, 3 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c | 13 ++++++-------
+>   1 file changed, 6 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-> index 09ea01878f2a..b18554467e9c 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-> @@ -53,6 +53,7 @@ enum zynqmp_dpsub_format {
->    * @drm: The DRM/KMS device data
->    * @bridge: The DP encoder bridge
->    * @disp: The display controller
-> + * @layers: Video and graphics layers
->    * @dp: The DisplayPort controller
->    * @dma_align: DMA alignment constraint (must be a power of 2)
->    */
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.h b/drivers/gpu/drm/xlnx/zynqmp_kms.h
-> index 01be96b00e3f..cb13c6b8008e 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.h
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.h
-> @@ -22,9 +22,9 @@
->   struct zynqmp_dpsub;
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index f1834c8e3c02..59fed00a8f89 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -297,7 +297,7 @@ struct zynqmp_dp_config {
+>   struct zynqmp_dp {
+>   	struct drm_dp_aux aux;
+>   	struct drm_bridge bridge;
+> -	struct delayed_work hpd_work;
+> +	struct work_struct hpd_work;
 >   
->   /**
-> - * struct zynqmp_dpsub - ZynqMP DisplayPort Subsystem DRM/KMS data
-> + * struct zynqmp_dpsub_drm - ZynqMP DisplayPort Subsystem DRM/KMS data
->    * @dpsub: Backpointer to the DisplayPort subsystem
-> - * @drm: The DRM/KMS device
-> + * @dev: The DRM/KMS device
->    * @planes: The DRM planes
->    * @crtc: The DRM CRTC
->    * @encoder: The dummy DRM encoder
+>   	struct drm_bridge *next_bridge;
+>   	struct device *dev;
+> @@ -1467,7 +1467,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+>   	struct zynqmp_dp *dp = bridge_to_dp(bridge);
+>   
+>   	dp->enabled = false;
+> -	cancel_delayed_work(&dp->hpd_work);
+> +	cancel_work(&dp->hpd_work);
+>   	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 0);
+>   	drm_dp_dpcd_writeb(&dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
+>   	zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
+> @@ -1603,8 +1603,7 @@ void zynqmp_dp_disable_vblank(struct zynqmp_dp *dp)
+>   
+>   static void zynqmp_dp_hpd_work_func(struct work_struct *work)
+>   {
+> -	struct zynqmp_dp *dp = container_of(work, struct zynqmp_dp,
+> -					    hpd_work.work);
+> +	struct zynqmp_dp *dp = container_of(work, struct zynqmp_dp, hpd_work);
+>   	enum drm_connector_status status;
+>   
+>   	status = zynqmp_dp_bridge_detect(&dp->bridge);
+> @@ -1633,7 +1632,7 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
+>   		zynqmp_dpsub_drm_handle_vblank(dp->dpsub);
+>   
+>   	if (status & ZYNQMP_DP_INT_HPD_EVENT)
+> -		schedule_delayed_work(&dp->hpd_work, 0);
+> +		schedule_work(&dp->hpd_work);
+>   
+>   	if (status & ZYNQMP_DP_INT_HPD_IRQ) {
+>   		int ret;
+> @@ -1675,7 +1674,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+>   	dp->dpsub = dpsub;
+>   	dp->status = connector_status_disconnected;
+>   
+> -	INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
+> +	INIT_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
+>   
+>   	/* Acquire all resources (IOMEM, IRQ and PHYs). */
+>   	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
+> @@ -1775,7 +1774,7 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
+>   	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, ZYNQMP_DP_INT_ALL);
+>   	disable_irq(dp->irq);
+>   
+> -	cancel_delayed_work_sync(&dp->hpd_work);
+> +	cancel_work_sync(&dp->hpd_work);
+>   
+>   	zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 0);
+>   	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, 0xffffffff);
 
