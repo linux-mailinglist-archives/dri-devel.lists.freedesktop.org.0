@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A538ADC9A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 06:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760A68ADC97
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 06:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AADBB113045;
-	Tue, 23 Apr 2024 04:03:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CDBC113043;
+	Tue, 23 Apr 2024 04:03:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="U57xcu3J";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZeZIBc5J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE9C6113040;
- Tue, 23 Apr 2024 04:03:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D51F7113043;
+ Tue, 23 Apr 2024 04:03:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1713845010;
- bh=VAaKLzzCKwuE52HpbPyhCXEtgH470macmRPpN1oVxeE=;
+ s=mail; t=1713845013;
+ bh=0It0Qs3oLGL49eT+4lgJbtyH9jMymo8SfQKGBHrJpCU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=U57xcu3J8Fa/jrun+mUzvvs4lHrJV3mSGeUz/H2Tdg7YOf3Xh5W65jfnhh9yCbN9J
- iTWTnM6XA413yj7Pz7mYEzYYCmesX03US3uX9dsyiQum4WKtrM9YaONEDMNPwAHJiU
- MWijXuQ93eWSgpCvT59tkAAnz3dI73h9fvvMkguYdMM+ET8WNWUVh4auy+HT9XzXPs
- B+hiP1ouTr0snNO+QeOjbZdjrl16Fwoq6kSKGRk7ShC9TbmmkV8V67vTFo3F3C6etX
- pIdXsZM47OT85D8Qid38sWWncVi1fPEq7hJTmkvL2TgxBNg+yzp6a3AV1vjPwe6uRI
- LySB6xqv1bDDQ==
+ b=ZeZIBc5JysaPy/PnEnBfnE2xNj0uu2J6vUStlJoGCPdy6PgfC4MoLsB8oaWRQoObn
+ X+5F5KoFPB8SM3mopPx/P/tW/cQeFb4pLZYyfnfv4TOuzrtMcMe3RSD1+RT6mCxysv
+ pXLPzAdhPCZsgIlx0yr7pD1Yi8YvRE90sGCTn6ZUPuQpfEFmxtU+u3APPqYpCBItJk
+ VFE0umprzOLddFppeuB2JQp1dIBcH8pcFnBZVtzUOk0jHwBlUi4cHRAqfYzRKP86lE
+ BR8hB28Ql2w0LMmMjrzH3A56jkIN7qLInnNhtQZbPnEFwoCu7K7e0XL8VuSJyN1RwV
+ P29m8QFbCwCjQ==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id B6A843780C21;
- Tue, 23 Apr 2024 04:03:26 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 64D67378212B;
+ Tue, 23 Apr 2024 04:03:30 +0000 (UTC)
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: dri-devel@lists.freedesktop.org
 Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
@@ -42,9 +42,9 @@ Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
  linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
  linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/4] drm/ci: uprev mesa version
-Date: Tue, 23 Apr 2024 09:32:40 +0530
-Message-Id: <20240423040243.448091-2-vignesh.raman@collabora.com>
+Subject: [PATCH v1 2/4] drm/ci: build virtual GPU driver as module
+Date: Tue, 23 Apr 2024 09:32:41 +0530
+Message-Id: <20240423040243.448091-3-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240423040243.448091-1-vignesh.raman@collabora.com>
 References: <20240423040243.448091-1-vignesh.raman@collabora.com>
@@ -65,165 +65,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-zlib.net is not allowing tarball download anymore and results
-in below error in kernel+rootfs_arm32 container build,
-urllib.error.HTTPError: HTTP Error 403: Forbidden
-urllib.error.HTTPError: HTTP Error 415: Unsupported Media Type
-
-Uprev mesa to latest version which includes a fix for this issue.
-https://gitlab.freedesktop.org/mesa/mesa/-/commit/908f444e
-
-Also copy helper scripts to install, so that the ci jobs can
-use these scripts for logging.
+With latest IGT, the tests tries to load the module and it
+fails. So build the virtual GPU driver for virtio as module.
 
 Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
- drivers/gpu/drm/ci/build.sh       |  1 +
- drivers/gpu/drm/ci/container.yml  | 12 ++++--------
- drivers/gpu/drm/ci/gitlab-ci.yml  | 11 ++++++++---
- drivers/gpu/drm/ci/image-tags.yml |  3 ++-
- drivers/gpu/drm/ci/test.yml       |  2 ++
- 5 files changed, 17 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/ci/build.sh                       |  1 -
+ drivers/gpu/drm/ci/igt_runner.sh                  |  6 +++---
+ drivers/gpu/drm/ci/image-tags.yml                 |  4 ++--
+ drivers/gpu/drm/ci/test.yml                       |  1 +
+ drivers/gpu/drm/ci/x86_64.config                  |  2 +-
+ .../gpu/drm/ci/xfails/virtio_gpu-none-fails.txt   | 15 +++++++++++++++
+ 6 files changed, 22 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-index 106f2d40d222..8a3baa003904 100644
+index 8a3baa003904..95493df9cdc2 100644
 --- a/drivers/gpu/drm/ci/build.sh
 +++ b/drivers/gpu/drm/ci/build.sh
-@@ -128,6 +128,7 @@ fi
- # Pass needed files to the test stage
- mkdir -p install
- cp -rfv .gitlab-ci/* install/.
-+cp -rfv ci/*  install/.
- cp -rfv install/common install/ci-common
- cp -rfv drivers/gpu/drm/ci/* install/.
+@@ -156,7 +156,6 @@ fi
  
-diff --git a/drivers/gpu/drm/ci/container.yml b/drivers/gpu/drm/ci/container.yml
-index 9764e7921a4f..d6edf3635b23 100644
---- a/drivers/gpu/drm/ci/container.yml
-+++ b/drivers/gpu/drm/ci/container.yml
-@@ -36,15 +36,15 @@ debian/android_build:
-   rules:
-     - when: never
+ mkdir -p artifacts/install/lib
+ mv install/* artifacts/install/.
+-rm -rf artifacts/install/modules
+ ln -s common artifacts/install/ci-common
+ cp .config artifacts/${CI_JOB_NAME}_config
  
--debian/x86_64_test-android:
-+.debian/x86_64_test-android:
-   rules:
-     - when: never
+diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
+index f1a08b9b146f..7d2ba69294dd 100755
+--- a/drivers/gpu/drm/ci/igt_runner.sh
++++ b/drivers/gpu/drm/ci/igt_runner.sh
+@@ -30,10 +30,10 @@ case "$DRIVER_NAME" in
+             export IGT_FORCE_DRIVER="panfrost"
+         fi
+         ;;
+-    amdgpu)
++    amdgpu|virtio_gpu)
+         # Cannot use HWCI_KERNEL_MODULES as at that point we don't have the module in /lib
+-        mv /install/modules/lib/modules/* /lib/modules/.
+-        modprobe amdgpu
++        mv /install/modules/lib/modules/* /lib/modules/. || true
++        modprobe --first-time $DRIVER_NAME
+         ;;
+ esac
  
--windows_build_vs2019:
-+windows_build_msvc:
-   rules:
-     - when: never
- 
--windows_test_vs2019:
-+windows_test_msvc:
-   rules:
-     - when: never
- 
-@@ -56,10 +56,6 @@ rustfmt:
-    rules:
-     - when: never
- 
--windows_vs2019:
--   rules:
--    - when: never
--
--clang-format:
-+windows_msvc:
-    rules:
-     - when: never
-\ No newline at end of file
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index 084e3ff8e3f4..9bf5190604a7 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -1,6 +1,6 @@
- variables:
-   DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
--  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 9d162de9a05155e1c4041857a5848842749164cf
-+  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha e5f133ccc426a197c48a4e88f5377f943f078180
- 
-   UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
-   TARGET_BRANCH: drm-next
-@@ -26,10 +26,13 @@ variables:
-   JOB_ARTIFACTS_BASE: ${PIPELINE_ARTIFACTS_BASE}/${CI_JOB_ID}
-   # default kernel for rootfs before injecting the current kernel tree
-   KERNEL_REPO: "gfx-ci/linux"
--  KERNEL_TAG: "v6.6.4-for-mesa-ci-e4f4c500f7fb"
-+  KERNEL_TAG: "v6.6.21-mesa-19fc"
-   KERNEL_IMAGE_BASE: https://${S3_HOST}/mesa-lava/${KERNEL_REPO}/${KERNEL_TAG}
-   LAVA_TAGS: subset-1-gfx
-   LAVA_JOB_PRIORITY: 30
-+  ARTIFACTS_BASE_URL: https://${CI_PROJECT_ROOT_NAMESPACE}.${CI_PAGES_DOMAIN}/-/${CI_PROJECT_NAME}/-/jobs/${CI_JOB_ID}/artifacts
-+  # Python scripts for structured logger
-+  PYTHONPATH: "$PYTHONPATH:$CI_PROJECT_DIR/install"
- 
- default:
-   before_script:
-@@ -46,6 +49,7 @@ default:
-     - cd $CI_PROJECT_DIR
-     - curl --output - $DRM_CI_PROJECT_URL/-/archive/$DRM_CI_COMMIT_SHA/mesa-$DRM_CI_COMMIT_SHA.tar.gz | tar -xz
-     - mv mesa-$DRM_CI_COMMIT_SHA/.gitlab-ci* .
-+    - mv mesa-$DRM_CI_COMMIT_SHA/bin/ci .
-     - rm -rf mesa-$DRM_CI_COMMIT_SHA/
-     - echo -e "\e[0Ksection_end:$(date +%s):drm_ci_download_section\r\e[0K"
- 
-@@ -98,6 +102,7 @@ include:
- stages:
-   - sanity
-   - container
-+  - code-validation
-   - git-archive
-   - build
-   - amdgpu
-@@ -107,7 +112,6 @@ stages:
-   - msm
-   - rockchip
-   - virtio-gpu
--  - lint
- 
- # YAML anchors for rule conditions
- # --------------------------------
-@@ -218,6 +222,7 @@ make git archive:
-   script:
-     # Remove drm-ci files we just added
-     - rm -rf .gitlab-ci.*
-+    - rm -rf ci
- 
-     # Compactify the .git directory
-     - git gc --aggressive
 diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
-index 7ab4f2514da8..d8f72b82c938 100644
+index d8f72b82c938..fd1cb6061166 100644
 --- a/drivers/gpu/drm/ci/image-tags.yml
 +++ b/drivers/gpu/drm/ci/image-tags.yml
-@@ -1,5 +1,5 @@
- variables:
--   CONTAINER_TAG: "2023-10-11-mesa-uprev"
-+   CONTAINER_TAG: "2024-04-22-mesa-uprev"
-    DEBIAN_X86_64_BUILD_BASE_IMAGE: "debian/x86_64_build-base"
+@@ -4,9 +4,9 @@ variables:
     DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
  
-@@ -7,6 +7,7 @@ variables:
-    DEBIAN_BUILD_TAG: "2023-10-08-config"
+    DEBIAN_X86_64_BUILD_IMAGE_PATH: "debian/x86_64_build"
+-   DEBIAN_BUILD_TAG: "2023-10-08-config"
++   DEBIAN_BUILD_TAG: "2024-04-22-virtio"
  
-    KERNEL_ROOTFS_TAG: "2023-10-06-amd"
-+   PKG_REPO_REV: "3cc12a2a"
+-   KERNEL_ROOTFS_TAG: "2023-10-06-amd"
++   KERNEL_ROOTFS_TAG: "2024-04-22-virtio"
+    PKG_REPO_REV: "3cc12a2a"
  
     DEBIAN_X86_64_TEST_BASE_IMAGE: "debian/x86_64_test-base"
-    DEBIAN_X86_64_TEST_IMAGE_GL_PATH: "debian/x86_64_test-gl"
 diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 8bc63912fddb..612c9ede3507 100644
+index 612c9ede3507..864ac3809d84 100644
 --- a/drivers/gpu/drm/ci/test.yml
 +++ b/drivers/gpu/drm/ci/test.yml
-@@ -150,6 +150,8 @@ msm:sdm845:
-     BM_KERNEL: https://${PIPELINE_ARTIFACTS_BASE}/arm64/cheza-kernel
-     GPU_VERSION: sdm845
-     RUNNER_TAG: google-freedreno-cheza
-+    DEVICE_TYPE: sdm845-cheza-r3
-+    FARM: google
+@@ -350,6 +350,7 @@ virtio_gpu:none:
    script:
-     - ./install/bare-metal/cros-servo.sh
- 
+     - ln -sf $CI_PROJECT_DIR/install /install
+     - mv install/bzImage /lava-files/bzImage
++    - mkdir -p /lib/modules
+     - mkdir -p $CI_PROJECT_DIR/results
+     - ln -sf $CI_PROJECT_DIR/results /results
+     - install/crosvm-runner.sh install/igt_runner.sh
+diff --git a/drivers/gpu/drm/ci/x86_64.config b/drivers/gpu/drm/ci/x86_64.config
+index 1cbd49a5b23a..78479f063e8e 100644
+--- a/drivers/gpu/drm/ci/x86_64.config
++++ b/drivers/gpu/drm/ci/x86_64.config
+@@ -91,7 +91,7 @@ CONFIG_KVM=y
+ CONFIG_KVM_GUEST=y
+ CONFIG_VIRT_DRIVERS=y
+ CONFIG_VIRTIO_FS=y
+-CONFIG_DRM_VIRTIO_GPU=y
++CONFIG_DRM_VIRTIO_GPU=m
+ CONFIG_SERIAL_8250_CONSOLE=y
+ CONFIG_VIRTIO_NET=y
+ CONFIG_VIRTIO_CONSOLE=y
+diff --git a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
+index 007f21e56d89..5b8cbb28b25c 100644
+--- a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
++++ b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
+@@ -68,6 +68,7 @@ kms_plane_scaling@upscale-with-rotation-20x20,Fail
+ kms_selftest@drm_format,Timeout
+ kms_selftest@drm_format_helper,Timeout
+ kms_setmode@basic,Fail
++kms_vblank@accuracy-idle,Fail
+ kms_vblank@crtc-id,Fail
+ kms_vblank@invalid,Fail
+ kms_vblank@pipe-A-accuracy-idle,Fail
+@@ -82,3 +83,17 @@ kms_vblank@pipe-A-wait-busy,Fail
+ kms_vblank@pipe-A-wait-forked,Fail
+ kms_vblank@pipe-A-wait-forked-busy,Fail
+ kms_vblank@pipe-A-wait-idle,Fail
++kms_vblank@query-busy,Fail
++kms_vblank@query-forked,Fail
++kms_vblank@query-forked-busy,Fail
++kms_vblank@query-idle,Fail
++kms_vblank@ts-continuation-dpms-rpm,Fail
++kms_vblank@ts-continuation-dpms-suspend,Fail
++kms_vblank@ts-continuation-idle,Fail
++kms_vblank@ts-continuation-modeset,Fail
++kms_vblank@ts-continuation-modeset-rpm,Fail
++kms_vblank@ts-continuation-suspend,Fail
++kms_vblank@wait-busy,Fail
++kms_vblank@wait-forked,Fail
++kms_vblank@wait-forked-busy,Fail
++kms_vblank@wait-idle,Fail
 -- 
 2.40.1
 
