@@ -2,54 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450DD8ADD33
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 07:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D2D8ADE6C
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 09:40:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D182D10FA8F;
-	Tue, 23 Apr 2024 05:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3108A1131BA;
+	Tue, 23 Apr 2024 07:40:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pHoS7+PM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eL/qvUPk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75940112316
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 05:46:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4DB95CE0EF0;
- Tue, 23 Apr 2024 05:46:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAB58C116B1;
- Tue, 23 Apr 2024 05:46:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713851162;
- bh=4m4S4iaNoFCD5VJ6S4cA667fbteVW4wdxQCTE6NM2CY=;
- h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
- b=pHoS7+PMKebC1m2RzgTCKQO65bIg/+V/GP8DBkY6vKbBV+0pMb5XEUe6rmGzDRelI
- 2HWt2UPYATZ+YLQjix77Pybemb0d7i4p1gP+uioryjVcAT9TYF8mPWCcmnq9pKI8dC
- KBjsV3ZfGIcyeVwjymzhWNk37jDugEQQ/stvvctlxSTJAWVIQVhDRclprnN8IkuL40
- U22tMNS5+1fXvFKoEyakjetMFZ/M1zYiB/6jilNduio/EyzHCiGwro54+mru3aPO2k
- XWgjGYuHYbMhf9HG6V71VboQIYJfCxwuTVBgbKj8/oO6T2HRjuOYWX6gO+gs2zjq8H
- Vf45davhLmpcA==
-Date: Tue, 23 Apr 2024 14:45:58 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
- soc@kernel.org
-Subject: Re: [PATCH v3 07/13] drm: Make drivers depends on DRM_DW_HDMI
-Message-ID: <ZidLFpREqwKd9FHK@finisterre.sirena.org.uk>
-References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
- <20240327-kms-kconfig-helpers-v3-7-eafee11b84b3@kernel.org>
- <2c78772a-1d3f-47dd-9c3f-a3011703e1ab@sirena.org.uk>
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
+ [209.85.222.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F65F10FA71
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 01:20:27 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id
+ af79cd13be357-78f02c96c52so354018085a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Apr 2024 18:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1713835226; x=1714440026; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/X3oWVdwceQfK7JUbUass9+jsVy5WEkRvYuO9s5FjoI=;
+ b=eL/qvUPkKP+9EfeuoO5fcWW/PldvTNqxVSm7cnr0XbwFbD7UT9vYrmant9kZcMZHps
+ KqfDW4xzuzgHjuJgJgMpbUppcbDVCI8ND0WUYrAL0ypGW0mv3kCye70WQFokAi3uWQyx
+ HbGaEw837wYGBwJa0NFwxTU4eBPmrN4cbdwyUaj+YOoReTj1+4b74pPZDSlxVb5Z7/vg
+ 1A5i8A83VBa2QFKV4/kysHQUzG0N47eGgkQajOSHzKIlp1RUuo8BuZMgYfF9iQ4w6mHD
+ /Tj2i04hGbGfdHYCSHyPdd1Trmg1QRcwfrsWsy5k6HY6BbjysnAXnEbspohF/CJr4eKS
+ EByg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713835226; x=1714440026;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/X3oWVdwceQfK7JUbUass9+jsVy5WEkRvYuO9s5FjoI=;
+ b=sNWoCuhwBFUAgRuszOcCBr7eU+y+Y9NUNsyuOe7qDu8Z0rXfgWLqKvTtJormlutE7B
+ 5ZJIguZ3lRTqYtoJaCGGTbfjR+LWlqToJRA3dJ8ZPdRCAIXoxN//U7T1IjpyyumwP5RW
+ t/s6U4I2rTnoTBCEf74cuS3ts+8Ape9H6hBb5Rmn24pLA0DnhUHPDR9j+koBQ80OhmTk
+ yAnaIrLkZ1Z7npL5pfj7J22tid6NZKoEhqCsbDrT4RtwX6Wq+jxBqUmb2/zIH8vnG42y
+ b2QjRxmP9yaMDBOqaJ7HOmrmJ+ScWzVRo23xzB+9hn1Z2hW/GX9JV2lEMFDKovVN6Xlr
+ JLcg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXNAb8qxAAbr7t4UGrFqEaeKUzMFIQMUrqMUpK4jDcif47l4QpXVtbDOaTFP4bdbwKQ0jRtmWzz7Bw4yjVfXQaz9Ti87AiFdnnKiUMA6Phk
+X-Gm-Message-State: AOJu0Yw2T7FIzq5OeV8ycCRuenWblmSO6mD4NvJQ0cLWM7PXZyn5Oe2J
+ trrdgPwOPsVQKPhaxNh/12Ia+SNizCGMMjit3/58liKuA0+iIqVi
+X-Google-Smtp-Source: AGHT+IHNrFNlRd8vHin4jO4b0/uHrTcFQKkQwjaNMI1A7Rs0w4RKZLqx3b3gXukSPNY57d4AO6waKw==
+X-Received: by 2002:ad4:57d3:0:b0:69b:63d2:6bc3 with SMTP id
+ y19-20020ad457d3000000b0069b63d26bc3mr10704024qvx.5.1713835225910; 
+ Mon, 22 Apr 2024 18:20:25 -0700 (PDT)
+Received: from sheunl-pc.ht.home ([2607:9880:4327:ffae:7c2b:7751:30a3:52c9])
+ by smtp.gmail.com with ESMTPSA id
+ p11-20020a0cf54b000000b0069b58f8c33dsm4813265qvm.45.2024.04.22.18.20.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Apr 2024 18:20:25 -0700 (PDT)
+From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+To: deller@gmx.de, sam@ravnborg.org, tzimmermann@suse.de,
+ christophe.jaillet@wanadoo.fr, u.kleine-koenig@pengutronix.de,
+ julia.lawall@inria.fr
+Cc: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ javier.carrasco.cruz@gmail.com
+Subject: [PATCH] video: fbdev: replacing of_node_put with __free(device_node)
+Date: Mon, 22 Apr 2024 21:20:21 -0400
+Message-Id: <20240423012021.56470-1-abdulrasaqolawani@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ww8fNriCpgA4t3ar"
-Content-Disposition: inline
-In-Reply-To: <2c78772a-1d3f-47dd-9c3f-a3011703e1ab@sirena.org.uk>
-X-Cookie: TANSTAAFL
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 23 Apr 2024 07:40:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,53 +85,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Replaced instance of of_node_put with __free(device_node)
+to simplify code and protect against any memory leaks
+due to future changes in the control flow.
 
---ww8fNriCpgA4t3ar
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+---
+ drivers/video/fbdev/offb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-On Tue, Apr 02, 2024 at 04:43:46PM +0100, Mark Brown wrote:
-> On Wed, Mar 27, 2024 at 11:57:02AM +0100, Maxime Ripard wrote:
->=20
-> > DRM_DW_HDMI has a number of dependencies that might not be enabled.
-> > However, drivers were used to selecting it while not enforcing the
-> > DRM_DW_HDMI dependencies.
-> >=20
-> > This could result in Kconfig warnings (and further build breakages) such
-> > as:
-> >=20
-> >   Kconfig warnings: (for reference only)
-> >      WARNING: unmet direct dependencies detected for DRM_DW_HDMI
-> >      Depends on [n]: HAS_IOMEM [=3Dy] && DRM [=3Dm] && DRM_BRIDGE [=3Dy=
-] && DRM_DISPLAY_HELPER [=3Dn]
-> >      Selected by [m]:
-> >      - DRM_SUN8I_DW_HDMI [=3Dm] && HAS_IOMEM [=3Dy] && DRM_SUN4I [=3Dm]
+diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
+index b421b46d88ef..ea38a260774b 100644
+--- a/drivers/video/fbdev/offb.c
++++ b/drivers/video/fbdev/offb.c
+@@ -357,7 +357,7 @@ static void offb_init_palette_hacks(struct fb_info *info, struct device_node *dp
+ 			par->cmap_type = cmap_gxt2000;
+ 	} else if (of_node_name_prefix(dp, "vga,Display-")) {
+ 		/* Look for AVIVO initialized by SLOF */
+-		struct device_node *pciparent = of_get_parent(dp);
++		struct device_node *pciparent __free(device_node) = of_get_parent(dp);
+ 		const u32 *vid, *did;
+ 		vid = of_get_property(pciparent, "vendor-id", NULL);
+ 		did = of_get_property(pciparent, "device-id", NULL);
+@@ -369,7 +369,6 @@ static void offb_init_palette_hacks(struct fb_info *info, struct device_node *dp
+ 			if (par->cmap_adr)
+ 				par->cmap_type = cmap_avivo;
+ 		}
+-		of_node_put(pciparent);
+ 	} else if (dp && of_device_is_compatible(dp, "qemu,std-vga")) {
+ #ifdef __BIG_ENDIAN
+ 		const __be32 io_of_addr[3] = { 0x01000000, 0x0, 0x0 };
+-- 
+2.34.1
 
-> This has landed in -next and appears to be causing breakage for several
-> platforms using these devices.  For example I'm seeing the HDMI fail to
-> probe on sun50i-a64-pin64-plus with arm64 defconfig, the DT kselftest
-> result isn't terribly informative but it can be seen here:
-
-It has now been *three* weeks that this breakage has sat unaddressed in
--next, this has been making my CI for -next unusable.  Given that
-getting the defconfig bits of this merged appears somwhow unreasonably
-difficult can we please drop these changes from the DRM tree until some
-strategy for getting everything merged is put into place?
-
---ww8fNriCpgA4t3ar
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYnSxIACgkQJNaLcl1U
-h9DO/Af+JThtSrbnCe6qv2KyUQjklU/Q3jii/SGSG6EkkThvcMOrvLeuzOGmgn4q
-AYESNMJikjvXh+sdbMPuA5/AOQk/T1Cig5ljEnYqcZKZFo+Q98Fmdacu15o2/PU9
-CA7fQx7W69f6ua4dx10zFBMKVuV/Z1tTWCj5TYBeQj21rbI6e1UL2epdXY8OX6U7
-fDiPatmH8ZujrRQcJIa70xD/qkI17aIdYmucme7yz+ouLp1ow079ZQ8OapDqnEkk
-IroiNHzN7hHnZ3TqqP2IlAOF6kVmxUG7/CukMg/rqROa+T184oh2Lm2emOnijuXR
-mNo+xrLxvj/O+VGG3illQC+1O7nq9g==
-=vweS
------END PGP SIGNATURE-----
-
---ww8fNriCpgA4t3ar--
