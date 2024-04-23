@@ -2,103 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDDB8AE2E1
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 12:50:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52EBF8AE446
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 13:40:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE33C1132C5;
-	Tue, 23 Apr 2024 10:50:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CC0D113316;
+	Tue, 23 Apr 2024 11:40:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eCKw87pC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bdRfV9fp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A45112A6A
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 10:50:06 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D2F3113314;
+ Tue, 23 Apr 2024 11:40:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 15FB7611FD;
- Tue, 23 Apr 2024 10:50:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CDD6C2BD11;
- Tue, 23 Apr 2024 10:50:01 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 2A75DCE0D9B;
+ Tue, 23 Apr 2024 11:40:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 281C5C32783;
+ Tue, 23 Apr 2024 11:40:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713869405;
- bh=5k6/TB+qfIpQ+Ema5EHVkMfgqW6M6hDUfX9R0tnHkwU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=eCKw87pCRegyZc7R8roZMe4ME9Dze2dYZOsvuOiV0n9PpIeK1PYrL13tg48q5GDB9
- s4hzKYfmFFWb+FZPT3YQwM9VezWqB62foevC/BIYMPl6X+xeUHGQcSUAGnBXxCwGgg
- CRfOolwBkIoOa+nrZ6i0TnAudQRx7rAptJTFNn0mXOVZmn+3LO0hNnKrWXaplZR8s7
- d0gnZodpVOMOXfk8eGUvs2Q+dcJLP1OHxiChpu0ZMZjlqOM6vwmoiaJhKzCkwJz++y
- McJb1bn6wso2xo+QSrMUAQ+uwZvfCTSVGSQuWZZ6Qa+6a7WfeRbQUbzG8id+sIw6cG
- 6lDogY8XvHvFw==
-Message-ID: <368f8c24-5c25-4a96-9714-80f31a6661a4@kernel.org>
-Date: Tue, 23 Apr 2024 12:49:59 +0200
+ s=k20201202; t=1713872420;
+ bh=rT1aHSFbmk8TcPG89gLfrewCUWPTuWYquSEwnudsayg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=bdRfV9fpWRG43epBQL8QG/b3XqG+w8sGH5SlxiD6A368j8GiwCA1HyFCZdrzyK08L
+ 2Ryjhru56QvWq2X5TMLskbJ0uCa1N8E5pCn9rHjf3Munpd1PcXZjB8Ietep85soSa+
+ D8VZDMA83yuD6hHfXQnM4KJ85ubObrmrpc2OylVkePATQ7Shc6cEBmgkqtZO/xV0pW
+ Wz48kAcJnAoHEKDSSaDqvof7Qfx/JtccZy8lYHIY001wWlDTfMOTwJoxiG6Cp3UJaX
+ kXCpTi4HwEgFCzwZ11dQAtqQImwQmuMzT/iwWVDb0mNo6OMNbxzyJTToHFHESKno6U
+ 3H2zNRRPIoLvg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Lyude Paul <lyude@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Sasha Levin <sashal@kernel.org>, kherbst@redhat.com, dakr@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.8 12/18] drm/nouveau/dp: Don't probe eDP ports twice
+ harder
+Date: Tue, 23 Apr 2024 07:01:08 -0400
+Message-ID: <20240423110118.1652940-12-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240423110118.1652940-1-sashal@kernel.org>
+References: <20240423110118.1652940-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 9/9] drm/bridge: tfp410: Add platform module alias
-To: Sui Jingfeng <sui.jingfeng@linux.dev>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Phong LE <ple@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240422191903.255642-1-sui.jingfeng@linux.dev>
- <20240422191903.255642-10-sui.jingfeng@linux.dev>
- <050ff49d-516c-41fc-a205-4c259384058f@kernel.org>
- <08e81099-77d6-4d6d-9e7b-b086c17818c9@linux.dev>
- <e41e7916-14aa-4128-9ef1-42736ad9a581@kernel.org>
- <648e60f1-780a-428c-93b3-89d9804d6686@linux.dev>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <648e60f1-780a-428c-93b3-89d9804d6686@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.8.7
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,28 +64,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/04/2024 12:44, Sui Jingfeng wrote:
->>>>    If you need platform one, for some reason, explain
->>>> what is your matching path and add appropriate ID table. With that
->>>> explanation, of course.
->>> When tfp410 works as a transparent bridge. The device itself is just a platform device.
->>> similar with the display-connector.c and simple-bridge.c.
->>>
->>> It is not discoverable by the system on non-DT environment, this is the root problem.
->>> I said the various display bridges drivers are fully DT dependent, Dimtry didn't agree!
->>>
->>> He said "I can not agree here. It doesn't depend on DT." and then asks me to developing
->>> some other solution witch could preserve code sharing. So here it is.
->>
->> You wrote long message without actually reading my answer early. I
->> already gave you the solution. Address that one.
-> 
-> Use MODULE_DEVICE_TABLE() instead? OK, I understand then. Thanks a lot 
-> for the education.
+From: Lyude Paul <lyude@redhat.com>
 
+[ Upstream commit bf52d7f9b2067f02efe7e32697479097aba4a055 ]
 
-Yes, at least for something which is real driver.
+I didn't pay close enough attention the last time I tried to fix this
+problem - while we currently do correctly take care to make sure we don't
+probe a connected eDP port more then once, we don't do the same thing for
+eDP ports we found to be disconnected.
 
-Best regards,
-Krzysztof
+So, fix this and make sure we only ever probe eDP ports once and then leave
+them at that connector state forever (since without HPD, it's not going to
+change on its own anyway). This should get rid of the last few GSP errors
+getting spit out during runtime suspend and resume on some machines, as we
+tried to reprobe eDP ports in response to ACPI hotplug probe events.
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Dave Airlie <airlied@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240404233736.7946-3-lyude@redhat.com
+(cherry picked from commit fe6660b661c3397af0867d5d098f5b26581f1290)
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/nouveau/nouveau_dp.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
+index 7de7707ec6a89..3f72bc38bd2c4 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dp.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
+@@ -225,12 +225,15 @@ nouveau_dp_detect(struct nouveau_connector *nv_connector,
+ 	u8 *dpcd = nv_encoder->dp.dpcd;
+ 	int ret = NOUVEAU_DP_NONE, hpd;
+ 
+-	/* If we've already read the DPCD on an eDP device, we don't need to
+-	 * reread it as it won't change
++	/* eDP ports don't support hotplugging - so there's no point in probing eDP ports unless we
++	 * haven't probed them once before.
+ 	 */
+-	if (connector->connector_type == DRM_MODE_CONNECTOR_eDP &&
+-	    dpcd[DP_DPCD_REV] != 0)
+-		return NOUVEAU_DP_SST;
++	if (connector->connector_type == DRM_MODE_CONNECTOR_eDP) {
++		if (connector->status == connector_status_connected)
++			return NOUVEAU_DP_SST;
++		else if (connector->status == connector_status_disconnected)
++			return NOUVEAU_DP_NONE;
++	}
+ 
+ 	mutex_lock(&nv_encoder->dp.hpd_irq_lock);
+ 	if (mstm) {
+-- 
+2.43.0
 
