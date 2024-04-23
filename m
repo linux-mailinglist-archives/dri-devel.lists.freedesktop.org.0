@@ -2,61 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC908AF72F
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 21:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8FE8AF77C
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 21:47:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE3E51135F4;
-	Tue, 23 Apr 2024 19:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 607A311362A;
+	Tue, 23 Apr 2024 19:47:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UVX1GHl3";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="tH2r7lRl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18BED1135F2;
- Tue, 23 Apr 2024 19:20:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713900047; x=1745436047;
- h=date:from:to:cc:subject:message-id;
- bh=HNm0QpV5BncCXl4BeJ1q7Yl3bR8csLUssT1+HkZB4Go=;
- b=UVX1GHl3sNURkudaCuUgoeTTiaSAIQFyXbBwV9uVDhOivCmux/WDObH7
- Lz+hLPFic1g+TPBhhUomzR10DCsXdXhfHPOta64Z6+j+9K11LllsnUmvB
- PywdeJnQ1PEZoNLd0TFSmz/1TDkOs+14r72qo0+T/5rXs0eVPxF6K8pMr
- kSZroAPh/a07lhP/uWTZKCjbLtYBE3DQnFabT+2s7moDWR535VEBaN10O
- fQSuipgpDL8IDhn071j2bldPasT6dE1nY9+AgOVVo7xXyouHEJFDB3jHN
- ui9dWPHfY7/LXYufUSSyjXy7V6bKrp57/moUyKwLGUVV4FZ8CXxbj9KLL w==;
-X-CSE-ConnectionGUID: A8cWH8q4RYSLoepfIF/OuQ==
-X-CSE-MsgGUID: 7OX4UfPARqGt/bgu+2KzHA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9372732"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="9372732"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 12:20:46 -0700
-X-CSE-ConnectionGUID: ty0eYIfaTLO5nS9cWf7mBA==
-X-CSE-MsgGUID: 2eLdkNLiROGPYyUQzYX4hQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="47739617"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 23 Apr 2024 12:20:42 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rzLh2-0000T4-0g;
- Tue, 23 Apr 2024 19:20:40 +0000
-Date: Wed, 24 Apr 2024 03:20:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- amd-gfx@lists.freedesktop.org, bpf@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-arch@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- netdev@vger.kernel.org, nouveau@lists.freedesktop.org
-Subject: [linux-next:master] BUILD REGRESSION
- a59668a9397e7245b26e9be85d23f242ff757ae8
-Message-ID: <202404240354.MQVAgJO9-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2045.outbound.protection.outlook.com [40.107.100.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 840F0113629;
+ Tue, 23 Apr 2024 19:47:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dxNqvdvtNQAVzf2Afw3fcm1HzJaOnfjYBeN3LKihLrf6qTnlis4HiLhml5D8dKRcmNHEhafE52M1gXxzbXHjS9vDn5aFgMMQpzL1Fx6C8omeGqI2ScljF0ZJceIZpwKHuMsVGbGHL+I0SALbDMy6SaBLDlI5NG43IfXEFQRsWeq9edhJGtyim0oARcejZ/N4NeyMNgljkbuWAXDikXB+AtI5iy/6L5xGKKT2GauflQMp63/qu5u8wxMymJpN4MM/ca5uN5iCRQD/ivtCq63aryDZvo3iv1a3XWG5vMQt/bbUMwA4RWUK52j403wHLKMuZ+usbqnSB+62nmrLTez9dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3A/O29Q1yd2rJH9BeamM43ZUYLpW3ynC+Fo8VCP4028=;
+ b=QZGOtBlMAwGkf0rdPZIIeBHc3upoWu3Mc6GNYyOsvIiElzVMBLUHIzz+TIAWDFqtklsw1APFzjVL/IcTRJHBpK7ExRw2ZD1PDYyo9Vla0O+DASwzzY+fEvBCiuswAKGz2wuFIWGfH2YbpUpoI+nvSO0cSlqIXRZLGHlZmxXobQamhfEugXZ5tyYBDbK8xi9dyzTxxx/Yyfbua9HjPYl9wjJHObwGILdXOKcCorDeX5vU2dhDWeIm6FZ3YfPbuquSK1J9xunMkbgQ6/kx3IVaDPbUj56DGQV/qOQ8pg60Q/ceWhTB3JwqaiB79dQBGHjC7ZGR7iCYgFKLYIS19IVtTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3A/O29Q1yd2rJH9BeamM43ZUYLpW3ynC+Fo8VCP4028=;
+ b=tH2r7lRlt7FqczTmTkQdqMYrFdF47lLeS6uYhusye+smPHzz6B/2nw8JjxJGoSHNiIc8+l1EG3TES9AN/T2l9IXdBvFnNZD24C7BLyH4eKov/AkAR+4rW9UHuuShNrVdZi1nc047Z7VGdSLxWkCZQGb5JWhT55nA+4SguKWzHwE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW6PR12MB8733.namprd12.prod.outlook.com (2603:10b6:303:24c::8)
+ by DS0PR12MB9400.namprd12.prod.outlook.com (2603:10b6:8:1b6::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Tue, 23 Apr
+ 2024 19:47:22 +0000
+Received: from MW6PR12MB8733.namprd12.prod.outlook.com
+ ([fe80::2243:aadd:acd3:3455]) by MW6PR12MB8733.namprd12.prod.outlook.com
+ ([fe80::2243:aadd:acd3:3455%4]) with mapi id 15.20.7472.044; Tue, 23 Apr 2024
+ 19:47:22 +0000
+Message-ID: <a5f06933-3cbc-4b6d-99fc-23ee31b291ca@amd.com>
+Date: Tue, 23 Apr 2024 13:47:17 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: Remove duplicated function signature
+ from dcn3.01 DCCG
+Content-Language: en-US
+To: David Tadokoro <davidbtadokoro@usp.br>, harry.wentland@amd.com,
+ sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20240222141900.295254-1-davidbtadokoro@usp.br>
+From: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
+In-Reply-To: <20240222141900.295254-1-davidbtadokoro@usp.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN9PR03CA0372.namprd03.prod.outlook.com
+ (2603:10b6:408:f7::17) To MW6PR12MB8733.namprd12.prod.outlook.com
+ (2603:10b6:303:24c::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW6PR12MB8733:EE_|DS0PR12MB9400:EE_
+X-MS-Office365-Filtering-Correlation-Id: 96692465-3e71-47b5-1dcf-08dc63ce316e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?akt5N1JBazRSVDVLUGhkc1lQdHpCM0c0ZE1kNTlkbFNNck01RS9hSk8zN3hr?=
+ =?utf-8?B?VHppN3VsN3ZKVmdxbU9qS3Jybzk2dlVvUGtmdjl6eW13L282dDdXUUNLSUZ6?=
+ =?utf-8?B?MVZNM3hFR2pyZTNDdkh2cFpvZS9IK3Q4b3JpRTdIYWhzUDJQMC9rUUVybUIy?=
+ =?utf-8?B?N2pzUENhMjBkRUtlRGxNbUlBalY4WDNBTG94cWltR3VBemtGVy92WnBrbW9x?=
+ =?utf-8?B?TWd3Vm00bG5yakdjWFJIbDZlU1VmVXFIZldhamc3OVNkN2NGM09ieWNQVHMw?=
+ =?utf-8?B?eFVZN0VZbklWSjc5RThFanFmS0p4MTl1ZXFkNEpxRStnSE02MkI0WXJCd0ph?=
+ =?utf-8?B?RHd1bS9zZEpaSVhwZ0hNQWhORFM2dGlGb2FPSlRnK1pPOEZoKzNnbERPV3Fh?=
+ =?utf-8?B?UW1JWnlvNlhSTDBSdWlvZ1Axb3BYQnpqamY1WTNYZVJXN0hsR1ZLdllGb0pa?=
+ =?utf-8?B?Z3E3SExNQ3NGUlA0U1JWL0M3Y2NYaldjZUZrakE2V2dPZ0tSdENWd0xDdUt5?=
+ =?utf-8?B?SmpsZlhnb0FYSk00MUoyN3pwVTZUeitCSVJCS2Njb1NoOGVxWFhzNjVpK0hL?=
+ =?utf-8?B?dkpkY2xudVQxQXFwcHU3aDZ3YTZnYi85dXNva0FqSmZ3V054ZUNTcDV6dGNV?=
+ =?utf-8?B?clg0bHBpb0RadXhERy9Wc0MvOUphYmVtQllBeUp2WjRnSktOK1lvSHVwSWE5?=
+ =?utf-8?B?YTBxOWt0ZGpEb2hFRVFNaW10ZFU4TUlzUlR3SFp1M3E0ZThGeDYxV0NNS3NN?=
+ =?utf-8?B?bk5yd0ZERi9JZGh4Z1E5NXFzNVJGN1AwZTdpa1NBejBHWStDTlJWSmVpYk5Q?=
+ =?utf-8?B?TFZzbVl4bVJkYnJKV0cwdXk5SUhsREFlSkI1b2dDUTNOR1U5TTVCOXBEd3dX?=
+ =?utf-8?B?TVFra1VWZjlIREMvSmFtTXBRWXZPekxnQ0xzNW1YT3JSd01lSUYyV0NQTXJF?=
+ =?utf-8?B?dkZvajE2WE10SlhWVzhIVjZ0aGVaMUxWckg0aTdRM1paNm1qeVFGY0RtZ0pu?=
+ =?utf-8?B?NkRWVlFQZGF6UXJvTjNRRE5tcWxYeVlNUlBTQTNpYk5LV21abmV0RHZMeklN?=
+ =?utf-8?B?aDJSZEVGOVc3WUM5OFJyMTNUekNPSHlkWlNFK1QwQXh2VXE1VmdOMlU4b2ha?=
+ =?utf-8?B?Rzl0ZHpUMUpvVDkvVlVCaXIxOXJ1anhGNTg0VjI3T09WL2E4VHN4MjA5dmd2?=
+ =?utf-8?B?ZHAyUzJ4MHVuaXFTb2tJMVdQQWlhVXlXOEJDd0VyOUpZcmxjaE1ZY3YvdEh4?=
+ =?utf-8?B?K0lBemFHSHZYZ3dURjhMUC95RzU3dWNWRnQ5a3poakhzb2VTajBsQkMwR2Zo?=
+ =?utf-8?B?R2I1K1oreGhBdnpNdURRQ055eG0za2JrckNENmdKbldhL3JKcHp4OTBpenRN?=
+ =?utf-8?B?L2c0cHlZaEZDRVNWSldzS3NQNW5BT2t1TTFDOXVKTkJRTlEwTFUzNHZSVFl0?=
+ =?utf-8?B?eFZSdmxzb09TRlpWTk1NbWs0TTNIQSttS1VmSDJhalFld2J1NnpWbWFCSGJL?=
+ =?utf-8?B?M1Rnemt6cHZqamZFVklMRFFad0tJQ1U5UDdRckhsbzF6d1N1TW1Oek81VlZS?=
+ =?utf-8?B?dmdpbjJMOVZRTWxzRngwRDA3V1J0THNmOU5oSUNEdFNMV2x6UFNXRWJhWGpO?=
+ =?utf-8?B?YnhwblRpYnAzbzY3dHJMNEVoa3ovM0hic2Y4dmN0KzNIRlk5NTl4ZXN2bmo4?=
+ =?utf-8?B?ZGJxRHBQQUlqZ29zdmxROXluVnN0TVAydW1aekdVMWpNbklEeEFYdTR3PT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW6PR12MB8733.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(366007)(1800799015); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q0ZJRis2NHh3VlVRb1JRRHVoSi9EdytSRitmSDQzdHN0Z0k0SjhlTzYxa3gy?=
+ =?utf-8?B?R0xRQlJkQ1owUG9vUzY5WHFGS3BkQmR2bUtnM1c1Qk1pU21SQ1hxcGZRRDBX?=
+ =?utf-8?B?N0ZDYnhzRHhiNHF1TmNYdXZiVGRTYnNwMWJZWkdIKzc4UVdqU1NNalRCVmYv?=
+ =?utf-8?B?ZUdiLzN0QzdBdmwrODVMZnZTUTMxYjNIbWlyMFA4OWVFdGNOZEhtbmNJYjQx?=
+ =?utf-8?B?WXFGbFM0YitqTGQ4dGV0UkVXVHpPOGRjOUVWQ0Q3VWRDbTJrM2FjTlNqR0R6?=
+ =?utf-8?B?L1BJSDkwcUZ5SlR2aTVtekFaZUJ4RU4vREFPM1A0T1graFp6bkpYb0NTVkNE?=
+ =?utf-8?B?a21VT3RNSGptbkgvcVNINWVsN3lKWWZkcWYwQVhqTHQ4NUhHTDR5Z21PYjM1?=
+ =?utf-8?B?b1ZyY0ZBNzBreFVCRGF6TWtMeXNodXMrRS8yUGNHSzJkSjFLVnZkVytEbzJM?=
+ =?utf-8?B?emxyNGxFTGZzOU5SQytmM2Z3VHFOaUkwRGJCYk9uV084ZWQ0dmVFZk1pcFRx?=
+ =?utf-8?B?ZXp4c2t2aC80eFZzdTlzaHd6SzBqc1FpdnVKYkZyeFc4QnNYcUNBKzd5VmRV?=
+ =?utf-8?B?ZjBwYzdWYzhLVWEwbXowTTBaYTc4M0p3d3VrcFFsSldUVUtsM3d0RFBQVVJH?=
+ =?utf-8?B?ek9jSk9PNDhBOTQrcDNSS29ja1VSTjVWSzBtUlhqYTFWVjZZY0FoOStZSm1y?=
+ =?utf-8?B?Y0Z6NXhZNTNXVXRQOU5nNnptUVNyRS9OK0I5dDBhWkdIMUdYbWVHRVpnd0Nv?=
+ =?utf-8?B?T2tiTUlUdTRvcmIzZ0NPK3Y0cnpoVy9mTU1nYkYrYi9EakJrMUN0bC8xMnJF?=
+ =?utf-8?B?Qm4wbGVaUnAxcnVzRWxibm5qVFJoaFBVMG52WVg5RVdvSzdKK256NDQvMkp1?=
+ =?utf-8?B?cWViSE85U0JkbERuTnh2aGZkWUkxTjJUVGlTbWFhVXQ0WS93c1UzMGRNcEtq?=
+ =?utf-8?B?c1UyODdUMzhQaUgzQjJqaCthdDR3MkFsaC96YXQyaDF1MC9kaFQ1VW50VjdI?=
+ =?utf-8?B?S0R5S3hLbVRrbXY0V2NxRVZ3ZnU1YUt0djJRVGwzczBwS3FJQXpRMkVFOURH?=
+ =?utf-8?B?bnVFNkxIcldpMkNBakNUQ1piWEJIY0crRHkyd0xaWmlSUkYvYmp6SGw5T1RV?=
+ =?utf-8?B?MU1ONlBqdjlmb2JvNjFmVkJybEpPbDN4Vyttd3BaempibFhKYnl3ZUZGb0d4?=
+ =?utf-8?B?cm0zSzVnRjhUczJCWlFxL3JYQ3hBeDhRN2x2Mjc3MkVaTUd4OUt1VnZMN2hI?=
+ =?utf-8?B?anNXQ1NSVjdIeG1hY2E1ZjhBZjN1ZzB4WWVRbUQzdGlrcXlwL1gyZE1HUjFQ?=
+ =?utf-8?B?YlMzYUpUTFdMQUtudDQ5TnNsWEFDMUdmUitsSnZmMXlDeUo5VEVSMmlrVGd2?=
+ =?utf-8?B?UDFjVElNQ2tRUjM5azZUNkUrZXZEdzhjR2V0UDlKcSt0YlFvR2pSTEdYV1ZR?=
+ =?utf-8?B?QWNhQXpkNGxVNW53bDFLYlI5UE4xVk94b0hqaGFJYTlmajlMMlQ5UG5jVUxx?=
+ =?utf-8?B?Ym1GdzZpT29hVitsYnNhejRHU2prbjRpd2UxZmMyRHVJci9uT1R2dUUvSWJC?=
+ =?utf-8?B?bmtaZ0FtVEZnczRuMWZkTDd0S1E4SmFJUXkrd3FpMlg0LytoK0VndDRrbzMv?=
+ =?utf-8?B?bG1ieGxURkV2TlBtYW9YSWRRR1E5MFhMdW1xVXNVUjZjaXZBL0kzOHQ5dWhL?=
+ =?utf-8?B?WVlmM2tNU3pNNmp6WlIxcC9LYkNPcjFEcjZ5Tm9icG5abHJuUHpmeGtzbEJ3?=
+ =?utf-8?B?ZlNmVEVkNGp1TFI3R2g0akFDN0hDT1VFemVCcUlHVXc3R2ZlUXJSTk05azMv?=
+ =?utf-8?B?MGdNdHBVOFZ2TndHTDZTUkp5Vm9YZWc1bUgrd3NoUXRvbzJTMlR0N1EzZ04z?=
+ =?utf-8?B?dk1mNHFaWm54b2pyWXZWQnJnbW04SEVmUTB3OTc3MjlaeXZIWHQxdVhyendB?=
+ =?utf-8?B?Nng2SmQxRVlwbEhZSFZtRXdhdEsySHliVmdqWkZpQi9HQkw5d3VuSG5yQTFm?=
+ =?utf-8?B?NGM4Z0ZZeTAzdytobGluUVBoQTlyUWEvZlpoSjFOTFlwYjNTVU5wNWhHTjB5?=
+ =?utf-8?B?UC82KzlxTjNjL1dDc05iaUg4VEwxeXJwRG9lTWxSRFhOd083VE56SkJ3VTlJ?=
+ =?utf-8?Q?ridxpL52xjEMSr7axwkhrGftq?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96692465-3e71-47b5-1dcf-08dc63ce316e
+X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8733.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 19:47:22.5437 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ncp3hv/p5jjEgEJK7ymdFY51CHNzUNMNRFXTpzABF606uJ9vwLa8wst5lH472D2C8Eue+vvc/X/u8/VuBt/BHg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9400
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,713 +160,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: a59668a9397e7245b26e9be85d23f242ff757ae8  Add linux-next specific files for 20240423
 
-Error/Warning reports:
 
-https://lore.kernel.org/oe-kbuild-all/202404231839.oHiY9Lw8-lkp@intel.com
+On 2/22/24 7:19 AM, David Tadokoro wrote:
+> In the header file dc/dcn301/dcn301_dccg.h, the function dccg301_create
+> is declared twice, so remove duplication.
+> 
+> Signed-off-by: David Tadokoro <davidbtadokoro@usp.br>
+> ---
+>   drivers/gpu/drm/amd/display/dc/dcn301/dcn301_dccg.h | 6 ------
+>   1 file changed, 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_dccg.h b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_dccg.h
+> index 73db962dbc03..067e49cb238e 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_dccg.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_dccg.h
+> @@ -56,10 +56,4 @@ struct dccg *dccg301_create(
+>   	const struct dccg_shift *dccg_shift,
+>   	const struct dccg_mask *dccg_mask);
+>   
+> -struct dccg *dccg301_create(
+> -	struct dc_context *ctx,
+> -	const struct dccg_registers *regs,
+> -	const struct dccg_shift *dccg_shift,
+> -	const struct dccg_mask *dccg_mask);
+> -
+>   #endif //__DCN301_DCCG_H__
 
-Error/Warning: (recently discovered and may have been fixed)
+Hi David,
 
-WARNING: modpost: vmlinux: section mismatch in reference: __io_uring_register+0x4e (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: add_master_key+0xcc (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: address_val+0x172 (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: affine_move_task+0x7c (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: bcma_pmu_init+0x11c (section: .text) -> .LBE2162 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: bitmap_list_string.isra.0+0x176 (section: .text) -> .L498 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: bpf_cgroup_link_fill_link_info+0x18 (section: .text) -> .LBE2191 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: bpf_map_meta_alloc+0x68 (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: bstr_printf+0x4c (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cgroup1_reconfigure+0x6a (section: .text) -> .LBE2191 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cgroup_bpf_replace+0x18 (section: .text) -> .LBE2191 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: class_srcu_destructor.isra.0+0x44 (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cpu_cluster_pm_enter+0x36 (section: .text) -> .LBB2191 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dma_direct_mmap+0xf2 (section: .text) -> .LVL129 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_atomic_helper_check_plane_state+0x80 (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x228 (section: .text) -> .LBE1217 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_of_component_probe+0xec (section: .text) -> .LVL1112 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_test_rect_rotate_inv+0x3c (section: .text) -> .LVL1139 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dw_hdmi_bridge_atomic_get_output_bus_fmts+0x80 (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: gpiod_direction_input.part.0+0x2a (section: .text) -> .LVL1117 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: gpiod_direction_output_raw_commit+0x40 (section: .text) -> .LVL1117 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: gpiod_find_and_request+0x4e (section: .text) -> .LVL1117 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: gpiod_get_direction+0x4e (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: gpiod_to_irq+0x48 (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: gpiolib_seq_start+0x32 (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: gpiolib_seq_stop+0x4e (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: handle_new_recv_msgs+0x23a (section: .text) -> .LVL1117 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: iio_compute_scan_bytes+0x5e (section: .text) -> .LVL1049 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: iio_dev_attr_in_accel_scale_available+0x14 (section: .data) -> .LVL793 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ipmi_get_maintenance_mode+0x8a (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ipmi_get_my_LUN+0x82 (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ipmi_get_smi_info+0x32 (section: .text) -> .LVL1117 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ipmi_set_my_address+0x82 (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ipmi_timeout+0x6c (section: .text) -> .LVL1117 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: lm3533_ctrlbank_get_brightness+0x26 (section: .text) -> .LVL1041 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: mipi_dbi_pipe_reset_plane+0x18 (section: .text) -> .LVL1081 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: mipi_dbi_spi1e_transfer+0xb0 (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nr_msgs_show+0x2a (section: .text) -> .LVL1117 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: pcmcia_bus_early_resume+0x66 (section: .text) -> .LVL1074 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: perf_init_event+0x26 (section: .text) -> .LVL1117 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: show_als_attr+0x36 (section: .text) -> .LBE2162 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: show_als_en+0x2c (section: .text) -> .LVL1041 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: show_thresh_either_en+0x82 (section: .text) -> .LVL1041 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: srcu_ref_scale_read_section+0x4c (section: .text) -> .LVL1117 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: srcu_torture_read_lock+0x2c (section: .text) -> .LVL1117 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: stack_depot_save+0xa (section: .text) -> .LVL1037 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tda18271c2_rf_tracking_filters_correction.isra.0+0x78 (section: .text) -> .LVL1055 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: thermal_of_zone_register+0xdc (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: vsnprintf+0x4c (section: .text) -> .L443 (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: xas_store+0x66 (section: .text) -> .L443 (section: .init.text)
-drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: error: '_sel' directive output may be truncated writing 4 bytes into a region of size between 3 and 13 [-Werror=format-truncation=]
-drivers/gpu/drm/nouveau/nouveau_backlight.c:56:69: error: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 3 [-Werror=format-truncation=]
-drivers/net/ethernet/freescale/fs_enet/mii-fec.c:114:13: warning: assignment to 'struct fec_info *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-drivers/remoteproc/xlnx_r5_remoteproc.c:914:11: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+Thanks a lot for your patch.
 
-Error/Warning ids grouped by kconfigs:
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- alpha-randconfig-r112-20240423
-|   `-- kernel-bpf-verifier.c:sparse:sparse:cast-truncates-bits-from-constant-value-(fffffffc00000000-becomes-)
-|-- alpha-randconfig-r122-20240423
-|   `-- kernel-bpf-verifier.c:sparse:sparse:cast-truncates-bits-from-constant-value-(fffffffc00000000-becomes-)
-|-- alpha-randconfig-r133-20240423
-|   `-- kernel-bpf-verifier.c:sparse:sparse:cast-truncates-bits-from-constant-value-(fffffffc00000000-becomes-)
-|-- arm-allmodconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- csky-allmodconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- csky-allyesconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- loongarch-allmodconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- microblaze-allmodconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- microblaze-allyesconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- mips-ip27_defconfig
-|   `-- arch-mips-sgi-ip27-ip27-irq.c:warning:unused-variable-i
-|-- openrisc-allyesconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- parisc-allmodconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   |-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|   `-- drivers-gpu-drm-nouveau-nvif-object.c:error:memcpy-accessing-or-more-bytes-at-offsets-and-overlaps-bytes-at-offset
-|-- parisc-allyesconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   |-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|   `-- drivers-gpu-drm-nouveau-nvif-object.c:error:memcpy-accessing-or-more-bytes-at-offsets-and-overlaps-bytes-at-offset
-|-- powerpc-allmodconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- powerpc-randconfig-002-20240423
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-calcs-dcn_calc_auto.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-calcs-dcn_calc_math.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-calcs-dcn_calcs.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn20-dcn20_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn20-display_mode_vba_20.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn20-display_mode_vba_20v2.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn20-display_rq_dlg_calc_20.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn20-display_rq_dlg_calc_20v2.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn21-display_mode_vba_21.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn21-display_rq_dlg_calc_21.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn30-dcn30_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn30-display_mode_vba_30.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn30-display_rq_dlg_calc_30.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn301-dcn301_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn302-dcn302_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn303-dcn303_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn31-dcn31_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn31-display_mode_vba_31.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn31-display_rq_dlg_calc_31.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn314-dcn314_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn314-display_mode_vba_314.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn314-display_rq_dlg_calc_314.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn32-dcn32_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn32-display_mode_vba_32.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn32-display_mode_vba_util_32.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn32-display_rq_dlg_calc_32.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn321-dcn321_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn35-dcn35_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn351-dcn351_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-display_mode_vba.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dml1_display_rq_dlg_calc.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dsc-rc_calc_fpu.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml2-display_mode_core.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml2-display_mode_util.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml2-dml2_mall_phantom.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml2-dml2_policy.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml2-dml2_translation_helper.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml2-dml2_utils.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml2-dml2_wrapper.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|   `-- powerpc-linux-ld:drivers-gpu-drm-amd-amdgpu-..-display-dc-dml2-dml_display_rq_dlg_calc.o-uses-hard-float-drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_helpers.o-uses-soft-float
-|-- powerpc-randconfig-c042-20220829
-|   `-- drivers-net-ethernet-freescale-fs_enet-mii-fec.c:warning:assignment-to-struct-fec_info-from-int-makes-pointer-from-integer-without-a-cast
-|-- riscv-buildonly-randconfig-r003-20220906
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:___drm_dbg-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:__dquot_alloc_space-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:__dquot_free_space-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:__dquot_transfer-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:__drm_dev_dbg-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:__drm_printfn_dbg-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:__io_uring_register-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:__v4l2_fwnode_endpoint_parse-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:_genpd_power_off-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:_genpd_power_on-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:acquire_ipmi_user-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:add_master_key-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:add_new_master_key-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:address_val-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:affine_move_task-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:balance_push-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:bcma_pmu_init-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:bitmap_list_string-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:bpf_cgroup_link_fill_link_info-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:bpf_cgroup_link_release-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:bpf_cgroup_link_show_fdinfo-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:bpf_map_fd_get_ptr-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:bpf_map_meta_alloc-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:bstr_printf-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup1_get_tree-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup1_reconfigure-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup_bpf_link_attach-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup_bpf_prog_attach-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup_bpf_prog_detach-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup_bpf_prog_query-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup_bpf_release-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup_bpf_replace-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup_iter_seq_stop-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup_mutex-(section:.data)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cgroup_storage_map_free-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:check_pointer-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:class_srcu_destructor-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:clock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:connector_bad_edid-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:console_device-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:console_flush_all-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:console_flush_on_panic-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:console_srcu_read_lock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:console_srcu_read_unlock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:console_unblank-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cpu_cluster_pm_enter-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cpu_pm_enter-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cpu_pm_suspend-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:cpuhp_hp_states-(section:.data)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:default_pointer-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:deliver_response-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:device_links_read_lock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:device_links_read_unlock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:device_node_string-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:device_pm_move_to_tail-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:device_wakeup_arm_wake_irqs-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:device_wakeup_disarm_wake_irqs-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:devm_thermal_of_zone_release-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:dma_direct_mmap-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:do_fcntl-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:do_remove_key-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:dquot_alloc_inode-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:dquot_claim_space_nodirty-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:dquot_free_inode-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:dquot_reclaim_space_nodirty-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_atomic_commit-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_atomic_helper_check_plane_state-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_crtc_accurate_vblank_count-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_crtc_vblank_helper_get_vblank_timestamp_internal-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_dev_enter-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_dev_exit-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_dp_i2c_do_msg-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_gem_simple_kms_reset_shadow_plane-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_minor_acquire-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_mode_is_420-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_of_component_match_add-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_of_component_probe-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_test_rect_rotate_inv-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:drm_vblank_restore-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:dw_hdmi_bridge_atomic_get_output_bus_fmts-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:escaped_string-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:etnaviv_buffer_queue-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:etnaviv_pdev_probe-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:event_gb_operation_create_core-(section:.data)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:event_xdp_exception-(section:.data)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:file_dentry_name-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:flags_string-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:format_decode-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fscrypt_ioctl_get_key_status-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fscrypt_put_master_key_activeref-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fscrypt_setup_encryption_info-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fscrypt_verify_key_added-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fsnotify-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fsnotify_destroy_group-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fsnotify_finish_user_wait-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fsnotify_grab_connector-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fsnotify_prepare_user_wait-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fwnode_graph_devcon_matches-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fwnode_graph_get_endpoint_by_id-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fwnode_graph_get_endpoint_count-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fwnode_graph_get_next_endpoint-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:fwnode_graph_get_remote_port_parent-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gb_operation_create_core-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpio_device_chip_cmp-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpio_device_find-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpio_name_to_desc-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpio_set_config_with_argument-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpio_set_open_drain_value_commit-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpio_set_open_source_value_commit-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpio_to_desc-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiochip_dup_line_label-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiochip_machine_hog-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_configure_flags-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_direction_input-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_direction_output-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_direction_output_raw_commit-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_disable_hw_timestamp_ns-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_enable_hw_timestamp_ns-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_find_and_request-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_free_commit-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_get_array_value_complex-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_get_direction-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_get_raw_value_commit-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_hog-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_request-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_request_commit-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_set_array_value_complex-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_set_config-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_set_raw_value_commit-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiod_to_irq-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiolib_dbg_show-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiolib_seq_show-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiolib_seq_start-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:gpiolib_seq_stop-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:handle_new_recv_msgs-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:handle_read_event_rsp-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:iio_buffer_update_demux-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:iio_compute_scan_bytes-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:iio_dev_attr_in_accel_scale_available-(section:.data)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:iio_dev_attr_in_magn_scale_available-(section:.data)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ip4_addr_string_sa-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ip4_string-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ip6_addr_string_sa-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ip_addr_string-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_create_user-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_get_maintenance_mode-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_get_my_LUN-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_get_my_address-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_get_smi_info-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_get_version-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_request_settime-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_request_supply_msgs-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_set_gets_events-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_set_maintenance_mode-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_set_my_LUN-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_set_my_address-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ipmi_timeout-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:lease_setup-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:lm3533_als_get_zone-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:lm3533_als_isr-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:lm3533_als_read_raw-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:lm3533_als_set_threshold-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:lm3533_ctrlbank_get_brightness-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:lm3533_ctrlbank_get_pwm-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:mac_address_string-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:match_fwnode-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:media_entity_get_fwnode_pad-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:migration_cpu_stop-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:mipi_dbi_pipe_reset_plane-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:mipi_dbi_spi1_transfer-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:mipi_dbi_spi1e_transfer-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:mmap_vmcore-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:nr_msgs_show-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:pcmcia_bus_early_resume-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:pcmcia_bus_remove-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:perf_init_event-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:pinconf_generic_dump_one-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:pm_print_active_wakeup_sources-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:pm_qos_resume_latency_us_store-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:pointer-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:process_single_tx_qlock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:pull_dl_task-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:push_rt_task-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:rcu_early_boot_tests-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:read_from_oldmem-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:resolve_pseudo_ldimm64-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:restricted_pointer-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:rtc_str-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:sched_balance_rq-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:should_fail-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:show_als_attr-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:show_als_en-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:show_linear-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:show_thresh_either_en-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:show_zone-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:sil164_encoder_init-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:sil164_probe-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:srcu_notifier_call_chain-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:srcu_read_lock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:srcu_read_unlock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:srcu_ref_scale_delay_section-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:srcu_ref_scale_read_section-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:srcu_scale_read_lock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:srcu_scale_read_unlock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:srcu_torture_read_lock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:srcu_torture_read_unlock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:stack_depot_save-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:stm_source_link_show-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:stm_source_write-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:tda18271_rf_tracking_filters_init-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:tda18271c2_rf_tracking_filters_correction-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:thermal_of_zone_register-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:time_and_date-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:traceoff_count_trigger-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:traceoff_trigger-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:traceon_count_trigger-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:traceon_trigger-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:ubi_notify_add-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:uts_sem-(section:.data)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:uuid_string-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:v4l2_fwnode_parse_link-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:va_format-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:vbin_printf-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:vscnprintf-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:vsnprintf-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:wakeup_sources_read_lock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:wakeup_sources_read_unlock-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:wakeup_sources_stats_seq_start-(section:.text)-.-(section:.init.text)
-|   |-- WARNING:modpost:vmlinux:section-mismatch-in-reference:wakeup_sources_stats_seq_stop-(section:.text)-.-(section:.init.text)
-|   `-- WARNING:modpost:vmlinux:section-mismatch-in-reference:xas_store-(section:.text)-.-(section:.init.text)
-|-- s390-allyesconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- sparc-allmodconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-|-- sparc64-allmodconfig
-|   |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-|   `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-`-- sparc64-allyesconfig
-    |-- drivers-gpu-drm-imx-ipuv3-imx-ldb.c:error:_sel-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
-    `-- drivers-gpu-drm-nouveau-nouveau_backlight.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
-clang_recent_errors
-|-- arm64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dce110-irq_service_dce110.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-amd_asic_type-and-enum-amd_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras.c:error:arithmetic-between-different-enumeration-types-(-enum-amdgpu_ras_block-and-enum-amdgpu_ras_mca_block-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-gpu-drm-i915-display-intel_cursor.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-phy-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_dpll_mgr.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-intel_dpll_id-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_hotplug.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_pipe_crc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_tc.c:error:arithmetic-between-different-enumeration-types-(-enum-intel_display_power_domain-and-enum-tc_port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_vdsc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_universal_plane.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_watermark.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   |-- drivers-gpu-drm-radeon-radeon_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-radeon_family-and-enum-radeon_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-renesas-rcar-du-rcar_cmm.c:error:unused-function-rcar_cmm_read-Werror-Wunused-function
-|   |-- drivers-remoteproc-xlnx_r5_remoteproc.c:warning:variable-ret-is-used-uninitialized-whenever-if-condition-is-false
-|   |-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-zone_stat_item-and-enum-numa_stat_item-)-Werror-Wenum-enum-conversion
-|-- arm64-allyesconfig
-|   `-- drivers-remoteproc-xlnx_r5_remoteproc.c:warning:variable-ret-is-used-uninitialized-whenever-if-condition-is-false
-|-- hexagon-allmodconfig
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- include-asm-generic-io.h:error:performing-pointer-arithmetic-on-a-null-pointer-has-undefined-behavior-Werror-Wnull-pointer-arithmetic
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|-- hexagon-allyesconfig
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- include-asm-generic-io.h:error:performing-pointer-arithmetic-on-a-null-pointer-has-undefined-behavior-Werror-Wnull-pointer-arithmetic
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|-- powerpc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-amd_asic_type-and-enum-amd_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras.c:error:arithmetic-between-different-enumeration-types-(-enum-amdgpu_ras_block-and-enum-amdgpu_ras_mca_block-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   |-- drivers-gpu-drm-radeon-radeon_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-radeon_family-and-enum-radeon_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-zone_stat_item-and-enum-numa_stat_item-)-Werror-Wenum-enum-conversion
-|-- riscv-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dce110-irq_service_dce110.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-amd_asic_type-and-enum-amd_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras.c:error:arithmetic-between-different-enumeration-types-(-enum-amdgpu_ras_block-and-enum-amdgpu_ras_mca_block-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-gpu-drm-i915-display-intel_cursor.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-phy-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_dpll_mgr.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-intel_dpll_id-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_hotplug.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_pipe_crc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_tc.c:error:arithmetic-between-different-enumeration-types-(-enum-intel_display_power_domain-and-enum-tc_port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_vdsc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_universal_plane.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_watermark.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   |-- drivers-gpu-drm-radeon-radeon_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-radeon_family-and-enum-radeon_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-zone_stat_item-and-enum-numa_stat_item-)-Werror-Wenum-enum-conversion
-|-- riscv-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dce110-irq_service_dce110.c:error:arithmetic-between-different-enumeration-types-(-enum-dc_irq_source-and-enum-irq_type-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-amd_asic_type-and-enum-amd_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras.c:error:arithmetic-between-different-enumeration-types-(-enum-amdgpu_ras_block-and-enum-amdgpu_ras_mca_block-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   |-- drivers-gpu-drm-radeon-radeon_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-radeon_family-and-enum-radeon_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-zone_stat_item-and-enum-numa_stat_item-)-Werror-Wenum-enum-conversion
-|-- s390-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-amd_asic_type-and-enum-amd_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras.c:error:arithmetic-between-different-enumeration-types-(-enum-amdgpu_ras_block-and-enum-amdgpu_ras_mca_block-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_cursor.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-phy-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_dpll_mgr.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-intel_dpll_id-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_hotplug.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_pipe_crc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_tc.c:error:arithmetic-between-different-enumeration-types-(-enum-intel_display_power_domain-and-enum-tc_port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_vdsc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_universal_plane.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_watermark.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   |-- drivers-gpu-drm-radeon-radeon_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-radeon_family-and-enum-radeon_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- include-asm-generic-io.h:error:performing-pointer-arithmetic-on-a-null-pointer-has-undefined-behavior-Werror-Wnull-pointer-arithmetic
-|   |-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-zone_stat_item-and-enum-numa_stat_item-)-Werror-Wenum-enum-conversion
-|-- x86_64-allnoconfig
-|   |-- Warning:MAINTAINERS-references-a-file-that-doesn-t-exist:Documentation-devicetree-bindings-display-exynos
-|   |-- Warning:MAINTAINERS-references-a-file-that-doesn-t-exist:Documentation-devicetree-bindings-reserved-memory-qcom
-|   `-- net-ipv6-udp.c:trace-events-udp.h-is-included-more-than-once.
-`-- x86_64-allyesconfig
-    |-- drivers-gpu-drm-bridge-synopsys-dw-hdmi-i2s-audio.c:error:unused-function-hdmi_read-Werror-Wunused-function
-    |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-    |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-    |-- drivers-gpu-drm-kmb-kmb_dsi.c:error:unused-function-set_test_mode_src_osc_freq_target_hi_bits-Werror-Wunused-function
-    |-- drivers-gpu-drm-kmb-kmb_dsi.c:error:unused-function-set_test_mode_src_osc_freq_target_low_bits-Werror-Wunused-function
-    `-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
+I already merged your patch into the asdn.
 
-elapsed time: 732m
+Thanks
+Siqueira
 
-configs tested: 179
-configs skipped: 3
 
-tested configs:
-alpha                            alldefconfig   gcc  
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240423   gcc  
-arc                   randconfig-002-20240423   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                        clps711x_defconfig   clang
-arm                                 defconfig   clang
-arm                         orion5x_defconfig   clang
-arm                   randconfig-001-20240423   clang
-arm                   randconfig-002-20240423   clang
-arm                   randconfig-003-20240423   clang
-arm                   randconfig-004-20240423   gcc  
-arm                        spear3xx_defconfig   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240423   clang
-arm64                 randconfig-002-20240423   gcc  
-arm64                 randconfig-003-20240423   clang
-arm64                 randconfig-004-20240423   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240423   gcc  
-csky                  randconfig-002-20240423   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240423   clang
-hexagon               randconfig-002-20240423   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240423   clang
-i386         buildonly-randconfig-002-20240423   clang
-i386         buildonly-randconfig-003-20240423   gcc  
-i386         buildonly-randconfig-004-20240423   clang
-i386         buildonly-randconfig-005-20240423   clang
-i386         buildonly-randconfig-006-20240423   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240423   gcc  
-i386                  randconfig-002-20240423   gcc  
-i386                  randconfig-003-20240423   clang
-i386                  randconfig-004-20240423   gcc  
-i386                  randconfig-005-20240423   clang
-i386                  randconfig-006-20240423   clang
-i386                  randconfig-011-20240423   gcc  
-i386                  randconfig-012-20240423   clang
-i386                  randconfig-013-20240423   clang
-i386                  randconfig-014-20240423   gcc  
-i386                  randconfig-015-20240423   gcc  
-i386                  randconfig-016-20240423   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240423   gcc  
-loongarch             randconfig-002-20240423   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                           gcw0_defconfig   clang
-mips                           ip27_defconfig   gcc  
-mips                           rs90_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240423   gcc  
-nios2                 randconfig-002-20240423   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240423   gcc  
-parisc                randconfig-002-20240423   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                          g5_defconfig   gcc  
-powerpc                      pmac32_defconfig   clang
-powerpc               randconfig-001-20240423   gcc  
-powerpc               randconfig-002-20240423   gcc  
-powerpc               randconfig-003-20240423   clang
-powerpc                     skiroot_defconfig   clang
-powerpc64             randconfig-001-20240423   gcc  
-powerpc64             randconfig-002-20240423   clang
-powerpc64             randconfig-003-20240423   clang
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240423   gcc  
-riscv                 randconfig-002-20240423   gcc  
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240423   clang
-s390                  randconfig-002-20240423   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                            hp6xx_defconfig   gcc  
-sh                          polaris_defconfig   gcc  
-sh                          r7785rp_defconfig   gcc  
-sh                    randconfig-001-20240423   gcc  
-sh                    randconfig-002-20240423   gcc  
-sh                          rsk7264_defconfig   gcc  
-sh                           se7722_defconfig   gcc  
-sh                              ul2_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240423   gcc  
-sparc64               randconfig-002-20240423   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240423   gcc  
-um                    randconfig-002-20240423   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240423   clang
-x86_64       buildonly-randconfig-002-20240423   clang
-x86_64       buildonly-randconfig-003-20240423   gcc  
-x86_64       buildonly-randconfig-004-20240423   gcc  
-x86_64       buildonly-randconfig-005-20240423   clang
-x86_64       buildonly-randconfig-006-20240423   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240423   clang
-x86_64                randconfig-002-20240423   gcc  
-x86_64                randconfig-003-20240423   gcc  
-x86_64                randconfig-004-20240423   gcc  
-x86_64                randconfig-005-20240423   gcc  
-x86_64                randconfig-006-20240423   gcc  
-x86_64                randconfig-011-20240423   gcc  
-x86_64                randconfig-012-20240423   gcc  
-x86_64                randconfig-013-20240423   clang
-x86_64                randconfig-014-20240423   clang
-x86_64                randconfig-015-20240423   clang
-x86_64                randconfig-016-20240423   gcc  
-x86_64                randconfig-071-20240423   clang
-x86_64                randconfig-072-20240423   clang
-x86_64                randconfig-073-20240423   clang
-x86_64                randconfig-074-20240423   gcc  
-x86_64                randconfig-075-20240423   gcc  
-x86_64                randconfig-076-20240423   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                  audio_kc705_defconfig   gcc  
-xtensa                randconfig-002-20240423   gcc  
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
