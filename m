@@ -2,179 +2,181 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A618ADA36
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 02:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E418ADA43
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 02:09:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B81910F91F;
-	Tue, 23 Apr 2024 00:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 379A610F95A;
+	Tue, 23 Apr 2024 00:09:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fK8CbVzs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XVRbFaSD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E06710ED2A;
- Tue, 23 Apr 2024 00:08:00 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7992910F95A;
+ Tue, 23 Apr 2024 00:09:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713830881; x=1745366881;
+ t=1713830950; x=1745366950;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=sfxF2w5GfUKuqL4R6Rfpdv26yZSo6aVEgYYiMNEJgH0=;
- b=fK8CbVzs4f9jvamV621NeiiqZ9WH+WLEehAnxtDI1Q/DuJ8TQqkzjd8j
- uraKMf/CrCDz3iaECoVDZ5ALeMu5WGm3K20jyp45r8jMDCFQZ2vhTdVhn
- T6L3+390lHHARDvORNzs4ZCUg6f57yJXD3MSKwn6Qvb+at2rKvVr0PZxS
- tLpA7ZADTIbDoXGtgb9ISI9iZCn9Idua+qGZ/zOCt7bjVcLosmjjJWBGT
- 2yrhl4mBuSzqB9RC75NU3k8ykJv3VMZvlZSp5v60wsc+wWFzh/AwltNyk
- mf/hBMWleETIzPBBdrPd25fmVtbt8/+Ll/gVCk+V4q6Fj9Qo0PXwuYFo5 g==;
-X-CSE-ConnectionGUID: k9wMSKAxSUe8AgEf3K5yRQ==
-X-CSE-MsgGUID: gkiQRpdATB6dDnL8XBnpMA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="34794203"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="34794203"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2024 17:08:00 -0700
-X-CSE-ConnectionGUID: M2P8ySBATlyy4OcuEpXyeQ==
-X-CSE-MsgGUID: IjD2E2OgRo+tjLD/nomk6g==
+ bh=kZ47ZVN1jww+aBpdAduOUIEB82tPq7IamCiGAWwTZnc=;
+ b=XVRbFaSD2s/SZPxaz1j6f1mVWdS+Voxi562eFRZWzzR0EjxYxpfyUEIK
+ pYnxIL9pkWPAdh2YsgoPPfzviUbOgJDu9ModyS/HC+pWNQo3xizIwBY2V
+ WVuH1HOmw5tIqwF1cKdQMt86vffSlYdpv5u/zfKm/cL8klQZr0Jl13CDA
+ +HA2AoU2VCVHVRjPe7f7T9nH5zSNo5qko07Wlgj+4XY+oNGXuok0iPQCg
+ MVJR0FZWaKUQGMLaGDJdD9NA1p1EACb1ESKSa4cD9ZbIUulE5lPJiZfj9
+ xyjXGNeaX5n/plSU2c9oUmvoiJvqt9tXPhufVqoUEldG6MeGuyUk79CUc w==;
+X-CSE-ConnectionGUID: 49e636VPSHCoImmmUFTdPg==
+X-CSE-MsgGUID: sAjlCBpRROiBKKVvkxUPdw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="31885217"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="31885217"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2024 17:09:09 -0700
+X-CSE-ConnectionGUID: qya9f9OZTfmVV/ME7SKdmA==
+X-CSE-MsgGUID: Z2l/xKGGQ96t7xsB1hBd6w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="24053763"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 22 Apr 2024 17:08:01 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="24254079"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 22 Apr 2024 17:09:09 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 22 Apr 2024 17:07:59 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.35; Mon, 22 Apr 2024 17:09:08 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 22 Apr 2024 17:07:59 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.35 via Frontend Transport; Mon, 22 Apr 2024 17:09:08 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 22 Apr 2024 17:07:59 -0700
+ 15.1.2507.35; Mon, 22 Apr 2024 17:09:08 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U2WrNyjn29RdHHmkNglURAHdxuVrmGc9eBLkR86gWbLb1ncRFZHK3Q+DlAoIUk8rVI3QICc9Aeju0XG4hkJrK15x5zYulBw2SCJxHz29CZoARlXXc3BUGwDteAyvRX2NdqXRhen5hY5wP4I6lOSyTKxfcmHIYa3INWgwO64C9XpO1i9jxbXoG0PKJRr4RZRwjtoRUimlnf9wfwIUR9VAjOG5pci9xG3mxRXUJyBYvtsuPESus44uYLNjDfuYNBx3izpO90AHvnOyXtlGotwjh1//WRuCL7S70wuATFbARutZVZ4+QhbNnb1ZySJStSjf1COD0Do8fx26JBOfB7OMFA==
+ b=PJRq1m0GQQBFoYZdPWUyzzzR4v2XLUfZmreTAX4CeXsGEWGA7o9VBRuX/8pSGB8i8DFG1copsXqncpa07F97BAlhw74LGPFaVYjg0J6fIY168t052A+VqEPm48uPSFI26TGMhAybEOAN02YMWDMQjh6DIkKETX+YIQGNjvvHunHz1IOlZpDXk4HYWcYZUgBzDLjxqdA5mEFbF74hviBycDJ/kMTUWxQmo5wvuUPtK2Gs5uZkioHA4c0Wjb8vx55CUo4KkEKp4y9tS6Cng70J25rU38OsS8gTXG7+2bQGuvGE35kAcXlYH4MLrLSAE8u1LyFne1re0lr0YnOBkirrJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=edxWkvySmJHsHjjPNGuZRzMXL1TrMh3Cbr+vmJ+6Q2E=;
- b=gcBUw77Wd7Wt1LodlS4Xupl0sr6TI5IYCtWoPhmD6bHK97EESQH+f9eCZQdY3gzAKSVcJm2h7HnuM72IEV790LvspJx5gtei7kuXtoW0uvzJ6Pd4Mab0sQ6P8Ovy3WkCUT/wRtide92CRvJfEkFeoQyXt9Xq/lhpmzAHGvm4YMYRbWPo/xeUcJD1+9d0EwUA90ZW1uRpKa+JO36KWNGAuDcudPxwuhTKEV/8MrBA0vEOXJ7/wNtY+jVKclNywgTEApFpfwYjDM2uSzlnQzVMDDOKqXUClWHyNUPKhETCqF1B1JMFWrQ5yNNdNbdAvJbGaZU7i6/iEP1AihHgAJX6Xg==
+ bh=5jUw6bkIswdWYiXDmxz+uXHLcaecpf1jyaaadjlGpQY=;
+ b=kPvpKpKnzVjiexcjwmregzpB8GSA+78Jm5sm8NUkx5rYw2AEp08t229fyWUBlpnaki9c8aL1WRdLyoXrnyBWyem51Ye0/gVv87UQaNuX3hzNlGRxPcR7+uCiRGDhTFCrqmdTdcS6GBbQ+FLXqp1FQUE5kIlZf9GNYNxi21cMzKvwf8uX3++u/vhw7G47+8vS4HtKhNG7jELHSzQ2ardUvxG6AZ8A6jUqNIHFFpJJ2BIxlLL4kJu+hYn6wFCytK+qxV6qnpN1zjrr49BQFX7jdncmWF3LAjcvSjCxZ9FvruxhvNNbH392a36FyTnO+9r/BEazTpjGJhwCY2wZDt+Y8Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CH3PR11MB8441.namprd11.prod.outlook.com (2603:10b6:610:1bc::12)
- by IA1PR11MB7295.namprd11.prod.outlook.com (2603:10b6:208:428::15)
+ by CH0PR11MB5249.namprd11.prod.outlook.com (2603:10b6:610:e0::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.20; Tue, 23 Apr
- 2024 00:07:56 +0000
+ 2024 00:09:06 +0000
 Received: from CH3PR11MB8441.namprd11.prod.outlook.com
  ([fe80::71ea:e0ea:808d:793b]) by CH3PR11MB8441.namprd11.prod.outlook.com
  ([fe80::71ea:e0ea:808d:793b%4]) with mapi id 15.20.7519.018; Tue, 23 Apr 2024
- 00:07:56 +0000
-Message-ID: <9012795b-3a21-46ac-b262-7e993c977771@intel.com>
-Date: Mon, 22 Apr 2024 17:07:54 -0700
+ 00:09:06 +0000
+Message-ID: <f09af7b9-90a0-47a8-917d-c028d9a9c1fa@intel.com>
+Date: Mon, 22 Apr 2024 17:09:02 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm/i915: Refactor confusing __intel_gt_reset()
+Subject: Re: [PATCH v2 2/2] drm/i915: Fix gt reset with GuC submission is
+ disabled
 To: Nirmoy Das <nirmoy.das@intel.com>, <intel-gfx@lists.freedesktop.org>
 CC: <dri-devel@lists.freedesktop.org>
 References: <20240422201951.633-1-nirmoy.das@intel.com>
+ <20240422201951.633-2-nirmoy.das@intel.com>
 Content-Language: en-GB
 From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <20240422201951.633-1-nirmoy.das@intel.com>
+In-Reply-To: <20240422201951.633-2-nirmoy.das@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR03CA0018.namprd03.prod.outlook.com
- (2603:10b6:a02:a8::31) To CH3PR11MB8441.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR13CA0057.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::32) To CH3PR11MB8441.namprd11.prod.outlook.com
  (2603:10b6:610:1bc::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8441:EE_|IA1PR11MB7295:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe062a3d-84f2-45ba-401e-08dc63296daf
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8441:EE_|CH0PR11MB5249:EE_
+X-MS-Office365-Filtering-Correlation-Id: 810ce7a9-04d1-4691-3d5f-08dc6329971a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NTduQTlNNWEwYXFMTzJJS0d6VjNkWU9weEJ0bFZCVXRYdytXRFNZN0VkM3BO?=
- =?utf-8?B?eUdwM1lqQzlxUEhnVWhyY2xZeHEwWHU5Ym1Qbm1GN2RYeEQ2aEVmdXlBaFN5?=
- =?utf-8?B?b21iMUs0ejlqN2VtTFJ6M1lIUGFnSzVBb3FBZmkzbkdoc0xHcHExRVRjZ0lp?=
- =?utf-8?B?aERURDZUL1J0Y3FENGNMOHdNMmtWZ3JhOGpkU2JlVkhta3A1Mnk1YjFKaE40?=
- =?utf-8?B?Tm44N0EwZDhOWU5qZk9MZXh2ZHZZTUd1SGFtcm5ISmRUeUM5WjRUWXMxMHUx?=
- =?utf-8?B?b3ZzbGZKWUtQYlBkeDROMFM2NVhOcGxVUzFzcGt4VmxheEF0RVplTlhGTHYz?=
- =?utf-8?B?NVF3Rlh1SFhIUW52U2tZWXVYNGJsbnhkLzIvQUtDY05EQmZpWlg0Yy94UEVj?=
- =?utf-8?B?OVNZVmVmOEkwTzFWSWRjNWMvQWpYcU4zTGJ6SVlEOHZwQnk1QnFadm9YK0hz?=
- =?utf-8?B?TFVDWHBYeE5ma21ZTTA3cVJtY1NSSlVnbGtWR0JEaldzeDFOUENrelBJSmZB?=
- =?utf-8?B?eUhOR2R5Y3VRbUJJUHdyczVKNWR6VGw3bVR4NWVVTVpiVW5HWlZoOGxKRHVB?=
- =?utf-8?B?ZkpUbWt5SkwxRmpNOU9zeVkwSHBMdStLNVZZeDAveUdFM0dXeGRPMjBpWUQw?=
- =?utf-8?B?NE1ybFR4WHJwdkJrQmUrcThCWDhPY2xMcDNCYU1KdDFUUzJmOU04T3BnKzRq?=
- =?utf-8?B?QVhYOTBVTk8rdXNWaW83N0cyRjFpUXcrTTNFNTAra01DeWhVRklYdTdPMjlY?=
- =?utf-8?B?SmlJV0tYdWlIWndtT2IwRThwWnY0WWpXMHFicjlXV3BkYXB4RHZiMFoxOUor?=
- =?utf-8?B?dGFnb2hacDFLRmIzdVlnSGNhYlZNOTA3OUZqVlNURzdFZEphOHFOSXpRU2sv?=
- =?utf-8?B?QTE2aDF0NHQxcjhtdlYrR1BKTW1lV29wNXVEM3RESDlkZ1FMYVI0clpuQ0dG?=
- =?utf-8?B?L1A4SHpldEJ3cmQ2UHAybk9ySFA1K0dBcWZSNGFUc1RFYjVyQldob25vY3Vq?=
- =?utf-8?B?MXZrNzZnQ2ZTN29KODB3aWZOMUUxckFON2ZBS3NFMUdDd3hHNGlRa3FGdGRP?=
- =?utf-8?B?UHo3VFpQdE5oTmFxMWszNkVBSGw0UlVFa0pJQW5PbFA2Q1hjTzNqd3Mva3B2?=
- =?utf-8?B?N201SlhQYVFVcVZBYWgyQ0ZwWFhIYThmT0tYYTFvYVJRSW41SWlOdXY0VlI4?=
- =?utf-8?B?ZVhiNGZRVjc2UlBFa1BhandDYU5EMjJLNjFvMkNqaDRwM0FoTUhvU1N4R2Jx?=
- =?utf-8?B?K2w2dkdZczhKNFBhTzQwR1RpaXFacHE3b25zNHpUTDBNUU5OY2lGVXdEbUhH?=
- =?utf-8?B?WnRVcGlIbUVwY2NQY2IxV1lXeE1CcXlNdU03bHlEYjBYcnJ0Q1VrRDVTdnZE?=
- =?utf-8?B?bGowdVRNTmgvMDU1ZjhjVit3cXl3Y3FUTGY3NHppbDlJRTRTTWNOSnk1N2lW?=
- =?utf-8?B?Vm1aK2dyK0cvQXhydWtSa2M0MEJKVUMxNkJMUCszNHR1WDZTSTlUWm10SmRD?=
- =?utf-8?B?eUhZVWNrZE5wOUpTRkl0REhtaEw5S1VPeWEzaFNyOFBIN0hVNjREZVFrZWVj?=
- =?utf-8?B?Q2hNUWc2YmMyVUlVTmdTdlNYK2hnclVycURSWjN5WmZPKzVaNE5SZlBqM0Nn?=
- =?utf-8?B?cDhycDhyTzQ0S01GQ0QvVHQ2ampzWDNEYW95R21sQ0JHYi9xK1c0bml1a2FC?=
- =?utf-8?B?TC9Kd1RocmpJSEY3TzN3V3pOSTIyc200RnlQTnFkeG4ySW8yd1JNV3dRPT0=?=
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|1800799015;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eUlHc3pWbERVTkJEcGZsbVZRRWxHQ0JRMUpVNGt3Qk5rajBOZXZYRUVzQjJW?=
+ =?utf-8?B?MkdGZktxQ0hSQTV4alhTZWhGekw1dlUrdHV0ZUxGQnRrdXVjdkdObE9NVjJw?=
+ =?utf-8?B?cEdpN0R1YjA4LytxcWkrWWFkYXFRUW83ZFNOSnIvNmgxdHJjKzdoQXkwQVhk?=
+ =?utf-8?B?OVVOWmJHQWU4Z2N4NUR0S0pyUUVpVUhhdlpxZVNvWXNieUs0bVl3RGJLQmRx?=
+ =?utf-8?B?Y3FsZEhoU20rbjRhQ2Z3N2syeGlRN0dUcm96ZXlhbjQyUGhzQXlBSmNMVE93?=
+ =?utf-8?B?dTNJTkJVM3RYb09QaXhQSjBXb0k3NGhFdm01ZjZlcHRtNUtOTnpDcmQwRFZm?=
+ =?utf-8?B?TmtVay9raEVXbXYxSExhaVBBaDhLR21wNTF0aHRuVWNmSnZQeFJYNzFFOU12?=
+ =?utf-8?B?NnVNQ0tBN0x2VHFDeEN6d0hMQUlhNUQ4ZGdKYXpvLytXSFVYU0xwWDY5eWVQ?=
+ =?utf-8?B?SzlxeGRleC94QXMyTVFpcERSdFp3aUp5OTE2REFYQndScUtmZkhUN1U0Z3Jm?=
+ =?utf-8?B?MUpsc2lMcjE5TzN1QVd5Y0VKa3pkQi9hc1R5WHplbjBpZWF0WHZjSzZFeEpo?=
+ =?utf-8?B?dXVEaUNKdS9LM0I5MkMyNzZRaEh5NnJCSHV4TkdzbmZHRmNCMVEzQVhyKzBl?=
+ =?utf-8?B?MjMycTJ3SXgxbWNkczkwUXF1OVpLdHlUcU9qUHRhZnRCRzBvNlY0Rys3QzFh?=
+ =?utf-8?B?QVV6OWhMa0JUQmFNK0FkcEgwSzJKL3N5QTVCVFZUdmQ0RUdZT1dCMDFTcGRO?=
+ =?utf-8?B?L0NQL1lYNzlMZjhFcDQ2cERQSmlRU2l0ZmRORzc3Q3AvVkM3WWJhM0FvOWcv?=
+ =?utf-8?B?VmNBRUVMYkpKMHNxbkwxOWwxUzlTUDlhanJsUlNXeXMzOEFzN0pqTUtBc1FD?=
+ =?utf-8?B?WGo0Z2JjQ0lkQlQ1NGtSZEZDT09lcXQzSzZUby95QXhNdzZHeGlIaFl4YzNP?=
+ =?utf-8?B?R3k0WmlrZlhGZGU5TUFBOTdUNVZIdk81TlN4MjMxUGkxTU1vQjRxL0pBeHhG?=
+ =?utf-8?B?U2EwZy9yK2FBZnFiSTVZVUE3K3Z3QUNINUxKLy9LWHMrSzFEdk9wTEFmK0NC?=
+ =?utf-8?B?aFFZSlVRSzFaU1JkN1pBNUdsVGNsQUdzR1lGWDMrOWpnaWVNdFc5SFE0Z2NX?=
+ =?utf-8?B?WXNOKzNCb2t2WGxTbko2VWdBQkRHVGtjWDYvNmhHRDRRd2RsdkZISklsVnVN?=
+ =?utf-8?B?VzQ4UCtpZE1BM2t5OUJCbmhrM0hMajJwaEVuQ3FkZWt5V29IdjRUWWU5U3lF?=
+ =?utf-8?B?NlprK3VUT00xVTgwR25Cdm9XdHNncFdZVGtkOTVjUVdnMWVHVUNtZ3RpcGhK?=
+ =?utf-8?B?N0trdGdTeWppY3ZaOG92RlVIRGZxVjNoeGdlbHgyV3N6SkRJZkl6VGFON2px?=
+ =?utf-8?B?WW9QbDcyYW1IdmJMUGpvVjRqUmhDWHJHVjI0VGtBM24xSVBqakZEYXpzbGtP?=
+ =?utf-8?B?K1lmaWdxdnVjaEpYQkRUZjVrd0ducCt6WlBQQUhDcXpYakU2WW1FRzVYTjBz?=
+ =?utf-8?B?RnkwalkzdlNUR0F6cEZuNkdwMjJBVDdJZ3dNREZOazdlaVB5VW9ZRW83MWFy?=
+ =?utf-8?B?TlAwZG9GUG1QenNOYjU3VGUwRTV1Tis1YU5WVFArVFVrNTlTbGhHcUMrR0Zo?=
+ =?utf-8?B?QWgwQlNqTjNFZTJRNlkvVFJ6ci8xMzB0b1F5cjI4SWpXSm91RHdQeXU4Y0p1?=
+ =?utf-8?B?SDU4UHc5bko2MStjVFhzeDlHVWtnNE9mRDVVOXRyRGpZbld0bnBQRjBBPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH3PR11MB8441.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(376005)(1800799015); DIR:OUT; SFP:1101; 
+ SFS:(13230031)(376005)(366007)(1800799015); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RHlaaUlmaUc2Y2hyZkFiU2xiVTFkcDhhWTNVQW41NE1sL2JyajZ4UVFOazl5?=
- =?utf-8?B?OXAvL3pFeG1PQXJ3YjZtampqbzhEL2EzY3E0NTAzdlk3QWxrM3ErUGduRHA1?=
- =?utf-8?B?THZXOXhlUVIwdW4rc21HOEFabkFrNTBsQ0p2REtEcWd1SDYwMjZUeHhYcDg5?=
- =?utf-8?B?OGlFRnQ0UDlsb3Z4SDdhU0pkODQweVRJZ1VqUjBFNjBhQzBwZFdHbkRRWnF1?=
- =?utf-8?B?ZkxLSFRGRGdrd1FaREpzMXQ2L1ZXN1YrTlZaNjBnREpsK0xuOHp5R2VCR1dr?=
- =?utf-8?B?MGF4RnlkeWRtaWR5MHpNN1p1Y0FxT3hqY1A4UkhiZm1CNHp2SXpOdXB5RFFl?=
- =?utf-8?B?MC8wUGgvc3V5dHhUcjVwTUZRZ1d4NHVPOTFubjh1S2ZGVXEvUkFGUVY5aTBk?=
- =?utf-8?B?V3BjMXliSXhzZ3F1aUpwKzRLMmJMci9HREVndVlRdlQvVlprTG5HbWRBY0o0?=
- =?utf-8?B?TUhrMGgrK3U5eWJ3SWl2dXVINStRYmR0aWRncTlKb0NzR1U0Y1dHc2JoWVJC?=
- =?utf-8?B?ZUFVYk95RVFYRHlwck1uRXJPVE9mZVlKY2x2WlRWZ0JxakROdnpsQ2F1TnRN?=
- =?utf-8?B?Rlg1ek9LZ0s0NnFFYzUzTy9aVVAvMXlLc3FWYkljRGdVaGN4TW9qTWN2U0RM?=
- =?utf-8?B?bHZhcTZKU0pZMDJaZVhPNEdmNUxzQk16QllpRFdHT3gvL1ZQU3FzcWZKMVAy?=
- =?utf-8?B?cStmQ2RqTGJ5NnE3U1VILzJmR1l5bE43clgrR3ZMZ2xFVGZ1amJ6M1NWOHBo?=
- =?utf-8?B?NmY1YU92Z3hkQ2F1MWNNZHJ6Slp6Rkk5eDd6YjZxWXVrMVNBTFBVdUVXQS9z?=
- =?utf-8?B?c3oxOXJrQWVaREtoQW9qQU92OFlrelBuaWQ2Y2k0dk8vVHpjb084NmJiTjAx?=
- =?utf-8?B?MDF3bklrSnlmWHBKSVd3ZTJIN1NNMm9SejRjMllJNGgvQkwxSFRycVRjL3ds?=
- =?utf-8?B?b3JSSGdmOUJkdkhveWNqN3BEV0lMU09kcGJlQlNVOXZlNWdqR1JlTVdzVWpt?=
- =?utf-8?B?cjVxUWVyYVlaTGlDenR5eDN5ZzliTWxhZDJPTWYwbjU2WkcxS2tKN295N0M2?=
- =?utf-8?B?M2o5UDlCTW42U0FLbGpaelNqM3Evbk9aMW96K1NoV0Qwd2Y1akZhdUdWMmxp?=
- =?utf-8?B?VlVseG4vek1iQjVZd1VPSTRLN3FQTWZuN2o0MHdHdW9PRVorcGg0alJEWUEv?=
- =?utf-8?B?c1hUdjJORWM3VjhnV1Q5T2VNQ2FyVHNvaytsalF6bkt6MGMzYktsRE05MGpU?=
- =?utf-8?B?YnQ5T1JiMEYwbVc1RWRieUZBN2kyeDF5enV2cm1EVGlQWlE3cXUwbXdMMzl5?=
- =?utf-8?B?SDlGNjQ3b2JsRVI4RkF3ZnJVV3RzZko4MzFUNmJIU3hRNnhmM2d1VWxsbXJn?=
- =?utf-8?B?VGdabnZvV2QvRVFNQUFWRG8yTXpmZDJSMjYyTGg2aTczTTJSSEdSL1lWS1Iz?=
- =?utf-8?B?Um1LOFVBQS93empuN0pibkZoRXFPSjJRV3g4bzBNM0I1d1g3SkFVK2NlY1BZ?=
- =?utf-8?B?UXk4akNGWVpEeGFmdnlJRlJNN3IramRIQlBNZGNUV05FTFVaQ2lyeHRnaDJk?=
- =?utf-8?B?K1BmajFiYXZHUUZCZHBPZDdPaHlXQTBOY2E1SVVkOUFFQ1dEVFoxcHZXRXV4?=
- =?utf-8?B?eEtVdTlKNHBXSzdTNTNmYjQ4cnZWbDNKbTNiWmc5VnVvdXIvMTV1bGpHMVor?=
- =?utf-8?B?UndKZkZrVytXL1NwMkVoOHVYSU16TnhBditOUVU2MnlnQmdGYW5rRWpPVGtG?=
- =?utf-8?B?aS9OM0VhOGYwdE9hUldOTUxXLzQzVkJKZysyeXh5azJDUVpkUzdXTVRXQVlo?=
- =?utf-8?B?aTJLQUNZYTB0OTk3NWl1ZlJyTEhtVlV3Uk15cm5MVmd3VGptSS9YMW91Z256?=
- =?utf-8?B?d3Qyc1hiTFhySWU3b0sxRHZOSURiRStjaU9vNnkyQk5rZU9yL1lNOXM3eFJW?=
- =?utf-8?B?UTMzS0FucUlnaWIwUngzL1c5ZlBpd1lmTjhXV25YL2hrZC9mVExYVDNNVG04?=
- =?utf-8?B?c205cUpxaFpBeTZuSnVTYnlRelA2RTMvMG5LbWJTZGlpc2xZbitqOUVVcWpr?=
- =?utf-8?B?aFl5WmJISlBzdWNHTER2cE50SUljaThrUHNvUFpTVWZOWUJmOWlDL0FRNFlP?=
- =?utf-8?B?M0Q5SGQwbk9YeE1zUWxUVGhBZ2JhNGlmcGU4L2l2TDk5WEFOMGZnYmVQVFJk?=
- =?utf-8?B?cUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe062a3d-84f2-45ba-401e-08dc63296daf
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WnhENUJLWDE4bzdMQk9BOHNjV1BFcFFkOUFlTEpkSXhtTGNPdXhZemphMkhQ?=
+ =?utf-8?B?NzRpdXV3Rk5raTZpQmhVL29uY2ZSMWVOaTFYaDJnejdXcUlvMHVUUkpGRDNF?=
+ =?utf-8?B?YXhud3NLVms3UzNkRUNLd2ZUeHVWL1lVa0JkZFR0SUdXV3dLT1h1YTBBR3Rp?=
+ =?utf-8?B?dHpWUko5b1RmaCtmTGQvSWlMUm9iS0I1aHRUYUxqZUdnRTZwb1A5MlJsMS9M?=
+ =?utf-8?B?c09xOGExek4wSWNJY2d1NGZON0YyeGZ2S1I3cmhRTlZXdXJmcDNIS0tKQXZh?=
+ =?utf-8?B?RHYxVm90WHIycHBJL1ovUGZVdTZGQUdPYjlITXJ2V2hEamRyemVadFFDd01X?=
+ =?utf-8?B?TDIyUGJoZkVnYXp3U0djK3hwNVNsVlhoRExUa3BDTFkyRmtTZE0ra0FONm1u?=
+ =?utf-8?B?TzZvUVdBYndnKzU0STdDbUl3dy9qRUlISUlmYzBwbENhV3AvR1R2bEtDbnE4?=
+ =?utf-8?B?VFhBV1hhYXlLU0NlbnVPeXlaN2ZMa0VzVkhzZ0VRMm03MTc2ZFFuUm96eVYx?=
+ =?utf-8?B?dVZzNnlGbTRvcHlvTlczZTdXYnJMY1M5dW9ib1l0Ritib1hKWXRFanV5SGdo?=
+ =?utf-8?B?RWhaUmEycTBtVTE4T3NYRVluM3dwcVBmYzhtSTNJdzJQbnl4UmtzQmRLVUtj?=
+ =?utf-8?B?NkNPTDVBVFN0WlppMnNML0VURE5BZG5samZ3a2VDYkxsaEgwYmlFalFrcVU3?=
+ =?utf-8?B?a3NvaGQ0cXZodjJhMm9mYjdaNFViL0R5M1RmSkFzTmg4ZTBrc2dUYUE1c3M0?=
+ =?utf-8?B?djlPTWpxK0lhNDRPMmVDQ3NlQklUNTB4UVd4VWU3bnZSUWlvd0xrY2l0S1ZD?=
+ =?utf-8?B?SjJTVm9lZlBSREpScjFMR2tLUlVhVTJkdDBGck9rZmRkQjMxZklGQXk3bktw?=
+ =?utf-8?B?bU0yRkMzYWhvZklLU0NETHlKR2ZwVjRTMTFWNlFQSG14YVd5TmpIVXNCZkNM?=
+ =?utf-8?B?bFZ1TW9ncFhxYU9aeWV0eWxpWVFpMG1NOFpDdTBCUmhRVzlScTUvSGxINExZ?=
+ =?utf-8?B?VHQ3MndpeHM1UXFnMkxiL3N5Q0ZaR1pHYmh1Wlg5R25ZZmVHMEtuZStUOWZO?=
+ =?utf-8?B?MnB1U3I3V21QKzFmQm10RTl2OEYrOTZSMTRtQXczVGZudnJiK2EwVUVwTHhv?=
+ =?utf-8?B?MENOQzM4M1pGUFpKZUhpczN3L0lrUzBEWUF3ZnlLRzFiWHRFdE0vV0JvQVNw?=
+ =?utf-8?B?UDlkMjBnUXlTNThsYkFHTFUwWGJVSFJCRzVaT0JtRGxuOTJDL3RQeVNzbDlO?=
+ =?utf-8?B?ak0yVmZUdURJNUJnZlVzK1hhbU9NZk5iN0VtaW9RMlloejNxTTN6cVBjZXdz?=
+ =?utf-8?B?K25sMVhORHduQ3RyTGpqK2VPeCsvVStXVkpxb1VYQkNKQjFHMWxkLy9TNkI4?=
+ =?utf-8?B?V3MzanljTC9rbVhzT1VrTDlwWUdsVjJmU3krZnRmQy9BMmlFa0kxRGo1RXJ6?=
+ =?utf-8?B?bEt0WGx6dThaK0lVa28wcHFIYk5qay9YcUUvY2g3dmFtVVVnTVAySDFXbkQ0?=
+ =?utf-8?B?NERGaGEvQTZNUXdPSkk2NWUrSTFGV1gvYmpnQjhCejcycTJOSytxc0NFT3NU?=
+ =?utf-8?B?TFpRM1NDVmhCM2pqWnI3L3luMHBVY2ZNMStqVHlTdmpVa21nU2hGWDZ0V2g1?=
+ =?utf-8?B?bHpyY2xFY3JSUXVLdjN1a1Y0RFozci84cCs3TlFNL0E3VThGSjF2WHVqQ043?=
+ =?utf-8?B?S1hObXYvZnpGdHNYd05INmVvdVlYRjJxUExLa0pnYk5vWmFuYklLd01WMVhN?=
+ =?utf-8?B?L0R5ZHVsaVZ3YysrNTkvVjFackl3R01zbzJDTHNoTEJpaXd4VWQrN0ZNN3Jy?=
+ =?utf-8?B?QWs4ZEgwV256VDNxNit3VDgvWUZMclJYQ2U5ZjBHRnc1b2o0ck9Pbm1qK3l4?=
+ =?utf-8?B?QU5paWVsVEZzQWFyQjcrelBYdjBBcVpFdUowN0pBVTlPd0tKR28rWlRrK2ZL?=
+ =?utf-8?B?R0JVNjlMN3I4L2JmSnI2TThWVU50R09OSzdRN0hSMVozdDZYYXVSY204VmVP?=
+ =?utf-8?B?NnJzY3ZPOHdBTEhyakZtV1U2MHQxaEZlYTdkV01NZzdrYlFidGNiLzZHRDVX?=
+ =?utf-8?B?dXN3Wlo2citmck5ZVnovQlc3endVelh2cndTeERQcndaRTFHR2dxTzhlMmF1?=
+ =?utf-8?B?Q3htdGxxZ2R2U1VpZDdiMjg0cG5yVWZoNlJaUkczVjlTVlhHTS85djIrdEtl?=
+ =?utf-8?B?ZWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 810ce7a9-04d1-4691-3d5f-08dc6329971a
 X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8441.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 00:07:56.6545 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 00:09:06.1203 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rL1K+xEQq6a1GmQRXpsG7fw+KdM1HVUEnVD0uVcPkp+YDmpllwPL7HTolt0aE6ZNIhTNUI94iZcBRgc4PZanoEiePef//xH9tPnOMlhXKjE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7295
+X-MS-Exchange-CrossTenant-UserPrincipalName: JCfoCdWVO/vgFKpkM9Tqrkj/owd/dlasmTe7kaFja8ZrjC9sZ25ZTPIbJirbhvLIrydTi36eeCigcsjbsiaE/LW5+t2YiicroyHeiPqzO6Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5249
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -192,194 +194,61 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 4/22/2024 13:19, Nirmoy Das wrote:
-> __intel_gt_reset() is really for resetting engines though
-> the name might suggest something else. So add a helper function
-> to remove confusions with no functional changes.
+> Currently intel_gt_reset() kills the GuC and then resets requested
+> engines. This is problematic because there is a dedicated CSB FIFO
+> which only GuC can access and if that FIFO fills up, the hardware
+> will block on the next context switch until there is space that means
+> the system is effectively hung. If an engine is reset whilst actively
+> executing a context, a CSB entry will be sent to say that the context
+> has gone idle. Thus if reset happens on a very busy system then
+> killing GuC before killing the engines will lead to deadlock because
+> of filled up CSB FIFO.
 >
-> v2: Move intel_gt_reset_all_engines() next to
->      intel_gt_reset_engine() to make diff simple(John)
+> To address this issue, the GuC should be killed only after resetting
+> the requested engines and before calling intel_gt_init_hw().
+>
+> v2: Improve commit message(John)
 >
 > Cc: John Harrison <john.c.harrison@intel.com>
 > Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 
 > ---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
->   .../drm/i915/gt/intel_execlists_submission.c  |  2 +-
->   drivers/gpu/drm/i915/gt/intel_gt.c            |  2 +-
->   drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
->   drivers/gpu/drm/i915/gt/intel_reset.c         | 35 +++++++++++++++----
->   drivers/gpu/drm/i915/gt/intel_reset.h         |  3 +-
->   drivers/gpu/drm/i915/gt/selftest_reset.c      |  2 +-
->   drivers/gpu/drm/i915/i915_driver.c            |  2 +-
->   8 files changed, 37 insertions(+), 13 deletions(-)
+>   drivers/gpu/drm/i915/gt/intel_reset.c | 16 ++++++++++++++--
+>   1 file changed, 14 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 8c44af1c3451..5c8e9ee3b008 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -678,7 +678,7 @@ void intel_engines_release(struct intel_gt *gt)
->   	 */
->   	GEM_BUG_ON(intel_gt_pm_is_awake(gt));
->   	if (!INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
-> -		__intel_gt_reset(gt, ALL_ENGINES);
-> +		intel_gt_reset_all_engines(gt);
->   
->   	/* Decouple the backend; but keep the layout for late GPU resets */
->   	for_each_engine(engine, gt, id) {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index 355aab5b38ba..21829439e686 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -2898,7 +2898,7 @@ static void enable_error_interrupt(struct intel_engine_cs *engine)
->   		drm_err(&engine->i915->drm,
->   			"engine '%s' resumed still in error: %08x\n",
->   			engine->name, status);
-> -		__intel_gt_reset(engine->gt, engine->mask);
-> +		intel_gt_reset_engine(engine);
->   	}
->   
->   	/*
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index 580b5141ce1e..626b166e67ef 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -832,7 +832,7 @@ void intel_gt_driver_unregister(struct intel_gt *gt)
->   
->   	/* Scrub all HW state upon release */
->   	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
-> -		__intel_gt_reset(gt, ALL_ENGINES);
-> +		intel_gt_reset_all_engines(gt);
->   }
->   
->   void intel_gt_driver_release(struct intel_gt *gt)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> index 220ac4f92edf..c08fdb65cc69 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> @@ -159,7 +159,7 @@ static bool reset_engines(struct intel_gt *gt)
->   	if (INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
->   		return false;
->   
-> -	return __intel_gt_reset(gt, ALL_ENGINES) == 0;
-> +	return intel_gt_reset_all_engines(gt) == 0;
->   }
->   
->   static void gt_sanitize(struct intel_gt *gt, bool force)
 > diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-> index c8e9aa41fdea..b1393863ca9b 100644
+> index b1393863ca9b..6161f7a3ff70 100644
 > --- a/drivers/gpu/drm/i915/gt/intel_reset.c
 > +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-> @@ -764,7 +764,7 @@ wa_14015076503_end(struct intel_gt *gt, intel_engine_mask_t engine_mask)
->   			 HECI_H_GS1_ER_PREP, 0);
->   }
+> @@ -879,8 +879,17 @@ static intel_engine_mask_t reset_prepare(struct intel_gt *gt)
+>   	intel_engine_mask_t awake = 0;
+>   	enum intel_engine_id id;
 >   
-> -int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask)
-> +static int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask)
->   {
->   	const int retries = engine_mask == ALL_ENGINES ? RESET_MAX_RETRIES : 1;
->   	reset_func reset;
-> @@ -978,7 +978,7 @@ static void __intel_gt_set_wedged(struct intel_gt *gt)
+> -	/* For GuC mode, ensure submission is disabled before stopping ring */
+> -	intel_uc_reset_prepare(&gt->uc);
+> +	/**
+> +	 * For GuC mode with submission enabled, ensure submission
+> +	 * is disabled before stopping ring.
+> +	 *
+> +	 * For GuC mode with submission disabled, ensure that GuC is not
+> +	 * sanitized, do that after engine reset. reset_prepare()
+> +	 * is followed by engine reset which in this mode requires GuC to
+> +	 * process any CSB FIFO entries generated by the resets.
+> +	 */
+> +	if (intel_uc_uses_guc_submission(&gt->uc))
+> +		intel_uc_reset_prepare(&gt->uc);
 >   
->   	/* Even if the GPU reset fails, it should still stop the engines */
->   	if (!INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
-> -		__intel_gt_reset(gt, ALL_ENGINES);
-> +		intel_gt_reset_all_engines(gt);
+>   	for_each_engine(engine, gt, id) {
+>   		if (intel_engine_pm_get_if_awake(engine))
+> @@ -1227,6 +1236,9 @@ void intel_gt_reset(struct intel_gt *gt,
 >   
->   	for_each_engine(engine, gt, id)
->   		engine->submit_request = nop_submit_request;
-> @@ -1089,7 +1089,7 @@ static bool __intel_gt_unset_wedged(struct intel_gt *gt)
->   	/* We must reset pending GPU events before restoring our submission */
->   	ok = !HAS_EXECLISTS(gt->i915); /* XXX better agnosticism desired */
->   	if (!INTEL_INFO(gt->i915)->gpu_reset_clobbers_display)
-> -		ok = __intel_gt_reset(gt, ALL_ENGINES) == 0;
-> +		ok = intel_gt_reset_all_engines(gt) == 0;
->   	if (!ok) {
->   		/*
->   		 * Warn CI about the unrecoverable wedged condition.
-> @@ -1133,10 +1133,10 @@ static int do_reset(struct intel_gt *gt, intel_engine_mask_t stalled_mask)
->   {
->   	int err, i;
+>   	intel_overlay_reset(gt->i915);
 >   
-> -	err = __intel_gt_reset(gt, ALL_ENGINES);
-> +	err = intel_gt_reset_all_engines(gt);
->   	for (i = 0; err && i < RESET_MAX_RETRIES; i++) {
->   		msleep(10 * (i + 1));
-> -		err = __intel_gt_reset(gt, ALL_ENGINES);
-> +		err = intel_gt_reset_all_engines(gt);
->   	}
->   	if (err)
->   		return err;
-> @@ -1270,7 +1270,30 @@ void intel_gt_reset(struct intel_gt *gt,
->   	goto finish;
->   }
->   
-> -static int intel_gt_reset_engine(struct intel_engine_cs *engine)
-> +/**
-> + * intel_gt_reset_all_engines() - Reset all engines in the given gt.
-> + * @gt: the GT to reset all engines for.
-> + *
-> + * This function resets all engines within the given gt.
-> + *
-> + * Returns:
-> + * Zero on success, negative error code on failure.
-> + */
-> +int intel_gt_reset_all_engines(struct intel_gt *gt)
-> +{
-> +	return __intel_gt_reset(gt, ALL_ENGINES);
-> +}
-> +
-> +/**
-> + * intel_gt_reset_engine() - Reset a specific engine within a gt.
-> + * @engine: engine to be reset.
-> + *
-> + * This function resets the specified engine within a gt.
-> + *
-> + * Returns:
-> + * Zero on success, negative error code on failure.
-> + */
-> +int intel_gt_reset_engine(struct intel_engine_cs *engine)
->   {
->   	return __intel_gt_reset(engine->gt, engine->mask);
->   }
-> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.h b/drivers/gpu/drm/i915/gt/intel_reset.h
-> index f615b30b81c5..c00de353075c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_reset.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_reset.h
-> @@ -54,7 +54,8 @@ int intel_gt_terminally_wedged(struct intel_gt *gt);
->   void intel_gt_set_wedged_on_init(struct intel_gt *gt);
->   void intel_gt_set_wedged_on_fini(struct intel_gt *gt);
->   
-> -int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t engine_mask);
-> +int intel_gt_reset_engine(struct intel_engine_cs *engine);
-> +int intel_gt_reset_all_engines(struct intel_gt *gt);
->   
->   int intel_reset_guc(struct intel_gt *gt);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
-> index f40de408cd3a..2cfc23c58e90 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
-> @@ -281,7 +281,7 @@ static int igt_atomic_reset(void *arg)
->   		awake = reset_prepare(gt);
->   		p->critical_section_begin();
->   
-> -		err = __intel_gt_reset(gt, ALL_ENGINES);
-> +		err = intel_gt_reset_all_engines(gt);
->   
->   		p->critical_section_end();
->   		reset_finish(gt, awake);
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index 4b9233c07a22..622a24305bc2 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -202,7 +202,7 @@ static void sanitize_gpu(struct drm_i915_private *i915)
->   		unsigned int i;
->   
->   		for_each_gt(gt, i915, i)
-> -			__intel_gt_reset(gt, ALL_ENGINES);
-> +			intel_gt_reset_all_engines(gt);
->   	}
->   }
->   
+> +	/* sanitize uC after engine reset */
+> +	if (!intel_uc_uses_guc_submission(&gt->uc))
+> +		intel_uc_reset_prepare(&gt->uc);
+>   	/*
+>   	 * Next we need to restore the context, but we don't use those
+>   	 * yet either...
 
