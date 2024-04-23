@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84738ADF69
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 10:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7988ADF87
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Apr 2024 10:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C67C11129A1;
-	Tue, 23 Apr 2024 08:06:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3AAF1131AF;
+	Tue, 23 Apr 2024 08:16:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GBTvbE7w";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="RoAScKvx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC7B1131B5
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 08:06:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713859565; x=1745395565;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=1G2wfwFlzUQsBtBXl3QVOUc+WealeiEYe1NA+eUKk9w=;
- b=GBTvbE7wQRc21Y3OqM0TlLugeQk0gMfA0Ksqe5lFmfItBEEUwOqodlWK
- OvSrv8OY6/PFTFSBxoIHr2ZOW7I9sonsd51EA5YiJIr+0IvKD1biS9KJd
- 8D97n73uPsUJLg4l5yNfzTHQBcRWaajIJPbGxuSNEmSimM26l8C500lme
- NiSRnegI86YqN8kwn5tNd0DEnuGZtpLPmnWynGcCIhrkHpN//vpbrHwu6
- sBz6W+k+rd4IrO9KhiMMlFLgeGArUem1+/4UnSYWleUHlT6yQ8/4x5lPN
- puRLMpCrBwfLy2r03w9h7i7hBqiYC/wx9Czr+m/tBKjX936wkI3Y0lq81 w==;
-X-CSE-ConnectionGUID: wof96NCGRAme3c4Hvk3fRQ==
-X-CSE-MsgGUID: z+nkRK2gRhWC7pGfmeTihg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9649881"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="9649881"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 01:06:05 -0700
-X-CSE-ConnectionGUID: 2pZv5y+bRdWiLyPwdQlQmg==
-X-CSE-MsgGUID: PVL+lBr9SF6FJ1Vhx70a/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="24736040"
-Received: from fpirou-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.46.117])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 01:06:01 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, kernel test robot
- <lkp@intel.com>, soc@kernel.org
-Subject: Re: [PATCH v3 07/13] drm: Make drivers depends on DRM_DW_HDMI
-In-Reply-To: <ZidLFpREqwKd9FHK@finisterre.sirena.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
- <20240327-kms-kconfig-helpers-v3-7-eafee11b84b3@kernel.org>
- <2c78772a-1d3f-47dd-9c3f-a3011703e1ab@sirena.org.uk>
- <ZidLFpREqwKd9FHK@finisterre.sirena.org.uk>
-Date: Tue, 23 Apr 2024 11:05:58 +0300
-Message-ID: <87le54sduh.fsf@intel.com>
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 864B01131B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 08:16:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hJ4IBz1KpUVaPBGLBCxprAHOajEX7iUs6IAwoy1sQZw=;
+ b=RoAScKvxoHtcWJND5G9KUFHHDE8Kid3LFfC6GeshUeOg77Bq2VRblyPX
+ IMDHyZsO5zaKHnfVpOHAlK+ZjfVWNFtGxKTSmsvMbHXnOlpVwzNP6voPH
+ EAsdthY4NiMpNwm9S+mo6xuOBh6Bd7nMP1SYtUlRX4EAgNE74C5FOyUXz
+ Esw63ZMuA8NBmns0s47N0kAWvGmbW7f3ktoxukZVK65nAEYquMl6mAdf+
+ a0Z9PEby7LUUPBbemoDasjIo9h5sLxm429eXK5LAudStVQDRw0xRP9cOM
+ cYNTBqdbqnIyTdmR791CUUrjmg44/eJI3Q8Wzctpo1x0cruvRBAadONdS g==;
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 23 Apr 2024 16:16:33 +0800
+Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
+ [192.168.65.58]) by mse.ite.com.tw with ESMTP id 43N8GQLI058282;
+ Tue, 23 Apr 2024 16:16:26 +0800 (GMT-8)
+ (envelope-from kuro.chung@ite.com.tw)
+Received: from ite-XPS-13-9360.internal.ite.com.tw (192.168.72.42) by
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 23 Apr 2024 16:16:25 +0800
+From: kuro <kuro.chung@ite.com.tw>
+To: 
+CC: Allen Chen <allen.chen@ite.com.tw>, Pin-yen Lin <treapking@chromium.org>, 
+ Kuro Chung <kuro.chung@ite.com.tw>,
+ Kenneth Haung <kenneth.hung@ite.com.tw>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH v6 0/1] drm/bridge: it6505: fix hibernate to resume no display
+ issue
+Date: Tue, 23 Apr 2024 16:27:21 +0800
+Message-ID: <20240423082722.843587-1-kuro.chung@ite.com.tw>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [192.168.72.42]
+X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58)
+X-TM-SNTS-SMTP: 504B88917C829DE79EBE2A2D777BE7E479886E2CBB53A5258742F56246EEA2142002:8
+X-MAIL: mse.ite.com.tw 43N8GQLI058282
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,43 +73,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Apr 2024, Mark Brown <broonie@kernel.org> wrote:
-> On Tue, Apr 02, 2024 at 04:43:46PM +0100, Mark Brown wrote:
->> On Wed, Mar 27, 2024 at 11:57:02AM +0100, Maxime Ripard wrote:
->> 
->> > DRM_DW_HDMI has a number of dependencies that might not be enabled.
->> > However, drivers were used to selecting it while not enforcing the
->> > DRM_DW_HDMI dependencies.
->> > 
->> > This could result in Kconfig warnings (and further build breakages) such
->> > as:
->> > 
->> >   Kconfig warnings: (for reference only)
->> >      WARNING: unmet direct dependencies detected for DRM_DW_HDMI
->> >      Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && DRM_BRIDGE [=y] && DRM_DISPLAY_HELPER [=n]
->> >      Selected by [m]:
->> >      - DRM_SUN8I_DW_HDMI [=m] && HAS_IOMEM [=y] && DRM_SUN4I [=m]
->
->> This has landed in -next and appears to be causing breakage for several
->> platforms using these devices.  For example I'm seeing the HDMI fail to
->> probe on sun50i-a64-pin64-plus with arm64 defconfig, the DT kselftest
->> result isn't terribly informative but it can be seen here:
->
-> It has now been *three* weeks that this breakage has sat unaddressed in
-> -next, this has been making my CI for -next unusable.  Given that
-> getting the defconfig bits of this merged appears somwhow unreasonably
-> difficult can we please drop these changes from the DRM tree until some
-> strategy for getting everything merged is put into place?
+From: Kuro <kuro.chung@ite.com.tw>
 
-This is what's being done [1].
+New patch description for v6 patch
 
+        remove the unrelated patch change (split into anoter patch)
+        remove extra line
+	
+New patch description for v5 patch
 
-BR,
-Jani.
+        after customer feedback and test finished, update again, kernel build pass.
 
+New patch description for v4 patch
 
-[1] https://lore.kernel.org/r/cover.1713780345.git.geert+renesas@glider.be
+        update by reviewer Pin-yen Lin comment, remove function it6505_irq_video_fifo_error/it6505_irq_io_latch_fifo_overflow
+        update by reviewer Pin-yen Lin comment, update Signed-off-by column
 
+New patch description for v3 patch
+
+        update upstream MAINTAINERS mail list
+
+New patch description for v2 patch
+
+        Missing declaration for i variable in function it6505_irq_video_error_handler
+        , add it by this patch
+
+Origianl description for v1 patch
+
+        drm/bridge: it6505: fix hibernate to resume no display issue
+
+        ITE added a FIFO reset bit for input video. When system power resume,
+        the TTL input of it6505 may get some noise before video signal stable
+        and the hardware function reset is required.
+        But the input FIFO reset will also trigger error interrupts of output module rising.
+        Thus, it6505 have to wait a period can clear those expected error interrupts
+        caused by manual hardware reset in one interrupt handler calling to avoid interrupt looping.
+
+allen (1):
+  UPSTREAM: drm/bridge: it6505: fix hibernate to resume no display issue
+
+ drivers/gpu/drm/bridge/ite-it6505.c | 73 +++++++++++++++++++----------
+ 1 file changed, 49 insertions(+), 24 deletions(-)
 
 -- 
-Jani Nikula, Intel
+2.25.1
+
