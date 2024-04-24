@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2D48B151F
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 23:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624DF8B154E
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 23:49:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5537F10FC6E;
-	Wed, 24 Apr 2024 21:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E070B10EEDA;
+	Wed, 24 Apr 2024 21:49:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bvDl/HiJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yO9YEfQf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEF4B10FC6E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 21:19:03 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-418e4cd2196so2437645e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 14:19:03 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
+ [209.85.219.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBFF510EEDA
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 21:49:20 +0000 (UTC)
+Received: by mail-yb1-f172.google.com with SMTP id
+ 3f1490d57ef6-dc23bf7e5aaso466531276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 14:49:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1713993542; x=1714598342;
- darn=lists.freedesktop.org; 
+ d=linaro.org; s=google; t=1713995359; x=1714600159; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RyqJICL/NhOtTQujLHLdII7xx3GTWReyFc8422FFAgY=;
- b=bvDl/HiJ9HG5GXCgQs0h8ReF8xu87GhGPUfKvWdZ/gTmNh8ip77d3EAh2WbN3CpFgX
- FXPB6XLG7vJSLTngHjiNMNSm9GjmSQrRgQtu2WEiPGKmQNQZ8tDRcHztXfiuC2Bik8PJ
- nWcjwcj+/QfG1OGzrMiUzhOoIl8Bcl//5xPxr36Vg0HmZcQh3Kzo8InfH4cl8lNlGqjK
- zW+0NdORdE5leHqOwxfCRHPX3wpzqr2pS9DhON8fxcTXD9voYCBPL5Sr8ZbJgx9DrC0e
- BwnIJkMmZVPBKbainD9Z6qaoG7XLF0dFMei0uyj+HtIZ+hs/IHzhJn//a3NUxZZF8zSO
- Uzug==
+ bh=hz25l3F5HcKxLgpA7vc1PtsFYUkFX5bYRy1HzlOHmSw=;
+ b=yO9YEfQf62UbYonr/ODBUNcpsUTfZmUEj65rs4Ysq6Tk72j0qSiDqjuK1R1/E8Rg3U
+ 1iQbMjEpRPoEn3rewcHz3Eq/B973UWXcVMzTtubmkbDi42I969/Ut1aL4DYIhDGmbmX2
+ TXkvTOKxjO28y/73wT5XypbecBZfK3FNyp55Qy6CJmPgh2xKhj4dPmH8C07Ij+GNxyyb
+ GfKqw6TLBXMOK7Le6/7Ox7F7k4AbmyQCGD2AXsuO5GDxY1xLAdgID52C1H6Amuutg/63
+ /iWjrB7htcew3VqmbfUTtxpfgI1kz6NJTKj6u51Nir2ZC16cJWKRlcwsGxfd9ZrsTI9O
+ X3YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713993542; x=1714598342;
+ d=1e100.net; s=20230601; t=1713995359; x=1714600159;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RyqJICL/NhOtTQujLHLdII7xx3GTWReyFc8422FFAgY=;
- b=s0ad/bJztHOhS6oYfPWn8wcJWNtP9ZgoKWQNdefoKlnMvWI8rogusr0l5eyUp2e0vF
- pENK87iyye8C0EfUsXfYI6GPBu4JSeQyWL4x2zDVt4kflvF7OH8jyRVwXWQu7V/F9W9y
- /R22EChEZ7g/DpVmtjpYwMMPCMhwEmj9psJUpNtquIe/h00Z8Db06O2HpJdbNbLUqRPc
- D/UrcQO+yUgA79lAhVtPtjLRgxhjWj5wurgtj+RcEF2m5VZ6ba3A5PoZ+4ZNIuZ9MM/y
- ktguZ1nQZ4YdnJ42XOb88lCfxUD+/pFQz35MWllfWPhhc+WwLqJOvRa0tqnYOfUgOeQ/
- IwgQ==
+ bh=hz25l3F5HcKxLgpA7vc1PtsFYUkFX5bYRy1HzlOHmSw=;
+ b=H5CkUJtUkZOCj920lSoLYqHOzpszzBrgwYXtw9fezt6M+hDb2KUjGB5EoPbyCMgT5W
+ nheLkjlvMjzXyvCYeJv9LAk6uJCB62voSlMnFBxnJb7e77Rr4AHdn0JYJy2T0y8cy6qJ
+ JNjMdb1B2zEq2yfqkcvnwFo1/gQsMc2s6fSI4JJ6xqlljcT6IDswF+yO25kpMiHZ4dzN
+ 7+zbM6HRtrgynT25m/Susf5kxpLlpQGw4DXPTp+wXIrI4nShlf2xAW0lYRfX1X1AT5yh
+ TQKnyL9OjziiQ0xIWynfjY6SP9/3ui1V2vy9GX9BJM0JwDX3UtOnmLbWIEG/tq86RJpC
+ GilQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVgFI1O9QCCJEyJvxFZ85ymPEco/MgwSPFyUejgQcGMGzRTLx+h5cz++28cftp9c7y/UZpFvB4QRDcLvopiL2CvTv8vWXSOY2PaATD7kOBo
-X-Gm-Message-State: AOJu0YwG3OurlmdYCpr7l7znCYt5QvRIEmxwudp3WZZpsNhodx1qjs2c
- bQ2UnXibZdpXmL2v6P5GeOVmhHN0RSPoE7tJ4sKvMlq6Qrt8R5bP9FCxcASrhh5o+0KqyngBWSM
- NxEDxdVpyiheqytrDTjy2aUItgic5oynFUMF/
-X-Google-Smtp-Source: AGHT+IHFLVEdHmBXKMfxFBhUa+Zc2CsiMjLGO0d6lOSPxNVBtuDy4JyH/ADS2yiPwrT9oxofdQYERqgoOGVg3wreJQY=
-X-Received: by 2002:a05:600c:1d29:b0:418:676d:2a51 with SMTP id
- l41-20020a05600c1d2900b00418676d2a51mr2881642wms.15.1713993541979; Wed, 24
- Apr 2024 14:19:01 -0700 (PDT)
+ AJvYcCVhwgCyU8cwb7FJNrdqBdtn1nVJPeEko+apB0/dDoGun1Rj9U/il+fa5p46BNBkYFrlLt/N27v6YiudJAQ2hPvatb36sctIPDD7HQNHh61h
+X-Gm-Message-State: AOJu0YwFxdfxjbD3WdmKoalNPOPX8XfFDjxm+ftDyKOJnW96pJh1Q8YZ
+ rYKdLvAULtyxMYbtEwgrVS97Jb662CSRkvMQOEo8z14KjRS2mPqKp/Tagb9MU6CuVplX0Sz1CMf
+ z85Sd2f50noAfI/LK1P5gZ96pXUnCe9iMTA9RHg==
+X-Google-Smtp-Source: AGHT+IE11zcbo6fpNyRFrIw1yEm9BOp6i/pOaMdr/aR/e8wqmXQ7Qx/Ston/56y/x1b6yMmQ7+X5n7xQDvcR6E4wAoE=
+X-Received: by 2002:a25:8104:0:b0:de5:852f:6afe with SMTP id
+ o4-20020a258104000000b00de5852f6afemr1262062ybk.30.1713995359592; Wed, 24 Apr
+ 2024 14:49:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
  <20240418081548.12160-3-lvzhaoxiong@huaqin.corp-partner.google.com>
@@ -64,12 +63,12 @@ References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
  <an2k3vgynq4as2sd5dy6ccmdiqedmo7qjsab5qyfhesd333i2a@235sqph3bze5>
  <CAD=FV=VQ8rbwKk4WpHRER9p4cZp7UrrHRpgnErqbQxyxp4sg5w@mail.gmail.com>
 In-Reply-To: <CAD=FV=VQ8rbwKk4WpHRER9p4cZp7UrrHRpgnErqbQxyxp4sg5w@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@google.com>
-Date: Wed, 24 Apr 2024 14:18:33 -0700
-Message-ID: <CACb=7PXKTkpPA-cSwwoa3a2H5-iR7uNCWH9X0DHaFWmZd001Ow@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 25 Apr 2024 00:49:08 +0300
+Message-ID: <CAA8EJprv3qBd1hfdWHrfhY=S0w2O70dZnYb6TVsS6AGRPxsYdw@mail.gmail.com>
 Subject: Re: [PATCH v1 2/2] drm/panel: kd101ne3: add new panel driver
 To: Doug Anderson <dianders@google.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+Cc: Hsin-Yi Wang <hsinyi@google.com>, 
  lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>, mripard@kernel.org, 
  airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org, 
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
@@ -93,8 +92,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 24, 2024 at 2:05=E2=80=AFPM Doug Anderson <dianders@google.com>=
- wrote:
+On Thu, 25 Apr 2024 at 00:04, Doug Anderson <dianders@google.com> wrote:
 >
 > Hi,
 >
@@ -217,11 +215,59 @@ e
 > feels like we have to find some way to make the tables work for at
 > least the large chunks of init code and encourage people to make the
 > tables readable...
->
-For the init sequence of the panel from this patch, using the table
-approach, we can still use mipi_dsi_generic_write_seq() and not invent
-new macro or make the code complicated.
 
+
+I did a quick check on the boe-tv101wum-nl6 driver by converting the
+writes to use the following macro:
+
+#define mipi_dsi_dcs_write_cmd_seq(dsi, cmd, seq...)
+             \
+        do {                                                               =
+    \
+                static const u8 d[] =3D { cmd, seq };                      =
+  \
+                ret =3D mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));  =
+  \
+                if (ret < 0)                                               =
+    \
+                        goto err;                                          =
+    \
+        } while (0)
+
+And then at the end of the init funciton having
+
+err:
+        dev_err(panel->dev,
+                "failed to write command %d\n", ret);
+        return ret;
+}
+
+Size comparison:
+   text    data     bss     dec     hex filename
+before
+  34109   10410      18   44537    adf9
+../build-64/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.o
+making init data const
+  44359     184       0   44543    adff
+../build-64/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.o
+with new macros
+  44353     184       0   44537    adf9
+../build-64/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.o
+
+As you can see, there is literally no size difference with this macro in pl=
+ace.
+The only drawback is that the init stops on the first write rather
+than going through the sequence.
+
+WDYT? I can turn this into a proper patch if you think this makes sense.
+
+>
 >
 > [1] https://lore.kernel.org/r/CAD=3DFV=3DUFa_AoJQvUT3BTiRs19WCA2xLVeQOU=
 =3D+nYu_HaE0_c6Q@mail.gmail.com
+
+
+
+--=20
+With best wishes
+Dmitry
