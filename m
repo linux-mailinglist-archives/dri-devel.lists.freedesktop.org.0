@@ -2,72 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0C98B0225
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:38:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72908B0232
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:39:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3E3510F8BB;
-	Wed, 24 Apr 2024 06:38:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1034C11385E;
+	Wed, 24 Apr 2024 06:39:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bCCiuYH1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ngRWEDH3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 587F410F27B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 06:38:55 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-41a5b68ed85so2899065e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 23:38:55 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA2111385E
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 06:39:42 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-41aa21b06b3so22518075e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 23:39:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713940733; x=1714545533; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713940780; x=1714545580; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=O3qxqplL7Qm6Wz9MluQbjJVIrufLtPs3+RGXjHKp/aA=;
- b=bCCiuYH171TJNr9ie8KDYt19/N9njHQR21XZeWHHjrAHJOD3U/HPbpK8GrXhZHL6Rp
- MYZK/Ur/Sabub7rqh8UFfCi0mvvi3HT+sdWLG4liRSqplGRjIrHRPau5f1J0X09SCg5C
- Up3aUrVLlikM7HlonbAdMXP/aRVnw4Vubd1XGBNCimTOurZ+0BDiwjVfXrP9ExBMr5iG
- IygKDfY1+JONEO0dt1cP+6OojVEF/ng6P/zGEQoEvXpj0CO52VhrkrOHL3BGWe0/snCY
- tmsPvyjNkoQSGe+d+O3vKHLECqBJAk4GPw5wAHpQMoyEuF7dYNXPeZpNSr/U9lFUpqGH
- 9r3g==
+ bh=mpS7OzsYNGGux/uF3eAklzdysJie2bR291vwChY3/is=;
+ b=ngRWEDH3qJQBdeREnoqfq13HfRhkXfqxvpbQjMV2h3EZ0WJcj4Dz8FSTOpCfRyY8pJ
+ sM0Yu6ZD86XX0imBTww3WFjN6OFhc2z/hrdjJVHI4iK13IoIfNcxA2O3zQcAx7YGbPUd
+ hnK20DnHKVEnKR1iXjAduCC8AisKuHXXBivTzmsYsMrLL7ArHbDh/fa4fBWKuYk46FS3
+ wli14DVaQ6m2ggPk6sDXq1wz2iLPeN7OA5Zjor6sb59L9D8WQcSgZ8+MlGeRZbrH4BTt
+ g9Mt9bqRXc4do0r0Q9Mxu3Ik4pOZMaV86+PeV7efUqyj4Jwll2QTVR7zGZ06LSEpjbsl
+ aIjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713940733; x=1714545533;
+ d=1e100.net; s=20230601; t=1713940780; x=1714545580;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=O3qxqplL7Qm6Wz9MluQbjJVIrufLtPs3+RGXjHKp/aA=;
- b=KHWVCAqDt4lK2Cx96u5sf5J2I70Kfm9dLL8KMuDmgBKmeJ6GtK4cA2n+dSPGPGIyML
- 76I7Xl4tcIcCtBMdLXiZYIG2fPOd0TIPfHdiucTalIyIp5Ussl0s8Tq6tE7Q2X2/REA/
- iph0yenueerz4NxEr8TTNLDhiheG0qqOzFSNyI8zNvusyiDIv12ahr4hpqCYnplVRS7S
- xdSkiWyHk4ZjG1e8Wzy6tc5JQb60u/ISEoHZo3YEAw7NLA0j7I910w/ZEY5hVv0UDj8t
- 6ETkZI+UZmaqBjL61yHOdbA0iSe1Z9cYMrbBqAhWx82no1Napch3ERmn38gVwexlYxoR
- v0Mg==
+ bh=mpS7OzsYNGGux/uF3eAklzdysJie2bR291vwChY3/is=;
+ b=u9SgdueU9KH7RpkjBQTz5ePrrTS8f+816kA40QCFoyfz/yZ/0snN7GD8QZumOi3yN8
+ v6dBxPaw/sfolJQfBCuoeAFinYrMg4zdrxU9gyD2jpBnc/BQQv+zTQjzaQ64AzvRdVgY
+ bqHqUHwDWxryYF9c938mmPBUZ09OAFPYg0Wkt+PdkqKPMRUCOG5dBnx3ZlSpzau7khEi
+ U6jPJwV/Dbtcl2e7p95QJ2EIE4L9wE3N66rTUXp7/2w5JyOnuDsEew637Rov72MEvLwH
+ VR4m4hr46pM+Srzpz4AoF/zsNRVXfMnvpxHbLPXMc1qdhbl0XSiUykgkUxhsAo+F8uPm
+ w1WQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXB7p5sIpnTocfrsqjATUJfzYZOqXoGlCfpMwWYR35WSk37Wh4C+5sboulWf4pR65d9UF5X27pISxqN5Ca6iOiC87T6zv0Fg02+Z0qxFuea
-X-Gm-Message-State: AOJu0Yx8fSqwTjfi/UAzZGdfoRNh0DmZIbtq+s0XSd4w+nItW4YFvoLq
- ZX6s8hWbTxn3LxnFCRuu6bHsuootGGjaE5s62j/gnkfcltnPA/baXJgNVgwT3M+NCiTKztJi5q0
- Sfvo=
-X-Google-Smtp-Source: AGHT+IH5kSX/9DFE7Xs08gco7AqUNt8CK2Mfsk1Ut9fl/C8RixKTQO1Uub/NF9BsHAAJgSPAX8fVCw==
-X-Received: by 2002:a05:600c:1d18:b0:41b:ff8:5cde with SMTP id
- l24-20020a05600c1d1800b0041b0ff85cdemr224808wms.2.1713940733556; 
- Tue, 23 Apr 2024 23:38:53 -0700 (PDT)
+ AJvYcCXUVBhMbEPCGNWUYRin7I/wNGd6wctztv5tLNHOIAVCTfig74NvjK4dGi7sn9y/uI8r9dfoOV3Zbq9zuxaEBcoRc+faIslA4duZ/yRGn4sK
+X-Gm-Message-State: AOJu0Yw9gtdnS9QTMXLPO3hpOqwFeOJqYGwejECsuWqBqvuYlQblHc0E
+ lst4RA1WEYaE4w89talRyy/j9vxMUaYOao11e9/S64dFGjiWEndnKOXkJGgXVVQ=
+X-Google-Smtp-Source: AGHT+IElFw9jaqkr/t787YWhf8+0REQaqK8Es7QjYBaHFyKJfA5pu8do5e3zW4t6Glec5cbR4dxdsA==
+X-Received: by 2002:a05:600c:4fc8:b0:418:ad02:913e with SMTP id
+ o8-20020a05600c4fc800b00418ad02913emr1255893wmq.12.1713940780264; 
+ Tue, 23 Apr 2024 23:39:40 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
  by smtp.gmail.com with ESMTPSA id
- l6-20020a7bc446000000b0041a68d4fe61sm626509wmi.0.2024.04.23.23.38.52
+ l6-20020a05600c4f0600b0041a0f3d92c7sm12989092wmq.2.2024.04.23.23.39.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Apr 2024 23:38:53 -0700 (PDT)
-Message-ID: <aef2ea16-fb7d-43e4-b8c2-cbe0dc9af774@linaro.org>
-Date: Wed, 24 Apr 2024 08:38:51 +0200
+ Tue, 23 Apr 2024 23:39:39 -0700 (PDT)
+Message-ID: <a80661c4-9919-4c06-b9ab-3b4ebfe2f390@linaro.org>
+Date: Wed, 24 Apr 2024 08:39:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] drm/sti: dvo: drop driver owner assignment
-To: Alain Volmat <alain.volmat@foss.st.com>,
+Subject: Re: [PATCH 1/2] drm/bridge: chipone-icn6211: drop driver owner
+ assignment
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
+References: <20240330202741.83867-1-krzysztof.kozlowski@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -114,7 +118,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240330203831.87003-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240330202741.83867-1-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,15 +136,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/03/2024 21:38, Krzysztof Kozlowski wrote:
-> Core in platform_driver_register() already sets the .owner, so driver
-> does not need to.  Whatever is set here will be anyway overwritten by
-> main driver calling platform_driver_register().
+On 30/03/2024 21:27, Krzysztof Kozlowski wrote:
+> Core in mipi_dsi_driver_register() already sets the .owner, so driver
+> does not need to.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
 
-It has been almost a month. Any comments? Anything is happening here?
+It has been almost a month. Any comments on this patchset?
 
 Best regards,
 Krzysztof
