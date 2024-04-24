@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236208B09F2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 14:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52348B09FC
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 14:48:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80146113B09;
-	Wed, 24 Apr 2024 12:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 819BD10FD30;
+	Wed, 24 Apr 2024 12:48:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NrZ3sIs4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OmbCwEHg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8C9113B09;
- Wed, 24 Apr 2024 12:45:39 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A87310EDEA;
+ Wed, 24 Apr 2024 12:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713962739; x=1745498739;
+ t=1713962902; x=1745498902;
  h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=0jLlO4p+9YTNmH0ivC9TTOSbeS7d/lr9b0CvWkTB+k0=;
- b=NrZ3sIs43T9AGHEWIGfrgWGPyZ0JlJyAO+JyIG7P3Rw3I+heUt61xUV1
- 4W7y3r7NSEclRgywzU9Djq8Ps5plG+dnldzP9RtutA0hqVFJEFE68ebWL
- J5u4UHm+MgRNsFJwtSCOwKsYCVvcKugduTXfRtavEvfv0RtdlmGVzCOii
- 22suuVqPz5wCL/moyKmhRBjrIqy25E9vdhgCioV/llQ9XwJCLIs0YdCsM
- y7D6OPDZlAtbszxwZhDPAHFR8m452PdqedFewvaDNjtm3PhzCumTfAdic
- RQdwp92MxfjlgzbmENXYEaraBxKgFkEC9zgSOeRZmNBLq3ThNz2CNIXLx w==;
-X-CSE-ConnectionGUID: YjZeDY2MSmm6j7IKO8YfHQ==
-X-CSE-MsgGUID: yKw0Ui+TT7qeDwACpfBq7Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9459452"
+ mime-version; bh=C8/UHqH96Shz8uCXa/Hys3yMwU0B5igqVD7bYQFIh5M=;
+ b=OmbCwEHgPnCgPi2LwWiyOCZIhdsAdqeJ31+xQjMNapZJMZb6e/rpkwM/
+ +XNv/M0GKNiWdaP923F6P1YlUj2gWjvrzOo0xkVN2CMZgByevqIPsLWd3
+ eU1TyOzIzE8SytknZ+2q0oEmTpED0EXmaxOIOPK+ieaTed1pzC4r2aNz5
+ vsGk2nUnEPHqfWp6qargqL0WYPeYxHgTzGvsChMEbsqC4lMaZBBaFvvTe
+ 9McWS9nPmhdFwBORYjYepATenw3UTb1PlbvQJ8kxFgB1RJWUJLgL6ZX6K
+ mGkBeSK6dyjrWFAKBO5u4M9omVRFjHfdbFGDrlVYuu7UfN5uWqacZSCBv g==;
+X-CSE-ConnectionGUID: QHP/nnBURV+3DGizrMvVww==
+X-CSE-MsgGUID: UbxoYdIfRcSlBvxD3QIC7Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9754943"
 X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="9459452"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2024 05:45:38 -0700
-X-CSE-ConnectionGUID: +laFtgcdTg6a77k731vYsg==
-X-CSE-MsgGUID: fDl53eSmRTCNvrogLSjZxA==
+   d="scan'208";a="9754943"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2024 05:48:22 -0700
+X-CSE-ConnectionGUID: G9mH4NMlSPmcbBR/bXWOsA==
+X-CSE-MsgGUID: O0ERnDhZRbuLysTcEC7Gfg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="29178254"
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="24718416"
 Received: from vgrigo2x-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.48.49])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2024 05:45:36 -0700
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2024 05:48:20 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Ryszard Knop <ryszard.knop@intel.com>, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] MAINTAINERS: Move the drm-intel repo location to fd.o
- GitLab
-In-Reply-To: <20240424114159.38719-1-ryszard.knop@intel.com>
+Subject: Re: [PATCH] nightly.conf: Update drm-intel URLs, add missing bare
+ ssh drm-xe URL
+In-Reply-To: <20240424113218.37162-2-ryszard.knop@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240424114159.38719-1-ryszard.knop@intel.com>
-Date: Wed, 24 Apr 2024 15:45:34 +0300
-Message-ID: <871q6vq68h.fsf@intel.com>
+References: <20240424113218.37162-2-ryszard.knop@intel.com>
+Date: Wed, 24 Apr 2024 15:48:17 +0300
+Message-ID: <87y193orji.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,30 +70,48 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, 24 Apr 2024, Ryszard Knop <ryszard.knop@intel.com> wrote:
-> The drm-intel repo is moving from the classic fd.o git host to GitLab.
-> Update its location with a URL matching other fd.o GitLab kernel trees.
+> - Switch drm-intel URLs to the new GitLab location.
+> - Add a short SSH link for drm-xe for completeness with other blocks.
+> - Add a missing tab in drm_tip_config for column alignment.
 >
 > Signed-off-by: Ryszard Knop <ryszard.knop@intel.com>
 
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 
+
 > ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  nightly.conf | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d6327dc12cb1..fbf7371a0bb0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10854,7 +10854,7 @@ W:	https://drm.pages.freedesktop.org/intel-docs/
->  Q:	http://patchwork.freedesktop.org/project/intel-gfx/
->  B:	https://drm.pages.freedesktop.org/intel-docs/how-to-file-i915-bugs.html
->  C:	irc://irc.oftc.net/intel-gfx
-> -T:	git git://anongit.freedesktop.org/drm-intel
-> +T:	git https://gitlab.freedesktop.org/drm/i915/kernel.git
->  F:	Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
->  F:	Documentation/gpu/i915.rst
->  F:	drivers/gpu/drm/ci/xfails/i915*
+> diff --git a/nightly.conf b/nightly.conf
+> index 7ef4249f0c67..2971277b0e25 100644
+> --- a/nightly.conf
+> +++ b/nightly.conf
+> @@ -30,10 +30,16 @@ https://anongit.freedesktop.org/git/drm/drm-tip
+>  https://anongit.freedesktop.org/git/drm/drm-tip.git
+>  "
+>  drm_tip_repos[drm-xe]="
+> +git@gitlab.freedesktop.org:drm/xe/kernel.git
+>  https://gitlab.freedesktop.org/drm/xe/kernel.git
+>  ssh://git@gitlab.freedesktop.org/drm/xe/kernel.git
+>  "
+>  drm_tip_repos[drm-intel]="
+> +git@gitlab.freedesktop.org:drm/i915/kernel.git
+> +https://gitlab.freedesktop.org/drm/i915/kernel.git
+> +ssh://git@gitlab.freedesktop.org/drm/i915/kernel.git
+> +"
+> +drm_old_urls[drm-intel]="
+>  ssh://git.freedesktop.org/git/drm/drm-intel
+>  ssh://git.freedesktop.org/git/drm-intel
+>  git://anongit.freedesktop.org/drm/drm-intel
+> @@ -97,6 +103,6 @@ drm_tip_config=(
+>  	"drm-xe			drm-xe-next"
+>  
+>  	"drm-intel		topic/core-for-CI"
+> -	"drm-xe		topic/xe-for-CI"
+> +	"drm-xe			topic/xe-for-CI"
+>  	"drm-intel		topic/thunderbolt-next"
+>  ) # DO NOT CHANGE THIS LINE
 
 -- 
 Jani Nikula, Intel
