@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F8B8B0279
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272F78B027F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:53:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1CE611387F;
-	Wed, 24 Apr 2024 06:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D82C113883;
+	Wed, 24 Apr 2024 06:53:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yDjRhCI9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="G3GAS0ms";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 804A211387E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 06:53:21 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-34665dd7744so4966922f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 23:53:21 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1F37113882
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 06:53:34 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-41a0979b9aeso27353465e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 23:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713941600; x=1714546400; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713941613; x=1714546413; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=eqU6fPwBtkCZTZvnM/ZJ76eoBIYTFy3ASfBRYXLlBBw=;
- b=yDjRhCI9kvWqyS/Z/7cepqJ9smb6gsdEkEPGQ8fGjZNGoKgvL2+MDLHlKp02s1ot7/
- p2ZYUwipafiaW6Qc7uSVJL196ss7fMhRazSqutJXT6i7cF3bdunAbyDB5KbO4WmbQeHM
- OPj6Aw1Eh95vbJKVggN6iqQCAzrU/F3gHrzYo6uuH7tNb5/wKi8VCG+PrujUnTHEIVxD
- 9OOofyayJ6f7+r+jP0UEOLUes4Q8RzbSQqps1PKWECq0vNtK9Htv4s+RAJ7cKENiqqCL
- JVGqZnH+0axfcTzgaDa10v0e9YN3l8TlUN4N+1BX+SqQ9aPElhnL3FQnhXYTt52F2xwa
- rIZg==
+ :reply-to; bh=Ce4fgMOtZLBQ3aabDQJk5teub1RBOKX02c0UGJh5yuE=;
+ b=G3GAS0mskYdCrJv9vAdO2+L1Q5RaIFwQ1314csSwEiA4NYwFEhIFwrElbhxcW9h5gB
+ fhjens0/lYpOpmgIIbsB+WZMTH3ElFruAwq6SdVT5ccDk3HYf554FKK0L8V6BXHkraFN
+ X7IiyEULpSn8736U5opLwiIX3tHbPTGqlFaKRtfFLoVFWtNLmdaYNToKt10drEb4VS7V
+ 2v9REJC/SlHlBAYqq1yA+Ouw9DK9SHrbdZRwMr1RRDiIEtcj5iUnyUQg/mWnX/1DKv9p
+ AfYJASOHylnKonXLjkpXLbGeYW1iYfCQNc/GqJawssinJKkDYcB9ZtLQ7j5SII/zZ4+H
+ UnBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713941600; x=1714546400;
+ d=1e100.net; s=20230601; t=1713941613; x=1714546413;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=eqU6fPwBtkCZTZvnM/ZJ76eoBIYTFy3ASfBRYXLlBBw=;
- b=ZdYoXgNRkuytTsVuHGmBvnYXrNmU9tI8RxfpubJqn1tLQyi6miREyb7v5K4YOqgDcM
- PwD7F1od6M/5+shMhxmb2bUJg/Epua9xI8gUw9aGh9sZhjzYopWy9eHh9sGYgyX+LDIF
- p2910ByiiCpbO0NAPFQBAhaeScsPXDolCzvJ42VIz8GLDpG09hbd80vtNpAfu6DwCZ9+
- zB7vUwjiVdtm683rTZRuzvzE+MNUqIhOA0THekp7OI5sL0Sb/jPFbBqgF2WjI93CBbqm
- xbO+EovBO4SaYCWPms/5U6tWMolDGGiPE+v5Gww7ForIi7KmrgXQCMU+Zj2ksJM86s1x
- lLXA==
-X-Gm-Message-State: AOJu0YwWQkU19jtDcdhF9dPeovDKueU3hd3Ess/v4ZzB1zZ3f+nZLeLl
- L7/EQITL+Wj/xF+KGERvFu83Bx9PiqPEC2oMIKluIAmEdT5XoQqeX9Ni6D7ErZ8=
-X-Google-Smtp-Source: AGHT+IFNRZPm2LDELThFDdehPYka/qFCJmWDSy/dxL0Ndkbn2JxTZB/V+nr7S/iP9/hxS6SH0iNWCQ==
-X-Received: by 2002:a05:6000:1970:b0:347:a81c:dadb with SMTP id
- da16-20020a056000197000b00347a81cdadbmr823946wrb.57.1713941599752; 
- Tue, 23 Apr 2024 23:53:19 -0700 (PDT)
+ bh=Ce4fgMOtZLBQ3aabDQJk5teub1RBOKX02c0UGJh5yuE=;
+ b=PdnCUCsxs++PNY5vOXrbe43pQDMfl3AkUo4leGDPx5MkkPYJ/5jLF0AvzGQlMPL0/w
+ kIBz+MeL9IEtP7sS9yGBEEcVZWdR+j+99HBxiDx9OElYB6uUDxfjdJVcLMn7fqITt86x
+ giyc9ebWkfxnjUmF9hi5T876gOxBIzD4FkVl0r2wDJ4pnX75Auj2ef1bKA6+TON3hLB3
+ xlktWEKGy5U8YBgqIgVrx5y2gvfbiST0MoyB6a2ThtTn2xuX6HArFgVAXe2NxNlk+STV
+ DwfTpGp4UbU/jiGHQ7ytmjdzvUFRWFQGT/jQRdRyHP0vDzFhcVZgQ5Tu7iiBS7CYdmBx
+ mdjQ==
+X-Gm-Message-State: AOJu0YygW6iEvzeoUA4GYBmEp/u/vu+owXZ5m2NKR29/11mNP/0FEZw9
+ IrXh7F8Q0RME//NcMzy3jUVfXd8MbxxMMx0e0u8ncweSoIRXN0wz/rgyKNzoBk0=
+X-Google-Smtp-Source: AGHT+IEhAmr3KBsIwZ2SCPk2yHI1frtEebCy80S7p0GZujfF4lyzJOX7sKXVsG4ySRCv8SHabZaonw==
+X-Received: by 2002:adf:eec9:0:b0:34a:4445:22d1 with SMTP id
+ a9-20020adfeec9000000b0034a444522d1mr1405624wrp.63.1713941613033; 
+ Tue, 23 Apr 2024 23:53:33 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:ed3e:c90b:dd74:51a7?
  ([2a01:e0a:982:cbb0:ed3e:c90b:dd74:51a7])
  by smtp.gmail.com with ESMTPSA id
- d5-20020a5d6445000000b0034659d971a6sm16258046wrw.26.2024.04.23.23.53.18
+ j13-20020a05600c190d00b00418a386c17bsm26479771wmq.12.2024.04.23.23.53.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Apr 2024 23:53:19 -0700 (PDT)
-Message-ID: <362383f6-6029-4fc5-8522-7b8fb131ea07@linaro.org>
-Date: Wed, 24 Apr 2024 08:53:17 +0200
+ Tue, 23 Apr 2024 23:53:32 -0700 (PDT)
+Message-ID: <94857285-7796-4615-84e7-295294844656@linaro.org>
+Date: Wed, 24 Apr 2024 08:53:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 5/6] drm/panel: novatek-nt36672a: stop calling
+Subject: Re: [PATCH 6/6] drm/panel: visionox-rm69299: stop calling
  regulator_set_load manually
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
@@ -74,7 +74,7 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Sumit Semwal <sumit.semwal@linaro.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
- <20240404-drop-panel-unregister-v1-5-9f56953c5fb9@linaro.org>
+ <20240404-drop-panel-unregister-v1-6-9f56953c5fb9@linaro.org>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -101,7 +101,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240404-drop-panel-unregister-v1-5-9f56953c5fb9@linaro.org>
+In-Reply-To: <20240404-drop-panel-unregister-v1-6-9f56953c5fb9@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,38 +126,46 @@ On 04/04/2024 12:08, Dmitry Baryshkov wrote:
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/panel/panel-novatek-nt36672a.c | 11 +++--------
->   1 file changed, 3 insertions(+), 8 deletions(-)
+>   drivers/gpu/drm/panel/panel-visionox-rm69299.c | 16 ++--------------
+>   1 file changed, 2 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-> index 33fb3d715e54..3886372415c2 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-> @@ -605,21 +605,16 @@ static int nt36672a_panel_add(struct nt36672a_panel *pinfo)
->   	struct device *dev = &pinfo->link->dev;
->   	int i, ret;
+> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> index b15ca56a09a7..272490b9565b 100644
+> --- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> @@ -197,7 +197,9 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
+>   	ctx->dsi = dsi;
 >   
-> -	for (i = 0; i < ARRAY_SIZE(pinfo->supplies); i++)
-> +	for (i = 0; i < ARRAY_SIZE(pinfo->supplies); i++) {
->   		pinfo->supplies[i].supply = nt36672a_regulator_names[i];
-> +		pinfo->supplies[i].init_load_uA = nt36672a_regulator_enable_loads[i];
-> +	}
+>   	ctx->supplies[0].supply = "vdda";
+> +	ctx->supplies[0].init_load_uA = 32000;
+>   	ctx->supplies[1].supply = "vdd3p3";
+> +	ctx->supplies[1].init_load_uA = 13200;
 >   
->   	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pinfo->supplies),
->   				      pinfo->supplies);
->   	if (ret < 0)
->   		return dev_err_probe(dev, ret, "failed to get regulators\n");
+>   	ret = devm_regulator_bulk_get(ctx->panel.dev, ARRAY_SIZE(ctx->supplies),
+>   				      ctx->supplies);
+> @@ -227,22 +229,8 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
+>   		goto err_dsi_attach;
+>   	}
 >   
-> -	for (i = 0; i < ARRAY_SIZE(pinfo->supplies); i++) {
-> -		ret = regulator_set_load(pinfo->supplies[i].consumer,
-> -					 nt36672a_regulator_enable_loads[i]);
-> -		if (ret)
-> -			return dev_err_probe(dev, ret, "failed to set regulator enable loads\n");
+> -	ret = regulator_set_load(ctx->supplies[0].consumer, 32000);
+> -	if (ret) {
+> -		dev_err(dev, "regulator set load failed for vdda supply ret = %d\n", ret);
+> -		goto err_set_load;
 > -	}
 > -
->   	pinfo->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
->   	if (IS_ERR(pinfo->reset_gpio))
->   		return dev_err_probe(dev, PTR_ERR(pinfo->reset_gpio),
+> -	ret = regulator_set_load(ctx->supplies[1].consumer, 13200);
+> -	if (ret) {
+> -		dev_err(dev, "regulator set load failed for vdd3p3 supply ret = %d\n", ret);
+> -		goto err_set_load;
+> -	}
+> -
+>   	return 0;
+>   
+> -err_set_load:
+> -	mipi_dsi_detach(dsi);
+>   err_dsi_attach:
+>   	drm_panel_remove(&ctx->panel);
+>   	return ret;
 > 
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
