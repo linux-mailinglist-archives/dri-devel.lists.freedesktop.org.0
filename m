@@ -2,78 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D6E8B0A10
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 14:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0538B0A82
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 15:11:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1B7A113B23;
-	Wed, 24 Apr 2024 12:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1E710FA0F;
+	Wed, 24 Apr 2024 13:11:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gCwWGPOu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="npKtE5vm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F669113B26
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 12:51:49 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-de54b28c41eso2243927276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 05:51:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713963109; x=1714567909; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vHUte1eLVQkq8WvW65i5PTx6wzp6ysbfkPKQwSAJqfU=;
- b=gCwWGPOuNUyWeMBfpqtbP86JsaN8vefOo7gbPdm3GWW/FfOm3h5ac49e4hvX04HOdI
- j3FxqgMj2yV1N7nO2rFAxd4PU50F90CSS4rQTtmmy343x3jGT6dZ9qLpnd64c/rqnX7x
- CpL/7D9NNgXNI2rP0jvJHLij96Sor8m0upXsliMAWTPq/tC/ri4/cRDOvOc/yHQk9gEm
- elK3R7O9QD0dVZdtVg9T1SqIxNf/HwL03bMvfQf3NOdf4QApjISNV4Z1mbaa4T7MTYti
- aVKhQqy+Xcz2+H4ZeBlnlGAzOsRcycY531CyFAyCvAoNZgwF7MZCiqEb9eMqS8F0M2ig
- SSbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713963109; x=1714567909;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vHUte1eLVQkq8WvW65i5PTx6wzp6ysbfkPKQwSAJqfU=;
- b=CSAkNPHwxtB7ru11sPwqBwkGf4uvtf6G//iWg01p+c8U07Nvv8pjxlIDRba3Xn3nv+
- Xx7I/yPLhAQ5jdx/olqZa8OLG3PQcpsZMkGtZYXVkqoDxiCnx/FQaRTG14bcuuadif/C
- le9FDeHZxlFq7Rg+G+w/Zmd8zhsNneHqIjn+yUeZ85+uCSmPDsIttbPwyVCPdGXRi8Ql
- m/WcPs4RaCfnCoMz/60kfEyF2/tHteqSGuX7IqSpqefmBI0vcWIaTY0Hxw4RFzisXx9C
- SUvXzHBSn+NCGBZ2S2ArxwyTGxOyJ2cB7FXJYz/UplFAey0pBfrAVdf9+LEO2XpzqKs1
- zrIA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXce7TVLQcG1c8i0E2yCbo/r4QmuuaUmr/7Fr7wecT2jcoY8BiOJV9wZYxFRiTEafx63wLhZEBoUZ5bIM0piTxpYnfmbiyXsbgvXxzLrPv2
-X-Gm-Message-State: AOJu0Yy+KmIe0+soxoI6PV0gCUBfByxC+gwGHqWWwU7hYE6KdvICRWX/
- 7Jp+eFlY9+Dpbj0o6I+fdEx9oSc5AT1I52EpM0i2kQfvIPqvihpeHH//V/nPUah096cQUC7lbuM
- wYw6sL3yyL2/KoXuEHQ1hTBOM/B/obuTWXTxRZA==
-X-Google-Smtp-Source: AGHT+IEtNwcLByaURm4S0W2WX61nHBOa/bBuBHOAAc6U0o1qOXu8yZcg3XBDxOP5Yl1UNJOhL+Nqv3uIUQoTgcemjRI=
-X-Received: by 2002:a5b:a87:0:b0:dcc:f0a:e495 with SMTP id
- h7-20020a5b0a87000000b00dcc0f0ae495mr2062785ybq.3.1713963108899; 
- Wed, 24 Apr 2024 05:51:48 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8C8F10FA0F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 13:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713964265; x=1745500265;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=3PcOgPceJEiC6m9cZ1LVSeHjh37/hFNV6mfbgVb5lwI=;
+ b=npKtE5vmNUftwo2hMDTnVvNDk5u8pzt48bXjvBm+JZRMVd7aJwQ6rpWk
+ cnFbcFdKlrO6UWEsHwA5DHlRk+j1JeRDRc65z2yYvKGib5HH+8ZGS5Kcq
+ 9UjgI4kTb9BSUuLZ4ct1ttGf7Kd/2QwXEg4sAhKRC3ZO65uAjSF904zOe
+ i9lvBDjbI56f2H6MMl/5O46wH9p2QSTAD73OWAi0eOSyRmO6syG32TRJj
+ pfXSSZh+JR+dApnPlAcOQv70PTrPTLlc7UTSpdBknnkvcxMsckQTHJvna
+ R77/57quwCGwvCdk8OjaupFHpkfI0Kut4b3I59zUddEYggO1jJBDVgVF6 Q==;
+X-CSE-ConnectionGUID: noBjWjxMSvaT6XbD4X8uzA==
+X-CSE-MsgGUID: s0EXWXJnR0OKxy6o43QRpw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="32084790"
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="32084790"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2024 06:11:05 -0700
+X-CSE-ConnectionGUID: hcUH0FqpTTWhma57UPIH3w==
+X-CSE-MsgGUID: vl74hA0uTqeby/DYkytS3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="55907700"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2024 06:11:02 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1rzcOp-00000000em2-1179; Wed, 24 Apr 2024 16:10:59 +0300
+Date: Wed, 24 Apr 2024 16:10:58 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org,
+ linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH v2] software node: Implement device_get_match_data fwnode
+ callback
+Message-ID: <ZikE4qOVO7rgIs9a@smile.fi.intel.com>
+References: <20240422164658.217037-1-sui.jingfeng@linux.dev>
+ <Zie3ebHOEpWHj1qV@smile.fi.intel.com>
+ <d5bc1e73-a553-451e-ab74-f5f0ca259c6b@linux.dev>
+ <hcltp2bbxxg2t7ibmzgiib7mgbwgmvzwnnq6mochdh7c4h76r3@bxj6yk5zq64e>
 MIME-Version: 1.0
-References: <20240401-fd-xml-shipped-v5-0-4bdb277a85a1@linaro.org>
- <20240401-fd-xml-shipped-v5-9-4bdb277a85a1@linaro.org>
- <CACu1E7FjcBHHZerZjRBd7=WiLDu40-d6-4jKPcKmbY244w4Zww@mail.gmail.com>
-In-Reply-To: <CACu1E7FjcBHHZerZjRBd7=WiLDu40-d6-4jKPcKmbY244w4Zww@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 24 Apr 2024 15:51:37 +0300
-Message-ID: <CAA8EJpo=BP5wrFoXHZhAgc8MKf=pV5B8Psp=NrSCr=5mVh1bAA@mail.gmail.com>
-Subject: Re: [PATCH v5 09/18] drm/msm: import A6xx XML display registers
- database
-To: Connor Abbott <cwabbott0@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-kbuild@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <hcltp2bbxxg2t7ibmzgiib7mgbwgmvzwnnq6mochdh7c4h76r3@bxj6yk5zq64e>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,37 +82,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 24 Apr 2024 at 15:21, Connor Abbott <cwabbott0@gmail.com> wrote:
->
-> On Mon, Apr 1, 2024 at 3:52=E2=80=AFAM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > Import Adreno registers database for A6xx from the Mesa, commit
-> > 639488f924d9 ("freedreno/registers: limit the rules schema").
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/registers/adreno/a6xx.xml     | 4970 +++++++++++++=
-++++++++
-> >  drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml |  228 +
-> >  2 files changed, 5198 insertions(+)
-> >
->
-> FYI, this will conflict with a series I will send out soon based on
-> the register updates in [1]. Is there any chance to update this before
-> it lands in msm-next?
+On Wed, Apr 24, 2024 at 12:37:16AM +0300, Dmitry Baryshkov wrote:
+> On Wed, Apr 24, 2024 at 12:49:18AM +0800, Sui Jingfeng wrote:
+> > On 2024/4/23 21:28, Andy Shevchenko wrote:
+> > > On Tue, Apr 23, 2024 at 12:46:58AM +0800, Sui Jingfeng wrote:
 
-I'd suggest updating the XML file as a part of your series. I've
-already opened a MR for the display changes to be picked up by Rob.
+...
 
-> Best regards,
->
-> Connor
->
-> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/28883.
+> But let me throw an argument why this patch (or something similar) looks
+> to be necessary.
+> 
+> Both on DT and non-DT systems the kernel allows using the non-OF based
+> matching. For the platform devices there is platform_device_id-based
+> matching.
+> 
+> Currently handling the data coming from such device_ids requires using
+> special bits of code, e.g. platform_get_device_id(pdev)->driver_data to
+> get the data from the platform_device_id. Having such codepaths goes
+> against the goal of unifying DT and non-DT paths via generic property /
+> fwnode code.
+> 
+> As such, I support Sui's idea of being able to use device_get_match_data
+> for non-DT, non-ACPI platform devices.
+
+I'm not sure I buy this. We have a special helpers based on the bus type to
+combine device_get_match_data() with the respective ID table crawling, see
+the SPI and I²C cases as the examples.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-
---=20
-With best wishes
-Dmitry
