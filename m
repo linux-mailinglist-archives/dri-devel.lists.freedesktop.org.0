@@ -2,76 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4AAE8AFE75
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 04:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E4C38AFE70
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 04:30:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E21C511261A;
-	Wed, 24 Apr 2024 02:31:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="Ic4OkwS8";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D09910FEF8;
+	Wed, 24 Apr 2024 02:30:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
- [209.85.167.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E36E11252C
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 02:31:00 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id
- 5614622812f47-3bbc649c275so2755907b6e.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 19:31:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1713925859; x=1714530659; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NGlfIXei0q5g87t8TDHyHjhG2JVouovJNembL1zbdJM=;
- b=Ic4OkwS8fOVJ6AipuSaZ2GK+poQ6Y9ZRys/dv9+yZ9JUk11I/nacylqy6OD2gPYYW/
- lsFF5NjwuliAs+6gJLyNXqtXFWhbewptuoGdk7rYuifVEc5+hQ6Zh3zL/KgkxRuVJW1e
- lkgG+d5k/ZpBT3v1ztE1nhR9FqToQQ7dTEE+7qLQMeVh9xcyzPjDnaJxs4ZaTQcKHjOZ
- CLdvutVhl/8OseJNAwTNjbA+8aln8nZfpi/jlVb85kj9R0qYnwnL84dGbJFZ7yBXu3mf
- FaZm97TSdWR9ZIW06C283RmTde/YrBN4Y5clQzP81MzwLujTTRoCbGIXC/rDJZ+wUHh5
- 4OOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713925859; x=1714530659;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NGlfIXei0q5g87t8TDHyHjhG2JVouovJNembL1zbdJM=;
- b=SY/jZyEoZeyAhEJXGblknGZ1y9Fdw3om0u/sk0d+GmEmY/MaHCjt/fUrZaIFnyVofJ
- vOYk+vXx0bjLtfsgmudRO3GvEVvub5VtNBP7ow4UimFdjQ7x8oMi8Zr71dRSEmZYKL9b
- XRghooAK1INeVAWybHOD1KosnEpHFgsuk92+YRztYIWljQvy5oHqgyWLGxORKuRL9g6E
- 47QYYDfemlF9brjwTZKXnUFG8OZp8eLGj8wpuQRq7Z0axxUcbngcdVzb/LjrX1noa0S0
- RkAYQk5qGRP+H1117mS1s+XKLnvOZltN071S/VF7Rs5XQQaPL2fz+QugPQNEDmaCoT5s
- XumA==
-X-Gm-Message-State: AOJu0YykMy8vztON8TZgYz58nxgPW1kpn+YmbtcXAXN4t9U31qpG2xSm
- AnraVe3yVx7xJQ4MjrGoSnUm2VUnOanUI9wf3oyqhl8jdp8ATzgIaxtazGowELc=
-X-Google-Smtp-Source: AGHT+IH13ShZNauuVVcIYxiND28Z8XPM6Izk+d10fAGG2AogDuxMToOZVz94kJMhKf0juB6GPzqEJA==
-X-Received: by 2002:a05:6808:2391:b0:3c6:eb0:7471 with SMTP id
- bp17-20020a056808239100b003c60eb07471mr1208441oib.43.1713925859293; 
- Tue, 23 Apr 2024 19:30:59 -0700 (PDT)
-Received: from localhost.localdomain ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- m2-20020a638c02000000b005e857e39b10sm10179385pgd.56.2024.04.23.19.30.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Apr 2024 19:30:58 -0700 (PDT)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
- dianders@chromium.org, linus.walleij@linaro.org,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org,
- airlied@gmail.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH v3 7/7] drm/panel: himax-hx83102: Support for IVO t109nw41
- MIPI-DSI panel
-Date: Wed, 24 Apr 2024 10:30:10 +0800
-Message-Id: <20240424023010.2099949-8-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240424023010.2099949-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20240424023010.2099949-1-yangcong5@huaqin.corp-partner.google.com>
+X-Greylist: delayed 136624 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Apr 2024 02:30:48 UTC
+Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64BB310FEF8;
+ Wed, 24 Apr 2024 02:30:47 +0000 (UTC)
+X-QQ-mid: bizesmtp80t1713925829thu2spv5
+X-QQ-Originating-IP: qbpHB5AsY5fWBXvwdZ7obXSglqCo8likImgKQqcak7g=
+Received: from john-PC ( [123.114.60.34]) by bizesmtp.qq.com (ESMTP) with 
+ id ; Wed, 24 Apr 2024 10:30:26 +0800 (CST)
+X-QQ-SSF: 01400000000000E0L000000A0000000
+X-QQ-FEAT: ElntjVByhgXxfG5iUPWhPYsitjgcVhEkJcWMGGOIIPYvD2sFGRut4HVaLxIvv
+ abHXZL3H+uoWdYuuEUdip6/iLbjNe3K1fDUpE95FqngzpxxJE/SIqSrcznkUoVGI2Wl+imZ
+ +zG4Kn3/fS4QDJmk/Hydb1UDAnaD4gCjkdNEHrtrIy1dqrx7cXlweZfwobsSGaqHLPOpufM
+ ZdhYEDLMEslg8PmOeCd3oRd9MaxCR+p6N+KJKDE/Cg6Oo8E1N6279c24GpkVXs0AsKgjYYs
+ l0MYP45pI8x0FuXFyUqwPSfwZPgifwwTuohYb+C93KCwpx1yLODvtYIt/q4+i5LyWUMrr9k
+ OO+4tui0OkqAirlOlYRnGjjE2XMoDYaqJ4x5YxNMM+scEK9vSK1Slx9xzVPASDiswy0jtm+
+ YX2OU0wqFXw=
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 12069142072743202888
+Date: Wed, 24 Apr 2024 10:30:25 +0800
+From: Qiang Ma <maqianga@uniontech.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Alex Deucher <alexdeucher@gmail.com>, alexander.deucher@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ srinivasan.shanmugam@amd.com, Arunpravin.PaneerSelvam@amd.com,
+ le.ma@amd.com, Felix.Kuehling@amd.com, mukul.joshi@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/amdgpu: Fixup bad vram size on gmc v6 and v7
+Message-ID: <94BEDC76B25ADCE8+20240424103025.74a98199@john-PC>
+In-Reply-To: <f2e1b969-ce9c-450c-9882-99813b7334a0@amd.com>
+References: <20240422052608.5297-1-maqianga@uniontech.com>
+ <68f02c5c-5591-4d6f-9926-b0fc6f9f6287@amd.com>
+ <D94775003178862D+20240422203329.49844e71@john-PC>
+ <bde48eef-4d8a-4cfa-b824-6de88c0f87fd@amd.com>
+ <CADnq5_PQ67J9ytb89-DqOgDw5V-s98TOyVjT5BGfkWMYv5sMQg@mail.gmail.com>
+ <f2e1b969-ce9c-450c-9882-99813b7334a0@amd.com>
+Organization: UOS
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4a-0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,226 +68,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IVO t109nw41 is a 11.0" WUXGA TFT LCD panel, use hx83102 controller
-which fits in nicely with the existing panel-himax-hx83102 driver. Hence,
-we add a new compatible with panel specific config.
+On Mon, 22 Apr 2024 16:47:36 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
-Chage since V3:
+> Am 22.04.24 um 16:40 schrieb Alex Deucher:
+> > On Mon, Apr 22, 2024 at 9:00=E2=80=AFAM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote: =20
+> >> Am 22.04.24 um 14:33 schrieb Qiang Ma: =20
+> >>> On Mon, 22 Apr 2024 11:40:26 +0200
+> >>> Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> >>> =20
+> >>>> Am 22.04.24 um 07:26 schrieb Qiang Ma: =20
+> >>>>> Some boards(like Oland PRO: 0x1002:0x6613) seem to have
+> >>>>> garbage in the upper 16 bits of the vram size register,
+> >>>>> kern log as follows:
+> >>>>>
+> >>>>> [    6.000000] [drm] Detected VRAM RAM=3D2256537600M, BAR=3D256M
+> >>>>> [    6.007812] [drm] RAM width 64bits GDDR5
+> >>>>> [    6.031250] [drm] amdgpu: 2256537600M of VRAM memory ready
+> >>>>>
+> >>>>> This is obviously not true, check for this and clamp the size
+> >>>>> properly. Fixes boards reporting bogus amounts of vram,
+> >>>>> kern log as follows:
+> >>>>>
+> >>>>> [    2.789062] [drm] Probable bad vram size: 0x86800800
+> >>>>> [    2.789062] [drm] Detected VRAM RAM=3D2048M, BAR=3D256M
+> >>>>> [    2.789062] [drm] RAM width 64bits GDDR5
+> >>>>> [    2.789062] [drm] amdgpu: 2048M of VRAM memory ready =20
+> >>>> Well we had patches like this one here before and so far we
+> >>>> always rejected them.
+> >>>>
+> >>>> When the mmCONFIG_MEMSIZE register isn't properly initialized
+> >>>> then there is something wrong with your hardware.
+> >>>>
+> >>>> Working around that in the software driver is not going to fly.
+> >>>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>> =20
+> >>> Hi Christian:
+> >>> I see that two patches for this issue have been merged, and the
+> >>> patches are as follows:
+> >>>
+> >>> 11544d77e397 drm/amdgpu: fixup bad vram size on gmc v8
+> >>> 0ca223b029a2 drm/radeon: fixup bad vram size on SI =20
+> >> Mhm, I remember that we discussed reverting those but it looks
+> >> like that never happened. I need to ask around internally.
+> >>
+> >> Question is do you see any other problems with the board? E.g.
+> >> incorrect connector or harvesting configuration? =20
+> > I'll need to dig up the past discussion again, but IIRC, the issue
+> > was only seen on some non-x86 platforms.  Maybe something specific
+> > to MMIO on those? =20
+>=20
+> I honestly doesn't remember it either, but in general it's the job of=20
+> the VBIOS to init this register.
+>=20
+> So if we see the upper bits mangled the VBIOS hasn't done that
+> correctly and it's quite likely that this is only the tip of the
+> iceberg of problems.
+>=20
 
-- inital cmds use lowercasehex.
+Yes, this problem was found on the mips notebook. Check log vbios
+signature incorrect, I don't know if it has any influence.
+After add patch, drm logs are as follows:
 
-V2: https://lore.kernel.org/all/20240422090310.3311429-8-yangcong5@huaqin.corp-partner.google.com
+[    2.554687] [drm] amdgpu kernel modesetting enabled.
+[    2.558593] [drm] initializing kernel modesetting (OLAND
+0x1002:0x6613 0x1028:0x1002 0x00). [    2.558593] [drm] register mmio
+base: 0x45400000 [    2.558593] [drm] register mmio size: 262144
+[    2.558593] [drm] add ip block number 0 <si_common>
+[    2.558593] [drm] add ip block number 1 <gmc_v6_0>
+[    2.558593] [drm] add ip block number 2 <si_ih>
+[    2.558593] [drm] add ip block number 3 <si_dpm>
+[    2.558593] [drm] add ip block number 4 <dce_v6_0>
+[    2.558593] [drm] add ip block number 5 <gfx_v6_0>
+[    2.558593] [drm] add ip block number 6 <si_dma>
+[    2.578125] [drm] BIOS signature incorrect 0 0
+[    2.746093] [drm] vm size is 64 GB, 2 levels, block size is 10-bit,
+fragment size is 9-bit [    2.746093] [drm] Probable bad vram size:
+0x86800800 [    2.746093] [drm] Detected VRAM RAM=3D2048M, BAR=3D256M
+[    2.746093] [drm] RAM width 64bits GDDR5
+[    2.750000] [drm] amdgpu: 2048M of VRAM memory ready
+[    2.750000] [drm] amdgpu: 3072M of GTT memory ready.
+[    2.750000] [drm] GART: num cpu pages 65536, num gpu pages 262144
+[    2.750000] [drm] Supports vblank timestamp caching Rev 2
+(21.10.2013). [    2.750000] [drm] Driver supports precise vblank
+timestamp query. [    2.750000] [drm] Internal thermal controller with
+fan control [    2.750000] [drm] amdgpu: dpm initialized
+[    2.750000] [drm] amdgpu atom DIG backlight initialized
+[    2.750000] [drm] AMDGPU Display Connectors
+[    2.750000] [drm] Connector 0:
+[    2.750000] [drm]   DP-1
+[    2.750000] [drm]   HPD2
+[    2.750000] [drm]   DDC: 0x1950 0x1950 0x1951 0x1951 0x1952 0x1952
+0x1953 0x1953 [    2.750000] [drm]   Encoders:
+[    2.750000] [drm]     LCD1: INTERNAL_UNIPHY
+[    2.750000] [drm] Connector 1:
+[    2.750000] [drm]   HDMI-A-1
+[    2.750000] [drm]   HPD1
+[    2.750000] [drm]   DDC: 0x194c 0x194c 0x194d 0x194d 0x194e 0x194e
+0x194f 0x194f [    2.750000] [drm]   Encoders:
+[    2.750000] [drm]     DFP1: INTERNAL_UNIPHY
+[    2.753906] [drm] PCIE gen 2 link speeds already enabled
+[    3.507812] [drm] fb mappable at 0x503E4000
+[    3.507812] [drm] vram apper at 0x50000000
+[    3.507812] [drm] size 8306688
+[    3.507812] [drm] fb depth is 24
+[    3.507812] [drm]    pitch is 7680
+[    4.632812] amdgpu 0000:05:00.0: fb0: amdgpudrmfb frame buffer device
+[    5.023437] [drm] Initialized amdgpu 3.27.0 20150101 for
+0000:05:00.0 on minor 0
 
----
- drivers/gpu/drm/panel/panel-himax-hx83102.c | 172 ++++++++++++++++++++
- 1 file changed, 172 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-himax-hx83102.c b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-index ea433d0c86f9..96c637c7ae2c 100644
---- a/drivers/gpu/drm/panel/panel-himax-hx83102.c
-+++ b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-@@ -24,6 +24,7 @@
- #define HX83102_SETPOWER	0xb1
- #define HX83102_SETDISP		0xb2
- #define HX83102_SETCYC		0xb4
-+#define HX83102_UNKNOWN6	0xb6
- #define HX83102_SETEXTC		0xb9
- #define HX83102_SETMIPI		0xba
- #define HX83102_SETVDC		0xbc
-@@ -392,6 +393,152 @@ static int boe_nv110wum_init_cmd(struct hx83102 *ctx)
- 	return 0;
- };
- 
-+static int ivo_t109nw41_init_cmd(struct hx83102 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+
-+	msleep(60);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETEXTC, 0x83, 0x10, 0x21, 0x55, 0x00);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETPOWER, 0x2c, 0xed, 0xed, 0x27, 0xe7, 0x42, 0xf5, 0x39,
-+						  0x36, 0x36, 0x36, 0x36, 0x32, 0x8b, 0x11, 0x65, 0x00, 0x88, 0xfa, 0xff,
-+						  0xff, 0x8f, 0xff, 0x08, 0xd6, 0x33);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETDISP, 0x00, 0x47, 0xb0, 0x80, 0x00, 0x12, 0x71, 0x3c,
-+						  0xa3, 0x22, 0x20, 0x00, 0x00, 0x88, 0x01);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETCYC, 0x35, 0x35, 0x43, 0x43, 0x35, 0x35, 0x30, 0x7a,
-+						  0x30, 0x7a, 0x01, 0x9d);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_UNKNOWN6, 0x34, 0x34, 0x03);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0xcd);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETMIPI, 0x84);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0x3f);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETVDC, 0x1b, 0x04);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_UNKNOWN1, 0x20);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETPTBA, 0xfc, 0xc4);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSTBA, 0x34, 0x34, 0x22, 0x11, 0x22, 0xa0, 0x31, 0x08,
-+						  0xf5, 0x03);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0xcc);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETTCON, 0x80);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0x3f);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0xc6);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETRAMDMY, 0x97);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0x3f);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETPWM, 0x00, 0x1e, 0x13, 0x88, 0x01);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETCLOCK, 0x08, 0x13, 0x07, 0x00, 0x0f, 0x34);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETPANEL, 0x02, 0x03, 0x44);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0xc4);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETCASCADE, 0x03);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0x3f);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETPCTRL, 0x07, 0x06, 0x00, 0x02, 0x04, 0x2c, 0xff);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETGIP0, 0x06, 0x00, 0x00, 0x00, 0x00, 0x08, 0x08, 0x08,
-+						  0x08, 0x37, 0x07, 0x64, 0x7c, 0x11, 0x11, 0x03, 0x03, 0x32, 0x10, 0x0e,
-+						  0x00, 0x0e, 0x32, 0x17, 0x97, 0x07, 0x97, 0x32, 0x00, 0x02, 0x00, 0x02,
-+						  0x00, 0x00);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETGIP1, 0x25, 0x24, 0x25, 0x24, 0x18, 0x18, 0x18, 0x18,
-+						  0x07, 0x06, 0x07, 0x06, 0x05, 0x04, 0x05, 0x04, 0x03, 0x02, 0x03, 0x02,
-+						  0x01, 0x00, 0x01, 0x00, 0xa8, 0xa8, 0xa8, 0xa8, 0x29, 0x29, 0x29, 0x29,
-+						  0x21, 0x20, 0x21, 0x20, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETGIP3, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0, 0xaa, 0xaa,
-+						  0xaa, 0xaa, 0xaa, 0xa0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+						  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+						  0x00, 0x00, 0x00, 0x00);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETTP1, 0x07, 0x10, 0x10, 0x1a, 0x26, 0x9e, 0x00, 0x4f,
-+						  0xa0, 0x14, 0x14, 0x00, 0x00, 0x00, 0x00, 0x12, 0x0a, 0x02, 0x02, 0x00,
-+						  0x33, 0x02, 0x04, 0x18, 0x01);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETBANK, 0x01);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETPOWER, 0x01, 0x7f, 0x11, 0xfd);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETCLOCK, 0x86);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETGIP3, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+						  0x00, 0x00, 0x00, 0x00, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0, 0xaa, 0xaa,
-+						  0xaa, 0xaa, 0xaa, 0xa0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+						  0x00, 0x00, 0x00, 0x00);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETTP1, 0x02, 0x00, 0x2b, 0x01, 0x7e, 0x0f, 0x7e, 0x10,
-+						  0xa0, 0x00, 0x00, 0x77, 0x00, 0x00, 0x00);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETBANK, 0x02);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETPTBA, 0xf2);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETCLOCK, 0x03, 0x07, 0x00, 0x10, 0x79);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETGIP3, 0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0,
-+						  0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETTP1, 0xfe, 0x01, 0xfe, 0x01, 0xfe, 0x01, 0x00, 0x00,
-+						  0x00, 0x23, 0x00, 0x23, 0x81, 0x02, 0x40, 0x00, 0x20, 0x6e, 0x02, 0x01,
-+						  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETBANK, 0x03);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0, 0xaa, 0xaa,
-+						  0xaa, 0xaa, 0xaa, 0xa0, 0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0, 0xff, 0xff,
-+						  0xff, 0xff, 0xfa, 0xa0, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0, 0xaa, 0xaa,
-+						  0xaa, 0xaa, 0xaa, 0xa0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+						  0x00, 0x00, 0x00, 0x00);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0xc6);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETCYC, 0x03, 0xff, 0xf8);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0x3f);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_UNKNOWN5, 0x00);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETBANK, 0x00);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0xc4);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETMIPI, 0x96);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0x3f);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETBANK, 0x01);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0xc5);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETMIPI, 0x4f);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETSPCCMD, 0x3f);
-+
-+	mipi_dsi_dcs_write_seq(dsi, HX83102_SETBANK, 0x00);
-+
-+	msleep(60);
-+
-+	return 0;
-+};
-+
- static const struct drm_display_mode starry_mode = {
- 	.clock = 162680,
- 	.hdisplay = 1200,
-@@ -436,6 +583,28 @@ static const struct hx83102_panel_desc boe_nv110wum_desc = {
- 	.init_cmds = boe_nv110wum_init_cmd,
- };
- 
-+static const struct drm_display_mode ivo_t109nw41_default_mode = {
-+	.clock = 166400,
-+	.hdisplay = 1200,
-+	.hsync_start = 1200 + 75,
-+	.hsync_end = 1200 + 75 + 20,
-+	.htotal = 1200 + 75 + 20 + 55,
-+	.vdisplay = 1920,
-+	.vsync_start = 1920 + 115,
-+	.vsync_end = 1920 + 115 + 8,
-+	.vtotal = 1920 + 115 + 8 + 12,
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static const struct hx83102_panel_desc ivo_t109nw41_desc = {
-+	.modes = &ivo_t109nw41_default_mode,
-+	.size = {
-+		.width_mm = 147,
-+		.height_mm = 235,
-+	},
-+	.init_cmds = ivo_t109nw41_init_cmd,
-+};
-+
- static int hx83102_enable(struct drm_panel *panel)
- {
- 	struct hx83102 *ctx = panel_to_hx83102(panel);
-@@ -695,6 +864,9 @@ static const struct of_device_id hx83102_of_match[] = {
- 	{ .compatible = "boe,nv110wum-l60",
- 	  .data = &boe_nv110wum_desc
- 	},
-+	{ .compatible = "ivo,t109nw41",
-+	  .data = &ivo_t109nw41_desc
-+	},
- 	{ .compatible = "starry,himax83102-j02",
- 	  .data = &starry_desc
- 	},
--- 
-2.25.1
+Qiang Ma
+
+> Christian.
+>=20
+> >
+> > Alex
+> >
+> > =20
+> >> Regards,
+> >> Christian.
+> >> =20
+> >>> Qiang Ma
+> >>> =20
+> >>>>> Signed-off-by: Qiang Ma <maqianga@uniontech.com>
+> >>>>> ---
+> >>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 11 +++++++++--
+> >>>>>     drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c | 13 ++++++++++---
+> >>>>>     2 files changed, 19 insertions(+), 5 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+> >>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c index
+> >>>>> 23b478639921..3703695f7789 100644 ---
+> >>>>> a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c +++
+> >>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c @@ -309,8 +309,15 @@
+> >>>>> static int gmc_v6_0_mc_init(struct amdgpu_device *adev) }
+> >>>>>      adev->gmc.vram_width =3D numchan * chansize;
+> >>>>>      /* size in MB on si */
+> >>>>> -   adev->gmc.mc_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> >>>>> 1024ULL * 1024ULL;
+> >>>>> -   adev->gmc.real_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> >>>>> 1024ULL * 1024ULL;
+> >>>>> +   tmp =3D RREG32(mmCONFIG_MEMSIZE);
+> >>>>> +   /* some boards may have garbage in the upper 16 bits */
+> >>>>> +   if (tmp & 0xffff0000) {
+> >>>>> +           DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
+> >>>>> +           if (tmp & 0xffff)
+> >>>>> +                   tmp &=3D 0xffff;
+> >>>>> +   }
+> >>>>> +   adev->gmc.mc_vram_size =3D tmp * 1024ULL * 1024ULL;
+> >>>>> +   adev->gmc.real_vram_size =3D adev->gmc.mc_vram_size;
+> >>>>>
+> >>>>>      if (!(adev->flags & AMD_IS_APU)) {
+> >>>>>              r =3D amdgpu_device_resize_fb_bar(adev);
+> >>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+> >>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c index
+> >>>>> 3da7b6a2b00d..1df1fc578ff6 100644 ---
+> >>>>> a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c +++
+> >>>>> b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c @@ -316,10 +316,10 @@
+> >>>>> static void gmc_v7_0_mc_program(struct amdgpu_device *adev)
+> >>>>> static int gmc_v7_0_mc_init(struct amdgpu_device *adev) {
+> >>>>>      int r;
+> >>>>> +   u32 tmp;
+> >>>>>
+> >>>>>      adev->gmc.vram_width =3D
+> >>>>> amdgpu_atombios_get_vram_width(adev); if
+> >>>>> (!adev->gmc.vram_width) {
+> >>>>> -           u32 tmp;
+> >>>>>              int chansize, numchan;
+> >>>>>
+> >>>>>              /* Get VRAM informations */
+> >>>>> @@ -363,8 +363,15 @@ static int gmc_v7_0_mc_init(struct
+> >>>>> amdgpu_device *adev) adev->gmc.vram_width =3D numchan * chansize;
+> >>>>>      }
+> >>>>>      /* size in MB on si */
+> >>>>> -   adev->gmc.mc_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> >>>>> 1024ULL * 1024ULL;
+> >>>>> -   adev->gmc.real_vram_size =3D RREG32(mmCONFIG_MEMSIZE) *
+> >>>>> 1024ULL * 1024ULL;
+> >>>>> +   tmp =3D RREG32(mmCONFIG_MEMSIZE);
+> >>>>> +   /* some boards may have garbage in the upper 16 bits */
+> >>>>> +   if (tmp & 0xffff0000) {
+> >>>>> +           DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
+> >>>>> +           if (tmp & 0xffff)
+> >>>>> +                   tmp &=3D 0xffff;
+> >>>>> +   }
+> >>>>> +   adev->gmc.mc_vram_size =3D tmp * 1024ULL * 1024ULL;
+> >>>>> +   adev->gmc.real_vram_size =3D adev->gmc.mc_vram_size;
+> >>>>>
+> >>>>>      if (!(adev->flags & AMD_IS_APU)) {
+> >>>>>              r =3D amdgpu_device_resize_fb_bar(adev); =20
+>=20
+>=20
 
