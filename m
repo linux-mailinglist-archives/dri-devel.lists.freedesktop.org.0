@@ -2,76 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C458B1021
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 18:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A628B10AA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 19:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF2C3112F5A;
-	Wed, 24 Apr 2024 16:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE17E10E136;
+	Wed, 24 Apr 2024 17:07:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lydYpDxM";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="NxO5Hle7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 649FE112F5A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 16:45:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713977121; x=1745513121;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=eghjSdHfDXmpKj6KcfaxUt06aiUtkhlI0/hSTgy5dp8=;
- b=lydYpDxMrfgmYFZDTuQnvs0dx0twIksc7V3fRqryp92FJFn6LRSuYSmx
- mivJ6L00QorrOWL94W/LOyvMSLupeMyq+2EFzJPaiZ7WGJCYLteG47cWC
- BhRKfSnlfyLhG+ugkDuRizGy9KIF1tKFl6ob5Q/1fROX83lJaluyHemCy
- JE040Pj725Zur5DR4LCcJh+KI8y+0xDfC/d6e+bp6WqpQ8fHhXk4X5HSp
- VPQMC5JLjJW1BVRwDMhw382VVe/rqMBXfVcSarGkn7+OMRHO8Vdsc0hV8
- 7sMoSw2HOPZLlnj5U3tvD2ALmGcR9n7OlzOz5F0EtvmfqN/bFCxqaP84G A==;
-X-CSE-ConnectionGUID: eDDEYciATjSD5TO6pSBfCg==
-X-CSE-MsgGUID: lVnlvmIzR7SMV56ZTc7Osg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9787503"
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="9787503"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2024 09:45:04 -0700
-X-CSE-ConnectionGUID: XVrT5SFuTemAEufu8IGP8A==
-X-CSE-MsgGUID: 9S4Pniz5RdS1kWMPMW6MNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="24725565"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2024 09:44:54 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1rzfjm-00000000ia8-3AYP; Wed, 24 Apr 2024 19:44:50 +0300
-Date: Wed, 24 Apr 2024 19:44:50 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH v2] software node: Implement device_get_match_data fwnode
- callback
-Message-ID: <Zik3AjiWkytSVn-1@smile.fi.intel.com>
-References: <20240422164658.217037-1-sui.jingfeng@linux.dev>
- <Zie3ebHOEpWHj1qV@smile.fi.intel.com>
- <d5bc1e73-a553-451e-ab74-f5f0ca259c6b@linux.dev>
- <hcltp2bbxxg2t7ibmzgiib7mgbwgmvzwnnq6mochdh7c4h76r3@bxj6yk5zq64e>
- <ZikE4qOVO7rgIs9a@smile.fi.intel.com>
- <CAA8EJpr1FSjizAh6Dp5Bmux3NrGYh=BfHFL4D1fa87Og4ymY0w@mail.gmail.com>
- <Zikck2FJb4-PgXX0@smile.fi.intel.com>
- <kucey3jsydjye3ndflns3cqolcpizhnxgzz3fkmcatlnpbnwrk@22ulsqfh2vf6>
+X-Greylist: delayed 1072 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Apr 2024 17:07:40 UTC
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8FC810E136
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 17:07:40 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43OCUpmG021448;
+ Wed, 24 Apr 2024 18:49:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ selector1; bh=jKGwl773XJvGqWbO7cS33YH5zC02Gq0vxXa7aIjjZg0=; b=Nx
+ O5Hle7Duy2r7yZ2J9zuke2EASIg6tcihFGidX6M/Gu6dDAAkjNoT1a0nfnhqwF0z
+ g45EHqfA/2Y/1GiQggnhHw+eU90w5S1OQnCdm9nRfye/OD+zX4NYnTMi4pzKl1Mt
+ xHn33R8rwbOT3U+IfY8A4SbBle0UaNrRh9dVgyzNm9yR7mvKqNpzxpzovMA2sJEv
+ Kyg6aNnHx04BT8gqMIo0N5XSg0BykyUY9S1TLOATwthWmbVx6n7PbKzl1n7t+sDe
+ q6HZRGzdhuQBAk2bC61YILbunQFijsTAaUyGk7RwYZtHU9GiW3KU1aKgbQ0BXNGh
+ llwj9Z5xxiPd9nJEHDJA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3xm51w9e7d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Apr 2024 18:49:36 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 9BCD44002D;
+ Wed, 24 Apr 2024 18:49:27 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8EF23222C9A;
+ Wed, 24 Apr 2024 18:48:14 +0200 (CEST)
+Received: from [10.48.86.79] (10.48.86.79) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 24 Apr
+ 2024 18:48:13 +0200
+Message-ID: <89f4a518-cad2-4913-a532-1f38c5b85ded@foss.st.com>
+Date: Wed, 24 Apr 2024 18:48:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <kucey3jsydjye3ndflns3cqolcpizhnxgzz3fkmcatlnpbnwrk@22ulsqfh2vf6>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/4] Add display support for stm32mp135f-dk board
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, Sam
+ Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: <devicetree@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>, 
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Yannick Fertre
+ <yannick.fertre@foss.st.com>
+References: <20240223-ltdc_mp13-v3-0-7f92a59ca11f@foss.st.com>
+Content-Language: en-US
+From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
+In-Reply-To: <20240223-ltdc_mp13-v3-0-7f92a59ca11f@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.48.86.79]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-24_14,2024-04-24_01,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,58 +90,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 24, 2024 at 07:34:54PM +0300, Dmitry Baryshkov wrote:
-> On Wed, Apr 24, 2024 at 05:52:03PM +0300, Andy Shevchenko wrote:
-> > On Wed, Apr 24, 2024 at 04:34:39PM +0300, Dmitry Baryshkov wrote:
-> > > On Wed, 24 Apr 2024 at 16:11, Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > On Wed, Apr 24, 2024 at 12:37:16AM +0300, Dmitry Baryshkov wrote:
-> > > > > On Wed, Apr 24, 2024 at 12:49:18AM +0800, Sui Jingfeng wrote:
-> > > > > > On 2024/4/23 21:28, Andy Shevchenko wrote:
-> > > > > > > On Tue, Apr 23, 2024 at 12:46:58AM +0800, Sui Jingfeng wrote:
+Hi Raphael
 
-...
-
-> > > > > But let me throw an argument why this patch (or something similar) looks
-> > > > > to be necessary.
-> > > > >
-> > > > > Both on DT and non-DT systems the kernel allows using the non-OF based
-> > > > > matching. For the platform devices there is platform_device_id-based
-> > > > > matching.
-> > > > >
-> > > > > Currently handling the data coming from such device_ids requires using
-> > > > > special bits of code, e.g. platform_get_device_id(pdev)->driver_data to
-> > > > > get the data from the platform_device_id. Having such codepaths goes
-> > > > > against the goal of unifying DT and non-DT paths via generic property /
-> > > > > fwnode code.
-> > > > >
-> > > > > As such, I support Sui's idea of being able to use device_get_match_data
-> > > > > for non-DT, non-ACPI platform devices.
-> > > >
-> > > > I'm not sure I buy this. We have a special helpers based on the bus type to
-> > > > combine device_get_match_data() with the respective ID table crawling, see
-> > > > the SPI and I²C cases as the examples.
-> > > 
-> > > I was thinking that we might be able to deprecate these helpers and
-> > > always use device_get_match_data().
-> > 
-> > True, but that is orthogonal to swnode match_data support, right?
-> > There even was (still is?) a patch series to do something like a new
-> > member to struct device_driver (? don't remember) to achieve that.
+On 2/23/24 13:36, Raphael Gallais-Pou wrote:
+> This serie aims to enable display support for the stm32mp135f-dk board
 > 
-> Maybe the scenario was not properly described in the commit message, or
-> maybe I missed something. The usecase that I understood from the commit
-> message was to use instatiated i2c / spi devices, which means
-> i2c_device_id / spi_device_id. The commit message should describe why
-> the usecase requires using 'compatible' property and swnode. Ideally it
-> should describe how these devices are instantiated at the first place.
+> Those are only patches of the device-tree since the driver support has
+> already been added [1].
+> 
+> It respectivelly:
+> 	- adds support for the display controller on stm32mp135
+> 	- adds pinctrl for the display controller
+> 	- enables panel, backlight and display controller on
+> 	  stm32mp135f-dk
+> 
+> Finally it fixes the flags on the panel default mode in the
+> 'panel-simple' driver, allowing to override the default mode by one
+> described in the device tree, and push further the blanking limit on the
+> panel.
+> 
+> [1] commit 1726cee3d053 ("drm/stm: ltdc: support of new hardware version")
+> 
+> Changes in v3:
+>    - [4/4] Allow every properties from panel-common in panel-simple.yaml
+>    - [4/4] Rewrite commit description to match changes
+> 
+> Changes in v2:
+>    - Removed already merged patches
+> https://lore.kernel.org/lkml/170729755552.1647630.4818786052103823648.b4-ty@linaro.org/
+> https://lore.kernel.org/lkml/170729755662.1647630.425379349649657352.b4-ty@linaro.org/
+>    - Fixed CHECK_DTBS warnings
+>    - Added missing properties in panel-simple.yaml
+> 
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> ---
+> Raphael Gallais-Pou (4):
+>        ARM: dts: stm32: add LTDC support for STM32MP13x SoC family
+>        ARM: dts: stm32: add LTDC pinctrl on STM32MP13x SoC family
+>        ARM: dts: stm32: enable display support on stm32mp135f-dk board
+>        dt-bindings: display: simple: allow panel-common properties
+> 
+>   .../bindings/display/panel/panel-simple.yaml       | 11 +----
+>   arch/arm/boot/dts/st/stm32mp13-pinctrl.dtsi        | 57 ++++++++++++++++++++++
+>   arch/arm/boot/dts/st/stm32mp135.dtsi               | 11 +++++
+>   arch/arm/boot/dts/st/stm32mp135f-dk.dts            | 53 ++++++++++++++++++++
+>   4 files changed, 122 insertions(+), 10 deletions(-)
+> ---
+> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+> change-id: 20240124-ltdc_mp13-2f86a782424c
+> 
+> Best regards,
 
-Yep. I also do not clearly understand the use case and why we need to have
-a board file, because the swnodes all are about board files that we must not
-use for the new platforms.
+Series applied on stm32-next.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Thanks!!
 
-
+Alex
