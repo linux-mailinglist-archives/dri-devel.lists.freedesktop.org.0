@@ -2,53 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561448B1057
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 18:56:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D918B1089
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 19:01:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0E8710F759;
-	Wed, 24 Apr 2024 16:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B1F113C96;
+	Wed, 24 Apr 2024 17:01:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HNC8fc1d";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="a+DxrA39";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86FE610F759
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 16:55:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C9D3DCE1792;
- Wed, 24 Apr 2024 16:55:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33A43C113CD;
- Wed, 24 Apr 2024 16:55:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713977752;
- bh=XcBcA9wSG/hJqeu2uO50hcTfxZb6NSTZgAUm+I1++nY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HNC8fc1dGCQBoAHHhdVOJtKeyApmqtVbNNuW6qLJgKphsscgz7l97oYolAN18RgzN
- X8WYFrZzikxmCz7NL0qeaGalJAZ5jQNK8gUgKsn5H1Z3PYEFOalGOnXFrSVIYbSrGX
- kbcf9513A+QXDgxB55zm0Sq15uyVVq7IMsVG3DbJTXPR+ORsYmWbLDmOyq86wT8c6K
- LKHbgYPtYyiGdLIl2qI2lkROy6qlDVj3h/IjId47UQ/iSub4blTTfIaJ5LRalDeVZU
- n5OK0F1Is3nUpC5UmnKHg/vK9oI2wd+ge3ok/OQyqpswlDGW5fs/lNby+JtnNu4c+C
- 2nLvliZyH8T1A==
-Date: Wed, 24 Apr 2024 17:55:47 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
- dianders@chromium.org, linus.walleij@linaro.org,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
- conor+dt@kernel.org, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
-Subject: Re: [PATCH v3 1/7] dt-bindings: display: panel: Add himax hx83102
- panel bindings
-Message-ID: <20240424-spelling-float-9b881cb80992@spud>
-References: <20240424023010.2099949-1-yangcong5@huaqin.corp-partner.google.com>
- <20240424023010.2099949-2-yangcong5@huaqin.corp-partner.google.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6782E10FD57;
+ Wed, 24 Apr 2024 17:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1713978035; x=1714582835; i=friedrich.vock@gmx.de;
+ bh=MbvTuuavhMIBSvaKJNeb41Uwjo9gDgySKSe17CKNkoM=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
+ MIME-Version:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=a+DxrA392jn0lbrpElqiMwPUOPlqQ6GqResnavr8z+ALVaopxgfE7Eu1jwNlYgpr
+ wq8m5KC5TnIPGFSsvd/akTRIQPm/BkFUhwJEO5WQJD11yc81MNfqdIgZlDAjcq3q6
+ yvd3PINA8xjH6IxUp3SyDuNtcGXf1hIR4w5t96/z0QqfaTtCYBGha9kOMyJsM8RKt
+ xT/SrKVfA1DSVXbUfk77Wq1lrz93D9gu5ZpWMZYZ+Nz3DYd3PgJfsntJxtmLSNLOj
+ jllK3x4s8jFiJMjbcRCFmKotxrhG192x8fXpTJ8mQNPTJjUlHZ/ojLdoZ7NhT4qzx
+ 80mdFucvqzXi+W0dGw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from arch.fritz.box ([213.152.117.111]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MOzOw-1sKce72DPg-00PBeP; Wed, 24
+ Apr 2024 19:00:35 +0200
+From: Friedrich Vock <friedrich.vock@gmx.de>
+To: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Cc: Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ Joshua Ashton <joshua@froggi.es>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: [RFC PATCH 00/18] TTM interface for managing VRAM oversubscription
+Date: Wed, 24 Apr 2024 18:56:50 +0200
+Message-ID: <20240424165937.54759-1-friedrich.vock@gmx.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Pj/RbvYXrqipqoo5"
-Content-Disposition: inline
-In-Reply-To: <20240424023010.2099949-2-yangcong5@huaqin.corp-partner.google.com>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:30kTPdv++K5EX4INp1vyNl0EJ8DFgJuY/JhxEH/wDtGrOKjUH/u
+ Kpz4/NJOxkxYUmMA4Waqs7AnA8gwkE1Hyuh02aNtoVOdUYYCd2UW8v+N3js/3yR3gmczsC/
+ m2W12B3eno6yOllKGjQM2DLOXdJ+q2pXt4P4L9yp8ZybZ7nHLcCQWHfxf7lBuVX98lzO61P
+ FrePvuQ8j9qZ90AP35dyQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:O3y2JqGNOmE=;XNuet24Yr1cpAKTmPcu5JjgGdV7
+ EIx4TcxNeyE0Ma7QSUMOjkxV0YMXl+/sJVgVKRlwKv9GLYAH3+q+44D1faezpj6HctHp/lgD4
+ IW3kctHH7d0QbBmNSec5ctQPm7mW5CqHymTNkODok9dRmMtixiNqz1ofJynlsaq9rK4tt0rwO
+ /ojXLIdZeugBlSSVQ9pOEUUc1zDYygBa+FWJYSAKlu1MG6EDXk+Xn4L0TKXY1Nfj587lfIgDf
+ BYcCxkOmzhZsNcOavHXVqKKaInL4RlPHLmHaFA3MrUB6X2HeDyWGDAJiwkehemuIMpdIr2kt8
+ rUPRR5jtClnd5xuRttPoMY5KiNpxf3P/cigmTekO8fOUhbzRS5MkVv7WKPYJdRAyQk/ZSS+J4
+ FpozlaoGikNrfHneFm1OIFR4FJLGClk2nWn6Lmsyclyw+CMZQ1Vf/pnkaFXY5boXT/+akpJXj
+ 0AxzPJPqJTttlbH/z44dA84QV9uFOS0ZmSOgmuEUoe0miJJH01vIBGg0tbbviwr+1OX2GNynl
+ lAOfwHEU74PRCKT01zPH5FltmDb3oYl1QjFC85+Z+YypyU8hK71GCrZR1lQWLkNLEoBio57cw
+ jKtdnZGLpRvT2IOh0MarAOqMM1q5jTqakKSBZFIXpKcdQrUsQOynrhoHTjn4i0tw/Nek3L+rO
+ sM9gbiNkiVn83lAlPixgUKUv0XhBGxupyvXkPHHPBsXcG1rENJiqyR4G3jOxOjugsV/QDIq5G
+ IgKub5AiaE48zkTYd59fKE90LSfERhJHypUPLFMBYbILFSqZoHVXoF1p/Ry56JMrgFUr0VPrI
+ oY2B/hCDOP2xfh6+xaGjbq827MpMe+bDn3KMKlPQ9Udak=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,166 +80,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi everyone,
 
---Pj/RbvYXrqipqoo5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+recently I've been looking into remedies for apps (in particular, newer
+games) that experience significant performance loss when they start to
+hit VRAM limits, especially on older or lower-end cards that struggle
+to fit both desktop apps and all the game data into VRAM at once.
 
-On Wed, Apr 24, 2024 at 10:30:04AM +0800, Cong Yang wrote:
-> In V1, discussed with Doug and Linus [1], we need break out as separate
-> driver for the himax83102-j02 controller. Beacuse "starry,himax83102-j02"
-> and in this series "BOE nv110wum-l60" "IVO t109nw41" panels use same
-> controller, they have some common CMDS. So add new documentation for
-> this panels.
+The root of the problem lies in the fact that from userspace's POV,
+buffer eviction is very opaque: Userspace applications/drivers cannot
+tell how oversubscribed VRAM is, nor do they have fine-grained control
+over which buffers get evicted.  At the same time, with GPU APIs becoming
+increasingly lower-level and GPU-driven, only the application itself
+can know which buffers are used within a particular submission, and
+how important each buffer is. For this, GPU APIs include interfaces
+to query oversubscription and specify memory priorities: In Vulkan,
+oversubscription can be queried through the VK_EXT_memory_budget
+extension. Different buffers can also be assigned priorities via the
+VK_EXT_pageable_device_local_memory extension. Modern games, especially
+D3D12 games via vkd3d-proton, rely on oversubscription being reported and
+priorities being respected in order to perform their memory management.
 
-It'd be good to note in the commit message that the 3v3 supply is not
-present on these panels, given it was present in the other binding and
-not here.
+However, relaying this information to the kernel via the current KMD uAPIs
+is not possible. On AMDGPU for example, all work submissions include a
+"bo list" that contains any buffer object that is accessed during the
+course of the submission. If VRAM is oversubscribed and a buffer in the
+list was evicted to system memory, that buffer is moved back to VRAM
+(potentially evicting other unused buffers).
 
-> [1]: https://lore.kernel.org/all/CACRpkdbzYZAS0=3DzBQJUC4CB2wj4s1h6n6aSAZ=
-QvdMV95r3zRUw@mail.gmail.com
->=20
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> ---
-> Chage since V3:
->=20
-> - Update commit message.
->=20
-> V2: https://lore.kernel.org/all/20240422090310.3311429-2-yangcong5@huaqin=
-=2Ecorp-partner.google.com
->=20
-> ---
->  .../display/panel/boe,tv101wum-nl6.yaml       |  2 -
->  .../bindings/display/panel/himax,hx83102.yaml | 73 +++++++++++++++++++
->  2 files changed, 73 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/himax=
-,hx83102.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum=
--nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl=
-6.yaml
-> index 906ef62709b8..53fb35f5c9de 100644
-> --- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.ya=
-ml
-> +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.ya=
-ml
-> @@ -32,8 +32,6 @@ properties:
->        - innolux,hj110iz-01a
->          # STARRY 2081101QFH032011-53G 10.1" WUXGA TFT LCD panel
->        - starry,2081101qfh032011-53g
-> -        # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
-> -      - starry,himax83102-j02
->          # STARRY ili9882t 10.51" WUXGA TFT LCD panel
->        - starry,ili9882t
-> =20
-> diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx8310=
-2.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
-> new file mode 100644
-> index 000000000000..2e0cd6998ba8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
+Since the usermode driver doesn't know what buffers are used by the
+application, its only choice is to submit a bo list that contains every
+buffer the application has allocated. In case of VRAM oversubscription,
+it is highly likely that some of the application's buffers were evicted,
+which almost guarantees that some buffers will get moved around. Since
+the bo list is only known at submit time, this also means the buffers
+will get moved right before submitting application work, which is the
+worst possible time to move buffers from a latency perspective. Another
+consequence of the large bo list is that nearly all memory from other
+applications will be evicted, too. When different applications (e.g. game
+and compositor) submit work one after the other, this causes a ping-pong
+effect where each app's submission evicts the other app's memory,
+resulting in a large amount of unnecessary moves.
 
-Filename matching a compatible please. What you've done here makes it
-seem like there's a fallback compatible missing, given this looks like
-the LCD panel controller and the starry compatible below is an LCD panel.
+This overly aggressive eviction behavior led to RADV adopting a change
+that effectively allows all VRAM applications to reside in system memory
+[1].  This worked around the ping-ponging/excessive buffer moving problem,
+but also meant that any memory evicted to system memory would forever
+stay there, regardless of how VRAM is used.
 
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/himax,hx83102.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Himax HX83102 MIPI-DSI LCD panel controller
-> +
-> +maintainers:
-> +  - Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +        # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
-> +      - starry,himax83102-j02
-> +
-> +  reg:
-> +    description: the virtual channel number of a DSI peripheral
-> +
-> +  enable-gpios:
-> +    description: a GPIO spec for the enable pin
-> +
-> +  pp1800-supply:
-> +    description: core voltage supply
-> +
-> +  avdd-supply:
-> +    description: phandle of the regulator that provides positive voltage
-> +
-> +  avee-supply:
-> +    description: phandle of the regulator that provides negative voltage
-> +
-> +  backlight:
-> +    description: phandle of the backlight device attached to the panel
+My proposal aims at providing a middle ground between these extremes.
+The goals I want to meet are:
+- Userspace is accurately informed about VRAM oversubscription/how much
+  VRAM has been evicted
+- Buffer eviction respects priorities set by userspace - Wasteful
+  ping-ponging is avoided to the extent possible
 
-I'm not sure why this was given a description when port or rotation
-was not.
+I have been testing out some prototypes, and came up with this rough
+sketch of an API:
 
-Otherwise, this looks fine to me.
+- For each ttm_resource_manager, the amount of evicted memory is tracked
+  (similarly to how "usage" tracks the memory usage). When memory is
+  evicted via ttm_bo_evict, the size of the evicted memory is added, when
+  memory is un-evicted (see below), its size is subtracted. The amount of
+  evicted memory for e.g. VRAM can be queried by userspace via an ioctl.
 
-Cheers,
-Conor.
+- Each ttm_resource_manager maintains a list of evicted buffer objects.
 
-> +
-> +  port: true
-> +  rotation: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - enable-gpios
-> +  - pp1800-supply
-> +  - avdd-supply
-> +  - avee-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    dsi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +        panel@0 {
-> +            compatible =3D "starry,himax83102-j02";
-> +            reg =3D <0>;
-> +            enable-gpios =3D <&pio 45 0>;
-> +            avdd-supply =3D <&ppvarn_lcd>;
-> +            avee-supply =3D <&ppvarp_lcd>;
-> +            pp1800-supply =3D <&pp1800_lcd>;
-> +            backlight =3D <&backlight_lcd0>;
-> +            port {
-> +                panel_in: endpoint {
-> +                    remote-endpoint =3D <&dsi_out>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> --=20
-> 2.25.1
->=20
+- ttm_mem_unevict walks the list of evicted bos for a given
+  ttm_resource_manager and tries moving evicted resources back. When a
+  buffer is freed, this function is called to immediately restore some
+  evicted memory.
 
---Pj/RbvYXrqipqoo5
-Content-Type: application/pgp-signature; name="signature.asc"
+- Each ttm_buffer_object independently tracks the mem_type it wants
+  to reside in.
 
------BEGIN PGP SIGNATURE-----
+- ttm_bo_try_unevict is added as a helper function which attempts to
+  move the buffer to its preferred mem_type. If no space is available
+  there, it fails with -ENOSPC/-ENOMEM.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZik5kgAKCRB4tDGHoIJi
-0vQEAQCABxeP8C4PVO0oy7rmAnyax20mxLqgK/83cR+wn6PwTQD+MyzcuAspe9+N
-QVbJuxD7LhSAFPIPTocJGhAi2aFUpAY=
-=uy9b
------END PGP SIGNATURE-----
+- Similar to how ttm_bo_evict works, each driver can implement
+  uneviction_valuable/unevict_flags callbacks to control buffer
+  un-eviction.
 
---Pj/RbvYXrqipqoo5--
+This is what patches 1-10 accomplish (together with an amdgpu
+implementation utilizing the new API).
+
+Userspace priorities could then be implemented as follows:
+
+- TTM already manages priorities for each buffer object. These priorities
+  can be updated by userspace via a GEM_OP ioctl to inform the kernel
+  which buffers should be evicted before others. If an ioctl increases
+  the priority of a buffer, ttm_bo_try_unevict is called on that buffer to
+  try and move it back (potentially evicting buffers with a lower
+  priority)
+
+- Buffers should never be evicted by other buffers with equal/lower
+  priority, but if there is a buffer with lower priority occupying VRAM,
+  it should be evicted in favor of the higher-priority one. This prevents
+  ping-ponging between buffers that try evicting each other and is
+  trivially implementable with an early-exit in ttm_mem_evict_first.
+
+This is covered in patches 11-15, with the new features exposed to
+userspace in patches 16-18.
+
+I also have a RADV branch utilizing this API at [2], which I use for
+testing.
+
+This implementation is stil very much WIP, although the D3D12 games I
+tested already seemed to benefit from it. Nevertheless, are still quite
+a few TODOs and unresolved questions/problems.
+
+Some kernel drivers (e.g i915) already use TTM priorities for
+kernel-internal purposes. Of course, some of the highest priorities
+should stay reserved for these purposes (with userspace being able to
+use the lower priorities).
+
+Another problem with priorities is the possibility of apps starving other
+apps by occupying all of VRAM with high-priority allocations. A possible
+solution could be include restricting the highest priority/priorities
+to important apps like compositors.
+
+Tying into this problem, only apps that are actively cooperating
+to reduce memory pressure can benefit from the current memory priority
+implementation. Eventually the priority system could also be utilized
+to benefit all applications, for example with the desktop environment
+boosting the priority of the currently-focused app/its cgroup (to
+provide the best QoS to the apps the user is actively using). A full
+implementation of this is probably out-of-scope for this initial proposal,
+but it's probably a good idea to consider this as a possible future use
+of the priority API.
+
+I'm primarily looking to integrate this into amdgpu to solve the
+issues I've seen there, but I'm also interested in feedback from
+other drivers. Is this something you'd be interested in? Do you
+have any objections/comments/questions about my proposed design?
+
+Thanks,
+Friedrich
+
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6833
+[2] https://gitlab.freedesktop.org/pixelcluster/mesa/-/tree/spilling
+
+Friedrich Vock (18):
+  drm/ttm: Add tracking for evicted memory
+  drm/ttm: Add per-BO eviction tracking
+  drm/ttm: Implement BO eviction tracking
+  drm/ttm: Add driver funcs for uneviction control
+  drm/ttm: Add option to evict no BOs in operation
+  drm/ttm: Add public buffer eviction/uneviction functions
+  drm/amdgpu: Add TTM uneviction control functions
+  drm/amdgpu: Don't try moving BOs to preferred domain before submit
+  drm/amdgpu: Don't mark VRAM as a busy placement for VRAM|GTT resources
+  drm/amdgpu: Don't add GTT to initial domains after failing to allocate
+    VRAM
+  drm/ttm: Bump BO priority count
+  drm/ttm: Do not evict BOs with higher priority
+  drm/ttm: Implement ttm_bo_update_priority
+  drm/ttm: Consider BOs placed in non-favorite locations evicted
+  drm/amdgpu: Set a default priority for user/kernel BOs
+  drm/amdgpu: Implement SET_PRIORITY GEM op
+  drm/amdgpu: Implement EVICTED_VRAM query
+  drm/amdgpu: Bump minor version
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        |   2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c     | 191 +---------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.h     |   4 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  25 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  26 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |   4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  50 ++++
+ drivers/gpu/drm/ttm/ttm_bo.c               | 253 ++++++++++++++++++++-
+ drivers/gpu/drm/ttm/ttm_bo_util.c          |   3 +
+ drivers/gpu/drm/ttm/ttm_device.c           |   1 +
+ drivers/gpu/drm/ttm/ttm_resource.c         |  19 +-
+ include/drm/ttm/ttm_bo.h                   |  22 ++
+ include/drm/ttm/ttm_device.h               |  28 +++
+ include/drm/ttm/ttm_resource.h             |  11 +-
+ include/uapi/drm/amdgpu_drm.h              |   3 +
+ 17 files changed, 430 insertions(+), 218 deletions(-)
+
+=2D-
+2.44.0
+
