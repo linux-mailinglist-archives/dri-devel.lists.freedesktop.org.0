@@ -2,147 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72308B0BAF
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 15:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E553E8B0D17
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 16:48:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06BEB10FEE5;
-	Wed, 24 Apr 2024 13:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 740AB10E627;
+	Wed, 24 Apr 2024 14:48:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="mcmEEP8g";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="j8gHIfPr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2079.outbound.protection.outlook.com [40.107.92.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED94910E79E;
- Wed, 24 Apr 2024 13:58:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ByXaN/OJln29zOxYAcmzGA8FoKC7UdEtl4sWEhoeBGS0ns1K53t1srqAEwsuTF4u1I701mOkaWRaPEeXIGKMo+6sxtmCIBqZYKhONxeRzMNUz03cmhjVYhJ15/i3Wk0K8qjzW2tZc9ej0CFf7XAF6Z63/+P8ILpzxb1f38+t4tZEiANqHmbLIf1uEIszPOaLdmA5tke5rtFTxBV/25rJOBluDZxGlP6m5q8QMuK7mMM8fvXuPrDp263Ne+jCLSB9X2LVnlDN5zoB0UBAZNisAlp/pKInzYW4IgpCCOb5MGV1tJ+7cjlMFHtKX2aHZ2E9/PUBO+C7i/GH9Rz/QvDzIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2BFDnoihkGfQ9eqw/hn7yLGHG89oulEijOGTgKAk6rY=;
- b=e9gAVuZouLP1QMNbODafhBtcaWJ8COEvo9BUJtETnS/hfD6bp9a60op4ma7P5jge8g6nbrBB9fVyfzuARpw0T4ysV39ugxQ1Mkx40n/meK4xgoIfsGgtSVUZo7Wqsgb2QXx7LAuUXwuSXqR1iAZTw3eN1U8z7APNKeGIdDWKhb/sjNcmlfgWw2OhjgnKk7ElDLnHCaphPl6z6nn+SdPE/2HG+PuaaG/r5N+s5FYPS5TR0DCumwGQAV1rWaFqwK105D8uAoCPYFrHcNsJ/6rbIhu5euvFxpGF0qC5CSXQ17YcqQ8Ge5LHoItXo+RWOZG3gRlb80vqXcTqSdD/tmax3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2BFDnoihkGfQ9eqw/hn7yLGHG89oulEijOGTgKAk6rY=;
- b=mcmEEP8gH4KkaW1h/+WDUiw66RE9S6R324xQR5MPoSwu6o3mBqhciLD0GXoaHYG+6c8jJJF/fIlY0vTeeOHBEM+7vrpZ2GHm4zNxRylSPok1bvSffVr1AFoaDeHKn/0kqvy7AYSt7Qgqd42xrt6pG3c6QeUC1Ud4PoakguGKmjOV8yzHoDWRLlvMSFPt8FWBjLcXeIwuD52f//2jUUyK8n8tSe9z0AE1odg9CpNIzZo0tUClbrAfEuKBEX+VtcNa9lMDYsNa/9yvG9903Z4x4hf9kbbfS/8rsfNNicRbZTcdUgtPpqbT8Xcd+tCDQnAet4VIzTrRXD8gM0RZfCik5Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
- by IA1PR12MB7687.namprd12.prod.outlook.com (2603:10b6:208:421::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Wed, 24 Apr
- 2024 13:57:58 +0000
-Received: from DM6PR12MB3849.namprd12.prod.outlook.com
- ([fe80::c296:774b:a5fc:965e]) by DM6PR12MB3849.namprd12.prod.outlook.com
- ([fe80::c296:774b:a5fc:965e%3]) with mapi id 15.20.7519.021; Wed, 24 Apr 2024
- 13:57:56 +0000
-Date: Wed, 24 Apr 2024 10:57:54 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: "Zeng, Oak" <oak.zeng@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "Thomas.Hellstrom@linux.intel.com" <Thomas.Hellstrom@linux.intel.com>,
- "Welty, Brian" <brian.welty@intel.com>,
- "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>,
- "Bommu, Krishnaiah" <krishnaiah.bommu@intel.com>,
- "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
- Leon Romanovsky <leon@kernel.org>
-Subject: Re: [PATCH 06/23] drm/xe/svm: Introduce a helper to build sg table
- from hmm range
-Message-ID: <20240424135754.GK941030@nvidia.com>
-References: <20240117221223.18540-7-oak.zeng@intel.com>
- <20240405003927.GA11940@nvidia.com>
- <SA1PR11MB6991E4CDCD61A5D1909BB4EF92032@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240405123725.GD5383@nvidia.com>
- <SA1PR11MB699170C0F6FFFA231985718092032@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240405180212.GG5383@nvidia.com>
- <SA1PR11MB6991A4BD0EDDDF051A9A2C5C92072@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240409172418.GA5383@nvidia.com>
- <SA1PR11MB6991EDB4351D99B4E76EBC2992112@SA1PR11MB6991.namprd11.prod.outlook.com>
- <ZihvCKYRRw1NzoNl@DUT025-TGLU.fm.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZihvCKYRRw1NzoNl@DUT025-TGLU.fm.intel.com>
-X-ClientProxiedBy: SN4PR0501CA0098.namprd05.prod.outlook.com
- (2603:10b6:803:42::15) To DM6PR12MB3849.namprd12.prod.outlook.com
- (2603:10b6:5:1c7::26)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9F8C10E627
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 14:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1713970098;
+ bh=1TuzT+VtxtgIpOWyHKC+lNvLsB0FjJXvt3nOsiKFt6g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=j8gHIfPrHxxkK7hGQ7f9SpPstrN8iJlEOXdFwG5IbKk7i68ryI+s0BcP/DSeS4auA
+ aVRIObIaOK4lJnD4KrnilXzyxr2XwrgS2zAbipaOiJ2FeCGmyyD3kTMS/htaHNOQuD
+ FkzLA6HXKpvaQMwcNRUcpq3i1uUWE4YLrzB4Dp1I8eq6CVxlRRP7v61Khm8FzCpxMr
+ v63Lz17GxCM+AOugIMcAl58pKHSjjjCDcjJoFF0kDynbBn//PcDOFrunYlR73c98a7
+ euSj4NnA56adnQSWyJV2+WgxsA/FTN/43DxZcn8POEUb/9Pv1cMzNXyQDnaKfhkiaR
+ 90mmN58n6/Qrw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: alarumbe)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 79C963782137;
+ Wed, 24 Apr 2024 14:48:18 +0000 (UTC)
+Date: Wed, 24 Apr 2024 15:48:17 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>,
+ kernel@collabora.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ Christopher Healy <healych@amazon.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sysfs: Add drm class-wide attribute to get active
+ device clients
+Message-ID: <4btlparspmb47v3nq3mip6cjr2adwejepnglvh6q5nlbmdzwvt@74gg6tjpngbv>
+References: <20240403182951.724488-1-adrian.larumbe@collabora.com>
+ <CAF6AEGsWtJs2xcZx59P9_maxn1RqCO6-4GwEp2fL31bZtTyuoA@mail.gmail.com>
+ <e6500d5b-0151-4c31-9032-3a23157b3126@ursulin.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|IA1PR12MB7687:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f477716-37ef-4146-5d6d-08dc64668b23
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?AJurOz6Ipo9GAGgMolJoGkObb8NOrFbXh06I75BLTJe4t8aYsdJbVL5p5wu1?=
- =?us-ascii?Q?9xEngYTPSNtZ9GBcfbg9soJXTIBKK9ecgkPTwGvNuPAcg8fK6tBboxN2VsL5?=
- =?us-ascii?Q?jT/wTlBZUs3D6UwFfjR2uFt6FZx/pYdA0XsnYzXxzbtDFusfj+XZx4Vw0g+y?=
- =?us-ascii?Q?PPrFi84J7POosGAKL8MWC7REwNcAD0WQxOE+YUcime2EfMsHUXSnYPoUNUMc?=
- =?us-ascii?Q?/lPooOqeeKzT5xrPEm0coHCfERRxK5/yUWb9WkWR2tOnHrDGmYEi0vY8xwTo?=
- =?us-ascii?Q?5DvX/OPUwSc9a8iH4oe+fF+rK1XibXQ25TKR/gDkRK8i825kVqGFlqttQzez?=
- =?us-ascii?Q?hSbZnvAR0r7XiWj5mI7+3feiBVivbfe66o3yCfz2fttb2WmNOIE34+RghVl7?=
- =?us-ascii?Q?xa5trbW2J5L0Bjq8cmXobU3wN929jXX7DP85QX7PVwzv4+WaZAOntPHwz1Zz?=
- =?us-ascii?Q?sC1aRY8wH0nTO7ZMm0NBgzvmbc8q/u2/vyq9O1UDPC0MabmaV9ICM7PJAx2D?=
- =?us-ascii?Q?u/ZFuNFw/Euya4XVXS2qIlYkvtvY2ocCsqw/s+xl7esW93BD4chqUTopY+ud?=
- =?us-ascii?Q?HUdwCbSPj5w3d9rMB9/VB3Pz5ZZCg6nqcm4yybkncOGP8lyW6x7kFp3dzzoR?=
- =?us-ascii?Q?F1ln1PjVbBzJhnMI61Q4lFXytzMYqH4hnSZ8eRSEC+bHswxqvfGlwt6DydXE?=
- =?us-ascii?Q?l7EOCQAWNg0bygfKvZi54qONXsdyLVc/9Xsi19clTq+LBzbGwsJ61UNut1Tg?=
- =?us-ascii?Q?bZSgPPGLRnErh1FGT82qhQmUSaYrewEKxrVblkiQE0pxIUdtyv4+lFVADmIA?=
- =?us-ascii?Q?m7bKSfKj5/BP2GVuJIEro0abPedIVWVih9t/CaUDaXewO6xwHJjBy4d+6ymj?=
- =?us-ascii?Q?jtiIkArgE6QhNK6yzcZlmrKkiZEEIXlX2RxPj2PfbLZtLCwbDOxAXWtjMop/?=
- =?us-ascii?Q?kXd/3A8TKFBCBvXMirl3/DxZ/8tfrvxHZtf5xzp/CEVUKMy+zqKOfzC/386G?=
- =?us-ascii?Q?AReJ07OJFOE4xCDjBPX9BoDTiynT82ldkhfo/DghyojJ54TCTY32L6VGH2Ey?=
- =?us-ascii?Q?UdAxuJYtZhC23/25nclbS1fItk4GWuzT8nBNcrvckWIrlCqDjh3wxZWtCu2a?=
- =?us-ascii?Q?mbHYKSPKqOKm8xogUuKZD/1U6/Qhy4GDRUTh1zEK8xS6LzNEBuJIX6YWySra?=
- =?us-ascii?Q?1qY5kU266/msprmIVGlg6CtL9H2463GvJOYvE1ltc2pGdEOUlwqAc+UGowUD?=
- =?us-ascii?Q?2W49cxvlJsFmMo5QWlL7upbcCNytngpShlBSLtRDnw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3849.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(7416005)(1800799015)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?K5kJqp57Hps1JiiTz4pm+uArDLyJ6h1T/OBJGbYVC8L6taE8clpGyCgamH4+?=
- =?us-ascii?Q?qEUpkF4l7bv9/43kAAhbd/DxhUjZhaI4vBNwr4xUCljgCUUWcpA0bbmuXQ+D?=
- =?us-ascii?Q?7o7OBATaIFw+Qr1tHqjUcCxmyq9pZDlereWLd26mR4/THs1mS0zhs+nKCK37?=
- =?us-ascii?Q?KFpybDwyM9ht46DUXW5xVR0fplOWYm0JATKsf32fBYNKliW7qIqTwUQP930j?=
- =?us-ascii?Q?gG/r0KAhmMubpkkvtLNTAmn54luWF3RpBm/PAcTAXJxu9HDbkRity2EZ/zZg?=
- =?us-ascii?Q?sP5b8MB/IZ/0k4QTW0mPB7e17dxrDQYPFMQN3rU5eF3pjLE0vsXA8deYXYLr?=
- =?us-ascii?Q?qB994XJeiSxMLxdGtYNqak98xNM1m//UQ/T/Bef0odxsRj/qe/a+lWtfWiIB?=
- =?us-ascii?Q?kNMnceGl3ruK7P/1q6bOIC3UvPQhL0HW2JEOW/Y6W5EUkPjc/4J1CukRMRwA?=
- =?us-ascii?Q?uVbC2Tvfa9Lk2sKW9YIYr0ZxXKOTp4uZoM5fqSoAAb9gsVb/rEz+8tkMr63E?=
- =?us-ascii?Q?oox4A6cBGBfaIqYTU8Jxfh11uZHHN976HMeev+M9V+wtemZA6TQ4oXdjo2Q5?=
- =?us-ascii?Q?BE69f49f10s0mMOfs30Ct1GEOI3DFgQaHIVj38DXW7Ub2MfQwU8uK9RgO2n1?=
- =?us-ascii?Q?o2fXGX5n81BS1E4iMNukVdobgTwGXY71FVMqZmg3YyuuToiljQsXBXv3E5Gz?=
- =?us-ascii?Q?m2yVCiPtEPguxtrV8JyADgrgEWo53cie4sjhfgM55+k/qDO8m34X+o37rTof?=
- =?us-ascii?Q?bcwIl0qJAzt85+iqLiz0+g3Vyqf5Nm3QoFtHL5pe3WEkWcoTj7LNEhcrv9J0?=
- =?us-ascii?Q?u8Ko4/wzOKJ+2tEVogfkEnRYt9ilCpPz2fKW6VFqB7QuzjxhdoCeDt6haBQw?=
- =?us-ascii?Q?++h+EAaK2QvE0Z6r/wWa4DCaTvZ52FxXkbW8x4dxFgkHuGH6wmnOds05c+GJ?=
- =?us-ascii?Q?wlmzTqWiRGGowxypKuojsGFAKSD3aaeH6Wnqfoh/lQ3T8hknaroeJmsv10ZS?=
- =?us-ascii?Q?N5AgJpGrYlT4UqNYfWh45C4jC6EsYqTJf3r5FYzdmy02g8IcQ30pGwxnu9wr?=
- =?us-ascii?Q?YA41kddQHs144J5qipcpGq4rwX17LLvRtq8qJ6UMIccQVnxOlyj5Leya7nGe?=
- =?us-ascii?Q?30VyfvGCGk7u8/ex+NlIScVBFiEQ5GkDF5QiVtqzNLoccNwZukWp0fiOkFcO?=
- =?us-ascii?Q?XWIlAVdClR42lHr+o7xDuCJW1TQc9J4hrYWbcZQeKRo8Aco4nLUAVT+JFzRb?=
- =?us-ascii?Q?yecd4JPCYQJDVYeyH2/2raGrg0LOLS2xl4MWagaafQfYbXYTvvU3P+PISAGq?=
- =?us-ascii?Q?WIMnENMOh+JGUB1YljVmEZ61M1XIHWJH0QsekgJYMxm72c1WvakEUTZHRuft?=
- =?us-ascii?Q?8Inv/f6/HYhriaJPkAParVaMyMFPN4169gTsPzTxEe1pUBQVX9ne1eJsG7vB?=
- =?us-ascii?Q?yU/J8CwtfCxw06FIzRWbeGGqSZJUxxYmSXVwqE7zpyIWmECMKeYB491cELYV?=
- =?us-ascii?Q?/KT1SdTM5BIwhNwAQeqWmc7KnpewYkkX4L/0iRxJKoTZl7EDqLVT/oRM55S+?=
- =?us-ascii?Q?3tkMteL+IxIlJgXKHEQ=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f477716-37ef-4146-5d6d-08dc64668b23
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 13:57:56.4605 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: D/ZunPmHFyxZV88M/j08cEOe2/g03dadIArxZ3e3IDyEhC/Nq6X4A1Bn9HU7HvxW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7687
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e6500d5b-0151-4c31-9032-3a23157b3126@ursulin.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,70 +70,293 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 24, 2024 at 02:31:36AM +0000, Matthew Brost wrote:
+Hi Tvrtko,
 
-> AMD seems to register notifiers on demand for parts of the address space
-> [1], I think Nvidia's open source driver does this too (can look this up
-> if needed). We (Intel) also do this in Xe and the i915 for userptrs
-> (explictly binding a user address via IOCTL) too and it seems to work
-> quite well.
-
-I always thought AMD's implementation of this stuff was bad..
-
-> > > > > This is not what I'm talking about. The GPU VMA is bound to a specific
-> > > > > MM VA, it should not be created on demand.
-> > > >
-> > > > Today we have two places where we create gpu vma: 1) create gpu vma
-> > > > during a vm_bind ioctl 2) create gpu vma during a page fault of the
-> > > > system allocator range (this will be in v2 of this series).
-> > > 
-> > > Don't do 2.
+On 15.04.2024 13:50, Tvrtko Ursulin wrote:
 > 
-> You have to create something, actually 2 things, on a GPU page fault.
-> Something to track the page table state and something to track VRAM
-> memory allocation. Both AMD and Nvidia's open source driver do this.
-
-VRAM memory allocation should be tracked by the mm side, under the
-covers of hmm_range_fault (or migration prior to invoke
-hmm_range_fault).
-
-VRAM memory allocation or management has nothing to do with SVA.
-
-From there the only need is to copy hmm_range_fault results into GPU
-PTEs. You definately do not *need* some other data structure.
-
-> > > > The reason is, we still need some gpu corresponding structure to
-> > > > match the cpu vm_area_struct.
+> On 05/04/2024 18:59, Rob Clark wrote:
+> > On Wed, Apr 3, 2024 at 11:37 AM Adrián Larumbe
+> > <adrian.larumbe@collabora.com> wrote:
 > > > 
-> > > Definately not.
+> > > Up to this day, all fdinfo-based GPU profilers must traverse the entire
+> > > /proc directory structure to find open DRM clients with fdinfo file
+> > > descriptors. This is inefficient and time-consuming.
+> > > 
+> > > This patch adds a new device class attribute that will install a sysfs file
+> > > per DRM device, which can be queried by profilers to get a list of PIDs for
+> > > their open clients. This file isn't human-readable, and it's meant to be
+> > > queried only by GPU profilers like gputop and nvtop.
+> > > 
+> > > Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> > > Cc: Christopher Healy <healych@amazon.com>
+> > > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 > > 
-> > See explanation above.
+> > It does seem like a good idea.. idk if there is some precedent to
+> > prefer binary vs ascii in sysfs, but having a way to avoid walking
+> > _all_ processes is a good idea.
 > 
-> Agree GPU doesn't need to match vm_area_struct but the allocation must
-> be subset (or equal) to a vm_area_struct. Again other driver do this
-> too.
+> I naturally second that it is a needed feature, but I do not think binary
+> format is justified. AFAIR it should be used for things like hw/fw
+> standardised tables or firmware images, not when exporting a simple list of
+> PIDs. It also precludes easy shell/script access and the benefit of avoiding
+> parsing a short list is I suspect completely dwarfed by needing to parse all
+> the related fdinfo etc.
 
-No, absolutely not. There can be no linking of CPU vma_area_struct to
-how a driver operates hmm_range_fault().
+I'd rather keep it as a binary file for the sake of easily parsing the number
+list on the client side, in gputop or nvtop. For textual access, there's already
+a debugfs file that presents the same information, so I thought it was best not
+to duplicate that functionality and restrict sysfs to serving the very specific
+use case of UM profilers having to access the DRM client list.
 
-You probably need to do something like this for your migration logic,
-but that is seperate.
+I should mention I did something controversial here, which is a semantically
+binary attribute through the regular attribute interface. I guess if I keep it
+as a binary attribute in the end, I should switch over to the binary attribute
+API.
 
-> > > You call hmm_range_fault() and it does everything for you. A driver
-> > > should never touch CPU VMAs and must not be aware of them in any away.
+Another reason why I implemented it as a binary file is that we can only send
+back at most a whole page. If a PID takes 4 bytes, that's usually 1024 clients
+at most, which is probably enough for any UM profiler, but will decrease even
+more if we turn it into an ASCII readable file.
+
+I did some research into sysfs binary attributes, and while some sources mention that
+it's often used for dumping or loading of driver FW, none of them claim it cannot
+be used for other purposes.
+
+> > > ---
+> > >   drivers/gpu/drm/drm_internal.h       |  2 +-
+> > >   drivers/gpu/drm/drm_privacy_screen.c |  2 +-
+> > >   drivers/gpu/drm/drm_sysfs.c          | 89 ++++++++++++++++++++++------
+> > >   3 files changed, 74 insertions(+), 19 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> > > index 2215baef9a3e..9a399b03d11c 100644
+> > > --- a/drivers/gpu/drm/drm_internal.h
+> > > +++ b/drivers/gpu/drm/drm_internal.h
+> > > @@ -145,7 +145,7 @@ bool drm_master_internal_acquire(struct drm_device *dev);
+> > >   void drm_master_internal_release(struct drm_device *dev);
+> > > 
+> > >   /* drm_sysfs.c */
+> > > -extern struct class *drm_class;
+> > > +extern struct class drm_class;
+> > > 
+> > >   int drm_sysfs_init(void);
+> > >   void drm_sysfs_destroy(void);
+> > > diff --git a/drivers/gpu/drm/drm_privacy_screen.c b/drivers/gpu/drm/drm_privacy_screen.c
+> > > index 6cc39e30781f..2fbd24ba5818 100644
+> > > --- a/drivers/gpu/drm/drm_privacy_screen.c
+> > > +++ b/drivers/gpu/drm/drm_privacy_screen.c
+> > > @@ -401,7 +401,7 @@ struct drm_privacy_screen *drm_privacy_screen_register(
+> > >          mutex_init(&priv->lock);
+> > >          BLOCKING_INIT_NOTIFIER_HEAD(&priv->notifier_head);
+> > > 
+> > > -       priv->dev.class = drm_class;
+> > > +       priv->dev.class = &drm_class;
+> > >          priv->dev.type = &drm_privacy_screen_type;
+> > >          priv->dev.parent = parent;
+> > >          priv->dev.release = drm_privacy_screen_device_release;
+> > > diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> > > index a953f69a34b6..56ca9e22c720 100644
+> > > --- a/drivers/gpu/drm/drm_sysfs.c
+> > > +++ b/drivers/gpu/drm/drm_sysfs.c
+> > > @@ -58,8 +58,6 @@ static struct device_type drm_sysfs_device_connector = {
+> > >          .name = "drm_connector",
+> > >   };
+> > > 
+> > > -struct class *drm_class;
+> > > -
+> > >   #ifdef CONFIG_ACPI
+> > >   static bool drm_connector_acpi_bus_match(struct device *dev)
+> > >   {
+> > > @@ -128,6 +126,62 @@ static const struct component_ops typec_connector_ops = {
+> > > 
+> > >   static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
+> > > 
+> > > +static ssize_t clients_show(struct device *cd, struct device_attribute *attr, char *buf)
+> > > +{
+> > > +       struct drm_minor *minor = cd->driver_data;
+> > > +       struct drm_device *ddev = minor->dev;
+> > > +       struct drm_file *priv;
+> > > +       ssize_t offset = 0;
+> > > +       void *pid_buf;
+> > > +
+> > > +       if (minor->type != DRM_MINOR_RENDER)
+> > > +               return 0;
 > 
-> struct vm_area_struct is an argument to the migrate_vma* functions [4], so
-> yes drivers need to be aware of CPU VMAs.
+> Why this?
 
-That is something else. If you want to mess with migration during your
-GPU fault path then fine that is some "migration module", but it
-should have NOTHING to do with how hmm_range_fault() is invoked or how
-the *SVA* flow operates.
+I return nothing in case of a non-render node because we don't want display drivers
+to confuse UM GPU profilers.
 
-You are mixing things up here, this thread is talking about
-hmm_range_fault() and SVA.
+> > > +
+> > > +       pid_buf = kvmalloc(PAGE_SIZE, GFP_KERNEL);
+> 
+> I don't quite get the kvmalloc for just one page (or why even a temporay
+> buffer and not write into buf directly?).
 
-migration is something that happens before doing the SVA mirroring
-flows.
+Should've used kmalloc, you're right. Or else I could just write everything straight into 'buf'.
 
-Jason
+> > > +       if (!pid_buf)
+> > > +               return 0;
+> > > +
+> > > +       mutex_lock(&ddev->filelist_mutex);
+> > > +       list_for_each_entry_reverse(priv, &ddev->filelist, lhead) {
+> > > +               struct pid *pid;
+> > > +
+> > > +               if (drm_WARN_ON(ddev, (PAGE_SIZE - offset) < sizeof(pid_t)))
+> > > +                       break;
+> 
+> Feels bad.. I would suggest exploring implementing a read callback (instead of
+> show) and handling arbitrary size output.
+
+I think regular class attributes can only implement show() and set(). For a more complex
+interface, I would have to turn it into an actual binary attribute, and that would be the only
+choice if we want the list of clients to be of arbitrary size.
+
+> > > +
+> > > +               rcu_read_lock();
+> > > +               pid = rcu_dereference(priv->pid);
+> > > +               (*(pid_t *)(pid_buf + offset)) = pid_vnr(pid);
+> > > +               rcu_read_unlock();
+> > > +
+> > > +               offset += sizeof(pid_t);
+> > > +       }
+> > > +       mutex_unlock(&ddev->filelist_mutex);
+> > > +
+> > > +       if (offset < PAGE_SIZE)
+> > > +               (*(pid_t *)(pid_buf + offset)) = 0;
+> 
+> Either NULL terminated or PAGE_SIZE/sizeof(pid) entries and not NULL
+> terminated feels weird. If I got that right.
+> 
+> For me everything points towards going for text output.
+
+Yes, I know it might sound weird, but my reasoning was: either there are PAGE_SIZE/sizeof(pid) entries
+and the file isn't NULL terminated (which should be picked up by clients as being one page worth
+of data, the sysfs attribute maximum transfer unit), or else there aren't enough entries to fill
+a page and after the last one there's a NULL entry.
+
+
+> > > +
+> > > +       memcpy(buf, pid_buf, offset);
+> > > +
+> > > +       kvfree(pid_buf);
+> > > +
+> > > +       return offset;
+> > > +
+> > > +}
+> > > +static DEVICE_ATTR_RO(clients);
+> 
+> Shouldn't BIN_ATTR_RO be used for binary files in sysfs?
+
+Like I said above, I sort of faked a binary attribute through the regular sysfs attr API,
+which is most likely a bad idea.
+
+> Regards,
+> 
+> Tvrtko
+> 
+> P.S. Or maybe it is time for drmfs? Where each client gets a directory and
+> drivers can populate files. Such as per client logging streams and whatnot.
+
+Yes, but maybe this is something we can discuss in depth in an RFC at a later time?
+
+> > > +
+> > > +static struct attribute *drm_device_attrs[] = {
+> > > +       &dev_attr_clients.attr,
+> > > +       NULL,
+> > > +};
+> > > +ATTRIBUTE_GROUPS(drm_device);
+> > > +
+> > > +struct class drm_class = {
+> > > +       .name           = "drm",
+> > > +       .dev_groups     = drm_device_groups,
+> > > +};
+> > > +
+> > > +static bool drm_class_initialised;
+> > > +
+> > >   /**
+> > >    * drm_sysfs_init - initialize sysfs helpers
+> > >    *
+> > > @@ -142,18 +196,19 @@ int drm_sysfs_init(void)
+> > >   {
+> > >          int err;
+> > > 
+> > > -       drm_class = class_create("drm");
+> > > -       if (IS_ERR(drm_class))
+> > > -               return PTR_ERR(drm_class);
+> > > +       err = class_register(&drm_class);
+> > > +       if (err)
+> > > +               return err;
+> > > 
+> > > -       err = class_create_file(drm_class, &class_attr_version.attr);
+> > > +       err = class_create_file(&drm_class, &class_attr_version.attr);
+> > >          if (err) {
+> > > -               class_destroy(drm_class);
+> > > -               drm_class = NULL;
+> > > +               class_destroy(&drm_class);
+> > >                  return err;
+> > >          }
+> > > 
+> > > -       drm_class->devnode = drm_devnode;
+> > > +       drm_class.devnode = drm_devnode;
+> > > +
+> > > +       drm_class_initialised = true;
+> > > 
+> > >          drm_sysfs_acpi_register();
+> > >          return 0;
+> > > @@ -166,12 +221,12 @@ int drm_sysfs_init(void)
+> > >    */
+> > >   void drm_sysfs_destroy(void)
+> > >   {
+> > > -       if (IS_ERR_OR_NULL(drm_class))
+> > > +       if (!drm_class_initialised)
+> > >                  return;
+> > >          drm_sysfs_acpi_unregister();
+> > > -       class_remove_file(drm_class, &class_attr_version.attr);
+> > > -       class_destroy(drm_class);
+> > > -       drm_class = NULL;
+> > > +       class_remove_file(&drm_class, &class_attr_version.attr);
+> > > +       class_destroy(&drm_class);
+> > > +       drm_class_initialised = false;
+> > >   }
+> > > 
+> > >   static void drm_sysfs_release(struct device *dev)
+> > > @@ -372,7 +427,7 @@ int drm_sysfs_connector_add(struct drm_connector *connector)
+> > >                  return -ENOMEM;
+> > > 
+> > >          device_initialize(kdev);
+> > > -       kdev->class = drm_class;
+> > > +       kdev->class = &drm_class;
+> > >          kdev->type = &drm_sysfs_device_connector;
+> > >          kdev->parent = dev->primary->kdev;
+> > >          kdev->groups = connector_dev_groups;
+> > > @@ -550,7 +605,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+> > >                          minor_str = "card%d";
+> > > 
+> > >                  kdev->devt = MKDEV(DRM_MAJOR, minor->index);
+> > > -               kdev->class = drm_class;
+> > > +               kdev->class = &drm_class;
+> > >                  kdev->type = &drm_sysfs_device_minor;
+> > >          }
+> > > 
+> > > @@ -579,10 +634,10 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+> > >    */
+> > >   int drm_class_device_register(struct device *dev)
+> > >   {
+> > > -       if (!drm_class || IS_ERR(drm_class))
+> > > +       if (!drm_class_initialised)
+> > >                  return -ENOENT;
+> > > 
+> > > -       dev->class = drm_class;
+> > > +       dev->class = &drm_class;
+> > >          return device_register(dev);
+> > >   }
+> > >   EXPORT_SYMBOL_GPL(drm_class_device_register);
+> > > 
+> > > base-commit: 45c734fdd43db14444025910b4c59dd2b8be714a
+> > > --
+> > > 2.44.0
+> > > 
+
+Adrian Larumbe
