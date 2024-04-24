@@ -2,74 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7E58B026F
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:51:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724108B0274
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:52:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECB4113876;
-	Wed, 24 Apr 2024 06:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87BD111388C;
+	Wed, 24 Apr 2024 06:52:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FMcaEmxf";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S7UsPLfe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ABBB113876
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 06:51:21 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-346f4266e59so4783733f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 23:51:21 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 016F3113885
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 06:52:35 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-343e46ec237so5497758f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 23:52:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713941479; x=1714546279; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713941554; x=1714546354; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=5fhRPEnVPqfUJjDOhDV7MC9ZHHIfbOjexEAXqhIdO3Y=;
- b=FMcaEmxfCZHBBejA/+T2nXq2tHTBYvOrjUC1HGasBbx71npClIMJPQ7xvEaMQJvlk6
- GI0G+A4pIi3v0GCn7i01bsnjsBu63nul4j9wg9WXNLYMEO+i4LaVTHAm9nChOLuD0LQ6
- snY6ZTlNz7jt7JTDQFZjBFAsWUzcpNosj1tfQAuUjyNnzwFhXwlpyga4z6Zi7TlnBOP6
- oryEV/I22c47o7hrjUlDlDdldKS557Yqi3LK4ujUqsOWyKL/k/574FF5bnAICr/bB6Bo
- pdkgnhb5sUOHG+8Ec2KPteQpbCmnRqUWJJIHLSQHHDCJ26VodN2m5iwI6rfJPnH4De/e
- OLbA==
+ :reply-to; bh=z+kkCAVJxss4CPk4KOwYcVQMSZDA+8r/AwQ6dh68tMs=;
+ b=S7UsPLfekVLH49v508r5nr7htmZ1kdZ5/3wE9dP2Q6pTA2D5HNf9+SQLBjMv4eCzbI
+ SSH+PcoTtog61QcjR74Kw0NKzunYhYh0eMpGviZ6fggrcVEV43pVEkaLqIuc1/QyVpH3
+ aZ7ulPLIglveqFUDe7b4eb6SMrc75RVxN5P/IVukA2p091wiEY/WhM9ZtvuGffJhJxNe
+ gW5UaGowKa3OC5GjyEZhLzkmeTtqPsxu2SITmlikOyDQZx7vDj3pB52+zNLdGsMlSjty
+ tpGi1ACstMKjVjHMVuVxwTjVTnsErO+mZWHcfpFxJ+wUPAVUo8/0WZqARq0WRa6vd4BL
+ 2cUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713941479; x=1714546279;
+ d=1e100.net; s=20230601; t=1713941554; x=1714546354;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=5fhRPEnVPqfUJjDOhDV7MC9ZHHIfbOjexEAXqhIdO3Y=;
- b=OLgzmqeuFSca5XOMc1wPSAkzOZPOjH9yZd/MsNDClqCO8oylyS+acocNQMgSqV8QXz
- cFo2pxMgvxT+xuKgesbMnpXJlNsTj3PBnR2zAISlVCuFH0Skhe+OM9741rwztb9moT6W
- XJfrqoIYvr2dc2QdZMohr00p15qX3FK26g9jOlH58ZbpLNiOO1sl6PbGrafCfy8cocvV
- sUKLJ+aPY7RA7Qa9ZF03UtlMnh/M9BYiOH7Llmbje66XYVFCSrcgXGTGHytVXqrAfnRc
- Zjehj5anfcM42sKuXQzUVznhqkdYWf8AMpgTfHxWBWBSW962VflfZyL1d0RskeSb9nsB
- O5Gg==
-X-Gm-Message-State: AOJu0YzYcJwLEa+R/yW8Ttc/4EQqoQgbHSpnoQU55I54YKJ9kPKpoyWF
- Kj688yMdLN0cexfMWWkB7THub/wfLmKHojaNiyJIAHsd84aEz6F4yxCuCLTuRdk=
-X-Google-Smtp-Source: AGHT+IER+PTkXrM2sYTgRDnw/H8j7tp/CT8JUDUe2TAwv1AXC+oqV7npD/LeU5lehsx1WtbbguW2Ag==
-X-Received: by 2002:a5d:5243:0:b0:343:ba58:97c4 with SMTP id
- k3-20020a5d5243000000b00343ba5897c4mr800456wrc.10.1713941479305; 
- Tue, 23 Apr 2024 23:51:19 -0700 (PDT)
+ bh=z+kkCAVJxss4CPk4KOwYcVQMSZDA+8r/AwQ6dh68tMs=;
+ b=cP0rUdmkIuag0drVL5L4rWcbRLI4Wds4gS9p9TxZxbuGotqRlm/fMljrMNVmQunHkc
+ I0wlHHnoxzzun9yLJZj/Pp/6uaNPdtJNlWCy06Og/SXPH4Qi/o5hO+HWfusPS9LOYam2
+ GBQdT7ZlOMC2nQk+/I4DSYPOwNQhE5awIei767mZr1fBVGGzmKtH1Nms2rseHoOCAVy5
+ xGn9iD363hFgMPI0aSbh1EY1AgoLpY1XOXVi7QTcqI6S1Ex5+OV3eS9CRF4NhpdUyv4D
+ hFIiYSGSVAsIQ8amvlh5TDd5oKTJPkMr9hFHzKmhcWCCmW6+eDjyT5VcymYD7peDh9C/
+ 0iGA==
+X-Gm-Message-State: AOJu0Yz0NesJ6CIpCQXca4HoiMgHxOSxDgjZuzqxk8PD1x2/8rpWKqfR
+ OY8BmqfJXws3BWD2eaiorclYV8kH+YCEIqtGZcpe7EVdIiHV/ko3XPH5lfuwH5c=
+X-Google-Smtp-Source: AGHT+IEVWgpM+FkCadzRn9I6amzbQMsnZKpbQYUhVluMjNrwR1wMJqnIGERLUVZnQUC66EUNm7zrKQ==
+X-Received: by 2002:adf:cd11:0:b0:349:8ae9:b030 with SMTP id
+ w17-20020adfcd11000000b003498ae9b030mr952155wrm.10.1713941553966; 
+ Tue, 23 Apr 2024 23:52:33 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:ed3e:c90b:dd74:51a7?
  ([2a01:e0a:982:cbb0:ed3e:c90b:dd74:51a7])
  by smtp.gmail.com with ESMTPSA id
- cs18-20020a056000089200b003437799a373sm16429555wrb.83.2024.04.23.23.51.18
+ j13-20020a056000124d00b0034b7906c716sm3146747wrx.106.2024.04.23.23.52.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Apr 2024 23:51:18 -0700 (PDT)
-Message-ID: <ec748d7c-b1cb-4ab3-88e6-b624b1f086de@linaro.org>
-Date: Wed, 24 Apr 2024 08:51:17 +0200
+ Tue, 23 Apr 2024 23:52:33 -0700 (PDT)
+Message-ID: <c0f90e91-25dc-4912-906b-154c555fa25c@linaro.org>
+Date: Wed, 24 Apr 2024 08:52:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: jdi-fhd-r63452: make use of prepare_prev_first
-To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>,
+Subject: Re: [PATCH 3/6] drm/panel: novatek-nt36672e: stop setting register
+ load before disable
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- y.oudjana@protonmail.com
-References: <20240423-jdi-fix-v1-1-808970662b40@gmail.com>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Harigovindan P <harigovi@codeaurora.org>,
+ Ritesh Kumar <quic_riteshk@quicinc.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
+ <20240404-drop-panel-unregister-v1-3-9f56953c5fb9@linaro.org>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -96,9 +101,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240423-jdi-fix-v1-1-808970662b40@gmail.com>
+In-Reply-To: <20240404-drop-panel-unregister-v1-3-9f56953c5fb9@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,32 +120,54 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/04/2024 22:54, Barnabás Czémán wrote:
-> The DSI host must be enabled for the panel to be initialized in
-> prepare(). Set the prepare_prev_first flag to guarantee this.
+On 04/04/2024 12:08, Dmitry Baryshkov wrote:
+> It is pointless to set register load before disabling the register. This
+> vote is going to be dropped as soon as the register is disabled. Drop
+> these register_set_load calls.
 > 
-> Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 1 +
->   1 file changed, 1 insertion(+)
+>   drivers/gpu/drm/panel/panel-novatek-nt36672e.c | 17 -----------------
+>   1 file changed, 17 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-> index 3e0a8e0d58a0..483dc88d16d8 100644
-> --- a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-> +++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-> @@ -247,6 +247,7 @@ static int jdi_fhd_r63452_probe(struct mipi_dsi_device *dsi)
+> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
+> index c39fe0fc5d69..9a870b9b6765 100644
+> --- a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
+> +++ b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
+> @@ -25,12 +25,6 @@ static const unsigned long regulator_enable_loads[] = {
+>   	100000,
+>   };
 >   
->   	drm_panel_init(&ctx->panel, dev, &jdi_fhd_r63452_panel_funcs,
->   		       DRM_MODE_CONNECTOR_DSI);
-> +	ctx->panel.prepare_prev_first = true;
+> -static const unsigned long regulator_disable_loads[] = {
+> -	80,
+> -	100,
+> -	100,
+> -};
+> -
+>   struct panel_desc {
+>   	const struct drm_display_mode *display_mode;
+>   	u32 width_mm;
+> @@ -385,20 +379,9 @@ static int nt36672e_power_off(struct nt36672e_panel *ctx)
+>   {
+>   	struct mipi_dsi_device *dsi = ctx->dsi;
+>   	int ret = 0;
+> -	int i;
 >   
->   	ret = drm_panel_of_backlight(&ctx->panel);
+>   	gpiod_set_value(ctx->reset_gpio, 0);
+>   
+> -	for (i = 0; i < ARRAY_SIZE(ctx->supplies); i++) {
+> -		ret = regulator_set_load(ctx->supplies[i].consumer,
+> -				regulator_disable_loads[i]);
+> -		if (ret) {
+> -			dev_err(&dsi->dev, "regulator set load failed for supply %s: %d\n",
+> -				ctx->supplies[i].supply, ret);
+> -			return ret;
+> -		}
+> -	}
+> -
+>   	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
 >   	if (ret)
+>   		dev_err(&dsi->dev, "regulator bulk disable failed: %d\n", ret);
 > 
-> ---
-> base-commit: a59668a9397e7245b26e9be85d23f242ff757ae8
-> change-id: 20240423-jdi-fix-986a796a3101
-> 
-> Best regards,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
