@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F458B15FD
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 00:15:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7B38B162A
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 00:28:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3B310E27E;
-	Wed, 24 Apr 2024 22:15:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E87010E0E6;
+	Wed, 24 Apr 2024 22:28:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="3N2HNtzW";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="TJAVtNIY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 698A610E27E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 22:15:48 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-41b2119da94so2715035e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 15:15:48 -0700 (PDT)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE7D710E0E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 22:28:14 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id
+ d75a77b69052e-43989e6ca42so118141cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 15:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1713996947; x=1714601747;
+ d=google.com; s=20230601; t=1713997694; x=1714602494;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9PwX26yDrbphgPlomUbRviwGBYrIb66VEMHKXPwN1t8=;
- b=3N2HNtzWN7b7/y/+PCuWPJ88IRLiFxxj8YuNECYj4glOzUVrdemeR7fCxuiEnnyXGe
- 5+7DevoVx3ePBQWE0RrnCsxnl5rDGIvxMExU/DSad4md/pnZpmU6Aq1vripAndDYSi2J
- gtH00Edh+p2BBcljYWLZaqBbgdNEHHNzZEBgkAupTZKqfluQQybwUajkviNSRTlbVgWB
- WBt8hO8Hp2A7kdGZvGdjtPCMK/VctCj7NPKJoF7XQQ3FMjYA6dLTWhffKxqvQefsDz/8
- 6yMVeO29XspPXRJOQrBzg6HbDuM+NJEnbyO872rcHWRnSIOCl6VTkLelYvn7oV+QfqIO
- J8kQ==
+ bh=IJLLyGyNYSIJ2mqOOEmdvcNKVMG9G7qW3Ws/lvIO5iY=;
+ b=TJAVtNIYIoYh0ChCX0uYXT9+o4oVt7I4PTsLg+qwcSpb9UMrhG7AXdFMjjrqp0p7oG
+ kElwsAqwDdunbrIADKlBAyE3m4j04f40vERU8Q56rSsDXgWMpC6ISBpxO1OYJuJfb4g4
+ JTI09uyqS71l4jxvobODoukekqsnQIWL4Z/6wGTVGPOQdb+vEqOsxoEwvNiMQG4uB0kw
+ tpvdlLtZyXBv95IiyMV0qP1FbTBBxKJ5XAeQ6+qNySRXIiTZG9hMRx6vYZzUQSgmqz09
+ 7InV59iwVBMG+R3kINhvR1Oa3YalBAaLfGFSiKRH3+XurAq2vR0D4u4mn9R6QlBrvl5f
+ mGOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713996947; x=1714601747;
+ d=1e100.net; s=20230601; t=1713997694; x=1714602494;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9PwX26yDrbphgPlomUbRviwGBYrIb66VEMHKXPwN1t8=;
- b=MsLtXpAmg1LKi6Iql0dIK3IjHZAjd63EI61ULZkc5slH1KHicnEyvPPYhKJMJgBTV3
- f5bzCuVvEJuTeiiQSr0a83Lbo226+SetDOFK8OQPqd10nIyDYv8rMyyQ90fZ1DrJmn5v
- hbbNjr+emKU5GZ78s6WYX2FAd8t6xlasv2VvPhPW+PgGKqFXMURxqg7FjKGEDALx6JIf
- Ac5b4iGCudy/JFmhf5e83TQJHDb8Nkg+2nazKNoAAF0zcrSgg/PrlEtN5KenlgEnLKl7
- iYrhswcf/bcvE9x15AoCOhrRFsbKtD2aqEUbKMY5/hY50IrZFTPfDgJKumqgEBC7mI6h
- /+oA==
+ bh=IJLLyGyNYSIJ2mqOOEmdvcNKVMG9G7qW3Ws/lvIO5iY=;
+ b=K8QijT0afD9aeUi1z2WCZCtK3fb/gfgtGY4hNne9WlG7w+/07vDJF7gVdHlk8KytOL
+ cj+Rbtn1TZxusJfo4RsYNPadJo2lSKLdIn2g0npBltKbsBYGQftGlkydh2AQGyzyfx20
+ qCEAtGQq5i814NTUYD929dm69rDW+PuLUp6IbO9zDCmMTFSXuDYL3Q5tAXoRnpfnBLjd
+ 4fidv8BT6MZMtdGWVC9c4HD16bWHfpD7h545zdJpKni3HdpH3E8S74wyorbOOQQqBWA7
+ Kii6IA22/FGgXDwdP5yBrhA6DP7rY95F3gh7yxCK6ArpCGA8Szbh8ZWzXClKt6Bjqhaz
+ 30Ng==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVSWj+RM92u72VFJDldIHueCDwCRvGAdH+t+TIiV1aGCh7cjKwsgyUks9zAa9cukYJCaW/s2fPW7wYBD5bB0SOLVDVjAGiy70xaWXYEieJ1
-X-Gm-Message-State: AOJu0YyXyCq7VogY+aIi+9xQoZc6tSdh/Ihj4PQXcV3JPi8o4ku5G7hM
- 6IAX678Fb9ZqT9qGv33TB40LgklEuycDy1EHr3HAQSc0voHg0W0kQI6anFjbjOnIiVJFo1m3PCq
- Bx1HOBb7Op2OuGgJNV4gRjW55jiLMvnpSbW9c
-X-Google-Smtp-Source: AGHT+IHkboif/00IgRcoNKYbKyjHQwpzFRhV06M+te63W8KYhcpbAeVE+PqnNH2rpK8rFGBlds+W+jojcHREsdyxFyE=
-X-Received: by 2002:a05:600c:5247:b0:414:273:67d4 with SMTP id
- fc7-20020a05600c524700b00414027367d4mr2632403wmb.30.1713996946437; Wed, 24
- Apr 2024 15:15:46 -0700 (PDT)
+ AJvYcCX5vNdH1yb4UrCO7w7jxqSsZWXVy+Ybg0RBSnYyOk1fPiJyHQfafRlTx8D912d3hcSrR8dU7zfYgZlWbcniPo7uQv2QXbvv0h0ar+yLUv2j
+X-Gm-Message-State: AOJu0Yy9AsHTNXqosFqxZxh1j0W+4mi4Cv4RofqQoUHNlrFkWDwdaL98
+ 8u1FLgtAlXyj6rGU9OQ/WflyXKTHcrO8m/sjZtkRB9GpRbFcM0DicZPldCjK2xjXpTDLZssa5wp
+ i6bO6gnw1+Nq75bLaNMQ94UWTxICMq9yh2ERR
+X-Google-Smtp-Source: AGHT+IHd7tmiOysDGaUNRDpOFNHo8FgH+ESPpffL4dbRJeqnASsPciIA15vaqfOd1oBkupDoEvg5mHMF7XcWnyQe91o=
+X-Received: by 2002:a05:622a:44c3:b0:439:aa2d:40b1 with SMTP id
+ kc3-20020a05622a44c300b00439aa2d40b1mr36136qtb.27.1713997693565; Wed, 24 Apr
+ 2024 15:28:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
  <20240418081548.12160-3-lvzhaoxiong@huaqin.corp-partner.google.com>
@@ -65,12 +65,12 @@ References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
  <CAD=FV=VQ8rbwKk4WpHRER9p4cZp7UrrHRpgnErqbQxyxp4sg5w@mail.gmail.com>
  <CAA8EJprv3qBd1hfdWHrfhY=S0w2O70dZnYb6TVsS6AGRPxsYdw@mail.gmail.com>
 In-Reply-To: <CAA8EJprv3qBd1hfdWHrfhY=S0w2O70dZnYb6TVsS6AGRPxsYdw@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@google.com>
-Date: Wed, 24 Apr 2024 15:15:18 -0700
-Message-ID: <CACb=7PVEpCFWf_aysRkeR0yWAXR5sTaXhNbi3TV3ffKj866+EQ@mail.gmail.com>
+From: Doug Anderson <dianders@google.com>
+Date: Wed, 24 Apr 2024 15:27:59 -0700
+Message-ID: <CAD=FV=U-1A4N5aMeRpx1sC6TsG_hdOOpstzirVrA-=oPoLeg3A@mail.gmail.com>
 Subject: Re: [PATCH v1 2/2] drm/panel: kd101ne3: add new panel driver
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Doug Anderson <dianders@google.com>, 
+Cc: Hsin-Yi Wang <hsinyi@google.com>, 
  lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>, mripard@kernel.org, 
  airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org, 
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
@@ -94,120 +94,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
 On Wed, Apr 24, 2024 at 2:49=E2=80=AFPM Dmitry Baryshkov
 <dmitry.baryshkov@linaro.org> wrote:
 >
-> On Thu, 25 Apr 2024 at 00:04, Doug Anderson <dianders@google.com> wrote:
-> >
-> > Hi,
-> >
-> > On Tue, Apr 23, 2024 at 2:20=E2=80=AFPM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
-> > >
-> > > On Tue, Apr 23, 2024 at 01:41:59PM -0700, Doug Anderson wrote:
-> > > > Hi,
-> > > >
-> > > > On Tue, Apr 23, 2024 at 11:10=E2=80=AFAM Hsin-Yi Wang <hsinyi@googl=
-e.com> wrote:
-> > > > >
-> > > > > > > > > +#define _INIT_DCS_CMD(...) { \
-> > > > > > > > > +     .type =3D INIT_DCS_CMD, \
-> > > > > > > > > +     .len =3D sizeof((char[]){__VA_ARGS__}), \
-> > > > > > > > > +     .data =3D (char[]){__VA_ARGS__} }
-> > > > > > > > > +
-> > > > > > > > > +#define _INIT_DELAY_CMD(...) { \
-> > > > > > > > > +     .type =3D DELAY_CMD,\
-> > > > > > > > > +     .len =3D sizeof((char[]){__VA_ARGS__}), \
-> > > > > > > > > +     .data =3D (char[]){__VA_ARGS__} }
-> > > > > > > >
-> > > > > > > > This is the third panel driver using the same appoach. Can =
-you use
-> > > > > > > > mipi_dsi_generic_write_seq() instead of the huge table? Or =
-if you prefer
-> > > > > > > > the table, we should extract this framework to a common hel=
-per.
-> > > > > > > > (my preference is shifted towards mipi_dsi_generic_write_se=
-q()).
-> > > > > > > >
-> > > > > > > The drawback of mipi_dsi_generic_write_seq() is that it can c=
-ause the
-> > > > > > > kernel size grows a lot since every sequence will be expanded=
-.
-> > > > > > >
-> > > > > > > Similar discussion in here:
-> > > > > > > https://lore.kernel.org/dri-devel/CAD=3DFV=3DWju3WS45=3DEpXMU=
-g7FjYDh3-=3Dmvm_jS7TF1tsaAzbb4Uw@mail.gmail.com/
-> > > > > > >
-> > > > > > > This patch would increase the module size from 157K to 572K.
-> > > > > > > scripts/bloat-o-meter shows chg +235.95%.
-> > > > > > >
-> > > > > > > So maybe the common helper is better regarding the kernel mod=
-ule size?
-> > > > > >
-> > > > > > Yes, let's get a framework done in a useful way.
-> > > > > > I'd say, drop the _INIT_DELAY_CMD. msleep() and usleep_range() =
-should be
-> > > > > > used instead (and it's up to the developer to select correct de=
-lay
-> > > > > > function).
-> > > > > >
-> > > > > > >
-> > > > > > > > > +
-> > > > > > > > > +static const struct panel_init_cmd kingdisplay_kd101ne3_=
-init_cmd[] =3D {
-> > > > > > > > > +     _INIT_DELAY_CMD(50),
-> > > > > > > > > +     _INIT_DCS_CMD(0xE0, 0x00),
-> > > > > >
-> > > > > > [skipped the body of the table]
-> > > > > >
-> > > > > > > > > +     _INIT_DCS_CMD(0x0E, 0x48),
-> > > > > > > > > +
-> > > > > > > > > +     _INIT_DCS_CMD(0xE0, 0x00),
-> > > > > >
-> > > > > > > > > +     _INIT_DCS_CMD(0X11),
-> > > > > >
-> > > > > > Also, at least this is mipi_dsi_dcs_exit_sleep_mode().
-> > > > > >
-> > > > > > > > > +     /* T6: 120ms */
-> > > > > > > > > +     _INIT_DELAY_CMD(120),
-> > > > > > > > > +     _INIT_DCS_CMD(0X29),
-> > > > > >
-> > > > > > And this is mipi_dsi_dcs_set_display_on().
-> > > > > >
-> > > > > > Having a single table enourages people to put known commands in=
-to the
-> > > > > > table, the practice that must be frowned upon and forbidden.
-> > > > > >
-> > > > > > We have functions for some of the standard DCS commands. So, ma=
-ybe
-> > > > > > instead of adding a single-table based approach we can improve
-> > > > > > mipi_dsi_generic_write_seq() to reduce the bloat. E.g. by movin=
-g the
-> > > > > > error handling to a common part of enable() / prepare() functio=
-n.
-> > > > > >
-> > > > >
-> > > > > For this panel, I think it can also refer to how
-> > > > > panel-kingdisplay-kd097d04.c does. Create the table for init cmd =
-data,
-> > > > > not what operation to use, and use mipi_dsi_generic_write_seq() w=
-hen
-> > > > > looping through the table.
-> > > >
-> > > > Even more similar discussion:
-> > > >
-> > > > https://lore.kernel.org/r/CAD=3DFV=3DUGDbNvAMjzWSOvxybGikQcvW9JsRtb=
-xHVg8_97YPEQCA@mail.gmail.com
-> > >
-> > > It seems I skipped that thread.
-> > >
-> > > I'd still suggest a code-based solution compared to table-based one, =
-for
-> > > the reasons I've outlined before. Having a tables puts a pressure on =
-the
-> > > developer to put commands there for which we already have a
-> > > command-specific function.
-> >
 > > The problem is that with these panels that need big init sequences the
 > > code based solution is _a lot_ bigger. If it were a few bytes or a
 > > 1-2KB then fine, but when Hsin-Yi measured Linus W's attempt to move
@@ -249,13 +140,6 @@ the
 >         return ret;
 > }
 >
-
-I'm not sure about the coding style rule here, would it be considered
-unclear that caller of mipi_dsi_dcs_write_cmd_seq() needs to have err
-block, but the block may not be directly used in that caller and is
-only jumped from the macro?
-
-
 > Size comparison:
 >    text    data     bss     dec     hex filename
 > before
@@ -274,14 +158,20 @@ place.
 > than going through the sequence.
 >
 > WDYT? I can turn this into a proper patch if you think this makes sense.
->
-> >
-> >
-> > [1] https://lore.kernel.org/r/CAD=3DFV=3DUFa_AoJQvUT3BTiRs19WCA2xLVeQOU=
-=3D+nYu_HaE0_c6Q@mail.gmail.com
->
->
->
-> --
-> With best wishes
-> Dmitry
+
+Ah, so what you're saying is that the big bloat from using the
+existing mipi_dsi_dcs_write_seq() is the error printing. That makes
+sense. ...and by relying on the caller to provide an error handling
+label we can get rid of the overhead and still get the error prints.
+
+Yes, that seems pretty reasonable to me. I guess I'd perhaps make the
+error label a parameter to the macro (so it's obvious that the caller
+needs to define it) and maybe name it in such a way to make it obvious
+the difference between this macro and mipi_dsi_dcs_write_seq().
+
+With that and your measurements then this seems perfectly reasonable
+to me and I'm good with fully moving away from the table-based
+approach. I'd be happy if you sent a patch for it and happy to review
+it.
+
+-Doug
