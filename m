@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494648B012C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 07:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F82E8B0131
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 07:42:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7132F1137DF;
-	Wed, 24 Apr 2024 05:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C8901137E2;
+	Wed, 24 Apr 2024 05:42:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="vEEjGh+I";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="osvKjhJ0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E951137DF
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 05:41:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C10B1137E2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 05:42:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1713937316; x=1745473316;
+ t=1713937338; x=1745473338;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=pdPxed/ER9IiDp9ME+rn2hk3q1ClqZRiV2sB5ZU8XR4=;
- b=vEEjGh+IYBhlo37ThEC1icECccNudge2qZ1mWmW+T98Ojw1OqvVI5eo2
- Ux0/ANf2m/TqlU6VzQFTs1Ey2Ps1/HVECz1ae5grwwRFfdfLm517MlfGr
- wSYiQUeXILROIQjuxrU9x3/mLAcgCWgsY3KOElgkl10v1LpWmVgA8H8TM
- gid3aMkMuD/FktuYvJesRsRrSMYlJnLvhj9FY/rGsf0HVLftZvZzP7YA5
- upTf3dfU+RMu/EEHtbolo1NH8bEY7jQgqkHpE9BACKa0kShLL5497KSM7
- giNFkVT2kLOvVrtMhG8UFmMqYu/MAWAHqJlikc3Z9Fj3kWP+quyQLMr3L Q==;
-X-CSE-ConnectionGUID: PbptyM/7SruTa7hfwyXEEg==
-X-CSE-MsgGUID: QfTaV9MVTtONOBp1w3fY6Q==
-X-IronPort-AV: E=Sophos;i="6.07,225,1708412400"; d="scan'208";a="22373247"
+ bh=EJ7HICHgLilFrtLK8BajK1eVr4wt6O4I9e6krZgg5WE=;
+ b=osvKjhJ0HYIAHzy3XfYDszdEq4T+APwWehghpv5igFq8wULj6X1p3Ph8
+ jkIFwB6VaSaZWoZSnOkkp7oHU+haNfnsPuebKKVlEJ2LiFWTluQzv3dKL
+ fdcpWYYmVUSff3QBZlsXMlKm1sQAyJumwaoU1ta6pfhNThXKIw9ZxnNKH
+ NIWYZ7srjrfeKm23WJZgx4NClp33T0oFYmSqYSY7Lo7br9+303ZUYesRD
+ A8WAMJ6BJzkY4NeszkNBl8oMHZrLLpbcQNWGWjCqt2v0yhno1je6QqouZ
+ XeLuj1I1EsGGRLz7seFbl2jbNaGt006SENCFVzjdY3cgdZDJ9bhO1BuBe g==;
+X-CSE-ConnectionGUID: cS45O937TrSqQ6qvvirFaA==
+X-CSE-MsgGUID: pHqPswsEQ4y0P+i2vFp7IQ==
+X-IronPort-AV: E=Sophos;i="6.07,225,1708412400"; d="scan'208";a="22977482"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 23 Apr 2024 22:34:48 -0700
+ by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 23 Apr 2024 22:35:11 -0700
 Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 23 Apr 2024 22:34:40 -0700
+ 15.1.2507.35; Tue, 23 Apr 2024 22:34:50 -0700
 Received: from che-lt-i67131.microchip.com (10.10.85.11) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Tue, 23 Apr 2024 22:34:31 -0700
+ 15.1.2507.35 via Frontend Transport; Tue, 23 Apr 2024 22:34:40 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <sam@ravnborg.org>, <bbrezillon@kernel.org>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -53,13 +53,12 @@ To: <sam@ravnborg.org>, <bbrezillon@kernel.org>,
 CC: <Hari.PrasathGE@microchip.com>, <Balamanikandan.Gunasundar@microchip.com>, 
  <Durai.ManickamKR@microchip.com>, <Nayabbasha.Sayed@microchip.com>,
  <Dharma.B@microchip.com>, <Varshini.Rajendran@microchip.com>,
- <Balakrishnan.S@microchip.com>, <Charan.Pedumuru@microchip.com>, "Durai
- Manickam KR" <durai.manickamkr@microchip.com>, Manikandan Muralidharan
- <manikandan.m@microchip.com>
-Subject: [PATCH RESEND v9 2/8] drm: atmel-hlcdc: Define XLCDC specific
- registers
-Date: Wed, 24 Apr 2024 11:03:45 +0530
-Message-ID: <20240424053351.589830-3-manikandan.m@microchip.com>
+ <Balakrishnan.S@microchip.com>, <Charan.Pedumuru@microchip.com>, "Manikandan
+ Muralidharan" <manikandan.m@microchip.com>
+Subject: [PATCH RESEND v9 3/8] drm: atmel_hlcdc: replace regmap_read with
+ regmap_read_poll_timeout
+Date: Wed, 24 Apr 2024 11:03:46 +0530
+Message-ID: <20240424053351.589830-4-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240424053351.589830-1-manikandan.m@microchip.com>
 References: <20240424053351.589830-1-manikandan.m@microchip.com>
@@ -81,117 +80,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Durai Manickam KR <durai.manickamkr@microchip.com>
+Replace regmap_read with regmap_read_poll_timeout to neatly handle
+retries
 
-The register address of the XLCDC IP used in SAM9X7 SoC family
-are different from the previous HLCDC. Defining those address
-space with valid macros.
-
-Signed-off-by: Durai Manickam KR <durai.manickamkr@microchip.com>
-[manikandan.m@microchip.com: Remove unused macro definitions]
 Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-Acked-by: Lee Jones <lee@kernel.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h | 42 ++++++++++++++++++++
- include/linux/mfd/atmel-hlcdc.h              | 10 +++++
- 2 files changed, 52 insertions(+)
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 44 +++++++++++--------
+ 1 file changed, 25 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-index d0ecf0f58cce..c32e5c8809d7 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
-@@ -15,6 +15,7 @@
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+index cc5cf4c2faf7..b229692a27ca 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+@@ -203,19 +203,22 @@ static void atmel_hlcdc_crtc_atomic_disable(struct drm_crtc *c,
+ 	pm_runtime_get_sync(dev->dev);
  
- #include <drm/drm_plane.h>
+ 	regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_DISP);
+-	while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
+-	       (status & ATMEL_HLCDC_DISP))
+-		cpu_relax();
++	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
++				     !(status & ATMEL_HLCDC_DISP),
++				    10, 1000))
++		dev_warn(dev->dev, "Atmel LCDC status register DISPSTS timeout\n");
  
-+/* LCD controller common registers */
- #define ATMEL_HLCDC_LAYER_CHER			0x0
- #define ATMEL_HLCDC_LAYER_CHDR			0x4
- #define ATMEL_HLCDC_LAYER_CHSR			0x8
-@@ -128,6 +129,47 @@
+ 	regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_SYNC);
+-	while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
+-	       (status & ATMEL_HLCDC_SYNC))
+-		cpu_relax();
++	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
++				     !(status & ATMEL_HLCDC_SYNC),
++				    10, 1000))
++		dev_warn(dev->dev, "Atmel LCDC status register LCDSTS timeout\n");
  
- #define ATMEL_HLCDC_MAX_LAYERS			6
+ 	regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_PIXEL_CLK);
+-	while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
+-	       (status & ATMEL_HLCDC_PIXEL_CLK))
+-		cpu_relax();
++	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
++				     !(status & ATMEL_HLCDC_PIXEL_CLK),
++				    10, 1000))
++		dev_warn(dev->dev, "Atmel LCDC status register CLKSTS timeout\n");
  
-+/* XLCDC controller specific registers */
-+#define ATMEL_XLCDC_LAYER_ENR			0x10
-+#define ATMEL_XLCDC_LAYER_EN			BIT(0)
-+
-+#define ATMEL_XLCDC_LAYER_IER			0x0
-+#define ATMEL_XLCDC_LAYER_IDR			0x4
-+#define ATMEL_XLCDC_LAYER_ISR			0xc
-+#define ATMEL_XLCDC_LAYER_OVR_IRQ(p)		BIT(2 + (8 * (p)))
-+
-+#define ATMEL_XLCDC_LAYER_PLANE_ADDR(p)		(((p) * 0x4) + 0x18)
-+
-+#define ATMEL_XLCDC_LAYER_DMA_CFG		0
-+
-+#define ATMEL_XLCDC_LAYER_DMA			BIT(0)
-+#define ATMEL_XLCDC_LAYER_REP			BIT(1)
-+#define ATMEL_XLCDC_LAYER_DISCEN		BIT(4)
-+
-+#define ATMEL_XLCDC_LAYER_SFACTC_A0_MULT_AS	(4 << 6)
-+#define ATMEL_XLCDC_LAYER_SFACTA_ONE		BIT(9)
-+#define ATMEL_XLCDC_LAYER_DFACTC_M_A0_MULT_AS	(6 << 11)
-+#define ATMEL_XLCDC_LAYER_DFACTA_ONE		BIT(14)
-+
-+#define ATMEL_XLCDC_LAYER_A0_SHIFT		16
-+#define ATMEL_XLCDC_LAYER_A0(x)			\
-+	((x) << ATMEL_XLCDC_LAYER_A0_SHIFT)
-+
-+#define ATMEL_XLCDC_LAYER_VSCALER_LUMA_ENABLE		BIT(0)
-+#define ATMEL_XLCDC_LAYER_VSCALER_CHROMA_ENABLE		BIT(1)
-+#define ATMEL_XLCDC_LAYER_HSCALER_LUMA_ENABLE		BIT(4)
-+#define ATMEL_XLCDC_LAYER_HSCALER_CHROMA_ENABLE		BIT(5)
-+
-+#define ATMEL_XLCDC_LAYER_VXSYCFG_ONE		BIT(0)
-+#define ATMEL_XLCDC_LAYER_VXSYTAP2_ENABLE	BIT(4)
-+#define ATMEL_XLCDC_LAYER_VXSCCFG_ONE		BIT(16)
-+#define ATMEL_XLCDC_LAYER_VXSCTAP2_ENABLE	BIT(20)
-+
-+#define ATMEL_XLCDC_LAYER_HXSYCFG_ONE		BIT(0)
-+#define ATMEL_XLCDC_LAYER_HXSYTAP2_ENABLE	BIT(4)
-+#define ATMEL_XLCDC_LAYER_HXSCCFG_ONE		BIT(16)
-+#define ATMEL_XLCDC_LAYER_HXSCTAP2_ENABLE	BIT(20)
-+
- /**
-  * Atmel HLCDC Layer registers layout structure
-  *
-diff --git a/include/linux/mfd/atmel-hlcdc.h b/include/linux/mfd/atmel-hlcdc.h
-index a186119a49b5..80d675a03b39 100644
---- a/include/linux/mfd/atmel-hlcdc.h
-+++ b/include/linux/mfd/atmel-hlcdc.h
-@@ -22,6 +22,8 @@
- #define ATMEL_HLCDC_DITHER		BIT(6)
- #define ATMEL_HLCDC_DISPDLY		BIT(7)
- #define ATMEL_HLCDC_MODE_MASK		GENMASK(9, 8)
-+#define ATMEL_XLCDC_MODE_MASK		GENMASK(10, 8)
-+#define ATMEL_XLCDC_DPI			BIT(11)
- #define ATMEL_HLCDC_PP			BIT(10)
- #define ATMEL_HLCDC_VSPSU		BIT(12)
- #define ATMEL_HLCDC_VSPHO		BIT(13)
-@@ -34,6 +36,12 @@
- #define ATMEL_HLCDC_IDR			0x30
- #define ATMEL_HLCDC_IMR			0x34
- #define ATMEL_HLCDC_ISR			0x38
-+#define ATMEL_XLCDC_ATTRE		0x3c
-+
-+#define ATMEL_XLCDC_BASE_UPDATE		BIT(0)
-+#define ATMEL_XLCDC_OVR1_UPDATE		BIT(1)
-+#define ATMEL_XLCDC_OVR3_UPDATE		BIT(2)
-+#define ATMEL_XLCDC_HEO_UPDATE		BIT(3)
+ 	clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
+ 	pinctrl_pm_select_sleep_state(dev->dev);
+@@ -241,20 +244,23 @@ static void atmel_hlcdc_crtc_atomic_enable(struct drm_crtc *c,
+ 	clk_prepare_enable(crtc->dc->hlcdc->sys_clk);
  
- #define ATMEL_HLCDC_CLKPOL		BIT(0)
- #define ATMEL_HLCDC_CLKSEL		BIT(2)
-@@ -48,6 +56,8 @@
- #define ATMEL_HLCDC_DISP		BIT(2)
- #define ATMEL_HLCDC_PWM			BIT(3)
- #define ATMEL_HLCDC_SIP			BIT(4)
-+#define ATMEL_XLCDC_SD			BIT(5)
-+#define ATMEL_XLCDC_CM			BIT(6)
+ 	regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_PIXEL_CLK);
+-	while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
+-	       !(status & ATMEL_HLCDC_PIXEL_CLK))
+-		cpu_relax();
+-
++	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
++				     status & ATMEL_HLCDC_PIXEL_CLK,
++				     10, 1000))
++		dev_warn(dev->dev, "Atmel LCDC status register CLKSTS timeout\n");
  
- #define ATMEL_HLCDC_SOF			BIT(0)
- #define ATMEL_HLCDC_SYNCDIS		BIT(1)
+ 	regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_SYNC);
+-	while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
+-	       !(status & ATMEL_HLCDC_SYNC))
+-		cpu_relax();
++	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
++				     status & ATMEL_HLCDC_SYNC,
++				     10, 1000))
++		dev_warn(dev->dev, "Atmel LCDC status register LCDSTS timeout\n");
+ 
+ 	regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_DISP);
+-	while (!regmap_read(regmap, ATMEL_HLCDC_SR, &status) &&
+-	       !(status & ATMEL_HLCDC_DISP))
+-		cpu_relax();
++	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
++				     status & ATMEL_HLCDC_DISP,
++				     10, 1000))
++		dev_warn(dev->dev, "Atmel LCDC status register DISPSTS timeout\n");
++
+ 
+ 	pm_runtime_put_sync(dev->dev);
+ 
 -- 
 2.25.1
 
