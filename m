@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968028AFE6C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 04:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5668AFE6F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 04:30:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA74210FD3F;
-	Wed, 24 Apr 2024 02:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD71810FD71;
+	Wed, 24 Apr 2024 02:30:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="tBbE/+Iw";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="I8eCb/mW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
- [209.85.210.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE26410FD3F
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 02:30:39 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id
- 46e09a7af769-6ed3587b93bso1587040a34.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 19:30:39 -0700 (PDT)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B954B10FD71
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 02:30:45 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ 46e09a7af769-6eb797e10ceso3730629a34.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 19:30:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1713925839; x=1714530639; darn=lists.freedesktop.org; 
+ t=1713925845; x=1714530645; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kdgMcjk2SUhSnewSfUlS0/MTnaKK3tPj0hOvx8EtZQk=;
- b=tBbE/+IwAfDFScJyxlNXZGaEAG1F28o7THQ825qZpde25n2Hz2JXboPf/uSenNz4+P
- RgNjoPaVF2LYOAz64jbF6eURtsFubYH2tCZo8IGLmpPWnnmLiJcZWhtzFnFEl2Xlnbxt
- 7tnkleinW5O3PFHKSlZT3LuF9mRDz+f64nidLM715h/8/Otzhgz2DWtfGPOzCj26/Zv1
- GR6taXtkaSB5GVkcYiMDdPZeFTYLBbfamsMJVWzlkFbU12ajF6Q2G3ugb54b5Z8043xz
- RlXZF7Ok79qMlReQ0bvBx1cjb/q+BZoGtywwCWn8pF000osb9mqGfhmzfhLQHAh2qoZl
- xhSQ==
+ bh=MXmJm2NMpNKGR8PSeY0Ah/qGmxvBFTcFz2XA2cO9qmI=;
+ b=I8eCb/mWt2WR3k+H0olx3T//U1LdvNtwtF8FqRsfBWQ2r2f6TRnHI1F/B8hSjrJomN
+ wvdaqQc31pYZ2Gz/YuWsJfUCYhcF3u3LkaYj8KHFHxo6cv5OOv2h3pk/aJUcJ1ZBsHp8
+ Pjc6Vge8/v1ewD2w97Ju92A6xWf7IOrMB7dQ4LrS7Kw0Jzp1fseKb8Hy93UYV2pDq49u
+ O2EBM0D6DX6UfxpfiPVXtzlFXh1c1u3lH6vXbcFi2BWqQfmLluI6xXgPw3rLGBNcxWvF
+ PISUn7v3E9T/AStg3uxbZSQ+2qAxfsV6XPwl9no7YH1RmG+otIW5tjmenwLzehw0xhaO
+ VNMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713925839; x=1714530639;
+ d=1e100.net; s=20230601; t=1713925845; x=1714530645;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kdgMcjk2SUhSnewSfUlS0/MTnaKK3tPj0hOvx8EtZQk=;
- b=gQL0dR/JXggnmr44woV89crHu7ZDha+3xZaEko147wkpKmlR/SH4MdW1Tpg3DMwtj4
- 7AQo5DlC+/7X9gdjmFEB1hjh40DeHROpgqcVDInhQTDcyagSDn3EgKaVEVgQycM4GzZB
- 82Z/Skk8WgfPP6RZ7FNoPo2zfqjePPIcqLOjMlMnvK/s+jWaUWhwKQzggcrSpmbak4NC
- OeWgL0Kk0PjPOq7+CmkkrRx/DH/blUDfCkKO+UcPDNy9F7Wcg/sohi3Bzymbm4xMewS0
- 5Pme6SgJSlPtWnHVn/cVnvlaeIV3QLzrIeYtP7Gy9gPHS2Y9airpEev5v8V8106Hvtic
- VgIg==
-X-Gm-Message-State: AOJu0YwSr6qIFlRVihcdp5cSr8evi3S8mwof4KzMC7lu11bP2ymApkK4
- 5DRpGXS8IXETZXBZyUdj9dqW0NiFOasxug8nk84HRWfEn3m0R270Ce0PwVODu6k=
-X-Google-Smtp-Source: AGHT+IF+H/psnQOqgjI5FBt3w3oeQ9GZc171xd/LPRweALS55ze4i2g8pxZNH9RrfxIpXP9njz3+nQ==
-X-Received: by 2002:a9d:6d0e:0:b0:6ea:126a:bbd0 with SMTP id
- o14-20020a9d6d0e000000b006ea126abbd0mr1542792otp.14.1713925838979; 
- Tue, 23 Apr 2024 19:30:38 -0700 (PDT)
+ bh=MXmJm2NMpNKGR8PSeY0Ah/qGmxvBFTcFz2XA2cO9qmI=;
+ b=N6ycviw+cXDSUxOVbwtwPXBkOB5TcChf/i82qKTVyRSxxtVjWstVfy89T+71w2hc/6
+ yS8oCmBWObR5nVi+BSDR5eYo2Jn2XfpU2S5gzXjQFGpYCaw+SJSvq3AYWRZ5dTq/tEnE
+ w0P/ZHFEUjWsgzUvINdspKQD7QVf5c9nFLaBmZu1D7ERnRgqIlArGvw+TQRQyr+WYErp
+ nvDFHIl4ukWgW7BFoaT3izL9zBRXreCBCKL1lzkA8g6yIwQJKH8rniNxeOs+1a+a1Xzw
+ tYuw4d1dD8FEmPcowYHzLkJdPgUdJ7oKqeUnBnXfOP4evL8VBCNiiFCCfk7OHKenhnHB
+ zTjg==
+X-Gm-Message-State: AOJu0YxgpMtUU/8yx2CSR1ikBpxJw/YX1wOmqoEFs2d3hdbWxryAb1ki
+ WxpdfzmZUCr3WybgtKMq4XW/G01rVDZo4vL0XrQg5JzKEPdX+YEPjyZz3cpu/C0=
+X-Google-Smtp-Source: AGHT+IEW6VXq5gavNys3PRgDLFnQS4DFaEAkzMskWMoOdL1EwONALpRuNCnWCo0K36xClb94MH+pUA==
+X-Received: by 2002:a05:6830:1499:b0:6eb:6046:ff17 with SMTP id
+ s25-20020a056830149900b006eb6046ff17mr1582208otq.36.1713925844933; 
+ Tue, 23 Apr 2024 19:30:44 -0700 (PDT)
 Received: from localhost.localdomain ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- m2-20020a638c02000000b005e857e39b10sm10179385pgd.56.2024.04.23.19.30.35
+ m2-20020a638c02000000b005e857e39b10sm10179385pgd.56.2024.04.23.19.30.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Apr 2024 19:30:38 -0700 (PDT)
+ Tue, 23 Apr 2024 19:30:44 -0700 (PDT)
 From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
  dianders@chromium.org, linus.walleij@linaro.org,
@@ -63,9 +63,10 @@ To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com,
  Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH v3 3/7] arm64: defconfig: Enable HIMAX_HX83102 panel
-Date: Wed, 24 Apr 2024 10:30:06 +0800
-Message-Id: <20240424023010.2099949-4-yangcong5@huaqin.corp-partner.google.com>
+Subject: [PATCH v3 4/7] dt-bindings: display: panel: Add compatible for BOE
+ nv110wum-l60
+Date: Wed, 24 Apr 2024 10:30:07 +0800
+Message-Id: <20240424023010.2099949-5-yangcong5@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240424023010.2099949-1-yangcong5@huaqin.corp-partner.google.com>
 References: <20240424023010.2099949-1-yangcong5@huaqin.corp-partner.google.com>
@@ -86,28 +87,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM_PANEL_HIMAX_HX83102 is being split out from DRM_PANEL_BOE_TV101WUM_NL6.
-Since the arm64 defconfig had the BOE panel driver enabled, let's also
-enable the himax driver.
+The BOE nv110wum-l60 is a 11.0" WUXGA TFT LCD panel with himax-hx83102
+controller. Hence, we add a new compatible with panel specific config.
 
 Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
 ---
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Chage since V3:
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 2c30d617e180..687c86ddaece 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -864,6 +864,7 @@ CONFIG_DRM_PANEL_BOE_TV101WUM_NL6=m
- CONFIG_DRM_PANEL_LVDS=m
- CONFIG_DRM_PANEL_SIMPLE=m
- CONFIG_DRM_PANEL_EDP=m
-+CONFIG_DRM_PANEL_HIMAX_HX83102=m
- CONFIG_DRM_PANEL_ILITEK_ILI9882T=m
- CONFIG_DRM_PANEL_MANTIX_MLAF057WE51=m
- CONFIG_DRM_PANEL_RAYDIUM_RM67191=m
+- Update commit message.
+
+V2: https://lore.kernel.org/all/20240422090310.3311429-5-yangcong5@huaqin.corp-partner.google.com
+
+---
+ .../devicetree/bindings/display/panel/himax,hx83102.yaml        | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
+index 2e0cd6998ba8..86c349bbbb7b 100644
+--- a/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
++++ b/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
+@@ -15,6 +15,8 @@ allOf:
+ properties:
+   compatible:
+     enum:
++        # Boe nv110wum-l60 11.0" WUXGA TFT LCD panel
++      - boe,nv110wum-l60
+         # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
+       - starry,himax83102-j02
+ 
 -- 
 2.25.1
 
