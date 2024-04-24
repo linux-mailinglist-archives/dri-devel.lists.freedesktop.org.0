@@ -2,73 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F228B0D32
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 16:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F918B0D4A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 16:54:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 011FD113BF2;
-	Wed, 24 Apr 2024 14:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 111A010E988;
+	Wed, 24 Apr 2024 14:54:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ta4Pk/kP";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rrpzs9vH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0211113BEF
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 14:52:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713970330; x=1745506330;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=pUk1fxgSgJzGkHuSvCgekaAeU9B72s05/k76ocuj9HI=;
- b=Ta4Pk/kPOW69fZfpT964jZOh2zziIs0chAGLiEfZlnM+yBDStOxkO6RU
- 2FrWtFoWx/B/98qedre6xpz82SETdv/61uLbE/x5L/aqG5ZtBcrPqlSEJ
- MZsVcLdPq4oDy/prO/S3Tjo/L1OKlhKxNCPVCCiWsPsQu20o2n5HQXOgJ
- IC9C0p5hRZ9PZWB+j1Qt8NEVesQTeTHVkZkogcGdDaemZdqRoo/3elOCH
- cMSsaRbxTnYO9VR0Ds53tasoZelROFV/81EJZI7D8cybeUq1ma8I3LOiH
- uyfj4MSG0FbdgnYQUQLtcScaBaxPma3WX/lRw7WUYPomH7Q7tg1mgUY6M A==;
-X-CSE-ConnectionGUID: 7Iv9d5GQRqGJgwLlvIQIlg==
-X-CSE-MsgGUID: F2Hklb0PRkSu+rpJ8dk+Og==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="10143552"
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="10143552"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2024 07:52:09 -0700
-X-CSE-ConnectionGUID: /9NhRvYWQYWh1l8wZxDqEQ==
-X-CSE-MsgGUID: ldSIKB1vSKKI+/poZaSPIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="29538283"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2024 07:52:07 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1rzdyd-00000000gGH-2m3s; Wed, 24 Apr 2024 17:52:03 +0300
-Date: Wed, 24 Apr 2024 17:52:03 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH v2] software node: Implement device_get_match_data fwnode
- callback
-Message-ID: <Zikck2FJb4-PgXX0@smile.fi.intel.com>
-References: <20240422164658.217037-1-sui.jingfeng@linux.dev>
- <Zie3ebHOEpWHj1qV@smile.fi.intel.com>
- <d5bc1e73-a553-451e-ab74-f5f0ca259c6b@linux.dev>
- <hcltp2bbxxg2t7ibmzgiib7mgbwgmvzwnnq6mochdh7c4h76r3@bxj6yk5zq64e>
- <ZikE4qOVO7rgIs9a@smile.fi.intel.com>
- <CAA8EJpr1FSjizAh6Dp5Bmux3NrGYh=BfHFL4D1fa87Og4ymY0w@mail.gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F13B010E0E2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 14:54:22 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
+ [91.154.34.181])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68B8E66B;
+ Wed, 24 Apr 2024 16:53:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1713970409;
+ bh=7A00nw+fZh+BCPaM9SVqEEy0Z0BVu4u19Cb3geQl+o0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=rrpzs9vHJZ2VZMhFMNT1EtKNQKjBw0Ay/qh2jIz7PkTNCVHaH70Kj6R2cgNWaqowh
+ pT6wQD+iXBrDcM9kyo1NoCqf7uUblTq9yNa7kV7pm3bCXDsHDs6sU5LQkVa68zNESK
+ 1NtlbFnQqY45u5ZUZKAYpjvv478CBPCUqCikJ4kg=
+Message-ID: <b179953c-5a08-4149-80c4-8610f7c9778a@ideasonboard.com>
+Date: Wed, 24 Apr 2024 17:54:17 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA8EJpr1FSjizAh6Dp5Bmux3NrGYh=BfHFL4D1fa87Og4ymY0w@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/7] Managing live video input format for ZynqMP DPSUB
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20240416-dp-live-fmt-v4-0-c7f379b7168e@amd.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+In-Reply-To: <20240416-dp-live-fmt-v4-0-c7f379b7168e@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,46 +109,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 24, 2024 at 04:34:39PM +0300, Dmitry Baryshkov wrote:
-> On Wed, 24 Apr 2024 at 16:11, Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > On Wed, Apr 24, 2024 at 12:37:16AM +0300, Dmitry Baryshkov wrote:
-> > > On Wed, Apr 24, 2024 at 12:49:18AM +0800, Sui Jingfeng wrote:
-> > > > On 2024/4/23 21:28, Andy Shevchenko wrote:
-> > > > > On Tue, Apr 23, 2024 at 12:46:58AM +0800, Sui Jingfeng wrote:
+Hi,
 
-...
-
-> > > But let me throw an argument why this patch (or something similar) looks
-> > > to be necessary.
-> > >
-> > > Both on DT and non-DT systems the kernel allows using the non-OF based
-> > > matching. For the platform devices there is platform_device_id-based
-> > > matching.
-> > >
-> > > Currently handling the data coming from such device_ids requires using
-> > > special bits of code, e.g. platform_get_device_id(pdev)->driver_data to
-> > > get the data from the platform_device_id. Having such codepaths goes
-> > > against the goal of unifying DT and non-DT paths via generic property /
-> > > fwnode code.
-> > >
-> > > As such, I support Sui's idea of being able to use device_get_match_data
-> > > for non-DT, non-ACPI platform devices.
-> >
-> > I'm not sure I buy this. We have a special helpers based on the bus type to
-> > combine device_get_match_data() with the respective ID table crawling, see
-> > the SPI and I²C cases as the examples.
+On 16/04/2024 23:31, Anatoliy Klymenko wrote:
+> Implement live video input format setting for ZynqMP DPSUB.
 > 
-> I was thinking that we might be able to deprecate these helpers and
-> always use device_get_match_data().
+> ZynqMP DPSUB can operate in 2 modes: DMA-based and live.
+> 
+> In the live mode, DPSUB receives a live video signal from FPGA-based CRTC.
+> DPSUB acts as a DRM encoder bridge in such a scenario. To properly tune
+> into the incoming video signal, DPSUB should be programmed with the proper
+> media bus format. This patch series addresses this task.
+> 
+> Patch 1/7: Set the DPSUB layer mode of operation prior to enabling the
+> layer. Allows to use layer operational mode before its enablement.
+> 
+> Patch 2/7: Update some IP register defines.
+> 
+> Patch 3/7: Factor out some code into a helper function.
+> 
+> Patch 4/7: Announce supported input media bus formats via
+> drm_bridge_funcs.atomic_get_input_bus_fmts callback.
+> 
+> Patch 5/7: Minimize usage of a global flag. Minor improvement.
+> 
+> Patch 6/7: Program DPSUB live video input format based on selected bus
+> config in the new atomic bridge state.
+> 
+> Patch 7/7: New optional CRTC atomic helper proposal that will allow to
+> negotiate video signal format between CRTC and connected encoder.
+> Incorporate this callback into the DRM bridge format negotiation process.
+> Save negotiated output format in drm_crtc_state. Reference usage of this
+> API is available here:
+> https://github.com/onotole/linux/tree/dpsub-live-in
 
-True, but that is orthogonal to swnode match_data support, right?
-There even was (still is?) a patch series to do something like a new
-member to struct device_driver (? don't remember) to achieve that.
+The patches up to and including patch 6 look ready to me. I'll pick them 
+up to drm-misc.
 
--- 
-With Best Regards,
-Andy Shevchenko
+  Tomi
 
+
+> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> To: Maxime Ripard <mripard@kernel.org>
+> To: Thomas Zimmermann <tzimmermann@suse.de>
+> To: David Airlie <airlied@gmail.com>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Michal Simek <michal.simek@amd.com>
+> To: Andrzej Hajda <andrzej.hajda@intel.com>
+> To: Neil Armstrong <neil.armstrong@linaro.org>
+> To: Robert Foss <rfoss@kernel.org>
+> To: Jonas Karlman <jonas@kwiboo.se>
+> To: Jernej Skrabec <jernej.skrabec@gmail.com>
+> To: Rob Herring <robh+dt@kernel.org>
+> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> To: Conor Dooley <conor+dt@kernel.org>
+> To: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> 
+> Changes in v4:
+> - Replace controversial reference driver patches with the private
+>    repository link.
+> - Split display layer format manipulation functions into 2 separate cases
+>    for diferet layer modes.
+> - Address misc review comments (typos, comments, etc.)
+> 
+> Link to v3: https://lore.kernel.org/r/20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com
+> 
+> Changes in v3:
+> - Add connected live layer helper
+> - Include reference DRM format in zynqmp_disp_format for live layerss.
+> - Add default bus format list for non-live case.
+> - Explain removal of redundant checks in the commit message.
+> - Minor fixes and improvements from review comments.
+> 
+> Link to v2: https://lore.kernel.org/r/20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com
+> 
+> Changes in v2:
+> - Factor out register defines update into separate patch.
+> - Add some improvements minimizing ithe usage of a global flag.
+> - Reuse existing format setting API instead of introducing new versions.
+> - Add warning around NULL check on new bridge state within atomic enable
+>    callback.
+> - Add drm_helper_crtc_select_output_bus_format() that wraps
+>    drm_crtc_helper_funcs.select_output_bus_format().
+> - Update API comments per review recommendations.
+> - Address some minor review comments.
+> - Add reference CRTC driver that demonstrates the usage of the proposed
+>    drm_crtc_helper_funcs.select_output_bus_format() API.
+> 
+> - Link to v1: https://lore.kernel.org/r/20240226-dp-live-fmt-v1-0-b78c3f69c9d8@amd.com
+> 
+> ---
+> Anatoliy Klymenko (7):
+>        drm: xlnx: zynqmp_dpsub: Set layer mode during creation
+>        drm: xlnx: zynqmp_dpsub: Update live format defines
+>        drm: xlnx: zynqmp_dpsub: Add connected live layer helper
+>        drm: xlnx: zynqmp_dpsub: Anounce supported input formats
+>        drm: xlnx: zynqmp_dpsub: Minimize usage of global flag
+>        drm: xlnx: zynqmp_dpsub: Set input live format
+>        drm/atomic-helper: Add select_output_bus_format callback
+> 
+>   drivers/gpu/drm/drm_bridge.c             |  14 +-
+>   drivers/gpu/drm/drm_crtc_helper.c        |  38 +++++
+>   drivers/gpu/drm/xlnx/zynqmp_disp.c       | 231 +++++++++++++++++++++++++++----
+>   drivers/gpu/drm/xlnx/zynqmp_disp.h       |  17 +--
+>   drivers/gpu/drm/xlnx/zynqmp_disp_regs.h  |   8 +-
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c         |  81 ++++++++---
+>   drivers/gpu/drm/xlnx/zynqmp_kms.c        |   2 +-
+>   include/drm/drm_crtc.h                   |  11 ++
+>   include/drm/drm_crtc_helper.h            |   5 +
+>   include/drm/drm_modeset_helper_vtables.h |  30 ++++
+>   10 files changed, 372 insertions(+), 65 deletions(-)
+> ---
+> base-commit: bfa4437fd3938ae2e186e7664b2db65bb8775670
+> change-id: 20240226-dp-live-fmt-6415773b5a68
+> 
+> Best regards,
 
