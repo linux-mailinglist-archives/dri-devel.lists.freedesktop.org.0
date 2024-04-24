@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63D918B1089
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 19:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA968B1088
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 19:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B1F113C96;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 037F9113C9A;
 	Wed, 24 Apr 2024 17:01:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="a+DxrA39";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="DAWwQjDx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6782E10FD57;
- Wed, 24 Apr 2024 17:00:53 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FFB4113C95;
+ Wed, 24 Apr 2024 17:01:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1713978035; x=1714582835; i=friedrich.vock@gmx.de;
- bh=MbvTuuavhMIBSvaKJNeb41Uwjo9gDgySKSe17CKNkoM=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
- MIME-Version:Content-Transfer-Encoding:cc:
+ s=s31663417; t=1713978036; x=1714582836; i=friedrich.vock@gmx.de;
+ bh=GGCBb+pzAx6oM1WHiEHk3wJf7oWdJZUwB7yKYQh3Qtw=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
+ References:MIME-Version:Content-Transfer-Encoding:cc:
  content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=a+DxrA392jn0lbrpElqiMwPUOPlqQ6GqResnavr8z+ALVaopxgfE7Eu1jwNlYgpr
- wq8m5KC5TnIPGFSsvd/akTRIQPm/BkFUhwJEO5WQJD11yc81MNfqdIgZlDAjcq3q6
- yvd3PINA8xjH6IxUp3SyDuNtcGXf1hIR4w5t96/z0QqfaTtCYBGha9kOMyJsM8RKt
- xT/SrKVfA1DSVXbUfk77Wq1lrz93D9gu5ZpWMZYZ+Nz3DYd3PgJfsntJxtmLSNLOj
- jllK3x4s8jFiJMjbcRCFmKotxrhG192x8fXpTJ8mQNPTJjUlHZ/ojLdoZ7NhT4qzx
- 80mdFucvqzXi+W0dGw==
+ b=DAWwQjDxkN1IDNj+VC2Wv91sL2tQQvEKvMxI4Yj1ieFBC+QLcD1WzMpgcDaYqKt6
+ 7safQBsKM01Yb27vKqQg7VgLotFq5TCDA1vlEmXnvRs+pBl3XfszaRNAwEsD7vtMZ
+ hzWX31HlvteBrqK0JssC8I8LpZoM2T1alDueDa2uvjkD5HfvwQKCyyrE6xaHCpsGN
+ FYRxPh62oT9EzdimuO03oERzZOoGugGrMrshIDgYlS4UPxvntQUfFUFYbGIji9Bsb
+ JR9zUKiX4m44n7pIR44qFeumdHI5OLcPKAqU+QVkkiTT/+o8ugY3k1YnAXFnYVA7h
+ 3bVlhIAY0lKZkRHdXQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from arch.fritz.box ([213.152.117.111]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MOzOw-1sKce72DPg-00PBeP; Wed, 24
- Apr 2024 19:00:35 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N49lD-1shZSP06BV-011HgO; Wed, 24
+ Apr 2024 19:00:36 +0200
 From: Friedrich Vock <friedrich.vock@gmx.de>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
@@ -41,30 +41,32 @@ Cc: Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
  Joshua Ashton <joshua@froggi.es>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>
-Subject: [RFC PATCH 00/18] TTM interface for managing VRAM oversubscription
-Date: Wed, 24 Apr 2024 18:56:50 +0200
-Message-ID: <20240424165937.54759-1-friedrich.vock@gmx.de>
+Subject: [RFC PATCH 01/18] drm/ttm: Add tracking for evicted memory
+Date: Wed, 24 Apr 2024 18:56:51 +0200
+Message-ID: <20240424165937.54759-2-friedrich.vock@gmx.de>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240424165937.54759-1-friedrich.vock@gmx.de>
+References: <20240424165937.54759-1-friedrich.vock@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:30kTPdv++K5EX4INp1vyNl0EJ8DFgJuY/JhxEH/wDtGrOKjUH/u
- Kpz4/NJOxkxYUmMA4Waqs7AnA8gwkE1Hyuh02aNtoVOdUYYCd2UW8v+N3js/3yR3gmczsC/
- m2W12B3eno6yOllKGjQM2DLOXdJ+q2pXt4P4L9yp8ZybZ7nHLcCQWHfxf7lBuVX98lzO61P
- FrePvuQ8j9qZ90AP35dyQ==
+X-Provags-ID: V03:K1:3A/UFtTwEymJIuR6R8hV9aPx9tNP9L1fkblX1dTobTUP8ODeKpR
+ ld1okkTQHCXks5V0Uiy4XFq0lOWSli1xDC9z/h5CjLJom2tvwwX5N6pUDbtRvm4FMvN3Y4k
+ 41AD1gI7+DcmK6TLtg34y+Q6+vx4M6mLOrQwgJspZ46eBwiUstD3ZunQOCuuaafkz6k2/cf
+ NkSUM3+vUMdhKsbQqrDWg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:O3y2JqGNOmE=;XNuet24Yr1cpAKTmPcu5JjgGdV7
- EIx4TcxNeyE0Ma7QSUMOjkxV0YMXl+/sJVgVKRlwKv9GLYAH3+q+44D1faezpj6HctHp/lgD4
- IW3kctHH7d0QbBmNSec5ctQPm7mW5CqHymTNkODok9dRmMtixiNqz1ofJynlsaq9rK4tt0rwO
- /ojXLIdZeugBlSSVQ9pOEUUc1zDYygBa+FWJYSAKlu1MG6EDXk+Xn4L0TKXY1Nfj587lfIgDf
- BYcCxkOmzhZsNcOavHXVqKKaInL4RlPHLmHaFA3MrUB6X2HeDyWGDAJiwkehemuIMpdIr2kt8
- rUPRR5jtClnd5xuRttPoMY5KiNpxf3P/cigmTekO8fOUhbzRS5MkVv7WKPYJdRAyQk/ZSS+J4
- FpozlaoGikNrfHneFm1OIFR4FJLGClk2nWn6Lmsyclyw+CMZQ1Vf/pnkaFXY5boXT/+akpJXj
- 0AxzPJPqJTttlbH/z44dA84QV9uFOS0ZmSOgmuEUoe0miJJH01vIBGg0tbbviwr+1OX2GNynl
- lAOfwHEU74PRCKT01zPH5FltmDb3oYl1QjFC85+Z+YypyU8hK71GCrZR1lQWLkNLEoBio57cw
- jKtdnZGLpRvT2IOh0MarAOqMM1q5jTqakKSBZFIXpKcdQrUsQOynrhoHTjn4i0tw/Nek3L+rO
- sM9gbiNkiVn83lAlPixgUKUv0XhBGxupyvXkPHHPBsXcG1rENJiqyR4G3jOxOjugsV/QDIq5G
- IgKub5AiaE48zkTYd59fKE90LSfERhJHypUPLFMBYbILFSqZoHVXoF1p/Ry56JMrgFUr0VPrI
- oY2B/hCDOP2xfh6+xaGjbq827MpMe+bDn3KMKlPQ9Udak=
+UI-OutboundReport: notjunk:1;M01:P0:KzCXhVYLhZE=;Xbau6rqZeHdtDBIS2iaYeAlL3B1
+ kKSiL63rZbf4vgwk8sHlp0A6PheYvBFBx1ohH/vRqKx9oI4Pp+zudhkj0bKliQ1Bxb5bSi2jE
+ Od8Ngdv866o4vqK2ze06H19udoXvgOfpHUwsq/DU07cNBB2RAc9dd6zJQ2sQ5wX3RSYBWH6Gc
+ kD+neIqZ1AWWP+33ycDYxE4b3ecVAD3iMXVYz1F3G9Mqgmsx+LONWb0SqR4sk4NZF7/+S2AC4
+ tKByEIK54zoTwtiVyzgZD5zRAYZx7ge/rYBl9o2uR0ofdEjcspHX9LzrG1Wz7WBKVKzs/TT9I
+ smt5CbqFQCySidcoR+mIBDN8+en5es5j7ajFhB6DeuANIA+KXr7O85yFslDJyPoN+5tqxo4PE
+ sF4dfA281eWcxuCeGGk123y+Q2NKOP7BBX7vHqTL5gf2dXsXK97HIyS6ANw05SrNxXwZUpbRk
+ uJnWoVhZ3CKSuZIZqfLMI+JN9yII0n0Ucwf47XcRuZ3PToQLEY8kJCvtP5jbld4U+IGlfsbTn
+ kDCRJYCjc6nrSr4gZooXFQoTLwLHo4pF8Mu05nrgzQYo3iMeK46rDMRvnKbWcVdYY773WcUaO
+ VEfOgc7mVo1wGigY1EXp2Z1hnoTg+cpr/2WCZ+B1W5V3/R7NGLfw26LGCMFebOBAcQ+FsOvIH
+ IQjIiFJdbdeROSVPmae0yp9t7vz9pS/DMjqwqqdJogx6oqoyEBz6iJT/th99QLHY/c0q3Bkoc
+ BfBZs1aGJfUTg/Qf1Z3ETRP0gkxnEkuXNPE6zE5HA8bt3WfZMC52O+gOcHBKVzMhYh+LBcRfM
+ rEa/VADa132mzaZ2wKFCi4hdbfB5JmTOyUjfxEdaoBjHE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,186 +82,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+These utilities will be used to keep track of what buffers have been
+evicted from any particular place, to try and decide when to try undoing
+the eviction.
 
-recently I've been looking into remedies for apps (in particular, newer
-games) that experience significant performance loss when they start to
-hit VRAM limits, especially on older or lower-end cards that struggle
-to fit both desktop apps and all the game data into VRAM at once.
+Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
+=2D--
+ drivers/gpu/drm/ttm/ttm_device.c   |  1 +
+ drivers/gpu/drm/ttm/ttm_resource.c | 14 ++++++++++++++
+ include/drm/ttm/ttm_device.h       |  5 +++++
+ include/drm/ttm/ttm_resource.h     |  9 +++++++++
+ 4 files changed, 29 insertions(+)
 
-The root of the problem lies in the fact that from userspace's POV,
-buffer eviction is very opaque: Userspace applications/drivers cannot
-tell how oversubscribed VRAM is, nor do they have fine-grained control
-over which buffers get evicted.  At the same time, with GPU APIs becoming
-increasingly lower-level and GPU-driven, only the application itself
-can know which buffers are used within a particular submission, and
-how important each buffer is. For this, GPU APIs include interfaces
-to query oversubscription and specify memory priorities: In Vulkan,
-oversubscription can be queried through the VK_EXT_memory_budget
-extension. Different buffers can also be assigned priorities via the
-VK_EXT_pageable_device_local_memory extension. Modern games, especially
-D3D12 games via vkd3d-proton, rely on oversubscription being reported and
-priorities being respected in order to perform their memory management.
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_de=
+vice.c
+index f5187b384ae9a..969d627ba06c0 100644
+=2D-- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -219,6 +219,7 @@ int ttm_device_init(struct ttm_device *bdev, const str=
+uct ttm_device_funcs *func
 
-However, relaying this information to the kernel via the current KMD uAPIs
-is not possible. On AMDGPU for example, all work submissions include a
-"bo list" that contains any buffer object that is accessed during the
-course of the submission. If VRAM is oversubscribed and a buffer in the
-list was evicted to system memory, that buffer is moved back to VRAM
-(potentially evicting other unused buffers).
+ 	bdev->vma_manager =3D vma_manager;
+ 	spin_lock_init(&bdev->lru_lock);
++	spin_lock_init(&bdev->unevict_lock);
+ 	INIT_LIST_HEAD(&bdev->pinned);
+ 	bdev->dev_mapping =3D mapping;
+ 	mutex_lock(&ttm_global_mutex);
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_=
+resource.c
+index 46ff9c75bb124..1d6755a1153b1 100644
+=2D-- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -25,6 +25,7 @@
+ #include <linux/iosys-map.h>
+ #include <linux/io-mapping.h>
+ #include <linux/scatterlist.h>
++#include <linux/list.h>
 
-Since the usermode driver doesn't know what buffers are used by the
-application, its only choice is to submit a bo list that contains every
-buffer the application has allocated. In case of VRAM oversubscription,
-it is highly likely that some of the application's buffers were evicted,
-which almost guarantees that some buffers will get moved around. Since
-the bo list is only known at submit time, this also means the buffers
-will get moved right before submitting application work, which is the
-worst possible time to move buffers from a latency perspective. Another
-consequence of the large bo list is that nearly all memory from other
-applications will be evicted, too. When different applications (e.g. game
-and compositor) submit work one after the other, this causes a ping-pong
-effect where each app's submission evicts the other app's memory,
-resulting in a large amount of unnecessary moves.
+ #include <drm/ttm/ttm_bo.h>
+ #include <drm/ttm/ttm_placement.h>
+@@ -392,9 +393,11 @@ void ttm_resource_manager_init(struct ttm_resource_ma=
+nager *man,
+ 	man->bdev =3D bdev;
+ 	man->size =3D size;
+ 	man->usage =3D 0;
++	man->evicted_bytes =3D 0;
 
-This overly aggressive eviction behavior led to RADV adopting a change
-that effectively allows all VRAM applications to reside in system memory
-[1].  This worked around the ping-ponging/excessive buffer moving problem,
-but also meant that any memory evicted to system memory would forever
-stay there, regardless of how VRAM is used.
+ 	for (i =3D 0; i < TTM_MAX_BO_PRIORITY; ++i)
+ 		INIT_LIST_HEAD(&man->lru[i]);
++	INIT_LIST_HEAD(&man->evicted);
+ 	man->move =3D NULL;
+ }
+ EXPORT_SYMBOL(ttm_resource_manager_init);
+@@ -470,6 +473,17 @@ uint64_t ttm_resource_manager_usage(struct ttm_resour=
+ce_manager *man)
+ }
+ EXPORT_SYMBOL(ttm_resource_manager_usage);
 
-My proposal aims at providing a middle ground between these extremes.
-The goals I want to meet are:
-- Userspace is accurately informed about VRAM oversubscription/how much
-  VRAM has been evicted
-- Buffer eviction respects priorities set by userspace - Wasteful
-  ping-ponging is avoided to the extent possible
++uint64_t ttm_resource_manager_evicted_bytes(struct ttm_resource_manager *=
+man)
++{
++	uint64_t evicted;
++
++	spin_lock(&man->bdev->unevict_lock);
++	evicted =3D man->evicted_bytes;
++	spin_unlock(&man->bdev->unevict_lock);
++	return evicted;
++}
++EXPORT_SYMBOL(ttm_resource_manager_evicted_bytes);
++
+ /**
+  * ttm_resource_manager_debug
+  *
+diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+index c22f30535c848..baa264efe483d 100644
+=2D-- a/include/drm/ttm/ttm_device.h
++++ b/include/drm/ttm/ttm_device.h
+@@ -251,6 +251,11 @@ struct ttm_device {
+ 	 */
+ 	spinlock_t lru_lock;
 
-I have been testing out some prototypes, and came up with this rough
-sketch of an API:
++	/**
++	 * @unevict_lock: Protection for per-manager uneviction tracking
++	 */
++	spinlock_t unevict_lock;
++
+ 	/**
+ 	 * @pinned: Buffer objects which are pinned and so not on any LRU list.
+ 	 */
+diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource=
+.h
+index 78a226eba953c..7d1ce059c8805 100644
+=2D-- a/include/drm/ttm/ttm_resource.h
++++ b/include/drm/ttm/ttm_resource.h
+@@ -145,6 +145,7 @@ struct ttm_resource_manager_func {
+  * @move_lock: lock for move fence
+  * @move: The fence of the last pipelined move operation.
+  * @lru: The lru list for this memory type.
++ * @evicted: List of bos evicted from this memory type
+  *
+  * This structure is used to identify and manage memory types for a devic=
+e.
+  */
+@@ -163,6 +164,7 @@ struct ttm_resource_manager {
+ 	 * Protected by @move_lock.
+ 	 */
+ 	struct dma_fence *move;
++	struct list_head evicted;
 
-- For each ttm_resource_manager, the amount of evicted memory is tracked
-  (similarly to how "usage" tracks the memory usage). When memory is
-  evicted via ttm_bo_evict, the size of the evicted memory is added, when
-  memory is un-evicted (see below), its size is subtracted. The amount of
-  evicted memory for e.g. VRAM can be queried by userspace via an ioctl.
+ 	/*
+ 	 * Protected by the bdev->lru_lock.
+@@ -174,6 +176,12 @@ struct ttm_resource_manager {
+ 	 * bdev->lru_lock.
+ 	 */
+ 	uint64_t usage;
++
++	/**
++	 * @evicted_bytes: How many bytes are evicted from this manager,
++	 * protexted by bdev->unevict_lock
++	 */
++	uint64_t evicted_bytes;
+ };
 
-- Each ttm_resource_manager maintains a list of evicted buffer objects.
+ /**
+@@ -382,6 +390,7 @@ int ttm_resource_manager_evict_all(struct ttm_device *=
+bdev,
+ 				   struct ttm_resource_manager *man);
 
-- ttm_mem_unevict walks the list of evicted bos for a given
-  ttm_resource_manager and tries moving evicted resources back. When a
-  buffer is freed, this function is called to immediately restore some
-  evicted memory.
-
-- Each ttm_buffer_object independently tracks the mem_type it wants
-  to reside in.
-
-- ttm_bo_try_unevict is added as a helper function which attempts to
-  move the buffer to its preferred mem_type. If no space is available
-  there, it fails with -ENOSPC/-ENOMEM.
-
-- Similar to how ttm_bo_evict works, each driver can implement
-  uneviction_valuable/unevict_flags callbacks to control buffer
-  un-eviction.
-
-This is what patches 1-10 accomplish (together with an amdgpu
-implementation utilizing the new API).
-
-Userspace priorities could then be implemented as follows:
-
-- TTM already manages priorities for each buffer object. These priorities
-  can be updated by userspace via a GEM_OP ioctl to inform the kernel
-  which buffers should be evicted before others. If an ioctl increases
-  the priority of a buffer, ttm_bo_try_unevict is called on that buffer to
-  try and move it back (potentially evicting buffers with a lower
-  priority)
-
-- Buffers should never be evicted by other buffers with equal/lower
-  priority, but if there is a buffer with lower priority occupying VRAM,
-  it should be evicted in favor of the higher-priority one. This prevents
-  ping-ponging between buffers that try evicting each other and is
-  trivially implementable with an early-exit in ttm_mem_evict_first.
-
-This is covered in patches 11-15, with the new features exposed to
-userspace in patches 16-18.
-
-I also have a RADV branch utilizing this API at [2], which I use for
-testing.
-
-This implementation is stil very much WIP, although the D3D12 games I
-tested already seemed to benefit from it. Nevertheless, are still quite
-a few TODOs and unresolved questions/problems.
-
-Some kernel drivers (e.g i915) already use TTM priorities for
-kernel-internal purposes. Of course, some of the highest priorities
-should stay reserved for these purposes (with userspace being able to
-use the lower priorities).
-
-Another problem with priorities is the possibility of apps starving other
-apps by occupying all of VRAM with high-priority allocations. A possible
-solution could be include restricting the highest priority/priorities
-to important apps like compositors.
-
-Tying into this problem, only apps that are actively cooperating
-to reduce memory pressure can benefit from the current memory priority
-implementation. Eventually the priority system could also be utilized
-to benefit all applications, for example with the desktop environment
-boosting the priority of the currently-focused app/its cgroup (to
-provide the best QoS to the apps the user is actively using). A full
-implementation of this is probably out-of-scope for this initial proposal,
-but it's probably a good idea to consider this as a possible future use
-of the priority API.
-
-I'm primarily looking to integrate this into amdgpu to solve the
-issues I've seen there, but I'm also interested in feedback from
-other drivers. Is this something you'd be interested in? Do you
-have any objections/comments/questions about my proposed design?
-
-Thanks,
-Friedrich
-
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6833
-[2] https://gitlab.freedesktop.org/pixelcluster/mesa/-/tree/spilling
-
-Friedrich Vock (18):
-  drm/ttm: Add tracking for evicted memory
-  drm/ttm: Add per-BO eviction tracking
-  drm/ttm: Implement BO eviction tracking
-  drm/ttm: Add driver funcs for uneviction control
-  drm/ttm: Add option to evict no BOs in operation
-  drm/ttm: Add public buffer eviction/uneviction functions
-  drm/amdgpu: Add TTM uneviction control functions
-  drm/amdgpu: Don't try moving BOs to preferred domain before submit
-  drm/amdgpu: Don't mark VRAM as a busy placement for VRAM|GTT resources
-  drm/amdgpu: Don't add GTT to initial domains after failing to allocate
-    VRAM
-  drm/ttm: Bump BO priority count
-  drm/ttm: Do not evict BOs with higher priority
-  drm/ttm: Implement ttm_bo_update_priority
-  drm/ttm: Consider BOs placed in non-favorite locations evicted
-  drm/amdgpu: Set a default priority for user/kernel BOs
-  drm/amdgpu: Implement SET_PRIORITY GEM op
-  drm/amdgpu: Implement EVICTED_VRAM query
-  drm/amdgpu: Bump minor version
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h        |   2 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c     | 191 +---------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.h     |   4 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  25 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  26 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  50 ++++
- drivers/gpu/drm/ttm/ttm_bo.c               | 253 ++++++++++++++++++++-
- drivers/gpu/drm/ttm/ttm_bo_util.c          |   3 +
- drivers/gpu/drm/ttm/ttm_device.c           |   1 +
- drivers/gpu/drm/ttm/ttm_resource.c         |  19 +-
- include/drm/ttm/ttm_bo.h                   |  22 ++
- include/drm/ttm/ttm_device.h               |  28 +++
- include/drm/ttm/ttm_resource.h             |  11 +-
- include/uapi/drm/amdgpu_drm.h              |   3 +
- 17 files changed, 430 insertions(+), 218 deletions(-)
+ uint64_t ttm_resource_manager_usage(struct ttm_resource_manager *man);
++uint64_t ttm_resource_manager_evicted_bytes(struct ttm_resource_manager *=
+man);
+ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+ 				struct drm_printer *p);
 
 =2D-
 2.44.0
