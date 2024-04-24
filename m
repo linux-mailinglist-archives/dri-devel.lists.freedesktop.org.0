@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C253A8B087A
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 13:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59428B089B
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 13:49:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE62113A8C;
-	Wed, 24 Apr 2024 11:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E190710F538;
+	Wed, 24 Apr 2024 11:49:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="L7eAt8ku";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JylF1rcI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17530113A8B;
- Wed, 24 Apr 2024 11:42:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713958929; x=1745494929;
- h=from:to:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=MjNSo6byudOvIh5r7lIWbPvCjdhgXbJD25RwwXl6T1I=;
- b=L7eAt8ku5jxctXEbsJpPJF7mxpkGMuF6SNcZwxDtg2uxWqlvPIp9r84U
- HLv63ygkLkKiPq4jf6hRdhzO2PPf7lumTORMfqZPT7AtapEYSo4BIrJc1
- u3F2WU7GOYqK/p3c8fqRRh8IzL2ZfU9z7eFpw5mlenIvby9hYNHq62iJh
- ARASPeaT+mEZzzeti13cITc+Fg/E/Tveg4UISE14QP0EKOK5k/yk02cu9
- 8qdaT59Ow2PP4n+UiCazmm+cD6czHKC+HJI8oPkGIbMD11HomG7PyVPi7
- 0QfkOl51BU2I5WfawqB87NpJFm9zjlyxV5zlwsq76bXVt4Wjt8a7BprQN A==;
-X-CSE-ConnectionGUID: 0by3XgtYSjuWkV0Y8fCp1w==
-X-CSE-MsgGUID: c6hwhyAvTdCUzFPz3ujqAQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="27098667"
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="27098667"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2024 04:42:08 -0700
-X-CSE-ConnectionGUID: F3xs/mRbRUis9xdddTQm7Q==
-X-CSE-MsgGUID: CgRv3EzcQeOFUyhliS5t9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="25135731"
-Received: from unknown (HELO rknop-desk.ger.corp.intel.com) ([10.217.160.54])
- by orviesa006-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 04:42:08 -0700
-From: Ryszard Knop <ryszard.knop@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH] MAINTAINERS: Move the drm-intel repo location to fd.o GitLab
-Date: Wed, 24 Apr 2024 13:41:59 +0200
-Message-ID: <20240424114159.38719-1-ryszard.knop@intel.com>
-X-Mailer: git-send-email 2.44.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE4110F47A;
+ Wed, 24 Apr 2024 11:49:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6038B6197E;
+ Wed, 24 Apr 2024 11:49:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B06FCC2BD10;
+ Wed, 24 Apr 2024 11:49:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1713959359;
+ bh=c+NIyIxckPHmqEd/nB4JkVKyhmET6Cm0MANJ8VKJ9nk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JylF1rcIMBicsRPZbxPkpv2ii6i/6F7yp3isjlV0eanD1/f5rdKHdQZPbowAZCbwx
+ zRhVNExjC7CO4JLRpKdDq+YDRbE+LNmpjEz+Fe8ZZ6f9DuVVubvhqXqxnabRoEMNQ8
+ sWwIkH5A1N5vy5UnklujfbRhJt2wIftl8hsVxTGIu6ilUMYDR70KeByEIPr38YP7Ky
+ u+KnZJQTQhJQzB8NZ36NZ86Hc1X+M6/neSyXFz5/8YqAFbt3ZKKExTomidMyB/CwqJ
+ tsZHydTA/yl3YZ5lCizlNsbwACUpGTNpbByduN4Ou0z3pxp01E5yFatsjoFs8YGzuR
+ 9MI3I2iSyy8sg==
+Date: Wed, 24 Apr 2024 13:49:16 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, 
+ airlied@gmail.com, tzimmermann@suse.de, intel-xe@lists.freedesktop.org, 
+ Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH v3 1/4] drm: add devm release action
+Message-ID: <20240424-spectacular-lumpy-guan-7188eb@houat>
+References: <20240422065756.294679-1-aravind.iddamsetty@linux.intel.com>
+ <20240422065756.294679-2-aravind.iddamsetty@linux.intel.com>
+ <ZibOmWPr3pZXdoNM@intel.com>
+ <c899f2a5-e4f8-421f-ba87-8e8c15a6f665@linux.intel.com>
+ <Zify_rd1yV6ki7oR@intel.com>
 MIME-Version: 1.0
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ge6lzsrmzmegosqw"
+Content-Disposition: inline
+In-Reply-To: <Zify_rd1yV6ki7oR@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,27 +65,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm-intel repo is moving from the classic fd.o git host to GitLab.
-Update its location with a URL matching other fd.o GitLab kernel trees.
 
-Signed-off-by: Ryszard Knop <ryszard.knop@intel.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--ge6lzsrmzmegosqw
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d6327dc12cb1..fbf7371a0bb0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10854,7 +10854,7 @@ W:	https://drm.pages.freedesktop.org/intel-docs/
- Q:	http://patchwork.freedesktop.org/project/intel-gfx/
- B:	https://drm.pages.freedesktop.org/intel-docs/how-to-file-i915-bugs.html
- C:	irc://irc.oftc.net/intel-gfx
--T:	git git://anongit.freedesktop.org/drm-intel
-+T:	git https://gitlab.freedesktop.org/drm/i915/kernel.git
- F:	Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
- F:	Documentation/gpu/i915.rst
- F:	drivers/gpu/drm/ci/xfails/i915*
--- 
-2.44.0
+On Tue, Apr 23, 2024 at 01:42:22PM -0400, Rodrigo Vivi wrote:
+> On Tue, Apr 23, 2024 at 02:25:06PM +0530, Aravind Iddamsetty wrote:
+> >=20
+> > On 23/04/24 02:24, Rodrigo Vivi wrote:
+> > > On Mon, Apr 22, 2024 at 12:27:53PM +0530, Aravind Iddamsetty wrote:
+> > >> In scenarios where drm_dev_put is directly called by driver we want =
+to
+> > >> release devm_drm_dev_init_release action associated with struct
+> > >> drm_device.
+> > >>
+> > >> v2: Directly expose the original function, instead of introducing a
+> > >> helper (Rodrigo)
+> > >>
+> > >> v3: add kernel-doc (Maxime Ripard)
+> > >>
+> > >> Cc: Maxime Ripard <mripard@kernel.org>
+> > >> Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
+> > >> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > >>
+> > > please avoid these empty lines here.... cc, rv-b, sign-offs, links,
+> > > etc are all in the same block.
+> > ok.
+> > >
+> > >> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > >> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.co=
+m>
+> > >> ---
+> > >>  drivers/gpu/drm/drm_drv.c | 13 +++++++++++++
+> > >>  include/drm/drm_drv.h     |  2 ++
+> > >>  2 files changed, 15 insertions(+)
+> > >>
+> > >> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > >> index 243cacb3575c..9d0409165f1e 100644
+> > >> --- a/drivers/gpu/drm/drm_drv.c
+> > >> +++ b/drivers/gpu/drm/drm_drv.c
+> > >> @@ -714,6 +714,19 @@ static int devm_drm_dev_init(struct device *par=
+ent,
+> > >>  					devm_drm_dev_init_release, dev);
+> > >>  }
+> > >> =20
+> > >> +/**
+> > >> + * devm_drm_dev_release_action - Call the final release action of t=
+he device
+> > > Seeing the doc here gave me a second thought....
+> > >
+> > > the original release should be renamed to _devm_drm_dev_release
+> > > and this should be called devm_drm_dev_release without the 'action' w=
+ord.
+> > i believe, was suggested earlier to directly expose the main function, =
+is=A0
+> > there any reason to have a __ version ?
+>=20
+> No no, just ignore me. Just remove the '_action' and don't change the oth=
+er.
+>=20
+> I don't like exposing the a function with '__'. what would '__' that mean?
+> This is what I meant on the first comment.
+>=20
+> Now, I believe that we don't need the '_action'. What does the 'action' m=
+ean?
+>=20
+> the devm_drm_dev_release should be enough. But then I got confused and
+> I thought it would conflict with the original released function name.
+> But I misread it.
 
+I don't think devm_drm_dev_release is a good name either. Just like any
+other devm_* function that cancels what a previous one has been doing
+(devm_kfree, devm_backlight_device_unregister, devm_nvmem_device_put,
+etc.) it should be called devm_drm_dev_put or something similar.
+
+Maxime
+
+--ge6lzsrmzmegosqw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZijxuwAKCRDj7w1vZxhR
+xdPVAPoDrkDtnoH7rcCJKhYwFQR+0yk0SQCZaSStbjLEB5sLLgEAkJR8ZnPGko+8
+7TCBr7HyVXZsdzhqEQunyG7pPSTQPgE=
+=d4mB
+-----END PGP SIGNATURE-----
+
+--ge6lzsrmzmegosqw--
