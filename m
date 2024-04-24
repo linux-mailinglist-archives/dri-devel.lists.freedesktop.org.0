@@ -2,77 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936CA8B0923
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 14:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3799E8B0928
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 14:21:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D0AE113AD1;
-	Wed, 24 Apr 2024 12:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F405113AD8;
+	Wed, 24 Apr 2024 12:21:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eOzr4is4";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Eo45agJf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D85113AD1;
- Wed, 24 Apr 2024 12:21:19 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-2a5ef566c7aso5416034a91.1; 
- Wed, 24 Apr 2024 05:21:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1713961278; x=1714566078; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bunj5XIiZEdgRNTi0guP+wyf7iojN98jqRolArsaLoM=;
- b=eOzr4is4DmoXjC2EdmEaASjuLhWEfaLgKF/AMWKFl2ckIWtfjJV8438ECkpouL+QTn
- 6G1oGUUBrchdxsEwz99c44dKE5ER0hO0SVppMlQ8kQR97shqsDCu4/qZCw66mEQg+N5b
- cwuz1odSCq8OzagHUbh+zLQqzDPN9BeiyffP5veWx+G7XHblnx3P9/z4/BKydlrbae1/
- Z5h2zvyo1LG8v1ocTw52kuu2P3Xu/n7rxxlohy75kjdLFgv8wc6y4MeLXrKM19WHubqw
- VCJ9Y3hMXK4rxNk28yiFsaFVh/vlnXDaB+taGqwvxSYQN4SQxp8xuWY+sioxY9IoatVI
- gqtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713961278; x=1714566078;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bunj5XIiZEdgRNTi0guP+wyf7iojN98jqRolArsaLoM=;
- b=IN5Bj8/fmgPNwVISXHt7sooiiZcvHXbLE8V2/hksViCdaru+nqLa2hEWxSqNez1R3Z
- mjDG18u9/A06bpveFSuYmyp5SalY25t4ie9GzEZUffVIRq4Nt4V/K0fceF0hy/E0R+B9
- pkXW6lyYuoN1dMmfJCZQWRhFyxiccU7BfnIEX0pGH8XXIFegi6CStyEvqN6ksp1hGMlQ
- RH8weymRpBM544Y2PyeIUP5EimK1as98PtECjoS70mlc1yNymxfSPf0FDfziHMqdlBVX
- tnGZ7myUwxShLoYD7CndJLc3zZyVNm53edBnDXqvmgOXDIQXmQ3wjtF6S7gOY/7ln4GW
- iGGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkxObN6yctGjGXtxhn1UxEChXyUMyr6hp4lz22GZ5eqvdxmi68p1x2ZLBTVnQl72CgCDGFrebBT5i6Rll6DapIB/ph7EnXGc7yHMrGeI9sFrktWi1jwtK1Ka+M0FPQqT5wurclA1mc2loLn9MuODPd
-X-Gm-Message-State: AOJu0YwBV66DDi9xI55ybqc5V36iJpAZAUhedX4XeLSdyBImkHIHwG1G
- 3OR58OLAs+ICMskG5pwR+Eh4TE+JgSyRmY5OLtXKoHb7BgC63lK7G3VWh7o73sGl/x71Izi6PZB
- zHZrlPYHNcxL0g2yxwM5zAa3E6K8=
-X-Google-Smtp-Source: AGHT+IGETP+1lVi26Ns4UGyWygBlMb5M8kF1qGR/jCcvzQIASLeqnOBJjDQv+2u0GvL5nvwmYlOH4XoyTdsIPgVGb48=
-X-Received: by 2002:a17:90a:9a87:b0:2ae:8f3f:9bf2 with SMTP id
- e7-20020a17090a9a8700b002ae8f3f9bf2mr2063814pjp.42.1713961278417; Wed, 24 Apr
- 2024 05:21:18 -0700 (PDT)
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
+ [91.218.175.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3953113AD8
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 12:21:42 +0000 (UTC)
+Message-ID: <32690d46-facf-4548-8915-d37604d2f54e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1713961297;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0WdXEQJeti9xObmiI3NOcA4xzxVIiBqdDHBEiYkiDJE=;
+ b=Eo45agJfdnNkfpNmv/kQe73FfGgL2Myav7WMwL682HSubexjghgLAS10l7CBvwCXPoCKF/
+ y5B3Eb0GNXdL7fE5fLP7H0AyGsqO4lYMaVK+ZqmcRXhN5RGdiFDDMgYxucNIBNbpzmC96R
+ /cnf+LaxdT7G3Sa9hrdZXlhZ2coD2k4=
+Date: Wed, 24 Apr 2024 20:21:30 +0800
 MIME-Version: 1.0
-References: <20240401-fd-xml-shipped-v5-0-4bdb277a85a1@linaro.org>
- <20240401-fd-xml-shipped-v5-9-4bdb277a85a1@linaro.org>
-In-Reply-To: <20240401-fd-xml-shipped-v5-9-4bdb277a85a1@linaro.org>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Wed, 24 Apr 2024 13:21:07 +0100
-Message-ID: <CACu1E7FjcBHHZerZjRBd7=WiLDu40-d6-4jKPcKmbY244w4Zww@mail.gmail.com>
-Subject: Re: [PATCH v5 09/18] drm/msm: import A6xx XML display registers
- database
+Subject: Re: [PATCH v2] software node: Implement device_get_match_data fwnode
+ callback
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, linux-kbuild@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+References: <20240422164658.217037-1-sui.jingfeng@linux.dev>
+ <Zie3ebHOEpWHj1qV@smile.fi.intel.com>
+ <d5bc1e73-a553-451e-ab74-f5f0ca259c6b@linux.dev>
+ <hcltp2bbxxg2t7ibmzgiib7mgbwgmvzwnnq6mochdh7c4h76r3@bxj6yk5zq64e>
+ <22979e28-ed48-467f-a5cf-82be57bcc2f7@linux.dev>
+ <CAA8EJpr1vWVeGsoph9h=PPQRPKkjk+d7WVQpGwpPuhCQwkqCbg@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <CAA8EJpr1vWVeGsoph9h=PPQRPKkjk+d7WVQpGwpPuhCQwkqCbg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,26 +68,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 1, 2024 at 3:52=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Import Adreno registers database for A6xx from the Mesa, commit
-> 639488f924d9 ("freedreno/registers: limit the rules schema").
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/registers/adreno/a6xx.xml     | 4970 +++++++++++++++=
-++++++
->  drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml |  228 +
->  2 files changed, 5198 insertions(+)
->
+Hi,
 
-FYI, this will conflict with a series I will send out soon based on
-the register updates in [1]. Is there any chance to update this before
-it lands in msm-next?
 
+On 2024/4/24 16:39, Dmitry Baryshkov wrote:
+>>> Sui, if that fits your purpose,
+>> That doesn't fits my purpose, please stop the recommendation, thanks.
+>>
+>>
+>>> please make sure that with your patch
+>>> (or the next iteration of it) you can get driver_data from the matched
+>>> platform_device_id.
+>> No, that's a another problem.
+>>
+>> The 'platform_get_device_id(pdev)->driver_data' you mentioned is completely
+>> off the domain of fwnode API framework. You are completely deviate what we
+>> are currently talking about.
+>>
+>> What we are talking about is something within the fwnode API framework.
+>>
+>> You can hack the device_get_match_data() function to call platform_get_device_id()
+>> as a fallback code path when the fwnode subsystem couldn't return a match data to
+>> you. But this is another problem.
+> No. I was using this as a pointer for having non-DT driver data.
+
+Whatever.
+
+Whatever how does it going to be used by you, or whatever data the pointer you use to point to.
+Just remember one thing, it is not relevant to my patch itself.
+
+
+> As I
+> wrote several paragraphs above, other subsystems use their own
+> driver-specific match structures.
+
+
+Fine, but on the DT systems, they mostly probed via DT.
+Thus, the so-called driver-specific match structures won't be used.
+
+
+> Reworking subsystems one-by-one to
+> be able to use generic codepath sounds to me like a way to go.
+
+Fine, you are encouraged to do whatever you like, you don't have to told me.
+
+
+> Adding
+> "compatible" property doesn't.
+
+
+
+As I have told you several times, software node is kind of complement to ACPI, it's
+definitely need to follow the style of ACPI counterpart. Software node can be secondary
+node of the primary ACPI device node. With this understood, please read the implementation
+of acpi_of_match_device() before express objection. Or you can read several relevant commit
+such as 4222f38ca3b7a ('ACPI / bus: Do not traverse through non-existed device table')
+for knowing some extra background.
+
+Beside, users of the software node backend itself can do whatever they like.
+The value of the "compatible" property is *just* string, programmers
+are free to name their string property in their driver. It is not you to say no though.
+
+No offensive here, I means that both of us are not good at this domain. Especially me,
+but at the very least, I'm willing to listen to what expects in ACPI/swnode domain say.
+One day, you become the top maintainer of specific domain, and when I go to contribute
+then, I will also read to you reviews message carefully.
+
+Back to the technical itself, the "compatible" property is a standard property
+of ACPI _DSD object. This is written into the ACPI Spec. The value of the "compatible"
+property is just string, store it at 'platform_get_device_id(pdev)->driver_data' or in
+'of_device_id->compatible' or some other places doesn't really changes much in semantic.
+
+A device driver can be platform probed, DT probed, ACPI probed, I2C probed, SPI probed...
+Take the driver of I2C slave display bridge as an example, it can platform probed, DT probed,
+I2C probed, in the future, there may have programmers want to add acpi_device_id, then, it will
+gain the 'ACPI probed'.
+
+If each of them introduce a driver-specific match structure. Then, that going to introduce
+very heavy maintain overhead to the maintainers, not to mention to achieve your cheap slogan:
+"Unifying DT and non-DT paths via generic property / fwnode code".
+
+
+-- 
 Best regards,
+Sui
 
-Connor
-
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/28883.
