@@ -2,50 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7088B08A5
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 13:52:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9637D8B0907
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 14:17:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 560FA113AA0;
-	Wed, 24 Apr 2024 11:51:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E5A2113ACD;
+	Wed, 24 Apr 2024 12:17:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YJmbSgpr";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dNitDyJI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36E3E113A9E;
- Wed, 24 Apr 2024 11:51:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 98D1261986;
- Wed, 24 Apr 2024 11:51:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E80F1C113CE;
- Wed, 24 Apr 2024 11:51:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713959514;
- bh=+s/MCfSXIP6jF3Ri9RzT+nYsE3LGvA7kXkWcB8qG+aM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YJmbSgpr/LwWN+XyQa1iaouCJenrU5xhvN+TQMID8HjChAwy0omYdoJZcho6KN5kQ
- yvt9U1KrxLV1xrMjQUJYIRasOqRCeYW7XkM2IYMdfnNF/99NYVmD/KROqtSLv0jpuG
- N4mBVBx4OoLUX4Sb4adgcCW+PWZmZWPBiQYAJtnetHKSnpjqZWy62aVk/R/9u8xjuy
- 0x400iQo4p1mIVINxE3kldSg1cmjcyVRWJYi1BALIPGzk69UlzcXdOzc3AtCpsf3cP
- PdhjrZFrjnxl7sLpNRCL4PZk/Y284g0/BwIKiY9K1gtnGyBGS3s4xQsS/HEYCzoav4
- fGNhVz3YTWnaA==
-Date: Wed, 24 Apr 2024 13:51:51 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, airlied@gmail.com, tzimmermann@suse.de,
- rodrigo.vivi@intel.com, intel-xe@lists.freedesktop.org,
- Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH v3 1/4] drm: add devm release action
-Message-ID: <20240424-garrulous-realistic-pronghorn-fbfcd5@houat>
-References: <20240422065756.294679-1-aravind.iddamsetty@linux.intel.com>
- <20240422065756.294679-2-aravind.iddamsetty@linux.intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BBE4113ACD
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 12:17:10 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
+ [91.154.34.181])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0FE46B3;
+ Wed, 24 Apr 2024 14:16:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1713960976;
+ bh=6cXo0HYHRZWTCyxWkHuthkQ6JyWZFk/Zby/c9viXlBA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dNitDyJINONwKuW3dNydTI/sYdvnPjaYEkayQpQCTPK/5x8IzbQHHj5WU0X6eCsg3
+ jjjPxwp8SetmKsq0Twg72r3pgpTKX9RPwfSC0qIif3vX3gZfGOecG6gljGYqVJLoJt
+ J7mMLmkEXxy0G5IhQJFPALqwhcy0+EfVNd5jdaLw=
+Message-ID: <ef63cd67-30a5-40fe-93f0-9081772c495f@ideasonboard.com>
+Date: Wed, 24 Apr 2024 15:17:04 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="fxw7weqrw4thkvz4"
-Content-Disposition: inline
-In-Reply-To: <20240422065756.294679-2-aravind.iddamsetty@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: zynqmp_dpsub: Always register bridge
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: linux-arm-kernel@lists.infradead.org, Michal Simek
+ <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240308204741.3631919-1-sean.anderson@linux.dev>
+ <222c0245-b8bc-48d8-b4e1-a9fb276774ae@ideasonboard.com>
+ <ffd53a0e-9f72-4129-92aa-30c62a134676@linux.dev>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <ffd53a0e-9f72-4129-92aa-30c62a134676@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,68 +106,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 23/04/2024 23:50, Sean Anderson wrote:
+> Hi,
+> 
+> On 3/22/24 02:01, Tomi Valkeinen wrote:
+>> Hi,
+>>
+>> On 08/03/2024 22:47, Sean Anderson wrote:
+>>> We must always register the DRM bridge, since zynqmp_dp_hpd_work_func
+>>> calls drm_bridge_hpd_notify, which in turn expects hpd_mutex to be
+>>> initialized. We do this before zynqmp_dpsub_drm_init since that calls
+>>> drm_bridge_attach. This fixes the following lockdep warning:
+>>>
+>>> [   19.217084] ------------[ cut here ]------------
+>>> [   19.227530] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+>>> [   19.227768] WARNING: CPU: 0 PID: 140 at kernel/locking/mutex.c:582 __mutex_lock+0x4bc/0x550
+>>> [   19.241696] Modules linked in:
+>>> [   19.244937] CPU: 0 PID: 140 Comm: kworker/0:4 Not tainted 6.6.20+ #96
+>>> [   19.252046] Hardware name: xlnx,zynqmp (DT)
+>>> [   19.256421] Workqueue: events zynqmp_dp_hpd_work_func
+>>> [   19.261795] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>>> [   19.269104] pc : __mutex_lock+0x4bc/0x550
+>>> [   19.273364] lr : __mutex_lock+0x4bc/0x550
+>>> [   19.277592] sp : ffffffc085c5bbe0
+>>> [   19.281066] x29: ffffffc085c5bbe0 x28: 0000000000000000 x27: ffffff88009417f8
+>>> [   19.288624] x26: ffffff8800941788 x25: ffffff8800020008 x24: ffffffc082aa3000
+>>> [   19.296227] x23: ffffffc080d90e3c x22: 0000000000000002 x21: 0000000000000000
+>>> [   19.303744] x20: 0000000000000000 x19: ffffff88002f5210 x18: 0000000000000000
+>>> [   19.311295] x17: 6c707369642e3030 x16: 3030613464662072 x15: 0720072007200720
+>>> [   19.318922] x14: 0000000000000000 x13: 284e4f5f4e524157 x12: 0000000000000001
+>>> [   19.326442] x11: 0001ffc085c5b940 x10: 0001ff88003f388b x9 : 0001ff88003f3888
+>>> [   19.334003] x8 : 0001ff88003f3888 x7 : 0000000000000000 x6 : 0000000000000000
+>>> [   19.341537] x5 : 0000000000000000 x4 : 0000000000001668 x3 : 0000000000000000
+>>> [   19.349054] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff88003f3880
+>>> [   19.356581] Call trace:
+>>> [   19.359160]  __mutex_lock+0x4bc/0x550
+>>> [   19.363032]  mutex_lock_nested+0x24/0x30
+>>> [   19.367187]  drm_bridge_hpd_notify+0x2c/0x6c
+>>> [   19.371698]  zynqmp_dp_hpd_work_func+0x44/0x54
+>>> [   19.376364]  process_one_work+0x3ac/0x988
+>>> [   19.380660]  worker_thread+0x398/0x694
+>>> [   19.384736]  kthread+0x1bc/0x1c0
+>>> [   19.388241]  ret_from_fork+0x10/0x20
+>>> [   19.392031] irq event stamp: 183
+>>> [   19.395450] hardirqs last  enabled at (183): [<ffffffc0800b9278>] finish_task_switch.isra.0+0xa8/0x2d4
+>>> [   19.405140] hardirqs last disabled at (182): [<ffffffc081ad3754>] __schedule+0x714/0xd04
+>>> [   19.413612] softirqs last  enabled at (114): [<ffffffc080133de8>] srcu_invoke_callbacks+0x158/0x23c
+>>> [   19.423128] softirqs last disabled at (110): [<ffffffc080133de8>] srcu_invoke_callbacks+0x158/0x23c
+>>> [   19.432614] ---[ end trace 0000000000000000 ]---
+>>>
+>>> Fixes: eb2d64bfcc17 ("drm: xlnx: zynqmp_dpsub: Report HPD through the bridge")
+>>> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+>>> ---
+>>>
+>>>    drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 6 ++----
+>>>    1 file changed, 2 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>>> index 88eb33acd5f0..639fff2c693f 100644
+>>> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>>> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>>> @@ -256,12 +256,11 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+>>>        if (ret)
+>>>            goto err_dp;
+>>>    +    drm_bridge_add(dpsub->bridge);
+>>>        if (dpsub->dma_enabled) {
+>>>            ret = zynqmp_dpsub_drm_init(dpsub);
+>>>            if (ret)
+>>>                goto err_disp;
+>>> -    } else {
+>>> -        drm_bridge_add(dpsub->bridge);
+>>>        }
+>>>          dev_info(&pdev->dev, "ZynqMP DisplayPort Subsystem driver probed");
+>>> @@ -288,9 +287,8 @@ static void zynqmp_dpsub_remove(struct platform_device *pdev)
+>>>          if (dpsub->drm)
+>>>            zynqmp_dpsub_drm_cleanup(dpsub);
+>>> -    else
+>>> -        drm_bridge_remove(dpsub->bridge);
+>>>    +    drm_bridge_remove(dpsub->bridge);
+>>>        zynqmp_disp_remove(dpsub);
+>>>        zynqmp_dp_remove(dpsub);
+>>>    
+>>
+>> I sent a similar patch:
+>>
+>> https://lore.kernel.org/all/20240312-xilinx-dp-lock-fix-v1-1-1698f9f03bac@ideasonboard.com/
+>>
+>> I have the drm_bridge_add() call in zynqmp_dp_probe(), as that's where the bridge is set up, so it felt like a logical place. You add it later, just before the bridge is used the first time.
+>>
+>> I like mine a bit more as it has all the bridge code in the same place, but I also wonder if there might be some risks in adding the bridge early (before zynqmp_disp_probe()), although I can't see any issue right away...
+>>
+>> In any case, as this works for me too:
+>>
+>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>
+>>   Tomi
+>>
+> Can someone pick up this fix before the release? I am still running into this bug on linux-next/master.
 
---fxw7weqrw4thkvz4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Can you check my version (link above)? After looking at both versions 
+today, I'd rather push mine: it adds and removes the bridge in the same 
+file where all the bridge code resides, and it'd be nice to manage the 
+bridge in that file as much as possible.
 
-On Mon, Apr 22, 2024 at 12:27:53PM +0530, Aravind Iddamsetty wrote:
-> In scenarios where drm_dev_put is directly called by driver we want to
-> release devm_drm_dev_init_release action associated with struct
-> drm_device.
->=20
-> v2: Directly expose the original function, instead of introducing a
-> helper (Rodrigo)
->=20
-> v3: add kernel-doc (Maxime Ripard)
->=20
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->=20
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_drv.c | 13 +++++++++++++
->  include/drm/drm_drv.h     |  2 ++
->  2 files changed, 15 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 243cacb3575c..9d0409165f1e 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -714,6 +714,19 @@ static int devm_drm_dev_init(struct device *parent,
->  					devm_drm_dev_init_release, dev);
->  }
-> =20
-> +/**
-> + * devm_drm_dev_release_action - Call the final release action of the de=
-vice
-> + * @dev: DRM device
-> + *
-> + * In scenarios where drm_dev_put is directly called by driver we want t=
-o release
-> + * devm_drm_dev_init_release action associated with struct drm_device.
-> + */
+  Tomi
 
-I'm not entirely sure what you mean by that documentation. "In scenarios
-where drm_dev_put is directly called by the driver", we wouldn't need to
-consider that function at all, right?
-
-Also, we should reference it in drm_dev_put and devm_drm_dev_alloc too.
-
-Maxime
-
---fxw7weqrw4thkvz4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZijyVwAKCRDj7w1vZxhR
-xTVHAQCfk24B/9t8zzj04IPsMjSBSpS+nRhDfc4Y8f1IGcKJkQD+IxBoqs9qlWhU
-wyex6D/Ix2FtoZgfmUIFOptoDzXr6AI=
-=xDyJ
------END PGP SIGNATURE-----
-
---fxw7weqrw4thkvz4--
