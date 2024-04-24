@@ -2,73 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1538B01FE
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:36:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDD38B021F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:38:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA6C311385B;
-	Wed, 24 Apr 2024 06:36:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YXIwA+L5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F26110E498;
+	Wed, 24 Apr 2024 06:38:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C10E411385B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 06:36:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 30EC060B98;
- Wed, 24 Apr 2024 06:36:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366E3C113CE;
- Wed, 24 Apr 2024 06:36:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1713940587;
- bh=q+qnEpK+l59jPIQe5UqWWsiYjfA7aXbDpteN/UQE4iA=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=YXIwA+L5lnMLivG8Ty4VlkldYLZBJZPHVVZMR7CTjhW+GrLhvcLYVr97KR3EvltKy
- mxtpqmvPaHIZXvzV8eT0jlixtWZ3xh2QXaTMPa6IGG4p1VHEaxnlHdkZ+MOSUVEESj
- jmUAq+E9AcnjSHKsrj78MpyR7YYPeN4oPNUzJBG1rJRihgFkOJu4XbplXbCpzhDIUy
- fcBi/Cl8klNVmB4h4wO0XDMTkG4I7Ivgslvta3HSqjYYs/az22Y4ZG6p/b/qHEGtih
- 9WsxJToWE/vq25/SJ1SqPJ9cWerEhS3jYmspvsRwsUqIFGq5P7adOML7RcGx4zgFSl
- KP5ImGssJdGIg==
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Wed, 24 Apr 2024 08:33:45 +0200
-Subject: [PATCH v2 19/19] const_structs.checkpatch: add lcd_ops
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8229A10E0B6;
+ Wed, 24 Apr 2024 06:38:35 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-3476dcd9c46so4920900f8f.0; 
+ Tue, 23 Apr 2024 23:38:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713940714; x=1714545514;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=M7F6fcWvuVbwO8A7BKBGHpEMXt2s9j8A9+ZiuFQieNc=;
+ b=VzW0LE0AoN6GuH77ThNHpnfziLLrzLfM8MtqKPmsQJJGup1dJptnkrtu+ov+5hT5MV
+ WOq4Egw/p+W2MLA3DmBrm/5+ngEGFeVpyDa1Kb4K5WFxy52XB3kZ8XiL6PSV/PjzDkpL
+ xPj+PyTotZUDry+wyvgcehr9Hnl2OKxft+/M/jb4zNW3sCXLhLxBwAVgl55iEJcGpqBp
+ gsc3ECMMIEiJ8buqEyXMxRXFP5t5UXuE82UVuuc48dVE6BzsxqSDRbH8tEpMwbQrpVx8
+ YAGI8enUipaxRrJc8rLLwoufAVK1gHbFPNSQXuUvTr1inol13cm8X4Xf86GA5iGrsNEA
+ R8OQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXfxdrHdMv5KJl44pvq04kmQCZHsc+lTFGSmDCfJH60DrFD1GNj+tqlH1nc0g1Q4n8FUy4d5lRQWqsCl7eGr++nZhvQ0noU7WT+gGRwXneTD5J6fkc7Jl+vW6KOtJjgOyppBZa1R8a8DG80W6a+YA==
+X-Gm-Message-State: AOJu0YwJ8ZM3jDOYXI8yfCqJKazXJX4/CseX+ma1oPrNNjTZmwxKzKVu
+ EtOZhwzyM0hpPyryZgFPXMIwUiHazbqb0vJhBP/xFspRKH9CPlnnQ+WrGMRz
+X-Google-Smtp-Source: AGHT+IGZxz0n9OTHB3mbYtVMEI21k1MjIrdkYkQkkOS5bd8p0H9eqeY2ndEMfxp9vJxluXAE0WdVSA==
+X-Received: by 2002:a5d:4b48:0:b0:346:cd6f:3fd9 with SMTP id
+ w8-20020a5d4b48000000b00346cd6f3fd9mr799188wrs.10.1713940713579; 
+ Tue, 23 Apr 2024 23:38:33 -0700 (PDT)
+Received: from localhost.localdomain (cst-prg-33-92.cust.vodafone.cz.
+ [46.135.33.92]) by smtp.gmail.com with ESMTPSA id
+ p9-20020a05600c358900b00419f7b73c55sm14284298wmq.0.2024.04.23.23.38.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Apr 2024 23:38:33 -0700 (PDT)
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+To: linux-kernel@vger.kernel.org
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+Date: Wed, 24 Apr 2024 08:37:51 +0200
+Message-ID: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240424-video-backlight-lcd-ops-v2-19-1aaa82b07bc6@kernel.org>
-References: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
-In-Reply-To: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
- =?utf-8?q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>, 
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Alexander Shiyan <shc_work@mail.ru>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
- linux-omap@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Krzysztof Kozlowski <krzk@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=924; i=krzk@kernel.org;
- h=from:subject:message-id; bh=q+qnEpK+l59jPIQe5UqWWsiYjfA7aXbDpteN/UQE4iA=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmKKfuTlvNIAwrbpIVvZdLwVKRUFDW99McbcRZO
- QcDFmCzNHWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZiin7gAKCRDBN2bmhouD
- 1yEQD/wNRPPVi0sZ02CXQxc7WhjX2fS8W+11eReyDlq0TrPblfN1uN5EMVeLOipf070lASAUEgU
- Gtb/gaAZ5okrFRW0X2hOeeIODr5KW1USIedvITCosTww6e0o9/cTpygkeVTOALUJOnVMgpLJY55
- XRMvMJ4qGnfcWgPBAbjF93sxBkG6/HFDtOpxQDDQY7SHg59WVwHZi5oBviEKsJAYPrV9HcUMQ+f
- 3NoMhI72z6PrcVfGF5cqmzjrohnUZ62BHJHta13v+PzzYI7MSKNL7cJ7yZ/IpxZoD98gBNLGad9
- 981Jw4EwZJDQ+SZkds/AN2cOvHrrCiR7H1ufn9aL7sMA+SMYsVdyZWNvxiYu4+x0SxlKB7nU3jt
- 2iLwQLhDJRdPEarPDky8Zb4NwSmci44wy+6CkYp5wt7CN+jJLGTMchJNos8QG22urVDwI/ioxVf
- gwkTBb55aKgzI7G/igaFKh/KyHdHZfxdKwtWKi9qNCi8rIWmr8obybUjejGetKkDveClRmLwX1G
- +upKHPFu6Tu5tH87v78kZ52gfA6f9kojKKKevH0+Lrsr+H41Al/5f7RJm3/5eoLmoLnWdSKxiYN
- 4zuMqxjysxD7OdAaSsdgxFdiZhtldi3P0icA+Ykb2lvqkxFh/X4AIunJukrYCK5w1CEf/fOHFTq
- UcMo7yh1XzNrCMQ==
-X-Developer-Key: i=krzk@kernel.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,38 +70,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'struct lcd_ops' is not modified by core code.
+If we expose a render node for NPUs without rendering capabilities, the
+userspace stack will offer it to compositors and applications for
+rendering, which of course won't work.
 
-Suggested-by: Thomas Weißschuh <linux@weissschuh.net>
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Userspace is probably right in not questioning whether a render node
+might not be capable of supporting rendering, so change it in the kernel
+instead by exposing a /dev/accel node.
 
+Before we bring the device up we don't know whether it is capable of
+rendering or not (depends on the features of its blocks), so first try
+to probe a rendering node, and if we find out that there is no rendering
+hardware, abort and retry with an accel node.
+
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Oded Gabbay <ogabbay@kernel.org>
 ---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 46 ++++++++++++++++++++++-----
+ 1 file changed, 38 insertions(+), 8 deletions(-)
 
-Patch making lcd_ops const in progress:
-https://lore.kernel.org/r/20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org
-
-Cc: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: linux-fbdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- scripts/const_structs.checkpatch | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/scripts/const_structs.checkpatch b/scripts/const_structs.checkpatch
-index fa96cfd16e99..52e5bfb61fd0 100644
---- a/scripts/const_structs.checkpatch
-+++ b/scripts/const_structs.checkpatch
-@@ -39,6 +39,7 @@ kgdb_arch
- kgdb_io
- kobj_type
- kset_uevent_ops
-+lcd_ops
- lock_manager_operations
- machine_desc
- microcode_ops
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 6500f3999c5f..8e7dd23115f4 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -11,6 +11,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/uaccess.h>
+ 
++#include <drm/drm_accel.h>
+ #include <drm/drm_debugfs.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
+@@ -488,10 +489,10 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+ 	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+ };
+ 
+-DEFINE_DRM_GEM_FOPS(fops);
++DEFINE_DRM_GEM_FOPS(render_fops);
++DEFINE_DRM_ACCEL_FOPS(accel_fops);
+ 
+-static const struct drm_driver etnaviv_drm_driver = {
+-	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
++static struct drm_driver etnaviv_drm_driver = {
+ 	.open               = etnaviv_open,
+ 	.postclose           = etnaviv_postclose,
+ 	.gem_prime_import_sg_table = etnaviv_gem_prime_import_sg_table,
+@@ -500,7 +501,6 @@ static const struct drm_driver etnaviv_drm_driver = {
+ #endif
+ 	.ioctls             = etnaviv_ioctls,
+ 	.num_ioctls         = DRM_ETNAVIV_NUM_IOCTLS,
+-	.fops               = &fops,
+ 	.name               = "etnaviv",
+ 	.desc               = "etnaviv DRM",
+ 	.date               = "20151214",
+@@ -508,15 +508,20 @@ static const struct drm_driver etnaviv_drm_driver = {
+ 	.minor              = 4,
+ };
+ 
+-/*
+- * Platform driver:
+- */
+-static int etnaviv_bind(struct device *dev)
++static int etnaviv_bind_with_type(struct device *dev, u32 type)
+ {
+ 	struct etnaviv_drm_private *priv;
+ 	struct drm_device *drm;
++	bool is_compute_only = true;
+ 	int ret;
+ 
++	etnaviv_drm_driver.driver_features = DRIVER_GEM | type;
++
++	if (type == DRIVER_RENDER)
++		etnaviv_drm_driver.fops = &render_fops;
++	else
++		etnaviv_drm_driver.fops = &accel_fops;
++
+ 	drm = drm_dev_alloc(&etnaviv_drm_driver, dev);
+ 	if (IS_ERR(drm))
+ 		return PTR_ERR(drm);
+@@ -553,6 +558,18 @@ static int etnaviv_bind(struct device *dev)
+ 
+ 	load_gpu(drm);
+ 
++	for (unsigned int i = 0; i < ETNA_MAX_PIPES; i++) {
++		struct etnaviv_gpu *g = priv->gpu[i];
++
++		if (g && (g->identity.minor_features8 & chipMinorFeatures8_COMPUTE_ONLY) == 0)
++			is_compute_only = false;
++	}
++
++	if (type == DRIVER_RENDER && is_compute_only) {
++		ret = -EINVAL;
++		goto out_unbind;
++	}
++
+ 	ret = drm_dev_register(drm, 0);
+ 	if (ret)
+ 		goto out_unbind;
+@@ -571,6 +588,19 @@ static int etnaviv_bind(struct device *dev)
+ 	return ret;
+ }
+ 
++/*
++ * Platform driver:
++ */
++static int etnaviv_bind(struct device *dev)
++{
++	int ret = etnaviv_bind_with_type(dev, DRIVER_RENDER);
++
++	if (ret == -EINVAL)
++		return etnaviv_bind_with_type(dev, DRIVER_COMPUTE_ACCEL);
++
++	return ret;
++}
++
+ static void etnaviv_unbind(struct device *dev)
+ {
+ 	struct drm_device *drm = dev_get_drvdata(dev);
 -- 
-2.43.0
+2.44.0
 
