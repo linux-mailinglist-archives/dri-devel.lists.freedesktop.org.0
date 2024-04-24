@@ -2,75 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098908B026C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F7E58B026F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:51:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47B38113873;
-	Wed, 24 Apr 2024 06:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECB4113876;
+	Wed, 24 Apr 2024 06:51:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wAIM7JJt";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FMcaEmxf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702EF113872
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 06:50:28 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-41b13c5cbe0so451925e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 23:50:28 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ABBB113876
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 06:51:21 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-346f4266e59so4783733f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 23:51:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1713941427; x=1714546227; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1713941479; x=1714546279; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=qaBiQ0b2lOkapKCLRR0tvwpfXKGi9E22VmejIAtoXhM=;
- b=wAIM7JJtE99t7Q3nEb6y6kAZ4abkqjUBKdx5iquiQYuWbbui05o1krJ1wd0Q555GAX
- mRsQxv4Q0eXVDJ95r3bbyKhKP+NnXs7TISq6s4yUwge3YKsbrGSDZLGlRMW/vYMeQp1n
- kRfAoyMawM9MJdCpbZJPMbSjWeE55xKwO3Gh2W+seXeVjcImqSOtVkuydpjd5PGHFy3u
- 33me4UvjXM5VywFKBqdhehmhpJB3rCyrfxZyR5lbxRQ6eOIJf1brIbVcDY5KwhEpdsuk
- kZjY21fHLrzEqtInh7RW0tDNUam5KZbpIbk13NgNEU1WFLFV0KMfgNYECNiTNNnj7KVf
- EC6w==
+ :reply-to; bh=5fhRPEnVPqfUJjDOhDV7MC9ZHHIfbOjexEAXqhIdO3Y=;
+ b=FMcaEmxfCZHBBejA/+T2nXq2tHTBYvOrjUC1HGasBbx71npClIMJPQ7xvEaMQJvlk6
+ GI0G+A4pIi3v0GCn7i01bsnjsBu63nul4j9wg9WXNLYMEO+i4LaVTHAm9nChOLuD0LQ6
+ snY6ZTlNz7jt7JTDQFZjBFAsWUzcpNosj1tfQAuUjyNnzwFhXwlpyga4z6Zi7TlnBOP6
+ oryEV/I22c47o7hrjUlDlDdldKS557Yqi3LK4ujUqsOWyKL/k/574FF5bnAICr/bB6Bo
+ pdkgnhb5sUOHG+8Ec2KPteQpbCmnRqUWJJIHLSQHHDCJ26VodN2m5iwI6rfJPnH4De/e
+ OLbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713941427; x=1714546227;
+ d=1e100.net; s=20230601; t=1713941479; x=1714546279;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=qaBiQ0b2lOkapKCLRR0tvwpfXKGi9E22VmejIAtoXhM=;
- b=X4fnyFgVbABY9YR5fqzZDEQJapu+oviof6D37jSwTs1ChOYFMHL7Fq6nhBs9SpM9Am
- cEve8BxQo2mAMz515dZQmrswv/eJnyHmgQBKRzgVG6CNW8Gb4z3aUbCdJl9eqEKPS79I
- hSL0dFH6uPHInil9E3uRTb7H5BgHaeaLXlkgMBaQM8w9X6kTZFNvG/Y/ELb7Bu2g1gQ5
- dmIphMmLTn1oNSBlZjfmj+M9Nl4WiLnC4a8HY6nXyqx3/mvksCUyOmRhZ4rX0OE/fTfL
- T2R44k7VeoN1Ea6MYuhMfI8WUg8e9slnc0+/w05LdfJr0JRR342XZ0FraNVReX6pRO/W
- y0iA==
-X-Gm-Message-State: AOJu0YxVMU26qUR9jfQBn9EicA07muo4l5Xv++VyV03mx7vjP8KsU1T5
- BIvPWvT2B1jbut9qFRoH40jtlgAX9N91scm7VC92UVO9Un0ZsWmuGWMwywKDVvM=
-X-Google-Smtp-Source: AGHT+IEqobpn4LPJICDa52t+tIRLD6OtoCizVexLBQbu6gLk5WNmi+ocD3u6ma2o9eaWM1iTp+0BvQ==
-X-Received: by 2002:a05:600c:444c:b0:418:ee30:3f92 with SMTP id
- v12-20020a05600c444c00b00418ee303f92mr994850wmn.25.1713941426342; 
- Tue, 23 Apr 2024 23:50:26 -0700 (PDT)
+ bh=5fhRPEnVPqfUJjDOhDV7MC9ZHHIfbOjexEAXqhIdO3Y=;
+ b=OLgzmqeuFSca5XOMc1wPSAkzOZPOjH9yZd/MsNDClqCO8oylyS+acocNQMgSqV8QXz
+ cFo2pxMgvxT+xuKgesbMnpXJlNsTj3PBnR2zAISlVCuFH0Skhe+OM9741rwztb9moT6W
+ XJfrqoIYvr2dc2QdZMohr00p15qX3FK26g9jOlH58ZbpLNiOO1sl6PbGrafCfy8cocvV
+ sUKLJ+aPY7RA7Qa9ZF03UtlMnh/M9BYiOH7Llmbje66XYVFCSrcgXGTGHytVXqrAfnRc
+ Zjehj5anfcM42sKuXQzUVznhqkdYWf8AMpgTfHxWBWBSW962VflfZyL1d0RskeSb9nsB
+ O5Gg==
+X-Gm-Message-State: AOJu0YzYcJwLEa+R/yW8Ttc/4EQqoQgbHSpnoQU55I54YKJ9kPKpoyWF
+ Kj688yMdLN0cexfMWWkB7THub/wfLmKHojaNiyJIAHsd84aEz6F4yxCuCLTuRdk=
+X-Google-Smtp-Source: AGHT+IER+PTkXrM2sYTgRDnw/H8j7tp/CT8JUDUe2TAwv1AXC+oqV7npD/LeU5lehsx1WtbbguW2Ag==
+X-Received: by 2002:a5d:5243:0:b0:343:ba58:97c4 with SMTP id
+ k3-20020a5d5243000000b00343ba5897c4mr800456wrc.10.1713941479305; 
+ Tue, 23 Apr 2024 23:51:19 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:ed3e:c90b:dd74:51a7?
  ([2a01:e0a:982:cbb0:ed3e:c90b:dd74:51a7])
  by smtp.gmail.com with ESMTPSA id
- j13-20020a05600c190d00b00418a386c17bsm26470645wmq.12.2024.04.23.23.50.25
+ cs18-20020a056000089200b003437799a373sm16429555wrb.83.2024.04.23.23.51.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Apr 2024 23:50:25 -0700 (PDT)
-Message-ID: <4d6ed7e4-049b-4a1c-9330-a683a4cd8eaf@linaro.org>
-Date: Wed, 24 Apr 2024 08:50:25 +0200
+ Tue, 23 Apr 2024 23:51:18 -0700 (PDT)
+Message-ID: <ec748d7c-b1cb-4ab3-88e6-b624b1f086de@linaro.org>
+Date: Wed, 24 Apr 2024 08:51:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2] drm/bridge: adv7511: make it honour next bridge in DT
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Subject: Re: [PATCH] drm/panel: jdi-fhd-r63452: make use of prepare_prev_first
+To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
-References: <20240331-adv7511-next-bridge-v2-1-7356d61dc7b2@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ y.oudjana@protonmail.com
+References: <20240423-jdi-fix-v1-1-808970662b40@gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -97,9 +96,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240331-adv7511-next-bridge-v2-1-7356d61dc7b2@linaro.org>
+In-Reply-To: <20240423-jdi-fix-v1-1-808970662b40@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,80 +115,32 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/03/2024 22:45, Dmitry Baryshkov wrote:
-> DT bindings for adv7511 and adv7533 bridges specify HDMI output to be
-> present at the port@1. This allows board DT to add e.g. HDMI connector
-> nodes or any other next chained bridge. Make adv7511 driver discover
-> that bridge and attach it to the chain.
+On 23/04/2024 22:54, Barnabás Czémán wrote:
+> The DSI host must be enabled for the panel to be initialized in
+> prepare(). Set the prepare_prev_first flag to guarantee this.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
 > ---
-> Changes in v2:
-> - Fixed the absent next bridge usecase
-> - Link to v1: https://lore.kernel.org/r/20240309-adv7511-next-bridge-v1-1-d1ad522ef623@linaro.org
-> ---
->   drivers/gpu/drm/bridge/adv7511/adv7511.h     |  1 +
->   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 12 ++++++++++++
->   2 files changed, 13 insertions(+)
+>   drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> index 39c9ece373b0..ea271f62b214 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> @@ -356,6 +356,7 @@ struct adv7511 {
->   	enum drm_connector_status status;
->   	bool powered;
+> diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
+> index 3e0a8e0d58a0..483dc88d16d8 100644
+> --- a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
+> +++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
+> @@ -247,6 +247,7 @@ static int jdi_fhd_r63452_probe(struct mipi_dsi_device *dsi)
 >   
-> +	struct drm_bridge *next_bridge;
->   	struct drm_display_mode curr_mode;
+>   	drm_panel_init(&ctx->panel, dev, &jdi_fhd_r63452_panel_funcs,
+>   		       DRM_MODE_CONNECTOR_DSI);
+> +	ctx->panel.prepare_prev_first = true;
 >   
->   	unsigned int f_tmds;
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index b5518ff97165..c50d994a33b5 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -17,6 +17,7 @@
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_edid.h>
-> +#include <drm/drm_of.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_probe_helper.h>
->   
-> @@ -946,6 +947,12 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge,
->   	struct adv7511 *adv = bridge_to_adv7511(bridge);
->   	int ret = 0;
->   
-> +	if (adv->next_bridge) {
-> +		ret = drm_bridge_attach(bridge->encoder, adv->next_bridge, bridge, flags);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->   	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
->   		ret = adv7511_connector_init(adv);
->   		if (ret < 0)
-> @@ -1216,6 +1223,11 @@ static int adv7511_probe(struct i2c_client *i2c)
->   
->   	memset(&link_config, 0, sizeof(link_config));
->   
-> +	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, -1, NULL,
-> +					  &adv7511->next_bridge);
-> +	if (ret && ret != -ENODEV)
-> +		return ret;
-> +
->   	if (adv7511->info->link_config)
->   		ret = adv7511_parse_dt(dev->of_node, &link_config);
->   	else
+>   	ret = drm_panel_of_backlight(&ctx->panel);
+>   	if (ret)
 > 
 > ---
-> base-commit: 1843e16d2df9d98427ef8045589571749d627cf7
-> change-id: 20240309-adv7511-next-bridge-10d8bbe0544e
+> base-commit: a59668a9397e7245b26e9be85d23f242ff757ae8
+> change-id: 20240423-jdi-fix-986a796a3101
 > 
 > Best regards,
 
-Indeed looks safer.
-
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-
-Neil
