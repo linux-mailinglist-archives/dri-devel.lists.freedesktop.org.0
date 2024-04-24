@@ -2,60 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3B88AFCEC
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 01:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D308AFE11
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 03:55:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2288711377E;
-	Tue, 23 Apr 2024 23:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1B8112702;
+	Wed, 24 Apr 2024 01:55:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NXzBlD5B";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="uT5zkrgy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C70C611377A;
- Tue, 23 Apr 2024 23:56:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713916586; x=1745452586;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=noA9spXuv8ASw9GOTlPrcAG+92fMdNJlufd0ZvFYO+M=;
- b=NXzBlD5BIACuw2k5xgXy9S8IHe2frCv/H+Swt9l8rWGgTKO/wBBgP7Fl
- 0Hb/+R6et3zqxPSfDNYiNpZmfK9NRvZ2bbIYjlr0VKUncDvlpFbLOngX5
- xdHKHBT6S8OhV9lmC89ySKUXvr83VcgXnip3Wu/K8STDKAMky0YEhi5Q/
- lPMeEg4+UQ56mqFO1w5ZRso/tn+0XhrqhvwRqYUGiDjeK7GwzOhGlAGf/
- mUxIi0iZepN6CBS7fTrIey8LLwQ1kWNso0kE19t1xH53KgMVh3MXNavmi
- Yds2MHkaP6iagDtTEs1mrby+y1Q2w1R/dm2ky7ZMzE6eU9q+f4viU7fWV w==;
-X-CSE-ConnectionGUID: FmdniyttRXS5DmYxJH0pEw==
-X-CSE-MsgGUID: 7lmJMmyoTQ6grTMIu+J3Lg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="27040645"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="27040645"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 16:56:25 -0700
-X-CSE-ConnectionGUID: MgCmC4jMR/OJc4gD/tPZxA==
-X-CSE-MsgGUID: zE6hnH8iRPOHYnMqKjWM1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; d="scan'208";a="29170924"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 16:56:24 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: <intel-xe@lists.freedesktop.org>
-Cc: dri-devel@lists.freedesktop.org,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH v2 6/6] drm/xe/client: Print runtime to fdinfo
-Date: Tue, 23 Apr 2024 16:56:51 -0700
-Message-ID: <20240423235652.1959945-7-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240423235652.1959945-1-lucas.demarchi@intel.com>
-References: <20240423235652.1959945-1-lucas.demarchi@intel.com>
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
+ [209.85.219.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B6791129BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 01:55:36 +0000 (UTC)
+Received: by mail-qv1-f52.google.com with SMTP id
+ 6a1803df08f44-69b9365e584so3910066d6.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Apr 2024 18:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1713923735; x=1714528535;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dJ8KHPb1K0T0HL7uck76kf0jIQnZoTF13YWbmRrszFQ=;
+ b=uT5zkrgyBEBgt0Tsbs+ihbnFPjghyV45KYtxJJBCOoR8Tt5A+yhp0VTICEzexG6tmn
+ sc8Ys6atOFeEbp8YLYqP8dWvGUa53VKuM0LGNtHYwSQ+i2t6HT0dNnUkiolDjMkjwQVM
+ y4+Bo7t8A8nYYFE35RFwF3S0gQf3+siliZxB/ZisJYBUojE0GcDk1kQViV93LIZgPLXC
+ N3coaLVoYOi+6pmq8i+0f4f+mBFVzLfCI/pv1s160FFyQDp4IzPrJ/emsY3qDLqYIzXR
+ dbnHNftiot7ibXmR8BTopmMcs7vMDlUUiHQUoBhdSYuzUdKpPCXoz7FqX6Sk82pZ6bE7
+ lU1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713923735; x=1714528535;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dJ8KHPb1K0T0HL7uck76kf0jIQnZoTF13YWbmRrszFQ=;
+ b=aumMCXIU6ZOAxSqbGeLwIn15xeyNa0C5otsowIaetg4x1m1sfYf2HMdtC0iXQi1igH
+ PFIqDdopnAc/3JkxlZutHYG27nGwWuiv57CyHXxGeqtaC6Tzr+NsWz31YblENpihdJQ8
+ O/ekig7fjNNhm/4YKzQ+Kc8ny+h5vmCLWHNCLYSPgnw60RJjRS6w1xMASG73pHmvYj0E
+ Q+UTdWcMGqu4DznzJruY4kmcs/HWvz7Kj9i66g1w6DCZDwOKxK6erLZ9YCJqNjbVsBrb
+ 3kwRF3P4UnXNGYmfaBs3wmRyzuLYyrwR2n2doBiEgYWWyJUt3qfrhlx5y2qtnIMic0DA
+ Ifdg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXVLNLyv5G3bFozelqy8wLXeHSEDnt64JqZUIl916PzEFkytJylQ6xp3mQKl5TvUBxDq542Lgb/eaBbrS7Cinhci0A5qDJT5GhS+6+uc2ho
+X-Gm-Message-State: AOJu0YzzvyCcRL+ub7ixERAhu8ApLL95K1opWAz1MVv9ooEkUGL2MT0i
+ qmI4Sv8kX7GSjyavgNz52IVsmeY/7MSNo/dVFipJTO7HmxvAjrf1+vOsNDt5q2XL4P2H5zUD5We
+ PqxSf7Or4Q7BUb+9EZ+SDPEwoqVGkq2hVamsCwA==
+X-Google-Smtp-Source: AGHT+IG8v5tfIrvn8fxObpffuM620VUlRCBGMnFCE00GJ3FwLxmlptq8yaXk3f7Ff5Nt5Z+1L+yQIK3lS+SnBB4wIos=
+X-Received: by 2002:a05:6214:f2a:b0:6a0:7f43:eb1 with SMTP id
+ iw10-20020a0562140f2a00b006a07f430eb1mr8789131qvb.19.1713923735084; Tue, 23
+ Apr 2024 18:55:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240422060811.670693-1-xuxinxiong@huaqin.corp-partner.google.com>
+ <CAD=FV=WRLLuOkCJeM6RdAb6xLN-cPH+hfWbOv9-LujB-WMGEFw@mail.gmail.com>
+ <CAGoogDB-mj8_xu04w3V2ZxOBTWoXcPKrVR1NRt6BFcpjHX3-7Q@mail.gmail.com>
+ <CAD=FV=WwsR9e-ZXJRY11FvdUZ66YPy9vqmY_=sGDw5Wqk1eV3w@mail.gmail.com>
+In-Reply-To: <CAD=FV=WwsR9e-ZXJRY11FvdUZ66YPy9vqmY_=sGDw5Wqk1eV3w@mail.gmail.com>
+From: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+Date: Wed, 24 Apr 2024 09:55:24 +0800
+Message-ID: <CAGoogDBCzfKwkAA-VAs3_Cdw_4oFO94mt7yjy47Sp2RAtqtPxA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add panel CSOT MNB601LS1-1
+To: Doug Anderson <dianders@chromium.org>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
+ hsinyi@google.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,282 +84,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Print the accumulated runtime for client when printing fdinfo.
-Each time a query is done it first does 2 things:
+Hi Doug, thank you!
+We had reported this info to the CSOT to correct the vendor id.
+If they confirm to fix this with the same product ID, we will submit a
+patch to fix this.
 
-1) loop through all the exec queues for the current client and
-   accumulate the runtime, per engine class. CTX_TIMESTAMP is used for
-   that, being read from the context image.
 
-2) Read a "GPU timestamp" that can be used for considering "how much GPU
-   time has passed" and that has the same unit/refclock as the one
-   recording the runtime. RING_TIMESTAMP is used for that via MMIO.
-
-Since for all current platforms RING_TIMESTAMP follows the same
-refclock, just read it once, using any first engine.
-
-This is exported to userspace as 2 numbers in fdinfo:
-
-	drm-cycles-<class>: <RUNTIME>
-	drm-total-cycles-<class>: <TIMESTAMP>
-
-Userspace is expected to collect at least 2 samples, which allows to
-know the client engine busyness as per:
-
-		    RUNTIME1 - RUNTIME0
-	busyness = ---------------------
-			  T1 - T0
-
-Another thing to point out is that it's expected that userspace will
-read any 2 samples every few seconds.  Given the update frequency of the
-counters involved and that CTX_TIMESTAMP is 32-bits, the counter for
-each exec_queue can wrap around (assuming 100% utilization) after ~200s.
-The wraparound is not perceived by userspace since it's just accumulated
-for all the exec_queues in a 64-bit counter), but the measurement will
-not be accurate if the samples are too far apart.
-
-This could be mitigated by adding a workqueue to accumulate the counters
-every so often, but it's additional complexity for something that is
-done already by userspace every few seconds in tools like gputop (from
-igt), htop, nvtop, etc with none of them really defaulting to 1 sample
-per minute or more.
-
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- Documentation/gpu/drm-usage-stats.rst       |  16 ++-
- Documentation/gpu/xe/index.rst              |   1 +
- Documentation/gpu/xe/xe-drm-usage-stats.rst |  10 ++
- drivers/gpu/drm/xe/xe_drm_client.c          | 138 +++++++++++++++++++-
- 4 files changed, 162 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/gpu/xe/xe-drm-usage-stats.rst
-
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index 6dc299343b48..421766289b78 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -112,6 +112,17 @@ larger value within a reasonable period. Upon observing a value lower than what
- was previously read, userspace is expected to stay with that larger previous
- value until a monotonic update is seen.
- 
-+- drm-total-cycles-<keystr>: <uint>
-+
-+Engine identifier string must be the same as the one specified in the
-+drm-cycles-<keystr> tag and shall contain the total number cycles for the given
-+engine.
-+
-+This is a timestamp in GPU unspecified unit that matches the update rate
-+of drm-cycles-<keystr>. For drivers that implement this interface, the engine
-+utilization can be calculated entirely on the GPU clock domain, without
-+considering the CPU sleep time between 2 samples.
-+
- - drm-maxfreq-<keystr>: <uint> [Hz|MHz|KHz]
- 
- Engine identifier string must be the same as the one specified in the
-@@ -168,5 +179,6 @@ be documented above and where possible, aligned with other drivers.
- Driver specific implementations
- -------------------------------
- 
--:ref:`i915-usage-stats`
--:ref:`panfrost-usage-stats`
-+* :ref:`i915-usage-stats`
-+* :ref:`panfrost-usage-stats`
-+* :ref:`xe-usage-stats`
-diff --git a/Documentation/gpu/xe/index.rst b/Documentation/gpu/xe/index.rst
-index c224ecaee81e..3f07aa3b5432 100644
---- a/Documentation/gpu/xe/index.rst
-+++ b/Documentation/gpu/xe/index.rst
-@@ -23,3 +23,4 @@ DG2, etc is provided to prototype the driver.
-    xe_firmware
-    xe_tile
-    xe_debugging
-+   xe-drm-usage-stats.rst
-diff --git a/Documentation/gpu/xe/xe-drm-usage-stats.rst b/Documentation/gpu/xe/xe-drm-usage-stats.rst
-new file mode 100644
-index 000000000000..ccb48733cbe3
---- /dev/null
-+++ b/Documentation/gpu/xe/xe-drm-usage-stats.rst
-@@ -0,0 +1,10 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+.. _xe-usage-stats:
-+
-+=======================================
-+Xe DRM client usage stats implemenation
-+=======================================
-+
-+.. kernel-doc:: drivers/gpu/drm/xe/xe_drm_client.c
-+   :doc: DRM Client usage stats
-diff --git a/drivers/gpu/drm/xe/xe_drm_client.c b/drivers/gpu/drm/xe/xe_drm_client.c
-index 08f0b7c95901..0227383910fa 100644
---- a/drivers/gpu/drm/xe/xe_drm_client.c
-+++ b/drivers/gpu/drm/xe/xe_drm_client.c
-@@ -2,6 +2,7 @@
- /*
-  * Copyright © 2023 Intel Corporation
-  */
-+#include "xe_drm_client.h"
- 
- #include <drm/drm_print.h>
- #include <drm/xe_drm.h>
-@@ -12,9 +13,66 @@
- #include "xe_bo.h"
- #include "xe_bo_types.h"
- #include "xe_device_types.h"
--#include "xe_drm_client.h"
-+#include "xe_exec_queue.h"
-+#include "xe_gt.h"
-+#include "xe_hw_engine.h"
-+#include "xe_pm.h"
- #include "xe_trace.h"
- 
-+/**
-+ * DOC: DRM Client usage stats
-+ *
-+ * The drm/xe driver implements the DRM client usage stats specification as
-+ * documented in :ref:`drm-client-usage-stats`.
-+ *
-+ * Example of the output showing the implemented key value pairs and entirety of
-+ * the currently possible format options:
-+ *
-+ * ::
-+ *
-+ * 	pos:    0
-+ * 	flags:  0100002
-+ * 	mnt_id: 26
-+ * 	ino:    685
-+ * 	drm-driver:     xe
-+ * 	drm-client-id:  3
-+ * 	drm-pdev:       0000:03:00.0
-+ * 	drm-total-system:       0
-+ * 	drm-shared-system:      0
-+ * 	drm-active-system:      0
-+ * 	drm-resident-system:    0
-+ * 	drm-purgeable-system:   0
-+ * 	drm-total-gtt:  192 KiB
-+ * 	drm-shared-gtt: 0
-+ * 	drm-active-gtt: 0
-+ * 	drm-resident-gtt:       192 KiB
-+ * 	drm-total-vram0:        23992 KiB
-+ * 	drm-shared-vram0:       16 MiB
-+ * 	drm-active-vram0:       0
-+ * 	drm-resident-vram0:     23992 KiB
-+ * 	drm-total-stolen:       0
-+ * 	drm-shared-stolen:      0
-+ * 	drm-active-stolen:      0
-+ * 	drm-resident-stolen:    0
-+ * 	drm-cycles-rcs: 28257900
-+ * 	drm-total-cycles-rcs:   7655183225
-+ * 	drm-cycles-bcs: 0
-+ * 	drm-total-cycles-bcs:   7655183225
-+ * 	drm-cycles-vcs: 0
-+ * 	drm-total-cycles-vcs:   7655183225
-+ * 	drm-engine-capacity-vcs:        2
-+ * 	drm-cycles-vecs:        0
-+ * 	drm-total-cycles-vecs:  7655183225
-+ * 	drm-engine-capacity-vecs:       2
-+ * 	drm-cycles-ccs: 0
-+ * 	drm-total-cycles-ccs:   7655183225
-+ * 	drm-engine-capacity-ccs:        4
-+ *
-+ * Possible `drm-cycles-` key names are: `rcs`, `ccs`, `bcs`, `vcs`, `vecs` and
-+ * "other".
-+ */
-+
-+
- /**
-  * xe_drm_client_alloc() - Allocate drm client
-  * @void: No arg
-@@ -179,6 +237,83 @@ static void show_meminfo(struct drm_printer *p, struct drm_file *file)
- 	}
- }
- 
-+static const u64 class_to_mask[] = {
-+        [XE_ENGINE_CLASS_RENDER] = XE_HW_ENGINE_RCS_MASK,
-+        [XE_ENGINE_CLASS_VIDEO_DECODE] = XE_HW_ENGINE_VCS_MASK,
-+        [XE_ENGINE_CLASS_VIDEO_ENHANCE] = XE_HW_ENGINE_VECS_MASK,
-+        [XE_ENGINE_CLASS_COPY] = XE_HW_ENGINE_BCS_MASK,
-+        [XE_ENGINE_CLASS_OTHER] = XE_HW_ENGINE_GSCCS_MASK,
-+        [XE_ENGINE_CLASS_COMPUTE] = XE_HW_ENGINE_CCS_MASK,
-+};
-+
-+static void show_runtime(struct drm_printer *p, struct drm_file *file)
-+{
-+	struct xe_file *xef = file->driver_priv;
-+	struct xe_device *xe = xef->xe;
-+	struct xe_gt *gt;
-+	struct xe_hw_engine *hwe;
-+	struct xe_exec_queue *q;
-+	unsigned long i, id_hwe, id_gt, capacity[XE_ENGINE_CLASS_MAX] = { };
-+	u64 gpu_timestamp, engine_mask = 0;
-+	bool gpu_stamp = false;
-+
-+	xe_pm_runtime_get(xe);
-+
-+	/* Accumulate all the exec queues from this client */
-+	mutex_lock(&xef->exec_queue.lock);
-+	xa_for_each(&xef->exec_queue.xa, i, q)
-+		xe_exec_queue_update_runtime(q);
-+	mutex_unlock(&xef->exec_queue.lock);
-+
-+
-+	/* Calculate capacity of each engine class */
-+	BUILD_BUG_ON(ARRAY_SIZE(class_to_mask) != XE_ENGINE_CLASS_MAX);
-+	for_each_gt(gt, xe, id_gt)
-+		engine_mask |= gt->info.engine_mask;
-+	for (i = 0; i < XE_ENGINE_CLASS_MAX; i++)
-+		capacity[i] = hweight64(engine_mask & class_to_mask[i]);
-+
-+	/*
-+	 * Iterate over all engines, printing the accumulated
-+	 * runtime for this client, per engine class
-+	 */
-+	for_each_gt(gt, xe, id_gt) {
-+		xe_force_wake_get(gt_to_fw(gt), XE_FW_GT);
-+		for_each_hw_engine(hwe, gt, id_hwe) {
-+			const char *class_name;
-+
-+			if (!capacity[hwe->class])
-+				continue;
-+
-+			/*
-+			 * Use any (first) engine to have a timestamp to be used every
-+			 * time
-+			 */
-+			if (!gpu_stamp) {
-+				gpu_timestamp = xe_hw_engine_read_timestamp(hwe);
-+				gpu_stamp = true;
-+			}
-+
-+			class_name = xe_hw_engine_class_to_str(hwe->class);
-+
-+			drm_printf(p, "drm-cycles-%s:\t%llu\n",
-+				   class_name, xef->runtime[hwe->class]);
-+			drm_printf(p, "drm-total-cycles-%s:\t%llu\n",
-+				   class_name, gpu_timestamp);
-+
-+			if (capacity[hwe->class] > 1)
-+				drm_printf(p, "drm-engine-capacity-%s:\t%lu\n",
-+					   class_name, capacity[hwe->class]);
-+
-+			/* engine class already handled, skip next iterations */
-+			capacity[hwe->class] = 0;
-+		}
-+		xe_force_wake_put(gt_to_fw(gt), XE_FW_GT);
-+	}
-+
-+	xe_pm_runtime_get(xe);
-+}
-+
- /**
-  * xe_drm_client_fdinfo() - Callback for fdinfo interface
-  * @p: The drm_printer ptr
-@@ -192,5 +327,6 @@ static void show_meminfo(struct drm_printer *p, struct drm_file *file)
- void xe_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
- {
- 	show_meminfo(p, file);
-+	show_runtime(p, file);
- }
- #endif
--- 
-2.43.0
-
+Doug Anderson <dianders@chromium.org> =E4=BA=8E2024=E5=B9=B44=E6=9C=8824=E6=
+=97=A5=E5=91=A8=E4=B8=89 01:01=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi,
+>
+> On Mon, Apr 22, 2024 at 6:28=E2=80=AFPM Xuxin Xiong
+> <xuxinxiong@huaqin.corp-partner.google.com> wrote:
+> >
+> > Yes, I read the edid from the panels, one is CSO and the other is CSW.
+> > The details are as follows, please help check. Thank you!
+> >
+> >
+> > 1. MNC207QS1-1
+> > edid-decode (hex):
+> > 00 ff ff ff ff ff ff 00 0e 6f 00 12 e7 00 00 00
+> > 1e 21 01 04 a5 1b 12 78 03 8a d5 9c 5e 59 90 25
+> > 1b 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> > 01 01 01 01 01 01 ae 3f 80 18 71 b0 23 40 30 20
+> > 36 00 07 a4 10 00 00 1a 00 00 00 fd 00 28 3c 4b
+> > 4b 11 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
+> > 53 4f 54 20 54 39 0a 20 20 20 20 20 00 00 00 fe
+> > 00 4d 4e 43 32 30 37 51 53 31 2d 31 0a 20 00 32
+> > ----------------
+> > Block 0, Base EDID:
+> > EDID Structure Version & Revision: 1.4
+> > Vendor & Product Identification:
+> > Manufacturer: CSO
+> > Model: 4608
+> > Serial Number: 231
+> > Made in: week 30 of 2023
+> > Basic Display Parameters & Features:
+> > Digital display
+> > Bits per primary color channel: 8
+> > DisplayPort interface
+> > Maximum image size: 27 cm x 18 cm
+> > Gamma: 2.20
+> > Supported color formats: RGB 4:4:4
+> > First detailed timing includes the native pixel format and preferred re=
+fresh rate
+> > Display is continuous frequency
+> > Color Characteristics:
+> > Red : 0.6113, 0.3671
+> > Green: 0.3496, 0.5644
+> > Blue : 0.1474, 0.1064
+> > White: 0.3134, 0.3291
+> > Established Timings I & II: none
+> > Standard Timings: none
+> > Detailed Timing Descriptors:
+> > DTD 1: 1920x1200 60.000 Hz 8:5 74.100 kHz 163.020 MHz (263 mm x 164 mm)
+> > Hfront 48 Hsync 32 Hback 200 Hpol P
+> > Vfront 3 Vsync 6 Vback 26 Vpol N
+> > Display Range Limits:
+> > Monitor ranges (Bare Limits): 40-60 Hz V, 75-75 kHz H, max dotclock 170=
+ MHz
+> > Alphanumeric Data String: 'CSOT T9'
+> > Alphanumeric Data String: 'MNC207QS1-1'
+> > Checksum: 0x32
+> >
+> > 2. MNB601LS1-1
+> > edid-decode (hex):
+> >
+> > 00 ff ff ff ff ff ff 00 0e 77 00 11 00 00 00 00
+> > 00 22 01 04 95 1a 0e 78 03 a1 35 9b 5e 58 91 25
+> > 1c 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> > 01 01 01 01 01 01 09 1e 56 dc 50 00 28 30 30 20
+> > 36 00 00 90 10 00 00 1a 00 00 00 fd 00 28 3c 30
+> > 30 08 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
+> > 53 4f 54 20 54 39 0a 20 20 20 20 20 00 00 00 fe
+> > 00 4d 4e 42 36 30 31 4c 53 31 2d 31 0a 20 00 37
+> > ----------------
+> > Block 0, Base EDID:
+> > EDID Structure Version & Revision: 1.4
+> > Vendor & Product Identification:
+> > Manufacturer: CSW
+> > Model: 4352
+> > Made in: 2024
+> > Basic Display Parameters & Features:
+> > Digital display
+> > Bits per primary color channel: 6
+> > DisplayPort interface
+> > Maximum image size: 26 cm x 14 cm
+> > Gamma: 2.20
+> > Supported color formats: RGB 4:4:4
+> > First detailed timing includes the native pixel format and preferred re=
+fresh rate
+> > Display is continuous frequency
+> > Color Characteristics:
+> > Red : 0.6074, 0.3691
+> > Green: 0.3437, 0.5673
+> > Blue : 0.1445, 0.1123
+> > White: 0.3134, 0.3291
+> > Established Timings I & II: none
+> > Standard Timings: none
+> > Detailed Timing Descriptors:
+> > DTD 1: 1366x768 60.001 Hz 683:384 48.480 kHz 76.890 MHz (256 mm x 144 m=
+m)
+> > Hfront 48 Hsync 32 Hback 140 Hpol P
+> > Vfront 3 Vsync 6 Vback 31 Vpol N
+> > Display Range Limits:
+> > Monitor ranges (Bare Limits): 40-60 Hz V, 48-48 kHz H, max dotclock 80 =
+MHz
+> > Alphanumeric Data String: 'CSOT T9'
+> > Alphanumeric Data String: 'MNB601LS1-1'
+> > Checksum: 0x37
+>
+> OK. This made me look a little deeper. I believe that the three-letter
+> code is managed by UEFI and I found:
+>
+> https://uefi.org/PNP_ID_List
+>
+> ...as far as I can tell "CSW" is actually correct for CSOT but "CSO"
+> was _not_. Looks as if CSO was supposed to be for "California
+> Institute of Technology" (Caltech). :(
+>
+> We're probably OK with the recent work that Hsin-Yi did in commit
+> bf201127c1b8 ("drm/panel-edp: Match edp_panels with panel identity")
+> to match against the panel name even if Caltech does ship a "CSO"
+> 0x1200 in the future since it looks like the string you added matches
+> the panel.
+>
+> That being said, is there any chance that it's not too late and you
+> can get CSOT to fix the EDID on "MNC207QS1-1"? Can you also make sure
+> that they're aware of this and don't make the same mistake in the
+> future?
+>
+>
+> In any case, given this investigation and the EDID I'm going to say
+> that the panel you've added here is fine.
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> I've pushed your change to drm-misc-next:
+>
+> a6325ad47bc8 drm/panel-edp: Add panel CSOT MNB601LS1-1
+>
+> -Doug
