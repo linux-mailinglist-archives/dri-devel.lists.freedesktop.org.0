@@ -2,98 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F918B0D4A
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 16:54:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590668B0E3E
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 17:29:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 111A010E988;
-	Wed, 24 Apr 2024 14:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85A91113C19;
+	Wed, 24 Apr 2024 15:29:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rrpzs9vH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IIDpgYUI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F13B010E0E2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 14:54:22 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
- [91.154.34.181])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68B8E66B;
- Wed, 24 Apr 2024 16:53:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1713970409;
- bh=7A00nw+fZh+BCPaM9SVqEEy0Z0BVu4u19Cb3geQl+o0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=rrpzs9vHJZ2VZMhFMNT1EtKNQKjBw0Ay/qh2jIz7PkTNCVHaH70Kj6R2cgNWaqowh
- pT6wQD+iXBrDcM9kyo1NoCqf7uUblTq9yNa7kV7pm3bCXDsHDs6sU5LQkVa68zNESK
- 1NtlbFnQqY45u5ZUZKAYpjvv478CBPCUqCikJ4kg=
-Message-ID: <b179953c-5a08-4149-80c4-8610f7c9778a@ideasonboard.com>
-Date: Wed, 24 Apr 2024 17:54:17 +0300
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D8B7113C12
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 15:29:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 0295CCE173A;
+ Wed, 24 Apr 2024 15:29:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1C28FC2BBFC;
+ Wed, 24 Apr 2024 15:29:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1713972570;
+ bh=Vu6DELfonvw9lHN74NiHvN61NDGymX7hh/EgpU943Z8=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=IIDpgYUIYDxVPYwvmFfvmYTPmf2rzD8RFT+xcM0lc7K4VMHzEbuJC0404e8CSqBph
+ bXHXQvM8674Rfh4yJAp5qkeMY7y6vtieYL/0NemLVdCJ3HLSVn2AebAwh3o/jiD6fp
+ ZJFKsIcXHVvDmwvYN0Y4qmRdijtxkTMIM89GTTZBhFhIZR8eJouqrFeT8Av+pnAL3n
+ 8HYkJf4gTSb88T2Lzn3BbHnSQX0I9LxNgDM/6dnyfVCSrhcyllqENkasrcSS2K8yqm
+ xqcj3OK7AIiP/QW5JzDjFIjOwj4kfFJmVoy/bMNA6lGViVp4hN5TK1yrY9QuOHTKkV
+ 6Q2kRDXcQGHoQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id F1A98C4345F;
+ Wed, 24 Apr 2024 15:29:29 +0000 (UTC)
+From: Xilin Wu via B4 Relay <devnull+wuxilin123.gmail.com@kernel.org>
+Subject: [PATCH 00/10] AYN Odin 2 support
+Date: Wed, 24 Apr 2024 23:29:05 +0800
+Message-Id: <20240424-ayn-odin2-initial-v1-0-e0aa05c991fd@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/7] Managing live video input format for ZynqMP DPSUB
-To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20240416-dp-live-fmt-v4-0-c7f379b7168e@amd.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240416-dp-live-fmt-v4-0-c7f379b7168e@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEElKWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDEyMT3cTKPN38lMw8I93MvMySzMQcXUvTJPNkAzOD5BQDYyWgvoKi1LT
+ MCrCZ0bG1tQCEsBlwYwAAAA==
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Junhao Xie <bigfoot@classfun.cn>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Tengfei Fan <quic_tengfan@quicinc.com>, 
+ Molly Sophia <mollysophia379@gmail.com>, Junhao Xie <bigfoot@classfun.cn>
+Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, Xilin Wu <wuxilin123@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1713972563; l=2387;
+ i=wuxilin123@gmail.com; s=20240424; h=from:subject:message-id;
+ bh=Vu6DELfonvw9lHN74NiHvN61NDGymX7hh/EgpU943Z8=;
+ b=XA7dmSSQgwlHKJcd7j3RMyizgYSyuIyC12qzPEZzPft0iV8Pp7Rfl5ki1fbT8Bdw6JOL6UExt
+ iQdQLO/Vjk+CrumZWFFtdE2wE1xqX6UcD6C+rqW72OO3ExlyiiYCM/N
+X-Developer-Key: i=wuxilin123@gmail.com; a=ed25519;
+ pk=vPnxeJnlD/PfEbyQPZzaay5ezxI/lMrke7qXy31lSM8=
+X-Endpoint-Received: by B4 Relay for wuxilin123@gmail.com/20240424 with
+ auth_id=157
+X-Original-From: Xilin Wu <wuxilin123@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,130 +82,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: wuxilin123@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+AYN Odin 2 is a gaming handheld based on QCS8550, which is derived
+from SM8550 but without modem RF system.
 
-On 16/04/2024 23:31, Anatoliy Klymenko wrote:
-> Implement live video input format setting for ZynqMP DPSUB.
-> 
-> ZynqMP DPSUB can operate in 2 modes: DMA-based and live.
-> 
-> In the live mode, DPSUB receives a live video signal from FPGA-based CRTC.
-> DPSUB acts as a DRM encoder bridge in such a scenario. To properly tune
-> into the incoming video signal, DPSUB should be programmed with the proper
-> media bus format. This patch series addresses this task.
-> 
-> Patch 1/7: Set the DPSUB layer mode of operation prior to enabling the
-> layer. Allows to use layer operational mode before its enablement.
-> 
-> Patch 2/7: Update some IP register defines.
-> 
-> Patch 3/7: Factor out some code into a helper function.
-> 
-> Patch 4/7: Announce supported input media bus formats via
-> drm_bridge_funcs.atomic_get_input_bus_fmts callback.
-> 
-> Patch 5/7: Minimize usage of a global flag. Minor improvement.
-> 
-> Patch 6/7: Program DPSUB live video input format based on selected bus
-> config in the new atomic bridge state.
-> 
-> Patch 7/7: New optional CRTC atomic helper proposal that will allow to
-> negotiate video signal format between CRTC and connected encoder.
-> Incorporate this callback into the DRM bridge format negotiation process.
-> Save negotiated output format in drm_crtc_state. Reference usage of this
-> API is available here:
-> https://github.com/onotole/linux/tree/dpsub-live-in
+This series bring support for:
+* Remoteprocs
+* UFS storage
+* SD Card
+* Type-C with USB3 10Gbps and DisplayPort (4-lane requires a pending
+  patch)
+* PCIe0 (Wi-Fi requires the pending pwrseq series)
+* Bluetooth
+* Regulators
+* Integrated fan with automatic speed control based on CPU temperature
+* Power and volume keys
+* M1, M2 buttons
+* HDMI output up to 1080p 60hz
+* four groups of RGB lights
+* GPU
+* Internal DSI display with touchscreen
 
-The patches up to and including patch 6 look ready to me. I'll pick them 
-up to drm-misc.
+Depends: [1]
 
-  Tomi
+[1] https://lore.kernel.org/all/20240424024508.3857602-1-quic_tengfan@quicinc.com/
 
+Signed-off-by: Xilin Wu <wuxilin123@gmail.com>
+---
+Junhao Xie (2):
+      dt-bindings: pwm: Add SI-EN SN3112 PWM support
+      pwm: Add SI-EN SN3112 PWM support
 
-> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: Michal Simek <michal.simek@amd.com>
-> To: Andrzej Hajda <andrzej.hajda@intel.com>
-> To: Neil Armstrong <neil.armstrong@linaro.org>
-> To: Robert Foss <rfoss@kernel.org>
-> To: Jonas Karlman <jonas@kwiboo.se>
-> To: Jernej Skrabec <jernej.skrabec@gmail.com>
-> To: Rob Herring <robh+dt@kernel.org>
-> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> To: Conor Dooley <conor+dt@kernel.org>
-> To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-> 
-> Changes in v4:
-> - Replace controversial reference driver patches with the private
->    repository link.
-> - Split display layer format manipulation functions into 2 separate cases
->    for diferet layer modes.
-> - Address misc review comments (typos, comments, etc.)
-> 
-> Link to v3: https://lore.kernel.org/r/20240321-dp-live-fmt-v3-0-d5090d796b7e@amd.com
-> 
-> Changes in v3:
-> - Add connected live layer helper
-> - Include reference DRM format in zynqmp_disp_format for live layerss.
-> - Add default bus format list for non-live case.
-> - Explain removal of redundant checks in the commit message.
-> - Minor fixes and improvements from review comments.
-> 
-> Link to v2: https://lore.kernel.org/r/20240312-dp-live-fmt-v2-0-a9c35dc5c50d@amd.com
-> 
-> Changes in v2:
-> - Factor out register defines update into separate patch.
-> - Add some improvements minimizing ithe usage of a global flag.
-> - Reuse existing format setting API instead of introducing new versions.
-> - Add warning around NULL check on new bridge state within atomic enable
->    callback.
-> - Add drm_helper_crtc_select_output_bus_format() that wraps
->    drm_crtc_helper_funcs.select_output_bus_format().
-> - Update API comments per review recommendations.
-> - Address some minor review comments.
-> - Add reference CRTC driver that demonstrates the usage of the proposed
->    drm_crtc_helper_funcs.select_output_bus_format() API.
-> 
-> - Link to v1: https://lore.kernel.org/r/20240226-dp-live-fmt-v1-0-b78c3f69c9d8@amd.com
-> 
-> ---
-> Anatoliy Klymenko (7):
->        drm: xlnx: zynqmp_dpsub: Set layer mode during creation
->        drm: xlnx: zynqmp_dpsub: Update live format defines
->        drm: xlnx: zynqmp_dpsub: Add connected live layer helper
->        drm: xlnx: zynqmp_dpsub: Anounce supported input formats
->        drm: xlnx: zynqmp_dpsub: Minimize usage of global flag
->        drm: xlnx: zynqmp_dpsub: Set input live format
->        drm/atomic-helper: Add select_output_bus_format callback
-> 
->   drivers/gpu/drm/drm_bridge.c             |  14 +-
->   drivers/gpu/drm/drm_crtc_helper.c        |  38 +++++
->   drivers/gpu/drm/xlnx/zynqmp_disp.c       | 231 +++++++++++++++++++++++++++----
->   drivers/gpu/drm/xlnx/zynqmp_disp.h       |  17 +--
->   drivers/gpu/drm/xlnx/zynqmp_disp_regs.h  |   8 +-
->   drivers/gpu/drm/xlnx/zynqmp_dp.c         |  81 ++++++++---
->   drivers/gpu/drm/xlnx/zynqmp_kms.c        |   2 +-
->   include/drm/drm_crtc.h                   |  11 ++
->   include/drm/drm_crtc_helper.h            |   5 +
->   include/drm/drm_modeset_helper_vtables.h |  30 ++++
->   10 files changed, 372 insertions(+), 65 deletions(-)
-> ---
-> base-commit: bfa4437fd3938ae2e186e7664b2db65bb8775670
-> change-id: 20240226-dp-live-fmt-6415773b5a68
-> 
-> Best regards,
+Xilin Wu (8):
+      dt-bindings: display: panel: Add Synaptics TD4328
+      drm/panel: Add driver for Synaptics TD4328 LCD panel
+      arm64: dts: qcom: pmk8550: Add PWM controller
+      arm64: dts: qcom: sm8550: Add UART15
+      arm64: dts: qcom: sm8550: Update EAS properties
+      dt-bindings: vendor-prefixes: Add AYN Technologies
+      dt-bindings: arm: qcom: Add AYN Odin 2
+      arm64: dts: qcom: Add AYN Odin 2
+
+ Documentation/devicetree/bindings/arm/qcom.yaml    |    1 +
+ .../bindings/display/panel/synaptics,td4328.yaml   |   69 +
+ .../devicetree/bindings/pwm/si-en,sn3112-pwm.yaml  |   55 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
+ arch/arm64/boot/dts/qcom/Makefile                  |    1 +
+ arch/arm64/boot/dts/qcom/pmk8550.dtsi              |   10 +
+ arch/arm64/boot/dts/qcom/qcs8550-ayn-odin2.dts     | 1410 ++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm8550.dtsi               |   54 +-
+ drivers/gpu/drm/panel/Kconfig                      |   10 +
+ drivers/gpu/drm/panel/Makefile                     |    1 +
+ drivers/gpu/drm/panel/panel-synaptics-td4328.c     |  246 ++++
+ drivers/pwm/Kconfig                                |   10 +
+ drivers/pwm/Makefile                               |    1 +
+ drivers/pwm/pwm-sn3112.c                           |  336 +++++
+ 14 files changed, 2190 insertions(+), 16 deletions(-)
+---
+base-commit: 90388b2f9fa5f332289335f99996e252697c0242
+change-id: 20240424-ayn-odin2-initial-95b7c060cd03
+
+Best regards,
+-- 
+Xilin Wu <wuxilin123@gmail.com>
+
 
