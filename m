@@ -2,44 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E888B0EF8
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 17:48:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEDF8B0F2B
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 17:55:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58F3710F001;
-	Wed, 24 Apr 2024 15:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27835113C44;
+	Wed, 24 Apr 2024 15:55:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PRef2gp/";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8FAB010F001
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 15:48:52 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EDA31516
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 08:49:19 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5CAF03F73F
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 08:48:51 -0700 (PDT)
-Date: Wed, 24 Apr 2024 16:48:37 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] drm/panthor: introduce job cycle and timestamp
- accounting
-Message-ID: <Zikp1U_MRd7NL39C@e110455-lin.cambridge.arm.com>
-References: <20240423213240.91412-1-adrian.larumbe@collabora.com>
- <20240423213240.91412-2-adrian.larumbe@collabora.com>
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90476113C44
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 15:55:29 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-417e327773cso6413765e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 08:55:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713974128; x=1714578928; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OGygmmw5dUuftK+NtOQ8W0MuuBgiCdR1Jk9PiD/ccZY=;
+ b=PRef2gp/N39KuGnuwKvODLcucjHNyE6Fzr2dI4QvlXaHE8P6Hkovz30jRLcamN8NsD
+ 8CLk6Y01gbqINb9dTc4MS+Ctt6/uDnibl00n0BD4gIGHGytfcBtChid42fEPjeQULEE1
+ 7Ynm31vBljiix91RfQbYIW+JNn36u1sPE4S4Et9nd3wVAXoQnPaLxrebs4jGA6i4eTII
+ SKPdnPyLjEwpuiht88+wkAqGDts6RMrOyjQ+bdE1P6R0i94TjN88OLeg0GbbUPCm3Mr/
+ z6EcWJgwTGvipHugXeqJWeIWPdmo+WrEgXLtrzoruH41DPjVv7iASVf3PcoY4GiRRG+u
+ FAeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713974128; x=1714578928;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OGygmmw5dUuftK+NtOQ8W0MuuBgiCdR1Jk9PiD/ccZY=;
+ b=ZNckH6Xqj3RT7dY/JseHXK8/Jkc10n7HpsPml0qrxg4M7zN+WQaKsh367DbB+NfFPS
+ ZTvyfVA4UXPov3tz1aTm88zSrPVY6c7pm5tImJh1sjMwqs3U6lnqE1Fy5njKrLiIMxJ1
+ k5UByMrHGBnvUOds2f1VDF/7VfrBKbysQ1n/+MN+sOLFdcu5bBhuKI9YroGkACZAL2l3
+ fcKNfiCjG5UeGHAHp39CrhSf9ZWdJfh9JaJRtSosfeJRdyLL9FlaXyvFPmhy8Oz7e/yL
+ GzG4DbiF5mTJixhkqU1zHco5o+tBd2c4GzWehdHA9LlB0ZluNxfmyGMk3o7U4UmIR/KF
+ 3PNA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV/ltPlMYeg6JIIyh9zGX3njMiIdvmG7DEOZSyPU8aFkfngHZAXyoE2m2f+APhuynfZ9T6laOAbZBhhhX8uKgYVrqJGPTVLzNdSUz5zAQT+
+X-Gm-Message-State: AOJu0YwbsjHh4hdWdes+0MVTqgQEAmHzfoTgWnJqitltbQFiuoaJ1/JW
+ qfYNLvpN9/wuCnINb08KVeHlQbz0VlQR0mkNIQgXgNbQ42/6anNxD1UFXnLF7zg=
+X-Google-Smtp-Source: AGHT+IHikMHMOXTMulwB47yle/P1Kf68zYdYPx2oI07Jwtj8DHkg3Wy57Z7buA+x9rEtvYYTZDgcOg==
+X-Received: by 2002:adf:e7c1:0:b0:34a:cb2:c52 with SMTP id
+ e1-20020adfe7c1000000b0034a0cb20c52mr48257wrn.20.1713974127801; 
+ Wed, 24 Apr 2024 08:55:27 -0700 (PDT)
+Received: from [192.168.0.102] ([176.61.106.227])
+ by smtp.gmail.com with ESMTPSA id
+ x13-20020a5d54cd000000b0034335e47102sm17375359wrv.113.2024.04.24.08.55.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Apr 2024 08:55:27 -0700 (PDT)
+Message-ID: <17d36836-67cb-4d5a-a8b4-ecf1517a0020@linaro.org>
+Date: Wed, 24 Apr 2024 16:55:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240423213240.91412-2-adrian.larumbe@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/10] pwm: Add SI-EN SN3112 PWM support
+To: wuxilin123@gmail.com, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <u.kleine-koenig@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Junhao Xie <bigfoot@classfun.cn>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Tengfei Fan <quic_tengfan@quicinc.com>,
+ Molly Sophia <mollysophia379@gmail.com>
+Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+References: <20240424-ayn-odin2-initial-v1-0-e0aa05c991fd@gmail.com>
+ <20240424-ayn-odin2-initial-v1-2-e0aa05c991fd@gmail.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240424-ayn-odin2-initial-v1-2-e0aa05c991fd@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,359 +99,443 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrián,
-
-On Tue, Apr 23, 2024 at 10:32:34PM +0100, Adrián Larumbe wrote:
-> Enable calculations of job submission times in clock cycles and wall
-> time. This is done by expanding the boilerplate command stream when running
-> a job to include instructions that compute said times right before an after
-> a user CS.
+On 24/04/2024 16:29, Xilin Wu via B4 Relay wrote:
+> From: Junhao Xie <bigfoot@classfun.cn>
 > 
-> Those numbers are stored in the queue's group's sync objects BO, right
-> after them. Because the queues in a group might have a different number of
-> slots, one must keep track of the overall slot tally when reckoning the
-> offset of a queue's time sample structs, one for each slot.
+> Add a new driver for the SI-EN SN3112 12-channel 8-bit PWM LED controller.
 > 
-> NUM_INSTRS_PER_SLOT had to be increased to 32 because of adding new FW
-> instructions for storing and subtracting the cycle counter and timestamp
-> register, and it must always remain a power of two.
-> 
-> This commit is done in preparation for enabling DRM fdinfo support in the
-> Panthor driver, which depends on the numbers calculated herein.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> Signed-off-by: Junhao Xie <bigfoot@classfun.cn>
 > ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 158 ++++++++++++++++++++----
->  1 file changed, 134 insertions(+), 24 deletions(-)
+>   drivers/pwm/Kconfig      |  10 ++
+>   drivers/pwm/Makefile     |   1 +
+>   drivers/pwm/pwm-sn3112.c | 336 +++++++++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 347 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index b3a51a6de523..320dfa0388ba 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -93,6 +93,9 @@
->  #define MIN_CSGS				3
->  #define MAX_CSG_PRIO				0xf
->  
-> +#define NUM_INSTRS_PER_SLOT			32
-> +#define SLOTSIZE				(NUM_INSTRS_PER_SLOT * sizeof(u64))
+> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+> index 1dd7921194f5..e21c37c7991e 100644
+> --- a/drivers/pwm/Kconfig
+> +++ b/drivers/pwm/Kconfig
+> @@ -553,6 +553,16 @@ config PWM_SL28CPLD
+>   	  To compile this driver as a module, choose M here: the module
+>   	  will be called pwm-sl28cpld.
+>   
+> +config PWM_SN3112
+> +	tristate "SI-EN SN3112 PWM driver"
+> +	depends on I2C
+> +	select REGMAP_I2C
+> +	help
+> +	  Generic PWM framework driver for SI-EN SN3112 LED controller.
 > +
->  struct panthor_group;
->  
->  /**
-> @@ -466,6 +469,9 @@ struct panthor_queue {
->  		 */
->  		struct list_head in_flight_jobs;
->  	} fence_ctx;
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called pwm-sn3112.
 > +
-> +	/** @time_offset: Offset of panthor_job_times structs in group's syncobj bo. */
-> +	unsigned long time_offset;
+>   config PWM_SPEAR
+>   	tristate "STMicroelectronics SPEAr PWM support"
+>   	depends on PLAT_SPEAR || COMPILE_TEST
+> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
+> index 90913519f11a..6aab2d113159 100644
+> --- a/drivers/pwm/Makefile
+> +++ b/drivers/pwm/Makefile
+> @@ -50,6 +50,7 @@ obj-$(CONFIG_PWM_RZ_MTU3)	+= pwm-rz-mtu3.o
+>   obj-$(CONFIG_PWM_SAMSUNG)	+= pwm-samsung.o
+>   obj-$(CONFIG_PWM_SIFIVE)	+= pwm-sifive.o
+>   obj-$(CONFIG_PWM_SL28CPLD)	+= pwm-sl28cpld.o
+> +obj-$(CONFIG_PWM_SN3112)	+= pwm-sn3112.o
+>   obj-$(CONFIG_PWM_SPEAR)		+= pwm-spear.o
+>   obj-$(CONFIG_PWM_SPRD)		+= pwm-sprd.o
+>   obj-$(CONFIG_PWM_STI)		+= pwm-sti.o
+> diff --git a/drivers/pwm/pwm-sn3112.c b/drivers/pwm/pwm-sn3112.c
+> new file mode 100644
+> index 000000000000..38ef948602a3
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-sn3112.c
+> @@ -0,0 +1,336 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Driver for SN3112 12-channel 8-bit PWM LED controller
+> + *
+> + * Copyright (c) 2024 Junhao Xie <bigfoot@classfun.cn>
+> + *
+> + */
+> +
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pwm.h>
+> +#include <linux/regmap.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/regulator/consumer.h>
 
-Minor nitpick: I would call it job_times_offset. Or stats_offset. One letter difference
-versus syncobjs' times_offset gets harder to read sometimes.
+Includes should be alphabetised
 
->  };
->  
->  /**
-> @@ -580,7 +586,17 @@ struct panthor_group {
->  	 * One sync object per queue. The position of the sync object is
->  	 * determined by the queue index.
->  	 */
-> -	struct panthor_kernel_bo *syncobjs;
 > +
-> +	struct {
-> +		/** @bo: Kernel BO holding the sync objects. */
-> +		struct panthor_kernel_bo *bo;
+> +#define SN3112_CHANNELS 12
+> +#define SN3112_REG_ENABLE 0x00
+> +#define SN3112_REG_PWM_VAL 0x04
+> +#define SN3112_REG_PWM_EN 0x13
+> +#define SN3112_REG_APPLY 0x16
+> +#define SN3112_REG_RESET 0x17
 > +
-> +		/**
-> +		 * @times_offset: Beginning of panthor_job_times struct samples after
-> +		 * the group's array of sync objects.
-> +		 */
-> +		size_t times_offset;
-> +	} syncobjs;
->  
->  	/** @state: Group state. */
->  	enum panthor_group_state state;
-> @@ -639,6 +655,18 @@ struct panthor_group {
->  	struct list_head wait_node;
->  };
->  
-> +struct panthor_job_times {
-> +	struct {
-> +		u64 before;
-> +		u64 after;
-> +	} cycles;
-> +
-> +	struct {
-> +		u64 before;
-> +		u64 after;
-> +	} time;
+> +struct sn3112 {
+> +	struct device *pdev;
+> +	struct regmap *regmap;
+> +	struct mutex lock;
+> +	struct regulator *vdd;
+> +	uint8_t pwm_val[SN3112_CHANNELS];
+> +	uint8_t pwm_en_reg[3];
+> +	bool pwm_en[SN3112_CHANNELS];
+> +#if IS_ENABLED(CONFIG_GPIOLIB)
+> +	struct gpio_desc *sdb;
+> +#endif
 > +};
 > +
->  /**
->   * group_queue_work() - Queue a group work
->   * @group: Group to queue the work for.
-> @@ -718,6 +746,9 @@ struct panthor_job {
->  	/** @queue_idx: Index of the queue inside @group. */
->  	u32 queue_idx;
->  
-> +	/** @ringbuf_idx: Index of the ringbuffer inside @queue. */
-> +	u32 ringbuf_idx;
+> +static int sn3112_write_reg(struct sn3112 *priv, unsigned int reg,
+> +			    unsigned int val)
+> +{
+> +	int err;
 > +
->  	/** @call_info: Information about the userspace command stream call. */
->  	struct {
->  		/** @start: GPU address of the userspace command stream. */
-> @@ -833,7 +864,7 @@ static void group_release_work(struct work_struct *work)
->  
->  	panthor_kernel_bo_destroy(panthor_fw_vm(ptdev), group->suspend_buf);
->  	panthor_kernel_bo_destroy(panthor_fw_vm(ptdev), group->protm_suspend_buf);
-> -	panthor_kernel_bo_destroy(group->vm, group->syncobjs);
-> +	panthor_kernel_bo_destroy(group->vm, group->syncobjs.bo);
->  
->  	panthor_vm_put(group->vm);
->  	kfree(group);
-> @@ -1924,8 +1955,6 @@ tick_ctx_init(struct panthor_scheduler *sched,
->  	}
->  }
->  
-> -#define NUM_INSTRS_PER_SLOT		16
-> -
->  static void
->  group_term_post_processing(struct panthor_group *group)
->  {
-> @@ -1962,7 +1991,7 @@ group_term_post_processing(struct panthor_group *group)
->  		spin_unlock(&queue->fence_ctx.lock);
->  
->  		/* Manually update the syncobj seqno to unblock waiters. */
-> -		syncobj = group->syncobjs->kmap + (i * sizeof(*syncobj));
-> +		syncobj = group->syncobjs.bo->kmap + (i * sizeof(*syncobj));
->  		syncobj->status = ~0;
->  		syncobj->seqno = atomic64_read(&queue->fence_ctx.seqno);
->  		sched_queue_work(group->ptdev->scheduler, sync_upd);
-> @@ -2729,7 +2758,7 @@ static void group_sync_upd_work(struct work_struct *work)
->  		if (!queue)
->  			continue;
->  
-> -		syncobj = group->syncobjs->kmap + (queue_idx * sizeof(*syncobj));
-> +		syncobj = group->syncobjs.bo->kmap + (queue_idx * sizeof(*syncobj));
->  
->  		spin_lock(&queue->fence_ctx.lock);
->  		list_for_each_entry_safe(job, job_tmp, &queue->fence_ctx.in_flight_jobs, node) {
-> @@ -2764,15 +2793,23 @@ queue_run_job(struct drm_sched_job *sched_job)
->  	struct panthor_scheduler *sched = ptdev->scheduler;
->  	u32 ringbuf_size = panthor_kernel_bo_size(queue->ringbuf);
->  	u32 ringbuf_insert = queue->iface.input->insert & (ringbuf_size - 1);
-> +	u32 ringbuf_index = ringbuf_insert / (SLOTSIZE);
->  	u64 addr_reg = ptdev->csif_info.cs_reg_count -
->  		       ptdev->csif_info.unpreserved_cs_reg_count;
->  	u64 val_reg = addr_reg + 2;
-> -	u64 sync_addr = panthor_kernel_bo_gpuva(group->syncobjs) +
-> -			job->queue_idx * sizeof(struct panthor_syncobj_64b);
-> +	u64 cycle_reg = addr_reg;
-> +	u64 time_reg = val_reg;
-> +	u64 sync_addr = panthor_kernel_bo_gpuva(group->syncobjs.bo) +
-> +		job->queue_idx * sizeof(struct panthor_syncobj_64b);
-> +	u64 times_addr = panthor_kernel_bo_gpuva(group->syncobjs.bo) + queue->time_offset +
-> +		(ringbuf_index * sizeof(struct panthor_job_times));
-> +
->  	u32 waitall_mask = GENMASK(sched->sb_slot_count - 1, 0);
->  	struct dma_fence *done_fence;
->  	int ret;
->  
-> +	drm_WARN_ON(&ptdev->base, ringbuf_insert >= ringbuf_size);
+> +	dev_dbg(priv->pdev, "request regmap_write 0x%x 0x%x\n", reg, val);
+> +	err = regmap_write(priv->regmap, reg, val);
+> +	if (err)
+> +		dev_warn_ratelimited(
+> +			priv->pdev,
+> +			"regmap_write to register 0x%x failed: %pe\n", reg,
+> +			ERR_PTR(err));
 
-I think we should return an error here, rather than warn. What would be the point to continue?
+Multi-line should be encapsulated in {}
+
+if (err) {
+	stuff
+	goes here
+}
+
+> +	return err;
+> +}
+> +
+> +static int sn3112_set_en_reg(struct sn3112 *priv, unsigned int channel,
+> +			     bool enabled, bool write)
+> +{
+> +	unsigned int reg, bit;
+> +
+> +	if (channel >= SN3112_CHANNELS)
+> +		return -EINVAL;
+> +
+> +	/* LED_EN1: BIT5:BIT3 = OUT3:OUT1 */
+> +	if (channel >= 0 && channel <= 2)
+> +		reg = 0, bit = channel + 3;
+> +	/* LED_EN2: BIT5:BIT0 = OUT9:OUT4 */
+> +	else if (channel >= 3 && channel <= 8)
+> +		reg = 1, bit = channel - 3;
+> +	/* LED_EN3: BIT2:BIT0 = OUT12:OUT10 */
+> +	else if (channel >= 9 && channel <= 11)
+> +		reg = 2, bit = channel - 9;
+> +	else
+> +		return -EINVAL;
+> +
+> +	dev_dbg(priv->pdev, "channel %u enabled %u\n", channel, enabled);
+> +	dev_dbg(priv->pdev, "reg %u bit %u\n", reg, bit);
+> +	if (enabled)
+> +		set_bit(bit, (ulong *)&priv->pwm_en_reg[reg]);
+> +	else
+> +		clear_bit(bit, (ulong *)&priv->pwm_en_reg[reg]);
+> +	dev_dbg(priv->pdev, "set enable reg %u to %u\n", reg,
+> +		priv->pwm_en_reg[reg]);
+> +
+> +	if (!write)
+> +		return 0;
+newline
+> +	return sn3112_write_reg(priv, SN3112_REG_PWM_EN + reg,
+> +				priv->pwm_en_reg[reg]);
+> +}
+> +
+> +static int sn3112_set_val_reg(struct sn3112 *priv, unsigned int channel,
+> +			      uint8_t val, bool write)
+> +{
+> +	if (channel >= SN3112_CHANNELS)
+> +		return -EINVAL;
+newline
+> +	priv->pwm_val[channel] = val;
+> +	dev_dbg(priv->pdev, "set value reg %u to %u\n", channel,
+> +		priv->pwm_val[channel]);
+> +
+> +	if (!write)
+> +		return 0;
+newline
+> +	return sn3112_write_reg(priv, SN3112_REG_PWM_VAL + channel,
+> +				priv->pwm_val[channel]);
+> +}
+> +
+> +static int sn3112_write_all(struct sn3112 *priv)
+> +{
+> +	int i, ret;
+> +
+> +	/* regenerate enable register values */
+> +	for (i = 0; i < SN3112_CHANNELS; i++) {
+> +		ret = sn3112_set_en_reg(priv, i, priv->pwm_en[i], false);
+> +		if (ret != 0)
+> +			return ret;
+> +	}
+> +
+> +	/* use random value to clear all registers */
+> +	ret = sn3112_write_reg(priv, SN3112_REG_RESET, 0x66);
+> +	if (ret != 0)
+> +		return ret;
+> +
+> +	/* set software enable register */
+> +	ret = sn3112_write_reg(priv, SN3112_REG_ENABLE, 1);
+> +	if (ret != 0)
+> +		return ret;
+> +
+> +	/* rewrite pwm value register */
+> +	for (i = 0; i < SN3112_CHANNELS; i++) {
+> +		ret = sn3112_write_reg(priv, SN3112_REG_PWM_VAL + i,
+> +				       priv->pwm_val[i]);
+> +		if (ret != 0)
+> +			return ret;
+> +	}
+> +
+> +	/* rewrite pwm enable register */
+> +	for (i = 0; i < 3; i++) {
+> +		ret = sn3112_write_reg(priv, SN3112_REG_PWM_EN + i,
+> +				       priv->pwm_en_reg[i]);
+> +		if (ret != 0)
+> +			return ret;
+> +	}
+> +
+> +	/* use random value to apply changes */
+> +	ret = sn3112_write_reg(priv, SN3112_REG_APPLY, 0x66);
+> +	if (ret != 0)
+> +		return ret;
+> +
+> +	dev_dbg(priv->pdev, "reinitialized\n");
+> +	return 0;
+> +}
+> +
+> +static int sn3112_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+> +{
+> +	struct sn3112 *priv = pwmchip_get_drvdata(chip);
+> +
+> +	if (pwm->hwpwm >= SN3112_CHANNELS)
+> +		return -EINVAL;
+> +
+> +	dev_dbg(priv->pdev, "sn3112 request channel %u\n", pwm->hwpwm);
+> +	pwm->args.period = 1000000;
+newline
+> +	return 0;
+> +}
+> +
+> +static int sn3112_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			    const struct pwm_state *state)
+> +{
+> +	u64 val = 0;
+> +	struct sn3112 *priv = pwmchip_get_drvdata(chip);
+> +
+> +	if (pwm->hwpwm >= SN3112_CHANNELS)
+> +		return -EINVAL;
+> +
+> +	if (state->polarity != PWM_POLARITY_NORMAL)
+> +		return -EINVAL;
+> +
+> +	if (state->period <= 0)
+> +		return -EINVAL;
+> +
+> +	val = mul_u64_u64_div_u64(state->duty_cycle, 0xff, state->period);
+> +	dev_dbg(priv->pdev, "duty_cycle %llu period %llu\n", state->duty_cycle,
+> +		state->period);
+> +	dev_dbg(priv->pdev, "set channel %u value to %llu\n", pwm->hwpwm, val);
+> +	dev_dbg(priv->pdev, "set channel %u enabled to %u\n", pwm->hwpwm,
+> +		state->enabled);
+> +
+> +	mutex_lock(&priv->lock);
+> +	sn3112_set_en_reg(priv, pwm->hwpwm, state->enabled, true);
+> +	sn3112_set_val_reg(priv, pwm->hwpwm, val, true);
+> +	sn3112_write_reg(priv, SN3112_REG_APPLY, 0x66);
+> +	mutex_unlock(&priv->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct pwm_ops sn3112_pwm_ops = {
+> +	.apply = sn3112_pwm_apply,
+> +	.request = sn3112_pwm_request,
+> +};
+> +
+> +static const struct regmap_config sn3112_regmap_i2c_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.max_register = 24,
+> +	.cache_type = REGCACHE_NONE,
+> +};
+> +
+> +static int sn3112_pwm_probe(struct i2c_client *client)
+> +{
+> +	struct pwm_chip *chip;
+> +	struct sn3112 *priv;
+> +	int ret, i;
+> +
+> +	dev_dbg(&client->dev, "probing\n");
+You can probably live without that in an upstream driver..
+
+> +	chip = devm_pwmchip_alloc(&client->dev, SN3112_CHANNELS, sizeof(*priv));
+> +	if (IS_ERR(chip))
+> +		return PTR_ERR(chip);
+> +	priv = pwmchip_get_drvdata(chip);
+> +	priv->pdev = &client->dev;
+> +
+> +	/* initialize sn3112 (chip does not support read command) */
+> +	for (i = 0; i < SN3112_CHANNELS; i++)
+> +		priv->pwm_en[i] = false;
+> +	for (i = 0; i < SN3112_CHANNELS; i++)
+> +		priv->pwm_val[i] = 0;
+> +	for (i = 0; i < 3; i++)
+> +		priv->pwm_en_reg[i] = 0;
+
+Why does pwm_val have a define to constrain the array but pwm_en_reg 
+have hard-coded 3 ?
+
+Suggest using a #define for the 3 value for consistency / extensibility.
 
 > +
->  	u64 call_instrs[NUM_INSTRS_PER_SLOT] = {
->  		/* MOV32 rX+2, cs.latest_flush */
->  		(2ull << 56) | (val_reg << 48) | job->call_info.latest_flush,
-> @@ -2780,6 +2817,18 @@ queue_run_job(struct drm_sched_job *sched_job)
->  		/* FLUSH_CACHE2.clean_inv_all.no_wait.signal(0) rX+2 */
->  		(36ull << 56) | (0ull << 48) | (val_reg << 40) | (0 << 16) | 0x233,
->  
-> +		/* MOV48 rX:rX+1, cycles_offset */
-> +		(1ull << 56) | (cycle_reg << 48) | (times_addr + offsetof(struct panthor_job_times, cycles.before)),
+> +	/* enable sn5112 power vdd */
+> +	priv->vdd = devm_regulator_get(priv->pdev, "vdd");
+> +	if (IS_ERR(priv->vdd)) {
+> +		ret = PTR_ERR(priv->vdd);
+> +		dev_err(priv->pdev, "Unable to get vdd regulator: %d\n", ret);
+> +		return ret;
+> +	}
 > +
-> +		/* MOV48 rX:rX+1, time_offset */
-> +		(1ull << 56) | (time_reg << 48) | (times_addr + offsetof(struct panthor_job_times, time.before)),
+> +#if IS_ENABLED(CONFIG_GPIOLIB)
+> +	/* sn5112 hardware shutdown pin */
+> +	priv->sdb = devm_gpiod_get_optional(priv->pdev, "sdb", GPIOD_OUT_LOW);
+> +	if (PTR_ERR(priv->sdb) == -EPROBE_DEFER)
+> +		return -EPROBE_DEFER;
+> +#endif
 > +
-> +		/* STORE_STATE cycles */
-> +		(40ull << 56) |  (cycle_reg << 40) | (1ll << 32),
+> +	/* enable sn5112 power vdd */
+> +	ret = regulator_enable(priv->vdd);
+> +	if (ret < 0) {
+> +		dev_err(priv->pdev, "Unable to enable regulator: %d\n", ret);
+> +		return ret;
+> +	}
 > +
-> +		/* STORE_STATE timer */
-> +		(40ull << 56) |  (time_reg << 40) | (0ll << 32),
+> +	priv->regmap = devm_regmap_init_i2c(client, &sn3112_regmap_i2c_config);
+> +	if (IS_ERR(priv->regmap)) {
+> +		ret = PTR_ERR(priv->regmap);
+> +		dev_err(priv->pdev, "Failed to initialize register map: %d\n",
+> +			ret);
+> +		return ret;
+> +	}
 > +
->  		/* MOV48 rX:rX+1, cs.start */
->  		(1ull << 56) | (addr_reg << 48) | job->call_info.start,
->  
-> @@ -2792,6 +2841,18 @@ queue_run_job(struct drm_sched_job *sched_job)
->  		/* CALL rX:rX+1, rX+2 */
->  		(32ull << 56) | (addr_reg << 40) | (val_reg << 32),
->  
-> +		/* MOV48 rX:rX+1, cycles_offset */
-> +		(1ull << 56) | (cycle_reg << 48) | (times_addr + offsetof(struct panthor_job_times, cycles.after)),
+> +	i2c_set_clientdata(client, chip);
+> +	mutex_init(&priv->lock);
 > +
-> +		/* MOV48 rX:rX+1, time_offset */
-> +		(1ull << 56) | (time_reg << 48) | (times_addr + offsetof(struct panthor_job_times, time.after)),
+> +	chip->ops = &sn3112_pwm_ops;
+> +	ret = pwmchip_add(chip);
+> +	if (ret < 0)
+> +		return ret;
 > +
-> +		/* STORE_STATE cycles */
-> +		(40ull << 56) |  (cycle_reg << 40) | (1ll << 32),
+> +#if IS_ENABLED(CONFIG_GPIOLIB)
+> +	/* disable hardware shutdown pin */
+> +	if (priv->sdb)
+> +		gpiod_set_value(priv->sdb, 0);
+> +#endif
 > +
-> +		/* STORE_STATE timer */
-> +		(40ull << 56) |  (time_reg << 40) | (0ll << 32),
+> +	/* initialize registers */
+> +	ret = sn3112_write_all(priv);
+> +	if (ret != 0) {
+> +		dev_err(priv->pdev, "Failed to initialize sn3112: %d\n", ret);
+> +		return ret;
+> +	}
 > +
->  		/* MOV48 rX:rX+1, sync_addr */
->  		(1ull << 56) | (addr_reg << 48) | sync_addr,
->  
-> @@ -2846,6 +2907,7 @@ queue_run_job(struct drm_sched_job *sched_job)
->  
->  	job->ringbuf.start = queue->iface.input->insert;
->  	job->ringbuf.end = job->ringbuf.start + sizeof(call_instrs);
-> +	job->ringbuf_idx = ringbuf_index;
->  
->  	/* Make sure the ring buffer is updated before the INSERT
->  	 * register.
-> @@ -2936,7 +2998,8 @@ static const struct drm_sched_backend_ops panthor_queue_sched_ops = {
->  
->  static struct panthor_queue *
->  group_create_queue(struct panthor_group *group,
-> -		   const struct drm_panthor_queue_create *args)
-> +		   const struct drm_panthor_queue_create *args,
-> +		   unsigned int slots_so_far)
->  {
->  	struct drm_gpu_scheduler *drm_sched;
->  	struct panthor_queue *queue;
-> @@ -2987,9 +3050,12 @@ group_create_queue(struct panthor_group *group,
->  		goto err_free_queue;
->  	}
->  
-> +	queue->time_offset = group->syncobjs.times_offset +
-> +		(slots_so_far * sizeof(struct panthor_job_times));
+> +	dev_info(&client->dev,
+> +		 "Found SI-EN SN3112 12-channel 8-bit PWM LED controller\n");
+newline
+> +	return 0;
+> +}
 > +
->  	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
->  			     group->ptdev->scheduler->wq, 1,
-> -			     args->ringbuf_size / (NUM_INSTRS_PER_SLOT * sizeof(u64)),
-> +			     args->ringbuf_size / SLOTSIZE,
->  			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
->  			     group->ptdev->reset.wq,
->  			     NULL, "panthor-queue", group->ptdev->base.dev);
-> @@ -3017,7 +3083,9 @@ int panthor_group_create(struct panthor_file *pfile,
->  	struct panthor_scheduler *sched = ptdev->scheduler;
->  	struct panthor_fw_csg_iface *csg_iface = panthor_fw_get_csg_iface(ptdev, 0);
->  	struct panthor_group *group = NULL;
-> +	unsigned int total_slots;
->  	u32 gid, i, suspend_size;
-> +	size_t syncobj_bo_size;
->  	int ret;
->  
->  	if (group_args->pad)
-> @@ -3083,33 +3151,75 @@ int panthor_group_create(struct panthor_file *pfile,
->  		goto err_put_group;
->  	}
->  
-> -	group->syncobjs = panthor_kernel_bo_create(ptdev, group->vm,
-> -						   group_args->queues.count *
-> -						   sizeof(struct panthor_syncobj_64b),
-> -						   DRM_PANTHOR_BO_NO_MMAP,
-> -						   DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
-> -						   DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> -						   PANTHOR_VM_KERNEL_AUTO_VA);
-> -	if (IS_ERR(group->syncobjs)) {
-> -		ret = PTR_ERR(group->syncobjs);
-> +	/*
-> +	 * Need to add size for the panthor_job_times structs, as many as the sum
-> +	 * of the number of job slots for every single queue ringbuffer.
-> +	 */
-> +	for (i = 0, total_slots = 0; i < group_args->queues.count; i++)
-> +		total_slots += (queue_args[i].ringbuf_size / (SLOTSIZE));
+> +static void sn3112_pwm_remove(struct i2c_client *client)
+> +{
+> +	struct pwm_chip *chip = i2c_get_clientdata(client);
+> +	struct sn3112 *priv = pwmchip_get_drvdata(chip);
 > +
-> +	syncobj_bo_size = (group_args->queues.count * sizeof(struct panthor_syncobj_64b))
-> +		+ (total_slots * sizeof(struct panthor_job_times));
+> +	dev_dbg(priv->pdev, "remove\n");
+suggest dropping from both probe() and remove()
 > +
-> +	/*
-> +	 * Memory layout of group's syncobjs BO
-> +	 * group->syncobjs.bo {
-> +	 *	struct panthor_syncobj_64b sync1;
-> +	 *	struct panthor_syncobj_64b sync2;
-> +	 *		...
-> +	 *		As many as group_args->queues.count
-> +	 *		...
-> +	 *	struct panthor_syncobj_64b syncn;
-> +	 *	struct panthor_job_times queue1_slot1
-> +	 *	struct panthor_job_times queue1_slot2
-> +	 *		...
-> +	 *		As many as queue[i].ringbuf_size / SLOTSIZE
-> +	 *		...
-> +	 *	struct panthor_job_times queue1_slotP
-> +	 *		...
-> +	 *		As many as group_args->queues.count
-> +	 *		...
-> +	 *	struct panthor_job_times queueN_slot1
-> +	 *	struct panthor_job_times queueN_slot2
-> +	 *		...
-> +	 *		As many as queue[n].ringbuf_size / SLOTSIZE
-> +	 *	struct panthor_job_times queueN_slotQ
-> +	 *
-> +	 *	Linearly, group->syncobjs.bo = {syncojb1,..,syncobjN,
-> +	 *	{queue1 = {js1,..,jsP},..,queueN = {js1,..,jsQ}}}
-> +	 * }
-> +	 *
-> +	 */
+> +	/* set software enable register */
+> +	sn3112_write_reg(priv, SN3112_REG_ENABLE, 0);
 > +
-> +	group->syncobjs.bo = panthor_kernel_bo_create(ptdev, group->vm,
-> +						      syncobj_bo_size,
-> +						      DRM_PANTHOR_BO_NO_MMAP,
-> +						      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
-> +						      DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> +						      PANTHOR_VM_KERNEL_AUTO_VA);
-> +	if (IS_ERR(group->syncobjs.bo)) {
-> +		ret = PTR_ERR(group->syncobjs.bo);
->  		goto err_put_group;
->  	}
->  
-> -	ret = panthor_kernel_bo_vmap(group->syncobjs);
-> +	ret = panthor_kernel_bo_vmap(group->syncobjs.bo);
->  	if (ret)
->  		goto err_put_group;
->  
-> -	memset(group->syncobjs->kmap, 0,
-> -	       group_args->queues.count * sizeof(struct panthor_syncobj_64b));
-> +	memset(group->syncobjs.bo->kmap, 0, syncobj_bo_size);
+> +	/* use random value to apply changes */
+> +	sn3112_write_reg(priv, SN3112_REG_APPLY, 0x66);
 > +
-> +	group->syncobjs.times_offset =
-> +		group_args->queues.count * sizeof(struct panthor_syncobj_64b);
->  
-> -	for (i = 0; i < group_args->queues.count; i++) {
-> -		group->queues[i] = group_create_queue(group, &queue_args[i]);
-> +	for (i = 0, total_slots = 0; i < group_args->queues.count; i++) {
-> +		group->queues[i] = group_create_queue(group, &queue_args[i], total_slots);
->  		if (IS_ERR(group->queues[i])) {
->  			ret = PTR_ERR(group->queues[i]);
->  			group->queues[i] = NULL;
->  			goto err_put_group;
->  		}
->  
-> +		total_slots += (queue_args[i].ringbuf_size / (SLOTSIZE));
->  		group->queue_count++;
->  	}
->  
-> -- 
-> 2.44.0
->
+> +#if IS_ENABLED(CONFIG_GPIOLIB)
+> +	/* enable hardware shutdown pin */
+> +	if (priv->sdb)
+> +		gpiod_set_value(priv->sdb, 1);
+> +#endif
+> +
+> +	/* power-off sn5112 power vdd */
+> +	regulator_disable(priv->vdd);
+> +
+> +	pwmchip_remove(chip);
+> +}
+> +
+> +static const struct i2c_device_id sn3112_id[] = {
+> +	{ "sn3112", 0 },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(i2c, sn3112_id);
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id sn3112_dt_ids[] = {
+> +	{ .compatible = "si-en,sn3112-pwm", },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, sn3112_dt_ids);
+> +#endif
+> +
+> +static struct i2c_driver sn3112_i2c_driver = {
+> +	.driver = {
+> +		.name = "sn3112-pwm",
+> +		.of_match_table = of_match_ptr(sn3112_dt_ids),
+> +	},
+> +	.probe = sn3112_pwm_probe,
+> +	.remove = sn3112_pwm_remove,
+> +	.id_table = sn3112_id,
+> +};
+> +
+> +module_i2c_driver(sn3112_i2c_driver);
+> +
+> +MODULE_AUTHOR("BigfootACA <bigfoot@classfun.cn>");
+BigFootACA not Xilin Wu ?
+> +MODULE_DESCRIPTION("PWM driver for SI-EN SN3112");
+> +MODULE_LICENSE("GPL");
+> 
 
-With those comments addressed,
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Also please consider the following checkpatch errors
 
-Best regards,
-Liviu
+WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+#50:
+new file mode 100644
 
+CHECK: struct mutex definition without comment
+#83: FILE: drivers/pwm/pwm-sn3112.c:29:
++	struct mutex lock;
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+CHECK: Prefer kernel type 'u8' over 'uint8_t'
+#85: FILE: drivers/pwm/pwm-sn3112.c:31:
++	uint8_t pwm_val[SN3112_CHANNELS];
+
+CHECK: Prefer kernel type 'u8' over 'uint8_t'
+#86: FILE: drivers/pwm/pwm-sn3112.c:32:
++	uint8_t pwm_en_reg[3];
+
+CHECK: Lines should not end with a '('
+#101: FILE: drivers/pwm/pwm-sn3112.c:47:
++		dev_warn_ratelimited(
+
+CHECK: Prefer kernel type 'u8' over 'uint8_t'
+#145: FILE: drivers/pwm/pwm-sn3112.c:91:
++			      uint8_t val, bool write)
+
