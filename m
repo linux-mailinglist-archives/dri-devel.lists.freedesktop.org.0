@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E618A8B108B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 19:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2B68B10A1
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 19:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD788113C9D;
-	Wed, 24 Apr 2024 17:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 810CF113CA5;
+	Wed, 24 Apr 2024 17:06:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="VXxzV25o";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="VGftg4OP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A011113C87;
- Wed, 24 Apr 2024 17:01:05 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6073113C9C;
+ Wed, 24 Apr 2024 17:06:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1713978040; x=1714582840; i=friedrich.vock@gmx.de;
- bh=a/KOIUJNEvZE7XYrz5Fp2pC4GRWaSm1HIzkguOCSfBo=;
+ s=s31663417; t=1713978364; x=1714583164; i=friedrich.vock@gmx.de;
+ bh=F7lHcI6ytAxOptifXGV2LrH3pzT2g/pB/L5CHP1gZyY=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding:cc:
  content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=VXxzV25oCTQV4EIrh8DfU287FV0esWJ8e5faeT4lGSiDGPQySjknrP17oexyKh0I
- O8nW4owy5HWaZpqUkCBbkJSFZxe7cEs0IFcrV7DbT2z8pbARtxd/WKkTUXyo9xtgR
- +PFy1McrWYvEKgrz5CFvdSC1blmlEIgsdgSddXSY0EKMADkEKSR9PuELE0DhQnm8q
- aFAmUNhHvY6hjVhq3H/ARGk3/iRwH1+JhhxpWqyGDtDsQWAheqN2z56jSneHMMk3C
- j7lBCsIgqnkYkdyAkYFuRrK7tpIHNSPbuv8wVFfwheUKW1uvOTajtB47SqqDxQbjB
- SyW7cNaf3mRn1CGs/g==
+ b=VGftg4OP3obyxwJd76/LeBf5Bm3o1LTqBzQ/oICPIl31ip9y9XgeQpVYxXKMC9Sa
+ odZfOYl5f8i3UPfWVC2vq6k9ci5j0TvsiuYuUe7IlZSWmlP0Q/AdpWt2BHEvFxgrI
+ THtrYILejpVa7QEyQ+8pO9xz6zmlHkggE1yVV6iFJLNNaYZ9FsZulphsoUqhW2e7q
+ kYvYthQUwGs+uxun6qw7GI1enAwcXS/s+Cj49lniQiV9ZqeOjyCg8Lpvt845CkVZb
+ zfPURqMwEr8JePhbhVf33dK9Qo9SZ6VGaLbC+5w1B/69dfEvgwFxxVLFhWBsASwyC
+ unAupyuEyB+FQwFUdg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from arch.fritz.box ([213.152.117.111]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N4hzZ-1sjDt124rH-00zdG2; Wed, 24
- Apr 2024 19:00:40 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MmULr-1sPu3744i9-00jkpc; Wed, 24
+ Apr 2024 19:00:41 +0200
 From: Friedrich Vock <friedrich.vock@gmx.de>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
@@ -41,33 +41,32 @@ Cc: Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
  Joshua Ashton <joshua@froggi.es>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>
-Subject: [RFC PATCH 10/18] drm/amdgpu: Don't add GTT to initial domains after
- failing to allocate VRAM
-Date: Wed, 24 Apr 2024 18:57:00 +0200
-Message-ID: <20240424165937.54759-11-friedrich.vock@gmx.de>
+Subject: [RFC PATCH 11/18] drm/ttm: Bump BO priority count
+Date: Wed, 24 Apr 2024 18:57:01 +0200
+Message-ID: <20240424165937.54759-12-friedrich.vock@gmx.de>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240424165937.54759-1-friedrich.vock@gmx.de>
 References: <20240424165937.54759-1-friedrich.vock@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:RqOYfDkRbCkpZHTVmdARozlpT5Tna7PwJpauhc3w93E/7PTOksr
- 04G5+bGrrUr2vmHd6A8hlduY4IwY2W9CM6QJdhDEKXP/bHtERR+iLhuapWk1M4Q414s9evW
- wm0/YJ1TNywIO1ZVYmnT3Mp18QBSwSqUe8Q1PHT3LpwYdhnJdPvTBL4CvkfKZWFtfqbYPVF
- lVkO/HO9vsGOymSeUkqpQ==
+X-Provags-ID: V03:K1:cJ9kEEaK/mTj0xTVPmwCLOMniFXw4SoCHSCS4Bb7Bx34TvSPLdr
+ FrfIDKKi2cxt6yJOza46WDAivXuAHGPiDPxgmDLKFgWEwF3AVC5yeNlBvH17VrT7Yxm+MWr
+ Xw43sl8fjOkVrXNFA5EOFN/CMWd2tPciWu58bjnmNFO0FIhvVudieIfZIKIoP5frx/8ePij
+ I14dq9CbBPSOZkWfM3e9w==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:C0OuSatXSF4=;ww9d6YWIXILDSZ0O6bepq4oC5VR
- H5JGgRMhvPUJX9SMSL1akVizG7NQm6b60d5lcFUqt4HJw3re/e1ZAPMwY0Cy4O1F4jjf/VPiO
- bmG7IEuMbqQEII+sAlse0tU9Xi5QJLtE69BMG6ai+Vh7sCY52JINIcWSnN3DNrBYAVFeOCvZP
- 06/LTEk7m4Bgosp/I1t0MBx29u96jSCLmt6X6UEFVzlJvTtHTGhgyv4TNPQmnOIB03OfFnx5v
- /8p8xgNZRe0mQgrGOgrC/64177qjAJAJyTPlqukv2HFAgx7JriDgjPO2tsm/K0HGuVWN+CQHE
- 4bIguROWA8be9GlBHc6DdnAplMXoj4KGzJ0qJy1SnVY2AipNLP9X7ZfpxSp2C3xFwTFemgR4k
- jwAkJObUo66y4lVvOrjbENctG/3XictWDNfkZUogQph+Yj7fITARZQxgMYq2xGplBkzsz93U0
- dAgmJzR2lDTSCMXcBT56gnTycgtsj6gRGMlxrE61VSwshstzHn0mWd3w1I5sbb1eI/IH8OYB+
- CX/XshtGdhQpf+1Uc9wtpU7NhcT6bumg2jAwD/G/9RZXEBhV18BOfsYHEQhurzoztzq1aLwr/
- wq4ZKbP+QrauoWLPUEkoa9//GDUEiixtRRmdwJC6nETu4eY1L+FH7p0ymXfXpIE47kP4ZgzjA
- Kws3LuJWdRYi5YEieW+9htrNfRsp903RWSBS/1OHMa0saQsXONXhwg5aHxp2TDRyVMLG/sysK
- ipE+X0hlrDZJD5a9UinH++hr78LuKtugvM1kNsIplH7v2pxLqcxb5nrIsuCytssmRx+oeqac5
- R98UTeLptluzr3euixe93XZYUCvrX/2u0UIJqJK+MpuUw=
+UI-OutboundReport: notjunk:1;M01:P0:IO+EGkx9vBg=;yULf8o7R9IYMVYn0Kach1q27lNR
+ zlOSv1ujHzH0IP09OnSmr9I9LavJKQzlNXhN9AukBucpEw5snJU5e8PVzf9zjTn5T+Sxa/+2V
+ YS1s96hSeRCLzwxfC8tf+pG5Q8ihgQfuy2H+7t8H5jAoajGZE3WG/AfV3h0mAu8jqAgKaQMZ6
+ pHu484Wk0ze4vFxgAE2C46HcjawLo++TCxOQwHK2wa7V2im6hu84RC8FOUxxvCxzZcmOmRNzZ
+ nw2htkhGvy8lP5YF4LQ33NV/ajnu+6AP5spqqDQfEYd1xRoG/VWFafhg3dUvZE/01uU2ptqzx
+ +Ad9LiN1IcW99oqGVtA+cQKxONekxFqP/cF9GES2Pu007Ob9rD5IaL9r1IVDMKqiC4GCrR45u
+ BxpOcIwfexh063J3/6/MGXg7YIoFUjTYOTZjMFjpsopd5tLtc4/Berc/DG4EXiSHikU48rhVa
+ wHCk5NbVH+EQfJPjKHZrVty9gIdSWMMLC6MZZfSVLhILcMG2FZjLFpNwn0+hQ07foPbz7nJxL
+ xCW7K1FNorr74zpMnSlndJRvMfDwhuM6nZ7P6OY0zJ9Eg3BIz4f1WUFhb7Lyo5v/3poeSiLPB
+ eNhDNFa7CDWkQ2a7cUDaQ+oohS80gPR5kd6N5OWnHPr9/XnMiiQuzFEUiDAtV25c4g1RFyIuf
+ bDQ+1A4rVq+ofRDV2ef53/TL54fOVwK8ze0k3yDYdufNi5ogy2WBcFGPMwkZgIqueE5PGx/wG
+ wnlZv9/P6lyr5xWeeypUj/2lcYzOZ5E0FuH6wOhBU6gyerEggfLwDeGpB6CavfVsotIQMtBNq
+ QpcZpR9fI3pUJkK2tOztfYgY9wq3OledbfGEpsJ5gNzRI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,48 +82,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds GTT to the "preferred domains" of this buffer object, which
-will also prevent any attempts at moving the buffer back to VRAM if
-there is space. If VRAM is full, GTT will already be chosen as a
-fallback.
+For adjustable priorities by userspace, it is nice to have a bit more
+granularity.
 
 Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
 =2D--
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    | 4 ----
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 2 +-
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ include/drm/ttm/ttm_resource.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_gem.c
-index 6bbab141eaaeb..aea3770d3ea2e 100644
-=2D-- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@ -378,10 +378,6 @@ int amdgpu_gem_create_ioctl(struct drm_device *dev, v=
-oid *data,
- 			goto retry;
- 		}
+diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource=
+.h
+index 7d1ce059c8805..241643447488a 100644
+=2D-- a/include/drm/ttm/ttm_resource.h
++++ b/include/drm/ttm/ttm_resource.h
+@@ -35,7 +35,7 @@
+ #include <drm/ttm/ttm_caching.h>
+ #include <drm/ttm/ttm_kmap_iter.h>
 
--		if (initial_domain =3D=3D AMDGPU_GEM_DOMAIN_VRAM) {
--			initial_domain |=3D AMDGPU_GEM_DOMAIN_GTT;
--			goto retry;
--		}
- 		DRM_DEBUG("Failed to allocate GEM object (%llu, %d, %llu, %d)\n",
- 				size, initial_domain, args->in.alignment, r);
- 	}
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_object.c
-index 85c10d8086188..9978b85ed6f40 100644
-=2D-- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -619,7 +619,7 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
- 			  AMDGPU_GEM_DOMAIN_GDS))
- 		amdgpu_bo_placement_from_domain(bo, AMDGPU_GEM_DOMAIN_CPU);
- 	else
--		amdgpu_bo_placement_from_domain(bo, bp->domain);
-+		amdgpu_bo_placement_from_domain(bo, bo->allowed_domains);
- 	if (bp->type =3D=3D ttm_bo_type_kernel)
- 		bo->tbo.priority =3D 2;
- 	else if (!(bp->flags & AMDGPU_GEM_CREATE_DISCARDABLE))
+-#define TTM_MAX_BO_PRIORITY	4U
++#define TTM_MAX_BO_PRIORITY	8U
+ #define TTM_NUM_MEM_TYPES 8
+
+ struct ttm_device;
 =2D-
 2.44.0
 
