@@ -2,69 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646968B0138
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 07:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3913F8B0187
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 08:08:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B43310FD61;
-	Wed, 24 Apr 2024 05:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA1610FD82;
+	Wed, 24 Apr 2024 06:08:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="2OW7c/mx";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="J2jGXbEi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A949610FD65
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 05:43:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1713937381; x=1745473381;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ossuaQDe3AwZrzHLymVt2BTtRBDDMiPXTOLKWKHbS58=;
- b=2OW7c/mxxuvYw2moe91wB+hYlFfrpDep1q5RhDfQkfOt4QEetqTxtphG
- efQllskzRpFXU3DhF7CqIx2KXayIuu1Qv2SpepmJNbPdeRVuoaDKQKg1d
- 1bRUlenguZvqhkOzKlsFwl7a3LMGDfVmgSZYE/LXWRLicnVFpHlpD61mD
- utc0vcF8InelDkdO3MvtXzNxvJaWYfEZG1/0cPz+qTMtk6Qmnz2Gh18he
- RN6jY1Od/x9KoaypYMINbL1yn2Dyhr/fxQJgknLlyz6cAEdQaZ5ymEcSw
- bNc1o7wcJDUmH4CJcC9EpcJzi+Q+88nyrmAsYi9DfdQKHkMjvz97q0dSK Q==;
-X-CSE-ConnectionGUID: XEmm68rJSp2bFUw1qrzV5g==
-X-CSE-MsgGUID: xoW1CWxPS6iSDddadPIKlQ==
-X-IronPort-AV: E=Sophos;i="6.07,225,1708412400"; d="scan'208";a="189716704"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 23 Apr 2024 22:35:54 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 23 Apr 2024 22:35:39 -0700
-Received: from che-lt-i67131.microchip.com (10.10.85.11) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Tue, 23 Apr 2024 22:35:30 -0700
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
-To: <sam@ravnborg.org>, <bbrezillon@kernel.org>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
- <claudiu.beznea@tuxon.dev>, <lee@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-CC: <Hari.PrasathGE@microchip.com>, <Balamanikandan.Gunasundar@microchip.com>, 
- <Durai.ManickamKR@microchip.com>, <Nayabbasha.Sayed@microchip.com>,
- <Dharma.B@microchip.com>, <Varshini.Rajendran@microchip.com>,
- <Balakrishnan.S@microchip.com>, <Charan.Pedumuru@microchip.com>, "Manikandan
- Muralidharan" <manikandan.m@microchip.com>
-Subject: [PATCH RESEND v9 8/8] drm: atmel-hlcdc: add LCD controller layer
- definition for sam9x75
-Date: Wed, 24 Apr 2024 11:03:51 +0530
-Message-ID: <20240424053351.589830-9-manikandan.m@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240424053351.589830-1-manikandan.m@microchip.com>
-References: <20240424053351.589830-1-manikandan.m@microchip.com>
+X-Greylist: delayed 3281 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Apr 2024 06:08:34 UTC
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7239F10FD88
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 06:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=vf7epXwrRjHiVE5VVJf/A4Pg3tZi+rY+cb7pC4ekWOg=; b=J2jGXbEiTgSFrE+3AEk4mnYzf/
+ TRaxTsXa6mgV1kz81iSRK4Y5Kfgx4IWVkoFnmgFrnfwicfPcvfLJcuJ9cZ+zxCNxj2e7Zm6QFuzxQ
+ ToFfx5rOU3hXqX3ywInuYgkbJ+ZK0ZIKz1E37ShXVUyYBypY5ychTq+YnKA8+QE0SJcBvnTcVKJSe
+ 43N7dq09489TRoFozC8dIUO7nO3vQs0b8qzF6t/ytu8HA4ZVqDddTO9yfO6nChNqB8j4ohLL3maqD
+ EXxWBwvl5qYiGlHgDMzqo2kICvKEjwtcuLL+YZwTSx2HuEvgj6e9Dt50f4plZfpVa9C/EulaXyhR3
+ hCBaSokw==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <cyndis@kapsi.fi>) id 1rzUx3-00BBnQ-2M;
+ Wed, 24 Apr 2024 08:13:49 +0300
+From: Mikko Perttunen <cyndis@kapsi.fi>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org
+Subject: [PATCH 1/2] drm/tegra: gem: Open code drm_prime_gem_destroy
+Date: Wed, 24 Apr 2024 08:13:34 +0300
+Message-ID: <20240424051335.2872574-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,137 +63,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the LCD controller layer definition and descriptor structure for
-sam9x75 for the following layers:
-- Base Layer
-- Overlay1 Layer
-- Overlay2 Layer
-- High End Overlay
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Since we aren't using drm_gem_prime_import(_dev), for clarity don't
+use the corresponding destroy function either.
+
+Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 100 +++++++++++++++++++
- 1 file changed, 100 insertions(+)
+ drivers/gpu/drm/tegra/gem.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index b09df821cbc0..9ce429f889ca 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -467,6 +467,102 @@ static const struct atmel_hlcdc_dc_desc atmel_hlcdc_dc_sam9x60 = {
- 	.ops = &atmel_hlcdc_ops,
- };
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index b4eb030ea961..189861c6c630 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -520,9 +520,12 @@ void tegra_bo_free_object(struct drm_gem_object *gem)
+ 		tegra_bo_iommu_unmap(tegra, bo);
  
-+static const struct atmel_hlcdc_layer_desc atmel_xlcdc_sam9x75_layers[] = {
-+	{
-+		.name = "base",
-+		.formats = &atmel_hlcdc_plane_rgb_formats,
-+		.regs_offset = 0x60,
-+		.id = 0,
-+		.type = ATMEL_HLCDC_BASE_LAYER,
-+		.cfgs_offset = 0x1c,
-+		.layout = {
-+			.xstride = { 2 },
-+			.default_color = 3,
-+			.general_config = 4,
-+			.disc_pos = 5,
-+			.disc_size = 6,
-+		},
-+		.clut_offset = 0x700,
-+	},
-+	{
-+		.name = "overlay1",
-+		.formats = &atmel_hlcdc_plane_rgb_formats,
-+		.regs_offset = 0x160,
-+		.id = 1,
-+		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-+		.cfgs_offset = 0x1c,
-+		.layout = {
-+			.pos = 2,
-+			.size = 3,
-+			.xstride = { 4 },
-+			.pstride = { 5 },
-+			.default_color = 6,
-+			.chroma_key = 7,
-+			.chroma_key_mask = 8,
-+			.general_config = 9,
-+		},
-+		.clut_offset = 0xb00,
-+	},
-+	{
-+		.name = "overlay2",
-+		.formats = &atmel_hlcdc_plane_rgb_formats,
-+		.regs_offset = 0x260,
-+		.id = 2,
-+		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-+		.cfgs_offset = 0x1c,
-+		.layout = {
-+			.pos = 2,
-+			.size = 3,
-+			.xstride = { 4 },
-+			.pstride = { 5 },
-+			.default_color = 6,
-+			.chroma_key = 7,
-+			.chroma_key_mask = 8,
-+			.general_config = 9,
-+		},
-+		.clut_offset = 0xf00,
-+	},
-+	{
-+		.name = "high-end-overlay",
-+		.formats = &atmel_hlcdc_plane_rgb_and_yuv_formats,
-+		.regs_offset = 0x360,
-+		.id = 3,
-+		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-+		.cfgs_offset = 0x30,
-+		.layout = {
-+			.pos = 2,
-+			.size = 3,
-+			.memsize = 4,
-+			.xstride = { 5, 7 },
-+			.pstride = { 6, 8 },
-+			.default_color = 9,
-+			.chroma_key = 10,
-+			.chroma_key_mask = 11,
-+			.general_config = 12,
-+			.csc = 16,
-+			.scaler_config = 23,
-+			.vxs_config = 30,
-+			.hxs_config = 31,
-+		},
-+		.clut_offset = 0x1300,
-+	},
-+};
+ 	if (gem->import_attach) {
++		struct dma_buf *dmabuf = gem->import_attach->dmabuf;
 +
-+static const struct atmel_hlcdc_dc_desc atmel_xlcdc_dc_sam9x75 = {
-+	.min_width = 0,
-+	.min_height = 0,
-+	.max_width = 2048,
-+	.max_height = 2048,
-+	.max_spw = 0x3ff,
-+	.max_vpw = 0x3ff,
-+	.max_hpw = 0x3ff,
-+	.fixed_clksrc = true,
-+	.is_xlcdc = true,
-+	.nlayers = ARRAY_SIZE(atmel_xlcdc_sam9x75_layers),
-+	.layers = atmel_xlcdc_sam9x75_layers,
-+	.ops = &atmel_xlcdc_ops,
-+};
-+
- static const struct of_device_id atmel_hlcdc_of_match[] = {
- 	{
- 		.compatible = "atmel,at91sam9n12-hlcdc",
-@@ -492,6 +588,10 @@ static const struct of_device_id atmel_hlcdc_of_match[] = {
- 		.compatible = "microchip,sam9x60-hlcdc",
- 		.data = &atmel_hlcdc_dc_sam9x60,
- 	},
-+	{
-+		.compatible = "microchip,sam9x75-xlcdc",
-+		.data = &atmel_xlcdc_dc_sam9x75,
-+	},
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, atmel_hlcdc_of_match);
+ 		dma_buf_unmap_attachment_unlocked(gem->import_attach, bo->sgt,
+ 						  DMA_TO_DEVICE);
+-		drm_prime_gem_destroy(gem, NULL);
++		dma_buf_detach(dmabuf, gem->import_attach);
++		dma_buf_put(dmabuf);
+ 	} else {
+ 		tegra_bo_free(gem->dev, bo);
+ 	}
 -- 
-2.25.1
+2.42.0
 
