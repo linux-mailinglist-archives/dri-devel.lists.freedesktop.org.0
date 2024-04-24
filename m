@@ -2,80 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885EA8B16EA
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 01:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995078B1709
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 01:25:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCF4113E94;
-	Wed, 24 Apr 2024 23:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE78E10F4FB;
+	Wed, 24 Apr 2024 23:25:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Nbd0l8KT";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="YbmxrItj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09838113E94
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 23:14:30 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-1e8bbcbc2b7so3728655ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 16:14:30 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E3BE10F4FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 23:25:25 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id
+ d75a77b69052e-439b1c72676so105931cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 16:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1714000470; x=1714605270;
+ d=google.com; s=20230601; t=1714001124; x=1714605924;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yW3rWzRu2U3mMza79f2YiFDKKLiYjn35V/dUh+fOfas=;
- b=Nbd0l8KTog6HQNwIClWbxwspSvQGs4jBVaWsU0Th2FO69kbgTPkuoBNTlG2dnhgttT
- UI2+x36tgN2WmHbHuiwTN2Dxb9JXGibGo5/lQe3F87Pd7yjg549/pnDLDiilmbFQPBwb
- RHOdaociyNQX4CJkAGXvlJT92RMJJJtzi1riM=
+ bh=1qmcwM8RwSJ8RvR8mUmf7ZCMdq1Mj/o54DavtjLG99s=;
+ b=YbmxrItjd4UjoKuzP9bNOZ/ed/vje5s+ixiVKhjAXubqVGFTWwlSWPcGYPokAu/pOC
+ dCQlxkwrRKX4rhntApoor8EmpXgUKpSZ3nDB0IVs5aZHScm4YUs2mWFZ9JbXwxThaeVV
+ Y8honnQKrRQ1JwC1M7cfISraRL3b49kzboB7zOPcq56MGfkLpoThy+zSvURUo+TyXH3l
+ +2c8gNWraa8C9R0o2AaDIMKNqmlGL1VAk6Yi9TiQP3bmKRjrTh4PX80Z7IsQs1i44A+7
+ FCL7M0yAzw3pAK6lPGERGVDVK8GSMUbUFTbyCmojekCdpl0GZ6JO+leVMSemAO97jZQb
+ Z4ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714000470; x=1714605270;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1714001124; x=1714605924;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yW3rWzRu2U3mMza79f2YiFDKKLiYjn35V/dUh+fOfas=;
- b=RQ1+0FPaMAlZ+UFOumskxZWCjJd8dcCjBs0BhcIG++Nkrg+vOvfS01rYH+VM5IFWRt
- 8RD3fFVA9azbR/0fwFIw+lXgF0bAkNYCHFATs1pRLTFsYnlETEneuJ1i2GkHWQedJlVL
- k90sv9SNcx4ZL8/x6n5YAujijzEd0iT2+To1g2mEOZSC34ApEwzGowLPr71B0VcXovtE
- DJRKcJWpZitcHpCyrEUxdtk/kzfuwnOl92g/cH6X75ZykKG9bm2e8Ek4Uu1/Ywi6HnT8
- K7skhxi2hl5RaJ0fKKWdt+1bGGfD5qSrckhr3hH4Wc9LqDpjKP+fb+KSNCcxue5BULgn
- S6AA==
+ bh=1qmcwM8RwSJ8RvR8mUmf7ZCMdq1Mj/o54DavtjLG99s=;
+ b=L0gZmISsL/sepZurn3bELm7vo9lj6KhGP51prnzlvq+zGo8kkojh9xptifZhIQcnCQ
+ USiztNlMhNpMPEldOpiK+tv8pYRxiSQwkBFd+/ZFjC1ceADa784ya7fTSZe1fa+yXskt
+ ZB+ZQGdqvNmf914k/7XXpkgsOaqVp+Y22um83go4ZeDBngZnC0sxFQUHegYhAulOB2dm
+ LouQIfl5iMY/adeArNWX1HZCD9pyt3WB0Pobtx4VDN0l11PC8tCBWwWh73/lMBw848em
+ X8MmU9xpMgdoIVNaHfTFjlcWkl9PFUtC7EXyhjumpuZPIbnliJh1CxGMjwJsGHOWjjdT
+ P75A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXQ5LMXtazd0zxiYAsfV1/tQXjYLQ9covHjzKzo6xoKzo3UrPFHEID0h8yQ1JxKnUKAnt5/S4iK0PfvTJqoPJKqK+dkm7JXb4Hu/9cNX8Zm
-X-Gm-Message-State: AOJu0Yw85Te9Xfeu1a3Y5VwQfExMlw+CLNVcDrHL1xWFzKtpImhkbvYJ
- OHwvyB7kws+lMLCN8XOeoLLiXAglloDzPzri5SCeRMDI+oL9Ytdsm+yVAmhniA==
-X-Google-Smtp-Source: AGHT+IEr4i3DB4r3Qkm4dkUw7/0uwv+gx9Lch3vZC0mX7eYJ4jMuT6PuvlXOirfn5+jM9r3f/0CttQ==
-X-Received: by 2002:a17:903:18d:b0:1e0:b689:950b with SMTP id
- z13-20020a170903018d00b001e0b689950bmr5683142plg.16.1714000470208; 
- Wed, 24 Apr 2024 16:14:30 -0700 (PDT)
-Received: from amakhalov-build-vm.eng.vmware.com ([64.186.27.43])
- by smtp.gmail.com with ESMTPSA id
- n17-20020a170903111100b001e520495f51sm12383936plh.124.2024.04.24.16.14.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Apr 2024 16:14:29 -0700 (PDT)
-From: Alexey Makhalov <alexey.makhalov@broadcom.com>
-To: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, bp@alien8.de,
- hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
- tglx@linutronix.de
-Cc: x86@kernel.org, netdev@vger.kernel.org, richardcochran@gmail.com,
- linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
- timothym@vmware.com, akaher@vmware.com, dri-devel@lists.freedesktop.org,
- daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com, horms@kernel.org,
- kirill.shutemov@linux.intel.com,
- Alexey Makhalov <alexey.makhalov@broadcom.com>,
- Nadav Amit <nadav.amit@gmail.com>
-Subject: [PATCH v9 2/8] x86/vmware: Move common macros to vmware.h
-Date: Wed, 24 Apr 2024 16:14:07 -0700
-Message-Id: <20240424231407.14098-2-alexey.makhalov@broadcom.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20240424231407.14098-1-alexey.makhalov@broadcom.com>
-References: <adcbfb9a-a4e1-4a32-b786-6c204d941e9f@broadcom.com>
- <20240424231407.14098-1-alexey.makhalov@broadcom.com>
+ AJvYcCXq02GpptOsfuckoejGsE+fOvocIAAfacoZ29Dpmw51NUItlPCckSH6emXXgvllOnkSK17gkF/wOf3lO39OEctjcK50uY2WUO5xMp6MH3gD
+X-Gm-Message-State: AOJu0YwJrET8k9aJJoIaJ8LvkMIf/Kdv1LnnLhpkxAJYxgXC5ZhD06fI
+ KlqtQo0QtS1+RH9JO8hqiJtL24voUU9k/Kq0arGk39yhoxUaSkk+NA5thWGJ+UfsBN8Cc3dzTYS
+ Kqmi0k0XfxDrdoOE7Fd466OZk/4UiTCDwvPZoP8j0UfE2WY/gBvpu
+X-Google-Smtp-Source: AGHT+IGngb+doAaU+bl0yImCLvQlYT3JWd2Y1NtDuZR6IHeqS9NEm1m+Z/ararXJJXOEKKR3n7VPR7GvvCDu+nBXR4w=
+X-Received: by 2002:ac8:6604:0:b0:437:816e:48e5 with SMTP id
+ c4-20020ac86604000000b00437816e48e5mr47052qtp.29.1714001123922; Wed, 24 Apr
+ 2024 16:25:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240418081548.12160-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <zanx5y3obqmewnbooovf52hx6vh7tpi4zsbse2dyzcqzddmzhw@kewxoa6n3mja>
+ <CACb=7PURWtS8bwT5EcAFHhu7deHd2Y8cNOattfdwyEYpOUcbnQ@mail.gmail.com>
+ <vbt2nxddw2dc7hkreq4iybv5zv5xyp32oajybeqsphgfrhzmn7@tskvckljmxpe>
+ <CACb=7PVTvV9nsFu1ZAXu7YTjSOAGZka+c__EJq3J3qgSJGEShw@mail.gmail.com>
+ <CAD=FV=VYAzqsGEBJai9b9n+HxHiG59L1vF73AEWcTwLS_ryjWw@mail.gmail.com>
+ <an2k3vgynq4as2sd5dy6ccmdiqedmo7qjsab5qyfhesd333i2a@235sqph3bze5>
+ <CAD=FV=VQ8rbwKk4WpHRER9p4cZp7UrrHRpgnErqbQxyxp4sg5w@mail.gmail.com>
+ <CAA8EJprv3qBd1hfdWHrfhY=S0w2O70dZnYb6TVsS6AGRPxsYdw@mail.gmail.com>
+ <CACb=7PVEpCFWf_aysRkeR0yWAXR5sTaXhNbi3TV3ffKj866+EQ@mail.gmail.com>
+ <CAA8EJprLvEt_pt4XzACQG7pU8KYagKbQ71xwtRF9KrLygTT3ow@mail.gmail.com>
+In-Reply-To: <CAA8EJprLvEt_pt4XzACQG7pU8KYagKbQ71xwtRF9KrLygTT3ow@mail.gmail.com>
+From: Doug Anderson <dianders@google.com>
+Date: Wed, 24 Apr 2024 16:25:07 -0700
+Message-ID: <CAD=FV=V+jBvkKj1vvAsXuC5dSn0u_SQBQZHTrDZKoSG2V4fp3g@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] drm/panel: kd101ne3: add new panel driver
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Hsin-Yi Wang <hsinyi@google.com>, 
+ lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>, mripard@kernel.org, 
+ airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ cong yang <yangcong5@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,180 +96,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move VMware hypercall macros to vmware.h. This is a prerequisite for
-the introduction of vmware_hypercall API. No functional changes besides
-exporting vmware_hypercall_mode symbol.
+Hi,
 
-Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Reviewed-by: Nadav Amit <nadav.amit@gmail.com>
----
- arch/x86/include/asm/vmware.h | 72 +++++++++++++++++++++++++++++------
- arch/x86/kernel/cpu/vmware.c  | 43 +--------------------
- 2 files changed, 62 insertions(+), 53 deletions(-)
+On Wed, Apr 24, 2024 at 3:51=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Thu, 25 Apr 2024 at 01:15, Hsin-Yi Wang <hsinyi@google.com> wrote:
+> >
+> > On Wed, Apr 24, 2024 at 2:49=E2=80=AFPM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
+> > >
+> > > On Thu, 25 Apr 2024 at 00:04, Doug Anderson <dianders@google.com> wro=
+te:
+> > > >
+> > > > Hi,
+> > > >
+> > > > On Tue, Apr 23, 2024 at 2:20=E2=80=AFPM Dmitry Baryshkov
+> > > > <dmitry.baryshkov@linaro.org> wrote:
+> > > > >
+> > > > > On Tue, Apr 23, 2024 at 01:41:59PM -0700, Doug Anderson wrote:
+> > > > > > Hi,
+> > > > > >
+> > > > > > On Tue, Apr 23, 2024 at 11:10=E2=80=AFAM Hsin-Yi Wang <hsinyi@g=
+oogle.com> wrote:
+> > > > > > >
+> > > > > > > > > > > +#define _INIT_DCS_CMD(...) { \
+> > > > > > > > > > > +     .type =3D INIT_DCS_CMD, \
+> > > > > > > > > > > +     .len =3D sizeof((char[]){__VA_ARGS__}), \
+> > > > > > > > > > > +     .data =3D (char[]){__VA_ARGS__} }
+> > > > > > > > > > > +
+> > > > > > > > > > > +#define _INIT_DELAY_CMD(...) { \
+> > > > > > > > > > > +     .type =3D DELAY_CMD,\
+> > > > > > > > > > > +     .len =3D sizeof((char[]){__VA_ARGS__}), \
+> > > > > > > > > > > +     .data =3D (char[]){__VA_ARGS__} }
+> > > > > > > > > >
+> > > > > > > > > > This is the third panel driver using the same appoach. =
+Can you use
+> > > > > > > > > > mipi_dsi_generic_write_seq() instead of the huge table?=
+ Or if you prefer
+> > > > > > > > > > the table, we should extract this framework to a common=
+ helper.
+> > > > > > > > > > (my preference is shifted towards mipi_dsi_generic_writ=
+e_seq()).
+> > > > > > > > > >
+> > > > > > > > > The drawback of mipi_dsi_generic_write_seq() is that it c=
+an cause the
+> > > > > > > > > kernel size grows a lot since every sequence will be expa=
+nded.
+> > > > > > > > >
+> > > > > > > > > Similar discussion in here:
+> > > > > > > > > https://lore.kernel.org/dri-devel/CAD=3DFV=3DWju3WS45=3DE=
+pXMUg7FjYDh3-=3Dmvm_jS7TF1tsaAzbb4Uw@mail.gmail.com/
+> > > > > > > > >
+> > > > > > > > > This patch would increase the module size from 157K to 57=
+2K.
+> > > > > > > > > scripts/bloat-o-meter shows chg +235.95%.
+> > > > > > > > >
+> > > > > > > > > So maybe the common helper is better regarding the kernel=
+ module size?
+> > > > > > > >
+> > > > > > > > Yes, let's get a framework done in a useful way.
+> > > > > > > > I'd say, drop the _INIT_DELAY_CMD. msleep() and usleep_rang=
+e() should be
+> > > > > > > > used instead (and it's up to the developer to select correc=
+t delay
+> > > > > > > > function).
+> > > > > > > >
+> > > > > > > > >
+> > > > > > > > > > > +
+> > > > > > > > > > > +static const struct panel_init_cmd kingdisplay_kd101=
+ne3_init_cmd[] =3D {
+> > > > > > > > > > > +     _INIT_DELAY_CMD(50),
+> > > > > > > > > > > +     _INIT_DCS_CMD(0xE0, 0x00),
+> > > > > > > >
+> > > > > > > > [skipped the body of the table]
+> > > > > > > >
+> > > > > > > > > > > +     _INIT_DCS_CMD(0x0E, 0x48),
+> > > > > > > > > > > +
+> > > > > > > > > > > +     _INIT_DCS_CMD(0xE0, 0x00),
+> > > > > > > >
+> > > > > > > > > > > +     _INIT_DCS_CMD(0X11),
+> > > > > > > >
+> > > > > > > > Also, at least this is mipi_dsi_dcs_exit_sleep_mode().
+> > > > > > > >
+> > > > > > > > > > > +     /* T6: 120ms */
+> > > > > > > > > > > +     _INIT_DELAY_CMD(120),
+> > > > > > > > > > > +     _INIT_DCS_CMD(0X29),
+> > > > > > > >
+> > > > > > > > And this is mipi_dsi_dcs_set_display_on().
+> > > > > > > >
+> > > > > > > > Having a single table enourages people to put known command=
+s into the
+> > > > > > > > table, the practice that must be frowned upon and forbidden=
+.
+> > > > > > > >
+> > > > > > > > We have functions for some of the standard DCS commands. So=
+, maybe
+> > > > > > > > instead of adding a single-table based approach we can impr=
+ove
+> > > > > > > > mipi_dsi_generic_write_seq() to reduce the bloat. E.g. by m=
+oving the
+> > > > > > > > error handling to a common part of enable() / prepare() fun=
+ction.
+> > > > > > > >
+> > > > > > >
+> > > > > > > For this panel, I think it can also refer to how
+> > > > > > > panel-kingdisplay-kd097d04.c does. Create the table for init =
+cmd data,
+> > > > > > > not what operation to use, and use mipi_dsi_generic_write_seq=
+() when
+> > > > > > > looping through the table.
+> > > > > >
+> > > > > > Even more similar discussion:
+> > > > > >
+> > > > > > https://lore.kernel.org/r/CAD=3DFV=3DUGDbNvAMjzWSOvxybGikQcvW9J=
+sRtbxHVg8_97YPEQCA@mail.gmail.com
+> > > > >
+> > > > > It seems I skipped that thread.
+> > > > >
+> > > > > I'd still suggest a code-based solution compared to table-based o=
+ne, for
+> > > > > the reasons I've outlined before. Having a tables puts a pressure=
+ on the
+> > > > > developer to put commands there for which we already have a
+> > > > > command-specific function.
+> > > >
+> > > > The problem is that with these panels that need big init sequences =
+the
+> > > > code based solution is _a lot_ bigger. If it were a few bytes or a
+> > > > 1-2KB then fine, but when Hsin-Yi measured Linus W's attempt to mov=
+e
+> > > > from a table to code it was 100K difference in code [1]. I would al=
+so
+> > > > say that having these long init sequences done as separate commands
+> > > > encourages people to skip checking the return values of each of the
+> > > > transfer functions and I don't love that idea.
+> > > >
+> > > > It would be ideal if these panels didn't need these long init
+> > > > sequences, but I don't have any inside knowledge here saying that t=
+hey
+> > > > could be removed. So assume we can't get rid of the init sequences =
+it
+> > > > feels like we have to find some way to make the tables work for at
+> > > > least the large chunks of init code and encourage people to make th=
+e
+> > > > tables readable...
+> > >
+> > >
+> > > I did a quick check on the boe-tv101wum-nl6 driver by converting the
+> > > writes to use the following macro:
+> > >
+> > > #define mipi_dsi_dcs_write_cmd_seq(dsi, cmd, seq...)
+> > >              \
+> > >         do {                                                         =
+          \
+> > >                 static const u8 d[] =3D { cmd, seq };                =
+        \
+> > >                 ret =3D mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(=
+d));    \
+> > >                 if (ret < 0)                                         =
+          \
+> > >                         goto err;                                    =
+          \
+> > >         } while (0)
+> > >
+> > > And then at the end of the init funciton having
+> > >
+> > > err:
+> > >         dev_err(panel->dev,
+> > >                 "failed to write command %d\n", ret);
+> > >         return ret;
+> > > }
+> > >
+> >
+> > I'm not sure about the coding style rule here, would it be considered
+> > unclear that caller of mipi_dsi_dcs_write_cmd_seq() needs to have err
+> > block, but the block may not be directly used in that caller and is
+> > only jumped from the macro?
+>
+> I'm also not sure here. It was a quick and dirty test.
+> We might as well do something like
+>
+> ret =3D mipi_dsi_dcs_write_cmd_seq(dsi, ...);
+> if (ret)
+>     goto err;
+>
+> all over the place.
 
-diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
-index ac9fc51e2b18..de2533337611 100644
---- a/arch/x86/include/asm/vmware.h
-+++ b/arch/x86/include/asm/vmware.h
-@@ -8,25 +8,34 @@
- 
- /*
-  * The hypercall definitions differ in the low word of the %edx argument
-- * in the following way: the old port base interface uses the port
-- * number to distinguish between high- and low bandwidth versions.
-+ * in the following way: the old I/O port based interface uses the port
-+ * number to distinguish between high- and low bandwidth versions, and
-+ * uses IN/OUT instructions to define transfer direction.
-  *
-  * The new vmcall interface instead uses a set of flags to select
-  * bandwidth mode and transfer direction. The flags should be loaded
-  * into %dx by any user and are automatically replaced by the port
-- * number if the VMWARE_HYPERVISOR_PORT method is used.
-- *
-- * In short, new driver code should strictly use the new definition of
-- * %dx content.
-+ * number if the I/O port method is used.
-  */
- 
--/* Old port-based version */
--#define VMWARE_HYPERVISOR_PORT    0x5658
--#define VMWARE_HYPERVISOR_PORT_HB 0x5659
-+#define VMWARE_HYPERVISOR_HB		BIT(0)
-+#define VMWARE_HYPERVISOR_OUT		BIT(1)
-+
-+#define VMWARE_HYPERVISOR_PORT		0x5658
-+#define VMWARE_HYPERVISOR_PORT_HB	(VMWARE_HYPERVISOR_PORT | \
-+					 VMWARE_HYPERVISOR_HB)
-+
-+#define VMWARE_HYPERVISOR_MAGIC		0x564d5868U
-+
-+#define VMWARE_CMD_GETVERSION		10
-+#define VMWARE_CMD_GETHZ		45
-+#define VMWARE_CMD_GETVCPU_INFO		68
-+#define VMWARE_CMD_STEALCLOCK		91
-+
-+#define CPUID_VMWARE_FEATURES_ECX_VMMCALL	BIT(0)
-+#define CPUID_VMWARE_FEATURES_ECX_VMCALL	BIT(1)
- 
--/* Current vmcall / vmmcall version */
--#define VMWARE_HYPERVISOR_HB   BIT(0)
--#define VMWARE_HYPERVISOR_OUT  BIT(1)
-+extern u8 vmware_hypercall_mode;
- 
- /* The low bandwidth call. The low word of edx is presumed clear. */
- #define VMWARE_HYPERCALL						\
-@@ -54,4 +63,43 @@
- 		      "rep insb",					\
- 		      "vmcall", X86_FEATURE_VMCALL,			\
- 		      "vmmcall", X86_FEATURE_VMW_VMMCALL)
-+
-+#define VMWARE_PORT(cmd, eax, ebx, ecx, edx)				\
-+	__asm__("inl (%%dx), %%eax" :					\
-+		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
-+		"a"(VMWARE_HYPERVISOR_MAGIC),				\
-+		"c"(VMWARE_CMD_##cmd),					\
-+		"d"(VMWARE_HYPERVISOR_PORT), "b"(UINT_MAX) :		\
-+		"memory")
-+
-+#define VMWARE_VMCALL(cmd, eax, ebx, ecx, edx)				\
-+	__asm__("vmcall" :						\
-+		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
-+		"a"(VMWARE_HYPERVISOR_MAGIC),				\
-+		"c"(VMWARE_CMD_##cmd),					\
-+		"d"(0), "b"(UINT_MAX) :					\
-+		"memory")
-+
-+#define VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx)				\
-+	__asm__("vmmcall" :						\
-+		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
-+		"a"(VMWARE_HYPERVISOR_MAGIC),				\
-+		"c"(VMWARE_CMD_##cmd),					\
-+		"d"(0), "b"(UINT_MAX) :					\
-+		"memory")
-+
-+#define VMWARE_CMD(cmd, eax, ebx, ecx, edx) do {		\
-+	switch (vmware_hypercall_mode) {			\
-+	case CPUID_VMWARE_FEATURES_ECX_VMCALL:			\
-+		VMWARE_VMCALL(cmd, eax, ebx, ecx, edx);		\
-+		break;						\
-+	case CPUID_VMWARE_FEATURES_ECX_VMMCALL:			\
-+		VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx);	\
-+		break;						\
-+	default:						\
-+		VMWARE_PORT(cmd, eax, ebx, ecx, edx);		\
-+		break;						\
-+	}							\
-+	} while (0)
-+
- #endif
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index f58c8d669bd3..acd9658f7c4b 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -41,8 +41,6 @@
- 
- #define CPUID_VMWARE_INFO_LEAF               0x40000000
- #define CPUID_VMWARE_FEATURES_LEAF           0x40000010
--#define CPUID_VMWARE_FEATURES_ECX_VMMCALL    BIT(0)
--#define CPUID_VMWARE_FEATURES_ECX_VMCALL     BIT(1)
- 
- #define VMWARE_HYPERVISOR_MAGIC	0x564D5868
- 
-@@ -58,44 +56,6 @@
- #define STEALCLOCK_DISABLED        0
- #define STEALCLOCK_ENABLED         1
- 
--#define VMWARE_PORT(cmd, eax, ebx, ecx, edx)				\
--	__asm__("inl (%%dx), %%eax" :					\
--		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
--		"a"(VMWARE_HYPERVISOR_MAGIC),				\
--		"c"(VMWARE_CMD_##cmd),					\
--		"d"(VMWARE_HYPERVISOR_PORT), "b"(UINT_MAX) :		\
--		"memory")
--
--#define VMWARE_VMCALL(cmd, eax, ebx, ecx, edx)				\
--	__asm__("vmcall" :						\
--		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
--		"a"(VMWARE_HYPERVISOR_MAGIC),				\
--		"c"(VMWARE_CMD_##cmd),					\
--		"d"(0), "b"(UINT_MAX) :					\
--		"memory")
--
--#define VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx)                         \
--	__asm__("vmmcall" :						\
--		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
--		"a"(VMWARE_HYPERVISOR_MAGIC),				\
--		"c"(VMWARE_CMD_##cmd),					\
--		"d"(0), "b"(UINT_MAX) :					\
--		"memory")
--
--#define VMWARE_CMD(cmd, eax, ebx, ecx, edx) do {		\
--	switch (vmware_hypercall_mode) {			\
--	case CPUID_VMWARE_FEATURES_ECX_VMCALL:			\
--		VMWARE_VMCALL(cmd, eax, ebx, ecx, edx);		\
--		break;						\
--	case CPUID_VMWARE_FEATURES_ECX_VMMCALL:			\
--		VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx);	\
--		break;						\
--	default:						\
--		VMWARE_PORT(cmd, eax, ebx, ecx, edx);		\
--		break;						\
--	}							\
--	} while (0)
--
- struct vmware_steal_time {
- 	union {
- 		uint64_t clock;	/* stolen time counter in units of vtsc */
-@@ -109,7 +69,8 @@ struct vmware_steal_time {
- };
- 
- static unsigned long vmware_tsc_khz __ro_after_init;
--static u8 vmware_hypercall_mode     __ro_after_init;
-+u8 vmware_hypercall_mode __ro_after_init;
-+EXPORT_SYMBOL_GPL(vmware_hypercall_mode);
- 
- static inline int __vmware_platform(void)
- {
--- 
-2.39.0
+Oh. This is actually very simple to fix and requires no code changes
+to clients. :-P We just need to hoist the printing out of the macro
+and into "drm_mipi_dsi.c". Let me double-confirm and then I'll post a
+patch.
 
+-Doug
