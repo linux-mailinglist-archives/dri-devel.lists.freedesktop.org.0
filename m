@@ -2,147 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307B78B0B70
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 15:48:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE80E8B0B9A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 15:55:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55814113B6C;
-	Wed, 24 Apr 2024 13:48:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FF48113B7F;
+	Wed, 24 Apr 2024 13:55:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="CSIzFPp+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ks4wYu2+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2046.outbound.protection.outlook.com [40.107.94.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC191113B6C;
- Wed, 24 Apr 2024 13:48:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GPCXc/7xzBJd1gMf/GDjBTrmrGL0ouITATpEJT+YVgst8Ix4WvUAUuAm17Ca2X8z1A0DltJRrYcE8mM0p5mX6SnciRWiQZClPiCVWlpi76705LGeu13bnmAyeD4jGzA7FtCPz2SI2rOQIRFcoMymQbCSIVS6rBYMHzuxAozd6Kdny+vrPZpPzBZN9De4uVoX98/IJtaAOAKGSYjGeunHbUGbphaxPR1fk5yZ5J0fIe9sb9lu7heecJ07g16SNPHlWcPKrh1V64AjAAH1YyBkf8Z+pvRwQyd/0c5qMLQHcSgvx/paIBahm3gflt6VmU3v1gPiLctinXsvTHLpHXsASA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+tfp8/m6vSgLSRGyInBXXgGzW7LJyy8osZNyU9uHx5Q=;
- b=T9sCsNVrNWCLY+oqN42VK4A7YHmGLxgZt6aYD4aDYyrT85g38nBV63yKUIKcNNRmzwcKSd3UqOY8m7C2wCz1I7GCBldbVbvl4KexJa9OWYCjg3VupI+fevHpBJsBA4DL+wQ4DIRSNMaHrkOIc/ojqdwfoiEvLYchfZARUzV1565ms8EEE04fatyZdO9gxAmiG15X6RRrw6rowiILAHUgQMQzWemR0k1HiwcrsFnOJMsGlXmiT0t4t8fwBak/iptmA1cj528+wsn2zyYADTiDbwKqFIEhwMFwbPKmbB+kwSzFULTNuls2zf4eA9L6yQ2sVy8EYBXXFeG632K4s8bN4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+tfp8/m6vSgLSRGyInBXXgGzW7LJyy8osZNyU9uHx5Q=;
- b=CSIzFPp+ubNku4vOcOawvavf0H0uGOgs5fFyz78vTKjALYLYPlJQsWXmGnz7F8PArG+4IJVJCrmV50ExIAhaUmydqbXpR5cC/vWQ6Nbodx/DOwVj020Xm4NgJCTdFfSWMbGKjJbKOqA603vAN9RnNkN/am+rf4s7BVbZyPuozfz7Rq+PMtPBhKR29YcEDM9L48ZQlzvEv/YKZ+HVZVsqSw0L/mgXn/Xgpx3Gt2clgrZZzfxFziOtuIKLRCPtloXhENCsMMb0eVCMD4BnGpxhLklOKm4nVuBXcsFV7xahHVc56DJUGPwROIzVMVfAn20CduXa2MStZnpV3qODFWwImA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
- by IA1PR12MB7687.namprd12.prod.outlook.com (2603:10b6:208:421::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Wed, 24 Apr
- 2024 13:48:42 +0000
-Received: from DM6PR12MB3849.namprd12.prod.outlook.com
- ([fe80::c296:774b:a5fc:965e]) by DM6PR12MB3849.namprd12.prod.outlook.com
- ([fe80::c296:774b:a5fc:965e%3]) with mapi id 15.20.7519.021; Wed, 24 Apr 2024
- 13:48:41 +0000
-Date: Wed, 24 Apr 2024 10:48:40 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Zeng, Oak" <oak.zeng@intel.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "Brost, Matthew" <matthew.brost@intel.com>,
- "Thomas.Hellstrom@linux.intel.com" <Thomas.Hellstrom@linux.intel.com>,
- "Welty, Brian" <brian.welty@intel.com>,
- "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>,
- "Bommu, Krishnaiah" <krishnaiah.bommu@intel.com>,
- "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
- Leon Romanovsky <leon@kernel.org>
-Subject: Re: [PATCH 06/23] drm/xe/svm: Introduce a helper to build sg table
- from hmm range
-Message-ID: <20240424134840.GJ941030@nvidia.com>
-References: <20240117221223.18540-1-oak.zeng@intel.com>
- <20240117221223.18540-7-oak.zeng@intel.com>
- <20240405003927.GA11940@nvidia.com>
- <SA1PR11MB6991E4CDCD61A5D1909BB4EF92032@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240405123725.GD5383@nvidia.com>
- <SA1PR11MB699170C0F6FFFA231985718092032@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240405180212.GG5383@nvidia.com>
- <SA1PR11MB6991A4BD0EDDDF051A9A2C5C92072@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240409172418.GA5383@nvidia.com>
- <SA1PR11MB6991EDB4351D99B4E76EBC2992112@SA1PR11MB6991.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SA1PR11MB6991EDB4351D99B4E76EBC2992112@SA1PR11MB6991.namprd11.prod.outlook.com>
-X-ClientProxiedBy: SN7PR04CA0020.namprd04.prod.outlook.com
- (2603:10b6:806:f2::25) To DM6PR12MB3849.namprd12.prod.outlook.com
- (2603:10b6:5:1c7::26)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE878113B7A;
+ Wed, 24 Apr 2024 13:55:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1713966916; x=1745502916;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=bEpLXpXJZlO7QVOIBwyX7K/h0f9lrxOzKxmYdFse+2E=;
+ b=Ks4wYu2+9k0F0+1nSeqgvHn42hfCr8SXbQZ5pFF5GiUTyGqgY/TUoBJj
+ HvT3/D9NrSS+2SA6+fG4IogoisPVW7vZMZnZiri+/WQxqix+UHp5XZAcy
+ toP5M/nRxO1Er5iog7MUNgOlXIQwxBXxbHoIV6lJs4ISvakNuCo2tIQ6a
+ BeNuCquMRfmI2K23eK4U/dIbFF7+Z0MeRZ6/LvpxpAb+IfeVwsqQ+cGMR
+ PVzvGU/ald5ePQU/GydFgO+x70g00TWN5EF+gQiQTFULD0wd1qbYQZyDq
+ +84lIXo0i63ywhO8trLcu7No42ztlQtrvmQ3yqFoSJWjS+v28y+sliHaz g==;
+X-CSE-ConnectionGUID: /6WNjQGsSo2NWxgExrLAlA==
+X-CSE-MsgGUID: c207XUx/QbOLqLfcuTWcUg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="13387919"
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="13387919"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2024 06:55:14 -0700
+X-CSE-ConnectionGUID: 6lRKGZa/SbG8032P/JXUkQ==
+X-CSE-MsgGUID: 1M71Elb/QmqaiqUmCHIKGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="25234526"
+Received: from vgrigo2x-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.48.49])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2024 06:55:03 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Jacek Lawrynowicz
+ <jacek.lawrynowicz@linux.intel.com>, Stanislaw Gruszka
+ <stanislaw.gruszka@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
+ <matt.coster@imgtec.com>, Rob Clark <robdclark@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Karol Herbst <kherbst@redhat.com>, Lyude
+ Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Alain Volmat
+ <alain.volmat@foss.st.com>, Huang Rui <ray.huang@amd.com>, Zack Rusin
+ <zack.rusin@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm/print: drop include debugfs.h and include where
+ needed
+In-Reply-To: <20240422121011.4133236-1-jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240422121011.4133236-1-jani.nikula@intel.com>
+Date: Wed, 24 Apr 2024 16:54:59 +0300
+Message-ID: <87v846q30s.fsf@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|IA1PR12MB7687:EE_
-X-MS-Office365-Filtering-Correlation-Id: 76913d23-fc6a-463a-1a61-08dc64654090
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Ad4roHmot5L+izea2MAAdDBZ3+WSai77nyOc9OMlTogDpP1v/U7T9c729klJ?=
- =?us-ascii?Q?Cr5HTkF2JiKy1Q1QdO+pvFCv/fb/VRIJ7rfrz5mNMKuhe+0czVAsGubzwdkC?=
- =?us-ascii?Q?/iae10IQ2FXB0Exa3ckZ3MSnqtDX6xiFyk2xserfxMlMKVKSm09RvkYSl68p?=
- =?us-ascii?Q?nHyKDjdJjsTAUHn7XGUlCQoJ9Y2T2xUHXPw9gNFjCLrCKDrTeoCJkdrRJmfa?=
- =?us-ascii?Q?iGqJJ7xsFUa1PTXzZKtCkCx+Yi8BFcJNc149o57NC3En/rVMxEN2GZmEMO1Y?=
- =?us-ascii?Q?VuieAAT7/00QRu311QwGz8fRouj1FcnXQDgQiMG7wRIj1UZzd2GD7BksHrt4?=
- =?us-ascii?Q?vFSP1uN27ZfXaYnq6OdXZ/zQWeULKr4XprnhMsROqi+MHkelWP3ktgN+f39z?=
- =?us-ascii?Q?BIDbStxTrXXefVg2jnc/nvEO7+dtYuRX7QK4EQW3iC+3Rt9uxQBLcHLVspH+?=
- =?us-ascii?Q?6GIRxxCm5X4ZFR9zs97/Bz0bvs167jtPeq7yGnsRv5yqWLF/yWE+CQQHhKqc?=
- =?us-ascii?Q?w7NX2HBewNB6Cjo+sqKk5D6wj8xw9EPQC/ZsAgpql7pChC217CKeqbo4lXPC?=
- =?us-ascii?Q?wnJBf4jBZzHxKN8/ON+JVmLGhCokQ0nw02+3vqFcFFub/k3/v9On9ralO4qp?=
- =?us-ascii?Q?2/pQgb0wth3VAfpGLGhLn5IspbdZTAnWfZRFfPp5te3RA2k8ZUXWsFm5LQgm?=
- =?us-ascii?Q?d35PkYNbPKn3QrTpq0yM97zBrFtlc9ZEJi5vnq4Hj5cW9jEDMHBOGVvtkIgA?=
- =?us-ascii?Q?SgGlwH7OmlLei+uKoqV2DdoBVU6qN3ojNtwrJbnFmxelrM0JTTktQzokpHzK?=
- =?us-ascii?Q?aATOo99BR+57fSm7w9nnMWu+dXLZPfoUnL4UsSw47Sfht66i3MYIONNBhUfw?=
- =?us-ascii?Q?cBE5sCoDhArVMxXXeuaWHsiKvhDECvP/IZ7a2PZYWmvml9HfmhNRMJElHkrt?=
- =?us-ascii?Q?PUqugBY7iHpOBMoCrp8UYKs11uVEaifoxW3vBAXsSHgwk/8vZQGoa6PCHzz4?=
- =?us-ascii?Q?cVTkR0lWa3BMI6/UR7+T4CVsnhgQzAtgKNOHUr/eZtqPVOhonYsZLXLVXo2V?=
- =?us-ascii?Q?leU4VgrG5f+GqBYnddrBBaOlqkh9w4S2JOaOmh3sDn7nJNJk8XOD01oPpt/q?=
- =?us-ascii?Q?qejZVIe1XN4zPKI8MM/f9NzMkdWRky8xSCXLn1Jlre09EF6w3LwGMWsN6oiE?=
- =?us-ascii?Q?k+3PogC6BV5NxCWQ8qxIc94/pQoMUMPezqETTbyleNvGQZN4xw2sIKVky5G6?=
- =?us-ascii?Q?J79dlQAk7mNjN9FFoqvSjcI6TpTm2QD8I2WI7lNuWg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3849.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(7416005)(1800799015)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?62/ZOerx9tS0tcfPiinC0E7SdCWdgzaDMuHs1rwkCtkEYPXHqlhb/CND+UOz?=
- =?us-ascii?Q?gWYEAq8gNTKUrh8Z4bZipuAyFfC61sc/wPoVKv4CS92ll4RAMYqfd/l/y1vn?=
- =?us-ascii?Q?6keXSyizTytruLmCeiUO02FK0x9/8d/zmdaNO4N/g84l+CFgp5Smek9jlo8/?=
- =?us-ascii?Q?CRfZWRZoY7aOEF/I8tJgpPkWiGnDhb+7eDjfoVIotYPzkcLpk6RUvpqWRJd9?=
- =?us-ascii?Q?IOs5so+MzriLiulU2q1sBm5ONklxQbJ1ulITcw0WYxMRj4FJ4kCMrXhhUCP3?=
- =?us-ascii?Q?NS0nao77dfKoTi9PjtDmC5+PArPoE0Q3n5vS9a9chJZffoW5TVh2JAKNh4az?=
- =?us-ascii?Q?lf+wpY+2j4jtlAl5fCzDtM4gKcgLDKHCXzjIVCVbOKx0Vh/AakOHoHCb5Ibg?=
- =?us-ascii?Q?5ToVARGsYtZ81pkfwMdFKPZ3oQBMQTPuEYT+n4ImIK7QVWKNbv9ekxSob/rN?=
- =?us-ascii?Q?otJ8EzxIsW0I+12EVsJ47jSOIfY5COBdeCyK5Y9fkX2NyDNpMfh55ngoT6At?=
- =?us-ascii?Q?QI9ufudLd/6baOBWy4JajIFrZHeMVwUTwqKxdman48okjKN4NVPGHb9xzI6L?=
- =?us-ascii?Q?/ginx9uReN6mgmIDKW3NpDwU71bBoTsreHld2SI5YkwozEsq87PgWFqNZN1d?=
- =?us-ascii?Q?99Xqj2pl8RD1h6/s3gEGqPFyjDFdThMQwpGqlstcoS+Sb8xShKzjKF/G/VPY?=
- =?us-ascii?Q?NpMG+jhBUNSLB5fLPrndxA4zV5lSxgHKxTp3ta9Nlq6GoWjZmnZo0RR9qj1A?=
- =?us-ascii?Q?yrGtFn91WmTX6JL4Lf3aYeh6DMMR5qf3Dt/cUO/h2NOjf3xsQrBoXOdpJ+qD?=
- =?us-ascii?Q?MlShqMSuqFSadO4xksi3Rk3kRU+StIyBG8tjiR85gkGksQHhcBeZwl+UYbwT?=
- =?us-ascii?Q?T7LYC8qJJ/8LZ3GnLv9xkCEV/Czuzd1wzqu/faXXs9iSsM+bDZwGFISk+E3H?=
- =?us-ascii?Q?VzgwZlvDDc4VLSD+gOmUuM9GcneJ/VUNHZJ+/MgwkOu6VHWHx0MuPSNyf5yh?=
- =?us-ascii?Q?I6R0s2dwliUIUMz0PggUjK+5AEvjKlSBaD1n5BT0vueuj1DcDuVJaDoCrlN9?=
- =?us-ascii?Q?0Pg1CEdnEV2LrM/PRF6Bwnw8abVB9hP/fDn1cFLCIg8/czR7/bGBQfOuTxgK?=
- =?us-ascii?Q?xyDHzcrhn56yL5U870zutrD8YsdDtSnIwcjrgexcbM/FnzUQAew7x4DJGIw5?=
- =?us-ascii?Q?Ie38LF3pUVtuW7Y8W6Q63vNShjOYkeN29ZXys5qj0m/ZHxzKunpACQx40B+G?=
- =?us-ascii?Q?j0xjF5grX3IyvXDyY1Rg2MSaa/Q3/qiPy+NfK0FDJtCi7c6yfrwvPlUMlCPn?=
- =?us-ascii?Q?FuTgoIaM3i1XfmDvi3EmR8J/jkeLgX+0pXySooDHOJFVPaYmQ9GOZ/CQuJeM?=
- =?us-ascii?Q?EDiniPMOd9hI2x3+KO1sqa4WnQM/9NQAETHXA/F6c1NVSWnATsa/M9XkQCl9?=
- =?us-ascii?Q?NWapXuZ3IRs+MPKYifFKNOgGoJrEIH4uG6yRYgqw1RKxDPvFhIeut0QxqxQl?=
- =?us-ascii?Q?YfkuOiJnNJVzaxYZc6t148mNfrkXFYrAqVIqNR5JUXcYHy/H6uAQC+RcRuy1?=
- =?us-ascii?Q?v7CS3MNDMufYEVRTTDM=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76913d23-fc6a-463a-1a61-08dc64654090
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 13:48:41.8569 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hlAPKMA2+1Asrh1eXAhZuY6ZQ5R/5ZF51nimxQWa+erF+XCiQenUn/g3H0WDkBxk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7687
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,139 +98,545 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 23, 2024 at 09:17:03PM +0000, Zeng, Oak wrote:
-> > On Tue, Apr 09, 2024 at 04:45:22PM +0000, Zeng, Oak wrote:
-> > 
-> > > > I saw, I am saying this should not be done. You cannot unmap bits of
-> > > > a sgl mapping if an invalidation comes in.
-> > >
-> > > You are right, if we register a huge mmu interval notifier to cover
-> > > the whole address space, then we should use dma map/unmap pages to
-> > > map bits of the address space. We will explore this approach.
-> > >
-> > > Right now, in xe driver, mmu interval notifier is dynamically
-> > > registered with small address range. We map/unmap the whole small
-> > > address ranges each time. So functionally it still works. But it
-> > > might not be as performant as the method you said.
-> > 
-> > Please don't do this, it is not how hmm_range_fault() should be
-> > used.
-> > 
-> > It is intended to be page by page and there is no API surface
-> > available to safely try to construct covering ranges. Drivers
-> > definately should not try to invent such a thing.
-> 
-> I need your help to understand this comment. Our gpu mirrors the
-> whole CPU virtual address space. It is the first design pattern in
-> your previous reply (entire exclusive owner of a single device
-> private page table and fully mirrors the mm page table into the
-> device table.)
-> 
-> What do you mean by "page by page"/" no API surface available to
-> safely try to construct covering ranges"? As I understand it,
-> hmm_range_fault take a virtual address range (defined in hmm_range
-> struct), and walk cpu page table in this range. It is a range based
-> API.
+On Mon, 22 Apr 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+> Surprisingly many places depend on debugfs.h to be included via
+> drm_print.h. Fix them.
+>
+> v3: Also fix armada, ite-it6505, imagination, msm, sti, vc4, and xe
+>
+> v2: Also fix ivpu and vmwgfx
+>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20240410141434.157908=
+-1-jani.nikula@intel.com
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Yes, but invalidation is not linked to range_fault so you can get
-invalidations of single pages. You are binding range_fault to
-dma_map_sg but then you can't handle invalidation at all sanely.
+While the changes all over the place are small, mostly just adding the
+debugfs.h include, please consider acking. I've sent this a few times
+already.
 
-> From your previous reply ("So I find it a quite strange that this
-> RFC is creating VMA's, notifiers and ranges on the fly "), it seems
-> you are concerning why we are creating vma and register mmu interval
-> notifier on the fly. Let me try to explain it. Xe_vma is a very
-> fundamental concept in xe driver. 
+Otherwise, I'll merge this by the end of the week, acks or not.
 
-I understand, but SVA/hmm_range_fault/invalidation are *NOT* VMA based
-and you do need to ensure the page table manipulation has an API that
-is usable. "populate an entire VMA" / "invalidate an entire VMA" is
-not a sufficient primitive.
+Thanks,
+Jani.
 
-> The gpu page table update, invalidation are all vma-based. This
-> concept exists before this svm work. For svm, we create a 2M (the
-> size is user configurable) vma during gpu page fault handler and
-> register this 2M range to mmu interval notifier.
 
-You can create VMAs, but they can't be fully populated and they should
-be alot bigger than 2M. ODP uses a similar 2 level scheme for it's
-SVA, the "vma" granual is 512M.
 
-The key thing is the VMA is just a container for the notifier and
-other data structures, it doesn't insist the range be fully populated
-and it must support page-by-page unmap/remap/invalidateion.
+>
+> ---
+>
+> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: Frank Binns <frank.binns@imgtec.com>
+> Cc: Matt Coster <matt.coster@imgtec.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Marijn Suijten <marijn.suijten@somainline.org>
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: Alain Volmat <alain.volmat@foss.st.com>
+> Cc: Huang Rui <ray.huang@amd.com>
+> Cc: Zack Rusin <zack.rusin@broadcom.com>
+> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadc=
+om.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: intel-xe@lists.freedesktop.org
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Cc: amd-gfx@lists.freedesktop.org
+> ---
+>  drivers/accel/ivpu/ivpu_debugfs.c           | 2 ++
+>  drivers/gpu/drm/armada/armada_debugfs.c     | 1 +
+>  drivers/gpu/drm/bridge/ite-it6505.c         | 1 +
+>  drivers/gpu/drm/bridge/panel.c              | 2 ++
+>  drivers/gpu/drm/drm_print.c                 | 6 +++---
+>  drivers/gpu/drm/i915/display/intel_dmc.c    | 1 +
+>  drivers/gpu/drm/imagination/pvr_fw_trace.c  | 1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 2 ++
+>  drivers/gpu/drm/nouveau/dispnv50/crc.c      | 2 ++
+>  drivers/gpu/drm/radeon/r100.c               | 1 +
+>  drivers/gpu/drm/radeon/r300.c               | 1 +
+>  drivers/gpu/drm/radeon/r420.c               | 1 +
+>  drivers/gpu/drm/radeon/r600.c               | 3 ++-
+>  drivers/gpu/drm/radeon/radeon_fence.c       | 1 +
+>  drivers/gpu/drm/radeon/radeon_gem.c         | 1 +
+>  drivers/gpu/drm/radeon/radeon_ib.c          | 2 ++
+>  drivers/gpu/drm/radeon/radeon_pm.c          | 1 +
+>  drivers/gpu/drm/radeon/radeon_ring.c        | 2 ++
+>  drivers/gpu/drm/radeon/radeon_ttm.c         | 1 +
+>  drivers/gpu/drm/radeon/rs400.c              | 1 +
+>  drivers/gpu/drm/radeon/rv515.c              | 1 +
+>  drivers/gpu/drm/sti/sti_drv.c               | 1 +
+>  drivers/gpu/drm/ttm/ttm_device.c            | 1 +
+>  drivers/gpu/drm/ttm/ttm_resource.c          | 3 ++-
+>  drivers/gpu/drm/ttm/ttm_tt.c                | 5 +++--
+>  drivers/gpu/drm/vc4/vc4_drv.h               | 1 +
+>  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c         | 2 ++
+>  drivers/gpu/drm/xe/xe_debugfs.c             | 1 +
+>  drivers/gpu/drm/xe/xe_gt_debugfs.c          | 2 ++
+>  drivers/gpu/drm/xe/xe_uc_debugfs.c          | 2 ++
+>  include/drm/drm_print.h                     | 2 +-
+>  31 files changed, 46 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_=
+debugfs.c
+> index d09d29775b3f..e07e447d08d1 100644
+> --- a/drivers/accel/ivpu/ivpu_debugfs.c
+> +++ b/drivers/accel/ivpu/ivpu_debugfs.c
+> @@ -3,6 +3,8 @@
+>   * Copyright (C) 2020-2023 Intel Corporation
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+> +
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_print.h>
+> diff --git a/drivers/gpu/drm/armada/armada_debugfs.c b/drivers/gpu/drm/ar=
+mada/armada_debugfs.c
+> index 29f4b52e3c8d..a763349dd89f 100644
+> --- a/drivers/gpu/drm/armada/armada_debugfs.c
+> +++ b/drivers/gpu/drm/armada/armada_debugfs.c
+> @@ -5,6 +5,7 @@
+>   */
+>=20=20
+>  #include <linux/ctype.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/module.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/uaccess.h>
+> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge=
+/ite-it6505.c
+> index 27334173e911..3f68c82888c2 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> @@ -3,6 +3,7 @@
+>   * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+>   */
+>  #include <linux/bits.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/delay.h>
+>  #include <linux/device.h>
+>  #include <linux/err.h>
+> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/pane=
+l.c
+> index 7f41525f7a6e..32506524d9a2 100644
+> --- a/drivers/gpu/drm/bridge/panel.c
+> +++ b/drivers/gpu/drm/bridge/panel.c
+> @@ -4,6 +4,8 @@
+>   * Copyright (C) 2017 Broadcom
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+> +
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_connector.h>
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index 699b7dbffd7b..cf2efb44722c 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -23,13 +23,13 @@
+>   * Rob Clark <robdclark@gmail.com>
+>   */
+>=20=20
+> -#include <linux/stdarg.h>
+> -
+> +#include <linux/debugfs.h>
+> +#include <linux/dynamic_debug.h>
+>  #include <linux/io.h>
+>  #include <linux/moduleparam.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/slab.h>
+> -#include <linux/dynamic_debug.h>
+> +#include <linux/stdarg.h>
+>=20=20
+>  #include <drm/drm.h>
+>  #include <drm/drm_drv.h>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dmc.c b/drivers/gpu/drm/i=
+915/display/intel_dmc.c
+> index 3697a02b51b6..09346afd1f0e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dmc.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dmc.c
+> @@ -22,6 +22,7 @@
+>   *
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/firmware.h>
+>=20=20
+>  #include "i915_drv.h"
+> diff --git a/drivers/gpu/drm/imagination/pvr_fw_trace.c b/drivers/gpu/drm=
+/imagination/pvr_fw_trace.c
+> index 31199e45b72e..73707daa4e52 100644
+> --- a/drivers/gpu/drm/imagination/pvr_fw_trace.c
+> +++ b/drivers/gpu/drm/imagination/pvr_fw_trace.c
+> @@ -12,6 +12,7 @@
+>=20=20
+>  #include <linux/build_bug.h>
+>  #include <linux/dcache.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/sysfs.h>
+>  #include <linux/types.h>
+>=20=20
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/dr=
+m/msm/disp/dpu1/dpu_hw_sspp.c
+> index 0bf8a83e8df3..8586f2761782 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> @@ -2,6 +2,8 @@
+>  /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+> +
+>  #include "dpu_hwio.h"
+>  #include "dpu_hw_catalog.h"
+>  #include "dpu_hw_lm.h"
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/crc.c b/drivers/gpu/drm/nou=
+veau/dispnv50/crc.c
+> index 9c942fbd836d..5936b6b3b15d 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/crc.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/crc.c
+> @@ -1,5 +1,7 @@
+>  // SPDX-License-Identifier: MIT
+> +#include <linux/debugfs.h>
+>  #include <linux/string.h>
+> +
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_vblank.h>
+> diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.c
+> index 86b8b770af19..0b1e19345f43 100644
+> --- a/drivers/gpu/drm/radeon/r100.c
+> +++ b/drivers/gpu/drm/radeon/r100.c
+> @@ -26,6 +26,7 @@
+>   *          Jerome Glisse
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/firmware.h>
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
+> diff --git a/drivers/gpu/drm/radeon/r300.c b/drivers/gpu/drm/radeon/r300.c
+> index 25201b9a5aae..1620f534f55f 100644
+> --- a/drivers/gpu/drm/radeon/r300.c
+> +++ b/drivers/gpu/drm/radeon/r300.c
+> @@ -26,6 +26,7 @@
+>   *          Jerome Glisse
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/pci.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/slab.h>
+> diff --git a/drivers/gpu/drm/radeon/r420.c b/drivers/gpu/drm/radeon/r420.c
+> index eae8a6389f5e..a979662eaa73 100644
+> --- a/drivers/gpu/drm/radeon/r420.c
+> +++ b/drivers/gpu/drm/radeon/r420.c
+> @@ -26,6 +26,7 @@
+>   *          Jerome Glisse
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/pci.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/slab.h>
+> diff --git a/drivers/gpu/drm/radeon/r600.c b/drivers/gpu/drm/radeon/r600.c
+> index b5e97d95a19f..087d41e370fd 100644
+> --- a/drivers/gpu/drm/radeon/r600.c
+> +++ b/drivers/gpu/drm/radeon/r600.c
+> @@ -26,11 +26,12 @@
+>   *          Jerome Glisse
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/firmware.h>
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
+> -#include <linux/slab.h>
+>  #include <linux/seq_file.h>
+> +#include <linux/slab.h>
+>=20=20
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_vblank.h>
+> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/rade=
+on/radeon_fence.c
+> index 9ebe4a0b9a6c..4fb780d96f32 100644
+> --- a/drivers/gpu/drm/radeon/radeon_fence.c
+> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
+> @@ -30,6 +30,7 @@
+>   */
+>=20=20
+>  #include <linux/atomic.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/firmware.h>
+>  #include <linux/kref.h>
+>  #include <linux/sched/signal.h>
+> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon=
+/radeon_gem.c
+> index 3fec3acdaf28..2ef201a072f1 100644
+> --- a/drivers/gpu/drm/radeon/radeon_gem.c
+> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
+> @@ -26,6 +26,7 @@
+>   *          Jerome Glisse
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/iosys-map.h>
+>  #include <linux/pci.h>
+>=20=20
+> diff --git a/drivers/gpu/drm/radeon/radeon_ib.c b/drivers/gpu/drm/radeon/=
+radeon_ib.c
+> index fb9ecf5dbe2b..63d914f3414d 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ib.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ib.c
+> @@ -27,6 +27,8 @@
+>   *          Christian K=C3=B6nig
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+> +
+>  #include <drm/drm_file.h>
+>=20=20
+>  #include "radeon.h"
+> diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/=
+radeon_pm.c
+> index 4482c8c5f5ce..2d9d9f46f243 100644
+> --- a/drivers/gpu/drm/radeon/radeon_pm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_pm.c
+> @@ -21,6 +21,7 @@
+>   *          Alex Deucher <alexdeucher@gmail.com>
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/hwmon-sysfs.h>
+>  #include <linux/hwmon.h>
+>  #include <linux/pci.h>
+> diff --git a/drivers/gpu/drm/radeon/radeon_ring.c b/drivers/gpu/drm/radeo=
+n/radeon_ring.c
+> index 38048593bb4a..8d1d458286a8 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ring.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ring.c
+> @@ -27,6 +27,8 @@
+>   *          Christian K=C3=B6nig
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+> +
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_file.h>
+>=20=20
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
+/radeon_ttm.c
+> index 2078b0000e22..5c65b6dfb99a 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -30,6 +30,7 @@
+>   *    Dave Airlie
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/pci.h>
+> diff --git a/drivers/gpu/drm/radeon/rs400.c b/drivers/gpu/drm/radeon/rs40=
+0.c
+> index d7f552d441ab..d4d1501e6576 100644
+> --- a/drivers/gpu/drm/radeon/rs400.c
+> +++ b/drivers/gpu/drm/radeon/rs400.c
+> @@ -26,6 +26,7 @@
+>   *          Jerome Glisse
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/slab.h>
+>=20=20
+> diff --git a/drivers/gpu/drm/radeon/rv515.c b/drivers/gpu/drm/radeon/rv51=
+5.c
+> index 79709d26d983..bbc6ccabf788 100644
+> --- a/drivers/gpu/drm/radeon/rv515.c
+> +++ b/drivers/gpu/drm/radeon/rv515.c
+> @@ -26,6 +26,7 @@
+>   *          Jerome Glisse
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/slab.h>
+>=20=20
+> diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
+> index 4bab93c4fefd..1799c12babf5 100644
+> --- a/drivers/gpu/drm/sti/sti_drv.c
+> +++ b/drivers/gpu/drm/sti/sti_drv.c
+> @@ -5,6 +5,7 @@
+>   */
+>=20=20
+>  #include <linux/component.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_d=
+evice.c
+> index 76027960054f..434cf0258000 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -27,6 +27,7 @@
+>=20=20
+>  #define pr_fmt(fmt) "[TTM DEVICE] " fmt
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/mm.h>
+>=20=20
+>  #include <drm/ttm/ttm_bo.h>
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm=
+_resource.c
+> index be8d286513f9..4a66b851b67d 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -22,8 +22,9 @@
+>   * Authors: Christian K=C3=B6nig
+>   */
+>=20=20
+> -#include <linux/iosys-map.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/io-mapping.h>
+> +#include <linux/iosys-map.h>
+>  #include <linux/scatterlist.h>
+>=20=20
+>  #include <drm/ttm/ttm_bo.h>
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 578a7c37f00b..474fe7aad2a0 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -32,10 +32,11 @@
+>  #define pr_fmt(fmt) "[TTM] " fmt
+>=20=20
+>  #include <linux/cc_platform.h>
+> -#include <linux/sched.h>
+> -#include <linux/shmem_fs.h>
+> +#include <linux/debugfs.h>
+>  #include <linux/file.h>
+>  #include <linux/module.h>
+> +#include <linux/sched.h>
+> +#include <linux/shmem_fs.h>
+>  #include <drm/drm_cache.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_util.h>
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index ab61e96e7e14..08e29fa82563 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -5,6 +5,7 @@
+>  #ifndef _VC4_DRV_H_
+>  #define _VC4_DRV_H_
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/delay.h>
+>  #include <linux/of.h>
+>  #include <linux/refcount.h>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx=
+/vmwgfx_gem.c
+> index 2132a8ad8c0c..07185c108218 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> @@ -30,6 +30,8 @@
+>  #include "drm/drm_prime.h"
+>  #include "drm/drm_gem_ttm_helper.h"
+>=20=20
+> +#include <linux/debugfs.h>
+> +
+>  static void vmw_gem_object_free(struct drm_gem_object *gobj)
+>  {
+>  	struct ttm_buffer_object *bo =3D drm_gem_ttm_of_gem(gobj);
+> diff --git a/drivers/gpu/drm/xe/xe_debugfs.c b/drivers/gpu/drm/xe/xe_debu=
+gfs.c
+> index c9b30dbdc14d..0b7aebaae843 100644
+> --- a/drivers/gpu/drm/xe/xe_debugfs.c
+> +++ b/drivers/gpu/drm/xe/xe_debugfs.c
+> @@ -5,6 +5,7 @@
+>=20=20
+>  #include "xe_debugfs.h"
+>=20=20
+> +#include <linux/debugfs.h>
+>  #include <linux/string_helpers.h>
+>=20=20
+>  #include <drm/drm_debugfs.h>
+> diff --git a/drivers/gpu/drm/xe/xe_gt_debugfs.c b/drivers/gpu/drm/xe/xe_g=
+t_debugfs.c
+> index ff7f4cf52fa9..8cf0b2625efc 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_debugfs.c
+> +++ b/drivers/gpu/drm/xe/xe_gt_debugfs.c
+> @@ -5,6 +5,8 @@
+>=20=20
+>  #include "xe_gt_debugfs.h"
+>=20=20
+> +#include <linux/debugfs.h>
+> +
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/drm_managed.h>
+>=20=20
+> diff --git a/drivers/gpu/drm/xe/xe_uc_debugfs.c b/drivers/gpu/drm/xe/xe_u=
+c_debugfs.c
+> index 0a39ec5a6e99..78eb8db73791 100644
+> --- a/drivers/gpu/drm/xe/xe_uc_debugfs.c
+> +++ b/drivers/gpu/drm/xe/xe_uc_debugfs.c
+> @@ -3,6 +3,8 @@
+>   * Copyright =C2=A9 2022 Intel Corporation
+>   */
+>=20=20
+> +#include <linux/debugfs.h>
+> +
+>  #include <drm/drm_debugfs.h>
+>=20=20
+>  #include "xe_gt.h"
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 9cc473e5d353..561c3b96b6fd 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -30,11 +30,11 @@
+>  #include <linux/printk.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/device.h>
+> -#include <linux/debugfs.h>
+>  #include <linux/dynamic_debug.h>
+>=20=20
+>  #include <drm/drm.h>
+>=20=20
+> +struct debugfs_regset32;
+>  struct drm_device;
+>=20=20
+>  /* Do *not* use outside of drm_print.[ch]! */
 
-> Now I try to figure out if we don't create vma, what can we do? We
-> can map one page (which contains the gpu fault address) to gpu page
-> table. But that doesn't work for us because the GPU cache and TLB
-> would not be performant for 4K page each time. One way to think of
-> the vma is a chunk size which is good for GPU HW performance.
-
-From this perspective invalidation is driven by the range the
-invalidation callback gets, it could be a single page, but probably
-bigger.
-
-mapping is driven by the range passed to hmm_range_fault() during
-fault handling, which is entirely based on your drivers prefetch
-logic.
-
-GPU TLB invalidation sequences should happen once, at the end, for any
-invalidation or range_fault sequence regardless. Nothing about "gpu
-vmas" should have anything to do with this.
-
-> And the mmu notifier... if we don't register the mmu notifier on the
-> fly, do we register one mmu notifier to cover the whole CPU virtual
-> address space (which would be huge, e.g., 0~2^56 on a 57 bit
-> machine, if we have half half user space kernel space split)? That
-> won't be performant as well because for any address range that is
-> unmapped from cpu program, but even if they are never touched by
-> GPU, gpu driver still got a invalidation callback. In our approach,
-> we only register a mmu notifier for address range that we know gpu
-> would touch it.
-
-When SVA is used something, somewhere, has to decide if a CPU VA
-intersects with a HW VA.
-
-The mmu notifiers are orginized in an interval (red/black) tree, so if
-you have a huge number of them the RB search becomes very expensive.
-
-Conversly your GPU page table is organized in a radix tree, so
-detecting no-presence during invalidation is a simple radix
-walk. Indeed for the obviously unused ranges it is probably a pointer
-load and single de-ref to check it.
-
-I fully expect the radix walk is much, much faster than a huge number
-of 2M notifiers in the red/black tree.
-
-Notifiers for SVA cases should be giant. If not the entire memory
-space, then at least something like 512M/1G kind of size, neatly
-aligned with something in your page table structure so the radix walk
-can start lower in the tree automatically.
-
-> > > For example, when gpu page fault happens, you look
-> > > up the cpu vm_area_struct for the fault address and create a
-> > > corresponding state/struct. And people can have as many cpu
-> > > vm_area_struct as they want.
-> > 
-> > No you don't.
-> 
-> See explains above. I need your help to understand how we can do it
-> without a vma (or chunk). One thing GPU driver is different from
-> RDMA driver is, RDMA doesn't have device private memory so no
-> migration. 
-
-I want to be very clear, there should be no interaction of your
-hmm_range_fault based code with MM centric VMAs. You MUST NOT look up
-the CPU vma_area_struct in your driver.
-
-> It only need to dma-map the system memory pages and use
-> them to fill RDMA page table. so RDMA don't need another memory
-> manager such as our buddy. RDMA only deal with system memory which
-> is completely struct page based management. Page by page make 100 %
-> sense for RDMA.
-
-I don't think this is the issue at hand, you just have some historical
-poorly designed page table manipulation code from what I can
-understand..
-
-Jason
+--=20
+Jani Nikula, Intel
