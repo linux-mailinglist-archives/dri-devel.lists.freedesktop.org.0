@@ -2,169 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D5A8B0064
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 06:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0358B00D3
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 07:09:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6458C10E141;
-	Wed, 24 Apr 2024 04:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 686831137A7;
+	Wed, 24 Apr 2024 05:09:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IvpTJr0g";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="f9ycVAQP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F177310E141;
- Wed, 24 Apr 2024 04:09:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713931747; x=1745467747;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=kBMGieC+l5umOQrMolkxE+1/rW6IoPGUNo+LVChsOTo=;
- b=IvpTJr0gHMy3MJsd5FwHsCAaRG44vOMXgPVSI5T1uRZ6PrseARjF3lst
- +1QadHTkHkwpmZFOjq5xn2EZoOJBHpjB12BO7P+v8AS1tDkPaNhkAy4ME
- 0BgLQwKVPi2pCpyRWTAGmnrZSyTb2hLf2ollHgP7TR0v112p5nMw8ZOwU
- Yrthl7yDUsNYpn5N/1UfZOyNr6N8uqyEXSwMC0cBaQCukaqAgYBKHfwQY
- m7ihY5sy/zmxmbeRY5ppxyW9N+d3F2GJ8mYX+dPjxHV+w9iyiuIHk9aOk
- hlBkrywo225iGKQSRqUtRjGuVGufCPmqrYSp614Dn11GVK1NMutvTkes2 A==;
-X-CSE-ConnectionGUID: IqXutCguTniB7PHqHz8SfQ==
-X-CSE-MsgGUID: OZYQm5+ITqazeb5u7hLGKw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="13333412"
-X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; d="scan'208";a="13333412"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2024 21:09:06 -0700
-X-CSE-ConnectionGUID: FcJw9rruSh+L1hRnA9EWgA==
-X-CSE-MsgGUID: H2PlsaI/QF2cg4/lcR/DgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; d="scan'208";a="29220192"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 23 Apr 2024 21:09:07 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 23 Apr 2024 21:09:06 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 23 Apr 2024 21:09:05 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 23 Apr 2024 21:09:05 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.40) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 23 Apr 2024 21:09:05 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NiZ6JL+iZkOFBxnvrDLAhZOYreAzaQKob4PLWi2y8PT4IzIow8j9nTz8RJT9eMO3eONx/UsFOLr7yMd/PqEMGFzWIFvvMkxWuni8VRTkIQcw4TqBPQ2uxVf5oW1cj/W+QYy/LCc4wxF1TbLZFURqN87xv5S/7sGYnrNhOVZKgw/akQzvzsfWEl3sNl+RwcUkEyv/cGzb0rekbev77IgilQYpO7qldr2xVqtkT/sYFaThcTpRv/6BOfCul6hceitUv9yr3hwOPZWKFvIO2jV9w4rKd2ZHDcZP5QFUAMt13m5Ml/gUv2NvoHtPh9EoGBpHgllOopyT/99k+7PIk1E+dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UgcsePsa31VO6WIaoi0hzcE5GWOIAkOb+7LEyEFy2CM=;
- b=N+4R83KYn0jNzg0QNJSJvItOa8HoS/QOW64orvII98z7Nmbr/iIEWVwS3HH7E/CrMzJ8YM7g4ys4EdO5KaaTj4bqdaMEOxBwBkWXrYcgY8LWn8ArojXo67zV5TpQWkXbT9GAraunxOcBnIms7fSx9WMUsPXOQMAp0nQt2PxWtAnZy7mjS52TTmge1AjmP4czPAzYlz4LQ1fDoy5ZTsqRCL7+JfcuJO6xoCGjJb3Rof+QEfLZysiRpP+EculkvechhYdH1x9DO2FNQBhLblhEz1/h711GyRsRfKF8rQ8hUVsiHdYOL4AdMyag4JSqbpdKi2vJEY0EmYGzojDeWZH5FA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by MW4PR11MB6958.namprd11.prod.outlook.com (2603:10b6:303:229::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.22; Wed, 24 Apr
- 2024 04:09:03 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e7c:ccbc:a71c:6c15]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e7c:ccbc:a71c:6c15%5]) with mapi id 15.20.7519.020; Wed, 24 Apr 2024
- 04:09:03 +0000
-Date: Wed, 24 Apr 2024 04:08:29 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Umesh
- Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>
-Subject: Re: [PATCH v2 3/6] drm/xe: Add helper to accumulate exec queue runtime
-Message-ID: <ZiiFvZYWhpdi8ZKL@DUT025-TGLU.fm.intel.com>
-References: <20240423235652.1959945-1-lucas.demarchi@intel.com>
- <20240423235652.1959945-4-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240423235652.1959945-4-lucas.demarchi@intel.com>
-X-ClientProxiedBy: BYAPR11CA0037.namprd11.prod.outlook.com
- (2603:10b6:a03:80::14) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com
+ [91.218.175.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A7F91137A8
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 05:09:21 +0000 (UTC)
+Message-ID: <22979e28-ed48-467f-a5cf-82be57bcc2f7@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1713935351;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Kn9GVgtEXwasErGqw/29COA8cUkcHNCt3wrEGRAtFN4=;
+ b=f9ycVAQPnotRUb3NSIfT4hkf5CwCbI7ej7CXuagnK8SRHaUqdNw1ZPAtFO9I7KmYF5PyMN
+ tUHJ2u/7m/jLqkNxC6IWf21Tza35Q7GH6LakrldMRVkHqml0fab6vK9IoBvnM5TmlvIgtJ
+ 41S5HClq9Qqs5utQFiDNm+ah0biH7OE=
+Date: Wed, 24 Apr 2024 13:09:00 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW4PR11MB6958:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0fc4b2ed-105b-474e-160c-08dc6414471d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|366007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?gmdBZ+qfUoKsGMHlTF1MzVxCUrV0Hklf2U4H/skwi30g/65lS2gnw13+VtgV?=
- =?us-ascii?Q?oskTSxcR9eXBS/CWyHaqbmd3NL5ISv198P8UOsQKGZS4lNi2rbkdQQSgiPQG?=
- =?us-ascii?Q?TIbfpc4clX2UP1+VIWlWGtTpd0tPNSZzYGMCwnB1nsAfxEa8GQvLjmPNX2uh?=
- =?us-ascii?Q?6py2Jt2Bz0r5m9jUPM4VjcM8OrXmL1xmD78WWENAaYVD02sjg+0dbgMpVw1T?=
- =?us-ascii?Q?FVN3qYRQ5IsN6KnCydczsPnjX3zfBpdn3/RbAkSZtIVgL7mNYbdeSdvlMB8Q?=
- =?us-ascii?Q?RHVD9pblf2hEE7eeSrvjd5SPgZo00anxUmbPXjgat0txDQEJ+z8zJ6f/Ljiw?=
- =?us-ascii?Q?bs9HHAd+M+uWh8xXx99a6UabxbMvBfdSF4naFDfN9Ess4dq32B3WZxni9+2c?=
- =?us-ascii?Q?AIYfEcxR20YQzIvBHvIwt9wKTRXWgLkPoKVizKAlqpiPvG8vv9TW9TFaRY+m?=
- =?us-ascii?Q?yHReAv28QwuZqeY/+UVgwKFDc6B0+1EBn3PCGJx0iGfMub4xqxYvL9lVG8bc?=
- =?us-ascii?Q?qP6DTPtb3gWUqTORIGU3QF+zE2Q2Wcc6/0YQFkEBHRhhZ9TnC4uX9NsKRcRr?=
- =?us-ascii?Q?Y0ZjbKTY9tbSBht1RoTbX8pjaCqX/a/Q3N6xLCDAt71+s1EsRGBkaSyq9DcV?=
- =?us-ascii?Q?yR2fO5Temu3hQQ4rl4EoX2T77HNDEjH4ExO12U9yE+vT14qjmSAff3tT2C2C?=
- =?us-ascii?Q?MxvS/lx3mE2z2kKOD6oYdn4lUj8GNZLwiCn6/D9ljQ8HaPHwpN6MZmgSpq/0?=
- =?us-ascii?Q?XakcfG392jA/9+QU14IQ+tpNrmuDsXMpUcF18HsjZzuk+csz3tjD+7bEtYTK?=
- =?us-ascii?Q?OYgtJga4PTFlbPWTogOO7IFvMKg0FabiWklgQeiXpgXrfc/v63L0kh6IaCYI?=
- =?us-ascii?Q?siYD1XAtHCWpRLsuVhR9znv/oOGa3qqNGEgguobHtknSZHT2N217PmMdAlVe?=
- =?us-ascii?Q?xH6bhAGuqdCyN83mnTyJUskZsA8RiIaNaxWw2n08NK33iMRTAssZC+37viQs?=
- =?us-ascii?Q?AFyNpVwUyxzQwv9s42LSt+a2awPTDBcSLRQQ9+Epac65euUK8GHq/wWN2XKJ?=
- =?us-ascii?Q?7aQfj4zxXLxpkanVBMReJTvV5OWEvej4fLpjJzQGNpaSYiTW6K10Lekm/da7?=
- =?us-ascii?Q?TYytWUhhRzb8Z/XUB+kLvvFabdo3ZyXBjHQ4DDQSdtDOyttCv966RwNEiKg8?=
- =?us-ascii?Q?dM/wLCytQa8wWezu25HamcN6tZiz4wdHat7bbqvBfHvUTx70Hbs91WAOAUWg?=
- =?us-ascii?Q?VlT7UqkfRuKHKW/U78dYR5GX/V+IGFlV2ezca0tHAA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?04ngcQbEMObBKYfUyLa8tX+djc063vjs4bxfmHIiX9Q621dVgTbLphc8nQxv?=
- =?us-ascii?Q?qzN5oiXDT/5Hlw/c5m6fPU9bIVDYGd9THejbnhRKVNSoqhAb9rGvpZ6HK2/l?=
- =?us-ascii?Q?JveHkhtIKS7XLiFtu1whrF9lDaye6c//RM9X/fI3VXuax4U1Q2AZWIWWpAdY?=
- =?us-ascii?Q?WcEjl9B2LyCZEa12vcp+D9yNeiceAxpOcuwkCyk5FG/62u2t4WTAXVdRfsUj?=
- =?us-ascii?Q?2paji49+0kuu3S0r+UgGTgAIPhQeAPM9OvGs0Pyeq5rJOLgnrN0ImSwbqMyA?=
- =?us-ascii?Q?q0kdAg1D24jbe7eaIEqwv6pn5maO4eKSK225OQKq9IG9VqBGyO7R1oK3CrzQ?=
- =?us-ascii?Q?er3E+wiUGCBS2Em36gL77gsqVPRly1/x8YlForHI9iEvgwLseWb62xOaHEQu?=
- =?us-ascii?Q?l9jRY3jFQgkypkHHUz4cenpUIJY6uUv/OTXgmgH6OHeUOzzQqGOexXL5qlXT?=
- =?us-ascii?Q?+CbcajmFApRtg7wulLJCJi5Gy6KCQk7iXCrC2qbfeJ55PYzvGvtnZfo3a1rr?=
- =?us-ascii?Q?R54ijLA3B3kh45zHdyAIvvIR0YB0nafB+JvJ1A1ApWmzBPrLPyJSkkJaUNFo?=
- =?us-ascii?Q?udQuP2aTySYZiymTJN/cOJQckrLCHx7Vz2rSCgl5XAeTVvwtYh9MMAtghVAS?=
- =?us-ascii?Q?lb1L7LEbI6+NA63YhaHL7UB2jb8CYvyyYwnR8CxMdn4ThNpPzMdwFUHSJvW9?=
- =?us-ascii?Q?uYVt/BELxUWFmZgZJtGtNZEjQpuXx9iyaOReXZ0M17aQT07M4/jTJ0Tr/fWJ?=
- =?us-ascii?Q?xcPBs3T70Juw3wB9puSCxQs6OR4Af00Pu8EqfojFybj6QHUUE55TgoaybKF2?=
- =?us-ascii?Q?TU9kiEZUqzDuE7sPd5PNk7DcMCOwY4TykvEwqGbuf/HYa4xfrPphB5Vw6Vei?=
- =?us-ascii?Q?J/eSdHvNRE+Exos8ZshC6auYaPEsdM5EQ88vxR4semIeqmSXOXMXgItS+Amp?=
- =?us-ascii?Q?fqbYQeo0XPyi1x8dzJeir81qPTFtqSBaoRq/arMC0TFQcJWxVH26wywtWATd?=
- =?us-ascii?Q?T0v6BDrOC9ph9ubMUI0vPW+51UnXYxq9JSSU6Ex7xbNMe+98FpL94MdW/hny?=
- =?us-ascii?Q?l/8uGab4tl46g8whz0lYSlquhjZebNfU8pA4eP4RXuMNgTa+by2lxkYlDneu?=
- =?us-ascii?Q?TaV/yAO3G/bhUW78YoN29dR2TLuv9V2rxw6NuCDvsQmIRkRXUtYoP0yXWh73?=
- =?us-ascii?Q?gXR/1XVnRBK0/ZCkzNum3fPKoAYsX29mlzRUI0v45iz7dLPfUT+udQz60AHr?=
- =?us-ascii?Q?gOZpJKEgablmJSxl/XjFkdEDQES4pAAjD4frOs0J0JRIgaHBfKcSZU2ebvfL?=
- =?us-ascii?Q?2bYTjaRfq7TQz5NuM5TkuFuBz1cU2N7TK7gvK08ohpRiikBfyi59uNHIikym?=
- =?us-ascii?Q?Q7/WeDKNzcoRt3FDQiUpJ8TE8NpCxhjsjq2BDclYBP3KjaNuClfU+D9q7XTw?=
- =?us-ascii?Q?RAThpeHuiRNcMuIAx6tDR2uUZvmIaX4cnXpeMer+aSX6fXPEUP2PiGWPvccT?=
- =?us-ascii?Q?U9g9fX89/JxgLW+bchLlhVzXqRoVTlDL4/1ZRjZJQZQxYQlk3OktAOvneIgx?=
- =?us-ascii?Q?5esFXKG01QoRLPDdAEEZVN7kqXcNYVVRnNLw7OThydqVbuhltESPI/hTEfrB?=
- =?us-ascii?Q?uA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fc4b2ed-105b-474e-160c-08dc6414471d
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 04:09:03.6935 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C3/bS4csRstVRnh85WcTjz8sTHyUasDIRPy06BW/i+sJrz/+cfC1zJaw5HDBA3xD9JFWAfdZ7HwmhmpUWtqEwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6958
-X-OriginatorOrg: intel.com
+Subject: Re: [PATCH v2] software node: Implement device_get_match_data fwnode
+ callback
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+References: <20240422164658.217037-1-sui.jingfeng@linux.dev>
+ <Zie3ebHOEpWHj1qV@smile.fi.intel.com>
+ <d5bc1e73-a553-451e-ab74-f5f0ca259c6b@linux.dev>
+ <hcltp2bbxxg2t7ibmzgiib7mgbwgmvzwnnq6mochdh7c4h76r3@bxj6yk5zq64e>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <hcltp2bbxxg2t7ibmzgiib7mgbwgmvzwnnq6mochdh7c4h76r3@bxj6yk5zq64e>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,132 +66,320 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 23, 2024 at 04:56:48PM -0700, Lucas De Marchi wrote:
-> From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-> 
-> Add a helper to accumulate per-client runtime of all its
-> exec queues. Currently that is done in 2 places:
-> 
-> 	1. when the exec_queue is destroyed
-> 	2. when the sched job is completed
-> 
-> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->  drivers/gpu/drm/xe/xe_device_types.h |  9 +++++++
->  drivers/gpu/drm/xe/xe_exec_queue.c   | 37 ++++++++++++++++++++++++++++
->  drivers/gpu/drm/xe/xe_exec_queue.h   |  1 +
->  drivers/gpu/drm/xe/xe_sched_job.c    |  2 ++
->  4 files changed, 49 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-> index 2e62450d86e1..33d3bf93a2f1 100644
-> --- a/drivers/gpu/drm/xe/xe_device_types.h
-> +++ b/drivers/gpu/drm/xe/xe_device_types.h
-> @@ -547,6 +547,15 @@ struct xe_file {
->  		struct mutex lock;
->  	} exec_queue;
->  
-> +	/**
-> +	 * @runtime: hw engine class runtime in ticks for this drm client
-> +	 *
-> +	 * Only stats from xe_exec_queue->lrc[0] are accumulated. For multi-lrc
-> +	 * case, since all jobs run in parallel on the engines, only the stats
-> +	 * from lrc[0] are sufficient.
-> +	 */
-> +	u64 runtime[XE_ENGINE_CLASS_MAX];
-> +
->  	/** @client: drm client */
->  	struct xe_drm_client *client;
->  };
-> diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
-> index 395de93579fa..b7b6256cb96a 100644
-> --- a/drivers/gpu/drm/xe/xe_exec_queue.c
-> +++ b/drivers/gpu/drm/xe/xe_exec_queue.c
-> @@ -214,6 +214,8 @@ void xe_exec_queue_fini(struct xe_exec_queue *q)
->  {
->  	int i;
->  
-> +	xe_exec_queue_update_runtime(q);
-> +
->  	for (i = 0; i < q->width; ++i)
->  		xe_lrc_finish(q->lrc + i);
->  	if (!(q->flags & EXEC_QUEUE_FLAG_PERMANENT) && (q->flags & EXEC_QUEUE_FLAG_VM || !q->vm))
-> @@ -769,6 +771,41 @@ bool xe_exec_queue_is_idle(struct xe_exec_queue *q)
->  		q->lrc[0].fence_ctx.next_seqno - 1;
->  }
->  
-> +/**
-> + * xe_exec_queue_update_runtime() - Update runtime for this exec queue from hw
-> + * @q: The exec queue
-> + *
-> + * Update the timestamp saved by HW for this exec queue and save runtime
-> + * calculated by using the delta from last update. On multi-lrc case, only the
-> + * first is considered.
-> + */
-> +void xe_exec_queue_update_runtime(struct xe_exec_queue *q)
-> +{
-> +	struct xe_file *xef;
-> +	struct xe_lrc *lrc;
-> +	u32 old_ts, new_ts;
-> +
-> +	/*
-> +	 * Jobs that are run during driver load may use an exec_queue, but are
-> +	 * not associated with a user xe file, so avoid accumulating busyness
-> +	 * for kernel specific work.
-> +	 */
-> +	if (!q->vm || !q->vm->xef)
-> +		return;
-> +
-> +	xef = q->vm->xef;
-> +	lrc = &q->lrc[0];
-> +
-> +	new_ts = xe_lrc_update_timestamp(lrc, &old_ts);
-> +
-> +	/*
-> +	 * Special case the very first timestamp: we don't want the
-> +	 * initial delta to be a huge value
-> +	 */
-> +	if (old_ts)
-> +		xef->runtime[q->class] += new_ts - old_ts;
-> +}
-> +
->  void xe_exec_queue_kill(struct xe_exec_queue *q)
->  {
->  	struct xe_exec_queue *eq = q, *next;
-> diff --git a/drivers/gpu/drm/xe/xe_exec_queue.h b/drivers/gpu/drm/xe/xe_exec_queue.h
-> index 02ce8d204622..45b72daa2db3 100644
-> --- a/drivers/gpu/drm/xe/xe_exec_queue.h
-> +++ b/drivers/gpu/drm/xe/xe_exec_queue.h
-> @@ -66,5 +66,6 @@ struct dma_fence *xe_exec_queue_last_fence_get(struct xe_exec_queue *e,
->  					       struct xe_vm *vm);
->  void xe_exec_queue_last_fence_set(struct xe_exec_queue *e, struct xe_vm *vm,
->  				  struct dma_fence *fence);
-> +void xe_exec_queue_update_runtime(struct xe_exec_queue *q);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
-> index cd8a2fba5438..6a081a4fa190 100644
-> --- a/drivers/gpu/drm/xe/xe_sched_job.c
-> +++ b/drivers/gpu/drm/xe/xe_sched_job.c
-> @@ -242,6 +242,8 @@ bool xe_sched_job_completed(struct xe_sched_job *job)
->  {
+Hi,
 
-This seems like the wrong place. xe_sched_job_completed is a helper
-which determines *if* a job completed it *not* when it is completed. The
-DRM scheduler free_job callback is probably the right place
-(guc_exec_queue_free_job or execlist_job_free). So just call
-xe_exec_queue_update_runtime there?
 
-Matt
+On 2024/4/24 05:37, Dmitry Baryshkov wrote:
+> On Wed, Apr 24, 2024 at 12:49:18AM +0800, Sui Jingfeng wrote:
+>> Hi,
+>>
+>> Thanks a for you reviewing my patch.
+>>
+>>
+>> On 2024/4/23 21:28, Andy Shevchenko wrote:
+>>> On Tue, Apr 23, 2024 at 12:46:58AM +0800, Sui Jingfeng wrote:
+>>>> Because the software node backend of the fwnode API framework lacks an
+>>>> implementation for the .device_get_match_data function callback. This
+>>>> makes it difficult to use(and/or test) a few drivers that originates
+>>> Missing space before opening parenthesis.
+>> OK, will be fixed at the next version.
+>>
+>>
+>>>> from DT world on the non-DT platform.
+>>>>
+>>>> Implement the .device_get_match_data fwnode callback, device drivers or
+>>>> platform setup codes are expected to provide a string property, named as
+>>>> "compatible", the value of this software node string property is used to
+>>>> match against the compatible entries in the of_device_id table.
+>>> Yep and again, how is this related? If you want to test a driver originating
+>>> from DT, you would probably want to have a DT (overlay) to be provided.
+>> There are a few reasons, please fixed me if I'm wrong.
+>>
+>> DT (overlay) can be possible solution, but DT (overlay) still depend on DT.
+>> For example, one of my x86 computer with Ubuntu 22.04 Linux/x86 6.5.0-28-generic
+>> kernel configuration do not has the DT enabled. This means that the default kernel
+>> configuration is decided by the downstream OS distribution. It is not decided by
+>> usual programmers. This means that out-of-tree device drivers can never utilize
+>> DT or DT overlay, right?
+> No, this is not fully correct. The drivers anyway have to adopted for
+> the platforms they are used with. It is perfectly fine to have a driver
+> that supports both DT and ACPI at the same time.
+>
+>> I means that Linux kernel is intended to be used by both in-tree drivers and out-of-tree drivers.
+>> Out-of-tree device drivers don't have a chance to alter kernel config, they can only managed to
+>> get their source code compiled against the Linux kernel the host in-using.
+>>
+>> Some out-of-tree device drivers using DKMS to get their source code compiled,
+>> with the kernel configuration already *fixed*. So they don't have a opportunity
+>> to use DT overlay.
+>>
+>> Relying on DT overlay is *still* *DT* *dependent*, and I not seeing matured solution
+>> get merged into upstream kernel yet. However, software node has *already* been merged
+>> into Linux kernel. It can be used on both DT systems and non-DT systems. Software node
+>> has the least requirement, it is *handy* for interact with drivers who only need a small
+>> set properties.
+>>
+>> In short, I still think my patch maybe useful for some peoples. DT overlay support on
+>> X86 is not matured yet, need some extra work. For out-of-tree kernel module on
+>> downstream kernel. Select DT and DT overlay on X86 is out-of-control. And I don't want
+>> to restrict the freedom of developers.
+> I don't think upstream developers care about the downstream kernels.
 
->  	struct xe_lrc *lrc = job->q->lrc;
->  
-> +	xe_exec_queue_update_runtime(job->q);
-> +
->  	/*
->  	 * Can safely check just LRC[0] seqno as that is last seqno written when
->  	 * parallel handshake is done.
-> -- 
-> 2.43.0
-> 
+
+Theupstream kernels are facing the same problem,by default drm-misc-x86_defconfigdon't has the CONFIG_OF and CONFIG_OF_OVERLAY  selected.
+See [1] for an example.
+  
+[1] https://cgit.freedesktop.org/drm/drm-tip/tree/drm-misc-x86_defconfig?h=rerere-cache
+
+
+> But let me throw an argument why this patch (or something similar) looks
+> to be necessary.
+
+Agreed till to here.
+
+
+> Both on DT and non-DT systems the kernel allows using the non-OF based
+> matching. For the platform devices there is platform_device_id-based
+> matching.
+
+
+Yeah, still sounds good.
+
+
+> Currently handling the data coming from such device_ids requires using
+> special bits of code,
+
+
+It get started to deviate from here, as you are going to rash onto a narrow way.
+Because you made the wrong assumption, it can be platform devices, it can *also*
+be of platform device created by the of_platform_device_create(). The patch itself
+won't put strong restrictions about its users.
+
+
+> e.g. platform_get_device_id(pdev)->driver_data to
+> get the data from the platform_device_id.
+
+Right, but you run into a narrow area and stuck yourself.
+The so called non-DT, non-ACPI platform devices are all you basis of you argument, right?
+
+There have plenty i2c device and SPI device associated with software note properties.
+After applied this patch, it means that device_get_match_data() can also works for
+those device.
+
+And the approach you provide already generate a lot of *boilerplate*...
+
+> Having such codepaths goes
+> against the goal of unifying DT and non-DT paths via generic property /
+> fwnode code.
+
+
+Who's goal? your goal or community's goal? is it documented somewhere?
+
+Andy's goal is just to make those two drivers truely DT independent,
+and I agree with Andy. I'm going to cooperate with Andy to achieve this
+small goal.
+
+However, apparently, our goal is *different* with your goal, your goal
+is a big goal. If you have such a ambitious goal, you can definitely do
+something on behalf of yourself.
+
+For example, improving DT overlay support for the FPGA device, Or making
+the of_device_id stuff truly platform neutral before telling people that
+"XXXX doesn't depend on DT". I guess task of removing the of_node member
+from the struct device already in you job list, as you want to unify
+the DT and non-DT code paths...
+
+All I want is just be able to contribute, do something useful and do the
+right thing. So please don't throw your personal goal or taste onto the
+body of other people. Thanks.
+
+
+> As such, I support Sui's idea
+
+
+OK so far. But,
+
+
+> of being able to use device_get_match_data
+> for non-DT, non-ACPI platform devices.
+
+Please *stop* the making biased assumptions!
+Please stop the making *biased* assumptions!
+Please stop the making biased *assumptions*!
+
+
+Currently, the various display drivers don't have the acpi_device_id associated.
+This means that those drivers won't probed even in ACPI enabled systems either.
+Adding acpi_device_id to those drivers is another topic. If you have that ambitious,
+you can take the job. But this again is another problem.
+
+Back to the concern itself, I didn't mention what device or what drivers will
+be benefits in my commit message. In fact, after applied this patch,
+device_get_match_data() will works for the i2c device and SPI device associated
+with software note. Hence, "non-DT, non-ACPI platform devices" are just an imaginary
+of yourself. So please stop bring you own confusion to us.
+
+> Sui, if that fits your purpose,
+
+
+That doesn't fits my purpose, please stop the recommendation, thanks.
+
+
+> please make sure that with your patch
+> (or the next iteration of it) you can get driver_data from the matched
+> platform_device_id.
+
+
+No, that's a another problem.
+
+The 'platform_get_device_id(pdev)->driver_data' you mentioned is completely
+off the domain of fwnode API framework. You are completely deviate what we
+are currently talking about.
+
+What we are talking about is something within the fwnode API framework.
+
+You can hack the device_get_match_data() function to call platform_get_device_id()
+as a fallback code path when the fwnode subsystem couldn't return a match data to
+you. But this is another problem.
+
+
+>>
+>>>> This also helps to keep the three backends of the fwnode API aligned as
+>>>> much as possible, which is a fundamential step to make device driver
+>>>> OF-independent truely possible.
+>>>>
+>>>> Fixes: ffb42e64561e ("drm/tiny/repaper: Make driver OF-independent")
+>>>> Fixes: 5703d6ae9573 ("drm/tiny/st7735r: Make driver OF-independent")
+>>> How is it a fix?
+>>
+>> Because the drm/tiny/repaper driver and drm/tiny/st7735r driver requires extra
+>> device properties. We can not make them OF-independent simply by switching to
+>> device_get_match_data(). As the device_get_match_data() is a *no-op* on non-DT
+>> environment.
+> This doesn't constitute a fix.
+
+
+No, it does.
+
+> It's not that there is a bug that you are
+> fixing. You are adding new feature ('support for non-DT platforms').
+
+
+Yes, it's a bit of farfetched.
+
+But as our goal is to make driver OF-independent, as mentioned in the commit title.
+when the needed feature is missing, the goal can not be achieved. Fix the missing.
+
+
+>> Hence, before my patch is applied, the two "Make driver OF-independent" patch
+>> have no effect. Using device_get_match_data() itself is exactly *same* with
+>> using of_device_get_match_data() as long as the .device_get_match_data hook is
+>> not implemented.
+>>
+>>
+>> See my analysis below:
+>>
+>> When the .device_get_match_data hook is not implemented:
+>>
+>> 1) On DT systems, device_get_match_data() just redirect to of_fwnode_device_get_match_data(),
+>>     which is just a wrapper of of_device_get_match_data().
+>>
+>> 2) On Non-DT system, device_get_match_data() has *ZERO* effect, it just return NULL.
+>>
+>>
+>> Therefore, device_get_match_data() adds *ZERO* benefits to the mentioned drivers if
+>> the .device_get_match_data is not implemented.
+>>
+>> Only when the .device_get_match_data hook get implemented, device_get_match_data()
+>> can redirect tosoftware_node_get_match_data() function in this patch.
+>> Therefore, the two driver has a way to get a proper driver match data on
+>> non-DT environment. Beside, the users of those two driver can provide
+>> additional software node property at platform setup code. as long as at
+>> somewhere before the driver is probed.
+>>
+>> So the two driver really became OF-independent after applied my patch.
+>>
+>>
+>>>> Closes: https://lore.kernel.org/lkml/20230223203713.hcse3mkbq3m6sogb@skbuf/
+>>> Yes, and then Reported-by, which is missing here.
+>>>
+>>>> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>>>> Cc: Daniel Scally <djrscally@gmail.com>
+>>>> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>>>> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>>> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+>>> Please, move these after the cutter '---' line (note you may have that line in
+>>> your local repo).
+>>>
+>>> ...
+>>>
+>> OK, thanks a lot for teaching me.
+>>
+>>
+>>>> +static const void *
+>>>> +software_node_get_match_data(const struct fwnode_handle *fwnode,
+>>>> +			     const struct device *dev)
+>>>> +{
+>>>> +	struct swnode *swnode = to_swnode(fwnode);
+>>>> +	const struct of_device_id *matches = dev->driver->of_match_table;
+>>>> +	const char *val = NULL;
+>>>> +	int ret;
+>>>> +	ret = property_entry_read_string_array(swnode->node->properties,
+>>>> +					       "compatible", &val, 1);
+>>> And if there are more than one compatible provided?
+>> Nope, I think this is kind of limitation of the software node,
+>> platform setup code generally could provide a compatible property.
+>> No duplicate name is allowed. But we the best explanation would be
+>> platform setup code should provide the "best" or "default" compatible
+>> property.
+> The implementation is still incorrect.
+
+
+No, it is correct.
+
+
+> The swnode code shouldn't look
+> into the OF data. Please use non-DT match IDs.
+
+Please stop the misleading,  the software_node_get_match_data() is a mimic to (subset of)
+acpi_fwnode_device_get_match_data(), Software node is kind of complement to ACPI, it's
+definitely need to follow the code style of ACPI counterpart. The initial implementation
+choose to take a look at the dev->driver->of_match_table, which is to avoid ugly duplication.
+This introducing no *boilerplate*, and partly reflect what you goal: "Unifying".
+   
+So, please don't go against with yourself and Please read the implement
+of acpi_fwnode_device_get_match_data() before objects, thanks.
+
+
+>>
+>>>> +	if (ret < 0 || !val)
+>>>> +		return NULL;
+>>>> +	while (matches && matches->compatible[0]) {
+>>> First part of the conditional is invariant to the loop. Can be simply
+>>
+>> Right, thanks.
+>>
+>>
+>>> 	matches = dev->driver->of_match_table;
+>>> 	if (!matches)
+>>> 		return NULL;
+>>>
+>>> 	while (...)
+>>>
+>>>> +		if (!strcmp(matches->compatible, val))
+>>>> +			return matches->data;
+>>>> +
+>>>> +		matches++;
+>>>> +	}
+>>>> +
+>>>> +	return NULL;
+>>>> +}
+>> -- 
+>> Best regards,
+>> Sui
+>>
+-- 
+Best regards,
+Sui
+
