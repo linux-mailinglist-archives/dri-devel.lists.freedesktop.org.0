@@ -2,57 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87088B085C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 13:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B9D8B0875
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 13:41:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C29C510E686;
-	Wed, 24 Apr 2024 11:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA7FF113A89;
+	Wed, 24 Apr 2024 11:41:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fhf/egHj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="c2Zzlnym";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC3D410E686;
- Wed, 24 Apr 2024 11:32:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1713958360; x=1745494360;
- h=from:to:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=47sVeHBSAv/s07SCe4eUhwmnNLeZch1MfXkLsHn7rSs=;
- b=Fhf/egHjA2T7hZ4CFBW044y3w9yOQPeNawcyNxH1Wthq9hu0xvgyslj6
- qxiFKH18heLJkvvf+RdvAb0BxaRg4xtbVfGgONqrO4RTqd+C4OOV1LC7i
- g618Qrb+jip1zexYVMQpL3/ghC9rucFYaQiePXQ/CpWz/WHOAHg2Ilrsv
- B0ulpjxAE/o1JJBiPN2f4VcuTCdTKZJzVZwUCMlYAypv4BmVejIYNE4jb
- AB5X791lq83D5kreAsT/H7ZWMiDSYgvZjltwllN2JeNEpiFvJEBGJZMC2
- blyZucArhdLcTeWAeOG+D4CTgVl0Rm0fvdxD8pgfaIBOryfp6duucqhnf Q==;
-X-CSE-ConnectionGUID: ghM6+0/YT7qnq0oHKHxWiQ==
-X-CSE-MsgGUID: h2ezWJNbSAChvKV6AJLByA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="34985150"
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="34985150"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2024 04:32:38 -0700
-X-CSE-ConnectionGUID: eble5yl0QxquyC/4nSazdw==
-X-CSE-MsgGUID: wo1/MO8wRCK+H7QOqvv8lw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; d="scan'208";a="55639692"
-Received: from unknown (HELO rknop-desk.ger.corp.intel.com) ([10.217.160.54])
- by orviesa002-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 04:32:37 -0700
-From: Ryszard Knop <ryszard.knop@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH] nightly.conf: Update drm-intel URLs,
- add missing bare ssh drm-xe URL
-Date: Wed, 24 Apr 2024 13:32:19 +0200
-Message-ID: <20240424113218.37162-2-ryszard.knop@intel.com>
-X-Mailer: git-send-email 2.44.0
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21482113A8A
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 11:41:54 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-41af6701806so5930285e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 04:41:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1713958912; x=1714563712; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ELudIBLkjdgxS0elp1PUtkat+hOoPGI1SePmaBawDG4=;
+ b=c2Zzlnymiz7GhpXUoMvkq1sThO7kz/P/ch5dcMn4uV9nf5CNK8igLpbz8xVns+zhFr
+ CfNBEEUITypPt2iycGcJMQGQTF9rV7Tpra8HZbYwrjiy9EpuTuWhJHe2ErO83vRbetrh
+ ErKmxRsZhJauukcoThs3P3EZZ9c4pFXlbAgqsrWQrpyG8MzV2Eo94MOOcxW3JNWcxkC7
+ 6KEpIKkmHn1CtwuiCL4TqCvuB/UURJ2wYtFkTm99OclOwR47Lll58+NZ7HVFsq1QFIAI
+ 3W0Ir7prmVjh0u06dcpGQrLo0NrsdSlcZT1+qd8Qc4f7Rpus5k0ahY4VmsJDxZgaqCJL
+ RrTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1713958912; x=1714563712;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ELudIBLkjdgxS0elp1PUtkat+hOoPGI1SePmaBawDG4=;
+ b=HSO3LUTovzVWf3YuW0qelKdW//C1xQa7OxzlMwslxcT0bMbQJwKGWE3JUlpRogh0cz
+ MNrYESlACPimhb9KUejJ+fcBD3sENKvATQGTvp2zy8Cd1CrCV2C3EZ8X6I+paXihzCpn
+ A2Jr1baqNtmg5UTpItsQFlNuoXYfCoDBIKVVyz1ioG3HB3oMReeiJCHmq/wRJ0NGBgVB
+ 0Q2svUjeNWh01Wif5gyZzWOg94BhX+5XSS6wCwyovdVJS5JrU/O5qMRtuzqdleCJvDEY
+ kSF4loatqR1AF30eUD9Q0ZkEz/fx/rOGMJzG8uRD1oe/Mtro78O4+QzVKgsaPZC/z7jm
+ r1Vw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWXpnETUkEDE+N8tdKjyTOcoaEu0irbqZUcTu43EqFcHWtJ5BtqX9Pnu4c6f7au+D5OH5CEnIr/fugIlURhExHRVaaz5UktUF7NI1Am6Uh7
+X-Gm-Message-State: AOJu0Ywoyrv9mSwv6tWYtV1hrjfL3ZKCFuDUrb5bLf8ORxkDfDGckYxI
+ 5P8sk88BstQLphFq6Ftfmb8UVKqVBQRrNkJAVclTGAmRi9+br8wxhPE89gVTINc=
+X-Google-Smtp-Source: AGHT+IFC3Xn9CFwEPi+nZrUxwB85rOXzdnYEMUpkC1nwbPG2hnf4U7btQl9yxJcgwUfAxP5VTsmFNw==
+X-Received: by 2002:a05:600c:450a:b0:41a:e5f5:9a4a with SMTP id
+ t10-20020a05600c450a00b0041ae5f59a4amr1690065wmo.9.1713958912043; 
+ Wed, 24 Apr 2024 04:41:52 -0700 (PDT)
+Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
+ h3-20020a05600c314300b0041abdaf8c6asm5404240wmo.13.2024.04.24.04.41.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Apr 2024 04:41:51 -0700 (PDT)
+Date: Wed, 24 Apr 2024 14:41:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Harry Wentland <harry.wentland@amd.com>,
+ Charlene Liu <charlene.liu@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Alvin Lee <alvin.lee2@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Jun Lei <jun.lei@amd.com>, Tom Chung <chiahsuan.chung@amd.com>,
+ Dillon Varone <dillon.varone@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] drm/amd/display: re-indent dc_power_down_on_boot()
+Message-ID: <e5f538ab-ebc8-400b-8104-4642b8089b4f@moroto.mountain>
 MIME-Version: 1.0
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,44 +88,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Switch drm-intel URLs to the new GitLab location.
-- Add a short SSH link for drm-xe for completeness with other blocks.
-- Add a missing tab in drm_tip_config for column alignment.
+These lines are indented too far.  Clean the whitespace.
 
-Signed-off-by: Ryszard Knop <ryszard.knop@intel.com>
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- nightly.conf | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/nightly.conf b/nightly.conf
-index 7ef4249f0c67..2971277b0e25 100644
---- a/nightly.conf
-+++ b/nightly.conf
-@@ -30,10 +30,16 @@ https://anongit.freedesktop.org/git/drm/drm-tip
- https://anongit.freedesktop.org/git/drm/drm-tip.git
- "
- drm_tip_repos[drm-xe]="
-+git@gitlab.freedesktop.org:drm/xe/kernel.git
- https://gitlab.freedesktop.org/drm/xe/kernel.git
- ssh://git@gitlab.freedesktop.org/drm/xe/kernel.git
- "
- drm_tip_repos[drm-intel]="
-+git@gitlab.freedesktop.org:drm/i915/kernel.git
-+https://gitlab.freedesktop.org/drm/i915/kernel.git
-+ssh://git@gitlab.freedesktop.org/drm/i915/kernel.git
-+"
-+drm_old_urls[drm-intel]="
- ssh://git.freedesktop.org/git/drm/drm-intel
- ssh://git.freedesktop.org/git/drm-intel
- git://anongit.freedesktop.org/drm/drm-intel
-@@ -97,6 +103,6 @@ drm_tip_config=(
- 	"drm-xe			drm-xe-next"
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 8eefba757da4..f64d7229eb6c 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -5043,11 +5043,10 @@ void dc_interrupt_ack(struct dc *dc, enum dc_irq_source src)
+ void dc_power_down_on_boot(struct dc *dc)
+ {
+ 	if (dc->ctx->dce_environment != DCE_ENV_VIRTUAL_HW &&
+-			dc->hwss.power_down_on_boot) {
+-
+-			if (dc->caps.ips_support)
+-				dc_exit_ips_for_hw_access(dc);
++	    dc->hwss.power_down_on_boot) {
  
- 	"drm-intel		topic/core-for-CI"
--	"drm-xe		topic/xe-for-CI"
-+	"drm-xe			topic/xe-for-CI"
- 	"drm-intel		topic/thunderbolt-next"
- ) # DO NOT CHANGE THIS LINE
++		if (dc->caps.ips_support)
++			dc_exit_ips_for_hw_access(dc);
+ 		dc->hwss.power_down_on_boot(dc);
+ 	}
+ }
 -- 
-2.44.0
+2.43.0
 
