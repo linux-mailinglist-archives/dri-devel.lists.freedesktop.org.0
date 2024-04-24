@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9CF8B10A4
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 19:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DAE48B1086
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 19:01:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECB91113CA7;
-	Wed, 24 Apr 2024 17:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8BA3113C8F;
+	Wed, 24 Apr 2024 17:01:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="i3Zm2/hV";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="P4SOMRlk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54D0C113CAD;
- Wed, 24 Apr 2024 17:06:07 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1AF0113CA1;
+ Wed, 24 Apr 2024 17:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1713978365; x=1714583165; i=friedrich.vock@gmx.de;
- bh=H7VMHB2XIt5Ji+iMj0qWT7cVsj6+B4AwJL4OaG572YU=;
+ s=s31663417; t=1713978044; x=1714582844; i=friedrich.vock@gmx.de;
+ bh=gXJ9sHp9nKx/vHVFcYvw3sYKm1yHpVtdqTJUe8vT2Ww=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding:cc:
  content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=i3Zm2/hV6LZBaEUm9NEqvFvwRhsh1a9Rc5pCtKV7wIQYUOrDaVnouckFonm+4m3y
- dtgAs72oSNMaEHlNA1ktA/Q0J6Gj7leGCKcxqSegh5sri3V2+1a1z6ZOn7b8hNwW2
- ibHUriclGKzVDh/KqPArrfLB6TnldT+z5TLxQRgd+JdZaWONcutzBLoeHz6McyEy2
- 0mb61tbCpJwDCgFGnb8Q/CfntsdQ+Jtpjv14T4i6vxP5BU2G5FJIqSZPMtIh+zuFw
- ZQMJEQ21HBQ2wlKsFkRQJkCNU2PVIng5NjcCJVOr++S6DXXHR9FxPvP7bvCFGVVdA
- zy83ymX6+FDoen8X9g==
+ b=P4SOMRlk9dT/GPQ3j0ootm+K7YWMB3VCbUg50h/53y0Zg0lBNhC3zRA9+OKH/ZAc
+ UdETeWb90b2wt14Srkatw9QbdWJVXZBr3QvBZ1W8h75KhFAOYlpRLisNdcHeXHnZp
+ SUi4/qBRQd/T3zvUYKeJh/mQP2whjOequOoOo4hI98G5J7yWn+vUnDu4+LJJGrf0j
+ 6m23P62JuAK+gjHKI1MINKrflYEkguTq7/tTVTHaKgRuuTW65jtd7yMUgcSifn21Z
+ LrQ9jORj27IP0dhQ95wudDcIIhutcAqKC0d6jLdaeBUb/hQBezCK24oamc5g/N6n7
+ uwnziOt9UgP1yCVkqw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from arch.fritz.box ([213.152.117.111]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MrhQ6-1sVfCx46iK-00nLKX; Wed, 24
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M5QJD-1s0VSr20XN-000kui; Wed, 24
  Apr 2024 19:00:44 +0200
 From: Friedrich Vock <friedrich.vock@gmx.de>
 To: dri-devel@lists.freedesktop.org,
@@ -41,32 +41,32 @@ Cc: Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
  Joshua Ashton <joshua@froggi.es>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>
-Subject: [RFC PATCH 17/18] drm/amdgpu: Implement EVICTED_VRAM query
-Date: Wed, 24 Apr 2024 18:57:07 +0200
-Message-ID: <20240424165937.54759-18-friedrich.vock@gmx.de>
+Subject: [RFC PATCH 18/18] drm/amdgpu: Bump minor version
+Date: Wed, 24 Apr 2024 18:57:08 +0200
+Message-ID: <20240424165937.54759-19-friedrich.vock@gmx.de>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240424165937.54759-1-friedrich.vock@gmx.de>
 References: <20240424165937.54759-1-friedrich.vock@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5Vv+AbzY2a6d8vtzoZ+0TUGOmyjxTopNk7iJ4VOIoTC6AReH5ye
- 4UrraQ0dfRdRaFpy4+95K76+fMzW5SurymFZrKBscBMvydio7jq48JxCXVyqE0UTsmav65h
- oZ4XzahI3J5jwgpLkbZZC4oXQDYkyb7Kgy/fi3/bgGhaOLtHsLMF22a2YByzwJfsm1TCLBU
- e1ZSrSmUHkMSyftiJwuOA==
+X-Provags-ID: V03:K1:ONz5GuGooOxL9QByDhgduUp5y7f/hAvGjazdujSbC1JsDNogNtP
+ RztkeEh6BaPdO19GyWrili4w46GmIoJSWovGuQGAq2rvj7xcwUPTPlgK8PopGK9hASnyF0X
+ JvBad/kYc77LmIfVM6QDpB2z5qD7DOa0UJC6sMrpYVmz1cVjTeNNO27A4TjKD/aQZ5jE2Gu
+ TUBCwpc1rE1b0VbEbTgJA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:nNtNWCuqJpI=;kQWZfBQx4mRjGJegqOGyZkGhh6B
- n+ci23YNLHk77N82aduDzRARQmJG+8xkbHXPb22ALkKetFDmYcEjOf+MpDrzlwu6dw38E7xwH
- VZOY5MkZloP+8yyDb9y2gV2TORnbT9gWKaLycgGn6efPtB+sP58XlXeZpncHRsPbIuo375yW/
- D380TpWar3z0iHv7+PwzjifuaI4AZz2dKDmnAtIPVybVpBDtcPOiCn4rW18qh8sgLzGGn+z9b
- G6EG2u3WjyxiMCBqhs6Foa1+6GGJjiGx54rg9S2KwWC6C/fuUr4HoTnu8Q4VKAVsaRFOxCSjx
- HB7Npi/eJD9F24UHQ4uK0hNqLTQsiSCdhU6zlWz/ZsOaXdyJcoS6aKMZRz8YAix6Ze2zb//5X
- zg7/C3t+fSd8aDxtf2Q8Z7CAinY7tgH/dwniM/bjQ0s64iqdlx24OB73QSOcW8C3Xj5fE4JMm
- izMKyX5/IiIv6Z7iHHYnvQalNgnXdCIaAEKfMryBCR3UdEURWCHAGihKlYsEtAKFO8znq4EUX
- gNbHmiOjYzH95BUq1AMnjRjlLam/eyOQ8o7VrQlr/1z7sc3FgFJdT9e/9MReUHosdWvXQGu0+
- c0eibzQfAxD0WMthyFqQyQPu5jWzbDrHuEM3yuan/QndVWg1KXBBoplhDwF+XmbId0U9OX9YU
- zRjbz/53RQe6JADSHO6EY8Q0tAMufs2wwgEdzUwgj3+qpzIdzF1qfi+oZ/s4j6j0oz3L7g75o
- KF3F98JeUiRVvuBOmTA6h+alEcjFm+Tijslv59pNp2zIn4XWwZNPgp7ZUDVgPf5OhtP/A5F2w
- QwaB74PzESh1bv7GDrvTAI6poNN9DcTDMj5vyrtiJ7j2Y=
+UI-OutboundReport: notjunk:1;M01:P0:0nG14xjtdaY=;EFMeFFXXHfet4uOZ1JL75koZKDM
+ sC3lZTv7OgRtgIngM/547kgzH4U/8ln2AYhYz0Cwfwqr1IROMpArWAnfATnJ2Fl6eqnbaEf/Z
+ Z8UonDE2wtN68deoal7ZtLNAyMk7UkKSb2tpX/2posDDOnI8kT5rnunK5yymIhyaymwGy3mpH
+ t7N3v2IYPvnD/OjcCjFd9yz9LhCud1ik37DARagHm77mFlgllEM1K+Kkmr5EHdHDfx+CO/Q1v
+ zvOgAE6xDZi5b7ysDPcHz/vUiZML8/mn0p9xI4m243wXwbyF9xC0+a2xKCOqcKdDLdXKvSada
+ Yi+fTst0YU9kkbb+Zu0RrcngKO9wX448f6qlTZDE5uH5IUDx8pOxLPwpEeAc6kkMgLn5GYvpR
+ 8cbdSjE8cmUFq6jO2HXsATRIPmN64IFlTVlS49OqpLhWH7Hmz5TrmGLJFYZZdvww4FirP3xAg
+ q7FEL2ow8XdvOt6B0p/AhzFEKf7TiFo1b8/JJmJb0XHjAjKFiKJv+lJU0GH8Zyofb1aH7J7ZH
+ tdZ68KwiFrS0jtjC/MZg+1h0n0IhAYuqbtzv/5G+pxJQ6MhqWvbwEGJHBhL27cDvOEMTcP76K
+ Qd7rZzyPivSvPhq54sKuZvtPU/HhctfTV+2Fq9opFjZ9ysdN5hxrg8hG3zdp0Nm4l+k9iUHmB
+ u0qw5smlBbp6bABHLmg+rCjsieAE4b8xScp35vX6yhlp3po4Sb0j7vhvt/znFfej/DAIWtgD9
+ y7INGT2pg/nBT2bJtNKsXiVT6Ylzvt9ylpxDJ/QsLYM7d54lPv+fbJHoorCbLxvJpxP8GEgGI
+ lLZZ04uT8smHdJj6uxGgpLwR8+G1+WBP3mmQCEV2a1nXc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,48 +82,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Used by userspace to gauge the severity of memory overcommit and make
-prioritization decisions based on it.
-
-Used by userspace to gauge the severity of memory overcommit and make
-prioritization decisions based on it.
+Indicates support for EVICTED_VRAM queries and
+AMDGPU_GEM_OP_SET_PRIORITY
 
 Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
 =2D--
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 3 +++
- include/uapi/drm/amdgpu_drm.h           | 2 ++
- 2 files changed, 5 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_kms.c
-index 924baf58e3226..8cba30144bac6 100644
-=2D-- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -1246,6 +1246,9 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *=
-data, struct drm_file *filp)
- 		return copy_to_user(out, &gpuvm_fault,
- 				    min((size_t)size, sizeof(gpuvm_fault))) ? -EFAULT : 0;
- 	}
-+	case AMDGPU_INFO_EVICTED_VRAM:
-+		ui64 =3D ttm_resource_manager_evicted_bytes(&adev->mman.vram_mgr.manage=
-r);
-+		return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
- 	default:
- 		DRM_DEBUG_KMS("Invalid request %d\n", info->query);
- 		return -EINVAL;
-diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_drm.h
-index 53552dd489b9b..5d04719386686 100644
-=2D-- a/include/uapi/drm/amdgpu_drm.h
-+++ b/include/uapi/drm/amdgpu_drm.h
-@@ -920,6 +920,8 @@ struct drm_amdgpu_cs_chunk_cp_gfx_shadow {
- #define AMDGPU_INFO_MAX_IBS			0x22
- /* query last page fault info */
- #define AMDGPU_INFO_GPUVM_FAULT			0x23
-+/* query size of evicted vram allocations */
-+#define AMDGPU_INFO_EVICTED_VRAM                0x24
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd=
+/amdgpu/amdgpu_drv.c
+index ea14f1c8f4304..4f8b62dbba17f 100644
+=2D-- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -116,9 +116,10 @@
+  * - 3.55.0 - Add AMDGPU_INFO_GPUVM_FAULT query
+  * - 3.56.0 - Update IB start address and size alignment for decode and e=
+ncode
+  * - 3.57.0 - Compute tunneling on GFX10+
++ * - 3.58.0 - Per-BO priorities and evicted memory size queries
+  */
+ #define KMS_DRIVER_MAJOR	3
+-#define KMS_DRIVER_MINOR	57
++#define KMS_DRIVER_MINOR	58
+ #define KMS_DRIVER_PATCHLEVEL	0
 
- #define AMDGPU_INFO_MMR_SE_INDEX_SHIFT	0
- #define AMDGPU_INFO_MMR_SE_INDEX_MASK	0xff
+ /*
 =2D-
 2.44.0
 
