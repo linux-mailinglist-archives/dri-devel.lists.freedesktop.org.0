@@ -2,89 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02AF38B1663
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 00:45:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDFF8B1673
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 00:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1345A10E539;
-	Wed, 24 Apr 2024 22:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74FA3113E70;
+	Wed, 24 Apr 2024 22:51:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="CE8SHv9X";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FrT3h3X+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5919310E539
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 22:45:14 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4196c62bb4eso2693765e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 15:45:13 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B606113E6F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 22:51:05 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-dbed0710c74so432633276.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 15:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1713998712;
- x=1714603512; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EjxPm44LNMAJWpuJW83TDZMcoceLZ9YtXan5F0Els34=;
- b=CE8SHv9Xj8YzHXDE+uFY8oZnE2ClSCPrVfsNUaZ3Wqn+PZpEhkuWB1CXrwBRd/0Ddr
- rjgCNHw7QxXiWumfRQY8fGBIRLVleLtbXGN2bGB+m1NPZLdl65ko7J+Kuw58c126JnRK
- YSlfDI/dU7x36F9XHuCU24cDsbCMOLGHIZhwJzj4GP1MTzdGitE7i2rLozb3pQxS3pVn
- f9b3hdtmoi9Dyf0EvtIxwIPAxc5815zFcwSvh03Mao1RWHYeSfSu1oWWm1gA1pc4Niuc
- J0YR59jagSNPv0TkIV5//yl+w0hrptGDARcqyJiVVSJrlwT/8lp/NRp1y95RSVf6tmoO
- bXBQ==
+ d=linaro.org; s=google; t=1713999064; x=1714603864; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GLM/Gzp3LttpkW6eOimYma73Nk3MMLdnbj7i6AMnYdM=;
+ b=FrT3h3X+2YluopfwF/DC24UhrBppILH0jIehy8UsGG/v912Mg/1mU5AJsFg8MK2ilo
+ 8qVwJQ0mK8QOP9skeNSVsUIiEiQ8MU8zNB3Jkr8zmCvJimB8Bj8G8iVSjPRDQkr6/5sf
+ SnVUtgg3zSQHR99ZjL+gshSq1UCVE3MIDig+3IPAO2LytgWunvg/YMsAqavS2m+FnRqO
+ 37zli77fZb52+Rg8QjwWotzD/sbMt5tf1DcHDR0XOMVtwc8KqZRqpg6Y1G9V+lL/z2Zd
+ NpomBtSkjBbaQWBNyV5zlihHnAAxkIOEUgkKd+jgfc9FzK8YkD/L1TqQBFgQ1Oil042B
+ SfjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1713998712; x=1714603512;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EjxPm44LNMAJWpuJW83TDZMcoceLZ9YtXan5F0Els34=;
- b=at2sBTc29NJOW8qJ1Apy1ggFxuqSXFjv+IzjjU1dxLQFMQ5MVMUqExBMZJ54rdW9bd
- XT75rVHpQZCbuOIAVtHTjLL6wGCpiyehpAXWr63YYjVCjI3NZS4/dw9yAgPWTpmUP882
- tMV8soiIwt/rlKEAg/e8eoZxyBn9W9eKuDcbJODA3zaOwKg4Cm9YO0NtltCE7TfHRqSo
- Kp1+e4eRwJEWGLcBlL3kRD41ZDxuVuOU4cVHJMNVntKXrpgOLl/sVQN8aR+ynumtaSwH
- ki4ckTmdonOPonOx7VEbau4qRZMRRmDgyWQhcWH6NBKHa4XKgPgxgNbhuh0eDUk3S/0s
- T8Yg==
+ d=1e100.net; s=20230601; t=1713999064; x=1714603864;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GLM/Gzp3LttpkW6eOimYma73Nk3MMLdnbj7i6AMnYdM=;
+ b=F2gFgqEpJETHrmZB9vafAyoE/MtHK32hvHzJAvwqioiGjSCQyOfxYWc/XTsenwdBKU
+ EsmpOF3Ns+gggoHCUomD4yQucM8zjMXFFb0tc594iwLVWLvQKNVuE9W5792i1ldoRk3E
+ O1Y2J0qNCV7Azavx6I7TMKTJ6X6ZzjCPG8IRSvbd1WMgAV4VKGBowZ3US6zM5jXVHecm
+ hVEJAapa+lTxSUUFtkuIQAtPBVLe5CP75GrGg8JpdtMH08h8YLO70a1TDbTWuW6x/DIP
+ 1FEoPHCPgfaq/ricbCCQ9zulIA75U/L3+7NrM/ITAiBfLPi+0Dg+1P68YjTp3dj8yheA
+ 4TYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU+iO0i1uSUUxs4Di4x0gm0HDndfsvMJxXHRYAk1oMEzcmUclVsOiTlWa8DGnRo5TzW4p9gt2/HjEAI6IvIZ+zaIOMGUJkXN1GSLayopW1g
-X-Gm-Message-State: AOJu0YxPF1anJEKGU+Tm6AfU0C5UJ+YSJwkmZmpjEhMOxIRC958nnUhM
- fI/zN3vDGPFQ1vn6Pcfq5wvStrMtuquxVP2x+80Uqv0TuBfd5VVaZW7+SK/0Zzg=
-X-Google-Smtp-Source: AGHT+IHo7LKxsrmDSKMk8aOpeGv8Hi5vQ2ujCjvtcHptgMG2NI8nzCY+2dEzhDD7b6VRLZ5xZvE/2g==
-X-Received: by 2002:a05:600c:a43:b0:41a:7bbe:c3bf with SMTP id
- c3-20020a05600c0a4300b0041a7bbec3bfmr2733342wmq.22.1713998712082; 
- Wed, 24 Apr 2024 15:45:12 -0700 (PDT)
-Received: from [192.168.0.102] ([176.61.106.227])
- by smtp.gmail.com with ESMTPSA id
- k29-20020a05600c1c9d00b00418948a5eb0sm29127833wms.32.2024.04.24.15.45.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Apr 2024 15:45:11 -0700 (PDT)
-Message-ID: <99f51564-df99-4f06-9419-1eaa9501f27d@nexus-software.ie>
-Date: Wed, 24 Apr 2024 23:45:09 +0100
+ AJvYcCUIUxVlBat5l7HYJfBHSPeDXkrizdsCppHUYKOROj9u01XnZHtZbEhacHDm6+RI+CoOrYDEegGow2nsMD+vh1O0wAvrRC1XJyjLFhpggVV/
+X-Gm-Message-State: AOJu0Yyx7fyAVT+bohTjhuHuSFGGymTrlHZcn8czwMma26nUaL4R53c5
+ VkTt4Wqe5PV2vpUwydL4XYFpUBfT5qFwMJbiwcUMg2NnABkcScSwekacb34ge1ckpOsoSuG4G++
+ 6cq6q0yaOF0VwHyOKdOkhJmQ9x7Z+EW8UiZYjdw==
+X-Google-Smtp-Source: AGHT+IGiX/LOl5CjzBrqEzFnH8RKtGfmEb83wb3BnKjqyTxL+6W4MeCexMwQDpNg/EZ4gLdw0prFXxeZA5XWL/LuoRw=
+X-Received: by 2002:a25:a509:0:b0:dca:59a7:896b with SMTP id
+ h9-20020a25a509000000b00dca59a7896bmr4173378ybi.50.1713999063835; Wed, 24 Apr
+ 2024 15:51:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/10] arm64: dts: qcom: sm8550: Update EAS properties
-To: wuxilin123@gmail.com, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <u.kleine-koenig@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Junhao Xie <bigfoot@classfun.cn>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Tengfei Fan <quic_tengfan@quicinc.com>,
- Molly Sophia <mollysophia379@gmail.com>
-Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
-References: <20240424-ayn-odin2-initial-v1-0-e0aa05c991fd@gmail.com>
- <20240424-ayn-odin2-initial-v1-7-e0aa05c991fd@gmail.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
-In-Reply-To: <20240424-ayn-odin2-initial-v1-7-e0aa05c991fd@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240418081548.12160-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240418081548.12160-3-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <zanx5y3obqmewnbooovf52hx6vh7tpi4zsbse2dyzcqzddmzhw@kewxoa6n3mja>
+ <CACb=7PURWtS8bwT5EcAFHhu7deHd2Y8cNOattfdwyEYpOUcbnQ@mail.gmail.com>
+ <vbt2nxddw2dc7hkreq4iybv5zv5xyp32oajybeqsphgfrhzmn7@tskvckljmxpe>
+ <CACb=7PVTvV9nsFu1ZAXu7YTjSOAGZka+c__EJq3J3qgSJGEShw@mail.gmail.com>
+ <CAD=FV=VYAzqsGEBJai9b9n+HxHiG59L1vF73AEWcTwLS_ryjWw@mail.gmail.com>
+ <an2k3vgynq4as2sd5dy6ccmdiqedmo7qjsab5qyfhesd333i2a@235sqph3bze5>
+ <CAD=FV=VQ8rbwKk4WpHRER9p4cZp7UrrHRpgnErqbQxyxp4sg5w@mail.gmail.com>
+ <CAA8EJprv3qBd1hfdWHrfhY=S0w2O70dZnYb6TVsS6AGRPxsYdw@mail.gmail.com>
+ <CACb=7PVEpCFWf_aysRkeR0yWAXR5sTaXhNbi3TV3ffKj866+EQ@mail.gmail.com>
+In-Reply-To: <CACb=7PVEpCFWf_aysRkeR0yWAXR5sTaXhNbi3TV3ffKj866+EQ@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 25 Apr 2024 01:50:52 +0300
+Message-ID: <CAA8EJprLvEt_pt4XzACQG7pU8KYagKbQ71xwtRF9KrLygTT3ow@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] drm/panel: kd101ne3: add new panel driver
+To: Hsin-Yi Wang <hsinyi@google.com>
+Cc: Doug Anderson <dianders@google.com>, 
+ lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>, mripard@kernel.org, 
+ airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ cong yang <yangcong5@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,54 +94,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/04/2024 16:29, Xilin Wu via B4 Relay wrote:
-> From: Xilin Wu <wuxilin123@gmail.com>
-> 
-> The original values provided by Qualcomm appear to be quite
-> inaccurate. Specifically, some heavy gaming tasks could be
-> improperly assigned to the A510 cores by the scheduler, resulting
-> in a CPU bottleneck. This update to the EAS properties aims to
-> enhance the user experience across various scenarios.
-> 
-> The power numbers were obtained using a Type-C power meter, which
-> was directly connected to the battery connector on the AYN Odin 2
-> motherboard, acting as a fake battery.
-> 
-> It should be noted that the A715 cores seem less efficient than the
-> A710 cores. Therefore, an average value has been assigned to them,
-> considering that the A715 and A710 cores share a single cpufreq
-> domain.
-> 
-> Cortex-A510 cores:
-> 441 kHz, 564 mV, 43 mW, 350 Cx
-> 556 kHz, 580 mV, 59 mW, 346 Cx
-> 672 kHz, 592 mV, 71 mW, 312 Cx
-> 787 kHz, 604 mV, 83 mW, 290 Cx
-> 902 kHz, 608 mV, 96 mW, 288 Cx
-> 1017 kHz, 624 mV, 107 mW, 264 Cx
-> 1113 kHz, 636 mV, 117 mW, 252 Cx
-> 1228 kHz, 652 mV, 130 mW, 240 Cx
-> 1344 kHz, 668 mV, 146 mW, 235 Cx
-> 1459 kHz, 688 mV, 155 mW, 214 Cx
-> 1555 kHz, 704 mV, 166 mW, 205 Cx
-> 1670 kHz, 724 mV, 178 mW, 192 Cx
-> 1785 kHz, 744 mV, 197 mW, 189 Cx
-> 1900 kHz, 764 mV, 221 mW, 190 Cx
-> 2016 kHz, 784 mV, 243 mW, 188 Cx
-> Your dynamic-power-coefficient for cpu 1: 251
+On Thu, 25 Apr 2024 at 01:15, Hsin-Yi Wang <hsinyi@google.com> wrote:
+>
+> On Wed, Apr 24, 2024 at 2:49=E2=80=AFPM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > On Thu, 25 Apr 2024 at 00:04, Doug Anderson <dianders@google.com> wrote=
+:
+> > >
+> > > Hi,
+> > >
+> > > On Tue, Apr 23, 2024 at 2:20=E2=80=AFPM Dmitry Baryshkov
+> > > <dmitry.baryshkov@linaro.org> wrote:
+> > > >
+> > > > On Tue, Apr 23, 2024 at 01:41:59PM -0700, Doug Anderson wrote:
+> > > > > Hi,
+> > > > >
+> > > > > On Tue, Apr 23, 2024 at 11:10=E2=80=AFAM Hsin-Yi Wang <hsinyi@goo=
+gle.com> wrote:
+> > > > > >
+> > > > > > > > > > +#define _INIT_DCS_CMD(...) { \
+> > > > > > > > > > +     .type =3D INIT_DCS_CMD, \
+> > > > > > > > > > +     .len =3D sizeof((char[]){__VA_ARGS__}), \
+> > > > > > > > > > +     .data =3D (char[]){__VA_ARGS__} }
+> > > > > > > > > > +
+> > > > > > > > > > +#define _INIT_DELAY_CMD(...) { \
+> > > > > > > > > > +     .type =3D DELAY_CMD,\
+> > > > > > > > > > +     .len =3D sizeof((char[]){__VA_ARGS__}), \
+> > > > > > > > > > +     .data =3D (char[]){__VA_ARGS__} }
+> > > > > > > > >
+> > > > > > > > > This is the third panel driver using the same appoach. Ca=
+n you use
+> > > > > > > > > mipi_dsi_generic_write_seq() instead of the huge table? O=
+r if you prefer
+> > > > > > > > > the table, we should extract this framework to a common h=
+elper.
+> > > > > > > > > (my preference is shifted towards mipi_dsi_generic_write_=
+seq()).
+> > > > > > > > >
+> > > > > > > > The drawback of mipi_dsi_generic_write_seq() is that it can=
+ cause the
+> > > > > > > > kernel size grows a lot since every sequence will be expand=
+ed.
+> > > > > > > >
+> > > > > > > > Similar discussion in here:
+> > > > > > > > https://lore.kernel.org/dri-devel/CAD=3DFV=3DWju3WS45=3DEpX=
+MUg7FjYDh3-=3Dmvm_jS7TF1tsaAzbb4Uw@mail.gmail.com/
+> > > > > > > >
+> > > > > > > > This patch would increase the module size from 157K to 572K=
+.
+> > > > > > > > scripts/bloat-o-meter shows chg +235.95%.
+> > > > > > > >
+> > > > > > > > So maybe the common helper is better regarding the kernel m=
+odule size?
+> > > > > > >
+> > > > > > > Yes, let's get a framework done in a useful way.
+> > > > > > > I'd say, drop the _INIT_DELAY_CMD. msleep() and usleep_range(=
+) should be
+> > > > > > > used instead (and it's up to the developer to select correct =
+delay
+> > > > > > > function).
+> > > > > > >
+> > > > > > > >
+> > > > > > > > > > +
+> > > > > > > > > > +static const struct panel_init_cmd kingdisplay_kd101ne=
+3_init_cmd[] =3D {
+> > > > > > > > > > +     _INIT_DELAY_CMD(50),
+> > > > > > > > > > +     _INIT_DCS_CMD(0xE0, 0x00),
+> > > > > > >
+> > > > > > > [skipped the body of the table]
+> > > > > > >
+> > > > > > > > > > +     _INIT_DCS_CMD(0x0E, 0x48),
+> > > > > > > > > > +
+> > > > > > > > > > +     _INIT_DCS_CMD(0xE0, 0x00),
+> > > > > > >
+> > > > > > > > > > +     _INIT_DCS_CMD(0X11),
+> > > > > > >
+> > > > > > > Also, at least this is mipi_dsi_dcs_exit_sleep_mode().
+> > > > > > >
+> > > > > > > > > > +     /* T6: 120ms */
+> > > > > > > > > > +     _INIT_DELAY_CMD(120),
+> > > > > > > > > > +     _INIT_DCS_CMD(0X29),
+> > > > > > >
+> > > > > > > And this is mipi_dsi_dcs_set_display_on().
+> > > > > > >
+> > > > > > > Having a single table enourages people to put known commands =
+into the
+> > > > > > > table, the practice that must be frowned upon and forbidden.
+> > > > > > >
+> > > > > > > We have functions for some of the standard DCS commands. So, =
+maybe
+> > > > > > > instead of adding a single-table based approach we can improv=
+e
+> > > > > > > mipi_dsi_generic_write_seq() to reduce the bloat. E.g. by mov=
+ing the
+> > > > > > > error handling to a common part of enable() / prepare() funct=
+ion.
+> > > > > > >
+> > > > > >
+> > > > > > For this panel, I think it can also refer to how
+> > > > > > panel-kingdisplay-kd097d04.c does. Create the table for init cm=
+d data,
+> > > > > > not what operation to use, and use mipi_dsi_generic_write_seq()=
+ when
+> > > > > > looping through the table.
+> > > > >
+> > > > > Even more similar discussion:
+> > > > >
+> > > > > https://lore.kernel.org/r/CAD=3DFV=3DUGDbNvAMjzWSOvxybGikQcvW9JsR=
+tbxHVg8_97YPEQCA@mail.gmail.com
+> > > >
+> > > > It seems I skipped that thread.
+> > > >
+> > > > I'd still suggest a code-based solution compared to table-based one=
+, for
+> > > > the reasons I've outlined before. Having a tables puts a pressure o=
+n the
+> > > > developer to put commands there for which we already have a
+> > > > command-specific function.
+> > >
+> > > The problem is that with these panels that need big init sequences th=
+e
+> > > code based solution is _a lot_ bigger. If it were a few bytes or a
+> > > 1-2KB then fine, but when Hsin-Yi measured Linus W's attempt to move
+> > > from a table to code it was 100K difference in code [1]. I would also
+> > > say that having these long init sequences done as separate commands
+> > > encourages people to skip checking the return values of each of the
+> > > transfer functions and I don't love that idea.
+> > >
+> > > It would be ideal if these panels didn't need these long init
+> > > sequences, but I don't have any inside knowledge here saying that the=
+y
+> > > could be removed. So assume we can't get rid of the init sequences it
+> > > feels like we have to find some way to make the tables work for at
+> > > least the large chunks of init code and encourage people to make the
+> > > tables readable...
+> >
+> >
+> > I did a quick check on the boe-tv101wum-nl6 driver by converting the
+> > writes to use the following macro:
+> >
+> > #define mipi_dsi_dcs_write_cmd_seq(dsi, cmd, seq...)
+> >              \
+> >         do {                                                           =
+        \
+> >                 static const u8 d[] =3D { cmd, seq };                  =
+      \
+> >                 ret =3D mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d)=
+);    \
+> >                 if (ret < 0)                                           =
+        \
+> >                         goto err;                                      =
+        \
+> >         } while (0)
+> >
+> > And then at the end of the init funciton having
+> >
+> > err:
+> >         dev_err(panel->dev,
+> >                 "failed to write command %d\n", ret);
+> >         return ret;
+> > }
+> >
+>
+> I'm not sure about the coding style rule here, would it be considered
+> unclear that caller of mipi_dsi_dcs_write_cmd_seq() needs to have err
+> block, but the block may not be directly used in that caller and is
+> only jumped from the macro?
 
-This looks pretty convincing and like good work.
+I'm also not sure here. It was a quick and dirty test.
+We might as well do something like
 
-A few questions and suggestions for your commit log.
+ret =3D mipi_dsi_dcs_write_cmd_seq(dsi, ...);
+if (ret)
+    goto err;
 
-I'd really love to know more about how you ran this test. What values 
-exactly does your power meter give you?
+all over the place.
 
-How did you lock the core to a specific CPU frequency ?
 
-Maybe also give the equation to calculate Pdyn in the commit log.
+>
+>
+> > Size comparison:
+> >    text    data     bss     dec     hex filename
+> > before
+> >   34109   10410      18   44537    adf9
+> > ../build-64/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.o
+> > making init data const
+> >   44359     184       0   44543    adff
+> > ../build-64/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.o
+> > with new macros
+> >   44353     184       0   44537    adf9
+> > ../build-64/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.o
+> >
+> > As you can see, there is literally no size difference with this macro i=
+n place.
+> > The only drawback is that the init stops on the first write rather
+> > than going through the sequence.
+> >
+> > WDYT? I can turn this into a proper patch if you think this makes sense=
+.
+> >
+> > >
+> > >
+> > > [1] https://lore.kernel.org/r/CAD=3DFV=3DUFa_AoJQvUT3BTiRs19WCA2xLVeQ=
+OU=3D+nYu_HaE0_c6Q@mail.gmail.com
+> >
+> >
+> >
+> > --
+> > With best wishes
+> > Dmitry
 
-https://patchwork.kernel.org/project/linux-arm-kernel/patch/1500974575-2244-1-git-send-email-wxt@rock-chips.com/#20763985
 
----
-bod
+
+--
+With best wishes
+Dmitry
