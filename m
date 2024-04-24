@@ -2,71 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAE48B1086
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 19:01:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5D68B1113
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Apr 2024 19:34:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8BA3113C8F;
-	Wed, 24 Apr 2024 17:01:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="P4SOMRlk";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A42113CD7;
+	Wed, 24 Apr 2024 17:34:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1AF0113CA1;
- Wed, 24 Apr 2024 17:00:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1713978044; x=1714582844; i=friedrich.vock@gmx.de;
- bh=gXJ9sHp9nKx/vHVFcYvw3sYKm1yHpVtdqTJUe8vT2Ww=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
- References:MIME-Version:Content-Transfer-Encoding:cc:
- content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=P4SOMRlk9dT/GPQ3j0ootm+K7YWMB3VCbUg50h/53y0Zg0lBNhC3zRA9+OKH/ZAc
- UdETeWb90b2wt14Srkatw9QbdWJVXZBr3QvBZ1W8h75KhFAOYlpRLisNdcHeXHnZp
- SUi4/qBRQd/T3zvUYKeJh/mQP2whjOequOoOo4hI98G5J7yWn+vUnDu4+LJJGrf0j
- 6m23P62JuAK+gjHKI1MINKrflYEkguTq7/tTVTHaKgRuuTW65jtd7yMUgcSifn21Z
- LrQ9jORj27IP0dhQ95wudDcIIhutcAqKC0d6jLdaeBUb/hQBezCK24oamc5g/N6n7
- uwnziOt9UgP1yCVkqw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from arch.fritz.box ([213.152.117.111]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M5QJD-1s0VSr20XN-000kui; Wed, 24
- Apr 2024 19:00:44 +0200
-From: Friedrich Vock <friedrich.vock@gmx.de>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Cc: Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- Joshua Ashton <joshua@froggi.es>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: [RFC PATCH 18/18] drm/amdgpu: Bump minor version
-Date: Wed, 24 Apr 2024 18:57:08 +0200
-Message-ID: <20240424165937.54759-19-friedrich.vock@gmx.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240424165937.54759-1-friedrich.vock@gmx.de>
-References: <20240424165937.54759-1-friedrich.vock@gmx.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 545EE113CD6
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 17:34:43 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F338B1063
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 10:35:09 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 00E653F7BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 10:34:41 -0700 (PDT)
+Date: Wed, 24 Apr 2024 18:34:32 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] drm/panthor: Enable fdinfo for memory stats
+Message-ID: <ZilCqPlJiTLfNQcG@e110455-lin.cambridge.arm.com>
+References: <20240423213240.91412-1-adrian.larumbe@collabora.com>
+ <20240423213240.91412-4-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ONz5GuGooOxL9QByDhgduUp5y7f/hAvGjazdujSbC1JsDNogNtP
- RztkeEh6BaPdO19GyWrili4w46GmIoJSWovGuQGAq2rvj7xcwUPTPlgK8PopGK9hASnyF0X
- JvBad/kYc77LmIfVM6QDpB2z5qD7DOa0UJC6sMrpYVmz1cVjTeNNO27A4TjKD/aQZ5jE2Gu
- TUBCwpc1rE1b0VbEbTgJA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:0nG14xjtdaY=;EFMeFFXXHfet4uOZ1JL75koZKDM
- sC3lZTv7OgRtgIngM/547kgzH4U/8ln2AYhYz0Cwfwqr1IROMpArWAnfATnJ2Fl6eqnbaEf/Z
- Z8UonDE2wtN68deoal7ZtLNAyMk7UkKSb2tpX/2posDDOnI8kT5rnunK5yymIhyaymwGy3mpH
- t7N3v2IYPvnD/OjcCjFd9yz9LhCud1ik37DARagHm77mFlgllEM1K+Kkmr5EHdHDfx+CO/Q1v
- zvOgAE6xDZi5b7ysDPcHz/vUiZML8/mn0p9xI4m243wXwbyF9xC0+a2xKCOqcKdDLdXKvSada
- Yi+fTst0YU9kkbb+Zu0RrcngKO9wX448f6qlTZDE5uH5IUDx8pOxLPwpEeAc6kkMgLn5GYvpR
- 8cbdSjE8cmUFq6jO2HXsATRIPmN64IFlTVlS49OqpLhWH7Hmz5TrmGLJFYZZdvww4FirP3xAg
- q7FEL2ow8XdvOt6B0p/AhzFEKf7TiFo1b8/JJmJb0XHjAjKFiKJv+lJU0GH8Zyofb1aH7J7ZH
- tdZ68KwiFrS0jtjC/MZg+1h0n0IhAYuqbtzv/5G+pxJQ6MhqWvbwEGJHBhL27cDvOEMTcP76K
- Qd7rZzyPivSvPhq54sKuZvtPU/HhctfTV+2Fq9opFjZ9ysdN5hxrg8hG3zdp0Nm4l+k9iUHmB
- u0qw5smlBbp6bABHLmg+rCjsieAE4b8xScp35vX6yhlp3po4Sb0j7vhvt/znFfej/DAIWtgD9
- y7INGT2pg/nBT2bJtNKsXiVT6Ylzvt9ylpxDJ/QsLYM7d54lPv+fbJHoorCbLxvJpxP8GEgGI
- lLZZ04uT8smHdJj6uxGgpLwR8+G1+WBP3mmQCEV2a1nXc=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240423213240.91412-4-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,32 +54,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Indicates support for EVICTED_VRAM queries and
-AMDGPU_GEM_OP_SET_PRIORITY
+Hello,
 
-Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
-=2D--
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, Apr 23, 2024 at 10:32:36PM +0100, Adrián Larumbe wrote:
+> When vm-binding an already-created BO, the entirety of its virtual size is
+> then backed by system memory, so its RSS is always the same as its virtual
+> size.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_drv.c
-index ea14f1c8f4304..4f8b62dbba17f 100644
-=2D-- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -116,9 +116,10 @@
-  * - 3.55.0 - Add AMDGPU_INFO_GPUVM_FAULT query
-  * - 3.56.0 - Update IB start address and size alignment for decode and e=
-ncode
-  * - 3.57.0 - Compute tunneling on GFX10+
-+ * - 3.58.0 - Per-BO priorities and evicted memory size queries
-  */
- #define KMS_DRIVER_MAJOR	3
--#define KMS_DRIVER_MINOR	57
-+#define KMS_DRIVER_MINOR	58
- #define KMS_DRIVER_PATCHLEVEL	0
+How is that relevant to this patch? Or to put it differently: how are your
+words describing your code change here?
 
- /*
-=2D-
-2.44.0
+> 
+> Also, we consider a PRIME imported BO to be resident if its matching
+> dma_buf has an open attachment, which means its backing storage had already
+> been allocated.
 
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_gem.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index d6483266d0c2..386c0dfeeb5f 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -143,6 +143,17 @@ panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
+>  	return drm_gem_prime_export(obj, flags);
+>  }
+>  
+> +static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
+> +{
+> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> +	enum drm_gem_object_status res = 0;
+> +
+> +	if (bo->base.base.import_attach || bo->base.pages)
+> +		res |= DRM_GEM_OBJECT_RESIDENT;
+> +
+> +	return res;
+> +}
+> +
+>  static const struct drm_gem_object_funcs panthor_gem_funcs = {
+>  	.free = panthor_gem_free_object,
+>  	.print_info = drm_gem_shmem_object_print_info,
+> @@ -152,6 +163,7 @@ static const struct drm_gem_object_funcs panthor_gem_funcs = {
+>  	.vmap = drm_gem_shmem_object_vmap,
+>  	.vunmap = drm_gem_shmem_object_vunmap,
+>  	.mmap = panthor_gem_mmap,
+> +	.status = panthor_gem_status,
+>  	.export = panthor_gem_prime_export,
+>  	.vm_ops = &drm_gem_shmem_vm_ops,
+>  };
+> -- 
+> 2.44.0
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
