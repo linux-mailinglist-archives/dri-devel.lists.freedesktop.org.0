@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727148B1E07
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 11:29:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5828B1E29
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 11:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82AFB11A30D;
-	Thu, 25 Apr 2024 09:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CACA811A323;
+	Thu, 25 Apr 2024 09:37:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D3A8611A30D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 09:28:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id D0D9C11A323
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 09:37:17 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3EC81007;
- Thu, 25 Apr 2024 02:29:24 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 571DA1007;
+ Thu, 25 Apr 2024 02:37:45 -0700 (PDT)
 Received: from [10.57.56.40] (unknown [10.57.56.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 831F83F64C;
- Thu, 25 Apr 2024 02:28:55 -0700 (PDT)
-Message-ID: <db65e8e7-d281-4648-9895-74c5f0438894@arm.com>
-Date: Thu, 25 Apr 2024 10:28:56 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 04BF23F64C;
+ Thu, 25 Apr 2024 02:37:15 -0700 (PDT)
+Message-ID: <5946423a-ea13-442a-8dc7-9021ef6f4bc3@arm.com>
+Date: Thu, 25 Apr 2024 10:37:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/panthor: Relax the check on the tiler chunk size
+Subject: Re: [PATCH] drm/panthor: Make sure we handled the unknown group state
+ properly
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- kernel@collabora.com
-References: <20240425071837.529039-1-boris.brezillon@collabora.com>
- <20240425071837.529039-4-boris.brezillon@collabora.com>
-Content-Language: en-GB
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ Dan Carpenter <dan.carpenter@linaro.org>
+References: <20240425084612.703603-1-boris.brezillon@collabora.com>
 From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20240425071837.529039-4-boris.brezillon@collabora.com>
+Content-Language: en-GB
+In-Reply-To: <20240425084612.703603-1-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,72 +50,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/04/2024 08:18, Boris Brezillon wrote:
-> The field used to store the chunk size if 12 bits wide, and the encoding
-NIT:                                     ^^ is
-
-> is chunk_size = chunk_header.chunk_size << 12, which gives us a
-> theoretical [4k:8M] range. This range is further limited by
-> implementation constraints, but those shouldn't be enforced kernel side.
+On 25/04/2024 09:46, Boris Brezillon wrote:
+> When we check for state values returned by the FW, we only cover part of
+> the 0:7 range. Make sure we catch FW inconsistencies by adding a default
+> to the switch statement, and flagging the group state as unknown in that
+> case.
 > 
-> Fixes: 9cca48fa4f89 ("drm/panthor: Add the heap logical block")
+> When an unknown state is detected, we trigger a reset, and consider the
+> group as unusable after that point, to prevent the potential corruption
+> from creeping in other places if we continue executing stuff on this
+> context.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Suggested-by: Steven Price <steven.price@arm.com>
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-There's also a kerneldoc comment above panthor_heap_create that needs
-updating too:
+Thanks for doing this up - I can tick it off my todo list ;)
 
-> /**
->  * panthor_heap_create() - Create a heap context
->  * @pool: Pool to instantiate the heap context from.
->  * @initial_chunk_count: Number of chunk allocated at initialization time.
->  * Must be at least 1.
->  * @chunk_size: The size of each chunk. Must be a power of two between 256k
->  * and 2M.
-
-I'm also a little unsure on whether this is the right change. The
-"implementation defined" min/max in the hardware docs say 128KiB to
-8MiB. I'm not convinced it makes sense to increase the range beyond that.
-
-As far as I'm aware the "must be a power of 2" isn't actually a
-requirement (it's certainly not a requirement of the storage format) so
-the kernel is already being more restrictive than necessary.
-
-It seems like a good idea to keep the uAPI requirements stricter than
-necessary and relax them in the future if we have a good reason (e.g.
-new hardware supports a wider range). But matching the existing hardware
-range of 128KB-8MB would obviously make sense now.
-
-Steve
+Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  drivers/gpu/drm/panthor/panthor_heap.c | 2 +-
->  include/uapi/drm/panthor_drm.h         | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_sched.c | 37 +++++++++++++++++++++++--
+>  1 file changed, 35 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-> index 8728c9bb76e4..146ea2f57764 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> @@ -285,7 +285,7 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
->  		return -EINVAL;
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 6de8c0c702cb..fad4678ca4c8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -490,6 +490,18 @@ enum panthor_group_state {
+>  	 * Can no longer be scheduled. The only allowed action is a destruction.
+>  	 */
+>  	PANTHOR_CS_GROUP_TERMINATED,
+> +
+> +	/**
+> +	 * @PANTHOR_CS_GROUP_UNKNOWN_STATE: Group is an unknown state.
+> +	 *
+> +	 * The FW returned an inconsistent state. The group is flagged unusable
+> +	 * and can no longer be scheduled. The only allowed action is a
+> +	 * destruction.
+> +	 *
+> +	 * When that happens, we also schedule a FW reset, to start from a fresh
+> +	 * state.
+> +	 */
+> +	PANTHOR_CS_GROUP_UNKNOWN_STATE,
+>  };
 >  
->  	if (hweight32(chunk_size) != 1 ||
-> -	    chunk_size < SZ_256K || chunk_size > SZ_2M)
-> +	    chunk_size < SZ_4K || chunk_size > SZ_8M)
->  		return -EINVAL;
+>  /**
+> @@ -1127,6 +1139,7 @@ csg_slot_sync_state_locked(struct panthor_device *ptdev, u32 csg_id)
+>  	struct panthor_fw_csg_iface *csg_iface;
+>  	struct panthor_group *group;
+>  	enum panthor_group_state new_state, old_state;
+> +	u32 csg_state;
 >  
->  	down_read(&pool->lock);
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 5db80a0682d5..80c0716361b9 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -898,7 +898,7 @@ struct drm_panthor_tiler_heap_create {
->  	/** @initial_chunk_count: Initial number of chunks to allocate. Must be at least one. */
->  	__u32 initial_chunk_count;
+>  	lockdep_assert_held(&ptdev->scheduler->lock);
 >  
-> -	/** @chunk_size: Chunk size. Must be a power of two at least 256KB large. */
-> +	/** @chunk_size: Chunk size. Must be a power of two and lie in the [4k:8M] range. */
->  	__u32 chunk_size;
+> @@ -1137,7 +1150,8 @@ csg_slot_sync_state_locked(struct panthor_device *ptdev, u32 csg_id)
+>  		return;
 >  
->  	/**
+>  	old_state = group->state;
+> -	switch (csg_iface->output->ack & CSG_STATE_MASK) {
+> +	csg_state = csg_iface->output->ack & CSG_STATE_MASK;
+> +	switch (csg_state) {
+>  	case CSG_STATE_START:
+>  	case CSG_STATE_RESUME:
+>  		new_state = PANTHOR_CS_GROUP_ACTIVE;
+> @@ -1148,11 +1162,28 @@ csg_slot_sync_state_locked(struct panthor_device *ptdev, u32 csg_id)
+>  	case CSG_STATE_SUSPEND:
+>  		new_state = PANTHOR_CS_GROUP_SUSPENDED;
+>  		break;
+> +	default:
+> +		/* The unknown state might be caused by a FW state corruption,
+> +		 * which means the group metadata can't be trusted anymore, and
+> +		 * the SUSPEND operation might propagate the corruption to the
+> +		 * suspend buffers. Flag the group state as unknown to make
+> +		 * sure it's unusable after that point.
+> +		 */
+> +		drm_err(&ptdev->base, "Invalid state on CSG %d (state=%d)",
+> +			csg_id, csg_state);
+> +		new_state = PANTHOR_CS_GROUP_UNKNOWN_STATE;
+> +		break;
+>  	}
+>  
+>  	if (old_state == new_state)
+>  		return;
+>  
+> +	/* The unknown state might be caused by a FW issue, reset the FW to
+> +	 * take a fresh start.
+> +	 */
+> +	if (new_state == PANTHOR_CS_GROUP_UNKNOWN_STATE)
+> +		panthor_device_schedule_reset(ptdev);
+> +
+>  	if (new_state == PANTHOR_CS_GROUP_SUSPENDED)
+>  		csg_slot_sync_queues_state_locked(ptdev, csg_id);
+>  
+> @@ -1789,6 +1820,7 @@ static bool
+>  group_can_run(struct panthor_group *group)
+>  {
+>  	return group->state != PANTHOR_CS_GROUP_TERMINATED &&
+> +	       group->state != PANTHOR_CS_GROUP_UNKNOWN_STATE &&
+>  	       !group->destroyed && group->fatal_queues == 0 &&
+>  	       !group->timedout;
+>  }
+> @@ -2563,7 +2595,8 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
+>  
+>  		if (csg_slot->group) {
+>  			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, i,
+> -						CSG_STATE_SUSPEND,
+> +						group_can_run(csg_slot->group) ?
+> +						CSG_STATE_SUSPEND : CSG_STATE_TERMINATE,
+>  						CSG_STATE_MASK);
+>  		}
+>  	}
 
