@@ -2,70 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658F78B24F2
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 17:22:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FCF8B2550
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 17:39:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B6B511A54B;
-	Thu, 25 Apr 2024 15:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79BDC11A57C;
+	Thu, 25 Apr 2024 15:39:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="f3Ob8V05";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cNbRwOOU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 015AE11A54B
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 15:22:08 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C72B740E01C5; 
- Thu, 25 Apr 2024 15:22:05 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id zo89ggfrjeLT; Thu, 25 Apr 2024 15:22:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1714058521; bh=6wNh2/5WJqAiPo6RPMCDTroIUccA+3uUajnQfIANALw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=f3Ob8V057rdVSck90A83wZXeph/7GtAdQYLuTScSMYcMsRlDy322GITOZB08R+2zH
- WJAQPRKWgI6rGP5DekauVZRYVC6v+x0djmLHr4YM5x8Sn+yE6qw1+Tuw/dFLoxEgMt
- O4WWlkpuAoNiMRBJIWn6gaOqdtb0+P14QGl5fOYzlw1cGRu1xYEGnL3uxMdJKaBuJg
- R2OzjcscwRkLGZGJ3L9V1kttt6yFvrs+wGpvAlQIdZqVA1JLfMMFfr74b67uvPbPRS
- 61vpzoxHqCtIK3bBjCPcbv3xBolTUaMjEqobmzgwaMNEViuOPbwbZLkVTaKtxPomon
- 3wS2TjSW3M4l/KPIhyPrbevzhE8yRvOBxhxxkhaB0armH29aAtv0vcphTaf+tTHM8k
- 69IEcBdf6tdGFrOUOn41HjjaBQyB0AtllH4DNANzvv/oerKUqq4NZ3AbGUpnosCefQ
- SAsCoJR+lxGWQL67jAC4kRYHVm12uzQyPEE0QCcHZbba2O+TG2976Zb9N7UsemohsT
- I9Y9qSmIgHdiLXC0hpawtrmiSpZ8y80rSue9T0oeWT5mdgSp2JwtFEfPzdeMkPY1Jv
- YTBrtpi4DOkMmVnoT1dzUQF30BsuCRgLfSnbYez9K4Kdomax740C14p2fW3I3gfpbh
- DxbQwYxgvWIRX+kxSk0WuNpo=
-Received: from zn.tnic (pd953020b.dip0.t-ipconnect.de [217.83.2.11])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3D3DB40E0192;
- Thu, 25 Apr 2024 15:21:36 +0000 (UTC)
-Date: Thu, 25 Apr 2024 17:21:30 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
- tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-input@vger.kernel.org,
- dmitry.torokhov@gmail.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
- timothym@vmware.com, akaher@vmware.com,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, horms@kernel.org,
- kirill.shutemov@linux.intel.com
-Subject: Re: [PATCH v9 1/8] x86/vmware: Correct macro names
-Message-ID: <20240425152130.GJZip0-l040XCyUapN@fat_crate.local>
-References: <adcbfb9a-a4e1-4a32-b786-6c204d941e9f@broadcom.com>
- <20240424231407.14098-1-alexey.makhalov@broadcom.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F07FD11A577
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 15:39:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 9268ECE1AD1;
+ Thu, 25 Apr 2024 15:39:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C75BCC113CE;
+ Thu, 25 Apr 2024 15:39:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1714059544;
+ bh=3a2+j1JZDUVjbZREnQkHm3jUlHCl+/8Ud/MU8EZhSr4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=cNbRwOOUo/rAWZjzz1g/0cfZy2LKy7k9CupiKmcLn5/4SOrvxu/CllNUk4+awGjxN
+ 6PweI28WX2HYpQ8FcVGnF0jUaZecOyB2wSwIjAGK67Ndm7FmPRLWAAuHKL14YfgH/O
+ YwsrjqOP6fP4kOH5cU8LA0Yyq8geKlVvX7ryxHVy7IbtgJK1EGaH411jLI59ZcErRa
+ 6R8iiKcH6jV21OJthTXmHIpsRtoHRwyMvk9gv8cmMFBBy2thFicWKWQsp8INvU84n+
+ 6GhVoGmjPyiKMPiJMhOFzLjJpn6udKMoPamtMVzXk9LcnPXaj5SAxVV9H36a9pqr9g
+ zWEqUl0tsPmnw==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
+Cc: Markus Elfring <elfring@users.sourceforge.net>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Justin Green <greenjustin@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Hsiao Chien Sung <shawn.sung@mediatek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Wojciech Macek <wmacek@chromium.org>,
+ Shuijing Li <shuijing.li@mediatek.com>
+Subject: [GIT PULL] mediatek drm next for 6.10
+Date: Thu, 25 Apr 2024 15:38:59 +0000
+Message-Id: <20240425153859.3579-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240424231407.14098-1-alexey.makhalov@broadcom.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,29 +62,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 24, 2024 at 04:14:06PM -0700, Alexey Makhalov wrote:
-> VCPU_RESERVED and LEGACY_X2APIC are not VMware hypercall commands.
-> These are bits in return value of VMWARE_CMD_GETVCPU_INFO command.
-> Change VMWARE_CMD_ prefix to GETVCPU_INFO_ one. And move bit-shift
-> operation to the macro body.
+Hi, Dave & Daniel:
 
-I don't understand:
+This includes:
 
-$ git grep GETVCPU_INFO
-arch/x86/kernel/cpu/vmware.c:51:#define VMWARE_CMD_GETVCPU_INFO  68
-arch/x86/kernel/cpu/vmware.c:478:       VMWARE_CMD(GETVCPU_INFO, eax, ebx, ecx, edx);
+1. Use devm_platform_get_and_ioremap_resource() in mtk_hdmi_ddc_probe()
+2. Add GAMMA 12-bit LUT support for MT8188
+3. Add 0 size check to mtk_drm_gem_obj
+4. Init `ddp_comp` with devm_kcalloc()
+5. Rename mtk_drm_* to mtk_*
+6. Drop driver owner initialization
+7. Fix mtk_dp_aux_transfer return value
+8. Correct calculation formula of PHY Timing
 
-so that's a VMWARE_CMD 68, at least the prefix says so.
+Regards,
+Chun-Kuang.
 
-And those two are *bits* in that eax which that hypercall returns.
+The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
-Or are those two bits generic but defined in a vmware-specific
-hypercall?
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
 
-Hm.
+are available in the Git repository at:
 
--- 
-Regards/Gruss,
-    Boris.
+  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.10
 
-https://people.kernel.org/tglx/notes-about-netiquette
+for you to fetch changes up to 417d8c47271d5cf1a705e997065873b2a9a36fd4:
+
+  drm/mediatek: dsi: Correct calculation formula of PHY Timing (2024-04-22 13:40:34 +0000)
+
+----------------------------------------------------------------
+Mediatek DRM Next for Linux 6.10
+
+1. Use devm_platform_get_and_ioremap_resource() in mtk_hdmi_ddc_probe()
+2. Add GAMMA 12-bit LUT support for MT8188
+3. Add 0 size check to mtk_drm_gem_obj
+4. Init `ddp_comp` with devm_kcalloc()
+5. Rename mtk_drm_* to mtk_*
+6. Drop driver owner initialization
+7. Fix mtk_dp_aux_transfer return value
+8. Correct calculation formula of PHY Timing
+
+----------------------------------------------------------------
+Douglas Anderson (1):
+      drm/mediatek: Init `ddp_comp` with devm_kcalloc()
+
+Hsiao Chien Sung (14):
+      drm/mediatek: Rename "mtk_drm_crtc" to "mtk_crtc"
+      drm/mediatek: Rename "mtk_drm_ddp_comp" to "mtk_ddp_comp"
+      drm/mediatek: Rename "mtk_drm_plane" to "mtk_plane"
+      drm/mediatek: Rename "mtk_drm_gem" to "mtk_gem"
+      drm/mediatek: Rename "mtk_drm_hdmi" to "mtk_hdmi"
+      drm/mediatek: Rename files "mtk_drm_crtc.h" to "mtk_crtc.h"
+      drm/mediatek: Rename files "mtk_drm_crtc.c" to "mtk_crtc.c"
+      drm/mediatek: Rename files "mtk_drm_ddp_comp.h" to "mtk_ddp_comp.h"
+      drm/mediatek: Rename files "mtk_drm_ddp_comp.c" to "mtk_ddp_comp.c"
+      drm/mediatek: Rename files "mtk_drm_plane.h" to "mtk_plane.h"
+      drm/mediatek: Rename files "mtk_drm_plane.c" to "mtk_plane.c"
+      drm/mediatek: Rename files "mtk_drm_gem.h" to "mtk_gem.h"
+      drm/mediatek: Rename files "mtk_drm_gem.c" to "mtk_gem.c"
+      drm/mediatek: Rename mtk_ddp_comp functions
+
+Jason-JH.Lin (3):
+      dt-bindings: display: mediatek: gamma: Change MT8195 to single enum group
+      dt-bindings: display: mediatek: gamma: Add support for MT8188
+      drm/mediatek: Add gamma support for MT8195
+
+Justin Green (1):
+      drm/mediatek: Add 0 size check to mtk_drm_gem_obj
+
+Krzysztof Kozlowski (11):
+      drm/mediatek: aal: drop driver owner initialization
+      drm/mediatek: ccorr: drop driver owner initialization
+      drm/mediatek: color: drop driver owner initialization
+      drm/mediatek: gamma: drop driver owner initialization
+      drm/mediatek: merge: drop driver owner initialization
+      drm/mediatek: ovl: drop driver owner initialization
+      drm/mediatek: ovl_adaptor: drop driver owner initialization
+      drm/mediatek: rdma: drop driver owner initialization
+      drm/mediatek: ethdr: drop driver owner initialization
+      drm/mediatek: mdp_rdma: drop driver owner initialization
+      drm/mediatek: padding: drop driver owner initialization
+
+Markus Elfring (1):
+      drm/mediatek: Use devm_platform_get_and_ioremap_resource() in mtk_hdmi_ddc_probe()
+
+Shuijing Li (1):
+      drm/mediatek: dsi: Correct calculation formula of PHY Timing
+
+Wojciech Macek (1):
+      drm/mediatek: dp: Fix mtk_dp_aux_transfer return value
+
+ .../bindings/display/mediatek/mediatek,gamma.yaml  |   5 +
+ drivers/gpu/drm/mediatek/Makefile                  |  12 +-
+ .../drm/mediatek/{mtk_drm_crtc.c => mtk_crtc.c}    | 218 ++++++++++-----------
+ drivers/gpu/drm/mediatek/mtk_crtc.h                |  28 +++
+ .../{mtk_drm_ddp_comp.c => mtk_ddp_comp.c}         |  51 ++---
+ .../{mtk_drm_ddp_comp.h => mtk_ddp_comp.h}         |   9 +-
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c            |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c          |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_color.c          |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h            |   2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c          |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c          |   3 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |   5 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c                  |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h            |  30 ---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  34 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h             |   4 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 |  33 ++--
+ drivers/gpu/drm/mediatek/mtk_ethdr.c               |   5 +-
+ .../gpu/drm/mediatek/{mtk_drm_gem.c => mtk_gem.c}  |  68 +++----
+ .../gpu/drm/mediatek/{mtk_drm_gem.h => mtk_gem.h}  |  23 ++-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |  14 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c            |   3 +-
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c            |   1 -
+ drivers/gpu/drm/mediatek/mtk_padding.c             |   5 +-
+ .../drm/mediatek/{mtk_drm_plane.c => mtk_plane.c}  |  26 +--
+ .../drm/mediatek/{mtk_drm_plane.h => mtk_plane.h}  |   4 +-
+ 30 files changed, 305 insertions(+), 314 deletions(-)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_crtc.c => mtk_crtc.c} (82%)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_crtc.h
+ rename drivers/gpu/drm/mediatek/{mtk_drm_ddp_comp.c => mtk_ddp_comp.c} (94%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_ddp_comp.h => mtk_ddp_comp.h} (98%)
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+ rename drivers/gpu/drm/mediatek/{mtk_drm_gem.c => mtk_gem.c} (76%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_gem.h => mtk_gem.h} (62%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_plane.c => mtk_plane.c} (94%)
+ rename drivers/gpu/drm/mediatek/{mtk_drm_plane.h => mtk_plane.h} (95%)
