@@ -2,33 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D0A8B292C
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 21:55:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC5D8B2963
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 22:07:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7365611A851;
-	Thu, 25 Apr 2024 19:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ACE211A877;
+	Thu, 25 Apr 2024 20:07:17 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="LvMwa3Tu";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 623D511A84F
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 19:55:15 +0000 (UTC)
-Received: from i53875b01.versanet.de ([83.135.91.1] helo=phil.lan)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1s05BY-0005vK-29; Thu, 25 Apr 2024 21:55:12 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: heiko@sntech.de
-Cc: quentin.schulz@theobroma-systems.com, hjc@rock-chips.com,
- andy.yan@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, Heiko Stuebner <heiko.stuebner@cherry.de>
-Subject: [PATCH 2/2] drm/rockchip: vop2: configure layers for vp3 on rk3588
-Date: Thu, 25 Apr 2024 21:55:06 +0200
-Message-Id: <20240425195506.2935955-3-heiko@sntech.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240425195506.2935955-1-heiko@sntech.de>
-References: <20240425195506.2935955-1-heiko@sntech.de>
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7575511A877
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 20:07:16 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id
+ af79cd13be357-78f031a4442so93353485a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 13:07:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1714075635; x=1714680435;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Hrf5rMrA2Yr2VlKzee9lYWI7dYbsc6Gr+Xi/bDn+rz0=;
+ b=LvMwa3TubbE0mqm+TPOdDvYsBiK+vsIet0I+xV/aSfgM34+P4DbF5j1eT4QVpRgf14
+ WRovYU4EtGmTP2+ZWuKX2uH+PYE83KwN3B04wmrSXhThidHJy7yEuoVZ8SNOmWW7G5Uz
+ M8dYP1tN2Nb3g081qxRonKmkEkUiVO09jc2Ik=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714075635; x=1714680435;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Hrf5rMrA2Yr2VlKzee9lYWI7dYbsc6Gr+Xi/bDn+rz0=;
+ b=UNXdepu27KxsHzP+oWOu8pZfYL2y+jXyVdcCgAQaBy2cbDzwJ47FRIH/whOKxpjWWv
+ CFmfQslkBmg07FtDz01GxKt226HqAJwkfcgGiQ1jEcCM2NxYFWrVsezLazFEF77HiwHL
+ 3M3z/tGBRNfb6F2Etul8w3Sn5PJrxpIt0ChDJKoW+OcL60A21E37ylAEMddTIMNzqpWB
+ xS4khSUZzsIw4kue7Xm+t1FerPemTweo/wk9FEP6S2eV0z8ZmLGO3tiRI+WDDKS8UPfA
+ bqlZrre4BI0Azge4tx2VWRlOmfl7/Mwgohzwlpfhghc5ynYAdL1n21LHDQVCtFYHLxVs
+ z69w==
+X-Gm-Message-State: AOJu0Yy3gRlIRYOfgZ3qTKVTy0oWdMinzA4XUNGjUSCsLVHSZtxybtf0
+ Hxz9jseV0yhZny4x4iood5LbLWnypslgji/miiks+QQ0133Q9Vhl3Ive29Mn1KI8jEVB3IQLYTy
+ dIGoaDWjHMNFeMLxjP19ecMPcuuDIhcLGNy99X0Ki66SGA6wu4BOdJ/o5hR0llKncMS9yRrQ05U
+ 78qwSWb7FnCwDJIGJGv23VHhOisVl6uwPkZWa/25f+RqIkgjREh/ua
+X-Google-Smtp-Source: AGHT+IHyRkYUe/0gy0s0tS/OX5ymL0pDu2uagfpJmaEPf+YoGRhJF+xf+fM/3zk+kXdOrIq5GkZOSQ==
+X-Received: by 2002:ad4:5d6c:0:b0:6a0:9fd9:faac with SMTP id
+ fn12-20020ad45d6c000000b006a09fd9faacmr1131728qvb.9.1714075634874; 
+ Thu, 25 Apr 2024 13:07:14 -0700 (PDT)
+Received: from localhost ([173.205.42.30]) by smtp.gmail.com with ESMTPSA id
+ x1-20020a0ce0c1000000b006a047d74b10sm1940226qvk.4.2024.04.25.13.07.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Apr 2024 13:07:14 -0700 (PDT)
+From: Ian Forbes <ian.forbes@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
+ martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
+ Ian Forbes <ian.forbes@broadcom.com>, stable@vger.kernel.org
+Subject: [PATCH] drm/vmwgfx: Fix Legacy Display Unit
+Date: Thu, 25 Apr 2024 15:07:00 -0500
+Message-Id: <20240425200700.24403-1-ian.forbes@broadcom.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,62 +78,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Heiko Stuebner <heiko.stuebner@cherry.de>
+Legacy DU was broken by the referenced fixes commit because the placement
+and the busy_placement no longer pointed to the same object. This was later
+fixed indirectly by commit a78a8da51b36c7a0c0c16233f91d60aac03a5a49
+("drm/ttm: replace busy placement with flags v6") in v6.9.
 
-The rk3588 VOP2 has 4 video-ports, yet the driver currently only
-configures the first 3, as used on the rk3568.
-
-Add another block to configure the vp3 as well, if applicable.
-
-Fixes: 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
-Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
+Fixes: 39985eea5a6d ("drm/vmwgfx: Abstract placement selection")
+Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+Cc: <stable@vger.kernel.org> # v6.4+
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 12 ++++++++++++
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  1 +
- 2 files changed, 13 insertions(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 523880a4e8e74..1a327a9ed7ee4 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2303,6 +2303,7 @@ static void vop2_setup_alpha(struct vop2_video_port *vp)
- static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
- {
- 	struct vop2 *vop2 = vp->vop2;
-+	const struct vop2_data *vop2_data = vop2->data;
- 	struct drm_plane *plane;
- 	u32 layer_sel = 0;
- 	u32 port_sel;
-@@ -2344,6 +2345,17 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
- 	else
- 		port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT2_MUX, 8);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index 2bfac3aad7b7..98e73eb0ccf1 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -204,6 +204,7 @@ int vmw_bo_pin_in_start_of_vram(struct vmw_private *dev_priv,
+ 			     VMW_BO_DOMAIN_VRAM,
+ 			     VMW_BO_DOMAIN_VRAM);
+ 	buf->places[0].lpfn = PFN_UP(bo->resource->size);
++	buf->busy_places[0].lpfn = PFN_UP(bo->resource->size);
+ 	ret = ttm_bo_validate(bo, &buf->placement, &ctx);
  
-+	/* configure vp3 */
-+	if (vop2_data->soc_id == 3588) {
-+		struct vop2_video_port *vp3 = &vop2->vps[3];
-+
-+		if (vp3->nlayers)
-+			port_sel |= FIELD_PREP(RK3588_OVL_PORT_SET__PORT3_MUX,
-+				(vp3->nlayers + vp2->nlayers + vp1->nlayers + vp0->nlayers - 1));
-+		else
-+			port_sel |= FIELD_PREP(RK3588_OVL_PORT_SET__PORT3_MUX, 8);
-+	}
-+
- 	layer_sel = vop2_readl(vop2, RK3568_OVL_LAYER_SEL);
- 
- 	ofs = 0;
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-index 615a16196aff6..f46fb795414e1 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-@@ -489,6 +489,7 @@ enum dst_factor_mode {
- #define RK3588_OVL_PORT_SEL__CLUSTER2			GENMASK(21, 20)
- #define RK3568_OVL_PORT_SEL__CLUSTER1			GENMASK(19, 18)
- #define RK3568_OVL_PORT_SEL__CLUSTER0			GENMASK(17, 16)
-+#define RK3588_OVL_PORT_SET__PORT3_MUX			GENMASK(15, 12)
- #define RK3568_OVL_PORT_SET__PORT2_MUX			GENMASK(11, 8)
- #define RK3568_OVL_PORT_SET__PORT1_MUX			GENMASK(7, 4)
- #define RK3568_OVL_PORT_SET__PORT0_MUX			GENMASK(3, 0)
+ 	/* For some reason we didn't end up at the start of vram */
 -- 
-2.39.2
+2.34.1
 
