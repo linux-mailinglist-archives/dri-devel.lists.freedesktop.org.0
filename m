@@ -2,57 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A92178B2006
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 13:14:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FCD8B2016
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 13:18:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0745110FAD0;
-	Thu, 25 Apr 2024 11:14:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bLVDuBDy";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DDB210E16B;
+	Thu, 25 Apr 2024 11:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6410611A3AC
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 11:14:12 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2392AB0B;
- Thu, 25 Apr 2024 13:13:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1714043598;
- bh=niR16qEKwPqjmNIq6bjqJcMcnb66MBAe9uEjIVqzIP0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bLVDuBDyaEur9zVnBH3Iy8ObP2vK3yEgss7QXwjuRfCXNnYX9w5A/D0YpuFdCRk3e
- hZMGgLHdMXgnmHhidf4gl9TEswJTasAGCykg1aeVvsxs2iwhTus89tepR/CJJc2qUA
- SVLwr1e/nsCzMgpPx+XHLH20ALf1QsuBxzjx87IQ=
-Date: Thu, 25 Apr 2024 14:14:03 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Adam Ford <aford173@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, aford@beaconembedded.com,
- kernel test robot <lkp@intel.com>, Liu Ying <victor.liu@nxp.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] drm/bridge: imx: Fix unmet depenency for
- PHY_FSL_SAMSUNG_HDMI_PHY
-Message-ID: <20240425111403.GB28454@pendragon.ideasonboard.com>
-References: <20240422103352.8886-1-aford173@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9F75E10E16B
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 11:18:31 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C6F71007;
+ Thu, 25 Apr 2024 04:18:59 -0700 (PDT)
+Received: from [10.57.56.40] (unknown [10.57.56.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 687C53F7BD;
+ Thu, 25 Apr 2024 04:18:30 -0700 (PDT)
+Message-ID: <093eec5f-1c47-4481-bf0a-567441fd6bc3@arm.com>
+Date: Thu, 25 Apr 2024 12:18:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240422103352.8886-1-aford173@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Kill the faulty_slots variable in
+ panthor_sched_suspend()
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
+References: <20240425103920.826458-1-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240425103920.826458-1-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,49 +49,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adam,
-
-Thank you for the patch.
-
-On Mon, Apr 22, 2024 at 05:33:52AM -0500, Adam Ford wrote:
-> When enabling i.MX8MP DWC HDMI driver, it automatically selects
-> PHY_FSL_SAMSUNG_HDMI_PHY, since it wont' work without the phy.
-> This may cause some Kconfig warnings during various build tests.
-> Fix this by implying the phy instead of selecting the phy.
+On 25/04/2024 11:39, Boris Brezillon wrote:
+> We can use upd_ctx.timedout_mask directly, and the faulty_slots update
+> in the flush_caches_failed situation is never used.
 > 
-> To prevent this from happening with the DRM_IMX8MP_HDMI_PVI, also
-> imply it instead of selecting it.
-> 
-> Fixes: 1f36d634670d ("drm/bridge: imx: add bridge wrapper driver for i.MX8MP DWC HDMI")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202404190103.lLm8LtuP-lkp@intel.com/
-> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Suggested-by: Suggested-by: Steven Price <steven.price@arm.com>
 
-This looks sensible to me.
+I'm obviously too full of suggestions! ;)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+And you're doing a much better job of my todo list than I am!
+
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
-> V2:  Change DRM_IMX8MP_HDMI_PVI at the same time since it was affected
->      from the same commit.
+>  drivers/gpu/drm/panthor/panthor_sched.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-> index 7687ed652df5..13142a6b8590 100644
-> --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> @@ -8,8 +8,8 @@ config DRM_IMX8MP_DW_HDMI_BRIDGE
->  	depends on COMMON_CLK
->  	depends on DRM_DW_HDMI
->  	depends on OF
-> -	select DRM_IMX8MP_HDMI_PVI
-> -	select PHY_FSL_SAMSUNG_HDMI_PHY
-> +	imply DRM_IMX8MP_HDMI_PVI
-> +	imply PHY_FSL_SAMSUNG_HDMI_PHY
->  	help
->  	  Choose this to enable support for the internal HDMI encoder found
->  	  on the i.MX8MP SoC.
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index fad4678ca4c8..fed28c16d5d1 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -2584,8 +2584,8 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
+>  {
+>  	struct panthor_scheduler *sched = ptdev->scheduler;
+>  	struct panthor_csg_slots_upd_ctx upd_ctx;
+> -	u32 suspended_slots, faulty_slots;
+>  	struct panthor_group *group;
+> +	u32 suspended_slots;
+>  	u32 i;
+>  
+>  	mutex_lock(&sched->lock);
+> @@ -2605,10 +2605,9 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
+>  
+>  	csgs_upd_ctx_apply_locked(ptdev, &upd_ctx);
+>  	suspended_slots &= ~upd_ctx.timedout_mask;
+> -	faulty_slots = upd_ctx.timedout_mask;
+>  
+> -	if (faulty_slots) {
+> -		u32 slot_mask = faulty_slots;
+> +	if (upd_ctx.timedout_mask) {
+> +		u32 slot_mask = upd_ctx.timedout_mask;
+>  
+>  		drm_err(&ptdev->base, "CSG suspend failed, escalating to termination");
+>  		csgs_upd_ctx_init(&upd_ctx);
+> @@ -2659,9 +2658,6 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
+>  
+>  			slot_mask &= ~BIT(csg_id);
+>  		}
+> -
+> -		if (flush_caches_failed)
+> -			faulty_slots |= suspended_slots;
+>  	}
+>  
+>  	for (i = 0; i < sched->csg_slot_count; i++) {
 
--- 
-Regards,
-
-Laurent Pinchart
