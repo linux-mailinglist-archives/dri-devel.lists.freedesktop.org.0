@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F0B8B1F74
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 12:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0C78B1FCA
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 13:04:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6745910FEBA;
-	Thu, 25 Apr 2024 10:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2393710EA0B;
+	Thu, 25 Apr 2024 11:04:03 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Srtvyshk";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id EC3CC10E92A
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 10:43:44 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 094771007;
- Thu, 25 Apr 2024 03:44:12 -0700 (PDT)
-Received: from [10.57.56.40] (unknown [10.57.56.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FB7E3F64C;
- Thu, 25 Apr 2024 03:43:42 -0700 (PDT)
-Message-ID: <45272508-b172-46e6-bb75-1a39d7cce37a@arm.com>
-Date: Thu, 25 Apr 2024 11:43:39 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7FFE10EA0B
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 11:04:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1714043042; x=1745579042;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=FDb6y1ucN+9xpvwKmSl9tirQC+Prtbp5seNaPmvjRyI=;
+ b=Srtvyshk5H42/Dq7V5UfPgVw7g/8uETWAOvhzF7UkZYtmj6k6V8Ar+gg
+ M2h1TAb6h2b9AJoE5fSmANIAY0D8zohLXyVBOvZwOXOzvzm+oW/t+esU1
+ Xpxw35/SsX557mI+k2ILbof3C6ojTJcXXkPVLYvuIq6lAUA+5Y7Qy8NyM
+ 0xWN4fw5RS4XzlqdXeIFq8kRvGu1JQ7JlhB7Vkg2T0zLNxBzCD+PG7A5X
+ tjREeh+D0NVP2bX9hEv8o6f59Md2KQIjhT/8Cra8e+9aWJOF+IFk3crC3
+ AYeauaZlNliaLyJcomJwm9RY931G1VyhjG2EIQ8slYOumRB9Pm1y+lsSt w==;
+X-CSE-ConnectionGUID: 2KM6NV/3RHaAlFVjZIkyXA==
+X-CSE-MsgGUID: b8CM3t1FRFSGrkm6PyHU9A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9937492"
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="9937492"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2024 04:04:01 -0700
+X-CSE-ConnectionGUID: eKgz0sB5S1W92TUHpwfksQ==
+X-CSE-MsgGUID: oEvrvPwfTyubALCNURiChw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; d="scan'208";a="25521191"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2024 04:04:00 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: jani.nikula@intel.com, Maxime Ripard <mripard@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Caleb Connolly <caleb.connolly@linaro.org>
+Subject: [PATCH] MAINTAINERS: fix LG sw43408 panel driver drm-misc git URL
+Date: Thu, 25 Apr 2024 14:03:52 +0300
+Message-Id: <20240425110352.1374729-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/panthor: Make sure the tiler initial/max chunks
- are consistent
-From: Steven Price <steven.price@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- kernel@collabora.com
-References: <20240425071837.529039-1-boris.brezillon@collabora.com>
- <20240425071837.529039-3-boris.brezillon@collabora.com>
- <f0094aef-a190-41ba-91bd-006eb0e1bf69@arm.com>
-Content-Language: en-GB
-In-Reply-To: <f0094aef-a190-41ba-91bd-006eb0e1bf69@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,72 +69,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/04/2024 10:28, Steven Price wrote:
-> On 25/04/2024 08:18, Boris Brezillon wrote:
->> It doesn't make sense to have a maximum number of chunks smaller than
->> the initial number of chunks attached to the context.
->>
->> Fix the uAPI header to reflect the new constraint, and mention the
->> undocumented "initial_chunk_count > 0" constraint while at it.
->>
->> Fixes: 9cca48fa4f89 ("drm/panthor: Add the heap logical block")
->> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> 
-> Reviewed-by: Steven Price <steven.price@arm.com>
+The drm-misc git repo has moved to Gitlab. Fix the URL.
 
-Ok, I'll take that back... I've rebased (and fixed up all the out of
-tree patches) and this doesn't work when I actually test it!
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Caleb Connolly <caleb.connolly@linaro.org>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
->> ---
->>  drivers/gpu/drm/panthor/panthor_heap.c | 3 +++
->>  include/uapi/drm/panthor_drm.h         | 8 ++++++--
->>  2 files changed, 9 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
->> index 143fa35f2e74..8728c9bb76e4 100644
->> --- a/drivers/gpu/drm/panthor/panthor_heap.c
->> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
->> @@ -281,6 +281,9 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
->>  	if (initial_chunk_count == 0)
->>  		return -EINVAL;
->>  
->> +	if (initial_chunk_count < max_chunks)
-
-This should be initial_chunk_count > max_chunks. Otherwise you're
-requiring the initial chunk count to be equal *or greater* than the max
-chunks which makes no sense!
-
-Steve
-
->> +		return -EINVAL;
->> +
->>  	if (hweight32(chunk_size) != 1 ||
->>  	    chunk_size < SZ_256K || chunk_size > SZ_2M)
->>  		return -EINVAL;
->> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
->> index dadb05ab1235..5db80a0682d5 100644
->> --- a/include/uapi/drm/panthor_drm.h
->> +++ b/include/uapi/drm/panthor_drm.h
->> @@ -895,13 +895,17 @@ struct drm_panthor_tiler_heap_create {
->>  	/** @vm_id: VM ID the tiler heap should be mapped to */
->>  	__u32 vm_id;
->>  
->> -	/** @initial_chunk_count: Initial number of chunks to allocate. */
->> +	/** @initial_chunk_count: Initial number of chunks to allocate. Must be at least one. */
->>  	__u32 initial_chunk_count;
->>  
->>  	/** @chunk_size: Chunk size. Must be a power of two at least 256KB large. */
->>  	__u32 chunk_size;
->>  
->> -	/** @max_chunks: Maximum number of chunks that can be allocated. */
->> +	/**
->> +	 * @max_chunks: Maximum number of chunks that can be allocated.
->> +	 *
->> +	 * Must be at least @initial_chunk_count.
->> +	 */
->>  	__u32 max_chunks;
->>  
->>  	/**
-> 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d6327dc12cb1..23997d2ea91c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6766,7 +6766,7 @@ DRM DRIVER FOR LG SW43408 PANELS
+ M:	Sumit Semwal <sumit.semwal@linaro.org>
+ M:	Caleb Connolly <caleb.connolly@linaro.org>
+ S:	Maintained
+-T:	git git://anongit.freedesktop.org/drm/drm-misc
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
+ F:	drivers/gpu/drm/panel/panel-lg-sw43408.c
+ 
+-- 
+2.39.2
 
