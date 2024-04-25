@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD868B1BBA
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 09:18:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 992678B1BBB
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 09:18:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1A1010E6E2;
-	Thu, 25 Apr 2024 07:18:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1BCC10E595;
+	Thu, 25 Apr 2024 07:18:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="k7q1HuEc";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="acatInul";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D087B10E6E2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 07:18:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 358E710E595
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 07:18:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714029521;
- bh=Ig8jtL7MD7uV33lww1KWyPu6izlxIxSV3mRCEixswc4=;
+ s=mail; t=1714029522;
+ bh=eV7aELKJ+gQJ7Zb2lwM73UFu5GwTeV6h6EUCdjt+vNU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=k7q1HuEchqsYp+gY3N8z0ufCCxZPYhs/CZcFDXMQC6tVTbSyin7wjEk2T7oxw4ZKp
- Dlh9SiVCPjh5oq9y3HeFSWWl45FYN7zD4KEJOjkUjcwY4fATEOAoRcHQI9WNM90Bpz
- vClxC3EDtwnBkIoaT3aU3xVQtqkc1JWkdVfI+edhUIBjYaYSWEuMyb/Z+D4+aqZxgy
- sPAZi4SgtduPB9ryd1lE3nVtGQLB/8/eavVLIsFwC57yNJ63RWnnhHa3lmEyCgdgrq
- 1WUyBHUf+3wkkJn1ZenFlfho876avx2gd7fyfyExc0jRhK10wmuQp6pY40kHJ9meLR
- pre0aNmrtoDpw==
+ b=acatInulZ7d2lAfV+f1rfp0q96otY1HNOKkVDgj7lAW7dOfrgA+9H9mRds4QVkkfS
+ qC5SpavDhfw2jac/8RTZ64IMbDmFAxxME1hagRXoR3AV17n0TdQv5rIBTPObPAWRBY
+ 03sEf0oJeCoSb1qiDMTqFe69Nw8bUy/Lvm8aQUqPEZ11q31SnSjUUBAha3yR7x7Djv
+ 38F103+xU+d4pHLUkauuO07pBKGWW+DamprKTdwO1D8cfSZ5JDBZEejDknQjq+Vuv7
+ BhQbGYeLu2bhkvEO2kLd9Hf97Era6RoXHtcUUS2IbJJ/SGEfgmf7HWsn+ytg+hugpa
+ ofFv6ILb5u/ww==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id E157C378215C;
- Thu, 25 Apr 2024 07:18:40 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 99A93378215D;
+ Thu, 25 Apr 2024 07:18:41 +0000 (UTC)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- Antonino Maniscalco <antonino.maniscalco@collabora.com>,
  kernel@collabora.com
-Subject: [PATCH 1/3] drm/panthor: Fix tiler OOM handling to allow incremental
- rendering
-Date: Thu, 25 Apr 2024 09:18:35 +0200
-Message-ID: <20240425071837.529039-2-boris.brezillon@collabora.com>
+Subject: [PATCH 2/3] drm/panthor: Make sure the tiler initial/max chunks are
+ consistent
+Date: Thu, 25 Apr 2024 09:18:36 +0200
+Message-ID: <20240425071837.529039-3-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240425071837.529039-1-boris.brezillon@collabora.com>
 References: <20240425071837.529039-1-boris.brezillon@collabora.com>
@@ -63,43 +62,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Antonino Maniscalco <antonino.maniscalco@collabora.com>
+It doesn't make sense to have a maximum number of chunks smaller than
+the initial number of chunks attached to the context.
 
-If the kernel couldn't allocate memory because we reached the maximum
-number of chunks but no render passes are in flight
-(panthor_heap_grow() returning -ENOMEM), we should defer the OOM
-handling to the FW by returning a NULL chunk. The FW will then call
-the tiler OOM exception handler, which is supposed to implement
-incremental rendering (execute an intermediate fragment job to flush
-the pending primitives, release the tiler memory that was used to
-store those primitives, and start over from where it stopped).
+Fix the uAPI header to reflect the new constraint, and mention the
+undocumented "initial_chunk_count > 0" constraint while at it.
 
-Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
-Signed-off-by: Antonino Maniscalco <antonino.maniscalco@collabora.com>
+Fixes: 9cca48fa4f89 ("drm/panthor: Add the heap logical block")
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panthor/panthor_heap.c | 3 +++
+ include/uapi/drm/panthor_drm.h         | 8 ++++++--
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index b3a51a6de523..6de8c0c702cb 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -1354,7 +1354,13 @@ static int group_process_tiler_oom(struct panthor_group *group, u32 cs_id)
- 					pending_frag_count, &new_chunk_va);
- 	}
+diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
+index 143fa35f2e74..8728c9bb76e4 100644
+--- a/drivers/gpu/drm/panthor/panthor_heap.c
++++ b/drivers/gpu/drm/panthor/panthor_heap.c
+@@ -281,6 +281,9 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
+ 	if (initial_chunk_count == 0)
+ 		return -EINVAL;
  
--	if (ret && ret != -EBUSY) {
-+	/* If the kernel couldn't allocate memory because we reached the maximum
-+	 * number of chunks (EBUSY if we have render passes in flight, ENOMEM
-+	 * otherwise), we want to let the FW try to reclaim memory by waiting
-+	 * for fragment jobs to land or by executing the tiler OOM exception
-+	 * handler, which is supposed to implement incremental rendering.
++	if (initial_chunk_count < max_chunks)
++		return -EINVAL;
++
+ 	if (hweight32(chunk_size) != 1 ||
+ 	    chunk_size < SZ_256K || chunk_size > SZ_2M)
+ 		return -EINVAL;
+diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+index dadb05ab1235..5db80a0682d5 100644
+--- a/include/uapi/drm/panthor_drm.h
++++ b/include/uapi/drm/panthor_drm.h
+@@ -895,13 +895,17 @@ struct drm_panthor_tiler_heap_create {
+ 	/** @vm_id: VM ID the tiler heap should be mapped to */
+ 	__u32 vm_id;
+ 
+-	/** @initial_chunk_count: Initial number of chunks to allocate. */
++	/** @initial_chunk_count: Initial number of chunks to allocate. Must be at least one. */
+ 	__u32 initial_chunk_count;
+ 
+ 	/** @chunk_size: Chunk size. Must be a power of two at least 256KB large. */
+ 	__u32 chunk_size;
+ 
+-	/** @max_chunks: Maximum number of chunks that can be allocated. */
++	/**
++	 * @max_chunks: Maximum number of chunks that can be allocated.
++	 *
++	 * Must be at least @initial_chunk_count.
 +	 */
-+	if (ret && ret != -EBUSY && ret != -ENOMEM) {
- 		drm_warn(&ptdev->base, "Failed to extend the tiler heap\n");
- 		group->fatal_queues |= BIT(cs_id);
- 		sched_queue_delayed_work(sched, tick, 0);
+ 	__u32 max_chunks;
+ 
+ 	/**
 -- 
 2.44.0
 
