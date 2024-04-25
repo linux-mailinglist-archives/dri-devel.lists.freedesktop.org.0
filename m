@@ -2,36 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A0E8B2467
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 16:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E90B88B2475
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 16:58:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F130411A4F0;
-	Thu, 25 Apr 2024 14:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6238A11A4D7;
+	Thu, 25 Apr 2024 14:58:14 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BtLHAqD5";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34CFC11A4F7
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 14:52:08 +0000 (UTC)
-Received: from i5e861d82.versanet.de ([94.134.29.130] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1s00S1-0003Vg-2q; Thu, 25 Apr 2024 16:51:53 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Andy Yan <andyshrk@163.com>
-Cc: tzimmermann@suse.de, mripard@kernel.org, hjc@rock-chips.com,
- s.hauer@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH 1/1] drm/rockchip: vop2: Fix the port mux of VP2
-Date: Thu, 25 Apr 2024 16:51:52 +0200
-Message-ID: <3237003.e9J7NaK4W3@diego>
-In-Reply-To: <20240422101905.32703-2-andyshrk@163.com>
-References: <20240422101905.32703-1-andyshrk@163.com>
- <20240422101905.32703-2-andyshrk@163.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63AC811A4D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 14:58:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 263E2CE1A8D;
+ Thu, 25 Apr 2024 14:58:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9A06C113CC;
+ Thu, 25 Apr 2024 14:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1714057089;
+ bh=zyuU7aypTY7g7YWDgpvL/ij2MOClcEQlWT1WF9DZpnE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BtLHAqD5xWO6OKKeia9yyRqUbAZB0xhKytVz5eaC5G5Ya1YPReGVbVAaF7/ZaKn9E
+ /YuLVEgSYmSyITwT+i4uYE8KjcE9QsaA7lfLMFml/bQbHVooHG5gooswSTbsbxGkVb
+ GmNqGaU0umBagSSt43PXEn7MfPYYrh/LXo7BxRaX+gCVpY0xbFfTVd1CyJVq44PgVk
+ ijSEO/PN4GdaRWue3P0ayedh8e881ZCREpETeTeD7+LPthn+ICOFyrYRdiNqOwueVG
+ ATod9Y9lk0OwDZmw/nbgeV3Q/0A5a65xik1HCpPMMXHzvhkd1Dz9D4tRGGhx7TSgTg
+ Qw41nwqdHBLPg==
+Date: Thu, 25 Apr 2024 16:58:06 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ David Lechner <dlechner@baylibre.com>, 
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] drm/ili9341: Remove the duplicative driver
+Message-ID: <20240425-perky-myrtle-gorilla-e1e24f@penduick>
+References: <20240425124208.2255265-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="74envoxrgvwfu67m"
+Content-Disposition: inline
+In-Reply-To: <20240425124208.2255265-1-andriy.shevchenko@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,16 +63,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 22. April 2024, 12:19:05 CEST schrieb Andy Yan:
-> From: Andy Yan <andy.yan@rock-chips.com>
-> 
-> The port mux of VP2 should be RK3568_OVL_PORT_SET__PORT2_MUX.
-> 
-> Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 
-on a rk3588 with VP3 connected to a DSI display
-Tested-by: Heiko Stuebner <heiko@sntech.de>
+--74envoxrgvwfu67m
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Thu, Apr 25, 2024 at 03:42:07PM +0300, Andy Shevchenko wrote:
+> First of all, the driver was introduced when it was already
+> two drivers available for Ilitek 9341 panels.
+>=20
+> Second, the most recent (fourth!) driver has incorporated this one
+> and hence, when enabled, it covers the provided functionality.
+>=20
+> Taking into account the above, remove duplicative driver and make
+> maintenance and support eaiser for everybody.
+>=20
+> Also see discussion [1] for details about Ilitek 9341 duplication
+> code.
+>=20
+> Link: https://lore.kernel.org/r/ZXM9pG-53V4S8E2H@smile.fi.intel.com [1]
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+I think it should be the other way around and we should remove the
+mipi-dbi handling from panel/panel-ilitek-ili9341.c
+
+It's basically two drivers glued together for no particular reason and
+handling two very different use cases which just adds more complexity
+than it needs to.
+
+And it's the only driver doing so afaik, so it's definitely not "least
+surprise" compliant.
+
+Maxime
 
 
+--74envoxrgvwfu67m
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZipveQAKCRAnX84Zoj2+
+dvmrAX9etHoRYY5/bI3esFlwYvaOtVaTDgXGupHx8xowA1Hxjt+tFOdluSqL/hlq
+SI1l4y8BfRsxjM/ARJYlGvp4Wnn0sIUBposLg8sGbgX1rxcALiJweK1Et3vTt3+S
+QMlLOJkL9w==
+=4TjG
+-----END PGP SIGNATURE-----
+
+--74envoxrgvwfu67m--
