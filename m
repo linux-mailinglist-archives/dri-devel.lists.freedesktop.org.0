@@ -2,49 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840698B1F5D
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 12:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F0B8B1F74
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 12:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B60251125F4;
-	Thu, 25 Apr 2024 10:39:25 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mIuXjy1M";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6745910FEBA;
+	Thu, 25 Apr 2024 10:43:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ACA41125F4
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 10:39:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714041563;
- bh=dR9XPovbFN7nxxoojqqE1cq6BYM1IOh0M0c35V4kWiI=;
- h=From:To:Cc:Subject:Date:From;
- b=mIuXjy1MXP+BOSqwoBALdEmMFQ12Z2AK6xvmSUbKi+5k7L5DVOZ2qbEDFX2xEeRyO
- JBZ51xkAzH156tt/RiRhlLDFwrmluCFqThNVZGZcfqr6tJAj49Y3M3IscK6SNlFJ2G
- w2nPbf2PF499drR9bv2RK2mcG19SzMJlHZbhG3RbMuovOhA0ktvQlDM4/wGLnFUfti
- KCGlBVKo6HbC3XqP/g1jk4fZ8y27jB8HpeU09sCZxrrBsbVg9B9oZWjxXZMc72ppQ+
- khwwAmXkd5DoiNSf66VoF1hy6HirP9ob1BGxp+HTFTs9JgIlv/bKy8/lrbarG5KoMG
- iDBFZ+QXzSaRg==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id AA9B9378214C;
- Thu, 25 Apr 2024 10:39:22 +0000 (UTC)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
-	kernel@collabora.com
-Subject: [PATCH] drm/panthor: Kill the faulty_slots variable in
- panthor_sched_suspend()
-Date: Thu, 25 Apr 2024 12:39:20 +0200
-Message-ID: <20240425103920.826458-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.44.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EC3CC10E92A
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 10:43:44 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 094771007;
+ Thu, 25 Apr 2024 03:44:12 -0700 (PDT)
+Received: from [10.57.56.40] (unknown [10.57.56.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FB7E3F64C;
+ Thu, 25 Apr 2024 03:43:42 -0700 (PDT)
+Message-ID: <45272508-b172-46e6-bb75-1a39d7cce37a@arm.com>
+Date: Thu, 25 Apr 2024 11:43:39 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] drm/panthor: Make sure the tiler initial/max chunks
+ are consistent
+From: Steven Price <steven.price@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com
+References: <20240425071837.529039-1-boris.brezillon@collabora.com>
+ <20240425071837.529039-3-boris.brezillon@collabora.com>
+ <f0094aef-a190-41ba-91bd-006eb0e1bf69@arm.com>
+Content-Language: en-GB
+In-Reply-To: <f0094aef-a190-41ba-91bd-006eb0e1bf69@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +52,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We can use upd_ctx.timedout_mask directly, and the faulty_slots update
-in the flush_caches_failed situation is never used.
+On 25/04/2024 10:28, Steven Price wrote:
+> On 25/04/2024 08:18, Boris Brezillon wrote:
+>> It doesn't make sense to have a maximum number of chunks smaller than
+>> the initial number of chunks attached to the context.
+>>
+>> Fix the uAPI header to reflect the new constraint, and mention the
+>> undocumented "initial_chunk_count > 0" constraint while at it.
+>>
+>> Fixes: 9cca48fa4f89 ("drm/panthor: Add the heap logical block")
+>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
 
-Suggested-by: Suggested-by: Steven Price <steven.price@arm.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_sched.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+Ok, I'll take that back... I've rebased (and fixed up all the out of
+tree patches) and this doesn't work when I actually test it!
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index fad4678ca4c8..fed28c16d5d1 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -2584,8 +2584,8 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
- {
- 	struct panthor_scheduler *sched = ptdev->scheduler;
- 	struct panthor_csg_slots_upd_ctx upd_ctx;
--	u32 suspended_slots, faulty_slots;
- 	struct panthor_group *group;
-+	u32 suspended_slots;
- 	u32 i;
- 
- 	mutex_lock(&sched->lock);
-@@ -2605,10 +2605,9 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
- 
- 	csgs_upd_ctx_apply_locked(ptdev, &upd_ctx);
- 	suspended_slots &= ~upd_ctx.timedout_mask;
--	faulty_slots = upd_ctx.timedout_mask;
- 
--	if (faulty_slots) {
--		u32 slot_mask = faulty_slots;
-+	if (upd_ctx.timedout_mask) {
-+		u32 slot_mask = upd_ctx.timedout_mask;
- 
- 		drm_err(&ptdev->base, "CSG suspend failed, escalating to termination");
- 		csgs_upd_ctx_init(&upd_ctx);
-@@ -2659,9 +2658,6 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
- 
- 			slot_mask &= ~BIT(csg_id);
- 		}
--
--		if (flush_caches_failed)
--			faulty_slots |= suspended_slots;
- 	}
- 
- 	for (i = 0; i < sched->csg_slot_count; i++) {
--- 
-2.44.0
+> 
+>> ---
+>>  drivers/gpu/drm/panthor/panthor_heap.c | 3 +++
+>>  include/uapi/drm/panthor_drm.h         | 8 ++++++--
+>>  2 files changed, 9 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
+>> index 143fa35f2e74..8728c9bb76e4 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_heap.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+>> @@ -281,6 +281,9 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
+>>  	if (initial_chunk_count == 0)
+>>  		return -EINVAL;
+>>  
+>> +	if (initial_chunk_count < max_chunks)
+
+This should be initial_chunk_count > max_chunks. Otherwise you're
+requiring the initial chunk count to be equal *or greater* than the max
+chunks which makes no sense!
+
+Steve
+
+>> +		return -EINVAL;
+>> +
+>>  	if (hweight32(chunk_size) != 1 ||
+>>  	    chunk_size < SZ_256K || chunk_size > SZ_2M)
+>>  		return -EINVAL;
+>> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+>> index dadb05ab1235..5db80a0682d5 100644
+>> --- a/include/uapi/drm/panthor_drm.h
+>> +++ b/include/uapi/drm/panthor_drm.h
+>> @@ -895,13 +895,17 @@ struct drm_panthor_tiler_heap_create {
+>>  	/** @vm_id: VM ID the tiler heap should be mapped to */
+>>  	__u32 vm_id;
+>>  
+>> -	/** @initial_chunk_count: Initial number of chunks to allocate. */
+>> +	/** @initial_chunk_count: Initial number of chunks to allocate. Must be at least one. */
+>>  	__u32 initial_chunk_count;
+>>  
+>>  	/** @chunk_size: Chunk size. Must be a power of two at least 256KB large. */
+>>  	__u32 chunk_size;
+>>  
+>> -	/** @max_chunks: Maximum number of chunks that can be allocated. */
+>> +	/**
+>> +	 * @max_chunks: Maximum number of chunks that can be allocated.
+>> +	 *
+>> +	 * Must be at least @initial_chunk_count.
+>> +	 */
+>>  	__u32 max_chunks;
+>>  
+>>  	/**
+> 
 
