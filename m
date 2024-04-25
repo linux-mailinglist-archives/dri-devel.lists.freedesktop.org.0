@@ -2,77 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4B28B2019
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 13:21:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37FC78B204F
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 13:32:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 203DE10FA36;
-	Thu, 25 Apr 2024 11:21:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2F9810EC22;
+	Thu, 25 Apr 2024 11:32:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cqPdFADT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RbXZ94PD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A764A10FA36
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 11:21:29 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-41af670185fso6880365e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 04:21:29 -0700 (PDT)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD4A210EA2A;
+ Thu, 25 Apr 2024 11:32:36 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-1e9320c2ef6so5719335ad.2; 
+ Thu, 25 Apr 2024 04:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714044088; x=1714648888; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cXBdVhclN8iRuqar3CwvdUJWpfJdsgIEIzFUbTS5W/4=;
- b=cqPdFADT48HyK7R3ukI+2zSIw1OjCPjHfnvtcX30aKo1YRNsCmeglL/l7hRJ70rdfC
- HY263e7L354fDbj9JdeuJguwV3MNozr/ilX8YPq4hu/sVHzZ1iXecRgho+i/sgUMd3ad
- oID4dar2SXNCOTv149e1UsClU00pBfjMIrzsIHpfyFT6ez2LCp8MAjQJsph01ykk62bl
- psbwuPSn9/lTD5J5UMfNK3WjChDqAeX2/tIrZtXeg7oHu3pHoYJ2RkEaMhLZvDZ8TTEz
- L9a4b/xaM94VoSWV5jtbY23cqbkznjaA+yURRFjPYsoe3Kq1Ififm+mjJJPeS110A3oX
- 8QDg==
+ d=gmail.com; s=20230601; t=1714044756; x=1714649556; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ffuFzFDT/hhmG/R8PcprPn2rgAavZDqODrquN+sri9E=;
+ b=RbXZ94PDPdlGjKIHcTtKCqTfbU5aPSv2zQdeYDrErWI2H9w6reTAfUJ42E3QjlbKPS
+ 84g7zRwVrOreZMApB0+e48fX+Kyfl96cJCp6FNveua8nIQbnCvM/Fb5RmB6d0/gsasZ2
+ 3naTSiidKNRui9CvfyLCrc2vEy4cWY3FsaSxNRW9NO2+zxm44yEgUOZpXOoGCGK7Mg2X
+ 277aGKXcUCFkZq+Rsb76+g7zZ/HBSpIPsqrymtaDtL2wmoxYanmPw2wlAe1I0+3tcW3a
+ 76ohW2qMg/IPYGwWByw6bj7ooQSD+VF/UZYcg4aDxl1/r6Dvex6GGJkRMC+7bGQ1kUv/
+ TiAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714044088; x=1714648888;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cXBdVhclN8iRuqar3CwvdUJWpfJdsgIEIzFUbTS5W/4=;
- b=OtAewgdffvxa6UZKQc25+V4pgWiU6+2TsD3XJ+FM8lvrEYXeqiIHBI4azXKNxGEMuT
- fYmMvN+XnpaBIIGMcTAfZ58kHhnseLG9muVzfkREcYZYs6eKL8Vg+uGx466lU8tbkkMS
- /9HvfahilYueCRIl325HRoaXzxgjJAKCM4pGIj1u/944EwCAxHzyaiUdUNvX4bzkyt4A
- FNUIewYfa61ghQykCiC0FstYzs15iYlMcYouvev9pusqnopUA7D3NsZvxktfS6rPkTRg
- XyClNyriGDlviz7yICvNHJJa6XrcEa2DJrSb7K96or0vyYrbvll6hglmnxare/ruBbmT
- cj8w==
+ d=1e100.net; s=20230601; t=1714044756; x=1714649556;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ffuFzFDT/hhmG/R8PcprPn2rgAavZDqODrquN+sri9E=;
+ b=g53lNIoy2A/yLFVrM1CQhOR2qNemgJRj+TxdH/BGvkmTjmfBXPj4HprIxq4AGGzqVq
+ IZ7sPYGSF5bXzp9BbcaH5DXwwgprGcJ9xTUx/v0TnMSalqnRw6QfFlp1cEurHtTM2F8d
+ DtMk5kqzP0mgZuoTDdoTOj8lSfMp03lYo7rPY+FHVeAma3CGKgTnDh/nFbrogTpEZox6
+ Om4NaYfElIZVbss6iUsE3cLAkMN1Lw6nqfcwHfAzWDFt+xwDcIlghvnTP2trc8aG7ARV
+ +wzPuZhjxf/T72IwVgGsy3UIT8jAM53w7Iu9z/x7ncODSHASjkKLaS6C/dq8m5b1XMl+
+ dN1w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU99lsrAue/dxsxnwO6G8qYMMWmXjrcRNeuvyoTCNHSjkOmjazOT1hikHmA3GBh90rjUqVkXnljvtCr4WK/8tywnUh921x222eKazmvucoO
-X-Gm-Message-State: AOJu0YzHKBBSiN7np8Vt9t0b0rHiWhng8wJBSp4GKd6OsLMQh86OUGgu
- 87JcSWlDzIzQGlmUZlAO8MrZDmLWvLguUyfv3+MBdmBgFLdiEV0/EV+EFXF2xzk=
-X-Google-Smtp-Source: AGHT+IEkRzF902REA9b5+gdCdVfVhX1mEE+4IWBK9dgathGvN8Vw5Fx6OzS2pvtmCTAMrqcKfcYtzA==
-X-Received: by 2002:a05:600c:470d:b0:418:5e80:b7af with SMTP id
- v13-20020a05600c470d00b004185e80b7afmr5104977wmo.36.1714044087693; 
- Thu, 25 Apr 2024 04:21:27 -0700 (PDT)
-Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- d15-20020adffbcf000000b0034b1bd76d30sm9826105wrs.28.2024.04.25.04.21.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Apr 2024 04:21:27 -0700 (PDT)
-Date: Thu, 25 Apr 2024 14:21:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Alvin Lee <alvin.lee2@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
- Jun Lei <jun.lei@amd.com>, Tom Chung <chiahsuan.chung@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Dillon Varone <dillon.varone@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH v2] drm/amd/display: re-indent dc_power_down_on_boot()
-Message-ID: <ad54bf29-cb70-49bd-a89f-c51ef7abb3ee@moroto.mountain>
+ AJvYcCUkoYaQrUqV6q2JrOkw2OWtny1otK6u3O/IXRzhibqKi5/7BMoTUKt28n7DU0aYIe26nZHw9q9h34Wu+EXTjtaW6WIqYcK9m1d/raCByyTzl/S12EBeL5iABigPf5g2c53y2TiC47ZIL80DcjZmqw==
+X-Gm-Message-State: AOJu0Yx6yZwG6MCvISBeZiv3xnQ3vynOk0TlLCocSDpg01tfVNRFuQL4
+ ggjCWnVeUVnq7qe4JmbHADBUcMUnZi8oMBzUL3QdiPNcyM3S393lcanAutUKvtBrj0dkIb/b937
+ axa14WxNIWprwhlriFw6JOjEdMwc=
+X-Google-Smtp-Source: AGHT+IFAoonKY+Ldbjb5uRtArPVjR8I2eZU4gdaiybP+CEgjB+Lv8nAczp2WQLanPJwYBun3KbKBIsySsFAIfcS6O8U=
+X-Received: by 2002:a17:902:8690:b0:1e2:7dc7:477 with SMTP id
+ g16-20020a170902869000b001e27dc70477mr5255109plo.57.1714044755686; Thu, 25
+ Apr 2024 04:32:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+In-Reply-To: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Thu, 25 Apr 2024 13:32:23 +0200
+Message-ID: <CAH9NwWdzeF0=USW_bckDhPSUrgTfnFuAq44m1OhEmTL4JnBzLg@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: linux-kernel@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,34 +80,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These lines are indented too far.  Clean the whitespace.
+Hi Tomeu,
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-v2: Delete another blank line (checkpatch.pl --strict).
+>
+> If we expose a render node for NPUs without rendering capabilities, the
+> userspace stack will offer it to compositors and applications for
+> rendering, which of course won't work.
+>
+> Userspace is probably right in not questioning whether a render node
+> might not be capable of supporting rendering, so change it in the kernel
+> instead by exposing a /dev/accel node.
+>
+> Before we bring the device up we don't know whether it is capable of
+> rendering or not (depends on the features of its blocks), so first try
+> to probe a rendering node, and if we find out that there is no rendering
+> hardware, abort and retry with an accel node.
+>
 
- drivers/gpu/drm/amd/display/dc/core/dc.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+I really love this idea of moving away from a render node. What needs to be done
+on the userspace side?
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 3e16041bf4f9..5a0835f884a8 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -5192,11 +5192,9 @@ void dc_interrupt_ack(struct dc *dc, enum dc_irq_source src)
- void dc_power_down_on_boot(struct dc *dc)
- {
- 	if (dc->ctx->dce_environment != DCE_ENV_VIRTUAL_HW &&
--			dc->hwss.power_down_on_boot) {
--
--			if (dc->caps.ips_support)
--				dc_exit_ips_for_hw_access(dc);
--
-+	    dc->hwss.power_down_on_boot) {
-+		if (dc->caps.ips_support)
-+			dc_exit_ips_for_hw_access(dc);
- 		dc->hwss.power_down_on_boot(dc);
- 	}
- }
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 46 ++++++++++++++++++++++-----
+>  1 file changed, 38 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 6500f3999c5f..8e7dd23115f4 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/uaccess.h>
+>
+> +#include <drm/drm_accel.h>
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+> @@ -488,10 +489,10 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+>         ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+>  };
+>
+> -DEFINE_DRM_GEM_FOPS(fops);
+> +DEFINE_DRM_GEM_FOPS(render_fops);
+> +DEFINE_DRM_ACCEL_FOPS(accel_fops);
+>
+> -static const struct drm_driver etnaviv_drm_driver = {
+> -       .driver_features    = DRIVER_GEM | DRIVER_RENDER,
+> +static struct drm_driver etnaviv_drm_driver = {
+>         .open               = etnaviv_open,
+>         .postclose           = etnaviv_postclose,
+>         .gem_prime_import_sg_table = etnaviv_gem_prime_import_sg_table,
+> @@ -500,7 +501,6 @@ static const struct drm_driver etnaviv_drm_driver = {
+>  #endif
+>         .ioctls             = etnaviv_ioctls,
+>         .num_ioctls         = DRM_ETNAVIV_NUM_IOCTLS,
+> -       .fops               = &fops,
+>         .name               = "etnaviv",
+>         .desc               = "etnaviv DRM",
+>         .date               = "20151214",
+> @@ -508,15 +508,20 @@ static const struct drm_driver etnaviv_drm_driver = {
+>         .minor              = 4,
+>  };
+>
+> -/*
+> - * Platform driver:
+> - */
+> -static int etnaviv_bind(struct device *dev)
+> +static int etnaviv_bind_with_type(struct device *dev, u32 type)
+>  {
+>         struct etnaviv_drm_private *priv;
+>         struct drm_device *drm;
+> +       bool is_compute_only = true;
+>         int ret;
+>
+> +       etnaviv_drm_driver.driver_features = DRIVER_GEM | type;
+> +
+> +       if (type == DRIVER_RENDER)
+> +               etnaviv_drm_driver.fops = &render_fops;
+> +       else
+> +               etnaviv_drm_driver.fops = &accel_fops;
+> +
+>         drm = drm_dev_alloc(&etnaviv_drm_driver, dev);
+>         if (IS_ERR(drm))
+>                 return PTR_ERR(drm);
+> @@ -553,6 +558,18 @@ static int etnaviv_bind(struct device *dev)
+>
+>         load_gpu(drm);
+>
+> +       for (unsigned int i = 0; i < ETNA_MAX_PIPES; i++) {
+> +               struct etnaviv_gpu *g = priv->gpu[i];
+> +
+> +               if (g && (g->identity.minor_features8 & chipMinorFeatures8_COMPUTE_ONLY) == 0)
+> +                       is_compute_only = false;
+> +       }
+> +
+> +       if (type == DRIVER_RENDER && is_compute_only) {
+> +               ret = -EINVAL;
+> +               goto out_unbind;
+> +       }
+> +
+>         ret = drm_dev_register(drm, 0);
+>         if (ret)
+>                 goto out_unbind;
+> @@ -571,6 +588,19 @@ static int etnaviv_bind(struct device *dev)
+>         return ret;
+>  }
+>
+> +/*
+> + * Platform driver:
+> + */
+> +static int etnaviv_bind(struct device *dev)
+> +{
+> +       int ret = etnaviv_bind_with_type(dev, DRIVER_RENDER);
+> +
+> +       if (ret == -EINVAL)
+> +               return etnaviv_bind_with_type(dev, DRIVER_COMPUTE_ACCEL);
+> +
+> +       return ret;
+> +}
+> +
+>  static void etnaviv_unbind(struct device *dev)
+>  {
+>         struct drm_device *drm = dev_get_drvdata(dev);
+> --
+> 2.44.0
+>
+
+
 -- 
-2.43.0
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
