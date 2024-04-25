@@ -2,71 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419F88B2906
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 21:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837F88B290D
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 21:32:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AABB911A804;
-	Thu, 25 Apr 2024 19:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 550AA10E3CA;
+	Thu, 25 Apr 2024 19:32:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="aUaWGwE+";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=tronnes.org header.i=@tronnes.org header.b="Vty8uhJE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
- [209.85.222.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C816411A804
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 19:27:52 +0000 (UTC)
-Received: by mail-ua1-f52.google.com with SMTP id
- a1e0cc1a2514c-7ef9036d23fso30859241.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 12:27:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1714073271; x=1714678071;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=xRfxLogI9T4CmFpA/Ru6xajlEXu5NliZz/2sLYlz8bo=;
- b=aUaWGwE+pvFrynf48QieieS1pORQEC+U1QQbtTNdqeIUUSOjIOuF1/aVmy234SPWGn
- vfej+TNd+It44gbga7qFTX66NJCLs5car0zPuIfqL+8ZqnLr8oLGPEJqCUuxt2X73TEE
- SnsUHuM+hbUSj8ZjXT2fuIHEvVrCbZLtuYBwc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714073271; x=1714678071;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xRfxLogI9T4CmFpA/Ru6xajlEXu5NliZz/2sLYlz8bo=;
- b=sRubWbprMxsqEnl92KAdl7eq5/XNlD84A+B5/3O/j7IACAofXXsrgzalQOzr8BWNqB
- pk3LO7x0u++Exd4pEu1DyYzp7PS7i2W664pGAt/mXfg2BaVP4E01wYZAa9r3z4Lh01CH
- hzKKID41OzLVE5a5vZCC0qFYZJW72ZE0B0mg4nXONuY5KxXD97Lg1zqh8XcamMV7wvl8
- qnInGzr4n94fWcDSPtGhKeAjha7pzwzVzRtaJs5OaDM8xVJz8ujknOK6TA0woO+Kda/Z
- LX4IhdGEYuVvGlBVsXeOHWiI70fSqGy0IItWoWUiE0L40aRFzPaUG2I+lEwpMdANQoip
- Xspw==
-X-Gm-Message-State: AOJu0YwpXx9P2EpqU+7vNM6nQ94Sf3pgjtxFRRa1xGQ5jabsc+2ooRvC
- fDC2DX0XIRYgnUaKdLDb+Sam+xXMb1rHB0QE880an7DCxBvQHsaffRlRfjrwuYOjgref4ejYs/Z
- 9SYILvOefgSvuzgq86oN+pahFcinD8/v6gkfjlyNxk5QbNdqifK6wTpCHMG7zYBBHAzSvBVI059
- ePtAnrHXoIQe2axi2xo/LkH6Uio21PoaI9dmuJXapg0k74Q4TuIg==
-X-Google-Smtp-Source: AGHT+IGiWvcsbM8xXbwuiNnV+4S3QNaR+rkFtqZskbW40nOl8jDdg6Vv+cSiZ7zf6opnHiBk1LVHtA==
-X-Received: by 2002:a67:fad2:0:b0:47c:1c1b:59be with SMTP id
- g18-20020a67fad2000000b0047c1c1b59bemr446547vsq.33.1714073271249; 
- Thu, 25 Apr 2024 12:27:51 -0700 (PDT)
-Received: from vertex.localdomain
- (pool-173-49-113-140.phlapa.fios.verizon.net. [173.49.113.140])
- by smtp.gmail.com with ESMTPSA id
- b4-20020a0cf044000000b0069b1e2f3074sm7258689qvl.98.2024.04.25.12.27.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Apr 2024 12:27:50 -0700 (PDT)
-From: Zack Rusin <zack.rusin@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
- Zack Rusin <zack.rusin@broadcom.com>, zdi-disclosures@trendmicro.com,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH] drm/vmwgfx: Fix invalid reads in fence signaled events
-Date: Thu, 25 Apr 2024 15:27:48 -0400
-Message-Id: <20240425192748.1761522-1-zack.rusin@broadcom.com>
-X-Mailer: git-send-email 2.40.1
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6431B10E3CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 19:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202312;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=5tRJK1UV1pvwUAKeIjhi+TprALIW1SqSIXJRlUAG31I=; b=Vty8uhJE266ITaXR0L/uBlpamI
+ 1HBeJ424YeoowkBwPF5BXRcPtxy+svEXXgl3zvwINS7aP02v7CQ0QE3WueclfaPc5MN97l9hOEa1G
+ DFgqA+k2NzA9fyuQxleknj749P7J4Gi5tznY4zEuJcNtuGX4Kqksfr2LheYNY6pHvNnXvWhkScLz8
+ X1X9n+wV6N0tGWW3z0VVsyrtVXVQuG41/e8y9vadlwV0okIjJBk0SDVMfs9rgS5WdkehnmhD/tig/
+ ph0RsXRv+tHcev28Pp8c3Ybt9JK7S/f22wJX1FbC19dUiXGt3p7VzHseyYGychxGRH6IYDbToEA9q
+ f9ATaY3g==;
+Received: from [2a01:799:962:4900:815f:3dd0:60d8:6458] (port=56458)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <noralf@tronnes.org>) id 1s04nU-008Vsv-M0;
+ Thu, 25 Apr 2024 21:30:20 +0200
+Message-ID: <703d9f05-499f-41d5-a892-b5c2ee2ab814@tronnes.org>
+Date: Thu, 25 Apr 2024 21:30:17 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/print: drop include seq_file.h
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Maxime Ripard <mripard@kernel.org>, noralf@tronnes.org
+References: <20240422121011.4133236-1-jani.nikula@intel.com>
+ <20240422121011.4133236-2-jani.nikula@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20240422121011.4133236-2-jani.nikula@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,41 +63,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Correctly set the length of the drm_event to the size of the structure
-that's actually used.
 
-The length of the drm_event was set to the parent structure instead of
-to the drm_vmw_event_fence which is supposed to be read. drm_read
-uses the length parameter to copy the event to the user space thus
-resuling in oob reads.
 
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: 8b7de6aa8468 ("vmwgfx: Rework fence event action")
-Reported-by: zdi-disclosures@trendmicro.com # ZDI-CAN-23566
-Cc: David Airlie <airlied@gmail.com>
-CC: Daniel Vetter <daniel@ffwll.ch>
-Cc: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: <stable@vger.kernel.org> # v3.4+
----
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 4/22/24 14:10, Jani Nikula wrote:
+> Never include where a forward declaration will suffice.
+> 
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20240410141434.157908-2-jani.nikula@intel.com
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  include/drm/drm_print.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 561c3b96b6fd..089950ad8681 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -28,7 +28,6 @@
+>  
+>  #include <linux/compiler.h>
+>  #include <linux/printk.h>
+> -#include <linux/seq_file.h>
+>  #include <linux/device.h>
+>  #include <linux/dynamic_debug.h>
+>  
+> @@ -36,6 +35,7 @@
+>  
+>  struct debugfs_regset32;
+>  struct drm_device;
+> +struct seq_file;
+>  
+>  /* Do *not* use outside of drm_print.[ch]! */
+>  extern unsigned long __drm_debug;
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-index 2a0cda324703..5efc6a766f64 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -991,7 +991,7 @@ static int vmw_event_fence_action_create(struct drm_file *file_priv,
- 	}
- 
- 	event->event.base.type = DRM_VMW_EVENT_FENCE_SIGNALED;
--	event->event.base.length = sizeof(*event);
-+	event->event.base.length = sizeof(event->event);
- 	event->event.user_data = user_data;
- 
- 	ret = drm_event_reserve_init(dev, file_priv, &event->base, &event->event.base);
--- 
-2.40.1
+Looks like this broke komeda and omapdrm on arm:
 
+/home/notro/develop/dim-linux/src/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c:
+In function ‘komeda_pipeline_dump_register’:
+/home/notro/develop/dim-linux/src/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c:366:9:
+error: implicit declaration of function ‘seq_printf’; did you mean
+‘drm_printf’? [-Werror=implicit-function-declaration]
+  366 |         seq_printf(sf, "\n======== Pipeline-%d ==========\n",
+pipe->id);
+      |         ^~~~~~~~~~
+      |         drm_printf
+
+/home/notro/develop/dim-linux/src/drivers/gpu/drm/omapdrm/omap_fb.c: In
+function ‘omap_framebuffer_describe’:
+/home/notro/develop/dim-linux/src/drivers/gpu/drm/omapdrm/omap_fb.c:325:9:
+error: implicit declaration of function ‘seq_printf’; did you mean
+‘drm_printf’? [-Werror=implicit-function-declaration]
+  325 |         seq_printf(m, "fb: %dx%d@%4.4s\n", fb->width, fb->height,
+      |         ^~~~~~~~~~
+      |         drm_printf
+
+Noralf.
