@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837F88B290D
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 21:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5948B291C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 21:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 550AA10E3CA;
-	Thu, 25 Apr 2024 19:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32BE311A828;
+	Thu, 25 Apr 2024 19:41:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=tronnes.org header.i=@tronnes.org header.b="Vty8uhJE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GdHyMmYk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6431B10E3CA
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 19:32:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202312;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=5tRJK1UV1pvwUAKeIjhi+TprALIW1SqSIXJRlUAG31I=; b=Vty8uhJE266ITaXR0L/uBlpamI
- 1HBeJ424YeoowkBwPF5BXRcPtxy+svEXXgl3zvwINS7aP02v7CQ0QE3WueclfaPc5MN97l9hOEa1G
- DFgqA+k2NzA9fyuQxleknj749P7J4Gi5tznY4zEuJcNtuGX4Kqksfr2LheYNY6pHvNnXvWhkScLz8
- X1X9n+wV6N0tGWW3z0VVsyrtVXVQuG41/e8y9vadlwV0okIjJBk0SDVMfs9rgS5WdkehnmhD/tig/
- ph0RsXRv+tHcev28Pp8c3Ybt9JK7S/f22wJX1FbC19dUiXGt3p7VzHseyYGychxGRH6IYDbToEA9q
- f9ATaY3g==;
-Received: from [2a01:799:962:4900:815f:3dd0:60d8:6458] (port=56458)
- by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <noralf@tronnes.org>) id 1s04nU-008Vsv-M0;
- Thu, 25 Apr 2024 21:30:20 +0200
-Message-ID: <703d9f05-499f-41d5-a892-b5c2ee2ab814@tronnes.org>
-Date: Thu, 25 Apr 2024 21:30:17 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4243911A828
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 19:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1714074076; x=1745610076;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=eW+nMszNU9tnsOXne8SmPVoEo1Jo72HGcxpnwGphtD8=;
+ b=GdHyMmYkzwN2JPLQSHiOutqgjnh5WUVhqObDeBwnIyX7KnDzqTJl1G2S
+ uTs/Yn1R5/f6WZQlx0NrdSKDIUetOpuFNqN21b0TBdV+Q0TIo8g8/rPxg
+ W8sGH32Zshu5BMkheZb68YeyVfdKNUcWCNBZC5rWSK23p8d/rbL8ouSjt
+ CWK3R0OMBEYfLgX3xM5R08cXzcZEQIFl3yvrdOH2c+WXKtdQadFW7ghRs
+ V+Jc64MnK1d23Kq+AXq0oyjulSHismr2yvt9QKRuZBTWIUU64fXeB0ynq
+ x75t2xUYNUtyNJGxAgdP6oDPSV2+KtluSxsnZ3R6OrQ44b+D98qStbHNl g==;
+X-CSE-ConnectionGUID: kPbYpDsJRh+SJDgjFKVmWA==
+X-CSE-MsgGUID: fXrH3uhnTHe4WLkQAgCIGw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="13575822"
+X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; d="scan'208";a="13575822"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2024 12:41:16 -0700
+X-CSE-ConnectionGUID: jy1Rbf/AQ8aLHqjT7ABvvg==
+X-CSE-MsgGUID: AWYQlneZSQucs16NRuChmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; d="scan'208";a="25823526"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+ by orviesa008.jf.intel.com with ESMTP; 25 Apr 2024 12:41:14 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1s04xz-0002mu-13;
+ Thu, 25 Apr 2024 19:41:11 +0000
+Date: Fri, 26 Apr 2024 03:40:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: [drm-misc:for-linux-next 2/2]
+ drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c:366:9: error: implicit
+ declaration of function 'seq_printf'; did you mean 'drm_printf'?
+Message-ID: <202404260313.KFRxhgYu-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/print: drop include seq_file.h
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Maxime Ripard <mripard@kernel.org>, noralf@tronnes.org
-References: <20240422121011.4133236-1-jani.nikula@intel.com>
- <20240422121011.4133236-2-jani.nikula@intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20240422121011.4133236-2-jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,59 +69,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   2bdb481bf7a93c22b9fea8daefa2834aab23a70f
+commit: 9e2b84fb6cd7ee913aa61d461db65c1d6a08dcf2 [2/2] drm/print: drop include seq_file.h
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240426/202404260313.KFRxhgYu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404260313.KFRxhgYu-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404260313.KFRxhgYu-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c: In function 'komeda_pipeline_dump_register':
+>> drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c:366:9: error: implicit declaration of function 'seq_printf'; did you mean 'drm_printf'? [-Werror=implicit-function-declaration]
+     366 |         seq_printf(sf, "\n======== Pipeline-%d ==========\n", pipe->id);
+         |         ^~~~~~~~~~
+         |         drm_printf
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/arm/display/komeda/d71/d71_component.c: In function 'dump_block_header':
+>> drivers/gpu/drm/arm/display/komeda/d71/d71_component.c:94:9: error: implicit declaration of function 'seq_printf'; did you mean 'drm_printf'? [-Werror=implicit-function-declaration]
+      94 |         seq_printf(sf, "BLOCK_INFO:\t\t0x%X\n", hdr.block_info);
+         |         ^~~~~~~~~~
+         |         drm_printf
+   drivers/gpu/drm/arm/display/komeda/d71/d71_component.c: In function 'd71_gcu_dump':
+>> drivers/gpu/drm/arm/display/komeda/d71/d71_component.c:1360:9: error: implicit declaration of function 'seq_puts' [-Werror=implicit-function-declaration]
+    1360 |         seq_puts(sf, "\n------ GCU ------\n");
+         |         ^~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-On 4/22/24 14:10, Jani Nikula wrote:
-> Never include where a forward declaration will suffice.
-> 
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20240410141434.157908-2-jani.nikula@intel.com
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  include/drm/drm_print.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index 561c3b96b6fd..089950ad8681 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -28,7 +28,6 @@
->  
->  #include <linux/compiler.h>
->  #include <linux/printk.h>
-> -#include <linux/seq_file.h>
->  #include <linux/device.h>
->  #include <linux/dynamic_debug.h>
->  
-> @@ -36,6 +35,7 @@
->  
->  struct debugfs_regset32;
->  struct drm_device;
-> +struct seq_file;
->  
->  /* Do *not* use outside of drm_print.[ch]! */
->  extern unsigned long __drm_debug;
+vim +366 drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
 
-Looks like this broke komeda and omapdrm on arm:
+7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  358) 
+7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  359) void komeda_pipeline_dump_register(struct komeda_pipeline *pipe,
+7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  360) 				   struct seq_file *sf)
+7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  361) {
+7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  362) 	struct komeda_component *c;
+7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  363) 	u32 id;
+a1c3be890440a1 Carsten Haitzler                       2021-02-04  364  	unsigned long avail_comps;
+7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22  365) 
+7d3cfb70a604d2 james qian wang (Arm Technology China  2019-01-22 @366) 	seq_printf(sf, "\n======== Pipeline-%d ==========\n", pipe->id);
 
-/home/notro/develop/dim-linux/src/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c:
-In function ‘komeda_pipeline_dump_register’:
-/home/notro/develop/dim-linux/src/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c:366:9:
-error: implicit declaration of function ‘seq_printf’; did you mean
-‘drm_printf’? [-Werror=implicit-function-declaration]
-  366 |         seq_printf(sf, "\n======== Pipeline-%d ==========\n",
-pipe->id);
-      |         ^~~~~~~~~~
-      |         drm_printf
+:::::: The code at line 366 was first introduced by commit
+:::::: 7d3cfb70a604d215e195ba9282df42dd6edff16a drm/komeda: Add debugfs node "register" for register dump
 
-/home/notro/develop/dim-linux/src/drivers/gpu/drm/omapdrm/omap_fb.c: In
-function ‘omap_framebuffer_describe’:
-/home/notro/develop/dim-linux/src/drivers/gpu/drm/omapdrm/omap_fb.c:325:9:
-error: implicit declaration of function ‘seq_printf’; did you mean
-‘drm_printf’? [-Werror=implicit-function-declaration]
-  325 |         seq_printf(m, "fb: %dx%d@%4.4s\n", fb->width, fb->height,
-      |         ^~~~~~~~~~
-      |         drm_printf
+:::::: TO: james qian wang (Arm Technology China) <james.qian.wang@arm.com>
+:::::: CC: Liviu Dudau <Liviu.Dudau@arm.com>
 
-Noralf.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
