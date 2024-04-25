@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A678B25D7
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 18:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E77198B25DA
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 18:00:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79C98112F62;
-	Thu, 25 Apr 2024 16:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB7A11A5A3;
+	Thu, 25 Apr 2024 16:00:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="D9slXrIy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SoAs4DJB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4720B112F62
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 16:00:45 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-34782453ffdso1072754f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 09:00:45 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCCD11A5A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 16:00:52 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-347e635b1fcso856682f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 09:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714060843; x=1714665643; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1714060851; x=1714665651; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=wGYFYnULTAAU0aFrjX7VVM7UZ6GIxaemoe8H8xCPZbQ=;
- b=D9slXrIy7At4D3+xHk+otKu2nCXMlVrH/FEQssE7/DaO62Ga7iG8WM/5i4syetMoEu
- MZb1+uSD592PKS672aTE/L9k77g2YTb2pirWlrIhNB31+PJ9kkYxbJCQcQ6maS2ClXRo
- twxV4WOVlRLlRrE5sqyULaWe+86G3h+QDcc9Jsqi+tdpvpp/r/y31UejHBH2TALd2V5p
- 95sgUIoPJf20zO98V+YJEwScCWrFjd/Pw+0JEVo0Gdnu43uoUf9695qxY2EhdLnllZDA
- W1LvMb0Cu9+Xf9bL65YLyg7WCN3YfgAu+okr9ifWvptXMfnUjN+cN+bOl8q9jbvzHYHa
- OKGg==
+ :reply-to; bh=kckeE+NEI4roa7Me46yLkkObGQIsPjSIT73YQTFPxCk=;
+ b=SoAs4DJB/0EuXTWnLo2k19CaaqwjJDWqafgKF6XepVL7k1t1LOZrJWEgIkIgqV7lP1
+ arFJK+RgoHV5fp7SLB+CdZkPcMRfIMIObLsujsZp1g6crwo1atJ5nIUSzWnl2EcjdFD7
+ HJigBDKKJftsAfBbSfZAwjJiKKZasp5cT63Mn//9h1T+Q3BE2rp1LOhqqqqvEw7vrwEL
+ 3GR2j4AN5OXBeLZYYcJyp0cT7jxxYhO2Ysksg9HMmR7eLR12XqOcdAb9aVZaBC3mqI9w
+ lUKkhLg5Gqk3E25+BpdEh4LsTSA6CISOxLRzRZ9Iq8lhRKX9rrscV8SESbnngFQrZAFU
+ zeWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714060843; x=1714665643;
+ d=1e100.net; s=20230601; t=1714060851; x=1714665651;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=wGYFYnULTAAU0aFrjX7VVM7UZ6GIxaemoe8H8xCPZbQ=;
- b=ZSF2UToEovyOANSkgo+r4RxbjKMlqyswjTFLleN8HdByJt3MjMbdnAoYctkR1fHkdN
- 1fYTfjstEk8rZlg3D2zLud0F0S8LiF5tuKeD67SpimpP9J/59w8FrI+c+y1QRi1fWZ2H
- SWEx3hqNFMBRNfIlOgHpL0YxejanJQR/3XTJ6SeWv4+cNcmFLIIP8gq0XFbr+LqNs8DI
- RWbrOhUxKrutYlIRf0DU57YLdeOaddh90ICt2ykZYVX1fDsji8/Jwe+f8fzYjWpVcGdF
- khqNvTC4SZSKCgkqVuqu2iVk/I9FtG8NL8Slbs/ixwfoC3Jko6UMlZt5OyCV24dF9+rX
- JKww==
+ bh=kckeE+NEI4roa7Me46yLkkObGQIsPjSIT73YQTFPxCk=;
+ b=YH507t9sEH6t5gqyQ6SyG5n0+ANlxZlSxWCLSTpj0lE6+Az1Wr16Y80Tplk+84oz44
+ 0PWY93NT7GGAqLksCf6Y6ndSoyM80wazh5ToQfBfETkClZkcp4auPgbXj3ICplWd10NU
+ iJ5srQKhnax85b8Y4bfByk15OhmXgdwifgH8fedXtbasFwEG1G3naAAXylAO+4YNiwwy
+ nNmBS8nbrL86J/Dxv8bOXw+P2DYEb7Zscs5SPEPVgG8+ttKJLLA5T0p3/tloZPhtbpDV
+ WZQw9ZHgIn8Sa0A9/Hcx9o6QQ46+Re2+anrjvWrEWwmhd6z9+oSBm1bvOH+vb5Gmzxbb
+ gIFQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUfXtLkMFEJUmrWqWC4O0e0ihCiANr+LBhuxWjx3+R1BH1dLRDrOqg32wpFlNT40yatNYiLfUma4RHViIkcaxqbZ0/np1J50DqrZTdsuoGT
-X-Gm-Message-State: AOJu0YwV22qZ+VHYHVY8DnRHFrrJ6Mr+Vz62LbPrQ0VzQhEzUgelQJ/Y
- UfbGY7lFF5uMfr/Ys/v+M45715sbdHrzgrj/5f8eUFzzQ6jysoRYy92diuLChe8=
-X-Google-Smtp-Source: AGHT+IHDrrx5zIevOrXHuv98ZaOQmOYkhPHMInLfyTpExcxkK+PVCMoBfbV/yH/h1aVwEACnI2JMDg==
-X-Received: by 2002:a5d:4746:0:b0:349:f83f:9ebf with SMTP id
- o6-20020a5d4746000000b00349f83f9ebfmr5834974wrs.5.1714060842837; 
- Thu, 25 Apr 2024 09:00:42 -0700 (PDT)
+ AJvYcCUTSCnIRlfRYUOoOii6Xc05Dc3JOCH41Zrh6qHswgTEuW0eh6fssSLbx5zE21R0DW1tZhfofZSGSpDGLVdglDG5NSgWV/f0ffzBj8LHx6Si
+X-Gm-Message-State: AOJu0Yx28oSWZ/4kODn9Vk4CN+lrW9xmPFwnKYB8eRtGX0s0pGokMqTQ
+ 9aRvVTlWD6Fk/3F586zKAjxcNTGuL/TN5dlQ7e67fuq5TlWpMGwL+5lulddYhiA=
+X-Google-Smtp-Source: AGHT+IHrjKF3l4sThlKJ+RxAmHgEGNIe9JwcfNY91sPhFvLEeh9FjhlyUGA200aqY+kHV/MZSMGDfA==
+X-Received: by 2002:a5d:5642:0:b0:34a:ed29:8d1d with SMTP id
+ j2-20020a5d5642000000b0034aed298d1dmr4312102wrw.64.1714060850776; 
+ Thu, 25 Apr 2024 09:00:50 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:15c7:bd9c:c500:ed62?
  ([2a01:e0a:982:cbb0:15c7:bd9c:c500:ed62])
  by smtp.gmail.com with ESMTPSA id
- q12-20020adfcd8c000000b00343cad2a4d3sm20072228wrj.18.2024.04.25.09.00.42
+ v4-20020adfa1c4000000b0034c32e9e2fdsm624252wrv.13.2024.04.25.09.00.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Apr 2024 09:00:42 -0700 (PDT)
-Message-ID: <c47e814a-f609-450a-aa20-9342034475e2@linaro.org>
-Date: Thu, 25 Apr 2024 18:00:41 +0200
+ Thu, 25 Apr 2024 09:00:50 -0700 (PDT)
+Message-ID: <85be9e9d-887f-4138-8980-80385ff523fc@linaro.org>
+Date: Thu, 25 Apr 2024 18:00:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v1 1/3] drm/panel: ili9341: Correct use of device property
- APIs
+Subject: Re: [PATCH v1 2/3] drm/panel: ili9341: Respect deferred probe
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
@@ -73,7 +72,7 @@ Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 References: <20240425142706.2440113-1-andriy.shevchenko@linux.intel.com>
- <20240425142706.2440113-2-andriy.shevchenko@linux.intel.com>
+ <20240425142706.2440113-3-andriy.shevchenko@linux.intel.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -100,7 +99,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240425142706.2440113-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20240425142706.2440113-3-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,52 +119,36 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 25/04/2024 16:26, Andy Shevchenko wrote:
-> It seems driver missed the point of proper use of device property APIs.
-> Correct this by updating headers and calls respectively.
+> GPIO controller might not be available when driver is being probed.
+> There are plenty of reasons why, one of which is deferred probe.
+> 
+> Since GPIOs are optional, return any error code we got to the upper
+> layer, including deferred probe. With that in mind, use dev_err_probe()
+> in order to avoid spamming the logs.
 > 
 > Fixes: 5a04227326b0 ("drm/panel: Add ilitek ili9341 panel driver")
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->   drivers/gpu/drm/panel/Kconfig                | 2 +-
->   drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 5 +++--
->   2 files changed, 4 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index e54f6f5604ed..2d4515555820 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -177,7 +177,7 @@ config DRM_PANEL_ILITEK_IL9322
->   
->   config DRM_PANEL_ILITEK_ILI9341
->   	tristate "Ilitek ILI9341 240x320 QVGA panels"
-> -	depends on OF && SPI
-> +	depends on SPI
->   	select DRM_KMS_HELPER
->   	select DRM_GEM_DMA_HELPER
->   	depends on BACKLIGHT_CLASS_DEVICE
 > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-> index 3574681891e8..7584ddb0e441 100644
+> index 7584ddb0e441..24c74c56e564 100644
 > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
 > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-> @@ -22,8 +22,9 @@
->   #include <linux/bitops.h>
->   #include <linux/delay.h>
->   #include <linux/gpio/consumer.h>
-> +#include <linux/mod_devicetable.h>
->   #include <linux/module.h>
-> -#include <linux/of.h>
-> +#include <linux/property.h>
->   #include <linux/regulator/consumer.h>
->   #include <linux/spi/spi.h>
+> @@ -715,11 +715,11 @@ static int ili9341_probe(struct spi_device *spi)
 >   
-> @@ -691,7 +692,7 @@ static int ili9341_dpi_probe(struct spi_device *spi, struct gpio_desc *dc,
->   	 * Every new incarnation of this display must have a unique
->   	 * data entry for the system in this driver.
->   	 */
-> -	ili->conf = of_device_get_match_data(dev);
-> +	ili->conf = device_get_match_data(dev);
->   	if (!ili->conf) {
->   		dev_err(dev, "missing device configuration\n");
->   		return -ENODEV;
+>   	reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+>   	if (IS_ERR(reset))
+> -		dev_err(dev, "Failed to get gpio 'reset'\n");
+> +		return dev_err_probe(dev, PTR_ERR(reset), "Failed to get gpio 'reset'\n");
+>   
+>   	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
+>   	if (IS_ERR(dc))
+> -		dev_err(dev, "Failed to get gpio 'dc'\n");
+> +		return dev_err_probe(dev, PTR_ERR(dc), "Failed to get gpio 'dc'\n");
+>   
+>   	if (!strcmp(id->name, "sf-tc240t-9370-t"))
+>   		return ili9341_dpi_probe(spi, dc, reset);
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
