@@ -2,116 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500488B1EE0
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 12:13:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194B78B1F17
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 12:24:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBE7911A369;
-	Thu, 25 Apr 2024 10:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF6F310E9AA;
+	Thu, 25 Apr 2024 10:24:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="NMnuMYdm";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ZMEalzq2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h/ZNo+eH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZMEalzq2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h/ZNo+eH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE6711A37D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 10:13:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1714040015; x=1714644815; i=deller@gmx.de;
- bh=pzkDqB4oCrdeansAkrKYjZ6pH+bsyogE99NCvj2aUQg=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=NMnuMYdmqQq1/cGfeJnBStCgm22HV3KdnkQsA9lFAvz3VAJ4lHe+suQrJUwXAC0L
- 1J8PfzqdfCiaz0owdDv0FQJgTXfG8k2bdkBN9Ut8UOptbCeT5nJRFNs7DD3tUsa6E
- S57oRVW/o+VCFTiI+7yAHB5RRg3OSkrqRASxLl6kZyO/LQNUrn1MwYgqF/l/voLu9
- IUm2qeRyTZbMLCLRNZWAg40uHFMxIBzQgdxnwVvha8NiALn818vZr6sAu1sFEvxtt
- jprdJb+qktknewuz+5D1/SkqHmBJSd6mI/464XfAPtgdVKt8CBC8LsMVlzdgOUzD0
- dZrWplWRbF7tXprugQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MysW2-1suo7Z1ekM-00vzco; Thu, 25
- Apr 2024 12:13:35 +0200
-Message-ID: <784db573-5903-4c13-b0ad-fdeeb7b649de@gmx.de>
-Date: Thu, 25 Apr 2024 12:13:33 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5F610E9AA;
+ Thu, 25 Apr 2024 10:24:17 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0291C20790;
+ Thu, 25 Apr 2024 10:24:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1714040655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=QxJ5ARBThPMNYU9Nj28FCs28GYtz9vuPqSv1FxJel1Y=;
+ b=ZMEalzq2JXYMYvksPoK9vOSjJAe+i0cgRwV4nEDngFYiJmrwiJc6/hmpchfE9SbQB0O/pK
+ KX74Pj55AuxT2Cz4JPaPqQVQmFLrOAS/tjs1pSvFaaDEtlaQhhMIcCoCNrz95zYxUGaMvM
+ 8LqQvD8lVJz0AvaI9iz8qVA366/fK94=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1714040655;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=QxJ5ARBThPMNYU9Nj28FCs28GYtz9vuPqSv1FxJel1Y=;
+ b=h/ZNo+eHNggcI2edlloGTyHNP9rh4nWJARODZ3psVsp0W38xmjRmUuF0BkVADc+9BB3/2a
+ J3A8miP50oa8yVCw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZMEalzq2;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="h/ZNo+eH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1714040655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=QxJ5ARBThPMNYU9Nj28FCs28GYtz9vuPqSv1FxJel1Y=;
+ b=ZMEalzq2JXYMYvksPoK9vOSjJAe+i0cgRwV4nEDngFYiJmrwiJc6/hmpchfE9SbQB0O/pK
+ KX74Pj55AuxT2Cz4JPaPqQVQmFLrOAS/tjs1pSvFaaDEtlaQhhMIcCoCNrz95zYxUGaMvM
+ 8LqQvD8lVJz0AvaI9iz8qVA366/fK94=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1714040655;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=QxJ5ARBThPMNYU9Nj28FCs28GYtz9vuPqSv1FxJel1Y=;
+ b=h/ZNo+eHNggcI2edlloGTyHNP9rh4nWJARODZ3psVsp0W38xmjRmUuF0BkVADc+9BB3/2a
+ J3A8miP50oa8yVCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B533B13991;
+ Thu, 25 Apr 2024 10:24:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id oaV2K04vKmZ8PQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 25 Apr 2024 10:24:14 +0000
+Date: Thu, 25 Apr 2024 12:24:13 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20240425102413.GA6301@localhost.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] video: fbdev: replacing of_node_put with
- __free(device_node)
-To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>, sam@ravnborg.org,
- tzimmermann@suse.de, christophe.jaillet@wanadoo.fr,
- u.kleine-koenig@pengutronix.de, julia.lawall@inria.fr
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- javier.carrasco.cruz@gmail.com
-References: <20240423012021.56470-1-abdulrasaqolawani@gmail.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20240423012021.56470-1-abdulrasaqolawani@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:cLoYK3RAKUWSdOY6pQlv7OlqIwml9+GVoL+EEXQ8NdchQNLb/zj
- GXFCxHpUtoQ2ueZvax1PU+p/UTXOGjnhrfOL16gGtIKh2Aljp74vzu1NlXaxblZMcHBmLMT
- MvizEjMG5UocoweYVAWJdHpGJDfEneRkOxzwBRaahxmhERpSZmEDQa9AoffIUn9loxGiqWc
- fQsg6ql/RgDFBP7ader6w==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Level: 
+X-Spamd-Result: default: False [-6.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; MIME_TRACE(0.00)[0:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ MISSING_XM_UA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 0291C20790
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:7Bm6gTeIB1w=;mvdNqtr9er35ddS/XAQnZYH2em/
- p1B5ioWPV2HEdhWe7nLTc82QrOA/TzBvNHh1GAtWWp9VKwj3Ht0cGxtRk1iuG2uwu3jbBAu8o
- l323RTgmnb5WdjENF8+rT2meXJUsK3hnIH+ZXGrasI/XmKNpP+gTr3MFJXjNw/de+dDYe1zg2
- scNrCAGKLPVDtRVybE/lxQRjkUoM8njBeh+9t2DGfv46zcgmP9uydLXymZyoBT1EriohPPNm2
- KsbxMrtJwp13oB87JrR44N5SFC9cgaD2xELN4L3nGkleLsMNu+T6NLsidDbAzsEWcvwKEb2Co
- ZkcgZ8tk0JAAzdzpVMtrvhpWwRh+8jHYbGs6IZGFKOcPjWdf9VIP8uOjsFWM719kGaEBP0oV3
- 1qa2q8jaSm2ct5Ygz4Gutrs9pYF/HOLb5wBCxDqdONLjIFBDRZAII+Z6D1fR2dfNcCrxhhj9N
- SbtTMtHRU/34IdrNrSsXLYosbTPWBaqTB55x6VGrsab4Y8c/A8COcfDg/tYjpTVaToQJQeLsm
- i8kZej7MEZzPem+LzC7A5w06YON3ItjRKAdjHgFhXNv+SFYnxCIjfNptn4HdkGy4E4+Kla19G
- SQYIlqqS8UEA0zmO/8yvKukohVC+7vFZ5qNZwjU9QwsW+xTsLaRkHWEV2Xgh8/cQ7HoFKOHl/
- JIgcRBduB/BXrJtCnSwHV6gcD8MI/Qw5Ypt6RP9OR0Sq2S2DUIDhqUQeMxtVDn4ZntK5nP7Ya
- iPmviYJL5JB/Z+xBagMR8mdT9YXnBL89h+5EFYj7PSbzBzeHqeGa8tYECcDhAGFKRai5QlmBB
- kPixGUkKaNsPoTchhAuRfVwybotQvmXVq2ylqwYnso3cU=
+X-Spam-Score: -6.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,45 +126,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/23/24 03:20, Abdulrasaq Lawani wrote:
-> Replaced instance of of_node_put with __free(device_node)
-> to simplify code and protect against any memory leaks
-> due to future changes in the control flow.
->
-> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Hi Dave, Sima,
 
-applied.
-Thanks!
+here's the PR for drm-misc-fixes.
 
-Helge
+Best regards
+Thomas
 
-> ---
->   drivers/video/fbdev/offb.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
-> index b421b46d88ef..ea38a260774b 100644
-> --- a/drivers/video/fbdev/offb.c
-> +++ b/drivers/video/fbdev/offb.c
-> @@ -357,7 +357,7 @@ static void offb_init_palette_hacks(struct fb_info *=
-info, struct device_node *dp
->   			par->cmap_type =3D cmap_gxt2000;
->   	} else if (of_node_name_prefix(dp, "vga,Display-")) {
->   		/* Look for AVIVO initialized by SLOF */
-> -		struct device_node *pciparent =3D of_get_parent(dp);
-> +		struct device_node *pciparent __free(device_node) =3D of_get_parent(d=
-p);
->   		const u32 *vid, *did;
->   		vid =3D of_get_property(pciparent, "vendor-id", NULL);
->   		did =3D of_get_property(pciparent, "device-id", NULL);
-> @@ -369,7 +369,6 @@ static void offb_init_palette_hacks(struct fb_info *=
-info, struct device_node *dp
->   			if (par->cmap_adr)
->   				par->cmap_type =3D cmap_avivo;
->   		}
-> -		of_node_put(pciparent);
->   	} else if (dp && of_device_is_compatible(dp, "qemu,std-vga")) {
->   #ifdef __BIG_ENDIAN
->   		const __be32 io_of_addr[3] =3D { 0x01000000, 0x0, 0x0 };
+drm-misc-fixes-2024-04-25:
+Short summary of fixes pull:
 
+atomic-helpers:
+- Fix memory leak in drm_format_conv_state_copy()
+
+fbdev:
+- fbdefio: Fix address calculation
+
+gma500:
+- Fix crash during boot
+The following changes since commit 941c0bdbc176df825adf77052263b2d63db6fef7:
+
+  drm/panel: novatek-nt36682e: don't unregister DSI device (2024-04-16 23:17:59 +0300)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2024-04-25
+
+for you to fetch changes up to 78d9161d2bcd442d93d917339297ffa057dbee8c:
+
+  fbdev: fix incorrect address computation in deferred IO (2024-04-24 15:03:37 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+atomic-helpers:
+- Fix memory leak in drm_format_conv_state_copy()
+
+fbdev:
+- fbdefio: Fix address calculation
+
+gma500:
+- Fix crash during boot
+
+----------------------------------------------------------------
+Lucas Stach (1):
+      drm/atomic-helper: fix parameter order in drm_format_conv_state_copy() call
+
+Nam Cao (1):
+      fbdev: fix incorrect address computation in deferred IO
+
+Patrik Jakobsson (1):
+      drm/gma500: Remove lid code
+
+ drivers/gpu/drm/drm_gem_atomic_helper.c |  4 +-
+ drivers/gpu/drm/gma500/Makefile         |  1 -
+ drivers/gpu/drm/gma500/psb_device.c     |  5 +--
+ drivers/gpu/drm/gma500/psb_drv.h        |  9 ----
+ drivers/gpu/drm/gma500/psb_lid.c        | 80 ---------------------------------
+ drivers/video/fbdev/core/fb_defio.c     |  2 +-
+ 6 files changed, 4 insertions(+), 97 deletions(-)
+ delete mode 100644 drivers/gpu/drm/gma500/psb_lid.c
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
