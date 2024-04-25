@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0358B1EBD
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 12:05:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500488B1EE0
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 12:13:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80E7410F922;
-	Thu, 25 Apr 2024 10:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBE7911A369;
+	Thu, 25 Apr 2024 10:13:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="NUq7/YHg";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="NMnuMYdm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0E4E10F922
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 10:05:34 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE6711A37D
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 10:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1714039521; x=1714644321; i=deller@gmx.de;
- bh=9LAsLycRaa4UvpIE+N25B3Hyg6P7VugQwtE6XKW1JEw=;
+ s=s31663417; t=1714040015; x=1714644815; i=deller@gmx.de;
+ bh=pzkDqB4oCrdeansAkrKYjZ6pH+bsyogE99NCvj2aUQg=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=NUq7/YHglzS9guZu5d3QsHZpqWVFrXIrbVP4PbmxPAiZ8HZpcnSNX3qWh9ahmi46
- JDaeqym8U2Cu4rsZCzACydl24BATKLl3FI7XGedDSL/y8hYTez0Q2Tkwkzt5uoAJi
- DYSte92xsxPbYa/xYglLfHSd3Dnu+r7u4HNSwudzj3XsRBjG+fVM9mclYTRut9Jro
- 1HcG+Y6fRkDAS+zMyZ2e1RNvDI+rmQqw1RY0gDYUsEQBthvc7t7boFOLv9Y14NjoB
- ygfeSNVd1VRDRDDaGwn9c5pKuXUuocCFWHq0nhUIPLNjB/SClUYLFie61QeLhlozg
- F1IcfwqNnyvu+gz/+A==
+ b=NMnuMYdmqQq1/cGfeJnBStCgm22HV3KdnkQsA9lFAvz3VAJ4lHe+suQrJUwXAC0L
+ 1J8PfzqdfCiaz0owdDv0FQJgTXfG8k2bdkBN9Ut8UOptbCeT5nJRFNs7DD3tUsa6E
+ S57oRVW/o+VCFTiI+7yAHB5RRg3OSkrqRASxLl6kZyO/LQNUrn1MwYgqF/l/voLu9
+ IUm2qeRyTZbMLCLRNZWAg40uHFMxIBzQgdxnwVvha8NiALn818vZr6sAu1sFEvxtt
+ jprdJb+qktknewuz+5D1/SkqHmBJSd6mI/464XfAPtgdVKt8CBC8LsMVlzdgOUzD0
+ dZrWplWRbF7tXprugQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MacOQ-1sWVZr1MDK-00cksP; Thu, 25
- Apr 2024 12:05:21 +0200
-Message-ID: <1a3d30bc-130c-49ce-93ed-d380d5159dfa@gmx.de>
-Date: Thu, 25 Apr 2024 12:05:20 +0200
+Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MysW2-1suo7Z1ekM-00vzco; Thu, 25
+ Apr 2024 12:13:35 +0200
+Message-ID: <784db573-5903-4c13-b0ad-fdeeb7b649de@gmx.de>
+Date: Thu, 25 Apr 2024 12:13:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next] fbdev: savage: Handle err return when
- savagefb_check_var failed
-To: Cai Xinchen <caixinchen1@huawei.com>, adaplas@gmail.com,
- fullwaywang@outlook.com
+Subject: Re: [PATCH] video: fbdev: replacing of_node_put with
+ __free(device_node)
+To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>, sam@ravnborg.org,
+ tzimmermann@suse.de, christophe.jaillet@wanadoo.fr,
+ u.kleine-koenig@pengutronix.de, julia.lawall@inria.fr
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20240416065137.530693-1-caixinchen1@huawei.com>
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ javier.carrasco.cruz@gmail.com
+References: <20240423012021.56470-1-abdulrasaqolawani@gmail.com>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -89,27 +91,27 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20240416065137.530693-1-caixinchen1@huawei.com>
+In-Reply-To: <20240423012021.56470-1-abdulrasaqolawani@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:0Rj0/O/3HgrPriesmWkNSj08yYSK5pu+q5rlKaKeZ6coKrRlxkv
- 0HSAP1F+yPL7thsGWeYagusE0D1a0wD1fZ9lrRL0M1UICM7Y3ppu5GHrypEJFjF9TJ5aSNV
- Eiwi4/wNQd00uYn1zy3urpL1tti5+cslOvShAVhfBtBx0+7iw6Cy8/e1FQAkcTqWO9sAmVr
- OpLk2j3xvsbim9PTym19g==
+X-Provags-ID: V03:K1:cLoYK3RAKUWSdOY6pQlv7OlqIwml9+GVoL+EEXQ8NdchQNLb/zj
+ GXFCxHpUtoQ2ueZvax1PU+p/UTXOGjnhrfOL16gGtIKh2Aljp74vzu1NlXaxblZMcHBmLMT
+ MvizEjMG5UocoweYVAWJdHpGJDfEneRkOxzwBRaahxmhERpSZmEDQa9AoffIUn9loxGiqWc
+ fQsg6ql/RgDFBP7ader6w==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:fbn4asPLR6I=;oL8hMSrWljb6+vy8hfD0EJm16qx
- tK4gs8grql1KwmadUIm39IRmiGdZJX7ii+K6dhB3DMtZ2Bl6SxmuPnua33eq46rMX8P8rLwNj
- cSMwY8CCb9jkInqkvms/WiJZzYiAN/mHePCGV5UsddhvJdkAFPPgESutbYBR9W8JNcuA8l+QJ
- 0gNjfyodhR6QVLKczcPPVYFNXzSRi/Pf9u6ERpVQAg0rDysbEzZ/6MR1pY6du0fsTh1ySNBdO
- VspWme+cqorwKCGcmIeN3mK1xsl8g15XXxslhn9SZJxLj2BiE+qKYYGoi84Le1xBalD9PRJHh
- 1B7+zBoGvYb9NDFfw4qLFhKFoaUK7N9/nJQ9XY8sZ5qulDx8Pix3796nz0mEUEseHlAF87S7a
- kSq5BArOo9VO30SjXxhiD9TSCa8T69pgQrAbh3COT98u4bZG7FBfOFJL29Zk4WswA079jK86z
- G36PQabvvjqaZLv0WU/1phXauVQ6Z7mike0qKFE8NxANV2pQ/kqcfgD3ksT2cR7Lxv9K/7MBz
- jyq2rDjkb6nCyHYZETWMjmiguIzqQLzyvLpo2OSHquAMu7zmfuIANNWRA7rdUOT0KnFgjRzKu
- lxMH910h7F5Mv8N4z+O8mNS7EnPTpW61PmJxegp95A8l/OQp2algPDVBTR/lJoZb5fJzMHHCk
- mVJUuNptybM4+IdoLaGF5xRB/8uPMH63XMzo2g4GlmKA0SyKK5Gw1gFvEslx/M+hGAWeyr545
- R5qGGO7uA36RBe3tJ+1FAsTtM7jXFZNqXfZBDLaFwGWkly3IAoW44w/HVqkegPiHVeeUXVfBS
- XiLMZTnIvqNwDYwfrkQIMwMcBkFYY0eCn104bjUAmdRfU=
+UI-OutboundReport: notjunk:1;M01:P0:7Bm6gTeIB1w=;mvdNqtr9er35ddS/XAQnZYH2em/
+ p1B5ioWPV2HEdhWe7nLTc82QrOA/TzBvNHh1GAtWWp9VKwj3Ht0cGxtRk1iuG2uwu3jbBAu8o
+ l323RTgmnb5WdjENF8+rT2meXJUsK3hnIH+ZXGrasI/XmKNpP+gTr3MFJXjNw/de+dDYe1zg2
+ scNrCAGKLPVDtRVybE/lxQRjkUoM8njBeh+9t2DGfv46zcgmP9uydLXymZyoBT1EriohPPNm2
+ KsbxMrtJwp13oB87JrR44N5SFC9cgaD2xELN4L3nGkleLsMNu+T6NLsidDbAzsEWcvwKEb2Co
+ ZkcgZ8tk0JAAzdzpVMtrvhpWwRh+8jHYbGs6IZGFKOcPjWdf9VIP8uOjsFWM719kGaEBP0oV3
+ 1qa2q8jaSm2ct5Ygz4Gutrs9pYF/HOLb5wBCxDqdONLjIFBDRZAII+Z6D1fR2dfNcCrxhhj9N
+ SbtTMtHRU/34IdrNrSsXLYosbTPWBaqTB55x6VGrsab4Y8c/A8COcfDg/tYjpTVaToQJQeLsm
+ i8kZej7MEZzPem+LzC7A5w06YON3ItjRKAdjHgFhXNv+SFYnxCIjfNptn4HdkGy4E4+Kla19G
+ SQYIlqqS8UEA0zmO/8yvKukohVC+7vFZ5qNZwjU9QwsW+xTsLaRkHWEV2Xgh8/cQ7HoFKOHl/
+ JIgcRBduB/BXrJtCnSwHV6gcD8MI/Qw5Ypt6RP9OR0Sq2S2DUIDhqUQeMxtVDn4ZntK5nP7Ya
+ iPmviYJL5JB/Z+xBagMR8mdT9YXnBL89h+5EFYj7PSbzBzeHqeGa8tYECcDhAGFKRai5QlmBB
+ kPixGUkKaNsPoTchhAuRfVwybotQvmXVq2ylqwYnso3cU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,44 +127,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/16/24 08:51, Cai Xinchen wrote:
-> The commit 04e5eac8f3ab("fbdev: savage: Error out if pixclock equals zer=
-o")
-> checks the value of pixclock to avoid divide-by-zero error. However
-> the function savagefb_probe doesn't handle the error return of
-> savagefb_check_var. When pixclock is 0, it will cause divide-by-zero err=
-or.
+On 4/23/24 03:20, Abdulrasaq Lawani wrote:
+> Replaced instance of of_node_put with __free(device_node)
+> to simplify code and protect against any memory leaks
+> due to future changes in the control flow.
 >
-> Fixes: 04e5eac8f3ab ("fbdev: savage: Error out if pixclock equals zero")
-> Signed-off-by: Cai Xinchen <caixinchen1@huawei.com>
-> Cc: stable@vger.kernel.org
-> ---
->   drivers/video/fbdev/savage/savagefb_driver.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+> Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
 
 applied.
 Thanks!
+
 Helge
 
-
-
+> ---
+>   drivers/video/fbdev/offb.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/video/fbdev/savage/savagefb_driver.c b/drivers/vide=
-o/fbdev/savage/savagefb_driver.c
-> index ebc9aeffdde7..ac41f8f37589 100644
-> --- a/drivers/video/fbdev/savage/savagefb_driver.c
-> +++ b/drivers/video/fbdev/savage/savagefb_driver.c
-> @@ -2276,7 +2276,10 @@ static int savagefb_probe(struct pci_dev *dev, co=
-nst struct pci_device_id *id)
->   	if (info->var.xres_virtual > 0x1000)
->   		info->var.xres_virtual =3D 0x1000;
->   #endif
-> -	savagefb_check_var(&info->var, info);
-> +	err =3D savagefb_check_var(&info->var, info);
-> +	if (err)
-> +		goto failed;
-> +
->   	savagefb_set_fix(info);
->
->   	/*
+> diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
+> index b421b46d88ef..ea38a260774b 100644
+> --- a/drivers/video/fbdev/offb.c
+> +++ b/drivers/video/fbdev/offb.c
+> @@ -357,7 +357,7 @@ static void offb_init_palette_hacks(struct fb_info *=
+info, struct device_node *dp
+>   			par->cmap_type =3D cmap_gxt2000;
+>   	} else if (of_node_name_prefix(dp, "vga,Display-")) {
+>   		/* Look for AVIVO initialized by SLOF */
+> -		struct device_node *pciparent =3D of_get_parent(dp);
+> +		struct device_node *pciparent __free(device_node) =3D of_get_parent(d=
+p);
+>   		const u32 *vid, *did;
+>   		vid =3D of_get_property(pciparent, "vendor-id", NULL);
+>   		did =3D of_get_property(pciparent, "device-id", NULL);
+> @@ -369,7 +369,6 @@ static void offb_init_palette_hacks(struct fb_info *=
+info, struct device_node *dp
+>   			if (par->cmap_adr)
+>   				par->cmap_type =3D cmap_avivo;
+>   		}
+> -		of_node_put(pciparent);
+>   	} else if (dp && of_device_is_compatible(dp, "qemu,std-vga")) {
+>   #ifdef __BIG_ENDIAN
+>   		const __be32 io_of_addr[3] =3D { 0x01000000, 0x0, 0x0 };
 
