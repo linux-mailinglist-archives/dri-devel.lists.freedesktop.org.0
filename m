@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01E58B1A92
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 08:03:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11F98B1BE8
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Apr 2024 09:30:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E853610F8F0;
-	Thu, 25 Apr 2024 06:03:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2080710E414;
+	Thu, 25 Apr 2024 07:30:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="MCowIvOu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kt5qVTHe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9348112AF6
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 06:03:36 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id
- 41be03b00d2f7-60274726da6so406489a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 23:03:36 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4BC710E379
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 01:48:36 +0000 (UTC)
+Received: by mail-ua1-f49.google.com with SMTP id
+ a1e0cc1a2514c-7eb6e4ad857so150498241.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Apr 2024 18:48:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1714025016; x=1714629816;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1714009715; x=1714614515; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=we8SwMWsVnahAxA+g6ZwCnrdC+4iaxLV0QA7xR7Bic8=;
- b=MCowIvOukLg1l/pXAfhwn9x7G4JtheSl2W0+4nI15cp+JRZp3GUjBJu0onU5ci/Kmo
- 22sxmoy6twFpLUxb/pX+k0FE4vhVT6NLVRXpmWIrKXTe+hoXrPrwyBugvtOWyijhYWx6
- pEcBhsBNgu/FP+H5SMjbw+Z2Ddp8cCVOnSCf1EapKfBlltflqh+FqrbLeWccH3IvNIaK
- 5O4sb9+8ncI9it1xdFT05iqhopXcIgc/KHjHCpYlooazMayAe/LbKXG9IBg0TkoU4LkY
- mA7B9oBPace3xhuNjPkEk57fiCTmx7OtQpMf2KnJWyA8dewvDVFuh/Tt42u3LiuMUiDK
- Hgog==
+ bh=hG102H74pdxU5NBp7aAW3ezITZvy/2GYPGEaW3NCxpg=;
+ b=kt5qVTHewoIX4MRQzYhk3qDjCwjbcwtoy8kfvRmFl3Sj28rD5cqWxusW8onoNVXMRo
+ TWDoc8I+8VKOXGTNcP50YEfnd1hIrouJHvBsJUYlJ2aZZTr2eMhQchZc+dlbBmHb2kIi
+ 5qE4i8FCkIPF975nXVgujXAEQeW1haW+Liam1LuelUgCjgv1jnEtoMqAd8Vv+s+VLBlu
+ 1Ud6uOKmkSvxgDgn/jVTUbxMrLovkop+Ehd+RedCNCwfao4tAXdPT1urdps6emhRazsJ
+ iWUMXYChq2PU9amzXJZYpBdWcfCEXywMy/AgBnO1rmVaPOjdUjmE7GvJPmab1bvl2PBv
+ pxSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714025016; x=1714629816;
+ d=1e100.net; s=20230601; t=1714009715; x=1714614515;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=we8SwMWsVnahAxA+g6ZwCnrdC+4iaxLV0QA7xR7Bic8=;
- b=I2HG6SeioTgWCJr0PQ3sBpS791K+by/O5oPQzuzF5KWDLeGJhzHSZi8dzyyUodQ8ho
- hNKd5A3hhQwV7hw/pOrAI04tBXaxbox0BG/axy+vVwBS0YYQvlHC0N++Iu8oL66r0P1I
- JHVKMSj0Slc7JwYC5M1LxZ+d1Do1XYPl/ayZMBz5ENc6WOiNUpbcwqmJsxwKpxF2fav1
- 7zWL3Q5F6GahkzaZcyOnycczLNAs3jXHfWChaoKbqfOiMrjjgKdHMKySisKNYJeawxaR
- 0Gpw8KCWa+t+LkNGJQl8PF5JqrV4djPIVv5gRB7jd2Ljll0oye+uGqWnAoBzMpuoZmb4
- Z/PA==
+ bh=hG102H74pdxU5NBp7aAW3ezITZvy/2GYPGEaW3NCxpg=;
+ b=QUYDfirGXouYeQDDuBUMPmKeErhOePxAgFQmB6CKbM4f0B+4+sUEd/o+7UGQf0O4aN
+ sZRkH05QXi024Nc4wNf0kXso9wOCkohBwpDLvrYhzQmCyYFpDISxBBDPyW+aq0fqlYId
+ 858clMJHSbiSZkIUdctdtwXOB8G6KdCX0Btt3H3HQslQb12JwNEgnz9vBzcLKoHlIaXk
+ 9q+DfPfWJo3DtM13WT8/pxeOcW1EUqGjaqIH82Twr6dEFbavpV3oE6a0TSx+/2Ks4UN/
+ CfNEcQg/8qridotaKKR2Mzd1e4QHx/TDviTptXDln25ukrqMlM5v5KqSx0rM0Rf0rW7X
+ icig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXXO52BQ+nBiukYuJu51kP9uOc88KmasW8Pz/u0rkfuL6Ivd17j/5eK5Q7GBpgRybfBROuQFXXcBZmUcydadAZUy83h6L3g7sG43eotnFxT
-X-Gm-Message-State: AOJu0Yz1MZrnujp0cJhmz8wa3v2WWQGbGfjhuYvLI2TMPRVav7//2Dbs
- dHxV/7L6FuShzfMq+Kmt6cIC+If8e0B/qtNSq/Rt7yUl1r4osFBhyBopWTkf+4AWFQcJHtPtAKK
- Xp+SA4rICWJovfGBz0tIgoQhY5wlwOXSIamYvC0Xv8Fy4NWmSIZ8=
-X-Google-Smtp-Source: AGHT+IF7qX9dIVjUowtjxF7HpR9qCwpQY5qpxku9xN6Xlx30uiowBPfvdZuaC5oQisi4HPEoMhVeOhiK9r2JKs/3+TQ=
-X-Received: by 2002:a17:90a:66cf:b0:2a5:3ec5:cecd with SMTP id
- z15-20020a17090a66cf00b002a53ec5cecdmr4452869pjl.12.1714025015799; Wed, 24
- Apr 2024 23:03:35 -0700 (PDT)
+ AJvYcCW75994e238qmYu6JcSnkQvzh9Vdrb3r7LGff35dCCh4Tb8FrBL8LPKNll4qnAKTw5YEtCS2U/LxuaRTSk0w0ummZuxNpi7/Fe6pZha+dSO
+X-Gm-Message-State: AOJu0YxHxChojWKXNe7UZHVMGMR+M4XkQGhEDAIj/g8eZukSL+0HZkWG
+ REN4eqXfV92CCf/xWO/s2ZykqSeth3Y8+jWLyLWZlU9YSemPd8Birc/Lk6JPgs8TmDQTbFAcRJy
+ TRyObiXQ5hISNxUd6AdM63lyDwo8=
+X-Google-Smtp-Source: AGHT+IEpi9vH+ceBAPGcE12M1F3pcELXnj+ShzjzIPt31fULK4uD1Y79SwhGryUErqd7wTbS/ZRIOqF3N7DMl1qnPuE=
+X-Received: by 2002:a67:f10d:0:b0:47b:b820:e735 with SMTP id
+ n13-20020a67f10d000000b0047bb820e735mr4726089vsk.32.1714009715581; Wed, 24
+ Apr 2024 18:48:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240424023010.2099949-1-yangcong5@huaqin.corp-partner.google.com>
- <20240424023010.2099949-2-yangcong5@huaqin.corp-partner.google.com>
- <20240424-spelling-float-9b881cb80992@spud>
-In-Reply-To: <20240424-spelling-float-9b881cb80992@spud>
-From: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date: Thu, 25 Apr 2024 14:03:24 +0800
-Message-ID: <CAHwB_NLb9ENfCj-oJ2mV_DwFJ0h6TGSi1byUdd6Bri3gDsCo5Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/7] dt-bindings: display: panel: Add himax hx83102
- panel bindings
-To: Conor Dooley <conor@kernel.org>
-Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
- dianders@chromium.org, linus.walleij@linaro.org, 
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org, 
- airlied@gmail.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- xuxinxiong@huaqin.corp-partner.google.com
+References: <20240415003958.721061-1-shivani07g@gmail.com>
+In-Reply-To: <20240415003958.721061-1-shivani07g@gmail.com>
+From: Inki Dae <daeinki@gmail.com>
+Date: Thu, 25 Apr 2024 10:47:59 +0900
+Message-ID: <CAAQKjZO0VhkpsM4L+C97QcCAjF_b99zp2W25n+swLP6K1OUpww@mail.gmail.com>
+Subject: Re: [PATCH] gpu: drm: exynos: hdmi: eliminate uses of of_node_put()
+To: Shivani Gupta <shivani07g@gmail.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Julia Lawall <julia.lawall@inria.fr>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Thu, 25 Apr 2024 07:30:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,170 +88,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Good cleanup. Applied. :)
 
-Thanks for review.
+Thanks,
+Inki Dae
 
-Conor Dooley <conor@kernel.org> =E4=BA=8E2024=E5=B9=B44=E6=9C=8825=E6=97=A5=
-=E5=91=A8=E5=9B=9B 00:55=E5=86=99=E9=81=93=EF=BC=9A
+2024=EB=85=84 4=EC=9B=94 15=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 9:40, S=
+hivani Gupta <shivani07g@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> On Wed, Apr 24, 2024 at 10:30:04AM +0800, Cong Yang wrote:
-> > In V1, discussed with Doug and Linus [1], we need break out as separate
-> > driver for the himax83102-j02 controller. Beacuse "starry,himax83102-j0=
-2"
-> > and in this series "BOE nv110wum-l60" "IVO t109nw41" panels use same
-> > controller, they have some common CMDS. So add new documentation for
-> > this panels.
+> Utilize the __free() cleanup handler within the hdmi_get_phy_io function
+> to automatically release the device node when it is out of scope.
+> This eliminates the manual invocation of of_node_put(), reducing the
+> potential for memory leaks.
 >
-> It'd be good to note in the commit message that the 3v3 supply is not
-> present on these panels, given it was present in the other binding and
-> not here.
-
-Got it, fix in V4,thanks.
-
+> The modification requires initializing the device node at the beginning
+> of the function, ensuring that the automatic cleanup is safely executed.
 >
-> > [1]: https://lore.kernel.org/all/CACRpkdbzYZAS0=3DzBQJUC4CB2wj4s1h6n6aS=
-AZQvdMV95r3zRUw@mail.gmail.com
-> >
-> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> > ---
-> > Chage since V3:
-> >
-> > - Update commit message.
-> >
-> > V2: https://lore.kernel.org/all/20240422090310.3311429-2-yangcong5@huaq=
-in.corp-partner.google.com
-> >
-> > ---
-> >  .../display/panel/boe,tv101wum-nl6.yaml       |  2 -
-> >  .../bindings/display/panel/himax,hx83102.yaml | 73 +++++++++++++++++++
-> >  2 files changed, 73 insertions(+), 2 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/display/panel/him=
-ax,hx83102.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101w=
-um-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-=
-nl6.yaml
-> > index 906ef62709b8..53fb35f5c9de 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.=
-yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.=
-yaml
-> > @@ -32,8 +32,6 @@ properties:
-> >        - innolux,hj110iz-01a
-> >          # STARRY 2081101QFH032011-53G 10.1" WUXGA TFT LCD panel
-> >        - starry,2081101qfh032011-53g
-> > -        # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
-> > -      - starry,himax83102-j02
-> >          # STARRY ili9882t 10.51" WUXGA TFT LCD panel
-> >        - starry,ili9882t
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx83=
-102.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83102.ya=
-ml
-> > new file mode 100644
-> > index 000000000000..2e0cd6998ba8
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/panel/himax,hx83102.yam=
-l
+> Consequently, this removes the need for error cleanup paths that utilize
+> goto statements and the jump to out is no longer necessary.
 >
-> Filename matching a compatible please. What you've done here makes it
-> seem like there's a fallback compatible missing, given this looks like
-> the LCD panel controller and the starry compatible below is an LCD panel.
-
-So change the filename to starry,himax83102-j02.yaml?
-
+> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+> Signed-off-by: Shivani Gupta <shivani07g@gmail.com>
+> ---
+>  drivers/gpu/drm/exynos/exynos_hdmi.c | 15 +++++----------
+>  1 file changed, 5 insertions(+), 10 deletions(-)
 >
-> > @@ -0,0 +1,73 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/panel/himax,hx83102.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Himax HX83102 MIPI-DSI LCD panel controller
-> > +
-> > +maintainers:
-> > +  - Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> > +
-> > +allOf:
-> > +  - $ref: panel-common.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +        # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
-> > +      - starry,himax83102-j02
-> > +
-> > +  reg:
-> > +    description: the virtual channel number of a DSI peripheral
-> > +
-> > +  enable-gpios:
-> > +    description: a GPIO spec for the enable pin
-> > +
-> > +  pp1800-supply:
-> > +    description: core voltage supply
-> > +
-> > +  avdd-supply:
-> > +    description: phandle of the regulator that provides positive volta=
-ge
-> > +
-> > +  avee-supply:
-> > +    description: phandle of the regulator that provides negative volta=
-ge
-> > +
-> > +  backlight:
-> > +    description: phandle of the backlight device attached to the panel
+> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exyno=
+s/exynos_hdmi.c
+> index b1d02dec3774..a741fd949482 100644
+> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> @@ -1919,10 +1919,9 @@ static int hdmi_get_ddc_adapter(struct hdmi_contex=
+t *hdata)
+>  static int hdmi_get_phy_io(struct hdmi_context *hdata)
+>  {
+>         const char *compatible_str =3D "samsung,exynos4212-hdmiphy";
+> -       struct device_node *np;
+> -       int ret =3D 0;
+> +       struct device_node *np __free(device_node) =3D
+> +               of_find_compatible_node(NULL, NULL, compatible_str);
 >
-> I'm not sure why this was given a description when port or rotation
-> was not.
-
-So change it to backlight: true ?
-
-Thanks.
-
+> -       np =3D of_find_compatible_node(NULL, NULL, compatible_str);
+>         if (!np) {
+>                 np =3D of_parse_phandle(hdata->dev->of_node, "phy", 0);
+>                 if (!np) {
+> @@ -1937,21 +1936,17 @@ static int hdmi_get_phy_io(struct hdmi_context *h=
+data)
+>                 if (!hdata->regs_hdmiphy) {
+>                         DRM_DEV_ERROR(hdata->dev,
+>                                       "failed to ioremap hdmi phy\n");
+> -                       ret =3D -ENOMEM;
+> -                       goto out;
+> +                       return -ENOMEM;
+>                 }
+>         } else {
+>                 hdata->hdmiphy_port =3D of_find_i2c_device_by_node(np);
+>                 if (!hdata->hdmiphy_port) {
+>                         DRM_INFO("Failed to get hdmi phy i2c client\n");
+> -                       ret =3D -EPROBE_DEFER;
+> -                       goto out;
+> +                       return -EPROBE_DEFER;
+>                 }
+>         }
 >
-> Otherwise, this looks fine to me.
+> -out:
+> -       of_node_put(np);
+> -       return ret;
+> +       return 0;
+>  }
 >
-> Cheers,
-> Conor.
+>  static int hdmi_probe(struct platform_device *pdev)
+> --
+> 2.34.1
 >
-> > +
-> > +  port: true
-> > +  rotation: true
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - enable-gpios
-> > +  - pp1800-supply
-> > +  - avdd-supply
-> > +  - avee-supply
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    dsi {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +        panel@0 {
-> > +            compatible =3D "starry,himax83102-j02";
-> > +            reg =3D <0>;
-> > +            enable-gpios =3D <&pio 45 0>;
-> > +            avdd-supply =3D <&ppvarn_lcd>;
-> > +            avee-supply =3D <&ppvarp_lcd>;
-> > +            pp1800-supply =3D <&pp1800_lcd>;
-> > +            backlight =3D <&backlight_lcd0>;
-> > +            port {
-> > +                panel_in: endpoint {
-> > +                    remote-endpoint =3D <&dsi_out>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
-> > --
-> > 2.25.1
-> >
+>
