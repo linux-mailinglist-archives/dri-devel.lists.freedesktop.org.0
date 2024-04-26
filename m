@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6AB48B42E7
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Apr 2024 01:59:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB798B42EA
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Apr 2024 01:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 978501125BC;
-	Fri, 26 Apr 2024 23:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CCC71125BE;
+	Fri, 26 Apr 2024 23:59:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="S337E3CL";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="hmZx+ujD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BDF71125BC
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 23:59:06 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-2ac9b225a91so2214279a91.2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 16:59:06 -0700 (PDT)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E40871125BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 23:59:08 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-5c66b093b86so2862953a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 16:59:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714175945; x=1714780745;
+ d=chromium.org; s=google; t=1714175947; x=1714780747;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Yc634Lsr5zy7OBNgM+b6Aa7FawMZtK0nOD2hPnKDBP4=;
- b=S337E3CLRdiDZyr8PG8C9D4lalbwSy4l+9peyfuxr7RTxrakhPmzipWk4UmpgWQTN8
- 1Hp/9VaB9SF5q5fly8UZkXhAHOZaTJU2G3MIYgBTDM0qHangkvlLQqpoHgtnauJKKmDx
- b8rJdE1m2bVJLGphX9/FGpatu8DovWHOPrWow=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yeW0pSyEBhS0ojeIyWBVzu7M8GLRFtARAotr9ut3TYg=;
+ b=hmZx+ujDG3mfGzhSQJN80pvNU0oc6Ic6DQkvvbTjVnyHXL3LYv4Oup9xfVn7DOb28+
+ P6NXv5BDO+lg9PP6UZxS3ZONz0KJ9UUEZnmaCgiW9NIfpjRyLDZzz3IkLBW1ttjDIKqg
+ pNHY9/rkEUTKd9qNaUeUj8kmswyKFtWspUFEc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714175945; x=1714780745;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Yc634Lsr5zy7OBNgM+b6Aa7FawMZtK0nOD2hPnKDBP4=;
- b=Ic3uAlW72OGkmSjk+fhyTa/BwQlsp1Q7XrRnywsb1f0Dug7cuRZgUFQZmKn2CNzUin
- 7NXFPIazRdNi7CzgiQd71ndGIyatoOAOYzAYoH1khM9LkC3vdXuGrV01LqW8VsrvqQpS
- u7o0QyQM6vS0YG6z3VT1iTxsnatFbD3fE+V6sh2sPneZs+r8581CBA/+eXCWpm6cXqJ3
- B36NBzZRCcXj6sieJqoFre1Ur8kgHjcqIL3BVUzzdL1rorPikYy+jmpMTkQuCcRkb/HY
- yF92tkN+OS0ufyegGaLaqTV4jOqDRaGmnszXRsK16r/pLSs3LYT9YlEkvFpkKAERLyy1
- A9Ow==
-X-Gm-Message-State: AOJu0YxI/TUYJs10WFIk+5bqlDllY9ZAYjUPyaRigNwjNhXFDbWmpeLn
- 7NllWqr+sECJTx7xFaFuWckfC4fyuhjZ5uPQQhjlYYwp4HXUvvH8PSqg3h+lA2S6HkYY2eCdCpc
+ d=1e100.net; s=20230601; t=1714175947; x=1714780747;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yeW0pSyEBhS0ojeIyWBVzu7M8GLRFtARAotr9ut3TYg=;
+ b=ds02tykz68ebEMz90STlRplVUksdI2wkcEC3JZtYioYuOhhBdZISem7k8eSpwbRJG4
+ 4EheBJq9sLkEy5EfBxiXRp8KOJf4+WrdC76I3Q+CiOmfZeVqJRxzWVUQS4FMTZXAmpON
+ BnoJ4+6DfsPJoSCFQ5MLc7WcaeauK+DDefvPm0q63CVJiXuNJcg0xPTZ5whwn9iqfaBb
+ 6j8rNht7ulroeRdy6JMfDK9r2aqNTMCwQyQyAwBmhoZRWTismPdp28xUzkcCef23TXI+
+ i5w+/A6UTWDEhK+9zbX7nh0BJKRjrrkkBepdrWmGbdKV66+6w4AV7KZQv97yTIu8obMv
+ lE0w==
+X-Gm-Message-State: AOJu0YyJUGeV2jEDBSA47lBKxFDW+vc6mUz85A3TlYdPvs9MhegyukWR
+ Qin0o+JvPkpHOhdXXsSfHTOh/hoCCaq7ZCyBCYTyGWT+eWVHtzZZ2bniz8EonyN2U+fsG+BBHmw
  =
-X-Google-Smtp-Source: AGHT+IHzJzJN3xlTGk8hjnbAWYC94QGCUpvG6+ZlC09viFKBb+fw1JAGzZID/Y8klH2Ko2GN72HH0w==
-X-Received: by 2002:a17:90a:de17:b0:2a2:5e65:f434 with SMTP id
- m23-20020a17090ade1700b002a25e65f434mr3926650pjv.16.1714175944753; 
- Fri, 26 Apr 2024 16:59:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH6XTJ9QQDWPzgo8X8I8bDLXm7/WGqdQG4aZWPTMylSuC2+pMH0ddw57O7ZuDywVmWBbG/TSg==
+X-Received: by 2002:a17:90a:1f88:b0:2aa:8130:e3eb with SMTP id
+ x8-20020a17090a1f8800b002aa8130e3ebmr1501128pja.11.1714175946787; 
+ Fri, 26 Apr 2024 16:59:06 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:fca:3ae2:20e6:82bb])
  by smtp.gmail.com with ESMTPSA id
- n4-20020a17090aab8400b002af41bd563esm5111939pjq.33.2024.04.26.16.59.03
+ n4-20020a17090aab8400b002af41bd563esm5111939pjq.33.2024.04.26.16.59.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Apr 2024 16:59:04 -0700 (PDT)
+ Fri, 26 Apr 2024 16:59:06 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org
 Cc: Linus Walleij <linus.walleij@linaro.org>,
@@ -65,15 +66,16 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
  Sam Ravnborg <sam@ravnborg.org>, Douglas Anderson <dianders@chromium.org>,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/8] drm/mipi-dsi: Reduce bloat and add funcs for cleaner
- init seqs
-Date: Fri, 26 Apr 2024 16:58:33 -0700
-Message-ID: <20240426235857.3870424-1-dianders@chromium.org>
+Subject: [PATCH v2 1/8] drm/mipi-dsi: Fix theoretical int overflow in
+ mipi_dsi_dcs_write_seq()
+Date: Fri, 26 Apr 2024 16:58:34 -0700
+Message-ID: <20240426165839.v2.1.I30fa4c8348ea316c886ef8a522a52fed617f930d@changeid>
 X-Mailer: git-send-email 2.44.0.769.g3c40516874-goog
+In-Reply-To: <20240426235857.3870424-1-dianders@chromium.org>
+References: <20240426235857.3870424-1-dianders@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,63 +93,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The consensus of many DRM folks is that we want to move away from DSI
-drivers defining tables of init commands. Instead, we want to move to
-init functions that can use common DRM functions. The issue thus far
-has been that using the macros mipi_dsi_generic_write_seq() and
-mipi_dsi_dcs_write_seq() bloats the driver using them.
+The mipi_dsi_dcs_write_seq() macro makes a call to
+mipi_dsi_dcs_write_buffer() which returns a type ssize_t. The macro
+then stores it in an int and checks to see if it's negative. This
+could theoretically be a problem if "ssize_t" is larger than "int".
 
-While trying to solve bloat, we realized that the majority of the it
-was easy to solve. This series solves the bloat for existing drivers
-by moving the printout outside of the macro.
+To see the issue, imagine that "ssize_t" is 32-bits and "int" is
+16-bits, you could see a problem if there was some code out there that
+looked like:
 
-During discussion of my v1 patch to fix the bloat [1], we also decided
-that we really want to change the way that drivers deal with init
-sequences to make it clearer. In addition to being cleaner, a side
-effect of moving drivers to the new style reduces bloat _even more_.
+  mipi_dsi_dcs_write_seq(dsi, cmd, <32767 bytes as arguments>);
 
-This series also contains a few minor fixes / cleanups that I found
-along the way.
+...since we'd get back that 32768 bytes were transferred and 32768
+stored in a 16-bit int would look negative.
 
-This series converts two drivers over to the new
-mipi_dsi_dcs_write_seq_multi() function. I don't have any hardware
-that uses the mipi_dsi_generic_write_seq() function to test with, so I
-haven't converted anything over to use that. The conversions are
-straightforward but I'd appreciate testing.
+Though there are no callsites where we'd actually hit this (even if
+"int" was only 16-bit), it's cleaner to make the types match so let's
+fix it.
 
-[1] https://lore.kernel.org/r/20240424172017.1.Id15fae80582bc74a0d4f1338987fa375738f45b9@changeid
+Fixes: 2a9e9daf7523 ("drm/mipi-dsi: Introduce mipi_dsi_dcs_write_seq macro")
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
 Changes in v2:
-- drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_dcs_write_seq()
-- drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_generic_write_seq()
-- Add some comments to the macros about printing and returning.
-- Modify commit message now that this is part of a series.
-- Change the way err value is handled in prep for next patch.
-- Rebased upon patches to avoid theoretical int overflow.
-- drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
-- drm/mipi-dsi: mipi_dsi_*_write functions don't need to ratelimit prints
-- drm/panel: novatek-nt36672e: Switch to mipi_dsi_dcs_write_seq_multi()
-- drm/panel: boe-tv101wum-nl6: Don't use a table for initting commands
-- drm/panel: boe-tv101wum-nl6: Convert hex to lowercase
+- New
 
-Douglas Anderson (8):
-  drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_dcs_write_seq()
-  drm/mipi-dsi: Fix theoretical int overflow in
-    mipi_dsi_generic_write_seq()
-  drm/mipi-dsi: Reduce driver bloat of mipi_dsi_*_write_seq()
-  drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
-  drm/mipi-dsi: mipi_dsi_*_write functions don't need to ratelimit
-    prints
-  drm/panel: novatek-nt36672e: Switch to mipi_dsi_dcs_write_seq_multi()
-  drm/panel: boe-tv101wum-nl6: Don't use a table for initting commands
-  drm/panel: boe-tv101wum-nl6: Convert hex to lowercase
+ include/drm/drm_mipi_dsi.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/drm_mipi_dsi.c                |  112 +
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 2712 +++++++++--------
- .../gpu/drm/panel/panel-novatek-nt36672e.c    |  524 ++--
- include/drm/drm_mipi_dsi.h                    |   96 +-
- 4 files changed, 1818 insertions(+), 1626 deletions(-)
-
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 82b1cc434ea3..b3576be22bfa 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -337,12 +337,12 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+ 	do {                                                               \
+ 		static const u8 d[] = { cmd, seq };                        \
+ 		struct device *dev = &dsi->dev;                            \
+-		int ret;                                                   \
++		ssize_t ret;                                               \
+ 		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));    \
+ 		if (ret < 0) {                                             \
+ 			dev_err_ratelimited(                               \
+ 				dev, "sending command %#02x failed: %d\n", \
+-				cmd, ret);                                 \
++				cmd, (int)ret);                            \
+ 			return ret;                                        \
+ 		}                                                          \
+ 	} while (0)
 -- 
 2.44.0.769.g3c40516874-goog
 
