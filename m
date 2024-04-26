@@ -2,78 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D7C8B3A5F
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 16:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98A1E8B3B6A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 17:28:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF05710F0E3;
-	Fri, 26 Apr 2024 14:49:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04FAB10ED84;
+	Fri, 26 Apr 2024 15:28:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lgw5LlZv";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="G+G0NAa+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCF0910F0DD;
- Fri, 26 Apr 2024 14:49:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714142973; x=1745678973;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=Hy1Exm2xJTf9fsQ/ZOtQnbSL2sRLolyMOaITsaLxcig=;
- b=lgw5LlZvA/sb93sv93lShPmwuWiCaoh0GN2KL0r/fd7o2QwBnaXfO4Yq
- vlwQlzFztWgL48Ln8p+Hxb/eLgaUl9XVC21W+MtZLC+9TCOeRBW5vBGrP
- x8LR2wU7Eoo9b8XygzXCil7w2hHLnOxHepKfG1vmWqKDic6GrtKvoPTev
- XDouNBvy+qccnjtVyPUEymhjP0VogdLXasijdmC9eBFrtL3R1BQFw+wDL
- CasO6QQq8VE2MjemH+OJHNjQ/MiZSsFJiNpnqJINUvC3uAWIA3kN81RHT
- YrcF3zbnygkPcHtM2APfwIRahNsvMUMS6aczV3/CwBf3gAz0odddN3Gf/ A==;
-X-CSE-ConnectionGUID: qTd2W925QZqz557NbuZUPg==
-X-CSE-MsgGUID: k5Gj1ip6QZO5PMxjTwSM5A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="32377803"
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; d="scan'208";a="32377803"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2024 07:49:32 -0700
-X-CSE-ConnectionGUID: 8/2TrxHhR9K/QxzOPJWcSw==
-X-CSE-MsgGUID: BjZv9niMT7iXatggBF72yg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; d="scan'208";a="25513591"
-Received: from acasaesb-mobl.amr.corp.intel.com (HELO [10.249.254.141])
- ([10.249.254.141])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2024 07:49:29 -0700
-Message-ID: <ad82f95ee29ada403459416d4c97c2b9083b5a0f.camel@linux.intel.com>
-Subject: Re: [PATCH 06/23] drm/xe/svm: Introduce a helper to build sg table
- from hmm range
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: "Zeng, Oak" <oak.zeng@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "Brost, Matthew"
- <matthew.brost@intel.com>,  "Welty, Brian" <brian.welty@intel.com>,
- "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>, "Bommu,
- Krishnaiah" <krishnaiah.bommu@intel.com>, "Vishwanathapura, Niranjana"
- <niranjana.vishwanathapura@intel.com>, Leon Romanovsky <leon@kernel.org>
-Date: Fri, 26 Apr 2024 16:49:26 +0200
-In-Reply-To: <20240426120047.GX941030@nvidia.com>
-References: <20240405123725.GD5383@nvidia.com>
- <SA1PR11MB699170C0F6FFFA231985718092032@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240405180212.GG5383@nvidia.com>
- <SA1PR11MB6991A4BD0EDDDF051A9A2C5C92072@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240409172418.GA5383@nvidia.com>
- <SA1PR11MB6991EDB4351D99B4E76EBC2992112@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240424134840.GJ941030@nvidia.com>
- <SA1PR11MB699102978E72F21E6C803D6392102@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240425010520.GW941030@nvidia.com>
- <65cb3984309d377d6e7d57cb6567473c8a83ed78.camel@linux.intel.com>
- <20240426120047.GX941030@nvidia.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
+ [209.85.219.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 341A910ED84
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 15:28:50 +0000 (UTC)
+Received: by mail-qv1-f45.google.com with SMTP id
+ 6a1803df08f44-69b10ead8f5so11403876d6.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 08:28:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1714145327; x=1714750127;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VL2JVp5517IAZMpOsSFYe/avtgfEuaWIXQ+vHOFMkZg=;
+ b=G+G0NAa+z0nxxRLRI2BpGSdTJB6txd4yorDwKfxj72tz0NgNkNfiaI1SEso+I77NZ/
+ ibWHiEQ+bT1xt6sJI5npRjfxTyWNWLhAyIBmfdlySzcH+EQHPi0pIICsAY4DVK7k0zSg
+ bMyqg6WNGwg8i4BpuTHU/zAoOtBuPlHX7G1bw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714145327; x=1714750127;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VL2JVp5517IAZMpOsSFYe/avtgfEuaWIXQ+vHOFMkZg=;
+ b=UhaU+ykPwd8TneChBGw55O5EqyxL4tMHI717UETOF8glVoYkEPfUPP4Ino9NyJQbXV
+ be5lIQK4eN+HDhA6DxAjbBF1y4JHyHTEdGiCvO8IbcH/QO4FkVnhZ8cFYk7YrCRvIDqL
+ ijE/oHgsELvme3nKQsJJUy0ehqjedtSVZQBb94+dLRmvrSp67zyo79UTpsd+HxlqBn0A
+ qzLmuXliCcpIiIzv3QdMsS+oCLzRLYyhdBibyfP/dgTcLAwqptnHfUr09HUt0A8wzSjY
+ 6qwZgcP53SrgKEyd7/QuDpKa/RlV7n9p/yzm0cHkMWGTfw7SgZnaS0aFv6RxKY0uYY1/
+ PGZw==
+X-Gm-Message-State: AOJu0YwSAqp8r5XNG5VFcrZ8tnVLyK8E8ja1GMdooEuy2e8i9/fQLxzW
+ N1pM+yxsLdxBjH6oSR3VD6HNOrzWDJA0+mlyhMXwR9cm0ujH64VmAOgYQSwga9hlz8rv8pGncfI
+ =
+X-Google-Smtp-Source: AGHT+IGpb83ASaUPVRaSlcaOs/1LKgybYWkRVQFot4ISscfbeHvehOOgMSLzgWxrB0o8P5Ofy8DFCg==
+X-Received: by 2002:a05:6214:c43:b0:6a0:b3cc:ee06 with SMTP id
+ r3-20020a0562140c4300b006a0b3ccee06mr1448902qvj.37.1714145327388; 
+ Fri, 26 Apr 2024 08:28:47 -0700 (PDT)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com.
+ [209.85.160.172]) by smtp.gmail.com with ESMTPSA id
+ s11-20020a0c8d4b000000b0069ba200fd5csm6739566qvb.70.2024.04.26.08.28.46
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Apr 2024 08:28:46 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id
+ d75a77b69052e-434ffc2b520so194051cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 08:28:46 -0700 (PDT)
+X-Received: by 2002:ac8:72d8:0:b0:434:d055:5b00 with SMTP id
+ o24-20020ac872d8000000b00434d0555b00mr280304qtp.20.1714145326083; Fri, 26 Apr
+ 2024 08:28:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240424172017.1.Id15fae80582bc74a0d4f1338987fa375738f45b9@changeid>
+ <87pludq2g0.fsf@intel.com>
+ <CAD=FV=W+Pcr+voBkcfeE_UC+ukN_hLXgoqMk0watROWRXe_2dg@mail.gmail.com>
+ <8734r85tcf.fsf@intel.com>
+In-Reply-To: <8734r85tcf.fsf@intel.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 26 Apr 2024 08:28:30 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XNbRauayNFNOODm-aaaLy2_vJk8OW-mR_XmLv505RtGA@mail.gmail.com>
+Message-ID: <CAD=FV=XNbRauayNFNOODm-aaaLy2_vJk8OW-mR_XmLv505RtGA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mipi-dsi: Reduce driver bloat of
+ mipi_dsi_*_write_seq()
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linus.walleij@linaro.org, 
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>, 
+ lvzhaoxiong@huaqin.corp-partner.google.com, Hsin-Yi Wang <hsinyi@google.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,187 +101,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2024-04-26 at 09:00 -0300, Jason Gunthorpe wrote:
-> On Fri, Apr 26, 2024 at 11:55:05AM +0200, Thomas Hellstr=C3=B6m wrote:
-> > First, the gpu_vma structure is something that partitions the
-> > gpu_vm
-> > that holds gpu-related range metadata, like what to mirror, desired
-> > gpu
-> > caching policies etc. These are managed (created, removed and
-> > split)
-> > mainly from user-space. These are stored and looked up from an rb-
-> > tree.
->=20
-> Except we are talking about SVA here, so all of this should not be
-> exposed to userspace.
+Hi,
 
-I think you are misreading. this is on the level "Mirror this region of
-the cpu_vm", "prefer this region placed in VRAM", "GPU will do atomic
-accesses on this region", very similar to cpu mmap / munmap and
-madvise. What I'm trying to say here is that this does not directly
-affect the SVA except whether to do SVA or not, and in that case what
-region of the CPU mm will be mirrored, and in addition, any gpu
-attributes for the mirrored region.
+On Fri, Apr 26, 2024 at 3:09=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+>
+> > 2. Accept that a slightly less efficient handling of the error case
+> > and perhaps a less intuitive API, but avoid the goto.
+> >
+> > Essentially you could pass in "ret" and have the function be a no-op
+> > if an error is already present. Something like this:
+> >
+> > void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_device *dsi,
+> > const void *data, size_t len, int *accum_ret)
+> > {
+> >   if (*accum_ret)
+> >     return;
+> >
+> >   *accum_ret =3D mipi_dsi_dcs_write_buffer(dsi, data, len);
+>
+> No reason you couldn't do error logging here
+>
+>         if (*accum_ret)
+>                 dev_err(...)
 
->=20
-> > Now, when we hit a fault, we want to use hmm_range_fault() to re-
-> > populate the faulting PTE, but also to pre-fault a range. Using a
-> > range
-> > here (let's call this a prefault range for clarity) rather than to
-> > insert a single PTE is for multiple reasons:
->=20
-> I've never said to do a single range, everyone using
-> hmm_range_fault()
-> has some kind of prefetch populate around algorithm.
->=20
-> > This is why we've been using dma_map_sg() for these ranges, since
-> > it is
-> > assumed the benefits gained from=20
->=20
-> This doesn't logically follow. You need to use dma_map_page page by
-> page and batch that into your update mechanism.
->=20
-> If you use dma_map_sg you get into the world of wrongness where you
-> have to track ranges and invalidation has to wipe an entire range -
-> because you cannot do a dma unmap of a single page from a dma_map_sg
-> mapping. This is all the wrong way to use hmm_range_fault.
->=20
-> hmm_range_fault() is page table mirroring, it fundamentally must be
-> page-by-page. The target page table structure must have similar
-> properties to the MM page table - especially page by page
-> validate/invalidate. Meaning you cannot use dma_map_sg().
-
-To me this is purely an optimization to make the driver page-table and
-hence the GPU TLB benefit from iommu coalescing / large pages and large
-driver PTEs. It is true that invalidation will sometimes shoot down
-large gpu ptes unnecessarily but it will not put any additional burden
-on the core AFAICT. For the dma mappings themselves they aren't touched
-on invalidation since zapping the gpu PTEs effectively stops any dma
-accesses. The dma mappings are rebuilt on the next gpu pagefault,
-which, as you mention, are considered slow anyway, but will probably
-still reuse the same prefault region, hence needing to rebuild the dma
-mappings anyway.
-
-So as long as we are correct and do not adversely affect core mm, If
-the gpu performance (for whatever reason) is severely hampered if
-large gpu page-table-entries are not used, couldn't this be considered
-left to the driver?
-
-And a related question. What about THP pages? OK to set up a single
-dma-mapping to those?
+Yup, exactly. This is probably best.
 
 
->=20
-> > Second, when pre-faulting a range like this, the mmu interval
-> > notifier
-> > seqno comes into play, until the gpu ptes for the prefault range
-> > are
-> > safely in place. Now if an invalidation happens in a completely
-> > separate part of the mirror range, it will bump the seqno and force
-> > us
-> > to rerun the fault processing unnecessarily.=20
->=20
-> This is how hmm_range_fault() works. Drivers should not do hacky
-> things to try to "improve" this. SVA granuals should be large, maybe
-> not the entire MM, but still quite large. 2M is far to small.
->=20
-> There is a tradeoff here of slowing down the entire MM vs risking an
-> iteration during fault processing. We want to err toward making fault
-> processing slowing because fault procesing is already really slow.
->=20
-> > Hence, for this purpose we
-> > ideally just want to get a seqno bump covering the prefault range.
->=20
-> Ideally, but this is not something we can get for free.
->=20
-> > That's why finer-granularity mmu_interval notifiers might be
-> > beneficial
-> > (and then cached for future re-use of the same prefault range).
-> > This
-> > leads me to the next question:
->=20
-> It is not the design, please don't invent crazy special Intel things
-> on top of hmm_range_fault.
+> > }
+> >
+> > ...and then the caller:
+> >
+> > int ret;
+> >
+> > ret =3D 0;
+> > mipi_dsi_dcs_write_seq_multi(dsi, HX83102_SETSPCCMD, 0xcd, &ret);
+> > mipi_dsi_dcs_write_seq_multi(dsi, HX83102_SETMIPI, 0x84, &ret);
+> > mipi_dsi_dcs_write_seq_multi(dsi, HX83102_SETSPCCMD, 0x3f, &ret);
+> > mipi_dsi_dcs_write_seq_multi(dsi, HX83102_SETVDC, 0x1b, 0x04, &ret);
+> > if (ret)
+> >   goto some_cmd_failed;
+> >
+> > This has similar properties to solution #1.
+>
+> I like this option the best, for the simple reason that the caller side
+> is aware of what's going on, there's no magic control flow happening,
+> and they can add error handling in the middle if they so choose.
 
-For the record, this is not a "crazy special Intel" invention. It's the
-way all GPU implementations do this so far. We're currently catching
-up. If we're going to do this in another way, we fully need to
-understand why it's a bad thing to do. That's why these questions are
-asked.
-
->=20
-> > You mention that mmu_notifiers are expensive to register. From
-> > looking
-> > at the code it seems *mmu_interval* notifiers are cheap unless
-> > there
-> > are ongoing invalidations in which case using a gpu_vma-wide
-> > notifier
-> > would block anyway? Could you clarify a bit more the cost involved
-> > here?
->=20
-> The rb tree insertions become expensive the larger the tree is. If
-> you
-> have only a couple of notifiers it is reasonable.
->=20
-> > If we don't register these smaller-range interval notifiers, do
-> > you think the seqno bumps from unrelated subranges would be a real
-> > problem?
->=20
-> I don't think it is, you'd need to have a workload which was
-> agressively manipulating the CPU mm (which is also pretty slow). If
-> the workload is doing that then it also really won't like being
-> slowed
-> down by the giant rb tree.
-
-OK, this makes sense, and will also simplify implementation.
-
->=20
-> You can't win with an argument that collisions are likely due to an
-> app pattern that makes alot of stress on the MM so the right response
-> is to make the MM slower.
->=20
-> > Finally the size of the pre-faulting range is something we need to
-> > tune.=20
->=20
-> Correct.
->=20
-> > Currently it is cpu vma - wide. I understand you strongly suggest
-> > this should be avoided. Could you elaborate a bit on why this is
-> > such a
-> > bad choice?
->=20
-> Why would a prefetch have anything to do with a VMA? Ie your app
-> calls
-> malloc() and gets a little allocation out of a giant mmap() arena -
-> you want to prefault the entire arena? Does that really make any
-> sense?
-
-Personally, no it doesn't. I'd rather use some sort of fixed-size
-chunk. But to rephrase, the question was more into the strong "drivers
-should not be aware of the cpu mm vma structures" comment. While I
-fully agree they are probably not very useful for determining the size
-of gpu prefault regions, is there anything else we should be aware of
-here.
-
-Thanks,
-Thomas
+Sounds good to me. I went back and forth a bit between solution #1 and
+this and I see the benefits of both. If folks like this one I think we
+should run with it. Certainly it's better than the current hidden
+return.
 
 
->=20
-> Mirroring is a huge PITA, IMHO it should be discouraged in favour of
-> SVA. Sadly too many CPUs still canot implement SVA.
->=20
-> With mirroring there is no good way for the system to predict what
-> the
-> access pattern is. The only way to make this actually performant is
-> for userspace to explicitly manage the mirroring with some kind of
-> prefetching scheme to avoid faulting its accesses except in
-> extrodinary cases.
->=20
-> VMA is emphatically not a hint about what to prefetch. You should
-> balance your prefetching based on HW performance and related. If it
-> is
-> tidy for HW to fault around a 2M granual then just do that.
->=20
-> Jason
 
+> I don't find this unintuitive, but if it helps, you could conceivably
+> add a context parameter:
+>
+>         struct mipi_dsi_seq_context context =3D {
+>                 .dsi =3D dsi,
+>         };
+>
+>         mipi_dsi_dcs_write_seq(&context, HX83102_SETSPCCMD, 0xcd);
+>         ...
+>
+>         if (context.ret)
+>                 ...
+>
+> And even have further control in the context whether to log or keep
+> going or whatever.
+
+I agree there are some benefits of adding the extra "context"
+abstraction and we can go that way if you want, but I lean towards the
+simplicity of just passing in the accumulated return value like I did
+in my example.
+
+
+I'll try to write up patches and see if I can post them later today.
+
+-Doug
