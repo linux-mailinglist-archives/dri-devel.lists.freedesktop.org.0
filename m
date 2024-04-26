@@ -2,82 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279148B3063
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 08:27:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 783BD8B3089
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 08:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB2131121C9;
-	Fri, 26 Apr 2024 06:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 124FB1121E4;
+	Fri, 26 Apr 2024 06:36:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LYh3883W";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Oe/TI4n1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87F671121C4;
- Fri, 26 Apr 2024 06:27:17 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-41b869326daso2112625e9.0; 
- Thu, 25 Apr 2024 23:27:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714112836; x=1714717636; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KIM9Jp8l8EHcEEIc5gsBP2lkn6c2G9W8perp3u/3KbI=;
- b=LYh3883Wx+wJC/Y5H1uouFdpJVCTTlwTXq7A9SVqzSqF8syNNjFIiNyIULEDHDlpSw
- yQIM5cAKJcZQNe+/i/KQTODQ4w5wmoo5yN6PbvyRmQQxs814LqMT06BTqs7o+EMrn/Tt
- FKiaNmMc+TLU4fU78Ox8wC36S+k3O60EgfX2PTA8IfXCu20tUNfV3G1UKMKYNTfxsIa9
- e21yaTylNX+JcddVH/WjXSmfG37X5HJs1U7u4q0un3ItAnqIJ3WbpUnatTJgFNIk35DZ
- OdM5ZXxeZC048ysSMVkerSopJAdxTIwNrH4nPZsHOOUfBiYUwjSflOYF2GP52cpG2BoA
- gYnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714112836; x=1714717636;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KIM9Jp8l8EHcEEIc5gsBP2lkn6c2G9W8perp3u/3KbI=;
- b=bQcL+iKDNHLB2OUOWWsGDpDTBAS150a8j/Zwn/cCRxhU420BiAXumWH+AjDqhVxqxh
- gWqID6oXxExuWv6BYK7Rhm8iGcBINxESc9RV3204LnL5e/TgybZn3RA4pdkBrIbvaeWZ
- W3XhuiHn2/6FMysUvm6YD8X3ZlKsCsuwrnE5DYa7nJ92dUUEYhQrKSILbkQRqT0hM9Xe
- q1ImuZ9w/tLV27P6ggAotqWNb9Ha1TED+r/yaqUWPMF3/ks0xBXvZUZoPLPGWXKj/0+d
- e0AHl0PX3/Rr6UYVPnZtQb0irWMiP/x7tZuJLJJyBGmrhfhKWtt0tI1pvosLEHfHHGau
- 5tVw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWyDqOQRWfp1Hsf3V2nSojKex0goPQ/vLzJOry5IOPLg5qZzBo75VsRxMaDWlygZC44tQ85fD1n4CWxgMnkpB/iEIXYV4jNbfo9Kv1N0TJ+59aHJJhvQo2tNWl264vmdri2WgZam17ov9D5UFIzHA==
-X-Gm-Message-State: AOJu0Yz/R6v+OWwW2VbtLVSFnA0t5t3xZCVMc2MIPmNxHs8MOb7vBs64
- +x6Z8IsMnbAxUrC8Yel7x6hOfbPStqQWoCX8SCDJHev278ajFqCZ
-X-Google-Smtp-Source: AGHT+IFomz3FfI26VY4RkDI7jYy7GRVm0MUsqyg1mtqR6H9MuN9wNiNB+mpVDupO2HiBfz+OvKp0Sg==
-X-Received: by 2002:a05:600c:1992:b0:418:f8c2:c3bc with SMTP id
- t18-20020a05600c199200b00418f8c2c3bcmr1416834wmq.33.1714112835587; 
- Thu, 25 Apr 2024 23:27:15 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- r18-20020a05600c35d200b00418d434ae4esm29754940wmq.10.2024.04.25.23.27.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Apr 2024 23:27:15 -0700 (PDT)
-Message-ID: <8eecba49-52a2-465c-88e4-60722299a724@gmail.com>
-Date: Fri, 26 Apr 2024 08:27:13 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E3821121E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 06:36:26 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-34-181.elisa-laajakaista.fi
+ [91.154.34.181])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16FB12B3;
+ Fri, 26 Apr 2024 08:35:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1714113331;
+ bh=CfoscWshXtNROSeCMHdAPNXxaj4i54mAa5D64VxlLO0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Oe/TI4n10H6N/kIS0bELo9gee7yXOIX4FBLXDnQy9Jvj3mf1KsN/Sm/DV4fiKd0Si
+ ioO+ODNWNLnajVkLJ2bTFXBFtcwoARBAhJiBgqKAcONUY9Gf0Wdks3npSuS3XDJBf6
+ 127fbzopXdPLtTBKoI4rYoZr7FT2UBfR9skvO6Ks=
+Message-ID: <99218e32-bd37-49d8-bb90-b6ce9a6447ac@ideasonboard.com>
+Date: Fri, 26 Apr 2024 09:36:21 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 02/18] drm/ttm: Add per-BO eviction tracking
-To: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Friedrich Vock <friedrich.vock@gmx.de>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org,
- Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>, Joshua Ashton
- <joshua@froggi.es>, Alex Deucher <alexander.deucher@amd.com>
-References: <20240424165937.54759-1-friedrich.vock@gmx.de>
- <20240424165937.54759-3-friedrich.vock@gmx.de>
- <ab9afb74-1490-45b0-9b40-2e46112538e0@amd.com>
- <Ziqo10vFfhVGQO6h@DUT025-TGLU.fm.intel.com>
+Subject: Re: [PATCH v2 2/2] drm: xlnx: zynqmp_dpsub: Fix compilation error
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>
+References: <20240425-dp-live-fmt-fix-v2-0-6048e81211de@amd.com>
+ <20240425-dp-live-fmt-fix-v2-2-6048e81211de@amd.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <Ziqo10vFfhVGQO6h@DUT025-TGLU.fm.intel.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240425-dp-live-fmt-fix-v2-2-6048e81211de@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,85 +105,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 25.04.24 um 21:02 schrieb Matthew Brost:
-> On Thu, Apr 25, 2024 at 08:18:38AM +0200, Christian König wrote:
->> Am 24.04.24 um 18:56 schrieb Friedrich Vock:
->>> Make each buffer object aware of whether it has been evicted or not.
->> That reverts some changes we made a couple of years ago.
->>
->> In general the idea is that eviction isn't something we need to reverse in
->> TTM.
->>
->> Rather the driver gives the desired placement.
->>
->> Regards,
->> Christian.
->>
-> We have added a concept similar to this in drm_gpuvm [1]. GPUVM
-> maintains a list of evicted BOs and when the GPUVM is locked for
-> submission it has validate vfunc which is called on each BO. If driver
-> is using TTM, this is where the driver would call TTM BO validate which
-> unevicts the BO. Well at least this what we do it Xe [2].
->
-> The uneviction is a per VM operation not a global one. With this, a
-> global eviction list does not seem correct (admittedly not through the
-> entire series).
+On 26/04/2024 04:46, Anatoliy Klymenko wrote:
+> Fix W=1 clang 19 compilation error in zynqmp_disp_layer_drm_formats().
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202404260946.4oZXvHD2-lkp@intel.com/
+> ---
 
-Yeah, that's exactly what I meant when I wrote that this is controlled 
-by the "driver" :)
+This is missing your signed-off-by.
 
-The state machine in AMDGPUs VM code is pretty much the same.
+  Tomi
 
-Regards,
-Christian.
-
->
-> Matt
->
-> [1] https://elixir.bootlin.com/linux/v6.8.7/source/drivers/gpu/drm/drm_gpuvm.c#L86
-> [2] https://elixir.bootlin.com/linux/v6.8.7/source/drivers/gpu/drm/xe/xe_vm.c#L464
->
->>> Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
->>> ---
->>>    drivers/gpu/drm/ttm/ttm_bo.c |  1 +
->>>    include/drm/ttm/ttm_bo.h     | 11 +++++++++++
->>>    2 files changed, 12 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
->>> index edf10618fe2b2..3968b17453569 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
->>> @@ -980,6 +980,7 @@ int ttm_bo_init_reserved(struct ttm_device *bdev, struct ttm_buffer_object *bo,
->>>    	bo->pin_count = 0;
->>>    	bo->sg = sg;
->>>    	bo->bulk_move = NULL;
->>> +	bo->evicted_type = TTM_NUM_MEM_TYPES;
->>>    	if (resv)
->>>    		bo->base.resv = resv;
->>>    	else
->>> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
->>> index 0223a41a64b24..8a1a29c6fbc50 100644
->>> --- a/include/drm/ttm/ttm_bo.h
->>> +++ b/include/drm/ttm/ttm_bo.h
->>> @@ -121,6 +121,17 @@ struct ttm_buffer_object {
->>>    	unsigned priority;
->>>    	unsigned pin_count;
->>>
->>> +	/**
->>> +	 * @evicted_type: Memory type this BO was evicted from, if any.
->>> +	 * TTM_NUM_MEM_TYPES if this BO was not evicted.
->>> +	 */
->>> +	int evicted_type;
->>> +	/**
->>> +	 * @evicted: Entry in the evicted list for the resource manager
->>> +	 * this BO was evicted from.
->>> +	 */
->>> +	struct list_head evicted;
->>> +
->>>    	/**
->>>    	 * @delayed_delete: Work item used when we can't delete the BO
->>>    	 * immediately
->>> --
->>> 2.44.0
->>>
+>   drivers/gpu/drm/xlnx/zynqmp_disp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> index 423f5f4943cc..c9fb432d4cbd 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> @@ -981,7 +981,7 @@ u32 *zynqmp_disp_layer_drm_formats(struct zynqmp_disp_layer *layer,
+>   	unsigned int i;
+>   	u32 *formats;
+>   
+> -	if (WARN_ON(!layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE)) {
+> +	if (WARN_ON(layer->mode != ZYNQMP_DPSUB_LAYER_NONLIVE)) {
+>   		*num_formats = 0;
+>   		return NULL;
+>   	}
+> 
 
