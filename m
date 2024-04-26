@@ -2,78 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21B18B34A3
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 11:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ABD48B34F8
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 12:09:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF47610F8EE;
-	Fri, 26 Apr 2024 09:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A35E610EA40;
+	Fri, 26 Apr 2024 10:08:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YSCZ9lgZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NEmbo4p5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8EDD10F84E;
- Fri, 26 Apr 2024 09:55:10 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF64C10EA40
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 10:08:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714125311; x=1745661311;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=OYonUy2ldBnSnFIrfQIW7ggjNImz2WS60L/07uELKXY=;
- b=YSCZ9lgZY3hjLdVFnWjzBwHEPADU1Ia30OmZr8Fe/Z1DCK4/2lQDxdJ+
- iryc9ySFOeZT7Pk+VGdtOUKJuHZiVjpG55uEzvGb2pJ7VVAkQpdGARriV
- sB6H2hLEGlOvD1FFzIue0QAxttcVKJ+gg6dDywnu5kc4bvVimMZFnwmXp
- rDpJBmFAOpElb9+iRwFmkmo5R+O+2cTbiWWgw4ag/FVzZQ6FT9+WI1HKo
- Qjy3TwJiBfbmPcHJaeOGBEzonVD9uo0K7KezbADw9GBh8q4ir8HW1bKHP
- Wc03LKImIdDg51zJgGAMDr/APUl5QLp/CT8XjLk2K+VFbmDUR2st2QUzx w==;
-X-CSE-ConnectionGUID: oshDGTmARluspsIGhse0Fw==
-X-CSE-MsgGUID: 10iL/9mISTia4TvE+7bV7Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="21274273"
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; d="scan'208";a="21274273"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2024 02:55:10 -0700
-X-CSE-ConnectionGUID: Bkkr5bxTSdSI3E/xhcMwtA==
-X-CSE-MsgGUID: vaPVBENHQTiOKdsvlbPNsg==
+ t=1714126137; x=1745662137;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=hdNA40BsOA8zMYaPa+l0B6i1Mar9bV4wN0skFoiJ/TM=;
+ b=NEmbo4p5/8o7E0Jxkzo7+g1un6HCXmNbmsWANadYVzkWvLgYfINUSj4o
+ XEWfxrRpl/hu2a7op0MnP1nvRsLlO0A8zClCkwbHXWEyyoKtgiWZReD3+
+ 9KTstqgeblfeZBFoYgzxbKJUQzUpPLNOvYKXmIQsuwD22nXC6QE6XXjfd
+ 814cPklK4asLusbc+qZwx3WiRh2+HXj6at3jQCDTi0Mh12czqwc5059KS
+ wKmJRsLaNlp2TW4qw/Hlq9/Sux9hVGWcr9V1Eto1uS/MJ53c0jcdF3dUy
+ d0EuBpeNJKDRWRkeiF117ZUXWNRzvdoa3WvcTLZQnjj1kHtRUugpaJTsO A==;
+X-CSE-ConnectionGUID: DNEWLumfSEuYM9W0/ZOEOQ==
+X-CSE-MsgGUID: 2cCaUwL3TguZtxZiRVdl2Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9781866"
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="9781866"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2024 03:08:57 -0700
+X-CSE-ConnectionGUID: MfYF0uoHQHeICccbNe6BxQ==
+X-CSE-MsgGUID: Zavh7QhmSC+sewtU5ozICg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; d="scan'208";a="25328159"
-Received: from acasaesb-mobl.amr.corp.intel.com (HELO [10.249.254.141])
- ([10.249.254.141])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2024 02:55:07 -0700
-Message-ID: <65cb3984309d377d6e7d57cb6567473c8a83ed78.camel@linux.intel.com>
-Subject: Re: [PATCH 06/23] drm/xe/svm: Introduce a helper to build sg table
- from hmm range
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, "Zeng, Oak" <oak.zeng@intel.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Brost,
- Matthew" <matthew.brost@intel.com>,  "Welty, Brian"
- <brian.welty@intel.com>, "Ghimiray, Himal Prasad"
- <himal.prasad.ghimiray@intel.com>, "Bommu, Krishnaiah"
- <krishnaiah.bommu@intel.com>, "Vishwanathapura, Niranjana"
- <niranjana.vishwanathapura@intel.com>, Leon Romanovsky <leon@kernel.org>
-Date: Fri, 26 Apr 2024 11:55:05 +0200
-In-Reply-To: <20240425010520.GW941030@nvidia.com>
-References: <20240405003927.GA11940@nvidia.com>
- <SA1PR11MB6991E4CDCD61A5D1909BB4EF92032@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240405123725.GD5383@nvidia.com>
- <SA1PR11MB699170C0F6FFFA231985718092032@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240405180212.GG5383@nvidia.com>
- <SA1PR11MB6991A4BD0EDDDF051A9A2C5C92072@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240409172418.GA5383@nvidia.com>
- <SA1PR11MB6991EDB4351D99B4E76EBC2992112@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240424134840.GJ941030@nvidia.com>
- <SA1PR11MB699102978E72F21E6C803D6392102@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240425010520.GW941030@nvidia.com>
-Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
- keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; d="scan'208";a="25370659"
+Received: from dgarbuz-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.48.145])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2024 03:08:51 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Doug Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, Javier Martinez Canillas
+ <javierm@redhat.com>, Neil Armstrong <neil.armstrong@linaro.org>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>, linus.walleij@linaro.org, Cong
+ Yang <yangcong5@huaqin.corp-partner.google.com>,
+ lvzhaoxiong@huaqin.corp-partner.google.com, Hsin-Yi Wang
+ <hsinyi@google.com>, Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter
+ <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/mipi-dsi: Reduce driver bloat of
+ mipi_dsi_*_write_seq()
+In-Reply-To: <CAD=FV=W+Pcr+voBkcfeE_UC+ukN_hLXgoqMk0watROWRXe_2dg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240424172017.1.Id15fae80582bc74a0d4f1338987fa375738f45b9@changeid>
+ <87pludq2g0.fsf@intel.com>
+ <CAD=FV=W+Pcr+voBkcfeE_UC+ukN_hLXgoqMk0watROWRXe_2dg@mail.gmail.com>
+Date: Fri, 26 Apr 2024 13:08:48 +0300
+Message-ID: <8734r85tcf.fsf@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,72 +81,244 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason.
+On Thu, 25 Apr 2024, Doug Anderson <dianders@chromium.org> wrote:
+> Hi,
+>
+> On Thu, Apr 25, 2024 at 1:19=E2=80=AFAM Jani Nikula <jani.nikula@linux.in=
+tel.com> wrote:
+>>
+>> > @@ -279,6 +281,8 @@ enum mipi_dsi_dcs_tear_mode {
+>> >
+>> >  ssize_t mipi_dsi_dcs_write_buffer(struct mipi_dsi_device *dsi,
+>> >                                 const void *data, size_t len);
+>> > +ssize_t mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
+>> > +                                      const void *data, size_t len);
+>> >  ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *dsi, u8 cmd,
+>> >                          const void *data, size_t len);
+>> >  ssize_t mipi_dsi_dcs_read(struct mipi_dsi_device *dsi, u8 cmd, void *=
+data,
+>> > @@ -317,14 +321,10 @@ int mipi_dsi_dcs_get_display_brightness_large(st=
+ruct mipi_dsi_device *dsi,
+>> >  #define mipi_dsi_generic_write_seq(dsi, seq...)                      =
+          \
+>> >       do {                                                            =
+       \
+>> >               static const u8 d[] =3D { seq };                        =
+         \
+>> > -             struct device *dev =3D &dsi->dev;                       =
+         \
+>> >               int ret;                                                =
+       \
+>> > -             ret =3D mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));  =
+         \
+>> > -             if (ret < 0) {                                          =
+       \
+>> > -                     dev_err_ratelimited(dev, "transmit data failed: =
+%d\n", \
+>> > -                                         ret);                       =
+       \
+>> > +             ret =3D mipi_dsi_generic_write_chatty(dsi, d, ARRAY_SIZE=
+(d));    \
+>> > +             if (ret < 0)                                            =
+       \
+>> >                       return ret;                                     =
+       \
+>> > -             }                                                       =
+       \
+>> >       } while (0)
+>>
+>> The one thing that I've always disliked about these macros (even if I've
+>> never actually used them myself) is that they hide control flow from the
+>> caller, i.e. return directly. You don't see that in the code, it's not
+>> documented, and if you wanted to do better error handling yourself,
+>> you're out of luck.
+>
+> Yeah, I agree that it's not the cleanest. That being said, it is
+> existing code and making the existing code less bloated seems worth
+> doing.
+>
+> I'd also say that it feels worth it to have _some_ solution so that
+> the caller doesn't need to write error handling after every single cmd
+> sent. If we get rid of / discourage these macros that's either going
+> to end us up with ugly/verbose code or it's going to encourage people
+> to totally skip error handling. IMO neither of those are wonderful
+> solutions.
+>
+> While thinking about this there were a few ideas I came up with. None
+> of them are amazing, but probably they are better than the hidden
+> "return" like this. Perhaps we could mark the current function as
+> "deprecated" and pick one of these depending on what others opinions
+> are:
+>
+> 1. Use "goto" and force the caller to give a goto target for error handli=
+ng.
+>
+> This is based on an idea that Dmitry came up with, but made a little
+> more explicit. Example usage:
+>
+> int ret;
+>
+> ret =3D 0;
+> mipi_dsi_dcs_write_seq_goto(dsi, &ret, HX83102_SETSPCCMD, 0xcd,
+>                             some_cmd_failed);
+> mipi_dsi_dcs_write_seq_goto(dsi, &ret, HX83102_SETMIPI, 0x84,
+>                             some_cmd_failed);
+> mipi_dsi_dcs_write_seq_goto(dsi, &ret, HX83102_SETSPCCMD, 0x3f,
+>                             some_cmd_failed);
+> mipi_dsi_dcs_write_seq_goto(dsi, &ret, HX83102_SETVDC, 0x1b, 0x04,
+>                             some_cmd_failed);
+>
+> ...
+>
+> some_cmd_failed:
+>   pr_err("Commands failed to write: %d", ret);
+>   return ret;
+> }
+>
+> One downside here is that you can't easily tell which command failed
+> to put it in the error message. A variant of this idea (1a?) could be
+> to hoist the print back into the write command. I'd want to pick one
+> or the other. I guess my preference would be to hoist the print into
+> the write command and if someone really doesn't want the print then
+> they call mipi_dsi_dcs_write_buffer() directly.
+>
+> ---
+>
+> 2. Accept that a slightly less efficient handling of the error case
+> and perhaps a less intuitive API, but avoid the goto.
+>
+> Essentially you could pass in "ret" and have the function be a no-op
+> if an error is already present. Something like this:
+>
+> void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_device *dsi,
+> const void *data, size_t len, int *accum_ret)
+> {
+>   if (*accum_ret)
+>     return;
+>
+>   *accum_ret =3D mipi_dsi_dcs_write_buffer(dsi, data, len);
 
-I've quickly read through the discussion here and have a couple of
-questions and clarifications to hopefully help moving forward on
-aligning on an approach for this.
+No reason you couldn't do error logging here
 
-Let's for simplicity initially ignore migration and assume this is on
-integrated hardware since it seems like it's around the
-hmm_range_fault() usage there is a disconnect.
+	if (*accum_ret)
+		dev_err(...)
 
-First, the gpu_vma structure is something that partitions the gpu_vm
-that holds gpu-related range metadata, like what to mirror, desired gpu
-caching policies etc. These are managed (created, removed and split)
-mainly from user-space. These are stored and looked up from an rb-tree.
+> }
+>
+> ...and then the caller:
+>
+> int ret;
+>
+> ret =3D 0;
+> mipi_dsi_dcs_write_seq_multi(dsi, HX83102_SETSPCCMD, 0xcd, &ret);
+> mipi_dsi_dcs_write_seq_multi(dsi, HX83102_SETMIPI, 0x84, &ret);
+> mipi_dsi_dcs_write_seq_multi(dsi, HX83102_SETSPCCMD, 0x3f, &ret);
+> mipi_dsi_dcs_write_seq_multi(dsi, HX83102_SETVDC, 0x1b, 0x04, &ret);
+> if (ret)
+>   goto some_cmd_failed;
+>
+> This has similar properties to solution #1.
 
-Each such mirroring gpu_vma holds an mmu_interval notifier.
+I like this option the best, for the simple reason that the caller side
+is aware of what's going on, there's no magic control flow happening,
+and they can add error handling in the middle if they so choose.
 
-For invalidation only purposes, the mmu_interval seqno is not tracked.
-An invalidation thus only zaps page-table entries, causing subsequent
-accesses to fault. Hence for this purpose, having a single notifier
-that covers a huge range is desirable and does not become a problem.
+I don't find this unintuitive, but if it helps, you could conceivably
+add a context parameter:
 
-Now, when we hit a fault, we want to use hmm_range_fault() to re-
-populate the faulting PTE, but also to pre-fault a range. Using a range
-here (let's call this a prefault range for clarity) rather than to
-insert a single PTE is for multiple reasons:
+	struct mipi_dsi_seq_context context =3D {
+		.dsi =3D dsi,
+	};
 
-1) avoid subsequent adjacent faults
-2a) Using huge GPU page-table entries.
-2b) Updating the GPU page-table (tree-based and multi-level) becomes
-more efficient when using a range.
+	mipi_dsi_dcs_write_seq(&context, HX83102_SETSPCCMD, 0xcd);
+	...
 
-Here, depending on hardware, 2a might be more or less crucial for GPU
-performance. 2b somewhat ties into 2a but otherwise does not affect gpu
-performance.
+	if (context.ret)
+		...
 
-This is why we've been using dma_map_sg() for these ranges, since it is
-assumed the benefits gained from 2) above by far outweighs any benefit
-from finer-granularity dma-mappings on the rarer occasion of faults.
-Are there other benefits from single-page dma mappings that you think
-we need to consider here?
+And even have further control in the context whether to log or keep
+going or whatever.
 
-Second, when pre-faulting a range like this, the mmu interval notifier
-seqno comes into play, until the gpu ptes for the prefault range are
-safely in place. Now if an invalidation happens in a completely
-separate part of the mirror range, it will bump the seqno and force us
-to rerun the fault processing unnecessarily. Hence, for this purpose we
-ideally just want to get a seqno bump covering the prefault range.
-That's why finer-granularity mmu_interval notifiers might be beneficial
-(and then cached for future re-use of the same prefault range). This
-leads me to the next question:
+I don't think the efficiency in error cases is a problem worth thinking
+about, but you could address that by turning this into a macro so
+there's no extra calls on errors.
 
-You mention that mmu_notifiers are expensive to register. From looking
-at the code it seems *mmu_interval* notifiers are cheap unless there
-are ongoing invalidations in which case using a gpu_vma-wide notifier
-would block anyway? Could you clarify a bit more the cost involved
-here? If we don't register these smaller-range interval notifiers, do
-you think the seqno bumps from unrelated subranges would be a real
-problem?
-
-Finally the size of the pre-faulting range is something we need to
-tune. Currently it is cpu vma - wide. I understand you strongly suggest
-this should be avoided. Could you elaborate a bit on why this is such a
-bad choice?
-
-Thanks,
-Thomas
+BR,
+Jani.
 
 
+>
+> ---
+>
+> 3. Accept that callers don't want to error handling but just need a print.
+>
+> I'm not 100% sure we want to encourage this. On the one hand it's
+> unlikely anyone is really going to be able to reliably recover super
+> properly from an error midway through a big long command sequence. On
+> the other hand, this means we can't pass the error back to the caller.
+> In theory the caller _could_ try to handle errors by resetting / power
+> cycling things, so that's a real downside.
+>
+> Example usage:
+>
+> mipi_dsi_dcs_write_seq_chatty(dsi, HX83102_SETSPCCMD, 0xcd);
+> mipi_dsi_dcs_write_seq_chatty(dsi, HX83102_SETMIPI, 0x84);
+> mipi_dsi_dcs_write_seq_chatty(dsi, HX83102_SETSPCCMD, 0x3f);
+> mipi_dsi_dcs_write_seq_chatty(dsi, HX83102_SETVDC, 0x1b, 0x04);
+>
+> ---
+>
+> I think I'd lean towards #1a (user passes goto label and we include
+> the error print in the helper), but I'd personally be happy with any
+> of #1 or #2. I don't love #3.
+>
+>> Be that as it may, the combo of ratelimited error printing and return on
+>> errors does not make much sense to me. If there's something to print,
+>> you bail out, that's it. I suspect we never hit the ratelimit.
+>
+> Yeah, I'm in favor of removing the ratelimit.
+>
+>
+>> You might even want to try *only* changing the ratelimited printing to a
+>> regular error message, and see if the compiler can combine the logging
+>> to a single exit point in the callers. Ratelimited it obviously can't
+>> because every single one of them is unique.
+>
+> It wasn't quite as good. Comparing the "after" solution (AKA applying
+> $SUBJECT patch) vs. _not_ taking $SUBJECT patch and instead changing
+> dev_err_ratelimited() to dev_err().
+>
+> $ scripts/bloat-o-meter \
+>    .../after/panel-novatek-nt36672e.ko \
+>   .../noratelimit/panel-novatek-nt36672e.ko
+> add/remove: 0/0 grow/shrink: 1/0 up/down: 3404/0 (3404)
+> Function                                     old     new   delta
+> nt36672e_1080x2408_60hz_init                7260   10664   +3404
+> Total: Before=3D11669, After=3D15073, chg +29.17%
+>
+> ...so $SUBJECT patch is still better.
+>
+> ---
+>
+> Where does that leave us? IMO:
+>
+> a) If others agree, we should land $SUBJECT patch. It doesn't change
+> the behavior at all and gives big savings. It adds an extra function
+> hop, but presumably the fact that we have to fetch _a lot_ less stuff
+> from RAM might mean we still get better performance (likely it doesn't
+> matter anyway since this is not hotpath code).
+>
+> b) Atop this patch, we should consider changing dev_err_ratelimited()
+> to dev_err(). It doesn't seem to make lots of sense to me to ratelimit
+> this error.
+>
+> c) Atop this patch, we should consider making the two existing macros
+> "deprecated" in favor of a new macro that makes the control flow more
+> obvious.
+>
+> How does that sound to folks?
+>
+> -Doug
+
+--=20
+Jani Nikula, Intel
