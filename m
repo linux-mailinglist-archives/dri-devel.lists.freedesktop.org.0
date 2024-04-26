@@ -2,81 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3348B3BB1
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 17:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8D58B3BD6
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 17:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39D001124C4;
-	Fri, 26 Apr 2024 15:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D35A1124D0;
+	Fri, 26 Apr 2024 15:42:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OV4lDaiU";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WaEvhNNX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82D801124C4
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 15:35:45 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-571be483ccaso2792301a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 08:35:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714145744; x=1714750544; darn=lists.freedesktop.org;
- h=in-reply-to:references:to:from:subject:message-id:date:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9I5S2+S0bvqZ7UVU6beR6Uqu4fLT1g89R1N7x2rc2tw=;
- b=OV4lDaiUXb8Lnh97CvqC5dKdwOX3j/BfBm1DxrKV3oUOYfRDalMz2hZWiEofOb9p/g
- h7B1T4XPlPJCtvwlYPvbXfKdMwcW8eUXP8ji4YHj2G04E64W/bFVLAi7ZcXSRu+FjA94
- O6UB3LpCOil78kYVOK368jnfeQCGoSt1sPhJW/RIq2GAWwyHYedUs4Wmx3UPQ7+ZYKIm
- QfAl32ifnuu2/bVBu9dg0t9L6BcdPo48+I8qtJUiOdTpId58r9J2kbCXiUuHRO4dPmDf
- R3hRKeR3N2KUoNDbnf3YYz8O+coFWpveVrFucf4m/mk0TBZphEJh1o0k8lTUYad9QQva
- N4XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714145744; x=1714750544;
- h=in-reply-to:references:to:from:subject:message-id:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9I5S2+S0bvqZ7UVU6beR6Uqu4fLT1g89R1N7x2rc2tw=;
- b=DdtbaZYGBzE4QPrwhfIX5vfnJYEoffX6bCK1G0udwRzh3wVlM2Kp3++4DbEJuDl1Mg
- aO3EMBv1keNh0gP85f6Dmp3cQ31mTn7l3vSjBr7AKbuDZ8aMOLuKCS3JsInXGvRy5/qm
- 80xsiIBKompwMtdHP77P3IB4CkXKDeIKtJn2D6OUB7bfYz+doEhmz0wrKnvVbA+3xZmq
- kC81t7o1y9dPxjhAyQDBQ8KM9sWkrdAWwY6ze8NBI8PLfVa3y2KOW7MCNcHLL9he/4lq
- TqgWXP+4rFcvhUi5gFemN7VUjqleruP0Y7Lz64Gtx4PF5+AtleO17xzO2LznRfxp6Ybo
- WfTg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX4jAsnK+DUb3Kdxex0R+CbTrPaZrnDS3TIANisXYQrsjt/luxqG1rm5ITZfJAOmUh+DSMqlyhyVLz0GiTVAkZDQ5mY4SmL96912kGXSoir
-X-Gm-Message-State: AOJu0YxWYpJHLyLIB0PGvcu9qKKsG9EQpLQ4DE+Mh6DB3391QTqpRC7O
- OrAz/oRmGG3nEmHV9lMSa5/zz2iVIIrZX9PVqw94wLQNLaKDkwYH
-X-Google-Smtp-Source: AGHT+IF2wr8JiWj649TyQijnZJdEN1UK94JbX5L5JoJn/TCKNcaGYJRv/EOu+cxV7gOiqcJ3+t0WFw==
-X-Received: by 2002:a50:9b5b:0:b0:56b:ed78:f58 with SMTP id
- a27-20020a509b5b000000b0056bed780f58mr1969434edj.33.1714145743428; 
- Fri, 26 Apr 2024 08:35:43 -0700 (PDT)
-Received: from localhost
- (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- fd25-20020a056402389900b00572678527e6sm30568edb.59.2024.04.26.08.35.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Apr 2024 08:35:43 -0700 (PDT)
-Content-Type: multipart/signed;
- boundary=8db9efe2193992169f1855e727000475caf92fc020254d3d8060c6c4c68a;
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Mime-Version: 1.0
-Date: Fri, 26 Apr 2024 17:35:42 +0200
-Message-Id: <D0U5YAWTAEXO.1GLSZDY2XKKRV@gmail.com>
-Subject: Re: (subset) [PATCH v7 0/5] Add Tegra Security Engine driver
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Thierry Reding" <thierry.reding@gmail.com>,
- <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <robh@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
- <jonathanh@nvidia.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
- <mperttunen@nvidia.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <dri-devel@lists.freedesktop.org>,
- "Akhil R" <akhilrajeev@nvidia.com>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240403100039.33146-1-akhilrajeev@nvidia.com>
- <171414552137.2298337.4837480787385115790.b4-ty@nvidia.com>
-In-Reply-To: <171414552137.2298337.4837480787385115790.b4-ty@nvidia.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 782C71124D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 15:42:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1714146122;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7VnGZicWFW/d+/1fPpNzYRf/LnrOSTnWU9XlyME7agc=;
+ b=WaEvhNNXIeadYP0/GSmQIL28ydeqMTk0EjsJ9JIcPZwjX+7J0RRYO3Ld4QypAA7xn+BwYC
+ 5sILRhMKVlZMp2PdiL6ZwnDOgQieyJFq9I+16aO/3HzJWgrS3q1xC9TcmAuzxUd3n+KKpB
+ YtXoqIL9kWnuWU78QUqHJ/MqhHH/tDY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-269-dZOs051oNW2hkGqkS1G_6g-1; Fri, 26 Apr 2024 11:41:59 -0400
+X-MC-Unique: dZOs051oNW2hkGqkS1G_6g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54EF318065AA;
+ Fri, 26 Apr 2024 15:41:59 +0000 (UTC)
+Received: from chopper.lyude.net (unknown [10.22.8.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 138C651BF;
+ Fri, 26 Apr 2024 15:41:58 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 1/2] drm/nouveau/firmware: Fix SG_DEBUG error with
+ nvkm_firmware_ctor()
+Date: Fri, 26 Apr 2024 11:41:28 -0400
+Message-ID: <20240426154138.64643-1-lyude@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,58 +69,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---8db9efe2193992169f1855e727000475caf92fc020254d3d8060c6c4c68a
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Currently, enabling SG_DEBUG in the kernel will cause nouveau to hit a
+BUG() on startup:
 
-On Fri Apr 26, 2024 at 5:32 PM CEST, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->
->
-> On Wed, 03 Apr 2024 15:30:34 +0530, Akhil R wrote:
-> > Add support for Tegra Security Engine which can accelerates various
-> > crypto algorithms. The Engine has two separate instances within for
-> > AES and HASH algorithms respectively.
-> >=20
-> > The driver registers two crypto engines - one for AES and another for
-> > HASH algorithms and these operate independently and both uses the host1=
-x
-> > bus. Additionally, it provides  hardware-assisted key protection for up=
- to
-> > 15 symmetric keys which it can use for the cipher operations.
-> >=20
-> > [...]
->
-> Applied, thanks!
->
-> [4/5] arm64: defconfig: Enable Tegra Security Engine
->       commit: 4d4d3fe6b3cc2a0b2a334a08bb9c64ba1dcbbea4
+  kernel BUG at include/linux/scatterlist.h:187!
+  invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+  CPU: 7 PID: 930 Comm: (udev-worker) Not tainted 6.9.0-rc3Lyude-Test+ #30
+  Hardware name: MSI MS-7A39/A320M GAMING PRO (MS-7A39), BIOS 1.I0 01/22/2019
+  RIP: 0010:sg_init_one+0x85/0xa0
+  Code: 69 88 32 01 83 e1 03 f6 c3 03 75 20 a8 01 75 1e 48 09 cb 41 89 54
+  24 08 49 89 1c 24 41 89 6c 24 0c 5b 5d 41 5c e9 7b b9 88 00 <0f> 0b 0f 0b
+  0f 0b 48 8b 05 5e 46 9a 01 eb b2 66 66 2e 0f 1f 84 00
+  RSP: 0018:ffffa776017bf6a0 EFLAGS: 00010246
+  RAX: 0000000000000000 RBX: ffffa77600d87000 RCX: 000000000000002b
+  RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffffa77680d87000
+  RBP: 000000000000e000 R08: 0000000000000000 R09: 0000000000000000
+  R10: ffff98f4c46aa508 R11: 0000000000000000 R12: ffff98f4c46aa508
+  R13: ffff98f4c46aa008 R14: ffffa77600d4a000 R15: ffffa77600d4a018
+  FS:  00007feeb5aae980(0000) GS:ffff98f5c4dc0000(0000) knlGS:0000000000000000
+  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+  CR2: 00007f22cb9a4520 CR3: 00000001043ba000 CR4: 00000000003506f0
+  Call Trace:
+   <TASK>
+   ? die+0x36/0x90
+   ? do_trap+0xdd/0x100
+   ? sg_init_one+0x85/0xa0
+   ? do_error_trap+0x65/0x80
+   ? sg_init_one+0x85/0xa0
+   ? exc_invalid_op+0x50/0x70
+   ? sg_init_one+0x85/0xa0
+   ? asm_exc_invalid_op+0x1a/0x20
+   ? sg_init_one+0x85/0xa0
+   nvkm_firmware_ctor+0x14a/0x250 [nouveau]
+   nvkm_falcon_fw_ctor+0x42/0x70 [nouveau]
+   ga102_gsp_booter_ctor+0xb4/0x1a0 [nouveau]
+   r535_gsp_oneinit+0xb3/0x15f0 [nouveau]
+   ? srso_return_thunk+0x5/0x5f
+   ? srso_return_thunk+0x5/0x5f
+   ? nvkm_udevice_new+0x95/0x140 [nouveau]
+   ? srso_return_thunk+0x5/0x5f
+   ? srso_return_thunk+0x5/0x5f
+   ? ktime_get+0x47/0xb0
+   ? srso_return_thunk+0x5/0x5f
+   nvkm_subdev_oneinit_+0x4f/0x120 [nouveau]
+   nvkm_subdev_init_+0x39/0x140 [nouveau]
+   ? srso_return_thunk+0x5/0x5f
+   nvkm_subdev_init+0x44/0x90 [nouveau]
+   nvkm_device_init+0x166/0x2e0 [nouveau]
+   nvkm_udevice_init+0x47/0x70 [nouveau]
+   nvkm_object_init+0x41/0x1c0 [nouveau]
+   nvkm_ioctl_new+0x16a/0x290 [nouveau]
+   ? __pfx_nvkm_client_child_new+0x10/0x10 [nouveau]
+   ? __pfx_nvkm_udevice_new+0x10/0x10 [nouveau]
+   nvkm_ioctl+0x126/0x290 [nouveau]
+   nvif_object_ctor+0x112/0x190 [nouveau]
+   nvif_device_ctor+0x23/0x60 [nouveau]
+   nouveau_cli_init+0x164/0x640 [nouveau]
+   nouveau_drm_device_init+0x97/0x9e0 [nouveau]
+   ? srso_return_thunk+0x5/0x5f
+   ? pci_update_current_state+0x72/0xb0
+   ? srso_return_thunk+0x5/0x5f
+   nouveau_drm_probe+0x12c/0x280 [nouveau]
+   ? srso_return_thunk+0x5/0x5f
+   local_pci_probe+0x45/0xa0
+   pci_device_probe+0xc7/0x270
+   really_probe+0xe6/0x3a0
+   __driver_probe_device+0x87/0x160
+   driver_probe_device+0x1f/0xc0
+   __driver_attach+0xec/0x1f0
+   ? __pfx___driver_attach+0x10/0x10
+   bus_for_each_dev+0x88/0xd0
+   bus_add_driver+0x116/0x220
+   driver_register+0x59/0x100
+   ? __pfx_nouveau_drm_init+0x10/0x10 [nouveau]
+   do_one_initcall+0x5b/0x320
+   do_init_module+0x60/0x250
+   init_module_from_file+0x86/0xc0
+   idempotent_init_module+0x120/0x2b0
+   __x64_sys_finit_module+0x5e/0xb0
+   do_syscall_64+0x83/0x160
+   ? srso_return_thunk+0x5/0x5f
+   entry_SYSCALL_64_after_hwframe+0x71/0x79
+  RIP: 0033:0x7feeb5cc20cd
+  Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89
+  f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0
+  ff ff 73 01 c3 48 8b 0d 1b cd 0c 00 f7 d8 64 89 01 48
+  RSP: 002b:00007ffcf220b2c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+  RAX: ffffffffffffffda RBX: 000055fdd2916aa0 RCX: 00007feeb5cc20cd
+  RDX: 0000000000000000 RSI: 000055fdd29161e0 RDI: 0000000000000035
+  RBP: 00007ffcf220b380 R08: 00007feeb5d8fb20 R09: 00007ffcf220b310
+  R10: 000055fdd2909dc0 R11: 0000000000000246 R12: 000055fdd29161e0
+  R13: 0000000000020000 R14: 000055fdd29203e0 R15: 000055fdd2909d80
+   </TASK>
 
-For the record, I've also applied patch 5/5 but it didn't apply cleanly
-and so b4 didn't track it properly.
+We hit this because when initializing firmware of type
+NVKM_FIRMWARE_IMG_DMA we allocate coherent memory and then attempt to
+include that coherent memory in a scatterlist. What we actually mean to do
+here though is to pass a CPU-allocated memory address, since that's the
+only thing that would make sense to put in the scatterlist.
 
-Thanks,
-Thierry
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
---8db9efe2193992169f1855e727000475caf92fc020254d3d8060c6c4c68a
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+index adc60b25f8e6c..141b0a513bf52 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
++++ b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+@@ -205,7 +205,9 @@ nvkm_firmware_dtor(struct nvkm_firmware *fw)
+ 		break;
+ 	case NVKM_FIRMWARE_IMG_DMA:
+ 		nvkm_memory_unref(&memory);
+-		dma_free_coherent(fw->device->dev, sg_dma_len(&fw->mem.sgl), fw->img, fw->phys);
++		dma_unmap_single(fw->device->dev, fw->phys, sg_dma_len(&fw->mem.sgl),
++				 DMA_TO_DEVICE);
++		kfree(fw->img);
+ 		break;
+ 	case NVKM_FIRMWARE_IMG_SGT:
+ 		nvkm_memory_unref(&memory);
+@@ -235,14 +237,17 @@ nvkm_firmware_ctor(const struct nvkm_firmware_func *func, const char *name,
+ 		fw->img = kmemdup(src, fw->len, GFP_KERNEL);
+ 		break;
+ 	case NVKM_FIRMWARE_IMG_DMA: {
+-		dma_addr_t addr;
+-
+ 		len = ALIGN(fw->len, PAGE_SIZE);
+ 
+-		fw->img = dma_alloc_coherent(fw->device->dev, len, &addr, GFP_KERNEL);
+-		if (fw->img) {
+-			memcpy(fw->img, src, fw->len);
+-			fw->phys = addr;
++		fw->img = kmalloc(len, GFP_KERNEL);
++		if (!fw->img)
++			return -ENOMEM;
++
++		memcpy(fw->img, src, fw->len);
++		fw->phys = dma_map_single(fw->device->dev, fw->img, len, DMA_TO_DEVICE);
++		if (dma_mapping_error(fw->device->dev, fw->phys)) {
++			kfree(fw->img);
++			return -EFAULT;
+ 		}
+ 
+ 		sg_init_one(&fw->mem.sgl, fw->img, len);
+-- 
+2.44.0
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmYryc4ACgkQ3SOs138+
-s6EV+g//fbg/7yejJ9Q0Vzf2k0pRHwe88E8Ih0sg9lYjOErhooz3HfGkb3TxbFDD
-DJEoSBRHEdja4WUZ2x3uCjvuw3S7tF/w8LU6goDRnS92uGuPkgt0O+rtoSmaKLfi
-MIZRVkJWtBVbrH9/6Vlvf9TRFq1xCzOunVqByMjFskeZKYxCEHEcfbbDPKfyqwR4
-GChoZzcUc826b1heCZUU+E/fU1WeHBXruo2i3KRtUVQKHwjdjZ+FffLyuUZ3z6RU
-xcqW8hG/PFsMJGDutWJkl5vw9o1ULHv0utkaXJ1zYBIu61pG+SqZpOw7TfAmQ8st
-N7Ga6sf9++3Cmt7b7cR8+0waqdW1pYAVv+jw+c/GYM40n3C8owhSPbQjE5rxxxTS
-7Wy5tvSsURjKsBXOlELeJL9ANI6/nreSrLXVBXfOeBx/+2o6tiyOhOnmW+Asml6u
-PfZvMxj+BW48UETZX/01o0ABmPE+Xibb70igRKdJG/UznWpw/U8wyZcnu65Ac+9a
-R5BMswVYYGJ+iaTCsrJJekr6Oam+LeIei+CQ9sigKEVAN8efZHSY/KbVicLPxFwJ
-QJGOiGl2xuqejC5v6BCmdtMWh3KImuH3gHafe8v98aCc7p5Y1S4q8nBHF0iiti6L
-cZk85PnTaqxFH47Dk/GlyBwCPGm2klmKQN5r85nGVFLUx1Z38yc=
-=AFyx
------END PGP SIGNATURE-----
-
---8db9efe2193992169f1855e727000475caf92fc020254d3d8060c6c4c68a--
