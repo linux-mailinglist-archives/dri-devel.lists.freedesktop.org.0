@@ -2,61 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51528B31C3
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 09:56:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE17A8B31FB
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 10:07:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2535A11227C;
-	Fri, 26 Apr 2024 07:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36C8611AAC3;
+	Fri, 26 Apr 2024 08:07:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LXb9rYUo";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iUu67gYV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF9711227B;
- Fri, 26 Apr 2024 07:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714118202; x=1745654202;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=eO+DVy0QLl7G2REVbFhJ7zOL4CnHtgeCFsYP8EXnmo8=;
- b=LXb9rYUoGZf3X51S9UgiU3KSE4Q+nmEwebYDVrLHlkEFVYOoVnssb1qn
- XuALMK15mYC8t570z70Z8jsk5NKEeZM6eA1TBJsKO7C1Mc4W5EgNER0ZJ
- fD0/ZeQImJoLiyeGDXfTrfr27EB/5LC2cg9Gxo0q55xgOvWNWNYzGJJFQ
- jjIpsFvRBsw/yTrNFeFHonCNw2KLUuJb+tstjJv9lByfusYHUfAfAeA/8
- AUSurdpAELTj5A0/w1a1AYThRnMH108IDv2BtjhQCnz9pqtZU01r8aWBm
- 3cg4PrRRvOKf228wcy1zugBtjZb8H83YhbIT1qwZmzjDrWPkU5Jk+I04P A==;
-X-CSE-ConnectionGUID: D14FNRxpQza0VZJJJrFBGg==
-X-CSE-MsgGUID: pnbyYZn5QKqPP7vka3qHAw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="21264068"
-X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; d="scan'208";a="21264068"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2024 00:56:42 -0700
-X-CSE-ConnectionGUID: rykZZA7PS6uHW+ezCfRotw==
-X-CSE-MsgGUID: c2GFNljeQyyGsvosV0EHgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; d="scan'208";a="25852806"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
- by orviesa007.jf.intel.com with ESMTP; 26 Apr 2024 00:56:39 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s0GRg-0003Qc-1C;
- Fri, 26 Apr 2024 07:56:36 +0000
-Date: Fri, 26 Apr 2024 15:55:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Animesh Manna <animesh.manna@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- jani.nikula@intel.com, jouni.hogander@intel.com,
- arun.r.murthy@intel.com, Animesh Manna <animesh.manna@intel.com>
-Subject: Re: [PATCH v3 2/6] drm/i915/alpm: Move alpm related code to a new file
-Message-ID: <202404261542.p0FCkHHM-lkp@intel.com>
-References: <20240424183820.3591593-3-animesh.manna@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9786F112292
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 08:07:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1714118829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TGAcZesai+U0xVAWvA7J/MAJQ7c0rregms0Ggpsl5S0=;
+ b=iUu67gYVsOfcyjG+kN3vXsAneSSnXQkTVp9hfFTqttetZvbqD2FJIP0w/pGLoKykusMSgJ
+ lZm92ZXTg09PD58PrG7IzWi32fqknR0KAfpDVvjz1+KJl88UGqzI+pF6zB0G+s0yE4a+F8
+ No+6drArGznBHC5gFVATD0FULwLFf0Y=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-14-YXh2vw-4OtqGyy06tTnu7Q-1; Fri, 26 Apr 2024 04:07:07 -0400
+X-MC-Unique: YXh2vw-4OtqGyy06tTnu7Q-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-434ed2e412fso5817441cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 01:07:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714118827; x=1714723627;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TGAcZesai+U0xVAWvA7J/MAJQ7c0rregms0Ggpsl5S0=;
+ b=DHa8vmK29OWO8JxO8ssu/7mLsWsrumJWR1cxfsjTHl92q6ZxVOc0m3MM9X4BNZ0oA/
+ fB1z3NKxLZK8PCjTikRVQhX+oshDGuv1qZABb075m/sI2eBYngFy5PAQoEmUGfDU35jc
+ F4zwRquHbAdLgKULH5s4IiBY/lFqgqLg7fEDUcJDYbabisWuR7OX6ko5WNqN85eFwlkb
+ MzjEp6842HQ67RXqTaIBp1ywQUlxQf4jkZpRA+ytiy7mgDl017ilbbtNSzmnj509G+fB
+ 9XoWTHKIrdKolVz4uqr4v24LxSyEBkQAprSxwwTcpm5dml0Y59mikqCFjHJAdrD/2g/c
+ 7x1w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWYMwzCyxncxbUuzTxAtBgzDLl5XfCR2J9RsPUNXaV9A55IbyMd2HeCHjCBUEgZpr9KkgfQQtRpP0C3YbMDvaY2kC6vn8sRa9CXPDnMGu/F
+X-Gm-Message-State: AOJu0YxUmPwnOzgog7uqbXSNPQvumhCckuaZeesf+IjBn5uaTZqMVCSH
+ u6GY4UO3t+zdF+705CL6k1hWd96uj12wndN0/FwWfoaXIv4rRJbKkR1ip6ZQ6pYqK59wHQTnKKw
+ tQcmgdiNRNR6zxrCH0kiS2+nhSKaD7zUi/FTXamSAJXlL4S7QFhp1NHlTljoe8Iq8sw==
+X-Received: by 2002:a05:6214:4008:b0:6a0:b2e4:583c with SMTP id
+ kd8-20020a056214400800b006a0b2e4583cmr268858qvb.3.1714118827152; 
+ Fri, 26 Apr 2024 01:07:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH9/G3aBbIJJGde1rRzmHIwatW3ktBZ39Vo5CZV6c+UaHMj1uKk0ppHJzc4RWsj3GbzINlW+w==
+X-Received: by 2002:a05:6214:4008:b0:6a0:b2e4:583c with SMTP id
+ kd8-20020a056214400800b006a0b2e4583cmr268820qvb.3.1714118826480; 
+ Fri, 26 Apr 2024 01:07:06 -0700 (PDT)
+Received: from pstanner-thinkpadt14sgen1.remote.csb
+ (nat-pool-muc-t.redhat.com. [149.14.88.26])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020a0c9a92000000b0069f77a0079fsm7761670qvd.34.2024.04.26.01.07.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Apr 2024 01:07:06 -0700 (PDT)
+Message-ID: <77ee27e2f155abd340b166e2856181577fdf08cc.camel@redhat.com>
+Subject: Re: [PATCH v6 00/10] Make PCI's devres API more consistent
+From: Philipp Stanner <pstanner@redhat.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>, Sam
+ Ravnborg <sam@ravnborg.org>, dakr@redhat.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org
+Date: Fri, 26 Apr 2024 10:07:02 +0200
+In-Reply-To: <20240424201229.GA503230@bhelgaas>
+References: <20240424201229.GA503230@bhelgaas>
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240424183820.3591593-3-animesh.manna@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,135 +99,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Animesh,
+On Wed, 2024-04-24 at 15:12 -0500, Bjorn Helgaas wrote:
+> On Mon, Apr 08, 2024 at 10:44:12AM +0200, Philipp Stanner wrote:
+> > ...
+> > PCI's devres API suffers several weaknesses:
+> >=20
+> > 1. There are functions prefixed with pcim_. Those are always
+> > managed
+> > =C2=A0=C2=A0 counterparts to never-managed functions prefixed with pci_=
+ =E2=80=93 or
+> > so one
+> > =C2=A0=C2=A0 would like to think. There are some apparently unmanaged
+> > functions
+> > =C2=A0=C2=A0 (all region-request / release functions, and pci_intx()) w=
+hich
+> > =C2=A0=C2=A0 suddenly become managed once the user has initialized the =
+device
+> > with
+> > =C2=A0=C2=A0 pcim_enable_device() instead of pci_enable_device(). This
+> > "sometimes
+> > =C2=A0=C2=A0 yes, sometimes no" nature of those functions is confusing =
+and
+> > =C2=A0=C2=A0 therefore bug-provoking. In fact, it has already caused a =
+bug in
+> > DRM.
+> > =C2=A0=C2=A0 The last patch in this series fixes that bug.
+> > 2. iomappings: Instead of giving each mapping its own callback, the
+> > =C2=A0=C2=A0 existing API uses a statically allocated struct tracking o=
+ne
+> > mapping
+> > =C2=A0=C2=A0 per bar. This is not extensible. Especially, you can't cre=
+ate
+> > =C2=A0=C2=A0 _ranged_ managed mappings that way, which many drivers wan=
+t.
+> > 3. Managed request functions only exist as "plural versions" with a
+> > =C2=A0=C2=A0 bit-mask as a parameter. That's quite over-engineered
+> > considering
+> > =C2=A0=C2=A0 that each user only ever mapps one, maybe two bars.
+> >=20
+> > This series:
+> > - add a set of new "singular" devres functions that use devres the
+> > way
+> > =C2=A0 its intended, with one callback per resource.
+> > - deprecates the existing iomap-table mechanism.
+> > - deprecates the hybrid nature of pci_ functions.
+> > - preserves backwards compatibility so that drivers using the
+> > existing
+> > =C2=A0 API won't notice any changes.
+> > - adds documentation, especially some warning users about the
+> > =C2=A0 complicated nature of PCI's devres.
+>=20
+> There's a lot of good work here; thanks for working on it.
 
-kernel test robot noticed the following build errors:
+Thanks!
+Good to get some more feedback from you
 
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next next-20240424]
-[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.9-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> > Philipp Stanner (10):
+> > =C2=A0 PCI: Add new set of devres functions
+>=20
+> This first patch adds some infrastructure and several new exported
+> interfaces:
+>=20
+> =C2=A0 void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+> const char *name)
+> =C2=A0 void pcim_iounmap_region(struct pci_dev *pdev, int bar)
+> =C2=A0 int pcim_request_region(struct pci_dev *pdev, int bar, const char
+> *name)
+> =C2=A0 void pcim_release_region(struct pci_dev *pdev, int bar)
+> =C2=A0 void __iomem *pcim_iomap_range(struct pci_dev *pdev, int bar,
+> =C2=A0 void __iomem *pcim_iomap_region_range(struct pci_dev *pdev, int
+> bar,
+> =C2=A0 void pcim_iounmap_region_range(struct pci_dev *pdev, int bar,
+>=20
+> > =C2=A0 PCI: Deprecate iomap-table functions
+>=20
+> This adds a little bit of infrastructure (add/remove to
+> legacy_table),
+> reimplements these existing interfaces:
+>=20
+> =C2=A0 void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned
+> long maxlen)
+> =C2=A0 void pcim_iounmap(struct pci_dev *pdev, void __iomem *addr)
+> =C2=A0 int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char
+> *name)
+> =C2=A0 int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
+> =C2=A0 void pcim_iounmap_regions(struct pci_dev *pdev, int mask)
+>=20
+> and adds a couple new exported interfaces:
+>=20
+> =C2=A0 void pcim_release_all_regions(struct pci_dev *pdev)
+> =C2=A0 int pcim_request_all_regions(struct pci_dev *pdev, const char
+> *name)
+>=20
+> There's a lot going on in these two patches, so they're hard to
+> review.=C2=A0 I think it would be easier if you could do the fixes to
+> existing interfaces first,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Manna/drm-i915-alpm-Move-alpm-parameters-from-intel_psr/20240425-025652
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240424183820.3591593-3-animesh.manna%40intel.com
-patch subject: [PATCH v3 2/6] drm/i915/alpm: Move alpm related code to a new file
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240426/202404261542.p0FCkHHM-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240426/202404261542.p0FCkHHM-lkp@intel.com/reproduce)
+I agree that the patches can be further split into smaller chunks to
+make them more atomic and easier to review. I can do that.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404261542.p0FCkHHM-lkp@intel.com/
+BUT I'd need some more details about what you mean by "do the fixes
+first" =E2=80=93 which fixes?
+The later patches at least in part rely on the new better functions
+being available.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/counter/ftm-quaddec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/sound_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/pci/hda/snd-hda-cirrus-scodec-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/soc-topology-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-da7219.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-dmic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-i2s-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98927.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98357a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98373.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-nau8825.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-probe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt274.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt286.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt298.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5514.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5663.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5682.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-ssm4567.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-mlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-apl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-icl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/snd-sof-imx8ulp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/imx/imx-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8186/snd-sof-mt8186.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy-fb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/configfs/configfs_sample.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kobject-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kobject/kset-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kprobes/kretprobe_example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/fprobe/fprobe_example.o
->> ERROR: modpost: "intel_alpm_compute_params" [drivers/gpu/drm/xe/xe.ko] undefined!
->> ERROR: modpost: "intel_alpm_configure" [drivers/gpu/drm/xe/xe.ko] undefined!
+> followed by adding new things, maybe
+> something like separate patches that:
+>=20
+> =C2=A0 - Add pcim_addr_devres_alloc(), pcim_addr_devres_free(),
+> =C2=A0=C2=A0=C2=A0 pcim_addr_devres_clear().
+>=20
+> =C2=A0 - Add pcim_add_mapping_to_legacy_table(),
+> =C2=A0=C2=A0=C2=A0 pcim_remove_mapping_from_legacy_table(),
+> =C2=A0=C2=A0=C2=A0 pcim_remove_bar_from_legacy_table().
+>=20
+> =C2=A0 - Reimplement pcim_iomap(), pcim_iomap_regions(), pcim_iounmap().
+>=20
+> =C2=A0 - Add new interfaces like pcim_iomap_region(),
+> =C2=A0=C2=A0=C2=A0 pcim_request_region(), etc.
+>=20
+> =C2=A0=C2=A0=C2=A0 AFAICS, except for pcim_iomap_range() (used by vbox), =
+these new
+> =C2=A0=C2=A0=C2=A0 interfaces have no users outside drivers/pci, so ... w=
+e might
+> =C2=A0=C2=A0=C2=A0 defer adding them, or at least defer exposing them via
+> =C2=A0=C2=A0=C2=A0 include/linux/pci.h, until we have users for them.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dropping (the export of) functions like pcim_request_region_range() or
+pcim_request_all_regions() is not a problem.
+
+What I quite fundamentally have to disagree with, however, is not to
+export the functions=C2=A0
+
+ * pcim_request_region()
+ * pcim_iomap_region()
+
+the main point of this series is to deprecate that hybrid nature of
+those existing pci_* functions. You can only deprecate something when
+you provide users with new, better alternatives.
+
+Not exporting them would inevitably tempt driver programmers into using
+pcim_enable_device() + pci_*() as they did so far, which caused at
+least that leak in vboxvideo and another one that my plan was to
+address after we got this merged.
+
+Once we have those new pcim_ functions exported, we could successively
+port the older drivers which use the aforementioned combination with
+pcim_enable_device().
+Then we could drop the hybrid nature of pci_ functions once and for all
+and would end up with a consistent, clean API.
+
+I intended to do that over the months after we merged this.
+
+So I'd suggest let me cancel the export of the "luxury functions" and
+let's keep the two listed above exported
+
+
+P.
+
+>=20
+> > =C2=A0 PCI: Warn users about complicated devres nature
+> > =C2=A0 PCI: Make devres region requests consistent
+> > =C2=A0 PCI: Move dev-enabled status bit to struct pci_dev
+> > =C2=A0 PCI: Move pinned status bit to struct pci_dev
+> > =C2=A0 PCI: Give pcim_set_mwi() its own devres callback
+> > =C2=A0 PCI: Give pci(m)_intx its own devres callback
+> > =C2=A0 PCI: Remove legacy pcim_release()
+> > =C2=A0 drm/vboxvideo: fix mapping leaks
+> >=20
+> > =C2=A0drivers/gpu/drm/vboxvideo/vbox_main.c |=C2=A0=C2=A0 20 +-
+> > =C2=A0drivers/pci/devres.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1011
+> > +++++++++++++++++++++----
+> > =C2=A0drivers/pci/iomap.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0 18 +
+> > =C2=A0drivers/pci/pci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 123 ++-
+> > =C2=A0drivers/pci/pci.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 21 +-
+> > =C2=A0include/linux/pci.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0 18 +-
+> > =C2=A06 files changed, 999 insertions(+), 212 deletions(-)
+> >=20
+> > --=20
+> > 2.44.0
+> >=20
+>=20
+
