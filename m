@@ -2,62 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D7A8B2ED9
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 05:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BED8B2FBB
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 07:28:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14CC311A9B8;
-	Fri, 26 Apr 2024 03:12:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57187112152;
+	Fri, 26 Apr 2024 05:28:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="I8qH0iuW";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="DywkY+jI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB9F11A9B7
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 03:12:17 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-571bddd74c1so1803190a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Apr 2024 20:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714101135; x=1714705935; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=lzJxgcz5m8G1EM1ywnq84RC3ba8Z9yxAODKAr5+fyo4=;
- b=I8qH0iuWweTHJIqqtjOJnGIXlKtQBONkUmSQNh1OmWzhbJ8feFyKAvjeQuFQYol0IH
- mhZLP/w5UTiWHrmefRConchYb9p7lWvGY8Q3uo6WWWuoLDvydwMYffgcEt5oIa2mekXZ
- Ygt8f9+M7G0q4Q4I/nYNgJJPUpwoeRdpzvTe6oBNzQO/84EufjwEj7suKadBVUqEm1Hl
- vEstYkQWoJdVXNbIiTFJuGwHRvT4uK6VoCAl+6WT6zPU7ptt/40kRxoAUZ3+eirBRIdx
- EpLFJx3sCwp1wNayWL9TUhhtI8WJXvVpKDqbMtISY+DAi7tuKzTFt+qn1/X+W6Htauvz
- gqgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714101135; x=1714705935;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lzJxgcz5m8G1EM1ywnq84RC3ba8Z9yxAODKAr5+fyo4=;
- b=EpKURbQwt72zVWEuM4fdmGxO6vLXQN2YJ8MNj38RCQGvQZBluXYPWjGe21runI+Yo9
- /HQEyRmq95hbNjUoXNFURlY2/F4RG5uQovWDPtmhi7LDEUXjlG0e3Qs9aGeZl9DFaw2F
- sUifRGq7WCITkb1EvPot0fZzV3nuhSbGixyR/KPxsUa0Er/yYcF3/6xBbZSrhj1vsAzo
- 0m7Gy5GA5Bx9ETVWl+1IUtlSZ2bra1221KMoC5x9T2+WdaKEMLPmmR7sZ7dJO4E0dMBu
- RpsMtRILgrXayBiDU1uxKmzRCxN7THq+OGliMaZL5U1jT7Ygh7Fc1L2ejsK89zaEn179
- Ni7g==
-X-Gm-Message-State: AOJu0YxE4gWlyx9fr4NpRzAqxstvL9atSiJvZ4hQroEFmQO1nQuOfcM1
- q5+gGfrbL5YbCBE7rphTRSzG7FPpIhvkceyW8xM/VvjJ/0Z+tCHGy4CdUFE0mm9b0KfqGGo/xu0
- 4yzY9BZS2lt3lkUyTzp72jo6/pmc=
-X-Google-Smtp-Source: AGHT+IETZzj7+KbUL8RVv/0sv9PH6DI1lOTUGAYPSnXI4E0GBHIUrWfWmHBNHqMLo2MbNCBKiE8BB2UQSeMVrN8YiOQ=
-X-Received: by 2002:a17:906:e17:b0:a52:6c23:fa90 with SMTP id
- l23-20020a1709060e1700b00a526c23fa90mr1039563eji.1.1714101135116; Thu, 25 Apr
- 2024 20:12:15 -0700 (PDT)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB637112152
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 05:28:18 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20240426052814euoutp029342575eb845c43076d6b95d74c82a5e~JvVJEggI-1574815748euoutp02B
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 05:28:14 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20240426052814euoutp029342575eb845c43076d6b95d74c82a5e~JvVJEggI-1574815748euoutp02B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1714109294;
+ bh=Y0vn7kvvUs7lANm+ckOWReOOvG7PvdS8VqZnhGqmjwQ=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=DywkY+jIaVZM9h3or6c9KR0QiEwluydAxb7ej8UARmVyLSkIVHUq3TqlD6zzqnjpn
+ /Xg1vsMf+yZGOwRScwwoHatKxv4ogE/wkpvJzQRK4OJlODyCSVO3ixeU6KkkQPAjsn
+ u1cE0ztpX/6OMIq22DVPWiIR8P+vrdRqsntPhB3o=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20240426052813eucas1p25799080f97e67dbe9c37c4328e93a3f5~JvVIvHZN82689226892eucas1p2U;
+ Fri, 26 Apr 2024 05:28:13 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 88.A9.09624.D6B3B266; Fri, 26
+ Apr 2024 06:28:13 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20240426052813eucas1p25e736cfb470e6d41dd664359157e2d9e~JvVIRJrNl1721617216eucas1p2B;
+ Fri, 26 Apr 2024 05:28:13 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20240426052813eusmtrp2b5764e97e75a237e66c324ca891820c2~JvVIQSCvn0040400404eusmtrp2p;
+ Fri, 26 Apr 2024 05:28:13 +0000 (GMT)
+X-AuditID: cbfec7f2-c11ff70000002598-6e-662b3b6d6312
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 4D.66.09010.D6B3B266; Fri, 26
+ Apr 2024 06:28:13 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20240426052811eusmtip17296696e51201f48097f3ca94170befa~JvVG8TDWP2254022540eusmtip1f;
+ Fri, 26 Apr 2024 05:28:11 +0000 (GMT)
+Message-ID: <c9e8ef97-8c06-4c85-9326-128740b2c7fd@samsung.com>
+Date: Fri, 26 Apr 2024 07:28:11 +0200
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 26 Apr 2024 13:12:03 +1000
-Message-ID: <CAPM=9tzOc8ybNWouvj+Zz2kZy1iXVDgJ9v3yi_Owfz+jp2tqkw@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.8-rc6
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 2/2] drm/bridge: samsung-dsim: Fix porch
+ calcalcuation rounding
+To: Adam Ford <aford173@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, marex@denx.de,
+ aford@beaconembedded.com, Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Marco Felsch
+ <m.felsch@pengutronix.de>, Michael Tretter <m.tretter@pengutronix.de>,
+ linux-kernel@vger.kernel.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <CAHCN7xJRgW4Y3YML+tToPw1TgA3o158XCEUcb9p-S+nvDWgzRQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTGee9XL2XVe4uEVyVgGnGbTqRuZC/BEGYG3s1JcB/BzZitgQuS
+ QSGtzDkxKzMWW5y0EDdp+ehWBcRZMihkFGSxUaBBycaHjg53CSMSGQq1uEWNMsqtG//9zjnP
+ k/OcNy+Nyy3UOjpPfYjXqFX5CkpKdPQ+GtxakLQlJ/5Jyyto/PcBHHWNlktQ/63vMSTY/QRa
+ 7DDjaOThHIW+Pj9IokrBRKCFVhOFpusdAHlmRwlkMJ+ToGFXDYXmXaM46mha0n3nayfQrL4U
+ IL2hgURznV6AKuvGSOScNZMpEdwln0Bydxt1OFdn6Se4y3/bCK7TclvCWU9Wk5y9+y7GtTYb
+ KO7qqJ3k+k1DGDd+s5vi6jx7OaG8D+MqnsZzp53NgGsbOJrBfiTdkc3n533Ga7YlfyI9eM7e
+ hBXNrf3cbe0kdWAg3AhCaci8Bi96yzAjkNJypglAoWoeiMUCgH7PHVws/AAu1k2A55aJb4YJ
+ cdAI4J/O0qDfB2BP24klFU3LmGTYW50cMBBMLNR3CXiAZQwLPdVTRIAjmBgoeM9KAhzO7IML
+ VT8sa9YwCnj7+tPlGDhzioIXR2qXRTgTCb1T9ViAKUYJjfeMVIBDmb1wYWqOFDUx8Hi7dTk2
+ ZM5IYcOwJxj7TXh68I8gh8OZPqdE5Ci42FmPiYYyAG1PhGBhAlA37Q06kuD44GMqcBrOvAxb
+ XNvE9hvwhquHDLQhswr+do8VQ6yClR3f4mJbBk/q5aJ6E7T0Of5be+WXIdwEFJYV72JZcaZl
+ xTmW//faANEMIvlibUEur1Wq+cNxWlWBtlidG5dVWNAKlr7vwLO+Bz+B2hlfnBtgNHADSOOK
+ NbIx30s5clm26sgXvKbwY01xPq91g/U0oYiUxWbH8HImV3WI/5Tni3jN8ylGh67TYaEnXszS
+ xdwv3Kfz77zQnpK6J+tqiXO77t0SCeumsa/SnWP2y7uOODan5m3Q5bxVgb+T9+tqhN1R9nRZ
+ zEJm0Y8NibW3TNuvcbJrO+SpbPTxGnS4GB+6nzY/NHdg5qEjvr9l46YPExtii569nuOeDNHt
+ TthfW5NhD7OOsPTGSVnBl34Xy17IfK8iQmobLWd7k9ISow2o10aFHFW+ulOhOHWlzf/42F/n
+ EzbcyIpWs+sjYjPtFT2zKcdCOhu7FUwWG2UNO7vHqiT/MW8ZcUdN7pJUhXlUDxLCPnAOp1+a
+ 3l9yUyj5+QWl8YDc8f6EgXg7Xp8x8Cg9Tro2Iq2sYev1UgWhPahSbsY1WtW/l5wUBy0EAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNKsWRmVeSWpSXmKPExsVy+t/xu7q51tppBjePcVvcuX2a2WL31W52
+ ixPXFzFZ3F/8mcXi/7aJzBZXvr5ns+hdeo7VYtL9CSwWXzZNYLN4Pn8do8XJN1dZLDonLmG3
+ uLxrDpvFh11XmS22rQCqW/hxK4vFm7ZGRou2zmWsFu933mK0mDTvJqvFljcTWR1EPdZ+vM/q
+ 8XJ5A7PHvFknWDz2flvA4rFz1l12j9kdM1k9Fu95yeSxaVUnm8eRq4tZPU5MuMTkcefaHjaP
+ eScDPe53H2fy6P9r4NG3ZRWjx+bT1QGCUXo2RfmlJakKGfnFJbZK0YYWRnqGlhZ6RiaWeobG
+ 5rFWRqZK+nY2Kak5mWWpRfp2CXoZSxavYCp4L1lxaPZO1gbG08JdjJwcEgImEg+mXWbpYuTi
+ EBJYyihxru0mE0RCRuLktAZWCFtY4s+1LjaIoveMErt2TGTsYuTg4BWwkzg20w6khkVAVaJt
+ 931mEJtXQFDi5MwnLCC2qIC8xP1bM9hBbGGBCImbU5vAbBEBJYm7Z/4ygtjMAj1sErfe10PM
+ 384k8f7we1aIhLjErSfzwQ5iEzCU6HoLcgQnB6dAoMSXJzA1ZhJdW7ugBslLNG+dzTyBUWgW
+ kjtmIRk1C0nLLCQtCxhZVjGKpJYW56bnFhvpFSfmFpfmpesl5+duYgSmmm3Hfm7Zwbjy1Ue9
+ Q4xMHIyHGCU4mJVEeG9+1EgT4k1JrKxKLcqPLyrNSS0+xGgKDIyJzFKiyfnAZJdXEm9oZmBq
+ aGJmaWBqaWasJM7rWdCRKCSQnliSmp2aWpBaBNPHxMEp1cC0o1Zs/rR8O+45PyfZfdni+L4m
+ oHretLcF7Q6rz1QKNzhuiDvdVbplgVtj+fENQfeTDUO/ye9yNbLfMVFQyf5IxJ8VO3IzquJm
+ qXVwXFP7s/0pp9SvIpf2lbpb+VaWfl2dprahjyXmZPqb09/VPDI+hSiJbZTzttii7bFhefjk
+ 1zytqdzssiJXmBdwip65Ze4XsVkmQCH4YtpTf+df5ot2hBx9Hdox74HQzY5n7GsXTrKSyrxp
+ uNaqXniOluWrZ7rnJdg7eKckSqm2nSu49/3akWMqN3dMMlro0TOPXbpn0QktlcfuO94uP7yl
+ q2u1X8bp3jDtLDcjNo7H+bGZ6bk7NHpfBnx1WP5EdZ16pYESS3FGoqEWc1FxIgBHnn3ovgMA
+ AA==
+X-CMS-MailID: 20240426052813eucas1p25e736cfb470e6d41dd664359157e2d9e
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20240211230945eucas1p1863deb244ef4fdc68825ff01d082e270
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240211230945eucas1p1863deb244ef4fdc68825ff01d082e270
+References: <20240211230931.188194-1-aford173@gmail.com>
+ <CGME20240211230945eucas1p1863deb244ef4fdc68825ff01d082e270@eucas1p1.samsung.com>
+ <20240211230931.188194-2-aford173@gmail.com>
+ <6fcfe1bb-a1e9-4d7c-aff7-e572bcdf5d31@samsung.com>
+ <CAHCN7xJRgW4Y3YML+tToPw1TgA3o158XCEUcb9p-S+nvDWgzRQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,206 +138,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On 25.04.2024 22:30, Adam Ford wrote:
+> On Thu, Apr 25, 2024 at 4:19 AM Marek Szyprowski
+> <m.szyprowski@samsung.com> wrote:
+>> On 12.02.2024 00:09, Adam Ford wrote:
+>>> When using video sync pulses, the HFP, HBP, and HSA are divided between
+>>> the available lanes if there is more than one lane.  For certain
+>>> timings and lane configurations, the HFP may not be evenly divisible.
+>>> If the HFP is rounded down, it ends up being too small which can cause
+>>> some monitors to not sync properly. In these instances, adjust htotal
+>>> and hsync to round the HFP up, and recalculate the htotal.
+>>>
+>>> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> # Kontron BL i.MX8MM with HDMI monitor
+>>> Signed-off-by: Adam Ford <aford173@gmail.com>
+>> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Thank you very much for testing!
+>
+>>> ---
+>>> V2:  No changes
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+>>> index 8476650c477c..52939211fe93 100644
+>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+>>> @@ -1606,6 +1606,27 @@ static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
+>>>                adjusted_mode->flags |= (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+>>>        }
+>>>
+>>> +     /*
+>>> +      * When using video sync pulses, the HFP, HBP, and HSA are divided between
+>>> +      * the available lanes if there is more than one lane.  For certain
+>>> +      * timings and lane configurations, the HFP may not be evenly divisible.
+>>> +      * If the HFP is rounded down, it ends up being too small which can cause
+>>> +      * some monitors to not sync properly. In these instances, adjust htotal
+>>> +      * and hsync to round the HFP up, and recalculate the htotal. Through trial
+>>> +      * and error, it appears that the HBP and HSA do not appearto need the same
+>>> +      * correction that HFP does.
+>>> +      */
+>>> +     if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE && dsi->lanes > 1) {
+> Frieder  &  Marek S,
+>
+> Marek V is proposing we eliminate the check against the flags and do
+> it unconditionally.  If I send you both a different patch, would you
+> be willing to try them on your platforms?  I don't want to risk
+> breaking a board.
 
-Regular weekly merge request, mostly amdgpu and misc bits in
-xe/etnaviv/gma500 and some core changes. Nothing too outlandish, seems
-to be about normal for this time of release.
+I'm fine with testing it. I also have some additional spare boards to 
+replace the broken one, but so far none was bricked by my weird testing 
+activities.
 
-Regards,
-Dave.
+> I used the check above from the NXP downstream kernel, so it felt
+> safe, but I am not as familiar with the different DSI modes, so I am
+> not sure what the impact would be if this read:
+>
+>   if (dsi->lanes > 1) {
+>
+> Does anyone else have an opinion on this?
+>>> +             int hfp = adjusted_mode->hsync_start - adjusted_mode->hdisplay;
+>>> +             int remainder = hfp % dsi->lanes;
+>>> +
+>>> +             if (remainder) {
+>>> +                     adjusted_mode->hsync_start += remainder;
+>>> +                     adjusted_mode->hsync_end   += remainder;
+>>> +                     adjusted_mode->htotal      += remainder;
+>>> +             }
+>>> +     }
+>>> +
+>>>        return 0;
+>>>    }
 
-drm-fixes-2024-04-26:
-drm fixes for 6.9-rc6
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-atomic-helpers:
-- Fix memory leak in drm_format_conv_state_copy()
-
-fbdev:
-- fbdefio: Fix address calculation
-
-amdgpu:
-- Suspend/resume fix
-- Don't expose gpu_od directory if it's empty
-- SDMA 4.4.2 fix
-- VPE fix
-- BO eviction fix
-- UMSCH fix
-- SMU 13.0.6 reset fixes
-- GPUVM flush accounting fix
-- SDMA 5.2 fix
-- Fix possible UAF in mes code
-
-amdkfd:
-- Eviction fence handling fix
-- Fix memory leak when GPU memory allocation fails
-- Fix dma-buf validation
-- Fix rescheduling of restore worker
-- SVM fix
-
-gma500:
-- Fix crash during boot
-
-etnaviv:
-- fix GC7000 TX clock gating
-- revert NPU UAPI changes
-
-xe:
-- Fix error paths on managed allocations
-- Fix PF/VF relay messages
-The following changes since commit ed30a4a51bb196781c8058073ea720133a65596f:
-
-  Linux 6.9-rc5 (2024-04-21 12:35:54 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2024-04-26
-
-for you to fetch changes up to 3a8534035c0747610312f9552898a0ece10ef8a7:
-
-  Merge tag 'drm-xe-fixes-2024-04-25' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-(2024-04-26 12:56:58 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.9-rc6
-
-atomic-helpers:
-- Fix memory leak in drm_format_conv_state_copy()
-
-fbdev:
-- fbdefio: Fix address calculation
-
-amdgpu:
-- Suspend/resume fix
-- Don't expose gpu_od directory if it's empty
-- SDMA 4.4.2 fix
-- VPE fix
-- BO eviction fix
-- UMSCH fix
-- SMU 13.0.6 reset fixes
-- GPUVM flush accounting fix
-- SDMA 5.2 fix
-- Fix possible UAF in mes code
-
-amdkfd:
-- Eviction fence handling fix
-- Fix memory leak when GPU memory allocation fails
-- Fix dma-buf validation
-- Fix rescheduling of restore worker
-- SVM fix
-
-gma500:
-- Fix crash during boot
-
-etnaviv:
-- fix GC7000 TX clock gating
-- revert NPU UAPI changes
-
-xe:
-- Fix error paths on managed allocations
-- Fix PF/VF relay messages
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu/sdma5.2: use legacy HDP flush for SDMA2/3
-
-Christian Gmeiner (1):
-      Revert "drm/etnaviv: Expose a few more chipspecs to userspace"
-
-Dave Airlie (4):
-      Merge tag 'amd-drm-fixes-6.9-2024-04-24' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2024-04-25' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-etnaviv-fixes-2024-04-25' of
-https://git.pengutronix.de/git/lst/linux into drm-fixes
-      Merge tag 'drm-xe-fixes-2024-04-25' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-
-Derek Foreman (1):
-      drm/etnaviv: fix tx clock gating on some GC7000 variants
-
-Felix Kuehling (3):
-      drm/amdkfd: Fix eviction fence handling
-      drm/amdgpu: Update BO eviction priorities
-      drm/amdkfd: Fix rescheduling of restore worker
-
-Himal Prasad Ghimiray (2):
-      drm/xe: Remove sysfs only once on action add failure
-      drm/xe: call free_gsc_pkt only once on action add failure
-
-Jack Xiao (1):
-      drm/amdgpu/mes: fix use-after-free issue
-
-Joshua Ashton (1):
-      drm/amd/display: Set color_mgmt_changed to true on unsuspend
-
-Lang Yu (2):
-      drm/amdkfd: make sure VM is ready for updating operations
-      drm/amdgpu/umsch: don't execute umsch test when GPU is in reset/suspend
-
-Lijo Lazar (2):
-      drm/amdgpu: Assign correct bits for SDMA HDP flush
-      drm/amd/pm: Restore config space after reset
-
-Lucas Stach (1):
-      drm/atomic-helper: fix parameter order in
-drm_format_conv_state_copy() call
-
-Ma Jun (1):
-      drm/amdgpu/pm: Remove gpu_od if it's an empty directory
-
-Michal Wajdeczko (1):
-      drm/xe/guc: Fix arguments passed to relay G2H handlers
-
-Mukul Joshi (2):
-      drm/amdgpu: Fix leak when GPU memory allocation fails
-      drm/amdkfd: Add VRAM accounting for SVM migration
-
-Nam Cao (1):
-      fbdev: fix incorrect address computation in deferred IO
-
-Patrik Jakobsson (1):
-      drm/gma500: Remove lid code
-
-Peyton Lee (1):
-      drm/amdgpu/vpe: fix vpe dpm setup failed
-
-Prike Liang (1):
-      drm/amdgpu: Fix the ring buffer size for queue VM flush
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   | 35 ++++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c            |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |  2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c       |  3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c            |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  3 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  3 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  2 -
- drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |  3 +-
- drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c             | 26 ++++---
- drivers/gpu/drm/amd/amdgpu/vpe_v6_1.c              | 14 ++--
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           | 16 ++++-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c           | 15 ++--
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |  2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  1 +
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  7 ++
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   | 25 +++++++
- drivers/gpu/drm/drm_gem_atomic_helper.c            |  4 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c              | 24 +------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h              | 12 ----
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c             | 34 ---------
- drivers/gpu/drm/gma500/Makefile                    |  1 -
- drivers/gpu/drm/gma500/psb_device.c                |  5 +-
- drivers/gpu/drm/gma500/psb_drv.h                   |  9 ---
- drivers/gpu/drm/gma500/psb_lid.c                   | 80 ----------------------
- drivers/gpu/drm/xe/xe_gt.c                         |  4 +-
- drivers/gpu/drm/xe/xe_gt_ccs_mode.c                | 19 ++---
- drivers/gpu/drm/xe/xe_gt_ccs_mode.h                |  2 +-
- drivers/gpu/drm/xe/xe_guc_ct.c                     |  4 +-
- drivers/gpu/drm/xe/xe_huc.c                        |  9 +--
- drivers/video/fbdev/core/fb_defio.c                |  2 +-
- include/uapi/drm/etnaviv_drm.h                     |  5 --
- 32 files changed, 131 insertions(+), 243 deletions(-)
- delete mode 100644 drivers/gpu/drm/gma500/psb_lid.c
