@@ -2,181 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E20C8B3FCC
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 20:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF0B8B4020
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 21:28:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C172611A8F8;
-	Fri, 26 Apr 2024 18:59:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC16810E098;
+	Fri, 26 Apr 2024 19:28:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Kf80j+oc";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="CW11gn7F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06DD211A8F8;
- Fri, 26 Apr 2024 18:59:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714157976; x=1745693976;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=nWIPbHHgiM+8GFb+QsPbtyCLlugLP54jCBEKlF0U1xA=;
- b=Kf80j+ocU3zj9hV7bjsM2eQFvgrcyDAP8P6z9U87l1dI6yQD0mzTDBUi
- VtOdmwlld+9bniOvBBAHiJNv4MwHpwFJcGHXICLl7j8BvTOwDGh+6EAlS
- 4CRvXmRxQ4ndxRR39azRZkl3kPRMIY8xcrXVRcaerlVPl4LyN5vSL3bHL
- i1mNDC6n1AE9ugEg46dOhhP02XyEPr5VdPGRIKO7mKjWgQcAQBhIIk7Ya
- gZZtDRgyXgduS0yGQM1vlcDNiQ6V71wpUgBm4o+tRR3T3ZHUWZHkSvy0b
- UIvD9Y5MxQd3muBj6N6JgQY12kurrNGzL9N/OJ6g6uFGKb5k24dvLxNtH Q==;
-X-CSE-ConnectionGUID: P3LCXkTAQLiqYMojOqESaw==
-X-CSE-MsgGUID: G9YLLBkdR8CdKLoqz+G5QQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="32404156"
-X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; d="scan'208";a="32404156"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2024 11:59:35 -0700
-X-CSE-ConnectionGUID: 4WO5T3MwSHezWduOlWreEQ==
-X-CSE-MsgGUID: xiCskv0pQPe6YVM6buxOVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; d="scan'208";a="25478472"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 26 Apr 2024 11:59:35 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 26 Apr 2024 11:59:34 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 26 Apr 2024 11:59:34 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 26 Apr 2024 11:59:34 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2065.outbound.protection.outlook.com [40.107.244.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2811B10E098
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 19:28:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EcwgeBpMgyEnCoRzI/MznL6ykWFc78fWkHLO/ctTP+zlJIpXLkU+DuiTQpPXOW2b8aavvV66VhV7BLk8J4Ug5HIwB5ouRHeJbWOxP+02S9rQZLUql2LkNr30gq3Ofvw59N43OCrIPVq1hh3qeg5pA10mXUzCyCamXTXEDhc9czo+Ov4wta22rOiZV8ILiprVnfEoGKcAEZ97CgPrYv6x8xE5AyHtNyyEaeIv+9EAxvV9SCzf/24QaUBBJMaOAirlERFPSHptLbDKpA0sExVRTkd1uURby2V16f/0udvdZCdCTBQlnzNXjRYbkENf5LqIJ63Mc9xKeni086DHVwSCEA==
+ b=TivsP3+0GspnaYJKeDGtzge2gBwPewQbDacEIJS7A2rB6LrphoHUBAfVX4bpBnYMbq+NuTcD1LGkx7FwzAg9wLVWuJ934ciu3egd4kIexHIZ/FayxZPpKRao9l/fRWC3JTQSXBwtbu5mwXjdHqmTp5mDxAUc0E8amzSD7r/sG+C/QrERNXjb2+amjoNZ7Zuzg68cM5ItHlWgCtb4XL2WguCpHuGPMUsxwTUgexTR1qXhkkCNLp9SgFjvwFX1FmQl3EsNDVHNmufRUxvTQnrw2ChmDzZaJb5nSgoF38s/+6/FmfVcntwdp8aodvjSSfrwhBiVRXGF2Zgx6lSs46pgpQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5hT7W6R5JbRg4WsWDHY7abibfDstEUXKoaxeFUrSByo=;
- b=nAsIv5hmotFZ69djSj0tHfa8uhXIejHKnJRLm6AcNW/TiVPWeelErEWfRRY3MlA3tlVWRukXuvnJeUMZsaEgayglmDczxg9kzN7Ivp8UbRSuG+2nBq+fIdUJl9P5hPLs0gb8GvZ62unKRUtdaxQ4u/GspThF0Rip9+OIq++vSIQkKvO8hAJtsuj+uibQizbf8gPaLFSeC/Y/Kl6FHu/SQmFocDuokn+HhJzFRj0J/ukw7fqIIXzcGdtLIWeH9d/RBHN/rHRvPU6eJaYHm5bgsapuo0UMPAwdQ52hgR6YBGehFm3ghkMxCj8aHnBVFmSRurSL8wgB7H2k5XhgOLIF0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7408.namprd11.prod.outlook.com (2603:10b6:8:136::15)
- by SJ2PR11MB7475.namprd11.prod.outlook.com (2603:10b6:a03:4c9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.22; Fri, 26 Apr
- 2024 18:59:32 +0000
-Received: from DS0PR11MB7408.namprd11.prod.outlook.com
- ([fe80::cc14:a507:b02c:b551]) by DS0PR11MB7408.namprd11.prod.outlook.com
- ([fe80::cc14:a507:b02c:b551%7]) with mapi id 15.20.7519.030; Fri, 26 Apr 2024
- 18:59:32 +0000
-Date: Fri, 26 Apr 2024 11:59:23 -0700
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-To: Tvrtko Ursulin <tursulin@ursulin.net>
-CC: Lucas De Marchi <lucas.demarchi@intel.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 3/6] drm/xe: Add helper to accumulate exec queue runtime
-Message-ID: <Ziv5i/ZBGr/bfGrH@orsosgc001>
-References: <20240423235652.1959945-1-lucas.demarchi@intel.com>
- <20240423235652.1959945-4-lucas.demarchi@intel.com>
- <da261fef-03ef-47ad-8001-fe4fa26f43e0@ursulin.net>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <da261fef-03ef-47ad-8001-fe4fa26f43e0@ursulin.net>
-X-ClientProxiedBy: MW4PR03CA0354.namprd03.prod.outlook.com
- (2603:10b6:303:dc::29) To DS0PR11MB7408.namprd11.prod.outlook.com
- (2603:10b6:8:136::15)
+ bh=E2nDNxAmvUroGqRWMjZVFbPDVyiueadVFtL0QtP+QIU=;
+ b=mfrCjQkJx3G7avKMbnKEcwgSmh51uRNomvTcTmj1fM/SCghyxCrXiYrgz6aFS5muWZUF6tQLa9NtNr82NKCaJ3SNMYWkzwZFMo+E3BEzm1IaE6aR2X6u0hw8Hh75Ew7jXSB3bjbb4RNZ/B4dHENnPWvyrXGjidAZ2a4xhTu7W1a7TElM5L3QNvV3XeuiRkM43hvg2QsVeAEC41dvjKg7qdR0Od9ozlCdD90pRMm2AGaTs+QoKD/gED4Wkn4LQRpmn2C0SXQKnejd35IVSw9gMd/0LBZ4cqNkHgZpW1w+p08wojjlpmGUsGFN+yVCRfkGAkkFKSKKGBgkZdQ1wwCCUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E2nDNxAmvUroGqRWMjZVFbPDVyiueadVFtL0QtP+QIU=;
+ b=CW11gn7F9JyegOWJwQOxPjgRJKF7WH9oyDWNY1F8q2LemCW9ze05J3hLZTvFRUfytgKEDKRA5b9lzMTjvJtJKkFO1iqIRhEc3HrB0Efc3Le8/bQXFJWyqZ7zj2UD5i58gx/icN63BD3H4hKwpPXfWOIkzhAce9kbWRbBfJLWGzA=
+Received: from CH0PR03CA0117.namprd03.prod.outlook.com (2603:10b6:610:cd::32)
+ by SA3PR12MB8764.namprd12.prod.outlook.com (2603:10b6:806:317::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Fri, 26 Apr
+ 2024 19:28:04 +0000
+Received: from DS3PEPF0000C380.namprd04.prod.outlook.com
+ (2603:10b6:610:cd:cafe::a5) by CH0PR03CA0117.outlook.office365.com
+ (2603:10b6:610:cd::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.29 via Frontend
+ Transport; Fri, 26 Apr 2024 19:28:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF0000C380.mail.protection.outlook.com (10.167.23.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7519.19 via Frontend Transport; Fri, 26 Apr 2024 19:28:03 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 26 Apr
+ 2024 14:28:01 -0500
+Received: from xsjanatoliy50.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.35 via
+ Frontend Transport; Fri, 26 Apr 2024 14:28:00 -0500
+From: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Subject: [PATCH v3 0/2] Fix Kernel CI issues
+Date: Fri, 26 Apr 2024 12:27:55 -0700
+Message-ID: <20240426-dp-live-fmt-fix-v3-0-e904b5ae51d7@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADsALGYC/4WNywrCMBBFf0WydiSTRx+u/A9xUZuJHbAPkhKU0
+ n837caVuDwXzrmLiBSYojgfFhEoceRxyKCPB9F2zfAgYJdZKKmMNMqCm+DJicD3M3h+QYPy7su
+ 61LYuRLamQHnei9db5o7jPIb3fpBwW3+3EgKCkdZrq5w2lb00vTu1Yy+2UlJ/bAUSCmkqqlAhO
+ vra67p+AL9HHirqAAAA
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Michal Simek <michal.simek@amd.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>, 
+ <linux-kernel@vger.kernel.org>, Anatoliy Klymenko
+ <anatoliy.klymenko@amd.com>, kernel test robot <lkp@intel.com>
+X-Mailer: b4 0.13.0
+Received-SPF: None (SATLEXMB04.amd.com: anatoliy.klymenko@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7408:EE_|SJ2PR11MB7475:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f4ae22e-09aa-4e35-ed32-08dc662301ff
+X-MS-TrafficTypeDiagnostic: DS3PEPF0000C380:EE_|SA3PR12MB8764:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20daf20d-85e6-475c-3e75-08dc6626fe53
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|366007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cGVHbDFTa0xOOFVLclVGbVBzMFVPMkxoc0ROL3VDaWZoQzQrVjBRSSsrb2Zj?=
- =?utf-8?B?d2tnUjlGTy9wMVBycXZtb09FdE9jOUswbUMzRXEyTGJUY0QySnNGaG05Y0lG?=
- =?utf-8?B?bVFTTXR3SlIzM0k1MzNPMnNnTGgzSGh4WVNUT3V1SEE5QUpRc2p4OGkrMTMx?=
- =?utf-8?B?cGhzUDUycWZRMmlmYU43MEtzUlNKTkx4NkhIcWhDa1V4ZXRsZGhUY1ZNS0M1?=
- =?utf-8?B?V0MzdkRQeVRINXFNM2JubktPZEhXZjJKbFd3TkY1YjQvWE9uaEdLZlFiTm9s?=
- =?utf-8?B?ZHh3SlkwUDBiNVNkdkpFTGUyVHpmWU4zK3JVZm5wOFpiaWJxMzBoZzU2Qkx5?=
- =?utf-8?B?UWl2NnEzdFErbThwVTRVTTdINis0UEFtUWMvTkhGc3N6MElEWEN3N2xja3B6?=
- =?utf-8?B?TGhOc2RLY0pXUEI3NHJCdHYyeEowMTNQaXE4a2U2YmxTZ2d6QlNPdGNMdHJF?=
- =?utf-8?B?VWVrZ0Zkc0lsZUk1OWdEKzZIU3RIRzZsY2NISXNNbENyZVdyc2Q2ZDBPS2lu?=
- =?utf-8?B?UXcyT2c0dHYwbTJmVjRWZHVxNUprZ1c3MUtGenhRdVBreGg3S2JKZFExbU5a?=
- =?utf-8?B?T3dqY2V4aDFMWHJsY2pZSWQ0cWliQitSN0U2MlRRUmNkWWR5dVdmSHpQVmhF?=
- =?utf-8?B?a0hjMzZIQXZ6T3RYMEtpTTZsVDlOb1A1U056R25PSG9kTExLRG92WUV1K0Nh?=
- =?utf-8?B?SWZvRWlkdytUanp4OXJZZGFKbkFFVUZPMmt3LzlZeHhYcStObWhoejBFTmI3?=
- =?utf-8?B?K1Rqak9zQ093RHRCeTZ4c2p5SmY3cE5SSHQ1OUprelhxbHFVbVlNTXk1aXBl?=
- =?utf-8?B?VERDN1E4eWFEVUMwWTErT2JzeG5tMHpxaVBZOFlhT1oraEVYUVNhaXo3cXdm?=
- =?utf-8?B?ZUtGbUpEMXdaaG1RUFppOUNsRmR5TlBSSCtNditlQ3UyZWZQdEZIY1hOM1hj?=
- =?utf-8?B?aENQejBSZDdYMnluRW1JTnlGM2tqNGtKTmQ2MnlkSmM2SFJORzJ5RzJPcnhE?=
- =?utf-8?B?SGdBUzU4SjVaNFI5SzVxbDNCSUVaY3hlcW9HVlRYY3UwczFQdG5BeXNTZEh5?=
- =?utf-8?B?Ull0bk9WN3F2K1dHK0hEaTJub1dsdENzMXpTRWI2ZWJONlpwYVFVQkdkMHNM?=
- =?utf-8?B?QnBHU2RRaGNDNE9OWVJpRE9XN3dneDloNktQNDVGUXJOLzdxdFE4SGdSMjQ5?=
- =?utf-8?B?OWRZWHZWRWFZRDd3M1F6MCtWR2NnYlFncFErZmlySHZVSHpsMldkQ3lBZndm?=
- =?utf-8?B?QWhOMUNVQitjTEJyWWlNODJ0MzhiMjV1MUJubWQybzdxMkJRMlVrSXJ1b1pT?=
- =?utf-8?B?ODlOUHVneVBpSnlTaitQUzV3WUM5VWhBRUVnbElpNFVtWHpja0U5Uk9YWjVU?=
- =?utf-8?B?OFNLa0NKT2ZQSmlJZW03VjZlZVM1ZnB2WXpBWDdJRDZ4OUJuT3pvUk9wRGhE?=
- =?utf-8?B?Vmt5UmlFZVU3NG1GUTE2bHZMajRsUGZVRVZuSnoyTHZTUmdMMmlBSFFCT3Av?=
- =?utf-8?B?SjNIMTBJTHlsTlJLRmdIbHlyNXR0NXdmUm1jeGFyN3hPNWRiWHlXYU1BdXlL?=
- =?utf-8?B?dTM4YytiSHF2Y2lYY0xxTEc3elg0bm0yM05wYUFzWnNVTWVleXcxNnlEa2U2?=
- =?utf-8?B?bW5SaUdvZXVNNXRyYnU2d3ljU2dvYjJYS3BmWnZaNXN0am90T2JMWkU1OWNW?=
- =?utf-8?B?WEJmcmNzYTFtUjM5QXJtZVNZS2c0ZkNOTFkrUnpSaURRUmRTNmxwNUd3PT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB7408.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TndPZkVGdi9VVUZUdDNRNmxSMTcrZ1grSEQ0ajJheHNqSVhxZ25PMWRVdUto?=
- =?utf-8?B?T0FBODNIUW4yOWpzY2wxaEVaVW5XMTNSL3ZDbnZIZHFESXRsNC9CS2dGdVI3?=
- =?utf-8?B?MkV5U3o5Wk1sQ1kwZzF2Mi94dmo0UWhYQnlLZGo0eEw3SDBlcVN6K0ZqTXYv?=
- =?utf-8?B?SXJzaG5JcEowUUxxYVhVcjJROHJvcTI5R1pmenB3dGZVRXhZZzF0K0xVemtE?=
- =?utf-8?B?ZjFsQ01SMU00cFYvNVozc1RkS0dLTWN6ZE45Wi9yY1huQlF4VmFCSFU1NFZj?=
- =?utf-8?B?MU9rSjZXSTl4aWdlTGVrYnEwNFpNVGcyWjhGdEJWbldhMStnUUpCQ3ZjVFYw?=
- =?utf-8?B?S3Y0UGc1Rmw5MVRhdjh6K3o4RkFpeFlCWVdXMzhSelUxK0IrYzM5b1hoZXVv?=
- =?utf-8?B?d0dzVDhmaEhNNHhHc0lRLy9yc3JPRmIrU1ZESU11QXhrYTB0Mm11QWlzT1ly?=
- =?utf-8?B?RVBHTmRXakdwenJxUXg5QTNFa21jR2NWUWV0MndhMEJNTkk2Z1ozTUdEUGV0?=
- =?utf-8?B?Vm1Id3RhT3RhNVlITVRyTHBYZEVaN0I3cmVMd0N5TnpNN0l6VkFhdWxjUE42?=
- =?utf-8?B?RWY3ZjJWNFpuUFFPbHBpblFZS2ZHTTZNMWVVc0dzdGVpbEhIVzJxWUkxNnpK?=
- =?utf-8?B?RjhQMWRMWWFleGluNDc3cDZlL3A0MExXYXV5Rk9ub0xEUVhZVzZ0Uis4bnNH?=
- =?utf-8?B?VmpWenVKQW5yM0djVVpPTFUrZTJKOXd3a0I2R2NCYTIxVGprYUZza0Jhb00x?=
- =?utf-8?B?bnJaVkUyaW5vN0QyeTB0YkloVmJLNEVSQnY0WTZsckZaaHBab0JzdDRZUVg2?=
- =?utf-8?B?SU41SGVPSjNKRGJaVlRUL3Jpb09XQzdpL0pQcENNVWpGTlFRV2Y3Nm8wYzBw?=
- =?utf-8?B?Y1FPSEJUQ0dtYU5kcVFMQUdZd2taSXFuM3h4UVRNL0d5NURTMVVYTGxTbkMr?=
- =?utf-8?B?M21HZHFPNEdtME1JQ3JoVThPR0IrQ3AzQllzeDBRTkN6RlNDcHB3eTJ4bWdn?=
- =?utf-8?B?MVQ0STU0MFZacFB4WUpFOG13KytLTE95aUxlTGptN1JFS1pEWDVuOTd3T0Ur?=
- =?utf-8?B?OFRrbVIxMUV5WFFOdWZTY0toN0ZaazMzU2FWSlhWd3B1Y0NuMzVOZndDZDVY?=
- =?utf-8?B?MXcxTkhsd1dmaE0rOWQ4OUNJeXM3cUp5d3lqaEZkVU10ZENtQ2xacHBrY2lK?=
- =?utf-8?B?RFJtVXY4ckdBemNSWlV4Z1c3cU9laUYxMDUzTVRDMUorRGc4WmRDNEFSa3ZY?=
- =?utf-8?B?eDlqOG95WDQ2QVQ4NkF1YmNIT0xyaHFtNGt2dmExd1FnNUJRTnkzdlRrT1A3?=
- =?utf-8?B?bVQ4L0daQTF0bFFLd1RqQUtxYjh6WVNWbVJJdTBzT2lRN3p5d0cvZE5aTHo2?=
- =?utf-8?B?OTlMRCtaTzBHL3YvN3hpZmZRQzc1bDNxaEd3eFBOYmVjMXFleVZEMmluL1FQ?=
- =?utf-8?B?ZVlyM2ZXQ0tFZ0dJendBamhZY2FCZmpaZHhxRWFGNTBZUEtmemJwU3BZRm9X?=
- =?utf-8?B?QThjb3UwR1JZbXZJa28zNFRUUFJFdXpyS1lyVGl4VlRmbUpHb2owZWRIYUcx?=
- =?utf-8?B?Y2V0eVZlMkFtZWh5d0Z3WE1GQ1dma0NuODZRZW94Q3pMaXdjdW9DTzBMaXVm?=
- =?utf-8?B?YzZHU3U2T0VEQWNQVFE1OFR4TXRHOHJFK2F1eHhrVkNwelJ1cmRmckRkOHJ6?=
- =?utf-8?B?N2JjNkpMcXc4ZnUzbnlxVFArYjRIdHYyYzF6UnMxREdyOFdDeDZSWWtEWUQ4?=
- =?utf-8?B?cmlDK2lCcDhaN1FldzJWV1dGcENmUWI1RjhnUzdJem9iOVdsTTRGdXF4R2Zw?=
- =?utf-8?B?cDhsWldieFl3VWd0UUhDa3N3eEE5UUx0L0pGcVJUNkJFaENyN202YjZWN0RT?=
- =?utf-8?B?dlZzT1JZajcvUk9ub0VWWmlaLzYwYWo3dVRkb0s0L0lzUUtUNWdyTmtOSzdv?=
- =?utf-8?B?RE5NNEQ1UlRiMzc0S0lXcGdvbmxWSXRxTUxaV0ZCNlBJaitHMUh3QjNIcUpO?=
- =?utf-8?B?MjJwSVBTbFRMa0p0Y0ptRHlHQWl2MHdjY0t4RFMrNjlsWW02ZEptNXhMVEVS?=
- =?utf-8?B?OTVZRDNqY1FwbUVObmkzSjMvQkR5NzgxMzZwUWZGYTZ5MHpEdlM0WWI1cm1p?=
- =?utf-8?B?KzR3cGtiVjdJY2VpY2dZaDZya0tER0MydzBHRXB3aEtlMFZMYnJBOTlQUVpj?=
- =?utf-8?Q?uxvz+auC/TdqdM5gqOTq9uM=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f4ae22e-09aa-4e35-ed32-08dc662301ff
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7408.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2024 18:59:32.4731 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NdPPrwOlaqUYDh5pQt8AJqXqvo2IVtiAjHQURUw6rnacjvtfV50H2uPL+1IfjvSQzUXyBGRi0aP8+nn3yEt6BKE8NbGzn+Iv37PZ26UowRI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7475
-X-OriginatorOrg: intel.com
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bWZpWVEyZjJOUVFDS1FNTGJFZ3dhRW5pTnMybm03MllCT0NsZ3RxOUJOU1dI?=
+ =?utf-8?B?OHovZmpxaE1TL0Jhb1lMNXZmWjROaDdQUkFoQkc0c2g2dTQwV0djeXoyemlK?=
+ =?utf-8?B?YVhKbDljMTQ3ZE93WDZ1dG9NM25MUWd1NTJFbmpjV1dpak5rZ2tYaFd2SERR?=
+ =?utf-8?B?MmlBNVlIT1VEWjB0QjlsQ0dMbDVsaG41M1R2M2cwTEc4S0pLU0lxaXlhT01z?=
+ =?utf-8?B?eUVsWTk5WFdyQ0g3dDBMRmw1ZDBOWXhYb2lEMGdGNXVjRjhWWVlBL0lNa3Zh?=
+ =?utf-8?B?T0l2VWFOb204b0MwY3BrWFVneFJCWkNvU0hlNlBQQzRmYWNRSkxvczE2RklV?=
+ =?utf-8?B?ZTIrTE80Umt3RUdLakRJZ0Rqb3VzMXpKVEV0aVVYZDUzcWtYanRid21HSCtn?=
+ =?utf-8?B?aG5xanhTcm5xbU9sYndJdDVZWjF4SmR1c1B1Z3BSdGE0NEpoL0ZyWlFiV0pD?=
+ =?utf-8?B?dVAxNmRSbXpwTDd3R1NUV1lLYm5od0x1bXl4MEUxTmlxbUlMd1FvMG5WSHFN?=
+ =?utf-8?B?V1d5Wjg2U2duT0l2TWQyV2xtTTUzVktXcHNWeXhVOHE5cUdZS3ZQQ3RvdmdW?=
+ =?utf-8?B?RmJROWFwamx6VTJIOFo5Rmd2cU9mTHQ3dlV6WCtIZlJrN2YvUXpmY3MwY3lS?=
+ =?utf-8?B?eTYyTTEwSFpCSm9XVDQyS3RWWU9VQzN5SDBnbFJrK0VPVUNYczhLOWYxZ2Mr?=
+ =?utf-8?B?NGxwSUdoaU42ZFNBcE1Ba0Y3eHRXamRpaEVINkQ2SHkwMzR0NFZkR2hlNWRY?=
+ =?utf-8?B?RGlxTWV1M01NNFNVenY2Rm5SVndQdFVHNDg2R2dTSmJvSnV2NFhUcTN1VUNw?=
+ =?utf-8?B?TGVVVDhQemV4ZllKMWJ2M0VrNzJhQTRERmlybjQvOTl1SytWNFpCOUl6THBE?=
+ =?utf-8?B?aThpSmRFU0lMYmxmbUp1K0ZVcXQ0Z2k5ZHNzWWh1cldEWVQ4QmliRWNJVHBJ?=
+ =?utf-8?B?RjFNOFFiZTUwZlZJVGN6azZRZFg1c0hQNG16V0g1SW9jbi9TVUVRWW9vZmxP?=
+ =?utf-8?B?THlYbDYwNVE5YytZUXh3TnA2U1FJRWJLT3FnT0dOVnpuc3VMaExYTHlhZi8v?=
+ =?utf-8?B?dFhNVzF1c3p5aVFla3Y0ZjFsYTN5ZzN4aWtNMzBOVDNOWTFoZ0NTbUpaaEgx?=
+ =?utf-8?B?SXNBSTNTUGNyeGE0YURweExqb0syRW5DL2xBSWdkYjhpTVY1K1FoWERoRXVq?=
+ =?utf-8?B?cGhuaFJjaUNqQTN2djZjblZid3NJaklwdTdjUmJEWHV1MHdOeUQ1RTFOZTVC?=
+ =?utf-8?B?dHk0TWlOSWxqNUtrNmdVWVdLbzNCaS9QbVBGR2VOK0Rodlp2N2ltOXVEemph?=
+ =?utf-8?B?OVc4RmFyKzZQcjAwclJoVHRHbjBjY08vMkduOUFGWGdrV1NKLzJna25vMGM3?=
+ =?utf-8?B?UkR3cFFTQjFpaVBDTERlaldtS2M3aHN0MUt1UktLaXROcWNQcHBVQXlZdjB0?=
+ =?utf-8?B?YmtkbFg2S1pnV1dqdFg2TkptRys3RGFLakF5ZmhyOVpXTnNBZkIzSEFCeG9a?=
+ =?utf-8?B?SEFtcUJWYXUrSmpYWk9yN0p6UDZQRHZrOFRheVlhQXdLNkhIcmpGQ2tkWi9I?=
+ =?utf-8?B?eTN4WXE1RjZnRVNtU1FjU1pBRkl5ZlhEeEZMMlNWbzJ3QVFwaE8zekhuOEdT?=
+ =?utf-8?B?aHNPa1ZDOElRYTFLVlFZL2lYbko4MUlLNXozdXJPQ2Q3Y2U1ZHFVbHFKSmRH?=
+ =?utf-8?B?ZUtvMUdHdms3czRsc0Y3RHBZQW5jYVFsU2hxcW9UaXV2NVB4SWgxZjR5dDhx?=
+ =?utf-8?Q?ddpZ7CWYeGPY5eS6Kki2585HT8SAoPj75ul+NS2?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(7416005)(82310400014)(1800799015)(376005)(36860700004); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2024 19:28:03.9864 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20daf20d-85e6-475c-3e75-08dc6626fe53
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF0000C380.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8764
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -192,134 +146,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 26, 2024 at 11:49:32AM +0100, Tvrtko Ursulin wrote:
->
->On 24/04/2024 00:56, Lucas De Marchi wrote:
->>From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
->>
->>Add a helper to accumulate per-client runtime of all its
->>exec queues. Currently that is done in 2 places:
->>
->>	1. when the exec_queue is destroyed
->>	2. when the sched job is completed
->>
->>Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
->>Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->>---
->>  drivers/gpu/drm/xe/xe_device_types.h |  9 +++++++
->>  drivers/gpu/drm/xe/xe_exec_queue.c   | 37 ++++++++++++++++++++++++++++
->>  drivers/gpu/drm/xe/xe_exec_queue.h   |  1 +
->>  drivers/gpu/drm/xe/xe_sched_job.c    |  2 ++
->>  4 files changed, 49 insertions(+)
->>
->>diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
->>index 2e62450d86e1..33d3bf93a2f1 100644
->>--- a/drivers/gpu/drm/xe/xe_device_types.h
->>+++ b/drivers/gpu/drm/xe/xe_device_types.h
->>@@ -547,6 +547,15 @@ struct xe_file {
->>  		struct mutex lock;
->>  	} exec_queue;
->>+	/**
->>+	 * @runtime: hw engine class runtime in ticks for this drm client
->>+	 *
->>+	 * Only stats from xe_exec_queue->lrc[0] are accumulated. For multi-lrc
->>+	 * case, since all jobs run in parallel on the engines, only the stats
->>+	 * from lrc[0] are sufficient.
->
->Out of curiousity doesn't this mean multi-lrc jobs will be incorrectly 
->accounted for? (When capacity is considered.)
+Fix number of CI reported W=1 build issues.
 
-TBH, I am not sure what the user would like to see here for multi-lrc.  
-If reporting the capacity, then we may need to use width as a 
-multiplication factor for multi-lrc. How was this done in i915?
+Patch 1/2: Fix function arguments description.
+Closes: https://lore.kernel.org/oe-kbuild-all/202404260616.KFGDpCDN-lkp@intel.com/
 
-Regards,
-Umesh
+Patch 2/2: Fix clang compilation error.
+Closes: https://lore.kernel.org/oe-kbuild-all/202404260946.4oZXvHD2-lkp@intel.com/
 
+Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+---
+Changes in v3:
+- Add Signed-off-by tag.
 
->
->Regards,
->
->Tvrtko
->
->>+	 */
->>+	u64 runtime[XE_ENGINE_CLASS_MAX];
->>+
->>  	/** @client: drm client */
->>  	struct xe_drm_client *client;
->>  };
->>diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
->>index 395de93579fa..b7b6256cb96a 100644
->>--- a/drivers/gpu/drm/xe/xe_exec_queue.c
->>+++ b/drivers/gpu/drm/xe/xe_exec_queue.c
->>@@ -214,6 +214,8 @@ void xe_exec_queue_fini(struct xe_exec_queue *q)
->>  {
->>  	int i;
->>+	xe_exec_queue_update_runtime(q);
->>+
->>  	for (i = 0; i < q->width; ++i)
->>  		xe_lrc_finish(q->lrc + i);
->>  	if (!(q->flags & EXEC_QUEUE_FLAG_PERMANENT) && (q->flags & EXEC_QUEUE_FLAG_VM || !q->vm))
->>@@ -769,6 +771,41 @@ bool xe_exec_queue_is_idle(struct xe_exec_queue *q)
->>  		q->lrc[0].fence_ctx.next_seqno - 1;
->>  }
->>+/**
->>+ * xe_exec_queue_update_runtime() - Update runtime for this exec queue from hw
->>+ * @q: The exec queue
->>+ *
->>+ * Update the timestamp saved by HW for this exec queue and save runtime
->>+ * calculated by using the delta from last update. On multi-lrc case, only the
->>+ * first is considered.
->>+ */
->>+void xe_exec_queue_update_runtime(struct xe_exec_queue *q)
->>+{
->>+	struct xe_file *xef;
->>+	struct xe_lrc *lrc;
->>+	u32 old_ts, new_ts;
->>+
->>+	/*
->>+	 * Jobs that are run during driver load may use an exec_queue, but are
->>+	 * not associated with a user xe file, so avoid accumulating busyness
->>+	 * for kernel specific work.
->>+	 */
->>+	if (!q->vm || !q->vm->xef)
->>+		return;
->>+
->>+	xef = q->vm->xef;
->>+	lrc = &q->lrc[0];
->>+
->>+	new_ts = xe_lrc_update_timestamp(lrc, &old_ts);
->>+
->>+	/*
->>+	 * Special case the very first timestamp: we don't want the
->>+	 * initial delta to be a huge value
->>+	 */
->>+	if (old_ts)
->>+		xef->runtime[q->class] += new_ts - old_ts;
->>+}
->>+
->>  void xe_exec_queue_kill(struct xe_exec_queue *q)
->>  {
->>  	struct xe_exec_queue *eq = q, *next;
->>diff --git a/drivers/gpu/drm/xe/xe_exec_queue.h b/drivers/gpu/drm/xe/xe_exec_queue.h
->>index 02ce8d204622..45b72daa2db3 100644
->>--- a/drivers/gpu/drm/xe/xe_exec_queue.h
->>+++ b/drivers/gpu/drm/xe/xe_exec_queue.h
->>@@ -66,5 +66,6 @@ struct dma_fence *xe_exec_queue_last_fence_get(struct xe_exec_queue *e,
->>  					       struct xe_vm *vm);
->>  void xe_exec_queue_last_fence_set(struct xe_exec_queue *e, struct xe_vm *vm,
->>  				  struct dma_fence *fence);
->>+void xe_exec_queue_update_runtime(struct xe_exec_queue *q);
->>  #endif
->>diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
->>index cd8a2fba5438..6a081a4fa190 100644
->>--- a/drivers/gpu/drm/xe/xe_sched_job.c
->>+++ b/drivers/gpu/drm/xe/xe_sched_job.c
->>@@ -242,6 +242,8 @@ bool xe_sched_job_completed(struct xe_sched_job *job)
->>  {
->>  	struct xe_lrc *lrc = job->q->lrc;
->>+	xe_exec_queue_update_runtime(job->q);
->>+
->>  	/*
->>  	 * Can safely check just LRC[0] seqno as that is last seqno written when
->>  	 * parallel handshake is done.
+- Link to v2: https://lore.kernel.org/r/20240425-dp-live-fmt-fix-v2-0-6048e81211de@amd.com
+
+Changes in v2:
+- Compilation error fix added.
+
+- Link to v1: https://lore.kernel.org/r/20240425-dp-live-fmt-fix-v1-1-405f352d3485@amd.com
+
+---
+Anatoliy Klymenko (2):
+      drm: xlnx: zynqmp_dpsub: Fix few function comments
+      drm: xlnx: zynqmp_dpsub: Fix compilation error
+
+ drivers/gpu/drm/xlnx/zynqmp_disp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+---
+base-commit: 2bdb481bf7a93c22b9fea8daefa2834aab23a70f
+change-id: 20240425-dp-live-fmt-fix-a10bf7973596
+
+Best regards,
+-- 
+Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+
