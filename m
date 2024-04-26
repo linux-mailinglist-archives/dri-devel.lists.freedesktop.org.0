@@ -2,65 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2968B3350
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 10:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981BA8B33DE
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 11:25:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A781B10EF5E;
-	Fri, 26 Apr 2024 08:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9818F10EC56;
+	Fri, 26 Apr 2024 09:25:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aheYnQUY";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HQTUOZDY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56D5C10EF5E
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 08:51:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714121484; x=1745657484;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=npm2t8KBB2090WAny6EatmWbokdZZxyqK5vpDH22ecQ=;
- b=aheYnQUYd0go1802Sh2eU5PDIWenUcvyieRcbSkGWEJH0/nKswb2DqNF
- 8svyQEQYWiUJ/ff8Dmoe2o3mPhcHWoP4XXe1YeJ633L9x23t/qBbjG5Vk
- 5c+JUebpe80lDN/M5PxP9k6RGP740vWeBulsumb0qnm1HSry8O39M20vU
- 08JaZ6XXYzLkF3HQ22EaZ52rwLYRLRILHVLpU0fXWyJspss5o/wmK8MLY
- R/W23JgYe1RSC4OEnjpxAc5+yM8vMy19/LKw1sYWFi1zpabWSTriB/0Oy
- mGEAp/iKEa7OC245pefBRjd1NKAl7mst0lWO42T/vcELsMfIEH6JP+rWO A==;
-X-CSE-ConnectionGUID: krL2B6vxTP6OVnzM78qF4A==
-X-CSE-MsgGUID: 8ry6SMF9RtGo+tby20cbSw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="10382104"
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; d="scan'208";a="10382104"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2024 01:51:24 -0700
-X-CSE-ConnectionGUID: 07o6Rx04R9KuiOoigkNsHg==
-X-CSE-MsgGUID: zpd0iFXvR/+pXVhI5u8XXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; d="scan'208";a="25445396"
-Received: from dgarbuz-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.48.145])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2024 01:51:23 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Maxime Ripard
- <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, noralf@tronnes.org
-Subject: Re: [PATCH 2/2] drm/print: drop include seq_file.h
-In-Reply-To: <533e254d-9d4b-455c-80d6-bdbdb3942e91@tronnes.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240422121011.4133236-1-jani.nikula@intel.com>
- <20240422121011.4133236-2-jani.nikula@intel.com>
- <703d9f05-499f-41d5-a892-b5c2ee2ab814@tronnes.org>
- <87cyqc60rm.fsf@intel.com>
- <533e254d-9d4b-455c-80d6-bdbdb3942e91@tronnes.org>
-Date: Fri, 26 Apr 2024 11:51:18 +0300
-Message-ID: <87a5lg5wxl.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 223CC10EC56
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 09:25:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 114E466B;
+ Fri, 26 Apr 2024 11:24:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1714123455;
+ bh=4sk3SkM9lTZY2JBkhhraAd6ifVIO1oEjvKtMkIamMGs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HQTUOZDYmjmdlbB0bcbZ2NEqb+R83Hd10+hCsRKTTuc2aXnYepiQVDrzkOdEXdpbe
+ d2lnDfNujb83VAOOpY4k7/HArtBk6L/7WL5hbogkzkdBm72Uem8gGBt7ditsbS1n7Y
+ GED8BGTR2J/2mgslVwPguHMUvptabgDXo0R3XAsM=
+Date: Fri, 26 Apr 2024 12:25:00 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Subject: Re: [PATCH] drm: xlnx: zynqmp_dpsub: Fix missing drm_bridge_add() call
+Message-ID: <20240426092500.GA4524@pendragon.ideasonboard.com>
+References: <20240312-xilinx-dp-lock-fix-v1-1-1698f9f03bac@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20240312-xilinx-dp-lock-fix-v1-1-1698f9f03bac@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,14 +60,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 26 Apr 2024, Noralf Tr=C3=B8nnes <noralf@tronnes.org> wrote:
-> I used the defconfigs from drm-tip:rerere-cache which caught this.
+Hi Tomi,
 
-Odd. This is what my configs are based on too. I can only assume a 'make
-olddefconfig' down the line has defaulted something to n at some point.
+Thank you for the patch.
 
-BR,
-Jani.
+On Tue, Mar 12, 2024 at 10:51:15AM +0200, Tomi Valkeinen wrote:
+> The driver creates a bridge, but never calls drm_bridge_add() when
+> non-live input is used. This leaves the bridge's hpd_mutex
+> uninitialized, leading to:
+> 
+> WARNING: CPU: 0 PID: 9 at kernel/locking/mutex.c:582 __mutex_lock+0x708/0x840
+> 
+> Add the bridge add & remove calls so that the bridge gets managed
+> correctly.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Fixes: 561671612394 ("drm: xlnx: zynqmp_dpsub: Add support for live video input")
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_dp.c    | 4 ++++
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 4 ----
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index a0606fab0e22..9f750740dfb8 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -1761,6 +1761,8 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+>  
+>  	dpsub->dp = dp;
+>  
+> +	drm_bridge_add(dpsub->bridge);
+> +
 
---=20
-Jani Nikula, Intel
+This means that the bridge will be exposed to users before
+zynqmp_disp_probe() is called, opening the door to a potential
+use-before-init. The risk is mostly theoretical at this point I believe,
+but it's still not a direction I'd like to that. Could you call
+drm_bridge_add() in zynqmp_dpsub_probe(), between zynqmp_disp_probe()
+and zynqmp_dpsub_drm_init() ?
+
+>  	dev_dbg(dp->dev, "ZynqMP DisplayPort Tx probed with %u lanes\n",
+>  		dp->num_lanes);
+>  
+> @@ -1789,4 +1791,6 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
+>  
+>  	zynqmp_dp_phy_exit(dp);
+>  	zynqmp_dp_reset(dp, true);
+> +
+> +	drm_bridge_remove(dpsub->bridge);
+>  }
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> index 88eb33acd5f0..3933c4f1a44f 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> @@ -260,8 +260,6 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+>  		ret = zynqmp_dpsub_drm_init(dpsub);
+>  		if (ret)
+>  			goto err_disp;
+> -	} else {
+> -		drm_bridge_add(dpsub->bridge);
+>  	}
+>  
+>  	dev_info(&pdev->dev, "ZynqMP DisplayPort Subsystem driver probed");
+> @@ -288,8 +286,6 @@ static void zynqmp_dpsub_remove(struct platform_device *pdev)
+>  
+>  	if (dpsub->drm)
+>  		zynqmp_dpsub_drm_cleanup(dpsub);
+> -	else
+> -		drm_bridge_remove(dpsub->bridge);
+>  
+>  	zynqmp_disp_remove(dpsub);
+>  	zynqmp_dp_remove(dpsub);
+> 
+> ---
+> base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
+> change-id: 20240312-xilinx-dp-lock-fix-cf68f43a7bab
+
+-- 
+Regards,
+
+Laurent Pinchart
