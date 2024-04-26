@@ -2,169 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDC38B2E41
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 03:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5182F8B2E42
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 03:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 335D2112100;
-	Fri, 26 Apr 2024 01:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B90D10E8C7;
+	Fri, 26 Apr 2024 01:23:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SIgdXEAu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BKe79Hs9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7DC6112100;
- Fri, 26 Apr 2024 01:20:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B237810E8C7;
+ Fri, 26 Apr 2024 01:23:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714094423; x=1745630423;
+ t=1714094626; x=1745630626;
  h=date:from:to:cc:subject:message-id:references:
  content-transfer-encoding:in-reply-to:mime-version;
- bh=iTdtOlXBOYtDibEWput9QWh4/nb5YYpa4fHHsCOpwWw=;
- b=SIgdXEAuNSEuBxBMjkt6Y0s7zZMPxQZVjvyyYl5ihLnqYg09os5zaRHR
- Ya2VbYAJYRd3plTIZBTqDc49OFBjfzCzgJW3Rr/j5VNh5Rz6XyID4FRJs
- +2CvvNevUTu+Dy+w0bnhJtoNpPcBK0+7L4cuul6D9evM1sZgVkcnAPwe3
- kgt9h77Cg/TLVXSFI5v6DpEhqA4ZUkTf4Hrk0AFbVAu1xcN20AOCqSU1V
- HjHUa5cyVEEsmlv8NwJGb/4QIrmexYHZYJKyqH6s/YstJlhbs+4GoJLkm
- uTIdVeS9UoQz8lu3MEi2MRMzM14IjuznugrjUnuSJmD5kNY09XH3hwg31 g==;
-X-CSE-ConnectionGUID: w5N8TztPRVSLRe/1vdGunA==
-X-CSE-MsgGUID: zsbEnhn6S0i2I8OUa0j4kA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9672490"
-X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
-   d="scan'208";a="9672490"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2024 18:20:22 -0700
-X-CSE-ConnectionGUID: UIBLk2qsRT2+VyykvtsN2Q==
-X-CSE-MsgGUID: Yh3aWhcJQ7u9/UuPbmy3Uw==
+ bh=XDR0EdQKYg991GV5GKbnhEc1dgA15N2W8nrelC/tewE=;
+ b=BKe79Hs9PCb8DKrUrcm7WAoDo1QAwXEspDjLwDb+XnczJQVhOnK/3a64
+ Tj2NX5UVh61U0yQ1lxhhHR2wxWx7EnIqc7SCbDbo0sdMXXyuWW3laNnKH
+ TwfCWoHb+2jEFG9iBxxddLOL56m53OwpIhv3VIvPoB1v/mH0ZIz5RgoYH
+ FNybrl2QZGxyaadElPyMPmnYb8SLvYiMKM7AIpGzSfkTfOYQbKOQfJJLI
+ 04eLOwPgwNNsE9ECRFguBMCVVxc3D1Fp6zedyR4sjEJid1jDgA3DRKUD4
+ YG/aCvzfAKomNdIzL+ZlTr8t7qWUagGVY3YAfinadH1oM+eF/N8dMFoUf A==;
+X-CSE-ConnectionGUID: TgGC8ONNS+C/O8BYmjKaXg==
+X-CSE-MsgGUID: PXG7DXFGRUqL2xvfCg+I7g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20507522"
+X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; d="scan'208";a="20507522"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2024 18:23:45 -0700
+X-CSE-ConnectionGUID: Ed6E1JeeS9+qWTnzusnewQ==
+X-CSE-MsgGUID: oHpeuxHKTZGoruKpZkGEXg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; d="scan'208";a="56439867"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 25 Apr 2024 18:20:22 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; d="scan'208";a="29744881"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 25 Apr 2024 18:23:46 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 25 Apr 2024 18:20:21 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.35; Thu, 25 Apr 2024 18:23:44 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 25 Apr 2024 18:20:21 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2507.35; Thu, 25 Apr 2024 18:23:44 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 25 Apr 2024 18:23:44 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 25 Apr 2024 18:20:21 -0700
+ 15.1.2507.35; Thu, 25 Apr 2024 18:23:44 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m+cPsYkscodnkPdKxsrJcoxdvLbUqXdNGBMlGZty8CGWOyoq3X7A60GyvsaYhVHZ2ttqv+UBBEJ/BHuAiyQlyo6fjb8jXrv3WyZrddBb1z+p9uF2NbXFSKLS87K0ttrKX5PUmuD7MuV+Rnf0cnv2jovFLz5HT+6e8I9bb8VSrZxNOvOWk/MHpTZLBt40Pu4ERduCl4Q2+ae4EhUyWjJ3aBsZpTkyfN/x/rokJxyARvvSqrXSD5uxXYMFSGZNKsb06qZaSBgG0mEcyLTs2ivwbTTINXymIvv5UBjJxPxS497RieNbwBpJy4oCUflnHyVnp7d6TpGrjFr7t2zSn2a2RA==
+ b=FtDNcK7dQvVNy9/8HrG869Krdq2SderYawCxAYSl378C3lv+JV4OoXLYoVYaw6J//7JXa7TxAhnFzF/acyuodi9AxYGZxEnhy8aL/7T9397qMdtotLwp2nVeIECsw7lOzXzf5CHXdfAFt0O5mhy48+FDDnqm+Ldq+9i6G3rWHVNxT1oDSe9PeNmv4SkdBcovoZGS4ReG9tsNeWXamLBCHLkarDkqp1fdntwTS5H4h7/t1Vx1riXI/+yOw5BDXlIwK0kY2/T5emiczs7/CYWPDn/NFRsMCAtsHZMFO7pvE1DgtGTzrqXlS7bYYBGeNBwFZR7oqypHPPGcejrEFAtVNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SqFRY+fOGgqe5tq+9BkbRfTipgAAbG7Ce8iKKc5je8o=;
- b=hwh7wEJAqtQ92mT8yAbJD4GnaMnEE9zEG8Cyz/YIgH56eGiZzZnJ3Vx1D9v/SmC1BxY8IFgykBLygNT3p1f47URpitLlASO8lO+6ima/V4WNpXBJxDKcjHuXPsxmJpTjiAWL59clLb21oeSiAiTUiBDCBQOucjhl25N/yZyMIphFNJCSYbzHhuggUU5RCqGxD7TOboxMO3Yw02jCDW/UNdM1fVvAUJnsA+unvmkdALxYzDq2F6ES2xtdWhyVMAV1QEKOw0IOb0SvidzphciOeatl44ajRdfCEvfFB9MvoDucSukkU2B4OFt9jL6D5sjluVuGT27DVjGJpAw0iO08qQ==
+ bh=KhqkjlOXY9hV+A2uugTbfsKvPrvevZDqylWBYe85hBE=;
+ b=hxLTAJG7FC+FNfqTkOMnJIJ/hmArXvGx+3VVfRTTCJCJSePT3d3t9cZwfmg3aoMmNSiiFTZq1lP5XpTAh1aW+C8qHKQ1sWer45piZy3RkTGV4Dbf/c+AFMMv6cVqEFo3FlCC4ImPmCIIKvJQJ8DHCEh2ylsRgdTzsE812O5Khiz0a8Gt/Zs8FYD7YPrOOHk+vUGT2rqc7czRTKHMLuKMTwBWX4mSusgtsxE4sXZPEuFfz6gA/PrBI9g2L79AKMH2TorwhVkI3YYupLVgS/qnmAm9NddlpfblHXKTKlGkhLFPYVY21iDQSernXz4134+EUR7cQUN9Inbo04pBXtj/pQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by CY5PR11MB6510.namprd11.prod.outlook.com (2603:10b6:930:42::7) with
- Microsoft SMTP Server (version=TLS1_2,
+ by BL3PR11MB6484.namprd11.prod.outlook.com (2603:10b6:208:3bf::19)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.21; Fri, 26 Apr
- 2024 01:20:19 +0000
+ 2024 01:23:42 +0000
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e7c:ccbc:a71c:6c15]) by PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e7c:ccbc:a71c:6c15%5]) with mapi id 15.20.7519.020; Fri, 26 Apr 2024
- 01:20:19 +0000
-Date: Fri, 26 Apr 2024 01:20:13 +0000
+ 01:23:42 +0000
+Date: Fri, 26 Apr 2024 01:23:36 +0000
 From: Matthew Brost <matthew.brost@intel.com>
 To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 CC: <intel-xe@lists.freedesktop.org>, Christian =?iso-8859-1?Q?K=F6nig?=
  <christian.koenig@amd.com>, Somalapuram Amaranath
  <Amaranath.Somalapuram@amd.com>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 3/9] drm/ttm, drm/amdgpu, drm/xe: Consider hitch moves
- within bulk sublist moves
-Message-ID: <ZisBTUvd6VY2msm4@DUT025-TGLU.fm.intel.com>
+Subject: Re: [PATCH v2 2/9] drm/ttm: Use LRU hitches
+Message-ID: <ZisCGEsqlypxJgfG@DUT025-TGLU.fm.intel.com>
 References: <20240416100730.6666-1-thomas.hellstrom@linux.intel.com>
- <20240416100730.6666-4-thomas.hellstrom@linux.intel.com>
+ <20240416100730.6666-3-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240416100730.6666-4-thomas.hellstrom@linux.intel.com>
-X-ClientProxiedBy: SJ0PR13CA0131.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::16) To PH7PR11MB6522.namprd11.prod.outlook.com
+In-Reply-To: <20240416100730.6666-3-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: BY3PR03CA0021.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::26) To PH7PR11MB6522.namprd11.prod.outlook.com
  (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CY5PR11MB6510:EE_
-X-MS-Office365-Filtering-Correlation-Id: e706243f-90ab-4b7a-001d-08dc658f095b
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|BL3PR11MB6484:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc37e7c8-6f9b-4fec-d4fb-08dc658f822b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|1800799015;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?Qv2AxNwE42x+qXBpN+wC8cb1KVnN+GnDq/Wpx3sAzzbzzUsYLRxy/OylkO?=
- =?iso-8859-1?Q?KYQzTgFIKghJ6u4qzEHy7xjRkqhOOS4wgMLdqFXtj4yN9wjYVC8jm5K8Sf?=
- =?iso-8859-1?Q?59kBQRpFVNpwBdMhppy+D882N9idnRfApI7QDAMX4rkfriD48RTbQExVDo?=
- =?iso-8859-1?Q?bvGLrtqkZ3ERlcFCvr8V1BC04wj426aGSaN4OKS38xMA9Fx7fECDgGEF69?=
- =?iso-8859-1?Q?H+l0aCyyDqYtAnxpGgyYsB7sEW1Ue0j+YgfRbPC5uhQpLsZLSBEGyaZaks?=
- =?iso-8859-1?Q?bpq1n6rEtnWL4yfg6sEW8tsXiE8NXYnuR8AM7WvKxgS1RBVlD7Nm/SWLEY?=
- =?iso-8859-1?Q?XWqQcjnpMDrCkmVLoOOiEwNclSn2nO56I1un7B5FC62pKLUdGcm4qZidWe?=
- =?iso-8859-1?Q?OUuBvRahuPO+ReN/k6G1t7Q47e61gdGxQXr5F0jBtxrZ2YT2EXa0P8XcX1?=
- =?iso-8859-1?Q?M11Ca4xF9Lfp44jLHJXxpbHQFsbrtJzLs7kSTuCE9QMTTLD7jnwuN7Oz49?=
- =?iso-8859-1?Q?RvUz1K4kj51lSBO0l/SWKjuQvIeVIEHjgiXmnfd4dMTovfOTyI1UVxnGpw?=
- =?iso-8859-1?Q?dOA4y99m6tvC+sbkqFSBMEq0xaCHDenSyFon5nBIim/icMQqz1ie2jiwKZ?=
- =?iso-8859-1?Q?+TpHsGPcDTNPxC7d2LhhpGy9iD2uj3fmi16HNjlw9TZVMhYYjc+9hegeAB?=
- =?iso-8859-1?Q?3w0DRt5ALbYt3pj3TBQnMIOdEqJjPUTvQNvnubPlCDXFMJOVxYjhhWzhgX?=
- =?iso-8859-1?Q?sjfd6lMKjeGRLXVMoPo/SNLteBRGalCVDbuK7VUp0obsDRO6ZioMC9LOso?=
- =?iso-8859-1?Q?ZWjo3MHqgkrvd2h2oftatFOu5lqiUBSnPDF/syKIfgi/j7+nXghSVN7H1J?=
- =?iso-8859-1?Q?wFpEJLJnJoVhIjVHMOj4/wpEKJTgrMtj1k5VGZUJfTIrNn3O9ftCd4yWW6?=
- =?iso-8859-1?Q?yGQnoevjL0FWhkjtz+Jrc5UY+VUr47IcdKwM5XVobiTPW48nFSkwXfqJkl?=
- =?iso-8859-1?Q?GwCaPV8arZpvDzMESKrD/S/L02ShXdKn/ten9vtppPiMqLWVu/fexg+Uks?=
- =?iso-8859-1?Q?NY+ADnO/cSGmNwURroo1JQwKL6W9Oy/2f4ojd12B/AuEp15SxsQrc2ekXU?=
- =?iso-8859-1?Q?xj+UEGNjGkzOxb9UfEobbeJmpid9XfRr9AJEwvohaPWg8qUzG+xdlPL5wq?=
- =?iso-8859-1?Q?B3g9X7V6XU1HIKvRyXK6vsEXOnSTxG0du7dDrUyhKOH170b8f7cWkvElbJ?=
- =?iso-8859-1?Q?S0sLCRHCHuqhHb17+59lhIhCql6oWPWB3SKJi5e/VR579n6vU6HzIsWoe+?=
- =?iso-8859-1?Q?EUgVbeCdgSmWPGo9xlObavUiYg=3D=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|366007;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?r/GHOGIzQlht2EPAc0RQRVc21ZGAMPiXstNzYp0F+83BBFeUHz2UPJjdSO?=
+ =?iso-8859-1?Q?Xop1EinFSldPNK5TfnZYTiV1S5zVfbMr5gtUJM/QO6fe7PC1qOBmsto+Ds?=
+ =?iso-8859-1?Q?wpExJcJLsp4efeh/UAhYdoMqPfGK+eBc5rqvhqepavw45jfa6gnFb2a08m?=
+ =?iso-8859-1?Q?hE0Eyjl0qAGNz8IN1HzCmm+SSomU7Mn23F1lYx5E+JWPUp2KcWwcpuzSUv?=
+ =?iso-8859-1?Q?+T47Ghy+2WUEMWO1B5A0qL6mUCJ0nuLsrM0ZIU11iLBP1JslpGj2+nycxs?=
+ =?iso-8859-1?Q?s55DKnWIs9zcP9JR8c07WW2J2mlYeODGEQj6NtIjSQBOz2YCmSaCpeh6Xj?=
+ =?iso-8859-1?Q?KxExH2K4suf0TFfa8198JBMRJEPXzng69C4AvsBHkYiEBeakCGhbqyhURs?=
+ =?iso-8859-1?Q?iA7fyNaJxc0LDen6dh9dLOGcvxToy8M/SXRhmxDZwLlwrptimElSfWkTnr?=
+ =?iso-8859-1?Q?9w+vonFqp+bCCzw+Xr9qkgBxN5OELnMyXOdhLybwFqnSaD32slgerBOJcV?=
+ =?iso-8859-1?Q?k6boY/GBsGD9bf7jXuUaPsjrlIIEgJV8EgCnxj4GhP8G3gsXMAsJATXEup?=
+ =?iso-8859-1?Q?N6B2Ui+auPyD6AiuEWULuQKOOeybq3catfsox1UKb2IT4ue4bB4MNA1r7F?=
+ =?iso-8859-1?Q?o9m1r6pszD+gvpcIes73Ldu0w49MnKUYY9cqQA0LY+NimnUzYvYxBGz3Sb?=
+ =?iso-8859-1?Q?940yWK8Yo+VTPuI8siLaKHNP5t4u5qtcSDMgcuDKNO6eUELTPQNj239bnA?=
+ =?iso-8859-1?Q?QQ4SSF01FvHo0yAbytZ2Xi+Y/Go2qnix85Qu5U5QCxgtx536Y1lsJxTnBS?=
+ =?iso-8859-1?Q?0hkdZimPE5606Qjzd3AWeNITfCYs2aE4eTcAEgKAkKyUNL+wfqF4wL5xPZ?=
+ =?iso-8859-1?Q?LYozdVE2fTHr2tIlFXAvAJBLlsQlpCdjouozRl/1onn/EBbI5ltns6lROm?=
+ =?iso-8859-1?Q?ztq10W6BP2I4Vu33ieRTJfKC+EFhkuT7mxJ/wLMRkqFaqHx0rNsdFim4CQ?=
+ =?iso-8859-1?Q?ozj8L8lxleig+8GN+MrOciL/ASMax9sV8yka+/ingnJEKFGlE0ELx1HYE6?=
+ =?iso-8859-1?Q?9Ao+t9EmbvM41sRSvPTGWMG/gdBl/OOrJX45ejZbCefO7EpJS7AySd6RP+?=
+ =?iso-8859-1?Q?jFNnDpSAlQi3729h7Ow3kpAYEjrAIS/3JS5ePyDZMfS0n1KCzmh162yh7U?=
+ =?iso-8859-1?Q?gpD+n76CrsJilufIDdG6WTOcln5NkUrEib3HnRKD+lR0Xqre45FTbWgM7k?=
+ =?iso-8859-1?Q?Lcmad36nO5SlsDT3PnfoZIPpi3dvlOsZMb7IQqNUHow+Ls7Lr3sSQb8VsT?=
+ =?iso-8859-1?Q?Osy58EAurRnwvbjylF5F+TCH3A=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(366007)(1800799015); DIR:OUT; SFP:1101; 
+ SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?WXKZ0MlmoVEoD6fLP7ae9C9PGiOq6ZeU3OAGmMPqpJ7fHacDSQ5Itvef4w?=
- =?iso-8859-1?Q?LTHq3i9Wimb/R4nFrkQjhjfQ0vbOjDOtop4C6e4a6NKrqSXPaED72QWyJ0?=
- =?iso-8859-1?Q?HMLxMHZJ+zoeVsDUTRIIz1g50sPVMxsFBZm/GeDkZvKGRf50ovw9/HbJQJ?=
- =?iso-8859-1?Q?ZZzGmlsVK588NbxRhcHJCf+hyd5WKMyniJ6AVqEkxHTp2O+8NwqcFx97Cw?=
- =?iso-8859-1?Q?CXDuy/bZ05ucmmfx/Cos16HdT3TDHiAEVTcp1JhacU5EUarQK6vUSR67Gu?=
- =?iso-8859-1?Q?Y9m9RvVC200v9P0nUjcT516yupLur2WheH07VAxv+ckOcjgXgAA+X7jphs?=
- =?iso-8859-1?Q?aiaZDHZTAJBRx19N/irjgBHoMWoXI5223sNo2g0ALmt7aUpyQZBakdSGm1?=
- =?iso-8859-1?Q?VASrW3Cg/oyPWEbhhoxXhVFU7s5JDBDyHOFM60670r94cqGX+jJuPBGnBT?=
- =?iso-8859-1?Q?QYK+BPEmTz4a3HY1YoyFOZinDi1RjhjCy9orkbIkzBxtAUIvgB0sHxylBH?=
- =?iso-8859-1?Q?tuO0yODmy6+mnTQ+sKdBCFB+I/qKGXCSvCm13LKGLtGoQwf3gArkUmlROb?=
- =?iso-8859-1?Q?t7glp9HQywrWPTsY8SqM7vsjrqS+/SBvCyacNzsbo1+0mmRW1u6smWcbDb?=
- =?iso-8859-1?Q?8YluSzA7ONAGyJP9cuaDSJ1pWAbQe/1ThSJ8YjxJqC034zDZrMFD2FYn1g?=
- =?iso-8859-1?Q?bV4PDqvolQ3MhVEw27LzT14n3uEAdBcQpmxpPPmtrBgYggAIIdjEUgvtBh?=
- =?iso-8859-1?Q?v4XuLxR4aTxJD3nZMS+Ue8GC1M7m0GLOls6XEJu5sYYnLKaGhQb1rAi5LP?=
- =?iso-8859-1?Q?Ytwv/tylFrklR/PxOxokiRRcoiu1tgy9/OsZXgi8eo5IbsCQoljybfujAE?=
- =?iso-8859-1?Q?nlerpIDL4VNFV+qDYMSezz7QWLXQ2zpMnZd03qD9bVXFJVe1cAFtqiUnRX?=
- =?iso-8859-1?Q?+8RPEbMU22qTXUHb2h7xyH2b8LNvfyr+xAAiQUPg8LHJROtsvEe0y/lGj2?=
- =?iso-8859-1?Q?gysICGTKjl/xOE2PWK4L3UczLkxwjSUVxS8lUdxPON+hghO0rPG6OEYeGX?=
- =?iso-8859-1?Q?eijQAXFxW3LeI1JCV3qrX/howzIlTLTgRrvBdNIvFw2iB2O9MAlt4DIgqB?=
- =?iso-8859-1?Q?QHtmoA2TGBxKaDvExcGvdpbjukHZUXUV+naZ24ula4bIZTsYcmd4YOQitp?=
- =?iso-8859-1?Q?J5drpPh9+5UJTuJQzI+sdp5Z5iJNnNmN4DHnLhOoVqNkTRiKBcv0LzztPZ?=
- =?iso-8859-1?Q?EKXiRs2pEG1M8ipH2N5FqwN4OUs3WjUWLo3R0cbLeoeUokfOuX4bIqjfPs?=
- =?iso-8859-1?Q?vyJUTqDby9jzox4yey+OQCTJ5gnqI8+EuioGxUlQXFW3u9D5dXB2dlrU5N?=
- =?iso-8859-1?Q?vQVr3g8hosvLxaogduGGXWkwGfNVQnMLwBLRaap0JaEQWM+pOODJi//0h0?=
- =?iso-8859-1?Q?M70ccJRldQR6nODQQztYBBtXPLUpcTbmbUtaXpYWNzaRZEM/gSrZXxnvz9?=
- =?iso-8859-1?Q?jcEUTT5boTwD402tKriMSMJTRDb5xsrXCbXsOvfiNqzq+KfohsSRu5wUPf?=
- =?iso-8859-1?Q?F5Jejw7wFL9shMnMeQzyk1LoHYrDvB+mc8Py5jTO8RPI3W8Rr/hQ+mjyxn?=
- =?iso-8859-1?Q?Bhh3SGJLEqJ4ZkQ7MDYreW/yHjPWczuSQtMrfwFDzjX/l5QDWoLPFHSw?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?IpUth5BO7wXoPrSAqqut2Z3eXKeQRXk0QjFeopO8ezyUMPb2ztYl/3JNqY?=
+ =?iso-8859-1?Q?H7aFjgjMWwwO96bGHmad05GVzyikBRDbjfC1319DxPHvV3lE8rdFItNVY5?=
+ =?iso-8859-1?Q?yXjqWw/471oBE6SrIUkVaQJQI4PNLg5d69Qu24F/bvz8kyj3JOm4+zN1Te?=
+ =?iso-8859-1?Q?Ket+gNCHb7DJxPG61QeSPrHlCPuxSnrGj2jCu8UloSHZhCszsCxDbDACIn?=
+ =?iso-8859-1?Q?vfpa9CzZDQ8tqiElLGDHM91z36mtAkKpLawqhl/cn8FOw5c+w+FTihSq+D?=
+ =?iso-8859-1?Q?4S3GLPJfGaKqNAMxpQU4JUB6ZzKhlNwgR95XLocjLvhzGkfMaesE8IFDP6?=
+ =?iso-8859-1?Q?ECnTcMvbLqLm6zyVTxKbsAc8ZHL8UV8NoGqiBJTgQ+y9vIdL5MBlpAvXUQ?=
+ =?iso-8859-1?Q?aZnRIOwhxMkQgglQjH3U+ppKjaFGFQ3aX3nZbpEqbrRKQxgBDQ+TObZru2?=
+ =?iso-8859-1?Q?DwBbqT7XR9flVMGgkaC2uwgw4u2VW/AfuR70PcaT3qwHQeHuaFceYBIjX+?=
+ =?iso-8859-1?Q?gMFnFeHnqA9l3hY3v4HTbdmE8RRJoty0mrPU1xpHZzEYNMjL6T1aeTwIeM?=
+ =?iso-8859-1?Q?6AN4hKlX1tzJeccDOnyJ2wrIXjN6Su/fLxULHiodyI9WPVvcyzw5JgdLAa?=
+ =?iso-8859-1?Q?QHWThAxUhx+/pNJ+2TzxZcTfADOQdnviFIFK/P7Cy3ffMLQbr2M1NA3WPe?=
+ =?iso-8859-1?Q?kvUHuCyye5AHllI9j7s8QShSDEP1GsDJ++YxGALkaPottVB4QffaJYGviY?=
+ =?iso-8859-1?Q?Wsh5Ja/3PSKoJ8K3DAvB8K6Abdt5nN7GSECHb1Rh0nyx8FkC/O17ce8AQb?=
+ =?iso-8859-1?Q?fapWZOujTSzAwJqNYr7zFU6mZAbRTTiD087K8WWiKRTQReafXQLVL5nj2E?=
+ =?iso-8859-1?Q?4roSrHyTlTUo+swUfCgLJyPXdeoqg4lrWM/mNa0JlD12WN1FnuchfNNYjR?=
+ =?iso-8859-1?Q?/VFV5YgvD4Qz/BorBKPoW/iLUMoOTK9grFtrh1UNpkPwXD5S8jkx2is7ZL?=
+ =?iso-8859-1?Q?TddJWE2ldJKp8n0tn3fw9+yqnwJSqctrMiSS7W1hVxU3kIj7HOK4fQSqDs?=
+ =?iso-8859-1?Q?8LwX+ljnxwqhV/FziDQT80+mAPVkQsA3zoQQU0fzv5IIIm+fTnsyRLA8/K?=
+ =?iso-8859-1?Q?D3s8sbY8DzVsedv1sEcPsCVqtzrXHIJGadpiCizkuggrLV5ydQShxC6W8B?=
+ =?iso-8859-1?Q?l8CmY9CZlycsc1e5dhzG2vh5q28BKBSwMHYde/wTfrZ2ZCPfupo0qNCXid?=
+ =?iso-8859-1?Q?2kM7Q59QlwgGSQ///ITcicsfx/FFBlfLYxYgUwhq+zAm4LhYg1Y0VrZOJ7?=
+ =?iso-8859-1?Q?5SE7bYK5WlxOZlv3H5V2SZLPWerlCNBQoYvbres9ApSZPdzrwbianAna8z?=
+ =?iso-8859-1?Q?kKlAIqxIIRCvbDXjUzH1C7m9X/1R1tePPWlmpDNZUQRgvs1XTpQuosW4yU?=
+ =?iso-8859-1?Q?P63w0DHeVI43nYvCd8WxWn+yvxTwaqfL6VVRXE7Oe4UQdCBrFJyPTfdbAB?=
+ =?iso-8859-1?Q?cGnHSnq9hACUeVFj7wJTIQd4ObxPP07xujYXvV5he+QYIj2vDJ0t5msxkK?=
+ =?iso-8859-1?Q?CPmQyhUsOxAvb5qLzR/WQk0YFCrvi61Z/1mjm8ARK4a2JY+XJoGJHwFnNw?=
+ =?iso-8859-1?Q?+ubTVzWh9FCB1S+4zkAHUTzcmvMDj8M8JmZtn8Yq2oWoF+Ii/xLRdgdA?=
  =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e706243f-90ab-4b7a-001d-08dc658f095b
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc37e7c8-6f9b-4fec-d4fb-08dc658f822b
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2024 01:20:19.3775 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2024 01:23:42.0154 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t3R6BUriW8r3xLG3ZxhGrj2xLBXDPhHKtGfB+9ZSOY8j4bkVv1CWW9IVLIoOOvpnFZYHDCT3RBZ3kuCBzcPnMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6510
+X-MS-Exchange-CrossTenant-UserPrincipalName: pMG11d92txsr17Dq37ATNIqR8Ci1CFk/d+0AiZg0MQO5vew92aXF5us3oGR3RvnEB2fCh8Z7FObASMhUCz0jLg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6484
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -181,354 +183,238 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 16, 2024 at 12:07:24PM +0200, Thomas Hellström wrote:
-> To address the problem with hitches moving when bulk move
-> sublists are lru-bumped, register the list cursors with the
-> ttm_lru_bulk_move structure when traversing its list, and
-> when lru-bumping the list, move the cursor hitch to the tail.
-> This also means it's mandatory for drivers to call
-> ttm_lru_bulk_move_init() and ttm_lru_bulk_move_fini() when
-> initializing and finalizing the bulk move structure, so add
-> those calls to the amdgpu- and xe driver.
+On Tue, Apr 16, 2024 at 12:07:23PM +0200, Thomas Hellström wrote:
+> Have iterators insert themselves into the list they are iterating
+> over using hitch list nodes. Since only the iterator owner
+> can remove these list nodes from the list, it's safe to unlock
+> the list and when continuing, use them as a starting point. Due to
+> the way LRU bumping works in TTM, newly added items will not be
+> missed, and bumped items will be iterated over a second time before
+> reaching the end of the list.
 > 
-> Compared to v1 this is slightly more code but less fragile
-> and hopefully easier to understand.
+> The exception is list with bulk move sublists. When bumping a
+> sublist, a hitch that is part of that sublist will also be moved
+> and we might miss items if restarting from it. This will be
+> addressed in a later patch.
 > 
 > Changes in previous series:
-> - Completely rework the functionality
-> - Avoid a NULL pointer dereference assigning manager->mem_type
-> - Remove some leftover code causing build problems
+> - Updated ttm_resource_cursor_fini() documentation.
 > v2:
-> - For hitch bulk tail moves, store the mem_type in the cursor
->   instead of with the manager.
+> - Don't reorder ttm_resource_manager_first() and _next().
+>   (Christian König).
+> - Use list_add instead of list_move
+>   (Christian König)
 > 
 > Cc: Christian König <christian.koenig@amd.com>
 > Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 > Cc: <dri-devel@lists.freedesktop.org>
 > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c |  4 ++
->  drivers/gpu/drm/ttm/ttm_resource.c     | 92 +++++++++++++++++++++++++-
->  drivers/gpu/drm/xe/xe_vm.c             |  4 ++
->  include/drm/ttm/ttm_resource.h         | 58 ++++++++++------
->  4 files changed, 137 insertions(+), 21 deletions(-)
+>  drivers/gpu/drm/ttm/ttm_bo.c       |  1 +
+>  drivers/gpu/drm/ttm/ttm_device.c   |  9 ++-
+>  drivers/gpu/drm/ttm/ttm_resource.c | 94 ++++++++++++++++++++----------
+>  include/drm/ttm/ttm_resource.h     | 16 +++--
+>  4 files changed, 82 insertions(+), 38 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 4299ce386322..18bf174c8d47 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2368,6 +2368,8 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->  	if (r)
->  		return r;
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 6396dece0db1..43eda720657f 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -621,6 +621,7 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
+>  		if (locked)
+>  			dma_resv_unlock(res->bo->base.resv);
+>  	}
+> +	ttm_resource_cursor_fini_locked(&cursor);
 >  
-> +	ttm_lru_bulk_move_init(&vm->lru_bulk_move);
-> +
->  	vm->is_compute_context = false;
->  
->  	vm->use_cpu_for_update = !!(adev->vm_manager.vm_update_mode &
-> @@ -2431,6 +2433,7 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->  error_free_delayed:
->  	dma_fence_put(vm->last_tlb_flush);
->  	dma_fence_put(vm->last_unlocked);
-> +	ttm_lru_bulk_move_fini(&adev->mman.bdev, &vm->lru_bulk_move);
->  	amdgpu_vm_fini_entities(vm);
->  
->  	return r;
-> @@ -2587,6 +2590,7 @@ void amdgpu_vm_fini(struct amdgpu_device *adev, struct amdgpu_vm *vm)
+>  	if (!bo) {
+>  		if (busy_bo && !ttm_bo_get_unless_zero(busy_bo))
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index f27406e851e5..e8a6a1dab669 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -169,12 +169,17 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
+>  			num_pages = PFN_UP(bo->base.size);
+>  			ret = ttm_bo_swapout(bo, ctx, gfp_flags);
+>  			/* ttm_bo_swapout has dropped the lru_lock */
+> -			if (!ret)
+> +			if (!ret) {
+> +				ttm_resource_cursor_fini(&cursor);
+>  				return num_pages;
+> -			if (ret != -EBUSY)
+> +			}
+> +			if (ret != -EBUSY) {
+> +				ttm_resource_cursor_fini(&cursor);
+>  				return ret;
+> +			}
 >  		}
 >  	}
->  
-> +	ttm_lru_bulk_move_fini(&adev->mman.bdev, &vm->lru_bulk_move);
+> +	ttm_resource_cursor_fini_locked(&cursor);
+>  	spin_unlock(&bdev->lru_lock);
+>  	return 0;
 >  }
->  
->  /**
 > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> index 22f8ae4ff4c0..2b93727c78e5 100644
+> index 7aa5ca5c0e33..22f8ae4ff4c0 100644
 > --- a/drivers/gpu/drm/ttm/ttm_resource.c
 > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -32,6 +32,49 @@
+> @@ -32,6 +32,37 @@
 >  
 >  #include <drm/drm_util.h>
 >  
-> +/* Detach the cursor from the bulk move list*/
-> +static void
-> +ttm_resource_cursor_clear_bulk(struct ttm_resource_cursor *cursor)
-> +{
-> +	cursor->bulk = NULL;
-> +	list_del_init(&cursor->bulk_link);
-> +}
-> +
-> +/* Move the cursor to the end of the bulk move list it's in */
-> +static void ttm_resource_cursor_move_bulk_tail(struct ttm_lru_bulk_move *bulk,
-> +					       struct ttm_resource_cursor *cursor)
-> +{
-> +	struct ttm_lru_bulk_move_pos *pos;
-> +
-> +	if (WARN_ON_ONCE(bulk != cursor->bulk)) {
-> +		list_del_init(&cursor->bulk_link);
-> +		return;
-> +	}
-> +
-> +	pos = &bulk->pos[cursor->mem_type][cursor->priority];
-> +	if (pos)
-> +		list_move(&cursor->hitch.link, &pos->last->lru.link);
-> +	ttm_resource_cursor_clear_bulk(cursor);
-> +}
-> +
-> +/* Move all cursors attached to a bulk move to its end */
-> +static void ttm_bulk_move_adjust_cursors(struct ttm_lru_bulk_move *bulk)
-> +{
-> +	struct ttm_resource_cursor *cursor, *next;
-> +
-> +	list_for_each_entry_safe(cursor, next, &bulk->cursor_list, bulk_link)
-> +		ttm_resource_cursor_move_bulk_tail(bulk, cursor);
-> +}
-> +
-> +/* Remove a cursor from an empty bulk move list */
-> +static void ttm_bulk_move_drop_cursors(struct ttm_lru_bulk_move *bulk)
-> +{
-> +	struct ttm_resource_cursor *cursor, *next;
-> +
-> +	list_for_each_entry_safe(cursor, next, &bulk->cursor_list, bulk_link)
-> +		ttm_resource_cursor_clear_bulk(cursor);
->
- +}
-> +
->  /**
->   * ttm_resource_cursor_fini_locked() - Finalize the LRU list cursor usage
->   * @cursor: The struct ttm_resource_cursor to finalize.
-> @@ -44,6 +87,7 @@ void ttm_resource_cursor_fini_locked(struct ttm_resource_cursor *cursor)
->  {
->  	lockdep_assert_held(&cursor->man->bdev->lru_lock);
->  	list_del_init(&cursor->hitch.link);
-> +	ttm_resource_cursor_clear_bulk(cursor);
->  }
->  
->  /**
-> @@ -72,9 +116,27 @@ void ttm_resource_cursor_fini(struct ttm_resource_cursor *cursor)
->  void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk)
->  {
->  	memset(bulk, 0, sizeof(*bulk));
-> +	INIT_LIST_HEAD(&bulk->cursor_list);
->  }
->  EXPORT_SYMBOL(ttm_lru_bulk_move_init);
->  
 > +/**
-> + * ttm_lru_bulk_move_fini - finalize a bulk move structure
-> + * @bdev: The struct ttm_device
-> + * @bulk: the structure to finalize
+> + * ttm_resource_cursor_fini_locked() - Finalize the LRU list cursor usage
+> + * @cursor: The struct ttm_resource_cursor to finalize.
 > + *
-> + * Sanity checks that bulk moves don't have any
-> + * resources left and hence no cursors attached.
-
-I don't really see a sanity check here.
-
-Wouldn't the sanity check be list_empty(&bulk->cursor_list)? Also pos == 0?
-
+> + * The function pulls the LRU list cursor off any lists it was previusly
+> + * attached to. Needs to be called with the LRU lock held. The function
+> + * can be called multiple times after eachother.
 > + */
-> +void ttm_lru_bulk_move_fini(struct ttm_device *bdev,
-> +			    struct ttm_lru_bulk_move *bulk)
+> +void ttm_resource_cursor_fini_locked(struct ttm_resource_cursor *cursor)
 > +{
-> +	spin_lock(&bdev->lru_lock);
-> +	ttm_bulk_move_drop_cursors(bulk);
-> +	spin_unlock(&bdev->lru_lock);
+> +	lockdep_assert_held(&cursor->man->bdev->lru_lock);
+> +	list_del_init(&cursor->hitch.link);
 > +}
-> +EXPORT_SYMBOL(ttm_lru_bulk_move_fini);
+> +
+> +/**
+> + * ttm_resource_cursor_fini() - Finalize the LRU list cursor usage
+> + * @cursor: The struct ttm_resource_cursor to finalize.
+> + *
+> + * The function pulls the LRU list cursor off any lists it was previusly
+> + * attached to. Needs to be called without the LRU list lock held. The
+> + * function can be called multiple times after eachother.
+> + */
+> +void ttm_resource_cursor_fini(struct ttm_resource_cursor *cursor)
+> +{
+> +	spinlock_t *lru_lock = &cursor->man->bdev->lru_lock;
+> +
+> +	spin_lock(lru_lock);
+> +	ttm_resource_cursor_fini_locked(cursor);
+> +	spin_unlock(lru_lock);
+> +}
 > +
 >  /**
->   * ttm_lru_bulk_move_tail - bulk move range of resources to the LRU tail.
->   *
-> @@ -87,6 +149,7 @@ void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk)
->  {
->  	unsigned i, j;
->  
-> +	ttm_bulk_move_adjust_cursors(bulk);
->  	for (i = 0; i < TTM_NUM_MEM_TYPES; ++i) {
->  		for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
->  			struct ttm_lru_bulk_move_pos *pos = &bulk->pos[i][j];
-> @@ -418,6 +481,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
->  	man->bdev = bdev;
->  	man->size = size;
->  	man->usage = 0;
-> +	man->mem_type = TTM_NUM_MEM_TYPES;
->  
->  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
->  		INIT_LIST_HEAD(&man->lru[i]);
-> @@ -514,6 +578,29 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
->  }
+>   * ttm_lru_bulk_move_init - initialize a bulk move structure
+>   * @bulk: the structure to init
+> @@ -484,61 +515,62 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
 >  EXPORT_SYMBOL(ttm_resource_manager_debug);
 >  
-> +static void
-> +ttm_resource_cursor_check_bulk(struct ttm_resource_cursor *cursor,
-> +			       struct ttm_lru_item *next_lru)
-> +{
-> +	struct ttm_resource *next = ttm_lru_item_to_res(next_lru);
-> +	struct ttm_lru_bulk_move *bulk = NULL;
-> +	struct ttm_buffer_object *bo = next->bo;
-> +
-> +	lockdep_assert_held(&cursor->man->bdev->lru_lock);
-> +	if (bo && bo->resource == next)
-> +		bulk = bo->bulk_move;
-> +
-> +	if (cursor->bulk != bulk) {
-> +		if (bulk) {
-> +			list_move_tail(&cursor->bulk_link, &bulk->cursor_list);
-> +			cursor->mem_type = next->mem_type;
-> +		} else {
-> +			list_del_init(&cursor->bulk_link);
-> +		}
-> +		cursor->bulk = bulk;
-> +	}
-> +}
-> +
 >  /**
->   * ttm_resource_manager_first() - Start iterating over the resources
->   * of a resource manager
-> @@ -534,6 +621,7 @@ ttm_resource_manager_first(struct ttm_resource_manager *man,
->  	cursor->priority = 0;
->  	cursor->man = man;
->  	ttm_lru_item_init(&cursor->hitch, TTM_LRU_HITCH);
-> +	INIT_LIST_HEAD(&cursor->bulk_link);
->  	list_add(&cursor->hitch.link, &man->lru[cursor->priority]);
+> - * ttm_resource_manager_first
+> - *
+> + * ttm_resource_manager_first() - Start iterating over the resources
+> + * of a resource manager
+>   * @man: resource manager to iterate over
+>   * @cursor: cursor to record the position
+>   *
+> - * Returns the first resource from the resource manager.
+> + * Initializes the cursor and starts iterating. When done iterating,
+> + * the caller must explicitly call ttm_resource_cursor_fini().
+> + *
+> + * Return: The first resource from the resource manager.
+>   */
+>  struct ttm_resource *
+>  ttm_resource_manager_first(struct ttm_resource_manager *man,
+>  			   struct ttm_resource_cursor *cursor)
+>  {
+> -	struct ttm_lru_item *lru;
+> -
+>  	lockdep_assert_held(&man->bdev->lru_lock);
 >  
->  	return ttm_resource_manager_next(cursor);
-> @@ -558,6 +646,7 @@ ttm_resource_manager_next(struct ttm_resource_cursor *cursor)
->  		lru = &cursor->hitch;
->  		list_for_each_entry_continue(lru, &man->lru[cursor->priority], link) {
->  			if (ttm_lru_item_is_res(lru)) {
-> +				ttm_resource_cursor_check_bulk(cursor, lru);
->  				list_move(&cursor->hitch.link, &lru->link);
->  				return ttm_lru_item_to_res(lru);
->  			}
-> @@ -567,9 +656,10 @@ ttm_resource_manager_next(struct ttm_resource_cursor *cursor)
->  			break;
+> -	for (cursor->priority = 0; cursor->priority < TTM_MAX_BO_PRIORITY;
+> -	     ++cursor->priority)
+> -		list_for_each_entry(lru, &man->lru[cursor->priority], link) {
+> -			if (ttm_lru_item_is_res(lru))
+> -				return ttm_lru_item_to_res(lru);
+> -		}
+> +	cursor->priority = 0;
+> +	cursor->man = man;
+> +	ttm_lru_item_init(&cursor->hitch, TTM_LRU_HITCH);
+> +	list_add(&cursor->hitch.link, &man->lru[cursor->priority]);
 >  
->  		list_move(&cursor->hitch.link, &man->lru[cursor->priority]);
-> +		ttm_resource_cursor_clear_bulk(cursor);
->  	} while (true);
+> -	return NULL;
+> +	return ttm_resource_manager_next(cursor);
+>  }
 >  
-> -	list_del_init(&cursor->hitch.link);
-> +	ttm_resource_cursor_fini_locked(cursor);
+>  /**
+> - * ttm_resource_manager_next
+> - *
+> - * @man: resource manager to iterate over
+> + * ttm_resource_manager_next() - Continue iterating over the resource manager
+> + * resources
+>   * @cursor: cursor to record the position
+> - * @res: the current resource pointer
+>   *
+> - * Returns the next resource from the resource manager.
+> + * Return: The next resource from the resource manager.
+>   */
+>  struct ttm_resource *
+> -ttm_resource_manager_next(struct ttm_resource_manager *man,
+> -			  struct ttm_resource_cursor *cursor,
+> -			  struct ttm_resource *res)
+> +ttm_resource_manager_next(struct ttm_resource_cursor *cursor)
+>  {
+> -	struct ttm_lru_item *lru = &res->lru;
+> +	struct ttm_resource_manager *man = cursor->man;
+> +	struct ttm_lru_item *lru;
+>  
+>  	lockdep_assert_held(&man->bdev->lru_lock);
+>  
+> -	list_for_each_entry_continue(lru, &man->lru[cursor->priority], link) {
+> -		if (ttm_lru_item_is_res(lru))
+> -			return ttm_lru_item_to_res(lru);
+> -	}
+> -
+> -	for (++cursor->priority; cursor->priority < TTM_MAX_BO_PRIORITY;
+> -	     ++cursor->priority)
+> -		list_for_each_entry(lru, &man->lru[cursor->priority], link) {
+> -			if (ttm_lru_item_is_res(lru))
+> -				ttm_lru_item_to_res(lru);
+> +	do {
+> +		lru = &cursor->hitch;
+> +		list_for_each_entry_continue(lru, &man->lru[cursor->priority], link) {
+> +			if (ttm_lru_item_is_res(lru)) {
+> +				list_move(&cursor->hitch.link, &lru->link);
+> +				return ttm_lru_item_to_res(lru);
+> +			}
+>  		}
+>  
+> +		if (++cursor->priority >= TTM_MAX_BO_PRIORITY)
+> +			break;
+> +
+> +		list_move(&cursor->hitch.link, &man->lru[cursor->priority]);
+> +	} while (true);
+> +
+> +	list_del_init(&cursor->hitch.link);
 
-Nit: A patch eariler in the series which introduces this code should
-probably just ttm_resource_cursor_fini_locked.
+As mentioned in patch #3, probably use ttm_resource_cursor_fini_locked here.
+
+Have an open pacth #1 too related this patch but this does look sane.
 
 Matt
 
->  
->  	return NULL;
->  }
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index 2dbba55e7785..45e1975eed26 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -1262,6 +1262,8 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags)
->  
->  	INIT_WORK(&vm->destroy_work, vm_destroy_work_func);
->  
-> +	ttm_lru_bulk_move_init(&vm->lru_bulk_move);
 > +
->  	INIT_LIST_HEAD(&vm->preempt.exec_queues);
->  	vm->preempt.min_run_period_ms = 10;	/* FIXME: Wire up to uAPI */
->  
-> @@ -1379,6 +1381,7 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags)
->  	mutex_destroy(&vm->snap_mutex);
->  	for_each_tile(tile, xe, id)
->  		xe_range_fence_tree_fini(&vm->rftree[id]);
-> +	ttm_lru_bulk_move_fini(&xe->ttm, &vm->lru_bulk_move);
->  	kfree(vm);
->  	if (!(flags & XE_VM_FLAG_MIGRATION))
->  		xe_device_mem_access_put(xe);
-> @@ -1518,6 +1521,7 @@ static void vm_destroy_work_func(struct work_struct *w)
->  		XE_WARN_ON(vm->pt_root[id]);
->  
->  	trace_xe_vm_free(vm);
-> +	ttm_lru_bulk_move_fini(&xe->ttm, &vm->lru_bulk_move);
->  	kfree(vm);
+>  	return NULL;
 >  }
 >  
 > diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-> index dfc01258c981..ed09b49a001e 100644
+> index 4babc4ff10b0..dfc01258c981 100644
 > --- a/include/drm/ttm/ttm_resource.h
 > +++ b/include/drm/ttm/ttm_resource.h
-> @@ -211,6 +211,9 @@ struct ttm_resource_manager {
->  	 * bdev->lru_lock.
->  	 */
->  	uint64_t usage;
-> +
-> +	/** @mem_type: The memory type used for this manager. */
-> +	unsigned int mem_type;
->  };
+> @@ -271,15 +271,23 @@ ttm_lru_item_to_res(struct ttm_lru_item *item)
 >  
 >  /**
-> @@ -269,25 +272,6 @@ ttm_lru_item_to_res(struct ttm_lru_item *item)
->  	return container_of(item, struct ttm_resource, lru);
->  }
->  
-> -/**
-> - * struct ttm_resource_cursor
-> - * @man: The resource manager currently being iterated over
-> - * @hitch: A hitch list node inserted before the next resource
-> - * to iterate over.
-> - * @priority: the current priority
+>   * struct ttm_resource_cursor
 > - *
-> - * Cursor to iterate over the resources in a manager.
-> - */
-> -struct ttm_resource_cursor {
-> -	struct ttm_resource_manager *man;
-> -	struct ttm_lru_item hitch;
-> -	unsigned int priority;
-> -};
-> -
-> -void ttm_resource_cursor_fini_locked(struct ttm_resource_cursor *cursor);
-> -
-> -void ttm_resource_cursor_fini(struct ttm_resource_cursor *cursor);
-> -
->  /**
->   * struct ttm_lru_bulk_move_pos
->   *
-> @@ -303,8 +287,9 @@ struct ttm_lru_bulk_move_pos {
->  
->  /**
->   * struct ttm_lru_bulk_move
-> - *
->   * @pos: first/last lru entry for resources in the each domain/priority
-> + * @cursor_list: The list of cursors currently traversing any of
-> + * the sublists of @pos. Protected by the ttm device's lru_lock.
->   *
->   * Container for the current bulk move state. Should be used with
->   * ttm_lru_bulk_move_init() and ttm_bo_set_bulk_move().
-> @@ -314,8 +299,39 @@ struct ttm_lru_bulk_move_pos {
->   */
->  struct ttm_lru_bulk_move {
->  	struct ttm_lru_bulk_move_pos pos[TTM_NUM_MEM_TYPES][TTM_MAX_BO_PRIORITY];
-> +	struct list_head cursor_list;
-> +};
-> +
-> +/**
-> + * struct ttm_resource_cursor
 > + * @man: The resource manager currently being iterated over
 > + * @hitch: A hitch list node inserted before the next resource
 > + * to iterate over.
-> + * @bulk_link: A list link for the list of cursors traversing the
-> + * bulk sublist of @bulk. Protected by the ttm device's lru_lock.
-> + * @bulk: Pointer to struct ttm_lru_bulk_move whose subrange @hitch is
-> + * inserted to. NULL if none. Never dereference this pointer since
-> + * the struct ttm_lru_bulk_move object pointed to might have been
-> + * freed. The pointer is only for comparison.
-> + * @mem_type: The memory type of the LRU list being traversed.
-> + * This field is valid iff @bulk != NULL.
-> + * @priority: the current priority
-> + *
-> + * Cursor to iterate over the resources in a manager.
-> + */
-> +struct ttm_resource_cursor {
+>   * @priority: the current priority
+>   *
+>   * Cursor to iterate over the resources in a manager.
+>   */
+>  struct ttm_resource_cursor {
 > +	struct ttm_resource_manager *man;
 > +	struct ttm_lru_item hitch;
-> +	struct list_head bulk_link;
-> +	struct ttm_lru_bulk_move *bulk;
-> +	unsigned int mem_type;
-> +	unsigned int priority;
+>  	unsigned int priority;
 >  };
 >  
 > +void ttm_resource_cursor_fini_locked(struct ttm_resource_cursor *cursor);
@@ -536,17 +422,28 @@ Matt
 > +void ttm_resource_cursor_fini(struct ttm_resource_cursor *cursor);
 > +
 >  /**
->   * struct ttm_kmap_iter_iomap - Specialization for a struct io_mapping +
->   * struct sg_table backed struct ttm_resource.
-> @@ -404,6 +420,8 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+>   * struct ttm_lru_bulk_move_pos
+>   *
+> @@ -438,9 +446,7 @@ struct ttm_resource *
+>  ttm_resource_manager_first(struct ttm_resource_manager *man,
+>  			   struct ttm_resource_cursor *cursor);
+>  struct ttm_resource *
+> -ttm_resource_manager_next(struct ttm_resource_manager *man,
+> -			  struct ttm_resource_cursor *cursor,
+> -			  struct ttm_resource *res);
+> +ttm_resource_manager_next(struct ttm_resource_cursor *cursor);
 >  
->  void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk);
->  void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk);
-> +void ttm_lru_bulk_move_fini(struct ttm_device *bdev,
-> +			    struct ttm_lru_bulk_move *bulk);
+>  /**
+>   * ttm_resource_manager_for_each_res - iterate over all resources
+> @@ -452,7 +458,7 @@ ttm_resource_manager_next(struct ttm_resource_manager *man,
+>   */
+>  #define ttm_resource_manager_for_each_res(man, cursor, res)		\
+>  	for (res = ttm_resource_manager_first(man, cursor); res;	\
+> -	     res = ttm_resource_manager_next(man, cursor, res))
+> +	     res = ttm_resource_manager_next(cursor))
 >  
->  void ttm_resource_add_bulk_move(struct ttm_resource *res,
->  				struct ttm_buffer_object *bo);
+>  struct ttm_kmap_iter *
+>  ttm_kmap_iter_iomap_init(struct ttm_kmap_iter_iomap *iter_io,
 > -- 
 > 2.44.0
 > 
