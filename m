@@ -2,79 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB09B8B3B95
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 17:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537E18B3BB6
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 17:36:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F365810F11F;
-	Fri, 26 Apr 2024 15:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57EA31124C5;
+	Fri, 26 Apr 2024 15:36:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="exVXzt/A";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="YMSPQWTO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80B4E10F11F
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 15:32:34 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-57232e47a81so3897328a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 08:32:34 -0700 (PDT)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
+ [209.85.167.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0023A1124C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 15:35:48 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id
+ 5614622812f47-3bbbc6b4ed1so1432873b6e.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 08:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714145552; x=1714750352; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=sJXC/5vAoOZwUtcvINfBAZrBvMOr+O+V8uNP31uYJMs=;
- b=exVXzt/AbqjUoLLfLXLOP+bDhrLcigGJPJY5V6M3K+iX+qXDWc+hJPtZlqkOSS1bGV
- A/ZxoQzjlRwt9vjNMgoCOmuLrQH2K5rLZEAXjZ1VvQv/0G3ir5H88SLaouB3Lc/jxkBK
- z1aLtDlKqeOwqvWD++VDjEaKvMYJyQZM69V8YMZBjn0ITmZ4SuB9YKgyzO9QGxcWu905
- aOULcO5tZasu5rlV01V9cpbpQo4R8tuEbC7xTlj5xHOeoX5Rh22Sr+u+M9zKKyJXNk8c
- d5uOF5LZCCvboKtq5jhN6K0U8np28R5LURynM67Fl+UPJnabAWQ1VuOv8rsSmB/TiEVd
- XvQg==
+ d=chromium.org; s=google; t=1714145743; x=1714750543;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y3tPCtKmB8e7QI9Lq/uJ6hWU4RympZM66D1lrj8aR8o=;
+ b=YMSPQWTOdB/UT+wn2hI6s9S3rnfW2JOz3kiWXwjYaKbX6ezDeB5MK3xDeZM9nMRJDw
+ szCIM/F0Nzi7Pv/HGqHLHkWF8lzBaB4NzDvulXiXX6R0FpUSzp6kyeWL2OCP7W0NBWKt
+ 9esSs3v4Fjm8hOiykYxJW3hr7Lc0Wwg9SvYtE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714145552; x=1714750352;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1714145743; x=1714750543;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sJXC/5vAoOZwUtcvINfBAZrBvMOr+O+V8uNP31uYJMs=;
- b=fwA/QTxBEN0JpoHvsi3PoqxYj5Nw9HCw1sB0rtQ858tC94zoE4v9xYz8elGGjISOvw
- c5mdlmOSOoV+XFc8Ma2SSoeRB1fATfIMJHTkUMZ04faiKnx4dC1bPBuKYo9mFsb5ZCZ0
- rRD+ylAmE6c/6GSJNqgcOEbmDDBQ8b8+vkuYjrTqFfUImGBKAHRCMrEAI4fjnQZSIdOL
- YOIPqziuqLhwYSNnd2Wb4fOk23tvXH0C6V/uP7Jc+hZwEULiT2vjAbGdXVZPIdPJmYWE
- IfL/Vmhdmj3pJb4ft9sJhfK1lxC4bGnEzK8Kt13QhKssPbCfbQ3V/Rnjne6NyhEzbS4h
- xDiA==
+ bh=y3tPCtKmB8e7QI9Lq/uJ6hWU4RympZM66D1lrj8aR8o=;
+ b=RXqLxLcbHk34vA5WYVjenMQIVOcpfEbhO7sxayepzcMoXpdFEI9JiRRkjKDI+q/8qn
+ 3OWqL6+LW6AnwJSsxx8bHTl14Cyk8ko3UyVOeutjGv7BX4uGmMhDGE8aNIm9iOe77sPp
+ q922MW139K2DvySX141gpQZFke2KTTML/06WaIareB82nKMcEQmURWpdIxojS9fvyKzo
+ GgqjQsu7FZMglWvX7k1Tu8H1mfXzAlc/qvMHYLj4qIV0R6qVxJRGFaViieHBQxjFNCQE
+ GWDniNw6qCc1u5IE4mfu0Rr/e7fxK/6MGt+you9gQ/DdbI40h9uv/2bwqyrqWaIbrCyY
+ ImJA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWvWkL3/haryIAeAIXDWUmQPifI7501VezPyogiHjFaB5wSVAWrTzzg/xRxsXTJk+2ImHVnjocJKSpw1RYGBMs8GHYq2NnCWFwiM/9TYe9Q
-X-Gm-Message-State: AOJu0YylJuFYfSPwYPCZfvbOAFaqI3iPR31Lo9oB3IWNx8rPqR1kkYWx
- NTeSe+sgxr3uJRYGdxNVrSKY6oINlWRYUy+k6TMrYsryUl2N4XKH
-X-Google-Smtp-Source: AGHT+IHULtZbR/4hjUfKh64G2f3BnxFRCTlvgkv414w4u51Jyt7pp+dglbscvZM5LOhe9A6qttVJLA==
-X-Received: by 2002:a50:d6c9:0:b0:572:3b3c:754f with SMTP id
- l9-20020a50d6c9000000b005723b3c754fmr2680979edj.4.1714145552381; 
- Fri, 26 Apr 2024 08:32:32 -0700 (PDT)
-Received: from localhost
- (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- y43-20020a50bb2e000000b0057000a2cb5bsm10542044ede.18.2024.04.26.08.32.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Apr 2024 08:32:32 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: herbert@gondor.apana.org.au, davem@davemloft.net, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- thierry.reding@gmail.com, jonathanh@nvidia.com, catalin.marinas@arm.com,
- will@kernel.org, mperttunen@nvidia.com, airlied@gmail.com, daniel@ffwll.ch,
- linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Akhil R <akhilrajeev@nvidia.com>
-Subject: Re: (subset) [PATCH v7 0/5] Add Tegra Security Engine driver
-Date: Fri, 26 Apr 2024 17:32:30 +0200
-Message-ID: <171414552137.2298337.4837480787385115790.b4-ty@nvidia.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240403100039.33146-1-akhilrajeev@nvidia.com>
-References: <20240403100039.33146-1-akhilrajeev@nvidia.com>
+ AJvYcCWZXraUUxWy1V32lxYrPtgR2DHY9Lgu1cKGwXerMDC9WrfaI4PmBEMXmOmieafxfHVY2wtH2fIIvj/Qk+Rt6ktM1HrmigKKTCkpC/KX7vCU
+X-Gm-Message-State: AOJu0YzrWGaBTT7ul8nJ+6WG31gh2qPnGj+KL3rAU2WXTYMt+TBSNz2+
+ uBSvw4wlFqVln2yqdIeJwTMsPBWe5h6UefS6bM80+9gDZfxrVgVyO7I7jpyV5p4WKiyHTpTDYxo
+ =
+X-Google-Smtp-Source: AGHT+IESl4deNB+MihHZwMIHFOasSArpa4S9gl4Q+byN70mYfAIgZN0je0sG/dRxAJh/mRzAzmxd6g==
+X-Received: by 2002:a05:6808:f06:b0:3c6:6ba:c3a1 with SMTP id
+ m6-20020a0568080f0600b003c606bac3a1mr3849999oiw.54.1714145743025; 
+ Fri, 26 Apr 2024 08:35:43 -0700 (PDT)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com.
+ [209.85.160.174]) by smtp.gmail.com with ESMTPSA id
+ l22-20020a05620a0c1600b007907ef72e1dsm3724222qki.36.2024.04.26.08.35.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Apr 2024 08:35:40 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id
+ d75a77b69052e-434ffc2b520so195791cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 08:35:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVanl6lpglV50iZHgFLFnsvPY0768++GX5jjmOAtXm5C1GMruqa4yrowfJj3wivZlSL62nrZehQcMbj3KgrbrhswjgW3roVaroRZ5iA/MMH
+X-Received: by 2002:ac8:6895:0:b0:437:7a02:d66c with SMTP id
+ m21-20020ac86895000000b004377a02d66cmr225822qtq.25.1714145739600; Fri, 26 Apr
+ 2024 08:35:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20240424172017.1.Id15fae80582bc74a0d4f1338987fa375738f45b9@changeid>
+ <87pludq2g0.fsf@intel.com>
+ <CAD=FV=W+Pcr+voBkcfeE_UC+ukN_hLXgoqMk0watROWRXe_2dg@mail.gmail.com>
+ <beqsovvdkvn63prt3c6b3epb6tachff35vpaf62dfkwof7kwht@u3p7bkv7owro>
+In-Reply-To: <beqsovvdkvn63prt3c6b3epb6tachff35vpaf62dfkwof7kwht@u3p7bkv7owro>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 26 Apr 2024 08:35:24 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WxYoFYefdZ4PQ=QF5aHpeWoC3qM1b5d2vf_qBH90ZMQw@mail.gmail.com>
+Message-ID: <CAD=FV=WxYoFYefdZ4PQ=QF5aHpeWoC3qM1b5d2vf_qBH90ZMQw@mail.gmail.com>
+Subject: Re: [PATCH] drm/mipi-dsi: Reduce driver bloat of
+ mipi_dsi_*_write_seq()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, linus.walleij@linaro.org, 
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>, 
+ lvzhaoxiong@huaqin.corp-partner.google.com, Hsin-Yi Wang <hsinyi@google.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,26 +104,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+Hi,
 
+On Thu, Apr 25, 2024 at 8:03=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Thu, Apr 25, 2024 at 10:04:49AM -0700, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Thu, Apr 25, 2024 at 1:19=E2=80=AFAM Jani Nikula <jani.nikula@linux.=
+intel.com> wrote:
+> > >
+> > > > @@ -279,6 +281,8 @@ enum mipi_dsi_dcs_tear_mode {
+> > > >
+> > > >  ssize_t mipi_dsi_dcs_write_buffer(struct mipi_dsi_device *dsi,
+> > > >                                 const void *data, size_t len);
+> > > > +ssize_t mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *d=
+si,
+> > > > +                                      const void *data, size_t len=
+);
+> > > >  ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *dsi, u8 cmd,
+> > > >                          const void *data, size_t len);
+> > > >  ssize_t mipi_dsi_dcs_read(struct mipi_dsi_device *dsi, u8 cmd, voi=
+d *data,
+> > > > @@ -317,14 +321,10 @@ int mipi_dsi_dcs_get_display_brightness_large=
+(struct mipi_dsi_device *dsi,
+> > > >  #define mipi_dsi_generic_write_seq(dsi, seq...)                   =
+             \
+> > > >       do {                                                         =
+          \
+> > > >               static const u8 d[] =3D { seq };                     =
+            \
+> > > > -             struct device *dev =3D &dsi->dev;                    =
+            \
+> > > >               int ret;                                             =
+          \
+> > > > -             ret =3D mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d))=
+;           \
+> > > > -             if (ret < 0) {                                       =
+          \
+> > > > -                     dev_err_ratelimited(dev, "transmit data faile=
+d: %d\n", \
+> > > > -                                         ret);                    =
+          \
+> > > > +             ret =3D mipi_dsi_generic_write_chatty(dsi, d, ARRAY_S=
+IZE(d));    \
+> > > > +             if (ret < 0)                                         =
+          \
+> > > >                       return ret;                                  =
+          \
+> > > > -             }                                                    =
+          \
+> > > >       } while (0)
+>
+>
+> Reading the thread makes me wonder whether we should be going into
+> slightly other direction:
+>
+> Add __must_check() to mipi_dsi_ writing functions,
+>
+> #define mipi_dsi_dcs_whatever_write(dsi, cmd, seq...)   \
+>         ({                                              \
+>                 static const u8 d[] =3D { cmd, seq };     \
+>                 mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));    \
+>         })
+>
+> Then in panel drivers we actually have to explicitly handle the return
+> code (either by dropping to the error label or by just returning an
+> error).
 
-On Wed, 03 Apr 2024 15:30:34 +0530, Akhil R wrote:
-> Add support for Tegra Security Engine which can accelerates various
-> crypto algorithms. The Engine has two separate instances within for
-> AES and HASH algorithms respectively.
-> 
-> The driver registers two crypto engines - one for AES and another for
-> HASH algorithms and these operate independently and both uses the host1x
-> bus. Additionally, it provides  hardware-assisted key protection for up to
-> 15 symmetric keys which it can use for the cipher operations.
-> 
-> [...]
+Given the sheer number of init commands needed by some panels (see
+j606f_boe_init_sequence() for instance) I'm still convinced that we
+want something that allows people to write their init code in a way
+that's not quite so verbose. It sounds as if Jani is OK w/ the
+proposal of using the "accumulated return value" (proposal #2 I had).
+I'm hoping you're OK w/ that too...
 
-Applied, thanks!
-
-[4/5] arm64: defconfig: Enable Tegra Security Engine
-      commit: 4d4d3fe6b3cc2a0b2a334a08bb9c64ba1dcbbea4
-
-Best regards,
--- 
-Thierry Reding <treding@nvidia.com>
+-Doug
