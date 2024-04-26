@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33EAB8B3D43
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 18:55:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1538B3D96
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 19:06:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 345201124FA;
-	Fri, 26 Apr 2024 16:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8330A112510;
+	Fri, 26 Apr 2024 17:06:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.b="MoHD/9VX";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="UoBFHtU2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bzEUC8Cf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
- (mailrelay5-1.pub.mailoutpod2-cph3.one.com [46.30.211.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7BE41124FF
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 16:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=QtZJ+LaGtIZ9ah30lpFZvZR00WRRy58GXdQC7OFQJvU=;
- b=MoHD/9VXVJdzxrnQFpHynPdxGTbT/vbJiwcQ89Bth3NPZNEnworXAklQwsjFYCyV06ASHH9qeeBjc
- L1yHijxar53c9gWDEWhiyzlrk8Fm9LY7eM3kOKvNK8ZhXUEjAkdWnMt4lYS/JdIhZLaeNP3TkhtVg2
- 8XkKHKrqIuXItkQ3X6016KOeHFYI+XBcHXTmcSPHKEpi26K5TVVjw3umF3oZtHjwtToDYOrkUjjI4W
- R8Ht9IhvfH8wj5M/93zD2v22VXMWcZyQDrFKAwYwcHEvhXS6o0Psk3n9atX642heDucQFCr3K7duxP
- RZNLCCIJtIbEpc/d+6ftbiLoheAS0wA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=QtZJ+LaGtIZ9ah30lpFZvZR00WRRy58GXdQC7OFQJvU=;
- b=UoBFHtU2GhTQiRAYO19X9G1fRST8HcVcM02AGyrOgGn6HCCRO212CV3fr67lyIksMV2Fwh6mjubCq
- gYCnLc5Cg==
-X-HalOne-ID: 91560707-03ed-11ef-827c-edf132814434
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay5.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
- id 91560707-03ed-11ef-827c-edf132814434;
- Fri, 26 Apr 2024 16:53:57 +0000 (UTC)
-Date: Fri, 26 Apr 2024 18:53:55 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Andreas Larsson <andreas@gaisler.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Arnd Bergmann <arnd@kernel.org>, Helge Deller <deller@gmx.de>,
- Randy Dunlap <rdunlap@infradead.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Kjetil Oftedal <oftedal@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 00/28] sparc32: sunset sun4m and sun4d
-Message-ID: <20240426165355.GA1092388@ravnborg.org>
-References: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
- <20240423180216.GA906720@ravnborg.org>
- <7749e9f4-2540-4618-8689-b6bb757f9cd0@gaisler.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCE4112510
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 17:06:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id CDB7ECE1C9F;
+ Fri, 26 Apr 2024 17:06:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FAEDC116B1;
+ Fri, 26 Apr 2024 17:06:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1714151190;
+ bh=PUvdK8u/2qpExymDyazsbUcMYN5noyr63G0MyAIPnt8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bzEUC8CfAGruTab+Ero+oPa2C4hcsEfY5Y14Ue4PVxzfaP3qcYo430Qs8xnewvQvt
+ qivIEQPZ0zU2mAosG7clQ4wSitDZnHqfDHB6DIly77EgD/va7P8HgnzS1d5cZ1idg3
+ 0i4mhil3cBDrFHnaZMtyuon85lc92QQQanngzusp2iqraWLlJhFs/FWHPlWMBwMpCE
+ YjiPxj4cW7+VZ/Fas0Wc1gfaW/tJnnG00zvuJhI91GSH5JNaTJhar4MkE9wP9J1MuQ
+ nYqPO/E6zTWFiDiX7+0n2FqKdkpf1wnaW+aXuIAwE8l1jdIlrW4G1mqeeFL218FKOR
+ v+QnG5TKIREfQ==
+Date: Fri, 26 Apr 2024 18:06:25 +0100
+From: Conor Dooley <conor@kernel.org>
+To: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@chromium.org, linus.walleij@linaro.org,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+ conor+dt@kernel.org, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
+Subject: Re: [PATCH v3 1/7] dt-bindings: display: panel: Add himax hx83102
+ panel bindings
+Message-ID: <20240426-fifteen-random-ff4a535ab40d@spud>
+References: <20240424023010.2099949-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240424023010.2099949-2-yangcong5@huaqin.corp-partner.google.com>
+ <20240424-spelling-float-9b881cb80992@spud>
+ <CAHwB_NLb9ENfCj-oJ2mV_DwFJ0h6TGSi1byUdd6Bri3gDsCo5Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KG4VLxjx13klv+v0"
 Content-Disposition: inline
-In-Reply-To: <7749e9f4-2540-4618-8689-b6bb757f9cd0@gaisler.com>
+In-Reply-To: <CAHwB_NLb9ENfCj-oJ2mV_DwFJ0h6TGSi1byUdd6Bri3gDsCo5Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,53 +66,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andreas.
 
-On Fri, Apr 26, 2024 at 06:31:12PM +0200, Andreas Larsson wrote:
-> On 2024-04-23 20:02, Sam Ravnborg wrote:
-> > Please let me know if you expect me to rebase this on for-next.
-> > I have not yet tried if there are merge conflicts but can take a look in
-> > a some days if required.
-> 
-> My local testing branch for this patchset rebased with trivial fixups,
-> so no immediate rebase and resubmission is needed. I do run into some
-> strange problems on SMP with this patchset plus your CAS patchset, that
-> I do not get when I rebase the Linux patches from our kernel release
-> that has my CAS patchset. With no CAS at all these things fails even
-> worse, so do I need one or the other for these tests.
-:-(
+--KG4VLxjx13klv+v0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> I will need to dig deeper into figuring out the problems seems to be due
-> to something in any of your two patchsets in themselves or if it is
-> something else. I do need some additional fixes from our kernel release
-> for SMP to work properly, so it could also be that there is something
-> with my combination of your patches and my patches adapted on top of
-> yours.
-> 
-> There are also some needed fixes for LEON that relies upon code removed
-> in this patchset. Maybe the best solution for that would be if I submit
-> those and you then rebase upon them.
-If you can make LEON stable before starting the code removal that would
-be the best way forward. Then it should be easier to identify when
-the removal patches breaks things.
+On Thu, Apr 25, 2024 at 02:03:24PM +0800, cong yang wrote:
+> Conor Dooley <conor@kernel.org> =E4=BA=8E2024=E5=B9=B44=E6=9C=8825=E6=97=
+=A5=E5=91=A8=E5=9B=9B 00:55=E5=86=99=E9=81=93=EF=BC=9A
+> > On Wed, Apr 24, 2024 at 10:30:04AM +0800, Cong Yang wrote:
 
-With all the surgery I had to do to remove stuff it would have been a
-big surprise if it just worked - so it goes as expected. qemu only
-verify so much - the real target (and SMP) is way better.
+> > > +++ b/Documentation/devicetree/bindings/display/panel/himax,hx83102.y=
+aml
+> >
+> > Filename matching a compatible please. What you've done here makes it
+> > seem like there's a fallback compatible missing, given this looks like
+> > the LCD panel controller and the starry compatible below is an LCD pane=
+l.
+>=20
+> So change the filename to starry,himax83102-j02.yaml?
 
-> > That is assuming you agree with the sunset of the sun platforms...
-> 
-> I do agree with the idea in general, but being busy with other things I
-> have had little time to dig into this lately.
+IDK chief, are you missing a fallback or not?
 
-If this round could be used to stabilize LEON and apply other more
-trivial stuff, then I am happy to rebase the "sunset" patchset sometimes
-after next -rc1.
+>=20
+> >
+> > > @@ -0,0 +1,73 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/panel/himax,hx83102.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Himax HX83102 MIPI-DSI LCD panel controller
 
-I have accumulated a bit more on top of what I already posted, and I
-will include a few more patches in the next round.
+Because the title here makes it seem like there should be.
 
-In other words - take your time!
+> > > +maintainers:
+> > > +  - Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > > +
+> > > +allOf:
+> > > +  - $ref: panel-common.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +        # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
+> > > +      - starry,himax83102-j02
+> > > +
+> > > +  reg:
+> > > +    description: the virtual channel number of a DSI peripheral
+> > > +
+> > > +  enable-gpios:
+> > > +    description: a GPIO spec for the enable pin
+> > > +
+> > > +  pp1800-supply:
+> > > +    description: core voltage supply
+> > > +
+> > > +  avdd-supply:
+> > > +    description: phandle of the regulator that provides positive vol=
+tage
+> > > +
+> > > +  avee-supply:
+> > > +    description: phandle of the regulator that provides negative vol=
+tage
+> > > +
+> > > +  backlight:
+> > > +    description: phandle of the backlight device attached to the pan=
+el
+> >
+> > I'm not sure why this was given a description when port or rotation
+> > was not.
+>=20
+> So change it to backlight: true ?
 
-	Sam
+Sure? It is just a repeat of something already described in
+panel-common.
+
+--KG4VLxjx13klv+v0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZivfEQAKCRB4tDGHoIJi
+0ovXAQDGJnOsSMKJRaP2aIy/+907+rwA/s57l0E2Q/EA3qWPMAD6Aj4ASUzuPYHm
+GRj7CsG1KnQPHUX0R43Qysud1+OLcQ4=
+=hib7
+-----END PGP SIGNATURE-----
+
+--KG4VLxjx13klv+v0--
