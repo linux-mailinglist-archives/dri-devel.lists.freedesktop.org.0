@@ -2,147 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674228B3A44
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 16:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D7C8B3A5F
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Apr 2024 16:49:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2AD110F068;
-	Fri, 26 Apr 2024 14:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF05710F0E3;
+	Fri, 26 Apr 2024 14:49:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="SLN2wKnP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lgw5LlZv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2089.outbound.protection.outlook.com [40.107.93.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C54610F036;
- Fri, 26 Apr 2024 14:44:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bl9Zd+ZBFRvN2dlDQAKcsyn/6Kx0PnHaVrIvVIHwvHgf6QuPTR/n2cbRCZBhKzYzWT+VM4NUtI7INbUErN5oMVXMSwkrFuZwHLMOe5MF9p1xJhtNwyc9qHJgx//LOQwXQ6ke7hy+tiFCr4Zb6yVp09KOtlSby6nB+Y1JKSFl4Al810yw4AGeLSjRwnWOWTWgWLxaV3k+Lxuag4Tc2b0tPP+X3L4kc1r6adtVpf+PRBpWhU2u9S3SbQSpvVeuS9W8bREcYvgKNhYs58w8rze+fRYRC/5wn97h04c7BNM93zE1vSFhaA6ond8691fHZ4oyWZoPTGYH2f+r6W6uKVn5Og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MaHQK4jPRopLTPquycmUtACRsE+iV3juUqQ3n5qjCCs=;
- b=MgeVLJktTmIu4M/FTsLnFxtsFwMpejEr3ITeUKtdwhzgkns6n3lmvfTOObbxACabmps1+V+CZgQYuKoYi1ltIsX4B6DtWCljurpVHWe89HN9ppS80DFe+yy22AYWx2juxfF1ij1ENr/f1edqAeeYyNArjqZWCh/A2UriA6i8+nla4NbYMx94MFrc17EiwadIw9o5dekYf048Q8YcNnEGJCKGoC54Nak7bcUx4eZXoKNHEx4cKiY++HZNXx5UFioYF5QYB+PR/VIJ9fmWq4hZTUn4ls582a4kdTQ/QOcPpfVk9J3Wvw5qEdATh6OxUhtDXPTiwaxdLL99c+K7xy0RKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MaHQK4jPRopLTPquycmUtACRsE+iV3juUqQ3n5qjCCs=;
- b=SLN2wKnPJGArnFiyT6X6qlStGrfXdubko04EqQHAVuL+CMnIpjiTghlu8SPz9234V9SGnEYbxA8knqjV6U2CMhRNPTP03bZgfUU0CrWYa3XYY7wPWIh1gIiYR/zcYahPE/mah4/FI9PDNn3UPQzni+oZlWfqeR/7/Qv2uvHI06w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by SJ2PR12MB7846.namprd12.prod.outlook.com (2603:10b6:a03:4c9::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.46; Fri, 26 Apr
- 2024 14:44:22 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.7519.021; Fri, 26 Apr 2024
- 14:44:22 +0000
-Message-ID: <b3df87ac-b985-49b1-8ba4-504cc6b548f1@amd.com>
-Date: Fri, 26 Apr 2024 09:44:19 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd: Only allow one entity to control ABM
-To: Gergo Koteles <soyer@irl.hu>, harry.wentland@amd.com
-Cc: Hamza.Mahfooz@amd.com, Sunpeng.Li@amd.com, amd-gfx@lists.freedesktop.org, 
- ckoenig.leichtzumerken@gmail.com, dri-devel@lists.freedesktop.org
-References: <8b2aef9a51b97ca69cd5bc590f9fa535da5af4e4.camel@irl.hu>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <8b2aef9a51b97ca69cd5bc590f9fa535da5af4e4.camel@irl.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR08CA0024.namprd08.prod.outlook.com
- (2603:10b6:805:66::37) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCF0910F0DD;
+ Fri, 26 Apr 2024 14:49:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1714142973; x=1745678973;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=Hy1Exm2xJTf9fsQ/ZOtQnbSL2sRLolyMOaITsaLxcig=;
+ b=lgw5LlZvA/sb93sv93lShPmwuWiCaoh0GN2KL0r/fd7o2QwBnaXfO4Yq
+ vlwQlzFztWgL48Ln8p+Hxb/eLgaUl9XVC21W+MtZLC+9TCOeRBW5vBGrP
+ x8LR2wU7Eoo9b8XygzXCil7w2hHLnOxHepKfG1vmWqKDic6GrtKvoPTev
+ XDouNBvy+qccnjtVyPUEymhjP0VogdLXasijdmC9eBFrtL3R1BQFw+wDL
+ CasO6QQq8VE2MjemH+OJHNjQ/MiZSsFJiNpnqJINUvC3uAWIA3kN81RHT
+ YrcF3zbnygkPcHtM2APfwIRahNsvMUMS6aczV3/CwBf3gAz0odddN3Gf/ A==;
+X-CSE-ConnectionGUID: qTd2W925QZqz557NbuZUPg==
+X-CSE-MsgGUID: k5Gj1ip6QZO5PMxjTwSM5A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="32377803"
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; d="scan'208";a="32377803"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2024 07:49:32 -0700
+X-CSE-ConnectionGUID: 8/2TrxHhR9K/QxzOPJWcSw==
+X-CSE-MsgGUID: BjZv9niMT7iXatggBF72yg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; d="scan'208";a="25513591"
+Received: from acasaesb-mobl.amr.corp.intel.com (HELO [10.249.254.141])
+ ([10.249.254.141])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2024 07:49:29 -0700
+Message-ID: <ad82f95ee29ada403459416d4c97c2b9083b5a0f.camel@linux.intel.com>
+Subject: Re: [PATCH 06/23] drm/xe/svm: Introduce a helper to build sg table
+ from hmm range
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: "Zeng, Oak" <oak.zeng@intel.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
+ <intel-xe@lists.freedesktop.org>, "Brost, Matthew"
+ <matthew.brost@intel.com>,  "Welty, Brian" <brian.welty@intel.com>,
+ "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>, "Bommu,
+ Krishnaiah" <krishnaiah.bommu@intel.com>, "Vishwanathapura, Niranjana"
+ <niranjana.vishwanathapura@intel.com>, Leon Romanovsky <leon@kernel.org>
+Date: Fri, 26 Apr 2024 16:49:26 +0200
+In-Reply-To: <20240426120047.GX941030@nvidia.com>
+References: <20240405123725.GD5383@nvidia.com>
+ <SA1PR11MB699170C0F6FFFA231985718092032@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <20240405180212.GG5383@nvidia.com>
+ <SA1PR11MB6991A4BD0EDDDF051A9A2C5C92072@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <20240409172418.GA5383@nvidia.com>
+ <SA1PR11MB6991EDB4351D99B4E76EBC2992112@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <20240424134840.GJ941030@nvidia.com>
+ <SA1PR11MB699102978E72F21E6C803D6392102@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <20240425010520.GW941030@nvidia.com>
+ <65cb3984309d377d6e7d57cb6567473c8a83ed78.camel@linux.intel.com>
+ <20240426120047.GX941030@nvidia.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|SJ2PR12MB7846:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ae4e7e0-aed8-4b09-be50-08dc65ff5c4a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TElYeGtWbWxPWGRWK1k2SHFuaVNNL2VuVDE1VTFsV0VGVFh0bGdDVzY5U25p?=
- =?utf-8?B?YUttd3c3ZzhNL0JZMDdEMmlpcklYSWZmd1JTSHVOWk5ycDlBSjFuSEJPNngw?=
- =?utf-8?B?RHNkTnEyMlFVaFVuaXBmQnM4VkhCUVhISkVpU0p2YnpHYlNkbzFHVE9MZVRZ?=
- =?utf-8?B?YUpHcWpQRmk1NGh4aUFBYUkwbUJlVVVKSG5GTldaVUZEbzFpOGJIRWJObTBt?=
- =?utf-8?B?cjE1OUc4MGhJL2k3cEJ6TlZ4cHZVNWpYamhXR1h5MUhPMU5FS29SSGw2Mi9Z?=
- =?utf-8?B?VUJ0OGpPUjY1TTgrQ1RhbFlETE4ya2x2OVdLNEIvNkROWGd6TVNaRHB4ZHMv?=
- =?utf-8?B?L014MjlheTNianEyUHJaaW9WeWRVMlpmUWpzM3NHZEFTWVZUL0QrNnhGUWxZ?=
- =?utf-8?B?MTNzQzBGeGg3dGJISEdEc3hKbjluWXc0T0YzbHFMUTdIS0xGSHRxRmttWkFP?=
- =?utf-8?B?RStuL01DcUdGYkZQaXhLYnYvY1k0RDhWVWJ6RHYrS2J1a2R2YmJHQ0pKYkxi?=
- =?utf-8?B?ZXZnc3Y4ZzFidmphdEJvb3hIdnhnTWtZMjZyMTRDdFArOUhBTlVDdlU5M2d1?=
- =?utf-8?B?aTFtTm1mcWpicVhyMWdMeDlnM0k0a2VCUW96OFZRYzdHbUhoQnd0eU5ZVmpa?=
- =?utf-8?B?bGpwMUpwbHlQUmt6NDZPajBvTWdGc09MQXh0S0twZnl2ZWFaYzVlOG9FVTQx?=
- =?utf-8?B?L2hrbVZac04rTm1qNFBsVWFLcDdZQlZTZEkvVmxTZXJZSkNqcEpWSEpscGVH?=
- =?utf-8?B?Y0lRcjRYaEVEbjVGMEFQUnpuMHVCUmtSRGNEc3kzU3VDa2pIMmhsUUcxVFlF?=
- =?utf-8?B?TjlRMldubEpBTGR3d1dFVlJ2QXpJb0tlMzk3cWFudnNJb252L2ErQXh1dnpL?=
- =?utf-8?B?MzdId3ptZytKaUFhREtUWm5RQkljM2xJQjlSbk1OSXFHTEE5NG9hL0lpeVN3?=
- =?utf-8?B?SDBLandpOTFvbHpTVkUweVZ5MTBzYVJ6dmZVYk1OVnI5T2w5MGpBYWdEd1oz?=
- =?utf-8?B?QmVENkxYdEp5WXNSN052aFh1MFBpTUsxNkdSZFdvbWhtRGNsMjFHSnJnU2xY?=
- =?utf-8?B?MkozR1YyUjFPWFFsRHRwWVBlbTMwZUQ1b3NSYUFSbFgva25JS3hXYWZXVVhs?=
- =?utf-8?B?ZUY3MERXSjA5cnRFeHFteGxXQzl0RXRkOGxzNnV0aUVUSmNBRTBZM3FBQ243?=
- =?utf-8?B?clVJcVR2YkQwaXpnR0F2bWF2TFZ0YVoxckVGKzRCbHQ1L0FzYWpta3VhclN0?=
- =?utf-8?B?bjhuSGxrdUdNM0hBWlQrYVFOTUt6dEFLc3J2bHpDaWUybjJ5cHdUYUh3VzdL?=
- =?utf-8?B?SWFCNHdueFNXbHkrWFlSWGU2M2F0T3Q3SjNrZWRuWEorU0tSbkNNeGhORDhP?=
- =?utf-8?B?dWt1VEF2RG5GOS9uM3VFL1E1a3NnMVFmYTFOZTJFS2pFUkt3QVlxbUM1dTNM?=
- =?utf-8?B?VTBVc3Y5MTBML1Bhb3lrbW5lSTg2YS93OW9CWVVvR2JzSVd3Y2h2UUwrUDNi?=
- =?utf-8?B?NmpqV0UvMmFyWVlBNDZaTFNNQjNrRXN2K0ptMW5jc29YTHRYKzFSbVFVSXdS?=
- =?utf-8?B?MWlZYmpWcFhQT1JpaGZaVjl4aWFTakZOWjZYOFRXUlRUSFE2WjB5MU93WW5n?=
- =?utf-8?B?eW9UdFFDM05lYUdEa2dDN1lHaUxQTEl1aW1qTTR6STZERE9pU05mSUZlZ3di?=
- =?utf-8?B?SEovVHoxbzR2N1lJVFAvU2t3ZnN5NEJ4amhoWTc5ay9ZWHBFOVRZTTVRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmR2QTdBdXJSZVVFeUJxMjlnNDJxMi9HVnRMMy83ZXVJTHh4YmRDODMxUndH?=
- =?utf-8?B?dUdJTFRHNkZ5ZmhRZlZuL1hrbkFDYWxsUjJRNGU0aXgydWV3enNpUkt3cjNM?=
- =?utf-8?B?RXVSZGVod0FHWldkamM1T2Q5RXkzT1l0SHlSTHdlckJucHliS2JnNUliOEd3?=
- =?utf-8?B?V2U0R0tzdkZwREY3cE04b3pBNm12c1N1OWYvYXhCQnRrVStsYnVnY2NyVmZ6?=
- =?utf-8?B?dG5tdXF1K0UwbTFEb0VUYWdrbFZjQ0NaSWw3VnErald0M3lnc084NytUR1Zo?=
- =?utf-8?B?bjNIaW1GS3lYZUIzYnNTb094YXBNY0JSVWw0TUlsdTZYQ1Q0NWcyZlRJRXJi?=
- =?utf-8?B?RGJMWFFUSnhLcWVSdGgreW1wSTJQN2dZYVp3b3FHMHF2RkNwMUdrY2xJUStx?=
- =?utf-8?B?US9yRG1PK1hRUmtSR1BPa2QxdXZ3R0xOdFJEWThuQ3pSN2M5VDFwZ3djeUpS?=
- =?utf-8?B?U3ByN1hFd2ozbE1TZEVEV2VQN3NSUkxlc0I1TTRRZ2ltYzJLUysrL2dJZEN4?=
- =?utf-8?B?VWRMSUNFamJuVFl6Vnp0R3B3cWRtU05GYzBjbUdWek1xaGJjbmEydTd6ZXF0?=
- =?utf-8?B?R0FBSlVjdmx2UmQzaUdscDI5OWN6ZDZSTDdodFMrRjFOVy9FaXhWZlJYODVm?=
- =?utf-8?B?cngyQmhMT1Y2WGNKdHNRekhsTm81T0IyUXFmZHhqMnU1L2xpZWtnRTBCMjBT?=
- =?utf-8?B?WUtYamczWEZIMnA1c21YajBFUzNLamUwZ1NGVGxaTU1mbHRmb252QU9VVFow?=
- =?utf-8?B?N1RmeHU5RzFiRmh4RThnQ1dVOERrUlBqQUJacnMyMHJnNnNRR0dRY0RrdTJp?=
- =?utf-8?B?YzMyYXlIUG0yWDJVWGdCWnNBYk1sYS9wVHFucEdSZmR6cUNBb3ArcGxVdnZv?=
- =?utf-8?B?RTl6REgzNm5ZVURtTjFoc29LMVdVaGt5ODZDSkN5c2tjRG0zUFpPRlRndFFo?=
- =?utf-8?B?RkVtOEQ0T29SK2pNcng1YjdUTXdHVWwwNndtWU5zQ1F4V0VBYUhoWHBWYm9T?=
- =?utf-8?B?RU9QR3dmVXcvaTlNV3J3MkhYc29aMjdqdWhpQm5pUi9xdCs4Y2l0U0c5Y1Vn?=
- =?utf-8?B?UkVac1RZaUJlN1kycHROMlVJa0xiaGV3dlBjemFVRkRsd252dk01dUcvYzVN?=
- =?utf-8?B?Z3RqenJBQk1nTkJlKzI5SmNaZUdaYjAxblFXMHFPK2t6OExSc2lsajg3b0Uz?=
- =?utf-8?B?QXBnV08zRnpFOWhldXRsYVJVb2VnZmhzVnFPaVNjY0RLMDdwcUJUdE1RMDFX?=
- =?utf-8?B?U0N6aDJYYTVWeEt4NlRsQWVFcVVoeEwzNFBLcjdvUEFYaWpNZFNRMGRkMG1B?=
- =?utf-8?B?bFovM1pRdmhuVnQ1YWs3RHZRdU44V1VDSGkySmdtRmpPRVd1bDVHd2FBTUxr?=
- =?utf-8?B?L1Y3MzhwaC9HcUd2UFVBTXQ5eXlFM1VEaURmRk5JNkFHMldnSXhNa1c1Tmpn?=
- =?utf-8?B?NnFMaHVzLzZxVVk3SGg5THNTKzJsSDNFOVhTZnM2Ym9KcnNzTzljRUxXa0ZK?=
- =?utf-8?B?NEZyclhtRGYyR2JKbFpYM3dhT0psb1N6eUY4d2RqaHcwVnJ1K3l6RjdXc21T?=
- =?utf-8?B?OWsvZHcrTmVzaW1OM0F1bExYRjYwakUxWStKNGpJeEVMUjNhVnZwaDBhMytK?=
- =?utf-8?B?YmNpcWRPMHNFTjZMRmFvdVQxZStwcU4rQy9IZUdLWWJVY1FCa1Z4eXlMcXNs?=
- =?utf-8?B?TWl3ci9URE5nRkZNYXVPbDZsT2U4OFBJdWJOcVV4Vzk4OU9YNHA1WXFlajhP?=
- =?utf-8?B?c0JEeUNCby96SWFBNUR2SXFVeWpZK2lsZU5KcmVONXYvdmIzRklBeUttbkZI?=
- =?utf-8?B?OHg0WEUzblQ5cTZXY0tieTlaMjJMU29EMkZrMW5BQTloSHNZY3ptazlHWHhC?=
- =?utf-8?B?YS8rTlpySFp0TnZOKzFvR3V3a2tMQzVDbFlsUVI4ekMxWHlTUE0zZXdLY0ND?=
- =?utf-8?B?K3FOcEprb3RIeksveFk5U1pMQ0RleDg1OXA5Y0FYUnpsZ2haN1ZESk0weVNn?=
- =?utf-8?B?em1rekF0QmpjZnNSVWJERjFSS3IwQndnOGtNa3RkM2VjeCszZmNZNkZDR2F4?=
- =?utf-8?B?aE1xZUo2ajFTS3F1eld6a21iN0h2NmlYWFdENEM4c1VONHBBdENlTDRjTGZY?=
- =?utf-8?Q?/j4DixEs7UJs7JyXk1iGR7OU9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ae4e7e0-aed8-4b09-be50-08dc65ff5c4a
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2024 14:44:22.1771 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UbvLScHWBi9zoKXGQV8abhzkb6f3ucJpwqEEnNxhurzGO7yf+wCWPe8W/jGmwCiGUuKc15LAwiBeAxTUqHGUzA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7846
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,21 +89,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/13/2024 03:51, Gergo Koteles wrote:
-> Hi>
-> 
->> ABM will reduce the backlight and compensate by adjusting brightness and contrast of the image. It has 5 levels: 0, 1, 2, 3, 4. 0 means off. 4 means maximum backlight reduction. IMO, 1 and 2 look okay. 3 and 4 can be quite impactful, both to power and visual fidelity.
-> 
-> I tried this with 6.9 and it looks weird with an OLED panel used with
-> dark UI settings.
-> The dark is no longer dark, everything is brighter.
-> I turned this feature off with amdgpu.abmlevel=0.
-> 
-> Best regards,
-> Gergo
-> 
+On Fri, 2024-04-26 at 09:00 -0300, Jason Gunthorpe wrote:
+> On Fri, Apr 26, 2024 at 11:55:05AM +0200, Thomas Hellstr=C3=B6m wrote:
+> > First, the gpu_vma structure is something that partitions the
+> > gpu_vm
+> > that holds gpu-related range metadata, like what to mirror, desired
+> > gpu
+> > caching policies etc. These are managed (created, removed and
+> > split)
+> > mainly from user-space. These are stored and looked up from an rb-
+> > tree.
+>=20
+> Except we are talking about SVA here, so all of this should not be
+> exposed to userspace.
 
-Would you mind filing a bug with the details please?  This was something 
-that was actually explicitly checked against an OLED panel.  ABM 
-shouldn't be applying to OLED today so this very likely points at a bug 
-somewhere in the stack.
+I think you are misreading. this is on the level "Mirror this region of
+the cpu_vm", "prefer this region placed in VRAM", "GPU will do atomic
+accesses on this region", very similar to cpu mmap / munmap and
+madvise. What I'm trying to say here is that this does not directly
+affect the SVA except whether to do SVA or not, and in that case what
+region of the CPU mm will be mirrored, and in addition, any gpu
+attributes for the mirrored region.
+
+>=20
+> > Now, when we hit a fault, we want to use hmm_range_fault() to re-
+> > populate the faulting PTE, but also to pre-fault a range. Using a
+> > range
+> > here (let's call this a prefault range for clarity) rather than to
+> > insert a single PTE is for multiple reasons:
+>=20
+> I've never said to do a single range, everyone using
+> hmm_range_fault()
+> has some kind of prefetch populate around algorithm.
+>=20
+> > This is why we've been using dma_map_sg() for these ranges, since
+> > it is
+> > assumed the benefits gained from=20
+>=20
+> This doesn't logically follow. You need to use dma_map_page page by
+> page and batch that into your update mechanism.
+>=20
+> If you use dma_map_sg you get into the world of wrongness where you
+> have to track ranges and invalidation has to wipe an entire range -
+> because you cannot do a dma unmap of a single page from a dma_map_sg
+> mapping. This is all the wrong way to use hmm_range_fault.
+>=20
+> hmm_range_fault() is page table mirroring, it fundamentally must be
+> page-by-page. The target page table structure must have similar
+> properties to the MM page table - especially page by page
+> validate/invalidate. Meaning you cannot use dma_map_sg().
+
+To me this is purely an optimization to make the driver page-table and
+hence the GPU TLB benefit from iommu coalescing / large pages and large
+driver PTEs. It is true that invalidation will sometimes shoot down
+large gpu ptes unnecessarily but it will not put any additional burden
+on the core AFAICT. For the dma mappings themselves they aren't touched
+on invalidation since zapping the gpu PTEs effectively stops any dma
+accesses. The dma mappings are rebuilt on the next gpu pagefault,
+which, as you mention, are considered slow anyway, but will probably
+still reuse the same prefault region, hence needing to rebuild the dma
+mappings anyway.
+
+So as long as we are correct and do not adversely affect core mm, If
+the gpu performance (for whatever reason) is severely hampered if
+large gpu page-table-entries are not used, couldn't this be considered
+left to the driver?
+
+And a related question. What about THP pages? OK to set up a single
+dma-mapping to those?
+
+
+>=20
+> > Second, when pre-faulting a range like this, the mmu interval
+> > notifier
+> > seqno comes into play, until the gpu ptes for the prefault range
+> > are
+> > safely in place. Now if an invalidation happens in a completely
+> > separate part of the mirror range, it will bump the seqno and force
+> > us
+> > to rerun the fault processing unnecessarily.=20
+>=20
+> This is how hmm_range_fault() works. Drivers should not do hacky
+> things to try to "improve" this. SVA granuals should be large, maybe
+> not the entire MM, but still quite large. 2M is far to small.
+>=20
+> There is a tradeoff here of slowing down the entire MM vs risking an
+> iteration during fault processing. We want to err toward making fault
+> processing slowing because fault procesing is already really slow.
+>=20
+> > Hence, for this purpose we
+> > ideally just want to get a seqno bump covering the prefault range.
+>=20
+> Ideally, but this is not something we can get for free.
+>=20
+> > That's why finer-granularity mmu_interval notifiers might be
+> > beneficial
+> > (and then cached for future re-use of the same prefault range).
+> > This
+> > leads me to the next question:
+>=20
+> It is not the design, please don't invent crazy special Intel things
+> on top of hmm_range_fault.
+
+For the record, this is not a "crazy special Intel" invention. It's the
+way all GPU implementations do this so far. We're currently catching
+up. If we're going to do this in another way, we fully need to
+understand why it's a bad thing to do. That's why these questions are
+asked.
+
+>=20
+> > You mention that mmu_notifiers are expensive to register. From
+> > looking
+> > at the code it seems *mmu_interval* notifiers are cheap unless
+> > there
+> > are ongoing invalidations in which case using a gpu_vma-wide
+> > notifier
+> > would block anyway? Could you clarify a bit more the cost involved
+> > here?
+>=20
+> The rb tree insertions become expensive the larger the tree is. If
+> you
+> have only a couple of notifiers it is reasonable.
+>=20
+> > If we don't register these smaller-range interval notifiers, do
+> > you think the seqno bumps from unrelated subranges would be a real
+> > problem?
+>=20
+> I don't think it is, you'd need to have a workload which was
+> agressively manipulating the CPU mm (which is also pretty slow). If
+> the workload is doing that then it also really won't like being
+> slowed
+> down by the giant rb tree.
+
+OK, this makes sense, and will also simplify implementation.
+
+>=20
+> You can't win with an argument that collisions are likely due to an
+> app pattern that makes alot of stress on the MM so the right response
+> is to make the MM slower.
+>=20
+> > Finally the size of the pre-faulting range is something we need to
+> > tune.=20
+>=20
+> Correct.
+>=20
+> > Currently it is cpu vma - wide. I understand you strongly suggest
+> > this should be avoided. Could you elaborate a bit on why this is
+> > such a
+> > bad choice?
+>=20
+> Why would a prefetch have anything to do with a VMA? Ie your app
+> calls
+> malloc() and gets a little allocation out of a giant mmap() arena -
+> you want to prefault the entire arena? Does that really make any
+> sense?
+
+Personally, no it doesn't. I'd rather use some sort of fixed-size
+chunk. But to rephrase, the question was more into the strong "drivers
+should not be aware of the cpu mm vma structures" comment. While I
+fully agree they are probably not very useful for determining the size
+of gpu prefault regions, is there anything else we should be aware of
+here.
+
+Thanks,
+Thomas
+
+
+>=20
+> Mirroring is a huge PITA, IMHO it should be discouraged in favour of
+> SVA. Sadly too many CPUs still canot implement SVA.
+>=20
+> With mirroring there is no good way for the system to predict what
+> the
+> access pattern is. The only way to make this actually performant is
+> for userspace to explicitly manage the mirroring with some kind of
+> prefetching scheme to avoid faulting its accesses except in
+> extrodinary cases.
+>=20
+> VMA is emphatically not a hint about what to prefetch. You should
+> balance your prefetching based on HW performance and related. If it
+> is
+> tidy for HW to fault around a 2M granual then just do that.
+>=20
+> Jason
+
