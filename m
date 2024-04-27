@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF9F8B472A
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Apr 2024 18:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D828B4731
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Apr 2024 18:47:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2DFA10F6A5;
-	Sat, 27 Apr 2024 16:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDE610F6C2;
+	Sat, 27 Apr 2024 16:47:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D58fwAFp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E5Tvuamv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2825A10F6A5
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2024 16:43:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3240810F6B3
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2024 16:47:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1E96C61C60
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2024 16:43:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BD5AAC2BD11
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2024 16:43:43 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8371761C4A
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2024 16:47:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2855FC2BD11
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2024 16:47:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714236223;
- bh=EmYBiwZgTQ4wu3mLJHp7TBZ+8P9H3+lV01plwQRzijs=;
- h=From:To:Subject:Date:From;
- b=D58fwAFplgGIWiDsJ32c6PHUVyXYf9V9cpmlXh8c/hNbZ1AYfuJIQOfyPxfgrAqD6
- nNAYto8uxtFk5LNPeI+p0A8ffmPTGaW3UK1pi/5zkHKNNU7kyaUFVkHdb9Q75kUjj+
- T4BgbC59sDvYp7tkPRGVQmHCC2QQP++Tfge7K+zegChPIOgPvqIc1DuhIAdURSorJU
- OXaWSe5O15RgT2GQSouINHAoUxuISUMcneV/xRlJHMoMdqDp/Cw4Z0j198gukQAOrH
- DtVqbkUrMUtIIndtSWJTfAyn5nLE6hcO3/EafOTeZDJvXRO6hYCK2q78znG9HYMnBV
- iKle3KonnqK+A==
+ s=k20201202; t=1714236420;
+ bh=6zReHPWhQ2ejd8eEOBD1jCcCGwV/FwDXam9qZA3f2mA=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=E5TvuamvS8CZ90nyiRi5Cq4J1FDh8ql96rWIDWsERiyMvMNem67HoN8wsmMj6W/nD
+ tx1CMIH2nzpZIg0t3uRdGMMoHEoxLhd+hJpLs/zNOyFbDAsBka9ZX3BTjWOnw/FhjT
+ GY+ZzrTL/sPDxCOptt34/FIyf3MbUos22/KG6nXVGyNNAiAkACOyMnOXh9f+4FLNff
+ V6qfVAobejAhPU358+NG4YiAp1o3BOkYDukQaN9LTWyz8/erP3PGbayWIhdpg5zson
+ XChiTuwd5m5mH/k58gbDBClh3sI5GlQfWkixHbSZ8G2ZUxAnLyknItf/vmVYTrBpHj
+ qlmDoSCp05S+Q==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id ADE68C43230; Sat, 27 Apr 2024 16:43:43 +0000 (UTC)
+ from userid 48) id 17636C43230; Sat, 27 Apr 2024 16:47:00 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218785] New: HP Victus by HP Laptop 16-e0xxx. HDMI connection
+Subject: [Bug 218785] HP Victus by HP Laptop 16-e0xxx. HDMI connection
  doesn't detect counterpart projector.
-Date: Sat, 27 Apr 2024 16:43:43 +0000
+Date: Sat, 27 Apr 2024 16:46:59 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -51,10 +51,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-218785-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218785-2300-JIuE5ItnMg@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218785-2300@https.bugzilla.kernel.org/>
+References: <bug-218785-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -77,43 +77,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218785
 
-            Bug ID: 218785
-           Summary: HP Victus by HP Laptop 16-e0xxx. HDMI connection
-                    doesn't detect counterpart projector.
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: icegood1980@gmail.com
-        Regression: No
+--- Comment #1 from Sergey Ivanov (icegood1980@gmail.com) ---
+laptop has two videocards:
 
-As for me, it is regression.
-On the same laptop and different OSes:
-
-1) Linux fedora 6.0.17-200.fc36.x86_64 #1 SMP PREEMPT_DYNAMIC Wed Jan 4
-16:00:03 UTC 2023 x86_64 GNU/Linux
-everything is fine. UDEV has changes during cable plug in:
-
-KERNEL[48.311971] change=20=20
-/devices/pci0000:00/0000:00:01.1/0000:01:00.0/drm/card0 (drm)
-UDEV  [48.317955] change=20=20
-/devices/pci0000:00/0000:00:01.1/0000:01:00.0/drm/card0 (drm)
-KERNEL[49.453282] add=20=20=20=20=20
-/devices/pci0000:00/0000:00:01.1/0000:01:00.0/graphics/fb1 (graphics)
-UDEV  [49.455485] add=20=20=20=20=20
-/devices/pci0000:00/0000:00:01.1/0000:01:00.0/graphics/fb1 (graphics)
-
-2) In both new ubuntu=20
-Linux ice-home 6.8.0-31-generic #31-Ubuntu SMP PREEMPT_DYNAMIC Sat Apr 20
-00:40:06 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
-and fedora vmlinuz-6.8.7-300.fc40.x86_64
-
-udev is empty. No changes
+root@ice-home:/home/ice# lshw -C display
+  *-display=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+       description: VGA compatible controller
+       product: TU117M [GeForce GTX 1650 Mobile / Max-Q]
+       vendor: NVIDIA Corporation
+       physical id: 0
+       bus info: pci@0000:01:00.0
+       logical name: /dev/fb0
+       version: a1
+       width: 64 bits
+       clock: 33MHz
+       capabilities: pm msi pciexpress vga_controller cap_list fb
+       configuration: depth=3D32 latency=3D0 mode=3D1920x1080 visual=3Dtrue=
+color
+xres=3D1920 yres=3D1080
+       resources: iomemory:ff0-fef iomemory:ff0-fef memory:fb000000-fbffffff
+memory:ffe0000000-ffefffffff memory:fff0000000-fff1ffffff ioport:f000(size=
+=3D128)
+memory:fc000000-fc07ffff
+  *-display
+       description: VGA compatible controller
+       product: Cezanne [Radeon Vega Series / Radeon Vega Mobile Series]
+       vendor: Advanced Micro Devices, Inc. [AMD/ATI]
+       physical id: 0
+       bus info: pci@0000:07:00.0
+       logical name: /dev/fb0
+       version: c6
+       width: 64 bits
+       clock: 33MHz
+       capabilities: pm pciexpress msi msix vga_controller bus_master cap_l=
+ist
+fb
+       configuration: depth=3D32 driver=3Damdgpu latency=3D0 resolution=3D1=
+920,1080
+       resources: irq:46 memory:d0000000-dfffffff memory:e0000000-e01fffff
+ioport:c000(size=3D256) memory:fc500000-fc57ffff
 
 --=20
 You may reply to this email to add a comment.
