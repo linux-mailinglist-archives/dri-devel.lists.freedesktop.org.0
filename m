@@ -2,59 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C838B4418
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Apr 2024 06:28:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC4D8B4424
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Apr 2024 06:50:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE8A10ED50;
-	Sat, 27 Apr 2024 04:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 862A210EF2C;
+	Sat, 27 Apr 2024 04:50:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="E8BS1RA5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Et5O43FF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8CC10ED50
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2024 04:28:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714192105; x=1745728105;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=TwmBAIgx1d69s5D9g55JjJWgfN8jIQXYktribH0icS0=;
- b=E8BS1RA5PL3asEZ2xS4NDSBZkD1iWYs/qygFOur04iQs4R73nDn2lc94
- TPZg72if9rrDt8zRSGVTqJqOiGIDooz/pyq2b1eyZ7/d/4ewJs1lvgLtr
- FiijQccdEW3br1Oj6LFqyIFaoK6cqd4OobqXxc3h1Nr8Ck186nq+r+oUR
- SXAakyujRlYVxL0P2hjt3M0g4e2ErAZS1su61Un8O0sireJkjTxMPxAyl
- 13txrUp3s5qU3JxXzvwEdfntYVteMvLWdzEiAlOIwYkDahQBXY2HyDS4h
- D6AlU7tw3PPhAaGi2Rir6wyJy0PKdyJinNlKhG+DW8xIu2r7aPHL4yNY9 w==;
-X-CSE-ConnectionGUID: gdcXMfOcT2OS95uw0CqD3w==
-X-CSE-MsgGUID: EhI9rt/uTo65CKdT3EVneg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="9861518"
-X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="9861518"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2024 21:28:25 -0700
-X-CSE-ConnectionGUID: JHTyLJMQQeGbaE11OOgrtw==
-X-CSE-MsgGUID: dc8xYRhqQ4unqIe5VFJBJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; d="scan'208";a="25690117"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
- by fmviesa006.fm.intel.com with ESMTP; 26 Apr 2024 21:28:23 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s0Zfh-0004ec-0G;
- Sat, 27 Apr 2024 04:28:21 +0000
-Date: Sat, 27 Apr 2024 12:28:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Timur Tabi <ttabi@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
-Subject: [drm-misc:for-linux-next 1/1]
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: error: label at end
- of compound statement is a C23 extension
-Message-ID: <202404271259.VQcFccxo-lkp@intel.com>
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1C7C10EF2C
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2024 04:50:31 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-6ed20fb620fso2590688b3a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2024 21:50:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1714193431; x=1714798231; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eTTqh4tVK7J4k/2+rdaNwgcyYffbEPxsziKQodGk2xA=;
+ b=Et5O43FFPmqs5T3exCP56SO0u/lq08A+QqTg4PSkUEWdGT9rSYYH6z5XZg1FP4AyE4
+ s8lM5ZSOXqOVNhYN7akkv9SJdzulQUl4T6FAlA/8+HxTr2fCT58HXP2OP6VrkeAveS43
+ AYJzQZbCip9sx43FolLVCgjRFsNtQZumP6LPDs7lIq9C1RIjMr9P7H1KWPQiO2ONroD0
+ VSL4sapCjOkwcD8bjUH87LXtkD/xfnrr93sRivxFZ0tq9QyaDKD11R9/ud44s8GXZz2/
+ IswYeGB9mlQZDxn6SrwQ/VNMLIEQVdhL0EwhIXCJS4/4epvRP9Lt7t4SJjJtkQIJyHUI
+ O+lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714193431; x=1714798231;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eTTqh4tVK7J4k/2+rdaNwgcyYffbEPxsziKQodGk2xA=;
+ b=WHV4LUydCzF3tLLuuxbq8RZNwBnHn/F/51xxzX5wilov/pQW1lOvnxg6RF1bQ02Od0
+ AYweCyEBOqDO4734p+Y3bswM2XyDCqQyNFrFI2wiKVmcOOhgg2ewqMkFVIbT8WGEvuDx
+ lcLDaa+F1CB2YZZVZIr9CR3nNgEO4s6f0fTCPNns6HFRttRjv75/8ckU8DNWXgpysmEO
+ fjQEpTGT5s779DJhzM1vyVzNw/54aW4nuKRwmPSGlR15/C+hcphLzu4d8qQJSsycpn0c
+ QH9+W4uvGTa2YxOZx7tPtJPKGXquxtWw31MtkF/7Pw3TzlGZ6p8SOG20+WPN62QZfl5L
+ CdPg==
+X-Gm-Message-State: AOJu0YwTDgMllsaNaIfctoV0FyWRpv4wpwIUFDUuAY9kGKu7RXThsiPT
+ 3kh9avBKRLEjuoRfjaE5uYQgPkS7jK7WYrkDikoEGha2AyZnoDSIDBTMPgYH
+X-Google-Smtp-Source: AGHT+IGRzOBwYBTkwB3GLPM/O5/vOt1JZivbu5JwYnjc5fI0/FJvzIH5Gqb/07IY7GZt3+GyL3NGZg==
+X-Received: by 2002:a05:6a20:1050:b0:1ad:7c58:6a74 with SMTP id
+ gt16-20020a056a20105000b001ad7c586a74mr5122050pzc.23.1714193431154; 
+ Fri, 26 Apr 2024 21:50:31 -0700 (PDT)
+Received: from dev.. ([2402:e280:214c:86:d75f:35bf:3e3a:ae80])
+ by smtp.gmail.com with ESMTPSA id
+ s12-20020a17090a5d0c00b002a005778f51sm9611928pji.50.2024.04.26.21.50.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Apr 2024 21:50:30 -0700 (PDT)
+From: R Sundar <prosunofficial@gmail.com>
+To: p.zabel@pengutronix.de,
+	airlied@gmail.com,
+	daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com,
+ R Sundar <prosunofficial@gmail.com>, Julia Lawall <julia.lawall@inria.fr>
+Subject: [PATCH linux-next] gpu:ipu-v3:pre: replace of_node_put() with __free
+Date: Sat, 27 Apr 2024 10:20:24 +0530
+Message-Id: <20240427045024.7083-1-prosunofficial@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,149 +81,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   61ba791c4a7a09a370c45b70a81b8c7d4cf6b2ae
-commit: b58a0bc904ffa091fc020f7fd00e91808fec820e [1/1] nouveau: add command-line GSP-RM registry support
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240427/202404271259.VQcFccxo-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271259.VQcFccxo-lkp@intel.com/reproduce)
+use the new cleanup magic to replace of_node_put() with
+__free(device_node) marking to auto release when they get out of scope.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404271259.VQcFccxo-lkp@intel.com/
+Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+Signed-off-by: R Sundar <prosunofficial@gmail.com>
+---
+ drivers/gpu/ipu-v3/ipu-pre.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:22:
-   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:24:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: error: label at end of compound statement is a C23 extension [-Werror,-Wc23-extensions]
-    1267 |                 }
-         |                 ^
-   6 errors generated.
-
-
-vim +1267 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-
-  1199	
-  1200	/**
-  1201	 * build_registry -- create the registry RPC data
-  1202	 * @gsp: gsp pointer
-  1203	 * @registry: pointer to the RPC payload to fill
-  1204	 *
-  1205	 * After all registry key/value pairs have been added, call this function to
-  1206	 * build the RPC.
-  1207	 *
-  1208	 * The registry RPC looks like this:
-  1209	 *
-  1210	 * +-----------------+
-  1211	 * |NvU32 size;      |
-  1212	 * |NvU32 numEntries;|
-  1213	 * +-----------------+
-  1214	 * +----------------------------------------+
-  1215	 * |PACKED_REGISTRY_ENTRY                   |
-  1216	 * +----------------------------------------+
-  1217	 * |Null-terminated key (string) for entry 0|
-  1218	 * +----------------------------------------+
-  1219	 * |Binary/string data value for entry 0    | (only if necessary)
-  1220	 * +----------------------------------------+
-  1221	 *
-  1222	 * +----------------------------------------+
-  1223	 * |PACKED_REGISTRY_ENTRY                   |
-  1224	 * +----------------------------------------+
-  1225	 * |Null-terminated key (string) for entry 1|
-  1226	 * +----------------------------------------+
-  1227	 * |Binary/string data value for entry 1    | (only if necessary)
-  1228	 * +----------------------------------------+
-  1229	 * ... (and so on, one copy for each entry)
-  1230	 *
-  1231	 *
-  1232	 * The 'data' field of an entry is either a 32-bit integer (for type DWORD)
-  1233	 * or an offset into the PACKED_REGISTRY_TABLE (for types BINARY and STRING).
-  1234	 *
-  1235	 * All memory allocated by add_registry() is released.
-  1236	 */
-  1237	static void build_registry(struct nvkm_gsp *gsp, PACKED_REGISTRY_TABLE *registry)
-  1238	{
-  1239		struct registry_list_entry *reg, *n;
-  1240		size_t str_offset;
-  1241		unsigned int i = 0;
-  1242	
-  1243		registry->numEntries = list_count_nodes(&gsp->registry_list);
-  1244		str_offset = struct_size(registry, entries, registry->numEntries);
-  1245	
-  1246		list_for_each_entry_safe(reg, n, &gsp->registry_list, head) {
-  1247			registry->entries[i].type = reg->type;
-  1248			registry->entries[i].length = reg->vlen;
-  1249	
-  1250			/* Append the key name to the table */
-  1251			registry->entries[i].nameOffset = str_offset;
-  1252			memcpy((void *)registry + str_offset, reg->key, reg->klen);
-  1253			str_offset += reg->klen;
-  1254	
-  1255			switch (reg->type) {
-  1256			case REGISTRY_TABLE_ENTRY_TYPE_DWORD:
-  1257				registry->entries[i].data = reg->dword;
-  1258				break;
-  1259			case REGISTRY_TABLE_ENTRY_TYPE_BINARY:
-  1260			case REGISTRY_TABLE_ENTRY_TYPE_STRING:
-  1261				/* If the type is binary or string, also append the value */
-  1262				memcpy((void *)registry + str_offset, reg->binary, reg->vlen);
-  1263				registry->entries[i].data = str_offset;
-  1264				str_offset += reg->vlen;
-  1265				break;
-  1266			default:
-> 1267			}
-  1268	
-  1269			i++;
-  1270			list_del(&reg->head);
-  1271			kfree(reg);
-  1272		}
-  1273	
-  1274		/* Double-check that we calculated the sizes correctly */
-  1275		WARN_ON(gsp->registry_rpc_size != str_offset);
-  1276	
-  1277		registry->size = gsp->registry_rpc_size;
-  1278	}
-  1279	
-
+diff --git a/drivers/gpu/ipu-v3/ipu-pre.c b/drivers/gpu/ipu-v3/ipu-pre.c
+index aef984a43190..95830cf8fa3e 100644
+--- a/drivers/gpu/ipu-v3/ipu-pre.c
++++ b/drivers/gpu/ipu-v3/ipu-pre.c
+@@ -113,8 +113,8 @@ int ipu_pre_get_available_count(void)
+ struct ipu_pre *
+ ipu_pre_lookup_by_phandle(struct device *dev, const char *name, int index)
+ {
+-	struct device_node *pre_node = of_parse_phandle(dev->of_node,
+-							name, index);
++	struct device_node *pre_node __free(device_node) =
++		of_parse_phandle(dev->of_node, name, index);
+ 	struct ipu_pre *pre;
+ 
+ 	mutex_lock(&ipu_pre_list_mutex);
+@@ -123,14 +123,11 @@ ipu_pre_lookup_by_phandle(struct device *dev, const char *name, int index)
+ 			mutex_unlock(&ipu_pre_list_mutex);
+ 			device_link_add(dev, pre->dev,
+ 					DL_FLAG_AUTOREMOVE_CONSUMER);
+-			of_node_put(pre_node);
+ 			return pre;
+ 		}
+ 	}
+ 	mutex_unlock(&ipu_pre_list_mutex);
+ 
+-	of_node_put(pre_node);
+-
+ 	return NULL;
+ }
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
