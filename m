@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44D688B440F
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Apr 2024 06:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C838B4418
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Apr 2024 06:28:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2C4A1126C4;
-	Sat, 27 Apr 2024 04:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE8A10ED50;
+	Sat, 27 Apr 2024 04:28:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Axh9QdAw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="E8BS1RA5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A4B1126C4
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2024 04:18:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8CC10ED50
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2024 04:28:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714191506; x=1745727506;
+ t=1714192105; x=1745728105;
  h=date:from:to:cc:subject:message-id:mime-version;
- bh=9/tn2G0UzT+pos5SSWjCh/ekHpy90xZIn8Ntu6sbS2s=;
- b=Axh9QdAwjdGeohciHpMt2GD77Myz0IMX1clnK6ZXH6+Gy8RQr7pGRtp0
- T8PWVWQ4n2m5M7p3Vq3aGNlhQD0JcMV54+p6Au/4e0xabZC7NFVBmxrXq
- 1Ru7cQjknwbTNLSL6FIDwdB63KgwX8kCKKyFOWXqCxzFkdfMiF073TdDR
- nWnODpTe88TUJziPCwBlSxUhIIJp9NNYOOY+b6XgV2rp6BASB1JfUp5Yx
- GUOoxlv9DGuX6yj9GesG4fq84s6ncSi7iHmttnxV52Hi1dq0UUrwgGSfe
- 320k67pYvs0meh06dT9WXVUs5CTM4Tz6QwC7i9P968fAg0XPxA1kMubTh w==;
-X-CSE-ConnectionGUID: YDiF4ka8SnyJZaeacIKRcQ==
-X-CSE-MsgGUID: 9l7OtzW7QfGDBPR4ZKwmHg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21082792"
-X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; d="scan'208";a="21082792"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2024 21:18:25 -0700
-X-CSE-ConnectionGUID: U6L3KslTQ0WicT3QfkDltA==
-X-CSE-MsgGUID: I4Vi0DFhSweW+/+y4ch40g==
+ bh=TwmBAIgx1d69s5D9g55JjJWgfN8jIQXYktribH0icS0=;
+ b=E8BS1RA5PL3asEZ2xS4NDSBZkD1iWYs/qygFOur04iQs4R73nDn2lc94
+ TPZg72if9rrDt8zRSGVTqJqOiGIDooz/pyq2b1eyZ7/d/4ewJs1lvgLtr
+ FiijQccdEW3br1Oj6LFqyIFaoK6cqd4OobqXxc3h1Nr8Ck186nq+r+oUR
+ SXAakyujRlYVxL0P2hjt3M0g4e2ErAZS1su61Un8O0sireJkjTxMPxAyl
+ 13txrUp3s5qU3JxXzvwEdfntYVteMvLWdzEiAlOIwYkDahQBXY2HyDS4h
+ D6AlU7tw3PPhAaGi2Rir6wyJy0PKdyJinNlKhG+DW8xIu2r7aPHL4yNY9 w==;
+X-CSE-ConnectionGUID: gdcXMfOcT2OS95uw0CqD3w==
+X-CSE-MsgGUID: EhI9rt/uTo65CKdT3EVneg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="9861518"
+X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
+   d="scan'208";a="9861518"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2024 21:28:25 -0700
+X-CSE-ConnectionGUID: JHTyLJMQQeGbaE11OOgrtw==
+X-CSE-MsgGUID: dc8xYRhqQ4unqIe5VFJBJg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; d="scan'208";a="26012762"
+X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; d="scan'208";a="25690117"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
- by orviesa006.jf.intel.com with ESMTP; 26 Apr 2024 21:18:23 -0700
+ by fmviesa006.fm.intel.com with ESMTP; 26 Apr 2024 21:28:23 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s0ZW0-0004eI-31;
- Sat, 27 Apr 2024 04:18:20 +0000
-Date: Sat, 27 Apr 2024 12:17:57 +0800
+ (envelope-from <lkp@intel.com>) id 1s0Zfh-0004ec-0G;
+ Sat, 27 Apr 2024 04:28:21 +0000
+Date: Sat, 27 Apr 2024 12:28:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Timur Tabi <ttabi@nvidia.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
  dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
 Subject: [drm-misc:for-linux-next 1/1]
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: warning: label at end
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: error: label at end
  of compound statement is a C23 extension
-Message-ID: <202404271259.rahBUb02-lkp@intel.com>
+Message-ID: <202404271259.VQcFccxo-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -72,16 +73,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
 head:   61ba791c4a7a09a370c45b70a81b8c7d4cf6b2ae
 commit: b58a0bc904ffa091fc020f7fd00e91808fec820e [1/1] nouveau: add command-line GSP-RM registry support
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240427/202404271259.rahBUb02-lkp@intel.com/config)
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240427/202404271259.VQcFccxo-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271259.rahBUb02-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271259.VQcFccxo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404271259.rahBUb02-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404271259.VQcFccxo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:22:
    In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h:4:
@@ -92,16 +93,40 @@ All warnings (new ones prefixed by >>):
    In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
    In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
    In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:21:
-   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:24:
    In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
      522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
          |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1267:3: error: label at end of compound statement is a C23 extension [-Werror,-Wc23-extensions]
     1267 |                 }
          |                 ^
-   2 warnings generated.
+   6 errors generated.
 
 
 vim +1267 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
