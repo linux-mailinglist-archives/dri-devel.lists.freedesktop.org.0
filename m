@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20738B4DF6
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Apr 2024 23:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FCF8B4DC3
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Apr 2024 22:23:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36737112A27;
-	Sun, 28 Apr 2024 21:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A0171129B2;
+	Sun, 28 Apr 2024 20:23:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=qq.com header.i=@qq.com header.b="ayQam/nL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CZCJpcG9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com
- [203.205.221.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8DF10E496
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Apr 2024 12:32:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1714307545; bh=WhRK7c5VI5zG7dpXv/k2M42hjr8IyRYvYtQoYcJ0eOU=;
- h=From:To:Subject:Date;
- b=ayQam/nLt2FDlH16TSK1lgc2CoL/nYgXtdi4Z4c9h9jk7MAaWLta1X4UTmU/Dyjn5
- 9HYs7gl3+nxLSj8nYe6cR01jbB1aTYOGZW1DoUViXi8/9Mf3j/0fEaAcggXsToWqVn
- 2TfilTe9VQUR/1mgrku9e2JkBwOpnTBzrFtuS5v0=
-Received: from pipishuo-OMEN-by-HP-Laptop-16-b0xxx.. ([123.115.148.131])
- by newxmesmtplogicsvrszb9-0.qq.com (NewEsmtp) with SMTP
- id 4C8B4CD2; Sun, 28 Apr 2024 20:19:08 +0800
-X-QQ-mid: xmsmtpt1714306748t5cry6yph
-Message-ID: <tencent_FDF9E162435F21368C39AB61255D2F2C8D08@qq.com>
-X-QQ-XMAILINFO: MR/iVh5QLeiesT/qxp6yj39CByasNjpnL5Z9mIbo5D+NZ9po4qliBl7DIFt78D
- ITDjU605nzcmebLng8uzqyv7GojIslOw3SROUovLp80U7NtYgHQnx+0tG0sDkC4/pM60JQYKoO7t
- Sc+vbmlLFOlv7X0tMWf3+tqikoA56BEh+DMM5Dk1GSPcU9TD+GBbEd1roUWxE4AFFwgCR0iDXn8Z
- LaXMgDB6PqBeaz1v8uoeiG1eh5QLGos1LwTtyWf36ATlikbNTZIsVpx7vIVHcWrbXfismzSPwC0G
- +XCifmb0TFFO07iC2Lx9MyQjno6okveCNNfKqna0LEGzNp0oQ/GGvZiPpXQJAe/+dVs1Yz1zXVjl
- w0hKCqlP5nWcES09G7l18v93GFj85xB2QdzDiwhUc3cFs9gu1+w/yvaCVE8t0a9RHi/xmps0szop
- LN/43paZ/CXvrvxBV/VHobonLF1cePaUBzMk/ECZl5iPF+/d+0G1Uc7Yn77KUminZ091tYdvjEwt
- 2fCPcK2cmxfhPXR2/zB3zArhQNnd2XtBJ50S5fP2MRvQhocC1n80yo0trCqnUgF/g20xmoWdrks6
- HLJYE0cjSdT+iEVS5YfFs6YPJoSYS6z5+AwZiaowHzc8U+3hXN8PYsYmWDFHERA20ph5hrKc/7Xv
- agjPWoZ6Z0jq/Nx0+EIFGTfUTkDocBNNuu8r7BXAixw9JmosQKKI1fYOsQftT+Tt5XanuVvw5msF
- URs7/MTpd7ccZ2Uy604K2VaoBx+w5YCUFzLDETlEkR1HCL+m/vWpCYMHimitSueAmWxL7U9vb2vK
- 7BcryxX+D7XLOL7LVFFenBBKXXwDsCsRM6P/KOpR5gboNr2z4SvJDjgWI7Nloi3g6FyoyXc8VMtm
- jyq6qdeBlI8XArgDPCYq2PNXnDyuvB/V6QO0x5sEBxGdi+Lp7lU4lkbfms6e3HijM4uAUcb8aGAw
- us/kan5KW3wwyvPVYAEtBKLnJcWR/OY9UMG+5SYU7lU2/8AWvgsEg/VKHtMaSdtOJBEQWZSmrVXA
- YzeRrEoJ9G5TB+eSHCM9xEtP82Ca6j4UXkIpg0/Q==
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-From: pipishuo <1289151713@qq.com>
-To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- 1289151713@qq.com
-Subject: [PATCH] staging: fbtft:fixes unnecessary parentheses
-Date: Sun, 28 Apr 2024 20:19:08 +0800
-X-OQ-MSGID: <20240428121908.16060-1-1289151713@qq.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD96D1129B2
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Apr 2024 20:23:05 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-56e69a51a33so3332180a12.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Apr 2024 13:23:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1714335784; x=1714940584; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1UYWciUs2erYzZFtTwjV5c1z3D+Uqx3k9sHr6YnyCsA=;
+ b=CZCJpcG93um1ViR8zWrlSIKsMc0b3ahdjzRL1qPIdrRDSAPpZbTLMUG1XAFfwhyfxb
+ 4E2C9A2yo711Zucnz2zD9FoZJjZcmYIZVK7O10ckYqftnpub/y1its7pf7esGTutnAZf
+ 5UeJ7/sXTsHZ8nEdtPtsOYrFQlnbG9ZGssRYqYXbMNL+0uREw8QKWxwYPkPvQxIQe3DK
+ PI9oPDY9EMNk+wVOhrYFM1ImFpCmX+dnZ338PHdMJKTKzp+tMauw5XKD+BbDXKgW3zM6
+ nCQuYqNLt9JNIdbi+K5hy5IsaWNmVq5OK2jmKB9n8MxBr1oQqqWWuO/cs3OYiFESI67P
+ imuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714335784; x=1714940584;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1UYWciUs2erYzZFtTwjV5c1z3D+Uqx3k9sHr6YnyCsA=;
+ b=FBCUX6r2XXKBeNecgqJ3BmahKYTnnvwESoXfWpYW9+ESbroU5avQTTyVMKZPfnGYQa
+ Wk9hXYMKPFDMSfIYX89tc0RA/HL1GVncBQ7ktpXJUDEwxJd34u6Y4cg0tXL+xiKq2CbX
+ p8g/ogsyf/DlmgFhNsGcy+1FB0JsL+cA2bBvlpDw8ZuhJgH5HR44AwDzSL08P0QeJ3Zp
+ SrOKb8ZTLjsvz929xxSD+IKUO0vmEp1htV/LspqcPheg7h2p45B7z/6AusVq37XET+/9
+ j9puujVkFYnEW/ngu/5hxq0eLQCThlNTk4HAdsGybu2Hsri0r+LRiRnFNzi7D462fQnd
+ Ty2A==
+X-Gm-Message-State: AOJu0YyluCyjsn0G/plU9MA2/IYVxq0wTyEWBMJY/5FpVyFHwAcc0QUz
+ 18bc+9lC4HhB3oCr5QZH+3WBDmCaWinFZk3a4RoibRu+bxVw2Qri7DKo8PoEkpzZJVmUMdCxrMK
+ bdsYL4xXsfkP6WZaxFz41Hvm2xYQ=
+X-Google-Smtp-Source: AGHT+IGluy1uFq/WY6DL1VnC9u8Pqr4PWkMPmHiWzCjfxgJaJI+ynQm5Ub6nCEQd8feX+KU/0XYBbQBv/MiBxsIHfrI=
+X-Received: by 2002:a17:907:31c2:b0:a52:3645:22b6 with SMTP id
+ xf2-20020a17090731c200b00a52364522b6mr8788842ejb.1.1714335783600; Sun, 28 Apr
+ 2024 13:23:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 28 Apr 2024 21:44:47 +0000
+References: <20240427105547.10752-1-mohamedahmedegypt2001@gmail.com>
+In-Reply-To: <20240427105547.10752-1-mohamedahmedegypt2001@gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 29 Apr 2024 06:22:51 +1000
+Message-ID: <CAPM=9tyoqdbzZ9Wg3q1f3j3ObzV0u1+qD_GbxhqE385Ms4BVAw@mail.gmail.com>
+Subject: Re: [RFC] drm/nouveau: use tile_mode and pte_kind for VM_BIND bo
+ allocations
+To: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, airlied@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,28 +75,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch fixes the checks reported by checkpatch.pl
-for unnecessary parentheses
+This looks like a good start, though I wonder can we just refactor out
+the common code from the vma and non-vma paths easier.
 
-Signed-off-by: pipishuo <1289151713@qq.com>
----
- drivers/staging/fbtft/fb_ili9320.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Also I wonder should we add a new GETPARAM so userspace can know this
+change is available.
 
-diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
-index 0be7c2d51548..045275a9bc0b 100644
---- a/drivers/staging/fbtft/fb_ili9320.c
-+++ b/drivers/staging/fbtft/fb_ili9320.c
-@@ -37,7 +37,8 @@ static int init_display(struct fbtft_par *par)
- 	devcode = read_devicecode(par);
- 	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code: 0x%04X\n",
- 		      devcode);
--	if ((devcode != 0x0000) && (devcode != 0x9320))
-+	if (devcode != 0x0000 &&
-+	    devcode != 0x9320)
- 		dev_warn(par->info->device,
- 			 "Unrecognized Device code: 0x%04X (expected 0x9320)\n",
- 			devcode);
--- 
-2.34.1
+Of course we also need a pointer to the userspace implementation to
+move forward.
 
+Thanks,
+Dave.
+
+On Sun, 28 Apr 2024 at 19:32, Mohamed Ahmed
+<mohamedahmedegypt2001@gmail.com> wrote:
+>
+> Allows PTE kind and tile mode on BO create with VM_BIND. This is needed to support modifiers in NVK and ensure correctness when dealing with the nouveau GL driver.
+>
+> Signed-off-by: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_bo.c | 24 +++++++++++++++++++-----
+>  1 file changed, 19 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> index db8cbf615..0da0b5286 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> @@ -304,11 +304,25 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
+>                 }
+>                 nvbo->page = vmm->page[pi].shift;
+>         } else {
+> -               /* reject other tile flags when in VM mode. */
+> -               if (tile_mode)
+> -                       return ERR_PTR(-EINVAL);
+> -               if (tile_flags & ~NOUVEAU_GEM_TILE_NONCONTIG)
+> -                       return ERR_PTR(-EINVAL);
+> +               if (cli->device.info.family >= NV_DEVICE_INFO_V0_FERMI) {
+> +                       nvbo->kind = (tile_flags & 0x0000ff00) >> 8;
+> +                       if (!nvif_mmu_kind_valid(mmu, nvbo->kind)) {
+> +                               kfree(nvbo);
+> +                               return ERR_PTR(-EINVAL);
+> +                       }
+> +
+> +                       nvbo->comp = mmu->kind[nvbo->kind] != nvbo->kind;
+> +               } else if (cli->device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
+> +                       nvbo->kind = (tile_flags & 0x00007f00) >> 8;
+> +                       nvbo->comp = (tile_flags & 0x00030000) >> 16;
+> +                       if (!nvif_mmu_kind_valid(mmu, nvbo->kind)) {
+> +                               kfree(nvbo);
+> +                               return ERR_PTR(-EINVAL);
+> +                       }
+> +               } else {
+> +                       nvbo->zeta = (tile_flags & 0x00000007);
+> +               }
+> +               nvbo->mode = tile_mode;
+>
+>                 /* Determine the desirable target GPU page size for the buffer. */
+>                 for (i = 0; i < vmm->page_nr; i++) {
+> --
+> 2.44.0
+>
