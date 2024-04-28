@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0303B8B4AAF
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Apr 2024 10:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3598B4B8F
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Apr 2024 13:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F52D10EF78;
-	Sun, 28 Apr 2024 08:16:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 790E910E856;
+	Sun, 28 Apr 2024 11:49:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LSEHmlPO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NgSMAVXP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 836C010EF78
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Apr 2024 08:16:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 731A36035D
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Apr 2024 08:16:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1C0CFC113CC
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Apr 2024 08:16:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714292211;
- bh=1M7WHMcmpHunz7CCDyHTLCYtBA0mhqiact/SUyG9RT8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=LSEHmlPOCdJbh6Yj/oWyrC3gAdX1RjxYg2sOptsac8fJyh7jQYAPTbTkGXYuPcgDR
- ITUY9VyUZEbaLTr0SqvBWDy5H0ICCq2n8XOtU5VrIGRhKVKAs7RDf41n21bgG1eyFj
- SwfPOr77kBB8M9SCiBfSrLPalg/50/YYxFKp6/jpAZhg2+xP/JOKHomVEr0l6+FwYY
- wPkfCnbOiR2rTNgnpjxCb2IpkrpQC/zU3nu14Jmlg37vep1YYmb6oteOLXxryBld/F
- gebHhmJNVJPVOjiLjPZalZmSdmMGjGSmWogcVckvNqTpTN+i9/Br9T/JSB4Lb9dBLp
- M2lx2T2K+0ojg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 0D557C53B50; Sun, 28 Apr 2024 08:16:51 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218785] HP Victus by HP Laptop 16-e0xxx. HDMI connection
- doesn't detect counterpart projector.
-Date: Sun, 28 Apr 2024 08:16:50 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: icegood1980@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218785-2300-2VoAs9OWEI@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218785-2300@https.bugzilla.kernel.org/>
-References: <bug-218785-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18BDC10E856
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Apr 2024 11:48:59 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-1eb24e3a2d9so15975995ad.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Apr 2024 04:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1714304938; x=1714909738; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=OnI6cUk44LsQbKr/M0rkgGZtY7M8erbagdEljkfjqQI=;
+ b=NgSMAVXPL0SAltjxjf7fsG/3aETKB7Yldt+HeM3ds6KjrCp1DI0uzOCciqELuPjxhB
+ F87FMTiwQOuo9sZDhxIaDcwaMyDxoOiPS4vr85SDluYEfmbymq1nYHyptEPUQIH5ItFB
+ 1dDO6V5k+x7GElfkS9ePxCGR4t2UMy8VLgmgM1awBEmDVnaWImBMgjrLpPEVIsxWPJrt
+ z1OzOKdZ5nZdTSX9enCoYTNK0EyHpLr8N9tmsSpm1e/fHkW1npZu47X0+KyWfEKfDnDk
+ M/O3VpP1FLtXj999s8IxIrcO4ydyrqWhpHuLpLpnUO/1i8kgtSq8ItoMO91zPvSU4pS1
+ 3Naw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714304938; x=1714909738;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OnI6cUk44LsQbKr/M0rkgGZtY7M8erbagdEljkfjqQI=;
+ b=FY4I00O5hOWUVJJjgCk9bPCaumn1vIekIgKCRK8SjQSVaAfXt4M3Ww8D5yzH9HGM95
+ mVH9plLI1UmFOaWiZwwVLezBdJSeUg9hpjzu4bvk2+BIMdUN/712/7JPzIJXHc2wVvgi
+ sMDNfi/6Nf/D9uVS4HIKB3jEmw0cEY7x8L1NVgBxDusMgm2FHtqHXMkbwqAxyg33+73I
+ aaT0PP8066Vx5ZShF6rMCf1jv0a8F58R8qKiXy8gF1V7sz9+iUC6yLU3Q27VJGLvwycD
+ QrMLGTEDWSG+5eeULTi3q6i0nforvtoC55QP5N8Q4G66rJBiBK5liGbAs8+HSPF7ZShX
+ YDRQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUF8880X2uvaPLm+7+m08N18eccC+jmBwexKxmenB18F/sJgrkP1VxA/Rzcvv94XWR/ZewrNM3HRUJZrDdwvn5JSDRo+yH2vD4Q7Qe8ZXN9
+X-Gm-Message-State: AOJu0YzP4S+nGFiCfOgvHnjwbUmac0iMOwkcl3M0rg9BkVWKcuLQPIQw
+ bQ0HUUEQIWOAXW/PdqskwxsAE2ERQogRVo200WMfadFjkNIQUb7YsBzqPFdsCUKdq56E4jJulAI
+ WKOX70GEdaGhB2rgtylS5BoYcai4=
+X-Google-Smtp-Source: AGHT+IHvwz4nmdunBr6J2yHHs8FhQymazg6kf8ScSAEcvNAnXFEsWfAvs5rH77tf3wCOJPv/oQPjDRBhRwGD7Ji4RbI=
+X-Received: by 2002:a17:902:f547:b0:1eb:fc2:1eed with SMTP id
+ h7-20020a170902f54700b001eb0fc21eedmr8045865plf.41.1714304938213; Sun, 28 Apr
+ 2024 04:48:58 -0700 (PDT)
 MIME-Version: 1.0
+From: Shresth Prasad <shresthprasad7@gmail.com>
+Date: Sun, 28 Apr 2024 17:18:46 +0530
+Message-ID: <CAE8VWiK8sOm6=q4JoTV7kCjQ-b3feO0FYqjQc_TZvLGe6Oi2zw@mail.gmail.com>
+Subject: Re: [PATCH v2][next] backlight: sky81452-backlight: Remove
+ unnecessary call to of_node_get
+To: Shresth Prasad <shresthprasad7@gmail.com>
+Cc: daniel.thompson@linaro.org, deller@gmx.de, dri-devel@lists.freedesktop.org,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>, jingoohan1@gmail.com,
+ lee@kernel.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,16 +78,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218785
+Hi, any updates on this?
+Has this patch been accepted?
 
---- Comment #2 from Sergey Ivanov (icegood1980@gmail.com) ---
-same empty list is in=20
-
-Linux ice-home 6.5.0-28-generic #29-Ubuntu SMP PREEMPT_DYNAMIC Thu Mar 28
-23:46:48 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Regards,
+Shresth
