@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA548B623B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 21:33:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C7F8B6226
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 21:32:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D2410F90B;
-	Mon, 29 Apr 2024 19:33:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C71B510EF98;
+	Mon, 29 Apr 2024 19:32:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZCWO+lyi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FfgZD0bx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
- [209.85.166.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8318F10FF6E;
- Mon, 29 Apr 2024 19:32:26 +0000 (UTC)
-Received: by mail-io1-f42.google.com with SMTP id
- ca18e2360f4ac-7d5e19d18fbso201993839f.2; 
- Mon, 29 Apr 2024 12:32:26 -0700 (PDT)
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
+ [209.85.166.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E48C110FF81;
+ Mon, 29 Apr 2024 19:32:27 +0000 (UTC)
+Received: by mail-io1-f54.google.com with SMTP id
+ ca18e2360f4ac-7da3ec3e044so232388239f.2; 
+ Mon, 29 Apr 2024 12:32:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714419146; x=1715023946; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1714419147; x=1715023947; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EXjRrzdCYkLhGXxn6Tze/QfNBLWvJeKdggxRtTTTxXs=;
- b=ZCWO+lyihf6vxTTT4TudGS4S1RFUmM16902LFyFudNUa5565FT/hoTK6VHbyn82WW/
- 9ywbunR0pzLacHXA/7zcofCeb38BqdJXaoGYpZVGhjm8//4c1Ipq+D9H+2dfafCEWtsb
- H5R992cgsqOe+hTUI8x4b6jx5bdwDpj6MS3UK3UWsrLvMHpPpPDPSpshI9blqXJwBmXq
- PkDHwgfcAfAeVXUxqPBe0WWZDPuaO6I0pU6AQlvrfukRnJSF3IkCGX49AxBbNKyI4ZDA
- zoHrogwKLw7doLbeQTyaDQQ1VMkwYjXgQ7FgKBeTSWWprK+mPpTWfibGeim3s+88v7Mw
- T6lg==
+ bh=WWBvTZRK9iMyBsS29iq5uzOkpLKIJfBUxQQ9jj4Ilzo=;
+ b=FfgZD0bx6v/zuNAWRUdvaX6IRM4dF7omWWxIwbfB4lK8yMok7VOZgsetW8JG+oYv9D
+ EBxf/QAsmya5ah1LvqO4f30JhWRIYM+oI5lanPgyOrvsR1R73TKvxVyDLz2CGRI9GWlr
+ YGFk5sH1WetLTEsQ2WTVlgEo3JlRKJOSvPP+1BSq5e3g/FdPTDpqVQBMbCkknuXi/06j
+ H1rpWYsInNEkJ1wkIrK06RF1RkG+Mc9E97XOpXDY9/pitsanhZ4Al1dEWsiG1kZ86DUp
+ emwVu0DK8AKDsZ1jBqy9RxVcUTL/lbGRMkJl9rQWHwFQ8tdvM1q6gnQ/xBqkCasWZDQG
+ lQ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714419146; x=1715023946;
+ d=1e100.net; s=20230601; t=1714419147; x=1715023947;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EXjRrzdCYkLhGXxn6Tze/QfNBLWvJeKdggxRtTTTxXs=;
- b=AIaw1ZeCZa/VyhZvJZuTt6sMy1U/BDB23mY7AEg/6zzDWUA83p/2Kq2ZQ+OOdl38CR
- Xpslqd5awZdKhaqFJlA+I1/o3+LqPmqhXYNqguAoXIHi3vZIZexCeAdIskbfE2d/yzHP
- 8jsztiRnuqSv3Bi5vxmER+uYj0Xwjwgazr+zy6umZpPE6YqYUixVDoUZRAtCd1xbfTfJ
- 9cRGfEmVBq+QI3Mf47AvKcznXpmxsxde1zRv0cYRxCmFuCovOsbzDDh7PMJ2OvF6dZzV
- rhZGeTzLPgRcT5KPzm96kpTIBk2AQMXX35MMnX8hjkiidPzZcXq6LJC6DELIMA0/7RqV
- g4Qg==
+ bh=WWBvTZRK9iMyBsS29iq5uzOkpLKIJfBUxQQ9jj4Ilzo=;
+ b=rL3yFAGRqflxPWQVSaNvT0PxXidr5pxIBuZo0kNo3X/fcThTOJXrBMp86kj6a2HT4X
+ PJ816lnK+Z7kankq2OrN7BKIoeSRWrX8TM4ywbfaDmmPI6ekRYzXfdB7Qy6cqcqEJsAD
+ P9oYREXM/m3PBoYGxJmxw8rtrqwjYVNreu0ZzOLn42goJdtol9rNjU2GofONXK1yoUOe
+ B2i2qqiFfR4pVB6a60AePBVI6e7mRZBTDV0fzivhTfUXPmkRfbQHAfhvMqyUsE+yjzUQ
+ Rm8UibjFxvqkjGVnVbZtaH3xKsyz3QT+rOxfuzAU+jVDwihpNDUfGDKdt7IchiV7fcVb
+ ep1g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUSPMqw7xByOS26Nl6rLoG+e8kVmGBcFb/I/F4txVFwaLOD+/nj7WZMAbNcK/3lld37hwpRJgLAjZ2yBLwY3+HQoXy9ZdtB3KbaWD4adMdGAgyznGre3rftjN6NkJ/AfFVX7tckrBHJaMC/uIwUjYZZbIEngwvKEE9uYHV4Qeji7KAQ1tPfbzxfNckgtat6lr1EgV0wZHVHikGaWocGneii7/d/KnQJFQlp/QCL6T/FNUYhAUo=
-X-Gm-Message-State: AOJu0YyR7YwBN7nvzl7IAAjtHBWteTppwosWlp+fM/JW8hhT72pbY+bQ
- jFQJTHwhK+M+LqO5yLgbPHI/tzynDUHn370pLJFfoMEHkLR2YUOa
-X-Google-Smtp-Source: AGHT+IE3p1obx5NHUH2g77zVzvLUE0eATOj9FCak93YZ3BbZGAqnDoiqRrtDkzEy/gCQsLpjLsG6lg==
-X-Received: by 2002:a5e:d818:0:b0:7da:c331:c5cd with SMTP id
- l24-20020a5ed818000000b007dac331c5cdmr8530527iok.6.1714419145679; 
- Mon, 29 Apr 2024 12:32:25 -0700 (PDT)
+ AJvYcCWFgZ//zc395quVAgQZgNqyz1Yh1KIbC1ID0/ZVIZtWcsNBe8w6KgOyv96Fq8Abp8tyKLM3NqDhZOIxQ7pihOO81xlmDnJRb3aBp7D0FIWRqdWFE9m4aT94r5jgx6jXgUat6iAlnn86Y/Pt32i2aBeGZtSM4PORSju19GTaxjD8YHD9Yze5NirAv1O0hQ1OnJzXD66/g6gwR/QKn0j5sxrO+raCJBLQstma9iMeMQl4Vrm9Qaw=
+X-Gm-Message-State: AOJu0Yw4XtIYkxqCxG6aZWYJ0OSIofGRuA5LHiBMmdMdjxw0D9y7cdxe
+ DtWXuUage34zprczscCrdIDaVjfm/uM22dN+xJwh90aTyUyjX3/V
+X-Google-Smtp-Source: AGHT+IHBlACPw9dSF2W5n040FK0AJ2oPwC33WMQq24sMPJGaWDt3luGkDhtD59iMEf10zw56UprD2g==
+X-Received: by 2002:a05:6602:4b0f:b0:7de:c308:76e2 with SMTP id
+ eo15-20020a0566024b0f00b007dec30876e2mr960254iob.3.1714419146954; 
+ Mon, 29 Apr 2024 12:32:26 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- dq18-20020a0566021b9200b007d5ec9b77aesm5988402iob.51.2024.04.29.12.32.24
+ dq18-20020a0566021b9200b007d5ec9b77aesm5988402iob.51.2024.04.29.12.32.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Apr 2024 12:32:25 -0700 (PDT)
+ Mon, 29 Apr 2024 12:32:26 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -66,9 +66,9 @@ Cc: ukaszb@chromium.org, linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
  ville.syrjala@linux.intel.com, seanpaul@chromium.org, robdclark@gmail.com,
  groeck@google.com, yanivt@google.com, bleung@google.com,
  Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v8 11/35] dyndbg: silence debugs with no-change updates
-Date: Mon, 29 Apr 2024 13:31:21 -0600
-Message-ID: <20240429193145.66543-12-jim.cromie@gmail.com>
+Subject: [PATCH v8 12/35] dyndbg: tighten ddebug_class_name() 1st arg type
+Date: Mon, 29 Apr 2024 13:31:22 -0600
+Message-ID: <20240429193145.66543-13-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240429193145.66543-1-jim.cromie@gmail.com>
 References: <20240429193145.66543-1-jim.cromie@gmail.com>
@@ -89,53 +89,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In ddebug_apply_class_bitmap(), check for actual changes to the bits
-before announcing them, to declutter logs.
+Change function's 1st arg-type, and deref in the caller.
+The fn doesn't need any other fields in the struct.
 
 no functional change.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ lib/dynamic_debug.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 368381dbd266..8320cadeb251 100644
+index 8320cadeb251..882354e1e78f 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -595,7 +595,7 @@ static int ddebug_exec_queries(char *query, const char *modname)
- 	return nfound;
- }
+@@ -1120,12 +1120,12 @@ static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
+ #define class_in_range(class_id, map)					\
+ 	(class_id >= map->base && class_id < map->base + map->length)
  
--/* apply a new bitmap to the sys-knob's current bit-state */
-+/* apply a new class-param setting */
- static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
- 				     unsigned long *new_bits, unsigned long *old_bits,
- 				     const char *query_modname)
-@@ -606,8 +606,9 @@ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
- 	int matches = 0;
- 	int bi, ct;
+-static const char *ddebug_class_name(struct ddebug_iter *iter, struct _ddebug *dp)
++static const char *ddebug_class_name(struct ddebug_table *dt, struct _ddebug *dp)
+ {
+-	struct ddebug_class_map *map = iter->table->classes;
+-	int i, nc = iter->table->num_classes;
++	struct ddebug_class_map *map = dt->classes;
++	int i;
  
--	v2pr_info("apply bitmap: 0x%lx to: 0x%lx for %s\n", *new_bits, *old_bits,
--		  query_modname ?: "");
-+	if (*new_bits != *old_bits)
-+		v2pr_info("apply bitmap: 0x%lx to: 0x%lx for %s\n", *new_bits,
-+			  *old_bits, query_modname ?: "'*'");
+-	for (i = 0; i < nc; i++, map++)
++	for (i = 0; i < dt->num_classes; i++, map++)
+ 		if (class_in_range(dp->class_id, map))
+ 			return map->class_names[dp->class_id - map->base];
  
- 	for (bi = 0; bi < map->length; bi++) {
- 		if (test_bit(bi, new_bits) == test_bit(bi, old_bits))
-@@ -622,8 +623,9 @@ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
- 		v2pr_info("bit_%d: %d matches on class: %s -> 0x%lx\n", bi,
- 			  ct, map->class_names[bi], *new_bits);
- 	}
--	v2pr_info("applied bitmap: 0x%lx to: 0x%lx for %s\n", *new_bits, *old_bits,
--		  query_modname ?: "");
-+	if (*new_bits != *old_bits)
-+		v2pr_info("applied bitmap: 0x%lx to: 0x%lx for %s\n", *new_bits,
-+			  *old_bits, query_modname ?: "'*'");
+@@ -1159,7 +1159,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
+ 	seq_puts(m, "\"");
  
- 	return matches;
- }
+ 	if (dp->class_id != _DPRINTK_CLASS_DFLT) {
+-		class = ddebug_class_name(iter, dp);
++		class = ddebug_class_name(iter->table, dp);
+ 		if (class)
+ 			seq_printf(m, " class:%s", class);
+ 		else
 -- 
 2.44.0
 
