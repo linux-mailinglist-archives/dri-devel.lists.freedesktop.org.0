@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E74B8B6237
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 21:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98E28B623F
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 21:33:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89A2710FF99;
-	Mon, 29 Apr 2024 19:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9A1D10FF71;
+	Mon, 29 Apr 2024 19:33:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HOPdAf3Z";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cwWoUS4E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
- [209.85.166.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BDF410EF98;
- Mon, 29 Apr 2024 19:32:38 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id
- ca18e2360f4ac-7decef0e157so57895539f.1; 
- Mon, 29 Apr 2024 12:32:38 -0700 (PDT)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+ [209.85.166.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24C0F10E4D6;
+ Mon, 29 Apr 2024 19:32:40 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id
+ ca18e2360f4ac-7d5e93b40feso222628439f.2; 
+ Mon, 29 Apr 2024 12:32:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714419158; x=1715023958; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1714419159; x=1715023959; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JIz+6Oy1eqH41GGZgxlPQbWfghUp3j8MpQZmEvPSsQ0=;
- b=HOPdAf3ZandZ7zoHJklKs6pfCp+sugEn/55n961XcPK+0dzygbU/jW0879yaYClxn+
- vjaWDf+KT4U3SqKsnQKKnkMhhPAGWB0l3hwTP7TKZPlQeUBFBynkY9f1gXRXr4zkGo7y
- yNQa+qujC6OduqoyN/dIGPP/ja/esrbwojJ+eC8rNsql7WmzirXZAATMwR4DmYuLjAxJ
- aY5skBZnbki3Gmnl239cpDlI0GXYcBiiZRmOgfY4j+ZdEC4o1vDpuzneQzkABVLxkm43
- uhVotNcKdlLUNcwtad8Wr/fUsp5GLxrA42G91zzKAKKnRLSp6AUIHSjPcD8mVn8EEbLL
- Vy1g==
+ bh=OThLtlQLHmt6Xu/dLjE7jt3V84uDU3HgUSM9F2dF2XI=;
+ b=cwWoUS4EmSWZSeFezaACVRc/JtnPPTzMkDA3HCt3u0nIz4mTZZ+CIhx02JLgCWIllO
+ INamEDKHJLqlzy4yvfXm0I1H/4/UAJ47u/OQj56c1KcGwx3lb2HTx70iX+jzn1dBFI9q
+ jVtGDu5lfU0PV9dEGhDVspe87FyVfmEKWUx7BhZ8LDFqC3Yg1ZNsWkb7vYsVdXYW2stl
+ auFVcLhFvDAMzh3BbRCgWczGjaWHKD1p8LGmqq+j8M4EDlmxAv+NxHMIPc6mibIuoqGf
+ taHex9AcmWNSi2J1CG9yU6JP1Kq3LEQIYBqPK+Yggxeeu44c37jD3FLP/be9EPmJPVFB
+ 55Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714419158; x=1715023958;
+ d=1e100.net; s=20230601; t=1714419159; x=1715023959;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JIz+6Oy1eqH41GGZgxlPQbWfghUp3j8MpQZmEvPSsQ0=;
- b=vO0RNbBAfT5gctsPiD/rJPu8G1G8fulSX++n6vumJSv9HCCRvATiBNHFzahSMBkzre
- u4GA3lDill18BJ9z335cywpW33k6KYk5p3mumOeIQoSBb93ecUXYDGY/3J/VG3pL1gyJ
- p1ud2IMukWmFIz7jf144ScUgz5/QzT2f4Obyqmd5BsV8cmacCbqb+PgAuV/WcRtded+I
- c08wBBrKsTpsOvwF/qWQYvIL5CSsFbBgTRVwEGEl+IhgGIIw79uqNVtVSD/9JjTZiyG9
- RtYyNiU/HjPHFqyRQORafGPO3oFLXTNlbOFcO9smfumIzkP3N67jCp6o7uuFswjXWiAX
- 4IMg==
+ bh=OThLtlQLHmt6Xu/dLjE7jt3V84uDU3HgUSM9F2dF2XI=;
+ b=MG9XIj6ZDpJmlk3dCIUrAB7SaEsgAs7RT5YrynhgzkN82wZA9eSVYGcNQG7jzDxNVy
+ sLeUwKntvp44T4JgIr9A1dE8p0jht3wPdmpsrt2ERKAje20JPo1LQnECrZg3yQ5TDlgd
+ yrEjtqoyAVfRSomKqACBdfH9erwaIlY/5N8ZOTq8j0TNzTnlNBhGRC4OuBMTLPmVc79Q
+ Z6D9i41wau7Mhsz5j5zMcBohUTFhqBOcYKSOW+CGu3vtj60o4eBQxbllSrGVQXInP58Z
+ UjTraik11QZwwQ5iTFZ6iVImHSjCVsjw2OKmmRdIHDcLceBCwsxXfu46Ry2+ZQT5DCYY
+ RZ+w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUytkzA233Icwh9EgQpkUQ4aWpbHdZVWK6KF1gQxJB7y6v1KfVEwbkmMfVH8uiGyxunQPK3EOPrbqHrtDtYhDK3qQVL/+sZsvn75wr3TXtyLvvHlUmEBwJ6vv/GzeVO4U+xujcOaxnT7q0jSU99mleRGEsGU69Pt99MtkazMtxF8MhxbIz4J0XNzDQLUOaQBQDI87uXtAnY7LzVxRrXhiGUGFJb+0uKpFjSG87bUk/t3gUsueY=
-X-Gm-Message-State: AOJu0YxEZ3R6b4OLzSpowEDtc0UjMQJnFBqLNuY072OUjjzi2xEKzU/U
- TzcqKx9KjiUBXTIso+zRCbS5stsEM3kDZk6dYyvg8+zvn9yCOWqLg08D0OQG
-X-Google-Smtp-Source: AGHT+IE1jWtePWw6hNOXPmMG/1s0Yzh6iS8u5e32EiGdJcYoBYuvslfcHMKe4q9ahEbOBjkby+55rw==
-X-Received: by 2002:a5e:c20b:0:b0:7de:c3ab:3496 with SMTP id
- v11-20020a5ec20b000000b007dec3ab3496mr6792315iop.4.1714419157705; 
- Mon, 29 Apr 2024 12:32:37 -0700 (PDT)
+ AJvYcCWMX2lXBMTcmJ5L0hFSvvfipVUMGVJk2E94n7DUid9XLmpgrjDEi1GMFXw2UzZHEJO0korFdseCKToD+eTeg5URmaJXjfG1J11uN12SjJuflaja7YqAfhQMtbWx+U5BNPpUpRdJ+u2g6/TByDRqvlZXHmsdha7P/f68rgqw3pJvr8RPdnHW751/IoCRbV9D9YwaJJqsjaHlDtyT3oQG29Rt8yJyQaIy9yng465B8Ud8swy4iLc=
+X-Gm-Message-State: AOJu0YyuzxSgkihh1ckHaVGGSTdQa2nk7FOsEc6A2gyzMCX3d5y3wKed
+ 1zgyjs4eFV/BjE5kFxS99kpEJxo0ZMUeqg5RCGVEZH0uQ7a5ZCA7
+X-Google-Smtp-Source: AGHT+IHgblQU2XTGAf0Eayg4FlLzB3xPXagAcjM9qSnZz48ZH/Uw5+5PWqitVmSs5xwWAIoFf2KeRA==
+X-Received: by 2002:a6b:510c:0:b0:7de:d078:16a4 with SMTP id
+ f12-20020a6b510c000000b007ded07816a4mr3684490iob.0.1714419159322; 
+ Mon, 29 Apr 2024 12:32:39 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- dq18-20020a0566021b9200b007d5ec9b77aesm5988402iob.51.2024.04.29.12.32.36
+ dq18-20020a0566021b9200b007d5ec9b77aesm5988402iob.51.2024.04.29.12.32.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Apr 2024 12:32:37 -0700 (PDT)
+ Mon, 29 Apr 2024 12:32:38 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -66,13 +66,14 @@ Cc: ukaszb@chromium.org, linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
  ville.syrjala@linux.intel.com, seanpaul@chromium.org, robdclark@gmail.com,
  groeck@google.com, yanivt@google.com, bleung@google.com,
  Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v8 20/35] dyndbg-doc: add classmap info to howto
-Date: Mon, 29 Apr 2024 13:31:30 -0600
-Message-ID: <20240429193145.66543-21-jim.cromie@gmail.com>
+Subject: [PATCH v8 21/35] dyndbg: treat comma as a token separator
+Date: Mon, 29 Apr 2024 13:31:31 -0600
+Message-ID: <20240429193145.66543-22-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240429193145.66543-1-jim.cromie@gmail.com>
 References: <20240429193145.66543-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,101 +90,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Describe the 3 API macros providing dynamic_debug's classmaps
+Treat comma as a token terminator, just like a space.  This allows a
+user to avoid quoting hassles when spaces are otherwise needed:
 
-DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
-DYNDBG_CLASSMAP_USE    - refer to exported map
-DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+ :#> modprobe drm dyndbg=class,DRM_UT_CORE,+p\;class,DRM_UT_KMS,+p
 
-cc: linux-doc@vger.kernel.org
+or as a boot arg:
+
+ drm.dyndbg=class,DRM_UT_CORE,+p  # todo: support multi-query here
+
+Given the many ways a boot-line +args can be assembled and then passed
+in/down/around shell based tools, this may allow side-stepping all
+sorts of quoting hassles thru those layers.
+
+existing query format:
+
+ modprobe test_dynamic_debug dyndbg="class D2_CORE +p"
+
+new format:
+
+ modprobe test_dynamic_debug dyndbg=class,D2_CORE,+p
+
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+Co-developed-by: Łukasz Bartosik <ukaszb@chromium.org>
+Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
 ---
-v5 adjustments per Randy Dunlap
-v7 checkpatch fixes
-v8 more
----
- .../admin-guide/dynamic-debug-howto.rst       | 63 ++++++++++++++++++-
- 1 file changed, 62 insertions(+), 1 deletion(-)
+ lib/dynamic_debug.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 6a8ce5a34382..742eb4230c6e 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -225,7 +225,6 @@ the ``p`` flag has meaning, other flags are ignored.
- Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-fslmpt``.
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 31fd67597928..c1bc728cb050 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -290,6 +290,14 @@ static int ddebug_change(const struct ddebug_query *query,
+ 	return nfound;
+ }
  
--
- Debug messages during Boot Process
- ==================================
++static char *skip_spaces_and_commas(const char *str)
++{
++	str = skip_spaces(str);
++	while (*str == ',')
++		str = skip_spaces(++str);
++	return (char *)str;
++}
++
+ /*
+  * Split the buffer `buf' into space-separated words.
+  * Handles simple " and ' quoting, i.e. without nested,
+@@ -303,8 +311,8 @@ static int ddebug_tokenize(char *buf, char *words[], int maxwords)
+ 	while (*buf) {
+ 		char *end;
  
-@@ -375,3 +374,65 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
+-		/* Skip leading whitespace */
+-		buf = skip_spaces(buf);
++		/* Skip leading whitespace and comma */
++		buf = skip_spaces_and_commas(buf);
+ 		if (!*buf)
+ 			break;	/* oh, it was trailing whitespace */
+ 		if (*buf == '#')
+@@ -320,7 +328,7 @@ static int ddebug_tokenize(char *buf, char *words[], int maxwords)
+ 				return -EINVAL;	/* unclosed quote */
+ 			}
+ 		} else {
+-			for (end = buf; *end && !isspace(*end); end++)
++			for (end = buf; *end && !isspace(*end) && *end != ','; end++)
+ 				;
+ 			if (end == buf) {
+ 				pr_err("parse err after word:%d=%s\n", nwords,
+@@ -592,7 +600,8 @@ static int ddebug_exec_queries(char *query, const char *modname)
+ 		if (split)
+ 			*split++ = '\0';
+ 
+-		query = skip_spaces(query);
++		query = skip_spaces_and_commas(query);
 +
-+Dynamic Debug classmaps
-+=======================
-+
-+Dyndbg allows selection/grouping of *prdbg* callsites using structural
-+info: module, file, function, line.  Classmaps allow authors to add
-+their own domain-oriented groupings using class-names.  Classmaps are
-+exported, so they referencable from other modules.
-+
-+  # enable classes individually
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+The "class FOO" syntax protects class'd prdbgs from generic overwrite::
-+
-+  # IOW this doesn't wipe any DRM.debug settings
-+  :#> ddcmd -p
-+
-+To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
-+classes in a classmap, mapping param-bits 0..N onto the classes:
-+DRM_UT_<*> for the DRM use-case.
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
-+each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
-+type, and mapping the class-names to consecutive _class_ids.
-+
-+By doing so, modules tell dyndbg that they have prdbgs with those
-+class_ids, and they authorize dyndbg to accept "class FOO" for the
-+module defining the classmap, and its contained classnames.
-+
-+DYNDBG_CLASSMAP_USE - drm drivers invoke this to ref the CLASSMAP that
-+drm DEFINEs.  This shares the classmap definition, and authorizes
-+dyndbg to apply changes to the user module's class'd pr_debugs.  It
-+also tells dyndbg how to initialize the user's prdbgs at modprobe,
-+based upon the current setting of the parent's controlling param.
-+
-+There are 2 types of classmaps:
-+
-+ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-+ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to a
-+DEFINEd classmap, and associates it to the param's data-store.  This
-+state is then applied to DEFINEr and USEr modules when they're modprobed.
-+
-+This interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself.
-+
-+Modules or module-groups (drm & drivers) can define multiple
-+classmaps, as long as they share the limited 0..62 per-module-group
-+_class_id range, without overlap.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
+ 		if (!query || !*query || *query == '#')
+ 			continue;
+ 
 -- 
 2.44.0
 
