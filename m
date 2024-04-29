@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB52A8B62CE
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 21:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 079FD8B62D1
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 21:48:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E5C112111;
-	Mon, 29 Apr 2024 19:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55B1F11219C;
+	Mon, 29 Apr 2024 19:48:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="CW4D8BJC";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vM4RdfYH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2043.outbound.protection.outlook.com [40.107.102.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9A110FFE6;
- Mon, 29 Apr 2024 19:48:36 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2042.outbound.protection.outlook.com [40.107.220.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A16D311219C;
+ Mon, 29 Apr 2024 19:48:38 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XzLIteZy8DRpFIl6XMGB5F8k/FDXt+kwQGo76MoYZV//hTlO9I/HJyhOakyNvCKDHqs8f01IJmPkkL6gZH9VpFVkSEKiEd+VKnDORJu+9KMnMINBKRdocd3qg57igiji7OiY6Erwnp2Z+BFrUibF7u/jlGPFepQVu6jI1SJGqYyAqWinSR3QszB3G/KabY9LXEg30tZLokA37fNeQrH8I84yzOlzD62zqh4ZWFW18MfSCpZZenuLa9nMtJQ3fqVKhdd1WHioLvpMmTeNw8pBvIsZvXO//c7OMZCbO+f6lvfqs6xuWJqjb16c+8FTH8JGk9lodOLq9fes6UGHRG99Bg==
+ b=Xh0PxD3rE7UF7LO4z5+qzTk+5mejbcDuRfB7GjFohfPfAMfEJxu5xNKpBA2Dmern1UqwaC98V9le+qP6V9yRPX+vzfDEmSDtSRNhP16suZXowAUlDRKudL/WxsfmlaceXk8rmEDwjBR3MvpypeiGqaBHTI5BKPOVXMKEvwpRJg6jNya29KCQpZ2N1p4dWlMBy4IuJHOdfrVsngEYKgmgkcTQVzlOG29moiLpr+VvbpFtdIq3gHGR/4/EQBn7PohmdQpJDYb7L++XFrTusPuPkJ+t9tYx25I+BKABy+KKCHaGmuEq5tGDLRl+Du48R4CCkyKjJtUpZzD5AYPsf7cmYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y9Vr4KLLPhKTieIFwagpFBKbda+8mYUmf7zrjsGo4D4=;
- b=LagXSaKZozoeFz99DF6A8h0xjaR5FGdWVHaCJn9SJH9JN+Nn/PFvLaaW3Cd5Q1zGqBpurgdDAp6mGMJwl5iZ7maV1Gn+EnbLR9Q0cVmcap6p9eZqpe4St13nRr2MQFyOnUUsFoTEcg4MKHFM4nlBtjgKsvNB638Ybg7ao1vVRB2+uZ6uum4L1aDm7w9o8VYXEqXAp2JLbwzhO8AmosviT31Pon8ctxeW0TTU9vG5WfQaIgoJHQbxKOdgm1edTAbWEU2g+/vdd+KpDaj74+k9QqjfBEi6zDK/2cXeH4Lrnqn1ACqqLCf91sTIExUs7QguHimko8nR8x6W/KfUqUC0dw==
+ bh=mspcowMmD7wnB6yK8xr3QpoS55uCutUSurvUP+ZnMvo=;
+ b=AMZybg+nDMmUQDfV1r9gF5EHRJsUF/K+qqRETP1yR5cNPKsQ4WN5N96CS3AX2T1u9P7ocLx2E3EPLVJKaP7NHpg3TIIGnZ6ctaFcEbdiuQ5/3XZR3AiP7g0dUKUX/bdtYmYFg4WLcgG7/+h1Sge7biqSuWsjMCkx4P8bWOl5rLhcJOqggFbpax3H56hTvw1v528T3Xk4hthbTNUSnKjkBl4Ioue6rLyOLoBZtJG2KPPVzKN85IGqU+Acvps3HMUOVBY616Nx1lnwHS+KSHkHkYb1VEHr+WXqmyWUS2oqhAjFpAKbRZv1JrPdkmXSxPlgrWOWPE17p0n6mtiWmxRj7w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y9Vr4KLLPhKTieIFwagpFBKbda+8mYUmf7zrjsGo4D4=;
- b=CW4D8BJCvO1q0sHrirmgpAjXhKqt9UVJnf/yzlKpuHV4bRH4QP6jj0Mxbl0Pwvwb8u5g4w3+K5SLCduwMQ3OdbLdGE6jhUfFmz9fA08UsyM6FSfeD8FYiAp25K3Q/fJoZpqw5/kPDd28q5EPMRMin5Qp92GOcXvgdlNrzOdh1Kc=
-Received: from BN0PR02CA0001.namprd02.prod.outlook.com (2603:10b6:408:e4::6)
- by SJ1PR12MB6172.namprd12.prod.outlook.com (2603:10b6:a03:459::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.34; Mon, 29 Apr
- 2024 19:48:29 +0000
-Received: from BN3PEPF0000B069.namprd21.prod.outlook.com
- (2603:10b6:408:e4:cafe::a4) by BN0PR02CA0001.outlook.office365.com
- (2603:10b6:408:e4::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.35 via Frontend
- Transport; Mon, 29 Apr 2024 19:48:29 +0000
+ bh=mspcowMmD7wnB6yK8xr3QpoS55uCutUSurvUP+ZnMvo=;
+ b=vM4RdfYHez7PKlSHayZ03zyR5sH1y+Bf9HyIIh0N06cFyCGiX46OBPoaGq8Kx5gcJ19OUu0OYISdQIlglHshJRVSFeYi3Ep+fM3TFcvbirvMyjwxsIILeH8TFbP2DnMH62uSHY11ZP+8T2WkagBSFSkjpmxAN537AJKNecT72tA=
+Received: from BLAPR05CA0011.namprd05.prod.outlook.com (2603:10b6:208:36e::26)
+ by SJ2PR12MB7919.namprd12.prod.outlook.com (2603:10b6:a03:4cc::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.35; Mon, 29 Apr
+ 2024 19:48:31 +0000
+Received: from BN3PEPF0000B06C.namprd21.prod.outlook.com
+ (2603:10b6:208:36e:cafe::ac) by BLAPR05CA0011.outlook.office365.com
+ (2603:10b6:208:36e::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.22 via Frontend
+ Transport; Mon, 29 Apr 2024 19:48:31 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN3PEPF0000B069.mail.protection.outlook.com (10.167.243.68) with Microsoft
+ BN3PEPF0000B06C.mail.protection.outlook.com (10.167.243.71) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7519.0 via Frontend Transport; Mon, 29 Apr 2024 19:48:29 +0000
+ 15.20.7519.0 via Frontend Transport; Mon, 29 Apr 2024 19:48:31 +0000
 Received: from thonkpad.localhost (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 29 Apr
- 2024 14:48:27 -0500
+ 2024 14:48:30 -0500
 From: <sunpeng.li@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: Joshua Ashton <joshua@froggi.es>, =?UTF-8?q?Michel=20D=C3=A4nzer?=
@@ -64,10 +64,12 @@ CC: Joshua Ashton <joshua@froggi.es>, =?UTF-8?q?Michel=20D=C3=A4nzer?=
  "Sean Paul" <sean@poorly.run>, Simon Ser <contact@emersion.fr>, Shashank
  Sharma <shashank.sharma@amd.com>, Harry Wentland <harry.wentland@amd.com>,
  "Sebastian Wick" <sebastian.wick@redhat.com>, Leo Li <sunpeng.li@amd.com>
-Subject: [PATCH v2 1/2] drm/amd/display: Introduce overlay cursor mode
-Date: Mon, 29 Apr 2024 15:48:04 -0400
-Message-ID: <20240429194805.141626-1-sunpeng.li@amd.com>
+Subject: [PATCH v2 2/2] drm/amd/display: Move PRIMARY plane zpos higher
+Date: Mon, 29 Apr 2024 15:48:05 -0400
+Message-ID: <20240429194805.141626-2-sunpeng.li@amd.com>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240429194805.141626-1-sunpeng.li@amd.com>
+References: <20240429194805.141626-1-sunpeng.li@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -76,50 +78,49 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B069:EE_|SJ1PR12MB6172:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1133a90-8a08-4a7c-d5bf-08dc688557b5
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06C:EE_|SJ2PR12MB7919:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0841f8b5-7e09-4ee1-daa0-08dc68855919
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230031|36860700004|376005|1800799015|7416005|82310400014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5wG5WbTBgwK5fd4xSaPTNmo6IVFe7LQdaVU/LUuQQVGkDbdbPIj0ekQi+rp3?=
- =?us-ascii?Q?unKw1wBbPkhrifnh7gB33WpVwV6F9TGW5JDbN/Q4U6NqHN29YfKJTzv97g7M?=
- =?us-ascii?Q?fVr+nOfsXuySD1/nhjMZHMnTTO1m2YLNbu9RtUwJYWV9YDcUgZhc4VMuAqec?=
- =?us-ascii?Q?1duzt5jLolU3j7K6X5VpuW5qE34pHH1WmMLadu1GmP3T+vvCLh1B1kF7sLut?=
- =?us-ascii?Q?nOBskuIVzbB3AdkNYDh1oP3nSgr2KLgddivKrp2qK4Lxon/LjyPTMaw9iRML?=
- =?us-ascii?Q?cyNslIiWXSQEy4cCxjTgJBOyg9kOMGTpvUYOTHkCSTIE7+Abe2aN6D+cbFO9?=
- =?us-ascii?Q?HQ8vC5d9P7MU0bc8juKHB5lIBI/9J6Cib00e3Nx3OBu/n/K8YS0qmd+4UlyT?=
- =?us-ascii?Q?kyY1AkJ99zkPHH63l5nz3MK8yGphpTTxdd5WuA3fLlIGEJll5zGB2lx66qAX?=
- =?us-ascii?Q?1XxQ1NbMLub9bz5Mpee+MsliT7SMHXPuRuAEEJq330Zgw4AGpKDM/1CEAHLx?=
- =?us-ascii?Q?8K4oJ97ewz8eN+SzqwZ96TbTOkdWD1bfCh08AW/AKqb5n3v2z440oc4Kj+PT?=
- =?us-ascii?Q?jNsKGk86ykMsBEsGG69BtGPaLMjlHdUKVrtIZR2wfY+xXF7B+SJYOxSkJrZZ?=
- =?us-ascii?Q?jcA52hNkz3nIt6Tq/HSjShG+941hET4VnG7q0CJvqnVdXPGieGX8rXSL/eHA?=
- =?us-ascii?Q?U2toiJwXTsXodlcvBsnoLH7rfWmOE0I0wZrDiFv8uYw+PeHOFDWxcNrg9FYj?=
- =?us-ascii?Q?7/J+aU77V1JcZDrK/zIZZGln3Az+KJ5NFqsE1x+y+rC/KC4aZsg8xa9g+can?=
- =?us-ascii?Q?DZ3XPKbSWXDeQDWj5zZsELFnq6eBAcpvcxmouWQicRGbo2MGJ9DbWGchVADd?=
- =?us-ascii?Q?M1/WEaLQBrF01AA4mtDqZ9v/EYYMzF1lAEGBve1UIUkDnP0DOUxh/ksT/Ga/?=
- =?us-ascii?Q?ZdppEAEyyRQXI8RkAVusUdRBkHdNZmZLH6NdTGPmaz6+5dFW0QrwA1Ad9FB5?=
- =?us-ascii?Q?KEbp/2jlWz2ZBXXis9cfEVcKoJlgi5KoOVPxItprb3Pspi4jLiCu3Zey6yQ8?=
- =?us-ascii?Q?WD5zwYUXk0Z5taLX7bMIK+50q8wzyMAq1F95cwJdKcdJL7OZdUP2cP6rWZ5t?=
- =?us-ascii?Q?CzEuuB2Qf1sQCOwueOKqGwcrDdfBfzlP7KXwN8J0LG25CU5/tq+H4Msh/AQ0?=
- =?us-ascii?Q?fGU2FTJaNxsCJbQ4eI9LfK8GFPjoRO9C9yGu6U9I4obwJO2w7G7MRqMb3wR2?=
- =?us-ascii?Q?rSu5cVRPJAMrJL0Me4OWybvYuvT9V173GVgGkJ+xbdH7DdkAdpFGDsxuwGcM?=
- =?us-ascii?Q?pWLe6gMHeFtXAIavnQn8f4KseIVMJ1w3LMTL55mWIALejmDYkJJDc1JcvJon?=
- =?us-ascii?Q?ZWd7LkcA3VGknA3DJI4WqjuRz/fU?=
+ ARA:13230031|82310400014|376005|1800799015|7416005|36860700004; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GBY5Tbr1fN1S/Wq99wkosrmxD8CGG4uLLXaAUg0406nN8b5liO3nYY/KiWHm?=
+ =?us-ascii?Q?EpJ2V7UsKXnTBRKC58W57TjU6a25wifSNu0RIah3yGxdkUhFSqYTvLQebnyJ?=
+ =?us-ascii?Q?IhWUEkd/ujpw7cfIIMq8ZSqKzdI0pTj6I5kkonDmEVfKxPYttbBj90MUx8oJ?=
+ =?us-ascii?Q?uaQAUH8do8khvG90DahDN/51YmXW5QZRhD3QFYPUYV2eQia9r1Dm6pUUlE5+?=
+ =?us-ascii?Q?C+qurjL4dKiMcvASyCaNbYKIG9YWxzP8A4bjKI2ILhHf8PIJR97vtSSty4/d?=
+ =?us-ascii?Q?jXwC6fbN3v8z98jYXi9W1BqvmstLRdnze945QTpnGe9gZdUSe/Xx3/nPirxW?=
+ =?us-ascii?Q?YiuZ+C01XgYFLgtIXbru7L4sqetHIfXd3Q8fZVdwBxXFtgKrF2LSYa0eu7RH?=
+ =?us-ascii?Q?Xmdp2JaQC7sTahl1RUVFtwcZyxtF4iqICbX07zDNYrdhhHDc2ylQDa/J5SDI?=
+ =?us-ascii?Q?g+5x6BdrsJ/0TCVYAYqJNFPQ3qW/1ld5Nr5ajErTGGQ6x5/NlegbiLx5WUYr?=
+ =?us-ascii?Q?SV68k84gVsMY8j3fvXY/tOwBZyx/2si3iwDDe9DDlxSx7i1dN1RcXl4k9cxc?=
+ =?us-ascii?Q?4cCMdQTZ2HKbpU8UNOT1ZhwpucviBBAk3Z2M9dh+bzBGK23Jj88PHgOoXBT/?=
+ =?us-ascii?Q?1jyBJIwvqOXvrgmSJgmZE+eeIIDd8K+f3isPyt5nyuUQhEQMJoyI0d6JlnbM?=
+ =?us-ascii?Q?SBEXfoLBduAZ1b988yp9K4Uo1qFKpY5WDMqa/TfYBa5yP6rU2JRijcTFY6Au?=
+ =?us-ascii?Q?hCQPmDCsYQVpu36ECbjPvNHbNvOwD2inUhPwZZAeLlxTA8RSRLPJkc7QbwC3?=
+ =?us-ascii?Q?DCT+g5MabZ7183sV9BA80mxntjMM0A1L3wDfhapmPpnvx991BQM11bPYfmMg?=
+ =?us-ascii?Q?09ByyjBq4YD8Rs8fwNBIqpvGIu+x5H5ZVyBVCq9xdCvI26CSNf/MnngGo8TW?=
+ =?us-ascii?Q?yOkNF2xExosakQVJIKRjIfLFkz2jkzrn3syQo42F0WJfSYYrXHNFqu5ModFc?=
+ =?us-ascii?Q?XBjv28zxurV5F20raDvjFkCqoFjLyzU7rFCTw9Xj9jwnz2yAc6yXzl3h+JSp?=
+ =?us-ascii?Q?mav6kN8Q5pyp7HYX8gQcv2/4azsbWDTsQG2ShvEt9hkERhT2lfYTLBM7aiXr?=
+ =?us-ascii?Q?P4oDwtpW2ArOg22EKfT7iUur1MxNSkjuYNNZmsyha6GL5PwOTAmR7ctPHpV/?=
+ =?us-ascii?Q?qaBANP7hm9SYzG76c4D5uRsDzOJNluYrTU4YRbROP5M1pdTxpVoHvBs/m9Zz?=
+ =?us-ascii?Q?vXUno51RYBDzFiRx1Bp+JpDg7sQgBLzjv9Xv5CR+DfsJDO9R0Uiy6KsqDRUp?=
+ =?us-ascii?Q?qMJozFJk4y4AIwKuyyYENHkz?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(36860700004)(376005)(1800799015)(7416005)(82310400014); DIR:OUT;
+ SFS:(13230031)(82310400014)(376005)(1800799015)(7416005)(36860700004); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2024 19:48:29.0772 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1133a90-8a08-4a7c-d5bf-08dc688557b5
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2024 19:48:31.4103 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0841f8b5-7e09-4ee1-daa0-08dc68855919
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B069.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B06C.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6172
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7919
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,782 +140,169 @@ From: Leo Li <sunpeng.li@amd.com>
 
 [Why]
 
-DCN is the display hardware for amdgpu. DRM planes are backed by DCN
-hardware pipes, which carry pixel data from one end (memory), to the
-other (output encoder).
+Compositors have different ways of assigning surfaces to DRM planes for
+render offloading. It may decide between various strategies: overlay,
+underlay, or a mix of both (see here for more info:
+https://gitlab.freedesktop.org/emersion/libliftoff/-/issues/76)
 
-Each DCN pipe has the ability to blend in a cursor early on in the
-pipeline. In other words, there are no dedicated cursor planes in DCN,
-which makes cursor behavior somewhat unintuitive for compositors.
+One way for compositors to implement the underlay strategy is to assign
+a higher zpos to the DRM_PRIMARY plane than the DRM_OVERLAY planes,
+effectively turning the DRM_OVERLAY plane into an underlay plane.
 
-For example, if the cursor is in RGB format, but the top-most DRM plane
-is in YUV format, DCN will not be able to blend them. Because of this,
-amdgpu_dm rejects all configurations where a cursor needs to be enabled
-on top of a YUV formatted plane.
-
-From a compositor's perspective, when computing an allocation for
-hardware plane offloading, this cursor-on-yuv configuration result in an
-atomic test failure. Since the failure reason is not obvious at all,
-compositors will likely fall back to full rendering, which is not ideal.
-
-Instead, amdgpu_dm can try to accommodate the cursor-on-yuv
-configuration by opportunistically reserving a separate DCN pipe just
-for the cursor. We can refer to this as "overlay cursor mode". It is
-contrasted with "native cursor mode", where the native DCN per-pipe
-cursor is used.
+Today, amdgpu attaches an immutable zpos of 0 to the DRM_PRIMARY plane.
+This however, is an arbitrary restriction. DCN pipes are general
+purpose, and can be arranged in any z-order. To support compositors
+using this allocation scheme, we can set a non-zero immutable zpos for
+the PRIMARY, allowing the placement of OVERLAYS (mutable zpos range
+0-254) beneath the PRIMARY.
 
 [How]
 
-On each crtc, compute whether the cursor plane should be enabled in
-overlay mode. If it is, mark the CRTC as requesting overlay cursor mode.
-
-Overlay cursor should be enabled whenever there exists a underlying
-plane that has YUV format, or is scaled differently than the cursor. It
-should also be enabled if there is no underlying plane, or if underlying
-planes do not cover the entire CRTC.
-
-During DC validation, attempt to enable a separate DCN pipe for the
-cursor if it's in overlay mode. If that fails, or if no overlay mode is
-requested, then fallback to native mode.
-
-v2:
-* Update commit message for when overlay cursor should be enabled
-* Also consider scale and no-underlying-plane case (cursor on crtc bg)
-* Consider all underlying planes when determinig overlay/native, not
-  just the plane immediately beneath the cursor, as it may not cover the
-  entire CRTC.
-* Fix typo s/decending/descending/
-* Force native cursor on pre-DCN hardware
+Assign a zpos = #no of OVERLAY planes to the PRIMARY plane. Then, clean
+up any assumptions in the driver of PRIMARY plane having the lowest
+zpos.
 
 Signed-off-by: Leo Li <sunpeng.li@amd.com>
-Acked-by: Harry Wentland <harry.wentland@amd.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+v2: Fix typo s/decending/descending/
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 490 +++++++++++++-----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   7 +
- .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |   1 +
- .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  13 +-
- 4 files changed, 386 insertions(+), 125 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 34 +++++++++++++++++--
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 18 +++++++---
+ 2 files changed, 44 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 8245cc63712f..b4b5b73707c1 100644
+index b4b5b73707c1..6782ca1137d4 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8490,8 +8490,22 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 	 * Disable the cursor first if we're disabling all the planes.
- 	 * It'll remain on the screen after the planes are re-enabled
- 	 * if we don't.
-+	 *
-+	 * If the cursor is transitioning from native to overlay mode, the
-+	 * native cursor needs to be disabled first.
- 	 */
--	if (acrtc_state->active_planes == 0)
-+	if (acrtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE &&
-+	    dm_old_crtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE) {
-+		struct dc_cursor_position cursor_position = {0};
-+
-+		dc_stream_set_cursor_position(acrtc_state->stream,
-+					      &cursor_position);
-+		bundle->stream_update.cursor_position =
-+				&acrtc_state->stream->cursor_position;
-+	}
-+
-+	if (acrtc_state->active_planes == 0 &&
-+	    dm_old_crtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE)
- 		amdgpu_dm_commit_cursors(state);
+@@ -80,6 +80,7 @@
+ #include <linux/firmware.h>
+ #include <linux/component.h>
+ #include <linux/dmi.h>
++#include <linux/sort.h>
  
- 	/* update planes when needed */
-@@ -8505,7 +8519,8 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 		struct dm_plane_state *dm_new_plane_state = to_dm_plane_state(new_plane_state);
- 
- 		/* Cursor plane is handled after stream updates */
--		if (plane->type == DRM_PLANE_TYPE_CURSOR) {
-+		if (plane->type == DRM_PLANE_TYPE_CURSOR &&
-+		    acrtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE) {
- 			if ((fb && crtc == pcrtc) ||
- 			    (old_plane_state->fb && old_plane_state->crtc == pcrtc)) {
- 				cursor_update = true;
-@@ -8863,7 +8878,8 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 	 * to be disabling a single plane - those pipes are being disabled.
- 	 */
- 	if (acrtc_state->active_planes &&
--	    (!updated_planes_and_streams || amdgpu_ip_version(dm->adev, DCE_HWIP, 0) == 0))
-+	    (!updated_planes_and_streams || amdgpu_ip_version(dm->adev, DCE_HWIP, 0) == 0) &&
-+	    acrtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE)
- 		amdgpu_dm_commit_cursors(state);
- 
- cleanup:
-@@ -10176,7 +10192,8 @@ static bool should_reset_plane(struct drm_atomic_state *state,
- {
- 	struct drm_plane *other;
- 	struct drm_plane_state *old_other_state, *new_other_state;
--	struct drm_crtc_state *new_crtc_state;
-+	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
-+	struct dm_crtc_state *old_dm_crtc_state, *new_dm_crtc_state;
- 	struct amdgpu_device *adev = drm_to_adev(plane->dev);
- 	int i;
- 
-@@ -10198,10 +10215,24 @@ static bool should_reset_plane(struct drm_atomic_state *state,
- 
- 	new_crtc_state =
- 		drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
-+	old_crtc_state =
-+		drm_atomic_get_old_crtc_state(state, old_plane_state->crtc);
- 
- 	if (!new_crtc_state)
- 		return true;
- 
-+	/*
-+	 * A change in cursor mode means a new dc pipe needs to be acquired or
-+	 * released from the state
-+	 */
-+	old_dm_crtc_state = to_dm_crtc_state(old_crtc_state);
-+	new_dm_crtc_state = to_dm_crtc_state(new_crtc_state);
-+	if (plane->type == DRM_PLANE_TYPE_CURSOR &&
-+	    old_dm_crtc_state != NULL &&
-+	    old_dm_crtc_state->cursor_mode != new_dm_crtc_state->cursor_mode) {
-+		return true;
-+	}
-+
- 	/* CRTC Degamma changes currently require us to recreate planes. */
- 	if (new_crtc_state->color_mgmt_changed)
- 		return true;
-@@ -10353,6 +10384,68 @@ static int dm_check_cursor_fb(struct amdgpu_crtc *new_acrtc,
- 	return 0;
+ #include <drm/display/drm_dp_mst_helper.h>
+ #include <drm/display/drm_hdmi_helper.h>
+@@ -375,6 +376,20 @@ static inline void reverse_planes_order(struct dc_surface_update *array_of_surfa
+ 		swap(array_of_surface_update[i], array_of_surface_update[j]);
  }
  
 +/*
-+ * Helper function for checking the cursor in native mode
++ * DC will program planes with their z-order determined by their ordering
++ * in the dc_surface_updates array. This comparator is used to sort them
++ * by descending zpos.
 + */
-+static int dm_check_native_cursor_state(struct drm_crtc *new_plane_crtc,
-+					struct drm_plane *plane,
-+					struct drm_plane_state *new_plane_state,
-+					bool enable)
++static int dm_plane_layer_index_cmp(const void *a, const void *b)
 +{
++	const struct dc_surface_update *sa = (struct dc_surface_update *)a;
++	const struct dc_surface_update *sb = (struct dc_surface_update *)b;
 +
-+	struct amdgpu_crtc *new_acrtc;
-+	int ret;
-+
-+	if (!enable || !new_plane_crtc ||
-+	    drm_atomic_plane_disabling(plane->state, new_plane_state))
-+		return 0;
-+
-+	new_acrtc = to_amdgpu_crtc(new_plane_crtc);
-+
-+	if (new_plane_state->src_x != 0 || new_plane_state->src_y != 0) {
-+		DRM_DEBUG_ATOMIC("Cropping not supported for cursor plane\n");
-+		return -EINVAL;
-+	}
-+
-+	if (new_plane_state->fb) {
-+		ret = dm_check_cursor_fb(new_acrtc, new_plane_state,
-+						new_plane_state->fb);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static bool dm_should_update_native_cursor(struct drm_atomic_state *state,
-+					   struct drm_crtc *old_plane_crtc,
-+					   struct drm_crtc *new_plane_crtc,
-+					   bool enable)
-+{
-+	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
-+	struct dm_crtc_state *dm_old_crtc_state, *dm_new_crtc_state;
-+
-+	if (!enable) {
-+		if (old_plane_crtc == NULL)
-+			return true;
-+
-+		old_crtc_state = drm_atomic_get_old_crtc_state(
-+			state, old_plane_crtc);
-+		dm_old_crtc_state = to_dm_crtc_state(old_crtc_state);
-+
-+		return dm_old_crtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE;
-+	} else {
-+		if (new_plane_crtc == NULL)
-+			return true;
-+
-+		new_crtc_state = drm_atomic_get_new_crtc_state(
-+			state, new_plane_crtc);
-+		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
-+
-+		return dm_new_crtc_state->cursor_mode == DM_CURSOR_NATIVE_MODE;
-+	}
-+}
-+
- static int dm_update_plane_state(struct dc *dc,
- 				 struct drm_atomic_state *state,
- 				 struct drm_plane *plane,
-@@ -10368,8 +10461,7 @@ static int dm_update_plane_state(struct dc *dc,
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	struct dm_crtc_state *dm_new_crtc_state, *dm_old_crtc_state;
- 	struct dm_plane_state *dm_new_plane_state, *dm_old_plane_state;
--	struct amdgpu_crtc *new_acrtc;
--	bool needs_reset;
-+	bool needs_reset, update_native_cursor;
- 	int ret = 0;
- 
- 
-@@ -10378,24 +10470,16 @@ static int dm_update_plane_state(struct dc *dc,
- 	dm_new_plane_state = to_dm_plane_state(new_plane_state);
- 	dm_old_plane_state = to_dm_plane_state(old_plane_state);
- 
--	if (plane->type == DRM_PLANE_TYPE_CURSOR) {
--		if (!enable || !new_plane_crtc ||
--			drm_atomic_plane_disabling(plane->state, new_plane_state))
--			return 0;
-+	update_native_cursor = dm_should_update_native_cursor(state,
-+							      old_plane_crtc,
-+							      new_plane_crtc,
-+							      enable);
- 
--		new_acrtc = to_amdgpu_crtc(new_plane_crtc);
--
--		if (new_plane_state->src_x != 0 || new_plane_state->src_y != 0) {
--			DRM_DEBUG_ATOMIC("Cropping not supported for cursor plane\n");
--			return -EINVAL;
--		}
--
--		if (new_plane_state->fb) {
--			ret = dm_check_cursor_fb(new_acrtc, new_plane_state,
--						 new_plane_state->fb);
--			if (ret)
--				return ret;
--		}
-+	if (plane->type == DRM_PLANE_TYPE_CURSOR && update_native_cursor) {
-+		ret = dm_check_native_cursor_state(new_plane_crtc, plane,
-+						    new_plane_state, enable);
-+		if (ret)
-+			return ret;
- 
- 		return 0;
- 	}
-@@ -10423,15 +10507,15 @@ static int dm_update_plane_state(struct dc *dc,
- 
- 		ret = dm_atomic_get_state(state, &dm_state);
- 		if (ret)
--			return ret;
-+			goto out;
- 
- 		if (!dc_state_remove_plane(
- 				dc,
- 				dm_old_crtc_state->stream,
- 				dm_old_plane_state->dc_state,
- 				dm_state->context)) {
--
--			return -EINVAL;
-+			ret = -EINVAL;
-+			goto out;
- 		}
- 
- 		if (dm_old_plane_state->dc_state)
-@@ -10461,20 +10545,14 @@ static int dm_update_plane_state(struct dc *dc,
- 
- 		ret = amdgpu_dm_plane_helper_check_state(new_plane_state, new_crtc_state);
- 		if (ret)
--			return ret;
-+			goto out;
- 
- 		WARN_ON(dm_new_plane_state->dc_state);
- 
- 		dc_new_plane_state = dc_create_plane_state(dc);
--		if (!dc_new_plane_state)
--			return -ENOMEM;
--
--		/* Block top most plane from being a video plane */
--		if (plane->type == DRM_PLANE_TYPE_OVERLAY) {
--			if (amdgpu_dm_plane_is_video_format(new_plane_state->fb->format->format) && *is_top_most_overlay)
--				return -EINVAL;
--
--			*is_top_most_overlay = false;
-+		if (!dc_new_plane_state) {
-+			ret = -ENOMEM;
-+			goto out;
- 		}
- 
- 		DRM_DEBUG_ATOMIC("Enabling DRM plane: %d on DRM crtc %d\n",
-@@ -10487,13 +10565,13 @@ static int dm_update_plane_state(struct dc *dc,
- 			new_crtc_state);
- 		if (ret) {
- 			dc_plane_state_release(dc_new_plane_state);
--			return ret;
-+			goto out;
- 		}
- 
- 		ret = dm_atomic_get_state(state, &dm_state);
- 		if (ret) {
- 			dc_plane_state_release(dc_new_plane_state);
--			return ret;
-+			goto out;
- 		}
- 
- 		/*
-@@ -10510,7 +10588,8 @@ static int dm_update_plane_state(struct dc *dc,
- 				dm_state->context)) {
- 
- 			dc_plane_state_release(dc_new_plane_state);
--			return -EINVAL;
-+			ret = -EINVAL;
-+			goto out;
- 		}
- 
- 		dm_new_plane_state->dc_state = dc_new_plane_state;
-@@ -10525,6 +10604,16 @@ static int dm_update_plane_state(struct dc *dc,
- 		*lock_and_validation_needed = true;
- 	}
- 
-+out:
-+	/* If cursor overlay failed, attempt fallback to native mode */
-+	if (ret == -EINVAL && plane->type == DRM_PLANE_TYPE_CURSOR) {
-+		ret = dm_check_native_cursor_state(new_plane_crtc, plane,
-+						    new_plane_state, enable);
-+		if (ret)
-+			return ret;
-+
-+		dm_new_crtc_state->cursor_mode = DM_CURSOR_NATIVE_MODE;
-+	}
- 
- 	return ret;
- }
-@@ -10558,99 +10647,64 @@ dm_get_plane_scale(struct drm_plane_state *plane_state,
- 	*out_plane_scale_h = plane_state->crtc_h * 1000 / plane_src_h;
- }
- 
--static int dm_check_crtc_cursor(struct drm_atomic_state *state,
--				struct drm_crtc *crtc,
--				struct drm_crtc_state *new_crtc_state)
-+/*
-+ * The normalized_zpos value cannot be used by this iterator directly. It's only
-+ * calculated for enabled planes, potentially causing normalized_zpos collisions
-+ * between enabled/disabled planes in the atomic state. We need a unique value
-+ * so that the iterator will not generate the same object twice, or loop
-+ * indefinitely.
-+ */
-+static inline struct __drm_planes_state *__get_next_zpos(
-+	struct drm_atomic_state *state,
-+	struct __drm_planes_state *prev)
- {
--	struct drm_plane *cursor = crtc->cursor, *plane, *underlying;
--	struct drm_plane_state *old_plane_state, *new_plane_state;
--	struct drm_plane_state *new_cursor_state, *new_underlying_state;
--	int i;
--	int cursor_scale_w, cursor_scale_h, underlying_scale_w, underlying_scale_h;
--	bool any_relevant_change = false;
--
--	/* On DCE and DCN there is no dedicated hardware cursor plane. We get a
--	 * cursor per pipe but it's going to inherit the scaling and
--	 * positioning from the underlying pipe. Check the cursor plane's
--	 * blending properties match the underlying planes'.
--	 */
--
--	/* If no plane was enabled or changed scaling, no need to check again */
--	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
--		int new_scale_w, new_scale_h, old_scale_w, old_scale_h;
--
--		if (!new_plane_state || !new_plane_state->fb || new_plane_state->crtc != crtc)
--			continue;
--
--		if (!old_plane_state || !old_plane_state->fb || old_plane_state->crtc != crtc) {
--			any_relevant_change = true;
--			break;
--		}
--
--		if (new_plane_state->fb == old_plane_state->fb &&
--		    new_plane_state->crtc_w == old_plane_state->crtc_w &&
--		    new_plane_state->crtc_h == old_plane_state->crtc_h)
--			continue;
--
--		dm_get_plane_scale(new_plane_state, &new_scale_w, &new_scale_h);
--		dm_get_plane_scale(old_plane_state, &old_scale_w, &old_scale_h);
-+	unsigned int highest_zpos = 0, prev_zpos = 256;
-+	uint32_t highest_id = 0, prev_id = UINT_MAX;
-+	struct drm_plane_state *new_plane_state;
-+	struct drm_plane *plane;
-+	int i, highest_i = -1;
- 
--		if (new_scale_w != old_scale_w || new_scale_h != old_scale_h) {
--			any_relevant_change = true;
--			break;
--		}
-+	if (prev != NULL) {
-+		prev_zpos = prev->new_state->zpos;
-+		prev_id = prev->ptr->base.id;
- 	}
- 
--	if (!any_relevant_change)
--		return 0;
--
--	new_cursor_state = drm_atomic_get_plane_state(state, cursor);
--	if (IS_ERR(new_cursor_state))
--		return PTR_ERR(new_cursor_state);
--
--	if (!new_cursor_state->fb)
--		return 0;
--
--	dm_get_plane_scale(new_cursor_state, &cursor_scale_w, &cursor_scale_h);
--
--	/* Need to check all enabled planes, even if this commit doesn't change
--	 * their state
--	 */
--	i = drm_atomic_add_affected_planes(state, crtc);
--	if (i)
--		return i;
--
--	for_each_new_plane_in_state_reverse(state, underlying, new_underlying_state, i) {
--		/* Narrow down to non-cursor planes on the same CRTC as the cursor */
--		if (new_underlying_state->crtc != crtc || underlying == crtc->cursor)
-+	for_each_new_plane_in_state(state, plane, new_plane_state, i) {
-+		/* Skip planes with higher zpos than the previously returned */
-+		if (new_plane_state->zpos > prev_zpos ||
-+		    (new_plane_state->zpos == prev_zpos &&
-+		     plane->base.id >= prev_id))
- 			continue;
- 
--		/* Ignore disabled planes */
--		if (!new_underlying_state->fb)
--			continue;
--
--		dm_get_plane_scale(new_underlying_state,
--				   &underlying_scale_w, &underlying_scale_h);
--
--		if (cursor_scale_w != underlying_scale_w ||
--		    cursor_scale_h != underlying_scale_h) {
--			drm_dbg_atomic(crtc->dev,
--				       "Cursor [PLANE:%d:%s] scaling doesn't match underlying [PLANE:%d:%s]\n",
--				       cursor->base.id, cursor->name, underlying->base.id, underlying->name);
--			return -EINVAL;
-+		/* Save the index of the plane with highest zpos */
-+		if (new_plane_state->zpos > highest_zpos ||
-+		    (new_plane_state->zpos == highest_zpos &&
-+		     plane->base.id > highest_id)) {
-+			highest_zpos = new_plane_state->zpos;
-+			highest_id = plane->base.id;
-+			highest_i = i;
- 		}
--
--		/* If this plane covers the whole CRTC, no need to check planes underneath */
--		if (new_underlying_state->crtc_x <= 0 &&
--		    new_underlying_state->crtc_y <= 0 &&
--		    new_underlying_state->crtc_x + new_underlying_state->crtc_w >= new_crtc_state->mode.hdisplay &&
--		    new_underlying_state->crtc_y + new_underlying_state->crtc_h >= new_crtc_state->mode.vdisplay)
--			break;
- 	}
- 
--	return 0;
-+	if (highest_i < 0)
-+		return NULL;
-+
-+	return &state->planes[highest_i];
- }
- 
-+/*
-+ * Use the uniqueness of the plane's (zpos, drm obj ID) combination to iterate
-+ * by descending zpos, as read from the new plane state. This is the same
-+ * ordering as defined by drm_atomic_normalize_zpos().
-+ */
-+#define for_each_oldnew_plane_in_descending_zpos(__state, plane, old_plane_state, new_plane_state) \
-+	for (struct __drm_planes_state *__i = __get_next_zpos((__state), NULL); \
-+	     __i != NULL; __i = __get_next_zpos((__state), __i))		\
-+		for_each_if(((plane) = __i->ptr,				\
-+			     (void)(plane) /* Only to avoid unused-but-set-variable warning */, \
-+			     (old_plane_state) = __i->old_state,		\
-+			     (new_plane_state) = __i->new_state, 1))
-+
- static int add_affected_mst_dsc_crtcs(struct drm_atomic_state *state, struct drm_crtc *crtc)
- {
- 	struct drm_connector *connector;
-@@ -10681,6 +10735,162 @@ static int add_affected_mst_dsc_crtcs(struct drm_atomic_state *state, struct drm
- 	return drm_dp_mst_add_affected_dsc_crtcs(state, &aconnector->mst_root->mst_mgr);
- }
- 
-+/**
-+ * DOC: Cursor Modes - Native vs Overlay
-+ *
-+ * In native mode, the cursor uses a integrated cursor pipe within each DCN hw
-+ * plane. It does not require a dedicated hw plane to enable, but it is
-+ * subjected to the same z-order and scaling as the hw plane. It also has format
-+ * restrictions, a RGB cursor in native mode cannot be enabled within a non-RGB
-+ * hw plane.
-+ *
-+ * In overlay mode, the cursor uses a separate DCN hw plane, and thus has its
-+ * own scaling and z-pos. It also has no blending restrictions. It lends to a
-+ * cursor behavior more akin to a DRM client's expectations. However, it does
-+ * occupy an extra DCN plane, and therefore will only be used if a DCN plane is
-+ * available.
-+ */
-+
-+/**
-+ * dm_crtc_get_cursor_mode() - Determine the required cursor mode on crtc
-+ * @adev: amdgpu device
-+ * @state: DRM atomic state
-+ * @dm_crtc_state: amdgpu state for the CRTC containing the cursor
-+ * @cursor_mode: Returns the required cursor mode on dm_crtc_state
-+ *
-+ * Get whether the cursor should be enabled in native mode, or overlay mode, on
-+ * the dm_crtc_state.
-+ *
-+ * The cursor should be enabled in overlay mode if there exists an underlying
-+ * plane - on which the cursor may be blended - that is either YUV formatted, or
-+ * scaled differently from the cursor.
-+ *
-+ * Since zpos info is required, drm_atomic_normalize_zpos must be called before
-+ * calling this function.
-+ *
-+ * Return: 0 on success, or an error code if getting the cursor plane state
-+ * failed.
-+ */
-+static int dm_crtc_get_cursor_mode(struct amdgpu_device *adev,
-+				   struct drm_atomic_state *state,
-+				   struct dm_crtc_state *dm_crtc_state,
-+				   enum amdgpu_dm_cursor_mode *cursor_mode)
-+{
-+	struct drm_plane_state *old_plane_state, *plane_state, *cursor_state;
-+	struct drm_crtc_state *crtc_state = &dm_crtc_state->base;
-+	struct drm_plane *plane;
-+	bool consider_mode_change = false;
-+	bool entire_crtc_covered = false;
-+	bool cursor_changed = false;
-+	int underlying_scale_w, underlying_scale_h;
-+	int cursor_scale_w, cursor_scale_h;
-+	int i;
-+
-+	/* Overlay cursor not supported on HW before DCN */
-+	if (amdgpu_ip_version(adev, DCE_HWIP, 0) == 0) {
-+		*cursor_mode = DM_CURSOR_NATIVE_MODE;
-+		return 0;
-+	}
-+
-+	/*
-+	 * Cursor mode can change if a plane's format changes, scale changes, is
-+	 * enabled/disabled, or z-order changes.
-+	 */
-+	for_each_oldnew_plane_in_state(state, plane, old_plane_state, plane_state, i) {
-+		int new_scale_w, new_scale_h, old_scale_w, old_scale_h;
-+
-+		/* Only care about planes on this CRTC */
-+		if ((drm_plane_mask(plane) & crtc_state->plane_mask) == 0)
-+			continue;
-+
-+		if (plane->type == DRM_PLANE_TYPE_CURSOR)
-+			cursor_changed = true;
-+
-+		if (drm_atomic_plane_enabling(old_plane_state, plane_state) ||
-+		    drm_atomic_plane_disabling(old_plane_state, plane_state) ||
-+		    old_plane_state->fb->format != plane_state->fb->format) {
-+			consider_mode_change = true;
-+			break;
-+		}
-+
-+		dm_get_plane_scale(plane_state, &new_scale_w, &new_scale_h);
-+		dm_get_plane_scale(old_plane_state, &old_scale_w, &old_scale_h);
-+		if (new_scale_w != old_scale_w || new_scale_h != old_scale_h) {
-+			consider_mode_change = true;
-+			break;
-+		}
-+	}
-+
-+	if (!consider_mode_change && !crtc_state->zpos_changed)
-+		return 0;
-+
-+	/*
-+	 * If no cursor change on this CRTC, and not enabled on this CRTC, then
-+	 * no need to set cursor mode. This avoids needlessly locking the cursor
-+	 * state.
-+	 */
-+	if (!cursor_changed &&
-+	    !(drm_plane_mask(crtc_state->crtc->cursor) & crtc_state->plane_mask)) {
-+		return 0;
-+	}
-+
-+	cursor_state = drm_atomic_get_plane_state(state,
-+						  crtc_state->crtc->cursor);
-+	if (IS_ERR(cursor_state))
-+		return PTR_ERR(cursor_state);
-+
-+	/* Cursor is disabled */
-+	if (!cursor_state->fb)
-+		return 0;
-+
-+	/* For all planes in descending z-order (all of which are below cursor
-+	 * as per zpos definitions), check their scaling and format
-+	 */
-+	for_each_oldnew_plane_in_descending_zpos(state, plane, old_plane_state, plane_state) {
-+
-+		/* Only care about non-cursor planes on this CRTC */
-+		if ((drm_plane_mask(plane) & crtc_state->plane_mask) == 0 ||
-+		    plane->type == DRM_PLANE_TYPE_CURSOR)
-+			continue;
-+
-+		/* Underlying plane is YUV format - use overlay cursor */
-+		if (amdgpu_dm_plane_is_video_format(plane_state->fb->format->format)) {
-+			*cursor_mode = DM_CURSOR_OVERLAY_MODE;
-+			return 0;
-+		}
-+
-+		dm_get_plane_scale(plane_state,
-+				   &underlying_scale_w, &underlying_scale_h);
-+		dm_get_plane_scale(cursor_state,
-+				   &cursor_scale_w, &cursor_scale_h);
-+
-+		/* Underlying plane has different scale - use overlay cursor */
-+		if (cursor_scale_w != underlying_scale_w &&
-+		    cursor_scale_h != underlying_scale_h) {
-+			*cursor_mode = DM_CURSOR_OVERLAY_MODE;
-+			return 0;
-+		}
-+
-+		/* If this plane covers the whole CRTC, no need to check planes underneath */
-+		if (plane_state->crtc_x <= 0 && plane_state->crtc_y <= 0 &&
-+		    plane_state->crtc_x + plane_state->crtc_w >= crtc_state->mode.hdisplay &&
-+		    plane_state->crtc_y + plane_state->crtc_h >= crtc_state->mode.vdisplay) {
-+			entire_crtc_covered = true;
-+			break;
-+		}
-+	}
-+
-+	/* If planes do not cover the entire CRTC, use overlay mode to enable
-+	 * cursor over holes
-+	 */
-+	if (entire_crtc_covered)
-+		*cursor_mode = DM_CURSOR_NATIVE_MODE;
-+	else
-+		*cursor_mode = DM_CURSOR_OVERLAY_MODE;
-+
-+	return 0;
++	/* Sort by descending dc_plane layer_index (i.e. normalized_zpos) */
++	return sb->surface->layer_index - sa->surface->layer_index;
 +}
 +
  /**
-  * amdgpu_dm_atomic_check() - Atomic check implementation for AMDgpu DM.
+  * update_planes_and_stream_adapter() - Send planes to be updated in DC
   *
-@@ -10850,6 +11060,21 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 		goto fail;
- 	}
+@@ -399,7 +414,8 @@ static inline bool update_planes_and_stream_adapter(struct dc *dc,
+ 						    struct dc_stream_update *stream_update,
+ 						    struct dc_surface_update *array_of_surface_update)
+ {
+-	reverse_planes_order(array_of_surface_update, planes_count);
++	sort(array_of_surface_update, planes_count,
++	     sizeof(*array_of_surface_update), dm_plane_layer_index_cmp, NULL);
+ 
+ 	/*
+ 	 * Previous frame finished and HW is ready for optimization.
+@@ -9503,6 +9519,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 		for (j = 0; j < status->plane_count; j++)
+ 			dummy_updates[j].surface = status->plane_states[0];
+ 
++		sort(dummy_updates, status->plane_count,
++		     sizeof(*dummy_updates), dm_plane_layer_index_cmp, NULL);
+ 
+ 		mutex_lock(&dm->dc_lock);
+ 		dc_update_planes_and_stream(dm->dc,
+@@ -10237,6 +10255,16 @@ static bool should_reset_plane(struct drm_atomic_state *state,
+ 	if (new_crtc_state->color_mgmt_changed)
+ 		return true;
  
 +	/*
-+	 * Determine whether cursors on each CRTC should be enabled in native or
-+	 * overlay mode.
++	 * On zpos change, planes need to be reordered by removing and re-adding
++	 * them one by one to the dc state, in order of descending zpos.
++	 *
++	 * TODO: We can likely skip bandwidth validation if the only thing that
++	 * changed about the plane was it'z z-ordering.
 +	 */
-+	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-+		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
++	if (new_crtc_state->zpos_changed)
++		return true;
 +
-+		ret = dm_crtc_get_cursor_mode(adev, state, dm_new_crtc_state,
-+					      &dm_new_crtc_state->cursor_mode);
-+		if (ret) {
-+			drm_dbg(dev, "Failed to determine cursor mode\n");
-+			goto fail;
-+		}
-+	}
-+
+ 	if (drm_atomic_crtc_needs_modeset(new_crtc_state))
+ 		return true;
+ 
+@@ -11076,7 +11104,7 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+ 	}
+ 
  	/* Remove exiting planes if they are modified */
- 	for_each_oldnew_plane_in_state_reverse(state, plane, old_plane_state, new_plane_state, i) {
+-	for_each_oldnew_plane_in_state_reverse(state, plane, old_plane_state, new_plane_state, i) {
++	for_each_oldnew_plane_in_descending_zpos(state, plane, old_plane_state, new_plane_state) {
  		if (old_plane_state->fb && new_plane_state->fb &&
-@@ -10930,11 +11155,28 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 			DRM_DEBUG_DRIVER("MPO enablement requested on crtc:[%p]\n", crtc);
+ 		    get_mem_type(old_plane_state->fb) !=
+ 		    get_mem_type(new_plane_state->fb))
+@@ -11121,7 +11149,7 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
  	}
  
--	/* Check cursor planes scaling */
-+	/* Check cursor restrictions */
- 	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
--		ret = dm_check_crtc_cursor(state, crtc, new_crtc_state);
-+		enum amdgpu_dm_cursor_mode required_cursor_mode;
-+
-+		/* Overlay cusor not subject to native cursor restrictions */
-+		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
-+		if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE)
-+			continue;
-+
-+		/* If HW can only do native cursor, check restrictions again */
-+		ret = dm_crtc_get_cursor_mode(adev, state, dm_new_crtc_state,
-+					      &required_cursor_mode);
- 		if (ret) {
--			DRM_DEBUG_DRIVER("dm_check_crtc_cursor() failed\n");
-+			drm_dbg_driver(crtc->dev,
-+				       "[CRTC:%d:%s] Checking cursor mode failed\n",
-+				       crtc->base.id, crtc->name);
-+			goto fail;
-+		} else if (required_cursor_mode == DM_CURSOR_OVERLAY_MODE) {
-+			drm_dbg_driver(crtc->dev,
-+				       "[CRTC:%d:%s] Cannot enable native cursor due to scaling or YUV restrictions\n",
-+				       crtc->base.id, crtc->name);
-+			ret = -EINVAL;
- 			goto fail;
- 		}
- 	}
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 79469cdc3b10..5194defb8dd6 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -830,6 +830,11 @@ struct dm_plane_state {
- 	enum amdgpu_transfer_function blend_tf;
- };
- 
-+enum amdgpu_dm_cursor_mode {
-+	DM_CURSOR_NATIVE_MODE = 0,
-+	DM_CURSOR_OVERLAY_MODE,
-+};
-+
- struct dm_crtc_state {
- 	struct drm_crtc_state base;
- 	struct dc_stream_state *stream;
-@@ -860,6 +865,8 @@ struct dm_crtc_state {
- 	 * encoding.
- 	 */
- 	enum amdgpu_transfer_function regamma_tf;
-+
-+	enum amdgpu_dm_cursor_mode cursor_mode;
- };
- 
- #define to_dm_crtc_state(x) container_of(x, struct dm_crtc_state, base)
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index 83ea0afddda7..e16eecb146fd 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -361,6 +361,7 @@ static struct drm_crtc_state *amdgpu_dm_crtc_duplicate_state(struct drm_crtc *cr
- 	state->regamma_tf = cur->regamma_tf;
- 	state->crc_skip_count = cur->crc_skip_count;
- 	state->mpo_requested = cur->mpo_requested;
-+	state->cursor_mode = cur->cursor_mode;
- 	/* TODO Duplicate dc_stream after objects are stream object is flattened */
- 
- 	return &state->base;
+ 	/* Add new/modified planes */
+-	for_each_oldnew_plane_in_state_reverse(state, plane, old_plane_state, new_plane_state, i) {
++	for_each_oldnew_plane_in_descending_zpos(state, plane, old_plane_state, new_plane_state) {
+ 		ret = dm_update_plane_state(dc, state, plane,
+ 					    old_plane_state,
+ 					    new_plane_state,
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index a64f20fcddaa..3e467244ad07 100644
+index 3e467244ad07..bb534b2b0b71 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -104,7 +104,7 @@ void amdgpu_dm_plane_fill_blending_from_plane_state(const struct drm_plane_state
+@@ -104,8 +104,6 @@ void amdgpu_dm_plane_fill_blending_from_plane_state(const struct drm_plane_state
  	*global_alpha = false;
  	*global_alpha_value = 0xff;
  
--	if (plane_state->plane->type != DRM_PLANE_TYPE_OVERLAY)
-+	if (plane_state->plane->type == DRM_PLANE_TYPE_PRIMARY)
- 		return;
+-	if (plane_state->plane->type == DRM_PLANE_TYPE_PRIMARY)
+-		return;
  
  	if (plane_state->pixel_blend_mode == DRM_MODE_BLEND_PREMULTI ||
-@@ -1190,10 +1190,21 @@ static int amdgpu_dm_plane_atomic_check(struct drm_plane *plane,
- static int amdgpu_dm_plane_atomic_async_check(struct drm_plane *plane,
- 					      struct drm_atomic_state *state)
- {
-+	struct drm_crtc_state *new_crtc_state;
-+	struct drm_plane_state *new_plane_state;
-+	struct dm_crtc_state *dm_new_crtc_state;
-+
- 	/* Only support async updates on cursor planes. */
- 	if (plane->type != DRM_PLANE_TYPE_CURSOR)
- 		return -EINVAL;
+ 		plane_state->pixel_blend_mode == DRM_MODE_BLEND_COVERAGE) {
+@@ -1701,6 +1699,7 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+ 	int res = -EPERM;
+ 	unsigned int supported_rotations;
+ 	uint64_t *modifiers = NULL;
++	unsigned int primary_zpos = dm->dc->caps.max_slave_planes;
  
-+	new_plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	new_crtc_state = drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
-+	dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
-+	/* Reject overlay cursors for now*/
-+	if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE)
-+		return -EINVAL;
-+
- 	return 0;
- }
+ 	num_formats = amdgpu_dm_plane_get_plane_formats(plane, plane_cap, formats,
+ 							ARRAY_SIZE(formats));
+@@ -1730,10 +1729,19 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+ 	}
  
+ 	if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
+-		drm_plane_create_zpos_immutable_property(plane, 0);
++		/*
++		 * Allow OVERLAY planes to be used as underlays by assigning an
++		 * immutable zpos = # of OVERLAY planes to the PRIMARY plane.
++		 */
++		drm_plane_create_zpos_immutable_property(plane, primary_zpos);
+ 	} else if (plane->type == DRM_PLANE_TYPE_OVERLAY) {
+-		unsigned int zpos = 1 + drm_plane_index(plane);
+-		drm_plane_create_zpos_property(plane, zpos, 1, 254);
++		/*
++		 * OVERLAY planes can be below or above the PRIMARY, but cannot
++		 * be above the CURSOR plane.
++		 */
++		unsigned int zpos = primary_zpos + 1 + drm_plane_index(plane);
++
++		drm_plane_create_zpos_property(plane, zpos, 0, 254);
+ 	} else if (plane->type == DRM_PLANE_TYPE_CURSOR) {
+ 		drm_plane_create_zpos_immutable_property(plane, 255);
+ 	}
 -- 
 2.44.0
 
