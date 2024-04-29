@@ -2,78 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48B48B52CF
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 10:07:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69D38B52F3
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 10:18:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A358112B16;
-	Mon, 29 Apr 2024 08:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC4A1121CC;
+	Mon, 29 Apr 2024 08:18:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="sUQviPAI";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=geanix.com header.i=@geanix.com header.b="i1bTl/hz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1321112B16
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 08:07:25 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-41bca450fa3so13671105e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 01:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1714378044; x=1714982844;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=T5/hJsVmQUs2bQw1ikox8cY2fuz3ApOf5h0qgxHHUyc=;
- b=sUQviPAI3+ky/ueHtzHP4D66F4RYvn+aItLvVy1nfEoKWvxCihlTd4ovkmFVP0zh3I
- zWj/a6cEf5rQvJCV2GMV4E3ks2f5Z7XF7O3+ZJ+X0nOwByLRRomqKMDn/DlFWZjEpzuW
- dC8Cqhw4FIT43JzArQmfRzb2tD77MyTwCmPJ3N0g9FPKVwCHjudXM+cXs8SxnrrzSbxy
- hkr3Pdl2qH15sfq1nTUNYhB/PKxObQTUdXJN+fKf45VP8YeXQA2cnj2kS7k45SrYsKXB
- u5mTa/Ig9fE9Ae28q3uyLdsU6uDZZeBM0imuneA7TU+M2cEp0iipG8pxo+bRHixa3hyh
- H+bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714378044; x=1714982844;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=T5/hJsVmQUs2bQw1ikox8cY2fuz3ApOf5h0qgxHHUyc=;
- b=vsEW8aZq+9Pa+EiqzjmD70r8AQJYPlWgwxo/Mm+//+5br9vDczJgbt/mrLcZN8CPm/
- 35zF4z0d+B1Mzk6XefiGuMzjzql0E9rW4VyjXL1Txovb0MrHzVePzPC2k9uDvCNIcg61
- QxOp6rnQI3Vh/vAZ+LKJFXOFLftD5Dth8mT7T7W4to90AAtjufT38f6CKqzAUpjlTUZ5
- AZNkfDGsFmA0lXtjvGDm062JtgkPGSe46d00nwGLrIEK0JCSIRFyzdUvSPucVv5nLy6w
- 27/5s8f/PXnyZWOTW2ygIbZ7TNsVEkvd0A9eQ5wt5Xsv1EoKoIyuK8zg87mkUNwBdPBV
- o8Vg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWpIduKWdBCF6jvFNDdd5LR5P6a9o0isTuloiCOoY/YpPhPMSoQixo/AT5bGT5RwyJaQjVnQNruwMWr8lPGyZugd8ULRUUNngpjiwhA/bRK
-X-Gm-Message-State: AOJu0Yyn2IUQ7rnruSEk2ucsHI9bWPAwbyO3GIjGW2QXodaGLnrHp3jj
- kHdoktKCj70hv1+Ud4Un6bfySP/szMLi1UEy7vzOEfn5TdlOaSPti018Y6BUWNw=
-X-Google-Smtp-Source: AGHT+IF5NieIT8w4n19jbd4GyYuctJOdURqn4+cjHXfoClamoglaPAvqgOqR8HFIeKT2uQ+LmR8znA==
-X-Received: by 2002:a05:600c:35cf:b0:41c:1b0:7b6b with SMTP id
- r15-20020a05600c35cf00b0041c01b07b6bmr2843459wmq.19.1714378043799; 
- Mon, 29 Apr 2024 01:07:23 -0700 (PDT)
-Received: from [192.168.0.101] ([84.65.0.132])
- by smtp.gmail.com with ESMTPSA id
- fl23-20020a05600c0b9700b0041bc41287cesm9071198wmb.16.2024.04.29.01.07.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Apr 2024 01:07:23 -0700 (PDT)
-Message-ID: <1094d239-a536-438d-9fe3-23f1d58363dd@ursulin.net>
-Date: Mon, 29 Apr 2024 09:07:22 +0100
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C69710FDD3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 08:18:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com; 
+ s=default2211;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID; bh=qOH6rUKw03bYbHURcR2tw2iTp/UFU+PE0TGB9GL0+A0=; b=i1bTl/
+ hzU7YEUpk67a0CO1xq8fRzf4238DJyWZcUo4jK1lQ2wV98xBhXJHp6Za4xEURIjFsv/IbVJGbls2k
+ zqIURChqL6L79qHK9plksvHc9Wh0PTJdDfJSTNcg4mnn2QojKaYTo7f/dDN1WBzysqFERHiHKTByl
+ 4sCPOqEicXAgG7to1LdRgyUyo1r7ufGi21dpMMCAsRurzyseVh5CrAqOH1HVg20Q7OfogcqzVWIW4
+ e4ArVoSwEz01+piN9Lu3mniUY7S9lGDxpEaRolSWSyY85Y7D5tI2amunWqoJ6bqK36c/j6ZWVUtgR
+ YY7+85mMbiGvGU3Q/B24yCVeGxtg==;
+Received: from sslproxy04.your-server.de ([78.46.152.42])
+ by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.94.2) (envelope-from <sean@geanix.com>)
+ id 1s1MCp-000MfJ-51; Mon, 29 Apr 2024 10:17:47 +0200
+Received: from [185.17.218.86] (helo=Seans-MacBook-Pro.local)
+ by sslproxy04.your-server.de with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.96) (envelope-from <sean@geanix.com>) id 1s1MCo-000MjY-0K;
+ Mon, 29 Apr 2024 10:17:46 +0200
+Date: Mon, 29 Apr 2024 10:17:45 +0200
+From: Sean Nyekjaer <sean@geanix.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Robert Foss <rfoss@kernel.org>, Antonio Borneo <antonio.borneo@foss.st.com>, 
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/stm: dsi: relax mode_valid clock tolerance
+Message-ID: <cvzecixldubeq7pwn77cggs7tcwc5on3arlnboj4fbpqgdygtu@hat3r6afzu7y>
+References: <20240322104732.2327060-1-sean@geanix.com>
+ <20240424-famous-fascinating-hyena-8fb3a7@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] drm/xe: Add helper to accumulate exec queue runtime
-Content-Language: en-GB
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20240423235652.1959945-1-lucas.demarchi@intel.com>
- <20240423235652.1959945-4-lucas.demarchi@intel.com>
- <da261fef-03ef-47ad-8001-fe4fa26f43e0@ursulin.net>
- <Ziv5i/ZBGr/bfGrH@orsosgc001>
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <Ziv5i/ZBGr/bfGrH@orsosgc001>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240424-famous-fascinating-hyena-8fb3a7@houat>
+X-Authenticated-Sender: sean@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27259/Sun Apr 28 10:22:36 2024)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,164 +73,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 26/04/2024 19:59, Umesh Nerlige Ramappa wrote:
-> On Fri, Apr 26, 2024 at 11:49:32AM +0100, Tvrtko Ursulin wrote:
->>
->> On 24/04/2024 00:56, Lucas De Marchi wrote:
->>> From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
->>>
->>> Add a helper to accumulate per-client runtime of all its
->>> exec queues. Currently that is done in 2 places:
->>>
->>>     1. when the exec_queue is destroyed
->>>     2. when the sched job is completed
->>>
->>> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
->>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->>> ---
->>>  drivers/gpu/drm/xe/xe_device_types.h |  9 +++++++
->>>  drivers/gpu/drm/xe/xe_exec_queue.c   | 37 ++++++++++++++++++++++++++++
->>>  drivers/gpu/drm/xe/xe_exec_queue.h   |  1 +
->>>  drivers/gpu/drm/xe/xe_sched_job.c    |  2 ++
->>>  4 files changed, 49 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/xe/xe_device_types.h 
->>> b/drivers/gpu/drm/xe/xe_device_types.h
->>> index 2e62450d86e1..33d3bf93a2f1 100644
->>> --- a/drivers/gpu/drm/xe/xe_device_types.h
->>> +++ b/drivers/gpu/drm/xe/xe_device_types.h
->>> @@ -547,6 +547,15 @@ struct xe_file {
->>>          struct mutex lock;
->>>      } exec_queue;
->>> +    /**
->>> +     * @runtime: hw engine class runtime in ticks for this drm client
->>> +     *
->>> +     * Only stats from xe_exec_queue->lrc[0] are accumulated. For 
->>> multi-lrc
->>> +     * case, since all jobs run in parallel on the engines, only the 
->>> stats
->>> +     * from lrc[0] are sufficient.
->>
->> Out of curiousity doesn't this mean multi-lrc jobs will be incorrectly 
->> accounted for? (When capacity is considered.)
+On Wed, Apr 24, 2024 at 09:21:17AM UTC, Maxime Ripard wrote:
+> Hi,
 > 
-> TBH, I am not sure what the user would like to see here for multi-lrc. 
-> If reporting the capacity, then we may need to use width as a 
-> multiplication factor for multi-lrc. How was this done in i915?
-
-IMO user has to see the real utilisation - so if there are two VCS and 
-both are busy, 100% should be reported and not 50%. Latter would be 
-misleading, either with or without cross-checking with physical utilisation.
-
-In i915 with execlists this works correctly and with GuC you would 
-probably know the answer better than me.
-
-Regards,
-
-Tvrtko
-
+> Sorry, my previous review didn't go through.
 > 
-> Regards,
-> Umesh
+> On Fri, Mar 22, 2024 at 11:47:31AM +0100, Sean Nyekjaer wrote:
+> > When using the DSI interface via DSI2LVDS bridge, it seems a bit harsh
+> > to reguire the requested and the actual px clock to be within
+> > 50Hz. A typical LVDS display requires the px clock to be within +-10%.
+> > 
+> > In case for HDMI .5% tolerance is required.
+> > 
+> > Fixes: e01356d18273 ("drm/stm: dsi: provide the implementation of mode_valid()")
+> > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+> > ---
+> >  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 7 +++----
+> >  1 file changed, 3 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> > index d5f8c923d7bc..97936b0ef702 100644
+> > --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> > +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> > @@ -322,8 +322,6 @@ dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
+> >  	return 0;
+> >  }
+> >  
+> > -#define CLK_TOLERANCE_HZ 50
+> > -
+> >  static enum drm_mode_status
+> >  dw_mipi_dsi_stm_mode_valid(void *priv_data,
+> >  			   const struct drm_display_mode *mode,
+> > @@ -375,9 +373,10 @@ dw_mipi_dsi_stm_mode_valid(void *priv_data,
+> >  		/*
+> >  		 * Filter modes according to the clock value, particularly useful for
+> >  		 * hdmi modes that require precise pixel clocks.
+> > +		 * Check that px_clock is within .5% tolerance.
+> >  		 */
+> > -		if (px_clock_hz < target_px_clock_hz - CLK_TOLERANCE_HZ ||
+> > -		    px_clock_hz > target_px_clock_hz + CLK_TOLERANCE_HZ)
+> > +		if (px_clock_hz < mult_frac(target_px_clock_hz, 995, 1000) ||
+> > +		    px_clock_hz > mult_frac(target_px_clock_hz, 1005, 1000))
+> >  			return MODE_CLOCK_RANGE;
 > 
+> I wonder if it's not something that should be made into a helper. We
+> have a couple of drivers doing it already, so it might be worth creating
+> a function that checks for a given struct clk pointer and pixel clock if
+> it's within parameters.
 > 
->>
->> Regards,
->>
->> Tvrtko
->>
->>> +     */
->>> +    u64 runtime[XE_ENGINE_CLASS_MAX];
->>> +
->>>      /** @client: drm client */
->>>      struct xe_drm_client *client;
->>>  };
->>> diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c 
->>> b/drivers/gpu/drm/xe/xe_exec_queue.c
->>> index 395de93579fa..b7b6256cb96a 100644
->>> --- a/drivers/gpu/drm/xe/xe_exec_queue.c
->>> +++ b/drivers/gpu/drm/xe/xe_exec_queue.c
->>> @@ -214,6 +214,8 @@ void xe_exec_queue_fini(struct xe_exec_queue *q)
->>>  {
->>>      int i;
->>> +    xe_exec_queue_update_runtime(q);
->>> +
->>>      for (i = 0; i < q->width; ++i)
->>>          xe_lrc_finish(q->lrc + i);
->>>      if (!(q->flags & EXEC_QUEUE_FLAG_PERMANENT) && (q->flags & 
->>> EXEC_QUEUE_FLAG_VM || !q->vm))
->>> @@ -769,6 +771,41 @@ bool xe_exec_queue_is_idle(struct xe_exec_queue *q)
->>>          q->lrc[0].fence_ctx.next_seqno - 1;
->>>  }
->>> +/**
->>> + * xe_exec_queue_update_runtime() - Update runtime for this exec 
->>> queue from hw
->>> + * @q: The exec queue
->>> + *
->>> + * Update the timestamp saved by HW for this exec queue and save 
->>> runtime
->>> + * calculated by using the delta from last update. On multi-lrc 
->>> case, only the
->>> + * first is considered.
->>> + */
->>> +void xe_exec_queue_update_runtime(struct xe_exec_queue *q)
->>> +{
->>> +    struct xe_file *xef;
->>> +    struct xe_lrc *lrc;
->>> +    u32 old_ts, new_ts;
->>> +
->>> +    /*
->>> +     * Jobs that are run during driver load may use an exec_queue, 
->>> but are
->>> +     * not associated with a user xe file, so avoid accumulating 
->>> busyness
->>> +     * for kernel specific work.
->>> +     */
->>> +    if (!q->vm || !q->vm->xef)
->>> +        return;
->>> +
->>> +    xef = q->vm->xef;
->>> +    lrc = &q->lrc[0];
->>> +
->>> +    new_ts = xe_lrc_update_timestamp(lrc, &old_ts);
->>> +
->>> +    /*
->>> +     * Special case the very first timestamp: we don't want the
->>> +     * initial delta to be a huge value
->>> +     */
->>> +    if (old_ts)
->>> +        xef->runtime[q->class] += new_ts - old_ts;
->>> +}
->>> +
->>>  void xe_exec_queue_kill(struct xe_exec_queue *q)
->>>  {
->>>      struct xe_exec_queue *eq = q, *next;
->>> diff --git a/drivers/gpu/drm/xe/xe_exec_queue.h 
->>> b/drivers/gpu/drm/xe/xe_exec_queue.h
->>> index 02ce8d204622..45b72daa2db3 100644
->>> --- a/drivers/gpu/drm/xe/xe_exec_queue.h
->>> +++ b/drivers/gpu/drm/xe/xe_exec_queue.h
->>> @@ -66,5 +66,6 @@ struct dma_fence 
->>> *xe_exec_queue_last_fence_get(struct xe_exec_queue *e,
->>>                             struct xe_vm *vm);
->>>  void xe_exec_queue_last_fence_set(struct xe_exec_queue *e, struct 
->>> xe_vm *vm,
->>>                    struct dma_fence *fence);
->>> +void xe_exec_queue_update_runtime(struct xe_exec_queue *q);
->>>  #endif
->>> diff --git a/drivers/gpu/drm/xe/xe_sched_job.c 
->>> b/drivers/gpu/drm/xe/xe_sched_job.c
->>> index cd8a2fba5438..6a081a4fa190 100644
->>> --- a/drivers/gpu/drm/xe/xe_sched_job.c
->>> +++ b/drivers/gpu/drm/xe/xe_sched_job.c
->>> @@ -242,6 +242,8 @@ bool xe_sched_job_completed(struct xe_sched_job 
->>> *job)
->>>  {
->>>      struct xe_lrc *lrc = job->q->lrc;
->>> +    xe_exec_queue_update_runtime(job->q);
->>> +
->>>      /*
->>>       * Can safely check just LRC[0] seqno as that is last seqno 
->>> written when
->>>       * parallel handshake is done.
+> Maxime
+
+Yes agree, if the same calculation is happening other places.
+I can't identify where it happens though.
+
+Would that helper function exist in drivers/gpu/drm/drm_hdmi_helper.c ?
+
+I will give the implementation a shot.
+
+/Sean
