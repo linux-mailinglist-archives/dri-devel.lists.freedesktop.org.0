@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9128B5EB8
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 18:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144228B5EBF
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 18:17:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E5AA10EEA8;
-	Mon, 29 Apr 2024 16:16:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E867310F001;
+	Mon, 29 Apr 2024 16:17:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ISv8Ehtb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kbfLl55V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 133B110E825;
- Mon, 29 Apr 2024 16:16:09 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-1e4266673bbso41567165ad.2; 
- Mon, 29 Apr 2024 09:16:09 -0700 (PDT)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA35210EE70;
+ Mon, 29 Apr 2024 16:17:20 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-6eddff25e4eso3980382b3a.3; 
+ Mon, 29 Apr 2024 09:17:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714407368; x=1715012168; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1714407440; x=1715012240; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=up3/fdKYbKn8KYnOeLYCwwUMCKqtp/CYqkoyNeCtLiA=;
- b=ISv8EhtbXFVqFrUrSXlGg/DsDlXtWgjBuLr8MwM6bZ2JgMn8fZLSaZ7IeVWeImX8dd
- Zj97ewGan2Uqxg0qKH10Ao4zh3QDZVgHD5WKq6jJyVZ1eAMXeVg0ZVXx07kt7zuY7lwC
- 3v4YrWPCBktEg22DQIGJne034j+FRIQQXSm3LAVSS4QYb4BusNZODBfVTl7OQkZwgHQ4
- aXC3TxY2mYr0wDf2/QWFclcgOlVIbU+quIsRwc1st6PG/7ThS93UhVdcQKj1zw3gKmMk
- CfUcpnXXkEwCW2nvX/flwy6GTrkzCmMDqpS4Oka4t+ZQV6VrlFETOsAuB290wkMV9dDy
- LjSA==
+ bh=pRMKoMiU/Afm1XtdmExTEtbRCQKoZqGaLEqC0n57hg4=;
+ b=kbfLl55VmkePjfBYL892UD+ou9Q64Nx/qgk7yGkb9kbFPJF3sgRcC3vsdMvqM+sLIb
+ jFZSAgt/xabdLs/l8rPYRj64rAd9kj79UEk735imFpwYFYJ7u+LC6THn9cpo0EicnEQA
+ uffjHhVdey59V/VeMYV5jm5urzZfFNsmsWgS9lJ85N+Sa0U6Wgw3szmzpnHXzOYqG8q5
+ nm/KWJmEeAhO+ndW/Xo4+VJ350QdlkArq+YzQWK7VUs/U2K2JW5Re5hLF+asCggozt4v
+ QRxfy8pVVg5k25JsMfxsbst2XxTyGI8RCO4iP4FkXbkDq7P9jrwlAVcpD9hHbTjT3/kh
+ jcYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714407368; x=1715012168;
+ d=1e100.net; s=20230601; t=1714407440; x=1715012240;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=up3/fdKYbKn8KYnOeLYCwwUMCKqtp/CYqkoyNeCtLiA=;
- b=dfkB1puPIgd0l0xl8Lk7UBmfgOk9Sttxwjdgwvwzn1ZbF02fUcFMYt4NTPN7FGQUxJ
- tGMBvsZ+Fz6cbJ8Yfy/nh6VZhO6QLAn40DgaHfn4U+9rmGFOryq7E6dF/oGn7igzyfOL
- 1CGvYeHTlH8vmNheG10aRqmFPgmjC1rP2LJRmc8tBQPHezhGmcbapJU64cq/9MmNdTab
- JNgHFZv01tPVRYX/E2N7s3TDjpuvq8qWjAxFR9C6mlVgu6YvQ5nsqfuLZzXCw12KCFdd
- alo5LdqLwne6BMGSB4ZJMYOe3RnO4K7fYYphLxI11MG5zoNTgMdb8AXBjYzeQcALeLZa
- Iaew==
+ bh=pRMKoMiU/Afm1XtdmExTEtbRCQKoZqGaLEqC0n57hg4=;
+ b=Z+CrjR8DQUZg2tabBn1sY3lfDujo4ZvgNhxJK1zJA9BghFP6Pq1xP6US9B0hDC0WMZ
+ NOQxhNa3fjxTzkxHLp3mebfGqdjm4KRnkYiMx1NXl6RX4cWfMwR8GqmF/IuiNpHP577u
+ aJLtMEzIr3JrApm1hdVR4i0t1krFPfFhK5BJzxuYRo1xtm8ldzyP7hBvmurTj22CGPAg
+ DxKvSzT/QpbaPDE2ZTswyEVArjZ4YECtA0RSXeqYNcSxMMx4XfpU1gN74jbrl49W5jMW
+ WR1eOnoWK/wlv7mN0qIrWz4WPbE/gkHpoH1tuQ+VTovc9UX0kLoRvFJgRM9jPPTgHzKo
+ 0YfQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVad+0nkuyh3o4bD2zUz7Zd1CarVvp8OkYCQs0VhTRUHFYc255QXUjdD3IipWZZWxCpqzqQDpwK3c4i6bJ+zTNxClNWu5zo77rkv32MYdWuWj0jQhXyM60yPcOzu0jDSndRzLhvzRY9DaIFwnEjgQ==
-X-Gm-Message-State: AOJu0YydTmnzLkacb3a8zF9kROx0kfQy9+XKrdx5PjVMiGqVY+TZuKZ5
- dm69jZHsPQ82p0Ih3l0J7KyQ69tRQLQ65dPQhWOI5ljeDfcNPM+V+P0/UwyCZZtcOdI1GvaJKzd
- JKq2RT7CUzoBMwr8dpwDwtBg0MTY=
-X-Google-Smtp-Source: AGHT+IGfPQVfcz7PbTTS7VQY2ZPnXSQy2u3EbjBP8lla+K7zNwQzvnmc4QBBgeu2oV6hTU4MQBLIuwwekvrVEROpSrg=
-X-Received: by 2002:a17:903:1246:b0:1e4:31e9:83ba with SMTP id
- u6-20020a170903124600b001e431e983bamr13341631plh.1.1714407368452; Mon, 29 Apr
- 2024 09:16:08 -0700 (PDT)
+ AJvYcCWq7okaqAJUFTGbAhc0FZusRB0A9lAsuUaL8O0yOQ0MwxmlwJdl4auj9L7qu4lO5JXOtRgJOlZAb2FC9UQyaQQUvz/A2EfOex3sYW+xC1Bmn2ZrgVDj7z46NwqqiqAh0V7X4Wt5I33WrFlHWOWO6A==
+X-Gm-Message-State: AOJu0YzEe4OWC7xAID6ZSMXYnMpm7suCwU6HJcWUfern88lh8mogats4
+ z5rOwJKiXc9Kd31LnOXNBD0M55kK1nox59zC+0iZRLw80OWLmu9EmJY0zfIIzP92ElzGiYDanHJ
+ Pe8qMB6DvVLQ5DHf408rBAkHV7+M=
+X-Google-Smtp-Source: AGHT+IEYtfidfKq+b3S83zX8F5vtIn0LFk53vWsPXGIKpVjO3e5gQeGzDXpOktH7FLFDFcfhzQbH+xpl7vUa7FeRXak=
+X-Received: by 2002:a17:902:848c:b0:1e2:a61d:905 with SMTP id
+ c12-20020a170902848c00b001e2a61d0905mr90550plo.63.1714407440013; Mon, 29 Apr
+ 2024 09:17:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240425013553.35843-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20240425013553.35843-1-jiapeng.chong@linux.alibaba.com>
+References: <20240425032330.36812-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20240425032330.36812-1-jiapeng.chong@linux.alibaba.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 29 Apr 2024 12:15:56 -0400
-Message-ID: <CADnq5_OcjDhKHeH32VZrie4j2S4umkxukzSygXyfC3sq-zY2gg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove duplicate spl/dc_spl_types.h
+Date: Mon, 29 Apr 2024 12:17:08 -0400
+Message-ID: <CADnq5_MoCTVtMqwTcVkxEmxa=MTw0MqmNWL8kEURg2mXptC5=g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Remove duplicate dcn401/dcn401_clk_mgr.h
  header
 To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, 
@@ -85,33 +85,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Apr 24, 2024 at 9:52=E2=80=AFPM Jiapeng Chong
+On Wed, Apr 24, 2024 at 11:42=E2=80=AFPM Jiapeng Chong
 <jiapeng.chong@linux.alibaba.com> wrote:
 >
-> ./drivers/gpu/drm/amd/display/dc/inc/hw/transform.h: spl/dc_spl_types.h i=
-s included more than once.
+> ./drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c: dcn401/=
+dcn401_clk_mgr.h is included more than once.
 >
 > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D8884
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D8885
 > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/inc/hw/transform.h | 2 --
->  1 file changed, 2 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/transform.h b/drivers/=
-gpu/drm/amd/display/dc/inc/hw/transform.h
-> index 5aa2f1a1fb83..28da1dddf0a0 100644
-> --- a/drivers/gpu/drm/amd/display/dc/inc/hw/transform.h
-> +++ b/drivers/gpu/drm/amd/display/dc/inc/hw/transform.h
-> @@ -31,8 +31,6 @@
->  #include "fixed31_32.h"
->  #include "spl/dc_spl_types.h"
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr=
+.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c
+> index d146c35f6d60..005092b0a0cb 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c
+> @@ -21,7 +21,6 @@
+>  #include "dcn/dcn_4_1_0_offset.h"
+>  #include "dcn/dcn_4_1_0_sh_mask.h"
 >
-> -#include "spl/dc_spl_types.h"
-> -
->  #define CSC_TEMPERATURE_MATRIX_SIZE 12
+> -#include "dcn401/dcn401_clk_mgr.h"
+>  #include "dml/dcn401/dcn401_fpu.h"
 >
->  struct bit_depth_reduction_params;
+>  #define mmCLK01_CLK0_CLK_PLL_REQ                        0x16E37
 > --
-> 2.19.1.6.gb485710b
+> 2.20.1.7.g153144c
 >
