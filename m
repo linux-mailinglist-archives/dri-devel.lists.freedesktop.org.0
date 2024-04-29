@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA798B620B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 21:32:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C498B620C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 21:32:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31EFC10F73B;
-	Mon, 29 Apr 2024 19:32:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 365B110FF6F;
+	Mon, 29 Apr 2024 19:32:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mi6O1Llg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T5T+KFmi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
- [209.85.166.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2420F10FF53;
- Mon, 29 Apr 2024 19:32:13 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id
- ca18e2360f4ac-7ded214dbdcso45341939f.0; 
- Mon, 29 Apr 2024 12:32:13 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+ [209.85.166.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5693910FF69;
+ Mon, 29 Apr 2024 19:32:14 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id
+ ca18e2360f4ac-7d5e93b40feso222609739f.2; 
+ Mon, 29 Apr 2024 12:32:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714419132; x=1715023932; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1714419133; x=1715023933; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ap0abnHnzuA+pCntBOpzm99vZ6Zv5ODzcROoP3CQSrg=;
- b=mi6O1Llg4T8iPYSPY4dZRdRD5ptH15bS1o1PcSNxcU1RR8gpbq9XjR3Qu670OiEKeT
- fnk3QpJjSVm/ivqrE3eNV4C9ZONvXnmYmTXNneXliFkX7xySAYRbzGN647UREoQzDyKz
- QZjy69u5vv/Me03XY7TedrhYqaV4xxFlV/ApnYzWmN5fd+bL2C4U/bVQfJOJSUVWJKKO
- gIy1223JaadnWfjUxYiRcVPiDZGOMHrUcyT9QtmSAcceEq4GwJ0kBNV3poIJjqO3Md8U
- BTSRHve0Fwp4U7o/R1WWoVMvV2zTwkASGExOHDTKGHeNw4VRjgpLOy91L0FZ3zhua3+Z
- qbkQ==
+ bh=ldBVxIs3YWVEtrUSZaATkHa5+P4x6yD8OeAnS3nVM/g=;
+ b=T5T+KFmiOeKjCA1SPuxrJJr8HtGRe3S4jJl0C8S14e2oYnT271byGaKHr7dl9sYb4P
+ MH3FcpfxnivGFIXNsdP1yuLDw/pAt+goncBHPyW7i3gg94ltLS5Y1IQjlhWMdVWpuHx+
+ avP8XmH6TqgMqVS2mynMg1NVDJlB9pLSDgYCn2+FCNni874nuFi4KjPfioh14F4vAKpJ
+ T8FqeP9A8XWg+nQSUwJYx7EBtOBddv//IEeVfIqwZUBGjkfpy2uqRMe05tPuNefBew7W
+ T74NSWuXVNJUnxSF08DjnnikEcz4QpnVw3HB4mxl46y9xhhNxzQPmDH2w9DAMNYLRm54
+ E1/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714419132; x=1715023932;
+ d=1e100.net; s=20230601; t=1714419133; x=1715023933;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ap0abnHnzuA+pCntBOpzm99vZ6Zv5ODzcROoP3CQSrg=;
- b=qneV7WUulwBTDVwJg9T9twQnz2agYkYCcqUfl+GO15ptqEj/AnVE03IqyMt+h9se8Z
- vO1z184kuxXuNtm7eeINwJlmTCS8X9xxgO7SfM/uEnksYatSm0g52OZOuI6IkT6QJU1P
- 2F1opO8XWTEXli1yVK9ZFC6fmzt8FkzqcwoZjd5kCWah4DQDHG/NZ0hg8VpKgkHTnvM/
- ZH91hFaHzP0at22K7Ajwj42kSCw98ztniTrxAV4503CmGzkJOnDO2wBV+qyronBHvg9H
- ms6SLx0o1aMoLLRjFmRggZN+28/nv4IDleMR7ouGKdgRpuZfNWkAbEyTcPmVYYoawJY0
- 7MwQ==
+ bh=ldBVxIs3YWVEtrUSZaATkHa5+P4x6yD8OeAnS3nVM/g=;
+ b=LHy5wUpriqmolUxbldSTC3rP9IvGErk5B53nhnH/HoqEALsB0f1f7cjlU5zW48u9Qq
+ CZqzsFHtwZiR/IikEAkyTmgK35ziUPNe6tD2Jba9Ed4z1KiuqN2XMpPzR5gNbxx/GO+/
+ gJgLOcaB4/ccASHPncJC8KZsom1G66HHCwwY7LWTZzuXjAlfRwMVJZlenGx7MYLUU8Cd
+ gwgWXgWCTwRMmEtAZQHNyg1Gy8hTdrx5wxUeRNeEXFQ5TzrogChPnkC8iPL0OzF0BbAS
+ FLx6gtRIJLBf8VcXnAmFzpOPpDoWM2Rt5Eeg3stJKWKd2Wp2itXJmzI+5qW1jyTJ6Gjs
+ Pmnw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUw7Yicg6VTK8JesJh9VbSUp+I4qQnViIrDoqFKrTqtyW2uGu/mJkCCrpkejcuc2VJOJewAyE6uib8RMmeRSl9CEdZ/WFGcou+LvgvsupRH1X8YnlA3GRmpqZ9WNKZX6BxUo95pzGg91MkxUCCgIlDNk+qIG5KR1rMt271BFS3VGpQ2pnDGHPZBNR8SAqJjHcfxSXaHoq4CXMTaxJvmFjJ8BjXr/ZLkaVoDIJ7xUy+L4Y1cLWQ=
-X-Gm-Message-State: AOJu0YwAdrFuTaeXGPtAsQUjNcfp+4mptTHjWnGL+Ust8ZEfYU1hD40d
- TyGBTbrOqfuqUGJN0yOYR/vmZhvnoyplyHal+w3Ef1CkYzpQ5XeE
-X-Google-Smtp-Source: AGHT+IGRdeeN+u2zMfjhDij9Il5S46oy16VyUUR7QmAHR8HDMNzTIxpnF8fD58yH4IXlMsHdP3l6HQ==
-X-Received: by 2002:a6b:6417:0:b0:7d0:8cff:cff3 with SMTP id
- t23-20020a6b6417000000b007d08cffcff3mr13514911iog.8.1714419132083; 
- Mon, 29 Apr 2024 12:32:12 -0700 (PDT)
+ AJvYcCX4yFMG8DatHxCGHuXxlzJCohhQKfwcHV9VE6Lp13ShHEwAd2RR9w2JwdK9E0q+Ia0MgZ85QPvAkNVv4cEBSRfDYGRrnbZ3PfKF5cgBYvlb5iBSDXRiAcfRvhbRAGyby1Rvy7J+aEXHOs9U0g1mir3VYJFbhS+anhqi/mx9zSRm56BPraYco7sLY+5hJ2z7OX2ONHutzCmFhjIOLKiBCe4c3GmK6NAi97sV5EhDhZE8P0Z4JrQ=
+X-Gm-Message-State: AOJu0YznFokIoNC8T4jLTXjU3ahteDsb4XA/FKy6/uT03OXrpr2aZ2bV
+ WBeB5JrB8zSO6dPlIS35kMyVopN9lxsQsSz0YsjKETIKJHDkaeQF8U3N9tk9
+X-Google-Smtp-Source: AGHT+IGHW0PLwjFCn9/rpWdn4NiBooWfUd2DZN1lnB0NLUJaPWaAn9sXEpa4tjxTrKvayL0PZexs5w==
+X-Received: by 2002:a5e:c74b:0:b0:7de:c608:15aa with SMTP id
+ g11-20020a5ec74b000000b007dec60815aamr6340037iop.11.1714419133409; 
+ Mon, 29 Apr 2024 12:32:13 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- dq18-20020a0566021b9200b007d5ec9b77aesm5988402iob.51.2024.04.29.12.32.10
+ dq18-20020a0566021b9200b007d5ec9b77aesm5988402iob.51.2024.04.29.12.32.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Apr 2024 12:32:11 -0700 (PDT)
+ Mon, 29 Apr 2024 12:32:12 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -65,10 +65,10 @@ Cc: ukaszb@chromium.org, linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
  tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
  ville.syrjala@linux.intel.com, seanpaul@chromium.org, robdclark@gmail.com,
  groeck@google.com, yanivt@google.com, bleung@google.com,
- Jim Cromie <jim.cromie@gmail.com>, stable@vger.kernel.org
-Subject: [PATCH v8 01/35] dyndbg: fix old BUG_ON in >control parser
-Date: Mon, 29 Apr 2024 13:31:11 -0600
-Message-ID: <20240429193145.66543-2-jim.cromie@gmail.com>
+ Jim Cromie <jim.cromie@gmail.com>
+Subject: [PATCH v8 02/35] docs/dyndbg: update examples \012 to \n
+Date: Mon, 29 Apr 2024 13:31:12 -0600
+Message-ID: <20240429193145.66543-3-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240429193145.66543-1-jim.cromie@gmail.com>
 References: <20240429193145.66543-1-jim.cromie@gmail.com>
@@ -89,33 +89,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix a BUG_ON from 2009.  Even if it looks "unreachable" (I didn't
-really look), lets make sure by removing it, doing pr_err and return
--EINVAL instead.
+commit 47ea6f99d06e ("dyndbg: use ESCAPE_SPACE for cat control")
 
-cc: stable@vger.kernel.org
+changed the control-file to display format strings with "\n" rather
+than "\012".  Update the docs to match the new reality.
+
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/dynamic-debug-howto.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index c78f335fa981..f2c5e7910bb1 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -302,7 +302,11 @@ static int ddebug_tokenize(char *buf, char *words[], int maxwords)
- 		} else {
- 			for (end = buf; *end && !isspace(*end); end++)
- 				;
--			BUG_ON(end == buf);
-+			if (end == buf) {
-+				pr_err("parse err after word:%d=%s\n", nwords,
-+				       nwords ? words[nwords - 1] : "<none>");
-+				return -EINVAL;
-+			}
- 		}
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 0e9b48daf690..6a8ce5a34382 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -52,12 +52,12 @@ query/commands to the control file.  Example::
+   # grease the interface
+   :#> alias ddcmd='echo $* > /proc/dynamic_debug/control'
  
- 		/* `buf' is start of word, `end' is one past its end */
+-  :#> ddcmd '-p; module main func run* +p'
++  :#> ddcmd '-p; module main func run* +p'	# disable all, then enable main
+   :#> grep =p /proc/dynamic_debug/control
+-  init/main.c:1424 [main]run_init_process =p "  with arguments:\012"
+-  init/main.c:1426 [main]run_init_process =p "    %s\012"
+-  init/main.c:1427 [main]run_init_process =p "  with environment:\012"
+-  init/main.c:1429 [main]run_init_process =p "    %s\012"
++  init/main.c:1424 [main]run_init_process =p "  with arguments:\n"
++  init/main.c:1426 [main]run_init_process =p "    %s\n"
++  init/main.c:1427 [main]run_init_process =p "  with environment:\n"
++  init/main.c:1429 [main]run_init_process =p "    %s\n"
+ 
+ Error messages go to console/syslog::
+ 
 -- 
 2.44.0
 
