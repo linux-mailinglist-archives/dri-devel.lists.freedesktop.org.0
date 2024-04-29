@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609FA8B50DF
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 07:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF4618B50E6
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 08:00:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EAF610ECF9;
-	Mon, 29 Apr 2024 05:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C5A1112761;
+	Mon, 29 Apr 2024 06:00:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bz0QCIQe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="THpp7M7K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E144E10ECF9
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 05:58:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D795310FC84
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 06:00:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 935DF60C00;
- Mon, 29 Apr 2024 05:58:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5238AC113CD;
- Mon, 29 Apr 2024 05:58:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2FBBB60BDB;
+ Mon, 29 Apr 2024 06:00:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F18DC113CD;
+ Mon, 29 Apr 2024 05:59:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714370334;
- bh=VqF+KZoGkXM7Zgfjh924AdCno4ywq0HAuQkwF009/5I=;
+ s=k20201202; t=1714370403;
+ bh=ugJQOPZ1kMTBi0aTLYRs6bL+WgoMwb9S2BmIZzdBd3U=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bz0QCIQew8CRF9V7mEsqp73oZZMwzUIExEspSmR3xUrKcEZ8jfbJGhIpLN1/Ha0go
- +UpQ7O1gwHzgjP6j8nSLYhzyOeTI4INjGcpwghqiiiEc7iAQ6yEolpa2QuuunQiXt8
- JPG3crg6OkU5d4nYMKh3qJP8Dd7rOclmH0ACe0nuvcoqpZ3VQJC65iWdQOY5C0S0tX
- v6yZRBP65zIuja445dktZE34z53WMnhPyf5BeS2ARHUleUX1lNE3Ggpvmuboso72j1
- TX5mphkIgzcU17vz+HrshdJxgENrL8kxHuCOHyDSmwOaU5na9uXj65VvHzd3jXfuqE
- HHn271sTUwsYA==
-Message-ID: <98e32bf9-dae1-4f75-b4dd-066756515cb3@kernel.org>
-Date: Mon, 29 Apr 2024 07:58:44 +0200
+ b=THpp7M7K8ImMQ2I9BGn7B4zp2wz/mnx7nV3T/CdrrQqxANpdGLK+gv7nPwf7H67QO
+ lbzuJIOSFYmvERFTZo+5g48O+qg12IYtFAAabXqSM1yv4vG4RWtaTCVWPQlpF2g/0d
+ kEsU0pkSdfRx4YKWFE/kmqWMXS072qxuU7x2+9fyFiWIJDiMv0bQ9SdHWMU082PBQX
+ hJ8zq4cn6yoU+7qwl+WPNDPu+fjNUIJV/hIzbqGhoBcvtI3IYmLfpAqXMG8ztjBtd0
+ ODj9S7KH/c5TCb1eFb78EuBRDPq4LnJ49z5QBjRpxfoSMGzbvoXCIEqLAfssEUdQRi
+ 2UgKpWhDer6nA==
+Message-ID: <dc18a843-c83b-4d83-a9b9-236fcd57abb2@kernel.org>
+Date: Mon, 29 Apr 2024 07:59:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/16] ASoC: dt-bindings: mediatek,mt8365-afe: Add
- audio afe document
+Subject: Re: [PATCH v4 02/16] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
+ audio sound card document
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
@@ -54,7 +54,7 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 References: <20240226-audio-i350-v4-0-082b22186d4c@baylibre.com>
- <20240226-audio-i350-v4-1-082b22186d4c@baylibre.com>
+ <20240226-audio-i350-v4-2-082b22186d4c@baylibre.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -100,7 +100,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240226-audio-i350-v4-1-082b22186d4c@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v4-2-082b22186d4c@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,10 +119,22 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 26/04/2024 19:22, Alexandre Mergnat wrote:
-> Add MT8365 audio front-end bindings
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
+> +      link-name:
+> +        description: Indicates dai-link name and PCM stream name
+> +        enum:
+> +          - I2S_IN_BE
+> +          - I2S_OUT_BE
+> +          - PCM1_BE
+> +          - PDM1_BE
+> +          - PDM2_BE
+> +          - PDM3_BE
+> +          - PDM4_BE
+> +          - SPDIF_IN_BE
+> +          - SPDIF_OUT_BE
+> +          - TDM_IN_BE
+> +          - TDM_OUT_BE
+
+Feels like BE is redundant.
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
