@@ -2,49 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B6D8B4FAF
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 05:12:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 274BB8B50AF
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 07:22:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DDAC10EE69;
-	Mon, 29 Apr 2024 03:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B835310FB84;
+	Mon, 29 Apr 2024 05:22:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="OFvPKKzx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dFYdQUpx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A02310E099;
- Mon, 29 Apr 2024 03:12:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1714360368;
- bh=2FzFPUX3bLG3faCR0xhttaBk0b99Aw0RFjXJ8hQd4cE=;
- h=Date:From:To:Cc:Subject:From;
- b=OFvPKKzx+stCGjTBRA6T6BVN2JBAFtMIHeJ2LrLdz24W3pcCvyT+NhtlM2+fp2ovp
- R/n8rCWQjTO+AZMIo+xgVyvs6YoH4/SEc/sIV2jQwvEQt30XEMvxfJahRUHAGKw2GM
- tOXnaR2DVaeQuayNfDIfGnK14X0KbsMZxDCkdoKEhQhlCHJiQ6jpTWndc2E8GrhWp+
- D0YFgPlc6T2EFgYopHh4mUiKTYCpwl3T7Er+1417aD/aPUJaU3rWgSQavcXBVz96zJ
- nfpCl8V+vSpA2ohTfNfmEdoADJ8ePER4zeqeXrAUJ86Gq+ru/zMn33buuCyT4TXGwW
- lUuvDcyrVpkEg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4VST0b4VLWz4wyp;
- Mon, 29 Apr 2024 13:12:47 +1000 (AEST)
-Date: Mon, 29 Apr 2024 13:12:45 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
- <ogabbay@kernel.org>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Dave Airlie <airlied@redhat.com>
-Cc: DRI <dri-devel@lists.freedesktop.org>, DRM XE List
- <intel-xe@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: manual merge of the drm-xe tree with the drm tree
-Message-ID: <20240429131245.5d4fcc37@canb.auug.org.au>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1AE10FB84
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 05:22:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=8jWqz91P72bLK1vNTSXP2I03BK7xRmxKpwYI3P6sU3I=; b=dFYdQUpxRt5qBu2t1YxISxUa43
+ Fygu1YMdSMVRh04R10V4Z6degiD5mIJKgKIC2zx+g49XV9D0rzYCmNGox6kvUMRClCWaEZFdBhMRO
+ 54Q6s9EaZhkm/oAtcymMfiylH8YZpqZSTI13kSidjbf/ycJsI9P3Hvzclou4dseDaIpzop80UARcW
+ jayy2Xe5dHj7I/Me1Y/o+xGqJgOiof23J5qVvl+PJxuXwAVJKz7f/EwFEELxpuz5aeuJSo73wBStt
+ TN9jGO8KlS0AD+IQ5zNSSNbA5djfgNTlFvurI+N9/LS3eL1WDxhzV9g3n602mbNWWVlE+vy5watnz
+ oWSdRKgg==;
+Received: from 62.117.230.7.dyn.user.ono.com ([62.117.230.7]
+ helo=[192.168.0.101]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1s1JTG-0014bJ-MV; Mon, 29 Apr 2024 07:22:34 +0200
+Message-ID: <0a966cc891b388133013b37820b7e0e7d982654c.camel@igalia.com>
+Subject: Re: [PATCH v4 7/8] drm/v3d: Use gemfs/THP in BO creation if available
+From: Iago Toral <itoral@igalia.com>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
+ <mwen@igalia.com>, Tvrtko Ursulin <tursulin@igalia.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>
+Date: Mon, 29 Apr 2024 07:22:33 +0200
+In-Reply-To: <20240428124426.309096-8-mcanal@igalia.com>
+References: <20240428124426.309096-1-mcanal@igalia.com>
+ <20240428124426.309096-8-mcanal@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/O.2GsTH7sUrY0rG9nG7feeQ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,70 +65,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/O.2GsTH7sUrY0rG9nG7feeQ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Ma=C3=ADra,=20
 
-Hi all,
+a question below:
 
-Today's linux-next merge of the drm-xe tree got a conflict in:
+El dom, 28-04-2024 a las 09:40 -0300, Ma=C3=ADra Canal escribi=C3=B3:
+> Although Big/Super Pages could appear naturally, it would be quite
+> hard
+> to have 1MB or 64KB allocated contiguously naturally. Therefore, we
+> can
+> force the creation of large pages allocated contiguously by using a
+> mountpoint with "huge=3Dwithin_size" enabled.
+>=20
+> Therefore, as V3D has a mountpoint with "huge=3Dwithin_size" (if user
+> has
+> THP enabled), use this mountpoint for BO creation if available. This
+> will allow us to create large pages allocated contiguously and make
+> use
+> of Big/Super Pages.
+>=20
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> ---
+>=20
 
-  drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h
+(...)
 
-between commit:
+> @@ -130,10 +140,17 @@ struct v3d_bo *v3d_bo_create(struct drm_device
+> *dev, struct drm_file *file_priv,
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 size_t unaligned_size)
+> =C2=A0{
+> =C2=A0	struct drm_gem_shmem_object *shmem_obj;
+> +	struct v3d_dev *v3d =3D to_v3d_dev(dev);
+> =C2=A0	struct v3d_bo *bo;
+> =C2=A0	int ret;
+> =C2=A0
+> -	shmem_obj =3D drm_gem_shmem_create(dev, unaligned_size);
+> +	/* Let the user opt out of allocating the BOs with THP */
+> +	if (v3d->gemfs)
+> +		shmem_obj =3D drm_gem_shmem_create_with_mnt(dev,
+> unaligned_size,
+> +							=C2=A0 v3d-
+> >gemfs);
+> +	else
+> +		shmem_obj =3D drm_gem_shmem_create(dev,
+> unaligned_size);
+> +
+> =C2=A0	if (IS_ERR(shmem_obj))
+> =C2=A0		return ERR_CAST(shmem_obj);
+> =C2=A0	bo =3D to_v3d_bo(&shmem_obj->base);
 
-  cb4046d289bd ("drm/i915: Drop dead code for xehpsdv")
 
-from the drm tree and commit:
+if I read this correctly when we have THP we always allocate with that,
+Even objects that are smaller than 64KB. I was wondering if there is
+any benefit/downside to this or if the behavior for small allocations
+is the same we had without the new mount point.
 
-  6a2a90cba12b ("drm/xe/display: Fix ADL-N detection")
-
-from the drm-xe tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h
-index ffaa4d2f1eed,9ee694bf331f..000000000000
---- a/drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h
-+++ b/drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h
-@@@ -78,8 -84,11 +78,9 @@@ static inline struct drm_i915_private *
-  #define IS_ROCKETLAKE(dev_priv)	IS_PLATFORM(dev_priv, XE_ROCKETLAKE)
-  #define IS_DG1(dev_priv)        IS_PLATFORM(dev_priv, XE_DG1)
-  #define IS_ALDERLAKE_S(dev_priv) IS_PLATFORM(dev_priv, XE_ALDERLAKE_S)
-- #define IS_ALDERLAKE_P(dev_priv) IS_PLATFORM(dev_priv, XE_ALDERLAKE_P)
-+ #define IS_ALDERLAKE_P(dev_priv) (IS_PLATFORM(dev_priv, XE_ALDERLAKE_P) |=
-| \
-+ 				  IS_PLATFORM(dev_priv, XE_ALDERLAKE_N))
- -#define IS_XEHPSDV(dev_priv) (dev_priv && 0)
-  #define IS_DG2(dev_priv)	IS_PLATFORM(dev_priv, XE_DG2)
- -#define IS_PONTEVECCHIO(dev_priv) IS_PLATFORM(dev_priv, XE_PVC)
-  #define IS_METEORLAKE(dev_priv) IS_PLATFORM(dev_priv, XE_METEORLAKE)
-  #define IS_LUNARLAKE(dev_priv) IS_PLATFORM(dev_priv, XE_LUNARLAKE)
-  #define IS_BATTLEMAGE(dev_priv)  IS_PLATFORM(dev_priv, XE_BATTLEMAGE)
-
---Sig_/O.2GsTH7sUrY0rG9nG7feeQ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmYvEC0ACgkQAVBC80lX
-0GxeEwf+JyDY0T+hn6eCyOuA9aEMlFHOEU4DvYaWY8f0W/5gqxkXzIHajzcPIFJ7
-U66qycz4Jubk+RmfA4MEwHzAZjE2p51RKiE/UuastXFQppA6rAwvyCOZkStTl79N
-PdU0/lTq/N4OKdLyVm7W09FdN7y6PZxX/gH1ykqAWaJLEoUBsNPu9Hh4jOTVdGmO
-dVcZcS8/xwgbXBdYQzuVb776ty0tNnRVSTDJyTbMlh5ioEynjbHbMjYGtSSA6fYM
-JYGH7NZzpc1t+UG1kWrhdSfiWIb04GfWU03vw0t1U9F+Eo6Cf70cbZMiYbdUaSbU
-LD0KSF1hvIBhpTRS+PJh0GziFSC9ug==
-=SlGa
------END PGP SIGNATURE-----
-
---Sig_/O.2GsTH7sUrY0rG9nG7feeQ--
+Iago
