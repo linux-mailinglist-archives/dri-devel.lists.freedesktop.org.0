@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DA88B6109
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 20:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6AB48B610C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 20:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFE6C10EEFE;
-	Mon, 29 Apr 2024 18:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EF2A10F5A3;
+	Mon, 29 Apr 2024 18:23:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Kwunyy+D";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GovqFj0G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38C8B10E9F6
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 18:23:39 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58C5110E9F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 18:23:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1714415018;
+ s=mimecast20190719; t=1714415024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eTG0DWcIKhOPZB10b2MCjJIKwbv6KWLnkqIzMUFMrUA=;
- b=Kwunyy+DB4ZRIPPq1mEbiqDpHWCVResrUWEmQxYDZkvr9K5zLWBwSRp6Xw94NQ3Dce0hP3
- TkgjcIE25oowyJAquOj/7wxH21zQSxFtoxWfmP1DujhNB9auPLXMp2PsCVBLsxqxyi0IwY
- XiAmT43lx7dCpjMKzYTf5OoqKKFLfSo=
+ bh=/xJ39egjPXPVzQcGg1vJ7sp0qcrk9q2He5yMjws7WO0=;
+ b=GovqFj0GNLO6OUWzcalqlOwgRvLkQSU65flBf0zYiwHMB3UJUnT0F6J5RjGlEs1xYAsLVO
+ bsMBnQNIK6F1Fu/jW0Snw1ZMwnVU0CTpyS6PuXUdvQ/2eufircNo7M6vGn9m0WwDMCeUYS
+ SjWXgWSk/hFbj7d+9D0bT4qeSXYUrD4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-483-dg13UQiVOfWHyy_-JCIpBg-1; Mon, 29 Apr 2024 14:23:31 -0400
-X-MC-Unique: dg13UQiVOfWHyy_-JCIpBg-1
+ us-mta-616-MrxGKN92McqdMFBZJYLD9w-1; Mon, 29 Apr 2024 14:23:38 -0400
+X-MC-Unique: MrxGKN92McqdMFBZJYLD9w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDE508EE067;
- Mon, 29 Apr 2024 18:23:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 60D518059E0;
+ Mon, 29 Apr 2024 18:23:37 +0000 (UTC)
 Received: from chopper.lyude.net (unknown [10.22.9.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C913E1121312;
- Mon, 29 Apr 2024 18:23:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F4F31121306;
+ Mon, 29 Apr 2024 18:23:36 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: nouveau@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Justin Stitt <justinstitt@google.com>,
- Dave Airlie <airlied@redhat.com>, Kees Cook <keescook@chromium.org>,
- Ben Skeggs <bskeggs@redhat.com>, linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 1/2] drm/nouveau/firmware: Fix SG_DEBUG error with
- nvkm_firmware_ctor()
-Date: Mon, 29 Apr 2024 14:23:08 -0400
-Message-ID: <20240429182318.189668-1-lyude@redhat.com>
-In-Reply-To: <20240426154138.64643-1-lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Karol Herbst <kherbst@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Timur Tabi <ttabi@nvidia.com>, Dan Carpenter <dan.carpenter@linaro.org>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2 2/2] drm/nouveau/gsp: Use the sg allocator for level 2 of
+ radix3
+Date: Mon, 29 Apr 2024 14:23:09 -0400
+Message-ID: <20240429182318.189668-2-lyude@redhat.com>
+In-Reply-To: <20240429182318.189668-1-lyude@redhat.com>
 References: <20240426154138.64643-1-lyude@redhat.com>
+ <20240429182318.189668-1-lyude@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
@@ -72,153 +74,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, enabling SG_DEBUG in the kernel will cause nouveau to hit a
-BUG() on startup:
+Currently we allocate all 3 levels of radix3 page tables using
+nvkm_gsp_mem_ctor(), which uses dma_alloc_coherent() for allocating all of
+the relevant memory. This can end up failing in scenarios where the system
+has very high memory fragmentation, and we can't find enough contiguous
+memory to allocate level 2 of the page table.
 
-  kernel BUG at include/linux/scatterlist.h:187!
-  invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
-  CPU: 7 PID: 930 Comm: (udev-worker) Not tainted 6.9.0-rc3Lyude-Test+ #30
-  Hardware name: MSI MS-7A39/A320M GAMING PRO (MS-7A39), BIOS 1.I0 01/22/2019
-  RIP: 0010:sg_init_one+0x85/0xa0
-  Code: 69 88 32 01 83 e1 03 f6 c3 03 75 20 a8 01 75 1e 48 09 cb 41 89 54
-  24 08 49 89 1c 24 41 89 6c 24 0c 5b 5d 41 5c e9 7b b9 88 00 <0f> 0b 0f 0b
-  0f 0b 48 8b 05 5e 46 9a 01 eb b2 66 66 2e 0f 1f 84 00
-  RSP: 0018:ffffa776017bf6a0 EFLAGS: 00010246
-  RAX: 0000000000000000 RBX: ffffa77600d87000 RCX: 000000000000002b
-  RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffffa77680d87000
-  RBP: 000000000000e000 R08: 0000000000000000 R09: 0000000000000000
-  R10: ffff98f4c46aa508 R11: 0000000000000000 R12: ffff98f4c46aa508
-  R13: ffff98f4c46aa008 R14: ffffa77600d4a000 R15: ffffa77600d4a018
-  FS:  00007feeb5aae980(0000) GS:ffff98f5c4dc0000(0000) knlGS:0000000000000000
-  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-  CR2: 00007f22cb9a4520 CR3: 00000001043ba000 CR4: 00000000003506f0
+Currently, this can result in runtime PM issues on systems where memory
+fragmentation is high - as we'll fail to allocate the page table for our
+suspend/resume buffer:
+
+  kworker/10:2: page allocation failure: order:7, mode:0xcc0(GFP_KERNEL),
+  nodemask=(null),cpuset=/,mems_allowed=0
+  CPU: 10 PID: 479809 Comm: kworker/10:2 Not tainted
+  6.8.6-201.ChopperV6.fc39.x86_64 #1
+  Hardware name: SLIMBOOK Executive/Executive, BIOS N.1.10GRU06 02/02/2024
+  Workqueue: pm pm_runtime_work
   Call Trace:
    <TASK>
-   ? die+0x36/0x90
-   ? do_trap+0xdd/0x100
-   ? sg_init_one+0x85/0xa0
-   ? do_error_trap+0x65/0x80
-   ? sg_init_one+0x85/0xa0
-   ? exc_invalid_op+0x50/0x70
-   ? sg_init_one+0x85/0xa0
-   ? asm_exc_invalid_op+0x1a/0x20
-   ? sg_init_one+0x85/0xa0
-   nvkm_firmware_ctor+0x14a/0x250 [nouveau]
-   nvkm_falcon_fw_ctor+0x42/0x70 [nouveau]
-   ga102_gsp_booter_ctor+0xb4/0x1a0 [nouveau]
-   r535_gsp_oneinit+0xb3/0x15f0 [nouveau]
-   ? srso_return_thunk+0x5/0x5f
-   ? srso_return_thunk+0x5/0x5f
-   ? nvkm_udevice_new+0x95/0x140 [nouveau]
-   ? srso_return_thunk+0x5/0x5f
-   ? srso_return_thunk+0x5/0x5f
-   ? ktime_get+0x47/0xb0
-   ? srso_return_thunk+0x5/0x5f
-   nvkm_subdev_oneinit_+0x4f/0x120 [nouveau]
-   nvkm_subdev_init_+0x39/0x140 [nouveau]
-   ? srso_return_thunk+0x5/0x5f
-   nvkm_subdev_init+0x44/0x90 [nouveau]
-   nvkm_device_init+0x166/0x2e0 [nouveau]
-   nvkm_udevice_init+0x47/0x70 [nouveau]
-   nvkm_object_init+0x41/0x1c0 [nouveau]
-   nvkm_ioctl_new+0x16a/0x290 [nouveau]
-   ? __pfx_nvkm_client_child_new+0x10/0x10 [nouveau]
-   ? __pfx_nvkm_udevice_new+0x10/0x10 [nouveau]
-   nvkm_ioctl+0x126/0x290 [nouveau]
-   nvif_object_ctor+0x112/0x190 [nouveau]
-   nvif_device_ctor+0x23/0x60 [nouveau]
-   nouveau_cli_init+0x164/0x640 [nouveau]
-   nouveau_drm_device_init+0x97/0x9e0 [nouveau]
-   ? srso_return_thunk+0x5/0x5f
-   ? pci_update_current_state+0x72/0xb0
-   ? srso_return_thunk+0x5/0x5f
-   nouveau_drm_probe+0x12c/0x280 [nouveau]
-   ? srso_return_thunk+0x5/0x5f
-   local_pci_probe+0x45/0xa0
-   pci_device_probe+0xc7/0x270
-   really_probe+0xe6/0x3a0
-   __driver_probe_device+0x87/0x160
-   driver_probe_device+0x1f/0xc0
-   __driver_attach+0xec/0x1f0
-   ? __pfx___driver_attach+0x10/0x10
-   bus_for_each_dev+0x88/0xd0
-   bus_add_driver+0x116/0x220
-   driver_register+0x59/0x100
-   ? __pfx_nouveau_drm_init+0x10/0x10 [nouveau]
-   do_one_initcall+0x5b/0x320
-   do_init_module+0x60/0x250
-   init_module_from_file+0x86/0xc0
-   idempotent_init_module+0x120/0x2b0
-   __x64_sys_finit_module+0x5e/0xb0
-   do_syscall_64+0x83/0x160
-   ? srso_return_thunk+0x5/0x5f
-   entry_SYSCALL_64_after_hwframe+0x71/0x79
-  RIP: 0033:0x7feeb5cc20cd
-  Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89
-  f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0
-  ff ff 73 01 c3 48 8b 0d 1b cd 0c 00 f7 d8 64 89 01 48
-  RSP: 002b:00007ffcf220b2c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-  RAX: ffffffffffffffda RBX: 000055fdd2916aa0 RCX: 00007feeb5cc20cd
-  RDX: 0000000000000000 RSI: 000055fdd29161e0 RDI: 0000000000000035
-  RBP: 00007ffcf220b380 R08: 00007feeb5d8fb20 R09: 00007ffcf220b310
-  R10: 000055fdd2909dc0 R11: 0000000000000246 R12: 000055fdd29161e0
-  R13: 0000000000020000 R14: 000055fdd29203e0 R15: 000055fdd2909d80
-   </TASK>
+   dump_stack_lvl+0x64/0x80
+   warn_alloc+0x165/0x1e0
+   ? __alloc_pages_direct_compact+0xb3/0x2b0
+   __alloc_pages_slowpath.constprop.0+0xd7d/0xde0
+   __alloc_pages+0x32d/0x350
+   __dma_direct_alloc_pages.isra.0+0x16a/0x2b0
+   dma_direct_alloc+0x70/0x270
+   nvkm_gsp_radix3_sg+0x5e/0x130 [nouveau]
+   r535_gsp_fini+0x1d4/0x350 [nouveau]
+   nvkm_subdev_fini+0x67/0x150 [nouveau]
+   nvkm_device_fini+0x95/0x1e0 [nouveau]
+   nvkm_udevice_fini+0x53/0x70 [nouveau]
+   nvkm_object_fini+0xb9/0x240 [nouveau]
+   nvkm_object_fini+0x75/0x240 [nouveau]
+   nouveau_do_suspend+0xf5/0x280 [nouveau]
+   nouveau_pmops_runtime_suspend+0x3e/0xb0 [nouveau]
+   pci_pm_runtime_suspend+0x67/0x1e0
+   ? __pfx_pci_pm_runtime_suspend+0x10/0x10
+   __rpm_callback+0x41/0x170
+   ? __pfx_pci_pm_runtime_suspend+0x10/0x10
+   rpm_callback+0x5d/0x70
+   ? __pfx_pci_pm_runtime_suspend+0x10/0x10
+   rpm_suspend+0x120/0x6a0
+   pm_runtime_work+0x98/0xb0
+   process_one_work+0x171/0x340
+   worker_thread+0x27b/0x3a0
+   ? __pfx_worker_thread+0x10/0x10
+   kthread+0xe5/0x120
+   ? __pfx_kthread+0x10/0x10
+   ret_from_fork+0x31/0x50
+   ? __pfx_kthread+0x10/0x10
+   ret_from_fork_asm+0x1b/0x30
 
-We hit this when trying to initialize firmware of type
-NVKM_FIRMWARE_IMG_DMA because we allocate our memory with
-dma_alloc_coherent, and DMA allocations can't be turned back into memory
-pages - which a scatterlist needs in order to map them.
-
-So, fix this by allocating the memory with vmalloc instead().
+Luckily, we don't actually need to allocate coherent memory for the page
+table thanks to being able to pass the GPU a radix3 page table for
+suspend/resume data. So, let's rewrite nvkm_gsp_radix3_sg() to use the sg
+allocator for level 2. We continue using coherent allocations for lvl0 and
+1, since they only take a single page.
 
 V2:
-* Fixup explanation as the prior one was bogus
+* Don't forget to actually jump to the next scatterlist when we reach the
+  end of the scatterlist we're currently on when writing out the page table
+  for level 2
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/nouveau/nvkm/core/firmware.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ .../gpu/drm/nouveau/include/nvkm/subdev/gsp.h |  4 +-
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/r535.c    | 77 ++++++++++++-------
+ 2 files changed, 54 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
-index adc60b25f8e6c..141b0a513bf52 100644
---- a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
-@@ -205,7 +205,9 @@ nvkm_firmware_dtor(struct nvkm_firmware *fw)
- 		break;
- 	case NVKM_FIRMWARE_IMG_DMA:
- 		nvkm_memory_unref(&memory);
--		dma_free_coherent(fw->device->dev, sg_dma_len(&fw->mem.sgl), fw->img, fw->phys);
-+		dma_unmap_single(fw->device->dev, fw->phys, sg_dma_len(&fw->mem.sgl),
-+				 DMA_TO_DEVICE);
-+		kfree(fw->img);
- 		break;
- 	case NVKM_FIRMWARE_IMG_SGT:
- 		nvkm_memory_unref(&memory);
-@@ -235,14 +237,17 @@ nvkm_firmware_ctor(const struct nvkm_firmware_func *func, const char *name,
- 		fw->img = kmemdup(src, fw->len, GFP_KERNEL);
- 		break;
- 	case NVKM_FIRMWARE_IMG_DMA: {
--		dma_addr_t addr;
--
- 		len = ALIGN(fw->len, PAGE_SIZE);
+diff --git a/drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h b/drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
+index 6f5d376d8fcc1..a11d16a16c3b2 100644
+--- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
++++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
+@@ -15,7 +15,9 @@ struct nvkm_gsp_mem {
+ };
  
--		fw->img = dma_alloc_coherent(fw->device->dev, len, &addr, GFP_KERNEL);
--		if (fw->img) {
--			memcpy(fw->img, src, fw->len);
--			fw->phys = addr;
-+		fw->img = kmalloc(len, GFP_KERNEL);
-+		if (!fw->img)
-+			return -ENOMEM;
+ struct nvkm_gsp_radix3 {
+-	struct nvkm_gsp_mem mem[3];
++	struct nvkm_gsp_mem lvl0;
++	struct nvkm_gsp_mem lvl1;
++	struct sg_table lvl2;
+ };
+ 
+ int nvkm_gsp_sg(struct nvkm_device *, u64 size, struct sg_table *);
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+index 9858c1438aa7f..fd4e80ba6adfc 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+@@ -1624,7 +1624,7 @@ r535_gsp_wpr_meta_init(struct nvkm_gsp *gsp)
+ 	meta->magic = GSP_FW_WPR_META_MAGIC;
+ 	meta->revision = GSP_FW_WPR_META_REVISION;
+ 
+-	meta->sysmemAddrOfRadix3Elf = gsp->radix3.mem[0].addr;
++	meta->sysmemAddrOfRadix3Elf = gsp->radix3.lvl0.addr;
+ 	meta->sizeOfRadix3Elf = gsp->fb.wpr2.elf.size;
+ 
+ 	meta->sysmemAddrOfBootloader = gsp->boot.fw.addr;
+@@ -1919,8 +1919,9 @@ nvkm_gsp_sg(struct nvkm_device *device, u64 size, struct sg_table *sgt)
+ static void
+ nvkm_gsp_radix3_dtor(struct nvkm_gsp *gsp, struct nvkm_gsp_radix3 *rx3)
+ {
+-	for (int i = ARRAY_SIZE(rx3->mem) - 1; i >= 0; i--)
+-		nvkm_gsp_mem_dtor(gsp, &rx3->mem[i]);
++	nvkm_gsp_sg_free(gsp->subdev.device, &rx3->lvl2);
++	nvkm_gsp_mem_dtor(gsp, &rx3->lvl1);
++	nvkm_gsp_mem_dtor(gsp, &rx3->lvl0);
+ }
+ 
+ /**
+@@ -1960,36 +1961,60 @@ static int
+ nvkm_gsp_radix3_sg(struct nvkm_gsp *gsp, struct sg_table *sgt, u64 size,
+ 		   struct nvkm_gsp_radix3 *rx3)
+ {
+-	u64 addr;
++	struct sg_dma_page_iter sg_dma_iter;
++	struct scatterlist *sg;
++	size_t bufsize;
++	u64 *pte;
++	int ret, i, page_idx = 0;
+ 
+-	for (int i = ARRAY_SIZE(rx3->mem) - 1; i >= 0; i--) {
+-		u64 *ptes;
+-		size_t bufsize;
+-		int ret, idx;
++	ret = nvkm_gsp_mem_ctor(gsp, GSP_PAGE_SIZE, &rx3->lvl0);
++	if (ret)
++		return ret;
+ 
+-		bufsize = ALIGN((size / GSP_PAGE_SIZE) * sizeof(u64), GSP_PAGE_SIZE);
+-		ret = nvkm_gsp_mem_ctor(gsp, bufsize, &rx3->mem[i]);
+-		if (ret)
+-			return ret;
++	ret = nvkm_gsp_mem_ctor(gsp, GSP_PAGE_SIZE, &rx3->lvl1);
++	if (ret)
++		goto lvl1_fail;
+ 
+-		ptes = rx3->mem[i].data;
+-		if (i == 2) {
+-			struct scatterlist *sgl;
++	// Allocate level 2
++	bufsize = ALIGN((size / GSP_PAGE_SIZE) * sizeof(u64), GSP_PAGE_SIZE);
++	ret = nvkm_gsp_sg(gsp->subdev.device, bufsize, &rx3->lvl2);
++	if (ret)
++		goto lvl2_fail;
+ 
+-			for_each_sgtable_dma_sg(sgt, sgl, idx) {
+-				for (int j = 0; j < sg_dma_len(sgl) / GSP_PAGE_SIZE; j++)
+-					*ptes++ = sg_dma_address(sgl) + (GSP_PAGE_SIZE * j);
+-			}
+-		} else {
+-			for (int j = 0; j < size / GSP_PAGE_SIZE; j++)
+-				*ptes++ = addr + GSP_PAGE_SIZE * j;
++	// Write the bus address of level 1 to level 0
++	pte = rx3->lvl0.data;
++	*pte = rx3->lvl1.addr;
 +
-+		memcpy(fw->img, src, fw->len);
-+		fw->phys = dma_map_single(fw->device->dev, fw->img, len, DMA_TO_DEVICE);
-+		if (dma_mapping_error(fw->device->dev, fw->phys)) {
-+			kfree(fw->img);
-+			return -EFAULT;
++	// Write the bus address of each page in level 2 to level 1
++	pte = rx3->lvl1.data;
++	for_each_sgtable_dma_page(&rx3->lvl2, &sg_dma_iter, 0)
++		*pte++ = sg_page_iter_dma_address(&sg_dma_iter);
++
++	// Finally, write the bus address of each page in sgt to level 2
++	for_each_sgtable_sg(&rx3->lvl2, sg, i) {
++		void *sgl_end;
++
++		pte = sg_virt(sg);
++		sgl_end = (void*)pte + sg->length;
++
++		for_each_sgtable_dma_page(sgt, &sg_dma_iter, page_idx) {
++			*pte++ = sg_page_iter_dma_address(&sg_dma_iter);
++			page_idx++;
++
++			// Go to the next scatterlist for level 2 if we've reached the end
++			if ((void*)pte >= sgl_end)
++				break;
  		}
++	}
  
- 		sg_init_one(&fw->mem.sgl, fw->img, len);
+-		size = rx3->mem[i].size;
+-		addr = rx3->mem[i].addr;
++	if (ret) {
++lvl2_fail:
++		nvkm_gsp_mem_dtor(gsp, &rx3->lvl1);
++lvl1_fail:
++		nvkm_gsp_mem_dtor(gsp, &rx3->lvl0);
+ 	}
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ int
+@@ -2021,7 +2046,7 @@ r535_gsp_fini(struct nvkm_gsp *gsp, bool suspend)
+ 		sr = gsp->sr.meta.data;
+ 		sr->magic = GSP_FW_SR_META_MAGIC;
+ 		sr->revision = GSP_FW_SR_META_REVISION;
+-		sr->sysmemAddrOfSuspendResumeData = gsp->sr.radix3.mem[0].addr;
++		sr->sysmemAddrOfSuspendResumeData = gsp->sr.radix3.lvl0.addr;
+ 		sr->sizeOfSuspendResumeData = len;
+ 
+ 		mbox0 = lower_32_bits(gsp->sr.meta.addr);
 -- 
 2.44.0
 
