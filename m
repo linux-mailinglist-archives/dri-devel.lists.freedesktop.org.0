@@ -2,57 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0958B5559
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 12:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B5C8B565C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 13:20:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6928D10E4E8;
-	Mon, 29 Apr 2024 10:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD330112BAC;
+	Mon, 29 Apr 2024 11:20:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sY1jqojp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uZ0kMz8Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75A2410E4E8
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 10:29:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 68BD1CE0ACF;
- Mon, 29 Apr 2024 10:28:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 622B0C113CD;
- Mon, 29 Apr 2024 10:28:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714386538;
- bh=2IDhjsMhb5aYhiqCE9TtV8L5uKIoVLzCbnj3R6GZewg=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=sY1jqojp/kNqy2FM9Lm1z573PZOVnyeHLmzSq7ogYyxtBy0m5ixrh6NysQ1yFBrUB
- /jdEGixdLOyQWB7C9Do0QQm7v56/9D+yZdwKEmu4C4uvou35VlRccRXsd3QlEqY7Ml
- aBT5zlzXIJZUFwQd2WAT3dl3778e1U9/W5oc7KiiCML25nYNtp1RRxK/0vbzFk+RFA
- GNeNXwqK+7lGdRIMCf10rbq0goSC1K1awPNqDdE3qojDmPzm5oGARRWS1yYCLWdGFh
- OHlSD7m2WsbeEU9lDex4S2zEoZi209QeB9EBSp5/3HRrlLZpEjU4Iv37TO5ZQ7SJsA
- L/k9+oZIm4ezw==
-From: Robert Foss <rfoss@kernel.org>
-To: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Daniel Vetter <daniel@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-In-Reply-To: <20240426122259.46808-1-luca.ceresoli@bootlin.com>
-References: <20240426122259.46808-1-luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH RESEND] Revert "drm/bridge: ti-sn65dsi83: Fix enable error
- path"
-Message-Id: <171438653511.2566805.2252397252665472830.b4-ty@kernel.org>
-Date: Mon, 29 Apr 2024 12:28:55 +0200
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D9B112BAC
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 11:20:06 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-51ac9c6599bso4646837e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 04:20:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1714389604; x=1714994404; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8jsHr1i+3e2shTV7drwyDmrC6kyp1zvUUgs5PDdl9uw=;
+ b=uZ0kMz8QwSuLMa0Y61UOkL5GXhu7fcgbLSiMB6TQ85AhF/IVsY2f2MYOveSkrntFLo
+ TRFPydgOigGcj3IE1JmgRfxJt+X0t5iua3HZtpeDRfoIjmh/Ce+kLebUncHd9QSPZFVI
+ BIU4aOggYZLMUluSOAHEtI/ESr1G4AOrKbKIQ9jA9kk6QwkwUm9CTuxShnzPtvs0Hu9X
+ +GE0Bzw+eXJmU0c43Q/PWCspKlPn2CQwFxs3BU78jvmS325Q/QHf8ECXxbSq8Qg2+vpp
+ 2cnqmo2MGVN9txfdx5LabUB6nutO/GX2LSAZa5F4edIPGZG2IHE1mZrIGH5K54jdsNAh
+ /53w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714389604; x=1714994404;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8jsHr1i+3e2shTV7drwyDmrC6kyp1zvUUgs5PDdl9uw=;
+ b=OxRQXI4Nbwc3+DEGXc8p0/A5u+SYbsyAkHJGVfYUU4Gf4EGXvccNL252H/8IGs0IRB
+ vrtXZbVBJpSjvNBtS/oeYuwmXptf8pSPSUWN3fpABz1venAOUbKtmrD7VIoeskDsKZF4
+ b7Fws64O2wspK0Ejfl1uNbloQgSRBQnxY/C2uQA1/ceI8jXphozJUb3yWAsyRQWD6tai
+ uTKxCz+VkdnDZ/mQozLp60IUFfJvgzuc2BPKU2a0Mug/JTxAMzNnUPJTchQOJwHm45sT
+ u+3p6phKbqIPIQ/cotfHPEPvSiEpQf6MZ8tVvKvYI+m63m8ptGO6wSx5oJjs5Xy4cur+
+ pvww==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVkyeszRfynVj6T441dbKfv7Xctc2YSyRDQo+1ufiURR2OTIYPpess2sMhDjV2U1KGsX/+e+fJRfHOuFXbDHWMoa/YAM6hIikekfft+aRUn
+X-Gm-Message-State: AOJu0Yx0DMMxyrXGSG82+5rufseejrSZxvI7dVG+Qx334astytQ480aZ
+ n8IrcTETyuH5C3G50T8qzpa+a5IYSaI/aR97yOw012+XHl1JTvpfMmynw2orO5U=
+X-Google-Smtp-Source: AGHT+IEWhb8KSCrCjZUpJ0cIBjaXZi2tC5MyhxWNHeFV7fufH48LCXzuUsSc4zQPDOo03dyk+2X78Q==
+X-Received: by 2002:a05:6512:1112:b0:51d:a1ca:5f26 with SMTP id
+ l18-20020a056512111200b0051da1ca5f26mr2737330lfg.20.1714389604215; 
+ Mon, 29 Apr 2024 04:20:04 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ h37-20020a0565123ca500b0051c4e9ebc71sm1509704lfv.210.2024.04.29.04.20.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Apr 2024 04:20:03 -0700 (PDT)
+Date: Mon, 29 Apr 2024 14:20:02 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/debugfs: Drop conditionals around of_node pointers
+Message-ID: <5zckqabn6oay3wlq7dlvcydbmgio5ktjg3ovia5qpmknpsibi4@b3nkhnrjqtql>
+References: <20240321222258.1440130-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240321222258.1440130-1-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,25 +88,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 26 Apr 2024 14:22:59 +0200, Luca Ceresoli wrote:
-> This reverts commit 8a91b29f1f50ce7742cdbe5cf11d17f128511f3f.
+On Fri, Mar 22, 2024 at 06:22:58AM +0800, Sui Jingfeng wrote:
+> Having conditional around the of_node pointer of the drm_bridge structure
+> turns out to make driver code use ugly #ifdef blocks. Drop the conditionals
+> to simplify debugfs.
 > 
-> The regulator_disable() added by the original commit solves one kind of
-> regulator imbalance but adds another one as it allows the regulator to be
-> disabled one more time than it is enabled in the following scenario:
+> Fixes: d8dfccde2709 ("drm/bridge: Drop conditionals around of_node pointers")
+> Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> ---
+>  drivers/gpu/drm/drm_debugfs.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
->  1. Start video pipeline -> sn65dsi83_atomic_pre_enable -> regulator_enable
->  2. PLL lock fails -> regulator_disable
->  3. Stop video pipeline -> sn65dsi83_atomic_disable -> regulator_disable
-> 
-> [...]
-
-Applied, thanks!
-
-[1/1] Revert "drm/bridge: ti-sn65dsi83: Fix enable error path"
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=2940ee03b232
 
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Rob
-
+-- 
+With best wishes
+Dmitry
