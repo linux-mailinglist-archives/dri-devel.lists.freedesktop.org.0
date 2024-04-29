@@ -2,64 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87E08B5BAA
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 16:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCDE8B5C93
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 17:07:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D6A10F108;
-	Mon, 29 Apr 2024 14:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA685112CF4;
+	Mon, 29 Apr 2024 15:07:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Un7qa4q1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YUuixz4O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFF810EC9C
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 14:44:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 10D3060DDA;
- Mon, 29 Apr 2024 14:44:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 331BFC113CD;
- Mon, 29 Apr 2024 14:44:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714401853;
- bh=OJZ8QasGzmijXQVkG9V9fKJa/f1XqrNRU4PDTZrp2Uc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Un7qa4q1crb9OyUCdLgWWFuWgrAJiyu10NlOIPbgqHlSAu5OabyJzuympIYoUdPs6
- ZOpE/xD0zuKphaxaryHG5bX1bslKr9WWvdK7Qpo3CePYkL5edQ6vIMaDCCeuKMaJdG
- Unr+BrxRThdxZ9xwq3c70enLrL+2Z6xLcLI/4VOVQ39KBlwa/j7No45GvCubpp0ET3
- 0JFK/No4MqUSECJUFjAqu4Ok8TM2rPhxD3StLSH56Ij34VDbWB68a5+JgJWsQcdk6l
- tP21IlUe9bKrXVI6yJuibFAAzun3HDtIbtNAN9RGOUgLXlMeq2k7kEvKuOPQI3i4QZ
- T5cyBQycWYnnQ==
-Date: Mon, 29 Apr 2024 23:44:11 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 05/16] SoC: mediatek: mt8365: support audio clock
- control
-Message-ID: <Zi-yOzFhgKQXx9tk@finisterre.sirena.org.uk>
-References: <20240226-audio-i350-v4-0-082b22186d4c@baylibre.com>
- <20240226-audio-i350-v4-5-082b22186d4c@baylibre.com>
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com
+ [209.85.161.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 326C1112CF8
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 15:07:06 +0000 (UTC)
+Received: by mail-oo1-f41.google.com with SMTP id
+ 006d021491bc7-5ad2a15374eso3030987eaf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 08:07:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1714403225; x=1715008025; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Kq/mDhjDx0haJOXMYO5ieP1vWAdfCIwGNjDIS1vV1ns=;
+ b=YUuixz4O9dM7zFbPsY47P84rtLzbQdMERf7L5VIwsYAnhTfSNMpkF+bHJC+XVsE+xG
+ P8vwqFf0Pxz1b47vOuPSeCcp9nTx05UpPCWWjR8HBfVx2fwHKR/6ZW15L6uc0u29OxJV
+ zDi4u0NfxL40MgE6KZRsg72070YmHH3iMEkyDCZuz50TpypTzYh7dw3vFuwG80/iVkEU
+ wudAI3qIP+yNjuKIzDtmL+PyzbNHS/SdE9xWqWYMB900QQ+H+UDsc9+5xjBYcYwjZrSa
+ Zm7t2qIhGFEm30PEfksS2dw91HH66HZ2KC8UHn/HsP3iqcOxo4ztUW7w4y8jcj8s0M2U
+ c3PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714403225; x=1715008025;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Kq/mDhjDx0haJOXMYO5ieP1vWAdfCIwGNjDIS1vV1ns=;
+ b=UT9LZKcdv/XE7hXWFdl8DYHMpBP/+Vv7ec4pVHxPGopfv07+cx9hfjK0zZjEC5dI/0
+ pqoxYmAGuw98PaS7VODkH5nNWGhPrs/SmfDjbunI9nRpFmNuWMXuh9HofJpScImbMg1m
+ LRmh9kKXZUm9zp+cL3nplHzM3rnlJ44aWnk0e5NHXygrMufDZ17QaKSmxOsAdV7DJeem
+ zz5BzObXrKbxnnBQRgElPUtyauYDKZFHvMgvkHRwE7duZCDdSb0EJylTBHIQE8R2ZeOO
+ sac5IVuqvHyfZN/yKNV2BR+adz2TUzHOa+gz9ZZTQrF4t2j1dqo7tYFgauk2qQKzvke+
+ AImw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXiWZOAmQH7b+7e8hHA7/pKxybW+aME9UyG7nDxYGmaQnUH/Q+gu779QN4z0K6v6znxLllIL+q5Q7mhRSaN06GMGxOddQFfp7hdBZx5QM+j
+X-Gm-Message-State: AOJu0YyZErwVbpcB8WijCkBwuV5yHKu049HE1IlGpa317qWKqt+CqLuS
+ d3jm6Dt9vYKhGVFdGTnRH4vPP6QqzLUOPcDoSPqhnNUchiKIuphUj9sJVn2qpBr0X8R3fVg7Kkd
+ mAs+83yyCNfin496Beyy6WNv/98FPFEWRcrDOtQ==
+X-Google-Smtp-Source: AGHT+IGi7klXrfkLGYDk0bH46vsiOhdwy/HLQn/JmrZKyHF7xJC4yozyKeAYx8uVrhCWOCacbYNZwg87iwhAtb2HZSs=
+X-Received: by 2002:a05:6358:5d91:b0:186:3fcb:8da9 with SMTP id
+ s17-20020a0563585d9100b001863fcb8da9mr11016997rwm.21.1714403224770; Mon, 29
+ Apr 2024 08:07:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="LT6g6VETYU3X2f5e"
-Content-Disposition: inline
-In-Reply-To: <20240226-audio-i350-v4-5-082b22186d4c@baylibre.com>
-X-Cookie: TANSTAAFL
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Mon, 29 Apr 2024 20:36:53 +0530
+Message-ID: <CA+G9fYu7Ug0K8h9QJT0WbtWh_LL9Juc+VC0WMU_Z_vSSPDNymg@mail.gmail.com>
+Subject: nouveau: r535.c:1266:3: error: label at end of compound statement
+ default: with gcc-8
+To: open list <linux-kernel@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, lkft-triage@lists.linaro.org,
+ Linux Regressions <regressions@lists.linux.dev>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Timur Tabi <ttabi@nvidia.com>, Danilo Krummrich <dakr@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Dan Carpenter <dan.carpenter@linaro.org>,
+ Anders Roxell <anders.roxell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,33 +79,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Following build warnings / errors noticed on Linux next-20240429 tag on the
+arm64, arm and riscv with gcc-8 and gcc-13 builds pass.
 
---LT6g6VETYU3X2f5e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
-On Fri, Apr 26, 2024 at 07:22:34PM +0200, Alexandre Mergnat wrote:
-> Add audio clock wrapper and audio tuner control.
+Commit id:
+ b58a0bc904ff nouveau: add command-line GSP-RM registry support
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+Buids:
+--
+  gcc-8-arm64-defconfig - Fail
+  gcc-8-arm-defconfig - Fail
+  gcc-8-riscv-defconfig - Fail
 
---LT6g6VETYU3X2f5e
-Content-Type: application/pgp-signature; name="signature.asc"
+Build log:
+----
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c: In function 'build_registry':
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1266:3: error: label at
+end of compound statement
+   default:
+   ^~~~~~~
+make[7]: *** [scripts/Makefile.build:244:
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.o] Error 1
 
------BEGIN PGP SIGNATURE-----
+metadata:
+  git_describe: next-20240429
+  git_repo: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next
+  git_short_log: b0a2c79c6f35 ("Add linux-next specific files for 20240429")
+  arch: arm64, arm, riscv
+  toolchain: gcc-8
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYvsjoACgkQJNaLcl1U
-h9CAlAf7BkKtB98FNb4ZDCugUcYlYByugcjzPafZiPbUVpmYfmvJYoiOrSDEXePb
-NRZWBGpWUDpa1l+TOGWwcOQegbbwV48nDMyJnQn+CXRUvUg0dePpRmUSLsXCwB0+
-X6Z+EJ9hoQ3OrqBmt1mTld6Uk5GoZWkhoJ+OcEKXoLtQJcfUUL8uCqjciW9ySs+g
-ibgnMTOqccfOfUoZNYTGIKKYypfUnQHFcKV5Lk03UtWeatQXk5SUe131QsK2w5xB
-8uFXF4PuB9RiX0OQEtKgENtVVwajA3M6z3euJ2RkXwqtR+klGzgUJFFnJKjJQmye
-wr8Eom+wgxxY7GyPGD3aRCnBuFDyHg==
-=ccn2
------END PGP SIGNATURE-----
+Steps to reproduce:
+----
+# tuxmake --runtime podman --target-arch arm64 --toolchain gcc-8
+--kconfig defconfig
 
---LT6g6VETYU3X2f5e--
+Links:
+ - https://storage.tuxsuite.com/public/linaro/lkft/builds/2flcoOuqVJfhTvX4AOYsWMd5hqe/
+ - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20240429/testrun/23704376/suite/build/test/gcc-8-defconfig/history/
+ - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20240429/testrun/23705756/suite/build/test/gcc-8-defconfig/details/
+
+
+--
+Linaro LKFT
+https://lkft.linaro.org
