@@ -2,58 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814948B5739
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 13:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40A28B5808
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 14:20:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBB74112BDC;
-	Mon, 29 Apr 2024 11:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51DAE10E5F0;
+	Mon, 29 Apr 2024 12:19:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GfoyvRaJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YfN9xvJ2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD135112BDC
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 11:55:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0DC3E60C8B;
- Mon, 29 Apr 2024 11:55:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59922C113CD;
- Mon, 29 Apr 2024 11:55:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714391753;
- bh=XWc37warfUktdwZ3uEIGNxAJLIymrm9KjSvuwewKNs8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GfoyvRaJAJR6988WZ9E+K7+mzIhEXDHJ+7uGAIdDP64+qrYvVjKf9vZHONCOhWAkT
- 9oegMrOBPtUQrDU2zTb7W4ny1g7f3wsJVr2Jx8hHmL1dtCWCUuioL5Wcg75w8AHTJt
- +xC08UpflXVbug8QAv5buBfs+VBdnkOycomJhrV3UM0N1BrrkeR8Q8CoPrwORbp+fC
- b8lDcCbnFnXkeTEKBOBhxPYDVpY3NlMvEBYA9JjO0Yj7py/EXhWQJZo/ElWdWBgXfF
- CbXbFw7cKebMafbXgM+aXwtAiEERSH/VCI5tIPIJwVsG6Ngg7D3hLapIQ45M2V/deJ
- K+LrLt3pc9ZcQ==
-Date: Mon, 29 Apr 2024 13:55:50 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F88810E686
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 12:19:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1714393198; x=1745929198;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=CjtZnAARk7MKINso2pTgQybSMs6C5wNrBPWS1UNyhEI=;
+ b=YfN9xvJ2u7XoDEhwinQb5vQG0+M9BWiMm0nlN2hx4Oxc/TVtc127RKkU
+ B2xy7hq2RQb5opgXf+Lm5ecZnpIK0cTRb+COTFkYSvvR5+HEh6ZGLATBX
+ IOWBXBs9afsxFU/00V1+A3p5og90UuirsEhbZLbhYin0ZXlF8Oj6J0G7G
+ sXefOTAdcT4rDUOMOdNKNGue8XjfzYR/l8jRm6E/os76EIt4WsQIOy22n
+ AYx0q4H9wl9YZPlZEcZsj3nvpw9P2RFKetWoDq9Mc0BI7UPfjZYEvVAoj
+ Z/5cqlwDNTU+szy2gYEDLir2/MMR5VkcXFQpQ3zW6C5GlCrXG2eNSfHfA A==;
+X-CSE-ConnectionGUID: buIZQI6LTlOf9Lmum4/GrQ==
+X-CSE-MsgGUID: jtgwu7K8S2OJsfp5yfJ58w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11057"; a="10213656"
+X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; d="scan'208";a="10213656"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2024 05:19:57 -0700
+X-CSE-ConnectionGUID: vyCOCsvpTuyxEkTv0uZI+A==
+X-CSE-MsgGUID: BeR9vZjTQTSfzUNPU3CIBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; d="scan'208";a="26169766"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2024 05:19:54 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1s1Pz5-00000002KT3-0EnX; Mon, 29 Apr 2024 15:19:51 +0300
+Date: Mon, 29 Apr 2024 15:19:50 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [v1,1/3] drm/panel: ili9341: Correct use of device property APIs
-Message-ID: <20240429-bouncy-attentive-vole-9964f1@houat>
-References: <20240425142706.2440113-2-andriy.shevchenko@linux.intel.com>
- <c2d41916-0b6c-43b5-98eb-514eb0511f84@linux.dev>
- <ZiqqiAztCaiAgI8e@smile.fi.intel.com>
- <2599705c-0a64-4742-b1d7-330e9fde6e7a@linux.dev>
- <20240426-married-augmented-mantis-ff7edd@penduick>
- <509b3822-dcf6-45eb-9516-ba8ff2cc4382@linux.dev>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ David Lechner <dlechner@baylibre.com>, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] drm/ili9341: Remove the duplicative driver
+Message-ID: <Zi-QZmwa1kIAv0sP@smile.fi.intel.com>
+References: <20240425124208.2255265-1-andriy.shevchenko@linux.intel.com>
+ <20240425-perky-myrtle-gorilla-e1e24f@penduick>
+ <ZipxEk9Lpff1kB7b@smile.fi.intel.com>
+ <20240429-gorgeous-beetle-of-downpour-492bbd@houat>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="bzxwtvqlovrzeuyg"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <509b3822-dcf6-45eb-9516-ba8ff2cc4382@linux.dev>
+In-Reply-To: <20240429-gorgeous-beetle-of-downpour-492bbd@houat>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,79 +80,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Apr 29, 2024 at 01:39:06PM +0200, Maxime Ripard wrote:
+> On Thu, Apr 25, 2024 at 06:04:50PM +0300, Andy Shevchenko wrote:
+> > On Thu, Apr 25, 2024 at 04:58:06PM +0200, Maxime Ripard wrote:
+> > > On Thu, Apr 25, 2024 at 03:42:07PM +0300, Andy Shevchenko wrote:
+> > > > First of all, the driver was introduced when it was already
+> > > > two drivers available for Ilitek 9341 panels.
+> > > > 
+> > > > Second, the most recent (fourth!) driver has incorporated this one
+> > > > and hence, when enabled, it covers the provided functionality.
+> > > > 
+> > > > Taking into account the above, remove duplicative driver and make
+> > > > maintenance and support eaiser for everybody.
+> > > > 
+> > > > Also see discussion [1] for details about Ilitek 9341 duplication
+> > > > code.
+> > > > 
+> > > > Link: https://lore.kernel.org/r/ZXM9pG-53V4S8E2H@smile.fi.intel.com [1]
+> > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > 
+> > > I think it should be the other way around and we should remove the
+> > > mipi-dbi handling from panel/panel-ilitek-ili9341.c
+> > 
+> > Then please do it! I whining already for a few years about this.
+> 
+> I have neither the hardware nor the interest to do so. Seems it looks
+> like you have plenty of the latter at least, I'm sure you'll find some
+> time to tackle this.
 
---bzxwtvqlovrzeuyg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hmm... Since the use of Arduino part in panel IliTek 9341 is clarified
+in this thread, I won't use that, but I have no time to clean up the mess
+in DRM in the nearest future, sorry. And TBH it seems you, guys, know much
+better what you want.
 
-On Sat, Apr 27, 2024 at 01:57:46PM +0800, Sui Jingfeng wrote:
-> Hi,
->=20
->=20
-> On 2024/4/26 14:23, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Fri, Apr 26, 2024 at 04:43:18AM +0800, Sui Jingfeng wrote:
-> > > On 2024/4/26 03:10, Andy Shevchenko wrote:
-> > > > On Fri, Apr 26, 2024 at 02:08:16AM +0800, Sui Jingfeng wrote:
-> > > > > On 2024/4/25 22:26, Andy Shevchenko wrote:
-> > > > > > It seems driver missed the point of proper use of device proper=
-ty APIs.
-> > > > > > Correct this by updating headers and calls respectively.
-> > > > > You are using the 'seems' here exactly saying that you are not 10=
-0% sure.
-> > > > >=20
-> > > > > Please allow me to tell you the truth: This patch again has ZERO =
-effect.
-> > > > > It fix nothing. And this patch is has the risks to be wrong.
-> > > > Huh?! Really, stop commenting the stuff you do not understand.
-> > > I'm actually a professional display drivers developer at the downstre=
-am
-> > > in the past, despite my contribution to upstream is less. But I belie=
-ve
-> > > that all panel driver developers know what I'm talking about. So plea=
-se
-> > > have take a look at my replies.
-> > Most of the interactions you had in this series has been uncalled for.
-> > You might be against a patch, but there's no need to go to such length.
-> >=20
-> > As far as I'm concerned, this patch is fine to me in itself, and I don't
-> > see anything that would prevent us from merging it.
->=20
-> No one is preventing you, as long as don't misunderstanding what other
-> people's technical replies intentionally. I'm just a usual and normal
-> contributor, I hope the world will better than yesterday.
+FYI:
+The drivers/gpu/drm/tiny/mi0283qt.c works for me (the plenty of the HW
+you referred to).
 
-You should seriously consider your tone when replying then.
+TL;DR: consider this as a (bug/feature/cleanup) report.
 
-> Saying such thing to me may not proper, I guess you may want to talk
-> to peoples who has the push rights
+-- 
+With Best Regards,
+Andy Shevchenko
 
-I think you misunderstood me. My point was that your several rants were
-uncalled for and aren't the kind of things we're doing here.
 
-I know very well how to get a patch merged, thanks.
-
-> just make sure it isn't a insult to the professionalism of drm bridge
-> community itself though.
-
-I'm not sure why you're bringing the bridge community or its
-professionalism. It's a panel, not a bridge, and I never doubted the
-professionalism of anyone.
-
-Maxime
-
---bzxwtvqlovrzeuyg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZi+KxgAKCRAnX84Zoj2+
-dos3AX9KDNBOnaH5USr1DqHJto1Lpp8FgCa4MHQstBOYN6x3+z1zzntFhlJFeu7X
-TNr1/KwBf1ChO/0ETn+0a/MBlXB0FthxBU3YA7z4FVB35ObVsNur/zBS7JL+tBP+
-rIWWBloYjg==
-=1KB+
------END PGP SIGNATURE-----
-
---bzxwtvqlovrzeuyg--
