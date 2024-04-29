@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9608B5F6B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 18:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F278B5FA2
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 19:06:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AC7D10E7B3;
-	Mon, 29 Apr 2024 16:54:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDAE810F5E3;
+	Mon, 29 Apr 2024 17:06:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="A62KNs5X";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RyR4xC19";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
- [91.218.175.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B55310E821
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 16:54:52 +0000 (UTC)
-Message-ID: <795bec5d-c7ba-4fc2-9be9-78c4063743d9@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1714409690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JZcRLqCKZ99s9BPl9IWgxkXzMSNJVxZZp+zfZTMxHbQ=;
- b=A62KNs5XmNHHpyGS9t1N4WYIPaZ86jsZuc3vSXflNzOpYnPNWpmOvsosZCSNYzCK1jkxzh
- l4BZM4M7+e83rU7xsVteYzX5EmYPHe48Pq2f2cfIWbKZudpo6UG/1x4MF0sfR2YtzCxXUO
- HMk014Gl8vOJMxcvR8o6OO5ag+0WDOs=
-Date: Tue, 30 Apr 2024 00:54:39 +0800
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF41710F5E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 17:06:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1714410401;
+ bh=Aie4PRYUmYZ1Kd8eLyC+G9JAvORJ8lmLAOJi0P7Lqyg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=RyR4xC19moQqqd2Yxv2nTgz5yLNVx2c+1t5eXWMnlPsSnhARVrOE4IYWXg4aDGNSR
+ rWKv4T8RyHXUEYlqDLJ5ADZwjiHhl45s3MmuL/91/ky6EEbhsF+OnZywlNRd7YU73C
+ A7hXcQXfx3tb10oJ50ok3CNLkkxgRt7juXDUCxan2F9E/0WTp/Zyk7DLgmI1aLa0ZI
+ pWY83CPAK3W3hS9th9kHVoWguD2DtAkCio8KGRvm/wOXrsBAHkdOh0mlljqc1Db7pb
+ inDIJ60V2DgYASijoU7TfviCYd1O5f/GQ2cu2wT0DFP9TZ42W2gxEe/TiA8/yNBRl4
+ goXKyytHFtWxw==
+Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9B4F03781182;
+ Mon, 29 Apr 2024 17:06:38 +0000 (UTC)
+Message-ID: <90390c46-27ee-4dd3-b250-3fa950960725@collabora.com>
+Date: Mon, 29 Apr 2024 14:06:36 -0300
 MIME-Version: 1.0
-Subject: Re: [v1,1/3] drm/panel: ili9341: Correct use of device property APIs
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: drm-misc migration to Gitlab server
+To: Tvrtko Ursulin <tursulin@ursulin.net>, Maxime Ripard
+ <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240425142706.2440113-2-andriy.shevchenko@linux.intel.com>
- <c2d41916-0b6c-43b5-98eb-514eb0511f84@linux.dev>
- <ZiqqiAztCaiAgI8e@smile.fi.intel.com>
- <2599705c-0a64-4742-b1d7-330e9fde6e7a@linux.dev>
- <20240426-married-augmented-mantis-ff7edd@penduick>
- <509b3822-dcf6-45eb-9516-ba8ff2cc4382@linux.dev>
- <20240429-bouncy-attentive-vole-9964f1@houat>
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Stone <daniels@collabora.com>
+References: <gnthy5o42kiyj63d2bkkxsc5krzf3wrwt23chh2kthkmlyjwbg@ybynvjvqdka7>
+ <20240312-bizarre-rational-sawfish-ccee0a@houat>
+ <2ddb4f5e-504e-4ce3-95d2-179dc7e6bf7b@ursulin.net>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240429-bouncy-attentive-vole-9964f1@houat>
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <2ddb4f5e-504e-4ce3-95d2-179dc7e6bf7b@ursulin.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,79 +65,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
 
-On 2024/4/29 19:55, Maxime Ripard wrote:
-> On Sat, Apr 27, 2024 at 01:57:46PM +0800, Sui Jingfeng wrote:
+On 01/04/2024 13:49, Tvrtko Ursulin wrote:
+> 
+> On 12/03/2024 13:56, Maxime Ripard wrote:
 >> Hi,
 >>
+>> On Tue, Feb 20, 2024 at 09:49:25AM +0100, Maxime Ripard wrote:
+>>> ## Changing the default location repo
+>>>
+>>> Dim gets its repos list in the drm-rerere nightly.conf file. We will
+>>> need to change that file to match the gitlab repo, and drop the old cgit
+>>> URLs to avoid people pushing to the wrong place once the transition is
+>>> made.
+>>>
+>>> I guess the next merge window is a good time to do so, it's usually a
+>>> quiet time for us and a small disruption would be easier to handle. I'll
+>>> be off-duty during that time too, so I'll have time to handle any
+>>> complication.
+>>>
+>>> ## Updating the documentation
+>>>
+>>> The documentation currently mentions the old process to request a
+>>> drm-misc access. It will all go through Gitlab now, so it will change a
+>>> few things. We will also need to update and move the issue template to
+>>> the new repo to maintain consistency.
+>>>
+>>> I would expect the transition (if everything goes smoothly) to occur in
+>>> the merge-window time frame (11/03 -> 24/03).
 >>
->> On 2024/4/26 14:23, Maxime Ripard wrote:
->>> Hi,
->>>
->>> On Fri, Apr 26, 2024 at 04:43:18AM +0800, Sui Jingfeng wrote:
->>>> On 2024/4/26 03:10, Andy Shevchenko wrote:
->>>>> On Fri, Apr 26, 2024 at 02:08:16AM +0800, Sui Jingfeng wrote:
->>>>>> On 2024/4/25 22:26, Andy Shevchenko wrote:
->>>>>>> It seems driver missed the point of proper use of device property APIs.
->>>>>>> Correct this by updating headers and calls respectively.
->>>>>> You are using the 'seems' here exactly saying that you are not 100% sure.
->>>>>>
->>>>>> Please allow me to tell you the truth: This patch again has ZERO effect.
->>>>>> It fix nothing. And this patch is has the risks to be wrong.
->>>>> Huh?! Really, stop commenting the stuff you do not understand.
->>>> I'm actually a professional display drivers developer at the downstream
->>>> in the past, despite my contribution to upstream is less. But I believe
->>>> that all panel driver developers know what I'm talking about. So please
->>>> have take a look at my replies.
->>> Most of the interactions you had in this series has been uncalled for.
->>> You might be against a patch, but there's no need to go to such length.
->>>
->>> As far as I'm concerned, this patch is fine to me in itself, and I don't
->>> see anything that would prevent us from merging it.
->> No one is preventing you, as long as don't misunderstanding what other
->> people's technical replies intentionally. I'm just a usual and normal
->> contributor, I hope the world will better than yesterday.
-> You should seriously consider your tone when replying then.
->
->> Saying such thing to me may not proper, I guess you may want to talk
->> to peoples who has the push rights
-> I think you misunderstood me. My point was that your several rants were
-> uncalled for and aren't the kind of things we're doing here.
->
-> I know very well how to get a patch merged, thanks.
->
->> just make sure it isn't a insult to the professionalism of drm bridge
->> community itself though.
-> I'm not sure why you're bringing the bridge community or its
-> professionalism. It's a panel, not a bridge, and I never doubted the
-> professionalism of anyone.
+>> The transition just happened. The main drm-misc repo is now on gitlab,
+>> with the old cgit repo being setup as a mirror.
+>>
+>> If there's any issue accessing that gitlab repo, please let me know.
+> 
+> No issues accessing the repo just a slight confusion and how to handle 
+> the workflow. More specifically, if I have a patch which wants to be 
+> merged to drm-misc-next, is the mailing list based worklflow still the 
+> way to go, or I should create a merge request, or I should apply for 
+> commit access via some new method other than adding permissions to my 
+> legacy fdo ssh account?
 
+I have this same question, I thought we would keep the workflow with dim 
+tool, but after I pointed drm-misc remote to gitlab, dim is not happy.
 
-I means that the code itself could be adopted, as newer and younger
-programmer (like Andy) need to be encouraged to contribute. I express
-no obvious objections, just hints him that something else probably
-should also be taken into consideration as well.
+If I don't point drm-misc to gitlab, dim say it is outdated (but I'm 
+using the last top of the tree of maintainer-tools).
 
-On the other hand, we probably should allow other people participate
-in discussion so that it is sufficient discussed and ensure that it
-won't be reverted by someone in the future for some reasons. Backing
-to out case happens here, we may need to move things forward. Therefore,
-it definitely deserve to have a try. It is not a big deal even though
-it gets reverted someday.
+So I was wondering if dim requires changes or if the workflow changed.
 
-In the end, I don't mind if you think there is nothing that could
-prevent you from merge it, but I still suggest you have a glance at
-peoples siting at the Cc list. I'm busy now and I have a lot of other
-tasks to do, and may not be able to reply you emails on time. So it up
-to you and other maintainers to decide.
-  
-Thank you.
+Thanks,
+Helen
 
-> Maxime
-
--- 
-Best regards,
-Sui
-
+> 
+> Regards,
+> 
+> Tvrtko
