@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2763A8B6288
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 21:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B3F8B628C
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 21:39:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D18A510FFA8;
-	Mon, 29 Apr 2024 19:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 797CB10FFB2;
+	Mon, 29 Apr 2024 19:39:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hDYgw1fv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mr3rkAIa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
- [209.85.166.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 196A110FF4F;
- Mon, 29 Apr 2024 19:39:38 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id
- ca18e2360f4ac-7da4373f850so240096239f.3; 
- Mon, 29 Apr 2024 12:39:38 -0700 (PDT)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
+ [209.85.166.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36F5910FF53;
+ Mon, 29 Apr 2024 19:39:39 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id
+ ca18e2360f4ac-7dec786b0a7so49976739f.1; 
+ Mon, 29 Apr 2024 12:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714419577; x=1715024377; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1714419578; x=1715024378; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8dgWj2cFA2MU3UxaMwN/AH6DmAyC9gLaTAViD4Tt0Ck=;
- b=hDYgw1fvpXzbCzRRvbbCYEzqtsP799slftZXb8x+vVFyOg1MiE1n5PTckXQGF4FXR/
- qmQrKj3ANXkn/p8L64fiR7/j6xngeXS0a+lGttW/USUEpKkVCkDzF9rQ2108w95/beJi
- YvSWToxljoRCVYTNGKQRdIaN+qOQ8LYsr+DZ3SqxiUaeClyrXBMPhPFu8M+2fYz9aD0I
- c/j+nk1o8RG2BmX4dXzv9Xfylcx8Eqvk0YS6Eca0FgTvpdg2admIXGrW4eDqKJB07zlc
- k40lwf6KdMYWwPYuIG1MXcVRANqKKW7jDrO13tTyjPTwCbje39FXq+X38vNARjRInQJr
- PWLQ==
+ bh=gz40dojOamaMr3XzSBo+G+I5OCec93qZ3mLYpBVy9xE=;
+ b=mr3rkAIaNi32nMjpvoOpw2L5XzTA23BR4VDTOo01yob2hmUN9ZQiut+mUJeg4Pc4lA
+ 2dOu1CukidEG1WlftpyfVDsGouVwk0K9OXyxjmbFWes5A5rSxZSEZDAzPV99zs++zz8p
+ wyjcG8ASPM9m3eaEX7n7DfD7ibPZW7WGC3KGl+p+d5HxIh0BCzZT5BnrlendBpkYqcVr
+ vHFI3FwNK5jZz4QFHfXDxGD8k/Sv09tWxKX65GXhr2a1O/BCI7rRooKrDbAwEukxe5Av
+ KTCQWOYn9cMudGOvEDHk0aKKAVs9DFaRIQobOu+PfbGwSMjkqizDtZR5/3tciBqjZnun
+ 6QUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714419577; x=1715024377;
+ d=1e100.net; s=20230601; t=1714419578; x=1715024378;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8dgWj2cFA2MU3UxaMwN/AH6DmAyC9gLaTAViD4Tt0Ck=;
- b=XBtrX6cWu17/50gQNz1UCkiUnk6+4XsCszVnXwmZ5oxgf2WHId0npfX6d+bOhH/bAq
- xQF2xQlC8Gps38WDUH6HP0e7WBVsk45lbSeHm6kfCC3xyhj6cEU/Ms83Q7HgLc2IsB66
- 2nfBFM6imk7gW+3g42ae1raMM9JyxGQ17Qvz3m2rFpSjOuZ74DRPBlvvF0DGTTHJaqzz
- eapkEP46fgVdLKJn8B2l1PEJ8KK2nkxQHSvyyb1R+Tzqwoeos+yQ23O1TgFeeV2211IG
- Fi3xreyjYr6Tz3TlY3GZPzrDq4f5bdq9wLgG1qdMKHJye6dPVA8mSUe+T+Ek1UdIArGh
- cUng==
+ bh=gz40dojOamaMr3XzSBo+G+I5OCec93qZ3mLYpBVy9xE=;
+ b=M4fqXfoMrnQ7HS6PciXuzppINlv9ZNP+ZwWBei3jyRvJTXt/lLkv6xg+cUvhH6Bsnw
+ VADK0hxBV/wVbVFD/bN3msqlvEuKyAz+OZrfZ0KBuo3p0GyIGuYdj4VLTmNArFC6T3xE
+ JBus94zj54SWc3UrcURMqH8ZbIH6e1makHp2nPMBHX2W6BLuhSVoQVoDFbSvHmvetceE
+ WHcRABRXMvJ1uAlHpA3vZtcBcEl7TKYpn1jWpnjzDMj4lxdnu3COPl/4zBVvSXN0I7VG
+ HcQ64PYrhm6CkbBLgGLP27JiNjkUE+fg3+SHYpHN7rT6eWVM+355wUilNO3VysdN2tzY
+ xb3g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUhV92bkMrOMXR3roS/5JvR6gwFZIATN4gXvKMqHDy44uEthTm+lbE2qVLq/24+AyLcQY2r+PzXV4SJSRBQWOf79VDhg35m/N1PUSAknm5pk9XTyhzavi5IWpd0PucPNM+KZF4dsaY0444ZmF13LpnYsIZMvZQRbh9cNpu+qSE7qCgjv3MqU1Zv6NevRSI5hmew9/NBkGcU/Et5FeGix5X6MNILL5BlKZ9pKoEzuJNZk7L5PAI=
-X-Gm-Message-State: AOJu0YweJwEwaqgKAi7xv/PqHTCiYrDr7thmwdwTh5gcJukLnG5YMjF2
- pwy2SriYpbmkQUaXv8rAHHBnYpfhM0DCZvPUdFvhsvr8e3XJt5nv
-X-Google-Smtp-Source: AGHT+IEs24YTwILUt5MHKr0F0OyxCq+SxhIGz3ARX0AwMIA0GR+8INeYUiHTkHCKHU43qMQt+OxxMA==
-X-Received: by 2002:a05:6602:4b0f:b0:7de:c308:76e2 with SMTP id
- eo15-20020a0566024b0f00b007dec30876e2mr976745iob.3.1714419577342; 
- Mon, 29 Apr 2024 12:39:37 -0700 (PDT)
+ AJvYcCU/kcwUoY/0ECQDkv5IEhmHNbdRke4BDhYtloTAjrwoPapceLY81IIrsFIvhpxDlFf8Spk1HjPe5wJAFiA+RITdWizIo4tP9+Rf3tt5S24y9BWp0NIDoDfeYtOwHJoLqBQC3qvmIBFAfLdeFeJ51fIQHCeqouLUEOdzpUh/U2fMzDfZGri+whpWOxJcdux7PPZeCoDQZjsxcou17sjFD84ieYQfwCFIV9G68y1AWVKbgD2W4u0=
+X-Gm-Message-State: AOJu0Yz46EWeFzujgWZ25YgPvAVmNdB7Y3iYEKsrUcI7zSU1XHNtjUjh
+ tbXAVWmSyWrFxseB6My8SKikdnqLIpln03jz+bYmnvudRDwuaIh/
+X-Google-Smtp-Source: AGHT+IEwjLTZjJthckf74C1CX3uaiE3oCQMny0EnG/l4mAH8Dbjs9ZTAj5NSSjRC7OpGprs2S+b1UA==
+X-Received: by 2002:a6b:6814:0:b0:7de:c47d:a740 with SMTP id
+ d20-20020a6b6814000000b007dec47da740mr558970ioc.8.1714419578408; 
+ Mon, 29 Apr 2024 12:39:38 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- y16-20020a056602165000b007de9f92dc57sm2325105iow.16.2024.04.29.12.39.36
+ y16-20020a056602165000b007de9f92dc57sm2325105iow.16.2024.04.29.12.39.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Apr 2024 12:39:36 -0700 (PDT)
+ Mon, 29 Apr 2024 12:39:38 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -66,9 +66,9 @@ Cc: ukaszb@chromium.org, linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
  ville.syrjala@linux.intel.com, seanpaul@chromium.org, robdclark@gmail.com,
  groeck@google.com, yanivt@google.com, bleung@google.com,
  Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v8 28/35] dyndbg-doc: explain flags parse 1st
-Date: Mon, 29 Apr 2024 13:39:14 -0600
-Message-ID: <20240429193921.66648-9-jim.cromie@gmail.com>
+Subject: [PATCH v8 29/35] dyndbg: add __counted_by annotations
+Date: Mon, 29 Apr 2024 13:39:15 -0600
+Message-ID: <20240429193921.66648-10-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240429193921.66648-1-jim.cromie@gmail.com>
 References: <20240429193921.66648-1-jim.cromie@gmail.com>
@@ -89,40 +89,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When writing queries to >control, flags are parsed 1st, since they are
-the only required field.  So if the flags draw an error, then keyword
-errors aren't reported.  This can be mildly confusing/annoying, so
-explain it instead.
+Tell the compiler about our vectors (array,length), in 2 places:
 
-This note could be moved up to just after the grammar id's the flags,
-and before the match-spec is detailed.  Opinions ?
+h: struct _ddebug_info, which keeps refs to the __dyndbg_* ELF/DATA
+sections, these are all vectors with a length.
+
+c: struct ddebug_table, which has sub-refs into _ddebug_info.*
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- Documentation/admin-guide/dynamic-debug-howto.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/linux/dynamic_debug.h | 6 +++---
+ lib/dynamic_debug.c           | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 7b570f29ae98..ccf3704f2143 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -106,6 +106,16 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
- the flags-spec, all constraints are ANDed together.  An absent keyword
- is the same as keyword "*".
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index 090fe9554db7..c54d2a4e1d48 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -146,9 +146,9 @@ struct ddebug_class_user {
  
-+Note: because the match-spec can be empty, the flags are checked 1st,
-+then the pairs of keyword values.  Flag errs will hide keyword errs:
-+
-+  bash-5.2# ddcmd mod bar +foo
-+  dyndbg: read 13 bytes from userspace
-+  dyndbg: query 0: "mod bar +foo" mod:*
-+  dyndbg: unknown flag 'o'
-+  dyndbg: flags parse failed
-+  dyndbg: processed 1 queries, with 0 matches, 1 errs
-+
- A match specification is a keyword, which selects the attribute of
- the callsite to be compared, and a value to compare against.  Possible
- keywords are:::
+ /* encapsulate linker provided built-in (or module) dyndbg data */
+ struct _ddebug_info {
+-	struct _ddebug *descs;
+-	struct ddebug_class_map *classes;
+-	struct ddebug_class_user *class_users;
++	struct _ddebug *descs __counted_by(num_descs);
++	struct ddebug_class_map *classes __counted_by(num_classes);
++	struct ddebug_class_user *class_users __counted_by(num_class_users);
+ 	unsigned int num_descs;
+ 	unsigned int num_classes;
+ 	unsigned int num_class_users;
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 625838bd74aa..390a35508fb6 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -49,9 +49,9 @@ extern struct ddebug_class_user __stop___dyndbg_class_users[];
+ struct ddebug_table {
+ 	struct list_head link;
+ 	const char *mod_name;
+-	struct _ddebug *ddebugs;
+-	struct ddebug_class_map *classes;
+-	struct ddebug_class_user *class_users;
++	struct _ddebug *ddebugs __counted_by(num_ddebugs);
++	struct ddebug_class_map *classes __counted_by(num_classes);
++	struct ddebug_class_user *class_users __counted_by(num_class_users);
+ 	unsigned int num_ddebugs, num_classes, num_class_users;
+ };
+ 
 -- 
 2.44.0
 
