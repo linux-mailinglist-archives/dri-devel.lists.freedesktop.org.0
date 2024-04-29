@@ -2,87 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111488B5B09
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 16:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D116C8B5B33
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 16:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7AF10E614;
-	Mon, 29 Apr 2024 14:13:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F22CC10FEF5;
+	Mon, 29 Apr 2024 14:27:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ZtLor+Yt";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="VUOdq5mY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA4010E614
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 14:13:31 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-4365c1451d4so30901021cf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 07:13:31 -0700 (PDT)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4484610FEF5
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 14:26:59 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-43ae9962c17so2896701cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 07:26:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714400008; x=1715004808;
+ d=chromium.org; s=google; t=1714400816; x=1715005616;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IXaUKKpFujkWymSRJKlgkreifFUpxgXsPFgEoLgrUDA=;
- b=ZtLor+YtDVVb26QIWrUjRuTpXl3APUK6lXEBf36vVaqaoGhCUXuv2SK1sg8z7FCLxv
- wJYwohScgarxDUYNQn7xGgi+71LEv/FgvDklgHirPZoT+WZEQWuczkjnVExel4chHf+s
- t1EtlQnn/kavvP2UEvcHSNmZsND1leTjbOurg=
+ bh=NqDQQoT9vxUaIMkwbyFExGHs1F5iC7Nw1z6NMheJx1s=;
+ b=VUOdq5mYpLywzp3WMHeXEsEsEZYskurzbQH8TrqZ06J9h1x+txdUphRlgKYeg9gvrY
+ 9oPnOuGY73NmRRApY6nN1HTt+lYmEYxIrtEfuUFH3peO+yOceXUCCIKOf7mL3lBtn7bg
+ Wd9OTieQ2eGd/ZBF0FHfb0NSQNPlQdkvQTcoY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714400008; x=1715004808;
+ d=1e100.net; s=20230601; t=1714400816; x=1715005616;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IXaUKKpFujkWymSRJKlgkreifFUpxgXsPFgEoLgrUDA=;
- b=NseKan0oytcSDde/q27nx6qhZmp0SaDSZpmPZBgPclMAEfD+gKYFQQ/MGtvDAdfahR
- cw9FRCseYNttieSl58DU4/CsI1zeGnK41ShHbjhsW/5HiHrVyHXqU/xixug5XBTC0+K2
- KHQoF/nK1H/wMLXq/iIL1wQmmGHKWnYeG/K1KdeFPfV9dO/sh7C2/fBZsmZAZ4uJf0hF
- 9Lb/qchBPqZcQg+7pd+IKkvU2WC6UYt2bco+iQecbVBmyyj6GnjqAPKlDMOcgvmAJHra
- TpvKmCgmaCYLz1EByI0pH7TTmuE3VqhqIDCbt5uVkoqZZAm7t8OEs5cIzFNxkbuviltd
- Z/3g==
-X-Gm-Message-State: AOJu0Yy9cXAQ7hfIl/IlO3v4Ddv8Lpcd1c8Kd0NT5ClFBxyxMTOEmBny
- 4Z7LFl5yvxXIJabnbQWwnS6PMF9ZtGZHhToEOeqgLVQX48sm1NezUmqnLRpacZXgHN53iOmd98A
+ bh=NqDQQoT9vxUaIMkwbyFExGHs1F5iC7Nw1z6NMheJx1s=;
+ b=ngO+METVIcFppmwBErSqZ54nMwAqBGameBvXOP6eayBgPmx8+RuJ7ba1Ba22PWYtgl
+ N93Fc52LM6vOi1mdlbmYCljUIEUIcKW1WwbURazLYaOlpA76tZjlYkuY7e3TebxrxqOS
+ T07VNsL3XLlfqOwKFXEEj0hp1AgWhqaq2a12sF94Wf2ZbS9dlc3B15TkI3cP2x2Joecn
+ 8QTu6lgR7K8ozZMTobxWoBgcf8LhwYsCWYzjxVF+supJDwjuus4dLiNmhXaQnLJ/yDk6
+ rdMdJfZD8gD6y6JGslCRFbvfPLq4lfCVsGsfYrhu9yOmTuGGaqXPFlzIrzlrLhLvhuFf
+ PzxQ==
+X-Gm-Message-State: AOJu0YzGiDrA/I2LcymaDzaXF0UQmD9aOSB1g9Dw5m33QNT6nsjFllGI
+ /kyN8GCwj1T9krSVNSJsJsbF2zzHHJC5x9oR5HQeC65G+zkKIxYeLNVjRqVq30WGvR/aK++U1XM
  =
-X-Google-Smtp-Source: AGHT+IFJkozk5OTkwCsn5OkLhcemPB7dA7YafD4WdNJbOiqjKItfz7R2iuxuydaXIEWC94dii2xckA==
-X-Received: by 2002:a05:622a:1188:b0:43a:d7a7:7322 with SMTP id
- m8-20020a05622a118800b0043ad7a77322mr4252879qtk.37.1714400007501; 
- Mon, 29 Apr 2024 07:13:27 -0700 (PDT)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
- [209.85.160.180]) by smtp.gmail.com with ESMTPSA id
- j18-20020ac86652000000b00437392f1c20sm10405500qtp.76.2024.04.29.07.13.26
+X-Google-Smtp-Source: AGHT+IHqewhOTnnajzLI81g1wBSVD3Ib9rdUaAXr1y1u2kbmu+QVzXDnbHEU+0PyKvhpmiN51iEbfw==
+X-Received: by 2002:ac8:59d5:0:b0:43a:a82d:4fa with SMTP id
+ f21-20020ac859d5000000b0043aa82d04famr7600810qtf.15.1714400815880; 
+ Mon, 29 Apr 2024 07:26:55 -0700 (PDT)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com.
+ [209.85.160.174]) by smtp.gmail.com with ESMTPSA id
+ dn16-20020a05622a471000b00436cd19d996sm10415828qtb.87.2024.04.29.07.26.53
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Apr 2024 07:13:26 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id
- d75a77b69052e-439b1c72676so699051cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 07:13:26 -0700 (PDT)
-X-Received: by 2002:ac8:7d49:0:b0:43a:c278:83f9 with SMTP id
- h9-20020ac87d49000000b0043ac27883f9mr320794qtb.3.1714400005486; Mon, 29 Apr
- 2024 07:13:25 -0700 (PDT)
+ Mon, 29 Apr 2024 07:26:54 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id
+ d75a77b69052e-436ed871225so511271cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 07:26:53 -0700 (PDT)
+X-Received: by 2002:a05:622a:14d:b0:439:a979:ccb2 with SMTP id
+ v13-20020a05622a014d00b00439a979ccb2mr546226qtw.16.1714400812823; Mon, 29 Apr
+ 2024 07:26:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240426235857.3870424-1-dianders@chromium.org>
  <20240426165839.v2.4.Ie94246c30fe95101e0e26dd5f96e976dbeb8f242@changeid>
- <20240427063250.GB1137299@ravnborg.org>
-In-Reply-To: <20240427063250.GB1137299@ravnborg.org>
+ <2af446d3-7834-4a6b-897b-b14c6bccff65@linaro.org>
+In-Reply-To: <2af446d3-7834-4a6b-897b-b14c6bccff65@linaro.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 29 Apr 2024 07:13:08 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UN5tWqQvnLRGtk+EVqjEqO6vqtEfaYONkCsze2+539Xw@mail.gmail.com>
-Message-ID: <CAD=FV=UN5tWqQvnLRGtk+EVqjEqO6vqtEfaYONkCsze2+539Xw@mail.gmail.com>
+Date: Mon, 29 Apr 2024 07:26:41 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V=EvEGp4tGDd-UQ1R=XkAwDn04ftd8oWU=UE=3Gi7SLQ@mail.gmail.com>
+Message-ID: <CAD=FV=V=EvEGp4tGDd-UQ1R=XkAwDn04ftd8oWU=UE=3Gi7SLQ@mail.gmail.com>
 Subject: Re: [PATCH v2 4/8] drm/mipi-dsi: Introduce
  mipi_dsi_*_write_seq_multi()
-To: Sam Ravnborg <sam@ravnborg.org>
+To: neil.armstrong@linaro.org
 Cc: dri-devel@lists.freedesktop.org, Linus Walleij <linus.walleij@linaro.org>, 
  lvzhaoxiong@huaqin.corp-partner.google.com, 
  Jani Nikula <jani.nikula@linux.intel.com>, Hsin-Yi Wang <hsinyi@google.com>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Joel Selvaraj <jo@jsfamily.in>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, Joel Selvaraj <jo@jsfamily.in>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
  Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
+ Sam Ravnborg <sam@ravnborg.org>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,90 +102,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, Apr 26, 2024 at 11:33=E2=80=AFPM Sam Ravnborg <sam@ravnborg.org> wr=
-ote:
+On Mon, Apr 29, 2024 at 2:38=E2=80=AFAM Neil Armstrong
+<neil.armstrong@linaro.org> wrote:
 >
-> > ---
-> > Right now this patch introduces two new functions in
-> > drm_mipi_dsi.c. Alternatively we could have changed the prototype of
-> > the "chatty" functions and made the deprecated macros adapt to the new
-> > prototype. While this sounds nice, it bloated callers of the
-> > deprecated functioin a bit because it caused the compiler to emit less
-> > optimal code. It doesn't seem terrible to add two more functions, so I
-> > went that way.
-> The concern here is when it will be cleaned up. As a minimum please
-> consider adding an item to todo.rst that details what should be done
-> to get rid of the now obsolete chatty functions so someone can pick it
-> up.
-
-Sure, I can add something to do TODO. Do folks agree that's the
-preferred way to do things? A few thoughts I had:
-
-1. In theory it could be useful to keep _both_ the "chatty" and
-"multi" variants of the functions. In at least a few places the
-"multi" variant was awkward. The resulting auo_kd101n80_45na_init()
-[1] looked awkward. If I was writing just this function I would have
-chosen an API more like the "chatty" one, but since I was trying to
-make all the init functions similar I kept them all using the "multi"
-API. Does it make sense to keep both long term?
-
-[1] https://lore.kernel.org/all/20240426165839.v2.7.Ib5030ab5cd41b4e08b1958=
-bd7e51571725723008@changeid/
-
-2. Going completely the opposite direction, we could also not bother
-saving as much space today and _force_ everyone to move to the new
-"multi" API to get the full space savings.
-
-
-So I guess three options: a) leave my patches the way they are and add
-a TODO, b) Keep the "chatty" variants long term and remove my
-"after-the-cut", or c) Don't get as much space savings today but don't
-introduce a new exported function. Opinions?
-
-
-> > @@ -792,6 +792,34 @@ int mipi_dsi_generic_write_chatty(struct mipi_dsi_=
-device *dsi,
-> >  }
-> >  EXPORT_SYMBOL(mipi_dsi_generic_write_chatty);
-> >
-> > +/**
-> > + * mipi_dsi_generic_write_multi() - mipi_dsi_generic_write_chatty() w/=
- accum_err
-> > + * @ctx: Context for multiple DSI transactions
-> > + * @payload: buffer containing the payload
-> > + * @size: size of payload buffer
-> > + *
-> > + * Like mipi_dsi_generic_write_chatty() but deals with errors in a way=
- that
-> > + * makes it convenient to make several calls in a row.
-> > + */
-> > +void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
-> > +                               const void *payload, size_t size)
-> > +{
-> > +     struct mipi_dsi_device *dsi =3D ctx->dsi;
-> > +     struct device *dev =3D &dsi->dev;
-> > +     ssize_t ret;
-> > +
-> > +     if (ctx->accum_err)
-> > +             return;
-> > +
-> > +     ret =3D mipi_dsi_generic_write(dsi, payload, size);
-> > +     if (ret < 0) {
-> > +             ctx->accum_err =3D ret;
-> > +             dev_err_ratelimited(dev, "sending generic data %*ph faile=
-d: %d\n",
-> > +                                 (int)size, payload, ctx->accum_err);
-> > +     }
-> I see no point in using ratelimited and then change it in the next
-> patch.
-
-Sure, I'll re-order patches.
-
-
-> > @@ -197,6 +197,22 @@ struct mipi_dsi_device {
-> >       struct drm_dsc_config *dsc;
-> >  };
-> >
 > > +/**
 > > + * struct mipi_dsi_multi_context - Context to call multiple MIPI DSI f=
 uncs in a row
@@ -206,6 +125,56 @@ ction
 > > +     struct mipi_dsi_device *dsi;
 > > +     int accum_err;
 > > +};
-> Inline comments is - I think - preferred.
+>
+> I like the design, but having a context struct seems over-engineered whil=
+e we could pass
+> a single int over without encapsulating it with mipi_dsi_multi_context.
+>
+> void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
+>                                      const void *data, size_t len);
+> vs
+> void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_device *dsi, int *ac=
+cum_err,
+>                                      const void *data, size_t len);
+>
+> is the same, and it avoids having to declare a mipi_dsi_multi_context and=
+ set ctx->dsi,
+> and I'll find it much easier to migrate, just add a &ret and make sure re=
+t is initialized to 0.
 
-Sure, I'll update in the next version.
+Yeah, I had the same reaction when Jani suggested the context style
+[1] and I actually coded it up exactly as you suggest above. I then
+changed my mind and went with the context. My motivation was that when
+I tested it I found that using the context produced smaller code.
+Specifically, from the description of this patch we see we end up
+with:
+
+Total: Before=3D10651, After=3D9663, chg -9.28%
+
+...when I didn't have the context and I had the accum_err then instead
+of getting ~9% smaller I believe it actually got ~0.5% bigger. This
+makes some sense as the caller has to pass 4 parameters to each call
+instead of 3.
+
+It's not a giant size difference but it was at least some motivation
+that helped push me in this direction. I'd also say that when I looked
+at the code in the end the style grew on me. It's really not too
+terrible to have one line in your functions that looks like:
+
+struct mipi_dsi_multi_context ctx =3D { .dsi =3D boe->dsi };
+
+...and if that becomes the canonical way to do it then it's really
+hard to accidentally forget to initialize the error value. With the
+other API it's _very_ easy to forget to initialize the error value and
+the compiler won't yell at you. It also makes it very obvious to the
+caller that this function is doing something a little different than
+most Linux APIs with that error return.
+
+So I guess I'd say that I ended up being pretty happy with the
+"context" even if it does feel a little over engineered and I'd argue
+to keep it that way. That being said, if you feel strongly about it
+then we can perhaps get others to chime in to see which style they
+prefer? Let me know what you think.
+
+
+[1] https://lore.kernel.org/r/8734r85tcf.fsf@intel.com
