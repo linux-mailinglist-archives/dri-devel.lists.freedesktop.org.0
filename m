@@ -2,70 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E068B5DE2
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 17:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A85C8B5EB0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2024 18:14:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C40BE10E4C7;
-	Mon, 29 Apr 2024 15:39:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7A5310E6C7;
+	Mon, 29 Apr 2024 16:14:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H4kUOyiU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JmAKLki9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86D6C10E6A7
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2024 15:39:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714405168; x=1745941168;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=h9MGGwKZVRUgN0bDFdFcodYM4/Bv2gUDW4BQmK4V7rk=;
- b=H4kUOyiUqX0GynofenalJU333BmU9+MREeMZ+t6deRiptsHgthOrtvso
- jcSZ4ZJE4/ZmB5fsL4jzFKDUwXq+/6ol3EroYgoiVWibw7gvZHcUoPGjq
- Dzi8aqGk5u5xHwDRcgRg+kmJlNWU6BqN52HbMYPJLF56iuWCHnSBfAtnL
- JX64CowOucAcSC6BL3W+mM845oKQqHKw+p1yw+8JMXrxTFUu/ovKzts5M
- XMK0C6nYD1qiS1P/yQPRu3glLAZXaXOrptO8j4+kxKhkqm0/iqT/QavXC
- qCXl4K+WBoEluQu+9CveliHA5Wg85xSNMAIvxwUDeEHEL5WNRPo2QQDdC w==;
-X-CSE-ConnectionGUID: BKsmPuvDQviupOLFxrXpwg==
-X-CSE-MsgGUID: TLgmuAqtQbqVW57qvpdwJw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="35464155"
-X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; d="scan'208";a="35464155"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2024 08:39:27 -0700
-X-CSE-ConnectionGUID: 3jPk27OrSBajaLlKSBR73g==
-X-CSE-MsgGUID: 4IAmxJ5xSk6hssnGCt8dsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,239,1708416000"; d="scan'208";a="26762827"
-Received: from aantonov-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.49.167])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2024 08:39:21 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Doug Anderson <dianders@chromium.org>, neil.armstrong@linaro.org
-Cc: dri-devel@lists.freedesktop.org, Linus Walleij
- <linus.walleij@linaro.org>, lvzhaoxiong@huaqin.corp-partner.google.com,
- Hsin-Yi Wang <hsinyi@google.com>, Javier Martinez Canillas
- <javierm@redhat.com>, Joel Selvaraj <jo@jsfamily.in>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Cong Yang
- <yangcong5@huaqin.corp-partner.google.com>, Sam Ravnborg
- <sam@ravnborg.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie
- <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/8] drm/mipi-dsi: Introduce
- mipi_dsi_*_write_seq_multi()
-In-Reply-To: <CAD=FV=V=EvEGp4tGDd-UQ1R=XkAwDn04ftd8oWU=UE=3Gi7SLQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240426235857.3870424-1-dianders@chromium.org>
- <20240426165839.v2.4.Ie94246c30fe95101e0e26dd5f96e976dbeb8f242@changeid>
- <2af446d3-7834-4a6b-897b-b14c6bccff65@linaro.org>
- <CAD=FV=V=EvEGp4tGDd-UQ1R=XkAwDn04ftd8oWU=UE=3Gi7SLQ@mail.gmail.com>
-Date: Mon, 29 Apr 2024 18:39:18 +0300
-Message-ID: <87y18w2n6h.fsf@intel.com>
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDFA210E26B;
+ Mon, 29 Apr 2024 16:14:23 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-2a55a3d0b8eso3261243a91.1; 
+ Mon, 29 Apr 2024 09:14:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1714407263; x=1715012063; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uf+IdRgb927i0JxCWv/ngKuUP45B0rhv7CgotNlHqq4=;
+ b=JmAKLki9cbbcu72UwoNP+mEa/RnugagVDjHs72W0qeIVsnXUa9PHVyGjN3e5zeYp7O
+ 8xIZwRAre4IoB5z68Dq1xWtSehbnML1CLm8mf5wz+p+uS+k5DE9FG2X0Y/V/jchoK9IN
+ ysJPkYVuTVqaWyVrWZT8ZgNQuTw+y7XC0ZrV3iVDbXa6fgvAxysIMqcSOBgDnxSI83Rz
+ YkICuoTnVqyQbm5gJeW6ZY7tyDR/7LXMUrB9U1COoDZDm2pexbljxIFymQ8nSwsyx5P0
+ 2lFa1kEHB7uj1LvO4XJmx+7VZBAL7ub4zEqV/PQOWwOT+tz1mgJ3NxrkXCo2t8CiyHMy
+ n5Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714407263; x=1715012063;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uf+IdRgb927i0JxCWv/ngKuUP45B0rhv7CgotNlHqq4=;
+ b=f5A01x6YyK6FxOs5J6bX6QmPpiFYtdsEYZmEN1DQwYlppJ6h4m9nuvkytPxwcQf078
+ bPASKWH6j4O9FHdSEStxa0xVP76t4rjZ4m4dlJZhTUsGCaQSvxSF9U4gbTDs7MqgrYzQ
+ WP38fkXYYJcDITyfFmrlsjL67kskrgYRda8/UK4XXTP0bZeYwN8lcNZkT4C7/xKEuB/1
+ uDeLCfFFIernoGQT10PGE64tAz2SXcmUxfYsxc8xlyqAxcQdVLCu48c9YFw8uXgqIEGS
+ SQEJH781f35DLxJqftJn5yqLIk1fEHDL5/iGpbXVE6IQoZNFL+pq1KZKln5s21W6mARv
+ IVvA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXMs1TPb04l+jwo/yLL9kIqr02YLF/p9YfdhOtzmEYrWUTcrkQVp4w58Ox3+6M7kn4qiXuyHaVbRUtJ4ZnfIDEEkfkw9QDITSb2g042gIPjF9pNEhxjEJ5U74yyYkN+XKey8LKor0MynrWQWqLxHw==
+X-Gm-Message-State: AOJu0Yx+HJ++/6MAshEkEELdiUkyHLi4C5po69RJbjku3HMjoXyrwy7T
+ lYu3ijxulJgwEBAmJeiB2VkCVR4Kf8dER0Pz/IQm1j2dmvgUh4F2A5L/4wgp2myq5r+UyV33ssv
+ 2QBuYat5S9GCkOmw8hTIkCAKzWxY=
+X-Google-Smtp-Source: AGHT+IG2B2nx6bmugj+Ci4mKUZM0wGBXzxrm1KAJlrCGW9qVvtEKi0H28eOfwvOwV2BggQL03pq5kA8s/A6ylUd2IIM=
+X-Received: by 2002:a17:90a:d685:b0:2af:de3:f0e3 with SMTP id
+ x5-20020a17090ad68500b002af0de3f0e3mr126396pju.23.1714407263053; Mon, 29 Apr
+ 2024 09:14:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <afb229a9-3f18-44cb-b305-5fbb2e1b4ee3@moroto.mountain>
+ <CO6PR12MB53946126A02595B4FDF76525941B2@CO6PR12MB5394.namprd12.prod.outlook.com>
+In-Reply-To: <CO6PR12MB53946126A02595B4FDF76525941B2@CO6PR12MB5394.namprd12.prod.outlook.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 29 Apr 2024 12:14:11 -0400
+Message-ID: <CADnq5_NQPgW-xmebV5OS-8v_-vY07hP4NYJemYLOC4iCydkxLw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Fix signedness bug in
+ sdma_v4_0_process_trap_irq()
+To: "Zhou, Bob" <Bob.Zhou@amd.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, 
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ "Kuehling, Felix" <Felix.Kuehling@amd.com>, "Zhang,
+ Hawking" <Hawking.Zhang@amd.com>, 
+ Guchun Chen <guchun.chen@amd.com>, "Ma, Le" <Le.Ma@amd.com>, "Lazar,
+ Lijo" <Lijo.Lazar@amd.com>, "Sharma, Shashank" <Shashank.Sharma@amd.com>, 
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,93 +92,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 29 Apr 2024, Doug Anderson <dianders@chromium.org> wrote:
-> Hi,
->
-> On Mon, Apr 29, 2024 at 2:38=E2=80=AFAM Neil Armstrong
-> <neil.armstrong@linaro.org> wrote:
->>
->> > +/**
->> > + * struct mipi_dsi_multi_context - Context to call multiple MIPI DSI =
-funcs in a row
->> > + * @dsi: Pointer to the MIPI DSI device
->> > + * @accum_err: Storage for the accumulated error over the multiple ca=
-lls. Init
->> > + *   to 0. If a function encounters an error then the error code will=
- be
->> > + *   stored here. If you call a function and this points to a non-zero
->> > + *   value then the function will be a noop. This allows calling a fu=
-nction
->> > + *   many times in a row and just checking the error at the end to se=
-e if
->> > + *   any of them failed.
->> > + */
->> > +
->> > +struct mipi_dsi_multi_context {
->> > +     struct mipi_dsi_device *dsi;
->> > +     int accum_err;
->> > +};
->>
->> I like the design, but having a context struct seems over-engineered whi=
-le we could pass
->> a single int over without encapsulating it with mipi_dsi_multi_context.
->>
->> void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
->>                                      const void *data, size_t len);
->> vs
->> void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_device *dsi, int *a=
-ccum_err,
->>                                      const void *data, size_t len);
->>
->> is the same, and it avoids having to declare a mipi_dsi_multi_context an=
-d set ctx->dsi,
->> and I'll find it much easier to migrate, just add a &ret and make sure r=
-et is initialized to 0.
->
-> Yeah, I had the same reaction when Jani suggested the context style
-> [1] and I actually coded it up exactly as you suggest above. I then
-> changed my mind and went with the context. My motivation was that when
-> I tested it I found that using the context produced smaller code.
-> Specifically, from the description of this patch we see we end up
-> with:
->
-> Total: Before=3D10651, After=3D9663, chg -9.28%
->
-> ...when I didn't have the context and I had the accum_err then instead
-> of getting ~9% smaller I believe it actually got ~0.5% bigger. This
-> makes some sense as the caller has to pass 4 parameters to each call
-> instead of 3.
->
-> It's not a giant size difference but it was at least some motivation
-> that helped push me in this direction. I'd also say that when I looked
-> at the code in the end the style grew on me. It's really not too
-> terrible to have one line in your functions that looks like:
->
-> struct mipi_dsi_multi_context ctx =3D { .dsi =3D boe->dsi };
->
-> ...and if that becomes the canonical way to do it then it's really
-> hard to accidentally forget to initialize the error value. With the
-> other API it's _very_ easy to forget to initialize the error value and
-> the compiler won't yell at you. It also makes it very obvious to the
-> caller that this function is doing something a little different than
-> most Linux APIs with that error return.
->
-> So I guess I'd say that I ended up being pretty happy with the
-> "context" even if it does feel a little over engineered and I'd argue
-> to keep it that way. That being said, if you feel strongly about it
-> then we can perhaps get others to chime in to see which style they
-> prefer? Let me know what you think.
->
->
-> [1] https://lore.kernel.org/r/8734r85tcf.fsf@intel.com
+Applied.  Thanks!
 
-FWIW, I don't feel strongly about this, and I could be persuaded either
-way, but I've got this gut feeling that an extensible context parameter
-might be benefitial future proofing in this case.
-
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel
+On Sun, Apr 28, 2024 at 9:32=E2=80=AFPM Zhou, Bob <Bob.Zhou@amd.com> wrote:
+>
+> [Public]
+>
+> Reviewed-by: Bob Zhou <bob.zhou@amd.com>
+>
+> Regards,
+> Bob
+>
+> -----Original Message-----
+> From: Dan Carpenter <dan.carpenter@linaro.org>
+> Sent: 2024=E5=B9=B44=E6=9C=8828=E6=97=A5 20:57
+> To: Zhou, Bob <Bob.Zhou@amd.com>
+> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Ch=
+ristian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David Airlie <ai=
+rlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Kuehling, Felix <Felix.K=
+uehling@amd.com>; Zhang, Hawking <Hawking.Zhang@amd.com>; Guchun Chen <guch=
+un.chen@amd.com>; Ma, Le <Le.Ma@amd.com>; Lazar, Lijo <Lijo.Lazar@amd.com>;=
+ Sharma, Shashank <Shashank.Sharma@amd.com>; amd-gfx@lists.freedesktop.org;=
+ dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; kernel-jani=
+tors@vger.kernel.org
+> Subject: [PATCH] drm/amdgpu: Fix signedness bug in sdma_v4_0_process_trap=
+_irq()
+>
+> The "instance" variable needs to be signed for the error handling to work=
+.
+>
+> Fixes: b34ddc71267a ("drm/amdgpu: add error handle to avoid out-of-bounds=
+")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c b/drivers/gpu/drm/amd=
+/amdgpu/sdma_v4_0.c
+> index 101038395c3b..772604feb6ac 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
+> @@ -2017,7 +2017,7 @@ static int sdma_v4_0_process_trap_irq(struct amdgpu=
+_device *adev,
+>                                       struct amdgpu_irq_src *source,
+>                                       struct amdgpu_iv_entry *entry)  {
+> -       uint32_t instance;
+> +       int instance;
+>
+>         DRM_DEBUG("IH: SDMA trap\n");
+>         instance =3D sdma_v4_0_irq_id_to_seq(entry->client_id);
+> --
+> 2.43.0
+>
