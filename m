@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F658B6F81
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 12:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1218B6F88
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 12:22:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D5F10F70F;
-	Tue, 30 Apr 2024 10:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCDC910FBCF;
+	Tue, 30 Apr 2024 10:22:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bmasaC8W";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="moI6/JsI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2E210F70F
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 10:19:53 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2def8e58471so86266551fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 03:19:52 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05BA910FC00
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 10:21:58 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-51e1b9fba81so1511371e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 03:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714472391; x=1715077191; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1714472517; x=1715077317; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Oi+zY4jrvA7etE5aJ4Zb1R79uvZhxlcK87yfMIoJspk=;
- b=bmasaC8WYOpp1oMQAXYKlP8Iiy8xJuGzSfvq5+4lIkC0HKfhUhNgtbujd2jBTHhRrH
- E3DP2DpvHbWhUzL2BLeFR2sUbmiVg05PSlNNwYWR/ml2t3hhvVZsAOFPxyd95IXZmiEr
- Y8XUZbpxpsaVUK9hpSHBHcNVZQ0oZLEcDXdtOZM04rz6vmfprUy0Ig/lZqj1cXB10gdL
- xfrtkiVsr0U3HVDz/Wk4BQ9kG1dWjqvJNDXwLiTqiGAo2vm/q2feNGLSfg44Mxet725u
- im52CIndf/DCSwt4j9h99jVr1kPAYKAu0BL7DUL7Ir521S4w3efByIUdEMjp6tfxxP0g
- QWsg==
+ bh=ZT01Ki3TawfQ3ig4lt1wnzEPfhDo0Jb/siTeqh9G5lE=;
+ b=moI6/JsIAUM09KU2MvmrBOFITs8yc5yIaS/Ey1Lhtr0Iwa3EUhsFRzv2HC4s3OUznz
+ aF56suY59QS9zizvIi3G5MpayaN01/xPiX13FCRiRZx7wlULaRD2CDAeBZe60QGkxfMI
+ zRCPlnbeiGFu05m0POekQPkEcx1b4FCGy38Qn+lq1gCJxmDgX2ioLBSYnPSXSBEadagM
+ tFpSxeGYDcO4G+k95cKodYV+3nBCguvhMCaxvVeOIfy8kahydNltxGOZmdIT3UfsDTRW
+ nzJPmoNTNPgssWcqev3rUCXPzT0SUeHe8ZJtXHvS76Ww409RXoB8EZCEJDs3cdPBDL2T
+ hSxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714472391; x=1715077191;
+ d=1e100.net; s=20230601; t=1714472517; x=1715077317;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Oi+zY4jrvA7etE5aJ4Zb1R79uvZhxlcK87yfMIoJspk=;
- b=PGVB2axiKF4aJNhQaKSE8x6Iw7N1UCRd6Na+4rfvbVmQXOVIHUlYvnRkFAi5NMiBN4
- ho7uJwBLW+V+OVTI3j4YXAV1VSBXC2GqX0LExDWIXJ2ZMGDpN5yw/0sBmwXdkZgZBlKn
- +JFeMsq3AHLqbZpsx4qJoaJPt5c66bPFXBDqHZX6dJli0GO8BXy3W+uREcoTB1JjImM6
- TnNVCZDnqyuKufVFYST4PGl6HgAUmFv0XgW25q9S5e4jG7qBL36SU0r1hgAu6CK1FlP0
- XulHxzssRXBc4WSEDw1nqNy+olJX5sYSNPRY6yiUk7KbDHx6Y0S/k+hRRmLEWidn3ILE
- OgVg==
+ bh=ZT01Ki3TawfQ3ig4lt1wnzEPfhDo0Jb/siTeqh9G5lE=;
+ b=jl1dnvenHjFHHwYtmEiZzOkNglwgczC/eQPL7fnX/PKQU9NvK5+62zer/wMfPUwW/M
+ gAyI7rBDj75eSeqEbymX87dF8mQ4/O8Gt2Opog7cqh2X4nAPXDd16CM9aGKt7+88sNct
+ W3+9YGTGanyAxO5Xnxj7Kz2DSUTsscuEKR6WJE+MPizHK8n3yStEr42ZoJFzKxktoZy6
+ sA8XqjqOQrMCHRoHXXi2YUACkngSmNJQAEqjWot4UDqSDGPYTughSmcX+tGEkjIaqE1x
+ dgdv8cknywCt3frrWSAb/SZyxl4of5RAWDmb3psabDQRyqCa1g7ZTzdrTGegojppsD8Y
+ cf8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCULndEJDO4C+sfl2k1rd8w3TfEuKIY/IY4/Fa5Hbx+XPw7Q11s/6jAQkgwJZXkbD2gtbzaTolC8pC6BfQkzwEND6sZEnUqLDImB6tnrY+iH
-X-Gm-Message-State: AOJu0YyRumCyAtfF08qPVsVBuloKqD9lIQUP6dBTXXBjM3LC6nH49CqC
- QzS/qTf4aQZGUuDYhUsIsQXbZHRbatgXMjYE7Prp9jd9FPRdtPvaKFSwYCdpfcg=
-X-Google-Smtp-Source: AGHT+IFivDvhkvzdK3js9J8r/Omj4m9EtI36Z7K6bKiY8IRU1gTzJE2IoEcCjop9Y8xeDqlTpaY03A==
-X-Received: by 2002:a19:6907:0:b0:51c:1657:b04a with SMTP id
- e7-20020a196907000000b0051c1657b04amr9624458lfc.63.1714472389353; 
- Tue, 30 Apr 2024 03:19:49 -0700 (PDT)
+ AJvYcCUaNnyMuWi47Pxmf5cQfSzgaBUylzFqsyNO3/ir21w5RF9dSUfRyduTLsfRmgwvO3S45yg91apDki942hoFRxgYBS0EQQGq3UG06mwxQHYT
+X-Gm-Message-State: AOJu0YxNHeRkPBbps/2LRk5lexdWhiVPQAe461fLFesT57cg833ViV5Y
+ QcE+/eluyV9OgVgXOLat3LHCrpJXTsHEnCK4ffpWy5kKVQv/DCW+Wj7btIpCj4Q=
+X-Google-Smtp-Source: AGHT+IFcCOuX6QEEljjpvhMiSZt5CExqyrWGa7Y3OF0CEbw6Gv9K9DYV5uUKU5rAI7Mcf9Sx4WpE9A==
+X-Received: by 2002:ac2:48ab:0:b0:51a:f48d:7b31 with SMTP id
+ u11-20020ac248ab000000b0051af48d7b31mr9463882lfg.13.1714472513855; 
+ Tue, 30 Apr 2024 03:21:53 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
  by smtp.gmail.com with ESMTPSA id
- e1-20020a196901000000b0051bc10ea8ccsm2520317lfc.38.2024.04.30.03.19.48
+ e24-20020a196918000000b0051d913a3695sm845676lfc.182.2024.04.30.03.21.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Apr 2024 03:19:49 -0700 (PDT)
-Date: Tue, 30 Apr 2024 13:19:47 +0300
+ Tue, 30 Apr 2024 03:21:53 -0700 (PDT)
+Date: Tue, 30 Apr 2024 13:21:52 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -67,15 +67,14 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v1 1/3] drm/panel: ili9341: Correct use of device
- property APIs
-Message-ID: <oin54zqdhrdp7glme7te6yd4yoddwqkg24igzktw6lg4toh7t2@lcrmkwmujjpq>
+Subject: Re: [PATCH v1 2/3] drm/panel: ili9341: Respect deferred probe
+Message-ID: <aaizdoc5ct4ktn3owbg4woexenao4h6kgn6chg5mjusm4aoy5i@ajwvvl2tzknt>
 References: <20240425142706.2440113-1-andriy.shevchenko@linux.intel.com>
- <20240425142706.2440113-2-andriy.shevchenko@linux.intel.com>
+ <20240425142706.2440113-3-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240425142706.2440113-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20240425142706.2440113-3-andriy.shevchenko@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,20 +90,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 25, 2024 at 05:26:17PM +0300, Andy Shevchenko wrote:
-> It seems driver missed the point of proper use of device property APIs.
-> Correct this by updating headers and calls respectively.
+On Thu, Apr 25, 2024 at 05:26:18PM +0300, Andy Shevchenko wrote:
+> GPIO controller might not be available when driver is being probed.
+> There are plenty of reasons why, one of which is deferred probe.
+> 
+> Since GPIOs are optional, return any error code we got to the upper
+> layer, including deferred probe. With that in mind, use dev_err_probe()
+> in order to avoid spamming the logs.
 > 
 > Fixes: 5a04227326b0 ("drm/panel: Add ilitek ili9341 panel driver")
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  drivers/gpu/drm/panel/Kconfig                | 2 +-
->  drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 5 +++--
->  2 files changed, 4 insertions(+), 3 deletions(-)
-> 
-
+>  drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 -- 
 With best wishes
