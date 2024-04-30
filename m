@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23D28B81F3
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 23:35:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EEF8B8200
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 23:40:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF8BD10E60C;
-	Tue, 30 Apr 2024 21:35:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09EC310E691;
+	Tue, 30 Apr 2024 21:40:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TldT/FbN";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dsoh69Pe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E9E210E60C
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 21:35:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714512901; x=1746048901;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=tTccR7b+fg7YW2r965Vb1yvRMrgT+rQm3TA8SN9Sdu0=;
- b=TldT/FbNfqLUpu3nvi0F0XurIBwYfDbRniHBSOqRFaO0L4c6Y0+w8n26
- tfGcZYpBpsJUKJhgFBgLm7/69YYcvjWV5yRGVkez6fgj27eJRWIuqrjQJ
- UfkfU2dsk/zb5BLEKgYyhZasgIjjicpgM+c2YZB2O12o3I5N/XUvFEGs8
- y4iPEJUJapgOtDnVeNG1zsm6QvK2nYuV0XXHmlI1id9tYj4gp0eLnoHx9
- rE7Zz2w0cNjHaiU8QdNhpmgGCnJo/5kgE6c5n4lO/9jcFqk/P2zUNsuBJ
- PxdS7pOpMhNXdO3J8aFs+qqMuzL8Typu/wSwaM07gQzw+KdXpvcaabIcR A==;
-X-CSE-ConnectionGUID: sz9TNxoXQRqVlcu0f2GaZg==
-X-CSE-MsgGUID: c97ripxMQ4m6dybwFzC44A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="14070078"
-X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; d="scan'208";a="14070078"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2024 14:35:00 -0700
-X-CSE-ConnectionGUID: m6voHUtJQrWPhP8kSdz+Gg==
-X-CSE-MsgGUID: I/a3pbHETjiyyNx1OkI/4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; d="scan'208";a="31423229"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
- by orviesa005.jf.intel.com with ESMTP; 30 Apr 2024 14:34:57 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s1v7m-0008cj-1Z;
- Tue, 30 Apr 2024 21:34:54 +0000
-Date: Wed, 1 May 2024 05:34:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Weishi Li <liweishi@kylinos.cn>
-Cc: oe-kbuild-all@lists.linux.dev, airlied@redhat.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, gurchetansingh@chromium.org,
- kraxel@redhat.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- olvaffe@gmail.com, tzimmermann@suse.de, virtualization@lists.linux.dev
-Subject: Re: [PATCH] [PATCH RESEND] drm/virtio: fix memory leak of vbuf
-Message-ID: <202405010502.1BWe3b2S-lkp@intel.com>
-References: <20240429030541.56702-1-liweishi@kylinos.cn>
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8184310E662;
+ Tue, 30 Apr 2024 21:40:22 +0000 (UTC)
+Received: from [100.65.32.120] (unknown [20.236.11.185])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 2953021112E1;
+ Tue, 30 Apr 2024 14:40:21 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2953021112E1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1714513221;
+ bh=N5FvQ/TypNHdjNMqYFIqXh66AahkR8SgB9HzMwk5dOg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dsoh69PeBK5TTLU3vn54yAjgk6HEgw6uX5/96K1j6MEq+uhUAt3mt7u2D+71GOFNI
+ WvGANH7w+I/8RenBbMN5ykkWz3Uk5CrLxIasJ2xUAitAkekfx5YEX9aKxDjas/zyYs
+ t0b5kEvCuz8TxGtWmnMzMga/jwInlSVIoFyEUWbA=
+Message-ID: <92189a8c-00dc-4b79-8fd0-3670b80d0db2@linux.microsoft.com>
+Date: Tue, 30 Apr 2024 14:40:18 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240429030541.56702-1-liweishi@kylinos.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 03/12] drm/i915: Make I2C terminology more inclusive
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.wang.linux@gmail.com>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL GVT-g DRIVERS (Intel GPU Virtualization)"
+ <intel-gvt-dev@lists.freedesktop.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
+References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
+ <20240430173812.1423757-4-eahariha@linux.microsoft.com>
+ <ZjFUwjMFMcvJr5KI@intel.com>
+Content-Language: en-CA
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+In-Reply-To: <ZjFUwjMFMcvJr5KI@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,85 +75,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Weishi,
+On 4/30/2024 1:29 PM, Rodrigo Vivi wrote:
+> On Tue, Apr 30, 2024 at 05:38:02PM +0000, Easwar Hariharan wrote:
+>> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
+>> with more appropriate terms. Inspired by and following on to Wolfram's
+>> series to fix drivers/i2c/[1], fix the terminology for users of
+>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+>> in the specification.
+>>
+>> Compile tested, no functionality changes intended
+>>
+>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+>>
+>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> 
+> I'm glad to see this change!
+> 
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> 
+>> ---
+>>  drivers/gpu/drm/i915/display/dvo_ch7017.c     | 14 ++++-----
+>>  drivers/gpu/drm/i915/display/dvo_ch7xxx.c     | 18 +++++------
+>>  drivers/gpu/drm/i915/display/dvo_ivch.c       | 16 +++++-----
+>>  drivers/gpu/drm/i915/display/dvo_ns2501.c     | 18 +++++------
+>>  drivers/gpu/drm/i915/display/dvo_sil164.c     | 18 +++++------
+>>  drivers/gpu/drm/i915/display/dvo_tfp410.c     | 18 +++++------
+>>  drivers/gpu/drm/i915/display/intel_bios.c     | 22 +++++++-------
+>>  drivers/gpu/drm/i915/display/intel_ddi.c      |  2 +-
+>>  .../gpu/drm/i915/display/intel_display_core.h |  2 +-
+>>  drivers/gpu/drm/i915/display/intel_dsi.h      |  2 +-
+>>  drivers/gpu/drm/i915/display/intel_dsi_vbt.c  | 20 ++++++-------
+>>  drivers/gpu/drm/i915/display/intel_dvo.c      | 14 ++++-----
+>>  drivers/gpu/drm/i915/display/intel_dvo_dev.h  |  2 +-
+>>  drivers/gpu/drm/i915/display/intel_gmbus.c    |  4 +--
+>>  drivers/gpu/drm/i915/display/intel_sdvo.c     | 30 +++++++++----------
+>>  drivers/gpu/drm/i915/display/intel_vbt_defs.h |  4 +--
+>>  drivers/gpu/drm/i915/gvt/edid.c               | 28 ++++++++---------
+>>  drivers/gpu/drm/i915/gvt/edid.h               |  4 +--
+>>  drivers/gpu/drm/i915/gvt/opregion.c           |  2 +-
+>>  19 files changed, 119 insertions(+), 119 deletions(-)
+> 
+> The chances of conflicts are high with this many changes,
+> but should be easy enough to deal with later, so feel free
+> to move with this i915 patch on any other tree and we catch-up
+> later.
+> 
+> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> 
 
-kernel test robot noticed the following build errors:
+Thanks for the review and ack! I actually thought that this might end up going in as individual
+patches via the various respective trees since it's now completely independent of Wolfram's enabling
+series with the drop of the final patch that was treewide.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.9-rc6 next-20240430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+What do you think?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Weishi-Li/drm-virtio-fix-memory-leak-of-vbuf/20240430-132447
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240429030541.56702-1-liweishi%40kylinos.cn
-patch subject: [PATCH] [PATCH RESEND] drm/virtio: fix memory leak of vbuf
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240501/202405010502.1BWe3b2S-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405010502.1BWe3b2S-lkp@intel.com/reproduce)
+Thanks,
+Easwar
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405010502.1BWe3b2S-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/virtio/virtgpu_vq.c: In function 'virtio_gpu_queue_cursor':
->> drivers/gpu/drm/virtio/virtgpu_vq.c:474:9: error: expected '}' before 'else'
-     474 |         else if (ret < 0) {
-         |         ^~~~
-
-
-vim +474 drivers/gpu/drm/virtio/virtgpu_vq.c
-
-   448	
-   449	static void virtio_gpu_queue_cursor(struct virtio_gpu_device *vgdev,
-   450					    struct virtio_gpu_vbuffer *vbuf)
-   451	{
-   452		struct virtqueue *vq = vgdev->cursorq.vq;
-   453		struct scatterlist *sgs[1], ccmd;
-   454		int idx, ret, outcnt;
-   455		bool notify;
-   456	
-   457		if (!drm_dev_enter(vgdev->ddev, &idx)) {
-   458			free_vbuf(vgdev, vbuf);
-   459			return;
-   460		}
-   461	
-   462		sg_init_one(&ccmd, vbuf->buf, vbuf->size);
-   463		sgs[0] = &ccmd;
-   464		outcnt = 1;
-   465	
-   466		spin_lock(&vgdev->cursorq.qlock);
-   467	retry:
-   468		ret = virtqueue_add_sgs(vq, sgs, outcnt, 0, vbuf, GFP_ATOMIC);
-   469		if (ret == -ENOSPC) {
-   470			spin_unlock(&vgdev->cursorq.qlock);
-   471			wait_event(vgdev->cursorq.ack_queue, vq->num_free >= outcnt);
-   472			spin_lock(&vgdev->cursorq.qlock);
-   473			goto retry;
- > 474		else if (ret < 0) {
-   475			free_vbuf(vgdev, vbuf);
-   476		} else {
-   477			vbuf->seqno = ++vgdev->cursorq.seqno;
-   478			trace_virtio_gpu_cmd_queue(vq,
-   479				virtio_gpu_vbuf_ctrl_hdr(vbuf),
-   480				vbuf->seqno);
-   481	
-   482			notify = virtqueue_kick_prepare(vq);
-   483		}
-   484	
-   485		spin_unlock(&vgdev->cursorq.qlock);
-   486	
-   487		if (notify)
-   488			virtqueue_notify(vq);
-   489	
-   490		drm_dev_exit(idx);
-   491	}
-   492	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
