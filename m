@@ -2,58 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0508B6C17
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 09:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2673E8B6C39
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 09:53:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53CAD10E20B;
-	Tue, 30 Apr 2024 07:48:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8445110EBC2;
+	Tue, 30 Apr 2024 07:53:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X3j4NGN9";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="UHXE4fQs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A6DA10E20B
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 07:48:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id E3669CE0D6B;
- Tue, 30 Apr 2024 07:48:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B01D8C2BBFC;
- Tue, 30 Apr 2024 07:48:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714463288;
- bh=9IhoDrLW5nla3PkdfiFXqy+CBqAGV0puxz21Q1cMMhc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X3j4NGN90P1GmyQQZcPK/CCn5HXBpRxqpfpBMjPyL6V+WuLs+vRwa9bhCkFvf2Ypk
- CzCK8BwSeEyDG9CfSTutylcTBbnnjDCw7jayRL3BEadM690pBlnxcWNQhadXREO1aE
- zZpOSJPJXmSPNPYodAUpTnSOSlha4iWzZ0v95ipKKTh6HmWO6jfvRVo/AteUos0gyM
- pmTPyaOSoJIlZX7sGBY8NkLvjZ4tsnbk9zPVvNzoah5m0mZl66RKHgPosxZw7oYPNJ
- ODdcC8hGQWGlb/xKfwCZCaFGey6QzbRahjO0nE2fP6aahKt3yMu1HSE3M4TXw0NWkQ
- boFt3JByVTJBw==
-Date: Tue, 30 Apr 2024 09:48:05 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Robert Foss <rfoss@kernel.org>, Antonio Borneo <antonio.borneo@foss.st.com>, 
- dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/stm: dsi: relax mode_valid clock tolerance
-Message-ID: <20240430-exuberant-ludicrous-caiman-bc7dac@houat>
-References: <20240322104732.2327060-1-sean@geanix.com>
- <20240424-famous-fascinating-hyena-8fb3a7@houat>
- <cvzecixldubeq7pwn77cggs7tcwc5on3arlnboj4fbpqgdygtu@hat3r6afzu7y>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3CCC10E144
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 07:53:18 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-345606e8ac0so460372f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 00:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1714463596; x=1715068396; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gl/FlDFmUATMwqOxYHiILprB4jdUBlG0HeOIOaA3b20=;
+ b=UHXE4fQsGc4Jh02vmf20cgkiXKdGT6F6RTvtbDH2Qn7EpdZM19SUVi+OZWYnCdLRx/
+ 5dbTqjfCrJnjuTfHZeHMgRQaWHkYdQJF9Sk5EZZy58H9NhDtNL5EPJ/X6QsP3/71jsO/
+ rA9Dr3oMNut8ZSJVn9b8W/HTL/CDVQv5Dtcz8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714463596; x=1715068396;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gl/FlDFmUATMwqOxYHiILprB4jdUBlG0HeOIOaA3b20=;
+ b=LKP+J+yuIPKiJEoNsOwq0ABEo/2ktJm0mMxbelE/Oaltlu9eUqCD9N5ulQuTdy5/zf
+ qYpxalJI8RiPR97QwkuKCl+vGIIddp6wWu4ORQY8cFA2qzBi89ncXvPFZuZ9YHIf8R+R
+ 3ereXqhEptzRIFSpLoz9XVzVL/TXVwWUw0Kz18sWgZ+driMXwAiY7OCRluqTX8p6LKiH
+ 2rc/jxau5R8yn7Qja1G03DQRD43sOl7uu44ft12qAEecjVCNrhK3kVzid1PGYTPy5sXV
+ Dk0BUjsfIi9+kjIRzOdqVyaFS1QJ4YuGu3ViS3m4TABVzYZBs+LJ16Yl/Wm+FUFeEv5x
+ fB6g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIOcHUaLvnmKdtLwqfiNkPaDpBqYY/X7Bj9FeQwy9oblaKahihteJgzQk6imC3Jp6PPdxPzA+JxrPHQRpqpoJXAEHn00SdPOG5FKHAv511
+X-Gm-Message-State: AOJu0YyifBIXyjHNyV5sS1ByI1+QYtw/lTTyyIXd2K5XwLq/oS7J07af
+ 0yEAr+ywJLhYyo9LuEyVBTwtscEr81PnwiAXMCXqEFVEFXTcwTo9FhGFlSFjQj4=
+X-Google-Smtp-Source: AGHT+IECCcZ/hzS+3me5WyxrdSWBWgHWMFfysSTkDDjkV6TSZIvDkUkK1bSHQdweFT16duokClgLNw==
+X-Received: by 2002:a05:600c:3c82:b0:41a:bc88:b84 with SMTP id
+ bg2-20020a05600c3c8200b0041abc880b84mr9568865wmb.1.1714463596454; 
+ Tue, 30 Apr 2024 00:53:16 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ d18-20020a05600c34d200b0041b083e16e2sm22209242wmq.2.2024.04.30.00.53.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Apr 2024 00:53:15 -0700 (PDT)
+Date: Tue, 30 Apr 2024 09:53:13 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Brandon Pollack <brpol@chromium.org>
+Cc: marius.vlad@collabora.com, mairacanal@riseup.net, jshargo@chromium.org,
+ hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ linux-doc@vger.kernel.org, hirono@chromium.org, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ melissa.srw@gmail.com, mduggan@chromium.org, mripard@kernel.org,
+ tzimmermann@suse.de
+Subject: Re: [PATCH v6 2/7] drm/vkms: Support multiple DRM objects (crtcs,
+ etc.) per VKMS device
+Message-ID: <ZjCjaZwSjoFg7Upn@phenom.ffwll.local>
+Mail-Followup-To: Brandon Pollack <brpol@chromium.org>,
+ marius.vlad@collabora.com, mairacanal@riseup.net,
+ jshargo@chromium.org, hamohammed.sa@gmail.com,
+ rodrigosiqueiramelo@gmail.com, linux-doc@vger.kernel.org,
+ hirono@chromium.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ mduggan@chromium.org, mripard@kernel.org, tzimmermann@suse.de
+References: <20230829053201.423261-1-brpol@chromium.org>
+ <20230829053201.423261-3-brpol@chromium.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="3ku2wna3thhbsakw"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cvzecixldubeq7pwn77cggs7tcwc5on3arlnboj4fbpqgdygtu@hat3r6afzu7y>
+In-Reply-To: <20230829053201.423261-3-brpol@chromium.org>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,94 +94,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Aug 29, 2023 at 05:30:54AM +0000, Brandon Pollack wrote:
+> From: Jim Shargo <jshargo@chromium.org>
+> 
+> This change supports multiple CRTCs, encoders, connectors instead of one
+> of each per device.
+> 
+> Since ConfigFS-based devices will support multiple crtcs, it's useful to
+> move all of the writeback/composition data from being per-"output" to
+> being per-CRTC.
+> 
+> Since there's still only ever one CRTC, this should be a no-op refactor.
+> 
+> Signed-off-by: Jim Shargo <jshargo@chromium.org>
+> Signed-off-by: Brandon Pollack <brpol@chromium.org>
 
---3ku2wna3thhbsakw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +struct vkms_crtc {
+> +	struct drm_crtc base;
+> +
+> +	struct drm_writeback_connector wb_connector;
+> +	struct hrtimer vblank_hrtimer;
+> +	ktime_t period_ns;
+> +	struct drm_pending_vblank_event *event;
+> +	/* ordered wq for composer_work */
+> +	struct workqueue_struct *composer_workq;
+> +	/* protects concurrent access to composer */
+> +	spinlock_t lock;
+> +	/* guarantees that if the composer is enabled, a job will be queued */
+> +	struct mutex enabled_lock;
+> +
+> +	/* protected by @enabled_lock */
+> +	bool composer_enabled;
+> +	struct vkms_crtc_state *composer_state;
+> +
+> +	spinlock_t composer_lock;
+> +};
+> +
+>  struct vkms_color_lut {
+>  	struct drm_color_lut *base;
+>  	size_t lut_length;
+> @@ -97,25 +122,14 @@ struct vkms_crtc_state {
+>  };
+>  
+>  struct vkms_output {
 
-Hi,
+I think this structure doesn't make sense anymore. If I didn't misread
+then it's really only needed as a temporary structure during the default
+vkms_output_init code anymore, and for that case I think we should just
+completely delete it. Since vkms is now using drmm_ there's really not
+need to track all our kms objects again ourselves.
 
-On Mon, Apr 29, 2024 at 10:17:45AM +0200, Sean Nyekjaer wrote:
-> On Wed, Apr 24, 2024 at 09:21:17AM UTC, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > Sorry, my previous review didn't go through.
-> >=20
-> > On Fri, Mar 22, 2024 at 11:47:31AM +0100, Sean Nyekjaer wrote:
-> > > When using the DSI interface via DSI2LVDS bridge, it seems a bit harsh
-> > > to reguire the requested and the actual px clock to be within
-> > > 50Hz. A typical LVDS display requires the px clock to be within +-10%.
-> > >=20
-> > > In case for HDMI .5% tolerance is required.
-> > >=20
-> > > Fixes: e01356d18273 ("drm/stm: dsi: provide the implementation of mod=
-e_valid()")
-> > > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> > > ---
-> > >  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 7 +++----
-> > >  1 file changed, 3 insertions(+), 4 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/=
-stm/dw_mipi_dsi-stm.c
-> > > index d5f8c923d7bc..97936b0ef702 100644
-> > > --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> > > +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> > > @@ -322,8 +322,6 @@ dw_mipi_dsi_phy_get_timing(void *priv_data, unsig=
-ned int lane_mbps,
-> > >  	return 0;
-> > >  }
-> > > =20
-> > > -#define CLK_TOLERANCE_HZ 50
-> > > -
-> > >  static enum drm_mode_status
-> > >  dw_mipi_dsi_stm_mode_valid(void *priv_data,
-> > >  			   const struct drm_display_mode *mode,
-> > > @@ -375,9 +373,10 @@ dw_mipi_dsi_stm_mode_valid(void *priv_data,
-> > >  		/*
-> > >  		 * Filter modes according to the clock value, particularly useful =
-for
-> > >  		 * hdmi modes that require precise pixel clocks.
-> > > +		 * Check that px_clock is within .5% tolerance.
-> > >  		 */
-> > > -		if (px_clock_hz < target_px_clock_hz - CLK_TOLERANCE_HZ ||
-> > > -		    px_clock_hz > target_px_clock_hz + CLK_TOLERANCE_HZ)
-> > > +		if (px_clock_hz < mult_frac(target_px_clock_hz, 995, 1000) ||
-> > > +		    px_clock_hz > mult_frac(target_px_clock_hz, 1005, 1000))
-> > >  			return MODE_CLOCK_RANGE;
-> >=20
-> > I wonder if it's not something that should be made into a helper. We
-> > have a couple of drivers doing it already, so it might be worth creating
-> > a function that checks for a given struct clk pointer and pixel clock if
-> > it's within parameters.
-> >=20
-> > Maxime
->=20
-> Yes agree, if the same calculation is happening other places.
-> I can't identify where it happens though.
+With that this patch essentially becomes "creat vkms_crtc" (which moves
+all the composer releated data from vkms_output to this new structure) and
+then maybe a 2nd patch which deletes the leftovers of vkms_output.
 
-sun4i has one:
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sun4i/sun4i_=
-rgb.c#L123
+> -	struct drm_crtc crtc;
+> -	struct drm_encoder encoder;
+> -	struct drm_connector connector;
+> -	struct drm_writeback_connector wb_connector;
+> -	struct hrtimer vblank_hrtimer;
+> -	ktime_t period_ns;
+> -	struct drm_pending_vblank_event *event;
+> -	/* ordered wq for composer_work */
+> -	struct workqueue_struct *composer_workq;
+> -	/* protects concurrent access to composer */
+> -	spinlock_t lock;
+> -	/* guarantees that if the composer is enabled, a job will be queued */
+> -	struct mutex enabled_lock;
+> -
+> -	/* protected by @enabled_lock */
+> -	bool composer_enabled;
+> -	struct vkms_crtc_state *composer_state;
+> -
+> -	spinlock_t composer_lock;
+> +	int num_crtcs;
+> +	struct vkms_crtc crtcs[VKMS_MAX_OUTPUT_OBJECTS];
 
-> Would that helper function exist in drivers/gpu/drm/drm_hdmi_helper.c ?
+Uh can we please directly use the DRM limits here for these? I guess this
+is because you have static arrays, but vkms really shouldn't need it's own
+arrays to keep track of what drm already keeps track of.
 
-There's nothing related to HDMI per se, so in drm_modes is probably
-better.
-
-Maxime
-
-
---3ku2wna3thhbsakw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZjCiLQAKCRAnX84Zoj2+
-ds5wAYDHGuIdIPY8LGE5jCxGK/zlexyRCxqHgMO/chCJQKe8587hAVvgA6kCEjOG
-8wElsZsBgOUQR5Rq+np631HT2l10Ql64rLGh4vOK+pluY8lwaT5XM5UI5MXsn+dH
-OEGAeKFVbw==
-=xyGn
------END PGP SIGNATURE-----
-
---3ku2wna3thhbsakw--
+Using DRM limits also means we can rely on the drm validation code instead
+of having to duplicate that code in the vkms configfs validation
+functions.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
