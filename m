@@ -2,48 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8D58B749C
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 13:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672848B74C6
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 13:45:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07AE710E16B;
-	Tue, 30 Apr 2024 11:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB09210EA1C;
+	Tue, 30 Apr 2024 11:45:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gucP6Rz6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XFNWrm/P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D7CE10E147
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 11:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714477050;
- bh=htbLC5ubtC6OFuOJXNKPV0DwQ9NNX0z74BQ5IkxpDJY=;
- h=From:To:Cc:Subject:Date:From;
- b=gucP6Rz6wfNchLtp/1iei+as1E9mcADXOxTUzwbbg3FumALZ4D0U9Opgyp2Kk12Zn
- D65wqlISs0Vfi3SGkPcSMQxvkg82PbjoJYFOf7u7O0lMExH4m7CLLZBCagfyEixKoe
- PxJU70hl+l8QsFtrPvyZFGY97G0l9GuCjubZwjWf33SAk5JmiAxWWvC1VGmBogrkPH
- tB+4ZxM0tXUMLuFMc7bsf9hUF55TjyppYGfvNNh7T2viN5SrZ4mgcoA6iXX/KUkcKX
- cJwcpVBObU/aewslWTsbXaY5at082R+v+OB8mgxpZuas/rStz2CGOA/StDvyPDrIGA
- xRdfqNWY9EoCQ==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id A25AC37813C4;
- Tue, 30 Apr 2024 11:37:29 +0000 (UTC)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
-	kernel@collabora.com
-Subject: [PATCH] drm/panthor: Fix the FW reset logic
-Date: Tue, 30 Apr 2024 13:37:27 +0200
-Message-ID: <20240430113727.493155-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.44.0
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4651510EA1C
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 11:45:38 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-61b4cbb8834so55670087b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 04:45:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1714477537; x=1715082337; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LMWMwIrhoja/mjJ97z4DdQVv6xt1vL+14RxvDcfeu+U=;
+ b=XFNWrm/PCHJBzJTqhAbDPfmyDazSRSKDGR/FAW1kRiwboc5Rqlcu7iCF+dXYn+0sek
+ 56boxfF2DWjgvVH64HYJmiMktIpgGabOTSSc+oRflU9sqhfvgGLUBXMSPW1TTxJiCbjE
+ WPQ8sZmr9MaPY+nS1+ysspyfqAPEgbwqif8q76n+NjehewLVMvJ/MPe/mQaCXUxqShm2
+ QoBf+QEYFN5Vp4fkMms9LjGoRbdu5bDh6D68Zzt+AUKJYHgQvgIw3bRAs5fGEb0Dr1kg
+ CK3hE/Vbt4TDk7FV+hnF1rH5JMWSkip4LSYISel8vl5L8wvXqIuQFLtHeCntj5TcPQIM
+ 8Tuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714477537; x=1715082337;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LMWMwIrhoja/mjJ97z4DdQVv6xt1vL+14RxvDcfeu+U=;
+ b=fwmFfPtc51H3YjpjTyeShgRFGVbgaYytwaJEq/HHiSTfDlU4hP08R9cMHErf4Nik7f
+ zs3KMm+yvCs6kp2Qgg9SzqHwQ5iLsXKwV58dzyX665VBnz6zf+OyhjP01kZMk/qXzITa
+ 72Shvea4tMSfFqpXr/sCYv6vDjqyYlzo6A8utiw4QcZs4rvVa0wjYjXXSNVR4bV1oDAb
+ 2QoS0Fp+OVTFEt7DludTBzPiB5TvMY4jLkX0Cq2xjnVq1FUtHu8GsCY5KmJEWvB16rlC
+ RLYcnjSqoJRFKlDm1EdPpoUsg2EmkNd67SmC8Oe8Sof2agBtnvR7QSpbRWu+cnTPSYG8
+ 1AUA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVpLB7JERVcEuAgMFyCCPT3O8c9RjMdO8WCoMGdUmeZF3N5jOi7TiOeu5hp7SvFqNPnqC4D4y1Xn/NwOaqb8fHM1mN2KORVgLjdmc8oiBFJ
+X-Gm-Message-State: AOJu0Yzfu5nRioLWY/icj2RrWnDuJo6aCv7rDh2/QjX7CKK4xLW9reWb
+ CyTvLRYnqlf0xq9Eg00wm57+Nhq4peufSSrflTsnqAHlOI00Qpezfa56UBG0SZz7nVe/qlrXuz9
+ HE69n1kNgwcYFyGhAAaZQjxpuIQQ=
+X-Google-Smtp-Source: AGHT+IFWLTsceRYhi9/QmpyJz0woosjkTHL1KGvFF1YijYKO8GYKfCOxMxGlv6J7qjRlI6WEtNMdz4TuS1BN+EvgbfE=
+X-Received: by 2002:a05:6902:2304:b0:dcc:693e:b396 with SMTP id
+ do4-20020a056902230400b00dcc693eb396mr14627529ybb.2.1714477537033; Tue, 30
+ Apr 2024 04:45:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <271372d6-e665-4e7f-b088-dee5f4ab341a@oracle.com>
+ <20240418160652.68df1a86@namcao> <87ttjywxv5.wl-tiwai@suse.de>
+ <a7843657-c3f6-4d2e-8c36-5541d4c52956@gmx.de> <878r19voks.wl-tiwai@suse.de>
+ <5febb249-1d4d-4ea7-b031-1df4d14620d2@oracle.com>
+ <8734rhvlr2.wl-tiwai@suse.de>
+ <CAMeQTsbEjUyOYDAF-kFwTcovLr+8gHQGa27jPkeeJqmLhwbTag@mail.gmail.com>
+ <20240419173443.6c49706e@namcao>
+In-Reply-To: <20240419173443.6c49706e@namcao>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Tue, 30 Apr 2024 13:45:25 +0200
+Message-ID: <CAMeQTsZJdiyLZvY07gup0ib4SvTQ83p36mLDMRv4C6BH5M69XA@mail.gmail.com>
+Subject: Re: [bug-report] task info hung problem in fb_deferred_io_work()
+To: Nam Cao <namcao@linutronix.de>
+Cc: Takashi Iwai <tiwai@suse.de>,
+ Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, 
+ Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ bigeasy@linutronix.de, LKML <linux-kernel@vger.kernel.org>, 
+ Vegard Nossum <vegard.nossum@oracle.com>,
+ George Kennedy <george.kennedy@oracle.com>, 
+ Darren Kenny <darren.kenny@oracle.com>, chuansheng.liu@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,36 +92,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the post_reset function, if the fast reset didn't succeed, we
-are not clearing the fast_reset flag, which prevents firmware
-sections from being reloaded. While at it, use panthor_fw_stop()
-instead of manually writing DISABLE to the MCU_CONTROL register.
+On Fri, Apr 19, 2024 at 5:34=E2=80=AFPM Nam Cao <namcao@linutronix.de> wrot=
+e:
+>
+> On 2024-04-19 Patrik Jakobsson wrote:
+> > Neither cancel_delayed_work_sync() or flush_delayed_work() prevent new
+> > work from being scheduled after they return.
+>
+> flush_delayed_work() is called during device closing. And because no
+> writes are performed after the device has been closed, no new work
+> should be queued after flush_delayed_work().
 
-Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Yes, nothing should write after the device is closed but the events
+are asynchronous so in theory the order is not guaranteed. I also find
+it unlikely but I have no other theory at this point.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 181395e2859a..fedf9627453f 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -1083,10 +1083,11 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
- 		if (!ret)
- 			goto out;
- 
--		/* Force a disable, so we get a fresh boot on the next
--		 * panthor_fw_start() call.
-+		/* Forcibly reset the MCU and force a slow reset, so we get a
-+		 * fresh boot on the next panthor_fw_start() call.
- 		 */
--		gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_DISABLE);
-+		panthor_fw_stop(ptdev);
-+		ptdev->fw->fast_reset = false;
- 		drm_err(&ptdev->base, "FW fast reset failed, trying a slow reset");
- 	}
- 
--- 
-2.44.0
+>
+> > But
+> > cancel_delayed_work_sync() at least makes sure the queue is empty so
+> > the problem becomes less apparent.
+> >
+> > Could this explain what we're seeing?
+>
+> I suspect that cancel_delayed_work_sync() is only treating the symptoms
+> by preventing the deferred work from running. The real bug is "someone"
+> giving fb_deferred_io_work() invalid pages to work with. But that's
+> just a blind guess.
 
+Trying to figure out when the page goes away in relation to when the
+work is triggered might be a good place to start.
+
+>
+> Best regards,
+> Nam
