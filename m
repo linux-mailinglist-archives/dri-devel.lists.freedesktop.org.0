@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D498B7B6F
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 17:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2647B8B7B9E
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 17:32:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA36611207A;
-	Tue, 30 Apr 2024 15:27:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B60D11209E;
+	Tue, 30 Apr 2024 15:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4A88D112076
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 15:27:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id BA0381120A2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 15:31:58 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E995D2F4
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 08:28:00 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9D5512F4
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 08:32:24 -0700 (PDT)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5258B3F793
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 08:27:34 -0700 (PDT)
-Date: Tue, 30 Apr 2024 16:27:31 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0675C3F793
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 08:31:57 -0700 (PDT)
+Date: Tue, 30 Apr 2024 16:31:54 +0100
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Steven Price <steven.price@arm.com>,
  =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org,
- Antonino Maniscalco <antonino.maniscalco@collabora.com>,
- kernel@collabora.com
-Subject: Re: [PATCH v2 1/4] drm/panthor: Fix tiler OOM handling to allow
- incremental rendering
-Message-ID: <ZjEN41YHW3nZexrr@e110455-lin.cambridge.arm.com>
+ dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v2 2/4] drm/panthor: Make sure the tiler initial/max
+ chunks are consistent
+Message-ID: <ZjEO6ncmAcmfU0G-@e110455-lin.cambridge.arm.com>
 References: <20240430112852.486424-1-boris.brezillon@collabora.com>
- <20240430112852.486424-2-boris.brezillon@collabora.com>
+ <20240430112852.486424-3-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240430112852.486424-2-boris.brezillon@collabora.com>
+In-Reply-To: <20240430112852.486424-3-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,89 +50,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 30, 2024 at 01:28:49PM +0200, Boris Brezillon wrote:
-> From: Antonino Maniscalco <antonino.maniscalco@collabora.com>
+On Tue, Apr 30, 2024 at 01:28:50PM +0200, Boris Brezillon wrote:
+> It doesn't make sense to have a maximum number of chunks smaller than
+> the initial number of chunks attached to the context.
 > 
-> If the kernel couldn't allocate memory because we reached the maximum
-> number of chunks but no render passes are in flight
-> (panthor_heap_grow() returning -ENOMEM), we should defer the OOM
-> handling to the FW by returning a NULL chunk. The FW will then call
-> the tiler OOM exception handler, which is supposed to implement
-> incremental rendering (execute an intermediate fragment job to flush
-> the pending primitives, release the tiler memory that was used to
-> store those primitives, and start over from where it stopped).
-> 
-> Instead of checking for both ENOMEM and EBUSY, make panthor_heap_grow()
-> return ENOMEM no matter the reason of this allocation failure, the FW
-> doesn't care anyway.
+> Fix the uAPI header to reflect the new constraint, and mention the
+> undocumented "initial_chunk_count > 0" constraint while at it.
 > 
 > v2:
-> - Make panthor_heap_grow() return -ENOMEM for all kind of allocation
->   failures
-> - Document the panthor_heap_grow() semantics
+> - Fix the check
 > 
-> Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
-> Signed-off-by: Antonino Maniscalco <antonino.maniscalco@collabora.com>
+> Fixes: 9cca48fa4f89 ("drm/panthor: Add the heap logical block")
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_heap.c | 3 +++
+>  include/uapi/drm/panthor_drm.h         | 8 ++++++--
+>  2 files changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
+> index c3c0ba744937..3be86ec383d6 100644
+> --- a/drivers/gpu/drm/panthor/panthor_heap.c
+> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+> @@ -281,6 +281,9 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
+>  	if (initial_chunk_count == 0)
+>  		return -EINVAL;
+>  
+> +	if (initial_chunk_count > max_chunks)
+> +		return -EINVAL;
+> +
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Is is just me that feels like a lost opportunity to merge the check with the one above?
+
+	if (!initial_chunk_count || initial_chunk_count > max_chunks)
+		return -EINVAL;
+
+
+Otherwise, Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
 Best regards,
 Liviu
 
-> ---
->  drivers/gpu/drm/panthor/panthor_heap.c  | 12 ++++++++----
->  drivers/gpu/drm/panthor/panthor_sched.c |  7 ++++++-
->  2 files changed, 14 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-> index 143fa35f2e74..c3c0ba744937 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> @@ -410,6 +410,13 @@ int panthor_heap_return_chunk(struct panthor_heap_pool *pool,
->   * @renderpasses_in_flight: Number of render passes currently in-flight.
->   * @pending_frag_count: Number of fragment jobs waiting for execution/completion.
->   * @new_chunk_gpu_va: Pointer used to return the chunk VA.
-> + *
-> + * Return:
-> + * - 0 if a new heap was allocated
-> + * - -ENOMEM if the tiler context reached the maximum number of chunks
-> + *   or if too many render passes are in-flight
-> + *   or if the allocation failed
-> + * - -EINVAL if any of the arguments passed to panthor_heap_grow() is invalid
->   */
->  int panthor_heap_grow(struct panthor_heap_pool *pool,
->  		      u64 heap_gpu_va,
-> @@ -439,10 +446,7 @@ int panthor_heap_grow(struct panthor_heap_pool *pool,
->  	 * handler provided by the userspace driver, if any).
->  	 */
->  	if (renderpasses_in_flight > heap->target_in_flight ||
-> -	    (pending_frag_count > 0 && heap->chunk_count >= heap->max_chunks)) {
-> -		ret = -EBUSY;
-> -		goto out_unlock;
-> -	} else if (heap->chunk_count >= heap->max_chunks) {
-> +	    heap->chunk_count >= heap->max_chunks) {
->  		ret = -ENOMEM;
->  		goto out_unlock;
->  	}
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index b3a51a6de523..fd928362d45e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -1354,7 +1354,12 @@ static int group_process_tiler_oom(struct panthor_group *group, u32 cs_id)
->  					pending_frag_count, &new_chunk_va);
->  	}
+>  	if (hweight32(chunk_size) != 1 ||
+>  	    chunk_size < SZ_256K || chunk_size > SZ_2M)
+>  		return -EINVAL;
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index dadb05ab1235..5db80a0682d5 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -895,13 +895,17 @@ struct drm_panthor_tiler_heap_create {
+>  	/** @vm_id: VM ID the tiler heap should be mapped to */
+>  	__u32 vm_id;
 >  
-> -	if (ret && ret != -EBUSY) {
-> +	/* If the heap context doesn't have memory for us, we want to let the
-> +	 * FW try to reclaim memory by waiting for fragment jobs to land or by
-> +	 * executing the tiler OOM exception handler, which is supposed to
-> +	 * implement incremental rendering.
+> -	/** @initial_chunk_count: Initial number of chunks to allocate. */
+> +	/** @initial_chunk_count: Initial number of chunks to allocate. Must be at least one. */
+>  	__u32 initial_chunk_count;
+>  
+>  	/** @chunk_size: Chunk size. Must be a power of two at least 256KB large. */
+>  	__u32 chunk_size;
+>  
+> -	/** @max_chunks: Maximum number of chunks that can be allocated. */
+> +	/**
+> +	 * @max_chunks: Maximum number of chunks that can be allocated.
+> +	 *
+> +	 * Must be at least @initial_chunk_count.
 > +	 */
-> +	if (ret && ret != -ENOMEM) {
->  		drm_warn(&ptdev->base, "Failed to extend the tiler heap\n");
->  		group->fatal_queues |= BIT(cs_id);
->  		sched_queue_delayed_work(sched, tick, 0);
+>  	__u32 max_chunks;
+>  
+>  	/**
 > -- 
 > 2.44.0
 > 
