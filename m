@@ -2,127 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48C68B7FB0
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 20:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95DE8B7FF7
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 20:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE167112607;
-	Tue, 30 Apr 2024 18:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99F4D112117;
+	Tue, 30 Apr 2024 18:43:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="b0znuaZv";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="kT+FdEVr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB561112607
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 18:29:48 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-51e1b9fba81so2163928e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 11:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1714501787; x=1715106587;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=l1aj9TYKSBdPXW7U/K10knZmptyDbqlwkvpIjAvkFLw=;
- b=b0znuaZvaXcrwErjjL6ehPyYzUhd5D8LfJWKsFrlrOi88qwrnBUzzfdnXEr91PCD9Q
- 3v9SNpxcgSsyyCa5HNZjmaBDlPRqh0zdrmgNvVp5oDKfWWDDL1/FsnYr5PCw2mxJsmS5
- 9UZvgywvfikR5wnvWL7t4tt3vhA6q0L6sFjC7G4bKjm1ir2CfrcLR3AOD8rcwz+eNAUw
- Ek8OF23xLmySOExCXcu6YeI5RfAhdC5ick9Ze7n1QkU7uJofhc3i5ypCsJJOyZzPCDgh
- kxEPfXSVvF/mEPM3Yj2POSnk9ZzLoZozP2p7LKoDcZyUoi0QL0UV7b7OE3M4rsCXsJlV
- ul8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714501787; x=1715106587;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=l1aj9TYKSBdPXW7U/K10knZmptyDbqlwkvpIjAvkFLw=;
- b=TuvmagIKJIPqUlsko6KUa8uCAXSCHpVvU5LYNQrb7Zk/xOEQXB7FPyHxgQoTe4J2sh
- F7bZkPlUXkjqolWv/AFDyrQhpXEH0gSp6WnWaehBfOWcs1yPc7j7calM3fRDZ5DBBunK
- fmDF0QO0dDtYR2wThG6Fo8Dhaubbbwq1Q9+NnPzCeSYpKK0O5JiQ7NybjwZpfjEledDG
- I1+kWuqQdpXzcaf6llCP9AUoz91Z8ZhKm3c7Wy0BGs67HUNOE2mg1nDPc+tIBR9AqnyR
- cfT8kP37aHkEYZr0C0f3EJ/HQZ+RJPx0/4nMdfjVFuj9SCEfj3YinTFsUbwatgOuLZmg
- 0J+w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQj3bCPiAr6edhUuly24jb72NcJyLFFV32EpOLCcT+iKxZJOP42eLxU35zNMMpxZEZJ9LJqKQLVhtBypU+C2kb7DnLyheLXxmtpAHopF7v
-X-Gm-Message-State: AOJu0YwKKtMZ4xBny52flMmqjrgHgsMYgX2UisfYEpMSIapOaKaZuWgl
- LxpW41puw/ptHu6td7WdTuXnk7m/gy4fXzjpjxCrAO/SDETs+chVxI97YQKn8lRMwr2+6DuS5WP
- Qub+T+15GVbqR4ZauMwcOpEyRg7bmgHdUcr9i
-X-Google-Smtp-Source: AGHT+IH0gaB2E/IC4/ciB9fJSDhMnVEQNygzcW8LVJwvG8xEFCDgTF/mhBRXlaBuFxJh5ugqGtCSIbfkywn/lGfB5fQ=
-X-Received: by 2002:a19:ca1b:0:b0:51c:d05b:6b8d with SMTP id
- a27-20020a19ca1b000000b0051cd05b6b8dmr194410lfg.23.1714501786252; Tue, 30 Apr
- 2024 11:29:46 -0700 (PDT)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2047.outbound.protection.outlook.com [40.107.94.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13B96112117;
+ Tue, 30 Apr 2024 18:43:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZfI1wHeNteZQRfhT7x6ZpDBoqcpeL0+A+bgY/ukOyWkd74aXoekl7A1kt5rJ3jlGfcsYybqhj3a6lupQL9Ic0mRVWFpjHG+y4hScBSYzDYp/QPzB2Fay6h9ub/87EFEQdfxLyyYmDz34aZp6fr2vIgwvTmcEeRZ4ehY/IKaLPa/osUygtejWw6LAJ0FE+fq00QCwBIBI2q0tyQDfPgxq64/5Fmii7C9Syng/wdum8VNuE7Ytg4xbtUPyzDpcm6m4L5AOvTkwNIOSIR5Rcsg83R/MzIdeX/UDVtiy2McLZlRhPIgsYR55Wg5w/bYGYjiRfMV4AUoDTjpFYf8csXENYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x0Bbxpg11H5Fl0E3flqja0q+RY1QdBHWr6HbAxj3I6Y=;
+ b=XaPxUmxoFs84zRTA85HDWYRcEvIejqmrZ+XIYw4NTUN3EsXYKx9OG2GGJNdTVvwXDZVcVTGWbgp73gaYC9OiC8Q5cu6gQkz+ZjvxKHnzyKS3SwUk7BjlMpTmgcgaJDCghBXAeSeBmpGSExpx9fgsd50KJ75N+jmU48wphtfl7dwcMoU8YPfMNUK2t9QKLA2ddQf3sK1ErPrJE+YEf3D2LmvXHSim5NKxk91srqV+DPvVAGTJFEAZv5S36SRF3bth15Kd5zI4VEfHMsOnF9lQ82SX6PsrSwfbqWAulbOwM855haYbuW4IiLJ/Z1QGETBa0N6hAIOiZDiryOQQRQU3ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x0Bbxpg11H5Fl0E3flqja0q+RY1QdBHWr6HbAxj3I6Y=;
+ b=kT+FdEVrlPQiuDqX/A9RIu2JU5odukOxXECbU29flBZ1Pa2H+kvYafO+2o7luGay/XIoIMlFyJyuvdg7xkNdM69DGHTfvP5A8rEndJLW1OPUH+lYq91kL/M+I5Mp8qjeRSoNCx+flJJeCORKPvV3GhfPn3CSWwiAfy08zrNt9XI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by PH8PR12MB6865.namprd12.prod.outlook.com (2603:10b6:510:1c8::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.34; Tue, 30 Apr
+ 2024 18:43:36 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062%5]) with mapi id 15.20.7519.035; Tue, 30 Apr 2024
+ 18:43:36 +0000
+Message-ID: <cc497033-c2b2-4388-9ac2-1d2013edda16@amd.com>
+Date: Tue, 30 Apr 2024 14:43:31 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: Avoid -Wenum-float-conversion in
+ add_margin_and_round_to_dfs_grainularity()
+To: Nathan Chancellor <nathan@kernel.org>, sunpeng.li@amd.com,
+ Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com
+Cc: ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
+ arnd@arndb.de, aurabindo.pillai@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
+ patches@lists.linux.dev
+References: <20240424-amdgpu-display-dcn401-enum-float-conversion-v1-1-43a2b132ef44@kernel.org>
+Content-Language: en-US
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20240424-amdgpu-display-dcn401-enum-float-conversion-v1-1-43a2b132ef44@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0072.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:2::44) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-8-almasrymina@google.com>
- <8357256a-f0e9-4640-8fec-23341fc607db@davidwei.uk>
- <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
- <aafbbf09-a33d-4e73-99c8-9ddab5910657@kernel.dk>
-In-Reply-To: <aafbbf09-a33d-4e73-99c8-9ddab5910657@kernel.dk>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 30 Apr 2024 11:29:31 -0700
-Message-ID: <CAHS8izMKLYATo6g3xkj_thFo3whCfq6LSoex5s0m5XZd-U7SVQ@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v8 07/14] page_pool: devmem support
-To: Jens Axboe <axboe@kernel.dk>
-Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Amritha Nambiar <amritha.nambiar@intel.com>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, 
- Christian Brauner <brauner@kernel.org>, Simon Horman <horms@kernel.org>, 
- David Howells <dhowells@redhat.com>, Florian Westphal <fw@strlen.de>, 
- Yunsheng Lin <linyunsheng@huawei.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, 
- Arseniy Krasnov <avkrasnov@salutedevices.com>, 
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>, 
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>, 
- Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org, 
- Matthew Wilcox <willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|PH8PR12MB6865:EE_
+X-MS-Office365-Filtering-Correlation-Id: da90dd51-8d78-4970-7598-08dc6945719e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|366007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZTZyb0dZTjlGa2kyRVVUN3NaSDhqRnA0UEJLZ1JTNU1Ub2NWL1M1UXFhNEdK?=
+ =?utf-8?B?dDNBSmR3Q3hTSXJWZnpvNFBWSGdYeHdrUW1ESjltem9ObjlrZTRadmtXaHQw?=
+ =?utf-8?B?TXBicHFIS0preHBmTUpXNlEzbGRkRW1LZUYxL1FQd01tM25nWHlrcCtWUTUz?=
+ =?utf-8?B?eEVtVHVqQ09LbkphOFJSREUzQllSemVDUDlwVGpJQis5cDZ5TUZsYWliek5Z?=
+ =?utf-8?B?Y0JEMXNBRyt0Vks4ckYyNmM3ZFJrelhuNlpSUUpNTmkrVVpOc3Fwdk0zeENy?=
+ =?utf-8?B?bXNjZnd5eHkrVi9JVEU5T096cHdaWlpLMlcxYUNqMkY4Y3o5VGhzWVZrODVs?=
+ =?utf-8?B?YnowdVdjWWFhS253Q3huS3dLdFhxM1Z1MitJMkk2Q1RoQzJKbnNBOXorMUhu?=
+ =?utf-8?B?Y1ZUYVBZQ1RQdmllT3RIUnhKalVrR3piTlFLVVJWQWtIWFhxenZWK01wZERX?=
+ =?utf-8?B?T01YOTllME8vQWVOLzU1ekRhYURFakRMTFR4U1hXcWI3dVZCYkgwd3pHV1hu?=
+ =?utf-8?B?b3pPcVQ3R3R4K29udGJXSmJnV1BDSFFienJUZFBjTFlra0JHQjhYZWVrK0Y5?=
+ =?utf-8?B?cGhlSmthUWNta2w3VmpsM3dHS09LUUlWQVlzVWx4TzlYcUQ1NVgrcDYrb09m?=
+ =?utf-8?B?M3ZublNSbEREVHVhdG52RGlEeHlnZUV5TDVvaVlwYlJvZVBPb3F1RkxoSGpw?=
+ =?utf-8?B?MlVCWmFSTVdsTGZiM1dQZExWcEw2ZFFhNUxtNGJidlkwaExNRFJ4Ym5FMHhL?=
+ =?utf-8?B?bDRoNkpmN2FXVDhxclA0TkJ5SXJJdHlnaEtwTjBqNjU3aGRkS3NRK3c3bzhj?=
+ =?utf-8?B?R1pWd2hYUUJPbnpLYUI3UzhlRnljRzVYWXFiWHltSjFnMEVkQXRPSm4wUkZ6?=
+ =?utf-8?B?dTVkRHQyNkFHMEd2aUt1RmV2SXRWd0ZVRHlFN0trQlFpR2ZtaTF3azNQTGpO?=
+ =?utf-8?B?M2kyYkRPSHBjaU5vT1lCQkZ2S01UZG5DVyt4NjRwbW5zT3dPQmozbEswazZK?=
+ =?utf-8?B?TCtwRURDZlZSZG5DYU51NjJ6ZWVYNG14cVkrUnVDMzdia0dKNE14eFBSaERT?=
+ =?utf-8?B?MkNpNm1LYkNMNStiNDJlVS9iM2JYWjNvYks2bHFnZE8wcEUzakUrKy9iVjZk?=
+ =?utf-8?B?bDFPMnFFMlY4b3hrTjJaLytXSWxxU2Y0ZWNGcUg3TWptVXhBOEI0OFA1NkRP?=
+ =?utf-8?B?bndEMlhob1JQZFdWU1pOZzBvTzdhTVZaSG4waUpBMWN2UTNZN1dVb3dQeDho?=
+ =?utf-8?B?bm85NENFeHk1MGh4aFlEaVRIZWYyUHlWaTNFSkhmbE5mOHppeU9xSTNiY0dl?=
+ =?utf-8?B?SjhQZVQ3SWFhNGVRckVkRC82MkFJSTJkamQ2S2tPc0ZwT1lsUElGa1dxK2U3?=
+ =?utf-8?B?bjBnc0d2L0xSdnBrbXl0aC8yRFptM3RJVytMdURGRlI1ZEJpcU1Ec2NEV3Na?=
+ =?utf-8?B?Vlo4a0pOYnNzSGg3N01ucDFnNElhSms2Zlp4NS9jS0xLcmRCcVFCZ3lmMVYz?=
+ =?utf-8?B?VDVaampOTm04V0dTSGpnbWpjNGhTM0lRZW4rQ1NuRUsvWEdxdzQyWnRwWkk2?=
+ =?utf-8?B?Y3FickF6alA5WXBHenFCYVc0cDYvaHRzV1pybGxSTW8zQWZzT3RtM2dOMW1S?=
+ =?utf-8?B?eUdqaFkvVG9oU043M0RZeVhOc1BSN2JMUmN6S3QxaFBRRU1qMFdLNUJVOFEv?=
+ =?utf-8?B?cjA0ajNta0NjZ1ZiakZjem8zM2hPbDlLWHJ3dlVkZmFVNnluUGFJbTd3PT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eXhkT3JzcUk0N1pqTmgyRGgwRUxsNndUSVp6UnZ6ekIwVWJRWmNOOTczaHh5?=
+ =?utf-8?B?ZHpIT21yMy92T3BEVHVFWEt3ZWpvbzFRaW1SMi9yT3hQWi9ERFdMeSt4dnJi?=
+ =?utf-8?B?dG1weCtFaURvclJMNUF0cVpOc1d6UnZhOWdJTzVQMmtyU3lvZE11OGZxbWcw?=
+ =?utf-8?B?V0Viczg2ZytieDI5cVAwb2VFazdUMk9iWnVkd2ZaNC9lbmNvWXpnRnlkNWV6?=
+ =?utf-8?B?M1ZtM05LYUhPeXoxWDk3RlNFRk1Td051S25ldFpzRm5pZncxRlhzT1ZDTUFw?=
+ =?utf-8?B?K1c4d0ZvR0xKZEkzcU5KMERndUE5cHl4VWFyVGRkWSt5aGZwc09qSnZza1cx?=
+ =?utf-8?B?akNOcmU5djhjWDJ4WFVWZ3J0Y2tKNDVvMFJPMkpSOVRFU1JMZUMrTEpYM1oy?=
+ =?utf-8?B?bEQ3VmhsVmtjNkJyVTV2K1o2L2pFNi9kU3hjQWhidmUvUHI5K2lGUXdLdUFG?=
+ =?utf-8?B?SjdlVlE2M0daM3NlNVBxOVQ1TURYTTJIZUg4N1h4WElDYWh5bHVvT0VkMnI4?=
+ =?utf-8?B?ckRVNjFjdytISnRocmNqcEZOWldsWGNBWnAydmhHbGtuempNazgxVnNzbjUw?=
+ =?utf-8?B?ZHpsZlJhOElQUGgvOFUxVWI4dXdsTHF0N2pzZmhhdjJnN2ZyRlAxQ0wrOHdv?=
+ =?utf-8?B?TTNOVG1kRG14N3cxUy9DeU1UbWRwNFZJbjdvYWlGb3YyRXRINkI5clg2M0VT?=
+ =?utf-8?B?WkdMc0N5cVg0RmJFVDNJMFlYMWJzVjVIb2o3RzI0S1dYb2NBM2RuR1hZeUgz?=
+ =?utf-8?B?Ylllb2x1WmwvdmF0KzRPdXUwV3dUWWdYdTJ4bVA2QjQ1djIzU08vcUF0RkRs?=
+ =?utf-8?B?aHZJMWYxNWFOdVhUUW44clg3a0xxaWpkZDMrM0dnYTRCSENMSEpubWJLQ0tR?=
+ =?utf-8?B?OEszR0QvZUkyUU9HcDdmRjlhRzFmckxMUmxFdDdvdmNkM0tndkJwMGpyVU5i?=
+ =?utf-8?B?OERiNkM1OURaU1Y2cnVtb3orNEFLNmFDU1JTYnl6MXdwMk1tU2pjUHh0Q05I?=
+ =?utf-8?B?Q1c2NEllYjVoUGg2S0tkc1YyVmp5emtsMExneFN5aTdUVnJqdjNtY3pObzZJ?=
+ =?utf-8?B?RmFYU25KaFpXWkhIalQxeW5hNlpqUzFrSXg4enpZTXhqemVDUDZSVFdHNUxL?=
+ =?utf-8?B?bDRjazc0b2thdXpLV0RKcDd3bGIwR3R2M0RiSW9pbXN1MGtKd042enVQUFhY?=
+ =?utf-8?B?eEdVanZLRm5wMURZb21EcUxPYzRFYTlxcGhqR2VHUi9IS2xUK3djQjhqS3E4?=
+ =?utf-8?B?azhXWXBjUlFmRTVwMG9Kd3FURys5c1dDZDVWbElmNHRvQVpPSUM4c3RqVjg2?=
+ =?utf-8?B?SEovbVpsY1dPSEpaRHAxK1ZNcmtHMlNKbzVVZWZDVWpnN3ZTdHhMMlk1MzR2?=
+ =?utf-8?B?K1dUMWMvRGIreTdvUE1FQ3ZOWGZGa2Z6OHB3ejkrNzdGOWtxRitidU1XNi9E?=
+ =?utf-8?B?QzNjUXJadUdEY1AyTUR6V1UrSkRicXpiai82NWZ2MjlmRGVLUVcxV2k0dHha?=
+ =?utf-8?B?Y2Eva24xSTBEem9JTGlNWU1ERjFla3ZLMHBRa1ZIVkZWKytJZkwzMzMvVVF6?=
+ =?utf-8?B?U1Zyd3AyM2g3b3NRSXU3SnU5Yk5NbG5jSUwrMUZlOGE5bVpXLzRKWEMybEly?=
+ =?utf-8?B?QzFBbkM2M3dCUVoyc0xHVDRFUU9MUXE4cmtLZVhwWDQ1MWw3anpXNHJMRC8v?=
+ =?utf-8?B?L2xmZ3N5eWw0MkxMWElLcHIydVNDS2d3V1JFc2tuMVZuU0drYSt1bE5hM1NK?=
+ =?utf-8?B?akRWTzhjOHJmVjhkYXZVdlhZNnRKRE51c2pmZkxzS1labENUWDRZdnBrLzdL?=
+ =?utf-8?B?VEpaUXJ4NG9pS2pOTDFBUFl0YzBHay9VSXdYQ2VxdFdueUwrM2ptK1JNZ2xo?=
+ =?utf-8?B?WVAwNjBFRnpTb2RaM0xGU2dkajAxTWNUS09DOU9sdExTaU5IQTJZVDFKOGFr?=
+ =?utf-8?B?eUlNd0tSdGFkVkRZMHFWL3RWcUp0Q0RSR3V2bFB1WFluckJWV0lJdVI4azZS?=
+ =?utf-8?B?ajlPRnJvVXdrZlZUZUxVUkgrNjFIZmQrT0kreExYV1c3MGQvaW9UZDJrbTN1?=
+ =?utf-8?B?cHhmbENwd0VsNDA3OHA5SGE5WXlSb0t6VWd2RDVUMTR4MEhJQ0lBYklXcHhC?=
+ =?utf-8?Q?/JdI0r+c6vwuvX9gT7eXm/zYk?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da90dd51-8d78-4970-7598-08dc6945719e
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2024 18:43:36.0896 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YTq1yMaTh5DRkPG5+j7m0I58OZvaqKthjf5lN6HyrcIM45obie4ArAV7vBfAsG3r/fgYEV+XhL8YB9FaeKCiJQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6865
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,74 +163,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 30, 2024 at 6:46=E2=80=AFAM Jens Axboe <axboe@kernel.dk> wrote:
->
-> On 4/26/24 8:11 PM, Mina Almasry wrote:
-> > On Fri, Apr 26, 2024 at 5:18?PM David Wei <dw@davidwei.uk> wrote:
-> >>
-> >> On 2024-04-02 5:20 pm, Mina Almasry wrote:
-> >>> @@ -69,20 +106,26 @@ net_iov_binding(const struct net_iov *niov)
-> >>>   */
-> >>>  typedef unsigned long __bitwise netmem_ref;
-> >>>
-> >>> +static inline bool netmem_is_net_iov(const netmem_ref netmem)
-> >>> +{
-> >>> +#if defined(CONFIG_PAGE_POOL) && defined(CONFIG_DMA_SHARED_BUFFER)
-> >>
-> >> I am guessing you added this to try and speed up the fast path? It's
-> >> overly restrictive for us since we do not need dmabuf necessarily. I
-> >> spent a bit too much time wondering why things aren't working only to
-> >> find this :(
-> >
-> > My apologies, I'll try to put the changelog somewhere prominent, or
-> > notify you when I do something that I think breaks you.
-> >
-> > Yes, this is a by-product of a discussion with regards to the
-> > page_pool benchmark regressions due to adding devmem. There is some
-> > background on why this was added and the impact on the
-> > bench_page_pool_simple tests in the cover letter.
-> >
-> > For you, I imagine you want to change this to something like:
-> >
-> > #if defined(CONFIG_PAGE_POOL)
-> > #if defined(CONFIG_DMA_SHARED_BUFFER) || defined(CONFIG_IOURING)
-> >
-> > or something like that, right? Not sure if this is something I should
-> > do here or if something more appropriate to be in the patches you
-> > apply on top.
->
-> In general, attempting to hide overhead behind config options is always
-> a losing proposition. It merely serves to say "look, if these things
-> aren't enabled, the overhead isn't there", while distros blindly enable
-> pretty much everything and then you're back where you started.
->
-
-The history there is that this check adds 1 cycle regression to the
-page_pool fast path benchmark. The regression last I measured is 8->9
-cycles, so in % wise it's a quite significant 12.5% (more details in
-the cover letter[1]). I doubt I can do much better than that to be
-honest.
-
-There was a desire not to pay this overhead in setups that will likely
-not care about devmem, like embedded devices maybe, or setups without
-GPUs. Adding a CONFIG check here seemed like very low hanging fruit,
-but yes it just hides the overhead in some configs, not really removes
-it.
-
-There was a discussion about adding this entire netmem/devmem work
-under a new CONFIG. There was pushback particularly from Willem that
-at the end of the day what is enabled on most distros is what matters
-and we added code churn and CONFIG churn for little value.
-
-If there is significant pushback to the CONFIG check I can remove it.
-I don't feel like it's critical, it just mirco-optimizes some setups
-that doesn't really care about this work area.
-
-[1] https://lore.kernel.org/netdev/20240403002053.2376017-1-almasrymina@goo=
-gle.com/
 
 
+On 2024-04-24 12:14, Nathan Chancellor wrote:
+> When building with clang 19 or newer (which strengthened some of the
+> enum conversion warnings for C), there is a warning (or error with
+> CONFIG_WERROR=y) around doing arithmetic with an enumerated type and a
+> floating point expression.
+> 
+>   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c:181:58: error: arithmetic between enumeration type 'enum dentist_divider_range' and floating-point type 'double' [-Werror,-Wenum-float-conversion]
+>     181 |         divider = (unsigned int)(DFS_DIVIDER_RANGE_SCALE_FACTOR * (vco_freq_khz / clock_khz));
+>         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   1 error generated.
+> 
+> This conversion is expected due to the nature of the enumerated value
+> and definition, so silence the warning by casting the enumeration to an
+> integer explicitly to make it clear to the compiler.
+> 
+> Fixes: 3df48ddedee4 ("drm/amd/display: Add new DCN401 sources")
 
---=20
-Thanks,
-Mina
+Thanks.
+
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+
+In the process of merging it into amd-staging-drm-next.
+
+Harry
+
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+> Alternatively, perhaps the potential truncation could happen before the
+> multiplication?
+> 
+>   divider = DFS_DIVIDER_RANGE_SCALE_FACTOR * (unsigned int)(vco_freq_khz / clock_khz);
+> 
+> I suspect the result of the division is probably not very large
+> (certainly not within UINT_MAX / 4), so I would not expect the
+> multiplication to overflow, but I was not sure so I decided to take the
+> safer, NFC change. I am happy to respin as necessary.
+> ---
+>  .../gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c    | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c
+> index e6698ee65843..65eb0187e965 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_dcn4.c
+> @@ -178,7 +178,7 @@ static bool add_margin_and_round_to_dfs_grainularity(double clock_khz, double ma
+>  
+>  	clock_khz *= 1.0 + margin;
+>  
+> -	divider = (unsigned int)(DFS_DIVIDER_RANGE_SCALE_FACTOR * (vco_freq_khz / clock_khz));
+> +	divider = (unsigned int)((int)DFS_DIVIDER_RANGE_SCALE_FACTOR * (vco_freq_khz / clock_khz));
+>  
+>  	/* we want to floor here to get higher clock than required rather than lower */
+>  	if (divider < DFS_DIVIDER_RANGE_2_START) {
+> 
+> ---
+> base-commit: d60dc4dd72412d5d9566fdf391e4202b05f88912
+> change-id: 20240424-amdgpu-display-dcn401-enum-float-conversion-c09cc1826ea2
+> 
+> Best regards,
+
