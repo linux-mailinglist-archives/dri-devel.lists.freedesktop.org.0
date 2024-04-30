@@ -2,60 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2154E8B6E69
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 11:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937BE8B6F33
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 12:10:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07B7410E574;
-	Tue, 30 Apr 2024 09:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B724A10F6E8;
+	Tue, 30 Apr 2024 10:09:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X8BV29ku";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IQBvDz0N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566AF10E574
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 09:34:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 933A2614BC;
- Tue, 30 Apr 2024 09:34:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3372C2BBFC;
- Tue, 30 Apr 2024 09:34:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714469664;
- bh=ZQ+5EBT3mj87pKCkYKSCQLIajeZNkK+o45gfK4zC40s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X8BV29kukDQZWXtcWrEzUZWXlCpnyCaJTASDOXXE4kSHbQgrRA3PZ6DTK9ANvr0WZ
- JUImxvQfYdAmC1BDuMEUvxNDQvRt6/Yn/I9AAXGJKTQeQTwjC1pF2yF1avh0eNFYCq
- +Xakb7p4ZgQuFpekbMkC7d5apGoSFApKS8L/8/xwwPEakJDl/sbm/2oEh36tKY9BaN
- 6a+Sff3srIT+hXbxRSrBIEYf3ySc471pOCWDnO5NwJR5Yaq3UIKsTmfBVfnlT5Qcvs
- 60Puz4IiICO7ZU22p4jD0PyS+R08TfQrwR/TZGj5kCnvAEHQD37HUxAWP32EgItkDU
- KQZwwcViwK1Eg==
-Date: Tue, 30 Apr 2024 11:34:21 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [v1,1/3] drm/panel: ili9341: Correct use of device property APIs
-Message-ID: <20240430-unnatural-steel-spaniel-dbacef@houat>
-References: <20240425142706.2440113-2-andriy.shevchenko@linux.intel.com>
- <c2d41916-0b6c-43b5-98eb-514eb0511f84@linux.dev>
- <ZiqqiAztCaiAgI8e@smile.fi.intel.com>
- <2599705c-0a64-4742-b1d7-330e9fde6e7a@linux.dev>
- <20240426-married-augmented-mantis-ff7edd@penduick>
- <509b3822-dcf6-45eb-9516-ba8ff2cc4382@linux.dev>
- <20240429-bouncy-attentive-vole-9964f1@houat>
- <795bec5d-c7ba-4fc2-9be9-78c4063743d9@linux.dev>
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D15410F599
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 10:09:56 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-51dc5c0ffdbso2270606e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 03:09:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1714471794; x=1715076594; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=5mbwpFJFih7RIT1NY26n8+loi/ZJwnp9wrw9uANwmIA=;
+ b=IQBvDz0NgHqMyQEkcG7SLLoPpGFFtVkUvzHVeCLBsHER41bBCBP6jddvraEM5kY/fP
+ KzLBAcqwv1C3LAzMjtR/MLsFgAVG6AuVaSOFCjICYWLfFDRnzT8ELJLnC8y5uhpc/4L1
+ specSCUBcFPZ8Z4+e12oJD0uTeGySrkzZdfpbKZyCkPQGNyXC+96IT2qzPAJchoabi7b
+ 71ISZ0HCLj5wykp0pmLmi651oSigMcS9k55qpjqvYn4zo/ZVq3mICYuXt7hlFSsPOksh
+ oNJmJCP9SiLG8kGn2N6ES35Y1Lidd5g1UX5mgF5urLOR/ZjlnNslMCDb6bzEkLw0G2Pp
+ subw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714471794; x=1715076594;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5mbwpFJFih7RIT1NY26n8+loi/ZJwnp9wrw9uANwmIA=;
+ b=OEPI8lvUbv6NCx1ie21W8CMSwPzQTVPMoH8tYCqmHolJXCIci4h5s88fQs/ABH7Y7n
+ aPTWsPLAjvPaczGjXPhxoYoFayn8C0Sm6BqIAzab9tOEnhu30YIH/C3bGJhtlqxvDxuC
+ GqiFpyy1YSxrMkMVELk7gB0vCXP1jk+Jg9KTyv0NwhMZTAQTNxaMjhmv3dGR9LtRPIni
+ Wl0zlT82sAS5/hbTV0I4jhXQAvraJvIRznSObqnuWkiHVC95n6v1vLzgqkda1Nny+fIY
+ 8eztqhpXLtzpg7J3QNVXA1tw3k8jZkOh7eKZq9kZezGkxFycObop5Uaqo+YXwMtKMq0u
+ 2HjA==
+X-Gm-Message-State: AOJu0YwnBhSCkETe41Jd2Cv1u9MBOCWVrXOoYlAF1euqmrSC3kaC6cPb
+ 9CcJrtauFcauxTy7mOUOfMnvoYoprxVcXop4csetRNRESz4XDnvv8ndAOcMg2XE=
+X-Google-Smtp-Source: AGHT+IHLFfBk+3bT5MCPiG0Sy+oXtj7PLWqAxH1nSKl7+nAmTFj46bAxdYE1eFckW76M0RQSsj0nqA==
+X-Received: by 2002:ac2:5607:0:b0:51a:f596:9d53 with SMTP id
+ v7-20020ac25607000000b0051af5969d53mr1449277lfd.42.1714471794305; 
+ Tue, 30 Apr 2024 03:09:54 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ b30-20020a056512025e00b0051bc39ef08esm2453377lfo.10.2024.04.30.03.09.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Apr 2024 03:09:53 -0700 (PDT)
+Date: Tue, 30 Apr 2024 13:09:52 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
+ helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ robdclark@gmail.com, 
+ david.heidelberg@collabora.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, 
+ mcanal@igalia.com, linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, 
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 4/5] drm/ci: skip driver specific tests
+Message-ID: <esplx2t6yfrarxflxo5kq2lstx7uiy2atzcxtwf7kugsctnkat@ameojtgtpopj>
+References: <20240430091121.508099-1-vignesh.raman@collabora.com>
+ <20240430091121.508099-5-vignesh.raman@collabora.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="7xe3vdsj4lehxjob"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <795bec5d-c7ba-4fc2-9be9-78c4063743d9@linux.dev>
+In-Reply-To: <20240430091121.508099-5-vignesh.raman@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,105 +90,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Apr 30, 2024 at 02:41:20PM +0530, Vignesh Raman wrote:
+> Skip driver specific tests and skip kms tests for
+> panfrost driver since it is not a kms driver.
+> 
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> ---
+>  .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt   | 14 +++++++++++++-
+>  drivers/gpu/drm/ci/xfails/i915-amly-skips.txt   | 14 +++++++++++++-
+>  drivers/gpu/drm/ci/xfails/i915-apl-skips.txt    | 14 +++++++++++++-
+>  drivers/gpu/drm/ci/xfails/i915-cml-skips.txt    | 12 ++++++++++++
+>  drivers/gpu/drm/ci/xfails/i915-glk-skips.txt    | 14 +++++++++++++-
+>  drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt    | 14 +++++++++++++-
+>  drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt    | 14 +++++++++++++-
+>  drivers/gpu/drm/ci/xfails/i915-whl-skips.txt    | 14 +++++++++++++-
+>  .../gpu/drm/ci/xfails/mediatek-mt8173-skips.txt | 12 ++++++++++++
+>  .../gpu/drm/ci/xfails/mediatek-mt8183-skips.txt | 14 ++++++++++++++
+>  drivers/gpu/drm/ci/xfails/meson-g12b-skips.txt  | 14 ++++++++++++++
+>  drivers/gpu/drm/ci/xfails/msm-apq8016-skips.txt | 14 ++++++++++++++
+>  drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt | 14 +++++++++++++-
 
---7xe3vdsj4lehxjob
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 30, 2024 at 12:54:39AM +0800, Sui Jingfeng wrote:
-> On 2024/4/29 19:55, Maxime Ripard wrote:
-> > On Sat, Apr 27, 2024 at 01:57:46PM +0800, Sui Jingfeng wrote:
-> > > On 2024/4/26 14:23, Maxime Ripard wrote:
-> > > > On Fri, Apr 26, 2024 at 04:43:18AM +0800, Sui Jingfeng wrote:
-> > > > > On 2024/4/26 03:10, Andy Shevchenko wrote:
-> > > > > > On Fri, Apr 26, 2024 at 02:08:16AM +0800, Sui Jingfeng wrote:
-> > > > > > > On 2024/4/25 22:26, Andy Shevchenko wrote:
-> > > > > > > > It seems driver missed the point of proper use of device pr=
-operty APIs.
-> > > > > > > > Correct this by updating headers and calls respectively.
-> > > > > > > You are using the 'seems' here exactly saying that you are no=
-t 100% sure.
-> > > > > > >=20
-> > > > > > > Please allow me to tell you the truth: This patch again has Z=
-ERO effect.
-> > > > > > > It fix nothing. And this patch is has the risks to be wrong.
-> > > > > > Huh?! Really, stop commenting the stuff you do not understand.
-> > > > > I'm actually a professional display drivers developer at the down=
-stream
-> > > > > in the past, despite my contribution to upstream is less. But I b=
-elieve
-> > > > > that all panel driver developers know what I'm talking about. So =
-please
-> > > > > have take a look at my replies.
-> > > > Most of the interactions you had in this series has been uncalled f=
-or.
-> > > > You might be against a patch, but there's no need to go to such len=
-gth.
-> > > >=20
-> > > > As far as I'm concerned, this patch is fine to me in itself, and I =
-don't
-> > > > see anything that would prevent us from merging it.
-> > > No one is preventing you, as long as don't misunderstanding what other
-> > > people's technical replies intentionally. I'm just a usual and normal
-> > > contributor, I hope the world will better than yesterday.
-> > You should seriously consider your tone when replying then.
-> >=20
-> > > Saying such thing to me may not proper, I guess you may want to talk
-> > > to peoples who has the push rights
-> > I think you misunderstood me. My point was that your several rants were
-> > uncalled for and aren't the kind of things we're doing here.
-> >=20
-> > I know very well how to get a patch merged, thanks.
-> >=20
-> > > just make sure it isn't a insult to the professionalism of drm bridge
-> > > community itself though.
-> > I'm not sure why you're bringing the bridge community or its
-> > professionalism. It's a panel, not a bridge, and I never doubted the
-> > professionalism of anyone.
->=20
->=20
-> I means that the code itself could be adopted, as newer and younger
-> programmer (like Andy) need to be encouraged to contribute.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # msm skips
 
-Andy has thousands of commits in Linux. He's *very* far from being a new
-contributor.
 
-> I express no obvious objections, just hints him that something else
-> probably should also be taken into consideration as well.
-
-That might be what you wanted to express, but you definitely didn't
-express it that way.
-
-> On the other hand, we probably should allow other people participate
-> in discussion so that it is sufficient discussed and ensure that it
-> won't be reverted by someone in the future for some reasons. Backing
-> to out case happens here, we may need to move things forward. Therefore,
-> it definitely deserve to have a try. It is not a big deal even though
-> it gets reverted someday.
->=20
-> In the end, I don't mind if you think there is nothing that could
-> prevent you from merge it, but I still suggest you have a glance at
-> peoples siting at the Cc list. I'm busy now and I have a lot of other
-> tasks to do, and may not be able to reply you emails on time. So it up
-> to you and other maintainers to decide.
-> Thank you.
-
-So far, you're the only one who reviewed those patches. I'm not sure
-what you're talking about here.
-
-Maxime
-
---7xe3vdsj4lehxjob
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZjC7HQAKCRAnX84Zoj2+
-dlygAYDwpB9QdIcoX03Jn0U+0+k2hI2zTYADwgCF/5Nq+3QJYG8Hv+eeS5oLwvo/
-GKpraScBf1F8i5+AIgGYdsSFbXEqh0o4eQkpyqA5q+DrXOSDkwT33YGsyZlrjEgC
-gzymFvTlQw==
-=/21b
------END PGP SIGNATURE-----
-
---7xe3vdsj4lehxjob--
+>  .../msm-sc7180-trogdor-kingoftown-skips.txt     | 15 +++++++++++++++
+>  .../msm-sc7180-trogdor-lazor-limozeen-skips.txt | 15 +++++++++++++++
+>  drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt  | 15 +++++++++++++++
+>  .../gpu/drm/ci/xfails/rockchip-rk3288-skips.txt | 17 ++++++++++++++++-
+>  .../gpu/drm/ci/xfails/rockchip-rk3399-skips.txt | 15 +++++++++++++++
+>  .../gpu/drm/ci/xfails/virtio_gpu-none-skips.txt | 15 ++++++++++++++-
+>  19 files changed, 260 insertions(+), 10 deletions(-)
+>  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-skips.txt
+>  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-skips.txt
+>  create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-skips.txt
+>  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-skips.txt
+> 
+-- 
+With best wishes
+Dmitry
