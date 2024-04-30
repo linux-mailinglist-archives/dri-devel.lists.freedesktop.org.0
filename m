@@ -2,53 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0A08B6B62
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 09:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306178B6C10
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 09:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0022D10EB2D;
-	Tue, 30 Apr 2024 07:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCE8110F5EE;
+	Tue, 30 Apr 2024 07:47:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Mk/i/Cpo";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Q88HjlbH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 953 seconds by postgrey-1.36 at gabe;
- Tue, 30 Apr 2024 06:31:42 UTC
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
- by gabe.freedesktop.org (Postfix) with ESMTP id AE00D10F2BD;
- Tue, 30 Apr 2024 06:31:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=OykVS
- bzCv4+d4dPQLDypPadwOtIhxe1BrterZQ+EVfc=; b=Mk/i/CporQhNjM1Pb4Fxn
- JzDrNc4n/H6i6Uz/6EZ+8yQgmt26tYyrfSqBhYGHAu/ubD170GE/f2+fQ2XzKy8k
- +t995s0ICyjIoM/UQJktZ4tYUBOt7rgYAcT5UU020DHxF6e+CgfTL2v5iQ8GwkiH
- TGxBUVX71rndtgrfXtIBus=
-Received: from localhost.localdomain (unknown [111.35.187.227])
- by gzga-smtp-mta-g0-3 (Coremail) with SMTP id _____wD3v3dtjDBmw0B8Cw--.43676S4;
- Tue, 30 Apr 2024 14:15:18 +0800 (CST)
-From: David Wang <00107082@163.com>
-To: dreaming.about.electric.sheep@gmail.com, airlied@redhat.com,
- kraxel@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Cc: virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- regressions@lists.linux.dev, David Wang <00107082@163.com>
-Subject: [Regression] 6.9.0: WARNING: workqueue: WQ_MEM_RECLAIM
- ttm:ttm_bo_delayed_delete [ttm] is flushing !WQ_MEM_RECLAIM
- events:qxl_gc_work [qxl]
-Date: Tue, 30 Apr 2024 14:13:37 +0800
-Message-Id: <20240430061337.764633-1-00107082@163.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90C7410E20B
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 07:47:06 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-41be416455bso1779885e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 00:47:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1714463224; x=1715068024; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Dl1GVdvN0rueQglXaHxovHAsGiDm4e1yNLBN8HxvIs4=;
+ b=Q88HjlbHJJfd64YPPDULNiFYIy/f8yMj3ZYzaM/Z6+Nh+uZaEp604IUppXpm1r5uNe
+ pRz/ACY7YFEtEhYmqSIbgi4VzAPZ67us1zBTvjn83bFtRb0gf2g7gCKWx45Ll58+sRWe
+ 3YPFDYocCK8HxP+wHEQ6E1bO36sX0kxD8oC2Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714463224; x=1715068024;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Dl1GVdvN0rueQglXaHxovHAsGiDm4e1yNLBN8HxvIs4=;
+ b=uTNkU5C+vws12dm7yxl45JIN1JEokwdpEZNsL16Sat6BUdd3zT7CWOaItrYchJ9Edo
+ /f1p8Xt6Z041CTY8LZjpckpgLnCHfUadhyzwGaMreyJgy15lJaC+sn7/0SYSfOrnY7Yf
+ vwtHeXqTHmxYGW5isuDGLTR89LW4m9dvMbwrhzPsiIAQp4mQHxDlLthmC6EOR5QAhpWo
+ lAcxwvVd/xmgQulxiklJk5ZLfpF/YQnjqJoBNnV7AHp5kZsBP10PnXXX9DZxKcRmSDnM
+ YGinlvttN48ak0gJppVPxXJoQfqW7dSoowH2/WlacCPDmEn31grzmLbf0bat8YfUqbNQ
+ Y7dg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVN5cKKM+KADt9CbHzF241DfUiRWY8zZVxxYFtrmd4ID0fcoa01Avh09DAXedfTN1QlWM6GgbnV53NmT+3RkqcVikNtFTlR9nrvuL3p9tfi
+X-Gm-Message-State: AOJu0YyYLdYIXqlrAqmYurBghMz6bDEHIsvqOTC91y5Q/8L+PfFdFK1r
+ DJtooHdF2sHPki69avsY1VwDy3+skXZUZLVg8CK/BNMXfIMIreOygingRkUAPYs=
+X-Google-Smtp-Source: AGHT+IHuDyo23DJDpBF8JKqWWbigshhI7I6HT5tZcYEE0/M6RSPMqPV+XQRy0UmQoJM+uQ4/DbbzAQ==
+X-Received: by 2002:a5d:53c8:0:b0:34c:9a04:4673 with SMTP id
+ a8-20020a5d53c8000000b0034c9a044673mr5123632wrw.4.1714463224175; 
+ Tue, 30 Apr 2024 00:47:04 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ u18-20020a5d6ad2000000b0034c66bddea3sm570314wrw.37.2024.04.30.00.47.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Apr 2024 00:47:03 -0700 (PDT)
+Date: Tue, 30 Apr 2024 09:47:00 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Brandon Pollack <brpol@chromium.org>
+Cc: marius.vlad@collabora.com, mairacanal@riseup.net, jshargo@chromium.org,
+ hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+ linux-doc@vger.kernel.org, hirono@chromium.org, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ melissa.srw@gmail.com, mduggan@chromium.org, mripard@kernel.org,
+ tzimmermann@suse.de
+Subject: Re: [PATCH v6 1/7] drm/vkms: Back VKMS with DRM memory management
+ instead of static objects
+Message-ID: <ZjCh9DGnh2JQ3vtk@phenom.ffwll.local>
+Mail-Followup-To: Brandon Pollack <brpol@chromium.org>,
+ marius.vlad@collabora.com, mairacanal@riseup.net,
+ jshargo@chromium.org, hamohammed.sa@gmail.com,
+ rodrigosiqueiramelo@gmail.com, linux-doc@vger.kernel.org,
+ hirono@chromium.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ mduggan@chromium.org, mripard@kernel.org, tzimmermann@suse.de
+References: <20230829053201.423261-1-brpol@chromium.org>
+ <20230829053201.423261-2-brpol@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID: _____wD3v3dtjDBmw0B8Cw--.43676S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW3JrWkWF4kWry3AFWrKw13CFg_yoWxuF1Dpr
- yYyF109FWrJw1qya1kJr1Fyws2qFsF9FWUZFyfGr10k3W5XF1rJa13Ga43KrWUCr9rJFW7
- Awnrta4YyFnrAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUUhL8UUUUU=
-X-Originating-IP: [111.35.187.227]
-X-CM-SenderInfo: qqqrilqqysqiywtou0bp/1tbiMw7PqmXAk7vy7wABsJ
-X-Mailman-Approved-At: Tue, 30 Apr 2024 07:26:16 +0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230829053201.423261-2-brpol@chromium.org>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,139 +96,378 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-I got following kernel WARNING when the my 2-core KVM(6.9.0-rc6) is under h=
-igh cpu load.
+On Tue, Aug 29, 2023 at 05:30:53AM +0000, Brandon Pollack wrote:
+> From: Jim Shargo <jshargo@chromium.org>
+> 
+> This is a small refactor to make ConfigFS support easier. Once we
+> support ConfigFS, there can be multiple devices instantiated by the
+> driver, and so moving everything into managed memory makes things much
+> easier.
+> 
+> This should be a no-op refactor.
+> 
+> Signed-off-by: Jim Shargo <jshargo@chromium.org>
+> Signed-off-by: Brandon Pollack <brpol@chromium.org>
 
-	[Mon Apr 29 21:36:04 2024] ------------[ cut here ]------------
-	[Mon Apr 29 21:36:04 2024] workqueue: WQ_MEM_RECLAIM ttm:ttm_bo_delayed_de=
-lete [ttm] is flushing !WQ_MEM_RECLAIM events:qxl_gc_work [qxl]
-	[Mon Apr 29 21:36:04 2024] WARNING: CPU: 1 PID: 792 at kernel/workqueue.c:=
-3728 check_flush_dependency+0xfd/0x120
-	[Mon Apr 29 21:36:04 2024] Modules linked in: xt_conntrack(E) nft_chain_na=
-t(E) xt_MASQUERADE(E) nf_nat(E) nf_conntrack_netlink(E) xfrm_user(E) xfrm_a=
-lgo(E) xt_addrtype(E) nft_compat(E) nf_tables(E) br_netfilter(E) bridge(E) =
-stp(E) llc(E) ip_set(E) nfnetlink(E) ip_vs_sh(E) ip_vs_wrr(E) ip_vs_rr(E) i=
-p_vs(E) nf_conntrack(E) nf_defrag_ipv6(E) nf_defrag_ipv4(E) intel_rapl_msr(=
-E) intel_rapl_common(E) crct10dif_pclmul(E) ghash_clmulni_intel(E) snd_hda_=
-codec_generic(E) snd_hda_intel(E) snd_intel_dspcfg(E) sha512_ssse3(E) snd_h=
-da_codec(E) sha512_generic(E) sha256_ssse3(E) overlay(E) sha1_ssse3(E) snd_=
-hda_core(E) snd_hwdep(E) aesni_intel(E) snd_pcm(E) crypto_simd(E) pcspkr(E)=
- cryptd(E) joydev(E) qxl(E) snd_timer(E) drm_ttm_helper(E) ttm(E) evdev(E) =
-snd(E) iTCO_wdt(E) serio_raw(E) sg(E) virtio_balloon(E) virtio_console(E) i=
-TCO_vendor_support(E) soundcore(E) qemu_fw_cfg(E) drm_kms_helper(E) button(=
-E) binfmt_misc(E) fuse(E) drm(E) configfs(E) virtio_rng(E) rng_core(E) ip_t=
-ables(E) x_tables(E) autofs4(E) ext4(E) crc16(E) mbcache(E) jbd2(E)
-	[Mon Apr 29 21:36:04 2024]  hid_generic(E) usbhid(E) hid(E) sr_mod(E) cdro=
-m(E) ahci(E) libahci(E) virtio_net(E) net_failover(E) failover(E) virtio_bl=
-k(E) libata(E) xhci_pci(E) crc32_pclmul(E) crc32c_intel(E) scsi_mod(E) scsi=
-_common(E) lpc_ich(E) i2c_i801(E) xhci_hcd(E) psmouse(E) i2c_smbus(E) virti=
-o_pci(E) usbcore(E) virtio_pci_legacy_dev(E) virtio_pci_modern_dev(E) usb_c=
-ommon(E) virtio(E) mfd_core(E) virtio_ring(E)
-	[Mon Apr 29 21:36:04 2024] CPU: 1 PID: 792 Comm: kworker/u13:4 Tainted: G =
-           E      6.9.0-rc6-linan-5 #197
-	[Mon Apr 29 21:36:04 2024] Hardware name: QEMU Standard PC (Q35 + ICH9, 20=
-09), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-	[Mon Apr 29 21:36:04 2024] Workqueue: ttm ttm_bo_delayed_delete [ttm]
-	[Mon Apr 29 21:36:04 2024] RIP: 0010:check_flush_dependency+0xfd/0x120
-	[Mon Apr 29 21:36:04 2024] Code: 8b 45 18 48 8d b2 c0 00 00 00 49 89 e8 48=
- 8d 8b c0 00 00 00 48 c7 c7 68 30 a4 a7 c6 05 9b 12 6e 01 01 48 89 c2 e8 53=
- b9 fd ff <0f> 0b e9 1e ff ff ff 80 3d 86 12 6e 01 00 75 93 e9 4a ff ff ff =
-66
-	[Mon Apr 29 21:36:04 2024] RSP: 0018:ffff9d31805abce8 EFLAGS: 00010086
-	[Mon Apr 29 21:36:04 2024] RAX: 0000000000000000 RBX: ffff8c8c4004ee00 RCX=
-: 0000000000000000
-	[Mon Apr 29 21:36:04 2024] RDX: 0000000000000003 RSI: 0000000000000027 RDI=
-: 00000000ffffffff
-	[Mon Apr 29 21:36:04 2024] RBP: ffffffffc0b53570 R08: 0000000000000000 R09=
-: 0000000000000003
-	[Mon Apr 29 21:36:04 2024] R10: ffff9d31805abb80 R11: ffffffffa7cc1108 R12=
-: ffff8c8c42eb8000
-	[Mon Apr 29 21:36:04 2024] R13: ffff8c8c48077900 R14: ffff8c8cbbd30b80 R15=
-: 0000000000000001
-	[Mon Apr 29 21:36:04 2024] FS:  0000000000000000(0000) GS:ffff8c8cbbd00000=
-(0000) knlGS:0000000000000000
-	[Mon Apr 29 21:36:04 2024] CS:  0010 DS: 0000 ES: 0000 CR0: 00000000800500=
-33
-	[Mon Apr 29 21:36:04 2024] CR2: 00007ffd38bb3ff8 CR3: 000000010217a000 CR4=
-: 0000000000350ef0
-	[Mon Apr 29 21:36:04 2024] Call Trace:
-	[Mon Apr 29 21:36:04 2024]  <TASK>
-	[Mon Apr 29 21:36:04 2024]  ? __warn+0x7c/0x120
-	[Mon Apr 29 21:36:04 2024]  ? check_flush_dependency+0xfd/0x120
-	[Mon Apr 29 21:36:04 2024]  ? report_bug+0x18d/0x1c0
-	[Mon Apr 29 21:36:04 2024]  ? srso_return_thunk+0x5/0x5f
-	[Mon Apr 29 21:36:04 2024]  ? handle_bug+0x3c/0x80
-	[Mon Apr 29 21:36:04 2024]  ? exc_invalid_op+0x13/0x60
-	[Mon Apr 29 21:36:04 2024]  ? asm_exc_invalid_op+0x16/0x20
-	[Mon Apr 29 21:36:04 2024]  ? __pfx_qxl_gc_work+0x10/0x10 [qxl]
-	[Mon Apr 29 21:36:04 2024]  ? check_flush_dependency+0xfd/0x120
-	[Mon Apr 29 21:36:04 2024]  ? check_flush_dependency+0xfd/0x120
-	[Mon Apr 29 21:36:04 2024]  __flush_work.isra.0+0xc0/0x270
-	[Mon Apr 29 21:36:04 2024]  ? srso_return_thunk+0x5/0x5f
-	[Mon Apr 29 21:36:04 2024]  ? srso_return_thunk+0x5/0x5f
-	[Mon Apr 29 21:36:04 2024]  ? __queue_work.part.0+0x18b/0x3d0
-	[Mon Apr 29 21:36:04 2024]  ? srso_return_thunk+0x5/0x5f
-	[Mon Apr 29 21:36:04 2024]  qxl_queue_garbage_collect+0x7f/0x90 [qxl]
-	[Mon Apr 29 21:36:04 2024]  qxl_fence_wait+0x9c/0x180 [qxl]
-	[Mon Apr 29 21:36:04 2024]  dma_fence_wait_timeout+0x61/0x130
-	[Mon Apr 29 21:36:04 2024]  dma_resv_wait_timeout+0x6d/0xd0
-	[Mon Apr 29 21:36:04 2024]  ttm_bo_delayed_delete+0x26/0x80 [ttm]
-	[Mon Apr 29 21:36:04 2024]  process_one_work+0x18c/0x3b0
-	[Mon Apr 29 21:36:04 2024]  worker_thread+0x273/0x390
-	[Mon Apr 29 21:36:04 2024]  ? __pfx_worker_thread+0x10/0x10
-	[Mon Apr 29 21:36:04 2024]  kthread+0xdd/0x110
-	[Mon Apr 29 21:36:04 2024]  ? __pfx_kthread+0x10/0x10
-	[Mon Apr 29 21:36:04 2024]  ret_from_fork+0x30/0x50
-	[Mon Apr 29 21:36:04 2024]  ? __pfx_kthread+0x10/0x10
-	[Mon Apr 29 21:36:04 2024]  ret_from_fork_asm+0x1a/0x30
-	[Mon Apr 29 21:36:04 2024]  </TASK>
-	[Mon Apr 29 21:36:04 2024] ---[ end trace 0000000000000000 ]---
+Ok a few things on more the design of this all:
 
-I find that the exact warning message mentioned in
- https://lore.kernel.org/lkml/20240404181448.1643-1-dreaming.about.electric=
-.sheep@gmail.com/T/#m8c2ecc83ebba8717b1290ec28d4dc15f2fa595d5
-And confirmed that the warning is caused by 07ed11afb68d94eadd4ffc082b97c23=
-31307c5ea and reverting it can fix.
+- This patch switches vkms over to be a real platform driver with
+  probe/remove hooks. Fine with me, but would need to be split out and
+  properly justified with some reason.
 
+  Also if we do this, we don't need our own devres group anymore, that's
+  redundant.
 
-It seems that under heavy load, qxl_queue_garbage_collect would be called w=
-ithin
-a WQ_MEM_RECLAIM worker, and flush qxl_gc_work which is a
-!WQ_MEM_RECLAIM worker. This will trigger the kernel WARNING by
-check_flush_dependency.
+- Now on the actual configfs prep work, the issue is that configfs and
+  drm_device have independent lifetimes, and we cannot have links between
+  the two. The configfs structures might have shorter lifetime thatn the
+  vkms_device (and there's no refcounting on configfs afaict), which means
+  we cannot have a backpointer from vkms_device to configfs. We can only
+  rely on configfs being around during the probe/init code, thanks to the
+  configfs mutex.
 
-And I tried following changes, setting flush flag to false.
-The warning is gone, but I am not sure whether there is any other side-effe=
-ct,
-especially the issue mentioned in=20
-https://lore.kernel.org/lkml/20240404181448.1643-2-dreaming.about.electric.=
-sheep@gmail.com/T/#m988ffad2000c794dcfdab7e60b03db93d8726391
+  This is why the refactoring to use vkms_config was done, so that
+  configfs becomes a two-step process: 1. convert the configfs data into a
+  struct vkms_config 2. initialize the vkms device using that stand-alone
+  vkms_config.
 
-Signed-off-by: David Wang <00107082@163.com>
----
- drivers/gpu/drm/qxl/qxl_release.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  Now I understand that this is quite a bit of work, but I think it would
+  also lead to somewhat more robust code (stuff like the lifetime bugs in
+  the connector hotplug patch become impossible). So before we go into
+  details, we need to make a decision whether we stick with the
+  vkms_config design, or whether we just have two separate paths: a)
+  default device setup and b) configfs dynamic setup. Imo this also needs
+  an ack from Maíra.
 
-diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_re=
-lease.c
-index 9febc8b73f09..f372085c5aad 100644
---- a/drivers/gpu/drm/qxl/qxl_release.c
-+++ b/drivers/gpu/drm/qxl/qxl_release.c
-@@ -76,7 +76,7 @@ static long qxl_fence_wait(struct dma_fence *fence, bool =
-intr,
- 	qxl_io_notify_oom(qdev);
-=20
- 	for (count =3D 0; count < 11; count++) {
--		if (!qxl_queue_garbage_collect(qdev, true))
-+		if (!qxl_queue_garbage_collect(qdev, false))
- 			break;
-=20
- 		if (dma_fence_is_signaled(fence))
---=20
-2.39.2
+- If we stick with the split approach then we need a few changes.
 
+  - The vkms_device->configfs backpointer needs to go, it's fundamentally
+    busted. Instead I think it's best we pass the configfs pointer around
+    directly during init time.
 
+  - I think we should clearly split the default and configfs paths with
+    explicit suffixes in the relevant functions (like
+    vkms_output_init_default/configfs) and explicitly passing parameters
+    around.
 
-David
+  - the vkms_config design doesn't have a use anymore, imo we should
+    simplify the _default() paths to again just look at the module
+    parameters. But only if we go the route of having split setup paths.
 
+  - Data that's only relevant for one or the other paths needs to be
+    removed from global structures. This would be vkms_config and
+    vkms_output in vkms_device (the latter is left around, which is very
+    confusing since the configfs path doesn't use that at all).
+
+  - Going with a real platform driver means passing arguments to
+    probe/init becomes tricky. Using the platform data seems like a good
+    approach, but we must ensure that we clear that again when we remove
+    the platform_device. Note that with a real driver userspace can
+    unbind/rebind the driver through sysfs, which means we must keep the
+    configfs pointer valid until the device is removed, to make sure that
+    these subsequent re-probe calls still work. These complications are
+    also the reasons why I think we should only switch to a real platform
+    driver if there's a reason, a lot of things become a lot more
+    complicated and dynamic and tricky with this.
+
+    Also this means that driver code could try to look at configfs even
+    after probe/init is finished, which is buggy but would mostly work
+    (unless you really carefully race hotunplug against other driver
+    code). So potential for some tricky bugs. That's why I think we should
+    explicitly pass the configfs pointer as a function parameter and only
+    grab it from the platform_data in ->probe once (and put a comment
+    there why this is really tricky).
+
+Anyway before we proceed I think we need consensus on these 2 design
+questions.
+-Sima
+
+> ---
+>  drivers/gpu/drm/vkms/vkms_drv.c    | 128 +++++++++++++++--------------
+>  drivers/gpu/drm/vkms/vkms_drv.h    |   4 +-
+>  drivers/gpu/drm/vkms/vkms_output.c |   6 +-
+>  3 files changed, 71 insertions(+), 67 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index dd0af086e7fa..387c832f5dc9 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -9,10 +9,12 @@
+>   * the GPU in DRM API tests.
+>   */
+>  
+> +#include <linux/device.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/dma-mapping.h>
+>  
+> +#include <drm/drm_device.h>
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+> @@ -37,8 +39,6 @@
+>  #define DRIVER_MAJOR	1
+>  #define DRIVER_MINOR	0
+>  
+> -static struct vkms_config *default_config;
+> -
+>  static bool enable_cursor = true;
+>  module_param_named(enable_cursor, enable_cursor, bool, 0444);
+>  MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+> @@ -96,9 +96,9 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>  	struct drm_device *dev = entry->dev;
+>  	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+>  
+> -	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
+> -	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
+> -	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
+> +	seq_printf(m, "writeback=%d\n", vkmsdev->config.writeback);
+> +	seq_printf(m, "cursor=%d\n", vkmsdev->config.cursor);
+> +	seq_printf(m, "overlay=%d\n", vkmsdev->config.overlay);
+>  
+>  	return 0;
+>  }
+> @@ -166,121 +166,127 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>  	dev->mode_config.cursor_height = 512;
+>  	/* FIXME: There's a confusion between bpp and depth between this and
+>  	 * fbdev helpers. We have to go with 0, meaning "pick the default",
+> -	 * which ix XRGB8888 in all cases. */
+> +	 * which ix XRGB8888 in all cases.
+> +	 */
+>  	dev->mode_config.preferred_depth = 0;
+>  	dev->mode_config.helper_private = &vkms_mode_config_helpers;
+>  
+>  	return vkms_output_init(vkmsdev, 0);
+>  }
+>  
+> -static int vkms_create(struct vkms_config *config)
+> +static int vkms_platform_probe(struct platform_device *pdev)
+>  {
+>  	int ret;
+> -	struct platform_device *pdev;
+>  	struct vkms_device *vkms_device;
+> +	void *grp;
+>  
+> -	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+> -	if (IS_ERR(pdev))
+> -		return PTR_ERR(pdev);
+> -
+> -	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
+> -		ret = -ENOMEM;
+> -		goto out_unregister;
+> -	}
+> +	grp = devres_open_group(&pdev->dev, NULL, GFP_KERNEL);
+> +	if (!grp)
+> +		return -ENOMEM;
+>  
+>  	vkms_device = devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
+>  					 struct vkms_device, drm);
+>  	if (IS_ERR(vkms_device)) {
+>  		ret = PTR_ERR(vkms_device);
+> -		goto out_devres;
+> +		goto out_release_group;
+>  	}
+> +
+>  	vkms_device->platform = pdev;
+> -	vkms_device->config = config;
+> -	config->dev = vkms_device;
+> +	vkms_device->config.cursor = enable_cursor;
+> +	vkms_device->config.writeback = enable_writeback;
+> +	vkms_device->config.overlay = enable_overlay;
+>  
+>  	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
+>  					   DMA_BIT_MASK(64));
+> -
+>  	if (ret) {
+>  		DRM_ERROR("Could not initialize DMA support\n");
+> -		goto out_devres;
+> +		goto out_release_group;
+>  	}
+>  
+>  	ret = drm_vblank_init(&vkms_device->drm, 1);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to vblank\n");
+> -		goto out_devres;
+> +		goto out_release_group;
+>  	}
+>  
+>  	ret = vkms_modeset_init(vkms_device);
+> -	if (ret)
+> -		goto out_devres;
+> +	if (ret) {
+> +		DRM_ERROR("Unable to initialize modesetting\n");
+> +		goto out_release_group;
+> +	}
+>  
+>  	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
+>  			      ARRAY_SIZE(vkms_config_debugfs_list));
+>  
+>  	ret = drm_dev_register(&vkms_device->drm, 0);
+> -	if (ret)
+> -		goto out_devres;
+> +	if (ret) {
+> +		DRM_ERROR("Unable to register device with id %d\n", pdev->id);
+> +		goto out_release_group;
+> +	}
+>  
+>  	drm_fbdev_generic_setup(&vkms_device->drm, 0);
+> +	platform_set_drvdata(pdev, vkms_device);
+> +	devres_close_group(&pdev->dev, grp);
+>  
+>  	return 0;
+>  
+> -out_devres:
+> -	devres_release_group(&pdev->dev, NULL);
+> -out_unregister:
+> -	platform_device_unregister(pdev);
+> +out_release_group:
+> +	devres_release_group(&pdev->dev, grp);
+>  	return ret;
+>  }
+>  
+> -static int __init vkms_init(void)
+> +static int vkms_platform_remove(struct platform_device *pdev)
+>  {
+> -	int ret;
+> -	struct vkms_config *config;
+> -
+> -	config = kmalloc(sizeof(*config), GFP_KERNEL);
+> -	if (!config)
+> -		return -ENOMEM;
+> -
+> -	default_config = config;
+> +	struct vkms_device *vkms_device;
+>  
+> -	config->cursor = enable_cursor;
+> -	config->writeback = enable_writeback;
+> -	config->overlay = enable_overlay;
+> +	vkms_device = platform_get_drvdata(pdev);
+> +	if (!vkms_device)
+> +		return 0;
+>  
+> -	ret = vkms_create(config);
+> -	if (ret)
+> -		kfree(config);
+> -
+> -	return ret;
+> +	drm_dev_unregister(&vkms_device->drm);
+> +	drm_atomic_helper_shutdown(&vkms_device->drm);
+> +	return 0;
+>  }
+>  
+> -static void vkms_destroy(struct vkms_config *config)
+> +static struct platform_driver vkms_platform_driver = {
+> +	.probe = vkms_platform_probe,
+> +	.remove = vkms_platform_remove,
+> +	.driver.name = DRIVER_NAME,
+> +};
+> +
+> +static int __init vkms_init(void)
+>  {
+> +	int ret;
+>  	struct platform_device *pdev;
+>  
+> -	if (!config->dev) {
+> -		DRM_INFO("vkms_device is NULL.\n");
+> -		return;
+> +	ret = platform_driver_register(&vkms_platform_driver);
+> +	if (ret) {
+> +		DRM_ERROR("Unable to register platform driver\n");
+> +		return ret;
+>  	}
+>  
+> -	pdev = config->dev->platform;
+> -
+> -	drm_dev_unregister(&config->dev->drm);
+> -	drm_atomic_helper_shutdown(&config->dev->drm);
+> -	devres_release_group(&pdev->dev, NULL);
+> -	platform_device_unregister(pdev);
+> +	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+> +	if (IS_ERR(pdev)) {
+> +		platform_driver_unregister(&vkms_platform_driver);
+> +		return PTR_ERR(pdev);
+> +	}
+>  
+> -	config->dev = NULL;
+> +	return 0;
+>  }
+>  
+>  static void __exit vkms_exit(void)
+>  {
+> -	if (default_config->dev)
+> -		vkms_destroy(default_config);
+> +	struct device *dev;
+> +
+> +	while ((dev = platform_find_device_by_driver(
+> +			NULL, &vkms_platform_driver.driver))) {
+> +		// platform_find_device_by_driver increments the refcount. Drop
+> +		// it so we don't leak memory.
+> +		put_device(dev);
+> +		platform_device_unregister(to_platform_device(dev));
+> +	}
+>  
+> -	kfree(default_config);
+> +	platform_driver_unregister(&vkms_platform_driver);
+>  }
+>  
+>  module_init(vkms_init);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index c7ae6c2ba1df..4c35d6305f2a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -124,15 +124,13 @@ struct vkms_config {
+>  	bool writeback;
+>  	bool cursor;
+>  	bool overlay;
+> -	/* only set when instantiated */
+> -	struct vkms_device *dev;
+>  };
+>  
+>  struct vkms_device {
+>  	struct drm_device drm;
+>  	struct platform_device *platform;
+>  	struct vkms_output output;
+> -	const struct vkms_config *config;
+> +	struct vkms_config config;
+>  };
+>  
+>  #define drm_crtc_to_vkms_output(target) \
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 5ce70dd946aa..963a64cf068b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -62,7 +62,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  	if (IS_ERR(primary))
+>  		return PTR_ERR(primary);
+>  
+> -	if (vkmsdev->config->overlay) {
+> +	if (vkmsdev->config.overlay) {
+>  		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
+>  			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
+>  			if (ret)
+> @@ -70,7 +70,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  		}
+>  	}
+>  
+> -	if (vkmsdev->config->cursor) {
+> +	if (vkmsdev->config.cursor) {
+>  		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
+>  		if (IS_ERR(cursor))
+>  			return PTR_ERR(cursor);
+> @@ -103,7 +103,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  		goto err_attach;
+>  	}
+>  
+> -	if (vkmsdev->config->writeback) {
+> +	if (vkmsdev->config.writeback) {
+>  		writeback = vkms_enable_writeback_connector(vkmsdev);
+>  		if (writeback)
+>  			DRM_ERROR("Failed to init writeback connector\n");
+> -- 
+> 2.42.0.rc2.253.gd59a3bf2b4-goog
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
