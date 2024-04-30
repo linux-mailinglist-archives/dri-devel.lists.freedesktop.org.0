@@ -2,86 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531898B7973
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 16:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF54F8B798B
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 16:31:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77CC110FD97;
-	Tue, 30 Apr 2024 14:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED64E10FE02;
+	Tue, 30 Apr 2024 14:31:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gyQXh2mK";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fnF+KE64";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 912FA10FD97
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 14:29:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1714487377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=veeRvTVp70/Jt5j8UzL/S/m3vD9WbQ9mqUFPwZXVxwQ=;
- b=gyQXh2mKr1WVP5dVIDVaGMKmqrJhgtwg2njcGI61/K96lbNBPNNuROtsRpp3suJ7nDaypm
- 0k/RkKUtsbWd+Zup7JDvhCgp1IveSFyqrsgqbSorVh+/33Sb9wKr3p4A75tP+USdGNyVYn
- IHjTrb4qIGqGURknS9S4HFcrPsWPXbY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-5-EeRGRiPAOT6hgooHaoIhoA-1; Tue, 30 Apr 2024 10:29:36 -0400
-X-MC-Unique: EeRGRiPAOT6hgooHaoIhoA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-34dad0465fdso169885f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 07:29:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714487375; x=1715092175;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=veeRvTVp70/Jt5j8UzL/S/m3vD9WbQ9mqUFPwZXVxwQ=;
- b=sTtdq0Xx5b8QqtBpGCZWz3Lb2UjOIWKptwgN2ifkG8QlV4uITNdRqOaubK9oIVCEp/
- hCOqEX7udDjBuAPA4E0ot8K+Nl9mt8W6UJ/AKeHCWHD0n8iW4/vNBRt54CeUgdNyJipb
- ev88WpEOCqa0SAC2LAdO29QEH5twiE2b+v9uRew0m2T9Rnof72p6AEZNvFdZ3npU9klc
- VMUjHimrpn53e1XV1+CqT8AX4LhMsT3Zjhpbly34TuONipAERxofV4uiu2aqLh/hLqXc
- 5LhXPBjf71hIiFem0zmupuGhuKvd/ua7b7hJnhepCIe1bEQk+AxTNV1kH08Lx2Ckedj+
- jqtg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXqElHOhXbUYErzNwBomfDgXAhcvHy8y+Uf8JkhYP+zmjwqvE60w/7Y5lfsICdCZXY7GkvGpm1wa/MK0qKDo4qf1ByVpRYhZm2Z0IDOkMS/
-X-Gm-Message-State: AOJu0Yz5cM5oFd7sswCtPUVi+sHUV94tLvS/M2TQd8I8QbK8Acgtkt7c
- aJ0YNyehPe7onn1gpOTPdQPA/mXdbPf0RDemHr129FpRzUQJaHU17xtuMAVBQuGTSo4yUQoQR5X
- JAia3xSuIO6werh10NqDXh9hAcUREQQkkqbxs7Rg+xjyRvo7aQvETR3kipGrnqak+3A==
-X-Received: by 2002:a05:6000:92d:b0:34d:c8b:3349 with SMTP id
- cx13-20020a056000092d00b0034d0c8b3349mr1872141wrb.32.1714487375085; 
- Tue, 30 Apr 2024 07:29:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHyIDITdGojZhuJceVh/PJrtxX5rD5H8J604mHl1DI0F1ItCd35fpX/M0WfDWqkvBK4LLOlyA==
-X-Received: by 2002:a05:6000:92d:b0:34d:c8b:3349 with SMTP id
- cx13-20020a056000092d00b0034d0c8b3349mr1872125wrb.32.1714487374711; 
- Tue, 30 Apr 2024 07:29:34 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- p8-20020a5d48c8000000b0034af40b2efdsm24037402wrs.108.2024.04.30.07.29.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Apr 2024 07:29:34 -0700 (PDT)
-Message-ID: <5f05f009-e403-4762-b836-7302f00665e2@redhat.com>
-Date: Tue, 30 Apr 2024 16:29:33 +0200
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C4410FDE3;
+ Tue, 30 Apr 2024 14:31:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1714487461;
+ bh=3XxuFTJHx7IRFFfMGWFpLCJovHBAjWZA+TX+nlB1vak=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fnF+KE64XgK2xqU27gvvQJPDM98GUFUXst+F8BgFTA1YMY198FgoKsUNTwADuMFAj
+ cGzjHmpvZYhZuUYKhYP7uJcmqhzWhv7xGOsgx7ueQJWziye90uOaNdKSSTPIx3kxhF
+ vU1U/2RUkDEmrIS2RmldgFzDmBatlo8z+HgHHFbDg5wdsz4IdSCieGUJ/euhz81oNV
+ 4dWGCADImwICDan9O3V4SN64lyesPtRxUdPHrenu7NxTVIxXrAKURCr2kAjPAZEDE8
+ YwXPQrPbKvRHpvlG1iWfE+DEwKCTP7kGYsc42VVIEtXU+Zi2G6iaPKB16ZIfgY7hjh
+ yUzys/nSHM1iA==
+Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 305883781116;
+ Tue, 30 Apr 2024 14:30:55 +0000 (UTC)
+Message-ID: <35b6b4c1-cc36-4c1b-8f6f-9cca0bd5917c@collabora.com>
+Date: Tue, 30 Apr 2024 11:30:54 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/fb_dma: Add checks in drm_fb_dma_get_scanout_buffer()
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240426121121.241366-1-jfalempe@redhat.com>
- <fdcf1ede-866d-4720-9dc1-ee729ace62a2@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <fdcf1ede-866d-4720-9dc1-ee729ace62a2@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [PATCH v1 1/5] drm/ci: uprev mesa version
+To: Vignesh Raman <vignesh.raman@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+ robdclark@gmail.com, david.heidelberg@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ dmitry.baryshkov@linaro.org, mcanal@igalia.com,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+References: <20240430091121.508099-1-vignesh.raman@collabora.com>
+ <20240430091121.508099-2-vignesh.raman@collabora.com>
+Content-Language: en-US
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20240430091121.508099-2-vignesh.raman@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,52 +71,166 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 29/04/2024 09:24, Thomas Zimmermann wrote:
+On 30/04/2024 06:11, Vignesh Raman wrote:
+> zlib.net is not allowing tarball download anymore and results
+> in below error in kernel+rootfs_arm32 container build,
+> urllib.error.HTTPError: HTTP Error 403: Forbidden
+> urllib.error.HTTPError: HTTP Error 415: Unsupported Media Type
 > 
+> Uprev mesa to latest version which includes a fix for this issue.
+> https://gitlab.freedesktop.org/mesa/mesa/-/commit/908f444e
 > 
-> Am 26.04.24 um 14:10 schrieb Jocelyn Falempe:
->> plane->state and plane->state->fb can be NULL, so add a check before
->> dereferencing them.
->> Found by testing with the imx driver.
->>
->> Fixes: 879b3b6511fe9 ("drm/fb_dma: Add generic get_scanout_buffer() 
->> for drm_panic")
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/drm_fb_dma_helper.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c 
->> b/drivers/gpu/drm/drm_fb_dma_helper.c
->> index 96e5ab960f12..d7bffde94cc5 100644
->> --- a/drivers/gpu/drm/drm_fb_dma_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
->> @@ -167,6 +167,9 @@ int drm_fb_dma_get_scanout_buffer(struct drm_plane 
->> *plane,
->>       struct drm_gem_dma_object *dma_obj;
->>       struct drm_framebuffer *fb;
->> +    if (!plane->state || !plane->state->fb)
->> +        return -ENODEV;
->> +
+> Also copy helper scripts to install, so that the ci jobs can
+> use these scripts for logging.
 > 
-> It's EINVAL here. With that fixed, free free to add
+> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 
-Thanks, I just merged it to drm-misc-next with that fixed.
+Acked-by: Helen Koike <helen.koike@collabora.com>
 
+> ---
+>   drivers/gpu/drm/ci/build.sh       |  1 +
+>   drivers/gpu/drm/ci/container.yml  | 12 ++++--------
+>   drivers/gpu/drm/ci/gitlab-ci.yml  | 11 ++++++++---
+>   drivers/gpu/drm/ci/image-tags.yml |  3 ++-
+>   drivers/gpu/drm/ci/test.yml       |  2 ++
+>   5 files changed, 17 insertions(+), 12 deletions(-)
 > 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> Best regards
-> Thomas
-> 
->>       fb = plane->state->fb;
->>       /* Only support linear modifier */
->>       if (fb->modifier != DRM_FORMAT_MOD_LINEAR)
->>
->> base-commit: 2e3f08a1ac99cb9a19a5cb151593d4f9df5cc6a7
-> 
-
--- 
-
-Jocelyn
-
+> diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+> index 106f2d40d222..8a3baa003904 100644
+> --- a/drivers/gpu/drm/ci/build.sh
+> +++ b/drivers/gpu/drm/ci/build.sh
+> @@ -128,6 +128,7 @@ fi
+>   # Pass needed files to the test stage
+>   mkdir -p install
+>   cp -rfv .gitlab-ci/* install/.
+> +cp -rfv ci/*  install/.
+>   cp -rfv install/common install/ci-common
+>   cp -rfv drivers/gpu/drm/ci/* install/.
+>   
+> diff --git a/drivers/gpu/drm/ci/container.yml b/drivers/gpu/drm/ci/container.yml
+> index 9764e7921a4f..d6edf3635b23 100644
+> --- a/drivers/gpu/drm/ci/container.yml
+> +++ b/drivers/gpu/drm/ci/container.yml
+> @@ -36,15 +36,15 @@ debian/android_build:
+>     rules:
+>       - when: never
+>   
+> -debian/x86_64_test-android:
+> +.debian/x86_64_test-android:
+>     rules:
+>       - when: never
+>   
+> -windows_build_vs2019:
+> +windows_build_msvc:
+>     rules:
+>       - when: never
+>   
+> -windows_test_vs2019:
+> +windows_test_msvc:
+>     rules:
+>       - when: never
+>   
+> @@ -56,10 +56,6 @@ rustfmt:
+>      rules:
+>       - when: never
+>   
+> -windows_vs2019:
+> -   rules:
+> -    - when: never
+> -
+> -clang-format:
+> +windows_msvc:
+>      rules:
+>       - when: never
+> \ No newline at end of file
+> diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+> index 084e3ff8e3f4..9bf5190604a7 100644
+> --- a/drivers/gpu/drm/ci/gitlab-ci.yml
+> +++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+> @@ -1,6 +1,6 @@
+>   variables:
+>     DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
+> -  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 9d162de9a05155e1c4041857a5848842749164cf
+> +  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha e5f133ccc426a197c48a4e88f5377f943f078180
+>   
+>     UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+>     TARGET_BRANCH: drm-next
+> @@ -26,10 +26,13 @@ variables:
+>     JOB_ARTIFACTS_BASE: ${PIPELINE_ARTIFACTS_BASE}/${CI_JOB_ID}
+>     # default kernel for rootfs before injecting the current kernel tree
+>     KERNEL_REPO: "gfx-ci/linux"
+> -  KERNEL_TAG: "v6.6.4-for-mesa-ci-e4f4c500f7fb"
+> +  KERNEL_TAG: "v6.6.21-mesa-19fc"
+>     KERNEL_IMAGE_BASE: https://${S3_HOST}/mesa-lava/${KERNEL_REPO}/${KERNEL_TAG}
+>     LAVA_TAGS: subset-1-gfx
+>     LAVA_JOB_PRIORITY: 30
+> +  ARTIFACTS_BASE_URL: https://${CI_PROJECT_ROOT_NAMESPACE}.${CI_PAGES_DOMAIN}/-/${CI_PROJECT_NAME}/-/jobs/${CI_JOB_ID}/artifacts
+> +  # Python scripts for structured logger
+> +  PYTHONPATH: "$PYTHONPATH:$CI_PROJECT_DIR/install"
+>   
+>   default:
+>     before_script:
+> @@ -46,6 +49,7 @@ default:
+>       - cd $CI_PROJECT_DIR
+>       - curl --output - $DRM_CI_PROJECT_URL/-/archive/$DRM_CI_COMMIT_SHA/mesa-$DRM_CI_COMMIT_SHA.tar.gz | tar -xz
+>       - mv mesa-$DRM_CI_COMMIT_SHA/.gitlab-ci* .
+> +    - mv mesa-$DRM_CI_COMMIT_SHA/bin/ci .
+>       - rm -rf mesa-$DRM_CI_COMMIT_SHA/
+>       - echo -e "\e[0Ksection_end:$(date +%s):drm_ci_download_section\r\e[0K"
+>   
+> @@ -98,6 +102,7 @@ include:
+>   stages:
+>     - sanity
+>     - container
+> +  - code-validation
+>     - git-archive
+>     - build
+>     - amdgpu
+> @@ -107,7 +112,6 @@ stages:
+>     - msm
+>     - rockchip
+>     - virtio-gpu
+> -  - lint
+>   
+>   # YAML anchors for rule conditions
+>   # --------------------------------
+> @@ -218,6 +222,7 @@ make git archive:
+>     script:
+>       # Remove drm-ci files we just added
+>       - rm -rf .gitlab-ci.*
+> +    - rm -rf ci
+>   
+>       # Compactify the .git directory
+>       - git gc --aggressive
+> diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
+> index 7ab4f2514da8..d8f72b82c938 100644
+> --- a/drivers/gpu/drm/ci/image-tags.yml
+> +++ b/drivers/gpu/drm/ci/image-tags.yml
+> @@ -1,5 +1,5 @@
+>   variables:
+> -   CONTAINER_TAG: "2023-10-11-mesa-uprev"
+> +   CONTAINER_TAG: "2024-04-22-mesa-uprev"
+>      DEBIAN_X86_64_BUILD_BASE_IMAGE: "debian/x86_64_build-base"
+>      DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
+>   
+> @@ -7,6 +7,7 @@ variables:
+>      DEBIAN_BUILD_TAG: "2023-10-08-config"
+>   
+>      KERNEL_ROOTFS_TAG: "2023-10-06-amd"
+> +   PKG_REPO_REV: "3cc12a2a"
+>   
+>      DEBIAN_X86_64_TEST_BASE_IMAGE: "debian/x86_64_test-base"
+>      DEBIAN_X86_64_TEST_IMAGE_GL_PATH: "debian/x86_64_test-gl"
+> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+> index 8bc63912fddb..612c9ede3507 100644
+> --- a/drivers/gpu/drm/ci/test.yml
+> +++ b/drivers/gpu/drm/ci/test.yml
+> @@ -150,6 +150,8 @@ msm:sdm845:
+>       BM_KERNEL: https://${PIPELINE_ARTIFACTS_BASE}/arm64/cheza-kernel
+>       GPU_VERSION: sdm845
+>       RUNNER_TAG: google-freedreno-cheza
+> +    DEVICE_TYPE: sdm845-cheza-r3
+> +    FARM: google
+>     script:
+>       - ./install/bare-metal/cros-servo.sh
+>   
