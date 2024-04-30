@@ -2,64 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76158B8141
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 22:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D277F8B8169
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 22:30:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B99C6112EE4;
-	Tue, 30 Apr 2024 20:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 234B8112F10;
+	Tue, 30 Apr 2024 20:30:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="n8wGtb7F";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Oby60sj8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0CC9112EE4;
- Tue, 30 Apr 2024 20:14:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D72BB112F0D;
+ Tue, 30 Apr 2024 20:30:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714508100; x=1746044100;
- h=date:from:to:cc:subject:message-id;
- bh=ZafLxfI+Z/GIhZZqRQsDUhDD3XnYQA1a9EWeGEFS0wg=;
- b=n8wGtb7Fo6NLJ1b8FFns9upmw71hIgtYb3esOPNVBZlGQvrGA9Z+YETE
- vqxrneEWu2oB0zdSEPihEaVcxGG9bWm9Pgl0du6roYUssZoBINV9tcbdf
- uIehgN04nGSqEK5u1SKdTcbNpYvtg1I8OCCGmnY7lZZsCY7nLdzoVw+VP
- +dP8EeU92t9DhZvpGlXbj13hkpRHfgxoxvRQdqacw2FDGPrnrYnDY2erQ
- B/MHodrKZGXprwNqtGhYBOPDjTbTsubuMXhtK9j+h1BZNJYdYEvwuFjOA
- Sa3+yP4Or8vhlAQYAeDYDQoKTyGEm2QyKCwRmwyaCUyBsRn5iKk/Zdqyr A==;
-X-CSE-ConnectionGUID: G5SmYv1pStij+ud5wxnq3A==
-X-CSE-MsgGUID: h9N9ct+2RwWpUQZxtgfxhA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10358860"
-X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; d="scan'208";a="10358860"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2024 13:14:54 -0700
-X-CSE-ConnectionGUID: qp6YMwp+TsSexkVVR2GzOA==
-X-CSE-MsgGUID: KrZvMl4uSsiQsmyNvi+utQ==
+ t=1714509006; x=1746045006;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=mXGV28j84i793xgkvOVwB+5+vgM2oZ+ctBLs0pH9ZlA=;
+ b=Oby60sj8StnK2LTxf7tJF8VUD5t68rTIiqM8X8rhGG3vFnOCuSXb/rx5
+ V9D34cOZON7x1aYGTPyG+ORKzEZGXeGlbKWlQNicv34HhYCEpPg8PsElw
+ 9EHYxJ7WVQsVXL2hIHQmgk8JfV9XpM9u4AWXJWOBGVVVjCxO0hyq199pp
+ mAtx6fvZxHEiOo1qJU2XF4nIr28ZbwiPNdpfLjp7XCxMsLfVWWwYGqwxe
+ J9wRss10hXDmO6UEfhduVnRhqt7cXte1ua2dlXlH4pSsk0Lu4LrRTYSQx
+ akPbwcwrmoFZBD2sAKeeRaln/YW52IxVkKnKHB7NNqqkJx1W9Wi4BZrdG Q==;
+X-CSE-ConnectionGUID: 0XKjxpb4RyuTE0nQ3TMKkg==
+X-CSE-MsgGUID: OiE+EIwYSZWw0Uc002Swqg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="20923548"
+X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; d="scan'208";a="20923548"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2024 13:30:05 -0700
+X-CSE-ConnectionGUID: 30cXLICfQkyTSZSCL0ewaA==
+X-CSE-MsgGUID: 1OnEYnvjTSKMro+eKaIoSw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; d="scan'208";a="31288691"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
- by orviesa003.jf.intel.com with ESMTP; 30 Apr 2024 13:14:47 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s1tsC-0008VX-1f;
- Tue, 30 Apr 2024 20:14:44 +0000
-Date: Wed, 01 May 2024 04:14:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- acrn-dev@lists.projectacrn.org, amd-gfx@lists.freedesktop.org,
- cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- io-uring@vger.kernel.org, iommu@lists.linux.dev,
- linux-arch@vger.kernel.org, linux-bcachefs@vger.kernel.org,
- linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-fscrypt@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: [linux-next:master] BUILD REGRESSION
- d04466706db5e241ee026f17b5f920e50dee26b5
-Message-ID: <202405010414.1nlkOC6t-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; d="scan'208";a="26544757"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 30 Apr 2024 13:30:04 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 30 Apr 2024 13:30:03 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 30 Apr 2024 13:30:03 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 30 Apr 2024 13:30:03 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bqluM9cM/PYHySedZq9ton9xkSrfPOn9HLFYeDaXPwd28n1ZparKJrRlWQSzb5IMK1Lj85iaGvOm/sedaylUYYhk61/ZZcIZKiGvhtrVu0cmdBkwx8ITqDpcgx771mj2jxn2Y//svowNWZXJMldSoFCrnL7rJumYzITQCE1zBEVPtVAgG4fqB5Scdlv5nUUwqQS2pd439mUIFXwwksVrVQSaEKYjWhxb89XRlXh2nclq75JyiQOE73CNJBtjZi8G9h1IYIBJrMZc0aFlFxbkkOteSOn8HpObVWxKcFjxUQOQzndymMwNgnuFt57/5Qv0ag3Z5LqW+4o8wXEjooONWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yooT53qJDPc+vMHe/EC62HSVV2cUy83RtsOt5tUHACg=;
+ b=NjJRDeKTG0PuQc8qVKDUpEv7H4wSyRsQzOKBq1Fu2HqiHnoNSIHbjf2htyOKNIpcZx6ZBb1prBS0qH1/3yRcQXkkig4bX8h6lJVYAnAqXlXMLoe5HJVpmvPdR86eFiHWDq4Y2aJoWsLaxX2wCEYWchQqX6WEVeXyaDLhIfd/hYRQ0/4qp7wK5LaOmcSSWP/j9VpmMwX1nwsWZim+CB/u2Xpu4OFpF5KtiJ1gul6ou6I20+uBTGBHmQCqtwqbCSnvEp++mOs6b0/ytyD0GHDKg0ud3vSqetSHD2yETzDNrZt/OCfB700lPdhtjw5D10yN9BRPpW039kLCvB+D8uaoCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by MW3PR11MB4748.namprd11.prod.outlook.com (2603:10b6:303:2e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.34; Tue, 30 Apr
+ 2024 20:30:01 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::cf6f:eb9e:9143:f413]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::cf6f:eb9e:9143:f413%5]) with mapi id 15.20.7519.031; Tue, 30 Apr 2024
+ 20:30:01 +0000
+Date: Tue, 30 Apr 2024 16:29:54 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Zhenyu
+ Wang" <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>, "open
+ list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>, "open list:INTEL DRM DISPLAY FOR XE AND
+ I915 DRIVERS" <intel-xe@lists.freedesktop.org>, "open list:DRM DRIVERS"
+ <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL GVT-g DRIVERS (Intel GPU Virtualization)"
+ <intel-gvt-dev@lists.freedesktop.org>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, "open list:RADEON and AMDGPU DRM DRIVERS"
+ <amd-gfx@lists.freedesktop.org>, "open list:DRM DRIVER FOR NVIDIA
+ GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>, "open list:I2C
+ SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>, "open list:BTTV
+ VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>, "open list:FRAMEBUFFER
+ LAYER" <linux-fbdev@vger.kernel.org>
+Subject: Re: [PATCH v1 03/12] drm/i915: Make I2C terminology more inclusive
+Message-ID: <ZjFUwjMFMcvJr5KI@intel.com>
+References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
+ <20240430173812.1423757-4-eahariha@linux.microsoft.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240430173812.1423757-4-eahariha@linux.microsoft.com>
+X-ClientProxiedBy: MW4PR03CA0312.namprd03.prod.outlook.com
+ (2603:10b6:303:dd::17) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|MW3PR11MB4748:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6eb69a93-4c58-4881-945f-08dc69544f4a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|7416005|1800799015;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?A8MZmOoLDzFpJrMbm+j3JcsrN56l176OGPLQcBx3Q1U9OjGe+G2DjKvHpJnH?=
+ =?us-ascii?Q?4NIdYbywfYRFrPoVIqMoWz6ZmBZT/w7T0eVgQkNE8f7uYD93a/Z5gLziQmOj?=
+ =?us-ascii?Q?piU6ErtxXVr1ckwYcl3Ux0lGcGrupcQ27jSY3Q2464x6CsSrORtNdEPURn8l?=
+ =?us-ascii?Q?EseQ23Xh2Bn2oZ0wkUvSTL1zIUijwbCPXEkBYEwILODXujjead7e3grdgLyk?=
+ =?us-ascii?Q?hgVmONDnBWn2+Z/Vaxz7hS8ZBLOk6Ajeo1QeDV6u+WeRz/B7jt0e+YG9psuz?=
+ =?us-ascii?Q?/7t0RSuSsTI9rjaW4NTnUurpf5lgyyGogKDcZ46ylp6wcsukRF/kpGVaSeGK?=
+ =?us-ascii?Q?0DhYHTLOQZeFrQSfCwLsLaIyaPGB9t79/xWADJGJrIH+FE62bpdys3SI4q0w?=
+ =?us-ascii?Q?7LztcZjm8wxml5ax09l5jXZl3SX3xwnv5FSgAmKMUXQvac4VBl2EiQvRNSZ2?=
+ =?us-ascii?Q?8g0q7IdnvkN6Px0Gq4usbRCge4SMxM6142phV8ZvqtlOXmpxQR3QvWF7UILk?=
+ =?us-ascii?Q?fmCClBNVYeBNtTXEHOQ4ZP7erLNqMV3HFHyQaFQaTsENJx0DRmteEe+ZD55y?=
+ =?us-ascii?Q?yFAW6wTeML+0FrWdoi3n0MCQilgm2Th47Xfj5BEeD4PKd47xQpQl6er6A99J?=
+ =?us-ascii?Q?eADnVBsE+3o9+AUENc3scZVxD4iJRk9RILO2Nc8SrqC6FHdOVhCWlIZ2sCzk?=
+ =?us-ascii?Q?WozcpuLuZGPSV5u1m1JuJ3ZhWvl+r9PNA0f4ZX3YL3VCzElihAOFhboi0nGx?=
+ =?us-ascii?Q?SHyq4iv9o9uRYMG3SgDou2eq4puV0VOOM1f34FZOETngy8eptN6jRuz4KfNv?=
+ =?us-ascii?Q?v5iI3T4X1ZEVgTeIoJbHuraq2bR8q0kg7YRpBfxeHjZ8hJnbfhO5YjG1KxMv?=
+ =?us-ascii?Q?JSU/HX28l7zg26ExOqOdqxADqYRFSxhKBw4r53sC1JV7QUVScaeFSNRVO0If?=
+ =?us-ascii?Q?87NJno9BMDxIPlkozQvyEJvBxSFFtcd7RVYAHGzI7J8gt8xfoDnysr4ap+Ii?=
+ =?us-ascii?Q?pZlN51kkaqJas5K2tx/w6N/sflo7zE2nzYMeqd6HA7ncSoZVhzgMxy99mT+7?=
+ =?us-ascii?Q?bQPfsyTBULnZ5GpEEqswGTYGuOC7p1AROh+Fge3IUXvOyRV6l/yfUlMytZfT?=
+ =?us-ascii?Q?x4SmYeAm5vxxrWd3mGXCNT5I4++2nZjj3LUfd6s89VCoNfnoEfUvU+qFatmX?=
+ =?us-ascii?Q?a9+BbDOH9XhWKSMUN+3zQdMc0Lcf1aKx8wpurQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(376005)(7416005)(1800799015); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?t8RKZ7BHdpC7/ZN1mF7qH1uKs1J28XAy9ahPEk2D2hfslxTAJAc5G1NufBxB?=
+ =?us-ascii?Q?NxYoDSOVoByjzXA1penEW7ZK7ZAbsrayAiJOvYjqso2IGNw5WXFo/RSbXonU?=
+ =?us-ascii?Q?u/F8CC2dK4Ze4pXehDaiPdnW2nBv2qXt0u/re+hbirBKW7ikgGh++AmglROL?=
+ =?us-ascii?Q?pUPTW988oO3k//L4FhQvYQy3QABHsivIxZHrt3CWPKZd7Mm90xeKP0022PbK?=
+ =?us-ascii?Q?iYNYA7BFJSG7WFvG3gIlTN6d6FJHMA0auRkjo61rQph23PrFFggv0EG/854I?=
+ =?us-ascii?Q?MbC0BesJZccTSIelXr/PZv/y6UAoa4Y5X8Xd7gA+D9higuZ6U+yYm5fzyJ9L?=
+ =?us-ascii?Q?OYVy4MOplb6EUL1WQuNWtK2WQUxZ5dQN9dhnOzbRRLMSAY6LVFAL9mNCEiQd?=
+ =?us-ascii?Q?xHAIJ9CmfT1HgjzE9fKFr7D/b+yuWZRiSRCZrMSPxXFhDYd9cQDOeZxQ7Bj0?=
+ =?us-ascii?Q?P27Nmg6v4I4YYZjeEHWDrZ1juyAj/PzO4eMiwWkXT/gzfrrmwX8w8ey6lsXq?=
+ =?us-ascii?Q?tObJs0i1JR9RGj0nKNL9+R83GTQQ7t84o8s3XK5r2P5kdzH1ODZXLJvvoXNY?=
+ =?us-ascii?Q?enbIXTgPo3+kodKzhTd2veqU5rz10TtxJnEuDXPzhKRsT7NC/y63lE9MNasK?=
+ =?us-ascii?Q?PlbbygwTmQ0DS2tA9J2gX+HTan1/jqierIHZtu0jnRIzcdAt4qwm0xEY+CcE?=
+ =?us-ascii?Q?lYFgMBivg2LqQWg0iKN/bVeaHuzQqHhyj4m/j6+/OmWMyqjrWXkl0RoN++Yc?=
+ =?us-ascii?Q?Lmd4TWlxVlq1z0Sw7SkdBBACPY5/KTZ8/jAPKwOxUJcjaYNno92dJJEYaRM3?=
+ =?us-ascii?Q?iaKDYuaQpolTYI2UwTlYP03a6LPruVl2p0E6IlXSKSFbYpUjyWSkQwL7Qysk?=
+ =?us-ascii?Q?n8KzUYHUvviqNie7WDV+ERYTXxsqOu1joPAQw8Wb5a4otMVXIrDv/0dLjQle?=
+ =?us-ascii?Q?Yyootm1xDPx86ubLBolA82rhQjthptWSy5qYmJ72fHWKdul2LXj8KR0aDEgy?=
+ =?us-ascii?Q?cnCWpXQb7U8j20znpCZFl5w3QB/STr4pvRlZP7WeL2++wq6TfK6HqSygH/Tl?=
+ =?us-ascii?Q?Kg52JC0J88CiHPwQcTqB6KQc0AZX2hYtsgtAjgLYsPLw1SeuTiKO6xo8467F?=
+ =?us-ascii?Q?oHSs7+6h/QMnMccgQmczXNbgmWPx7GHwE/gUEUmosdToUoKwawqIRcN9nR5x?=
+ =?us-ascii?Q?8vzdvLlrdYxSbEYnXIj3VBiRQ73DISQrjT04nFVeA3xcV4eupj2ED0f4aLNB?=
+ =?us-ascii?Q?LOa2qRaeTKNdnOq/28zC8GxqURX9UQyto37+ETNLnOrnxWbaL1Nl7N2dh5sM?=
+ =?us-ascii?Q?6COEfHy0fNxTsZXWo9ni1J1REgQWlg4FrgNPSl0gGoUpcfxWaEQEvDHhP61u?=
+ =?us-ascii?Q?+8xuZcvb9gkTcSoOfHbykUFlEwREDsmZrDMAIqfdFl+Fl3HxthMWXaCzMuIk?=
+ =?us-ascii?Q?vJy9M6mZnuTMs99hUzIrK24eIXYvVnLH7wyTeUUazYmaItwY8LIZNj9xzpph?=
+ =?us-ascii?Q?yrntxrG+DWR7311QvW3A3w5i1VS4HbIAoOLy9nj+g8DZUnq/9biIZuHnaqPB?=
+ =?us-ascii?Q?GMthXt7ocFBl40puVSLKuvQhjRKJg3wIaMGOU99+?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6eb69a93-4c58-4881-945f-08dc69544f4a
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2024 20:30:01.5208 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V+7I4V4N7exUvuwSi434gInnARjIxshchJ1PbZo9ZqUnVk8jvVDNDBn5UFwkfFB8qsOY8xpKhcPoD6n0fQ6xXA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4748
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,578 +187,991 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: d04466706db5e241ee026f17b5f920e50dee26b5  Add linux-next specific files for 20240430
+On Tue, Apr 30, 2024 at 05:38:02PM +0000, Easwar Hariharan wrote:
+> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
+> with more appropriate terms. Inspired by and following on to Wolfram's
+> series to fix drivers/i2c/[1], fix the terminology for users of
+> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+> in the specification.
+> 
+> Compile tested, no functionality changes intended
+> 
+> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+> 
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 
-Error/Warning reports:
+I'm glad to see this change!
 
-https://lore.kernel.org/oe-kbuild-all/202404301738.J71xGyaR-lkp@intel.com
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+> ---
+>  drivers/gpu/drm/i915/display/dvo_ch7017.c     | 14 ++++-----
+>  drivers/gpu/drm/i915/display/dvo_ch7xxx.c     | 18 +++++------
+>  drivers/gpu/drm/i915/display/dvo_ivch.c       | 16 +++++-----
+>  drivers/gpu/drm/i915/display/dvo_ns2501.c     | 18 +++++------
+>  drivers/gpu/drm/i915/display/dvo_sil164.c     | 18 +++++------
+>  drivers/gpu/drm/i915/display/dvo_tfp410.c     | 18 +++++------
+>  drivers/gpu/drm/i915/display/intel_bios.c     | 22 +++++++-------
+>  drivers/gpu/drm/i915/display/intel_ddi.c      |  2 +-
+>  .../gpu/drm/i915/display/intel_display_core.h |  2 +-
+>  drivers/gpu/drm/i915/display/intel_dsi.h      |  2 +-
+>  drivers/gpu/drm/i915/display/intel_dsi_vbt.c  | 20 ++++++-------
+>  drivers/gpu/drm/i915/display/intel_dvo.c      | 14 ++++-----
+>  drivers/gpu/drm/i915/display/intel_dvo_dev.h  |  2 +-
+>  drivers/gpu/drm/i915/display/intel_gmbus.c    |  4 +--
+>  drivers/gpu/drm/i915/display/intel_sdvo.c     | 30 +++++++++----------
+>  drivers/gpu/drm/i915/display/intel_vbt_defs.h |  4 +--
+>  drivers/gpu/drm/i915/gvt/edid.c               | 28 ++++++++---------
+>  drivers/gpu/drm/i915/gvt/edid.h               |  4 +--
+>  drivers/gpu/drm/i915/gvt/opregion.c           |  2 +-
+>  19 files changed, 119 insertions(+), 119 deletions(-)
 
-drivers/virt/acrn/mm.c:217 acrn_vm_ram_map() error: uninitialized symbol 'start_pfn'.
-drivers/virt/acrn/mm.c:224 acrn_vm_ram_map() error: uninitialized symbol 'ret'.
-net/ipv6/route.c:5712 rt6_fill_node() error: we previously assumed 'dst' could be null (see line 5697)
+The chances of conflicts are high with this many changes,
+but should be easy enough to deal with later, so feel free
+to move with this i915 patch on any other tree and we catch-up
+later.
 
-Error/Warning ids grouped by kconfigs:
+Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- arc-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- arc-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- arc-randconfig-r121-20240430
-|   |-- drivers-hwmon-pmbus-xdp710.c:sparse:sparse:symbol-micro_ohm_rsense-was-not-declared.-Should-it-be-static
-|   |-- fs-bcachefs-btree_cache.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-task_struct-got-unsigned-long
-|   `-- fs-ext4-orphan.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le32-_prev_-got-unsigned-long
-|-- arc-randconfig-r122-20240430
-|   |-- block-blk-mq.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-request
-|   |-- block-blk-mq.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-request
-|   |-- block-blk-mq.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-request-got-unsigned-long
-|   |-- drivers-dma-buf-dma-fence-chain.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-dma_fence-noderef-__rcu
-|   |-- drivers-dma-buf-dma-fence-chain.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-dma_fence-noderef-__rcu
-|   |-- drivers-dma-buf-dma-fence-chain.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-dma_fence-noderef-__rcu-got-unsigned-long
-|   |-- drivers-nvme-target-fabrics-cmd.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-nvmet_ctrl
-|   |-- drivers-nvme-target-fabrics-cmd.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-nvmet_ctrl
-|   |-- drivers-nvme-target-fabrics-cmd.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-nvmet_ctrl-got-unsigned-long
-|   |-- fs-btrfs-raid56.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-btrfs_stripe_hash_table
-|   |-- fs-btrfs-raid56.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-btrfs_stripe_hash_table
-|   |-- fs-btrfs-raid56.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-btrfs_stripe_hash_table-got-unsigned-long
-|   |-- fs-crypto-hooks.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-char
-|   |-- fs-crypto-hooks.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-char
-|   |-- fs-crypto-hooks.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-char-got-unsigned-long
-|   |-- fs-crypto-keysetup.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-fscrypt_inode_info
-|   |-- fs-crypto-keysetup.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-fscrypt_inode_info
-|   |-- fs-crypto-keysetup.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-fscrypt_inode_info-got-unsigned-long
-|   |-- fs-debugfs-file.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-void
-|   |-- fs-debugfs-file.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-void
-|   |-- fs-debugfs-file.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-void-got-unsigned-long
-|   |-- fs-ext4-orphan.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-restricted-__le32-_n_
-|   |-- fs-ext4-orphan.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-restricted-__le32-_o_
-|   |-- fs-libfs.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-dentry
-|   |-- fs-libfs.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-dentry
-|   |-- fs-libfs.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-dentry-got-unsigned-long
-|   |-- fs-locks.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-file_lock_context
-|   |-- fs-locks.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-file_lock_context
-|   |-- fs-locks.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-file_lock_context-got-unsigned-long
-|   |-- fs-notify-mark.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-fsnotify_mark_connector-noderef-__rcu
-|   |-- fs-notify-mark.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-fsnotify_mark_connector-noderef-__rcu
-|   |-- fs-notify-mark.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-fsnotify_mark_connector-noderef-__rcu-got-unsigned-long
-|   |-- fs-overlayfs-readdir.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-file
-|   |-- fs-overlayfs-readdir.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-file
-|   |-- fs-overlayfs-readdir.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-file-got-unsigned-long
-|   |-- fs-posix_acl.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-posix_acl
-|   |-- fs-posix_acl.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-posix_acl
-|   |-- fs-posix_acl.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-posix_acl-got-unsigned-long
-|   |-- fs-super.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-workqueue_struct
-|   |-- fs-super.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-workqueue_struct
-|   |-- fs-super.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-workqueue_struct-got-unsigned-long
-|   |-- io_uring-io_uring.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-llist_node
-|   |-- io_uring-io_uring.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-llist_node
-|   |-- io_uring-io_uring.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-llist_node-got-unsigned-long
-|   |-- kernel-locking-osq_lock.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-optimistic_spin_node-got-unsigned-long
-|   |-- kernel-sched-core.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-wake_q_node
-|   |-- kernel-sched-core.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-wake_q_node
-|   |-- kernel-sched-core.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-wake_q_node-got-unsigned-long
-|   |-- kernel-task_work.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-callback_head
-|   |-- kernel-task_work.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-callback_head
-|   |-- kernel-task_work.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-callback_head-got-unsigned-long
-|   |-- kernel-trace-ring_buffer.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-buffer_page
-|   |-- kernel-trace-ring_buffer.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-list_head
-|   |-- kernel-trace-ring_buffer.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-buffer_page
-|   |-- kernel-trace-ring_buffer.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-list_head
-|   |-- kernel-trace-ring_buffer.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-buffer_page-got-unsigned-long
-|   |-- kernel-trace-ring_buffer.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-list_head-got-unsigned-long
-|   |-- lib-generic-radix-tree.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-genradix_node
-|   |-- lib-generic-radix-tree.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-genradix_root
-|   |-- lib-generic-radix-tree.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-genradix_node
-|   |-- lib-generic-radix-tree.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-genradix_root
-|   |-- lib-generic-radix-tree.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-genradix_node-got-unsigned-long
-|   |-- lib-generic-radix-tree.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-genradix_root-got-unsigned-long
-|   |-- lib-llist.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-llist_node
-|   |-- lib-llist.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-llist_node
-|   |-- lib-llist.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-llist_node-got-unsigned-long
-|   |-- lib-rhashtable.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-bucket_table
-|   |-- lib-rhashtable.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-union-nested_table
-|   |-- lib-rhashtable.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-bucket_table
-|   |-- lib-rhashtable.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-union-nested_table
-|   |-- lib-rhashtable.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-bucket_table-got-unsigned-long
-|   |-- lib-rhashtable.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-union-nested_table-got-unsigned-long
-|   |-- mm-huge_memory.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-folio
-|   |-- mm-huge_memory.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-folio
-|   |-- mm-huge_memory.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-folio-got-unsigned-long
-|   |-- mm-memcontrol.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-mem_cgroup-got-unsigned-long
-|   |-- mm-memcontrol.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-obj_cgroup-got-unsigned-long
-|   |-- mm-oom_kill.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-new-got-struct-mm_struct
-|   |-- mm-oom_kill.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-long-usertype-old-got-struct-mm_struct
-|   `-- mm-oom_kill.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-struct-mm_struct-got-unsigned-long
-|-- arm-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- arm-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- arm64-defconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- csky-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- csky-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- csky-randconfig-r053-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- i386-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- i386-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- i386-buildonly-randconfig-003-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- i386-randconfig-003-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- i386-randconfig-005-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- i386-randconfig-053-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- i386-randconfig-062-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- loongarch-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- m68k-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- m68k-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- m68k-randconfig-r133-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- microblaze-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- microblaze-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- mips-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- mips-ip27_defconfig
-|   `-- arch-mips-sgi-ip27-ip27-irq.c:warning:unused-variable-i
-|-- nios2-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- nios2-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- openrisc-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- parisc-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- parisc-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- parisc-randconfig-r063-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- powerpc-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- powerpc-randconfig-002-20240430
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-calcs-dcn_calc_auto.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-calcs-dcn_calc_math.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-calcs-dcn_calcs.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn20-dcn20_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn20-display_mode_vba_20.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn20-display_mode_vba_20v2.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn20-display_rq_dlg_calc_20.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn20-display_rq_dlg_calc_20v2.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn21-display_mode_vba_21.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn21-display_rq_dlg_calc_21.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn30-dcn30_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn30-display_mode_vba_30.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn30-display_rq_dlg_calc_30.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn301-dcn301_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn302-dcn302_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn303-dcn303_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn31-dcn31_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn31-display_mode_vba_31.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn31-display_rq_dlg_calc_31.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn314-dcn314_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn314-display_mode_vba_314.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn314-display_rq_dlg_calc_314.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn32-dcn32_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn32-display_mode_vba_32.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn32-display_mode_vba_util_32.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn32-display_rq_dlg_calc_32.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn321-dcn321_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn35-dcn35_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn351-dcn351_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dcn401-dcn401_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-display_mode_vba.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dml1_display_rq_dlg_calc.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml-dsc-rc_calc_fpu.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-display_mode_core.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-display_mode_util.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-dml21_translation_helper.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-dml21_utils.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-src-dml2_core-dml2_core_dcn4.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-src-dml2_core-dml2_core_dcn4_calcs.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-src-dml2_core-dml2_core_shared.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-src-dml2_dpmm-dml2_dpmm_dcn4.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-src-dml2_mcg-dml2_mcg_dcn4.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-src-dml2_pmo-dml2_pmo_dcn3.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-src-dml2_pmo-dml2_pmo_dcn4.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-src-dml2_pmo-dml2_pmo_dcn4_fams2.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-src-dml2_standalone_libraries-lib_float_math.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml21-src-dml2_top-dml_top_mcache.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml2_mall_phantom.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml2_policy.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml2_translation_helper.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml2_utils.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   |-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml2_wrapper.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|   `-- powerpc-linux-ld:drivers-gpu-drm-amd-display-dc-dml2-dml_display_rq_dlg_calc.o-uses-hard-float-arch-powerpc-kernel-udbg.o-uses-soft-float
-|-- powerpc-randconfig-r061-20240430
-|   `-- ERROR:drm_dsc_pps_payload_pack-drivers-gpu-drm-panel-panel-lg-sw43408.ko-undefined
-|-- riscv-randconfig-001-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- s390-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- sparc-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- sparc-randconfig-002-20240430
-|   `-- (.head.text):relocation-truncated-to-fit:R_SPARC_WDISP22-against-init.text
-|-- sparc-randconfig-r113-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- sparc64-allmodconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- sparc64-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- sparc64-randconfig-001-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- sparc64-randconfig-r131-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- um-allyesconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- x86_64-randconfig-004-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- x86_64-randconfig-005-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-`-- xtensa-randconfig-001-20240430
-    `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-clang_recent_errors
-|-- arm-defconfig
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- arm-randconfig-002-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- arm-randconfig-003-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- arm64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-amd_asic_type-and-enum-amd_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras.c:error:arithmetic-between-different-enumeration-types-(-enum-amdgpu_ras_block-and-enum-amdgpu_ras_mca_block-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-gpu-drm-i915-display-intel_cursor.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-phy-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_dpll_mgr.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-intel_dpll_id-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_hotplug.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_pipe_crc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_tc.c:error:arithmetic-between-different-enumeration-types-(-enum-intel_display_power_domain-and-enum-tc_port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_vdsc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_universal_plane.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_watermark.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   |-- drivers-gpu-drm-radeon-radeon_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-radeon_family-and-enum-radeon_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|   |-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-zone_stat_item-and-enum-numa_stat_item-)-Werror-Wenum-enum-conversion
-|-- hexagon-allmodconfig
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|   |-- include-asm-generic-io.h:error:performing-pointer-arithmetic-on-a-null-pointer-has-undefined-behavior-Werror-Wnull-pointer-arithmetic
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|-- hexagon-allyesconfig
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|   |-- include-asm-generic-io.h:error:performing-pointer-arithmetic-on-a-null-pointer-has-undefined-behavior-Werror-Wnull-pointer-arithmetic
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|-- i386-buildonly-randconfig-002-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- i386-randconfig-001-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- i386-randconfig-054-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- powerpc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-amd_asic_type-and-enum-amd_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras.c:error:arithmetic-between-different-enumeration-types-(-enum-amdgpu_ras_block-and-enum-amdgpu_ras_mca_block-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   |-- drivers-gpu-drm-radeon-radeon_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-radeon_family-and-enum-radeon_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|   |-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-zone_stat_item-and-enum-numa_stat_item-)-Werror-Wenum-enum-conversion
-|-- powerpc-randconfig-003-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- powerpc64-randconfig-001-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- powerpc64-randconfig-003-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- riscv-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dml2-dml21-src-dml2_dpmm-dml2_dpmm_dcn4.c:error:arithmetic-between-enumeration-type-enum-dentist_divider_range-and-floating-point-type-double-Werror-Wenum-floa
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-amd_asic_type-and-enum-amd_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras.c:error:arithmetic-between-different-enumeration-types-(-enum-amdgpu_ras_block-and-enum-amdgpu_ras_mca_block-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-gpu-drm-i915-display-intel_cursor.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-phy-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_dpll_mgr.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-intel_dpll_id-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_hotplug.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_pipe_crc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_tc.c:error:arithmetic-between-different-enumeration-types-(-enum-intel_display_power_domain-and-enum-tc_port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_vdsc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_universal_plane.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_watermark.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   |-- drivers-gpu-drm-radeon-radeon_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-radeon_family-and-enum-radeon_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|   |-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-zone_stat_item-and-enum-numa_stat_item-)-Werror-Wenum-enum-conversion
-|-- riscv-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dml2-dml21-src-dml2_dpmm-dml2_dpmm_dcn4.c:error:arithmetic-between-enumeration-type-enum-dentist_divider_range-and-floating-point-type-double-Werror-Wenum-floa
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-amd_asic_type-and-enum-amd_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras.c:error:arithmetic-between-different-enumeration-types-(-enum-amdgpu_ras_block-and-enum-amdgpu_ras_mca_block-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   |-- drivers-gpu-drm-radeon-radeon_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-radeon_family-and-enum-radeon_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|   |-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-zone_stat_item-and-enum-numa_stat_item-)-Werror-Wenum-enum-conversion
-|-- s390-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-amd_asic_type-and-enum-amd_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras.c:error:arithmetic-between-different-enumeration-types-(-enum-amdgpu_ras_block-and-enum-amdgpu_ras_mca_block-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_cursor.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_ddi.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-phy-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_display_irq.c:error:arithmetic-between-different-enumeration-types-(-enum-transcoder-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_dpll_mgr.c:error:arithmetic-between-different-enumeration-types-(-enum-tc_port-and-enum-intel_dpll_id-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_hotplug.c:error:arithmetic-between-different-enumeration-types-(-enum-hpd_pin-and-enum-port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_pipe_crc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_tc.c:error:arithmetic-between-different-enumeration-types-(-enum-intel_display_power_domain-and-enum-tc_port-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-intel_vdsc.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_universal_plane.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-i915-display-skl_watermark.c:error:arithmetic-between-different-enumeration-types-(-enum-pipe-and-enum-intel_display_power_domain-)-Werror-Wenum-enum-conversion
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   |-- drivers-gpu-drm-radeon-radeon_drv.c:error:bitwise-operation-between-different-enumeration-types-(-enum-radeon_family-and-enum-radeon_chip_flags-)-Werror-Wenum-enum-conversion
-|   |-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|   |-- include-asm-generic-io.h:error:performing-pointer-arithmetic-on-a-null-pointer-has-undefined-behavior-Werror-Wnull-pointer-arithmetic
-|   |-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-node_stat_item-and-enum-lru_list-)-Werror-Wenum-enum-conversion
-|   `-- include-linux-vmstat.h:error:arithmetic-between-different-enumeration-types-(-enum-zone_stat_item-and-enum-numa_stat_item-)-Werror-Wenum-enum-conversion
-|-- x86_64-allnoconfig
-|   |-- Warning:MAINTAINERS-references-a-file-that-doesn-t-exist:Documentation-devicetree-bindings-display-exynos
-|   |-- Warning:MAINTAINERS-references-a-file-that-doesn-t-exist:Documentation-devicetree-bindings-reserved-memory-qcom
-|   `-- net-ipv6-udp.c:trace-events-udp.h-is-included-more-than-once.
-|-- x86_64-allyesconfig
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_insert-Werror-Wunused-function
-|   |-- drivers-gpu-drm-drm_mm.c:error:unused-function-drm_mm_interval_tree_iter_next-Werror-Wunused-function
-|   |-- drivers-gpu-drm-pl111-pl111_versatile.c:error:cast-to-smaller-integer-type-enum-versatile_clcd-from-const-void-Werror-Wvoid-pointer-to-enum-cast
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- x86_64-buildonly-randconfig-006-20240430
-|   |-- drivers-iommu-amd-pasid.c:error:call-to-undeclared-function-mmu_notifier_register-ISO-C99-and-later-do-not-support-implicit-function-declarations
-|   `-- drivers-iommu-amd-pasid.c:error:call-to-undeclared-function-mmu_notifier_unregister-ISO-C99-and-later-do-not-support-implicit-function-declarations
-|-- x86_64-randconfig-001-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- x86_64-randconfig-002-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- x86_64-randconfig-012-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- x86_64-randconfig-014-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- x86_64-randconfig-101-20240430
-|   `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-|-- x86_64-randconfig-161-20240430
-|   |-- drivers-virt-acrn-mm.c-acrn_vm_ram_map()-error:uninitialized-symbol-ret-.
-|   |-- drivers-virt-acrn-mm.c-acrn_vm_ram_map()-error:uninitialized-symbol-start_pfn-.
-|   `-- net-ipv6-route.c-rt6_fill_node()-error:we-previously-assumed-dst-could-be-null-(see-line-)
-`-- x86_64-randconfig-r123-20240430
-    `-- drivers-usb-dwc3-core.c:warning:variable-hw_mode-set-but-not-used
-
-elapsed time: 751m
-
-configs tested: 170
-configs skipped: 4
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                     haps_hs_smp_defconfig   gcc  
-arc                        nsim_700_defconfig   gcc  
-arc                   randconfig-001-20240430   gcc  
-arc                   randconfig-002-20240430   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                       imx_v6_v7_defconfig   clang
-arm                            mmp2_defconfig   gcc  
-arm                       multi_v4t_defconfig   clang
-arm                        mvebu_v5_defconfig   gcc  
-arm                   randconfig-001-20240430   clang
-arm                   randconfig-002-20240430   clang
-arm                   randconfig-003-20240430   clang
-arm                   randconfig-004-20240430   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240430   clang
-arm64                 randconfig-002-20240430   gcc  
-arm64                 randconfig-003-20240430   clang
-arm64                 randconfig-004-20240430   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240430   gcc  
-csky                  randconfig-002-20240430   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-002-20240430   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240430   gcc  
-i386         buildonly-randconfig-002-20240430   clang
-i386         buildonly-randconfig-003-20240430   gcc  
-i386         buildonly-randconfig-004-20240430   clang
-i386         buildonly-randconfig-005-20240430   clang
-i386         buildonly-randconfig-006-20240430   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240430   clang
-i386                  randconfig-002-20240430   gcc  
-i386                  randconfig-003-20240430   gcc  
-i386                  randconfig-004-20240430   gcc  
-i386                  randconfig-005-20240430   gcc  
-i386                  randconfig-006-20240430   gcc  
-i386                  randconfig-011-20240430   gcc  
-i386                  randconfig-012-20240430   clang
-i386                  randconfig-013-20240430   clang
-i386                  randconfig-014-20240430   gcc  
-i386                  randconfig-015-20240430   gcc  
-i386                  randconfig-016-20240430   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240430   gcc  
-loongarch             randconfig-002-20240430   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                           ip27_defconfig   gcc  
-mips                      malta_kvm_defconfig   gcc  
-mips                malta_qemu_32r6_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240430   gcc  
-nios2                 randconfig-002-20240430   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240430   gcc  
-parisc                randconfig-002-20240430   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                      bamboo_defconfig   clang
-powerpc                      chrp32_defconfig   clang
-powerpc                        icon_defconfig   gcc  
-powerpc                     ksi8560_defconfig   gcc  
-powerpc                   microwatt_defconfig   gcc  
-powerpc                       ppc64_defconfig   clang
-powerpc               randconfig-001-20240430   gcc  
-powerpc               randconfig-002-20240430   gcc  
-powerpc               randconfig-003-20240430   clang
-powerpc64                        alldefconfig   clang
-powerpc64             randconfig-001-20240430   clang
-powerpc64             randconfig-002-20240430   clang
-powerpc64             randconfig-003-20240430   clang
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240430   gcc  
-riscv                 randconfig-002-20240430   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240430   gcc  
-s390                  randconfig-002-20240430   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20240430   gcc  
-sh                    randconfig-002-20240430   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240430   gcc  
-sparc64               randconfig-002-20240430   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240430   clang
-um                    randconfig-002-20240430   clang
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240430   gcc  
-x86_64       buildonly-randconfig-002-20240430   clang
-x86_64       buildonly-randconfig-003-20240430   clang
-x86_64       buildonly-randconfig-004-20240430   clang
-x86_64       buildonly-randconfig-005-20240430   clang
-x86_64       buildonly-randconfig-006-20240430   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240430   clang
-x86_64                randconfig-002-20240430   clang
-x86_64                randconfig-003-20240430   gcc  
-x86_64                randconfig-004-20240430   gcc  
-x86_64                randconfig-005-20240430   gcc  
-x86_64                randconfig-006-20240430   clang
-x86_64                randconfig-012-20240430   clang
-x86_64                randconfig-013-20240430   gcc  
-x86_64                randconfig-014-20240430   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20240430   gcc  
-xtensa                randconfig-002-20240430   gcc  
-xtensa                         virt_defconfig   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ch7017.c b/drivers/gpu/drm/i915/display/dvo_ch7017.c
+> index d0c3880d7f80..493e730c685b 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_ch7017.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_ch7017.c
+> @@ -170,13 +170,13 @@ static bool ch7017_read(struct intel_dvo_device *dvo, u8 addr, u8 *val)
+>  {
+>  	struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = 0,
+>  			.len = 1,
+>  			.buf = &addr,
+>  		},
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 1,
+>  			.buf = val,
+> @@ -189,7 +189,7 @@ static bool ch7017_write(struct intel_dvo_device *dvo, u8 addr, u8 val)
+>  {
+>  	u8 buf[2] = { addr, val };
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 2,
+>  		.buf = buf,
+> @@ -197,7 +197,7 @@ static bool ch7017_write(struct intel_dvo_device *dvo, u8 addr, u8 val)
+>  	return i2c_transfer(dvo->i2c_bus, &msg, 1) == 1;
+>  }
+>  
+> -/** Probes for a CH7017 on the given bus and slave address. */
+> +/** Probes for a CH7017 on the given bus and target address. */
+>  static bool ch7017_init(struct intel_dvo_device *dvo,
+>  			struct i2c_adapter *adapter)
+>  {
+> @@ -227,13 +227,13 @@ static bool ch7017_init(struct intel_dvo_device *dvo,
+>  		break;
+>  	default:
+>  		DRM_DEBUG_KMS("ch701x not detected, got %d: from %s "
+> -			      "slave %d.\n",
+> -			      val, adapter->name, dvo->slave_addr);
+> +			      "target %d.\n",
+> +			      val, adapter->name, dvo->target_addr);
+>  		goto fail;
+>  	}
+>  
+>  	DRM_DEBUG_KMS("%s detected on %s, addr %d\n",
+> -		      str, adapter->name, dvo->slave_addr);
+> +		      str, adapter->name, dvo->target_addr);
+>  	return true;
+>  
+>  fail:
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ch7xxx.c b/drivers/gpu/drm/i915/display/dvo_ch7xxx.c
+> index 2e8e85da5a40..534b8544e0a4 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_ch7xxx.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_ch7xxx.c
+> @@ -153,13 +153,13 @@ static bool ch7xxx_readb(struct intel_dvo_device *dvo, int addr, u8 *ch)
+>  
+>  	struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = 0,
+>  			.len = 1,
+>  			.buf = out_buf,
+>  		},
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 1,
+>  			.buf = in_buf,
+> @@ -176,7 +176,7 @@ static bool ch7xxx_readb(struct intel_dvo_device *dvo, int addr, u8 *ch)
+>  
+>  	if (!ch7xxx->quiet) {
+>  		DRM_DEBUG_KMS("Unable to read register 0x%02x from %s:%02x.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  	return false;
+>  }
+> @@ -188,7 +188,7 @@ static bool ch7xxx_writeb(struct intel_dvo_device *dvo, int addr, u8 ch)
+>  	struct i2c_adapter *adapter = dvo->i2c_bus;
+>  	u8 out_buf[2];
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 2,
+>  		.buf = out_buf,
+> @@ -202,7 +202,7 @@ static bool ch7xxx_writeb(struct intel_dvo_device *dvo, int addr, u8 ch)
+>  
+>  	if (!ch7xxx->quiet) {
+>  		DRM_DEBUG_KMS("Unable to write register 0x%02x to %s:%d.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+> @@ -229,8 +229,8 @@ static bool ch7xxx_init(struct intel_dvo_device *dvo,
+>  
+>  	name = ch7xxx_get_id(vendor);
+>  	if (!name) {
+> -		DRM_DEBUG_KMS("ch7xxx not detected; got VID 0x%02x from %s slave %d.\n",
+> -			      vendor, adapter->name, dvo->slave_addr);
+> +		DRM_DEBUG_KMS("ch7xxx not detected; got VID 0x%02x from %s target %d.\n",
+> +			      vendor, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  
+> @@ -240,8 +240,8 @@ static bool ch7xxx_init(struct intel_dvo_device *dvo,
+>  
+>  	devid = ch7xxx_get_did(device);
+>  	if (!devid) {
+> -		DRM_DEBUG_KMS("ch7xxx not detected; got DID 0x%02x from %s slave %d.\n",
+> -			      device, adapter->name, dvo->slave_addr);
+> +		DRM_DEBUG_KMS("ch7xxx not detected; got DID 0x%02x from %s target %d.\n",
+> +			      device, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ivch.c b/drivers/gpu/drm/i915/display/dvo_ivch.c
+> index eef72bb3b767..0d5cce6051b1 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_ivch.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_ivch.c
+> @@ -198,7 +198,7 @@ static bool ivch_read(struct intel_dvo_device *dvo, int addr, u16 *data)
+>  
+>  	struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 0,
+>  		},
+> @@ -209,7 +209,7 @@ static bool ivch_read(struct intel_dvo_device *dvo, int addr, u16 *data)
+>  			.buf = out_buf,
+>  		},
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD | I2C_M_NOSTART,
+>  			.len = 2,
+>  			.buf = in_buf,
+> @@ -226,7 +226,7 @@ static bool ivch_read(struct intel_dvo_device *dvo, int addr, u16 *data)
+>  	if (!priv->quiet) {
+>  		DRM_DEBUG_KMS("Unable to read register 0x%02x from "
+>  				"%s:%02x.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  	return false;
+>  }
+> @@ -238,7 +238,7 @@ static bool ivch_write(struct intel_dvo_device *dvo, int addr, u16 data)
+>  	struct i2c_adapter *adapter = dvo->i2c_bus;
+>  	u8 out_buf[3];
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 3,
+>  		.buf = out_buf,
+> @@ -253,13 +253,13 @@ static bool ivch_write(struct intel_dvo_device *dvo, int addr, u16 data)
+>  
+>  	if (!priv->quiet) {
+>  		DRM_DEBUG_KMS("Unable to write register 0x%02x to %s:%d.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+>  }
+>  
+> -/* Probes the given bus and slave address for an ivch */
+> +/* Probes the given bus and target address for an ivch */
+>  static bool ivch_init(struct intel_dvo_device *dvo,
+>  		      struct i2c_adapter *adapter)
+>  {
+> @@ -283,10 +283,10 @@ static bool ivch_init(struct intel_dvo_device *dvo,
+>  	 * very unique, check that the value in the base address field matches
+>  	 * the address it's responding on.
+>  	 */
+> -	if ((temp & VR00_BASE_ADDRESS_MASK) != dvo->slave_addr) {
+> +	if ((temp & VR00_BASE_ADDRESS_MASK) != dvo->target_addr) {
+>  		DRM_DEBUG_KMS("ivch detect failed due to address mismatch "
+>  			  "(%d vs %d)\n",
+> -			  (temp & VR00_BASE_ADDRESS_MASK), dvo->slave_addr);
+> +			  (temp & VR00_BASE_ADDRESS_MASK), dvo->target_addr);
+>  		goto out;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ns2501.c b/drivers/gpu/drm/i915/display/dvo_ns2501.c
+> index 1df212fb000e..43fc0374fc7f 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_ns2501.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_ns2501.c
+> @@ -399,13 +399,13 @@ static bool ns2501_readb(struct intel_dvo_device *dvo, int addr, u8 *ch)
+>  
+>  	struct i2c_msg msgs[] = {
+>  		{
+> -		 .addr = dvo->slave_addr,
+> +		 .addr = dvo->target_addr,
+>  		 .flags = 0,
+>  		 .len = 1,
+>  		 .buf = out_buf,
+>  		 },
+>  		{
+> -		 .addr = dvo->slave_addr,
+> +		 .addr = dvo->target_addr,
+>  		 .flags = I2C_M_RD,
+>  		 .len = 1,
+>  		 .buf = in_buf,
+> @@ -423,7 +423,7 @@ static bool ns2501_readb(struct intel_dvo_device *dvo, int addr, u8 *ch)
+>  	if (!ns->quiet) {
+>  		DRM_DEBUG_KMS
+>  		    ("Unable to read register 0x%02x from %s:0x%02x.\n", addr,
+> -		     adapter->name, dvo->slave_addr);
+> +		     adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+> @@ -442,7 +442,7 @@ static bool ns2501_writeb(struct intel_dvo_device *dvo, int addr, u8 ch)
+>  	u8 out_buf[2];
+>  
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 2,
+>  		.buf = out_buf,
+> @@ -457,7 +457,7 @@ static bool ns2501_writeb(struct intel_dvo_device *dvo, int addr, u8 ch)
+>  
+>  	if (!ns->quiet) {
+>  		DRM_DEBUG_KMS("Unable to write register 0x%02x to %s:%d\n",
+> -			      addr, adapter->name, dvo->slave_addr);
+> +			      addr, adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+> @@ -488,8 +488,8 @@ static bool ns2501_init(struct intel_dvo_device *dvo,
+>  		goto out;
+>  
+>  	if (ch != (NS2501_VID & 0xff)) {
+> -		DRM_DEBUG_KMS("ns2501 not detected got %d: from %s Slave %d.\n",
+> -			      ch, adapter->name, dvo->slave_addr);
+> +		DRM_DEBUG_KMS("ns2501 not detected got %d: from %s Target %d.\n",
+> +			      ch, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  
+> @@ -497,8 +497,8 @@ static bool ns2501_init(struct intel_dvo_device *dvo,
+>  		goto out;
+>  
+>  	if (ch != (NS2501_DID & 0xff)) {
+> -		DRM_DEBUG_KMS("ns2501 not detected got %d: from %s Slave %d.\n",
+> -			      ch, adapter->name, dvo->slave_addr);
+> +		DRM_DEBUG_KMS("ns2501 not detected got %d: from %s Target %d.\n",
+> +			      ch, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  	ns->quiet = false;
+> diff --git a/drivers/gpu/drm/i915/display/dvo_sil164.c b/drivers/gpu/drm/i915/display/dvo_sil164.c
+> index 6c461024c8e3..a8dd40c00997 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_sil164.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_sil164.c
+> @@ -79,13 +79,13 @@ static bool sil164_readb(struct intel_dvo_device *dvo, int addr, u8 *ch)
+>  
+>  	struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = 0,
+>  			.len = 1,
+>  			.buf = out_buf,
+>  		},
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 1,
+>  			.buf = in_buf,
+> @@ -102,7 +102,7 @@ static bool sil164_readb(struct intel_dvo_device *dvo, int addr, u8 *ch)
+>  
+>  	if (!sil->quiet) {
+>  		DRM_DEBUG_KMS("Unable to read register 0x%02x from %s:%02x.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  	return false;
+>  }
+> @@ -113,7 +113,7 @@ static bool sil164_writeb(struct intel_dvo_device *dvo, int addr, u8 ch)
+>  	struct i2c_adapter *adapter = dvo->i2c_bus;
+>  	u8 out_buf[2];
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 2,
+>  		.buf = out_buf,
+> @@ -127,7 +127,7 @@ static bool sil164_writeb(struct intel_dvo_device *dvo, int addr, u8 ch)
+>  
+>  	if (!sil->quiet) {
+>  		DRM_DEBUG_KMS("Unable to write register 0x%02x to %s:%d.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+> @@ -153,8 +153,8 @@ static bool sil164_init(struct intel_dvo_device *dvo,
+>  		goto out;
+>  
+>  	if (ch != (SIL164_VID & 0xff)) {
+> -		DRM_DEBUG_KMS("sil164 not detected got %d: from %s Slave %d.\n",
+> -			  ch, adapter->name, dvo->slave_addr);
+> +		DRM_DEBUG_KMS("sil164 not detected got %d: from %s Target %d.\n",
+> +			  ch, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  
+> @@ -162,8 +162,8 @@ static bool sil164_init(struct intel_dvo_device *dvo,
+>  		goto out;
+>  
+>  	if (ch != (SIL164_DID & 0xff)) {
+> -		DRM_DEBUG_KMS("sil164 not detected got %d: from %s Slave %d.\n",
+> -			  ch, adapter->name, dvo->slave_addr);
+> +		DRM_DEBUG_KMS("sil164 not detected got %d: from %s Target %d.\n",
+> +			  ch, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  	sil->quiet = false;
+> diff --git a/drivers/gpu/drm/i915/display/dvo_tfp410.c b/drivers/gpu/drm/i915/display/dvo_tfp410.c
+> index 0939e097f4f9..d9a0cd753a87 100644
+> --- a/drivers/gpu/drm/i915/display/dvo_tfp410.c
+> +++ b/drivers/gpu/drm/i915/display/dvo_tfp410.c
+> @@ -100,13 +100,13 @@ static bool tfp410_readb(struct intel_dvo_device *dvo, int addr, u8 *ch)
+>  
+>  	struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = 0,
+>  			.len = 1,
+>  			.buf = out_buf,
+>  		},
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 1,
+>  			.buf = in_buf,
+> @@ -123,7 +123,7 @@ static bool tfp410_readb(struct intel_dvo_device *dvo, int addr, u8 *ch)
+>  
+>  	if (!tfp->quiet) {
+>  		DRM_DEBUG_KMS("Unable to read register 0x%02x from %s:%02x.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  	return false;
+>  }
+> @@ -134,7 +134,7 @@ static bool tfp410_writeb(struct intel_dvo_device *dvo, int addr, u8 ch)
+>  	struct i2c_adapter *adapter = dvo->i2c_bus;
+>  	u8 out_buf[2];
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 2,
+>  		.buf = out_buf,
+> @@ -148,7 +148,7 @@ static bool tfp410_writeb(struct intel_dvo_device *dvo, int addr, u8 ch)
+>  
+>  	if (!tfp->quiet) {
+>  		DRM_DEBUG_KMS("Unable to write register 0x%02x to %s:%d.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+> @@ -183,15 +183,15 @@ static bool tfp410_init(struct intel_dvo_device *dvo,
+>  
+>  	if ((id = tfp410_getid(dvo, TFP410_VID_LO)) != TFP410_VID) {
+>  		DRM_DEBUG_KMS("tfp410 not detected got VID %X: from %s "
+> -				"Slave %d.\n",
+> -			  id, adapter->name, dvo->slave_addr);
+> +				"Target %d.\n",
+> +			  id, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  
+>  	if ((id = tfp410_getid(dvo, TFP410_DID_LO)) != TFP410_DID) {
+>  		DRM_DEBUG_KMS("tfp410 not detected got DID %X: from %s "
+> -				"Slave %d.\n",
+> -			  id, adapter->name, dvo->slave_addr);
+> +				"Target %d.\n",
+> +			  id, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  	tfp->quiet = false;
+> diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
+> index fe52c06271ef..35f48fbd9e3e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_bios.c
+> +++ b/drivers/gpu/drm/i915/display/intel_bios.c
+> @@ -69,8 +69,8 @@ struct intel_bios_encoder_data {
+>  	struct list_head node;
+>  };
+>  
+> -#define	SLAVE_ADDR1	0x70
+> -#define	SLAVE_ADDR2	0x72
+> +#define	TARGET_ADDR1	0x70
+> +#define	TARGET_ADDR2	0x72
+>  
+>  /* Get BDB block size given a pointer to Block ID. */
+>  static u32 _get_blocksize(const u8 *block_base)
+> @@ -1231,10 +1231,10 @@ parse_sdvo_device_mapping(struct drm_i915_private *i915)
+>  		const struct child_device_config *child = &devdata->child;
+>  		struct sdvo_device_mapping *mapping;
+>  
+> -		if (child->slave_addr != SLAVE_ADDR1 &&
+> -		    child->slave_addr != SLAVE_ADDR2) {
+> +		if (child->target_addr != TARGET_ADDR1 &&
+> +		    child->target_addr != TARGET_ADDR2) {
+>  			/*
+> -			 * If the slave address is neither 0x70 nor 0x72,
+> +			 * If the target address is neither 0x70 nor 0x72,
+>  			 * it is not a SDVO device. Skip it.
+>  			 */
+>  			continue;
+> @@ -1247,22 +1247,22 @@ parse_sdvo_device_mapping(struct drm_i915_private *i915)
+>  			continue;
+>  		}
+>  		drm_dbg_kms(&i915->drm,
+> -			    "the SDVO device with slave addr %2x is found on"
+> +			    "the SDVO device with target addr %2x is found on"
+>  			    " %s port\n",
+> -			    child->slave_addr,
+> +			    child->target_addr,
+>  			    (child->dvo_port == DEVICE_PORT_DVOB) ?
+>  			    "SDVOB" : "SDVOC");
+>  		mapping = &i915->display.vbt.sdvo_mappings[child->dvo_port - 1];
+>  		if (!mapping->initialized) {
+>  			mapping->dvo_port = child->dvo_port;
+> -			mapping->slave_addr = child->slave_addr;
+> +			mapping->target_addr = child->target_addr;
+>  			mapping->dvo_wiring = child->dvo_wiring;
+>  			mapping->ddc_pin = child->ddc_pin;
+>  			mapping->i2c_pin = child->i2c_pin;
+>  			mapping->initialized = 1;
+>  			drm_dbg_kms(&i915->drm,
+>  				    "SDVO device: dvo=%x, addr=%x, wiring=%d, ddc_pin=%d, i2c_pin=%d\n",
+> -				    mapping->dvo_port, mapping->slave_addr,
+> +				    mapping->dvo_port, mapping->target_addr,
+>  				    mapping->dvo_wiring, mapping->ddc_pin,
+>  				    mapping->i2c_pin);
+>  		} else {
+> @@ -1270,11 +1270,11 @@ parse_sdvo_device_mapping(struct drm_i915_private *i915)
+>  				    "Maybe one SDVO port is shared by "
+>  				    "two SDVO device.\n");
+>  		}
+> -		if (child->slave2_addr) {
+> +		if (child->target2_addr) {
+>  			/* Maybe this is a SDVO device with multiple inputs */
+>  			/* And the mapping info is not added */
+>  			drm_dbg_kms(&i915->drm,
+> -				    "there exists the slave2_addr. Maybe this"
+> +				    "there exists the target2_addr. Maybe this"
+>  				    " is a SDVO device with multiple inputs.\n");
+>  		}
+>  		count++;
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index c587a8efeafc..c408daee412a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -4327,7 +4327,7 @@ static int intel_ddi_compute_config_late(struct intel_encoder *encoder,
+>  									connector->tile_group->id);
+>  
+>  	/*
+> -	 * EDP Transcoders cannot be ensalved
+> +	 * EDP Transcoders cannot be slaves
+>  	 * make them a master always when present
+>  	 */
+>  	if (port_sync_transcoders & BIT(TRANSCODER_EDP))
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_core.h b/drivers/gpu/drm/i915/display/intel_display_core.h
+> index 2167dbee5eea..5bfc91f0b563 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_core.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_core.h
+> @@ -236,7 +236,7 @@ struct intel_vbt_data {
+>  	struct sdvo_device_mapping {
+>  		u8 initialized;
+>  		u8 dvo_port;
+> -		u8 slave_addr;
+> +		u8 target_addr;
+>  		u8 dvo_wiring;
+>  		u8 i2c_pin;
+>  		u8 ddc_pin;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dsi.h b/drivers/gpu/drm/i915/display/intel_dsi.h
+> index e99c94edfaae..e8ba4ccd99d3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dsi.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dsi.h
+> @@ -66,7 +66,7 @@ struct intel_dsi {
+>  	/* number of DSI lanes */
+>  	unsigned int lane_count;
+>  
+> -	/* i2c bus associated with the slave device */
+> +	/* i2c bus associated with the target device */
+>  	int i2c_bus_num;
+>  
+>  	/*
+> diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> index a5d7fc8418c9..fb0b02e30c8b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> @@ -56,7 +56,7 @@
+>  #define MIPI_PORT_SHIFT			3
+>  
+>  struct i2c_adapter_lookup {
+> -	u16 slave_addr;
+> +	u16 target_addr;
+>  	struct intel_dsi *intel_dsi;
+>  	acpi_handle dev_handle;
+>  };
+> @@ -443,7 +443,7 @@ static int i2c_adapter_lookup(struct acpi_resource *ares, void *data)
+>  	if (!i2c_acpi_get_i2c_resource(ares, &sb))
+>  		return 1;
+>  
+> -	if (lookup->slave_addr != sb->slave_address)
+> +	if (lookup->target_addr != sb->slave_address)
+>  		return 1;
+>  
+>  	status = acpi_get_handle(lookup->dev_handle,
+> @@ -460,12 +460,12 @@ static int i2c_adapter_lookup(struct acpi_resource *ares, void *data)
+>  }
+>  
+>  static void i2c_acpi_find_adapter(struct intel_dsi *intel_dsi,
+> -				  const u16 slave_addr)
+> +				  const u16 target_addr)
+>  {
+>  	struct drm_device *drm_dev = intel_dsi->base.base.dev;
+>  	struct acpi_device *adev = ACPI_COMPANION(drm_dev->dev);
+>  	struct i2c_adapter_lookup lookup = {
+> -		.slave_addr = slave_addr,
+> +		.target_addr = target_addr,
+>  		.intel_dsi = intel_dsi,
+>  		.dev_handle = acpi_device_handle(adev),
+>  	};
+> @@ -476,7 +476,7 @@ static void i2c_acpi_find_adapter(struct intel_dsi *intel_dsi,
+>  }
+>  #else
+>  static inline void i2c_acpi_find_adapter(struct intel_dsi *intel_dsi,
+> -					 const u16 slave_addr)
+> +					 const u16 target_addr)
+>  {
+>  }
+>  #endif
+> @@ -488,17 +488,17 @@ static const u8 *mipi_exec_i2c(struct intel_dsi *intel_dsi, const u8 *data)
+>  	struct i2c_msg msg;
+>  	int ret;
+>  	u8 vbt_i2c_bus_num = *(data + 2);
+> -	u16 slave_addr = *(u16 *)(data + 3);
+> +	u16 target_addr = *(u16 *)(data + 3);
+>  	u8 reg_offset = *(data + 5);
+>  	u8 payload_size = *(data + 6);
+>  	u8 *payload_data;
+>  
+> -	drm_dbg_kms(&i915->drm, "bus %d client-addr 0x%02x reg 0x%02x data %*ph\n",
+> -		    vbt_i2c_bus_num, slave_addr, reg_offset, payload_size, data + 7);
+> +	drm_dbg_kms(&i915->drm, "bus %d target-addr 0x%02x reg 0x%02x data %*ph\n",
+> +		    vbt_i2c_bus_num, target_addr, reg_offset, payload_size, data + 7);
+>  
+>  	if (intel_dsi->i2c_bus_num < 0) {
+>  		intel_dsi->i2c_bus_num = vbt_i2c_bus_num;
+> -		i2c_acpi_find_adapter(intel_dsi, slave_addr);
+> +		i2c_acpi_find_adapter(intel_dsi, target_addr);
+>  	}
+>  
+>  	adapter = i2c_get_adapter(intel_dsi->i2c_bus_num);
+> @@ -514,7 +514,7 @@ static const u8 *mipi_exec_i2c(struct intel_dsi *intel_dsi, const u8 *data)
+>  	payload_data[0] = reg_offset;
+>  	memcpy(&payload_data[1], (data + 7), payload_size);
+>  
+> -	msg.addr = slave_addr;
+> +	msg.addr = target_addr;
+>  	msg.flags = 0;
+>  	msg.len = payload_size + 1;
+>  	msg.buf = payload_data;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dvo.c b/drivers/gpu/drm/i915/display/intel_dvo.c
+> index c076da75b066..8d4c8f33f776 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dvo.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dvo.c
+> @@ -60,42 +60,42 @@ static const struct intel_dvo_device intel_dvo_devices[] = {
+>  		.type = INTEL_DVO_CHIP_TMDS,
+>  		.name = "sil164",
+>  		.port = PORT_C,
+> -		.slave_addr = SIL164_ADDR,
+> +		.target_addr = SIL164_ADDR,
+>  		.dev_ops = &sil164_ops,
+>  	},
+>  	{
+>  		.type = INTEL_DVO_CHIP_TMDS,
+>  		.name = "ch7xxx",
+>  		.port = PORT_C,
+> -		.slave_addr = CH7xxx_ADDR,
+> +		.target_addr = CH7xxx_ADDR,
+>  		.dev_ops = &ch7xxx_ops,
+>  	},
+>  	{
+>  		.type = INTEL_DVO_CHIP_TMDS,
+>  		.name = "ch7xxx",
+>  		.port = PORT_C,
+> -		.slave_addr = 0x75, /* For some ch7010 */
+> +		.target_addr = 0x75, /* For some ch7010 */
+>  		.dev_ops = &ch7xxx_ops,
+>  	},
+>  	{
+>  		.type = INTEL_DVO_CHIP_LVDS,
+>  		.name = "ivch",
+>  		.port = PORT_A,
+> -		.slave_addr = 0x02, /* Might also be 0x44, 0x84, 0xc4 */
+> +		.target_addr = 0x02, /* Might also be 0x44, 0x84, 0xc4 */
+>  		.dev_ops = &ivch_ops,
+>  	},
+>  	{
+>  		.type = INTEL_DVO_CHIP_TMDS,
+>  		.name = "tfp410",
+>  		.port = PORT_C,
+> -		.slave_addr = TFP410_ADDR,
+> +		.target_addr = TFP410_ADDR,
+>  		.dev_ops = &tfp410_ops,
+>  	},
+>  	{
+>  		.type = INTEL_DVO_CHIP_LVDS,
+>  		.name = "ch7017",
+>  		.port = PORT_C,
+> -		.slave_addr = 0x75,
+> +		.target_addr = 0x75,
+>  		.gpio = GMBUS_PIN_DPB,
+>  		.dev_ops = &ch7017_ops,
+>  	},
+> @@ -103,7 +103,7 @@ static const struct intel_dvo_device intel_dvo_devices[] = {
+>  		.type = INTEL_DVO_CHIP_LVDS_NO_FIXED,
+>  		.name = "ns2501",
+>  		.port = PORT_B,
+> -		.slave_addr = NS2501_ADDR,
+> +		.target_addr = NS2501_ADDR,
+>  		.dev_ops = &ns2501_ops,
+>  	},
+>  };
+> diff --git a/drivers/gpu/drm/i915/display/intel_dvo_dev.h b/drivers/gpu/drm/i915/display/intel_dvo_dev.h
+> index af7b04539b93..4bf476656b8c 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dvo_dev.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dvo_dev.h
+> @@ -38,7 +38,7 @@ struct intel_dvo_device {
+>  	enum port port;
+>  	/* GPIO register used for i2c bus to control this device */
+>  	u32 gpio;
+> -	int slave_addr;
+> +	int target_addr;
+>  
+>  	const struct intel_dvo_dev_ops *dev_ops;
+>  	void *dev_priv;
+> diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c b/drivers/gpu/drm/i915/display/intel_gmbus.c
+> index d3e03ed5b79c..fe9a3c1f0072 100644
+> --- a/drivers/gpu/drm/i915/display/intel_gmbus.c
+> +++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
+> @@ -478,7 +478,7 @@ gmbus_xfer_read_chunk(struct drm_i915_private *i915,
+>  /*
+>   * HW spec says that 512Bytes in Burst read need special treatment.
+>   * But it doesn't talk about other multiple of 256Bytes. And couldn't locate
+> - * an I2C slave, which supports such a lengthy burst read too for experiments.
+> + * an I2C target, which supports such a lengthy burst read too for experiments.
+>   *
+>   * So until things get clarified on HW support, to avoid the burst read length
+>   * in fold of 256Bytes except 512, max burst read length is fixed at 767Bytes.
+> @@ -701,7 +701,7 @@ do_gmbus_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs, int num,
+>  
+>  	/* Toggle the Software Clear Interrupt bit. This has the effect
+>  	 * of resetting the GMBUS controller and so clearing the
+> -	 * BUS_ERROR raised by the slave's NAK.
+> +	 * BUS_ERROR raised by the target's NAK.
+>  	 */
+>  	intel_de_write_fw(i915, GMBUS1(i915), GMBUS_SW_CLR_INT);
+>  	intel_de_write_fw(i915, GMBUS1(i915), 0);
+> diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+> index 5f9e748adc89..87052bd1c554 100644
+> --- a/drivers/gpu/drm/i915/display/intel_sdvo.c
+> +++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+> @@ -95,7 +95,7 @@ struct intel_sdvo {
+>  	struct intel_encoder base;
+>  
+>  	struct i2c_adapter *i2c;
+> -	u8 slave_addr;
+> +	u8 target_addr;
+>  
+>  	struct intel_sdvo_ddc ddc[3];
+>  
+> @@ -255,13 +255,13 @@ static bool intel_sdvo_read_byte(struct intel_sdvo *intel_sdvo, u8 addr, u8 *ch)
+>  	struct drm_i915_private *i915 = to_i915(intel_sdvo->base.base.dev);
+>  	struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = intel_sdvo->slave_addr,
+> +			.addr = intel_sdvo->target_addr,
+>  			.flags = 0,
+>  			.len = 1,
+>  			.buf = &addr,
+>  		},
+>  		{
+> -			.addr = intel_sdvo->slave_addr,
+> +			.addr = intel_sdvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 1,
+>  			.buf = ch,
+> @@ -483,14 +483,14 @@ static bool __intel_sdvo_write_cmd(struct intel_sdvo *intel_sdvo, u8 cmd,
+>  	intel_sdvo_debug_write(intel_sdvo, cmd, args, args_len);
+>  
+>  	for (i = 0; i < args_len; i++) {
+> -		msgs[i].addr = intel_sdvo->slave_addr;
+> +		msgs[i].addr = intel_sdvo->target_addr;
+>  		msgs[i].flags = 0;
+>  		msgs[i].len = 2;
+>  		msgs[i].buf = buf + 2 *i;
+>  		buf[2*i + 0] = SDVO_I2C_ARG_0 - i;
+>  		buf[2*i + 1] = ((u8*)args)[i];
+>  	}
+> -	msgs[i].addr = intel_sdvo->slave_addr;
+> +	msgs[i].addr = intel_sdvo->target_addr;
+>  	msgs[i].flags = 0;
+>  	msgs[i].len = 2;
+>  	msgs[i].buf = buf + 2*i;
+> @@ -499,12 +499,12 @@ static bool __intel_sdvo_write_cmd(struct intel_sdvo *intel_sdvo, u8 cmd,
+>  
+>  	/* the following two are to read the response */
+>  	status = SDVO_I2C_CMD_STATUS;
+> -	msgs[i+1].addr = intel_sdvo->slave_addr;
+> +	msgs[i+1].addr = intel_sdvo->target_addr;
+>  	msgs[i+1].flags = 0;
+>  	msgs[i+1].len = 1;
+>  	msgs[i+1].buf = &status;
+>  
+> -	msgs[i+2].addr = intel_sdvo->slave_addr;
+> +	msgs[i+2].addr = intel_sdvo->target_addr;
+>  	msgs[i+2].flags = I2C_M_RD;
+>  	msgs[i+2].len = 1;
+>  	msgs[i+2].buf = &status;
+> @@ -2659,9 +2659,9 @@ intel_sdvo_select_i2c_bus(struct intel_sdvo *sdvo)
+>  	else
+>  		pin = GMBUS_PIN_DPB;
+>  
+> -	drm_dbg_kms(&dev_priv->drm, "[ENCODER:%d:%s] I2C pin %d, slave addr 0x%x\n",
+> +	drm_dbg_kms(&dev_priv->drm, "[ENCODER:%d:%s] I2C pin %d, target addr 0x%x\n",
+>  		    sdvo->base.base.base.id, sdvo->base.base.name,
+> -		    pin, sdvo->slave_addr);
+> +		    pin, sdvo->target_addr);
+>  
+>  	sdvo->i2c = intel_gmbus_get_adapter(dev_priv, pin);
+>  
+> @@ -2687,7 +2687,7 @@ intel_sdvo_is_hdmi_connector(struct intel_sdvo *intel_sdvo)
+>  }
+>  
+>  static u8
+> -intel_sdvo_get_slave_addr(struct intel_sdvo *sdvo)
+> +intel_sdvo_get_target_addr(struct intel_sdvo *sdvo)
+>  {
+>  	struct drm_i915_private *dev_priv = to_i915(sdvo->base.base.dev);
+>  	const struct sdvo_device_mapping *my_mapping, *other_mapping;
+> @@ -2701,15 +2701,15 @@ intel_sdvo_get_slave_addr(struct intel_sdvo *sdvo)
+>  	}
+>  
+>  	/* If the BIOS described our SDVO device, take advantage of it. */
+> -	if (my_mapping->slave_addr)
+> -		return my_mapping->slave_addr;
+> +	if (my_mapping->target_addr)
+> +		return my_mapping->target_addr;
+>  
+>  	/*
+>  	 * If the BIOS only described a different SDVO device, use the
+>  	 * address that it isn't using.
+>  	 */
+> -	if (other_mapping->slave_addr) {
+> -		if (other_mapping->slave_addr == 0x70)
+> +	if (other_mapping->target_addr) {
+> +		if (other_mapping->target_addr == 0x70)
+>  			return 0x72;
+>  		else
+>  			return 0x70;
+> @@ -3412,7 +3412,7 @@ bool intel_sdvo_init(struct drm_i915_private *dev_priv,
+>  			 "SDVO %c", port_name(port));
+>  
+>  	intel_sdvo->sdvo_reg = sdvo_reg;
+> -	intel_sdvo->slave_addr = intel_sdvo_get_slave_addr(intel_sdvo) >> 1;
+> +	intel_sdvo->target_addr = intel_sdvo_get_target_addr(intel_sdvo) >> 1;
+>  
+>  	intel_sdvo_select_i2c_bus(intel_sdvo);
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_vbt_defs.h b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> index a9f44abfc9fc..c0d5aae980a8 100644
+> --- a/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> +++ b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> @@ -432,7 +432,7 @@ struct child_device_config {
+>  	u16 addin_offset;
+>  	u8 dvo_port; /* See DEVICE_PORT_* and DVO_PORT_* above */
+>  	u8 i2c_pin;
+> -	u8 slave_addr;
+> +	u8 target_addr;
+>  	u8 ddc_pin;
+>  	u16 edid_ptr;
+>  	u8 dvo_cfg; /* See DEVICE_CFG_* above */
+> @@ -441,7 +441,7 @@ struct child_device_config {
+>  		struct {
+>  			u8 dvo2_port;
+>  			u8 i2c2_pin;
+> -			u8 slave2_addr;
+> +			u8 target2_addr;
+>  			u8 ddc2_pin;
+>  		} __packed;
+>  		struct {
+> diff --git a/drivers/gpu/drm/i915/gvt/edid.c b/drivers/gpu/drm/i915/gvt/edid.c
+> index af9afdb53c7f..c022dc736045 100644
+> --- a/drivers/gpu/drm/i915/gvt/edid.c
+> +++ b/drivers/gpu/drm/i915/gvt/edid.c
+> @@ -42,8 +42,8 @@
+>  #define GMBUS1_TOTAL_BYTES_MASK 0x1ff
+>  #define gmbus1_total_byte_count(v) (((v) >> \
+>  	GMBUS1_TOTAL_BYTES_SHIFT) & GMBUS1_TOTAL_BYTES_MASK)
+> -#define gmbus1_slave_addr(v) (((v) & 0xff) >> 1)
+> -#define gmbus1_slave_index(v) (((v) >> 8) & 0xff)
+> +#define gmbus1_target_addr(v) (((v) & 0xff) >> 1)
+> +#define gmbus1_target_index(v) (((v) >> 8) & 0xff)
+>  #define gmbus1_bus_cycle(v) (((v) >> 25) & 0x7)
+>  
+>  /* GMBUS0 bits definitions */
+> @@ -54,7 +54,7 @@ static unsigned char edid_get_byte(struct intel_vgpu *vgpu)
+>  	struct intel_vgpu_i2c_edid *edid = &vgpu->display.i2c_edid;
+>  	unsigned char chr = 0;
+>  
+> -	if (edid->state == I2C_NOT_SPECIFIED || !edid->slave_selected) {
+> +	if (edid->state == I2C_NOT_SPECIFIED || !edid->target_selected) {
+>  		gvt_vgpu_err("Driver tries to read EDID without proper sequence!\n");
+>  		return 0;
+>  	}
+> @@ -179,7 +179,7 @@ static int gmbus1_mmio_write(struct intel_vgpu *vgpu, unsigned int offset,
+>  		void *p_data, unsigned int bytes)
+>  {
+>  	struct intel_vgpu_i2c_edid *i2c_edid = &vgpu->display.i2c_edid;
+> -	u32 slave_addr;
+> +	u32 target_addr;
+>  	u32 wvalue = *(u32 *)p_data;
+>  
+>  	if (vgpu_vreg(vgpu, offset) & GMBUS_SW_CLR_INT) {
+> @@ -210,21 +210,21 @@ static int gmbus1_mmio_write(struct intel_vgpu *vgpu, unsigned int offset,
+>  
+>  		i2c_edid->gmbus.total_byte_count =
+>  			gmbus1_total_byte_count(wvalue);
+> -		slave_addr = gmbus1_slave_addr(wvalue);
+> +		target_addr = gmbus1_target_addr(wvalue);
+>  
+>  		/* vgpu gmbus only support EDID */
+> -		if (slave_addr == EDID_ADDR) {
+> -			i2c_edid->slave_selected = true;
+> -		} else if (slave_addr != 0) {
+> +		if (target_addr == EDID_ADDR) {
+> +			i2c_edid->target_selected = true;
+> +		} else if (target_addr != 0) {
+>  			gvt_dbg_dpy(
+> -				"vgpu%d: unsupported gmbus slave addr(0x%x)\n"
+> +				"vgpu%d: unsupported gmbus target addr(0x%x)\n"
+>  				"	gmbus operations will be ignored.\n",
+> -					vgpu->id, slave_addr);
+> +					vgpu->id, target_addr);
+>  		}
+>  
+>  		if (wvalue & GMBUS_CYCLE_INDEX)
+>  			i2c_edid->current_edid_read =
+> -				gmbus1_slave_index(wvalue);
+> +				gmbus1_target_index(wvalue);
+>  
+>  		i2c_edid->gmbus.cycle_type = gmbus1_bus_cycle(wvalue);
+>  		switch (gmbus1_bus_cycle(wvalue)) {
+> @@ -523,7 +523,7 @@ void intel_gvt_i2c_handle_aux_ch_write(struct intel_vgpu *vgpu,
+>  			} else if (addr == EDID_ADDR) {
+>  				i2c_edid->state = I2C_AUX_CH;
+>  				i2c_edid->port = port_idx;
+> -				i2c_edid->slave_selected = true;
+> +				i2c_edid->target_selected = true;
+>  				if (intel_vgpu_has_monitor_on_port(vgpu,
+>  					port_idx) &&
+>  					intel_vgpu_port_is_dp(vgpu, port_idx))
+> @@ -542,7 +542,7 @@ void intel_gvt_i2c_handle_aux_ch_write(struct intel_vgpu *vgpu,
+>  			return;
+>  		if (drm_WARN_ON(&i915->drm, msg_length != 4))
+>  			return;
+> -		if (i2c_edid->edid_available && i2c_edid->slave_selected) {
+> +		if (i2c_edid->edid_available && i2c_edid->target_selected) {
+>  			unsigned char val = edid_get_byte(vgpu);
+>  
+>  			aux_data_for_write = (val << 16);
+> @@ -571,7 +571,7 @@ void intel_vgpu_init_i2c_edid(struct intel_vgpu *vgpu)
+>  	edid->state = I2C_NOT_SPECIFIED;
+>  
+>  	edid->port = -1;
+> -	edid->slave_selected = false;
+> +	edid->target_selected = false;
+>  	edid->edid_available = false;
+>  	edid->current_edid_read = 0;
+>  
+> diff --git a/drivers/gpu/drm/i915/gvt/edid.h b/drivers/gpu/drm/i915/gvt/edid.h
+> index dfe0cbc6aad8..c3b5a55aecb3 100644
+> --- a/drivers/gpu/drm/i915/gvt/edid.h
+> +++ b/drivers/gpu/drm/i915/gvt/edid.h
+> @@ -80,7 +80,7 @@ enum gmbus_cycle_type {
+>   *      R/W Protect
+>   *      Command and Status.
+>   *      bit0 is the direction bit: 1 is read; 0 is write.
+> - *      bit1 - bit7 is slave 7-bit address.
+> + *      bit1 - bit7 is target 7-bit address.
+>   *      bit16 - bit24 total byte count (ignore?)
+>   *
+>   * GMBUS2:
+> @@ -130,7 +130,7 @@ struct intel_vgpu_i2c_edid {
+>  	enum i2c_state state;
+>  
+>  	unsigned int port;
+> -	bool slave_selected;
+> +	bool target_selected;
+>  	bool edid_available;
+>  	unsigned int current_edid_read;
+>  
+> diff --git a/drivers/gpu/drm/i915/gvt/opregion.c b/drivers/gpu/drm/i915/gvt/opregion.c
+> index d2bed466540a..908f910420c2 100644
+> --- a/drivers/gpu/drm/i915/gvt/opregion.c
+> +++ b/drivers/gpu/drm/i915/gvt/opregion.c
+> @@ -86,7 +86,7 @@ struct efp_child_device_config {
+>  	u8 skip2;
+>  	u8 dvo_port;
+>  	u8 i2c_pin; /* for add-in card */
+> -	u8 slave_addr; /* for add-in card */
+> +	u8 target_addr; /* for add-in card */
+>  	u8 ddc_pin;
+>  	u16 edid_ptr;
+>  	u8 dvo_config;
+> -- 
+> 2.34.1
+> 
