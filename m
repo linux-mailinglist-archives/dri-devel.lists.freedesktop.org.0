@@ -2,77 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181DA8B6D7F
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 10:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D898B6DB6
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 11:08:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B13610F6B4;
-	Tue, 30 Apr 2024 08:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13D0F10E7D3;
+	Tue, 30 Apr 2024 09:08:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PSYD6VrK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K/lxu9fy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83B6110F870
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 08:55:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1714467323;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B6unb6s6Cmj8rBNMoCe2bes/qPSr8qRmhQ3+wiG2C4o=;
- b=PSYD6VrKBSGe5BJLh0HS+YOBw3BbzEMByf+J2lgblEQhly/iWbEUh4fbtC0sItlDmu5Vyj
- yNA9BktlXFbldMrU8LkY9EGqubmWJwLJScGr7QDi0D6ToYmabSpUesdX1sB8fJcBXMbeIG
- z3dSl1cJXR8UDVxj5zasPn6KMo4/2LU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-223-M5xIP9PpM7WigjKmM7hpTA-1; Tue, 30 Apr 2024 04:55:21 -0400
-X-MC-Unique: M5xIP9PpM7WigjKmM7hpTA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-41be609b854so12988705e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 01:55:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714467320; x=1715072120;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=B6unb6s6Cmj8rBNMoCe2bes/qPSr8qRmhQ3+wiG2C4o=;
- b=kHabey3SvgxzK9YPjcfiwbhrJvgZbPBB5ZGqeRbPsUs7aWutMHakQaYCeDJ5cpF5er
- 4rX2QdhK0TtdzZpGYEXHS6GOQTjxljgJjBeQDHnSdFQm+ZgK8Ex7K126/XY33BpwFn3o
- wBrz9zIuR83eLN2ScD1JTC7dUtiChqhPKsf67k6sMH8LIJU8fXSx1+LAr/NArjJv+jAc
- KMgB8c3Peq6N5fPAluC5FeUbHmQNS57ki8YDx8R9sz2WHBQEZ8MyO7j86YdLRgxnRiJt
- cRXEisd5ixW5KkSDlRLQqKSqEaOT5Od7355GHT8nx9RyrF/qQj0q8uLYnGWI+XupQY2Q
- jqfA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWjD+dSQhtJpXduidmXciFKCjUrWPu943z5JuVjqBb+us9V8waBUJXT6Huq7+XGcX//F41grASl14/8mgafkWNNNqkwkxEaM+GOxp0JCGPF
-X-Gm-Message-State: AOJu0Yz4rtPwZmf9QbrN6BoSEt8f9Opon/xtrc7a/0L9qC9WnZ5CSiCK
- I945lX/qkYohsqoIkVzaNpd3KMZftO4Jxh77ougU0d7smEPG9HDBQJYj9KjolrPhZbweOHIxwzA
- FxT32kkWKgQHgxWSKL8yl7u+8dJKDhnaR3SOqiV542Ri/Zhap247nQMkzWwnKlXlgKAKYY1X5dw
- ==
-X-Received: by 2002:a05:600c:3c93:b0:419:f4d6:463b with SMTP id
- bg19-20020a05600c3c9300b00419f4d6463bmr1757027wmb.14.1714467320177; 
- Tue, 30 Apr 2024 01:55:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEEdE5TEKU0GpJmQYJr3e/q45cglrdwO3iKp6S5W1h1cvmfgN0dBHxnX5cz49Oz4I88Ela3ww==
-X-Received: by 2002:a05:600c:3c93:b0:419:f4d6:463b with SMTP id
- bg19-20020a05600c3c9300b00419f4d6463bmr1757003wmb.14.1714467319674; 
- Tue, 30 Apr 2024 01:55:19 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- fl23-20020a05600c0b9700b0041bc41287cesm12970758wmb.16.2024.04.30.01.55.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Apr 2024 01:55:19 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: jani.nikula@intel.com
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD7BA10E7D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 09:08:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1714468120; x=1746004120;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=o1HIXoCG6+dP9wwsNWFiBzq6Y22+5YvyYqfV7tqpPJ4=;
+ b=K/lxu9fyods2Fa/HtgDaJbfe+k+hWQK5pPdgt6QL4QvOP8UQTS/yDGdF
+ EbAtXXXgz5CWUB4raK3EJDrRwzoUSG8u4u3xNYKl8be6Pfxmmgj6rcd/w
+ /IfYk0aMjjrGw0znZOuWu34Crn9jSDD5KYaAMMD7oJ58Sth1HjuE4TAl4
+ rgV8aL/yK7dck8S8q739OXBvZy6qaPJIeC7JnmZ4XmPM+aOmH0Rqd0UzP
+ 7RV9SmuZANe9AgMmwAhsULHZbX9QXOsNlMVV/0pw5gUzuFNwcgiwus6iO
+ geNN3zik7QQKX5uT8BonYPzfnp/NbD49arGQB8NaS+5ixszdjgBT6DcXP Q==;
+X-CSE-ConnectionGUID: 3vRVf87+QAKF86jpwbf3Ag==
+X-CSE-MsgGUID: URUYb707S8e6VgOo9IlW/w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10701075"
+X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; d="scan'208";a="10701075"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2024 02:08:39 -0700
+X-CSE-ConnectionGUID: CIuK3YJLR3Wg2AsQpuYjHA==
+X-CSE-MsgGUID: pewBzL4FRS6hbL7Fr8M8vg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; d="scan'208";a="26499214"
+Received: from vkats-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.33.167])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2024 02:08:38 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH] drm: deprecate driver date
-In-Reply-To: <20240429164336.1406480-1-jani.nikula@intel.com>
+In-Reply-To: <_D910BUYB2AisyF_XxxuoFt4VA001Sls_51rM1qF7q9EFsxTkEEMsqKc86OQ3p3xHu9wsHRws0JG_SkqFtqxu_9_tcp1uwaPjVUAntXoyqg=@emersion.fr>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20240429164336.1406480-1-jani.nikula@intel.com>
-Date: Tue, 30 Apr 2024 10:55:17 +0200
-Message-ID: <874jbjtekq.fsf@minerva.mail-host-address-is-not-set>
+ <_D910BUYB2AisyF_XxxuoFt4VA001Sls_51rM1qF7q9EFsxTkEEMsqKc86OQ3p3xHu9wsHRws0JG_SkqFtqxu_9_tcp1uwaPjVUAntXoyqg=@emersion.fr>
+Date: Tue, 30 Apr 2024 12:08:35 +0300
+Message-ID: <87jzkf2p64.fsf@intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,37 +69,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jani Nikula <jani.nikula@intel.com> writes:
+On Tue, 30 Apr 2024, Simon Ser <contact@emersion.fr> wrote:
+> On Monday, April 29th, 2024 at 18:43, Jani Nikula <jani.nikula@intel.com> wrote:
+>
+>> The driver date serves no useful purpose, because it's hardly ever
+>> updated. The information is misleading at best.
+>> 
+>> As described in Documentation/gpu/drm-internals.rst:
+>> 
+>> The driver date, formatted as YYYYMMDD, is meant to identify the date
+>> of the latest modification to the driver. However, as most drivers
+>> fail to update it, its value is mostly useless. The DRM core prints it
+>> to the kernel log at initialization time and passes it to userspace
+>> through the DRM_IOCTL_VERSION ioctl.
+>> 
+>> Stop printing the driver date at init, and start returning the empty
+>> string "" as driver date through the DRM_IOCTL_VERSION ioctl.
+>
+> Sounds good to me.
+>
+> Acked-by: Simon Ser <contact@emersion.fr>
 
-> The driver date serves no useful purpose, because it's hardly ever
-> updated. The information is misleading at best.
->
-> As described in Documentation/gpu/drm-internals.rst:
->
->   The driver date, formatted as YYYYMMDD, is meant to identify the date
->   of the latest modification to the driver. However, as most drivers
->   fail to update it, its value is mostly useless. The DRM core prints it
->   to the kernel log at initialization time and passes it to userspace
->   through the DRM_IOCTL_VERSION ioctl.
->
-> Stop printing the driver date at init, and start returning the empty
-> string "" as driver date through the DRM_IOCTL_VERSION ioctl.
->
-> The driver date initialization in drivers and the struct drm_driver date
-> member can be removed in follow-up.
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> ---
+Thanks!
 
-I never understood the value of it and so this patch makes sense to me.
+> BTW, I wonder if the driver version number (major/minor/patch) is useful?
+> Do drivers update it?
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+I think most things these days should depend on capabilities rather than
+versions.
+
+i915 is at 1.6.0 and the last change was commit 2228ed67223f ("drm: i915
+updates"). 18 years ago. From that perspective, I'd be happy to drop
+them too.
+
+However, amdgpu is at 3.57.0, with an elaborate changelog in
+amdgpu_drv.c, and the last change was commit 91963397c49a ("drm/amdgpu:
+Enable tunneling on high-priority compute queues"). Less than six months
+ago.
+
+I wonder if we could stop initializing and printing the version for
+drivers that don't care, and leave it for drivers that do? Obviously
+feels more risky than the date.
+
+BR,
+Jani.
+
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Jani Nikula, Intel
