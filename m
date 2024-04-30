@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A588B6DC7
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 11:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B688B6DCC
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 11:12:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF92910F870;
-	Tue, 30 Apr 2024 09:12:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0B6210F98A;
+	Tue, 30 Apr 2024 09:12:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KE5WpSPb";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="vTyx6FOk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5474210F866;
- Tue, 30 Apr 2024 09:12:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2AA110F890;
+ Tue, 30 Apr 2024 09:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714468335;
- bh=Q6up+U23E5APYIMETLmfiB1ibki5YAl7MpYr3vD7xLE=;
- h=From:To:Cc:Subject:Date:From;
- b=KE5WpSPbzhjMWvlaKe8+wAl5amqx/bo+kGu0nR8qV0BnT+EpHef2nFuLTNyuV/FUG
- OXpRrnwMw0UusKK2qo2ccvla2/MnwHsXXViKbFIU4DVI9bgWcvF7BrypK/E88QMIps
- rdZcASyjzRKYXiKVE3dp/I6f7PDihykSPDSyfLLC57JF9XN8KO9V2BLtL/YW7vESVq
- td7cUTrvNX/lZgp9E0jndbl9NKdAxHOlJevkfK4U3P6PVYbMCbY3+oGnDCmfxGf9Lq
- SCZG8TAY0vrh76a6z+gUYV/jdriHAZQwzAlVfLDGy3e3skmZF3EvWxop+G6+DSlx+v
- C6OVGbLdQR+Gg==
+ s=mail; t=1714468340;
+ bh=VAaKLzzCKwuE52HpbPyhCXEtgH470macmRPpN1oVxeE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=vTyx6FOkQeiMemLQG1M56GFLrWjxyuXZsMmU5eVhDvTGfLq1C2i1rhVuQJKfumhh4
+ xvFJH1opgsPF9iHIEwBumIvd9kYlu1n0guznpbtvKgShuAwllAS1WZt6dFTexPLjT0
+ BdCll39dVOsPb3mdhemgAEB8oMFhADdXwigSChQ9Z+oKWj7sQS8WquWCEJZSFG1FIJ
+ uwtDHlpln11SepN2mw4qwYDL2AoqerVeod/FKrkOiKIlduxZ7ZfwIso1UcyP+4vclI
+ vsB92YNePdft+V7suQ319ScL80mkm62C9LzmNKVLEA/VVIEuzZN07kiEbuSmizNaj1
+ pwrKlxWq3l2UA==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 53E3D3782165;
- Tue, 30 Apr 2024 09:12:11 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 512BD3782167;
+ Tue, 30 Apr 2024 09:12:16 +0000 (UTC)
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: dri-devel@lists.freedesktop.org
 Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
@@ -42,10 +42,12 @@ Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
  linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
  linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/5] drm/ci: uprev mesa and generate testlist
-Date: Tue, 30 Apr 2024 14:41:16 +0530
-Message-Id: <20240430091121.508099-1-vignesh.raman@collabora.com>
+Subject: [PATCH v1 1/5] drm/ci: uprev mesa version
+Date: Tue, 30 Apr 2024 14:41:17 +0530
+Message-Id: <20240430091121.508099-2-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20240430091121.508099-1-vignesh.raman@collabora.com>
+References: <20240430091121.508099-1-vignesh.raman@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,103 +65,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Uprev mesa to the latest version and stop vendoring the
-testlist into the kernel. Instead, use the testlist from the
-IGT build to ensure we do not miss renamed or newly added tests.
-Update the xfails with the latest testlist run.
+zlib.net is not allowing tarball download anymore and results
+in below error in kernel+rootfs_arm32 container build,
+urllib.error.HTTPError: HTTP Error 403: Forbidden
+urllib.error.HTTPError: HTTP Error 415: Unsupported Media Type
 
-Also build virtual GPU driver for virtio as module.
+Uprev mesa to latest version which includes a fix for this issue.
+https://gitlab.freedesktop.org/mesa/mesa/-/commit/908f444e
 
-The flakes list needs to be reported upsteam. Will send it
-after this series is reviewed.
+Also copy helper scripts to install, so that the ci jobs can
+use these scripts for logging.
 
-https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1166575
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+---
+ drivers/gpu/drm/ci/build.sh       |  1 +
+ drivers/gpu/drm/ci/container.yml  | 12 ++++--------
+ drivers/gpu/drm/ci/gitlab-ci.yml  | 11 ++++++++---
+ drivers/gpu/drm/ci/image-tags.yml |  3 ++-
+ drivers/gpu/drm/ci/test.yml       |  2 ++
+ 5 files changed, 17 insertions(+), 12 deletions(-)
 
-Vignesh Raman (5):
-  drm/ci: uprev mesa version
-  drm/ci: generate testlist from build
-  drm/ci: build virtual GPU driver as module
-  drm/ci: skip driver specific tests
-  drm/ci: update xfails for the new testlist
-
- drivers/gpu/drm/ci/build-igt.sh               |   23 +
- drivers/gpu/drm/ci/build.sh                   |    2 +-
- drivers/gpu/drm/ci/container.yml              |   12 +-
- drivers/gpu/drm/ci/gitlab-ci.yml              |   11 +-
- drivers/gpu/drm/ci/igt_runner.sh              |   15 +-
- drivers/gpu/drm/ci/image-tags.yml             |    7 +-
- drivers/gpu/drm/ci/test.yml                   |    3 +
- drivers/gpu/drm/ci/testlist.txt               | 2761 -----------------
- drivers/gpu/drm/ci/x86_64.config              |    2 +-
- .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |   47 +-
- .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |    8 +-
- .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |   29 +-
- drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |   22 +-
- .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |    8 +
- drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |   22 +-
- drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |   45 +-
- drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |    5 +
- drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |   26 +-
- drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |   26 +-
- drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |    6 +
- drivers/gpu/drm/ci/xfails/i915-cml-skips.txt  |   20 +
- drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |   28 +-
- drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |   26 +-
- drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   39 +-
- drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |   10 +-
- drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |   35 +-
- drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   75 +-
- drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |   27 +-
- drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |   46 +-
- drivers/gpu/drm/ci/xfails/i915-whl-skips.txt  |   22 +-
- .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   47 +-
- .../drm/ci/xfails/mediatek-mt8173-skips.txt   |   12 +
- .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   17 +-
- .../drm/ci/xfails/mediatek-mt8183-flakes.txt  |    5 +
- .../drm/ci/xfails/mediatek-mt8183-skips.txt   |   14 +
- .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |   20 +-
- .../gpu/drm/ci/xfails/meson-g12b-flakes.txt   |    5 +
- .../gpu/drm/ci/xfails/meson-g12b-skips.txt    |   14 +
- .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   26 +-
- .../gpu/drm/ci/xfails/msm-apq8016-flakes.txt  |    5 +
- .../gpu/drm/ci/xfails/msm-apq8016-skips.txt   |   14 +
- .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |    5 +-
- .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |    5 +
- .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |   81 +-
- .../msm-sc7180-trogdor-kingoftown-fails.txt   |   34 +-
- .../msm-sc7180-trogdor-kingoftown-flakes.txt  |    5 +
- .../msm-sc7180-trogdor-kingoftown-skips.txt   |   15 +
- ...sm-sc7180-trogdor-lazor-limozeen-fails.txt |   34 +-
- ...m-sc7180-trogdor-lazor-limozeen-flakes.txt |    5 +
- ...sm-sc7180-trogdor-lazor-limozeen-skips.txt |   15 +
- .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |   75 +-
- .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   |   26 +-
- .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |   15 +
- .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   54 -
- .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   17 +-
- .../drm/ci/xfails/rockchip-rk3399-fails.txt   |   80 +-
- .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |    7 -
- .../drm/ci/xfails/rockchip-rk3399-skips.txt   |   15 +
- .../drm/ci/xfails/virtio_gpu-none-fails.txt   |   82 +-
- .../drm/ci/xfails/virtio_gpu-none-skips.txt   |   18 +-
- 60 files changed, 886 insertions(+), 3289 deletions(-)
- delete mode 100644 drivers/gpu/drm/ci/testlist.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-skips.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt
- create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-flakes.txt
- delete mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
- delete mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-
+diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+index 106f2d40d222..8a3baa003904 100644
+--- a/drivers/gpu/drm/ci/build.sh
++++ b/drivers/gpu/drm/ci/build.sh
+@@ -128,6 +128,7 @@ fi
+ # Pass needed files to the test stage
+ mkdir -p install
+ cp -rfv .gitlab-ci/* install/.
++cp -rfv ci/*  install/.
+ cp -rfv install/common install/ci-common
+ cp -rfv drivers/gpu/drm/ci/* install/.
+ 
+diff --git a/drivers/gpu/drm/ci/container.yml b/drivers/gpu/drm/ci/container.yml
+index 9764e7921a4f..d6edf3635b23 100644
+--- a/drivers/gpu/drm/ci/container.yml
++++ b/drivers/gpu/drm/ci/container.yml
+@@ -36,15 +36,15 @@ debian/android_build:
+   rules:
+     - when: never
+ 
+-debian/x86_64_test-android:
++.debian/x86_64_test-android:
+   rules:
+     - when: never
+ 
+-windows_build_vs2019:
++windows_build_msvc:
+   rules:
+     - when: never
+ 
+-windows_test_vs2019:
++windows_test_msvc:
+   rules:
+     - when: never
+ 
+@@ -56,10 +56,6 @@ rustfmt:
+    rules:
+     - when: never
+ 
+-windows_vs2019:
+-   rules:
+-    - when: never
+-
+-clang-format:
++windows_msvc:
+    rules:
+     - when: never
+\ No newline at end of file
+diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
+index 084e3ff8e3f4..9bf5190604a7 100644
+--- a/drivers/gpu/drm/ci/gitlab-ci.yml
++++ b/drivers/gpu/drm/ci/gitlab-ci.yml
+@@ -1,6 +1,6 @@
+ variables:
+   DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
+-  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 9d162de9a05155e1c4041857a5848842749164cf
++  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha e5f133ccc426a197c48a4e88f5377f943f078180
+ 
+   UPSTREAM_REPO: git://anongit.freedesktop.org/drm/drm
+   TARGET_BRANCH: drm-next
+@@ -26,10 +26,13 @@ variables:
+   JOB_ARTIFACTS_BASE: ${PIPELINE_ARTIFACTS_BASE}/${CI_JOB_ID}
+   # default kernel for rootfs before injecting the current kernel tree
+   KERNEL_REPO: "gfx-ci/linux"
+-  KERNEL_TAG: "v6.6.4-for-mesa-ci-e4f4c500f7fb"
++  KERNEL_TAG: "v6.6.21-mesa-19fc"
+   KERNEL_IMAGE_BASE: https://${S3_HOST}/mesa-lava/${KERNEL_REPO}/${KERNEL_TAG}
+   LAVA_TAGS: subset-1-gfx
+   LAVA_JOB_PRIORITY: 30
++  ARTIFACTS_BASE_URL: https://${CI_PROJECT_ROOT_NAMESPACE}.${CI_PAGES_DOMAIN}/-/${CI_PROJECT_NAME}/-/jobs/${CI_JOB_ID}/artifacts
++  # Python scripts for structured logger
++  PYTHONPATH: "$PYTHONPATH:$CI_PROJECT_DIR/install"
+ 
+ default:
+   before_script:
+@@ -46,6 +49,7 @@ default:
+     - cd $CI_PROJECT_DIR
+     - curl --output - $DRM_CI_PROJECT_URL/-/archive/$DRM_CI_COMMIT_SHA/mesa-$DRM_CI_COMMIT_SHA.tar.gz | tar -xz
+     - mv mesa-$DRM_CI_COMMIT_SHA/.gitlab-ci* .
++    - mv mesa-$DRM_CI_COMMIT_SHA/bin/ci .
+     - rm -rf mesa-$DRM_CI_COMMIT_SHA/
+     - echo -e "\e[0Ksection_end:$(date +%s):drm_ci_download_section\r\e[0K"
+ 
+@@ -98,6 +102,7 @@ include:
+ stages:
+   - sanity
+   - container
++  - code-validation
+   - git-archive
+   - build
+   - amdgpu
+@@ -107,7 +112,6 @@ stages:
+   - msm
+   - rockchip
+   - virtio-gpu
+-  - lint
+ 
+ # YAML anchors for rule conditions
+ # --------------------------------
+@@ -218,6 +222,7 @@ make git archive:
+   script:
+     # Remove drm-ci files we just added
+     - rm -rf .gitlab-ci.*
++    - rm -rf ci
+ 
+     # Compactify the .git directory
+     - git gc --aggressive
+diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
+index 7ab4f2514da8..d8f72b82c938 100644
+--- a/drivers/gpu/drm/ci/image-tags.yml
++++ b/drivers/gpu/drm/ci/image-tags.yml
+@@ -1,5 +1,5 @@
+ variables:
+-   CONTAINER_TAG: "2023-10-11-mesa-uprev"
++   CONTAINER_TAG: "2024-04-22-mesa-uprev"
+    DEBIAN_X86_64_BUILD_BASE_IMAGE: "debian/x86_64_build-base"
+    DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
+ 
+@@ -7,6 +7,7 @@ variables:
+    DEBIAN_BUILD_TAG: "2023-10-08-config"
+ 
+    KERNEL_ROOTFS_TAG: "2023-10-06-amd"
++   PKG_REPO_REV: "3cc12a2a"
+ 
+    DEBIAN_X86_64_TEST_BASE_IMAGE: "debian/x86_64_test-base"
+    DEBIAN_X86_64_TEST_IMAGE_GL_PATH: "debian/x86_64_test-gl"
+diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+index 8bc63912fddb..612c9ede3507 100644
+--- a/drivers/gpu/drm/ci/test.yml
++++ b/drivers/gpu/drm/ci/test.yml
+@@ -150,6 +150,8 @@ msm:sdm845:
+     BM_KERNEL: https://${PIPELINE_ARTIFACTS_BASE}/arm64/cheza-kernel
+     GPU_VERSION: sdm845
+     RUNNER_TAG: google-freedreno-cheza
++    DEVICE_TYPE: sdm845-cheza-r3
++    FARM: google
+   script:
+     - ./install/bare-metal/cros-servo.sh
+ 
 -- 
 2.40.1
 
