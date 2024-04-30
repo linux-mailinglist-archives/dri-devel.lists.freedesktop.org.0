@@ -2,80 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16DFB8B770E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 15:30:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B0E8B7715
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 15:31:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42DE010E11F;
-	Tue, 30 Apr 2024 13:30:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3450A10E511;
+	Tue, 30 Apr 2024 13:31:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Ocmke1vm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="chr0y4Ci";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEA3510E20E
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 13:30:01 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-34ca50999cdso128753f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 06:30:01 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 328F010E511
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 13:31:21 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-a5878caeb9eso704792766b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 06:31:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1714483800; x=1715088600; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=fez5FshotDgqPDjvhQ+Fu0cD6X/ZgD5uxwNqXUp1qVI=;
- b=Ocmke1vmIFjrdg3mMMjfgsjwYfOx7ymseRur4LvLB5aVppJyinNF8TcckVYXW5IKSS
- Wdt1HIh+aQoQGWbH6lM2r58XRPkBdGu5y7nioFU3qEr1wPfP7bQvJtGIak/korwgn+yq
- wICo1dmA/XxNqEJYHusciN9keRK78Q2rfaRmQ=
+ d=gmail.com; s=20230601; t=1714483879; x=1715088679; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sQkyBn4Lnt15qpQKjjn6/FTdXdojZaggT0oJDgNx33c=;
+ b=chr0y4CiIvS5v4aDqfl+c9lOnqsEz9gTtcNVV6rmO8AG5fgqb91w2efr1rhQw9jtLB
+ o48LB83pYcHE1G/qJbHhYskyOok1ooChgpZOrcT+nbB+Rub/8/VT/+gyAN92H0AcWBcd
+ XKE8a8WI1LJETetF1eKEfT3MrftdzDzPz1kvLbbuzZcchURLGHFLL1ZgjZXDOAcKsTsU
+ 2UYp12WYbmW/1YpNsV16hxWL2w9lVunnRm6c6GG9qc9SrqNG9CIpghJabYWtQe2RSfIs
+ FYCIrjPjc4xcvU6WU/wqwNgYnzpdnBbN6ONp2yIA+96ezkyLB+fa7OiIkLjLbIofWcSu
+ UP9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714483800; x=1715088600;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1714483879; x=1715088679;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fez5FshotDgqPDjvhQ+Fu0cD6X/ZgD5uxwNqXUp1qVI=;
- b=RmB0i+6i4bMg1NZs0fqUTr764Ja4F/10rkgxfTKMr3/8DYjI3ZQ/rQlvvMvK9R/xhJ
- G45T5N6MH/rR9KtGiHuTWhAgrXlm+nJqvH7KTI/dTEsRVM3szb+U03OBA6kU54yjPkjE
- Gn41Li1lqgYqYIze831soNoh8L+GCHNPMfgKk6btE7Xrs82IQxSLEKflNbsy3bCGOvgF
- v7+JQRaYdDiqJahA7IWxVBgLnAy8HYR8tlkUL+E/qOUlka+7t8wFjDmHQdAND+14rWSP
- N6Cv0QIM81qy/LayKTw9Kjryr8aVrQ8cRK9WyTeSSWzeK+6qLeY93Yo1Bvub1cuW5Kf+
- 6gig==
+ bh=sQkyBn4Lnt15qpQKjjn6/FTdXdojZaggT0oJDgNx33c=;
+ b=up6DqHHuEgFzgfUy74XaILRk0UhTbIz7EYtLCc7TTdVQrCm2CH0UsbblASEdxAP1Wn
+ 6VLz69SULKCNviJcWN22yZR+qRutVUKugMnHyS6jhdVC224Nq03dTm2hauDgyDDvIOf/
+ XZZGVL7BD6CxbJVid4q9DdNP677bl2MEI6cgG7+BfR2m2dMDfAuuL+mgQfldeJXaGC+V
+ yPSGuT5EGbSq7pZZmf/a2nkJy8XeDAF8YEBTD5OboZK4xKQ3q9wlic6gtucWkjtQod4u
+ wIwOt6IEpAXYls7tKYmhA4AT4YBPcHZnpLzzCtkghpuohBnkw8uMAsVeYnNSKnQUl20e
+ OblQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUxLKN2PQ1pKMG56Dp4/thTMpsPx0pEhp9NvCr0zSZqdhLx2SIwLDRoQpVhJktWfqw9UANYp3lXU6qmGd0XqeGyJtEDCm6Jbg50k/y6o6HV
-X-Gm-Message-State: AOJu0YzJVRjHpH3tHphlHQky3QDYL1qEyZ0pOglH0qeB3MjoP7ZUKwNT
- sH9ShvrWKw19uliAY17JSTwjIipP3Xwve1wjVa2KTHQahzYB5T3gl6V7ECenn8A=
-X-Google-Smtp-Source: AGHT+IFmbGrzLzdSJErP57jfvCCVh2UEsqJMRXiZGVi1oiQjBg8XcIdJ+s3HYYHCYAEmSC4Q8wG06w==
-X-Received: by 2002:a5d:6903:0:b0:34d:b05b:c784 with SMTP id
- t3-20020a5d6903000000b0034db05bc784mr230849wru.7.1714483799960; 
- Tue, 30 Apr 2024 06:29:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ AJvYcCUFPMFxA43uFKltq1/f7Kxeui8TJYVPwIibBKiIYrBQ1sjDERu089/3CslUm1UrvdI9/mAS07sHpi0b/wgJTYNgGLiDQdhLuuTGbe2y91hn
+X-Gm-Message-State: AOJu0YzapWeGQiTP5cjGHIQqtZ2rsIdPCzbVIBue+S6du/kF6yqcyiHJ
+ CLsQPDLH5BkFNbus4EV4oii4yvQZB2eZZpfgzfLn1ORl+cg1gFP7
+X-Google-Smtp-Source: AGHT+IG4D9H/56/A4rQ0pU5al3G+zQuIMq1mBSgq9KUwXS9Rk/+kL4o0ZAf4JvbTFbHU0G4DNFxL/g==
+X-Received: by 2002:a17:906:fb17:b0:a58:e74b:7e16 with SMTP id
+ lz23-20020a170906fb1700b00a58e74b7e16mr2032608ejb.46.1714483879081; 
+ Tue, 30 Apr 2024 06:31:19 -0700 (PDT)
+Received: from [192.168.42.188] ([163.114.131.193])
  by smtp.gmail.com with ESMTPSA id
- g7-20020a05600c4ec700b0041c14061c71sm9546207wmq.15.2024.04.30.06.29.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Apr 2024 06:29:59 -0700 (PDT)
-Date: Tue, 30 Apr 2024 15:29:57 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- aravind.iddamsetty@linux.intel.com, michal.winiarski@intel.com,
- intel-xe@lists.freedesktop.org,
- DRI Development <dri-devel@lists.freedesktop.org>
-Subject: drmm vs devm (was Re: [PATCH 2/8] drm/xe: covert sysfs over to devm)
-Message-ID: <ZjDyVfJ1QFKQlG_4@phenom.ffwll.local>
-References: <20240429121436.33013-9-matthew.auld@intel.com>
- <20240429121436.33013-10-matthew.auld@intel.com>
- <Zi-gYDEFzI_bXCzP@intel.com>
- <wtqag5pd5plbiubuhypzdr7jitxutcfbft2xtchwx3fbf4zzfm@pmokwtkmlnf4>
- <2b6f8692-79ad-4976-99ae-c2b227b893d9@intel.com>
- <Zi_qxhMrrlUc7hBz@intel.com>
- <7ik4xh7hncw6h62zvmv7vr43a3aedn3ft7sxv4xjvnf3glf2g6@h72yiizlvqje>
+ l9-20020a17090615c900b00a555be38aaasm15011385ejd.164.2024.04.30.06.31.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Apr 2024 06:31:18 -0700 (PDT)
+Message-ID: <35a79edf-e4ca-4501-99ad-231a3ab2b216@gmail.com>
+Date: Tue, 30 Apr 2024 14:31:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v8 07/14] page_pool: devmem support
+To: Mina Almasry <almasrymina@google.com>, David Wei <dw@davidwei.uk>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+References: <20240403002053.2376017-1-almasrymina@google.com>
+ <20240403002053.2376017-8-almasrymina@google.com>
+ <8357256a-f0e9-4640-8fec-23341fc607db@davidwei.uk>
+ <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7ik4xh7hncw6h62zvmv7vr43a3aedn3ft7sxv4xjvnf3glf2g6@h72yiizlvqje>
-X-Operating-System: Linux phenom 6.6.15-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,112 +139,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding dri-devel because this is kinda more important.
-
-On Mon, Apr 29, 2024 at 04:28:42PM -0500, Lucas De Marchi wrote:
-> On Mon, Apr 29, 2024 at 02:45:26PM GMT, Rodrigo Vivi wrote:
-> > On Mon, Apr 29, 2024 at 04:17:54PM +0100, Matthew Auld wrote:
-> > > On 29/04/2024 14:52, Lucas De Marchi wrote:
-> > > > On Mon, Apr 29, 2024 at 09:28:00AM GMT, Rodrigo Vivi wrote:
-> > > > > On Mon, Apr 29, 2024 at 01:14:38PM +0100, Matthew Auld wrote:
-> > > > > > Hotunplugging the device seems to result in stuff like:
-> > > > > >
-> > > > > > kobject_add_internal failed for tile0 with -EEXIST, don't try to
-> > > > > > register things with the same name in the same directory.
-> > > > > >
-> > > > > > We only remove the sysfs as part of drmm, however that is tied to the
-> > > > > > lifetime of the driver instance and not the device underneath. Attempt
-> > > > > > to fix by using devm for all of the remaining sysfs stuff related to the
-> > > > > > device.
-> > > > >
-> > > > > hmmm... so basically we should use the drmm only for the global module
-> > > > > stuff and the devm for things that are per device?
-> > > >
-> > > > that doesn't make much sense. drmm is supposed to run when the driver
-> > > > unbinds from the device... basically when all refcounts are gone with
-> > > > drm_dev_put().  Are we keeping a ref we shouldn't?
-> > > 
-> > > It's run when all refcounts are dropped for that particular drm_device, but
-> > > that is separate from the physical device underneath (struct device). For
-> > > example if something has an open driver fd the drmm release action is not
-> > > going to be called until after that is also closed. But in the meantime we
-> > > might have already removed the pci device and re-attached it to a newly
-> > > allocated drm_device/xe_driver instance, like with hotunplug.
-> > > 
-> > > For example, currently we don't even call basic stuff like guc_fini() etc.
-> > > when removing the pci device, but rather when the drm_device is released,
-> > > which sounds quite broken.
-> > > 
-> > > So roughly drmm is for drm_device software level stuff and devm is for stuff
-> > > that needs to happen when removing the device. See also the doc for drmm:
-> > > https://elixir.bootlin.com/linux/v6.8-rc1/source/drivers/gpu/drm/drm_managed.c#L23
-> > > 
-> > > Also: https://docs.kernel.org/gpu/drm-uapi.html#device-hot-unplug
+On 4/27/24 03:11, Mina Almasry wrote:
+> On Fri, Apr 26, 2024 at 5:18â€¯PM David Wei <dw@davidwei.uk> wrote:
+>>
+>> On 2024-04-02 5:20 pm, Mina Almasry wrote:
+>>> @@ -69,20 +106,26 @@ net_iov_binding(const struct net_iov *niov)
+>>>    */
+>>>   typedef unsigned long __bitwise netmem_ref;
+>>>
+>>> +static inline bool netmem_is_net_iov(const netmem_ref netmem)
+>>> +{
+>>> +#if defined(CONFIG_PAGE_POOL) && defined(CONFIG_DMA_SHARED_BUFFER)
+>>
+>> I am guessing you added this to try and speed up the fast path? It's
+>> overly restrictive for us since we do not need dmabuf necessarily. I
+>> spent a bit too much time wondering why things aren't working only to
+>> find this :(
 > 
-> yeah... I think you convinced me
-
-So rule of thumb:
-
-- devm is for hardware stuff, so like removeing pci mmaps, releasing
-  interrupt handlers, cleaning up anything hw related. Because after devm
-  respective driver unbind, all that stuff is gone, _even_ when you hold
-  onto a struct device reference. Because all that struct device
-  reference guarantees is that the software structure stays around as a
-  valid memory reference.
-
-- devm is also for remove uapi. Unfortunately we're not quite at the world
-  where devm_drm_dev_register is possible, because on the unload side that
-  must be done first, and there's still a few things drivers need to do
-  after that which isn't fully devm/drmm-ified.
-
-- drmm is for anything software related, so data structures and stuff like
-  that. If you have a devm_kmalloc, you very, very likely have a bug. This
-  is were you tear down all your software datastructures, which means if
-  you have that interleaved with the hw teardown in e.g. guc_fini you have
-  some serious work cut out for you. drmm stuff is tied to the drm_device
-  lifetime as the core drm uapi interface thing which might stick around
-  for much longer than the drm_dev_unregister.
-
-- Finally, when going from the sw side to hw side you must wrap such
-  access with drm_dev_enter/exit, or you have races. This is also where
-  using drmm and devm for everything really helps, because it gives you a
-  very strong hint when you're going from the sw world to the hw world.
-
-  As an example, all the callbacks on the various kms objects are in the
-  sw world (so need to be cleaned up with drmm), but the moment you access
-  hw (e.g. any mmio) you need to protect that with a drm_dev_enter/exit
-
-Using devm for everything means you have a use-after-free on the sw side,
-otoh using devm means you have use-after-free on the hw side (like a
-physical hotunplug might reallocate your mmio range to another thunderbolt
-device that has been plugged in meanwhile).
-
-It's definitely big time fun all around :-/
-
-Oh also, please help improve the docs on this stuff, I'm trying to make
-sure it's all there and ideally the various pieces link to the other
-parts, but it's tricky and I understand this stuff to much to spot the
-gaps ...
-
-Cheers, Sima
-
+> My apologies, I'll try to put the changelog somewhere prominent, or
+> notify you when I do something that I think breaks you.
 > 
-> > 
-> > Cc: Aravind and Michal since this likely relates to the FLR discussion...
-> > 
-> > but it looks to me that we should move more towards the devm_ and limit
-> > the usage of drmm_ to some very specific cases...
+> Yes, this is a by-product of a discussion with regards to the
+> page_pool benchmark regressions due to adding devmem. There is some
+> background on why this was added and the impact on the
+> bench_page_pool_simple tests in the cover letter.
 > 
-> agreed,
+> For you, I imagine you want to change this to something like:
 > 
-> Lucas De Marchi
+> #if defined(CONFIG_PAGE_POOL)
+> #if defined(CONFIG_DMA_SHARED_BUFFER) || defined(CONFIG_IOURING)
 > 
-> > 
-> > > 
-> > > >
-> > > > Lucas De Marchi
+> or something like that, right? Not sure if this is something I should
+
+Feels a bit flimsy, if the argument is that you want to be able
+to disable netmem overhead, then adding a netmem config option
+sounds like a better way forward.
+
+I have doubts this conditional handling is desirable in the first
+place, but perhaps I missed the discussion.
+
+> do here or if something more appropriate to be in the patches you
+> apply on top.
+> 
+> I additionally think you may also need to run the
+> page_pool_benchmark_simple tests like I do in the cover letter to see
+> if you're affecting those.
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Pavel Begunkov
