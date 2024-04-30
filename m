@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D898B6DB6
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 11:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A588B6DC7
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2024 11:12:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13D0F10E7D3;
-	Tue, 30 Apr 2024 09:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF92910F870;
+	Tue, 30 Apr 2024 09:12:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K/lxu9fy";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KE5WpSPb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD7BA10E7D3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2024 09:08:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714468120; x=1746004120;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=o1HIXoCG6+dP9wwsNWFiBzq6Y22+5YvyYqfV7tqpPJ4=;
- b=K/lxu9fyods2Fa/HtgDaJbfe+k+hWQK5pPdgt6QL4QvOP8UQTS/yDGdF
- EbAtXXXgz5CWUB4raK3EJDrRwzoUSG8u4u3xNYKl8be6Pfxmmgj6rcd/w
- /IfYk0aMjjrGw0znZOuWu34Crn9jSDD5KYaAMMD7oJ58Sth1HjuE4TAl4
- rgV8aL/yK7dck8S8q739OXBvZy6qaPJIeC7JnmZ4XmPM+aOmH0Rqd0UzP
- 7RV9SmuZANe9AgMmwAhsULHZbX9QXOsNlMVV/0pw5gUzuFNwcgiwus6iO
- geNN3zik7QQKX5uT8BonYPzfnp/NbD49arGQB8NaS+5ixszdjgBT6DcXP Q==;
-X-CSE-ConnectionGUID: 3vRVf87+QAKF86jpwbf3Ag==
-X-CSE-MsgGUID: URUYb707S8e6VgOo9IlW/w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10701075"
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; d="scan'208";a="10701075"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2024 02:08:39 -0700
-X-CSE-ConnectionGUID: CIuK3YJLR3Wg2AsQpuYjHA==
-X-CSE-MsgGUID: pewBzL4FRS6hbL7Fr8M8vg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; d="scan'208";a="26499214"
-Received: from vkats-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.33.167])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2024 02:08:38 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm: deprecate driver date
-In-Reply-To: <_D910BUYB2AisyF_XxxuoFt4VA001Sls_51rM1qF7q9EFsxTkEEMsqKc86OQ3p3xHu9wsHRws0JG_SkqFtqxu_9_tcp1uwaPjVUAntXoyqg=@emersion.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240429164336.1406480-1-jani.nikula@intel.com>
- <_D910BUYB2AisyF_XxxuoFt4VA001Sls_51rM1qF7q9EFsxTkEEMsqKc86OQ3p3xHu9wsHRws0JG_SkqFtqxu_9_tcp1uwaPjVUAntXoyqg=@emersion.fr>
-Date: Tue, 30 Apr 2024 12:08:35 +0300
-Message-ID: <87jzkf2p64.fsf@intel.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5474210F866;
+ Tue, 30 Apr 2024 09:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1714468335;
+ bh=Q6up+U23E5APYIMETLmfiB1ibki5YAl7MpYr3vD7xLE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=KE5WpSPbzhjMWvlaKe8+wAl5amqx/bo+kGu0nR8qV0BnT+EpHef2nFuLTNyuV/FUG
+ OXpRrnwMw0UusKK2qo2ccvla2/MnwHsXXViKbFIU4DVI9bgWcvF7BrypK/E88QMIps
+ rdZcASyjzRKYXiKVE3dp/I6f7PDihykSPDSyfLLC57JF9XN8KO9V2BLtL/YW7vESVq
+ td7cUTrvNX/lZgp9E0jndbl9NKdAxHOlJevkfK4U3P6PVYbMCbY3+oGnDCmfxGf9Lq
+ SCZG8TAY0vrh76a6z+gUYV/jdriHAZQwzAlVfLDGy3e3skmZF3EvWxop+G6+DSlx+v
+ C6OVGbLdQR+Gg==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 53E3D3782165;
+ Tue, 30 Apr 2024 09:12:11 +0000 (UTC)
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, helen.koike@collabora.com, airlied@gmail.com,
+ daniel@ffwll.ch, robdclark@gmail.com, david.heidelberg@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ dmitry.baryshkov@linaro.org, mcanal@igalia.com,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/5] drm/ci: uprev mesa and generate testlist
+Date: Tue, 30 Apr 2024 14:41:16 +0530
+Message-Id: <20240430091121.508099-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,51 +63,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Apr 2024, Simon Ser <contact@emersion.fr> wrote:
-> On Monday, April 29th, 2024 at 18:43, Jani Nikula <jani.nikula@intel.com> wrote:
->
->> The driver date serves no useful purpose, because it's hardly ever
->> updated. The information is misleading at best.
->> 
->> As described in Documentation/gpu/drm-internals.rst:
->> 
->> The driver date, formatted as YYYYMMDD, is meant to identify the date
->> of the latest modification to the driver. However, as most drivers
->> fail to update it, its value is mostly useless. The DRM core prints it
->> to the kernel log at initialization time and passes it to userspace
->> through the DRM_IOCTL_VERSION ioctl.
->> 
->> Stop printing the driver date at init, and start returning the empty
->> string "" as driver date through the DRM_IOCTL_VERSION ioctl.
->
-> Sounds good to me.
->
-> Acked-by: Simon Ser <contact@emersion.fr>
+Uprev mesa to the latest version and stop vendoring the
+testlist into the kernel. Instead, use the testlist from the
+IGT build to ensure we do not miss renamed or newly added tests.
+Update the xfails with the latest testlist run.
 
-Thanks!
+Also build virtual GPU driver for virtio as module.
 
-> BTW, I wonder if the driver version number (major/minor/patch) is useful?
-> Do drivers update it?
+The flakes list needs to be reported upsteam. Will send it
+after this series is reviewed.
 
-I think most things these days should depend on capabilities rather than
-versions.
+https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1166575
 
-i915 is at 1.6.0 and the last change was commit 2228ed67223f ("drm: i915
-updates"). 18 years ago. From that perspective, I'd be happy to drop
-them too.
+Vignesh Raman (5):
+  drm/ci: uprev mesa version
+  drm/ci: generate testlist from build
+  drm/ci: build virtual GPU driver as module
+  drm/ci: skip driver specific tests
+  drm/ci: update xfails for the new testlist
 
-However, amdgpu is at 3.57.0, with an elaborate changelog in
-amdgpu_drv.c, and the last change was commit 91963397c49a ("drm/amdgpu:
-Enable tunneling on high-priority compute queues"). Less than six months
-ago.
-
-I wonder if we could stop initializing and printing the version for
-drivers that don't care, and leave it for drivers that do? Obviously
-feels more risky than the date.
-
-BR,
-Jani.
-
+ drivers/gpu/drm/ci/build-igt.sh               |   23 +
+ drivers/gpu/drm/ci/build.sh                   |    2 +-
+ drivers/gpu/drm/ci/container.yml              |   12 +-
+ drivers/gpu/drm/ci/gitlab-ci.yml              |   11 +-
+ drivers/gpu/drm/ci/igt_runner.sh              |   15 +-
+ drivers/gpu/drm/ci/image-tags.yml             |    7 +-
+ drivers/gpu/drm/ci/test.yml                   |    3 +
+ drivers/gpu/drm/ci/testlist.txt               | 2761 -----------------
+ drivers/gpu/drm/ci/x86_64.config              |    2 +-
+ .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |   47 +-
+ .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |    8 +-
+ .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |   29 +-
+ drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |   22 +-
+ .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |    8 +
+ drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |   22 +-
+ drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |   45 +-
+ drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |    5 +
+ drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |   26 +-
+ drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |   26 +-
+ drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |    6 +
+ drivers/gpu/drm/ci/xfails/i915-cml-skips.txt  |   20 +
+ drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |   28 +-
+ drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |   26 +-
+ drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   39 +-
+ drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |   10 +-
+ drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |   35 +-
+ drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   75 +-
+ drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |   27 +-
+ drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |   46 +-
+ drivers/gpu/drm/ci/xfails/i915-whl-skips.txt  |   22 +-
+ .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   47 +-
+ .../drm/ci/xfails/mediatek-mt8173-skips.txt   |   12 +
+ .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   17 +-
+ .../drm/ci/xfails/mediatek-mt8183-flakes.txt  |    5 +
+ .../drm/ci/xfails/mediatek-mt8183-skips.txt   |   14 +
+ .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |   20 +-
+ .../gpu/drm/ci/xfails/meson-g12b-flakes.txt   |    5 +
+ .../gpu/drm/ci/xfails/meson-g12b-skips.txt    |   14 +
+ .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   26 +-
+ .../gpu/drm/ci/xfails/msm-apq8016-flakes.txt  |    5 +
+ .../gpu/drm/ci/xfails/msm-apq8016-skips.txt   |   14 +
+ .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |    5 +-
+ .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |    5 +
+ .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |   81 +-
+ .../msm-sc7180-trogdor-kingoftown-fails.txt   |   34 +-
+ .../msm-sc7180-trogdor-kingoftown-flakes.txt  |    5 +
+ .../msm-sc7180-trogdor-kingoftown-skips.txt   |   15 +
+ ...sm-sc7180-trogdor-lazor-limozeen-fails.txt |   34 +-
+ ...m-sc7180-trogdor-lazor-limozeen-flakes.txt |    5 +
+ ...sm-sc7180-trogdor-lazor-limozeen-skips.txt |   15 +
+ .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |   75 +-
+ .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   |   26 +-
+ .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |   15 +
+ .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   54 -
+ .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   17 +-
+ .../drm/ci/xfails/rockchip-rk3399-fails.txt   |   80 +-
+ .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |    7 -
+ .../drm/ci/xfails/rockchip-rk3399-skips.txt   |   15 +
+ .../drm/ci/xfails/virtio_gpu-none-fails.txt   |   82 +-
+ .../drm/ci/xfails/virtio_gpu-none-skips.txt   |   18 +-
+ 60 files changed, 886 insertions(+), 3289 deletions(-)
+ delete mode 100644 drivers/gpu/drm/ci/testlist.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-skips.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-skips.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-skips.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-skips.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-flakes.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
+ delete mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
 
 -- 
-Jani Nikula, Intel
+2.40.1
+
