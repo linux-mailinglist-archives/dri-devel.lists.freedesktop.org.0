@@ -2,84 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51EEA8B8D61
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 17:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680F48B8D7F
+	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 17:55:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85243112336;
-	Wed,  1 May 2024 15:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D0911234C;
+	Wed,  1 May 2024 15:55:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="JRqKkJk1";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Zt75N5EA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E230112336
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2024 15:43:42 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-6f043f9e6d7so7010755b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2024 08:43:42 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
+ [209.85.166.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFC2411234C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2024 15:55:21 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id
+ ca18e2360f4ac-7da3ec3e044so324909639f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2024 08:55:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714578221; x=1715183021;
+ d=chromium.org; s=google; t=1714578920; x=1715183720;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Mjz922Yx5vd28soPAvot2ebeUZc5ZGx+3GQDaKYVgII=;
- b=JRqKkJk1LuU1SHdTcVB+MS+adIYaD5Ipr0gE1ayLXsyQRcOy/h1/tYALlmdHTFTwvY
- ZKX7bUGukqJ9EDilPJrg6U7rbR4fDz1mya/jFJXUBdd/+wPAthOi+qEs4TEDLWC0DWvw
- oyXvHeY6i50SOvFzXaGOB6+wy8M+6Gxwn1IPw=
+ bh=bkEs8J1ffdIWhMMglu+CsW3L9Q3EHJqY0I8USedJfzM=;
+ b=Zt75N5EAnTYxQVxt/6SN5rwyO4jCMnIHGoC2OJFAok2/jpHVOTG197vZ522BcTUjjG
+ 4y+zHa0AxZgyczwwdYVlyA/jVxc4g7EUUI8+0mv7pU1HJ+BZbOMpwnJiuRD2fOttygcu
+ XMtgJrKhaZQZB76kiOoz+hyjpXDjZ59ch2Zes=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714578221; x=1715183021;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1714578920; x=1715183720;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Mjz922Yx5vd28soPAvot2ebeUZc5ZGx+3GQDaKYVgII=;
- b=R6xm7k5puQP+ALrtVMNLi4blyeEsqCr5Vo/TLhSa9KQH8w80ZEj8z/AypgirDcqrVE
- Qk5yPCG0/cyqr3jtrpZEzHKoM+j6F8RHNu4a1/FsOrPDMVW5hzN+7azpO/oK3NqCsmF9
- /VLRgjFmOG1oMwAcEh58aX6KqWa8ZK9WGhMvoc65hzjVm1QH1pOSkDk7KIwznWfvTAdL
- UetMpksLemR8zrB6H08y2sITXC4q/VFh6XiZRHD201pI5Gbtco1kLmobUs5pxfYPSHdZ
- yiEjX+DcZmCHUyU11m+MP7Olg3rq1R8OkBV8y13FHAFD4bfyeHamT6Vt22m4wnGK4L7h
- fT3Q==
-X-Gm-Message-State: AOJu0YzGzHzdgBaxlpkQgKcMxDAZAvaesuYd6KVMIA4bkVY2vdiJvWkJ
- S2iK+d1TnDzDhqWF3t1FEQtGULF5r+L2Svr2p8wMVHyM08CWn4rVCNirtgthDhCJeaiio82n1eA
+ bh=bkEs8J1ffdIWhMMglu+CsW3L9Q3EHJqY0I8USedJfzM=;
+ b=DXjo1EjCKQAYU6VUjT63G6lPqRHNe+M54uc7dberAo9k4/v96cF4R7NKVSCFRNXnOK
+ 3E5nmPjuqh4fe6RWE28+22gbhQDRk6V9uq9uF0yUSz5CW1ICiYZ3lmB753A4x6YJ0Wym
+ B9n4h0xaG3iAuIOqj4cuZpjec0UPIcYdxgXsbZsAF/hIvGbjk+VuBGTEGZGMqoEGM578
+ abfAH0Aa2mT73Pgp0BhQj2NBT2JzpqqaiU7z3ZhIHvLbJ/I07UX+NzP1JllMUZXiQ1Kz
+ aDS/P3LG+dWhn1lMPBhjFcCBp+b8q0IQUtDdlW79EIKDjk/OOetFlSKzpa5qkTeCSspP
+ RJNw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX+JHyo6ziLciXo2VlfKWd6xijNeYdhTeSrO+nqtC/93RSck69OBryrrzCvLTOnrORfgLWxyt0/qzqcKvh11uLJyfFGB9Ocy4BFr2PMp+gt
+X-Gm-Message-State: AOJu0Yy9/ClK6KksLbAGRbOXPDBtDX37IlCik8KCUNiPGHcvTFvgydmk
+ 56UQ1VospjErS8uaqdPIhBnwRE0pxenf2iafCBjV9VB75/ILQhk12eAoEco57jjK73NSgcIjHXA
  =
-X-Google-Smtp-Source: AGHT+IEHeLEITUU004rvZx74fOVPzAY2uMYKY8Nu4TFH8gCms1NPOEL4YF9YPb88mgfeem2e+zk3Ew==
-X-Received: by 2002:a05:6a00:21cb:b0:6f3:b041:716d with SMTP id
- t11-20020a056a0021cb00b006f3b041716dmr3655827pfj.17.1714578221043; 
- Wed, 01 May 2024 08:43:41 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com
- ([2620:15c:9d:2:e886:8de:19a2:55b0])
- by smtp.gmail.com with ESMTPSA id
- fb12-20020a056a002d8c00b006f3ec69bc09sm7717924pfb.75.2024.05.01.08.43.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 May 2024 08:43:40 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- Hsin-Yi Wang <hsinyi@google.com>, Brian Norris <briannorris@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Joel Selvaraj <jo@jsfamily.in>, lvzhaoxiong@huaqin.corp-partner.google.com,
- Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 9/9] drm/panel: innolux-p079zca: Don't use a table for
- initting panels
-Date: Wed,  1 May 2024 08:41:12 -0700
-Message-ID: <20240501084109.v3.9.I947e28c81f9ef7dcd3add6e193be72d6f8ea086f@changeid>
-X-Mailer: git-send-email 2.45.0.rc0.197.gbae5840b3b-goog
-In-Reply-To: <20240501154251.3302887-1-dianders@chromium.org>
-References: <20240501154251.3302887-1-dianders@chromium.org>
+X-Google-Smtp-Source: AGHT+IGBsa5QG12yvqgJYCL6MsQ9oPRq2G5pds41CCWPRP2a4NZqrYWjSVU0MGW+JTfZf0etZjkxHw==
+X-Received: by 2002:a6b:6313:0:b0:7de:c81b:7a3d with SMTP id
+ p19-20020a6b6313000000b007dec81b7a3dmr3493497iog.2.1714578920298; 
+ Wed, 01 May 2024 08:55:20 -0700 (PDT)
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com.
+ [209.85.166.182]) by smtp.gmail.com with ESMTPSA id
+ ix27-20020a056638879b00b00487909f7416sm2546823jab.5.2024.05.01.08.55.19
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 May 2024 08:55:20 -0700 (PDT)
+Received: by mail-il1-f182.google.com with SMTP id
+ e9e14a558f8ab-36c670757aaso10135ab.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2024 08:55:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW7vXcn7jYPOgkGTmg+bH4lrrMfogIvxLxCoHkK/WZ2VR/EbyuSenzKx1ackAKEqir/as0sychXDGSV55sJGReXGjjCCCFvOeH/I0ughqOO
+X-Received: by 2002:ac8:5a0c:0:b0:43a:fa0d:69b5 with SMTP id
+ n12-20020ac85a0c000000b0043afa0d69b5mr214045qta.7.1714578588051; Wed, 01 May
+ 2024 08:49:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240426235857.3870424-1-dianders@chromium.org>
+ <20240426165839.v2.4.Ie94246c30fe95101e0e26dd5f96e976dbeb8f242@changeid>
+ <2af446d3-7834-4a6b-897b-b14c6bccff65@linaro.org>
+ <CAD=FV=V=EvEGp4tGDd-UQ1R=XkAwDn04ftd8oWU=UE=3Gi7SLQ@mail.gmail.com>
+ <87y18w2n6h.fsf@intel.com>
+In-Reply-To: <87y18w2n6h.fsf@intel.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 1 May 2024 08:49:36 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=X5jBqBgOqtm8nYtEKNHcnJgQDWj+ynS5U7KXuQgHLySg@mail.gmail.com>
+Message-ID: <CAD=FV=X5jBqBgOqtm8nYtEKNHcnJgQDWj+ynS5U7KXuQgHLySg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] drm/mipi-dsi: Introduce
+ mipi_dsi_*_write_seq_multi()
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org, 
+ Linus Walleij <linus.walleij@linaro.org>,
+ lvzhaoxiong@huaqin.corp-partner.google.com, 
+ Hsin-Yi Wang <hsinyi@google.com>, Javier Martinez Canillas <javierm@redhat.com>,
+ Joel Selvaraj <jo@jsfamily.in>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,376 +107,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Consensus on the mailing lists is that panels shouldn't use a table of
-init commands but should instead use init functions. We'll use the
-same concepts as the recently introduced
-mipi_dsi_generic_write_seq_multi() to make this clean/easy and also
-not bloat the driver too much. Measuring before/after this change:
+Hi,
 
-$ scripts/bloat-o-meter \
-  .../before/panel-innolux-p079zca.ko \
-  .../after/panel-innolux-p079zca.ko
-add/remove: 3/2 grow/shrink: 0/1 up/down: 2356/-1944 (412)
-Function                                     old     new   delta
-innolux_p097pfg_init                           -    1772   +1772
-innolux_p097pfg_init.d                         -     480    +480
-innolux_panel_write_multi                      -     104    +104
-innolux_panel_prepare                        412     308    -104
-.compoundliteral                             480       -    -480
-innolux_p097pfg_init_cmds                   1360       -   -1360
-Total: Before=5802, After=6214, chg +7.10%
+On Mon, Apr 29, 2024 at 8:39=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+>
+> On Mon, 29 Apr 2024, Doug Anderson <dianders@chromium.org> wrote:
+> > Hi,
+> >
+> > On Mon, Apr 29, 2024 at 2:38=E2=80=AFAM Neil Armstrong
+> > <neil.armstrong@linaro.org> wrote:
+> >>
+> >> > +/**
+> >> > + * struct mipi_dsi_multi_context - Context to call multiple MIPI DS=
+I funcs in a row
+> >> > + * @dsi: Pointer to the MIPI DSI device
+> >> > + * @accum_err: Storage for the accumulated error over the multiple =
+calls. Init
+> >> > + *   to 0. If a function encounters an error then the error code wi=
+ll be
+> >> > + *   stored here. If you call a function and this points to a non-z=
+ero
+> >> > + *   value then the function will be a noop. This allows calling a =
+function
+> >> > + *   many times in a row and just checking the error at the end to =
+see if
+> >> > + *   any of them failed.
+> >> > + */
+> >> > +
+> >> > +struct mipi_dsi_multi_context {
+> >> > +     struct mipi_dsi_device *dsi;
+> >> > +     int accum_err;
+> >> > +};
+> >>
+> >> I like the design, but having a context struct seems over-engineered w=
+hile we could pass
+> >> a single int over without encapsulating it with mipi_dsi_multi_context=
+.
+> >>
+> >> void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ct=
+x,
+> >>                                      const void *data, size_t len);
+> >> vs
+> >> void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_device *dsi, int =
+*accum_err,
+> >>                                      const void *data, size_t len);
+> >>
+> >> is the same, and it avoids having to declare a mipi_dsi_multi_context =
+and set ctx->dsi,
+> >> and I'll find it much easier to migrate, just add a &ret and make sure=
+ ret is initialized to 0.
+> >
+> > Yeah, I had the same reaction when Jani suggested the context style
+> > [1] and I actually coded it up exactly as you suggest above. I then
+> > changed my mind and went with the context. My motivation was that when
+> > I tested it I found that using the context produced smaller code.
+> > Specifically, from the description of this patch we see we end up
+> > with:
+> >
+> > Total: Before=3D10651, After=3D9663, chg -9.28%
+> >
+> > ...when I didn't have the context and I had the accum_err then instead
+> > of getting ~9% smaller I believe it actually got ~0.5% bigger. This
+> > makes some sense as the caller has to pass 4 parameters to each call
+> > instead of 3.
+> >
+> > It's not a giant size difference but it was at least some motivation
+> > that helped push me in this direction. I'd also say that when I looked
+> > at the code in the end the style grew on me. It's really not too
+> > terrible to have one line in your functions that looks like:
+> >
+> > struct mipi_dsi_multi_context ctx =3D { .dsi =3D boe->dsi };
+> >
+> > ...and if that becomes the canonical way to do it then it's really
+> > hard to accidentally forget to initialize the error value. With the
+> > other API it's _very_ easy to forget to initialize the error value and
+> > the compiler won't yell at you. It also makes it very obvious to the
+> > caller that this function is doing something a little different than
+> > most Linux APIs with that error return.
+> >
+> > So I guess I'd say that I ended up being pretty happy with the
+> > "context" even if it does feel a little over engineered and I'd argue
+> > to keep it that way. That being said, if you feel strongly about it
+> > then we can perhaps get others to chime in to see which style they
+> > prefer? Let me know what you think.
+> >
+> >
+> > [1] https://lore.kernel.org/r/8734r85tcf.fsf@intel.com
+>
+> FWIW, I don't feel strongly about this, and I could be persuaded either
+> way, but I've got this gut feeling that an extensible context parameter
+> might be benefitial future proofing in this case.
 
-Note that, unlike some other drivers, we actually make this panel
-driver _bigger_ by using the new functions. This is because the
-innolux-p079zca panel driver didn't have as complex of a table and
-thus the old table was more efficient than the code. The bloat is
-still not giant (only 412 bytes).
+I've gone ahead and sent out a v3 where I still leave it as taking
+`struct mipi_dsi_multi_context`. Neil: if you feel strongly about it,
+I have no problem sending out a v4. I still think that the size
+savings of using the context are a good "tiebreaking" factor in
+choosing between the two styles... ;-)
 
-Also note that we can't direclty use
-mipi_dsi_generic_write_seq_multi() here because we need to deal with
-the crazy "nop" that this driver sends after all commands. This means
-that we have to write code that is "inspired" by the new macros.
-
-Since we're touching all the tables, let's also convert hex numbers to
-lower case as per kernel conventions.
-
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-
-Changes in v3:
-- New
-
- drivers/gpu/drm/panel/panel-innolux-p079zca.c | 284 +++++++++---------
- 1 file changed, 139 insertions(+), 145 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-innolux-p079zca.c b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-index 485178a99910..18ab7d9f160c 100644
---- a/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-+++ b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-@@ -17,14 +17,7 @@
- #include <drm/drm_modes.h>
- #include <drm/drm_panel.h>
- 
--struct panel_init_cmd {
--	size_t len;
--	const char *data;
--};
--
--#define _INIT_CMD(...) { \
--	.len = sizeof((char[]){__VA_ARGS__}), \
--	.data = (char[]){__VA_ARGS__} }
-+struct innolux_panel;
- 
- struct panel_desc {
- 	const struct drm_display_mode *mode;
-@@ -36,7 +29,7 @@ struct panel_desc {
- 
- 	unsigned long flags;
- 	enum mipi_dsi_pixel_format format;
--	const struct panel_init_cmd *init_cmds;
-+	int (*init)(struct innolux_panel *innolux);
- 	unsigned int lanes;
- 	const char * const *supply_names;
- 	unsigned int num_supplies;
-@@ -132,33 +125,9 @@ static int innolux_panel_prepare(struct drm_panel *panel)
- 	/* p079zca: t4, p097pfg: t5 */
- 	usleep_range(20000, 21000);
- 
--	if (innolux->desc->init_cmds) {
--		const struct panel_init_cmd *cmds =
--					innolux->desc->init_cmds;
--		unsigned int i;
--
--		for (i = 0; cmds[i].len != 0; i++) {
--			const struct panel_init_cmd *cmd = &cmds[i];
--
--			err = mipi_dsi_generic_write(innolux->link, cmd->data,
--						     cmd->len);
--			if (err < 0) {
--				dev_err(panel->dev, "failed to write command %u\n", i);
--				goto poweroff;
--			}
--
--			/*
--			 * Included by random guessing, because without this
--			 * (or at least, some delay), the panel sometimes
--			 * didn't appear to pick up the command sequence.
--			 */
--			err = mipi_dsi_dcs_nop(innolux->link);
--			if (err < 0) {
--				dev_err(panel->dev, "failed to send DCS nop: %d\n", err);
--				goto poweroff;
--			}
--		}
--	}
-+	err = innolux->desc->init(innolux);
-+	if (err < 0)
-+		goto poweroff;
- 
- 	err = mipi_dsi_dcs_exit_sleep_mode(innolux->link);
- 	if (err < 0) {
-@@ -250,119 +219,144 @@ static const struct drm_display_mode innolux_p097pfg_mode = {
- 	.vtotal = 2048 + 100 + 2 + 18,
- };
- 
-+static void innolux_panel_write_multi(struct mipi_dsi_multi_context *ctx,
-+				      const void *payload, size_t size)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+
-+	mipi_dsi_generic_write_multi(ctx, payload, size);
-+	if (ctx->accum_err)
-+		return;
-+
-+	/*
-+	 * Included by random guessing, because without this
-+	 * (or at least, some delay), the panel sometimes
-+	 * didn't appear to pick up the command sequence.
-+	 */
-+	ctx->accum_err = mipi_dsi_dcs_nop(ctx->dsi);
-+	if (ctx->accum_err)
-+		dev_err(dev, "failed to send DCS nop: %d\n", ctx->accum_err);
-+}
-+
-+#define innolux_panel_init_cmd_multi(ctx, seq...)                 \
-+	do {                                                      \
-+		static const u8 d[] = { seq };                    \
-+		innolux_panel_write_multi(ctx, d, ARRAY_SIZE(d)); \
-+	} while (0)
-+
-+#define innolux_panel_switch_page(ctx, page) \
-+	innolux_panel_init_cmd_multi(ctx, 0xf0, 0x55, 0xaa, 0x52, 0x08, (page))
-+
- /*
-  * Display manufacturer failed to provide init sequencing according to
-  * https://chromium-review.googlesource.com/c/chromiumos/third_party/coreboot/+/892065/
-  * so the init sequence stems from a register dump of a working panel.
-  */
--static const struct panel_init_cmd innolux_p097pfg_init_cmds[] = {
--	/* page 0 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x00),
--	_INIT_CMD(0xB1, 0xE8, 0x11),
--	_INIT_CMD(0xB2, 0x25, 0x02),
--	_INIT_CMD(0xB5, 0x08, 0x00),
--	_INIT_CMD(0xBC, 0x0F, 0x00),
--	_INIT_CMD(0xB8, 0x03, 0x06, 0x00, 0x00),
--	_INIT_CMD(0xBD, 0x01, 0x90, 0x14, 0x14),
--	_INIT_CMD(0x6F, 0x01),
--	_INIT_CMD(0xC0, 0x03),
--	_INIT_CMD(0x6F, 0x02),
--	_INIT_CMD(0xC1, 0x0D),
--	_INIT_CMD(0xD9, 0x01, 0x09, 0x70),
--	_INIT_CMD(0xC5, 0x12, 0x21, 0x00),
--	_INIT_CMD(0xBB, 0x93, 0x93),
--
--	/* page 1 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x01),
--	_INIT_CMD(0xB3, 0x3C, 0x3C),
--	_INIT_CMD(0xB4, 0x0F, 0x0F),
--	_INIT_CMD(0xB9, 0x45, 0x45),
--	_INIT_CMD(0xBA, 0x14, 0x14),
--	_INIT_CMD(0xCA, 0x02),
--	_INIT_CMD(0xCE, 0x04),
--	_INIT_CMD(0xC3, 0x9B, 0x9B),
--	_INIT_CMD(0xD8, 0xC0, 0x03),
--	_INIT_CMD(0xBC, 0x82, 0x01),
--	_INIT_CMD(0xBD, 0x9E, 0x01),
--
--	/* page 2 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x02),
--	_INIT_CMD(0xB0, 0x82),
--	_INIT_CMD(0xD1, 0x00, 0x00, 0x00, 0x3E, 0x00, 0x82, 0x00, 0xA5,
--		  0x00, 0xC1, 0x00, 0xEA, 0x01, 0x0D, 0x01, 0x40),
--	_INIT_CMD(0xD2, 0x01, 0x6A, 0x01, 0xA8, 0x01, 0xDC, 0x02, 0x29,
--		  0x02, 0x67, 0x02, 0x68, 0x02, 0xA8, 0x02, 0xF0),
--	_INIT_CMD(0xD3, 0x03, 0x19, 0x03, 0x49, 0x03, 0x67, 0x03, 0x8C,
--		  0x03, 0xA6, 0x03, 0xC7, 0x03, 0xDE, 0x03, 0xEC),
--	_INIT_CMD(0xD4, 0x03, 0xFF, 0x03, 0xFF),
--	_INIT_CMD(0xE0, 0x00, 0x00, 0x00, 0x86, 0x00, 0xC5, 0x00, 0xE5,
--		  0x00, 0xFF, 0x01, 0x26, 0x01, 0x45, 0x01, 0x75),
--	_INIT_CMD(0xE1, 0x01, 0x9C, 0x01, 0xD5, 0x02, 0x05, 0x02, 0x4D,
--		  0x02, 0x86, 0x02, 0x87, 0x02, 0xC3, 0x03, 0x03),
--	_INIT_CMD(0xE2, 0x03, 0x2A, 0x03, 0x56, 0x03, 0x72, 0x03, 0x94,
--		  0x03, 0xAC, 0x03, 0xCB, 0x03, 0xE0, 0x03, 0xED),
--	_INIT_CMD(0xE3, 0x03, 0xFF, 0x03, 0xFF),
--
--	/* page 3 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x03),
--	_INIT_CMD(0xB0, 0x00, 0x00, 0x00, 0x00),
--	_INIT_CMD(0xB1, 0x00, 0x00, 0x00, 0x00),
--	_INIT_CMD(0xB2, 0x00, 0x00, 0x06, 0x04, 0x01, 0x40, 0x85),
--	_INIT_CMD(0xB3, 0x10, 0x07, 0xFC, 0x04, 0x01, 0x40, 0x80),
--	_INIT_CMD(0xB6, 0xF0, 0x08, 0x00, 0x04, 0x00, 0x00, 0x00, 0x01,
--		  0x40, 0x80),
--	_INIT_CMD(0xBA, 0xC5, 0x07, 0x00, 0x04, 0x11, 0x25, 0x8C),
--	_INIT_CMD(0xBB, 0xC5, 0x07, 0x00, 0x03, 0x11, 0x25, 0x8C),
--	_INIT_CMD(0xC0, 0x00, 0x3C, 0x00, 0x00, 0x00, 0x80, 0x80),
--	_INIT_CMD(0xC1, 0x00, 0x3C, 0x00, 0x00, 0x00, 0x80, 0x80),
--	_INIT_CMD(0xC4, 0x00, 0x00),
--	_INIT_CMD(0xEF, 0x41),
--
--	/* page 4 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x04),
--	_INIT_CMD(0xEC, 0x4C),
--
--	/* page 5 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x05),
--	_INIT_CMD(0xB0, 0x13, 0x03, 0x03, 0x01),
--	_INIT_CMD(0xB1, 0x30, 0x00),
--	_INIT_CMD(0xB2, 0x02, 0x02, 0x00),
--	_INIT_CMD(0xB3, 0x82, 0x23, 0x82, 0x9D),
--	_INIT_CMD(0xB4, 0xC5, 0x75, 0x24, 0x57),
--	_INIT_CMD(0xB5, 0x00, 0xD4, 0x72, 0x11, 0x11, 0xAB, 0x0A),
--	_INIT_CMD(0xB6, 0x00, 0x00, 0xD5, 0x72, 0x24, 0x56),
--	_INIT_CMD(0xB7, 0x5C, 0xDC, 0x5C, 0x5C),
--	_INIT_CMD(0xB9, 0x0C, 0x00, 0x00, 0x01, 0x00),
--	_INIT_CMD(0xC0, 0x75, 0x11, 0x11, 0x54, 0x05),
--	_INIT_CMD(0xC6, 0x00, 0x00, 0x00, 0x00),
--	_INIT_CMD(0xD0, 0x00, 0x48, 0x08, 0x00, 0x00),
--	_INIT_CMD(0xD1, 0x00, 0x48, 0x09, 0x00, 0x00),
--
--	/* page 6 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x06),
--	_INIT_CMD(0xB0, 0x02, 0x32, 0x32, 0x08, 0x2F),
--	_INIT_CMD(0xB1, 0x2E, 0x15, 0x14, 0x13, 0x12),
--	_INIT_CMD(0xB2, 0x11, 0x10, 0x00, 0x3D, 0x3D),
--	_INIT_CMD(0xB3, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D),
--	_INIT_CMD(0xB4, 0x3D, 0x32),
--	_INIT_CMD(0xB5, 0x03, 0x32, 0x32, 0x09, 0x2F),
--	_INIT_CMD(0xB6, 0x2E, 0x1B, 0x1A, 0x19, 0x18),
--	_INIT_CMD(0xB7, 0x17, 0x16, 0x01, 0x3D, 0x3D),
--	_INIT_CMD(0xB8, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D),
--	_INIT_CMD(0xB9, 0x3D, 0x32),
--	_INIT_CMD(0xC0, 0x01, 0x32, 0x32, 0x09, 0x2F),
--	_INIT_CMD(0xC1, 0x2E, 0x1A, 0x1B, 0x16, 0x17),
--	_INIT_CMD(0xC2, 0x18, 0x19, 0x03, 0x3D, 0x3D),
--	_INIT_CMD(0xC3, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D),
--	_INIT_CMD(0xC4, 0x3D, 0x32),
--	_INIT_CMD(0xC5, 0x00, 0x32, 0x32, 0x08, 0x2F),
--	_INIT_CMD(0xC6, 0x2E, 0x14, 0x15, 0x10, 0x11),
--	_INIT_CMD(0xC7, 0x12, 0x13, 0x02, 0x3D, 0x3D),
--	_INIT_CMD(0xC8, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D),
--	_INIT_CMD(0xC9, 0x3D, 0x32),
--
--	{},
--};
-+static int innolux_p097pfg_init(struct innolux_panel *innolux)
-+{
-+	struct mipi_dsi_multi_context ctx = { .dsi = innolux->link };
-+
-+	innolux_panel_switch_page(&ctx, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb1, 0xe8, 0x11);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb2, 0x25, 0x02);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb5, 0x08, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbc, 0x0f, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb8, 0x03, 0x06, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbd, 0x01, 0x90, 0x14, 0x14);
-+	innolux_panel_init_cmd_multi(&ctx, 0x6f, 0x01);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc0, 0x03);
-+	innolux_panel_init_cmd_multi(&ctx, 0x6f, 0x02);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc1, 0x0d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd9, 0x01, 0x09, 0x70);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc5, 0x12, 0x21, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbb, 0x93, 0x93);
-+
-+	innolux_panel_switch_page(&ctx, 0x01);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb3, 0x3c, 0x3c);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb4, 0x0f, 0x0f);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb9, 0x45, 0x45);
-+	innolux_panel_init_cmd_multi(&ctx, 0xba, 0x14, 0x14);
-+	innolux_panel_init_cmd_multi(&ctx, 0xca, 0x02);
-+	innolux_panel_init_cmd_multi(&ctx, 0xce, 0x04);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc3, 0x9b, 0x9b);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd8, 0xc0, 0x03);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbc, 0x82, 0x01);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbd, 0x9e, 0x01);
-+
-+	innolux_panel_switch_page(&ctx, 0x02);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb0, 0x82);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd1, 0x00, 0x00, 0x00, 0x3e, 0x00, 0x82, 0x00, 0xa5,
-+				     0x00, 0xc1, 0x00, 0xea, 0x01, 0x0d, 0x01, 0x40);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd2, 0x01, 0x6a, 0x01, 0xa8, 0x01, 0xdc, 0x02, 0x29,
-+				     0x02, 0x67, 0x02, 0x68, 0x02, 0xa8, 0x02, 0xf0);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd3, 0x03, 0x19, 0x03, 0x49, 0x03, 0x67, 0x03, 0x8c,
-+				     0x03, 0xa6, 0x03, 0xc7, 0x03, 0xde, 0x03, 0xec);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd4, 0x03, 0xff, 0x03, 0xff);
-+	innolux_panel_init_cmd_multi(&ctx, 0xe0, 0x00, 0x00, 0x00, 0x86, 0x00, 0xc5, 0x00, 0xe5,
-+				     0x00, 0xff, 0x01, 0x26, 0x01, 0x45, 0x01, 0x75);
-+	innolux_panel_init_cmd_multi(&ctx, 0xe1, 0x01, 0x9c, 0x01, 0xd5, 0x02, 0x05, 0x02, 0x4d,
-+				     0x02, 0x86, 0x02, 0x87, 0x02, 0xc3, 0x03, 0x03);
-+	innolux_panel_init_cmd_multi(&ctx, 0xe2, 0x03, 0x2a, 0x03, 0x56, 0x03, 0x72, 0x03, 0x94,
-+				     0x03, 0xac, 0x03, 0xcb, 0x03, 0xe0, 0x03, 0xed);
-+	innolux_panel_init_cmd_multi(&ctx, 0xe3, 0x03, 0xff, 0x03, 0xff);
-+
-+	innolux_panel_switch_page(&ctx, 0x03);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb0, 0x00, 0x00, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb1, 0x00, 0x00, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb2, 0x00, 0x00, 0x06, 0x04, 0x01, 0x40, 0x85);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb3, 0x10, 0x07, 0xfc, 0x04, 0x01, 0x40, 0x80);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb6, 0xf0, 0x08, 0x00, 0x04, 0x00, 0x00, 0x00, 0x01,
-+				     0x40, 0x80);
-+	innolux_panel_init_cmd_multi(&ctx, 0xba, 0xc5, 0x07, 0x00, 0x04, 0x11, 0x25, 0x8c);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbb, 0xc5, 0x07, 0x00, 0x03, 0x11, 0x25, 0x8c);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc0, 0x00, 0x3c, 0x00, 0x00, 0x00, 0x80, 0x80);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc1, 0x00, 0x3c, 0x00, 0x00, 0x00, 0x80, 0x80);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc4, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xef, 0x41);
-+
-+	innolux_panel_switch_page(&ctx, 0x04);
-+	innolux_panel_init_cmd_multi(&ctx, 0xec, 0x4c);
-+
-+	innolux_panel_switch_page(&ctx, 0x05);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb0, 0x13, 0x03, 0x03, 0x01);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb1, 0x30, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb2, 0x02, 0x02, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb3, 0x82, 0x23, 0x82, 0x9d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb4, 0xc5, 0x75, 0x24, 0x57);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb5, 0x00, 0xd4, 0x72, 0x11, 0x11, 0xab, 0x0a);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb6, 0x00, 0x00, 0xd5, 0x72, 0x24, 0x56);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb7, 0x5c, 0xdc, 0x5c, 0x5c);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb9, 0x0c, 0x00, 0x00, 0x01, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc0, 0x75, 0x11, 0x11, 0x54, 0x05);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc6, 0x00, 0x00, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd0, 0x00, 0x48, 0x08, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd1, 0x00, 0x48, 0x09, 0x00, 0x00);
-+
-+	innolux_panel_switch_page(&ctx, 0x06);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb0, 0x02, 0x32, 0x32, 0x08, 0x2f);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb1, 0x2e, 0x15, 0x14, 0x13, 0x12);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb2, 0x11, 0x10, 0x00, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb3, 0x3d, 0x3d, 0x3d, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb4, 0x3d, 0x32);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb5, 0x03, 0x32, 0x32, 0x09, 0x2f);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb6, 0x2e, 0x1b, 0x1a, 0x19, 0x18);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb7, 0x17, 0x16, 0x01, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb8, 0x3d, 0x3d, 0x3d, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb9, 0x3d, 0x32);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc0, 0x01, 0x32, 0x32, 0x09, 0x2f);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc1, 0x2e, 0x1a, 0x1b, 0x16, 0x17);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc2, 0x18, 0x19, 0x03, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc3, 0x3d, 0x3d, 0x3d, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc4, 0x3d, 0x32);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc5, 0x00, 0x32, 0x32, 0x08, 0x2f);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc6, 0x2e, 0x14, 0x15, 0x10, 0x11);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc7, 0x12, 0x13, 0x02, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc8, 0x3d, 0x3d, 0x3d, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc9, 0x3d, 0x32);
-+
-+	return ctx.accum_err;
-+}
- 
- static const struct panel_desc innolux_p097pfg_panel_desc = {
- 	.mode = &innolux_p097pfg_mode,
-@@ -374,7 +368,7 @@ static const struct panel_desc innolux_p097pfg_panel_desc = {
- 	.flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
- 		 MIPI_DSI_MODE_LPM,
- 	.format = MIPI_DSI_FMT_RGB888,
--	.init_cmds = innolux_p097pfg_init_cmds,
-+	.init = innolux_p097pfg_init,
- 	.lanes = 4,
- 	.supply_names = innolux_p097pfg_supply_names,
- 	.num_supplies = ARRAY_SIZE(innolux_p097pfg_supply_names),
--- 
-2.45.0.rc0.197.gbae5840b3b-goog
-
+-Doug
