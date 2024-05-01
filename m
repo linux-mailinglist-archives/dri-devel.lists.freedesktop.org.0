@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990D58B85C4
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 08:57:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9375F8B85C8
+	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 08:57:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B00E1121DA;
-	Wed,  1 May 2024 06:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F6A81121DE;
+	Wed,  1 May 2024 06:57:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="L4J7fJjX";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="shC5Vw2f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A06B01121D7;
- Wed,  1 May 2024 06:56:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8D941121D7;
+ Wed,  1 May 2024 06:57:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714546618;
- bh=iEC0/RKlUV3PA5EcZER+WAMWrbc6jCqUUJ6YQFg0IQ4=;
+ s=mail; t=1714546619;
+ bh=ukkgFqr7kd/xxXpDV8+eo6AgFXA9F66NcJ7LrIizHhM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=L4J7fJjXtl6k75cLOq+bIqsFXeMGPNnZNIQJ3s+qZLzcCFimVLyxv6ueYXJ9GqnFn
- 8IXzp5d56O/ECJoyof37PwfFiTZJI8Rb1d+hWl5nh2plBG0kmYeHY+8QVVHMHlKdoT
- KTZu3hbGFD3m+m1DumEWzKgjGVQa4PdUSDbH7oFlHTUsw/uLTQNQTwzcGpI5gX2rbl
- c7QZryTq7wgEaMMsM4cj5ZGIVNkQqLurX9iGx9RyyAO23DHPBQw52P0RsYmOdPeVgX
- aKOkEohfl6O56ANrpPwmHGdp+fmlS4+T8PnccI1lncp8QVBiCXscTeKnJTGerwb8Go
- 0nmKcYvu7GqiQ==
+ b=shC5Vw2fvwzdtpBhsMxO4K3ScFhrjk5bLn15g5Nmmhn/NDP1XFd3k+6m/NQWkyLY0
+ GWFEyGw93nG9ga7lHShbcfTDcy1DLrEXC2SOlxT0nPvHUT0t3twi09rLvWUtE7AXhn
+ mZFbPWLFPzsxCL2J7rgOxzDnwVl5h63t1NUWUoH7Hh4d/5j0WfxK9lPdsgHkuwZhS7
+ AegulK7GQbWEZSRh5j1n9EbYJtml57lBuB21Mu6B2PzoBMXnJt8O/ze/1at+RBH9ac
+ pEx+mIetasKpidIc1WC+9hW30KRi5j8PlAm3f9Fv8jTvLgQH8tV2NPn0GKLPs2jZVV
+ jP+ZtgavsUH6Q==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: alarumbe)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5CF4937820E1;
- Wed,  1 May 2024 06:56:57 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 738F337820FB;
+ Wed,  1 May 2024 06:56:58 +0000 (UTC)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: Qiang Yu <yuq825@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -48,10 +48,10 @@ Cc: kernel@collabora.com, Adrian Larumbe <adrian.larumbe@collabora.com>,
  dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v3 1/2] drm/panfrost: Fix dma_resv deadlock at drm object pin
- time
-Date: Wed,  1 May 2024 07:55:59 +0100
-Message-ID: <20240501065650.2809530-2-adrian.larumbe@collabora.com>
+Subject: [PATCH v3 2/2] drm/gem-shmem: Add import attachment warning to locked
+ pin function
+Date: Wed,  1 May 2024 07:56:00 +0100
+Message-ID: <20240501065650.2809530-3-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
 References: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
@@ -73,65 +73,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When Panfrost must pin an object that is being prepared a dma-buf
-attachment for on behalf of another driver, the core drm gem object pinning
-code already takes a lock on the object's dma reservation.
+Commit ec144244a43f ("drm/gem-shmem: Acquire reservation lock in GEM
+pin/unpin callbacks") moved locking DRM object's dma reservation to
+drm_gem_shmem_object_pin, and made drm_gem_shmem_pin_locked public, so we
+need to make sure the non-NULL check warning is also added to the latter.
 
-However, Panfrost GEM object's pinning callback would eventually try taking
-the lock on the same dma reservation when delegating pinning of the object
-onto the shmem subsystem, which led to a deadlock.
-
-This can be shown by enabling CONFIG_DEBUG_WW_MUTEX_SLOWPATH, which throws
-the following recursive locking situation:
-
-weston/3440 is trying to acquire lock:
-ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_shmem_pin+0x34/0xb8 [drm_shmem_helper]
-but task is already holding lock:
-ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_pin+0x2c/0x80 [drm]
-
-Fix it by assuming the object's reservation had already been locked by the
-time we reach panfrost_gem_pin.
-
-Do the same thing for the Lima driver, as it most likely suffers from the
-same issue.
-
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>
-Fixes: a78027847226 ("drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()")
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- drivers/gpu/drm/lima/lima_gem.c         | 2 +-
- drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-index 7ea244d876ca..c4e0f9faaa47 100644
---- a/drivers/gpu/drm/lima/lima_gem.c
-+++ b/drivers/gpu/drm/lima/lima_gem.c
-@@ -185,7 +185,7 @@ static int lima_gem_pin(struct drm_gem_object *obj)
- 	if (bo->heap_size)
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 177773bcdbfd..ad5d9f704e15 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -233,6 +233,8 @@ int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
  
--	return drm_gem_shmem_pin(&bo->base);
-+	return drm_gem_shmem_object_pin(obj);
- }
+ 	dma_resv_assert_held(shmem->base.resv);
  
- static int lima_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index d47b40b82b0b..f268bd5c2884 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -192,7 +192,7 @@ static int panfrost_gem_pin(struct drm_gem_object *obj)
- 	if (bo->is_heap)
- 		return -EINVAL;
++	drm_WARN_ON(shmem->base.dev, shmem->base.import_attach);
++
+ 	ret = drm_gem_shmem_get_pages(shmem);
  
--	return drm_gem_shmem_pin(&bo->base);
-+	return drm_gem_shmem_object_pin(obj);
- }
- 
- static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_object *obj)
+ 	return ret;
 -- 
 2.44.0
 
