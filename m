@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E359D8B857F
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 08:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A398B85C5
+	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 08:57:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7EB112A31;
-	Wed,  1 May 2024 06:07:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5993E1121D7;
+	Wed,  1 May 2024 06:57:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d5oCDzlk";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="yuTqdv0+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54B68112A31
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2024 06:07:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5A3856178F
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2024 06:06:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EE610C4AF1A
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2024 06:06:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714543619;
- bh=CVvbpsopMqiPf7gahDk3bXsSxfUjY+5EJEsr3D9h2N8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=d5oCDzlkkP7dfnxC5hTP962g/YkXy/t0GJBY2K0/+aBvG/OF+YO20g8E7ffKPlyVp
- 0z9ZKAdpzP+hA1xB5srppcgU0L2oHxcT9BgK+HYIWR4AdZ3lIoy4SsLVaVyBzvUZBY
- /+ykaF/uSCyu0tNrc8tg4wwL6CMwIXfNRdmVOZ2cfasLHPmyYRVP3ZVWa/wRFvQEV/
- IgqwV2frLqA35neO9jg+eLl3RY5sfWHuJs2Vt2+Xsx06/sRwA0WzUHgx8n1kFCYFha
- 3ZduE/EBFgtdoPkiexryQO8slJrMTmNo2XijpYlNe8BXjPuueo3qh3AEcL3gz4PcLT
- H84CNHjXz7u8w==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id DBC54C53B6C; Wed,  1 May 2024 06:06:58 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218785] HP Victus by HP Laptop 16-e0xxx. HDMI connection
- doesn't detect counterpart projector.
-Date: Wed, 01 May 2024 06:06:58 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: regressions@leemhuis.info
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-218785-2300-UPB8Lg62PA@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218785-2300@https.bugzilla.kernel.org/>
-References: <bug-218785-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 459361121D7;
+ Wed,  1 May 2024 06:56:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1714546617;
+ bh=+gpJXoDEqYzBuZulQbczBn4Pg+8UdQjqkKQDhtgftuY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=yuTqdv0+509GARpdGOcAmrDFIxTdHACNuq70OZV/uZkrBBYLeXnkdHQppBi+f1K0w
+ XhJvjKC4KJhIUNFstpRB1834LTcx959ulNuv/8zpD3sObav68v7HSdZkBmjxd8IrjM
+ nfcPLv0yYiZ0ols0ubim7uB8TGHHVgiI3WE3mgo4yf3fHxVt8nRznYThiPm5yoG4HC
+ dtO83IN9gN+qkr8cVynrVFxUpn4clCfMkbP6Pe1ap7foEK93Uw64rV/LIrE1qPO+YN
+ nRSNJ2xO/fsIrFzjtP3oc2PicaCDckOy3HyqIGRYot5U0iNqVKczLMLrs1tPHQTnsm
+ Twy98Bk3lgeKg==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 43E7E3782087;
+ Wed,  1 May 2024 06:56:56 +0000 (UTC)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Qiang Yu <yuq825@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig= <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Zack Rusin <zack.rusin@broadcom.com>
+Cc: kernel@collabora.com, Adrian Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v3 0/2] drm: Fix dma_resv deadlock at drm object pin time
+Date: Wed,  1 May 2024 07:55:58 +0100
+Message-ID: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,25 +70,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218785
+This is v3 of https://lore.kernel.org/dri-devel/20240424090429.57de7d1c@collabora.com/
 
-The Linux kernel's regression tracker (Thorsten Leemhuis) (regressions@leem=
-huis.info) changed:
+The goal of this patch series is fixing a deadlock upon locking the dma reservation
+of a DRM gem object when pinning it, at a prime import operation.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |regressions@leemhuis.info
+Changes from v2:
+ - Removed comment explaining reason why an already-locked
+pin function replaced the locked variant inside Panfrost's
+object pin callback.
+ - Moved already-assigned attachment warning into generic
+already-locked gem object pin function
 
---- Comment #3 from The Linux kernel's regression tracker (Thorsten Leemhui=
-s) (regressions@leemhuis.info) ---
-This might be caused by a different or changed kernel config; to check if t=
-his
-really is a regression you need to verify this on one distro -- and ideally
-bisect, too:
-https://docs.kernel.org/admin-guide/verify-bugs-and-bisect-regressions.html
+Adrián Larumbe (2):
+  drm/panfrost: Fix dma_resv deadlock at drm object pin time
+  drm/gem-shmem: Add import attachment warning to locked pin function
 
---=20
-You may reply to this email to add a comment.
+ drivers/gpu/drm/drm_gem_shmem_helper.c  | 2 ++
+ drivers/gpu/drm/lima/lima_gem.c         | 2 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+base-commit: 75b68f22e39aafb22f3d8e3071e1aba73560788c
+-- 
+2.44.0
+
