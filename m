@@ -2,82 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF4018B8D88
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 17:57:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29628B8D8D
+	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 17:58:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79BA910E161;
-	Wed,  1 May 2024 15:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1578110E717;
+	Wed,  1 May 2024 15:58:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="l7jkV+fE";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="JvZ/Te27";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
- [209.85.219.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9C3411202D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2024 15:57:28 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id
- 3f1490d57ef6-de4665b4969so7442208276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2024 08:57:28 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF67D10E717
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2024 15:58:08 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-41c1b75ca31so26802415e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2024 08:58:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714579048; x=1715183848; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Eg8D/K80r70GPeKVeJzvUlTNioKE+UQ27ElJDTct8fc=;
- b=l7jkV+fEs0qGgDxl04rRxWL/BrbE5N8gNxb2ZYUtIOkJKgI0ZT7FG8LQq17R/zMXzT
- cicg5O2TQCp96SW4LCBjFekcCs3cz9prjh4UQXI7dNQSNfCsYTg2xoIDFWyzPs4Z04Vf
- PMIpPsHq0LX4wEBwYxOCx260lbyhT95fsUri5LdxTaVNeoPlYEr6mDNezhK9Kz6hZ3LR
- TuspiMwGyw7ZYAZt8ipI/Ee5HkYhL3srKcGBGyzMEBJ+/hOg1M3nt5L0wqjk/JzsLMMg
- EFFuz9bvAIV1Ws+2Lak5AChTAAnXjJP8aCcPvOfn6jX8g9+3E4m4a3iL8ovVcJem7fd5
- IWpQ==
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1714579087; x=1715183887;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=IM1Q38Vixc5rGoB4SXPdlKbe9Yze7I43pEzyGZNiY0c=;
+ b=JvZ/Te27sB+ncvd5dcz0+bYtak4fXEg7y2XIt43hMwMVFiKzT32E6tUHWZfwZ8jov1
+ 0DCOfTlUQpQQJELvPUucwLQ8I1Tg3VPf4vJWRfsUJ5D6H4IUf1lw7XqaQGkqbNf2rB+D
+ 39WNJzqn8VCVTsFMEzYs8Z4EXAGqkeA9+NlvIPQg294KxuDolQoA7aOEfxf0CNtWFnRN
+ b6D4+nZyFk6oWTE/blSHxAe4pyl7IW2zOvAdmnCPeE5NJVHU8AQ2QeqUetuG3RvVLOaB
+ OXHn/7TxuxFKhxIZ5L825O7UGUxP75suQgLXyIsZOness3Og9YjcZOn9hfRtV52KN3Iz
+ 41fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714579048; x=1715183848;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Eg8D/K80r70GPeKVeJzvUlTNioKE+UQ27ElJDTct8fc=;
- b=QCyLVl8sp5tNpK5aYx22wyWV2tRThJJxelTuCVj06/2l4bOnfADDDuvgyzvEBwac0n
- ylxkHmTdgReXiQTFfxTUAWT7yRoGiKAKev68KieFM+NLbiqIhUgAsdbZwRBkjrCCeAmH
- 78KdATUHwSP4OLlHQHB8HB8KN2+ZWG0gC3i8RdV9JlagmMxwe4mgvW1V6YR4qvdGYu5B
- jSsItHV21MGTACe1EHqgy41EKcKfoOv35K1476iFMoLXhtJlnSS4g1htAQYv5dFAut/J
- WpsgVs3MeYfadZqOY6qBYtH+KFeKrUu9VFB6HOByb3ulmfPmgUW0PcDN59y3p6AnOC3q
- P+SQ==
+ d=1e100.net; s=20230601; t=1714579087; x=1715183887;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IM1Q38Vixc5rGoB4SXPdlKbe9Yze7I43pEzyGZNiY0c=;
+ b=AiauwiA2najgWbrNenXUgfyQO1uakvzXEUFIsjmXbK49bqOZScD0JpQlk8DauQ7lHY
+ 1xFwkFYV8KNz6uhBHWAYuoOqR6CVPl9eeUdSa+KgCNqNTnNrwBbNS30QpahiIEx+fbNZ
+ sRkqyP637Q/p9BUQLgpraJoWKP2UZWYbpxdpl65Hw01cxh2jIIQgeTZt7Hx4N8j5mviR
+ pqQYIayJQ1XquPPnpGn0ZPddSm7zbB/1PmDQFAxHFOy2HiKNg7FIexXUnfjaG7l6Gie3
+ MgkNvbxHA9VBZ+ZKQmNYG1PWLbHlRoEgkHWqXvRyEjk+5iI38RAH72d21k+dQLaGQ5ll
+ 6qBg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVR//xakfHop2ChD7t/DL9y2pdPI40ELzEFh+KzfInDmNFwITQgYZUg7rs9AujFr6tAvNWe6hYmzBJn3/b3a3ifUwtXgT7dgQP5RGBuqwmp
-X-Gm-Message-State: AOJu0Yw0ACOQT5HoLkB1dmT0fE6PtzTygDCaBWT4DNO1p2wLw3bovLrv
- c6trU6Z7hwLNwwTk0OCUT61UYbR4gpegukXxtTidmunTTY/bC6q8gMZvjdoXxLzNqFvJlWAbXSl
- xWSAszNO+2ScwAHKrdA7ax6gTbao7kjWN11bvHQ==
-X-Google-Smtp-Source: AGHT+IH86QJyeyp567BCwp8BUUZmiXku0Gk/2CGwoI60s7MqsC0CFmX7RnQZ7KksZBZqJhbhph4o/NFIeEggEjh0Icw=
-X-Received: by 2002:a25:a2c6:0:b0:de4:6334:5534 with SMTP id
- c6-20020a25a2c6000000b00de463345534mr3234633ybn.63.1714579047482; Wed, 01 May
- 2024 08:57:27 -0700 (PDT)
+ AJvYcCWFhvnQPQS7pjGCAzKwPMladTvhvmaUcLpG20/UiTcibUNo+pr+OqUR7KjXXZuX96BtnSbEWcwAzlbwyOLBsTRBFjtCgE1AqEZ1z3uwr6Kw
+X-Gm-Message-State: AOJu0YyK91UQw1kafm5SOOmk7mSja5sWQvBqOYgG7wGXBdRHF3PvP6Y/
+ ADwh179jZDP6eysueRVB4XMXLwGOTHyUOSTQKRU8Jr3SS4CgF/csB3UCRIc/bBo=
+X-Google-Smtp-Source: AGHT+IEriy/yldJww68D/EaXvNBSqKxiyuZ/kdKCUsiW8K8RJDY1SusYSvfyjDkgPP8ckBM0NLlkdw==
+X-Received: by 2002:a05:600c:1d88:b0:419:e773:9052 with SMTP id
+ p8-20020a05600c1d8800b00419e7739052mr2391402wms.14.1714579086858; 
+ Wed, 01 May 2024 08:58:06 -0700 (PDT)
+Received: from [192.168.0.101] ([84.65.0.132])
+ by smtp.gmail.com with ESMTPSA id
+ n44-20020a05600c502c00b004146e58cc35sm2626540wmr.46.2024.05.01.08.58.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 May 2024 08:58:06 -0700 (PDT)
+Message-ID: <54ebd0a0-dc9d-43d7-b530-065832cda160@ursulin.net>
+Date: Wed, 1 May 2024 16:58:05 +0100
 MIME-Version: 1.0
-References: <20240426235857.3870424-1-dianders@chromium.org>
- <20240426165839.v2.4.Ie94246c30fe95101e0e26dd5f96e976dbeb8f242@changeid>
- <2af446d3-7834-4a6b-897b-b14c6bccff65@linaro.org>
- <CAD=FV=V=EvEGp4tGDd-UQ1R=XkAwDn04ftd8oWU=UE=3Gi7SLQ@mail.gmail.com>
- <87y18w2n6h.fsf@intel.com>
- <CAD=FV=X5jBqBgOqtm8nYtEKNHcnJgQDWj+ynS5U7KXuQgHLySg@mail.gmail.com>
-In-Reply-To: <CAD=FV=X5jBqBgOqtm8nYtEKNHcnJgQDWj+ynS5U7KXuQgHLySg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 1 May 2024 18:57:16 +0300
-Message-ID: <CAA8EJppMf2nAU_=pZz6eUhasQGEzEnz1_i72pNXBsmE9UgV--Q@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] drm/mipi-dsi: Introduce
- mipi_dsi_*_write_seq_multi()
-To: Doug Anderson <dianders@chromium.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, neil.armstrong@linaro.org, 
- dri-devel@lists.freedesktop.org, Linus Walleij <linus.walleij@linaro.org>, 
- lvzhaoxiong@huaqin.corp-partner.google.com, Hsin-Yi Wang <hsinyi@google.com>, 
- Javier Martinez Canillas <javierm@redhat.com>, Joel Selvaraj <jo@jsfamily.in>, 
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- Sam Ravnborg <sam@ravnborg.org>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sysfs: Add drm class-wide attribute to get active
+ device clients
+Content-Language: en-GB
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Rob Clark <robdclark@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Hans de Goede <hdegoede@redhat.com>, kernel@collabora.com,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240403182951.724488-1-adrian.larumbe@collabora.com>
+ <CAF6AEGsWtJs2xcZx59P9_maxn1RqCO6-4GwEp2fL31bZtTyuoA@mail.gmail.com>
+ <e6500d5b-0151-4c31-9032-3a23157b3126@ursulin.net>
+ <4btlparspmb47v3nq3mip6cjr2adwejepnglvh6q5nlbmdzwvt@74gg6tjpngbv>
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <4btlparspmb47v3nq3mip6cjr2adwejepnglvh6q5nlbmdzwvt@74gg6tjpngbv>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,119 +96,314 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 1 May 2024 at 18:49, Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Mon, Apr 29, 2024 at 8:39=E2=80=AFAM Jani Nikula <jani.nikula@linux.in=
-tel.com> wrote:
-> >
-> > On Mon, 29 Apr 2024, Doug Anderson <dianders@chromium.org> wrote:
-> > > Hi,
-> > >
-> > > On Mon, Apr 29, 2024 at 2:38=E2=80=AFAM Neil Armstrong
-> > > <neil.armstrong@linaro.org> wrote:
-> > >>
-> > >> > +/**
-> > >> > + * struct mipi_dsi_multi_context - Context to call multiple MIPI =
-DSI funcs in a row
-> > >> > + * @dsi: Pointer to the MIPI DSI device
-> > >> > + * @accum_err: Storage for the accumulated error over the multipl=
-e calls. Init
-> > >> > + *   to 0. If a function encounters an error then the error code =
-will be
-> > >> > + *   stored here. If you call a function and this points to a non=
--zero
-> > >> > + *   value then the function will be a noop. This allows calling =
-a function
-> > >> > + *   many times in a row and just checking the error at the end t=
-o see if
-> > >> > + *   any of them failed.
-> > >> > + */
-> > >> > +
-> > >> > +struct mipi_dsi_multi_context {
-> > >> > +     struct mipi_dsi_device *dsi;
-> > >> > +     int accum_err;
-> > >> > +};
-> > >>
-> > >> I like the design, but having a context struct seems over-engineered=
- while we could pass
-> > >> a single int over without encapsulating it with mipi_dsi_multi_conte=
-xt.
-> > >>
-> > >> void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *=
-ctx,
-> > >>                                      const void *data, size_t len);
-> > >> vs
-> > >> void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_device *dsi, in=
-t *accum_err,
-> > >>                                      const void *data, size_t len);
-> > >>
-> > >> is the same, and it avoids having to declare a mipi_dsi_multi_contex=
-t and set ctx->dsi,
-> > >> and I'll find it much easier to migrate, just add a &ret and make su=
-re ret is initialized to 0.
-> > >
-> > > Yeah, I had the same reaction when Jani suggested the context style
-> > > [1] and I actually coded it up exactly as you suggest above. I then
-> > > changed my mind and went with the context. My motivation was that whe=
-n
-> > > I tested it I found that using the context produced smaller code.
-> > > Specifically, from the description of this patch we see we end up
-> > > with:
-> > >
-> > > Total: Before=3D10651, After=3D9663, chg -9.28%
-> > >
-> > > ...when I didn't have the context and I had the accum_err then instea=
-d
-> > > of getting ~9% smaller I believe it actually got ~0.5% bigger. This
-> > > makes some sense as the caller has to pass 4 parameters to each call
-> > > instead of 3.
-> > >
-> > > It's not a giant size difference but it was at least some motivation
-> > > that helped push me in this direction. I'd also say that when I looke=
-d
-> > > at the code in the end the style grew on me. It's really not too
-> > > terrible to have one line in your functions that looks like:
-> > >
-> > > struct mipi_dsi_multi_context ctx =3D { .dsi =3D boe->dsi };
-> > >
-> > > ...and if that becomes the canonical way to do it then it's really
-> > > hard to accidentally forget to initialize the error value. With the
-> > > other API it's _very_ easy to forget to initialize the error value an=
-d
-> > > the compiler won't yell at you. It also makes it very obvious to the
-> > > caller that this function is doing something a little different than
-> > > most Linux APIs with that error return.
-> > >
-> > > So I guess I'd say that I ended up being pretty happy with the
-> > > "context" even if it does feel a little over engineered and I'd argue
-> > > to keep it that way. That being said, if you feel strongly about it
-> > > then we can perhaps get others to chime in to see which style they
-> > > prefer? Let me know what you think.
-> > >
-> > >
-> > > [1] https://lore.kernel.org/r/8734r85tcf.fsf@intel.com
-> >
-> > FWIW, I don't feel strongly about this, and I could be persuaded either
-> > way, but I've got this gut feeling that an extensible context parameter
-> > might be benefitial future proofing in this case.
->
-> I've gone ahead and sent out a v3 where I still leave it as taking
-> `struct mipi_dsi_multi_context`. Neil: if you feel strongly about it,
-> I have no problem sending out a v4. I still think that the size
-> savings of using the context are a good "tiebreaking" factor in
-> choosing between the two styles... ;-)
 
-I like the idea of context. If later on we need to add additional data
-(like DSC PPS or drm_mode), we can simply extend the context
-structure.
+Hi,
 
->
-> -Doug
+On 24/04/2024 15:48, Adrián Larumbe wrote:
+> Hi Tvrtko,
+> 
+> On 15.04.2024 13:50, Tvrtko Ursulin wrote:
+>>
+>> On 05/04/2024 18:59, Rob Clark wrote:
+>>> On Wed, Apr 3, 2024 at 11:37 AM Adrián Larumbe
+>>> <adrian.larumbe@collabora.com> wrote:
+>>>>
+>>>> Up to this day, all fdinfo-based GPU profilers must traverse the entire
+>>>> /proc directory structure to find open DRM clients with fdinfo file
+>>>> descriptors. This is inefficient and time-consuming.
+>>>>
+>>>> This patch adds a new device class attribute that will install a sysfs file
+>>>> per DRM device, which can be queried by profilers to get a list of PIDs for
+>>>> their open clients. This file isn't human-readable, and it's meant to be
+>>>> queried only by GPU profilers like gputop and nvtop.
+>>>>
+>>>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+>>>> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+>>>> Cc: Christopher Healy <healych@amazon.com>
+>>>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+>>>
+>>> It does seem like a good idea.. idk if there is some precedent to
+>>> prefer binary vs ascii in sysfs, but having a way to avoid walking
+>>> _all_ processes is a good idea.
+>>
+>> I naturally second that it is a needed feature, but I do not think binary
+>> format is justified. AFAIR it should be used for things like hw/fw
+>> standardised tables or firmware images, not when exporting a simple list of
+>> PIDs. It also precludes easy shell/script access and the benefit of avoiding
+>> parsing a short list is I suspect completely dwarfed by needing to parse all
+>> the related fdinfo etc.
+> 
+> I'd rather keep it as a binary file for the sake of easily parsing the number
+> list on the client side, in gputop or nvtop. For textual access, there's already
+> a debugfs file that presents the same information, so I thought it was best not
+> to duplicate that functionality and restrict sysfs to serving the very specific
+> use case of UM profilers having to access the DRM client list.
+> 
+> I should mention I did something controversial here, which is a semantically
+> binary attribute through the regular attribute interface. I guess if I keep it
+> as a binary attribute in the end, I should switch over to the binary attribute
+> API.
+> 
+> Another reason why I implemented it as a binary file is that we can only send
+> back at most a whole page. If a PID takes 4 bytes, that's usually 1024 clients
+> at most, which is probably enough for any UM profiler, but will decrease even
+> more if we turn it into an ASCII readable file.
 
+I'm afraid I still think there is no reason for a binary file, even less 
+so artificially limited to 1024 clients. Any consumer will have to parse 
+text fdinfo so a binary list of pids is not adding any real cost.
 
+> I did some research into sysfs binary attributes, and while some sources mention that
+> it's often used for dumping or loading of driver FW, none of them claim it cannot
+> be used for other purposes.
+> 
+>>>> ---
+>>>>    drivers/gpu/drm/drm_internal.h       |  2 +-
+>>>>    drivers/gpu/drm/drm_privacy_screen.c |  2 +-
+>>>>    drivers/gpu/drm/drm_sysfs.c          | 89 ++++++++++++++++++++++------
+>>>>    3 files changed, 74 insertions(+), 19 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+>>>> index 2215baef9a3e..9a399b03d11c 100644
+>>>> --- a/drivers/gpu/drm/drm_internal.h
+>>>> +++ b/drivers/gpu/drm/drm_internal.h
+>>>> @@ -145,7 +145,7 @@ bool drm_master_internal_acquire(struct drm_device *dev);
+>>>>    void drm_master_internal_release(struct drm_device *dev);
+>>>>
+>>>>    /* drm_sysfs.c */
+>>>> -extern struct class *drm_class;
+>>>> +extern struct class drm_class;
+>>>>
+>>>>    int drm_sysfs_init(void);
+>>>>    void drm_sysfs_destroy(void);
+>>>> diff --git a/drivers/gpu/drm/drm_privacy_screen.c b/drivers/gpu/drm/drm_privacy_screen.c
+>>>> index 6cc39e30781f..2fbd24ba5818 100644
+>>>> --- a/drivers/gpu/drm/drm_privacy_screen.c
+>>>> +++ b/drivers/gpu/drm/drm_privacy_screen.c
+>>>> @@ -401,7 +401,7 @@ struct drm_privacy_screen *drm_privacy_screen_register(
+>>>>           mutex_init(&priv->lock);
+>>>>           BLOCKING_INIT_NOTIFIER_HEAD(&priv->notifier_head);
+>>>>
+>>>> -       priv->dev.class = drm_class;
+>>>> +       priv->dev.class = &drm_class;
+>>>>           priv->dev.type = &drm_privacy_screen_type;
+>>>>           priv->dev.parent = parent;
+>>>>           priv->dev.release = drm_privacy_screen_device_release;
+>>>> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+>>>> index a953f69a34b6..56ca9e22c720 100644
+>>>> --- a/drivers/gpu/drm/drm_sysfs.c
+>>>> +++ b/drivers/gpu/drm/drm_sysfs.c
+>>>> @@ -58,8 +58,6 @@ static struct device_type drm_sysfs_device_connector = {
+>>>>           .name = "drm_connector",
+>>>>    };
+>>>>
+>>>> -struct class *drm_class;
+>>>> -
+>>>>    #ifdef CONFIG_ACPI
+>>>>    static bool drm_connector_acpi_bus_match(struct device *dev)
+>>>>    {
+>>>> @@ -128,6 +126,62 @@ static const struct component_ops typec_connector_ops = {
+>>>>
+>>>>    static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
+>>>>
+>>>> +static ssize_t clients_show(struct device *cd, struct device_attribute *attr, char *buf)
+>>>> +{
+>>>> +       struct drm_minor *minor = cd->driver_data;
+>>>> +       struct drm_device *ddev = minor->dev;
+>>>> +       struct drm_file *priv;
+>>>> +       ssize_t offset = 0;
+>>>> +       void *pid_buf;
+>>>> +
+>>>> +       if (minor->type != DRM_MINOR_RENDER)
+>>>> +               return 0;
+>>
+>> Why this?
+> 
+> I return nothing in case of a non-render node because we don't want display drivers
+> to confuse UM GPU profilers.
 
---=20
-With best wishes
-Dmitry
+Feels to arbitrary to me. Let them handle it.
+
+>>>> +
+>>>> +       pid_buf = kvmalloc(PAGE_SIZE, GFP_KERNEL);
+>>
+>> I don't quite get the kvmalloc for just one page (or why even a temporay
+>> buffer and not write into buf directly?).
+> 
+> Should've used kmalloc, you're right. Or else I could just write everything straight into 'buf'.
+> 
+>>>> +       if (!pid_buf)
+>>>> +               return 0;
+>>>> +
+>>>> +       mutex_lock(&ddev->filelist_mutex);
+>>>> +       list_for_each_entry_reverse(priv, &ddev->filelist, lhead) {
+>>>> +               struct pid *pid;
+>>>> +
+>>>> +               if (drm_WARN_ON(ddev, (PAGE_SIZE - offset) < sizeof(pid_t)))
+>>>> +                       break;
+>>
+>> Feels bad.. I would suggest exploring implementing a read callback (instead of
+>> show) and handling arbitrary size output.
+> 
+> I think regular class attributes can only implement show() and set(). For a more complex
+> interface, I would have to turn it into an actual binary attribute, and that would be the only
+> choice if we want the list of clients to be of arbitrary size.
+
+Yeah, i915 uses that to dump the error capture file which can be huge 
+and is text so it is doable.
+
+>>>> +
+>>>> +               rcu_read_lock();
+>>>> +               pid = rcu_dereference(priv->pid);
+>>>> +               (*(pid_t *)(pid_buf + offset)) = pid_vnr(pid);
+>>>> +               rcu_read_unlock();
+>>>> +
+>>>> +               offset += sizeof(pid_t);
+>>>> +       }
+>>>> +       mutex_unlock(&ddev->filelist_mutex);
+>>>> +
+>>>> +       if (offset < PAGE_SIZE)
+>>>> +               (*(pid_t *)(pid_buf + offset)) = 0;
+>>
+>> Either NULL terminated or PAGE_SIZE/sizeof(pid) entries and not NULL
+>> terminated feels weird. If I got that right.
+>>
+>> For me everything points towards going for text output.
+> 
+> Yes, I know it might sound weird, but my reasoning was: either there are PAGE_SIZE/sizeof(pid) entries
+> and the file isn't NULL terminated (which should be picked up by clients as being one page worth
+> of data, the sysfs attribute maximum transfer unit), or else there aren't enough entries to fill
+> a page and after the last one there's a NULL entry.
+> 
+> 
+>>>> +
+>>>> +       memcpy(buf, pid_buf, offset);
+>>>> +
+>>>> +       kvfree(pid_buf);
+>>>> +
+>>>> +       return offset;
+>>>> +
+>>>> +}
+>>>> +static DEVICE_ATTR_RO(clients);
+>>
+>> Shouldn't BIN_ATTR_RO be used for binary files in sysfs?
+> 
+> Like I said above, I sort of faked a binary attribute through the regular sysfs attr API,
+> which is most likely a bad idea.
+> 
+>> Regards,
+>>
+>> Tvrtko
+>>
+>> P.S. Or maybe it is time for drmfs? Where each client gets a directory and
+>> drivers can populate files. Such as per client logging streams and whatnot.
+> 
+> Yes, but maybe this is something we can discuss in depth in an RFC at a later time?
+
+Yes of course, it is just a long standing idea for flexible per client 
+stuff.
+
+Regards,
+
+Tvrtko
+
+> 
+>>>> +
+>>>> +static struct attribute *drm_device_attrs[] = {
+>>>> +       &dev_attr_clients.attr,
+>>>> +       NULL,
+>>>> +};
+>>>> +ATTRIBUTE_GROUPS(drm_device);
+>>>> +
+>>>> +struct class drm_class = {
+>>>> +       .name           = "drm",
+>>>> +       .dev_groups     = drm_device_groups,
+>>>> +};
+>>>> +
+>>>> +static bool drm_class_initialised;
+>>>> +
+>>>>    /**
+>>>>     * drm_sysfs_init - initialize sysfs helpers
+>>>>     *
+>>>> @@ -142,18 +196,19 @@ int drm_sysfs_init(void)
+>>>>    {
+>>>>           int err;
+>>>>
+>>>> -       drm_class = class_create("drm");
+>>>> -       if (IS_ERR(drm_class))
+>>>> -               return PTR_ERR(drm_class);
+>>>> +       err = class_register(&drm_class);
+>>>> +       if (err)
+>>>> +               return err;
+>>>>
+>>>> -       err = class_create_file(drm_class, &class_attr_version.attr);
+>>>> +       err = class_create_file(&drm_class, &class_attr_version.attr);
+>>>>           if (err) {
+>>>> -               class_destroy(drm_class);
+>>>> -               drm_class = NULL;
+>>>> +               class_destroy(&drm_class);
+>>>>                   return err;
+>>>>           }
+>>>>
+>>>> -       drm_class->devnode = drm_devnode;
+>>>> +       drm_class.devnode = drm_devnode;
+>>>> +
+>>>> +       drm_class_initialised = true;
+>>>>
+>>>>           drm_sysfs_acpi_register();
+>>>>           return 0;
+>>>> @@ -166,12 +221,12 @@ int drm_sysfs_init(void)
+>>>>     */
+>>>>    void drm_sysfs_destroy(void)
+>>>>    {
+>>>> -       if (IS_ERR_OR_NULL(drm_class))
+>>>> +       if (!drm_class_initialised)
+>>>>                   return;
+>>>>           drm_sysfs_acpi_unregister();
+>>>> -       class_remove_file(drm_class, &class_attr_version.attr);
+>>>> -       class_destroy(drm_class);
+>>>> -       drm_class = NULL;
+>>>> +       class_remove_file(&drm_class, &class_attr_version.attr);
+>>>> +       class_destroy(&drm_class);
+>>>> +       drm_class_initialised = false;
+>>>>    }
+>>>>
+>>>>    static void drm_sysfs_release(struct device *dev)
+>>>> @@ -372,7 +427,7 @@ int drm_sysfs_connector_add(struct drm_connector *connector)
+>>>>                   return -ENOMEM;
+>>>>
+>>>>           device_initialize(kdev);
+>>>> -       kdev->class = drm_class;
+>>>> +       kdev->class = &drm_class;
+>>>>           kdev->type = &drm_sysfs_device_connector;
+>>>>           kdev->parent = dev->primary->kdev;
+>>>>           kdev->groups = connector_dev_groups;
+>>>> @@ -550,7 +605,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+>>>>                           minor_str = "card%d";
+>>>>
+>>>>                   kdev->devt = MKDEV(DRM_MAJOR, minor->index);
+>>>> -               kdev->class = drm_class;
+>>>> +               kdev->class = &drm_class;
+>>>>                   kdev->type = &drm_sysfs_device_minor;
+>>>>           }
+>>>>
+>>>> @@ -579,10 +634,10 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+>>>>     */
+>>>>    int drm_class_device_register(struct device *dev)
+>>>>    {
+>>>> -       if (!drm_class || IS_ERR(drm_class))
+>>>> +       if (!drm_class_initialised)
+>>>>                   return -ENOENT;
+>>>>
+>>>> -       dev->class = drm_class;
+>>>> +       dev->class = &drm_class;
+>>>>           return device_register(dev);
+>>>>    }
+>>>>    EXPORT_SYMBOL_GPL(drm_class_device_register);
+>>>>
+>>>> base-commit: 45c734fdd43db14444025910b4c59dd2b8be714a
+>>>> --
+>>>> 2.44.0
+>>>>
+> 
+> Adrian Larumbe
