@@ -2,105 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F3208B8B89
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 15:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941BC8B8B9B
+	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 16:01:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 168C210EF27;
-	Wed,  1 May 2024 13:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067F91121DF;
+	Wed,  1 May 2024 14:01:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sCbrUaES";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WzXUDFj0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 037A010EF27
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2024 13:59:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9FD3460AF6;
- Wed,  1 May 2024 13:59:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B3C7C072AA;
- Wed,  1 May 2024 13:59:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714571956;
- bh=Fi4PvMRZrF9DXNpSOwwia/BblzTiRO6iyf1z/eVq1XU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=sCbrUaESax+zNwmTNdY7otL0UFOQLPT1tCLvxhS1E2UCWFKHW4CFOG8eHXGAPEzYV
- K59HSeGnESqWuVyypeDsfjxCGIwlrkTiIB8RtlSIeODJISpG+bjrjqgUZTNnVYoXFo
- 0nAjOD3kay/wsGxmwOPaAc5VD0eUhuiBlauj3Z2WQisvO7reiDxOn7qiXguQyswbXz
- eGzZQLUgdh76hRrtTEFJVQdEHnMA2UjgtwHVl2z9L4Tsb3ZTSE/wBE57PdTiTs8Ocp
- FhNUI+PSuIOyAwwjpVUsbAi1uNR+QWMI+7HqtFjSwPStPFYwbkZKYGKHcbZk0YZOQW
- CZlqUKG4oenXA==
-Message-ID: <779b9542-4170-483a-af54-ca0dd471f774@kernel.org>
-Date: Wed, 1 May 2024 15:58:59 +0200
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A75F31121DF
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2024 14:01:48 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-346359c8785so5577027f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2024 07:01:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1714572107; x=1715176907; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=MRQauao233bl7PaCKp2AAgdkPImfXRP53eHl06LQeag=;
+ b=WzXUDFj0h9xLTULLysHtutPQ9clWz9KyL0sipwDb0gAZIU0I7vPciC+n+5IKuzpzVo
+ RTeuJ5gpijfWMe8t4QQsmAgtfRcAj48PAZkFstmBJmWROV/a7N+cVuGrxxzvGj0X1X3g
+ MhEe20kSy6b1YTZVVLiWkSyg3J6yqIChT+wT/NhAdXovieZSo4wx4+dN7stPblB+TOx5
+ v7QzteiCgurq1YsRmMARM17gjLD5LCX67u3pPJGTS1jsy52IvQcDPu3aEbuWRfx+S4Cn
+ F9wD2iA8Esaaat7djjcXXq2+Gj/kJM7MBSi+/oyse1h1gaXS10jG/GWHvjYIxlrvBWB0
+ wWNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714572107; x=1715176907;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MRQauao233bl7PaCKp2AAgdkPImfXRP53eHl06LQeag=;
+ b=LJLfWi3tRRkjhXpjxpSOaZZeNf5YBKXZIfP+s2Jhl94vDJmUxJnMeuVzvgk0B2/2EH
+ ZvEWe+pEYeRrRFsf9ftS85xIATAdBFCZPHUfsY+jgUGLRuE47ZL97zf/AsAy2rYd8iEX
+ wbneJP10fXHwMfO4q6PJ2P5TG4asm+rBBYrNfaD1Or8HlCpA+GS3aeflNnG6lnBNQpSw
+ iuHvh6Nr0pscMI+Cc4NDrxpLkdb/3zMmKGLecHCqke+cNKAy+OC6OkvcLL9yF6ytnik/
+ 2JBqBKmd2G3ku1XPjdgkVygA8xfEAPsEVO+2GE2DcMEKlDamgJfr/F3YDwOEcPS0ulp3
+ hNgA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXqTa3tpDfdCDp10V8xHor3u3HIChHYnTpPcuAIB+aqerjyvNF2OR9G2owpqH8f3oxiqNxYlqE1xnxKXo5rU4X1CXgiiSvlIf9mMCgLPphR
+X-Gm-Message-State: AOJu0Ywl6lbXKXnSPBdJRryNcqAvycC0Ealytq+0ragiX5lQoAvQk3mo
+ fOcmZMuHEPH4hJ5QYXQpTzG2TftfS5ORosCww0VjQp6OEkhmF1aFTX8xTkmke/Q=
+X-Google-Smtp-Source: AGHT+IF6AVQRyF6Dk1uSruwo7/L5zDwxkFGB+A6XFcz0Xm5YcaxaSXEkcGktSgGbTNPnxqHZOX+zUw==
+X-Received: by 2002:a5d:4a05:0:b0:34c:a488:e6d0 with SMTP id
+ m5-20020a5d4a05000000b0034ca488e6d0mr1782698wrq.36.1714572106928; 
+ Wed, 01 May 2024 07:01:46 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ n12-20020a5d4c4c000000b0034de40673easm1117019wrt.74.2024.05.01.07.01.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 May 2024 07:01:46 -0700 (PDT)
+Date: Wed, 1 May 2024 15:01:44 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: R Sundar <prosunofficial@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com,
+ Julia Lawall <julia.lawall@inria.fr>,
+ Shresth Prasad <shresthprasad7@gmail.com>
+Subject: Re: [PATCH] backlight: sky81452-backlight: replace of_node_put with
+ __free
+Message-ID: <20240501140144.GA10180@aspen.lan>
+References: <20240501125146.33648-1-prosunofficial@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v8 07/14] page_pool: devmem support
-To: Jens Axboe <axboe@kernel.dk>, Mina Almasry <almasrymina@google.com>
-Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Amritha Nambiar <amritha.nambiar@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
- Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-8-almasrymina@google.com>
- <8357256a-f0e9-4640-8fec-23341fc607db@davidwei.uk>
- <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
- <aafbbf09-a33d-4e73-99c8-9ddab5910657@kernel.dk>
- <CAHS8izMKLYATo6g3xkj_thFo3whCfq6LSoex5s0m5XZd-U7SVQ@mail.gmail.com>
- <11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk>
-Content-Language: en-US
-From: Jesper Dangaard Brouer <hawk@kernel.org>
-In-Reply-To: <11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240501125146.33648-1-prosunofficial@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,37 +88,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 30/04/2024 20.55, Jens Axboe wrote:
-> On 4/30/24 12:29 PM, Mina Almasry wrote:
->> On Tue, Apr 30, 2024 at 6:46?AM Jens Axboe<axboe@kernel.dk>  wrote:
-[...]
->>> In general, attempting to hide overhead behind config options is always
->>> a losing proposition. It merely serves to say "look, if these things
->>> aren't enabled, the overhead isn't there", while distros blindly enable
->>> pretty much everything and then you're back where you started.
->>>
->> The history there is that this check adds 1 cycle regression to the
->> page_pool fast path benchmark. The regression last I measured is 8->9
->> cycles, so in % wise it's a quite significant 12.5% (more details in
->> the cover letter[1]). I doubt I can do much better than that to be
->> honest.
+On Wed, May 01, 2024 at 06:21:46PM +0530, R Sundar wrote:
+> Use the new cleanup magic to replace of_node_put() with
+> __free(device_node) marking to auto release when they get out of scope.
 >
-> I'm all for cycle counting, and do it myself too, but is that even
-> measurable in anything that isn't a super targeted microbenchmark? Or
-> even in that?
+> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+> Signed-off-by: R Sundar <prosunofficial@gmail.com>
 
-The reason for page_pool fast path being critical is that it is used for 
-the XDP_DROP use-case.
-E.g on Mellanox mlx5 driver we see 24 Mpps XDP_DROP, which is approx 42 
-nanosec per packet. Adding 9 nanosec will reduce this to 19.6 Mpps.
+Thanks for the patch but I think this one is a more appropriate
+solution to this issue:
+https://lore.kernel.org/all/20240421104916.312588-2-shresthprasad7@gmail.com/
 
-   1/(42+9)*10^9 = 19607843
 
---Jesper
-
-p.s. Upstreaming my PP microbenchmark[1] is still at the bottom of my 
-todo-list.
-  [1] 
-https://github.com/netoptimizer/prototype-kernel/blob/master/kernel/lib/bench_page_pool_simple.c
+Daniel.
