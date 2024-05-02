@@ -2,53 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D475F8B8FE0
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2024 20:51:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6160A8B92DF
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 02:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC0F410E418;
-	Wed,  1 May 2024 18:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E406010EA97;
+	Thu,  2 May 2024 00:41:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XQmRb5Dw";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="JyvSvfxO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D44110E6D1
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2024 18:50:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714589454;
- bh=fmR6Y2iZ0ul/zqlZu3wJj92Mn58/IbpPaqkgp5e3wv8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XQmRb5DwY/6A+Hdy0xsYDTItkKHOV0yc7BERY054zF/pfTy9fOL0fVVSSUxzFnqbh
- ywkVJWhBgdSjwUc0DUWjQV4BJxKSN0unimawA8BsY+MMzSDehl+AZVzxeJyuk4iqoK
- YSpsCtag4JH2h7vSpjMcZc2Me/wqi8IOymL9+Dh7t/DLoP0mjF4u08Oqqi3LPkL/5i
- I4sLhk3u3d9Hn6bWgGIVke/UIRwYxx5982DfJyJl1w9ANqw09KyV3BeyXJsb8+xoeS
- r7Koi8K3ip5d5apQrP80ZoDc2WwKDtTrTVxvt2nbY46plHSli5/m1drZ8j6h4MVv6/
- OUJZBi0EB2QPA==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: alarumbe)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5F4CF37820A4;
- Wed,  1 May 2024 18:50:54 +0000 (UTC)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: kernel@collabora.com, Adrian Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, Tvrtko Ursulin <tursulin@ursulin.net>
-Subject: [PATCH v2 1/1] drm: Add ioctl for querying a DRM device's list of
- open client PIDs
-Date: Wed,  1 May 2024 19:50:43 +0100
-Message-ID: <20240501185047.3126832-2-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240501185047.3126832-1-adrian.larumbe@collabora.com>
-References: <20240501185047.3126832-1-adrian.larumbe@collabora.com>
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E06610EA97
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 00:41:16 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-6ee13f19e7eso6777447b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2024 17:41:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1714610475; x=1715215275;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:reply-to:message-id:date
+ :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2L4ap47m+U9rXc1IUSEo/J3q5TEiHC9NMgmwIDOcbB4=;
+ b=JyvSvfxOIU13uyI+4QTGpmbc/XgpViCjsJA47bffTdkVDUu15l/Z1oL4lwBpP2cy11
+ u9gQfiOPVdlMiriL2IJspnqGtPAuDQkGjJ+XfFPTgrueGeyLW4RCLwuF704HVAVCTdRh
+ oxKEYECYKrH2IWbtpnjQuu1jDITHwsFWUpchY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714610475; x=1715215275;
+ h=content-transfer-encoding:mime-version:reply-to:message-id:date
+ :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2L4ap47m+U9rXc1IUSEo/J3q5TEiHC9NMgmwIDOcbB4=;
+ b=IJaM1LiJ+v+rkVDResgChU6jgczy8FZGiP+3xOFH4O9u6QeA1m9/UJuas56PDKkgQD
+ 8Xztk6y6fxHoAn5yRJgjtPltY69hxLZefkr1+3QAmf96mowE92es9dfdAiw3c/x+ZkIF
+ WQVd7aukY1HJxYqV/So9kC8NDaXSX8bPTKX5T0t83HMdUgojbMQtrHDOhNwgeZbz/vL3
+ qjQ7C23+FZuyq//0MkGTaYs6Y52/cwQcilxqJ4on64YZbwRlclueTlg1sx1jSSqferKJ
+ cl0tfY4wsuzeiAksQ91/j35f3VM5/z9c/uum0VXJYTT53L0ITIISjgRn00UBj/hTUNFK
+ L4+w==
+X-Gm-Message-State: AOJu0Ywig2cXezE6GdUtoRIEU3Jba1HpdRHBc7Izi24Tkk4pPyjtx9O8
+ LmMY6IKHIZNV4FuYubXpHpgMeFtXRCcQekSv5GgSMn4gInCCDyaOo+5nCXS+aaznG1kKOZqCyv+
+ kyqc1IPVgmP936UWUVffZeAfvccx0gtllxpqC1dFoy1jKbnhYB3GAXIwUpl+sqrYb3pUsB23Wpn
+ viZY417arLqwz8OKSCMIsHbYXeUsFnLGWFSaOxS/I+T7YCRFYGlsbw3yyJZKHl
+X-Google-Smtp-Source: AGHT+IHYUafHZs50dDdQaWnftVOrFDBLITX6kDlq8e1tv+Kmtuf5guPP97QhHD3ApCHVlr1Aa3FBGA==
+X-Received: by 2002:a05:6a00:399a:b0:6f3:ecdc:2248 with SMTP id
+ fi26-20020a056a00399a00b006f3ecdc2248mr4882691pfb.27.1714610475087; 
+ Wed, 01 May 2024 17:41:15 -0700 (PDT)
+Received: from localhost.localdomain ([66.170.99.2])
+ by smtp.gmail.com with ESMTPSA id
+ j18-20020a62e912000000b006e681769ee0sm23954671pfh.145.2024.05.01.17.41.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 May 2024 17:41:14 -0700 (PDT)
+From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, ian.forbes@broadcom.com,
+ zack.rusin@broadcom.com, martin.krastev@broadcom.com,
+ Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Subject: [PATCH] drm/vmwgfx: Stop using dev_private to store driver data.
+Date: Wed,  1 May 2024 17:40:33 -0700
+Message-Id: <20240502004033.107533-1-maaz.mombasawala@broadcom.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,171 +76,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Up to this day, all fdinfo-based GPU profilers must traverse the entire
-/proc directory structure to find open DRM clients with fdinfo file
-descriptors. This is inefficient and time-consuming.
+Currently vmwgfx uses the dev_private opaque pointer in drm_device to store
+driver data in vmw_private struct. Using dev_private is deprecated, and the
+recommendation is to embed struct drm_device in the larger per-device
+structure.
 
-This patch adds a new DRM ioctl that allows users to obtain a list of PIDs
-for clients who have opened the DRM device. Output from the ioctl isn't
-human-readable, and it's meant to be retrieved only by GPU profilers like
-gputop and nvtop.
+The vmwgfx driver already embeds struct drm_device in its struct
+vmw_private, so switch to using that exclusively and stop using
+dev_private.
 
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Signed-off-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 ---
- drivers/gpu/drm/drm_internal.h |  1 +
- drivers/gpu/drm/drm_ioctl.c    | 89 ++++++++++++++++++++++++++++++++++
- include/uapi/drm/drm.h         |  7 +++
- 3 files changed, 97 insertions(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 --
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 4 ++--
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 690505a1f7a5..6f78954cae16 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -243,6 +243,7 @@ static inline void drm_debugfs_encoder_remove(struct drm_encoder *encoder)
- drm_ioctl_t drm_version;
- drm_ioctl_t drm_getunique;
- drm_ioctl_t drm_getclient;
-+drm_ioctl_t drm_getclients;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index bdad93864b98..97e48e93dbbf 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -858,8 +858,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 	bool refuse_dma = false;
+ 	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
  
- /* drm_syncobj.c */
- void drm_syncobj_open(struct drm_file *file_private);
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index e368fc084c77..da7057376581 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -207,6 +207,93 @@ int drm_getclient(struct drm_device *dev, void *data,
- 	}
+-	dev_priv->drm.dev_private = dev_priv;
+-
+ 	vmw_sw_context_init(dev_priv);
+ 
+ 	mutex_init(&dev_priv->cmdbuf_mutex);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 4ecaea0026fc..df89e468a1fc 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -638,7 +638,7 @@ static inline struct vmw_surface *vmw_res_to_srf(struct vmw_resource *res)
+ 
+ static inline struct vmw_private *vmw_priv(struct drm_device *dev)
+ {
+-	return (struct vmw_private *)dev->dev_private;
++	return container_of(dev, struct vmw_private, drm);
  }
  
-+/*
-+ * Get list of client PIDs who have opened a DRM file
-+ *
-+ * \param dev DRM device we are querying
-+ * \param data IOCTL command input.
-+ * \param file_priv DRM file private.
-+ *
-+ * \return zero on success or a negative number on failure.
-+ *
-+ * Traverses list of open clients for the given DRM device, and
-+ * copies them into userpace as an array of PIDs
-+ */
-+int drm_getclients(struct drm_device *dev, void *data,
-+		   struct drm_file *file_priv)
-+
-+{
-+	struct drm_get_clients *get_clients = data;
-+	ssize_t size = get_clients->len;
-+	char __user *pid_buf;
-+	ssize_t offset = 0;
-+	int ret = 0;
-+
-+	/*
-+	 * We do not want to show clients of display only devices so
-+	 * as to avoid confusing UM GPU profilers
-+	 */
-+	if (!dev->render) {
-+		get_clients->len = 0;
-+		return 0;
-+	}
-+
-+	/*
-+	 * An input size of zero means UM wants to know the size of the PID buffer
-+	 * We round it up to the nearest multiple of the page size so that we can have
-+	 * some spare headroom in case more clients came in between successive calls
-+	 * of this ioctl, and also to simplify parsing of the PIDs buffer, because
-+	 * sizeof(pid_t) will hopefully always divide PAGE_SIZE
-+	 */
-+	if (size == 0) {
-+		get_clients->len =
-+			roundup(atomic_read(&dev->open_count) * sizeof(pid_t), PAGE_SIZE);
-+		return 0;
-+	}
-+
-+	pid_buf = (char *)(void *)get_clients->user_data;
-+
-+	if (!pid_buf)
-+		return -EINVAL;
-+
-+	mutex_lock(&dev->filelist_mutex);
-+	list_for_each_entry_reverse(file_priv, &dev->filelist, lhead) {
-+		pid_t pid_num;
-+
-+		if ((size - offset) < sizeof(pid_t))
-+			break;
-+
-+		rcu_read_lock();
-+		pid_num = pid_vnr(rcu_dereference(file_priv->pid));
-+		rcu_read_unlock();
-+
-+		/* We do not want to return the profiler's PID */
-+		if (pid_vnr(task_tgid(current)) == pid_num)
-+			continue;
-+
-+		ret = copy_to_user(pid_buf + offset, &pid_num, sizeof(pid_t));
-+		if (ret)
-+			break;
-+
-+		offset += sizeof(pid_t);
-+	}
-+	mutex_unlock(&dev->filelist_mutex);
-+
-+	if (ret)
-+		return -EFAULT;
-+
-+	if ((size - offset) >= sizeof(pid_t)) {
-+		pid_t pid_zero = 0;
-+
-+		ret = copy_to_user(pid_buf + offset,
-+				   &pid_zero, sizeof(pid_t));
-+		if (ret)
-+			return -EFAULT;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * Get statistics information.
-  *
-@@ -672,6 +759,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
-+
-+	DRM_IOCTL_DEF(DRM_IOCTL_GET_CLIENTS, drm_getclients, DRM_RENDER_ALLOW),
- };
+ static inline struct vmw_private *vmw_priv_from_ttm(struct ttm_device *bdev)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index 13b2820cae51..b3f0fb6828de 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -276,7 +276,7 @@ static void vmw_du_put_cursor_mob(struct vmw_cursor_plane *vcp,
+ static int vmw_du_get_cursor_mob(struct vmw_cursor_plane *vcp,
+ 				 struct vmw_plane_state *vps)
+ {
+-	struct vmw_private *dev_priv = vcp->base.dev->dev_private;
++	struct vmw_private *dev_priv = vmw_priv(vcp->base.dev);
+ 	u32 size = vmw_du_cursor_mob_size(vps->base.crtc_w, vps->base.crtc_h);
+ 	u32 i;
+ 	u32 cursor_max_dim, mob_max_size;
+@@ -515,7 +515,7 @@ void vmw_du_cursor_plane_destroy(struct drm_plane *plane)
+ 	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
+ 	u32 i;
  
- #define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE(drm_ioctls)
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 16122819edfe..c47aa9de51ab 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -1024,6 +1024,11 @@ struct drm_crtc_queue_sequence {
- 	__u64 user_data;	/* user data passed to event */
- };
+-	vmw_cursor_update_position(plane->dev->dev_private, false, 0, 0);
++	vmw_cursor_update_position(vmw_priv(plane->dev), false, 0, 0);
  
-+struct drm_get_clients {
-+	__u64 user_data;
-+	__kernel_size_t len;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
-@@ -1236,6 +1241,8 @@ extern "C" {
- #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_transfer)
- #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_syncobj_timeline_array)
- 
-+#define DRM_IOCTL_GET_CLIENTS		DRM_IOWR(0xD1, struct drm_get_clients)
-+
- /**
-  * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
-  *
+ 	for (i = 0; i < ARRAY_SIZE(vcp->cursor_mobs); i++)
+ 		vmw_du_destroy_cursor_mob(&vcp->cursor_mobs[i]);
 -- 
-2.44.0
+2.34.1
 
