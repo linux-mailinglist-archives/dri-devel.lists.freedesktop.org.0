@@ -2,62 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B37F8B933B
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 04:02:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666FE8B949D
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 08:20:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 224D910EE1F;
-	Thu,  2 May 2024 02:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A48D10EC09;
+	Thu,  2 May 2024 06:20:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="T7MNumLZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cp1UMP0z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 788A310EE1F
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 02:02:14 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-61be613d903so34255237b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2024 19:02:14 -0700 (PDT)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17E8E10E9DC
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 06:20:06 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-6f42924ca64so890036b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2024 23:20:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1714615333; x=1715220133;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1714630806; x=1715235606; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=76dSmhZB4phOsT7iSnl74lYmF+SI8oA0BM3OrZy9mg8=;
- b=T7MNumLZRPMSN5VAtcruCMkycfJ+cdAnLmQacF0vfqm1rDuUy7izrcaZBtxaAmjJ0K
- 7GbL6FbprqIV0nfApW1NFc3x10mkAJZIgvExZlA7jLeFNMN2fn7uKsMgwA1ibV4OQXzj
- EBzW32ngb+VnEh/ZdYoiN1KWfjF0oaCmKYmts=
+ bh=dgakmapef0h80N+jtF51dv68wB35uuo/PTTHrmoZruM=;
+ b=cp1UMP0zlu6IcCfGnshmIIOIFOz/f57Yp++fr5f8RcpPXkML5URnh5ZrfdzXL5QnAZ
+ HYQ3VdXVxHAbHKdkfzbdfh5q656cmWEoQoqLpEGbGIn58OGGlkCa00ErhqPC0RAaTb2O
+ EKL/TWzmHZoui78GpnPfsh0ADJ8FpAa7/9o8Ep7viIcJ8OOJCkpGiP6xisbegi9Jhg0M
+ nkMmRAoK960+/lshJdS5e7+yFYVMoL7+8x7HdTdxoJr9/0ClpCfViQ9bUyjGBS8PmLsO
+ 1jyqvCtJ4R4JS2NWZovUjIfwpg5V7oElP0Y6SzlWzdi+B4IYnQMUlEUKorlwCke3QoQd
+ AWcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714615333; x=1715220133;
+ d=1e100.net; s=20230601; t=1714630806; x=1715235606;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=76dSmhZB4phOsT7iSnl74lYmF+SI8oA0BM3OrZy9mg8=;
- b=iB1KH0+LB9cEwV1KOz56hz6xrAab+YEYktpMCy/Are6FV1EWJciWwpOoHsfveY9iBw
- lGqdgvE6vRgJ3eoYtIzvhzOlgOGitvIl65G6W2dBhr02VlTd2o5x2BS5a2a+YU9gAYEL
- aqTDAvUTCJbREvvB7kFiYMhQfJgalwf6egcN3iwTfCRSKbJYqWNl6ZuLegBp4/NrdNBi
- +zuzs+Tu9Zp0zalUEr5zvb1cXo4pax5eQbYRen5uyKqsGfOkqOt1sL79dJvC/9MHXM8S
- PJpR4Z7ShWuL7UB6ekscBzszBKV8JiGXmgSBxwIFp8m69Bweub2O0k4HUpp2c/SiY5kj
- wc5Q==
-X-Gm-Message-State: AOJu0Yyo0XGesYp78P3vJq3duIF0Du5TYVBekO80jnYmNS+/pCspvKwW
- i5KNkUUGpDgSRDajSeRvMAc00CN2X6BRdJ+lKgeLgWrcL0h8sAoBlxI4UN2AzcojHqgfiNL5SPq
- iDR9oxr9MlSPJXWAKi3z9WUiiYdQ/CLjqtQQI
-X-Google-Smtp-Source: AGHT+IExl+tcufb6t7c4yJz9ebkEHK3K6nYA/QtGcs5Vq56mlDd2KfnoD59gSUYdLAhmtNl7eGau6Z543KltHBzyi/U=
-X-Received: by 2002:a05:690c:108:b0:611:1861:1f0 with SMTP id
- bd8-20020a05690c010800b00611186101f0mr4864954ywb.52.1714615333167; Wed, 01
- May 2024 19:02:13 -0700 (PDT)
+ bh=dgakmapef0h80N+jtF51dv68wB35uuo/PTTHrmoZruM=;
+ b=SRA6tCVmuFdksG2iDLoIg17l5nUx8cdZotbCUo82FDOIiVS1djnrBbpAc80qJlXO61
+ awf6VpcJbJjuhGtmdoL3s1ra0SNKzvCRl3XJOSl9K9myRPHJN8WkdGI/LyzFZWxnXCvr
+ TxQo8iPHkdEBBucoS9KHqGkSJjI3FsSkyStVMNBhHe9X8UXhkDUQM/Q28jFXArsnrn5F
+ I1llKmxmJrnC6/OPgU3KW9sxK+PY5rorGNAAbOgBysMGtqaQE3SqLo3XsP5kbd92VJRo
+ O+ACGAbLNoF2Utjsv27iZZ7HeawskwSu+6CC40lWPLKrn2uJtKUMiZblaAbgkjaygO4t
+ d1Sg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWP8CooMnSf0dE1PSip7If74ea5F2sN12jWs8eCY2BGoJ20VV/3R4U1+8jKnhjxqBsyM8mXYPUqw3Papm8hSjJ+UbCfm8M9V3CyZ8jugt+H
+X-Gm-Message-State: AOJu0YxdkWP5Yn4SkIWuTuGa7ws+UMdgo/aql7/K0z65O7yE0VLtsl75
+ RWFx1vjlh+k7Obdeo73PZUazOrR/hMaCLAdnXOdNx+zWfG585Shy9UYqIa0QRnv2nxxNZ3kKcIW
+ xuNjcrNacenhPyQcaSVLORuJp1XM=
+X-Google-Smtp-Source: AGHT+IGw7RzP7UzHjMbV/OepNR4EpONmEDOtas5IFiGjBTRnwEvzrxz/pCfwVHCFI9ryiW74MuQPtzxxUTUbsrc7WiM=
+X-Received: by 2002:a05:6a21:6d8b:b0:1a3:ae75:d6f5 with SMTP id
+ wl11-20020a056a216d8b00b001a3ae75d6f5mr6426998pzb.20.1714630806165; Wed, 01
+ May 2024 23:20:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240502004033.107533-1-maaz.mombasawala@broadcom.com>
-In-Reply-To: <20240502004033.107533-1-maaz.mombasawala@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Wed, 1 May 2024 22:02:02 -0400
-Message-ID: <CABQX2QN1iOGoADT==EfMRif5ZmEGwR1u2+nzkM1DLiaeQUmOyA@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Stop using dev_private to store driver data.
-To: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- ian.forbes@broadcom.com, martin.krastev@broadcom.com
+References: <20240501125146.33648-1-prosunofficial@gmail.com>
+ <20240501140144.GA10180@aspen.lan>
+ <alpine.DEB.2.22.394.2405011618351.3278@hadrien>
+In-Reply-To: <alpine.DEB.2.22.394.2405011618351.3278@hadrien>
+From: Shresth Prasad <shresthprasad7@gmail.com>
+Date: Thu, 2 May 2024 11:49:54 +0530
+Message-ID: <CAE8VWiLZvmeMdR5rsJ7vugXPyW6ABMZZwPRhJ=iU-KXqOJZ77w@mail.gmail.com>
+Subject: Re: [PATCH] backlight: sky81452-backlight: replace of_node_put with
+ __free
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ R Sundar <prosunofficial@gmail.com>, 
+ Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+ javier.carrasco.cruz@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,89 +87,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 1, 2024 at 8:41=E2=80=AFPM Maaz Mombasawala
-<maaz.mombasawala@broadcom.com> wrote:
->
-> Currently vmwgfx uses the dev_private opaque pointer in drm_device to sto=
-re
-> driver data in vmw_private struct. Using dev_private is deprecated, and t=
-he
-> recommendation is to embed struct drm_device in the larger per-device
-> structure.
->
-> The vmwgfx driver already embeds struct drm_device in its struct
-> vmw_private, so switch to using that exclusively and stop using
-> dev_private.
->
-> Signed-off-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 --
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 4 ++--
->  3 files changed, 3 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.c
-> index bdad93864b98..97e48e93dbbf 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -858,8 +858,6 @@ static int vmw_driver_load(struct vmw_private *dev_pr=
-iv, u32 pci_id)
->         bool refuse_dma =3D false;
->         struct pci_dev *pdev =3D to_pci_dev(dev_priv->drm.dev);
->
-> -       dev_priv->drm.dev_private =3D dev_priv;
-> -
->         vmw_sw_context_init(dev_priv);
->
->         mutex_init(&dev_priv->cmdbuf_mutex);
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.h
-> index 4ecaea0026fc..df89e468a1fc 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> @@ -638,7 +638,7 @@ static inline struct vmw_surface *vmw_res_to_srf(stru=
-ct vmw_resource *res)
->
->  static inline struct vmw_private *vmw_priv(struct drm_device *dev)
->  {
-> -       return (struct vmw_private *)dev->dev_private;
-> +       return container_of(dev, struct vmw_private, drm);
->  }
->
->  static inline struct vmw_private *vmw_priv_from_ttm(struct ttm_device *b=
-dev)
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_kms.c
-> index 13b2820cae51..b3f0fb6828de 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> @@ -276,7 +276,7 @@ static void vmw_du_put_cursor_mob(struct vmw_cursor_p=
-lane *vcp,
->  static int vmw_du_get_cursor_mob(struct vmw_cursor_plane *vcp,
->                                  struct vmw_plane_state *vps)
->  {
-> -       struct vmw_private *dev_priv =3D vcp->base.dev->dev_private;
-> +       struct vmw_private *dev_priv =3D vmw_priv(vcp->base.dev);
->         u32 size =3D vmw_du_cursor_mob_size(vps->base.crtc_w, vps->base.c=
-rtc_h);
->         u32 i;
->         u32 cursor_max_dim, mob_max_size;
-> @@ -515,7 +515,7 @@ void vmw_du_cursor_plane_destroy(struct drm_plane *pl=
-ane)
->         struct vmw_cursor_plane *vcp =3D vmw_plane_to_vcp(plane);
->         u32 i;
->
-> -       vmw_cursor_update_position(plane->dev->dev_private, false, 0, 0);
-> +       vmw_cursor_update_position(vmw_priv(plane->dev), false, 0, 0);
->
->         for (i =3D 0; i < ARRAY_SIZE(vcp->cursor_mobs); i++)
->                 vmw_du_destroy_cursor_mob(&vcp->cursor_mobs[i]);
-> --
-> 2.34.1
->
+I'll remove the unnecessary braces and resend the patch.
 
-Looks good.
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+Regards,
+Shresth
 
-z
+On Wed, May 1, 2024 at 7:49=E2=80=AFPM Julia Lawall <julia.lawall@inria.fr>=
+ wrote:
+>
+>
+>
+> On Wed, 1 May 2024, Daniel Thompson wrote:
+>
+> > On Wed, May 01, 2024 at 06:21:46PM +0530, R Sundar wrote:
+> > > Use the new cleanup magic to replace of_node_put() with
+> > > __free(device_node) marking to auto release when they get out of scop=
+e.
+> > >
+> > > Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+> > > Signed-off-by: R Sundar <prosunofficial@gmail.com>
+> >
+> > Thanks for the patch but I think this one is a more appropriate
+> > solution to this issue:
+> > https://lore.kernel.org/all/20240421104916.312588-2-shresthprasad7@gmai=
+l.com/
+>
+> Maybe neither one is perfect?  The one I see at that link has:
+>
+>         if (!pdata) {
+> -               of_node_put(np);
+>                 return ERR_PTR(-ENOMEM);
+>         }
+>
+> which has unneeded {}
+>
+> julia
+>
+>
+> >
+> >
+> > Daniel.
+> >
