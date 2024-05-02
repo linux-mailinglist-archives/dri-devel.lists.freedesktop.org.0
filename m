@@ -2,67 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FEB8B9C3B
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 16:26:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 033CE8B9C3C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 16:27:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 113C911211F;
-	Thu,  2 May 2024 14:26:41 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AtA9NMBT";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 448DB112149;
+	Thu,  2 May 2024 14:27:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0F3C11211F;
- Thu,  2 May 2024 14:26:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714659999; x=1746195999;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=sRrnWlDo6EPMIXtN/t+1OOXdyxw9pa5QXZJuXlyOShw=;
- b=AtA9NMBTHNzMGaSLnYVuECkCja1zNBzZg/9RT4wuNW6jH4wTt0EXRRwk
- r8stZeYc9bguRd57NubjJvIwnTzqlEkenAOCRlO9IV0SMqtKSoZBQHO+h
- euoVbIa2PIAHUAu9N9He9O15S7r822hiVsYwhOPuH+gb6ZHcs1Cp9U8jh
- 3JmGwq0vZy1oiJPUYaDTwDiOfiPtZx3qNp+OCo8Kvb++hW5c2S7BQ5bAZ
- q294PrwZQiXsOpfPxAo6YVn+mWQLaTgSxQZadoEOPhxXH+qiaJRDJOL/6
- 7C8Zi+Ainl2HdpQfS1GHy4q/PRPH6xed2Wjwnwwznfh4y7EMJG2CIWTtY A==;
-X-CSE-ConnectionGUID: VwfXEPAzTjKBdpLBJl48wA==
-X-CSE-MsgGUID: Ag4MblxSRyGmulwRD3/PNA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="21117881"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="21117881"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2024 07:26:36 -0700
-X-CSE-ConnectionGUID: GZskzRGTR2Cy7x51pngBPw==
-X-CSE-MsgGUID: hF/wpQ3FSpybRTuYjkRSBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="31628318"
-Received: from antonvol-mobl1.ccr.corp.intel.com (HELO fedora)
- ([10.251.209.48])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2024 07:26:32 -0700
-Date: Thu, 2 May 2024 16:26:21 +0200
-From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-xe-next-fixes
-Message-ID: <ZjOijQA43zhu3SZ4@fedora>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EDB0D11217B
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 14:26:58 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3010D2F4;
+ Thu,  2 May 2024 07:27:24 -0700 (PDT)
+Received: from [10.1.36.41] (e122027.cambridge.arm.com [10.1.36.41])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C8EB3F73F;
+ Thu,  2 May 2024 07:26:57 -0700 (PDT)
+Message-ID: <39c22cd8-8638-45ea-8450-87a7ad13568f@arm.com>
+Date: Thu, 2 May 2024 15:26:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] drm/panthor: Fix an off-by-one in the heap context
+ retrieval logic
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ Eric Smith <eric.smith@collabora.com>
+References: <20240430112852.486424-1-boris.brezillon@collabora.com>
+ <20240430112852.486424-5-boris.brezillon@collabora.com>
+ <791a81bf-323c-40dc-ab51-2d909adcb90b@arm.com>
+ <20240502161503.00f4e3c9@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240502161503.00f4e3c9@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,48 +53,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dave, Sima
+On 02/05/2024 15:15, Boris Brezillon wrote:
+> On Thu, 2 May 2024 15:03:51 +0100
+> Steven Price <steven.price@arm.com> wrote:
+> 
+>> On 30/04/2024 12:28, Boris Brezillon wrote:
+>>> ID 0 is reserved to encode 'no-tiler-heap', the heap ID range is
+>>> [1:MAX_HEAPS_PER_POOL], which we occasionally need to turn into an index
+>>> in the [0:MAX_HEAPS_PER_POOL-1] when we want to access the context object.  
+>>
+>> This might be a silly question, but do we need ID 0 to be
+>> "no-tiler-heap"? Would it be easier to e.g. use a negative number for
+>> that situation and avoid all the off-by-one problems?
+>>
+>> I'm struggling to find the code which needs the 0 value to be special -
+>> where is it exactly that we encode this "no-tiler-heap" value?
+> 
+> Hm, I thought we were passing the heap handle to the group creation
+> ioctl, but heap queue/heap association is actually done through a CS
+> instruction, so I guess you have a point. The only thing that makes a
+> bit hesitant is that handle=0 is reserved for all other kind of handles
+> we return, and I think I'd prefer to keep it the same for heap handles.
+> 
+> This being said, we could do the `+- 1` in
+> panthor_ioctl_tiler_heap_{create,destroy}() to keep things simple in
+> panthor_heap.c.
 
-This week's small set of fixes for drm-next.
+The heap handles returned to user space have the upper 16 bits encoding
+the VM ID - so hopefully no one is doing anything crazy and splitting it
+up to treat the lower part specially. And (unless I'm mistaken) the VM
+IDs start from 1 so we'd still not have IDs of 0. So I don't think we
+need the +- 1 part anywhere for tiler heaps.
 
-drm-xe-next-fixes-2024-05-02:
-Driver Changes:
-- Fix for a backmerge going slightly wrong.
-- An UAF fix
-- Avoid a WA error on LNL.
+I'd certainly consider it a user space bug to treat the handles as
+anything other than opaque. Really user space shouldn't be treating 0 as
+special either: the uAPI doesn't say it's not valid. But I'd be open to
+updating the uAPI to say 0 is invalid if there's some desire for that.
 
-Thanks,
-Thomas
+Steve
 
-The following changes since commit 4a56c0ed5aa0bcbe1f5f7d755fb1fe1ebf48ae9c:
-
-  Merge tag 'amd-drm-next-6.10-2024-04-26' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2024-04-30 14:43:00 +1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-fixes-2024-05-02
-
-for you to fetch changes up to 3bc8848bb7f7478e6806e4522b06b63f40a53e1e:
-
-  drm/xe: Merge 16021540221 and 18034896535 WAs (2024-05-02 11:29:42 +0200)
-
-----------------------------------------------------------------
-Driver Changes:
-- Fix for a backmerge going slightly wrong.
-- An UAF fix
-- Avoid a WA error on LNL.
-
-----------------------------------------------------------------
-Lucas De Marchi (1):
-      drm/xe: Merge 16021540221 and 18034896535 WAs
-
-Matthew Auld (1):
-      drm/xe/vm: prevent UAF in rebind_work_func()
-
-Thomas Hellström (1):
-      drm/xe: Fix unexpected backmerge results
-
- drivers/gpu/drm/xe/xe_vm.c       | 16 ++++++++++------
- drivers/gpu/drm/xe/xe_vm_types.h |  4 ++++
- drivers/gpu/drm/xe/xe_wa.c       |  7 +------
- 3 files changed, 15 insertions(+), 12 deletions(-)
