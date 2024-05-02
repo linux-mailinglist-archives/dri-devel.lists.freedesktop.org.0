@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56498B9DCF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 17:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE8D8B9DD1
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 17:52:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4728112532;
-	Thu,  2 May 2024 15:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3F4310EA15;
+	Thu,  2 May 2024 15:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C1FEE112532
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 15:52:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 22D6110EA15
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 15:52:30 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C51E8339;
- Thu,  2 May 2024 08:52:51 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 626DE339;
+ Thu,  2 May 2024 08:52:55 -0700 (PDT)
 Received: from [10.1.36.41] (e122027.cambridge.arm.com [10.1.36.41])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D72C3F793;
- Thu,  2 May 2024 08:52:25 -0700 (PDT)
-Message-ID: <d2b2f36f-a2d4-4515-bc2c-24f4c1b548d3@arm.com>
-Date: Thu, 2 May 2024 16:52:24 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C0BB3F793;
+ Thu,  2 May 2024 08:52:29 -0700 (PDT)
+Message-ID: <60e058d0-0aac-4931-8552-c1663adca3be@arm.com>
+Date: Thu, 2 May 2024 16:52:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/5] drm/panthor: Fix an off-by-one in the heap context
- retrieval logic
+Subject: Re: [PATCH v3 5/5] drm/panthor: Document
+ drm_panthor_tiler_heap_destroy::handle validity constraints
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Eric Smith <eric.smith@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
 References: <20240502154025.1425278-1-boris.brezillon@collabora.com>
- <20240502154025.1425278-5-boris.brezillon@collabora.com>
+ <20240502154025.1425278-6-boris.brezillon@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20240502154025.1425278-5-boris.brezillon@collabora.com>
+In-Reply-To: <20240502154025.1425278-6-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,44 +51,33 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 02/05/2024 16:40, Boris Brezillon wrote:
-> The heap ID is used to index the heap context pool, and allocating
-> in the [1:MAX_HEAPS_PER_POOL] leads to an off-by-one. This was
-> originally to avoid returning a zero heap handle, but given the handle
-> is formed with (vm_id << 16) | heap_id, with vm_id > 0, we already can't
-> end up with a valid heap handle that's zero.
+> Make sure the user is aware that drm_panthor_tiler_heap_destroy::handle
+> must be a handle previously returned by
+> DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE.
 > 
-> v3:
-> - Allocate in the [0:MAX_HEAPS_PER_POOL-1] range
-> 
-> v2:
-> - New patch
-> 
-> Fixes: 9cca48fa4f89 ("drm/panthor: Add the heap logical block")
-> Reported-by: Eric Smith <eric.smith@collabora.com>
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Tested-by: Eric Smith <eric.smith@collabora.com>
 
-Don't we also need to change the xa_init_flags() in
-panthor_heap_pool_create()?
-
-Steve
+Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  drivers/gpu/drm/panthor/panthor_heap.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  include/uapi/drm/panthor_drm.h | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-> index 683bb94761bc..252332f5390f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> @@ -323,7 +323,8 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
->  	if (!pool->vm) {
->  		ret = -EINVAL;
->  	} else {
-> -		ret = xa_alloc(&pool->xa, &id, heap, XA_LIMIT(1, MAX_HEAPS_PER_POOL), GFP_KERNEL);
-> +		ret = xa_alloc(&pool->xa, &id, heap,
-> +			       XA_LIMIT(0, MAX_HEAPS_PER_POOL - 1), GFP_KERNEL);
->  		if (!ret) {
->  			void *gpu_ctx = panthor_get_heap_ctx(pool, id);
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index b8220d2e698f..aaed8e12ad0b 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -939,7 +939,11 @@ struct drm_panthor_tiler_heap_create {
+>   * struct drm_panthor_tiler_heap_destroy - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY
+>   */
+>  struct drm_panthor_tiler_heap_destroy {
+> -	/** @handle: Handle of the tiler heap to destroy */
+> +	/**
+> +	 * @handle: Handle of the tiler heap to destroy.
+> +	 *
+> +	 * Must be a valid heap handle returned by DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE.
+> +	 */
+>  	__u32 handle;
 >  
+>  	/** @pad: Padding field, MBZ. */
 
