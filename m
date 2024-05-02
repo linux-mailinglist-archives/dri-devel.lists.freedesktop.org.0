@@ -2,60 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2158BA3E6
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 01:21:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820DB8BA42C
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 01:42:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C832B112739;
-	Thu,  2 May 2024 23:21:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23A3410F233;
+	Thu,  2 May 2024 23:42:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="cMCXYtdt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linux.org.uk header.i=@linux.org.uk header.b="BNq4ALpK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D235112739
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 23:21:15 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-6ed3cafd766so7722188b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 16:21:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714692074; x=1715296874;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Yb4bKEByKdlz4UZjReMUHUSYQEXXrh5q/y+c7lUVAhc=;
- b=cMCXYtdt6Y5Fd0KMVe1LYV5ff0lwqS1YVxQAVzx4ele4HY+W0EqZbr94+V3P3IgyVF
- 9Xl+oBOE2Lhw0fVkgstUhhVwnwJlpv/UHFA1Ai1TGbmgHIscLkQvqASBNWTmrJGRAI5K
- kS2Cy8Eq0OX9h9KfmMJuRloJhx6i3SqPGeDVc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714692074; x=1715296874;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Yb4bKEByKdlz4UZjReMUHUSYQEXXrh5q/y+c7lUVAhc=;
- b=eVmgYZm8uRbN3772dcebgFcMtnKrHezbwIF8paz4barNMail/zaWMXMm7SrX8TPfTn
- vxTXlo+fkfxXP3cmR9ziJ0mZ8uHTf73DTt3YM+4AstsVh0z2qM0QtYBNu5oqdsSOB6Vm
- FTJnLsSL0jPiny6W9WuNwpkPnu44qBtupnQltOpZIvLdiceVW6xWQjBHTM6bRDYguiWZ
- Cc5ZZUkd2rw7l4pEnO0bI5GjFmp9RoUrp/iKHbBPX0S/N/MMg+KO2jQ2xQT8X2XrULBY
- jcbiELtkDtEpVFSAeSWarvdV9R3kE2Ovqw4HwDIuaOUCk/11mkZTU+baigzTWx7KlgP5
- xMeQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWPs6+IdO5ZpJxl1fpVoPYO43QW6Dp09j/n/rhSYGFNb/T1oRknB4MvtIDoX9vwtaPvyTw6ZBbEA78I3rZmvEFaT6bhjvtNBFOIP8xWG1Oj
-X-Gm-Message-State: AOJu0YzQGoBGagZlarTRZTkIM6c3SQr+UHv2bWsCbGZgcrfmo4xBq7KH
- LEq0gqIBN6Smmk2+UcbBRx7D0PRXQ8NSwUZXvtvuUnTIEMgWBhNfX+bsJrLtWQ==
-X-Google-Smtp-Source: AGHT+IErA5BfNjNMgVipEBvX/O4/Zlw4xwfnpXOv3ZrPWth9wG6pzC2gQkNN14O91XqQe1Da/qOaqw==
-X-Received: by 2002:a05:6a20:7f96:b0:1a9:b2ee:5f72 with SMTP id
- d22-20020a056a207f9600b001a9b2ee5f72mr1455527pzj.36.1714692074451; 
- Thu, 02 May 2024 16:21:14 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
- by smtp.gmail.com with ESMTPSA id
- ls30-20020a056a00741e00b006f4123491d2sm1821750pfb.108.2024.05.02.16.21.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 May 2024 16:21:13 -0700 (PDT)
-Date: Thu, 2 May 2024 16:21:13 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22AEF10F233;
+ Thu,  2 May 2024 23:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=+jAuGAUMlirWHwpsbSRnjzxGiwK0lb5RSO05/kE9BCw=; b=BNq4ALpKLbJH/KcTZGVVsf3CKJ
+ 6oohbExTsN0l0871Q/7TlyO/laXpsBkWo09az4DGUWLvE3ZnhSutgPPbRrSdmjVD64ociH3mDN1/r
+ gcuF5m3Wd1/GtmS9WdQNT76M7n0pZW4/4mjMhFRhlNHD7QLOPUWnD3I2+RAnpUlOKzb3y7KyOS98x
+ K09oUyMoAR7KSwTEuyYKEXwf8HhZd5wgO8ntlHUFD+3XXf7A8HhJSuBcTLMaabEHDix2ylHnIL6m+
+ FlrlcoZL1dAfDyMQU82WNe22tv6MCZ5QyTfCry9vkmmNLUa09aNWUKuoG7qNYKGPHCEEaBGvCjE3I
+ mJG5dmsQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat
+ Linux)) id 1s2g3k-009s3X-2Z; Thu, 02 May 2024 23:41:52 +0000
+Date: Fri, 3 May 2024 00:41:52 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Kees Cook <keescook@chromium.org>
 Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
  linux-fsdevel@vger.kernel.org, Zack Rusin <zack.rusin@broadcom.com>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
@@ -82,15 +56,15 @@ Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
  intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
  linux-hardening@vger.kernel.org
 Subject: Re: [PATCH 5/5] fs: Convert struct file::f_count to refcount_long_t
-Message-ID: <202405021620.C8115568@keescook>
+Message-ID: <20240502234152.GP2118490@ZenIV>
 References: <20240502222252.work.690-kees@kernel.org>
  <20240502223341.1835070-5-keescook@chromium.org>
  <20240502224250.GM2118490@ZenIV> <202405021548.040579B1C@keescook>
- <20240502231228.GN2118490@ZenIV>
+ <20240502231228.GN2118490@ZenIV> <202405021620.C8115568@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240502231228.GN2118490@ZenIV>
+In-Reply-To: <202405021620.C8115568@keescook>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,22 +80,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 03, 2024 at 12:12:28AM +0100, Al Viro wrote:
-> On Thu, May 02, 2024 at 03:52:21PM -0700, Kees Cook wrote:
+On Thu, May 02, 2024 at 04:21:13PM -0700, Kees Cook wrote:
+> On Fri, May 03, 2024 at 12:12:28AM +0100, Al Viro wrote:
+> > On Thu, May 02, 2024 at 03:52:21PM -0700, Kees Cook wrote:
+> > 
+> > > As for semantics, what do you mean? Detecting dec-below-zero means we
+> > > catch underflow, and detected inc-from-zero means we catch resurrection
+> > > attempts. In both cases we avoid double-free, but we have already lost
+> > > to a potential dangling reference to a freed struct file. But just
+> > > letting f_count go bad seems dangerous.
+> > 
+> > Detected inc-from-zero can also mean an RCU lookup detecting a descriptor
+> > in the middle of getting closed.  And it's more subtle than that, actually,
+> > thanks to SLAB_TYPESAFE_BY_RCU for struct file.
 > 
-> > As for semantics, what do you mean? Detecting dec-below-zero means we
-> > catch underflow, and detected inc-from-zero means we catch resurrection
-> > attempts. In both cases we avoid double-free, but we have already lost
-> > to a potential dangling reference to a freed struct file. But just
-> > letting f_count go bad seems dangerous.
-> 
-> Detected inc-from-zero can also mean an RCU lookup detecting a descriptor
-> in the middle of getting closed.  And it's more subtle than that, actually,
-> thanks to SLAB_TYPESAFE_BY_RCU for struct file.
+> But isn't that already handled by __get_file_rcu()? i.e. shouldn't it be
+> impossible for a simple get_file() to ever see a 0 f_count under normal
+> conditions?
 
-But isn't that already handled by __get_file_rcu()? i.e. shouldn't it be
-impossible for a simple get_file() to ever see a 0 f_count under normal
-conditions?
+For get_file() it is impossible.  The comment about semantics had been
+about the sane ways to recover if such crap gets detected.
 
--- 
-Kees Cook
+__get_file_rcu() is a separate story - consider the comment in there: 
+	* atomic_long_inc_not_zero() above provided a full memory
+	* barrier when we acquired a reference.
+         *
+         * This is paired with the write barrier from assigning to the
+         * __rcu protected file pointer so that if that pointer still
+         * matches the current file, we know we have successfully
+         * acquired a reference to the right file.
+
+and IIRC, refcount_t is weaker wrt barriers.
