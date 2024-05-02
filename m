@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492528B9DA5
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 17:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4748B9DA6
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 17:40:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12EA011251B;
-	Thu,  2 May 2024 15:40:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36B9C11251E;
+	Thu,  2 May 2024 15:40:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UqXw0IvU";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="V5D5yMvO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1DEA112515
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 15:40:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA7511251B
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 15:40:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714664430;
- bh=mOOifeA7h2tjyxi4eoYBSbmRZkE4sxVXmUEbBlpKpTY=;
+ s=mail; t=1714664431;
+ bh=eCYRnb8pJBSoC/g0b6LKYpg9jQxBsPqvLLOQD1lsrPg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UqXw0IvUwdvMKW2Fj7eJ5yJxtlFWwJ1R61lgiimNHSgLCwvMK7t9bxchijhn01Vzl
- wCxLACsXKUJVgLNGT8/1C8rN8tmjWcD9dGRqyk2Uf3AOphqAeckgw82EgY0LZ523SR
- ZqXT+QZND8MGEvS4CjPcyaqTp/PWiRc2Yj71vJs/5QmsJSpoky5cd8x/LjJ9fJoom5
- cF8dX5cAx8JvKUZIZ38bR2MVRxI9gC9FJTS4IJKbBkUKsq3Oi4zM57uYE+YRun9FAZ
- qbHKYgivVhs+gOi8SvBqieeaHD2xzJGuuni++L9ItZJOC4mEoPhJOVpI5LAMzF8XGR
- uZpL0ctsEWZqg==
+ b=V5D5yMvO29F63AEpYQBN0pkDT1lTx6qQE/pPJPwo0KUh//yjxbmjX1FZFVElVp63f
+ uyJPavwRwJ2VgMcB2VOewu8TRa3SH5IupQCOhd1QkK8QiBTGrqaSxZV9u9cdCziiqb
+ 1POTxIkbEEZICVKCs4D/R+rlvmrmS2Q7s8PbMndyO5bZcmBbhzRHJ62RY5JhwdaQcD
+ NtVQqanwtPqtlc6wiZLgLBMbx/USX2bMxlJ+IAaGXoRLqkoGwRgeQZv/C4EerHVNVb
+ GsB2AXA3yMhQ4eDAULfUIo8E/x9Qu+fV8ypfWuTohUXavLRobKcd7JhrZR5xXOYyyf
+ l3i4YBzyEUYXw==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 443DB378214B;
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id EA0223782117;
  Thu,  2 May 2024 15:40:30 +0000 (UTC)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Eric Smith <eric.smith@collabora.com>
-Subject: [PATCH v3 4/5] drm/panthor: Fix an off-by-one in the heap context
- retrieval logic
-Date: Thu,  2 May 2024 17:40:24 +0200
-Message-ID: <20240502154025.1425278-5-boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+	kernel@collabora.com
+Subject: [PATCH v3 5/5] drm/panthor: Document
+ drm_panthor_tiler_heap_destroy::handle validity constraints
+Date: Thu,  2 May 2024 17:40:25 +0200
+Message-ID: <20240502154025.1425278-6-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240502154025.1425278-1-boris.brezillon@collabora.com>
 References: <20240502154025.1425278-1-boris.brezillon@collabora.com>
@@ -62,40 +62,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The heap ID is used to index the heap context pool, and allocating
-in the [1:MAX_HEAPS_PER_POOL] leads to an off-by-one. This was
-originally to avoid returning a zero heap handle, but given the handle
-is formed with (vm_id << 16) | heap_id, with vm_id > 0, we already can't
-end up with a valid heap handle that's zero.
+Make sure the user is aware that drm_panthor_tiler_heap_destroy::handle
+must be a handle previously returned by
+DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE.
 
-v3:
-- Allocate in the [0:MAX_HEAPS_PER_POOL-1] range
-
-v2:
-- New patch
-
-Fixes: 9cca48fa4f89 ("drm/panthor: Add the heap logical block")
-Reported-by: Eric Smith <eric.smith@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Tested-by: Eric Smith <eric.smith@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_heap.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/uapi/drm/panthor_drm.h | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-index 683bb94761bc..252332f5390f 100644
---- a/drivers/gpu/drm/panthor/panthor_heap.c
-+++ b/drivers/gpu/drm/panthor/panthor_heap.c
-@@ -323,7 +323,8 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
- 	if (!pool->vm) {
- 		ret = -EINVAL;
- 	} else {
--		ret = xa_alloc(&pool->xa, &id, heap, XA_LIMIT(1, MAX_HEAPS_PER_POOL), GFP_KERNEL);
-+		ret = xa_alloc(&pool->xa, &id, heap,
-+			       XA_LIMIT(0, MAX_HEAPS_PER_POOL - 1), GFP_KERNEL);
- 		if (!ret) {
- 			void *gpu_ctx = panthor_get_heap_ctx(pool, id);
+diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+index b8220d2e698f..aaed8e12ad0b 100644
+--- a/include/uapi/drm/panthor_drm.h
++++ b/include/uapi/drm/panthor_drm.h
+@@ -939,7 +939,11 @@ struct drm_panthor_tiler_heap_create {
+  * struct drm_panthor_tiler_heap_destroy - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY
+  */
+ struct drm_panthor_tiler_heap_destroy {
+-	/** @handle: Handle of the tiler heap to destroy */
++	/**
++	 * @handle: Handle of the tiler heap to destroy.
++	 *
++	 * Must be a valid heap handle returned by DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE.
++	 */
+ 	__u32 handle;
  
+ 	/** @pad: Padding field, MBZ. */
 -- 
 2.44.0
 
