@@ -2,48 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27368BA43D
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 01:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C71D8BA43F
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 01:55:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61BE510F8E0;
-	Thu,  2 May 2024 23:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE0021120D1;
+	Thu,  2 May 2024 23:55:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FRGEwMZI";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="R4zQGqWE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50C9110F8E0
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 23:54:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA10A593;
- Fri,  3 May 2024 01:53:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1714693998;
- bh=HRe5ljL+DRh/cLziQZQnHnErjG7fAwPUbblbiOOjz10=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FRGEwMZIp8bwwSkOb//OCCGNgD5GveHlaLhmZHRxlSeVgXLcl01HKvAYosVSpyqz6
- B4WgmiShlNWFu5HeZp2Nv1TarfhZxMImvJj359KKEqlbAXzpCvCmkz8C5jUBRq+NgO
- 1ybdm7fICZczzjlTOPiVgL0Mn7IqJl9LEOjmZwgE=
-Date: Fri, 3 May 2024 02:54:09 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Naushir Patuck <naush@raspberrypi.com>, dri-devel@lists.freedesktop.org,
- libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH] drm/fourcc: Add RGB161616 and BGR161616 formats
-Message-ID: <20240502235409.GH4959@pendragon.ideasonboard.com>
-References: <20240226132544.82817-1-jacopo.mondi@ideasonboard.com>
- <ecuukxmwolxr77p5mpktjhd5bkjpaf27rnprhey4y7bst4vntv@o3uzkb67molt>
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
+ [209.85.210.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66E7B1120D1
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 23:55:40 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id
+ 46e09a7af769-6ee2fb4ec57so2938347a34.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 16:55:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1714694139; x=1715298939;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+MHWuPJaqDhO89L9XgtzGeKdwZ07KcerlIPh46wVx1U=;
+ b=R4zQGqWEvMq87FRvPgPW09TH6ELsQoI5yNEA96HKdaD4laW+YvFP04b5U9J1mPjpaQ
+ /8wJpSti69qluAHhtK0TxovBe6M8a+yr0ObpaAH8GwjdBt2xnWcQW4jw7/frnaZtT31c
+ 1JXl4TwKIz4X1kkBNa8b7NBUzgm+8qpGdCxzM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714694139; x=1715298939;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+MHWuPJaqDhO89L9XgtzGeKdwZ07KcerlIPh46wVx1U=;
+ b=w9Ja9z+6Auk86EVEqRtMEar0Sxlkq1Rjy2AIEgVS09gN8boQ9geJ1b7Y7MTIOUdzj/
+ /AvshCVYhlt3a9Z42j9G42S+xS+NMwxTGR3/v4PBjJtl5cglXsc5qcyjSNuL26v/M5yN
+ 6xRQlTTA9tkSFUWWmbfhPqqfZdRd+EPH7XvFWWas8BSgJEPSW+tY7LSJCSQMiYAxrBe7
+ XLrgK6+kXK64EDZTEboJG/p9V4Bg8iHkQxGLjppBCcW9BlIsn6zoWiWMQgrgTl645DgY
+ X2F3bYs07V9XJpy5TlzbqeV0Xu0+QtmcxW8N9N0FWCoB+w6fGM7ZnXmj3A3xqtHbRd2V
+ CN8g==
+X-Gm-Message-State: AOJu0Yyf/w38feyFjhoW4r6uHGm7tGf9unfgxbVg4G/gyBnCeOuPjss2
+ cLDtr5SZKWIsCFOctYu6zxmjdRAv5xB1iH6Q1JvH9K8Ll+oKOyLU3qKVMoL1kft+gGI4Jy2IX7f
+ YZtPTqNCFXtQocBLq5d0SqyiW9diCSyjgXuHd
+X-Google-Smtp-Source: AGHT+IGyCxHV28Dg21fvPd5sjHZ7KhAUqE2uO+gL3ofkHFj9jXN9KaEpVVpZug4C3MFxRV+i3b5mcbdpzvWf2Io+5NM=
+X-Received: by 2002:a9d:6e89:0:b0:6ee:2d1e:f4f with SMTP id
+ a9-20020a9d6e89000000b006ee2d1e0f4fmr1511449otr.9.1714694139352; Thu, 02 May
+ 2024 16:55:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ecuukxmwolxr77p5mpktjhd5bkjpaf27rnprhey4y7bst4vntv@o3uzkb67molt>
+References: <20240502164746.1.Ia32fc630e5ba41b3fdd3666d9e343568e03c4f3a@changeid>
+In-Reply-To: <20240502164746.1.Ia32fc630e5ba41b3fdd3666d9e343568e03c4f3a@changeid>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Thu, 2 May 2024 16:55:13 -0700
+Message-ID: <CAJMQK-h24xoO6jsYu4NK8ENoA6nsidcF8aN2pCzNMPgmu1NxEw@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add ID for KD KD116N09-30NH-A016
+To: Douglas Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,68 +79,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jacopo,
+On Thu, May 2, 2024 at 4:48=E2=80=AFPM Douglas Anderson <dianders@chromium.=
+org> wrote:
+>
+> As evidenced by in-field reports, this panel shipped on pompom but we
+> never added the ID and thus we're stuck w/ conservative timings. The
+> panel was part of early patches but somehow got left off in the
+> end. :( Add it in now.
+>
+> For future reference, EDID from this panel is:
+>         00ffffffffffff002c82121200000000
+>         321e0104951a0e780ae511965e55932c
+>         19505400000001010101010101010101
+>         010101010101a41f5686500084302820
+>         55000090100000180000000000000000
+>         00000000000000000000000000000000
+>         000000000000000000000000000000fe
+>         004b443131364e3039333041313600f6
+>
+> We use the ASCII string from decoding the EDID ("KD116N0930A16") as
+> the panel name.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-On Thu, May 02, 2024 at 11:02:27AM +0200, Jacopo Mondi wrote:
-> Hello
->    which tree should this patch be collected from now that it has
-> been reviewed ?
+Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
 
-I think this can go through drm-misc. I'm not sure what the rule is for
-patches that touch core code like these, can then be pushed by anyone
-with commit access, or do they need to be collected by a drm-misc
-maintainer ?
-
-> On Mon, Feb 26, 2024 at 02:25:43PM GMT, Jacopo Mondi wrote:
-> > Add FourCC definitions for the 48-bit RGB/BGR formats to the
-> > DRM/KMS uapi.
-> >
-> > The format will be used by the Raspberry Pi PiSP Back End,
-> > supported by a V4L2 driver in kernel space and by libcamera in
-> > userspace, which uses the DRM FourCC identifiers.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/drm_fourcc.c  | 8 ++++++++
-> >  include/uapi/drm/drm_fourcc.h | 4 ++++
-> >  2 files changed, 12 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-> > index 193cf8ed7912..908f20b96fd5 100644
-> > --- a/drivers/gpu/drm/drm_fourcc.c
-> > +++ b/drivers/gpu/drm/drm_fourcc.c
-> > @@ -210,6 +210,14 @@ const struct drm_format_info *__drm_format_info(u32 format)
-> >  		{ .format = DRM_FORMAT_ABGR2101010,	.depth = 30, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
-> >  		{ .format = DRM_FORMAT_RGBA1010102,	.depth = 30, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
-> >  		{ .format = DRM_FORMAT_BGRA1010102,	.depth = 30, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
-> > +		{ .format = DRM_FORMAT_RGB161616,	.depth = 0,
-> > +		  .num_planes = 1, .char_per_block = { 6, 0, 0 },
-> > +		  .block_w = { 1, 0, 0 }, .block_h = { 1, 0, 0 },
-> > +		  .hsub = 1, .vsub = 1, .has_alpha = false },
-> > +		{ .format = DRM_FORMAT_BGR161616,	.depth = 0,
-> > +		  .num_planes = 1, .char_per_block = { 6, 0, 0 },
-> > +		  .block_w = { 1, 0, 0 }, .block_h = { 1, 0, 0 },
-> > +		  .hsub = 1, .vsub = 1, .has_alpha = false },
-> >  		{ .format = DRM_FORMAT_ARGB8888,	.depth = 32, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
-> >  		{ .format = DRM_FORMAT_ABGR8888,	.depth = 32, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
-> >  		{ .format = DRM_FORMAT_RGBA8888,	.depth = 32, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
-> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> > index 84d502e42961..00db00083175 100644
-> > --- a/include/uapi/drm/drm_fourcc.h
-> > +++ b/include/uapi/drm/drm_fourcc.h
-> > @@ -210,6 +210,10 @@ extern "C" {
-> >  #define DRM_FORMAT_RGBA1010102	fourcc_code('R', 'A', '3', '0') /* [31:0] R:G:B:A 10:10:10:2 little endian */
-> >  #define DRM_FORMAT_BGRA1010102	fourcc_code('B', 'A', '3', '0') /* [31:0] B:G:R:A 10:10:10:2 little endian */
-> >
-> > +/* 48 bpp RGB */
-> > +#define DRM_FORMAT_RGB161616 fourcc_code('R', 'G', '4', '8') /* [47:0] R:G:B 16:16:16 little endian */
-> > +#define DRM_FORMAT_BGR161616 fourcc_code('B', 'G', '4', '8') /* [47:0] B:G:R 16:16:16 little endian */
-> > +
-> >  /* 64 bpp RGB */
-> >  #define DRM_FORMAT_XRGB16161616	fourcc_code('X', 'R', '4', '8') /* [63:0] x:R:G:B 16:16:16:16 little endian */
-> >  #define DRM_FORMAT_XBGR16161616	fourcc_code('X', 'B', '4', '8') /* [63:0] x:B:G:R 16:16:16:16 little endian */
-
--- 
-Regards,
-
-Laurent Pinchart
+> ---
+>
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
+nel-edp.c
+> index 6db277efcbb7..9cfa05c7d193 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -2094,6 +2094,7 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         EDP_PANEL_ENTRY('K', 'D', 'B', 0x0624, &kingdisplay_kd116n21_30nv=
+_a010.delay, "116N21-30NV-A010"),
+>         EDP_PANEL_ENTRY('K', 'D', 'B', 0x1118, &delay_200_500_e50, "KD116=
+N29-30NK-A005"),
+>         EDP_PANEL_ENTRY('K', 'D', 'B', 0x1120, &delay_200_500_e80_d50, "1=
+16N29-30NK-C007"),
+> +       EDP_PANEL_ENTRY('K', 'D', 'B', 0x1212, &delay_200_500_e50, "KD116=
+N0930A16"),
+>
+>         EDP_PANEL_ENTRY('K', 'D', 'C', 0x044f, &delay_200_500_e50, "KD116=
+N9-30NH-F3"),
+>         EDP_PANEL_ENTRY('K', 'D', 'C', 0x05f1, &delay_200_500_e80_d50, "K=
+D116N5-30NV-G7"),
+> --
+> 2.45.0.rc1.225.g2a3ae87e7f-goog
+>
