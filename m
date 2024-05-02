@@ -2,39 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE8D8B9DD1
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 17:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1820A8B9DD2
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 17:52:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3F4310EA15;
-	Thu,  2 May 2024 15:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4DF10E753;
+	Thu,  2 May 2024 15:52:57 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="moqD0Kjh";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 22D6110EA15
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 15:52:30 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 626DE339;
- Thu,  2 May 2024 08:52:55 -0700 (PDT)
-Received: from [10.1.36.41] (e122027.cambridge.arm.com [10.1.36.41])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C0BB3F793;
- Thu,  2 May 2024 08:52:29 -0700 (PDT)
-Message-ID: <60e058d0-0aac-4931-8552-c1663adca3be@arm.com>
-Date: Thu, 2 May 2024 16:52:28 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] drm/panthor: Document
- drm_panthor_tiler_heap_destroy::handle validity constraints
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACF110E753
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 15:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1714665173;
+ bh=0Mof39g/qJ9Pbpv/hWeyuJ/hTV8uNhVhpJbiO4L55dw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=moqD0KjhycGiidmFJcGtVFqxCIXdpOTSUGA4A93HfvlfZYYEIUiqa/IhHw+IzCsyt
+ wzR9vBZBLQyMSm+w/22/AQWggEmKU87/MEr8zR+2jHsJCmkWEOksq3GIhkrfftNQHN
+ zlqefRcCOJ+z6pvbHv9WMOwPLoW55w71LexSdnPGHW48EmDuUx4ZLoilmISxUMMbrJ
+ iD14iyl2hxwmtYWwuM1t5wtwMpOuHtCfxpqJA/rABCbpX21bnAH9+GXbCERyb4UI1H
+ LOuuvnIcO6EhUCU8DxPCNExBZXZcY8rXem35jXEog6C/szx1qulniRav6CpPd7MwzQ
+ xywg3nak/u4iQ==
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 45754378148F;
+ Thu,  2 May 2024 15:52:53 +0000 (UTC)
+From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
-References: <20240502154025.1425278-1-boris.brezillon@collabora.com>
- <20240502154025.1425278-6-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20240502154025.1425278-6-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Subject: [PATCH v2] drm/panthor: Make sure we handle 'unknown group state'
+ case properly
+Date: Thu,  2 May 2024 17:52:48 +0200
+Message-ID: <20240502155248.1430582-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.44.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,34 +60,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/05/2024 16:40, Boris Brezillon wrote:
-> Make sure the user is aware that drm_panthor_tiler_heap_destroy::handle
-> must be a handle previously returned by
-> DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+When we check for state values returned by the FW, we only cover part of
+the 0:7 range. Make sure we catch FW inconsistencies by adding a default
+to the switch statement, and flagging the group state as unknown in that
+case.
 
+When an unknown state is detected, we trigger a reset, and consider the
+group as unusable after that point, to prevent the potential corruption
+from creeping in other places if we continue executing stuff on this
+context.
+
+v2:
+- Add Steve's R-b
+- Fix commit message
+
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Suggested-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_sched.c | 37 +++++++++++++++++++++++--
+ 1 file changed, 35 insertions(+), 2 deletions(-)
 
-> ---
->  include/uapi/drm/panthor_drm.h | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index b8220d2e698f..aaed8e12ad0b 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -939,7 +939,11 @@ struct drm_panthor_tiler_heap_create {
->   * struct drm_panthor_tiler_heap_destroy - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY
->   */
->  struct drm_panthor_tiler_heap_destroy {
-> -	/** @handle: Handle of the tiler heap to destroy */
-> +	/**
-> +	 * @handle: Handle of the tiler heap to destroy.
-> +	 *
-> +	 * Must be a valid heap handle returned by DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE.
-> +	 */
->  	__u32 handle;
->  
->  	/** @pad: Padding field, MBZ. */
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index b3a51a6de523..1a14ee30f774 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -490,6 +490,18 @@ enum panthor_group_state {
+ 	 * Can no longer be scheduled. The only allowed action is a destruction.
+ 	 */
+ 	PANTHOR_CS_GROUP_TERMINATED,
++
++	/**
++	 * @PANTHOR_CS_GROUP_UNKNOWN_STATE: Group is an unknown state.
++	 *
++	 * The FW returned an inconsistent state. The group is flagged unusable
++	 * and can no longer be scheduled. The only allowed action is a
++	 * destruction.
++	 *
++	 * When that happens, we also schedule a FW reset, to start from a fresh
++	 * state.
++	 */
++	PANTHOR_CS_GROUP_UNKNOWN_STATE,
+ };
+ 
+ /**
+@@ -1127,6 +1139,7 @@ csg_slot_sync_state_locked(struct panthor_device *ptdev, u32 csg_id)
+ 	struct panthor_fw_csg_iface *csg_iface;
+ 	struct panthor_group *group;
+ 	enum panthor_group_state new_state, old_state;
++	u32 csg_state;
+ 
+ 	lockdep_assert_held(&ptdev->scheduler->lock);
+ 
+@@ -1137,7 +1150,8 @@ csg_slot_sync_state_locked(struct panthor_device *ptdev, u32 csg_id)
+ 		return;
+ 
+ 	old_state = group->state;
+-	switch (csg_iface->output->ack & CSG_STATE_MASK) {
++	csg_state = csg_iface->output->ack & CSG_STATE_MASK;
++	switch (csg_state) {
+ 	case CSG_STATE_START:
+ 	case CSG_STATE_RESUME:
+ 		new_state = PANTHOR_CS_GROUP_ACTIVE;
+@@ -1148,11 +1162,28 @@ csg_slot_sync_state_locked(struct panthor_device *ptdev, u32 csg_id)
+ 	case CSG_STATE_SUSPEND:
+ 		new_state = PANTHOR_CS_GROUP_SUSPENDED;
+ 		break;
++	default:
++		/* The unknown state might be caused by a FW state corruption,
++		 * which means the group metadata can't be trusted anymore, and
++		 * the SUSPEND operation might propagate the corruption to the
++		 * suspend buffers. Flag the group state as unknown to make
++		 * sure it's unusable after that point.
++		 */
++		drm_err(&ptdev->base, "Invalid state on CSG %d (state=%d)",
++			csg_id, csg_state);
++		new_state = PANTHOR_CS_GROUP_UNKNOWN_STATE;
++		break;
+ 	}
+ 
+ 	if (old_state == new_state)
+ 		return;
+ 
++	/* The unknown state might be caused by a FW issue, reset the FW to
++	 * take a fresh start.
++	 */
++	if (new_state == PANTHOR_CS_GROUP_UNKNOWN_STATE)
++		panthor_device_schedule_reset(ptdev);
++
+ 	if (new_state == PANTHOR_CS_GROUP_SUSPENDED)
+ 		csg_slot_sync_queues_state_locked(ptdev, csg_id);
+ 
+@@ -1783,6 +1814,7 @@ static bool
+ group_can_run(struct panthor_group *group)
+ {
+ 	return group->state != PANTHOR_CS_GROUP_TERMINATED &&
++	       group->state != PANTHOR_CS_GROUP_UNKNOWN_STATE &&
+ 	       !group->destroyed && group->fatal_queues == 0 &&
+ 	       !group->timedout;
+ }
+@@ -2557,7 +2589,8 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
+ 
+ 		if (csg_slot->group) {
+ 			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, i,
+-						CSG_STATE_SUSPEND,
++						group_can_run(csg_slot->group) ?
++						CSG_STATE_SUSPEND : CSG_STATE_TERMINATE,
+ 						CSG_STATE_MASK);
+ 		}
+ 	}
+-- 
+2.44.0
 
