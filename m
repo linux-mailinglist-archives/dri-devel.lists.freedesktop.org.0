@@ -2,109 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3936A8BA33F
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 00:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E30D98BA34E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 00:34:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2FBB1126FE;
-	Thu,  2 May 2024 22:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2348B1126F4;
+	Thu,  2 May 2024 22:34:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MoVdcG8D";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ddB7Siqq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 733081126F7
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 22:33:49 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-2b33d011e5dso1489194a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 15:33:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714689229; x=1715294029;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Nhj8hJv8Nz4SLO0kIrZY8268X0YP9luJWZdcMXgW554=;
- b=MoVdcG8DqtxO9u5U76SV/89d/vnvvzQ6tbCrqSpTN8yrPlq4MNBsLABvBIJdC/lhWY
- qSeNLnnqKRRRxAibsKhsWHdccy+FvVpAHEf5JdRE7XQfEbt7CeFvtw/2t/Y2c0vjqsPy
- Xjwnx4VGYzkRbIsUEGhq3FNMfLg42erlGH2sc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714689229; x=1715294029;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Nhj8hJv8Nz4SLO0kIrZY8268X0YP9luJWZdcMXgW554=;
- b=lGhAfCSCKrupHxeJv8TUd6vo8+ri4f1PGZAx+vFpRdeZJmgZsU5kUk8EXv8B8iGl0l
- TVCpJend9xwuID0XtDdP1qMZBwF3TrRo2qMKjibjJc77SZ7Wkrkf8RcgBja2oKyCkBnw
- QNbjscuhYI5OxfipedJiFdowiipBmCuGYe3rwAydQrqPSD5HoPz1JPC5FpqfdO22Rrun
- MOf5VMVxHNetS6zwVknDCe4qEM4MXkSx+fBYUD8c0M8Po+cLfq1i3MjGnQq5MDgKmqAW
- VPSd3sLUy26u6e49UrKAok4GVN1Kbmq1ofb1HicU5cLMtkmgeXnG5bQ4ujBX5SFZbHkS
- 7xWA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWw2Mv8gJlF2mG5bb61VrzhJZa3xyxFFTtTDvzVdxjgSJwGk1ohxGUAGMuGdNHyl9R2EZL4QxXmhoM/gr1gk+57Gaf7phjomNkkHBPwAHUY
-X-Gm-Message-State: AOJu0YwCfxvvPmoj+xuMSxwlfua3YcH3Kldphajajjt7f565IMkRBI4G
- DUEwMPC/nwTxta6695zv8O+X1qtAZ+iN0cOpWSi8pnqrVzDKyfaYcxBa3/LZ8g==
-X-Google-Smtp-Source: AGHT+IFc7AO8befqehZXahPHokNXwIeinKWSHFTDAZBc8gTAVzLseerL0chlFu6kgm2QDfWE7mdbeg==
-X-Received: by 2002:a17:90a:ac18:b0:2b2:9783:d0ca with SMTP id
- o24-20020a17090aac1800b002b29783d0camr1477782pjq.12.1714689228740; 
- Thu, 02 May 2024 15:33:48 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
- by smtp.gmail.com with ESMTPSA id
- fw14-20020a17090b128e00b002a2d4bf345bsm3698747pjb.55.2024.05.02.15.33.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 May 2024 15:33:47 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Kees Cook <keescook@chromium.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Zack Rusin <zack.rusin@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matt Atwood <matthew.s.atwood@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>, Will Deacon <will@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
- Mark Rutland <mark.rutland@arm.com>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: [PATCH 5/5] fs: Convert struct file::f_count to refcount_long_t
-Date: Thu,  2 May 2024 15:33:40 -0700
-Message-Id: <20240502223341.1835070-5-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240502222252.work.690-kees@kernel.org>
-References: <20240502222252.work.690-kees@kernel.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A66F1126F4
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 22:34:55 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 442MPonY022108;
+ Thu, 2 May 2024 22:34:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=fRfLcMY0AJGwjaEuJZ8otI1nmXNpuNBsc8ugjVTNQt8=; b=dd
+ B7SiqqemjgKfQ3hTAJoaprgjTdJ0F2zU/c/Pe5YkwoOmkjJtmn4eweehwYRZ2FbP
+ 5IrsuRRh/zbcDViN3ACCYmPvAGh6pcOUyqPAq78BxZ/HGGnU7QidEut84/CBBDVt
+ V70Y0C7t6BaGwL8EyS+m6ExEkNFU4r1LdhBtPnzMHKFmE4NcE/KHDnoov3EkOY7u
+ sJZW73X7yg2cbakukU/WbJuNYrWWNKHo+wIdAJPOiI8rGvzICdbISjkBmfctk3ji
+ c+Oh0lttZopeTYvvWas1etIOQjge2Mw/vaoRNsd3KbIdBk3KeY20reZRaWkI+Zfx
+ PvAtfMogLhSzw5+rrezg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xv01ttcrn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 May 2024 22:34:43 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 442MYgLd023640
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 2 May 2024 22:34:42 GMT
+Received: from [10.110.114.34] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 2 May 2024
+ 15:34:41 -0700
+Message-ID: <6ca4c345-cc67-2e98-48eb-6379a9ba7579@quicinc.com>
+Date: Thu, 2 May 2024 15:34:40 -0700
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3356; i=keescook@chromium.org; 
- h=from:subject;
- bh=aku0Ov6TP/MVYBgFlGuMSUdhnxeal+hPQHrvCM+9JCg=; 
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBmNBTDsTosM5PigT8MgtAILfCBKJBIs1YpjR+n9
- i4hU3z7b2GJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZjQUwwAKCRCJcvTf3G3A
- JpwAD/47yb9BpbWzPuD0heUR6EIq/XA2DmBYJDN5EAEcjQh8e95gPvrbNsBQnT+lojr4owqsbV7
- yzKXeVQsU4C13GRWVgHZOs4DuQkYYtC0AJVHQ9LrjXn9Rgkfb928ujjbYMNhZpvfGxJ///oDZEx
- SLgxaj8AKWkuPDgKyktn25SCmT7MnZbHQ5h+s3Eu+U0PO1IeAY8qwit7+cWw0KtH0SmVPGyzLSg
- OD7OAFb7j5XoajUhOQcltZOHvQI8FEQQsMvOJxUtioIyuro1Ah2yAhiJ+Gb4IiuzreOOS5mpQY9
- rAeyVw1zgu2gR6iJ7gpPfq40oFIp3yulcggvyRh6GeikDzJhwpr9MIdIEnYpgeyTm/PgomJjyNR
- KVeoluWeWITtKvPSs1kXp33TxqrsjXk2F06HFgRPXqyLP4d/qcZhl7q6Vs8GmNlEbtLMqxJscV2
- o/JWSiqQ4VeQfHwCAZNY9enOk5CCC6Z+YwOof8OUIKsivBxLc7dLGjX+X01ttLx5GWsmPr7/RHY
- jAKBvlDq1GORFiHN/58xNQNqu1fGiicNh5Wyuk7D22DfoO0k+gWAoz/7JKx6Q+N1zM4URIMfePa
- ZwcN0ap5AIn9iwCooiNslmX4gAjKTcV7LO1fvZy8mgzRK2khRr0rpHK6qi52Vq3AMNylI0Nw9qZ
- qJGKfgmX6LueF0A==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp;
- fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/connector: Add \n to message about demoting connector
+ force-probes
+Content-Language: en-US
+To: Douglas Anderson <dianders@chromium.org>, <dri-devel@lists.freedesktop.org>
+CC: Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel@ffwll.ch>, David
+ Airlie <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, Simon Ser
+ <contact@emersion.fr>, Thomas Zimmermann <tzimmermann@suse.de>,
+ <linux-kernel@vger.kernel.org>
+References: <20240502153234.1.I2052f01c8d209d9ae9c300b87c6e4f60bd3cc99e@changeid>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240502153234.1.I2052f01c8d209d9ae9c300b87c6e4f60bd3cc99e@changeid>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: oe55n8zLLuOJ-F9oGUJHiJCumhejoQ4D
+X-Proofpoint-GUID: oe55n8zLLuOJ-F9oGUJHiJCumhejoQ4D
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-02_14,2024-05-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 suspectscore=0
+ spamscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0 adultscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 mlxlogscore=818 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
+ definitions=main-2405020151
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,107 +95,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Underflow of f_count needs to be more carefully detected than it
-currently is. The results of get_file() should be checked, but the
-first step is detection. Redefine f_count from atomic_long_t to
-refcount_long_t.
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
----
- fs/file.c          | 4 ++--
- fs/file_table.c    | 6 +++---
- include/linux/fs.h | 6 +++---
- 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/fs/file.c b/fs/file.c
-index 3b683b9101d8..570424dd634b 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -865,7 +865,7 @@ static struct file *__get_file_rcu(struct file __rcu **f)
- 	if (!file)
- 		return NULL;
- 
--	if (unlikely(!atomic_long_inc_not_zero(&file->f_count)))
-+	if (unlikely(!refcount_long_inc_not_zero(&file->f_count)))
- 		return ERR_PTR(-EAGAIN);
- 
- 	file_reloaded = rcu_dereference_raw(*f);
-@@ -987,7 +987,7 @@ static inline struct file *__fget_files_rcu(struct files_struct *files,
- 		 * barrier. We only really need an 'acquire' one to
- 		 * protect the loads below, but we don't have that.
- 		 */
--		if (unlikely(!atomic_long_inc_not_zero(&file->f_count)))
-+		if (unlikely(!refcount_long_inc_not_zero(&file->f_count)))
- 			continue;
- 
- 		/*
-diff --git a/fs/file_table.c b/fs/file_table.c
-index 4f03beed4737..f29e7b94bca1 100644
---- a/fs/file_table.c
-+++ b/fs/file_table.c
-@@ -167,7 +167,7 @@ static int init_file(struct file *f, int flags, const struct cred *cred)
- 	 * fget-rcu pattern users need to be able to handle spurious
- 	 * refcount bumps we should reinitialize the reused file first.
- 	 */
--	atomic_long_set(&f->f_count, 1);
-+	refcount_long_set(&f->f_count, 1);
- 	return 0;
- }
- 
-@@ -470,7 +470,7 @@ static DECLARE_DELAYED_WORK(delayed_fput_work, delayed_fput);
- 
- void fput(struct file *file)
- {
--	if (atomic_long_dec_and_test(&file->f_count)) {
-+	if (refcount_long_dec_and_test(&file->f_count)) {
- 		struct task_struct *task = current;
- 
- 		if (unlikely(!(file->f_mode & (FMODE_BACKING | FMODE_OPENED)))) {
-@@ -503,7 +503,7 @@ void fput(struct file *file)
-  */
- void __fput_sync(struct file *file)
- {
--	if (atomic_long_dec_and_test(&file->f_count))
-+	if (refcount_long_dec_and_test(&file->f_count))
- 		__fput(file);
- }
- 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 210bbbfe9b83..b8f6cce7c39d 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1001,7 +1001,7 @@ struct file {
- 	 */
- 	spinlock_t		f_lock;
- 	fmode_t			f_mode;
--	atomic_long_t		f_count;
-+	refcount_long_t		f_count;
- 	struct mutex		f_pos_lock;
- 	loff_t			f_pos;
- 	unsigned int		f_flags;
-@@ -1038,7 +1038,7 @@ struct file_handle {
- 
- static inline struct file *get_file(struct file *f)
- {
--	if (unlikely(!atomic_long_inc_not_zero(&f->f_count)))
-+	if (unlikely(!refcount_long_inc_not_zero(&f->f_count)))
- 		return NULL;
- 	return f;
- }
-@@ -1046,7 +1046,7 @@ static inline struct file *get_file(struct file *f)
- struct file *get_file_rcu(struct file __rcu **f);
- struct file *get_file_active(struct file **f);
- 
--#define file_count(x)	atomic_long_read(&(x)->f_count)
-+#define file_count(x)	refcount_long_read(&(x)->f_count)
- 
- #define	MAX_NON_LFS	((1UL<<31) - 1)
- 
--- 
-2.34.1
+On 5/2/2024 3:32 PM, Douglas Anderson wrote:
+> The debug print clearly lacks a \n at the end. Add it.
+> 
+> Fixes: 8f86c82aba8b ("drm/connector: demote connector force-probes for non-master clients")
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> 
+>   drivers/gpu/drm/drm_connector.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
