@@ -2,53 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971C88B98E4
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 12:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDFC8B98E8
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 12:36:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA0210F26E;
-	Thu,  2 May 2024 10:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1A2010E395;
+	Thu,  2 May 2024 10:36:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cb3nqeBe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZZj44Cwl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BAA410E395
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 10:35:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2A032CE1320;
- Thu,  2 May 2024 10:35:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26A2C113CC;
- Thu,  2 May 2024 10:35:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714646153;
- bh=hK4ov6ylR1Ugfedc+gAwxkAdNe5nyfrosMJJf2M9fIY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cb3nqeBeoHrI93ndU1+kejrXRKY7tNaPbqH2m3ypYfQt0F/4BTck0UMCuoIeHgYzO
- L+k6qhX8BRSRJz68WWe2Z0jNKC4qFtCKrGox2WZjYASmRLNimgWfseXSZL4ZOhwY+I
- KqmXiUErpbUR91g/quYjA+Fno7sL06owszJxxZJmmok9aqu4MqTFzFXb7Hnv51TK2p
- 5hElv0wJwHgqUJ2lm2zfjTotqInc38Tej28qhJrDZApzFJ2EFuMWhRnj6mFpPS+hhT
- h/iyHayqWeoFjCn5gzDi/BbSL7cmZcfetiU0OZj0y0XUvgNNCxZAs3fujWxvKFJONz
- Um35B46skZ3sw==
-Date: Thu, 2 May 2024 11:35:48 +0100
-From: Lee Jones <lee@kernel.org>
-To: Shresth Prasad <shresthprasad7@gmail.com>
-Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, javier.carrasco.cruz@gmail.com,
- skhan@linuxfoundation.org, julia.lawall@inria.fr
-Subject: Re: [PATCH v3][next] backlight: sky81452-backlight: Remove
- unnecessary call to of_node_get
-Message-ID: <20240502103548.GU5338@google.com>
-References: <20240502063621.65687-2-shresthprasad7@gmail.com>
- <20240502093623.GJ5338@google.com>
- <CAE8VWiLP-QR_KaHBPYjA=UVJ8SShpKseB5Xp9Hpkd1RMcvt-qw@mail.gmail.com>
- <20240502100822.GS5338@google.com>
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBC6A10E395;
+ Thu,  2 May 2024 10:36:36 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2e0b7136f2bso4293121fa.0; 
+ Thu, 02 May 2024 03:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1714646195; x=1715250995; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FT2Vebyh1FWwMJQubPeWb4xwvsvNpVAsZHgyxB9GdA0=;
+ b=ZZj44CwlYX01l7h7GylobKDCQEX5wKQMCbdxYoVzeG0iICWUwEUMW6JUj7oD0kD2Ef
+ E63480w92o78NQdWvlrMEuYUEi9Uzinau8dWCkC72mPpsHf+c4FHwmBpcE/OIyOXmJmf
+ YSJjTWq3YXz6hR1apKgePAP87OZUqc9a3epOXszzspy1MTuWdefU0J0PUPqkfIl5vg4p
+ X87u4ZNPnCchi2ERVmRTEcYDBsEn0cfGLRb56Qi50knAeraog1EQ8U4JWfzBtHEnCeN6
+ jb5ZkDZnDOv+77D32jNoR6UC39Y0GKbTgw0u0gJIOQBmlXZ8HSTQveks2kvJuH77vZt/
+ 81Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714646195; x=1715250995;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FT2Vebyh1FWwMJQubPeWb4xwvsvNpVAsZHgyxB9GdA0=;
+ b=W2GIH/uvAIWjl1z2OOTgH/Ujig6l7IpDD/6F4dn0M+caU95Dl0/IRLhs3VE77w7eJh
+ Sj+ETAS1/oaskuM3+wlGjCcGjaUZMEs7vuD8I/bMLcCPRP5urUA2Vhda3JC/K3IR8Hvb
+ cZptbtapi+wnZYLKPlHzVJhd5gTNH/iXYNIgVEMv5b2K0FSzMHLmr1e8pnBEeHD8At2M
+ Ukdtp5KEwzkxX2YpTiBUyFK2f3h/hfF9YXEcvMsuCUuZjVvW88CemDxEo1hPKhG+JQfl
+ zJnLv0Pq8zkND3xRbb7f1G6twWAuZrZbR4zWB5+GWnDcmhYVQqX9N60Hw8c1w7nAe+gz
+ Zu7A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0wWJUznqw64xiHNyTm7UAdehHsHDhmxprQqlN7yFGJRZscu1RSerJNMFI+/ZTOFledHoOgFruMfynJZ7y8VEmL8d8MK3SGFYYanO0PqySjxWoqeydRsLtzI+VuQcPLijHK9Ued0Qpwf65mTRSZ/WN
+X-Gm-Message-State: AOJu0Yzha/RuLmDhzRLW/ziCuD9XgYcTQr/vYWHPAJ3Gp7gKARhuQVpF
+ P3xLj916LubLFY1XWKyc0CC+E6PDTeX1Rod99KZh53deLVJ7ZoW+
+X-Google-Smtp-Source: AGHT+IF6z5Prb/zz+BTozZr6JQYkXzLArcZTkDyBdDQRPe4LSx9aMuoUBBv13IOxRD7Z4PR0uozM+g==
+X-Received: by 2002:a19:ca44:0:b0:513:ec32:aa89 with SMTP id
+ h4-20020a19ca44000000b00513ec32aa89mr2847492lfj.2.1714646194515; 
+ Thu, 02 May 2024 03:36:34 -0700 (PDT)
+Received: from dmitrii-TM1701.. ([2001:8f8:1d3a:4eb3:9dcd:1735:fcaa:e2])
+ by smtp.gmail.com with ESMTPSA id
+ rn24-20020a170906d93800b00a52433f0907sm402630ejb.37.2024.05.02.03.36.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 May 2024 03:36:34 -0700 (PDT)
+From: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+To: dmitrii.bundin.a@gmail.com
+Cc: airlied@gmail.com, bp@suse.de, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, gongruiqi1@huawei.com,
+ intel-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, linux-kernel@vger.kernel.org,
+ michal.wajdeczko@intel.com, rdunlap@infradead.org, rodrigo.vivi@intel.com,
+ tursulin@ursulin.net
+Subject: [PATCH RESEND] drm/i915/guc: Fix UB due to signed int overflow
+Date: Thu,  2 May 2024 13:36:18 +0300
+Message-Id: <20240502103618.129017-1-dmitrii.bundin.a@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240413031747.2416581-1-dmitrii.bundin.a@gmail.com>
+References: <20240413031747.2416581-1-dmitrii.bundin.a@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240502100822.GS5338@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,55 +87,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 02 May 2024, Lee Jones wrote:
+Fix compile errors of the form "FIELD_PREP: mask is not constant" caused
+by signed integer constant overflow. Files affected:
 
-> On Thu, 02 May 2024, Shresth Prasad wrote:
-> 
-> > On Thu, May 2, 2024 at 3:06 PM Lee Jones <lee@kernel.org> wrote:
-> > >
-> > > On Thu, 02 May 2024, Shresth Prasad wrote:
-> > >
-> > > > `dev->of_node` already has a reference to the device_node and calling
-> > > > of_node_get on it is unnecessary. All conresponding calls to
-> > > > of_node_put are also removed.
-> > > >
-> > > > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> > > > Signed-off-by: Shresth Prasad <shresthprasad7@gmail.com>
-> > > > ---
-> > > > Changes in v3:
-> > > >     - Remove unnecessary braces
-> > > >
-> > > >  drivers/video/backlight/sky81452-backlight.c | 8 ++------
-> > > >  1 file changed, 2 insertions(+), 6 deletions(-)
-> > >
-> > > No idea what you're talking about.
-> > >
-> > > This patch/version doesn't exist in either my inbox or LORE:
-> > >
-> > >   https://lore.kernel.org/all/?q=%22%5BPATCH+v3%5D%5Bnext%5D+backlight%3A+sky81452-backlight%3A+Remove+unnecessary+call+to+of_node_get%22
-> > >
-> > > --
-> > > Lee Jones [李琼斯]
-> > 
-> > I'm not sure what you mean.
-> > The patches show up just fine:
-> > https://lore.kernel.org/all/?q=backlight%3A+sky81452-backlight%3A+Remove+unnecessary+call+to+of_node_get
-> > 
-> > If you mean that the first version doesn't show up, it's because the
-> > commit message
-> > was changed to better reflect changes.
-> 
-> Those are v2
-> 
-> You replied to a non-existent v3 which started a new thread.
+drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 
-Something funky is going on.  Your pokey emails are coming through
-disconnected from the patches which is causing confusion.
+Reproducible with gcc 7.5
 
-The best thing going forward is to submit [RESEND]s instead of
-contentless pokes.
+See https://lore.kernel.org/r/YkwQ6%2BtIH8GQpuct@zn.tnic for the gory
+details as to why it triggers with older gccs only.
 
-Please submit a [RESEND] for v3 and we can start again.
+Signed-off-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+---
+ drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+index 58012edd4eb0..8814d4cd371c 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+@@ -29,7 +29,7 @@
+  */
+ 
+ #define GUC_KLV_LEN_MIN				1u
+-#define GUC_KLV_0_KEY				(0xffff << 16)
++#define GUC_KLV_0_KEY				(0xffffU << 16)
+ #define GUC_KLV_0_LEN				(0xffff << 0)
+ #define GUC_KLV_n_VALUE				(0xffffffff << 0)
+ 
 -- 
-Lee Jones [李琼斯]
+2.34.1
+
