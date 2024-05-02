@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E6B8B952A
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 09:21:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE128B952F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 09:22:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3104D10ECEA;
-	Thu,  2 May 2024 07:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56BFE10E711;
+	Thu,  2 May 2024 07:22:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MGcbvCrQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qjrqIG4y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04BAF10ECEA
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 07:21:37 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25A0010E711
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 07:22:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7277FCE1360;
- Thu,  2 May 2024 07:21:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFD48C113CC;
- Thu,  2 May 2024 07:21:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E583360E03;
+ Thu,  2 May 2024 07:22:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45668C113CC;
+ Thu,  2 May 2024 07:22:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714634493;
- bh=tX69CvEtAwgo4XZ4l/Uep5L3565GREJ/19F+uS2/KpI=;
+ s=k20201202; t=1714634566;
+ bh=dYUwhMXgVlfaVtNX51nJ9f4iUba7AISPkGOpTHRC3Tc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MGcbvCrQDirSeDnPM0TpNimb91ucNM+8g3bD+PgHyc9ntVB+g2zov+7PyIdYgkvsU
- jtz4hactVTRvJISbUNUhpKLI+BBX6iqpPrUpbDLCcpvjR7DDeFB0R05Ou0BZh5TP83
- zhNKgRAdqM3mz/ke21ppHndeEXLoUBxjXf3wJ0WzpkBfzGYq25aX6HVu2Dx5RVmTyI
- 20/F1/pZ70UB763380hHv6L+yrovyv0fDZcNO0MbOeSBT8MK4gpXlYosj28jQEEjsd
- i8xKnp6Z1NSnVOYsRSYFSbcVk4KpQIdp2hl3cYk4nUdwg5CfvMIUB1wnDtVletoO01
- /tNAKvXRfu0xQ==
-Date: Thu, 2 May 2024 08:21:26 +0100
+ b=qjrqIG4yJ5hB09AEXtgo6cllzpZvQNIElLoebW08nYy8qyyUXovS8Q6TtTS9dNst7
+ r/OSNYpewZ46C5wN0BjfV4zU0CqtdI5jyVnu3tvKKv5R7BSVkMgC7C05AJcwgJ5xZL
+ EIoNyr75WetoTfYFH2F5LDleSQe+sukxjstj3wEB2LnomMykLUfz3KP1Z3j08zc0S9
+ FBPgubsGBve6FWJRuargAwMXwjMMXTPUAdTNZauSnPIzHH/ogD7r8O+b9T9odcM3hN
+ wiwNDImqn9nVcNiAnaWqADW/4g08dNGR/P6EwHUVT09ZvUt875HuoDC/z3OsMFEF9B
+ QjBrj5HQLJa5g==
+Date: Thu, 2 May 2024 08:22:39 +0100
 From: Lee Jones <lee@kernel.org>
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>,
@@ -43,17 +43,16 @@ Cc: Daniel Thompson <daniel.thompson@linaro.org>,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-omap@vger.kernel.org,
+ linux-omap@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH v2 19/19] const_structs.checkpatch: add lcd_ops
-Message-ID: <20240502072126.GC5338@google.com>
+Subject: Re: [PATCH v2 00/19] backlight: Constify lcd_ops
+Message-ID: <20240502072239.GD5338@google.com>
 References: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
- <20240424-video-backlight-lcd-ops-v2-19-1aaa82b07bc6@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240424-video-backlight-lcd-ops-v2-19-1aaa82b07bc6@kernel.org>
+In-Reply-To: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,40 +70,77 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, 24 Apr 2024, Krzysztof Kozlowski wrote:
 
-> 'struct lcd_ops' is not modified by core code.
+> Hi,
 > 
-> Suggested-by: Thomas Weißschuh <linux@weissschuh.net>
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Changes in v2:
+> - Collect tags, including wrongly places Thomas' tag (which requires me
+>   to manually edit 15 other patches to drop it).
+> - Combine here checkpatch patch:
+>   https://lore.kernel.org/all/20240414185440.288812-1-krzk@kernel.org/
+> - Link to v1: https://lore.kernel.org/r/20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org
+
+What's missing?  Are we good to go?
+
+> Dependencies
+> ============
+> All further patches depend on the first patch.  Therefore everything
+> could go via backlight tree (please ack) or via cross-tree pulls. Or
+> whatever maintainer choose, just coordinate this with backlight.
+> 
+> Best regards,
+> Krzysztof
 > 
 > ---
+> Krzysztof Kozlowski (19):
+>       backlight: Constify lcd_ops
+>       backlight: ams369fg06: Constify lcd_ops
+>       backlight: corgi_lcd: Constify lcd_ops
+>       backlight: hx8357: Constify lcd_ops
+>       backlight: ili922x: Constify lcd_ops
+>       backlight: ili9320: Constify lcd_ops
+>       backlight: jornada720_lcd: Constify lcd_ops
+>       backlight: l4f00242t03: Constify lcd_ops
+>       backlight: lms283gf05: Constify lcd_ops
+>       backlight: lms501kf03: Constify lcd_ops
+>       backlight: ltv350qv: Constify lcd_ops
+>       backlight: otm3225a: Constify lcd_ops
+>       backlight: platform_lcd: Constify lcd_ops
+>       backlight: tdo24m: Constify lcd_ops
+>       HID: picoLCD: Constify lcd_ops
+>       fbdev: clps711x: Constify lcd_ops
+>       fbdev: imx: Constify lcd_ops
+>       fbdev: omap: lcd_ams_delta: Constify lcd_ops
+>       const_structs.checkpatch: add lcd_ops
 > 
-> Patch making lcd_ops const in progress:
-> https://lore.kernel.org/r/20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org
-> 
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
+>  drivers/hid/hid-picolcd_lcd.c            | 2 +-
+>  drivers/video/backlight/ams369fg06.c     | 2 +-
+>  drivers/video/backlight/corgi_lcd.c      | 2 +-
+>  drivers/video/backlight/hx8357.c         | 2 +-
+>  drivers/video/backlight/ili922x.c        | 2 +-
+>  drivers/video/backlight/ili9320.c        | 2 +-
+>  drivers/video/backlight/jornada720_lcd.c | 2 +-
+>  drivers/video/backlight/l4f00242t03.c    | 2 +-
+>  drivers/video/backlight/lcd.c            | 4 ++--
+>  drivers/video/backlight/lms283gf05.c     | 2 +-
+>  drivers/video/backlight/lms501kf03.c     | 2 +-
+>  drivers/video/backlight/ltv350qv.c       | 2 +-
+>  drivers/video/backlight/otm3225a.c       | 2 +-
+>  drivers/video/backlight/platform_lcd.c   | 2 +-
+>  drivers/video/backlight/tdo24m.c         | 2 +-
+>  drivers/video/fbdev/clps711x-fb.c        | 2 +-
+>  drivers/video/fbdev/imxfb.c              | 2 +-
+>  drivers/video/fbdev/omap/lcd_ams_delta.c | 2 +-
+>  include/linux/lcd.h                      | 6 +++---
+>  scripts/const_structs.checkpatch         | 1 +
+>  20 files changed, 23 insertions(+), 22 deletions(-)
 > ---
->  scripts/const_structs.checkpatch | 1 +
->  1 file changed, 1 insertion(+)
+> base-commit: a59668a9397e7245b26e9be85d23f242ff757ae8
+> change-id: 20240414-video-backlight-lcd-ops-276d8439ffb8
 > 
-> diff --git a/scripts/const_structs.checkpatch b/scripts/const_structs.checkpatch
-> index fa96cfd16e99..52e5bfb61fd0 100644
-> --- a/scripts/const_structs.checkpatch
-> +++ b/scripts/const_structs.checkpatch
-> @@ -39,6 +39,7 @@ kgdb_arch
->  kgdb_io
->  kobj_type
->  kset_uevent_ops
-> +lcd_ops
-
-Acked-by: Lee Jones <lee@kernel.org>
-
->  lock_manager_operations
->  machine_desc
->  microcode_ops
+> Best regards,
+> -- 
+> Krzysztof Kozlowski <krzk@kernel.org>
+> 
 
 -- 
 Lee Jones [李琼斯]
