@@ -2,52 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 143CE8B9BC2
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 15:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBFB8B9BFC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 16:03:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4333A10F03A;
-	Thu,  2 May 2024 13:42:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WGsuvdLc";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29FC010EF8D;
+	Thu,  2 May 2024 14:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1640210FA8C;
- Thu,  2 May 2024 13:42:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D98D6CE16B9;
- Thu,  2 May 2024 13:42:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF5A3C113CC;
- Thu,  2 May 2024 13:42:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714657341;
- bh=WKPsUxWXl4yHvgtoNsaCIYXC/ka2/toWtJoy5D7VxaU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WGsuvdLc+roF8Yz6mXf3HVoKntvXEZfyV56nqpAVi8hGuC39tWCvY5gB7s2zm/EaP
- b336gJCXfZQTSsfbDiCVTwMvguLhaSkEmozTDxLFxg14whPxWqB7Kilzairv/qfH4W
- DdNYer/sUprQ105G1J9XxtufEOPnqogUIRcx0alyW5E4c4/v++HgnUxQmwn2QMBGC/
- 1wMhlvSwxCmiOeJlzsEoQ7Oit+Agf287brQbstKc0dmVH2+w6lf8t2R70UaoG3JsQo
- x8DkKjHyZ30T62vgyrMizG+7jK/Cl35tqIsxAbd9/E19mvNu9dEReH8pmHvjBXbF8W
- U2kNV/8A/0+RA==
-Date: Thu, 2 May 2024 15:42:18 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, daniel@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, airlied@gmail.com, tzimmermann@suse.de,
- rodrigo.vivi@intel.com, intel-xe@lists.freedesktop.org,
- Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH v3 1/4] drm: add devm release action
-Message-ID: <20240502-wakeful-rattlesnake-of-tornado-af78f5@houat>
-References: <20240422065756.294679-1-aravind.iddamsetty@linux.intel.com>
- <20240422065756.294679-2-aravind.iddamsetty@linux.intel.com>
- <20240424-garrulous-realistic-pronghorn-fbfcd5@houat>
- <e54a0551-9484-40c9-abf7-f2e39e101497@linux.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2744510EF8D
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 14:03:46 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 235B22F4;
+ Thu,  2 May 2024 07:04:11 -0700 (PDT)
+Received: from [10.1.36.41] (e122027.cambridge.arm.com [10.1.36.41])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7052F3F73F;
+ Thu,  2 May 2024 07:03:44 -0700 (PDT)
+Message-ID: <84b8595c-db43-4dbe-bb1f-51c117db8f39@arm.com>
+Date: Thu, 2 May 2024 15:03:43 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="dpel2lgqmxvhdsml"
-Content-Disposition: inline
-In-Reply-To: <e54a0551-9484-40c9-abf7-f2e39e101497@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] drm/panthor: Fix tiler OOM handling to allow
+ incremental rendering
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Antonino Maniscalco <antonino.maniscalco@collabora.com>, kernel@collabora.com
+References: <20240430112852.486424-1-boris.brezillon@collabora.com>
+ <20240430112852.486424-2-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240430112852.486424-2-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,87 +51,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 30/04/2024 12:28, Boris Brezillon wrote:
+> From: Antonino Maniscalco <antonino.maniscalco@collabora.com>
+> 
+> If the kernel couldn't allocate memory because we reached the maximum
+> number of chunks but no render passes are in flight
+> (panthor_heap_grow() returning -ENOMEM), we should defer the OOM
+> handling to the FW by returning a NULL chunk. The FW will then call
+> the tiler OOM exception handler, which is supposed to implement
+> incremental rendering (execute an intermediate fragment job to flush
+> the pending primitives, release the tiler memory that was used to
+> store those primitives, and start over from where it stopped).
+> 
+> Instead of checking for both ENOMEM and EBUSY, make panthor_heap_grow()
+> return ENOMEM no matter the reason of this allocation failure, the FW
+> doesn't care anyway.
+> 
+> v2:
+> - Make panthor_heap_grow() return -ENOMEM for all kind of allocation
+>   failures
+> - Document the panthor_heap_grow() semantics
+> 
+> Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
+> Signed-off-by: Antonino Maniscalco <antonino.maniscalco@collabora.com>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
---dpel2lgqmxvhdsml
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-On Wed, Apr 24, 2024 at 06:06:52PM +0530, Aravind Iddamsetty wrote:
->=20
-> On 24/04/24 17:21, Maxime Ripard wrote:
-> > On Mon, Apr 22, 2024 at 12:27:53PM +0530, Aravind Iddamsetty wrote:
-> >> In scenarios where drm_dev_put is directly called by driver we want to
-> >> release devm_drm_dev_init_release action associated with struct
-> >> drm_device.
-> >>
-> >> v2: Directly expose the original function, instead of introducing a
-> >> helper (Rodrigo)
-> >>
-> >> v3: add kernel-doc (Maxime Ripard)
-> >>
-> >> Cc: Maxime Ripard <mripard@kernel.org>
-> >> Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
-> >> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> >>
-> >> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> >> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-> >> ---
-> >>  drivers/gpu/drm/drm_drv.c | 13 +++++++++++++
-> >>  include/drm/drm_drv.h     |  2 ++
-> >>  2 files changed, 15 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> >> index 243cacb3575c..9d0409165f1e 100644
-> >> --- a/drivers/gpu/drm/drm_drv.c
-> >> +++ b/drivers/gpu/drm/drm_drv.c
-> >> @@ -714,6 +714,19 @@ static int devm_drm_dev_init(struct device *paren=
-t,
-> >>  					devm_drm_dev_init_release, dev);
-> >>  }
-> >> =20
-> >> +/**
-> >> + * devm_drm_dev_release_action - Call the final release action of the=
- device
-> >> + * @dev: DRM device
-> >> + *
-> >> + * In scenarios where drm_dev_put is directly called by driver we wan=
-t to release
-> >> + * devm_drm_dev_init_release action associated with struct drm_device.
-> >> + */
-> > I'm not entirely sure what you mean by that documentation. "In scenarios
-> > where drm_dev_put is directly called by the driver", we wouldn't need to
-> > consider that function at all, right?
->=20
-> the drm_dev_put is not being invoked by drivers directly but that is
-> associated with devres releases and the scenario here I meant if
-> drivers want to have that called by themselves.
+Thanks,
+Steve
 
-Then that needs to be rephrased to mention both that it applies only to
-drivers using devm_drm_dev_alloc, and if they want to drop their
-reference earlier than anticipated.
+> ---
+>  drivers/gpu/drm/panthor/panthor_heap.c  | 12 ++++++++----
+>  drivers/gpu/drm/panthor/panthor_sched.c |  7 ++++++-
+>  2 files changed, 14 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
+> index 143fa35f2e74..c3c0ba744937 100644
+> --- a/drivers/gpu/drm/panthor/panthor_heap.c
+> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+> @@ -410,6 +410,13 @@ int panthor_heap_return_chunk(struct panthor_heap_pool *pool,
+>   * @renderpasses_in_flight: Number of render passes currently in-flight.
+>   * @pending_frag_count: Number of fragment jobs waiting for execution/completion.
+>   * @new_chunk_gpu_va: Pointer used to return the chunk VA.
+> + *
+> + * Return:
+> + * - 0 if a new heap was allocated
+> + * - -ENOMEM if the tiler context reached the maximum number of chunks
+> + *   or if too many render passes are in-flight
+> + *   or if the allocation failed
+> + * - -EINVAL if any of the arguments passed to panthor_heap_grow() is invalid
+>   */
+>  int panthor_heap_grow(struct panthor_heap_pool *pool,
+>  		      u64 heap_gpu_va,
+> @@ -439,10 +446,7 @@ int panthor_heap_grow(struct panthor_heap_pool *pool,
+>  	 * handler provided by the userspace driver, if any).
+>  	 */
+>  	if (renderpasses_in_flight > heap->target_in_flight ||
+> -	    (pending_frag_count > 0 && heap->chunk_count >= heap->max_chunks)) {
+> -		ret = -EBUSY;
+> -		goto out_unlock;
+> -	} else if (heap->chunk_count >= heap->max_chunks) {
+> +	    heap->chunk_count >= heap->max_chunks) {
+>  		ret = -ENOMEM;
+>  		goto out_unlock;
+>  	}
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index b3a51a6de523..fd928362d45e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -1354,7 +1354,12 @@ static int group_process_tiler_oom(struct panthor_group *group, u32 cs_id)
+>  					pending_frag_count, &new_chunk_va);
+>  	}
+>  
+> -	if (ret && ret != -EBUSY) {
+> +	/* If the heap context doesn't have memory for us, we want to let the
+> +	 * FW try to reclaim memory by waiting for fragment jobs to land or by
+> +	 * executing the tiler OOM exception handler, which is supposed to
+> +	 * implement incremental rendering.
+> +	 */
+> +	if (ret && ret != -ENOMEM) {
+>  		drm_warn(&ptdev->base, "Failed to extend the tiler heap\n");
+>  		group->fatal_queues |= BIT(cs_id);
+>  		sched_queue_delayed_work(sched, tick, 0);
 
-> > Also, we should reference it in drm_dev_put and devm_drm_dev_alloc too.
->=20
-> sorry I didn't get this can you please elaborate.
-
-devm_drm_dev_alloc needs to point at this new function to mention that
-we can drop the reference explicitly. And drm_dev_put needs to mention
-that it only applies to non-devm drivers, and if we want to drop the
-reference on a devm driver, we need to call this new function.
-
-Maxime
-
---dpel2lgqmxvhdsml
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZjOYMgAKCRAnX84Zoj2+
-dhgNAX9K9kvLmZUOCM8Pn6TejNzLHJv5HbOe+0eeQVXz/smnUT+AFA+UYvUOij4O
-KfBriDYBgL25AWQPTtyjIWFhBWn/ocily10sx2PmOCT9ZO0BqlrYFCCzdmepccaf
-hgWWAnOsSA==
-=uaxv
------END PGP SIGNATURE-----
-
---dpel2lgqmxvhdsml--
