@@ -2,171 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DBCC8B9EBC
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 18:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE038B9EC4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 18:40:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD6321125DE;
-	Thu,  2 May 2024 16:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49CB31125AC;
+	Thu,  2 May 2024 16:40:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ix9nsMcx";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="gBZ1bPnz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 690C61125B7;
- Thu,  2 May 2024 16:37:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714667874; x=1746203874;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=T53GrUnlDndSBKuNbnRGsM/r3ZC8MtObbgM5O0/mjfA=;
- b=Ix9nsMcxl86NCzwK06cUj+bX9qS3Aq/uF25KDdc/zkXGMqYwqdI0/ddj
- uP2eYvnkHrs2Eb4CTezmZ+8HxR9fPEIdLO1RVQ6plRMpNDdvxenLrCI0C
- q3H4sLAiILjmlxqyHxy384axFd9eetfaTP5vFWk3EMlRXjCi9sjdtIEsg
- dvCfROT5lSJhBbVfcML6e3FfRJuW1Swzx4AuGhGisqS54VTbakuq61kG5
- 82wCJTQPW2v/U5O9DoULr5OtsAePO6hI0AuOuLDC39oPZE5c2ODcCy7Xu
- b3aQHLhKzb1ucGnT12dt38wGifp3EPmGM1qX7sgrw5Vd95nkIbd4UuFs4 Q==;
-X-CSE-ConnectionGUID: J0dtbxzVTgCOGcdNAO6C3w==
-X-CSE-MsgGUID: tRCzM9GfSjyqjLld2m/YJg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10987688"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="10987688"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2024 09:37:45 -0700
-X-CSE-ConnectionGUID: ao/tq2i7RhKLsv/oEx8kuA==
-X-CSE-MsgGUID: 1J3fXTdWSZ6/mN/kQX02uw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="58061460"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 02 May 2024 09:37:44 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 2 May 2024 09:37:44 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 2 May 2024 09:37:43 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 2 May 2024 09:37:43 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 2 May 2024 09:37:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gMQGnFsfGMj6BPqttZ87asJU9kWwZ+seV7l6hJWkEeSvj1Vk8gGUlEW1MOXXscbPSeWZ7Lc2HKOcyvDHFjP7yxoDrQJUEZDr6jRtcaGlpuSzY0s9EHZ4SlMyJOZIGze9nXHu1MYGp1a5jcqpN9eS7Yw6Jj/nMk0K0DWf9rgK/9SMW/y3INWXpjIOsc9Z9vc4M8qaXmbGo6WFqFUodA+lKrzpBtQH28srogtwO9uBZy5l4ZYH+JCenrGIyNwn9oGlwV5h/FdteJawhO1bDUxjSlfBqx7QlvIla28Mu8wH7RNaLGZKinZ4xI0+efprepx+c0orwt3LLav9TOWvA4ImOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rl0WUz0UcLyEDwBNzeEucPVBmbTYhGlWlaeT6TNOSD0=;
- b=VBoC97JdMDGC4LrIy8gxVlM+6ZW6lngderHoDBaM4BBuzaPqQZMGRXEG7Sf1MZg8Aoev7Wh5kGcSxUCueCf18g0ZlSzI+RjWuzgl2gPCx6rTkjHCagmMgcfwYN4VSDnShmoBbD3GnEUrt3jz1NN8QiZ3pfkwCiVgNdZhk6ih88cu6I45RtJCfY0xDzsuNkX2FOIhyLKClfO+0Ev/Xg2HS2K64GA49PwLp13roggXdhHNsH4bAkgWvSIoZQGhteGnxKK4oU8jnloYh52J6vtRhFcaMrs0R1bEaITVvWFWvx5BAJ2qa5VzLHwnk5zORAncTjsrzp5v2NXVE5KAJXlz+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by SJ0PR11MB8270.namprd11.prod.outlook.com (2603:10b6:a03:479::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.34; Thu, 2 May
- 2024 16:37:35 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::9365:d8e6:4e8d:8711]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::9365:d8e6:4e8d:8711%6]) with mapi id 15.20.7519.031; Thu, 2 May 2024
- 16:37:35 +0000
-Date: Thu, 2 May 2024 11:37:30 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
- De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <dim-tools@lists.freedesktop.org>
-Subject: [PULL] drm-xe-fixes
-Message-ID: <6bontwst3mbxozs6u3ad5n3g5zmaucrngbfwv4hkfhpscnwlym@wlwjgjx6pwue>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-X-ClientProxiedBy: MW4PR04CA0330.namprd04.prod.outlook.com
- (2603:10b6:303:82::35) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
+ [209.85.167.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDE861125A8
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 16:40:41 +0000 (UTC)
+Received: by mail-oi1-f174.google.com with SMTP id
+ 5614622812f47-3c750fd1202so4772911b6e.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 09:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1714668036; x=1715272836;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AEnee6ah2poDn5i64PbPAXVhct8y7uUBex4L7IT1hm0=;
+ b=gBZ1bPnzpyWyjdOumpC1VPD/mZ6GcrQuYFf3RHy5hXYXGkJxY9Vqb7dQFL23MuBgEV
+ iudDBBvXfpyu866aHdm0IOxTp2QxBNojPH/tiByfjiD7dXyWaEYcKX8ynrLN6Q8nkmtu
+ +Y0NcjArJEcNydjJUXJbVDDyobEoc5e0k17+4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714668036; x=1715272836;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AEnee6ah2poDn5i64PbPAXVhct8y7uUBex4L7IT1hm0=;
+ b=mVcvOcRXfB30F4ig52vOHs+CWX8HbyZgK48RuLBJhTs2hahuLYlq/YcHR6loXJgkPf
+ JxZC804t7If0UidTm12dJ4mAKMIehyCqLqhZ0cDwTyojCvR3lcnS/tBpJb4NBct6fSnP
+ xzXPG3s1WNiwKpX18wdYVqMoEq3k6+S4bOk0YqyxHxkIkX8LIO5k54KKsB92ptxsaH88
+ tKiepVlO/xKrlt4WjAWoS9XcntpqGAiVauGNZWQWrhNKLebBuqvoBA0G5LRVsp38OpRu
+ fhbWnbvYk8hMR6V3A8KOvRRUPeSzdXd1lyvF8PfTkVY0QeXwiFtD67qT+UUeRnCzwIq0
+ 51Zg==
+X-Gm-Message-State: AOJu0YzqN4AGCJ5ELdN1k6GrZKhFgTAyt6F3hB0okwPs/2SYiDLA9WdC
+ XrbCFijp7+RRINIJ7H79MdXAQOM+s8Vwvsb/VPRUj64zmvNnu1NS5KpR4l50HqC1LgengAe6J1k
+ =
+X-Google-Smtp-Source: AGHT+IF8BckCPPnJLHbYfTR2HWH87wVM+5SH9NzaQa4yLHvArHFYGxUgzrMatg7iqXQucIikAuQvIA==
+X-Received: by 2002:a05:6808:1816:b0:3c8:6551:8125 with SMTP id
+ bh22-20020a056808181600b003c865518125mr570833oib.6.1714668035965; 
+ Thu, 02 May 2024 09:40:35 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com.
+ [209.85.160.175]) by smtp.gmail.com with ESMTPSA id
+ s22-20020ac87596000000b0043ad7ddda16sm605353qtq.97.2024.05.02.09.40.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 May 2024 09:40:34 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id
+ d75a77b69052e-43ae23431fbso3581cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 09:40:32 -0700 (PDT)
+X-Received: by 2002:a05:622a:190d:b0:437:b631:b8fb with SMTP id
+ d75a77b69052e-43caa5b67b6mr4063341cf.26.1714668032250; Thu, 02 May 2024
+ 09:40:32 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ0PR11MB8270:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ae33c00-6fdf-4be6-0ee9-08dc6ac62bf7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|7416005|1800799015|376005;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DUsT+M+WQtzhuAZHIumcza2MVEtoxv4U4oBH1tNENJ/j55SWFmMg4ajyanen?=
- =?us-ascii?Q?eVcOrAPafaDpVoPlaN933ykcKOQDNQpzmCOu4FrYmF8oVh/3ptbBeRwxT+Lh?=
- =?us-ascii?Q?lnDl2cqj8X1GId91xJLY6+O7mSxgdMmUYwUuEjIEpn7PLU2FCCu5V6VsuEgy?=
- =?us-ascii?Q?0eVLYPkhlVUT9nISmM9za8ggIhdcKiI+c4w3gDjnlM2roAw5dAP7P1gxoIOo?=
- =?us-ascii?Q?p+ym5CQ1+ML18cKYN3XK25a9pIdEWhhowN0Sv6iOegtmZtJQXj+Xee8c+E94?=
- =?us-ascii?Q?OUYrcrfsm3dYkQhq3ieDZ1hGUXb/i1TX033M/Z/3RhMROjusJA0EmU+Pe4lG?=
- =?us-ascii?Q?UCcbjLri5ubnqv4FKhQEjwsx9uzONE/Wk7oXNoBn8VXilvBClo5sIDYbETNf?=
- =?us-ascii?Q?CaaRMucIZ3QTakpATc6Lld2mxzSKMNCZUNao3qTuq1Kcd2IJE9oADCQbIBEs?=
- =?us-ascii?Q?eEuDInNeRZEDI/r9f8l9tzIkmfFk2nFyT5/0USASMeZzD2Fo5nPscEDPWSqI?=
- =?us-ascii?Q?Zkm7T0Yjeaov4+DNmMyTEeGf0aKcHzLEDUAKUPLC2Nl1HHI7Y9WB/BjSMGqD?=
- =?us-ascii?Q?+dbHO0NUf39nYvIF2gerulao7GvkOngNXfKHjD93RQ3EHHNBSrpvuO9hDDts?=
- =?us-ascii?Q?P1C3/pqOJGYDqNNGISDjKMFSoQUcRjoQaVdxdcIjAMBXedUR/zi8J+k7bbNo?=
- =?us-ascii?Q?Fj8yzvK8jNQ59mQAaDeTnsKoQUmbmzu9BMWmPHfR3sI+KvfpRFd+PHxGDGuA?=
- =?us-ascii?Q?/R1C7efgic7+z3dJC77Yuc9jF8RLZv265sIVI1SRkNtIiFr7+wMut4e6UilO?=
- =?us-ascii?Q?HnSKEcuMzh0iip+J7qweegZIgwkOQUT0FkWtHlquf+pfOF4RkeXZ8wYfzDZT?=
- =?us-ascii?Q?0Ko0X00Hj1g/GOYyKw7wrvmme6fveRC4AuI2BZUPG/V7YFumLvAIEzaPioxr?=
- =?us-ascii?Q?6J2p8JOlhbMuUmvv6SMcLjfiJvlZMWooTVGusA/v4hBuMbvVCYxnYCx99YCz?=
- =?us-ascii?Q?7wpllJNi90yVJROC9vRaBUh5o3qSkOXKwLnSCi9AH8m84NXmalBD+NJHm4ci?=
- =?us-ascii?Q?kHbQ5d3ToFQKplMrbr67wwWvOP/UodWkHe5S/4mxRnqfibNfm1iwUwbNs127?=
- =?us-ascii?Q?Q5WpYEPf7tE0C0Ag613iON1B9dpLep7GQ/nVtYxjk2fF2UecgJ/SoZUkm0t4?=
- =?us-ascii?Q?TyGRX61jEyOmnxhK/FCUEjXG6BNO1F9mra98sF48YxURYbfhMkgYPz9RsOQ?=
- =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(7416005)(1800799015)(376005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?973VWqqu0bm08aCIH6JqANKrVa69AgMgjyPg8/wr5nsrXnF29eHbM4EyVy+n?=
- =?us-ascii?Q?+2gLvnKpfN/S26ZFRcXSQNIjk+LGG3vaSEfhaRxKJslpRI16MhjpRyf/3Z/b?=
- =?us-ascii?Q?XHdPOr4otFR10ZW3mclcXeXS0104vkmwOJePCZjS05caATLf94IVCIW85ktR?=
- =?us-ascii?Q?Hs4v6k5sluJQC2A87cwEguUOAOqTIGxNjZABG5cvKe1O9oDOF/mjYHcmreed?=
- =?us-ascii?Q?RaVbIyJqDoOESfrbgZfRBRLw/Okpgk/AJ2tqmTx5LG23D1nXpPbd1yrZu9gk?=
- =?us-ascii?Q?ee5sX291lhSicdZNJWwOldBdGm5qGWxHsxwvUHqBHaqWb6H/k2GpqCmg+yvU?=
- =?us-ascii?Q?DEoBkb5yNmjYfqKRl0vFCuQ3xbQyp6ncnrpobC8/Kfba8DhNFLw6c8L340UA?=
- =?us-ascii?Q?cWoOrWWMC1d1jFvp9FnXntX+WFEyhoxUfH4HJ21aI0lsEjjH9xqUQiF2IkB6?=
- =?us-ascii?Q?+O+RTH2TKVTjckXLOGFDX3+fpUeQx2MWAghUqGR/azAoj5CFnDQpsnFwGKOm?=
- =?us-ascii?Q?4ZhdICDyCJllGZjq1JdAobf7tw8UUcb8mgfvCMIUtm9oVE530jikX5afojdU?=
- =?us-ascii?Q?mamh3JVYrvJNiLaSbXw3MCuzKyhRIqX4DHn/ekF8AnZ8MDrJimqCnSLM5ujo?=
- =?us-ascii?Q?TZcC81aTnLTA9i7/5m4RcJ+ydeLgmJT5t1vTiLk2CDYyNy8mrnmkn2qAJrDN?=
- =?us-ascii?Q?fa0kyUyrGKiUcOPaqG7fNe4y10Z1zsr9zqD/4x5PkNCi655A8Y9EFr2dcTkB?=
- =?us-ascii?Q?uRkZ9BFb5HBQQGtywyCiAltQLxwOgNuzz5eaoE2v5QgtUkOTQmDkv1qaG+E+?=
- =?us-ascii?Q?u5NgsXscH9TnTNq7ZRQ9+roBh8Uhx7X2dtKFJheIa4N6xAad4vTGWubmTD/R?=
- =?us-ascii?Q?uJwnSagsIpcqWgT19OUyfzHsCHX81umRTMiaMm8KnLVV0gnNT9ulLioCMk5P?=
- =?us-ascii?Q?ot4XL3Lmu+4lnlhuSdVteFVcQxrzjq8jb6jccHG0lS0kg6+8i560cyUZo2Wf?=
- =?us-ascii?Q?tGc3Euiyy+JKh0/7qOT4Wt+h0BwaYZ04f+XidIP6zW98Cpx9SYeMxPDKQ8Uz?=
- =?us-ascii?Q?fKgvAvWHxwOax6IjN9/mTbFIsRBoKtpu4jg/1XYQRWg01SInpiVs7pNMsprk?=
- =?us-ascii?Q?qIcQDxJ2l0OTLemMCbb225hSC6zKgxoRSvvqOR4O1oQvin25iYhoCYijdyEL?=
- =?us-ascii?Q?bYVx00jv76gtETgZHAxM7xZBMHoxVXltZzDMO5uUSBcyujT4j31SQaIt/Ljq?=
- =?us-ascii?Q?Vd3i1szm2LIhfzGSGaZ9aed40/czCG4B3b1N3Ejiw5CunkoEqkegJsqzpHBS?=
- =?us-ascii?Q?Nv6rCr7hdwJTbhGq4ZPv51KcUufMsR4bUYAgS9V32Udn9/b6pTgj0VV2Zew/?=
- =?us-ascii?Q?UJOCOYnDWCgZ0RJ94VjLSHZzDdqV3QiPoA5AEICbrjTaAakHWavIS2NKpZ57?=
- =?us-ascii?Q?jMluois4E7/W9TwNc4HmbkB0+IYKn7Sqc6bxL9serHWU+99pa8DYp3oyYrtS?=
- =?us-ascii?Q?adNsa8HmoXU1yN4b/s8/CkFAX/pivDfdX7ExheWUrA54TEZkcyVtu4ACKhOk?=
- =?us-ascii?Q?1kocBDEZB0ldMjZISQZg8YQShm+y7OfDRs2UVuT8nz5tF56B6A6hEK03xQGE?=
- =?us-ascii?Q?4w=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ae33c00-6fdf-4be6-0ee9-08dc6ac62bf7
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2024 16:37:35.5825 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jfWkGQjhtDt6i9O5lRFL7h9/PQtHmYz23SobxPY+K3t/l4z2kA84EPHbyiNCKI11Hn+vB3MV7CsL+2WRbAyqNnG8laMkt/QdCFPpuSN0FKQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB8270
-X-OriginatorOrg: intel.com
+References: <20240501154251.3302887-1-dianders@chromium.org>
+ <20240501084109.v3.7.Ib5030ab5cd41b4e08b1958bd7e51571725723008@changeid>
+ <CACRpkdYiND3uLAbFqyGEYgi5+ycOTYoncmSYGTsYtTZ7Ox=4DQ@mail.gmail.com>
+In-Reply-To: <CACRpkdYiND3uLAbFqyGEYgi5+ycOTYoncmSYGTsYtTZ7Ox=4DQ@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 2 May 2024 09:40:16 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U59+au4Sfi5xdxmCAEaAVq7YguM2FjkyF+OYX16ydW4w@mail.gmail.com>
+Message-ID: <CAD=FV=U59+au4Sfi5xdxmCAEaAVq7YguM2FjkyF+OYX16ydW4w@mail.gmail.com>
+Subject: Re: [PATCH v3 7/9] drm/panel: boe-tv101wum-nl6: Don't use a table for
+ initting panels
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ Hsin-Yi Wang <hsinyi@google.com>, 
+ Brian Norris <briannorris@chromium.org>, Sam Ravnborg <sam@ravnborg.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Joel Selvaraj <jo@jsfamily.in>, lvzhaoxiong@huaqin.corp-partner.google.com, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,42 +102,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Sima,
+Hi,
 
-Please pull the drm-xe-fixes for this week targeting v6.9-rc7.
+On Thu, May 2, 2024 at 6:42=E2=80=AFAM Linus Walleij <linus.walleij@linaro.=
+org> wrote:
+>
+> On Wed, May 1, 2024 at 5:43=E2=80=AFPM Douglas Anderson <dianders@chromiu=
+m.org> wrote:
+>
+> > Consensus on the mailing lists is that panels shouldn't use a table of
+> > init commands but should instead use init functions. With the recently
+> > introduced mipi_dsi_dcs_write_seq_multi() this is not only clean/easy
+> > but also saves space. Measuring before/after this change:
+> >
+> > $ scripts/bloat-o-meter \
+> >   .../before/panel-boe-tv101wum-nl6.ko \
+> >   .../after/panel-boe-tv101wum-nl6.ko
+> > add/remove: 14/8 grow/shrink: 0/1 up/down: 27062/-31433 (-4371)
+> > Function                                     old     new   delta
+> > inx_hj110iz_init                               -    7040   +7040
+> > boe_tv110c9m_init                              -    6440   +6440
+> > boe_init                                       -    5916   +5916
+> > starry_qfh032011_53g_init                      -    1944   +1944
+> > starry_himax83102_j02_init                     -    1228   +1228
+> > inx_hj110iz_init.d                             -    1040   +1040
+> > boe_tv110c9m_init.d                            -     982    +982
+> > auo_b101uan08_3_init                           -     944    +944
+> > boe_init.d                                     -     580    +580
+> > starry_himax83102_j02_init.d                   -     512    +512
+> > starry_qfh032011_53g_init.d                    -     180    +180
+> > auo_kd101n80_45na_init                         -     172    +172
+> > auo_b101uan08_3_init.d                         -      82     +82
+> > auo_kd101n80_45na_init.d                       -       2      +2
+> > auo_kd101n80_45na_init_cmd                   144       -    -144
+> > boe_panel_prepare                            592     440    -152
+> > auo_b101uan08_3_init_cmd                    1056       -   -1056
+> > starry_himax83102_j02_init_cmd              1392       -   -1392
+> > starry_qfh032011_53g_init_cmd               2256       -   -2256
+> > .compoundliteral                            3393       -   -3393
+> > boe_init_cmd                                7008       -   -7008
+> > boe_tv110c9m_init_cmd                       7656       -   -7656
+> > inx_hj110iz_init_cmd                        8376       -   -8376
+> > Total: Before=3D37297, After=3D32926, chg -11.72%
+> >
+> > Let's do the conversion.
+> >
+> > Since we're touching all the tables, let's also convert hex numbers to
+> > lower case as per kernel conventions.
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>
+> Wow that's a *VERY* nice patch.
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Two important fixes: one avoiding a use-after-free in the rebind worker
-and the other to make display work in ADL-N.
+Thanks!
 
-thanks
-Lucas De Marchi
 
-drm-xe-fixes-2024-05-02:
-- Fix UAF on rebind worker
-- Fix ADL-N display integration
-The following changes since commit e67572cd2204894179d89bd7b984072f19313b03:
+> The metrics surprisingly reports more compact object code,
+> I wasn't expecting this, but it's nice.
 
-   Linux 6.9-rc6 (2024-04-28 13:47:24 -0700)
+I think it has to do with the design of the table structure in this
+driver. Each "struct panel_init_cmd" was 24-bytes big. That means that
+to represent one 1-byte sequence we needed 24 bytes + 1 bytes cmd + 1
+byte seq =3D 26 bytes. Lots of overhead for 2 bytes of content. The old
+table stuff could certainly have been made _a lot_ less overhead, but
+since it wasn't then it also wasn't hard to be better than it with it
+via the new style.
 
-are available in the Git repository at:
+FWIW, it also wouldn't be terribly hard to save a tiny bit more space
+with the new style if we wanted. It gets a little ugly, but it doesn't
+affect callers of the macro. Specifically, if you assume people aren't
+going to pass more than 256-byte sequences, you could stuff the length
+in the data:
 
-   https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2024-05-02
+ #define mipi_dsi_dcs_write_seq_multi(ctx, cmd, seq...)                  \
+-       do {                                                            \
+-               static const u8 d[] =3D { cmd, seq };                     \
+-               mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
++       do { \
++               static const u8 d[] =3D { \
++                       (sizeof((u8[]){seq})/sizeof(u8)) + 1, cmd, seq }; \
++               mipi_dsi_dcs_write_buffer_multi(ctx, d); \
+        } while (0)
 
-for you to fetch changes up to df04b152fca2d46e75fbb74ed79299bc420bc9e6:
 
-   drm/xe/display: Fix ADL-N detection (2024-05-02 11:11:01 -0500)
+...and then snag the length out of the first byte of the data in
+mipi_dsi_dcs_write_buffer_multi(). If you do this, you actually get
+another 10% space savings on this driver. :-P
 
-----------------------------------------------------------------
-- Fix UAF on rebind worker
-- Fix ADL-N display integration
+add/remove: 0/0 grow/shrink: 7/7 up/down: 1140/-4560 (-3420)
+Function                                     old     new   delta
+inx_hj110iz_init.d                          1040    1385    +345
+boe_tv110c9m_init.d                          982    1297    +315
+boe_init.d                                   580     870    +290
+starry_qfh032011_53g_init.d                  180     271     +91
+starry_himax83102_j02_init.d                 512     568     +56
+auo_b101uan08_3_init.d                        82     123     +41
+auo_kd101n80_45na_init.d                       2       4      +2
+auo_kd101n80_45na_init                       172     164      -8
+auo_b101uan08_3_init                         944     780    -164
+starry_himax83102_j02_init                  1228    1004    -224
+starry_qfh032011_53g_init                   1944    1580    -364
+boe_init                                    5916    4756   -1160
+boe_tv110c9m_init                           6440    5180   -1260
+inx_hj110iz_init                            7040    5660   -1380
+Total: Before=3D32906, After=3D29486, chg -10.39%
 
-----------------------------------------------------------------
-Lucas De Marchi (1):
-       drm/xe/display: Fix ADL-N detection
+I feel like people would balk at that, though...
 
-Matthew Auld (1):
-       drm/xe/vm: prevent UAF in rebind_work_func()
-
-  drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h | 3 ++-
-  drivers/gpu/drm/xe/xe_vm.c                        | 3 +++
-  2 files changed, 5 insertions(+), 1 deletion(-)
+-Doug
