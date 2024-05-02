@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8D28B9EEC
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 18:53:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B4C8B9EEE
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 18:53:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 788D61125C8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBEB910FA0A;
 	Thu,  2 May 2024 16:53:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Wce3OJXs";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HTKJ3Orj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89DA710FA0A
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 16:53:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5244E10FA0A
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 16:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714668796;
- bh=6rQodOsQHYJp6zHIoEDIx9C5FLG59SiV5uWTRXH+5mo=;
+ s=mail; t=1714668797;
+ bh=OnllDPei0At6ZNVbYT9imDID39CmCjUAhlGq/1o6ktQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Wce3OJXsSsCwFwyo5Pz9islQRO0W9jTAF8sKIwJ1mgyb+lQisnD1pzc/guGXpZ/n+
- OJwFCee9GamnaPYaJ5/fq19ONBDZC1a/WC30MoK6canpesifUzFn/oe+bvE7w4huPn
- 3Is/iv+6jZERAU9iTGFhwu5srtBiT9lkgykMMrRkIqrkx0oH+GiuUoonEz/hmEwkwd
- eyiPUYO9jCw+BEQ3J15JZBwf8YWbt0XWED3HifiPaPscuVCgk6Z1DPv5pLGSYpKcN2
- aPMFrkl9hom2mKUOm+uGyzsNLgxnvZ2ltNyxbtC60niQXHEHWuyubAeJWhHTh/Huk+
- oLGBC1AWScLsA==
+ b=HTKJ3OrjYAcBqbYiFuZVhbSbUVGwDsS2SFfBBR3ZCf1yBJpwyVcg69lzly94p0CF+
+ RjzvD8Vz+wmb8FVEGJRj+HX0IfK3UyC1REYHPrbFBytFfijwJuYzOYlaBrvlkqIZFj
+ o41n10K8Wrh6YUUfNQNznxj1uSjCKrhL55xsrYVA2SqmhkpNf6Ddn4tCbk4Wua6zTv
+ NFGmJGQD/mDt/P4ihwxFGXE6+gzFAwjIIq2jdqLVb2IjfWCJPdwA+rn4tewTJqBDxi
+ 9n1l02N9PORNNeUi7FLPDLv7HA1bm10vJlpLp8rSE8LyZZTK/3g2gNNuCQPiPNwHrd
+ KWAwkIaVZI0CQ==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 005C3378214B;
- Thu,  2 May 2024 16:53:15 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9BCD93782121;
+ Thu,  2 May 2024 16:53:16 +0000 (UTC)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
-	kernel@collabora.com
-Subject: [PATCH v4 3/5] drm/panthor: Relax the constraints on the tiler chunk
- size
-Date: Thu,  2 May 2024 18:51:56 +0200
-Message-ID: <20240502165158.1458959-4-boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ Eric Smith <eric.smith@collabora.com>
+Subject: [PATCH v4 4/5] drm/panthor: Fix an off-by-one in the heap context
+ retrieval logic
+Date: Thu,  2 May 2024 18:51:57 +0200
+Message-ID: <20240502165158.1458959-5-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240502165158.1458959-1-boris.brezillon@collabora.com>
 References: <20240502165158.1458959-1-boris.brezillon@collabora.com>
@@ -62,80 +62,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The field used to store the chunk size if 12 bits wide, and the encoding
-is chunk_size = chunk_header.chunk_size << 12, which gives us a
-theoretical [4k:8M] range. This range is further limited by
-implementation constraints, and all known implementations seem to
-impose a [128k:8M] range, so do the same here.
-
-We also relax the power-of-two constraint, which doesn't seem to
-exist on v10. This will allow userspace to fine-tune initial/max
-tiler memory on memory-constrained devices.
+The heap ID is used to index the heap context pool, and allocating
+in the [1:MAX_HEAPS_PER_POOL] leads to an off-by-one. This was
+originally to avoid returning a zero heap handle, but given the handle
+is formed with (vm_id << 16) | heap_id, with vm_id > 0, we already can't
+end up with a valid heap handle that's zero.
 
 v4:
-- Actually fix the range in the kerneldoc
+- s/XA_FLAGS_ALLOC1/XA_FLAGS_ALLOC/
 
 v3:
-- Add R-bs
-- Fix valid range in the kerneldoc
+- Allocate in the [0:MAX_HEAPS_PER_POOL-1] range
 
 v2:
-- Turn the power-of-two constraint into a page-aligned constraint to allow
-  fine-tune of the initial/max heap memory size
-- Fix the panthor_heap_create() kerneldoc
+- New patch
 
 Fixes: 9cca48fa4f89 ("drm/panthor: Add the heap logical block")
+Reported-by: Eric Smith <eric.smith@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
+Tested-by: Eric Smith <eric.smith@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_heap.c | 8 ++++----
- include/uapi/drm/panthor_drm.h         | 6 +++++-
- 2 files changed, 9 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panthor/panthor_heap.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-index 3be86ec383d6..b0fc5b9ee847 100644
+index b0fc5b9ee847..95a1c6c9f35e 100644
 --- a/drivers/gpu/drm/panthor/panthor_heap.c
 +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-@@ -253,8 +253,8 @@ int panthor_heap_destroy(struct panthor_heap_pool *pool, u32 handle)
-  * @pool: Pool to instantiate the heap context from.
-  * @initial_chunk_count: Number of chunk allocated at initialization time.
-  * Must be at least 1.
-- * @chunk_size: The size of each chunk. Must be a power of two between 256k
-- * and 2M.
-+ * @chunk_size: The size of each chunk. Must be page-aligned and lie in the
-+ * [128k:8M] range.
-  * @max_chunks: Maximum number of chunks that can be allocated.
-  * @target_in_flight: Maximum number of in-flight render passes.
-  * @heap_ctx_gpu_va: Pointer holding the GPU address of the allocated heap
-@@ -284,8 +284,8 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
- 	if (initial_chunk_count > max_chunks)
- 		return -EINVAL;
+@@ -323,7 +323,8 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
+ 	if (!pool->vm) {
+ 		ret = -EINVAL;
+ 	} else {
+-		ret = xa_alloc(&pool->xa, &id, heap, XA_LIMIT(1, MAX_HEAPS_PER_POOL), GFP_KERNEL);
++		ret = xa_alloc(&pool->xa, &id, heap,
++			       XA_LIMIT(0, MAX_HEAPS_PER_POOL - 1), GFP_KERNEL);
+ 		if (!ret) {
+ 			void *gpu_ctx = panthor_get_heap_ctx(pool, id);
  
--	if (hweight32(chunk_size) != 1 ||
--	    chunk_size < SZ_256K || chunk_size > SZ_2M)
-+	if (!IS_ALIGNED(chunk_size, PAGE_SIZE) ||
-+	    chunk_size < SZ_128K || chunk_size > SZ_8M)
- 		return -EINVAL;
+@@ -543,7 +544,7 @@ panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
+ 	pool->vm = vm;
+ 	pool->ptdev = ptdev;
+ 	init_rwsem(&pool->lock);
+-	xa_init_flags(&pool->xa, XA_FLAGS_ALLOC1);
++	xa_init_flags(&pool->xa, XA_FLAGS_ALLOC);
+ 	kref_init(&pool->refcount);
  
- 	down_read(&pool->lock);
-diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index 5db80a0682d5..b8220d2e698f 100644
---- a/include/uapi/drm/panthor_drm.h
-+++ b/include/uapi/drm/panthor_drm.h
-@@ -898,7 +898,11 @@ struct drm_panthor_tiler_heap_create {
- 	/** @initial_chunk_count: Initial number of chunks to allocate. Must be at least one. */
- 	__u32 initial_chunk_count;
- 
--	/** @chunk_size: Chunk size. Must be a power of two at least 256KB large. */
-+	/**
-+	 * @chunk_size: Chunk size.
-+	 *
-+	 * Must be page-aligned and lie in the [128k:8M] range.
-+	 */
- 	__u32 chunk_size;
- 
- 	/**
+ 	pool->gpu_contexts = panthor_kernel_bo_create(ptdev, vm, bosize,
 -- 
 2.44.0
 
