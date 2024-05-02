@@ -2,67 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 920C18B9687
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 10:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613858B96D7
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 10:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDCB610F132;
-	Thu,  2 May 2024 08:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26B7010F137;
+	Thu,  2 May 2024 08:50:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hEZkC2rp";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ASzglJyC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A655C10F132
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 08:33:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714638835; x=1746174835;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5tAqrkXFR/y7Phpht4DK8jfnwEPW8WWwj8wA/rkJ4ZM=;
- b=hEZkC2rpyfRr53CXJ9v+M+MeTCdjt8/T1ZpdymGcnGMm4sKMnRVLORnn
- LLqWBDfd17r/gUOKC+a0LTnNRNTwNcBazDVT1oVwu/FwuDtZ1y9J48w9J
- Kj6m2Byf5Eklapi4tpzS0nbNd+wK2Askl/JZNqUrbv86qfTnuoHKVelYk
- rbWnpMnZKmdxp8sPJvcQCMODIzdlFZ3LR+duPLsYPLMo9gnRRp5VxQRmx
- WBa5aXBcYWpZdaUddf28RvnX2JnHgtNUsApdUv06Fn/cxtAxxHlx5vpee
- cxD+XS0+5IpXeuk1BKebJsNJFeo9lb3wR8VdqJDTY41sQXAhcN62eTy+K g==;
-X-CSE-ConnectionGUID: Hvqe7H21TqGCUomnSfvRCg==
-X-CSE-MsgGUID: anmhN5cbQbGml5yMnC+koQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10613759"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="10613759"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2024 01:33:54 -0700
-X-CSE-ConnectionGUID: FYJzk8iUSbma7C5vWUjPag==
-X-CSE-MsgGUID: er1gI6ykQVeTDYsaZUkwzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="64491261"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2024 01:33:51 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1s2Rsx-00000003FHv-1uWq; Thu, 02 May 2024 11:33:47 +0300
-Date: Thu, 2 May 2024 11:33:47 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v1 0/3] drm/panel: ili9341: Obvious fixes
-Message-ID: <ZjNP6xESIuUUDP5d@smile.fi.intel.com>
-References: <20240425142706.2440113-1-andriy.shevchenko@linux.intel.com>
- <171463582219.3069182.3806050898196009292.b4-ty@linaro.org>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FFF910F137
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 08:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1714639854;
+ bh=+Lb7J1gmlvIpsXKmJHjaAl2BUALuNXoInVJs8yhviak=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ASzglJyCUneV4xe5N8g29/uZljb8ODoTyebr/uFYbBkUljBsgxkIely3MH0C4GHsH
+ TLWRcvz1bWUXgO9S108/DbZB51kkrUC9IFBjvgGmytwCMUuWYNwOCUafbgJUliqKtK
+ po54belYQIctldmUvYi6C0To9PoVwgJjYX5srxPVazkiAWpf3jCLHVfJzGNVqEpBLm
+ 5U/sVQj3HN9tXekw0Lrhl/h8kLoDt5Kz9Ru2US+pBKLLVUXm1FUQhMMQ+JZgdG7wPU
+ TdV6j4REC+tJwtXHyx/LbBt8hsaHWU/m7WycT0eif8ZSzSPxy6nxFvu8/PV/ucemGQ
+ 6mlcsx7MCpyLA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id A3E953781013;
+ Thu,  2 May 2024 08:50:52 +0000 (UTC)
+Message-ID: <becdc2e5-4a1d-4280-b6f8-78d4903be283@collabora.com>
+Date: Thu, 2 May 2024 10:50:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <171463582219.3069182.3806050898196009292.b4-ty@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] dt-bindings: arm: mediatek: mmsys: Add OF graph
+ support for board path
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+References: <20240409120211.321153-1-angelogioacchino.delregno@collabora.com>
+ <20240409120211.321153-3-angelogioacchino.delregno@collabora.com>
+ <aa7e3bcf70383e563a65919f924ec2e5e4cd778c.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <aa7e3bcf70383e563a65919f924ec2e5e4cd778c.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,32 +83,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 02, 2024 at 09:43:42AM +0200, Neil Armstrong wrote:
-> Hi,
+Il 25/04/24 04:23, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
 > 
-> On Thu, 25 Apr 2024 17:26:16 +0300, Andy Shevchenko wrote:
-> > A few obvious fixes to the driver.
-> > 
-> > Andy Shevchenko (3):
-> >   drm/panel: ili9341: Correct use of device property APIs
-> >   drm/panel: ili9341: Respect deferred probe
-> >   drm/panel: ili9341: Use predefined error codes
-> > 
-> > [...]
+> On Tue, 2024-04-09 at 14:02 +0200, AngeloGioacchino Del Regno wrote:
+>> Document OF graph on MMSYS/VDOSYS: this supports up to three DDP
+>> paths
+>> per HW instance (so potentially up to six displays for multi-vdo
+>> SoCs).
+>>
+>> The MMSYS or VDOSYS is always the first component in the DDP
+>> pipeline,
+>> so it only supports an output port with multiple endpoints - where
+>> each
+>> endpoint defines the starting point for one of the (currently three)
+>> possible hardware paths.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <
+>> angelogioacchino.delregno@collabora.com>
+>> ---
+>>   .../bindings/arm/mediatek/mediatek,mmsys.yaml | 23
+>> +++++++++++++++++++
+>>   1 file changed, 23 insertions(+)
+>>
+>> diff --git
+>> a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> index b3c6888c1457..4e9acd966aa5 100644
+>> ---
+>> a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> +++
+>> b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> @@ -93,6 +93,29 @@ properties:
+>>     '#reset-cells':
+>>       const: 1
+>>   
+>> +  port:
+>> +    $ref: /schemas/graph.yaml#/properties/port
+>> +    description:
+>> +      Output port node. This port connects the MMSYS/VDOSYS output
+>> to
+>> +      the first component of one display pipeline, for example one
+>> of
+>> +      the available OVL or RDMA blocks.
+>> +      Some MediaTek SoCs support up to three display outputs per
+>> MMSYS.
+>> +    properties:
+>> +      endpoint@0:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the primary display pipeline
+>> +
+>> +      endpoint@1:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the secondary display pipeline
+>> +
+>> +      endpoint@2:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the tertiary display pipeline
+>> +
+>> +    required:
+>> +      - endpoint@0
+>> +
 > 
-> Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
+> mmsys/vdosys does not output data to the first component of display
+> pipeline, so this connection looks 'virtual'. Shall we add something
+> virtual in device tree? You add this in order to decide which pipeline
+> is 1st, 2nd, 3rd, but for device it don't care which one is first. In
+> computer, software could change which display is the primary display.
+> I'm not sure it's good to decide display order in device tree?
 > 
-> [1/3] drm/panel: ili9341: Correct use of device property APIs
->       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/d43cd48ef1791801c61a54fade4a88d294dedf77
-> [2/3] drm/panel: ili9341: Respect deferred probe
->       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/740fc1e0509be3f7e2207e89125b06119ed62943
-> [3/3] drm/panel: ili9341: Use predefined error codes
->       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/da85f0aaa9f21999753b01d45c0343f885a8f905
 
-Thank you, Neil, appreciated!
+Devicetree describes hardware, so nothing virtual can be present - and in any case,
+the primary/secondary/tertiary pipeline is in relation to MM/VDO SYS, not referred
+to software.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Better explaining, the primary pipeline is not necessarily the primary display in
+DRM terms: that's a concept that is completely detached from the scope of this
+series and this graph - and it's something that shall be managed solely by the
+driver (mediatek-drm in this case).
 
+Coming back to the connection looking, but *not* being virtual: the sense here is
+that the MM/VDOSYS blocks are used in the display pipeline to "stitch" together
+the various display pipeline hardware blocks, or, said differently, setting up the
+routing between all of those (P.S.: mmsys_mtxxxx_routing_table!) through the VDO
+Input Selection (VDOx_SEL_IN) or Output Selection (VDOx_SEL_OUT) and with the
+assistance of the VDO Multiple Output Mask (VDOx_MOUT) for the multiple outputs
+usecase, both of which, are described by this graph.
+
+This means that the VDOSYS is really the "master" of the display pipeline since
+everything gets enabled, mixed and matched from there - and that's in the sense
+of hardware operation, so we are *really* (and not virtually!) flipping switches.
+
+
+Cheers,
+Angelo
+
+> Regards,
+> CK
+> 
+> 
+>>   required:
+>>     - compatible
+>>     - reg
 
