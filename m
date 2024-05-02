@@ -2,59 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8834A8BA31E
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 00:26:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAFDE8BA32E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 00:33:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 674791126F2;
-	Thu,  2 May 2024 22:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B92A10E2C1;
+	Thu,  2 May 2024 22:33:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NhCrLKdI";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="d1a8AQIn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 90BBF1126F6;
- Thu,  2 May 2024 22:26:38 +0000 (UTC)
-Received: from [100.64.232.195] (unknown [20.29.225.195])
- by linux.microsoft.com (Postfix) with ESMTPSA id 518C5206B4FD;
- Thu,  2 May 2024 15:26:37 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 518C5206B4FD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1714688797;
- bh=NzMrFwSnELsNTouka86zwY4xBu0HDKLPheXHNRlf/UY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=NhCrLKdI/ZqOMxIi0x/9IcKVE1fu8SJgV6IOu9yOzA4/X9AoPavE5e5S65Ugw3uBC
- sulaSRBperkkDcIDt2jCnwInTZEDOTYmaUAyGGeCvlgfS23LBxyBkoeXTUrIdi6qwD
- 4F+b4DUgYEKEoHW556opdVdEoci1DJoGsON85j90=
-Message-ID: <076e0a0d-ad26-490e-9784-300ed52637ca@linux.microsoft.com>
-Date: Thu, 2 May 2024 15:26:36 -0700
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CCEE10E2C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 22:33:09 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-618a2b12dbbso1190358a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 15:33:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1714689188; x=1715293988;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=o0jTh2QfVXv25MHjtTxDv2qpxtdDgCoD64Zip10hlxA=;
+ b=d1a8AQInQz1+RKrfo2q1uAaDCF1oicNDjonMYODh5mGkLyF0HDRBFYvHvdstQCQuRM
+ L2HM8xdi5gJfERtnhEqmWab2AHjDuqV0dMI/o1W2rH+z9cEkuXR3fGhh9y8ldxckbjhE
+ wr5OTFnHmeU64T4cWo/cpaV7UpMTBplDJ0SqE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714689188; x=1715293988;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=o0jTh2QfVXv25MHjtTxDv2qpxtdDgCoD64Zip10hlxA=;
+ b=FLvwNjRxQGdayWHU0oM4gtncNbAWXi4j+4MGhMExIEKrUNRPhwApDS/+8Jxv4yJU8K
+ ATr9+E+ZKnXzO3JPihivAefE8czAnUWP3PmQxbSJ7JX7xz3+45Hq1bp3vo2BrursC/G5
+ 7Y2BQ57dZXeBTzhmdrLa1MgaT++k78NbuS6g1mieewm45mPf2aSuTYS0B44xSM6/arVX
+ jB6CHutQYKdh2s6BxEyg9e/K1sR15AM6lDG28ur32hkcnWmMqjnOL77dM2y4DHizguyY
+ jjCnXzU0v+EdvVBN35LALm/u3xmjHChWSyFRvxYW1eg6wdzNRJaXmHn0O7QaoYkABM90
+ pPgg==
+X-Gm-Message-State: AOJu0YzTVXTKwODy7BQdgk+PIH7pDt+Gluizd7RxCEjGMXotYhHo7jOh
+ AKiQHzLUwqZrk+krDdDYtbSYHWnnRRPPb+wC23Wqylgl1qKUzzCf1rVJk6fKHswE+xIxyVgFUTE
+ =
+X-Google-Smtp-Source: AGHT+IHaVWuOpzr0DJi9lnd6PZ+qLFMY6hMD14bFNnPzTY4pfzLIiVSi7AZDi3pqydphJYYIjNr6GA==
+X-Received: by 2002:a17:90b:a42:b0:2a2:9e5d:9bf9 with SMTP id
+ gw2-20020a17090b0a4200b002a29e5d9bf9mr5810940pjb.8.1714689187899; 
+ Thu, 02 May 2024 15:33:07 -0700 (PDT)
+Received: from dianders.sjc.corp.google.com
+ ([2620:15c:9d:2:d58d:52de:fc6:7f45])
+ by smtp.gmail.com with ESMTPSA id
+ sx7-20020a17090b2cc700b002a4b2933a7asm3787730pjb.1.2024.05.02.15.33.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 May 2024 15:33:07 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Simon Ser <contact@emersion.fr>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/connector: Add \n to message about demoting connector
+ force-probes
+Date: Thu,  2 May 2024 15:32:35 -0700
+Message-ID: <20240502153234.1.I2052f01c8d209d9ae9c300b87c6e4f60bd3cc99e@changeid>
+X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 12/12] fbdev/viafb: Make I2C terminology more inclusive
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Helge Deller <deller@gmx.de>,
- "open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER"
- <linux-fbdev@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>
-References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
- <20240430173812.1423757-13-eahariha@linux.microsoft.com>
- <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,52 +85,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/2/2024 3:46 AM, Thomas Zimmermann wrote:
-> 
-> 
-> Am 30.04.24 um 19:38 schrieb Easwar Hariharan:
->> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
->> with more appropriate terms. Inspired by and following on to Wolfram's
->> series to fix drivers/i2c/[1], fix the terminology for users of
->> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->> in the specification.
->>
->> Compile tested, no functionality changes intended
->>
->> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
->>
->> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
+The debug print clearly lacks a \n at the end. Add it.
 
-Thanks for the ack! I had been addressing feedback as I got it on the v0 series, and it seems
-I missed out on updating viafb and smscufx to spec-compliant controller/target terminology like
-the v0->v1 changelog calls out before posting v1.
+Fixes: 8f86c82aba8b ("drm/connector: demote connector force-probes for non-master clients")
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
-For smscufx, I feel phrasing the following line (as an example)
+ drivers/gpu/drm/drm_connector.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, host, 
-> +/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, *controller*, 
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index b0516505f7ae..4d2df7f64dc5 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -2940,7 +2940,7 @@ int drm_mode_getconnector(struct drm_device *dev, void *data,
+ 						     dev->mode_config.max_width,
+ 						     dev->mode_config.max_height);
+ 		else
+-			drm_dbg_kms(dev, "User-space requested a forced probe on [CONNECTOR:%d:%s] but is not the DRM master, demoting to read-only probe",
++			drm_dbg_kms(dev, "User-space requested a forced probe on [CONNECTOR:%d:%s] but is not the DRM master, demoting to read-only probe\n",
+ 				    connector->base.id, connector->name);
+ 	}
+ 
+-- 
+2.45.0.rc1.225.g2a3ae87e7f-goog
 
-would actually impact readability negatively, so I propose to leave smscufx as is.
-
-For viafb, I propose making it compliant with the spec using the controller/target terminology and
-posting a v2 respin (which I can send out as soon as you say) and ask you to review again.
-
-What do you think?
-
-Thanks,
-Easwar
-
->> ---
->>   drivers/video/fbdev/via/chip.h    |  8 ++++----
->>   drivers/video/fbdev/via/dvi.c     | 24 ++++++++++++------------
->>   drivers/video/fbdev/via/lcd.c     |  6 +++---
->>   drivers/video/fbdev/via/via_aux.h |  2 +-
->>   drivers/video/fbdev/via/via_i2c.c | 12 ++++++------
->>   drivers/video/fbdev/via/vt1636.c  |  6 +++---
->>   6 files changed, 29 insertions(+), 29 deletions(-)
->>
-
-<snip>
