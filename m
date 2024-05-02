@@ -2,78 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D4328B9664
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 10:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB1F8B9682
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 10:33:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBC8D88BE3;
-	Thu,  2 May 2024 08:23:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45A7610F034;
+	Thu,  2 May 2024 08:33:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FzSq0Am5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TEheLKjG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC78288BE3
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 08:23:20 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-61d35d266e7so25214747b3.1
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 01:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714638200; x=1715243000; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=24YyTRYR6RGICTEPRKVLXQM7MeeLdxtmJnjzlihyxds=;
- b=FzSq0Am5JwZylbZ1X9ns4QICuHlK9EX15JythZF/BFB1UAxFcf9TPIABdqjXOSIwBr
- 5ihlPyLZKOGSIDsafANOj3IZe8PFanfHFzzrJ9htcAPH79UnbobdApfK/80Rhvg0gK3R
- fJw9iLtHsUXQTDBmat/E2FBUmzRqKilDSpHFB4Vdt7bNYlXLqEi0WP+LpGvcoGvYY2Pf
- UU6aPdBpyFyeQSWDDK41wzXYWNe8Jp0e/2/W9IqIdbsOv99LWcPmzIZGk/a5hzDuaz12
- dwuLTaDFy/shf1OuTsDoiwEY0P21a7h97GN4sBfxN54lGi2D8CYfUoIEdINH6d1jgMLT
- z6rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714638200; x=1715243000;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=24YyTRYR6RGICTEPRKVLXQM7MeeLdxtmJnjzlihyxds=;
- b=isY+8v69WyXnEY8jrxCYUoaKT7nsVi9IUhHQ2mdFGGEWZ9noaLBeV/uWZ73zP2L5DK
- Q8C70BQBPiHP4oVt8U+Px2pXQDykhjBO9CEm5XmFPFkIkfIsa8vt7tDHWRwXWd/q+WXD
- up3UYGRmwiy/zTrO6YCTBtGWm/ygZCQM+uhP64SpE+TIeMXliRmmXVYpAacs3b9AJ6OX
- furpWIgBRKfIHMUouckxnElpOxoWyVetijPbgnfVpg9RwhpseeTi0KH3pdDIOHHkDPlO
- KCW16NuQdQsea53YTkETeKvpUSDbeMICq80ItBLQ0M54pFUCnklwaz1z8TGwbtwU1GlR
- Ve3Q==
-X-Gm-Message-State: AOJu0YyrtIjQYLxk3YoxURnHpk5Yvw3ppqHW/U1NfhLQU6ukoNQcbIvR
- PUc3Ic3++jNiyD5uu/CoF+BuJHmzV+BxdkApMJdyf8CTD2ayjkdxEjfx76LmW9FrksaJba2SwLU
- 9xMQoAGNrr7/q744PcNygSe5ZYdKRNafwyz8Klg==
-X-Google-Smtp-Source: AGHT+IHJf8nsf+hQ0oYySY8kc9eXFs7bLgTHLiT7HAY38ioGQLECM9C1dGV4rTXrwZjUZET6iMLonxw6UYxZADDvgl4=
-X-Received: by 2002:a25:2b81:0:b0:de4:7603:e888 with SMTP id
- r123-20020a252b81000000b00de47603e888mr5029716ybr.29.1714638199758; Thu, 02
- May 2024 01:23:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240501154251.3302887-1-dianders@chromium.org>
- <20240501084109.v3.4.Id15fae80582bc74a0d4f1338987fa375738f45b9@changeid>
-In-Reply-To: <20240501084109.v3.4.Id15fae80582bc74a0d4f1338987fa375738f45b9@changeid>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 2 May 2024 10:23:08 +0200
-Message-ID: <CACRpkdb2eJWVYREhpCUoJnYeutBybBY8mic2SAUuU67MW5Hjbg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/9] drm/mipi-dsi: Reduce driver bloat of
- mipi_dsi_*_write_seq()
-To: Douglas Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- Hsin-Yi Wang <hsinyi@google.com>, 
- Brian Norris <briannorris@chromium.org>, Sam Ravnborg <sam@ravnborg.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Javier Martinez Canillas <javierm@redhat.com>, 
- Joel Selvaraj <jo@jsfamily.in>, lvzhaoxiong@huaqin.corp-partner.google.com, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE95410F034
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 08:33:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1714638784; x=1746174784;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=b+TuzblpaPLNqK5y6jojd+QDA8Xbs2mf6a72pzvmDAE=;
+ b=TEheLKjGLHU7o/iq0wrQYIfJ55KBaAtEk0YzBLUzYICaVC2FxQakfH70
+ oY0+F0tElAzEKIe6i/rXNNKnGMuO/4QGad8eLKiu27WNSQW2KxKnUbst2
+ szgoq2CvgCVQwsgyHFoVQrFv77FVCs+WzCOaLQ/TErnTeyuksnwVZmSaD
+ wZuDeSaZiNNQVpwECCOShvZxI+62OL2c6IrIpnSxpWKkWp8fLfTi6PQRh
+ BsF6fQpP6+u0rXuJ/IZqmFjO1556HXZv0hbj76oxjquveB6zhMjLMLDUV
+ 4VgEjXmerXCq69+jzWa3uQySAebwNkSAjYG74/CuqMSbT4o+WCS/Fg5A8 A==;
+X-CSE-ConnectionGUID: 62J4FWQZRN62QOKnTqynGQ==
+X-CSE-MsgGUID: wpGHCKDdTgaEdYcO+4epfg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10562676"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="10562676"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2024 01:33:02 -0700
+X-CSE-ConnectionGUID: JAgRKzqdSdq31tSxNlgi/g==
+X-CSE-MsgGUID: WvDCmPXcTl6Tok3RT2k4rw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="27059626"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2024 01:32:12 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1s2RrM-00000003FFm-3aSR; Thu, 02 May 2024 11:32:08 +0300
+Date: Thu, 2 May 2024 11:32:08 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [v1,1/3] drm/panel: ili9341: Correct use of device property APIs
+Message-ID: <ZjNPiBvLF3WcBftn@smile.fi.intel.com>
+References: <20240425142706.2440113-2-andriy.shevchenko@linux.intel.com>
+ <c2d41916-0b6c-43b5-98eb-514eb0511f84@linux.dev>
+ <ce6a480d-80b3-46b0-a32d-26bc6480d02f@linux.dev>
+ <ZiqrLfezhns4UycR@smile.fi.intel.com>
+ <b5ffd984-4031-4a8a-adbc-75a1e1dfe765@linux.dev>
+ <ZjD8eoO3TmuCUj-a@smile.fi.intel.com>
+ <9e69b129-7539-4403-a621-bf3775aab995@linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9e69b129-7539-4403-a621-bf3775aab995@linux.dev>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,28 +84,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 1, 2024 at 5:43=E2=80=AFPM Douglas Anderson <dianders@chromium.=
-org> wrote:
+On Wed, May 01, 2024 at 12:27:14AM +0800, Sui Jingfeng wrote:
+> On 2024/4/30 22:13, Andy Shevchenko wrote:
+> > On Fri, Apr 26, 2024 at 05:13:43AM +0800, Sui Jingfeng wrote:
 
-> Through a cooperative effort between Hsin-Yi Wang and Dmitry
-> Baryshkov, we have realized the dev_err() in the
-> mipi_dsi_*_write_seq() macros was causing quite a bit of bloat to the
-> kernel. Let's hoist this call into drm_mipi_dsi.c by adding a "chatty"
-> version of the functions that includes the print. While doing this,
-> add a bit more comments to these macros making it clear that they
-> print errors and also that they return out of _the caller's_ function.
+...
 
-This doesn't really explain why this takes so much less space.
+> > the former might be subdivided to "is it swnode backed or real fwnode one?"
+> > 
+> Yeah,
+> On non-DT cases, it can be subdivided to swnode backed case and ACPI fwnode backed case.
+> 
+>  - For swnode backed case: the device_get_match_data() don't has a implemented backend.
+>  - For ACPI fwnode backed case: the device_get_match_data() has a implemented backend.
+> 
+> But the driver has *neither* software node support
 
-Please add some explanation like that "the macro gets inlined
-and thus the error report string gets inlined into every call to
-mipi_dsi_dcs_write_seq() and mipi_dsi_generic_write_seq(),
-by using a call to a "chatty" function, the usage is reduced to one
-string in the chatty function and a function call at the invoking
-site".
+True.
 
-With some explanation like that +/- added in:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> nor ACPI support,
 
-Yours,
-Linus Walleij
+Not true.
+
+So, slow down and take your time to get into the code and understand how it works.
+
+> so that the rotation property can not get and ili9341_dpi_probe() will fails.
+> So in total, this is not a 100% correct use of device property APIs.
+> 
+> But I'm fine that if you want to leave(ignore) those less frequent use cases temporarily,
+> there may have programmers want to post patches, to complete the missing in the future.
+> 
+> So, there do have some gains on non-DT cases.
+> 
+>  - As you make it be able to compiled on X86 with the drm-misc-defconfig.
+>  - You cleanup the code up (at least patch 2 in this series is no obvious problem).
+>  - You allow people to modprobe it, and maybe half right and half undefined.
+> 
+> But you do helps moving something forward, so congratulations for the wake up.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
