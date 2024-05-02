@@ -2,89 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C2B8B961A
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 10:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A82D98B9623
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 10:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E20510E2B2;
-	Thu,  2 May 2024 08:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9D1810EA12;
+	Thu,  2 May 2024 08:09:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="laFeLDhP";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Lx8+3lEg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 530FF10E2B2
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 08:04:22 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4190c2ec557so4589415e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 01:04:22 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E95010EA12
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 08:09:28 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-41bd8bdd065so4542615e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 01:09:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1714637061; x=1715241861; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1714637367; x=1715242167; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=l+O2B0ZdeV1GXX49oBt/YSppfbCEznO3E1w/D6uWlxg=;
- b=laFeLDhPgNXoALr/GyhmBcM6+BdAYhgEeO2EHT19zyTs3jwesZ9+w1wemTNBfXJ6Yr
- ItvgTR2yHp/XXMQdjKmczLP8qa8eI7EV6dnE8nLBO90fDGQb3NwoT+p3w2+FyioaCyaG
- xVg2QhbeDleO0aetSHpbNEHcOFdh3XgTylI9Y=
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=0koyprm7usSu/SuJa/n4v1oM1npXoejPyXWW+NRGnRQ=;
+ b=Lx8+3lEga/PqTYUYJt68enO/fwyPym74TFUyjaCvsx9wVq1cKRbvcQ0lIt2YkEbrgz
+ o62r6GwzV7ilnt/CDuDixv8DZmxMkWECAvOGHdTDuZq1X73A2JXOto+BYhHbrEoFHhbg
+ 00rjIA1rxcjG2TttJOsI2m96/i87xRVM2BdLU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714637061; x=1715241861;
+ d=1e100.net; s=20230601; t=1714637367; x=1715242167;
  h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l+O2B0ZdeV1GXX49oBt/YSppfbCEznO3E1w/D6uWlxg=;
- b=sSYZzw5D6kIzYj87bDSw8nFxVhMzt9MSVEr0Ht3cwsJ5XHj+JvNTYXEGmPY67p9wiz
- HfwEcSCjSTB+puerNPynWkWQaXyDUPYkid0eQIEyyRbwTL+q+cm3+4j77TSIxDrfdk+R
- qKKt2EZhZE135qRIASzRucWSql4l3s8bFVF3hnUJkF22Xaz50cJKhjSI8MhPd/Q5gW0R
- 1DplxI/dGwO+i8pzz1CkN7uxLhwSRWOxS89hCR5PYkeYgfsZEGNTIlJuDxWVOYLnbg8h
- 1G/CsJ72BdKuGFGbnxOniZqtAKwrlY+dcUI91sSOWrIQJ2AdPBFv/x/TzGNa5Pp2L+Mw
- 1uTQ==
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0koyprm7usSu/SuJa/n4v1oM1npXoejPyXWW+NRGnRQ=;
+ b=QyYE2vi5vb2Q5Vfg9J8jD/C8nS30uMJYhekqW+O/74v5Mxu7TNcNyGQiMAMvhM1Ikq
+ 0M9cfk7BkqVpltrP1RN8fsOiT0QW/9/pCS/p/dZPIGtY0s/KfoBUnRBj+mxeRpA6LZL0
+ hlQ0prmLZmfCWTKGGKuSCkLwN7XK7dpwLfqurmEkjeaG0ESp1Jk2dfhmSDJGPL2mk34K
+ 8PeYUCg6hIbsnGR+c1/oVCgon1/N1gWBSewM+tqabC0JqArfs7hQOZv5Hjy73pGIzDDe
+ ah634ehwbaoJweMd5AUlvob4X1ST4XpuhBCfdfPwCVe7SO+aMx9mBqEGUbIycihZ8iCz
+ vOQA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXffcHjOjWhOHGWhM4ac825HLfd72Bev2yJDOU+R7MWiwZoutR2aPGD9aWUT4arhjJdpCM5GOxg05ol4vPwhY2gVb9bO3I64FYfuXmXQ5uc
-X-Gm-Message-State: AOJu0YzY5a6KTltULQl09HkL85KE2CjnN+UE3vzg50w48QAkOcmEFAW8
- jF+FUbuVMrgM1pcdcU98VMpekOO54tJjsxxTYRXeDplwdH7swf76IK+3LX4X/RQ=
-X-Google-Smtp-Source: AGHT+IGNJ+d7X2n/F+nQFzXJR94w4Tfj9tgrOCUUEgnZZ7JT7Eu/cHrzfPvhsigbpUUXVSLob590wQ==
-X-Received: by 2002:a05:600c:1991:b0:41a:408c:579c with SMTP id
- t17-20020a05600c199100b0041a408c579cmr3447620wmq.1.1714637060099; 
- Thu, 02 May 2024 01:04:20 -0700 (PDT)
+ AJvYcCXCwuYwnT27FBUFgizwkXUgaxwSw+ClAMW8VozvbPI1mviSFabt5NlrcyKF+5apX2h1jl+7uFyV8z63hPgk5btlyVGlpHGNlsw4egMP1HlE
+X-Gm-Message-State: AOJu0YzMZvbGUce2rRAPMNxOwwHGORxJY+x382wu4g/ouJ+K/O1OuO+n
+ qgfC/Z/+w/Uf/QsrX3kIsriuUl1SlD1vENFbyJe3KhYQKNRr54zdg88+oXJPL8c=
+X-Google-Smtp-Source: AGHT+IGlj87pWvRxvdp+xbVn2sO0D6niYS3Puzn6qWBx5arATQrmZ7u1LX4Bqyd8ZFf8CFxYpmGIVA==
+X-Received: by 2002:adf:ed4b:0:b0:34c:f9c9:f51c with SMTP id
+ u11-20020adfed4b000000b0034cf9c9f51cmr3374495wro.4.1714637366272; 
+ Thu, 02 May 2024 01:09:26 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- be11-20020a05600c1e8b00b00418f7605249sm1037909wmb.24.2024.05.02.01.04.19
+ r2-20020adfce82000000b0034dd7984d7fsm611033wrn.94.2024.05.02.01.09.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 May 2024 01:04:19 -0700 (PDT)
-Date: Thu, 2 May 2024 10:04:17 +0200
+ Thu, 02 May 2024 01:09:25 -0700 (PDT)
+Date: Thu, 2 May 2024 10:09:17 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- "Zeng, Oak" <oak.zeng@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "Brost, Matthew" <matthew.brost@intel.com>,
- "Welty, Brian" <brian.welty@intel.com>,
- "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>,
- "Bommu, Krishnaiah" <krishnaiah.bommu@intel.com>,
- "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
- Leon Romanovsky <leon@kernel.org>
-Subject: Re: [PATCH 06/23] drm/xe/svm: Introduce a helper to build sg table
- from hmm range
-Message-ID: <ZjNJASw0JdXS6dTa@phenom.ffwll.local>
-References: <SA1PR11MB699102978E72F21E6C803D6392102@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240425010520.GW941030@nvidia.com>
- <65cb3984309d377d6e7d57cb6567473c8a83ed78.camel@linux.intel.com>
- <20240426120047.GX941030@nvidia.com>
- <ad82f95ee29ada403459416d4c97c2b9083b5a0f.camel@linux.intel.com>
- <20240426163519.GZ941030@nvidia.com>
- <f938dc8f7309ae833e02ccdbc72134df0607dfa4.camel@linux.intel.com>
- <20240430173002.GV941030@nvidia.com>
- <ZjE_LJ7AFFQk0Eep@phenom.ffwll.local>
- <20240501000915.GY941030@nvidia.com>
+To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Subject: Re: [PATCH v2 1/1] drm: Add ioctl for querying a DRM device's list
+ of open client PIDs
+Message-ID: <ZjNKLVZgekRqw5AL@phenom.ffwll.local>
+Mail-Followup-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe
+ <adrian.larumbe@collabora.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+References: <20240501185047.3126832-1-adrian.larumbe@collabora.com>
+ <20240501185047.3126832-2-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240501000915.GY941030@nvidia.com>
+In-Reply-To: <20240501185047.3126832-2-adrian.larumbe@collabora.com>
 X-Operating-System: Linux phenom 6.6.15-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -101,101 +99,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 30, 2024 at 09:09:15PM -0300, Jason Gunthorpe wrote:
-> On Tue, Apr 30, 2024 at 08:57:48PM +0200, Daniel Vetter wrote:
-> > On Tue, Apr 30, 2024 at 02:30:02PM -0300, Jason Gunthorpe wrote:
-> > > On Mon, Apr 29, 2024 at 10:25:48AM +0200, Thomas Hellström wrote:
-> > > 
-> > > > > Yes there is another common scheme where you bind a window of CPU to
-> > > > > a
-> > > > > window on the device and mirror a fixed range, but this is a quite
-> > > > > different thing. It is not SVA, it has a fixed range, and it is
-> > > > > probably bound to a single GPU VMA in a multi-VMA device page table.
-> > > > 
-> > > > And this above here is exactly what we're implementing, and the GPU
-> > > > page-tables are populated using device faults. Regions (large) of the
-> > > > mirrored CPU mm need to coexist in the same GPU vm as traditional GPU
-> > > > buffer objects.
-> > > 
-> > > Well, not really, if that was the case you'd have a single VMA over
-> > > the entire bound range, not dynamically create them.
-> > > 
-> > > A single VMA that uses hmm_range_fault() to populate the VM is
-> > > completely logical.
-> > > 
-> > > Having a hidden range of mm binding and then creating/destroying 2M
-> > > VMAs dynamicaly is the thing that doesn't make alot of sense.
-> > 
-> > I only noticed this thread now but fyi I did dig around in the
-> > implementation and it's summarily an absolute no-go imo for multiple
-> > reasons. It starts with this approach of trying to mirror cpu vma (which I
-> > think originated from amdkfd) leading to all kinds of locking fun, and
-> > then it gets substantially worse when you dig into the details.
+On Wed, May 01, 2024 at 07:50:43PM +0100, Adrián Larumbe wrote:
+> Up to this day, all fdinfo-based GPU profilers must traverse the entire
+> /proc directory structure to find open DRM clients with fdinfo file
+> descriptors. This is inefficient and time-consuming.
 > 
-> :(
+> This patch adds a new DRM ioctl that allows users to obtain a list of PIDs
+> for clients who have opened the DRM device. Output from the ioctl isn't
+> human-readable, and it's meant to be retrieved only by GPU profilers like
+> gputop and nvtop.
 > 
-> Why does the DRM side struggle so much with hmm_range fault? I would
-> have thought it should have a fairly straightforward and logical
-> connection to the GPU page table.
-
-Short summary is that traditionally gpu memory was managed with buffer
-objects, and each individual buffer object owns the page tables for it's
-va range.
-
-For hmm you don't have that buffer object, and you want the pagetables to
-be fairly independent (maybe even with their own locking like linux cpu
-pagetables do) from any mapping/backing storage. Getting to that world is
-a lot of reshuffling, and so thus far all the code went with the quick
-hack route of creating ad-hoc ranges that look like buffer objects to the
-rest of the driver code. This includes the merged amdkfd hmm code, and if
-you dig around in that it results in some really annoying locking
-inversions because that middle layer of fake buffer object lookalikes only
-gets in the way and results in a fairly fundamental impendendence mismatch
-with core linux mm locking.
-
-> FWIW, it does make sense to have both a window and a full MM option
-> for hmm_range_fault. ODP does both and it is fine..
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_internal.h |  1 +
+>  drivers/gpu/drm/drm_ioctl.c    | 89 ++++++++++++++++++++++++++++++++++
+>  include/uapi/drm/drm.h         |  7 +++
+>  3 files changed, 97 insertions(+)
 > 
-> > I think until something more solid shows up you can just ignore this. I do
-> > fully agree that for sva the main mirroring primitive needs to be page
-> > centric, so dma_map_sg. 
->               ^^^^^^^^^^
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> index 690505a1f7a5..6f78954cae16 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -243,6 +243,7 @@ static inline void drm_debugfs_encoder_remove(struct drm_encoder *encoder)
+>  drm_ioctl_t drm_version;
+>  drm_ioctl_t drm_getunique;
+>  drm_ioctl_t drm_getclient;
+> +drm_ioctl_t drm_getclients;
+>  
+>  /* drm_syncobj.c */
+>  void drm_syncobj_open(struct drm_file *file_private);
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index e368fc084c77..da7057376581 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -207,6 +207,93 @@ int drm_getclient(struct drm_device *dev, void *data,
+>  	}
+>  }
+>  
+> +/*
+> + * Get list of client PIDs who have opened a DRM file
+> + *
+> + * \param dev DRM device we are querying
+> + * \param data IOCTL command input.
+> + * \param file_priv DRM file private.
+> + *
+> + * \return zero on success or a negative number on failure.
+> + *
+> + * Traverses list of open clients for the given DRM device, and
+> + * copies them into userpace as an array of PIDs
+> + */
+> +int drm_getclients(struct drm_device *dev, void *data,
+> +		   struct drm_file *file_priv)
+> +
+> +{
+> +	struct drm_get_clients *get_clients = data;
+> +	ssize_t size = get_clients->len;
+> +	char __user *pid_buf;
+> +	ssize_t offset = 0;
+> +	int ret = 0;
+> +
+> +	/*
+> +	 * We do not want to show clients of display only devices so
+> +	 * as to avoid confusing UM GPU profilers
+> +	 */
+> +	if (!dev->render) {
+> +		get_clients->len = 0;
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * An input size of zero means UM wants to know the size of the PID buffer
+> +	 * We round it up to the nearest multiple of the page size so that we can have
+> +	 * some spare headroom in case more clients came in between successive calls
+> +	 * of this ioctl, and also to simplify parsing of the PIDs buffer, because
+> +	 * sizeof(pid_t) will hopefully always divide PAGE_SIZE
+> +	 */
+> +	if (size == 0) {
+> +		get_clients->len =
+> +			roundup(atomic_read(&dev->open_count) * sizeof(pid_t), PAGE_SIZE);
+> +		return 0;
+> +	}
+> +
+> +	pid_buf = (char *)(void *)get_clients->user_data;
+> +
+> +	if (!pid_buf)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&dev->filelist_mutex);
+> +	list_for_each_entry_reverse(file_priv, &dev->filelist, lhead) {
+> +		pid_t pid_num;
+> +
+> +		if ((size - offset) < sizeof(pid_t))
+> +			break;
+> +
+> +		rcu_read_lock();
+> +		pid_num = pid_vnr(rcu_dereference(file_priv->pid));
+> +		rcu_read_unlock();
+> +
+> +		/* We do not want to return the profiler's PID */
+> +		if (pid_vnr(task_tgid(current)) == pid_num)
+> +			continue;
+> +
+> +		ret = copy_to_user(pid_buf + offset, &pid_num, sizeof(pid_t));
+> +		if (ret)
+> +			break;
+> +
+> +		offset += sizeof(pid_t);
+> +	}
+> +	mutex_unlock(&dev->filelist_mutex);
+> +
+> +	if (ret)
+> +		return -EFAULT;
+> +
+> +	if ((size - offset) >= sizeof(pid_t)) {
+> +		pid_t pid_zero = 0;
+> +
+> +		ret = copy_to_user(pid_buf + offset,
+> +				   &pid_zero, sizeof(pid_t));
+> +		if (ret)
+> +			return -EFAULT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * Get statistics information.
+>   *
+> @@ -672,6 +759,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+>  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
+>  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
+>  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
+> +
+> +	DRM_IOCTL_DEF(DRM_IOCTL_GET_CLIENTS, drm_getclients, DRM_RENDER_ALLOW),
+
+Uh RENDER_ALLOW sounds like a very bad idea for this, flat out leaks
+information that really paranoid people don't want to have leaked.
+
+Natural would be to limit to ptrace ability, but ptrace is for processes
+and fd aren't tied to that. So I'm not sure ...
+
+I think a separate file (whether in procfs or a special chardev) where you
+can set access rights that suit feels a lot better for this. Plus putting
+it into procfs would also give the natural property that you can only read
+it if you have access to procfs anyway, so imo that feels like the best
+place for this ...
+
+And yes that means some lkml bikeshedding with procfs folks, but I do
+think that's good here since we're likely not the only ones who need a bit
+faster procfs trawling for some special use-cases. So consistency across
+subsystems would be nice to at least try to aim for.
+-Sima
+
+>  };
+>  
+>  #define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE(drm_ioctls)
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 16122819edfe..c47aa9de51ab 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -1024,6 +1024,11 @@ struct drm_crtc_queue_sequence {
+>  	__u64 user_data;	/* user data passed to event */
+>  };
+>  
+> +struct drm_get_clients {
+> +	__u64 user_data;
+> +	__kernel_size_t len;
+> +};
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
+> @@ -1236,6 +1241,8 @@ extern "C" {
+>  #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_transfer)
+>  #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_syncobj_timeline_array)
+>  
+> +#define DRM_IOCTL_GET_CLIENTS		DRM_IOWR(0xD1, struct drm_get_clients)
+> +
+>  /**
+>   * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
+>   *
+> -- 
+> 2.44.0
 > 
-> dma_map_page
 
-Oops yes.
-
-> > There's a bit a question around how to make the
-> > necessary batching efficient and the locking/mmu_interval_notifier scale
-> > enough, but I had some long chats with Thomas and I think there's enough
-> > option to spawn pretty much any possible upstream consensus. So I'm not
-> > worried.
-> 
-> Sure, the new DMA API will bring some more considerations to this as
-> well. ODP uses a 512M granual scheme and it seems to be OK. By far the
-> worst part of all this is the faulting performance. I've yet hear any
-> complains about mmu notifier performance..
-
-Yeah I don't expect there to be any need for performance improvements on
-the mmu notifier side of things. All the concerns I've heard felt rather
-theoretical, or where just fallout of that fake buffer object layer in the
-middle.
-
-At worst I guess the gpu pagetables need per-pgtable locking like the cpu
-pagetables have, and then maybe keep track of mmu notifier sequence
-numbers on a per-pgtable basis, so that invalidates and faults on
-different va ranges have no impact on each another. But even that is most
-likely way, way down the road.
-
-> > But first this needs to be page-centric in the fundamental mirroring
-> > approach.
-> 
-> Yes
-
-Ok clarifying consensus on this was the main reason I replied, it felt a
-bit like the thread was derailing in details that don't yet matter.
-
-Thanks, Sima
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
