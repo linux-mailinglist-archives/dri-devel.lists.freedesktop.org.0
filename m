@@ -2,101 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771988B995A
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 12:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8CEB8B99D6
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 13:14:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B17A10F553;
-	Thu,  2 May 2024 10:46:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 745AF10EEC8;
+	Thu,  2 May 2024 11:14:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="EcpiCXhP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5G7GFDoC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EcpiCXhP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5G7GFDoC";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="UYqRyDsw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qu143nYj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UYqRyDsw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qu143nYj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD2510F57B;
- Thu,  2 May 2024 10:46:07 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 354FA10EB68;
+ Thu,  2 May 2024 11:14:22 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 080261FBF9;
- Thu,  2 May 2024 10:46:06 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BB7721FBA0;
+ Thu,  2 May 2024 11:14:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1714646766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1714648460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zrXOa0VVlZDvgwP96iZpHXIU4P3xQQOxjymEw8QiRWI=;
- b=EcpiCXhPUIhb0RMHJ4fGpeieAw2MIHoEgzD+S6scRJ8JnFf+qjmqDV7vnUZV430ZxbgnAU
- 9ykV8DOJl9wwBV4BC1+MQrE96FtFArDpm+l67OiYAK6dkb5y60K1lT5DxHS5qMMHdvyNcA
- 5Mb/GKZQAJW8oZWunuK6IIEQOsm6ccI=
+ bh=AFoivokVevbslefJbFKkp1k4T1s78Pk+5RSvCxa63ZE=;
+ b=UYqRyDswRJKSRNZPwV/gp0aTlhMsCEit/RtyFG1lDGsMcIXvCou9oNvgKrAXr0NVxsVGJx
+ TXEIhlUkYRkJ+DCIDLaZVE83aHCdXUd3OhWzykfyxzsAYjIX9FDitxJWUnw6j3vuEWUYo6
+ YB0+7z3KCymBMFq06U9ze3sM8tJ0ASU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1714646766;
+ s=susede2_ed25519; t=1714648460;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zrXOa0VVlZDvgwP96iZpHXIU4P3xQQOxjymEw8QiRWI=;
- b=5G7GFDoCXtGPCKcTVXHf4u4b11gWpVq9y7l1On/+0MNaHZHn6/8d/TWtssHqI6x9PxuRPk
- +8qoNrIAQn6cQIBw==
+ bh=AFoivokVevbslefJbFKkp1k4T1s78Pk+5RSvCxa63ZE=;
+ b=Qu143nYjL+mHzWZ8nw6tnFahqj3o5XyootwuX+0cy+xiI1BPL68vP8ywBz7foDEgW7awn6
+ gWkszUz9rIpuCKBQ==
 Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EcpiCXhP;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5G7GFDoC
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1714646766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1714648460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zrXOa0VVlZDvgwP96iZpHXIU4P3xQQOxjymEw8QiRWI=;
- b=EcpiCXhPUIhb0RMHJ4fGpeieAw2MIHoEgzD+S6scRJ8JnFf+qjmqDV7vnUZV430ZxbgnAU
- 9ykV8DOJl9wwBV4BC1+MQrE96FtFArDpm+l67OiYAK6dkb5y60K1lT5DxHS5qMMHdvyNcA
- 5Mb/GKZQAJW8oZWunuK6IIEQOsm6ccI=
+ bh=AFoivokVevbslefJbFKkp1k4T1s78Pk+5RSvCxa63ZE=;
+ b=UYqRyDswRJKSRNZPwV/gp0aTlhMsCEit/RtyFG1lDGsMcIXvCou9oNvgKrAXr0NVxsVGJx
+ TXEIhlUkYRkJ+DCIDLaZVE83aHCdXUd3OhWzykfyxzsAYjIX9FDitxJWUnw6j3vuEWUYo6
+ YB0+7z3KCymBMFq06U9ze3sM8tJ0ASU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1714646766;
+ s=susede2_ed25519; t=1714648460;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zrXOa0VVlZDvgwP96iZpHXIU4P3xQQOxjymEw8QiRWI=;
- b=5G7GFDoCXtGPCKcTVXHf4u4b11gWpVq9y7l1On/+0MNaHZHn6/8d/TWtssHqI6x9PxuRPk
- +8qoNrIAQn6cQIBw==
+ bh=AFoivokVevbslefJbFKkp1k4T1s78Pk+5RSvCxa63ZE=;
+ b=Qu143nYjL+mHzWZ8nw6tnFahqj3o5XyootwuX+0cy+xiI1BPL68vP8ywBz7foDEgW7awn6
+ gWkszUz9rIpuCKBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 976F81386E;
- Thu,  2 May 2024 10:46:05 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4DDA41386E;
+ Thu,  2 May 2024 11:14:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id MAAXI+1uM2aNFgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 02 May 2024 10:46:05 +0000
-Message-ID: <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
-Date: Thu, 2 May 2024 12:46:05 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id kdDnEYx1M2YXIAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 02 May 2024 11:14:20 +0000
+Message-ID: <31d22165-f7d7-4aaa-802c-fd8c9d67b287@suse.de>
+Date: Thu, 2 May 2024 13:14:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 12/12] fbdev/viafb: Make I2C terminology more inclusive
-To: Easwar Hariharan <eahariha@linux.microsoft.com>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Helge Deller <deller@gmx.de>,
- "open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER"
- <linux-fbdev@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>
-References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
- <20240430173812.1423757-13-eahariha@linux.microsoft.com>
+Subject: Re: [PATCH v3 1/2] drm/panfrost: Fix dma_resv deadlock at drm object
+ pin time
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Qiang Yu <yuq825@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig= <christian.koenig@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Zack Rusin <zack.rusin@broadcom.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
+ <20240501065650.2809530-2-adrian.larumbe@collabora.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -123,32 +119,26 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240430173812.1423757-13-eahariha@linux.microsoft.com>
+In-Reply-To: <20240501065650.2809530-2-adrian.larumbe@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -5.00
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 080261FBF9
+Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.00 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim]; SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
- FREEMAIL_TO(0.00)[linux.microsoft.com,gmx.de,vger.kernel.org,lists.freedesktop.org];
- MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
- ARC_NA(0.00)[];
+ XM_UA_NO_VERSION(0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[19];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_DN_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
- RCPT_COUNT_TWELVE(0.00)[13]; RCVD_COUNT_TWO(0.00)[2];
+ FREEMAIL_TO(0.00)[collabora.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch,arm.com,linaro.org,amd.com,broadcom.com];
+ MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
  FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[renesas];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email]
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:email]
+X-Spam-Score: -4.29
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,298 +154,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
-
-Am 30.04.24 um 19:38 schrieb Easwar Hariharan:
-> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
-> with more appropriate terms. Inspired by and following on to Wolfram's
-> series to fix drivers/i2c/[1], fix the terminology for users of
-> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-> in the specification.
+Am 01.05.24 um 08:55 schrieb Adrián Larumbe:
+> When Panfrost must pin an object that is being prepared a dma-buf
+> attachment for on behalf of another driver, the core drm gem object pinning
+> code already takes a lock on the object's dma reservation.
 >
-> Compile tested, no functionality changes intended
+> However, Panfrost GEM object's pinning callback would eventually try taking
+> the lock on the same dma reservation when delegating pinning of the object
+> onto the shmem subsystem, which led to a deadlock.
 >
-> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+> This can be shown by enabling CONFIG_DEBUG_WW_MUTEX_SLOWPATH, which throws
+> the following recursive locking situation:
 >
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> weston/3440 is trying to acquire lock:
+> ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_shmem_pin+0x34/0xb8 [drm_shmem_helper]
+> but task is already holding lock:
+> ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_pin+0x2c/0x80 [drm]
+>
+> Fix it by assuming the object's reservation had already been locked by the
+> time we reach panfrost_gem_pin.
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Maybe say that the reservation lock has been taken in drm_gem_pin()
 
+>
+> Do the same thing for the Lima driver, as it most likely suffers from the
+> same issue.
+
+Please split this patch into one for panfrost and one for lima. To each 
+patch, you can add
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Best regards
+Thomas
+
+>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Steven Price <steven.price@arm.com>
+> Fixes: a78027847226 ("drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()")
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 > ---
->   drivers/video/fbdev/via/chip.h    |  8 ++++----
->   drivers/video/fbdev/via/dvi.c     | 24 ++++++++++++------------
->   drivers/video/fbdev/via/lcd.c     |  6 +++---
->   drivers/video/fbdev/via/via_aux.h |  2 +-
->   drivers/video/fbdev/via/via_i2c.c | 12 ++++++------
->   drivers/video/fbdev/via/vt1636.c  |  6 +++---
->   6 files changed, 29 insertions(+), 29 deletions(-)
+>   drivers/gpu/drm/lima/lima_gem.c         | 2 +-
+>   drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/video/fbdev/via/chip.h b/drivers/video/fbdev/via/chip.h
-> index f0a19cbcb9e5..1ea6d4ce79e7 100644
-> --- a/drivers/video/fbdev/via/chip.h
-> +++ b/drivers/video/fbdev/via/chip.h
-> @@ -69,7 +69,7 @@
->   #define     VT1632_TMDS             0x01
->   #define     INTEGRATED_TMDS         0x42
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index 7ea244d876ca..c4e0f9faaa47 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -185,7 +185,7 @@ static int lima_gem_pin(struct drm_gem_object *obj)
+>   	if (bo->heap_size)
+>   		return -EINVAL;
 >   
-> -/* Definition TMDS Trasmitter I2C Slave Address */
-> +/* Definition TMDS Trasmitter I2C Client Address */
->   #define     VT1632_TMDS_I2C_ADDR    0x10
->   
->   /**************************************************/
-> @@ -88,21 +88,21 @@
->   #define     TX_DATA_DDR_MODE        0x04
->   #define     TX_DATA_SDR_MODE        0x08
->   
-> -/* Definition LVDS Trasmitter I2C Slave Address */
-> +/* Definition LVDS Trasmitter I2C Client Address */
->   #define     VT1631_LVDS_I2C_ADDR    0x70
->   #define     VT3271_LVDS_I2C_ADDR    0x80
->   #define     VT1636_LVDS_I2C_ADDR    0x80
->   
->   struct tmds_chip_information {
->   	int tmds_chip_name;
-> -	int tmds_chip_slave_addr;
-> +	int tmds_chip_client_addr;
->   	int output_interface;
->   	int i2c_port;
->   };
->   
->   struct lvds_chip_information {
->   	int lvds_chip_name;
-> -	int lvds_chip_slave_addr;
-> +	int lvds_chip_client_addr;
->   	int output_interface;
->   	int i2c_port;
->   };
-> diff --git a/drivers/video/fbdev/via/dvi.c b/drivers/video/fbdev/via/dvi.c
-> index 13147e3066eb..db7db26416c3 100644
-> --- a/drivers/video/fbdev/via/dvi.c
-> +++ b/drivers/video/fbdev/via/dvi.c
-> @@ -70,7 +70,7 @@ bool viafb_tmds_trasmitter_identify(void)
->   	/* Check for VT1632: */
->   	viaparinfo->chip_info->tmds_chip_info.tmds_chip_name = VT1632_TMDS;
->   	viaparinfo->chip_info->
-> -		tmds_chip_info.tmds_chip_slave_addr = VT1632_TMDS_I2C_ADDR;
-> +		tmds_chip_info.tmds_chip_client_addr = VT1632_TMDS_I2C_ADDR;
->   	viaparinfo->chip_info->tmds_chip_info.i2c_port = VIA_PORT_31;
->   	if (check_tmds_chip(VT1632_DEVICE_ID_REG, VT1632_DEVICE_ID)) {
->   		/*
-> @@ -128,14 +128,14 @@ bool viafb_tmds_trasmitter_identify(void)
->   	viaparinfo->chip_info->
->   		tmds_chip_info.tmds_chip_name = NON_TMDS_TRANSMITTER;
->   	viaparinfo->chip_info->tmds_chip_info.
-> -		tmds_chip_slave_addr = VT1632_TMDS_I2C_ADDR;
-> +		tmds_chip_client_addr = VT1632_TMDS_I2C_ADDR;
->   	return false;
+> -	return drm_gem_shmem_pin(&bo->base);
+> +	return drm_gem_shmem_object_pin(obj);
 >   }
 >   
->   static void tmds_register_write(int index, u8 data)
->   {
->   	viafb_i2c_writebyte(viaparinfo->chip_info->tmds_chip_info.i2c_port,
-> -			    viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr,
-> +			    viaparinfo->chip_info->tmds_chip_info.tmds_chip_client_addr,
->   			    index, data);
+>   static int lima_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> index d47b40b82b0b..f268bd5c2884 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -192,7 +192,7 @@ static int panfrost_gem_pin(struct drm_gem_object *obj)
+>   	if (bo->is_heap)
+>   		return -EINVAL;
+>   
+> -	return drm_gem_shmem_pin(&bo->base);
+> +	return drm_gem_shmem_object_pin(obj);
 >   }
 >   
-> @@ -144,7 +144,7 @@ static int tmds_register_read(int index)
->   	u8 data;
->   
->   	viafb_i2c_readbyte(viaparinfo->chip_info->tmds_chip_info.i2c_port,
-> -			   (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr,
-> +			   (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_client_addr,
->   			   (u8) index, &data);
->   	return data;
->   }
-> @@ -152,7 +152,7 @@ static int tmds_register_read(int index)
->   static int tmds_register_read_bytes(int index, u8 *buff, int buff_len)
->   {
->   	viafb_i2c_readbytes(viaparinfo->chip_info->tmds_chip_info.i2c_port,
-> -			    (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr,
-> +			    (u8) viaparinfo->chip_info->tmds_chip_info.tmds_chip_client_addr,
->   			    (u8) index, buff, buff_len);
->   	return 0;
->   }
-> @@ -256,14 +256,14 @@ static int viafb_dvi_query_EDID(void)
->   
->   	DEBUG_MSG(KERN_INFO "viafb_dvi_query_EDID!!\n");
->   
-> -	restore = viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr;
-> -	viaparinfo->chip_info->tmds_chip_info.tmds_chip_slave_addr = 0xA0;
-> +	restore = viaparinfo->chip_info->tmds_chip_info.tmds_chip_client_addr;
-> +	viaparinfo->chip_info->tmds_chip_info.tmds_chip_client_addr = 0xA0;
->   
->   	data0 = (u8) tmds_register_read(0x00);
->   	data1 = (u8) tmds_register_read(0x01);
->   	if ((data0 == 0) && (data1 == 0xFF)) {
->   		viaparinfo->chip_info->
-> -			tmds_chip_info.tmds_chip_slave_addr = restore;
-> +			tmds_chip_info.tmds_chip_client_addr = restore;
->   		return EDID_VERSION_1;	/* Found EDID1 Table */
->   	}
->   
-> @@ -280,8 +280,8 @@ static void dvi_get_panel_size_from_DDCv1(
->   
->   	DEBUG_MSG(KERN_INFO "\n dvi_get_panel_size_from_DDCv1 \n");
->   
-> -	restore = tmds_chip->tmds_chip_slave_addr;
-> -	tmds_chip->tmds_chip_slave_addr = 0xA0;
-> +	restore = tmds_chip->tmds_chip_client_addr;
-> +	tmds_chip->tmds_chip_client_addr = 0xA0;
->   	for (i = 0x25; i < 0x6D; i++) {
->   		switch (i) {
->   		case 0x36:
-> @@ -306,7 +306,7 @@ static void dvi_get_panel_size_from_DDCv1(
->   
->   	DEBUG_MSG(KERN_INFO "DVI max pixelclock = %d\n",
->   		tmds_setting->max_pixel_clock);
-> -	tmds_chip->tmds_chip_slave_addr = restore;
-> +	tmds_chip->tmds_chip_client_addr = restore;
->   }
->   
->   /* If Disable DVI, turn off pad */
-> @@ -427,7 +427,7 @@ void viafb_dvi_enable(void)
->   				viafb_i2c_writebyte(viaparinfo->chip_info->
->   					tmds_chip_info.i2c_port,
->   					viaparinfo->chip_info->
-> -					tmds_chip_info.tmds_chip_slave_addr,
-> +					tmds_chip_info.tmds_chip_client_addr,
->   					0x08, data);
->   			}
->   		}
-> diff --git a/drivers/video/fbdev/via/lcd.c b/drivers/video/fbdev/via/lcd.c
-> index beec5c8d4d08..9a6e4ac9e551 100644
-> --- a/drivers/video/fbdev/via/lcd.c
-> +++ b/drivers/video/fbdev/via/lcd.c
-> @@ -147,7 +147,7 @@ bool viafb_lvds_trasmitter_identify(void)
->   		return true;
->   	/* Check for VT1631: */
->   	viaparinfo->chip_info->lvds_chip_info.lvds_chip_name = VT1631_LVDS;
-> -	viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr =
-> +	viaparinfo->chip_info->lvds_chip_info.lvds_chip_client_addr =
->   		VT1631_LVDS_I2C_ADDR;
->   
->   	if (check_lvds_chip(VT1631_DEVICE_ID_REG, VT1631_DEVICE_ID)) {
-> @@ -161,7 +161,7 @@ bool viafb_lvds_trasmitter_identify(void)
->   
->   	viaparinfo->chip_info->lvds_chip_info.lvds_chip_name =
->   		NON_LVDS_TRANSMITTER;
-> -	viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr =
-> +	viaparinfo->chip_info->lvds_chip_info.lvds_chip_client_addr =
->   		VT1631_LVDS_I2C_ADDR;
->   	return false;
->   }
-> @@ -327,7 +327,7 @@ static int lvds_register_read(int index)
->   	u8 data;
->   
->   	viafb_i2c_readbyte(VIA_PORT_2C,
-> -			(u8) viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr,
-> +			(u8) viaparinfo->chip_info->lvds_chip_info.lvds_chip_client_addr,
->   			(u8) index, &data);
->   	return data;
->   }
-> diff --git a/drivers/video/fbdev/via/via_aux.h b/drivers/video/fbdev/via/via_aux.h
-> index 0933bbf20e58..e2b617b1e6fd 100644
-> --- a/drivers/video/fbdev/via/via_aux.h
-> +++ b/drivers/video/fbdev/via/via_aux.h
-> @@ -24,7 +24,7 @@ struct via_aux_drv {
->   	struct list_head chain;		/* chain to support multiple drivers */
->   
->   	struct via_aux_bus *bus;	/* the I2C bus used */
-> -	u8 addr;			/* the I2C slave address */
-> +	u8 addr;			/* the I2C client address */
->   
->   	const char *name;	/* human readable name of the driver */
->   	void *data;		/* private data of this driver */
-> diff --git a/drivers/video/fbdev/via/via_i2c.c b/drivers/video/fbdev/via/via_i2c.c
-> index 582502810575..907c739475d0 100644
-> --- a/drivers/video/fbdev/via/via_i2c.c
-> +++ b/drivers/video/fbdev/via/via_i2c.c
-> @@ -104,7 +104,7 @@ static void via_i2c_setsda(void *data, int state)
->   	spin_unlock_irqrestore(&i2c_vdev->reg_lock, flags);
->   }
->   
-> -int viafb_i2c_readbyte(u8 adap, u8 slave_addr, u8 index, u8 *pdata)
-> +int viafb_i2c_readbyte(u8 adap, u8 client_addr, u8 index, u8 *pdata)
->   {
->   	int ret;
->   	u8 mm1[] = {0x00};
-> @@ -115,7 +115,7 @@ int viafb_i2c_readbyte(u8 adap, u8 slave_addr, u8 index, u8 *pdata)
->   	*pdata = 0;
->   	msgs[0].flags = 0;
->   	msgs[1].flags = I2C_M_RD;
-> -	msgs[0].addr = msgs[1].addr = slave_addr / 2;
-> +	msgs[0].addr = msgs[1].addr = client_addr / 2;
->   	mm1[0] = index;
->   	msgs[0].len = 1; msgs[1].len = 1;
->   	msgs[0].buf = mm1; msgs[1].buf = pdata;
-> @@ -128,7 +128,7 @@ int viafb_i2c_readbyte(u8 adap, u8 slave_addr, u8 index, u8 *pdata)
->   	return ret;
->   }
->   
-> -int viafb_i2c_writebyte(u8 adap, u8 slave_addr, u8 index, u8 data)
-> +int viafb_i2c_writebyte(u8 adap, u8 client_addr, u8 index, u8 data)
->   {
->   	int ret;
->   	u8 msg[2] = { index, data };
-> @@ -137,7 +137,7 @@ int viafb_i2c_writebyte(u8 adap, u8 slave_addr, u8 index, u8 data)
->   	if (!via_i2c_par[adap].is_active)
->   		return -ENODEV;
->   	msgs.flags = 0;
-> -	msgs.addr = slave_addr / 2;
-> +	msgs.addr = client_addr / 2;
->   	msgs.len = 2;
->   	msgs.buf = msg;
->   	ret = i2c_transfer(&via_i2c_par[adap].adapter, &msgs, 1);
-> @@ -149,7 +149,7 @@ int viafb_i2c_writebyte(u8 adap, u8 slave_addr, u8 index, u8 data)
->   	return ret;
->   }
->   
-> -int viafb_i2c_readbytes(u8 adap, u8 slave_addr, u8 index, u8 *buff, int buff_len)
-> +int viafb_i2c_readbytes(u8 adap, u8 client_addr, u8 index, u8 *buff, int buff_len)
->   {
->   	int ret;
->   	u8 mm1[] = {0x00};
-> @@ -159,7 +159,7 @@ int viafb_i2c_readbytes(u8 adap, u8 slave_addr, u8 index, u8 *buff, int buff_len
->   		return -ENODEV;
->   	msgs[0].flags = 0;
->   	msgs[1].flags = I2C_M_RD;
-> -	msgs[0].addr = msgs[1].addr = slave_addr / 2;
-> +	msgs[0].addr = msgs[1].addr = client_addr / 2;
->   	mm1[0] = index;
->   	msgs[0].len = 1; msgs[1].len = buff_len;
->   	msgs[0].buf = mm1; msgs[1].buf = buff;
-> diff --git a/drivers/video/fbdev/via/vt1636.c b/drivers/video/fbdev/via/vt1636.c
-> index 8d8cfdb05618..614e5c29a449 100644
-> --- a/drivers/video/fbdev/via/vt1636.c
-> +++ b/drivers/video/fbdev/via/vt1636.c
-> @@ -44,7 +44,7 @@ u8 viafb_gpio_i2c_read_lvds(struct lvds_setting_information
->   	u8 data;
->   
->   	viafb_i2c_readbyte(plvds_chip_info->i2c_port,
-> -			   plvds_chip_info->lvds_chip_slave_addr, index, &data);
-> +			   plvds_chip_info->lvds_chip_client_addr, index, &data);
->   	return data;
->   }
->   
-> @@ -60,7 +60,7 @@ void viafb_gpio_i2c_write_mask_lvds(struct lvds_setting_information
->   	data = (data & (~io_data.Mask)) | io_data.Data;
->   
->   	viafb_i2c_writebyte(plvds_chip_info->i2c_port,
-> -			    plvds_chip_info->lvds_chip_slave_addr, index, data);
-> +			    plvds_chip_info->lvds_chip_client_addr, index, data);
->   }
->   
->   void viafb_init_lvds_vt1636(struct lvds_setting_information
-> @@ -113,7 +113,7 @@ bool viafb_lvds_identify_vt1636(u8 i2c_adapter)
->   	DEBUG_MSG(KERN_INFO "viafb_lvds_identify_vt1636.\n");
->   
->   	/* Sense VT1636 LVDS Transmiter */
-> -	viaparinfo->chip_info->lvds_chip_info.lvds_chip_slave_addr =
-> +	viaparinfo->chip_info->lvds_chip_info.lvds_chip_client_addr =
->   		VT1636_LVDS_I2C_ADDR;
->   
->   	/* Check vendor ID first: */
+>   static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_object *obj)
 
 -- 
 --
