@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536B48B963B
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 10:15:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB398B963D
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 10:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 898CE10EEAA;
-	Thu,  2 May 2024 08:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D44B10EF3D;
+	Thu,  2 May 2024 08:15:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZDz20YGd";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hzEbJR6/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE20C10EEAA
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 08:15:22 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-61be4b98766so36287897b3.3
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 01:15:22 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
+ [209.85.128.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1389310EF3D
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 08:15:44 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-6114c9b4d83so69655707b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 01:15:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714637722; x=1715242522; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1714637744; x=1715242544; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ksrXWA++hq4uo5b14CGOhlwMbP35YcH8qiFN3VUhLdo=;
- b=ZDz20YGdz/mvDxcMuxXui59fJGTTCvr3x35oQ9/OLIsnbo0ES1R/m9/E4NSWEaCA02
- bf0zqIuFqQALpq6RNsmRsDZnnSDTKYoR87RAtQ3Wljiw+meT0xdPIiN5iuhCXFyitVW3
- ZlIZ022hcDGLXDy2JC8qizM0Ry7pR+ftvu6G1Wx9nTygp8MJh2YW5dUKtajPgwwqtXtY
- worq/BJzAKA2XHY8cF1QFtMltK8hD/b8RtO9tWQz31rceIlrxve1mqLJjjSsc58f8Cbp
- okQ/b+v1qBvGBkVi/6//znHk/8MH6jYQMqlkhGirH+o1d/cCEQmP0YULB/kO1qvkx63O
- aN0A==
+ bh=5S/Vn0g70fC06g8jlyeQvB4ZGZRV9mVbLHjIiCg/NGs=;
+ b=hzEbJR6/guni0kbpbw35s4rxhfVPg6By8RMnrKtrdC+0eYAcyN6/cICbpaw1pXQ+W/
+ qvex4pmV7RCLU79FXmVlqEp6N58k9Vg8DrRXJVfyFerrvbEOk5BiK3LxHYSgnjIrlEQ2
+ FlCjyjrdDdOfATvjw0yHF3kKENMlB1Spf9oxXTqTYNUGAC8JaYG/sXclyQmGeikbolLE
+ DTPEHcyHO6D+gZD08nwWdtbMGDai2y0I2nSqSK81duYbT574E5B//ABfuCqL6bn1//jj
+ 0QZkajqto9qWKOULnfec+j6mZDkhsF0qd9jr98uoIpNkLX41ot0jZJV9iruaiMAxwPOD
+ XCOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714637722; x=1715242522;
+ d=1e100.net; s=20230601; t=1714637744; x=1715242544;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ksrXWA++hq4uo5b14CGOhlwMbP35YcH8qiFN3VUhLdo=;
- b=w356x/uWyTnREBzeBANF+r7if4j3DGl47bsfHn4b1G6AwhsaAtIt+k2SwWxFGcyJrc
- b0lu0b+hP2xjrzmhAxJRMNaGOXTNKOB7pTIC3bDqJen3t5RDKKvmTGDkYZBvDVjwsLVr
- IYvWfQfAVmQjrzodqyM9pPkJ4GN5WXZrmvPTXYcZKVvx1UfFJoDWJPre1M+t73Ci7wMU
- H0gE4YMhGKfWNLOSgOssc32D5jSHcOKHsQv24+9fH9AB14kr6IcvgUMvIb+YTL3CnOzL
- GIxhbNguntbBe9XypubftTxzQ3U8lLxe/diX6HrDJXKqMsuPc7MZci1UEvQJ96IfRCts
- Mlgw==
-X-Gm-Message-State: AOJu0YzBwgoypsdCWkl/J1f/TjaTkJ1l5P90Tml5d4QmNk2oOr0HYn16
- 4IUr8rMJUswMSko41LaHFjqkXkvewSQs87BHG+TPSx+haGmgQLtXo1Sw4BF4oSEGXtBAdRaHcaH
- hq8bqJlVi2Tea2pkEipbRVpMDB59CITZn8H6lWw==
-X-Google-Smtp-Source: AGHT+IGX8v+8VmddJzrDHjwUwXISt1o62/4S2TF455DujQU9cLxV5tMcWCQoLUuneneXH3ceSHMKHYls/F7UcN1WCOo=
-X-Received: by 2002:a05:690c:6d93:b0:61a:c4a3:8a5c with SMTP id
- iw19-20020a05690c6d9300b0061ac4a38a5cmr5471921ywb.44.1714637719772; Thu, 02
- May 2024 01:15:19 -0700 (PDT)
+ bh=5S/Vn0g70fC06g8jlyeQvB4ZGZRV9mVbLHjIiCg/NGs=;
+ b=lN6WILpS85B1i0tJQy6RIbpaNLteryK55VpzGbNHpaovRbBhlRtlopYoPmAdihvFRq
+ LebVkjrYstyvoN/qvBOn8nS4ygD+mp0irCN1rBrgBLA21qhR1l8G9hdwhLHlw7OBwD8T
+ Ai14QVVy4Mv8UzqFm7y++RB3/5sMeANn38OsLeFH+ypWYmLqoxGKrKCE6Q+JIGPjyDu+
+ xmwQBMY9g0p3umuf38exdZn59cz9/pMxFUqd3Nd4kvtR6EIwRetgd85JbL6nN5AoTMcE
+ aPPCZ9ZsPX65TZzHI20v1WnGn2fHi2LeOiUptPKEzFCJP0vvFnbL4uZrmuUJSzB6ytLM
+ SmxQ==
+X-Gm-Message-State: AOJu0Yy/booFFpef4w8FbzNuq3ZGw/Gxvy0l+kEIokabFfVPRPxMLOo0
+ S4Zhc+A3/fudFx/TK4i2TTjyhmRmSDQX88toC8na7Iiui60uJTUsQMY25mVAKsVt63+cKSozjPC
+ 0ygi46MBrhR8uRlMXesPKbTvgMFvc0K0mnTLULA==
+X-Google-Smtp-Source: AGHT+IFQN6e2CW2O0jj9xW0UNZm+IJASAgpOckxhGFhd1ISoRtklWjM+E52dQkZBjtkD9HAP/Js4ltIQqZxLBYRiO5Y=
+X-Received: by 2002:a05:690c:b82:b0:61b:91e3:f954 with SMTP id
+ ck2-20020a05690c0b8200b0061b91e3f954mr5648431ywb.8.1714637744077; Thu, 02 May
+ 2024 01:15:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240501154251.3302887-1-dianders@chromium.org>
- <20240501084109.v3.1.I30fa4c8348ea316c886ef8a522a52fed617f930d@changeid>
-In-Reply-To: <20240501084109.v3.1.I30fa4c8348ea316c886ef8a522a52fed617f930d@changeid>
+ <20240501084109.v3.2.Iadb65b8add19ed3ae3ed6425011beb97e380a912@changeid>
+In-Reply-To: <20240501084109.v3.2.Iadb65b8add19ed3ae3ed6425011beb97e380a912@changeid>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 2 May 2024 10:15:08 +0200
-Message-ID: <CACRpkdZOyK=CSG2C64ELXXiieHUd_BaHBBR=iLrG6moYDUTC4w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/9] drm/mipi-dsi: Fix theoretical int overflow in
- mipi_dsi_dcs_write_seq()
+Date: Thu, 2 May 2024 10:15:33 +0200
+Message-ID: <CACRpkdZQ5SHatac4uPUKd-ABu6Xd5PDYeKoFGvFQMssYOZW_mw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] drm/mipi-dsi: Fix theoretical int overflow in
+ mipi_dsi_generic_write_seq()
 To: Douglas Anderson <dianders@chromium.org>
 Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
@@ -92,16 +92,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Wed, May 1, 2024 at 5:43=E2=80=AFPM Douglas Anderson <dianders@chromium.=
 org> wrote:
 
-> The mipi_dsi_dcs_write_seq() macro makes a call to
-> mipi_dsi_dcs_write_buffer() which returns a type ssize_t. The macro
-> then stores it in an int and checks to see if it's negative. This
-> could theoretically be a problem if "ssize_t" is larger than "int".
+> The mipi_dsi_generic_write_seq() macro makes a call to
+> mipi_dsi_generic_write() which returns a type ssize_t. The macro then
+> stores it in an int and checks to see if it's negative. This could
+> theoretically be a problem if "ssize_t" is larger than "int".
 >
 > To see the issue, imagine that "ssize_t" is 32-bits and "int" is
 > 16-bits, you could see a problem if there was some code out there that
 > looked like:
 >
->   mipi_dsi_dcs_write_seq(dsi, cmd, <32767 bytes as arguments>);
+>   mipi_dsi_generic_write_seq(dsi, <32768 bytes as arguments>);
 >
 > ...since we'd get back that 32768 bytes were transferred and 32768
 > stored in a 16-bit int would look negative.
@@ -110,11 +110,10 @@ org> wrote:
 > "int" was only 16-bit), it's cleaner to make the types match so let's
 > fix it.
 >
-> Fixes: 2a9e9daf7523 ("drm/mipi-dsi: Introduce mipi_dsi_dcs_write_seq macr=
-o")
+> Fixes: a9015ce59320 ("drm/mipi-dsi: Add a mipi_dsi_dcs_write_seq() macro"=
+)
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-All right! Nice work.
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
