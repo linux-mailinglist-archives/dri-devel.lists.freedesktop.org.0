@@ -2,37 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CB48B96FE
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 10:58:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBF18B9711
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 11:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE7F610E1C2;
-	Thu,  2 May 2024 08:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38FA210F175;
+	Thu,  2 May 2024 09:02:35 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sz9ixFx1";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id EB04E10E1C2
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 08:58:53 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 699532F4
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 01:59:18 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8908C3F71E
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 01:58:52 -0700 (PDT)
-Date: Thu, 2 May 2024 09:58:45 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH] drm/panthor: Fix the FW reset logic
-Message-ID: <ZjNVxW5LbbXmCvJU@e110455-lin.cambridge.arm.com>
-References: <20240430113727.493155-1-boris.brezillon@collabora.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9E3610F29F
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 09:02:32 +0000 (UTC)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it
+ [93.61.96.190])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77DEFBC8;
+ Thu,  2 May 2024 11:01:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1714640493;
+ bh=ss707vsEvpxLJxwi3bQDGTrjp0VfVeydeR2e0E1DgfA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sz9ixFx1HRr1ylVGujEHDMgBzBPnDkBgtefJDXDTuKYXNnfhetAbPzWdRls41S2Ua
+ ij5cbiW/Rrh4uCy2sVr3MAaaJjqe0JvfvyX0Z9EezmDggICIU+V0E36nkgobQZlRfV
+ hXEX0y+QfYUgcDU1BrShqFVU3WRDAfpItbDhemIM=
+Date: Thu, 2 May 2024 11:02:27 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Naushir Patuck <naush@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH] drm/fourcc: Add RGB161616 and BGR161616 formats
+Message-ID: <ecuukxmwolxr77p5mpktjhd5bkjpaf27rnprhey4y7bst4vntv@o3uzkb67molt>
+References: <20240226132544.82817-1-jacopo.mondi@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240430113727.493155-1-boris.brezillon@collabora.com>
+In-Reply-To: <20240226132544.82817-1-jacopo.mondi@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,50 +57,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 30, 2024 at 01:37:27PM +0200, Boris Brezillon wrote:
-> In the post_reset function, if the fast reset didn't succeed, we
-> are not clearing the fast_reset flag, which prevents firmware
-> sections from being reloaded. While at it, use panthor_fw_stop()
-> instead of manually writing DISABLE to the MCU_CONTROL register.
-> 
-> Fixes: 2718d91816ee ("drm/panthor: Add the FW logical block")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Hello
+   which tree should this patch be collected from now that it has
+been reviewed ?
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
+On Mon, Feb 26, 2024 at 02:25:43PM GMT, Jacopo Mondi wrote:
+> Add FourCC definitions for the 48-bit RGB/BGR formats to the
+> DRM/KMS uapi.
+>
+> The format will be used by the Raspberry Pi PiSP Back End,
+> supported by a V4L2 driver in kernel space and by libcamera in
+> userspace, which uses the DRM FourCC identifiers.
+>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_fw.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 181395e2859a..fedf9627453f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -1083,10 +1083,11 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
->  		if (!ret)
->  			goto out;
->  
-> -		/* Force a disable, so we get a fresh boot on the next
-> -		 * panthor_fw_start() call.
-> +		/* Forcibly reset the MCU and force a slow reset, so we get a
-> +		 * fresh boot on the next panthor_fw_start() call.
->  		 */
-> -		gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_DISABLE);
-> +		panthor_fw_stop(ptdev);
-> +		ptdev->fw->fast_reset = false;
->  		drm_err(&ptdev->base, "FW fast reset failed, trying a slow reset");
->  	}
->  
-> -- 
-> 2.44.0
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+>  drivers/gpu/drm/drm_fourcc.c  | 8 ++++++++
+>  include/uapi/drm/drm_fourcc.h | 4 ++++
+>  2 files changed, 12 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index 193cf8ed7912..908f20b96fd5 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -210,6 +210,14 @@ const struct drm_format_info *__drm_format_info(u32 format)
+>  		{ .format = DRM_FORMAT_ABGR2101010,	.depth = 30, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+>  		{ .format = DRM_FORMAT_RGBA1010102,	.depth = 30, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+>  		{ .format = DRM_FORMAT_BGRA1010102,	.depth = 30, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> +		{ .format = DRM_FORMAT_RGB161616,	.depth = 0,
+> +		  .num_planes = 1, .char_per_block = { 6, 0, 0 },
+> +		  .block_w = { 1, 0, 0 }, .block_h = { 1, 0, 0 },
+> +		  .hsub = 1, .vsub = 1, .has_alpha = false },
+> +		{ .format = DRM_FORMAT_BGR161616,	.depth = 0,
+> +		  .num_planes = 1, .char_per_block = { 6, 0, 0 },
+> +		  .block_w = { 1, 0, 0 }, .block_h = { 1, 0, 0 },
+> +		  .hsub = 1, .vsub = 1, .has_alpha = false },
+>  		{ .format = DRM_FORMAT_ARGB8888,	.depth = 32, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+>  		{ .format = DRM_FORMAT_ABGR8888,	.depth = 32, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+>  		{ .format = DRM_FORMAT_RGBA8888,	.depth = 32, .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 84d502e42961..00db00083175 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -210,6 +210,10 @@ extern "C" {
+>  #define DRM_FORMAT_RGBA1010102	fourcc_code('R', 'A', '3', '0') /* [31:0] R:G:B:A 10:10:10:2 little endian */
+>  #define DRM_FORMAT_BGRA1010102	fourcc_code('B', 'A', '3', '0') /* [31:0] B:G:R:A 10:10:10:2 little endian */
+>
+> +/* 48 bpp RGB */
+> +#define DRM_FORMAT_RGB161616 fourcc_code('R', 'G', '4', '8') /* [47:0] R:G:B 16:16:16 little endian */
+> +#define DRM_FORMAT_BGR161616 fourcc_code('B', 'G', '4', '8') /* [47:0] B:G:R 16:16:16 little endian */
+> +
+>  /* 64 bpp RGB */
+>  #define DRM_FORMAT_XRGB16161616	fourcc_code('X', 'R', '4', '8') /* [63:0] x:R:G:B 16:16:16:16 little endian */
+>  #define DRM_FORMAT_XBGR16161616	fourcc_code('X', 'B', '4', '8') /* [63:0] x:B:G:R 16:16:16:16 little endian */
+> --
+> 2.43.0
+>
