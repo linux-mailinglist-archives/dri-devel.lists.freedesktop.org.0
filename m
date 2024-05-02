@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2538B9713
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 11:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 076328B9716
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 11:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B94FF10EF58;
-	Thu,  2 May 2024 09:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73FEE10F245;
+	Thu,  2 May 2024 09:03:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="IBHown23";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="XcP5fvc4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD4A10EF58
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 09:03:43 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-1ecc23e6c9dso7652625ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 02:03:43 -0700 (PDT)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34DD510F245
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 09:03:47 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-1ec4b2400b6so23453035ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 02:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714640622; x=1715245422;
+ d=chromium.org; s=google; t=1714640626; x=1715245426;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=I9jftfW39bbIeQUfZAK90lWrNeaGnmPoobdnKBYyOfs=;
- b=IBHown23rvbZMK9r3JQZj/t5Z2TETgVdRyTtuzUBs0W3n7AiaO+ZXBmgJPaus4oyt/
- ApJxxqjBHqVfKhqMLumzOuRDgA3ssGrmm8AXQFHxrR56/m3WMmS34n/rTOCMzHR+/rkV
- D8e8LEV0PdaRiy8e00anC6N0bxwT+/sBSUxOk=
+ :reply-to; bh=mSBBp0xVAK2Nv+uiyQY9w2gt3jv+iQ6l4RIpa967w98=;
+ b=XcP5fvc4P3l7m9qmjjlM3AUHOqUDSSKnAi+KlD3H0cFkFINVTnlrwOTHDa58S81BBJ
+ 4rACZ42vXKP9tzn/L3b/SRMUrgWZSzMTiBlUCqlsf3v8kiQfQic5aU6lOfrK4sEWVjwI
+ goNj3xTEit2nvYSrgLWo5lGzImLdM96RIb5wA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714640622; x=1715245422;
+ d=1e100.net; s=20230601; t=1714640626; x=1715245426;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=I9jftfW39bbIeQUfZAK90lWrNeaGnmPoobdnKBYyOfs=;
- b=f4aaNlpuyehdUxVPYg19WGwIldWe7tKdGKV0Owi9HgVc4A+spNeJQoORzL4qAl6aJE
- bnKVBiKCVpw1Ze4mWmwPOIxAZCs1tHccnlhgnxgnGBgemZ0pODXIljrKq5PDZ6iOyASx
- zmX8uoBuN236SuhcKE5Gxo5E4NEUKzU5EzMj0drTjP1XK+9HlWc25dhUsyzXunz+6ma9
- ATdj9lS1bI5xAH0gzXeonBiiXEQjOZ8tBrq/GttAliZQV4ppiZUkys0Z3Qy26/NNYD6B
- QYDlIR3aKfENTLdmME1XzMO/fvURUv2VDzg+JEcAzVs5xXV0u6tdGyzycqJ6Y0HyBNtQ
- QYfw==
-X-Gm-Message-State: AOJu0YzbzScB9a/ek6IrAsQdUluX/509ooS2JIiLy6NhnoDN39RjVfd/
- Z+D/UWQUSrIL0KJ1nOU1EAx+bLBf1M3T4xbccuAuiIsqKd+ZXigOT4HjidVP9yyhLBZ4qcq6//l
- xWQ==
-X-Google-Smtp-Source: AGHT+IHkk47f/oaNwBy+tqBFBgyeA5BhGR8Bu0LMaWx3ZnBeZ9jL9N9vElMhu4nySP7qHeAXoZ246Q==
-X-Received: by 2002:a17:902:bb17:b0:1e5:8769:aadc with SMTP id
- im23-20020a170902bb1700b001e58769aadcmr4864021plb.22.1714640622119; 
- Thu, 02 May 2024 02:03:42 -0700 (PDT)
+ bh=mSBBp0xVAK2Nv+uiyQY9w2gt3jv+iQ6l4RIpa967w98=;
+ b=pguEgUX9YCEUa37yBwh0Udi0e3CHVxVz+YoJmdRx51ewQcdbfiT3HLy1ORY+jLPBcp
+ VqBVSJN1OTEjucn1md8fNiSV5/79AnjlnqqfuopCwH/My6AUMCEOw4MLwMkg16uCTV55
+ 6lp1s1RAUocQ6HOyifWeLEKmwu367IR6ULyfejNkyN/KFmebWcE/Hk92tmJPfwBFcaNI
+ NbEy78QOKB8Q+4tNuraywma4QcKZgl8R9A104QPeTTOGXjuFAlAcKU+dTGjaA+e83tt+
+ zDkYOnqxso0WG7rAEXc/WJhwqmjZx5OckH6CXmUxPgi61pYJBZ2OP5qZiDDj/1/HuNMo
+ R3Qg==
+X-Gm-Message-State: AOJu0YxXT1yjqJXxYvAUloMNgXaUIXXA5HKlns5ck/bkRkfS1NNwbq/l
+ IlyOZPfUx/2P5qHL6nSnKiQXA8So3dRN57mpxgOqm5cwMY+wBVe1LgHYfBELtJ4onnaFo80NeX3
+ w7A==
+X-Google-Smtp-Source: AGHT+IEBuAfvynb9BlBVviwdLBMz5FWVRR1coQ299RAg2o7gZQK05GKLeQOsAHksMZJ/R+wmVm710A==
+X-Received: by 2002:a17:902:db01:b0:1e2:1df:449b with SMTP id
+ m1-20020a170902db0100b001e201df449bmr1720490plx.69.1714640626252; 
+ Thu, 02 May 2024 02:03:46 -0700 (PDT)
 Received: from yuanhsinte1.c.googlers.com
  (150.221.124.34.bc.googleusercontent.com. [34.124.221.150])
  by smtp.gmail.com with ESMTPSA id
- c17-20020a170902d49100b001ebd73f61fcsm764983plg.121.2024.05.02.02.03.38
+ c17-20020a170902d49100b001ebd73f61fcsm764983plg.121.2024.05.02.02.03.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 May 2024 02:03:41 -0700 (PDT)
+ Thu, 02 May 2024 02:03:45 -0700 (PDT)
 From: Hsin-Te Yuan <yuanhsinte@chromium.org>
-Date: Thu, 02 May 2024 09:03:31 +0000
-Subject: [PATCH 1/2] dt-bindings: drm/bridge: anx7625: Add a perporty to
- change TDM setting
+Date: Thu, 02 May 2024 09:03:32 +0000
+Subject: [PATCH 2/2] drm/bridge: anx7625: Change TDM setting accroding to
+ dt property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240502-anx-tdm-v1-1-894a9f634f44@chromium.org>
+Message-Id: <20240502-anx-tdm-v1-2-894a9f634f44@chromium.org>
 References: <20240502-anx-tdm-v1-0-894a9f634f44@chromium.org>
 In-Reply-To: <20240502-anx-tdm-v1-0-894a9f634f44@chromium.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -91,29 +91,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a perporty to indicate whether anx7625 should shift the first audio
-data bit. The default TDM setting is to shift the first audio data bit.
+For some SoCs, the TDM setting is not to shift the first audio data bit,
+which is not the default setting of anx7625. In such cases, the TDM
+setting should be changed according to the device tree property.
 
 Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
 ---
- .../devicetree/bindings/display/bridge/analogix,anx7625.yaml          | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.h | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-index a1ed1004651b9..915d5d54a2160 100644
---- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-@@ -82,6 +82,10 @@ properties:
-     type: boolean
-     description: let the driver enable audio HDMI codec function or not.
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 29d91493b101a..538edddf313c9 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1709,6 +1709,9 @@ static int anx7625_parse_dt(struct device *dev,
+ 	if (of_property_read_bool(np, "analogix,audio-enable"))
+ 		pdata->audio_en = 1;
  
-+  no-shift-audio-data:
-+    type: boolean
-+    description: Disable the first audio data bit shift in the TDM settings.
++	if(!of_property_read_bool(np, "no-shift-audio-data"))
++		pdata->shift_audio_data = 1;
 +
-   aux-bus:
-     $ref: /schemas/display/dp-aux-bus.yaml#
+ 	return 0;
+ }
  
+@@ -1866,6 +1869,11 @@ static int anx7625_audio_hw_params(struct device *dev, void *data,
+ 					   ~TDM_SLAVE_MODE,
+ 					   I2S_SLAVE_MODE);
+ 
++	if (!ctx->pdata.shift_audio_data)
++		ret |= anx7625_write_or(ctx, ctx->i2c.tx_p2_client,
++				       AUDIO_CONTROL_REGISTER,
++				       TDM_TIMING_MODE);
++
+ 	/* Word length */
+ 	switch (params->sample_width) {
+ 	case 16:
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
+index 39ed35d338363..41b395725913a 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.h
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+@@ -441,6 +441,7 @@ struct anx7625_platform_data {
+ 	u8 lane1_reg_data[DP_TX_SWING_REG_CNT];
+ 	u32 low_power_mode;
+ 	struct device_node *mipi_host_node;
++	int shift_audio_data;
+ };
+ 
+ struct anx7625_i2c_client {
 
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
