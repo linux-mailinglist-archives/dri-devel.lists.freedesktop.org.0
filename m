@@ -2,46 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D965B8BA1CE
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 23:03:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8834A8BA31E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 00:26:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77C4010E65E;
-	Thu,  2 May 2024 21:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 674791126F2;
+	Thu,  2 May 2024 22:26:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="eQuorxj3";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NhCrLKdI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0988D10E65E
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 21:02:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- sang-engineering.com; h=from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding; s=k1; bh=TsEbpVzAc9NqZy
- rn7SWKxRL9u6cwRW1R8AWr1oj8/Yc=; b=eQuorxj3SIIIV3g+HrkZIsC+es5jDY
- 7TajLTeO2219fxqnBMjk1R7PIxrR4kg1YlqimD9/4qz2NQYDXUHXvk3BOXZw1u97
- eKp6OUZv2yoQE/o6I8A6ubJjeCkVPATu9ESGdvicBHY8yWcRcFTmdn+pwJ6TThBL
- +sZv5G79qFKBlhyip4ZwbL7qgxN/9wAnuA5qh0FQFxEmP4OhBFwiF8YVu+YLUZxb
- KVVP5OQl3SxHgnhEGu7bDUHoJxCoI/ncCrem0Hsl/DGfxvMRjJAOvlFvyBKjKxab
- 5WxUDnTjEiX5rVTsYyC3iSqNvWGOPYgJjeefkpdBYkdIR9jEOmj6jbUQ==
-Received: (qmail 3366312 invoked from network); 2 May 2024 23:02:55 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 2 May 2024 23:02:55 +0200
-X-UD-Smtp-Session: l3s3148p1@a1dX7X4XpsdehhrT
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/1] drm: arm: display: komeda: komeda_crtc: use 'time_left'
- variable with wait_for_completion_timeout()
-Date: Thu,  2 May 2024 23:02:53 +0200
-Message-ID: <20240502210252.11617-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 90BBF1126F6;
+ Thu,  2 May 2024 22:26:38 +0000 (UTC)
+Received: from [100.64.232.195] (unknown [20.29.225.195])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 518C5206B4FD;
+ Thu,  2 May 2024 15:26:37 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 518C5206B4FD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1714688797;
+ bh=NzMrFwSnELsNTouka86zwY4xBu0HDKLPheXHNRlf/UY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=NhCrLKdI/ZqOMxIi0x/9IcKVE1fu8SJgV6IOu9yOzA4/X9AoPavE5e5S65Ugw3uBC
+ sulaSRBperkkDcIDt2jCnwInTZEDOTYmaUAyGGeCvlgfS23LBxyBkoeXTUrIdi6qwD
+ 4F+b4DUgYEKEoHW556opdVdEoci1DJoGsON85j90=
+Message-ID: <076e0a0d-ad26-490e-9784-300ed52637ca@linux.microsoft.com>
+Date: Thu, 2 May 2024 15:26:36 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 12/12] fbdev/viafb: Make I2C terminology more inclusive
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Helge Deller <deller@gmx.de>,
+ "open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER"
+ <linux-fbdev@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>
+References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
+ <20240430173812.1423757-13-eahariha@linux.microsoft.com>
+ <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
+Content-Language: en-CA
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+In-Reply-To: <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,46 +71,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a confusing pattern in the kernel to use a variable named 'timeout' to
-store the result of wait_for_completion_timeout() causing patterns like:
+On 5/2/2024 3:46 AM, Thomas Zimmermann wrote:
+> 
+> 
+> Am 30.04.24 um 19:38 schrieb Easwar Hariharan:
+>> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
+>> with more appropriate terms. Inspired by and following on to Wolfram's
+>> series to fix drivers/i2c/[1], fix the terminology for users of
+>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+>> in the specification.
+>>
+>> Compile tested, no functionality changes intended
+>>
+>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+>>
+>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
 
-	timeout = wait_for_completion_timeout(...)
-	if (!timeout) return -ETIMEDOUT;
+Thanks for the ack! I had been addressing feedback as I got it on the v0 series, and it seems
+I missed out on updating viafb and smscufx to spec-compliant controller/target terminology like
+the v0->v1 changelog calls out before posting v1.
 
-with all kinds of permutations. Use 'time_left' as a variable to make the code
-self explaining.
+For smscufx, I feel phrasing the following line (as an example)
 
-Fix to the proper variable type 'unsigned long' while here.
+> -/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, host, 
+> +/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, *controller*, 
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+would actually impact readability negatively, so I propose to leave smscufx as is.
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-index 2c661f28410e..c867acb737d6 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-@@ -294,7 +294,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
- 	struct komeda_dev *mdev = kcrtc->master->mdev;
- 	struct completion *flip_done;
- 	struct completion temp;
--	int timeout;
-+	unsigned long time_left;
- 
- 	/* if caller doesn't send a flip_done, use a private flip_done */
- 	if (input_flip_done) {
-@@ -308,8 +308,8 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
- 	mdev->funcs->flush(mdev, kcrtc->master->id, 0);
- 
- 	/* wait the flip take affect.*/
--	timeout = wait_for_completion_timeout(flip_done, HZ);
--	if (timeout == 0) {
-+	time_left = wait_for_completion_timeout(flip_done, HZ);
-+	if (time_left == 0) {
- 		DRM_ERROR("wait pipe%d flip done timeout\n", kcrtc->master->id);
- 		if (!input_flip_done) {
- 			unsigned long flags;
--- 
-2.43.0
+For viafb, I propose making it compliant with the spec using the controller/target terminology and
+posting a v2 respin (which I can send out as soon as you say) and ask you to review again.
 
+What do you think?
+
+Thanks,
+Easwar
+
+>> ---
+>>   drivers/video/fbdev/via/chip.h    |  8 ++++----
+>>   drivers/video/fbdev/via/dvi.c     | 24 ++++++++++++------------
+>>   drivers/video/fbdev/via/lcd.c     |  6 +++---
+>>   drivers/video/fbdev/via/via_aux.h |  2 +-
+>>   drivers/video/fbdev/via/via_i2c.c | 12 ++++++------
+>>   drivers/video/fbdev/via/vt1636.c  |  6 +++---
+>>   6 files changed, 29 insertions(+), 29 deletions(-)
+>>
+
+<snip>
