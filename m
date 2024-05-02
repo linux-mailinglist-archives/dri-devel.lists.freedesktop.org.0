@@ -2,57 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273668B9CB9
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 16:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7648B9CFC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2024 17:02:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63DF510E304;
-	Thu,  2 May 2024 14:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 688521124EC;
+	Thu,  2 May 2024 15:01:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lwNaNuXC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nztOQpEx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2A510E304
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2024 14:47:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714661267;
- bh=zdySfR+fYWhFBHXlODA/QCasUTB470MpHXj10sznWDU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lwNaNuXCd5ddbpzg8ETnFoTyzID5gpGiKtx0Yz7+LO9oJmQGXNSJqHTLRKJ+RAiaq
- DVbLqJnOgcykR1ewWbms+WTr7quz3KvTbbMgq6Jv7bGRdA35fpstJJR2xaLDGxX2ZO
- MDufzHmDjls3zZmMAWC0aBT6g9hDFu5Ho6zo4S9zBiYPA2d5YV2nVt2mkRDV4u2uxs
- 0iEHU2bTAGk3MraBjq3gRsbTgRd7DGsbllAiEuQ2I5JcZkWo8RnjA/Jaly/H2nPZTs
- J/DWCNoyCVwPvt7fnRP5APzhqEg8oqNA0JZb5CruavXD887TykFhRwvfb+jt28mOai
- IqxQPN6Nfz2kA==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id C7697378001E;
- Thu,  2 May 2024 14:47:46 +0000 (UTC)
-Date: Thu, 2 May 2024 16:47:45 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, Eric Smith <eric.smith@collabora.com>
-Subject: Re: [PATCH v2 4/4] drm/panthor: Fix an off-by-one in the heap
- context retrieval logic
-Message-ID: <20240502164745.0f11ed7c@collabora.com>
-In-Reply-To: <20240502163602.70f554b5@collabora.com>
-References: <20240430112852.486424-1-boris.brezillon@collabora.com>
- <20240430112852.486424-5-boris.brezillon@collabora.com>
- <791a81bf-323c-40dc-ab51-2d909adcb90b@arm.com>
- <20240502161503.00f4e3c9@collabora.com>
- <39c22cd8-8638-45ea-8450-87a7ad13568f@arm.com>
- <20240502163602.70f554b5@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24C2B1124EA;
+ Thu,  2 May 2024 15:01:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1714662118; x=1746198118;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=AxiPjBwg/o//qvlid03BaPkYWf99rAvtN0FR76XKJDE=;
+ b=nztOQpEx628Nsgxr26pdKSyeAkUCSgzJ+PglYrTSSDRQnhwMBzIblPLj
+ VCJIsLsR41TwZsMKtIB44RdkvfZtdLeKIUQqgFnoZ2DF3KQ9dxxgiX5zY
+ H4AUEhh8xGd5Ky4CS72J2f5RecoHRxBaVR5W9xdqoJO9VyYhiA1mjUeta
+ dBwB5d3dEY9TS0WDHG9SF4YsDoTQ5GJSFPa2wRcv7xABLIAOMcpQX2I6h
+ zb026TTyT3vKfDd7XD5lafLqD8AAhWIH17oP0JMIART9J8m6yXKsoEl41
+ nwj88gDg4fVMKGMHfwNjkclqgU2G7/oIAeCO+5QFQd73lWQM895oSSzjp Q==;
+X-CSE-ConnectionGUID: inJWjQSqT9SvU8B63wVJ7w==
+X-CSE-MsgGUID: 851W8Bg9TcinthCgMm/C6A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10283449"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="10283449"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2024 08:01:58 -0700
+X-CSE-ConnectionGUID: 7MtFKqrtSmmOCLOQKuvvBQ==
+X-CSE-MsgGUID: 6KwmRaYgQJmL+quXWHpFyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="27027101"
+Received: from antonvol-mobl1.ccr.corp.intel.com (HELO [10.251.209.48])
+ ([10.251.209.48])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2024 08:01:55 -0700
+Message-ID: <0b700baf6fc3d41b4adf6301b1b4dbc4ff7078fa.camel@linux.intel.com>
+Subject: Re: [PATCH 06/23] drm/xe/svm: Introduce a helper to build sg table
+ from hmm range
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, "Zeng, Oak" <oak.zeng@intel.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Brost,
+ Matthew" <matthew.brost@intel.com>,  "Welty, Brian"
+ <brian.welty@intel.com>, "Ghimiray, Himal Prasad"
+ <himal.prasad.ghimiray@intel.com>, "Bommu, Krishnaiah"
+ <krishnaiah.bommu@intel.com>, "Vishwanathapura, Niranjana"
+ <niranjana.vishwanathapura@intel.com>, Leon Romanovsky <leon@kernel.org>
+Date: Thu, 02 May 2024 17:01:51 +0200
+In-Reply-To: <20240502124632.GB3341011@nvidia.com>
+References: <65cb3984309d377d6e7d57cb6567473c8a83ed78.camel@linux.intel.com>
+ <20240426120047.GX941030@nvidia.com>
+ <ad82f95ee29ada403459416d4c97c2b9083b5a0f.camel@linux.intel.com>
+ <20240426163519.GZ941030@nvidia.com>
+ <f938dc8f7309ae833e02ccdbc72134df0607dfa4.camel@linux.intel.com>
+ <20240430173002.GV941030@nvidia.com> <ZjE_LJ7AFFQk0Eep@phenom.ffwll.local>
+ <20240501000915.GY941030@nvidia.com> <ZjNJASw0JdXS6dTa@phenom.ffwll.local>
+ <93fca752517f0120baa770992fd0f9160b0c14d1.camel@linux.intel.com>
+ <20240502124632.GB3341011@nvidia.com>
+Autocrypt: addr=thomas.hellstrom@linux.intel.com; prefer-encrypt=mutual;
+ keydata=mDMEZaWU6xYJKwYBBAHaRw8BAQdAj/We1UBCIrAm9H5t5Z7+elYJowdlhiYE8zUXgxcFz360SFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCBMaW51eCBlbWFpbCkgPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPoiTBBMWCgA7FiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQuBaTVQrGBr/yQAD/Z1B+Kzy2JTuIy9LsKfC9FJmt1K/4qgaVeZMIKCAxf2UBAJhmZ5jmkDIf6YghfINZlYq6ixyWnOkWMuSLmELwOsgPuDgEZaWU6xIKKwYBBAGXVQEFAQEHQF9v/LNGegctctMWGHvmV/6oKOWWf/vd4MeqoSYTxVBTAwEIB4h4BBgWCgAgFiEEbJFDO8NaBua8diGTuBaTVQrGBr8FAmWllOsCGwwACgkQuBaTVQrGBr/P2QD9Gts6Ee91w3SzOelNjsus/DcCTBb3fRugJoqcfxjKU0gBAKIFVMvVUGbhlEi6EFTZmBZ0QIZEIzOOVfkaIgWelFEH
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,60 +88,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2 May 2024 16:36:02 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Thu, 2024-05-02 at 09:46 -0300, Jason Gunthorpe wrote:
+> On Thu, May 02, 2024 at 11:11:04AM +0200, Thomas Hellstr=C3=B6m wrote:
+>=20
+> > It's true the cpu vma lookup is a remnant from amdkfd. The idea
+> > here is
+> > to replace that with fixed prefaulting ranges of tunable size. So
+> > far,
+> > as you mention, the prefaulting range has been determined by the
+> > CPU
+> > vma size. Given previous feedback, this is going to change.
+>=20
+> Perhaps limiting prefault to a VMA barrier is a reasonable thing to
+> do, but the implementation should be pushed into hmm_range_fault and
+> not open coded in the driver.
+>=20
+> > Still the prefaulting range needs to be restricted to avoid -EFAULT
+> > failures in hmm_range_fault(). That can ofc be done by calling it
+> > without HMM_PFN_REQ_FAULT for the range and interpret the returned
+> > pnfs.=20
+>=20
+> Yes, this is exactly what that feature is for, you mark your prefetch
+> differently from the fault critical page(s).
+>=20
+> > There is a performance concern of this approach as compared to
+> > peeking at the CPU vmas directly, since hmm_range_fault() would
+> > need to
+> > be called twice. Any guidelines ideas here?
+>=20
+> If there is something wrong with hmm_range_fault() then please fix
+> it. I'm not sure why you'd call it twice, the HMM_PFN_REQ_FAULT is
+> per
+> PFN?
 
-> On Thu, 2 May 2024 15:26:55 +0100
-> Steven Price <steven.price@arm.com> wrote:
-> 
-> > On 02/05/2024 15:15, Boris Brezillon wrote:  
-> > > On Thu, 2 May 2024 15:03:51 +0100
-> > > Steven Price <steven.price@arm.com> wrote:
-> > >     
-> > >> On 30/04/2024 12:28, Boris Brezillon wrote:    
-> > >>> ID 0 is reserved to encode 'no-tiler-heap', the heap ID range is
-> > >>> [1:MAX_HEAPS_PER_POOL], which we occasionally need to turn into an index
-> > >>> in the [0:MAX_HEAPS_PER_POOL-1] when we want to access the context object.      
-> > >>
-> > >> This might be a silly question, but do we need ID 0 to be
-> > >> "no-tiler-heap"? Would it be easier to e.g. use a negative number for
-> > >> that situation and avoid all the off-by-one problems?
-> > >>
-> > >> I'm struggling to find the code which needs the 0 value to be special -
-> > >> where is it exactly that we encode this "no-tiler-heap" value?    
-> > > 
-> > > Hm, I thought we were passing the heap handle to the group creation
-> > > ioctl, but heap queue/heap association is actually done through a CS
-> > > instruction, so I guess you have a point. The only thing that makes a
-> > > bit hesitant is that handle=0 is reserved for all other kind of handles
-> > > we return, and I think I'd prefer to keep it the same for heap handles.
-> > > 
-> > > This being said, we could do the `+- 1` in
-> > > panthor_ioctl_tiler_heap_{create,destroy}() to keep things simple in
-> > > panthor_heap.c.    
-> > 
-> > The heap handles returned to user space have the upper 16 bits encoding
-> > the VM ID - so hopefully no one is doing anything crazy and splitting it
-> > up to treat the lower part specially. And (unless I'm mistaken) the VM
-> > IDs start from 1 so we'd still not have IDs of 0. So I don't think we
-> > need the +- 1 part anywhere for tiler heaps.  
-> 
-> Ah, I forgot about that too. Guess we're all good with a
-> [0,MAX_HEAPS_PER_POOL-1] range then.
-> 
-> > 
-> > I'd certainly consider it a user space bug to treat the handles as
-> > anything other than opaque. Really user space shouldn't be treating 0 as
-> > special either: the uAPI doesn't say it's not valid. But I'd be open to
-> > updating the uAPI to say 0 is invalid if there's some desire for that.  
-> 
-> Will do that in v3 then.
+Ah, yes you're right. I somehow thought it was per range. Makes sense
+now.
 
-Taking that back. I don't think it needs to be enforced in the uAPI. As
-you said, it's supposed to be opaque, so I'm tempted to update the
-drm_panthor_tiler_heap_destroy::handle kerneldoc saying it must be
-a valid handle returned by DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE instead.
+Thanks,
+Thomas
 
-It's just that making the handle non-zero is kinda nice for debugging
-purposes, and as I said, this way it's consistent with other kind of
-handles (GEMs, VMs, syncobjs, ...).
+
+
+>=20
+> Jason
+
