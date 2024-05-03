@@ -2,73 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B2008BA7EC
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 09:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E408BA7F2
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 09:39:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F12A110FDF0;
-	Fri,  3 May 2024 07:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A745112876;
+	Fri,  3 May 2024 07:39:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bVIX9ILp";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="l1WAHkFt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WugzJKS8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z+pKQcos";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b1FkdEyV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13B14112874
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 07:39:07 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-61b2218ab6fso70570957b3.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 00:39:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714721947; x=1715326747; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EPEvS0qK5UcK4PLaAgghQY6fqmdqWcs7u1b/vENJXdw=;
- b=bVIX9ILpkN+edtBFhqPX7tKOOVR711XnBmUf9WFg0ZQDH9jhU/0W65tNSCp0VIGP2w
- ekaVuTxGuYENW8hq553cEYGBMKU/BAxxGfW18/uGkRw+T+oSwC8DNAfyfBZgtDWX2tLd
- CqgPXIxInC9NgGw3YnxtFI36+okcVe+Ebp2V1UAgBfbAX/jkVrYTgzwxKMHcEynXKFT8
- 6MzEe3EXEXfQOINiAo55e90SLhh+0GZSdvUNQq4zbVPw9Ct37HEjnEZRM4j/aL56LJcf
- dWJtjfZHSJpFkd5tc5Otcq78VjH57NzpzjPiZr69zuz/hdOHMzpeqT+tjx6rMS0vKZgW
- FKFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714721947; x=1715326747;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EPEvS0qK5UcK4PLaAgghQY6fqmdqWcs7u1b/vENJXdw=;
- b=MeAEugbAM7zg9nVaDgibBtf6SFUtjH4lDQ70Sqm4RkxI1IANritC3FzwTaDEU/LIg7
- +eieIWUNQCm8YBidx52ueEsmUC+qs5wi6Unhr4Gs9eOFNZpg3501hmKXJI2AGzG6kMMO
- jEFka1PvBp07zD7MIewk1Lam4YETajvCp2yarIgzW/ucL3Y4n9iO0gu5MB1RHKxGZmJ+
- Gazlze2uoF+jezi1ZvcYtexOetJ9qyWUNl3YNl49+vbfHBLqW0pZeP4f+bnRX5oHQiFF
- Mi+rIC+LAhSrBTUXQfj4+PrOA5kH/ciw6R18EzM3XGE/zTmem2DOZCFlErSprrhnYaj+
- wLJw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/y1N7pF+dnBcbNakWPkWjokuvURt8vSgQMqoq5AvQ5menJphazvVE55WWRjkD6Z/sVbnEPxDUiZl5ZqTRuB7RYhLpzYaDJZSIGdGAN9w4
-X-Gm-Message-State: AOJu0YzWgtiFe51+wNhvRzyh9wwq/TnC3sdq3aaHiI7Gyr8G7FJb5f9p
- 8riEsTsgoWliuFIbLfaxcmluNwa1jxthBQAOP6/DgRipnoxHi8hgwNPZMv+tQGvaCV3dJVgy/YI
- 6fyyGkIHb5p2c/0R+MD6Ao7sd5/g=
-X-Google-Smtp-Source: AGHT+IGliypnZWfDbUdqOvUUIpgR2+a0zXwhwmSmDCfGwN97GTEOSPRd0xLYH1khdRiq550wJGDKrBovrHPT2uWWIAY=
-X-Received: by 2002:a0d:dd88:0:b0:61b:33b6:41dd with SMTP id
- g130-20020a0ddd88000000b0061b33b641ddmr1739009ywe.37.1714721946830; Fri, 03
- May 2024 00:39:06 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6B2F112873;
+ Fri,  3 May 2024 07:39:37 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EC3D122B72;
+ Fri,  3 May 2024 07:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1714721976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zC4n5/KOp6vqeKDwDsLw1bD+2gPkRxe5hP009QMQGPI=;
+ b=l1WAHkFtzff0Oi1c7MksftylSip13XAhH4VQNnKW4CvonoMIP/x3yN6AtWOvWRj5kToJVL
+ QMjyx8ywHcelra0n4bmMrNXUh+wDpOKCFr+Ef9bZocseOaXQxd+3Fh6zsUr6vXZ/rYzA/a
+ 6sgt2qWdKSYnSLm/hptwGXKwJwoFzzU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1714721976;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zC4n5/KOp6vqeKDwDsLw1bD+2gPkRxe5hP009QMQGPI=;
+ b=WugzJKS82ovy1MgZm3UqVt3p4qhDofDMmmRaTt8k18I0ecI+Ths+TIRQQxqjgstOSgaqTn
+ G0FlmF4AuVIiXoDg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=z+pKQcos;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=b1FkdEyV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1714721975; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zC4n5/KOp6vqeKDwDsLw1bD+2gPkRxe5hP009QMQGPI=;
+ b=z+pKQcos0Tld6Da6Fm8P+48qV7IvUHlNuLUJRwhN8nZSApr7JXhJeCaf1XKIUTONmvrfHy
+ LV3bse4K9zcE0VA7gI3S8rv6BRsqTNXkeDb3T7Y9JtQxjb+8ww7Vlb6fBMYzAjsLibPWFI
+ 6fv0TZzYKGmB7yJbLjEa7mH0yYNa1EE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1714721975;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zC4n5/KOp6vqeKDwDsLw1bD+2gPkRxe5hP009QMQGPI=;
+ b=b1FkdEyVIqEA9KzBsgkLfnGrLxatk7E0y0n/8TwK/h1copLY7D18TuZkj2fEpOD0aRpinu
+ SRPPz36nEQT8fwDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 977A3139CB;
+ Fri,  3 May 2024 07:39:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id U2nQI7eUNGbqCwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 03 May 2024 07:39:35 +0000
+Message-ID: <f1eccd9d-885f-4508-9325-3454ecc35eae@suse.de>
+Date: Fri, 3 May 2024 09:39:35 +0200
 MIME-Version: 1.0
-References: <20240314163511.2372458-1-colin.i.king@gmail.com>
-In-Reply-To: <20240314163511.2372458-1-colin.i.king@gmail.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Fri, 3 May 2024 09:38:55 +0200
-Message-ID: <CAMeQTsZKk-af5xhnnb=PfHiCNWzBK7VnEc1iBevfYdnyxrXDfA@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/gma500: Fix spelling mistake "patter" ->
- "pattern"
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 12/12] fbdev/viafb: Make I2C terminology more inclusive
+To: Easwar Hariharan <eahariha@linux.microsoft.com>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Helge Deller <deller@gmx.de>,
+ "open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER"
+ <linux-fbdev@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-gfx@lists.freedesktop.org>,
+ "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
+ <intel-xe@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
+ "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>
+References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
+ <20240430173812.1423757-13-eahariha@linux.microsoft.com>
+ <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
+ <076e0a0d-ad26-490e-9784-300ed52637ca@linux.microsoft.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <076e0a0d-ad26-490e-9784-300ed52637ca@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -5.00
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: EC3D122B72
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-5.00 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ DWL_DNSWL_MED(-2.00)[suse.de:dkim]; SUSPICIOUS_RECIPS(1.50)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
+ FREEMAIL_TO(0.00)[linux.microsoft.com,gmx.de,vger.kernel.org,lists.freedesktop.org];
+ MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_DN_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
+ RCPT_COUNT_TWELVE(0.00)[13]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[renesas];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:dkim, suse.de:email]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,39 +167,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 14, 2024 at 5:35=E2=80=AFPM Colin Ian King <colin.i.king@gmail.=
-com> wrote:
->
-> There is a spelling mistake in a DRM_DEBUG_KMS message. Fix it.
->
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+Hi
 
-Applied to drm-misc-next
+Am 03.05.24 um 00:26 schrieb Easwar Hariharan:
+> On 5/2/2024 3:46 AM, Thomas Zimmermann wrote:
+>>
+>> Am 30.04.24 um 19:38 schrieb Easwar Hariharan:
+>>> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
+>>> with more appropriate terms. Inspired by and following on to Wolfram's
+>>> series to fix drivers/i2c/[1], fix the terminology for users of
+>>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
+>>> in the specification.
+>>>
+>>> Compile tested, no functionality changes intended
+>>>
+>>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+>>>
+>>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>
+> Thanks for the ack! I had been addressing feedback as I got it on the v0 series, and it seems
+> I missed out on updating viafb and smscufx to spec-compliant controller/target terminology like
+> the v0->v1 changelog calls out before posting v1.
+>
+> For smscufx, I feel phrasing the following line (as an example)
+>
+>> -/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, host,
+>> +/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, *controller*,
+> would actually impact readability negatively, so I propose to leave smscufx as is.
 
-Thanks
-Patrik
+Why? I don't see much of a difference.
 
-> ---
->  drivers/gpu/drm/gma500/cdv_intel_dp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma5=
-00/cdv_intel_dp.c
-> index dd1eb7e9877d..cc2ed9b3fd2d 100644
-> --- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> +++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> @@ -1547,7 +1547,7 @@ cdv_intel_dp_start_link_train(struct gma_encoder *e=
-ncoder)
->         }
+> For viafb, I propose making it compliant with the spec using the controller/target terminology and
+> posting a v2 respin (which I can send out as soon as you say) and ask you to review again.
 >
->         if (!clock_recovery) {
-> -               DRM_DEBUG_KMS("failure in DP patter 1 training, train set=
- %x\n", intel_dp->train_set[0]);
-> +               DRM_DEBUG_KMS("failure in DP pattern 1 training, train se=
-t %x\n", intel_dp->train_set[0]);
->         }
+> What do you think?
+
+I think we should adopt the spec's language everywhere. That makes it 
+possible to grep the spec for terms used in the source code. Using 
+'host' in smscufx appears to introduce yet another term. If you are 
+worried about using 'I2C controller' and 'controller' in the same 
+sentence, you can replace 'I2C controller' with 'DDC channel'. That's 
+even more precise about the purpose of this code.
+
+Best regards
+Thomas
+
 >
->         intel_dp->DP =3D DP;
-> --
-> 2.39.2
+> Thanks,
+> Easwar
 >
+>>> ---
+>>>    drivers/video/fbdev/via/chip.h    |  8 ++++----
+>>>    drivers/video/fbdev/via/dvi.c     | 24 ++++++++++++------------
+>>>    drivers/video/fbdev/via/lcd.c     |  6 +++---
+>>>    drivers/video/fbdev/via/via_aux.h |  2 +-
+>>>    drivers/video/fbdev/via/via_i2c.c | 12 ++++++------
+>>>    drivers/video/fbdev/via/vt1636.c  |  6 +++---
+>>>    6 files changed, 29 insertions(+), 29 deletions(-)
+>>>
+> <snip>
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
