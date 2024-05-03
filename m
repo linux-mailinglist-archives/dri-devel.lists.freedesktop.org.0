@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042C88BB3FC
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 21:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9DD88BB3FD
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 21:29:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D279010F2D6;
-	Fri,  3 May 2024 19:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45B74112346;
+	Fri,  3 May 2024 19:29:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="CjRpE+HV";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="TS3G3Xdy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com
- [95.215.58.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A168C10F2D6
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 19:29:37 +0000 (UTC)
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
+ [95.215.58.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9900C112346
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 19:29:39 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1714764575;
+ t=1714764577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lY0dS1dQWmU5ByfM7oUy9R/EqObXbNIdMhGhis7Pbh4=;
- b=CjRpE+HVJPfp20haZ74fqVaOKqvUaSIUdwegTHaZ8aDutuiBV8xfdv2srHqcCzIeMJnCRK
- 66l1wbxw1/fCN7uZVpy6PnAc4+ZR2aKEdh/55DhNIesz1+UwTLieENjXA9YdTypPK/m3NW
- azzWMPRVDY8YrwR2pcYlQScuQr7DYK8=
+ bh=oK3GkwlYIbgKa5E/wcr/BC9b4B3l2udsFuim2xq4G6g=;
+ b=TS3G3XdyTPJR1owLMSUwl7i9kGX6OjJbNax2Dxc8+j06khI1KmzalwpZ7PIP7D6WVT3KaY
+ JLmKFWp/2dWLtMQbTet/n8zP9ezmyHtXztYNeWaNHu6lacNT0sUyKXRBv5Hnkkh2El6iIv
+ jdc9Zm45NheXtDVG/eJ9J8PoKfa+i/Q=
 From: Sean Anderson <sean.anderson@linux.dev>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -38,9 +38,9 @@ Cc: linux-arm-kernel@lists.infradead.org, David Airlie <airlied@gmail.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Michal Simek <michal.simek@amd.com>,
  Sean Anderson <sean.anderson@linux.dev>
-Subject: [PATCH v5 03/10] drm: zynqmp_dp: Don't delay work
-Date: Fri,  3 May 2024 15:29:15 -0400
-Message-Id: <20240503192922.2172314-4-sean.anderson@linux.dev>
+Subject: [PATCH v5 04/10] drm: zynqmp_dp: Add locking
+Date: Fri,  3 May 2024 15:29:16 -0400
+Message-Id: <20240503192922.2172314-5-sean.anderson@linux.dev>
 In-Reply-To: <20240503192922.2172314-1-sean.anderson@linux.dev>
 References: <20240503192922.2172314-1-sean.anderson@linux.dev>
 MIME-Version: 1.0
@@ -61,80 +61,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We always call scheduled_delayed_work with no delay, so just use a
-non-delayed work_struct instead.
+Add some locking to prevent the IRQ/workers/bridge API calls from stepping
+on each other's toes. This lock protects:
+
+- Non-atomic registers configuring the link. That is, everything but the
+  IRQ registers (since these are accessed in an atomic fashion), and the DP
+  AUX registers (since these don't affect the link). We also access AUX
+  while holding this lock, so it would be very tricky to support.
+- Link configuration. This is effectively everything in zynqmp_dp which
+  isn't read-only after probe time. So from next_bridge onward.
+
+This lock is designed to protect configuration changes so we don't have to
+do anything tricky. Configuration should never be in the hot path, so I'm
+not worried about performance.
 
 Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
 
-(no changes since v3)
+(no changes since v2)
 
-Changes in v3:
-- New
+Changes in v2:
+- Split off the HPD IRQ work into another commit
+- Expand the commit message
 
- drivers/gpu/drm/xlnx/zynqmp_dp.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 12a8248ed125..129beac4c073 100644
+index 129beac4c073..abfccd8bb5a7 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -298,7 +298,7 @@ struct zynqmp_dp_config {
+@@ -280,6 +280,7 @@ struct zynqmp_dp_config {
+  * @dpsub: Display subsystem
+  * @iomem: device I/O memory for register access
+  * @reset: reset controller
++ * @lock: Mutex protecting this struct and register access (but not AUX)
+  * @irq: irq
+  * @bridge: DRM bridge for the DP encoder
+  * @next_bridge: The downstream bridge
+@@ -294,11 +295,16 @@ struct zynqmp_dp_config {
+  * @link_config: common link configuration between IP core and sink device
+  * @mode: current mode between IP core and sink device
+  * @train_set: set of training data
++ *
++ * @lock covers the link configuration in this struct and the device's
++ * registers. It does not cover @aux. It is not strictly required for any of
++ * the members which are only modified at probe/remove time (e.g. @dev).
+  */
  struct zynqmp_dp {
  	struct drm_dp_aux aux;
  	struct drm_bridge bridge;
--	struct delayed_work hpd_work;
-+	struct work_struct hpd_work;
+ 	struct work_struct hpd_work;
++	struct mutex lock;
  
  	struct drm_bridge *next_bridge;
  	struct device *dev;
-@@ -1482,7 +1482,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+@@ -1386,8 +1392,10 @@ zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
+ 	}
+ 
+ 	/* Check with link rate and lane count */
++	mutex_lock(&dp->lock);
+ 	rate = zynqmp_dp_max_rate(dp->link_config.max_rate,
+ 				  dp->link_config.max_lanes, dp->config.bpp);
++	mutex_unlock(&dp->lock);
+ 	if (mode->clock > rate) {
+ 		dev_dbg(dp->dev, "filtered mode %s for high pixel rate\n",
+ 			mode->name);
+@@ -1414,6 +1422,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+ 
+ 	pm_runtime_get_sync(dp->dev);
+ 
++	mutex_lock(&dp->lock);
+ 	zynqmp_dp_disp_enable(dp, old_bridge_state);
+ 
+ 	/*
+@@ -1474,6 +1483,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_SOFTWARE_RESET,
+ 			ZYNQMP_DP_SOFTWARE_RESET_ALL);
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 1);
++	mutex_unlock(&dp->lock);
+ }
+ 
+ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+@@ -1481,6 +1491,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+ {
  	struct zynqmp_dp *dp = bridge_to_dp(bridge);
  
++	mutex_lock(&dp->lock);
  	dp->enabled = false;
--	cancel_delayed_work(&dp->hpd_work);
-+	cancel_work(&dp->hpd_work);
+ 	cancel_work(&dp->hpd_work);
  	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_ENABLE, 0);
- 	drm_dp_dpcd_writeb(&dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
- 	zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
-@@ -1648,8 +1648,7 @@ void zynqmp_dp_disable_vblank(struct zynqmp_dp *dp)
+@@ -1491,6 +1502,7 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
+ 		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 0);
  
- static void zynqmp_dp_hpd_work_func(struct work_struct *work)
- {
--	struct zynqmp_dp *dp = container_of(work, struct zynqmp_dp,
--					    hpd_work.work);
-+	struct zynqmp_dp *dp = container_of(work, struct zynqmp_dp, hpd_work);
- 	enum drm_connector_status status;
+ 	zynqmp_dp_disp_disable(dp, old_bridge_state);
++	mutex_unlock(&dp->lock);
  
- 	status = zynqmp_dp_bridge_detect(&dp->bridge);
-@@ -1685,7 +1684,7 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
- 		zynqmp_dpsub_drm_handle_vblank(dp->dpsub);
+ 	pm_runtime_put_sync(dp->dev);
+ }
+@@ -1533,6 +1545,8 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
+ 	u32 state, i;
+ 	int ret;
  
- 	if (status & ZYNQMP_DP_INT_HPD_EVENT)
--		schedule_delayed_work(&dp->hpd_work, 0);
-+		schedule_work(&dp->hpd_work);
++	mutex_lock(&dp->lock);
++
+ 	/*
+ 	 * This is from heuristic. It takes some delay (ex, 100 ~ 500 msec) to
+ 	 * get the HPD signal with some monitors.
+@@ -1560,11 +1574,13 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
+ 					       dp->num_lanes);
  
- 	if (status & ZYNQMP_DP_INT_HPD_IRQ) {
- 		int ret;
-@@ -1727,7 +1726,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+ 		dp->status = connector_status_connected;
++		mutex_unlock(&dp->lock);
+ 		return connector_status_connected;
+ 	}
+ 
+ disconnected:
+ 	dp->status = connector_status_disconnected;
++	mutex_unlock(&dp->lock);
+ 	return connector_status_disconnected;
+ }
+ 
+@@ -1725,6 +1741,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+ 	dp->dev = &pdev->dev;
  	dp->dpsub = dpsub;
  	dp->status = connector_status_disconnected;
++	mutex_init(&dp->lock);
  
--	INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
-+	INIT_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
+ 	INIT_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
  
- 	/* Acquire all resources (IOMEM, IRQ and PHYs). */
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
-@@ -1832,7 +1831,7 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
- 	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, ZYNQMP_DP_INT_ALL);
- 	disable_irq(dp->irq);
+@@ -1838,4 +1855,5 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
  
--	cancel_delayed_work_sync(&dp->hpd_work);
-+	cancel_work_sync(&dp->hpd_work);
- 
- 	zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 0);
- 	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, 0xffffffff);
+ 	zynqmp_dp_phy_exit(dp);
+ 	zynqmp_dp_reset(dp, true);
++	mutex_destroy(&dp->lock);
+ }
 -- 
 2.35.1.1320.gc452695387.dirty
 
