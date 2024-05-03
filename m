@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AC78BB5DF
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D368BB5E1
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:36:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1CA01128F7;
-	Fri,  3 May 2024 21:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 083331126A7;
+	Fri,  3 May 2024 21:36:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="W+/vD/tG";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Papm5o6R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD6F1124B3
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:36:26 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-1e4c4fb6af3so950735ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:36:26 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59C6B1126A7
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:36:29 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-1e3f17c6491so779015ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714772185; x=1715376985;
+ d=chromium.org; s=google; t=1714772187; x=1715376987;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=d+m8p2+fwwMHEcaYlRhsoMqeDao9Xs+fgyRTTXxpyQQ=;
- b=W+/vD/tGhnARKRyybp0mu2Z40trgfWrk7e/lHh9mTQQkfjeqzbl89xQA8db1hkam8g
- sGlj4j2ZYpIdE3NTftgGWUY8Y47j/YqIKC8WKp+iBcmds6p+2kotxdQyk7TfwieHYUeZ
- ECQRZKdjz8RZZ3uzw4iVwTBCModhbe+qtF5fs=
+ bh=YlLGPoCdKZFYuD2WMpAl+nCcCPU9f5yFXStRl2ODaEI=;
+ b=Papm5o6RfYMaTy5PtMHHA8OoTj4dTr//8E+dlKAwQH5OviCyDGU5M38xQxOtFvYh6P
+ MGlpO+71JdVSZT8NJmSLHms9tvREnohdBdPg542YnjDnowwBcm11Eg6nX+7SLBpLPXnb
+ s2SWScz9r41IazQyWohhhTsWlX27S5vKF8auA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714772185; x=1715376985;
+ d=1e100.net; s=20230601; t=1714772187; x=1715376987;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=d+m8p2+fwwMHEcaYlRhsoMqeDao9Xs+fgyRTTXxpyQQ=;
- b=UKH180T5KSzH1DIVDdaEy2c+hA/Xxpp+NcMWbvRoqf4vTuEUiu3uSFV4Ucp1CXjeOv
- nDGjNBNX3aTTXcX1bu8OE1H4Gi8NbGdwKJTOI2MwTOHUhC2EZ/W+Yf2MIPCuU8maX7dP
- Q9vlhcWJfNqAD3HiD64QKiKQO/e9AohS65wc3TtUvmaosIgcgAkrebXtXJz+bJ21bVt1
- BX8dfswAMPwP0pg66HXvzRo2q6fdwOO1e2ZEwpey2HwZXXMQACkWND+aW8jrec6wc83J
- 6O3eDiTUS5CfF8XmoVY+Iio4lOb+0nReXZQEsyC+hgw4WuKjzO+N5x+Pmf86Dd9EnQjz
- sgcQ==
-X-Gm-Message-State: AOJu0YyQSCrNJ9li0nKCrmKuuWj1QsjVErSnK5jkP9DR80IpU3KVnzid
- BC/ZGuq3RDVtqR4w76Qi87paLuyGyP22n4MtkTpdbypc7EclTedcDXwhQEwLP2mPHknFZp08d8J
- ecQ==
-X-Google-Smtp-Source: AGHT+IEe8XlbR/2YlPVfssvvzVEwgr7rfoy9E26NkJtjDWBN5xy4JZSBQ68VuPVn9y4gwaS+LyUeIg==
-X-Received: by 2002:a17:902:c407:b0:1e5:e676:4b09 with SMTP id
- k7-20020a170902c40700b001e5e6764b09mr5664110plk.25.1714772185179; 
- Fri, 03 May 2024 14:36:25 -0700 (PDT)
+ bh=YlLGPoCdKZFYuD2WMpAl+nCcCPU9f5yFXStRl2ODaEI=;
+ b=EuJMz0/0IBExIO8Kqpab2bnBoik6awK6cRISBU5xvIJyZsaUe+QwERkEbXEVqD6FMf
+ YMMbdPUYGH3JIvwRcer/7VPpfIHZ0en0AkLoN7XNDe4zBEy7OijQCbx0/fUCAy3tXydA
+ 5iuR7VJXVW1NKHN7wEll0CkTpr7wm+f+QlUcmlJl2C/jcIQIr4HTvBJRl+M/DdKCuQYX
+ jAAl9eyvEPeiBKMd8CK6daMdnTI39LND9Zs06BLDHoRXC7X1p/DgZts76pTbJQPcIgU2
+ cm8QnFPMQutiINlP/dQTcjbqSkebDZrhn1JC9VTTafJ4viSoCbRX/DoIcF6whHVRFiOR
+ YkwA==
+X-Gm-Message-State: AOJu0YxiLoldEUTpDlnJV0ekqMhdZC7cOYpv5l74b7TLab4GMFJdnfsb
+ ksasdTtx7DE8NygSq4M1NHkCYz/CsiGcNl29B88WBagX+GU6d9Xt1O2n6IoEyOR1NnYponOK7di
+ GVQ==
+X-Google-Smtp-Source: AGHT+IFaMjrOZx6PlnR9YpeAGNYEPKz0BZS22xq3/WCuAMWn8FGGgonr0VuEXbwoSJfpxSoPjNw6pg==
+X-Received: by 2002:a17:902:db0e:b0:1ec:3227:94ea with SMTP id
+ m14-20020a170902db0e00b001ec322794eamr4805493plx.67.1714772187608; 
+ Fri, 03 May 2024 14:36:27 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:fb6a:b54b:7580:64f3])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.36.23
+ j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.36.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 May 2024 14:36:24 -0700 (PDT)
+ Fri, 03 May 2024 14:36:27 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -62,17 +62,21 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Yuran Pereira <yuran.pereira@hotmail.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Douglas Anderson <dianders@chromium.org>,
- Luca Weiss <luca.weiss@fairphone.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
+ Jerry Han <jerry.han.hq@gmail.com>, Jitao Shi <jitao.shi@mediatek.com>,
+ Rock Wang <rock_wang@himax.com.cn>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v2 01/48] drm/panel: raydium-rm692e5: Stop tracking
- prepared
-Date: Fri,  3 May 2024 14:32:42 -0700
-Message-ID: <20240503143327.RFT.v2.1.I784238de4810658212a5786b219f128460562a37@changeid>
+ Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org
+Subject: [RFT PATCH v2 02/48] drm/panel: boe-himax8279d: Stop tracking
+ prepared/enabled
+Date: Fri,  3 May 2024 14:32:43 -0700
+Message-ID: <20240503143327.RFT.v2.2.Ia3f254ab6e04e4f7afba6c066454498c8fb01324@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
 References: <20240503213441.177109-1-dianders@chromium.org>
@@ -100,62 +104,137 @@ prepared/enabled state. Even if someone was relying on the
 double-check before, that double-check is now in the core and not
 needed in individual drivers.
 
-Cc: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
+NOTE: as part of this, transition the panel's direct calls to its
+disable/unprepare functions in shutdown/remove to call through DRM
+panel.
+
+Cc: Jerry Han <jerry.han.hq@gmail.com>
+Cc: Jitao Shi <jitao.shi@mediatek.com>
+Cc: Rock Wang <rock_wang@himax.com.cn>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
 Changes in v2:
-- New
+- Only handle 1 panel per patch.
+- Split removal of prepared/enabled from handling of remove/shutdown.
 
- drivers/gpu/drm/panel/panel-raydium-rm692e5.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/gpu/drm/panel/panel-boe-himax8279d.c | 31 +++-----------------
+ 1 file changed, 4 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm692e5.c b/drivers/gpu/drm/panel/panel-raydium-rm692e5.c
-index a613ba5b816c..21d97f6b8a2f 100644
---- a/drivers/gpu/drm/panel/panel-raydium-rm692e5.c
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm692e5.c
-@@ -23,7 +23,6 @@ struct rm692e5_panel {
- 	struct drm_dsc_config dsc;
- 	struct regulator_bulk_data supplies[3];
- 	struct gpio_desc *reset_gpio;
+diff --git a/drivers/gpu/drm/panel/panel-boe-himax8279d.c b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
+index e225840b0d67..12e14615298b 100644
+--- a/drivers/gpu/drm/panel/panel-boe-himax8279d.c
++++ b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
+@@ -47,9 +47,6 @@ struct panel_info {
+ 	struct gpio_desc *enable_gpio;
+ 	struct gpio_desc *pp33_gpio;
+ 	struct gpio_desc *pp18_gpio;
+-
 -	bool prepared;
+-	bool enabled;
  };
  
- static inline struct rm692e5_panel *to_rm692e5_panel(struct drm_panel *panel)
-@@ -171,9 +170,6 @@ static int rm692e5_prepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
+ static inline struct panel_info *to_panel_info(struct drm_panel *panel)
+@@ -86,17 +83,12 @@ static int boe_panel_disable(struct drm_panel *panel)
+ 	struct panel_info *pinfo = to_panel_info(panel);
+ 	int err;
+ 
+-	if (!pinfo->enabled)
+-		return 0;
+-
+ 	err = mipi_dsi_dcs_set_display_off(pinfo->link);
+ 	if (err < 0) {
+ 		dev_err(panel->dev, "failed to set display off: %d\n", err);
+ 		return err;
+ 	}
+ 
+-	pinfo->enabled = false;
+-
+ 	return 0;
+ }
+ 
+@@ -105,9 +97,6 @@ static int boe_panel_unprepare(struct drm_panel *panel)
+ 	struct panel_info *pinfo = to_panel_info(panel);
+ 	int err;
+ 
+-	if (!pinfo->prepared)
+-		return 0;
+-
+ 	err = mipi_dsi_dcs_set_display_off(pinfo->link);
+ 	if (err < 0)
+ 		dev_err(panel->dev, "failed to set display off: %d\n", err);
+@@ -121,8 +110,6 @@ static int boe_panel_unprepare(struct drm_panel *panel)
+ 
+ 	disable_gpios(pinfo);
+ 
+-	pinfo->prepared = false;
+-
+ 	return 0;
+ }
+ 
+@@ -131,9 +118,6 @@ static int boe_panel_prepare(struct drm_panel *panel)
+ 	struct panel_info *pinfo = to_panel_info(panel);
+ 	int err;
+ 
+-	if (pinfo->prepared)
+-		return 0;
+-
+ 	gpiod_set_value(pinfo->pp18_gpio, 1);
+ 	/* T1: 5ms - 6ms */
+ 	usleep_range(5000, 6000);
+@@ -180,8 +164,6 @@ static int boe_panel_prepare(struct drm_panel *panel)
+ 	/* T7: 20ms - 21ms */
+ 	usleep_range(20000, 21000);
+ 
+-	pinfo->prepared = true;
+-
+ 	return 0;
+ 
+ poweroff:
+@@ -194,9 +176,6 @@ static int boe_panel_enable(struct drm_panel *panel)
+ 	struct panel_info *pinfo = to_panel_info(panel);
  	int ret;
  
--	if (ctx->prepared)
+-	if (pinfo->enabled)
 -		return 0;
 -
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-@@ -213,8 +209,6 @@ static int rm692e5_prepare(struct drm_panel *panel)
+ 	usleep_range(120000, 121000);
  
- 	mipi_dsi_generic_write_seq(ctx->dsi, 0xfe, 0x00);
+ 	ret = mipi_dsi_dcs_set_display_on(pinfo->link);
+@@ -205,8 +184,6 @@ static int boe_panel_enable(struct drm_panel *panel)
+ 		return ret;
+ 	}
  
--	ctx->prepared = true;
+-	pinfo->enabled = true;
 -
  	return 0;
  }
  
-@@ -222,13 +216,9 @@ static int rm692e5_unprepare(struct drm_panel *panel)
+@@ -917,11 +894,11 @@ static void panel_remove(struct mipi_dsi_device *dsi)
+ 	struct panel_info *pinfo = mipi_dsi_get_drvdata(dsi);
+ 	int err;
+ 
+-	err = boe_panel_disable(&pinfo->base);
++	err = drm_panel_disable(&pinfo->base);
+ 	if (err < 0)
+ 		dev_err(&dsi->dev, "failed to disable panel: %d\n", err);
+ 
+-	err = boe_panel_unprepare(&pinfo->base);
++	err = drm_panel_unprepare(&pinfo->base);
+ 	if (err < 0)
+ 		dev_err(&dsi->dev, "failed to unprepare panel: %d\n", err);
+ 
+@@ -936,8 +913,8 @@ static void panel_shutdown(struct mipi_dsi_device *dsi)
  {
- 	struct rm692e5_panel *ctx = to_rm692e5_panel(panel);
+ 	struct panel_info *pinfo = mipi_dsi_get_drvdata(dsi);
  
--	if (!ctx->prepared)
--		return 0;
--
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
- 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 
--	ctx->prepared = false;
- 	return 0;
+-	boe_panel_disable(&pinfo->base);
+-	boe_panel_unprepare(&pinfo->base);
++	drm_panel_disable(&pinfo->base);
++	drm_panel_unprepare(&pinfo->base);
  }
  
+ static struct mipi_dsi_driver panel_driver = {
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
