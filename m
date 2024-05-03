@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA39C8BB24E
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 20:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 390328BB250
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 20:15:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 835B31131A6;
-	Fri,  3 May 2024 18:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBF0D1131B2;
+	Fri,  3 May 2024 18:15:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="z3f8cfW8";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xzZPjWc/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09D8C1127C2
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDE9A112921
  for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 18:15:08 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-2e20f2db068so19398781fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 11:15:07 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2e1fa1f1d9bso35008411fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 11:15:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714760106; x=1715364906; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1714760107; x=1715364907; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=skHQQr6/l6kfvwJ0x7uA/O7xeOEy9Dekh3cEjjcSscA=;
- b=z3f8cfW8X3hTtGhFRODDCzMFNSbjLnFljvuWsVu3NjkkScnlFO9R/FBIK5CMmEXQcU
- 0t+TvfSWcMcOM10vouoIcWLq7633Mio9abNSwb11WGAe5u/mYFFMG2nklrrCRZ1tqIsY
- sZsKcNtC5fZh7qXWZ24JCeZCdY9PO/ZXbG3WNgu/NUv6oG+g88zHlXENh9jYE9iuRtKT
- Qw0NCAJbK+h4uZRBXl3KYORN522h7C4vLylbTzjBhMicFhycVRaX1KcG9I6kE1dOKswc
- jNnIN138ePPFYplvoF+xq+jnewnobzz5sfP/NI9GrSP9Mw13ZJsnyqkIMrqN/fjmnz1w
- Qg+Q==
+ :reply-to; bh=EVuYQnC+Oejbh47K886v7jLhxbV/LX35eFvPeTAUoM8=;
+ b=xzZPjWc/yvyhOnjCghdiNvrWYllXWnEWUlEGuUhCKolwZO0PSDo3O3l9Z8hCdXGn1p
+ taeS04d+0RSudsoNsJJ7/jtISdGjAXHZED8XwcXRwk58NJF/lp7KkgrmXqqL5S42LNpQ
+ 5lgPlC+kZmwLz5tQZ6QAXLvvZJ/pzY5hDmfvlGcH3Xj6gM8BI7rVcbyn/LuX1z049JuN
+ PaH6sdw5u9dEUIsdTuSzcKahl9yLYEz5HmnW4mpH8ps+DKCmS+qfLanT+72UejSAmZhg
+ PHcmwZushjyX9rhr5VKvwILYuHdBDvNAuSHmD6cet68QlnMe+BJ7dnNgw9tYut7JICSI
+ Wmlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714760106; x=1715364906;
+ d=1e100.net; s=20230601; t=1714760107; x=1715364907;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=skHQQr6/l6kfvwJ0x7uA/O7xeOEy9Dekh3cEjjcSscA=;
- b=jyrrdZjXURR221HUDDLVX4dFN9JWHB8MQrA0IST/AYNAcyTqAqp9y3Msm08z392nP8
- LQnwU2IoUMfe32XqaWe03tiPYfIX29sg1LJr5CWNsO4sW0H9N8SrLHTtl12lmkj7va/b
- C98anfma9ZJWKuSGDnEm+XkG66/Dp999EbpAo5I3OygYlCwbZWo9JAmTUUMZAgBzbm6q
- PcjWvKw22nZmaBOMUTG+ilefVwWHDEW/6sdTUhZC/duXky7fhaCabvl2agAvnw0iWWN7
- K9CKq6+OsI6cpTDTfke4wIPoQB9ZiQRfvfXaNAkAalvVhObf7ar5/j/DlRMd3rD8HjWj
- sz4Q==
+ bh=EVuYQnC+Oejbh47K886v7jLhxbV/LX35eFvPeTAUoM8=;
+ b=LeOJnZdtsmRKPuV1Hnj9S28Y2oZtouPaKYyVqnXcNezqsdzAosa6KrAo3fFAvVcAUe
+ gFjlO0lIp41dgj2DzakYx1shIkBrbGmDcPT3XXiR3gssajItqJvVxOHSnLzf4wbOR5tC
+ FfFk+3hixyXDiDCYrAAQconXEnb1BN3mqiOuqQWv8zSOg9pJMoxn1EovpNCnQGcqa8m9
+ kzJjPMBWuLqHOV+rTYJvLSUduN5tHXbfCVFfI5AQzhICcR/8kggTmEyNVkOJh9GmxhWf
+ WLkgMdlK8vjVNhcnywxeY8rLZf7f+gel9/B4OAT6Psz50+0E3CGYsywoiKZ7QrRA+O62
+ fgtQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVUjQtV8EV6QXrRDB5EKfjC0k5dG827NLV5DfLpQgp0v3GeEJ3b/pozsd753ZkDSoC8OYzZHU9vaqQSwExl9sUT8ttCspBEIysjn2R2YdLt
-X-Gm-Message-State: AOJu0YyNK29tW2Y4R877RVz1KaUlJEqXs7+vMuyhLMCb57kddJAl5EKb
- eAGBsmnwI/jaby311wgK6sRmRdsJLNjG02MPSrAZL5GYSmoJzOjCUlCGbhypCc0=
-X-Google-Smtp-Source: AGHT+IErLUvCTp3mZM1tRLp0DEFt22pumkf6pfZD/UceDRcKf1yCaB01xmYu/WOUEodg5n3tjuKMxg==
-X-Received: by 2002:a2e:9b0e:0:b0:2e2:1bbd:4ffb with SMTP id
- u14-20020a2e9b0e000000b002e21bbd4ffbmr2103527lji.22.1714760106046; 
+ AJvYcCX4iTTGg9eC+ta6mSWXSC2Cl7ZRc6/zkZbe1vGaLwQz+wDVssxl+XFf/2Q/k2Ip2tzfboeqyLqfejt4gIFmz4/mf/NfxqbrBOUIdQ5eBeeE
+X-Gm-Message-State: AOJu0Yxfy/gAY1s+5NAzr3fF7PrXhUHU3p15r1n48+9KvYcg8ueKmT/f
+ grgHfLPAoFWn88qXlYzAjWTlU61wG+SDhClkBzRLHUO/4xU0q2LhczGCaulNb08=
+X-Google-Smtp-Source: AGHT+IHH4MMFG5SQdw9yShhta2QBkdZvrkXtrf2jPCXHUI94xQ/Viajl3IVbjwM1N0fQaRrEeSD36Q==
+X-Received: by 2002:a05:651c:32c:b0:2de:c912:ec08 with SMTP id
+ b12-20020a05651c032c00b002dec912ec08mr2716085ljp.16.1714760106823; 
  Fri, 03 May 2024 11:15:06 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- s7-20020a2e9c07000000b002de118decbbsm605548lji.53.2024.05.03.11.15.05
+ s7-20020a2e9c07000000b002de118decbbsm605548lji.53.2024.05.03.11.15.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 May 2024 11:15:05 -0700 (PDT)
+ Fri, 03 May 2024 11:15:06 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 03 May 2024 21:15:03 +0300
-Subject: [PATCH v2 1/2] drm/msm/gen_header: allow skipping the validation
+Date: Fri, 03 May 2024 21:15:04 +0300
+Subject: [PATCH v2 2/2] drm/ci: validate drm/msm XML register files against
+ schema
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240503-fd-fix-lxml-v2-1-f80a60ce21a1@linaro.org>
+Message-Id: <20240503-fd-fix-lxml-v2-2-f80a60ce21a1@linaro.org>
 References: <20240503-fd-fix-lxml-v2-0-f80a60ce21a1@linaro.org>
 In-Reply-To: <20240503-fd-fix-lxml-v2-0-f80a60ce21a1@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -71,19 +72,18 @@ To: Rob Clark <robdclark@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Stephen Rothwell <sfr@canb.auug.org.au>
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4120;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1281;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Nc9hNE58BK51xhK8ILsD1cIi3UtQvYLTsi34vGY1x6w=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmNSmozOG/joa4cqDUWD1VjN9wTEAvsB5eq+xk7
- QAdsumPRPmJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZjUpqAAKCRCLPIo+Aiko
- 1Q9xB/4iDrSSvTmfXNCsFiLTo2477qXgJzXMHzCiAUJ9v03lU5+MFosDd5wVJErlvq797qkByIr
- Nv7ifu0ag+lYSh86wjxBD5xwxH2ZSgBEwVMsnQFj+1e9MZq8/peQGsVndUnWKI61SSmVvp9Z5A1
- ywoG0u0V3fMcnx79xqJo2VgZGzHgQPusIQDG0E48uVgh8e2MBAFj/9DGrkFIoHy/ai5xXNKFz5X
- 0yQq0Jt/7ZrNf4Yq4WBM0FiwlxnSjr9N7Ikl4USl2QeNe8UGBSEF5hB6Ycz84We1Py7A89I5grd
- BARXj1ORVR0Ce0H4u3/ZLZXonu5IvO/scRi5LnPu8VhwP1N2
+ bh=xF5XC7k5+A56fzWGKfMqVYu2cMBJwZJ6BmZnpTYRInw=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ5qp5gr5zfPn2wYJGjr99i+4soPjH8vCom89UzzyHvzYJ
+ b/Djjm7k9GYhYGRi0FWTJHFp6Blasym5LAPO6bWwwxiZQKZwsDFKQAT4W7kYFj72pOzIq69xrLi
+ Y1M7e4/uPpv8THaleRnLchu4IiME9Zwu399uGXmNj4lHdMWOkjUmjhcfGwn7hJQfLxRtOXo5aPf
+ c+VNtfoe1JATubJvzk/mEl4n9jm33Na97W++OjohYbDnt1XO/yK0lx1ouqr2sa9k8+ahDgdM10e
+ n37dbO3pllYn/Ka0vx5z0aRlwzuATN6xeYqUqYu8jpfLvwdlsWj+RvxlexXmopDDWCL9951Jt4S
+ FjE+Mn6LlC7/Ef+TFN/2JLslxcXx3Gzrn70aa8Y84yVnA+nTVPq80/yan9yWWwKZ1Pr8mdvXdMX
+ ve/JrZrf+mm9laHWiX0zPI/JcGbFOPW3915bocuwicEOAA==
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,115 +101,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We don't need to run the validation of the XML files if we are just
-compiling the kernel. Skip the validation unless the user enables
-corresponding Kconfig option. This removes a warning from gen_header.py
-about lxml being not installed.
+In order to validate drm/msm register definition files against schema,
+reuse the nodebugfs build step. The validation entry is guarded by
+the EXPERT Kconfig option and we don't want to enable that option for
+all the builds.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/all/20240409120108.2303d0bd@canb.auug.org.au/
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/Kconfig                 |  8 ++++++++
- drivers/gpu/drm/msm/Makefile                |  9 ++++++++-
- drivers/gpu/drm/msm/registers/gen_header.py | 14 +++++++++++---
- 3 files changed, 27 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/ci/build.sh  | 3 +++
+ drivers/gpu/drm/ci/build.yml | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index f202f26adab2..4c9bf237d4a2 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -54,6 +54,14 @@ config DRM_MSM_GPU_SUDO
- 	  Only use this if you are a driver developer.  This should *not*
- 	  be enabled for production kernels.  If unsure, say N.
+diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+index 106f2d40d222..28a495c0c39c 100644
+--- a/drivers/gpu/drm/ci/build.sh
++++ b/drivers/gpu/drm/ci/build.sh
+@@ -12,6 +12,9 @@ rm -rf .git/rebase-apply
+ apt-get update
+ apt-get install -y libssl-dev
  
-+config DRM_MSM_VALIDATE_XML
-+	bool "Validate XML register files against schema"
-+	depends on DRM_MSM && EXPERT
-+	depends on $(success,$(PYTHON3) -c "import lxml")
-+	help
-+	  Validate XML files with register definitions against rules-fd schema.
-+	  This option is mostly targeting DRM MSM developers. If unsure, say N.
++# for msm header validation
++apt-get install -y python3-lxml
 +
- config DRM_MSM_MDSS
- 	bool
- 	depends on DRM_MSM
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index c861de58286c..718968717ad5 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -156,8 +156,15 @@ msm-y += $(adreno-y) $(msm-display-y)
+ if [[ "$KERNEL_ARCH" = "arm64" ]]; then
+     GCC_ARCH="aarch64-linux-gnu"
+     DEBIAN_ARCH="arm64"
+diff --git a/drivers/gpu/drm/ci/build.yml b/drivers/gpu/drm/ci/build.yml
+index 17ab38304885..9c198239033d 100644
+--- a/drivers/gpu/drm/ci/build.yml
++++ b/drivers/gpu/drm/ci/build.yml
+@@ -106,6 +106,7 @@ build-nodebugfs:arm64:
+   extends: .build:arm64
+   variables:
+     DISABLE_KCONFIGS: "DEBUG_FS"
++    ENABLE_KCONFIGS: "EXPERT DRM_MSM_VALIDATE_XML"
  
- obj-$(CONFIG_DRM_MSM)	+= msm.o
- 
-+ifeq (y,$(CONFIG_DRM_MSM_VALIDATE_XML))
-+	headergen-opts += --validate
-+else
-+	headergen-opts += --no-validate
-+endif
-+
- quiet_cmd_headergen = GENHDR  $@
--      cmd_headergen = mkdir -p $(obj)/generated && $(PYTHON3) $(srctree)/$(src)/registers/gen_header.py --rnn $(srctree)/$(src)/registers --xml $< c-defines > $@
-+      cmd_headergen = mkdir -p $(obj)/generated && $(PYTHON3) $(srctree)/$(src)/registers/gen_header.py \
-+		      $(headergen-opts) --rnn $(srctree)/$(src)/registers --xml $< c-defines > $@
- 
- $(obj)/generated/%.xml.h: $(src)/registers/adreno/%.xml \
- 		$(src)/registers/adreno/adreno_common.xml \
-diff --git a/drivers/gpu/drm/msm/registers/gen_header.py b/drivers/gpu/drm/msm/registers/gen_header.py
-index 90d5c2991d05..fc3bfdc991d2 100644
---- a/drivers/gpu/drm/msm/registers/gen_header.py
-+++ b/drivers/gpu/drm/msm/registers/gen_header.py
-@@ -538,6 +538,9 @@ class Parser(object):
- 		self.variants.add(reg.domain)
- 
- 	def do_validate(self, schemafile):
-+		if self.validate == False:
-+			return
-+
- 		try:
- 			from lxml import etree
- 
-@@ -567,7 +570,10 @@ class Parser(object):
- 			if not xmlschema.validate(xml_doc):
- 				error_str = str(xmlschema.error_log.filter_from_errors()[0])
- 				raise self.error("Schema validation failed for: " + filename + "\n" + error_str)
--		except ImportError:
-+		except ImportError as e:
-+			if self.validate:
-+				raise e
-+
- 			print("lxml not found, skipping validation", file=sys.stderr)
- 
- 	def do_parse(self, filename):
-@@ -586,9 +592,10 @@ class Parser(object):
- 		self.stack.pop()
- 		file.close()
- 
--	def parse(self, rnn_path, filename):
-+	def parse(self, rnn_path, filename, validate):
- 		self.path = rnn_path
- 		self.stack = []
-+		self.validate = validate
- 		self.do_parse(filename)
- 
- 	def parse_reg(self, attrs, bit_size):
-@@ -853,7 +860,7 @@ def dump_c(args, guard, func):
- 	p = Parser()
- 
- 	try:
--		p.parse(args.rnn, args.xml)
-+		p.parse(args.rnn, args.xml, args.validate)
- 	except Error as e:
- 		print(e, file=sys.stderr)
- 		exit(1)
-@@ -941,6 +948,7 @@ def main():
- 	parser = argparse.ArgumentParser()
- 	parser.add_argument('--rnn', type=str, required=True)
- 	parser.add_argument('--xml', type=str, required=True)
-+	parser.add_argument('--validate', action=argparse.BooleanOptionalAction)
- 
- 	subparsers = parser.add_subparsers()
- 	subparsers.required = True
+ build:x86_64:
+   extends: .build:x86_64
 
 -- 
 2.39.2
