@@ -2,91 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C72A8BB0FF
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAA68BB103
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:41:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 123361128FC;
-	Fri,  3 May 2024 16:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17FD411313C;
+	Fri,  3 May 2024 16:41:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NwEvNM57";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="EeAisheX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
- [209.85.222.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 948ED1128FE
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:39:28 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id
- af79cd13be357-792639cf4faso268014985a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 09:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714754367; x=1715359167;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sjSWzAvI8127nFCBAhRj+G6Ozr2Q97LS17/PxW+N9NU=;
- b=NwEvNM57mYfD/qHzi8GcKr01oZlzE0rKQyxfYPlwsc6rXqGyxuehzLbDYRHR/yy7Jt
- InxwwnW7YIYxSa8eS2uvfihhrVzTYvCPMg7KRliLLv/1tQgn7KaflEm7KYI5EpjZCrr+
- zQU/dpYpiMp1JW+XEwk6GnYTNU1DMCWyJrmqU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714754367; x=1715359167;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sjSWzAvI8127nFCBAhRj+G6Ozr2Q97LS17/PxW+N9NU=;
- b=KVQt+qfX5pvtUJeBnD4R4CK1cGNTn7BflZBqjMj5dtMYRuwX6le1iYOlvQ751mggSZ
- 1HJP7X14l6jN+Cesmtg4CDxr+FTWF2OtKG0b1exSWeZs10mqk7oy62wSs+1dX6sLMRnu
- lpO/eetAwZVpoy8oT8fcgTv51VPo1ed5l/8D9Wf/rRZP51H96Ol2VFPJ244SxhoF9xpP
- s2uXjh5cOtLmEYLAq1RpP42KJTzhz+8lAVss7qDW8GpyZztjjLoEfAyCI2QQiUFYM7bb
- Re7G9eoibUmulc2cVda36dJYhOyp1/EKiP+ye931hz1pe6nKVcETCvJ0hHIatVazpat4
- Hh3g==
-X-Gm-Message-State: AOJu0YxBktrfSUpe7DVY797uOlrBy+dDnoPKI5Qvsg0mkZNARdkrMXER
- ETCQZ0J0Dhd6wqcoz2l1Yas3tKlMb6Hdh0JWbSYQhNyY9ntAx0lB/EqMbbTCQ7YBPb+77q5KJtW
- Yqw==
-X-Google-Smtp-Source: AGHT+IFEX0geJDk+88WdqGFEakCrRDNOWQ6m+3OEW6ZRFwCggCs1lG5JWMrOE38tLxhb0SeA1qxzwA==
-X-Received: by 2002:a05:620a:430e:b0:790:8657:89ab with SMTP id
- u14-20020a05620a430e00b00790865789abmr4162293qko.47.1714754366944; 
- Fri, 03 May 2024 09:39:26 -0700 (PDT)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com.
- [209.85.160.173]) by smtp.gmail.com with ESMTPSA id
- y5-20020a05620a44c500b007928561f01asm44915qkp.92.2024.05.03.09.39.26
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 May 2024 09:39:26 -0700 (PDT)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-436ed871225so423241cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 09:39:26 -0700 (PDT)
-X-Received: by 2002:ac8:580b:0:b0:43a:2e2b:eec with SMTP id
- d75a77b69052e-43cd6f1d31amr3382801cf.2.1714753984705; Fri, 03 May 2024
- 09:33:04 -0700 (PDT)
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
+ [95.215.58.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01C66113141
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:41:21 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1714754479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=v/sfvCbsExxR+80Czjk0cax2wbMTf4eS83WNGKM8GpY=;
+ b=EeAisheXkb40MSY0xLwm1raY+tGiU3GikmftKAiCst/fXFaiY/FNr51n9FB9macOr0HV3P
+ OKTQCq4qrCswtQldOHHTkV1BN21B4/NQYKYEiCcG7qoCZYO7T6BK0czEcZM7QqZTPPgJec
+ hsUvLi1AbTHJeZRUQ81+MZ3opH4DA/Q=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: [PATCH v5 00/10] drm/bridge: Allow using fwnode API to get the next
+ bridge
+Date: Sat,  4 May 2024 00:40:56 +0800
+Message-Id: <20240503164106.1172650-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-References: <20240501154251.3302887-1-dianders@chromium.org>
- <20240501084109.v3.9.I947e28c81f9ef7dcd3add6e193be72d6f8ea086f@changeid>
-In-Reply-To: <20240501084109.v3.9.I947e28c81f9ef7dcd3add6e193be72d6f8ea086f@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 3 May 2024 09:32:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U51FTOV2nnTbqkqUuaHFqib7-ua03O9tZN21EoX2dMsg@mail.gmail.com>
-Message-ID: <CAD=FV=U51FTOV2nnTbqkqUuaHFqib7-ua03O9tZN21EoX2dMsg@mail.gmail.com>
-Subject: Re: [PATCH v3 9/9] drm/panel: innolux-p079zca: Don't use a table for
- initting panels
-To: dri-devel@lists.freedesktop.org
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- Hsin-Yi Wang <hsinyi@google.com>, 
- Brian Norris <briannorris@chromium.org>, Sam Ravnborg <sam@ravnborg.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Javier Martinez Canillas <javierm@redhat.com>, 
- Joel Selvaraj <jo@jsfamily.in>, lvzhaoxiong@huaqin.corp-partner.google.com, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,57 +58,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Currently, the various display bridge drivers rely on OF infrastructures
+to works very well, yet there are platforms and/or devices absence of 'OF'
+support. Such as virtual display drivers, USB display apapters and ACPI
+based systems etc.
 
-On Wed, May 1, 2024 at 8:43=E2=80=AFAM Douglas Anderson <dianders@chromium.=
-org> wrote:
->
-> @@ -132,33 +125,9 @@ static int innolux_panel_prepare(struct drm_panel *p=
-anel)
->         /* p079zca: t4, p097pfg: t5 */
->         usleep_range(20000, 21000);
->
-> -       if (innolux->desc->init_cmds) {
-> -               const struct panel_init_cmd *cmds =3D
-> -                                       innolux->desc->init_cmds;
-> -               unsigned int i;
-> -
-> -               for (i =3D 0; cmds[i].len !=3D 0; i++) {
-> -                       const struct panel_init_cmd *cmd =3D &cmds[i];
-> -
-> -                       err =3D mipi_dsi_generic_write(innolux->link, cmd=
-->data,
-> -                                                    cmd->len);
-> -                       if (err < 0) {
-> -                               dev_err(panel->dev, "failed to write comm=
-and %u\n", i);
-> -                               goto poweroff;
-> -                       }
-> -
-> -                       /*
-> -                        * Included by random guessing, because without t=
-his
-> -                        * (or at least, some delay), the panel sometimes
-> -                        * didn't appear to pick up the command sequence.
-> -                        */
-> -                       err =3D mipi_dsi_dcs_nop(innolux->link);
-> -                       if (err < 0) {
-> -                               dev_err(panel->dev, "failed to send DCS n=
-op: %d\n", err);
-> -                               goto poweroff;
-> -                       }
-> -               }
-> -       }
-> +       err =3D innolux->desc->init(innolux);
-> +       if (err < 0)
-> +               goto poweroff;
+Add fwnode based helpers to fill the niche, this allows part of the display
+bridge drivers to work across systems. As the fwnode API has wider coverage
+than DT counterpart and the fwnode graphs are compatible with the OF graph,
+so the provided helpers can be used on all systems in theory. Assumed that
+the system has valid fwnode graphs established before drm bridge drivers
+are probed, and there has fwnode assigned to involved drm bridge instance.
 
-FWIW, I happened to notice a bug in the above by code inspection. The
-old code checked "if (innolux->desc->init_cmds)" and thus handled
-init_cmds being NULL. The new code doesn't handle the init function
-being NULL. One of the two panels in this file (which seems to have no
-users in mainline) doesn't specify an init sequence.
+Tested on TI BeaglePlay board.
 
-I'll spin this next week with the extra "if" test.
+v1 -> v2:
+	 * Modify it66121 to switch togather
+	 * Drop the 'side-by-side' implement
+	 * Add drm_bridge_find_next_bridge_by_fwnode() helper
+	 * Add drm_bridge_set_node() helper
 
--Doug
+v2 -> v3:
+	 * Read kernel-doc and improve function comments (Dmitry)
+	 * Drop the 'port' argument of it66121_read_bus_width() (Dmitry)
+	 * drm-bridge: sii902x get nuked
+
+v3 -> v4:
+	 * drm-bridge: tfp410 get nuked
+	 * Add platform module alias
+	 * Rebase and improve commit message and function comments
+
+v4 -> v5:
+	 * Modify sii9234, ch7033 and ANX7688
+	 * Trivial fixes
+
+Sui Jingfeng (10):
+  drm/bridge: Allow using fwnode APIs to get the next bridge
+  drm/bridge: Add a helper to setup both the of_node and fwnode of drm
+    bridge
+  drm/bridge: simple-bridge: Use fwnode APIs to acquire device
+    properties
+  drm/bridge: display-connector: Use fwnode APIs to acquire device
+    properties
+  drm/bridge: sii902x: Switch to use fwnode APIs to acquire device
+    properties
+  drm-bridge: it66121: Use fwnode APIs to acquire device properties
+  drm/bridge: tfp410: Use fwnode APIs to acquire device properties
+  drm/bridge: sii9234: Use fwnode APIs to abstract DT dependent API away
+  drm/bridge: ch7033: Switch to use fwnode based APIs
+  drm/bridge: anx7688: Switch to use drm_bridge_set_node() helper
+
+ drivers/gpu/drm/bridge/chrontel-ch7033.c   | 14 ++--
+ drivers/gpu/drm/bridge/cros-ec-anx7688.c   |  3 +-
+ drivers/gpu/drm/bridge/display-connector.c | 25 ++++----
+ drivers/gpu/drm/bridge/ite-it66121.c       | 57 ++++++++++-------
+ drivers/gpu/drm/bridge/sii902x.c           | 45 +++++--------
+ drivers/gpu/drm/bridge/sii9234.c           |  8 ++-
+ drivers/gpu/drm/bridge/simple-bridge.c     | 23 +++----
+ drivers/gpu/drm/bridge/ti-tfp410.c         | 41 ++++++------
+ drivers/gpu/drm/drm_bridge.c               | 74 ++++++++++++++++++++++
+ include/drm/drm_bridge.h                   | 18 +++++-
+ 10 files changed, 201 insertions(+), 107 deletions(-)
+
+-- 
+2.34.1
+
