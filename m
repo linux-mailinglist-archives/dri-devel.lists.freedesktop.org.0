@@ -2,81 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20B48BB0C2
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3559C8BB0D4
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0D7810F923;
-	Fri,  3 May 2024 16:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF7410F97C;
+	Fri,  3 May 2024 16:23:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=yahoo.com header.i=@yahoo.com header.b="OJY7SQpJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ebpgr3Yg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic305-21.consmr.mail.ne1.yahoo.com
- (sonic305-21.consmr.mail.ne1.yahoo.com [66.163.185.147])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C239D10F923
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:20:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1714753225; bh=OpuBHTwhnfArlf2PsQ6g2wnS/DKkhtNrSqNbd0Cd8cY=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To;
- b=OJY7SQpJPzFrXmeylgxlGlD3BCSE3qOAxtwPdYkVU5FOxoLQRKJF00tEYfmhaZK5iKlWOa1/JjjV3eH5JM2lkvEgYwXSMN2TYCphU3hLPn6KbqF1Rj/25IatAeHosRSq3yFt10J95fl7tGkina6PY5ns5e6q74dtMuyD6gERnI1RySrwQf23ZltBNfLXPMdRXH5udLAJ2h/8SmvLmdIuNJw2BOm3ocVmKh6moWugYmx9dm9auVM2M44Hb3/30RTwNCAXsebxMTB2Hxq5cXS4rVZ2q301QKyzYNDGGKm96RYCeoiBvvY3ZTsoE41Br0FOufHwquVo3bVShNWRkPQ2+A==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1714753225; bh=gPCGN3rmhpceV7xys+Q2GhOmTSmNqpsqTtrlqRdgO1X=;
- h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
- b=V5CLgOtQ0no4pFxBD1z0CO1DCpcuj0doeAwUEFljJGxIAQTKleE86ex1gGEoZ1bGiooafFJU12Wpv2Y4lkwfnaR8uqWfZP2WI3bvnjHW6ORKMHakTJ2ARzRLeixzdG3FoCCeP4K62/I9xHLzyqg8DEbl3bhFey5vqnQZ4Et4w+b8s2i+X/NIGl99B5H0poNXBIFVJdDMsnGKUjPrC1re6as0OmJra+WpDtuBIIZBVn0wHkck0pB/h0tve3WBR6v2FTKdA8J089oVjL+9aMHtnhHhchoVsgiFJgRsu2Ufjse3VagAL9Z1BH/sp41tu6VU5Fju51g7+np6PWG27rIB8A==
-X-YMail-OSG: u7CikhkVM1mEMBJgRhgeFfykAxEVELBK2D8SuCjgxXEHVfhg2Mh1jCun.7euP4n
- YuKTaefJTFGNeHA6y0GKN8r5o3pt6uZ4L7fJsdR9huBW4xI._HbSxGmtwL7Q.r.q2HNLUhrxNcqJ
- iQk0clfL4rJB7emk22t.djOQDkv.3brzpvxYm7mD76etPxjsHtjznB4tUyLYzXFO.6IDvqV7cuVU
- s7YU8V1I5QXnD2RY954jhO_zWBG1FHHEhnmc2lafLzGClMxUD1sSeuRmEUnPzd9UJb1XvnNuPzoR
- HDhGIP5Qbmk9vsiiNBfzez4x4g8KFg3M.G5Uk5n2WX7L_k6B9_ZGCVtrDh348xQOjY1Y_1Cd81b4
- noQswoJiZsryvGYbOrdRyqJAQrn1NxglYFDVVQ8ihsj3JFsAg8idJ57wbS4lW1zJR0z2hwX0D5L8
- Ah9_5UWH5vGNxPLESZLBXSsL8X91UjsCxu6TnFw7uhzNds6_ofPqhWISo6wokWtoHo4s5i_Dd1g1
- pgusS5pHJ1PX8KPBpv1fMxnUGbma5Mq06lphYU_SSXY4i5qCBUK37DNnJIV5AgXDEbpreAvPY5KN
- vR8Tb6Q2yF6axmhLYw2qwsfnAUr0vA_Jzc2pUUzAeDxF6I0UPkjLA7a7yiaDIczakKX6dwdSJ.mG
- 58OM_lkjw52d71AdkfrDJUX2MksGHq1K63WSXuFurdzA3S18AlusvV.5PFProfYCIRztn0BDISD2
- Qa0GpFEiFwlzby4x0fgGxV8dJZ7Xq5ugd4xBCV.6.A2dnjy26PjzG0jwSLH9GPjFaJGaVk9uUasX
- Ix6sSXmG_K_jm3KYote_PDn6JLIa0hbq_HNpR__3cjgTP1plr_6Akyd1GFihjkHF_mscqbk6S76Q
- jpIhhLUmyHcsZ.NWMfj678JphFYyxPaOOxLXXAMfL_zhiEjNUJvyW4VexTTgNZ3xy4unuIoacAoJ
- i65ljO1IAGxShzOLanEqKFAMguiVBBN84wbYDBpr0kbG1lU32E1cGTIczqgW2w82DRV0zMHp7_sk
- RkIuj5k_JzxlnN5zNfGNQ27h3I4gVCCP9gOc5wekqRwLV8ifLYRb0bPkd8tD7JmD2LZ4W42b5344
- HsLeoU48IJJDVr0YJZVirumWrxsKvF2I3o7_KXaVyliAP25U_deLjmT.BBE1UONAftNh2kNMOZhG
- ak5IKdiwLyK6_12ip8oazaBJj_0W2q_gqrvjiq4bKG6iI._HycRHunW22uHeF9wvQrk5tc_APutn
- ySnbWQ9ziXxvaBWtboypHwNZUDPR.1KsQgcqJSY2RL3r9XfaUo845YNVfdFuXJRnWkIvdttDKler
- fyJKbvSmeSCJKhNzvxBHRQYh5n.3NYvEikv_TsZJacJhbUnWXZUvXasP37MGyoQ7GLT5da687ovE
- MPDnTVH5iJuFgVqg.nx3oyRUA1nTBGBfvFZYSiKFVAvWHa4stTt3NH3SSaTDdTBWfIGRsYGhkvLA
- dGy3Z7XijAEEDsjVV7IcaVpLVWIbJ5jIIBJ13eYMxWVJ5f4A4lIZrv_SZBpvByB1sfv.DS7gSonq
- 1VNOutIuK8hijTa9otiRaFsP5_Q0XVFGUteywvHokJuiKc9VgRr3JHFzTPQ4VicD_5wUtc5IFJ1G
- Whv.16lmZ496l.ekC09_B7nK3cP4JcBG1bvLevBfXuZGDgqGnk69NAcG7XfInLZXd.siTtH_j2Hu
- Um8ryul1Tv18C0USqxm8iwpFTlN8Nnzyfmboy0o0wiQplgRXpa.HUUaRAp_Q1evqftIW2KXhIQd.
- PgvidYsIBtF.XIaFWMsLdcMg1GvBlnp_6PRqwXVoLM2PAqh5VqVkQQTOfaBeMPEn8jtbd6qNLLqP
- 0LUJpjXA1La1EIPftMu6oPuaNY5s2vCt4KwXJcivqOm8eJpB7YSB6SjubeIV9IqXdILqqdTIJ5I1
- loXhSfvkPvTocCDcdoz7FvbKaejGqeAjQjG8RIM0v82Pdtw0DCF.8aCwGPn7CiVmUwVA3AB8L30S
- N_n9FCd6TcDBPoK5HwRSX..z0kdfVosVSs6SS2qsrOs3jY06vlXP0PhNz2EG_YmgI7YvRoqKxbY7
- PKcwpvJsXvM7YBuftOiseBjk3I_KzychmFW.f.Ls34I5eM8XzWMW0LfYeBAwTIprJKhvL6V_Vrms
- tgESrkIU7v9UtaRwWh7DKRHDJUDHgqExo6lBS0mqHPrUKy.hVNgkJlB2PDa_Qv4JSP3Rf1VmTgvH
- Fcv96CSp4tjyCAXFkI47vWUo4VCWan1qd7NG.JaBVJ1kVaf_Z0uiLr9CVPVJD6A.o_UxUDqo-
-X-Sonic-MF: <ashokemailat@yahoo.com>
-X-Sonic-ID: b20f7dc0-ce88-4f67-8215-c25d657d58b6
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic305.consmr.mail.ne1.yahoo.com with HTTP; Fri, 3 May 2024 16:20:25 +0000
-Date: Fri, 3 May 2024 16:20:24 +0000 (UTC)
-From: Ashok Kumar <ashokemailat@yahoo.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>, 
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "outreachy@lists.linux.dev" <outreachy@lists.linux.dev>
-Message-ID: <1389558595.6771301.1714753224419@mail.yahoo.com>
-In-Reply-To: <c8d24241-1763-f7b7-4491-2e5aa3ea3be@inria.fr>
-References: <ZjRDUO6/M+RDCcQJ.ref@c> <ZjRDUO6/M+RDCcQJ@c>
- <c8d24241-1763-f7b7-4491-2e5aa3ea3be@inria.fr>
-Subject: Re: [PATCH] staging: fb_tinylcd Alignment to open parenthesis
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EAB410F97C
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:23:24 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-6f4496af4cdso1016118b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 09:23:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1714753403; x=1715358203; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mwKDafe28MIieMSNGIPW3eOTsHHrwRXu1m7RhuwOcZc=;
+ b=ebpgr3YgfmewPrNnQPeWtBbETUIy2Q/zYiV3EkorZ08qgO+2EuNlfoil/hgJ0lAKiZ
+ Xdef/mpR3wdNDGi2q4oMgJiWHeRgNXMg7Wm38E75G6SqLUN0UUalYJj2YSiWUDCofLgd
+ gaJH3fLHqRjUgwEJQAkB8rXmubCPN/2DIkPgPWLFDngw5dpRDOCkQFO7L+axDcPhgh4F
+ gwDQsoUFXqbv4pbPwOMB0FZS8EnNUKFj65iqJsPKN1lmDaNvU+3WBAyZ/r3Aaxxpy5rR
+ TNJ7LTBB/f2ImJGmSfbzVULfiNlK/d1Zd+0QAO2kv+GRaiuvIbmRAmD31VTiH4YvsAfM
+ FpDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714753403; x=1715358203;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mwKDafe28MIieMSNGIPW3eOTsHHrwRXu1m7RhuwOcZc=;
+ b=uu4OK2MZT0dlPCJJ/jn7eDp3gUTNmURPLKtghpFb/IxX0+Fw09GUjuWQZIyzn4tMct
+ kZGxt/fmoz+jY74Edvi5RnT/4OU9B6gAJj7qn8LCZEGlGzqSZIYUDczOoEtxZvszgwTT
+ VQzQ5mjE0HMj/2zVM8vV1gga73IYYJ8b7vrPNuRfAtq9nsA4DsBoEzy1ZIlxrcQS6yol
+ grPJPOYr1udrwxFplGZVO+3BtHwnpuNwZcPMxERaEvIo1B8r9Qc+7r8UZaLTEtaogr9Z
+ 6TzykezeexxTPbUTYDHlUKDyAAUzKeqX20PeQm+x4CUuDUWszBkxsAnN/SwHop1Apjs8
+ 0SKw==
+X-Gm-Message-State: AOJu0YzD51+gVToTE5un2lxg7fTIZsZ5B2ovWrXgnIxMNBzctL6FWxQ/
+ hCs6oya80Oab9vlT917K6Emjx4xcbGC/lIimpEOOHRHZFFMD7AZC
+X-Google-Smtp-Source: AGHT+IGuqVde44+OlfespuDSTAfHKUhnMDH3dyay8UhKf4umdgctT17gfataxz2qw5xl3u+0CdUBww==
+X-Received: by 2002:a05:6a00:130a:b0:6f3:e6e0:d9fb with SMTP id
+ j10-20020a056a00130a00b006f3e6e0d9fbmr3124846pfu.11.1714753403334; 
+ Fri, 03 May 2024 09:23:23 -0700 (PDT)
+Received: from ?IPV6:2402:e280:214c:86:b096:5d6e:50c3:70e5?
+ ([2402:e280:214c:86:b096:5d6e:50c3:70e5])
+ by smtp.gmail.com with ESMTPSA id
+ w17-20020a639351000000b0061cf79eab38sm1612625pgm.37.2024.05.03.09.23.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 May 2024 09:23:23 -0700 (PDT)
+Message-ID: <f87bfbb1-b80f-46a5-be85-058a406de99d@gmail.com>
+Date: Fri, 3 May 2024 21:53:19 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.22256 YMailNorrin
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH linux-next] gpu:ipu-v3:pre: replace of_node_put() with
+ __free
+To: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com,
+ Julia Lawall <julia.lawall@inria.fr>
+References: <20240427045024.7083-1-prosunofficial@gmail.com>
+Content-Language: en-US
+From: R Sundar <prosunofficial@gmail.com>
+In-Reply-To: <20240427045024.7083-1-prosunofficial@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,56 +86,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Thursday, May 2, 2024 at 11:54:58 PM PDT, Julia Lawall <julia.lawall@inr=
-ia.fr> wrote:=20
-
-
-
-
-
-
-
-On Thu, 2 May 2024, Ashok Kumar wrote:
-
-> Corrected coding style CHECK: Alignment should match open parenthesis
-
-Ashok, I think the code is nicer as is, because it has all the constant
-numbers lined up.
-
-julia
-
-Thanks for the update I will ignore this change.=C2=A0
-
-Is there a list of exceptions to the checkpatch information that we can ign=
-ore in general.
-
-
->
-> Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
+On 27/04/24 10:20, R Sundar wrote:
+> use the new cleanup magic to replace of_node_put() with
+> __free(device_node) marking to auto release when they get out of scope.
+> 
+> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+> Signed-off-by: R Sundar <prosunofficial@gmail.com>
 > ---
->=C2=A0 drivers/staging/fbtft/fb_tinylcd.c | 2 +-
->=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/f=
-b_tinylcd.c
-> index 9469248f2c50..60cda57bcb33 100644
-> --- a/drivers/staging/fbtft/fb_tinylcd.c
-> +++ b/drivers/staging/fbtft/fb_tinylcd.c
-> @@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
->=C2=A0 =C2=A0=C2=A0=C2=A0 write_reg(par, 0xE5, 0x00);
->=C2=A0 =C2=A0=C2=A0=C2=A0 write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
->=C2=A0 =C2=A0=C2=A0=C2=A0 write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x0=
-0, 0x00,
-> -=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00, 0x35, 0=
-x33, 0x00, 0x00, 0x00);
-> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0 0x00, 0x35, 0x33, 0x00, 0x0=
-0, 0x00);
->=C2=A0 =C2=A0=C2=A0=C2=A0 write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
->=C2=A0 =C2=A0=C2=A0=C2=A0 write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
->=C2=A0 =C2=A0=C2=A0=C2=A0 udelay(250);
-> --
-> 2.34.1
->
->
->
+>   drivers/gpu/ipu-v3/ipu-pre.c | 7 ++-----
+>   1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/ipu-v3/ipu-pre.c b/drivers/gpu/ipu-v3/ipu-pre.c
+> index aef984a43190..95830cf8fa3e 100644
+> --- a/drivers/gpu/ipu-v3/ipu-pre.c
+> +++ b/drivers/gpu/ipu-v3/ipu-pre.c
+> @@ -113,8 +113,8 @@ int ipu_pre_get_available_count(void)
+>   struct ipu_pre *
+>   ipu_pre_lookup_by_phandle(struct device *dev, const char *name, int index)
+>   {
+> -	struct device_node *pre_node = of_parse_phandle(dev->of_node,
+> -							name, index);
+> +	struct device_node *pre_node __free(device_node) =
+> +		of_parse_phandle(dev->of_node, name, index);
+>   	struct ipu_pre *pre;
+>   
+>   	mutex_lock(&ipu_pre_list_mutex);
+> @@ -123,14 +123,11 @@ ipu_pre_lookup_by_phandle(struct device *dev, const char *name, int index)
+>   			mutex_unlock(&ipu_pre_list_mutex);
+>   			device_link_add(dev, pre->dev,
+>   					DL_FLAG_AUTOREMOVE_CONSUMER);
+> -			of_node_put(pre_node);
+>   			return pre;
+>   		}
+>   	}
+>   	mutex_unlock(&ipu_pre_list_mutex);
+>   
+> -	of_node_put(pre_node);
+> -
+>   	return NULL;
+>   }
+>   
+Hi,
+
+Any feedback on this patch.
+
+Thanks,
+Sundar
