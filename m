@@ -2,96 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36418BA74B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 08:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF8D8BA765
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 09:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08CC210ED87;
-	Fri,  3 May 2024 06:58:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE5510EBA8;
+	Fri,  3 May 2024 07:07:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="AUPTouY1";
+	dkim=pass (1024-bit key; unprotected) header.d=yandex.ru header.i=@yandex.ru header.b="WAIf9HaO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BEFD10ED87
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 06:58:56 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-a599a298990so17669266b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 23:58:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714719534; x=1715324334;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LXjaL+il8Ez+7d6ytrKawnux38fevS26j1EU1z2Rw38=;
- b=AUPTouY1RxW81Ly+DMwcsCQOCdKGEsvsPOXsOfzvjWORKmWHldqfJP0uqXV+q4mmE2
- Miw2Z2C6UqNXdGqb9WOCQa9xnhJkrUFeBjdJzBr6xAsJDvaBz9XN2zf+EOSTSq/rnKCF
- ocMFygNqR9CP7KuYiyanKzri3Mlg2sfaeyXoc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714719534; x=1715324334;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LXjaL+il8Ez+7d6ytrKawnux38fevS26j1EU1z2Rw38=;
- b=iFQD8GU/q4qaKy7AJgPZvYc6PkI/SbOasuHdGqQsG6M+fA6Avu675ph+jrF00XqAJH
- oAgc2l0/S4kvCZ51IZFdshNUd1Jk/cEES6g6/jOTCUBbtuqgELGtPUZQxxelJNBQG7EU
- BV5EJrynKhzRcFMgIsezYMQW0uXEyIPptVgf7ePX2G6reSqNwVvkGrwuH+eJEYZoSazs
- BxsJng5dswvUsVFttYJly4X1lUdyRyKgXSbZSmfLHINNgZ3KXJzdRPhbR81obYPyOmEA
- 94W6JtPHmM/EdfuG3P9r9iR2u5IE9+6U1k7kWaIxYDptcTqTiI4gFpYbOcUU8w/V2gB2
- XZyQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUWZ7A9Qa3UT1Sn2riaZ55qXEJcldcbysHR2D/TVUmRVfXzHDhiJ3a6y8BCjPGbw3k8kYhsUxaFgNwJnxzQNzYb0Aig9mPlmxZBz+nAawUA
-X-Gm-Message-State: AOJu0Ywgic1MxVg+6NN078lRFSTNFcQr0bcGV5EGucj9OPkVZQdolLM9
- XdskirHjX4tjfxvScg3+d8lPws5DYwXQY76NaFMSvOFI5cvzPUPQweqMRBTw3LxZIaC5BGqJGuh
- GFQ==
-X-Google-Smtp-Source: AGHT+IEcGGfwsfhxCuQO46V533/3ImD6K2G4oR1Tj+ac8O8Jadc0vUHxMR5BKJDd8fiZIChgxxV+eQ==
-X-Received: by 2002:a50:bb42:0:b0:570:3b4:53ff with SMTP id
- y60-20020a50bb42000000b0057003b453ffmr960153ede.6.1714719533836; 
- Thu, 02 May 2024 23:58:53 -0700 (PDT)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com.
- [209.85.218.47]) by smtp.gmail.com with ESMTPSA id
- h25-20020a0564020e9900b00572cfb37bd6sm543948eda.8.2024.05.02.23.58.53
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 May 2024 23:58:53 -0700 (PDT)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-a58eb9a42d9so920232766b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2024 23:58:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUUeVChcDlqo8ndSCZjunO+QYwc0Uc+i6lUH2yrRdA5wQDSqQ0Y6rCFjo1dk4N3/AMmrFGglVa0BABbrbQOCCpdSIt1ZlGsCHXC1hqJWotp
-X-Received: by 2002:a17:906:dc04:b0:a52:2d83:1483 with SMTP id
- yy4-20020a170906dc0400b00a522d831483mr990970ejb.53.1714719532753; Thu, 02 May
- 2024 23:58:52 -0700 (PDT)
+Received: from forward502c.mail.yandex.net (forward502c.mail.yandex.net
+ [178.154.239.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B8D310EBA8
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 07:07:45 +0000 (UTC)
+Received: from mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net
+ (mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net
+ [IPv6:2a02:6b8:c11:49a3:0:640:a0c5:0])
+ by forward502c.mail.yandex.net (Yandex) with ESMTPS id E94DD6129C;
+ Fri,  3 May 2024 10:07:12 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net
+ (smtp/Yandex) with ESMTPSA id B7OTss7uBeA0-71e0e3jK; 
+ Fri, 03 May 2024 10:07:12 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+ t=1714720032; bh=O/sHsdCylG2MFy1pSJ1PRazemWy7FKCci38WHBEzE9g=;
+ h=In-Reply-To:Subject:To:From:Cc:Date:References:Message-ID;
+ b=WAIf9HaOlTOaIVdooYDyz/agzHBhFaEj5ddWhxaxW6ZMpp9oacohngFBO7K4/LZ2p
+ wv+RlKiuFQsE0VHQOwQBDIO9KlCvtElS6Tk8/F7YRFRC9DRT6xUjxCMSdek4fr9euj
+ EbdFUr2M4Elo6XG6efknhRLcXprPdynIeexpg1Co=
+Authentication-Results: mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net;
+ dkim=pass header.i=@yandex.ru
+Message-ID: <d5866bd9-299c-45be-93ac-98960de1c91e@yandex.ru>
+Date: Fri, 3 May 2024 10:07:11 +0300
 MIME-Version: 1.0
-References: <20240502-anx-tdm-v1-0-894a9f634f44@chromium.org>
- <20240502-anx-tdm-v1-1-894a9f634f44@chromium.org>
- <20240502-sheath-share-eac9afc24da9@spud>
-In-Reply-To: <20240502-sheath-share-eac9afc24da9@spud>
-From: Hsin-Te Yuan <yuanhsinte@chromium.org>
-Date: Fri, 3 May 2024 14:58:16 +0800
-X-Gmail-Original-Message-ID: <CAHc4DN+mCbBuB3D9kB2x8HYj9iaX7t6Q4Qjj7hotH3u=eAHJSg@mail.gmail.com>
-Message-ID: <CAHc4DN+mCbBuB3D9kB2x8HYj9iaX7t6Q4Qjj7hotH3u=eAHJSg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: anx7625: Add a perporty to
- change TDM setting
-To: Conor Dooley <conor@kernel.org>
-Cc: Hsin-Te Yuan <yuanhsinte@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Xin Ji <xji@analogixsemi.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lvc-project@linuxtesting.org,
+ syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com,
+ linux-fsdevel@vger.kernel.org
+References: <20240423191310.19437-1-dmantipov@yandex.ru>
+ <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
+ <3a7d0f38-13b9-4e98-a5fa-9a0d775bcf81@yandex.ru>
+ <72f5f1b8-ca5b-4207-9ac9-95b60c607f3a@amd.com>
+Content-Language: en-US
+From: Dmitry Antipov <dmantipov@yandex.ru>
+Autocrypt: addr=dmantipov@yandex.ru; keydata=
+ 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
+ A/UwwXBRuvydGV0=
+Subject: Re: [PATCH] [RFC] dma-buf: fix race condition between poll and close
+In-Reply-To: <72f5f1b8-ca5b-4207-9ac9-95b60c607f3a@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,60 +102,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 2, 2024 at 10:47=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Thu, May 02, 2024 at 09:03:31AM +0000, Hsin-Te Yuan wrote:
-> > Add a perporty to indicate whether anx7625 should shift the first audio
-> > data bit. The default TDM setting is to shift the first audio data bit.
-> >
-> > Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
-> > ---
-> >  .../devicetree/bindings/display/bridge/analogix,anx7625.yaml          =
-| 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,=
-anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,an=
-x7625.yaml
-> > index a1ed1004651b9..915d5d54a2160 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625=
-.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625=
-.yaml
-> > @@ -82,6 +82,10 @@ properties:
-> >      type: boolean
-> >      description: let the driver enable audio HDMI codec function or no=
-t.
-> >
-> > +  no-shift-audio-data:
-> > +    type: boolean
-> > +    description: Disable the first audio data bit shift in the TDM set=
-tings.
->
-> This just looks like software policy, since there's no mention in the
-> commit message or description as to what property of the hardware causes
-> this to be required. Can you please explain why this property is needed?
->
-> You're also missing a vendor prefix.
->
-> Thanks,
-> Conor.
->
-> > +
-> >    aux-bus:
-> >      $ref: /schemas/display/dp-aux-bus.yaml#
-> >
-> >
-> > --
-> > 2.45.0.rc1.225.g2a3ae87e7f-goog
-> >
-
-Sorry, I found this feature in the datasheet originally, but after
-deeper investigation, it seems that this feature should be used to
-support i2s dsp mode b instead of being used this way. Note that the
-difference between i2s dsp mode a and b is whether or not to shift the
-audio data by 1 clock cycle.
-
-Regards,
-Hsin-Te
+T24gNC8yNC8yNCAyOjI4IFBNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOg0KDQo+IEkgZG9u
+J3QgZnVsbHkgdW5kZXJzdGFuZCBob3cgdGhhdCBoYXBwZW5zIGVpdGhlciwgaXQgY291bGQg
+YmUgdGhhdCB0aGVyZSBpcyBzb21lIGJ1ZyBpbiB0aGUgRVBPTExfRkQgY29kZS4gTWF5YmUg
+aXQncyBhIHJhY2Ugd2hlbiB0aGUgRVBPTEwgZmlsZSBkZXNjcmlwdG9yIGlzIGNsb3NlZCBv
+ciBzb21ldGhpbmcgbGlrZSB0aGF0Lg0KDQpJSVVDIHRoZSByYWNlIGNvbmRpdGlvbiBsb29r
+cyBsaWtlIHRoZSBmb2xsb3dpbmc6DQoNClRocmVhZCAwICAgICAgICAgICAgICAgICAgICAg
+ICAgVGhyZWFkIDENCi0+IGRvX2Vwb2xsX2N0bCgpDQogICAgZl9jb3VudCsrLCBub3cgMg0K
+ICAgIC4uLg0KICAgIC4uLiAgICAgICAgICAgICAgICAgICAgICAgICAgLT4gdmZzX3BvbGwo
+KSwgZl9jb3VudCA9PSAyDQogICAgLi4uICAgICAgICAgICAgICAgICAgICAgICAgICAuLi4N
+CjwtIGRvX2Vwb2xsX2N0bCgpICAgICAgICAgICAgICAgLi4uDQogICAgZl9jb3VudC0tLCBu
+b3cgMSAgICAgICAgICAgICAuLi4NCi0+IGZpbHBfY2xvc2UoKSwgZl9jb3VudCA9PSAxICAg
+Li4uDQogICAgLi4uICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0+IGRtYV9idWZfcG9s
+bCgpLCBmX2NvdW50ID09IDENCiAgICAtPiBmcHV0KCkgICAgICAgICAgICAgICAgICAgICAg
+Li4uIFsqKiogcmFjZSB3aW5kb3cgKioqXQ0KICAgICAgIGZfY291bnQtLSwgbm93IDAgICAg
+ICAgICAgICAgIC0+IG1heWJlIGdldF9maWxlKCksIG5vdyA/Pz8NCiAgICAgICAtPiBfX2Zw
+dXQoKSAoZGVsYXllZCkNCg0KRS5nLiBkbWFfYnVmX3BvbGwoKSBtYXkgYmUgZW50ZXJlZCBp
+biB0aHJlYWQgMSB3aXRoIGYtPmNvdW50ID09IDENCmFuZCBjYWxsIHRvIGdldF9maWxlKCkg
+c2hvcnRseSBsYXRlciAoYW5kIG1heSBldmVuIHNraXAgdGhpcyBpZg0KdGhlcmUgaXMgbm90
+aGluZyB0byBFUE9MTElOIG9yIEVQT0xMT1VUKS4gRHVyaW5nIHRoaXMgdGltZSB3aW5kb3cs
+DQp0aHJlYWQgMCBtYXkgY2FsbCBmcHV0KCkgKG9uIGJlaGFsZiBvZiBjbG9zZSgpIGluIHRo
+aXMgZXhhbXBsZSkNCmFuZCAoc2luY2UgaXQgc2VlcyBmLT5jb3VudCA9PSAxKSBmaWxlIGlz
+IHNjaGVkdWxlZCB0byBkZWxheWVkX2ZwdXQoKS4NCg0KRG1pdHJ5DQo=
