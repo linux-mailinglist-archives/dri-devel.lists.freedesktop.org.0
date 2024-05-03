@@ -2,79 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C048BA93B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 10:51:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA098BA94F
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 11:03:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB72C10E827;
-	Fri,  3 May 2024 08:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B306E10E093;
+	Fri,  3 May 2024 09:03:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RMuJTxTS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qB969JDn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2A610EA0D
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 08:51:20 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2dcc8d10d39so102552731fa.3
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 01:51:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714726278; x=1715331078; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZWk/psw7Jn7h8F9Bpz9pTT51OJv92Z7OG1gjIzaGghI=;
- b=RMuJTxTSX5W3KoHMQ8zj5HHW8LPzc/LPQ6HUr3qOdLY2e9YPi+nJTIlCuBMKKi/IAs
- gKkreSYGgJkKsY/YTCMtPrHEoPdOqM5CBYGXDv0sRrP9uwuzZuZ+jVgeR/lZ+R23ZtsO
- p5TKRslxmD+/IzAg2XvD6SfkCfLqzyj2h3Tg0RFgyX4yQ3epY0Cdk3GX8YJBMpbsu7pB
- s/YH0Ji3C1AjG2cXUO6cQGJDt6DBBsWc+07DiKnpN/7TWFUIbzB58K4DKL7eUG/hmUco
- 0oOM7CC9qPgqB7/tWZ48VJAIyuyUkxx1f6/iWlZ5+Xocp+eV+5HRWSudBZvg6YV6a/jr
- Gw9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714726278; x=1715331078;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZWk/psw7Jn7h8F9Bpz9pTT51OJv92Z7OG1gjIzaGghI=;
- b=bGAn+vWW707pPndfYUxakOAWDWdmWLK5vLYdA6feKigWMefATlqscp7iXxZW6ADYKe
- ff/bvgP4ZMulozc7IrLFtjmf4YMKCsAhmk2XrhyPcrd8bAyJgBiW7dpa/G0ZdncYQnc4
- 3nsxH7uz8SsMlj+FTtGBtcm0Asj9H/svY1iQiiHlcaOkjXRWY40ngawAHzodD6YbBsMy
- pyUl8Sxk6VlKxjGfcymNnBSlemSTr/57LZ4mLdHTwkU/wX1/n13ELDPlx6gsPO6WAZkG
- JY4BVPWixWKstFWzhUU89Z+I86BYcxllXvRyb6BCsa7zPACFSOnCTsyVqsyisD7oc7Se
- zyNQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXloyzufSDd3yEFQDDiJIFUEuUppVAJay2XZFR42o8yyBoe8Kb9xsy4PbkG3ySkYp2V4krWRXPjHiz/CdJ7X1TI0fFdhZYU1hIeioF88oF6
-X-Gm-Message-State: AOJu0YwwrjuacjFSP58KK9b3dpQR5czDHltXmqk3Z1i1Wn7QGpTjCAHC
- ZGi2bYWC1EeahMikE9GIRgDckWRGDYW5/Gt920BQCdrmcdlqOPtzynKLvvhz7AA=
-X-Google-Smtp-Source: AGHT+IHcI2LurCc2hKenAfI5jjKmPmOLR9ME3lIwcmztZCp99vEXqtLskwgBUgkpuv4Q6SUOsRVoww==
-X-Received: by 2002:a05:6512:2eb:b0:51d:70d9:ece0 with SMTP id
- m11-20020a05651202eb00b0051d70d9ece0mr1451847lfq.6.1714726277628; 
- Fri, 03 May 2024 01:51:17 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- i15-20020adfb64f000000b0034af40b2efdsm3204178wre.108.2024.05.03.01.51.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 May 2024 01:51:17 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53E9D10EAF6;
+ Fri,  3 May 2024 09:03:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id C4327CE18C7;
+ Fri,  3 May 2024 09:03:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7BB2C116B1;
+ Fri,  3 May 2024 09:03:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1714726988;
+ bh=Pa9ms/rBsNJu3pSJcnarFZ5cEol78sMnDDgBVhFC6xk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qB969JDna8vdDAAup8xKrh+zFSQBwBslcunfOcEOyavNcEJ8bK4lvjj5bUDsNG76O
+ wZeC5qbvxPfxCzkLem/9IHPFfqzZFZS0+KhJVYiTbAHtDJvmCqTy+HeFPvmCE+Rgm+
+ 5E5Vm6mMHAiSNcFsr3k/9nGy5QquIdnPbWESP8djFxDbIiRe/Iz2l7gEZVFCxn2I3c
+ /LP+fQqbFZPF8CtcwkbqPYGn0eBgQYGIB0X8n6npBWvvhqocA7MruMF1ttlcwHszgL
+ +ykGN9tWpVmG8+BagsMenh/9QElipmDT7qPD2WQAkMo2k/IyN6/n39gNCjU0Oc/bjY
+ 0XQ74oBsuGowQ==
+Date: Fri, 3 May 2024 11:02:57 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+ Zack Rusin <zack.rusin@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Jerome Brunet <jbrunet@baylibre.com>
-Cc: Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240426160256.3089978-1-jbrunet@baylibre.com>
-References: <20240426160256.3089978-1-jbrunet@baylibre.com>
-Subject: Re: [PATCH 0/2] drm/meson: fix hdmi auxiliary system operation
- without display
-Message-Id: <171472627680.386161.1617857178874394298.b4-ty@linaro.org>
-Date: Fri, 03 May 2024 10:51:16 +0200
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Matt Atwood <matthew.s.atwood@intel.com>, Matthew Auld <matthew.auld@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
+ Kent Overstreet <kent.overstreet@linux.dev>,
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 1/5] fs: Do not allow get_file() to resurrect 0 f_count
+Message-ID: <20240503-mitmachen-redakteur-2707ab0cacc3@brauner>
+References: <20240502222252.work.690-kees@kernel.org>
+ <20240502223341.1835070-1-keescook@chromium.org>
+ <CAG48ez0d81xbOHqTUbWcBFWx5WY=RM8MM++ug79wXe0O-NKLig@mail.gmail.com>
+ <202405021600.F5C68084D@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202405021600.F5C68084D@keescook>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,25 +82,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, 26 Apr 2024 18:02:52 +0200, Jerome Brunet wrote:
-> CEC and ARC should work even when HDMI is not actively used for the
-> display but it is not the case with Amlogic HDMI.
+On Thu, May 02, 2024 at 04:03:24PM -0700, Kees Cook wrote:
+> On Fri, May 03, 2024 at 12:53:56AM +0200, Jann Horn wrote:
+> > On Fri, May 3, 2024 at 12:34 AM Kees Cook <keescook@chromium.org> wrote:
+> > > If f_count reaches 0, calling get_file() should be a failure. Adjust to
+> > > use atomic_long_inc_not_zero() and return NULL on failure. In the future
+> > > get_file() can be annotated with __must_check, though that is not
+> > > currently possible.
+> > [...]
+> > >  static inline struct file *get_file(struct file *f)
+> > >  {
+> > > -       atomic_long_inc(&f->f_count);
+> > > +       if (unlikely(!atomic_long_inc_not_zero(&f->f_count)))
+> > > +               return NULL;
+> > >         return f;
+> > >  }
+> > 
+> > Oh, I really don't like this...
+> > 
+> > In most code, if you call get_file() on a file and see refcount zero,
+> > that basically means you're in a UAF write situation, or that you
+> > could be in such a situation if you had raced differently. It's
+> > basically just like refcount_inc() in that regard.
 > 
-> This is important for devices such as sound bars which may use DSI
-> to display a UI and HDMI for CEC/ARC. A display is not required for these
-> functions
+> Shouldn't the system attempt to not make things worse if it encounters
+> an inc-from-0 condition? Yes, we've already lost the race for a UaF
+> condition, but maybe don't continue on.
 > 
-> [...]
+> > And get_file() has semantics just like refcount_inc(): The caller
+> > guarantees that it is already holding a reference to the file; and if
+> 
+> Yes, but if that guarantee is violated, we should do something about it.
+> 
+> > the caller is wrong about that, their subsequent attempt to clean up
+> > the reference that they think they were already holding will likely
+> > lead to UAF too. If get_file() sees a zero refcount, there is no safe
+> > way to continue. And all existing callers of get_file() expect the
+> > return value to be the same as the non-NULL pointer they passed in, so
+> > they'll either ignore the result of this check and barrel on, or oops
+> > with a NULL deref.
+> > 
+> > For callers that want to actually try incrementing file refcounts that
+> > could be zero, which is only possible under specific circumstances, we
+> > have helpers like get_file_rcu() and get_file_active().
+> 
+> So what's going on in here:
+> https://lore.kernel.org/linux-hardening/20240502223341.1835070-2-keescook@chromium.org/
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
+Afaict, there's dma_buf_export() that allocates a new file and sets:
 
-[1/2] drm/meson: dw-hdmi: power up phy on device init
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/04703bfd7f99c016a823c74712b97f8b5590ce87
-[2/2] drm/meson: dw-hdmi: add bandgap setting for g12
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/08001033121dd92b8297a5b7333636b466c30f13
+file->private_data = dmabuf;
+dmabuf->file = file;
 
--- 
-Neil
+The file has f_op->release::dma_buf_file_release() as it's f_op->release
+method. When that's called the file's refcount is already zero but the
+file has not been freed yet. This will remove the dmabuf from some
+public list but it won't free it.
 
+Then we see that any dentry allocated for such a dmabuf file will have
+dma_buf_dentry_ops which in turn has
+dentry->d_release::dma_buf_release() which is where the actual release
+of the dma buffer happens taken from dentry->d_fsdata.
+
+That whole thing calls allocate_file_pseudo() which allocates a new
+dentry specific to that struct file. That dentry is unhashed (no lookup)
+and thus isn't retained so when dput() is called and it's the last
+reference it's immediately followed by
+dentry->d_release::dma_buf_release() which wipes the dmabuf itself.
+
+The lifetime of the dmabuf is managed via fget()/fput(). So the lifetime
+of the dmabuf and the lifetime of the file are almost identical afaict:
+
+__fput()
+-> f_op->release::dma_buf_file_release() // handles file specific freeing
+-> dput()
+   -> d_op->d_release::dma_buf_release() // handles dmabuf freeing
+                                         // including the driver specific stuff.
+
+If you fput() the file then the dmabuf will be freed as well immediately
+after it when the dput() happens in __fput() (I struggle to come up with
+an explanation why the freeing of the dmabuf is moved to
+dentry->d_release instead of f_op->release itself but that's a separate
+matter.).
+
+So on the face of it without looking a little closer
+
+static bool __must_check get_dma_buf_unless_doomed(struct dma_buf *dmabuf)
+{
+        return atomic_long_inc_not_zero(&dmabuf->file->f_count) != 0L;
+}
+
+looks wrong or broken. Because if dmabuf->file->f_count is 0 it implies
+that @dmabuf should have already been freed. So the bug would be in
+accessing @dmabuf. And if @dmabuf is valid then it automatically means
+that dmabuf->file->f_count isn't 0. So it looks like it could just use
+get_file().
+
+_But_ the interesting bits are in ttm_object_device_init(). This steals
+the dma_buf_ops into tdev->ops. It then takes dma_buf_ops->release and
+stores it away into tdev->dma_buf_release. Then it overrides the
+dma_buf_ops->release with ttm_prime_dmabuf_release(). And that's where
+the very questionable magic happens.
+
+So now let's say the dmabuf is freed because of lat fput(). We now get
+f_op->release::dma_buf_file_release(). Then it's followed by dput() and
+ultimately dentry->d_release::dma_buf_release() as mentioned above.
+
+But now when we get:
+
+dentry->d_release::dma_buf_release()
+-> dmabuf->ops->release::ttm_prime_dmabuf_release()
+
+instead of the original dmabuf->ops->release method that was stolen into
+tdev->dmabuf_release. And ttm_prime_dmabuf_release() now calls
+tdev->dma_buf_release() which just frees the data associated with the
+dmabuf not the dmabuf itself.
+
+ttm_prime_dmabuf_release() then takes prime->mutex_lock replacing
+prime->dma_buf with NULL.
+
+The same lock is taken in ttm_prime_handle_to_fd() which is picking that
+dmabuf from prime->dmabuf. So the interesting case is when
+ttm_prime_dma_buf_release() has called tdev->dmabuf_release() and but
+someone else maanged to grab prime->mutex_lock before
+ttm_prime_dma_buf_release() could grab it to NULL prime->dma_buf.
+
+So at that point @dmabuf hasn't been freed yet and is still valid. So
+dereferencing prime->dma_buf is still valid and by extension
+dma_buf->file as their lifetimes are tied.
+
+IOW, that should just use get_file_active() which handles that just
+fine.
+
+And while that get_dma_buf_unless_doomed() thing is safe that whole code
+reeks of a level of complexity that's asking for trouble.
+
+But that has zero to do with get_file() and it is absolutely not a
+reason to mess with it's semantics impacting every caller in the tree.
+
+> 
+> > Can't you throw a CHECK_DATA_CORRUPTION() or something like that in
+> > there instead?
+> 
+> I'm open to suggestions, but given what's happening with struct dma_buf
+> above, it seems like this is a state worth checking for?
+
+No, it's really not. If you use get_file() you better know that you're
+already holding a valid reference that's no reason to make it suddenly
+fail.
