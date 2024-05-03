@@ -2,189 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A8C8BA789
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 09:19:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BDB8BA7B4
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 09:24:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46AE410EE2B;
-	Fri,  3 May 2024 07:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 383E510F7D7;
+	Fri,  3 May 2024 07:24:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BpU7Lngw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XbslZswo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E460110EE2B;
- Fri,  3 May 2024 07:19:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714720771; x=1746256771;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=A3O61M6TRGAWsgQq+ASzHP7GKr5+uhzqIyMMZ/KHE8M=;
- b=BpU7Lngw1/vfaQ3bKJ4YvjYzvrNOsDWt5o6XnVROJY9ifVS3qNqTsHGq
- WZjDzDf7sv3YUww3H4VSE5+cHB9kZQbJvXA/N9+4WyuRyNzVMVy3673Eq
- g9tQTP+McTIFIb6OV76t/q1YWrLxYcHdMd52gGyppduA09N4yaI9WaXSa
- arAm3pwACkNdOq4X0vhpBuWZIw7HkwPDOYNljYPM/hyjJ5LUL30th/CBj
- 4BYHY90101tFDDuRCkgeCQdR2zQnxLwekCd11Jzic5rIydSfHQcU5ACS6
- Snm7AeCBygSiM18NdPK7Fx7wWui7vo45RYRFgUm5t77U2fAcN5MuPJfjg w==;
-X-CSE-ConnectionGUID: 79Mc3MGvRfCa5y65yfh0XQ==
-X-CSE-MsgGUID: t89C0zNNTeGhfqlDK8eSnQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="33031265"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="33031265"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2024 00:19:22 -0700
-X-CSE-ConnectionGUID: iIMbbribQR6GLdpDkk/xsg==
-X-CSE-MsgGUID: z3ob3Ds+S/2qI3RFOHkg8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; d="scan'208";a="27780725"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 03 May 2024 00:19:20 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 3 May 2024 00:19:19 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 3 May 2024 00:19:19 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.40) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 3 May 2024 00:19:19 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lz6rgfzU2YpoTENMgjokD1MY3Gnmb57zLdb0aLJ60mNRpADELwgPL2X/PvQybmt8rFOIua/qfp3F6J41+pQcZpR48EsPKyYuBPfRcx6J8XvEilZaDCj171bz+vZ5xCPaEDzkdolJufK0QAXLYUWJ/3nufTefuPs6vkRunXz3a3zB+c9OqxI/RBuTQrn/C2hxpW58EHJ8b2rfsWOSqru4mB6OFvCvIf36T5iNwnxZKchKKJBM6VaBtfoINh0CHTINMYAndt8Zuu7ngl09ulWexLgz20m7UKGWCgx5pJsazjH6VExhojvm8n9vY+O//SxYDI0Jfiz6/1rmeMum9xLirg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A3O61M6TRGAWsgQq+ASzHP7GKr5+uhzqIyMMZ/KHE8M=;
- b=ZmnKTvclr2SvHXs05bAB2TKVstwAyGmZpbECesR57hWo2kgroOqD0w59tZL69QdzjzsFMRQ9zijBWhnsIqOR2lBY+VXyBYLo+8b+TdF280CuMiFml5BxMp6edtpoo01a0nVnY9paC0IZXzDMRjAysNh7xDfUYgaU9G5qep04QeTB6P5T+aNc3mPY+p5g7Wfwz3iKZZ8iOWK0rSagZLU1odh94PgUlUYxr7jrTB354x6vguMrpps2vmPdsAgWLgGnw/4dOMfu8ODjnDpFfUoYp2t5QWO3jUr+cax8mOIpJG3TkVd9pFbMrCGEL5/wZ2QIhQHdVbxOsCvkT8hW+iI75A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB6019.namprd11.prod.outlook.com (2603:10b6:8:60::5) by
- PH0PR11MB7634.namprd11.prod.outlook.com (2603:10b6:510:28d::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.35; Fri, 3 May
- 2024 07:19:17 +0000
-Received: from DM4PR11MB6019.namprd11.prod.outlook.com
- ([fe80::bccd:7928:80ae:179f]) by DM4PR11MB6019.namprd11.prod.outlook.com
- ([fe80::bccd:7928:80ae:179f%5]) with mapi id 15.20.7519.031; Fri, 3 May 2024
- 07:19:16 +0000
-From: "Hogander, Jouni" <jouni.hogander@intel.com>
-To: "Manna, Animesh" <animesh.manna@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Murthy, Arun R" <arun.r.murthy@intel.com>, "Nikula, Jani"
- <jani.nikula@intel.com>
-Subject: Re: [PATCH v3 4/6] drm/i915/alpm: Add compute config for lobf
-Thread-Topic: [PATCH v3 4/6] drm/i915/alpm: Add compute config for lobf
-Thread-Index: AQHalnjV67PoszZcv02I3ugSYPFh3rGFJ3aA
-Date: Fri, 3 May 2024 07:19:16 +0000
-Message-ID: <914be5e4dc5c6bebb03511637fb104126f141247.camel@intel.com>
-References: <20240424183820.3591593-1-animesh.manna@intel.com>
- <20240424183820.3591593-5-animesh.manna@intel.com>
-In-Reply-To: <20240424183820.3591593-5-animesh.manna@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB6019:EE_|PH0PR11MB7634:EE_
-x-ms-office365-filtering-correlation-id: 7de1766a-d20b-46a6-bc02-08dc6b41578c
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230031|1800799015|376005|366007|38070700009;
-x-microsoft-antispam-message-info: =?utf-8?B?OGFpYmxPdmlHRSt6MFhxd0lMT1BMZFBuUTY1cVNaenlYK1FKS0FnSkdReTJ5?=
- =?utf-8?B?ZlRYVXphajhQZG12Tk9wNzRvVXdFN2hZWTRBcG1PSUxwNkc5YzBBWHM5ODVz?=
- =?utf-8?B?V3g2eWFZcnhoUExkYVljTlhxKytEZGRnRStVRklRZjNVOVJ6L1plV3grTXVQ?=
- =?utf-8?B?QkJjVEtZbS92ZmYvTWpqQ1BoWkwyMUdnSFNoa3hlU1M1Ritsbko4SEY3emJH?=
- =?utf-8?B?S2NUL2EwcTVKeDZHbjliK1VhTVJCb3p4Q2MrMXZaTm95dW1OY085NExLeUJi?=
- =?utf-8?B?RjRScEwra3U5QjVua0dQcERaTklnZmczRHFRZ09udE96VElGS3FKcnJFaExM?=
- =?utf-8?B?RkRsdnBDU2ZIbkwzeFppQXRuRXVtOHdyVEEwZnFBZUUvZXZWMlFMR1FqWDdD?=
- =?utf-8?B?T3NvbWZXNVJ0Tm9DOUVjc1FiQkpxNlg3eXFOQWZRQnN4eWNnM3VSR0ZWUGN5?=
- =?utf-8?B?bkZvUTFxMUlTWUFGKzFBd2gxVWl3UkQxQ1ZmN1BaeWhrSE5na0dibnZrZEYr?=
- =?utf-8?B?bTFqYVJvNDdIUXJNeFhiZFlRWVlaZElhbjJsMkE5L0tiOTB2VUxmL3p4RkZO?=
- =?utf-8?B?eUxjMDVqaUZSS0htVERlUHg5eEJDRGN6OURKQVdKam5tUzBtVHhoeFZyUzFF?=
- =?utf-8?B?cDBudkhURGYzY01QdGNkVWN6dDlTdHI5OFgrYWpkV3BjcHF4aFBxeXA4akVh?=
- =?utf-8?B?OTlxbzcza1paVVFlSFZkejBONElVQTV5bHBzU0ZMODZGTTU0ZHN3Y0NWMkxT?=
- =?utf-8?B?d3JLL3hndFhUZzAxOXozbkJWSmMzNzRleE9CT3J2ZklRa1dGZUh1UDQwS0Ix?=
- =?utf-8?B?V25uaHJ6TjF1SmRad0oyRG5OcGx1U3ZMVVNVK1YyRzRsZ0E0ZlJuZnB4RXhL?=
- =?utf-8?B?WXdMN3U0ZXRncFhhUEZzZmFTQ3MySWpWV2lwRiszZmhzUEZvWFVDeWNBUXU1?=
- =?utf-8?B?Zlp1c0lhSG5NRzFQMjlubVJJMm1hemwzSEVOcjhCMXNlYitMbGtzbjFrOU0x?=
- =?utf-8?B?eGRWaDNpUXFUNzI3ck40cUg2U2lSMnpXNDZ0TU5ZZE83WFpuRFdORGNnOG5w?=
- =?utf-8?B?KzRRdWdhT0RrMWdWcWZhajNMYWZ1a2Z5QUN4S3VMSVhlZW52R1JsZDhwNHpv?=
- =?utf-8?B?bTVIT2IrNVhWRE9IaVkyTktJa0thV08wWnpRcUc3cmpUVVovR1ljVGxlVjJN?=
- =?utf-8?B?Szd1ZEQ4NU9RSGwvbHdJZFdqdDhIZStIQ0FXS0VZTlNPTmprMm0rMVdsdytn?=
- =?utf-8?B?dlVuSjRzTTdlNGJqVlErZEZBNENYVmJCOEhoR0pFazZnaXkrcG1jTTdUdCsx?=
- =?utf-8?B?L1RLQVJ0TjNuQ0VaTWU1VzRwTGE0T1d5RHh4MHB4UTd2L0c3SFN6WUhrbnlO?=
- =?utf-8?B?bkUzay9hdkx5UDB4YmliK0FvOXB4STNJZ1QyZ1BlcDFFK1JDQ3QzMDA4YjZW?=
- =?utf-8?B?d3NqbDhQRTh0bmp2dlpWTlVpVjB0K3pVczZJT0Frb05oZklEVlFLejViUUMv?=
- =?utf-8?B?ZGhyc0tTTldGcC93SGorVXl0WTc5UDhGVzFkWGdZdjdWdklRMzg2NEFmbXAx?=
- =?utf-8?B?L0lFM29jZUM1TU9mZklTZlVabE1VOUp3N21PZFNKN1R4elJKaGpCNkZrTWJ2?=
- =?utf-8?B?ZjRobFJIK2YwN3VNKzFvZUpBcUxpaWlLOFZvWllLckRaNXRBdHJ3Mm9MWHhO?=
- =?utf-8?B?dFZXRTlOUU01UGFFZGtPanZDd1VIbGcremQ5T3UzU1ZrSzhaOU05UU4yMlRB?=
- =?utf-8?B?K1BGSjBnT3BMcTd1UnFuUzBjamRCNUdYSElnVDcrS29VSEZ4UkJrK25sMGdi?=
- =?utf-8?B?S1VYKzd2YUFuSVJma2RkQT09?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB6019.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(366007)(38070700009); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MzFuSzdsU0s3MlBGNE8wQnU5V3M5WmNQczA2TzBiNVdoeUZaSHppR1ovMVJN?=
- =?utf-8?B?YUplUDlvcFZwZnhkNHhvYVVUK3JIblZLN1NPUmJRNTZEZHpOaFBjNHQraXJO?=
- =?utf-8?B?QVJFSncrRlVqU3dpNmtGQ2daZlVid0QvY2hGbGpCTERUUC9KZWFZbjBsRGxL?=
- =?utf-8?B?dUxmbTRMeW02R2MxZWdhUHQrZ1hrNWJlcFhoRnZKSzdlMHRldGgwcHpzTUZ5?=
- =?utf-8?B?REt3aVdLTTFPeUpnMVdLVGcyTngvc21McWhVb0poaGNpNWtVZjNFRGFLR2dp?=
- =?utf-8?B?ZVZpQVdZKzNPc2lETzF6eTM0NUdWNFRWQW5ZR2lhL0ZxU1pIckcwU3FBR2c4?=
- =?utf-8?B?TXg4VTFTL3B5V0dNVlFrR3NreHByZTRIQkUvbTd0eDFOUG8xRnVRSXU2VDQy?=
- =?utf-8?B?NFlFN2RaQVQyTGhucXExZ3RvWm1qc0NGSytSZlc3ZkZ2alhBOWthQVlIMk5S?=
- =?utf-8?B?YUdlM2szYlY1b1J4ZGhGbU0zRTI1bVUvWlZRZDBTWVFrZ3hHTWhsdGE0TG9j?=
- =?utf-8?B?S3lLV2ExQ3V4R2dSYStCM2NYdkhVeVJtWEhIQTBmTDJ4Z0JWRy91WkJ4d2Rt?=
- =?utf-8?B?ZTZ0MTJQNEMwN2tENWVTaEluTlNrdUJMTzBoeTRJdnBPMkNRTHJVZjgrbm1V?=
- =?utf-8?B?VVFxaWt0clRzdlVQeDZZRTFFNXV2aGErQnR0alFQY0hNMnBTNllOUGNoUUx3?=
- =?utf-8?B?NVVyK0dtRHYvaldTdGpPYnA3WVVtUk5wT0RNbjhqbGFidHZPREltOHdkWldM?=
- =?utf-8?B?RTNCSHU2d29sWkFzYzZLZklacmdhd2kzcnVRUHdUaWVacTgyOXk2dVVuRWxj?=
- =?utf-8?B?b041SERGRkdhbW5XWFhkNERVdTlZUzBXUm9OVm9SU3FqK1c3YXJpVEIvbGdS?=
- =?utf-8?B?bU1MVE8wRmM1Y0FRUGdheGpZTzUwMGJXbXNkVkNZS2hrVFJIUWNNb2MwM3Ra?=
- =?utf-8?B?Q1hUN3dESEpYTjU4aDFhU3ROTTZBMjJPTFlKQ1hDa0RzQXpaemxxSkpDU2VS?=
- =?utf-8?B?Qyt3clI0SEFSWEtnWmFSZHRkVmh2L2pMQlQ2TEY1TEZSWEVzZWNjS1dRdnJu?=
- =?utf-8?B?b1VacTJwL2hDaW5oa3dWV2ZjMDUzYWQwak9wRWlrN3NjLzA1bFY2RnQzZlha?=
- =?utf-8?B?WWtJdFdYZVNxZnFWdEIxL3RETElBMUh6Z295YkJoc2toVHNCV1QwYjFDQUVx?=
- =?utf-8?B?QlBPeDVTNnl2d2R6UkFhVHQvc2U1ME5GTWdRcDlwc2FHOTBMa01Nb2dWK0c3?=
- =?utf-8?B?VjRaLyt3aGNwcGNaVWhOWW9XZ0pQUzVJdzhmOW5YUFRnNUU3b1pJZWxRQnlJ?=
- =?utf-8?B?aWp5SDNaQlN0NzlPbzFTcDhoaXRaSEU4QU1ZS3RWcUtPdFFZcTlBYXRjODhT?=
- =?utf-8?B?cmlJSVZYNGxFMDBQYTRqMld6T1NPUmFKaWx4TTNMaGdadUozL1UvKzVmbHBv?=
- =?utf-8?B?bmxib05KUkpFZ05JZEJxbkU5UC9JeVdJQVVtS3lUZVIzTWdHN3p1Q0FvY0V4?=
- =?utf-8?B?RDZxVGlMQWkwMWV3Z3F2VGFxQ09nYmJUMnB6OWFncm0yK3E5THdvWVRWVnB3?=
- =?utf-8?B?bGlXNSs4Rlo4K0g4dXFhcmRXeEN2TlRpM2RFdG1pdTIxN3J0eXZKZDAwRURF?=
- =?utf-8?B?eWpROTJNOHYzM3JFTUJmOTU4OW12ZnU2cGcyWVJVN2NFU0JGQklPSzQ0VTlI?=
- =?utf-8?B?RkwraFk5UklJRGZ1WUR3WnpIT0NKVk1wY0lHdXUwOXR4MDUyR1NVOWpyREp0?=
- =?utf-8?B?STQ1UzdGSUtPUktHNmlOa2ZqNWFjRVF0OHVqZVJoVGtWMnJPSU1pUTg0VWZy?=
- =?utf-8?B?ZkVXVE81UUhGUFJxRVo4WmRkelVLamJwM2Fpc04vdVNodDFpTm85dUhaWlkw?=
- =?utf-8?B?ZzlEYmR1TnFWbXNuL293U2lKbDVqYVdqWEtzYStTVG55TzROaGtSV2RYVmt2?=
- =?utf-8?B?SVBmTVpqbk1YTG9qZVNldVk0bFkyQitmRDlYdWUvSGNQUEZGNnBUTUxWWldj?=
- =?utf-8?B?UWJoSzgySjM2T3ZRRlgrNHhmNk04RWs1cjFtcmNxajU5M2N5cTZoei9qbTlZ?=
- =?utf-8?B?THFIYnVlZVRmWkdoUVVlV2pYVDRLYlZweVFzWFpwNjhnanlCUU5QamhIQXVq?=
- =?utf-8?B?TFZueGxDUEZTS3pmY2hQQWNPQW54V3N2dldHVzlsS1JVcFRxcWYwdzZuN2VG?=
- =?utf-8?B?S1E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <705CB3809FD5D3469444D2230187A79E@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C23B10F7D7;
+ Fri,  3 May 2024 07:23:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 4537BCE1805;
+ Fri,  3 May 2024 07:23:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36C06C116B1;
+ Fri,  3 May 2024 07:23:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1714721035;
+ bh=nRl2qsmnzgxyoHMxHdQ/aFhC+bettlNtQvMfBBoRu1A=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=XbslZsworOH9JXqf2tKk41ML7GLyCMfFDD9R89o+zI6WGSbh2gWDSHr8PSG9NWT2M
+ MwEVUqc+fwDqhMv6qkCGYYTZM6gfylvXxUhByZeZZoKTWzex/FJtOduTAjepzbZXbi
+ l2SzTJoAMRDlUpbmyKgO+SQGZ53YUBUMA5Ch82eZ0dELh8nekO5IgUAKbOhaTadKX3
+ 1xsneRDcHZvhVkJIwmXgnZW8lBFms2ZT87R2/ezEOLDQvBIuqHNHZLuzl8nBlCLV2x
+ wSV04S/aSWN0zSVi1s5hUaWueBd1cZlkBcSJTEXBQQCI5dWnepk5Fx+6W9CI2/i4IM
+ 2cxY4pFFFwrMw==
+Date: Fri, 3 May 2024 10:23:47 +0300
+From: Zhi Wang <zhiwang@kernel.org>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Zhenyu
+ Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
+ intel-gfx@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND
+ I915 DRIVERS), intel-xe@lists.freedesktop.org (open list:INTEL DRM DISPLAY
+ FOR XE AND I915 DRIVERS), dri-devel@lists.freedesktop.org (open list:DRM
+ DRIVERS), linux-kernel@vger.kernel.org (open list),
+ intel-gvt-dev@lists.freedesktop.org (open list:INTEL GVT-g DRIVERS (Intel
+ GPU Virtualization)), Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
+ nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA
+ GEFORCE/QUADRO GPUS), linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM
+ HOST DRIVERS), linux-media@vger.kernel.org (open list:BTTV VIDEO4LINUX
+ DRIVER), linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER)
+Subject: Re: [PATCH v1 03/12] drm/i915: Make I2C terminology more inclusive
+Message-ID: <20240503102347.00001877.zhiwang@kernel.org>
+In-Reply-To: <20240430173812.1423757-4-eahariha@linux.microsoft.com>
+References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
+ <20240430173812.1423757-4-eahariha@linux.microsoft.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-w64-mingw32)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6019.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7de1766a-d20b-46a6-bc02-08dc6b41578c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2024 07:19:16.5119 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: e5MQj/CdiIyhAoMjhA1mE+MQs1+RYkTBwcP6SQLY4Y5YCHWIY0+ViAQz5TJ1Wv/YN4dQVZkJjRBqNmu4smh0yby1bqiQelUHR8GARKIzAEI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7634
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,144 +73,1036 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDI0LTA0LTI1IGF0IDAwOjA4ICswNTMwLCBBbmltZXNoIE1hbm5hIHdyb3RlOgo+
-IExpbmsgT2ZmIEJldHdlZW4gQWN0aXZlIEZyYW1lcywgaXMgYSBuZXcgZmVhdHVyZSBmb3IgZURQ
-Cj4gdGhhdCBhbGxvd3MgdGhlIHBhbmVsIHRvIGdvIHRvIGxvd2VyIHBvd2VyIHN0YXRlIGFmdGVy
-Cj4gdHJhbnNtaXNzaW9uIG9mIGRhdGEuIFRoaXMgaXMgYSBmZWF0dXJlIG9uIHRvcCBvZiBBTFBN
-LCBBUyBTRFAuCj4gQWRkIGNvbXB1dGUgY29uZmlnIGR1cmluZyBhdG9taWMtY2hlY2sgcGhhc2Uu
-Cj4gCj4gdjE6IFJGQyB2ZXJzaW9uLgo+IHYyOiBBZGQgc2VwYXJhdGUgZmxhZyBmb3IgYXV4bGVz
-cy1hbHBtLiBbSmFuaV0KPiB2MzoKPiAtIGludGVsX2RwLT5sb2JmX3N1cHBvcnRlZCByZXBsYWNl
-ZCB3aXRoIGNydGNfc3RhdGUtPmhhc19sb2JmLgo+IFtKb3VuaV0KPiAtIEFkZCBESVNQTEFZX1ZF
-UigpIGNoZWNrLiBbSm91bmldCj4gLSBNb2RpZnkgZnVuY3Rpb24gbmFtZSBvZiBnZXRfYXV4X2xl
-c3Nfc3RhdHVzLiBbSmFuaV0KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBbmltZXNoIE1hbm5hIDxhbmlt
-ZXNoLm1hbm5hQGludGVsLmNvbT4KPiAtLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
-YXkvaW50ZWxfYWxwbS5jwqDCoMKgwqAgfCA0OAo+ICsrKysrKysrKysrKysrKysrKysKPiDCoGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYWxwbS5owqDCoMKgwqAgfMKgIDUgKysK
-PiDCoC4uLi9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaMKgwqDCoCB8wqAg
-NCArKwo+IMKgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jwqDCoMKgwqDC
-oMKgIHzCoCA0ICsrCj4gwqA0IGZpbGVzIGNoYW5nZWQsIDYxIGluc2VydGlvbnMoKykKPiAKPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hbHBtLmMKPiBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYWxwbS5jCj4gaW5kZXggMTNiYWMz
-ZThjOGZhLi4zYmI2OWVkMTZhYWIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-ZGlzcGxheS9pbnRlbF9hbHBtLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
-L2ludGVsX2FscG0uYwo+IEBAIC0xMSw2ICsxMSwxNiBAQAo+IMKgI2luY2x1ZGUgImludGVsX2Rw
-X2F1eC5oIgo+IMKgI2luY2x1ZGUgImludGVsX3Bzcl9yZWdzLmgiCj4gwqAKPiArYm9vbCBpbnRl
-bF9hbHBtX2dldF9hdXhfbGVzc19zdGF0dXMoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCkKPiAr
-ewo+ICvCoMKgwqDCoMKgwqDCoHU4IGFscG1fY2FwcyA9IDA7Cj4gKwo+ICvCoMKgwqDCoMKgwqDC
-oGlmIChkcm1fZHBfZHBjZF9yZWFkYigmaW50ZWxfZHAtPmF1eCwgRFBfUkVDRUlWRVJfQUxQTV9D
-QVAsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgICZhbHBtX2NhcHMpICE9IDEpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oHJldHVybiBmYWxzZTsKPiArwqDCoMKgwqDCoMKgwqByZXR1cm4gYWxwbV9jYXBzICYgRFBfQUxQ
-TV9BVVhfTEVTU19DQVA7Cj4gK30KPiArCj4gwqAvKgo+IMKgICogU2VlIEJzcGVjOiA3MTYzMiBm
-b3IgdGhlIHRhYmxlCj4gwqAgKgo+IEBAIC0yNDIsNiArMjUyLDQ0IEBAIGJvb2wgaW50ZWxfYWxw
-bV9jb21wdXRlX3BhcmFtcyhzdHJ1Y3QgaW50ZWxfZHAKPiAqaW50ZWxfZHAsCj4gwqDCoMKgwqDC
-oMKgwqDCoHJldHVybiB0cnVlOwo+IMKgfQo+IMKgCj4gK3ZvaWQgaW50ZWxfYWxwbV9jb21wdXRl
-X2xvYmZfY29uZmlnKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAsCj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0
-cnVjdCBpbnRlbF9jcnRjX3N0YXRlCj4gKmNydGNfc3RhdGUsCj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVj
-dCBkcm1fY29ubmVjdG9yX3N0YXRlCj4gKmNvbm5fc3RhdGUpCj4gK3sKPiArwqDCoMKgwqDCoMKg
-wqBzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IGRwX3RvX2k5MTUoaW50ZWxfZHApOwo+
-ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICphZGp1c3RlZF9tb2RlID0g
-JmNydGNfc3RhdGUtCj4gPmh3LmFkanVzdGVkX21vZGU7Cj4gK8KgwqDCoMKgwqDCoMKgaW50IHdh
-a2V0aW1lX2luX2xpbmVzLCBmaXJzdF9zZHBfcG9zaXRpb247Cj4gK8KgwqDCoMKgwqDCoMKgaW50
-IGNvbnRleHRfbGF0ZW5jeSwgZ3VhcmRiYW5kOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBjcnRjX3N0
-YXRlLT5oYXNfbG9iZiA9IGZhbHNlOwoKRHJvcCB0aGlzIGxpbmUuIEkgdGhpbmsgY3J0Y19zdGF0
-ZSBpcyByZXNldCBiZWZvcmUgZG9pbmcgdGhpcwpjb21wdXRlX2NvbmZpZwoKPiArCj4gK8KgwqDC
-oMKgwqDCoMKgaWYgKCFpbnRlbF9kcF9pc19lZHAoaW50ZWxfZHApKQo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqByZXR1cm47Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGlmIChESVNQTEFZ
-X1ZFUihpOTE1KSA8IDIwKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm47
-Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGlmICghaW50ZWxfZHBfYXNfc2RwX3N1cHBvcnRlZChpbnRl
-bF9kcCkpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybjsKPiArCj4gK8Kg
-wqDCoMKgwqDCoMKgaWYgKGNydGNfc3RhdGUtPmhhc19wc3IpCj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoHJldHVybjsKPiArCj4gK8KgwqDCoMKgwqDCoMKgaWYgKGludGVsX2FscG1f
-Y29tcHV0ZV9wYXJhbXMoaW50ZWxfZHAsIGNydGNfc3RhdGUpKSB7CgpJIHRoaW5rIGl0IGlzIGVh
-c2llciB0byByZWFkIGFuZCBoZWxwcyBhdm9pZGluZyBiaWcgaWYgYmxvY2tzIGlmIHlvdToKCmlm
-ICghaW50ZWxfYWxwbV9jb21wdXRlX3BhcmFtcyhpbnRlbF9kcCwgY3J0Y19zdGF0ZSgpKQogICAg
-cmV0dXJuOwoKVGhpcyBhY3R1YWxseSBicmluZ3MgdXAgYW5vdGhlciB0aGluZzogZG8gd2Ugd2Fu
-dCB0byBzcHJlYWQgaW50ZWxfcHNyLmMKcG9sbHV0aW9uIGJ5IGNvbnRpbnVlIHVzaW5nIHRoZXNl
-IGJvb2xlYW4gcmV0dXJuIHZhbHVlcz8gSSB3b3VsZCBwcmVmZXIKY2hhbmdpbmcgaW50ZWxfYWxw
-bV9jb21wdXRlX3BhcmFtcyByZXR1cm4gdmFsdWUgdG8gIm5vcm1hbCIgaW50CmFwcHJvYWNoIGFu
-ZCByZXR1cm4gMCBvbiBzdWNjZXNzLiBUaGlzIHdvdWxkIG1lYW4gb25lIG1vcmUgcGF0Y2gKY2hh
-bmdpbmcgaXQuCgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjb250ZXh0X2xhdGVu
-Y3kgPSBhZGp1c3RlZF9tb2RlLT5jcnRjX3ZibGFua19zdGFydCAtCj4gYWRqdXN0ZWRfbW9kZS0+
-Y3J0Y192ZGlzcGxheTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ3VhcmRiYW5k
-ID0gYWRqdXN0ZWRfbW9kZS0+Y3J0Y192dG90YWwgLQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFkanVzdGVkX21vZGUtPmNydGNfdmRpc3Bs
-YXkgLQo+IGNvbnRleHRfbGF0ZW5jeTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-Zmlyc3Rfc2RwX3Bvc2l0aW9uID0gYWRqdXN0ZWRfbW9kZS0+Y3J0Y192dG90YWwgLQo+IGFkanVz
-dGVkX21vZGUtPmNydGNfdnN5bmNfc3RhcnQ7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGlmIChpbnRlbF9kcC0+YWxwbV9wYXJhbWV0ZXJzLmF1eGxlc3NfYWxwbV9zdXBwb3J0ZWQp
-Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB3YWtldGlt
-ZV9pbl9saW5lcyA9IGludGVsX2RwLQo+ID5hbHBtX3BhcmFtZXRlcnMuaW9fd2FrZV9saW5lczsK
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZWxzZQo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgd2FrZXRpbWVfaW5fbGluZXMgPSBpbnRlbF9k
-cC0KPiA+YWxwbV9wYXJhbWV0ZXJzLmZhc3Rfd2FrZV9saW5lczsKPiArCj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoGlmICgoY29udGV4dF9sYXRlbmN5ICsgZ3VhcmRiYW5kKSA+Cj4g
-KGZpcnN0X3NkcF9wb3NpdGlvbiArIHdha2V0aW1lX2luX2xpbmVzKSkKPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNydGNfc3RhdGUtPmhhc19sb2JmID0g
-dHJ1ZTsKCmNydGNfc3RhdGUtPmhhc19sb2JmID0gKGNvbnRleHRfbGF0ZW5jeSArIGd1YXJkYmFu
-ZCkgPgooZmlyc3Rfc2RwX3Bvc2l0aW9uICsgd2FrZXRpbWVfaW5fbGluZXMpOwoKPiArwqDCoMKg
-wqDCoMKgwqB9Cj4gK30KPiArCj4gwqBzdGF0aWMgdm9pZCBsbmxfYWxwbV9jb25maWd1cmUoc3Ry
-dWN0IGludGVsX2RwICppbnRlbF9kcCkKPiDCoHsKPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRy
-bV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gZHBfdG9faTkxNShpbnRlbF9kcCk7Cj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYWxwbS5oCj4gYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2FscG0uaAo+IGluZGV4IGM0NWQwNzhlNWE2
-Yi4uYjk2MDJiNzFkMjhmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
-YXkvaW50ZWxfYWxwbS5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9hbHBtLmgKPiBAQCAtMTAsOSArMTAsMTQgQEAKPiDCoAo+IMKgc3RydWN0IGludGVsX2RwOwo+
-IMKgc3RydWN0IGludGVsX2NydGNfc3RhdGU7Cj4gK3N0cnVjdCBkcm1fY29ubmVjdG9yX3N0YXRl
-Owo+IMKgCj4gK2Jvb2wgaW50ZWxfYWxwbV9nZXRfYXV4X2xlc3Nfc3RhdHVzKHN0cnVjdCBpbnRl
-bF9kcCAqaW50ZWxfZHApOwo+IMKgYm9vbCBpbnRlbF9hbHBtX2NvbXB1dGVfcGFyYW1zKHN0cnVj
-dCBpbnRlbF9kcCAqaW50ZWxfZHAsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRj
-X3N0YXRlKTsKPiArdm9pZCBpbnRlbF9hbHBtX2NvbXB1dGVfbG9iZl9jb25maWcoc3RydWN0IGlu
-dGVsX2RwICppbnRlbF9kcCwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGludGVsX2NydGNfc3RhdGUK
-PiAqY3J0Y19zdGF0ZSwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUK
-PiAqY29ubl9zdGF0ZSk7Cj4gwqB2b2lkIGludGVsX2FscG1fY29uZmlndXJlKHN0cnVjdCBpbnRl
-bF9kcCAqaW50ZWxfZHApOwo+IMKgCj4gwqAjZW5kaWYKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmgKPiBiL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oCj4gaW5kZXggZDk0ZjUwYzZk
-YzZjLi41YTBmZmQ1YWE0OGIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9k
-aXNwbGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaAo+IEBAIC0xNDA1LDYgKzE0MDUsOSBAQCBzdHJ1
-Y3QgaW50ZWxfY3J0Y19zdGF0ZSB7Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgLyogZm9yIGxvYWRp
-bmcgc2luZ2xlIGJ1ZmZlcmVkIHJlZ2lzdGVycyBkdXJpbmcgdmJsYW5rICovCj4gwqDCoMKgwqDC
-oMKgwqDCoHN0cnVjdCBkcm1fdmJsYW5rX3dvcmsgdmJsYW5rX3dvcms7Cj4gKwo+ICvCoMKgwqDC
-oMKgwqDCoC8qIExPQkYgZmxhZyAqLwo+ICvCoMKgwqDCoMKgwqDCoGJvb2wgaGFzX2xvYmY7Cj4g
-wqB9Owo+IMKgCj4gwqBlbnVtIGludGVsX3BpcGVfY3JjX3NvdXJjZSB7Cj4gQEAgLTE4MzUsNiAr
-MTgzOCw3IEBAIHN0cnVjdCBpbnRlbF9kcCB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqB1OCBmYXN0X3dha2VfbGluZXM7Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoC8qIExOTCBhbmQgYmV5b25kICovCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGJvb2wgYXV4bGVzc19hbHBtX3N1cHBvcnRlZDsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoHU4IGNoZWNrX2VudHJ5X2xpbmVzOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgdTggc2lsZW5jZV9wZXJpb2Rfc3ltX2Nsb2NrczsKPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoHU4IGxmcHNfaGFsZl9jeWNsZV9udW1fb2Zfc3ltczsKPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCj4gYi9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPiBpbmRleCBlMDVlMjVjZDRhOTQuLjU2
-MzczOWM2MDE0YyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX2RwLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMK
-PiBAQCAtNDgsNiArNDgsNyBAQAo+IMKgI2luY2x1ZGUgImk5MTVfZHJ2LmgiCj4gwqAjaW5jbHVk
-ZSAiaTkxNV9pcnEuaCIKPiDCoCNpbmNsdWRlICJpOTE1X3JlZy5oIgo+ICsjaW5jbHVkZSAiaW50
-ZWxfYWxwbS5oIgo+IMKgI2luY2x1ZGUgImludGVsX2F0b21pYy5oIgo+IMKgI2luY2x1ZGUgImlu
-dGVsX2F1ZGlvLmgiCj4gwqAjaW5jbHVkZSAiaW50ZWxfYmFja2xpZ2h0LmgiCj4gQEAgLTI5OTcs
-NiArMjk5OCw3IEBAIGludGVsX2RwX2NvbXB1dGVfY29uZmlnKHN0cnVjdCBpbnRlbF9lbmNvZGVy
-Cj4gKmVuY29kZXIsCj4gwqDCoMKgwqDCoMKgwqDCoGludGVsX3Zycl9jb21wdXRlX2NvbmZpZyhw
-aXBlX2NvbmZpZywgY29ubl9zdGF0ZSk7Cj4gwqDCoMKgwqDCoMKgwqDCoGludGVsX2RwX2NvbXB1
-dGVfYXNfc2RwKGludGVsX2RwLCBwaXBlX2NvbmZpZyk7Cj4gwqDCoMKgwqDCoMKgwqDCoGludGVs
-X3Bzcl9jb21wdXRlX2NvbmZpZyhpbnRlbF9kcCwgcGlwZV9jb25maWcsIGNvbm5fc3RhdGUpOwo+
-ICvCoMKgwqDCoMKgwqDCoGludGVsX2FscG1fY29tcHV0ZV9sb2JmX2NvbmZpZyhpbnRlbF9kcCwg
-cGlwZV9jb25maWcsCj4gY29ubl9zdGF0ZSk7Cj4gwqDCoMKgwqDCoMKgwqDCoGludGVsX2RwX2Ry
-cnNfY29tcHV0ZV9jb25maWcoY29ubmVjdG9yLCBwaXBlX2NvbmZpZywKPiBsaW5rX2JwcF94MTYp
-Owo+IMKgwqDCoMKgwqDCoMKgwqBpbnRlbF9kcF9jb21wdXRlX3ZzY19zZHAoaW50ZWxfZHAsIHBp
-cGVfY29uZmlnLCBjb25uX3N0YXRlKTsKPiDCoMKgwqDCoMKgwqDCoMKgaW50ZWxfZHBfY29tcHV0
-ZV9oZHJfbWV0YWRhdGFfaW5mb2ZyYW1lX3NkcChpbnRlbF9kcCwKPiBwaXBlX2NvbmZpZywgY29u
-bl9zdGF0ZSk7Cj4gQEAgLTY2MTIsNiArNjYxNCw4IEBAIHN0YXRpYyBib29sIGludGVsX2VkcF9p
-bml0X2Nvbm5lY3RvcihzdHJ1Y3QKPiBpbnRlbF9kcCAqaW50ZWxfZHAsCj4gwqAKPiDCoMKgwqDC
-oMKgwqDCoMKgaW50ZWxfcHBzX2luaXRfbGF0ZShpbnRlbF9kcCk7Cj4gwqAKPiArwqDCoMKgwqDC
-oMKgwqBpbnRlbF9kcC0+YWxwbV9wYXJhbWV0ZXJzLmF1eGxlc3NfYWxwbV9zdXBwb3J0ZWQgPQo+
-IGludGVsX2FscG1fZ2V0X2F1eF9sZXNzX3N0YXR1cyhpbnRlbF9kcCk7CgpIb3cgYWJvdXQgYXV4
-X3dha2UgPwoKPiArCj4gwqDCoMKgwqDCoMKgwqDCoHJldHVybiB0cnVlOwo+IMKgCj4gwqBvdXRf
-dmRkX29mZjoKCg==
+On Tue, 30 Apr 2024 17:38:02 +0000
+Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
+
+> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced
+> "master/slave" with more appropriate terms. Inspired by and following
+> on to Wolfram's series to fix drivers/i2c/[1], fix the terminology
+> for users of I2C_ALGOBIT bitbanging interface, now that the approved
+> verbiage exists in the specification.
+> 
+> Compile tested, no functionality changes intended
+> 
+For GVT part,
+
+Acked-by: Zhi Wang <zhiwang@kernel.org>
+
+Thanks,
+Zhi.
+
+> [1]:
+> https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+> 
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> ---
+>  drivers/gpu/drm/i915/display/dvo_ch7017.c     | 14 ++++-----
+>  drivers/gpu/drm/i915/display/dvo_ch7xxx.c     | 18 +++++------
+>  drivers/gpu/drm/i915/display/dvo_ivch.c       | 16 +++++-----
+>  drivers/gpu/drm/i915/display/dvo_ns2501.c     | 18 +++++------
+>  drivers/gpu/drm/i915/display/dvo_sil164.c     | 18 +++++------
+>  drivers/gpu/drm/i915/display/dvo_tfp410.c     | 18 +++++------
+>  drivers/gpu/drm/i915/display/intel_bios.c     | 22 +++++++-------
+>  drivers/gpu/drm/i915/display/intel_ddi.c      |  2 +-
+>  .../gpu/drm/i915/display/intel_display_core.h |  2 +-
+>  drivers/gpu/drm/i915/display/intel_dsi.h      |  2 +-
+>  drivers/gpu/drm/i915/display/intel_dsi_vbt.c  | 20 ++++++-------
+>  drivers/gpu/drm/i915/display/intel_dvo.c      | 14 ++++-----
+>  drivers/gpu/drm/i915/display/intel_dvo_dev.h  |  2 +-
+>  drivers/gpu/drm/i915/display/intel_gmbus.c    |  4 +--
+>  drivers/gpu/drm/i915/display/intel_sdvo.c     | 30
+> +++++++++---------- drivers/gpu/drm/i915/display/intel_vbt_defs.h |
+> 4 +-- drivers/gpu/drm/i915/gvt/edid.c               | 28
+> ++++++++--------- drivers/gpu/drm/i915/gvt/edid.h               |  4
+> +-- drivers/gpu/drm/i915/gvt/opregion.c           |  2 +-
+>  19 files changed, 119 insertions(+), 119 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ch7017.c
+> b/drivers/gpu/drm/i915/display/dvo_ch7017.c index
+> d0c3880d7f80..493e730c685b 100644 ---
+> a/drivers/gpu/drm/i915/display/dvo_ch7017.c +++
+> b/drivers/gpu/drm/i915/display/dvo_ch7017.c @@ -170,13 +170,13 @@
+> static bool ch7017_read(struct intel_dvo_device *dvo, u8 addr, u8
+> *val) { struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = 0,
+>  			.len = 1,
+>  			.buf = &addr,
+>  		},
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 1,
+>  			.buf = val,
+> @@ -189,7 +189,7 @@ static bool ch7017_write(struct intel_dvo_device
+> *dvo, u8 addr, u8 val) {
+>  	u8 buf[2] = { addr, val };
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 2,
+>  		.buf = buf,
+> @@ -197,7 +197,7 @@ static bool ch7017_write(struct intel_dvo_device
+> *dvo, u8 addr, u8 val) return i2c_transfer(dvo->i2c_bus, &msg, 1) ==
+> 1; }
+>  
+> -/** Probes for a CH7017 on the given bus and slave address. */
+> +/** Probes for a CH7017 on the given bus and target address. */
+>  static bool ch7017_init(struct intel_dvo_device *dvo,
+>  			struct i2c_adapter *adapter)
+>  {
+> @@ -227,13 +227,13 @@ static bool ch7017_init(struct intel_dvo_device
+> *dvo, break;
+>  	default:
+>  		DRM_DEBUG_KMS("ch701x not detected, got %d: from %s "
+> -			      "slave %d.\n",
+> -			      val, adapter->name, dvo->slave_addr);
+> +			      "target %d.\n",
+> +			      val, adapter->name, dvo->target_addr);
+>  		goto fail;
+>  	}
+>  
+>  	DRM_DEBUG_KMS("%s detected on %s, addr %d\n",
+> -		      str, adapter->name, dvo->slave_addr);
+> +		      str, adapter->name, dvo->target_addr);
+>  	return true;
+>  
+>  fail:
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ch7xxx.c
+> b/drivers/gpu/drm/i915/display/dvo_ch7xxx.c index
+> 2e8e85da5a40..534b8544e0a4 100644 ---
+> a/drivers/gpu/drm/i915/display/dvo_ch7xxx.c +++
+> b/drivers/gpu/drm/i915/display/dvo_ch7xxx.c @@ -153,13 +153,13 @@
+> static bool ch7xxx_readb(struct intel_dvo_device *dvo, int addr, u8
+> *ch) struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = 0,
+>  			.len = 1,
+>  			.buf = out_buf,
+>  		},
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 1,
+>  			.buf = in_buf,
+> @@ -176,7 +176,7 @@ static bool ch7xxx_readb(struct intel_dvo_device
+> *dvo, int addr, u8 *ch) 
+>  	if (!ch7xxx->quiet) {
+>  		DRM_DEBUG_KMS("Unable to read register 0x%02x from
+> %s:%02x.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  	return false;
+>  }
+> @@ -188,7 +188,7 @@ static bool ch7xxx_writeb(struct intel_dvo_device
+> *dvo, int addr, u8 ch) struct i2c_adapter *adapter = dvo->i2c_bus;
+>  	u8 out_buf[2];
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 2,
+>  		.buf = out_buf,
+> @@ -202,7 +202,7 @@ static bool ch7xxx_writeb(struct intel_dvo_device
+> *dvo, int addr, u8 ch) 
+>  	if (!ch7xxx->quiet) {
+>  		DRM_DEBUG_KMS("Unable to write register 0x%02x to
+> %s:%d.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+> @@ -229,8 +229,8 @@ static bool ch7xxx_init(struct intel_dvo_device
+> *dvo, 
+>  	name = ch7xxx_get_id(vendor);
+>  	if (!name) {
+> -		DRM_DEBUG_KMS("ch7xxx not detected; got VID 0x%02x
+> from %s slave %d.\n",
+> -			      vendor, adapter->name,
+> dvo->slave_addr);
+> +		DRM_DEBUG_KMS("ch7xxx not detected; got VID 0x%02x
+> from %s target %d.\n",
+> +			      vendor, adapter->name,
+> dvo->target_addr); goto out;
+>  	}
+>  
+> @@ -240,8 +240,8 @@ static bool ch7xxx_init(struct intel_dvo_device
+> *dvo, 
+>  	devid = ch7xxx_get_did(device);
+>  	if (!devid) {
+> -		DRM_DEBUG_KMS("ch7xxx not detected; got DID 0x%02x
+> from %s slave %d.\n",
+> -			      device, adapter->name,
+> dvo->slave_addr);
+> +		DRM_DEBUG_KMS("ch7xxx not detected; got DID 0x%02x
+> from %s target %d.\n",
+> +			      device, adapter->name,
+> dvo->target_addr); goto out;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ivch.c
+> b/drivers/gpu/drm/i915/display/dvo_ivch.c index
+> eef72bb3b767..0d5cce6051b1 100644 ---
+> a/drivers/gpu/drm/i915/display/dvo_ivch.c +++
+> b/drivers/gpu/drm/i915/display/dvo_ivch.c @@ -198,7 +198,7 @@ static
+> bool ivch_read(struct intel_dvo_device *dvo, int addr, u16 *data) 
+>  	struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 0,
+>  		},
+> @@ -209,7 +209,7 @@ static bool ivch_read(struct intel_dvo_device
+> *dvo, int addr, u16 *data) .buf = out_buf,
+>  		},
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD | I2C_M_NOSTART,
+>  			.len = 2,
+>  			.buf = in_buf,
+> @@ -226,7 +226,7 @@ static bool ivch_read(struct intel_dvo_device
+> *dvo, int addr, u16 *data) if (!priv->quiet) {
+>  		DRM_DEBUG_KMS("Unable to read register 0x%02x from "
+>  				"%s:%02x.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  	return false;
+>  }
+> @@ -238,7 +238,7 @@ static bool ivch_write(struct intel_dvo_device
+> *dvo, int addr, u16 data) struct i2c_adapter *adapter = dvo->i2c_bus;
+>  	u8 out_buf[3];
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 3,
+>  		.buf = out_buf,
+> @@ -253,13 +253,13 @@ static bool ivch_write(struct intel_dvo_device
+> *dvo, int addr, u16 data) 
+>  	if (!priv->quiet) {
+>  		DRM_DEBUG_KMS("Unable to write register 0x%02x to
+> %s:%d.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+>  }
+>  
+> -/* Probes the given bus and slave address for an ivch */
+> +/* Probes the given bus and target address for an ivch */
+>  static bool ivch_init(struct intel_dvo_device *dvo,
+>  		      struct i2c_adapter *adapter)
+>  {
+> @@ -283,10 +283,10 @@ static bool ivch_init(struct intel_dvo_device
+> *dvo,
+>  	 * very unique, check that the value in the base address
+> field matches
+>  	 * the address it's responding on.
+>  	 */
+> -	if ((temp & VR00_BASE_ADDRESS_MASK) != dvo->slave_addr) {
+> +	if ((temp & VR00_BASE_ADDRESS_MASK) != dvo->target_addr) {
+>  		DRM_DEBUG_KMS("ivch detect failed due to address
+> mismatch " "(%d vs %d)\n",
+> -			  (temp & VR00_BASE_ADDRESS_MASK),
+> dvo->slave_addr);
+> +			  (temp & VR00_BASE_ADDRESS_MASK),
+> dvo->target_addr); goto out;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/i915/display/dvo_ns2501.c
+> b/drivers/gpu/drm/i915/display/dvo_ns2501.c index
+> 1df212fb000e..43fc0374fc7f 100644 ---
+> a/drivers/gpu/drm/i915/display/dvo_ns2501.c +++
+> b/drivers/gpu/drm/i915/display/dvo_ns2501.c @@ -399,13 +399,13 @@
+> static bool ns2501_readb(struct intel_dvo_device *dvo, int addr, u8
+> *ch) struct i2c_msg msgs[] = {
+>  		{
+> -		 .addr = dvo->slave_addr,
+> +		 .addr = dvo->target_addr,
+>  		 .flags = 0,
+>  		 .len = 1,
+>  		 .buf = out_buf,
+>  		 },
+>  		{
+> -		 .addr = dvo->slave_addr,
+> +		 .addr = dvo->target_addr,
+>  		 .flags = I2C_M_RD,
+>  		 .len = 1,
+>  		 .buf = in_buf,
+> @@ -423,7 +423,7 @@ static bool ns2501_readb(struct intel_dvo_device
+> *dvo, int addr, u8 *ch) if (!ns->quiet) {
+>  		DRM_DEBUG_KMS
+>  		    ("Unable to read register 0x%02x from
+> %s:0x%02x.\n", addr,
+> -		     adapter->name, dvo->slave_addr);
+> +		     adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+> @@ -442,7 +442,7 @@ static bool ns2501_writeb(struct intel_dvo_device
+> *dvo, int addr, u8 ch) u8 out_buf[2];
+>  
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 2,
+>  		.buf = out_buf,
+> @@ -457,7 +457,7 @@ static bool ns2501_writeb(struct intel_dvo_device
+> *dvo, int addr, u8 ch) 
+>  	if (!ns->quiet) {
+>  		DRM_DEBUG_KMS("Unable to write register 0x%02x to
+> %s:%d\n",
+> -			      addr, adapter->name, dvo->slave_addr);
+> +			      addr, adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+> @@ -488,8 +488,8 @@ static bool ns2501_init(struct intel_dvo_device
+> *dvo, goto out;
+>  
+>  	if (ch != (NS2501_VID & 0xff)) {
+> -		DRM_DEBUG_KMS("ns2501 not detected got %d: from %s
+> Slave %d.\n",
+> -			      ch, adapter->name, dvo->slave_addr);
+> +		DRM_DEBUG_KMS("ns2501 not detected got %d: from %s
+> Target %d.\n",
+> +			      ch, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  
+> @@ -497,8 +497,8 @@ static bool ns2501_init(struct intel_dvo_device
+> *dvo, goto out;
+>  
+>  	if (ch != (NS2501_DID & 0xff)) {
+> -		DRM_DEBUG_KMS("ns2501 not detected got %d: from %s
+> Slave %d.\n",
+> -			      ch, adapter->name, dvo->slave_addr);
+> +		DRM_DEBUG_KMS("ns2501 not detected got %d: from %s
+> Target %d.\n",
+> +			      ch, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  	ns->quiet = false;
+> diff --git a/drivers/gpu/drm/i915/display/dvo_sil164.c
+> b/drivers/gpu/drm/i915/display/dvo_sil164.c index
+> 6c461024c8e3..a8dd40c00997 100644 ---
+> a/drivers/gpu/drm/i915/display/dvo_sil164.c +++
+> b/drivers/gpu/drm/i915/display/dvo_sil164.c @@ -79,13 +79,13 @@
+> static bool sil164_readb(struct intel_dvo_device *dvo, int addr, u8
+> *ch) struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = 0,
+>  			.len = 1,
+>  			.buf = out_buf,
+>  		},
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 1,
+>  			.buf = in_buf,
+> @@ -102,7 +102,7 @@ static bool sil164_readb(struct intel_dvo_device
+> *dvo, int addr, u8 *ch) 
+>  	if (!sil->quiet) {
+>  		DRM_DEBUG_KMS("Unable to read register 0x%02x from
+> %s:%02x.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  	return false;
+>  }
+> @@ -113,7 +113,7 @@ static bool sil164_writeb(struct intel_dvo_device
+> *dvo, int addr, u8 ch) struct i2c_adapter *adapter = dvo->i2c_bus;
+>  	u8 out_buf[2];
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 2,
+>  		.buf = out_buf,
+> @@ -127,7 +127,7 @@ static bool sil164_writeb(struct intel_dvo_device
+> *dvo, int addr, u8 ch) 
+>  	if (!sil->quiet) {
+>  		DRM_DEBUG_KMS("Unable to write register 0x%02x to
+> %s:%d.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+> @@ -153,8 +153,8 @@ static bool sil164_init(struct intel_dvo_device
+> *dvo, goto out;
+>  
+>  	if (ch != (SIL164_VID & 0xff)) {
+> -		DRM_DEBUG_KMS("sil164 not detected got %d: from %s
+> Slave %d.\n",
+> -			  ch, adapter->name, dvo->slave_addr);
+> +		DRM_DEBUG_KMS("sil164 not detected got %d: from %s
+> Target %d.\n",
+> +			  ch, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  
+> @@ -162,8 +162,8 @@ static bool sil164_init(struct intel_dvo_device
+> *dvo, goto out;
+>  
+>  	if (ch != (SIL164_DID & 0xff)) {
+> -		DRM_DEBUG_KMS("sil164 not detected got %d: from %s
+> Slave %d.\n",
+> -			  ch, adapter->name, dvo->slave_addr);
+> +		DRM_DEBUG_KMS("sil164 not detected got %d: from %s
+> Target %d.\n",
+> +			  ch, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  	sil->quiet = false;
+> diff --git a/drivers/gpu/drm/i915/display/dvo_tfp410.c
+> b/drivers/gpu/drm/i915/display/dvo_tfp410.c index
+> 0939e097f4f9..d9a0cd753a87 100644 ---
+> a/drivers/gpu/drm/i915/display/dvo_tfp410.c +++
+> b/drivers/gpu/drm/i915/display/dvo_tfp410.c @@ -100,13 +100,13 @@
+> static bool tfp410_readb(struct intel_dvo_device *dvo, int addr, u8
+> *ch) struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = 0,
+>  			.len = 1,
+>  			.buf = out_buf,
+>  		},
+>  		{
+> -			.addr = dvo->slave_addr,
+> +			.addr = dvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 1,
+>  			.buf = in_buf,
+> @@ -123,7 +123,7 @@ static bool tfp410_readb(struct intel_dvo_device
+> *dvo, int addr, u8 *ch) 
+>  	if (!tfp->quiet) {
+>  		DRM_DEBUG_KMS("Unable to read register 0x%02x from
+> %s:%02x.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  	return false;
+>  }
+> @@ -134,7 +134,7 @@ static bool tfp410_writeb(struct intel_dvo_device
+> *dvo, int addr, u8 ch) struct i2c_adapter *adapter = dvo->i2c_bus;
+>  	u8 out_buf[2];
+>  	struct i2c_msg msg = {
+> -		.addr = dvo->slave_addr,
+> +		.addr = dvo->target_addr,
+>  		.flags = 0,
+>  		.len = 2,
+>  		.buf = out_buf,
+> @@ -148,7 +148,7 @@ static bool tfp410_writeb(struct intel_dvo_device
+> *dvo, int addr, u8 ch) 
+>  	if (!tfp->quiet) {
+>  		DRM_DEBUG_KMS("Unable to write register 0x%02x to
+> %s:%d.\n",
+> -			  addr, adapter->name, dvo->slave_addr);
+> +			  addr, adapter->name, dvo->target_addr);
+>  	}
+>  
+>  	return false;
+> @@ -183,15 +183,15 @@ static bool tfp410_init(struct intel_dvo_device
+> *dvo, 
+>  	if ((id = tfp410_getid(dvo, TFP410_VID_LO)) != TFP410_VID) {
+>  		DRM_DEBUG_KMS("tfp410 not detected got VID %X: from
+> %s "
+> -				"Slave %d.\n",
+> -			  id, adapter->name, dvo->slave_addr);
+> +				"Target %d.\n",
+> +			  id, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  
+>  	if ((id = tfp410_getid(dvo, TFP410_DID_LO)) != TFP410_DID) {
+>  		DRM_DEBUG_KMS("tfp410 not detected got DID %X: from
+> %s "
+> -				"Slave %d.\n",
+> -			  id, adapter->name, dvo->slave_addr);
+> +				"Target %d.\n",
+> +			  id, adapter->name, dvo->target_addr);
+>  		goto out;
+>  	}
+>  	tfp->quiet = false;
+> diff --git a/drivers/gpu/drm/i915/display/intel_bios.c
+> b/drivers/gpu/drm/i915/display/intel_bios.c index
+> fe52c06271ef..35f48fbd9e3e 100644 ---
+> a/drivers/gpu/drm/i915/display/intel_bios.c +++
+> b/drivers/gpu/drm/i915/display/intel_bios.c @@ -69,8 +69,8 @@ struct
+> intel_bios_encoder_data { struct list_head node;
+>  };
+>  
+> -#define	SLAVE_ADDR1	0x70
+> -#define	SLAVE_ADDR2	0x72
+> +#define	TARGET_ADDR1	0x70
+> +#define	TARGET_ADDR2	0x72
+>  
+>  /* Get BDB block size given a pointer to Block ID. */
+>  static u32 _get_blocksize(const u8 *block_base)
+> @@ -1231,10 +1231,10 @@ parse_sdvo_device_mapping(struct
+> drm_i915_private *i915) const struct child_device_config *child =
+> &devdata->child; struct sdvo_device_mapping *mapping;
+>  
+> -		if (child->slave_addr != SLAVE_ADDR1 &&
+> -		    child->slave_addr != SLAVE_ADDR2) {
+> +		if (child->target_addr != TARGET_ADDR1 &&
+> +		    child->target_addr != TARGET_ADDR2) {
+>  			/*
+> -			 * If the slave address is neither 0x70 nor
+> 0x72,
+> +			 * If the target address is neither 0x70 nor
+> 0x72,
+>  			 * it is not a SDVO device. Skip it.
+>  			 */
+>  			continue;
+> @@ -1247,22 +1247,22 @@ parse_sdvo_device_mapping(struct
+> drm_i915_private *i915) continue;
+>  		}
+>  		drm_dbg_kms(&i915->drm,
+> -			    "the SDVO device with slave addr %2x is
+> found on"
+> +			    "the SDVO device with target addr %2x is
+> found on" " %s port\n",
+> -			    child->slave_addr,
+> +			    child->target_addr,
+>  			    (child->dvo_port == DEVICE_PORT_DVOB) ?
+>  			    "SDVOB" : "SDVOC");
+>  		mapping =
+> &i915->display.vbt.sdvo_mappings[child->dvo_port - 1]; if
+> (!mapping->initialized) { mapping->dvo_port = child->dvo_port;
+> -			mapping->slave_addr = child->slave_addr;
+> +			mapping->target_addr = child->target_addr;
+>  			mapping->dvo_wiring = child->dvo_wiring;
+>  			mapping->ddc_pin = child->ddc_pin;
+>  			mapping->i2c_pin = child->i2c_pin;
+>  			mapping->initialized = 1;
+>  			drm_dbg_kms(&i915->drm,
+>  				    "SDVO device: dvo=%x, addr=%x,
+> wiring=%d, ddc_pin=%d, i2c_pin=%d\n",
+> -				    mapping->dvo_port,
+> mapping->slave_addr,
+> +				    mapping->dvo_port,
+> mapping->target_addr, mapping->dvo_wiring, mapping->ddc_pin,
+>  				    mapping->i2c_pin);
+>  		} else {
+> @@ -1270,11 +1270,11 @@ parse_sdvo_device_mapping(struct
+> drm_i915_private *i915) "Maybe one SDVO port is shared by "
+>  				    "two SDVO device.\n");
+>  		}
+> -		if (child->slave2_addr) {
+> +		if (child->target2_addr) {
+>  			/* Maybe this is a SDVO device with multiple
+> inputs */ /* And the mapping info is not added */
+>  			drm_dbg_kms(&i915->drm,
+> -				    "there exists the slave2_addr.
+> Maybe this"
+> +				    "there exists the target2_addr.
+> Maybe this" " is a SDVO device with multiple inputs.\n");
+>  		}
+>  		count++;
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c
+> b/drivers/gpu/drm/i915/display/intel_ddi.c index
+> c587a8efeafc..c408daee412a 100644 ---
+> a/drivers/gpu/drm/i915/display/intel_ddi.c +++
+> b/drivers/gpu/drm/i915/display/intel_ddi.c @@ -4327,7 +4327,7 @@
+> static int intel_ddi_compute_config_late(struct intel_encoder
+> *encoder, connector->tile_group->id); 
+>  	/*
+> -	 * EDP Transcoders cannot be ensalved
+> +	 * EDP Transcoders cannot be slaves
+>  	 * make them a master always when present
+>  	 */
+>  	if (port_sync_transcoders & BIT(TRANSCODER_EDP))
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_core.h
+> b/drivers/gpu/drm/i915/display/intel_display_core.h index
+> 2167dbee5eea..5bfc91f0b563 100644 ---
+> a/drivers/gpu/drm/i915/display/intel_display_core.h +++
+> b/drivers/gpu/drm/i915/display/intel_display_core.h @@ -236,7 +236,7
+> @@ struct intel_vbt_data { struct sdvo_device_mapping {
+>  		u8 initialized;
+>  		u8 dvo_port;
+> -		u8 slave_addr;
+> +		u8 target_addr;
+>  		u8 dvo_wiring;
+>  		u8 i2c_pin;
+>  		u8 ddc_pin;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dsi.h
+> b/drivers/gpu/drm/i915/display/intel_dsi.h index
+> e99c94edfaae..e8ba4ccd99d3 100644 ---
+> a/drivers/gpu/drm/i915/display/intel_dsi.h +++
+> b/drivers/gpu/drm/i915/display/intel_dsi.h @@ -66,7 +66,7 @@ struct
+> intel_dsi { /* number of DSI lanes */
+>  	unsigned int lane_count;
+>  
+> -	/* i2c bus associated with the slave device */
+> +	/* i2c bus associated with the target device */
+>  	int i2c_bus_num;
+>  
+>  	/*
+> diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c index
+> a5d7fc8418c9..fb0b02e30c8b 100644 ---
+> a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c +++
+> b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c @@ -56,7 +56,7 @@
+>  #define MIPI_PORT_SHIFT			3
+>  
+>  struct i2c_adapter_lookup {
+> -	u16 slave_addr;
+> +	u16 target_addr;
+>  	struct intel_dsi *intel_dsi;
+>  	acpi_handle dev_handle;
+>  };
+> @@ -443,7 +443,7 @@ static int i2c_adapter_lookup(struct
+> acpi_resource *ares, void *data) if (!i2c_acpi_get_i2c_resource(ares,
+> &sb)) return 1;
+>  
+> -	if (lookup->slave_addr != sb->slave_address)
+> +	if (lookup->target_addr != sb->slave_address)
+>  		return 1;
+>  
+>  	status = acpi_get_handle(lookup->dev_handle,
+> @@ -460,12 +460,12 @@ static int i2c_adapter_lookup(struct
+> acpi_resource *ares, void *data) }
+>  
+>  static void i2c_acpi_find_adapter(struct intel_dsi *intel_dsi,
+> -				  const u16 slave_addr)
+> +				  const u16 target_addr)
+>  {
+>  	struct drm_device *drm_dev = intel_dsi->base.base.dev;
+>  	struct acpi_device *adev = ACPI_COMPANION(drm_dev->dev);
+>  	struct i2c_adapter_lookup lookup = {
+> -		.slave_addr = slave_addr,
+> +		.target_addr = target_addr,
+>  		.intel_dsi = intel_dsi,
+>  		.dev_handle = acpi_device_handle(adev),
+>  	};
+> @@ -476,7 +476,7 @@ static void i2c_acpi_find_adapter(struct
+> intel_dsi *intel_dsi, }
+>  #else
+>  static inline void i2c_acpi_find_adapter(struct intel_dsi *intel_dsi,
+> -					 const u16 slave_addr)
+> +					 const u16 target_addr)
+>  {
+>  }
+>  #endif
+> @@ -488,17 +488,17 @@ static const u8 *mipi_exec_i2c(struct intel_dsi
+> *intel_dsi, const u8 *data) struct i2c_msg msg;
+>  	int ret;
+>  	u8 vbt_i2c_bus_num = *(data + 2);
+> -	u16 slave_addr = *(u16 *)(data + 3);
+> +	u16 target_addr = *(u16 *)(data + 3);
+>  	u8 reg_offset = *(data + 5);
+>  	u8 payload_size = *(data + 6);
+>  	u8 *payload_data;
+>  
+> -	drm_dbg_kms(&i915->drm, "bus %d client-addr 0x%02x reg
+> 0x%02x data %*ph\n",
+> -		    vbt_i2c_bus_num, slave_addr, reg_offset,
+> payload_size, data + 7);
+> +	drm_dbg_kms(&i915->drm, "bus %d target-addr 0x%02x reg
+> 0x%02x data %*ph\n",
+> +		    vbt_i2c_bus_num, target_addr, reg_offset,
+> payload_size, data + 7); 
+>  	if (intel_dsi->i2c_bus_num < 0) {
+>  		intel_dsi->i2c_bus_num = vbt_i2c_bus_num;
+> -		i2c_acpi_find_adapter(intel_dsi, slave_addr);
+> +		i2c_acpi_find_adapter(intel_dsi, target_addr);
+>  	}
+>  
+>  	adapter = i2c_get_adapter(intel_dsi->i2c_bus_num);
+> @@ -514,7 +514,7 @@ static const u8 *mipi_exec_i2c(struct intel_dsi
+> *intel_dsi, const u8 *data) payload_data[0] = reg_offset;
+>  	memcpy(&payload_data[1], (data + 7), payload_size);
+>  
+> -	msg.addr = slave_addr;
+> +	msg.addr = target_addr;
+>  	msg.flags = 0;
+>  	msg.len = payload_size + 1;
+>  	msg.buf = payload_data;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dvo.c
+> b/drivers/gpu/drm/i915/display/intel_dvo.c index
+> c076da75b066..8d4c8f33f776 100644 ---
+> a/drivers/gpu/drm/i915/display/intel_dvo.c +++
+> b/drivers/gpu/drm/i915/display/intel_dvo.c @@ -60,42 +60,42 @@ static
+> const struct intel_dvo_device intel_dvo_devices[] = { .type =
+> INTEL_DVO_CHIP_TMDS, .name = "sil164",
+>  		.port = PORT_C,
+> -		.slave_addr = SIL164_ADDR,
+> +		.target_addr = SIL164_ADDR,
+>  		.dev_ops = &sil164_ops,
+>  	},
+>  	{
+>  		.type = INTEL_DVO_CHIP_TMDS,
+>  		.name = "ch7xxx",
+>  		.port = PORT_C,
+> -		.slave_addr = CH7xxx_ADDR,
+> +		.target_addr = CH7xxx_ADDR,
+>  		.dev_ops = &ch7xxx_ops,
+>  	},
+>  	{
+>  		.type = INTEL_DVO_CHIP_TMDS,
+>  		.name = "ch7xxx",
+>  		.port = PORT_C,
+> -		.slave_addr = 0x75, /* For some ch7010 */
+> +		.target_addr = 0x75, /* For some ch7010 */
+>  		.dev_ops = &ch7xxx_ops,
+>  	},
+>  	{
+>  		.type = INTEL_DVO_CHIP_LVDS,
+>  		.name = "ivch",
+>  		.port = PORT_A,
+> -		.slave_addr = 0x02, /* Might also be 0x44, 0x84,
+> 0xc4 */
+> +		.target_addr = 0x02, /* Might also be 0x44, 0x84,
+> 0xc4 */ .dev_ops = &ivch_ops,
+>  	},
+>  	{
+>  		.type = INTEL_DVO_CHIP_TMDS,
+>  		.name = "tfp410",
+>  		.port = PORT_C,
+> -		.slave_addr = TFP410_ADDR,
+> +		.target_addr = TFP410_ADDR,
+>  		.dev_ops = &tfp410_ops,
+>  	},
+>  	{
+>  		.type = INTEL_DVO_CHIP_LVDS,
+>  		.name = "ch7017",
+>  		.port = PORT_C,
+> -		.slave_addr = 0x75,
+> +		.target_addr = 0x75,
+>  		.gpio = GMBUS_PIN_DPB,
+>  		.dev_ops = &ch7017_ops,
+>  	},
+> @@ -103,7 +103,7 @@ static const struct intel_dvo_device
+> intel_dvo_devices[] = { .type = INTEL_DVO_CHIP_LVDS_NO_FIXED,
+>  		.name = "ns2501",
+>  		.port = PORT_B,
+> -		.slave_addr = NS2501_ADDR,
+> +		.target_addr = NS2501_ADDR,
+>  		.dev_ops = &ns2501_ops,
+>  	},
+>  };
+> diff --git a/drivers/gpu/drm/i915/display/intel_dvo_dev.h
+> b/drivers/gpu/drm/i915/display/intel_dvo_dev.h index
+> af7b04539b93..4bf476656b8c 100644 ---
+> a/drivers/gpu/drm/i915/display/intel_dvo_dev.h +++
+> b/drivers/gpu/drm/i915/display/intel_dvo_dev.h @@ -38,7 +38,7 @@
+> struct intel_dvo_device { enum port port;
+>  	/* GPIO register used for i2c bus to control this device */
+>  	u32 gpio;
+> -	int slave_addr;
+> +	int target_addr;
+>  
+>  	const struct intel_dvo_dev_ops *dev_ops;
+>  	void *dev_priv;
+> diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c
+> b/drivers/gpu/drm/i915/display/intel_gmbus.c index
+> d3e03ed5b79c..fe9a3c1f0072 100644 ---
+> a/drivers/gpu/drm/i915/display/intel_gmbus.c +++
+> b/drivers/gpu/drm/i915/display/intel_gmbus.c @@ -478,7 +478,7 @@
+> gmbus_xfer_read_chunk(struct drm_i915_private *i915, /*
+>   * HW spec says that 512Bytes in Burst read need special treatment.
+>   * But it doesn't talk about other multiple of 256Bytes. And
+> couldn't locate
+> - * an I2C slave, which supports such a lengthy burst read too for
+> experiments.
+> + * an I2C target, which supports such a lengthy burst read too for
+> experiments. *
+>   * So until things get clarified on HW support, to avoid the burst
+> read length
+>   * in fold of 256Bytes except 512, max burst read length is fixed at
+> 767Bytes. @@ -701,7 +701,7 @@ do_gmbus_xfer(struct i2c_adapter
+> *adapter, struct i2c_msg *msgs, int num, 
+>  	/* Toggle the Software Clear Interrupt bit. This has the
+> effect
+>  	 * of resetting the GMBUS controller and so clearing the
+> -	 * BUS_ERROR raised by the slave's NAK.
+> +	 * BUS_ERROR raised by the target's NAK.
+>  	 */
+>  	intel_de_write_fw(i915, GMBUS1(i915), GMBUS_SW_CLR_INT);
+>  	intel_de_write_fw(i915, GMBUS1(i915), 0);
+> diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c
+> b/drivers/gpu/drm/i915/display/intel_sdvo.c index
+> 5f9e748adc89..87052bd1c554 100644 ---
+> a/drivers/gpu/drm/i915/display/intel_sdvo.c +++
+> b/drivers/gpu/drm/i915/display/intel_sdvo.c @@ -95,7 +95,7 @@ struct
+> intel_sdvo { struct intel_encoder base;
+>  
+>  	struct i2c_adapter *i2c;
+> -	u8 slave_addr;
+> +	u8 target_addr;
+>  
+>  	struct intel_sdvo_ddc ddc[3];
+>  
+> @@ -255,13 +255,13 @@ static bool intel_sdvo_read_byte(struct
+> intel_sdvo *intel_sdvo, u8 addr, u8 *ch) struct drm_i915_private
+> *i915 = to_i915(intel_sdvo->base.base.dev); struct i2c_msg msgs[] = {
+>  		{
+> -			.addr = intel_sdvo->slave_addr,
+> +			.addr = intel_sdvo->target_addr,
+>  			.flags = 0,
+>  			.len = 1,
+>  			.buf = &addr,
+>  		},
+>  		{
+> -			.addr = intel_sdvo->slave_addr,
+> +			.addr = intel_sdvo->target_addr,
+>  			.flags = I2C_M_RD,
+>  			.len = 1,
+>  			.buf = ch,
+> @@ -483,14 +483,14 @@ static bool __intel_sdvo_write_cmd(struct
+> intel_sdvo *intel_sdvo, u8 cmd, intel_sdvo_debug_write(intel_sdvo,
+> cmd, args, args_len); 
+>  	for (i = 0; i < args_len; i++) {
+> -		msgs[i].addr = intel_sdvo->slave_addr;
+> +		msgs[i].addr = intel_sdvo->target_addr;
+>  		msgs[i].flags = 0;
+>  		msgs[i].len = 2;
+>  		msgs[i].buf = buf + 2 *i;
+>  		buf[2*i + 0] = SDVO_I2C_ARG_0 - i;
+>  		buf[2*i + 1] = ((u8*)args)[i];
+>  	}
+> -	msgs[i].addr = intel_sdvo->slave_addr;
+> +	msgs[i].addr = intel_sdvo->target_addr;
+>  	msgs[i].flags = 0;
+>  	msgs[i].len = 2;
+>  	msgs[i].buf = buf + 2*i;
+> @@ -499,12 +499,12 @@ static bool __intel_sdvo_write_cmd(struct
+> intel_sdvo *intel_sdvo, u8 cmd, 
+>  	/* the following two are to read the response */
+>  	status = SDVO_I2C_CMD_STATUS;
+> -	msgs[i+1].addr = intel_sdvo->slave_addr;
+> +	msgs[i+1].addr = intel_sdvo->target_addr;
+>  	msgs[i+1].flags = 0;
+>  	msgs[i+1].len = 1;
+>  	msgs[i+1].buf = &status;
+>  
+> -	msgs[i+2].addr = intel_sdvo->slave_addr;
+> +	msgs[i+2].addr = intel_sdvo->target_addr;
+>  	msgs[i+2].flags = I2C_M_RD;
+>  	msgs[i+2].len = 1;
+>  	msgs[i+2].buf = &status;
+> @@ -2659,9 +2659,9 @@ intel_sdvo_select_i2c_bus(struct intel_sdvo
+> *sdvo) else
+>  		pin = GMBUS_PIN_DPB;
+>  
+> -	drm_dbg_kms(&dev_priv->drm, "[ENCODER:%d:%s] I2C pin %d,
+> slave addr 0x%x\n",
+> +	drm_dbg_kms(&dev_priv->drm, "[ENCODER:%d:%s] I2C pin %d,
+> target addr 0x%x\n", sdvo->base.base.base.id, sdvo->base.base.name,
+> -		    pin, sdvo->slave_addr);
+> +		    pin, sdvo->target_addr);
+>  
+>  	sdvo->i2c = intel_gmbus_get_adapter(dev_priv, pin);
+>  
+> @@ -2687,7 +2687,7 @@ intel_sdvo_is_hdmi_connector(struct intel_sdvo
+> *intel_sdvo) }
+>  
+>  static u8
+> -intel_sdvo_get_slave_addr(struct intel_sdvo *sdvo)
+> +intel_sdvo_get_target_addr(struct intel_sdvo *sdvo)
+>  {
+>  	struct drm_i915_private *dev_priv =
+> to_i915(sdvo->base.base.dev); const struct sdvo_device_mapping
+> *my_mapping, *other_mapping; @@ -2701,15 +2701,15 @@
+> intel_sdvo_get_slave_addr(struct intel_sdvo *sdvo) }
+>  
+>  	/* If the BIOS described our SDVO device, take advantage of
+> it. */
+> -	if (my_mapping->slave_addr)
+> -		return my_mapping->slave_addr;
+> +	if (my_mapping->target_addr)
+> +		return my_mapping->target_addr;
+>  
+>  	/*
+>  	 * If the BIOS only described a different SDVO device, use
+> the
+>  	 * address that it isn't using.
+>  	 */
+> -	if (other_mapping->slave_addr) {
+> -		if (other_mapping->slave_addr == 0x70)
+> +	if (other_mapping->target_addr) {
+> +		if (other_mapping->target_addr == 0x70)
+>  			return 0x72;
+>  		else
+>  			return 0x70;
+> @@ -3412,7 +3412,7 @@ bool intel_sdvo_init(struct drm_i915_private
+> *dev_priv, "SDVO %c", port_name(port));
+>  
+>  	intel_sdvo->sdvo_reg = sdvo_reg;
+> -	intel_sdvo->slave_addr =
+> intel_sdvo_get_slave_addr(intel_sdvo) >> 1;
+> +	intel_sdvo->target_addr =
+> intel_sdvo_get_target_addr(intel_sdvo) >> 1; 
+>  	intel_sdvo_select_i2c_bus(intel_sdvo);
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> b/drivers/gpu/drm/i915/display/intel_vbt_defs.h index
+> a9f44abfc9fc..c0d5aae980a8 100644 ---
+> a/drivers/gpu/drm/i915/display/intel_vbt_defs.h +++
+> b/drivers/gpu/drm/i915/display/intel_vbt_defs.h @@ -432,7 +432,7 @@
+> struct child_device_config { u16 addin_offset;
+>  	u8 dvo_port; /* See DEVICE_PORT_* and DVO_PORT_* above */
+>  	u8 i2c_pin;
+> -	u8 slave_addr;
+> +	u8 target_addr;
+>  	u8 ddc_pin;
+>  	u16 edid_ptr;
+>  	u8 dvo_cfg; /* See DEVICE_CFG_* above */
+> @@ -441,7 +441,7 @@ struct child_device_config {
+>  		struct {
+>  			u8 dvo2_port;
+>  			u8 i2c2_pin;
+> -			u8 slave2_addr;
+> +			u8 target2_addr;
+>  			u8 ddc2_pin;
+>  		} __packed;
+>  		struct {
+> diff --git a/drivers/gpu/drm/i915/gvt/edid.c
+> b/drivers/gpu/drm/i915/gvt/edid.c index af9afdb53c7f..c022dc736045
+> 100644 --- a/drivers/gpu/drm/i915/gvt/edid.c
+> +++ b/drivers/gpu/drm/i915/gvt/edid.c
+> @@ -42,8 +42,8 @@
+>  #define GMBUS1_TOTAL_BYTES_MASK 0x1ff
+>  #define gmbus1_total_byte_count(v) (((v) >> \
+>  	GMBUS1_TOTAL_BYTES_SHIFT) & GMBUS1_TOTAL_BYTES_MASK)
+> -#define gmbus1_slave_addr(v) (((v) & 0xff) >> 1)
+> -#define gmbus1_slave_index(v) (((v) >> 8) & 0xff)
+> +#define gmbus1_target_addr(v) (((v) & 0xff) >> 1)
+> +#define gmbus1_target_index(v) (((v) >> 8) & 0xff)
+>  #define gmbus1_bus_cycle(v) (((v) >> 25) & 0x7)
+>  
+>  /* GMBUS0 bits definitions */
+> @@ -54,7 +54,7 @@ static unsigned char edid_get_byte(struct
+> intel_vgpu *vgpu) struct intel_vgpu_i2c_edid *edid =
+> &vgpu->display.i2c_edid; unsigned char chr = 0;
+>  
+> -	if (edid->state == I2C_NOT_SPECIFIED ||
+> !edid->slave_selected) {
+> +	if (edid->state == I2C_NOT_SPECIFIED ||
+> !edid->target_selected) { gvt_vgpu_err("Driver tries to read EDID
+> without proper sequence!\n"); return 0;
+>  	}
+> @@ -179,7 +179,7 @@ static int gmbus1_mmio_write(struct intel_vgpu
+> *vgpu, unsigned int offset, void *p_data, unsigned int bytes)
+>  {
+>  	struct intel_vgpu_i2c_edid *i2c_edid =
+> &vgpu->display.i2c_edid;
+> -	u32 slave_addr;
+> +	u32 target_addr;
+>  	u32 wvalue = *(u32 *)p_data;
+>  
+>  	if (vgpu_vreg(vgpu, offset) & GMBUS_SW_CLR_INT) {
+> @@ -210,21 +210,21 @@ static int gmbus1_mmio_write(struct intel_vgpu
+> *vgpu, unsigned int offset, 
+>  		i2c_edid->gmbus.total_byte_count =
+>  			gmbus1_total_byte_count(wvalue);
+> -		slave_addr = gmbus1_slave_addr(wvalue);
+> +		target_addr = gmbus1_target_addr(wvalue);
+>  
+>  		/* vgpu gmbus only support EDID */
+> -		if (slave_addr == EDID_ADDR) {
+> -			i2c_edid->slave_selected = true;
+> -		} else if (slave_addr != 0) {
+> +		if (target_addr == EDID_ADDR) {
+> +			i2c_edid->target_selected = true;
+> +		} else if (target_addr != 0) {
+>  			gvt_dbg_dpy(
+> -				"vgpu%d: unsupported gmbus slave
+> addr(0x%x)\n"
+> +				"vgpu%d: unsupported gmbus target
+> addr(0x%x)\n" "	gmbus operations will be ignored.\n",
+> -					vgpu->id, slave_addr);
+> +					vgpu->id, target_addr);
+>  		}
+>  
+>  		if (wvalue & GMBUS_CYCLE_INDEX)
+>  			i2c_edid->current_edid_read =
+> -				gmbus1_slave_index(wvalue);
+> +				gmbus1_target_index(wvalue);
+>  
+>  		i2c_edid->gmbus.cycle_type =
+> gmbus1_bus_cycle(wvalue); switch (gmbus1_bus_cycle(wvalue)) {
+> @@ -523,7 +523,7 @@ void intel_gvt_i2c_handle_aux_ch_write(struct
+> intel_vgpu *vgpu, } else if (addr == EDID_ADDR) {
+>  				i2c_edid->state = I2C_AUX_CH;
+>  				i2c_edid->port = port_idx;
+> -				i2c_edid->slave_selected = true;
+> +				i2c_edid->target_selected = true;
+>  				if
+> (intel_vgpu_has_monitor_on_port(vgpu, port_idx) &&
+>  					intel_vgpu_port_is_dp(vgpu,
+> port_idx)) @@ -542,7 +542,7 @@ void
+> intel_gvt_i2c_handle_aux_ch_write(struct intel_vgpu *vgpu, return;
+>  		if (drm_WARN_ON(&i915->drm, msg_length != 4))
+>  			return;
+> -		if (i2c_edid->edid_available &&
+> i2c_edid->slave_selected) {
+> +		if (i2c_edid->edid_available &&
+> i2c_edid->target_selected) { unsigned char val = edid_get_byte(vgpu);
+>  
+>  			aux_data_for_write = (val << 16);
+> @@ -571,7 +571,7 @@ void intel_vgpu_init_i2c_edid(struct intel_vgpu
+> *vgpu) edid->state = I2C_NOT_SPECIFIED;
+>  
+>  	edid->port = -1;
+> -	edid->slave_selected = false;
+> +	edid->target_selected = false;
+>  	edid->edid_available = false;
+>  	edid->current_edid_read = 0;
+>  
+> diff --git a/drivers/gpu/drm/i915/gvt/edid.h
+> b/drivers/gpu/drm/i915/gvt/edid.h index dfe0cbc6aad8..c3b5a55aecb3
+> 100644 --- a/drivers/gpu/drm/i915/gvt/edid.h
+> +++ b/drivers/gpu/drm/i915/gvt/edid.h
+> @@ -80,7 +80,7 @@ enum gmbus_cycle_type {
+>   *      R/W Protect
+>   *      Command and Status.
+>   *      bit0 is the direction bit: 1 is read; 0 is write.
+> - *      bit1 - bit7 is slave 7-bit address.
+> + *      bit1 - bit7 is target 7-bit address.
+>   *      bit16 - bit24 total byte count (ignore?)
+>   *
+>   * GMBUS2:
+> @@ -130,7 +130,7 @@ struct intel_vgpu_i2c_edid {
+>  	enum i2c_state state;
+>  
+>  	unsigned int port;
+> -	bool slave_selected;
+> +	bool target_selected;
+>  	bool edid_available;
+>  	unsigned int current_edid_read;
+>  
+> diff --git a/drivers/gpu/drm/i915/gvt/opregion.c
+> b/drivers/gpu/drm/i915/gvt/opregion.c index
+> d2bed466540a..908f910420c2 100644 ---
+> a/drivers/gpu/drm/i915/gvt/opregion.c +++
+> b/drivers/gpu/drm/i915/gvt/opregion.c @@ -86,7 +86,7 @@ struct
+> efp_child_device_config { u8 skip2;
+>  	u8 dvo_port;
+>  	u8 i2c_pin; /* for add-in card */
+> -	u8 slave_addr; /* for add-in card */
+> +	u8 target_addr; /* for add-in card */
+>  	u8 ddc_pin;
+>  	u16 edid_ptr;
+>  	u8 dvo_config;
+
