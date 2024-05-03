@@ -2,39 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D188BAAAF
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 12:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7A98BAACD
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 12:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E83010F2FD;
-	Fri,  3 May 2024 10:22:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F76D10FADC;
+	Fri,  3 May 2024 10:36:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="N8I4+Cwi";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0162110E89D
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 10:22:54 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 026B52F4
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 03:23:19 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 78C493F793
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 03:22:53 -0700 (PDT)
-Date: Fri, 3 May 2024 11:22:47 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v4 5/5] drm/panthor: Document
- drm_panthor_tiler_heap_destroy::handle validity constraints
-Message-ID: <ZjS698k-QnGxFh07@e110455-lin.cambridge.arm.com>
-References: <20240502165158.1458959-1-boris.brezillon@collabora.com>
- <20240502165158.1458959-6-boris.brezillon@collabora.com>
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E18610FA90;
+ Fri,  3 May 2024 10:36:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=qh5Wc3QqXgam82TMaOdVdy+cfP6ZNoEKs7ddCVe4jPY=; b=N8I4+CwiBUkzZYIyGzOqQsvzoP
+ cCulMNJhaL2ygzPgYmNxiIytFGF+IHAZTJlW+4byTl+H1wU91wfyhXytPSpMyruKM0qH5KSX0/zb3
+ M0q8Xbygslb8bYQIpKyIjcsZNaQg/QlWYyn52lYXcksuWoDoJPjWtlzs918/ctl5xS4pp+70AejpZ
+ OhT/9b+OOu90NRC9JXP0qfZxYlcy+pcNpDPFbgfrnHw1FTRS23pxj0DUFeYKUk3VnYsJropW0Di81
+ TbrsNflYBNuzXjCwiY53z3m6L9fTjcAMDy3NRSeShDj/z2uaw7qLx2j5fikTkkfH5hfv1oFxw5CPT
+ fv3XU5Zg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84]
+ helo=noisy.programming.kicks-ass.net)
+ by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+ id 1s2qH0-00000000W9c-2SYt; Fri, 03 May 2024 10:36:14 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 402B93001FD; Fri,  3 May 2024 12:36:14 +0200 (CEST)
+Date: Fri, 3 May 2024 12:36:14 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+ Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matt Atwood <matthew.s.atwood@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Kent Overstreet <kent.overstreet@linux.dev>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 5/5] fs: Convert struct file::f_count to refcount_long_t
+Message-ID: <20240503103614.GF30852@noisy.programming.kicks-ass.net>
+References: <20240502223341.1835070-5-keescook@chromium.org>
+ <20240502224250.GM2118490@ZenIV> <202405021548.040579B1C@keescook>
+ <20240502231228.GN2118490@ZenIV> <202405021620.C8115568@keescook>
+ <20240502234152.GP2118490@ZenIV> <202405021708.267B02842@keescook>
+ <20240503001445.GR2118490@ZenIV> <202405021736.574A688@keescook>
+ <20240503-inventar-braut-c82e15e56a32@brauner>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240502165158.1458959-6-boris.brezillon@collabora.com>
+In-Reply-To: <20240503-inventar-braut-c82e15e56a32@brauner>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,54 +87,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 02, 2024 at 06:51:58PM +0200, Boris Brezillon wrote:
-> Make sure the user is aware that drm_panthor_tiler_heap_destroy::handle
-> must be a handle previously returned by
-> DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE.
+On Fri, May 03, 2024 at 11:37:25AM +0200, Christian Brauner wrote:
+> On Thu, May 02, 2024 at 05:41:23PM -0700, Kees Cook wrote:
+> > On Fri, May 03, 2024 at 01:14:45AM +0100, Al Viro wrote:
+> > > On Thu, May 02, 2024 at 05:10:18PM -0700, Kees Cook wrote:
+> > > 
+> > > > But anyway, there needs to be a general "oops I hit 0"-aware form of
+> > > > get_file(), and it seems like it should just be get_file() itself...
+> > > 
+> > > ... which brings back the question of what's the sane damage mitigation
+> > > for that.  Adding arseloads of never-exercised failure exits is generally
+> > > a bad idea - it's asking for bitrot and making the thing harder to review
+> > > in future.
+> > 
+> > Linus seems to prefer best-effort error recovery to sprinkling BUG()s
+> > around.  But if that's really the solution, then how about get_file()
+> > switching to to use inc_not_zero and BUG on 0?
 > 
-> v4:
-> - Add Steve's R-b
+> Making get_file() return an error is not an option. For all current
+> callers that's pointless churn for a condition that's not supposed to
+> happen at all.
 > 
-> v3:
-> - New patch
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
+> Additionally, iirc *_inc_not_zero() variants are implemented with
+> try_cmpxchg() which scales poorly under contention for a condition
+> that's not supposed to happen.
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+	unsigned long old = atomic_long_fetch_inc_relaxed(&f->f_count);
+	WARN_ON(!old);
 
-
-> ---
->  include/uapi/drm/panthor_drm.h | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index b8220d2e698f..aaed8e12ad0b 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -939,7 +939,11 @@ struct drm_panthor_tiler_heap_create {
->   * struct drm_panthor_tiler_heap_destroy - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY
->   */
->  struct drm_panthor_tiler_heap_destroy {
-> -	/** @handle: Handle of the tiler heap to destroy */
-> +	/**
-> +	 * @handle: Handle of the tiler heap to destroy.
-> +	 *
-> +	 * Must be a valid heap handle returned by DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE.
-> +	 */
->  	__u32 handle;
->  
->  	/** @pad: Padding field, MBZ. */
-> -- 
-> 2.44.0
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Or somesuch might be an option?
