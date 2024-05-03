@@ -2,50 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79C88BB113
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64AB38BB12D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:46:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C50F113150;
-	Fri,  3 May 2024 16:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3BA311316E;
+	Fri,  3 May 2024 16:45:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="qE76TYkP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qWErinrA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
- [95.215.58.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDDBB113149
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:42:06 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1714754525;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FGxG50yC0CK36/qDO6i3sCZYl6lVuSyFdQFoLVbb7hE=;
- b=qE76TYkPHJUNZX0+NzadigGzNT+dJbx7TLDCism8XE63avWp7zQ2Ll64tuUAT0e809Zxvk
- w6GIX3DQ5ltVk2kn6xhbqjeyZQMLNu49hrHDyG571z0mA2Z6OkE+5R7GZLxwRg/ECB0u79
- vG+vltyYLhipnwHrO6T6B1xvdvVi0xI=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E705113169
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:45:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 15835CE1870;
+ Fri,  3 May 2024 16:45:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DC64C4AF1B;
+ Fri,  3 May 2024 16:45:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1714754751;
+ bh=vsZuJtE5RGT667IHPY/tz9/wy6NQgx5LKgSSROUkDps=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qWErinrARu9gq/beFo4aJATTpl6SurxgGw/4MRM7iH629nDeRtt8drkMJmAH+RDBa
+ Kkn1caeXiYr7BfU27hiui52fBBdUBvSez1mvpAVA9OnA+blZSfoJHrGqNaT2bvAHZV
+ iddS04wrO6neD6XOv2U6EHOnDnwbTgcYMj6aNRYNcLYOAi0WQj/JV7gJdpaUVUBhO7
+ xw35DmsopLc7pYjIg/MJtxu7/Y1l9G6Q77+F1iA/e1f6jkjDeDHJo/9vp1ZuONgvju
+ zwBwH8J+dn+c/Rmo03WQqWh4252rxtpY5iAaO/hSDVTU4UdzfhlNCzQHOJ58zejxwq
+ nn+LKZpGEKmsA==
+Date: Fri, 3 May 2024 17:45:45 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Hsin-Te Yuan <yuanhsinte@chromium.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v5 10/10] drm/bridge: anx7688: Switch to use
- drm_bridge_set_node() helper
-Date: Sat,  4 May 2024 00:41:06 +0800
-Message-Id: <20240503164106.1172650-11-sui.jingfeng@linux.dev>
-In-Reply-To: <20240503164106.1172650-1-sui.jingfeng@linux.dev>
-References: <20240503164106.1172650-1-sui.jingfeng@linux.dev>
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Xin Ji <xji@analogixsemi.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: anx7625: Add a perporty to
+ change TDM setting
+Message-ID: <20240503-footrest-gladly-c0ed7d92d816@spud>
+References: <20240502-anx-tdm-v1-0-894a9f634f44@chromium.org>
+ <20240502-anx-tdm-v1-1-894a9f634f44@chromium.org>
+ <20240502-sheath-share-eac9afc24da9@spud>
+ <CAHc4DN+mCbBuB3D9kB2x8HYj9iaX7t6Q4Qjj7hotH3u=eAHJSg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="OIMQ9YJ2fz4azP4P"
+Content-Disposition: inline
+In-Reply-To: <CAHc4DN+mCbBuB3D9kB2x8HYj9iaX7t6Q4Qjj7hotH3u=eAHJSg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +72,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch to use the freshly created drm_bridge_set_node() helper, because
-fwnode APIs can be used to abstract DT dependent APIs away. As the fwnode
-APIs has wider coverage than DT counterpart, driver don't have to bear
-the burden of "OF dependent", let the core take the resposibility. No
-functional changes.
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/bridge/cros-ec-anx7688.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+--OIMQ9YJ2fz4azP4P
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/bridge/cros-ec-anx7688.c b/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-index c8abd9920fee..30b27b808e02 100644
---- a/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-+++ b/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-@@ -98,6 +98,7 @@ static const struct drm_bridge_funcs cros_ec_anx7688_bridge_funcs = {
- static int cros_ec_anx7688_bridge_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
-+	struct fwnode_handle *fwnode = dev_fwnode(dev);
- 	struct cros_ec_anx7688 *anx7688;
- 	u16 vendor, device, fw_version;
- 	u8 buffer[4];
-@@ -143,7 +144,7 @@ static int cros_ec_anx7688_bridge_probe(struct i2c_client *client)
- 	fw_version = (u16)buffer[0] << 8 | buffer[1];
- 	dev_info(dev, "ANX7688 firmware version 0x%04x\n", fw_version);
- 
--	anx7688->bridge.of_node = dev->of_node;
-+	drm_bridge_set_node(&anx7688->bridge, fwnode);
- 
- 	/* FW version >= 0.85 supports bandwidth/lane count registers */
- 	if (fw_version >= ANX7688_MINIMUM_FW_VERSION)
--- 
-2.34.1
+On Fri, May 03, 2024 at 02:58:16PM +0800, Hsin-Te Yuan wrote:
+> On Thu, May 2, 2024 at 10:47=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
+rote:
+> >
+> > On Thu, May 02, 2024 at 09:03:31AM +0000, Hsin-Te Yuan wrote:
+> > > Add a perporty to indicate whether anx7625 should shift the first aud=
+io
+> > > data bit. The default TDM setting is to shift the first audio data bi=
+t.
+> > >
+> > > Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
+> > > ---
+> > >  .../devicetree/bindings/display/bridge/analogix,anx7625.yaml        =
+  | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogi=
+x,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,=
+anx7625.yaml
+> > > index a1ed1004651b9..915d5d54a2160 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx76=
+25.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx76=
+25.yaml
+> > > @@ -82,6 +82,10 @@ properties:
+> > >      type: boolean
+> > >      description: let the driver enable audio HDMI codec function or =
+not.
+> > >
+> > > +  no-shift-audio-data:
+> > > +    type: boolean
+> > > +    description: Disable the first audio data bit shift in the TDM s=
+ettings.
+> >
+> > This just looks like software policy, since there's no mention in the
+> > commit message or description as to what property of the hardware causes
+> > this to be required. Can you please explain why this property is needed?
+> >
+> > You're also missing a vendor prefix.
+>=20
+> Sorry, I found this feature in the datasheet originally, but after
+> deeper investigation, it seems that this feature should be used to
+> support i2s dsp mode b instead of being used this way. Note that the
+> difference between i2s dsp mode a and b is whether or not to shift the
+> audio data by 1 clock cycle.
 
+Are you trying to say that this patch is not needed? I'm not really
+sure.
+
+--OIMQ9YJ2fz4azP4P
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjUUuQAKCRB4tDGHoIJi
+0s+mAP9xrZEuq+pdJoaqDYfIjbY9yCD7iBiC5GCSfYGFAvVblQEAmEnup6FVQQnj
+FEOeiYDFL8Lbl43MM89934A9LqjnDww=
+=MuBv
+-----END PGP SIGNATURE-----
+
+--OIMQ9YJ2fz4azP4P--
