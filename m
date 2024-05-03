@@ -2,62 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15B98BB13A
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB518BB151
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 19:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81B6F11315D;
-	Fri,  3 May 2024 16:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2140411316F;
+	Fri,  3 May 2024 17:00:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="rkGr+1kX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="u89AUOKz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3790111315A;
- Fri,  3 May 2024 16:48:55 +0000 (UTC)
-Received: from [100.65.224.148] (unknown [20.236.10.206])
- by linux.microsoft.com (Postfix) with ESMTPSA id ED65B20B2C82;
- Fri,  3 May 2024 09:48:53 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ED65B20B2C82
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1714754934;
- bh=GAu8Rak4A+pCgzw/uvyDGmtVcqwJgPNajSTWUoSmEQw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=rkGr+1kX0SctOUPwkhdrQ4qFQeA027/UkwhMstN1oK11s07V0R7Wi7aRofjAnlC1w
- NT0xX9K1RqDBBTorM82GqIiYoTbasEg2t4t6Fe9M8VXV9I+qcP4kpK+ALqrx64mma1
- /QTPAvj8aVxAk84+SPJbJzAv82Hdw3+D0Hq7DSGc=
-Message-ID: <6256cc5a-9ff0-4a1f-8eba-f70b7c571631@linux.microsoft.com>
-Date: Fri, 3 May 2024 09:48:53 -0700
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBC4A11316F
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 17:00:15 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2df9af57b5eso96093771fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 10:00:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1714755614; x=1715360414; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=wXU7vMhXEeTp/KYmjwZZbLXJksXGPbDoFW68+DTiGVw=;
+ b=u89AUOKz/MU8G9bro28G4JbTEJ8ALW0lUOiZ8iaICct7BKEjrwHLeojBhr9KlABTtT
+ 4Za+4Gw0Kza31B/6Q1xnGNY6cklGtKpU9HCRg9pbmmW6Vd26JLK/DKWa4WM4e1tlI55K
+ 7PvrEQ3h8+tQtsj7RGP7Cw7CTkPhnqu+221qRwbH3EBCy/SfOly7hxfVl0XkXDBxMc/g
+ JApXurZvgGx0kUMNNODA1tkAr88MgUIL4vmJFUhENsjZEUky3GKmYT8oN0ooXQYqtv5E
+ A+fmRrhGe35UPw2fHr+DfgWYGqmbDWdJDiwyXpohX3Qgln7Bs+se/rLjD1sHllmDMrkQ
+ mgXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714755614; x=1715360414;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wXU7vMhXEeTp/KYmjwZZbLXJksXGPbDoFW68+DTiGVw=;
+ b=wx/wjPccyu1M98SxVRvEMUurtsbOxkjLqHntxmbgSnfm1uIeVHt67B+87YXFwwUYD6
+ ecwZjL8D0XRjiHyO8gVDmH/+4L/3frkvSyZR24JxUYqvLhdWn+ha7M9fLGYAx0opRZsg
+ WWCVDtn44tQPQ/RamERAUNew8SxFVj8L8mIqYHODd4Uq5SecrZMXEI+cK0dIufItmq/3
+ 77Y6zJe03+JZanplQh1PyL4aN3zPqmlJfv8B50AsJ6JLFgmuRwWCwwiHzk59kGPAKY2I
+ Ld9mIrohwjzEQPnQ083BGfIFMgsm+/TwY8CPsddNWvU7ufkI0mAdVTsbvIqE+xti1srA
+ Xxdw==
+X-Gm-Message-State: AOJu0YwCAvLHy5Zy9qZVQRqhO8rthPFZRkRreXiuqFOgnznXb6kE3h0E
+ kvS2rBSg/5jyr19wIMAMdX8fOhM0tg53aKUbC5Da+EPc4iMP4Jwx0JAAx8LxL/M=
+X-Google-Smtp-Source: AGHT+IGxOFWEPpbf7YtFt1BYzO/KPqeJOSWt0ZqWNoXVGcsm+jYpRiRT6WvmUbLNEVSLvRZogbhbDA==
+X-Received: by 2002:a2e:a98c:0:b0:2dd:d3a0:e096 with SMTP id
+ x12-20020a2ea98c000000b002ddd3a0e096mr2969464ljq.31.1714755613392; 
+ Fri, 03 May 2024 10:00:13 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ d20-20020a2e96d4000000b002df6de7283asm585841ljj.126.2024.05.03.10.00.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 May 2024 10:00:12 -0700 (PDT)
+Date: Fri, 3 May 2024 20:00:11 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, Simon Ser <contact@emersion.fr>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/connector: Add \n to message about demoting
+ connector force-probes
+Message-ID: <irv5f3w7aqfae3jlxfk65hf6vnxpgw2li6kvj2jtfu6bih7w7e@dculxnqll6w5>
+References: <20240502153234.1.I2052f01c8d209d9ae9c300b87c6e4f60bd3cc99e@changeid>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 12/12] fbdev/viafb: Make I2C terminology more inclusive
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Helge Deller <deller@gmx.de>,
- "open list:VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER"
- <linux-fbdev@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>
-References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
- <20240430173812.1423757-13-eahariha@linux.microsoft.com>
- <271ad513-0ea1-45df-ba0f-51582474ff34@suse.de>
- <076e0a0d-ad26-490e-9784-300ed52637ca@linux.microsoft.com>
- <f1eccd9d-885f-4508-9325-3454ecc35eae@suse.de>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <f1eccd9d-885f-4508-9325-3454ecc35eae@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240502153234.1.I2052f01c8d209d9ae9c300b87c6e4f60bd3cc99e@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,48 +86,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/3/2024 12:39 AM, Thomas Zimmermann wrote:
-> Hi
+On Thu, May 02, 2024 at 03:32:35PM -0700, Douglas Anderson wrote:
+> The debug print clearly lacks a \n at the end. Add it.
 > 
-> Am 03.05.24 um 00:26 schrieb Easwar Hariharan:
->> On 5/2/2024 3:46 AM, Thomas Zimmermann wrote:
->>>
->>> Am 30.04.24 um 19:38 schrieb Easwar Hariharan:
->>>> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
->>>> with more appropriate terms. Inspired by and following on to Wolfram's
->>>> series to fix drivers/i2c/[1], fix the terminology for users of
->>>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->>>> in the specification.
->>>>
->>>> Compile tested, no functionality changes intended
->>>>
->>>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
->>>>
->>>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
->>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>
->> Thanks for the ack! I had been addressing feedback as I got it on the v0 series, and it seems
->> I missed out on updating viafb and smscufx to spec-compliant controller/target terminology like
->> the v0->v1 changelog calls out before posting v1.
->>
->> For smscufx, I feel phrasing the following line (as an example)
->>
->>> -/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, host,
->>> +/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, *controller*,
->> would actually impact readability negatively, so I propose to leave smscufx as is.
+> Fixes: 8f86c82aba8b ("drm/connector: demote connector force-probes for non-master clients")
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
 > 
-> Why? I don't see much of a difference.
+>  drivers/gpu/drm/drm_connector.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->>
->> For viafb, I propose making it compliant with the spec using the controller/target terminology and
->> posting a v2 respin (which I can send out as soon as you say) and ask you to review again.
->>
->> What do you think?
-> 
-> I think we should adopt the spec's language everywhere. That makes it possible to grep the spec for terms used in the source code. Using 'host' in smscufx appears to introduce yet another term. If you are worried about using 'I2C controller' and 'controller' in the same sentence, you can replace 'I2C controller' with 'DDC channel'. That's even more precise about the purpose of this code.
 
-Great, thanks! That was exactly my concern, I will fix up smscufx and send a v2.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Thanks,
-Easwar
 
+-- 
+With best wishes
+Dmitry
