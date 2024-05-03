@@ -2,76 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7A98BAACD
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 12:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4168BAB5E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 13:09:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F76D10FADC;
-	Fri,  3 May 2024 10:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99DFB10EB54;
+	Fri,  3 May 2024 11:08:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="N8I4+Cwi";
+	dkim=pass (1024-bit key; unprotected) header.d=yandex.ru header.i=@yandex.ru header.b="Tp0YaXPg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E18610FA90;
- Fri,  3 May 2024 10:36:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=qh5Wc3QqXgam82TMaOdVdy+cfP6ZNoEKs7ddCVe4jPY=; b=N8I4+CwiBUkzZYIyGzOqQsvzoP
- cCulMNJhaL2ygzPgYmNxiIytFGF+IHAZTJlW+4byTl+H1wU91wfyhXytPSpMyruKM0qH5KSX0/zb3
- M0q8Xbygslb8bYQIpKyIjcsZNaQg/QlWYyn52lYXcksuWoDoJPjWtlzs918/ctl5xS4pp+70AejpZ
- OhT/9b+OOu90NRC9JXP0qfZxYlcy+pcNpDPFbgfrnHw1FTRS23pxj0DUFeYKUk3VnYsJropW0Di81
- TbrsNflYBNuzXjCwiY53z3m6L9fTjcAMDy3NRSeShDj/z2uaw7qLx2j5fikTkkfH5hfv1oFxw5CPT
- fv3XU5Zg==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84]
- helo=noisy.programming.kicks-ass.net)
- by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1s2qH0-00000000W9c-2SYt; Fri, 03 May 2024 10:36:14 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
- id 402B93001FD; Fri,  3 May 2024 12:36:14 +0200 (CEST)
-Date: Fri, 3 May 2024 12:36:14 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Kees Cook <keescook@chromium.org>, Al Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
- Zack Rusin <zack.rusin@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matt Atwood <matthew.s.atwood@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Mark Rutland <mark.rutland@arm.com>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 5/5] fs: Convert struct file::f_count to refcount_long_t
-Message-ID: <20240503103614.GF30852@noisy.programming.kicks-ass.net>
-References: <20240502223341.1835070-5-keescook@chromium.org>
- <20240502224250.GM2118490@ZenIV> <202405021548.040579B1C@keescook>
- <20240502231228.GN2118490@ZenIV> <202405021620.C8115568@keescook>
- <20240502234152.GP2118490@ZenIV> <202405021708.267B02842@keescook>
- <20240503001445.GR2118490@ZenIV> <202405021736.574A688@keescook>
- <20240503-inventar-braut-c82e15e56a32@brauner>
+Received: from forward502c.mail.yandex.net (forward502c.mail.yandex.net
+ [178.154.239.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38B8D10EB54
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 11:08:57 +0000 (UTC)
+Received: from mail-nwsmtp-smtp-production-main-31.sas.yp-c.yandex.net
+ (mail-nwsmtp-smtp-production-main-31.sas.yp-c.yandex.net
+ [IPv6:2a02:6b8:c08:de2c:0:640:e39b:0])
+ by forward502c.mail.yandex.net (Yandex) with ESMTPS id C801C613D4;
+ Fri,  3 May 2024 14:08:53 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-31.sas.yp-c.yandex.net
+ (smtp/Yandex) with ESMTPSA id p8SlhtBKia60-SzN0970D; 
+ Fri, 03 May 2024 14:08:52 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+ t=1714734532; bh=g9hfziq9cWUvCSIM+firbwJjdcNFJwbjNexC09ifT1s=;
+ h=In-Reply-To:Subject:To:From:Cc:Date:References:Message-ID;
+ b=Tp0YaXPgWgbseuZcPiNZVsxO6xkfUgjU1aZo7FIXHiD1ugJKFGrsT6KTFv5U4PD8m
+ +pVdMk7taJ+yAQkUtotE9TUL9sg5s4yMLj2YQmiSTBUGXuQw7M+Pz7O/vFZVSubXwM
+ 8crVHllLY0Yp9nnrJbJgVyyXE+c+oFCVdbcpksRU=
+Authentication-Results: mail-nwsmtp-smtp-production-main-31.sas.yp-c.yandex.net;
+ dkim=pass header.i=@yandex.ru
+Message-ID: <5c8345ee-011a-4fa7-8326-84f40daf2f2c@yandex.ru>
+Date: Fri, 3 May 2024 14:08:51 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240503-inventar-braut-c82e15e56a32@brauner>
+User-Agent: Mozilla Thunderbird
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lvc-project@linuxtesting.org,
+ syzbot+5d4cb6b4409edfd18646@syzkaller.appspotmail.com,
+ linux-fsdevel@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Zhiguo Jiang <justinjiang@vivo.com>, "T.J. Mercier" <tjmercier@google.com>
+References: <20240423191310.19437-1-dmantipov@yandex.ru>
+ <85b476cd-3afd-4781-9168-ecc88b6cc837@amd.com>
+ <3a7d0f38-13b9-4e98-a5fa-9a0d775bcf81@yandex.ru>
+ <72f5f1b8-ca5b-4207-9ac9-95b60c607f3a@amd.com>
+ <d5866bd9-299c-45be-93ac-98960de1c91e@yandex.ru>
+ <a87d7ef8-2c59-4dc5-ba0a-b821d1effc72@amd.com>
+Content-Language: en-US
+From: Dmitry Antipov <dmantipov@yandex.ru>
+Autocrypt: addr=dmantipov@yandex.ru; keydata=
+ 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
+ A/UwwXBRuvydGV0=
+Subject: Re: [PATCH] [RFC] dma-buf: fix race condition between poll and close
+In-Reply-To: <a87d7ef8-2c59-4dc5-ba0a-b821d1effc72@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,32 +104,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 03, 2024 at 11:37:25AM +0200, Christian Brauner wrote:
-> On Thu, May 02, 2024 at 05:41:23PM -0700, Kees Cook wrote:
-> > On Fri, May 03, 2024 at 01:14:45AM +0100, Al Viro wrote:
-> > > On Thu, May 02, 2024 at 05:10:18PM -0700, Kees Cook wrote:
-> > > 
-> > > > But anyway, there needs to be a general "oops I hit 0"-aware form of
-> > > > get_file(), and it seems like it should just be get_file() itself...
-> > > 
-> > > ... which brings back the question of what's the sane damage mitigation
-> > > for that.  Adding arseloads of never-exercised failure exits is generally
-> > > a bad idea - it's asking for bitrot and making the thing harder to review
-> > > in future.
-> > 
-> > Linus seems to prefer best-effort error recovery to sprinkling BUG()s
-> > around.  But if that's really the solution, then how about get_file()
-> > switching to to use inc_not_zero and BUG on 0?
-> 
-> Making get_file() return an error is not an option. For all current
-> callers that's pointless churn for a condition that's not supposed to
-> happen at all.
-> 
-> Additionally, iirc *_inc_not_zero() variants are implemented with
-> try_cmpxchg() which scales poorly under contention for a condition
-> that's not supposed to happen.
-
-	unsigned long old = atomic_long_fetch_inc_relaxed(&f->f_count);
-	WARN_ON(!old);
-
-Or somesuch might be an option?
+T24gNS8zLzI0IDExOjE4IEFNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOg0KDQo+IEF0dGFj
+aGVkIGlzIGEgY29tcGlsZSBvbmx5IHRlc3RlZCBwYXRjaCwgcGxlYXNlIHZlcmlmeSBpZiBp
+dCBmaXhlcyB5b3VyIHByb2JsZW0uDQoNCkxHVE0sIGFuZCB0aGlzIGlzIHNpbWlsYXIgdG8g
+Z2V0X2ZpbGUoKSBpbiBfX3BvbGx3YWl0KCkgYW5kIGZwdXQoKSBpbg0KZnJlZV9wb2xsX2Vu
+dHJ5KCkgdXNlZCBpbiBpbXBsZW1lbnRhdGlvbiBvZiBwb2xsKCkuIFBsZWFzZSByZXN1Ym1p
+dCB0bw0KbGludXgtZnNkZXZlbEAgaW5jbHVkaW5nIHRoZSBmb2xsb3dpbmc6DQoNClJlcG9y
+dGVkLWJ5OiBzeXpib3QrNWQ0Y2I2YjQ0MDllZGZkMTg2NDZAc3l6a2FsbGVyLmFwcHNwb3Rt
+YWlsLmNvbQ0KQ2xvc2VzOiBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS9idWc/ZXh0
+aWQ9NWQ0Y2I2YjQ0MDllZGZkMTg2NDYNClRlc3RlZC1ieTogRG1pdHJ5IEFudGlwb3YgPGRt
+YW50aXBvdkB5YW5kZXgucnU+DQoNClRoYW5rcywNCkRtaXRyeQ0K
