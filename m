@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD678BAAAE
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 12:22:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D188BAAAF
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 12:22:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4380610FA55;
-	Fri,  3 May 2024 10:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E83010F2FD;
+	Fri,  3 May 2024 10:22:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1AEC610FA55
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 10:22:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0162110E89D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 10:22:54 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C67B2F4
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 03:22:33 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 026B52F4
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 03:23:19 -0700 (PDT)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B2C213F793
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 03:22:07 -0700 (PDT)
-Date: Fri, 3 May 2024 11:22:03 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 78C493F793
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 03:22:53 -0700 (PDT)
+Date: Fri, 3 May 2024 11:22:47 +0100
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Steven Price <steven.price@arm.com>,
  =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com,
- Eric Smith <eric.smith@collabora.com>
-Subject: Re: [PATCH v4 4/5] drm/panthor: Fix an off-by-one in the heap
- context retrieval logic
-Message-ID: <ZjS6y54E8YF1lW1r@e110455-lin.cambridge.arm.com>
+ dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v4 5/5] drm/panthor: Document
+ drm_panthor_tiler_heap_destroy::handle validity constraints
+Message-ID: <ZjS698k-QnGxFh07@e110455-lin.cambridge.arm.com>
 References: <20240502165158.1458959-1-boris.brezillon@collabora.com>
- <20240502165158.1458959-5-boris.brezillon@collabora.com>
+ <20240502165158.1458959-6-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240502165158.1458959-5-boris.brezillon@collabora.com>
+In-Reply-To: <20240502165158.1458959-6-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,59 +50,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 02, 2024 at 06:51:57PM +0200, Boris Brezillon wrote:
-> The heap ID is used to index the heap context pool, and allocating
-> in the [1:MAX_HEAPS_PER_POOL] leads to an off-by-one. This was
-> originally to avoid returning a zero heap handle, but given the handle
-> is formed with (vm_id << 16) | heap_id, with vm_id > 0, we already can't
-> end up with a valid heap handle that's zero.
+On Thu, May 02, 2024 at 06:51:58PM +0200, Boris Brezillon wrote:
+> Make sure the user is aware that drm_panthor_tiler_heap_destroy::handle
+> must be a handle previously returned by
+> DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE.
 > 
 > v4:
-> - s/XA_FLAGS_ALLOC1/XA_FLAGS_ALLOC/
+> - Add Steve's R-b
 > 
 > v3:
-> - Allocate in the [0:MAX_HEAPS_PER_POOL-1] range
-> 
-> v2:
 > - New patch
 > 
-> Fixes: 9cca48fa4f89 ("drm/panthor: Add the heap logical block")
-> Reported-by: Eric Smith <eric.smith@collabora.com>
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Tested-by: Eric Smith <eric.smith@collabora.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
 
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-Best regards,
-Liviu
 
 > ---
->  drivers/gpu/drm/panthor/panthor_heap.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  include/uapi/drm/panthor_drm.h | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-> index b0fc5b9ee847..95a1c6c9f35e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> @@ -323,7 +323,8 @@ int panthor_heap_create(struct panthor_heap_pool *pool,
->  	if (!pool->vm) {
->  		ret = -EINVAL;
->  	} else {
-> -		ret = xa_alloc(&pool->xa, &id, heap, XA_LIMIT(1, MAX_HEAPS_PER_POOL), GFP_KERNEL);
-> +		ret = xa_alloc(&pool->xa, &id, heap,
-> +			       XA_LIMIT(0, MAX_HEAPS_PER_POOL - 1), GFP_KERNEL);
->  		if (!ret) {
->  			void *gpu_ctx = panthor_get_heap_ctx(pool, id);
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index b8220d2e698f..aaed8e12ad0b 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -939,7 +939,11 @@ struct drm_panthor_tiler_heap_create {
+>   * struct drm_panthor_tiler_heap_destroy - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY
+>   */
+>  struct drm_panthor_tiler_heap_destroy {
+> -	/** @handle: Handle of the tiler heap to destroy */
+> +	/**
+> +	 * @handle: Handle of the tiler heap to destroy.
+> +	 *
+> +	 * Must be a valid heap handle returned by DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE.
+> +	 */
+>  	__u32 handle;
 >  
-> @@ -543,7 +544,7 @@ panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
->  	pool->vm = vm;
->  	pool->ptdev = ptdev;
->  	init_rwsem(&pool->lock);
-> -	xa_init_flags(&pool->xa, XA_FLAGS_ALLOC1);
-> +	xa_init_flags(&pool->xa, XA_FLAGS_ALLOC);
->  	kref_init(&pool->refcount);
->  
->  	pool->gpu_contexts = panthor_kernel_bo_create(ptdev, vm, bosize,
+>  	/** @pad: Padding field, MBZ. */
 > -- 
 > 2.44.0
 > 
