@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6DF8BB5FD
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D46938BB5FF
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:37:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DECB11329B;
-	Fri,  3 May 2024 21:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D017111329C;
+	Fri,  3 May 2024 21:37:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MC9Fs8W2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Hhx5mQdq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6123511329B
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:37:19 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-1e834159f40so687075ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:37:19 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2176111329C
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:37:22 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-1e834159f40so687265ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714772238; x=1715377038;
+ d=chromium.org; s=google; t=1714772241; x=1715377041;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YjHl+DB7wvFQ0erRTiSGp5Vkb60hgkc17VF3W8JYnEQ=;
- b=MC9Fs8W2cmSAdbwD+K9rNrtvdOVKoBaHusOUIiU+wieqpbdGMwGbhRUi0ftxhVCRKV
- ibv+z1OjDq7XtjUA1l/jL+mvowxHC2fv0CB7//bCCtoMcZWUTO0SR/yAA15owm9Z2OJC
- YUk7eaoqEXfzTj54Jp+dm3lSX/yKJNjYjsjeQ=
+ bh=T4ZnBWaIKiuSZ6rYgD6PXXRcgsfalihno55gNzam3kQ=;
+ b=Hhx5mQdqOgPvYAzBd9eOnqsM2LwYRIyXUP+vMArFkPBpGyKxjKYpiaOzhn/8xWYmWR
+ oHxoqGUEcRhjMQmWI//Pr4Xnu/TkkEiYvAdRcnk3lTxDSTdXQacUjblf6jtQIPMhrmtU
+ YYLX//UovoezxVZ0Tehds0Sesgkpcsi/Aiq7Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714772238; x=1715377038;
+ d=1e100.net; s=20230601; t=1714772241; x=1715377041;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YjHl+DB7wvFQ0erRTiSGp5Vkb60hgkc17VF3W8JYnEQ=;
- b=wlqys++/Bd7duXh0jeJ+j0gSzLIvffvcn5RF0REECJEr9fvZnETt69xvq+t1K73X/b
- lwqzQa+bbBRrA8HMxdxfCZDcOuhPobL+5eDOkpDcfcId0TP1AC/FGk0e+WH7jVEEU9Qw
- F4SIAHqMnzesjr8g599K/YNgxCT0xSZRWmyz2MqtyNforZWAZp5QlrgFmaDA9Vod4sa6
- w4aWCJgs3EzKJw7Q/LfEVsyjDIGGEYARxuxnD7iKtsLPv0+ZC5ZbelWLQFESvSRmmCua
- qh9ftsGjbNlJeLd1LdsfEqzHVyMWiPMid+77hxpGAsrgxOVrVnjeSKppcOg8GzRrPvud
- DcUQ==
-X-Gm-Message-State: AOJu0YxMKXR/3FC8ZdnBpJ1eHrxlL7aFjxrXwaQpZZwvtM9msTRxYI4q
- MmggLoUhwQ9wpLOKrTV1v9JWg8xLoeVIDP8f1ef+2QuYsxzT92uFPQJgmntgaJRp0QBy4zwboV+
- P7Q==
-X-Google-Smtp-Source: AGHT+IHGkmJTrA+QEdoj0aZR/Y9uwm9CMi5KsoludQGf1jksEPkLR67IdZOHw27LEYo4LBKbqkaXGw==
-X-Received: by 2002:a17:902:e807:b0:1e5:556:60e2 with SMTP id
- u7-20020a170902e80700b001e5055660e2mr4570462plg.5.1714772238405; 
- Fri, 03 May 2024 14:37:18 -0700 (PDT)
+ bh=T4ZnBWaIKiuSZ6rYgD6PXXRcgsfalihno55gNzam3kQ=;
+ b=PgHsyKkW9TBKOAHEDjaIfZ/2HeON6G5KMbaUE/KJL2F0xO/XVUiqU1XqsOEb89Fe2y
+ R9nMIb/eJYVEn4+Wx/EodZm75B6K695DoYPu3nV+VGG6ntd3HkCHFkw52ITz6lXjo46Y
+ cVF0BRnuEfRM6K8xsQ5HdxDPI8CLI8UJPEQdVuVJQgMGRiibNECS9OUA5UTXh26KWWEY
+ +PNrDkvvNlyGhlDDTerKhRnGqP3Q9YjFVi9khtw0EaxzljVUqEoeM2S7cX8/72pMmnte
+ XG/hm/4rG82e0dKvBgGhaLRoM7YNGYMzJTVs7mlBN5xmB5Ic4GTtelB/q0WAchTPCGFK
+ hDDQ==
+X-Gm-Message-State: AOJu0YzUKQOW6u6lHRVxmbxs6a5lgA9ehjyJ7Gy4Uns9dDy85VJ52SsC
+ /9RCLuwyxHfNRyV5yJNRM6ZG8J5v97i3gfNqnpHMTdQF4bLWft0cuZve2EslsqucrMRtXdZKYmn
+ LJQ==
+X-Google-Smtp-Source: AGHT+IFBu/Hjhl9CXDDNgZhms0TZtEM8WWT7JEQNvy6BxJ5HNCgPTDI2jWO6fbS+Td4nj2A1qpFYHw==
+X-Received: by 2002:a17:902:6503:b0:1e0:a3dd:82df with SMTP id
+ b3-20020a170902650300b001e0a3dd82dfmr4006853plk.38.1714772240760; 
+ Fri, 03 May 2024 14:37:20 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:fb6a:b54b:7580:64f3])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.37.16
+ j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.37.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 May 2024 14:37:17 -0700 (PDT)
+ Fri, 03 May 2024 14:37:19 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -61,17 +61,16 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Chris Morgan <macromorgan@hotmail.com>,
  Yuran Pereira <yuran.pereira@hotmail.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Douglas Anderson <dianders@chromium.org>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@gmail.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v2 23/48] drm/panel: osd-osd101t2587-53ts: Don't call
- unprepare+disable at shutdown/remove
-Date: Fri,  3 May 2024 14:33:04 -0700
-Message-ID: <20240503143327.RFT.v2.23.Ic533ce1323b94230d4155f9364c2b7c1bc47e798@changeid>
+Subject: [RFT PATCH v2 24/48] drm/panel: samsung-atna33xc20: Stop tracking
+ prepared/enabled
+Date: Fri,  3 May 2024 14:33:05 -0700
+Message-ID: <20240503143327.RFT.v2.24.Ibb4f923363a27167c480a432e52884b117221974@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
 References: <20240503213441.177109-1-dianders@chromium.org>
@@ -92,24 +91,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's the responsibility of a correctly written DRM modeset driver to
-call drm_atomic_helper_shutdown() at shutdown time and that should be
-disabling / unpreparing the panel if needed. Panel drivers shouldn't
-be calling these functions themselves.
+As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+prepared/enabled in drm_panel"), we want to remove needless code from
+panel drivers that was storing and double-checking the
+prepared/enabled state. Even if someone was relying on the
+double-check before, that double-check is now in the core and not
+needed in individual drivers.
 
-A recent effort was made to fix as many DRM modeset drivers as
-possible [1] [2] [3] and most drivers are fixed now.
-
-A grep through mainline for compatible strings used by this driver
-indicates that it is used by TI OMAP boards. The OMAP driver appears
-to be correctly calling drm_atomic_helper_shutdown() so we can remove
-the calls.
-
-[1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
-[2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
-[3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
-
-Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
@@ -117,48 +105,95 @@ Changes in v2:
 - Only handle 1 panel per patch.
 - Split removal of prepared/enabled from handling of remove/shutdown.
 
- drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c | 14 --------------
- 1 file changed, 14 deletions(-)
+ .../gpu/drm/panel/panel-samsung-atna33xc20.c  | 24 -------------------
+ 1 file changed, 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-index c0da7d9512e8..dbea84f51514 100644
---- a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-+++ b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-@@ -186,11 +186,6 @@ static void osd101t2587_panel_remove(struct mipi_dsi_device *dsi)
- 	struct osd101t2587_panel *osd101t2587 = mipi_dsi_get_drvdata(dsi);
- 	int ret;
+diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+index a9f0d214a900..a322dd0a532f 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
++++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
+@@ -25,8 +25,6 @@
  
--	ret = drm_panel_disable(&osd101t2587->base);
--	if (ret < 0)
--		dev_warn(&dsi->dev, "failed to disable panel: %d\n", ret);
+ struct atana33xc20_panel {
+ 	struct drm_panel base;
+-	bool prepared;
+-	bool enabled;
+ 	bool el3_was_on;
+ 
+ 	bool no_hpd;
+@@ -143,13 +141,8 @@ static int atana33xc20_disable(struct drm_panel *panel)
+ {
+ 	struct atana33xc20_panel *p = to_atana33xc20(panel);
+ 
+-	/* Disabling when already disabled is a no-op */
+-	if (!p->enabled)
+-		return 0;
 -
--	drm_panel_unprepare(&osd101t2587->base);
- 	drm_panel_remove(&osd101t2587->base);
+ 	gpiod_set_value_cansleep(p->el_on3_gpio, 0);
+ 	p->el_on3_off_time = ktime_get_boottime();
+-	p->enabled = false;
  
- 	ret = mipi_dsi_detach(dsi);
-@@ -198,14 +193,6 @@ static void osd101t2587_panel_remove(struct mipi_dsi_device *dsi)
- 		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
+ 	/*
+ 	 * Keep track of the fact that EL_ON3 was on but we haven't power
+@@ -173,10 +166,6 @@ static int atana33xc20_enable(struct drm_panel *panel)
+ {
+ 	struct atana33xc20_panel *p = to_atana33xc20(panel);
+ 
+-	/* Enabling when already enabled is a no-op */
+-	if (p->enabled)
+-		return 0;
+-
+ 	/*
+ 	 * Once EL_ON3 drops we absolutely need a power cycle before the next
+ 	 * enable or the backlight will never come on again. The code ensures
+@@ -195,20 +184,14 @@ static int atana33xc20_enable(struct drm_panel *panel)
+ 	atana33xc20_wait(p->powered_on_time, 400);
+ 
+ 	gpiod_set_value_cansleep(p->el_on3_gpio, 1);
+-	p->enabled = true;
+ 
+ 	return 0;
  }
  
--static void osd101t2587_panel_shutdown(struct mipi_dsi_device *dsi)
--{
--	struct osd101t2587_panel *osd101t2587 = mipi_dsi_get_drvdata(dsi);
--
--	drm_panel_disable(&osd101t2587->base);
--	drm_panel_unprepare(&osd101t2587->base);
--}
--
- static struct mipi_dsi_driver osd101t2587_panel_driver = {
- 	.driver = {
- 		.name = "panel-osd-osd101t2587-53ts",
-@@ -213,7 +200,6 @@ static struct mipi_dsi_driver osd101t2587_panel_driver = {
- 	},
- 	.probe = osd101t2587_panel_probe,
- 	.remove = osd101t2587_panel_remove,
--	.shutdown = osd101t2587_panel_shutdown,
- };
- module_mipi_dsi_driver(osd101t2587_panel_driver);
+ static int atana33xc20_unprepare(struct drm_panel *panel)
+ {
+-	struct atana33xc20_panel *p = to_atana33xc20(panel);
+ 	int ret;
  
+-	/* Unpreparing when already unprepared is a no-op */
+-	if (!p->prepared)
+-		return 0;
+-
+ 	/*
+ 	 * Purposely do a put_sync, don't use autosuspend. The panel's tcon
+ 	 * seems to sometimes crash when you stop giving it data and this is
+@@ -220,26 +203,19 @@ static int atana33xc20_unprepare(struct drm_panel *panel)
+ 	ret = pm_runtime_put_sync_suspend(panel->dev);
+ 	if (ret < 0)
+ 		return ret;
+-	p->prepared = false;
+ 
+ 	return 0;
+ }
+ 
+ static int atana33xc20_prepare(struct drm_panel *panel)
+ {
+-	struct atana33xc20_panel *p = to_atana33xc20(panel);
+ 	int ret;
+ 
+-	/* Preparing when already prepared is a no-op */
+-	if (p->prepared)
+-		return 0;
+-
+ 	ret = pm_runtime_get_sync(panel->dev);
+ 	if (ret < 0) {
+ 		pm_runtime_put_autosuspend(panel->dev);
+ 		return ret;
+ 	}
+-	p->prepared = true;
+ 
+ 	return 0;
+ }
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
