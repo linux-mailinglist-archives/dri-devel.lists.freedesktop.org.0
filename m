@@ -2,52 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1B38BB646
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF49C8BB669
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:53:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73CD3112A15;
-	Fri,  3 May 2024 21:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 912FD10E06D;
+	Fri,  3 May 2024 21:52:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linux.org.uk header.i=@linux.org.uk header.b="LBITSpJY";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="SBf6iPYg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA3301132BF
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:45:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=3lCoy8uzoX7QQd8eqESv9U82+gq2FTw7cMvL87kLhkY=; b=LBITSpJYboAcmP2sLMLog8nydW
- mt/eEb1k1RxaC/1rf9axcfr3DpdDFVZWBzSM5oiyiRFUxSmSTNk7S/pL3r/LyK0sUx0B7ulVQ3JNQ
- r6F9ALR0ltwB+yhzi14FlChXAh3y8p88L3KhQBzlGvQE9Qyjmf9GyQKp0ImLKiTti9oHi8k3hRvo3
- wVh2ps6XnwBsfVzZeN71mN1klcTNC+Iw2ovocjktngU/aRLmD9i2C0kfkNl/XDxg43VHY7LcXvmHW
- cP5n8cc1rlrFA4QbwGKtuB0RilMr6TQXDJT8CFkSL/wplslwGYSr1h0+/PUFgSGJlDgXOv0RWp+HJ
- KdWj72Tw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1s30ih-00B9OV-2B; Fri, 03 May 2024 21:45:31 +0000
-Date: Fri, 3 May 2024 22:45:31 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: keescook@chromium.org, axboe@kernel.dk, brauner@kernel.org,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name,
- linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- minhquangbui99@gmail.com, sumit.semwal@linaro.org,
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-Message-ID: <20240503214531.GB2118490@ZenIV>
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BB9710E06D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:52:57 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a59a5f81af4so18526766b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1714773176; x=1715377976;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=A7KwjGqB6cN3Dl955k2+YGPiXLoEdjHxOLmUV0m+ZBo=;
+ b=SBf6iPYgBBP1SifjYTzgT9bkefmksDXba6dYtylhmkhQxHXv6dg0qlNdMwB8E76lUF
+ AcRkrlRY/jKbn9j3l9vco2WoujnHCHyqQxJZO/E0/p8C9AAFUhnJ4WtOwQ0DWzF6wN45
+ BjM2ZhvqC/Jb4NfYL9fDTxrVfvgbbrSGToMzs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714773176; x=1715377976;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=A7KwjGqB6cN3Dl955k2+YGPiXLoEdjHxOLmUV0m+ZBo=;
+ b=LfsnMcqdIf2RaeUQ6BtsO31u0TxwZE4GlNQ0oaNreBDaAt52qaJHZY6FPDaE5W46Gy
+ mxb4e3wxE8DzkQZKopXzJu3znk4kGLFU+kvomtMyDXKQfxl2isTUiV9AbCmUdpIDDbcw
+ 85qOYo+dEpgf/gYK80148i0IbchjXk6oPhA6jRJ4yVTuBRef/mUzeKvp1MWWcAPtJiud
+ 3qntV/S/1v2JeHtj88kGOMwn71luHdlr5SYuFW82147tDfXSnfJp24TWcFl8Otu574x4
+ /F6GzRYqmSvIsfnv/JQLs6oIFOmfADp0S7HK3rmp44PwE+9ZvJl2wKlcJ7cGkeU6v2Ix
+ 3gsQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWkDo25PUucp/ktLnGuKqHLyrNNrsK1CFVAV9itl/KYueQtPKa7oUynm4S+KKHj1C711oAAEjlRFQ9HuWNbi9Os49lWOshSCCY2dRMQwAHO
+X-Gm-Message-State: AOJu0YwximnsuJAvNq3AOWQxDYvXRkPoM+u10Qy0p5E4pA0qYLIuJNaX
+ CcIiCTywufpJlNIvi01gai2iOPIYw78zRAbT+XkpwSlAhuTANq6SSbMDU0w82K7rynpDJEhoUBw
+ vIhl/KA==
+X-Google-Smtp-Source: AGHT+IFKNPa1tUhXThWPJD4SS2IGNPuWMxDZv5emAXq9QvJ7tsuOF1ZCz3QPvsvzW8qEszNp6ztQeA==
+X-Received: by 2002:a50:cc97:0:b0:56b:9029:dd48 with SMTP id
+ q23-20020a50cc97000000b0056b9029dd48mr2541808edi.5.1714773176052; 
+ Fri, 03 May 2024 14:52:56 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com.
+ [209.85.218.46]) by smtp.gmail.com with ESMTPSA id
+ p8-20020aa7c888000000b00572aba0d8a0sm2130524eds.88.2024.05.03.14.52.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 May 2024 14:52:55 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a599af16934so17660766b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:52:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXSuCzhbZbw29AAOk2DzBTXnaOHPBr1PiqpvolBKMHubZNvG5kfA+T7dFEVPepvFmrQylFWvIeMSdKk4de0xvS1wMlM0ZeaY7USa9HkvXf6
+X-Received: by 2002:a17:906:eca8:b0:a58:c639:9518 with SMTP id
+ qh8-20020a170906eca800b00a58c6399518mr2622517ejb.76.1714773175036; Fri, 03
+ May 2024 14:52:55 -0700 (PDT)
+MIME-Version: 1.0
 References: <202405031110.6F47982593@keescook>
  <20240503211129.679762-2-torvalds@linux-foundation.org>
  <20240503212428.GY2118490@ZenIV>
  <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240503214531.GB2118490@ZenIV>
+In-Reply-To: <20240503214531.GB2118490@ZenIV>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 3 May 2024 14:52:38 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgC+QpveKCJpeqsaORu7htoNNKA8mp+d9mvJEXmSKjhbw@mail.gmail.com>
+Message-ID: <CAHk-=wgC+QpveKCJpeqsaORu7htoNNKA8mp+d9mvJEXmSKjhbw@mail.gmail.com>
+Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: keescook@chromium.org, axboe@kernel.dk, brauner@kernel.org, 
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+ io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
+ linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
+ syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,32 +100,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 03, 2024 at 02:33:37PM -0700, Linus Torvalds wrote:
+On Fri, 3 May 2024 at 14:45, Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> How do you get through eventpoll_release_file() while someone
+> has entered ep_item_poll()?
 
-> Look at the hack in __ep_remove(): if it is concurrent with
-> eventpoll_release_file(), it will hit this code
-> 
->         spin_lock(&file->f_lock);
->         if (epi->dying && !force) {
->                 spin_unlock(&file->f_lock);
->                 return false;
->         }
-> 
-> and not free the epi.
+Doesn't matter.
 
-What does that have to do with ep_item_poll()?
+Look, it's enough that the file count has gone down to zero. You may
+not even have gotten to eventpoll_release_file() yet - the important
+part is that you're on your *way* to it.
 
-eventpoll_release_file() itself calls __ep_remove().  Have that
-happen while ep_item_poll() is running in another thread and
-you've got a problem.
+That means that the file will be released - and it means that you have
+violated all the refcounting rules for poll().
 
-AFAICS, exclusion is on ep->mtx.  Callers of ep_item_poll() are
-* __ep_eventpoll_poll() - grabs ->mtx
-* ep_insert() - called under ->mtx
-* ep_modify() - calls are under ->mtx
-* ep_send_events() - grabs ->mtx
+So I think you're barking up the wrong tree.
 
-and eventpoll_release_file() grabs ->mtx around __ep_remove().
-
-How do you get through eventpoll_release_file() while someone
-has entered ep_item_poll()?
+                  Linus
