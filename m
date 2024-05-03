@@ -2,40 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E078BABEE
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 13:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC1D8BACE9
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 14:58:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3960C10E836;
-	Fri,  3 May 2024 11:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6AAD10E808;
+	Fri,  3 May 2024 12:58:43 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ieCEF/41";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 33F3A10E836
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 11:55:46 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA8B313D5
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 04:56:11 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 718133F793
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 04:55:46 -0700 (PDT)
-Date: Fri, 3 May 2024 12:55:44 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/1] drm: arm: display: komeda: komeda_crtc: use
- 'time_left' variable with wait_for_completion_timeout()
-Message-ID: <ZjTQwBoCei02Bzp_@e110455-lin.cambridge.arm.com>
-References: <20240502210252.11617-2-wsa+renesas@sang-engineering.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3921610E62E;
+ Fri,  3 May 2024 12:58:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+ Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=djO+jz6xYJEHxcFn/5lCvtzQg53I8uvxmo3OJhTwkOk=; b=ieCEF/41LQxoXzoGnb79SeDXiX
+ 1CsfeMZytd2IRSpZ5U7TaE4RtBXsbS/deC1aXc1xP2tbPxwe7QFyVu5LN3zrU+dQCnSjZUsqX3zli
+ pISiYIiUywpOnCNMuy03DLhhSqA8N9srs3S6AoimtEUqYccO/78rujQmhiMdSv7MP1LV12ylFN3CD
+ 3iR/9oZ44cr3lJVgWVOlgiqBQt+P4TCB/Z7wPdcGWtDXO18/FMBmkP1PdK6fZaKEv91SWxjqe+sf+
+ Mv+FLcR7Q0SSUOmyEP9kui1PZ27/BSBdnKiSa1Frq79ALgM+fj4ne0J7c0J+CDaHQF7Eoxp0op4sJ
+ oaCz217Q==;
+Received: from [84.65.0.132] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1s2sUo-0007sY-P6; Fri, 03 May 2024 14:58:39 +0200
+Message-ID: <2cdee989-f48d-4923-b12a-f09a1cc2b34d@igalia.com>
+Date: Fri, 3 May 2024 13:58:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/gpu: Document the situation with
+ unqualified drm-memory-
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
+ Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20240503123657.9441-1-tursulin@igalia.com>
+ <736ba0a2-035b-4727-bbcc-437029420377@igalia.com>
+In-Reply-To: <736ba0a2-035b-4727-bbcc-437029420377@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240502210252.11617-2-wsa+renesas@sang-engineering.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,66 +65,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 02, 2024 at 11:02:53PM +0200, Wolfram Sang wrote:
-> There is a confusing pattern in the kernel to use a variable named 'timeout' to
-> store the result of wait_for_completion_timeout() causing patterns like:
-> 
-> 	timeout = wait_for_completion_timeout(...)
-> 	if (!timeout) return -ETIMEDOUT;
-> 
-> with all kinds of permutations. Use 'time_left' as a variable to make the code
-> self explaining.
-> 
-> Fix to the proper variable type 'unsigned long' while here.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> index 2c661f28410e..c867acb737d6 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> @@ -294,7 +294,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
->  	struct komeda_dev *mdev = kcrtc->master->mdev;
->  	struct completion *flip_done;
->  	struct completion temp;
-> -	int timeout;
-> +	unsigned long time_left;
->  
->  	/* if caller doesn't send a flip_done, use a private flip_done */
->  	if (input_flip_done) {
-> @@ -308,8 +308,8 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
->  	mdev->funcs->flush(mdev, kcrtc->master->id, 0);
->  
->  	/* wait the flip take affect.*/
-> -	timeout = wait_for_completion_timeout(flip_done, HZ);
-> -	if (timeout == 0) {
-> +	time_left = wait_for_completion_timeout(flip_done, HZ);
-> +	if (time_left == 0) {
 
-Honestly, if the name of the variable is confusing I would get rid of it completely. Can you
-send a patch that removes the timeout variable and here just does:
+[And I forgot dri-devel.. doing well!]
 
-	if (wait_for_completion_timeout(flip_done, HZ) == 0) {
-
-Thanks,
-Liviu
-
->  		DRM_ERROR("wait pipe%d flip done timeout\n", kcrtc->master->id);
->  		if (!input_flip_done) {
->  			unsigned long flags;
-> -- 
-> 2.43.0
+On 03/05/2024 13:40, Tvrtko Ursulin wrote:
 > 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+> [Correcting Christian's email]
+> 
+> On 03/05/2024 13:36, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> Currently it is not well defined what is drm-memory- compared to other
+>> categories.
+>>
+>> In practice the only driver which emits these keys is amdgpu and in them
+>> exposes the total memory use (including shared).
+>>
+>> Document that drm-memory- and drm-total-memory- are aliases to prevent 
+>> any
+>> confusion in the future.
+>>
+>> While at it also clarify that the reserved sub-string 'memory' refers to
+>> the memory region component.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>> Cc: Christian König <christian.keonig@amd.com>
+> 
+> Mea culpa, I copied the mistake from 
+> 77d17c4cd0bf52eacfad88e63e8932eb45d643c5. :)
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>> Cc: Rob Clark <robdclark@chromium.org>
+>> ---
+>>   Documentation/gpu/drm-usage-stats.rst | 10 +++++++++-
+>>   1 file changed, 9 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/gpu/drm-usage-stats.rst 
+>> b/Documentation/gpu/drm-usage-stats.rst
+>> index 6dc299343b48..ef5c0a0aa477 100644
+>> --- a/Documentation/gpu/drm-usage-stats.rst
+>> +++ b/Documentation/gpu/drm-usage-stats.rst
+>> @@ -128,7 +128,9 @@ Memory
+>>   Each possible memory type which can be used to store buffer objects 
+>> by the
+>>   GPU in question shall be given a stable and unique name to be 
+>> returned as the
+>> -string here.  The name "memory" is reserved to refer to normal system 
+>> memory.
+>> +string here.
+>> +
+>> +The region name "memory" is reserved to refer to normal system memory.
+>>   Value shall reflect the amount of storage currently consumed by the 
+>> buffer
+>>   objects belong to this client, in the respective memory region.
+>> @@ -136,6 +138,9 @@ objects belong to this client, in the respective 
+>> memory region.
+>>   Default unit shall be bytes with optional unit specifiers of 'KiB' 
+>> or 'MiB'
+>>   indicating kibi- or mebi-bytes.
+>> +This is an alias for drm-total-<region> and only one of the two 
+>> should be
+>> +present.
+>> +
+>>   - drm-shared-<region>: <uint> [KiB|MiB]
+>>   The total size of buffers that are shared with another file (e.g., 
+>> have more
+>> @@ -145,6 +150,9 @@ than a single handle).
+>>   The total size of buffers that including shared and private memory.
+>> +This is an alias for drm-memory-<region> and only one of the two 
+>> should be
+>> +present.
+>> +
+>>   - drm-resident-<region>: <uint> [KiB|MiB]
+>>   The total size of buffers that are resident in the specified region.
