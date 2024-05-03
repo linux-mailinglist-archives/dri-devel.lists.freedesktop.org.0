@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086868BB5E6
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B82F8BB5E8
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEDA1112A03;
-	Fri,  3 May 2024 21:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27D2D112A04;
+	Fri,  3 May 2024 21:36:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Ynbp2ER9";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dz2/wjmk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3F6B112A03
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:36:40 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-1ec69e3dbcfso1120605ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:36:40 -0700 (PDT)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4CC112603
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:36:44 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-1ec69e3dbcfso1120925ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714772199; x=1715376999;
+ d=chromium.org; s=google; t=1714772202; x=1715377002;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gCoTs68fkVHbhVnPnaiJoDVVCaB+mneUDffLrqHY7lM=;
- b=Ynbp2ER9ifaRkF9M/UofcRtqGE/OZzqsVwpMhKKYsi+9NwgrKo7nFcLLtKKi+1XIeJ
- wNIgc8hXTS/pl7RSeVbFSsHdr9pqCTqYq22k7dgPQsZabKOU6xO+hHsopei8hkOCv+23
- WPltaNyN91yeHbQN8qXIF2tYWqH7D3G2UyMuA=
+ bh=b/gDi06ypcwTUid62LmhVpKtIZZa53PC46cbq17u59E=;
+ b=dz2/wjmkZ+ZbUcSAih9Fy6H01L6okgBgRnisl8Fl4WnamLouEE5HbTDx2lul7oesEL
+ GSV7F/tQv2vC/Qu+wmo5G8c4ZDflnAft6dszwDg7XJUzRBW91SDqry0VBeclQj1tH3LS
+ ZEcZzJ12amTTp4ZhWBzUNO+uLoYWNgjB/e/UY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714772199; x=1715376999;
+ d=1e100.net; s=20230601; t=1714772202; x=1715377002;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gCoTs68fkVHbhVnPnaiJoDVVCaB+mneUDffLrqHY7lM=;
- b=B4p+WZRKu0Z/xbUmltdHSWosasMu7k5d3yDx0jwWHJHxXv+esS/yPaJuLJB5Lx/dhB
- lmhGDA8uOxonIG8StcoEyZh/lDobPzUqlV9vcJh3EdS7vU2O108AIzHHZ5Gu6bGDpeyv
- vkZuGK4PqtQuwza/GGkGNB77p1qIr0olzXvkqzzZX1Kf5UHiuucJ6OUR/Q4Hn2z27Vgp
- f+r2v5sQjFBSIVHe3bndynrfpITOGnTZK9QapvgZOmBZ8LGthaRN4TJmZHYj8IHwJxAy
- vqk2rimItWSYzn8t7tIqh+FbrUm7YEuWUgTcayAqugBEvwZyZ8f+ANFCTb2fFz0Mgq6c
- xW/g==
-X-Gm-Message-State: AOJu0Yyuf32IH+ZrblX6DsvHKBUTdDlsRS/c+KrTYfIsuPZ/3pMXDeVo
- Md+drjBv/rLKGWxt255p2NOZA7ryjt2ex4Pot6509dIUXjxP/pGpV0OMC1SzIPpkS7mQSwI8dwK
- 4nQ==
-X-Google-Smtp-Source: AGHT+IELE7rVEQIWwU2v7bYG2I6EIH6w07IbYCviD6Ulwew4A7zRTV/QWIpp+ISdHunRXglP3i8Fyw==
-X-Received: by 2002:a17:902:e5c4:b0:1ec:2274:8205 with SMTP id
- u4-20020a170902e5c400b001ec22748205mr5122613plf.48.1714772199273; 
- Fri, 03 May 2024 14:36:39 -0700 (PDT)
+ bh=b/gDi06ypcwTUid62LmhVpKtIZZa53PC46cbq17u59E=;
+ b=gsE4JAW1Jd4g05wGpBWm5Ug2wIJzWJqXOVxA/3rTUrnQqgw5PboATdAe6gGDC+dC0U
+ dvNTV14fiCLSlis5+c5IACn0EXZr6V/AY70jP6RI36G+bFdZlVnRgpk5mGHG8TOVtB6z
+ 5EYLQYYQCdjxFclwHt84TxX7bJEIawaS0ONBf+sW7qLxIVyPbXxOMNPp7j2tuXRbMWZA
+ JM8bPQkyFpndPTEnbdBxPsYb8KBkZa08cDzUhZwQhFCirrlil1Y+rUsbixg/LNsqv2c1
+ +rgv9oUSg7V+YSExTg3Ziw8ucSI76evxm1CWsk8nKKpjsxhadbJ1NnDg3cs97Swws4wp
+ AlDQ==
+X-Gm-Message-State: AOJu0YxKRnVKmzX6zs/RzpFJOGbKXsrvTxTNfzFyXDOXc2sUvuvNOLEV
+ EEwBcpOogl3K0/+AcWiTamosf2N47dk91eMcGIQU+Ab7XtEcj/S+h3Cbo0bMUWfJm3p/q07qJ34
+ RNg==
+X-Google-Smtp-Source: AGHT+IHVkT5EJTIYXQXBX5EIce/1Ex+Br0DGJO9Vob3PlE0kbtZ2ROcTXrJAG7DEeHfLLcWqrz5ILQ==
+X-Received: by 2002:a17:902:ce8a:b0:1e4:9ad5:a666 with SMTP id
+ f10-20020a170902ce8a00b001e49ad5a666mr4922430plg.25.1714772202526; 
+ Fri, 03 May 2024 14:36:42 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:fb6a:b54b:7580:64f3])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.36.37
+ j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.36.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 May 2024 14:36:38 -0700 (PDT)
+ Fri, 03 May 2024 14:36:40 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -67,9 +67,10 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v2 06/48] drm/panel: edp: Stop tracking prepared/enabled
-Date: Fri,  3 May 2024 14:32:47 -0700
-Message-ID: <20240503143327.RFT.v2.6.I4d1bf08781593c08127e506422687ab19fd3c824@changeid>
+Subject: [RFT PATCH v2 07/48] drm/panel: edp: Add a comment about
+ unprepare+disable at shutdown/remove
+Date: Fri,  3 May 2024 14:32:48 -0700
+Message-ID: <20240503143327.RFT.v2.7.Icff7f7005d997773d585e36aba9ed41a9865201f@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
 References: <20240503213441.177109-1-dianders@chromium.org>
@@ -90,12 +91,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-prepared/enabled in drm_panel"), we want to remove needless code from
-panel drivers that was storing and double-checking the
-prepared/enabled state. Even if someone was relying on the
-double-check before, that double-check is now in the core and not
-needed in individual drivers.
+It's the responsibility of a correctly written DRM modeset driver to
+call drm_atomic_helper_shutdown() at shutdown time and that should be
+disabling / unpreparing the panel if needed. Panel drivers shouldn't
+be calling these functions themselves.
+
+A recent effort was made to fix as many DRM modeset drivers as
+possible [1] [2] [3] and most drivers are fixed now.
+
+Unfortunately, it's very difficult to know exactly which DRM modeset
+drivers are using panel-edp due to the sheer number of panels it
+handles. For now, we'll leave the calls and just add a comment to keep
+people from copying this code.
+
+[1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+[2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+[3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
@@ -103,108 +114,67 @@ Signed-off-by: Douglas Anderson <dianders@chromium.org>
 Changes in v2:
 - Only handle 1 panel per patch.
 - Split removal of prepared/enabled from handling of remove/shutdown.
+- panel-edp and panel-simple just get a comment now.
 
- drivers/gpu/drm/panel/panel-edp.c | 27 ---------------------------
- 1 file changed, 27 deletions(-)
+ drivers/gpu/drm/panel/panel-edp.c | 33 +++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 6db277efcbb7..344f67871d41 100644
+index 344f67871d41..9c4c5c0e39a3 100644
 --- a/drivers/gpu/drm/panel/panel-edp.c
 +++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -222,11 +222,8 @@ struct edp_panel_entry {
+@@ -944,13 +944,34 @@ static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
+ 	return err;
+ }
  
- struct panel_edp {
- 	struct drm_panel base;
--	bool enabled;
- 	bool no_hpd;
- 
--	bool prepared;
--
- 	ktime_t prepared_time;
- 	ktime_t powered_on_time;
- 	ktime_t unprepared_time;
-@@ -395,14 +392,9 @@ static int panel_edp_disable(struct drm_panel *panel)
+-static void panel_edp_remove(struct device *dev)
++static void panel_edp_shutdown(struct device *dev)
  {
- 	struct panel_edp *p = to_panel_edp(panel);
+ 	struct panel_edp *panel = dev_get_drvdata(dev);
  
--	if (!p->enabled)
--		return 0;
--
- 	if (p->desc->delay.disable)
- 		msleep(p->desc->delay.disable);
+-	drm_panel_remove(&panel->base);
++	/*
++	 * NOTE: the following two calls don't really belong here. It is the
++	 * responsibility of a correctly written DRM modeset driver to call
++	 * drm_atomic_helper_shutdown() at shutdown time and that should
++	 * cause the panel to be disabled / unprepared if needed. For now,
++	 * however, we'll keep these calls due to the sheer number of
++	 * different DRM modeset drivers used with panel-edp. The fact that
++	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
++	 * will try to disable/unprepare means that we can get a warning about
++	 * trying to disable/unprepare an already disabled/unprepared panel,
++	 * but that's something we'll have to live with until we've confirmed
++	 * that all DRM modeset drivers are properly calling
++	 * drm_atomic_helper_shutdown().
++	 */
+ 	drm_panel_disable(&panel->base);
+ 	drm_panel_unprepare(&panel->base);
++}
++
++static void panel_edp_remove(struct device *dev)
++{
++	struct panel_edp *panel = dev_get_drvdata(dev);
++
++	drm_panel_remove(&panel->base);
++	panel_edp_shutdown(dev);
  
--	p->enabled = false;
--
- 	return 0;
+ 	pm_runtime_dont_use_autosuspend(dev);
+ 	pm_runtime_disable(dev);
+@@ -961,14 +982,6 @@ static void panel_edp_remove(struct device *dev)
+ 	panel->drm_edid = NULL;
  }
  
-@@ -420,17 +412,11 @@ static int panel_edp_suspend(struct device *dev)
- 
- static int panel_edp_unprepare(struct drm_panel *panel)
- {
--	struct panel_edp *p = to_panel_edp(panel);
- 	int ret;
- 
--	/* Unpreparing when already unprepared is a no-op */
--	if (!p->prepared)
--		return 0;
+-static void panel_edp_shutdown(struct device *dev)
+-{
+-	struct panel_edp *panel = dev_get_drvdata(dev);
 -
- 	ret = pm_runtime_put_sync_suspend(panel->dev);
- 	if (ret < 0)
- 		return ret;
--	p->prepared = false;
- 
- 	return 0;
- }
-@@ -542,21 +528,14 @@ static int panel_edp_resume(struct device *dev)
- 
- static int panel_edp_prepare(struct drm_panel *panel)
- {
--	struct panel_edp *p = to_panel_edp(panel);
- 	int ret;
- 
--	/* Preparing when already prepared is a no-op */
--	if (p->prepared)
--		return 0;
+-	drm_panel_disable(&panel->base);
+-	drm_panel_unprepare(&panel->base);
+-}
 -
- 	ret = pm_runtime_get_sync(panel->dev);
- 	if (ret < 0) {
- 		pm_runtime_put_autosuspend(panel->dev);
- 		return ret;
- 	}
- 
--	p->prepared = true;
--
- 	return 0;
- }
- 
-@@ -565,9 +544,6 @@ static int panel_edp_enable(struct drm_panel *panel)
- 	struct panel_edp *p = to_panel_edp(panel);
- 	unsigned int delay;
- 
--	if (p->enabled)
--		return 0;
--
- 	delay = p->desc->delay.enable;
- 
- 	/*
-@@ -598,8 +574,6 @@ static int panel_edp_enable(struct drm_panel *panel)
- 
- 	panel_edp_wait(p->powered_on_time, p->desc->delay.powered_on_to_enable);
- 
--	p->enabled = true;
--
- 	return 0;
- }
- 
-@@ -869,7 +843,6 @@ static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
- 	if (!panel)
- 		return -ENOMEM;
- 
--	panel->enabled = false;
- 	panel->prepared_time = 0;
- 	panel->desc = desc;
- 	panel->aux = aux;
+ static const struct display_timing auo_b101ean01_timing = {
+ 	.pixelclock = { 65300000, 72500000, 75000000 },
+ 	.hactive = { 1280, 1280, 1280 },
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
