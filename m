@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036BC8BB5EB
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782428BB5EC
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:36:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 347B4112ABA;
-	Fri,  3 May 2024 21:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0DC3112D84;
+	Fri,  3 May 2024 21:36:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="OSb9ZXin";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="OlEa2q9n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 311AC112A08
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:36:50 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-1ecddf96313so1022935ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:36:50 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04C53112A09
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:36:51 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-1ec4dc64c6cso1156305ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:36:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714772209; x=1715377009;
+ d=chromium.org; s=google; t=1714772211; x=1715377011;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NGK5xSZNNlb2uRbxmyeRSuB7caWdrwYvtVpURnzxX80=;
- b=OSb9ZXinj8bZnvxHNLg2C6Kcg7Z6cYGKKYYUBka7RcJquOc8i6LJAcCfrRZchFxqda
- 5zmO+ER+BNOoMvF/RcojCEg6J5ZGe4a5+/8WbI8CDf5FHEBCJjqN4JcHJ3y1TddBFymR
- Y7mlvti++23kDSOZ8STBcTyxC3b+oIPuhhutY=
+ bh=xpAqyGRZ35mrxRmKBHfboZzq/mHfdewzPnwv0OdchAs=;
+ b=OlEa2q9nTLc4KgRybtpqaooRrkWpRil5myza9cBrn9/w3WCRGXpzO7/HTMlvoJ7sW4
+ 9b7kmOtiO6ItUdozRJVci6SE9phcDvG8FdP+iDlwIUOdwEYTUSCA9l0aEMzyWzROoB3O
+ xHE3dZVI2DZBpBj9GthIxw7GDi8WI9W0psjtA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714772209; x=1715377009;
+ d=1e100.net; s=20230601; t=1714772211; x=1715377011;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NGK5xSZNNlb2uRbxmyeRSuB7caWdrwYvtVpURnzxX80=;
- b=vC5fD/VxxVbC8Ga+PzNT6Ts+UVq70fDmhYjMlvXgeP0Gzts8m3vGtrwMyq4LcfpSrY
- N7/kmArms1KsrZoqydR+3/dn0SHh/YYv9FXueAklYpnQ/2Epnw5ju9D6UyrFNP4cs1O9
- +v37nkhirAVSLidCCDfHNBBsqaL0DkedUz06eISqY+ME//QFM3dvCFCbcUDNLaylIXx/
- ftpc9iNRMAW8+/c7fM8D9JgOmPunnbua72m4wjyd5Zr4rhtWzi2aysnHugaFVUvMHxC/
- kyRZ7P+HcCnxwOdZrXBcfD8CKi5pAB3MCA7x4U9J97PKRFPhJT/nh1HPS/KYFw3f/PBO
- e6cg==
-X-Gm-Message-State: AOJu0YxmkOKS1nA5AjFN72xNLk4sDBcS3oY2Lvfh8BOV6n7ZkR/DxcD2
- D4QneXVUjXjBvKSNYrgxpxBvpeXopI3M3HTNfMsX+LEIUA/3gBKiNxur4MMJpmEAq50pAe0obKc
- 7Hw==
-X-Google-Smtp-Source: AGHT+IEempTTTQ3d9Vy5vnr244sB3FyliFh1+HIKi7tUNUcNLkibMfoJWgsA8T7pfYRVD6IrR06Bvw==
-X-Received: by 2002:a17:902:b617:b0:1dd:e114:121c with SMTP id
- b23-20020a170902b61700b001dde114121cmr3627968pls.56.1714772208843; 
- Fri, 03 May 2024 14:36:48 -0700 (PDT)
+ bh=xpAqyGRZ35mrxRmKBHfboZzq/mHfdewzPnwv0OdchAs=;
+ b=WXQwuK34zxXd7odC0tXKR7DGVNfvpQkz/vjEZMkJ9IXHqSX8tgPWV5L36Dmp4OXDJj
+ wONcpLD/CavE2frCru9ASc1XGhA0KdePfpvX5ZAjN/jg/17zrWvCqEu0heVUyZePwsxw
+ VjP062ZYq+2m15XfshOzKxEZOZY/jDyVRJ/T7rZkZWHzjnuJYm11NxlA3gJG3vl1vUud
+ 1BOT59ITe/TR5+AyakgA+7xXhSDXQppHJfY4x2G408aP5GG0Bx04rpI98BWKMqJyQTbl
+ EhtVNxyK1yMUMwjplp009ruidCV3xG1dLCKj/Cv4/77l8e7zh2/dJ9s8vHxnvR/vkYTa
+ CMyA==
+X-Gm-Message-State: AOJu0Yy7LmXRQpiAxYp9QFaD7o9Ok5GVG1RyHuBiebxuO3wP6qcSZCAH
+ hGdYbqQBAtuawWgvS63YIHYXLYSSz8TX3U06VQf9c9JIpUpAUVTLzK81oZh2SoZy1JuS6rhFnv3
+ oQw==
+X-Google-Smtp-Source: AGHT+IHPgak4KhT/VY1k6i6WU80Ppl8jX085UmJogG4vsMPYn1oTd7Du1ToJIYk6Efeso5tSI4Y1lg==
+X-Received: by 2002:a17:902:ce87:b0:1e0:983c:d686 with SMTP id
+ f7-20020a170902ce8700b001e0983cd686mr5162135plg.20.1714772210940; 
+ Fri, 03 May 2024 14:36:50 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:fb6a:b54b:7580:64f3])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.36.46
+ j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.36.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 May 2024 14:36:47 -0700 (PDT)
+ Fri, 03 May 2024 14:36:50 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -68,10 +68,10 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v2 10/48] drm/panel: khadas-ts050: Stop tracking
- prepared/enabled
-Date: Fri,  3 May 2024 14:32:51 -0700
-Message-ID: <20240503143327.RFT.v2.10.Ibed1026f20cab08c90fa376e68c2f23a343e826b@changeid>
+Subject: [RFT PATCH v2 11/48] drm/panel: khadas-ts050: Don't call
+ unprepare+disable at shutdown/remove
+Date: Fri,  3 May 2024 14:32:52 -0700
+Message-ID: <20240503143327.RFT.v2.11.I1ee65e7905bf5bf46a0e6c5126ac3c7aa25cb80b@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
 References: <20240503213441.177109-1-dianders@chromium.org>
@@ -92,12 +92,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-prepared/enabled in drm_panel"), we want to remove needless code from
-panel drivers that was storing and double-checking the
-prepared/enabled state. Even if someone was relying on the
-double-check before, that double-check is now in the core and not
-needed in individual drivers.
+It's the responsibility of a correctly written DRM modeset driver to
+call drm_atomic_helper_shutdown() at shutdown time and that should be
+disabling / unpreparing the panel if needed. Panel drivers shouldn't
+be calling these functions themselves.
+
+A recent effort was made to fix as many DRM modeset drivers as
+possible [1] [2] [3] and most drivers are fixed now.
+
+Unfortunately, grepping mainline for this panel's compatible string
+shows no hits, so we can't be 100% sure if the DRM modeset driver used
+with this panel has been fixed. If it is found that the DRM modeset
+driver hasn't been fixed then this patch could be temporarily reverted
+until it is.
+
+[1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+[2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+[3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
 
 Cc: Jacobe Zang <jacobe.zang@wesion.com>
 Cc: Nicolas Belin <nbelin@baylibre.com>
@@ -109,94 +120,38 @@ Changes in v2:
 - Only handle 1 panel per patch.
 - Split removal of prepared/enabled from handling of remove/shutdown.
 
- drivers/gpu/drm/panel/panel-khadas-ts050.c | 28 ----------------------
- 1 file changed, 28 deletions(-)
+ drivers/gpu/drm/panel/panel-khadas-ts050.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-khadas-ts050.c b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-index c54be0cc3f08..e35762ebdbd1 100644
+index e35762ebdbd1..14932cb3defc 100644
 --- a/drivers/gpu/drm/panel/panel-khadas-ts050.c
 +++ b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-@@ -26,9 +26,6 @@ struct khadas_ts050_panel {
- 	struct gpio_desc *reset_gpio;
- 	struct gpio_desc *enable_gpio;
- 	struct khadas_ts050_panel_data *panel_data;
--
--	bool prepared;
--	bool enabled;
- };
+@@ -880,16 +880,6 @@ static void khadas_ts050_panel_remove(struct mipi_dsi_device *dsi)
+ 		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", err);
  
- struct khadas_ts050_panel_cmd {
-@@ -642,9 +639,6 @@ static int khadas_ts050_panel_prepare(struct drm_panel *panel)
- 	unsigned int i;
- 	int err;
- 
--	if (khadas_ts050->prepared)
--		return 0;
--
- 	gpiod_set_value_cansleep(khadas_ts050->enable_gpio, 0);
- 
- 	err = regulator_enable(khadas_ts050->supply);
-@@ -708,8 +702,6 @@ static int khadas_ts050_panel_prepare(struct drm_panel *panel)
- 
- 	usleep_range(10000, 11000);
- 
--	khadas_ts050->prepared = true;
--
- 	return 0;
- 
- poweroff:
-@@ -726,11 +718,6 @@ static int khadas_ts050_panel_unprepare(struct drm_panel *panel)
- 	struct khadas_ts050_panel *khadas_ts050 = to_khadas_ts050_panel(panel);
- 	int err;
- 
--	if (!khadas_ts050->prepared)
--		return 0;
--
--	khadas_ts050->prepared = false;
--
- 	err = mipi_dsi_dcs_enter_sleep_mode(khadas_ts050->link);
- 	if (err < 0)
- 		dev_err(panel->dev, "failed to enter sleep mode: %d\n", err);
-@@ -747,31 +734,17 @@ static int khadas_ts050_panel_unprepare(struct drm_panel *panel)
- 	return 0;
- }
- 
--static int khadas_ts050_panel_enable(struct drm_panel *panel)
--{
--	struct khadas_ts050_panel *khadas_ts050 = to_khadas_ts050_panel(panel);
--
--	khadas_ts050->enabled = true;
--
--	return 0;
+ 	drm_panel_remove(&khadas_ts050->base);
+-	drm_panel_disable(&khadas_ts050->base);
+-	drm_panel_unprepare(&khadas_ts050->base);
 -}
 -
- static int khadas_ts050_panel_disable(struct drm_panel *panel)
- {
- 	struct khadas_ts050_panel *khadas_ts050 = to_khadas_ts050_panel(panel);
- 	int err;
- 
--	if (!khadas_ts050->enabled)
--		return 0;
+-static void khadas_ts050_panel_shutdown(struct mipi_dsi_device *dsi)
+-{
+-	struct khadas_ts050_panel *khadas_ts050 = mipi_dsi_get_drvdata(dsi);
 -
- 	err = mipi_dsi_dcs_set_display_off(khadas_ts050->link);
- 	if (err < 0)
- 		dev_err(panel->dev, "failed to set display off: %d\n", err);
- 
- 	usleep_range(10000, 11000);
- 
--	khadas_ts050->enabled = false;
--
- 	return 0;
+-	drm_panel_disable(&khadas_ts050->base);
+-	drm_panel_unprepare(&khadas_ts050->base);
  }
  
-@@ -815,7 +788,6 @@ static int khadas_ts050_panel_get_modes(struct drm_panel *panel,
- static const struct drm_panel_funcs khadas_ts050_panel_funcs = {
- 	.prepare = khadas_ts050_panel_prepare,
- 	.unprepare = khadas_ts050_panel_unprepare,
--	.enable = khadas_ts050_panel_enable,
- 	.disable = khadas_ts050_panel_disable,
- 	.get_modes = khadas_ts050_panel_get_modes,
+ static struct mipi_dsi_driver khadas_ts050_panel_driver = {
+@@ -899,7 +889,6 @@ static struct mipi_dsi_driver khadas_ts050_panel_driver = {
+ 	},
+ 	.probe = khadas_ts050_panel_probe,
+ 	.remove = khadas_ts050_panel_remove,
+-	.shutdown = khadas_ts050_panel_shutdown,
  };
+ module_mipi_dsi_driver(khadas_ts050_panel_driver);
+ 
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
