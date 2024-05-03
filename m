@@ -2,59 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8978BB66E
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2279F8BB677
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E70CF10E300;
-	Fri,  3 May 2024 21:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B07D112A1F;
+	Fri,  3 May 2024 21:54:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linux.org.uk header.i=@linux.org.uk header.b="uPPrhUlI";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="BUWeOsA0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8438B10E300
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:53:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=RM0gQuvw5vrpD7I8AUwAP4n456JHvifrZgveaZJKmdE=; b=uPPrhUlILbBbJfo6/OhWVeAbu8
- vvKn1CG9kgelugjtObY1dI4pNbQXkZIW6pXr2dc0D6qKypOtbaQBml/wdQDHlIMzvfUJmoVwYGsJn
- fA4PaeOD3BaZTDGM8djdR0WoP8j8VEVDIDkDDcul8gNfa9TPQLlGSTmYPCfcwv2C87YIgZA0ttd+k
- tSChqsyTaVKQu+LGbkHrPMYX+EIi3msdOV9A/Hdh5A1JnJUuZmQln8p/PoX4NkCiWVsNMbqpyA56c
- g4JUV2/tw5QhQBueA3SbOHD/TX9duqmuzKywCDUhAdOVdAfgznrbJmMOmACfYGqm098yFnGkundvY
- KnSQcN+Q==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1s30pz-00B9qR-1v; Fri, 03 May 2024 21:53:03 +0000
-Date: Fri, 3 May 2024 22:53:03 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Kees Cook <keescook@chromium.org>, Jens Axboe <axboe@kernel.dk>,
- Bui Quang Minh <minhquangbui99@gmail.com>,
- Christian Brauner <brauner@kernel.org>,
- syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
- io-uring@vger.kernel.org, jack@suse.cz,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzkaller-bugs@googlegroups.com, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>
-Subject: Re: get_file() unsafe under epoll (was Re: [syzbot] [fs?]
- [io-uring?] general protection fault in __ep_remove)
-Message-ID: <20240503215303.GC2118490@ZenIV>
-References: <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
- <202405031110.6F47982593@keescook>
- <64b51cc5-9f5b-4160-83f2-6d62175418a2@kernel.dk>
- <202405031207.9D62DA4973@keescook>
- <d6285f19-01aa-49c8-8fef-4b5842136215@kernel.dk>
- <202405031237.B6B8379@keescook> <202405031325.B8979870B@keescook>
- <20240503211109.GX2118490@ZenIV> <20240503213625.GA2118490@ZenIV>
- <CAHk-=wgRphONC5NBagypZpgriCUtztU7LCC9BzGZDEjWQbSVWQ@mail.gmail.com>
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
+ [95.215.58.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B27112A1F
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:54:42 +0000 (UTC)
+Message-ID: <4d8f4c9b-2efb-4774-9a37-2f257f79b2c9@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1714773279;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Y2853ucShxPVH0hhzsUqBU7LM1cSh77nnSWLF2uYAqA=;
+ b=BUWeOsA0/2P3mrUoipdI59mfx6Z9ZUqxsBff025rLQpEMITgxHTVZ9dS4dduZnDjzKTEro
+ XU4Ed7K+d42hYYAzzakJTGxl8KrH96WgPonVvNjx5kzSPgPWWM0bKgWSWMzhu0Jz8EPgHO
+ QY6+6RvZNTzEX4zO2GBvJ6cb93DDs5M=
+Date: Fri, 3 May 2024 17:54:32 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgRphONC5NBagypZpgriCUtztU7LCC9BzGZDEjWQbSVWQ@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [BUG] drm: zynqmp_dp: Lockup in zynqmp_dp_bridge_detect when device
+ is unbound
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,21 +59,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 03, 2024 at 02:42:22PM -0700, Linus Torvalds wrote:
-> On Fri, 3 May 2024 at 14:36, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >
-> > ... the last part is no-go - poll_wait() must be able to grab a reference
-> > (well, the callback in it must)
-> 
-> Yeah. I really think that *poll* itself is doing everything right. It
-> knows that it's called with a file pointer with a reference, and it
-> adds its own references as needed.
+Hi,
 
-Not really.  Note that select's __pollwait() does *NOT* leave a reference
-at the mercy of driver - it's stuck into poll_table_entry->filp and
-the poll_freewait() knows how to take those out.
+I have discovered a bug in the displayport driver on drm-misc-next. To
+trigger it, run
 
+echo fd4a0000.display > /sys/bus/platform/drivers/zynqmp-dpsub/unbind
 
-dmabuf does something very different - it grabs the damn thing into
-its private data structures and for all we know it could keep it for
-a few hours, until some even materializes.
+The system will become unresponsive and (after a bit) splat with a hard
+LOCKUP. One core will be unresponsive at the first zynqmp_dp_read in
+zynqmp_dp_bridge_detect.
+
+I believe the issue is due the registers being unmapped and the block
+put into reset in zynqmp_dp_remove instead of zynqmp_dpsub_release. This
+could be resolved by deferring things until zynqmp_dpsub_release
+(requiring us to skip devm_*), or by adding a flag to struct zynqmp_dp
+and checking it before each callback. A subsystem-level implementation
+might be better for the latter.
+
+For a better traceback, try applying the below patch and running the
+following commands before triggering the lockup:
+
+echo 4 > /sys/module/drm/parameters/debug
+echo 8 > /proc/sys/kernel/printk
+
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index 9df068a413f3..17b477b14ab5 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -296,6 +296,7 @@ struct zynqmp_dp_config {
+  * @train_set: set of training data
+  */
+ struct zynqmp_dp {
++       unsigned long long magic;
+        struct device *dev;
+        struct zynqmp_dpsub *dpsub;
+        void __iomem *iomem;
+@@ -1533,6 +1534,8 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
+        u32 state, i;
+        int ret;
+ 
++       WARN_ON(dp->magic != 0x0123456789abcdefULL);
++
+        /*
+         * This is from heuristic. It takes some delay (ex, 100 ~ 500 msec) to
+         * get the HPD signal with some monitors.
+@@ -1723,6 +1726,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+        if (!dp)
+                return -ENOMEM;
+ 
++       dp->magic = 0x0123456789abcdefULL;
+        dp->dev = &pdev->dev;
+        dp->dpsub = dpsub;
+        dp->status = connector_status_disconnected;
+@@ -1839,4 +1843,5 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
+ 
+        zynqmp_dp_phy_exit(dp);
+        zynqmp_dp_reset(dp, true);
++       dp->magic = 0xdeadbeefdeadbeefULL;
+ }
