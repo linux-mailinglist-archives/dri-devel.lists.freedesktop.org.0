@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D8D8BB3F9
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 21:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 076248BB3FB
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 21:29:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1D2E10E325;
-	Fri,  3 May 2024 19:29:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCD810EFAB;
+	Fri,  3 May 2024 19:29:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ox4P8tfi";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="mVTrx/ik";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
- [95.215.58.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7D1B10EB3C
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 19:29:32 +0000 (UTC)
+Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
+ [95.215.58.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF8DF10EFAB
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 19:29:35 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1714764571;
+ t=1714764573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cQ2e8hgiGDZBXEW1L5MiD7LSuS/VPNYQnMQFa72oN6c=;
- b=ox4P8tfisHwN1tQ6Q/03B6cky9MCK1VFIh6qZjp1uggchco53uKdIr3RxIB4GnJSRDjen8
- g+NgWLVuHX2kgEegdW8767YapfzGdPLJbJV/b48B+NhhlcUVLRpM4t/vcVPIX4OYCVRNSX
- tQ5z+2V8oBStQHHd7l0vbnPFsyaVpTc=
+ bh=4uW0i6eKUrBGaUvxjIkM6lg53QGjldQQ1lSdwdv3i8U=;
+ b=mVTrx/ikZydOv8ki7W+nLR4D9MohHoKt3cfOtgZgT4xSPbmf3TbSjKCsubg/g0PEnPlnKk
+ jp84fh9eZoLimWGUTqDNIAdmGg8ECbdRKDJlhgktLvT1JFc27UllVs8ufGEf9pwnHUz1Yb
+ dGPP/ywuHRfutJ96NkWzDRUq42cguFk=
 From: Sean Anderson <sean.anderson@linux.dev>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -38,9 +38,10 @@ Cc: linux-arm-kernel@lists.infradead.org, David Airlie <airlied@gmail.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Michal Simek <michal.simek@amd.com>,
  Sean Anderson <sean.anderson@linux.dev>
-Subject: [PATCH v5 01/10] drm: zynqmp_kms: Fix AUX bus not getting unregistered
-Date: Fri,  3 May 2024 15:29:13 -0400
-Message-Id: <20240503192922.2172314-2-sean.anderson@linux.dev>
+Subject: [PATCH v5 02/10] drm: zynqmp_dp: Rearrange zynqmp_dp for better
+ padding
+Date: Fri,  3 May 2024 15:29:14 -0400
+Message-Id: <20240503192922.2172314-3-sean.anderson@linux.dev>
 In-Reply-To: <20240503192922.2172314-1-sean.anderson@linux.dev>
 References: <20240503192922.2172314-1-sean.anderson@linux.dev>
 MIME-Version: 1.0
@@ -61,73 +62,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_encoder_cleanup is responsible for calling drm_bridge_detach for
-each bridge attached to the encoder. zynqmp_dp_bridge_detach is in turn
-responsible for unregistering the AUX bus. However, we never ended up
-calling drm_encoder_cleanup in the remove or error paths, so the AUX bus
-would stick around after the rest of the driver had been removed.
+Sort the members of struct zynqmp_dp to reduce padding necessary for
+alignment.
 
-I don't really understand why drm_mode_config_cleanup doesn't call
-drm_encoder_cleanup for us. It will call destroy (which for
-simple_encoder is drm_encoder_cleanup) on encoders in the mode_config's
-encoder_list.
-
-Should drm_encoder_cleanup get called before or after
-drm_atomic_helper_shutdown?
-
-Fixes: 2dfd045c8435 ("drm: xlnx: zynqmp_dpsub: Register AUX bus at bridge attach time")
 Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 ---
 
-Changes in v5:
+(no changes since v2)
+
+Changes in v2:
 - New
 
- drivers/gpu/drm/xlnx/zynqmp_kms.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-index 43bf416b33d5..f25583ce92e6 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-@@ -433,23 +433,28 @@ static int zynqmp_dpsub_kms_init(struct zynqmp_dpsub *dpsub)
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret) {
- 		dev_err(dpsub->dev, "failed to attach bridge to encoder\n");
--		return ret;
-+		goto err_encoder;
- 	}
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index 9df068a413f3..12a8248ed125 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -256,10 +256,10 @@ struct zynqmp_dp_link_config {
+  * @fmt: format identifier string
+  */
+ struct zynqmp_dp_mode {
+-	u8 bw_code;
+-	u8 lane_cnt;
+-	int pclock;
+ 	const char *fmt;
++	int pclock;
++	u8 bw_code;
++	u8 lane_cnt;
+ };
  
- 	/* Create the connector for the chain of bridges. */
- 	connector = drm_bridge_connector_init(&dpsub->drm->dev, encoder);
- 	if (IS_ERR(connector)) {
- 		dev_err(dpsub->dev, "failed to created connector\n");
--		return PTR_ERR(connector);
-+		ret = PTR_ERR(connector);
-+		goto err_encoder;
- 	}
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret < 0) {
- 		dev_err(dpsub->dev, "failed to attach connector to encoder\n");
--		return ret;
-+		goto err_encoder;
- 	}
- 
- 	return 0;
+ /**
+@@ -296,27 +296,27 @@ struct zynqmp_dp_config {
+  * @train_set: set of training data
+  */
+ struct zynqmp_dp {
++	struct drm_dp_aux aux;
++	struct drm_bridge bridge;
++	struct delayed_work hpd_work;
 +
-+err_encoder:
-+	drm_encoder_cleanup(encoder);
-+	return ret;
- }
++	struct drm_bridge *next_bridge;
+ 	struct device *dev;
+ 	struct zynqmp_dpsub *dpsub;
+ 	void __iomem *iomem;
+ 	struct reset_control *reset;
+-	int irq;
+-
+-	struct drm_bridge bridge;
+-	struct drm_bridge *next_bridge;
+-
+-	struct zynqmp_dp_config config;
+-	struct drm_dp_aux aux;
+ 	struct phy *phy[ZYNQMP_DP_MAX_LANES];
+-	u8 num_lanes;
+-	struct delayed_work hpd_work;
++
+ 	enum drm_connector_status status;
++	int irq;
+ 	bool enabled;
  
- static void zynqmp_dpsub_drm_release(struct drm_device *drm, void *res)
-@@ -529,5 +534,6 @@ void zynqmp_dpsub_drm_cleanup(struct zynqmp_dpsub *dpsub)
+-	u8 dpcd[DP_RECEIVER_CAP_SIZE];
+-	struct zynqmp_dp_link_config link_config;
+ 	struct zynqmp_dp_mode mode;
++	struct zynqmp_dp_link_config link_config;
++	struct zynqmp_dp_config config;
++	u8 dpcd[DP_RECEIVER_CAP_SIZE];
+ 	u8 train_set[ZYNQMP_DP_MAX_LANES];
++	u8 num_lanes;
+ };
  
- 	drm_dev_unregister(drm);
- 	drm_atomic_helper_shutdown(drm);
-+	drm_encoder_cleanup(&dpsub->drm->encoder);
- 	drm_kms_helper_poll_fini(drm);
- }
+ static inline struct zynqmp_dp *bridge_to_dp(struct drm_bridge *bridge)
 -- 
 2.35.1.1320.gc452695387.dirty
 
