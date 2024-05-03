@@ -2,59 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5828BAA54
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 11:55:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21AD8BAA9C
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 12:18:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE9B10E059;
-	Fri,  3 May 2024 09:55:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE88F10EA92;
+	Fri,  3 May 2024 10:18:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uUgmLlcY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j+h7jgG7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D849710E059
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 09:55:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id E5917CE0AB3;
- Fri,  3 May 2024 09:55:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 176ECC116B1;
- Fri,  3 May 2024 09:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714730119;
- bh=2ZuH8DJWKdI8xZCLGCNsawY8TILgFbvsCfAw9mJuqqQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uUgmLlcYkJi4Y9gh/4f5/UdhgmN1qqy6bsEAoLCyzmpGORX35Th540t8i7lEGvXZ4
- WCILsRry+m8Vughb03wMZaLhX+rlvn4toLuPxwUuGEGrVLZYPeUZykQie/nHgSITYl
- Lq0bqWxJphmgtfw8yawhscCNwgGc+BEmGFd3USkh7wlNcYCTglcafrpsFwhDBQiP1q
- UqvqK7tjZhkeq9yjIzsYXdm9qlpI6SW63uidnuhg8wes1IeOZkp5a5zvMuwok1CmVQ
- 26FNNz6vSyamHDnWtksDmjRLupE/t+lEHA81eAhGFs81luI64SE3dlOfalYaZiASl/
- WS/3KIIK8LsKA==
-Date: Fri, 3 May 2024 10:55:12 +0100
-From: Lee Jones <lee@kernel.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- Alexander Shiyan <shc_work@mail.ru>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-omap@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH v2 00/19] backlight: Constify lcd_ops
-Message-ID: <20240503095512.GQ1227636@google.com>
-References: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
- <171472928415.1323021.3458121588308140519.b4-ty@kernel.org>
- <20240503094319.GP1227636@google.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 323CF10EA92;
+ Fri,  3 May 2024 10:18:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1714731526; x=1746267526;
+ h=from:date:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=10Jfz7g2I63T6OjaKjymVfcINKOaZ2J6fHxtq+P/NAM=;
+ b=j+h7jgG7i6HgGQNI2Jpz3aiJCo/SDy67Xx2R+VJBeX6/sHeH6e6PPB4r
+ bAL3ZtDeRljDnk2V141NaugnaIjl6JhtoVTXryXJeJv/fJ8dH2zi+Lasw
+ 4vRflK+FsD7j6IAvfLpxo4e1QnTBNUQMtcnt5QPu+jcUvQ8tw3wQzS8ZE
+ r/fQHuQzqOxFLqXu9OkkxC1JCw1qre9jK0OAOTJZH/sRwXLkS1uj43Xbg
+ yDWtqCItYmX/RyY6wWpE4Yl1D5tD3308qpQl3m1sy1YUrffJRxIpbUfId
+ fhL04jDY8Catj2hT68EFwDkVd2pwV6IvZT2SiI510ijgU804jOf5AAKzR w==;
+X-CSE-ConnectionGUID: 8tbpPYWUSa2PYingGTMiJQ==
+X-CSE-MsgGUID: 3LsCpRbwRA2WSM+9NmrKvQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10386646"
+X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; d="scan'208";a="10386646"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2024 03:18:45 -0700
+X-CSE-ConnectionGUID: fg5BmVqpSRyyi5slzLMDnA==
+X-CSE-MsgGUID: IEo6vwxzSGqiLHBTgxJ77A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; d="scan'208";a="32215585"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost)
+ ([10.245.247.56])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2024 03:18:42 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 3 May 2024 13:18:35 +0300 (EEST)
+To: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+cc: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+ dri-devel@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Leon Romanovsky <leon@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+ linux-rdma@vger.kernel.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>, 
+ =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
+ Lukas Wunner <lukas@wunner.de>, 
+ Dean Luick <dean.luick@cornelisnetworks.com>
+Subject: Re: [PATCH 3/3] RDMA/hfi1: Use RMW accessors for changing LNKCTL2
+In-Reply-To: <20240215133155.9198-4-ilpo.jarvinen@linux.intel.com>
+Message-ID: <26be3948-e687-f510-0612-abcac5d919af@linux.intel.com>
+References: <20240215133155.9198-1-ilpo.jarvinen@linux.intel.com>
+ <20240215133155.9198-4-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240503094319.GP1227636@google.com>
+Content-Type: multipart/mixed; boundary="8323328-818284186-1714731515=:1852"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,97 +76,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 03 May 2024, Lee Jones wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> On Fri, 03 May 2024, Lee Jones wrote:
-> 
-> > On Wed, 24 Apr 2024 08:33:26 +0200, Krzysztof Kozlowski wrote:
-> > > Changes in v2:
-> > > - Collect tags, including wrongly places Thomas' tag (which requires me
-> > >   to manually edit 15 other patches to drop it).
-> > > - Combine here checkpatch patch:
-> > >   https://lore.kernel.org/all/20240414185440.288812-1-krzk@kernel.org/
-> > > - Link to v1: https://lore.kernel.org/r/20240414-video-backlight-lcd-ops-v1-0-9b37fcbf546a@kernel.org
-> > > 
-> > > [...]
-> > 
-> > Applied, thanks!
-> > 
-> > [01/19] backlight: Constify lcd_ops
-> >         commit: 9258e31adebf0ccf0797867841f3f9800695dba2
-> > [02/19] backlight: ams369fg06: Constify lcd_ops
-> >         commit: 8053c4fa200c3fef07859bac9469ad3f26f5aba1
-> > [03/19] backlight: corgi_lcd: Constify lcd_ops
-> >         commit: 18c5d4ab9f6312f2c9c6c409287d552112db810a
-> > [04/19] backlight: hx8357: Constify lcd_ops
-> >         commit: 1d669c1998b559393ec2eaac0449f4989a255049
-> > [05/19] backlight: ili922x: Constify lcd_ops
-> >         commit: e77fef89de954b1557cb91b64696cd4fc06c80ad
-> > [06/19] backlight: ili9320: Constify lcd_ops
-> >         commit: 06cfc92faa1eabb2ea226c58d6fd0b5ab117ee39
-> > [07/19] backlight: jornada720_lcd: Constify lcd_ops
-> >         commit: a54b4999dc204bc5839bb70602078c7c8e4a5010
-> > [08/19] backlight: l4f00242t03: Constify lcd_ops
-> >         commit: 657e6c1b270e9f4a890059f5d08a08ea842fa1a8
-> > [09/19] backlight: lms283gf05: Constify lcd_ops
-> >         commit: 66e5a10818fd332e973d36429e36f4c436a86a91
-> > [10/19] backlight: lms501kf03: Constify lcd_ops
-> >         commit: 31c205d1e8426dd0cce0143c500ff1ff71fe64d1
-> > [11/19] backlight: ltv350qv: Constify lcd_ops
-> >         commit: 24424f84d7568d9d794657622e080b1cba1e9290
-> > [12/19] backlight: otm3225a: Constify lcd_ops
-> >         commit: 02949072ee8fb6141cd8ac2be9867ef466580ddb
-> > [13/19] backlight: platform_lcd: Constify lcd_ops
-> >         commit: d217a8d5a39851caa16996756682715c9debb4a9
-> > [14/19] backlight: tdo24m: Constify lcd_ops
-> >         commit: c7a1809d1982f671e66a4b1c1ffd8bdd5ba260aa
-> > [15/19] HID: picoLCD: Constify lcd_ops
-> >         commit: 238724635763e7c5d82c0581b0c49e5dfdd5505a
-> > [16/19] fbdev: clps711x: Constify lcd_ops
-> >         commit: 55d9a955375af3b3fd5725a9b5cbc658d4bdd244
-> > [17/19] fbdev: imx: Constify lcd_ops
-> >         commit: a6abbb5783345c4c7cc9fbd583b81e167bd0207d
-> > [18/19] fbdev: omap: lcd_ams_delta: Constify lcd_ops
-> >         commit: ca991e8e096c9f0cff0300289e2d4813192b8ef3
-> > [19/19] const_structs.checkpatch: add lcd_ops
-> >         commit: f02aeccbec6108d768f54d31e7cb48b06c0e3814
-> 
-> Please ensure you use checkpatch.pl before submitting:
-> 
-> ====
-> 
-> ERROR: Does not appear to be a unified-diff format patch
-> 
-> total: 1 errors, 0 warnings, 0 lines checked
-> 
-> NOTE: For some of the reported defects, checkpatch may be able to
->       mechanically convert to the typical style using --fix or --fix-inplace.
-> 
-> "[PATCH v2 19/19] const_structs.checkpatch: add lcd_ops" has style problems, please review.
-> 
-> NOTE: If any of the errors are false positives, please report
->       them to the maintainer, see CHECKPATCH in MAINTAINERS.
-> WARNING: Missing commit description - Add an appropriate one
-> 
-> ERROR: Missing Signed-off-by: line(s)
-> 
-> total: 1 errors, 1 warnings, 7 lines checked
-> 
-> NOTE: For some of the reported defects, checkpatch may be able to
->       mechanically convert to the typical style using --fix or --fix-inplace.
-> 
-> Your patch has style problems, please review.
-> 
-> NOTE: If any of the errors are false positives, please report
->       them to the maintainer, see CHECKPATCH in MAINTAINERS.
-> 
-> ====
-> 
-> Some of them are a little odd.  I fixed the relevant ones
+--8323328-818284186-1714731515=:1852
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Change of plan - I actually can't find anything to fix.
+On Thu, 15 Feb 2024, Ilpo J=C3=A4rvinen wrote:
 
-All of this reports seem bogus!
+> Convert open coded RMW accesses for LNKCTL2 to use
+> pcie_capability_clear_and_set_word() which makes its easier to
+> understand what the code tries to do.
+>=20
+> LNKCTL2 is not really owned by any driver because it is a collection of
+> control bits that PCI core might need to touch. RMW accessors already
+> have support for proper locking for a selected set of registers
+> (LNKCTL2 is not yet among them but likely will be in the future) to
+> avoid losing concurrent updates.
+>=20
+> Suggested-by: Lukas Wunner <lukas@wunner.de>
+> Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> Reviewed-by: Dean Luick <dean.luick@cornelisnetworks.com>
 
--- 
-Lee Jones [李琼斯]
+I found out from Linux RDMA and InfiniBand patchwork that this patch had=20
+been silently closed as "Not Applicable". Is there some reason for that?
+
+I was sending this change independently out (among 2 similar ones that=20
+already got applied) so I wouldn't need to keep carrying it within my PCIe=
+=20
+bandwidth controller series. It seemed useful enough as cleanups to stand=
+=20
+on its own legs w/o requiring it to be part of PCIe bw controller series.
+
+Should I resend the patch or do RDMA/IB maintainers prefer it to remain=20
+as a part of PCIe BW controller series?
+
+--=20
+ i.
+
+> ---
+>  drivers/infiniband/hw/hfi1/pcie.c | 30 ++++++++----------------------
+>  1 file changed, 8 insertions(+), 22 deletions(-)
+>=20
+> diff --git a/drivers/infiniband/hw/hfi1/pcie.c b/drivers/infiniband/hw/hf=
+i1/pcie.c
+> index 119ec2f1382b..7133964749f8 100644
+> --- a/drivers/infiniband/hw/hfi1/pcie.c
+> +++ b/drivers/infiniband/hw/hfi1/pcie.c
+> @@ -1207,14 +1207,11 @@ int do_pcie_gen3_transition(struct hfi1_devdata *=
+dd)
+>  =09=09    (u32)lnkctl2);
+>  =09/* only write to parent if target is not as high as ours */
+>  =09if ((lnkctl2 & PCI_EXP_LNKCTL2_TLS) < target_vector) {
+> -=09=09lnkctl2 &=3D ~PCI_EXP_LNKCTL2_TLS;
+> -=09=09lnkctl2 |=3D target_vector;
+> -=09=09dd_dev_info(dd, "%s: ..new link control2: 0x%x\n", __func__,
+> -=09=09=09    (u32)lnkctl2);
+> -=09=09ret =3D pcie_capability_write_word(parent,
+> -=09=09=09=09=09=09 PCI_EXP_LNKCTL2, lnkctl2);
+> +=09=09ret =3D pcie_capability_clear_and_set_word(parent, PCI_EXP_LNKCTL2=
+,
+> +=09=09=09=09=09=09=09 PCI_EXP_LNKCTL2_TLS,
+> +=09=09=09=09=09=09=09 target_vector);
+>  =09=09if (ret) {
+> -=09=09=09dd_dev_err(dd, "Unable to write to PCI config\n");
+> +=09=09=09dd_dev_err(dd, "Unable to change parent PCI target speed\n");
+>  =09=09=09return_error =3D 1;
+>  =09=09=09goto done;
+>  =09=09}
+> @@ -1223,22 +1220,11 @@ int do_pcie_gen3_transition(struct hfi1_devdata *=
+dd)
+>  =09}
+> =20
+>  =09dd_dev_info(dd, "%s: setting target link speed\n", __func__);
+> -=09ret =3D pcie_capability_read_word(dd->pcidev, PCI_EXP_LNKCTL2, &lnkct=
+l2);
+> +=09ret =3D pcie_capability_clear_and_set_word(dd->pcidev, PCI_EXP_LNKCTL=
+2,
+> +=09=09=09=09=09=09 PCI_EXP_LNKCTL2_TLS,
+> +=09=09=09=09=09=09 target_vector);
+>  =09if (ret) {
+> -=09=09dd_dev_err(dd, "Unable to read from PCI config\n");
+> -=09=09return_error =3D 1;
+> -=09=09goto done;
+> -=09}
+> -
+> -=09dd_dev_info(dd, "%s: ..old link control2: 0x%x\n", __func__,
+> -=09=09    (u32)lnkctl2);
+> -=09lnkctl2 &=3D ~PCI_EXP_LNKCTL2_TLS;
+> -=09lnkctl2 |=3D target_vector;
+> -=09dd_dev_info(dd, "%s: ..new link control2: 0x%x\n", __func__,
+> -=09=09    (u32)lnkctl2);
+> -=09ret =3D pcie_capability_write_word(dd->pcidev, PCI_EXP_LNKCTL2, lnkct=
+l2);
+> -=09if (ret) {
+> -=09=09dd_dev_err(dd, "Unable to write to PCI config\n");
+> +=09=09dd_dev_err(dd, "Unable to change device PCI target speed\n");
+>  =09=09return_error =3D 1;
+>  =09=09goto done;
+>  =09}
+>=20
+--8323328-818284186-1714731515=:1852--
