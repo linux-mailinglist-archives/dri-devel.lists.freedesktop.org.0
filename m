@@ -2,91 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC918BADDE
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 15:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89198BADFA
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 15:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DAC41127EB;
-	Fri,  3 May 2024 13:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0B661121BB;
+	Fri,  3 May 2024 13:46:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="OkOB9RfS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="roowW+R+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5932F1127EB
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 13:40:30 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 443CLH05026098;
- Fri, 3 May 2024 13:40:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=OTB8nHFLPaquXF5F/bBkNoQstl6p52xaF/pLsiIiK+E=; b=Ok
- OB9RfSaE7dFEwpgN2ng24tTsRGHoRUdPZRLivDNQc4Kt5kpR4600xo8WiRIWzXjJ
- sZabYLm8mWq8xYidXK8lDUJcMMH1FsPlkh0TngbWtId51nBXMhlkVPvZIU8nbLY3
- Gi0thrgzD648jWAhKJW7Ke+pEi8oRF3wO9aer31NVSl9HctOKpORMHlLAPRA2gjV
- UB9tX1NMJxom6EfLvAzi/5wBE8XEVyknmVz4UjXit1TTr0pfZfmGV5hT7jtZ7DXH
- wvL9+Cqaue8c8sDGaMFH4KFDrL7FebKh4G2nslCXk6TphxdCR2J4/M+FO1dRWt8x
- Anesn5ZMPjLpX9Xrh4ug==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xv7pxk1jy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 May 2024 13:40:25 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 443DeOCE027742
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 3 May 2024 13:40:24 GMT
-Received: from [10.214.66.164] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 3 May 2024
- 06:40:21 -0700
-Message-ID: <289b9ad6-58a3-aa39-48ae-a244fe108354@quicinc.com>
-Date: Fri, 3 May 2024 19:10:18 +0530
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+ [209.85.219.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 584681121BB
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 13:46:16 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-dcc71031680so9108870276.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 06:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1714743975; x=1715348775; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VkO+KdbtUN9IqeShpgEcMEOobBVHfZYBUo6hb6ifhXo=;
+ b=roowW+R+RP/LUP9oiECfd3EFnUvpJNPsUZ/xMirPf9e89oUWXUAVPwpXs/ScaDoDz+
+ ek2QL8N5E1uCTq4I9Lm5bbuqehVyjXT3W2JX3+GXzltIxUaXMDe7d0f2tYGmEACm8Ndj
+ Du64UtL2GcsoZTaD01C0lKBiaFgPptsbR8+s2hvcTUNPJ4j0Vfr39ArgkETqEZEuckCB
+ V9gbFde6xnL3Oq13CNZ3LgNeRmTIHXwAaBayci3J4EXbVofTSDD0Sk8uKii+fYO5Om8Q
+ E3Wiv/xh9zC4DNboNcVByYFwF5P+96P3Hpj88iRE3+m454uaxxJb6hPEcCzg3ez+wa0x
+ 9W1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714743975; x=1715348775;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VkO+KdbtUN9IqeShpgEcMEOobBVHfZYBUo6hb6ifhXo=;
+ b=m/R2TFSc0RDdlW3TKNf5xN/SRN33kfhp8Bjk3r1c5+v612J7q9XEzQLFVBQuSFDHGR
+ fsNsll+79jMarc6YIMLakd4LgPTKsKyGyM3Z8KJJK++WC0Na9Z4xvpYOrSG6RregFWN6
+ nw3RBx0LTHDFSbddeMmTeDvJ93WCq/vo6++3EuY1CRo37z6w992kPgJVDgzbTVTTfFtn
+ 1k4T4RHyuQKnqybnDzXHKoex9WPjRjzA4oUGqhk+MnLCjUu8u3VLY7tP4CeRwwZpJcIh
+ fHN/QOGT+5vD7gYVIZtEPjzR8MzfxhSqTJMB5Fonkw75PHvQhz+5tX5ZnuBOF5iBh1R3
+ wGvw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXZxVE/mtpCTK7AShKW6rsJdr1Xe83BCc9AAXH/KAXMFS++Hs+MDSiAoSaH7QSpkTrIw+7hnLjGuReZADOGLyV/nLzzPYb3YBe1jKiILdfC
+X-Gm-Message-State: AOJu0YxN9/Un5O/VJEJwCjF+zVvzxj/YjzOycm6ZABPD6pM0U+VAODP8
+ cL2Q6Dj2jT/wQoI1Mvx21eO5wdY4hfLcWWH0K7Fuq6ZcqhKEAVrbZvNAYAXSHihhsLFP4sYKeZ0
+ vUEJh01AXjJUkamTFFiuiAshu4JxHAy3aSSHwbA==
+X-Google-Smtp-Source: AGHT+IH/Xb1XcZDOaCvizhYyHNNZjGRIDjGUlZ+m+l5KoU1hpsPb+0dWkoH6eUByYXw6Znq4ecrpXd3LLQEK4dA3cKc=
+X-Received: by 2002:a25:b04a:0:b0:de8:8cd9:c43d with SMTP id
+ e10-20020a25b04a000000b00de88cd9c43dmr2564219ybj.12.1714743975056; Fri, 03
+ May 2024 06:46:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, zhiguojiang
- <justinjiang@vivo.com>, "T.J. Mercier" <tjmercier@google.com>
-CC: Sumit Semwal <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
- <linux-kernel@vger.kernel.org>, <opensource.kernel@vivo.com>
-References: <20240327022903.776-1-justinjiang@vivo.com>
- <5cf29162-a29d-4af7-b68e-aac5c862d20e@amd.com>
- <cc7defae-60c1-4cc8-aee5-475d4460e574@vivo.com>
- <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
- <CABdmKX2Kf4ZmVzv3LGTz2GyP-9+rAtFY9hSAxdkrwK8mG0gDvQ@mail.gmail.com>
- <e55cad9b-a361-4d27-a351-f6a4f5b8b734@vivo.com>
- <40ac02bb-efe2-4f52-a4f2-7b56d9b93d2c@amd.com>
- <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
- <aab5ec51-fcff-44f2-a4f5-2979bd776a03@amd.com>
- <2ebca2fd-9465-4e64-b3cc-ffb88ef87800@vivo.com>
- <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com>
-Content-Language: en-US
-From: Charan Teja Kalla <quic_charante@quicinc.com>
-In-Reply-To: <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com>
+References: <20240415-ti-sci-pd-v1-0-a0e56b8ad897@ideasonboard.com>
+ <20240415-ti-sci-pd-v1-2-a0e56b8ad897@ideasonboard.com>
+ <d4cd0323-4792-49b0-a4e2-0bc92068e7f0@ideasonboard.com>
+In-Reply-To: <d4cd0323-4792-49b0-a4e2-0bc92068e7f0@ideasonboard.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 3 May 2024 15:45:38 +0200
+Message-ID: <CAPDyKFqShuq98qV5nSPzSqwLLUZ7LxLvp1eihGRBkU4qUKdWwQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/2] pmdomain: ti-sci: Support retaining PD boot time
+ state
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Abel Vesa <abel.vesa@linaro.org>, 
+ Saravana Kannan <saravanak@google.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <kristo@kernel.org>, 
+ Santosh Shilimkar <ssantosh@kernel.org>, Dave Gerlach <d-gerlach@ti.com>,
+ J Keerthy <j-keerthy@ti.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+ linux-arm-kernel@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Devarsh Thakkar <devarsht@ti.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Rg_pKWba3Akm2TNgCyjNcGyIoHI3gh5C
-X-Proofpoint-ORIG-GUID: Rg_pKWba3Akm2TNgCyjNcGyIoHI3gh5C
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-03_09,2024-05-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 adultscore=0
- suspectscore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0 mlxscore=0
- bulkscore=0 spamscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2405030098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,165 +90,183 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks Christian/TJ for the inputs!!
++ Abel, Saravanna, Stephen
 
-On 4/18/2024 12:16 PM, Christian König wrote:
-> As far as I can see the EPOLL holds a reference to the files it
-> contains. So it is perfectly valid to add the file descriptor to EPOLL
-> and then close it.
+On Mon, 15 Apr 2024 at 19:17, Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
 >
-> In this case the file won't be closed, but be kept alive by it's
-> reference in the EPOLL file descriptor.
+> On 15/04/2024 19:00, Tomi Valkeinen wrote:
+> > Add a new flag, TI_SCI_PD_KEEP_BOOT_STATE, which can be set in the dts
+> > when referring to power domains. When this flag is set, the ti-sci
+> > driver will check if the PD is currently enabled in the HW, and if so,
+> > set the GENPD_FLAG_ALWAYS_ON flag so that the PD will stay enabled.
+> >
+> > The main issue I'm trying to solve here is this:
+> >
+> > If the Display Subsystem (DSS) has been enabled by the bootloader, the
+> > related PD has also been enabled in the HW. When the tidss driver
+> > probes, the driver framework will automatically enable the PD. While
+> > executing the probe function it is very common for the probe to return
+> > EPROBE_DEFER, and, in rarer cases, an actual error. When this happens
+> > (probe() returns an error), the driver framework will automatically
+> > disable the related PD.
+> >
+> > Powering off the PD while the DSS is enabled and displaying a picture
+> > will cause the DSS HW to enter a bad state, from which (afaik) it can't
+> > be woken up except with full power-cycle. Trying to access the DSS in
+> > this state (e.g. when retrying the probe) will usually cause the board
+> > to hang sooner or later.
+> >
+> > Even if we wouldn't have this board-hangs issue, it's nice to be able to
+> > keep the DSS PD enabled: we want to keep the DSS enabled when the
+> > bootloader has enabled the screen. If, instead, we disable the PD at the
+> > first EPROBE_DEFER, the screen will (probably) go black.
+>
+> A few things occurred to me. The driver is supposed to clear the
+> GENPD_FLAG_ALWAYS_ON when the driver has probed successfully. There are
+> two possible issues with that:
+>
+> - Afaics, there's no API to do that, and currently I just clear the bit
+> in genpd->flags. There's a clear race there, so some locking would be
+> required.
+>
+> - This uses the GENPD_FLAG_ALWAYS_ON flag to say "PD is always on, until
+> the driver has started". If the PD would have GENPD_FLAG_ALWAYS_ON set
+> for other reasons, the driver would still go and clear the flag, which
+> might break things.
+>
+> Also, unrelated to the above and not a problem in practice at the very
+> moment, but I think clocks should also be dealt with somehow. Something,
+> at early-ish boot stage, should mark the relevant clocks as in use, so
+> that there's no chance they would be turned off when the main kernel has
+> started (the main display driver is often a module).
+>
+> It would be nice to deal with all the above in a single place. I wonder
+> if the tidss driver itself could somehow be split into two parts, an
+> early part that would probe with minimal dependencies, mainly to reserve
+> the core resources without doing any kind of DRM init. And a main part
+> which would (somehow) finish the initialization at a later point, when
+> we have the filesystem (for firmware) and the other bridge/panel drivers
+> have probed.
+>
+> That can be somewhat achieved with simplefb or simpledrm, though, but we
+> can't do any TI DSS specific things there, and it also creates a
+> requirement to have either of those drivers built-in, and the related DT
+> nodes to be added.
 
-I am not seeing that adding a 'fd' into the epoll monitoring list will
-increase its refcount.  Confirmed by writing a testcase that just do
-open + EPOLL_CTL_ADD and see the /proc/../fdinfo of epoll fd(Added
-file_count() info to the output)
-# cat /proc/136/fdinfo/3
-pos:    0
-flags:  02
-mnt_id: 14
-ino:    1041
-tfd:        4 events:       19 data:                4  pos:0 ino:81 sdev:5
-refcount: 1<-- The fd added to the epoll monitoring is still 1(same as
-open file refcount)
+Without going into too much detail, this and similar problems have
+been discussed in the past. With the fw_devlink and the ->sync_state()
+callback we are getting closer to a solution, but for genpd a solution
+is still pending.
 
-From the code too, I don't see a file added in the epoll monitoring list
-will have an extra refcount but momentarily (where it increases the
-refcount of target file, add it to the rbtree of the epoll context and
-then decreasing the file refcount):
-do_epoll_ctl():
-	f = fdget(epfd);
-	tf = fdget(fd);
-	epoll_mutex_lock(&ep->mtx)
-	EPOLL_CTL_ADD:
-		ep_insert(ep, epds, tf.file, fd, full_check); // Added to the epoll
-monitoring rb tree list as epitem.
-	mutex_unlock(&ep->mtx);
-	fdput(tf);
-	fdput(f);
+If you want to read up on earlier discussions and join us moving
+forward, that would be great. The last attempt for genpd to move this
+forward was posted by Abel Vesa:
+https://lore.kernel.org/linux-pm/20230621144019.3219858-1-abel.vesa@linaro.org/
 
+Beyond that, we have also discussed various solutions at the last LPC
+in Richmond. I think the consensus at that point was that Saravana
+targeted to post something for clocks - and when that was done, we
+should do the similar thing for genpd. Anyway, I have looped them into
+this thread, so they can share any updates on their side of the
+matter.
 
-Not sure If i am completely mistaken what you're saying here.
+>
+>   Tomi
 
-> The fs layer which calls dma_buf_poll() should make sure that the file
-> can't go away until the function returns.
-> 
-> Then inside dma_buf_poll() we add another reference to the file while
-> installing the callback:
-> 
->                         /* Paired with fput in dma_buf_poll_cb */
->                         get_file(dmabuf->file); No, exactly that can't
-> happen either.
-> 
+Kind regards
+Uffe
 
-I am not quite comfortable with epoll internals but I think below race
-is possible where "The 'file' passed to dma_buf_poll() is proper but
-->f_count == 0, which is indicating that a parallel freeing is
-happening". So, we should check the file->f_count value before taking
-the refcount.
-
-(A 'fd' registered for the epoll monitoring list is maintained as
-'epitem(epi)' in the rbtree of 'eventpoll(ep, called as epoll context).
-
-epoll_wait()				    __fput()(as file->f_count=0)
-------------------------------------------------------------------------
-a) ep_poll_callback():
-     Is the waitqueue function
-   called when signaled on the
-   wait_queue_head_t of the registered
-   poll() function.
-
-   1) It links the 'epi' to the ready list
-      of 'ep':
-       if (!ep_is_linked(epi))
-	 list_add_tail_lockless(&epi->rdllink,
-		&ep->rdllist)
-
-   2) wake_up(&ep->wq);
-	Wake up the process waiting
-	on epoll_wait() that endup
-	in ep_poll.
-
-
-b) ep_poll():
-    1) while (1) {
-	eavail = ep_events_available(ep);
-	(checks ep->rdlist)
-	ep_send_events(ep);
-	(notify the events to user)
-    }
-    (epoll_wait() calling process gets
-     woken up from a.2 and process the
-     events raised added to rdlist in a.1)
-
-   2) ep_send_events():
-	mutex_lock(&ep->mtx);
-	(** The sync lock is taken **)
-	list_for_each_entry_safe(epi, tmp,
-			&txlist, rdllink) {
-	    list_del_init(&epi->rdllink);
-	    revents = ep_item_poll(epi, &pt, 1)
-	    (vfs_poll()-->...f_op->poll(=dma_buf_poll)
-	}
-	mutex_unlock(&ep->mtx)
-	(**release the lock.**)
-
-	(As part of procession of events,
-	 each epitem is removed from rdlist
-         and call the f_op->poll() of a file
-	 which will endup in dma_buf_poll())
-
-   3) dma_buf_poll():
- 	get_file(dmabuf->file);
-	(** f_count changed from 0->1 **)
-	dma_buf_poll_add_cb(resv, true, dcb):
-	(registers dma_buf_poll_cb() against fence)
-
-
-				c) eventpoll_release_file():
-				   mutex_lock(&ep->mtx);
-				   __ep_remove(ep, epi, true):
-				   mutex_unlock(&ep->mtx);
-				  (__ep_remove() will remove the
-				   'epi' from rbtree and if present
-				   from rdlist as well)
-
-				d) file_free(file), free the 'file'.
-
-e) dma_buf_poll_cb:
- /* Paired with get_file in dma_buf_poll */
- fput(dmabuf->file);
- (f_count changed from 1->0, where
-  we try to free the 'file' again
-  which is UAF/double free).
-
-
-		
-In the above race, If c) gets called first, then the 'epi' is removed
-from both rbtree and 'rdlink' under ep->mtx lock thus b.2 don't end up
-in calling the ->poll() as it don't see this event in the rdlist.
-
-Race only exist If b.2 executes first, where it will call dma_buf_poll
-with __valid 'struct file' under ep->mtx but its refcount is already
-could have been zero__. Later When e) is executed, it turns into double
-free of the 'file' structure.
-
-If you're convinced with the above race, should the fix here will be
-this simple check:
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 8fe5aa67b167..e469dd9288cc
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -240,6 +240,10 @@ static __poll_t dma_buf_poll(struct file *file,
-poll_table *poll)
- 	struct dma_resv *resv;
- 	__poll_t events;
-
-+	/* Check parallel freeing of file */
-+	if (!file_count(file))
-+		return 0;
-+
-
-Thanks,
-Charan
+>
+> > Another option here would perhaps be to change the driver framework
+> > (drivers/base/platform.c) which attaches and detaches the PD, and make
+> > it somehow optional, allowing the driver the manage the PD. That option
+> > has two downsides: 1) the driver _has_ to manage the PD, which would
+> > rule out the use of simplefb and simpledrm, and 2) it would leave the PD
+> > in off state from Linux's perspective until a driver enables the PD, and
+> > that might mean that the PD gets actually disabled as part of normal
+> > system wide power management (disabling unused resources).
+> >
+> > Yet another option would be to do this outside the ti_sci_pm_domains
+> > driver: a piece of code that would somehow be ran after the
+> > ti_sci_pm_domains driver has probed (so that we have the PDs), but
+> > before tidss/simplefb/simpledrm probes. The problem here is the
+> > "somehow" part. Also, this would partly have the same issue 2) as
+> > mentioned above.
+> >
+> > TODO: If this approach is ok, sci-pm-domain.yaml needs to be extended.
+> > Also, it sounds a bit like the cell value is not a bit-mask, so maybe
+> > adding TI_SCI_PD_KEEP_BOOT_STATE flag this way is not fine.
+> >
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > ---
+> >   drivers/pmdomain/ti/ti_sci_pm_domains.c    | 27 +++++++++++++++++++++++++--
+> >   include/dt-bindings/soc/ti,sci_pm_domain.h |  1 +
+> >   2 files changed, 26 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/pmdomain/ti/ti_sci_pm_domains.c b/drivers/pmdomain/ti/ti_sci_pm_domains.c
+> > index 1510d5ddae3d..b71b390aaa39 100644
+> > --- a/drivers/pmdomain/ti/ti_sci_pm_domains.c
+> > +++ b/drivers/pmdomain/ti/ti_sci_pm_domains.c
+> > @@ -103,7 +103,7 @@ static struct generic_pm_domain *ti_sci_pd_xlate(
+> >               return ERR_PTR(-ENOENT);
+> >
+> >       genpd_to_ti_sci_pd(genpd_data->domains[idx])->exclusive =
+> > -             genpdspec->args[1];
+> > +             genpdspec->args[1] & TI_SCI_PD_EXCLUSIVE;
+> >
+> >       return genpd_data->domains[idx];
+> >   }
+> > @@ -161,6 +161,8 @@ static int ti_sci_pm_domain_probe(struct platform_device *pdev)
+> >                               break;
+> >
+> >                       if (args.args_count >= 1 && args.np == dev->of_node) {
+> > +                             bool is_on = false;
+> > +
+> >                               if (args.args[0] > max_id) {
+> >                                       max_id = args.args[0];
+> >                               } else {
+> > @@ -189,7 +191,28 @@ static int ti_sci_pm_domain_probe(struct platform_device *pdev)
+> >                               pd->idx = args.args[0];
+> >                               pd->parent = pd_provider;
+> >
+> > -                             pm_genpd_init(&pd->pd, NULL, true);
+> > +                             /*
+> > +                              * If TI_SCI_PD_KEEP_BOOT_STATE is set and the
+> > +                              * PD has been enabled by the bootloader, set
+> > +                              * the PD to GENPD_FLAG_ALWAYS_ON. This will
+> > +                              * make sure the PD stays enabled until a driver
+> > +                              * takes over and clears the GENPD_FLAG_ALWAYS_ON
+> > +                              * flag.
+> > +                              */
+> > +                             if (args.args_count > 1 &&
+> > +                                 args.args[1] & TI_SCI_PD_KEEP_BOOT_STATE) {
+> > +                                     /*
+> > +                                      * We ignore any error here, and in case
+> > +                                      * of error just assume the PD is off.
+> > +                                      */
+> > +                                     pd_provider->ti_sci->ops.dev_ops.is_on(pd_provider->ti_sci,
+> > +                                             pd->idx, NULL, &is_on);
+> > +
+> > +                                     if (is_on)
+> > +                                             pd->pd.flags |= GENPD_FLAG_ALWAYS_ON;
+> > +                             }
+> > +
+> > +                             pm_genpd_init(&pd->pd, NULL, !is_on);
+> >
+> >                               list_add(&pd->node, &pd_provider->pd_list);
+> >                       }
+> > diff --git a/include/dt-bindings/soc/ti,sci_pm_domain.h b/include/dt-bindings/soc/ti,sci_pm_domain.h
+> > index 8f2a7360b65e..af610208e3a3 100644
+> > --- a/include/dt-bindings/soc/ti,sci_pm_domain.h
+> > +++ b/include/dt-bindings/soc/ti,sci_pm_domain.h
+> > @@ -3,6 +3,7 @@
+> >   #ifndef __DT_BINDINGS_TI_SCI_PM_DOMAIN_H
+> >   #define __DT_BINDINGS_TI_SCI_PM_DOMAIN_H
+> >
+> > +#define TI_SCI_PD_KEEP_BOOT_STATE 2
+> >   #define TI_SCI_PD_EXCLUSIVE 1
+> >   #define TI_SCI_PD_SHARED    0
+> >
+> >
+>
