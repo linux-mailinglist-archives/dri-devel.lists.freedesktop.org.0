@@ -2,57 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B318BB3A1
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 21:03:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A6A8BB3DD
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 21:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C61D7112937;
-	Fri,  3 May 2024 19:03:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A526B113201;
+	Fri,  3 May 2024 19:22:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nJwQoM2R";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="U064ytO3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8784A10FFF5;
- Fri,  3 May 2024 19:03:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2AB26CE19FE;
- Fri,  3 May 2024 19:03:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C6EDC116B1;
- Fri,  3 May 2024 19:03:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714763002;
- bh=pJM8i96ujPL/T4zAJrJuNpEQ+W+V/MxYLMvJEqYmBvg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nJwQoM2R038ROrePBZmLBa9LYRKlWHdPcGcYai07pnFJYM6UTHODQtRliqexPCOgg
- WyQenZ6EGL6INqEuQpZnvuyV5VrXQkVxgu74DZj4mKJs4LRaGTYwzIsNSmCZMTrvwZ
- AUXClks0NGxZ0OY3IItj4fPXk/lqFMVEPDE771iQqnaGMB3uQmEjnOz0KCG/IFR60O
- own53ZbY1D1FjeQObRwkIrGaVe0hJC8+m+TOnlN7L5tjp+ohRqe+SAjcjAt7CrKDh0
- Elyj8osbsh3KXPBnBAL9C3QOyL3fEJVeH9a0hjbk8fgnvV8hCcO7v0AbQ1+m679Nsi
- GrNG8hEtpghEA==
-Date: Fri, 3 May 2024 20:03:14 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
- (V4L/DVB)), linux-kernel@vger.kernel.org (open list), Wolfram Sang
- <wsa+renesas@sang-engineering.com>, amd-gfx@lists.freedesktop.org (open
- list:RADEON and AMDGPU DRM DRIVERS), dri-devel@lists.freedesktop.org (open
- list:DRM DRIVERS), intel-gfx@lists.freedesktop.org (open list:INTEL DRM
- DISPLAY FOR XE AND I915 DRIVERS), intel-xe@lists.freedesktop.org (open
- list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS),
- nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA
- GEFORCE/QUADRO GPUS), linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM
- HOST DRIVERS), linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER)
-Subject: Re: [PATCH v0 04/14] media: au0828: Make I2C terminology more
- inclusive
-Message-ID: <20240503200314.51e8439a@sal.lan>
-In-Reply-To: <20240329170038.3863998-5-eahariha@linux.microsoft.com>
-References: <20240329170038.3863998-1-eahariha@linux.microsoft.com>
- <20240329170038.3863998-5-eahariha@linux.microsoft.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63DB610E982
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 19:22:35 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-6edb76d83d0so67983b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 12:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1714764155; x=1715368955;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=wZE9sdMty9EFGzepC01irLfs4hOfSOdCceQaPVz49U0=;
+ b=U064ytO3Miwd67dVbRsswYMzB/nXo7W33pBESV8r8Kc5xY8j/V3LAtqpPHXNV5eFrb
+ wPfZKvuPzLi2fU9HCrq30mMnnhfHM4wdxSk3KUGNjV2QU5+tHVsuaU9HOq+OhOSledXL
+ Lezv3gZ/lVyRQ2RDo70pKwL/pjW94iTby5mWY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714764155; x=1715368955;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wZE9sdMty9EFGzepC01irLfs4hOfSOdCceQaPVz49U0=;
+ b=BajPzT6mx/cTMhBfjIa0t8VISd4vWDbICpmtaXqnFx9HLjV/57c2/fCeTedmKCIpvP
+ B4TfLLiyi9aFTG2HdGZJhlj1wHJBA6UXj1e0Q9gNx1gcB5kqvEWBUivYw3kc1C0RiSqZ
+ vq6K3gh2gp6YfmRg+VPsvL5SyJBbo2bAiTw3aEq2zsD4bBpPcHFxtc4WVIZzB71M4cht
+ tYUcQzeLcTijVTxeUhpStKMiPctB8yMJUf6CZ66x/m8fraiN9iogbi+j6y43+YhzU/QQ
+ pRgLuZWVnTHCnqq+b7H2IzZCkQd4MgWFbybn8qdOQSrmu+vbGYF/qcGr3BGl3tWxFEjV
+ 4Mrg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWdiFyL3Y+ONutcOivHvyxrjT770YKj90WuSxfqR2bEM+pXV2ObJbdlFwMoOyDs5wJOlvPw5wLP8PmJbTIbQ9qzzxoND4wux3+oGe6A/QPS
+X-Gm-Message-State: AOJu0Yya5DL4ksPQhXnqj8D2QyTn4ZYj7zGSE6V+/V2fp3pwZXdcbpj9
+ pCLLJtXBA96Nx/TAgbqos9O8mo/YHIN7QU1QyPO3e9RJL7n36j5r5+zecOYfBA==
+X-Google-Smtp-Source: AGHT+IH/cnBf5AmDAraYkoF01FtIBT3d+Li+us/ROEA5peZIO3ZUwaNqrc+r9saLXIGgSIOvwv5RWw==
+X-Received: by 2002:a05:6a00:801:b0:6ed:21d5:fc2c with SMTP id
+ m1-20020a056a00080100b006ed21d5fc2cmr4136967pfk.26.1714764154703; 
+ Fri, 03 May 2024 12:22:34 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+ by smtp.gmail.com with ESMTPSA id
+ y29-20020aa79e1d000000b006ed59172d2fsm3415250pfq.87.2024.05.03.12.22.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 May 2024 12:22:33 -0700 (PDT)
+Date: Fri, 3 May 2024 12:22:33 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Bui Quang Minh <minhquangbui99@gmail.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
+ io-uring@vger.kernel.org, jack@suse.cz,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>
+Subject: Re: get_file() unsafe under epoll (was Re: [syzbot] [fs?]
+ [io-uring?] general protection fault in __ep_remove)
+Message-ID: <202405031207.9D62DA4973@keescook>
+References: <0000000000002d631f0615918f1e@google.com>
+ <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
+ <202405031110.6F47982593@keescook>
+ <64b51cc5-9f5b-4160-83f2-6d62175418a2@kernel.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64b51cc5-9f5b-4160-83f2-6d62175418a2@kernel.dk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,66 +91,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Fri, 29 Mar 2024 17:00:28 +0000
-Easwar Hariharan <eahariha@linux.microsoft.com> escreveu:
-
-> I2C v7, SMBus 3.2, and I3C specifications have replaced "master/slave"
-> with more appropriate terms. Inspired by and following on to Wolfram's
-> series to fix drivers/i2c/[1], fix the terminology for users of
-> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
-> in the specification.
+On Fri, May 03, 2024 at 12:49:11PM -0600, Jens Axboe wrote:
+> On 5/3/24 12:26 PM, Kees Cook wrote:
+> > Thanks for doing this analysis! I suspect at least a start of a fix
+> > would be this:
+> > 
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 8fe5aa67b167..15e8f74ee0f2 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -267,9 +267,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+> >  
+> >  		if (events & EPOLLOUT) {
+> >  			/* Paired with fput in dma_buf_poll_cb */
+> > -			get_file(dmabuf->file);
+> > -
+> > -			if (!dma_buf_poll_add_cb(resv, true, dcb))
+> > +			if (!atomic_long_inc_not_zero(&dmabuf->file) &&
+> > +			    !dma_buf_poll_add_cb(resv, true, dcb))
+> >  				/* No callback queued, wake up any other waiters */
 > 
-> Compile tested, no functionality changes intended
-
-Current media drivers are perfectly fine with the current terminology. 
-None of them implement the above new standards.
-
-Please drop patches for current stuff under drivers/media.
-
-Regards,
-Mauro
-
+> Don't think this is sane at all. I'm assuming you meant:
 > 
-> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sang-engineering.com/
+> 	atomic_long_inc_not_zero(&dmabuf->file->f_count);
+
+Oops, yes, sorry. I was typed from memory instead of copy/paste.
+
+> but won't fly as you're not under RCU in the first place. And what
+> protects it from being long gone before you attempt this anyway? This is
+> sane way to attempt to fix it, it's completely opposite of what sane ref
+> handling should look like.
 > 
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> ---
->  drivers/media/usb/au0828/au0828-i2c.c   | 4 ++--
->  drivers/media/usb/au0828/au0828-input.c | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+> Not sure what the best fix is here, seems like dma-buf should hold an
+> actual reference to the file upfront rather than just stash a pointer
+> and then later _hope_ that it can just grab a reference. That seems
+> pretty horrible, and the real source of the issue.
+
+AFAICT, epoll just doesn't hold any references at all. It depends,
+I think, on eventpoll_release() (really eventpoll_release_file())
+synchronizing with epoll_wait() (but I don't see how this happens, and
+the race seems to be against ep_item_poll() ...?)
+
+I'm really confused about how eventpoll manages the lifetime of polled
+fds.
+
+> > Due to this issue I've proposed fixing get_file() to detect pathological states:
+> > https://lore.kernel.org/lkml/20240502222252.work.690-kees@kernel.org/
 > 
-> diff --git a/drivers/media/usb/au0828/au0828-i2c.c b/drivers/media/usb/au0828/au0828-i2c.c
-> index 749f90d73b5b..3e66d42bf134 100644
-> --- a/drivers/media/usb/au0828/au0828-i2c.c
-> +++ b/drivers/media/usb/au0828/au0828-i2c.c
-> @@ -23,7 +23,7 @@ MODULE_PARM_DESC(i2c_scan, "scan i2c bus at insmod time");
->  #define I2C_WAIT_DELAY 25
->  #define I2C_WAIT_RETRY 1000
->  
-> -static inline int i2c_slave_did_read_ack(struct i2c_adapter *i2c_adap)
-> +static inline int i2c_client_did_read_ack(struct i2c_adapter *i2c_adap)
->  {
->  	struct au0828_dev *dev = i2c_adap->algo_data;
->  	return au0828_read(dev, AU0828_I2C_STATUS_201) &
-> @@ -35,7 +35,7 @@ static int i2c_wait_read_ack(struct i2c_adapter *i2c_adap)
->  	int count;
->  
->  	for (count = 0; count < I2C_WAIT_RETRY; count++) {
-> -		if (!i2c_slave_did_read_ack(i2c_adap))
-> +		if (!i2c_client_did_read_ack(i2c_adap))
->  			break;
->  		udelay(I2C_WAIT_DELAY);
->  	}
-> diff --git a/drivers/media/usb/au0828/au0828-input.c b/drivers/media/usb/au0828/au0828-input.c
-> index 3d3368202cd0..98a57b6e02e2 100644
-> --- a/drivers/media/usb/au0828/au0828-input.c
-> +++ b/drivers/media/usb/au0828/au0828-input.c
-> @@ -30,7 +30,7 @@ struct au0828_rc {
->  	int polling;
->  	struct delayed_work work;
->  
-> -	/* i2c slave address of external device (if used) */
-> +	/* i2c client address of external device (if used) */
->  	u16 i2c_dev_addr;
->  
->  	int  (*get_key_i2c)(struct au0828_rc *ir);
+> I don't think this would catch this case, as the memory could just be
+> garbage at this point.
+
+It catches it just fine! :) I tested it against the published PoC.
+
+And for cases where further allocations have progressed far enough to
+corrupt the freed struct file and render the check pointless, nothing
+different has happened than what happens today. At least now we have a
+window to catch the situation across the time frame before it is both
+reallocated _and_ the contents at the f_count offset gets changed to
+non-zero.
+
+-- 
+Kees Cook
