@@ -2,87 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F5C8BB5C8
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD82A8BB5E3
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:36:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 361F710F2F8;
-	Fri,  3 May 2024 21:33:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B4E01129FE;
+	Fri,  3 May 2024 21:36:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="M51pZegg";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linux.org.uk header.i=@linux.org.uk header.b="QT8f1mjV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24F0C10F2F8
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:33:56 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-51f25f87e58so115990e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1714772035; x=1715376835;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=H0cKj1/eeDlsag1nYyx5cuj3RktPC8YvvhuCxa/6SIc=;
- b=M51pZeggcOF/Mja0fTZgyCbJPPJRD0bch/XTLIQUPHtit8dRhrDobkUmo1WTV4AVUc
- //zCK80LvhiogunsisFfwqThMv5kzZ0MLJA8MmmIhsMUqmyWV8vm/sZ1htQgAh//0XnB
- xcxxcdI7SBAwnkVGSdgIFd1GDvt6YFvdlPjQw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714772035; x=1715376835;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=H0cKj1/eeDlsag1nYyx5cuj3RktPC8YvvhuCxa/6SIc=;
- b=iNGI1TO5X0ec7rPgdnDF6O7LTxrYNfK0Pe7f/kEoayL1Cgf5OmZK6GVpPwSpU5lrhv
- rglfft/FEzVwO91sRuQ1SbTBNnaN+i0LLQlsDkJEAiHi6/O+9e8uQNiSBEjlx0kQcyLY
- i7Qh3nqmbYkiOWGZ8CFVncLSHgVjFEu55pDYnwjaeiRNZ4fIOVLzNwrVim4ixTWlGSLw
- qwMbtcXpVsaox+amffx2+j11SzSxYx8J5oPmKl1m18XD4Ru4xCdC0NEfQpX5QjiB51Bt
- umrJqutG+PWX219nKpyo5ijOOkJZXt1Q9RYcqq1gggVW2Gwd2SMK40NgitHWSxv9tcZm
- UDxg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVgxvZcWDp1ut9ejt1zwt4m6nWon12i2QVIwLRqcy6CXJnd6TxDE1moITVSxbMHFY/IChVYeHym3p/7xlDjd6H1TGw7NfkyCIJbuFIZVJ6J
-X-Gm-Message-State: AOJu0YyLt0l0vdm7TxhGuGdMDxbV5DeYWvHKpCNnm5n5NVk1AjNyk5YX
- kDsH/k/TGc6jhRmf9kBxYp9J+qpW0Kprlgle+nvwDzLBBBFUFNW8X+l11arm4bL7gNhljNoFSob
- Lmb0piw==
-X-Google-Smtp-Source: AGHT+IFw5qmBIRJPpB6GypjRip2Fp3adzYSoC6XlR6/1fHgblWVu655fEAIelZOxRKrBitBR3nCD9w==
-X-Received: by 2002:a19:f003:0:b0:51f:5c3:2d6e with SMTP id
- p3-20020a19f003000000b0051f05c32d6emr2589759lfc.17.1714772035041; 
- Fri, 03 May 2024 14:33:55 -0700 (PDT)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com.
- [209.85.218.44]) by smtp.gmail.com with ESMTPSA id
- gg12-20020a170906e28c00b00a594dfe312bsm2181875ejb.146.2024.05.03.14.33.54
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 May 2024 14:33:54 -0700 (PDT)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a599a298990so13918566b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:33:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5g6kNOUhgCbbol4EJqwepQT0S+nfovFHJD6dxPEd5QlfY1by188Hgjd3VguH+wgHgWy28iEvFbSz7tIvcbN5oZvb2mWfqrXO6kBReXnmM
-X-Received: by 2002:a17:906:2c50:b0:a59:761d:8291 with SMTP id
- f16-20020a1709062c5000b00a59761d8291mr2183947ejh.9.1714772033952; Fri, 03 May
- 2024 14:33:53 -0700 (PDT)
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C6B11129FE
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:36:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=J3cXx30+FsboiPTcISOtZ9TwfuIcCg4JxBIH2uqHWq8=; b=QT8f1mjVdApb6qDPIYAjbnpkXa
+ huWJ8WJkoI5MWTqxqBfivrYJAGWWz9GQcJDFBaHiLEkKu3dwesImOrNP9SYMXxS1z4uhtQCjc+Lkl
+ SUirU7g26F8NX/T0yaZVYScsT1TccXQaORjVO3HH+n+JjgdGmmtvVLBK5raOfaCu9jSJyxJAQVtDy
+ qIsaithpJee/MVfppIsBP4Z3bqcg+1vZWIgupErqLWUqr6KIim87g5615EV32qW3zOigsdrpMFT9K
+ NoLhUSqNDAw8suQ4f7sPMc02J2taTcMV4BLsWPBBjLg+Kp4m+dBi71MZhNGBdEM+XhSQPtKevD8SG
+ 6LiY+Ybg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat
+ Linux)) id 1s30Zt-00B8nN-0t; Fri, 03 May 2024 21:36:25 +0000
+Date: Fri, 3 May 2024 22:36:25 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Kees Cook <keescook@chromium.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Bui Quang Minh <minhquangbui99@gmail.com>,
+ Christian Brauner <brauner@kernel.org>,
+ syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
+ io-uring@vger.kernel.org, jack@suse.cz,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: get_file() unsafe under epoll (was Re: [syzbot] [fs?]
+ [io-uring?] general protection fault in __ep_remove)
+Message-ID: <20240503213625.GA2118490@ZenIV>
+References: <0000000000002d631f0615918f1e@google.com>
+ <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
+ <202405031110.6F47982593@keescook>
+ <64b51cc5-9f5b-4160-83f2-6d62175418a2@kernel.dk>
+ <202405031207.9D62DA4973@keescook>
+ <d6285f19-01aa-49c8-8fef-4b5842136215@kernel.dk>
+ <202405031237.B6B8379@keescook> <202405031325.B8979870B@keescook>
+ <20240503211109.GX2118490@ZenIV>
 MIME-Version: 1.0
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
-In-Reply-To: <20240503212428.GY2118490@ZenIV>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 3 May 2024 14:33:37 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
-Message-ID: <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
-Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: keescook@chromium.org, axboe@kernel.dk, brauner@kernel.org, 
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
- linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240503211109.GX2118490@ZenIV>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,39 +70,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 3 May 2024 at 14:24, Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> Can we get to ep_item_poll(epi, ...) after eventpoll_release_file()
-> got past __ep_remove()?  Because if we can, we have a worse problem -
-> epi freed under us.
+On Fri, May 03, 2024 at 10:11:09PM +0100, Al Viro wrote:
+> On Fri, May 03, 2024 at 01:28:37PM -0700, Kees Cook wrote:
+> > 
+> > Is this the right approach? It still feels to me like get_file() needs
+> > to happen much earlier...
+> 
+> I don't believe it needs to happen at all.  The problem is not that
+> ->release() can be called during ->poll() - it can't and it doesn't.
+> It's that this instance of ->poll() is trying to extend the lifetime
+> of that struct file, when it might very well be past the point of no
+> return.
+> 
+> What we need is
+> 	* promise that ep_item_poll() won't happen after eventpoll_release_file().
+> AFAICS, we do have that.
+> 	* ->poll() not playing silly buggers.
+> 
+> As it is, dma_buf ->poll() is very suspicious regardless of that
+> mess - it can grab reference to file for unspecified interval.
+> Have that happen shortly before reboot and you are asking for failing
+> umount.
+> 
+> ->poll() must be refcount-neutral wrt file passed to it.  I'm seriously
+> tempted to make ->poll() take const struct file * and see if there's
+> anything else that would fall out.
 
-Look at the hack in __ep_remove(): if it is concurrent with
-eventpoll_release_file(), it will hit this code
-
-        spin_lock(&file->f_lock);
-        if (epi->dying && !force) {
-                spin_unlock(&file->f_lock);
-                return false;
-        }
-
-and not free the epi.
-
-But as far as I can tell, almost nothing else cares about the f_lock
-and dying logic.
-
-And in fact, I don't think doing
-
-        spin_lock(&file->f_lock);
-
-is even valid in the places that look up file through "epi->ffd.file",
-because the lock itself is inside the thing that you can't trust until
-you've taken the lock...
-
-So I agree with Kees about the use of "atomic_dec_not_zero()" kind of
-logic - but it also needs to be in an RCU-readlocked region, I think.
-
-I wish epoll() just took the damn file ref itself. But since it relies
-on the file refcount to release the data structure, that obviously
-can't work.
-
-                Linus
+... the last part is no-go - poll_wait() must be able to grab a reference
+(well, the callback in it must)
