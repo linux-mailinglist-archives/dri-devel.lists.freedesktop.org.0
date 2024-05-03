@@ -2,90 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9614F8BB168
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 19:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE618BB16B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 19:06:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4B4E10F883;
-	Fri,  3 May 2024 17:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C35A911317A;
+	Fri,  3 May 2024 17:06:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dnw0x6GO";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sFtADOpz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
- [209.85.219.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C06D910F883
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 17:03:57 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id
- 6a1803df08f44-69b5ece41dfso37425006d6.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 10:03:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714755834; x=1715360634;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TVSe7pluKfDVQULV/YyS5WvGtcPrWiyKGEQwMLGF11s=;
- b=dnw0x6GOJqAjfJ/1hfx8OKG0xTugZbAa1HWVHby+nqDWyk9LLdk2+vTMRl++oNYUvY
- /cACDAgAjoYDujARxHn/fuwqTOl3Zs1rcy/kcRR0sMtfhCDmlAQzGyA/xd7CQvkFj1tl
- 8hM45DMxmhONfA2JfkjupW3O8MvEwJ5M5/oaA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714755834; x=1715360634;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TVSe7pluKfDVQULV/YyS5WvGtcPrWiyKGEQwMLGF11s=;
- b=NEjLtTaMFN228OUKjHWW2Qd1/nx8UNoeOJfWqgEk6IN5UQh9xk7pIp3MednhWCgHME
- FxqSnlkN+GrxiVmkLdvIfNULzn985MRqivjcRZ88Z6y8Dd19dk24oPWXhaMtPitYpzib
- dZgsjY75ur87puqvXm/IN5i/m5vCchlZWJBTcfSby1BZ0mQUAdgJbJFmL9WPtGp3sfjS
- APp297zzyrk5O48NwBxKHpWKODy+SQvi5FCD9Hxov8ZBgoRk+o+wTHR7k3xzhQ+gPHQb
- d+KPOHKTet8gWc6G0pxBKm+zf1nG/iBoMfnrw/HGzTJLIN48ULE11qP5/1+asFjpK/8+
- tAHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVFxmSKe+65/IqZMJ+b5Ii42RuYKZS3gw9Om66BghzBSxsZA5Rhn6U06+/uUxlP4Xjv+JZ55oG/3WmrFggn1Aa04te9FfaLCS1KbUates33
-X-Gm-Message-State: AOJu0YzI8z+3j0clnMZe1p5Ks0EMRpU2C1qoeHWAJdpgKI5PM8Cb06er
- b9vj4R6e/KEPvHBCnMf0dGUi2BItoUzovxkmODnSdyp0iBaZZwOaBaMCAqXz8AqzyXAOoQqEWdv
- CIg==
-X-Google-Smtp-Source: AGHT+IGnlCdQDyWDjoQ5ieDko2K1YaXJmOhD9/uvm00JHd5BhJCAjbMCWnynvMKcwdCaNSEdVQQRzQ==
-X-Received: by 2002:a05:6214:411:b0:6a0:d6c1:b795 with SMTP id
- z17-20020a056214041100b006a0d6c1b795mr3752742qvx.5.1714755834059; 
- Fri, 03 May 2024 10:03:54 -0700 (PDT)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
- [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
- a5-20020a0cefc5000000b006a0edf4f67bsm1358757qvt.39.2024.05.03.10.03.52
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 May 2024 10:03:53 -0700 (PDT)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-439b1c72676so764851cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 10:03:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXvO8DdccP35vN/gsenbc2FcybXf5+PfrmsbFf1RW50skPNjKzbHITB5NEz4qlx5L3HvuEidTP0cs3QCZ9I5m8TXc5rbDYVBAt3Lv73P7NR
-X-Received: by 2002:a05:622a:1a91:b0:43a:c278:83f9 with SMTP id
- d75a77b69052e-43cdbebd9ebmr3461811cf.3.1714755831481; Fri, 03 May 2024
- 10:03:51 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5A89113178;
+ Fri,  3 May 2024 17:06:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=W5VXEDo8Aepn5JuFIZuObXvwkeTfdfzi9G1CqSCo1Mk=; b=sFtADOpzRnND5YlZt5Tc8NJkkh
+ cYAcebKR4MdIaolxRDKNvtJV23UDR8jC9CtGEfyJg9fOOf/FfCAYezPfM2b+L58QAygnT8R13l2ay
+ nYVpMbVb+qFTkHW2SZJMfMME39Jh0hwBuq6SIuFgNZJHPNOtq2QU0lcrXtJB0guEz3jlzQ4tgt9qJ
+ 7E7hWz29kyk0UbxR32/4EbaIEHRAEbSNHBn3G4UZfKbQsOogfkVP85Kr2bmJoTWYa2Gui3slJ9jlu
+ GVuky6s5bsTr8nOECHAnEeq1Ezu3bOhqP9UMatdQK4482ixd1uRD/U5Ar50ofRRn5SPOwk3LJ6nqf
+ QJhRktQQ==;
+Received: from [84.65.0.132] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1s2wMG-000CJj-9b; Fri, 03 May 2024 19:06:04 +0200
+Message-ID: <4705c6e4-04e3-4f97-9f9a-629b6495e92a@igalia.com>
+Date: Fri, 3 May 2024 18:06:03 +0100
 MIME-Version: 1.0
-References: <20240404-drop-panel-unregister-v1-0-9f56953c5fb9@linaro.org>
- <20240404-drop-panel-unregister-v1-5-9f56953c5fb9@linaro.org>
-In-Reply-To: <20240404-drop-panel-unregister-v1-5-9f56953c5fb9@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 3 May 2024 10:03:35 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WVyRGevshhkhzuXht+ePm3BXVyMhDOPOkFs72wZS_s_A@mail.gmail.com>
-Message-ID: <CAD=FV=WVyRGevshhkhzuXht+ePm3BXVyMhDOPOkFs72wZS_s_A@mail.gmail.com>
-Subject: Re: [PATCH 5/6] drm/panel: novatek-nt36672a: stop calling
- regulator_set_load manually
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Matthias Kaehlcke <mka@chromium.org>, Harigovindan P <harigovi@codeaurora.org>,
- Ritesh Kumar <quic_riteshk@quicinc.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/gpu: Document the situation with
+ unqualified drm-memory-
+Content-Language: en-GB
+To: Alex Deucher <alexdeucher@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
+ Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20240503123657.9441-1-tursulin@igalia.com>
+ <736ba0a2-035b-4727-bbcc-437029420377@igalia.com>
+ <2cdee989-f48d-4923-b12a-f09a1cc2b34d@igalia.com>
+ <ZjUDsRIHHmJ0oM-1@phenom.ffwll.local>
+ <CADnq5_Mp0y559dGHuK2HWJp_UuiknOhvQB90yw_tdOuo1eV8gQ@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <CADnq5_Mp0y559dGHuK2HWJp_UuiknOhvQB90yw_tdOuo1eV8gQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,55 +69,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Thu, Apr 4, 2024 at 3:08=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Use .init_load_uA part of the bulk regulator API instead of calling
-> register_set_load() manually.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/panel/panel-novatek-nt36672a.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c b/drivers/gpu=
-/drm/panel/panel-novatek-nt36672a.c
-> index 33fb3d715e54..3886372415c2 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-> @@ -605,21 +605,16 @@ static int nt36672a_panel_add(struct nt36672a_panel=
- *pinfo)
->         struct device *dev =3D &pinfo->link->dev;
->         int i, ret;
->
-> -       for (i =3D 0; i < ARRAY_SIZE(pinfo->supplies); i++)
-> +       for (i =3D 0; i < ARRAY_SIZE(pinfo->supplies); i++) {
->                 pinfo->supplies[i].supply =3D nt36672a_regulator_names[i]=
-;
-> +               pinfo->supplies[i].init_load_uA =3D nt36672a_regulator_en=
-able_loads[i];
-> +       }
->
->         ret =3D devm_regulator_bulk_get(dev, ARRAY_SIZE(pinfo->supplies),
->                                       pinfo->supplies);
->         if (ret < 0)
->                 return dev_err_probe(dev, ret, "failed to get regulators\=
-n");
->
-> -       for (i =3D 0; i < ARRAY_SIZE(pinfo->supplies); i++) {
-> -               ret =3D regulator_set_load(pinfo->supplies[i].consumer,
-> -                                        nt36672a_regulator_enable_loads[=
-i]);
-> -               if (ret)
-> -                       return dev_err_probe(dev, ret, "failed to set reg=
-ulator enable loads\n");
-> -       }
+On 03/05/2024 16:58, Alex Deucher wrote:
+> On Fri, May 3, 2024 at 11:33 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>>
+>> On Fri, May 03, 2024 at 01:58:38PM +0100, Tvrtko Ursulin wrote:
+>>>
+>>> [And I forgot dri-devel.. doing well!]
+>>>
+>>> On 03/05/2024 13:40, Tvrtko Ursulin wrote:
+>>>>
+>>>> [Correcting Christian's email]
+>>>>
+>>>> On 03/05/2024 13:36, Tvrtko Ursulin wrote:
+>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>>
+>>>>> Currently it is not well defined what is drm-memory- compared to other
+>>>>> categories.
+>>>>>
+>>>>> In practice the only driver which emits these keys is amdgpu and in them
+>>>>> exposes the total memory use (including shared).
+>>>>>
+>>>>> Document that drm-memory- and drm-total-memory- are aliases to
+>>>>> prevent any
+>>>>> confusion in the future.
+>>>>>
+>>>>> While at it also clarify that the reserved sub-string 'memory' refers to
+>>>>> the memory region component.
+>>>>>
+>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>>>> Cc: Christian König <christian.keonig@amd.com>
+>>>>
+>>>> Mea culpa, I copied the mistake from
+>>>> 77d17c4cd0bf52eacfad88e63e8932eb45d643c5. :)
+>>>>
+>>>> Regards,
+>>>>
+>>>> Tvrtko
+>>>>
+>>>>> Cc: Rob Clark <robdclark@chromium.org>
+>>>>> ---
+>>>>>    Documentation/gpu/drm-usage-stats.rst | 10 +++++++++-
+>>>>>    1 file changed, 9 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/Documentation/gpu/drm-usage-stats.rst
+>>>>> b/Documentation/gpu/drm-usage-stats.rst
+>>>>> index 6dc299343b48..ef5c0a0aa477 100644
+>>>>> --- a/Documentation/gpu/drm-usage-stats.rst
+>>>>> +++ b/Documentation/gpu/drm-usage-stats.rst
+>>>>> @@ -128,7 +128,9 @@ Memory
+>>>>>    Each possible memory type which can be used to store buffer
+>>>>> objects by the
+>>>>>    GPU in question shall be given a stable and unique name to be
+>>>>> returned as the
+>>>>> -string here.  The name "memory" is reserved to refer to normal
+>>>>> system memory.
+>>>>> +string here.
+>>>>> +
+>>>>> +The region name "memory" is reserved to refer to normal system memory.
+>>>>>    Value shall reflect the amount of storage currently consumed by
+>>>>> the buffer
+>>>>>    objects belong to this client, in the respective memory region.
+>>>>> @@ -136,6 +138,9 @@ objects belong to this client, in the respective
+>>>>> memory region.
+>>>>>    Default unit shall be bytes with optional unit specifiers of 'KiB'
+>>>>> or 'MiB'
+>>>>>    indicating kibi- or mebi-bytes.
+>>>>> +This is an alias for drm-total-<region> and only one of the two
+>>>>> should be
+>>>>> +present.
+>>
+>> This feels a bit awkward and seems to needlessly complicate fdinfo uapi.
+>>
+>> - Could we just patch amdgpu to follow everyone else, and avoid the
+>>    special case? If there's no tool that relies on the special amdgpu
+>>    prefix then that would be a lot easier.
+>>
+>> - If that's not on the table, could we make everyone (with a suitable
+>>    helper or something) just print both variants, so that we again have
+>>    consisent fdinfo output? Or breaks that a different set of existing
+>>    tools.
+>>
+>> - Finally maybe could we get away with fixing amd by adding the common
+>>    format there, deprecating the old, fixing the tools that would break and
+>>    then maybe if we're lucky, remove the old one from amdgpu in a year or
+>>    so?
+> 
+> I'm not really understanding what amdgpu is doing wrong.  It seems to
+> be following the documentation.  Is the idea that we would like to
+> deprecate drm-memory-<region> in favor of drm-total-<region>?
+> If that's the case, I think the 3rd option is probably the best.  We
+> have a lot of tools and customers using this.  It would have also been
+> nice to have "memory" in the string for the newer ones to avoid
+> conflicts with other things that might be a total or shared in the
+> future, but I guess that ship has sailed.  We should also note that
+> drm-memory-<region> is deprecated.  While we are here, maybe we should
+> clarify the semantics of resident, purgeable, and active.  For
+> example, isn't resident just a duplicate of total?  If the memory was
+> not resident, it would be in a different region.
 
-Thanks for the cleanup! I happened to notice this commit and I'm
-curious why you didn't take the next step and move to
-devm_regulator_bulk_get_const(). That would have allowed you to avoid
-the "for" loop above that copies the data ;-)
+Amdgpu isn't doing anything wrong. It just appears when the format was 
+discussed no one noticed (me included) that the two keys are not clearly 
+described. And it looks there also wasn't a plan to handle the uncelar 
+duality in the future.
 
--Doug
+For me deprecating sounds fine, the 3rd option. I understand we would 
+only make amdgpu emit both sets of keys and then remove drm-memory- in 
+due time.
+
+With regards to key naming, yeah, memory in the name would have been 
+nice. We had a lot of discussion on this topic but ship has indeed 
+sailed. It is probably workarble for anything new that might come to add 
+their prefix. As long as it does not clash with the memory categories is 
+should be fine.
+
+In terms of resident semantics, think of it as VIRT vs RES in top(1). It 
+is for drivers which allocate backing store lazily, on first use.
+
+Purgeable is for drivers which have a form of MADV_DONTNEED ie. 
+currently have backing store but userspace has indicated it can be 
+dropped without preserving the content on memory pressure.
+
+Active is when reservation object says there is activity on the buffer.
+
+Regards,
+
+Tvrtko
+
+> 
+> Alex
+> 
+>>
+>> Uapi that's "either do $foo or on this one driver, do $bar" is just
+>> guaranteed to fragement the ecosystem, so imo that should be the absolute
+>> last resort.
+>> -Sima
+>>
+>>>>> +
+>>>>>    - drm-shared-<region>: <uint> [KiB|MiB]
+>>>>>    The total size of buffers that are shared with another file (e.g.,
+>>>>> have more
+>>>>> @@ -145,6 +150,9 @@ than a single handle).
+>>>>>    The total size of buffers that including shared and private memory.
+>>>>> +This is an alias for drm-memory-<region> and only one of the two
+>>>>> should be
+>>>>> +present.
+>>>>> +
+>>>>>    - drm-resident-<region>: <uint> [KiB|MiB]
+>>>>>    The total size of buffers that are resident in the specified region.
+>>
+>> --
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
