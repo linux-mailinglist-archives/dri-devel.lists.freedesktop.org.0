@@ -2,76 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF2A8BB074
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 17:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20B48BB0C2
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:20:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C5A910F981;
-	Fri,  3 May 2024 15:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0D7810F923;
+	Fri,  3 May 2024 16:20:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NhWT/WL7";
+	dkim=pass (2048-bit key; unprotected) header.d=yahoo.com header.i=@yahoo.com header.b="OJY7SQpJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA2310E50A;
- Fri,  3 May 2024 15:58:39 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-2b346712919so1990637a91.2; 
- Fri, 03 May 2024 08:58:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714751919; x=1715356719; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=72UIEfLXF/6zj8meHlKcjDQs+enqdmnO7yPDtKWxD2Q=;
- b=NhWT/WL7i7CoPyLrSt9CrMqEwOL9+QDWmOGiKkf+LDMHeXz1D7g+zuVE2pxFs0vAl4
- 1ZCIvhGLtykjXQMtQ+PTS4RQDYtGFQlxlaxh/0lKHa1u+zrXJHLo0eTfQM7tAaHpUR9o
- cJ/8yP0pFXMdBk79ZYEjN3WoPfbJa8q36LlEAbHGbQ6gl2n2/5k8trb5M4FWSKBWSVKZ
- P4+Th2YPjpiVviDfjhlwQfQmy4MOtk/P0+rq32O3RM4DZfTyyn8tlzwhjGiGoYjdPsj+
- paCy3JiLZ6xSBhXGS05//4Saz5aYAEi3PYF8TuxuFBuBNjVf2nO4sOLr8YrgCzU1ztdn
- dfRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714751919; x=1715356719;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=72UIEfLXF/6zj8meHlKcjDQs+enqdmnO7yPDtKWxD2Q=;
- b=nFmRwoHm/P33O/A2bb2pqSNbjAY0t+wmLJ78pJjOQJiUj7s38mBl1eiFYW/6rDwXho
- gZ1/KOzdT5enf1n3B81NWsrBNAMlr/oxk8bQtjJtpVDyVLfqxcRWfL4LHNbsRrmuS7/b
- 42JeIp/u7JZ11o6SVgwSvRV8PEdA+hyXP6EQ6DvdpOG0mPNm5UUYoE8loPRXXofQvBrI
- UiBerTXxgfgMeldsKS+HRHUS5Bl+gFyxhUy7OkoJ0A57isW/Ie19WvytilXuUzbczRp4
- 3SgrE5gh+RQvbKxHLIHBO/ey40ugcobBr79MGFv3m/1sgXu9fznsXPoUNYoS2OyZR099
- dYkA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHqhkCp72zDwUZLLru+rBlk63GT0A727U3nVRWB1NBAljdrATal8zgEKSIezJIw03OIYmswphB1WY1gGr6dQoxDOO0snq4XnmChx23qUEGWxI2OKG6nXkSu913Qfs1jZ59KyG3gdqL7ceLavqmBg==
-X-Gm-Message-State: AOJu0Yzp+WyC1c/0QFmC0PMNu3+8ARPADhEwgscgqqwmDahFdPc+BfMV
- WK74NCjT7EMDX9ZlduSNq6lt03pmOWPy405cJRxBw37mp7X68B/L0Eil4hWDNb6ObUfZdixiH+f
- OE6pKfPRSEaVrjh0MrhqrEHfVD1Q=
-X-Google-Smtp-Source: AGHT+IGI9RioxbGs0cl4y6tjZPnF9YrSFVSf9rTIcEzzHe8FI/9Ptf6NLRyfv9HlIV8aJkCqDPeZzMiWpI/hgbLu7os=
-X-Received: by 2002:a17:90b:1294:b0:2b3:28df:92b7 with SMTP id
- fw20-20020a17090b129400b002b328df92b7mr2827811pjb.4.1714751918986; Fri, 03
- May 2024 08:58:38 -0700 (PDT)
+Received: from sonic305-21.consmr.mail.ne1.yahoo.com
+ (sonic305-21.consmr.mail.ne1.yahoo.com [66.163.185.147])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C239D10F923
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:20:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1714753225; bh=OpuBHTwhnfArlf2PsQ6g2wnS/DKkhtNrSqNbd0Cd8cY=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To;
+ b=OJY7SQpJPzFrXmeylgxlGlD3BCSE3qOAxtwPdYkVU5FOxoLQRKJF00tEYfmhaZK5iKlWOa1/JjjV3eH5JM2lkvEgYwXSMN2TYCphU3hLPn6KbqF1Rj/25IatAeHosRSq3yFt10J95fl7tGkina6PY5ns5e6q74dtMuyD6gERnI1RySrwQf23ZltBNfLXPMdRXH5udLAJ2h/8SmvLmdIuNJw2BOm3ocVmKh6moWugYmx9dm9auVM2M44Hb3/30RTwNCAXsebxMTB2Hxq5cXS4rVZ2q301QKyzYNDGGKm96RYCeoiBvvY3ZTsoE41Br0FOufHwquVo3bVShNWRkPQ2+A==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1714753225; bh=gPCGN3rmhpceV7xys+Q2GhOmTSmNqpsqTtrlqRdgO1X=;
+ h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
+ b=V5CLgOtQ0no4pFxBD1z0CO1DCpcuj0doeAwUEFljJGxIAQTKleE86ex1gGEoZ1bGiooafFJU12Wpv2Y4lkwfnaR8uqWfZP2WI3bvnjHW6ORKMHakTJ2ARzRLeixzdG3FoCCeP4K62/I9xHLzyqg8DEbl3bhFey5vqnQZ4Et4w+b8s2i+X/NIGl99B5H0poNXBIFVJdDMsnGKUjPrC1re6as0OmJra+WpDtuBIIZBVn0wHkck0pB/h0tve3WBR6v2FTKdA8J089oVjL+9aMHtnhHhchoVsgiFJgRsu2Ufjse3VagAL9Z1BH/sp41tu6VU5Fju51g7+np6PWG27rIB8A==
+X-YMail-OSG: u7CikhkVM1mEMBJgRhgeFfykAxEVELBK2D8SuCjgxXEHVfhg2Mh1jCun.7euP4n
+ YuKTaefJTFGNeHA6y0GKN8r5o3pt6uZ4L7fJsdR9huBW4xI._HbSxGmtwL7Q.r.q2HNLUhrxNcqJ
+ iQk0clfL4rJB7emk22t.djOQDkv.3brzpvxYm7mD76etPxjsHtjznB4tUyLYzXFO.6IDvqV7cuVU
+ s7YU8V1I5QXnD2RY954jhO_zWBG1FHHEhnmc2lafLzGClMxUD1sSeuRmEUnPzd9UJb1XvnNuPzoR
+ HDhGIP5Qbmk9vsiiNBfzez4x4g8KFg3M.G5Uk5n2WX7L_k6B9_ZGCVtrDh348xQOjY1Y_1Cd81b4
+ noQswoJiZsryvGYbOrdRyqJAQrn1NxglYFDVVQ8ihsj3JFsAg8idJ57wbS4lW1zJR0z2hwX0D5L8
+ Ah9_5UWH5vGNxPLESZLBXSsL8X91UjsCxu6TnFw7uhzNds6_ofPqhWISo6wokWtoHo4s5i_Dd1g1
+ pgusS5pHJ1PX8KPBpv1fMxnUGbma5Mq06lphYU_SSXY4i5qCBUK37DNnJIV5AgXDEbpreAvPY5KN
+ vR8Tb6Q2yF6axmhLYw2qwsfnAUr0vA_Jzc2pUUzAeDxF6I0UPkjLA7a7yiaDIczakKX6dwdSJ.mG
+ 58OM_lkjw52d71AdkfrDJUX2MksGHq1K63WSXuFurdzA3S18AlusvV.5PFProfYCIRztn0BDISD2
+ Qa0GpFEiFwlzby4x0fgGxV8dJZ7Xq5ugd4xBCV.6.A2dnjy26PjzG0jwSLH9GPjFaJGaVk9uUasX
+ Ix6sSXmG_K_jm3KYote_PDn6JLIa0hbq_HNpR__3cjgTP1plr_6Akyd1GFihjkHF_mscqbk6S76Q
+ jpIhhLUmyHcsZ.NWMfj678JphFYyxPaOOxLXXAMfL_zhiEjNUJvyW4VexTTgNZ3xy4unuIoacAoJ
+ i65ljO1IAGxShzOLanEqKFAMguiVBBN84wbYDBpr0kbG1lU32E1cGTIczqgW2w82DRV0zMHp7_sk
+ RkIuj5k_JzxlnN5zNfGNQ27h3I4gVCCP9gOc5wekqRwLV8ifLYRb0bPkd8tD7JmD2LZ4W42b5344
+ HsLeoU48IJJDVr0YJZVirumWrxsKvF2I3o7_KXaVyliAP25U_deLjmT.BBE1UONAftNh2kNMOZhG
+ ak5IKdiwLyK6_12ip8oazaBJj_0W2q_gqrvjiq4bKG6iI._HycRHunW22uHeF9wvQrk5tc_APutn
+ ySnbWQ9ziXxvaBWtboypHwNZUDPR.1KsQgcqJSY2RL3r9XfaUo845YNVfdFuXJRnWkIvdttDKler
+ fyJKbvSmeSCJKhNzvxBHRQYh5n.3NYvEikv_TsZJacJhbUnWXZUvXasP37MGyoQ7GLT5da687ovE
+ MPDnTVH5iJuFgVqg.nx3oyRUA1nTBGBfvFZYSiKFVAvWHa4stTt3NH3SSaTDdTBWfIGRsYGhkvLA
+ dGy3Z7XijAEEDsjVV7IcaVpLVWIbJ5jIIBJ13eYMxWVJ5f4A4lIZrv_SZBpvByB1sfv.DS7gSonq
+ 1VNOutIuK8hijTa9otiRaFsP5_Q0XVFGUteywvHokJuiKc9VgRr3JHFzTPQ4VicD_5wUtc5IFJ1G
+ Whv.16lmZ496l.ekC09_B7nK3cP4JcBG1bvLevBfXuZGDgqGnk69NAcG7XfInLZXd.siTtH_j2Hu
+ Um8ryul1Tv18C0USqxm8iwpFTlN8Nnzyfmboy0o0wiQplgRXpa.HUUaRAp_Q1evqftIW2KXhIQd.
+ PgvidYsIBtF.XIaFWMsLdcMg1GvBlnp_6PRqwXVoLM2PAqh5VqVkQQTOfaBeMPEn8jtbd6qNLLqP
+ 0LUJpjXA1La1EIPftMu6oPuaNY5s2vCt4KwXJcivqOm8eJpB7YSB6SjubeIV9IqXdILqqdTIJ5I1
+ loXhSfvkPvTocCDcdoz7FvbKaejGqeAjQjG8RIM0v82Pdtw0DCF.8aCwGPn7CiVmUwVA3AB8L30S
+ N_n9FCd6TcDBPoK5HwRSX..z0kdfVosVSs6SS2qsrOs3jY06vlXP0PhNz2EG_YmgI7YvRoqKxbY7
+ PKcwpvJsXvM7YBuftOiseBjk3I_KzychmFW.f.Ls34I5eM8XzWMW0LfYeBAwTIprJKhvL6V_Vrms
+ tgESrkIU7v9UtaRwWh7DKRHDJUDHgqExo6lBS0mqHPrUKy.hVNgkJlB2PDa_Qv4JSP3Rf1VmTgvH
+ Fcv96CSp4tjyCAXFkI47vWUo4VCWan1qd7NG.JaBVJ1kVaf_Z0uiLr9CVPVJD6A.o_UxUDqo-
+X-Sonic-MF: <ashokemailat@yahoo.com>
+X-Sonic-ID: b20f7dc0-ce88-4f67-8215-c25d657d58b6
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic305.consmr.mail.ne1.yahoo.com with HTTP; Fri, 3 May 2024 16:20:25 +0000
+Date: Fri, 3 May 2024 16:20:24 +0000 (UTC)
+From: Ashok Kumar <ashokemailat@yahoo.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>, 
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "outreachy@lists.linux.dev" <outreachy@lists.linux.dev>
+Message-ID: <1389558595.6771301.1714753224419@mail.yahoo.com>
+In-Reply-To: <c8d24241-1763-f7b7-4491-2e5aa3ea3be@inria.fr>
+References: <ZjRDUO6/M+RDCcQJ.ref@c> <ZjRDUO6/M+RDCcQJ@c>
+ <c8d24241-1763-f7b7-4491-2e5aa3ea3be@inria.fr>
+Subject: Re: [PATCH] staging: fb_tinylcd Alignment to open parenthesis
 MIME-Version: 1.0
-References: <20240503123657.9441-1-tursulin@igalia.com>
- <736ba0a2-035b-4727-bbcc-437029420377@igalia.com>
- <2cdee989-f48d-4923-b12a-f09a1cc2b34d@igalia.com>
- <ZjUDsRIHHmJ0oM-1@phenom.ffwll.local>
-In-Reply-To: <ZjUDsRIHHmJ0oM-1@phenom.ffwll.local>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 3 May 2024 11:58:26 -0400
-Message-ID: <CADnq5_Mp0y559dGHuK2HWJp_UuiknOhvQB90yw_tdOuo1eV8gQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/gpu: Document the situation with
- unqualified drm-memory-
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, 
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com, 
- Alex Deucher <alexander.deucher@amd.com>, Rob Clark <robdclark@chromium.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.22256 YMailNorrin
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,137 +92,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 3, 2024 at 11:33=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wro=
-te:
->
-> On Fri, May 03, 2024 at 01:58:38PM +0100, Tvrtko Ursulin wrote:
-> >
-> > [And I forgot dri-devel.. doing well!]
-> >
-> > On 03/05/2024 13:40, Tvrtko Ursulin wrote:
-> > >
-> > > [Correcting Christian's email]
-> > >
-> > > On 03/05/2024 13:36, Tvrtko Ursulin wrote:
-> > > > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> > > >
-> > > > Currently it is not well defined what is drm-memory- compared to ot=
-her
-> > > > categories.
-> > > >
-> > > > In practice the only driver which emits these keys is amdgpu and in=
- them
-> > > > exposes the total memory use (including shared).
-> > > >
-> > > > Document that drm-memory- and drm-total-memory- are aliases to
-> > > > prevent any
-> > > > confusion in the future.
-> > > >
-> > > > While at it also clarify that the reserved sub-string 'memory' refe=
-rs to
-> > > > the memory region component.
-> > > >
-> > > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> > > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > > Cc: Christian K=C3=B6nig <christian.keonig@amd.com>
-> > >
-> > > Mea culpa, I copied the mistake from
-> > > 77d17c4cd0bf52eacfad88e63e8932eb45d643c5. :)
-> > >
-> > > Regards,
-> > >
-> > > Tvrtko
-> > >
-> > > > Cc: Rob Clark <robdclark@chromium.org>
-> > > > ---
-> > > >   Documentation/gpu/drm-usage-stats.rst | 10 +++++++++-
-> > > >   1 file changed, 9 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/Documentation/gpu/drm-usage-stats.rst
-> > > > b/Documentation/gpu/drm-usage-stats.rst
-> > > > index 6dc299343b48..ef5c0a0aa477 100644
-> > > > --- a/Documentation/gpu/drm-usage-stats.rst
-> > > > +++ b/Documentation/gpu/drm-usage-stats.rst
-> > > > @@ -128,7 +128,9 @@ Memory
-> > > >   Each possible memory type which can be used to store buffer
-> > > > objects by the
-> > > >   GPU in question shall be given a stable and unique name to be
-> > > > returned as the
-> > > > -string here.  The name "memory" is reserved to refer to normal
-> > > > system memory.
-> > > > +string here.
-> > > > +
-> > > > +The region name "memory" is reserved to refer to normal system mem=
-ory.
-> > > >   Value shall reflect the amount of storage currently consumed by
-> > > > the buffer
-> > > >   objects belong to this client, in the respective memory region.
-> > > > @@ -136,6 +138,9 @@ objects belong to this client, in the respectiv=
-e
-> > > > memory region.
-> > > >   Default unit shall be bytes with optional unit specifiers of 'KiB=
-'
-> > > > or 'MiB'
-> > > >   indicating kibi- or mebi-bytes.
-> > > > +This is an alias for drm-total-<region> and only one of the two
-> > > > should be
-> > > > +present.
->
-> This feels a bit awkward and seems to needlessly complicate fdinfo uapi.
->
-> - Could we just patch amdgpu to follow everyone else, and avoid the
->   special case? If there's no tool that relies on the special amdgpu
->   prefix then that would be a lot easier.
->
-> - If that's not on the table, could we make everyone (with a suitable
->   helper or something) just print both variants, so that we again have
->   consisent fdinfo output? Or breaks that a different set of existing
->   tools.
->
-> - Finally maybe could we get away with fixing amd by adding the common
->   format there, deprecating the old, fixing the tools that would break an=
-d
->   then maybe if we're lucky, remove the old one from amdgpu in a year or
->   so?
 
-I'm not really understanding what amdgpu is doing wrong.  It seems to
-be following the documentation.  Is the idea that we would like to
-deprecate drm-memory-<region> in favor of drm-total-<region>?
-If that's the case, I think the 3rd option is probably the best.  We
-have a lot of tools and customers using this.  It would have also been
-nice to have "memory" in the string for the newer ones to avoid
-conflicts with other things that might be a total or shared in the
-future, but I guess that ship has sailed.  We should also note that
-drm-memory-<region> is deprecated.  While we are here, maybe we should
-clarify the semantics of resident, purgeable, and active.  For
-example, isn't resident just a duplicate of total?  If the memory was
-not resident, it would be in a different region.
+On Thursday, May 2, 2024 at 11:54:58 PM PDT, Julia Lawall <julia.lawall@inr=
+ia.fr> wrote:=20
 
-Alex
+
+
+
+
+
+
+On Thu, 2 May 2024, Ashok Kumar wrote:
+
+> Corrected coding style CHECK: Alignment should match open parenthesis
+
+Ashok, I think the code is nicer as is, because it has all the constant
+numbers lined up.
+
+julia
+
+Thanks for the update I will ignore this change.=C2=A0
+
+Is there a list of exceptions to the checkpatch information that we can ign=
+ore in general.
+
 
 >
-> Uapi that's "either do $foo or on this one driver, do $bar" is just
-> guaranteed to fragement the ecosystem, so imo that should be the absolute
-> last resort.
-> -Sima
+> Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
+> ---
+>=C2=A0 drivers/staging/fbtft/fb_tinylcd.c | 2 +-
+>=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> > > > +
-> > > >   - drm-shared-<region>: <uint> [KiB|MiB]
-> > > >   The total size of buffers that are shared with another file (e.g.=
-,
-> > > > have more
-> > > > @@ -145,6 +150,9 @@ than a single handle).
-> > > >   The total size of buffers that including shared and private memor=
-y.
-> > > > +This is an alias for drm-memory-<region> and only one of the two
-> > > > should be
-> > > > +present.
-> > > > +
-> > > >   - drm-resident-<region>: <uint> [KiB|MiB]
-> > > >   The total size of buffers that are resident in the specified regi=
-on.
->
+> diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/f=
+b_tinylcd.c
+> index 9469248f2c50..60cda57bcb33 100644
+> --- a/drivers/staging/fbtft/fb_tinylcd.c
+> +++ b/drivers/staging/fbtft/fb_tinylcd.c
+> @@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
+>=C2=A0 =C2=A0=C2=A0=C2=A0 write_reg(par, 0xE5, 0x00);
+>=C2=A0 =C2=A0=C2=A0=C2=A0 write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
+>=C2=A0 =C2=A0=C2=A0=C2=A0 write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x0=
+0, 0x00,
+> -=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00, 0x35, 0=
+x33, 0x00, 0x00, 0x00);
+> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0 0x00, 0x35, 0x33, 0x00, 0x0=
+0, 0x00);
+>=C2=A0 =C2=A0=C2=A0=C2=A0 write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+>=C2=A0 =C2=A0=C2=A0=C2=A0 write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+>=C2=A0 =C2=A0=C2=A0=C2=A0 udelay(250);
 > --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> 2.34.1
+>
+>
+>
