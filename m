@@ -2,75 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3559C8BB0D4
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:23:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE0B8BB0DF
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:27:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF7410F97C;
-	Fri,  3 May 2024 16:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D77610ECDB;
+	Fri,  3 May 2024 16:27:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ebpgr3Yg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eSxJmFl+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EAB410F97C
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:23:24 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-6f4496af4cdso1016118b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 09:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714753403; x=1715358203; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mwKDafe28MIieMSNGIPW3eOTsHHrwRXu1m7RhuwOcZc=;
- b=ebpgr3YgfmewPrNnQPeWtBbETUIy2Q/zYiV3EkorZ08qgO+2EuNlfoil/hgJ0lAKiZ
- Xdef/mpR3wdNDGi2q4oMgJiWHeRgNXMg7Wm38E75G6SqLUN0UUalYJj2YSiWUDCofLgd
- gaJH3fLHqRjUgwEJQAkB8rXmubCPN/2DIkPgPWLFDngw5dpRDOCkQFO7L+axDcPhgh4F
- gwDQsoUFXqbv4pbPwOMB0FZS8EnNUKFj65iqJsPKN1lmDaNvU+3WBAyZ/r3Aaxxpy5rR
- TNJ7LTBB/f2ImJGmSfbzVULfiNlK/d1Zd+0QAO2kv+GRaiuvIbmRAmD31VTiH4YvsAfM
- FpDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714753403; x=1715358203;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mwKDafe28MIieMSNGIPW3eOTsHHrwRXu1m7RhuwOcZc=;
- b=uu4OK2MZT0dlPCJJ/jn7eDp3gUTNmURPLKtghpFb/IxX0+Fw09GUjuWQZIyzn4tMct
- kZGxt/fmoz+jY74Edvi5RnT/4OU9B6gAJj7qn8LCZEGlGzqSZIYUDczOoEtxZvszgwTT
- VQzQ5mjE0HMj/2zVM8vV1gga73IYYJ8b7vrPNuRfAtq9nsA4DsBoEzy1ZIlxrcQS6yol
- grPJPOYr1udrwxFplGZVO+3BtHwnpuNwZcPMxERaEvIo1B8r9Qc+7r8UZaLTEtaogr9Z
- 6TzykezeexxTPbUTYDHlUKDyAAUzKeqX20PeQm+x4CUuDUWszBkxsAnN/SwHop1Apjs8
- 0SKw==
-X-Gm-Message-State: AOJu0YzD51+gVToTE5un2lxg7fTIZsZ5B2ovWrXgnIxMNBzctL6FWxQ/
- hCs6oya80Oab9vlT917K6Emjx4xcbGC/lIimpEOOHRHZFFMD7AZC
-X-Google-Smtp-Source: AGHT+IGuqVde44+OlfespuDSTAfHKUhnMDH3dyay8UhKf4umdgctT17gfataxz2qw5xl3u+0CdUBww==
-X-Received: by 2002:a05:6a00:130a:b0:6f3:e6e0:d9fb with SMTP id
- j10-20020a056a00130a00b006f3e6e0d9fbmr3124846pfu.11.1714753403334; 
- Fri, 03 May 2024 09:23:23 -0700 (PDT)
-Received: from ?IPV6:2402:e280:214c:86:b096:5d6e:50c3:70e5?
- ([2402:e280:214c:86:b096:5d6e:50c3:70e5])
- by smtp.gmail.com with ESMTPSA id
- w17-20020a639351000000b0061cf79eab38sm1612625pgm.37.2024.05.03.09.23.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 May 2024 09:23:23 -0700 (PDT)
-Message-ID: <f87bfbb1-b80f-46a5-be85-058a406de99d@gmail.com>
-Date: Fri, 3 May 2024 21:53:19 +0530
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7322F10ECDB
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:27:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 5F01ACE1917;
+ Fri,  3 May 2024 16:27:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CAD1C116B1;
+ Fri,  3 May 2024 16:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1714753656;
+ bh=/5WkH6/GqRaDUYQJDb4/SAmQ283pmiDQISzKI223Yw8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eSxJmFl+hmo1cor0GBSFAqY1kGiStzeAy3HsDnF5j0GE7l0LjBMZpiC4Aj/iIn9Zv
+ CJmoWaicIEUDAaRbjwbC6W48BLVWULOpcV7HhDDe9qjJXE+5+De5WBuN3PPpWD/r6e
+ 66Vn+2Uw388BQq9G2tQVcJAWYJGT70Yk0I7Ntheg9oKjbY2HgMTwi63+fTCrgz7RXe
+ 7T3Z3Cnn7A327vlZfyK7Hn5JdcTuvojBGDsuNwLb+reA6t7RBiEYuR4B/hUL4QgEtE
+ RKkOUlBvQD/vAnH8HJNYu1y88jFdss1Ahr1QtUQfw6ThZUesVyKVV+eEg+JmTH4tKs
+ 3xAA6+iGPDsSg==
+Date: Fri, 3 May 2024 09:27:33 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kernel test robot <lkp@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>
+Subject: Re: [PATCH v3 0/2] Fix Kernel CI issues
+Message-ID: <20240503162733.GA4136865@thelio-3990X>
+References: <20240426-dp-live-fmt-fix-v3-0-e904b5ae51d7@amd.com>
+ <2a14d8ff-a8f5-4ebe-9f0e-a5554b417f0c@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH linux-next] gpu:ipu-v3:pre: replace of_node_put() with
- __free
-To: p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com,
- Julia Lawall <julia.lawall@inria.fr>
-References: <20240427045024.7083-1-prosunofficial@gmail.com>
-Content-Language: en-US
-From: R Sundar <prosunofficial@gmail.com>
-In-Reply-To: <20240427045024.7083-1-prosunofficial@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2a14d8ff-a8f5-4ebe-9f0e-a5554b417f0c@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,49 +66,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/04/24 10:20, R Sundar wrote:
-> use the new cleanup magic to replace of_node_put() with
-> __free(device_node) marking to auto release when they get out of scope.
-> 
-> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> Signed-off-by: R Sundar <prosunofficial@gmail.com>
-> ---
->   drivers/gpu/ipu-v3/ipu-pre.c | 7 ++-----
->   1 file changed, 2 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/ipu-v3/ipu-pre.c b/drivers/gpu/ipu-v3/ipu-pre.c
-> index aef984a43190..95830cf8fa3e 100644
-> --- a/drivers/gpu/ipu-v3/ipu-pre.c
-> +++ b/drivers/gpu/ipu-v3/ipu-pre.c
-> @@ -113,8 +113,8 @@ int ipu_pre_get_available_count(void)
->   struct ipu_pre *
->   ipu_pre_lookup_by_phandle(struct device *dev, const char *name, int index)
->   {
-> -	struct device_node *pre_node = of_parse_phandle(dev->of_node,
-> -							name, index);
-> +	struct device_node *pre_node __free(device_node) =
-> +		of_parse_phandle(dev->of_node, name, index);
->   	struct ipu_pre *pre;
->   
->   	mutex_lock(&ipu_pre_list_mutex);
-> @@ -123,14 +123,11 @@ ipu_pre_lookup_by_phandle(struct device *dev, const char *name, int index)
->   			mutex_unlock(&ipu_pre_list_mutex);
->   			device_link_add(dev, pre->dev,
->   					DL_FLAG_AUTOREMOVE_CONSUMER);
-> -			of_node_put(pre_node);
->   			return pre;
->   		}
->   	}
->   	mutex_unlock(&ipu_pre_list_mutex);
->   
-> -	of_node_put(pre_node);
-> -
->   	return NULL;
->   }
->   
-Hi,
+Hi Tomi,
 
-Any feedback on this patch.
+On Sat, Apr 27, 2024 at 10:48:16AM +0300, Tomi Valkeinen wrote:
+> On 26/04/2024 22:27, Anatoliy Klymenko wrote:
+> > Fix number of CI reported W=1 build issues.
+> > 
+> > Patch 1/2: Fix function arguments description.
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202404260616.KFGDpCDN-lkp@intel.com/
+> > 
+> > Patch 2/2: Fix clang compilation error.
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202404260946.4oZXvHD2-lkp@intel.com/
+> > 
+> > Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> > ---
+> > Changes in v3:
+> > - Add Signed-off-by tag.
+> > 
+> > - Link to v2: https://lore.kernel.org/r/20240425-dp-live-fmt-fix-v2-0-6048e81211de@amd.com
+> > 
+> > Changes in v2:
+> > - Compilation error fix added.
+> > 
+> > - Link to v1: https://lore.kernel.org/r/20240425-dp-live-fmt-fix-v1-1-405f352d3485@amd.com
+> > 
+> > ---
+> > Anatoliy Klymenko (2):
+> >        drm: xlnx: zynqmp_dpsub: Fix few function comments
+> >        drm: xlnx: zynqmp_dpsub: Fix compilation error
+> > 
+> >   drivers/gpu/drm/xlnx/zynqmp_disp.c | 6 +++---
+> >   1 file changed, 3 insertions(+), 3 deletions(-)
+> > ---
+> > base-commit: 2bdb481bf7a93c22b9fea8daefa2834aab23a70f
+> > change-id: 20240425-dp-live-fmt-fix-a10bf7973596
+> > 
+> > Best regards,
+> 
+> Thanks, pushed to drm-misc-next.
 
-Thanks,
-Sundar
+I think the second patch also needs to go to drm-misc-next-fixes? The
+clang warning fixed by it has returned in next-20240503 because it
+appears that for-linux-next was switch from drm-misc-next to
+drm-misc-next-fixes, as I see for-linux-next was pointing to commit
+235e60653f8d ("drm/debugfs: Drop conditionals around of_node pointers")
+on drm-misc-next in next-20240502 but it is now pointing to commit
+be3f3042391d ("drm: zynqmp_dpsub: Always register bridge") on
+drm-misc-next-fixes in next-20240503.
+
+Cheers,
+Nathan
