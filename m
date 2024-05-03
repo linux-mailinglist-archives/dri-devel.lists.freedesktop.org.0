@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF33D8BB600
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9918BB601
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C8AB11329E;
-	Fri,  3 May 2024 21:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E51211329F;
+	Fri,  3 May 2024 21:37:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="hH8S4p13";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NuR/UiW/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
  [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C53D11329E
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:37:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E685B11329F
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:37:26 +0000 (UTC)
 Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-1ec69e3dbe5so1226175ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:37:24 -0700 (PDT)
+ d9443c01a7336-1e834159f40so687655ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714772242; x=1715377042;
+ d=chromium.org; s=google; t=1714772246; x=1715377046;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HRQb/I07011T3t9lbY5bJjPOFJ2fx1sx6agjLTdJWzE=;
- b=hH8S4p13+Dn4V9sfyMDsVrglGLUJQPwcrHqpseImtf/83hQxNVDtrZ1JhmL658m3kc
- UDgEcVz1QTHTV7/s0vxl0o1ny3g9Xx0ih+NKC4fQZYtcgBT8EsXSvzE+rxx09TubIQgb
- LViGg5ApkJWu5jd6WbnOSX/Fgsc8BjGzJJ644=
+ bh=M2B/kTWdyUau2alXgEoUxYv1c4k3su/yovwNR5wduBo=;
+ b=NuR/UiW/BplP62S7a8Uyv1idSUWIpiBNQPiDRX4RZNE77J++s0wWPIQu7dfyjhTxsm
+ wq/+gZzHqzejhqAbgazArJY0jx8o2oorCPT51Z9eWX0ZDefxBuLl1vHSmdZWaVQzYy0Z
+ qPvd9mkH3APOHT/IVHSUDUJSmyC0N7a34quFM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714772242; x=1715377042;
+ d=1e100.net; s=20230601; t=1714772246; x=1715377046;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HRQb/I07011T3t9lbY5bJjPOFJ2fx1sx6agjLTdJWzE=;
- b=Owpgg3aDHtyl1RiwWRxYUWA8CmJLnd93gbY1QBLK2rJk3kmUdVT9C48tT86+g/VMbV
- OA6tzHOiPE2J/AhV+k+zkTNPz1sliAFGujtNmhN1f3YAEFW2BTKpyO0I1XPoV5jd/e9c
- Gfs52VfHllVGrVQOqq+5buTsAIxsU5vsRmQdnwnaaxcgYd7aNN8qtE1ucnY5OIbmU1sb
- 8PL9gKPN6F6zyyEyoZl4u2if8B4pBDRi9YsCruM/KFSLnN+kGCJrh+7yE2bSS976Q5Uq
- hIs8p+UK5+aHM033lVD+Ku+dbH3NbFOfSQVZSzqvNuE5GO/itNFgBCWHHocEEHvPeI2j
- fe7Q==
-X-Gm-Message-State: AOJu0Yz9zqEjbRyVLgBrJPf71fhfGbYRFU4Mprsu2poUQq6elJGmcLWc
- MxKuZYtsv9U0e3tVO8TuRehpmITQawic96+5SaeauFBBKvX9CacbQlfLpbt6eqvGCun7pnmGdMQ
- 3hw==
-X-Google-Smtp-Source: AGHT+IF6CDvqfSrYxn7iKNnjnE2VAXasLzRdp4BnWV2DoDu3VKywSCP3Ny+zWphkbKiYpV8TR9pS2g==
-X-Received: by 2002:a17:902:cec7:b0:1e2:817b:460a with SMTP id
- d7-20020a170902cec700b001e2817b460amr4432991plg.34.1714772242613; 
- Fri, 03 May 2024 14:37:22 -0700 (PDT)
+ bh=M2B/kTWdyUau2alXgEoUxYv1c4k3su/yovwNR5wduBo=;
+ b=YTvPqpr7t3t491MY2Fxl8uW0jLod/uUmTZvtPc+7cOun0tSDogZNMKLvjcPyU6lVCG
+ k6/up4BylAYwgEnxv6I2pJVJhHQH5Miff5bsnnZEXwghIfBiy4QGTP0xKMPl7debkpyz
+ XzgkIUCvJVvEaOBob3Aeu5vDzXnjlbB5UJ5TxoB+f72BVUOg8ucxjKhxwq6XyXOoKl5B
+ ujj+gGHelowulmR9bCOHPOetwWoCgceZN1tNMCMaryraPlFTkQF+dLCE4o0WIN4N5TJm
+ gLfJeU2Nxct31uWdG9t/ag9y+Bcsql/BlTclaeFUFoJHv81ftKTjTPRn1nb6pQgfYSE3
+ 52PQ==
+X-Gm-Message-State: AOJu0YzmqzqC7WUTDxWzZjlK8B6fqLPILAjDAPM5SkRnX/OhlhIy0QHe
+ xhoCpVrvAf/CgfDEMhk4MXq5ZQSU8mNqt6CPvx+O4U/m04uDQ+3TgUeVsV+Ifv3ZyqwY3YnndHo
+ /ig==
+X-Google-Smtp-Source: AGHT+IHeLoFfHMC/OUeeJoDhqoJSJfOwPhDJNHriFCGoke4s3Yn0fXRdNzl+m82UbjoOonNJKwQK5Q==
+X-Received: by 2002:a17:902:d386:b0:1eb:519e:e05f with SMTP id
+ e6-20020a170902d38600b001eb519ee05fmr3748669pld.45.1714772245858; 
+ Fri, 03 May 2024 14:37:25 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:fb6a:b54b:7580:64f3])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.37.21
+ j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.37.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 May 2024 14:37:21 -0700 (PDT)
+ Fri, 03 May 2024 14:37:24 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -67,10 +67,9 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v2 25/48] drm/panel: samsung-atna33xc20: Don't call
- unprepare+disable at shutdown/remove
-Date: Fri,  3 May 2024 14:33:06 -0700
-Message-ID: <20240503143327.RFT.v2.25.Iaeacccf98e6cb729b8fc3a782725769cd66812ad@changeid>
+Subject: [RFT PATCH v2 26/48] drm/panel: simple: Stop tracking prepared/enabled
+Date: Fri,  3 May 2024 14:33:07 -0700
+Message-ID: <20240503143327.RFT.v2.26.I865be97dd393d6ae3c3a3cd1358c95fdbca0fe83@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
 References: <20240503213441.177109-1-dianders@chromium.org>
@@ -91,22 +90,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's the responsibility of a correctly written DRM modeset driver to
-call drm_atomic_helper_shutdown() at shutdown time and that should be
-disabling / unpreparing the panel if needed. Panel drivers shouldn't
-be calling these functions themselves.
-
-A recent effort was made to fix as many DRM modeset drivers as
-possible [1] [2] [3] and most drivers are fixed now.
-
-A grep through mainline for compatible strings used by this driver
-indicates that it is used by Qualcomm boards. The Qualcomm driver
-appears to be correctly calling drm_atomic_helper_shutdown() so we can
-remove the calls.
-
-[1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
-[2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
-[3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
+As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+prepared/enabled in drm_panel"), we want to remove needless code from
+panel drivers that was storing and double-checking the
+prepared/enabled state. Even if someone was relying on the
+double-check before, that double-check is now in the core and not
+needed in individual drivers.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
@@ -115,43 +104,102 @@ Changes in v2:
 - Only handle 1 panel per patch.
 - Split removal of prepared/enabled from handling of remove/shutdown.
 
- drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 27 ---------------------------
+ 1 file changed, 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-index a322dd0a532f..9a482a744b8c 100644
---- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-@@ -327,21 +327,10 @@ static void atana33xc20_remove(struct dp_aux_ep_device *aux_ep)
- 	struct atana33xc20_panel *panel = dev_get_drvdata(dev);
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index dcb6d0b6ced0..42d902d2bbbe 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -138,9 +138,6 @@ struct panel_desc {
  
- 	drm_panel_remove(&panel->base);
--	drm_panel_disable(&panel->base);
--	drm_panel_unprepare(&panel->base);
+ struct panel_simple {
+ 	struct drm_panel base;
+-	bool enabled;
+-
+-	bool prepared;
  
- 	drm_edid_free(panel->drm_edid);
+ 	ktime_t unprepared_time;
+ 
+@@ -290,14 +287,9 @@ static int panel_simple_disable(struct drm_panel *panel)
+ {
+ 	struct panel_simple *p = to_panel_simple(panel);
+ 
+-	if (!p->enabled)
+-		return 0;
+-
+ 	if (p->desc->delay.disable)
+ 		msleep(p->desc->delay.disable);
+ 
+-	p->enabled = false;
+-
+ 	return 0;
  }
  
--static void atana33xc20_shutdown(struct dp_aux_ep_device *aux_ep)
--{
--	struct device *dev = &aux_ep->dev;
--	struct atana33xc20_panel *panel = dev_get_drvdata(dev);
--
--	drm_panel_disable(&panel->base);
--	drm_panel_unprepare(&panel->base);
--}
--
- static const struct of_device_id atana33xc20_dt_match[] = {
- 	{ .compatible = "samsung,atna33xc20", },
- 	{ /* sentinal */ }
-@@ -362,7 +351,6 @@ static struct dp_aux_ep_driver atana33xc20_driver = {
- 	},
- 	.probe = atana33xc20_probe,
- 	.remove = atana33xc20_remove,
--	.shutdown = atana33xc20_shutdown,
- };
+@@ -317,18 +309,12 @@ static int panel_simple_suspend(struct device *dev)
  
- static int __init atana33xc20_init(void)
+ static int panel_simple_unprepare(struct drm_panel *panel)
+ {
+-	struct panel_simple *p = to_panel_simple(panel);
+ 	int ret;
+ 
+-	/* Unpreparing when already unprepared is a no-op */
+-	if (!p->prepared)
+-		return 0;
+-
+ 	pm_runtime_mark_last_busy(panel->dev);
+ 	ret = pm_runtime_put_autosuspend(panel->dev);
+ 	if (ret < 0)
+ 		return ret;
+-	p->prepared = false;
+ 
+ 	return 0;
+ }
+@@ -356,21 +342,14 @@ static int panel_simple_resume(struct device *dev)
+ 
+ static int panel_simple_prepare(struct drm_panel *panel)
+ {
+-	struct panel_simple *p = to_panel_simple(panel);
+ 	int ret;
+ 
+-	/* Preparing when already prepared is a no-op */
+-	if (p->prepared)
+-		return 0;
+-
+ 	ret = pm_runtime_get_sync(panel->dev);
+ 	if (ret < 0) {
+ 		pm_runtime_put_autosuspend(panel->dev);
+ 		return ret;
+ 	}
+ 
+-	p->prepared = true;
+-
+ 	return 0;
+ }
+ 
+@@ -378,14 +357,9 @@ static int panel_simple_enable(struct drm_panel *panel)
+ {
+ 	struct panel_simple *p = to_panel_simple(panel);
+ 
+-	if (p->enabled)
+-		return 0;
+-
+ 	if (p->desc->delay.enable)
+ 		msleep(p->desc->delay.enable);
+ 
+-	p->enabled = true;
+-
+ 	return 0;
+ }
+ 
+@@ -609,7 +583,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 	if (!panel)
+ 		return -ENOMEM;
+ 
+-	panel->enabled = false;
+ 	panel->desc = desc;
+ 
+ 	panel->supply = devm_regulator_get(dev, "power");
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
