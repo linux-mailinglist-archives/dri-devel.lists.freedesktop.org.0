@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BF88BB603
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1A88BB604
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:37:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396FF10FC15;
-	Fri,  3 May 2024 21:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B466D112A0A;
+	Fri,  3 May 2024 21:37:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="XwmZVWC8";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ev1E4bbM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA61610FC15
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:37:31 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-1eab16dcfd8so1102645ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:37:31 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8452112A0A
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:37:34 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-1ecff927a45so1153715ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714772251; x=1715377051;
+ d=chromium.org; s=google; t=1714772253; x=1715377053;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Qk2LC4K5RJqsx2QB9+nJgz+tBqijGejd/DYbrsWwU0M=;
- b=XwmZVWC88pZQVRFv+Pst8RfpETW0CU3Mnot7BVtCgN+AjT4ePNlTJtAICtpfUlMUBp
- vL9KEkALeeNcQd8e3PeveED54TEeeg7XV7JZxKI5ed6HLqHdcEi/S0ExDCNKoR91yqki
- zTOPcVhINBirKndhmoFZSPmBd+EZeC5++Chpk=
+ bh=j0ij9ytrBMTlh/tBwBQfGeyqwsUC3qnXNREpsQEX2pQ=;
+ b=ev1E4bbMrijdHKf3nB6OnpMx1jpkAMW1OuBdskjIEvdGD7Pi3F49GyewM0WIk0VL67
+ TMPkUHJig8GXM8e3LeJ/KdsXBjAktDZbq8gIjbfWUfJ8sEyWqbECh9Td8l57ruSTjaYa
+ K4aQVU9o2uS/DXaZZ+F5mBMtEah0UcJD/IAMY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714772251; x=1715377051;
+ d=1e100.net; s=20230601; t=1714772253; x=1715377053;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Qk2LC4K5RJqsx2QB9+nJgz+tBqijGejd/DYbrsWwU0M=;
- b=Hr4QQr8YoDgbTygDKY+D1J5MkvNkg3NNPSPzwRVZnH/h/0YOxWqZTGLZ1t5R2tLI5/
- JLxN3S79Dc/RuocU32MBkInUCzBIr+C//8uZYugDMOWJm9WUAcaGIIxGGCu2R5IeNslo
- ubcL12ovQ6WUUfa9FDj47UXyq+w1QNv/PDO3cwVlG4kFS1ZwdZa43ih2VPeF8kk/BL9r
- gB3k3xhTKXRsrb91Tiv9D4m9kPUeJ8zH9LrKVIxvzN2dL8HaL/plzF9+8RW/ZORzVUUK
- 9G7wM2fJ8nX1m0JT1oBMWLUzDPMeyOLimCegSdr1p23jgrUQlI56LXXq6uqUUZOB4Otj
- UPfw==
-X-Gm-Message-State: AOJu0Yz2U4JoCub4vxhJh1RXzOwhV/NKFBnTyzfegyi8vjhEV1NCVleQ
- qx0kVs2YAbymZL3p7vEMiBZgYn4Y8l+Jkx3xAGNO4xMv/EQ96i3neJf4oHP0EftHrfNH6+cGrj3
- 6iw==
-X-Google-Smtp-Source: AGHT+IF25tSPTopP9g7n30MtXJROijO2HKPmfXJa+9xCs2KvJx4G7kvTTz0Y7toa0BkNX3wlMPNHNw==
-X-Received: by 2002:a17:902:f685:b0:1eb:309a:ebdc with SMTP id
- l5-20020a170902f68500b001eb309aebdcmr5394677plg.30.1714772250902; 
- Fri, 03 May 2024 14:37:30 -0700 (PDT)
+ bh=j0ij9ytrBMTlh/tBwBQfGeyqwsUC3qnXNREpsQEX2pQ=;
+ b=DcWOw/88X6wklK8JQoD2ua3ip0ZdeNl1wQlZYch/c7V5HpRPRhfCFjVJSu0pXvdoGm
+ p3KxZmK3dFrO+9bumRE1JcBAiuD1NmMSthTXZCJjAGbfCuf78ffoZDfRni1fu4/TGzuI
+ 10eeHeihkk7DZeV6FPUfr1afohM89WoejSqZDSrx+03psGNiSeo3pIk7P0k7jEmvCq8n
+ dzloTsdH9glPHr7NSgAsGyC+fx1+6N0iHNf3qigJRfkXFR+8GWUot68vrVRLb0tgK+eX
+ bLDn41K1rHXS5pjYJHLmHw9tUFyW/i9xXEjr6Hx+xrEfJNcaQmexlhw2atLbY80q7y7b
+ 8wBg==
+X-Gm-Message-State: AOJu0YyfiJd4KTgYj07375efJ1iyDwKq02Dcm+fAjTUIOU3wfkUbaEFg
+ 8f2sKFwPUqsLNYpzWkO4RNTcfziGj9KsdDR+GAI1pcqI5GafeLVY87epP9IJBjeNTiMgX6jzd9J
+ iIA==
+X-Google-Smtp-Source: AGHT+IGZhFFrirxel2mH4hhJVW+YPU9/55QLc4j01+5DJlTA0WMSbmDxlLpFOw990mv8yfllPRRAHg==
+X-Received: by 2002:a17:902:ef8b:b0:1e2:c554:a93c with SMTP id
+ iz11-20020a170902ef8b00b001e2c554a93cmr2868203plb.29.1714772253398; 
+ Fri, 03 May 2024 14:37:33 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:fb6a:b54b:7580:64f3])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.37.28
+ j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.37.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 May 2024 14:37:30 -0700 (PDT)
+ Fri, 03 May 2024 14:37:32 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -67,9 +67,10 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v2 28/48] drm/panel: tdo-tl070wsh30: Stop tracking prepared
-Date: Fri,  3 May 2024 14:33:09 -0700
-Message-ID: <20240503143327.RFT.v2.28.I5025ab14adc2efeef1be1843648547fb725106be@changeid>
+Subject: [RFT PATCH v2 29/48] drm/panel: tdo-tl070wsh30: Don't call
+ unprepare+disable at shutdown/remove
+Date: Fri,  3 May 2024 14:33:10 -0700
+Message-ID: <20240503143327.RFT.v2.29.I46ff4e28c260bcd8e81205debd0994e76fd8aeac@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
 References: <20240503213441.177109-1-dianders@chromium.org>
@@ -90,12 +91,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-prepared/enabled in drm_panel"), we want to remove needless code from
-panel drivers that was storing and double-checking the
-prepared/enabled state. Even if someone was relying on the
-double-check before, that double-check is now in the core and not
-needed in individual drivers.
+It's the responsibility of a correctly written DRM modeset driver to
+call drm_atomic_helper_shutdown() at shutdown time and that should be
+disabling / unpreparing the panel if needed. Panel drivers shouldn't
+be calling these functions themselves.
+
+A recent effort was made to fix as many DRM modeset drivers as
+possible [1] [2] [3] and most drivers are fixed now.
+
+Unfortunately, grepping mainline for this panel's compatible string
+shows no hits, so we can't be 100% sure if the DRM modeset driver used
+with this panel has been fixed. If it is found that the DRM modeset
+driver hasn't been fixed then this patch could be temporarily reverted
+until it is.
+
+[1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+[2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+[3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
 
 Cc: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
@@ -105,59 +117,37 @@ Changes in v2:
 - Only handle 1 panel per patch.
 - Split removal of prepared/enabled from handling of remove/shutdown.
 
- drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c b/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c
-index d8487bc6d611..36f27c664b69 100644
+index 36f27c664b69..227f97f9b136 100644
 --- a/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c
 +++ b/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c
-@@ -24,8 +24,6 @@ struct tdo_tl070wsh30_panel {
+@@ -208,16 +208,6 @@ static void tdo_tl070wsh30_panel_remove(struct mipi_dsi_device *dsi)
+ 		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", err);
  
- 	struct regulator *supply;
- 	struct gpio_desc *reset_gpio;
+ 	drm_panel_remove(&tdo_tl070wsh30->base);
+-	drm_panel_disable(&tdo_tl070wsh30->base);
+-	drm_panel_unprepare(&tdo_tl070wsh30->base);
+-}
 -
--	bool prepared;
+-static void tdo_tl070wsh30_panel_shutdown(struct mipi_dsi_device *dsi)
+-{
+-	struct tdo_tl070wsh30_panel *tdo_tl070wsh30 = mipi_dsi_get_drvdata(dsi);
+-
+-	drm_panel_disable(&tdo_tl070wsh30->base);
+-	drm_panel_unprepare(&tdo_tl070wsh30->base);
+ }
+ 
+ static struct mipi_dsi_driver tdo_tl070wsh30_panel_driver = {
+@@ -227,7 +217,6 @@ static struct mipi_dsi_driver tdo_tl070wsh30_panel_driver = {
+ 	},
+ 	.probe = tdo_tl070wsh30_panel_probe,
+ 	.remove = tdo_tl070wsh30_panel_remove,
+-	.shutdown = tdo_tl070wsh30_panel_shutdown,
  };
- 
- static inline
-@@ -39,9 +37,6 @@ static int tdo_tl070wsh30_panel_prepare(struct drm_panel *panel)
- 	struct tdo_tl070wsh30_panel *tdo_tl070wsh30 = to_tdo_tl070wsh30_panel(panel);
- 	int err;
- 
--	if (tdo_tl070wsh30->prepared)
--		return 0;
--
- 	err = regulator_enable(tdo_tl070wsh30->supply);
- 	if (err < 0)
- 		return err;
-@@ -74,8 +69,6 @@ static int tdo_tl070wsh30_panel_prepare(struct drm_panel *panel)
- 
- 	msleep(20);
- 
--	tdo_tl070wsh30->prepared = true;
--
- 	return 0;
- }
- 
-@@ -84,9 +77,6 @@ static int tdo_tl070wsh30_panel_unprepare(struct drm_panel *panel)
- 	struct tdo_tl070wsh30_panel *tdo_tl070wsh30 = to_tdo_tl070wsh30_panel(panel);
- 	int err;
- 
--	if (!tdo_tl070wsh30->prepared)
--		return 0;
--
- 	err = mipi_dsi_dcs_set_display_off(tdo_tl070wsh30->link);
- 	if (err < 0)
- 		dev_err(panel->dev, "failed to set display off: %d\n", err);
-@@ -103,8 +93,6 @@ static int tdo_tl070wsh30_panel_unprepare(struct drm_panel *panel)
- 
- 	regulator_disable(tdo_tl070wsh30->supply);
- 
--	tdo_tl070wsh30->prepared = false;
--
- 	return 0;
- }
+ module_mipi_dsi_driver(tdo_tl070wsh30_panel_driver);
  
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
