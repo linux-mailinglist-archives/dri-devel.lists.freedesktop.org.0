@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46938BB5FF
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:37:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF33D8BB600
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:37:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D017111329C;
-	Fri,  3 May 2024 21:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C8AB11329E;
+	Fri,  3 May 2024 21:37:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Hhx5mQdq";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="hH8S4p13";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2176111329C
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:37:22 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-1e834159f40so687265ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:37:22 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C53D11329E
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:37:24 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1ec69e3dbe5so1226175ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714772241; x=1715377041;
+ d=chromium.org; s=google; t=1714772242; x=1715377042;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=T4ZnBWaIKiuSZ6rYgD6PXXRcgsfalihno55gNzam3kQ=;
- b=Hhx5mQdqOgPvYAzBd9eOnqsM2LwYRIyXUP+vMArFkPBpGyKxjKYpiaOzhn/8xWYmWR
- oHxoqGUEcRhjMQmWI//Pr4Xnu/TkkEiYvAdRcnk3lTxDSTdXQacUjblf6jtQIPMhrmtU
- YYLX//UovoezxVZ0Tehds0Sesgkpcsi/Aiq7Y=
+ bh=HRQb/I07011T3t9lbY5bJjPOFJ2fx1sx6agjLTdJWzE=;
+ b=hH8S4p13+Dn4V9sfyMDsVrglGLUJQPwcrHqpseImtf/83hQxNVDtrZ1JhmL658m3kc
+ UDgEcVz1QTHTV7/s0vxl0o1ny3g9Xx0ih+NKC4fQZYtcgBT8EsXSvzE+rxx09TubIQgb
+ LViGg5ApkJWu5jd6WbnOSX/Fgsc8BjGzJJ644=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714772241; x=1715377041;
+ d=1e100.net; s=20230601; t=1714772242; x=1715377042;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=T4ZnBWaIKiuSZ6rYgD6PXXRcgsfalihno55gNzam3kQ=;
- b=PgHsyKkW9TBKOAHEDjaIfZ/2HeON6G5KMbaUE/KJL2F0xO/XVUiqU1XqsOEb89Fe2y
- R9nMIb/eJYVEn4+Wx/EodZm75B6K695DoYPu3nV+VGG6ntd3HkCHFkw52ITz6lXjo46Y
- cVF0BRnuEfRM6K8xsQ5HdxDPI8CLI8UJPEQdVuVJQgMGRiibNECS9OUA5UTXh26KWWEY
- +PNrDkvvNlyGhlDDTerKhRnGqP3Q9YjFVi9khtw0EaxzljVUqEoeM2S7cX8/72pMmnte
- XG/hm/4rG82e0dKvBgGhaLRoM7YNGYMzJTVs7mlBN5xmB5Ic4GTtelB/q0WAchTPCGFK
- hDDQ==
-X-Gm-Message-State: AOJu0YzUKQOW6u6lHRVxmbxs6a5lgA9ehjyJ7Gy4Uns9dDy85VJ52SsC
- /9RCLuwyxHfNRyV5yJNRM6ZG8J5v97i3gfNqnpHMTdQF4bLWft0cuZve2EslsqucrMRtXdZKYmn
- LJQ==
-X-Google-Smtp-Source: AGHT+IFBu/Hjhl9CXDDNgZhms0TZtEM8WWT7JEQNvy6BxJ5HNCgPTDI2jWO6fbS+Td4nj2A1qpFYHw==
-X-Received: by 2002:a17:902:6503:b0:1e0:a3dd:82df with SMTP id
- b3-20020a170902650300b001e0a3dd82dfmr4006853plk.38.1714772240760; 
- Fri, 03 May 2024 14:37:20 -0700 (PDT)
+ bh=HRQb/I07011T3t9lbY5bJjPOFJ2fx1sx6agjLTdJWzE=;
+ b=Owpgg3aDHtyl1RiwWRxYUWA8CmJLnd93gbY1QBLK2rJk3kmUdVT9C48tT86+g/VMbV
+ OA6tzHOiPE2J/AhV+k+zkTNPz1sliAFGujtNmhN1f3YAEFW2BTKpyO0I1XPoV5jd/e9c
+ Gfs52VfHllVGrVQOqq+5buTsAIxsU5vsRmQdnwnaaxcgYd7aNN8qtE1ucnY5OIbmU1sb
+ 8PL9gKPN6F6zyyEyoZl4u2if8B4pBDRi9YsCruM/KFSLnN+kGCJrh+7yE2bSS976Q5Uq
+ hIs8p+UK5+aHM033lVD+Ku+dbH3NbFOfSQVZSzqvNuE5GO/itNFgBCWHHocEEHvPeI2j
+ fe7Q==
+X-Gm-Message-State: AOJu0Yz9zqEjbRyVLgBrJPf71fhfGbYRFU4Mprsu2poUQq6elJGmcLWc
+ MxKuZYtsv9U0e3tVO8TuRehpmITQawic96+5SaeauFBBKvX9CacbQlfLpbt6eqvGCun7pnmGdMQ
+ 3hw==
+X-Google-Smtp-Source: AGHT+IF6CDvqfSrYxn7iKNnjnE2VAXasLzRdp4BnWV2DoDu3VKywSCP3Ny+zWphkbKiYpV8TR9pS2g==
+X-Received: by 2002:a17:902:cec7:b0:1e2:817b:460a with SMTP id
+ d7-20020a170902cec700b001e2817b460amr4432991plg.34.1714772242613; 
+ Fri, 03 May 2024 14:37:22 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:fb6a:b54b:7580:64f3])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.37.18
+ j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.37.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 May 2024 14:37:19 -0700 (PDT)
+ Fri, 03 May 2024 14:37:21 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -67,10 +67,10 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v2 24/48] drm/panel: samsung-atna33xc20: Stop tracking
- prepared/enabled
-Date: Fri,  3 May 2024 14:33:05 -0700
-Message-ID: <20240503143327.RFT.v2.24.Ibb4f923363a27167c480a432e52884b117221974@changeid>
+Subject: [RFT PATCH v2 25/48] drm/panel: samsung-atna33xc20: Don't call
+ unprepare+disable at shutdown/remove
+Date: Fri,  3 May 2024 14:33:06 -0700
+Message-ID: <20240503143327.RFT.v2.25.Iaeacccf98e6cb729b8fc3a782725769cd66812ad@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
 References: <20240503213441.177109-1-dianders@chromium.org>
@@ -91,12 +91,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-prepared/enabled in drm_panel"), we want to remove needless code from
-panel drivers that was storing and double-checking the
-prepared/enabled state. Even if someone was relying on the
-double-check before, that double-check is now in the core and not
-needed in individual drivers.
+It's the responsibility of a correctly written DRM modeset driver to
+call drm_atomic_helper_shutdown() at shutdown time and that should be
+disabling / unpreparing the panel if needed. Panel drivers shouldn't
+be calling these functions themselves.
+
+A recent effort was made to fix as many DRM modeset drivers as
+possible [1] [2] [3] and most drivers are fixed now.
+
+A grep through mainline for compatible strings used by this driver
+indicates that it is used by Qualcomm boards. The Qualcomm driver
+appears to be correctly calling drm_atomic_helper_shutdown() so we can
+remove the calls.
+
+[1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+[2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+[3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
@@ -105,95 +115,43 @@ Changes in v2:
 - Only handle 1 panel per patch.
 - Split removal of prepared/enabled from handling of remove/shutdown.
 
- .../gpu/drm/panel/panel-samsung-atna33xc20.c  | 24 -------------------
- 1 file changed, 24 deletions(-)
+ drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-index a9f0d214a900..a322dd0a532f 100644
+index a322dd0a532f..9a482a744b8c 100644
 --- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
 +++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-@@ -25,8 +25,6 @@
+@@ -327,21 +327,10 @@ static void atana33xc20_remove(struct dp_aux_ep_device *aux_ep)
+ 	struct atana33xc20_panel *panel = dev_get_drvdata(dev);
  
- struct atana33xc20_panel {
- 	struct drm_panel base;
--	bool prepared;
--	bool enabled;
- 	bool el3_was_on;
+ 	drm_panel_remove(&panel->base);
+-	drm_panel_disable(&panel->base);
+-	drm_panel_unprepare(&panel->base);
  
- 	bool no_hpd;
-@@ -143,13 +141,8 @@ static int atana33xc20_disable(struct drm_panel *panel)
- {
- 	struct atana33xc20_panel *p = to_atana33xc20(panel);
- 
--	/* Disabling when already disabled is a no-op */
--	if (!p->enabled)
--		return 0;
--
- 	gpiod_set_value_cansleep(p->el_on3_gpio, 0);
- 	p->el_on3_off_time = ktime_get_boottime();
--	p->enabled = false;
- 
- 	/*
- 	 * Keep track of the fact that EL_ON3 was on but we haven't power
-@@ -173,10 +166,6 @@ static int atana33xc20_enable(struct drm_panel *panel)
- {
- 	struct atana33xc20_panel *p = to_atana33xc20(panel);
- 
--	/* Enabling when already enabled is a no-op */
--	if (p->enabled)
--		return 0;
--
- 	/*
- 	 * Once EL_ON3 drops we absolutely need a power cycle before the next
- 	 * enable or the backlight will never come on again. The code ensures
-@@ -195,20 +184,14 @@ static int atana33xc20_enable(struct drm_panel *panel)
- 	atana33xc20_wait(p->powered_on_time, 400);
- 
- 	gpiod_set_value_cansleep(p->el_on3_gpio, 1);
--	p->enabled = true;
- 
- 	return 0;
+ 	drm_edid_free(panel->drm_edid);
  }
  
- static int atana33xc20_unprepare(struct drm_panel *panel)
- {
--	struct atana33xc20_panel *p = to_atana33xc20(panel);
- 	int ret;
- 
--	/* Unpreparing when already unprepared is a no-op */
--	if (!p->prepared)
--		return 0;
+-static void atana33xc20_shutdown(struct dp_aux_ep_device *aux_ep)
+-{
+-	struct device *dev = &aux_ep->dev;
+-	struct atana33xc20_panel *panel = dev_get_drvdata(dev);
 -
- 	/*
- 	 * Purposely do a put_sync, don't use autosuspend. The panel's tcon
- 	 * seems to sometimes crash when you stop giving it data and this is
-@@ -220,26 +203,19 @@ static int atana33xc20_unprepare(struct drm_panel *panel)
- 	ret = pm_runtime_put_sync_suspend(panel->dev);
- 	if (ret < 0)
- 		return ret;
--	p->prepared = false;
- 
- 	return 0;
- }
- 
- static int atana33xc20_prepare(struct drm_panel *panel)
- {
--	struct atana33xc20_panel *p = to_atana33xc20(panel);
- 	int ret;
- 
--	/* Preparing when already prepared is a no-op */
--	if (p->prepared)
--		return 0;
+-	drm_panel_disable(&panel->base);
+-	drm_panel_unprepare(&panel->base);
+-}
 -
- 	ret = pm_runtime_get_sync(panel->dev);
- 	if (ret < 0) {
- 		pm_runtime_put_autosuspend(panel->dev);
- 		return ret;
- 	}
--	p->prepared = true;
+ static const struct of_device_id atana33xc20_dt_match[] = {
+ 	{ .compatible = "samsung,atna33xc20", },
+ 	{ /* sentinal */ }
+@@ -362,7 +351,6 @@ static struct dp_aux_ep_driver atana33xc20_driver = {
+ 	},
+ 	.probe = atana33xc20_probe,
+ 	.remove = atana33xc20_remove,
+-	.shutdown = atana33xc20_shutdown,
+ };
  
- 	return 0;
- }
+ static int __init atana33xc20_init(void)
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
