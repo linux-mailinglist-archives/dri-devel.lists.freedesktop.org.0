@@ -2,86 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D305E8BB447
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 21:42:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B8548BB451
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 21:45:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 192EA10FB98;
-	Fri,  3 May 2024 19:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC3E10FCB0;
+	Fri,  3 May 2024 19:45:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GmtIxKKw";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="I1+jYVit";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="iJOkEam8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48D6A10FB98;
- Fri,  3 May 2024 19:42:47 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 443Jeo2Z014580;
- Fri, 3 May 2024 19:42:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=Rgm4jiBiBwxRzKcwO+Se0j2hgZlRD3hn15OaPV3cY8A=; b=Gm
- tIxKKwsXCk3RYVFfgKI/qKa/36laJsGV+Pfdx18zKNlIuDEQYKaTQ5n8HopRxfMP
- xIr4r7kq7nxVOIZiuf7D9llaTej8edvKXHYb8Z/p8WlTBIrZRdxLDNm64S2jmgZV
- i9E1AkkdINb0T2/xN2Bg0QYHM0SAze33EiG9gNNoo9k6UulD8uoeXVr6npSgr6x5
- /EFeQbvJUbrzEMAyWd174OZeJvnc5ht7FCgxdix/Z/AvFK9s5yt5hzhiF+tYyOwT
- TwVQwDXP8dfUxXENcmmRyr2iWJOUzIYh7IF4IQeBsfAL/IgCMN7OvDqaxdIB4qz3
- TafBAtLZXfqsX0kec6Eg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xv8vsbmbd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 May 2024 19:42:34 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 443JgXuS023300
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 3 May 2024 19:42:33 GMT
-Received: from [10.110.114.34] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 3 May 2024
- 12:42:32 -0700
-Message-ID: <69b593b7-109c-825f-3dbb-5e8cce63ff01@quicinc.com>
-Date: Fri, 3 May 2024 12:42:31 -0700
+Received: from wfout4-smtp.messagingengine.com
+ (wfout4-smtp.messagingengine.com [64.147.123.147])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AA7A10FBEA
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 19:45:45 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailfout.west.internal (Postfix) with ESMTP id EFAF81C000CE;
+ Fri,  3 May 2024 15:45:43 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute5.internal (MEProxy); Fri, 03 May 2024 15:45:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm2; t=1714765543; x=1714851943; bh=iPKZ8N3ath
+ A/5vP9vTrG4TOG4uDkTbTyXR3rycVEddg=; b=I1+jYVitrp1ODGVMjMfAPwdQ4v
+ ZKLT5PY+CeBK47tCqHJVWYepuM7AUWm7MkgqewsCqbFJT9/R8jlbMfBPhLKz6fpH
+ B6lQhdId/Svb28jxRYDKXQJKbP+z2HkQseJ9Nkb8FUtzrGYOn2nrhS9QEWsNMixY
+ nKCYuO9YR2B4dK1W8TMJsoO1rOEx0QSGXfaQ/vThg819wc9MfIKqdRS/mqxAsoLO
+ qwdRw0KpLN8fZDOR8dHah1jGtjsqCHAUalZxNr63HW/PhsR9+G6tLYZUP6Brs+aO
+ GvKUKWb1VEBqPnaYRW1AsJRjAyyMMZiCp1xdyVU2Wxo3VVv8djN8QTNIr69w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1714765543; x=1714851943; bh=iPKZ8N3athA/5vP9vTrG4TOG4uDk
+ TbTyXR3rycVEddg=; b=iJOkEam8hEwfOhjrpUnMEU+bEiakOxKceZaSbAvbnPTw
+ YAjrFYj4R8j8+2ZaLU9oGlenw5Mpr55WuASnNJx+RCrFlXVovvBCFiG+AZ04rKlr
+ ell12YXyuoS3VaQPeoVOF3M8sIHndhhuZQPr2MLfPFR66Q8PN+AymGcoEmn/Lrv/
+ XObFNbOltx2vS8s2VYbVvSCF7Hhjq1vKYNRUWxvMmHHNfpfPfteDihfMXGYK7CJk
+ jqMWy9ziFcJmvT1oAalyL59AOgoJd0SBWsZ9c09D7gDPNDtDgRKmWJYxVePVdRsB
+ HToz5Wq26P2Xb0MyJCptZGoNhxKMdQkJz/knLen8sw==
+X-ME-Sender: <xms:5z41ZkhwczmLRc6r6DSIh_ZclzlADRusMndT49eYSmlvAbQgyA1fPg>
+ <xme:5z41ZtCaXWcMjZ0PxK39adneyrns_ytrEap8JbmePEtGQVsPE3VToInwAHJCe158-
+ 0bkZF626m3unkhzW2o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddvtddgudegudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+ rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+ htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+ keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:5z41ZsEiEiu2iRWxnQiINgV2HjhnALxQm1c0sVCDoOTbY9rkceL1tA>
+ <xmx:5z41ZlSewU7bV7I4Lrig57f2BRDnrhfG8KxchpFd7SLWoPB-CzjKnw>
+ <xmx:5z41ZhymY4bGKBwgUa85g9b8a7wECeWF617XJiwG21EmOV8ekOOfDQ>
+ <xmx:5z41Zj5-YaqzmZBRCSGRcfTKY5POLfz6r3TI_eaATTu1n8Ibx9hlaw>
+ <xmx:5z41Zok9A2tumfbzqdlckorkRq-p1OCNbVKk6IygbL0zZIKiriQ04LZn>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 0EB12B6008D; Fri,  3 May 2024 15:45:42 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-417-gddc99d37d-fm-hotfix-20240424.001-g2c179674
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 2/2] drm/ci: validate drm/msm XML register files
- against schema
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Helen Koike <helen.koike@collabora.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240503-fd-fix-lxml-v2-0-f80a60ce21a1@linaro.org>
- <20240503-fd-fix-lxml-v2-2-f80a60ce21a1@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240503-fd-fix-lxml-v2-2-f80a60ce21a1@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: WEqClIqYZAfkNL2YIBX1xByGEZaaO_ot
-X-Proofpoint-GUID: WEqClIqYZAfkNL2YIBX1xByGEZaaO_ot
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-03_13,2024-05-03_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2405030139
+Message-Id: <8e1867fc-34da-457c-b95a-2d51ea97336a@app.fastmail.com>
+In-Reply-To: <20240503192858.103640-1-florian.fainelli@broadcom.com>
+References: <20240503192858.103640-1-florian.fainelli@broadcom.com>
+Date: Fri, 03 May 2024 21:45:21 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Florian Fainelli" <florian.fainelli@broadcom.com>,
+ linux-kernel@vger.kernel.org
+Cc: "Daniel Vetter" <daniel@ffwll.ch>, "Helge Deller" <deller@gmx.de>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Sam Ravnborg" <sam@ravnborg.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] fbdev: Have CONFIG_FB_NOTIFY be tristate
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,45 +96,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, May 3, 2024, at 21:28, Florian Fainelli wrote:
+> Android devices in recovery mode make use of a framebuffer device to
+> provide an user interface. In a GKI configuration that has CONFIG_FB=m,
+> but CONFIG_FB_NOTIFY=y, loading the fb.ko module will fail with:
+>
+> fb: Unknown symbol fb_notifier_call_chain (err -2)
+>
+> Have CONFIG_FB_NOTIFY be tristate, just like CONFIG_FB such that both
+> can be loaded as module with fb_notify.ko first, and fb.ko second.
+>
+> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
 
+I see two problems here, so I don't think this is the right
+approach:
 
-On 5/3/2024 11:15 AM, Dmitry Baryshkov wrote:
-> In order to validate drm/msm register definition files against schema,
-> reuse the nodebugfs build step. The validation entry is guarded by
-> the EXPERT Kconfig option and we don't want to enable that option for
-> all the builds.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/ci/build.sh  | 3 +++
->   drivers/gpu/drm/ci/build.yml | 1 +
->   2 files changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-> index 106f2d40d222..28a495c0c39c 100644
-> --- a/drivers/gpu/drm/ci/build.sh
-> +++ b/drivers/gpu/drm/ci/build.sh
-> @@ -12,6 +12,9 @@ rm -rf .git/rebase-apply
->   apt-get update
->   apt-get install -y libssl-dev
->   
-> +# for msm header validation
-> +apt-get install -y python3-lxml
-> +
->   if [[ "$KERNEL_ARCH" = "arm64" ]]; then
->       GCC_ARCH="aarch64-linux-gnu"
->       DEBIAN_ARCH="arm64"
-> diff --git a/drivers/gpu/drm/ci/build.yml b/drivers/gpu/drm/ci/build.yml
-> index 17ab38304885..9c198239033d 100644
-> --- a/drivers/gpu/drm/ci/build.yml
-> +++ b/drivers/gpu/drm/ci/build.yml
-> @@ -106,6 +106,7 @@ build-nodebugfs:arm64:
->     extends: .build:arm64
->     variables:
->       DISABLE_KCONFIGS: "DEBUG_FS"
-> +    ENABLE_KCONFIGS: "EXPERT DRM_MSM_VALIDATE_XML"
->   
+ 1. I don't understand your description: Since fb_notifier_call_chain()
+    is an exported symbol, it should work for both FB_NOTIFY=y and
+    FB_NOTIFY=m, unless something in Android drops the exported
+    symbols for some reason.
 
-Wouldnt this end up enabling DRM_MSM_VALIDATE_XML for any arm64 device.
+ 2. This breaks if any of the four callers of fb_register_client()
+    are built-in while CONFIG_FB_NOTIFY is set to =m:
 
-Cant we make this build rule msm specific?
+$ git grep -w fb_register_client
+arch/arm/mach-pxa/am200epd.c:   fb_register_client(&am200_fb_notif);
+drivers/leds/trigger/ledtrig-backlight.c:       ret = fb_register_client(&n->notifier);
+drivers/video/backlight/backlight.c:    return fb_register_client(&bd->fb_notif);
+drivers/video/backlight/lcd.c:  return fb_register_client(&ld->fb_notif);
+
+Somewhat related but not directly addressing your patch, I wonder
+if Android itself could migrate to using FB_CORE=m FB=n FB_NOTIFY=n
+instead and use simpledrm for the console in place of the legacy
+fbdev layer.
+
+    Arnd
