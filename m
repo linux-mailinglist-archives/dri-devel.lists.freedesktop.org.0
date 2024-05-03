@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910348BB105
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9718BB106
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 18:41:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5A61113141;
-	Fri,  3 May 2024 16:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3655F113142;
+	Fri,  3 May 2024 16:41:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="J8uOfXc+";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ID1+odDF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
- [95.215.58.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04AC5113141
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:41:25 +0000 (UTC)
+Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com
+ [95.215.58.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 591F7113142
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 16:41:30 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1714754484;
+ t=1714754488;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7dZRACv1mGtltLnFfXv8cRlXiLzMJI2QNtXc82HhDoA=;
- b=J8uOfXc+V1d/2OHNoBJh0QiVOOgt9GA9OIEd1aUZ5VWGSJmCXprAyi9ir3LXP/5Yl94Hlk
- n7IHseMWoqYiOsRCm5b3N5pVN30mxkb4Gr5SA0mQsH1OvrhaH5KqRSm5Kx5dSDjas0iWDR
- y/ItN03ne4HYBH8tHUrfTJkUSwmldKY=
+ bh=vO5DAzgmog7KilXxDbcqZljq54cRteB1aUJEF70aaEA=;
+ b=ID1+odDFJLMZGM3SFRFN/it22j2tE6PB8T4rM5qgJNX0oYvgYzM229nYyPVDaM+LWJEZiu
+ aHVmjFie4ANXab7sIeE9quZDhB2NVSjdJBo4woMpry27gi5oOReU3eUao5BRAGMTAM9YFL
+ ScxEtD5r22quzhKe2nPrNu3rNo/gq+c=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Andrzej Hajda <andrzej.hajda@intel.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -37,10 +37,10 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v5 01/10] drm/bridge: Allow using fwnode APIs to get the next
- bridge
-Date: Sat,  4 May 2024 00:40:57 +0800
-Message-Id: <20240503164106.1172650-2-sui.jingfeng@linux.dev>
+Subject: [PATCH v5 02/10] drm/bridge: Add a helper to setup both the of_node
+ and fwnode of drm bridge
+Date: Sat,  4 May 2024 00:40:58 +0800
+Message-Id: <20240503164106.1172650-3-sui.jingfeng@linux.dev>
 In-Reply-To: <20240503164106.1172650-1-sui.jingfeng@linux.dev>
 References: <20240503164106.1172650-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -61,137 +61,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The various display bridge drivers rely on 'OF' infrastructures to
-works very well, yet there are some platforms and/or devices lack of
-'OF' support. Such as virtual display drivers, USB display apapters
-and ACPI based systems etc.
+The newly added helper is drm_bridge_set_node(), the reason behind of this
+introduction is that the name 'of_node' itself has a smell of DT dependent,
+when we are going to make drivers truly DT independent, we have to has a
+way to hide it from its user referencing and/or dereferencing.
 
-Add fwnode based helpers to fill the niche, this allows part of display
-bridge drivers to work across systems. As the fwnode APIs has wider
-coverage than DT counterpart, and fwnode graphs are compatible with
-OF graphs. So the newly created helpers can be used on all systems
-in theory, assumed that there has valid OF/fwnode graphs established.
+Please note that the introduction of drm_bridge_set_node() is actually
+trying to follow the convention used by driver core, see device_set_node()
+for reference.
 
-Note, the involved drm bridge instance should also has the fwnode
-assigned, so that the user of it could find it via the fwnode handle.
+While at it, include the of.h header as the drm_bridge struct always has
+the of_node as its member. Therefore drop the forward declaration.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/drm_bridge.c | 74 ++++++++++++++++++++++++++++++++++++
- include/drm/drm_bridge.h     |  8 ++++
- 2 files changed, 82 insertions(+)
+ include/drm/drm_bridge.h | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 28abe9aa99ca..fc1a314140e7 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1368,6 +1368,80 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
- EXPORT_SYMBOL(of_drm_find_bridge);
- #endif
- 
-+/**
-+ * drm_bridge_find_by_fwnode - Find the bridge corresponding to the fwnode
-+ *
-+ * @fwnode: fwnode for which to find the matching drm_bridge
-+ *
-+ * This function looks up a drm_bridge in the global bridge list, based on
-+ * its associated fwnode. Drivers who want to use this function should has
-+ * fwnode handle assigned to the fwnode member of the struct drm_bridge
-+ * instance.
-+ *
-+ * Returns:
-+ *  * A reference to the requested drm_bridge object on success, or
-+ *  * %NULL otherwise (object does not exist or the driver of requested
-+ *    bridge not probed yet).
-+ */
-+struct drm_bridge *drm_bridge_find_by_fwnode(struct fwnode_handle *fwnode)
-+{
-+	struct drm_bridge *ret = NULL;
-+	struct drm_bridge *bridge;
-+
-+	if (!fwnode)
-+		return NULL;
-+
-+	mutex_lock(&bridge_lock);
-+
-+	list_for_each_entry(bridge, &bridge_list, list) {
-+		if (bridge->fwnode == fwnode) {
-+			ret = bridge;
-+			break;
-+		}
-+	}
-+
-+	mutex_unlock(&bridge_lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(drm_bridge_find_by_fwnode);
-+
-+/**
-+ * drm_bridge_find_next_bridge_by_fwnode - Find the next bridge by fwnode
-+ * @fwnode: fwnode pointer to the current device.
-+ * @port: identifier of the port node of the next bridge is connected.
-+ *
-+ * This function find the next bridge at the current node, it assumed that
-+ * there has valid fwnode graph established.
-+ *
-+ * Returns:
-+ *  * A reference to the requested drm_bridge object on success, or
-+ *  * -%EINVAL or -%ENODEV if the fwnode graph or OF graph is not complete, or
-+ *  * %NULL if object does not exist or the next bridge is not probed yet.
-+ */
-+struct drm_bridge *
-+drm_bridge_find_next_bridge_by_fwnode(struct fwnode_handle *fwnode, u32 port)
-+{
-+	struct drm_bridge *bridge;
-+	struct fwnode_handle *ep;
-+	struct fwnode_handle *remote;
-+
-+	ep = fwnode_graph_get_endpoint_by_id(fwnode, port, 0, 0);
-+	if (!ep)
-+		return ERR_PTR(-EINVAL);
-+
-+	remote = fwnode_graph_get_remote_port_parent(ep);
-+	fwnode_handle_put(ep);
-+	if (!remote)
-+		return ERR_PTR(-ENODEV);
-+
-+	bridge = drm_bridge_find_by_fwnode(remote);
-+	fwnode_handle_put(remote);
-+
-+	return bridge;
-+}
-+EXPORT_SYMBOL_GPL(drm_bridge_find_next_bridge_by_fwnode);
-+
- MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
- MODULE_DESCRIPTION("DRM bridge infrastructure");
- MODULE_LICENSE("GPL and additional rights");
 diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 4baca0d9107b..a1bb19425761 100644
+index a1bb19425761..b18e7c2f62c9 100644
 --- a/include/drm/drm_bridge.h
 +++ b/include/drm/drm_bridge.h
-@@ -721,6 +721,8 @@ struct drm_bridge {
- 	struct list_head chain_node;
- 	/** @of_node: device node pointer to the bridge */
- 	struct device_node *of_node;
-+	/** @fwnode: fwnode pointer to the bridge */
-+	struct fwnode_handle *fwnode;
- 	/** @list: to keep track of all added bridges */
- 	struct list_head list;
- 	/**
-@@ -797,6 +799,12 @@ static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
- }
- #endif
+@@ -26,14 +26,13 @@
+ #include <linux/ctype.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
++#include <linux/of.h>
  
-+struct drm_bridge *
-+drm_bridge_find_by_fwnode(struct fwnode_handle *fwnode);
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_encoder.h>
+ #include <drm/drm_mode_object.h>
+ #include <drm/drm_modes.h>
+ 
+-struct device_node;
+-
+ struct drm_bridge;
+ struct drm_bridge_timings;
+ struct drm_connector;
+@@ -790,6 +789,13 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 		      struct drm_bridge *previous,
+ 		      enum drm_bridge_attach_flags flags);
+ 
++static inline void
++drm_bridge_set_node(struct drm_bridge *bridge, struct fwnode_handle *fwnode)
++{
++	bridge->fwnode = fwnode;
++	bridge->of_node = to_of_node(fwnode);
++}
 +
-+struct drm_bridge *
-+drm_bridge_find_next_bridge_by_fwnode(struct fwnode_handle *fwnode, u32 port);
-+
- /**
-  * drm_bridge_get_next_bridge() - Get the next bridge in the chain
-  * @bridge: bridge object
+ #ifdef CONFIG_OF
+ struct drm_bridge *of_drm_find_bridge(struct device_node *np);
+ #else
 -- 
 2.34.1
 
