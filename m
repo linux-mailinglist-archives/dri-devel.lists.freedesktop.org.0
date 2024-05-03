@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18B98BB5EE
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCEB8BB5EF
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2024 23:36:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9250112E33;
-	Fri,  3 May 2024 21:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 888AA112EA2;
+	Fri,  3 May 2024 21:36:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dLJ6Mnyf";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="e6B1xBL4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0FBD112E33
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:36:54 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-1ed0abbf706so1068175ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:36:54 -0700 (PDT)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6FA4112EA2
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2024 21:36:56 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-1ec69e3dbe5so1223375ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 14:36:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1714772213; x=1715377013;
+ d=chromium.org; s=google; t=1714772216; x=1715377016;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fIbC9LrwuAAq79Jeay6jAxq6GRcu3tw3vRcfcGuhdCM=;
- b=dLJ6Mnyfmys2BL8O0VBKqUW9UCK2zxzDsLEDllWi+bLYq8QqIGXSK8Q8CbTs866sZ4
- I8Bx5aXLP/YpSsVLP99CIEU3jWj2XPtLew3k3BxlVXVAVjjm6/j98WY3UFJ/tIlp7GvW
- QbjHhiPMOnIn1JXV2UJPghqXlFJYBX8pzdVFc=
+ bh=Vb3TgP/wCNf81D+aV3nRlzqlLyhQoFFUaND2nsUQhqU=;
+ b=e6B1xBL4eHGDJq3sXiII13XDvRBBpqdt2qrL5LtZm5SJnr9HkR0jrDrEirtmuUkLlf
+ 8Vdlo1JFRhyjRPfGzQlzn8pLljI9kSaC6xOo0j9ZXKAFH8r0M3dvxwKC+ZAPRjrzoHho
+ HZVs0miXx67xJfFry+qB8x1uYyiocKmYEBM30=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714772213; x=1715377013;
+ d=1e100.net; s=20230601; t=1714772216; x=1715377016;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fIbC9LrwuAAq79Jeay6jAxq6GRcu3tw3vRcfcGuhdCM=;
- b=EDgEeLzCM+XjxavqgNYNdatj40Ey0BoRmp29pQm/ESQDU+flWnhFmrc6KWcZ+ebCny
- ZFETUgl8RHycWou8qLKRAePspMk6h8sAzmjR7tWE341NPZD2fGPS/2CH4zSfGDmWFbYr
- YGkvjKHQTHg84+ICMC7+epvwA4p3TTsqJHJZ0DFaXsF1zvhgLOY5aobf2FD6j26xybt2
- OHLKtaRhjbVg3a3PWvyX10Nd/WxArAYuMXonHV9SsUMpAoXA+8sxe+TWE9cSE+bvR7nN
- qNZ6DJ0cE/g0VQcy3d7i3/E7G7NgUnwAeIgYWVErOTR3I9ZxP4/D0u6dFC0ifTn3XaSS
- M76Q==
-X-Gm-Message-State: AOJu0YwEFnkuebMeSEQvXUvQKwJbBCUiZS9JbcE891PIpOSpaGI+SCaj
- KMpZykNje1gsAs0gQUNCb3zasanuoCEY+bIWLKPBLQBgGNh83rI1/PvYpoTD9oTvOASPJ/SP5hX
- LSA==
-X-Google-Smtp-Source: AGHT+IEJVtpxW/vIwHLrsnoyEyV1IoA8JCw5mhGllbU5SBDs6pbVC07r9dJwje7IMXdKxtbI6jQipw==
-X-Received: by 2002:a17:902:9f98:b0:1eb:6468:7fc3 with SMTP id
- g24-20020a1709029f9800b001eb64687fc3mr3513255plq.62.1714772213125; 
- Fri, 03 May 2024 14:36:53 -0700 (PDT)
+ bh=Vb3TgP/wCNf81D+aV3nRlzqlLyhQoFFUaND2nsUQhqU=;
+ b=QkkupHIKrar2EDRZmJHSKJKIdpinD0i+GejLwD6pE7p+Sj8DeDk8Wzv3oTifPyFKr2
+ zzyLlcARqykB5YhGiVjOmBnXiMPyFJn19e4oYHo6lClxOfle3Qm0TRVkYzMiF74wJSdg
+ F1SrnlWfV6GE696zhKz9b73iZMl3mGQ3Zkf+cOaKAZqbCFFgpbwduqHNr0CgJX7aL+SC
+ 0OOwZch/v2Lz0oPt/Gx77IOHevpq5a5R5lYc9rVr3QM2jHxXBxKXwQWOUuhP5bP0wonl
+ GX2NFAYc5RX6beGUkEDNw/KvovMQMZdj3udjMyzRJ3oDY3w+XlZjTydan7bToGJGHEl8
+ lNBw==
+X-Gm-Message-State: AOJu0YyFpjDfk4ni/c3UAoGN9UtbdNtJ+fjg+wjX39ogk+Cv7pogXoah
+ 7qomf8HWrhu28hizGxpQ7M04qegCEC+3sMxNtl2PwEUfKceSwbFmc90ekvaNy7WiUyW3o6PsztT
+ l0Q==
+X-Google-Smtp-Source: AGHT+IFNtgQI4tL4b59ZXyBnIDIYmn8Ia9hPYK7earn8DOm88NvX2c1QDLLSGNTvuzAvGjP8xynfPQ==
+X-Received: by 2002:a17:903:2306:b0:1eb:1af8:309f with SMTP id
+ d6-20020a170903230600b001eb1af8309fmr5572876plh.4.1714772215701; 
+ Fri, 03 May 2024 14:36:55 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:fb6a:b54b:7580:64f3])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.36.51
+ j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.36.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 May 2024 14:36:52 -0700 (PDT)
+ Fri, 03 May 2024 14:36:54 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -70,10 +70,10 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v2 12/48] drm/panel: kingdisplay-kd097d04: Stop tracking
- prepared/enabled
-Date: Fri,  3 May 2024 14:32:53 -0700
-Message-ID: <20240503143327.RFT.v2.12.I711d07c4f4738df199697fd534c452cdfa46a21f@changeid>
+Subject: [RFT PATCH v2 13/48] drm/panel: kingdisplay-kd097d04: Don't call
+ unprepare+disable at shutdown/remove
+Date: Fri,  3 May 2024 14:32:54 -0700
+Message-ID: <20240503143327.RFT.v2.13.I6c7c84b1560dd374f6e7e8dc50f419a870d31d31@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
 References: <20240503213441.177109-1-dianders@chromium.org>
@@ -95,12 +95,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-prepared/enabled in drm_panel"), we want to remove needless code from
-panel drivers that was storing and double-checking the
-prepared/enabled state. Even if someone was relying on the
-double-check before, that double-check is now in the core and not
-needed in individual drivers.
+It's the responsibility of a correctly written DRM modeset driver to
+call drm_atomic_helper_shutdown() at shutdown time and that should be
+disabling / unpreparing the panel if needed. Panel drivers shouldn't
+be calling these functions themselves.
+
+A recent effort was made to fix as many DRM modeset drivers as
+possible [1] [2] [3] and most drivers are fixed now.
+
+A grep through mainline for compatible strings used by this driver
+indicates that it is used by Rockchip boards. The Rockchip driver
+appear to be correctly calling drm_atomic_helper_shutdown() so we can
+remove the calls.
+
+[1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+[2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+[3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
 
 Cc: Brian Norris <briannorris@chromium.org>
 Cc: Chris Zhong <zyw@rock-chips.com>
@@ -113,103 +123,50 @@ Changes in v2:
 - Only handle 1 panel per patch.
 - Split removal of prepared/enabled from handling of remove/shutdown.
 
- .../drm/panel/panel-kingdisplay-kd097d04.c    | 31 -------------------
- 1 file changed, 31 deletions(-)
+ .../gpu/drm/panel/panel-kingdisplay-kd097d04.c  | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-index 17f8d80cf2b3..88d775e000d4 100644
+index 88d775e000d4..d6b912277196 100644
 --- a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
 +++ b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-@@ -23,9 +23,6 @@ struct kingdisplay_panel {
- 
- 	struct regulator *supply;
- 	struct gpio_desc *enable_gpio;
--
--	bool prepared;
--	bool enabled;
- };
- 
- struct kingdisplay_panel_cmd {
-@@ -185,15 +182,10 @@ static int kingdisplay_panel_disable(struct drm_panel *panel)
- 	struct kingdisplay_panel *kingdisplay = to_kingdisplay_panel(panel);
+@@ -389,14 +389,6 @@ static void kingdisplay_panel_remove(struct mipi_dsi_device *dsi)
+ 	struct kingdisplay_panel *kingdisplay = mipi_dsi_get_drvdata(dsi);
  	int err;
  
--	if (!kingdisplay->enabled)
--		return 0;
+-	err = drm_panel_unprepare(&kingdisplay->base);
+-	if (err < 0)
+-		dev_err(&dsi->dev, "failed to unprepare panel: %d\n", err);
 -
- 	err = mipi_dsi_dcs_set_display_off(kingdisplay->link);
+-	err = drm_panel_disable(&kingdisplay->base);
+-	if (err < 0)
+-		dev_err(&dsi->dev, "failed to disable panel: %d\n", err);
+-
+ 	err = mipi_dsi_detach(dsi);
  	if (err < 0)
- 		dev_err(panel->dev, "failed to set display off: %d\n", err);
- 
--	kingdisplay->enabled = false;
--
- 	return 0;
+ 		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", err);
+@@ -404,14 +396,6 @@ static void kingdisplay_panel_remove(struct mipi_dsi_device *dsi)
+ 	kingdisplay_panel_del(kingdisplay);
  }
  
-@@ -202,9 +194,6 @@ static int kingdisplay_panel_unprepare(struct drm_panel *panel)
- 	struct kingdisplay_panel *kingdisplay = to_kingdisplay_panel(panel);
- 	int err;
- 
--	if (!kingdisplay->prepared)
--		return 0;
--
- 	err = mipi_dsi_dcs_enter_sleep_mode(kingdisplay->link);
- 	if (err < 0) {
- 		dev_err(panel->dev, "failed to enter sleep mode: %d\n", err);
-@@ -220,8 +209,6 @@ static int kingdisplay_panel_unprepare(struct drm_panel *panel)
- 	if (err < 0)
- 		return err;
- 
--	kingdisplay->prepared = false;
--
- 	return 0;
- }
- 
-@@ -231,9 +218,6 @@ static int kingdisplay_panel_prepare(struct drm_panel *panel)
- 	int err, regulator_err;
- 	unsigned int i;
- 
--	if (kingdisplay->prepared)
--		return 0;
--
- 	gpiod_set_value_cansleep(kingdisplay->enable_gpio, 0);
- 
- 	err = regulator_enable(kingdisplay->supply);
-@@ -275,8 +259,6 @@ static int kingdisplay_panel_prepare(struct drm_panel *panel)
- 	/* T7: 10ms */
- 	usleep_range(10000, 11000);
- 
--	kingdisplay->prepared = true;
--
- 	return 0;
- 
- poweroff:
-@@ -289,18 +271,6 @@ static int kingdisplay_panel_prepare(struct drm_panel *panel)
- 	return err;
- }
- 
--static int kingdisplay_panel_enable(struct drm_panel *panel)
+-static void kingdisplay_panel_shutdown(struct mipi_dsi_device *dsi)
 -{
--	struct kingdisplay_panel *kingdisplay = to_kingdisplay_panel(panel);
+-	struct kingdisplay_panel *kingdisplay = mipi_dsi_get_drvdata(dsi);
 -
--	if (kingdisplay->enabled)
--		return 0;
--
--	kingdisplay->enabled = true;
--
--	return 0;
+-	drm_panel_unprepare(&kingdisplay->base);
+-	drm_panel_disable(&kingdisplay->base);
 -}
 -
- static const struct drm_display_mode default_mode = {
- 	.clock = 229000,
- 	.hdisplay = 1536,
-@@ -341,7 +311,6 @@ static const struct drm_panel_funcs kingdisplay_panel_funcs = {
- 	.disable = kingdisplay_panel_disable,
- 	.unprepare = kingdisplay_panel_unprepare,
- 	.prepare = kingdisplay_panel_prepare,
--	.enable = kingdisplay_panel_enable,
- 	.get_modes = kingdisplay_panel_get_modes,
+ static struct mipi_dsi_driver kingdisplay_panel_driver = {
+ 	.driver = {
+ 		.name = "panel-kingdisplay-kd097d04",
+@@ -419,7 +403,6 @@ static struct mipi_dsi_driver kingdisplay_panel_driver = {
+ 	},
+ 	.probe = kingdisplay_panel_probe,
+ 	.remove = kingdisplay_panel_remove,
+-	.shutdown = kingdisplay_panel_shutdown,
  };
+ module_mipi_dsi_driver(kingdisplay_panel_driver);
  
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
