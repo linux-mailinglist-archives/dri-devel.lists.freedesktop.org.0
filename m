@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FAAF8BBAB9
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 13:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733108BBAD3
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 13:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01DC010E8CA;
-	Sat,  4 May 2024 11:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D997310F165;
+	Sat,  4 May 2024 11:39:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tlBJTZl4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fwFVglgz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8208910E8CA
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 11:26:18 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-34d0aa589a4so358781f8f.1
- for <dri-devel@lists.freedesktop.org>; Sat, 04 May 2024 04:26:18 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6A810F165
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 11:39:08 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-51f3761c96aso595443e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 May 2024 04:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714821976; x=1715426776; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1714822746; x=1715427546; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=acScVzoT0UgSxQf+NXyCSZ3pQCph88n8DycCWGq+e7Q=;
- b=tlBJTZl4Rl3+lhuvxwx5uRh3b9jd/4bo9bdZQl3IMeP3bqNfN0zcTqE6zhy2YL9xpt
- yyqIgmhH+xcg0VtZSTGTBAKPB9p+ySHyWh+YI1PoFQGeeRU6sa2T0ypsSfP82IAw2G63
- wZ28ebEUuNjzDmyQSi14496j9Uar8Cnj2AT+j3gusaC3/ZKEDGv+es0j6DCAHekv5Knm
- JHubgiSVa0sEhQPeD9Tf6lTkJw6krddSBx3FZIefNLAV+xmiRecS00WbXhsdmG9FP+C4
- bC4Mgn9/JBNMmHjuPHbbKr6HT7OY/gWkcif8jXEg/SrBOOMb+t79AC6suKHEKbp3q1w3
- cXjg==
+ bh=qJQr+N2iqh0CtzNmBbGY4L46Wh//FbWkaD2H/7huYvs=;
+ b=fwFVglgzYqq7H2zqYDZ/UmffysYbLnE2pbiWll/GBkNLsC89/1yuRKgS8HWzVpRZPz
+ TJ75FrKVcVp2Iy7V8q0H9taSb3gD3KCeM+TzZTuW4+YUUGMsI4hUbbpg6rHmmLAU2aTV
+ vRM9WH8qSyiaCxp5X8f05OiAI5/z1UYLqHdzvfWfJx++rcVlbEqfHMra9mqoTWmCjdrJ
+ UpG75ifWdTpGGN8pF/cASALS2juJIvpfpQvoaaEjBXzU6CE8srUh9TlegyoUyalo+Cbn
+ 4i9K+8N7+NiHzYC/M5YOXS5d5Esa5B1nNAe2IeJGcAxZpmsyQkLsEfceAVN/Ex/r7D8M
+ jPBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714821976; x=1715426776;
+ d=1e100.net; s=20230601; t=1714822746; x=1715427546;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=acScVzoT0UgSxQf+NXyCSZ3pQCph88n8DycCWGq+e7Q=;
- b=f22wc5j5YDP6hI1IZjyQmD0/5qtUyl+vRkydhXFWKhDKSDeHutso5zSYKSWlh72+7z
- h6M2cJ9UcNyneZUWtNS6oVEFtcvxxEIFnNHuwQ0XcPss3yhWhyyMSHRYM4zsgKNIgRjP
- ms6geySPS4twJOE/hznC53dyXVN0xW8zyWwT+reWGXixtv/U5ZgDtm+6RDeug0QA7eek
- qwKPCro62rd3PbOIIWv0avXAx9lRspv6y84a6jwWSvlETaBg2gwZiflMiBJaEANS05Px
- 4hMTF90XJ3oVxKApNskGH4E1Lq2okyh09Do1Ym13iELWDjFNxUDXJ59YPbKrpfuZyM/W
- ewuw==
+ bh=qJQr+N2iqh0CtzNmBbGY4L46Wh//FbWkaD2H/7huYvs=;
+ b=Ti/DXu99ID8BrhbJIrvbVgBboG56cxvKmnjy3xYIrk0qIRUZ/ejx9k+vjtsDXRxQC3
+ 77k5ejeFFDFSrwNKVp/t0Az6sVl0mCOJVMhHwqGGvI1Jx539QpWIhxW3Rh+RiHgc1sCC
+ Dc9xKt+5Xe9rua8CLf6/9WOHzmbz0tV95Yi9dXb4ukCIKTk1o3elaSkU71EEDApyCsw9
+ qHpKWU3vaWotHOuPbX6I+hX18NZmAGe281vam/p0GoVhsYlrvjPI4mcVIN7xaHO3DbqA
+ LSIdMHJORoczCmMIhGHOl93wr7p+nA68SyQ1OL7yZNLsslagF+7XqsZtE517cVf4sZmI
+ cFGA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUbDXvucvkEyXJzafkSIfriBo2dZHMBhC7Ptcz5Kxi5WCdTR/TJXb5fJPXz/Hq5t2Md6jNgLkF4WsPQ3i3v8weozMLscSWU6SOC2nBnXmUU
-X-Gm-Message-State: AOJu0YweuYOu6vgPMrFhtpDRg+ttAoKlhelxIUzo2Ipu9QQ1Or9L4974
- 6w1BcZIQ6yk/GZZeN3yCL+yCYlxG7zxInGaYMbvm/V6iPBkjR220f3HA6V9S6Pg=
-X-Google-Smtp-Source: AGHT+IFhfIrzcRrSB3PRVXEa7IfD64x3DWvrLyolPJso7AtMaTEliUXy1Di5c3Y9F+bGsvZnwecfpw==
-X-Received: by 2002:a5d:5542:0:b0:34d:1d09:f06d with SMTP id
- g2-20020a5d5542000000b0034d1d09f06dmr4990315wrw.13.1714821976417; 
- Sat, 04 May 2024 04:26:16 -0700 (PDT)
+ AJvYcCW7A8NnrOekuVFfJafmD2zTrEU7m+6yblIA7/rJmevc4cc5LEDJNukTDGMXUMY5EygSkrXcXYJnUGrBi9i5xpY1IgLhAIf3O4Iz7Dv9k7UH
+X-Gm-Message-State: AOJu0Yzo+ju8rJLkma07Ho5RRdGa1EVIV5EDkoBwEznA42wNM0Damvs8
+ iknPy9NBGn5PDWcz3lwxIUMu5l/gOC0xeFcYJRA9K22DxNSjYeerYNgaHyxqzQ0=
+X-Google-Smtp-Source: AGHT+IF7aOCE2HjYaAJh5yWG3SZAbTJBfjHo58pHIPQhrrqnKxi6kzUXvdANtDldvdgnmxcG20+dZA==
+X-Received: by 2002:a19:4311:0:b0:51c:d8f6:4e6f with SMTP id
+ q17-20020a194311000000b0051cd8f64e6fmr3921509lfa.40.1714822746039; 
+ Sat, 04 May 2024 04:39:06 -0700 (PDT)
 Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- p8-20020a5d4588000000b00341ce80ea66sm6013320wrq.82.2024.05.04.04.26.14
+ ay2-20020a05600c1e0200b00418948a5eb0sm12776941wmb.32.2024.05.04.04.39.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 May 2024 04:26:16 -0700 (PDT)
-Date: Sat, 4 May 2024 14:26:04 +0300
+ Sat, 04 May 2024 04:39:05 -0700 (PDT)
+Date: Sat, 4 May 2024 14:39:02 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Evan Quan <evan.quan@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  "Pan, Xinhui" <Xinhui.Pan@amd.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Tim Huang <Tim.Huang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Jesse Zhang <jesse.zhang@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
- Ruan Jinjie <ruanjinjie@huawei.com>, amd-gfx@lists.freedesktop.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
+ Yang Wang <kevinyang.wang@amd.com>, "Stanley.Yang" <Stanley.Yang@amd.com>,
+ YiPeng Chai <YiPeng.Chai@amd.com>, Candice Li <candice.li@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/amd/pm: Fix error code in vega10_hwmgr_backend_init()
-Message-ID: <502fda28-fde7-4851-b17f-4d48848955bc@moroto.mountain>
+Subject: [PATCH] drm/amdgpu: delete unnecessary check
+Message-ID: <3f9ce1f6-c7fe-401d-b958-395948f4c6ae@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -86,37 +86,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Return -EINVAL on error instead of success.  Also on the success path,
-return a literal zero instead of "return result;"
+The "ret" variable is zero.  No need to check.
 
-Fixes: e098bc9612c2 ("drm/amd/pm: optimize the power related source code layout")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-index 37c915d7723c..9b9f8615070a 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-@@ -924,7 +924,7 @@ static int vega10_hwmgr_backend_init(struct pp_hwmgr *hwmgr)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+index a037e8fba29f..4d50fb039509 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -2807,7 +2807,7 @@ static void amdgpu_ras_do_page_retirement(struct work_struct *work)
+ static void amdgpu_ras_poison_creation_handler(struct amdgpu_device *adev,
+ 				uint32_t timeout_ms)
+ {
+-	int ret = 0;
++	int ret;
+ 	struct ras_ecc_log_info *ecc_log;
+ 	struct ras_query_if info;
+ 	uint32_t timeout = timeout_ms;
+@@ -2836,8 +2836,7 @@ static void amdgpu_ras_poison_creation_handler(struct amdgpu_device *adev,
+ 		return;
+ 	}
  
- 	data->total_active_cus = adev->gfx.cu_info.number;
- 	if (!hwmgr->not_vf)
--		return result;
-+		return -EINVAL;
- 
- 	/* Setup default Overdrive Fan control settings */
- 	data->odn_fan_table.target_fan_speed =
-@@ -947,7 +947,7 @@ static int vega10_hwmgr_backend_init(struct pp_hwmgr *hwmgr)
- 			"Mem Channel Index Exceeded maximum!",
- 			return -EINVAL);
- 
--	return result;
-+	return 0;
+-	if (!ret)
+-		schedule_delayed_work(&ras->page_retirement_dwork, 0);
++	schedule_delayed_work(&ras->page_retirement_dwork, 0);
  }
  
- static int vega10_init_sclk_threshold(struct pp_hwmgr *hwmgr)
+ static int amdgpu_ras_poison_consumption_handler(struct amdgpu_device *adev,
 -- 
 2.43.0
 
