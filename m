@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A5D8BBAA3
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 13:18:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAAF8BBAB9
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 13:26:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D50610EAA1;
-	Sat,  4 May 2024 11:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01DC010E8CA;
+	Sat,  4 May 2024 11:26:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Cm4HmZL1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tlBJTZl4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF09710EAA1
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 11:18:09 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2e0933d3b5fso5682121fa.2
- for <dri-devel@lists.freedesktop.org>; Sat, 04 May 2024 04:18:09 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8208910E8CA
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 11:26:18 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-34d0aa589a4so358781f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 May 2024 04:26:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714821488; x=1715426288; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yv9FzWOzBDzyrTcS40BSQArXvrw2k2j9CKdjQ6IcHqo=;
- b=Cm4HmZL10Vv+q5egmrKZN++JsOLwcHYWD9M0B4nifcFEA5kdxgoIF1k2gAujWwnCwL
- lPwTxg/d9hsArPb8iSgr264jFhBpCuZyYpAcX31oHIh2EMq+C2VnMIoF/RK9eCor3HDC
- jV2floW/ZDW4UQB5VkCfPMcNiiA93a3BIGSdK5zunFjZZPbTiwNEFJfLqcvJ0uumG9kR
- 5wXarY/8H909/qCUukmzpu3PZ4MIVogupUuxPtlOQz8+4C3MytnIswjeKcaSkkpIePgm
- dAkX98NxaPvb9Qvo0LSNOTynvGV9sIIMFN92NDgAabBY73FGn44JW0qDiZViNxczz5E1
- Dr3Q==
+ d=linaro.org; s=google; t=1714821976; x=1715426776; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=acScVzoT0UgSxQf+NXyCSZ3pQCph88n8DycCWGq+e7Q=;
+ b=tlBJTZl4Rl3+lhuvxwx5uRh3b9jd/4bo9bdZQl3IMeP3bqNfN0zcTqE6zhy2YL9xpt
+ yyqIgmhH+xcg0VtZSTGTBAKPB9p+ySHyWh+YI1PoFQGeeRU6sa2T0ypsSfP82IAw2G63
+ wZ28ebEUuNjzDmyQSi14496j9Uar8Cnj2AT+j3gusaC3/ZKEDGv+es0j6DCAHekv5Knm
+ JHubgiSVa0sEhQPeD9Tf6lTkJw6krddSBx3FZIefNLAV+xmiRecS00WbXhsdmG9FP+C4
+ bC4Mgn9/JBNMmHjuPHbbKr6HT7OY/gWkcif8jXEg/SrBOOMb+t79AC6suKHEKbp3q1w3
+ cXjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714821488; x=1715426288;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yv9FzWOzBDzyrTcS40BSQArXvrw2k2j9CKdjQ6IcHqo=;
- b=uSCjfuIHKPvYjgqjBmP4wtdXBlipO7nKZtyBQTdy1eiQjw6XI3coT0djy6bsKe9zG1
- idIgQDQJrHy4/o0Zuj7C4JJ1ztFCZSeSmoob3tB0cV/6TYeAvVWUS3cZgB/5v9Q4kcjp
- yEHoBmfl8rdG7bMnpMmt+Akb+tGI8P8iFMc4WuDzCPTcirHzl5zIt6wQQoU3k84g4Z42
- Tj3Vui4jednKMX/9ZZdfbrZDsaQwBMwKYKOtT+pqsYTn4F+P6t46EMHL/n3jCRPn2Gwn
- 1IqTP5j2baLsdeEoK6BBY3E4n7tgfXj8T1lg7pYL2hL31GOXu4eo3eLrJHwLlsHOi8C9
- 5PbQ==
+ d=1e100.net; s=20230601; t=1714821976; x=1715426776;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=acScVzoT0UgSxQf+NXyCSZ3pQCph88n8DycCWGq+e7Q=;
+ b=f22wc5j5YDP6hI1IZjyQmD0/5qtUyl+vRkydhXFWKhDKSDeHutso5zSYKSWlh72+7z
+ h6M2cJ9UcNyneZUWtNS6oVEFtcvxxEIFnNHuwQ0XcPss3yhWhyyMSHRYM4zsgKNIgRjP
+ ms6geySPS4twJOE/hznC53dyXVN0xW8zyWwT+reWGXixtv/U5ZgDtm+6RDeug0QA7eek
+ qwKPCro62rd3PbOIIWv0avXAx9lRspv6y84a6jwWSvlETaBg2gwZiflMiBJaEANS05Px
+ 4hMTF90XJ3oVxKApNskGH4E1Lq2okyh09Do1Ym13iELWDjFNxUDXJ59YPbKrpfuZyM/W
+ ewuw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUs4jjmy4idin0Urxp+R/EGoIUAdPVFJcmSSYJJ+EiIyljB55Nksdh8DYPieBxIfdjlwnj5WtqNlyis3ugfCKNalo9jLJ6szxcoe/IK1zsU
-X-Gm-Message-State: AOJu0Yzrc5ZVs/uEWntfZC6Fdu+twpmz4tNiv172q53fM+THOWfEO+Oz
- XRMCDg1zXfJoDbKchVOuLYA+3BaBIBeCeGNONbCTp4XFbKbqLXr1kkhY4jiAvqg=
-X-Google-Smtp-Source: AGHT+IEggVHErInNqsEkGN4lf9Fm25s9yd+oVBzpPNb90IQ2CCo7mKtWyU3ysBaUz2WYQTnosuIkqw==
-X-Received: by 2002:a2e:9dd4:0:b0:2e2:2791:9842 with SMTP id
- x20-20020a2e9dd4000000b002e227919842mr3499876ljj.44.1714821487428; 
- Sat, 04 May 2024 04:18:07 -0700 (PDT)
+ AJvYcCUbDXvucvkEyXJzafkSIfriBo2dZHMBhC7Ptcz5Kxi5WCdTR/TJXb5fJPXz/Hq5t2Md6jNgLkF4WsPQ3i3v8weozMLscSWU6SOC2nBnXmUU
+X-Gm-Message-State: AOJu0YweuYOu6vgPMrFhtpDRg+ttAoKlhelxIUzo2Ipu9QQ1Or9L4974
+ 6w1BcZIQ6yk/GZZeN3yCL+yCYlxG7zxInGaYMbvm/V6iPBkjR220f3HA6V9S6Pg=
+X-Google-Smtp-Source: AGHT+IFhfIrzcRrSB3PRVXEa7IfD64x3DWvrLyolPJso7AtMaTEliUXy1Di5c3Y9F+bGsvZnwecfpw==
+X-Received: by 2002:a5d:5542:0:b0:34d:1d09:f06d with SMTP id
+ g2-20020a5d5542000000b0034d1d09f06dmr4990315wrw.13.1714821976417; 
+ Sat, 04 May 2024 04:26:16 -0700 (PDT)
 Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- je8-20020a05600c1f8800b0041bf28aa11dsm8916105wmb.42.2024.05.04.04.18.05
+ p8-20020a5d4588000000b00341ce80ea66sm6013320wrq.82.2024.05.04.04.26.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 May 2024 04:18:07 -0700 (PDT)
-Date: Sat, 4 May 2024 14:17:59 +0300
+ Sat, 04 May 2024 04:26:16 -0700 (PDT)
+Date: Sat, 4 May 2024 14:26:04 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ashok Kumar <ashokemailat@yahoo.com>
-Cc: Julia Lawall <julia.lawall@inria.fr>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "outreachy@lists.linux.dev" <outreachy@lists.linux.dev>
-Subject: Re: [PATCH] staging: fb_tinylcd Alignment to open parenthesis
-Message-ID: <45366e52-47e7-4e9d-a2a2-7eede9d3b450@moroto.mountain>
-References: <ZjRDUO6/M+RDCcQJ.ref@c> <ZjRDUO6/M+RDCcQJ@c>
- <c8d24241-1763-f7b7-4491-2e5aa3ea3be@inria.fr>
- <1389558595.6771301.1714753224419@mail.yahoo.com>
+To: Evan Quan <evan.quan@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Tim Huang <Tim.Huang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Jesse Zhang <jesse.zhang@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
+ Ruan Jinjie <ruanjinjie@huawei.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH] drm/amd/pm: Fix error code in vega10_hwmgr_backend_init()
+Message-ID: <502fda28-fde7-4851-b17f-4d48848955bc@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1389558595.6771301.1714753224419@mail.yahoo.com>
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,16 +86,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 03, 2024 at 04:20:24PM +0000, Ashok Kumar wrote:
-> 
-> Is there a list of exceptions to the checkpatch information that we can ignore in general.
-> 
+Return -EINVAL on error instead of success.  Also on the success path,
+return a literal zero instead of "return result;"
 
-For Greg's subsystems ignore the warning about extra parentheses.
-You can search on lore for if a patch has been patch has been sent
-before.  Otherwise ignore checkpatch if it tells you to do something
-that makes the code less readable.
+Fixes: e098bc9612c2 ("drm/amd/pm: optimize the power related source code layout")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+index 37c915d7723c..9b9f8615070a 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+@@ -924,7 +924,7 @@ static int vega10_hwmgr_backend_init(struct pp_hwmgr *hwmgr)
+ 
+ 	data->total_active_cus = adev->gfx.cu_info.number;
+ 	if (!hwmgr->not_vf)
+-		return result;
++		return -EINVAL;
+ 
+ 	/* Setup default Overdrive Fan control settings */
+ 	data->odn_fan_table.target_fan_speed =
+@@ -947,7 +947,7 @@ static int vega10_hwmgr_backend_init(struct pp_hwmgr *hwmgr)
+ 			"Mem Channel Index Exceeded maximum!",
+ 			return -EINVAL);
+ 
+-	return result;
++	return 0;
+ }
+ 
+ static int vega10_init_sclk_threshold(struct pp_hwmgr *hwmgr)
+-- 
+2.43.0
 
