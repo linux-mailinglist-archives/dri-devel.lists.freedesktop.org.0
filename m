@@ -2,75 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733108BBAD3
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 13:39:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988E58BBAE5
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 13:46:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D997310F165;
-	Sat,  4 May 2024 11:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA54F10FD4F;
+	Sat,  4 May 2024 11:46:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fwFVglgz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jwFTIK/Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6A810F165
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 11:39:08 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-51f3761c96aso595443e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 04 May 2024 04:39:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714822746; x=1715427546; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qJQr+N2iqh0CtzNmBbGY4L46Wh//FbWkaD2H/7huYvs=;
- b=fwFVglgzYqq7H2zqYDZ/UmffysYbLnE2pbiWll/GBkNLsC89/1yuRKgS8HWzVpRZPz
- TJ75FrKVcVp2Iy7V8q0H9taSb3gD3KCeM+TzZTuW4+YUUGMsI4hUbbpg6rHmmLAU2aTV
- vRM9WH8qSyiaCxp5X8f05OiAI5/z1UYLqHdzvfWfJx++rcVlbEqfHMra9mqoTWmCjdrJ
- UpG75ifWdTpGGN8pF/cASALS2juJIvpfpQvoaaEjBXzU6CE8srUh9TlegyoUyalo+Cbn
- 4i9K+8N7+NiHzYC/M5YOXS5d5Esa5B1nNAe2IeJGcAxZpmsyQkLsEfceAVN/Ex/r7D8M
- jPBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714822746; x=1715427546;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qJQr+N2iqh0CtzNmBbGY4L46Wh//FbWkaD2H/7huYvs=;
- b=Ti/DXu99ID8BrhbJIrvbVgBboG56cxvKmnjy3xYIrk0qIRUZ/ejx9k+vjtsDXRxQC3
- 77k5ejeFFDFSrwNKVp/t0Az6sVl0mCOJVMhHwqGGvI1Jx539QpWIhxW3Rh+RiHgc1sCC
- Dc9xKt+5Xe9rua8CLf6/9WOHzmbz0tV95Yi9dXb4ukCIKTk1o3elaSkU71EEDApyCsw9
- qHpKWU3vaWotHOuPbX6I+hX18NZmAGe281vam/p0GoVhsYlrvjPI4mcVIN7xaHO3DbqA
- LSIdMHJORoczCmMIhGHOl93wr7p+nA68SyQ1OL7yZNLsslagF+7XqsZtE517cVf4sZmI
- cFGA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW7A8NnrOekuVFfJafmD2zTrEU7m+6yblIA7/rJmevc4cc5LEDJNukTDGMXUMY5EygSkrXcXYJnUGrBi9i5xpY1IgLhAIf3O4Iz7Dv9k7UH
-X-Gm-Message-State: AOJu0Yzo+ju8rJLkma07Ho5RRdGa1EVIV5EDkoBwEznA42wNM0Damvs8
- iknPy9NBGn5PDWcz3lwxIUMu5l/gOC0xeFcYJRA9K22DxNSjYeerYNgaHyxqzQ0=
-X-Google-Smtp-Source: AGHT+IF7aOCE2HjYaAJh5yWG3SZAbTJBfjHo58pHIPQhrrqnKxi6kzUXvdANtDldvdgnmxcG20+dZA==
-X-Received: by 2002:a19:4311:0:b0:51c:d8f6:4e6f with SMTP id
- q17-20020a194311000000b0051cd8f64e6fmr3921509lfa.40.1714822746039; 
- Sat, 04 May 2024 04:39:06 -0700 (PDT)
-Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
- ay2-20020a05600c1e0200b00418948a5eb0sm12776941wmb.32.2024.05.04.04.39.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 May 2024 04:39:05 -0700 (PDT)
-Date: Sat, 4 May 2024 14:39:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Yang Wang <kevinyang.wang@amd.com>, "Stanley.Yang" <Stanley.Yang@amd.com>,
- YiPeng Chai <YiPeng.Chai@amd.com>, Candice Li <candice.li@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: delete unnecessary check
-Message-ID: <3f9ce1f6-c7fe-401d-b958-395948f4c6ae@moroto.mountain>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 811AF10FD4F
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 11:46:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1714823192; x=1746359192;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qQXVDmyCOh7VCNUbBBWBaLbWHRimpTQLcNFH0D/M+ts=;
+ b=jwFTIK/Q8JsDVy6kkVuGtgbMPOZ4ea1BUwd2SyIAnaFU/f5RG+QZ0puu
+ 0L3SKgt590mJFihgxhlrs+oARx+uUl6CD6pkubNIv0gnWCQju96TJjGVA
+ LZCIiLadje7QoBWsaSwSQ83kyKSaKE+/tLtmZc+XvIXC05HZbv4mZ1DrA
+ A1InqydvaQSjeEmkTC8Js6AUzs3i5/TEMa8js8CsIJd9peBV1JjMs6UXd
+ EyfuYxvJkuD5hgngsxs2ze1Wrmy9PBwUSULYX1Y8uYVXRSeFgGFnRVuK+
+ U+uJqx6F29H1UqUpstdaAcImp5CMBELslq3FxxOp1F8FhnCuOVv226h93 A==;
+X-CSE-ConnectionGUID: qv7yWP9cTtC0Dk9kTkC69w==
+X-CSE-MsgGUID: SvoOnze4SeqBnGj+pAczyQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="36012713"
+X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; d="scan'208";a="36012713"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2024 04:46:31 -0700
+X-CSE-ConnectionGUID: UwtQGMebQa+3N6cKVb31yQ==
+X-CSE-MsgGUID: S5sYHNEeRVSJl+dF0XdkXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; d="scan'208";a="32506763"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+ by orviesa005.jf.intel.com with ESMTP; 04 May 2024 04:46:27 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1s3DqT-000CjU-1h;
+ Sat, 04 May 2024 11:46:25 +0000
+Date: Sat, 4 May 2024 19:46:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Florian Fainelli <florian.fainelli@broadcom.com>,
+ linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] fbdev: Have CONFIG_FB_NOTIFY be tristate
+Message-ID: <202405041939.MNsieCv5-lkp@intel.com>
+References: <20240503192858.103640-1-florian.fainelli@broadcom.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+In-Reply-To: <20240503192858.103640-1-florian.fainelli@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,36 +76,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The "ret" variable is zero.  No need to check.
+Hi Florian,
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index a037e8fba29f..4d50fb039509 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -2807,7 +2807,7 @@ static void amdgpu_ras_do_page_retirement(struct work_struct *work)
- static void amdgpu_ras_poison_creation_handler(struct amdgpu_device *adev,
- 				uint32_t timeout_ms)
- {
--	int ret = 0;
-+	int ret;
- 	struct ras_ecc_log_info *ecc_log;
- 	struct ras_query_if info;
- 	uint32_t timeout = timeout_ms;
-@@ -2836,8 +2836,7 @@ static void amdgpu_ras_poison_creation_handler(struct amdgpu_device *adev,
- 		return;
- 	}
- 
--	if (!ret)
--		schedule_delayed_work(&ras->page_retirement_dwork, 0);
-+	schedule_delayed_work(&ras->page_retirement_dwork, 0);
- }
- 
- static int amdgpu_ras_poison_consumption_handler(struct amdgpu_device *adev,
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-tip/drm-tip linus/master v6.9-rc6 next-20240503]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/fbdev-Have-CONFIG_FB_NOTIFY-be-tristate/20240504-033139
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240503192858.103640-1-florian.fainelli%40broadcom.com
+patch subject: [PATCH] fbdev: Have CONFIG_FB_NOTIFY be tristate
+config: powerpc-randconfig-001-20240504 (https://download.01.org/0day-ci/archive/20240504/202405041939.MNsieCv5-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405041939.MNsieCv5-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405041939.MNsieCv5-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   powerpc-linux-ld: drivers/leds/trigger/ledtrig-backlight.o: in function `bl_trig_deactivate':
+>> ledtrig-backlight.c:(.text+0x360): undefined reference to `fb_unregister_client'
+   powerpc-linux-ld: drivers/leds/trigger/ledtrig-backlight.o: in function `bl_trig_activate':
+>> ledtrig-backlight.c:(.text+0x3e8): undefined reference to `fb_register_client'
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
