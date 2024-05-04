@@ -2,91 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F0DE8BBCE8
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 17:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D4D8BBD1A
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 18:31:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A54110E94C;
-	Sat,  4 May 2024 15:54:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 326401135C9;
+	Sat,  4 May 2024 16:31:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Io4sRGbW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EQjHbla7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6054F10E94C
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 15:54:07 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-a59a17fcc6bso124464966b.1
- for <dri-devel@lists.freedesktop.org>; Sat, 04 May 2024 08:54:07 -0700 (PDT)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBAAC1135C8;
+ Sat,  4 May 2024 16:31:22 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-1ec4b2400b6so5121525ad.3; 
+ Sat, 04 May 2024 09:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1714838045; x=1715442845;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kZo6ArVOf5NVi3NAdVYQGqHRs84wzKq7YB5CfjfJdNw=;
- b=Io4sRGbW32rmIbi6ir/u4QeZZjyOfnMSiIeDHYLUq29oSKXgmdAWAZbaEpiG/oxuZY
- whYqCYKOk3yHWwm4WIiXiSDEoYuN+yNJcCwJ6PF2Z9CZAdQmhCI2c9o7l08S4Vfg+iYD
- p43xd+IfvBn5ncMaMNwIRXaqfiW0zmcWoHitg=
+ d=gmail.com; s=20230601; t=1714840282; x=1715445082; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BVHkSDrp78uKW0uZrcyHhFLD98BFVYL6QDF1S7ek4Xk=;
+ b=EQjHbla7UOiqzbeFJWH9WgMO+01e6RbJNb6bIDiSB6Aj5V38l/ozL2+pzmfmF3JDS2
+ HAo+aHyhe9uMZfF5ueUN8IGGmkDTr2Sc3WXLzHuahJD6npnfT/84cKqo4Hnu3yCVGpvs
+ qnHF4eD5B374FwZHaQ41bkJwxhNzFMhJPlISqv42cxnIL/0tOtDgUMa+COIKBoGeXcpH
+ WZE/proEz6dXQau6Q9Q1MSOciUncCkLVVSlzIOOfMVDCBF5ldpH8mt/fDgNvDQ1AAJ5v
+ UCjAVcITIsKRzUPNhZh+QOlhzCaIT4yLpkxvNhuqD6KTR71j7WD8EwGoi8refwHASgyN
+ h8xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714838045; x=1715442845;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1714840282; x=1715445082;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=kZo6ArVOf5NVi3NAdVYQGqHRs84wzKq7YB5CfjfJdNw=;
- b=QjClnFvlRhB93fMWzHvbeE3A9gW9A5vxYkylpSIi47k5pOeD2J+4ZU3oFcNuIwem4d
- /Ih9q83qDtna5ROLkz5mH42rtnRwufgs4wjcuSIdepsyrgb6bJ1EkgSqvrnPhT/PuuoY
- jAystqHfV/8LSn05t7xpusFzN5rnS5VzLftvxGo4KDgxFXLC2RfSE/7aIlKEr6x5o0N9
- zJeq7mJ6tIW9LoDDMTOE0YtaEUDy57OeWVKFiAPFcdUyIlMmWAgoOWAgMd2mVi1dFeQh
- f9LyHsFr82mPaDLd1De5a/p36zMAxD4x7ZdK7ErMivACJl9La7oaeXod+XlWbNBR8u/3
- 5wmQ==
+ bh=BVHkSDrp78uKW0uZrcyHhFLD98BFVYL6QDF1S7ek4Xk=;
+ b=aCTrV3ZKQUu5o0PJ6lqyCle311ST2CeYmCCjZzSRrVXo2zv22wZ4zgVIUMgo43Lxwf
+ yg7wzWerd8gBo/pOZLMh6okX/T8HT08+KoE3xTc+FUusbTMS+ZrVGb2RdxQKT3avEOT+
+ sEHPJ7NJFe9Y/O51eCWOfBU0IMSU1AwohDRvQxzacG6cjxzFBOd3wcEpDqYHGj0B0UFw
+ gkVgIOP4A6lPC69I7mOmM4blchKYHxx5Wlw2DMy58R+wWmCsAHXhFzKpPY6OxJtmM8lM
+ oX1Fl4wSywNp2Nxf8nm8crpmSn4iCXubj1hdGvvwy1ArVDWb/hCVOXCFZER+vtXRpB8v
+ 6qmg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXCn6gwyxOcg/tO+THqZWubl6k0HzxrpP5oUK1GEp//fK0p4R11cFU2lCNJndLgkDijAP89U9Qbs9bAQ6pON9SaDv02Ep1GjAwquEz3h0Cx
-X-Gm-Message-State: AOJu0Yxs6EFaTaPuSSPlkoDjPFULJjGrSvTXuoUIHOXrKsNXRRV6Jy+W
- s2fW9OBKmZh/u3j1pGuL2IOC1LDXOOE4iJh4LLUFtwDLBPIoM2JtbIPin8ZYRCSZJBcSvIxkP95
- RmZx27Q==
-X-Google-Smtp-Source: AGHT+IGYxSnTLw+EvsZ9XDvSRXjpUenOrrsHckZqG1tiuMn3m+k9V+HoWPvaGzdoG9rBjL+KTEc8Og==
-X-Received: by 2002:a17:907:7da2:b0:a59:b784:ced5 with SMTP id
- oz34-20020a1709077da200b00a59b784ced5mr325972ejc.67.1714838045260; 
- Sat, 04 May 2024 08:54:05 -0700 (PDT)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com.
- [209.85.218.45]) by smtp.gmail.com with ESMTPSA id
- bk15-20020a170906b0cf00b00a52244ab819sm3106526ejb.170.2024.05.04.08.54.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 04 May 2024 08:54:04 -0700 (PDT)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a59afce5a70so57116066b.3
- for <dri-devel@lists.freedesktop.org>; Sat, 04 May 2024 08:54:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXXyk/qqX7BKuT/H9/rQb2G2B8QbbdBq4z/a9scEOtvt9O9ndemZWKWqoQtF4CuGlF22IAKnXNpplcke6mfhRXKN8bsmJsqu/hn2azudtXZ
-X-Received: by 2002:a17:906:a842:b0:a58:5ee1:db43 with SMTP id
- dx2-20020a170906a84200b00a585ee1db43mr3389515ejb.23.1714838043724; Sat, 04
- May 2024 08:54:03 -0700 (PDT)
+ AJvYcCWUh6OpbV2d75EPOO2IClfFbdyr3gbGAlCszfpT/mi89zxkR0bQ4C/uitfc3J4J9J1zqLm9SYfulDobFRJApva52sZtrTWnBkXBW4GDmQd3
+X-Gm-Message-State: AOJu0YycJxopsUpSmEkE8wgxYatwQToxZFSyaYwh3lJw1EfxtuyDlxpT
+ sjRn6JhI8bf1Ay2xE1BKX+Fz2GPpE9l7DdzITV2xJJdps3Mwd49tbXa1JA==
+X-Google-Smtp-Source: AGHT+IHArHsW3DCfdQpbK2KIyCCirt6QvRblSevbGPQPn2t4LZFf5iduw2DZMI57WDH//nxVT0o+7A==
+X-Received: by 2002:a17:902:f649:b0:1e2:bf94:487 with SMTP id
+ m9-20020a170902f64900b001e2bf940487mr7668589plg.57.1714840281493; 
+ Sat, 04 May 2024 09:31:21 -0700 (PDT)
+Received: from localhost ([2601:1c0:5000:d5c:ae1c:de46:682a:206])
+ by smtp.gmail.com with ESMTPSA id
+ jb13-20020a170903258d00b001ec4ed47ddesm5274490plb.86.2024.05.04.09.31.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 04 May 2024 09:31:20 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/msm/a6xx: Cleanup indexed regs const'ness
+Date: Sat,  4 May 2024 09:31:13 -0700
+Message-ID: <20240504163114.639228-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
-In-Reply-To: <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 4 May 2024 08:53:47 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whrSSNYVzTHNFDNGag_xcKuv=RaQUX8+n29kkic39DRuQ@mail.gmail.com>
-Message-ID: <CAHk-=whrSSNYVzTHNFDNGag_xcKuv=RaQUX8+n29kkic39DRuQ@mail.gmail.com>
-Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-To: Christian Brauner <brauner@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, axboe@kernel.dk, 
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
- linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,28 +86,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 4 May 2024 at 08:40, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> And maybe it's even *only* dma-buf that does that fget() in its
-> ->poll() function. Even *then* it's not a dma-buf.c bug.
+From: Rob Clark <robdclark@chromium.org>
 
-They all do in the sense that they do
+These tables were made non-const in commit 3cba4a2cdff3 ("drm/msm/a6xx:
+Update ROQ size in coredump") in order to avoid powering up the GPU when
+reading back a devcoredump.  Instead let's just stash the count that is
+potentially read from hw in struct a6xx_gpu_state_obj, and make the
+tables const again.
 
-  poll_wait
-    -> __pollwait
-     -> get_file (*boom*)
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 15 +++++++++------
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h |  8 ++++----
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-but the boom is very small because the poll_wait() will be undone by
-poll_freewait(), and normally poll/select has held the file count
-elevated.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index 77146d30bcaa..0a7717a4fc2f 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -24,6 +24,7 @@
+ struct a6xx_gpu_state_obj {
+ 	const void *handle;
+ 	u32 *data;
++	u32 count;	/* optional, used when count potentially read from hw */
+ };
+ 
+ struct a6xx_gpu_state {
+@@ -1437,16 +1438,18 @@ static u32 a7xx_get_cp_roq_size(struct msm_gpu *gpu)
+ /* Read a block of data from an indexed register pair */
+ static void a6xx_get_indexed_regs(struct msm_gpu *gpu,
+ 		struct a6xx_gpu_state *a6xx_state,
+-		struct a6xx_indexed_registers *indexed,
++		const struct a6xx_indexed_registers *indexed,
+ 		struct a6xx_gpu_state_obj *obj)
+ {
++	u32 count = indexed->count;
+ 	int i;
+ 
+ 	obj->handle = (const void *) indexed;
+ 	if (indexed->count_fn)
+-		indexed->count = indexed->count_fn(gpu);
++		count = indexed->count_fn(gpu);
+ 
+-	obj->data = state_kcalloc(a6xx_state, indexed->count, sizeof(u32));
++	obj->data = state_kcalloc(a6xx_state, count, sizeof(u32));
++	obj->count = count;
+ 	if (!obj->data)
+ 		return;
+ 
+@@ -1454,7 +1457,7 @@ static void a6xx_get_indexed_regs(struct msm_gpu *gpu,
+ 	gpu_write(gpu, indexed->addr, 0);
+ 
+ 	/* Read the data - each read increments the internal address by 1 */
+-	for (i = 0; i < indexed->count; i++)
++	for (i = 0; i < count; i++)
+ 		obj->data[i] = gpu_read(gpu, indexed->data);
+ }
+ 
+@@ -1890,9 +1893,9 @@ static void a6xx_show_indexed_regs(struct a6xx_gpu_state_obj *obj,
+ 		return;
+ 
+ 	print_name(p, "  - regs-name: ", indexed->name);
+-	drm_printf(p, "    dwords: %d\n", indexed->count);
++	drm_printf(p, "    dwords: %d\n", obj->count);
+ 
+-	print_ascii85(p, indexed->count << 2, obj->data);
++	print_ascii85(p, obj->count << 2, obj->data);
+ }
+ 
+ static void a6xx_show_debugbus_block(const struct a6xx_debugbus_block *block,
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+index 3b1ba514e8ee..dd4c28a8d923 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+@@ -397,7 +397,7 @@ struct a6xx_indexed_registers {
+ 	u32 (*count_fn)(struct msm_gpu *gpu);
+ };
+ 
+-static struct a6xx_indexed_registers a6xx_indexed_reglist[] = {
++static const struct a6xx_indexed_registers a6xx_indexed_reglist[] = {
+ 	{ "CP_SQE_STAT", REG_A6XX_CP_SQE_STAT_ADDR,
+ 		REG_A6XX_CP_SQE_STAT_DATA, 0x33, NULL },
+ 	{ "CP_DRAW_STATE", REG_A6XX_CP_DRAW_STATE_ADDR,
+@@ -408,7 +408,7 @@ static struct a6xx_indexed_registers a6xx_indexed_reglist[] = {
+ 		REG_A6XX_CP_ROQ_DBG_DATA, 0, a6xx_get_cp_roq_size},
+ };
+ 
+-static struct a6xx_indexed_registers a7xx_indexed_reglist[] = {
++static const struct a6xx_indexed_registers a7xx_indexed_reglist[] = {
+ 	{ "CP_SQE_STAT", REG_A6XX_CP_SQE_STAT_ADDR,
+ 		REG_A6XX_CP_SQE_STAT_DATA, 0x33, NULL },
+ 	{ "CP_DRAW_STATE", REG_A6XX_CP_DRAW_STATE_ADDR,
+@@ -433,12 +433,12 @@ static struct a6xx_indexed_registers a7xx_indexed_reglist[] = {
+ 		REG_A6XX_CP_ROQ_DBG_DATA, 0, a7xx_get_cp_roq_size },
+ };
+ 
+-static struct a6xx_indexed_registers a6xx_cp_mempool_indexed = {
++static const struct a6xx_indexed_registers a6xx_cp_mempool_indexed = {
+ 	"CP_MEMPOOL", REG_A6XX_CP_MEM_POOL_DBG_ADDR,
+ 		REG_A6XX_CP_MEM_POOL_DBG_DATA, 0x2060, NULL,
+ };
+ 
+-static struct a6xx_indexed_registers a7xx_cp_bv_mempool_indexed[] = {
++static const struct a6xx_indexed_registers a7xx_cp_bv_mempool_indexed[] = {
+ 	{ "CP_MEMPOOL", REG_A6XX_CP_MEM_POOL_DBG_ADDR,
+ 		REG_A6XX_CP_MEM_POOL_DBG_DATA, 0x2100, NULL },
+ 	{ "CP_BV_MEMPOOL", REG_A7XX_CP_BV_MEM_POOL_DBG_ADDR,
+-- 
+2.44.0
 
-Except for epoll. Which leaves those pollwait entries around until
-it's done - but again will be held up on the ep->mtx before it does
-so.
-
-So everybody does some f_count games, but possibly dma-buf is the only
-one that ends up expecting to hold on to the f_count for longer
-periods.
-
-             Linus
