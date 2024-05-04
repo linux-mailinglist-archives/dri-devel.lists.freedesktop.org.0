@@ -2,91 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A478BB89D
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 02:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424278BB90B
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 03:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0086510F1D1;
-	Sat,  4 May 2024 00:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D56F10F085;
+	Sat,  4 May 2024 01:03:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BdfeVsGg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="erWe6wZv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23BC710F1C1;
- Sat,  4 May 2024 00:07:58 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 443Loq3d023739;
- Sat, 4 May 2024 00:07:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=2gHxHWVt0EgLtC05azmjUJ9T0o3w1UNl8Tamh28ZgyU=; b=Bd
- feVsGgqnlRjitK+dOOtENrmd7kZjLnQnghdams4WsChLFdpEiBvI0WoyWre995Ar
- K+xqd5xfPcD2oLoj8b2RvjsPboUBTLNOM7PeTx5haFlMFbzcGfb//9aqcfSDLdCb
- fXKrXhqpw0heGBvE5S5eTOdcBsDPTICOLH6Em7PIH5i2c5WycRJdnr0E3v3SB4bE
- OqkQ7zBWWcfyInAVCFMssbLsJO2aeZy5lXaly0gNkVlI2QHxOnh+Fz5KjLUpor8m
- Z2ltF2ytSCszP5AhwjZCPxfwUg8T1SPtP224cXMdpCmXmgqj3zVhYtCxCxzxl5As
- TZ4HNqkpphwCuexx+LIg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xvrt4j86g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 04 May 2024 00:07:48 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44407l5w006552
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 4 May 2024 00:07:47 GMT
-Received: from [10.110.114.34] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 3 May 2024
- 17:07:46 -0700
-Message-ID: <e082de17-f4f7-1923-cfe0-10916c2e3caa@quicinc.com>
-Date: Fri, 3 May 2024 17:07:45 -0700
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A6CC10F085;
+ Sat,  4 May 2024 01:03:17 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-51f300b318cso204598e87.3; 
+ Fri, 03 May 2024 18:03:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1714784596; x=1715389396; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dGqSC7Lfj+HWo8QLaR4IF1q8XWQgyH1xzdJwd+C0goY=;
+ b=erWe6wZv8aN00txa7ViANMTZkNcF8WC0/19U7Cxpmmkx04JJhXuTtABMaqwg5Z6nv1
+ q9faSGpE8BkJker/T7rKrgxG8vSWBtqmn7ClVDNw/Ahg/wd/oUoRRwNsvPXgzvWlNlGO
+ kQPlbkWWbTGA/FfxfjSDpQ+B1LNWFpOwsvMSeUGjnZVsxIfAafwOrhXe/0t1RIu8S4VY
+ NtOkCIELCvliqDEdK3//UQbLpn3xDJdJFJvF+59aI7IGhsg4NSpN/jI9DO+k13WsebR2
+ heDAnnPwYpJ4LpveWNcihasI4W1ZS/lQyoCNAJ/pCc2XpNfZ/Il0g2/lTdqwHYUhP7kO
+ 4Zug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714784596; x=1715389396;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dGqSC7Lfj+HWo8QLaR4IF1q8XWQgyH1xzdJwd+C0goY=;
+ b=dpyYLoNcZRc4ouBxzWvEtpNdU9TY5hlNhs8VhKxSVKBYrGT+5w4th/l7M9CFNPL32v
+ jaHBIiSpRN8qT60xTohc0uNYKw+5eJxjGQTbWsDDIubh6PkIZnGVjI2WjR1cJreM6Cag
+ 3bKm8XUTmGG3jcWyXp/OHaDECYjd4KCLvqKQxDqEwNGktjpeFCXsALuev0qeVbdMk6fA
+ spgAB5cK6Q3UxIEu5+mUHrABTK7C/yzgVv/mxUVYm1WfH9/oQC24T2t9GMwQ2Pw68TaC
+ W+ptn960FwPtb27gJ3d3yQXHznbit590LAtZqwF77RrPQ4m7bZGIyQlAuojVyBWWl/bT
+ 6IqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWO9oqO2bK9z8RFy1Rsu2b/y/L4nIStk5U3eSzf2sWy45WlphseKyEGerOTit+1kr3zB5Nu2AtTU17yodMPK+vWWdNPTKQcegk+e9otYZNml1rFxr/QNrBFNqhzGP6aElvbhUJYK0hPT9axHc3pIzk=
+X-Gm-Message-State: AOJu0Yz/66ywkmCCBvEdkDyBPrUAHXVGAY1Oxuj0k/J5+UM++QLXWE7P
+ 4AUVfgNZCXziSWTR7ZbQQ/MuFDkASRCTZ385bHC7MvmXmvAjmTPhqRIe63/ApcSZr26Ymced/XK
+ pnlzWThxTHP3uzUnq4qb7mTvLaVY=
+X-Google-Smtp-Source: AGHT+IHbTb1WXnmJcyDnIRZhAl4+Ez0UUgP9EmnzUuyExzzF9HOmG6SKYTENkLY3bSx2CLy+/hcReBqxQdTVVvD+lZI=
+X-Received: by 2002:a19:2d56:0:b0:51f:3d37:91d5 with SMTP id
+ t22-20020a192d56000000b0051f3d3791d5mr2760832lft.10.1714784595580; Fri, 03
+ May 2024 18:03:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 2/2] drm/ci: validate drm/msm XML register files
- against schema
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Helen Koike <helen.koike@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240503-fd-fix-lxml-v2-0-f80a60ce21a1@linaro.org>
- <20240503-fd-fix-lxml-v2-2-f80a60ce21a1@linaro.org>
- <69b593b7-109c-825f-3dbb-5e8cce63ff01@quicinc.com>
- <CAA8EJpp4x+NEpMAGtgOmu-0NY8ycTu0iQX6-1Vv76mkKPea_Cw@mail.gmail.com>
- <24fb0b07-af03-1341-d98c-46f4f167fbbb@quicinc.com>
- <CAA8EJporB9jjKtT-XS4PcRSYzi+FJh1smsjnBCgy8f5JvDtjAg@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJporB9jjKtT-XS4PcRSYzi+FJh1smsjnBCgy8f5JvDtjAg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: R9H9ZhyJggZ-YTD_qcyRPMIWfyJEHLkW
-X-Proofpoint-ORIG-GUID: R9H9ZhyJggZ-YTD_qcyRPMIWfyJEHLkW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-03_17,2024-05-03_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- bulkscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 adultscore=0
- mlxlogscore=999 phishscore=0 clxscore=1015 impostorscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2405030171
+References: <20240430173002.GV941030@nvidia.com>
+ <ZjE_LJ7AFFQk0Eep@phenom.ffwll.local>
+ <20240501000915.GY941030@nvidia.com> <ZjNJASw0JdXS6dTa@phenom.ffwll.local>
+ <93fca752517f0120baa770992fd0f9160b0c14d1.camel@linux.intel.com>
+ <20240502124632.GB3341011@nvidia.com>
+ <0b700baf6fc3d41b4adf6301b1b4dbc4ff7078fa.camel@linux.intel.com>
+ <SA1PR11MB6991945628597BCD9D111ECD92182@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <20240503133732.GD3341011@nvidia.com>
+ <SA1PR11MB699156AB3B2603DF1762BEA7921F2@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <20240503162812.GF3341011@nvidia.com>
+ <SA1PR11MB69911B3E675B1072A17A3E49921F2@SA1PR11MB6991.namprd11.prod.outlook.com>
+In-Reply-To: <SA1PR11MB69911B3E675B1072A17A3E49921F2@SA1PR11MB6991.namprd11.prod.outlook.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 4 May 2024 11:03:03 +1000
+Message-ID: <CAPM=9tw0w4fY3+fHV4kx8oGUvSM3vzH4KXKFDxg_aqBq4duSsA@mail.gmail.com>
+Subject: Re: [PATCH 06/23] drm/xe/svm: Introduce a helper to build sg table
+ from hmm range
+To: "Zeng, Oak" <oak.zeng@intel.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Brost,
+ Matthew" <matthew.brost@intel.com>, 
+ "Welty, Brian" <brian.welty@intel.com>, 
+ "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>, 
+ "Bommu, Krishnaiah" <krishnaiah.bommu@intel.com>, 
+ "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
+ Leon Romanovsky <leon@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,88 +97,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+> Let me know if this understanding is correct.
+>
+> Or what would you like to do in such situation?
+>
+> >
+> > Not sure how it is really a good idea.
+> >
+> > Adaptive locality of memory is still an unsolved problem in Linux,
+> > sadly.
+> >
+> > > > However, the migration stuff should really not be in the driver
+> > > > either. That should be core DRM logic to manage that. It is so
+> > > > convoluted and full of policy that all the drivers should be working
+> > > > in the same way.
+> > >
+> > > Completely agreed. Moving migration infrastructures to DRM is part
+> > > of our plan. We want to first prove of concept with xekmd driver,
+> > > then move helpers, infrastructures to DRM. Driver should be as easy
+> > > as implementation a few callback functions for device specific page
+> > > table programming and device migration, and calling some DRM common
+> > > functions during gpu page fault.
+> >
+> > You'd be better to start out this way so people can look at and
+> > understand the core code on its own merits.
+>
+> The two steps way were agreed with DRM maintainers, see here:  https://lore.kernel.org/dri-devel/SA1PR11MB6991045CC69EC8E1C576A715925F2@SA1PR11MB6991.namprd11.prod.outlook.com/, bullet 4)
 
+After this discussion and the other cross-device HMM stuff I think we
+should probably push more for common up-front, I think doing this in a
+driver without considering the bigger picture might not end up
+extractable, and then I fear the developers will just move onto other
+things due to management pressure to land features over correctness.
 
-On 5/3/2024 5:02 PM, Dmitry Baryshkov wrote:
-> On Sat, 4 May 2024 at 01:38, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 5/3/2024 1:20 PM, Dmitry Baryshkov wrote:
->>> On Fri, 3 May 2024 at 22:42, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 5/3/2024 11:15 AM, Dmitry Baryshkov wrote:
->>>>> In order to validate drm/msm register definition files against schema,
->>>>> reuse the nodebugfs build step. The validation entry is guarded by
->>>>> the EXPERT Kconfig option and we don't want to enable that option for
->>>>> all the builds.
->>>>>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
->>>>>     drivers/gpu/drm/ci/build.sh  | 3 +++
->>>>>     drivers/gpu/drm/ci/build.yml | 1 +
->>>>>     2 files changed, 4 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
->>>>> index 106f2d40d222..28a495c0c39c 100644
->>>>> --- a/drivers/gpu/drm/ci/build.sh
->>>>> +++ b/drivers/gpu/drm/ci/build.sh
->>>>> @@ -12,6 +12,9 @@ rm -rf .git/rebase-apply
->>>>>     apt-get update
->>>>>     apt-get install -y libssl-dev
->>>>>
->>>>> +# for msm header validation
->>>>> +apt-get install -y python3-lxml
->>>>> +
->>>>>     if [[ "$KERNEL_ARCH" = "arm64" ]]; then
->>>>>         GCC_ARCH="aarch64-linux-gnu"
->>>>>         DEBIAN_ARCH="arm64"
->>>>> diff --git a/drivers/gpu/drm/ci/build.yml b/drivers/gpu/drm/ci/build.yml
->>>>> index 17ab38304885..9c198239033d 100644
->>>>> --- a/drivers/gpu/drm/ci/build.yml
->>>>> +++ b/drivers/gpu/drm/ci/build.yml
->>>>> @@ -106,6 +106,7 @@ build-nodebugfs:arm64:
->>>>>       extends: .build:arm64
->>>>>       variables:
->>>>>         DISABLE_KCONFIGS: "DEBUG_FS"
->>>>> +    ENABLE_KCONFIGS: "EXPERT DRM_MSM_VALIDATE_XML"
->>>>>
->>>>
->>>> Wouldnt this end up enabling DRM_MSM_VALIDATE_XML for any arm64 device.
->>>>
->>>> Cant we make this build rule msm specific?
->>>
->>> No need to. We just need to validate the files at least once during
->>> the whole pipeline build.
->>>
->>
->> ah okay, today the arm64 config anyway sets all arm64 vendor drm configs
->> to y.
->>
->> A couple of more questions:
->>
->> 1) Why is this enabled only for no-debugfs option?
->> 2) Will there be any concerns from other vendors to enable CONFIG_EXPERT
->> in their CI runs as the arm64 config is shared across all arm64 vendors.
-> 
-> I don't get the second question. This option is only enabled for
-> no-debugfs, which isn't used for execution.
-> 
+I think we have enough people on the list that can review this stuff,
+and even if the common code ends up being a little xe specific,
+iterating it will be easier outside the driver, as we can clearly
+demark what is inside and outside.
 
-Ah I see, makes sense.
-
-> I didn't want to add an extra build stage, just for the sake of
-> validating regs against the schema, nor did I want EXPERT to find its
-> way into the actual running kernels.
-> 
-
-This answered my second question actually. That basically I didnt also 
-want EXPERT to find its way into actual running kernels.
-
-Hence, I am fine with this change now
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-But, I will wait to hear from helen, vignesh about what they think of this.
+Dave.
