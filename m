@@ -2,65 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988E58BBAE5
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 13:46:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DDD8BBB2F
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 14:21:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA54F10FD4F;
-	Sat,  4 May 2024 11:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4299E1128E4;
+	Sat,  4 May 2024 12:21:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jwFTIK/Q";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OgN+LpJm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 811AF10FD4F
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 11:46:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1714823192; x=1746359192;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=qQXVDmyCOh7VCNUbBBWBaLbWHRimpTQLcNFH0D/M+ts=;
- b=jwFTIK/Q8JsDVy6kkVuGtgbMPOZ4ea1BUwd2SyIAnaFU/f5RG+QZ0puu
- 0L3SKgt590mJFihgxhlrs+oARx+uUl6CD6pkubNIv0gnWCQju96TJjGVA
- LZCIiLadje7QoBWsaSwSQ83kyKSaKE+/tLtmZc+XvIXC05HZbv4mZ1DrA
- A1InqydvaQSjeEmkTC8Js6AUzs3i5/TEMa8js8CsIJd9peBV1JjMs6UXd
- EyfuYxvJkuD5hgngsxs2ze1Wrmy9PBwUSULYX1Y8uYVXRSeFgGFnRVuK+
- U+uJqx6F29H1UqUpstdaAcImp5CMBELslq3FxxOp1F8FhnCuOVv226h93 A==;
-X-CSE-ConnectionGUID: qv7yWP9cTtC0Dk9kTkC69w==
-X-CSE-MsgGUID: SvoOnze4SeqBnGj+pAczyQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="36012713"
-X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; d="scan'208";a="36012713"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2024 04:46:31 -0700
-X-CSE-ConnectionGUID: UwtQGMebQa+3N6cKVb31yQ==
-X-CSE-MsgGUID: S5sYHNEeRVSJl+dF0XdkXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,253,1708416000"; d="scan'208";a="32506763"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
- by orviesa005.jf.intel.com with ESMTP; 04 May 2024 04:46:27 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s3DqT-000CjU-1h;
- Sat, 04 May 2024 11:46:25 +0000
-Date: Sat, 4 May 2024 19:46:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
- linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C26F41128E4
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 12:21:27 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E2289B3;
+ Sat,  4 May 2024 14:20:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1714825227;
+ bh=Hwf6BwiJa8ZRxoW+TR/H4hruqs8CRpJc1VnyKBbiGLg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OgN+LpJmEuZCtUZsnj50UvM5nLmbhhPB3Rtk0Z6H0L7WxvSULUZG3FpSsTUk835FC
+ H+Eku077+HaStlFLbIlSevJAv1XmXv4JSRo4Awsr8xElI0VWeI+25QCTgKHSqOFAQ2
+ tvwMbCpMYXlAm44Ad33ocqilgINQ7wPXsQ2Gmb9M=
+Date: Sat, 4 May 2024 15:21:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] fbdev: Have CONFIG_FB_NOTIFY be tristate
-Message-ID: <202405041939.MNsieCv5-lkp@intel.com>
-References: <20240503192858.103640-1-florian.fainelli@broadcom.com>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] drm: zynqmp_dp: Lockup in zynqmp_dp_bridge_detect when
+ device is unbound
+Message-ID: <20240504122118.GB24548@pendragon.ideasonboard.com>
+References: <4d8f4c9b-2efb-4774-9a37-2f257f79b2c9@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240503192858.103640-1-florian.fainelli@broadcom.com>
+In-Reply-To: <4d8f4c9b-2efb-4774-9a37-2f257f79b2c9@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,36 +60,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Florian,
+Hi Sean,
 
-kernel test robot noticed the following build errors:
+On Fri, May 03, 2024 at 05:54:32PM -0400, Sean Anderson wrote:
+> Hi,
+> 
+> I have discovered a bug in the displayport driver on drm-misc-next. To
+> trigger it, run
+> 
+> echo fd4a0000.display > /sys/bus/platform/drivers/zynqmp-dpsub/unbind
+> 
+> The system will become unresponsive and (after a bit) splat with a hard
+> LOCKUP. One core will be unresponsive at the first zynqmp_dp_read in
+> zynqmp_dp_bridge_detect.
+> 
+> I believe the issue is due the registers being unmapped and the block
+> put into reset in zynqmp_dp_remove instead of zynqmp_dpsub_release.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.9-rc6 next-20240503]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+That is on purpose. Drivers are not allowed to access the device at all
+after .remove() returns.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/fbdev-Have-CONFIG_FB_NOTIFY-be-tristate/20240504-033139
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240503192858.103640-1-florian.fainelli%40broadcom.com
-patch subject: [PATCH] fbdev: Have CONFIG_FB_NOTIFY be tristate
-config: powerpc-randconfig-001-20240504 (https://download.01.org/0day-ci/archive/20240504/202405041939.MNsieCv5-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405041939.MNsieCv5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405041939.MNsieCv5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   powerpc-linux-ld: drivers/leds/trigger/ledtrig-backlight.o: in function `bl_trig_deactivate':
->> ledtrig-backlight.c:(.text+0x360): undefined reference to `fb_unregister_client'
-   powerpc-linux-ld: drivers/leds/trigger/ledtrig-backlight.o: in function `bl_trig_activate':
->> ledtrig-backlight.c:(.text+0x3e8): undefined reference to `fb_register_client'
+> This
+> could be resolved by deferring things until zynqmp_dpsub_release
+> (requiring us to skip devm_*), or by adding a flag to struct zynqmp_dp
+> and checking it before each callback. A subsystem-level implementation
+> might be better for the latter.
+> 
+> For a better traceback, try applying the below patch and running the
+> following commands before triggering the lockup:
+> 
+> echo 4 > /sys/module/drm/parameters/debug
+> echo 8 > /proc/sys/kernel/printk
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index 9df068a413f3..17b477b14ab5 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -296,6 +296,7 @@ struct zynqmp_dp_config {
+>   * @train_set: set of training data
+>   */
+>  struct zynqmp_dp {
+> +       unsigned long long magic;
+>         struct device *dev;
+>         struct zynqmp_dpsub *dpsub;
+>         void __iomem *iomem;
+> @@ -1533,6 +1534,8 @@ static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *brid
+>         u32 state, i;
+>         int ret;
+>  
+> +       WARN_ON(dp->magic != 0x0123456789abcdefULL);
+> +
+>         /*
+>          * This is from heuristic. It takes some delay (ex, 100 ~ 500 msec) to
+>          * get the HPD signal with some monitors.
+> @@ -1723,6 +1726,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
+>         if (!dp)
+>                 return -ENOMEM;
+>  
+> +       dp->magic = 0x0123456789abcdefULL;
+>         dp->dev = &pdev->dev;
+>         dp->dpsub = dpsub;
+>         dp->status = connector_status_disconnected;
+> @@ -1839,4 +1843,5 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
+>  
+>         zynqmp_dp_phy_exit(dp);
+>         zynqmp_dp_reset(dp, true);
+> +       dp->magic = 0xdeadbeefdeadbeefULL;
+>  }
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
