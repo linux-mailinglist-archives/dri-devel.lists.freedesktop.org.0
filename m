@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222E68BB950
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 04:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A1B8BBA3A
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 11:19:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ABE11133D5;
-	Sat,  4 May 2024 02:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0501C10E5A1;
+	Sat,  4 May 2024 09:19:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="M+tir02l";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZcnyJ70+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E9910ED93
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 02:46:51 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-61bed738438so2460987b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2024 19:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1714790811; x=1715395611;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hMU1LUSWt9qatmPigqgCzlLSqpg1BotOcEtutbA+Mbs=;
- b=M+tir02l4cn8wFbXC5U4uUw4gTuzPi4sKK/iT0nQx0vdDvcLlaAZq7a9+lLxtWaO1u
- ylp/09HM+qFeOPY1vY4bDL0S42SJ6WpOR65UAOG+q/e5C3/+QFJ+OumgL0nCR92/SHbb
- Qt5CVKvxukniI+3wmBPlRmxKZnA2IRdL1EpwI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714790811; x=1715395611;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hMU1LUSWt9qatmPigqgCzlLSqpg1BotOcEtutbA+Mbs=;
- b=P11pQwFda+ofO38AhyFaWmgLLS9gyWvBHlt60qSMG/NduaFNNQTwTtwBiLRLO2T+eX
- nVfKAHu1YCwGwcwNQzIz+v5jXblrAeaafDPkrZhvEL1TqTjCVKQXgcXmFBxu9zOXrnGL
- IiNq7H96y8Ti/U+TT1kZxbHtrKPuDMApJevP8ubBedU3K7tN4MC8Q+ORbv+MmQF0Jdc1
- bNgXW8kGZ2l2CJVStn9BicLtZLdA2fEhXd4M2O4lXg7cIuwuyb9XfcY9EuIaTVXDkFvr
- BjMQ8xMOs8gOYQ6LmmzcqUL/KfkJmkEMikAPMoUHDMBTKZsKhYlg6nHPf4ydJ9ro9Y5g
- OUOA==
-X-Gm-Message-State: AOJu0Yz458kNldNvpteQ+gVIxwz/0wLN69BNvMcUTpg2KAsfBTrXU/Cn
- 5eWfycEpYgH8eMQMhlqbq9bmw5/kNjc2/mJDyMOVH9Vv0ja6PffFtRiQemTgIWsaGhOyktk0TYy
- dKW7H4+2agi3y9g0SF4OpWwHc4dF+hxEZh6wM
-X-Google-Smtp-Source: AGHT+IEZX26Ojo0OHtX8gU+uHCayNH5Ia8ptwueUNU6/eNH6PEAiN8swn7hotcF0B7zpG5pmA34NSR6NTuFUIe75Yds=
-X-Received: by 2002:a05:690c:4b02:b0:61a:d39a:1aa6 with SMTP id
- ip2-20020a05690c4b0200b0061ad39a1aa6mr4662509ywb.51.1714790810710; Fri, 03
- May 2024 19:46:50 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC2910E5A1
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 09:19:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id B7821CE010D;
+ Sat,  4 May 2024 09:19:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26FE0C072AA;
+ Sat,  4 May 2024 09:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1714814355;
+ bh=pIwJZ1VsyyitpQ3+UHGFYiivhVpEez/xWNzoLxCtMqc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZcnyJ70+mGZmEpcFtCrdDNK2gUkMdCD80W9jLCJy1lLImlz2hwL+78p9lG2MZIpPT
+ L8qL+btsjQbyCZgHhWpYVAx3GhyG7otgDT5oIT2+B1EzIPFS5QOrXubzps13+ksvIO
+ ijyyViCv5jzhPRI8UCyGmQY2NwmPMM3nMPoPhaId/8y63145jrkq32DEKtNZmlxl0F
+ 2tVcMdXbKRjcP7KvQ8Zg+yskxSCxsy8xMXQDHTKILuarxTf09JAJ8e8l0JBcCJKiL6
+ wxNNhlZi/U/n17GkUcJpjdEyIXCCqUWr+SGkl2x8Jf0Hy8+Ts5+IsumVsB1jcaUWXc
+ D9hxvDG3tc8Iw==
+Date: Sat, 4 May 2024 11:19:08 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Kees Cook <keescook@chromium.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+ axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+ io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name,
+ linaro-mm-sig@lists.linaro.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, 
+ minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
+ syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
+ syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
+Message-ID: <20240504-fotowettbewerb-dornen-8a297cec3cfc@brauner>
+References: <202405031110.6F47982593@keescook>
+ <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV>
+ <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240503214531.GB2118490@ZenIV>
+ <CAHk-=wgC+QpveKCJpeqsaORu7htoNNKA8mp+d9mvJEXmSKjhbw@mail.gmail.com>
+ <202405031529.2CD1BFED37@keescook> <20240503230318.GF2118490@ZenIV>
+ <202405031616.793DF7EEE@keescook>
+ <CAHk-=wjoXgm=j=vt9S2dcMk3Ws6Z8ukibrEncFZcxh5n77F6Dg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20240503222916.26552-1-ian.forbes@broadcom.com>
-In-Reply-To: <20240503222916.26552-1-ian.forbes@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Fri, 3 May 2024 22:46:40 -0400
-Message-ID: <CABQX2QM=U+6HnO6k=3-=aV_katM20jOeDTWRAjiPSV_N_3Ktzw@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Re-introduce drm_crtc_helper_funcs::prepare
-To: Ian Forbes <ian.forbes@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjoXgm=j=vt9S2dcMk3Ws6Z8ukibrEncFZcxh5n77F6Dg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,89 +72,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 3, 2024 at 6:29=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com>=
- wrote:
->
-> This function was removed in the referenced fixes commit and caused a
-> regression. This is because the presence of this function, even though it
-> is a noop, changes the behaviour of disable_outputs in
-> drm_atomic_helper.c:1211.
->
-> Fixes: 7b0062036c3b ("drm/vmwgfx: Implement virtual crc generation")
-> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgf=
-x/vmwgfx_stdu.c
-> index 2041c4d48daa..37223f95cbec 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-> @@ -409,6 +409,10 @@ static void vmw_stdu_crtc_mode_set_nofb(struct drm_c=
-rtc *crtc)
->                           crtc->x, crtc->y);
->  }
->
-> +static void vmw_stdu_crtc_helper_prepare(struct drm_crtc *crtc)
-> +{
-> +}
-> +
->  static void vmw_stdu_crtc_atomic_disable(struct drm_crtc *crtc,
->                                          struct drm_atomic_state *state)
->  {
-> @@ -1463,6 +1467,7 @@ drm_plane_helper_funcs vmw_stdu_primary_plane_helpe=
-r_funcs =3D {
->  };
->
->  static const struct drm_crtc_helper_funcs vmw_stdu_crtc_helper_funcs =3D=
- {
-> +       .prepare =3D vmw_stdu_crtc_helper_prepare,
->         .mode_set_nofb =3D vmw_stdu_crtc_mode_set_nofb,
->         .atomic_check =3D vmw_du_crtc_atomic_check,
->         .atomic_begin =3D vmw_du_crtc_atomic_begin,
-> --
-> 2.34.1
->
+On Fri, May 03, 2024 at 04:41:19PM -0700, Linus Torvalds wrote:
+> On Fri, 3 May 2024 at 16:23, Kees Cook <keescook@chromium.org> wrote:
+> >
+> > static bool __must_check get_dma_buf_unless_doomed(struct dma_buf *dmabuf)
+> > {
+> >         return atomic_long_inc_not_zero(&dmabuf->file->f_count) != 0L;
+> > }
+> >
+> > If we end up adding epi_fget(), we'll have 2 cases of using
+> > "atomic_long_inc_not_zero" for f_count. Do we need some kind of blessed
+> > helper to live in file.h or something, with appropriate comments?
+> 
+> I wonder if we could try to abstract this out a bit more.
+> 
+> These games with non-ref-counted file structures *feel* a bit like the
+> games we play with non-ref-counted (aka "stashed") 'struct dentry'
+> that got fairly recently cleaned up with path_from_stashed() when both
+> nsfs and pidfs started doing the same thing.
+> 
+> I'm not loving the TTM use of this thing, but at least the locking and
+> logic feels a lot more straightforward (ie the
+> atomic_long_inc_not_zero() here is clealy under the 'prime->mutex'
+> lock
 
-Thanks, but that doesn't look correct. We do want to make sure the
-drm_crtc_vblank_off is actually called when outputs are disabled.
-Since this is my regression it's perfectly fine if you want to hand it
-off to me and work on something else. In general you always want to
-understand what the patch that you're sending is doing before sending
-it. In this case it's pretty trivial, the commit you mention says that
-it fixes kms_pipe_crc_basic and if you run it with your patch (e.g.
-sudo ./kms_pipe_crc_basic --run-subtest disable-crc-after-crtc) you
-should notice:
-May 03 22:25:05 fedora.local kernel: ------------[ cut here ]------------
-May 03 22:25:05 fedora.local kernel: driver forgot to call drm_crtc_vblank_=
-off()
-May 03 22:25:05 fedora.local kernel: WARNING: CPU: 2 PID: 2204 at
-drivers/gpu/drm/drm_atomic_helper.c:1232 disable_outputs+0x345/0x350
-May 03 22:25:05 fedora.local kernel: Modules linked in: snd_seq_dummy
-snd_hrtimer nf_conntrack_netbios_ns nf_conntrack_broadcast
-nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet
-nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
-nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set nf_tables
-snd_seq_midi snd_seq_midi_event qrtr vsock_loopback
-vmw_vsock_virtio_transport_common vmw_vsock_vmci_transport vsock
-sunrpc binfmt_misc snd_ens1371 snd_ac97_codec ac97_bus snd_seq
-intel_rapl_msr snd_pcm intel_rapl_common vmw_balloon
-intel_uncore_frequency_common isst_if_mbox_msr isst_if_common gameport
-snd_rawmidi snd_seq_device rapl snd_timer snd vmw_vmci pcspkr
-soundcore i2c_piix4 pktcdvd joydev loop nfnetlink zram vmwgfx
-crct10dif_pclmul crc32_pclmul crc32c_intel polyval_clmulni
-polyval_generic nvme ghash_clmulni_intel nvme_core sha512_ssse3
-sha256_ssse3 sha1_ssse3 drm_ttm_helper ttm nvme_auth vmxnet3 serio_raw
-ata_generic pata_acpi fuse i2c_dev
-May 03 22:25:05 fedora.local kernel: CPU: 2 PID: 2204 Comm:
-kms_pipe_crc_ba Not tainted 6.9.0-rc2-vmwgfx #5
-May 03 22:25:05 fedora.local kernel: Hardware name: VMware, Inc.
-VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00
-11/12/2020
-May 03 22:25:05 fedora.local kernel: RIP: 0010:disable_outputs+0x345/0x350
-... but in most cases it's not going to be so trivial. Whether you
-decide to work on this one yourself or hand it off to me - we don't
-want to trade bug for bug here, but fix both of those things.
+The TTM stuff is somewhat wild though and I've commented on that in
+https://lore.kernel.org/r/20240503-mitmachen-redakteur-2707ab0cacc3@brauner
+another thread that it can just use get_active_file().
 
-z
+Afaict, there's dma_buf_export() that allocates a new file and sets:
+
+file->private_data = dmabuf;
+dmabuf->file = file;
+dentry->d_fsdata = dmabuf;
+
+The file has f_op->release::dma_buf_file_release() as it's f_op->release
+method. When that's called the file's refcount is already zero but the
+file has not been freed yet. This will remove the dmabuf from some
+public list but it won't free it.
+
+dmabuf dentries have dma_buf_dentry_ops which use
+dentry->d_release::dma_buf_release() to release the actual dmabuf
+stashed in dentry->d_fsdata.
+
+So that ends up with:
+
+__fput()
+-> f_op->release::dma_buf_file_release() // handles file specific freeing
+-> dput()
+   -> d_op->d_release::dma_buf_release() // handles dmabuf freeing
+                                         // including the driver specific stuff.
+
+If you fput() the file then the dmabuf will be freed as well immediately
+after it when the dput() happens in __fput().
+
+So that TTM thing does something else then in ttm_object_device_init().
+It copies the dma_buf_ops into tdev->ops and replaces the dma_buf_ops
+release method with it's own ttm_prime_dmabuf_release() and stashes the
+old on in tdev->dma_buf_release.
+
+And it uses that to hook into the release path so that @dmabuf will
+still be valid for get_dma_buf_unless_doomed() under prime->mutex.
+
+But again, get_dma_buf_unless_doomed() can just be replaced with
+get_active_file() and then we're done with that part.
+
+> IOW, the tty use looks correct to me, and it has fairly simple locking
+> and is just catching the the race between 'fput()' decrementing the
+> refcount and and 'file->f_op->release()' doing the actual release.
+> 
+> You are right that it's similar to the epoll thing in that sense, it
+> just looks a _lot_ more straightforward to me (and, unlike epoll,
+> doesn't look actively buggy right now).
+
+It's not buggy afaict. It literally can just switch to get_active_file()
+instead of open-coding it and we're done imho.
