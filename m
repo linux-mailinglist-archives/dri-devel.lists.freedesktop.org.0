@@ -2,61 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949448BBA8E
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 12:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A5D8BBAA3
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 13:18:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7855910E86E;
-	Sat,  4 May 2024 10:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D50610EAA1;
+	Sat,  4 May 2024 11:18:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gIVHK8rJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Cm4HmZL1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66B3A10E86E
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 10:44:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 86E99601DA;
- Sat,  4 May 2024 10:44:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F3E0C072AA;
- Sat,  4 May 2024 10:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714819475;
- bh=BLItYotWYbyfjyaUpV2xQFYIZr6/mKHn7Hcq1DddZd4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gIVHK8rJGTpZuS9PubMDG4bY2YumcGjk6TzRhJqqAh/plbNUsquxQFGCUWECGrJRE
- EzEvSIxTo4EYaTNfUE2NBTtvQOeoS6PxKjWcxkktWj4E/WHJr8O8fAnG3sfoTBN/4+
- G8i9tDMgpoyUa85xPHmgl+X+CQSc0wuLRN7dziptjOtID8DTpn20rQzI5uVZV/AEjb
- 4Ape1g8W24bX7M1DAREc4k2jprCEjKPolqNkqjfYm83hFYMcF9DEBJfSs+DW6g3CfW
- 1/6/xZZebHis+jmMY6X8+A/X1qDg3q6lPjUs79o8NavTNxTFe91+9fo0VupPerS0F3
- 7PiA+rIodq4lg==
-Date: Sat, 4 May 2024 12:44:28 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, keescook@chromium.org, 
- axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name,
- linaro-mm-sig@lists.linaro.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 
- minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-Message-ID: <20240504-chatten-unbelastet-b308db41727c@brauner>
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240503214531.GB2118490@ZenIV>
- <CAHk-=wgC+QpveKCJpeqsaORu7htoNNKA8mp+d9mvJEXmSKjhbw@mail.gmail.com>
- <20240503220145.GD2118490@ZenIV> <20240503220744.GE2118490@ZenIV>
- <CAHk-=whULchE1i5LA2Fa=ZndSAzPXGWh_e5+a=YV3qT1BEST7w@mail.gmail.com>
- <20240503233900.GG2118490@ZenIV>
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF09710EAA1
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2024 11:18:09 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2e0933d3b5fso5682121fa.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 May 2024 04:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1714821488; x=1715426288; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=yv9FzWOzBDzyrTcS40BSQArXvrw2k2j9CKdjQ6IcHqo=;
+ b=Cm4HmZL10Vv+q5egmrKZN++JsOLwcHYWD9M0B4nifcFEA5kdxgoIF1k2gAujWwnCwL
+ lPwTxg/d9hsArPb8iSgr264jFhBpCuZyYpAcX31oHIh2EMq+C2VnMIoF/RK9eCor3HDC
+ jV2floW/ZDW4UQB5VkCfPMcNiiA93a3BIGSdK5zunFjZZPbTiwNEFJfLqcvJ0uumG9kR
+ 5wXarY/8H909/qCUukmzpu3PZ4MIVogupUuxPtlOQz8+4C3MytnIswjeKcaSkkpIePgm
+ dAkX98NxaPvb9Qvo0LSNOTynvGV9sIIMFN92NDgAabBY73FGn44JW0qDiZViNxczz5E1
+ Dr3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714821488; x=1715426288;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yv9FzWOzBDzyrTcS40BSQArXvrw2k2j9CKdjQ6IcHqo=;
+ b=uSCjfuIHKPvYjgqjBmP4wtdXBlipO7nKZtyBQTdy1eiQjw6XI3coT0djy6bsKe9zG1
+ idIgQDQJrHy4/o0Zuj7C4JJ1ztFCZSeSmoob3tB0cV/6TYeAvVWUS3cZgB/5v9Q4kcjp
+ yEHoBmfl8rdG7bMnpMmt+Akb+tGI8P8iFMc4WuDzCPTcirHzl5zIt6wQQoU3k84g4Z42
+ Tj3Vui4jednKMX/9ZZdfbrZDsaQwBMwKYKOtT+pqsYTn4F+P6t46EMHL/n3jCRPn2Gwn
+ 1IqTP5j2baLsdeEoK6BBY3E4n7tgfXj8T1lg7pYL2hL31GOXu4eo3eLrJHwLlsHOi8C9
+ 5PbQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUs4jjmy4idin0Urxp+R/EGoIUAdPVFJcmSSYJJ+EiIyljB55Nksdh8DYPieBxIfdjlwnj5WtqNlyis3ugfCKNalo9jLJ6szxcoe/IK1zsU
+X-Gm-Message-State: AOJu0Yzrc5ZVs/uEWntfZC6Fdu+twpmz4tNiv172q53fM+THOWfEO+Oz
+ XRMCDg1zXfJoDbKchVOuLYA+3BaBIBeCeGNONbCTp4XFbKbqLXr1kkhY4jiAvqg=
+X-Google-Smtp-Source: AGHT+IEggVHErInNqsEkGN4lf9Fm25s9yd+oVBzpPNb90IQ2CCo7mKtWyU3ysBaUz2WYQTnosuIkqw==
+X-Received: by 2002:a2e:9dd4:0:b0:2e2:2791:9842 with SMTP id
+ x20-20020a2e9dd4000000b002e227919842mr3499876ljj.44.1714821487428; 
+ Sat, 04 May 2024 04:18:07 -0700 (PDT)
+Received: from localhost ([102.222.70.76]) by smtp.gmail.com with ESMTPSA id
+ je8-20020a05600c1f8800b0041bf28aa11dsm8916105wmb.42.2024.05.04.04.18.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 04 May 2024 04:18:07 -0700 (PDT)
+Date: Sat, 4 May 2024 14:17:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ashok Kumar <ashokemailat@yahoo.com>
+Cc: Julia Lawall <julia.lawall@inria.fr>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "outreachy@lists.linux.dev" <outreachy@lists.linux.dev>
+Subject: Re: [PATCH] staging: fb_tinylcd Alignment to open parenthesis
+Message-ID: <45366e52-47e7-4e9d-a2a2-7eede9d3b450@moroto.mountain>
+References: <ZjRDUO6/M+RDCcQJ.ref@c> <ZjRDUO6/M+RDCcQJ@c>
+ <c8d24241-1763-f7b7-4491-2e5aa3ea3be@inria.fr>
+ <1389558595.6771301.1714753224419@mail.yahoo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240503233900.GG2118490@ZenIV>
+In-Reply-To: <1389558595.6771301.1714753224419@mail.yahoo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,35 +88,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 04, 2024 at 12:39:00AM +0100, Al Viro wrote:
-> On Fri, May 03, 2024 at 04:16:15PM -0700, Linus Torvalds wrote:
-> > On Fri, 3 May 2024 at 15:07, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> > >
-> > > Suppose your program calls select() on a pipe and dmabuf, sees data to be read
-> > > from pipe, reads it, closes both pipe and dmabuf and exits.
-> > >
-> > > Would you expect that dmabuf file would stick around for hell knows how long
-> > > after that?  I would certainly be very surprised by running into that...
-> > 
-> > Why?
-> > 
-> > That's the _point_ of refcounts. They make the thing they refcount
-> > stay around until it's no longer referenced.
-> > 
-> > Now, I agree that dmabuf's are a bit odd in how they use a 'struct
-> > file' *as* their refcount, but hey, it's a specialty use. Unusual
-> > perhaps, but not exactly wrong.
-> > 
-> > I suspect that if you saw a dmabuf just have its own 'refcount_t' and
-> > stay around until it was done, you wouldn't bat an eye at it, and it's
-> > really just the "it uses a struct file for counting" that you are
-> > reacting to.
+On Fri, May 03, 2024 at 04:20:24PM +0000, Ashok Kumar wrote:
 > 
-> *IF* those files are on purely internal filesystem, that's probably
-> OK; do that with something on something mountable (char device,
-> sysfs file, etc.) and you have a problem with filesystem staying
-> busy.
+> Is there a list of exceptions to the checkpatch information that we can ignore in general.
+> 
 
-In this instance it is ok because dma-buf is an internal fs. I had the
-exact same reaction you had initially but it doesn't matter for dma-buf
-afaict as that thing can never be unmounted.
+For Greg's subsystems ignore the warning about extra parentheses.
+You can search on lore for if a patch has been patch has been sent
+before.  Otherwise ignore checkpatch if it tells you to do something
+that makes the code less readable.
+
+regards,
+dan carpenter
+
