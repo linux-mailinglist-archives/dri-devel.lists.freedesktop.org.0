@@ -2,75 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D4D8BBD1A
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 18:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7840E8BBD68
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2024 19:19:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 326401135C9;
-	Sat,  4 May 2024 16:31:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19E0810F392;
+	Sat,  4 May 2024 17:19:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EQjHbla7";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="MFa/E2S7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBAAC1135C8;
- Sat,  4 May 2024 16:31:22 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-1ec4b2400b6so5121525ad.3; 
- Sat, 04 May 2024 09:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1714840282; x=1715445082; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=BVHkSDrp78uKW0uZrcyHhFLD98BFVYL6QDF1S7ek4Xk=;
- b=EQjHbla7UOiqzbeFJWH9WgMO+01e6RbJNb6bIDiSB6Aj5V38l/ozL2+pzmfmF3JDS2
- HAo+aHyhe9uMZfF5ueUN8IGGmkDTr2Sc3WXLzHuahJD6npnfT/84cKqo4Hnu3yCVGpvs
- qnHF4eD5B374FwZHaQ41bkJwxhNzFMhJPlISqv42cxnIL/0tOtDgUMa+COIKBoGeXcpH
- WZE/proEz6dXQau6Q9Q1MSOciUncCkLVVSlzIOOfMVDCBF5ldpH8mt/fDgNvDQ1AAJ5v
- UCjAVcITIsKRzUPNhZh+QOlhzCaIT4yLpkxvNhuqD6KTR71j7WD8EwGoi8refwHASgyN
- h8xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714840282; x=1715445082;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BVHkSDrp78uKW0uZrcyHhFLD98BFVYL6QDF1S7ek4Xk=;
- b=aCTrV3ZKQUu5o0PJ6lqyCle311ST2CeYmCCjZzSRrVXo2zv22wZ4zgVIUMgo43Lxwf
- yg7wzWerd8gBo/pOZLMh6okX/T8HT08+KoE3xTc+FUusbTMS+ZrVGb2RdxQKT3avEOT+
- sEHPJ7NJFe9Y/O51eCWOfBU0IMSU1AwohDRvQxzacG6cjxzFBOd3wcEpDqYHGj0B0UFw
- gkVgIOP4A6lPC69I7mOmM4blchKYHxx5Wlw2DMy58R+wWmCsAHXhFzKpPY6OxJtmM8lM
- oX1Fl4wSywNp2Nxf8nm8crpmSn4iCXubj1hdGvvwy1ArVDWb/hCVOXCFZER+vtXRpB8v
- 6qmg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWUh6OpbV2d75EPOO2IClfFbdyr3gbGAlCszfpT/mi89zxkR0bQ4C/uitfc3J4J9J1zqLm9SYfulDobFRJApva52sZtrTWnBkXBW4GDmQd3
-X-Gm-Message-State: AOJu0YycJxopsUpSmEkE8wgxYatwQToxZFSyaYwh3lJw1EfxtuyDlxpT
- sjRn6JhI8bf1Ay2xE1BKX+Fz2GPpE9l7DdzITV2xJJdps3Mwd49tbXa1JA==
-X-Google-Smtp-Source: AGHT+IHArHsW3DCfdQpbK2KIyCCirt6QvRblSevbGPQPn2t4LZFf5iduw2DZMI57WDH//nxVT0o+7A==
-X-Received: by 2002:a17:902:f649:b0:1e2:bf94:487 with SMTP id
- m9-20020a170902f64900b001e2bf940487mr7668589plg.57.1714840281493; 
- Sat, 04 May 2024 09:31:21 -0700 (PDT)
-Received: from localhost ([2601:1c0:5000:d5c:ae1c:de46:682a:206])
- by smtp.gmail.com with ESMTPSA id
- jb13-20020a170903258d00b001ec4ed47ddesm5274490plb.86.2024.05.04.09.31.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 May 2024 09:31:20 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/msm/a6xx: Cleanup indexed regs const'ness
-Date: Sat,  4 May 2024 09:31:13 -0700
-Message-ID: <20240504163114.639228-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.44.0
+X-Greylist: delayed 325 seconds by postgrey-1.36 at gabe;
+ Sat, 04 May 2024 17:19:37 UTC
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E65310F392;
+ Sat,  4 May 2024 17:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1714843175; x=1715447975; i=markus.elfring@web.de;
+ bh=8EY+oLHPDjY0oukUia2BXNUBXF5grFb2F8ZohoyJXik=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=MFa/E2S7UgmuCsybUSlQyznEv/0V6VeSqrVn1la+VpMa2bNh3f+qZQgfHq3o/mIS
+ UVIZ4X4sASupPFXp+dGx4/J+qPgaVlpBg3mufXktTBAMGHZEloW+tsyrJWxBGfEcD
+ 0OLjrguwCeTim0dB9hQLGVaaKapy/kLxGTh8S0VqEf5QddjtUxWZMWrfjvbvz1AJK
+ RrDUSMr8kv9UJ2bB0Wfew/a+AE4/WFoqocyDT6o/6bO48zrmYqQXjSRFF10s/VMPy
+ Q8rvGNaM4OVrXmFLUG5M2+dmW4KX6mvYEORU2AYbAco4ikJYl9OgXROViDJHUNbUr
+ DoZ+NgTj1IiXzYKSgg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MALeD-1rwOH53y1L-00BtK8; Sat, 04
+ May 2024 19:13:45 +0200
+Message-ID: <d56a6e3f-1371-4bb7-8947-1c2468e4d677@web.de>
+Date: Sat, 4 May 2024 19:13:32 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Dan Carpenter <dan.carpenter@linaro.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Evan Quan <evan.quan@amd.com>, Jesse Zhang <jesse.zhang@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
+ Tim Huang <Tim.Huang@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, Ruan Jinjie <ruanjinjie@huawei.com>
+References: <502fda28-fde7-4851-b17f-4d48848955bc@moroto.mountain>
+Subject: Re: [PATCH] drm/amd/pm: Fix error code in vega10_hwmgr_backend_init()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <502fda28-fde7-4851-b17f-4d48848955bc@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:R4Feujz3Sedv4K1I8WBs3oUsw+U9QOY1XAljRflhO2ZnewvfQOp
+ pJcpDcxO7H96nyn7GHcdNBx8WOHb4Q1DHBNge0eq7YoqkC9nl8d2R4hxh8pkEYOA5LVkLXR
+ 6W9tDhP9UzdwArPm1T5GCkAsmFu7PaZrtFWFvjjQHU5DG5F8mkbpT+jKKOhtWp/snom2AQR
+ UOLrtdC2WYCqoexOk3lmA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:dEUQexGZZOA=;cpXSBKmVB1VR41P5ZhQ2s9uA6YK
+ pdfTPL/AF1AtquVXPkPy5RlgOKchR/lXpGZJzUcdoloGpU3Li5TwXcFKgRxvI4RbgEZiHx/du
+ mq6xsLCp8gLYtZi//hQNp9sRVHBngtOZMQnAx6g0FZ49bmDh7fOel8E9M49gzE54dx/5g6bXl
+ gzOIN/LmRuTZfQxkyObBS0LRoF8IGMvm5xAX+8EWW8clFW1HyWjom9VneNUrFAIN3XbLQgK8h
+ a6TH0Ohbf9upcU5Rgkgr4rd/vL136oVWbDOAuILQjt3nK1PLfBWzRICt4RwEDSjHaPT5xorb6
+ 7LB36EjT6TAYhtm2NZUBPfCQ65XvKsLrNDEg8dcQ5mc7DhWJyzUM3BADBGhJ/TNc0IHDFk4iJ
+ Gi5+QQ9GQj+lP9PJILNEN8aCNG95ueen3p4wVbMed/Dxz87LUOAUtDn4mvHOMatQPDk7p4x7F
+ PhlXN6LtslC+GhMQpqdE29Zu8MyLb4zEPF3k/CJ9XzUEbWcJxk8DBpMKK+hYAZecsCX+wTAbX
+ lSzAqFRryxCPW8T46FUBmLmbn53nJjSZg4KBVdG6XDbw7JQ5VLy5/V8YtMku7GxpB27xspIRu
+ kzK5R0SB8NcmdoSLyeRIp7mAguxG71aJf42bNJUbgbVFPu3KJ6sRkza6zz1gCWSN47G7kqjq5
+ Pers/9miI0dPuZ23/GU0A8d3embJFb2ckzfJsYv10iXXesL5ysbmncDQvu61V4lyhOYLYU8pY
+ 6RADH8eN4pAv8k4LRrfjLLMh5fKIB0hWG08GJNGFFQTd5haj+eG8FqvJHqeYBUAYZmhs0rQDA
+ XqkZgmo7M8owPtXNFTXcm9Rs19SFcTagEt5q4V/Fcba4mVDCF9K56K43J7lbK+4n0w
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,112 +87,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+> Return -EINVAL on error instead of success.  Also on the success path,
+> return a literal zero instead of "return result;"
 
-These tables were made non-const in commit 3cba4a2cdff3 ("drm/msm/a6xx:
-Update ROQ size in coredump") in order to avoid powering up the GPU when
-reading back a devcoredump.  Instead let's just stash the count that is
-potentially read from hw in struct a6xx_gpu_state_obj, and make the
-tables const again.
+How do you think about to omit the initialisation for the variable =E2=80=
+=9Cresult=E2=80=9D
+in another update step?
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 15 +++++++++------
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h |  8 ++++----
- 2 files changed, 13 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-index 77146d30bcaa..0a7717a4fc2f 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-@@ -24,6 +24,7 @@
- struct a6xx_gpu_state_obj {
- 	const void *handle;
- 	u32 *data;
-+	u32 count;	/* optional, used when count potentially read from hw */
- };
- 
- struct a6xx_gpu_state {
-@@ -1437,16 +1438,18 @@ static u32 a7xx_get_cp_roq_size(struct msm_gpu *gpu)
- /* Read a block of data from an indexed register pair */
- static void a6xx_get_indexed_regs(struct msm_gpu *gpu,
- 		struct a6xx_gpu_state *a6xx_state,
--		struct a6xx_indexed_registers *indexed,
-+		const struct a6xx_indexed_registers *indexed,
- 		struct a6xx_gpu_state_obj *obj)
- {
-+	u32 count = indexed->count;
- 	int i;
- 
- 	obj->handle = (const void *) indexed;
- 	if (indexed->count_fn)
--		indexed->count = indexed->count_fn(gpu);
-+		count = indexed->count_fn(gpu);
- 
--	obj->data = state_kcalloc(a6xx_state, indexed->count, sizeof(u32));
-+	obj->data = state_kcalloc(a6xx_state, count, sizeof(u32));
-+	obj->count = count;
- 	if (!obj->data)
- 		return;
- 
-@@ -1454,7 +1457,7 @@ static void a6xx_get_indexed_regs(struct msm_gpu *gpu,
- 	gpu_write(gpu, indexed->addr, 0);
- 
- 	/* Read the data - each read increments the internal address by 1 */
--	for (i = 0; i < indexed->count; i++)
-+	for (i = 0; i < count; i++)
- 		obj->data[i] = gpu_read(gpu, indexed->data);
- }
- 
-@@ -1890,9 +1893,9 @@ static void a6xx_show_indexed_regs(struct a6xx_gpu_state_obj *obj,
- 		return;
- 
- 	print_name(p, "  - regs-name: ", indexed->name);
--	drm_printf(p, "    dwords: %d\n", indexed->count);
-+	drm_printf(p, "    dwords: %d\n", obj->count);
- 
--	print_ascii85(p, indexed->count << 2, obj->data);
-+	print_ascii85(p, obj->count << 2, obj->data);
- }
- 
- static void a6xx_show_debugbus_block(const struct a6xx_debugbus_block *block,
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-index 3b1ba514e8ee..dd4c28a8d923 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-@@ -397,7 +397,7 @@ struct a6xx_indexed_registers {
- 	u32 (*count_fn)(struct msm_gpu *gpu);
- };
- 
--static struct a6xx_indexed_registers a6xx_indexed_reglist[] = {
-+static const struct a6xx_indexed_registers a6xx_indexed_reglist[] = {
- 	{ "CP_SQE_STAT", REG_A6XX_CP_SQE_STAT_ADDR,
- 		REG_A6XX_CP_SQE_STAT_DATA, 0x33, NULL },
- 	{ "CP_DRAW_STATE", REG_A6XX_CP_DRAW_STATE_ADDR,
-@@ -408,7 +408,7 @@ static struct a6xx_indexed_registers a6xx_indexed_reglist[] = {
- 		REG_A6XX_CP_ROQ_DBG_DATA, 0, a6xx_get_cp_roq_size},
- };
- 
--static struct a6xx_indexed_registers a7xx_indexed_reglist[] = {
-+static const struct a6xx_indexed_registers a7xx_indexed_reglist[] = {
- 	{ "CP_SQE_STAT", REG_A6XX_CP_SQE_STAT_ADDR,
- 		REG_A6XX_CP_SQE_STAT_DATA, 0x33, NULL },
- 	{ "CP_DRAW_STATE", REG_A6XX_CP_DRAW_STATE_ADDR,
-@@ -433,12 +433,12 @@ static struct a6xx_indexed_registers a7xx_indexed_reglist[] = {
- 		REG_A6XX_CP_ROQ_DBG_DATA, 0, a7xx_get_cp_roq_size },
- };
- 
--static struct a6xx_indexed_registers a6xx_cp_mempool_indexed = {
-+static const struct a6xx_indexed_registers a6xx_cp_mempool_indexed = {
- 	"CP_MEMPOOL", REG_A6XX_CP_MEM_POOL_DBG_ADDR,
- 		REG_A6XX_CP_MEM_POOL_DBG_DATA, 0x2060, NULL,
- };
- 
--static struct a6xx_indexed_registers a7xx_cp_bv_mempool_indexed[] = {
-+static const struct a6xx_indexed_registers a7xx_cp_bv_mempool_indexed[] = {
- 	{ "CP_MEMPOOL", REG_A6XX_CP_MEM_POOL_DBG_ADDR,
- 		REG_A6XX_CP_MEM_POOL_DBG_DATA, 0x2100, NULL },
- 	{ "CP_BV_MEMPOOL", REG_A7XX_CP_BV_MEM_POOL_DBG_ADDR,
--- 
-2.44.0
-
+Regards,
+Markus
