@@ -2,82 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B648BC2F9
-	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2024 20:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D94C8BC30D
+	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2024 20:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADE2112C88;
-	Sun,  5 May 2024 18:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EBAB112D00;
+	Sun,  5 May 2024 18:29:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="MDL6bCh9";
+	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="R0l1QcHP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B33F112C88
- for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2024 18:04:43 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-1eca151075eso2874945ad.1
- for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 11:04:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1714932283; x=1715537083;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mE6ET/wemNoj1wnsoN5H46vn2H9jFrdPiFfXm3O1q/E=;
- b=MDL6bCh92W2Ahz2lU2XA0cSigEmVwL9Bo02kJYJ4LgEW5zN7DFFrtHTIUSY+RnCMEr
- VSPS5A/nXyG538mZ41A8sNv84xqvSewE9bhPqbekjQcsPgebahLDvJmROv6mueFeSDv8
- QN4QBZnFsss/RF39QJWL9jJ4yrn/X3rpD/NPlekd/V4QFUhgwLqcW078lXCy8zA+OTxZ
- 8QTCCQ2+41DuD8ynglvwFbCZElxlMKANgdS+F6wI+1GcIHf8cCkv6MJMEWYuHNHjlp0l
- RcyBu6Zff/ipTPlyTAI/HhBeWiUzCD/I3EAaPg8/r5hsQiAX4pj+oSBzp8H7BLSPu93L
- Dyew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714932283; x=1715537083;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mE6ET/wemNoj1wnsoN5H46vn2H9jFrdPiFfXm3O1q/E=;
- b=Mc66AHnfi5If4T6j/jZAyYCrpLRzMzg8Q9S+9E5zKtcEibFjZG9u9VfXS40kBAkakd
- cfl9ToPoIsD9mw8Cii9lzSojJhGdJeSOUBip2iksGItBolr7s4uIFD+DNJvwQQxfPCxL
- 8wQV/nESrhzHUenRSDEbPn5jt+vKGFJI2TIEn006mdigebsjagOPOer9bHmYLjCuNuM5
- EzihdaP66wqCsSmTmg16P4lcpq+q5vaLNsw+XafzUdDI8OkQ6uJYSonJCZK107QLCbgF
- S3+7FzvUgJpSWLJd1lf+qmpSbwCdt7oTL68ulv9i9fi1x9YEzBcLGrYKYCmPxnyVMWl+
- LHPg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXehD7YKuzBac3BpHT0kR+m/Y7iBXMP06hiwqj9b/kIJ/TrUkvjrBwMD5xw9ym85u9HNnhOH7/gMa6pnoczO+off8jLZGAK/3n7RsPH6+r6
-X-Gm-Message-State: AOJu0YyCbV1lok8aNwMFXds3hJPKXE/v+JqTQiKpR+gh4/Tp5plXszl5
- ZyhDpamiijeOJAtd7N8uCG2uQNjmZJitjovPvw8PBoBeZwc05lXTYeV441uRV2U=
-X-Google-Smtp-Source: AGHT+IGWjfUE/TDqZn5+tc9zv5WMH1AwiF3VlKR+EV8RVaOEHMWP8GFvz9bqpeX6sGO+oAr45ebqrg==
-X-Received: by 2002:a17:902:d2d0:b0:1e8:4063:6ded with SMTP id
- n16-20020a170902d2d000b001e840636dedmr11260813plc.1.1714932282996; 
- Sun, 05 May 2024 11:04:42 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.194])
- by smtp.gmail.com with ESMTPSA id
- l18-20020a170903121200b001eb03a2bb0asm6700128plh.53.2024.05.05.11.04.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 May 2024 11:04:42 -0700 (PDT)
-Message-ID: <be4fe24b-daa4-40af-806b-40db570e37b2@kernel.dk>
-Date: Sun, 5 May 2024 12:04:40 -0600
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEDAC112D00
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2024 18:29:06 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5AC9A40E024C; 
+ Sun,  5 May 2024 18:29:04 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+ header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+ by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id T-3NwLK1gWyt; Sun,  5 May 2024 18:29:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1714933740; bh=2c3rsJd5+C9gOUqICAJkWhmVm4gYvJcQn1yN6aN3iuo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=R0l1QcHPcURtc+luuPBnrsq8jO1czQN5/BzhAxRPkLw36GkYIe8a519flkhX/PJP4
+ JSG8xL7YZPfCL7hklEE8y2UdGecuylXI9rUVaRRK6jPPVjlWTkw+v2O7jVoGI1VeGX
+ F3D9o7yELJP04bHX9q1ECpQwLDHdpw65XghukIJNfDYuJvO56DoExK2f7VDsFKUdJA
+ hcfcwDAUmwp78SfTZrYtsJO9N676Vm+UVnEzZqgFH3DGGSDK6PGRARyFZz9CJKEMUk
+ OnT+Qf3xjiQns4jKyL3KAvzB8GftOm3KGEc3yiNB9W07whKTmRClNOR4XnTTTO+OG1
+ 50ekC/avKv6+M3b78bfc6Id6vD2Iq2SlEln54H1Sg4BIOamC2yidcIDjsb32kLbJXy
+ hqiF9ca5RU5Smg/3ugEj1STdtoYwj4lgUmvsxVVNhBK3PJbCOutXCyaKOhm4yy5Xoe
+ 1gPzWKeR+bJXtJyjbxQ2SwPYTfdv0rFnkDpaREAnt8J2R1NjvfNssf+CzPuE4ggfQ5
+ OgwNDcIeMCk9KmNJD0xJjKBtX5svvHPY/Ci9RHqcFnKIryPkEacccnDRgsCiWz+els
+ 5uLzMLm6EGGDj8yDUA1h6bzlztrgLnUcMNCqIbe+TT7J0O9WPWBRhE3xzdqTYES9WK
+ 9l3IMFoVPT9iJN58SgHOlHWI=
+Received: from zn.tnic (pd953020b.dip0.t-ipconnect.de [217.83.2.11])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (No client certificate requested)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6E30340E0187;
+ Sun,  5 May 2024 18:28:34 +0000 (UTC)
+Date: Sun, 5 May 2024 20:28:29 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+ hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+ tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
+ richardcochran@gmail.com, linux-input@vger.kernel.org,
+ dmitry.torokhov@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+ timothym@vmware.com, akaher@vmware.com,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+ tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, horms@kernel.org,
+ kirill.shutemov@linux.intel.com, Nadav Amit <nadav.amit@gmail.com>
+Subject: Re: [PATCH v9 2/8] x86/vmware: Move common macros to vmware.h
+Message-ID: <20240505182829.GBZjfPzeEijTsBUth5@fat_crate.local>
+References: <adcbfb9a-a4e1-4a32-b786-6c204d941e9f@broadcom.com>
+ <20240424231407.14098-1-alexey.makhalov@broadcom.com>
+ <20240424231407.14098-2-alexey.makhalov@broadcom.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] epoll: be better about file lifetimes
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: brauner@kernel.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org, jack@suse.cz,
- keescook@chromium.org, laura@labbott.name, linaro-mm-sig@lists.linaro.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, minhquangbui99@gmail.com,
- sumit.semwal@linaro.org,
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
-References: <CAHk-=wgMzzfPwKc=8yBdXwSkxoZMZroTCiLZTYESYD3BC_7rhQ@mail.gmail.com>
- <20240505175556.1213266-2-torvalds@linux-foundation.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20240505175556.1213266-2-torvalds@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240424231407.14098-2-alexey.makhalov@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,44 +82,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/5/24 11:55 AM, Linus Torvalds wrote:
-> epoll can call out to vfs_poll() with a file pointer that may race with
-> the last 'fput()'. That would make f_count go down to zero, and while
-> the ep->mtx locking means that the resulting file pointer tear-down will
-> be blocked until the poll returns, it means that f_count is already
-> dead, and any use of it won't actually get a reference to the file any
-> more: it's dead regardless.
-> 
-> Make sure we have a valid ref on the file pointer before we call down to
-> vfs_poll() from the epoll routines.
-> 
-> Link: https://lore.kernel.org/lkml/0000000000002d631f0615918f1e@google.com/
-> Reported-by: syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com
-> Reviewed-by: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-> ---
-> 
-> Changes since v1:
-> 
->  - add Link, Reported-by, and Jens' reviewed-by. And sign off on it
->    because it looks fine to me and we have some testing now.
-> 
->  - move epi_fget() closer to the user
-> 
->  - more comments about the background
-> 
->  - remove the rcu_read_lock(), with the comment explaining why it's not
->    needed
-> 
->  - note about returning zero rather than something like EPOLLERR|POLLHUP
->    for a file that is going away
+On Wed, Apr 24, 2024 at 04:14:07PM -0700, Alexey Makhalov wrote:
+> +#define VMWARE_CMD_GETVERSION		10
+> +#define VMWARE_CMD_GETHZ		45
+> +#define VMWARE_CMD_GETVCPU_INFO		68
+> +#define VMWARE_CMD_STEALCLOCK		91
 
-I did look at that 0 return as well and agreed this is the right choice,
-but adding the comment is a good idea.
+Ok, what part in
 
-Anyway, patch still looks fine to me. I'd word wrap the comment section
-above epi_fget() wider, but that's just a stylistic choice...
+"* first patch: sole code movement, no changes whatsoever"
+
+wasn't clear?
+
+You're adding those macros above to a patch which claims that it does
+code movement only. Don't do that.
+
+Let me try again:
+
+* first patch: *ONLY* code movement. No new code, no new defines, no new
+functions, no nada! Only move code and do fixups so that it still builds
+like the export you're doing.
+
+* follow-on patches: other changes.
 
 -- 
-Jens Axboe
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
