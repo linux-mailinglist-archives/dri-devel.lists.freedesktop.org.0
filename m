@@ -2,34 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A160A8BC2F3
-	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2024 20:00:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B648BC2F9
+	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2024 20:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFF8112C68;
-	Sun,  5 May 2024 18:00:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADE2112C88;
+	Sun,  5 May 2024 18:04:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="CZtZ4Kss";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="MDL6bCh9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33B34112C68
- for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2024 18:00:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 06CD360A0C;
- Sun,  5 May 2024 18:00:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 563D9C113CC;
- Sun,  5 May 2024 18:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1714932003;
- bh=TsViQ/wYOfXwpC4HIbCA3YZAn4taAzdXrsvEgMW9B4A=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CZtZ4Kss4M1ugKJ7mNWZqHBV202HqoMwtZlcRjCpwHl674Vss/9EoYPFiv6Kb4FeD
- tHC4/QlBc/TNWEyBH7IT/ScaeO/01P3qAeR+FGsapRFZT4Yn6EJc4pRu0BLRUe+fhe
- 9HecR26VCfGEdlB9PzGLrIhnvWf+OU1PPMzCB+EE=
-From: Linus Torvalds <torvalds@linux-foundation.org>
-To: torvalds@linux-foundation.org
-Cc: axboe@kernel.dk, brauner@kernel.org, christian.koenig@amd.com,
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B33F112C88
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2024 18:04:43 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-1eca151075eso2874945ad.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 11:04:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1714932283; x=1715537083;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mE6ET/wemNoj1wnsoN5H46vn2H9jFrdPiFfXm3O1q/E=;
+ b=MDL6bCh92W2Ahz2lU2XA0cSigEmVwL9Bo02kJYJ4LgEW5zN7DFFrtHTIUSY+RnCMEr
+ VSPS5A/nXyG538mZ41A8sNv84xqvSewE9bhPqbekjQcsPgebahLDvJmROv6mueFeSDv8
+ QN4QBZnFsss/RF39QJWL9jJ4yrn/X3rpD/NPlekd/V4QFUhgwLqcW078lXCy8zA+OTxZ
+ 8QTCCQ2+41DuD8ynglvwFbCZElxlMKANgdS+F6wI+1GcIHf8cCkv6MJMEWYuHNHjlp0l
+ RcyBu6Zff/ipTPlyTAI/HhBeWiUzCD/I3EAaPg8/r5hsQiAX4pj+oSBzp8H7BLSPu93L
+ Dyew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714932283; x=1715537083;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mE6ET/wemNoj1wnsoN5H46vn2H9jFrdPiFfXm3O1q/E=;
+ b=Mc66AHnfi5If4T6j/jZAyYCrpLRzMzg8Q9S+9E5zKtcEibFjZG9u9VfXS40kBAkakd
+ cfl9ToPoIsD9mw8Cii9lzSojJhGdJeSOUBip2iksGItBolr7s4uIFD+DNJvwQQxfPCxL
+ 8wQV/nESrhzHUenRSDEbPn5jt+vKGFJI2TIEn006mdigebsjagOPOer9bHmYLjCuNuM5
+ EzihdaP66wqCsSmTmg16P4lcpq+q5vaLNsw+XafzUdDI8OkQ6uJYSonJCZK107QLCbgF
+ S3+7FzvUgJpSWLJd1lf+qmpSbwCdt7oTL68ulv9i9fi1x9YEzBcLGrYKYCmPxnyVMWl+
+ LHPg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXehD7YKuzBac3BpHT0kR+m/Y7iBXMP06hiwqj9b/kIJ/TrUkvjrBwMD5xw9ym85u9HNnhOH7/gMa6pnoczO+off8jLZGAK/3n7RsPH6+r6
+X-Gm-Message-State: AOJu0YyCbV1lok8aNwMFXds3hJPKXE/v+JqTQiKpR+gh4/Tp5plXszl5
+ ZyhDpamiijeOJAtd7N8uCG2uQNjmZJitjovPvw8PBoBeZwc05lXTYeV441uRV2U=
+X-Google-Smtp-Source: AGHT+IGWjfUE/TDqZn5+tc9zv5WMH1AwiF3VlKR+EV8RVaOEHMWP8GFvz9bqpeX6sGO+oAr45ebqrg==
+X-Received: by 2002:a17:902:d2d0:b0:1e8:4063:6ded with SMTP id
+ n16-20020a170902d2d000b001e840636dedmr11260813plc.1.1714932282996; 
+ Sun, 05 May 2024 11:04:42 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.194])
+ by smtp.gmail.com with ESMTPSA id
+ l18-20020a170903121200b001eb03a2bb0asm6700128plh.53.2024.05.05.11.04.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 05 May 2024 11:04:42 -0700 (PDT)
+Message-ID: <be4fe24b-daa4-40af-806b-40db570e37b2@kernel.dk>
+Date: Sun, 5 May 2024 12:04:40 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] epoll: be better about file lifetimes
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: brauner@kernel.org, christian.koenig@amd.com,
  dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org, jack@suse.cz,
  keescook@chromium.org, laura@labbott.name, linaro-mm-sig@lists.linaro.org,
  linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -37,14 +71,13 @@ Cc: axboe@kernel.dk, brauner@kernel.org, christian.koenig@amd.com,
  sumit.semwal@linaro.org,
  syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
  syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
-Subject: [PATCH v2] epoll: be better about file lifetimes
-Date: Sun,  5 May 2024 10:55:57 -0700
-Message-ID: <20240505175556.1213266-2-torvalds@linux-foundation.org>
-X-Mailer: git-send-email 2.44.0.330.g4d18c88175
-In-Reply-To: <CAHk-=wgMzzfPwKc=8yBdXwSkxoZMZroTCiLZTYESYD3BC_7rhQ@mail.gmail.com>
 References: <CAHk-=wgMzzfPwKc=8yBdXwSkxoZMZroTCiLZTYESYD3BC_7rhQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ <20240505175556.1213266-2-torvalds@linux-foundation.org>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20240505175556.1213266-2-torvalds@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,107 +93,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-epoll can call out to vfs_poll() with a file pointer that may race with
-the last 'fput()'. That would make f_count go down to zero, and while
-the ep->mtx locking means that the resulting file pointer tear-down will
-be blocked until the poll returns, it means that f_count is already
-dead, and any use of it won't actually get a reference to the file any
-more: it's dead regardless.
+On 5/5/24 11:55 AM, Linus Torvalds wrote:
+> epoll can call out to vfs_poll() with a file pointer that may race with
+> the last 'fput()'. That would make f_count go down to zero, and while
+> the ep->mtx locking means that the resulting file pointer tear-down will
+> be blocked until the poll returns, it means that f_count is already
+> dead, and any use of it won't actually get a reference to the file any
+> more: it's dead regardless.
+> 
+> Make sure we have a valid ref on the file pointer before we call down to
+> vfs_poll() from the epoll routines.
+> 
+> Link: https://lore.kernel.org/lkml/0000000000002d631f0615918f1e@google.com/
+> Reported-by: syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com
+> Reviewed-by: Jens Axboe <axboe@kernel.dk>
+> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+> ---
+> 
+> Changes since v1:
+> 
+>  - add Link, Reported-by, and Jens' reviewed-by. And sign off on it
+>    because it looks fine to me and we have some testing now.
+> 
+>  - move epi_fget() closer to the user
+> 
+>  - more comments about the background
+> 
+>  - remove the rcu_read_lock(), with the comment explaining why it's not
+>    needed
+> 
+>  - note about returning zero rather than something like EPOLLERR|POLLHUP
+>    for a file that is going away
 
-Make sure we have a valid ref on the file pointer before we call down to
-vfs_poll() from the epoll routines.
+I did look at that 0 return as well and agreed this is the right choice,
+but adding the comment is a good idea.
 
-Link: https://lore.kernel.org/lkml/0000000000002d631f0615918f1e@google.com/
-Reported-by: syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
----
+Anyway, patch still looks fine to me. I'd word wrap the comment section
+above epi_fget() wider, but that's just a stylistic choice...
 
-Changes since v1:
-
- - add Link, Reported-by, and Jens' reviewed-by. And sign off on it
-   because it looks fine to me and we have some testing now.
-
- - move epi_fget() closer to the user
-
- - more comments about the background
-
- - remove the rcu_read_lock(), with the comment explaining why it's not
-   needed
-
- - note about returning zero rather than something like EPOLLERR|POLLHUP
-   for a file that is going away
-
- fs/eventpoll.c | 42 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 41 insertions(+), 1 deletion(-)
-
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 882b89edc52a..a3f0f868adc4 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -979,6 +979,37 @@ static __poll_t __ep_eventpoll_poll(struct file *file, poll_table *wait, int dep
- 	return res;
- }
- 
-+/*
-+ * The ffd.file pointer may be in the process of
-+ * being torn down due to being closed, but we
-+ * may not have finished eventpoll_release() yet.
-+ *
-+ * Normally, even with the atomic_long_inc_not_zero,
-+ * the file may have been free'd and then gotten
-+ * re-allocated to something else (since files are
-+ * not RCU-delayed, they are SLAB_TYPESAFE_BY_RCU).
-+ *
-+ * But for epoll, users hold the ep->mtx mutex, and
-+ * as such any file in the process of being free'd
-+ * will block in eventpoll_release_file() and thus
-+ * the underlying file allocation will not be free'd,
-+ * and the file re-use cannot happen.
-+ *
-+ * For the same reason we can avoid a rcu_read_lock()
-+ * around the operation - 'ffd.file' cannot go away
-+ * even if the refcount has reached zero (but we must
-+ * still not call out to ->poll() functions etc).
-+ */
-+static struct file *epi_fget(const struct epitem *epi)
-+{
-+	struct file *file;
-+
-+	file = epi->ffd.file;
-+	if (!atomic_long_inc_not_zero(&file->f_count))
-+		file = NULL;
-+	return file;
-+}
-+
- /*
-  * Differs from ep_eventpoll_poll() in that internal callers already have
-  * the ep->mtx so we need to start from depth=1, such that mutex_lock_nested()
-@@ -987,14 +1018,23 @@ static __poll_t __ep_eventpoll_poll(struct file *file, poll_table *wait, int dep
- static __poll_t ep_item_poll(const struct epitem *epi, poll_table *pt,
- 				 int depth)
- {
--	struct file *file = epi->ffd.file;
-+	struct file *file = epi_fget(epi);
- 	__poll_t res;
- 
-+	/*
-+	 * We could return EPOLLERR | EPOLLHUP or something,
-+	 * but let's treat this more as "file doesn't exist,
-+	 * poll didn't happen".
-+	 */
-+	if (!file)
-+		return 0;
-+
- 	pt->_key = epi->event.events;
- 	if (!is_file_epoll(file))
- 		res = vfs_poll(file, pt);
- 	else
- 		res = __ep_eventpoll_poll(file, pt, depth);
-+	fput(file);
- 	return res & epi->event.events;
- }
- 
 -- 
-2.44.0.330.g4d18c88175
+Jens Axboe
 
