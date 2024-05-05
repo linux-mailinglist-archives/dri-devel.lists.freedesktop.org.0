@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E741E8BC021
-	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2024 12:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1CB8BC078
+	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2024 15:09:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3CD710F866;
-	Sun,  5 May 2024 10:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBFD810FF65;
+	Sun,  5 May 2024 13:09:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e5L3jU3F";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DyFIsDIc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C3310F866
- for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2024 10:50:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B0E510FEF0;
+ Sun,  5 May 2024 13:09:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9C591CE09AF;
- Sun,  5 May 2024 10:50:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6B1EC113CC;
- Sun,  5 May 2024 10:50:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4884360BA0;
+ Sun,  5 May 2024 13:09:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E851C113CC;
+ Sun,  5 May 2024 13:09:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714906228;
- bh=A0pA9gFmx/KX+0Pa4DEPpSZCbQRPr/bicmqz+Fp/D+U=;
+ s=k20201202; t=1714914588;
+ bh=xlRUYoJPou2/MPpAB5hzWLpalR+ZAUvBv9HmZG5I9+k=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=e5L3jU3FZTdPXwhW7v4hVB9ximQhq8UCZ0c9TGS4U1UkDy9SoEAFc5NcwjdpsIkoS
- y5500oXQvODSiP70b98akmj6jmj+4sIElipq9Sppz0r6ueMZ5+eoTun24p+V22Tcsc
- HaEAjxcM6qfbfzwdvMKKH0Bzaupg7FpgBHRmFAtU8wyAoJkMIQ+EcEkI2ftcOlZkWI
- aYekeYbhJGpP03mC0HcdhmtZ5hdyxwJFb24ZNgDWJ/rfxASaSIkLf4OS9WJJBKMSOh
- qzzyyX+Lq+QiMQ+t6jgW/KeVXyFOY4AUvFgw8NNBYWWqzu+JmgCOPLMaezQ+o0HooC
- CPk8Qe18RVxwQ==
-Date: Sun, 5 May 2024 12:50:21 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, 
- axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name,
- linaro-mm-sig@lists.linaro.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 
- minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-Message-ID: <20240505-gelehnt-anfahren-8250b487da2c@brauner>
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
+ b=DyFIsDIcBCXPdf5m999VIskZIZ3Ju5s8JfJ7pbM8DKPrNCCZI9ot8LqlAFcA7zGeH
+ xEfZUHP+pTYlQEqLs5pArOYOcT/l+a+8A+7Li6FYOIOb0T0Q92zUCdc02p38J1kKkN
+ fGz+U2FNMt6C6ocJrCG3jWrFuT2kSuaQOuVPdsE/3Xt5+iiIhD2KTKWkyHVbirLHfh
+ 32cMVlj5dqsjTbb6WCnYlM6luqPotng5VtG5kZVmmJPSVMiRB1wsc8tj4jsVypNjmR
+ 0qe5FzwC3I1L1tkbGk2SvbABZQgkwvc244O3J4xGB0zePEAC4wEw7a2mGw3vkLSbks
+ 1+K3E3asdqGhg==
+Date: Sun, 5 May 2024 16:09:45 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ dri-devel@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>, linux-rdma@vger.kernel.org,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Lukas Wunner <lukas@wunner.de>,
+ Dean Luick <dean.luick@cornelisnetworks.com>
+Subject: Re: [PATCH 3/3] RDMA/hfi1: Use RMW accessors for changing LNKCTL2
+Message-ID: <20240505130945.GB68202@unreal>
+References: <20240215133155.9198-1-ilpo.jarvinen@linux.intel.com>
+ <20240215133155.9198-4-ilpo.jarvinen@linux.intel.com>
+ <26be3948-e687-f510-0612-abcac5d919af@linux.intel.com>
+ <20240503130416.GA901876@ziepe.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240503130416.GA901876@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,79 +70,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 04, 2024 at 08:40:25AM -0700, Linus Torvalds wrote:
-> On Sat, 4 May 2024 at 08:32, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > Now, during this TOTALLY INNOCENT sock_poll(), in another thread, the
-> > file closing completes, eventpoll_release() finishes [..]
+On Fri, May 03, 2024 at 10:04:16AM -0300, Jason Gunthorpe wrote:
+> On Fri, May 03, 2024 at 01:18:35PM +0300, Ilpo Järvinen wrote:
+> > On Thu, 15 Feb 2024, Ilpo Järvinen wrote:
+> > 
+> > > Convert open coded RMW accesses for LNKCTL2 to use
+> > > pcie_capability_clear_and_set_word() which makes its easier to
+> > > understand what the code tries to do.
+> > > 
+> > > LNKCTL2 is not really owned by any driver because it is a collection of
+> > > control bits that PCI core might need to touch. RMW accessors already
+> > > have support for proper locking for a selected set of registers
+> > > (LNKCTL2 is not yet among them but likely will be in the future) to
+> > > avoid losing concurrent updates.
+> > > 
+> > > Suggested-by: Lukas Wunner <lukas@wunner.de>
+> > > Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> > > Reviewed-by: Dean Luick <dean.luick@cornelisnetworks.com>
+> > 
+> > I found out from Linux RDMA and InfiniBand patchwork that this patch had 
+> > been silently closed as "Not Applicable". Is there some reason for
+> > that?
 > 
-> Actually, Al is right that ep_item_poll() should be holding the
-> ep->mtx, so eventpoll_release() -> eventpoll_release_file_file() ->
-> mutex_lock(&ep->mtx) should block and the file doesn't actually get
-> released.
+> It is part of a series that crosses subsystems, series like that
+> usually go through some other trees.
 
-So I know you've seen it yourself but for my own peace of mind I've said
-that in the other mail and in the other thread already that all callers
-of ep_item_poll() do already hold the ep->mtx:
+Exactly, this is why I marked it as "Not Applicable".
 
-do_epoll_ctl()
--> epoll_mutex_lock(&ep->mtx)
--> ep_insert()
-   -> ep_item_poll()
-
-do_epoll_ctl()
--> epoll_mutex_lock(&ep->mtx)
--> ep_modify()
-   -> ep_item_poll()
-
-ep_send_events()
--> mutex_lock(&ep->mtx)
--> ep_item_poll()
-
-/* nested; and all callers of ep_item_poll() already hold ep->mtx */
-__ep_eventpoll_poll()
--> mutex_lock_nested(&ep->mtx, wait)
--> ep_item_poll()
-
-So it's simply not possible to end up with a UAF in f_op->poll() because
-eventpoll_release_file_file() serializes on ep->mtx as well:
-
-__fput()
--> eventpoll_release()
-   -> eventpoll_release_file()
-      {
-              // @file->f_count is zero _but file is not freed_
-              // so taking file->f_lock is absolutely fine
-              spin_lock(&file->f_lock);
-              // mark as dying
-
-              // serialzed on ep->mtx
-              mutex_lock(&ep->mtx);
-              __ep_rmove(ep, epi);
-              ...
-
-      }
-      -> mutex_lock(&ep->mtx)
-
--> f_op->release()
--> kfree(file)
-
-So afaict it's simply not possible to end up with a UAF in f_op->poll().
-
-And I agree with you that for some instances it's valid to take another
-reference to a file from f_op->poll() but then they need to use
-get_file_active() imho and simply handle the case where f_count is zero.
-And we need to document that in Documentation/filesystems/file.rst or
-locking.rst.
-
-But if it's simply just dma buf that cares about that long-term
-reference then really we should just force them to take the reference
-like I suggested but don't penalize everyone else. When I took a glance
-at all f_op->poll() implementations I didn't spot one that did take
-extra references.
-
-But if you absolutely want to have epoll take the reference before it
-calls into f_op->poll() that's fine with me as well. But we might end up
-forcing epoll to do a lot of final fput()s which I'm not sure is all
-that desirable.
+> 
+> If you want single patches applied then please send single
+> patches.. It is hard to understand intent from mixed series.
+> 
+> Jason
