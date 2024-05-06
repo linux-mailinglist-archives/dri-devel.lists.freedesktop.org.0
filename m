@@ -2,62 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DA68BCA9E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 11:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACFE8BCAA9
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 11:30:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A860E10ED2B;
-	Mon,  6 May 2024 09:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67E8D10F010;
+	Mon,  6 May 2024 09:30:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZJyv7ou5";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="EMntq1qT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25EF610ED2B
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 09:27:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6A01461085;
- Mon,  6 May 2024 09:27:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CE85C116B1;
- Mon,  6 May 2024 09:26:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714987624;
- bh=r9PFC5bu7lmiF9aq5BTi6CEcKoYDbUpyNGKVlEmMpec=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZJyv7ou5pxTVr+uFQiaUFaf141/cP0PUE3Qwy8Uxt7ca6tziSJAncFT6YoShaa4kG
- XcNFv5jUbDNutMUtLFyD7kfwlU3CfLN1mvCWn65w7ZdzuayS3fTQKBSkFuatUdwbGQ
- o/AvZTj0GH9CXRl6SIrwcNGc6i63LilJlhGYbJUl6F9jYP0waycKJzZ9bmasukbKf1
- U934NoMGZc9+AnQG7WtQzww5nuRY3YSb5P5wGwhZxLA3G14RLSmkpfQLk0ohnNX1HW
- w9L7ZrTsbC7mzuhQMjM8CQEhVGab8383AUyX/Xjb9b4SvXj2xQqapcbWmPtO5didMN
- H7A9F0KS1jCxw==
-Date: Mon, 6 May 2024 11:26:57 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, 
- axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name,
- linaro-mm-sig@lists.linaro.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 
- minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-Message-ID: <20240506-zweibeinig-mahnen-daa579a233db@brauner>
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
- <20240505-gelehnt-anfahren-8250b487da2c@brauner>
- <CAHk-=wgMzzfPwKc=8yBdXwSkxoZMZroTCiLZTYESYD3BC_7rhQ@mail.gmail.com>
- <20240506-injizieren-administration-f5900157566a@brauner>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29B3010F010
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 09:30:48 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4461bNcr015534;
+ Mon, 6 May 2024 09:30:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:from:to:cc:references
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=hFy44AivuM6C2jvc5+MBsxAtMFUljnLQ+UiGLJeC+K0=; b=EM
+ ntq1qT+oCnEGB7/ChFZ/5yOUlxHc5mY4vpBpZMOvcVTcj9VaWrexKibk8uQ8AnxB
+ PjjeOJL/2M7COOEr6XgbZ390vV225qgQPYHn8P3tx8VCmRui+i/L7W6qAB2piPlN
+ BMO5ivs/NsdYeByJ8fKWIgnD/f1jU7KKgE5mub/j+Fq/RqFH/1dELVRc/X5uVGkM
+ 1G1E/IXQIVE4lUZy5kQ6E+7bV8rotZo0UJdKBrLSklRdRcyWqjC/Kv+RmyFCOC72
+ Nfx100x6DpNtV3kRALBCar88UidvR3g4ldmvn93MBqQd9fhHCQBLwjWXI6wT8IdP
+ hBiHRGNFb/kOirqA2lGg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xwddc34mb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 May 2024 09:30:43 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4469UfCY022596
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 6 May 2024 09:30:41 GMT
+Received: from [10.216.45.66] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 6 May 2024
+ 02:30:37 -0700
+Message-ID: <83605228-92ee-b666-d894-1c145af2e5ab@quicinc.com>
+Date: Mon, 6 May 2024 15:00:34 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240506-injizieren-administration-f5900157566a@brauner>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
+Content-Language: en-US
+From: Charan Teja Kalla <quic_charante@quicinc.com>
+To: "T.J. Mercier" <tjmercier@google.com>
+CC: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, zhiguojiang
+ <justinjiang@vivo.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+ <linux-kernel@vger.kernel.org>, <opensource.kernel@vivo.com>
+References: <20240327022903.776-1-justinjiang@vivo.com>
+ <5cf29162-a29d-4af7-b68e-aac5c862d20e@amd.com>
+ <cc7defae-60c1-4cc8-aee5-475d4460e574@vivo.com>
+ <23375ba8-9558-4886-9c65-af9fe8e8e8b6@amd.com>
+ <CABdmKX2Kf4ZmVzv3LGTz2GyP-9+rAtFY9hSAxdkrwK8mG0gDvQ@mail.gmail.com>
+ <e55cad9b-a361-4d27-a351-f6a4f5b8b734@vivo.com>
+ <40ac02bb-efe2-4f52-a4f2-7b56d9b93d2c@amd.com>
+ <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
+ <aab5ec51-fcff-44f2-a4f5-2979bd776a03@amd.com>
+ <2ebca2fd-9465-4e64-b3cc-ffb88ef87800@vivo.com>
+ <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com>
+ <289b9ad6-58a3-aa39-48ae-a244fe108354@quicinc.com>
+ <CABdmKX3Zu8LihAFjMuUHx4xzZoqgmY7OKdyVz-D26gM-LECn6A@mail.gmail.com>
+ <8ca45837-cbed-28da-4a6f-0dcec8294f51@quicinc.com>
+In-Reply-To: <8ca45837-cbed-28da-4a6f-0dcec8294f51@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: wLxTjCK0bUBSNS-bbjB_NOmJ_ukpQtL4
+X-Proofpoint-GUID: wLxTjCK0bUBSNS-bbjB_NOmJ_ukpQtL4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-06_05,2024-05-03_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=935
+ priorityscore=1501 malwarescore=0 bulkscore=0 spamscore=0 suspectscore=0
+ impostorscore=0 mlxscore=0 phishscore=0 adultscore=0 clxscore=1015
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2405060064
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +106,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 06, 2024 at 10:45:35AM +0200, Christian Brauner wrote:
-> > The fact is, it's not dma-buf that is violating any rules. It's epoll.
+Hi TJ,
+
+Seems I have got answers from [1], where it is agreed upon epoll() is
+the source of issue.
+
+Thanks a lot for the discussion.
+
+[1] https://lore.kernel.org/lkml/0000000000002d631f0615918f1e@google.com/
+
+Thanks
+Charan
+
+On 5/5/2024 9:50 PM, Charan Teja Kalla wrote:
+> Thanks T.J for the reply!!
 > 
-> I agree that epoll() not taking a reference on the file is at least
-> unexpected and contradicts the usual code patterns for the sake of
-> performance and that it very likely is the case that most callers of
-> f_op->poll() don't know this.
+> On 5/4/2024 4:43 AM, T.J. Mercier wrote:
+>> It looks like a similar conclusion about epoll was reached at:
+>> https://lore.kernel.org/all/a87d7ef8-2c59-4dc5-ba0a-b821d1effc72@amd.com/
+>>
+> I am unaware of this discussion. Thanks...
 > 
-> Note, I cleary wrote upthread that I'm ok to do it like you suggested
-> but raised two concerns a) there's currently only one instance of
-> prolonged @file lifetime in f_op->poll() afaict and b) that there's
-> possibly going to be some performance impact on epoll().
+>> I agree with Christian that it should not be possible for the file to
+>> be freed while inside dma_buf_poll. Aside from causing problems in
+>> dma_buf_poll, ep_item_poll itself would have issues dereferencing the
+>> freed file pointer.
+>>
+> Not sure about my understanding: ep_item_poll() always call the ->poll()
+> interface with a stable 'struct file' because of ep->mtx. This lock
+> ensures that:
+>    a) If eventpoll_release_file() get the ep->mtx first, ->poll()
+> corresponds to the epitem(target file) will never be called, because it
+> is removed from the rdlist.
 > 
-> So it's at least worth discussing what's more important because epoll()
-> is very widely used and it's not that we haven't favored performance
-> before.
+>    b) If ep_send_events() get the ep->mtx() first, ->poll() will get
+> called with a stable 'struct file', __but the refcount(->f_count) of a
+> file can be zero__. I am saying that this is stable because the 'struct
+> file' contents are still valid till we are in ->poll().
 > 
-> But you've already said that you aren't concerned with performance on
-> epoll() upthread. So afaict then there's really not a lot more to
-> discuss other than take the patch and see whether we get any complaints.
-
-Two closing thoughts:
-
-(1) I wonder if this won't cause userspace regressions for the semantics
-    of epoll because dying files are now silently ignored whereas before
-    they'd generated events.
-
-(2) The other part is that this seems to me that epoll() will now
-    temporarly pin filesystems opening up the possibility for spurious
-    EBUSY errors.
-
-    If you register a file descriptor in an epoll instance and then
-    close it and umount the filesystem but epoll managed to do an fget()
-    on that fd before that close() call then epoll will pin that
-    filesystem.
-
-    If the f_op->poll() method does something that can take a while
-    (blocks on a shared mutex of that subsystem) that umount is very
-    likely going to return EBUSY suddenly.
-
-    Afaict, before that this wouldn't have been an issue at all and is
-    likely more serious than performance.
-
-    (One option would be to only do epi_fget() for stuff like
-    dma-buf that's never unmounted. That'll cover nearly every
-    driver out there. Only "real" filesystems would have to contend with
-    @file count going to zero but honestly they also deal with dentry
-    lookup under RCU which is way more adventurous than this.)
-
-    Maybe I'm barking up the wrong tree though.
+> Can you/Christian help me with what I am missing here to say that
+> ->poll() is receiving stale 'struct file*', please?
+> 
+> And, If you are convinced with above, I think, It should have been the
+> responsibility of ->poll() implementation to have taken refcount on a
+> file that is going to be still valid even after ->poll() exits. Incase
+> of dma_buf_poll() implementation, it took the refcount on a file that is
+> not going to be valid once the dma_buf_poll() exits(because of mentioned
+> race with the freeing of the 'struct file*').
+> 
+> So, in dma_buf_poll(), Should we be using atomic_long_inc_not_zero()
+> based implementation to take the refcount on a file?
+> 
+> Thanks,
+> Charan
