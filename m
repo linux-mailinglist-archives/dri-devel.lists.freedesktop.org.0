@@ -2,61 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D742F8BD450
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 20:03:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0C48BD475
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 20:18:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB8AA10E9CD;
-	Mon,  6 May 2024 18:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9777E10E1C5;
+	Mon,  6 May 2024 18:18:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DRi9Ig3z";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="A9e2JKGM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9BC10E77F;
- Mon,  6 May 2024 18:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715018591; x=1746554591;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=WA7gpQ5/qfbvyVtG/DErm9fN33Xlo9wpJfnFBInPi3Q=;
- b=DRi9Ig3zePvKNTihfXSIuZPJ9rJJfZe0Cs3OYrMCmgzR6sB9/ULMlh5k
- VXUfjC1ADixdcHUt5ZENmMEkJ3jS2MbOqFtSQbcxFqibDc53mfKPu4hbn
- IbabAmVXYhqYlyBV2UW1Hnl+Uc75LOchhVvNPMj5QrHXPMX96fsSfSix4
- t+41lk/OJoUOxwYpjXiTuzFZ0o/tosh98G+1qI3EWAm816pwkynrIo1iD
- F8KBxuhvFCrvMRe9YDxiMZ2VijfYOzkavobW6hkZcShONhW1DKAdbLE69
- BQV435REqdavg7UQ3Htc6qRR9hpMMgRU5A+d9VG3/C0HTtYZZz4qOFEon Q==;
-X-CSE-ConnectionGUID: S5MQmKQiSl+sK024cTDDNQ==
-X-CSE-MsgGUID: 4bDlN0wPRfCsGa6nCIaW+A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="14561875"
-X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; d="scan'208";a="14561875"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2024 11:03:10 -0700
-X-CSE-ConnectionGUID: FF9EackjSrSqgWEH1CEqMQ==
-X-CSE-MsgGUID: Xxvn9M6fSfmyGc6e/ns1Qw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,259,1708416000"; d="scan'208";a="59097542"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
- jkrzyszt-mobl2.intranet) ([10.213.17.128])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2024 11:03:08 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH] Revert "drm/i915: Remove extra multi-gt pm-references"
-Date: Mon,  6 May 2024 20:02:50 +0200
-Message-ID: <20240506180253.96858-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.45.0
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E4B10E1C5
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 18:18:10 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-572adaa172cso3878626a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 May 2024 11:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1715019488; x=1715624288;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6q7UkdOxzhbeF8E3EB8/oVmwWLDDbJfhhsW1gzY2H6M=;
+ b=A9e2JKGMowulJjUt72haMaSOfQccDXauYeBrMhpKncYSeTosOnQjKySmcMeNwuVpSh
+ s0emdoqE1vUyFzM5LDBTJexdMBqp2Tq/Uo6bfcWOEQjq7GD5ozEJAaVIiPugbgH26xn1
+ qT2kKXVgToccLuVWRdLPR7/wsX2Pv6m17nTO0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715019488; x=1715624288;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6q7UkdOxzhbeF8E3EB8/oVmwWLDDbJfhhsW1gzY2H6M=;
+ b=G9cnA3rN+AcknG28wjcV5AFWBEqRoHs5/z7QT9+K7YB3hL41m3kaVt8oy0qKEdOFB3
+ 2XiwpXm9cebNWMsC5T9NBd+mZsEfCmBJUK8ymDcvfnb84gpH+nSKf7RMTme68sjp0PeA
+ aECjwa7k143Fy99yl3CPucSmTV+gnI8CD9Ek6Dc/eKbJNtVxHVJje+NWkn4s41jJk6EM
+ 6+N7ens+hQVXGDZASXjX5Ob/vE1esgGMtfhotgfUxQR8J+efLG0EpVSUDkd2jzC2LEGG
+ mrRbljwjWJF5xuxlsMbxEjPyxM2+LHnmyUUGY42fqTbYcykO4Pnwaj/ljjUd/W2a31QC
+ ILFA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEJ4y00So/6W6PsZnmgwQxbOF68j45Y4+k7VQYalqgRw4cTbM4KwWzndiIBLK6v+hbZA5HqmB/L9BuJpHMYEH+0hjExOoUwSySJbTHpDUX
+X-Gm-Message-State: AOJu0Yyc6rDIy/8G5l+jJL58fIg8MmoHZl0E7CZHFae04RMLLdtS7brZ
+ Y6TIbSqLWzhgkhKRY5WRhjXEjkh/G3WP3n0ACBiCO6wF6GS5qDvFfSW4aR/UwTeGknid4F+q6eH
+ yVNnh8A==
+X-Google-Smtp-Source: AGHT+IGdMZ/h3/d6fCOnuctNHaKMi20/UqFr1mXsYa6VoHRfQ725EIVcXUodjJLwYobJG2tq1221AQ==
+X-Received: by 2002:a05:6402:1ca4:b0:572:a6fe:f7e7 with SMTP id
+ 4fb4d7f45d1cf-5731109760bmr254517a12.20.1715019488253; 
+ Mon, 06 May 2024 11:18:08 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com.
+ [209.85.218.48]) by smtp.gmail.com with ESMTPSA id
+ u9-20020aa7d989000000b0057030326144sm5490043eds.47.2024.05.06.11.18.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 May 2024 11:18:07 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-a59ce1e8609so195298066b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 May 2024 11:18:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUqLxeBA3MpvTRoh4tQjBY1Bm1YBHYsn7JBHUkd9VErahTr9Vq9OqenD1TQzK1/dOYnaxtXxmn8+HM4nSgdp7kRG7jYB+cKpzEtGifOijW0
+X-Received: by 2002:a17:906:e49:b0:a59:91a0:df46 with SMTP id
+ a640c23a62f3a-a59e4e862d2mr29381966b.31.1715019487019; Mon, 06 May 2024
+ 11:18:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <0000000000002d631f0615918f1e@google.com>
+ <7c41cf3c-2a71-4dbb-8f34-0337890906fc@gmail.com>
+ <202405031110.6F47982593@keescook>
+ <64b51cc5-9f5b-4160-83f2-6d62175418a2@kernel.dk>
+ <202405031207.9D62DA4973@keescook>
+ <d6285f19-01aa-49c8-8fef-4b5842136215@kernel.dk>
+ <202405031237.B6B8379@keescook> <202405031325.B8979870B@keescook>
+ <20240503211109.GX2118490@ZenIV>
+ <CAHk-=wj0de-P2Q=Gz2uyrWBHagT25arLbN0Lyg=U6fT7psKnQA@mail.gmail.com>
+ <501ead34-d79f-442e-9b9a-ecd694b3015c@samba.org>
+In-Reply-To: <501ead34-d79f-442e-9b9a-ecd694b3015c@samba.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 6 May 2024 11:17:50 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whBVkwFryz5-DOAxNKYOy5RwPpQkZHQSs1Oe806Xo6yeg@mail.gmail.com>
+Message-ID: <CAHk-=whBVkwFryz5-DOAxNKYOy5RwPpQkZHQSs1Oe806Xo6yeg@mail.gmail.com>
+Subject: Re: get_file() unsafe under epoll (was Re: [syzbot] [fs?] [io-uring?]
+ general protection fault in __ep_remove)
+To: Stefan Metzmacher <metze@samba.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Kees Cook <keescook@chromium.org>, 
+ Jens Axboe <axboe@kernel.dk>, Bui Quang Minh <minhquangbui99@gmail.com>, 
+ Christian Brauner <brauner@kernel.org>, 
+ syzbot <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>, 
+ io-uring@vger.kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, Laura Abbott <laura@labbott.name>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,141 +108,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 1f33dc0c1189efb9ae19c6fc22b64dd3e26261fb.
+On Mon, 6 May 2024 at 10:46, Stefan Metzmacher <metze@samba.org> wrote:
+>
+> I think it's a very important detail that epoll does not take
+> real references. Otherwise an application level 'close()' on a socket
+> would not trigger a tcp disconnect, when an fd is still registered with
+> epoll.
 
-There was a patch supposed to fix an issue of illegal attempts to free a
-still active i915 VMA object when parking a GT believed to be idle,
-reported by CI on 2-GT Meteor Lake.  As a solution, an extra wakeref for
-a Primary GT was acquired from i915_gem_do_execbuffer() -- see commit
-f56fe3e91787 ("drm/i915: Fix a VMA UAF for multi-gt platform").
+Yes, exactly.
 
-However, that fix occurred insufficient -- the issue was still reported by
-CI.  That wakeref was released on exit from i915_gem_do_execbuffer(), then
-potentially before completion of the request and deactivation of its
-associated VMAs.  Moreover, CI reports indicated that single-GT platforms
-also suffered sporadically from the same race.
+epoll() ends up actually wanting the lifetime of the ep item be the
+lifetime of the file _descriptor_, not the lifetime of the file
+itself.
 
-Since that issue was fixed by another commit f3c71b2ded5c ("drm/i915/vma:
-Fix UAF on destroy against retire race"), the changes introduced by that
-insufficient fix were dropped as no longer useful.  However, that series
-resulted in another VMA UAF scenario now being triggered in CI.
+We approximate that - badly - with epoll not taking a reference on the
+file pointer, and then at final fput() it tears things down.
 
-<4> [260.290809] ------------[ cut here ]------------
-<4> [260.290988] list_del corruption. prev->next should be ffff888118c5d990, but was ffff888118c5a510. (prev=ffff888118c5a510)
-<4> [260.291004] WARNING: CPU: 2 PID: 1143 at lib/list_debug.c:62 __list_del_entry_valid_or_report+0xb7/0xe0
-..
-<4> [260.291055] CPU: 2 PID: 1143 Comm: kms_plane Not tainted 6.9.0-rc2-CI_DRM_14524-ga25d180c6853+ #1
-<4> [260.291058] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
-<4> [260.291060] RIP: 0010:__list_del_entry_valid_or_report+0xb7/0xe0
-...
-<4> [260.291087] Call Trace:
-<4> [260.291089]  <TASK>
-<4> [260.291124]  i915_vma_reopen+0x43/0x80 [i915]
-<4> [260.291298]  eb_lookup_vmas+0x9cb/0xcc0 [i915]
-<4> [260.291579]  i915_gem_do_execbuffer+0xc9a/0x26d0 [i915]
-<4> [260.291883]  i915_gem_execbuffer2_ioctl+0x123/0x2a0 [i915]
-...
-<4> [260.292301]  </TASK>
-...
-<4> [260.292506] ---[ end trace 0000000000000000 ]---
-<4> [260.292782] general protection fault, probably for non-canonical address 0x6b6b6b6b6b6b6ca3: 0000 [#1] PREEMPT SMP NOPTI
-<4> [260.303575] CPU: 2 PID: 1143 Comm: kms_plane Tainted: G        W          6.9.0-rc2-CI_DRM_14524-ga25d180c6853+ #1
-<4> [260.313851] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
-<4> [260.326359] RIP: 0010:eb_validate_vmas+0x114/0xd80 [i915]
-...
-<4> [260.428756] Call Trace:
-<4> [260.431192]  <TASK>
-<4> [639.283393]  i915_gem_do_execbuffer+0xd05/0x26d0 [i915]
-<4> [639.305245]  i915_gem_execbuffer2_ioctl+0x123/0x2a0 [i915]
-...
-<4> [639.411134]  </TASK>
-...
-<4> [639.449979] ---[ end trace 0000000000000000 ]---
+But that has two real issues, and one of them is that "oh, now epoll
+has file pointers that are actually dead" that caused this thread.
 
-We defer actually closing, unbinding and destroying a VMA until next idle
-point, or until the object is freed in the meantime.  By postponing the
-unbind, we allow for the VMA to be reopened by the client, avoiding the
-work required to rebind the VMA.
+The other issue is that "approximates" thing, where it means that
+duplicating the file pointer (dup*() and fork() end unix socket file
+sending etc) will not mean that the epoll ref is also out of sync with
+the lifetime of the file descriptor.
 
-Starting from commit b0647a5e79b1 ("drm/i915: Avoid live-lock with
-i915_vma_parked()"), we assume that as long as a GT is held idle, no VMA
-would be reopened while we destroy them.  That assumption is no longer
-true in multi-GT configurations, where a VMA we reopen may be handled by a
-GT different from the one that we already keep active via its engine while
-we set up an execbuf request.
+That's why I suggested that "clean up epoll references at
+file_close_fd() time instead:
 
-Restoring the extra GT0 PM wakeref removed from i915_gem_do_execbuffer()
-processing path seems to fix this issue.
+  https://lore.kernel.org/all/CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com/
 
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10608
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+because it would actually really *fix* the lifetime issue of ep items.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 42619fc05de48..090724fa766c9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -255,6 +255,7 @@ struct i915_execbuffer {
- 	struct intel_context *context; /* logical state for the request */
- 	struct i915_gem_context *gem_context; /** caller's context */
- 	intel_wakeref_t wakeref;
-+	intel_wakeref_t wakeref_gt0;
- 
- 	/** our requests to build */
- 	struct i915_request *requests[MAX_ENGINE_INSTANCE + 1];
-@@ -2685,6 +2686,7 @@ static int
- eb_select_engine(struct i915_execbuffer *eb)
- {
- 	struct intel_context *ce, *child;
-+	struct intel_gt *gt;
- 	unsigned int idx;
- 	int err;
- 
-@@ -2708,10 +2710,17 @@ eb_select_engine(struct i915_execbuffer *eb)
- 		}
- 	}
- 	eb->num_batches = ce->parallel.number_children + 1;
-+	gt = ce->engine->gt;
- 
- 	for_each_child(ce, child)
- 		intel_context_get(child);
- 	eb->wakeref = intel_gt_pm_get(ce->engine->gt);
-+	/*
-+	 * Keep GT0 active on MTL so that i915_vma_parked() doesn't
-+	 * free VMAs while execbuf ioctl is validating VMAs.
-+	 */
-+	if (gt->info.id)
-+		eb->wakeref_gt0 = intel_gt_pm_get(to_gt(gt->i915));
- 
- 	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
- 		err = intel_context_alloc_state(ce);
-@@ -2750,6 +2759,9 @@ eb_select_engine(struct i915_execbuffer *eb)
- 	return err;
- 
- err:
-+	if (gt->info.id)
-+		intel_gt_pm_put(to_gt(gt->i915), eb->wakeref_gt0);
-+
- 	intel_gt_pm_put(ce->engine->gt, eb->wakeref);
- 	for_each_child(ce, child)
- 		intel_context_put(child);
-@@ -2763,6 +2775,12 @@ eb_put_engine(struct i915_execbuffer *eb)
- 	struct intel_context *child;
- 
- 	i915_vm_put(eb->context->vm);
-+	/*
-+	 * This works in conjunction with eb_select_engine() to prevent
-+	 * i915_vma_parked() from interfering while execbuf validates vmas.
-+	 */
-+	if (eb->gt->info.id)
-+		intel_gt_pm_put(to_gt(eb->gt->i915), eb->wakeref_gt0);
- 	intel_gt_pm_put(eb->context->engine->gt, eb->wakeref);
- 	for_each_child(eb->context, child)
- 		intel_context_put(child);
--- 
-2.45.0
+In the process, it would make it possible to actually take a f_count
+reference at EPOLL_CTL_ADD time, since now the lifetime of the EP
+wouldn't be tied to the lifetime of the 'struct file *' pointer, it
+would be properly tied to the lifetime of the actual file descriptor
+that you are adding.
 
+So it would be a huge conceptual cleanup too.
+
+(Of course - at that point EPOLL_CTL_ADD still doesn't actually _need_
+a reference to the file, since the file being open in itself is
+already that reference - but the point here being that there would
+*be* a reference that the epoll code would effectively have, and you'd
+never be in the situation we were in where there would be stale "dead"
+file pointers that just haven't gone through the cleanup yet).
+
+But I'd rather not touch the epoll code more than I have to.
+
+Which is why I applied the minimal patch for just "refcount over
+vfs_poll()", and am just mentioning my suggestion in the hope that
+some eager beaver would like to see how painful it would do to make
+the bigger surgery...
+
+                   Linus
