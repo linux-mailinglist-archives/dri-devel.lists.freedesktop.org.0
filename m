@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B202A8BD2CD
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 18:29:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 435CF8BD2CE
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 18:29:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0238210F11E;
-	Mon,  6 May 2024 16:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 522D910EEDF;
+	Mon,  6 May 2024 16:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 991CA10F11E
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 16:29:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 096B010EEDF
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 16:29:37 +0000 (UTC)
 Received: from i53875b5d.versanet.de ([83.135.91.93] helo=diego.localnet)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1s41DP-0007nG-LU; Mon, 06 May 2024 18:29:23 +0200
+ id 1s41Dc-0007nh-IG; Mon, 06 May 2024 18:29:36 +0200
 From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
 To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
  Douglas Anderson <dianders@chromium.org>
@@ -24,20 +24,20 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Chris Morgan <macromorgan@hotmail.com>,
  Yuran Pereira <yuran.pereira@hotmail.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Douglas Anderson <dianders@chromium.org>, Chris Zhong <zyw@rock-chips.com>,
- Lin Huang <hl@rock-chips.com>, Brian Norris <briannorris@chromium.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Brian Norris <briannorris@chromium.org>, Chris Zhong <zyw@rock-chips.com>,
+ Nickey Yang <nickey.yang@rock-chips.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
-Subject: Re: [RFT PATCH v2 09/48] drm/panel: innolux-p079zca: Don't call
- unprepare+disable at shutdown/remove
-Date: Mon, 06 May 2024 18:29:22 +0200
-Message-ID: <39284559.10thIPus4b@diego>
-In-Reply-To: <20240503143327.RFT.v2.9.Iaddb8e0cab570e2f8066a4baf1d49239a820b799@changeid>
+Subject: Re: [RFT PATCH v2 12/48] drm/panel: kingdisplay-kd097d04: Stop
+ tracking prepared/enabled
+Date: Mon, 06 May 2024 18:29:35 +0200
+Message-ID: <3909960.LM0AJKV5NW@diego>
+In-Reply-To: <20240503143327.RFT.v2.12.I711d07c4f4738df199697fd534c452cdfa46a21f@changeid>
 References: <20240503213441.177109-1-dianders@chromium.org>
- <20240503143327.RFT.v2.9.Iaddb8e0cab570e2f8066a4baf1d49239a820b799@changeid>
+ <20240503143327.RFT.v2.12.I711d07c4f4738df199697fd534c452cdfa46a21f@changeid>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -56,30 +56,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 3. Mai 2024, 23:32:50 CEST schrieb Douglas Anderson:
-> It's the responsibility of a correctly written DRM modeset driver to
-> call drm_atomic_helper_shutdown() at shutdown time and that should be
-> disabling / unpreparing the panel if needed. Panel drivers shouldn't
-> be calling these functions themselves.
+Am Freitag, 3. Mai 2024, 23:32:53 CEST schrieb Douglas Anderson:
+> As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+> prepared/enabled in drm_panel"), we want to remove needless code from
+> panel drivers that was storing and double-checking the
+> prepared/enabled state. Even if someone was relying on the
+> double-check before, that double-check is now in the core and not
+> needed in individual drivers.
 >=20
-> A recent effort was made to fix as many DRM modeset drivers as
-> possible [1] [2] [3] and most drivers are fixed now.
->=20
-> A grep through mainline for compatible strings used by this driver
-> indicates that it is used by Rockchip boards. The Rockchip driver
-> appears to be correctly calling drm_atomic_helper_shutdown() so we can
-> remove the calls.
->=20
-> [1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.o=
-rg
-> [2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.o=
-rg
-> [3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.=
-org
->=20
-> Cc: Chris Zhong <zyw@rock-chips.com>
-> Cc: Lin Huang <hl@rock-chips.com>
 > Cc: Brian Norris <briannorris@chromium.org>
+> Cc: Chris Zhong <zyw@rock-chips.com>
+> Cc: Nickey Yang <nickey.yang@rock-chips.com>
 > Cc: "Heiko St=FCbner" <heiko@sntech.de>
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
