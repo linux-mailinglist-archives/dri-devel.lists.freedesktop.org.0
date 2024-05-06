@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40838BCF09
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3683B8BCF0A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:35:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C61310F035;
-	Mon,  6 May 2024 13:35:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00EF910E4D7;
+	Mon,  6 May 2024 13:35:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GVbJ0rfY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kD47ngL8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A25E010F035
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:35:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C39610E4D7
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:35:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9975F612AF;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 77586612B3;
+ Mon,  6 May 2024 13:35:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7DC2C116B1;
  Mon,  6 May 2024 13:35:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7B95C3277B;
- Mon,  6 May 2024 13:35:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715002508;
- bh=2gxAViJr9NJSI0wyF8/7Q/WmZNqJmwnGrC0yrjFayzk=;
+ s=k20201202; t=1715002513;
+ bh=pK9ICrlhU4yI7C8UmfAMhDpOxq05RC8K7IM/L/yquWw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=GVbJ0rfY3xs6Ux0UxSoIfjcF29PmoHxtN3SrZJzOiF4gjY6sEQ5ignodSdmCheGi1
- CXDdWHGpV7NtdHJeEuDVvMHAFb8xiVlY30Y7lruDFe37+n9bE4e+JYRLJ9xz88nIsR
- DfumMVuId5PtRdGCcKxv+PGuiZ5jtcqEPjiVb+GeyoIDjefa43RHYbpMHWOHi8kb6s
- jDu75XS7G6pLuFk+SwyxyqJCxneAM/tiialtVN+aX1fFhLp6Wm4qL+A33iJjFMeyGA
- VH685LOmQKsjuF3229lcd00iPmIurLhYWyMnC54vhk5wlRCgM8SXUijj5zb1BXX7sg
- 5DE/nd2ifTc/Q==
+ b=kD47ngL8uom7ANO5DcjrAAVmsG/a74GHNet69KvrccOpmOl+iw4znkaN5ZTvBBOtn
+ KEH5rlnCJbms83AhqwyyASbLLAekbP61TQQsLpg/hpD69G2D/8T7Q3/yZCZcFl2u4p
+ 37nfSL+WDB9rMSWujjU2hcXW+NTJg6iCGrCfJgpD9IhRCwOGBs3scufG5lSUnzc0d7
+ UHyOzgfIBNcGd9vWR4YkB9oygn2/2iHBfxxD8jxluCoVhezMvA40NmN2UXBv2AHJy+
+ ZcrDgHDdbvzWruLtC2LRRrq3NZv/Alc3WV4Ypbjt2ACSPWr1CdSKLaBNlnLqi1F0Ke
+ eEKv2/eLNYJZA==
 From: Michael Walle <mwalle@kernel.org>
-Date: Mon, 06 May 2024 15:34:30 +0200
-Subject: [PATCH 01/20] drm/bridge: add dsi_lp11_notify mechanism
+Date: Mon, 06 May 2024 15:34:31 +0200
+Subject: [PATCH 02/20] drm/mediatek: dsi: provide LP-11 mode during .pre_enable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240506-tc358775-fix-powerup-v1-1-545dcf00b8dd@kernel.org>
+Message-Id: <20240506-tc358775-fix-powerup-v1-2-545dcf00b8dd@kernel.org>
 References: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 In-Reply-To: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -71,89 +71,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some bridges have very strict power-up reqirements. In this case, the
-Toshiba TC358775. The reset has to be deasserted while *both* the DSI
-clock and DSI data lanes are in LP-11 mode. After the reset is relased,
-the bridge needs the DSI clock to actually be able to process I2C
-access. This access will configure the DSI side of the bridge during
-which the DSI data lanes have to be in LP-11 mode. After everything is
-configured the video stream can finally be enabled.
-
-This means:
- (1) The bridge has to be configured completely in .pre_enable() op
-     (with the clock turned on and data lanes in LP-11 mode, thus
-     .pre_enable_prev_first has to be set).
- (2) The bridge will enable its output in the .enable() op
- (3) There must be some mechanism before (1) where the bridge can
-     release its reset while the clock lane is still in LP-11 mode.
-
-Unfortunately, (3) is crucial for a correct operation of the bridge.
-To satisfy this requriment, introduce a new callback .dsi_lp11_notify()
-which will be called by the DSI host driver.
+As per specification in drivers/gpu/drm/drm_bridge.c the data lanes
+should be in LP-11 mode after .pre_enable() has been run. HS mode of the
+data lanes are enabled with mtk_dsi_start(). Therefore, move that call
+to the .enable() callback.
 
 Signed-off-by: Michael Walle <mwalle@kernel.org>
 ---
- drivers/gpu/drm/drm_bridge.c | 16 ++++++++++++++++
- include/drm/drm_bridge.h     | 12 ++++++++++++
- 2 files changed, 28 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 28abe9aa99ca..98cd6558aecb 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1339,6 +1339,22 @@ void drm_bridge_hpd_notify(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index c255559cc56e..ed45c9cc3137 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -711,8 +711,6 @@ static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+ 	mtk_dsi_set_mode(dsi);
+ 	mtk_dsi_clk_hs_mode(dsi, 1);
+ 
+-	mtk_dsi_start(dsi);
+-
+ 	dsi->enabled = true;
  }
- EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
  
-+/**
-+ * drm_bridge_dsi_lp11_notify - notify clock/data lanes LP-11 mode
-+ * @bridge: bridge control structure
-+ *
-+ * DSI host drivers shall call this function while the clock and data lanes
-+ * are still in LP-11 mode.
-+ *
-+ * This function shall be called in a context that can sleep.
-+ */
-+void drm_bridge_dsi_lp11_notify(struct drm_bridge *bridge)
-+{
-+	if (bridge->funcs->dsi_lp11_notify)
-+		bridge->funcs->dsi_lp11_notify(bridge);
-+}
-+EXPORT_SYMBOL_GPL(drm_bridge_dsi_lp11_notify);
+@@ -759,7 +757,7 @@ static void mtk_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	if (dsi->refcount == 0)
+ 		return;
+ 
+-	mtk_output_dsi_enable(dsi);
++	mtk_dsi_start(dsi);
+ }
+ 
+ static void mtk_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+@@ -771,6 +769,9 @@ static void mtk_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+ 	ret = mtk_dsi_poweron(dsi);
+ 	if (ret < 0)
+ 		DRM_ERROR("failed to power on dsi\n");
 +
- #ifdef CONFIG_OF
- /**
-  * of_drm_find_bridge - find the bridge corresponding to the device node in
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 4baca0d9107b..4ef61274e0a8 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -630,6 +630,17 @@ struct drm_bridge_funcs {
- 	 */
- 	void (*hpd_disable)(struct drm_bridge *bridge);
++	/* Enter LP-11 state */
++	mtk_output_dsi_enable(dsi);
+ }
  
-+	/**
-+	 * dsi_lp11_notify:
-+	 *
-+	 * Will be called by the DSI host driver while both the DSI clock
-+	 * lane as well as the DSI data lanes are in LP-11 mode. Some bridges
-+	 * need this state while releasing the reset, for example.
-+	 * Not all DSI host drivers will support this. Therefore, the DSI
-+	 * bridge driver must not rely on this op to be called.
-+	 */
-+	void (*dsi_lp11_notify)(struct drm_bridge *bridge);
-+
- 	/**
- 	 * @debugfs_init:
- 	 *
-@@ -898,6 +909,7 @@ void drm_bridge_hpd_enable(struct drm_bridge *bridge,
- void drm_bridge_hpd_disable(struct drm_bridge *bridge);
- void drm_bridge_hpd_notify(struct drm_bridge *bridge,
- 			   enum drm_connector_status status);
-+void drm_bridge_dsi_lp11_notify(struct drm_bridge *bridge);
- 
- #ifdef CONFIG_DRM_PANEL_BRIDGE
- bool drm_bridge_is_panel(const struct drm_bridge *bridge);
+ static void mtk_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
 
 -- 
 2.39.2
