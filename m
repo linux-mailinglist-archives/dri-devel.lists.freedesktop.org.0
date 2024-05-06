@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49F78BC97E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 10:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4463C8BC9D7
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 10:45:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51ECB10E04D;
-	Mon,  6 May 2024 08:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CDBB11224D;
+	Mon,  6 May 2024 08:45:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="ZrKQo4LL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WiQEaAXK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49203.qiye.163.com (mail-m49203.qiye.163.com
- [45.254.49.203])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E98310E04D
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 08:23:22 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=ZrKQo4LLpXHMy8d4LXYD5iTRkQxizuI2VtgsgE+tJYIizoDN242zSfeuyZB6BxBPQMhQ7sm0BOLRbctDuuDGN2P8iej4bSnj/drKmF3/FNT3RqhqTyIlvpEtD8A/Fe6P9zFf5Mb0Hkg6Vj8aO4luGZv0MwCJTidSzkGU/cgb2Ro=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
- bh=GJuF3hTrQtUJMZ2uZFlEfERKTqM4rnSOLJVMQPzCloc=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTPA id 739F18404C4;
- Mon,  6 May 2024 16:23:00 +0800 (CST)
-Message-ID: <ed035e25-dd9e-4041-b413-7511544d0aba@rock-chips.com>
-Date: Mon, 6 May 2024 16:22:46 +0800
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C370711224E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 08:45:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id DD7CDCE0B93;
+ Mon,  6 May 2024 08:45:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E24BC116B1;
+ Mon,  6 May 2024 08:45:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1714985135;
+ bh=dJ9zuyrdQMElrOzde31P4H08+N2W3DV9j7dWCbVqR4k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WiQEaAXK+d3VZO4xZnfaaIE7Sfh/pbjnMpO2gmWdDzHwWYp4rCrmzMwXPbAuSq2D8
+ fH+uA4HbPL5yqyI2GI4Xc1nJoimiQWf+O2OZbhl4eYWFSaH6g9e91opm+dSgDUUjAo
+ cG3n3hq8hLlCm6ZsuoLuvkOvcM+NPydIKO2b4EhgiC3t07V0qaT/mPyvfrKo2du0XH
+ JKiCZbDEcy7JnFsbVJDyor6eEcRM3VC21/p2XQujBcHzxcTTufWj4iOIv1ZXu3TpfD
+ Gedh6JD88bRDWqWtwfa4IVCiDN3PyGp/pVOTPWZ2724+lohSOjT706b6NsDbMz5iyb
+ wPCurUHMEdlsw==
+Date: Mon, 6 May 2024 10:45:27 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, 
+ axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+ io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name,
+ linaro-mm-sig@lists.linaro.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, 
+ minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
+ syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
+ syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
+Message-ID: <20240506-injizieren-administration-f5900157566a@brauner>
+References: <202405031110.6F47982593@keescook>
+ <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV>
+ <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
+ <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+ <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
+ <20240505-gelehnt-anfahren-8250b487da2c@brauner>
+ <CAHk-=wgMzzfPwKc=8yBdXwSkxoZMZroTCiLZTYESYD3BC_7rhQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
- connector
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
- <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
- <68eba0ec-bf9c-4d76-a362-5304a4cb61d5@rock-chips.com>
- <20240506-eccentric-wren-of-peace-819aad@houat>
-Content-Language: en-US
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20240506-eccentric-wren-of-peace-819aad@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhlNTFZOGhpJGk5ITU1IGUlVEwETFh
- oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5IVUpLS1VKQk
- tLWQY+
-X-HM-Tid: 0a8f4cffc4c703a4kunm739f18404c4
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PEk6STo6DDMDFBdDQhojTDg#
- DkgaCQNVSlVKTEpPQkNITENJS09JVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBTU1JSzcG
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgMzzfPwKc=8yBdXwSkxoZMZroTCiLZTYESYD3BC_7rhQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,65 +72,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+> The fact is, it's not dma-buf that is violating any rules. It's epoll.
 
-On 5/6/24 15:59, Maxime Ripard wrote:
-> Hi Andy,
-> 
-> Thanks a lot for giving it a try
-> 
-> All the issues you raised in your review are fixed.
-> 
-> On Sat, Apr 27, 2024 at 06:44:54PM GMT, Andy Yan wrote:
->> And after this whole series applied on linux 6.9-rc4, the display on rk3036 kylin is lost, I get
->> the following error:
->> [  178.999421] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] checking 87b7fbde
->> [  178.999471] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] mode changed
->> [  178.999498] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] enable changed
->> [  178.999521] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] active changed
->> [  178.999547] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:37:HDMI-A-1]
->> [  178.999575] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] using [ENCODER:36:TMDS-36] on [CRTC:35:crtc-0]
->> [  178.999604] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying with a 8 bpc output
->> [  178.999636] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying RGB output format
->> [  178.999730] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB Format, checking the constraints.
->> [  178.999757] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB output format not supported with 8 bpc
->> [  178.999783] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Failed. No Format Supported for that bpc count.
->> [  178.999810] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] driver check failed
->> [  178.999836] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] atomic driver check for 87b7fbde failed: -22
->> [  178.999868] rockchip-drm display-subsystem: [drm:drm_atomic_state_default_clear] Clearing atomic state 87b7fbde
->> [  178.999898] [drm:drm_mode_object_put] OBJ ID: 37 (4)
->> [  178.999922] [drm:drm_mode_object_put] OBJ ID: 37 (3)
->> [  178.999944] [drm:drm_mode_object_put] OBJ ID: 40 (1)
->> [  178.999971] [drm:drm_mode_object_put] OBJ ID: 39 (2)
-> 
-> Which kind of display are you testing with? The only reason it could do
-> so is if the display claim it doesn't support RGB in its EDID which is
-> contradicting the HDMI spec. Are you using an Analog display by any
-> chance? or the built-in EDIDs through the drm.edid_firmware mechanism?
+I agree that epoll() not taking a reference on the file is at least
+unexpected and contradicts the usual code patterns for the sake of
+performance and that it very likely is the case that most callers of
+f_op->poll() don't know this.
 
-It is because there is something wrong(I still don't know why) with the DDC on my board.
-It always failed to read edid when it first bootup, that means inno_hdmi_connector_get_modes
-will return 0.
+Note, I cleary wrote upthread that I'm ok to do it like you suggested
+but raised two concerns a) there's currently only one instance of
+prolonged @file lifetime in f_op->poll() afaict and b) that there's
+possibly going to be some performance impact on epoll().
 
-and in function
+So it's at least worth discussing what's more important because epoll()
+is very widely used and it's not that we haven't favored performance
+before.
 
-drm_helper_probe_single_connector_modes:
-
-         count = drm_helper_probe_get_modes(connector);
-
-         if (count == 0 && (connector->status == connector_status_connected ||
-                            connector->status == connector_status_unknown)) {
-                 count = drm_add_modes_noedid(connector, 1024, 768);
-
-                 /*
-                  * Section 4.2.2.6 (EDID Corruption Detection) of the DP 1.4a
-                  * Link CTS specifies that 640x480 (the official "failsafe"
-                  * mode) needs to be the default if there's no EDID.
-                  */
-                 if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
-                         drm_set_preferred_mode(connector, 640, 480);
-         }
-drm_add_modes_noedid will not initialize display_info.
-
-> 
-> Maxime
+But you've already said that you aren't concerned with performance on
+epoll() upthread. So afaict then there's really not a lot more to
+discuss other than take the patch and see whether we get any complaints.
