@@ -2,43 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B948BD2DE
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 18:31:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85548BD327
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 18:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1E611229F;
-	Mon,  6 May 2024 16:31:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCB5E10F155;
+	Mon,  6 May 2024 16:51:07 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NlR0WF+d";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABC9F11229F
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 16:31:17 +0000 (UTC)
-Received: from i53875b5d.versanet.de ([83.135.91.93] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1s41FD-0007qV-Kd; Mon, 06 May 2024 18:31:15 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Douglas Anderson <dianders@chromium.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Chris Morgan <macromorgan@hotmail.com>,
- Yuran Pereira <yuran.pereira@hotmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0989210F155
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 16:51:06 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9596E908;
+ Mon,  6 May 2024 18:51:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1715014263;
+ bh=8+i50YterCbwSCR8dhufT5e0/xJ1TjQeaFJDpeKsoMQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NlR0WF+dBNw/IcKF1IrTZLvIQyl/DjBfUtWWr+XCb3BcSrrOHid5t6h28Y8j8jpIR
+ 2EGaeJKVMM1b4qBJ3+v99XTjbBDCqzoeAgYE8gk3J62FreHQzTyO9WSWuNQ/s0LyLG
+ 72GoE96KsoL+ueCItx8AUaKTFavKV6c8WOnc+NYw=
+Date: Mon, 6 May 2024 19:50:57 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-Subject: Re: [RFT PATCH v2 31/48] drm/panel: xinpeng-xpp055c272: Don't call
- unprepare+disable at shutdown/remove
-Date: Mon, 06 May 2024 18:31:14 +0200
-Message-ID: <2236140.6tgchFWduM@diego>
-In-Reply-To: <20240503143327.RFT.v2.31.Ib97e67a9877070698afbec4f8ede091b2bf89a1f@changeid>
-References: <20240503213441.177109-1-dianders@chromium.org>
- <20240503143327.RFT.v2.31.Ib97e67a9877070698afbec4f8ede091b2bf89a1f@changeid>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] drm: zynqmp_dp: Lockup in zynqmp_dp_bridge_detect when
+ device is unbound
+Message-ID: <20240506165057.GD29108@pendragon.ideasonboard.com>
+References: <4d8f4c9b-2efb-4774-9a37-2f257f79b2c9@linux.dev>
+ <20240504122118.GB24548@pendragon.ideasonboard.com>
+ <20240506-charcoal-griffin-of-tact-174dde@houat>
+ <20240506073531.GA10260@pendragon.ideasonboard.com>
+ <97811bfe-a1fb-419c-a148-74e3d84aa0e2@linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <97811bfe-a1fb-419c-a148-74e3d84aa0e2@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,34 +64,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 3. Mai 2024, 23:33:12 CEST schrieb Douglas Anderson:
-> It's the responsibility of a correctly written DRM modeset driver to
-> call drm_atomic_helper_shutdown() at shutdown time and that should be
-> disabling / unpreparing the panel if needed. Panel drivers shouldn't
-> be calling these functions themselves.
->=20
-> A recent effort was made to fix as many DRM modeset drivers as
-> possible [1] [2] [3] and most drivers are fixed now.
->=20
-> A grep through mainline for compatible strings used by this driver
-> indicates that it is used by Rockchip boards. The Rockchip driver
-> appears to be correctly calling drm_atomic_helper_shutdown() so we can
-> remove the calls.
->=20
-> [1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.o=
-rg
-> [2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.o=
-rg
-> [3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.=
-org
->=20
-> Cc: "Heiko St=FCbner" <heiko@sntech.de>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+On Mon, May 06, 2024 at 10:57:17AM -0400, Sean Anderson wrote:
+> On 5/6/24 03:35, Laurent Pinchart wrote:
+> > On Mon, May 06, 2024 at 09:29:36AM +0200, Maxime Ripard wrote:
+> >> Hi Laurent, Sean,
+> >> 
+> >> On Sat, May 04, 2024 at 03:21:18PM GMT, Laurent Pinchart wrote:
+> >> > On Fri, May 03, 2024 at 05:54:32PM -0400, Sean Anderson wrote:
+> >> > > I have discovered a bug in the displayport driver on drm-misc-next. To
+> >> > > trigger it, run
+> >> > > 
+> >> > > echo fd4a0000.display > /sys/bus/platform/drivers/zynqmp-dpsub/unbind
+> >> > > 
+> >> > > The system will become unresponsive and (after a bit) splat with a hard
+> >> > > LOCKUP. One core will be unresponsive at the first zynqmp_dp_read in
+> >> > > zynqmp_dp_bridge_detect.
+> >> > > 
+> >> > > I believe the issue is due the registers being unmapped and the block
+> >> > > put into reset in zynqmp_dp_remove instead of zynqmp_dpsub_release.
+> >> > 
+> >> > That is on purpose. Drivers are not allowed to access the device at all
+> >> > after .remove() returns.
+> >> 
+> >> It's not "on purpose" no. Drivers indeed are not allowed to access the
+> >> device after remove, but the kernel shouldn't crash. This is exactly
+> >> why we have drm_dev_enter / drm_dev_exit.
+> > 
+> > I didn't mean the crash was on purpose :-) It's the registers being
+> > unmapped that is, as nothing should touch those registers after
+> > .remove() returns.
+> 
+> OK, so then we need to have some kind of flag in the driver or in the drm
+> subsystem so we know not to access those registers.
 
-the underlying setup (rockchip-drm with dw-dsi) as well as the
-change itself is similar to the ltk050h3146w variant, so I don't
-see how this should behave differently ;-)
+To avoid race conditions, the .remove() function should mark the device
+as removed, wait for all ongoing access from userspace to be complete,
+and then proceed to unmapping registers and doing other cleanups.
+Userspace may still have open file descriptors to the device at that
+point. Any new userspace access should be disallowed (by checking the
+removed flag), with the only userspace-initiated operations that still
+need to run being the release-related operations (unmapping memory,
+closing file descriptors, ...).
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+-- 
+Regards,
 
-
+Laurent Pinchart
