@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85C98BC7CF
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 08:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD158BC7D2
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 08:50:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00735112159;
-	Mon,  6 May 2024 06:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC9301121A7;
+	Mon,  6 May 2024 06:50:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WwBx6Xu1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A4sbQh2o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70FB510FF3B
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 06:49:37 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-61bee45d035so17075477b3.1
- for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 23:49:37 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 535121121A7
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 06:50:02 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-deb654482bcso1363305276.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 23:50:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714978176; x=1715582976; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1714978201; x=1715583001; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mnMA7ErfNqKPuWteFTyprk6+lWU7AKOkz4CgphnWuMk=;
- b=WwBx6Xu1MhkeuJDDLnbfQH2UB1NqWEZFqOqX5zoduwGZJzpI+nEZ2Zfm68Ppqy2Rkf
- pHTvtYoqA1TrarC6K8vpp0qO3l5w/ZBiLavZMRqx/eVmY+tbmHvIWcG5FBQdd1JfmFre
- L8uKEiBvgiG7AyQHvwdLRoFGtFW7/qLegJRYRtVIYnX5Oz9l4Og7gtYWR6oz9evKP0Kb
- 4TH6dXfiAJJNsdkjekINH0VlH2e/E2GlvjKI0ejJKzDOOVcmlpG3Ro5hw/Pgqn9vGzA7
- nerpejWSghhnnToZWqyhLb3+9FJjxkf2Yo37JUKEmJDRrWps1MK02njKjZl2dd/qioKx
- eZ9g==
+ bh=bD8zr9K3TvpMI07CepCgahiM+TM9JI1lwjNTMLU3tPI=;
+ b=A4sbQh2oddRmkt5nrgKATdq/lCTeILVQH2Fpta+j6g06wAeT/Tl3hxm+68MAtFJD9A
+ YNjV6DaCie+E4d2txQDbxBTkNysm5phnSSRE77cHRw/Da0fInao7SbOEE0rLp66nWmZQ
+ fcLYUQX6l622QIdY7MfJr+sFKnS2PqFfulzyOZOrlBLHfSHqiDdPW3bKOdrWOAzuDdcu
+ KwPrJR7EH3KNOOf+9afxC22G8AtrS+C2YdIbKw6FVhE4JqTbOR5BsAdD/RqOfSeyBu37
+ f56bqLhoJyU1Jk5j6barSeOj9+X03rnNCjdCm/hVii2uAnCLXLEgMT5Pki2Sm0RbfiSj
+ vZig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714978176; x=1715582976;
+ d=1e100.net; s=20230601; t=1714978201; x=1715583001;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mnMA7ErfNqKPuWteFTyprk6+lWU7AKOkz4CgphnWuMk=;
- b=qt/lf3RRopu5td79wI0suhIwWewwlyoeU1rNiVtjSEq4ONgF+KziXXsJe+MV7Uw1Xr
- Uma4e37QV1kMzTdPn11rqVvP9c5/bAho2Tl84xLWm7Ccik4WEFobPFYpJpzSPz+j9XIa
- 8G6HltLmpbvv5liVQ4Wf627VJXRm6rozcw7us7Iy4GSdsM9SQlaybiUsoQXBwAAvL6op
- lFOk/3FEiSydFlj6WvCJgllV68TC1wFlvxQPHs9c0SNi8GB5JNZ7GxSYkZlivwEdTPmJ
- NeivUgpxGet/EymMHuiaeDYl9E60RcmkKAJs0pecny2L4E3hnrnJ0KPt9IdB5IlYunDU
- rQUw==
-X-Gm-Message-State: AOJu0YzdnFW3ilx3cxB3ECkGTu4nqWiA4jSu/EA0+ynjGqxxCQQt8vyl
- nmcjSpc6mURmptvJf1Vb/lDyLvVR2PR7LVriCLofXUB7fw/93E6RDUzBV0QG5EOeuwrPPLTsC19
- B/THnX3lzDl0gg6gEclA9JOGTJG+moks9J/9ehUR2Q5RZ9g/p
-X-Google-Smtp-Source: AGHT+IH0hH3+COymJPJl26UVpAMkDQL0eTyMe4aTaoCJoKbhPlu+pDGsv3OMsBrEFsgQa8L3URT8RtIK4gzEII6Co0U=
-X-Received: by 2002:a81:8443:0:b0:615:1e68:9080 with SMTP id
- u64-20020a818443000000b006151e689080mr8502525ywf.26.1714978176344; Sun, 05
- May 2024 23:49:36 -0700 (PDT)
+ bh=bD8zr9K3TvpMI07CepCgahiM+TM9JI1lwjNTMLU3tPI=;
+ b=VdxVDVZaRg2Hgnzqu+K6kAlWfULh9dlREUSH/3xsL/Gp9L3NSdpxjqNZ6Yjazly9Wx
+ T06FVpRj5W9DUUFxKRHyKbqYs+lPCHOItJjeSARYMgSGJ1Neu6pAVkGRXm9paGrW6z7p
+ 3axrx0lZBDpE1GwnXhmfGTDkc0ifitHgGVLAMnKd6R580b43HE+1aob7f3AFNp73aLBo
+ aU0pi5DSBDwuXbVwpUOJDL3faqzAan4VFOZvOvQLXoAnv8KXoCUuX/eYX4adfnCRMAGC
+ mbfmvgL5zmMW9fO7Byy7UuBVpVCri06zr8GiWlWEZcb+BuFNa+7nKlaOybVdftNY62Wg
+ qCSQ==
+X-Gm-Message-State: AOJu0Yy2cECFmzTuOrJKYTjMO9n3NLP1pL0iauzANgKqB5M6/zbL8zr8
+ zHua/zAoqn7OOkUSvEc/4yMkSKolbxxaqUL73WaeG4bmYVMbykBTKcJzltbVysfCUUDkbanlHB5
+ Tl2uXS82/js3bhnl6edyLcetJAQO6yFB/Db9aoQ==
+X-Google-Smtp-Source: AGHT+IHaOyjFlq8XYx41Cxil96IUw2lta8RtC1Merd60dXgYHJ/wvReVZXQGPD4L8MA4Mt3mUEcy6sSY/kYNmU9PLRc=
+X-Received: by 2002:a25:804b:0:b0:de4:64eb:8607 with SMTP id
+ a11-20020a25804b000000b00de464eb8607mr9454277ybn.32.1714978201293; Sun, 05
+ May 2024 23:50:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240503213441.177109-1-dianders@chromium.org>
  <20240503143327.RFT.v2.47.I2513fd6824929a17c1ccd18a797b98a1a1063559@changeid>
 In-Reply-To: <20240503143327.RFT.v2.47.I2513fd6824929a17c1ccd18a797b98a1a1063559@changeid>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 6 May 2024 08:49:25 +0200
-Message-ID: <CACRpkdZgvHRb=KGUskiu5+=R=05yMQ_gqZ+ScP2oLpf6DibSfA@mail.gmail.com>
+Date: Mon, 6 May 2024 08:49:50 +0200
+Message-ID: <CACRpkdajJ0dkSm7uE=YN5B90tdE_GzczMRxO7eaNWuZLVzP_eg@mail.gmail.com>
 Subject: Re: [RFT PATCH v2 47/48] drm/panel: sony-acx565akm: Don't call
  disable at remove
 To: Douglas Anderson <dianders@chromium.org>
@@ -114,3 +114,8 @@ org
 > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
