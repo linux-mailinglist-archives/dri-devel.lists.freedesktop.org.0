@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4062F8BCF1A
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1D48BCF1B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:36:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A70010FBBE;
-	Mon,  6 May 2024 13:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 099C010FBC6;
+	Mon,  6 May 2024 13:36:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bVFhg8v8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fKoAURvJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E167E10FBBE
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:36:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E6DA10FBC6
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:36:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CEC08CE0E7D;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 48A8561180;
+ Mon,  6 May 2024 13:36:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85C6DC4AF63;
  Mon,  6 May 2024 13:36:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6785C4AF66;
- Mon,  6 May 2024 13:36:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715002567;
- bh=U++vjZErufFCzBdu3b4IcIRynyBzsebPGzPRgF2N9j8=;
+ s=k20201202; t=1715002572;
+ bh=2qrwEGgpJfR6a/ANS2qyau3152FW/n1Efs/NSwqyfq0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=bVFhg8v8Sjt3je+jx9V+ucQn1tO2VT3Sn8/8uR0jztaop6jADw4URV/VItTkMWpVv
- yXLl84B1pUIEw50a6eOsJLAgZIvDrPe9QHRXHvVHEXlIYv+pm+2BYfZ7iI6fYt7sbO
- iWC/zqCo5fkt/DuKjbYsoSIpvrB2sHw+xjajZmc/ftQFCt5g9kFzE9uAsuylRWYJtI
- P6tZVOhXy8UyTvfOW5HWv9N/t7uM+E2la+YsJqxmef5jbn11skzxpN6rkHFkYs6Wq3
- /f5RRbBPljplEG39SKnz0EOWndsiaXNwokcouyhZrSFxLQDY6aHUj8dSPsv56DxrU7
- Dne4rwX77cUjQ==
+ b=fKoAURvJwU7PQ7A60+LC3D9rbSoxh2IprTicgx6iHdgw3xbzOSx2GCVLTVCbZ8djJ
+ H9QxnH6/50KnMgSdXODGrFTgXNaVh9GCX11xdLqtPLL0iGtFXOL3dSlsLoulF5vDF3
+ ZEmnFSoveKIZMx4szbIqoGWCBIDh9KHXRTpqaisLILlO3XoCb7AEfM/nw7QQlD8Uhe
+ ZWqLFtr4EhSi+HBShK4RKdoEAeZNdCSECkUVRdry/lyn7nV0AlWtNJT0sxJ98/W8dc
+ 4BbBk9pO1I5pGtzn3vjfJ4DYAAjyDVGkAhO5dZCJ2xPkjdUB3dniX81Xw5BffzQXjX
+ n7Yyvgt4OaJPw==
 From: Michael Walle <mwalle@kernel.org>
-Date: Mon, 06 May 2024 15:34:42 +0200
-Subject: [PATCH 13/20] drm/bridge: tc358775: split the init code
+Date: Mon, 06 May 2024 15:34:43 +0200
+Subject: [PATCH 14/20] drm/bridge: tc358775: configure PLL depending on the
+ LVDS clock
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240506-tc358775-fix-powerup-v1-13-545dcf00b8dd@kernel.org>
+Message-Id: <20240506-tc358775-fix-powerup-v1-14-545dcf00b8dd@kernel.org>
 References: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 In-Reply-To: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -71,178 +72,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split the initialization code in tc_bridge_enable() into specific
-functions. This is a preparation for further code cleanup and fixes.
-
-No functional change.
-
-While at it, rename tc_bridge_enable() to the more specific
-tc358775_bridge_enable().
+The PLL setting was hardcoded to a LVDS clock between 60MHz and 135MHz.
+This adds support for slower frequencies. Also, rework the reset
+sequence to match the initialization sequence provided by the vendor.
 
 Signed-off-by: Michael Walle <mwalle@kernel.org>
 ---
- drivers/gpu/drm/bridge/tc358775.c | 106 ++++++++++++++++++++++++--------------
- 1 file changed, 66 insertions(+), 40 deletions(-)
+ drivers/gpu/drm/bridge/tc358775.c | 50 ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 42 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-index eea41054c6fa..4ec059531c5f 100644
+index 4ec059531c5f..e3fba7ac71ec 100644
 --- a/drivers/gpu/drm/bridge/tc358775.c
 +++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -308,18 +308,30 @@ static const struct reg_sequence tc_lvmux_jeida18_24[] = {
- 	{ LV_MX2427, LV_MX(LVI_HS, LVI_VS, LVI_DE, LVI_R0) },
+@@ -30,8 +30,6 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_probe_helper.h>
+ 
+-#define FLD_VAL(val, start, end) FIELD_PREP(GENMASK(start, end), val)
+-
+ /* Registers */
+ 
+ /* DSI D-PHY Layer Registers */
+@@ -146,10 +144,10 @@ enum {
+ #define PCLKSEL_HSRCK	0	/* DSI clock */
+ 
+ #define LVPHY0          0x04A0  /* LVDS PHY 0 */
+-#define LV_PHY0_RST(v)          FLD_VAL(v, 22, 22) /* PHY reset */
+-#define LV_PHY0_IS(v)           FLD_VAL(v, 15, 14)
+-#define LV_PHY0_ND(v)           FLD_VAL(v, 4, 0) /* Frequency range select */
+-#define LV_PHY0_PRBS_ON(v)      FLD_VAL(v, 20, 16) /* Clock/Data Flag pins */
++#define LVPHY0_LV_ND	GENMASK(4, 0)
++#define LVPHY0_LV_FS	GENMASK(6, 5)
++#define LVPHY0_LV_IS	GENMASK(15, 14) /* charge pump current */
++#define LVPHY0_LV_RST	BIT(22)
+ 
+ #define LVPHY1          0x04A4  /* LVDS PHY 1 */
+ #define SYSSTAT         0x0500  /* System Status  */
+@@ -223,6 +221,14 @@ struct tc_data {
+ 	enum tc3587x5_type	type;
  };
  
--static void tc_bridge_enable(struct drm_bridge *bridge)
-+static void tc358775_configure_dsi(struct tc_data *tc)
-+{
-+	unsigned int val;
++struct tc358775_pll_settings {
++	unsigned int min_khz;
++	unsigned int max_khz;
++	u8 fs;
++	u8 nd;
++	u8 is;
++};
 +
-+	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
-+	regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
-+	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 3);
-+	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 3);
-+
-+	val = ((L0EN << tc->num_dsi_lanes) - L0EN) | DSI_CLEN_BIT;
-+	regmap_write(tc->regmap, PPI_LANEENABLE, val);
-+	regmap_write(tc->regmap, DSI_LANEENABLE, val);
-+
-+	regmap_write(tc->regmap, PPI_STARTPPI, PPI_START_FUNCTION);
-+	regmap_write(tc->regmap, DSI_STARTDSI, DSI_RX_START);
-+}
-+
-+static void tc358775_configure_lvds_timings(struct tc_data *tc,
-+					    struct drm_display_mode *mode)
+ static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
  {
--	struct tc_data *tc = bridge_to_tc(bridge);
- 	u32 hback_porch, hsync_len, hfront_porch, hactive, htime1, htime2;
- 	u32 vback_porch, vsync_len, vfront_porch, vactive, vtime1, vtime2;
--	int bpp = mipi_dsi_pixel_format_to_bpp(tc->dsi->format);
--	int clkdiv;
--	unsigned int val = 0;
--	struct drm_display_mode *mode;
--	struct drm_connector *connector = get_connector(bridge->encoder);
--
--	mode = &bridge->encoder->crtc->state->adjusted_mode;
- 
- 	hback_porch = mode->htotal - mode->hsync_end;
- 	hsync_len  = mode->hsync_end - mode->hsync_start;
-@@ -337,30 +349,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
- 	htime2 = (hfront_porch << 16) + hactive;
- 	vtime2 = (vfront_porch << 16) + vactive;
- 
--	regmap_read(tc->regmap, IDREG, &val);
--
--	dev_info(tc->dev, "DSI2LVDS Chip ID.%02x Revision ID. %02x **\n",
--		 (val >> 8) & 0xFF, val & 0xFF);
--
--	regmap_write(tc->regmap, SYSRST,
--		     SYS_RST_REG | SYS_RST_DSIRX | SYS_RST_BM | SYS_RST_LCD |
--		     SYS_RST_I2CM);
--	usleep_range(30000, 40000);
--
--	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
--	regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
--	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 3);
--	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 3);
--	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 3);
--	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 3);
--
--	val = ((L0EN << tc->num_dsi_lanes) - L0EN) | DSI_CLEN_BIT;
--	regmap_write(tc->regmap, PPI_LANEENABLE, val);
--	regmap_write(tc->regmap, DSI_LANEENABLE, val);
--
--	regmap_write(tc->regmap, PPI_STARTPPI, PPI_START_FUNCTION);
--	regmap_write(tc->regmap, DSI_STARTDSI, DSI_RX_START);
--
- 	/* Video event mode vs pulse mode bit, does not exist for tc358775 */
- 	if (tc->type == TC358765)
- 		val = VPCTRL_EVTMODE;
-@@ -381,20 +369,31 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
- 	regmap_write(tc->regmap, VTIM2, vtime2);
- 
+ 	return container_of(b, struct tc_data, bridge);
+@@ -371,10 +377,38 @@ static void tc358775_configure_lvds_timings(struct tc_data *tc,
  	regmap_write(tc->regmap, VFUEN, VFUEN_EN);
-+}
-+
-+static void tc358775_configure_pll(struct tc_data *tc, int pixelclk)
-+{
- 	regmap_write(tc->regmap, SYSRST, SYS_RST_LCD);
- 	regmap_write(tc->regmap, LVPHY0, LV_PHY0_PRBS_ON(4) | LV_PHY0_ND(6));
-+}
- 
--	dev_dbg(tc->dev, "bus_formats %04x bpc %d\n",
--		connector->display_info.bus_formats[0],
--		tc->bpc);
--	if (connector->display_info.bus_formats[0] == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG)
-+static void tc358775_configure_color_mapping(struct tc_data *tc, u32 fmt)
-+{
-+	dev_dbg(tc->dev, "bus_formats %04x bpc %d\n", fmt, tc->bpc);
-+
-+	if (fmt == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG)
- 		regmap_multi_reg_write(tc->regmap, tc_lvmux_vesa24,
- 				       ARRAY_SIZE(tc_lvmux_vesa24));
- 	else
- 		regmap_multi_reg_write(tc->regmap, tc_lvmux_jeida18_24,
- 				       ARRAY_SIZE(tc_lvmux_jeida18_24));
-+}
- 
--	regmap_write(tc->regmap, VFUEN, VFUEN_EN);
-+static void tc358775_configure_lvds_clock(struct tc_data *tc)
-+{
-+	int bpp = mipi_dsi_pixel_format_to_bpp(tc->dsi->format);
-+	unsigned int val;
-+	int clkdiv;
- 
- 	/* Configure LVDS clock */
- 	clkdiv = bpp / tc->num_dsi_lanes;
-@@ -407,9 +406,36 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
- 		val |= LVCFG_LVDLINK;
- 
- 	regmap_write(tc->regmap, LVCFG, val);
-+}
-+
-+static void tc358775_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+	unsigned int val = 0;
-+	struct drm_display_mode *mode;
-+	struct drm_connector *connector = get_connector(bridge->encoder);
-+
-+	mode = &bridge->encoder->crtc->state->adjusted_mode;
-+
-+	regmap_read(tc->regmap, IDREG, &val);
-+
-+	dev_info(tc->dev, "DSI2LVDS Chip ID.%02x Revision ID. %02x **\n",
-+		 (val >> 8) & 0xFF, val & 0xFF);
-+
-+	regmap_write(tc->regmap, SYSRST,
-+		     SYS_RST_REG | SYS_RST_DSIRX | SYS_RST_BM | SYS_RST_LCD |
-+		     SYS_RST_I2CM);
-+	usleep_range(30000, 40000);
-+
-+	tc358775_configure_dsi(tc);
-+	tc358775_configure_lvds_timings(tc, mode);
-+	tc358775_configure_pll(tc, mode->crtc_clock);
-+	tc358775_configure_color_mapping(tc, connector->display_info.bus_formats[0]);
-+	regmap_write(tc->regmap, VFUEN, VFUEN_EN);
-+	tc358775_configure_lvds_clock(tc);
- 
- 	/* Finally, enable the LVDS transmitter */
--	regmap_write(tc->regmap, LVCFG, val | LVCFG_LVEN);
-+	regmap_update_bits(tc->regmap, LVCFG, LVCFG_LVEN, LVCFG_LVEN);
  }
  
- /*
-@@ -543,7 +569,7 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
- static const struct drm_bridge_funcs tc_bridge_funcs = {
- 	.attach = tc_bridge_attach,
- 	.pre_enable = tc_bridge_pre_enable,
--	.enable = tc_bridge_enable,
-+	.enable = tc358775_bridge_enable,
- 	.mode_fixup = tc_mode_fixup,
- 	.mode_valid = tc_mode_valid,
- 	.post_disable = tc_bridge_post_disable,
+-static void tc358775_configure_pll(struct tc_data *tc, int pixelclk)
++static const struct tc358775_pll_settings tc358775_pll_settings[] = {
++	{ 25000, 30000, 2, 27, 1 },
++	{ 30000, 60000, 1, 13, 1 },
++	{ 60000, 135000, 0, 6, 1 },
++	{}
++};
++
++static void tc358775_configure_pll(struct tc_data *tc, unsigned int pixelclk)
+ {
++	const struct tc358775_pll_settings *settings;
++	unsigned int val;
++
++	if (tc->lvds_dual_link)
++		pixelclk /= 2;
++
++	for (settings = tc358775_pll_settings; settings->min_khz; settings++)
++		if (pixelclk > settings->min_khz &&
++		    pixelclk < settings->max_khz)
++			break;
++
++	if (!settings->min_khz)
++		return;
++
++	val = u32_encode_bits(settings->fs, LVPHY0_LV_FS);
++	val |= u32_encode_bits(settings->nd, LVPHY0_LV_ND);
++	val |= u32_encode_bits(settings->is, LVPHY0_LV_IS);
++
++	regmap_write(tc->regmap, LVPHY0, val | LVPHY0_LV_RST);
++	usleep_range(100, 150);
++	regmap_write(tc->regmap, LVPHY0, val);
++
+ 	regmap_write(tc->regmap, SYSRST, SYS_RST_LCD);
+-	regmap_write(tc->regmap, LVPHY0, LV_PHY0_PRBS_ON(4) | LV_PHY0_ND(6));
+ }
+ 
+ static void tc358775_configure_color_mapping(struct tc_data *tc, u32 fmt)
 
 -- 
 2.39.2
