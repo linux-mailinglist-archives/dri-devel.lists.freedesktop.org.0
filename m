@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A49A8BCF1C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35748BCF1D
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:36:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49DE310FCE5;
-	Mon,  6 May 2024 13:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C081C10FD54;
+	Mon,  6 May 2024 13:36:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fXCiQTLN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K1lVik91";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20AAD10FCBC
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:36:19 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6EDD10FCEE
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:36:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 32F85CE0E70;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 07CD7612CF;
+ Mon,  6 May 2024 13:36:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466E6C3277B;
  Mon,  6 May 2024 13:36:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6620FC4AF67;
- Mon,  6 May 2024 13:36:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715002576;
- bh=t32YVBoUFvxxQC9832AhjslFW+xryk5tC8Zkli2Jjbk=;
+ s=k20201202; t=1715002581;
+ bh=MJDOXWqTjpbjsQTnGrv4MfUIC0eogdPWXfz9qOdcOCA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=fXCiQTLNBW1QCbwM7CA/NjrZt96tU22qx432VWneCzxNbb+h6R9ts6xbg+AZULVjd
- QvxeG3U8al57+bnJxGuLJwXx2M9ALysruModd3d6cigU04CYQYiJ2ubYIpasrIwAx6
- 5SYK0uVcJBVY20IB/vG3nwXoHtMpWNZdqOIjT4xCn/DdoI7pmUoadUM596UpFDnX9r
- oqlyFj/rA3QFjb0m0EhTHVcunpddivBJDmJsJsORD8iCvhfFUuEywBKucFme8QNKfP
- jLEiW7p0Ynizwy9ux3agCH8KktVkN4Wn9UQuYegwOXLO3pZXuBaxaPY8dMTr9qpcQT
- cheJ0Vaq/mw0A==
+ b=K1lVik91lKB3BsVDt1TF6+YiO2iiiAcRRDupmDnuWDqXPQ8Od8Umgmb4EtrUlopDN
+ TsljnH30VDHb9P+oXMK37QRBqO5oRv6/iX8acZo2y6Yj1ilVudcgi2/5dhVKB6zuU1
+ 8p28dpI+vQ1zLpqoQlNQvyptH0Di2CH2ZoyZcDbhk2ZnQ0bdp3AgZBWM+CE927F1+E
+ g3Pz48GTKs6FSdKTWpCdxE9cHzcI4mKi7htABfoi1FWHs4RFYma2htWtzGeGhx/ztz
+ y+g8VuQy5lKed4jXxjd1GUueDfwtuHIn8ERKlXRwtJfHgN27jbkcAqzRaKGXO13TAr
+ 05eXigYD3g/ng==
 From: Michael Walle <mwalle@kernel.org>
-Date: Mon, 06 May 2024 15:34:44 +0200
-Subject: [PATCH 15/20] drm/bridge: tc358775: dynamically configure DSI link
- settings
+Date: Mon, 06 May 2024 15:34:45 +0200
+Subject: [PATCH 16/20] drm/bridge: tc358775: use proper defines to
+ configure LVDS timings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240506-tc358775-fix-powerup-v1-15-545dcf00b8dd@kernel.org>
+Message-Id: <20240506-tc358775-fix-powerup-v1-16-545dcf00b8dd@kernel.org>
 References: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 In-Reply-To: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -72,155 +72,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of hardcoding the settings for just one (unknown) particular
-frequency and lane setting, compute the DSI link parameters using the
-handy phy_mipi_dphy_get_default_config() helper function.
-
-The DSI_START and DSI_BUSY registers were removed in version 0.6 of the
-datasheet. It seems that it applies to a different bridge and was just a
-leftover. Remove the DSI_START handling and the (unused) DSI_BUSY macro.
+Provide bitfield macros for the individual fields in the LVDS timing
+registers and get rid of the magic values.
 
 Signed-off-by: Michael Walle <mwalle@kernel.org>
 ---
- drivers/gpu/drm/bridge/Kconfig    |  1 +
- drivers/gpu/drm/bridge/tc358775.c | 58 +++++++++++++++++++++++----------------
- 2 files changed, 35 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/bridge/tc358775.c | 52 +++++++++++++++++++++++++--------------
+ 1 file changed, 33 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index c621be1a99a8..ed018d6f1da3 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -349,6 +349,7 @@ config DRM_TOSHIBA_TC358775
- 	select REGMAP_I2C
- 	select DRM_PANEL
- 	select DRM_MIPI_DSI
-+	select GENERIC_PHY_MIPI_DPHY
- 	help
- 	  Toshiba TC358775 DSI/LVDS bridge chip driver.
- 
 diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-index e3fba7ac71ec..33a97ddba7b5 100644
+index 33a97ddba7b5..c50554ec4b28 100644
 --- a/drivers/gpu/drm/bridge/tc358775.c
 +++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -19,6 +19,7 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
-+#include <linux/phy/phy-mipi-dphy.h>
+@@ -111,11 +111,19 @@
+ #define VPCTRL_OPXLFMT	BIT(8)
+ #define VPCTRL_EVTMODE	BIT(5)  /* Video event mode enable, tc35876x only */
+ #define HTIM1           0x0454  /* Horizontal Timing Control 1 */
++#define HTIM1_HPW	GENMASK(8, 0)
++#define HTIM1_HBPR	GENMASK(24, 16)
+ #define HTIM2           0x0458  /* Horizontal Timing Control 2 */
++#define HTIM2_HACT	GENMASK(10, 0)
++#define HTIM2_HFPR	GENMASK(24, 16)
+ #define VTIM1           0x045C  /* Vertical Timing Control 1 */
++#define VTIM1_VPW	GENMASK(7, 0)
++#define VTIM1_VBPR	GENMASK(23, 16)
+ #define VTIM2           0x0460  /* Vertical Timing Control 2 */
++#define VTIM2_VACT	GENMASK(10, 0)
++#define VTIM2_VFPR	GENMASK(23, 16)
+ #define VFUEN           0x0464  /* Video Frame Timing Update Enable */
+-#define VFUEN_EN	BIT(0)  /* Upload Enable */
++#define VFUEN_VFUEN	BIT(0)  /* Upload Enable */
  
- #include <asm/unaligned.h>
- 
-@@ -49,12 +50,14 @@
- 
- /* DSI PPI Layer Registers */
- #define PPI_STARTPPI    0x0104  /* START control bit of PPI-TX function. */
--#define PPI_START_FUNCTION      1
-+#define PPI_STARTPPI_STARTPPI	BIT(0)
- 
- #define PPI_BUSYPPI     0x0108
- #define PPI_LINEINITCNT 0x0110  /* Line Initialization Wait Counter  */
- #define PPI_LPTXTIMECNT 0x0114
- #define PPI_LANEENABLE  0x0134  /* Enables each lane at the PPI layer. */
-+#define LANEENABLE_CLEN	BIT(0)
-+#define LANEENABLE_L0EN	BIT(1)
- #define PPI_TX_RX_TA    0x013C  /* DSI Bus Turn Around timing parameters */
- 
- /* Analog timer function enable */
-@@ -89,10 +92,7 @@
- #define PPI_CLRSIPO     0x01E4  /* Clear SIPO values, Slave mode use only. */
- #define HSTIMEOUT       0x01F0  /* HS Rx Time Out Counter */
- #define HSTIMEOUTENABLE 0x01F4  /* Enable HS Rx Time Out Counter */
--#define DSI_STARTDSI    0x0204  /* START control bit of DSI-TX function */
--#define DSI_RX_START	1
- 
--#define DSI_BUSYDSI     0x0208
- #define DSI_LANEENABLE  0x0210  /* Enables each lane at the Protocol layer. */
- #define DSI_LANESTATUS0 0x0214  /* Displays lane is in HS RX mode. */
- #define DSI_LANESTATUS1 0x0218  /* Displays lane is in ULPS or STOP state */
-@@ -174,21 +174,12 @@ enum {
- /* Chip ID and Revision ID Register */
- #define IDREG           0x0580
- 
--#define LPX_PERIOD		4
--#define TTA_GET			0x40000
--#define TTA_SURE		6
--#define SINGLE_LINK		1
--#define DUAL_LINK		2
--
- #define TC358775XBG_ID  0x00007500
- 
- /* Debug Registers */
- #define DEBUG00         0x05A0  /* Debug */
- #define DEBUG01         0x05A4  /* LVDS Data */
- 
--#define DSI_CLEN_BIT		BIT(0)
--#define L0EN BIT(1)
--
- enum tc358775_ports {
- 	TC358775_DSI_IN,
- 	TC358775_LVDS_OUT0,
-@@ -314,23 +305,42 @@ static const struct reg_sequence tc_lvmux_jeida18_24[] = {
- 	{ LV_MX2427, LV_MX(LVI_HS, LVI_VS, LVI_DE, LVI_R0) },
- };
- 
--static void tc358775_configure_dsi(struct tc_data *tc)
-+/* All the DSI timing is counted by the HS byte clock internally */
-+static uint32_t tc358775_ps_to_cnt(unsigned long long ps,
-+				   struct phy_configure_opts_mipi_dphy *cfg)
+ /* Mux Input Select for LVDS LINK Input */
+ #define LV_MX0003        0x0480  /* Bit 0 to 3 */
+@@ -346,24 +354,19 @@ static void tc358775_configure_dsi(struct tc_data *tc, unsigned int pixelclk)
+ static void tc358775_configure_lvds_timings(struct tc_data *tc,
+ 					    struct drm_display_mode *mode)
  {
-+	unsigned long hs_byte_clk = cfg->hs_clk_rate / 8;
-+
-+	return DIV_ROUND_UP(ps * hs_byte_clk, PSEC_PER_SEC);
-+}
-+
-+static void tc358775_configure_dsi(struct tc_data *tc, unsigned int pixelclk)
-+{
-+	int bpp = mipi_dsi_pixel_format_to_bpp(tc->dsi->format);
-+	struct phy_configure_opts_mipi_dphy cfg;
- 	unsigned int val;
+-	u32 hback_porch, hsync_len, hfront_porch, hactive, htime1, htime2;
+-	u32 vback_porch, vsync_len, vfront_porch, vactive, vtime1, vtime2;
++	u32 hback_porch, hsync_len, hfront_porch, hactive;
++	u32 vback_porch, vsync_len, vfront_porch, vactive;
++	unsigned int val;
  
--	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
--	regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
--	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 3);
--	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 3);
--	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 3);
--	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 3);
-+	phy_mipi_dphy_get_default_config(pixelclk * 1000, bpp,
-+					 tc->num_dsi_lanes, &cfg);
+ 	hback_porch = mode->htotal - mode->hsync_end;
+ 	hsync_len  = mode->hsync_end - mode->hsync_start;
++	hactive = mode->hdisplay;
++	hfront_porch = mode->hsync_start - mode->hdisplay;
 +
-+	regmap_write(tc->regmap, PPI_TX_RX_TA,
-+		     (tc358775_ps_to_cnt(cfg.ta_get, &cfg) << 16) |
-+		     tc358775_ps_to_cnt(cfg.ta_sure, &cfg));
-+	regmap_write(tc->regmap, PPI_LPTXTIMECNT,
-+		     tc358775_ps_to_cnt(cfg.lpx, &cfg));
+ 	vback_porch = mode->vtotal - mode->vsync_end;
+ 	vsync_len  = mode->vsync_end - mode->vsync_start;
+-
+-	htime1 = (hback_porch << 16) + hsync_len;
+-	vtime1 = (vback_porch << 16) + vsync_len;
+-
+-	hfront_porch = mode->hsync_start - mode->hdisplay;
+-	hactive = mode->hdisplay;
+-	vfront_porch = mode->vsync_start - mode->vdisplay;
+ 	vactive = mode->vdisplay;
+-
+-	htime2 = (hfront_porch << 16) + hactive;
+-	vtime2 = (vfront_porch << 16) + vactive;
++	vfront_porch = mode->vsync_start - mode->vdisplay;
+ 
+ 	/* Video event mode vs pulse mode bit, does not exist for tc358775 */
+ 	if (tc->type == TC358765)
+@@ -379,12 +382,23 @@ static void tc358775_configure_lvds_timings(struct tc_data *tc,
+ 	regmap_update_bits(tc->regmap, VPCTRL, val,
+ 			   VPCTRL_OPXLFMT | VPCTRL_MSF | VPCTRL_EVTMODE);
+ 
+-	regmap_write(tc->regmap, HTIM1, htime1);
+-	regmap_write(tc->regmap, VTIM1, vtime1);
+-	regmap_write(tc->regmap, HTIM2, htime2);
+-	regmap_write(tc->regmap, VTIM2, vtime2);
++	val = u32_encode_bits(hsync_len, HTIM1_HPW);
++	val |= u32_encode_bits(hback_porch, HTIM1_HBPR);
++	regmap_write(tc->regmap, HTIM1, val);
 +
-+	val = tc358775_ps_to_cnt(cfg.hs_settle, &cfg);
-+	regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, val);
-+	regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, val);
-+	regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, val);
-+	regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, val);
++	val = u32_encode_bits(hactive, HTIM2_HACT);
++	val |= u32_encode_bits(hfront_porch, HTIM2_HFPR);
++	regmap_write(tc->regmap, HTIM2, val);
++
++	val = u32_encode_bits(vsync_len, VTIM1_VPW);
++	val |= u32_encode_bits(vback_porch, VTIM1_VBPR);
++	regmap_write(tc->regmap, VTIM1, val);
++
++	val = u32_encode_bits(vactive, VTIM2_VACT);
++	val |= u32_encode_bits(vfront_porch, VTIM2_VFPR);
++	regmap_write(tc->regmap, VTIM2, val);
  
--	val = ((L0EN << tc->num_dsi_lanes) - L0EN) | DSI_CLEN_BIT;
-+	val = LANEENABLE_CLEN;
-+	val |= (LANEENABLE_L0EN << tc->num_dsi_lanes) - LANEENABLE_L0EN;
- 	regmap_write(tc->regmap, PPI_LANEENABLE, val);
- 	regmap_write(tc->regmap, DSI_LANEENABLE, val);
- 
--	regmap_write(tc->regmap, PPI_STARTPPI, PPI_START_FUNCTION);
--	regmap_write(tc->regmap, DSI_STARTDSI, DSI_RX_START);
-+	regmap_write(tc->regmap, PPI_STARTPPI, PPI_STARTPPI_STARTPPI);
+-	regmap_write(tc->regmap, VFUEN, VFUEN_EN);
++	regmap_write(tc->regmap, VFUEN, VFUEN_VFUEN);
  }
  
- static void tc358775_configure_lvds_timings(struct tc_data *tc,
-@@ -461,7 +471,7 @@ static void tc358775_bridge_enable(struct drm_bridge *bridge)
- 		     SYS_RST_I2CM);
- 	usleep_range(30000, 40000);
- 
--	tc358775_configure_dsi(tc);
-+	tc358775_configure_dsi(tc, mode->crtc_clock);
+ static const struct tc358775_pll_settings tc358775_pll_settings[] = {
+@@ -475,7 +489,7 @@ static void tc358775_bridge_enable(struct drm_bridge *bridge)
  	tc358775_configure_lvds_timings(tc, mode);
  	tc358775_configure_pll(tc, mode->crtc_clock);
  	tc358775_configure_color_mapping(tc, connector->display_info.bus_formats[0]);
+-	regmap_write(tc->regmap, VFUEN, VFUEN_EN);
++	regmap_write(tc->regmap, VFUEN, VFUEN_VFUEN);
+ 	tc358775_configure_lvds_clock(tc);
+ 
+ 	/* Finally, enable the LVDS transmitter */
 
 -- 
 2.39.2
