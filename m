@@ -2,120 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C7588BCF33
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398BA8BCF92
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 16:01:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508C010F07D;
-	Mon,  6 May 2024 13:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B796510EDDD;
+	Mon,  6 May 2024 14:01:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="p8sgNmwX";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iPal3w38";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2064.outbound.protection.outlook.com [40.107.237.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5DF10F482;
- Mon,  6 May 2024 13:39:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fg8Hy26+hnt9rIyMyOoQOPMbd/cQevIqUpPn+xIFjAhLWjgEZ1McvtIPGCwYD00OsebyRBeM49KPkQgf7W0+80RXABDzJHZlxrLlOwuqmbYe9aWr2LE4n9umPNUHa7XoB9EJeAKSe6qK2Asxe1rKgLxUeC2+JECEzf4v28Dk4e3sWM7e2ed5je5wXMVADA4TZxby6dmjZ25YyAoGuLIGK5qIC29hgVvjhCr+U7kGL5dOJXhx5pYFC5fONCtpOhYfcTbjp70Li0TBt20HwdHQFBaWi83pQnXpVXyNYeIfsQS4xHe+LL8SJKrWm1hJQPUDK9UZTLaxOoacOmlVdp8Jig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wTpgg98Nt1ts44tywCNsjlPNRBlZZ1gySHOz/vS4eOM=;
- b=Q8QMVP+AXUDZ0qYju7RAqJnIvnlSrH4sRLdc8TvW6oleTTl/mC6xtPBU6Y35c/0GqvWVEEzAe3u4Zm6W19KVz7yG++vqOFNCbedGmBKgz9xlJCiTRjzeJJeJvGe/qXsaLWjWw0+d/CGWg476jNiKO8uiOSWzSSnYJX3BoQdtPVcUCyhgdiSwchELZ2v4npFR634ETSVyx8XivUZweCxckTXbqsR/LexgTChPPluRUVjmqDsEX5khiXH3c2uE8JtvFIMHQj92C2YyxBdXZH5WA+06scFTG/SrN+rrNwL3y4w+kQSDeu0RVnc0mkIiw/yizhSQg93pSWPU4bzNpHOjhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wTpgg98Nt1ts44tywCNsjlPNRBlZZ1gySHOz/vS4eOM=;
- b=p8sgNmwX2Qdk9vTWVX0xiIbGUfSh9d3wJErUm0m4nAHhsiDBq/1Qms37SMnVUu0cgSxQZHUhrZI7aPXeI+DYwIaVMFzqmw7qMWnlw9H+gs5cJC5OifI1ln7AFqeC5xpnb3yrqINOUS5Uyb7HiGU3zLo4tsVWJ1C4FARhZBRFaeg=
-Received: from DS7PR05CA0066.namprd05.prod.outlook.com (2603:10b6:8:57::11) by
- DS0PR12MB8479.namprd12.prod.outlook.com (2603:10b6:8:155::19) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7544.41; Mon, 6 May 2024 13:39:13 +0000
-Received: from DS2PEPF0000343A.namprd02.prod.outlook.com
- (2603:10b6:8:57:cafe::c7) by DS7PR05CA0066.outlook.office365.com
- (2603:10b6:8:57::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.42 via Frontend
- Transport; Mon, 6 May 2024 13:39:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS2PEPF0000343A.mail.protection.outlook.com (10.167.18.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7544.18 via Frontend Transport; Mon, 6 May 2024 13:39:13 +0000
-Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 6 May 2024 08:39:11 -0500
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <matthew.auld@intel.com>
-CC: <christian.koenig@amd.com>, <alexander.deucher@amd.com>, "Arunpravin
- Paneer Selvam" <Arunpravin.PaneerSelvam@amd.com>
-Subject: [PATCH] drm/buddy: Fix the range bias clear memory allocation issue
-Date: Mon, 6 May 2024 19:08:46 +0530
-Message-ID: <20240506133846.4362-1-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 141F510EDDD
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 14:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1715004106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oa4YbBmlzkI63abCw2z4fEd9n5o3yLiXeNXHymLCUuE=;
+ b=iPal3w38+4DU6qX+Ax8iDGoxGS1THKcmg2kBY0r+x/tg2cQ5JrX/9tIF3thwJkzOdk//pG
+ Xlg9fgfatbX4s6oc1I0SpPFFQ+ce8tbj4cLeXYeF/6NgCLG4257QCI9VGquvM9MwmN2ztv
+ 1Vi4KBdoJNn+fh5Sr6iN1QDUwF6oruc=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-618-qq3jmK4yOvCEFqDNNa9EJw-1; Mon, 06 May 2024 10:01:45 -0400
+X-MC-Unique: qq3jmK4yOvCEFqDNNa9EJw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-a51acf7c214so64406266b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 May 2024 07:01:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715004104; x=1715608904;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oa4YbBmlzkI63abCw2z4fEd9n5o3yLiXeNXHymLCUuE=;
+ b=Q4FFisJO3r/AV2G50wGQ/Olex+Y2/gx7myiqTdU3R13FWoldlF8G6b49vFi6wRe9ib
+ 6G2a6Jo2DhMpNuYaeYKMVVUosMcAIHwe3j2/a70jzMJnaJ6V9EiFQIqxXlDsKNDxhRit
+ 77oaWT6qA6cbHhXo/cEFeHbh16l/2xQC4+1bBzkCr0h9oDsIjIPyRmbiRhKP/MrdwIle
+ 9X82fbg+d3vZKdD/v9yhkRt8BzvAJi6RpegqcfKdIm9FstTEZ29HVMcom3rCDNricixI
+ Uuz6u5eVIafH1zr2cKBYjmD000PV5obKOWrPHKVwjHCVOJRvm0IA67wrL6m4nH+YReoW
+ yueg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWoFUN87AYv2CTPKf6+J9wHLoiDjbPVau+Quno4SNRDjAFe6UOshjqvmkBwprAN3eV1VOpTlYqSKNPNv0mer8L14TB/bsXh/xCiVjs1zueE
+X-Gm-Message-State: AOJu0Yz4xgG2OPUiE9o5DSHOyeUKkWS9tbUD+z7uplGSWHi3blX2nQiZ
+ KfF6SQgoIPDKvHhwnZHiSk9tdAq6bEmLgZhCdVRT0KJihcvNnZEfvED7GAm21Egawacw7yxTwK/
+ JwBFYoN44LGbSnZgqWKAsmqzbaPQUVea53XSOIQQD27JjXkEoq0OpVMzyw22x6vHtEg==
+X-Received: by 2002:a50:9513:0:b0:570:5b70:3407 with SMTP id
+ u19-20020a509513000000b005705b703407mr8444053eda.10.1715004104187; 
+ Mon, 06 May 2024 07:01:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGqtTHezMetmGx7QkF/7UHxNmAFJAxewY94xyi4UnLpcMz8eE3WVuF2BLvBhkQkOqr8E1iw4Q==
+X-Received: by 2002:a50:9513:0:b0:570:5b70:3407 with SMTP id
+ u19-20020a509513000000b005705b703407mr8444031eda.10.1715004103794; 
+ Mon, 06 May 2024 07:01:43 -0700 (PDT)
+Received: from [10.40.98.157] ([78.108.130.194])
+ by smtp.gmail.com with ESMTPSA id
+ z5-20020aa7c645000000b00572b0a44e42sm5224207edr.26.2024.05.06.07.01.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 May 2024 07:01:43 -0700 (PDT)
+Message-ID: <cbe5a743-d8be-4b0e-99c4-e804fbadc099@redhat.com>
+Date: Mon, 6 May 2024 16:01:42 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343A:EE_|DS0PR12MB8479:EE_
-X-MS-Office365-Filtering-Correlation-Id: ee81444d-3b73-4148-a96e-08dc6dd1eae5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230031|82310400017|36860700004|1800799015|376005; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?UM1guD8A3g03oPOz44F2al8QkCRswXRRrNiLGdZJyNzDhJ3lryjL9eCvpGrZ?=
- =?us-ascii?Q?smvkIWlNeS+1eQx5Y3zHkjnNJUhA1LzhItiluVXUeC1ayH0illpiojyQikR+?=
- =?us-ascii?Q?002rCP37tWVzc1tZaGwQ4ajIF0klvj1oiWxFZ/6H+JIlUt7kQiBdSppDXIZb?=
- =?us-ascii?Q?OhszL20XU7UrzJOKi7SdKN9wik/VcsXe1oTyhnLaWVJsYhle2PbW4yw+Df5m?=
- =?us-ascii?Q?BnO9un5Ak+LJmeU9rRTN79i4dij7dIKOPGay8bOEFWPUOKVd2pslpGJILBB0?=
- =?us-ascii?Q?qmlWOk4K2SUrGjeDioPklJ6Z5bZ85il2DOSOlkKGfhmnVLSCDPf9+P8M6v/s?=
- =?us-ascii?Q?hb6Cyb0lrxBmPovYn+J+PtS2d0aRINCVI8N9ptZunViwQD57unDhxJ+R2pkq?=
- =?us-ascii?Q?F9qEQo/YwolBFQIjftOZvy96ttUHEsu/6uXJSeQ+xJeXCXJXMYE7H0/IJti4?=
- =?us-ascii?Q?UjRfEmS6687F5KKV/r0hH3c4Lh7tiFdCyNhfMgHVPFG24K2O+oJPrCtt+TD3?=
- =?us-ascii?Q?Z6d8zDZMuF2lM5PIkaKCJL/vnoLXARyE4Tsr9GdawRYi8aawx/F8gVvhBwwv?=
- =?us-ascii?Q?Caountb+8LCn/amDWCSZ7D9CjZO6w0T4Z2giKprRpciqJOovF8hEj9BLupSb?=
- =?us-ascii?Q?VcRKh8vcYp1MKlxUhzgK/3mWkUsV7Me4jkNn0q7a73gU8eoHoGVWCbYSqiFc?=
- =?us-ascii?Q?jozbA3aLygGsW89WKAupGcUisVe8mLqX2+Pov51LK9gUGjxzV7p/8yRkgmMq?=
- =?us-ascii?Q?BA9rILcTzanijPFF4x+XPMij+iw2b6SNHcAXj96tgDBqZkmpe14MW6MXqP8G?=
- =?us-ascii?Q?C7ho8i1wR+xMeNN1WFn01QBWtNqgBzeRmqHAVycSBkyyuIidEG+xA8JHsK7G?=
- =?us-ascii?Q?0RXsB5G7bfBErsi4nbYcAmszkqeP8cNbVoapotSIIdR7aZkl9w421FD/s8YL?=
- =?us-ascii?Q?AU05l7i08YnU7QQQ4P+/ojjLv8A427foNAo6yiNIbmqMFhqo3DhIMRn+roSf?=
- =?us-ascii?Q?SoAc1Ko0jb7gAkZmCcvoy4tjEj2PKu3PMjrQX1kbIEXEjbaFMZn6qE34ZLTX?=
- =?us-ascii?Q?XT0IEc1uLMOhO+BOinSyIs8Nvz4lxQi6998htiUrdE8Ig0aS+xaetpnbyG5C?=
- =?us-ascii?Q?whxf9sFG50I29Z4h9ADx5dAYfL8GdSpUeXTQ1ReF5Kvtm11DWVwKOs8jQs/2?=
- =?us-ascii?Q?rdwyLrdYjQKyPJWeriQGVoBNTo7tikW54jTb01scr1xL3Q9uNDULDif7/8rM?=
- =?us-ascii?Q?sdRGHzIhyDIv8tQypxA2wjAkKxPCgoRYm5s+n8j5hm22JQDBz1SFStisNecB?=
- =?us-ascii?Q?KUQnfBS/qGaJIx06dmd2HMKut/4x653YrUuAyhUMiPoztfa89QBgVjpu/Ld2?=
- =?us-ascii?Q?MVP4J6rXfBBwP4xi6ZlzvOdLBy88?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(82310400017)(36860700004)(1800799015)(376005); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2024 13:39:13.5498 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee81444d-3b73-4148-a96e-08dc6dd1eae5
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8479
+User-Agent: Mozilla Thunderbird
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+To: Maxime Ripard <mripard@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Milan Zamazal <mzamazal@redhat.com>,
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
+ <20240506-dazzling-nippy-rhino-eabccd@houat>
+ <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,34 +109,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Problem statement: During the system boot time, an application request
-for the bulk volume of cleared range bias memory when the clear_avail
-is zero, we dont fallback into normal allocation method as we had an
-unnecessary clear_avail check which prevents the fallback method leads
-to fb allocation failure following system goes into unresponsive state.
+Hi Sima,
 
-Solution: Remove the unnecessary clear_avail check in the range bias
-allocation function.
+On 5/6/24 3:38 PM, Daniel Vetter wrote:
+> On Mon, May 06, 2024 at 02:05:12PM +0200, Maxime Ripard wrote:
+>> Hi,
+>>
+>> On Mon, May 06, 2024 at 01:49:17PM GMT, Hans de Goede wrote:
+>>> Hi dma-buf maintainers, et.al.,
+>>>
+>>> Various people have been working on making complex/MIPI cameras work OOTB
+>>> with mainline Linux kernels and an opensource userspace stack.
+>>>
+>>> The generic solution adds a software ISP (for Debayering and 3A) to
+>>> libcamera. Libcamera's API guarantees that buffers handed to applications
+>>> using it are dma-bufs so that these can be passed to e.g. a video encoder.
+>>>
+>>> In order to meet this API guarantee the libcamera software ISP allocates
+>>> dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
+>>> the Fedora COPR repo for the PoC of this:
+>>> https://hansdegoede.dreamwidth.org/28153.html
+>>
+>> For the record, we're also considering using them for ARM KMS devices,
+>> so it would be better if the solution wasn't only considering v4l2
+>> devices.
+>>
+>>> I have added a simple udev rule to give physically present users access
+>>> to the dma_heap-s:
+>>>
+>>> KERNEL=="system", SUBSYSTEM=="dma_heap", TAG+="uaccess"
+>>>
+>>> (and on Rasperry Pi devices any users in the video group get access)
+>>>
+>>> This was just a quick fix for the PoC. Now that we are ready to move out
+>>> of the PoC phase and start actually integrating this into distributions
+>>> the question becomes if this is an acceptable solution; or if we need some
+>>> other way to deal with this ?
+>>>
+>>> Specifically the question is if this will have any negative security
+>>> implications? I can certainly see this being used to do some sort of
+>>> denial of service attack on the system (1). This is especially true for
+>>> the cma heap which generally speaking is a limited resource.
+>>
+>> There's plenty of other ways to exhaust CMA, like allocating too much
+>> KMS or v4l2 buffers. I'm not sure we should consider dma-heaps
+>> differently than those if it's part of our threat model.
+> 
+> So generally for an arm soc where your display needs cma, your render node
+> doesn't. And user applications only have access to the later, while only
+> the compositor gets a kms fd through logind. At least in drm aside from
+> vc4 there's really no render driver that just gives you access to cma and
+> allows you to exhaust that, you need to be a compositor with drm master
+> access to the display.
+> 
+> Which means we're mostly protected against bad applications, and that's
+> not a threat the "user physically sits in front of the machine accounts
+> for", and which giving cma access to everyone would open up. And with
+> flathub/snaps/... this is very much an issue.
 
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Fixes: 96950929eb23 ("drm/buddy: Implement tracking clear page feature")
----
- drivers/gpu/drm/drm_buddy.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I agree that bad applications are an issue, but not for the flathub / snaps
+case. Flatpacks / snaps run sandboxed and don't have access to a full /dev
+so those should not be able to open /dev/dma_heap/* independent of
+the ACLs on /dev/dma_heap/*. The plan is for cameras using the
+libcamera software ISP to always be accessed through pipewire and
+the camera portal, so in this case pipewere is taking the place of
+the compositor in your kms vs render node example.
 
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index 284ebae71cc4..831929ac95eb 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -574,7 +574,7 @@ __drm_buddy_alloc_range_bias(struct drm_buddy *mm,
- 
- 	block = __alloc_range_bias(mm, start, end, order,
- 				   flags, fallback);
--	if (IS_ERR(block) && mm->clear_avail)
-+	if (IS_ERR(block))
- 		return __alloc_range_bias(mm, start, end, order,
- 					  flags, !fallback);
- 
--- 
-2.25.1
+So this reduces the problem to bad apps packaged by regular distributions
+and if any of those misbehave the distros should fix that.
+
+So I think that for the denial of service side allowing physical
+present users (but not sandboxed apps running as those users) to
+access /dev/dma_heap/* should be ok.
+
+My bigger worry is if dma_heap (u)dma-bufs can be abused in other
+ways then causing a denial of service.
+
+I guess that the answer there is that causing other security issues
+should not be possible ?
+
+Regards,
+
+Hans
 
