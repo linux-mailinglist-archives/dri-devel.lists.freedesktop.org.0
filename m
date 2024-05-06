@@ -2,96 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25CA8BC3C2
-	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2024 22:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D818BC4D4
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 02:29:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17364112E2F;
-	Sun,  5 May 2024 20:54:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5132310EE15;
+	Mon,  6 May 2024 00:29:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="VeWdtIKF";
+	dkim=pass (2048-bit key; unprotected) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="GpMUG3Ub";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC327112E34
- for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2024 20:54:09 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-51f40b5e059so1575898e87.0
- for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 13:54:09 -0700 (PDT)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5314510EE15
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 00:29:22 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-2b27eec1eb1so981768a91.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 17:29:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1714942447; x=1715547247;
+ d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1714955361; x=1715560161;
  darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JMg+wUi7Jg85TzG1l7LAOtzS/OMsOgVla4IG61dTMc8=;
- b=VeWdtIKFIpg8E8BBAD0ZMdWCoGyQoxFEMbKYU3srb9tBLHSKvZOQe/4EXc8hmiLQO1
- bshUu/nKjRJ1TBmiTxPh2FZPXuFq50bENXzv+VN7mQXBG4fVpTiuWwbczqlk6OUIlAX5
- Dq1VTn1g5gQ03E7j+/pG5aB4ZU0wUwbwxEE/g=
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sTixdwfAlIVssw/yTwe1uZ1trqj6K9Ho7zGTIsCsG3k=;
+ b=GpMUG3Ubv7SgMp+9MvQ/zXRf8Q3HuDh6J6Z6L8L7In+RVDgKKLMq7trtOHAR4UZuck
+ 6Y718X3j/eQNIBtLRkBqXKKefVvNcupCnJm3z3/qADIgISX3nElLdXpe8Ua881dhrdS9
+ haUdyORID3nL+cMWXQur1ExdZFxa8ocdjEk1W0wyru+Guv3U7cMwhpuJwIIqGW5MUWiO
+ MhU4BQb0aTJD1iOmg+aJGuv6R/wHTPwfr0ME7ra34TIybIPEqBHzwliMNqogfahE0kRQ
+ FVB4DKwr9ATABE9FLQzMlWdf9L2bVfvBB3sM0+cI6MoV4cPbmVKedA1kTkX7cSFCIDNq
+ WwQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714942447; x=1715547247;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JMg+wUi7Jg85TzG1l7LAOtzS/OMsOgVla4IG61dTMc8=;
- b=BH3uX+Fc2TwqlLKCBv4smcSWESaMheX4tJRpIjHWEaO+hJUtCWDRuhom96DA8OtSVU
- DxRXOpjHdS+1sWtlquLjD676vha+vedAJUxNRhnkmWpN802UG6Wk/w1J8oAIrQaUeaP3
- zvNiIgUX2VTO10wZbuyH+bLSvaKpax7/gyPKzN2rG3SyAOPrb9evBVJ2itLW9CJLQcO6
- KOmn3njX+ZVsewjNDDWIeBa47vQ1PQHWmldGf9eYP+qBH4pOTWicI3+GVbgVNfC72iRg
- NRt90tlZV+8DaSpUTbupc9/GC6MtTceLy/QuyhI0hv9Zd2ohdDKuXufKQWwbeuE35+Pp
- cS6Q==
+ d=1e100.net; s=20230601; t=1714955361; x=1715560161;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sTixdwfAlIVssw/yTwe1uZ1trqj6K9Ho7zGTIsCsG3k=;
+ b=fkHs1mNihPJVN/YSODOCx7IlRr8ltD6MVNuUdNugqQhgLIzzyFnAy/CO/sIYi0Y7LV
+ nb9Hu7Szu44xXpGQxI2AIoHAWV/qz7DofYeZjvt16/FXO16B1XKwN9uXsxIWk4I/bXOW
+ O14J3D0nU2Y8+B4Fiyj3kYzLj2igt21T9UUdZcymZMBzPljGrUEum+UXAsSl/SrWUMr0
+ bHQV+Ck6POCOOENMXwHnj+CPTF18IHuIHbEzooxSOnrS0KaD55C1EbZpXENrRQ6XJUh+
+ mYTWmWEe9lOGeWfNAXDhwKBbIVe41t811yelETcCQEdkWGJtTkaLT60dBZlP9hNxSZVu
+ c6JQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUOn7vTByuLcNY0XfajeLg4mRMkC0NlYm+AhGvQQ3Bd30D3wQM3ddPN/HS4ssHaDDvNCWrK4LooKv0nwiy1ucVcDAsh1NpUACY0tCeIoxXx
-X-Gm-Message-State: AOJu0YwJ/e2oKgKO3xAeL73JQyJaLSASJp9VFEliOgYwHF3vo7Bbsr3W
- OFiC6yXn5Yk07NNmBH+MA82BJnzuqZ0f1tX637MXIahB2yC2IDHVSnipDcSxqg91fMXjGxkFcJI
- L04R5ZA==
-X-Google-Smtp-Source: AGHT+IFsl7IdeN9IXfu45qz4VTaNOHAXOm3VHcKNMmqFuVid5J0R6zMuDKDSy6H+mEyRYWrO1A+dqg==
-X-Received: by 2002:ac2:4a6d:0:b0:518:ce4b:17ef with SMTP id
- q13-20020ac24a6d000000b00518ce4b17efmr5530248lfp.60.1714942447293; 
- Sun, 05 May 2024 13:54:07 -0700 (PDT)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
- [209.85.128.47]) by smtp.gmail.com with ESMTPSA id
- fe3-20020a056402390300b005723e8610d2sm4350423edb.77.2024.05.05.13.54.05
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCUp0qmYswf2USFTQl4/ueRTP/uc4rAiF+H9IkxO+RLLJhcugILZuahkZD7z4MTU7v35KMUXB5dczdqPFbzpITd01A5/Tl0Y61YJCqWuXyM1
+X-Gm-Message-State: AOJu0Yx05Rdi42eqlYb66mY1HqWjJPKZ6Q2Whqc4ef3U7JAR2gLOYAnW
+ pIRTOIq4uuaQQlP/9yPVMy4/7XpeLFcxHTjHfRAMFN8VxY/VIZCMvN+z92HQwGY=
+X-Google-Smtp-Source: AGHT+IFapiyynwMzWBFC3qoHSlJe6Vp0gcSIQLTrnjL4T2m4HyoHAt77UaMOEYoyby7VMZX56YX6rQ==
+X-Received: by 2002:a17:90a:d30a:b0:2aa:c2ba:3758 with SMTP id
+ p10-20020a17090ad30a00b002aac2ba3758mr8212757pju.42.1714955361360; 
+ Sun, 05 May 2024 17:29:21 -0700 (PDT)
+Received: from [192.168.1.15] (174-21-160-85.tukw.qwest.net. [174.21.160.85])
+ by smtp.gmail.com with ESMTPSA id
+ h4-20020a17090a710400b002b1314ba8c0sm8708252pjk.57.2024.05.05.17.29.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 May 2024 13:54:06 -0700 (PDT)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-41ba1ba5591so9547625e9.1
- for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 13:54:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5zVuo5DAg8pd4jcoKAM4m8L2i9HEAGqZKHWXj0PzHs5GKW/s5IMB2UK2+VReoe2eK3qQxEgNhonGz+vbK4GvIQTY8C/KKO+GYywOK/HPH
-X-Received: by 2002:a05:600c:314f:b0:416:88f9:f5ea with SMTP id
- h15-20020a05600c314f00b0041688f9f5eamr6455233wmo.34.1714942445499; Sun, 05
- May 2024 13:54:05 -0700 (PDT)
+ Sun, 05 May 2024 17:29:20 -0700 (PDT)
+Message-ID: <306cf793-6f96-4a22-aca0-53c0ccefc0a1@davidwei.uk>
+Date: Sun, 5 May 2024 17:29:18 -0700
 MIME-Version: 1.0
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
- <CAHk-=whrSSNYVzTHNFDNGag_xcKuv=RaQUX8+n29kkic39DRuQ@mail.gmail.com>
- <20240505194603.GH2118490@ZenIV>
- <CAHk-=wipanX2KYbWvO5=5Zv9O3r8kA-tqBid0g3mLTCt_wt8OA@mail.gmail.com>
- <20240505203052.GJ2118490@ZenIV>
-In-Reply-To: <20240505203052.GJ2118490@ZenIV>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 5 May 2024 13:53:48 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whFg8-WyMbVUGW5c0baurGzqmRtzFLoU-gxtRXq2nVZ+w@mail.gmail.com>
-Message-ID: <CAHk-=whFg8-WyMbVUGW5c0baurGzqmRtzFLoU-gxtRXq2nVZ+w@mail.gmail.com>
-Subject: Re: [PATCH] epoll: try to be a _bit_ better about file lifetimes
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>, keescook@chromium.org,
- axboe@kernel.dk, 
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
- linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v8 07/14] page_pool: devmem support
+Content-Language: en-GB
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+References: <20240403002053.2376017-1-almasrymina@google.com>
+ <20240403002053.2376017-8-almasrymina@google.com>
+ <8357256a-f0e9-4640-8fec-23341fc607db@davidwei.uk>
+ <ZjH1hO8qJgOqNKub@infradead.org>
+From: David Wei <dw@davidwei.uk>
+In-Reply-To: <ZjH1hO8qJgOqNKub@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,68 +141,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 5 May 2024 at 13:30, Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> 0.      special-cased ->f_count rule for ->poll() is a wart and it's
-> better to get rid of it.
->
-> 1.      fs/eventpoll.c is a steaming pile of shit and I'd be glad to see
-> git rm taken to it.  Short of that, by all means, let's grab reference
-> in there around the call of vfs_poll() (see (0)).
+On 2024-05-01 00:55, Christoph Hellwig wrote:
+> On Fri, Apr 26, 2024 at 05:17:52PM -0700, David Wei wrote:
+>> On 2024-04-02 5:20 pm, Mina Almasry wrote:
+>>> @@ -69,20 +106,26 @@ net_iov_binding(const struct net_iov *niov)
+>>>   */
+>>>  typedef unsigned long __bitwise netmem_ref;
+>>>  
+>>> +static inline bool netmem_is_net_iov(const netmem_ref netmem)
+>>> +{
+>>> +#if defined(CONFIG_PAGE_POOL) && defined(CONFIG_DMA_SHARED_BUFFER)
+>>
+>> I am guessing you added this to try and speed up the fast path? It's
+>> overly restrictive for us since we do not need dmabuf necessarily. I
+>> spent a bit too much time wondering why things aren't working only to
+>> find this :(
+> 
+> So what else do you need?  I was assured last round that nothing but
+> dmabuf and potentially the huge page case (that really just is the page
+> provider) would get added.
 
-Agreed on 0/1.
+I'm using userspace memory so having this gated behind
+CONFIG_DMA_SHARED_BUFFER doesn't make sense for us.
 
-> 2.      having ->poll() instances grab extra references to file passed
-> to them is not something that should be encouraged; there's a plenty
-> of potential problems, and "caller has it pinned, so we are fine with
-> grabbing extra refs" is nowhere near enough to eliminate those.
-
-So it's not clear why you hate it so much, since those extra
-references are totally normal in all the other VFS paths.
-
-I mean, they are perhaps not the *common* case, but we have a lot of
-random get_file() calls sprinkled around in various places when you
-end up passing a file descriptor off to some asynchronous operation
-thing.
-
-Yeah, I think most of them tend to be special operations (eg the tty
-TIOCCONS ioctl to redirect the console), but it's not like vfs_ioctl()
-is *that* different from vfs_poll. Different operation, not somehow
-"one is more special than the other".
-
-cachefiles and backing-file does it for regular IO, and drop it at IO
-completion - not that different from what dma-buf does. It's in
-->read_iter() rather than ->poll(), but again: different operations,
-but not "one of them is somehow fundamentally different".
-
-> 3.      dma-buf uses of get_file() are probably safe (epoll shite aside),
-> but they do look fishy.  That has nothing to do with epoll.
-
-Now, what dma-buf basically seems to do is to avoid ref-counting its
-own fundamental data structure, and replaces that by refcounting the
-'struct file' that *points* to it instead.
-
-And it is a bit odd, but it actually makes some amount of sense,
-because then what it passes around is that file pointer (and it allows
-passing it around from user space *as* that file).
-
-And honestly, if you look at why it then needs to add its refcount to
-it all, it actually makes sense.  dma-bufs have this notion of
-"fences" that are basically completion points for the asynchronous
-DMA. Doing a "poll()" operation will add a note to the fence to get
-that wakeup when it's done.
-
-And yes, logically it takes a ref to the "struct dma_buf", but because
-of how the lifetime of the dma_buf is associated with the lifetime of
-the 'struct file', that then turns into taking a ref on the file.
-
-Unusual? Yes. But not illogical. Not obviously broken. Tying the
-lifetime of the dma_buf to the lifetime of a file that is passed along
-makes _sense_ for that use.
-
-I'm sure dma-bufs could add another level of refcounting on the
-'struct dma_buf' itself, and not make it be 1:1 with the file, but
-it's not clear to me what the advantage would really be, or why it
-would be wrong to re-use a refcount that is already there.
-
-                 Linus
+> 
+>>
+> ---end quoted text---
