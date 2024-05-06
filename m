@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 753828BCF0E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:35:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E8C8BCF0F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:35:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 869A010F819;
-	Mon,  6 May 2024 13:35:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED89A10FA42;
+	Mon,  6 May 2024 13:35:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nHNFPtEn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HhS1pLRn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B996F10F819
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:35:30 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A783510FA42
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:35:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8067ACE0E76;
+ by dfw.source.kernel.org (Postfix) with ESMTP id EB6F3612B8;
+ Mon,  6 May 2024 13:35:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38788C116B1;
  Mon,  6 May 2024 13:35:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56D7EC3277B;
- Mon,  6 May 2024 13:35:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715002527;
- bh=VjxeNKYDFVNa7bVWlPBb3FkbK1nSMTj0nhXJcYaVwIc=;
+ s=k20201202; t=1715002532;
+ bh=46hAq1PCM2INpFGrPzb+MElX1JVQQ10d/aQq2p0zy48=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=nHNFPtEnN3DVovJIBZ8EXSpxncOzcTVLRw3OInR2qD9SW4Pm67duBMCPv7Q3Q6QWH
- juRnQIPbSSpg8gldlPDW4Odb4mDx/13lvV8Ysvk0EOk2HZl4JGJH9w5GKTfgmSXPWU
- LvpWVIGdEYLk+OcBURS1Vk9s+E5wLWsNogrkMppg9wsqrARmRiRISdmUFWb3AyWRYj
- 2A5nZTil8CCd/WMzeVVgBMLd21jL64TBKx0F1K6mewxMxjSS0TPtuSocvJobJR+ifn
- Qwr9NYW28ddIPfCNlIHS02bMPknXUFNqc+e8YaNLqdtHx9fOrZ8snWCEkl9Gd43rEG
- PTABT1wdl9rvQ==
+ b=HhS1pLRn3qUNaKrsNVT+K3AvOvWmUzJ0dJTt14Q3gc7LX6ZSjiLZhmPzq9sacIq5P
+ /RuAtzhq0ZYAnOqzx2hTZ/yk+AZsaWrRdnFmw2WsVQRNx3FfrS5mSPRv6rk9XxiZrf
+ a9GXaqorKyymQxJ6ML4AW9XWEWW3GSYFu6mVTkvH806yeep8NpVXVyJWtQFuWUdo3f
+ 97KnrhIsWEpmtjcirMjoc1QspIcLEK6NcDmc9JJjfEpY+FH591lsfQeFzko/lZq4az
+ Jy+6R4jHiSUjuLmQyzHEG+b3lO/XOTDNpdwIHugcjbOIDpggKMW20VEnEYzgY4gvb1
+ 4hlAD6+2n6Yqw==
 From: Michael Walle <mwalle@kernel.org>
-Date: Mon, 06 May 2024 15:34:34 +0200
-Subject: [PATCH 05/20] drm/bridge: tc358775: add crtc modes fixup
+Date: Mon, 06 May 2024 15:34:35 +0200
+Subject: [PATCH 06/20] drm/bridge: tc358775: redefine LV_MX()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240506-tc358775-fix-powerup-v1-5-545dcf00b8dd@kernel.org>
+Message-Id: <20240506-tc358775-fix-powerup-v1-6-545dcf00b8dd@kernel.org>
 References: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 In-Reply-To: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -71,72 +71,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bridge has some limitations regarding the horizontal display
-timings. In particular, the pulse width has to be at least 8 pixels
-and all horizontal timings have to be a multiple of two pixels, except
-for the front porch which is ignored by the bridge anyway.
+Drop the FLD_VAL macro, just use bit shifts. This is a preparation patch
+to switch to regmap and to remove the FLD_VAL().
 
-To accommodate that, add pixels to the pulse width and the back porch
-until these requirements are satisfied. The added pixels are then
-substracted from the front porch so we don't actually change the pixel
-clock (or framerate).
+While at it, reformat the LV_x enum.
 
-Fixes: b26975593b17 ("display/drm/bridge: TC358775 DSI/LVDS driver")
 Signed-off-by: Michael Walle <mwalle@kernel.org>
 ---
- drivers/gpu/drm/bridge/tc358775.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ drivers/gpu/drm/bridge/tc358775.c | 36 ++++++------------------------------
+ 1 file changed, 6 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-index 980f71ea5a6a..720c0d63fd6a 100644
+index 720c0d63fd6a..7ae86e8d4c72 100644
 --- a/drivers/gpu/drm/bridge/tc358775.c
 +++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -502,6 +502,37 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
- 	d2l_write(tc->i2c, LVCFG, val);
- }
+@@ -124,39 +124,15 @@
+ #define LV_MX1619        0x0490  /* Bit 16 to 19 */
+ #define LV_MX2023        0x0494  /* Bit 20 to 23 */
+ #define LV_MX2427        0x0498  /* Bit 24 to 27 */
+-#define LV_MX(b0, b1, b2, b3)	(FLD_VAL(b0, 4, 0) | FLD_VAL(b1, 12, 8) | \
+-				FLD_VAL(b2, 20, 16) | FLD_VAL(b3, 28, 24))
++#define LV_MX(b0, b1, b2, b3) \
++	(((b3) << 24) | ((b2) << 16) | ((b1) << 8) | (b0))
  
-+/*
-+ * According to the datasheet, the horizontal back porch, front porch and sync
-+ * length must be a multiple of 2 and the minimal horizontal pulse width is 8.
-+ * To workaround this, we modify the back porch and the sync pulse width by
-+ * adding enough pixels. These pixels will then be substracted from the front
-+ * porch which is ignored by the bridge.  Hopefully, this marginal modified
-+ * timing is tolerated by the panel. The alternative is either a black screen
-+ * (if the sync pulse width is too short or a shifted picture if the lengths
-+ * are not even).
-+ */
-+static bool tc_mode_fixup(struct drm_bridge *bridge,
-+			  const struct drm_display_mode *mode,
-+			  struct drm_display_mode *adj)
-+{
-+	u16 hsync_len, hback_porch;
-+
-+	hback_porch = adj->htotal - adj->hsync_end;
-+	if (hback_porch & 1) {
-+		adj->hsync_end -= 1;
-+		adj->hsync_start -= 1;
-+	}
-+
-+	hsync_len = adj->hsync_end - adj->hsync_start;
-+	if (hsync_len < 8)
-+		adj->hsync_start -= 8 - hsync_len;
-+	else if (hsync_len & 1)
-+		adj->hsync_start -= 1;
-+
-+	return adj->hsync_start >= adj->hdisplay;
-+}
-+
- static enum drm_mode_status
- tc_mode_valid(struct drm_bridge *bridge,
- 	      const struct drm_display_info *info,
-@@ -603,6 +634,7 @@ static const struct drm_bridge_funcs tc_bridge_funcs = {
- 	.attach = tc_bridge_attach,
- 	.pre_enable = tc_bridge_pre_enable,
- 	.enable = tc_bridge_enable,
-+	.mode_fixup = tc_mode_fixup,
- 	.mode_valid = tc_mode_valid,
- 	.post_disable = tc_bridge_post_disable,
+ /* Input bit numbers used in mux registers */
+ enum {
+-	LVI_R0,
+-	LVI_R1,
+-	LVI_R2,
+-	LVI_R3,
+-	LVI_R4,
+-	LVI_R5,
+-	LVI_R6,
+-	LVI_R7,
+-	LVI_G0,
+-	LVI_G1,
+-	LVI_G2,
+-	LVI_G3,
+-	LVI_G4,
+-	LVI_G5,
+-	LVI_G6,
+-	LVI_G7,
+-	LVI_B0,
+-	LVI_B1,
+-	LVI_B2,
+-	LVI_B3,
+-	LVI_B4,
+-	LVI_B5,
+-	LVI_B6,
+-	LVI_B7,
+-	LVI_HS,
+-	LVI_VS,
+-	LVI_DE,
+-	LVI_L0
++	LVI_R0, LVI_R1, LVI_R2, LVI_R3, LVI_R4, LVI_R5, LVI_R6, LVI_R7,
++	LVI_G0, LVI_G1, LVI_G2, LVI_G3, LVI_G4, LVI_G5, LVI_G6, LVI_G7,
++	LVI_B0, LVI_B1, LVI_B2, LVI_B3, LVI_B4, LVI_B5, LVI_B6, LVI_B7,
++	LVI_HS, LVI_VS, LVI_DE, LVI_L0
  };
+ 
+ #define LVCFG           0x049C  /* LVDS Configuration  */
 
 -- 
 2.39.2
