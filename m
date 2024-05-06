@@ -2,60 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8ED28BCCBE
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 13:22:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6568BCD27
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 13:49:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8C3A10F0ED;
-	Mon,  6 May 2024 11:22:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA9810EF9D;
+	Mon,  6 May 2024 11:49:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="15YeLV1k";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="du7BYsxk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE359112F71
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 11:22:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1714994524;
- bh=WRfIjoGXJOrxKIMOIK6fA9+RaDmVZhu3OL5+XnDAkHA=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=15YeLV1kyZjf+iw+wMojXNyYslS6EWt/yfOUxNyedsZMJOicabHB71UbapyfmROU1
- laIfq9QuGhe0QV0/T5L4nHJ77wdtpK3oXS0uYY5yDXGNC/JOJTyhls5n5Penh0Wqjf
- PGBSwEY8x5qaMssoxcZdlkXKdvkxh04ii8WFniP97mrSYM1DD+teypxXAEvBBkuuoT
- sZi2n/FIs5kzrpXTO+Z4ooZcoTk43qBETtKt1yWTprQdyTk9P97Is7wnkj+6AfTdZw
- kluGZq24q4hXoVrNQWGDYASrMBnOX/1QgnlK3mUVBzPghA4+GAqlhyyI1LTbfVZqHZ
- R9zaOkJt6TbPQ==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id AE6573782087;
- Mon,  6 May 2024 11:22:02 +0000 (UTC)
-Message-ID: <1b8fa907-b48f-4ebe-bc17-3de1d7c0d062@collabora.com>
-Date: Mon, 6 May 2024 13:22:02 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6233310EF9D
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 11:49:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1714996162;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UVOjuGHnijX2tGdsGbh2K5EBK8PBebK05w8A7S2lTKk=;
+ b=du7BYsxkpiNgHIwIJBDVSKypIGOSDF8zUmSYd1e2DMu4O/JJHX6inkJ0AlsE+kanagNNTe
+ TtAGxeNzl3c89lKHwH92fZKf06DR9qtHHlWZ1pZlKt86L+I4CZM8Q4o5ZckrfGY5DYwcg2
+ ILMrY4HgnEYXv2yw3YvKwgPY4wQOP7U=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-183-TK4mrQ88M0CEMjxT51d8Cg-1; Mon, 06 May 2024 07:49:20 -0400
+X-MC-Unique: TK4mrQ88M0CEMjxT51d8Cg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-a524b774e39so177199166b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 May 2024 04:49:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1714996159; x=1715600959;
+ h=content-transfer-encoding:to:subject:from:cc:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=UVOjuGHnijX2tGdsGbh2K5EBK8PBebK05w8A7S2lTKk=;
+ b=rx6nuVQ7Ab2+M6YQtJP7nJY8jAI98Qtx6ZsFCDuw0mcY4vohDxPlktULJsvfFWkf2a
+ +sbnR6sNCYdv3jWZUpLs9amh3v6/MdMrZ6ApEqS1ya51oiq+jeBQN9Ox+n3F5Z2cokZ1
+ iJPdIGATtcbbXWE4A9HCP5lKDxYUsXji1NQnd7pZPT9s09voTE3Q4N0A2VLWCWQAIcp5
+ qlf33pvt44ERA24rYMt/DCEbSPFSSLaf/hDh99pohe7XCW4PPEKh2QoWudobscm9LnBc
+ 99tp1cZBkQ99OOmbePs9pcu/JM2YaFuM9iCCKgOnug8JHUa1ERXXbCT/OBoBrO/6Eh+O
+ ZnHA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVUevm/L03exE7tzk5fWa+8btTYZgSrji5Kj1y9R85aRpurGZMX5H5uFx1jJMjPMB1FfXV3xuiMnvxY5/Wkj3u7P2dRAwZC+nnaJNZTQKTi
+X-Gm-Message-State: AOJu0YxJfFkMLwJxHqnxEMVQELxORTJ/pwUbvVfDeZgrjQXE5p6hDYXL
+ /oqHRvaAcGR7UbDAmpBvhMxiyDpItKut/p3ebi04fF/CbBM8OuJoyyCcee0eepBH/ZuoD0c1x2J
+ p+qiGBwMtyBvuJUV0mFZR46+bJc/ELgStbD71toRrcz4npfrklIVsT0e5DUset65NFw==
+X-Received: by 2002:a17:906:f59d:b0:a59:aa7a:3b16 with SMTP id
+ cm29-20020a170906f59d00b00a59aa7a3b16mr5438590ejd.4.1714996159601; 
+ Mon, 06 May 2024 04:49:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE/BF449P6oYtXTLNlNFAmroU8YxK+dtUwmZhtwQBPNCYWIPRiuWpV7/MJdB0SdzgHMSrhNTw==
+X-Received: by 2002:a17:906:f59d:b0:a59:aa7a:3b16 with SMTP id
+ cm29-20020a170906f59d00b00a59aa7a3b16mr5438572ejd.4.1714996159209; 
+ Mon, 06 May 2024 04:49:19 -0700 (PDT)
+Received: from [10.40.98.157] ([78.108.130.194])
+ by smtp.gmail.com with ESMTPSA id
+ ze15-20020a170906ef8f00b00a59ae3efb03sm2667510ejb.3.2024.05.06.04.49.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 May 2024 04:49:18 -0700 (PDT)
+Message-ID: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
+Date: Mon, 6 May 2024 13:49:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] drm/mediatek: Add support for OF graphs
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: Michael Walle <mwalle@kernel.org>,
- Alexandre Mergnat <amergnat@baylibre.com>, chunkuang.hu@kernel.org
-Cc: robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- matthias.bgg@gmail.com, shawn.sung@mediatek.com, yu-chang.lee@mediatek.com,
- ck.hu@mediatek.com, jitao.shi@mediatek.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- wenst@chromium.org, kernel@collabora.com
-References: <20240409120211.321153-1-angelogioacchino.delregno@collabora.com>
- <1fc23530-89ba-4e36-9e9a-a1289f56a9bc@baylibre.com>
- <608fdbde-ad06-45ec-9771-18aa9f002f2d@collabora.com>
- <D12H4GDJJEUF.1Y91H9RMUIX20@kernel.org>
- <50be68dc-b86a-4334-9f83-43c6fda2c271@collabora.com>
+Cc: Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Milan Zamazal <mzamazal@redhat.com>, Maxime Ripard <mripard@redhat.com>,
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Subject: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-In-Reply-To: <50be68dc-b86a-4334-9f83-43c6fda2c271@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,75 +104,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 06/05/24 12:56, AngeloGioacchino Del Regno ha scritto:
-> Il 06/05/24 12:02, Michael Walle ha scritto:
->> Hi Angelo,
->>
->> On Tue Apr 30, 2024 at 1:33 PM CEST, AngeloGioacchino Del Regno wrote:
->>>>> This series was tested on MT8195 Cherry Tomato and on MT8395 Radxa
->>>>> NIO-12L with both hardcoded paths, OF graph support and partially
->>>>> hardcoded paths (meaning main display through OF graph and external
->>>>> display hardcoded, because of OVL_ADAPTOR).
->>>>
->>>> Is that make sense for you to add the DTS changes of these boards into this 
->>>> serie ?
->>>> I asked because, IMHO, that could help to understand the serie.
->>>>
->>>
->>> Yes and no... but I imagine that you're asking this because you're trying to
->>> prepare something with a different SoC+board(s) combination :-)
->>>
->>> In that case, I'm preventively sorry because what follows here is not 100%
->>> perfectly tidy yet as I didn't mean to send the devicetree commits upstream
->>> before this series got picked....
->>>
->>> ... but there you go - I'm sure that you won't mind and that the example will
->>> be more than good enough for you.
->>
->> I've tested this series with the DSI0 output and it works. Nice! No
->> need for my DSI0 patch for the MT8395 anymore.
->>
->> But I can't get it to work with the DisplayPort output, that is the
->> dp_intf1/dp_tx interface. I don' know how the pipeline have to look
->> like. The functional spec seems to be ambiguous on this. The text
->> seem to refer to the second vdosys but there is also a diagram where
->> you can use the first vdosys and dsc0. If you have any pointers for
->> me, I'm all ears :)
->>
-> 
-> 
-> The problem with this is that you need DDP_COMPONENT_DRM_OVL_ADAPTOR... which is
-> a software thing and not HW, so that can't be described in devicetree.
-> 
-> The only thing this series won't deal with is exactly that.
+Hi dma-buf maintainers, et.al.,
 
-Sorry, no, I got confused.
+Various people have been working on making complex/MIPI cameras work OOTB
+with mainline Linux kernels and an opensource userspace stack.
 
-The series *does* already deal with that, as the pipeline is built before the check
-for OVL_ADAPTOR components, so that will get probed.
+The generic solution adds a software ISP (for Debayering and 3A) to
+libcamera. Libcamera's API guarantees that buffers handed to applications
+using it are dma-bufs so that these can be passed to e.g. a video encoder.
 
-What I got confused about is the fact that I promised myself to cleanup the support
-for that OVL_ADAPTOR thing (which is unrelated to this series, even...), but again,
-this series will still get that probed anyway.
+In order to meet this API guarantee the libcamera software ISP allocates
+dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
+the Fedora COPR repo for the PoC of this:
+https://hansdegoede.dreamwidth.org/28153.html
 
-Anyway.
+I have added a simple udev rule to give physically present users access
+to the dma_heap-s:
 
-The pipeline for DP1 should be simply
+KERNEL=="system", SUBSYSTEM=="dma_heap", TAG+="uaccess"
 
-VDOSYS 1 -> MERGE 5 -> DP_INTF 1 -> DP
+(and on Rasperry Pi devices any users in the video group get access)
 
-(eDP on VDOSYS 0 -> MERGE 0 --- DP on VDOSYS 1 -> MERGE 5)
+This was just a quick fix for the PoC. Now that we are ready to move out
+of the PoC phase and start actually integrating this into distributions
+the question becomes if this is an acceptable solution; or if we need some
+other way to deal with this ?
 
-Cheers,
-Angelo
+Specifically the question is if this will have any negative security
+implications? I can certainly see this being used to do some sort of
+denial of service attack on the system (1). This is especially true for
+the cma heap which generally speaking is a limited resource.
 
-> 
-> It's relatively easy, though, to add support for the OVL_ADAPTOR... as it would
-> be just a matter of checking if any of the components in the pipeline contain a
-> compatible that is in the OVL_ADAPTOR compatible list.
-> 
-> I'll try to add that up today, let's see what I can do.
-> 
+But devices tagged for uaccess are only opened up to users who are 
+physcially present behind the machine and those can just hit
+the powerbutton, so I don't believe that any *on purpose* DOS is part of
+the thread model. Any accidental DOS would be a userspace stack bug.
 
+Do you foresee any other negative security implications from allowing
+physically present non root users to create (u)dma-bufs ?
+
+Regards,
+
+Hans
+
+
+1) There are some limits in drivers/dma-buf/udmabuf.c and distributions
+could narrow these.
 
 
