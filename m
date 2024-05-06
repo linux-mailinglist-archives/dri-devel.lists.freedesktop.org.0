@@ -2,76 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81CA8BC7C5
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 08:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3B18BC7CC
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 08:49:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 891F41121A4;
-	Mon,  6 May 2024 06:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA2910EDF5;
+	Mon,  6 May 2024 06:49:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g0T3EGkS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tRFth89+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 366D91121A4
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 06:45:27 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-61be4b9869dso16136547b3.1
- for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 23:45:27 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8568D10F865
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 06:49:15 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-61816fc256dso14849897b3.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 23:49:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714977926; x=1715582726; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1714978154; x=1715582954; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+mfxz2O8XS3FqjCrjmLET9AWxg3oFsKvwghyYD05k6U=;
- b=g0T3EGkSl5vFc2BhcEbui2jP1myzu/9+g+heeE0yR99wrk7ICyaEJTAAWzF32jidK2
- zU85CH87Jm3gZfGd0CtTWzSE9X9E4zMVDrc2XLW91CYLqAjg/j+2sFHHz3kJWD3mGcXA
- DKVao2AiyQTiaq7pa3M47RPSNcZNxA5O6Pyybk7K2iACAm4zd/EH/bJsuGcG1q+LtmOY
- V0qvguqu+7y+sj0bXdS8cQRNe9KkkNZQmMa4752dD7yugfrGD0lGkc3MxEH1gHkidwWe
- 85XKbm1RVMOE9dwqE+ldW/CvOBWqrLpR/E+KxTQ3QLRWxw3rlhWd6X8nfNN+oYDP77Je
- d5Tg==
+ bh=w8noqLZ7rreQXY6bq7wOdAQ/j08jV52ZrD0dDyncfUM=;
+ b=tRFth89+wuTSguaLahM6edqXhICmg1N4VhWd40gyfJRimbpHEpBFNPtm8jIfHt4x8F
+ jL79m/7BxSmJY2nZQ71ihMfFd2R521VkVu2Ue0iXuTbm+k2OcYN1+Cbg4OIzyYg9eayE
+ jPsf+VIv6QRqM3a+MH9fcvQvSgQkRhte8AI2FtWEsz9T3l0SgNQojfdNBdVvPPcfFzeD
+ yzU9Z00lcequu4opJUZ8b3JIBPVdLy7fR19C8j/46gx/4n9zG9o9oo7yLZMIoWjGQIrz
+ cQG+Y+zDaHkJ8lKnFTi9+XKa4NRSKz6qEHeZqY9TABGjWVDX69YcjKRRAWE11RfwiWi5
+ WkUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714977926; x=1715582726;
+ d=1e100.net; s=20230601; t=1714978154; x=1715582954;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+mfxz2O8XS3FqjCrjmLET9AWxg3oFsKvwghyYD05k6U=;
- b=SS0d3uHrRBrNqE+Pq3QSHXj3pKlT6eKwL7n5SD1Gt+EZxY/C3oVzQ74DuW4WCn57gM
- ODaoFpFcSbAx9ZuwnGjf4lc/xVO4JDLJaXJLEcXMSPjy8rtBttRW7W46zjXkFEzF+GUb
- iyzSZ6lU2Y7Qa/tvzPqI71upS+ttPtdD7pR/NGKDlX7au1g4HCEkrZiM+cIN2ECRefac
- HB3Y7qyups+nraPdNwda1hqJENUhFK10MgOegYpZMOjWCZrhywByGAArmBP3QLE2z3z7
- Lb0QifB7hSUZKqV2jPP78gM1Bs4w4qVpRY58n/F7Ng5gvwLW0oSzIoRps+lnnnNBrkpR
- Xd5g==
-X-Gm-Message-State: AOJu0Yz7rOrPiAQ09lX+5HX3VB7N62U4X90F/Da5x6XytJ0AMEAe9weA
- 5SojLIvdhk5/F6+M3pGeP6Nb0QI0HN7MxmtZIrNE/8K/w0OXsGrmVLWqPAxc7zRjYlLKu1mcf0I
- W87XQ4nhYRw/g522UDu43ToD6BJgD11I4bTWjnQ==
-X-Google-Smtp-Source: AGHT+IEFH0U8CO1IDjCLvIZv1boxJZTKo1UkGaFseTk0bJY4Cy4LrIDB4kffcrBBs7di25uwzfJQ4u2WysBYxgh/aSs=
-X-Received: by 2002:a81:a14a:0:b0:61e:a3a:2538 with SMTP id
- y71-20020a81a14a000000b0061e0a3a2538mr9695835ywg.18.1714977926097; Sun, 05
- May 2024 23:45:26 -0700 (PDT)
+ bh=w8noqLZ7rreQXY6bq7wOdAQ/j08jV52ZrD0dDyncfUM=;
+ b=kdqsMtpZri9l6JdcNhQT2v43csj1ZmHbjGDH+yqpwKvbpbEkDSZQek3gj5EHEHFKex
+ 5H4hzgn6jWZMcCpDpaDZh6Y9iGdZZ5jT/rY7aE4kD8SoQVsldV8bFZ7XKUI0gbGJHO8n
+ oTSiQfnTlUJjAfxxxaiW8ZFb9bsQrfgYYq72G+5jskW1ekH+a9NlYeaVNHJofDxev3ht
+ ukDIz+I0MIpKOJxSBwQGdYeVdp8sF+M4qcQnfj/1AoETJ/48JaibhNpcKSfmhPbHgKV/
+ lVl91XekzoYpnUBbDDXMuvdOtEbDC2HF3Do+yM7TqDUVwJFKY+Vo6L/nfsFYMTnXtvi/
+ ACZw==
+X-Gm-Message-State: AOJu0Yyxz6ErMhtgGCvG+juYoYYeXPt343gwJTC0zxdhIHMNDtOlVtzd
+ VL6XKBPF0U765yfVu4a2iMPo1JcR/Nfes9lXE2xpQT8mu5Cjz/Qk9ftdLXpSKLU/BUItV76vR8h
+ cRL06L0nHEtW/pialJe9UM8TqQYnpA+JR2x2rbw==
+X-Google-Smtp-Source: AGHT+IGTmTyx+2hxP484wZ1RDm/WIK4rLYQ/umGSZShmQj88zjWTJid5DVM66fAf4w/k7f8vI65YD102wVdQ0FL8qBw=
+X-Received: by 2002:a81:ac13:0:b0:619:da17:87be with SMTP id
+ k19-20020a81ac13000000b00619da1787bemr7931494ywh.42.1714978154440; Sun, 05
+ May 2024 23:49:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240501154251.3302887-1-dianders@chromium.org>
- <20240501084109.v3.9.I947e28c81f9ef7dcd3add6e193be72d6f8ea086f@changeid>
-In-Reply-To: <20240501084109.v3.9.I947e28c81f9ef7dcd3add6e193be72d6f8ea086f@changeid>
+References: <20240503213441.177109-1-dianders@chromium.org>
+ <20240503143327.RFT.v2.46.I6a51b36831a5c7b2b82bccf8c550cf0d076aa541@changeid>
+In-Reply-To: <20240503143327.RFT.v2.46.I6a51b36831a5c7b2b82bccf8c550cf0d076aa541@changeid>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 6 May 2024 08:45:15 +0200
-Message-ID: <CACRpkdZek9Q1ovQY_f7SzT3bvcK4dsn_t0ZGB94On7MG=CzTEw@mail.gmail.com>
-Subject: Re: [PATCH v3 9/9] drm/panel: innolux-p079zca: Don't use a table for
- initting panels
+Date: Mon, 6 May 2024 08:49:03 +0200
+Message-ID: <CACRpkdarbyhZufTHy1m57rfVdMO9aqbgkoHfdhG3h0=RZTjV8g@mail.gmail.com>
+Subject: Re: [RFT PATCH v2 46/48] drm/panel: sony-acx565akm: Don't
+ double-check enabled state in disable
 To: Douglas Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- Hsin-Yi Wang <hsinyi@google.com>, 
- Brian Norris <briannorris@chromium.org>, Sam Ravnborg <sam@ravnborg.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Javier Martinez Canillas <javierm@redhat.com>, 
- Joel Selvaraj <jo@jsfamily.in>, lvzhaoxiong@huaqin.corp-partner.google.com, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ Chris Morgan <macromorgan@hotmail.com>,
+ Yuran Pereira <yuran.pereira@hotmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -90,45 +88,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 1, 2024 at 5:43=E2=80=AFPM Douglas Anderson <dianders@chromium.=
-org> wrote:
+On Fri, May 3, 2024 at 11:38=E2=80=AFPM Douglas Anderson <dianders@chromium=
+.org> wrote:
 
-> Consensus on the mailing lists is that panels shouldn't use a table of
-> init commands but should instead use init functions. We'll use the
-> same concepts as the recently introduced
-> mipi_dsi_generic_write_seq_multi() to make this clean/easy and also
-> not bloat the driver too much. Measuring before/after this change:
+> As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+> prepared/enabled in drm_panel"), we want to remove needless code from
+> panel drivers that was storing and double-checking the
+> prepared/enabled state. Even if someone was relying on the
+> double-check before, that double-check is now in the core and not
+> needed in individual drivers.
 >
-> $ scripts/bloat-o-meter \
->   .../before/panel-innolux-p079zca.ko \
->   .../after/panel-innolux-p079zca.ko
-> add/remove: 3/2 grow/shrink: 0/1 up/down: 2356/-1944 (412)
-> Function                                     old     new   delta
-> innolux_p097pfg_init                           -    1772   +1772
-> innolux_p097pfg_init.d                         -     480    +480
-> innolux_panel_write_multi                      -     104    +104
-> innolux_panel_prepare                        412     308    -104
-> .compoundliteral                             480       -    -480
-> innolux_p097pfg_init_cmds                   1360       -   -1360
-> Total: Before=3D5802, After=3D6214, chg +7.10%
+> The acx565akm seems to do some unique stuff with the "enabled"
+> state. Specifically:
+> 1. It seems to detect the enabled state based on how the bootloader
+>    left the panel.
+> 2. It uses the enabled state to prevent certain sysfs files from
+>    accessing a disabled panel.
 >
-> Note that, unlike some other drivers, we actually make this panel
-> driver _bigger_ by using the new functions. This is because the
-> innolux-p079zca panel driver didn't have as complex of a table and
-> thus the old table was more efficient than the code. The bloat is
-> still not giant (only 412 bytes).
+> We'll leave the "enabled" state tracking for this. However, we can at
+> least get rid of the double-check when trying to disable.
 >
-> Also note that we can't direclty use
-> mipi_dsi_generic_write_seq_multi() here because we need to deal with
-> the crazy "nop" that this driver sends after all commands. This means
-> that we have to write code that is "inspired" by the new macros.
->
-> Since we're touching all the tables, let's also convert hex numbers to
-> lower case as per kernel conventions.
->
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-With the mentioned bugfix:
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
