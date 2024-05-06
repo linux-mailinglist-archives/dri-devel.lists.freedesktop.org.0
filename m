@@ -2,63 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7DF8BD1E3
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 17:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5F28BD214
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 18:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9970C10F101;
-	Mon,  6 May 2024 15:54:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 954F510F10A;
+	Mon,  6 May 2024 16:02:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mvrt3j3G";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="SRXzoZEq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id E7E8C10F0F9;
- Mon,  6 May 2024 15:54:48 +0000 (UTC)
-Received: from [100.65.96.57] (unknown [20.236.10.66])
- by linux.microsoft.com (Postfix) with ESMTPSA id 63A2E20B2C82;
- Mon,  6 May 2024 08:54:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 63A2E20B2C82
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1715010888;
- bh=sn+I7ADMPSvGvZYIULHrdfmxmoEt29gcieDFLNGehhA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mvrt3j3GirQyL+zNWSUJPrkb94vYe3gRE3gFwpfF/00niIyl3fc+VRb5f4AxuoW6y
- kfky6VeELzBpCgzxTreaammrgxgd2SDXZvPOj7nLeVxJzxzGqiRR6ErGuzVari+m/L
- Ad5PQJ1lUdbhal6K44JEvCMsC3zo/UFAAL0Irirc=
-Message-ID: <82f5b8e3-45c4-4b59-bc96-4cee2b122e9a@linux.microsoft.com>
-Date: Mon, 6 May 2024 08:54:47 -0700
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
+ [209.85.222.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D1810E689
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 16:02:33 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id
+ af79cd13be357-78f05341128so175466185a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 May 2024 09:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1715011351; x=1715616151;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=g5H9ldalJcbmvgPRS+HnifHYCRDDP3C7W4j1Jjysd7U=;
+ b=SRXzoZEqDikYkvGuTJpgnx/pXcGIJIW3inYvpK1g/oF98pGNOtgezg8NRxjag8C3If
+ 0N+H6byg8qEzTwUNdjPzZrc37YSMnlKz3mZRK1LjTwqFKqMJAWU5a5rsggz5KmoUZ4Lu
+ 92DkgUaYcRQ3ZrF20eLg88NfGDgqOlxKA9Nyg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715011351; x=1715616151;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=g5H9ldalJcbmvgPRS+HnifHYCRDDP3C7W4j1Jjysd7U=;
+ b=Xt8z1bJZGVT+K7t3MHULie4idkuyucTUusN6DGD5wndJUnJIohwe/SCFAoY5tP8nrC
+ qKVNjZoSElVembSNGTUc8dw8VdfqwQopM0xtPqCYDb9TcE4Yd07UZkxGehH78CCHxqaB
+ 7KvR1klXU+n0cXa+mm2ZvMHXiOlzTRSLGKZTbu/jl+cBf2R18TQgGeiJtQ7a2oE4bfEF
+ gMcirNdR/LBNpak7OGc9tesdeeT0brn9Ba8JuZFWhvuEFwJr4Vn45lR3F5y7KJs3AdOj
+ Lh17nDRSeVOSTTBnPR2qMtAntF/uNigLSrb/g3+5zEwM5uYv8rX2246vO6u2KGDXmDLH
+ Uv9Q==
+X-Gm-Message-State: AOJu0Yz1jKqsEYKjBXRqxbF6eFmAv16ndjno3jByAna3uOUqV1MOqCSf
+ p3yNIc/QFdlHuBSUY/8YYLagwp2nts2CBzcRFH8oOl0Q4SzwyZWbAmn30NmVSLAPpdMovDJSkTQ
+ =
+X-Google-Smtp-Source: AGHT+IEE3W4c+IrL1ZaAE0sMsVagB9hSlxWFw0UecZ5HTzpEu7n9QNCRW/BxK8QISyQhYKCpU9BVng==
+X-Received: by 2002:a05:620a:309:b0:792:9b08:e37 with SMTP id
+ s9-20020a05620a030900b007929b080e37mr2638686qkm.68.1715011348389; 
+ Mon, 06 May 2024 09:02:28 -0700 (PDT)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com.
+ [209.85.160.169]) by smtp.gmail.com with ESMTPSA id
+ d6-20020a05620a240600b007928d82c49fsm2180806qkn.36.2024.05.06.09.02.27
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 May 2024 09:02:27 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-43d361a2124so348281cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 May 2024 09:02:27 -0700 (PDT)
+X-Received: by 2002:a05:622a:108:b0:439:a979:ccb2 with SMTP id
+ d75a77b69052e-43d031c9bd5mr5684701cf.16.1715011346712; Mon, 06 May 2024
+ 09:02:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 10/12] sfc: falcon: Make I2C terminology more inclusive
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Edward Cree <ecree.xilinx@gmail.com>,
- Martin Habets <habetsm.xilinx@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- "open list:SFC NETWORK DRIVER" <netdev@vger.kernel.org>,
- "open list:SFC NETWORK DRIVER" <linux-net-drivers@amd.com>,
- open list <linux-kernel@vger.kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>,
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>
-References: <20240430173812.1423757-1-eahariha@linux.microsoft.com>
- <20240430173812.1423757-11-eahariha@linux.microsoft.com>
- <20240503151300.0f202c30@kernel.org>
-Content-Language: en-CA
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <20240503151300.0f202c30@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240502164746.1.Ia32fc630e5ba41b3fdd3666d9e343568e03c4f3a@changeid>
+ <CAJMQK-h24xoO6jsYu4NK8ENoA6nsidcF8aN2pCzNMPgmu1NxEw@mail.gmail.com>
+In-Reply-To: <CAJMQK-h24xoO6jsYu4NK8ENoA6nsidcF8aN2pCzNMPgmu1NxEw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 6 May 2024 09:02:15 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UavcwPud8q57bWGPaJn4z0aP_abuBddhNh8eKVhjF4tg@mail.gmail.com>
+Message-ID: <CAD=FV=UavcwPud8q57bWGPaJn4z0aP_abuBddhNh8eKVhjF4tg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add ID for KD KD116N09-30NH-A016
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,24 +93,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/3/2024 3:13 PM, Jakub Kicinski wrote:
-> On Tue, 30 Apr 2024 17:38:09 +0000 Easwar Hariharan wrote:
->> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master/slave"
->> with more appropriate terms. Inspired by and following on to Wolfram's
->> series to fix drivers/i2c/[1], fix the terminology for users of
->> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exists
->> in the specification.
->>
->> Compile tested, no functionality changes intended
-> 
-> FWIW we're assuming someone (Wolfram?) will take all of these,
-> instead of area maintainers picking them individually.
-> Please let us know if that's incorrect.
+Hi,
 
-I think, based on the trend in the v2 conversation[1], that's correct. If maintainers of
-other areas disagree, please chime in.
+On Thu, May 2, 2024 at 4:55=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> w=
+rote:
+>
+> On Thu, May 2, 2024 at 4:48=E2=80=AFPM Douglas Anderson <dianders@chromiu=
+m.org> wrote:
+> >
+> > As evidenced by in-field reports, this panel shipped on pompom but we
+> > never added the ID and thus we're stuck w/ conservative timings. The
+> > panel was part of early patches but somehow got left off in the
+> > end. :( Add it in now.
+> >
+> > For future reference, EDID from this panel is:
+> >         00ffffffffffff002c82121200000000
+> >         321e0104951a0e780ae511965e55932c
+> >         19505400000001010101010101010101
+> >         010101010101a41f5686500084302820
+> >         55000090100000180000000000000000
+> >         00000000000000000000000000000000
+> >         000000000000000000000000000000fe
+> >         004b443131364e3039333041313600f6
+> >
+> > We use the ASCII string from decoding the EDID ("KD116N0930A16") as
+> > the panel name.
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>
+> Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
 
-Thanks,
-Easwar
+Pushed to drm-misc-next:
 
-[1] https://lore.kernel.org/all/20240503181333.2336999-1-eahariha@linux.microsoft.com/
+a6cd27d92a96 drm/panel-edp: Add ID for KD KD116N09-30NH-A016
