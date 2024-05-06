@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110008BCF1E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E7D8BCF21
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:36:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 651B710FCBC;
-	Mon,  6 May 2024 13:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2991910FE64;
+	Mon,  6 May 2024 13:36:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c9s/WUkz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MQlzbcin";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2D210FCBC
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:36:27 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4889410FDE5
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:36:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B9A8E612B8;
+ by sin.source.kernel.org (Postfix) with ESMTP id 2CD60CE0E74;
+ Mon,  6 May 2024 13:36:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 062EAC116B1;
  Mon,  6 May 2024 13:36:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26C2BC4AF68;
- Mon,  6 May 2024 13:36:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715002586;
- bh=Hm8IbzH7o86qGsPyzm5DKDFy+pWLYyONwjVqfO4C4rg=;
+ s=k20201202; t=1715002591;
+ bh=CdCWrZhe83V0sESOJK7U77pyux4Xw5LMdp8ycoT3WUE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=c9s/WUkzLe0/Gv60ykQuMYisA+qfLshxmw/LYojmokJi/IFRzXPXz3p7WTjXqTUcu
- 9cO9wxDiJJ7V/gNHD316aargzM6HJ5kQz5tLFxy4b09QtHmY9CGScsnCBH9raaqgg1
- ovFY1Lzdq3L8wtWXvB9u6txLzMzgSj7OAApgNpQ7MjR4Q+gv5VBsFB0jo/myaNQ5ep
- yyg8txlfAv6PT6aHaUh56acPXe/OiSPLwqS6+rv6rmUM7jbdnhK1aCssHYK1R/wfF7
- AhMejO6EnmKXCMlB3MpkvgKwRNXoZhDi9d52bnu5PEsjffWVTT3Bf5rKI+RhyPmL8P
- iWTPegQ6Oqw3g==
+ b=MQlzbcin9J88aETS0zLDb0nvobS3wtLI2Y4BBLQYro4df7gUI0X62eehQlcKCMs9K
+ WzNcODU+CgRa7rRgSlZR2PuZy/juDvvKr2lyV7KBnids0vcCKxinOR55C1pha6uQZy
+ pqhtmhvqQ3aNOvtmJLcr7CO0vbwcd9m5eT1d1rccugbqf89CHBIJmAdTtGhnqwrCSC
+ gxtn3C9GumjieD7KwgVLmf/H/GEYj6kGebzI6Dt52QbdqE8wyjHv8AwnQ4QdFdcdhg
+ Gai+zjxlTch4LRJBulxLPBOxb6dED1DZOygysJFpsJ5sS4d0sWRi8dBJl54Mw7abqd
+ pUu86gTg+hSrg==
 From: Michael Walle <mwalle@kernel.org>
-Date: Mon, 06 May 2024 15:34:46 +0200
-Subject: [PATCH 17/20] drm/bridge: tc358775: move bridge power up/down into
- functions
+Date: Mon, 06 May 2024 15:34:47 +0200
+Subject: [PATCH 18/20] drm/bridge: tc358775: fix the power-up/down delays
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240506-tc358775-fix-powerup-v1-17-545dcf00b8dd@kernel.org>
+Message-Id: <20240506-tc358775-fix-powerup-v1-18-545dcf00b8dd@kernel.org>
 References: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 In-Reply-To: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -72,70 +71,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the bridge power-up and power-down handling into own functions.
-This is a preparation patch to fix the power-up sequencing of the
-bridge. No functional change.
+Implement the delays according to Figure 8-10 and 8-11 of the datasheet.
+In particular, the datasheet states that the *maximum* time between
+enabling the VDDIO and VDD is 10ms. Currently, as implemented this is
+always violated. Of course, this is only a best effort because we cannot
+be sure enabling of the two regulators will be that fast.
+The time between releasing the stby GPIO and releasing the reset GPIO
+must be at least 10us and not 10ms as it was before this patch. After
+reset is released, there must be at least a delay of 200us until the
+first HS clock is received.
 
 Signed-off-by: Michael Walle <mwalle@kernel.org>
 ---
- drivers/gpu/drm/bridge/tc358775.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/tc358775.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-index c50554ec4b28..d5b3d691d2c1 100644
+index d5b3d691d2c1..99dbbb1fee78 100644
 --- a/drivers/gpu/drm/bridge/tc358775.c
 +++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -215,6 +215,7 @@ struct tc_data {
- 	struct gpio_desc	*reset_gpio;
- 	struct gpio_desc	*stby_gpio;
- 	bool			lvds_dual_link;
-+	bool			powered;
- 	u8			bpc;
+@@ -242,18 +242,16 @@ static void tc358775_power_up(struct tc_data *tc)
+ 	ret = regulator_enable(tc->vddio);
+ 	if (ret < 0)
+ 		dev_err(dev, "regulator vddio enable failed, %d\n", ret);
+-	usleep_range(10000, 11000);
  
- 	enum tc3587x5_type	type;
-@@ -233,9 +234,8 @@ static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
- 	return container_of(b, struct tc_data, bridge);
+ 	ret = regulator_enable(tc->vdd);
+ 	if (ret < 0)
+ 		dev_err(dev, "regulator vdd enable failed, %d\n", ret);
+-	usleep_range(10000, 11000);
+ 
+ 	gpiod_set_value(tc->stby_gpio, 0);
+-	usleep_range(10000, 11000);
++	usleep_range(10, 20);
+ 
+ 	gpiod_set_value(tc->reset_gpio, 0);
+-	usleep_range(10, 20);
++	usleep_range(200, 250);
  }
  
--static void tc_bridge_pre_enable(struct drm_bridge *bridge)
-+static void tc358775_power_up(struct tc_data *tc)
- {
--	struct tc_data *tc = bridge_to_tc(bridge);
- 	struct device *dev = &tc->dsi->dev;
- 	int ret;
- 
-@@ -256,9 +256,8 @@ static void tc_bridge_pre_enable(struct drm_bridge *bridge)
+ static void tc358775_power_down(struct tc_data *tc)
+@@ -265,17 +263,14 @@ static void tc358775_power_down(struct tc_data *tc)
  	usleep_range(10, 20);
+ 
+ 	gpiod_set_value(tc->stby_gpio, 1);
+-	usleep_range(10000, 11000);
+ 
+ 	ret = regulator_disable(tc->vdd);
+ 	if (ret < 0)
+ 		dev_err(dev, "regulator vdd disable failed, %d\n", ret);
+-	usleep_range(10000, 11000);
+ 
+ 	ret = regulator_disable(tc->vddio);
+ 	if (ret < 0)
+ 		dev_err(dev, "regulator vddio disable failed, %d\n", ret);
+-	usleep_range(10000, 11000);
  }
  
--static void tc_bridge_post_disable(struct drm_bridge *bridge)
-+static void tc358775_power_down(struct tc_data *tc)
- {
--	struct tc_data *tc = bridge_to_tc(bridge);
- 	struct device *dev = &tc->dsi->dev;
- 	int ret;
- 
-@@ -279,6 +278,20 @@ static void tc_bridge_post_disable(struct drm_bridge *bridge)
- 	usleep_range(10000, 11000);
- }
- 
-+static void tc_bridge_pre_enable(struct drm_bridge *bridge)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+
-+	tc358775_power_up(tc);
-+}
-+
-+static void tc_bridge_post_disable(struct drm_bridge *bridge)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+
-+	tc358775_power_down(tc);
-+}
-+
- /* helper function to access bus_formats */
- static struct drm_connector *get_connector(struct drm_encoder *encoder)
- {
+ static void tc_bridge_pre_enable(struct drm_bridge *bridge)
 
 -- 
 2.39.2
