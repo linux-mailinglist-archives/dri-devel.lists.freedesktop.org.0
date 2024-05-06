@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3B18BC7CC
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 08:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85C98BC7CF
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 08:49:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA2910EDF5;
-	Mon,  6 May 2024 06:49:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00735112159;
+	Mon,  6 May 2024 06:49:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tRFth89+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WwBx6Xu1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8568D10F865
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 06:49:15 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-61816fc256dso14849897b3.0
- for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 23:49:15 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70FB510FF3B
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 06:49:37 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-61bee45d035so17075477b3.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 May 2024 23:49:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1714978154; x=1715582954; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1714978176; x=1715582976; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=w8noqLZ7rreQXY6bq7wOdAQ/j08jV52ZrD0dDyncfUM=;
- b=tRFth89+wuTSguaLahM6edqXhICmg1N4VhWd40gyfJRimbpHEpBFNPtm8jIfHt4x8F
- jL79m/7BxSmJY2nZQ71ihMfFd2R521VkVu2Ue0iXuTbm+k2OcYN1+Cbg4OIzyYg9eayE
- jPsf+VIv6QRqM3a+MH9fcvQvSgQkRhte8AI2FtWEsz9T3l0SgNQojfdNBdVvPPcfFzeD
- yzU9Z00lcequu4opJUZ8b3JIBPVdLy7fR19C8j/46gx/4n9zG9o9oo7yLZMIoWjGQIrz
- cQG+Y+zDaHkJ8lKnFTi9+XKa4NRSKz6qEHeZqY9TABGjWVDX69YcjKRRAWE11RfwiWi5
- WkUA==
+ bh=mnMA7ErfNqKPuWteFTyprk6+lWU7AKOkz4CgphnWuMk=;
+ b=WwBx6Xu1MhkeuJDDLnbfQH2UB1NqWEZFqOqX5zoduwGZJzpI+nEZ2Zfm68Ppqy2Rkf
+ pHTvtYoqA1TrarC6K8vpp0qO3l5w/ZBiLavZMRqx/eVmY+tbmHvIWcG5FBQdd1JfmFre
+ L8uKEiBvgiG7AyQHvwdLRoFGtFW7/qLegJRYRtVIYnX5Oz9l4Og7gtYWR6oz9evKP0Kb
+ 4TH6dXfiAJJNsdkjekINH0VlH2e/E2GlvjKI0ejJKzDOOVcmlpG3Ro5hw/Pgqn9vGzA7
+ nerpejWSghhnnToZWqyhLb3+9FJjxkf2Yo37JUKEmJDRrWps1MK02njKjZl2dd/qioKx
+ eZ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1714978154; x=1715582954;
+ d=1e100.net; s=20230601; t=1714978176; x=1715582976;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=w8noqLZ7rreQXY6bq7wOdAQ/j08jV52ZrD0dDyncfUM=;
- b=kdqsMtpZri9l6JdcNhQT2v43csj1ZmHbjGDH+yqpwKvbpbEkDSZQek3gj5EHEHFKex
- 5H4hzgn6jWZMcCpDpaDZh6Y9iGdZZ5jT/rY7aE4kD8SoQVsldV8bFZ7XKUI0gbGJHO8n
- oTSiQfnTlUJjAfxxxaiW8ZFb9bsQrfgYYq72G+5jskW1ekH+a9NlYeaVNHJofDxev3ht
- ukDIz+I0MIpKOJxSBwQGdYeVdp8sF+M4qcQnfj/1AoETJ/48JaibhNpcKSfmhPbHgKV/
- lVl91XekzoYpnUBbDDXMuvdOtEbDC2HF3Do+yM7TqDUVwJFKY+Vo6L/nfsFYMTnXtvi/
- ACZw==
-X-Gm-Message-State: AOJu0Yyxz6ErMhtgGCvG+juYoYYeXPt343gwJTC0zxdhIHMNDtOlVtzd
- VL6XKBPF0U765yfVu4a2iMPo1JcR/Nfes9lXE2xpQT8mu5Cjz/Qk9ftdLXpSKLU/BUItV76vR8h
- cRL06L0nHEtW/pialJe9UM8TqQYnpA+JR2x2rbw==
-X-Google-Smtp-Source: AGHT+IGTmTyx+2hxP484wZ1RDm/WIK4rLYQ/umGSZShmQj88zjWTJid5DVM66fAf4w/k7f8vI65YD102wVdQ0FL8qBw=
-X-Received: by 2002:a81:ac13:0:b0:619:da17:87be with SMTP id
- k19-20020a81ac13000000b00619da1787bemr7931494ywh.42.1714978154440; Sun, 05
- May 2024 23:49:14 -0700 (PDT)
+ bh=mnMA7ErfNqKPuWteFTyprk6+lWU7AKOkz4CgphnWuMk=;
+ b=qt/lf3RRopu5td79wI0suhIwWewwlyoeU1rNiVtjSEq4ONgF+KziXXsJe+MV7Uw1Xr
+ Uma4e37QV1kMzTdPn11rqVvP9c5/bAho2Tl84xLWm7Ccik4WEFobPFYpJpzSPz+j9XIa
+ 8G6HltLmpbvv5liVQ4Wf627VJXRm6rozcw7us7Iy4GSdsM9SQlaybiUsoQXBwAAvL6op
+ lFOk/3FEiSydFlj6WvCJgllV68TC1wFlvxQPHs9c0SNi8GB5JNZ7GxSYkZlivwEdTPmJ
+ NeivUgpxGet/EymMHuiaeDYl9E60RcmkKAJs0pecny2L4E3hnrnJ0KPt9IdB5IlYunDU
+ rQUw==
+X-Gm-Message-State: AOJu0YzdnFW3ilx3cxB3ECkGTu4nqWiA4jSu/EA0+ynjGqxxCQQt8vyl
+ nmcjSpc6mURmptvJf1Vb/lDyLvVR2PR7LVriCLofXUB7fw/93E6RDUzBV0QG5EOeuwrPPLTsC19
+ B/THnX3lzDl0gg6gEclA9JOGTJG+moks9J/9ehUR2Q5RZ9g/p
+X-Google-Smtp-Source: AGHT+IH0hH3+COymJPJl26UVpAMkDQL0eTyMe4aTaoCJoKbhPlu+pDGsv3OMsBrEFsgQa8L3URT8RtIK4gzEII6Co0U=
+X-Received: by 2002:a81:8443:0:b0:615:1e68:9080 with SMTP id
+ u64-20020a818443000000b006151e689080mr8502525ywf.26.1714978176344; Sun, 05
+ May 2024 23:49:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240503213441.177109-1-dianders@chromium.org>
- <20240503143327.RFT.v2.46.I6a51b36831a5c7b2b82bccf8c550cf0d076aa541@changeid>
-In-Reply-To: <20240503143327.RFT.v2.46.I6a51b36831a5c7b2b82bccf8c550cf0d076aa541@changeid>
+ <20240503143327.RFT.v2.47.I2513fd6824929a17c1ccd18a797b98a1a1063559@changeid>
+In-Reply-To: <20240503143327.RFT.v2.47.I2513fd6824929a17c1ccd18a797b98a1a1063559@changeid>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 6 May 2024 08:49:03 +0200
-Message-ID: <CACRpkdarbyhZufTHy1m57rfVdMO9aqbgkoHfdhG3h0=RZTjV8g@mail.gmail.com>
-Subject: Re: [RFT PATCH v2 46/48] drm/panel: sony-acx565akm: Don't
- double-check enabled state in disable
+Date: Mon, 6 May 2024 08:49:25 +0200
+Message-ID: <CACRpkdZgvHRb=KGUskiu5+=R=05yMQ_gqZ+ScP2oLpf6DibSfA@mail.gmail.com>
+Subject: Re: [RFT PATCH v2 47/48] drm/panel: sony-acx565akm: Don't call
+ disable at remove
 To: Douglas Anderson <dianders@chromium.org>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
  Chris Morgan <macromorgan@hotmail.com>,
@@ -91,28 +91,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Fri, May 3, 2024 at 11:38=E2=80=AFPM Douglas Anderson <dianders@chromium=
 .org> wrote:
 
-> As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-> prepared/enabled in drm_panel"), we want to remove needless code from
-> panel drivers that was storing and double-checking the
-> prepared/enabled state. Even if someone was relying on the
-> double-check before, that double-check is now in the core and not
-> needed in individual drivers.
+> It's the responsibility of a correctly written DRM modeset driver to
+> call drm_atomic_helper_shutdown() at shutdown time and that should be
+> disabling / unpreparing the panel if needed. Panel drivers shouldn't
+> be calling these functions themselves.
 >
-> The acx565akm seems to do some unique stuff with the "enabled"
-> state. Specifically:
-> 1. It seems to detect the enabled state based on how the bootloader
->    left the panel.
-> 2. It uses the enabled state to prevent certain sysfs files from
->    accessing a disabled panel.
+> A recent effort was made to fix as many DRM modeset drivers as
+> possible [1] [2] [3] and most drivers are fixed now.
 >
-> We'll leave the "enabled" state tracking for this. However, we can at
-> least get rid of the double-check when trying to disable.
+> A grep through mainline for compatible strings used by this driver
+> indicates that it is used by TI OMAP boards. The TI OMAP driver
+> appears to be correctly calling drm_atomic_helper_shutdown() so we can
+> remove the calls.
+>
+> [1] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.o=
+rg
+> [2] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.o=
+rg
+> [3] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.=
+org
 >
 > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij
