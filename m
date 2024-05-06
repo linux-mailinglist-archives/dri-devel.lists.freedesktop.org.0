@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932C18BC857
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 09:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C05C8BC85C
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 09:29:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7141121E4;
-	Mon,  6 May 2024 07:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A48A010E1F1;
+	Mon,  6 May 2024 07:29:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TPi2B+bP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LTT6vfcv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE2AA1121E4
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 07:27:47 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72FFF10E237
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 07:29:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3CC65CE01C0;
- Mon,  6 May 2024 07:27:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E091CC4AF63;
- Mon,  6 May 2024 07:27:43 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 98ECA60F73;
+ Mon,  6 May 2024 07:29:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEDF3C116B1;
+ Mon,  6 May 2024 07:29:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1714980464;
- bh=9Kw69BfKa5kkeDkJAAyST9I0D7UXthaocRM2ai6H6cA=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=TPi2B+bPlbWrXR0vRrMi7OO7YfR/17oBUiIP3I0reFQOse+6mJiSXTFUDiYz9KNxR
- Xgovz8h0zqDVo38VqRUvYWa495nrfut4pabGPBCiTJyx8MjnJDLDH8Es1uxCDl+3hM
- UMzY/RS2j75++Trzbyg6e6aITMjsDP7A3+iToxB6REkWgd4QuQHWdTc7nCS3vwzbpc
- e0z72+4Ib9oZ/Smq22YUV4CnfxfAHkusWe39MT5oJnmX8+hSa589nJhtRd1NPj/zlH
- 6O8cxnx+WZaWn5Rm9rYHzlX2ijHikOqIxGr1IQXAhHqQQIo4MkIs7LcwYYge1M3qSq
- cXp1IO+KNQZ2w==
-Message-ID: <0aebaa438b4f2fd13b8a7ea5a92ca60d@kernel.org>
-Date: Mon, 06 May 2024 07:27:41 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Douglas Anderson" <dianders@chromium.org>
-Subject: Re: [RFT PATCH v2 00/48] drm/panel: Remove most store/double-check
- of prepared/enabled state
-In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
-References: <20240503213441.177109-1-dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, "AngeloGioacchino
- Del Regno" <angelogioacchino.delregno@collabora.com>,
- "Chris Morgan" <macromorgan@hotmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>, "David Airlie" <airlied@gmail.com>,
- =?utf-8?b?R3VpZG8gR8O8bnRoZXI=?= <agx@sigxcpu.org>,
- "Jerry Han" <hanxu5@huaqin.corp-partner.google.com>, "Jessica
- Zhang" <quic_jesszhan@quicinc.com>, "Jonathan Corbet" <corbet@lwn.net>, "Linus
- Walleij" <linus.walleij@linaro.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Matthias
- Brugger" <matthias.bgg@gmail.com>, "Maxime Ripard" <mripard@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Ondrej Jirman" <megi@xff.cz>, "Purism
- Kernel Team" <kernel@puri.sm>, "Robert Chiras" <robert.chiras@nxp.com>, "Sam
- Ravnborg" <sam@ravnborg.org>, "Stefan Mavrodiev" <stefan@olimex.com>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Yuran Pereira" <yuran.pereira@hotmail.com>
-Content-Transfer-Encoding: 7bit
+ s=k20201202; t=1714980579;
+ bh=6EAfDReBTGm2/618iI3K5J9zc5rNJX39dIPTNS7/tC8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LTT6vfcvkv+HM+jrI2Ok6j4+eJlWYmbJn2/gUqM4HBexny+ZPOtF3kTZ7bla4jK9f
+ NoyyXaR6xdUl7F8hPvO63U5xyg28jtKJmAORVdzwL5lYHrGBu5t8bAKih3aAu9frYI
+ 0gDlAz9fp8Bzc09RCv/Ei4+F3oPBKcXU4JeOlMaEnfmFfinRMiw3YLVp8/AiFYjxAz
+ jUL+BuUNplEfy/8S6WKjIylgkGqdkwPqRHI283ob1XYdgBdcnOfA021042v77EAdx0
+ B5iXaAm0LRAjr+PqEszgHpTWuE3BfKRgRKHYmLvj31BMeqgUK5eE333c/+lxQmYSP2
+ pGJHumzUzEY5w==
+Date: Mon, 6 May 2024 09:29:36 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sean Anderson <sean.anderson@linux.dev>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Michal Simek <michal.simek@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+Subject: Re: [BUG] drm: zynqmp_dp: Lockup in zynqmp_dp_bridge_detect when
+ device is unbound
+Message-ID: <20240506-charcoal-griffin-of-tact-174dde@houat>
+References: <4d8f4c9b-2efb-4774-9a37-2f257f79b2c9@linux.dev>
+ <20240504122118.GB24548@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="ocucrrp6xgvwroku"
+Content-Disposition: inline
+In-Reply-To: <20240504122118.GB24548@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,16 +65,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 3 May 2024 14:32:41 -0700, Douglas Anderson wrote:
-> 
-> As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-> prepared/enabled in drm_panel"), we want to remove needless code from
-> panel drivers that was storing and double-checking the
-> prepared/enabled state. Even if someone was relying on the
-> 
-> [ ... ]
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+--ocucrrp6xgvwroku
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+Hi Laurent, Sean,
+
+On Sat, May 04, 2024 at 03:21:18PM GMT, Laurent Pinchart wrote:
+> On Fri, May 03, 2024 at 05:54:32PM -0400, Sean Anderson wrote:
+> > I have discovered a bug in the displayport driver on drm-misc-next. To
+> > trigger it, run
+> >=20
+> > echo fd4a0000.display > /sys/bus/platform/drivers/zynqmp-dpsub/unbind
+> >=20
+> > The system will become unresponsive and (after a bit) splat with a hard
+> > LOCKUP. One core will be unresponsive at the first zynqmp_dp_read in
+> > zynqmp_dp_bridge_detect.
+> >=20
+> > I believe the issue is due the registers being unmapped and the block
+> > put into reset in zynqmp_dp_remove instead of zynqmp_dpsub_release.
+>=20
+> That is on purpose. Drivers are not allowed to access the device at all
+> after .remove() returns.
+
+It's not "on purpose" no. Drivers indeed are not allowed to access the
+device after remove, but the kernel shouldn't crash. This is exactly
+why we have drm_dev_enter / drm_dev_exit.
+
 Maxime
+
+--ocucrrp6xgvwroku
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZjiG4AAKCRAnX84Zoj2+
+dgeOAX9MWR6b74vbLNz7k9jf5IToCNO+03AZ7DaUKMEY6avOZ4UMCs5HJXcFnAR+
+/TeAmFIBgJyNn/OtniP2Hp5Bfq8TvJKZl8ZZ6WzuVaWny/ME4+2poozKoG2ZNm0K
+70BmtsE9YA==
+=rd0O
+-----END PGP SIGNATURE-----
+
+--ocucrrp6xgvwroku--
