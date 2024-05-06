@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35748BCF1D
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110008BCF1E
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2024 15:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C081C10FD54;
-	Mon,  6 May 2024 13:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 651B710FCBC;
+	Mon,  6 May 2024 13:36:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K1lVik91";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c9s/WUkz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6EDD10FCEE
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:36:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2D210FCBC
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2024 13:36:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 07CD7612CF;
- Mon,  6 May 2024 13:36:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466E6C3277B;
- Mon,  6 May 2024 13:36:17 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B9A8E612B8;
+ Mon,  6 May 2024 13:36:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26C2BC4AF68;
+ Mon,  6 May 2024 13:36:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715002581;
- bh=MJDOXWqTjpbjsQTnGrv4MfUIC0eogdPWXfz9qOdcOCA=;
+ s=k20201202; t=1715002586;
+ bh=Hm8IbzH7o86qGsPyzm5DKDFy+pWLYyONwjVqfO4C4rg=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=K1lVik91lKB3BsVDt1TF6+YiO2iiiAcRRDupmDnuWDqXPQ8Od8Umgmb4EtrUlopDN
- TsljnH30VDHb9P+oXMK37QRBqO5oRv6/iX8acZo2y6Yj1ilVudcgi2/5dhVKB6zuU1
- 8p28dpI+vQ1zLpqoQlNQvyptH0Di2CH2ZoyZcDbhk2ZnQ0bdp3AgZBWM+CE927F1+E
- g3Pz48GTKs6FSdKTWpCdxE9cHzcI4mKi7htABfoi1FWHs4RFYma2htWtzGeGhx/ztz
- y+g8VuQy5lKed4jXxjd1GUueDfwtuHIn8ERKlXRwtJfHgN27jbkcAqzRaKGXO13TAr
- 05eXigYD3g/ng==
+ b=c9s/WUkzLe0/Gv60ykQuMYisA+qfLshxmw/LYojmokJi/IFRzXPXz3p7WTjXqTUcu
+ 9cO9wxDiJJ7V/gNHD316aargzM6HJ5kQz5tLFxy4b09QtHmY9CGScsnCBH9raaqgg1
+ ovFY1Lzdq3L8wtWXvB9u6txLzMzgSj7OAApgNpQ7MjR4Q+gv5VBsFB0jo/myaNQ5ep
+ yyg8txlfAv6PT6aHaUh56acPXe/OiSPLwqS6+rv6rmUM7jbdnhK1aCssHYK1R/wfF7
+ AhMejO6EnmKXCMlB3MpkvgKwRNXoZhDi9d52bnu5PEsjffWVTT3Bf5rKI+RhyPmL8P
+ iWTPegQ6Oqw3g==
 From: Michael Walle <mwalle@kernel.org>
-Date: Mon, 06 May 2024 15:34:45 +0200
-Subject: [PATCH 16/20] drm/bridge: tc358775: use proper defines to
- configure LVDS timings
+Date: Mon, 06 May 2024 15:34:46 +0200
+Subject: [PATCH 17/20] drm/bridge: tc358775: move bridge power up/down into
+ functions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240506-tc358775-fix-powerup-v1-16-545dcf00b8dd@kernel.org>
+Message-Id: <20240506-tc358775-fix-powerup-v1-17-545dcf00b8dd@kernel.org>
 References: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 In-Reply-To: <20240506-tc358775-fix-powerup-v1-0-545dcf00b8dd@kernel.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -72,109 +72,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide bitfield macros for the individual fields in the LVDS timing
-registers and get rid of the magic values.
+Move the bridge power-up and power-down handling into own functions.
+This is a preparation patch to fix the power-up sequencing of the
+bridge. No functional change.
 
 Signed-off-by: Michael Walle <mwalle@kernel.org>
 ---
- drivers/gpu/drm/bridge/tc358775.c | 52 +++++++++++++++++++++++++--------------
- 1 file changed, 33 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/bridge/tc358775.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-index 33a97ddba7b5..c50554ec4b28 100644
+index c50554ec4b28..d5b3d691d2c1 100644
 --- a/drivers/gpu/drm/bridge/tc358775.c
 +++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -111,11 +111,19 @@
- #define VPCTRL_OPXLFMT	BIT(8)
- #define VPCTRL_EVTMODE	BIT(5)  /* Video event mode enable, tc35876x only */
- #define HTIM1           0x0454  /* Horizontal Timing Control 1 */
-+#define HTIM1_HPW	GENMASK(8, 0)
-+#define HTIM1_HBPR	GENMASK(24, 16)
- #define HTIM2           0x0458  /* Horizontal Timing Control 2 */
-+#define HTIM2_HACT	GENMASK(10, 0)
-+#define HTIM2_HFPR	GENMASK(24, 16)
- #define VTIM1           0x045C  /* Vertical Timing Control 1 */
-+#define VTIM1_VPW	GENMASK(7, 0)
-+#define VTIM1_VBPR	GENMASK(23, 16)
- #define VTIM2           0x0460  /* Vertical Timing Control 2 */
-+#define VTIM2_VACT	GENMASK(10, 0)
-+#define VTIM2_VFPR	GENMASK(23, 16)
- #define VFUEN           0x0464  /* Video Frame Timing Update Enable */
--#define VFUEN_EN	BIT(0)  /* Upload Enable */
-+#define VFUEN_VFUEN	BIT(0)  /* Upload Enable */
+@@ -215,6 +215,7 @@ struct tc_data {
+ 	struct gpio_desc	*reset_gpio;
+ 	struct gpio_desc	*stby_gpio;
+ 	bool			lvds_dual_link;
++	bool			powered;
+ 	u8			bpc;
  
- /* Mux Input Select for LVDS LINK Input */
- #define LV_MX0003        0x0480  /* Bit 0 to 3 */
-@@ -346,24 +354,19 @@ static void tc358775_configure_dsi(struct tc_data *tc, unsigned int pixelclk)
- static void tc358775_configure_lvds_timings(struct tc_data *tc,
- 					    struct drm_display_mode *mode)
- {
--	u32 hback_porch, hsync_len, hfront_porch, hactive, htime1, htime2;
--	u32 vback_porch, vsync_len, vfront_porch, vactive, vtime1, vtime2;
-+	u32 hback_porch, hsync_len, hfront_porch, hactive;
-+	u32 vback_porch, vsync_len, vfront_porch, vactive;
-+	unsigned int val;
- 
- 	hback_porch = mode->htotal - mode->hsync_end;
- 	hsync_len  = mode->hsync_end - mode->hsync_start;
-+	hactive = mode->hdisplay;
-+	hfront_porch = mode->hsync_start - mode->hdisplay;
-+
- 	vback_porch = mode->vtotal - mode->vsync_end;
- 	vsync_len  = mode->vsync_end - mode->vsync_start;
--
--	htime1 = (hback_porch << 16) + hsync_len;
--	vtime1 = (vback_porch << 16) + vsync_len;
--
--	hfront_porch = mode->hsync_start - mode->hdisplay;
--	hactive = mode->hdisplay;
--	vfront_porch = mode->vsync_start - mode->vdisplay;
- 	vactive = mode->vdisplay;
--
--	htime2 = (hfront_porch << 16) + hactive;
--	vtime2 = (vfront_porch << 16) + vactive;
-+	vfront_porch = mode->vsync_start - mode->vdisplay;
- 
- 	/* Video event mode vs pulse mode bit, does not exist for tc358775 */
- 	if (tc->type == TC358765)
-@@ -379,12 +382,23 @@ static void tc358775_configure_lvds_timings(struct tc_data *tc,
- 	regmap_update_bits(tc->regmap, VPCTRL, val,
- 			   VPCTRL_OPXLFMT | VPCTRL_MSF | VPCTRL_EVTMODE);
- 
--	regmap_write(tc->regmap, HTIM1, htime1);
--	regmap_write(tc->regmap, VTIM1, vtime1);
--	regmap_write(tc->regmap, HTIM2, htime2);
--	regmap_write(tc->regmap, VTIM2, vtime2);
-+	val = u32_encode_bits(hsync_len, HTIM1_HPW);
-+	val |= u32_encode_bits(hback_porch, HTIM1_HBPR);
-+	regmap_write(tc->regmap, HTIM1, val);
-+
-+	val = u32_encode_bits(hactive, HTIM2_HACT);
-+	val |= u32_encode_bits(hfront_porch, HTIM2_HFPR);
-+	regmap_write(tc->regmap, HTIM2, val);
-+
-+	val = u32_encode_bits(vsync_len, VTIM1_VPW);
-+	val |= u32_encode_bits(vback_porch, VTIM1_VBPR);
-+	regmap_write(tc->regmap, VTIM1, val);
-+
-+	val = u32_encode_bits(vactive, VTIM2_VACT);
-+	val |= u32_encode_bits(vfront_porch, VTIM2_VFPR);
-+	regmap_write(tc->regmap, VTIM2, val);
- 
--	regmap_write(tc->regmap, VFUEN, VFUEN_EN);
-+	regmap_write(tc->regmap, VFUEN, VFUEN_VFUEN);
+ 	enum tc3587x5_type	type;
+@@ -233,9 +234,8 @@ static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
+ 	return container_of(b, struct tc_data, bridge);
  }
  
- static const struct tc358775_pll_settings tc358775_pll_settings[] = {
-@@ -475,7 +489,7 @@ static void tc358775_bridge_enable(struct drm_bridge *bridge)
- 	tc358775_configure_lvds_timings(tc, mode);
- 	tc358775_configure_pll(tc, mode->crtc_clock);
- 	tc358775_configure_color_mapping(tc, connector->display_info.bus_formats[0]);
--	regmap_write(tc->regmap, VFUEN, VFUEN_EN);
-+	regmap_write(tc->regmap, VFUEN, VFUEN_VFUEN);
- 	tc358775_configure_lvds_clock(tc);
+-static void tc_bridge_pre_enable(struct drm_bridge *bridge)
++static void tc358775_power_up(struct tc_data *tc)
+ {
+-	struct tc_data *tc = bridge_to_tc(bridge);
+ 	struct device *dev = &tc->dsi->dev;
+ 	int ret;
  
- 	/* Finally, enable the LVDS transmitter */
+@@ -256,9 +256,8 @@ static void tc_bridge_pre_enable(struct drm_bridge *bridge)
+ 	usleep_range(10, 20);
+ }
+ 
+-static void tc_bridge_post_disable(struct drm_bridge *bridge)
++static void tc358775_power_down(struct tc_data *tc)
+ {
+-	struct tc_data *tc = bridge_to_tc(bridge);
+ 	struct device *dev = &tc->dsi->dev;
+ 	int ret;
+ 
+@@ -279,6 +278,20 @@ static void tc_bridge_post_disable(struct drm_bridge *bridge)
+ 	usleep_range(10000, 11000);
+ }
+ 
++static void tc_bridge_pre_enable(struct drm_bridge *bridge)
++{
++	struct tc_data *tc = bridge_to_tc(bridge);
++
++	tc358775_power_up(tc);
++}
++
++static void tc_bridge_post_disable(struct drm_bridge *bridge)
++{
++	struct tc_data *tc = bridge_to_tc(bridge);
++
++	tc358775_power_down(tc);
++}
++
+ /* helper function to access bus_formats */
+ static struct drm_connector *get_connector(struct drm_encoder *encoder)
+ {
 
 -- 
 2.39.2
