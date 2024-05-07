@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCDA98BE374
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 15:18:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A658BE375
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 15:18:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6724910F75D;
-	Tue,  7 May 2024 13:18:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4912210F6E9;
+	Tue,  7 May 2024 13:18:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uwGSUYMv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p1MtUNP3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63BD610FDAA
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:18:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4259E10F9C4
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:18:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B8FB86172E;
- Tue,  7 May 2024 13:18:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A1AC4DDE3;
- Tue,  7 May 2024 13:18:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AEE0D61760;
+ Tue,  7 May 2024 13:18:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A3BC3277B;
+ Tue,  7 May 2024 13:18:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715087914;
- bh=JXa+IVsW9prpWJbHiohOgnPWpZAy+pZGq51p0wD7ywg=;
+ s=k20201202; t=1715087917;
+ bh=RN/G2T+h0gDIvoAMWemqAVAc9PVQmQKSA0ShqGvtKJY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=uwGSUYMvItWCL9Lok+BAbtFgV4GXsLP7cHHg2K4HE/2s2cVBmsYlc4vzXFHfk23LW
- FfVB1VF0gwf3MeHb4wYhUgMbyxAnHiTndsqT1l+S8advL5YfRw9N6AhTLKvUY9jzg4
- zcPcBjlSyYuCnL84m+9PjPmtC+Q1Rq0ImEfcO1RmI+tbVyYnYJ/gAiO56IpaNzC95m
- SyAYAxlJVjruMHhAUy/THnIw7q7mizxtAKf4L8Ik9qIn8KR3PBcVLqacy++fQsPj18
- T4dqdS2WP1pJ5EmVHkv4bmtdFEcXHmmOoiJWjWbRQj+ilg0YfM3sEp5kYZA1bJb3LO
- sTrRXgIha2XmA==
+ b=p1MtUNP3alS+Mw2uXOmD69n8VQrwqY1+W7h/Q9CXVoRurF6zE+tdPsneoH97HjzNy
+ b1BcASFzArqitVDPaDUmU1PNPPoA/EPN2MgFLbcwMzndkIzxtUewhbpi+MkqgjrD7Z
+ e/EnQ/aot22pwAveTuUdQXB1R+EYEPuv8lNNdEyoj69j056FCQeD1+biz+ZGf4sZn/
+ salazQz7IfQcwnhiEjgZpYjEn7ETSYcd5vkygYsbz+BV313+gos/R6uvomRZNx6koX
+ Y9oYO4KXIFSHo/Wr9cBagRys++jDv8bcjQ3feBh059EgLVuj+h7EeyzaUVKzvG0l1A
+ jTKg4I34ctYvg==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 07 May 2024 15:17:36 +0200
-Subject: [PATCH v13 18/28] drm/tests: Add tests for Broadcast RGB property
+Date: Tue, 07 May 2024 15:17:37 +0200
+Subject: [PATCH v13 19/28] drm/connector: hdmi: Add RGB Quantization Range
+ to the connector state
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240507-kms-hdmi-connector-state-v13-18-8fafc5efe8be@kernel.org>
+Message-Id: <20240507-kms-hdmi-connector-state-v13-19-8fafc5efe8be@kernel.org>
 References: <20240507-kms-hdmi-connector-state-v13-0-8fafc5efe8be@kernel.org>
 In-Reply-To: <20240507-kms-hdmi-connector-state-v13-0-8fafc5efe8be@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -55,12 +56,12 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
  Dave Stevenson <dave.stevenson@raspberrypi.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=13780; i=mripard@kernel.org;
- h=from:subject:message-id; bh=JXa+IVsW9prpWJbHiohOgnPWpZAy+pZGq51p0wD7ywg=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGlWmu/3zq6adLrqqsTTGbXV+rm20wXDX37OMK9dU7pr+
- 407fNFPO6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEduYzNjwwtLfQc/leum9d
- LdOedalLs44Hxn34WTVP9HnMo5vxP4RYPK/JsLW+SVmvYLJahaNsNmPD/sjDTHG7H36qSy16JdH
- IU8hU13xhfbCckNLXaXxn3rwuZ1a6tWFyeVq/18W7D7rnve4HAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4100; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=RN/G2T+h0gDIvoAMWemqAVAc9PVQmQKSA0ShqGvtKJY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGlWmu//neJd9GHTqncbTuxfxbjaU6lKZeu1ZfOL7+6aI
+ X9+4/ba8x1TWRiEORlkxRRZnsiEnV7evrjKwX7lD5g5rEwgQxi4OAVgIgrmjLWCOneTmhgTbnid
+ +pE0ZfuxCQ+1pl4M3JyYLiwSEPwzoHvapopnMxd+nKqXUNJ7pUtI3Y+xvkRx/vW8rjtHGua2vHr
+ 54XWsaN4rNamqDUXWOouiH4b2z3RYvLUyes+CLom+7aeze4quAwA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,373 +79,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This had a bunch of kunit tests to make sure our code to handle the
-Broadcast RGB property behaves properly.
-
-This requires bringing a bit of infrastructure to create mock HDMI
-connectors, with custom EDIDs.
+HDMI controller drivers will need to figure out the RGB range they need
+to configure based on a mode and property values. Let's expose that in
+the HDMI connector state so drivers can just use that value.
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/tests/drm_connector_test.c         | 116 ++++++++++++++++
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 151 +++++++++++++++++++++
- 2 files changed, 267 insertions(+)
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 29 +++++++++++++++++++++++++
+ drivers/gpu/drm/drm_atomic.c                    |  1 +
+ include/drm/drm_connector.h                     |  6 +++++
+ 3 files changed, 36 insertions(+)
 
-diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
-index 34d96f7fbb25..672b74bc9e23 100644
---- a/drivers/gpu/drm/tests/drm_connector_test.c
-+++ b/drivers/gpu/drm/tests/drm_connector_test.c
-@@ -564,10 +564,67 @@ static struct kunit_case drm_get_tv_mode_from_name_tests[] = {
- static struct kunit_suite drm_get_tv_mode_from_name_test_suite = {
- 	.name = "drm_get_tv_mode_from_name",
- 	.test_cases = drm_get_tv_mode_from_name_tests,
- };
+diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+index f038f567ab43..c3a10f9f7ecd 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+@@ -49,10 +49,37 @@ connector_state_get_mode(const struct drm_connector_state *conn_state)
+ 		return NULL;
  
-+struct drm_hdmi_connector_get_broadcast_rgb_name_test {
-+	unsigned int kind;
-+	const char *expected_name;
-+};
-+
-+#define BROADCAST_RGB_TEST(_kind, _name)	\
-+	{					\
-+		.kind = _kind,			\
-+		.expected_name = _name,		\
-+	}
-+
-+static void drm_test_drm_hdmi_connector_get_broadcast_rgb_name(struct kunit *test)
-+{
-+	const struct drm_hdmi_connector_get_broadcast_rgb_name_test *params =
-+		test->param_value;
-+
-+	KUNIT_EXPECT_STREQ(test,
-+			   drm_hdmi_connector_get_broadcast_rgb_name(params->kind),
-+			   params->expected_name);
-+}
-+
-+static const
-+struct drm_hdmi_connector_get_broadcast_rgb_name_test
-+drm_hdmi_connector_get_broadcast_rgb_name_valid_tests[] = {
-+	BROADCAST_RGB_TEST(DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic"),
-+	BROADCAST_RGB_TEST(DRM_HDMI_BROADCAST_RGB_FULL, "Full"),
-+	BROADCAST_RGB_TEST(DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235"),
-+};
-+
-+static void
-+drm_hdmi_connector_get_broadcast_rgb_name_valid_desc(const struct drm_hdmi_connector_get_broadcast_rgb_name_test *t,
-+						     char *desc)
-+{
-+	sprintf(desc, "%s", t->expected_name);
-+}
-+
-+KUNIT_ARRAY_PARAM(drm_hdmi_connector_get_broadcast_rgb_name_valid,
-+		  drm_hdmi_connector_get_broadcast_rgb_name_valid_tests,
-+		  drm_hdmi_connector_get_broadcast_rgb_name_valid_desc);
-+
-+static void drm_test_drm_hdmi_connector_get_broadcast_rgb_name_invalid(struct kunit *test)
-+{
-+	KUNIT_EXPECT_NULL(test, drm_hdmi_connector_get_broadcast_rgb_name(3));
-+};
-+
-+static struct kunit_case drm_hdmi_connector_get_broadcast_rgb_name_tests[] = {
-+	KUNIT_CASE_PARAM(drm_test_drm_hdmi_connector_get_broadcast_rgb_name,
-+			 drm_hdmi_connector_get_broadcast_rgb_name_valid_gen_params),
-+	KUNIT_CASE(drm_test_drm_hdmi_connector_get_broadcast_rgb_name_invalid),
-+	{ }
-+};
-+
-+static struct kunit_suite drm_hdmi_connector_get_broadcast_rgb_name_test_suite = {
-+	.name = "drm_hdmi_connector_get_broadcast_rgb_name",
-+	.test_cases = drm_hdmi_connector_get_broadcast_rgb_name_tests,
-+};
-+
- struct drm_hdmi_connector_get_output_format_name_test {
- 	unsigned int kind;
- 	const char *expected_name;
- };
- 
-@@ -622,10 +679,67 @@ static struct kunit_case drm_hdmi_connector_get_output_format_name_tests[] = {
- static struct kunit_suite drm_hdmi_connector_get_output_format_name_test_suite = {
- 	.name = "drm_hdmi_connector_get_output_format_name",
- 	.test_cases = drm_hdmi_connector_get_output_format_name_tests,
- };
- 
-+static void drm_test_drm_connector_attach_broadcast_rgb_property(struct kunit *test)
-+{
-+	struct drm_connector_init_priv *priv = test->priv;
-+	struct drm_connector *connector = &priv->connector;
-+	struct drm_property *prop;
-+	int ret;
-+
-+	ret = drmm_connector_init(&priv->drm, connector,
-+				  &dummy_funcs,
-+				  DRM_MODE_CONNECTOR_HDMIA,
-+				  &priv->ddc);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_connector_attach_broadcast_rgb_property(connector);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	prop = connector->broadcast_rgb_property;
-+	KUNIT_ASSERT_NOT_NULL(test, prop);
-+	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
-+}
-+
-+static void drm_test_drm_connector_attach_broadcast_rgb_property_hdmi_connector(struct kunit *test)
-+{
-+	struct drm_connector_init_priv *priv = test->priv;
-+	struct drm_connector *connector = &priv->connector;
-+	struct drm_property *prop;
-+	int ret;
-+
-+	ret = drmm_connector_hdmi_init(&priv->drm, connector,
-+				       &dummy_funcs,
-+				       &dummy_hdmi_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       &priv->ddc,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+
-+	ret = drm_connector_attach_broadcast_rgb_property(connector);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	prop = connector->broadcast_rgb_property;
-+	KUNIT_ASSERT_NOT_NULL(test, prop);
-+	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
-+}
-+
-+static struct kunit_case drm_connector_attach_broadcast_rgb_property_tests[] = {
-+	KUNIT_CASE(drm_test_drm_connector_attach_broadcast_rgb_property),
-+	KUNIT_CASE(drm_test_drm_connector_attach_broadcast_rgb_property_hdmi_connector),
-+	{ }
-+};
-+
-+static struct kunit_suite drm_connector_attach_broadcast_rgb_property_test_suite = {
-+	.name = "drm_connector_attach_broadcast_rgb_property",
-+	.init = drm_test_connector_init,
-+	.test_cases = drm_connector_attach_broadcast_rgb_property_tests,
-+};
-+
- /*
-  * Test that for a given mode, with 8bpc and an RGB output the TMDS
-  * character rate is equal to the mode pixel clock.
-  */
- static void drm_test_drm_hdmi_compute_mode_clock_rgb(struct kunit *test)
-@@ -916,12 +1030,14 @@ static struct kunit_suite drm_hdmi_compute_mode_clock_test_suite = {
- };
- 
- kunit_test_suites(
- 	&drmm_connector_hdmi_init_test_suite,
- 	&drmm_connector_init_test_suite,
-+	&drm_connector_attach_broadcast_rgb_property_test_suite,
- 	&drm_get_tv_mode_from_name_test_suite,
- 	&drm_hdmi_compute_mode_clock_test_suite,
-+	&drm_hdmi_connector_get_broadcast_rgb_name_test_suite,
- 	&drm_hdmi_connector_get_output_format_name_test_suite
- );
- 
- MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index 968204781928..ff9a882201eb 100644
---- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -225,10 +225,138 @@ drm_atomic_helper_connector_hdmi_init(struct kunit *test,
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	return priv;
+ 	return &crtc_state->mode;
  }
  
-+/*
-+ * Test that if we change the RGB quantization property to a different
-+ * value, we trigger a mode change on the connector's CRTC, which will
-+ * in turn disable/enable the connector.
-+ */
-+static void drm_test_check_broadcast_rgb_crtc_mode_changed(struct kunit *test)
++static bool hdmi_is_limited_range(const struct drm_connector *connector,
++				  const struct drm_connector_state *conn_state)
 +{
-+	struct drm_atomic_helper_connector_hdmi_priv *priv;
-+	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_connector_state *old_conn_state;
-+	struct drm_connector_state *new_conn_state;
-+	struct drm_crtc_state *crtc_state;
-+	struct drm_atomic_state *state;
-+	struct drm_display_mode *preferred;
-+	struct drm_connector *conn;
-+	struct drm_device *drm;
-+	struct drm_crtc *crtc;
-+	int ret;
++	const struct drm_display_info *info = &connector->display_info;
++	const struct drm_display_mode *mode =
++		connector_state_get_mode(conn_state);
 +
-+	priv = drm_atomic_helper_connector_hdmi_init(test,
-+						     BIT(HDMI_COLORSPACE_RGB),
-+						     8);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
++	/*
++	 * The Broadcast RGB property only applies to RGB format, and
++	 * i915 just assumes limited range for YCbCr output, so let's
++	 * just do the same.
++	 */
++	if (conn_state->hdmi.output_format != HDMI_COLORSPACE_RGB)
++		return true;
 +
-+	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
++	if (conn_state->hdmi.broadcast_rgb == DRM_HDMI_BROADCAST_RGB_FULL)
++		return false;
 +
-+	conn = &priv->connector;
-+	preferred = find_preferred_mode(conn);
-+	KUNIT_ASSERT_NOT_NULL(test, preferred);
++	if (conn_state->hdmi.broadcast_rgb == DRM_HDMI_BROADCAST_RGB_LIMITED)
++		return true;
 +
-+	drm = &priv->drm;
-+	crtc = priv->crtc;
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
++	if (!info->is_hdmi)
++		return false;
 +
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-+
-+	new_conn_state = drm_atomic_get_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
-+
-+	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
-+
-+	new_conn_state->hdmi.broadcast_rgb = DRM_HDMI_BROADCAST_RGB_FULL;
-+
-+	KUNIT_ASSERT_NE(test,
-+			old_conn_state->hdmi.broadcast_rgb,
-+			new_conn_state->hdmi.broadcast_rgb);
-+
-+	ret = drm_atomic_check_only(state);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	new_conn_state = drm_atomic_get_new_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
-+	KUNIT_EXPECT_EQ(test, new_conn_state->hdmi.broadcast_rgb, DRM_HDMI_BROADCAST_RGB_FULL);
-+
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
-+	KUNIT_EXPECT_TRUE(test, crtc_state->mode_changed);
++	return drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED;
 +}
 +
-+/*
-+ * Test that if we set the RGB quantization property to the same value,
-+ * we don't trigger a mode change on the connector's CRTC and leave the
-+ * connector unaffected.
-+ */
-+static void drm_test_check_broadcast_rgb_crtc_mode_not_changed(struct kunit *test)
-+{
-+	struct drm_atomic_helper_connector_hdmi_priv *priv;
-+	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_connector_state *old_conn_state;
-+	struct drm_connector_state *new_conn_state;
-+	struct drm_crtc_state *crtc_state;
-+	struct drm_atomic_state *state;
-+	struct drm_display_mode *preferred;
-+	struct drm_connector *conn;
-+	struct drm_device *drm;
-+	struct drm_crtc *crtc;
-+	int ret;
-+
-+	priv = drm_atomic_helper_connector_hdmi_init(test,
-+						     BIT(HDMI_COLORSPACE_RGB),
-+						     8);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+
-+	conn = &priv->connector;
-+	preferred = find_preferred_mode(conn);
-+	KUNIT_ASSERT_NOT_NULL(test, preferred);
-+
-+	drm = &priv->drm;
-+	crtc = priv->crtc;
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-+
-+	new_conn_state = drm_atomic_get_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
-+
-+	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
-+
-+	new_conn_state->hdmi.broadcast_rgb = old_conn_state->hdmi.broadcast_rgb;
-+
-+	ret = drm_atomic_check_only(state);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
-+
-+	new_conn_state = drm_atomic_get_new_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
-+
-+	KUNIT_EXPECT_EQ(test,
-+			old_conn_state->hdmi.broadcast_rgb,
-+			new_conn_state->hdmi.broadcast_rgb);
-+
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
-+	KUNIT_EXPECT_FALSE(test, crtc_state->mode_changed);
-+}
-+
- /*
-  * Test that if we change the maximum bpc property to a different value,
-  * we trigger a mode change on the connector's CRTC, which will in turn
-  * disable/enable the connector.
-  */
-@@ -1064,10 +1192,12 @@ static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *tes
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_bpc, 8);
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
- }
+ static bool
+ sink_supports_format_bpc(const struct drm_connector *connector,
+ 			 const struct drm_display_info *info,
+ 			 const struct drm_display_mode *mode,
+ 			 unsigned int format, unsigned int bpc)
+@@ -309,10 +336,12 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+ 		drm_atomic_get_new_connector_state(state, connector);
+ 	const struct drm_display_mode *mode =
+ 		connector_state_get_mode(new_conn_state);
+ 	int ret;
  
- static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
-+	KUNIT_CASE(drm_test_check_broadcast_rgb_crtc_mode_changed),
-+	KUNIT_CASE(drm_test_check_broadcast_rgb_crtc_mode_not_changed),
- 	KUNIT_CASE(drm_test_check_hdmi_funcs_reject_rate),
- 	KUNIT_CASE(drm_test_check_max_tmds_rate_bpc_fallback),
- 	KUNIT_CASE(drm_test_check_max_tmds_rate_format_fallback),
- 	KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_changed),
- 	KUNIT_CASE(drm_test_check_output_bpc_crtc_mode_not_changed),
-@@ -1095,10 +1225,30 @@ static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
- static struct kunit_suite drm_atomic_helper_connector_hdmi_check_test_suite = {
- 	.name		= "drm_atomic_helper_connector_hdmi_check",
- 	.test_cases	= drm_atomic_helper_connector_hdmi_check_tests,
- };
++	new_conn_state->hdmi.is_limited_range = hdmi_is_limited_range(connector, new_conn_state);
++
+ 	ret = hdmi_compute_config(connector, new_conn_state, mode);
+ 	if (ret)
+ 		return ret;
  
-+/*
-+ * Test that the value of the Broadcast RGB property out of reset is set
-+ * to auto.
-+ */
-+static void drm_test_check_broadcast_rgb_value(struct kunit *test)
-+{
-+	struct drm_atomic_helper_connector_hdmi_priv *priv;
-+	struct drm_connector_state *conn_state;
-+	struct drm_connector *conn;
-+
-+	priv = drm_atomic_helper_connector_hdmi_init(test,
-+						     BIT(HDMI_COLORSPACE_RGB),
-+						     8);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	conn = &priv->connector;
-+	conn_state = conn->state;
-+	KUNIT_EXPECT_EQ(test, conn_state->hdmi.broadcast_rgb, DRM_HDMI_BROADCAST_RGB_AUTO);
-+}
-+
- /*
-  * Test that if the connector was initialised with a maximum bpc of 8,
-  * the value of the max_bpc and max_requested_bpc properties out of
-  * reset are also set to 8, and output_bpc is set to 0 and will be
-  * filled at atomic_check time.
-@@ -1212,10 +1362,11 @@ static void drm_test_check_tmds_char_value(struct kunit *test)
- 	conn_state = conn->state;
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.tmds_char_rate, 0);
- }
+ 	if (old_conn_state->hdmi.broadcast_rgb != new_conn_state->hdmi.broadcast_rgb ||
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 3e57d98d8418..07b4b394e3bf 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1145,10 +1145,11 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
  
- static struct kunit_case drm_atomic_helper_connector_hdmi_reset_tests[] = {
-+	KUNIT_CASE(drm_test_check_broadcast_rgb_value),
- 	KUNIT_CASE(drm_test_check_bpc_8_value),
- 	KUNIT_CASE(drm_test_check_bpc_10_value),
- 	KUNIT_CASE(drm_test_check_bpc_12_value),
- 	KUNIT_CASE(drm_test_check_format_value),
- 	KUNIT_CASE(drm_test_check_tmds_char_value),
+ 	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+ 	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
+ 		drm_printf(p, "\tbroadcast_rgb=%s\n",
+ 			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_rgb));
++		drm_printf(p, "\tis_limited_range=%c\n", state->hdmi.is_limited_range ? 'y' : 'n');
+ 		drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
+ 		drm_printf(p, "\toutput_format=%s\n",
+ 			   drm_hdmi_connector_get_output_format_name(state->hdmi.output_format));
+ 		drm_printf(p, "\ttmds_char_rate=%llu\n", state->hdmi.tmds_char_rate);
+ 	}
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index a40eaf3a8ce4..1fca26d51218 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1068,10 +1068,16 @@ struct drm_connector_state {
+ 		 * @broadcast_rgb: Connector property to pass the
+ 		 * Broadcast RGB selection value.
+ 		 */
+ 		enum drm_hdmi_broadcast_rgb broadcast_rgb;
+ 
++		/**
++		 * @is_full_range: Is the output supposed to use a full
++		 * RGB Quantization Range or not?
++		 */
++		bool is_limited_range;
++
+ 		/**
+ 		 * @output_bpc: Bits per color channel to output.
+ 		 */
+ 		unsigned int output_bpc;
+ 
 
 -- 
 2.45.0
