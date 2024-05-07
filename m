@@ -2,100 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1F58BE604
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 16:34:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57EB18BE61A
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 16:36:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 723BB10FC2E;
-	Tue,  7 May 2024 14:34:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A884710F708;
+	Tue,  7 May 2024 14:36:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="N0FwX0UN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HRESktVM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D334810F60F
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 14:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1715092469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dxfYA0kT/oiCPR8P3ZGYKwq4gr+a/9ebQZcuGC0TkRM=;
- b=N0FwX0UNBddtLRQXq7EVkJxr9h4ws6d8hseW43nJAbnJynVWpl0yMwwudKNYlWMfe6Ddn4
- jT5jsGTYq/2RLBOYT9dHK6SBU7JsLuSpxEYfMPlDQWmVLC18MgzzwIfrwHhbL18W5r9euI
- gT1VJn23/WZK7qHWD/ZUlXvMpWGysmc=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-322-EQjC9sOaNCK5T3zHZ8bJMw-1; Tue, 07 May 2024 10:34:27 -0400
-X-MC-Unique: EQjC9sOaNCK5T3zHZ8bJMw-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-51fd3568b04so2620786e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 07:34:27 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 269A410FB86
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 14:36:24 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2e27277d2c1so42481231fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 07:36:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1715092582; x=1715697382; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=W46Kt5yvQlfhtjiIgYjggG1nDCwThUkmABq3UaihB1c=;
+ b=HRESktVMreONeZ7BQxDPPGZZ6yet2DrmcxTN12PAOh/FJX/DS9whasfvX7NhrzkXMw
+ XrCmHytD8GIBXM/FdgVR1bLQDgkDVKoPz1ABkXfKQaNTeqIL8bHnh1SKWudmSsaAMCaO
+ Bz+h4SsELtkClanBct1MHHkt8WegOfVURtI7TMrsSZU39pGP+XPxBFpc8+JzKiVfMjJQ
+ jdQ/hT2KtLsVmmPZTykwKyElnIMvxqSFBqzZPS/y+9puKDES9U1Jq55xRPsGaM9vBTt5
+ fiCc6Xgr8HonKx3kT3xHxGUul+M8Mha+PAMvwv3xUTj1lDK5vxlfQwRk3ZNcnUvntjPc
+ 3OQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715092466; x=1715697266;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dxfYA0kT/oiCPR8P3ZGYKwq4gr+a/9ebQZcuGC0TkRM=;
- b=q+Nfg1h79xha80hbA0Rx4Nryh8REIQzLW2NR5GzzF/pmie1KJwzN36FerdZeLXkQ8V
- ceV3ThYxIO1Xnzp5hVf2dkhDlN1fkSs0awnR8InfRSMGul0o22mUgBdoJPg/5+Qvh2cP
- FW6KMxjnK3dk1cYWAXOrUkOktu4Mj2q3fP/ICvEf3WRFK/keAssGmnbPkp0VHiBGUN38
- rGxKP2T3Pr0la8+tlWlCHhmHdHp0nN3oPocNSaFD026hRijU/PJ3HF5YnkE7mFhNYMmj
- dL6e+On0E+fx6wRZQ6uCv/GAb56sKh9RStdovm0P+gEdyWywhwIUFv33Zp0V0C6tOtvX
- pIuw==
+ d=1e100.net; s=20230601; t=1715092582; x=1715697382;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W46Kt5yvQlfhtjiIgYjggG1nDCwThUkmABq3UaihB1c=;
+ b=E76r5hFkYLjSGd0dsQq8gfjRjUVygGAG56yuO+8KGiFvev784chdjBCJeXJwSHeHPm
+ Eldy6IOLaXFUMVLfl3c8Hm+eDY5D2MIgnbfIOItAI3Mg9LgdIIggZoaa+4zGDU6EceYJ
+ UhBhEidtJgD7SwT3N1ndnIN09XfFAQ5aCDIE1sN7Ts/rlBw4knmlfE93toLU1BttSe/h
+ dVEb27sUD+22rQpCauDp0K9lKqQcOP1CwrAIV1pJzFpHLqfGG+DaY2eneragO5O2r8JD
+ GVhKrKevFw1+l00GElrQn58BZadEX9S6TcYNb2DeOcBSJOEZjI7SUPwHuBZTPtHE1utQ
+ Y0iQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWKYh4EZPTgZQ5Zdq8vC9wJjrN0Lh7nHAHSLpsbHfxqxWVDi815Vr20GQiXUC0t1qzpRsJat426sakWCGaj7dG4KneAS4awIOa9sYAKBYIm
-X-Gm-Message-State: AOJu0YxySrFeI/+XlAAW9sjxeqSprla37DRoE0v8rVcpk26GbEDOl9aq
- FtDjXba4jQ5BOQknB9d35mjpUJ7ooYkmAl+eA3FYAjjHXXkO0gv8xkBHRkcfg8+WtHdIpk27w2v
- uvSfhQEpHEfgEvhXIIHxOYK0nhFYrEhw+KLyEkUhY+3JDoRdnRoZcnhVEjfkFvpY65A==
-X-Received: by 2002:ac2:4214:0:b0:519:1e33:9d85 with SMTP id
- y20-20020ac24214000000b005191e339d85mr8206482lfh.36.1715092465997; 
- Tue, 07 May 2024 07:34:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFJf6M7/XK+2/GfqsOz3VPdKfvdQSS9fpgAz3ojdSlixZ5gK65wQW/LGj1l0TFGD5KOfhLbVw==
-X-Received: by 2002:ac2:4214:0:b0:519:1e33:9d85 with SMTP id
- y20-20020ac24214000000b005191e339d85mr8206456lfh.36.1715092465580; 
- Tue, 07 May 2024 07:34:25 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:2a07:3a01:e7a9:b143:57e6:261b?
- (2001-1c00-2a07-3a01-e7a9-b143-57e6-261b.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:2a07:3a01:e7a9:b143:57e6:261b])
+ AJvYcCVQuYHp4lSsvpFsCS5SzK/iuZMidHqetjo2DMJmD4+8wmg7sTl5cgQ883rQqj/1kUOxlYHGT8JucTZOvtOWTRVg0huNfZ8AbZYO4X4HSpb/
+X-Gm-Message-State: AOJu0YwjblwM7B8b4N9M0lFiZDBxJdYqrS9iDutR6jdtyOO7ab73lN2z
+ q1ur8k85JQ7mx8rYRxb8qgKeOAbyNf5bebz+pBRdPweBbwHB3xnUzHuVGtnLmn8=
+X-Google-Smtp-Source: AGHT+IGKxhVmc5WDuZG7EwSJbTPcSCGzUEMYnRH99AthqRDNVlt54D+51cUwkFZpTtI1PoUNyGcm0w==
+X-Received: by 2002:a2e:a555:0:b0:2de:3421:9edd with SMTP id
+ e21-20020a2ea555000000b002de34219eddmr10229313ljn.33.1715092581990; 
+ Tue, 07 May 2024 07:36:21 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
  by smtp.gmail.com with ESMTPSA id
- b19-20020a1709062b5300b00a59a05a8030sm4709239ejg.25.2024.05.07.07.34.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 May 2024 07:34:25 -0700 (PDT)
-Message-ID: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
-Date: Tue, 7 May 2024 16:34:24 +0200
+ r20-20020a2eb614000000b002e0e3467465sm2053575ljn.12.2024.05.07.07.36.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 May 2024 07:36:21 -0700 (PDT)
+Date: Tue, 7 May 2024 17:36:19 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com, 
+ kyungmin.park@samsung.com, linux@armlinux.org.uk, krzk@kernel.org,
+ alim.akhtar@samsung.com, 
+ patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
+ rodrigo.vivi@intel.com, 
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, robdclark@gmail.com, 
+ quic_abhinavk@quicinc.com, sean@poorly.run, marijn.suijten@somainline.org, 
+ tomi.valkeinen@ideasonboard.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, 
+ Xinhui.Pan@amd.com, thierry.reding@gmail.com, mperttunen@nvidia.com, 
+ jonathanh@nvidia.com, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 09/11] drm/msm: Use fbdev client helpers
+Message-ID: <pkjjp5x3stoow7omrvawbsxe6tc63q7zrl2djtjnjrs3azdva4@qrdgdwz6cwjb>
+References: <20240507120422.25492-1-tzimmermann@suse.de>
+ <20240507120422.25492-10-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Lennart Poettering <mzxreary@0pointer.de>,
- Robert Mader <robert.mader@collabora.com>,
- Sebastien Bacher <sebastien.bacher@canonical.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Milan Zamazal <mzamazal@redhat.com>, Maxime Ripard <mripard@redhat.com>,
- Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
- <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240507120422.25492-10-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,36 +95,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
-
-On 5/7/24 3:32 PM, Dmitry Baryshkov wrote:
-> On Mon, May 06, 2024 at 01:49:17PM +0200, Hans de Goede wrote:
->> Hi dma-buf maintainers, et.al.,
->>
->> Various people have been working on making complex/MIPI cameras work OOTB
->> with mainline Linux kernels and an opensource userspace stack.
->>
->> The generic solution adds a software ISP (for Debayering and 3A) to
->> libcamera. Libcamera's API guarantees that buffers handed to applications
->> using it are dma-bufs so that these can be passed to e.g. a video encoder.
->>
->> In order to meet this API guarantee the libcamera software ISP allocates
->> dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
->> the Fedora COPR repo for the PoC of this:
->> https://hansdegoede.dreamwidth.org/28153.html
+On Tue, May 07, 2024 at 01:58:30PM +0200, Thomas Zimmermann wrote:
+> Implement struct drm_client_funcs with the respective helpers and
+> remove the custom code from the emulation. The generic helpers are
+> equivalent in functionality.
 > 
-> Is there any reason for allocating DMA buffers for libcamera through
-> /dev/dma_heap/ rather than allocating them via corresponding media
-> device and then giving them away to DRM / VPU / etc?
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/msm/msm_fbdev.c | 58 ++-------------------------------
+>  1 file changed, 3 insertions(+), 55 deletions(-)
 > 
-> At least this should solve the permission usecase: if the app can open
-> camera device, it can allocate a buffer.
 
-This is with a software ISP, the input buffers with raw bayer data
-come from a v4l2 device, but the output buffers with the processed
-data are purely userspace managed in this case.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Regards,
-
-Hans
-
+-- 
+With best wishes
+Dmitry
