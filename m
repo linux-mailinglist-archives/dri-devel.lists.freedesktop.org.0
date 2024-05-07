@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E81A8BF031
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451498BF037
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:00:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB38112FB4;
-	Tue,  7 May 2024 23:00:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 528BE112FB5;
+	Tue,  7 May 2024 23:00:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gKONpd7b";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Qk/yQMjl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE69A112FB4;
- Tue,  7 May 2024 23:00:11 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBF2F112FB5;
+ Tue,  7 May 2024 23:00:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4952DCE1748;
- Tue,  7 May 2024 23:00:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB7EC3277B;
- Tue,  7 May 2024 23:00:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0EA32619F1;
+ Tue,  7 May 2024 23:00:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C76B5C4AF63;
+ Tue,  7 May 2024 23:00:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715122808;
- bh=+RiuBApR4VmUwmiO5W+rxSWu8QrEJw7Lo7Dza+YXVn4=;
+ s=k20201202; t=1715122846;
+ bh=GAQEzVprht6F3Nn/e1UYM7rXjiUF38JLg/I9jnfqX+M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gKONpd7bHI/iI8g1LHSghbCRhNqmDe7yAn14A0EJNn9H3stAh+6kHndWymKePHAlz
- QZwhC3sgNy1LtQIgJMWShOdCWbRkTIxuW9eHI7eaXyRAhJ4nQqJrYvuUz8N7O8saEZ
- hp1BJe7dwpb8WZGfYCMiyy+Na4NDQWKaKp/sprYCvYitVC5kzDn80kqnX24jqHagPP
- H0AgPT1GIFOo0MP8NnTcAkzUQzqYFhBrIpC7CTkUdnW9zwPelfUfidjRCSgBDGTEwU
- DYEn7nhHNrhE8fvtFq8LauRQCxY8PhC5Sb1WFubtcqgxH+QrnC6hzTcKAqLUA7Sdq8
- 5fCgaRJNHqxeQ==
+ b=Qk/yQMjlgvuhSGVJHuohL53lcrC/R/NBRrUwbCixfR6vbnWYvj8K+DnEruhMbLAkc
+ Tk9UJrFcz+qDLDDgUWI4v6mO7MeMbUtS4fa/UadxCKPiu+yVThx7EM8fht1dEae3OF
+ 4P2nPlxdD3q0nXXGKvOZqy53pDspgUoQOmH2Y+jPhlDXofm9jVsYkB2e1tSLSkrrVx
+ amhFNXYMLTpr1Kxu5YaVrTX6VLqgIzZru2PJLbfQ5KGdm1uk+pnEYRuEKShzYXm8hy
+ 85Ihf6IjsPrVDQsG1onwRFgGVPKM85uKGQVAhv9UNTt9UacCtibt/pH+rYdHyTBh3X
+ ZtXXURF/nw7ig==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Derek Foreman <derek.foreman@collabora.com>,
- Lucas Stach <l.stach@pengutronix.de>, Sasha Levin <sashal@kernel.org>,
- airlied@gmail.com, daniel@ffwll.ch, etnaviv@lists.freedesktop.org,
+Cc: Joshua Ashton <joshua@froggi.es>, Harry Wentland <harry.wentland@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, alex.hung@amd.com,
+ hamza.mahfooz@amd.com, wayne.lin@amd.com, srinivasan.shanmugam@amd.com,
+ mario.limonciello@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 17/19] drm/etnaviv: fix tx clock gating on some
- GC7000 variants
-Date: Tue,  7 May 2024 18:58:39 -0400
-Message-ID: <20240507225910.390914-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 06/12] drm/amd/display: Set color_mgmt_changed to
+ true on unsuspend
+Date: Tue,  7 May 2024 19:00:08 -0400
+Message-ID: <20240507230031.391436-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240507225910.390914-1-sashal@kernel.org>
-References: <20240507225910.390914-1-sashal@kernel.org>
+In-Reply-To: <20240507230031.391436-1-sashal@kernel.org>
+References: <20240507230031.391436-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.30
+X-stable-base: Linux 6.1.90
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,41 +67,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Derek Foreman <derek.foreman@collabora.com>
+From: Joshua Ashton <joshua@froggi.es>
 
-[ Upstream commit d7a5c9de99b3a9a43dce49f2084eb69b5f6a9752 ]
+[ Upstream commit 2eb9dd497a698dc384c0dd3e0311d541eb2e13dd ]
 
-commit 4bce244272513 ("drm/etnaviv: disable tx clock gating for GC7000
-rev6203") accidentally applied the fix for i.MX8MN errata ERR050226 to
-GC2000 instead of GC7000, failing to disable tx clock gating for GC7000
-rev 0x6023 as intended.
+Otherwise we can end up with a frame on unsuspend where color management
+is not applied when userspace has not committed themselves.
 
-Additional clean-up further propagated this issue, partially breaking
-the clock gating fixes added for GC7000 rev 6202 in commit 432f51e7deeda
-("drm/etnaviv: add clock gating workaround for GC7000 r6202").
+Fixes re-applying color management on Steam Deck/Gamescope on S3 resume.
 
-Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Signed-off-by: Joshua Ashton <joshua@froggi.es>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 9276756e1397d..371e1f2733f6f 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -632,8 +632,8 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_gpu *gpu)
- 	/* Disable TX clock gating on affected core revisions. */
- 	if (etnaviv_is_model_rev(gpu, GC4000, 0x5222) ||
- 	    etnaviv_is_model_rev(gpu, GC2000, 0x5108) ||
--	    etnaviv_is_model_rev(gpu, GC2000, 0x6202) ||
--	    etnaviv_is_model_rev(gpu, GC2000, 0x6203))
-+	    etnaviv_is_model_rev(gpu, GC7000, 0x6202) ||
-+	    etnaviv_is_model_rev(gpu, GC7000, 0x6203))
- 		pmc |= VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_TX;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index ff460c9802eb2..31bae620aeffc 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2964,6 +2964,7 @@ static int dm_resume(void *handle)
+ 			dc_stream_release(dm_new_crtc_state->stream);
+ 			dm_new_crtc_state->stream = NULL;
+ 		}
++		dm_new_crtc_state->base.color_mgmt_changed = true;
+ 	}
  
- 	/* Disable SE and RA clock gating on affected core revisions. */
+ 	for_each_new_plane_in_state(dm->cached_state, plane, new_plane_state, i) {
 -- 
 2.43.0
 
