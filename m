@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66CC8BF0D1
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:11:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D6C8BF0D3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:11:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 159E7112FF5;
-	Tue,  7 May 2024 23:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAC44112FF9;
+	Tue,  7 May 2024 23:11:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AfP3ndY6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ljw5oF0b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6252F112FF4;
- Tue,  7 May 2024 23:11:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D0A112FF6;
+ Tue,  7 May 2024 23:11:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 9CAAACE1755;
- Tue,  7 May 2024 23:11:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32692C3277B;
- Tue,  7 May 2024 23:11:42 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id B0F42CE1742;
+ Tue,  7 May 2024 23:11:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ED27C2BBFC;
+ Tue,  7 May 2024 23:11:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715123504;
- bh=Oee1mEmDe4fJORTNYlBmozOCK+/EOLdQWjbFJ7XwXko=;
+ s=k20201202; t=1715123509;
+ bh=VQPRs9iLz4D7n1G+GMh7JP1p2fCzmiocS/p2Lg0AXeA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AfP3ndY6vpqubrqvh8tIlVnEmKlnDD+8+piX5VD64ZIToaDtngWh5eZ1e0iBe4Dh8
- RORolAHHaqtJCZmQhwKTTxew8Z/vUW6RlddJ/SDNbf//GWEbIRe/oltlOzvmy8Y6xq
- 1R6aFIcNhDuLLYx95RfeQbhgnTuwtVGrfxsQYKsoqQwtON1t7z+XxwHlGu1VdRfbFb
- hTqlvOUCkrnV+lA7KIT62jIN0kv9E0jQ+KubfQU7Ic8zpPwTcHsojAmYdaybqjjRNz
- KUgNqL/uI5xGFy3zC6krhmQ0vq4mG8fwvxp9cvHYm9Ye7m4rO6J6W2X16LLhcV54Co
- sfHvBZCYS5Qdw==
+ b=ljw5oF0brBQNbj+QIc0FPs9W3kpo/afUpCR7sdXT2EXI9suPrmNJ/QFIkaZj/0U2E
+ plIAblLsBSlTXeo2wAXOMwhaz43heNuLYau0Hqn15yMvLmORMwTODykLn+4IZHfK3o
+ 8eV4tav51+tvHMCEXpJkm6yg3XZgXqKKl4ofWWe0GpPCHsQrDLlL2B5CEnwGsxBDzX
+ etdWSJPlw4jdUvQE8lbnQpLDdrffMjydchrheIYaNPUTLfRspDqk8KqeHqi+c7hgsw
+ Mm224kqgnCmtQz2K0p/iwM65uYp5LBu6R3bx6zKb4+rWEvPuVfe04gfH+owvM2xT/H
+ fTUP9DQDSNsuQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Wayne Lin <wayne.lin@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
+Cc: Leo Ma <hanghong.ma@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Wayne Lin <wayne.lin@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- qingqing.zhuo@amd.com, eric.bernstein@amd.com, chiahsuan.chung@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 32/43] drm/amd/display: Add VCO speed parameter
- for DCN31 FPU
-Date: Tue,  7 May 2024 19:09:53 -0400
-Message-ID: <20240507231033.393285-32-sashal@kernel.org>
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, stylon.wang@amd.com, samson.tam@amd.com,
+ relja.vojvodic@amd.com, etbitnun@amd.com, qingqing.zhuo@amd.com,
+ charlene.liu@amd.com, wenjing.liu@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 33/43] drm/amd/display: Fix DC mode screen
+ flickering on DCN321
+Date: Tue,  7 May 2024 19:09:54 -0400
+Message-ID: <20240507231033.393285-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507231033.393285-1-sashal@kernel.org>
 References: <20240507231033.393285-1-sashal@kernel.org>
@@ -67,41 +69,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+From: Leo Ma <hanghong.ma@amd.com>
 
-[ Upstream commit 0e62103bdcbc88281e16add299a946fb3bd02fbe ]
+[ Upstream commit ce649bd2d834db83ecc2756a362c9a1ec61658a5 ]
 
-Add VCO speed parameters in the bounding box array.
+[Why && How]
+Screen flickering saw on 4K@60 eDP with high refresh rate external
+monitor when booting up in DC mode. DC Mode Capping is disabled
+which caused wrong UCLK being used.
 
+Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
 Acked-by: Wayne Lin <wayne.lin@amd.com>
-Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Leo Ma <hanghong.ma@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c  | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-index deb6d162a2d5c..7307b7b8d8ad7 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-@@ -291,6 +291,7 @@ static struct _vcs_dpi_soc_bounding_box_st dcn3_15_soc = {
- 	.do_urgent_latency_adjustment = false,
- 	.urgent_latency_adjustment_fabric_clock_component_us = 0,
- 	.urgent_latency_adjustment_fabric_clock_reference_mhz = 0,
-+	.dispclk_dppclk_vco_speed_mhz = 2400.0,
- 	.num_chans = 4,
- 	.dummy_pstate_latency_us = 10.0
- };
-@@ -438,6 +439,7 @@ static struct _vcs_dpi_soc_bounding_box_st dcn3_16_soc = {
- 	.do_urgent_latency_adjustment = false,
- 	.urgent_latency_adjustment_fabric_clock_component_us = 0,
- 	.urgent_latency_adjustment_fabric_clock_reference_mhz = 0,
-+	.dispclk_dppclk_vco_speed_mhz = 2500.0,
- };
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
+index e9345f6554dbc..2428a4763b85f 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
+@@ -547,8 +547,12 @@ static void dcn32_update_clocks(struct clk_mgr *clk_mgr_base,
+ 					 * since we calculate mode support based on softmax being the max UCLK
+ 					 * frequency.
+ 					 */
+-					dcn32_smu_set_hard_min_by_freq(clk_mgr, PPCLK_UCLK,
+-							dc->clk_mgr->bw_params->dc_mode_softmax_memclk);
++					if (dc->debug.disable_dc_mode_overwrite) {
++						dcn30_smu_set_hard_max_by_freq(clk_mgr, PPCLK_UCLK, dc->clk_mgr->bw_params->max_memclk_mhz);
++						dcn32_smu_set_hard_min_by_freq(clk_mgr, PPCLK_UCLK, dc->clk_mgr->bw_params->max_memclk_mhz);
++					} else
++						dcn32_smu_set_hard_min_by_freq(clk_mgr, PPCLK_UCLK,
++								dc->clk_mgr->bw_params->dc_mode_softmax_memclk);
+ 				} else {
+ 					dcn32_smu_set_hard_min_by_freq(clk_mgr, PPCLK_UCLK, dc->clk_mgr->bw_params->max_memclk_mhz);
+ 				}
+@@ -581,8 +585,13 @@ static void dcn32_update_clocks(struct clk_mgr *clk_mgr_base,
+ 		/* set UCLK to requested value if P-State switching is supported, or to re-enable P-State switching */
+ 		if (clk_mgr_base->clks.p_state_change_support &&
+ 				(update_uclk || !clk_mgr_base->clks.prev_p_state_change_support) &&
+-				!dc->work_arounds.clock_update_disable_mask.uclk)
++				!dc->work_arounds.clock_update_disable_mask.uclk) {
++			if (dc->clk_mgr->dc_mode_softmax_enabled && dc->debug.disable_dc_mode_overwrite)
++				dcn30_smu_set_hard_max_by_freq(clk_mgr, PPCLK_UCLK,
++						max((int)dc->clk_mgr->bw_params->dc_mode_softmax_memclk, khz_to_mhz_ceil(clk_mgr_base->clks.dramclk_khz)));
++
+ 			dcn32_smu_set_hard_min_by_freq(clk_mgr, PPCLK_UCLK, khz_to_mhz_ceil(clk_mgr_base->clks.dramclk_khz));
++		}
  
- void dcn31_zero_pipe_dcc_fraction(display_e2e_pipe_params_st *pipes,
+ 		if (clk_mgr_base->clks.num_ways != new_clocks->num_ways &&
+ 				clk_mgr_base->clks.num_ways > new_clocks->num_ways) {
 -- 
 2.43.0
 
