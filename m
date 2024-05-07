@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986E18BEE1D
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 22:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5958BEE93
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 23:05:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C03A10F76D;
-	Tue,  7 May 2024 20:28:41 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s/7Z6wOs";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6D00112674;
+	Tue,  7 May 2024 21:05:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B160210F76A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 20:28:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8540C61985;
- Tue,  7 May 2024 20:28:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD7FC2BBFC;
- Tue,  7 May 2024 20:28:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715113718;
- bh=TCF7hOj8TOI1UmjmvR3q0z4EpIMUXu7CfZrmz7GNu74=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s/7Z6wOsYQeEg/baJMeFadmC3zvVzz2BSK+Ay9HgDzGibFrhHxxlM11/WYZnhIh4p
- 0PD9QrrfR1KEkjXnOcNwgNf+/RmqTZ6NKoqNJZjbAtBA+vZGHTpunRuQqDyZi6knoC
- WOjIK42YJOnIk2VNva+KVBUSwdvDJZzoiYfXqV1pk1E8/sI9cWCBaiepHZzw2cDtEE
- A1CORuNuRBxuMEQ+6ue9qY9jJzjYieLKHsQ3SI5vxdHT7BT5Bur/tHhLfE3lLmrWLe
- 8VwHu9kmqIJXTSyDXuBnHcHV6ihNU7fAmedPF7X07estjZELV33Sxd3GWQc/xSbwr3
- 3RgrJAdZOKBZw==
-Date: Tue, 7 May 2024 15:28:36 -0500
-From: Rob Herring <robh@kernel.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Subject: Re: [PATCH 1/5] dt-bindings: display: panel: mipi-dbi-spi: Add a
- pixel format property
-Message-ID: <20240507202836.GA997432-robh@kernel.org>
-References: <20240507-panel-mipi-dbi-rgb666-v1-0-6799234afa3e@tronnes.org>
- <20240507-panel-mipi-dbi-rgb666-v1-1-6799234afa3e@tronnes.org>
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2688210FD66
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 21:05:03 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-48-bRehh-PWPia-pmBo6oqoQQ-1; Tue, 07 May 2024 22:03:13 +0100
+X-MC-Unique: bRehh-PWPia-pmBo6oqoQQ-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 7 May
+ 2024 22:02:42 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Tue, 7 May 2024 22:02:42 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Christian Brauner' <brauner@kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+CC: Al Viro <viro@zeniv.linux.org.uk>, "keescook@chromium.org"
+ <keescook@chromium.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>, "jack@suse.cz"
+ <jack@suse.cz>, "laura@labbott.name" <laura@labbott.name>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "minhquangbui99@gmail.com" <minhquangbui99@gmail.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com"
+ <syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com>,
+ "syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>
+Subject: RE: [PATCH] epoll: try to be a _bit_ better about file lifetimes
+Thread-Topic: [PATCH] epoll: try to be a _bit_ better about file lifetimes
+Thread-Index: AQHan5G+Cj1Mu87oOkmAjOj4WUTDELGMO/+w
+Date: Tue, 7 May 2024 21:02:41 +0000
+Message-ID: <052a735f433348b48a53b3d15183398a@AcuMS.aculab.com>
+References: <202405031110.6F47982593@keescook>
+ <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV>
+ <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
+ <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+ <CAHk-=wirxPSQgRV1u7t4qS1t4ED7w7OeehdUSC-LYZXspqa49w@mail.gmail.com>
+ <20240505-gelehnt-anfahren-8250b487da2c@brauner>
+ <CAHk-=wgMzzfPwKc=8yBdXwSkxoZMZroTCiLZTYESYD3BC_7rhQ@mail.gmail.com>
+ <20240506-injizieren-administration-f5900157566a@brauner>
+In-Reply-To: <20240506-injizieren-administration-f5900157566a@brauner>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240507-panel-mipi-dbi-rgb666-v1-1-6799234afa3e@tronnes.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,109 +83,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 07, 2024 at 11:57:26AM +0200, Noralf Trønnes wrote:
-> The MIPI DBI 2.0 specification (2005) lists only two pixel formats for
-> the Type C Interface (SPI) and that is 3-bits/pixel RGB111 with
-> 2 options for bit layout.
-> 
-> For Type A and B (parallel) the following formats are listed: RGB332,
-> RGB444, RGB565, RGB666 and RGB888 (some have 2 options for the bit layout).
-> 
-> Many MIPI DBI compatible controllers support all interface types on the
-> same chip and often the manufacturers have chosen to provide support for
-> the Type A/B interface pixel formats also on the Type C interface.
-> 
-> Some chips provide many pixel formats with optional bit layouts over SPI,
-> but the most common by far are RGB565 and RGB666. So even if the
-> specification doesn't list these formats for the Type C interface, the
-> industry has chosen to include them.
-> 
-> The MIPI DCS specification lists the standard commands that can be sent
-> over the MIPI DBI interface. The set_address_mode (36h) command has one
-> bit in the parameter that controls RGB/BGR order:
->     This bit controls the RGB data latching order transferred from the
->     peripheral’s frame memory to the display device.
-> This means that each supported RGB format also has a BGR variant.
-> 
-> Based on this rationale document the following pixel formats describing
-> the bit layout going over the wire:
-> - RGB111 (option 1): x2r1g1b1r1g1b1 (2 pixels per byte)
-> - BGR111 (option 1): x2b1g1r1b1g1r1 (2 pixels per byte)
-> - RGB111 (option 2): x1r1g1b1x1r1g1b1 (2 pixels per byte)
-> - BGR111 (option 2): x1b1g1r1x1b1g1r1 (2 pixels per byte)
-> - RGB565: r5g6b5 (2 bytes)
-> - BGR565: b5g6r5 (2 bytes)
-> - RGB666: r6x2g6x2b6x2 (3 bytes)
-> - BGR666: b6x2g6x2r6x2 (3 bytes)
-> (x: don't care)
-> 
-> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
-> ---
->  .../bindings/display/panel/panel-mipi-dbi-spi.yaml | 31 ++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-> index e808215cb39e..dac8f9af100e 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-> @@ -50,6 +50,12 @@ description: |
->        |        Command or data         |
->        |<D7><D6><D5><D4><D3><D2><D1><D0>|
->  
-> +  The standard defines one pixel format for type C: RGB111. The industry
-> +  however has decided to provide the type A/B interface pixel formats also on
-> +  the Type C interface and most common among these are RGB565 and RGB666.
-> +  The MIPI DCS command set_address_mode (36h) has one bit that controls RGB/BGR
-> +  order. This gives each supported RGB format a BGR variant.
-> +
->    The panel resolution is specified using the panel-timing node properties
->    hactive (width) and vactive (height). The other mandatory panel-timing
->    properties should be set to zero except clock-frequency which can be
-> @@ -90,6 +96,29 @@ properties:
->  
->    spi-3wire: true
->  
-> +  format:
-> +    description: >
-> +      Pixel format in bit order as going on the wire:
-> +        * `x2r1g1b1r1g1b1` - RGB111, 2 pixels per byte
-> +        * `x2b1g1r1b1g1r1` - BGR111, 2 pixels per byte
-> +        * `x1r1g1b1x1r1g1b1` - RGB111, 2 pixels per byte
-> +        * `x1b1g1r1x1b1g1r1` - BGR111, 2 pixels per byte
-> +        * `r5g6b5` - RGB565, 2 bytes
-> +        * `b5g6r5` - BGR565, 2 bytes
-> +        * `r6x2g6x2b6x2` - RGB666, 3 bytes
-> +        * `b6x2g6x2r6x2` - BGR666, 3 bytes
-> +      This property is optional for backwards compatibility and `r5g6b5` is
-> +      assumed in its absence.
+RnJvbTogQ2hyaXN0aWFuIEJyYXVuZXINCj4gU2VudDogMDYgTWF5IDIwMjQgMDk6NDUNCj4gDQo+
+ID4gVGhlIGZhY3QgaXMsIGl0J3Mgbm90IGRtYS1idWYgdGhhdCBpcyB2aW9sYXRpbmcgYW55IHJ1
+bGVzLiBJdCdzIGVwb2xsLg0KPiANCj4gSSBhZ3JlZSB0aGF0IGVwb2xsKCkgbm90IHRha2luZyBh
+IHJlZmVyZW5jZSBvbiB0aGUgZmlsZSBpcyBhdCBsZWFzdA0KPiB1bmV4cGVjdGVkIGFuZCBjb250
+cmFkaWN0cyB0aGUgdXN1YWwgY29kZSBwYXR0ZXJucyBmb3IgdGhlIHNha2Ugb2YNCj4gcGVyZm9y
+bWFuY2UgYW5kIHRoYXQgaXQgdmVyeSBsaWtlbHkgaXMgdGhlIGNhc2UgdGhhdCBtb3N0IGNhbGxl
+cnMgb2YNCj4gZl9vcC0+cG9sbCgpIGRvbid0IGtub3cgdGhpcy4NCj4gDQo+IE5vdGUsIEkgY2xl
+YXJ5IHdyb3RlIHVwdGhyZWFkIHRoYXQgSSdtIG9rIHRvIGRvIGl0IGxpa2UgeW91IHN1Z2dlc3Rl
+ZA0KPiBidXQgcmFpc2VkIHR3byBjb25jZXJucyBhKSB0aGVyZSdzIGN1cnJlbnRseSBvbmx5IG9u
+ZSBpbnN0YW5jZSBvZg0KPiBwcm9sb25nZWQgQGZpbGUgbGlmZXRpbWUgaW4gZl9vcC0+cG9sbCgp
+IGFmYWljdCBhbmQgYikgdGhhdCB0aGVyZSdzDQo+IHBvc3NpYmx5IGdvaW5nIHRvIGJlIHNvbWUg
+cGVyZm9ybWFuY2UgaW1wYWN0IG9uIGVwb2xsKCkuDQo+IA0KPiBTbyBpdCdzIGF0IGxlYXN0IHdv
+cnRoIGRpc2N1c3Npbmcgd2hhdCdzIG1vcmUgaW1wb3J0YW50IGJlY2F1c2UgZXBvbGwoKQ0KPiBp
+cyB2ZXJ5IHdpZGVseSB1c2VkIGFuZCBpdCdzIG5vdCB0aGF0IHdlIGhhdmVuJ3QgZmF2b3JlZCBw
+ZXJmb3JtYW5jZQ0KPiBiZWZvcmUuDQo+IA0KPiBCdXQgeW91J3ZlIGFscmVhZHkgc2FpZCB0aGF0
+IHlvdSBhcmVuJ3QgY29uY2VybmVkIHdpdGggcGVyZm9ybWFuY2Ugb24NCj4gZXBvbGwoKSB1cHRo
+cmVhZC4gU28gYWZhaWN0IHRoZW4gdGhlcmUncyByZWFsbHkgbm90IGEgbG90IG1vcmUgdG8NCj4g
+ZGlzY3VzcyBvdGhlciB0aGFuIHRha2UgdGhlIHBhdGNoIGFuZCBzZWUgd2hldGhlciB3ZSBnZXQg
+YW55IGNvbXBsYWludHMuDQoNClN1cmVseSB0aGVyZSBpc24ndCBhIHByb2JsZW0gd2l0aCBlcG9s
+bCBob2xkaW5nIGEgcmVmZXJlbmNlIHRvIHRoZSBmaWxlDQpzdHJ1Y3R1cmUgLSBpdCBpc24ndCBy
+ZWFsbHkgYW55IGRpZmZlcmVudCB0byBhIGR1cCgpLg0KDQonQWxsJyB0aGF0IG5lZWRzIHRvIGhh
+cHBlbiBpcyB0aGF0IHRoZSAnbWFnaWMnIHRoYXQgbWFrZXMgZXBvbGwoKSByZW1vdmUNCmZpbGVz
+IG9uIHRoZSBsYXN0IGZwdXQgaGFwcGVuIHdoZW4gdGhlIGNsb3NlIGlzIGRvbmUuDQpJJ20gc3Vy
+ZSB0aGVyZSBhcmUgaG9ycmlkIGxvY2tpbmcgaXNzdWVzIGl0IHRoYXQgY29kZSAoc2VwYXJhdGUg
+ZnJvbQ0KaXQgY2FsbGluZyAtPnBvbGwoKSBhZnRlciAtPnJlbGVhc2UoKSkgZWcgaWYgeW91IGNh
+bGwgY2xvc2UoKSBjb25jdXJyZW50bHkNCndpdGggRVBPTExfQ1RMX0FERC4NCg0KSSdtIG5vdCBh
+dCBhbGwgc3VyZSBpdCB3b3VsZCBoYXZlIG1hdHRlcmVkIGlmIGVwb2xsIGtlcHQgdGhlIGZpbGUg
+b3Blbi4NCkJ1dCBpdCBjYW4ndCBkbyB0aGF0IGJlY2F1c2UgaXQgaXMgZG9jdW1lbnRlZCBub3Qg
+dG8uDQpBcyB3ZWxsIGFzIHBvbGwvc2VsZWN0IGhvbGRpbmcgYSByZWZlcmVuY2UgdG8gYWxsIHRo
+ZWlyIGZkIGZvciB0aGUgZHVyYXRpb24NCm9mIHRoZSBzeXN0ZW0gY2FsbCwgYSBzdWNjZXNzZnVs
+IG1tYXAoKSBob2xkcyBhIHJlZmVyZW5jZSB1bnRpbCB0aGUgcGFnZXMNCmFyZSBhbGwgdW5tYXBw
+ZWQgLSB1c3VhbGx5IGJ5IHByb2Nlc3MgZXhpdC4NCg0KV2UgKGRheWpvYikgaGF2ZSBjb2RlIHRo
+YXQgdXNlcyBlcG9sbCgpIHRvIG1vbml0b3IgbGFyZ2UgbnVtYmVycyBvZiBVRFANCnNvY2tldHMu
+IEkgd2FzIGRvaW5nIHNvbWUgdGVzdHMgKHRyeWluZyB0bykgcmVjZWl2ZSBSVFAgKGF1ZGlvKSBk
+YXRhDQpjb25jdXJyZW50bHkgb24gMTAwMDAgc29ja2V0cyB3aXRoIHR5cGljYWxseSBvbmUgcGFj
+a2V0IGV2ZXJ5IDIwbXMuDQpUaGVyZSBhcmUgMTAwMDAgYXNzb2NpYXRlZCBSQ1RQIHNvY2tldHMg
+dGhhdCBhcmUgdXN1YWxseSBpZGxlLg0KQSBtb3JlIG5vcm1hbCBsaW1pdCB3b3VsZCBiZSAxMDAw
+IFJUUCBzb2NrZXRzLg0KQWxsIHRoZSBkYXRhIG5lZWRzIHRvIGdvIGludG8gYSBzaW5nbGUgKG11
+bHRpdGhyZWFkZWQpIHByb2Nlc3MuDQpKdXN0IGdldHRpbmcgYWxsIHRoZSBwYWNrZXRzIHF1ZXVl
+ZCBvbiB0aGUgc29ja2V0cyB3YXMgbm9uLXRyaXZpYWwuDQplcG9sbCBpcyBhYm91dCB0aGUgb25s
+eSB3YXkgdG8gYWN0dWFsbHkgcmVhZCB0aGUgZGF0YS4NCihUaGF0IG5lZWRlZCBtdWx0aXBsZSBl
+cG9sbCBmZCBzbyBlYWNoIHRocmVhZCBjb3VsZCBwcm9jZXNzIGFsbA0KdGhlIGV2ZW50cyBmcm9t
+IG9uZSBlcG9sbCBmZCB0aGVuIGxvb2sgZm9yIGFub3RoZXIgdW5wcm9jZXNzZWQgZmQuKQ0KDQoJ
+RGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1v
+dW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEz
+OTczODYgKFdhbGVzKQ0K
 
-Use schemas, not free form text:
-
-default: r5g6b5
-
-> +    enum:
-> +      - x2r1g1b1r1g1b1
-> +      - x2b1g1r1b1g1r1
-> +      - x1r1g1b1x1r1g1b1
-> +      - x1b1g1r1x1b1g1r1
-> +      - r5g6b5
-> +      - b5g6r5
-> +      - r6x2g6x2b6x2
-> +      - b6x2g6x2r6x2
-> +
->  required:
->    - compatible
->    - reg
-> @@ -116,6 +145,8 @@ examples:
->              reset-gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
->              write-only;
->  
-> +            format = "r5g6b5";
-> +
->              backlight = <&backlight>;
->  
->              width-mm = <35>;
-> 
-> -- 
-> 2.45.0
-> 
