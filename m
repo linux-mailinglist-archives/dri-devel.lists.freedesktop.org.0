@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782718BE186
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 14:03:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E555E8BE1CE
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 14:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A080810E4A6;
-	Tue,  7 May 2024 12:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E592E10F04C;
+	Tue,  7 May 2024 12:15:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NmfOP7y5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a5QjcowB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C162910E4A6
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 12:03:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 057C310EFB7
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 12:15:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9B58761629
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 12:03:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51C6AC4AF67
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 12:03:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 48A6B61629
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 12:15:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B448AC4DDE1
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 12:15:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715083388;
- bh=Ea92ey9Y4mJyACRVj1y+BYDC6s5Ina7q6HC2o8kkYqI=;
+ s=k20201202; t=1715084120;
+ bh=4ExG0FZDY6f08QETasOyXD/lspkhULsMREyw3QJterw=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=NmfOP7y5cgdKPQyFZR3J8hxc+96sREULM+zTk83sxpQWOupwU2wRzPCNFiEKH2Inc
- 0Rgl/9+At2bCzdkcG1x5bynQPK8PCtqBvXedBVA40cKcSvjl0N1h97yAdMRBjAs9+o
- rUAFNRGljyppaf81Edcv6HvvSrNVx+9U4diHiDs01h8y1UKztCuFWkLt40Ff4jzWSr
- 8uaSoP+YbkQDNfPk4YtJ4G7Jgw4MW3JOmmxmBtQAUC5rp+M0C74o0UD0Be7YYpmUI6
- dqtZyHK746ne6CDkjbebmPWGD6cLvdRaubpRJRrnY6mUe2/oQ6/cTWL3NEVZpbQ6qu
- isABdY8OpwGgg==
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-de5e74939fdso2480171276.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 05:03:08 -0700 (PDT)
+ b=a5QjcowBooTLKsJ6gz38m+jIt54nTjxBfVH6+887vRX+2ePl/1N0JXPqOJ6ddL/7a
+ psgRAAWSWxGyl7C0p1XuhHKSZDXX6tBrhpxVL7tud+zb+59IbIwzFMnA2H4jXFGfPK
+ nzdTCAKdsSXAUiw8QSvHP4mDTPSTIqtQ/H9ePriZpv8mMRxLAxYNkCJ2ssUPa+JHu1
+ 7GwN8wax3xFXk4zspZvtaUFDxxpKnZ9BhHWRHjlE2Q4T0V9lQp+vTGc+JEUYgLJucR
+ HzNyk4Ji/xrt3WG2C3k8+Y+/THV2mVRQYGRygxjB3lkyVOFKhPB5Sa6nQ6ruC+5JSB
+ TULtxMoHc/BLw==
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-6203b1bc935so31729167b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 05:15:20 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUqMxzyGq1S7JqVdaDMf3YDoyfq7Q7dl4f4/Zx0lrNKw1PHy5IFBLHdyyjuoBtPVzWTlh9iP0lC41pwWj5wiz1mbVidIlnEzQ/nDucc2iyD
-X-Gm-Message-State: AOJu0YyMEC7FFICGn/72nhaBIWF1Yg4YQYgrMrVQ4g2hfaz5yRLAu/Ut
- MKht0E5bDTrKzTkwg0FgEEzz6Vbq9WnM6hLz5T69AMiJD14nTEwvpe9eOO/aIL1XKbKurg+E7mv
- WJiJk0a9rF2dTZjxn279a62EArk/5vgXf5y5n8g==
-X-Google-Smtp-Source: AGHT+IFASQJ7En22EiRKU1G/Js+pMfVUKcBEoMeS7ZnY6BKqLbZB1gsTSLgE44jqNPZXZ29zuSi8fVfr7Ile965txI8=
-X-Received: by 2002:a25:2985:0:b0:de6:4ff:3157 with SMTP id
- p127-20020a252985000000b00de604ff3157mr12618383ybp.44.1715083387541; Tue, 07
- May 2024 05:03:07 -0700 (PDT)
+ AJvYcCUfFKvLHaKr9loTRnAJY5PuEi1i12FF4sRbcTMyj7LFEbmtx4Ztdr0yt1qjYyMbIXYZ79JyIZCX1ofzP3cXzJTDtEfKzF9cFxn4hcA0Osvh
+X-Gm-Message-State: AOJu0Yyia0loKX0l8ksN9lNxl0vGCdzKtskBvqjSiclI84SOAbIDGFvA
+ PFcCHqs8xVFrX4yMEIHJj4NLncvC/VR4fFW+G5wUymvl39vcyAVtGr5sq5unD3H/FV7Qk0/pN36
+ AcW96UZ8GBRiAPqai/gAosTLBmz9nQevMoQ5RNQ==
+X-Google-Smtp-Source: AGHT+IH+Pja8EgUMLpfJwhO7v0UjdoeL8if8dUGCw6qXcAIWrNDLG5aoxfpLWtSpJvCmWyUWR2rEmCfBWkFANDX1uvw=
+X-Received: by 2002:a05:6902:2cb:b0:de6:86f:c6a4 with SMTP id
+ w11-20020a05690202cb00b00de6086fc6a4mr16605659ybh.44.1715084119930; Tue, 07
+ May 2024 05:15:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240503151129.3901815-1-l.stach@pengutronix.de>
- <20240503151129.3901815-2-l.stach@pengutronix.de>
-In-Reply-To: <20240503151129.3901815-2-l.stach@pengutronix.de>
+ <20240503151129.3901815-3-l.stach@pengutronix.de>
+In-Reply-To: <20240503151129.3901815-3-l.stach@pengutronix.de>
 From: Robert Foss <rfoss@kernel.org>
-Date: Tue, 7 May 2024 14:02:56 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi4xo+0RPkA6h0JurDn1WVvQRpNmPdZWks34BAMhCxU+_w@mail.gmail.com>
-Message-ID: <CAN6tsi4xo+0RPkA6h0JurDn1WVvQRpNmPdZWks34BAMhCxU+_w@mail.gmail.com>
-Subject: Re: [PATCH 01/14] drm/bridge: analogix_dp: remove unused platform
- power_on_end callback
+Date: Tue, 7 May 2024 14:15:09 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi4PBmr9mXj16rDod_6-pJQAsvbTWhfCmmG0=2n5bBM0Rg@mail.gmail.com>
+Message-ID: <CAN6tsi4PBmr9mXj16rDod_6-pJQAsvbTWhfCmmG0=2n5bBM0Rg@mail.gmail.com>
+Subject: Re: [PATCH 02/14] drm/rockchip: analogix_dp: add runtime PM handling
 To: Lucas Stach <l.stach@pengutronix.de>
 Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
  Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>, 
@@ -86,106 +85,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Fri, May 3, 2024 at 5:12=E2=80=AFPM Lucas Stach <l.stach@pengutronix.de>=
  wrote:
 >
-> This isn't used, but gives the impression of the power on and power off
-> platform calls being non-symmetrical. Remove the unused callback and
-> rename the power_on_start to simplay power_on.
-
-s/simplay/simply
-
+> Hook up the runtime PM suspend/resume paths to make the rockchip
+> glue behave more like the exynos one. The same suspend/resume
+> functions are used for system sleep via the runtime PM force
+> suspend/resume.
 >
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 7 ++-----
->  drivers/gpu/drm/exynos/exynos_dp.c                 | 2 +-
->  drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    | 4 ++--
->  include/drm/bridge/analogix_dp.h                   | 3 +--
->  4 files changed, 6 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 13 ++++---------
+>  1 file changed, 4 insertions(+), 9 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers=
-/gpu/drm/bridge/analogix/analogix_dp_core.c
-> index 98454f0af90e..b39721588980 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> @@ -1264,8 +1264,8 @@ static int analogix_dp_set_bridge(struct analogix_d=
-p_device *dp)
->                 goto out_dp_clk_pre;
->         }
->
-> -       if (dp->plat_data->power_on_start)
-> -               dp->plat_data->power_on_start(dp->plat_data);
-> +       if (dp->plat_data->power_on)
-> +               dp->plat_data->power_on(dp->plat_data);
->
->         phy_power_on(dp->phy);
->
-> @@ -1290,9 +1290,6 @@ static int analogix_dp_set_bridge(struct analogix_d=
-p_device *dp)
->                 goto out_dp_init;
->         }
->
-> -       if (dp->plat_data->power_on_end)
-> -               dp->plat_data->power_on_end(dp->plat_data);
-> -
->         enable_irq(dp->irq);
->         return 0;
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/=
-exynos_dp.c
-> index f48c4343f469..30c8750187ad 100644
-> --- a/drivers/gpu/drm/exynos/exynos_dp.c
-> +++ b/drivers/gpu/drm/exynos/exynos_dp.c
-> @@ -233,7 +233,7 @@ static int exynos_dp_probe(struct platform_device *pd=
-ev)
->         /* The remote port can be either a panel or a bridge */
->         dp->plat_data.panel =3D panel;
->         dp->plat_data.dev_type =3D EXYNOS_DP;
-> -       dp->plat_data.power_on_start =3D exynos_dp_poweron;
-> +       dp->plat_data.power_on =3D exynos_dp_poweron;
->         dp->plat_data.power_off =3D exynos_dp_poweroff;
->         dp->plat_data.attach =3D exynos_dp_bridge_attach;
->         dp->plat_data.get_modes =3D exynos_dp_get_modes;
 > diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gp=
 u/drm/rockchip/analogix_dp-rockchip.c
-> index 7069a3d4d581..baeb41875a4b 100644
+> index baeb41875a4b..8214265f1497 100644
 > --- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
 > +++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-> @@ -92,7 +92,7 @@ static int rockchip_dp_pre_init(struct rockchip_dp_devi=
-ce *dp)
->         return 0;
+> @@ -13,6 +13,7 @@
+>  #include <linux/of.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+>  #include <linux/reset.h>
+>  #include <linux/clk.h>
+> @@ -430,7 +431,6 @@ static void rockchip_dp_remove(struct platform_device=
+ *pdev)
+>         analogix_dp_remove(dp->adp);
 >  }
 >
-> -static int rockchip_dp_poweron_start(struct analogix_dp_plat_data *plat_=
-data)
-> +static int rockchip_dp_poweron(struct analogix_dp_plat_data *plat_data)
+> -#ifdef CONFIG_PM_SLEEP
+>  static int rockchip_dp_suspend(struct device *dev)
 >  {
->         struct rockchip_dp_device *dp =3D pdata_encoder_to_dp(plat_data);
->         int ret;
-> @@ -397,7 +397,7 @@ static int rockchip_dp_probe(struct platform_device *=
-pdev)
->         dp->data =3D dp_data;
->         dp->plat_data.panel =3D panel;
->         dp->plat_data.dev_type =3D dp->data->chip_type;
-> -       dp->plat_data.power_on_start =3D rockchip_dp_poweron_start;
-> +       dp->plat_data.power_on =3D rockchip_dp_poweron;
->         dp->plat_data.power_off =3D rockchip_dp_powerdown;
->         dp->plat_data.get_modes =3D rockchip_dp_get_modes;
+>         struct rockchip_dp_device *dp =3D dev_get_drvdata(dev);
+> @@ -450,14 +450,9 @@ static int rockchip_dp_resume(struct device *dev)
 >
-> diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analog=
-ix_dp.h
-> index b0dcc07334a1..8709b6a74c0f 100644
-> --- a/include/drm/bridge/analogix_dp.h
-> +++ b/include/drm/bridge/analogix_dp.h
-> @@ -29,8 +29,7 @@ struct analogix_dp_plat_data {
->         struct drm_connector *connector;
->         bool skip_connector;
+>         return analogix_dp_resume(dp->adp);
+>  }
+> -#endif
 >
-> -       int (*power_on_start)(struct analogix_dp_plat_data *);
-> -       int (*power_on_end)(struct analogix_dp_plat_data *);
-> +       int (*power_on)(struct analogix_dp_plat_data *);
->         int (*power_off)(struct analogix_dp_plat_data *);
->         int (*attach)(struct analogix_dp_plat_data *, struct drm_bridge *=
+> -static const struct dev_pm_ops rockchip_dp_pm_ops =3D {
+> -#ifdef CONFIG_PM_SLEEP
+> -       .suspend_late =3D rockchip_dp_suspend,
+> -       .resume_early =3D rockchip_dp_resume,
+> -#endif
+> -};
+> +static DEFINE_RUNTIME_DEV_PM_OPS(rockchip_dp_pm_ops, rockchip_dp_suspend=
 ,
->                       struct drm_connector *);
+> +               rockchip_dp_resume, NULL);
+>
+>  static const struct rockchip_dp_chip_data rk3399_edp =3D {
+>         .lcdsel_grf_reg =3D RK3399_GRF_SOC_CON20,
+> @@ -485,7 +480,7 @@ struct platform_driver rockchip_dp_driver =3D {
+>         .remove_new =3D rockchip_dp_remove,
+>         .driver =3D {
+>                    .name =3D "rockchip-dp",
+> -                  .pm =3D &rockchip_dp_pm_ops,
+> +                  .pm =3D pm_ptr(&rockchip_dp_pm_ops),
+>                    .of_match_table =3D rockchip_dp_dt_ids,
+>         },
+>  };
 > --
 > 2.39.2
 >
