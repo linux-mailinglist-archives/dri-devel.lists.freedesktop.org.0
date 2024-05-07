@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DC08BF0F7
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:14:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DBEF8BF0FB
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:14:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C617112FF8;
-	Tue,  7 May 2024 23:14:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38EE9113003;
+	Tue,  7 May 2024 23:14:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DXsb5Wx2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SBzBCNkQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF009112FF8;
- Tue,  7 May 2024 23:14:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FA77113003;
+ Tue,  7 May 2024 23:14:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 40AF061A14;
- Tue,  7 May 2024 23:14:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82C6BC4AF17;
- Tue,  7 May 2024 23:14:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 824D461A25;
+ Tue,  7 May 2024 23:14:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F026DC4AF17;
+ Tue,  7 May 2024 23:14:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715123660;
- bh=eQjdcRqWcyN6Ss00JDTnt3wGlk9Z9z/KrcyxDZOLzJs=;
+ s=k20201202; t=1715123673;
+ bh=uGaz81u//ikxr+CCjdWRrcxgzw6GnAiHPyHKN2atUig=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DXsb5Wx2D/aqGARAhXE/9OgSss2xtmE1Nzl5dKoksu5Xr1G7cMT7Ycc5xW8uw46LM
- xcOSQZN2fRRnu6OMAk4auKe+cE8GU8u1HjjdVUbdooxNuEabGy1I6WNfA5fZMNoYIq
- blK7jpwXDpdsITQfqctKFq8LMY9bnFSXVM+JNaR0Q3qwaZdKff4VMaBuoxFiGCauRd
- W+whWWcbsdQLV+lkhzWet+6HpaVNToXbWw3GMD/q4ZxpeVZrEGfDORjtgiQQGOK7wu
- rXfnr8CTmno/pA/bncKndzWI5Y5hg2E1qd3uj7PsoKgBvpkdx3vYIuWSKjdUPJ8re/
- V7JlTh7DJkS+g==
+ b=SBzBCNkQs2bocHhupLvuKIr+bQ2a05qDl1vhlaBlY9OEgj6082hD5QksQNyYkUilH
+ qY9R7y++b05zxHaYUoYjuZGkBpPapMXcy+tyP5MJWUx4gcTxpTiw0gmk/iwIAHhCtS
+ cw4weMLvtBmXJfMSCdKmEgZCyAumIUQ5n6TadJwznRzv3Rv8Ho4zQ6kABNf7OhBRTk
+ dIVd9ShZMxR3K+64Q42DdGbh4xn9jCpyJVxLLZxNs2/gwDTzKNsadqwJf54o+3wkqk
+ OMJystvlTwDMchZMw/IxjL2bT9a2H3B39ZonzYPueM+/nd4z6yHMJpTqah4QxF0lWJ
+ qe7eWJA6Jt7lA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -39,17 +39,17 @@ Cc: Lancelot SIX <lancelot.six@amd.com>,
  Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 8/9] drm/amdkfd: Flush the process wq before
+Subject: [PATCH AUTOSEL 5.4 5/6] drm/amdkfd: Flush the process wq before
  creating a kfd_process
-Date: Tue,  7 May 2024 19:14:03 -0400
-Message-ID: <20240507231406.395123-8-sashal@kernel.org>
+Date: Tue,  7 May 2024 19:14:21 -0400
+Message-ID: <20240507231424.395315-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240507231406.395123-1-sashal@kernel.org>
-References: <20240507231406.395123-1-sashal@kernel.org>
+In-Reply-To: <20240507231424.395315-1-sashal@kernel.org>
+References: <20240507231424.395315-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.216
+X-stable-base: Linux 5.4.275
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -101,10 +101,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index d243e60c6eef7..534f2dec6356f 100644
+index aa0a617b8d445..662e4d973f13a 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -766,6 +766,14 @@ struct kfd_process *kfd_create_process(struct file *filep)
+@@ -289,6 +289,14 @@ struct kfd_process *kfd_create_process(struct file *filep)
  	if (process) {
  		pr_debug("Process already found\n");
  	} else {
