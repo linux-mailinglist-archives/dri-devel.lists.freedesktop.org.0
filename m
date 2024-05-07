@@ -2,153 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ECC78BE31E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 15:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9E18BE321
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 15:11:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5641112183;
-	Tue,  7 May 2024 13:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9356A10F582;
+	Tue,  7 May 2024 13:11:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="IqwLfFM+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eMTVnqcf";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lGeY4DQ6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SBZE+Idd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bRuS7tJM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F03A610FDAA;
- Tue,  7 May 2024 13:10:50 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 39AF1209F6;
- Tue,  7 May 2024 13:10:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715087449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=42sqKkRZzBgWEgDyspu4KXMhxsCmeR1S4xXJoSVfm5E=;
- b=IqwLfFM+Hu2YaEEcAQTcodL6pTl0RWcpO3WDWfJIFP53WJvvr6iQRkXlxE4dyvlNg3sQ72
- ixY72XOy8Tfthetbsj0lMCYneuOEqRJs+zfXKgDP0ElUXRL/J8QoUlOAm7lRW1dI3Pq6T+
- p9pWGH356aj57WwlmuAVZtIDfAXnVcI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715087449;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=42sqKkRZzBgWEgDyspu4KXMhxsCmeR1S4xXJoSVfm5E=;
- b=eMTVnqcfX0NzW1dC/AvFEcX09A0+rSYUeqw55lGmAxdgKDi8MRUIre5cCXLdxxuA7JvNjY
- 0rkwx0nccqses7DA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lGeY4DQ6;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SBZE+Idd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715087448; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=42sqKkRZzBgWEgDyspu4KXMhxsCmeR1S4xXJoSVfm5E=;
- b=lGeY4DQ6knpn5emLVJhT+bw6mPy+WSxzOxT/BTDRcO+fqOpPBOiMGnS4DpbwIGAEhUEj34
- MUzhsPOwUsxuapAlojjBUqiitb6sGKaMYYq09Z2FvMxFEVBK0L0FGJfKFbajufua2X60Ps
- VhXojJ+f9kkTAcXmdegoeHN1pamcFds=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715087448;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=42sqKkRZzBgWEgDyspu4KXMhxsCmeR1S4xXJoSVfm5E=;
- b=SBZE+IddVAPX2Bi6qbigiV7YukmQHu4QQWtbQHtdvUODTW3mMSEb9GyPGWO7EoEpXG13Hz
- c+xhHqiC2JL4pNCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8348B139CB;
- Tue,  7 May 2024 13:10:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id zE3CHlcoOmahIgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 07 May 2024 13:10:47 +0000
-Message-ID: <f54de97b-5b52-4510-b54d-0aeb6266eb51@suse.de>
-Date: Tue, 7 May 2024 15:10:13 +0200
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1B1910F582
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:11:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id D32C6CE10C7
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:11:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43EA8C3277B
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715087464;
+ bh=vdFUPxI2rK4X4ACGJc33PkZDLQWpMwoj2Qa0AfmlRj8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=bRuS7tJMq+xHrEpU4ae6gPZ2EEu5SybMRZl3bh9uURvV+iW/7I2akJSej6K6C5ka8
+ FD3b1REImXZQSTOQ+wWwjyCzCbhyS2cwqAFH2KkgSwVurKOFaY/f3m1eqGi2/K4l6C
+ pdM7qvRhxbL32bDuXLeG5iWRfVc/41dCdU1WBjABjTjdtn8uxBlW3lsVX/Jl2THTAc
+ vJWzZX/f+LbDYyriS6BtBlQ74NMRUkL+PG3Xnhv5rH0lgIT8hS+qjJqfoPxSuTK0O4
+ 17epchFWegWRlMvHL9ihYiVFKtIXrECg408jacU7u2Ys1dAlNLtH7VARQONs/8BccM
+ 4Y9zRlFPfXTog==
+Received: by mail-yb1-f176.google.com with SMTP id
+ 3f1490d57ef6-deb5f006019so3412264276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 06:11:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVCcGhje2ahEENwVszn0milZc3qAVPadxMxiFnGwfjvS8835sdB9riti4PNwHv2+RDB9j4q+jo9otbQSJDbqMqk4knjPSd1e3R0XPB9FDZZ
+X-Gm-Message-State: AOJu0Yz3FUtRjXLLRQ0LzAPSErL4RWA1DWaX7atCafHlp36FBtZI1H//
+ f30gcALKgJ1bXyKPNsslmxNKiTViwSwOsjwKO8ok8apm+1Qu+qxMLe9ZjK9EmSF49giummzTy0C
+ QfZicclJuMUh5caouHSjCYRN4IpDAO+h7Aohc6g==
+X-Google-Smtp-Source: AGHT+IFsm9DC3DaDqy/o8t6hXSkYeTcEajdfOC7CkRK6RkveYsEckuITQhToPeKR3ocgyQC/Xu6yE8vpx90pCLe4bg0=
+X-Received: by 2002:a05:6902:250a:b0:de5:d1cd:b593 with SMTP id
+ dt10-20020a056902250a00b00de5d1cdb593mr14853945ybb.33.1715087463592; Tue, 07
+ May 2024 06:11:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/11] drm/i915: Use drm_fbdev_helper_client_unregister()
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: javierm@redhat.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, linux@armlinux.org.uk, krzk@kernel.org,
- alim.akhtar@samsung.com, patrik.r.jakobsson@gmail.com,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run, marijn.suijten@somainline.org,
- tomi.valkeinen@ideasonboard.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, thierry.reding@gmail.com,
- mperttunen@nvidia.com, jonathanh@nvidia.com,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20240507120422.25492-1-tzimmermann@suse.de>
- <20240507120422.25492-9-tzimmermann@suse.de> <ZjodweGCM0_zd2L0@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <ZjodweGCM0_zd2L0@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 39AF1209F6
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
- XM_UA_NO_VERSION(0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCPT_COUNT_TWELVE(0.00)[30]; FUZZY_BLOCKED(0.00)[rspamd.com];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FREEMAIL_CC(0.00)[redhat.com,ffwll.ch,linux.intel.com,kernel.org,samsung.com,armlinux.org.uk,gmail.com,ursulin.net,quicinc.com,linaro.org,poorly.run,somainline.org,ideasonboard.com,amd.com,nvidia.com,lists.freedesktop.org];
- RCVD_TLS_ALL(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TAGGED_RCPT(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:email,
- imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns, intel.com:email]
+References: <20240503151129.3901815-1-l.stach@pengutronix.de>
+In-Reply-To: <20240503151129.3901815-1-l.stach@pengutronix.de>
+From: Robert Foss <rfoss@kernel.org>
+Date: Tue, 7 May 2024 15:10:52 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi73ks50-Xg78Jpj6Me80hpaR0ww=RXOMKJoT2V6Zg8_Yg@mail.gmail.com>
+Message-ID: <CAN6tsi73ks50-Xg78Jpj6Me80hpaR0ww=RXOMKJoT2V6Zg8_Yg@mail.gmail.com>
+Subject: Re: [PATCH 00/14] improve Analogix DP AUX channel handling
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>, 
+ Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de, 
+ patchwork-lst@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,105 +81,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 07.05.24 um 14:25 schrieb Rodrigo Vivi:
-> On Tue, May 07, 2024 at 01:58:29PM +0200, Thomas Zimmermann wrote:
->> Implement struct drm_client_funcs.unregister with the helpers
->> drm_fbdev_helper_client_unregister() and remove the custom code
->> from the driver. The generic helper is equivalent in functionality.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/i915/display/intel_fbdev.c | 21 ++-------------------
->>   1 file changed, 2 insertions(+), 19 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
->> index bda702c2cab8e..f1b4543bffc02 100644
->> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
->> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
->> @@ -38,7 +38,6 @@
->>   #include <linux/vga_switcheroo.h>
->>   
->>   #include <drm/drm_crtc.h>
->> -#include <drm/drm_crtc_helper.h>
->>   #include <drm/drm_fb_helper.h>
->>   #include <drm/drm_fourcc.h>
->>   #include <drm/drm_gem_framebuffer_helper.h>
->> @@ -580,25 +579,9 @@ static int intel_fbdev_restore_mode(struct drm_i915_private *dev_priv)
->>   }
->>   
->>   /*
->> - * Fbdev client and struct drm_client_funcs
->> + * struct drm_client_funcs
->>    */
->>   
->> -static void intel_fbdev_client_unregister(struct drm_client_dev *client)
->> -{
->> -	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
->> -	struct drm_device *dev = fb_helper->dev;
->> -	struct pci_dev *pdev = to_pci_dev(dev->dev);
->> -
->> -	if (fb_helper->info) {
->> -		vga_switcheroo_client_fb_set(pdev, NULL);
->> -		drm_fb_helper_unregister_info(fb_helper);
->> -	} else {
->> -		drm_fb_helper_unprepare(fb_helper);
->> -		drm_client_release(&fb_helper->client);
-> The only real difference is that these 2 calls are inverted in the new
-> drm_fbdev_helper_client_unregister.
-
-The condition in this if statement is different for some drivers, but 
-not i915. The setup code first does a _prepare and then an 
-_init+_register, hence the _release goes first and then comes the 
-_unprepare.
-
+On Fri, May 3, 2024 at 5:12=E2=80=AFPM Lucas Stach <l.stach@pengutronix.de>=
+ wrote:
 >
-> I feel that the releasing after the unprepare sounds more logical,
-> but if there's no actual issue with that and it is working for
-> everybody, let's do that.
-
-It should make no difference in practice, but doing the release first is 
-the inverse of the setup; hence conceptually cleaner.
-
+> Currently the AUX channel support in the Analogix DP driver is severely
+> limited as the AUX block of the bridge is only initialized when the video
+> link is to be enabled. This is okay for the purposes of link training,
+> but does not allow to detect displays by probing for EDID. This series
+> reworks the driver to allow AUX transactions before the video link is
+> active.
 >
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> As this requires to rework some of the controller initialization and
+> also handling of both internal and external clocks, the series includes
+> quite a few changes to add better runtime PM handling.
 >
-> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> (to get through drm-misc with everything else if you prefer)
-
-Thanks.
-
-Best regards
-Thomas
-
+> Lucas Stach (14):
+>   drm/bridge: analogix_dp: remove unused platform power_on_end callback
+>   drm/rockchip: analogix_dp: add runtime PM handling
+>   drm/bridge: analogix_dp: register AUX bus after enabling runtime PM
+>   drm/bridge: analogix_dp: handle clock via runtime PM
+>   drm/bridge: analogix_dp: remove unused analogix_dp_remove
+>   drm/bridge: analogix_dp: remove clk handling from
+>     analogix_dp_set_bridge
+>   drm/bridge: analogix_dp: move platform and PHY power handling into
+>     runtime PM
+>   drm/bridge: analogix_dp: move basic controller init into runtime PM
+>   drm/bridge: analogix_dp: remove PLL lock check from
+>     analogix_dp_config_video
+>   drm/bridge: analogix_dp: move macro reset after link bandwidth setting
+>   drm/bridge: analogix_dp: don't wait for PLL lock too early
+>   drm/bridge: analogix_dp: simplify and correct PLL lock checks
+>   drm/bridge: analogix_dp: only read AUX status when an error occured
+>   drm/bridge: analogix_dp: handle AUX transfer timeouts
 >
->> -		kfree(fb_helper);
->> -	}
->> -}
->> -
->>   static int intel_fbdev_client_restore(struct drm_client_dev *client)
->>   {
->>   	struct drm_i915_private *dev_priv = to_i915(client->dev);
->> @@ -644,7 +627,7 @@ static int intel_fbdev_client_hotplug(struct drm_client_dev *client)
->>   
->>   static const struct drm_client_funcs intel_fbdev_client_funcs = {
->>   	.owner		= THIS_MODULE,
->> -	.unregister	= intel_fbdev_client_unregister,
->> +	.unregister	= drm_fbdev_helper_client_unregister,
->>   	.restore	= intel_fbdev_client_restore,
->>   	.hotplug	= intel_fbdev_client_hotplug,
->>   };
->> -- 
->> 2.44.0
->>
+>  .../drm/bridge/analogix/analogix_dp_core.c    | 196 ++++++++----------
+>  .../drm/bridge/analogix/analogix_dp_core.h    |   7 +-
+>  .../gpu/drm/bridge/analogix/analogix_dp_reg.c |  38 ++--
+>  .../gpu/drm/bridge/analogix/analogix_dp_reg.h |   9 +
+>  drivers/gpu/drm/exynos/exynos_dp.c            |   5 +-
+>  .../gpu/drm/rockchip/analogix_dp-rockchip.c   |  26 +--
+>  include/drm/bridge/analogix_dp.h              |   4 +-
+>  7 files changed, 120 insertions(+), 165 deletions(-)
+>
+> --
+> 2.39.2
+>
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+There are some checkpatch --strict warnings, and the patch 10/14 does
+not apply. Other than that the series looks very good.
 
+Maybe rebase on drm-misc/drm-misc-next, fix the applicable checkpatch
+--strict warnings and send a new version of this series. Then the last
+patches can be reviewed.
