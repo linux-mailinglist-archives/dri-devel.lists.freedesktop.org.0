@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162108BDDDA
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 11:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6636D8BDF21
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 11:57:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD0F110F263;
-	Tue,  7 May 2024 09:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F184310F443;
+	Tue,  7 May 2024 09:57:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="Dqbd9DaC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hk1sMRk7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52DD110F263
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 09:15:03 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5B0DF40E024C; 
- Tue,  7 May 2024 09:15:00 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id t-Ir9M_E86JN; Tue,  7 May 2024 09:14:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1715073296; bh=hA/EMMoeb0yie87OtKrLxzw3vDjsbX8N+BD3HDiz4bA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Dqbd9DaChjaUs6Gf5ijBOtLj75ALUwFjP33YhDNe96oth7dWvkwSAEYC6w6/7goFD
- rF3sHKacblkoCoAaw6E4bRh3zB+G4kCZz2QRn44ov6MB23bLu6TqDs8OhiBMpFM9R8
- Tj6zCtBBQvudwFAgI3aqf2cZwmsCXLPds2SHZ4BG1jM4M01Gu+iid4/l3HDXXImTBx
- DaXGgVxur9yr4aq4+EqVrAkRD0wJ9foGFlKI1QpGnyT96/cRqGdHK+Nkns/sSW3EAt
- 8hlAB886/1B5el3/zg+9MNf7KFK8o7v+ELDYRiIkLGGF5quh5mwvpgeFhgg87u8MFL
- ibZuTFuEUuIXPhmi3tzmJbxBX2O3reR7H9KHSqMIS8EQ8/XlMTe3QdoQSwxjvsSG/7
- NzriVHS6gNn1dad88kcY/bvtdRBAqCkPXaKaac5PnYYlFifKw7yjclffpi4vRBZx5t
- /6mo3hw1y2IE/5s3v7fgK0ts97gSdfiTveDHo+40CnpQRPdGfNcU9wivREWdmbRJb1
- 9qCYczwdKUNfw1OqL8AhCa33w6OE2cOtJpiAkXA0kP5OkrBqJGTJx/inq43sk/WRKo
- VxIym094m9x2zxhcJciuWm7sQy1cB12gsVF6jEAnmOnAI/tWEqSflNX7C88meKZuzw
- eF3nqOHBWbG+ACJ+MBC682cU=
-Received: from zn.tnic (pd953020b.dip0.t-ipconnect.de [217.83.2.11])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0A3C340E0249;
- Tue,  7 May 2024 09:14:30 +0000 (UTC)
-Date: Tue, 7 May 2024 11:14:24 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
- tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-input@vger.kernel.org,
- dmitry.torokhov@gmail.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
- timothym@vmware.com, akaher@vmware.com,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, horms@kernel.org,
- kirill.shutemov@linux.intel.com, Nadav Amit <nadav.amit@gmail.com>
-Subject: Re: [PATCH v9 1/8] x86/vmware: Move common macros to vmware.h
-Message-ID: <20240507091424.GUZjnw8ErpQT6XJLVM@fat_crate.local>
-References: <20240505182829.GBZjfPzeEijTsBUth5@fat_crate.local>
- <20240506215305.30756-1-alexey.makhalov@broadcom.com>
- <20240506215305.30756-2-alexey.makhalov@broadcom.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BC9610E4FE
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 09:57:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1C8436162C;
+ Tue,  7 May 2024 09:57:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B5D91C2BBFC;
+ Tue,  7 May 2024 09:57:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715075867;
+ bh=cOslNnFXMgXOobE/xiF5+42V/TZM+XXhX8L45V5ggnc=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=hk1sMRk7Y1YNUlCqbAckbD6+X7qSO5Pwbilp0Yszo/3BhDFSVfXmy7EledvHTb0BP
+ 3g1OLSDokasibZhG/iEEoNiNDv8UyDj5hV652ojB9pniJgV/dGZnu+K8VdfieIxxvY
+ PihywliFmrC3n2S4oQ8ZzK5UkKrEX7tuEJO/a8zc0a3ehG3bzu0Eb52O7GOpBG/J5T
+ GDBaNCtJaxJZrXMd7T0Xbs/LFchsrlsLASnYqbijuchSCFn5KysVTBs4h8mhsR7n7b
+ rREc4YQChp+Ay4lR8yxqtU9xTtW28Fxr4rXhRx1iM5g83OMYcabssKHY9QU+H7QUO8
+ fEG/5nBxYQXWw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id A31B2C10F1A;
+ Tue,  7 May 2024 09:57:47 +0000 (UTC)
+From: =?utf-8?q?Noralf_Tr=C3=B8nnes_via_B4_Relay?=
+ <devnull+noralf.tronnes.org@kernel.org>
+Subject: [PATCH 0/5] drm/tiny: panel-mipi-dbi: Support 18 bits per color RGB666
+Date: Tue, 07 May 2024 11:57:25 +0200
+Message-Id: <20240507-panel-mipi-dbi-rgb666-v1-0-6799234afa3e@tronnes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240506215305.30756-2-alexey.makhalov@broadcom.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAX7OWYC/x3MTQqAIBBA4avErBuwNPu5SrQonWqgTBQikO6et
+ PwW7yWIFJgiDEWCQDdHvlxGVRZg9tlthGyzoRa1Eko06GdHB57sGe3CGLZFa42KhJRt11ptesi
+ tD7Ty83/H6X0/IxsMwmcAAAA=
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>, 
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>, 
+ =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1715075866; l=3259;
+ i=noralf@tronnes.org; s=20221122; h=from:subject:message-id;
+ bh=cOslNnFXMgXOobE/xiF5+42V/TZM+XXhX8L45V5ggnc=;
+ b=41Zf668TAp8cqriNW2DsPKYmEM4c0aWJfyLBTOF67tWFBNUJC+z5QyZpMG+t0ClldrRxfxLhC
+ dIZZ21CwkQbC+e8kcN2QKeslmVL7sLNYD83//eoBfwdWqMRYmasnMFp
+X-Developer-Key: i=noralf@tronnes.org; a=ed25519;
+ pk=0o9is4iddvvlrY3yON5SVtAbgPnVs0LfQsjfqR2Hvz8=
+X-Endpoint-Received: by B4 Relay for noralf@tronnes.org/20221122 with auth_id=8
+X-Original-From: =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,29 +80,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: noralf@tronnes.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 06, 2024 at 02:52:58PM -0700, Alexey Makhalov wrote:
-> +#define VMWARE_HYPERVISOR_PORT		0x5658
-> +#define VMWARE_HYPERVISOR_PORT_HB	(VMWARE_HYPERVISOR_PORT | \
-> +					 VMWARE_HYPERVISOR_HB)
+Hi,
 
-You can't help yourself not sneaking in any changes which are not code
-movement, can ya?
+To my suprise I have discovered that the MIPI DBI specification does only
+list RGB111 as a pixel format for the Serial Interface (Type C).
 
-The purpose of a sole code movement patch is to ease the review. Not to
-have to look at the code movement *and* some *additional* changes which
-you've done in-flight. Just because you felt like it. But which is nasty
-to review.
+For the parallel interface type (Type A and B) it lists: RGB332, RGB444,
+RGB565, RGB666 and RGB888.
 
-Maybe you'll understand that better when you get to review someone
-else's patch which does crap like that.
+I have never read the specification closely enough to discover this always
+assuming that the datasheets for the various MIPI DBI compatible
+controllers I've looked at over the years did follow the specification
+when they supported RGB565 and RGB666 on the serial interface.
 
-Make sure you remember that in the future, when sending patches.
+So it is quite clear that the industry has chosen to extend the standard
+and provide support for more pixel formats over the serial interface.
 
+drm_mipi_dbi and its predecessor fbtft support only RGB565 over SPI since
+RGB666 uses 3 bytes per pixel instead of 2 bytes, severly impacting the
+framerate.
+
+The reason I started to look at this is that there seem to be an increase
+in cheap SPI displays that is based on the ILI9488 controller. The
+datasheet for this controller states that it supports RGB565, but
+experience[1] shows that this is not true and that the controller only
+supports RGB666 over SPI.
+
+I have known for some time that the ILI9486 controller does not support
+RGB565 over SPI, it only supports RGB111 and RGB666. Some display
+breakoutboard manufacturers have solved this by putting a shift register
+in front of the parallel bus on this controller in order to support
+RGB565. This requires some custom code when writing to the SPI bus as
+shown in the tiny/ili9486.c driver. The downside is that these displays
+are really slow due to the slow shift registers used.
+
+This patchset documents the defacto industry standard wrt pixel formats
+over SPI and adds support for RGB666 in the panel-mipi-dbi driver.
+
+There have been two previous attempts to add a DRM driver for
+ili9488[2][3]. The panel-mipi-dbi driver is a generic MIPI DBI driver
+supporting controller initialization via a firmware file and with the help
+of this patchset it will support ILI9488 based SPI displays.
+
+[1] https://github.com/notro/panel-mipi-dbi/issues/2#issuecomment-2016857690
+[2] https://lore.kernel.org/dri-devel/cover.1592055494.git.kamlesh.gurudasani@gmail.com/
+[3] https://lore.kernel.org/dri-devel/20221018164532.1705215-1-tommaso.merciai@amarulasolutions.com/
+
+Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+---
+Noralf Trønnes (5):
+      dt-bindings: display: panel: mipi-dbi-spi: Add a pixel format property
+      drm/mipi-dbi: Remove mipi_dbi_machine_little_endian()
+      drm/mipi-dbi: Make bits per word configurable for pixel transfers
+      drm/mipi-dbi: Add support for DRM_FORMAT_RGB888
+      drm/tiny: panel-mipi-dbi: Support the pixel format property
+
+ .../bindings/display/panel/panel-mipi-dbi-spi.yaml | 31 +++++++++
+ drivers/gpu/drm/drm_mipi_dbi.c                     | 76 +++++++++++++++-------
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c              | 55 +++++++++++++++-
+ include/drm/drm_mipi_dbi.h                         | 10 +++
+ 4 files changed, 148 insertions(+), 24 deletions(-)
+---
+base-commit: 0209df3b4731516fe77638bfc52ba2e9629c67cd
+change-id: 20240405-panel-mipi-dbi-rgb666-4e033787d6c9
+
+Best regards,
 -- 
-Regards/Gruss,
-    Boris.
+Noralf Trønnes <noralf@tronnes.org>
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
