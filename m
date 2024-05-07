@@ -2,88 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39478BE6FF
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 17:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A49428BE722
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 17:14:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96ED0112085;
-	Tue,  7 May 2024 15:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F34B510E3FE;
+	Tue,  7 May 2024 15:14:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LHkLJanU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dbAdNNIB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C4C112085
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 15:09:16 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-2e1fa2ff499so46554911fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 08:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715094555; x=1715699355; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ApmnaGazi/o+2qAXdIqqO3f0hkV/MV/lnHoUUZ1Ogfk=;
- b=LHkLJanUJAfeovW9rXMgxy+mzhg1aV85/5h4xZUHFscIdvFQPU1S61AM2MsCdQO93q
- I+ANSxzIGODw+TJ7MmD14iw5OQbrm0UzN65EBRVosFCP1yoUGwvSRCD2scZ1ACExUzEc
- Vzh0G8fddx8TYwhqmt8mzcailxnsZeHW+BnN2QgRWmf6qkcZ4mjXjgFuzn7RzVPIB0CO
- giCiGdP8T7JoSNnbMg6/TUwyepJURQ616Xz18pITmePr5FD2AIpjQWBZKucMZju7Z1Q4
- PR75ZBWrVPQIrKK2Nx031l0vv3OONNpuGK2TWypIrTLZCeYRvli7nGGMQ4dUTfb+99LQ
- H9xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715094555; x=1715699355;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ApmnaGazi/o+2qAXdIqqO3f0hkV/MV/lnHoUUZ1Ogfk=;
- b=UYkk+FLpX4sjh40DpE64fUQE/vCtur62dZ769PyhgID2igb2WIBkIXBj4rBcwRpEv5
- qT5zEYk4Zn6v6ZY49u0BNAXv7V0YveQVzOleixG4y0Ptsik4pm1rnNGLA+S3Dejn88MG
- 0Tb2XkQTeajIu01BlizeT4JHXz1oAbjgqSM4YNTgR0gTAcKbDGMzzcIPY0ngAOEdLu5s
- 0ZPa4XOSG51uD7PQU/s4ARisJVMZlkw7X9GZc2kfSAc/bZRtZR6tutexCUQdNjdOWarJ
- h+c5vDyed7yD722kJGkQ9zZjoSrJgYXAIGE86VoP1BiH7HBN8eZnGerWf/oglV5Xh4kr
- wmEw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqBpAtStA3HS1ZAmsbQCKv6wPku97ILdPw5shAO0kvJGRntihFZ9cxsXe8kXwn8hEtAN+cndpfgs/GNvZsPtpWZJ2rq1JiyopHv8HKY9mT
-X-Gm-Message-State: AOJu0Ywl6/fVhXjL9wYQTdBESGP9aL6E1o6OD/TTLEPeJsjR6O3ccHNG
- mTG96qPqp4hxQU1XmmJpnwP3XAvxn2NAavBZFus5WSwDCKEhRWV6AfVco3XnfwI=
-X-Google-Smtp-Source: AGHT+IFpsJSfGLwS1hXqc0H0trd4MGTiP4vo11gPFrTKC7JHOIUnEb9JodJJuvbqXdQX62FwbtE9XA==
-X-Received: by 2002:a2e:9598:0:b0:2e2:3761:2ef5 with SMTP id
- 38308e7fff4ca-2e3d956847dmr9646361fa.14.1715094554850; 
- Tue, 07 May 2024 08:09:14 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- r16-20020a2e8e30000000b002e35b79a00bsm935940ljk.124.2024.05.07.08.09.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 May 2024 08:09:14 -0700 (PDT)
-Date: Tue, 7 May 2024 18:09:13 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Lennart Poettering <mzxreary@0pointer.de>, 
- Robert Mader <robert.mader@collabora.com>,
- Sebastien Bacher <sebastien.bacher@canonical.com>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Milan Zamazal <mzamazal@redhat.com>, Maxime Ripard <mripard@redhat.com>, 
- Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-Message-ID: <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
-References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
- <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
- <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 283B810E3FE
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 15:14:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id E6DA0CE1383;
+ Tue,  7 May 2024 15:14:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0820C2BBFC;
+ Tue,  7 May 2024 15:14:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715094890;
+ bh=PjCTV7JX3phTYmApghlae2CUkayVRisRZ1IV02RHcnQ=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+ b=dbAdNNIBE5BaB+wRjqZ49wM9g1YM0gVZe02Rm0cjwLHjVLhtBZR1aPXgpeYbRMnGg
+ vmaeLQBO4tBY+Keab/UbBTMraGLfNaTSbR9kLbKI7uRJ1AXm23+gD4Y5bF74ijPOAd
+ ImNiajCdFbskPhJZ4Rg2q+5CfSfARELppPqbm8FkGSXOmnlhWhV5+VRWAAUMl6fPBs
+ ihKIEwNKLVLzldd2dBvasLF+KjL2zOpji/o/RlQ+4+5EuB1aZGHET/kkx8KmyQdHwF
+ JsiZRsgY6h7Denmo+nfxhDxoDZZ41sscorJEQdQae+j2yjYoBTkAZ5i8u9WzdyHHFJ
+ 9+CxSh2LoJDQw==
+Date: Tue, 07 May 2024 10:14:48 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, dianders@chromium.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linus.walleij@linaro.org, 
+ xuxinxiong@huaqin.corp-partner.google.com, airlied@gmail.com, 
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ devicetree@vger.kernel.org, conor+dt@kernel.org, daniel@ffwll.ch, 
+ neil.armstrong@linaro.org
+In-Reply-To: <20240507135234.1356855-2-yangcong5@huaqin.corp-partner.google.com>
+References: <20240507135234.1356855-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240507135234.1356855-2-yangcong5@huaqin.corp-partner.google.com>
+Message-Id: <171509488827.493449.2668049686067198439.robh@kernel.org>
+Subject: Re: [PATCH v4 1/7] dt-bindings: display: panel: Add himax hx83102
+ panel bindings
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,44 +63,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 07, 2024 at 04:34:24PM +0200, Hans de Goede wrote:
-> Hi Dmitry,
+
+On Tue, 07 May 2024 21:52:28 +0800, Cong Yang wrote:
+> In V1, discussed with Doug and Linus [1], we need break out as separate
+> driver for the himax83102-j02 controller. Beacuse "starry,himax83102-j02"
+> and in this series "BOE nv110wum-l60" "IVO t109nw41" panels use same
+> controller, they have some common CMDS. So add new documentation for
+> this panels.
 > 
-> On 5/7/24 3:32 PM, Dmitry Baryshkov wrote:
-> > On Mon, May 06, 2024 at 01:49:17PM +0200, Hans de Goede wrote:
-> >> Hi dma-buf maintainers, et.al.,
-> >>
-> >> Various people have been working on making complex/MIPI cameras work OOTB
-> >> with mainline Linux kernels and an opensource userspace stack.
-> >>
-> >> The generic solution adds a software ISP (for Debayering and 3A) to
-> >> libcamera. Libcamera's API guarantees that buffers handed to applications
-> >> using it are dma-bufs so that these can be passed to e.g. a video encoder.
-> >>
-> >> In order to meet this API guarantee the libcamera software ISP allocates
-> >> dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
-> >> the Fedora COPR repo for the PoC of this:
-> >> https://hansdegoede.dreamwidth.org/28153.html
-> > 
-> > Is there any reason for allocating DMA buffers for libcamera through
-> > /dev/dma_heap/ rather than allocating them via corresponding media
-> > device and then giving them away to DRM / VPU / etc?
-> > 
-> > At least this should solve the permission usecase: if the app can open
-> > camera device, it can allocate a buffer.
+> For himax83102-j02 controller, no need 3v3 supply, so remove it.
 > 
-> This is with a software ISP, the input buffers with raw bayer data
-> come from a v4l2 device, but the output buffers with the processed
-> data are purely userspace managed in this case.
+> [1]: https://lore.kernel.org/all/CACRpkdbzYZAS0=zBQJUC4CB2wj4s1h6n6aSAZQvdMV95r3zRUw@mail.gmail.com
+> 
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> ---
+> Chage since V4:
+> 
+> - Update commit message and add fallback compatible.
+> 
+> V3: https://lore.kernel.org/all/20240424023010.2099949-2-yangcong5@huaqin.corp-partner.google.com
+> 
+> Chage since V3:
+> 
+> - Update commit message.
+> 
+> V2: https://lore.kernel.org/all/20240422090310.3311429-2-yangcong5@huaqin.corp-partner.google.com
+> 
+> ---
+>  .../display/panel/boe,tv101wum-nl6.yaml       |  2 -
+>  .../bindings/display/panel/himax,hx83102.yaml | 73 +++++++++++++++++++
+>  2 files changed, 73 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
+> 
 
-Ah, I see. Then why do you require the DMA-ble buffer at all? If you are
-providing data to VPU or DRM, then you should be able to get the buffer
-from the data-consuming device. If the data is further processed by
-a userspace app, then it should not require DMA memory at all.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-My main concern is that dma-heaps is both too generic and too limiting
-for the generic library implementation.
+yamllint warnings/errors:
 
--- 
-With best wishes
-Dmitry
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/himax,hx83102.example.dtb: panel@0: compatible:0: 'starry,himax83102-j02, himax,hx83102' does not match '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._/]+$'
+	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+Documentation/devicetree/bindings/display/panel/himax,hx83102.example.dtb: /example-0/dsi/panel@0: failed to match any schema with compatible: ['starry,himax83102-j02, himax,hx83102']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240507135234.1356855-2-yangcong5@huaqin.corp-partner.google.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
