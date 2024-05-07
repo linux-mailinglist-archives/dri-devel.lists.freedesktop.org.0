@@ -2,51 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A238BDDC6
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 11:09:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162108BDDDA
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 11:15:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C71E710ED18;
-	Tue,  7 May 2024 09:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD0F110F263;
+	Tue,  7 May 2024 09:15:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="s3LA4Acg";
+	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="Dqbd9DaC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD0610ED18
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 09:09:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=OLS/N5P3FtoLgrFGKOse8TqhjN4ZBFdnpVw6omGPAJs=; b=s3LA4AcgT1FdIAJ5XDkrHWU6J0
- ffWwQSdJRLLA5pncHrlJ8ThtdZjmC56JYN7OkkTLHAqYLHoAWkt5HU3I/VuGYnH0wV4nU256tnkZq
- iE7GGeXekRylbfE+VpKh6bMwINZgFFVGgs4lizgPOIJ/YIDfoghBw4SwqvppiodOpRdQrWKJZ8G+J
- J56mfQ44iDPG3zLAyY/8iTZTVcRRg4s3Hou33TUNuCJV9wpci+S3vhtIubugz+8m/6iA4T0rWtAmq
- UTVoOpRZ0TRBAfeoxi70ADdqFE5aNGrjxsAkD4JRvrD+vMqD/fsrUOxwCfr8hpVWMPmRA2Ruk5ouT
- ePnwPqLw==;
-Received: from [84.69.19.168] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1s4Gp4-001jge-Pq; Tue, 07 May 2024 11:09:18 +0200
-Message-ID: <55e260b7-12d3-462b-aa08-a939a4ee67ef@igalia.com>
-Date: Tue, 7 May 2024 10:09:18 +0100
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52DD110F263
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 09:15:03 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5B0DF40E024C; 
+ Tue,  7 May 2024 09:15:00 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+ header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+ by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id t-Ir9M_E86JN; Tue,  7 May 2024 09:14:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1715073296; bh=hA/EMMoeb0yie87OtKrLxzw3vDjsbX8N+BD3HDiz4bA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Dqbd9DaChjaUs6Gf5ijBOtLj75ALUwFjP33YhDNe96oth7dWvkwSAEYC6w6/7goFD
+ rF3sHKacblkoCoAaw6E4bRh3zB+G4kCZz2QRn44ov6MB23bLu6TqDs8OhiBMpFM9R8
+ Tj6zCtBBQvudwFAgI3aqf2cZwmsCXLPds2SHZ4BG1jM4M01Gu+iid4/l3HDXXImTBx
+ DaXGgVxur9yr4aq4+EqVrAkRD0wJ9foGFlKI1QpGnyT96/cRqGdHK+Nkns/sSW3EAt
+ 8hlAB886/1B5el3/zg+9MNf7KFK8o7v+ELDYRiIkLGGF5quh5mwvpgeFhgg87u8MFL
+ ibZuTFuEUuIXPhmi3tzmJbxBX2O3reR7H9KHSqMIS8EQ8/XlMTe3QdoQSwxjvsSG/7
+ NzriVHS6gNn1dad88kcY/bvtdRBAqCkPXaKaac5PnYYlFifKw7yjclffpi4vRBZx5t
+ /6mo3hw1y2IE/5s3v7fgK0ts97gSdfiTveDHo+40CnpQRPdGfNcU9wivREWdmbRJb1
+ 9qCYczwdKUNfw1OqL8AhCa33w6OE2cOtJpiAkXA0kP5OkrBqJGTJx/inq43sk/WRKo
+ VxIym094m9x2zxhcJciuWm7sQy1cB12gsVF6jEAnmOnAI/tWEqSflNX7C88meKZuzw
+ eF3nqOHBWbG+ACJ+MBC682cU=
+Received: from zn.tnic (pd953020b.dip0.t-ipconnect.de [217.83.2.11])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (No client certificate requested)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0A3C340E0249;
+ Tue,  7 May 2024 09:14:30 +0000 (UTC)
+Date: Tue, 7 May 2024 11:14:24 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+ hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+ tglx@linutronix.de, x86@kernel.org, netdev@vger.kernel.org,
+ richardcochran@gmail.com, linux-input@vger.kernel.org,
+ dmitry.torokhov@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+ timothym@vmware.com, akaher@vmware.com,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+ tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, horms@kernel.org,
+ kirill.shutemov@linux.intel.com, Nadav Amit <nadav.amit@gmail.com>
+Subject: Re: [PATCH v9 1/8] x86/vmware: Move common macros to vmware.h
+Message-ID: <20240507091424.GUZjnw8ErpQT6XJLVM@fat_crate.local>
+References: <20240505182829.GBZjfPzeEijTsBUth5@fat_crate.local>
+ <20240506215305.30756-1-alexey.makhalov@broadcom.com>
+ <20240506215305.30756-2-alexey.makhalov@broadcom.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drm scheduler and wq flavours
-Content-Language: en-GB
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <7236d76a-8e6d-4a8e-9e4e-e2644c5df2d7@igalia.com>
- <ZjlmZHBMfK9fld9c@DUT025-TGLU.fm.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <ZjlmZHBMfK9fld9c@DUT025-TGLU.fm.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240506215305.30756-2-alexey.makhalov@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,61 +82,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, May 06, 2024 at 02:52:58PM -0700, Alexey Makhalov wrote:
+> +#define VMWARE_HYPERVISOR_PORT		0x5658
+> +#define VMWARE_HYPERVISOR_PORT_HB	(VMWARE_HYPERVISOR_PORT | \
+> +					 VMWARE_HYPERVISOR_HB)
 
-On 07/05/2024 00:23, Matthew Brost wrote:
-> On Thu, May 02, 2024 at 03:33:50PM +0100, Tvrtko Ursulin wrote:
->>
->> Hi all,
->>
->> Continuing after the brief IRC discussion yesterday regarding work queues
->> being prone to deadlocks or not, I had a browse around the code base and
->> ended up a bit confused.
->>
->> When drm_sched_init documents and allocates an *ordered* wq, if no custom
->> one was provided, could someone remind me was the ordered property
->> fundamental for something to work correctly? Like run_job vs free_job
->> ordering?
->>
-> 
-> Before the work queue (kthread design), run_job & free_job were ordered.
-> It was decided to not break this existing behavior.
+You can't help yourself not sneaking in any changes which are not code
+movement, can ya?
 
-Simply for extra paranoia or you remember if there was a reason identified?
+The purpose of a sole code movement patch is to ease the review. Not to
+have to look at the code movement *and* some *additional* changes which
+you've done in-flight. Just because you felt like it. But which is nasty
+to review.
 
->> I ask because it appears different drivers to different things and at the
->> moment it looks we have all possible combos or ordered/unordered, bound and
->> unbound, shared or not shared with the timeout wq, or even unbound for the
->> timeout wq.
->>
->> The drivers worth looking at in this respect are probably nouveau, panthor,
->> pvr and xe.
->>
->> Nouveau also talks about a depency betwen run_job and free_job and goes to
->> create two unordered wqs.
->>
->> Then xe looks a bit funky with the workaround/hack for lockep where it
->> creates 512 work queues and hands them over to user queues in round-robin
->> fashion. (Instead of default 1:1.) Which I suspect is a problem which should
->> be applicable for any 1:1 driver given a thorough enough test suite.
->>
-> 
-> I think lockdep ran out of chains or something when executing some wild
-> IGT with 1:1. Yes, any driver with a wild enough test would likely hit
-> this lockdep splat too. Using a pool probably is not bad idea either.
+Maybe you'll understand that better when you get to review someone
+else's patch which does crap like that.
 
-I wonder what is different between that and having a single shared 
-unbound queue and let kernel manage the concurrency? Both this..
+Make sure you remember that in the future, when sending patches.
 
->> So anyway.. ordered vs unordered - drm sched dictated or at driver's choice?
->>
-> 
-> Default ordered, driver can override with unordered.
+-- 
+Regards/Gruss,
+    Boris.
 
-.. and this, go back to my original question - whether the default queue 
-must be ordered or not, or under which circustmances can drivers choose 
-unordered. I think in drm_sched_init, where kerneldoc says it will 
-create an ordered queue, it would be good to document the rules.
-
-Regards,
-
-Tvrtko
+https://people.kernel.org/tglx/notes-about-netiquette
