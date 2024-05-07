@@ -2,53 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5082B8BF029
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 00:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1896F8BF02D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 00:59:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94DF0112F9E;
-	Tue,  7 May 2024 22:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02025112FAC;
+	Tue,  7 May 2024 22:59:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jDxCFy9H";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hG00HOiK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22C66112F9E;
- Tue,  7 May 2024 22:59:48 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8F0112FA8;
+ Tue,  7 May 2024 22:59:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 68406CE10C7;
- Tue,  7 May 2024 22:59:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA165C2BBFC;
- Tue,  7 May 2024 22:59:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C4E1C619FA;
+ Tue,  7 May 2024 22:59:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4224C2BBFC;
+ Tue,  7 May 2024 22:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715122785;
- bh=jTSfaxB9NtLMyMtVKN+dibBOuIq6Gy7DaDBUKFm67KQ=;
+ s=k20201202; t=1715122789;
+ bh=994JsZ2ORzzOrr4b8OJfnVZPQBB+pIp7mQm6ehsC1N8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jDxCFy9H9SSm4o1FbIxLO5JiW0GUobiB/rfjFuK/ap9UnKY1swp2Nj4eqJ5jWdtOz
- XVKdLvbUaD6HDCJAUVahnSR9itJh2KTJRI44DaA2eb5bFGLlkjVEyQbN37BUtX+SVU
- bZe9JAq+fYrNan4QfdmWQqUpen/8NdLO3Tzf6zWhB3UWZ1S2GYqGmKs/2uCmCdY2gD
- f0igse+yNcZUHblM3psYCUuolS6WeB3W/Ogo3YUMieSgePZe31z1LSlb1aFRQZ/nU9
- SynzLQaeoZdxXHJNLiMSbRfeam/8G/sokGAkmaAuJIq9hbfqivOtYQaYX2lwV6BGNi
- OjI7OuQsMnkbg==
+ b=hG00HOiKx/xNJm0RU2eZTSdy5bBCrL1Z+pZlsG76OWOe7KpDPllmmRE5p6lQPPjCa
+ aZ8c3XEcRLN+Lkwgs3W5whOKRPCbBJU4BV/w95myBqOhFlT0obPja7lYdwqn0hnmeb
+ nwVMX+l3NL8mNAnRm1l82vvLAHb/7sgf88T5wLnXHu4p7Z1jdRxzklfRS3MHCrM2+R
+ /NhDKMCw9DPZR2T0yUe5bKl2F6tQ/4TvtaXohTpljBoQ/cWHgnj5k7F2Q7QksaJ2ye
+ qA1BlZCZ1q5TFjelVC+FPsawRg2eHsBVvlPD/21ZB87GJ2/4somjYK/LZ2r1pTQarP
+ lFcmXcDFBd4+A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Prike Liang <Prike.Liang@amd.com>,
+Cc: Jack Xiao <Jack.Xiao@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- Hawking.Zhang@amd.com, Jun.Ma2@amd.com, zhenguo.yin@amd.com,
- mukul.joshi@amd.com, srinivasan.shanmugam@amd.com,
- sukrut.bellary@linux.com, lijo.lazar@amd.com, jonathan.kim@amd.com,
- Lang.Yu@amd.com, yifan1.zhang@amd.com, Felix.Kuehling@amd.com,
- Tim.Huang@amd.com, Jack.Xiao@amd.com, aaron.liu@amd.com,
- Hongkun.Zhang@amd.com, Jiadong.Zhu@amd.com, guchun.chen@amd.com,
- jesse.zhang@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 11/19] drm/amdgpu: Fix the ring buffer size for
- queue VM flush
-Date: Tue,  7 May 2024 18:58:33 -0400
-Message-ID: <20240507225910.390914-11-sashal@kernel.org>
+ Felix.Kuehling@amd.com, jonathan.kim@amd.com, shaoyun.liu@amd.com,
+ guchun.chen@amd.com, shashank.sharma@amd.com, Tim.Huang@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 12/19] drm/amdgpu/mes: fix use-after-free issue
+Date: Tue,  7 May 2024 18:58:34 -0400
+Message-ID: <20240507225910.390914-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507225910.390914-1-sashal@kernel.org>
 References: <20240507225910.390914-1-sashal@kernel.org>
@@ -73,89 +67,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Prike Liang <Prike.Liang@amd.com>
+From: Jack Xiao <Jack.Xiao@amd.com>
 
-[ Upstream commit fe93b0927bc58cb1d64230f45744e527d9d8482c ]
+[ Upstream commit 948255282074d9367e01908b3f5dcf8c10fc9c3d ]
 
-Here are the corrections needed for the queue ring buffer size
-calculation for the following cases:
-- Remove the KIQ VM flush ring usage.
-- Add the invalidate TLBs packet for gfx10 and gfx11 queue.
-- There's no VM flush and PFP sync, so remove the gfx9 real
-  ring and compute ring buffer usage.
+Delete fence fallback timer to fix the ramdom
+use-after-free issue.
 
-Signed-off-by: Prike Liang <Prike.Liang@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+v2: move to amdgpu_mes.c
+
+Signed-off-by: Jack Xiao <Jack.Xiao@amd.com>
+Acked-by: Lijo Lazar <lijo.lazar@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 3 +--
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c | 3 +--
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c  | 2 --
- 3 files changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index 495eb4cad0e1a..3560a3f2c848e 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-@@ -9157,7 +9157,7 @@ static const struct amdgpu_ring_funcs gfx_v10_0_ring_funcs_gfx = {
- 		7 + /* PIPELINE_SYNC */
- 		SOC15_FLUSH_GPU_TLB_NUM_WREG * 5 +
- 		SOC15_FLUSH_GPU_TLB_NUM_REG_WAIT * 7 +
--		2 + /* VM_FLUSH */
-+		4 + /* VM_FLUSH */
- 		8 + /* FENCE for VM_FLUSH */
- 		20 + /* GDS switch */
- 		4 + /* double SWITCH_BUFFER,
-@@ -9248,7 +9248,6 @@ static const struct amdgpu_ring_funcs gfx_v10_0_ring_funcs_kiq = {
- 		7 + /* gfx_v10_0_ring_emit_pipeline_sync */
- 		SOC15_FLUSH_GPU_TLB_NUM_WREG * 5 +
- 		SOC15_FLUSH_GPU_TLB_NUM_REG_WAIT * 7 +
--		2 + /* gfx_v10_0_ring_emit_vm_flush */
- 		8 + 8 + 8, /* gfx_v10_0_ring_emit_fence_kiq x3 for user fence, vm fence */
- 	.emit_ib_size =	7, /* gfx_v10_0_ring_emit_ib_compute */
- 	.emit_ib = gfx_v10_0_ring_emit_ib_compute,
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-index c9058d58c95a7..daab4c7a073ac 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-@@ -6102,7 +6102,7 @@ static const struct amdgpu_ring_funcs gfx_v11_0_ring_funcs_gfx = {
- 		7 + /* PIPELINE_SYNC */
- 		SOC15_FLUSH_GPU_TLB_NUM_WREG * 5 +
- 		SOC15_FLUSH_GPU_TLB_NUM_REG_WAIT * 7 +
--		2 + /* VM_FLUSH */
-+		4 + /* VM_FLUSH */
- 		8 + /* FENCE for VM_FLUSH */
- 		20 + /* GDS switch */
- 		5 + /* COND_EXEC */
-@@ -6187,7 +6187,6 @@ static const struct amdgpu_ring_funcs gfx_v11_0_ring_funcs_kiq = {
- 		7 + /* gfx_v11_0_ring_emit_pipeline_sync */
- 		SOC15_FLUSH_GPU_TLB_NUM_WREG * 5 +
- 		SOC15_FLUSH_GPU_TLB_NUM_REG_WAIT * 7 +
--		2 + /* gfx_v11_0_ring_emit_vm_flush */
- 		8 + 8 + 8, /* gfx_v11_0_ring_emit_fence_kiq x3 for user fence, vm fence */
- 	.emit_ib_size =	7, /* gfx_v11_0_ring_emit_ib_compute */
- 	.emit_ib = gfx_v11_0_ring_emit_ib_compute,
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-index d7d15b618c374..8168836a08d2e 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-@@ -6988,7 +6988,6 @@ static const struct amdgpu_ring_funcs gfx_v9_0_ring_funcs_compute = {
- 		7 + /* gfx_v9_0_ring_emit_pipeline_sync */
- 		SOC15_FLUSH_GPU_TLB_NUM_WREG * 5 +
- 		SOC15_FLUSH_GPU_TLB_NUM_REG_WAIT * 7 +
--		2 + /* gfx_v9_0_ring_emit_vm_flush */
- 		8 + 8 + 8 + /* gfx_v9_0_ring_emit_fence x3 for user fence, vm fence */
- 		7 + /* gfx_v9_0_emit_mem_sync */
- 		5 + /* gfx_v9_0_emit_wave_limit for updating mmSPI_WCL_PIPE_PERCENT_GFX register */
-@@ -7026,7 +7025,6 @@ static const struct amdgpu_ring_funcs gfx_v9_0_ring_funcs_kiq = {
- 		7 + /* gfx_v9_0_ring_emit_pipeline_sync */
- 		SOC15_FLUSH_GPU_TLB_NUM_WREG * 5 +
- 		SOC15_FLUSH_GPU_TLB_NUM_REG_WAIT * 7 +
--		2 + /* gfx_v9_0_ring_emit_vm_flush */
- 		8 + 8 + 8, /* gfx_v9_0_ring_emit_fence_kiq x3 for user fence, vm fence */
- 	.emit_ib_size =	7, /* gfx_v9_0_ring_emit_ib_compute */
- 	.emit_fence = gfx_v9_0_ring_emit_fence_kiq,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
+index 15c67fa404ff9..c5c55e132af21 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
+@@ -1098,6 +1098,7 @@ void amdgpu_mes_remove_ring(struct amdgpu_device *adev,
+ 		return;
+ 
+ 	amdgpu_mes_remove_hw_queue(adev, ring->hw_queue_id);
++	del_timer_sync(&ring->fence_drv.fallback_timer);
+ 	amdgpu_ring_fini(ring);
+ 	kfree(ring);
+ }
 -- 
 2.43.0
 
