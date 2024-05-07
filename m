@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211E88BE918
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 18:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728DB8BE929
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 18:35:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34B1E10EF63;
-	Tue,  7 May 2024 16:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9298A11251C;
+	Tue,  7 May 2024 16:35:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nfo07i9Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GyYtMK/e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAFAF10EF63
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 16:33:39 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 158DD11251C
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 16:35:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 73184CE1387;
- Tue,  7 May 2024 16:33:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED7CDC2BBFC;
- Tue,  7 May 2024 16:33:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5851E617D2;
+ Tue,  7 May 2024 16:35:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 527D0C2BBFC;
+ Tue,  7 May 2024 16:35:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715099616;
- bh=h6S4jaOC0aV8EtTLZZAvbBGuhtbnGCg7d9YmTgoY+Wg=;
+ s=k20201202; t=1715099723;
+ bh=6BuoEP69iJQFTmo0l+aKAmmdfXJuE/M0HIl7fyjjuRc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nfo07i9Yx7hl5j/5Lh2CU6EkQ6awdzkCSZmBGF1pzDf4W3+b5lL0ozYtstVp7MP6K
- wU+Ha9YotBvgHkjUhXi2UV5f1KNdKyTjmWz86IJ1K3nHKNuSc2o95jGyBO/Gk2rfcR
- f7K5bBoEGXk1mUj7smvmBP5TbIeZlWQdp4jrPWhUCYcDITk++1CJhr87GHS9A4dyBI
- 7TaUXKYUcBgC1P9TDjbUVHKB2URiJhYXqR41bwhtGicYWZnJ1rmh1dB0wKPARiJmR3
- IWgzMZR7XkMw9BzLUWsF/XcqdXQyaVmUWo/sarL11K8cTBQDveUlMwv8l6Gt3p3eBo
- OOJgxpF53Fktw==
-Date: Tue, 7 May 2024 17:33:31 +0100
+ b=GyYtMK/eL10nLiDdj/jdaWGHvz9tdmIjPuGjMN4piG9lIXruppRR/ZI6Htlj9Wg6Y
+ QPn+5XpPNhdQLn8mie8dU6DQq9bHp6wMuPPycJb8j37Xdw+2spRsVI0PF4ZQDgVodm
+ sIgAAQftKW8fDfN9uZBXukS0GQD986J4z49FvovdkWRusokNTf+W9DuO3WbeFWb6C0
+ kcZkCqmB4AMha8bWlF4/WjZfxBxztgxRaAkY2bKfDTFWcyvgZjdJ6nVjWYXpIKecyE
+ adN+K+POS4UhFWhNxi35rUTG7C2oHHsFoRQsa0rzgyTDzCK388/7AcLuK7mZHKdmr5
+ fEFcPcfoTvEXw==
+Date: Tue, 7 May 2024 17:35:18 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
@@ -39,16 +39,16 @@ Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
  conor+dt@kernel.org, airlied@gmail.com,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
-Subject: Re: [PATCH v4 6/7] dt-bindings: display: panel: Add compatible for
- IVO t109nw41
-Message-ID: <20240507-thriving-spew-0636f8447512@spud>
+Subject: Re: [PATCH v4 1/7] dt-bindings: display: panel: Add himax hx83102
+ panel bindings
+Message-ID: <20240507-joylessly-litigate-be6a83058ed9@spud>
 References: <20240507135234.1356855-1-yangcong5@huaqin.corp-partner.google.com>
- <20240507135234.1356855-7-yangcong5@huaqin.corp-partner.google.com>
+ <20240507135234.1356855-2-yangcong5@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="s6rXDa8KkkcgOAA6"
+ protocol="application/pgp-signature"; boundary="2Nhu63EKR1l31LzH"
 Content-Disposition: inline
-In-Reply-To: <20240507135234.1356855-7-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20240507135234.1356855-2-yangcong5@huaqin.corp-partner.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,68 +65,39 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---s6rXDa8KkkcgOAA6
+--2Nhu63EKR1l31LzH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 07, 2024 at 09:52:33PM +0800, Cong Yang wrote:
-> The IVO t109nw41 is a 11.0" WUXGA TFT LCD panel with himax-hx83102
-> controller. Hence, we add a new compatible with panel specific config.
+On Tue, May 07, 2024 at 09:52:28PM +0800, Cong Yang wrote:
+> In V1, discussed with Doug and Linus [1], we need break out as separate
+> driver for the himax83102-j02 controller. Beacuse "starry,himax83102-j02"
+> and in this series "BOE nv110wum-l60" "IVO t109nw41" panels use same
+> controller, they have some common CMDS. So add new documentation for
+> this panels.
+>=20
+> For himax83102-j02 controller, no need 3v3 supply, so remove it.
+>=20
+> [1]: https://lore.kernel.org/all/CACRpkdbzYZAS0=3DzBQJUC4CB2wj4s1h6n6aSAZ=
+QvdMV95r3zRUw@mail.gmail.com
 >=20
 > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Other than the issue Rob's bot reported, this looks fine to me.
 
-Cheers,
+Thanks for the updates - but please test your bindings!
 Conor.
 
-> ---
-> Chage since V4:
->=20
-> - No change.
->=20
-> V3: https://lore.kernel.org/all/20240424023010.2099949-7-yangcong5@huaqin=
-=2Ecorp-partner.google.com
->=20
-> Chage since V3:
->=20
-> - Update commit message.
->=20
-> V2: https://lore.kernel.org/all/20240422090310.3311429-7-yangcong5@huaqin=
-=2Ecorp-partner.google.com/
->=20
-> ---
->  .../devicetree/bindings/display/panel/himax,hx83102.yaml        | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx8310=
-2.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
-> index 53a6ace75ada..f65b47cad0d4 100644
-> --- a/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/himax,hx83102.yaml
-> @@ -18,6 +18,8 @@ properties:
->        - enum:
->            # Boe nv110wum-l60 11.0" WUXGA TFT LCD panel
->            - boe,nv110wum-l60
-> +          # IVO t109nw41 11.0" WUXGA TFT LCD panel
-> +          - ivo,t109nw41
->            # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
->            - starry,himax83102-j02
->        - const: himax,hx83102
-> --=20
-> 2.25.1
->=20
-
---s6rXDa8KkkcgOAA6
+--2Nhu63EKR1l31LzH
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjpX2wAKCRB4tDGHoIJi
-0hRuAP9ycIFgKcITLc5QzLZdzt7wCDXhxk2Hpe97pGBjNdmvOQEAwbDwk94WQkCi
-mm9z4rFd5Rg0Kkb40XtZ8mo3Co025QQ=
-=/muk
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjpYRgAKCRB4tDGHoIJi
+0t9VAP9HNYeHrikG32rNlR6KbTJBlAm+FPDMLfH0vjZbmGR9FgEAt7OVS+Lp5Uqx
+c7yaTo/RJ2Ft85p6pEOuYB/Yhh2Izgw=
+=aoZ/
 -----END PGP SIGNATURE-----
 
---s6rXDa8KkkcgOAA6--
+--2Nhu63EKR1l31LzH--
