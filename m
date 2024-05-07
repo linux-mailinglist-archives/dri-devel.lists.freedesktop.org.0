@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D6C8BF0D3
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B8B8BF0D5
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAC44112FF9;
-	Tue,  7 May 2024 23:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B143D112FFB;
+	Tue,  7 May 2024 23:11:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ljw5oF0b";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KRDy9+kn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92D0A112FF6;
- Tue,  7 May 2024 23:11:51 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A750112FFB;
+ Tue,  7 May 2024 23:11:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B0F42CE1742;
- Tue,  7 May 2024 23:11:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ED27C2BBFC;
- Tue,  7 May 2024 23:11:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AB69661A24;
+ Tue,  7 May 2024 23:11:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EC90C4AF67;
+ Tue,  7 May 2024 23:11:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715123509;
- bh=VQPRs9iLz4D7n1G+GMh7JP1p2fCzmiocS/p2Lg0AXeA=;
+ s=k20201202; t=1715123514;
+ bh=mPcqWpgLLmQeWUDSJ4hNN9EzC8IWpkeYOeDyImY9/zI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ljw5oF0brBQNbj+QIc0FPs9W3kpo/afUpCR7sdXT2EXI9suPrmNJ/QFIkaZj/0U2E
- plIAblLsBSlTXeo2wAXOMwhaz43heNuLYau0Hqn15yMvLmORMwTODykLn+4IZHfK3o
- 8eV4tav51+tvHMCEXpJkm6yg3XZgXqKKl4ofWWe0GpPCHsQrDLlL2B5CEnwGsxBDzX
- etdWSJPlw4jdUvQE8lbnQpLDdrffMjydchrheIYaNPUTLfRspDqk8KqeHqi+c7hgsw
- Mm224kqgnCmtQz2K0p/iwM65uYp5LBu6R3bx6zKb4+rWEvPuVfe04gfH+owvM2xT/H
- fTUP9DQDSNsuQ==
+ b=KRDy9+kn2xhSxRz+hJW2AaYQarIqR1aFl4isVZP9CrcDqM6yA0OFed3YBWnAKU1/3
+ Mm2iMwFuQRRqB6sDigTMq4BL8qu0M1Qb302/j2zuUrY442VTWBiA3fsPcOk8T7jw+G
+ 1zeM9vIzToi0+T6Qy+rpoHLVNtAd4bBE551XBQlpg26AIgzuwfVCT/vq5OXJBbLJeW
+ yYumM6xUL66EjMNEDUQHgvrzL75HCdvMAAqk1Q0s90j8ynrwn2HT5vPNnIxWomr7k6
+ MVYqdBmrAE5UjceJiAx7yWD/GH2jQS41jiRws8doMvVSkjk8FFDUrA+0HtRKt90uRY
+ nQPzLMCRfy15g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Leo Ma <hanghong.ma@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+Cc: Sung Joon Kim <sungjoon.kim@amd.com>, Anthony Koo <anthony.koo@amd.com>,
  Wayne Lin <wayne.lin@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, stylon.wang@amd.com, samson.tam@amd.com,
- relja.vojvodic@amd.com, etbitnun@amd.com, qingqing.zhuo@amd.com,
- charlene.liu@amd.com, wenjing.liu@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 33/43] drm/amd/display: Fix DC mode screen
- flickering on DCN321
-Date: Tue,  7 May 2024 19:09:54 -0400
-Message-ID: <20240507231033.393285-33-sashal@kernel.org>
+ daniel@ffwll.ch, alvin.lee2@amd.com, jun.lei@amd.com, wenjing.liu@amd.com,
+ aric.cyr@amd.com, dillon.varone@amd.com, chiawen.huang@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 34/43] drm/amd/display: Disable seamless boot on
+ 128b/132b encoding
+Date: Tue,  7 May 2024 19:09:55 -0400
+Message-ID: <20240507231033.393285-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507231033.393285-1-sashal@kernel.org>
 References: <20240507231033.393285-1-sashal@kernel.org>
@@ -69,59 +68,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leo Ma <hanghong.ma@amd.com>
+From: Sung Joon Kim <sungjoon.kim@amd.com>
 
-[ Upstream commit ce649bd2d834db83ecc2756a362c9a1ec61658a5 ]
+[ Upstream commit 6f0c228ed9184287031a66b46a79e5a3d2e73a86 ]
 
-[Why && How]
-Screen flickering saw on 4K@60 eDP with high refresh rate external
-monitor when booting up in DC mode. DC Mode Capping is disabled
-which caused wrong UCLK being used.
+[why]
+preOS will not support display mode programming and link training
+for UHBR rates.
 
-Reviewed-by: Alvin Lee <alvin.lee2@amd.com>
+[how]
+If we detect a sink that's UHBR capable, disable seamless boot
+
+Reviewed-by: Anthony Koo <anthony.koo@amd.com>
 Acked-by: Wayne Lin <wayne.lin@amd.com>
-Signed-off-by: Leo Ma <hanghong.ma@amd.com>
+Signed-off-by: Sung Joon Kim <sungjoon.kim@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c  | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
-index e9345f6554dbc..2428a4763b85f 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
-@@ -547,8 +547,12 @@ static void dcn32_update_clocks(struct clk_mgr *clk_mgr_base,
- 					 * since we calculate mode support based on softmax being the max UCLK
- 					 * frequency.
- 					 */
--					dcn32_smu_set_hard_min_by_freq(clk_mgr, PPCLK_UCLK,
--							dc->clk_mgr->bw_params->dc_mode_softmax_memclk);
-+					if (dc->debug.disable_dc_mode_overwrite) {
-+						dcn30_smu_set_hard_max_by_freq(clk_mgr, PPCLK_UCLK, dc->clk_mgr->bw_params->max_memclk_mhz);
-+						dcn32_smu_set_hard_min_by_freq(clk_mgr, PPCLK_UCLK, dc->clk_mgr->bw_params->max_memclk_mhz);
-+					} else
-+						dcn32_smu_set_hard_min_by_freq(clk_mgr, PPCLK_UCLK,
-+								dc->clk_mgr->bw_params->dc_mode_softmax_memclk);
- 				} else {
- 					dcn32_smu_set_hard_min_by_freq(clk_mgr, PPCLK_UCLK, dc->clk_mgr->bw_params->max_memclk_mhz);
- 				}
-@@ -581,8 +585,13 @@ static void dcn32_update_clocks(struct clk_mgr *clk_mgr_base,
- 		/* set UCLK to requested value if P-State switching is supported, or to re-enable P-State switching */
- 		if (clk_mgr_base->clks.p_state_change_support &&
- 				(update_uclk || !clk_mgr_base->clks.prev_p_state_change_support) &&
--				!dc->work_arounds.clock_update_disable_mask.uclk)
-+				!dc->work_arounds.clock_update_disable_mask.uclk) {
-+			if (dc->clk_mgr->dc_mode_softmax_enabled && dc->debug.disable_dc_mode_overwrite)
-+				dcn30_smu_set_hard_max_by_freq(clk_mgr, PPCLK_UCLK,
-+						max((int)dc->clk_mgr->bw_params->dc_mode_softmax_memclk, khz_to_mhz_ceil(clk_mgr_base->clks.dramclk_khz)));
-+
- 			dcn32_smu_set_hard_min_by_freq(clk_mgr, PPCLK_UCLK, khz_to_mhz_ceil(clk_mgr_base->clks.dramclk_khz));
-+		}
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 46b10ff8f6d41..72db370e2f21f 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -1710,6 +1710,9 @@ bool dc_validate_boot_timing(const struct dc *dc,
+ 		return false;
+ 	}
  
- 		if (clk_mgr_base->clks.num_ways != new_clocks->num_ways &&
- 				clk_mgr_base->clks.num_ways > new_clocks->num_ways) {
++	if (link->dpcd_caps.channel_coding_cap.bits.DP_128b_132b_SUPPORTED)
++		return false;
++
+ 	if (dc->link_srv->edp_is_ilr_optimization_required(link, crtc_timing)) {
+ 		DC_LOG_EVENT_LINK_TRAINING("Seamless boot disabled to optimize eDP link rate\n");
+ 		return false;
 -- 
 2.43.0
 
