@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CE68BF0E3
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:13:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EAF8BF0E5
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F1D10EA5E;
-	Tue,  7 May 2024 23:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 138DF10F85E;
+	Tue,  7 May 2024 23:13:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iL48KXiX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cymLLJ2K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1168710EA5E;
- Tue,  7 May 2024 23:13:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25CA110F85E;
+ Tue,  7 May 2024 23:13:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6AD9D61A14;
- Tue,  7 May 2024 23:13:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0644EC2BBFC;
- Tue,  7 May 2024 23:12:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9AF1061A14;
+ Tue,  7 May 2024 23:13:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CDD1C2BBFC;
+ Tue,  7 May 2024 23:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715123581;
- bh=Gi3VbRMyTw3EF8ujztl7JDomLXTcKe3ICSALz5uLOA4=;
+ s=k20201202; t=1715123585;
+ bh=t6bt3vIQSinGED0xz1wUZT7hlpMQ0X5JsMS8V3TwfnY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iL48KXiXOV1ug0UbUxhIlrKEtT6I2g2frLWs5BPGw2mRL1MFcTYlwMC5mkLY/fhv9
- mNgP1Bl89liQTT+coktBCxcFDeK5j6A5F7YazSZpYjoFG9yG1Z7s8ivgJpRv+6uAwz
- 7UCQSv/vrWz6KDmGnPJ84UAdGtyNHuOYKPn1E9e+DJE0QR/7rZa36myYqHP2UywVm3
- +Mju4PP8e/CZ8ggn3vgt34emV+eEbOzP4Mb1SRLRs97bH67Ekcj9EgJGyD5qlhmNFY
- 4kD5Rv8mCBSN0O2HcMd+kRRMWs6G8x9gMa/om5OeY8Y7tZq4b4VZi+NkObysea4KjH
- fvCEvJkoi20xw==
+ b=cymLLJ2KlhWMOCa7nMxUuNoB2WMBEfYT8wUBCrvDzs2tX1UuTNihtgt2gxp8Qlkd8
+ k3ggNcL+J1EcnxZLPse9fTm95CZA5X9MwRrn3RWJuWo1d8fFaApswGw+ae44vKeXZ8
+ P1k44UjjquDXvSGnL9F17v9fAemNlp6quHNJ1w7mi3XF8KasrFpYyroebxL9Lr2C3n
+ YyJFbAtMW0nJzIwQcTnLTqqlbS+cr456h7Dgh1zLMhsoZTUsePmHEQ2elxsPnS8oNq
+ OwrOUO05n91jKt2rVpDieHHl7oW6/299MFb1MOVrCkiwZJROp0EfRULt2CwMCRzbOE
+ 0NbDz7Y5Ha02Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Swapnil Patel <swapnil.patel@amd.com>,
- Dmytro Laktyushkin <dmytro.laktyushkin@amd.com>,
+Cc: Gabe Teeger <gabe.teeger@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
  Aurabindo Pillai <aurabindo.pillai@amd.com>,
  Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, chiahsuan.chung@amd.com, charlene.liu@amd.com,
- qingqing.zhuo@amd.com, nicholas.kazlauskas@amd.com,
+ daniel@ffwll.ch, wayne.lin@amd.com, samson.tam@amd.com, alvin.lee2@amd.com,
+ charlene.liu@amd.com, sohaib.nadeem@amd.com, sunran001@208suo.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 15/25] drm/amd/display: Add dtbclk access to dcn315
-Date: Tue,  7 May 2024 19:12:02 -0400
-Message-ID: <20240507231231.394219-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 16/25] drm/amd/display: Atom Integrated System
+ Info v2_2 for DCN35
+Date: Tue,  7 May 2024 19:12:03 -0400
+Message-ID: <20240507231231.394219-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507231231.394219-1-sashal@kernel.org>
 References: <20240507231231.394219-1-sashal@kernel.org>
@@ -69,53 +70,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Swapnil Patel <swapnil.patel@amd.com>
+From: Gabe Teeger <gabe.teeger@amd.com>
 
-[ Upstream commit a01b64f31d65bdc917d1afb4cec9915beb6931be ]
+[ Upstream commit 9a35d205f466501dcfe5625ca313d944d0ac2d60 ]
 
-[Why & How]
+New request from KMD/VBIOS in order to support new UMA carveout
+model. This fixes a null dereference from accessing
+Ctx->dc_bios->integrated_info while it was NULL.
 
-Currently DCN315 clk manager is missing code to enable/disable dtbclk.
-Because of this, "optimized_required" flag is constantly set
-and this prevents FreeSync from engaging for certain high bandwidth
-display Modes which require DTBCLK.
+DAL parses through the BIOS and extracts the necessary
+integrated_info but was missing a case for the new BIOS
+version 2.3.
 
-Reviewed-by: Dmytro Laktyushkin <dmytro.laktyushkin@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Swapnil Patel <swapnil.patel@amd.com>
+Signed-off-by: Gabe Teeger <gabe.teeger@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c    | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-index 28b83133db910..09eb1bc9aa030 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-@@ -131,6 +131,10 @@ static void dcn315_update_clocks(struct clk_mgr *clk_mgr_base,
- 	 */
- 	clk_mgr_base->clks.zstate_support = new_clocks->zstate_support;
- 	if (safe_to_lower) {
-+		if (clk_mgr_base->clks.dtbclk_en && !new_clocks->dtbclk_en) {
-+			dcn315_smu_set_dtbclk(clk_mgr, false);
-+			clk_mgr_base->clks.dtbclk_en = new_clocks->dtbclk_en;
-+		}
- 		/* check that we're not already in lower */
- 		if (clk_mgr_base->clks.pwr_state != DCN_PWR_STATE_LOW_POWER) {
- 			display_count = dcn315_get_active_display_cnt_wa(dc, context);
-@@ -146,6 +150,10 @@ static void dcn315_update_clocks(struct clk_mgr *clk_mgr_base,
- 			}
- 		}
- 	} else {
-+		if (!clk_mgr_base->clks.dtbclk_en && new_clocks->dtbclk_en) {
-+			dcn315_smu_set_dtbclk(clk_mgr, true);
-+			clk_mgr_base->clks.dtbclk_en = new_clocks->dtbclk_en;
-+		}
- 		/* check that we're not already in D0 */
- 		if (clk_mgr_base->clks.pwr_state != DCN_PWR_STATE_MISSION_MODE) {
- 			union display_idle_optimization_u idle_info = { 0 };
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+index 93e40e0a15087..4d2590964a204 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+@@ -2962,6 +2962,7 @@ static enum bp_result construct_integrated_info(
+ 				result = get_integrated_info_v2_1(bp, info);
+ 				break;
+ 			case 2:
++			case 3:
+ 				result = get_integrated_info_v2_2(bp, info);
+ 				break;
+ 			default:
 -- 
 2.43.0
 
