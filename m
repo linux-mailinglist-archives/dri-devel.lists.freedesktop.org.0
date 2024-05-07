@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1896F8BF02D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 00:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E81A8BF031
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:00:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02025112FAC;
-	Tue,  7 May 2024 22:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB38112FB4;
+	Tue,  7 May 2024 23:00:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hG00HOiK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gKONpd7b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8F0112FA8;
- Tue,  7 May 2024 22:59:50 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE69A112FB4;
+ Tue,  7 May 2024 23:00:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C4E1C619FA;
- Tue,  7 May 2024 22:59:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4224C2BBFC;
- Tue,  7 May 2024 22:59:47 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 4952DCE1748;
+ Tue,  7 May 2024 23:00:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB7EC3277B;
+ Tue,  7 May 2024 23:00:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715122789;
- bh=994JsZ2ORzzOrr4b8OJfnVZPQBB+pIp7mQm6ehsC1N8=;
+ s=k20201202; t=1715122808;
+ bh=+RiuBApR4VmUwmiO5W+rxSWu8QrEJw7Lo7Dza+YXVn4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hG00HOiKx/xNJm0RU2eZTSdy5bBCrL1Z+pZlsG76OWOe7KpDPllmmRE5p6lQPPjCa
- aZ8c3XEcRLN+Lkwgs3W5whOKRPCbBJU4BV/w95myBqOhFlT0obPja7lYdwqn0hnmeb
- nwVMX+l3NL8mNAnRm1l82vvLAHb/7sgf88T5wLnXHu4p7Z1jdRxzklfRS3MHCrM2+R
- /NhDKMCw9DPZR2T0yUe5bKl2F6tQ/4TvtaXohTpljBoQ/cWHgnj5k7F2Q7QksaJ2ye
- qA1BlZCZ1q5TFjelVC+FPsawRg2eHsBVvlPD/21ZB87GJ2/4somjYK/LZ2r1pTQarP
- lFcmXcDFBd4+A==
+ b=gKONpd7bHI/iI8g1LHSghbCRhNqmDe7yAn14A0EJNn9H3stAh+6kHndWymKePHAlz
+ QZwhC3sgNy1LtQIgJMWShOdCWbRkTIxuW9eHI7eaXyRAhJ4nQqJrYvuUz8N7O8saEZ
+ hp1BJe7dwpb8WZGfYCMiyy+Na4NDQWKaKp/sprYCvYitVC5kzDn80kqnX24jqHagPP
+ H0AgPT1GIFOo0MP8NnTcAkzUQzqYFhBrIpC7CTkUdnW9zwPelfUfidjRCSgBDGTEwU
+ DYEn7nhHNrhE8fvtFq8LauRQCxY8PhC5Sb1WFubtcqgxH+QrnC6hzTcKAqLUA7Sdq8
+ 5fCgaRJNHqxeQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jack Xiao <Jack.Xiao@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- Felix.Kuehling@amd.com, jonathan.kim@amd.com, shaoyun.liu@amd.com,
- guchun.chen@amd.com, shashank.sharma@amd.com, Tim.Huang@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 12/19] drm/amdgpu/mes: fix use-after-free issue
-Date: Tue,  7 May 2024 18:58:34 -0400
-Message-ID: <20240507225910.390914-12-sashal@kernel.org>
+Cc: Derek Foreman <derek.foreman@collabora.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Sasha Levin <sashal@kernel.org>,
+ airlied@gmail.com, daniel@ffwll.ch, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 17/19] drm/etnaviv: fix tx clock gating on some
+ GC7000 variants
+Date: Tue,  7 May 2024 18:58:39 -0400
+Message-ID: <20240507225910.390914-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507225910.390914-1-sashal@kernel.org>
 References: <20240507225910.390914-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.30
@@ -67,36 +64,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jack Xiao <Jack.Xiao@amd.com>
+From: Derek Foreman <derek.foreman@collabora.com>
 
-[ Upstream commit 948255282074d9367e01908b3f5dcf8c10fc9c3d ]
+[ Upstream commit d7a5c9de99b3a9a43dce49f2084eb69b5f6a9752 ]
 
-Delete fence fallback timer to fix the ramdom
-use-after-free issue.
+commit 4bce244272513 ("drm/etnaviv: disable tx clock gating for GC7000
+rev6203") accidentally applied the fix for i.MX8MN errata ERR050226 to
+GC2000 instead of GC7000, failing to disable tx clock gating for GC7000
+rev 0x6023 as intended.
 
-v2: move to amdgpu_mes.c
+Additional clean-up further propagated this issue, partially breaking
+the clock gating fixes added for GC7000 rev 6202 in commit 432f51e7deeda
+("drm/etnaviv: add clock gating workaround for GC7000 r6202").
 
-Signed-off-by: Jack Xiao <Jack.Xiao@amd.com>
-Acked-by: Lijo Lazar <lijo.lazar@amd.com>
-Acked-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-index 15c67fa404ff9..c5c55e132af21 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-@@ -1098,6 +1098,7 @@ void amdgpu_mes_remove_ring(struct amdgpu_device *adev,
- 		return;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 9276756e1397d..371e1f2733f6f 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -632,8 +632,8 @@ static void etnaviv_gpu_enable_mlcg(struct etnaviv_gpu *gpu)
+ 	/* Disable TX clock gating on affected core revisions. */
+ 	if (etnaviv_is_model_rev(gpu, GC4000, 0x5222) ||
+ 	    etnaviv_is_model_rev(gpu, GC2000, 0x5108) ||
+-	    etnaviv_is_model_rev(gpu, GC2000, 0x6202) ||
+-	    etnaviv_is_model_rev(gpu, GC2000, 0x6203))
++	    etnaviv_is_model_rev(gpu, GC7000, 0x6202) ||
++	    etnaviv_is_model_rev(gpu, GC7000, 0x6203))
+ 		pmc |= VIVS_PM_MODULE_CONTROLS_DISABLE_MODULE_CLOCK_GATING_TX;
  
- 	amdgpu_mes_remove_hw_queue(adev, ring->hw_queue_id);
-+	del_timer_sync(&ring->fence_drv.fallback_timer);
- 	amdgpu_ring_fini(ring);
- 	kfree(ring);
- }
+ 	/* Disable SE and RA clock gating on affected core revisions. */
 -- 
 2.43.0
 
