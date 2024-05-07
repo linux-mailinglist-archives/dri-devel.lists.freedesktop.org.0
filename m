@@ -2,135 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B628BE781
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 17:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73158BE793
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 17:41:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 551D210EEDC;
-	Tue,  7 May 2024 15:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60CC010F239;
+	Tue,  7 May 2024 15:41:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="XdsjTnOL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lKsP48+l";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XdsjTnOL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lKsP48+l";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="h2jnZFYc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A80810EEDC
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 15:34:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3213F20C43;
- Tue,  7 May 2024 15:34:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715096042; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UkVrLRN7K5RmTJglCL9qmSs4sspXF1EvXOEjJE+C3gQ=;
- b=XdsjTnOLjyAL92bbQDfbqgp0d70ck2hhmsPfKKHw2uv03jv5xtbPdGDo3QcFFIo8czhcch
- sWx3Yru/dB0z22Qzb7idzMHZdtnVDu63fH/8sfZgK3toEsysDw+IJwVNuwJ4F3PB57kt35
- c+6Z6Mnhxn4/c69q4F+YxBQoxd0GWKQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715096042;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UkVrLRN7K5RmTJglCL9qmSs4sspXF1EvXOEjJE+C3gQ=;
- b=lKsP48+lX2wfMklPmp0OSuPH/4XO5LNQ+vR+KVPImN7t9w+FocQTDV97C33FCpmNTXlXcL
- DZwVWXHSe08XinAw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XdsjTnOL;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lKsP48+l
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715096042; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UkVrLRN7K5RmTJglCL9qmSs4sspXF1EvXOEjJE+C3gQ=;
- b=XdsjTnOLjyAL92bbQDfbqgp0d70ck2hhmsPfKKHw2uv03jv5xtbPdGDo3QcFFIo8czhcch
- sWx3Yru/dB0z22Qzb7idzMHZdtnVDu63fH/8sfZgK3toEsysDw+IJwVNuwJ4F3PB57kt35
- c+6Z6Mnhxn4/c69q4F+YxBQoxd0GWKQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715096042;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UkVrLRN7K5RmTJglCL9qmSs4sspXF1EvXOEjJE+C3gQ=;
- b=lKsP48+lX2wfMklPmp0OSuPH/4XO5LNQ+vR+KVPImN7t9w+FocQTDV97C33FCpmNTXlXcL
- DZwVWXHSe08XinAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1C6E2139CB;
- Tue,  7 May 2024 15:34:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id +4GFBepJOmYbVgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 07 May 2024 15:34:02 +0000
-Message-ID: <649cda91-767c-4683-b217-ff4e14ba3f30@suse.de>
-Date: Tue, 7 May 2024 17:34:01 +0200
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B71FC10F239;
+ Tue,  7 May 2024 15:41:07 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-a59a5f81af4so859682766b.3; 
+ Tue, 07 May 2024 08:41:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715096466; x=1715701266; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=8ocU9iq4yVd5b+8qNcdRHy1dIoJfaIuCKbf+uzBJuYQ=;
+ b=h2jnZFYc10dX48+05skw02+1c1KvwiJqggRNmF0ARmZ1usMzk4c8857n5VXJRHHfSK
+ zuaHE2fF/w2PGu065sXAzyR4k69YCRbv7dB7K60pWW7dFXJD2u9S3srJLjFn4Ay9+Gj6
+ AMCRLyTOfQqwmBlT/EPkcKvC/k6jKCWRa7pJezl0yehXZde8JMI2q5RGntt6HA7djhKK
+ BggRfCbuO8KetJjc0d1BupAgVjWH04uFpAdb4fYaT3+gIP5rxXsvjy8ZhEY5J34cnV1D
+ P+AIwtFaFpdnMMiPyav4cGJ1cPbIGvQoJTjrgWnD/NE+V8dNhi/wYnf6EqFLGRWzMQXQ
+ Ql9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715096466; x=1715701266;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8ocU9iq4yVd5b+8qNcdRHy1dIoJfaIuCKbf+uzBJuYQ=;
+ b=KUIQJ5pXE3riuM7zAAD/l7LCHS5a25SNLzZf7R+W+nwG39KY5vXEU3TwVlWAZAnGVs
+ kXhzhk0mYyeM7XIQ1pIX7mln9/+kqLjpkkC2ymvWJEBXlKbOu6EVw/AIzcbqank/LBvz
+ eRWpWXEioYKbWJb3wlGzEwghkwC4fH2u2uuPJHao0luAmtg9BDNg6KKMhpitu/q+PTm/
+ 2M+XaCy8x1kL5xUyin0A4wn31ZMWIgTr8h/kD6yZySPGVlmJ7Djwog6zEBkRBS6lgUpf
+ ZgpUASX0vJzHNsWJlFx8B8utP4VUpk2JU2zT78jJtO7qa7vzYjcSVKVRm5LyyRbPgG1b
+ eeXA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVZQgO2X1a13yecsuaTyyevPj8AMssWw7xZlu8fYI+wuLSS7cvoUeCQuOULmKcnt3U+4f3rbh9x/5xVD7J6NOnK43SsYzMxrczE4wEutPGJ
+X-Gm-Message-State: AOJu0YySlaPOutGbCy8cX+QKyQ50cb9BVg9pUwfL1YDB1rfGSpBvEroh
+ CjgbKackq+1dhda/v5PO9jXvJ1YRE/WzS99D7cMEJ16mSGJ91af49+FMmmM161zd3npgEHz+viX
+ GNaGFTPnM+Yb6yfUl/jD/VV8OrN0=
+X-Google-Smtp-Source: AGHT+IFGCC1Z3hYbUTnaHcV7xFz8a3N8Y3PTYIUXwJvjvI9KsdkLAhkO5c7dSDJE3U6I/vkRBa/hnsSBuTyz+BNHgwI=
+X-Received: by 2002:a50:bace:0:b0:572:42ac:9b19 with SMTP id
+ 4fb4d7f45d1cf-5731d922dc1mr114116a12.0.1715096465604; Tue, 07 May 2024
+ 08:41:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/15] drm: struct drm_edid conversions
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-References: <cover.1713273659.git.jani.nikula@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <cover.1713273659.git.jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[]; ARC_NA(0.00)[];
- RCPT_COUNT_TWO(0.00)[2]; MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 3213F20C43
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -6.50
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 7 May 2024 08:40:52 -0700
+Message-ID: <CAF6AEGtpw6dNR9JBikFTQ=TCpt-9FeFW+SGjXWv+Jv3emm0Pbg@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-next-2024-05-07 for v6.10
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,73 +77,336 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Dave,
 
-Am 16.04.24 um 15:22 schrieb Jani Nikula:
-> I've these laying in a branch for a while, maybe let's try to make some
-> forward progress in this front.
+This is the main pull for v6.10.  It includes a merge of
+phy_dp_modes_6.10 to pick up DP subnode API, so we can add support to
+configure phy as either DP or eDP depending on hw configuration.
 
-Could you take another look at the udl patches at [1]? The second 
-iteration of the patches is self-contained within the driver. So the 
-most-controversial points should be resolved now.
+We might have a second late pull req, for a couple patchsets that have
+dependencies on soc/qcom and firmware/qcom:
 
-Best regards
-Thomas
+  https://patchwork.freedesktop.org/series/132065/
+  https://patchwork.freedesktop.org/series/132911/
 
-[1] https://patchwork.freedesktop.org/series/132039/#rev2
+Further description below
 
->
-> Build tested only, on x86, arm, and arm64.
->
-> BR,
-> Jani.
->
->
-> Jani Nikula (15):
->    drm/panel: simple: switch to struct drm_edid
->    drm/panel-samsung-atna33xc20: switch to struct drm_edid
->    drm/panel-edp: switch to struct drm_edid
->    drm/bridge/analogix/anx6345: switch to struct drm_edid
->    drm/bridge/analogix/anx78xx: switch to struct drm_edid
->    drm/sun4i: hdmi: switch to struct drm_edid
->    drm/vc4: hdmi: switch to struct drm_edid
->    drm/bridge: anx7625: use struct drm_edid more
->    drm/gud: switch to struct drm_edid
->    drm/i2c: tda998x: switch to struct drm_edid
->    drm/bochs: switch to struct drm_edid
->    drm/virtio: switch to struct drm_edid
->    drm/rockchip: cdn-dp: switch to struct drm_edid
->    drm/rockchip: inno_hdmi: switch to struct drm_edid
->    drm/rockchip: rk3066_hdmi: switch to struct drm_edid
->
->   .../drm/bridge/analogix/analogix-anx6345.c    | 15 +++---
->   .../drm/bridge/analogix/analogix-anx78xx.c    | 23 +++++-----
->   drivers/gpu/drm/bridge/analogix/anx7625.c     | 26 +++++++----
->   drivers/gpu/drm/bridge/analogix/anx7625.h     | 10 +---
->   drivers/gpu/drm/gud/gud_connector.c           | 12 ++---
->   drivers/gpu/drm/i2c/tda998x_drv.c             | 19 ++++----
->   drivers/gpu/drm/panel/panel-edp.c             | 17 ++++---
->   .../gpu/drm/panel/panel-samsung-atna33xc20.c  | 13 ++++--
->   drivers/gpu/drm/panel/panel-simple.c          | 15 +++---
->   drivers/gpu/drm/rockchip/cdn-dp-core.c        | 33 +++++++------
->   drivers/gpu/drm/rockchip/cdn-dp-core.h        |  2 +-
->   drivers/gpu/drm/rockchip/inno_hdmi.c          | 12 ++---
->   drivers/gpu/drm/rockchip/rk3066_hdmi.c        | 12 ++---
->   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c        | 18 +++++---
->   drivers/gpu/drm/tiny/bochs.c                  | 23 ++++------
->   drivers/gpu/drm/vc4/vc4_hdmi.c                | 46 ++++++++++---------
->   drivers/gpu/drm/virtio/virtgpu_display.c      | 10 ++--
->   drivers/gpu/drm/virtio/virtgpu_drv.h          |  2 +-
->   drivers/gpu/drm/virtio/virtgpu_vq.c           | 12 ++---
->   19 files changed, 167 insertions(+), 153 deletions(-)
->
+The following changes since commit 3e5a516f3bf1a33f2bf219f570e9b5c031616f6a:
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+  Merge tag 'phy_dp_modes_6.10' into msm-next-lumag (2024-04-08 18:38:16 +0300)
 
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2024-05-07
+
+for you to fetch changes up to b587f413ca47530b41aadc6f6bda6fc76153f77f:
+
+  drm/msm/gen_header: allow skipping the validation (2024-05-07 07:56:40 -0700)
+
+----------------------------------------------------------------
+Updates for v6.10
+
+Core:
+- Switched to generating register header files during build process
+  instead of shipping pre-generated headers
+- Merged DPU and MDP4 format databases.
+
+DP:
+- Stop using compat string to distinguish DP and eDP cases
+- Added support for X Elite platform (X1E80100)
+- Reworked DP aux/audio support
+- Added SM6350 DP to the bindings (no driver changes, using SM8350
+  as a fallback compat)
+
+GPU:
+- a7xx perfcntr reg fixes
+- MAINTAINERS updates
+- a750 devcoredump support
+
+----------------------------------------------------------------
+Abel Vesa (2):
+      drm/msm/dp: Add support for determining the eDP/DP mode from DT
+      drm/msm/dp: Add support for the X1E80100
+
+Aleksandr Mishin (1):
+      drm/msm/dpu: Add callback function pointer check before its call
+
+Andy Shevchenko (1):
+      drm/msm/hdmi: Replace of_gpio.h by proper one
+
+Bjorn Andersson (7):
+      drm/msm/dp: Remove now unused connector_type from desc
+      drm/msm/dp: Drop unused dp_debug struct
+      drm/msm/dp: Removed fixed nvid "support"
+      drm/msm/dp: Remove unused defines and members
+      drm/msm/dp: Use function arguments for aux writes
+      drm/msm/dp: Use function arguments for timing configuration
+      drm/msm/dp: Use function arguments for audio operations
+
+Connor Abbott (5):
+      drm/msm: Import a750 snapshot registers from kgsl
+      drm/msm: Fix imported a750 snapshot header for upstream
+      drm/msm: Update a6xx registers XML
+      drm/msm: Adjust a7xx GBIF debugbus dumping
+      drm/msm: Add devcoredump support for a750
+
+Dmitry Baryshkov (35):
+      drm/msm/dp: allow voltage swing / pre emphasis of 3
+      drm/msm/dpu: add current resource allocation to dumped state
+      drm/msm/mdp5: add writeback block bases
+      drm/msm/hdmi: drop qfprom.xml.h
+      drm/msm/dsi: drop mmss_cc.xml.h
+      drm/msm: move msm_gpummu.c to adreno/a2xx_gpummu.c
+      drm/msm: remove dependencies from core onto adreno headers
+      drm/msm: import XML display registers database
+      drm/msm: import A2xx-A4xx XML display registers database
+      drm/msm: import A5xx XML display registers database
+      drm/msm: import A6xx XML display registers database
+      drm/msm: import gen_header.py script from Mesa
+      drm/msm: generate headers on the fly
+      drm/msm: drop display-related headers
+      drm/msm: drop A2xx and common headers
+      drm/msm: drop A3xx and A4xx headers
+      drm/msm: drop A5xx header
+      drm/msm: drop A6xx GMU header
+      drm/msm: drop C++ parts of a6xx.xml.h
+      drm/msm: drop A6xx header
+      drm/msm/dsi: remove the drm_bridge_attach fallback
+      drm/msm/dsi: move next bridge acquisition to dsi_bind
+      drm/msm/dsi: simplify connector creation
+      drm/msm/dpu: use format-related definitions from mdp_common.xml.h
+      drm/msm: add arrays listing formats supported by MDP4/MDP5 hardware
+      drm/msm/dpu: in dpu_format replace bitmap with unsigned long field
+      drm/msm/dpu: pull format flag definitions to mdp_format.h
+      drm/msm: merge dpu_format and mdp_format in struct msm_format
+      drm/msm: convert msm_format::unpack_tight to the flag
+      drm/msm: convert msm_format::unpack_align_msb to the flag
+      drm/msm: merge dpu format database to MDP formats
+      drm/msm: drop msm_kms_funcs::get_format() callback
+      drm/msm/mdp5: use drmm-managed allocation for mdp5_plane
+      drm/msm/mdp4: use drmm-managed allocation for mdp4_plane
+      drm/msm/gen_header: allow skipping the validation
+
+Douglas Anderson (3):
+      drm/msm/dp: Avoid a long timeout for AUX transfer if nothing connected
+      drm/msm/dp: Account for the timeout in wait_hpd_asserted() callback
+      drm/msm/dp: Delete the old 500 ms wait for eDP HPD in aux transfer
+
+Jani Nikula (1):
+      drm/msm: convert all pixel format logging to use %p4cc
+
+Jon Hunter (1):
+      drm/msm: Fix gen_header.py for older python3 versions
+
+Konrad Dybcio (4):
+      drm/msm: Drop msm_read/writel
+      drm/msm/a6xx: Avoid a nullptr dereference when speedbin setting fails
+      MAINTAINERS: Add a separate entry for Qualcomm Adreno GPU drivers
+      MAINTAINERS: Add Konrad Dybcio as a reviewer for the Adreno driver
+
+Luca Weiss (2):
+      dt-bindings: display: msm: dp-controller: document SM6350 compatible
+      dt-bindings: display: msm: sm6350-mdss: document DP controller subnode
+
+Marijn Suijten (4):
+      drm/msm/dsi: Print dual-DSI-adjusted pclk instead of original mode pclk
+      drm/msm/dpu: Always flush the slave INTF on the CTL
+      drm/msm/dpu: Allow configuring multiple active DSC blocks
+      drm/msm/dpu: Rename `ctx` parameter to `intf` to match other functions
+
+Rob Clark (1):
+      drm/msm/a6xx: Cleanup indexed regs const'ness
+
+Zan Dobersek (2):
+      drm/msm/a7xx: allow writing to CP_BV counter selection registers
+      drm/msm/adreno: fix CP cycles stat retrieval on a7xx
+
+ .../bindings/display/msm/dp-controller.yaml        |     1 +
+ .../bindings/display/msm/qcom,sm6350-mdss.yaml     |     9 +
+ MAINTAINERS                                        |    20 +-
+ drivers/gpu/drm/msm/.gitignore                     |     1 +
+ drivers/gpu/drm/msm/Kconfig                        |     8 +
+ drivers/gpu/drm/msm/Makefile                       |   106 +-
+ drivers/gpu/drm/msm/adreno/a2xx.xml.h              |  3251 -----
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |     4 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.h              |     4 +
+ .../drm/msm/{msm_gpummu.c => adreno/a2xx_gpummu.c} |    45 +-
+ drivers/gpu/drm/msm/adreno/a3xx.xml.h              |  3268 -----
+ drivers/gpu/drm/msm/adreno/a4xx.xml.h              |  4379 -------
+ drivers/gpu/drm/msm/adreno/a5xx.xml.h              |  5572 ---------
+ drivers/gpu/drm/msm/adreno/a6xx.xml.h              | 11858 -------------------
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |     2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |    12 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h          |   422 -
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |    15 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |     4 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |    83 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |    14 +-
+ drivers/gpu/drm/msm/adreno/adreno_common.xml.h     |   539 -
+ .../gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h  |  1446 +++
+ drivers/gpu/drm/msm/adreno/adreno_pm4.xml.h        |  2803 -----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |    12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |    24 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |     2 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |     3 -
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |     8 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |    12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        |   660 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h        |    25 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c         |     6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h         |     4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |     9 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c  |     4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |    30 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |     2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   124 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |    40 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |     6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c        |    14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h        |     4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |    22 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          |     2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |    13 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |     2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |    91 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |    56 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |     8 +
+ drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h           |  1181 --
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c          |     4 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |     1 -
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h           |     4 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c         |   129 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h           |  1979 ----
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h           |    11 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c          |     7 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |     1 -
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h           |     4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c         |   125 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c           |     4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.h           |     2 +-
+ drivers/gpu/drm/msm/disp/mdp_common.xml.h          |   111 -
+ drivers/gpu/drm/msm/disp/mdp_format.c              |   630 +-
+ drivers/gpu/drm/msm/disp/mdp_format.h              |    77 +
+ drivers/gpu/drm/msm/disp/mdp_kms.h                 |    18 +-
+ drivers/gpu/drm/msm/dp/dp_audio.c                  |    25 +-
+ drivers/gpu/drm/msm/dp/dp_aux.c                    |    39 +-
+ drivers/gpu/drm/msm/dp/dp_aux.h                    |     1 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |    71 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |    52 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |    23 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |     1 -
+ drivers/gpu/drm/msm/dp/dp_debug.c                  |    59 +-
+ drivers/gpu/drm/msm/dp/dp_debug.h                  |    38 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |   101 +-
+ drivers/gpu/drm/msm/dp/dp_display.h                |     3 -
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |     2 -
+ drivers/gpu/drm/msm/dp/dp_link.c                   |    26 +-
+ drivers/gpu/drm/msm/dp/dp_link.h                   |    15 +-
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |    14 +-
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |     3 -
+ drivers/gpu/drm/msm/dsi/dsi.c                      |    26 +-
+ drivers/gpu/drm/msm/dsi/dsi.h                      |     7 +-
+ drivers/gpu/drm/msm/dsi/dsi.xml.h                  |   790 --
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |    20 +-
+ drivers/gpu/drm/msm/dsi/dsi_manager.c              |    79 +-
+ drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h         |   227 -
+ drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h         |   309 -
+ drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h         |   237 -
+ drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h         |   384 -
+ drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h    |   286 -
+ drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h          |   483 -
+ drivers/gpu/drm/msm/dsi/mmss_cc.xml.h              |   131 -
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |     8 +-
+ drivers/gpu/drm/msm/dsi/sfpb.xml.h                 |    70 -
+ drivers/gpu/drm/msm/hdmi/hdmi.c                    |     2 +-
+ drivers/gpu/drm/msm/hdmi/hdmi.h                    |    10 +-
+ drivers/gpu/drm/msm/hdmi/hdmi.xml.h                |  1399 ---
+ drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c           |     6 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c           |     4 +-
+ drivers/gpu/drm/msm/hdmi/qfprom.xml.h              |    61 -
+ drivers/gpu/drm/msm/msm_drv.c                      |     3 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |    11 +-
+ drivers/gpu/drm/msm/msm_fb.c                       |    12 +-
+ drivers/gpu/drm/msm/msm_gpu.c                      |     2 +-
+ drivers/gpu/drm/msm/msm_gpu.h                      |    12 +-
+ drivers/gpu/drm/msm/msm_kms.h                      |     4 -
+ drivers/gpu/drm/msm/msm_mmu.h                      |     5 -
+ drivers/gpu/drm/msm/registers/.gitignore           |     4 +
+ drivers/gpu/drm/msm/registers/adreno/a2xx.xml      |  1865 +++
+ drivers/gpu/drm/msm/registers/adreno/a3xx.xml      |  1751 +++
+ drivers/gpu/drm/msm/registers/adreno/a4xx.xml      |  2409 ++++
+ drivers/gpu/drm/msm/registers/adreno/a5xx.xml      |  3039 +++++
+ drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |  5011 ++++++++
+ drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml  |   228 +
+ .../gpu/drm/msm/registers/adreno/adreno_common.xml |   400 +
+ .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  2268 ++++
+ drivers/gpu/drm/msm/registers/display/dsi.xml      |   390 +
+ .../gpu/drm/msm/registers/display/dsi_phy_10nm.xml |   102 +
+ .../gpu/drm/msm/registers/display/dsi_phy_14nm.xml |   135 +
+ .../gpu/drm/msm/registers/display/dsi_phy_20nm.xml |   100 +
+ .../gpu/drm/msm/registers/display/dsi_phy_28nm.xml |   180 +
+ .../msm/registers/display/dsi_phy_28nm_8960.xml    |   134 +
+ .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  |   230 +
+ drivers/gpu/drm/msm/registers/display/edp.xml      |   239 +
+ drivers/gpu/drm/msm/registers/display/hdmi.xml     |  1015 ++
+ drivers/gpu/drm/msm/registers/display/mdp4.xml     |   504 +
+ drivers/gpu/drm/msm/registers/display/mdp5.xml     |   806 ++
+ .../gpu/drm/msm/registers/display/mdp_common.xml   |    90 +
+ drivers/gpu/drm/msm/registers/display/msm.xml      |    32 +
+ drivers/gpu/drm/msm/registers/display/sfpb.xml     |    17 +
+ .../gpu/drm/msm/registers/freedreno_copyright.xml  |    40 +
+ drivers/gpu/drm/msm/registers/gen_header.py        |   970 ++
+ drivers/gpu/drm/msm/registers/rules-fd.xsd         |   404 +
+ 136 files changed, 25360 insertions(+), 41401 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/.gitignore
+ delete mode 100644 drivers/gpu/drm/msm/adreno/a2xx.xml.h
+ rename drivers/gpu/drm/msm/{msm_gpummu.c => adreno/a2xx_gpummu.c} (67%)
+ delete mode 100644 drivers/gpu/drm/msm/adreno/a3xx.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/adreno/a4xx.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/adreno/a5xx.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/adreno/a6xx.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/adreno/adreno_common.xml.h
+ create mode 100644 drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h
+ delete mode 100644 drivers/gpu/drm/msm/adreno/adreno_pm4.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/disp/mdp_common.xml.h
+ create mode 100644 drivers/gpu/drm/msm/disp/mdp_format.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/dsi.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/mmss_cc.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/dsi/sfpb.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/hdmi/hdmi.xml.h
+ delete mode 100644 drivers/gpu/drm/msm/hdmi/qfprom.xml.h
+ create mode 100644 drivers/gpu/drm/msm/registers/.gitignore
+ create mode 100644 drivers/gpu/drm/msm/registers/adreno/a2xx.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/adreno/a3xx.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/adreno/a4xx.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/adreno/a5xx.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/adreno/a6xx.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/adreno/adreno_common.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/adreno/adreno_pm4.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/dsi.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/dsi_phy_10nm.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/dsi_phy_14nm.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/dsi_phy_20nm.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/dsi_phy_28nm.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/dsi_phy_28nm_8960.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/edp.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/hdmi.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/mdp4.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/mdp5.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/mdp_common.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/msm.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/display/sfpb.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/freedreno_copyright.xml
+ create mode 100644 drivers/gpu/drm/msm/registers/gen_header.py
+ create mode 100644 drivers/gpu/drm/msm/registers/rules-fd.xsd
