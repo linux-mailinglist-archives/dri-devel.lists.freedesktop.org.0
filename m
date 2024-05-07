@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A248BE2EC
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 15:01:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032628BE2F6
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 15:06:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2565910F56F;
-	Tue,  7 May 2024 13:01:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E97C10F529;
+	Tue,  7 May 2024 13:05:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eguwRJcX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="etWzkfvB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A6F210F532
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:01:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7279D10E091
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:05:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B53A461752
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:01:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 745BBC4DDEC
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:01:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 72D1E6176A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:05:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C1F9C4DDEC
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 13:05:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715086912;
- bh=tHVK/OSHp5sKNPT7Tv7H1XD40NSCZFHElj9hZQKPyUQ=;
+ s=k20201202; t=1715087155;
+ bh=5PYH91EQi+idBxIKjdhl3K12UjexK5qvIICBveFfKMI=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=eguwRJcX/4VYB/PyMWWUR+tcTOv0G34if3IV/gmp2rcL/vg9UEacIkhg3UKuc2d5y
- fkGl76hSFjlXtsHHFHr0eU5dNwOOPri9dgihx6eoTlKLsTXPba4psC4n8cADjrXa+u
- cwxIdtpgXppy0VNNKeqwj5vKzKtRuqrygKWxXAneZiPb9LMn7WTKBySEo3ovwv15I9
- 8Is2D39HItGl6+SmDPsKBpnGrW24d9N8YSO7ykji6wX/ef9yvvf+ZBUWyr1CJjgqak
- rBNg9PzDa2Qayt9FQYp21Skk9pfxCRcHKiRbLRwe39DtfE00M0vHysvUhMvBNNp39+
- rsL9gg1Cl3yAA==
-Received: by mail-yb1-f179.google.com with SMTP id
- 3f1490d57ef6-de46b113a5dso3172907276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 06:01:52 -0700 (PDT)
+ b=etWzkfvBRTSYmbIdNGWLnvHkNtxI7DMFj4Sop9h3xY5P1/0sNi8TvnPhY0mCsJi1T
+ AHvjrXmYsvmMIV6h3clvKGsR89VJq+jIYYkwDAgMBeb+dmkLS0KHqC4fbyx5Ld9eDN
+ ip95v9wvdwMYvA7297jb/v1SR1R+Hvx6yx6HqCFQ3pdDh1oOklj9iYkEbwQPo3Et4p
+ ArVqDSlORjEEx1piTzmd0KLdhOV1UYxsImRjbR6k+qg4+oJz8hDyS+fnp/94cmTXBi
+ zIURFEitgJ5i1kKaGfGelDDqyBKuTJqJ/PPfwORfOPKRi3OhhLji1kFW78YxaHEjSa
+ 2pgBjLUte+E/w==
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-de5b1e6beceso3608170276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 06:05:55 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVr1ZafQbPYCo2tec6YDKReaKWlvTVeVwlvFuRB+CEeU5044fDPrDmQm7qRtwlpE0jwX9k1eiiaBh62KN/O878Zrdf+Vu5ZX/Zzm75jTMgK
-X-Gm-Message-State: AOJu0YxnX1NP702Al5UZ97qGLYSiGRtrC9x8r89LMwqGD4xZSKal7YUO
- UDchHGiczaGt2fnDXVZ7+gR+ohri88LPp1xBMvnEf32r6DwmvgADQMTsqSlaKUoq0GoybT2eV65
- mPDyuXcKW4Xd8nW+TKR6phSn2hF9n29oaIuRtNw==
-X-Google-Smtp-Source: AGHT+IGVoBB2KRC+J+e7019EfznjBMxIVrKNmwrzqOiYbxqXgUaaap+Cuf7kSvAKD4Hz1/UNtTrSTy6fS0xXp+atLOo=
-X-Received: by 2002:a05:6902:4cf:b0:de6:b80:f7a3 with SMTP id
- v15-20020a05690204cf00b00de60b80f7a3mr12780894ybs.62.1715086911730; Tue, 07
- May 2024 06:01:51 -0700 (PDT)
+ AJvYcCXkL0TSEadg7DrQMJ2ft/51Yfv8J8abAoJ2298TK51YAogbLeXawthZyA3wkBuEz4SO8KbG+NVmkoweAK9oNTj8jbzBeuUYTVBZGfg9UKVp
+X-Gm-Message-State: AOJu0YxfEUedUYimGvcCk22VbV89kx67ePDADMi+sJjjFgqQ2Fbvp+af
+ RgHc3LE4dd0OEC3vr6QmVsSnrtYbGcHpqQ2o0n8X1ZZRulSQtbBXE/PVBIN+3H/enprM9cCU1dy
+ WM5p0wgpoNSUwE1jAAD3oyJBno8tS1tzQsf/0gA==
+X-Google-Smtp-Source: AGHT+IFn91kp+WhuqDQyRw92qtuMTa/GVclyApZ/cSHOyt/QXsb7bezaUvDdlymM+sqt732FQULKq1yg6rUERmbNifg=
+X-Received: by 2002:a5b:942:0:b0:de4:8b7:7bbd with SMTP id
+ x2-20020a5b0942000000b00de408b77bbdmr12304102ybq.15.1715087154728; 
+ Tue, 07 May 2024 06:05:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240503151129.3901815-1-l.stach@pengutronix.de>
- <20240503151129.3901815-8-l.stach@pengutronix.de>
-In-Reply-To: <20240503151129.3901815-8-l.stach@pengutronix.de>
+ <20240503151129.3901815-9-l.stach@pengutronix.de>
+In-Reply-To: <20240503151129.3901815-9-l.stach@pengutronix.de>
 From: Robert Foss <rfoss@kernel.org>
-Date: Tue, 7 May 2024 15:01:41 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi6z_aN88ApoF-5EiemrTHsVN2yYoL_muz0Euru2uO6gTg@mail.gmail.com>
-Message-ID: <CAN6tsi6z_aN88ApoF-5EiemrTHsVN2yYoL_muz0Euru2uO6gTg@mail.gmail.com>
-Subject: Re: [PATCH 07/14] drm/bridge: analogix_dp: move platform and PHY
- power handling into runtime PM
+Date: Tue, 7 May 2024 15:05:44 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi4SSpfsQRWgzn5VFdVO+v6YePfXWuK=7C3NzWzLyTh-Jg@mail.gmail.com>
+Message-ID: <CAN6tsi4SSpfsQRWgzn5VFdVO+v6YePfXWuK=7C3NzWzLyTh-Jg@mail.gmail.com>
+Subject: Re: [PATCH 08/14] drm/bridge: analogix_dp: move basic controller init
+ into runtime PM
 To: Lucas Stach <l.stach@pengutronix.de>
 Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
  Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>, 
@@ -86,81 +86,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Fri, May 3, 2024 at 5:12=E2=80=AFPM Lucas Stach <l.stach@pengutronix.de>=
  wrote:
 >
-> Platform and PHY power isn't only required when the actual display data
-> stream is active, but may be required earlier to support AUX channel
-> transactions. Move them into the runtime PM calls, so they are properly
-> managed whenever various other parts of the driver need them to be active=
-.
+> Make sure the controller is in a basic working state after runtime
+> resume. Keep the analog function enable in the mode set path as this
+> enables parts of the PHY that are only required to be powered when
+> there is a data stream being sent out.
 >
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
->  .../drm/bridge/analogix/analogix_dp_core.c    | 23 ++++++++-----------
->  1 file changed, 10 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 14 +++++---------
+>  1 file changed, 5 insertions(+), 9 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers=
 /gpu/drm/bridge/analogix/analogix_dp_core.c
-> index 311e1e67486d..3281c00a39cd 100644
+> index 3281c00a39cd..fdb2c2a2b69a 100644
 > --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
 > +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> @@ -1258,11 +1258,6 @@ static int analogix_dp_set_bridge(struct analogix_=
-dp_device *dp)
+> @@ -41,10 +41,8 @@ struct bridge_init {
+>         struct device_node *node;
+>  };
+>
+> -static int analogix_dp_init_dp(struct analogix_dp_device *dp)
+> +static void analogix_dp_init_dp(struct analogix_dp_device *dp)
+>  {
+> -       int ret;
+> -
+>         analogix_dp_reset(dp);
+>
+>         analogix_dp_swreset(dp);
+> @@ -56,13 +54,9 @@ static int analogix_dp_init_dp(struct analogix_dp_devi=
+ce *dp)
+>         analogix_dp_enable_sw_function(dp);
+>
+>         analogix_dp_config_interrupt(dp);
+> -       ret =3D analogix_dp_init_analog_func(dp);
+> -       if (ret)
+> -               return ret;
+>
+>         analogix_dp_init_hpd(dp);
+>         analogix_dp_init_aux(dp);
+> -       return 0;
+>  }
+>
+>  static int analogix_dp_detect_hpd(struct analogix_dp_device *dp)
+> @@ -1258,9 +1252,9 @@ static int analogix_dp_set_bridge(struct analogix_d=
+p_device *dp)
 >
 >         pm_runtime_get_sync(dp->dev);
 >
-> -       if (dp->plat_data->power_on)
-> -               dp->plat_data->power_on(dp->plat_data);
-> -
-> -       phy_power_on(dp->phy);
-> -
->         ret =3D analogix_dp_init_dp(dp);
+> -       ret =3D analogix_dp_init_dp(dp);
+> +       ret =3D analogix_dp_init_analog_func(dp);
 >         if (ret)
->                 goto out_dp_init;
-> @@ -1288,10 +1283,6 @@ static int analogix_dp_set_bridge(struct analogix_=
-dp_device *dp)
->         return 0;
+> -               goto out_dp_init;
+> +               return ret;
 >
->  out_dp_init:
-> -       phy_power_off(dp->phy);
-> -       if (dp->plat_data->power_off)
-> -               dp->plat_data->power_off(dp->plat_data);
-> -
->         pm_runtime_put_sync(dp->dev);
+>         /*
+>          * According to DP spec v1.3 chap 3.5.1.2 Link Training,
+> @@ -1726,6 +1720,8 @@ int analogix_dp_resume(struct analogix_dp_device *d=
+p)
 >
->         return ret;
-> @@ -1354,11 +1345,7 @@ static void analogix_dp_bridge_disable(struct drm_=
-bridge *bridge)
+>         phy_power_on(dp->phy);
 >
->         disable_irq(dp->irq);
->
-> -       if (dp->plat_data->power_off)
-> -               dp->plat_data->power_off(dp->plat_data);
-> -
->         analogix_dp_set_analog_power_down(dp, POWER_ALL, 1);
-> -       phy_power_off(dp->phy);
->
->         pm_runtime_put_sync(dp->dev);
->
-> @@ -1713,6 +1700,11 @@ EXPORT_SYMBOL_GPL(analogix_dp_probe);
->
->  int analogix_dp_suspend(struct analogix_dp_device *dp)
->  {
-> +       phy_power_off(dp->phy);
-> +
-> +       if (dp->plat_data->power_off)
-> +               dp->plat_data->power_off(dp->plat_data);
-> +
->         clk_disable_unprepare(dp->clock);
->
->         return 0;
-> @@ -1729,6 +1721,11 @@ int analogix_dp_resume(struct analogix_dp_device *=
-dp)
->                 return ret;
->         }
->
-> +       if (dp->plat_data->power_on)
-> +               dp->plat_data->power_on(dp->plat_data);
-> +
-> +       phy_power_on(dp->phy);
+> +       analogix_dp_init_dp(dp);
 > +
 >         return 0;
 >  }
