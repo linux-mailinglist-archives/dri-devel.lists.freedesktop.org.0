@@ -2,161 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6CD8BEE8A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 23:03:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F828BEEDF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 23:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85F8110F8EA;
-	Tue,  7 May 2024 21:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43DA8112692;
+	Tue,  7 May 2024 21:27:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="L4rD1orF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RQllzkiG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2058.outbound.protection.outlook.com [40.107.100.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEAC910F7BD;
- Tue,  7 May 2024 21:03:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l2oFVddNi51x4O87ysffWqf++RG//hsuq/KGd46Ub2x6e3snTPzpt/lnJXhkCnJl+x1/Z01QI9P175IZiKdSJPfB4wrxo3OjPQUnnJcTLDjnUHWbwErD+qyBR0QeHiOc0Ev84tp+ayAKVSGHB8ln2eEXlcWYdKUdfv2dkmlZ7BKiKHdjEHPlMu3/RAac6OP/ZEek/LSzGGtzrhhE64fu6IittxiTq7XJe+PTrShbFMDvrGdiG5LUY1T5s3aD66GELOKse6icI1OcplM1qZqTyG5UAZq4BFUaEBfKmYfYmVn+Cr2YTZ9RlJYHg32WBSVoEz7V6k3Sw1I/nAP7HJj/3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d3lRRKyUenjAy3nA13vQlsiVs2ZSNaKdm+udKx+Q/mA=;
- b=JEuRq2OnDRuxihJ6ve8JQwGdjZ9TFqtsdb5LppVWgoFy4nWP/iCgW/V05c8nF7R/jK7QekZYrsIsRGT0F8wYeSZ+rri3le++jhBssqERfN4cjZXYgek51cnbUlV9n0+z2tmX2riG75aksF3RNPJJwlhaUSbbIRnrBp9bOpdQjhAAcx7R2LuzwMHw22d7DPv4qTraK3N/bCI2SoZLlSl10SveFVtjj6vdrNzOj9H8NK+qtLoPeUpGEzv8Q9ewyDJac6dDr+CHhyJrZBO6NVNTssN1iShH5vZ4IaPp9E9NYu4/ZVU1MISiLVB1PpIP33BCxcwWHZhzwvWUpAa5Tf0a/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d3lRRKyUenjAy3nA13vQlsiVs2ZSNaKdm+udKx+Q/mA=;
- b=L4rD1orFwQ1A5n7Fj3bj1nvnJqusVg6jvIcDQqeIJ+RSSfLAkNTK/tygu9lnlS/5XwnCoue96k/tzCIqwzeYnReOyaKhuweDzMngvwPhkU+C2llx3fSWeQGNTgOmMK6NcJ1cbC8KY7v2AMumBcwH+JopBtZL6+yLEbQaA+7EkII=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by MN0PR12MB6200.namprd12.prod.outlook.com (2603:10b6:208:3c3::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.34; Tue, 7 May
- 2024 21:03:45 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81%4]) with mapi id 15.20.7544.041; Tue, 7 May 2024
- 21:03:45 +0000
-Message-ID: <b463d432-669c-43a4-933a-cafef000f7da@amd.com>
-Date: Tue, 7 May 2024 17:03:41 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/11] drm/tegra: Use fbdev client helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- inki.dae@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
- linux@armlinux.org.uk, krzk@kernel.org, alim.akhtar@samsung.com,
- patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run, marijn.suijten@somainline.org,
- tomi.valkeinen@ideasonboard.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, thierry.reding@gmail.com,
- mperttunen@nvidia.com, jonathanh@nvidia.com
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20240507120422.25492-1-tzimmermann@suse.de>
- <20240507120422.25492-12-tzimmermann@suse.de>
-Content-Language: en-US
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <20240507120422.25492-12-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0119.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:5::22) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBC1F112691;
+ Tue,  7 May 2024 21:27:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715117241; x=1746653241;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=PnNK5wwc4RP/I62vXPgG0O947NrjKTFTDH1GMiR++SE=;
+ b=RQllzkiG3x5iBzbZ8EpHXN690wYdN88Jel5k6uPMzR+8d2VJAe/CAOF1
+ e/4C2BL16ZNNnxZ+AV0TeoIrm2ynb7+rfyOuLcYl9XElyJodhWLqow8ap
+ NIybuTrKlczcPw+tzCaNQK1diN9xlmRioWsbmQ4TOw+eeEMBFw0QZvp8G
+ ij7juKIWudVtFWOtTmJxPC2heP6GeoeNjOn6k9HAXH5IGYrnJDiNTPugE
+ D+NIYiv4jGqUpdUReQuJkyGQnzFN5g/LAv3OWVlFw6doGZNeWhqbx8v/e
+ BP8+1Ko7hcWgXUQAo8CDh+d1r3dV7YEYwde6a21sUmW1Sg7POJudAcegW g==;
+X-CSE-ConnectionGUID: 5bV02qmHSJGr31wwFNjSkg==
+X-CSE-MsgGUID: VImoDRqOTWK50QRleSjFWQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="33455315"
+X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; d="scan'208";a="33455315"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2024 14:27:21 -0700
+X-CSE-ConnectionGUID: ZKuRaPorTwSh6a6449tqcg==
+X-CSE-MsgGUID: u1Ga3M/dSyujkZBGdwyAmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; d="scan'208";a="33351636"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.246.50.245])
+ ([10.246.50.245])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2024 14:27:18 -0700
+Message-ID: <a95d0897-7e23-447e-9d97-4db97f82af06@linux.intel.com>
+Date: Tue, 7 May 2024 23:27:15 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|MN0PR12MB6200:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f67d3a6-6a57-48be-978d-08dc6ed92e98
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230031|366007|7416005|1800799015|376005|921011; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VjhGNU5zcmdsbnY3MWRvZ21NeE9FQTRFSG1rTGc3WE9LclFkQ2dUSDF4L2NI?=
- =?utf-8?B?VktZYUJyRUJidFdHdFUzNjZZKzdHZkNRZmhSa0VKbldJNytWaElEb2pLOUpj?=
- =?utf-8?B?d2pyb2pmV2k4WlNQUTViZ1NYVlJUekpMQ01Da2ZOR25iRFpMNmxzSjg0bUhR?=
- =?utf-8?B?cWVKeVVYbGYvekxwNkRQakNCWDUvZHROT3lZWVNjOTdONXVaZWY1WjQyVVpx?=
- =?utf-8?B?RXJZaEVQNmNweTFrbHNWeXJOd2pReDQyTkRIYzc0MFVBaDZBbDNYZEZHQk1o?=
- =?utf-8?B?SnNVd0YzL2F0cjhvV3hRdmZNUU00VUNYSDVZZDVYUVhEOUU0Yk1rNEs5TEds?=
- =?utf-8?B?QmtnbXpFMWxKa0ptRk0vUStCMWF3WlpHeW1QdDMxTHRqd3FPbzBjdlMwTW5u?=
- =?utf-8?B?NUFFY0gwdlIyaUM0Si8rUUpBTHR4WDJSZVVQTWJWclNQSzdKTk1ZZk96QlFP?=
- =?utf-8?B?TSthdXcxbDdIQ3hQR0dDMVlIQXVqcHYrSEduN2YyRjU1NVFGNUZrNUFheTJi?=
- =?utf-8?B?YUJPOHJRL3RvbWh0U2dyQjVRbVJkWmswenhPSy8rczFFcUk5R2ZTem1PNWE3?=
- =?utf-8?B?WXZMbXBBa1JUZUt0Ymt2bk9veHhLbFpyeFJHUWlRNVhvcWR6NzJJaWY3WnAy?=
- =?utf-8?B?UGFZcUQ4d2tQdWRJQUtGTjFVdGF2VndYd1EvZExUYUNSZjdiaDRHNCtzZXhk?=
- =?utf-8?B?bXRneHZrM0EwODRnUWlTamFqUmVlMy9CWjIrTlJvZEczSldKK0Z5QTYrci9p?=
- =?utf-8?B?bURCNkYveVQwNDh3am5xdVUyMk91ZHpYVGgyMnQxMS9tUmkrcyt4UE14bGdI?=
- =?utf-8?B?OURJK1p5QlhPSURwNlZDYzZUVEJDT1JBZEFmVmM4U0xsZDRoWWxLVjhtMTJ0?=
- =?utf-8?B?RVRLQ080T1d6R0VkZWpFSEc0dThCMnJPR0NEM0NQTjEwNjd1VGkxL2NiMDJW?=
- =?utf-8?B?RXZXZzhoT0JqVTluNVhHdEp3dHpxNUprWk5xdzc3TUdrWUNlRVllQUdvdWVj?=
- =?utf-8?B?K0dSVzZFeDJ1elV0bmlQOFhGSUdRcVFBS1FpWkRDTDNtZHFPVWJEem00bjVR?=
- =?utf-8?B?dEtLRHl5SUNmNXpsZkNtR0Z0VkIwWjY5RGQvUGgzUjJPU1NmS2o0b1R2OHZu?=
- =?utf-8?B?VWt6aG80M0N0RFpnMUlYUGhZNEwvNHlXcVppNk5hNkhuNjBpaDdyNjVMU2ZL?=
- =?utf-8?B?clRiMExTRktLeDAzMjVXTW1Pb0l2THJqVEZqZkw0VVk5S3hFTUxlZ2ptY1B5?=
- =?utf-8?B?SEdyTXFtc0gxR3VvQzM5MkQ0aXhTMDVLcU9nMm9wM1o1Rm1nbGd3WjdzbWxm?=
- =?utf-8?B?YVM2VjBhTXRaV2hUMmRsamk0MEZKUFpRSEdsZ1VlSWg3V2lLQmkxS2VRYXcw?=
- =?utf-8?B?clNLN1hhdElKRmhFTHNjOU92alN6enBwTUxNWDRVM3VmMUFyRW9HQXhzSnYr?=
- =?utf-8?B?V2VXcytSUmIvaTZUeCsycERqa0J1TFBtMlRhUlh3WS9vZTBaK2NQSWR4Snhu?=
- =?utf-8?B?dXlqNHEzTnZkM1U3dTM5SkIrUFpqckRWT3RYZURyQXJ0d2R4N1J6OGJ5eThx?=
- =?utf-8?B?YkVJbk4wYjdsbG1oKzJpM05XUStRRk9pVEFXMlRncjhmMUtwWVAvSHpYcVpv?=
- =?utf-8?B?bWdmYnA3b1dSZGczQmp2RS9xUzFJazJldTI3bHJWUkMyQzZ4dmZzbHFpQ2F6?=
- =?utf-8?B?YllCb3dzbHVpeEp6QVlJcUpwMkRVTURvZzcyRGlEZjJOZnRGYk5rQjBSOWVC?=
- =?utf-8?Q?l2g0UqW8ppHbKev3aznJZaOJVTFG29TbzgiaSmT?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(7416005)(1800799015)(376005)(921011); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NVdmMU5NdWgxRUxiVlR3SDRyb1ZJa21MOGdHeG11dVZMNUxWUW1SUldFeFhh?=
- =?utf-8?B?MDFYdVhDdytYekI4Ylk5TTJCMkRwNjFkRkMrL3VUNzQ5b1VvSHJoTXZYT2Jy?=
- =?utf-8?B?Rk9iTzJGbEN5a1Babk1zNllmdzFPWkdDcXJmZEhaNmNnV1Vtem8xVWhSQkx2?=
- =?utf-8?B?TnhwQVJoSGl3ZHNBUWRFSjMwMzZPRHdoK09GaU4xRTljemJGQmZrSjZCamgx?=
- =?utf-8?B?Ri9GRVlxUDFFYUJ4SUFWeWQ2OFN4Y3NrajF2blVvQ2EvVVhaMkZzWkEyZFlG?=
- =?utf-8?B?VWx3RC82bStZeHMyei9VaWlnM3p3UDZEYWt2UjVKU2dwOGhTeE9LUnB0VVNW?=
- =?utf-8?B?eDRQS2JDMlVqeUE1L3lWS2pNUzEzMzBoaWFSSUVqejNhVmkxUHNBOWw1MDJQ?=
- =?utf-8?B?MkxEaUkwOGNKZGwyWkx1R3YwRVJYNjlsUEFBZWtvSEVTL2FNK0Y1WWlzVGF0?=
- =?utf-8?B?MS9TZkhxR2lvam1rRHgyTHgzR01NVFNSb3FxTFFFUnhlVDBTU0NvWk1vUHVM?=
- =?utf-8?B?b040UiswcnJJMVBJbExtQXptZ05IQlRIZ1BJMCtqOVpXanFnU0Q0U2ZyTWdn?=
- =?utf-8?B?bUZaK1JFQnNGZnBRT25EMmRLd3pzOWVIL1ErR2wxTXhBQi9Jd3dwYmx4bjhm?=
- =?utf-8?B?Y2NUQ3Q4dXpwcThBclI5L1ppNGZuN0EySmdrcE5zaHpMYnUveWlHUmZkeC9y?=
- =?utf-8?B?VUZHQ2dCQmhsNXNuR1dsRjZTTng4dGk0eE50eVVNc2ZES3ZnSW1ZUnUrMHJu?=
- =?utf-8?B?V3dtREx6dWNzWktWWEVjSGhTcGlGMENoNmlEV01JWXlvekxpWXIvQ0xwSHVU?=
- =?utf-8?B?d0NVUFU1T0ViTlI4clQyb2dzK1dqYmpTL3F5T1BhcEt4RmhNSkxRaFJ0dXNG?=
- =?utf-8?B?YU43c1hlOGpkU2hndWdzOHpPQlRBQnkxMy96Q09zaG9kT3c4aGNkNGNXK3Ju?=
- =?utf-8?B?MzR1MVFvbWxyOEMxRjNac3I2MXpDaFF2dmNFbkh2b0R4eEI5ZXRSR3J3dFBC?=
- =?utf-8?B?THNZdGU1c3FlZW5tWjJ2TWlTVUdYT2FBWVdZQ3Q4bnhQQ1pOUFc1SmM3cnBV?=
- =?utf-8?B?QzVpalNpSll1bGFHUmlYVm5xRlh0ZzhTWEw5RHZQeGw0MG9mYi9wMGkvWDFq?=
- =?utf-8?B?OURXMTBqTktmVTRBZG1qQ245Z2RTRDFRQzZFN1NONE9jQkppS3A3SGN3Y2Ru?=
- =?utf-8?B?Wnpldk1YZTFUNkh1c3Q0MU4xVEJIWkpqOTRwK01MaDlVNVkydkZ6c1hhVHlv?=
- =?utf-8?B?dlpvUjE5OGdRS0hPZkJaa3lsTVRrclgyNHJ5T1JKTXFJbjFINXVBeHZpYzhX?=
- =?utf-8?B?WTI1R24yWlJJNmc3alJSdTJOVnVWNkF6NUgwRGNaa0tVSW5heGdwV2pyWlgy?=
- =?utf-8?B?eTI1cTN0QnFFM0Ixa3RueE5XKzJ5MkNQRGtmQ0pDYUdDa0FzRWxFMmp6QjBZ?=
- =?utf-8?B?Y2wxSzBWTXkrRklPNnFMc3lnUkJCT0pZc3VuM1JXbms4SGdiYmdJMm90bDR4?=
- =?utf-8?B?WG1FTlJmazlGYXVCdkN3ckw0QTJTZ3ZkTklWV2UzSVRUTXlwQSs2dUhnYXFl?=
- =?utf-8?B?YW50S0pRUXZHVUdiV1NSQk01WXB0dHg4b0VLUUxaYnNOeWZLM3RQRU10WGly?=
- =?utf-8?B?bTVqMldOQmlDTGNvWC9VUENxcDhDNzFHQmwwOTFpYUlhUTgyS2RsUEFhRTFH?=
- =?utf-8?B?eUllZW82K2t1QkxaNzR3ZGhjYktxYzZ5QjFHRGpsQ01yRnE2VjdieVRIU0d3?=
- =?utf-8?B?ZGVldFJHT1kwOXJmakRiQzlwSkZwNW5CREFWS0tBTHZ2aU5iRldGQjVjZlpI?=
- =?utf-8?B?dTR2Tmh0VFFWajdnQmtrQ09KQ2VwT1JkRGhmZXduYmRRTFgrenpPSGYvYURF?=
- =?utf-8?B?TjZaRlIwUHdIcnQvOGNWUW0ycGRibWxKVXhLS3Z0OXNNZkdlWEUrNWU2ZURK?=
- =?utf-8?B?alNnUUt5UFRHb3pRRjYrWC9uZVhhU094ZzlIRmtzQWNLcjV5SnFQc2V6SElz?=
- =?utf-8?B?MnFpN2pJWkdOZk9ZUXdOcFA0dUJGVUoxdlAycm5mWlA1S1p6YndzNkFYUXJi?=
- =?utf-8?B?Sm5kMHFIazJHWk1KWEtQQUdFUEliTnhaQXFmdW50akswVm9ZMXZMVVlHbVZy?=
- =?utf-8?Q?7TK/+sqcSdZ+/kRFKSQwGJERN?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f67d3a6-6a57-48be-978d-08dc6ed92e98
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2024 21:03:45.0469 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gemzeDiFOxNJQh3u5PYnurlR+J5w9zhUvjeA4Fm8+cyKgfox384/c3XGl3+DoDT6Z26nqUSonLR9kM+TJy25nw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "drm/i915: Remove extra multi-gt pm-references"
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>
+References: <20240506180253.96858-2-janusz.krzysztofik@linux.intel.com>
+ <91bf1eae-a9c5-408c-8ed7-affb83517d10@linux.intel.com>
+ <2180809.irdbgypaU6@jkrzyszt-mobl2.ger.corp.intel.com>
+ <Zjpgga6ODnpmzeB9@intel.com>
+Content-Language: en-US
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <Zjpgga6ODnpmzeB9@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,187 +80,171 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2024-05-07 07:58, Thomas Zimmermann wrote:
-> Implement struct drm_client_funcs with the respective helpers and
-> remove the custom code from the emulation. The generic helpers are
-> equivalent in functionality.
+On 5/7/2024 7:10 PM, Rodrigo Vivi wrote:
+> On Tue, May 07, 2024 at 10:54:11AM +0200, Janusz Krzysztofik wrote:
+>> On Tuesday, 7 May 2024 09:30:15 GMT+2 Nirmoy Das wrote:
+>>> Hi Janusz,
+>>>
+>>>
+>>> Just realized we need Fixes tag for this.
+>>>
+>>> Fixes: 1f33dc0c1189 ("drm/i915: Remove extra multi-gt pm-references")
+>> Whoever is going to push this patch, please feel free to add this tag.
+> dim b4-shazam gets that automagically, now it was sent in reply ;)
+Nice!
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/radeon/radeon_fbdev.c | 66 ++-------------------------
-
-Was radeon meant to be a separate patch?
-
-Regards,
-   Felix
+> I just pushed the patch. thanks for the patch and reviews.
 
 
->   drivers/gpu/drm/tegra/fbdev.c         | 58 ++---------------------
->   2 files changed, 6 insertions(+), 118 deletions(-)
+Thanks,
+
+Nirmoy
+
 >
-> diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
-> index 02bf25759059a..cf790922174ea 100644
-> --- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-> +++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-> @@ -29,7 +29,6 @@
->   #include <linux/pm_runtime.h>
->   #include <linux/vga_switcheroo.h>
->   
-> -#include <drm/drm_crtc_helper.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_fb_helper.h>
->   #include <drm/drm_fourcc.h>
-> @@ -293,71 +292,12 @@ static const struct drm_fb_helper_funcs radeon_fbdev_fb_helper_funcs = {
->   };
->   
->   /*
-> - * Fbdev client and struct drm_client_funcs
-> + * struct drm_client_funcs
->    */
->   
-> -static void radeon_fbdev_client_unregister(struct drm_client_dev *client)
-> -{
-> -	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
-> -	struct drm_device *dev = fb_helper->dev;
-> -	struct radeon_device *rdev = dev->dev_private;
-> -
-> -	if (fb_helper->info) {
-> -		vga_switcheroo_client_fb_set(rdev->pdev, NULL);
-> -		drm_helper_force_disable_all(dev);
-> -		drm_fb_helper_unregister_info(fb_helper);
-> -	} else {
-> -		drm_client_release(&fb_helper->client);
-> -		drm_fb_helper_unprepare(fb_helper);
-> -		kfree(fb_helper);
-> -	}
-> -}
-> -
-> -static int radeon_fbdev_client_restore(struct drm_client_dev *client)
-> -{
-> -	drm_fb_helper_lastclose(client->dev);
-> -	vga_switcheroo_process_delayed_switch();
-> -
-> -	return 0;
-> -}
-> -
-> -static int radeon_fbdev_client_hotplug(struct drm_client_dev *client)
-> -{
-> -	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
-> -	struct drm_device *dev = client->dev;
-> -	struct radeon_device *rdev = dev->dev_private;
-> -	int ret;
-> -
-> -	if (dev->fb_helper)
-> -		return drm_fb_helper_hotplug_event(dev->fb_helper);
-> -
-> -	ret = drm_fb_helper_init(dev, fb_helper);
-> -	if (ret)
-> -		goto err_drm_err;
-> -
-> -	if (!drm_drv_uses_atomic_modeset(dev))
-> -		drm_helper_disable_unused_functions(dev);
-> -
-> -	ret = drm_fb_helper_initial_config(fb_helper);
-> -	if (ret)
-> -		goto err_drm_fb_helper_fini;
-> -
-> -	vga_switcheroo_client_fb_set(rdev->pdev, fb_helper->info);
-> -
-> -	return 0;
-> -
-> -err_drm_fb_helper_fini:
-> -	drm_fb_helper_fini(fb_helper);
-> -err_drm_err:
-> -	drm_err(dev, "Failed to setup radeon fbdev emulation (ret=%d)\n", ret);
-> -	return ret;
-> -}
-> -
->   static const struct drm_client_funcs radeon_fbdev_client_funcs = {
-> -	.owner		= THIS_MODULE,
-> -	.unregister	= radeon_fbdev_client_unregister,
-> -	.restore	= radeon_fbdev_client_restore,
-> -	.hotplug	= radeon_fbdev_client_hotplug,
-> +	.owner = THIS_MODULE,
-> +	DRM_FBDEV_HELPER_CLIENT_FUNCS,
->   };
->   
->   void radeon_fbdev_setup(struct radeon_device *rdev)
-> diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
-> index db6eaac3d30e6..f9cc365cfed94 100644
-> --- a/drivers/gpu/drm/tegra/fbdev.c
-> +++ b/drivers/gpu/drm/tegra/fbdev.c
-> @@ -12,7 +12,6 @@
->   #include <linux/vmalloc.h>
->   
->   #include <drm/drm_drv.h>
-> -#include <drm/drm_crtc_helper.h>
->   #include <drm/drm_fb_helper.h>
->   #include <drm/drm_fourcc.h>
->   #include <drm/drm_framebuffer.h>
-> @@ -150,63 +149,12 @@ static const struct drm_fb_helper_funcs tegra_fb_helper_funcs = {
->   };
->   
->   /*
-> - * struct drm_client
-> + * struct drm_client_funcs
->    */
->   
-> -static void tegra_fbdev_client_unregister(struct drm_client_dev *client)
-> -{
-> -	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
-> -
-> -	if (fb_helper->info) {
-> -		drm_fb_helper_unregister_info(fb_helper);
-> -	} else {
-> -		drm_client_release(&fb_helper->client);
-> -		drm_fb_helper_unprepare(fb_helper);
-> -		kfree(fb_helper);
-> -	}
-> -}
-> -
-> -static int tegra_fbdev_client_restore(struct drm_client_dev *client)
-> -{
-> -	drm_fb_helper_lastclose(client->dev);
-> -
-> -	return 0;
-> -}
-> -
-> -static int tegra_fbdev_client_hotplug(struct drm_client_dev *client)
-> -{
-> -	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
-> -	struct drm_device *dev = client->dev;
-> -	int ret;
-> -
-> -	if (dev->fb_helper)
-> -		return drm_fb_helper_hotplug_event(dev->fb_helper);
-> -
-> -	ret = drm_fb_helper_init(dev, fb_helper);
-> -	if (ret)
-> -		goto err_drm_err;
-> -
-> -	if (!drm_drv_uses_atomic_modeset(dev))
-> -		drm_helper_disable_unused_functions(dev);
-> -
-> -	ret = drm_fb_helper_initial_config(fb_helper);
-> -	if (ret)
-> -		goto err_drm_fb_helper_fini;
-> -
-> -	return 0;
-> -
-> -err_drm_fb_helper_fini:
-> -	drm_fb_helper_fini(fb_helper);
-> -err_drm_err:
-> -	drm_err(dev, "Failed to setup fbdev emulation (ret=%d)\n", ret);
-> -	return ret;
-> -}
-> -
->   static const struct drm_client_funcs tegra_fbdev_client_funcs = {
-> -	.owner		= THIS_MODULE,
-> -	.unregister	= tegra_fbdev_client_unregister,
-> -	.restore	= tegra_fbdev_client_restore,
-> -	.hotplug	= tegra_fbdev_client_hotplug,
-> +	.owner = THIS_MODULE,
-> +	DRM_FBDEV_HELPER_CLIENT_FUNCS,
->   };
->   
->   void tegra_fbdev_setup(struct drm_device *dev)
+>> Thanks,
+>> Janusz
+>>
+>>>
+>>> Regards,
+>>>
+>>> Nirmoy
+>>>
+>>> On 5/6/2024 8:02 PM, Janusz Krzysztofik wrote:
+>>>> This reverts commit 1f33dc0c1189efb9ae19c6fc22b64dd3e26261fb.
+>>>>
+>>>> There was a patch supposed to fix an issue of illegal attempts to free a
+>>>> still active i915 VMA object when parking a GT believed to be idle,
+>>>> reported by CI on 2-GT Meteor Lake.  As a solution, an extra wakeref for
+>>>> a Primary GT was acquired from i915_gem_do_execbuffer() -- see commit
+>>>> f56fe3e91787 ("drm/i915: Fix a VMA UAF for multi-gt platform").
+>>>>
+>>>> However, that fix occurred insufficient -- the issue was still reported by
+>>>> CI.  That wakeref was released on exit from i915_gem_do_execbuffer(), then
+>>>> potentially before completion of the request and deactivation of its
+>>>> associated VMAs.  Moreover, CI reports indicated that single-GT platforms
+>>>> also suffered sporadically from the same race.
+>>>>
+>>>> Since that issue was fixed by another commit f3c71b2ded5c ("drm/i915/vma:
+>>>> Fix UAF on destroy against retire race"), the changes introduced by that
+>>>> insufficient fix were dropped as no longer useful.  However, that series
+>>>> resulted in another VMA UAF scenario now being triggered in CI.
+>>>>
+>>>> <4> [260.290809] ------------[ cut here ]------------
+>>>> <4> [260.290988] list_del corruption. prev->next should be ffff888118c5d990, but was ffff888118c5a510. (prev=ffff888118c5a510)
+>>>> <4> [260.291004] WARNING: CPU: 2 PID: 1143 at lib/list_debug.c:62 __list_del_entry_valid_or_report+0xb7/0xe0
+>>>> ..
+>>>> <4> [260.291055] CPU: 2 PID: 1143 Comm: kms_plane Not tainted 6.9.0-rc2-CI_DRM_14524-ga25d180c6853+ #1
+>>>> <4> [260.291058] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
+>>>> <4> [260.291060] RIP: 0010:__list_del_entry_valid_or_report+0xb7/0xe0
+>>>> ...
+>>>> <4> [260.291087] Call Trace:
+>>>> <4> [260.291089]  <TASK>
+>>>> <4> [260.291124]  i915_vma_reopen+0x43/0x80 [i915]
+>>>> <4> [260.291298]  eb_lookup_vmas+0x9cb/0xcc0 [i915]
+>>>> <4> [260.291579]  i915_gem_do_execbuffer+0xc9a/0x26d0 [i915]
+>>>> <4> [260.291883]  i915_gem_execbuffer2_ioctl+0x123/0x2a0 [i915]
+>>>> ...
+>>>> <4> [260.292301]  </TASK>
+>>>> ...
+>>>> <4> [260.292506] ---[ end trace 0000000000000000 ]---
+>>>> <4> [260.292782] general protection fault, probably for non-canonical address 0x6b6b6b6b6b6b6ca3: 0000 [#1] PREEMPT SMP NOPTI
+>>>> <4> [260.303575] CPU: 2 PID: 1143 Comm: kms_plane Tainted: G        W          6.9.0-rc2-CI_DRM_14524-ga25d180c6853+ #1
+>>>> <4> [260.313851] Hardware name: Intel Corporation Meteor Lake Client Platform/MTL-P LP5x T3 RVP, BIOS MTLPFWI1.R00.3471.D91.2401310918 01/31/2024
+>>>> <4> [260.326359] RIP: 0010:eb_validate_vmas+0x114/0xd80 [i915]
+>>>> ...
+>>>> <4> [260.428756] Call Trace:
+>>>> <4> [260.431192]  <TASK>
+>>>> <4> [639.283393]  i915_gem_do_execbuffer+0xd05/0x26d0 [i915]
+>>>> <4> [639.305245]  i915_gem_execbuffer2_ioctl+0x123/0x2a0 [i915]
+>>>> ...
+>>>> <4> [639.411134]  </TASK>
+>>>> ...
+>>>> <4> [639.449979] ---[ end trace 0000000000000000 ]---
+>>>>
+>>>> We defer actually closing, unbinding and destroying a VMA until next idle
+>>>> point, or until the object is freed in the meantime.  By postponing the
+>>>> unbind, we allow for the VMA to be reopened by the client, avoiding the
+>>>> work required to rebind the VMA.
+>>>>
+>>>> Starting from commit b0647a5e79b1 ("drm/i915: Avoid live-lock with
+>>>> i915_vma_parked()"), we assume that as long as a GT is held idle, no VMA
+>>>> would be reopened while we destroy them.  That assumption is no longer
+>>>> true in multi-GT configurations, where a VMA we reopen may be handled by a
+>>>> GT different from the one that we already keep active via its engine while
+>>>> we set up an execbuf request.
+>>>>
+>>>> Restoring the extra GT0 PM wakeref removed from i915_gem_do_execbuffer()
+>>>> processing path seems to fix this issue.
+>>>>
+>>>> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/10608
+>>>> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+>>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>>> Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
+>>>> ---
+>>>>    drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 18 ++++++++++++++++++
+>>>>    1 file changed, 18 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>>> index 42619fc05de48..090724fa766c9 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>>> @@ -255,6 +255,7 @@ struct i915_execbuffer {
+>>>>    	struct intel_context *context; /* logical state for the request */
+>>>>    	struct i915_gem_context *gem_context; /** caller's context */
+>>>>    	intel_wakeref_t wakeref;
+>>>> +	intel_wakeref_t wakeref_gt0;
+>>>>    
+>>>>    	/** our requests to build */
+>>>>    	struct i915_request *requests[MAX_ENGINE_INSTANCE + 1];
+>>>> @@ -2685,6 +2686,7 @@ static int
+>>>>    eb_select_engine(struct i915_execbuffer *eb)
+>>>>    {
+>>>>    	struct intel_context *ce, *child;
+>>>> +	struct intel_gt *gt;
+>>>>    	unsigned int idx;
+>>>>    	int err;
+>>>>    
+>>>> @@ -2708,10 +2710,17 @@ eb_select_engine(struct i915_execbuffer *eb)
+>>>>    		}
+>>>>    	}
+>>>>    	eb->num_batches = ce->parallel.number_children + 1;
+>>>> +	gt = ce->engine->gt;
+>>>>    
+>>>>    	for_each_child(ce, child)
+>>>>    		intel_context_get(child);
+>>>>    	eb->wakeref = intel_gt_pm_get(ce->engine->gt);
+>>>> +	/*
+>>>> +	 * Keep GT0 active on MTL so that i915_vma_parked() doesn't
+>>>> +	 * free VMAs while execbuf ioctl is validating VMAs.
+>>>> +	 */
+>>>> +	if (gt->info.id)
+>>>> +		eb->wakeref_gt0 = intel_gt_pm_get(to_gt(gt->i915));
+>>>>    
+>>>>    	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+>>>>    		err = intel_context_alloc_state(ce);
+>>>> @@ -2750,6 +2759,9 @@ eb_select_engine(struct i915_execbuffer *eb)
+>>>>    	return err;
+>>>>    
+>>>>    err:
+>>>> +	if (gt->info.id)
+>>>> +		intel_gt_pm_put(to_gt(gt->i915), eb->wakeref_gt0);
+>>>> +
+>>>>    	intel_gt_pm_put(ce->engine->gt, eb->wakeref);
+>>>>    	for_each_child(ce, child)
+>>>>    		intel_context_put(child);
+>>>> @@ -2763,6 +2775,12 @@ eb_put_engine(struct i915_execbuffer *eb)
+>>>>    	struct intel_context *child;
+>>>>    
+>>>>    	i915_vm_put(eb->context->vm);
+>>>> +	/*
+>>>> +	 * This works in conjunction with eb_select_engine() to prevent
+>>>> +	 * i915_vma_parked() from interfering while execbuf validates vmas.
+>>>> +	 */
+>>>> +	if (eb->gt->info.id)
+>>>> +		intel_gt_pm_put(to_gt(eb->gt->i915), eb->wakeref_gt0);
+>>>>    	intel_gt_pm_put(eb->context->engine->gt, eb->wakeref);
+>>>>    	for_each_child(eb->context, child)
+>>>>    		intel_context_put(child);
+>>
+>>
+>>
