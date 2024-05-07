@@ -2,59 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43418BD9D0
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 05:43:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D25858BDA1C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 06:20:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58BBB10E2E8;
-	Tue,  7 May 2024 03:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3D7110ED16;
+	Tue,  7 May 2024 04:20:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=yahoo.com header.i=@yahoo.com header.b="fdxIWxkC";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17EC810E2E8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 03:43:10 +0000 (UTC)
-X-UUID: 2f3460e40c2311ef9305a59a3cc225df-20240507
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37, REQID:8d3dde92-39c0-42cf-be35-07d152472bb0, IP:10,
- URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-11,FILE:0,BULK:0,RULE:Release_Ham,ACT
- ION:release,TS:24
-X-CID-INFO: VERSION:1.1.37, REQID:8d3dde92-39c0-42cf-be35-07d152472bb0, IP:10,
- UR
- L:0,TC:0,Content:0,EDM:25,RT:0,SF:-11,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:24
-X-CID-META: VersionHash:6f543d0, CLOUDID:a7f1be296293f0ea6ea28dab44b48c3f,
- BulkI
- D:240429110502VVCX1UY7,BulkQuantity:1,Recheck:0,SF:19|44|66|38|25|17|102,T
- C:nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,QS:nil,BEC:nil,C
- OL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR
-X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B,
- HR_CTT_MISS
- HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_LANG
- HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN
- HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME, DN_TRUSTED
- SRC_TRUSTED, SA_EXISTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
- DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
- GTI_RG_INFO, GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI
- AMN_C_BU, ABX_MISS_RDNS
-X-UUID: 2f3460e40c2311ef9305a59a3cc225df-20240507
-X-User: liweishi@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw.kylinos.cn
- (envelope-from <liweishi@kylinos.cn>) (Generic MTA)
- with ESMTP id 953568615; Tue, 07 May 2024 11:37:52 +0800
-From: Weishi Li <liweishi@kylinos.cn>
-To: airlied@redhat.com, kraxel@redhat.com, gurchetansingh@chromium.org,
- olvaffe@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, liweishi@kylinos.cn
-Subject: [PATCH] [PATCH RESEND] drm/virtio: fix memory leak of vbuf
-Date: Tue,  7 May 2024 11:38:14 +0800
-Message-Id: <20240507033814.57906-1-liweishi@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from sonic306-22.consmr.mail.ne1.yahoo.com
+ (sonic306-22.consmr.mail.ne1.yahoo.com [66.163.189.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14ACC10ED16
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 04:20:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1715055623; bh=yBd5iJJkhGCtWrRHHUh2Cy7RfSiIGU4wuvSAFtG2uYg=;
+ h=Date:From:To:Subject:References:From:Subject:Reply-To;
+ b=fdxIWxkC9DKL2A8k+SwzyW+WvETTiI0M41Q0nN/zugR2eo5dnrxeXD/ueykYRXgJQiHoyNjmhHWoaZ4D+X8pz3qSA5nFGfGWrw6+dETkEs9M9sZpNh3GRz7SIRqzzjTWjOgd8LUFUpbkZu9v2tWY6tTsY7vsnC7xczhOxBMtmiZpF8U6MlW0B7i4cg0NcIqh+vYOtbO2VwYEhXJYtbF6U3QffoXyE+N/I45uJvhfVXUBBsCCLUXPfIwZEMzI7VH7tQ5vfYGxz/rJmM7TAEHZgEklGhlvYYptNO5YqLLK87G/r2Pq8bFs9pvzRdTL/YpaQ7MCLsdXQoEFLy5+uV+DzQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1715055623; bh=9bazwOmnXQMosmZhC0nI7UqxY1qvbKFBdZB+wLLJbBA=;
+ h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
+ b=HXv+SO2cOQCq7vNs1MlXC9vDVIyvQuFscQSEzbQLjSr89ucplZOJPM/q3U8jcitWQ872eJwkvGDAzWwXk+2IVS+bGZrfiVsaL/7+M/tj8FxHn1j9BmxeY8Xq/Qa45D4RsHZawG0IR/uG8HKkSaKvncfnu6m3xDHBDcr/2C8Y6ie/f/geYQoyjquKv4GG4hM8P0vsZWSHPY0gO58cG9VSUnbM7Aml495EjgB374VsWynExhJNSaZJN8oq9fwifyXugo/2r8bQ9KC+qa1FgP3ZkosTgfM/Ur8yAMYPOp0cNYeQk4CRyjDLqfSaPWTZR6+HpHB62YZ0YCyl1W5trnCm7A==
+X-YMail-OSG: twiscKMVM1m7dUmQ9FUKnkYtR7D_os1WXueeBU2EZbGlzma1rND7t_VXk7m.Kw6
+ Lq3kVUPADUDEfl6ZyvZDAr4O9LvpAFJelVq9V9ggg45rYwM3lmq6cPQV1adFBmOC3NjUMeVC8WbN
+ ur5b7W3u6UsWtIfo_AQAl2XZtmS2R67wrc8H0mrxoSzDUDsvDGy96H47zWY4PHykv6X3fV136kXn
+ Hcz2Ce5daWioqe8kzgKctXgGxEI6JHuXQj2ZUxHXYDqCZ_APeCpH89ieg5zJEMj1er0Xd02buwhY
+ ZqKsfLsFroueBwCsicBz4h9gXQ6hCbgsyMfWtQo.LTQ21r3S5BvsioIME_CXqxy68YtNyOc8OWXp
+ VKNHPs1e9C3iL6E.mBcLxLEM7di3B0eLbT2WHKUfYE8QGISdjwlJCA408NSKhBo1MeAFd_s0pV4q
+ MO.2qtpC9CelljZnYiwfGuRoz5zCsEqL.2tMmP3gcTUGuSXC3W73nPIYUgUI9yOpCyRRO8Vb6esT
+ 2rPjcUvetXGuq3gN7Q9YQRtVg29hQWvOq7UUjurShm__GddfgXfBhr06tjoCh8Aj_r2iA5t.8wM7
+ PWBTy99hx0C7DX47MMJz6mQmVGdiSRzmgbpkYBqn8bn9g1ZW9SAMBLffBWJaG5g2LIdu90ySXMrU
+ JXunFAEKyK8bt6P_D8ztX8dSlbeTThu4HDcH3FVgJp1qa7TEsIWsupYMRS8MQwiNLTLeAkXCTd3g
+ 6lwjn.y7vq9vCNjdZEDkj.LzcFlsEKeIddS.nXt0M2WA1pCprBWyyqI3foQVEqDNfsuQYVldIA3D
+ mNIaT9EcwKG_w95hHTQS_Sv_EBbxmYBW6RsJlylAC_FlsQHFM4naddCdISsymapPlk.qof8gzVfD
+ k2V737Z2PskCTrCarscZFjMEwD9FEKI6TTVMcbA6xWy6Tt.DKm8lstjKiKWjk_VuHC3ExGZL.QV5
+ HWlFc.mWIJjeMPK4ZJIlEHsB4itfUl14.BIOGvs.x3STyrydWXhy4aYQSpa7kmJfteQ7JF3QOudd
+ eW2VEIjgTjq68v5NEvsqP3x6UnKDxYOsBPDQGfx1cF7q6qBRaGXvLn24IHL7340BFSQchj6h7jA0
+ HNIPDEoh5zfixKotbABPiKCi262FF34.XSA3Hwna0UWuK8iRLqQ3L8o3rss9kYVBdG1bYrq8ZBJD
+ c5kkwE7SPmvBgU2EmsO4O1UthYTLowof9pGd1o9ucDLi7x2Un_G8Qhyv9r0aHdUQhNElNzwo._Gq
+ YMY.sMxIfS40ec5V2rovMhxiSAYKPYe3.o7kNrm9x9Gl1jC8NNPhdsk43QjgmME8aL9qzPti6Hw8
+ aHZ2Zp0VYUeW82YbUd3B52hIc31jbOwu9DqtB7BGYaYewZZmgRFfJzSLCBRhi58IiiHjX07v7mPC
+ O.Z4Bi2hwGwY.ib6gqJNaBQjmAo3F3..vyU5oooxIbpizR8Kw_rv3cERtbiEDGBAX9spReKEjNs1
+ nMIvIkDtwybkiWOMZWyyQFQWKgpGJ3tVEvXsNJ9RyzEmxCbLscpoxOj69yXLUxRJhNWqgQqUl_8Q
+ H8x0qobmAOWG7nOK5m.wav7th_cUjbCJB4xLGRSITSp48hAHpiysich4utTuh6DXe7ym2s0XUng4
+ znUNfJVX.6CLCzf9VzQe8n1zUbOE8WOPKrhTDfQz3s5wDUP4lwDTAmVxlj1F1C9mvm_W_z8Ug5vv
+ POJfyM52fMOaFJZ3b1qdH2dC1Kvdt.i19igCx6VgRuJDfZUBGr.eeJJaIlJXrw74rMuHKYaVadTM
+ tWKZFtA8I5_XxC9Qi02X5xDmV1J4owAISJvUxqCJkJtM7Ssn1vyRE1HbKoBJboh8IMeWqX2c_PSI
+ .x3hfrDOvvxG3uv7H3H_u6Yon6hXl1KfGEnGgu7JrKt_7QcyCuzEiUnHuaOrew8t_yco6Rh_ryfo
+ HSHhXbGITo3sD0cfYVE3iI2M8kZbTXjMi7FJflOK_3y3mpBwdnjeyxxNrrLldlN17Nbkdaggn1MS
+ CKwERrCssQP4HMuL9UFZAohiTP6izjxXCdLZ4RTIYti2_pF.On5EwQ2sQmR5MlGz7x.8RaRS.50G
+ TvqTM92krChUkRVhYDmR1DAIX0PJgjfImvZX7qsVhdxYsOeF9cddVwJRQPrC7JXzZe9.fG.dh_Qg
+ PHipYLDEDK2LVgx4oKjS2.ZWZgBG80WPg7EkujMs5VE1.a7eujIj0oInv1f0JXb2gwLgbBDZ5nHr
+ ZwmwJ5nm_KHMqvwosqez1Kl2VS4wlUHqzHr8RxtexAD4AjaRZnRd0l.5BZv83xQfqCEMJuPq9f14
+ -
+X-Sonic-MF: <ashokemailat@yahoo.com>
+X-Sonic-ID: 10a2b099-89fc-4124-bf07-605818fdfc44
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic306.consmr.mail.ne1.yahoo.com with HTTP; Tue, 7 May 2024 04:20:23 +0000
+Received: by hermes--production-bf1-5cc9fc94c8-qql8s (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 88b0ea99ab69fea61943fcb9ca83817a; 
+ Tue, 07 May 2024 04:20:20 +0000 (UTC)
+Date: Mon, 6 May 2024 21:20:17 -0700
+From: Ashok Kumar <ashokemailat@yahoo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev
+Subject: [RFC] CamelCase can it be fixed per Checkpatch.pl script
+Message-ID: <ZjmsAVlZmA5sje/Y@c>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename=mtxt
+References: <ZjmsAVlZmA5sje/Y.ref@c>
+X-Mailer: WebService/1.1.22256
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,54 +92,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both virtio_gpu_queue_ctrl_buffer and virtio_gpu_queue_cursor use
-virtqueue_add_sgs to upload the structure virtio_gpu_vbuffer * vbuf
-to virtqueue. However, when the vbuf fails to upload and virtqueue_add_sgs
-returns -EIO or -ENOMEM, the vbuf will not be able to be free by
-virtio_gpu_dequeue_*_func, resulting in a continuous increase
-in memory allocated to vgdev ->vbufs.
+Found some files in Staging Drivers for which checkpatch.pl throws a CHECK to
++remove CamelCase.
 
-Therefore, make virtio_gpu_queue_ctrl_sgs and virtio_gpu_queue_cursor
-free vbuf directly after virtqueue_add_sgs returns -EIO or -ENOMEM.
+For instance in program vt6655/card.c find the usage of CamelCase as
+i) Variable names eg: &priv->apTD0Rings[0]
+ii) Function names eg: void CARDvSafeResetRx(
 
-Signed-off-by: Weishi Li <liweishi@kylinos.cn>
----
- drivers/gpu/drm/virtio/virtgpu_vq.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Note: some of the functions are
++static functions
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index b1a00c0c25a7..e90751cc97f2 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -356,12 +356,14 @@ static int virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
- 
- 	ret = virtqueue_add_sgs(vq, sgs, outcnt, incnt, vbuf, GFP_ATOMIC);
- 	WARN_ON(ret);
-+	if (ret < 0 && ret != -ENOSPC) {
-+		free_vbuf(vgdev, vbuf);
-+	} else {
-+		vbuf->seqno = ++vgdev->ctrlq.seqno;
-+		trace_virtio_gpu_cmd_queue(vq, virtio_gpu_vbuf_ctrl_hdr(vbuf), vbuf->seqno);
- 
--	vbuf->seqno = ++vgdev->ctrlq.seqno;
--	trace_virtio_gpu_cmd_queue(vq, virtio_gpu_vbuf_ctrl_hdr(vbuf), vbuf->seqno);
--
--	atomic_inc(&vgdev->pending_commands);
--
-+		atomic_inc(&vgdev->pending_commands);
-+	}
- 	spin_unlock(&vgdev->ctrlq.qlock);
- 
- 	drm_dev_exit(idx);
-@@ -469,6 +471,8 @@ static void virtio_gpu_queue_cursor(struct virtio_gpu_device *vgdev,
- 		wait_event(vgdev->cursorq.ack_queue, vq->num_free >= outcnt);
- 		spin_lock(&vgdev->cursorq.qlock);
- 		goto retry;
-+	} else if (ret < 0) {
-+		free_vbuf(vgdev, vbuf);
- 	} else {
- 		vbuf->seqno = ++vgdev->cursorq.seqno;
- 		trace_virtio_gpu_cmd_queue(vq,
--- 
-2.25.1
+Reviewed lore and seems in some instances removing CamelCase was allowed and in
++some case removing them was disallowed.
+
+Hence wanted comments if we should change them or not.
+
+Thanks
+Ashok
 
