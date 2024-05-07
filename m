@@ -2,102 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A715A8BE099
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 13:03:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4ABF8BE0A2
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 13:06:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0202010F19C;
-	Tue,  7 May 2024 11:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87EA010F4B2;
+	Tue,  7 May 2024 11:05:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="i39Rl/qA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iNHtiz8n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3972B10F19C
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 11:03:00 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-34aa836b948so711588f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 04:03:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1715079778; x=1715684578; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=BGTjyA9KJ+ZN6kFiIcuqLZ6W/XXJNW0jRsNPu94ZivE=;
- b=i39Rl/qAcJX9mcud/nXq2ltET5cNkWvnYwoK95A3/9dHbvN8u8Yg8FreIxRNMfxszr
- fHxJbSsrpTy5X0IWwAkVf7P0qA2tgIpPLwDl9yokWNu7oV1OKNBlZ1PrwVO6/cHcsIGQ
- M7IIwgUHeoue4mGVAXzIgY2mfBki+FNkjtfYw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715079778; x=1715684578;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BGTjyA9KJ+ZN6kFiIcuqLZ6W/XXJNW0jRsNPu94ZivE=;
- b=TfNBZoLcjfJ24amZL20wpxMz4K+H+TkENmzbP+RZt6P8zJOQpzIGrNfcxD+0y0Ypw8
- xp1d9d+d7NVrIHZf+X7teeOqPL2PaCPwC39eZOtAUxGcVQKBBC000s5s/NiIB5C867hK
- MvbLxXoPRKp0i0s/+P5ii1zRoOgVeKpy6Co4gzxV2GiQEBJxPb0ApF7j4rLodr0x3Ayn
- jvCJ9nBTNdLzktnyrUg6arM2LMiDQi/UXSn8IgE5ugflV2f5tqxy9mVI3P1DgGvcN10E
- T8aySM59c5ymiCieMRHonnpZrIut/AzAXKCHqVdd3xL9xV0CPkwQDHY6Er+JqtEE/+Nm
- ZlLQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUpqacokc+B6YUR/SCqKCVz3VZYQZTJNl0o9ZNvZUZoarbsj0LD8bHPqskdeYFJhrhRUwDgq6jf2eMfcp/O5YTnhlBECNg5tewPACSo+oY+
-X-Gm-Message-State: AOJu0Yxh86UjCdGVMUBZoPczUyjEADUuB/UORmWbscNL4mhpZCYqioKi
- m7gT/uEG/Yu+Zd7HfbpYXDJaIMbpv76VIxWxFnf7V0YK0P66r0alVielIQEHXGw=
-X-Google-Smtp-Source: AGHT+IEX2EtqX8oJOpcirgNGAupSfQht9uZGGyEeDzOIFWWprFx1SmPXUeMAhFXKNaku4P+OQUC4Bg==
-X-Received: by 2002:a5d:6409:0:b0:34d:b76c:cff7 with SMTP id
- z9-20020a5d6409000000b0034db76ccff7mr8695492wru.3.1715079778329; 
- Tue, 07 May 2024 04:02:58 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- t3-20020a05600001c300b0034df7313bf1sm12829804wrx.0.2024.05.07.04.02.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 May 2024 04:02:57 -0700 (PDT)
-Date: Tue, 7 May 2024 13:02:55 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Christian Brauner <brauner@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org,
- axboe@kernel.dk, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
- jack@suse.cz, laura@labbott.name, linaro-mm-sig@lists.linaro.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, minhquangbui99@gmail.com,
- sumit.semwal@linaro.org,
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better
- about file lifetimes
-Message-ID: <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, 
- Linus Torvalds <torvalds@linux-foundation.org>,
- Christian Brauner <brauner@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org,
- axboe@kernel.dk, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
- jack@suse.cz, laura@labbott.name, linaro-mm-sig@lists.linaro.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, minhquangbui99@gmail.com,
- sumit.semwal@linaro.org,
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF0A10F498;
+ Tue,  7 May 2024 11:05:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715079955; x=1746615955;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=qsiykdfT6HGbR0ILtz1HnDdybhnkI6RfpUXlO9B3Wak=;
+ b=iNHtiz8noH76lGywmvHPsdKh3vMTMi5KcdaX3ifyjt5FHjjoN6tFgtw7
+ 2IOEa4pixPWDCfD8oIuOjgLVo92O3mehkxRfd3s2HelZyEIvXdShbCofB
+ 8384pkY2iLO37l6g4Xk5uoPAMvz6jDvh9hkkH5WgqDLsIltod9NM5UEcW
+ nbwzZta+tQ7x9veA4TdYXe4ZEh7aXLrlekaW55hgp6+X+c4yrWhSABdyg
+ LEeVfRch1Kxj61ibJYVtqAWV63g4qNP1GfMvP4x48htnleaGyr2fSpwo7
+ oTcRgCY83WAFUeNCurYrn4wXMfsZufsPfrXqimNxE2rqYlh4R2LVqfL4U g==;
+X-CSE-ConnectionGUID: O0qeuS59RyOHS4nci11XIw==
+X-CSE-MsgGUID: cJ/9JGmfQPOHXXe/ohvsEw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="11406458"
+X-IronPort-AV: E=Sophos;i="6.07,261,1708416000"; d="scan'208";a="11406458"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2024 04:05:54 -0700
+X-CSE-ConnectionGUID: 365tfxiDTwaI0bkDHm+j9A==
+X-CSE-MsgGUID: cCnkjgeJSdact9Hn5hHLhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,261,1708416000"; d="scan'208";a="28458630"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 07 May 2024 04:05:49 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 07 May 2024 14:05:48 +0300
+Date: Tue, 7 May 2024 14:05:48 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ Jani Nikula <jani.nikula@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v2] drivers/i915/intel_bios: Fix parsing backlight BDB data
+Message-ID: <ZjoLDJJdfZKKcBFt@intel.com>
+References: <20240221180622.v2.1.I0690aa3e96a83a43b3fc33f50395d334b2981826@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
-X-Operating-System: Linux phenom 6.6.15-amd64 
+In-Reply-To: <20240221180622.v2.1.I0690aa3e96a83a43b3fc33f50395d334b2981826@changeid>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,79 +78,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 06, 2024 at 04:29:44PM +0200, Christian König wrote:
-> Am 04.05.24 um 20:20 schrieb Linus Torvalds:
-> > On Sat, 4 May 2024 at 08:32, Linus Torvalds
-> > <torvalds@linux-foundation.org> wrote:
-> > > Lookie here, the fundamental issue is that epoll can call '->poll()'
-> > > on a file descriptor that is being closed concurrently.
-> > Thinking some more about this, and replying to myself...
-> > 
-> > Actually, I wonder if we could *really* fix this by simply moving the
-> > eventpoll_release() to where it really belongs.
-> > 
-> > If we did it in file_close_fd_locked(),  it would actually make a
-> > *lot* more sense. Particularly since eventpoll actually uses this:
-> > 
-> >      struct epoll_filefd {
-> >          struct file *file;
-> >          int fd;
-> >      } __packed;
-> > 
-> > ie it doesn't just use the 'struct file *', it uses the 'fd' itself
-> > (for ep_find()).
-> > 
-> > (Strictly speaking, it should also have a pointer to the 'struct
-> > files_struct' to make the 'int fd' be meaningful).
+On Wed, Feb 21, 2024 at 06:06:24PM -0700, Karthikeyan Ramasubramanian wrote:
+> Starting BDB version 239, hdr_dpcd_refresh_timeout is introduced to
+> backlight BDB data. Commit 700034566d68 ("drm/i915/bios: Define more BDB
+> contents") updated the backlight BDB data accordingly. This broke the
+> parsing of backlight BDB data in VBT for versions 236 - 238 (both
+> inclusive) and hence the backlight controls are not responding on units
+> with the concerned BDB version.
 > 
-> While I completely agree on this I unfortunately have to ruin the idea.
+> backlight_control information has been present in backlight BDB data
+> from at least BDB version 191 onwards, if not before. Hence this patch
+> extracts the backlight_control information for BDB version 191 or newer.
+> Tested on Chromebooks using Jasperlake SoC (reports bdb->version = 236).
+> Tested on Chromebooks using Raptorlake SoC (reports bdb->version = 251).
 > 
-> Before we had KCMP some people relied on the strange behavior of eventpoll
-> to compare struct files when the fd is the same.
+> Fixes: 700034566d68 ("drm/i915/bios: Define more BDB contents")
+> Cc: stable@vger.kernel.org
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@chromium.org>
+> ---
 > 
-> I just recently suggested that solution to somebody at AMD as a workaround
-> when KCMP is disabled because of security hardening and I'm pretty sure I've
-> seen it somewhere else as well.
-> 
-> So when we change that it would break (undocumented?) UAPI behavior.
+> Changes in v2:
+> - removed checking the block size of the backlight BDB data
 
-Uh extremely aside, but doesn't this mean we should just enable kcmp on
-files unconditionally, since there's an alternative? Or a least everywhere
-CONFIG_EPOLL is enabled?
-
-It's really annoying that on some distros/builds we don't have that, and
-for gpu driver stack reasons we _really_ need to know whether a fd is the
-same as another, due to some messy uniqueness requirements on buffer
-objects various drivers have.
--Sima
+I fixed up the formatting of the commit message a bit,
+added a note indicating why it's ok to remove the size
+checks, and pushed to drm-intel-next. Thanks.
 
 > 
-> Regards,
-> Christian.
+>  drivers/gpu/drm/i915/display/intel_bios.c     | 19 ++++---------------
+>  drivers/gpu/drm/i915/display/intel_vbt_defs.h |  5 -----
+>  2 files changed, 4 insertions(+), 20 deletions(-)
 > 
-> > 
-> > IOW, eventpoll already considers the file _descriptor_ relevant, not
-> > just the file pointer, and that's destroyed at *close* time, not at
-> > 'fput()' time.
-> > 
-> > Yeah, yeah, the locking situation in file_close_fd_locked() is a bit
-> > inconvenient, but if we can solve that, it would solve the problem in
-> > a fundamentally different way: remove the ep iterm before the
-> > file->f_count has actually been decremented, so the whole "race with
-> > fput()" would just go away entirely.
-> > 
-> > I dunno. I think that would be the right thing to do, but I wouldn't
-> > be surprised if some disgusting eventpoll user then might depend on
-> > the current situation where the eventpoll thing stays around even
-> > after the close() if you have another copy of the file open.
-> > 
-> >               Linus
-> > _______________________________________________
-> > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> > To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
-> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
+> index aa169b0055e97..8c1eb05fe77d2 100644
+> --- a/drivers/gpu/drm/i915/display/intel_bios.c
+> +++ b/drivers/gpu/drm/i915/display/intel_bios.c
+> @@ -1042,22 +1042,11 @@ parse_lfp_backlight(struct drm_i915_private *i915,
+>  	panel->vbt.backlight.type = INTEL_BACKLIGHT_DISPLAY_DDI;
+>  	panel->vbt.backlight.controller = 0;
+>  	if (i915->display.vbt.version >= 191) {
+> -		size_t exp_size;
+> +		const struct lfp_backlight_control_method *method;
+>  
+> -		if (i915->display.vbt.version >= 236)
+> -			exp_size = sizeof(struct bdb_lfp_backlight_data);
+> -		else if (i915->display.vbt.version >= 234)
+> -			exp_size = EXP_BDB_LFP_BL_DATA_SIZE_REV_234;
+> -		else
+> -			exp_size = EXP_BDB_LFP_BL_DATA_SIZE_REV_191;
+> -
+> -		if (get_blocksize(backlight_data) >= exp_size) {
+> -			const struct lfp_backlight_control_method *method;
+> -
+> -			method = &backlight_data->backlight_control[panel_type];
+> -			panel->vbt.backlight.type = method->type;
+> -			panel->vbt.backlight.controller = method->controller;
+> -		}
+> +		method = &backlight_data->backlight_control[panel_type];
+> +		panel->vbt.backlight.type = method->type;
+> +		panel->vbt.backlight.controller = method->controller;
+>  	}
+>  
+>  	panel->vbt.backlight.pwm_freq_hz = entry->pwm_freq_hz;
+> diff --git a/drivers/gpu/drm/i915/display/intel_vbt_defs.h b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> index a9f44abfc9fc2..b50cd0dcabda9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> +++ b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> @@ -897,11 +897,6 @@ struct lfp_brightness_level {
+>  	u16 reserved;
+>  } __packed;
+>  
+> -#define EXP_BDB_LFP_BL_DATA_SIZE_REV_191 \
+> -	offsetof(struct bdb_lfp_backlight_data, brightness_level)
+> -#define EXP_BDB_LFP_BL_DATA_SIZE_REV_234 \
+> -	offsetof(struct bdb_lfp_backlight_data, brightness_precision_bits)
+> -
+>  struct bdb_lfp_backlight_data {
+>  	u8 entry_size;
+>  	struct lfp_backlight_data_entry data[16];
+> -- 
+> 2.44.0.rc0.258.g7320e95886-goog
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ville Syrjälä
+Intel
