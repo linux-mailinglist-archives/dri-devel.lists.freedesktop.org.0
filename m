@@ -2,59 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711E18BE6ED
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 17:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39478BE6FF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 17:09:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEAD910FF6D;
-	Tue,  7 May 2024 15:06:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96ED0112085;
+	Tue,  7 May 2024 15:09:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b2/T+o14";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LHkLJanU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B95510FF6D
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 15:06:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CABA1CE139C
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 15:06:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0883FC4AF18
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 15:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715094377;
- bh=FIKFA7yIDY3Vv6kykK6nyLmumWnwZ12blZs7LHr+8Z4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=b2/T+o14zTAEW+5MF6mjbhsqGITAGsVF03MUTq9tJ2OGdYRqX1S2+FtoLbOEWlt7b
- N/q1ZkjSdzf0ZuZSETSFmfMzIsx33NvFARdMUyEgj1PE/rbHLngfYestskXxYJeSX0
- zZn7poo6qOl48jLrCnI1V/3/8eDsm561WIg3z5HzVAUHI2by7dYC6EQ0xoDjh3QQsi
- gVZRcD4ryEF+lymOQmBlRclryvK6s9F0n1hK/iH3+TqGA86nyDC/Dv7KSJ6GCzA7H8
- XcMLYpZXwGTq8C6Sf8g1jsgVXLoKA5DGqs7M9Ln6a8owc7vZT2jHi+rvoQeHAjQaUw
- qMG6X/zR6NzGw==
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-51aa6a8e49aso4450574e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 08:06:16 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8C4C112085
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 15:09:16 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2e1fa2ff499so46554911fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 08:09:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1715094555; x=1715699355; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ApmnaGazi/o+2qAXdIqqO3f0hkV/MV/lnHoUUZ1Ogfk=;
+ b=LHkLJanUJAfeovW9rXMgxy+mzhg1aV85/5h4xZUHFscIdvFQPU1S61AM2MsCdQO93q
+ I+ANSxzIGODw+TJ7MmD14iw5OQbrm0UzN65EBRVosFCP1yoUGwvSRCD2scZ1ACExUzEc
+ Vzh0G8fddx8TYwhqmt8mzcailxnsZeHW+BnN2QgRWmf6qkcZ4mjXjgFuzn7RzVPIB0CO
+ giCiGdP8T7JoSNnbMg6/TUwyepJURQ616Xz18pITmePr5FD2AIpjQWBZKucMZju7Z1Q4
+ PR75ZBWrVPQIrKK2Nx031l0vv3OONNpuGK2TWypIrTLZCeYRvli7nGGMQ4dUTfb+99LQ
+ H9xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715094555; x=1715699355;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ApmnaGazi/o+2qAXdIqqO3f0hkV/MV/lnHoUUZ1Ogfk=;
+ b=UYkk+FLpX4sjh40DpE64fUQE/vCtur62dZ769PyhgID2igb2WIBkIXBj4rBcwRpEv5
+ qT5zEYk4Zn6v6ZY49u0BNAXv7V0YveQVzOleixG4y0Ptsik4pm1rnNGLA+S3Dejn88MG
+ 0Tb2XkQTeajIu01BlizeT4JHXz1oAbjgqSM4YNTgR0gTAcKbDGMzzcIPY0ngAOEdLu5s
+ 0ZPa4XOSG51uD7PQU/s4ARisJVMZlkw7X9GZc2kfSAc/bZRtZR6tutexCUQdNjdOWarJ
+ h+c5vDyed7yD722kJGkQ9zZjoSrJgYXAIGE86VoP1BiH7HBN8eZnGerWf/oglV5Xh4kr
+ wmEw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXKZxf8L9X8OGzszK3Idmnm9wVaA0G/8T7Z2btFsOKfEshX8jUHuhYis2z/Vs27pAgGCC5H7NW3n+fWy0T4HqYPEG3peV+kfwReFoQA4scZ
-X-Gm-Message-State: AOJu0YwacxU2a8nB69yPmvNxg4DxbPFO6jqoOl7JTLhFcv+RKINPNpu0
- Ol4HuGaMdEEX5ihglP9IfR3gIFPiDTm6B1DvtZbRhyVQECORzETH0TZR0VTvfQY+rbpTUFKnacj
- 5AzUcuUWPRzYiL9HPXytJZRGoIIQ=
-X-Google-Smtp-Source: AGHT+IGi2Ze1cU8iTauu91g9xmtR9VwCxj74pDrEPxd34mYdxqnK8o9fiXwYyBTuoDsfyFtVLR1v0FFtMiKWONWyozk=
-X-Received: by 2002:a05:6512:25a:b0:51f:1e8e:f7d5 with SMTP id
- b26-20020a056512025a00b0051f1e8ef7d5mr8209879lfo.35.1715094375772; Tue, 07
- May 2024 08:06:15 -0700 (PDT)
+ AJvYcCWqBpAtStA3HS1ZAmsbQCKv6wPku97ILdPw5shAO0kvJGRntihFZ9cxsXe8kXwn8hEtAN+cndpfgs/GNvZsPtpWZJ2rq1JiyopHv8HKY9mT
+X-Gm-Message-State: AOJu0Ywl6/fVhXjL9wYQTdBESGP9aL6E1o6OD/TTLEPeJsjR6O3ccHNG
+ mTG96qPqp4hxQU1XmmJpnwP3XAvxn2NAavBZFus5WSwDCKEhRWV6AfVco3XnfwI=
+X-Google-Smtp-Source: AGHT+IFpsJSfGLwS1hXqc0H0trd4MGTiP4vo11gPFrTKC7JHOIUnEb9JodJJuvbqXdQX62FwbtE9XA==
+X-Received: by 2002:a2e:9598:0:b0:2e2:3761:2ef5 with SMTP id
+ 38308e7fff4ca-2e3d956847dmr9646361fa.14.1715094554850; 
+ Tue, 07 May 2024 08:09:14 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ r16-20020a2e8e30000000b002e35b79a00bsm935940ljk.124.2024.05.07.08.09.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 May 2024 08:09:14 -0700 (PDT)
+Date: Tue, 7 May 2024 18:09:13 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Lennart Poettering <mzxreary@0pointer.de>, 
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>, 
+ Linux Media Mailing List <linux-media@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Milan Zamazal <mzamazal@redhat.com>, Maxime Ripard <mripard@redhat.com>, 
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+Message-ID: <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
+References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
+ <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
+ <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
 MIME-Version: 1.0
-References: <CAG-UpRQ5Dp4sO2CBTiOpBtjZoRj4U2rNxAwSbari+VcqvayuSQ@mail.gmail.com>
-In-Reply-To: <CAG-UpRQ5Dp4sO2CBTiOpBtjZoRj4U2rNxAwSbari+VcqvayuSQ@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 8 May 2024 00:05:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASSrB_L7VbS1z3O6QuMf0nti1hGJVwip7RRF_-=jn2OHw@mail.gmail.com>
-Message-ID: <CAK7LNASSrB_L7VbS1z3O6QuMf0nti1hGJVwip7RRF_-=jn2OHw@mail.gmail.com>
-Subject: Re: A link error related to DRM and fbdev
-To: Henry Wu <triangletrap12@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: linux-kbuild@vger.kernel.org, gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,36 +99,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fw: DRM list
+On Tue, May 07, 2024 at 04:34:24PM +0200, Hans de Goede wrote:
+> Hi Dmitry,
+> 
+> On 5/7/24 3:32 PM, Dmitry Baryshkov wrote:
+> > On Mon, May 06, 2024 at 01:49:17PM +0200, Hans de Goede wrote:
+> >> Hi dma-buf maintainers, et.al.,
+> >>
+> >> Various people have been working on making complex/MIPI cameras work OOTB
+> >> with mainline Linux kernels and an opensource userspace stack.
+> >>
+> >> The generic solution adds a software ISP (for Debayering and 3A) to
+> >> libcamera. Libcamera's API guarantees that buffers handed to applications
+> >> using it are dma-bufs so that these can be passed to e.g. a video encoder.
+> >>
+> >> In order to meet this API guarantee the libcamera software ISP allocates
+> >> dma-bufs from userspace through one of the /dev/dma_heap/* heaps. For
+> >> the Fedora COPR repo for the PoC of this:
+> >> https://hansdegoede.dreamwidth.org/28153.html
+> > 
+> > Is there any reason for allocating DMA buffers for libcamera through
+> > /dev/dma_heap/ rather than allocating them via corresponding media
+> > device and then giving them away to DRM / VPU / etc?
+> > 
+> > At least this should solve the permission usecase: if the app can open
+> > camera device, it can allocate a buffer.
+> 
+> This is with a software ISP, the input buffers with raw bayer data
+> come from a v4l2 device, but the output buffers with the processed
+> data are purely userspace managed in this case.
 
-On Mon, May 6, 2024 at 2:53=E2=80=AFPM Henry Wu <triangletrap12@gmail.com> =
-wrote:
->
-> Hi, all.
->
-> I found a link error related to DRM and fbdev on branch linux-5.15.y
-> (tag v5.15.157). It has same phenomenon with
-> https://lore.kernel.org/all/202303150232.MBonYhiv-lkp@intel.com/.
->
-> I tried to investigate this issue and found that build will fail if
-> CONFIG_FB=3Dm and it will succeed if CONFIG_FB=3Dy.
->
-> [user@localhost linux]$ cat .config | grep
-> 'CONFIG_DRM_KMS\|CONFIG_FB\b\|FBDEV_EMUL'
-> CONFIG_DRM_KMS_HELPER=3Dy
-> CONFIG_DRM_FBDEV_EMULATION=3Dy
-> CONFIG_FB=3Dm
-> [user@localhost linux]$
->
-> I'm not familiar with kbuild. Can anyone troubleshoot it further? You
-> can find .config from attachment.
+Ah, I see. Then why do you require the DMA-ble buffer at all? If you are
+providing data to VPU or DRM, then you should be able to get the buffer
+from the data-consuming device. If the data is further processed by
+a userspace app, then it should not require DMA memory at all.
 
+My main concern is that dma-heaps is both too generic and too limiting
+for the generic library implementation.
 
-I do not have time to take a look at every build error,
-but somebody in the DRM list may help you.
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+With best wishes
+Dmitry
