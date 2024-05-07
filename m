@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344728BEFEA
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 00:44:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C780A8BEFE8
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 00:44:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5AED11284C;
-	Tue,  7 May 2024 22:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 420051126EA;
+	Tue,  7 May 2024 22:44:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zia/GDyF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Uxj4USRQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2171126E2;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A83C1126E0;
  Tue,  7 May 2024 22:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1715121861; x=1746657861;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=XBr0GQdnzId1kD+NH7fhmsHICfauMWGuVkV63TSE9C0=;
- b=Zia/GDyF15uZVOvr6l6sLhjlHvhvAjxFbejXX25q2bV88AK760aMUG7t
- Ym3jaZX13AR8rPV8WdjiypIsUqc0v2jI492LH4NDwZp+SyYmB0twv2EyX
- U3vHq8ry9APhq2p6MZnh55+rt7oqfUxu4xyG61fBDUU15HiU//2VxkdDP
- 6hK25G1nQ84X7bGfnZVUA383lJGts+HNIqN797YmPIBfp9PhLPShXU9/X
- 8K84djIwd72bthr2yoTRHu1EPID4OelSu2iSppzbBj73OEGwD9vleL62e
- wx/GGTC7J9Tzjx0T7Ceh/7Bbp3HWKhOvzqmOn1L3CxVDXuJXuBjjqvYuZ Q==;
-X-CSE-ConnectionGUID: 6+QHdLA7SUSA/k2dlUWGvw==
-X-CSE-MsgGUID: qIGYE7IfTJ6qNTjwSXoNOA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="11108489"
-X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; d="scan'208";a="11108489"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=DmUA2h/AYvyS1Rhm7e9Y8lTqQWDErqUG/Jbau8Lf1u8=;
+ b=Uxj4USRQXEjKTtNqOeB08xpmcAQEXoNQW8y0EfQMxmcW+bNIjP3g7cxr
+ 4J9HwAkcAh7yDU1YVKQKaxV7u1W7EZ315taJd5ZVICyUqGbiZzePimhHg
+ FLi74u+M6G3LgUOJ6O8tbsPkLBy/Bp3eA3vkm9wlnmLSWgb5Vwm+vYODA
+ VOX8+OZYyKexaiDGsFqtxKVQ20BlCm1CwVzXkv+q9UvppznCe4HfZMdu4
+ 5cOHxZWrvmVsJewOH/lwsXZ0cEm503Gjdrjyohdt5w6sjlUG+a8u45Uk+
+ RuhnRQ63ubeEyOXyfRELYZh+dvPSF78Te7NEc82Qa8YAJSyPt+Crn7WcQ Q==;
+X-CSE-ConnectionGUID: IISsVdi+QNKqYjARFQTT6Q==
+X-CSE-MsgGUID: 4G0OhFLeS2GPZ4G9lCFLdA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="11108492"
+X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; d="scan'208";a="11108492"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 May 2024 15:44:20 -0700
-X-CSE-ConnectionGUID: sn0N+AaIT9Wv+94Dox3nDw==
-X-CSE-MsgGUID: JlKsqrcFRd6QgYmASDieNQ==
+X-CSE-ConnectionGUID: lRc9pZhgSfWr59U1QB+DoQ==
+X-CSE-MsgGUID: zmjwI7elRzG6erCflmFYrA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; d="scan'208";a="29231494"
+X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; d="scan'208";a="29231497"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 May 2024 15:44:20 -0700
@@ -45,11 +45,15 @@ From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: <intel-xe@lists.freedesktop.org>
 Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
  Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- dri-devel@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH v3 0/6] drm/xe: Per client usage
-Date: Tue,  7 May 2024 15:45:04 -0700
-Message-ID: <20240507224510.442971-1-lucas.demarchi@intel.com>
+ dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, Oak Zeng <oak.zeng@intel.com>
+Subject: [PATCH v3 1/6] drm/xe: Promote xe_hw_engine_class_to_str()
+Date: Tue,  7 May 2024 15:45:05 -0700
+Message-ID: <20240507224510.442971-2-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240507224510.442971-1-lucas.demarchi@intel.com>
+References: <20240507224510.442971-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,79 +71,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add per-client usage statistics to xe. This ports xe to use the common
-method in drm to export the usage to userspace per client (where 1
-client == 1 drm fd open).
+Move it out of the sysfs compilation unit so it can be re-used in other
+places.
 
-However instead of using the current format measured in nsec, this
-creates a new one. The intention here is not to mix the GPU clock domain
-with the CPU clock. It allows to cover a few more use cases without
-extra complications.
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+Reviewed-by: Oak Zeng <oak.zeng@intel.com>
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ drivers/gpu/drm/xe/xe_hw_engine.c             | 18 ++++++++++++++++++
+ drivers/gpu/drm/xe/xe_hw_engine.h             |  2 ++
+ drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c | 18 ------------------
+ 3 files changed, 20 insertions(+), 18 deletions(-)
 
-I tested this on DG2 and also checked gputop with i915 to make sure not
-regressed. Last patch also contains the documentation for the new key
-and sample output as requested in v1. Reproducing it partially here:
-
-        - drm-total-cycles-<keystr>: <uint>
-
-        Engine identifier string must be the same as the one specified in the
-        drm-cycles-<keystr> tag and shall contain the total number cycles for the given
-        engine.
-
-        This is a timestamp in GPU unspecified unit that matches the update rate
-        of drm-cycles-<keystr>. For drivers that implement this interface, the engine
-        utilization can be calculated entirely on the GPU clock domain, without
-        considering the CPU sleep time between 2 samples.
-
-The pre-existent drm-cycles-<keystr> is used as is, which allows gputop
-to work with xe.
-
-This last patch still has some open discussion from v2, so we may need
-to hold it a little more.
-
-Test-with: 20240504064643.25863-1-lucas.demarchi@intel.com
-
-v2:
-  - Create a new drm-total-cycles instead of re-using drm-engine with a
-    different unit
-  - Add documentation for the new interface and clarify usage of
-    xe_lrc_update_timestamp()
-
-v3:
-  - Fix bugs in "drm/xe: Add helper to accumulate exec queue runtime" -
-    see commit message
-  - Reorder commits so the ones that are useful in other patch series
-    come first
-
-Lucas De Marchi (4):
-  drm/xe: Promote xe_hw_engine_class_to_str()
-  drm/xe: Add XE_ENGINE_CLASS_OTHER to str conversion
-  drm/xe: Add helper to capture engine timestamp
-  drm/xe/client: Print runtime to fdinfo
-
-Umesh Nerlige Ramappa (2):
-  drm/xe/lrc: Add helper to capture context timestamp
-  drm/xe: Add helper to accumulate exec queue runtime
-
- Documentation/gpu/drm-usage-stats.rst         |  16 ++-
- Documentation/gpu/xe/index.rst                |   1 +
- Documentation/gpu/xe/xe-drm-usage-stats.rst   |  10 ++
- drivers/gpu/drm/xe/regs/xe_lrc_layout.h       |   1 +
- drivers/gpu/drm/xe/xe_device_types.h          |   9 ++
- drivers/gpu/drm/xe/xe_drm_client.c            | 136 +++++++++++++++++-
- drivers/gpu/drm/xe/xe_exec_queue.c            |  35 +++++
- drivers/gpu/drm/xe/xe_exec_queue.h            |   1 +
- drivers/gpu/drm/xe/xe_execlist.c              |   1 +
- drivers/gpu/drm/xe/xe_guc_submit.c            |   2 +
- drivers/gpu/drm/xe/xe_hw_engine.c             |  27 ++++
- drivers/gpu/drm/xe/xe_hw_engine.h             |   3 +
- drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c |  18 ---
- drivers/gpu/drm/xe/xe_lrc.c                   |  11 ++
- drivers/gpu/drm/xe/xe_lrc.h                   |  14 ++
- drivers/gpu/drm/xe/xe_lrc_types.h             |   3 +
- 16 files changed, 267 insertions(+), 21 deletions(-)
- create mode 100644 Documentation/gpu/xe/xe-drm-usage-stats.rst
-
+diff --git a/drivers/gpu/drm/xe/xe_hw_engine.c b/drivers/gpu/drm/xe/xe_hw_engine.c
+index ec69803152a2..85712650be22 100644
+--- a/drivers/gpu/drm/xe/xe_hw_engine.c
++++ b/drivers/gpu/drm/xe/xe_hw_engine.c
+@@ -1088,3 +1088,21 @@ bool xe_hw_engine_is_reserved(struct xe_hw_engine *hwe)
+ 	return xe->info.has_usm && hwe->class == XE_ENGINE_CLASS_COPY &&
+ 		hwe->instance == gt->usm.reserved_bcs_instance;
+ }
++
++const char *xe_hw_engine_class_to_str(enum xe_engine_class class)
++{
++	switch (class) {
++	case XE_ENGINE_CLASS_RENDER:
++		return "rcs";
++	case XE_ENGINE_CLASS_VIDEO_DECODE:
++		return "vcs";
++	case XE_ENGINE_CLASS_VIDEO_ENHANCE:
++		return "vecs";
++	case XE_ENGINE_CLASS_COPY:
++		return "bcs";
++	case XE_ENGINE_CLASS_COMPUTE:
++		return "ccs";
++	default:
++		return NULL;
++	}
++}
+diff --git a/drivers/gpu/drm/xe/xe_hw_engine.h b/drivers/gpu/drm/xe/xe_hw_engine.h
+index 71968ee2f600..843de159e47c 100644
+--- a/drivers/gpu/drm/xe/xe_hw_engine.h
++++ b/drivers/gpu/drm/xe/xe_hw_engine.h
+@@ -67,4 +67,6 @@ static inline bool xe_hw_engine_is_valid(struct xe_hw_engine *hwe)
+ 	return hwe->name;
+ }
+ 
++const char *xe_hw_engine_class_to_str(enum xe_engine_class class);
++
+ #endif
+diff --git a/drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c b/drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c
+index 844ec68cbbb8..efce6c7dd2a2 100644
+--- a/drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c
++++ b/drivers/gpu/drm/xe/xe_hw_engine_class_sysfs.c
+@@ -618,24 +618,6 @@ static void hw_engine_class_sysfs_fini(struct drm_device *drm, void *arg)
+ 	kobject_put(kobj);
+ }
+ 
+-static const char *xe_hw_engine_class_to_str(enum xe_engine_class class)
+-{
+-	switch (class) {
+-	case XE_ENGINE_CLASS_RENDER:
+-		return "rcs";
+-	case XE_ENGINE_CLASS_VIDEO_DECODE:
+-		return "vcs";
+-	case XE_ENGINE_CLASS_VIDEO_ENHANCE:
+-		return "vecs";
+-	case XE_ENGINE_CLASS_COPY:
+-		return "bcs";
+-	case XE_ENGINE_CLASS_COMPUTE:
+-		return "ccs";
+-	default:
+-		return NULL;
+-	}
+-}
+-
+ /**
+  * xe_hw_engine_class_sysfs_init - Init HW engine classes on GT.
+  * @gt: Xe GT.
 -- 
 2.43.0
 
