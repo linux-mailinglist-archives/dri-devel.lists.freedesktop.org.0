@@ -2,86 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334D68BE8EE
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 18:29:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE888BE90C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 18:32:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9D011250E;
-	Tue,  7 May 2024 16:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB67C112517;
+	Tue,  7 May 2024 16:32:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="d2YlvjJ1";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="RBgbUsgt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com
- [209.85.161.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8790611250B
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 16:29:27 +0000 (UTC)
-Received: by mail-oo1-f54.google.com with SMTP id
- 006d021491bc7-5b20318a866so1709400eaf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 09:29:27 -0700 (PDT)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+ [209.85.160.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E47B112517
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 16:32:18 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id
+ d75a77b69052e-434d0a63151so15561851cf.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 09:32:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715099366; x=1715704166;
+ d=chromium.org; s=google; t=1715099536; x=1715704336;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hmBmzg39oPwlHH3+Q/yrquaQKff44gbWHvBa/1NwxMw=;
- b=d2YlvjJ1Bg8X2ncDRprjX+d6f6sU1N+FZp4mjBNQkqMxOrghMrchpHyDhdMcySERKf
- KFi0Rz+nEewSmkeewkQmH5UJGLWMXiWOOnj4TbXAJTx2qLaydWcPf6McZJAss/Tn+b7m
- nsmJxJLNTH2uVSquPq/lm3NpUY0/wUwO+aLys=
+ bh=DFavUp82x9+EKSXtviTqGgqyKSS9fBB+WIBnwLG/9Gg=;
+ b=RBgbUsgt8RzFirrjLqE5A59ZdHyZhxgLQZdl/X7jQpabqBR9yv7Da5vPvBa8UE1IVc
+ tH/w+qaG5/AxgfHKZH8xcgxdtkROwtoTfBHyA4vAuBtJWE0pj07IaOT4IE21DNTis0sr
+ NkLWkcOamq91o88Nn0Jx++CWD0NwM2r3SZCEk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715099366; x=1715704166;
+ d=1e100.net; s=20230601; t=1715099536; x=1715704336;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hmBmzg39oPwlHH3+Q/yrquaQKff44gbWHvBa/1NwxMw=;
- b=BiR6OdNhUlNI/fs/qcsOkX0zswV2Nxtgdhcgzyi1QkJ291rqmptAuKnS3SJMJZglv0
- vCF6a1VXE4UxPhwmDqwv8dSzSr778nGdAglwXjMrIOXgkfr/EwAs1hIxRRrhglOXCFCz
- PR0UDKadpCtNvtyaetrYBZSHNybzi9KAHnsOyQot2HAielxUiz4Qf8+o6W8HCBR5p7X2
- XOVZr1SOAq9S4SHW11UcusQ8UEBxIuUHpUGCLp8S9BiN4oMAZaR7JqiaHPHqdwbJqZIa
- VVwUpDa38kTxxbxC0vg/mnYYAOhmZ4l1Ai3E6JOFTuoWdw6eGcHhnpZWdJPbikHCZR5U
- 5yQQ==
+ bh=DFavUp82x9+EKSXtviTqGgqyKSS9fBB+WIBnwLG/9Gg=;
+ b=v9JoKcgj6bkFVWFJwhaD4mSz7yvH0qS5Myg7BUASh/5PIH4l4/N6g43+mcVwkt8lUm
+ QX3Pg/CTT2PCKuXxw8R937/6qP4qJ6khOP+C6VBLICeSyPetfzAk3nWME8+nuC9acT5e
+ 4taSueD2sNdcUwXpNgI0W165yazfTbCyqPRDAKS0MYJif6H6+7cLQbspyIInVk7gYnkw
+ Axp/wHRvZIU37c9NIqwC3WtTeZZzLw1beNmMMUZlWWR52YxNWXNQkio4gzcbSyDur5ra
+ B3TaxTrAGvILshErq5v2gO6+Cv73Mc1mlbALgvtRVgVVNkj7gzh7qVrBonMrMphIO5fA
+ HvIQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU+v282GqHxwahSeMA29r6FcyT4Ggp8Cqlx7oN72Qua8tb8uPKacA3ekjmlALqFc60fL/R6e9GcS8vqgOIELKERK8tMX0SPYHyNQ2hWXaD4
-X-Gm-Message-State: AOJu0Yyq0ZE66RmMziuZF+bsuqc0p5ZbOSzM7lutXwFhIxeMJc7wlfcQ
- 9nriuiZEwwKEiQWFxwx8JNs2rRbzRQYReLjcOHW0g8l362c4CUxMWzZVWU/nHj2qpYwMnbPNwi8
+ AJvYcCXRgoSBQUOvPybf32Vq471fWkcxVnqWibzdZLFXwKPVIu1vxSoBSa3/ddczgN1CeGkGsEt7GgD0jpXwzRNPJjELAf0bmif1fSADgwZf76lk
+X-Gm-Message-State: AOJu0YxNX0ypRZHmFV3dgMf7qFS6rr/H+wCzsmTN0iQr2xF3KJDPO/vj
+ gut8VdmJk1zeLzek37j2Kwalcoo5yi/32xlyIgMaRGAqgj196vFngK+BrYNMhpxnGSxvvi3duoU
  =
-X-Google-Smtp-Source: AGHT+IFPhJMxX8bOhcD2J6R+wive5+a7kLz1wKh9b13062b2CEg7UZxKZfw28AQH93xo/R7n+hj69w==
-X-Received: by 2002:a05:6358:5206:b0:192:47fd:8bf9 with SMTP id
- e5c5f4694b2df-192d2a137b7mr25428155d.3.1715099365973; 
- Tue, 07 May 2024 09:29:25 -0700 (PDT)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com.
- [209.85.160.174]) by smtp.gmail.com with ESMTPSA id
- fa10-20020a05622a4cca00b00439a1bdb6e5sm6590842qtb.17.2024.05.07.09.29.25
+X-Google-Smtp-Source: AGHT+IGZfBel5NGkfe/5IdS3yTDzQl5mPS4eeE3YLtvmLzDZenfx1OYcoyI9JJ0Eeim7iPw+akDmKw==
+X-Received: by 2002:ac8:58cd:0:b0:43c:562f:e07b with SMTP id
+ d75a77b69052e-43dbf4ea2c3mr2014901cf.7.1715099535651; 
+ Tue, 07 May 2024 09:32:15 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
+ [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
+ en15-20020a05622a540f00b004377f87147bsm6578292qtb.69.2024.05.07.09.32.14
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 May 2024 09:29:25 -0700 (PDT)
-Received: by mail-qt1-f174.google.com with SMTP id
- d75a77b69052e-43ae23431fbso1131cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 09:29:25 -0700 (PDT)
+ Tue, 07 May 2024 09:32:14 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-439b1c72676so610021cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 09:32:14 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCX4l0YJsy8aEyy43FgyxpscrL921uVUm7HCDWipPsxkVZe6YkA3537Fw69TnEK3b3Bb2coOC1zzUCXRmhrXCiQNhN9gERGN+FnABrN52QbV
-X-Received: by 2002:a05:622a:1243:b0:43d:a002:b with SMTP id
- d75a77b69052e-43da00202a4mr2608201cf.9.1715099364710; Tue, 07 May 2024
- 09:29:24 -0700 (PDT)
+ AJvYcCXmjJsunDHUjya5pEuiCo8HamN7fTexPZ0iIqoBNfOCoIfDyyY42tKO8QjkyDxWISO24t5Hr8k+c+jhRpLk6yd9iMoRtLqopTcjCJZHcAE0
+X-Received: by 2002:a05:622a:598a:b0:43a:c1cd:2f4c with SMTP id
+ d75a77b69052e-43d9835c8a0mr2999981cf.5.1715099534265; Tue, 07 May 2024
+ 09:32:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240424023010.2099949-1-yangcong5@huaqin.corp-partner.google.com>
- <20240424023010.2099949-3-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=VFk3epSxksh+n_LupTiZp=gK=LB2NESGy5iNF=5xFAmg@mail.gmail.com>
- <CAHwB_NJMWR883kjshtfBFuDBcM9Av87Fx2Jf4d=3_5LLnhUFXg@mail.gmail.com>
-In-Reply-To: <CAHwB_NJMWR883kjshtfBFuDBcM9Av87Fx2Jf4d=3_5LLnhUFXg@mail.gmail.com>
+References: <20240507135234.1356855-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240507135234.1356855-2-yangcong5@huaqin.corp-partner.google.com>
+ <171509488827.493449.2668049686067198439.robh@kernel.org>
+In-Reply-To: <171509488827.493449.2668049686067198439.robh@kernel.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 7 May 2024 09:29:13 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Wjgc4F2zMhzeLY1hmRN1PTjEpZ7nbYBCp8RPMM7LhPbg@mail.gmail.com>
-Message-ID: <CAD=FV=Wjgc4F2zMhzeLY1hmRN1PTjEpZ7nbYBCp8RPMM7LhPbg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] drm/panel: himax-hx83102: Break out as separate
- driver
-To: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
- linus.walleij@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
- robh+dt@kernel.org, conor+dt@kernel.org, airlied@gmail.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
+Date: Tue, 7 May 2024 09:32:02 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VNNB=jtyM1BMTUTzyTjOUqDxobWTYz9RAnCmYha-DG0w@mail.gmail.com>
+Message-ID: <CAD=FV=VNNB=jtyM1BMTUTzyTjOUqDxobWTYz9RAnCmYha-DG0w@mail.gmail.com>
+Subject: Re: [PATCH v4 1/7] dt-bindings: display: panel: Add himax hx83102
+ panel bindings
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linus.walleij@linaro.org, 
+ xuxinxiong@huaqin.corp-partner.google.com, airlied@gmail.com, 
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ devicetree@vger.kernel.org, conor+dt@kernel.org, daniel@ffwll.ch, 
+ neil.armstrong@linaro.org, "Rob Herring (Arm)" <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,22 +101,87 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, May 7, 2024 at 6:44=E2=80=AFAM cong yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
+On Tue, May 7, 2024 at 8:14=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org> =
+wrote:
 >
-> > Speaking of which, some of the panels that you add to this driver seem
-> > to disable extended commands at the end of their init sequence, but
-> > this one doesn't. Should it?
 >
-> I  have confirmed with himax that disable extended commands  used
-> at the end to prevent accidental writing. And our inital code has been
-> confirmed by himax before FSI. Considering that this has been on the
-> market for a long time and there are no feedback issues, I think it shoul=
-d
-> remain the same as `panel-boe-tv101wum-nl6.c`.  What do you think?
+> On Tue, 07 May 2024 21:52:28 +0800, Cong Yang wrote:
+> > In V1, discussed with Doug and Linus [1], we need break out as separate
+> > driver for the himax83102-j02 controller. Beacuse "starry,himax83102-j0=
+2"
+> > and in this series "BOE nv110wum-l60" "IVO t109nw41" panels use same
+> > controller, they have some common CMDS. So add new documentation for
+> > this panels.
+> >
+> > For himax83102-j02 controller, no need 3v3 supply, so remove it.
+> >
+> > [1]: https://lore.kernel.org/all/CACRpkdbzYZAS0=3DzBQJUC4CB2wj4s1h6n6aS=
+AZQvdMV95r3zRUw@mail.gmail.com
+> >
+> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > ---
+> > Chage since V4:
+> >
+> > - Update commit message and add fallback compatible.
+> >
+> > V3: https://lore.kernel.org/all/20240424023010.2099949-2-yangcong5@huaq=
+in.corp-partner.google.com
+> >
+> > Chage since V3:
+> >
+> > - Update commit message.
+> >
+> > V2: https://lore.kernel.org/all/20240422090310.3311429-2-yangcong5@huaq=
+in.corp-partner.google.com
+> >
+> > ---
+> >  .../display/panel/boe,tv101wum-nl6.yaml       |  2 -
+> >  .../bindings/display/panel/himax,hx83102.yaml | 73 +++++++++++++++++++
+> >  2 files changed, 73 insertions(+), 2 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/display/panel/him=
+ax,hx83102.yaml
+> >
+>
+> My bot found errors running 'make dt_binding_check' on your patch:
+>
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/d=
+isplay/panel/himax,hx83102.example.dtb: panel@0: compatible:0: 'starry,hima=
+x83102-j02, himax,hx83102' does not match '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._/]+=
+$'
+>         from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+> Documentation/devicetree/bindings/display/panel/himax,hx83102.example.dtb=
+: /example-0/dsi/panel@0: failed to match any schema with compatible: ['sta=
+rry,himax83102-j02, himax,hx83102']
+>
+> doc reference errors (make refcheckdocs):
+>
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202405=
+07135234.1356855-2-yangcong5@huaqin.corp-partner.google.com
+>
+> The base for the series is generally the latest rc1. A different dependen=
+cy
+> should be noted in *this* patch.
+>
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+>
+> pip3 install dtschema --upgrade
+>
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your sch=
+ema.
 
-It's fine with me to leave it the same as `panel-boe-tv101wum-nl6.c`
-had it. At least it should be more obvious to people that there's a
-difference now. ;-)
+I think several of your bindings patches have triggered Rob's bot.
+Please make sure you're set up to test this yourself and make sure you
+run it locally before sending out the next version of your patches. In
+general you should get in the habit of running 'make dt_binding_check'
+locally before you post any bindings changes.
+
+Thanks!
 
 -Doug
