@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE8D8BF048
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963FD8BF04C
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 01:01:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93CC0112FC4;
-	Tue,  7 May 2024 23:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0E7C112FC2;
+	Tue,  7 May 2024 23:01:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UHN4fSZq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YGHSAOdZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2154E112FC4;
- Tue,  7 May 2024 23:01:46 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E104B112FC2;
+ Tue,  7 May 2024 23:01:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2C9CCCE174A;
- Tue,  7 May 2024 23:01:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78091C3277B;
- Tue,  7 May 2024 23:01:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 44CD8619FA;
+ Tue,  7 May 2024 23:01:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2012C3277B;
+ Tue,  7 May 2024 23:01:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715122903;
- bh=tovHdZnNetq9FRVFwkN2dsgjcO8FTfI8ShnWTzMfq1o=;
+ s=k20201202; t=1715122916;
+ bh=Ojbrq8calDDK6zre4KUhu3qnC0Lb+IpNjLh39EtbaRY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UHN4fSZqiXa0nF9WR4fFtDMk4LntFiuOfZCzNBEQA3zoGv9ixmr+2lYjJVTBO6dub
- lHZNtMoismbRytI6UvD5j0zdggo4GRBLO0iRQE/Nw6soaKbfy2Rje0R3I/ewOmR76f
- ApbaHUZD2uCM0y6/ACIiUty5hc9+5HMW+W6P4j4b9o8vmQGAJIT3WVS3jaeOIyrRk4
- n4cNRYRhYTdVxvqQv1UwNsHMhR/5V+GJX67+HKJYGGqL7X+1mgJFE1paC6quUYndyu
- TyijLK+0PYuESVNGj4Pfi23VH2gmTrkd3c2YY4nqvQ+qEbNjjF8tErATYQsuGrHR1e
- +l6umPE2eBfAg==
+ b=YGHSAOdZ/X7nnaak5mDMKu67mOv7JJU0cVhp9iqEnhji1sy6pe62EFiBaTAr34JB3
+ p1G4kODBoBubCAy1DWNNaoKpRULctkwiqDPmQBU0b2yBZIB4WN7fIEuE42bcB/pcmx
+ ytSBusVpeUe0lFK+Lg5EhGqi0wUPghZxJapWFMMoAiWvU1freD7uKaDBBGDDVRAqnM
+ jlYUcWUBM3uUFQfSErioLtVjyW6TQ2Kdf2kJgLJV1adzzaxyh4Cz1zWzLR9nDR12nZ
+ +FG2HUZI8F7ETCkzlnemsGEHTtoZVMDfCDwC/Q2gmY+l1HTlc5fcDquwWQ7K//N2D5
+ 8mG/6QCS3DN4A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -40,17 +40,17 @@ Cc: Joshua Ashton <joshua@froggi.es>, Harry Wentland <harry.wentland@amd.com>,
  hamza.mahfooz@amd.com, wayne.lin@amd.com, srinivasan.shanmugam@amd.com,
  mario.limonciello@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 3/3] drm/amd/display: Set color_mgmt_changed to
+Subject: [PATCH AUTOSEL 5.4 3/3] drm/amd/display: Set color_mgmt_changed to
  true on unsuspend
-Date: Tue,  7 May 2024 19:01:30 -0400
-Message-ID: <20240507230134.391850-3-sashal@kernel.org>
+Date: Tue,  7 May 2024 19:01:43 -0400
+Message-ID: <20240507230146.391926-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240507230134.391850-1-sashal@kernel.org>
-References: <20240507230134.391850-1-sashal@kernel.org>
+In-Reply-To: <20240507230146.391926-1-sashal@kernel.org>
+References: <20240507230146.391926-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.216
+X-stable-base: Linux 5.4.275
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,10 +85,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 3578e3b3536e3..29ef0ed44d5f4 100644
+index 3f3242783e1c3..3bfc4aa328c6f 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2099,6 +2099,7 @@ static int dm_resume(void *handle)
+@@ -1251,6 +1251,7 @@ static int dm_resume(void *handle)
  			dc_stream_release(dm_new_crtc_state->stream);
  			dm_new_crtc_state->stream = NULL;
  		}
