@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7938BF01F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 00:59:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF638BF021
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 00:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F2F5112700;
-	Tue,  7 May 2024 22:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4608E112FA0;
+	Tue,  7 May 2024 22:59:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a9TWAEkI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WS6c5axM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0927A112700;
- Tue,  7 May 2024 22:59:29 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17D8E112F98;
+ Tue,  7 May 2024 22:59:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id F0431CE170D;
- Tue,  7 May 2024 22:59:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44C8BC3277B;
- Tue,  7 May 2024 22:59:25 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 54A0A619FA;
+ Tue,  7 May 2024 22:59:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3589FC3277B;
+ Tue,  7 May 2024 22:59:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715122767;
- bh=871IcTP+FnfETikR2gKy/pM1dVybfZZishDY0mTvOls=;
+ s=k20201202; t=1715122771;
+ bh=HvV+pVVFFLbbX4ltkN3w+EWnX6aqtF6HzprSpkb0SWI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=a9TWAEkIfF4xLGcnvsiaZqJNa8OzZLKF1YdTwBsXx4ndR2G55a/iz0C5ZakBSadd3
- cQOKEjcrX1y0AwpuisDqRoV3T7iXy3nRNtsGGwIZlHejFQIHJ2UF6BCBkceLnDdomH
- TzT19aBI+wMNznFG4K3T/ivJPSl8UccnW3UtMlAz5yy3fswftpIQOiMc4cVgd69Kg/
- bfd41NZUYRZ0LL7XHhEYsKUmWizl3C9VMVxe5JX/4gAfM3+eIdYNe2eGO5JOmuj0jL
- vS8T9KxRUkp42MmpQmre5qw4OdiQ52qv49VFz1GKcGKLnRNC3t0bNNifBloAaPNnAX
- I5UBQsOtYcrrw==
+ b=WS6c5axMJEwJVHxWZ5F2+YCcRqsRK7nSFBJC9rCjmld9UucwAarwhNlYOMZB95ltp
+ 5lYHeB5laTChr+Q3QNY67VbUTRZlTZ+846QGoEdne1286u2MqlO8wlsRs6mxXVHjhj
+ fJ1VuQs9MduRjt1DwYrs8epMkzzYRolIE5/XAkLsE0PlNLCeJB2LiZe1qQnKGXa4Hn
+ Pr2F1AlFBuSecC5fc6Xs3JaR1kLnCFMO2Ql487SZ8hhmYKuD/LJWbMkDNDBARYIOsC
+ FJaFCEA7+oLUtNwYNcZRua81DnzJfuLHkGYNi3FqPi8zUB1mfeQOeqSSt36l2Iq2P9
+ /i8qP+r7LgPkA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Joshua Ashton <joshua@froggi.es>, Harry Wentland <harry.wentland@amd.com>,
+Cc: Felix Kuehling <felix.kuehling@amd.com>, Mukul Joshi <mukul.joshi@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, alex.hung@amd.com,
- hamza.mahfooz@amd.com, wayne.lin@amd.com, srinivasan.shanmugam@amd.com,
- mario.limonciello@amd.com, amd-gfx@lists.freedesktop.org,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ Philip.Yang@amd.com, Arunpravin.PaneerSelvam@amd.com,
+ Hongkun.Zhang@amd.com, pierre-eric.pelloux-prayer@amd.com, Jun.Ma2@amd.com,
+ Wang.Beyond@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 07/19] drm/amd/display: Set color_mgmt_changed to
- true on unsuspend
-Date: Tue,  7 May 2024 18:58:29 -0400
-Message-ID: <20240507225910.390914-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 08/19] drm/amdgpu: Update BO eviction priorities
+Date: Tue,  7 May 2024 18:58:30 -0400
+Message-ID: <20240507225910.390914-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507225910.390914-1-sashal@kernel.org>
 References: <20240507225910.390914-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.30
@@ -67,35 +68,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Joshua Ashton <joshua@froggi.es>
+From: Felix Kuehling <felix.kuehling@amd.com>
 
-[ Upstream commit 2eb9dd497a698dc384c0dd3e0311d541eb2e13dd ]
+[ Upstream commit b0b13d532105e0e682d95214933bb8483a063184 ]
 
-Otherwise we can end up with a frame on unsuspend where color management
-is not applied when userspace has not committed themselves.
+Make SVM BOs more likely to get evicted than other BOs. These BOs
+opportunistically use available VRAM, but can fall back relatively
+seamlessly to system memory. It also avoids SVM migrations evicting
+other, more important BOs as they will evict other SVM allocations
+first.
 
-Fixes re-applying color management on Steam Deck/Gamescope on S3 resume.
-
-Signed-off-by: Joshua Ashton <joshua@froggi.es>
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Felix Kuehling <felix.kuehling@amd.com>
+Acked-by: Mukul Joshi <mukul.joshi@amd.com>
+Tested-by: Mukul Joshi <mukul.joshi@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 3442e08f47876..dce9a4599174c 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2956,6 +2956,7 @@ static int dm_resume(void *handle)
- 			dc_stream_release(dm_new_crtc_state->stream);
- 			dm_new_crtc_state->stream = NULL;
- 		}
-+		dm_new_crtc_state->base.color_mgmt_changed = true;
- 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 361f2cc94e8e5..1e33e82531f58 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -613,6 +613,8 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+ 	else
+ 		amdgpu_bo_placement_from_domain(bo, bp->domain);
+ 	if (bp->type == ttm_bo_type_kernel)
++		bo->tbo.priority = 2;
++	else if (!(bp->flags & AMDGPU_GEM_CREATE_DISCARDABLE))
+ 		bo->tbo.priority = 1;
  
- 	for_each_new_plane_in_state(dm->cached_state, plane, new_plane_state, i) {
+ 	if (!bp->destroy)
 -- 
 2.43.0
 
