@@ -2,134 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3298BEA95
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 19:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849878BEAA9
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 19:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E372610E66C;
-	Tue,  7 May 2024 17:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B8BD10F9EF;
+	Tue,  7 May 2024 17:37:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DuPZ5QN/";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Gp/S+jeI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC3BA10E3E9
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 17:34:34 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-51aa6a8e49aso4677703e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 10:34:34 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDE8710F9EF
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 17:37:03 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-346407b8c9aso1006663f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 10:37:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715103273; x=1715708073; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ix/QxWf0/ikFiOadZQO4gRsywekkLf0Td8sGVeNMKyo=;
- b=DuPZ5QN/gj9axKZyuIAhFUFc7ntGUpnTfwXkSnrb9GVO9Z6xTFOGeiOwP1lJcbF8xa
- /wtefav9ZX1q0quJo4vkuBDZwsRCwEbAxpGFDiLeZwV04gfxKtHE9R+Vol2Cm8qNrjyc
- cniD2HcgPvyC4mXDGgFDH9+eSe8mxukh/lvwKSeRrlxCDNkQrxN7rwrGnDZl9OEt3JsM
- MELKlCvQVnEcCct8kAaaA0CbXaVb7+Eg0XKx+uqoChjnr+wCNtwxe/TB4qdo4W8Rc3nv
- h5mGHjYYWaXqp0FY8R45mQQoEiegQ8UskitJ2k99O8ahQ9dw9sAOgeWM/hs8b+pT5Xot
- 17Gg==
+ d=ffwll.ch; s=google; t=1715103422; x=1715708222; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iTbXjnapj66x1QFUTkR6VfpWY54bOGDZ0bq0kLD6kt4=;
+ b=Gp/S+jeI6syTJX/5sWqw7wyPFTxvgvAnwZe9/NwSiXttydeIQNM3Qm2mybH7LGIvfX
+ tqJ0NBzmhWhxd6pEjsqCNR6cJDyXtjMAntGEvnjkGQIPKjqJYQYzDGeuf/orZdu7xSfD
+ JzQCIJE9PHLVltKSJe6+QyM86mKqDenvwu0dA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715103273; x=1715708073;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1715103422; x=1715708222;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ix/QxWf0/ikFiOadZQO4gRsywekkLf0Td8sGVeNMKyo=;
- b=KpL1ulTN3/hGTs/w3zaSIMBbcNAYCshsl6wXx395OryPm8qQZH3aryjtSQ500H33/v
- gNyF62BtYgNfdJ86eJavOaGH7ZXn5vjvcrnk8b/3TlMtDx+vQGdZKbGhe5G+B3d58tI4
- xpjZi6Xhfy3HzvivNRfJRwmQiLBjLSO/ydVulGzjhAGA49chrNR6llEJwQq8JusPqhsr
- Bt7KsVt0gdY36bQNxw4UfMM3bc6wWmJJAMM6atUL3OF7xtBP7xXgt8xoeGm506ZC2BzG
- GQay404ppWUX7PKzxfoeMRtdysovAI0RhMmUx623qJYgRuq/S9bvHSUJe0hUyfQ1I/Dh
- JqQg==
+ bh=iTbXjnapj66x1QFUTkR6VfpWY54bOGDZ0bq0kLD6kt4=;
+ b=Awn73VAHxl9190P11Ga8mCuBfvaryW+gwpVz8w+oo2a3DROt5U9tGOSf8pBBXRNI9a
+ w48RIZSXRyzvszRxg8OodMvzyNF+8etWtnX8iYxEe2XTGEsv2eV8aTXLkeRb7gkxPsFN
+ Sj0VAk2CJcTUG3E1kVYJ8G4h3WdmuQpOXJqCjUJMI0NzVLgCSgbIqp7IE+yboGPfGSEm
+ oy8xSlWGbl96z9WWQsRs7xJyxqwlX6Z4G/txiEMJAQB/MsXK5iWNP2XIjW5wv6BiMPeu
+ Kg4uPr5wunNgC1u+BLo4E1gRpd0X0JlOJND7THypkXT94QhPjhblP5/73HjJZuOiwGOA
+ QqjQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVO22RXGXNsykEVzfVWFtzn5BQVyVogpzb3IUI6GmTghSDdhrXEshh+L1UMtNUYZAn+W9N+BQOX6pmYqJuEbOAbVJveUvmpiY2aXH7yDC+X
-X-Gm-Message-State: AOJu0Yw5AwTuDvAMnsTklknbhIwiye4gg8HaG6AYV81VtY6R/v2jUYRA
- 2ELJEx4kM2tdi2KFNt6YVD7f2iTf1yFDgFU0oAXk5KujZ20LfE40
-X-Google-Smtp-Source: AGHT+IFwBZaOv+SBhnHvVRoQ0ogfQ2GeK7ijkmELIpHxY/887/bhXSwiTzeGZmrx+/5btYaXXDo8Dw==
-X-Received: by 2002:a05:6512:754:b0:51d:998e:e0c1 with SMTP id
- 2adb3069b0e04-5217c26e844mr150973e87.13.1715103272504; 
- Tue, 07 May 2024 10:34:32 -0700 (PDT)
-Received: from [192.168.42.69] ([85.255.235.91])
+ AJvYcCUEke5YiG4v7WcSrm8HUsLOjZSJl73h9AJHHHKF1JtVh15WlnnqyUd4TZmqyrAb5kA7YA3+16uo6dxrazKagx3D7Wq7DKgTvR36hjPjZ5bs
+X-Gm-Message-State: AOJu0YxPQXYmyemsKj7h4jJyg9iQlUrCKc5P59yZLDmnI+17niLQYoTy
+ SbMZmsts2s3+OKRjCrCa31AbFuj2IPVe/BB2E5X/B2Z+gMv9oWECBfxVIi0rwtg=
+X-Google-Smtp-Source: AGHT+IGDlaVKfJNlzeSLiq8Rc1yJgYXIv7DO05/xB2F2BNXuulKK2r3ec8s1fdMs15n2a3dYFj8NMg==
+X-Received: by 2002:a05:600c:3c89:b0:419:f241:6336 with SMTP id
+ 5b1f17b1804b1-41f71302f62mr3477335e9.1.1715103422111; 
+ Tue, 07 May 2024 10:37:02 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- m7-20020a05600c4f4700b0041b434e5869sm23985466wmq.43.2024.05.07.10.34.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 May 2024 10:34:32 -0700 (PDT)
-Message-ID: <d0610fa1-562f-4d4e-ae84-2a0267316c32@gmail.com>
-Date: Tue, 7 May 2024 18:34:39 +0100
+ j13-20020a05600c1c0d00b0041be58cdf83sm20294246wms.4.2024.05.07.10.37.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 May 2024 10:37:01 -0700 (PDT)
+Date: Tue, 7 May 2024 19:36:59 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Milan Zamazal <mzamazal@redhat.com>, Maxime Ripard <mripard@redhat.com>,
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+Message-ID: <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
+Mail-Followup-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Milan Zamazal <mzamazal@redhat.com>,
+ Maxime Ripard <mripard@redhat.com>,
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
+ <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
+ <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
+ <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
+ <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
- custom page providers
-To: Mina Almasry <almasrymina@google.com>
-Cc: Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Amritha Nambiar <amritha.nambiar@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
- Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-3-almasrymina@google.com>
- <ZjH1QaSSQ98mw158@infradead.org>
- <CAHS8izM0=xc2UhUxhnF_BixuFs5VaDV9W1jbso1K+Rg=35NzeA@mail.gmail.com>
- <ZjjHUh1eINPg1wkn@infradead.org>
- <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
- <20240507161857.GA4718@ziepe.ca> <ZjpVfPqGNfE5N4bl@infradead.org>
- <54b1bf11-0f9a-4e9e-9e5c-7d81e066fc7c@gmail.com>
- <CAHS8izNL-phg3y9xiQbx7A2wQE3ZZKXiQA0oFW9mgj4ONk7GSw@mail.gmail.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAHS8izNL-phg3y9xiQbx7A2wQE3ZZKXiQA0oFW9mgj4ONk7GSw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,67 +119,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/7/24 18:15, Mina Almasry wrote:
-> On Tue, May 7, 2024 at 9:55 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
->>
->> On 5/7/24 17:23, Christoph Hellwig wrote:
->>> On Tue, May 07, 2024 at 01:18:57PM -0300, Jason Gunthorpe wrote:
->>>> On Tue, May 07, 2024 at 05:05:12PM +0100, Pavel Begunkov wrote:
->>>>>> even in tree if you give them enough rope, and they should not have
->>>>>> that rope when the only sensible options are page/folio based kernel
->>>>>> memory (incuding large/huge folios) and dmabuf.
->>>>>
->>>>> I believe there is at least one deep confusion here, considering you
->>>>> previously mentioned Keith's pre-mapping patches. The "hooks" are not
->>>>> that about in what format you pass memory, it's arguably the least
->>>>> interesting part for page pool, more or less it'd circulate whatever
->>>>> is given. It's more of how to have a better control over buffer lifetime
->>>>> and implement a buffer pool passing data to users and empty buffers
->>>>> back.
->>>>
->>>> Isn't that more or less exactly what dmabuf is? Why do you need
->>>> another almost dma-buf thing for another project?
->>>
->>> That's the exact point I've been making since the last round of
->>> the series.  We don't need to reinvent dmabuf poorly in every
->>> subsystem, but instead fix the odd parts in it and make it suitable
->>> for everyone.
->>
->> Someone would need to elaborate how dma-buf is like that addition
->> to page pool infra.
+On Tue, May 07, 2024 at 04:15:05PM +0100, Bryan O'Donoghue wrote:
+> On 07/05/2024 16:09, Dmitry Baryshkov wrote:
+> > Ah, I see. Then why do you require the DMA-ble buffer at all? If you are
+> > providing data to VPU or DRM, then you should be able to get the buffer
+> > from the data-consuming device.
 > 
-> I think I understand what Jason is requesting here, and I'll take a
-> shot at elaborating. AFAICT what he's saying is technically feasible
-> and addresses the nack while giving you the uapi you want. It just
-> requires a bit (a lot?) of work on your end unfortunately.
-> 
-> CONFIG_UDMABUF takes in a memfd, converts it to a dmabuf, and returns
-> it to userspace. See udmabuf_create().
-> 
-> I think what Jason is saying here, is that you can write similar code
-> to udmabuf_creat() that takes in a io_uring memory region, and
-> converts it to a dmabuf inside the kernel.
-> 
-> I haven't looked at your series yet too closely (sorry!), but I assume
-> you currently have a netlink API that binds an io_uring memory region
-> to the NIC rx-queue page_pool, right? That netlink API would need to
-> be changed to:
+> Because we don't necessarily know what the consuming device is, if any.
 
-No, it's different, I'll skip details, but the main problem is
-that those callbacks are used to implement the user api returning
-buffers via a ring, where the callback grabs them (in napi context)
-and feeds into page pool. That replaces SO_DEVMEM_DONTNEED and the
-need for ioctl/setsockopt.
+Well ... that's an entirely different issue. And it's unsolved.
 
-> 1. Take in the io_uring memory.
-> 2. Convert it to a dmabuf like udmabuf_create() does.
-> 3. Bind the resulting dmabuf to the rx-queue page_pool.
+Currently the approach is to allocate where the constraints are usually
+most severe (like display, if you need that, or the camera module for
+input) and then just pray the stack works out without too much copying.
+All userspace (whether the generic glue or the userspace driver depends a
+bit upon the exact api) does need to have a copy fallback for these
+sharing cases, ideally with the copying accelerated by hw.
+
+If you try to solve this by just preemptive allocating everything as cma
+buffers, then you'll make the situation substantially worse (because now
+you're wasting tons of cma memory where you might not even need it).
+And without really solving the problem, since for some gpus that memory
+might be unusable (because you cannot scan that out on any discrete gpu,
+and sometimes not even on an integrated one).
+-Sima
+
+> Could be VPU, could be Zoom/Hangouts via pipewire, could for argument sake
+> be GPU or DSP.
 > 
-> There would be more changes needed vis-a-vis the clean up path and
-> lifetime management, but I think this is the general idea.
+> Also if we introduce a dependency on another device to allocate the output
+> buffers - say always taking the output buffer from the GPU, then we've added
+> another dependency which is more difficult to guarantee across different
+> arches.
 > 
-> This would give you the uapi you want, while the page_pool never seen
-> non-dmabuf memory (addresses the nack, I think).
+> ---
+> bod
 
 -- 
-Pavel Begunkov
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
