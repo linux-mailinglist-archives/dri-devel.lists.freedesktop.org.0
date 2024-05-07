@@ -2,46 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188788BDDA6
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 11:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A238BDDC6
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2024 11:09:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E59A21124A7;
-	Tue,  7 May 2024 09:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C71E710ED18;
+	Tue,  7 May 2024 09:09:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="TGl1ByHB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="s3LA4Acg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25C881124A7
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 09:02:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- sang-engineering.com; h=from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding; s=k1; bh=dlPMSeZOxF6v3l
- K25IAhR7EO+g98g2PsBqwha+jijX0=; b=TGl1ByHBfYg0+zU4kasR0kqmwQ1WJM
- AJQ1o+1WXddHEhQsRJhzq0rByAYwprBmsEtprZqmO0YKb2jHXHIldxCxagbeJ0cg
- fYkBEJWnwNTSyb9kpAnaqP+3mCXl2DNUlalh4aA9AwRBRIqngcKKY/YhycPCeFVe
- rRKjcVAfw1Pvf1yE5bzl9IwX/aCkLHFz43R6huLUKhv0UiBaP8nDCzzyDNblIJ/D
- IFkdavoCh813zSJZvKrRbQky2SVE+NYq1bAH6TvnhErMOIzApMx6ywTqVDdDRbNq
- LEV+KNsSlCebWePMzTwj4p80vm+xC2g9QWPymJQJN3Jy+O7lZEwJgyWQ==
-Received: (qmail 167706 invoked from network); 7 May 2024 11:02:04 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 7 May 2024 11:02:04 +0200
-X-UD-Smtp-Session: l3s3148p1@E8iMcNkXAp0gAwDPX0CuAO+oYiCi4tWm
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/arm/comeda: don't use confusing 'timeout' variable name
-Date: Tue,  7 May 2024 11:02:01 +0200
-Message-ID: <20240507090200.7936-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD0610ED18
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2024 09:09:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=OLS/N5P3FtoLgrFGKOse8TqhjN4ZBFdnpVw6omGPAJs=; b=s3LA4AcgT1FdIAJ5XDkrHWU6J0
+ ffWwQSdJRLLA5pncHrlJ8ThtdZjmC56JYN7OkkTLHAqYLHoAWkt5HU3I/VuGYnH0wV4nU256tnkZq
+ iE7GGeXekRylbfE+VpKh6bMwINZgFFVGgs4lizgPOIJ/YIDfoghBw4SwqvppiodOpRdQrWKJZ8G+J
+ J56mfQ44iDPG3zLAyY/8iTZTVcRRg4s3Hou33TUNuCJV9wpci+S3vhtIubugz+8m/6iA4T0rWtAmq
+ UTVoOpRZ0TRBAfeoxi70ADdqFE5aNGrjxsAkD4JRvrD+vMqD/fsrUOxwCfr8hpVWMPmRA2Ruk5ouT
+ ePnwPqLw==;
+Received: from [84.69.19.168] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1s4Gp4-001jge-Pq; Tue, 07 May 2024 11:09:18 +0200
+Message-ID: <55e260b7-12d3-462b-aa08-a939a4ee67ef@igalia.com>
+Date: Tue, 7 May 2024 10:09:18 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: drm scheduler and wq flavours
+Content-Language: en-GB
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <7236d76a-8e6d-4a8e-9e4e-e2644c5df2d7@igalia.com>
+ <ZjlmZHBMfK9fld9c@DUT025-TGLU.fm.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <ZjlmZHBMfK9fld9c@DUT025-TGLU.fm.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,42 +62,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a confusing pattern in the kernel to use a variable named 'timeout' to
-store the result of wait_for_completion_timeout() causing patterns like:
 
-	timeout = wait_for_completion_timeout(...)
-	if (!timeout) return -ETIMEDOUT;
+On 07/05/2024 00:23, Matthew Brost wrote:
+> On Thu, May 02, 2024 at 03:33:50PM +0100, Tvrtko Ursulin wrote:
+>>
+>> Hi all,
+>>
+>> Continuing after the brief IRC discussion yesterday regarding work queues
+>> being prone to deadlocks or not, I had a browse around the code base and
+>> ended up a bit confused.
+>>
+>> When drm_sched_init documents and allocates an *ordered* wq, if no custom
+>> one was provided, could someone remind me was the ordered property
+>> fundamental for something to work correctly? Like run_job vs free_job
+>> ordering?
+>>
+> 
+> Before the work queue (kthread design), run_job & free_job were ordered.
+> It was decided to not break this existing behavior.
 
-with all kinds of permutations. Check the return value directly to drop
-'timeout'  which also fixes its wrong type.
+Simply for extra paranoia or you remember if there was a reason identified?
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+>> I ask because it appears different drivers to different things and at the
+>> moment it looks we have all possible combos or ordered/unordered, bound and
+>> unbound, shared or not shared with the timeout wq, or even unbound for the
+>> timeout wq.
+>>
+>> The drivers worth looking at in this respect are probably nouveau, panthor,
+>> pvr and xe.
+>>
+>> Nouveau also talks about a depency betwen run_job and free_job and goes to
+>> create two unordered wqs.
+>>
+>> Then xe looks a bit funky with the workaround/hack for lockep where it
+>> creates 512 work queues and hands them over to user queues in round-robin
+>> fashion. (Instead of default 1:1.) Which I suspect is a problem which should
+>> be applicable for any 1:1 driver given a thorough enough test suite.
+>>
+> 
+> I think lockdep ran out of chains or something when executing some wild
+> IGT with 1:1. Yes, any driver with a wild enough test would likely hit
+> this lockdep splat too. Using a pool probably is not bad idea either.
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-index 2c661f28410e..9bec59cf9c06 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-@@ -294,7 +294,6 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
- 	struct komeda_dev *mdev = kcrtc->master->mdev;
- 	struct completion *flip_done;
- 	struct completion temp;
--	int timeout;
- 
- 	/* if caller doesn't send a flip_done, use a private flip_done */
- 	if (input_flip_done) {
-@@ -308,8 +307,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
- 	mdev->funcs->flush(mdev, kcrtc->master->id, 0);
- 
- 	/* wait the flip take affect.*/
--	timeout = wait_for_completion_timeout(flip_done, HZ);
--	if (timeout == 0) {
-+	if (wait_for_completion_timeout(flip_done, HZ) == 0) {
- 		DRM_ERROR("wait pipe%d flip done timeout\n", kcrtc->master->id);
- 		if (!input_flip_done) {
- 			unsigned long flags;
--- 
-2.43.0
+I wonder what is different between that and having a single shared 
+unbound queue and let kernel manage the concurrency? Both this..
 
+>> So anyway.. ordered vs unordered - drm sched dictated or at driver's choice?
+>>
+> 
+> Default ordered, driver can override with unordered.
+
+.. and this, go back to my original question - whether the default queue 
+must be ordered or not, or under which circustmances can drivers choose 
+unordered. I think in drm_sched_init, where kerneldoc says it will 
+create an ordered queue, it would be good to document the rules.
+
+Regards,
+
+Tvrtko
