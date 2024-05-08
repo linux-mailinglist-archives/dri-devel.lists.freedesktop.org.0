@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318848C053E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 21:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63698C053F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 21:43:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2732E10F126;
-	Wed,  8 May 2024 19:43:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0927E112450;
+	Wed,  8 May 2024 19:43:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="kFIzC120";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="QQKKIMny";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2080.outbound.protection.outlook.com [40.107.243.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9369810F126;
- Wed,  8 May 2024 19:43:48 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2050.outbound.protection.outlook.com [40.107.100.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E14810F126;
+ Wed,  8 May 2024 19:43:49 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JJh5H1MH89F+IKr6ohsExjDN6f6RGiALa0eAhchrktIf1mRRQscmpj/XmevzMltrf1Hp5SKekTkwfzI3tfFY3Ncibhkyy+LbHQYmhztICgGXFffkHnJ8K8I6uD0/MmxxOjqZ4vwmNOBmY8Iud1Unq9SqYUqxcIqTo8mH031T0tfaFcsE/VCpIacKrrzsz5PX1PSv590utDvNoeK2XD0HiV+4blCkfzLTVoVcE+SUPsoeJwmwEU76R0kWCFMS62QDqjMrLsDBSvTPI/MDFVn2qk2UTNm5Q+pmoDxXAvZi6b7UgxtR8gA9PVlqFIn38r0j3NsyyBPLVamMCQ8aJabDfw==
+ b=ILWjnihRxZiDb+ODF7JTr9KIuDf6bRoy65fRlRQtKaP7sByNFHDrGy5iOB6jQnpBrwySQdjaXd2XlcaBLYYIjHjagAl6hZsXhFzpwyNCVVcoifp/xkcSET3AJcO9Wjf1iJ5h3Jqp9/bb+WBhO+grHgJ90btUXlbwp5xvnShMMuAHps16NCMwQR+iRziMTrazjDAo85SXEbn+/eLgicbP9psZOfogOBrQVVJcjgzeXYgI2GOIOYbNxo4uLOoG/lcbfrTLzP5n1UwE+dLUoTl9hb864nPtf98uqY3UWNB5t8f9jwad18zVJzmiOskEe4rQZaVlaDwcJFw950FVxsXDdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=04qr4LyuXbPa2cdzASG8pa9GNlgSbAUkzKIqYEAm5qA=;
- b=biNcLs+P7WWCw+MH9nT6QopzM5kEko2p1RjSJeARS7ChgpVxP0pU0+9w90zZ1UJ2VvHfKI5L0AVuznF5a7b45YFWq0hYR3h6mC988FKTfbAklWfil1NQ18czQ6qcbYYvHY/7sDdFG8H35sz5lpfctbYRafqFKEoPd4kEVk8d1nnJTbFEYm4VZ/ABGvRFsucbd8tmQd4TMo9w0uIQcDtXvweWfyhnvnLnm2jfbTbdu1KsdXB0Acooi4XKnRPp7x3poviPJHsSTRaDfKm2Orl2myEoiMEClv2eMSY8UNt0Y2boZZyY6/R9Dsxq04JDNLQUONNFyN/BLrgohuOLa679Rw==
+ bh=VASkNtfF6UbaSAl9l4hCtkWSs6jbeToDMsakMALnVoQ=;
+ b=PkIzfKb+33/dWLLrBF9jYZXjcSoRsiXjbtlg/vNVWerNqlcb/Q0nMTSbuufbWUxNvS3zWW7S/y95m58MzwqxYUy1nmbicNMKK46TJRhDurLiQznP0I2vk3Cav+I+cRynbEXo1Z5Vna1vQ82WYYtFqt75MKa0jC4mn+84ZJDNMSPRJtPWgrdByK0I7VnFCw7MAb92NSRNo+epxSgY0a+NsfcHeftvhrSIRWwDydqDYa5Gtvk949MeRX99nnx659Od0fPG3lv+JSz6pIFy/H7DH869P+icZAaS4EK1aCnIkmloCLUyggnM75ZGAtBiSoGYe3cbpJJlvUXn38rw7uozCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=04qr4LyuXbPa2cdzASG8pa9GNlgSbAUkzKIqYEAm5qA=;
- b=kFIzC1209A483Yq97otrNXry9VT2wUDgqTg6jNL86K2uiVFRZdoX1vvch8TNSnhsTGBMdFEpwJocym/2FE/Uh7d4aIlD2tMCHKL69Rs15Il9ajRGiywuPyGXNhhq/uPn8xPi3M2czBUPnBHPApzHL8u70Zxb68b3T15qk9RXH+o=
-Received: from BL0PR02CA0056.namprd02.prod.outlook.com (2603:10b6:207:3d::33)
- by SN7PR12MB6692.namprd12.prod.outlook.com (2603:10b6:806:270::19)
+ bh=VASkNtfF6UbaSAl9l4hCtkWSs6jbeToDMsakMALnVoQ=;
+ b=QQKKIMnyn8hBR9dwaNMoIIUN5IIwj9DUK4vjcr69UzkD2Z2kTu3z+bNM26/aDW9eFSSITzKqqCadxXQDuCdXrp04ufe6AIQdhrDmwNscqYSs99wJQG6iYFU9gXYEcp4EOog54hIuWkXDQuFEETgzHvmwIBh+zRCOBxzpyD7P7Kc=
+Received: from BL0PR02CA0061.namprd02.prod.outlook.com (2603:10b6:207:3d::38)
+ by BL3PR12MB6378.namprd12.prod.outlook.com (2603:10b6:208:3b1::6)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.42; Wed, 8 May
  2024 19:43:43 +0000
 Received: from BN2PEPF00004FC1.namprd04.prod.outlook.com
- (2603:10b6:207:3d:cafe::90) by BL0PR02CA0056.outlook.office365.com
- (2603:10b6:207:3d::33) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:207:3d:cafe::ae) by BL0PR02CA0061.outlook.office365.com
+ (2603:10b6:207:3d::38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.46 via Frontend
  Transport; Wed, 8 May 2024 19:43:43 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
@@ -64,11 +64,13 @@ CC: <linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
  "Aurabindo Pillai" <aurabindo.pillai@amd.com>, Daniel Wheeler
  <daniel.wheeler@amd.com>, Fangzhi Zuo <jerry.zuo@amd.com>, Mario Limonciello
  <mario.limonciello@amd.com>, Tyler Schneider <tyler.schneider@amd.com>
-Subject: [PATCH 1/2] drm: Allow mode object properties to be added after a
- device is registered
-Date: Wed, 8 May 2024 14:43:07 -0500
-Message-ID: <20240508194308.48366-1-mario.limonciello@amd.com>
+Subject: [PATCH 2/2] Revert "drm/amd/display: Temporary Disable MST DP
+ Colorspace Property"
+Date: Wed, 8 May 2024 14:43:08 -0500
+Message-ID: <20240508194308.48366-2-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240508194308.48366-1-mario.limonciello@amd.com>
+References: <20240508194308.48366-1-mario.limonciello@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -77,49 +79,49 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF00004FC1:EE_|SN7PR12MB6692:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e27d9a1-8796-4fde-1fd8-08dc6f972af6
+X-MS-TrafficTypeDiagnostic: BN2PEPF00004FC1:EE_|BL3PR12MB6378:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62a684e4-876c-4294-b958-08dc6f972b50
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230031|1800799015|376005|82310400017|36860700004; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?QATiqBGmPtbOOZWbMBcxjztCy+2w0E/KHXg52IWiS5GT0ixXCVKLTNxvwM1Z?=
- =?us-ascii?Q?yhYvKeubbp2bEtNT3aquqF37CgSfLPPECqbTDQMA6jje4j78Pen62OO1oiGm?=
- =?us-ascii?Q?z+KF0SjL/UovoVOpMp5lhT9syOLxHrjBBaL5HC/MkjegKWhxyIqON1eS/aEt?=
- =?us-ascii?Q?j00QGmkx6Y1Lt1/9YHKEoXP69ERoonHl/3HC73orJfneOV6knGZZ/CUxQ5/h?=
- =?us-ascii?Q?4HnJnzl+9nB10WXjrbQtYvEi/A57o1RmrwlRCGfd1GYASntfm5VfE6rufT5h?=
- =?us-ascii?Q?ekoRul7+7+tl/JdpZSrJu16ousgnBhpNZp7lMWsmuxSL/NkINij2DJImygzJ?=
- =?us-ascii?Q?cCuENseDL0JZ0lKfH/yRibeqM2BrO6xthRIOZ4dtuzf01Ar8IR6cxJYStVXS?=
- =?us-ascii?Q?KCk8MlXxkvvDOqZblxCRI3DVWRrOcdBuX67fNocKTM0653zXqB/gqs1Du6zT?=
- =?us-ascii?Q?rQed0OoKixzgRTSRx61IGReaxiGmZfbsASbrdI75KCLXFI38NIjSMUQKWITf?=
- =?us-ascii?Q?Vy85CbeG5BgqrDqMGjWOf0st7jqebU4V/eqKr7YUO8UlkoegN52kJQJW0ydR?=
- =?us-ascii?Q?ImYu851ffGiLDZV/PCTd9BskbJahxsjgohtQYDO1Mg52e1NbA8lW1b31AmDU?=
- =?us-ascii?Q?PHFGVcEsx1WB7IZGqj98AnO3eoIMfKzH/CStrGtiWEK3PFrjdDnxRnLZpyJV?=
- =?us-ascii?Q?oBns/R/a2zStEZs80uA0pIiKHFJtpTZ1txU+uLmik7zF+pRGUTaTh5bkcKxh?=
- =?us-ascii?Q?/qoVQs0Oxv8ElkrXJYQlJ6THNy/U7flj5pz17QkMwJu+v41dCmL+6ZrKH8ud?=
- =?us-ascii?Q?JVYTUkhgRSkC5zV4DS+xUi+IZEPAvI76aDiuEmTUtVvnhSP6BOqt7krbGi6A?=
- =?us-ascii?Q?1iilfgpu2wzshV7RoOm9sKlBvBakD/WOSulyEuUPky2YNJqmZRgqYfqkhYOP?=
- =?us-ascii?Q?EygzOGVW8YVCA8qmv+OirJinRQTRRv/ktLNAF4uAFyFxRBFOTGL0Mtc82qIU?=
- =?us-ascii?Q?j8Bw8OhUGcxSUBPN+PKyzSLfth30DUxE6DfYOsv+loMc2izt9CfK1KWGMNdP?=
- =?us-ascii?Q?QLiKdTnAYpMFSDm1ruzI2TGBX+EYvaSPmCsag4ApXxQRqRMzlgkkLv7+bB9P?=
- =?us-ascii?Q?UVqwl2JiO1b/FQtkG4E/jDiZ/R0acAJeTrrDmUNwi83rvJ0WBolBcms4K4VX?=
- =?us-ascii?Q?ig6FNyVCrGrwzmw7eKAjOjhSqgY+rRp8Fw/SQYptR6vnjkxoAuYE6+8OwzsE?=
- =?us-ascii?Q?oPEKjhDHswCMuiGSwXRTFTcReV4XnOZsdTFxcznfqIzzYZAwvahC+4lWKF5l?=
- =?us-ascii?Q?JqHrxgwnwFi7xTtd6SLlc/C1?=
+ ARA:13230031|82310400017|376005|1800799015|36860700004; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?G4I91gAxCfNzee2tieJg/E7nUQmgZ0/48gkmd4yKaD6ap+gArJlwFQaFY9q+?=
+ =?us-ascii?Q?fccFBHFqaj07n03QE3KXuNWfi89Jr0x/3TIdE3SnJsrFfTst7RUl87k+ympi?=
+ =?us-ascii?Q?VDUt1lHW9a5olVnIADO6iGud/FCODMSBqCXLYui5DLgpCOKf8J+7/AzwaHav?=
+ =?us-ascii?Q?XrDcR0ZqqO1NnsCm+CcgtzCtkXi8IFIDFfrG0lDGrztYUpTb3DJmvWcfowSd?=
+ =?us-ascii?Q?+sxCTmnZf1/wZ8euWIWdEblwcAOXLArCZ9QsQl40AA+RJp4uQn/DPc0zjSdj?=
+ =?us-ascii?Q?oFWmf+juZOay5GXAWueNtBY1OuUV09kL/Ziqo9RzPBuLJeHUy535huogsxe1?=
+ =?us-ascii?Q?rbPPvFNT+qisJ9fIxJ9xU3je5w/Wwbqo7z8WJ5Ndwv20K3LvvWbXVTc9vm1Q?=
+ =?us-ascii?Q?KZpnKj10G2SritgfbE3hv9WHqsXjWLONPcq7QIN8Y7zX5qNAVVRQWs0Votx9?=
+ =?us-ascii?Q?WFBavh9SwfZAX7pVc26t96gw+dcFaOKEAVLX5UfTZtDTpoA3PApXWLPnwm80?=
+ =?us-ascii?Q?7Oa+RomjcWpj1i2qPyOXgeVipoFRC0KjNhv58TVpdInxQdRbaoQtJonGQ+ce?=
+ =?us-ascii?Q?3Nd9lVZPgdVeOv7fXL5maAfhPzfjX2V73dWWceOeUWavK/fma+WG8RxANrjA?=
+ =?us-ascii?Q?tLixpVUYKmt+nvDULEsAqBC+VnnXlXbYyT7ppJ18kN2xixGbYOBJ2iBzAI4I?=
+ =?us-ascii?Q?e2UwwKgvUvvWtbJe9zkqzQoJyQkjKO/CGFtgOA7bX3VbmDBiVajqgLdmK18p?=
+ =?us-ascii?Q?OEab3d23C+PHCO7P7TYw38wtUctlBbNvmEopmYJoMaBrx6VgZaOWfYQuDZZd?=
+ =?us-ascii?Q?9rGIOdliQ9HTXHMzgQQm3050VV7aGJ2LoATnZnV53yuvlRCY2htwtxLxMos3?=
+ =?us-ascii?Q?7kXrA1rayJK2lhmqa63KDBqcE2bg9/q6aPbLCC2pycdU0dGu1xqk+RA1eXbM?=
+ =?us-ascii?Q?YhXbhmJYfHzI/ENhR14Od8/1r+5ipROPXcOSrVQqETHghF8/11SxfB66B99F?=
+ =?us-ascii?Q?MySYdFxvwUmjPz0K77vEri3Mbaa16Un9hVC3K5NQudFrbSEyi6f++Sq3383e?=
+ =?us-ascii?Q?CzGzQ7c8UmojNbjZrnMhAskNL2/yYzZWyzyXXeaPVXCau+pYZPoBDaK1GOAB?=
+ =?us-ascii?Q?1RiIB4nFCxk3JCXKXNq2rN7Upq+U4JIN41lPK+lZPbn7hXuePzjd6thB5u7l?=
+ =?us-ascii?Q?5vfVobjv9UNBifhD6Hn59dNlhzUuArP/yhgOZNEjG3lvf3eBHziwenG8blkR?=
+ =?us-ascii?Q?vuBsM+zqqCuj4OafWmBNHxJFaXdDwYwm9VcU8JI/Dli7p52mwCYqga3WBRO7?=
+ =?us-ascii?Q?RSGJaxsSg6vC11gEFUVk3I3r?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(82310400017)(36860700004); DIR:OUT;
+ SFS:(13230031)(82310400017)(376005)(1800799015)(36860700004); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 19:43:43.0816 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e27d9a1-8796-4fde-1fd8-08dc6f972af6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 19:43:43.6754 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62a684e4-876c-4294-b958-08dc6f972b50
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF00004FC1.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6692
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6378
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,32 +137,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the colorspace property is registered on MST devices there is
-no `obj_free_cb` callback for it in drm_mode_object_add().
-
-Don't show a warning trace for __drm_mode_object_add() calls for
-DRM_MODE_OBJECT_PROPERTY.
+MST colorspace property support was disabled due to a series of warnings
+that came up when the device was plugged in.  As those warnings are fixed,
+revert commit 69a959610229 ("drm/amd/display: Temporary Disable MST DP
+Colorspace Property").
 
 Reported-and-tested-by: Tyler Schneider <tyler.schneider@amd.com>
 Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3353
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/gpu/drm/drm_mode_object.c | 2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-index 0e8355063eee..b077547a2db4 100644
---- a/drivers/gpu/drm/drm_mode_object.c
-+++ b/drivers/gpu/drm/drm_mode_object.c
-@@ -42,7 +42,7 @@ int __drm_mode_object_add(struct drm_device *dev, struct drm_mode_object *obj,
- {
- 	int ret;
- 
--	WARN_ON(!dev->driver->load && dev->registered && !obj_free_cb);
-+	WARN_ON(!dev->driver->load && dev->registered && !obj_free_cb && obj_type != DRM_MODE_OBJECT_PROPERTY);
- 
- 	mutex_lock(&dev->mode_config.idr_mutex);
- 	ret = idr_alloc(&dev->mode_config.object_idr, register_obj ? obj : NULL,
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 3054bf79fc99..93e2030f4c17 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7695,7 +7695,7 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+ 	if (connector_type == DRM_MODE_CONNECTOR_HDMIA) {
+ 		if (!drm_mode_create_hdmi_colorspace_property(&aconnector->base, supported_colorspaces))
+ 			drm_connector_attach_colorspace_property(&aconnector->base);
+-	} else if ((connector_type == DRM_MODE_CONNECTOR_DisplayPort && !aconnector->mst_root) ||
++	} else if (connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
+ 		   connector_type == DRM_MODE_CONNECTOR_eDP) {
+ 		if (!drm_mode_create_dp_colorspace_property(&aconnector->base, supported_colorspaces))
+ 			drm_connector_attach_colorspace_property(&aconnector->base);
 -- 
 2.43.0
 
