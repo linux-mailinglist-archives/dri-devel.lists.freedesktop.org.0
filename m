@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48B48BFAB8
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 12:16:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C12A8BFB15
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 12:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82E6110FA60;
-	Wed,  8 May 2024 10:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1638E11358B;
+	Wed,  8 May 2024 10:36:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DvJSFi/P";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Rr0Svj1L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57C3810FA60
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 10:16:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 835B4CE1812;
- Wed,  8 May 2024 10:16:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D96A5C4AF66;
- Wed,  8 May 2024 10:16:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715163399;
- bh=WfYGyrtX+04z3bybKd65o2+F1bSnlXhpl/TxRURTuSY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DvJSFi/PQtF6c2val1GNJIqbfRMi4rZzXYlYXy28NhIErSX+W9YhcrS44LD5Y7Mm8
- VpCCMswWkpbYN1s2W0DTiJKzZuR5fV3GtSxMf9al0Z0qY8+Rt1urbUaCD8bFRGVuQS
- e1MOGBnhSY0o90karmKFiePgu2ve9aou6O3Qjcp6lSf7t3UBfWH3/BhJDP2nw3DONG
- BWq71ij+KrCH5w2Ibu5C6bZmpUS7kW8pRGQZOLlIuBktKlhOE7VlJEpFupa/xeC6fA
- dRjUab7Mh9usEGH2x7wp8AR9pBj2jDA5EoDKJ0T7f89zk0XIgi88dZKfq8YWqk5Htj
- BW7Mww9oc6wGg==
-Date: Wed, 8 May 2024 12:16:32 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>, 
- Linus Torvalds <torvalds@linux-foundation.org>, Simon Ser <contact@emersion.fr>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, 
- axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name,
- linaro-mm-sig@lists.linaro.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 
- minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better
- about file lifetimes
-Message-ID: <20240508-zukauf-clinchen-c52792f8ad02@brauner>
-References: <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
- <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
- <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
- <040b32b8-c4df-4121-bb0d-f0c6ee9e123d@gmail.com>
- <Zjs4iEw1Lx1YcR8M@phenom.ffwll.local>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4C3113587;
+ Wed,  8 May 2024 10:36:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715164571; x=1746700571;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=WGv/5VuYW2r16KYJevf+UCY0ndkpQZYpWB/W5sNTOCM=;
+ b=Rr0Svj1LElbFnA1aKt4MtjXk/e+2JI78w2bQkoDjKlFZJkYI0jE6LZz3
+ qLSA3oyo7j0fggdz/u+hDbH+qkFlOdGRfjn82zYza0Fqk/P77m3eZw+M7
+ G1AD9ksFz79LBhldogG1puvaqotQPWtxMpKwI8N5DlycBBbeiUZ/LUxhb
+ 58GY7qbTX+FQTyxUl7ffHKpZ2rsXvDNpVD9YqsN1zKrI7zNKMzMOEc4oY
+ FGASEizVGEn6pgO0qfLVR1sQzwtZoMddEhsU8GS1iWYAFQjjj4YJdXFq8
+ MQVv0ElLBWXHMuVmN5jCJZRViLYAP+aNQ79V1QY8Si2epCcLcY0jwMq+f g==;
+X-CSE-ConnectionGUID: C9p72SBqRRi613aTJ7knYw==
+X-CSE-MsgGUID: 8J54EH+zQ9ymJ2hQiNN6qg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="28491397"
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="28491397"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2024 03:36:10 -0700
+X-CSE-ConnectionGUID: iHM+A9pUQd+gwaioNRs+dg==
+X-CSE-MsgGUID: 3gKs9FuXSGqcqEjEmedIkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="33677494"
+Received: from tgorgenx-mobl.ger.corp.intel.com (HELO [10.252.34.133])
+ ([10.252.34.133])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2024 03:36:05 -0700
+Message-ID: <fe630414-d13e-4052-86f3-ce3155eb3e44@linux.intel.com>
+Date: Wed, 8 May 2024 12:36:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zjs4iEw1Lx1YcR8M@phenom.ffwll.local>
+User-Agent: Mozilla Thunderbird
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PULL] drm-misc-next-fixes
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,66 +77,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 08, 2024 at 10:32:08AM +0200, Daniel Vetter wrote:
-> On Wed, May 08, 2024 at 07:55:08AM +0200, Christian König wrote:
-> > Am 07.05.24 um 21:07 schrieb Linus Torvalds:
-> > > On Tue, 7 May 2024 at 11:04, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > On Tue, May 07, 2024 at 09:46:31AM -0700, Linus Torvalds wrote:
-> > > > 
-> > > > > I'd be perfectly ok with adding a generic "FISAME" VFS level ioctl
-> > > > > too, if this is possibly a more common thing. and not just DRM wants
-> > > > > it.
-> > > > > 
-> > > > > Would something like that work for you?
-> > > > Yes.
-> > > > 
-> > > > Adding Simon and Pekka as two of the usual suspects for this kind of
-> > > > stuff. Also example code (the int return value is just so that callers know
-> > > > when kcmp isn't available, they all only care about equality):
-> > > > 
-> > > > https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/util/os_file.c#L239
-> > > That example thing shows that we shouldn't make it a FISAME ioctl - we
-> > > should make it a fcntl() instead, and it would just be a companion to
-> > > F_DUPFD.
-> > > 
-> > > Doesn't that strike everybody as a *much* cleaner interface? I think
-> > > F_ISDUP would work very naturally indeed with F_DUPFD.
-> > > 
-> > > Yes? No?
-> > 
-> > Sounds absolutely sane to me.
-> 
-> Yeah fcntl(fd1, F_ISDUP, fd2); sounds extremely reasonable to me too.
-> 
-> Aside, after some irc discussions I paged a few more of the relevant info
-> back in, and at least for dma-buf we kinda sorted this out by going away
-> from the singleton inode in this patch: ed63bb1d1f84 ("dma-buf: give each
-> buffer a full-fledged inode")
-> 
-> It's uapi now so we can't ever undo that, but with hindsight just the
-> F_ISDUP is really what we wanted. Because we have no need for that inode
-> aside from the unique inode number that's only used to compare dma-buf fd
-> for sameness, e.g.
-> 
-> https://gitlab.freedesktop.org/wlroots/wlroots/-/blob/master/render/vulkan/texture.c#L490
-> 
-> The one question I have is whether this could lead to some exploit tools,
-> because at least the android conformance test suite verifies that kcmp
-> isn't available to apps (which is where we need it, because even with all
-> the binder-based isolation gpu userspace still all run in the application
-> process due to performance reasons, any ipc at all is just too much).
-> 
-> Otoh if we just add this to drm fd as an ioctl somewhere, then it will
-> also be available to every android app because they all do need the gpu
-> for rendering. So going with the full generic fcntl is probably best.
-> -Sima
+Hi Dave, Sima,
 
-fcntl() will call security_file_fcntl(). IIRC, Android uses selinux and
-I'm pretty certain they'd disallow any fcntl() operations they deems
-unsafe. So a kernel update for them would likely require allow-listing
-the new fcntl(). Or if they do allow all new fnctl()s by default they'd
-have to disallow it if they thought that's an issue but really I don't
-even think there's any issue in that.
+drm-misc-next-fixes for v6.10-rc1.
 
-I think kcmp() is a different problem because you can use it to compare
-objects from different tasks. The generic fcntl() wouldn't allow that.
+There was some discussion on certain cherry picks I did,
+specifically the one for hiding fbdev address. There is some potential
+to cause regressions on ARM by hiding the physical address, but I think 
+it should be fine to move ahead. This is why a pull request didn't make 
+it in time last week.
+
+Hope the extra time at least gave more chance of detection of potential 
+regressions.
+
+Cheers,
+Maarten
+
+drm-misc-next-fixes-2024-05-08:
+drm-misc-next-fixes for v6.10-rc1:
+- panthor fixes.
+- Reverting Kconfig changes, and moving drm options to submenu.
+- Hide physical fb address in fb helper.
+- zynqmp bridge fix.
+- Revert broken ti-sn65dsi83 fix.
+The following changes since commit 4a56c0ed5aa0bcbe1f5f7d755fb1fe1ebf48ae9c:
+
+   Merge tag 'amd-drm-next-6.10-2024-04-26' of 
+https://gitlab.freedesktop.org/agd5f/linux into drm-next (2024-04-30 
+14:43:00 +1000)
+
+are available in the Git repository at:
+
+   https://gitlab.freedesktop.org/drm/misc/kernel.git 
+tags/drm-misc-next-fixes-2024-05-08
+
+for you to fetch changes up to be3f3042391d061cfca2bd22630e0d101acea5fc:
+
+   drm: zynqmp_dpsub: Always register bridge (2024-05-02 23:40:56 +0200)
+
+----------------------------------------------------------------
+drm-misc-next-fixes for v6.10-rc1:
+- panthor fixes.
+- Reverting Kconfig changes, and moving drm options to submenu.
+- Hide physical fb address in fb helper.
+- zynqmp bridge fix.
+- Revert broken ti-sn65dsi83 fix.
+
+----------------------------------------------------------------
+Boris Brezillon (3):
+       drm/panthor: Kill the faulty_slots variable in 
+panthor_sched_suspend()
+       drm/panthor: Make sure we handle 'unknown group state' case properly
+       drm/panthor: Fix the FW reset logic
+
+Geert Uytterhoeven (11):
+       Revert "drm: fix DRM_DISPLAY_DP_HELPER dependencies, part 2"
+       Revert "drm/display: Select DRM_KMS_HELPER for DP helpers"
+       Revert "drm/bridge: dw-hdmi: Make DRM_DW_HDMI selectable"
+       Revert "drm: fix DRM_DISPLAY_DP_HELPER dependencies"
+       Revert "drm: Switch DRM_DISPLAY_HDMI_HELPER to depends on"
+       Revert "drm: Switch DRM_DISPLAY_HDCP_HELPER to depends on"
+       Revert "drm: Switch DRM_DISPLAY_DP_HELPER to depends on"
+       Revert "drm: Switch DRM_DISPLAY_DP_AUX_BUS to depends on"
+       Revert "drm: Switch DRM_DISPLAY_HELPER to depends on"
+       Revert "drm: Make drivers depends on DRM_DW_HDMI"
+       Revert "drm/display: Make all helpers visible and switch to 
+depends on"
+
+Jocelyn Falempe (1):
+       drm/fb_dma: Add checks in drm_fb_dma_get_scanout_buffer()
+
+Luca Ceresoli (1):
+       Revert "drm/bridge: ti-sn65dsi83: Fix enable error path"
+
+Masahiro Yamada (1):
+       drm: move DRM-related CONFIG options into DRM submenu
+
+Sean Anderson (1):
+       drm: zynqmp_dpsub: Always register bridge
+
+Thomas Zimmermann (1):
+       drm/fbdev-generic: Do not set physical framebuffer address
+
+  drivers/gpu/drm/Kconfig                 | 20 +++++++-------
+  drivers/gpu/drm/amd/amdgpu/Kconfig      | 12 ++++-----
+  drivers/gpu/drm/bridge/Kconfig          | 28 ++++++++++----------
+  drivers/gpu/drm/bridge/analogix/Kconfig | 18 ++++++-------
+  drivers/gpu/drm/bridge/cadence/Kconfig  |  8 +++---
+  drivers/gpu/drm/bridge/imx/Kconfig      |  4 +--
+  drivers/gpu/drm/bridge/synopsys/Kconfig |  6 ++---
+  drivers/gpu/drm/bridge/ti-sn65dsi83.c   |  1 -
+  drivers/gpu/drm/display/Kconfig         | 32 +++++++++-------------
+  drivers/gpu/drm/drm_fb_dma_helper.c     |  3 +++
+  drivers/gpu/drm/drm_fbdev_generic.c     |  1 -
+  drivers/gpu/drm/exynos/Kconfig          |  4 +--
+  drivers/gpu/drm/i915/Kconfig            |  8 +++---
+  drivers/gpu/drm/imx/ipuv3/Kconfig       |  5 ++--
+  drivers/gpu/drm/ingenic/Kconfig         |  2 +-
+  drivers/gpu/drm/mediatek/Kconfig        |  6 ++---
+  drivers/gpu/drm/meson/Kconfig           |  2 +-
+  drivers/gpu/drm/msm/Kconfig             |  8 +++---
+  drivers/gpu/drm/nouveau/Kconfig         | 10 +++----
+  drivers/gpu/drm/panel/Kconfig           | 32 +++++++++++-----------
+  drivers/gpu/drm/panthor/panthor_fw.c    |  7 ++---
+  drivers/gpu/drm/panthor/panthor_sched.c | 47 
+++++++++++++++++++++++++++-------
+  drivers/gpu/drm/radeon/Kconfig          |  8 +++---
+  drivers/gpu/drm/renesas/rcar-du/Kconfig |  2 +-
+  drivers/gpu/drm/rockchip/Kconfig        | 10 +++----
+  drivers/gpu/drm/sun4i/Kconfig           |  2 +-
+  drivers/gpu/drm/tegra/Kconfig           |  8 +++---
+  drivers/gpu/drm/vc4/Kconfig             | 10 +++----
+  drivers/gpu/drm/xe/Kconfig              | 13 ++++-----
+  drivers/gpu/drm/xlnx/Kconfig            |  8 +++---
+  drivers/gpu/drm/xlnx/zynqmp_dpsub.c     |  7 +++--
+  31 files changed, 172 insertions(+), 160 deletions(-)
