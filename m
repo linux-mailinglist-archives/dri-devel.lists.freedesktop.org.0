@@ -2,112 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09878BF8CE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 10:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9B48BF8EB
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 10:41:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E535010F26B;
-	Wed,  8 May 2024 08:40:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F001134CA;
+	Wed,  8 May 2024 08:41:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="hK+q+5Qk";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Eg6cDDEM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D396910F26B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 08:40:02 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-a59a86fb052so133845266b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 01:40:02 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63E571134CA
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 08:41:43 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-a59d5b112ecso25625266b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 01:41:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1715157601; x=1715762401; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TjDECsAq9W3dnXC6ANhg0GrZ6XSPEO0XVnHc2JQoQ80=;
- b=hK+q+5Qkzsu9LOeVhgSXVjZ+/mkxO3vvIYTnTibuUwhNGSmdq4k6Ijf8UBBSzfz/Px
- Ml+mVEA3sEq3cyJevwoIQ/qYaxe6HJOIkh2b6L3tkDZeJieO02miSCFYPtY93+XEOpRa
- SgGexLFifArVtafbAnxOmaDPTqMV19fKu/GQg=
+ d=ffwll.ch; s=google; t=1715157701; x=1715762501; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=vj3PIc4hFA9/gXdFfuPOe4yWwg2VXd43faHw15CH2oA=;
+ b=Eg6cDDEM1arBPjKZm85lGtmatjMBbgClEmfLWcPbzHDQQka8fX2RQoie3OgQ8DPuhK
+ tzYDgVxmWRn6/Gf0OS28Fj7me6Iq3701mUUYGrS4uOCJ1dEb/ZvQzhdkKMaFsGDfJry0
+ +rB4YmBsEy4H6YOCKKq+lDsyGiwnqiVfuqBjw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715157601; x=1715762401;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TjDECsAq9W3dnXC6ANhg0GrZ6XSPEO0XVnHc2JQoQ80=;
- b=YC+KWeofCb6prVkDq22u62jGA59wLdpCu0VkWAq3Nf2MNYtSEBiztMcFRXj/HfCLyM
- D585hoNe4WtD4hZe6Nzi5wAwji/JBRUYoAAevhjtzt5upqZeC50Aw9qlflllFd0n6F80
- IgcjKwHQ/+QdfRYA5BxpU78avBzsr3ODdb7Q5u1VhUwiw/VC6ze4j42dKgTebPEGe7gP
- +yoBR9nb/KVxtyBKLmFhcwwJ90kYXOUeaq4+J6aYwhHAqC85DKoXUD3BDDvgF3/fLnxR
- NYhMS74HJfwGRjSZCb3Glxtj9zebxFgUs5utLA2n89Qtbq2UTSovUwNM/l1vy4uAQQ9x
- m89A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUOQovZKDOkPa4mUUBFy/FI731cDLKxLn3CTNMGni4xEieudTpCidMijfEWVvuQ8Rwc0kwVSwibc6v68ui25FwJ7fB7ZZH5M/Ohz1vwv2+B
-X-Gm-Message-State: AOJu0Yx7+PEBV464SgAYdRd6tIXlcYWz94fTIlrVTVTUU305UHfO0bkU
- b619MisdgniH5IFyaWefhWHEyWdBsHTuqJV+Z9beyTAwovyvnTH8nYC3++jdvIs=
-X-Google-Smtp-Source: AGHT+IGPIAQ6Tm4FnC70hw3PFhT5mBH/5wt01YJzyWABi0B27GbCxWEn36XIAqIwrxHxasKk9JiZiw==
-X-Received: by 2002:a17:906:ccce:b0:a59:cf59:f7ff with SMTP id
- a640c23a62f3a-a59fb94f3c4mr140742766b.2.1715157601017; 
- Wed, 08 May 2024 01:40:01 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1715157701; x=1715762501;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vj3PIc4hFA9/gXdFfuPOe4yWwg2VXd43faHw15CH2oA=;
+ b=ZObSc+UwUUCMuIVrn3ECjn7Rv5hGv4BkA84pw4eu3wLWERSp2HAC7F/MNU3JqLCZXo
+ AE+93kyu0LsvSCXq09Z+mCzeR2CyZQfEZb2JUHNV4GKEW5LbHz6Fk925sobpIPxYR4xK
+ Syz+wuXbNT1HoLw44BdJcUH8EPdKwOhY2OBqgIYbZ0PaV4V6C3oZv32yfI8m9IiYWVQA
+ V/V02wdA2zxPiOad7Ls1kNeLNQk2+XWXqBFs+IMcIlgvLMCSqagi8qIjI9ytTWmCk5/n
+ Et/c2uTwyB6FsDXEBfj5Uxzxda12A0Zjn9XYf85OUe7nDN1k1tjMFDNvvbVJBxc0Baj9
+ LIbQ==
+X-Gm-Message-State: AOJu0YyWvTiUOZaxQt0xnlXYTnnM1PQp11rPmdc17MXEXHQMi1pejYax
+ 3j0UPujedFlHFqdt9C7Jlkut9lNunYwlzgLErt02fhR45w3de1dyDH042UF7qHI=
+X-Google-Smtp-Source: AGHT+IH14cLBvOGAxNNOD0NGpNszsABs3zuyVXh3n6kNBMTLyF0vRRZioU2iVIuWiSighaj0aLtPcg==
+X-Received: by 2002:a17:906:df14:b0:a59:bce9:8454 with SMTP id
+ a640c23a62f3a-a59fb94f6d3mr121582766b.1.1715157700922; 
+ Wed, 08 May 2024 01:41:40 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- bi11-20020a170907368b00b00a59f73fb086sm1155563ejc.196.2024.05.08.01.40.00
+ g23-20020a1709067c5700b00a5a0b34110dsm97882ejp.1.2024.05.08.01.41.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 May 2024 01:40:00 -0700 (PDT)
-Date: Wed, 8 May 2024 10:39:58 +0200
+ Wed, 08 May 2024 01:41:40 -0700 (PDT)
+Date: Wed, 8 May 2024 10:41:37 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Lennart Poettering <mzxreary@0pointer.de>,
- Robert Mader <robert.mader@collabora.com>,
- Sebastien Bacher <sebastien.bacher@canonical.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Milan Zamazal <mzamazal@redhat.com>, Maxime Ripard <mripard@redhat.com>,
- Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-Message-ID: <Zjs6Xt_W0VsY8wJc@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Lennart Poettering <mzxreary@0pointer.de>,
- Robert Mader <robert.mader@collabora.com>,
- Sebastien Bacher <sebastien.bacher@canonical.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Milan Zamazal <mzamazal@redhat.com>,
- Maxime Ripard <mripard@redhat.com>,
- Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
- <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
- <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
- <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
- <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
- <CAA8EJpr4bJUQt2T63_FZ=KHGEm4vixfpk3pMV9naABEONJfMmQ@mail.gmail.com>
- <20240507184049.GC20390@pendragon.ideasonboard.com>
- <CAA8EJpqLu5w7gnqtDyuDDQBd7AEROTd6LTYi8muzjToXmkKR3w@mail.gmail.com>
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, christian.koenig@amd.com, alexander.deucher@amd.com
+Subject: Re: [PATCH] drm/buddy: Fix the range bias clear memory allocation
+ issue
+Message-ID: <Zjs6wVITtRuXoRDz@phenom.ffwll.local>
+References: <20240508065720.125846-1-Arunpravin.PaneerSelvam@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAA8EJpqLu5w7gnqtDyuDDQBd7AEROTd6LTYi8muzjToXmkKR3w@mail.gmail.com>
+In-Reply-To: <20240508065720.125846-1-Arunpravin.PaneerSelvam@amd.com>
 X-Operating-System: Linux phenom 6.6.15-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,78 +79,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 07, 2024 at 10:59:42PM +0300, Dmitry Baryshkov wrote:
-> On Tue, 7 May 2024 at 21:40, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > On Tue, May 07, 2024 at 06:19:18PM +0300, Dmitry Baryshkov wrote:
-> > > On Tue, 7 May 2024 at 18:15, Bryan O'Donoghue wrote:
-> > > > On 07/05/2024 16:09, Dmitry Baryshkov wrote:
-> > > > > Ah, I see. Then why do you require the DMA-ble buffer at all? If you are
-> > > > > providing data to VPU or DRM, then you should be able to get the buffer
-> > > > > from the data-consuming device.
-> > > >
-> > > > Because we don't necessarily know what the consuming device is, if any.
-> > > >
-> > > > Could be VPU, could be Zoom/Hangouts via pipewire, could for argument
-> > > > sake be GPU or DSP.
-> > > >
-> > > > Also if we introduce a dependency on another device to allocate the
-> > > > output buffers - say always taking the output buffer from the GPU, then
-> > > > we've added another dependency which is more difficult to guarantee
-> > > > across different arches.
-> > >
-> > > Yes. And it should be expected. It's a consumer who knows the
-> > > restrictions on the buffer. As I wrote, Zoom/Hangouts should not
-> > > require a DMA buffer at all.
-> >
-> > Why not ? If you want to capture to a buffer that you then compose on
-> > the screen without copying data, dma-buf is the way to go. That's the
-> > Linux solution for buffer sharing.
+On Wed, May 08, 2024 at 12:27:20PM +0530, Arunpravin Paneer Selvam wrote:
+> Problem statement: During the system boot time, an application request
+> for the bulk volume of cleared range bias memory when the clear_avail
+> is zero, we dont fallback into normal allocation method as we had an
+> unnecessary clear_avail check which prevents the fallback method leads
+> to fb allocation failure following system goes into unresponsive state.
 > 
-> Yes. But it should be allocated by the DRM driver. As Sima wrote,
-> there is no guarantee that the buffer allocated from dma-heaps is
-> accessible to the GPU.
+> Solution: Remove the unnecessary clear_avail check in the range bias
+> allocation function.
 > 
-> >
-> > > Applications should be able to allocate
-> > > the buffer out of the generic memory.
-> >
-> > If applications really want to copy data and degrade performance, they
-> > are free to shoot themselves in the foot of course. Applications (or
-> > compositors) need to support copying as a fallback in the worst case,
-> > but all components should at least aim for the zero-copy case.
-> 
-> I'd say that they should aim for the optimal case. It might include
-> both zero-copying access from another DMA master or simple software
-> processing of some kind.
-> 
-> > > GPUs might also have different
-> > > requirements. Consider GPUs with VRAM. It might be beneficial to
-> > > allocate a buffer out of VRAM rather than generic DMA mem.
-> >
-> > Absolutely. For that we need a centralized device memory allocator in
-> > userspace. An effort was started by James Jones in 2016, see [1]. It has
-> > unfortunately stalled. If I didn't have a camera framework to develop, I
-> > would try to tackle that issue :-)
-> 
-> I'll review the talk. However the fact that the effort has stalled
-> most likely means that 'one fits them all' approach didn't really fly
-> well. We have too many usecases.
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Fixes: 96950929eb23 ("drm/buddy: Implement tracking clear page feature")
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> ---
+>  drivers/gpu/drm/drm_buddy.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think there's two reasons:
+Can you please also add a kunit test case to exercise this corner case and
+make sure it stays fixed?
 
-- It's a really hard problem with many aspects. Where you need to allocate
-  the buffer is just one of the myriad of issues a common allocator needs
-  to solve.
+Thanks, Sima
+> 
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index 284ebae71cc4..831929ac95eb 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -574,7 +574,7 @@ __drm_buddy_alloc_range_bias(struct drm_buddy *mm,
+>  
+>  	block = __alloc_range_bias(mm, start, end, order,
+>  				   flags, fallback);
+> -	if (IS_ERR(block) && mm->clear_avail)
+> +	if (IS_ERR(block))
+>  		return __alloc_range_bias(mm, start, end, order,
+>  					  flags, !fallback);
+>  
+> -- 
+> 2.25.1
+> 
 
-- Every linux-based os has their own solution for these, and the one that
-  suffers most has an entirely different one from everyone else: Android
-  uses binder services to allow apps to make these allocations, keep track
-  of them and make sure there's no abuse. And if there is, it can just
-  nuke the app.
-
-Cheers, Sima
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
