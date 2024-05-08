@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68ABF8C068F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 23:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A8D8C0695
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 23:52:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A27210F53F;
-	Wed,  8 May 2024 21:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0B310F5EF;
+	Wed,  8 May 2024 21:52:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K8gt/jer";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cW5C1t21";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7E010F53F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 21:51:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79DF210F5EF
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 21:52:51 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAD5916D4;
- Wed,  8 May 2024 23:51:11 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4D5DE16D4;
+ Wed,  8 May 2024 23:52:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1715205072;
- bh=IdgHgaZdPcCXFSJGhhONFbwqejjGF4oKLW1+TyIjdGk=;
+ s=mail; t=1715205167;
+ bh=Dxw4QBBH0nAYXVaZlwEHYuCWDqlxanntOuSV3i2WstU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K8gt/jeri0bkXEDe3kXbJ7A0PhkdE0GTmUVOr1cZWm/xQqOUM8l2aRy5P5oCOB8zp
- pu0k/PidVMCYjfxZy70PN0pzgULxqT3UqKF7dJJcEFSBgKCLTdMQKXkNdsykFUBggZ
- PN4pnMgaieoRRUxFKddxdt+nJpP7kLaKYlSynubo=
-Date: Thu, 9 May 2024 00:51:06 +0300
+ b=cW5C1t21+DNX+W0Qle3A1H5aeRn5hikYb4VkZ1Sy5FWaJXMaDjUM3pTHPzgHjfpZu
+ x0i+YdJRiuFijAViuVu85CtAj4z7erVcm635jCkHcuosl0/lVkSCl9r9WKxHwSKC50
+ NnkF1sYJ3PRzdU5uJWd95R+uCGVCwrf8YWTE7QY8=
+Date: Thu, 9 May 2024 00:52:42 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Daniel Vetter <daniel@ffwll.ch>
 Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
@@ -50,7 +50,7 @@ Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
  Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
 Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
  (udev uaccess tag) ?
-Message-ID: <20240508215106.GA24860@pendragon.ideasonboard.com>
+Message-ID: <20240508215242.GB24860@pendragon.ideasonboard.com>
 References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
  <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
  <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
@@ -60,11 +60,12 @@ References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
  <20240507183613.GB20390@pendragon.ideasonboard.com>
  <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
  <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
+ <20240508215106.GA24860@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
+In-Reply-To: <20240508215106.GA24860@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,38 +81,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 08, 2024 at 10:36:08AM +0200, Daniel Vetter wrote:
-> On Tue, May 07, 2024 at 04:07:39PM -0400, Nicolas Dufresne wrote:
-> > Le mardi 07 mai 2024 à 21:36 +0300, Laurent Pinchart a écrit :
-> > > Shorter term, we have a problem to solve, and the best option we have
-> > > found so far is to rely on dma-buf heaps as a backend for the frame
-> > > buffer allocatro helper in libcamera for the use case described above.
-> > > This won't work in 100% of the cases, clearly. It's a stop-gap measure
-> > > until we can do better.
+On Thu, May 09, 2024 at 12:51:08AM +0300, Laurent Pinchart wrote:
+> On Wed, May 08, 2024 at 10:36:08AM +0200, Daniel Vetter wrote:
+> > On Tue, May 07, 2024 at 04:07:39PM -0400, Nicolas Dufresne wrote:
+> > > Le mardi 07 mai 2024 à 21:36 +0300, Laurent Pinchart a écrit :
+> > > > Shorter term, we have a problem to solve, and the best option we have
+> > > > found so far is to rely on dma-buf heaps as a backend for the frame
+> > > > buffer allocatro helper in libcamera for the use case described above.
+> > > > This won't work in 100% of the cases, clearly. It's a stop-gap measure
+> > > > until we can do better.
+> > > 
+> > > Considering the security concerned raised on this thread with dmabuf heap
+> > > allocation not be restricted by quotas, you'd get what you want quickly with
+> > > memfd + udmabuf instead (which is accounted already).
+> > > 
+> > > It was raised that distro don't enable udmabuf, but as stated there by Hans, in
+> > > any cases distro needs to take action to make the softISP works. This
+> > > alternative is easy and does not interfere in anyway with your future plan or
+> > > the libcamera API. You could even have both dmabuf heap (for Raspbian) and the
+> > > safer memfd+udmabuf for the distro with security concerns.
+> > > 
+> > > And for the long term plan, we can certainly get closer by fixing that issue
+> > > with accounting. This issue also applied to v4l2 io-ops, so it would be nice to
+> > > find common set of helpers to fix these exporters.
 > > 
-> > Considering the security concerned raised on this thread with dmabuf heap
-> > allocation not be restricted by quotas, you'd get what you want quickly with
-> > memfd + udmabuf instead (which is accounted already).
-> > 
-> > It was raised that distro don't enable udmabuf, but as stated there by Hans, in
-> > any cases distro needs to take action to make the softISP works. This
-> > alternative is easy and does not interfere in anyway with your future plan or
-> > the libcamera API. You could even have both dmabuf heap (for Raspbian) and the
-> > safer memfd+udmabuf for the distro with security concerns.
-> > 
-> > And for the long term plan, we can certainly get closer by fixing that issue
-> > with accounting. This issue also applied to v4l2 io-ops, so it would be nice to
-> > find common set of helpers to fix these exporters.
+> > Yeah if this is just for softisp, then memfd + udmabuf is also what I was
+> > about to suggest. Not just as a stopgap, but as the real official thing.
 > 
-> Yeah if this is just for softisp, then memfd + udmabuf is also what I was
-> about to suggest. Not just as a stopgap, but as the real official thing.
+> Long term I still want a centralized memory allocator, at which point
+> libcamera should stop allocating buffers at all.
 
-Long term I still want a centralized memory allocator, at which point
-libcamera should stop allocating buffers at all.
+And to be clear, udmabuf could be fine for the time being. At least as
+long as we don't find any shortcoming while testing it :-)
 
-> udmabuf does kinda allow you to pin memory, but we can easily fix that by
-> adding the right accounting and then either let mlock rlimits or cgroups
-> kernel memory limits enforce good behavior.
+> > udmabuf does kinda allow you to pin memory, but we can easily fix that by
+> > adding the right accounting and then either let mlock rlimits or cgroups
+> > kernel memory limits enforce good behavior.
 
 -- 
 Regards,
