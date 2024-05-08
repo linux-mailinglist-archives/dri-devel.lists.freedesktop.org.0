@@ -2,44 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91CFC8BF843
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 10:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4AA18BF868
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 10:23:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2528111349C;
-	Wed,  8 May 2024 08:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2175E10F037;
+	Wed,  8 May 2024 08:23:15 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="BXIPVTD8";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB60113495
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 08:16:28 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1s4cTQ-0003ai-TA; Wed, 08 May 2024 10:16:24 +0200
-Message-ID: <3ac1eadc86772deb12af77e890b2a59a34fa847a.camel@pengutronix.de>
-Subject: Re: NXP i.MX8MM GPU performances
-From: Lucas Stach <l.stach@pengutronix.de>
-To: =?ISO-8859-1?Q?Jo=E3o?= Paulo =?ISO-8859-1?Q?Gon=E7alves?=
- <jpaulo.silvagoncalves@gmail.com>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>,  Christian Gmeiner
- <christian.gmeiner@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- joao.goncalves@toradex.com
-Date: Wed, 08 May 2024 10:16:24 +0200
-In-Reply-To: <20240507181712.svjjaryisdgfxkle@joaog-nb>
-References: <20240507181712.svjjaryisdgfxkle@joaog-nb>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B44C10EB0E
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 08:23:13 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a59ad24baa2so135301566b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 01:23:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1715156591; x=1715761391; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=xX8T7z7JX/d3uw4bZ2bZEEE/EwwDbdoePKTyocl8yug=;
+ b=BXIPVTD8uvBLokpZehD/B1AYr031iy9AYApx4jsjRiD7yujtUmSWoVPDXp/2FfLSt5
+ JTFHEjkNGKyw6QPBZeAh/NbtrMUx1GWrqRquKZtF28CEZn9HMTXbzUq+gdKAe0FldLoz
+ cfH0v8ao6G1/KOwdJvpuINNdpSJO3waxroJ1M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715156591; x=1715761391;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xX8T7z7JX/d3uw4bZ2bZEEE/EwwDbdoePKTyocl8yug=;
+ b=gfLszQJtOWR7OOePQwitZmDIKTCTipTv0z7wrgsjABaO+87g0HCjm7OGa/urvAvrsX
+ LNeT8oVbaJyiSmh68LjngQgZ4AaYMAuEh8SbQuJ/UT9DImGX6G9s9lsW/UoDN1mu98iU
+ 4xA//6X7q/MUvk/jGDOR0pxnV6yw3FV7EPpnmPsJfja6GZBF5fTf8vm+Bp/2H/d+V1VT
+ +E9R+2pFZO3mCix2HnEnxJ+PD6eYzyquu/q+dI+62JIdgcCMHtc87R1tfOja4ZR+maw4
+ AUe3nsUdCH6ZBziAre3sVxKKzjDg8Z+Lna/0cUwXS2fynPGlhl0Esre07t0jiBLgagXJ
+ u26A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXaJPVrxbHKrsYrrd2UDuI/YWHv8Hohc3hoTtOcucSTKTppd921lXaCGR3qoZUhTry+Oq75oT62ftYIT8oH4cJvPPCX7SrmhUBknbuYwbja
+X-Gm-Message-State: AOJu0Yze1SGzgmJhdYWs1QL12+GYWjNMaUkXZJFurRTu3p1K4zK89doZ
+ Lfxv7CdIkE0H0Ms9E+3yGcj4fXhy056qrxBx969DORpAUyGdYOMVX6NApsvGC7s=
+X-Google-Smtp-Source: AGHT+IERZtXNeoCiRmo1mqas8Y/UQ6pzLyLJDXpgtWRZ1RzE0ZKKFqa1dMwitwttSdKyrV7CIRB1ew==
+X-Received: by 2002:a17:906:f359:b0:a59:dbb0:ddcf with SMTP id
+ a640c23a62f3a-a59fb6fba8fmr121830766b.0.1715156591554; 
+ Wed, 08 May 2024 01:23:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ g8-20020a1709067c4800b00a59a9cfec7esm5128792ejp.133.2024.05.08.01.23.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 May 2024 01:23:11 -0700 (PDT)
+Date: Wed, 8 May 2024 10:23:09 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v1 2/2] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <Zjs2bVVxBHEGUhF_@phenom.ffwll.local>
+References: <20240422063602.3690124-1-vivek.kasireddy@intel.com>
+ <20240422063602.3690124-3-vivek.kasireddy@intel.com>
+ <20240430162450.711f4616.alex.williamson@redhat.com>
+ <20240501125309.GB941030@nvidia.com>
+ <IA0PR11MB718509BB8B56455710DB2033F8182@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <20240508003153.GC4650@nvidia.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240508003153.GC4650@nvidia.com>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,131 +90,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jo=C3=A3o Paulo,
+On Tue, May 07, 2024 at 09:31:53PM -0300, Jason Gunthorpe wrote:
+> On Thu, May 02, 2024 at 07:50:36AM +0000, Kasireddy, Vivek wrote:
+> > Hi Jason,
+> > 
+> > > 
+> > > On Tue, Apr 30, 2024 at 04:24:50PM -0600, Alex Williamson wrote:
+> > > > > +static vm_fault_t vfio_pci_dma_buf_fault(struct vm_fault *vmf)
+> > > > > +{
+> > > > > +	struct vm_area_struct *vma = vmf->vma;
+> > > > > +	struct vfio_pci_dma_buf *priv = vma->vm_private_data;
+> > > > > +	pgoff_t pgoff = vmf->pgoff;
+> > > > > +
+> > > > > +	if (pgoff >= priv->nr_pages)
+> > > > > +		return VM_FAULT_SIGBUS;
+> > > > > +
+> > > > > +	return vmf_insert_pfn(vma, vmf->address,
+> > > > > +			      page_to_pfn(priv->pages[pgoff]));
+> > > > > +}
+> > > >
+> > > > How does this prevent the MMIO space from being mmap'd when disabled
+> > > at
+> > > > the device?  How is the mmap revoked when the MMIO becomes disabled?
+> > > > Is it part of the move protocol?
+> > In this case, I think the importers that mmap'd the dmabuf need to be tracked
+> > separately and their VMA PTEs need to be zapped when MMIO access is revoked.
+> 
+> Which, as we know, is quite hard.
+> 
+> > > Yes, we should not have a mmap handler for dmabuf. vfio memory must be
+> > > mmapped in the normal way.
+> > Although optional, I think most dmabuf exporters (drm ones) provide a mmap
+> > handler. Otherwise, there is no easy way to provide CPU access (backup slow path)
+> > to the dmabuf for the importer.
+> 
+> Here we should not, there is no reason since VFIO already provides a
+> mmap mechanism itself. Anything using this API should just call the
+> native VFIO function instead of trying to mmap the DMABUF. Yes, it
+> will be inconvient for the scatterlist case you have, but the kernel
+> side implementation is much easier ..
 
-Am Dienstag, dem 07.05.2024 um 15:17 -0300 schrieb Jo=C3=A3o Paulo
-Gon=C3=A7alves:
-> Hello all,
->=20
-> I did run some benchmark on i.MX8MM GPU and I have some concerns on the
-> differences between mainline Linux/etnaviv/Mesa and the proprietary NXP/V=
-ivante
-> solution.
->=20
-> The tests were executed comparing glmark2 results between a mainline kern=
-el
-> (6.9.0-rc6) running Mesa 24.0.3 and NXP provided galcore driver
-> 6.4.3.p4.398061 running with a 5.15 based NXP downstream kernel.
->=20
-> The GPU is running in overdrive mode (see [1]).
->=20
-> mainline infos (etnaviv):
->=20
-> > dmesg | grep -i -E '(gpu|etnaviv)'
-> [    9.113389] etnaviv-gpu 38000000.gpu: model: GC600, revision: 4653
-> [    9.120939] etnaviv-gpu 38000000.gpu: Need to move linear window on MC=
-1.0, disabling TS
+Just wanted to confirm that it's entirely legit to not implement dma-buf
+mmap. Same for the in-kernel vmap functions. Especially for really funny
+buffers like these it's just not a good idea, and the dma-buf interfaces
+are intentionally "everything is optional".
 
-That's a problem. This will prevent TS from being used, which has a
-large performance impact. But it shouldn't be necessary to disable it
-on the i.MX8MM GPU, as all memory accesses aside from the initial MMU
-commandstream go through MMU translation, so the issue with MC1.0 will
-not be hit. Can you try patching out the check in the kernel and see if
-it helps?
+Similarly you can (and should) reject and dma_buf_attach to devices where
+p2p connectevity isn't there, or well really for any other reason that
+makes stuff complicated and is out of scope for your use-case. It's better
+to reject strictly and than accidentally support something really horrible
+(we've been there).
 
-I'll also send a proper patch for this.
-
-Regards,
-Lucas
-
-> [    9.129238] etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
-> [    9.138463] [drm] Initialized etnaviv 1.4.0 20151214 for etnaviv on mi=
-nor 1
->=20
-> glmark2-es2-wayland info output:=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->     glmark2 2023.01
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->     OpenGL Information
->     GL_VENDOR:      Mesa
->     GL_RENDERER:    Vivante GC600 rev 4653
->     GL_VERSION:     OpenGL ES 2.0 Mesa 24.0.3
->     Surface Config: buf=3D32 r=3D8 g=3D8 b=3D8 a=3D8 depth=3D24 stencil=
-=3D0 samples=3D0
->     Surface Size:   640x480 windowed
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->=20
-> galcore infos (vivante):
->=20
-> > dmesg | grep -i -E '(gpu|vivante|gal)'
-> [    4.524977] Galcore version 6.4.3.p4.398061
-> [    4.587654] [drm] Initialized vivante 1.0.0 20170808 for 38000000.gpu =
-on minor 0
->=20
-> glmark2-es2-wayland info output:=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->     glmark2 2023.01
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->     OpenGL Information
->     GL_VENDOR:      Vivante Corporation
->     GL_RENDERER:    Vivante GC7000NanoUltra
->     GL_VERSION:     OpenGL ES 2.0 V6.4.3.p4.398061
->     Surface Config: buf=3D32 r=3D8 g=3D8 b=3D8 a=3D8 depth=3D24 stencil=
-=3D0 samples=3D0
->     Surface Size:   640x480 windowed
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->=20
->=20
-> In screen (weston + DSI) test results:
->=20
-> glmark2 command:=20
-> > glmark2-es2-wayland -b shading:duration=3D5.0 -b refract -b build -b te=
-xture -b shadow -b bump -s 640x480 2>&1
->=20
-> >         |          glmark2 tests                  |
-> > sw ver  |shading|build|texture|refract|shadow|bump|
-> > ---------|-------|-----|-------|-------|------|----|
-> > etnaviv | 263   | 334 | 291   | 22    | 63   | 328|
-> > vivante | 544   | 956 | 790   | 26    | 225  | 894|
->=20
-> we have 50-60% smaller number with etnaviv.
->=20
-> Offscreen test results:
->=20
-> glmark2 command:=20
-> > glmark2-es2-wayland  --off-screen -b shading:duration=3D5.0 -b refract =
--b build -b texture -b shadow -b bump -s 640x480 2>&1
->=20
-> >         |          glmark2 tests                  |
-> > sw ver  |shading|build|texture|refract|shadow|bump|
-> > ---------|-------|-----|-------|-------|------|----|
-> > etnaviv | 348   | 541 | 466   | 24    | 81   | 498|
-> > vivante | 402   | 624 | 520   | 26    | 177  | 557|
->=20
-> we have a 10~13% smaller number with etnaviv.
->=20
-> Do anybody did run similar benchmark in the past on NXP i.MX8MM? With wha=
-t
-> results?
->=20
-> Is it expected such a difference in the glmark2 tests results?
-> Any idea on this big difference between running the test offscreen or not=
-?
->=20
-> Jo=C3=A3o Paulo
->=20
-> [1] https://lore.kernel.org/all/20240507143555.471025-1-jpaulo.silvagonca=
-lves@gmail.com/
-
+The only real rule with all the interfaces is that when attach() worked,
+then map must too (except when you're in OOM). Because at least for some
+drivers/subsystems, that's how userspace figures out whether a buffer can
+be shared.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
