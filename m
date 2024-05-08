@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358F38C05E7
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 22:53:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74518C05E8
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 22:53:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3AE811299E;
-	Wed,  8 May 2024 20:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7B09112124;
+	Wed,  8 May 2024 20:53:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MIUMLC4I";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="lDaCv15h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BED0211299E
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 20:53:26 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-2b4952a1b51so197859a91.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 13:53:26 -0700 (PDT)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C88F91129A0
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 20:53:28 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-2b6208c88dcso181611a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 13:53:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715201605; x=1715806405;
+ d=chromium.org; s=google; t=1715201607; x=1715806407;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jzcpGszDYfYDvpAtJ9I5+W4SIWDBCKlbuPhkejfhvkU=;
- b=MIUMLC4IyIzOCUfQjeDrBLff0xMz/8hCKRiiHbRP5HsFptEjvCuaZA2OwQDs72QLMi
- Kj795kCQCSNWljT/mliBWU7vpuipy+ad1L+34M6RGQiw+iqVEln+gjopJEKNPu0AdScz
- ft2Q39D3FxQTFfg857sy54UQWNqdcOOPBOqT0=
+ bh=uNBdRTUhnMJUQTGuBK+L0Dohk8GABfrnq3BrV29pwCE=;
+ b=lDaCv15h5PYssuHgytUXEb9wcDkvZ/vtuWw/Uk9YDrqk/xVMqPJo4BPA6e7hNBMu7L
+ 1n84AsV0LVAvxVdm1LOIe/eTElkP85rpxn2cbpxAgS4facPr/aUMNWxvVkCY8be1/ujO
+ wWbUeKBBkiROWdG6gFxWTAKTga/A7eWNOfk60=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715201605; x=1715806405;
+ d=1e100.net; s=20230601; t=1715201607; x=1715806407;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jzcpGszDYfYDvpAtJ9I5+W4SIWDBCKlbuPhkejfhvkU=;
- b=mpocUFlrV39XSK0LT5/YW84oNHRiDFYJ6PVnB4WX/Nvx66HmVVbEaTqro7W2Yh5h+I
- r0z6GihvJXF/IcCFmLQUqkxKcPn3pFS+y6C5D2/yMvyt6eLsUMrBzSZ1+xOHxnvBzWhO
- IeGzerotz8AbOWm653kIlEEBxS7MekISGI8LRhWZ3J/1hPjEqjuW97L8PeDeKm26/K93
- 2pjPx/r94Ubsgyas82kZQwrm7H2HDJ5oeTFHQjQhKY89Pk2tySPTSO3pbQ+7C7DbM++a
- 2C9GNg4Ev6DxhgeokvCwVUy2bwePHW1vMhhLDfFLWINQgYLc/EOJnNvTQI2y8O4CRDQc
- GtgA==
-X-Gm-Message-State: AOJu0Yxqs0okKd3SwBpeNL/KIN8MT8KtNps3+khF3E/Q45AWVSfF2oRk
- mdZGtbe3+fwQ45ighGQX9GWpNCFKscvmB0axxAiJqORjCyvGZFWASPfTOEasw/aSBKUnveVyKic
+ bh=uNBdRTUhnMJUQTGuBK+L0Dohk8GABfrnq3BrV29pwCE=;
+ b=NlAPTzDdCdpnIsD0ED0i7b8r/ySAHUFZgFtnFBzpu9KJlZBc0YFuVQhwkUCrKoMNQ2
+ 2hzqhTJGhFwtOI3PgqnBA3leh/q1FpLRTiABrNWYk4Y63QxLV35t6YG/kC5nZJg18K+l
+ kgyQzn+3m3BHtJ4JR+L4IUPuNn171+Q9BHYkFIc6IDNYy0CtxO1QfycgVqm7fRtR626B
+ 3lJSDd/uNqbOel+KoOBOLKJwRqyl0CZQxryMMrLGAguHzWexZXHT4Rnthkia8zk2e/8O
+ CWNK5cW97HaI7bOPazdIooKq7RzUZvmxkrB+05h39SSAo+Rw0+5DHobfM0sQFELnD/2Y
+ 4rWw==
+X-Gm-Message-State: AOJu0Yye7O2iCHO645NkHpDhNlezTif4h6ImIp9ARkj276wpwFu3Nwac
+ /HS3z2bK12Zf9Bl43vNIygjGpD6PQVoe8NQbJnOkTBso1ABHvCIkp2v+uX2pB+CiYDOWnQBaePM
  =
-X-Google-Smtp-Source: AGHT+IHBvDm5AOB1l7xVKhM38HiKJm0yG0yn39vA4dLcvbwfI+I4vyt3bJTsCzuKdgtRxySdr6+LTQ==
-X-Received: by 2002:a17:90b:b17:b0:2b4:36d7:b6ad with SMTP id
- 98e67ed59e1d1-2b61639c45dmr3572050a91.4.1715201604990; 
- Wed, 08 May 2024 13:53:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEeIMaogXMqXUTjhVxOaZrBfFy5NscKSzOlvn7E0V1UAI9d4eb+d6pW7Z4E1sAw4JUo/a1BcQ==
+X-Received: by 2002:a17:90a:6348:b0:2b4:32be:3b8c with SMTP id
+ 98e67ed59e1d1-2b616be2394mr3562061a91.37.1715201607021; 
+ Wed, 08 May 2024 13:53:27 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:40f4:feca:59e0:d3ca])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2b67126ad51sm6887a91.25.2024.05.08.13.53.23
+ 98e67ed59e1d1-2b67126ad51sm6887a91.25.2024.05.08.13.53.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 May 2024 13:53:24 -0700 (PDT)
+ Wed, 08 May 2024 13:53:26 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org
 Cc: lvzhaoxiong@huaqin.corp-partner.google.com,
@@ -65,15 +65,17 @@ Cc: lvzhaoxiong@huaqin.corp-partner.google.com,
  Sam Ravnborg <sam@ravnborg.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Joel Selvaraj <jo@jsfamily.in>, Brian Norris <briannorris@chromium.org>,
- Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Douglas Anderson <dianders@chromium.org>,
+ Ritesh Kumar <quic_riteshk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/9] drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
-Date: Wed,  8 May 2024 13:51:47 -0700
-Message-ID: <20240508135148.v4.5.Ie94246c30fe95101e0e26dd5f96e976dbeb8f242@changeid>
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 6/9] drm/panel: novatek-nt36672e: Switch to
+ mipi_dsi_dcs_write_seq_multi()
+Date: Wed,  8 May 2024 13:51:48 -0700
+Message-ID: <20240508135148.v4.6.I3c08a7d02c467d2bc88da14e513ea4c8649fce45@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240508205222.2251854-1-dianders@chromium.org>
 References: <20240508205222.2251854-1-dianders@chromium.org>
@@ -94,21 +96,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current mipi_dsi_*_write_seq() macros are non-intutitive because
-they contain a hidden "return" statement that will return out of the
-_caller_ of the macro. Let's mark them as deprecated and instead
-introduce some new macros that are more intuitive.
-
-These new macros are less optimal when an error occurs but should
-behave more optimally when there is no error. Specifically these new
-macros cause smaller code to get generated and the code size savings
-(less to fetch from RAM, less cache space used, less RAM used) are
-important. Since the error case isn't something we need to optimize
-for and these new macros are easier to understand and more flexible,
-they should be used.
-
-After converting to use these new functions, one example shows some
-nice savings while also being easier to understand.
+This is a mechanical conversion of the novatek-nt36672e driver to use
+the new mipi_dsi_dcs_write_seq_multi(). The new function is easier for
+clients to understand and using it also causes smaller code to be
+generated. Specifically:
 
 $ scripts/bloat-o-meter \
   ...after/panel-novatek-nt36672e.ko \
@@ -118,250 +109,615 @@ Function                                     old     new   delta
 nt36672e_1080x2408_60hz_init                6236    5248    -988
 Total: Before=10651, After=9663, chg -9.28%
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Cc: Ritesh Kumar <quic_riteshk@quicinc.com>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
-Right now this patch introduces two new functions in drm_mipi_dsi.c.
-Alternatively we could have changed the prototype of the "chatty"
-functions and made the deprecated macros adapt to the new prototype.
-While this sounds nice, it bloated callers of the deprecated functioin
-a bit because it caused the compiler to emit less optimal code. It
-doesn't seem terrible to add two more functions, so I went that
-way. There may be cases where callers who aren't writing many
-sequences prefer to use the "chatty" versions anyway.
+This change is only compile tested. I don't use this panel myself but
+arbitrarily picked it as an example to look at when working on the
+MIPI DSI macros.
+
+NOTE: as of the posting of v4 this change still has no tags. Without
+any tags (Reviewed-by/Tested-by/Acked-by) I won't actually land this
+change even if the rest of the series lands.
 
 (no changes since v3)
 
 Changes in v3:
-- Add a TODO item for cleaning up the deprecated macros/functions.
-- Inline kerneldoc comments for struct mipi_dsi_multi_context.
+- Fix spacing of init function.
 
 Changes in v2:
 - New
 
- Documentation/gpu/todo.rst     | 18 ++++++++++
- drivers/gpu/drm/drm_mipi_dsi.c | 56 ++++++++++++++++++++++++++++++
- include/drm/drm_mipi_dsi.h     | 62 ++++++++++++++++++++++++++++++++++
- 3 files changed, 136 insertions(+)
+ .../gpu/drm/panel/panel-novatek-nt36672e.c    | 576 +++++++++---------
+ 1 file changed, 289 insertions(+), 287 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index e2a0585915b3..2734b8a34541 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -494,6 +494,24 @@ Contact: Douglas Anderson <dianders@chromium.org>
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
+index 20b7bfe4aa12..9ce8df455232 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt36672e.c
+@@ -51,293 +51,295 @@ static inline struct nt36672e_panel *to_nt36672e_panel(struct drm_panel *panel)
  
- Level: Starter/Intermediate
- 
-+Transition away from using mipi_dsi_*_write_seq()
-+-------------------------------------------------
+ static int nt36672e_1080x2408_60hz_init(struct mipi_dsi_device *dsi)
+ {
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x10);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xc0, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xc1, 0x89, 0x28, 0x00, 0x08, 0x00, 0xaa, 0x02,
+-				0x0e, 0x00, 0x2b, 0x00, 0x07, 0x0d, 0xb7, 0x0c, 0xb7);
+-
+-	mipi_dsi_dcs_write_seq(dsi, 0xc2, 0x1b, 0xa0);
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x20);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x01, 0x66);
+-	mipi_dsi_dcs_write_seq(dsi, 0x06, 0x40);
+-	mipi_dsi_dcs_write_seq(dsi, 0x07, 0x38);
+-	mipi_dsi_dcs_write_seq(dsi, 0x2f, 0x83);
+-	mipi_dsi_dcs_write_seq(dsi, 0x69, 0x91);
+-	mipi_dsi_dcs_write_seq(dsi, 0x95, 0xd1);
+-	mipi_dsi_dcs_write_seq(dsi, 0x96, 0xd1);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x64);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x54);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf4, 0x64);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf5, 0x54);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf6, 0x64);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x54);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf8, 0x64);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf9, 0x54);
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x24);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x01, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x03, 0x0c);
+-	mipi_dsi_dcs_write_seq(dsi, 0x05, 0x1d);
+-	mipi_dsi_dcs_write_seq(dsi, 0x08, 0x2f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x09, 0x2e);
+-	mipi_dsi_dcs_write_seq(dsi, 0x0a, 0x2d);
+-	mipi_dsi_dcs_write_seq(dsi, 0x0b, 0x2c);
+-	mipi_dsi_dcs_write_seq(dsi, 0x11, 0x17);
+-	mipi_dsi_dcs_write_seq(dsi, 0x12, 0x13);
+-	mipi_dsi_dcs_write_seq(dsi, 0x13, 0x15);
+-	mipi_dsi_dcs_write_seq(dsi, 0x15, 0x14);
+-	mipi_dsi_dcs_write_seq(dsi, 0x16, 0x16);
+-	mipi_dsi_dcs_write_seq(dsi, 0x17, 0x18);
+-	mipi_dsi_dcs_write_seq(dsi, 0x1b, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x1d, 0x1d);
+-	mipi_dsi_dcs_write_seq(dsi, 0x20, 0x2f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x21, 0x2e);
+-	mipi_dsi_dcs_write_seq(dsi, 0x22, 0x2d);
+-	mipi_dsi_dcs_write_seq(dsi, 0x23, 0x2c);
+-	mipi_dsi_dcs_write_seq(dsi, 0x29, 0x17);
+-	mipi_dsi_dcs_write_seq(dsi, 0x2a, 0x13);
+-	mipi_dsi_dcs_write_seq(dsi, 0x2b, 0x15);
+-	mipi_dsi_dcs_write_seq(dsi, 0x2f, 0x14);
+-	mipi_dsi_dcs_write_seq(dsi, 0x30, 0x16);
+-	mipi_dsi_dcs_write_seq(dsi, 0x31, 0x18);
+-	mipi_dsi_dcs_write_seq(dsi, 0x32, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0x34, 0x10);
+-	mipi_dsi_dcs_write_seq(dsi, 0x35, 0x1f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x36, 0x1f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x4d, 0x14);
+-	mipi_dsi_dcs_write_seq(dsi, 0x4e, 0x36);
+-	mipi_dsi_dcs_write_seq(dsi, 0x4f, 0x36);
+-	mipi_dsi_dcs_write_seq(dsi, 0x53, 0x36);
+-	mipi_dsi_dcs_write_seq(dsi, 0x71, 0x30);
+-	mipi_dsi_dcs_write_seq(dsi, 0x79, 0x11);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7a, 0x82);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7b, 0x8f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7d, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0x80, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0x81, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0x82, 0x13);
+-	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x31);
+-	mipi_dsi_dcs_write_seq(dsi, 0x85, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x86, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x87, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x90, 0x13);
+-	mipi_dsi_dcs_write_seq(dsi, 0x92, 0x31);
+-	mipi_dsi_dcs_write_seq(dsi, 0x93, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x94, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x95, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x9c, 0xf4);
+-	mipi_dsi_dcs_write_seq(dsi, 0x9d, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0xa0, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0xa2, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0xa3, 0x02);
+-	mipi_dsi_dcs_write_seq(dsi, 0xa4, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0xa5, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0xc6, 0xc0);
+-	mipi_dsi_dcs_write_seq(dsi, 0xc9, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xd9, 0x80);
+-	mipi_dsi_dcs_write_seq(dsi, 0xe9, 0x02);
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x25);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x18, 0x22);
+-	mipi_dsi_dcs_write_seq(dsi, 0x19, 0xe4);
+-	mipi_dsi_dcs_write_seq(dsi, 0x21, 0x40);
+-	mipi_dsi_dcs_write_seq(dsi, 0x66, 0xd8);
+-	mipi_dsi_dcs_write_seq(dsi, 0x68, 0x50);
+-	mipi_dsi_dcs_write_seq(dsi, 0x69, 0x10);
+-	mipi_dsi_dcs_write_seq(dsi, 0x6b, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x6d, 0x0d);
+-	mipi_dsi_dcs_write_seq(dsi, 0x6e, 0x48);
+-	mipi_dsi_dcs_write_seq(dsi, 0x72, 0x41);
+-	mipi_dsi_dcs_write_seq(dsi, 0x73, 0x4a);
+-	mipi_dsi_dcs_write_seq(dsi, 0x74, 0xd0);
+-	mipi_dsi_dcs_write_seq(dsi, 0x77, 0x62);
+-	mipi_dsi_dcs_write_seq(dsi, 0x79, 0x7e);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7d, 0x03);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7e, 0x15);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7f, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x4d);
+-	mipi_dsi_dcs_write_seq(dsi, 0xcf, 0x80);
+-	mipi_dsi_dcs_write_seq(dsi, 0xd6, 0x80);
+-	mipi_dsi_dcs_write_seq(dsi, 0xd7, 0x80);
+-	mipi_dsi_dcs_write_seq(dsi, 0xef, 0x20);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x84);
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x26);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x81, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x83, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x84, 0x03);
+-	mipi_dsi_dcs_write_seq(dsi, 0x85, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x86, 0x03);
+-	mipi_dsi_dcs_write_seq(dsi, 0x87, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x88, 0x05);
+-	mipi_dsi_dcs_write_seq(dsi, 0x8a, 0x1a);
+-	mipi_dsi_dcs_write_seq(dsi, 0x8b, 0x11);
+-	mipi_dsi_dcs_write_seq(dsi, 0x8c, 0x24);
+-	mipi_dsi_dcs_write_seq(dsi, 0x8e, 0x42);
+-	mipi_dsi_dcs_write_seq(dsi, 0x8f, 0x11);
+-	mipi_dsi_dcs_write_seq(dsi, 0x90, 0x11);
+-	mipi_dsi_dcs_write_seq(dsi, 0x91, 0x11);
+-	mipi_dsi_dcs_write_seq(dsi, 0x9a, 0x80);
+-	mipi_dsi_dcs_write_seq(dsi, 0x9b, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0x9c, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x9d, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x9e, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x27);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x01, 0x68);
+-	mipi_dsi_dcs_write_seq(dsi, 0x20, 0x81);
+-	mipi_dsi_dcs_write_seq(dsi, 0x21, 0x6a);
+-	mipi_dsi_dcs_write_seq(dsi, 0x25, 0x81);
+-	mipi_dsi_dcs_write_seq(dsi, 0x26, 0x94);
+-	mipi_dsi_dcs_write_seq(dsi, 0x6e, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x6f, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x70, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x71, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x72, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x75, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x76, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x77, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7d, 0x09);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7e, 0x67);
+-	mipi_dsi_dcs_write_seq(dsi, 0x80, 0x23);
+-	mipi_dsi_dcs_write_seq(dsi, 0x82, 0x09);
+-	mipi_dsi_dcs_write_seq(dsi, 0x83, 0x67);
+-	mipi_dsi_dcs_write_seq(dsi, 0x88, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x89, 0x10);
+-	mipi_dsi_dcs_write_seq(dsi, 0xa5, 0x10);
+-	mipi_dsi_dcs_write_seq(dsi, 0xa6, 0x23);
+-	mipi_dsi_dcs_write_seq(dsi, 0xa7, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x40);
+-	mipi_dsi_dcs_write_seq(dsi, 0xe5, 0x02);
+-	mipi_dsi_dcs_write_seq(dsi, 0xe6, 0xd3);
+-	mipi_dsi_dcs_write_seq(dsi, 0xeb, 0x03);
+-	mipi_dsi_dcs_write_seq(dsi, 0xec, 0x28);
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x2a);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x00, 0x91);
+-	mipi_dsi_dcs_write_seq(dsi, 0x03, 0x20);
+-	mipi_dsi_dcs_write_seq(dsi, 0x07, 0x50);
+-	mipi_dsi_dcs_write_seq(dsi, 0x0a, 0x70);
+-	mipi_dsi_dcs_write_seq(dsi, 0x0c, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0x0d, 0x40);
+-	mipi_dsi_dcs_write_seq(dsi, 0x0f, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x11, 0xe0);
+-	mipi_dsi_dcs_write_seq(dsi, 0x15, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x16, 0xa4);
+-	mipi_dsi_dcs_write_seq(dsi, 0x19, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x1a, 0x78);
+-	mipi_dsi_dcs_write_seq(dsi, 0x1b, 0x23);
+-	mipi_dsi_dcs_write_seq(dsi, 0x1d, 0x36);
+-	mipi_dsi_dcs_write_seq(dsi, 0x1e, 0x3e);
+-	mipi_dsi_dcs_write_seq(dsi, 0x1f, 0x3e);
+-	mipi_dsi_dcs_write_seq(dsi, 0x20, 0x3e);
+-	mipi_dsi_dcs_write_seq(dsi, 0x28, 0xfd);
+-	mipi_dsi_dcs_write_seq(dsi, 0x29, 0x12);
+-	mipi_dsi_dcs_write_seq(dsi, 0x2a, 0xe1);
+-	mipi_dsi_dcs_write_seq(dsi, 0x2d, 0x0a);
+-	mipi_dsi_dcs_write_seq(dsi, 0x30, 0x49);
+-	mipi_dsi_dcs_write_seq(dsi, 0x33, 0x96);
+-	mipi_dsi_dcs_write_seq(dsi, 0x34, 0xff);
+-	mipi_dsi_dcs_write_seq(dsi, 0x35, 0x40);
+-	mipi_dsi_dcs_write_seq(dsi, 0x36, 0xde);
+-	mipi_dsi_dcs_write_seq(dsi, 0x37, 0xf9);
+-	mipi_dsi_dcs_write_seq(dsi, 0x38, 0x45);
+-	mipi_dsi_dcs_write_seq(dsi, 0x39, 0xd9);
+-	mipi_dsi_dcs_write_seq(dsi, 0x3a, 0x49);
+-	mipi_dsi_dcs_write_seq(dsi, 0x4a, 0xf0);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7a, 0x09);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7b, 0x40);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7f, 0xf0);
+-	mipi_dsi_dcs_write_seq(dsi, 0x83, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x84, 0xa4);
+-	mipi_dsi_dcs_write_seq(dsi, 0x87, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x88, 0x78);
+-	mipi_dsi_dcs_write_seq(dsi, 0x89, 0x23);
+-	mipi_dsi_dcs_write_seq(dsi, 0x8b, 0x36);
+-	mipi_dsi_dcs_write_seq(dsi, 0x8c, 0x7d);
+-	mipi_dsi_dcs_write_seq(dsi, 0x8d, 0x7d);
+-	mipi_dsi_dcs_write_seq(dsi, 0x8e, 0x7d);
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x20);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00, 0x00, 0x00, 0x17, 0x00, 0x49, 0x00,
+-				0x6a, 0x00, 0x89, 0x00, 0x9f, 0x00, 0xb6, 0x00, 0xc8);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb1, 0x00, 0xd9, 0x01, 0x10, 0x01, 0x3a, 0x01,
+-				0x7a, 0x01, 0xa9, 0x01, 0xf2, 0x02, 0x2d, 0x02, 0x2e);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x02, 0x64, 0x02, 0xa3, 0x02, 0xca, 0x03,
+-				0x00, 0x03, 0x1e, 0x03, 0x4a, 0x03, 0x59, 0x03, 0x6a);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb3, 0x03, 0x7d, 0x03, 0x93, 0x03, 0xab, 0x03,
+-				0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb4, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x51, 0x00,
+-				0x71, 0x00, 0x90, 0x00, 0xa7, 0x00, 0xbf, 0x00, 0xd1);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb5, 0x00, 0xe2, 0x01, 0x1a, 0x01, 0x43, 0x01,
+-				0x83, 0x01, 0xb2, 0x01, 0xfa, 0x02, 0x34, 0x02, 0x36);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x02, 0x6b, 0x02, 0xa8, 0x02, 0xd0, 0x03,
+-				0x03, 0x03, 0x21, 0x03, 0x4d, 0x03, 0x5b, 0x03, 0x6b);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb7, 0x03, 0x7e, 0x03, 0x94, 0x03, 0xac, 0x03,
+-				0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb8, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x51, 0x00,
+-				0x72, 0x00, 0x92, 0x00, 0xa8, 0x00, 0xbf, 0x00, 0xd1);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb9, 0x00, 0xe2, 0x01, 0x18, 0x01, 0x42, 0x01,
+-				0x81, 0x01, 0xaf, 0x01, 0xf5, 0x02, 0x2f, 0x02, 0x31);
+-	mipi_dsi_dcs_write_seq(dsi, 0xba, 0x02, 0x68, 0x02, 0xa6, 0x02, 0xcd, 0x03,
+-				0x01, 0x03, 0x1f, 0x03, 0x4a, 0x03, 0x59, 0x03, 0x6a);
+-	mipi_dsi_dcs_write_seq(dsi, 0xbb, 0x03, 0x7d, 0x03, 0x93, 0x03, 0xab, 0x03,
+-				0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x21);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00, 0x00, 0x00, 0x17, 0x00, 0x49, 0x00,
+-				0x6a, 0x00, 0x89, 0x00, 0x9f, 0x00, 0xb6, 0x00, 0xc8);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb1, 0x00, 0xd9, 0x01, 0x10, 0x01, 0x3a, 0x01,
+-				0x7a, 0x01, 0xa9, 0x01, 0xf2, 0x02, 0x2d, 0x02, 0x2e);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x02, 0x64, 0x02, 0xa3, 0x02, 0xca, 0x03,
+-				0x00, 0x03, 0x1e, 0x03, 0x4a, 0x03, 0x59, 0x03, 0x6a);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb3, 0x03, 0x7d, 0x03, 0x93, 0x03, 0xab, 0x03,
+-				0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb4, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x51, 0x00,
+-				0x71, 0x00, 0x90, 0x00, 0xa7, 0x00, 0xbf, 0x00, 0xd1);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb5, 0x00, 0xe2, 0x01, 0x1a, 0x01, 0x43, 0x01,
+-				0x83, 0x01, 0xb2, 0x01, 0xfa, 0x02, 0x34, 0x02, 0x36);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x02, 0x6b, 0x02, 0xa8, 0x02, 0xd0, 0x03,
+-				0x03, 0x03, 0x21, 0x03, 0x4d, 0x03, 0x5b, 0x03, 0x6b);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb7, 0x03, 0x7e, 0x03, 0x94, 0x03, 0xac, 0x03,
+-				0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb8, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x51, 0x00,
+-				0x72, 0x00, 0x92, 0x00, 0xa8, 0x00, 0xbf, 0x00, 0xd1);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb9, 0x00, 0xe2, 0x01, 0x18, 0x01, 0x42, 0x01,
+-				0x81, 0x01, 0xaf, 0x01, 0xf5, 0x02, 0x2f, 0x02, 0x31);
+-	mipi_dsi_dcs_write_seq(dsi, 0xba, 0x02, 0x68, 0x02, 0xa6, 0x02, 0xcd, 0x03,
+-				0x01, 0x03, 0x1f, 0x03, 0x4a, 0x03, 0x59, 0x03, 0x6a);
+-	mipi_dsi_dcs_write_seq(dsi, 0xbb, 0x03, 0x7d, 0x03, 0x93, 0x03, 0xab, 0x03,
+-				0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x2c);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x61, 0x1f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x62, 0x1f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x7e, 0x03);
+-	mipi_dsi_dcs_write_seq(dsi, 0x6a, 0x14);
+-	mipi_dsi_dcs_write_seq(dsi, 0x6b, 0x36);
+-	mipi_dsi_dcs_write_seq(dsi, 0x6c, 0x36);
+-	mipi_dsi_dcs_write_seq(dsi, 0x6d, 0x36);
+-	mipi_dsi_dcs_write_seq(dsi, 0x53, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0x54, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0x55, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0x56, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x58, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0x59, 0x0f);
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0xf0);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x5a, 0x00);
+-
+-	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x10);
+-	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0x51, 0xff);
+-	mipi_dsi_dcs_write_seq(dsi, 0x53, 0x24);
+-	mipi_dsi_dcs_write_seq(dsi, 0x55, 0x01);
+-
+-	return 0;
++	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
 +
-+The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
-+non-intuitive because, if there are errors, they return out of the *caller's*
-+function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
-+and mipi_dsi_dcs_write_seq_multi() macros instead.
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x10);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xc0, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xc1, 0x89, 0x28, 0x00, 0x08, 0x00, 0xaa, 0x02,
++				     0x0e, 0x00, 0x2b, 0x00, 0x07, 0x0d, 0xb7, 0x0c, 0xb7);
 +
-+Once all callers are transitioned, the macros and the functions that they call,
-+mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
-+probably be removed. Alternatively, if people feel like the _multi() variants
-+are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
-+variants but change them not to return out of the caller.
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xc2, 0x1b, 0xa0);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x20);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x01, 0x66);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x06, 0x40);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x07, 0x38);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2f, 0x83);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x69, 0x91);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x95, 0xd1);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x96, 0xd1);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf2, 0x64);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf3, 0x54);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf4, 0x64);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf5, 0x54);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf6, 0x64);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf7, 0x54);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf8, 0x64);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf9, 0x54);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x24);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x01, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x03, 0x0c);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x05, 0x1d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x08, 0x2f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x09, 0x2e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x0a, 0x2d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x0b, 0x2c);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11, 0x17);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x12, 0x13);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x13, 0x15);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x15, 0x14);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x16, 0x16);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x17, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1d, 0x1d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x20, 0x2f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x21, 0x2e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x22, 0x2d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x23, 0x2c);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29, 0x17);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2a, 0x13);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2b, 0x15);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2f, 0x14);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x30, 0x16);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x31, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x32, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x34, 0x10);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x35, 0x1f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x36, 0x1f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x4d, 0x14);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x4e, 0x36);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x4f, 0x36);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x53, 0x36);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x71, 0x30);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x79, 0x11);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7a, 0x82);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7b, 0x8f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7d, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x80, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x81, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x82, 0x13);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x84, 0x31);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x85, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x86, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x87, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x90, 0x13);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x92, 0x31);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x93, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x94, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x95, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x9c, 0xf4);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x9d, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xa0, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xa2, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xa3, 0x02);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xa4, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xa5, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xc6, 0xc0);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xc9, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xd9, 0x80);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe9, 0x02);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x25);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x18, 0x22);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x19, 0xe4);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x21, 0x40);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x66, 0xd8);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x68, 0x50);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x69, 0x10);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x6b, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x6d, 0x0d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x6e, 0x48);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x72, 0x41);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x73, 0x4a);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x74, 0xd0);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x77, 0x62);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x79, 0x7e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7d, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7e, 0x15);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7f, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x84, 0x4d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xcf, 0x80);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xd6, 0x80);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xd7, 0x80);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xef, 0x20);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf0, 0x84);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x26);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x81, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x83, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x84, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x85, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x86, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x87, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x88, 0x05);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x8a, 0x1a);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x8b, 0x11);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x8c, 0x24);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x8e, 0x42);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x8f, 0x11);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x90, 0x11);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x91, 0x11);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x9a, 0x80);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x9b, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x9c, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x9d, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x9e, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x27);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x01, 0x68);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x20, 0x81);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x21, 0x6a);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x25, 0x81);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x26, 0x94);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x6e, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x6f, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x70, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x71, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x72, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x75, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x76, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x77, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7d, 0x09);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7e, 0x67);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x80, 0x23);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x82, 0x09);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x83, 0x67);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x88, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x89, 0x10);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xa5, 0x10);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xa6, 0x23);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xa7, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb6, 0x40);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe5, 0x02);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe6, 0xd3);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xeb, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xec, 0x28);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x2a);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x00, 0x91);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x03, 0x20);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x07, 0x50);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x0a, 0x70);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x0c, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x0d, 0x40);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x0f, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11, 0xe0);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x15, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x16, 0xa4);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x19, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1a, 0x78);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x23);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1d, 0x36);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1e, 0x3e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1f, 0x3e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x20, 0x3e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x28, 0xfd);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29, 0x12);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2a, 0xe1);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2d, 0x0a);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x30, 0x49);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x33, 0x96);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x34, 0xff);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x35, 0x40);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x36, 0xde);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x37, 0xf9);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x38, 0x45);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x39, 0xd9);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3a, 0x49);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x4a, 0xf0);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7a, 0x09);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7b, 0x40);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7f, 0xf0);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x83, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x84, 0xa4);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x87, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x88, 0x78);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x89, 0x23);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x8b, 0x36);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x8c, 0x7d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x8d, 0x7d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x8e, 0x7d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x20);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x00, 0x00, 0x00, 0x17, 0x00, 0x49, 0x00,
++				     0x6a, 0x00, 0x89, 0x00, 0x9f, 0x00, 0xb6, 0x00, 0xc8);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb1, 0x00, 0xd9, 0x01, 0x10, 0x01, 0x3a, 0x01,
++				     0x7a, 0x01, 0xa9, 0x01, 0xf2, 0x02, 0x2d, 0x02, 0x2e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb2, 0x02, 0x64, 0x02, 0xa3, 0x02, 0xca, 0x03,
++				     0x00, 0x03, 0x1e, 0x03, 0x4a, 0x03, 0x59, 0x03, 0x6a);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb3, 0x03, 0x7d, 0x03, 0x93, 0x03, 0xab, 0x03,
++				     0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb4, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x51, 0x00,
++				     0x71, 0x00, 0x90, 0x00, 0xa7, 0x00, 0xbf, 0x00, 0xd1);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb5, 0x00, 0xe2, 0x01, 0x1a, 0x01, 0x43, 0x01,
++				     0x83, 0x01, 0xb2, 0x01, 0xfa, 0x02, 0x34, 0x02, 0x36);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb6, 0x02, 0x6b, 0x02, 0xa8, 0x02, 0xd0, 0x03,
++				     0x03, 0x03, 0x21, 0x03, 0x4d, 0x03, 0x5b, 0x03, 0x6b);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb7, 0x03, 0x7e, 0x03, 0x94, 0x03, 0xac, 0x03,
++				     0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb8, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x51, 0x00,
++				     0x72, 0x00, 0x92, 0x00, 0xa8, 0x00, 0xbf, 0x00, 0xd1);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb9, 0x00, 0xe2, 0x01, 0x18, 0x01, 0x42, 0x01,
++				     0x81, 0x01, 0xaf, 0x01, 0xf5, 0x02, 0x2f, 0x02, 0x31);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xba, 0x02, 0x68, 0x02, 0xa6, 0x02, 0xcd, 0x03,
++				     0x01, 0x03, 0x1f, 0x03, 0x4a, 0x03, 0x59, 0x03, 0x6a);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xbb, 0x03, 0x7d, 0x03, 0x93, 0x03, 0xab, 0x03,
++				     0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x21);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x00, 0x00, 0x00, 0x17, 0x00, 0x49, 0x00,
++				     0x6a, 0x00, 0x89, 0x00, 0x9f, 0x00, 0xb6, 0x00, 0xc8);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb1, 0x00, 0xd9, 0x01, 0x10, 0x01, 0x3a, 0x01,
++				     0x7a, 0x01, 0xa9, 0x01, 0xf2, 0x02, 0x2d, 0x02, 0x2e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb2, 0x02, 0x64, 0x02, 0xa3, 0x02, 0xca, 0x03,
++				     0x00, 0x03, 0x1e, 0x03, 0x4a, 0x03, 0x59, 0x03, 0x6a);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb3, 0x03, 0x7d, 0x03, 0x93, 0x03, 0xab, 0x03,
++				     0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb4, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x51, 0x00,
++				     0x71, 0x00, 0x90, 0x00, 0xa7, 0x00, 0xbf, 0x00, 0xd1);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb5, 0x00, 0xe2, 0x01, 0x1a, 0x01, 0x43, 0x01,
++				     0x83, 0x01, 0xb2, 0x01, 0xfa, 0x02, 0x34, 0x02, 0x36);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb6, 0x02, 0x6b, 0x02, 0xa8, 0x02, 0xd0, 0x03,
++				     0x03, 0x03, 0x21, 0x03, 0x4d, 0x03, 0x5b, 0x03, 0x6b);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb7, 0x03, 0x7e, 0x03, 0x94, 0x03, 0xac, 0x03,
++				     0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb8, 0x00, 0x00, 0x00, 0x1b, 0x00, 0x51, 0x00,
++				     0x72, 0x00, 0x92, 0x00, 0xa8, 0x00, 0xbf, 0x00, 0xd1);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb9, 0x00, 0xe2, 0x01, 0x18, 0x01, 0x42, 0x01,
++				     0x81, 0x01, 0xaf, 0x01, 0xf5, 0x02, 0x2f, 0x02, 0x31);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xba, 0x02, 0x68, 0x02, 0xa6, 0x02, 0xcd, 0x03,
++				     0x01, 0x03, 0x1f, 0x03, 0x4a, 0x03, 0x59, 0x03, 0x6a);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xbb, 0x03, 0x7d, 0x03, 0x93, 0x03, 0xab, 0x03,
++				     0xc8, 0x03, 0xec, 0x03, 0xfe, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x2c);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x61, 0x1f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x62, 0x1f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x7e, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x6a, 0x14);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x6b, 0x36);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x6c, 0x36);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x6d, 0x36);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x53, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x54, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x55, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x56, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x58, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x59, 0x0f);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0xf0);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5a, 0x00);
 +
-+Contact: Douglas Anderson <dianders@chromium.org>
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xff, 0x10);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xfb, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x51, 0xff);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x53, 0x24);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x55, 0x01);
 +
-+Level: Starter
-+
- 
- Core refactorings
- =================
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 8593d9ed5891..d2957cb692d3 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -792,6 +792,34 @@ int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
++	return ctx.accum_err;
  }
- EXPORT_SYMBOL(mipi_dsi_generic_write_chatty);
  
-+/**
-+ * mipi_dsi_generic_write_multi() - mipi_dsi_generic_write_chatty() w/ accum_err
-+ * @ctx: Context for multiple DSI transactions
-+ * @payload: buffer containing the payload
-+ * @size: size of payload buffer
-+ *
-+ * Like mipi_dsi_generic_write_chatty() but deals with errors in a way that
-+ * makes it convenient to make several calls in a row.
-+ */
-+void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
-+				  const void *payload, size_t size)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	ssize_t ret;
-+
-+	if (ctx->accum_err)
-+		return;
-+
-+	ret = mipi_dsi_generic_write(dsi, payload, size);
-+	if (ret < 0) {
-+		ctx->accum_err = ret;
-+		dev_err(dev, "sending generic data %*ph failed: %d\n",
-+			(int)size, payload, ctx->accum_err);
-+	}
-+}
-+EXPORT_SYMBOL(mipi_dsi_generic_write_multi);
-+
- /**
-  * mipi_dsi_generic_read() - receive data using a generic read packet
-  * @dsi: DSI peripheral device
-@@ -908,6 +936,34 @@ int mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
- }
- EXPORT_SYMBOL(mipi_dsi_dcs_write_buffer_chatty);
- 
-+/**
-+ * mipi_dsi_dcs_write_buffer_multi - mipi_dsi_dcs_write_buffer_chatty() w/ accum_err
-+ * @ctx: Context for multiple DSI transactions
-+ * @data: buffer containing data to be transmitted
-+ * @len: size of transmission buffer
-+ *
-+ * Like mipi_dsi_dcs_write_buffer_chatty() but deals with errors in a way that
-+ * makes it convenient to make several calls in a row.
-+ */
-+void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
-+				     const void *data, size_t len)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	ssize_t ret;
-+
-+	if (ctx->accum_err)
-+		return;
-+
-+	ret = mipi_dsi_dcs_write_buffer(dsi, data, len);
-+	if (ret < 0) {
-+		ctx->accum_err = ret;
-+		dev_err(dev, "sending dcs data %*ph failed: %d\n",
-+			(int)len, data, ctx->accum_err);
-+	}
-+}
-+EXPORT_SYMBOL(mipi_dsi_dcs_write_buffer_multi);
-+
- /**
-  * mipi_dsi_dcs_write() - send DCS write command
-  * @dsi: DSI peripheral device
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 6d68d9927f46..5e9cad541bd6 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -197,6 +197,27 @@ struct mipi_dsi_device {
- 	struct drm_dsc_config *dsc;
- };
- 
-+/**
-+ * struct mipi_dsi_multi_context - Context to call multiple MIPI DSI funcs in a row
-+ */
-+struct mipi_dsi_multi_context {
-+	/**
-+	 * @dsi: Pointer to the MIPI DSI device
-+	 */
-+	struct mipi_dsi_device *dsi;
-+
-+	/**
-+	 * @accum_err: Storage for the accumulated error over the multiple calls
-+	 *
-+	 * Init to 0. If a function encounters an error then the error code
-+	 * will be stored here. If you call a function and this points to a
-+	 * non-zero value then the function will be a noop. This allows calling
-+	 * a function many times in a row and just checking the error at the
-+	 * end to see if any of them failed.
-+	 */
-+	int accum_err;
-+};
-+
- #define MIPI_DSI_MODULE_PREFIX "mipi-dsi:"
- 
- #define to_mipi_dsi_device(__dev)	container_of_const(__dev, struct mipi_dsi_device, dev)
-@@ -258,6 +279,8 @@ ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
- 			       size_t size);
- int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
- 				  const void *payload, size_t size);
-+void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
-+				  const void *payload, size_t size);
- ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
- 			      size_t num_params, void *data, size_t size);
- 
-@@ -283,6 +306,8 @@ ssize_t mipi_dsi_dcs_write_buffer(struct mipi_dsi_device *dsi,
- 				  const void *data, size_t len);
- int mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
- 				     const void *data, size_t len);
-+void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
-+				     const void *data, size_t len);
- ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *dsi, u8 cmd,
- 			   const void *data, size_t len);
- ssize_t mipi_dsi_dcs_read(struct mipi_dsi_device *dsi, u8 cmd, void *data,
-@@ -319,6 +344,9 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
-  * This macro will print errors for you and will RETURN FROM THE CALLING
-  * FUNCTION (yes this is non-intuitive) upon error.
-  *
-+ * Because of the non-intuitive return behavior, THIS MACRO IS DEPRECATED.
-+ * Please replace calls of it with mipi_dsi_generic_write_seq_multi().
-+ *
-  * @dsi: DSI peripheral device
-  * @seq: buffer containing the payload
-  */
-@@ -331,12 +359,30 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
- 			return ret;                                            \
- 	} while (0)
- 
-+/**
-+ * mipi_dsi_generic_write_seq_multi - transmit data using a generic write packet
-+ *
-+ * This macro will print errors for you and error handling is optimized for
-+ * callers that call this multiple times in a row.
-+ *
-+ * @ctx: Context for multiple DSI transactions
-+ * @seq: buffer containing the payload
-+ */
-+#define mipi_dsi_generic_write_seq_multi(ctx, seq...)                \
-+	do {                                                         \
-+		static const u8 d[] = { seq };                       \
-+		mipi_dsi_generic_write_multi(ctx, d, ARRAY_SIZE(d)); \
-+	} while (0)
-+
- /**
-  * mipi_dsi_dcs_write_seq - transmit a DCS command with payload
-  *
-  * This macro will print errors for you and will RETURN FROM THE CALLING
-  * FUNCTION (yes this is non-intuitive) upon error.
-  *
-+ * Because of the non-intuitive return behavior, THIS MACRO IS DEPRECATED.
-+ * Please replace calls of it with mipi_dsi_dcs_write_seq_multi().
-+ *
-  * @dsi: DSI peripheral device
-  * @cmd: Command
-  * @seq: buffer containing data to be transmitted
-@@ -350,6 +396,22 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
- 			return ret;                                            \
- 	} while (0)
- 
-+/**
-+ * mipi_dsi_dcs_write_seq_multi - transmit a DCS command with payload
-+ *
-+ * This macro will print errors for you and error handling is optimized for
-+ * callers that call this multiple times in a row.
-+ *
-+ * @ctx: Context for multiple DSI transactions
-+ * @cmd: Command
-+ * @seq: buffer containing data to be transmitted
-+ */
-+#define mipi_dsi_dcs_write_seq_multi(ctx, cmd, seq...)                  \
-+	do {                                                            \
-+		static const u8 d[] = { cmd, seq };                     \
-+		mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
-+	} while (0)
-+
- /**
-  * struct mipi_dsi_driver - DSI driver
-  * @driver: device driver model driver
+ static int nt36672e_power_on(struct nt36672e_panel *ctx)
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
