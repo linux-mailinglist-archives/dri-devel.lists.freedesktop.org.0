@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B978BFEBC
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 15:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B858BFEBD
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 15:29:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B70310E3C8;
-	Wed,  8 May 2024 13:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AABF710FE9D;
+	Wed,  8 May 2024 13:29:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aOOHu3pV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q7is4kDn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E03610E3C8
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 13:28:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A5B810FE9D
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 13:29:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715174935; x=1746710935;
+ t=1715174965; x=1746710965;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=knL7VQTw2101HDFMC3b28DO9zwRyaPIgNR00TWrKla8=;
- b=aOOHu3pVrPVGvDtHxMcFfAlY+q4RF50x0ize+Ggb/pG4dYrHLps0DdxJ
- AZ5tUru43MVMtOgVZts20B80I/ifPLzLvfgp6nozle0rB9zQIw51gG+VU
- e0ta7vjbsUo4P1OkriX2QFi6H8xrA9saI+OR2pfoFAk2v+n9MnK/d5kpw
- vOn9b6IIfH/kv1ff4axZZT9hHJL8nJmT+TrkNJsiE3JM+nquSntH1B6EA
- 4/xB9O7E1Vb4EVY7an4eBMkVeeNC1BxaZ1lMG8sOI2zRMn5n6TLP/fmhS
- 8DD6E9lEAUK4tfNGrMNwIHqENkssfIyCr5ToRnOeCp7QBnBBLbTvvWFGS g==;
-X-CSE-ConnectionGUID: u4nmg/B4Q36reE+q+lEIXA==
-X-CSE-MsgGUID: MANjEaFLQR6UOZlPnzRdGw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="22187589"
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="22187589"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2024 06:28:54 -0700
-X-CSE-ConnectionGUID: XxfmopKSSYuKofCQ8/1L0g==
-X-CSE-MsgGUID: iEclvdoiRnukgPg3BOIy4A==
+ bh=QnvZit/jTxt69n640qqRkdorb0dKDTV8lrDJ3k3eMaA=;
+ b=Q7is4kDnYKrA3Ke0m/+GNONOZgqnEPYsfMwVjOfvOD2C7K+z1j7c2gHB
+ 2AJqSBo+B93FCUDN3jxx7MKZDuZvL5zCcT2fZPRS5M67k6zegHqktpOZH
+ Wza3fTEkWHGsy65elVU3tJSKMMLFTPln3CIx3u+gsq84BTGnvujv0FLiv
+ JYb20CAiR6E9ImKm5ddwuHZNA5JGx5bYPo9S4ZEgOq+cN6JdQUIq+9LfI
+ th/Ej+ky+g4TVJSngBYbciJ0IqDIxWrNR9VW0xH3HjrbKzhU6J4IuUVUo
+ n/FCBtVHBkQDduuDxthTAjGaAodIF9Y+9s1b4DNMtoeDvc7Fpc5bnKD33 Q==;
+X-CSE-ConnectionGUID: 3V9n4gptSBKED9v5bBaIyA==
+X-CSE-MsgGUID: RaSIlqcySieOCWf4EuFZeA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="21634305"
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="21634305"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2024 06:29:24 -0700
+X-CSE-ConnectionGUID: hplDGA5MQFOEC41MeW5Y8g==
+X-CSE-MsgGUID: /6Eti19GR/mJUghSzZmxpw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="33409986"
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="29470036"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2024 06:28:51 -0700
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2024 06:29:22 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 10/12] accel/ivpu: Configure fw logging using debugfs
-Date: Wed,  8 May 2024 15:28:50 +0200
-Message-ID: <20240508132850.2388868-1-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 11/12] accel/ivpu: Increase reset counter when warm boot fails
+Date: Wed,  8 May 2024 15:29:20 +0200
+Message-ID: <20240508132920.2388942-1-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240508132106.2387464-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240508132106.2387464-1-jacek.lawrynowicz@linux.intel.com>
@@ -69,60 +68,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+Failed warm boot causes a cold boot that looses FW state and is
+equivalent to a recovery or reset, so reset_counter should be
+incremented in order for this failure to be detected by tests.
 
-Add fw_dyndbg file that can be used to control FW logging.
-
-Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_debugfs.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ drivers/accel/ivpu/ivpu_pm.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
-index 6ff967e595cf..b6c7d6a53c79 100644
---- a/drivers/accel/ivpu/ivpu_debugfs.c
-+++ b/drivers/accel/ivpu/ivpu_debugfs.c
-@@ -145,6 +145,30 @@ static const struct file_operations dvfs_mode_fops = {
- 	.write = dvfs_mode_fops_write,
- };
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index 7b2aa205fdec..02b4eac13f8b 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -264,6 +264,7 @@ int ivpu_pm_runtime_suspend_cb(struct device *dev)
  
-+static ssize_t
-+fw_dyndbg_fops_write(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
-+{
-+	struct ivpu_device *vdev = file->private_data;
-+	char buffer[VPU_DYNDBG_CMD_MAX_LEN] = {};
-+	int ret;
-+
-+	if (size >= VPU_DYNDBG_CMD_MAX_LEN)
-+		return -EINVAL;
-+
-+	ret = strncpy_from_user(buffer, user_buf, size);
-+	if (ret < 0)
-+		return ret;
-+
-+	ivpu_jsm_dyndbg_control(vdev, buffer, size);
-+	return size;
-+}
-+
-+static const struct file_operations fw_dyndbg_fops = {
-+	.owner = THIS_MODULE,
-+	.open = simple_open,
-+	.write = fw_dyndbg_fops_write,
-+};
-+
- static int fw_log_show(struct seq_file *s, void *v)
- {
- 	struct ivpu_device *vdev = s->private;
-@@ -369,6 +393,8 @@ void ivpu_debugfs_init(struct ivpu_device *vdev)
- 	debugfs_create_file("dvfs_mode", 0200, debugfs_root, vdev,
- 			    &dvfs_mode_fops);
- 
-+	debugfs_create_file("fw_dyndbg", 0200, debugfs_root, vdev,
-+			    &fw_dyndbg_fops);
- 	debugfs_create_file("fw_log", 0644, debugfs_root, vdev,
- 			    &fw_log_fops);
- 	debugfs_create_file("fw_trace_destination_mask", 0200, debugfs_root, vdev,
+ 	if (!hw_is_idle) {
+ 		ivpu_err(vdev, "NPU failed to enter idle, force suspended.\n");
++		atomic_inc(&vdev->pm->reset_counter);
+ 		ivpu_fw_log_dump(vdev);
+ 		ivpu_pm_prepare_cold_boot(vdev);
+ 	} else {
 -- 
 2.43.2
 
