@@ -2,88 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BC38C030A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 19:25:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7460C8C0390
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 19:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3A79113137;
-	Wed,  8 May 2024 17:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 493F0112920;
+	Wed,  8 May 2024 17:46:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dXjk2eg0";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rSf/6E85";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40C99113137
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 17:25:05 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id
- af79cd13be357-78f049ddd7dso358843285a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 10:25:05 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80E1A11291D
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 17:46:40 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-51ef64d051bso4050298e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 10:46:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715189103; x=1715793903;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B+VKTM4P5eufJalRCrDbHQ7nMVvva4ngXjaL2EQ5cWU=;
- b=dXjk2eg0vwQ9Mh2D2AWipHgYwWgGcFdg09j61VrI7CR1h00EYCnAFdbJa1531LRj5Y
- tiGF7TficEbBVw7JMbZvRRgBAClZhgamZoWuqnazBovZ8W/f6eSXGaMb4kjzqflMZzA/
- AlO0Fa/bN8jwxjeM+IVHG7MHgIqXAqWzAthLg=
+ d=linaro.org; s=google; t=1715190398; x=1715795198; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tBqc0otO/1vZytz7RpFsktZzqG8V8CralOjrOLBef2c=;
+ b=rSf/6E851JaYzCP58k7Xwxujiy6Xqpgprc59R17lLw9cDQRHQuzNY6+MGj0+WqApGn
+ W+tpSjXFk41M30cMWteMJxdUr+ONiRw0mBJxapQa9x7OO2K4vsWmWNiK6v/6EihkyMmU
+ xy5+JxqxXT7wYDI4kg9kknjJ5ge+eD+SNcaXe1tCu5/jm4pvO2C10hW7QGBddWLt3MkR
+ VpbmMTaV+RB0jQetUTvH/vEaClu8HDdFwxib6z/0C8VruK6rtDHSsJ0QXLsoCwJW6mqV
+ A4HASsO2BNfL5iwVuK/+GRNYjKVjlJUDrALhH0lJeCGAfGNDCibPPNftuEh4ZwQjgLG/
+ o5ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715189103; x=1715793903;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=B+VKTM4P5eufJalRCrDbHQ7nMVvva4ngXjaL2EQ5cWU=;
- b=uaZJAPDf7SgKEIccerwgvoUfk8+ciuyEmkVvAwBDHgTvmQih223P/JUC9HOmTzAcvN
- 0mOn2lOHjsZpmw7amBx8wrrLMUUtC9FxLVP5VP/7X0RP/N8x0Zn7IrscSn9RGRANKOvd
- 9ifTphPiirt14Ck1s5NlNRNGlTaNBENpBxIjO54+mKHNMfFjtz5pqc3/JXQ7SWeG9zCt
- HoMOI11JfSjuaBZMy7hHtE3dxmwp8MvbuB7T3mUjCudMFW7+iyVL1qO7rkr8s/CUEUhd
- KpPmr0FA7Q6rMPZnx6a9sYMPXC1KvtKoD3tQhvb3Y7Wi5U0A/iyOurlQ19CD2HDxoBXZ
- 7Nzg==
+ d=1e100.net; s=20230601; t=1715190398; x=1715795198;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tBqc0otO/1vZytz7RpFsktZzqG8V8CralOjrOLBef2c=;
+ b=MOyWw3cOuQP76E+cuSL//6Lt7p3nGbxdU3ZO35oOvM4zFrf4KyFe0ni4cRQNUoi+iR
+ pFR+2dyeX+ZoV5mMBwRch5uHkiHLyDH/Mduqi2DQ/4Zt8OWyMCp5CUUJdxUCtQZvZ/dE
+ RMnPBbdmslxdcW/7GApIBJJS19My3YKcG97RqKuT67rCVD/nDcF6aJzx7oFeudA63sNo
+ lev0sN16eFIPafmuZ0Ekig7IZA7RXveoyN8Ghz37EHmpU6tI9tdagTjNzEDjrqnCSde+
+ TMAUZbnVidBP4rUOYdxvmYuVB63NBektcMpqzloCWDKsaBKc0l1mLykLrzvtgwxTOfpP
+ kPzw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXG/FczO4q85RVCUS6Rn1dwBSEYD6iL/Q+OP5cL4knt5/gjAmou5I7PxcbaIyQLT+oEIpNS/M/wHCULnpfcx18p6rrdqv8/Xbt8OCgre0nB
-X-Gm-Message-State: AOJu0YwCB8Qm6HZBGxiBxdaTr6wa+SSghf73GZ171JotiSWpIHLIU9J3
- 483bB1b465wNSJjRBk6vXKIzDjuJ4PIkYfC5BQzCA3Srgb6PclDiHSoSsc0wUNpELg5ZpONvA5I
- =
-X-Google-Smtp-Source: AGHT+IFdq6fiz/gyOKlisbi4UfECLFvuxOic/7/VR+xsD06MlsLeAoCsOCt4HmVq6igRpU3grimEHQ==
-X-Received: by 2002:a05:620a:2446:b0:792:776e:8a46 with SMTP id
- af79cd13be357-792b285c3b2mr454871985a.47.1715189103270; 
- Wed, 08 May 2024 10:25:03 -0700 (PDT)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
- [209.85.160.180]) by smtp.gmail.com with ESMTPSA id
- j10-20020a05620a410a00b0079297c6be3esm3314111qko.66.2024.05.08.10.25.01
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 May 2024 10:25:01 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id
- d75a77b69052e-439b1c72676so30991cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 10:25:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVJC1wov9TPGvQqIFRDImZFsY8AewVFkg/kU9dSjNg2qMYcmM6vWZ6nqGTGUIZ/uesloInjgN75XPwM1jMA/C1N/R3rWosbFNaxGzL4f1OQ
-X-Received: by 2002:a05:622a:4e0a:b0:43d:db04:45d1 with SMTP id
- d75a77b69052e-43ddb044c2fmr2760251cf.1.1715189101210; Wed, 08 May 2024
- 10:25:01 -0700 (PDT)
+ AJvYcCWQok7EYOOOwZemEddkWdYMu+ogUU/5CRtGQ68jOCPrGle3C48MJd6WV1FMLmHdtnpzzkZCrFeJeLHWGmdOngMyBvpR5rOMlR83hqHl4+xq
+X-Gm-Message-State: AOJu0YzqEOY/8x401GMB8wS4jnLnzl5AAj4Xms2ny1PwHJ3X9mzm4eIZ
+ bUJkJP9cyqt5eHYCmaQr4EomGqQbKf7NsRkAZfQ0+7nEi++fKOefdcCl0SDAZlQ=
+X-Google-Smtp-Source: AGHT+IG+Rmny74VZr2L+E6k80Nq9iEIJnnTkrW4sDMxKn1aUHIiF+KJWt9jPP/boB01r67V0blTUSw==
+X-Received: by 2002:a05:6512:3a89:b0:521:b333:6f02 with SMTP id
+ 2adb3069b0e04-521b3336f3cmr1623400e87.14.1715190398393; 
+ Wed, 08 May 2024 10:46:38 -0700 (PDT)
+Received: from [127.0.1.1] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ z19-20020a195e53000000b0051b6f060248sm2635543lfi.134.2024.05.08.10.46.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 May 2024 10:46:38 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Wed, 08 May 2024 19:46:31 +0200
+Subject: [PATCH] drm/msm/adreno: De-spaghettify the use of memory barriers
 MIME-Version: 1.0
-References: <20240507135234.1356855-1-yangcong5@huaqin.corp-partner.google.com>
- <20240507135234.1356855-3-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=Wj5WKcVbNGHQ_BbZa_fsVJkpYb2C8TE8bjhvJvx+N_hw@mail.gmail.com>
- <CAHwB_NKPswAvE5TjRxWMR8LLV5sNuMmymXr4nhDc3r_AdRKr8A@mail.gmail.com>
-In-Reply-To: <CAHwB_NKPswAvE5TjRxWMR8LLV5sNuMmymXr4nhDc3r_AdRKr8A@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 8 May 2024 10:24:43 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UJkmAPB1h87o0m+6HSbVg7ehr0Xd+JFpuF+vuezof-hg@mail.gmail.com>
-Message-ID: <CAD=FV=UJkmAPB1h87o0m+6HSbVg7ehr0Xd+JFpuF+vuezof-hg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/7] drm/panel: himax-hx83102: Break out as separate
- driver
-To: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
- linus.walleij@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
- robh+dt@kernel.org, conor+dt@kernel.org, airlied@gmail.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240508-topic-adreno-v1-1-1babd05c119d@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAHa6O2YC/x3MQQqAIBBA0avIrBN0UMiuEi1Ep5qNikYE4d2Tl
+ m/x/wuNKlODRbxQ6ebGOQ3oSUA4fTpIchwGVGiUVbO8cuEgfayUsvQYtXMhGm0RRlIq7fz8u3X
+ r/QNAVpdUXgAAAA==
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.14-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,91 +89,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Memory barriers help ensure instruction ordering, NOT time and order
+of actual write arrival at other observers (e.g. memory-mapped IP).
+On architectures employing weak memory ordering, the latter can be a
+giant pain point, and it has been as part of this driver.
 
-On Wed, May 8, 2024 at 4:52=E2=80=AFAM cong yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> > > +static int starry_himax83102_j02_init(struct hx83102 *ctx)
-> > > +{
-> > > +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D ctx->dsi=
- };
-> > > +
-> > > +       hx83102_enable_extended_cmds(ctx, true);
-> > > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x2c=
-, 0xb5, 0xb5, 0x31, 0xf1,
-> > > +                                        0x31, 0xd7, 0x2f, 0x36, 0x36=
-, 0x36, 0x36, 0x1a, 0x8b, 0x11,
-> > > +                                        0x65, 0x00, 0x88, 0xfa, 0xff=
-, 0xff, 0x8f, 0xff, 0x08, 0x74,
-> > > +                                        0x33);
-> >
-> > The indentation is still off here. You have 5 tabs followed by a
-> > space. To make things line up with the opening brace I think it should
-> > be 4 tabs followed by 5 spaces.
->
-> Sorry, my  editor 'Visual Studio Code' It seems that the correct indentat=
-ion
-> is not recognized. I have checked it through the 'vim' editor in the V4 v=
-ersion.
-> Thanks.
+Moreover, the gpu_/gmu_ accessors already use non-relaxed versions of
+readl/writel, which include r/w (respectively) barriers.
 
-FWIW, I use VS Code and it looks fine to me. Maybe check your VS Code
-settings? Tab size should be 8.
+Replace the barriers with a readback that ensures the previous writes
+have exited the write buffer (as the CPU must flush the write to the
+register it's trying to read back) and subsequently remove the hack
+introduced in commit b77532803d11 ("drm/msm/a6xx: Poll for GBIF unhalt
+status in hw_init").
 
+Fixes: b77532803d11 ("drm/msm/a6xx: Poll for GBIF unhalt status in hw_init")
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  5 ++---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 14 ++++----------
+ 2 files changed, 6 insertions(+), 13 deletions(-)
 
-> > > +static int hx83102_enable(struct drm_panel *panel)
-> > > +{
-> > > +       struct hx83102 *ctx =3D panel_to_hx83102(panel);
-> > > +       struct mipi_dsi_device *dsi =3D ctx->dsi;
-> > > +       struct device *dev =3D &dsi->dev;
-> > > +       int ret;
-> > > +
-> > > +       ret =3D ctx->desc->init(ctx);
-> > > +       if (ret)
-> > > +               return ret;
-> >
-> > You're still changing behavior here. In the old boe-tv101wum-nl6
-> > driver the init() function was invoked at the end of prepare(). Now
-> > you've got it at the beginning of enable(). If this change is
-> > important it should be in a separate commit and explained.
-> >
-> >
-> > > +       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
-> > > +       if (ret) {
-> > > +               dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> > > +               return ret;
-> > > +       }
-> > > +
-> > > +       msleep(120);
-> > > +
-> > > +       ret =3D mipi_dsi_dcs_set_display_on(dsi);
-> > > +       if (ret) {
-> > > +               dev_err(dev, "Failed to turn on the display: %d\n", r=
-et);
-> > > +       }
-> >
-> > The old boe-tv101wum-nl6 driver didn't call
-> > mipi_dsi_dcs_exit_sleep_mode() nor mipi_dsi_dcs_set_display_on() in
-> > its enable routine, did it? If this change is important please put it
-> > in a separate change and justify it.
->
-> In the old boe-tv101wum-nl6 driver inital cmds was invoked at the end of
-> prepare() function , and call 0x11 and 0x29 at end of inital. For
-> himax-hx83102 driver, we move inital cmds invoked at enable() function.
-> For panel timing, I think there is no much difference. They are
-> all initial cmds executed after meeting the power-on sequence.
-> I will update these in the v4 commit message.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 0e3dfd4c2bc8..4135a53b55a7 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -466,9 +466,8 @@ static int a6xx_rpmh_start(struct a6xx_gmu *gmu)
+ 	int ret;
+ 	u32 val;
+ 
+-	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, 1 << 1);
+-	/* Wait for the register to finish posting */
+-	wmb();
++	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, BIT(1));
++	gmu_read(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ);
+ 
+ 	ret = gmu_poll_timeout(gmu, REG_A6XX_GMU_RSCC_CONTROL_ACK, val,
+ 		val & (1 << 1), 100, 10000);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 973872ad0474..0acbc38b8e70 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1713,22 +1713,16 @@ static int hw_init(struct msm_gpu *gpu)
+ 	}
+ 
+ 	/* Clear GBIF halt in case GX domain was not collapsed */
++	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
++	gpu_read(gpu, REG_A6XX_GBIF_HALT);
+ 	if (adreno_is_a619_holi(adreno_gpu)) {
+-		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
+ 		gpu_write(gpu, REG_A6XX_RBBM_GPR0_CNTL, 0);
+-		/* Let's make extra sure that the GPU can access the memory.. */
+-		mb();
++		gpu_read(gpu, REG_A6XX_RBBM_GPR0_CNTL);
+ 	} else if (a6xx_has_gbif(adreno_gpu)) {
+-		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
+ 		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
+-		/* Let's make extra sure that the GPU can access the memory.. */
+-		mb();
++		gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT);
+ 	}
+ 
+-	/* Some GPUs are stubborn and take their sweet time to unhalt GBIF! */
+-	if (adreno_is_a7xx(adreno_gpu) && a6xx_has_gbif(adreno_gpu))
+-		spin_until(!gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK));
+-
+ 	gpu_write(gpu, REG_A6XX_RBBM_SECVID_TSB_CNTL, 0);
+ 
+ 	if (adreno_is_a619_holi(adreno_gpu))
 
-Ah, I see! So the mipi_dsi_dcs_exit_sleep_mode() was the 0x11 in the
-old code and the mipi_dsi_dcs_set_display_on() was the 0x29 in the old
-code. OK, I agree that it's better like you've done it where those
-functions are moved out of the "->init()" function and into the
-caller, so please keep that as you have it.
+---
+base-commit: 93a39e4766083050ca0ecd6a3548093a3b9eb60c
+change-id: 20240508-topic-adreno-a2d199cd4152
 
-The only thing I would request is to keep the ->init() call to be made
-at the end of prepare() instead of the beginning of enable(). It may
-not matter too much, but in that case I'd rather keep it how it was or
-make it an explicit change and not an implicit part of the refactor.
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
--Doug
