@@ -2,68 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9B48BF8EB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 10:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845488BF8F5
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 10:44:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F001134CA;
-	Wed,  8 May 2024 08:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0F181134D1;
+	Wed,  8 May 2024 08:44:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Eg6cDDEM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eLlvpm0q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63E571134CA
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 08:41:43 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-a59d5b112ecso25625266b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 01:41:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1715157701; x=1715762501; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vj3PIc4hFA9/gXdFfuPOe4yWwg2VXd43faHw15CH2oA=;
- b=Eg6cDDEM1arBPjKZm85lGtmatjMBbgClEmfLWcPbzHDQQka8fX2RQoie3OgQ8DPuhK
- tzYDgVxmWRn6/Gf0OS28Fj7me6Iq3701mUUYGrS4uOCJ1dEb/ZvQzhdkKMaFsGDfJry0
- +rB4YmBsEy4H6YOCKKq+lDsyGiwnqiVfuqBjw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715157701; x=1715762501;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vj3PIc4hFA9/gXdFfuPOe4yWwg2VXd43faHw15CH2oA=;
- b=ZObSc+UwUUCMuIVrn3ECjn7Rv5hGv4BkA84pw4eu3wLWERSp2HAC7F/MNU3JqLCZXo
- AE+93kyu0LsvSCXq09Z+mCzeR2CyZQfEZb2JUHNV4GKEW5LbHz6Fk925sobpIPxYR4xK
- Syz+wuXbNT1HoLw44BdJcUH8EPdKwOhY2OBqgIYbZ0PaV4V6C3oZv32yfI8m9IiYWVQA
- V/V02wdA2zxPiOad7Ls1kNeLNQk2+XWXqBFs+IMcIlgvLMCSqagi8qIjI9ytTWmCk5/n
- Et/c2uTwyB6FsDXEBfj5Uxzxda12A0Zjn9XYf85OUe7nDN1k1tjMFDNvvbVJBxc0Baj9
- LIbQ==
-X-Gm-Message-State: AOJu0YyWvTiUOZaxQt0xnlXYTnnM1PQp11rPmdc17MXEXHQMi1pejYax
- 3j0UPujedFlHFqdt9C7Jlkut9lNunYwlzgLErt02fhR45w3de1dyDH042UF7qHI=
-X-Google-Smtp-Source: AGHT+IH14cLBvOGAxNNOD0NGpNszsABs3zuyVXh3n6kNBMTLyF0vRRZioU2iVIuWiSighaj0aLtPcg==
-X-Received: by 2002:a17:906:df14:b0:a59:bce9:8454 with SMTP id
- a640c23a62f3a-a59fb94f6d3mr121582766b.1.1715157700922; 
- Wed, 08 May 2024 01:41:40 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- g23-20020a1709067c5700b00a5a0b34110dsm97882ejp.1.2024.05.08.01.41.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 May 2024 01:41:40 -0700 (PDT)
-Date: Wed, 8 May 2024 10:41:37 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, christian.koenig@amd.com, alexander.deucher@amd.com
-Subject: Re: [PATCH] drm/buddy: Fix the range bias clear memory allocation
- issue
-Message-ID: <Zjs6wVITtRuXoRDz@phenom.ffwll.local>
-References: <20240508065720.125846-1-Arunpravin.PaneerSelvam@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83E7D1134CF;
+ Wed,  8 May 2024 08:44:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715157845; x=1746693845;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=EIWAO/oS2DvpnpR2Kb+vwzKu0pOKwN71qpcxPw4cnbQ=;
+ b=eLlvpm0qUF4WC5f7Kcuh0MOBi3ZfwIAB5688XFcHKmbD4OsCU+0LMid4
+ VOVY3UYSP+p1bLXL1/smgeRifbUHyWv01YvyU5djml7IaRUefiBYAU+ey
+ HYvLnc0FvuKTPL+0kku/klf+DL3IO6EP/NB28MIrvvBe6FmSQIc2CHKny
+ 7BaDPHPZoB10bdLpWrZfS/fK82bAtqNu290dJvMCRbaYCsG17wkQmbRLi
+ xtXt1Wl9XlbnAzmglrHHAu4jT1KdRHGcaFRdTsww5W67rv531VGOO/Jta
+ SxDX/nJuUsdyJRzlLa7lfgXIIEIpPbest0Chmpd59whQbOWYYk8K4kuPZ g==;
+X-CSE-ConnectionGUID: wDBGF6hbSeSoNQ+Bq5wWwg==
+X-CSE-MsgGUID: PYMaYFL8Txeys8AMoFLghA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="22157076"
+X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; d="scan'208";a="22157076"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2024 01:44:04 -0700
+X-CSE-ConnectionGUID: BUHs8ofaQuaFaDI+23XuYg==
+X-CSE-MsgGUID: lnq/6KdBSl2/VjOScGEihQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; d="scan'208";a="52025594"
+Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
+ localhost) ([10.245.246.76])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2024 01:43:59 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, Abhinav
+ Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ swboyd@chromium.org, quic_jesszhan@quicinc.com,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, Masahiro
+ Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH] drm/msm: remove python 3.9 dependency for compiling msm
+In-Reply-To: <20240507230440.3384949-1-quic_abhinavk@quicinc.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240507230440.3384949-1-quic_abhinavk@quicinc.com>
+Date: Wed, 08 May 2024 11:43:56 +0300
+Message-ID: <87a5l0lmlv.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240508065720.125846-1-Arunpravin.PaneerSelvam@amd.com>
-X-Operating-System: Linux phenom 6.6.15-amd64 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,46 +76,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 08, 2024 at 12:27:20PM +0530, Arunpravin Paneer Selvam wrote:
-> Problem statement: During the system boot time, an application request
-> for the bulk volume of cleared range bias memory when the clear_avail
-> is zero, we dont fallback into normal allocation method as we had an
-> unnecessary clear_avail check which prevents the fallback method leads
-> to fb allocation failure following system goes into unresponsive state.
-> 
-> Solution: Remove the unnecessary clear_avail check in the range bias
-> allocation function.
-> 
-> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> Fixes: 96950929eb23 ("drm/buddy: Implement tracking clear page feature")
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+On Tue, 07 May 2024, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> Since commit 5acf49119630 ("drm/msm: import gen_header.py script from Mesa"),
+> compilation is broken on machines having python versions older than 3.9
+> due to dependency on argparse.BooleanOptionalAction.
+
+Is it now okay to require Python for the build? Not listed in
+Documentation/process/changes.rst.
+
+BR,
+Jani.
+
+
+
+>
+> Switch to use simple bool for the validate flag to remove the dependency.
+>
+> Fixes: 5acf49119630 ("drm/msm: import gen_header.py script from Mesa")
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  drivers/gpu/drm/drm_buddy.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Can you please also add a kunit test case to exercise this corner case and
-make sure it stays fixed?
-
-Thanks, Sima
-> 
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 284ebae71cc4..831929ac95eb 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -574,7 +574,7 @@ __drm_buddy_alloc_range_bias(struct drm_buddy *mm,
+>  drivers/gpu/drm/msm/registers/gen_header.py | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/registers/gen_header.py b/drivers/gpu/drm/msm/registers/gen_header.py
+> index fc3bfdc991d2..3926485bb197 100644
+> --- a/drivers/gpu/drm/msm/registers/gen_header.py
+> +++ b/drivers/gpu/drm/msm/registers/gen_header.py
+> @@ -538,7 +538,7 @@ class Parser(object):
+>  		self.variants.add(reg.domain)
 >  
->  	block = __alloc_range_bias(mm, start, end, order,
->  				   flags, fallback);
-> -	if (IS_ERR(block) && mm->clear_avail)
-> +	if (IS_ERR(block))
->  		return __alloc_range_bias(mm, start, end, order,
->  					  flags, !fallback);
+>  	def do_validate(self, schemafile):
+> -		if self.validate == False:
+> +		if not self.validate:
+>  			return
 >  
-> -- 
-> 2.25.1
-> 
+>  		try:
+> @@ -948,7 +948,8 @@ def main():
+>  	parser = argparse.ArgumentParser()
+>  	parser.add_argument('--rnn', type=str, required=True)
+>  	parser.add_argument('--xml', type=str, required=True)
+> -	parser.add_argument('--validate', action=argparse.BooleanOptionalAction)
+> +	parser.add_argument('--validate', default=False, action='store_true')
+> +	parser.add_argument('--no-validate', dest='validate', action='store_false')
+>  
+>  	subparsers = parser.add_subparsers()
+>  	subparsers.required = True
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jani Nikula, Intel
