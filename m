@@ -2,143 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91A98BFFE0
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 16:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89BDD8C0018
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 16:35:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFED112319;
-	Wed,  8 May 2024 14:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA5F112D82;
+	Wed,  8 May 2024 14:35:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="MGVmLN2y";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UZpyP80R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com
- [209.85.161.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A646112319
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 14:25:33 +0000 (UTC)
-Received: by mail-oo1-f41.google.com with SMTP id
- 006d021491bc7-5b203c9933dso2366198eaf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 07:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1715178332; x=1715783132; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=AgrD1WoYkdj8wg28imEY2ANZlllvJHBViF8cNCfVJ94=;
- b=MGVmLN2yFntAflOOA9XFV/OK+JJ3nI+BEWss0DglqVwZ9JVU2vuD8RMOmCzRjZp2oj
- DS1gGPgkBMHrIzOMfZG2oxuLlmmvRC0JyO5PysMTAFJNXH9eRvamEY3FG042RSvY1bIA
- Fjw97p48Q/lp687PHgbJNrnBE3Wp8Gh/XUtr7RiCHu/MkUZubqXo+27xHcOA50S15B5A
- FTGWJ2vrTbjISZd9N7HeU0dWHkFplegsEd6F5Aq3yA8kcSTlywpAmxvdMK1j3Cf5XYEF
- 794LkF+XgobjOROL4mhfzJ3aaWh5CeRV10GGWAw2yAZfXo0h/rrGpxREfIWMSNOtZoTT
- 0OpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715178332; x=1715783132;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AgrD1WoYkdj8wg28imEY2ANZlllvJHBViF8cNCfVJ94=;
- b=GIzQlnstNOYmVQIj6YbOCclj6uHu4V8KkXJNYAn/aWfRwLAQ/9Mvj8Bo2WYk05ALDu
- xPwsX+270kMbA1A3idRpY98TNW5E8Fyzf40PCSQ7DEAh1v7Yi8gvNRp5+AXUuuCioSow
- 1Fu8feoq5fyjrjU2YZi2Hzt4grr61wcJQ1RT9wp2ryTjHl4R+IYNHhtPlDaHyL3BY7XH
- +P+YkVtAI/pnwETUc3HUH3Ld4R2QDJ/eKeKLVO6QCpXoQbH1wXW16fXRQ0mtAwU46zB9
- 5CDXsFpfph9OlfgJK2tosqfP41PTl2RBTXVje2N4YjVZWBArB9I7S4JQJ+LlNjTqrhhG
- eM8g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhBkXy1SJ1r6ZP4abKZco+dupF9j2KKzEoNMmTsLLxB3otEPEbbi/uvI6ebyNe2mvWRrIn9uwZdqLyATzpKlpM2mAXyEafD4zSrTQt0JWz
-X-Gm-Message-State: AOJu0YzjCkn9ZOxEi9XMR6YZXDOjyeoTTnvfIPJND0VkG+ygmnL7B7XQ
- hAxjlbVo4ir5HuO3a7RS/BVxfER7qgCRZ4CzsqUwZyEv/L+eSA9OookG/cKhPIU=
-X-Google-Smtp-Source: AGHT+IHjV+YjcifEHKw5oQYkCNsBVkCIuACEQyUL/WL5v5GcAhnL6ouYxG09iM1YvQ+6Pe3rmrQdgA==
-X-Received: by 2002:a4a:8c24:0:b0:5aa:538a:ed60 with SMTP id
- 006d021491bc7-5b24d28fdb4mr2495842eaf.3.1715178331994; 
- Wed, 08 May 2024 07:25:31 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.80.239]) by smtp.gmail.com with ESMTPSA id
- o18-20020ac86992000000b0043d4245dd4csm4389539qtq.84.2024.05.08.07.25.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 May 2024 07:25:31 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1s4iEc-0016QI-DE;
- Wed, 08 May 2024 11:25:30 -0300
-Date: Wed, 8 May 2024 11:25:30 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Mina Almasry <almasrymina@google.com>,
- Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>,
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Amritha Nambiar <amritha.nambiar@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>,
- Christian Brauner <brauner@kernel.org>, Simon Horman <horms@kernel.org>,
- David Howells <dhowells@redhat.com>, Florian Westphal <fw@strlen.de>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Johannes Berg <johannes.berg@intel.com>,
- Abel Wu <wuyun.abel@bytedance.com>,
- Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
- custom page providers
-Message-ID: <20240508142530.GR4718@ziepe.ca>
-References: <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
- <20240507161857.GA4718@ziepe.ca> <ZjpVfPqGNfE5N4bl@infradead.org>
- <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
- <20240507164838.GG4718@ziepe.ca>
- <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
- <20240507175644.GJ4718@ziepe.ca>
- <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
- <20240507233247.GK4718@ziepe.ca>
- <54830914-1ec9-4312-96ad-423ac0aeb233@gmail.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE70112725
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 14:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=K5Jyz2HcHnd4qjoQGkHoDRw9E/O/0f/1V5mi4Cz+mbA=; b=UZpyP80RFXxMkbdmtv8MQmlayD
+ a9Cak50mp0N28mybxirngR2oL+npx9nBxlxMdG/0We8FCkypSPy4iatE1fnIV2LrEWj7FrwVtYdCw
+ NlS+h3VSLtvecK5NwoB3P+JhrYwK4ALH/YA5JgxBnfa0jS3GdYFUZpfqh6py8Odm7KWRTgfTXZlBR
+ knmhWaUQmNBE84czf6/2B45CdZRyar425javotrxGDwiU5kAm7zgAoi6lpBrbUSjlHf5HEiOOvtDH
+ 1mTOuFfp8zCVZa7wKd6/IOE3kyKcsGSlZiQZdc/Xfo5AdQ6JdzSh8R8H+gV6z6NsM1dzxAIG7+vnt
+ 5ohh1uEA==;
+Received: from [179.234.232.152] (helo=morissey..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1s4iNh-002ogv-JR; Wed, 08 May 2024 16:34:54 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
+ =?UTF-8?q?Juan=20A=20=2E=20Su=C3=A1rez?= <jasuarez@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH 0/6] drm/v3d: Improve Performance Counters handling
+Date: Wed,  8 May 2024 11:30:42 -0300
+Message-ID: <20240508143306.2435304-2-mcanal@igalia.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <54830914-1ec9-4312-96ad-423ac0aeb233@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,39 +64,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 08, 2024 at 12:30:07PM +0100, Pavel Begunkov wrote:
+This series has the intention to address two issues with Performance Counters
+on V3D:
 
-> > I'm not going to pretend to know about page pool details, but dmabuf
-> > is the way to get the bulk of pages into a pool within the net stack's
-> > allocator and keep that bulk properly refcounted while.> An object like
-> > dmabuf is needed for the general case because there are
-> > not going to be per-page references or otherwise available.
-> 
-> They are already pinned, memory is owned by the provider, io_uring
-> in this case, and it should not be freed circumventing io_uring,
-> and at this stage calling release_pages() is not such a hassle,
-> especially comparing to introducing an additional object.
+1. Update the number of Performance Counters for V3D 7.1 
+	
+V3D 7.1 has 93 performance counters, while V3D 4.2 has only 87. Although the
+series [1] enabled support for V3D 7.1, it didn’t replace the maximum number of
+performance counters. This led to errors in user space as the Vulkan driver
+updated the maximum number of performance counters, but the kernel didn’t. 
+    
+Currently, the user space can request values for performance counters that
+are greater than 87 and the kernel will return an error instead of the values.
+That’s why `dEQP-VK.query_pool.performance_query.*` currently fails on Mesa
+CI [2]. This series intends to fix the `dEQP-VK.query_pool.performance_query.*`
+fail.
+    
+2. Make the kernel able to provide the Performance Counter descriptions
+    
+Although all the management of the Performance Monitors is done through IOCTLs,
+which means that the code is in the kernel, the performance counter descriptions
+are in Mesa. This means two things: (#1) only Mesa has access to the descriptions
+and (#2) we can have inconsistencies between the information provided by Mesa
+and the kernel, as seen in the first issue addressed by this series.
+	
+To minimize the risk of inconsistencies, this series proposes to use the kernel
+as a “single source of truth”. Therefore, if there are any changes to the
+performance monitors, all the changes must be done only in the kernel. This
+means that all information about the maximum number of performance counters and
+all the descriptions will now be retrieved from the kernel. 
 
-Something needs to co-ordinate when the net stack's allocator is done
-with the bulk of pages and when io_uring and do the final
-put_user_page() to free it. DMABUF is not an unreasonable choice for
-this.
+This series is coupled with a Mesa series [3] that enabled the use of the new
+IOCTL. I appreciate any feedback from both the kernel and Mesa implementations.
 
-> > topic to me, and honestly hacking into the allocator free function
-> > seems a bit weird..
-> 
-> Do you also think that DMA_BUF_IOCTL_SYNC is a weird hack, because
-> it "delays free" by pinning the dmabuf object and letting the user
-> read memory instead of copying it? I can find many examples
+[1] https://lore.kernel.org/dri-devel/20231031073859.25298-1-itoral@igalia.com/
+[2] https://gitlab.freedesktop.org/mesa/mesa/-/commit/ea1f09a5f21839f4f3b93610b58507c4bd9b9b81
+[3] https://gitlab.freedesktop.org/mairacanal/mesa/-/tree/v3dv/fix-perfcnt
 
-It seems to me the flow you want is for the driver to allocate a page,
-put it on a rx ring, process it through the netstack, and deliver it
-to io_uring. io_uring would then sit on the allocation until userspace
-it done and return it back to the netstack allocator.
+Best Regards,
+- Maíra Canal
 
-Hooking the free of the netstack allocator and then defering it seems
-like a weird and indirect way to get there. Why can't io_uring just be
-the entity that does the final free and not mess with the logic
-allocator?
+Maíra Canal (6):
+  drm/v3d: Add Performance Counters descriptions for V3D 4.2 and 7.1
+  drm/v3d: Different V3D versions can have different number of perfcnt
+  drm/v3d: Create a new V3D parameter for the maximum number of perfcnt
+  drm/v3d: Create new IOCTL to expose performance counters information
+  drm/v3d: Use V3D_MAX_COUNTERS instead of V3D_PERFCNT_NUM
+  drm/v3d: Deprecate the use of the Performance Counters enum
 
-Jason
+ drivers/gpu/drm/v3d/v3d_drv.c                 |  11 +
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  14 +-
+ drivers/gpu/drm/v3d/v3d_perfmon.c             |  36 ++-
+ .../gpu/drm/v3d/v3d_performance_counters.h    | 208 ++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_sched.c               |   2 +-
+ include/uapi/drm/v3d_drm.h                    |  44 ++++
+ 6 files changed, 312 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/v3d/v3d_performance_counters.h
+
+-- 
+2.44.0
+
