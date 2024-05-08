@@ -2,39 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810F98C080B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 01:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC948C080A
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 01:45:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE07112A57;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A0F4112A56;
 	Wed,  8 May 2024 23:45:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="JrbGV5df";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Rl5C93v9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 33D051123F6;
+ by gabe.freedesktop.org (Postfix) with ESMTP id EA2951123F6;
  Wed,  8 May 2024 23:45:49 +0000 (UTC)
 Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.1.144])
- by linux.microsoft.com (Postfix) with ESMTPSA id DFA0B20B2C80;
- Wed,  8 May 2024 16:45:48 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DFA0B20B2C80
+ by linux.microsoft.com (Postfix) with ESMTPSA id AC85D20B2C82;
+ Wed,  8 May 2024 16:45:49 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AC85D20B2C82
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1715211949;
- bh=Qu3bClL9qiQqt/18Ro/tj+TIHJVXYmveUAFfxO+JRj0=;
+ bh=ESOO7vcC8nw070xfZPv4kHKylJK5PcWPFkA3TGLgTXQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JrbGV5dfnw8yry+V9GG0jxyDw1v/YmfDjtYW/LbUsMIaXsfA52i9//DgyVC14mON6
- Ix0OR3Cj2P9WzyjNLfEUQjYIpqaGGYbnz/3HEFL3D0YaKivrT7AU/z4JIUQWmLQxPy
- 7N0mBeS1PMq4YGnH+1MvdgO8fzKs7F2AblwVHqqQ=
+ b=Rl5C93v97PiXj7e7b6rfgI9bl04lop2/yhEatpsUACNRzLcSXpXNSHno98LeoAQB7
+ gS+0i+obuI0+IENonaQaGjUv8p/CBuF643J8XjETiK+E5V+je01jXkIq8MFqgXuezN
+ yIAJI05Tc3ELeVIzZK9bzaksGSVwXWFhHgkGQfHg=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-To: Edward Cree <ecree.xilinx@gmail.com>,
- Martin Habets <habetsm.xilinx@gmail.com>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Easwar Hariharan <eahariha@linux.microsoft.com>,
- netdev@vger.kernel.org (open list:SFC NETWORK DRIVER),
- linux-net-drivers@amd.com (open list:SFC NETWORK DRIVER),
+To: Steve Glendinning <steve.glendinning@shawell.net>,
+ Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org (open list:SMSC UFX6000 and UFX7000 USB to VGA
+ DRIVER), dri-devel@lists.freedesktop.org (open list:FRAMEBUFFER LAYER),
  linux-kernel@vger.kernel.org (open list)
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
  Andi Shyti <andi.shyti@linux.intel.com>,
@@ -46,10 +42,12 @@ Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
  intel-xe@lists.freedesktop.org (open list:INTEL DRM DISPLAY FOR XE AND I915
  DRIVERS), 
  linux-i2c@vger.kernel.org (open list:I2C SUBSYSTEM HOST DRIVERS),
- linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER)
-Subject: [PATCH v3 4/6] sfc: falcon: Make I2C terminology more inclusive
-Date: Wed,  8 May 2024 23:43:40 +0000
-Message-Id: <20240508234342.2927398-5-eahariha@linux.microsoft.com>
+ linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
+ Easwar Hariharan <eahariha@linux.microsoft.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 5/6] fbdev/smscufx: Make I2C terminology more inclusive
+Date: Wed,  8 May 2024 23:43:41 +0000
+Message-Id: <20240508234342.2927398-6-eahariha@linux.microsoft.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240508234342.2927398-1-eahariha@linux.microsoft.com>
 References: <20240508234342.2927398-1-eahariha@linux.microsoft.com>
@@ -77,26 +75,34 @@ the approved verbiage exists in the specification.
 
 Compile tested, no functionality changes intended
 
-Reviewed-by: Martin Habets <habetsm.xilinx@gmail.com>
-Reviewed-by: Simon Horman <horms@kernel.org>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/net/ethernet/sfc/falcon/falcon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/smscufx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/sfc/falcon/falcon.c b/drivers/net/ethernet/sfc/falcon/falcon.c
-index 7a1c9337081b5..36114ce88034c 100644
---- a/drivers/net/ethernet/sfc/falcon/falcon.c
-+++ b/drivers/net/ethernet/sfc/falcon/falcon.c
-@@ -367,7 +367,7 @@ static const struct i2c_algo_bit_data falcon_i2c_bit_operations = {
- 	.getsda		= falcon_getsda,
- 	.getscl		= falcon_getscl,
- 	.udelay		= 5,
--	/* Wait up to 50 ms for slave to let us pull SCL high */
-+	/* Wait up to 50 ms for target to let us pull SCL high */
- 	.timeout	= DIV_ROUND_UP(HZ, 20),
- };
+diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
+index 35d682b110c42..5f0dd01fd8349 100644
+--- a/drivers/video/fbdev/smscufx.c
++++ b/drivers/video/fbdev/smscufx.c
+@@ -1292,7 +1292,7 @@ static int ufx_realloc_framebuffer(struct ufx_data *dev, struct fb_info *info)
+ 	return 0;
+ }
  
+-/* sets up I2C Controller for 100 Kbps, std. speed, 7-bit addr, master,
++/* sets up DDC channel for 100 Kbps, std. speed, 7-bit addr, controller mode,
+  * restart enabled, but no start byte, enable controller */
+ static int ufx_i2c_init(struct ufx_data *dev)
+ {
+@@ -1321,7 +1321,7 @@ static int ufx_i2c_init(struct ufx_data *dev)
+ 	/* 7-bit (not 10-bit) addressing */
+ 	tmp &= ~(0x10);
+ 
+-	/* enable restart conditions and master mode */
++	/* enable restart conditions and controller mode */
+ 	tmp |= 0x21;
+ 
+ 	status = ufx_reg_write(dev, 0x1000, tmp);
 -- 
 2.34.1
 
