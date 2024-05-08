@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC938BF9FE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 12:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EB08BFA07
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 12:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4CB311352D;
-	Wed,  8 May 2024 10:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E06211353A;
+	Wed,  8 May 2024 10:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id C1A38113538
+ by gabe.freedesktop.org (Postfix) with ESMTP id C3A36113539
  for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 10:02:55 +0000 (UTC)
-X-AuditID: a67dfc5b-d85ff70000001748-17-663b4a3a9eab
+X-AuditID: a67dfc5b-d85ff70000001748-27-663b4a3ac0a8
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
@@ -35,45 +35,44 @@ Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
  chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
  max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
  hdanton@sina.com, her0gyugyu@gmail.com
-Subject: [PATCH v14 16/28] dept: Track timeout waits separately with a new
- Kconfig
-Date: Wed,  8 May 2024 18:47:13 +0900
-Message-Id: <20240508094726.35754-17-byungchul@sk.com>
+Subject: [PATCH v14 17/28] dept: Apply timeout consideration to
+ wait_for_completion()/complete()
+Date: Wed,  8 May 2024 18:47:14 +0900
+Message-Id: <20240508094726.35754-18-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240508094726.35754-1-byungchul@sk.com>
 References: <20240508094726.35754-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSf0zMcRjHfT7fn92cfR3mKzPcEPIjljx+zj/4zmipP2x+dtM33fRrl0oa
- K52QatWWI82qa6fdHeUuRN25ShHJoSW3hGaSrrK4W6fIHfPPs9ee5/1+/fWwhOwO5c8q40+I
- qnhFrJyWkJKhqeUrN+7aFB2UqQ2GwtwgcP24QEJptZEG+y0DAmNtJoaBlp3wxu1EMP78BQGa
- YjuC8o/vCKht7UVgqTpLw+tP06DTNUJDW/ElGrK01TS8HJzA0HO5CIPBtAeeFVRgsHn6SdAM
- 0HBNk4W94wsGj07PgC5jMfRVlTAw8XENtPV2UWBxBMLV6z00NFjaSGit68Pw+kEpDb3GSQqe
- tT4hwV6YR8HN4QoaBt06AnSuEQZe2cow1Ki9ouzvvyl4nGfDkF15G0Pn23oE1gsfMJiMXTQ0
- u5wYzKZiAn7eaEHQlz/EwLlcDwPXMvMRXDp3mQR1zzoYHyult20Qmp0jhKA2pwoWdxkpPK3g
- hfsl7xhBbXUwQpkpWTBXLRe0DQNYKB91UYJJf5EWTKNFjJAz1ImF4Y4ORnhyZZwUPnVqcJj/
- fsnmKDFWmSKqVm+NlMS4rZN04pfIk9+M18kMdGd3DvJjeS6Yr/RkU/+5XtuOfUxzAXx3t4fw
- 8UxuAW/O+/w3Q3BOCV/ZscPHM7hw/p6mmvExyS3mrzzMp30s5UL4R79t5D/nfN5QY/vr8fPu
- 3/YPIx/LuHV8fVaJtyvxZiZZvne8iPlXmMM3VnWTBUhahqbokUwZnxKnUMYGr4pJi1eeXHU0
- Ic6EvM+kOz1xoA6N2iOaEMci+VSpbfbGaBmlSElKi2tCPEvIZ0pbzq+PlkmjFGmnRFXCEVVy
- rJjUhOaypHy2dK07NUrGHVOcEI+LYqKo+n/FrJ9/BjrkHHM7agKCAqxFC/cksEsNPzJ+Kbcn
- BNVqH6u4aTunh+U+eJ/e+D6zsLh9mXlvqNs8+DJw3uEztcbbHpWaPxDWfD99W2iB3eFYErhF
- X3escFG7dcWy3aFdQCobD9fcHWI/J0bUpaeunV4xIyfka9jg6vDkxoX2W7PG9i151XKQssjJ
- pBjFmuWEKknxBxNNdjZIAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAAzXSf0yMcRzAcd/v8zzf5zrOnp3wKBs7M1t+dDbxmQx/+PHMr1kbxvzowZNu
- KtypnM304yL6sTJ1SSWVkzrKkybqcitFIlELLU3NqOnKr7s55eiYfz577fPZ3n99FJTazPgp
- dFHHJX2UGKEhSlq5JThx4fINwWHaK13+kJmqBef3ZBryKqwE2m+VI7Deiccw2LQeXrmGEIw+
- e06BOasdwdW+txTcae5FYCtNINDxfjJ0OkcItGSlEEgsriDw4tMYhp7sCxjK5c3QmlGEwe7+
- SIN5kMBlcyIeHwMY3JYyFixxc6G/NJeFsb7F0NLbxUBjfgsDtu75cKmgh0CdrYWG5pp+DB33
- 8wj0Wn8z0Nr8mIb2zDQGbg4XEfjkslBgcY6w8NJeiKHSNF47883DwKM0O4YzJbcxdL6pRVCf
- /A6DbO0i0OgcwlAlZ1Hw83oTgv50BwtJqW4WLsenI0hJyqbB1BMEoz/yyOrlQuPQCCWYqmIF
- m6uQFp4U8cK93LesYKrvZoVCOVqoKg0QiusGsXD1q5MR5LJzRJC/XmCF845OLAy3tbHC45xR
- WnjfacZb/XcpVxyUInQxkj5wZagy3FX/mxwdCD3x2VpAx6HqTeeRj4LnlvC1xU+x14Sbx79+
- 7aa89uVm81VpHxivKW5IyZe0rfN6ChfC3zVXsF7T3Fw+50E68VrFLeUfeuz0v+YsvrzS/rfj
- M75/83EYea3mgvjaxFw2AykL0YQy5KuLiokUdRFBiwyHw41RuhOLDhyJlNH4u1hOjWXWoO8d
- 6xsQp0CaSap2EhymZsQYgzGyAfEKSuOrajq7LEytOigaT0r6I/v00RGSoQH5K2jNdNWGHVKo
- mjskHpcOS9JRSf//ihU+fnGocqczMPj5phuTj0UbOx6xp5NSVyWIA5zCZY2d6OHmeaDVsaY6
- P5md7bd62vZtM38t6NfvN3nkgpeBedrbV3aLdeHTr/tWf8lAci29a052QMmeqbo9TfeSYx/k
- ULa163KqHQuDcJ8jHtXsvHYxZG9CyIx33WWhRrfRR5ui2qhdoaEN4eLiAEpvEP8AEjmoSioD
- AAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSf0yMcRzHfb/Pz26Ox2E98ofcZkZE5sfH718bDxsamyGTZ3rSzXW4FNlM
+ 6YQUYXXUaVfs3OpS7tJCccqlQyk10hJuDc1VpGuXzo8r889nr73fn8/rrw9LKMqoIFalOSJp
+ NaJaSctIWffo/NlLNi6NnpvkWwSX0ueCp/8sCYYSCw2Nt4sQWMqSMXQ51sObATeCofqXBOiz
+ GhHkf3xHQFltB4Iq8ykamjvHQIunlwZn1nkaUm6U0ND01YehPfsyhiLrJnieWYDBPviZBH0X
+ Dbn6FOwfXzAMmgoZMCVNA5c5hwHfxzBwdrymoKotBK7ltdNQWeUkobbChaH5voGGDssfCp7X
+ 1pHQeCmDguKeAhq+DpgIMHl6GXhlN2Io1flFqT9+U/A0w44h9eYdDC1vHyB4ePYDBqvlNQ01
+ HjcGmzWLgJ+3HAhcF7oZOJ0+yEBu8gUE509nk6BrXwBDXgO9arFQ4+4lBJ3tqFA1YCSFZwW8
+ cC/nHSPoHrYxgtEaL9jMM4UblV1YyO/zUIK18BwtWPsuM0JadwsWehoaGKHu6hApdLbocXjQ
+ LtmyKEmtSpC0c1bslcVYXl1jDuXJjtnONeEk9IFNQwEsz83ncyy/6f/c/74ODTPNTedbWweJ
+ YZ7ABfO2jE/UMBOcW8bfbFg3zOO5vfy971kjOclN4085L+I0xLJybiHvKk/4p5zCF5XaRzQB
+ /vjt554RvYJbwD9IyWHSkMy/42V5d3069e9gEv/Y3EpmIrkRjSpECpUmIVZUqeeHxiRqVMdC
+ 9x2MtSL/L5lO+CIqUF/jtmrEsUg5Wm4PXBKtoMSEuMTYasSzhHKC3HFmUbRCHiUmHpe0ByO1
+ 8WoprhpNZklloHzewNEoBbdfPCIdkKRDkvZ/i9mAoCSk0PyKTy/Lvi4mh3fXepfdDfdmvrhO
+ FetWO9Z0NlzZ0X94zwaXV0wxVH5bG+HQTznT1Bm826QL5GvyxtoNBfrC1O3BmzfmRkw02qeW
+ hqxsnr7/if1iZPty8zjnlljfyaFHGQFLR9VP2rM7LGSr5eWGcHqW71lb+YzlU7XqxzuZ9Zov
+ SjIuRgybSWjjxL+bzZlHRwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSfUzMcRzHfb+/x47jt9PmNy3sLCyrGPGhhs3wlSmPs9lMN/3S0QN3lbLZ
+ 4iqKo1ilB7lip9Uhd2ZIudU6nYeUWiU9uSHHqUnXpIbK/PPea+/39vrrzVOKXGYur46NlzSx
+ qmglK6NloUE6v7UhQZHLvo8oIfvCMnAPn6Oh6K6JhaY7FQhM909jcNZvgfYRF4KxV68pyMtp
+ QlDyvpuC+7YeBNVlZ1ho+TATWt2DLNhzzrOgu3GXheav4xi6ci9jqDBvhxdZpRiso/005DlZ
+ KMzT4Yn4jGHUWM6BMcUHHGUFHIy/Xw72njYG6q7ZGajuXAr5xV0sPKm202B76MDQ8riIhR7T
+ HwZe2BpoaMrWM3B7oJSFryNGCozuQQ7eWA0YKlMnbOk/fjPwTG/FkH7zHobWt1UIas71YTCb
+ 2lioc7swWMw5FPy6VY/AcfEbB2kXRjkoPH0Rwfm0XBpSuwJh7GcRu2EtqXMNUiTVcoJUjxho
+ 8rxUJI8KujmSWtPJEYM5gVjKfMmNJ05MSobcDDGXZ7DEPHSZI5nfWjEZaGzkSMPVMZp8aM3D
+ O7z2y4IjpGh1oqQJWBcuizK9yeeOFcuSLBnNOAX18ZnIgxeFleJwbwOaZFZYLHZ0jFKT7Cks
+ EC36T8wkU4JLJt5s3DzJs4Vw8dH3nKmeFnzEM/ZLOBPxvFxYJToeJP5TzhcrKq1TGo+J+m3/
+ wJReIQSKVboCLgvJDGhaOfJUxybGqNTRgf7ao1HJseok/0NxMWY08RbjqfHsh2i4ZUstEnik
+ nCFvYoMiFYwqUZscU4tEnlJ6yuvPro5UyCNUySclTdxBTUK0pK1FXjytnCMP2SeFK4TDqnjp
+ qCQdkzT/V8x7zE1BaZ0/zbvyXz7esyTrRxGUWBm7fvfODNfHbUnvHFt9AhI2zrRp7+yU7T1y
+ Pb6U7AgTnVWG8DW6AI8I58JF3jXTOv0zpvuejXkaur99aN6wV8Lek1dOBW+bo++7vt62aeUu
+ vy/Eftwz3Y/zTreFiAfiZ62Y79PvrHTMDqtrDi7sDVzlraS1UarlvpRGq/oLHG6EWikDAAA=
 X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,369 +89,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Waits with valid timeouts don't actually cause deadlocks. However, Dept
-has been reporting the cases as well because it's worth informing the
-circular dependency for some cases where, for example, timeout is used
-to avoid a deadlock but not meant to be expired.
-
-However, yes, there are also a lot of, even more, cases where timeout
-is used for its clear purpose and meant to be expired.
-
-Let Dept report these as an information rather than shouting DEADLOCK.
-Plus, introduced CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT Kconfig to make it
-optional so that any reports involving waits with timeouts can be turned
-on/off depending on the purpose.
+Now that CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT was introduced, apply the
+consideration to wait_for_completion()/complete().
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- include/linux/dept.h     | 15 ++++++---
- include/linux/dept_ldt.h |  6 ++--
- include/linux/dept_sdt.h | 12 +++++---
- kernel/dependency/dept.c | 66 ++++++++++++++++++++++++++++++++++------
- lib/Kconfig.debug        | 10 ++++++
- 5 files changed, 89 insertions(+), 20 deletions(-)
+ include/linux/completion.h | 4 ++--
+ kernel/sched/completion.c  | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/dept.h b/include/linux/dept.h
-index ca1a34be4127..0280e45cc2af 100644
---- a/include/linux/dept.h
-+++ b/include/linux/dept.h
-@@ -270,6 +270,11 @@ struct dept_wait {
- 			 * whether this wait is for commit in scheduler
- 			 */
- 			bool		sched_sleep;
-+
-+			/*
-+			 * whether a timeout is set
-+			 */
-+			bool				timeout;
- 		};
- 	};
- };
-@@ -453,6 +458,7 @@ struct dept_task {
- 	bool				stage_sched_map;
- 	const char			*stage_w_fn;
- 	unsigned long			stage_ip;
-+	bool				stage_timeout;
- 
- 	/*
- 	 * the number of missing ecxts
-@@ -490,6 +496,7 @@ struct dept_task {
- 	.stage_sched_map = false,				\
- 	.stage_w_fn = NULL,					\
- 	.stage_ip = 0UL,					\
-+	.stage_timeout = false,					\
- 	.missing_ecxt = 0,					\
- 	.hardirqs_enabled = false,				\
- 	.softirqs_enabled = false,				\
-@@ -507,8 +514,8 @@ extern void dept_map_init(struct dept_map *m, struct dept_key *k, int sub_u, con
- extern void dept_map_reinit(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
- extern void dept_map_copy(struct dept_map *to, struct dept_map *from);
- 
--extern void dept_wait(struct dept_map *m, unsigned long w_f, unsigned long ip, const char *w_fn, int sub_l);
--extern void dept_stage_wait(struct dept_map *m, struct dept_key *k, unsigned long ip, const char *w_fn);
-+extern void dept_wait(struct dept_map *m, unsigned long w_f, unsigned long ip, const char *w_fn, int sub_l, long timeout);
-+extern void dept_stage_wait(struct dept_map *m, struct dept_key *k, unsigned long ip, const char *w_fn, long timeout);
- extern void dept_request_event_wait_commit(void);
- extern void dept_clean_stage(void);
- extern void dept_stage_event(struct task_struct *t, unsigned long ip);
-@@ -558,8 +565,8 @@ struct dept_task { };
- #define dept_map_reinit(m, k, su, n)			do { (void)(n); (void)(k); } while (0)
- #define dept_map_copy(t, f)				do { } while (0)
- 
--#define dept_wait(m, w_f, ip, w_fn, sl)			do { (void)(w_fn); } while (0)
--#define dept_stage_wait(m, k, ip, w_fn)			do { (void)(k); (void)(w_fn); } while (0)
-+#define dept_wait(m, w_f, ip, w_fn, sl, t)		do { (void)(w_fn); } while (0)
-+#define dept_stage_wait(m, k, ip, w_fn, t)		do { (void)(k); (void)(w_fn); } while (0)
- #define dept_request_event_wait_commit()		do { } while (0)
- #define dept_clean_stage()				do { } while (0)
- #define dept_stage_event(t, ip)				do { } while (0)
-diff --git a/include/linux/dept_ldt.h b/include/linux/dept_ldt.h
-index 062613e89fc3..8adf298dfcb8 100644
---- a/include/linux/dept_ldt.h
-+++ b/include/linux/dept_ldt.h
-@@ -27,7 +27,7 @@
- 		else if (t)						\
- 			dept_ecxt_enter(m, LDT_EVT_L, i, "trylock", "unlock", sl);\
- 		else {							\
--			dept_wait(m, LDT_EVT_L, i, "lock", sl);		\
-+			dept_wait(m, LDT_EVT_L, i, "lock", sl, false);	\
- 			dept_ecxt_enter(m, LDT_EVT_L, i, "lock", "unlock", sl);\
- 		}							\
- 	} while (0)
-@@ -39,7 +39,7 @@
- 		else if (t)						\
- 			dept_ecxt_enter(m, LDT_EVT_R, i, "read_trylock", "read_unlock", sl);\
- 		else {							\
--			dept_wait(m, q ? LDT_EVT_RW : LDT_EVT_W, i, "read_lock", sl);\
-+			dept_wait(m, q ? LDT_EVT_RW : LDT_EVT_W, i, "read_lock", sl, false);\
- 			dept_ecxt_enter(m, LDT_EVT_R, i, "read_lock", "read_unlock", sl);\
- 		}							\
- 	} while (0)
-@@ -51,7 +51,7 @@
- 		else if (t)						\
- 			dept_ecxt_enter(m, LDT_EVT_W, i, "write_trylock", "write_unlock", sl);\
- 		else {							\
--			dept_wait(m, LDT_EVT_RW, i, "write_lock", sl);	\
-+			dept_wait(m, LDT_EVT_RW, i, "write_lock", sl, false);\
- 			dept_ecxt_enter(m, LDT_EVT_W, i, "write_lock", "write_unlock", sl);\
- 		}							\
- 	} while (0)
-diff --git a/include/linux/dept_sdt.h b/include/linux/dept_sdt.h
-index 12a793b90c7e..21fce525f031 100644
---- a/include/linux/dept_sdt.h
-+++ b/include/linux/dept_sdt.h
-@@ -22,11 +22,12 @@
- 
- #define sdt_map_init_key(m, k)		dept_map_init(m, k, 0, #m)
- 
--#define sdt_wait(m)							\
-+#define sdt_wait_timeout(m, t)						\
- 	do {								\
- 		dept_request_event(m);					\
--		dept_wait(m, 1UL, _THIS_IP_, __func__, 0);		\
-+		dept_wait(m, 1UL, _THIS_IP_, __func__, 0, t);		\
- 	} while (0)
-+#define sdt_wait(m) sdt_wait_timeout(m, -1L)
- 
- /*
-  * sdt_might_sleep() and its family will be committed in __schedule()
-@@ -37,12 +38,13 @@
- /*
-  * Use the code location as the class key if an explicit map is not used.
+diff --git a/include/linux/completion.h b/include/linux/completion.h
+index bd2c207481d6..3200b741de28 100644
+--- a/include/linux/completion.h
++++ b/include/linux/completion.h
+@@ -41,9 +41,9 @@ do {							\
   */
--#define sdt_might_sleep_start(m)					\
-+#define sdt_might_sleep_start_timeout(m, t)				\
- 	do {								\
- 		struct dept_map *__m = m;				\
- 		static struct dept_key __key;				\
--		dept_stage_wait(__m, __m ? NULL : &__key, _THIS_IP_, __func__);\
-+		dept_stage_wait(__m, __m ? NULL : &__key, _THIS_IP_, __func__, t);\
- 	} while (0)
-+#define sdt_might_sleep_start(m) sdt_might_sleep_start_timeout(m, -1L)
+ #define init_completion_map(x, m) init_completion(x)
  
- #define sdt_might_sleep_end()		dept_clean_stage()
- 
-@@ -52,7 +54,9 @@
- #else /* !CONFIG_DEPT */
- #define sdt_map_init(m)			do { } while (0)
- #define sdt_map_init_key(m, k)		do { (void)(k); } while (0)
-+#define sdt_wait_timeout(m, t)		do { } while (0)
- #define sdt_wait(m)			do { } while (0)
-+#define sdt_might_sleep_start_timeout(m, t) do { } while (0)
- #define sdt_might_sleep_start(m)	do { } while (0)
- #define sdt_might_sleep_end()		do { } while (0)
- #define sdt_ecxt_enter(m)		do { } while (0)
-diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-index 2c0f30646652..5c996f11abd5 100644
---- a/kernel/dependency/dept.c
-+++ b/kernel/dependency/dept.c
-@@ -739,6 +739,8 @@ static void print_diagram(struct dept_dep *d)
- 	if (!irqf) {
- 		print_spc(spc, "[S] %s(%s:%d)\n", c_fn, fc_n, fc->sub_id);
- 		print_spc(spc, "[W] %s(%s:%d)\n", w_fn, tc_n, tc->sub_id);
-+		if (w->timeout)
-+			print_spc(spc, "--------------- >8 timeout ---------------\n");
- 		print_spc(spc, "[E] %s(%s:%d)\n", e_fn, fc_n, fc->sub_id);
- 	}
- }
-@@ -792,6 +794,24 @@ static void print_dep(struct dept_dep *d)
- 
- static void save_current_stack(int skip);
- 
-+static bool is_timeout_wait_circle(struct dept_class *c)
-+{
-+	struct dept_class *fc = c->bfs_parent;
-+	struct dept_class *tc = c;
-+
-+	do {
-+		struct dept_dep *d = lookup_dep(fc, tc);
-+
-+		if (d->wait->timeout)
-+			return true;
-+
-+		tc = fc;
-+		fc = fc->bfs_parent;
-+	} while (tc != c);
-+
-+	return false;
-+}
-+
- /*
-  * Print all classes in a circle.
-  */
-@@ -814,10 +834,14 @@ static void print_circle(struct dept_class *c)
- 	pr_warn("summary\n");
- 	pr_warn("---------------------------------------------------\n");
- 
--	if (fc == tc)
-+	if (is_timeout_wait_circle(c)) {
-+		pr_warn("NOT A DEADLOCK BUT A CIRCULAR DEPENDENCY\n");
-+		pr_warn("CHECK IF THE TIMEOUT IS INTENDED\n\n");
-+	} else if (fc == tc) {
- 		pr_warn("*** AA DEADLOCK ***\n\n");
--	else
-+	} else {
- 		pr_warn("*** DEADLOCK ***\n\n");
-+	}
- 
- 	i = 0;
- 	do {
-@@ -1582,7 +1606,8 @@ static void add_dep(struct dept_ecxt *e, struct dept_wait *w)
- static atomic_t wgen = ATOMIC_INIT(1);
- 
- static void add_wait(struct dept_class *c, unsigned long ip,
--		     const char *w_fn, int sub_l, bool sched_sleep)
-+		     const char *w_fn, int sub_l, bool sched_sleep,
-+		     bool timeout)
+-static inline void complete_acquire(struct completion *x)
++static inline void complete_acquire(struct completion *x, long timeout)
  {
- 	struct dept_task *dt = dept_task();
- 	struct dept_wait *w;
-@@ -1602,6 +1627,7 @@ static void add_wait(struct dept_class *c, unsigned long ip,
- 	w->wait_fn = w_fn;
- 	w->wait_stack = get_current_stack();
- 	w->sched_sleep = sched_sleep;
-+	w->timeout = timeout;
+-	sdt_might_sleep_start(&x->dmap);
++	sdt_might_sleep_start_timeout(&x->dmap, timeout);
+ }
  
- 	cxt = cur_cxt();
- 	if (cxt == DEPT_CXT_HIRQ || cxt == DEPT_CXT_SIRQ)
-@@ -2313,7 +2339,7 @@ static struct dept_class *check_new_class(struct dept_key *local,
-  */
- static void __dept_wait(struct dept_map *m, unsigned long w_f,
- 			unsigned long ip, const char *w_fn, int sub_l,
--			bool sched_sleep, bool sched_map)
-+			bool sched_sleep, bool sched_map, bool timeout)
+ static inline void complete_release(struct completion *x)
+diff --git a/kernel/sched/completion.c b/kernel/sched/completion.c
+index 3561ab533dd4..499b1fee9dc1 100644
+--- a/kernel/sched/completion.c
++++ b/kernel/sched/completion.c
+@@ -110,7 +110,7 @@ __wait_for_common(struct completion *x,
  {
- 	int e;
+ 	might_sleep();
  
-@@ -2336,7 +2362,7 @@ static void __dept_wait(struct dept_map *m, unsigned long w_f,
- 		if (!c)
- 			continue;
+-	complete_acquire(x);
++	complete_acquire(x, timeout);
  
--		add_wait(c, ip, w_fn, sub_l, sched_sleep);
-+		add_wait(c, ip, w_fn, sub_l, sched_sleep, timeout);
- 	}
- }
- 
-@@ -2373,14 +2399,23 @@ static void __dept_event(struct dept_map *m, unsigned long e_f,
- }
- 
- void dept_wait(struct dept_map *m, unsigned long w_f,
--	       unsigned long ip, const char *w_fn, int sub_l)
-+	       unsigned long ip, const char *w_fn, int sub_l,
-+	       long timeoutval)
- {
- 	struct dept_task *dt = dept_task();
- 	unsigned long flags;
-+	bool timeout;
- 
- 	if (unlikely(!dept_working()))
- 		return;
- 
-+	timeout = timeoutval > 0 && timeoutval < MAX_SCHEDULE_TIMEOUT;
-+
-+#if !defined(CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT)
-+	if (timeout)
-+		return;
-+#endif
-+
- 	if (dt->recursive)
- 		return;
- 
-@@ -2389,21 +2424,30 @@ void dept_wait(struct dept_map *m, unsigned long w_f,
- 
- 	flags = dept_enter();
- 
--	__dept_wait(m, w_f, ip, w_fn, sub_l, false, false);
-+	__dept_wait(m, w_f, ip, w_fn, sub_l, false, false, timeout);
- 
- 	dept_exit(flags);
- }
- EXPORT_SYMBOL_GPL(dept_wait);
- 
- void dept_stage_wait(struct dept_map *m, struct dept_key *k,
--		     unsigned long ip, const char *w_fn)
-+		     unsigned long ip, const char *w_fn,
-+		     long timeoutval)
- {
- 	struct dept_task *dt = dept_task();
- 	unsigned long flags;
-+	bool timeout;
- 
- 	if (unlikely(!dept_working()))
- 		return;
- 
-+	timeout = timeoutval > 0 && timeoutval < MAX_SCHEDULE_TIMEOUT;
-+
-+#if !defined(CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT)
-+	if (timeout)
-+		return;
-+#endif
-+
- 	if (m && m->nocheck)
- 		return;
- 
-@@ -2449,6 +2493,7 @@ void dept_stage_wait(struct dept_map *m, struct dept_key *k,
- 
- 	dt->stage_w_fn = w_fn;
- 	dt->stage_ip = ip;
-+	dt->stage_timeout = timeout;
- exit:
- 	dept_exit_recursive(flags);
- }
-@@ -2460,6 +2505,7 @@ static void __dept_clean_stage(struct dept_task *dt)
- 	dt->stage_sched_map = false;
- 	dt->stage_w_fn = NULL;
- 	dt->stage_ip = 0UL;
-+	dt->stage_timeout = false;
- }
- 
- void dept_clean_stage(void)
-@@ -2490,6 +2536,7 @@ void dept_request_event_wait_commit(void)
- 	unsigned long ip;
- 	const char *w_fn;
- 	bool sched_map;
-+	bool timeout;
- 
- 	if (unlikely(!dept_working()))
- 		return;
-@@ -2512,6 +2559,7 @@ void dept_request_event_wait_commit(void)
- 	w_fn = dt->stage_w_fn;
- 	ip = dt->stage_ip;
- 	sched_map = dt->stage_sched_map;
-+	timeout = dt->stage_timeout;
- 
- 	/*
- 	 * Avoid zero wgen.
-@@ -2519,7 +2567,7 @@ void dept_request_event_wait_commit(void)
- 	wg = atomic_inc_return(&wgen) ?: atomic_inc_return(&wgen);
- 	WRITE_ONCE(dt->stage_m.wgen, wg);
- 
--	__dept_wait(&dt->stage_m, 1UL, ip, w_fn, 0, true, sched_map);
-+	__dept_wait(&dt->stage_m, 1UL, ip, w_fn, 0, true, sched_map, timeout);
- exit:
- 	dept_exit(flags);
- }
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index d366acacffec..b0351667a771 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1319,6 +1319,16 @@ config DEPT
- 	  noting, to mitigate the impact by the false positives, multi
- 	  reporting has been supported.
- 
-+config DEPT_AGGRESSIVE_TIMEOUT_WAIT
-+	bool "Aggressively track even timeout waits"
-+	depends on DEPT
-+	default n
-+	help
-+	  Timeout wait doesn't contribute to a deadlock. However,
-+	  informing a circular dependency might be helpful for cases
-+	  that timeout is used to avoid a deadlock. Say N if you'd like
-+	  to avoid verbose reports.
-+
- config LOCK_DEBUGGING_SUPPORT
- 	bool
- 	depends on TRACE_IRQFLAGS_SUPPORT && STACKTRACE_SUPPORT && LOCKDEP_SUPPORT
+ 	raw_spin_lock_irq(&x->wait.lock);
+ 	timeout = do_wait_for_common(x, action, timeout, state);
 -- 
 2.17.1
 
