@@ -2,134 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E438BFC29
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 13:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903358BFC7D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 13:43:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35DA710FB43;
-	Wed,  8 May 2024 11:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D9C110FB39;
+	Wed,  8 May 2024 11:43:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fWYGDrLD";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="cyinPoiU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5533110FB43
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 11:35:47 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-a599af16934so1069928666b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 04:35:47 -0700 (PDT)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9D6610FB3B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 11:43:47 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-2b38f2e95aeso558317a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 04:43:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715168145; x=1715772945; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=Vb7A8NDewpqVb/wyIJ0582aE2qv/3FWwkQEcmRDFW+Y=;
- b=fWYGDrLDrW9wGsYursJjpVE7QS4yJ5wRtgphRDBvVMh3+tRFvJxXQApPpmsEn+WKIh
- YoOqoRuPFokHpsgoYzZ3lcc7WPT1kO8bKpQT0ldqLYP2lRf+wFGazv8yI7NmKRdIxKUr
- vlHzp0Yi+lgDvNFWS64jN4PSDcmG2SB9qOGUF5RMHQXR5HqUHR+l6mR8dyydFaxSPrE9
- 6ftLaUp+EbJVCtBkGMqk9yIoEVieeBnUJcSM2mSzNLpV+UHD9Abw2OsfuxV6RIX8X5BL
- 1+PU192rKR6j0gBzzdY58vvYU8JQ7yzwm+9iCAuXU+Kd4ZJDbxzsiiumhzmtE6K1QuEL
- ak3Q==
+ d=google.com; s=20230601; t=1715168627; x=1715773427;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VzEeV8O7cqpPCMasGDN5yB28tX49+B8gmMSvUBqc6vQ=;
+ b=cyinPoiUmcjOHXL7N88Djc1saXvsD0L3E6AZMDJXneQprVVaDp8M9seyEhIHJqWjcN
+ LzoLb72vvvDvpgmd+ZyArymEg5M0h73bMV7hAFidBjQULkwYr3qmR96JaLcqpA8IG6kk
+ qI4fv84jFZAjhNdsRecKcv2GL5LOolLmK8lh6leZQUIYjJqNNny0oXSSgtDhQ/1IyK2y
+ 5LAQthaITKuF9crXIdSljhjOXjqekXTVg/DQuJEnBtkLLVa9WyKbK1AF1OE92y8HQ5XD
+ yBTciywuVXD9ENhICMrw3IhYHdNNDhNl+fLBQzbOsBblP0xd1sk8EWwqku057eFW91ox
+ +4Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715168145; x=1715772945;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vb7A8NDewpqVb/wyIJ0582aE2qv/3FWwkQEcmRDFW+Y=;
- b=xJLHYzAE/qp4NY2ZIdNnExnjVjl0YEJ2CsLZTR4s0iWyWA/cIsI1j9DJRl6nCfpjaz
- hKpAP0cuovLw1tq35ZASA24Ug3RLqfjbKRBYwxrgZzGhA31xlkHRDsKcbt/S/R3L2ow5
- LG1+xr3/SPlpWCxcj7SBKnvKKPx5NIPvbxh23ZdFFJ8J/FsCyoov3g1UvWtnGQHlTSda
- O4DcyzVzyHrLs0ScdzR9R3Ak43zKEgumNUkizg3kMzF32O/JIlFftqGclm/poGzVprSa
- 7F2Df8un32l8YwqBlj0sE32gas4N0+x1QBrrJzjE4v5sRS1rEeIgau0QrrzOBrWuwAR7
- 8/fA==
+ d=1e100.net; s=20230601; t=1715168627; x=1715773427;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VzEeV8O7cqpPCMasGDN5yB28tX49+B8gmMSvUBqc6vQ=;
+ b=noeK4zLyaonrxAB0E350Q3H+BRhmkIsyOttHR7CK0AbuOCAGbfTzF491/JzDrN8u/i
+ DbDzXGiK3lx7dVxDUUOFGu7RCH1zYEf60Sq5VI3GbTVJQUDbWVfqtM/vMwq/bwUFPP0t
+ wfnKF5pki5uA9188EgLtHauW2wbfSuIR37QgdVwYlynozvl76RZICFdHd/AHhZTgqiEz
+ IKxLlA2mius9Vb2lMtEsVNe4ES+G0N22GcstI3XqlPvqOamVhve/rhL9CNXyqhLQsNou
+ 62qxfQXupvdkYjKH4BhRDCNMhR+OgdCw4XCZaXpIPHXVF1OzPGC14w7sz6s/0GD0u2LW
+ kwtg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVViclraICfekKZVig18Neo57UmAJfwXwMBRDNL4qBBmwK1CQ/nevcRCQZL6BYZJT3/u+NHBc+OImXN7JUg1naS67eM3DOzPJcbFsE8dSdg
-X-Gm-Message-State: AOJu0Yy8vwHflXvU7isivAgqhpl/vNBM/7X7a0Drra5RmH9M9rjtOrGR
- LmqQsjATn4tlvoCdUAfOP+jpwdFHe2iYVU06ugZPKIsWFV7dpuh6
-X-Google-Smtp-Source: AGHT+IFD1CFod5VQ+iswMgBuojxIC5HF11jrNe705xchAqUdklV+Hcoyl3d8HPrZmlieFNMEy7rhLQ==
-X-Received: by 2002:a17:906:54c7:b0:a59:9edf:14b6 with SMTP id
- a640c23a62f3a-a59fb9699ccmr154863866b.45.1715168145194; 
- Wed, 08 May 2024 04:35:45 -0700 (PDT)
-Received: from [192.168.42.217] ([163.114.131.193])
- by smtp.gmail.com with ESMTPSA id
- p25-20020a170906141900b00a55a5384986sm7568868ejc.24.2024.05.08.04.35.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 May 2024 04:35:44 -0700 (PDT)
-Message-ID: <1e2823db-504b-4829-856f-3f45a45ccada@gmail.com>
-Date: Wed, 8 May 2024 12:35:52 +0100
+ AJvYcCXsX3nT40oYD/O9tJYxLUDt+Pq4exo/TGzZXag5OaLCQVARYcK7eJ5AigpI3h5kijRyvVWy7lka/dGlrJjL0i0d2uxE/mFB0fgRmGOAIBqE
+X-Gm-Message-State: AOJu0YxLVlhDM8/U3jvOZ+W+HG5WYJoHR/T+NS88NVUsG08X2n8OI+is
+ 02CgJ2+W7lX8F21McECGKVbo93EHSLmjNZ60viT88RmUsg0RHn71B4wxIJ/LqcLmQvpfBl3PXPy
+ i3CXqHXF+21c4T+ei6s+/OWUFs6YuwGzrj6XT8w==
+X-Google-Smtp-Source: AGHT+IEO3bd85u0B2AuxdYue4avxAitA4qBL7f0hd7JLyvHCW/eV8DnhuJEJqXEQqub2JjhK5jzqGCHK0lLkb/fyC7g=
+X-Received: by 2002:a17:90a:fb96:b0:2b2:802f:e90a with SMTP id
+ 98e67ed59e1d1-2b611aed27bmr3178106a91.24.1715168627082; Wed, 08 May 2024
+ 04:43:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
- custom page providers
-To: Jason Gunthorpe <jgg@ziepe.ca>, Mina Almasry <almasrymina@google.com>,
- Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Amritha Nambiar <amritha.nambiar@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
- Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <ZjjHUh1eINPg1wkn@infradead.org>
- <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
- <20240507161857.GA4718@ziepe.ca> <ZjpVfPqGNfE5N4bl@infradead.org>
- <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
- <20240507164838.GG4718@ziepe.ca>
- <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
- <20240507175644.GJ4718@ziepe.ca>
- <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
- <20240507233247.GK4718@ziepe.ca> <Zjsm3vO6rIY_sw5A@phenom.ffwll.local>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <Zjsm3vO6rIY_sw5A@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240507135234.1356855-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240507135234.1356855-2-yangcong5@huaqin.corp-partner.google.com>
+ <171509488827.493449.2668049686067198439.robh@kernel.org>
+ <CAD=FV=VNNB=jtyM1BMTUTzyTjOUqDxobWTYz9RAnCmYha-DG0w@mail.gmail.com>
+In-Reply-To: <CAD=FV=VNNB=jtyM1BMTUTzyTjOUqDxobWTYz9RAnCmYha-DG0w@mail.gmail.com>
+From: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date: Wed, 8 May 2024 19:43:35 +0800
+Message-ID: <CAHwB_NLhKqqy-Ot=HjiG2oZ6MraYvvMaV_=r60=1yR4164FeaA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/7] dt-bindings: display: panel: Add himax hx83102
+ panel bindings
+To: Doug Anderson <dianders@chromium.org>
+Cc: sam@ravnborg.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linus.walleij@linaro.org, 
+ xuxinxiong@huaqin.corp-partner.google.com, airlied@gmail.com, 
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ devicetree@vger.kernel.org, conor+dt@kernel.org, daniel@ffwll.ch, 
+ neil.armstrong@linaro.org, "Rob Herring (Arm)" <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,67 +88,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/8/24 08:16, Daniel Vetter wrote:
-> On Tue, May 07, 2024 at 08:32:47PM -0300, Jason Gunthorpe wrote:
->> On Tue, May 07, 2024 at 08:35:37PM +0100, Pavel Begunkov wrote:
->>> On 5/7/24 18:56, Jason Gunthorpe wrote:
->>>> On Tue, May 07, 2024 at 06:25:52PM +0100, Pavel Begunkov wrote:
->>>>> On 5/7/24 17:48, Jason Gunthorpe wrote:
->>>>>> On Tue, May 07, 2024 at 09:42:05AM -0700, Mina Almasry wrote:
->>>>>>
->>>>>>> 1. Align with devmem TCP to use udmabuf for your io_uring memory. I
->>>>>>> think in the past you said it's a uapi you don't link but in the face
->>>>>>> of this pushback you may want to reconsider.
->>>>>>
->>>>>> dmabuf does not force a uapi, you can acquire your pages however you
->>>>>> want and wrap them up in a dmabuf. No uapi at all.
->>>>>>
->>>>>> The point is that dmabuf already provides ops that do basically what
->>>>>> is needed here. We don't need ops calling ops just because dmabuf's
->>>>>> ops are not understsood or not perfect. Fixup dmabuf.
->>>>>
->>>>> Those ops, for example, are used to efficiently return used buffers
->>>>> back to the kernel, which is uapi, I don't see how dmabuf can be
->>>>> fixed up to cover it.
->>>>
->>>> Sure, but that doesn't mean you can't use dma buf for the other parts
->>>> of the flow. The per-page lifetime is a different topic than the
->>>> refcounting and access of the entire bulk of memory.
->>>
->>> Ok, so if we're leaving uapi (and ops) and keep per page/sub-buffer as
->>> is, the rest is resolving uptr -> pages, and passing it to page pool in
->>> a convenient to page pool format (net_iov).
->>
->> I'm not going to pretend to know about page pool details, but dmabuf
->> is the way to get the bulk of pages into a pool within the net stack's
->> allocator and keep that bulk properly refcounted while.
->>
->> An object like dmabuf is needed for the general case because there are
->> not going to be per-page references or otherwise available.
->>
->> What you seem to want is to alter how the actual allocation flow works
->> from that bulk of memory and delay the free. It seems like a different
->> topic to me, and honestly hacking into the allocator free function
->> seems a bit weird..
-> 
-> Also I don't see how it's an argument against dma-buf as the interface for
+Hi, Doug &Conor
 
-It's not, neither I said it is, but it is an argument against removing
-the network's page pool ops.
+Doug Anderson <dianders@chromium.org> =E4=BA=8E2024=E5=B9=B45=E6=9C=888=E6=
+=97=A5=E5=91=A8=E4=B8=89 00:40=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi,
+>
+> On Tue, May 7, 2024 at 8:14=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org=
+> wrote:
+> >
+> >
+> > On Tue, 07 May 2024 21:52:28 +0800, Cong Yang wrote:
+> > > In V1, discussed with Doug and Linus [1], we need break out as separa=
+te
+> > > driver for the himax83102-j02 controller. Beacuse "starry,himax83102-=
+j02"
+> > > and in this series "BOE nv110wum-l60" "IVO t109nw41" panels use same
+> > > controller, they have some common CMDS. So add new documentation for
+> > > this panels.
+> > >
+> > > For himax83102-j02 controller, no need 3v3 supply, so remove it.
+> > >
+> > > [1]: https://lore.kernel.org/all/CACRpkdbzYZAS0=3DzBQJUC4CB2wj4s1h6n6=
+aSAZQvdMV95r3zRUw@mail.gmail.com
+> > >
+> > > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > > ---
+> > > Chage since V4:
+> > >
+> > > - Update commit message and add fallback compatible.
+> > >
+> > > V3: https://lore.kernel.org/all/20240424023010.2099949-2-yangcong5@hu=
+aqin.corp-partner.google.com
+> > >
+> > > Chage since V3:
+> > >
+> > > - Update commit message.
+> > >
+> > > V2: https://lore.kernel.org/all/20240422090310.3311429-2-yangcong5@hu=
+aqin.corp-partner.google.com
+> > >
+> > > ---
+> > >  .../display/panel/boe,tv101wum-nl6.yaml       |  2 -
+> > >  .../bindings/display/panel/himax,hx83102.yaml | 73 +++++++++++++++++=
+++
+> > >  2 files changed, 73 insertions(+), 2 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/panel/h=
+imax,hx83102.yaml
+> > >
+> >
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> >
+> > yamllint warnings/errors:
+> >
+> > dtschema/dtc warnings/errors:
+> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings=
+/display/panel/himax,hx83102.example.dtb: panel@0: compatible:0: 'starry,hi=
+max83102-j02, himax,hx83102' does not match '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._/=
+]+$'
+> >         from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+> > Documentation/devicetree/bindings/display/panel/himax,hx83102.example.d=
+tb: /example-0/dsi/panel@0: failed to match any schema with compatible: ['s=
+tarry,himax83102-j02, himax,hx83102']
+> >
+> > doc reference errors (make refcheckdocs):
+> >
+> > See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/2024=
+0507135234.1356855-2-yangcong5@huaqin.corp-partner.google.com
+> >
+> > The base for the series is generally the latest rc1. A different depend=
+ency
+> > should be noted in *this* patch.
+> >
+> > If you already ran 'make dt_binding_check' and didn't see the above
+> > error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> > date:
+> >
+> > pip3 install dtschema --upgrade
+> >
+> > Please check and re-submit after running the above command yourself. No=
+te
+> > that DT_SCHEMA_FILES can be set to your schema file to speed up checkin=
+g
+> > your schema. However, it must be unset to test all examples with your s=
+chema.
+>
+> I think several of your bindings patches have triggered Rob's bot.
+> Please make sure you're set up to test this yourself and make sure you
+> run it locally before sending out the next version of your patches. In
+> general you should get in the habit of running 'make dt_binding_check'
+> locally before you post any bindings changes.
 
-> all these, because e.g. ttm internally does have a page pool because
-> depending upon allocator, that's indeed beneficial. Other drm drivers have
-> more buffer-based concepts for opportunistically memory around, usually
-> by marking buffers that are just kept as cache as purgeable (which is a
-> concept that goes all the way to opengl/vulkan).
+Sorry, I forgot to running 'make dt_binding_check'.
+Thanks for the correction.
 
-Because in this case it solves nothing and helps with nothing, quite
-the opposite. Just as well we can ask why NVMe doesn't wrap user pages
-into a dmabuf while doing IO.
-
-> But these are all internals of the dma-buf exporter, the dma-buf api users
-> don't ever need to care.
-> -Sima
-
--- 
-Pavel Begunkov
+>
+> Thanks!
+>
+> -Doug
