@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63778BF95D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 11:12:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD43D8BF966
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 11:13:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EFB210E3C6;
-	Wed,  8 May 2024 09:12:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C03A91128A4;
+	Wed,  8 May 2024 09:13:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VoBhli5l";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OaXi/cLH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A4B210E1FF;
- Wed,  8 May 2024 09:12:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F70D1128A4;
+ Wed,  8 May 2024 09:13:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715159557; x=1746695557;
+ t=1715159626; x=1746695626;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version:content-transfer-encoding;
- bh=0cdYrcajI4uDWAbcgops0ANjWE4byoMs83LrP4k67WE=;
- b=VoBhli5lEd7s4T+8ih8I0kngrkTl4dHIxFDbIkaTWweHKgG95A4oGtP1
- z/pCV+7DeR4yR6VVZI0VbB54ikxVUO33j5ntfft8NJdO4n8ecKcRMmAAy
- E4U7RbMgChHJj37q4l4AjutYQcAQNW+hmfn2eyS67vgwiPto0SHUj3SWj
- 9o5m3vDFku74WEDhh8ElfdqMDBnGtVt+/b4nhtNHqiwyJfrOtzhJKbchw
- v1Y5DbUgkeccqecVpW065zK+oSdi1jqS7PTIliJwzRNWmQn9DsA2q/SbY
- Ww2stqov/d0L+gYVEMP4cCkgrrkMqBLhMJm3Y9Te28xeD9vNod2nle+gR g==;
-X-CSE-ConnectionGUID: KRpsiRozRy6/ioEq4se9JQ==
-X-CSE-MsgGUID: DGA27Z2HSGWH4UcSNnVSpA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="36386309"
-X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; d="scan'208";a="36386309"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2024 02:12:36 -0700
-X-CSE-ConnectionGUID: KRr2VZ/QSGm+Ya4PJ5qCUw==
-X-CSE-MsgGUID: IqhLXdO4SOmMYy+B6tEGsQ==
+ bh=klBkLhyD/TIqiC8931eKaEuMvRbhN90D355twxqXUsQ=;
+ b=OaXi/cLHZsxLyB6a+B1UhcyZrNpJFGVOLBod84gHjqI7p+FeilRGwn5u
+ MzrffDUVX+21AbA5uffEmiAzyfxbjG0xsD/IxjbfQ5nQBIvLbXiXGPQKP
+ 6ZpUPOYjJfv3NvDVPJgW7RpiqDw4UN8kUtnOTDUo3rqKpnNFmO1II7E0s
+ F+vvC/kN4arH6I7txWGNTJrF+riZ0YiNnDSNxk5ekT+g2teUICpsQGLO0
+ ddgy4Vb8GZesh607dMyyjOzzhPiefffBAVUroSYK1QO7oqoPI3uidstRm
+ Y51cAROJVDqo6cedeVBf5EEnXcRLH59OlH536/c1LFjPSQjwAXw8qOB2h g==;
+X-CSE-ConnectionGUID: k0L7K8MeRISgOrEuBgsyhg==
+X-CSE-MsgGUID: +HHKAYN6QyqCyUu6ngWu2g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="13955909"
+X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; d="scan'208";a="13955909"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2024 02:13:45 -0700
+X-CSE-ConnectionGUID: xlAUvHplRwGwJS7blNx1vQ==
+X-CSE-MsgGUID: Nl9+D1kuQ+2ZvNQlJR5CBg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; d="scan'208";a="33377853"
+X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; d="scan'208";a="29399576"
 Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
  localhost) ([10.245.246.76])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2024 02:12:35 -0700
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2024 02:13:42 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Ville Syrjala <ville.syrjala@linux.intel.com>,
  dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 3/5] drm/i915: Use drm_crtc_vblank_crtc()
-In-Reply-To: <20240408190611.24914-3-ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 2/5] drm/amdgpu: Use drm_crtc_vblank_crtc()
+In-Reply-To: <20240408190611.24914-2-ville.syrjala@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20240408190611.24914-1-ville.syrjala@linux.intel.com>
- <20240408190611.24914-3-ville.syrjala@linux.intel.com>
-Date: Wed, 08 May 2024 12:12:32 +0300
-Message-ID: <877cg4lla7.fsf@intel.com>
+ <20240408190611.24914-2-ville.syrjala@linux.intel.com>
+Date: Wed, 08 May 2024 12:13:39 +0300
+Message-ID: <874jb8ll8c.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -77,93 +80,66 @@ On Mon, 08 Apr 2024, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
 > Replace the open coded drm_crtc_vblank_crtc() with the real
 > thing.
 >
-> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
 > Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+
+FWIW,
 
 Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
 > ---
->  drivers/gpu/drm/i915/display/intel_crtc.c   |  3 +--
->  drivers/gpu/drm/i915/display/intel_vblank.c | 16 +++++-----------
->  2 files changed, 6 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c          | 8 ++------
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+>  2 files changed, 3 insertions(+), 7 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/=
-i915/display/intel_crtc.c
-> index 25593f6aae7d..339010384b86 100644
-> --- a/drivers/gpu/drm/i915/display/intel_crtc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-> @@ -78,8 +78,7 @@ void intel_wait_for_vblank_if_active(struct drm_i915_pr=
-ivate *i915,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_vkms.c
+> index 8baa2e0935cc..258703145161 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+> @@ -65,9 +65,7 @@ static enum hrtimer_restart amdgpu_vkms_vblank_simulate=
+(struct hrtimer *timer)
 >=20=20
->  u32 intel_crtc_get_vblank_counter(struct intel_crtc *crtc)
+>  static int amdgpu_vkms_enable_vblank(struct drm_crtc *crtc)
 >  {
-> -	struct drm_device *dev =3D crtc->base.dev;
-> -	struct drm_vblank_crtc *vblank =3D &dev->vblank[drm_crtc_index(&crtc->b=
-ase)];
-> +	struct drm_vblank_crtc *vblank =3D drm_crtc_vblank_crtc(&crtc->base);
+> -	struct drm_device *dev =3D crtc->dev;
+> -	unsigned int pipe =3D drm_crtc_index(crtc);
+> -	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank =3D drm_crtc_vblank_crtc(crtc);
+>  	struct amdgpu_vkms_output *out =3D drm_crtc_to_amdgpu_vkms_output(crtc);
+>  	struct amdgpu_crtc *amdgpu_crtc =3D to_amdgpu_crtc(crtc);
 >=20=20
->  	if (!crtc->active)
->  		return 0;
-> diff --git a/drivers/gpu/drm/i915/display/intel_vblank.c b/drivers/gpu/dr=
-m/i915/display/intel_vblank.c
-> index baf7354cb6e2..951190bcbc50 100644
-> --- a/drivers/gpu/drm/i915/display/intel_vblank.c
-> +++ b/drivers/gpu/drm/i915/display/intel_vblank.c
-> @@ -132,8 +132,7 @@ u32 g4x_get_vblank_counter(struct drm_crtc *crtc)
->  static u32 intel_crtc_scanlines_since_frame_timestamp(struct intel_crtc =
-*crtc)
+> @@ -91,10 +89,8 @@ static bool amdgpu_vkms_get_vblank_timestamp(struct dr=
+m_crtc *crtc,
+>  					     ktime_t *vblank_time,
+>  					     bool in_vblank_irq)
 >  {
->  	struct drm_i915_private *dev_priv =3D to_i915(crtc->base.dev);
-> -	struct drm_vblank_crtc *vblank =3D
-> -		&crtc->base.dev->vblank[drm_crtc_index(&crtc->base)];
-> +	struct drm_vblank_crtc *vblank =3D drm_crtc_vblank_crtc(&crtc->base);
->  	const struct drm_display_mode *mode =3D &vblank->hwmode;
->  	u32 htotal =3D mode->crtc_htotal;
->  	u32 clock =3D mode->crtc_clock;
-> @@ -178,8 +177,7 @@ static u32 intel_crtc_scanlines_since_frame_timestamp=
-(struct intel_crtc *crtc)
->   */
->  static u32 __intel_get_crtc_scanline_from_timestamp(struct intel_crtc *c=
-rtc)
->  {
-> -	struct drm_vblank_crtc *vblank =3D
-> -		&crtc->base.dev->vblank[drm_crtc_index(&crtc->base)];
-> +	struct drm_vblank_crtc *vblank =3D drm_crtc_vblank_crtc(&crtc->base);
->  	const struct drm_display_mode *mode =3D &vblank->hwmode;
->  	u32 vblank_start =3D mode->crtc_vblank_start;
->  	u32 vtotal =3D mode->crtc_vtotal;
-> @@ -200,17 +198,14 @@ static int __intel_get_crtc_scanline(struct intel_c=
-rtc *crtc)
->  {
->  	struct drm_device *dev =3D crtc->base.dev;
->  	struct drm_i915_private *dev_priv =3D to_i915(dev);
-> -	const struct drm_display_mode *mode;
-> -	struct drm_vblank_crtc *vblank;
-> +	struct drm_vblank_crtc *vblank =3D drm_crtc_vblank_crtc(&crtc->base);
-> +	const struct drm_display_mode *mode =3D &vblank->hwmode;
->  	enum pipe pipe =3D crtc->pipe;
->  	int position, vtotal;
+> -	struct drm_device *dev =3D crtc->dev;
+> -	unsigned int pipe =3D crtc->index;
+>  	struct amdgpu_vkms_output *output =3D drm_crtc_to_amdgpu_vkms_output(cr=
+tc);
+> -	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank =3D drm_crtc_vblank_crtc(crtc);
+>  	struct amdgpu_crtc *amdgpu_crtc =3D to_amdgpu_crtc(crtc);
 >=20=20
->  	if (!crtc->active)
->  		return 0;
->=20=20
-> -	vblank =3D &crtc->base.dev->vblank[drm_crtc_index(&crtc->base)];
-> -	mode =3D &vblank->hwmode;
-> -
->  	if (crtc->mode_flags & I915_MODE_FLAG_GET_SCANLINE_FROM_TIMESTAMP)
->  		return __intel_get_crtc_scanline_from_timestamp(crtc);
->=20=20
-> @@ -254,8 +249,7 @@ static int __intel_get_crtc_scanline(struct intel_crt=
-c *crtc)
->=20=20
->  int intel_crtc_scanline_to_hw(struct intel_crtc *crtc, int scanline)
->  {
-> -	const struct drm_vblank_crtc *vblank =3D
-> -		&crtc->base.dev->vblank[drm_crtc_index(&crtc->base)];
-> +	const struct drm_vblank_crtc *vblank =3D drm_crtc_vblank_crtc(&crtc->ba=
-se);
->  	const struct drm_display_mode *mode =3D &vblank->hwmode;
->  	int vtotal;
+>  	if (!READ_ONCE(vblank->enabled)) {
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
+gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 71d2d44681b2..662d2d83473b 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -528,7 +528,7 @@ static void dm_vupdate_high_irq(void *interrupt_param=
+s)
+>  	if (acrtc) {
+>  		vrr_active =3D amdgpu_dm_crtc_vrr_active_irq(acrtc);
+>  		drm_dev =3D acrtc->base.dev;
+> -		vblank =3D &drm_dev->vblank[acrtc->base.index];
+> +		vblank =3D drm_crtc_vblank_crtc(&acrtc->base);
+>  		previous_timestamp =3D atomic64_read(&irq_params->previous_timestamp);
+>  		frame_duration_ns =3D vblank->time - previous_timestamp;
 
 --=20
 Jani Nikula, Intel
