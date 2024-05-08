@@ -2,86 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FDE8C024B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 18:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 250598C0278
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 19:02:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0633F10EE39;
-	Wed,  8 May 2024 16:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3493D1128FC;
+	Wed,  8 May 2024 17:02:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="YxUXP+Tg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PMWErUa0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 327D410E4B1;
- Wed,  8 May 2024 16:52:41 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 448Baj8e004590;
- Wed, 8 May 2024 16:52:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=sE0LqZWV3gwZbXfblDbklDN+yoPcsfBA3AQZLjHvvno=; b=Yx
- UXP+TgDa/sgK1FHJNFugFRrQUSWk3Q9VE83FummGCSpTFzHXD8hozee3ehRd5dy7
- qZ+Y5FpgRBLUVRh1oUnAgXSOroqAFwtssmV3XCq9drdgmVBVjYzv3gdpCZ3SMmDR
- w7YuPJQm3aoZjYFDkPu01aWrEZspxw5xfT04Cbym6E1zi1ChHhhlU7ZBmDzXEq+2
- 9ezBvfG6UTl0HuKFE8HK0VO11Mfr+STKjx6FKNeDJ01Sakts6Z3/whUY8qGeCYmv
- zOvcqFPuUPxUEVwJoDUrrOCnyrTPxB+gA4hrI41QjSzmpcPdkW64ToobmUAIjJM7
- 4kz7h7VmyroyEc1r4Z/w==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y08ne0sdp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 May 2024 16:52:33 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 448GqWiT007223
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 8 May 2024 16:52:32 GMT
-Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 May 2024
- 09:52:31 -0700
-Message-ID: <0cf9d1ba-2c4f-0863-6f51-e76ee7846471@quicinc.com>
-Date: Wed, 8 May 2024 09:52:31 -0700
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D786F1128FC
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 17:02:09 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-a59a5f81af4so1214800566b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 10:02:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715187728; x=1715792528; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=w63SX1W8IWtKWaRdVmF8DRJBTDth/aiRDPCWeP/m/u8=;
+ b=PMWErUa05PaeHTgbxpSnnmHyYuxfwozcdNXbxxmDUXZwADuMQApPf1aZDKmPcezaYa
+ iJlufDdP4htFVKJLvz6VaDMn5fcZLlPlRmsWxspSB+gdME5MbrvCX2zeTfFKZ2VQ20ou
+ 0Mh8BTc0POZQ9Rc8Ko/iq7/WPSCWRb4W2ZTwo/PdjXE4b/j5XZ56+OSVfFc2svie5diZ
+ H13021YPdKaReCOThTMiC1cGtkl8ogmo5UXiyUewc1gKtJw6yWF8Ed23IEp00fz+b0KY
+ zT5VJBiMZZshhsTSd497wmmuJYkqSro8mRqN9/5e/FY6UM5+R8RfKx5bwZktG6n+i4C3
+ jM3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715187728; x=1715792528;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=w63SX1W8IWtKWaRdVmF8DRJBTDth/aiRDPCWeP/m/u8=;
+ b=boAhoVVTZbkDidiVLe7/AxBhZbtxRjEE+JL2TqPSmrHM8gdi4qskE7zLiTc9YOkm4F
+ bEAiGVavxMEEFvhfKvyw51OtA6EV84BMtbmx1vU3XOCTKR5TUVJ2LTlSlDFbK6DVxFMo
+ AVqNJjrey+sXmboQmjFcsGSo8ipq+YtcIzh6dUgAL83sm4HXjwXNfIslMNv5uYo0e0BK
+ SD1yKvcmt0CQ9OX110p4etc5SZOoADg9sFZQsguPdkkdxCWpys2N2bgTGv5HtEIBPMtD
+ BCSeip6J88kN4cO7Xk3U6PFXq20Y1DgbkE5LBPHB9xAZHy+yKdR3z98rKHSiJ/Prb5AV
+ cutA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWjPNodcH5kv+AYJ9cYjvD777GxzK1e25uvYT2q5nePFBQ8ifDa/4s5LCgv8yFGAp1Yv8vo4J6kzh/lOb/wQddPEUY0+gTWYmy5dzOlR9wG
+X-Gm-Message-State: AOJu0Yx9PLWz9pY/9fBzWg5WtI/9SN3BTT/z4DJF6i0E+urCNCIjmqIj
+ LS1HSwuYEAzSmcMfSCHN+zCsed1qlD+duriIXbNffTyBe9ybUhUF
+X-Google-Smtp-Source: AGHT+IGnIbHLe2S57apepPi+KOdstUOemuaNblSGc79A9OnsYp187XWHNbGjxYPqzEX3412l6BXKTQ==
+X-Received: by 2002:a17:907:7286:b0:a59:bacc:b07f with SMTP id
+ a640c23a62f3a-a59fb9d6452mr265356266b.52.1715187727754; 
+ Wed, 08 May 2024 10:02:07 -0700 (PDT)
+Received: from [192.168.42.40] ([163.114.131.193])
+ by smtp.gmail.com with ESMTPSA id
+ n18-20020a170906841200b00a59a8a5dd15sm5634228ejx.206.2024.05.08.10.02.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 May 2024 10:02:07 -0700 (PDT)
+Message-ID: <8ced4c49-d153-40fb-9e62-0a5784cfa864@gmail.com>
+Date: Wed, 8 May 2024 18:02:14 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm: remove python 3.9 dependency for compiling msm
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Mina Almasry <almasrymina@google.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240507161857.GA4718@ziepe.ca> <ZjpVfPqGNfE5N4bl@infradead.org>
+ <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
+ <20240507164838.GG4718@ziepe.ca>
+ <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
+ <20240507175644.GJ4718@ziepe.ca>
+ <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
+ <20240507233247.GK4718@ziepe.ca> <Zjsm3vO6rIY_sw5A@phenom.ffwll.local>
+ <1e2823db-504b-4829-856f-3f45a45ccada@gmail.com>
+ <ZjufddNVJs5Csaix@infradead.org>
 Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- "Marijn Suijten" <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <seanpaul@chromium.org>,
- <swboyd@chromium.org>, <quic_jesszhan@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Masahiro
- Yamada" <masahiroy@kernel.org>
-References: <20240507230440.3384949-1-quic_abhinavk@quicinc.com>
- <87a5l0lmlv.fsf@intel.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <87a5l0lmlv.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <ZjufddNVJs5Csaix@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: p0YarwhYdHPcd0vHkL1pPlx1RUwiw5wh
-X-Proofpoint-ORIG-GUID: p0YarwhYdHPcd0vHkL1pPlx1RUwiw5wh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-08_09,2024-05-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- malwarescore=0 suspectscore=0 spamscore=0 impostorscore=0 phishscore=0
- adultscore=0 clxscore=1011 lowpriorityscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405010000
- definitions=main-2405080122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,67 +145,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/8/2024 1:43 AM, Jani Nikula wrote:
-> On Tue, 07 May 2024, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->> Since commit 5acf49119630 ("drm/msm: import gen_header.py script from Mesa"),
->> compilation is broken on machines having python versions older than 3.9
->> due to dependency on argparse.BooleanOptionalAction.
-> 
-> Is it now okay to require Python for the build? Not listed in
-> Documentation/process/changes.rst.
-> 
-> BR,
-> Jani.
-> 
-
-The change to move gen_header.py to kernel is already part of the v6.10 
-pull request.
-
-This change only fixes the version dependency.
-
-But, I agree we should update the changes.rst (better late than never).
-
-Dmitry, can you pls suggest which version we want to list there?
-
-I am hoping that after this change there are no further dependencies on 
-python versions, so anything > EOL should be fine.
-
-I am leaning towards v3.8
-
-> 
-> 
+On 5/8/24 16:51, Christoph Hellwig wrote:
+> On Wed, May 08, 2024 at 12:35:52PM +0100, Pavel Begunkov wrote:
+>>> all these, because e.g. ttm internally does have a page pool because
+>>> depending upon allocator, that's indeed beneficial. Other drm drivers have
+>>> more buffer-based concepts for opportunistically memory around, usually
+>>> by marking buffers that are just kept as cache as purgeable (which is a
+>>> concept that goes all the way to opengl/vulkan).
 >>
->> Switch to use simple bool for the validate flag to remove the dependency.
->>
->> Fixes: 5acf49119630 ("drm/msm: import gen_header.py script from Mesa")
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/registers/gen_header.py | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/registers/gen_header.py b/drivers/gpu/drm/msm/registers/gen_header.py
->> index fc3bfdc991d2..3926485bb197 100644
->> --- a/drivers/gpu/drm/msm/registers/gen_header.py
->> +++ b/drivers/gpu/drm/msm/registers/gen_header.py
->> @@ -538,7 +538,7 @@ class Parser(object):
->>   		self.variants.add(reg.domain)
->>   
->>   	def do_validate(self, schemafile):
->> -		if self.validate == False:
->> +		if not self.validate:
->>   			return
->>   
->>   		try:
->> @@ -948,7 +948,8 @@ def main():
->>   	parser = argparse.ArgumentParser()
->>   	parser.add_argument('--rnn', type=str, required=True)
->>   	parser.add_argument('--xml', type=str, required=True)
->> -	parser.add_argument('--validate', action=argparse.BooleanOptionalAction)
->> +	parser.add_argument('--validate', default=False, action='store_true')
->> +	parser.add_argument('--no-validate', dest='validate', action='store_false')
->>   
->>   	subparsers = parser.add_subparsers()
->>   	subparsers.required = True
+>> Because in this case it solves nothing and helps with nothing, quite
+>> the opposite. Just as well we can ask why NVMe doesn't wrap user pages
+>> into a dmabuf while doing IO.
 > 
+> You seem to confused totally unrelated things.
+>
+> For short-term pins, that is pin_user_pages without FOLL_LONGTERM there
+> would never be any point in using a dmabuf as the pin is transient.  For
+> long-term pin dmabufs in the block layer absolutely make sense, and I
+
+Well, the example fell flat, but you don't use dmabuf when there are
+no upsides from using it. For instance, when you already have pinned
+pages, you're going to use pages, and there are no other refcounting
+concerns. Unless there is an advantage of dmabufs over FOLL_LONGTERM
+that I don't know about when used with normal user pages.
+
+> wish io_uring would have just implemented them from the start instead of
+> the current fixed buffers that are not quite as useful by not
+> pre-mapping DMA and not supporting P2P.
+
+fdget(dmabuf) would be horrible, I assume that's not the suggestion.
+But then it's really about kernel internals, and theoretically can
+be patched to wrap user pages into a dmabuf and pass it in. The tricky
+part is how that "pass it in" should looks like. Keith tried to cover
+both pre-mapping and p2p by registering dmabuf and passing the mapped
+addresses in an iter IIRC.
+
+Anyway, this discussion should better move from to block/fs lists,
+if there is any interest.
+
+-- 
+Pavel Begunkov
