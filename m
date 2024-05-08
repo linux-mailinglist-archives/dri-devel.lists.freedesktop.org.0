@@ -2,101 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9394B8C01ED
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 18:25:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA338C023C
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 18:46:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B85211285B;
-	Wed,  8 May 2024 16:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B5D21130AA;
+	Wed,  8 May 2024 16:46:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="cjQ/kvpS";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="D3y5bDv/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58E9411285B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 16:25:00 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a59a352bbd9so197493066b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 09:25:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1715185498; x=1715790298;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GRnWniI6weHLAZe+jcS6e3kntzKq8xydvJSod9mqGMY=;
- b=cjQ/kvpSN+JfWSntOeB+bHdJmuUaFtz/LgCtkckg2pQu26f6c52weKUkDJmAIgLDRn
- oPxhLwpoPXn/KUUPvIjmGBqrB+YLKxFR9f8bFL0zTOm+3e0zg3e3dE1s+Q7BZNqPp/9B
- hdgDi3sfvW4plxk2RFgJMzr/U+O4iBEIkYVoI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715185498; x=1715790298;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GRnWniI6weHLAZe+jcS6e3kntzKq8xydvJSod9mqGMY=;
- b=pc7NsT42k8VUbr3faBgxP1XRVrc/Nugpw0JvyllQWESZ53jZozPzHB/OyAC10+zRZ+
- 3J1WuWn0s9rRO05OfdGnWzG8H/BqXDiwzPIpEv7ueR/9oNBhZ+aECTKxI9DwJ5Wb5UzP
- YKiqEIS0ZHM9B4ElN2BpHqPABmra6NLt+v4BCjY/L/OR4yLG3NeUYGZJt8HsvSmrxul2
- aLEeRChF/mokWy3WoQk2ZPKrH4Jm0FI/Leqj1dH8a26idtDQhFh1co1Qa2ZQSQ66BuW1
- R94oLhMPV2DrUSA/uJKCkQuc0HhqmfC3INHDROOmaBL38rlEuwHr0Nj9Dl8Q49NO3dV3
- evcw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVVjZTC6BcGlu4z0a5GKYJn5XMmCAxx7NU2rWEVXjP0Zw0Xk/gIcooMiAWOWAyZ3QmYTCf43fUaKrUb5W3uiA0gFooLe7SGPCL+PX4I+1fD
-X-Gm-Message-State: AOJu0Yy/5zad7xCuKvpJYJ9SK+D2ZVni6MpKW+dsJx9pX169Cn0kX4UY
- pTeqODCxFEecj2/K8i5/5syNCO+UexdU78pxoKTTwjn8O9tyh0st7WE4TiLnERgDMTNju/cHyyd
- qXgRGHQ==
-X-Google-Smtp-Source: AGHT+IFNNisQOAlvVdhQD29pgwtnu0QnVXN2smT3pMWeYa3ChfMW+ncQQs71AgEfbMALeCkPwpC9zg==
-X-Received: by 2002:a17:906:7c4f:b0:a59:c3a7:59d3 with SMTP id
- a640c23a62f3a-a5a1165d1d6mr12538066b.13.1715185498317; 
- Wed, 08 May 2024 09:24:58 -0700 (PDT)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com.
- [209.85.208.46]) by smtp.gmail.com with ESMTPSA id
- oy29-20020a170907105d00b00a59b077a70esm5133281ejb.2.2024.05.08.09.24.57
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 May 2024 09:24:58 -0700 (PDT)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-572adaa172cso2028011a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 09:24:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXshtSoEsWmZZ92qPhODReI0PV312wHczB4UCG8EUUgKApSLAECfPyFZHgvczg5BbMyNYFbL96VKfGEdgTPZujhb4KySmcZmbF6XoT1pp/x
-X-Received: by 2002:a17:906:1c10:b0:a59:9c2f:c7d4 with SMTP id
- a640c23a62f3a-a5a1167be68mr9921366b.19.1715185161053; Wed, 08 May 2024
- 09:19:21 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E3931130A6;
+ Wed,  8 May 2024 16:46:09 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 448Cr692003477;
+ Wed, 8 May 2024 16:46:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=
+ qcppdkim1; bh=QQcRbdP1TrvOiwGcWZc8A7ebL2foBKGMw4vYbB1n7bk=; b=D3
+ y5bDv/ww6Gsn4leQKJRvhzlrQuNVlWUB+efWhxZurCy2SNgVYm09D6+5gd8+FAjl
+ leD3WGRZR8RtWk5SIZ+fQMink1+U4JJfnsMDy+WKmvah9fClpo2UTwV6Xg1h43zO
+ b8O1jIXTCxsQyxmaO8E1QfFGzJkh1sxWQIcoaN0YHD9NerxBtVKqLNrUqMDnH1kQ
+ ZU3lFrFgfQhGnnz0U1XhkEV3YxvoXRR/qIKw16CWJtJDlX9Z72ynmlkAOZPLnjTX
+ Uh7Hg06Z/GMr1iOzhAVID8lwNGsMmbpNdkdJJ4NxTPNUym80PqozuSaQNvx+HV9I
+ gCej8JgLlS547Xiv1nRg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y0930rpt7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 May 2024 16:46:06 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 448Gk4MM008246
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 8 May 2024 16:46:04 GMT
+Received: from [10.71.109.81] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 May 2024
+ 09:46:04 -0700
+Message-ID: <83b6e1aa-c8ec-0bd7-2c98-20705741b76a@quicinc.com>
+Date: Wed, 8 May 2024 09:46:04 -0700
 MIME-Version: 1.0
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
- <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
- <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
-In-Reply-To: <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 8 May 2024 09:19:03 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wixO-fmQYgbGic-BQVUd9RQhwGsF4bGk8ufWDKnRS1v_A@mail.gmail.com>
-Message-ID: <CAHk-=wixO-fmQYgbGic-BQVUd9RQhwGsF4bGk8ufWDKnRS1v_A@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
- file lifetimes
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Simon Ser <contact@emersion.fr>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- keescook@chromium.org, 
- axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
- linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
- syzkaller-bugs@googlegroups.com
-Content-Type: multipart/mixed; boundary="0000000000003fddda0617f3aa7b"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/msm: Fix gen_header.py for python earlier than v3.9
+Content-Language: en-US
+To: Jon Hunter <jonathanh@nvidia.com>, Rob Clark <robdclark@gmail.com>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-tegra@vger.kernel.org>
+References: <20240508091751.336654-1-jonathanh@nvidia.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20240508091751.336654-1-jonathanh@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: fr03b_TBEt47KehI53EoPrrGLuPf96TJ
+X-Proofpoint-ORIG-GUID: fr03b_TBEt47KehI53EoPrrGLuPf96TJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-08_09,2024-05-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0 spamscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 mlxlogscore=999 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405010000
+ definitions=main-2405080121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,101 +92,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000003fddda0617f3aa7b
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 7 May 2024 at 12:07, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> That example thing shows that we shouldn't make it a FISAME ioctl - we
-> should make it a fcntl() instead, and it would just be a companion to
-> F_DUPFD.
->
-> Doesn't that strike everybody as a *much* cleaner interface? I think
-> F_ISDUP would work very naturally indeed with F_DUPFD.
 
-So since we already have two versions of F_DUPFD (the other being
-F_DUPFD_CLOEXEC) I decided that the best thing to do is to just extend
-on that existing naming pattern, and called it F_DUPFD_QUERY instead.
+On 5/8/2024 2:17 AM, Jon Hunter wrote:
+> Building the kernel with python3 versions earlier than v3.9 fails with ...
+> 
+>   Traceback (most recent call last):
+>     File "drivers/gpu/drm/msm/registers/gen_header.py", line 970, in <module>
+>       main()
+>     File "drivers/gpu/drm/msm/registers/gen_header.py", line 951, in main
+>       parser.add_argument('--validate', action=argparse.BooleanOptionalAction)
+>   AttributeError: module 'argparse' has no attribute 'BooleanOptionalAction'
+> 
+> The argparse attribute 'BooleanOptionalAction' is only supported for
+> python v3.9 and later. Fix support for earlier python3 versions by
+> explicitly defining '--validate' and '--no-validate' arguments.
+> 
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+> ---
+>   drivers/gpu/drm/msm/registers/gen_header.py | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
 
-I'm not married to the name, so if somebody hates it, feel free to
-argue otherwise.
+Thanks for your patch, I had sent something similar y'day.
 
-But with that, the suggested patch would end up looking something like
-the attached (I also re-ordered the existing "F_LINUX_SPECIFIC_BASE"
-users, since one of them was out of numerical order).
+If you are alright with https://patchwork.freedesktop.org/patch/593057/, 
+we can use that one.
 
-This really feels like a very natural thing, and yes, the 'same_fd()'
-function in systemd that Christian also pointed at could use this very
-naturally.
-
-Also note that I obviously haven't tested this. Because obviously this
-is trivially correct and cannot possibly have any bugs. Right? RIGHT?
-
-And yes, I did check - despite the odd jump in numbers, we've never
-had anything between F_NOTIFY (+2) and F_CANCELLK (+5).
-
-We added F_SETLEASE (+0) , F_GETLEASE (+1) and F_NOTIFY (+2) in
-2.4.0-test9 (roughly October 2000, I didn't dig deeper).
-
-And then back in 2007 we suddenly jumped to F_CANCELLK (+5) in commit
-9b9d2ab4154a ("locks: add lock cancel command"). I don't know why 3/4
-were shunned.
-
-After that we had 22d2b35b200f ("F_DUPFD_CLOEXEC implementation") add
-F_DUPFD_CLOEXEC (+6).
-
-I'd have loved to put F_DUPFD_QUERY next to it, but +5 and +7 are both used.
-
-                Linus
-
---0000000000003fddda0617f3aa7b
-Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
-Content-Disposition: attachment; filename="patch.diff"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lvy090o10>
-X-Attachment-Id: f_lvy090o10
-
-IGZzL2ZjbnRsLmMgICAgICAgICAgICAgICAgIHwgMjMgKysrKysrKysrKysrKysrKysrKysrKysK
-IGluY2x1ZGUvdWFwaS9saW51eC9mY250bC5oIHwgMTQgKysrKysrKystLS0tLS0KIDIgZmlsZXMg
-Y2hhbmdlZCwgMzEgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9m
-cy9mY250bC5jIGIvZnMvZmNudGwuYwppbmRleCA1NGNjODVkMzMzOGUuLjFkZGI2M2Y3MDQ0NSAx
-MDA2NDQKLS0tIGEvZnMvZmNudGwuYworKysgYi9mcy9mY250bC5jCkBAIC0zMjcsNiArMzI3LDI1
-IEBAIHN0YXRpYyBsb25nIGZjbnRsX3NldF9yd19oaW50KHN0cnVjdCBmaWxlICpmaWxlLCB1bnNp
-Z25lZCBpbnQgY21kLAogCXJldHVybiAwOwogfQogCisvKgorICogSXMgdGhlIGZpbGUgZGVzY3Jp
-cHRvciBhIGR1cCBvZiB0aGUgZmlsZT8KKyAqLworc3RhdGljIGxvbmcgZl9kdXBmZF9xdWVyeShp
-bnQgZmQsIHN0cnVjdCBmaWxlICpmaWxwKQoreworCXN0cnVjdCBmZCBmID0gZmRnZXRfcmF3KGZk
-KTsKKworCS8qCisJICogV2UgY2FuIGRvIHRoZSAnZmRwdXQoKScgaW1tZWRpYXRlbHksIGFzIHRo
-ZSBvbmx5IHRoaW5nIHRoYXQKKwkgKiBtYXR0ZXJzIGlzIHRoZSBwb2ludGVyIHZhbHVlIHdoaWNo
-IGlzbid0IGNoYW5nZWQgYnkgdGhlIGZkcHV0LgorCSAqCisJICogVGVjaG5pY2FsbHkgd2UgZGlk
-bid0IG5lZWQgYSByZWYgYXQgYWxsLCBhbmQgJ2ZkZ2V0KCknIHdhcworCSAqIG92ZXJraWxsLCBi
-dXQgZ2l2ZW4gb3VyIGxvY2tsZXNzIGZpbGUgcG9pbnRlciBsb29rdXAsIHRoZQorCSAqIGFsdGVy
-bmF0aXZlcyBhcmUgY29tcGxpY2F0ZWQuCisJICovCisJZmRwdXQoZik7CisJcmV0dXJuIGYuZmls
-ZSA9PSBmaWxwOworfQorCiBzdGF0aWMgbG9uZyBkb19mY250bChpbnQgZmQsIHVuc2lnbmVkIGlu
-dCBjbWQsIHVuc2lnbmVkIGxvbmcgYXJnLAogCQlzdHJ1Y3QgZmlsZSAqZmlscCkKIHsKQEAgLTM0
-Miw2ICszNjEsOSBAQCBzdGF0aWMgbG9uZyBkb19mY250bChpbnQgZmQsIHVuc2lnbmVkIGludCBj
-bWQsIHVuc2lnbmVkIGxvbmcgYXJnLAogCWNhc2UgRl9EVVBGRF9DTE9FWEVDOgogCQllcnIgPSBm
-X2R1cGZkKGFyZ2ksIGZpbHAsIE9fQ0xPRVhFQyk7CiAJCWJyZWFrOworCWNhc2UgRl9EVVBGRF9R
-VUVSWToKKwkJZXJyID0gZl9kdXBmZF9xdWVyeShhcmdpLCBmaWxwKTsKKwkJYnJlYWs7CiAJY2Fz
-ZSBGX0dFVEZEOgogCQllcnIgPSBnZXRfY2xvc2Vfb25fZXhlYyhmZCkgPyBGRF9DTE9FWEVDIDog
-MDsKIAkJYnJlYWs7CkBAIC00NDYsNiArNDY4LDcgQEAgc3RhdGljIGludCBjaGVja19mY250bF9j
-bWQodW5zaWduZWQgY21kKQogCXN3aXRjaCAoY21kKSB7CiAJY2FzZSBGX0RVUEZEOgogCWNhc2Ug
-Rl9EVVBGRF9DTE9FWEVDOgorCWNhc2UgRl9EVVBGRF9RVUVSWToKIAljYXNlIEZfR0VURkQ6CiAJ
-Y2FzZSBGX1NFVEZEOgogCWNhc2UgRl9HRVRGTDoKZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9s
-aW51eC9mY250bC5oIGIvaW5jbHVkZS91YXBpL2xpbnV4L2ZjbnRsLmgKaW5kZXggMjgyZTkwYWVi
-MTYzLi5jMGJjYzE4NWZhNDggMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvdWFwaS9saW51eC9mY250bC5o
-CisrKyBiL2luY2x1ZGUvdWFwaS9saW51eC9mY250bC5oCkBAIC04LDYgKzgsMTQgQEAKICNkZWZp
-bmUgRl9TRVRMRUFTRQkoRl9MSU5VWF9TUEVDSUZJQ19CQVNFICsgMCkKICNkZWZpbmUgRl9HRVRM
-RUFTRQkoRl9MSU5VWF9TUEVDSUZJQ19CQVNFICsgMSkKIAorLyoKKyAqIFJlcXVlc3Qgbm9maWNh
-dGlvbnMgb24gYSBkaXJlY3RvcnkuCisgKiBTZWUgYmVsb3cgZm9yIGV2ZW50cyB0aGF0IG1heSBi
-ZSBub3RpZmllZC4KKyAqLworI2RlZmluZSBGX05PVElGWQkoRl9MSU5VWF9TUEVDSUZJQ19CQVNF
-ICsgMikKKworI2RlZmluZSBGX0RVUEZEX1FVRVJZCShGX0xJTlVYX1NQRUNJRklDX0JBU0UgKyAz
-KQorCiAvKgogICogQ2FuY2VsIGEgYmxvY2tpbmcgcG9zaXggbG9jazsgaW50ZXJuYWwgdXNlIG9u
-bHkgdW50aWwgd2UgZXhwb3NlIGFuCiAgKiBhc3luY2hyb25vdXMgbG9jayBhcGkgdG8gdXNlcnNw
-YWNlOgpAQCAtMTcsMTIgKzI1LDYgQEAKIC8qIENyZWF0ZSBhIGZpbGUgZGVzY3JpcHRvciB3aXRo
-IEZEX0NMT0VYRUMgc2V0LiAqLwogI2RlZmluZSBGX0RVUEZEX0NMT0VYRUMJKEZfTElOVVhfU1BF
-Q0lGSUNfQkFTRSArIDYpCiAKLS8qCi0gKiBSZXF1ZXN0IG5vZmljYXRpb25zIG9uIGEgZGlyZWN0
-b3J5LgotICogU2VlIGJlbG93IGZvciBldmVudHMgdGhhdCBtYXkgYmUgbm90aWZpZWQuCi0gKi8K
-LSNkZWZpbmUgRl9OT1RJRlkJKEZfTElOVVhfU1BFQ0lGSUNfQkFTRSsyKQotCiAvKgogICogU2V0
-IGFuZCBnZXQgb2YgcGlwZSBwYWdlIHNpemUgYXJyYXkKICAqLwo=
---0000000000003fddda0617f3aa7b--
+> diff --git a/drivers/gpu/drm/msm/registers/gen_header.py b/drivers/gpu/drm/msm/registers/gen_header.py
+> index fc3bfdc991d2..64f67d2e3f1c 100644
+> --- a/drivers/gpu/drm/msm/registers/gen_header.py
+> +++ b/drivers/gpu/drm/msm/registers/gen_header.py
+> @@ -948,7 +948,8 @@ def main():
+>   	parser = argparse.ArgumentParser()
+>   	parser.add_argument('--rnn', type=str, required=True)
+>   	parser.add_argument('--xml', type=str, required=True)
+> -	parser.add_argument('--validate', action=argparse.BooleanOptionalAction)
+> +	parser.add_argument('--validate', dest='validate', action='store_true')
+> +	parser.add_argument('--no-validate', dest='validate', action='store_false')
+>   
+>   	subparsers = parser.add_subparsers()
+>   	subparsers.required = True
