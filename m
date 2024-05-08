@@ -2,96 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D728BF5C2
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 07:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230D98BF5DC
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 08:00:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 741C7113389;
-	Wed,  8 May 2024 05:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B83B81133BA;
+	Wed,  8 May 2024 06:00:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Am7yZU/t";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oJBUSnqZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LALyyqtM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oJBUSnqZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LALyyqtM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C6DF113392
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 05:55:12 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-34e7a35d5d4so2963312f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 22:55:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715147710; x=1715752510; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2kECfVH61gVXoLyEKuVmIWZjf9iy/udsb4pKdELyNgI=;
- b=Am7yZU/tAX08yQhM4i9xLefVaLYN2l8DxoDFZr1H7TBBXVOdrkqyiigHiLvRppmms8
- E96rCaY/me+EiuHs9LvvauyDi7FFSXOoFkzd3cZbfH7mLlHjlxD/30m+a4bcy8d1S5nT
- FUEAcznjgJBPWCf19GZp3ifZeDeOnhQYipLRz3gPYyZKXM8gC1BP2oIJ7S2Z4f6hw/Za
- OF+dMcgqNzA8PpxIWDwxTgr1AgppYkY7hZW7dCUjH9/bNyw0AL6jdET/IG/SuW4Jmu1l
- A8MAldlnnqnYRxt6R6qeyx+vadhuqgGwGkDrbPPi1FpNK+fqt8sV6OFs/43S48cf3k3Q
- qxGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715147710; x=1715752510;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2kECfVH61gVXoLyEKuVmIWZjf9iy/udsb4pKdELyNgI=;
- b=TkHLzXTH7ZMjROAZA2Lf9Y9IUQ/I9L18Ib39sjTP6Uu6bF8yW41/d6u5XDoZd1XHi5
- S4kmFQfzoj7al+o89jz4hgq+Jcrx3Sa9iDh/XTSXmNrlKpixdeJk2XHYsSo+MRXUp1NZ
- 9S0iCBVJxDwNYPSRixUAnZqWuo88hKg6IKyN2Q8N2bRgHTV1zTVZSLucAh9iyOZetLWt
- DANsJNgKb0OdE3bEtMapIGCdvTYN9r53Aqp+/uwgis0O/nKWlkKx+lIwjws82EscEXce
- vtCEwdDpiZ0dVeXFFWF8RcLS32fYKB4v13/bqtM76Kdw3LvF2dehBg9iBMDeymwMhofT
- 3BaA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWByihFAPXZuiUhDMUDVAZfQR+QiNHMYHjrgFyNkR7WR0uolOqfc4L0Y+ijF89lNfaqfJ6HKbBJRkRFslY64hvbvL5TcIcThurb78zuSYv2
-X-Gm-Message-State: AOJu0Yzv04SSXgZIEGGH1+4lICbInP4+t1/2jvj5FLlkVZ8aKBV/xG+q
- zPvfxXHglP/+9uzpNNWVg+IKVwXuCd9KwXBV6ur3pp6/qy7djZaS
-X-Google-Smtp-Source: AGHT+IGmRYQwYE5GKCP4nHrkMb9CRMRKCaP4q6oTy76fGgGdxl/Be2mRpgRLYl8OhhNTkkldystArg==
-X-Received: by 2002:adf:f0c8:0:b0:34e:3cb3:6085 with SMTP id
- ffacd0b85a97d-34fca81043amr1370408f8f.62.1715147710492; 
- Tue, 07 May 2024 22:55:10 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- w6-20020adfcd06000000b0034dcb22d82fsm14415768wrm.20.2024.05.07.22.55.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 May 2024 22:55:10 -0700 (PDT)
-Message-ID: <040b32b8-c4df-4121-bb0d-f0c6ee9e123d@gmail.com>
-Date: Wed, 8 May 2024 07:55:08 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E55E1127FA;
+ Wed,  8 May 2024 06:00:29 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1710921A3C;
+ Wed,  8 May 2024 06:00:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1715148027; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Is1QIooOcsSsCqTmiQyMmRHwJK9pqSAkls0yrv548qo=;
+ b=oJBUSnqZI7EMjfLSBFZJVb44HlHinhbFGw6fI8Dnc2xpkzBYD1XKpxGf4uifFmvRoG61rt
+ QVRqUSBQqc6vOTInrJu0yU9OsgNIHL2uesL+75THSxQBwLxd66hkPtvOfRTKTqRCOUmcjB
+ nGNVx0QMAAlgqx1J23NlvRc1IK42+CI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1715148027;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Is1QIooOcsSsCqTmiQyMmRHwJK9pqSAkls0yrv548qo=;
+ b=LALyyqtMas/4qlYZtcYxHdHGH9G64b4tNDkdXEw/W00Ws0sioAsIy89uQ0NBT0eoGUf4tT
+ NYE1i0b7yLQda9AQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1715148027; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Is1QIooOcsSsCqTmiQyMmRHwJK9pqSAkls0yrv548qo=;
+ b=oJBUSnqZI7EMjfLSBFZJVb44HlHinhbFGw6fI8Dnc2xpkzBYD1XKpxGf4uifFmvRoG61rt
+ QVRqUSBQqc6vOTInrJu0yU9OsgNIHL2uesL+75THSxQBwLxd66hkPtvOfRTKTqRCOUmcjB
+ nGNVx0QMAAlgqx1J23NlvRc1IK42+CI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1715148027;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Is1QIooOcsSsCqTmiQyMmRHwJK9pqSAkls0yrv548qo=;
+ b=LALyyqtMas/4qlYZtcYxHdHGH9G64b4tNDkdXEw/W00Ws0sioAsIy89uQ0NBT0eoGUf4tT
+ NYE1i0b7yLQda9AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C879F1386E;
+ Wed,  8 May 2024 06:00:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id abWuL/kUO2bdVQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 08 May 2024 06:00:25 +0000
+Message-ID: <2b464f50-15e0-4df3-a846-21417a103ed6@suse.de>
+Date: Wed, 8 May 2024 08:00:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
- file lifetimes
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Simon Ser <contact@emersion.fr>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- keescook@chromium.org, axboe@kernel.dk, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org, jack@suse.cz,
- laura@labbott.name, linaro-mm-sig@lists.linaro.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, minhquangbui99@gmail.com,
- sumit.semwal@linaro.org,
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-References: <202405031110.6F47982593@keescook>
- <20240503211129.679762-2-torvalds@linux-foundation.org>
- <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
- <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
- <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+Subject: Re: [PATCH 11/11] drm/tegra: Use fbdev client helpers
+To: Felix Kuehling <felix.kuehling@amd.com>, javierm@redhat.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ inki.dae@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ linux@armlinux.org.uk, krzk@kernel.org, alim.akhtar@samsung.com,
+ patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
+ rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run, marijn.suijten@somainline.org,
+ tomi.valkeinen@ideasonboard.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, thierry.reding@gmail.com,
+ mperttunen@nvidia.com, jonathanh@nvidia.com
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20240507120422.25492-1-tzimmermann@suse.de>
+ <20240507120422.25492-12-tzimmermann@suse.de>
+ <b463d432-669c-43a4-933a-cafef000f7da@amd.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <b463d432-669c-43a4-933a-cafef000f7da@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.79
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.79 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; TAGGED_RCPT(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[amd.com,redhat.com,ffwll.ch,linux.intel.com,kernel.org,samsung.com,armlinux.org.uk,gmail.com,intel.com,ursulin.net,quicinc.com,linaro.org,poorly.run,somainline.org,ideasonboard.com,nvidia.com];
+ RCPT_COUNT_TWELVE(0.00)[31]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:email]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,35 +155,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.05.24 um 21:07 schrieb Linus Torvalds:
-> On Tue, 7 May 2024 at 11:04, Daniel Vetter <daniel@ffwll.ch> wrote:
->> On Tue, May 07, 2024 at 09:46:31AM -0700, Linus Torvalds wrote:
->>
->>> I'd be perfectly ok with adding a generic "FISAME" VFS level ioctl
->>> too, if this is possibly a more common thing. and not just DRM wants
->>> it.
->>>
->>> Would something like that work for you?
->> Yes.
->>
->> Adding Simon and Pekka as two of the usual suspects for this kind of
->> stuff. Also example code (the int return value is just so that callers know
->> when kcmp isn't available, they all only care about equality):
->>
->> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/util/os_file.c#L239
-> That example thing shows that we shouldn't make it a FISAME ioctl - we
-> should make it a fcntl() instead, and it would just be a companion to
-> F_DUPFD.
->
-> Doesn't that strike everybody as a *much* cleaner interface? I think
-> F_ISDUP would work very naturally indeed with F_DUPFD.
->
-> Yes? No?
+Hi
 
-Sounds absolutely sane to me.
+Am 07.05.24 um 23:03 schrieb Felix Kuehling:
+>
+> On 2024-05-07 07:58, Thomas Zimmermann wrote:
+>> Implement struct drm_client_funcs with the respective helpers and
+>> remove the custom code from the emulation. The generic helpers are
+>> equivalent in functionality.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/gpu/drm/radeon/radeon_fbdev.c | 66 ++-------------------------
+>
+> Was radeon meant to be a separate patch?
 
-Christian.
+Indeed. It also _was_ a separate patch. This looks like a mistake during 
+rebasing. Thanks for noticing. I'll fix that in v2.
+
+Best regards
+Thomas
 
 >
->                         Linus
+> Regards,
+>   Felix
+>
+>
+>>   drivers/gpu/drm/tegra/fbdev.c         | 58 ++---------------------
+>>   2 files changed, 6 insertions(+), 118 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c 
+>> b/drivers/gpu/drm/radeon/radeon_fbdev.c
+>> index 02bf25759059a..cf790922174ea 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_fbdev.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+>> @@ -29,7 +29,6 @@
+>>   #include <linux/pm_runtime.h>
+>>   #include <linux/vga_switcheroo.h>
+>>   -#include <drm/drm_crtc_helper.h>
+>>   #include <drm/drm_drv.h>
+>>   #include <drm/drm_fb_helper.h>
+>>   #include <drm/drm_fourcc.h>
+>> @@ -293,71 +292,12 @@ static const struct drm_fb_helper_funcs 
+>> radeon_fbdev_fb_helper_funcs = {
+>>   };
+>>     /*
+>> - * Fbdev client and struct drm_client_funcs
+>> + * struct drm_client_funcs
+>>    */
+>>   -static void radeon_fbdev_client_unregister(struct drm_client_dev 
+>> *client)
+>> -{
+>> -    struct drm_fb_helper *fb_helper = 
+>> drm_fb_helper_from_client(client);
+>> -    struct drm_device *dev = fb_helper->dev;
+>> -    struct radeon_device *rdev = dev->dev_private;
+>> -
+>> -    if (fb_helper->info) {
+>> -        vga_switcheroo_client_fb_set(rdev->pdev, NULL);
+>> -        drm_helper_force_disable_all(dev);
+>> -        drm_fb_helper_unregister_info(fb_helper);
+>> -    } else {
+>> -        drm_client_release(&fb_helper->client);
+>> -        drm_fb_helper_unprepare(fb_helper);
+>> -        kfree(fb_helper);
+>> -    }
+>> -}
+>> -
+>> -static int radeon_fbdev_client_restore(struct drm_client_dev *client)
+>> -{
+>> -    drm_fb_helper_lastclose(client->dev);
+>> -    vga_switcheroo_process_delayed_switch();
+>> -
+>> -    return 0;
+>> -}
+>> -
+>> -static int radeon_fbdev_client_hotplug(struct drm_client_dev *client)
+>> -{
+>> -    struct drm_fb_helper *fb_helper = 
+>> drm_fb_helper_from_client(client);
+>> -    struct drm_device *dev = client->dev;
+>> -    struct radeon_device *rdev = dev->dev_private;
+>> -    int ret;
+>> -
+>> -    if (dev->fb_helper)
+>> -        return drm_fb_helper_hotplug_event(dev->fb_helper);
+>> -
+>> -    ret = drm_fb_helper_init(dev, fb_helper);
+>> -    if (ret)
+>> -        goto err_drm_err;
+>> -
+>> -    if (!drm_drv_uses_atomic_modeset(dev))
+>> -        drm_helper_disable_unused_functions(dev);
+>> -
+>> -    ret = drm_fb_helper_initial_config(fb_helper);
+>> -    if (ret)
+>> -        goto err_drm_fb_helper_fini;
+>> -
+>> -    vga_switcheroo_client_fb_set(rdev->pdev, fb_helper->info);
+>> -
+>> -    return 0;
+>> -
+>> -err_drm_fb_helper_fini:
+>> -    drm_fb_helper_fini(fb_helper);
+>> -err_drm_err:
+>> -    drm_err(dev, "Failed to setup radeon fbdev emulation 
+>> (ret=%d)\n", ret);
+>> -    return ret;
+>> -}
+>> -
+>>   static const struct drm_client_funcs radeon_fbdev_client_funcs = {
+>> -    .owner        = THIS_MODULE,
+>> -    .unregister    = radeon_fbdev_client_unregister,
+>> -    .restore    = radeon_fbdev_client_restore,
+>> -    .hotplug    = radeon_fbdev_client_hotplug,
+>> +    .owner = THIS_MODULE,
+>> +    DRM_FBDEV_HELPER_CLIENT_FUNCS,
+>>   };
+>>     void radeon_fbdev_setup(struct radeon_device *rdev)
+>> diff --git a/drivers/gpu/drm/tegra/fbdev.c 
+>> b/drivers/gpu/drm/tegra/fbdev.c
+>> index db6eaac3d30e6..f9cc365cfed94 100644
+>> --- a/drivers/gpu/drm/tegra/fbdev.c
+>> +++ b/drivers/gpu/drm/tegra/fbdev.c
+>> @@ -12,7 +12,6 @@
+>>   #include <linux/vmalloc.h>
+>>     #include <drm/drm_drv.h>
+>> -#include <drm/drm_crtc_helper.h>
+>>   #include <drm/drm_fb_helper.h>
+>>   #include <drm/drm_fourcc.h>
+>>   #include <drm/drm_framebuffer.h>
+>> @@ -150,63 +149,12 @@ static const struct drm_fb_helper_funcs 
+>> tegra_fb_helper_funcs = {
+>>   };
+>>     /*
+>> - * struct drm_client
+>> + * struct drm_client_funcs
+>>    */
+>>   -static void tegra_fbdev_client_unregister(struct drm_client_dev 
+>> *client)
+>> -{
+>> -    struct drm_fb_helper *fb_helper = 
+>> drm_fb_helper_from_client(client);
+>> -
+>> -    if (fb_helper->info) {
+>> -        drm_fb_helper_unregister_info(fb_helper);
+>> -    } else {
+>> -        drm_client_release(&fb_helper->client);
+>> -        drm_fb_helper_unprepare(fb_helper);
+>> -        kfree(fb_helper);
+>> -    }
+>> -}
+>> -
+>> -static int tegra_fbdev_client_restore(struct drm_client_dev *client)
+>> -{
+>> -    drm_fb_helper_lastclose(client->dev);
+>> -
+>> -    return 0;
+>> -}
+>> -
+>> -static int tegra_fbdev_client_hotplug(struct drm_client_dev *client)
+>> -{
+>> -    struct drm_fb_helper *fb_helper = 
+>> drm_fb_helper_from_client(client);
+>> -    struct drm_device *dev = client->dev;
+>> -    int ret;
+>> -
+>> -    if (dev->fb_helper)
+>> -        return drm_fb_helper_hotplug_event(dev->fb_helper);
+>> -
+>> -    ret = drm_fb_helper_init(dev, fb_helper);
+>> -    if (ret)
+>> -        goto err_drm_err;
+>> -
+>> -    if (!drm_drv_uses_atomic_modeset(dev))
+>> -        drm_helper_disable_unused_functions(dev);
+>> -
+>> -    ret = drm_fb_helper_initial_config(fb_helper);
+>> -    if (ret)
+>> -        goto err_drm_fb_helper_fini;
+>> -
+>> -    return 0;
+>> -
+>> -err_drm_fb_helper_fini:
+>> -    drm_fb_helper_fini(fb_helper);
+>> -err_drm_err:
+>> -    drm_err(dev, "Failed to setup fbdev emulation (ret=%d)\n", ret);
+>> -    return ret;
+>> -}
+>> -
+>>   static const struct drm_client_funcs tegra_fbdev_client_funcs = {
+>> -    .owner        = THIS_MODULE,
+>> -    .unregister    = tegra_fbdev_client_unregister,
+>> -    .restore    = tegra_fbdev_client_restore,
+>> -    .hotplug    = tegra_fbdev_client_hotplug,
+>> +    .owner = THIS_MODULE,
+>> +    DRM_FBDEV_HELPER_CLIENT_FUNCS,
+>>   };
+>>     void tegra_fbdev_setup(struct drm_device *dev)
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
