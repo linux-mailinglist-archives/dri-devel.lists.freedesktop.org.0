@@ -2,84 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187D28BF5B4
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 07:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D728BF5C2
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 07:55:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E2F311334D;
-	Wed,  8 May 2024 05:47:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 741C7113389;
+	Wed,  8 May 2024 05:55:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="Rh6TOGwn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Am7yZU/t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41CAC11334D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 05:47:08 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id
- 6a1803df08f44-6a0b4622ea0so14369516d6.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 22:47:08 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C6DF113392
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 05:55:12 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-34e7a35d5d4so2963312f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2024 22:55:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1715147227; x=1715752027;
- darn=lists.freedesktop.org; 
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ d=gmail.com; s=20230601; t=1715147710; x=1715752510; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=y+KiVnKXCsbPvzNdODTp1oqWb7A8Ywtkjz6UCYJzfVw=;
- b=Rh6TOGwnAHljcmXQFbLl/UmuvbJEmm//4Q3q++WmSeQcH/7zl2cHvHKSHXOvENEkfe
- g5Ty+2QT3opbHK2W47HkYAHLi4RplZSjDYWbmyjK+7WPlAr1pTSxt3sZoTZxWN04DoQZ
- R0zsXv3053bT4K+l7EeyFAVFjbzySYplGh8bX9y1qXbkuhkKDzMSZPd2bxUFfIou9wxP
- qja3FSjaiYJ4iIiOVpF5unbo1BVjy/hr/M/+5ECZcr6xfXF3z0uaZtLu8s+f8j+xWTGG
- fTXtEfWQKSFGvp3VFqhaBtStvCGaGLhihdbnWj6CEFM3E7Jr3pC8gQVUveN5Himt6UO3
- t+pw==
+ bh=2kECfVH61gVXoLyEKuVmIWZjf9iy/udsb4pKdELyNgI=;
+ b=Am7yZU/tAX08yQhM4i9xLefVaLYN2l8DxoDFZr1H7TBBXVOdrkqyiigHiLvRppmms8
+ E96rCaY/me+EiuHs9LvvauyDi7FFSXOoFkzd3cZbfH7mLlHjlxD/30m+a4bcy8d1S5nT
+ FUEAcznjgJBPWCf19GZp3ifZeDeOnhQYipLRz3gPYyZKXM8gC1BP2oIJ7S2Z4f6hw/Za
+ OF+dMcgqNzA8PpxIWDwxTgr1AgppYkY7hZW7dCUjH9/bNyw0AL6jdET/IG/SuW4Jmu1l
+ A8MAldlnnqnYRxt6R6qeyx+vadhuqgGwGkDrbPPi1FpNK+fqt8sV6OFs/43S48cf3k3Q
+ qxGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715147227; x=1715752027;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ d=1e100.net; s=20230601; t=1715147710; x=1715752510;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=y+KiVnKXCsbPvzNdODTp1oqWb7A8Ywtkjz6UCYJzfVw=;
- b=Uxh0IBnJsXawnw0S3+9ew2eLqr5eqZ3tZC1IoQU74p7lYsjV0MR1V3zTW14T+Kl47F
- /6wORWm/PK7rBiMKUvVcF2Qntf6tXQJE2e/tGAd8afJqhpuNGfAl9e8O8/xsJdsioPnw
- 3oeqRwc2WlW07u2wqLOO/YkYza8UlpElpurgNuoxCE3Tix8mKlxcdUXmTxcHr6fMnxX+
- oemYSmWjvJR4VnjzUa7rrTlmdutcPUHOj4tRHEx+U95BfcPR1ejXF8crgjw20EGmh1KM
- D1YZOgwDH1FLckueTsEHpWfX+83ZmtpucIJ4txZMRuTAD3DujOu+/BsmJV/9+d9Nuoh0
- OLWw==
+ bh=2kECfVH61gVXoLyEKuVmIWZjf9iy/udsb4pKdELyNgI=;
+ b=TkHLzXTH7ZMjROAZA2Lf9Y9IUQ/I9L18Ib39sjTP6Uu6bF8yW41/d6u5XDoZd1XHi5
+ S4kmFQfzoj7al+o89jz4hgq+Jcrx3Sa9iDh/XTSXmNrlKpixdeJk2XHYsSo+MRXUp1NZ
+ 9S0iCBVJxDwNYPSRixUAnZqWuo88hKg6IKyN2Q8N2bRgHTV1zTVZSLucAh9iyOZetLWt
+ DANsJNgKb0OdE3bEtMapIGCdvTYN9r53Aqp+/uwgis0O/nKWlkKx+lIwjws82EscEXce
+ vtCEwdDpiZ0dVeXFFWF8RcLS32fYKB4v13/bqtM76Kdw3LvF2dehBg9iBMDeymwMhofT
+ 3BaA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU9f3mIGYp+tGIgyzfugAJYWJ0k1CP6lQIifqjPabZMavCOr4JznyCeXoFkFxBC4A2SZWJN3z1hUNJgivHq9jCp1r2KvS6MPA7vcqB+KI+5
-X-Gm-Message-State: AOJu0Yw6MlArD75uRIxzkvr3CWjqDtWj0gHHbg0mxZWsYmxnNqT5dKss
- ZpDADmWZsYA+lw56Ou+MqNs/CmqEMFmpzr7yudSCQhX7ir4nHKEt0f4kmkgWDKO/r2isrQ4vnaR
- 9w6TO8LnO+ZLKWpnXo9MQx76Elb8eHwaM8UU6gA==
-X-Google-Smtp-Source: AGHT+IFowOzBUiqN7WcnwrA/LBPZg7N9dHpRdxWUo9yBNCLNtQC6wcuw0TpbjZ6kxNa/4cgHeYqTO5liJl8XTfGujfs=
-X-Received: by 2002:a05:6214:29c2:b0:6a0:c922:5014 with SMTP id
- 6a1803df08f44-6a151528bbamr23726776d6.21.1715147226926; Tue, 07 May 2024
- 22:47:06 -0700 (PDT)
+ AJvYcCWByihFAPXZuiUhDMUDVAZfQR+QiNHMYHjrgFyNkR7WR0uolOqfc4L0Y+ijF89lNfaqfJ6HKbBJRkRFslY64hvbvL5TcIcThurb78zuSYv2
+X-Gm-Message-State: AOJu0Yzv04SSXgZIEGGH1+4lICbInP4+t1/2jvj5FLlkVZ8aKBV/xG+q
+ zPvfxXHglP/+9uzpNNWVg+IKVwXuCd9KwXBV6ur3pp6/qy7djZaS
+X-Google-Smtp-Source: AGHT+IGmRYQwYE5GKCP4nHrkMb9CRMRKCaP4q6oTy76fGgGdxl/Be2mRpgRLYl8OhhNTkkldystArg==
+X-Received: by 2002:adf:f0c8:0:b0:34e:3cb3:6085 with SMTP id
+ ffacd0b85a97d-34fca81043amr1370408f8f.62.1715147710492; 
+ Tue, 07 May 2024 22:55:10 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ w6-20020adfcd06000000b0034dcb22d82fsm14415768wrm.20.2024.05.07.22.55.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 May 2024 22:55:10 -0700 (PDT)
+Message-ID: <040b32b8-c4df-4121-bb0d-f0c6ee9e123d@gmail.com>
+Date: Wed, 8 May 2024 07:55:08 +0200
 MIME-Version: 1.0
-References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
- <20240506-dazzling-nippy-rhino-eabccd@houat>
- <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
- <cbe5a743-d8be-4b0e-99c4-e804fbadc099@redhat.com>
- <ZjoNTw-TkPnnWLTG@phenom.ffwll.local>
-In-Reply-To: <ZjoNTw-TkPnnWLTG@phenom.ffwll.local>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 8 May 2024 06:46:53 +0100
-Message-ID: <CAPj87rN3uSZoHpWLSQqz1SW9YMZNj9fkoA_EDEE_bzv-Tw8tSw@mail.gmail.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-To: Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@redhat.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Lennart Poettering <mzxreary@0pointer.de>,
- Robert Mader <robert.mader@collabora.com>, 
- Sebastien Bacher <sebastien.bacher@canonical.com>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
- Milan Zamazal <mzamazal@redhat.com>, 
- Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
+ file lifetimes
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Simon Ser <contact@emersion.fr>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ keescook@chromium.org, axboe@kernel.dk, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org, jack@suse.cz,
+ laura@labbott.name, linaro-mm-sig@lists.linaro.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, minhquangbui99@gmail.com,
+ sumit.semwal@linaro.org,
+ syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
+ syzkaller-bugs@googlegroups.com
+References: <202405031110.6F47982593@keescook>
+ <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV>
+ <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
+ <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+ <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
+ <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
+ <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
+ <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
+ <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
+ <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,27 +107,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, 7 May 2024 at 12:15, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Mon, May 06, 2024 at 04:01:42PM +0200, Hans de Goede wrote:
-> > On 5/6/24 3:38 PM, Daniel Vetter wrote:
-> > I agree that bad applications are an issue, but not for the flathub / snaps
-> > case. Flatpacks / snaps run sandboxed and don't have access to a full /dev
-> > so those should not be able to open /dev/dma_heap/* independent of
-> > the ACLs on /dev/dma_heap/*. The plan is for cameras using the
-> > libcamera software ISP to always be accessed through pipewire and
-> > the camera portal, so in this case pipewere is taking the place of
-> > the compositor in your kms vs render node example.
+Am 07.05.24 um 21:07 schrieb Linus Torvalds:
+> On Tue, 7 May 2024 at 11:04, Daniel Vetter <daniel@ffwll.ch> wrote:
+>> On Tue, May 07, 2024 at 09:46:31AM -0700, Linus Torvalds wrote:
+>>
+>>> I'd be perfectly ok with adding a generic "FISAME" VFS level ioctl
+>>> too, if this is possibly a more common thing. and not just DRM wants
+>>> it.
+>>>
+>>> Would something like that work for you?
+>> Yes.
+>>
+>> Adding Simon and Pekka as two of the usual suspects for this kind of
+>> stuff. Also example code (the int return value is just so that callers know
+>> when kcmp isn't available, they all only care about equality):
+>>
+>> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/util/os_file.c#L239
+> That example thing shows that we shouldn't make it a FISAME ioctl - we
+> should make it a fcntl() instead, and it would just be a companion to
+> F_DUPFD.
 >
-> Yeah essentially if you clarify to "set the permissions such that pipewire
-> can do allocations", then I think that makes sense. And is at the same
-> level as e.g. drm kms giving compsitors (but _only_ compositors) special
-> access rights.
+> Doesn't that strike everybody as a *much* cleaner interface? I think
+> F_ISDUP would work very naturally indeed with F_DUPFD.
+>
+> Yes? No?
 
-That would have the unfortunate side effect of making sandboxed apps
-less efficient on some platforms, since they wouldn't be able to do
-direct scanout anymore ...
+Sounds absolutely sane to me.
 
-Cheers,
-Daniel
+Christian.
+
+>
+>                         Linus
+
