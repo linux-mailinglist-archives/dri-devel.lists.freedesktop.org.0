@@ -2,46 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB338C0529
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 21:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15798C0530
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 21:40:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D82A11131AA;
-	Wed,  8 May 2024 19:38:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED91B1131B8;
+	Wed,  8 May 2024 19:40:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="msDuQVNz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eZOuGj7R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF041131AA
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 19:38:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715197122;
- bh=EMoh6ibnBlSUQl1yoaNN8vNpQ2RppWN97oATY4a6MVk=;
- h=Subject:From:To:Date:From;
- b=msDuQVNz2bGYhvqLlJ6TzpYF3OVdpzZhg5DgRFy86Gvh2+nj4gOmSZAnvl6D7ZROx
- 0nJ5DWmaej6T/jZ3zRu+Tt33boTCZmFeMdUoe2DnCOlokjTkfSmlrB20vwUXkw2Ymg
- hnXz7p6bksd5GWRS+ZrAURgiIDuhvipsUE96me++5oKxikrnP7izGYzyqdO90xk5LB
- jq4gvu8tm8N94vCCPYkN0kto2Hb6X187TxNmuEulQZBL6QVv2ZzUfMv2D8ZubmrjPQ
- Zn3ecrX3i4Y+A8VUI1bZ7m2jvpOyiHB2OkG0bdEshqPMGC7ov3fnxspDXpTCx9bH2L
- R5sixh8iHOG3A==
-Received: from [100.127.186.53] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: mfilion)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 872583782065
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 19:38:41 +0000 (UTC)
-Message-ID: <c3aa7abb808bfca8467de057dcf553611694476b.camel@collabora.com>
-Subject: 2024 X.Org Developers Conference - October 9-11,
- =?ISO-8859-1?Q?Montr=E9al=2C?= Canada
-From: Mark Filion <mark.filion@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ABF91131B8
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 19:40:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715197236; x=1746733236;
+ h=date:from:to:subject:message-id:references:mime-version:
+ content-transfer-encoding:in-reply-to;
+ bh=MtyO2qCBoOSiPz+MoUNpgteuinTXyO0qFdIl3BkxMsE=;
+ b=eZOuGj7RchuJDqcjNyCtVxrhmk4XI7ypdyyzvJfH4DMWdzwtKUfw1/0h
+ pW1Lr/T/M4NtHppd5CZo0uedarr9CXzuwMSfsLiNKFj0cJEjdCfKPMq14
+ HvsWtToU2/aGvUQs5TVY4AB1BGbWt3fMmbfW9U5hjEWygBvCb4n8rpaCW
+ 59GVj5YVPLFBTgvYzbmrwqBu2djKD4yLZi3e2nHz2JI/YrvlsThVDP73u
+ UBptN5eItdJzMKE78Fdv+bnGYKnyUUhG0foRrPC/OcPeuWwKSW5spPseq
+ GRcuwHoli5jIsi6O+d6R7Kq1s4Po/MHyWnVKTTa+8C2UOununX38cDx9F A==;
+X-CSE-ConnectionGUID: xWPk0PNjQK2LDV4Gw9XchA==
+X-CSE-MsgGUID: PpPQAFZASwCazdMBwnInmw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="11210253"
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="11210253"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2024 12:40:35 -0700
+X-CSE-ConnectionGUID: M3ZgaXvcSLKNVwlYkuAghA==
+X-CSE-MsgGUID: IKpoq91KRraEoEavmkDAzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="28935962"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 08 May 2024 12:40:32 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 08 May 2024 22:40:32 +0300
+Date: Wed, 8 May 2024 22:40:32 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Date: Wed, 08 May 2024 15:38:37 -0400
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+Subject: Re: [PATCH 00/21] drm: Increase COMPILE_TEST=y coverage
+Message-ID: <ZjvVMM0Gujq47DJt@intel.com>
+References: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240408170426.9285-1-ville.syrjala@linux.intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,34 +69,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello!
+On Mon, Apr 08, 2024 at 08:04:05PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> I got fed up having to build multiple architectures when
+> doing subsystem wide refactoring. So I decided to attack
+> the low hanging COMPILE_TEST=y fruit. Here are the
+> results. All of these drivers now build with COMPILE_TEST=y
+> on x86/x86_64
+> 
+> Ville Syrjälä (21):
+>   drm/hisilicon/kirin: Include linux/io.h for readl()/writel()
+>   drm/hisilicon/kirin: Fix 64bit divisions
+>   drm/hisilicon/kirin: Fix MASK(32) on 32bit architectures
+>   drm/hisilicon/kirin: Allow build with COMPILE_TEST=y
+>   drm/omap: Open code phys_to_page()
+>   drm/omap: Allow build with COMPILE_TEST=y
+>   drm/atmel-hlcdc: Allow build with COMPILE_TEST=y
+>   drm/rcar-du: Allow build with COMPILE_TEST=y
+>   drm/stm: Allow build with COMPILE_TEST=y
 
-We're delighted to announce that the 2024 X.Org Developers Conference
-(XDC) will be taking place on October 9 to 11 in Montr=C3=A9al, Canada, co-
-located with the GStreamer Conference & Hackfest 2024 which will be
-running from October 7 to 10. Join us for a freedesktop week in
-Montr=C3=A9al!
+^ pushed to drm-misc-next. Thanks for the reviews.
 
-XDC is the event for developers working on all things Open graphics
-(Linux kernel, Mesa, DRM, Wayland, X11, etc.).
+>   drm/armada: Fix printk arguments
+>   drm/armada: Fix armada_debugfs_crtc_reg_write() return type
+>   drm/armada: Allow build with COMPILE_TEST=y
+>   drm/imx/dcss: Fix 64bit divisions
+>   drm/imx/dcss: Allow build with COMPILE_TEST=y
+>   drm/sti: Include linux/io.h for devm_ioremap()
+>   drm/sti: Allow build with COMPILE_TEST=y
+>   drm/fsl-dcu: Allow build with COMPILE_TEST=y
+>   drm/mediatek: Allow build with COMPILE_TEST=y
+>   drm/meson: Allow build with COMPILE_TEST=y
 
-New this year: XDC 2024 will feature two full days of talks followed by
-a day dedicated to workshops, meetings & hacking.
+^ are all still without comments.
 
-XDC 2024 website: https://indico.freedesktop.org/event/6/
+>   drm/tilcdc: Allow build without __iowmb()
+>   drm/tilcdc: Allow build with COMPILE_TEST=y
 
-The in-person venue is the Concordia University Conference Centre,
-located within the John Molson School of Business.
+^ I need to respin.
 
-Concordia University Conference Centre
-1450 Guy St., Montreal, Quebec, Canada, H3H 0A1
-https://goo.gl/maps/9nDyTvKtf7X1JuJc9
-
-As usual, XDC will be free of charge and open to the general public.
-
-Registration & Call for Proposals will be opening soon, stay tuned!
-
-Best regards,
-
-Mark Filion, on behalf of X.org
-
+-- 
+Ville Syrjälä
+Intel
