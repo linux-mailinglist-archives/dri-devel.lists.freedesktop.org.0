@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9528BFE9B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 15:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9803C8BFE9A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 15:21:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5CF41129F1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A08651129B6;
 	Wed,  8 May 2024 13:21:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W2mhTrqy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I7Zc2Xy0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB0541129B6
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 13:21:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8181C1129B6
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 13:21:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715174485; x=1746710485;
+ t=1715174487; x=1746710487;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=pi4f4V2eZkHKkC/Ou7buVMxpP8VIyDlDu1jO8SzKEcQ=;
- b=W2mhTrqyEOe3AXreWc8p9pdDvdZwmkP+6dARjazr0gLyMVdCNNIU/lAb
- tI3oij3p0ZP916QuCdj5DpTS9CHF4bkScXd20rd9NTxHQOzsnwBb1GPuo
- gDNEkHMsuUi9DjmBbAUq2fe0komW57XyRmMiFFRhrgTF7ZAKf1uX4UTpx
- aSOplKC3UJmmgKwMdyq7Me4CxJiBFjFm2XXwLVbCz2G4AIxOctj1hvLxw
- vQOuGVxUvwEnApbP0YRrGMbaUjCl6bGhvJQV8FMiPYOrN5Shku+fNKogb
- dh3SBg14ucQHPDQ53YvQ3/EN3BPBfWEXNVVYtCJXxNoirACvFNXpbLi3N g==;
-X-CSE-ConnectionGUID: lHbB4eYDSxeTBB31khbwKw==
-X-CSE-MsgGUID: 5nHXE2H8SRat1B4rMhXWBg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="33540077"
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="33540077"
+ bh=Fu97RWIie/f/Eh3HbKFV0M21iqFAmQy3XzyMebqgv+8=;
+ b=I7Zc2Xy0NFjSR6LUbbJwM3cP/2TQCRjDvDTVdCPkzcqyAUCr/nJPNTdX
+ usQ7BbFVh3qcAsToE4I0sVb8cnl4PBUz6/7D1wAYx5Ax1bBM6mDbzREPC
+ L6zYAJDOHt7RY1RrJgQCmTc7A/1OxZGyLgVjNJZO+3ivNab2Ej8lrQH4T
+ IRCnyk98cxWjdjkL48sRduN3uAvHrQy0wt63iG0YUURhEu32oPE4JpANQ
+ /qwAGMv8wec8JP1gACelDiCpdcGqldGNxeJY32zXo8AGHcoSnAxRFCKOn
+ SNonHyGyjXBVogWII64yUWAQ5ElxSRtPE7ngTWuK4f5FWNj20CZwSgn17 Q==;
+X-CSE-ConnectionGUID: JC/dsnC8TBCjbSfO08gD6Q==
+X-CSE-MsgGUID: BQN/jiiARCWitaRpPraD/A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="33540082"
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="33540082"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2024 06:21:25 -0700
-X-CSE-ConnectionGUID: Mk5CNe5/QS22n/whQbb+UQ==
-X-CSE-MsgGUID: UWNo/GeUQdi0Kb4PajMvKw==
+ 08 May 2024 06:21:27 -0700
+X-CSE-ConnectionGUID: B99W7vteQEW7V0wwji2T3Q==
+X-CSE-MsgGUID: mdmtvp0HSe6SNyAMHM1xCQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="29289390"
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; d="scan'208";a="29289398"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2024 06:21:23 -0700
+ 08 May 2024 06:21:25 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>,
+ "Wachowski, Karol" <karol.wachowski@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 08/12] accel/ivpu: Add NPU profiling support
-Date: Wed,  8 May 2024 15:21:05 +0200
-Message-ID: <20240508132106.2387464-9-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 09/12] accel/ivpu: Add force snoop module parameter
+Date: Wed,  8 May 2024 15:21:06 +0200
+Message-ID: <20240508132106.2387464-10-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240508132106.2387464-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240508132106.2387464-1-jacek.lawrynowicz@linux.intel.com>
@@ -69,753 +69,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+From: "Wachowski, Karol" <karol.wachowski@intel.com>
 
-Implement time based Metric Streamer profiling UAPI.
+Add module parameter that enforces snooping for all NPU accesses,
+both through MMU PTEs mappings and through TCU page table walk
+override register bits for MMU page walks / configuration access.
 
-This is a generic mechanism allowing user mode tools to sample
-NPU metrics. These metrics are defined by the FW and transparent to
-the driver.
-
-The user space can check for this feature by checking
-DRM_IVPU_CAP_METRIC_STREAMER driver capability.
-
-Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/Makefile       |   3 +-
- drivers/accel/ivpu/ivpu_drv.c     |  14 +-
- drivers/accel/ivpu/ivpu_drv.h     |   3 +
- drivers/accel/ivpu/ivpu_jsm_msg.c |  98 ++++++++++
- drivers/accel/ivpu/ivpu_jsm_msg.h |   8 +-
- drivers/accel/ivpu/ivpu_ms.c      | 309 ++++++++++++++++++++++++++++++
- drivers/accel/ivpu/ivpu_ms.h      |  36 ++++
- drivers/accel/ivpu/ivpu_pm.c      |   4 +
- include/uapi/drm/ivpu_accel.h     |  69 ++++++-
- 9 files changed, 540 insertions(+), 4 deletions(-)
- create mode 100644 drivers/accel/ivpu/ivpu_ms.c
- create mode 100644 drivers/accel/ivpu/ivpu_ms.h
+ drivers/accel/ivpu/ivpu_drv.c     |  4 ++++
+ drivers/accel/ivpu/ivpu_drv.h     |  6 ++++++
+ drivers/accel/ivpu/ivpu_gem.h     | 11 +++++++----
+ drivers/accel/ivpu/ivpu_hw_37xx.c |  6 +++++-
+ drivers/accel/ivpu/ivpu_hw_40xx.c |  6 +++++-
+ drivers/accel/ivpu/ivpu_mmu.c     | 12 ++++++++----
+ 6 files changed, 35 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
-index 95ff7ad16338..726cf8f28ea3 100644
---- a/drivers/accel/ivpu/Makefile
-+++ b/drivers/accel/ivpu/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
--# Copyright (C) 2023 Intel Corporation
-+# Copyright (C) 2022-2024 Intel Corporation
- 
- intel_vpu-y := \
- 	ivpu_drv.o \
-@@ -13,6 +13,7 @@ intel_vpu-y := \
- 	ivpu_jsm_msg.o \
- 	ivpu_mmu.o \
- 	ivpu_mmu_context.o \
-+	ivpu_ms.o \
- 	ivpu_pm.o
- 
- intel_vpu-$(CONFIG_DEBUG_FS) += ivpu_debugfs.o
 diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 49261fa7c5f4..ece6b212aaf8 100644
+index ece6b212aaf8..87c48fa8d719 100644
 --- a/drivers/accel/ivpu/ivpu_drv.c
 +++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -26,6 +26,7 @@
- #include "ivpu_jsm_msg.h"
- #include "ivpu_mmu.h"
- #include "ivpu_mmu_context.h"
-+#include "ivpu_ms.h"
- #include "ivpu_pm.h"
+@@ -60,6 +60,10 @@ bool ivpu_disable_mmu_cont_pages;
+ module_param_named(disable_mmu_cont_pages, ivpu_disable_mmu_cont_pages, bool, 0644);
+ MODULE_PARM_DESC(disable_mmu_cont_pages, "Disable MMU contiguous pages optimization");
  
- #ifndef DRIVER_VERSION_STR
-@@ -100,6 +101,7 @@ static void file_priv_release(struct kref *ref)
- 	mutex_unlock(&vdev->context_list_lock);
- 	pm_runtime_put_autosuspend(vdev->drm.dev);
- 
-+	mutex_destroy(&file_priv->ms_lock);
- 	mutex_destroy(&file_priv->lock);
- 	kfree(file_priv);
- }
-@@ -122,7 +124,7 @@ static int ivpu_get_capabilities(struct ivpu_device *vdev, struct drm_ivpu_param
- {
- 	switch (args->index) {
- 	case DRM_IVPU_CAP_METRIC_STREAMER:
--		args->value = 0;
-+		args->value = 1;
- 		break;
- 	case DRM_IVPU_CAP_DMA_MEMORY_RANGE:
- 		args->value = 1;
-@@ -231,10 +233,13 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
- 		goto err_dev_exit;
- 	}
- 
-+	INIT_LIST_HEAD(&file_priv->ms_instance_list);
++bool ivpu_force_snoop;
++module_param_named(force_snoop, ivpu_force_snoop, bool, 0644);
++MODULE_PARM_DESC(force_snoop, "Force snooping for NPU host memory access");
 +
- 	file_priv->vdev = vdev;
- 	file_priv->bound = true;
- 	kref_init(&file_priv->ref);
- 	mutex_init(&file_priv->lock);
-+	mutex_init(&file_priv->ms_lock);
- 
- 	mutex_lock(&vdev->context_list_lock);
- 
-@@ -263,6 +268,7 @@ static int ivpu_open(struct drm_device *dev, struct drm_file *file)
- 	xa_erase_irq(&vdev->context_xa, ctx_id);
- err_unlock:
- 	mutex_unlock(&vdev->context_list_lock);
-+	mutex_destroy(&file_priv->ms_lock);
- 	mutex_destroy(&file_priv->lock);
- 	kfree(file_priv);
- err_dev_exit:
-@@ -278,6 +284,7 @@ static void ivpu_postclose(struct drm_device *dev, struct drm_file *file)
- 	ivpu_dbg(vdev, FILE, "file_priv close: ctx %u process %s pid %d\n",
- 		 file_priv->ctx.id, current->comm, task_pid_nr(current));
- 
-+	ivpu_ms_cleanup(file_priv);
- 	ivpu_file_priv_put(&file_priv);
- }
- 
-@@ -288,6 +295,10 @@ static const struct drm_ioctl_desc ivpu_drm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(IVPU_BO_INFO, ivpu_bo_info_ioctl, 0),
- 	DRM_IOCTL_DEF_DRV(IVPU_SUBMIT, ivpu_submit_ioctl, 0),
- 	DRM_IOCTL_DEF_DRV(IVPU_BO_WAIT, ivpu_bo_wait_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(IVPU_METRIC_STREAMER_START, ivpu_ms_start_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(IVPU_METRIC_STREAMER_GET_DATA, ivpu_ms_get_data_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(IVPU_METRIC_STREAMER_STOP, ivpu_ms_stop_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(IVPU_METRIC_STREAMER_GET_INFO, ivpu_ms_get_info_ioctl, 0),
- };
- 
- static int ivpu_wait_for_ready(struct ivpu_device *vdev)
-@@ -638,6 +649,7 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
- 	ivpu_prepare_for_reset(vdev);
- 	ivpu_shutdown(vdev);
- 
-+	ivpu_ms_cleanup_all(vdev);
- 	ivpu_jobs_abort_all(vdev);
- 	ivpu_job_done_consumer_fini(vdev);
- 	ivpu_pm_cancel_recovery(vdev);
+ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv)
+ {
+ 	struct ivpu_device *vdev = file_priv->vdev;
 diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index e0d1f43aad6b..0f42a3a9e59c 100644
+index 0f42a3a9e59c..d55f0bdffd71 100644
 --- a/drivers/accel/ivpu/ivpu_drv.h
 +++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -155,6 +155,9 @@ struct ivpu_file_priv {
- 	struct mutex lock; /* Protects cmdq */
- 	struct ivpu_cmdq *cmdq[IVPU_NUM_CMDQS_PER_CTX];
- 	struct ivpu_mmu_context ctx;
-+	struct mutex ms_lock; /* Protects ms_instance_list, ms_info_bo */
-+	struct list_head ms_instance_list;
-+	struct ivpu_bo *ms_info_bo;
- 	bool has_mmu_faults;
- 	bool bound;
- };
-diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.c b/drivers/accel/ivpu/ivpu_jsm_msg.c
-index 4b260065ad72..e8dd73d947e4 100644
---- a/drivers/accel/ivpu/ivpu_jsm_msg.c
-+++ b/drivers/accel/ivpu/ivpu_jsm_msg.c
-@@ -440,3 +440,101 @@ int ivpu_jsm_hws_setup_priority_bands(struct ivpu_device *vdev)
+@@ -167,6 +167,7 @@ extern u8 ivpu_pll_min_ratio;
+ extern u8 ivpu_pll_max_ratio;
+ extern bool ivpu_sched_mode;
+ extern bool ivpu_disable_mmu_cont_pages;
++extern bool ivpu_force_snoop;
  
- 	return ret;
+ #define IVPU_TEST_MODE_FW_TEST            BIT(0)
+ #define IVPU_TEST_MODE_NULL_HW            BIT(1)
+@@ -241,4 +242,9 @@ static inline bool ivpu_is_fpga(struct ivpu_device *vdev)
+ 	return ivpu_get_platform(vdev) == IVPU_PLATFORM_FPGA;
  }
-+
-+int ivpu_jsm_metric_streamer_start(struct ivpu_device *vdev, u64 metric_group_mask,
-+				   u64 sampling_rate, u64 buffer_addr, u64 buffer_size)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_METRIC_STREAMER_START };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	req.payload.metric_streamer_start.metric_group_mask = metric_group_mask;
-+	req.payload.metric_streamer_start.sampling_rate = sampling_rate;
-+	req.payload.metric_streamer_start.buffer_addr = buffer_addr;
-+	req.payload.metric_streamer_start.buffer_size = buffer_size;
-+
-+	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_METRIC_STREAMER_START_DONE, &resp,
-+				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret) {
-+		ivpu_warn_ratelimited(vdev, "Failed to start metric streamer: ret %d\n", ret);
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+int ivpu_jsm_metric_streamer_stop(struct ivpu_device *vdev, u64 metric_group_mask)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_METRIC_STREAMER_STOP };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	req.payload.metric_streamer_stop.metric_group_mask = metric_group_mask;
-+
-+	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_METRIC_STREAMER_STOP_DONE, &resp,
-+				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret)
-+		ivpu_warn_ratelimited(vdev, "Failed to stop metric streamer: ret %d\n", ret);
-+
-+	return ret;
-+}
-+
-+int ivpu_jsm_metric_streamer_update(struct ivpu_device *vdev, u64 metric_group_mask,
-+				    u64 buffer_addr, u64 buffer_size, u64 *bytes_written)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_METRIC_STREAMER_UPDATE };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	req.payload.metric_streamer_update.metric_group_mask = metric_group_mask;
-+	req.payload.metric_streamer_update.buffer_addr = buffer_addr;
-+	req.payload.metric_streamer_update.buffer_size = buffer_size;
-+
-+	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_METRIC_STREAMER_UPDATE_DONE, &resp,
-+				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret) {
-+		ivpu_warn_ratelimited(vdev, "Failed to update metric streamer: ret %d\n", ret);
-+		return ret;
-+	}
-+
-+	if (buffer_size && resp.payload.metric_streamer_done.bytes_written > buffer_size) {
-+		ivpu_warn_ratelimited(vdev, "MS buffer overflow: bytes_written %#llx > buffer_size %#llx\n",
-+				      resp.payload.metric_streamer_done.bytes_written, buffer_size);
-+		return -EOVERFLOW;
-+	}
-+
-+	*bytes_written = resp.payload.metric_streamer_done.bytes_written;
-+
-+	return ret;
-+}
-+
-+int ivpu_jsm_metric_streamer_info(struct ivpu_device *vdev, u64 metric_group_mask, u64 buffer_addr,
-+				  u64 buffer_size, u32 *sample_size, u64 *info_size)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_METRIC_STREAMER_INFO };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	req.payload.metric_streamer_start.metric_group_mask = metric_group_mask;
-+	req.payload.metric_streamer_start.buffer_addr = buffer_addr;
-+	req.payload.metric_streamer_start.buffer_size = buffer_size;
-+
-+	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_METRIC_STREAMER_INFO_DONE, &resp,
-+				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret) {
-+		ivpu_warn_ratelimited(vdev, "Failed to get metric streamer info: ret %d\n", ret);
-+		return ret;
-+	}
-+
-+	if (!resp.payload.metric_streamer_done.sample_size) {
-+		ivpu_warn_ratelimited(vdev, "Invalid sample size\n");
-+		return -EBADMSG;
-+	}
-+
-+	if (sample_size)
-+		*sample_size = resp.payload.metric_streamer_done.sample_size;
-+	if (info_size)
-+		*info_size = resp.payload.metric_streamer_done.bytes_written;
-+
-+	return ret;
-+}
-diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.h b/drivers/accel/ivpu/ivpu_jsm_msg.h
-index 357728295fe9..060363409fb3 100644
---- a/drivers/accel/ivpu/ivpu_jsm_msg.h
-+++ b/drivers/accel/ivpu/ivpu_jsm_msg.h
-@@ -34,5 +34,11 @@ int ivpu_jsm_hws_set_context_sched_properties(struct ivpu_device *vdev, u32 ctx_
- int ivpu_jsm_hws_set_scheduling_log(struct ivpu_device *vdev, u32 engine_idx, u32 host_ssid,
- 				    u64 vpu_log_buffer_va);
- int ivpu_jsm_hws_setup_priority_bands(struct ivpu_device *vdev);
--
-+int ivpu_jsm_metric_streamer_start(struct ivpu_device *vdev, u64 metric_group_mask,
-+				   u64 sampling_rate, u64 buffer_addr, u64 buffer_size);
-+int ivpu_jsm_metric_streamer_stop(struct ivpu_device *vdev, u64 metric_group_mask);
-+int ivpu_jsm_metric_streamer_update(struct ivpu_device *vdev, u64 metric_group_mask,
-+				    u64 buffer_addr, u64 buffer_size, u64 *bytes_written);
-+int ivpu_jsm_metric_streamer_info(struct ivpu_device *vdev, u64 metric_group_mask, u64 buffer_addr,
-+				  u64 buffer_size, u32 *sample_size, u64 *info_size);
- #endif
-diff --git a/drivers/accel/ivpu/ivpu_ms.c b/drivers/accel/ivpu/ivpu_ms.c
-new file mode 100644
-index 000000000000..2f9d37f5c208
---- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_ms.c
-@@ -0,0 +1,309 @@
-+// SPDX-License-Identifier: GPL-2.0-only OR MIT
-+/*
-+ * Copyright (C) 2020-2024 Intel Corporation
-+ */
-+
-+#include <drm/drm_file.h>
-+
-+#include "ivpu_drv.h"
-+#include "ivpu_gem.h"
-+#include "ivpu_jsm_msg.h"
-+#include "ivpu_ms.h"
-+#include "ivpu_pm.h"
-+
-+#define MS_INFO_BUFFER_SIZE	  SZ_16K
-+#define MS_NUM_BUFFERS		  2
-+#define MS_READ_PERIOD_MULTIPLIER 2
-+#define MS_MIN_SAMPLE_PERIOD_NS   1000000
-+
-+static struct ivpu_ms_instance *
-+get_instance_by_mask(struct ivpu_file_priv *file_priv, u64 metric_mask)
-+{
-+	struct ivpu_ms_instance *ms;
-+
-+	lockdep_assert_held(&file_priv->ms_lock);
-+
-+	list_for_each_entry(ms, &file_priv->ms_instance_list, ms_instance_node)
-+		if (ms->mask == metric_mask)
-+			return ms;
-+
-+	return NULL;
-+}
-+
-+int ivpu_ms_start_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct drm_ivpu_metric_streamer_start *args = data;
-+	struct ivpu_device *vdev = file_priv->vdev;
-+	struct ivpu_ms_instance *ms;
-+	u64 single_buff_size;
-+	u32 sample_size;
-+	int ret;
-+
-+	if (!args->metric_group_mask || !args->read_period_samples ||
-+	    args->sampling_period_ns < MS_MIN_SAMPLE_PERIOD_NS)
-+		return -EINVAL;
-+
-+	mutex_lock(&file_priv->ms_lock);
-+
-+	if (get_instance_by_mask(file_priv, args->metric_group_mask)) {
-+		ivpu_err(vdev, "Instance already exists (mask %#llx)\n", args->metric_group_mask);
-+		ret = -EALREADY;
-+		goto unlock;
-+	}
-+
-+	ms = kzalloc(sizeof(*ms), GFP_KERNEL);
-+	if (!ms) {
-+		ret = -ENOMEM;
-+		goto unlock;
-+	}
-+
-+	ms->mask = args->metric_group_mask;
-+
-+	ret = ivpu_jsm_metric_streamer_info(vdev, ms->mask, 0, 0, &sample_size, NULL);
-+	if (ret)
-+		goto err_free_ms;
-+
-+	single_buff_size = sample_size *
-+		((u64)args->read_period_samples * MS_READ_PERIOD_MULTIPLIER);
-+	ms->bo = ivpu_bo_create_global(vdev, PAGE_ALIGN(single_buff_size * MS_NUM_BUFFERS),
-+				       DRM_IVPU_BO_CACHED | DRM_IVPU_BO_MAPPABLE);
-+	if (!ms->bo) {
-+		ivpu_err(vdev, "Failed to allocate MS buffer (size %llu)\n", single_buff_size);
-+		ret = -ENOMEM;
-+		goto err_free_ms;
-+	}
-+
-+	ms->buff_size = ivpu_bo_size(ms->bo) / MS_NUM_BUFFERS;
-+	ms->active_buff_vpu_addr = ms->bo->vpu_addr;
-+	ms->inactive_buff_vpu_addr = ms->bo->vpu_addr + ms->buff_size;
-+	ms->active_buff_ptr = ivpu_bo_vaddr(ms->bo);
-+	ms->inactive_buff_ptr = ivpu_bo_vaddr(ms->bo) + ms->buff_size;
-+
-+	ret = ivpu_jsm_metric_streamer_start(vdev, ms->mask, args->sampling_period_ns,
-+					     ms->active_buff_vpu_addr, ms->buff_size);
-+	if (ret)
-+		goto err_free_bo;
-+
-+	args->sample_size = sample_size;
-+	args->max_data_size = ivpu_bo_size(ms->bo);
-+	list_add_tail(&ms->ms_instance_node, &file_priv->ms_instance_list);
-+	goto unlock;
-+
-+err_free_bo:
-+	ivpu_bo_free(ms->bo);
-+err_free_ms:
-+	kfree(ms);
-+unlock:
-+	mutex_unlock(&file_priv->ms_lock);
-+	return ret;
-+}
-+
-+static int
-+copy_leftover_bytes(struct ivpu_ms_instance *ms,
-+		    void __user *user_ptr, u64 user_size, u64 *user_bytes_copied)
-+{
-+	u64 copy_bytes;
-+
-+	if (ms->leftover_bytes) {
-+		copy_bytes = min(user_size - *user_bytes_copied, ms->leftover_bytes);
-+		if (copy_to_user(user_ptr + *user_bytes_copied, ms->leftover_addr, copy_bytes))
-+			return -EFAULT;
-+
-+		ms->leftover_bytes -= copy_bytes;
-+		ms->leftover_addr += copy_bytes;
-+		*user_bytes_copied += copy_bytes;
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+copy_samples_to_user(struct ivpu_device *vdev, struct ivpu_ms_instance *ms,
-+		     void __user *user_ptr, u64 user_size, u64 *user_bytes_copied)
-+{
-+	u64 bytes_written;
-+	int ret;
-+
-+	*user_bytes_copied = 0;
-+
-+	ret = copy_leftover_bytes(ms, user_ptr, user_size, user_bytes_copied);
-+	if (ret)
-+		return ret;
-+
-+	if (*user_bytes_copied == user_size)
-+		return 0;
-+
-+	ret = ivpu_jsm_metric_streamer_update(vdev, ms->mask, ms->inactive_buff_vpu_addr,
-+					      ms->buff_size, &bytes_written);
-+	if (ret)
-+		return ret;
-+
-+	swap(ms->active_buff_vpu_addr, ms->inactive_buff_vpu_addr);
-+	swap(ms->active_buff_ptr, ms->inactive_buff_ptr);
-+
-+	ms->leftover_bytes = bytes_written;
-+	ms->leftover_addr = ms->inactive_buff_ptr;
-+
-+	return copy_leftover_bytes(ms, user_ptr, user_size, user_bytes_copied);
-+}
-+
-+int ivpu_ms_get_data_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct drm_ivpu_metric_streamer_get_data *args = data;
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct ivpu_device *vdev = file_priv->vdev;
-+	struct ivpu_ms_instance *ms;
-+	u64 bytes_written;
-+	int ret;
-+
-+	if (!args->metric_group_mask)
-+		return -EINVAL;
-+
-+	mutex_lock(&file_priv->ms_lock);
-+
-+	ms = get_instance_by_mask(file_priv, args->metric_group_mask);
-+	if (!ms) {
-+		ivpu_err(vdev, "Instance doesn't exist for mask: %#llx\n", args->metric_group_mask);
-+		ret = -EINVAL;
-+		goto unlock;
-+	}
-+
-+	if (!args->buffer_size) {
-+		ret = ivpu_jsm_metric_streamer_update(vdev, ms->mask, 0, 0, &bytes_written);
-+		if (ret)
-+			goto unlock;
-+		args->data_size = bytes_written + ms->leftover_bytes;
-+		goto unlock;
-+	}
-+
-+	if (!args->buffer_ptr) {
-+		ret = -EINVAL;
-+		goto unlock;
-+	}
-+
-+	ret = copy_samples_to_user(vdev, ms, u64_to_user_ptr(args->buffer_ptr),
-+				   args->buffer_size, &args->data_size);
-+unlock:
-+	mutex_unlock(&file_priv->ms_lock);
-+
-+	return ret;
-+}
-+
-+static void free_instance(struct ivpu_file_priv *file_priv, struct ivpu_ms_instance *ms)
-+{
-+	lockdep_assert_held(&file_priv->ms_lock);
-+
-+	list_del(&ms->ms_instance_node);
-+	ivpu_jsm_metric_streamer_stop(file_priv->vdev, ms->mask);
-+	ivpu_bo_free(ms->bo);
-+	kfree(ms);
-+}
-+
-+int ivpu_ms_stop_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct drm_ivpu_metric_streamer_stop *args = data;
-+	struct ivpu_ms_instance *ms;
-+
-+	if (!args->metric_group_mask)
-+		return -EINVAL;
-+
-+	mutex_lock(&file_priv->ms_lock);
-+
-+	ms = get_instance_by_mask(file_priv, args->metric_group_mask);
-+	if (ms)
-+		free_instance(file_priv, ms);
-+
-+	mutex_unlock(&file_priv->ms_lock);
-+
-+	return ms ? 0 : -EINVAL;
-+}
-+
-+static inline struct ivpu_bo *get_ms_info_bo(struct ivpu_file_priv *file_priv)
-+{
-+	lockdep_assert_held(&file_priv->ms_lock);
-+
-+	if (file_priv->ms_info_bo)
-+		return file_priv->ms_info_bo;
-+
-+	file_priv->ms_info_bo = ivpu_bo_create_global(file_priv->vdev, MS_INFO_BUFFER_SIZE,
-+						      DRM_IVPU_BO_CACHED | DRM_IVPU_BO_MAPPABLE);
-+	return file_priv->ms_info_bo;
-+}
-+
-+int ivpu_ms_get_info_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct drm_ivpu_metric_streamer_get_data *args = data;
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct ivpu_device *vdev = file_priv->vdev;
-+	struct ivpu_bo *bo;
-+	u64 info_size;
-+	int ret;
-+
-+	if (!args->metric_group_mask)
-+		return -EINVAL;
-+
-+	if (!args->buffer_size)
-+		return ivpu_jsm_metric_streamer_info(vdev, args->metric_group_mask,
-+						     0, 0, NULL, &args->data_size);
-+	if (!args->buffer_ptr)
-+		return -EINVAL;
-+
-+	mutex_lock(&file_priv->ms_lock);
-+
-+	bo = get_ms_info_bo(file_priv);
-+	if (!bo) {
-+		ret = -ENOMEM;
-+		goto unlock;
-+	}
-+
-+	ret = ivpu_jsm_metric_streamer_info(vdev, args->metric_group_mask, bo->vpu_addr,
-+					    ivpu_bo_size(bo), NULL, &info_size);
-+	if (ret)
-+		goto unlock;
-+
-+	if (args->buffer_size < info_size) {
-+		ret = -ENOSPC;
-+		goto unlock;
-+	}
-+
-+	if (copy_to_user(u64_to_user_ptr(args->buffer_ptr), ivpu_bo_vaddr(bo), info_size))
-+		ret = -EFAULT;
-+
-+	args->data_size = info_size;
-+unlock:
-+	mutex_unlock(&file_priv->ms_lock);
-+
-+	return ret;
-+}
-+
-+void ivpu_ms_cleanup(struct ivpu_file_priv *file_priv)
-+{
-+	struct ivpu_ms_instance *ms, *tmp;
-+
-+	mutex_lock(&file_priv->ms_lock);
-+
-+	if (file_priv->ms_info_bo) {
-+		ivpu_bo_free(file_priv->ms_info_bo);
-+		file_priv->ms_info_bo = NULL;
-+	}
-+
-+	list_for_each_entry_safe(ms, tmp, &file_priv->ms_instance_list, ms_instance_node)
-+		free_instance(file_priv, ms);
-+
-+	mutex_unlock(&file_priv->ms_lock);
-+}
-+
-+void ivpu_ms_cleanup_all(struct ivpu_device *vdev)
-+{
-+	struct ivpu_file_priv *file_priv;
-+	unsigned long ctx_id;
-+
-+	mutex_lock(&vdev->context_list_lock);
-+
-+	xa_for_each(&vdev->context_xa, ctx_id, file_priv)
-+		ivpu_ms_cleanup(file_priv);
-+
-+	mutex_unlock(&vdev->context_list_lock);
-+}
-diff --git a/drivers/accel/ivpu/ivpu_ms.h b/drivers/accel/ivpu/ivpu_ms.h
-new file mode 100644
-index 000000000000..fbd5ebebc3d9
---- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_ms.h
-@@ -0,0 +1,36 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
-+/*
-+ * Copyright (C) 2020-2024 Intel Corporation
-+ */
-+#ifndef __IVPU_MS_H__
-+#define __IVPU_MS_H__
-+
-+#include <linux/list.h>
-+
-+struct drm_device;
-+struct drm_file;
-+struct ivpu_bo;
-+struct ivpu_device;
-+struct ivpu_file_priv;
-+
-+struct ivpu_ms_instance {
-+	struct ivpu_bo *bo;
-+	struct list_head ms_instance_node;
-+	u64 mask;
-+	u64 buff_size;
-+	u64 active_buff_vpu_addr;
-+	u64 inactive_buff_vpu_addr;
-+	void *active_buff_ptr;
-+	void *inactive_buff_ptr;
-+	u64 leftover_bytes;
-+	void *leftover_addr;
-+};
-+
-+int ivpu_ms_start_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+int ivpu_ms_stop_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+int ivpu_ms_get_data_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+int ivpu_ms_get_info_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+void ivpu_ms_cleanup(struct ivpu_file_priv *file_priv);
-+void ivpu_ms_cleanup_all(struct ivpu_device *vdev);
-+
-+#endif /* __IVPU_MS_H__ */
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 4f5ea466731f..7b2aa205fdec 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -18,6 +18,7 @@
- #include "ivpu_job.h"
- #include "ivpu_jsm_msg.h"
- #include "ivpu_mmu.h"
-+#include "ivpu_ms.h"
- #include "ivpu_pm.h"
  
- static bool ivpu_disable_recovery;
-@@ -131,6 +132,7 @@ static void ivpu_pm_recovery_work(struct work_struct *work)
- 	ivpu_suspend(vdev);
- 	ivpu_pm_prepare_cold_boot(vdev);
- 	ivpu_jobs_abort_all(vdev);
-+	ivpu_ms_cleanup_all(vdev);
++static inline bool ivpu_is_force_snoop_enabled(struct ivpu_device *vdev)
++{
++	return ivpu_force_snoop;
++}
++
+ #endif /* __IVPU_DRV_H__ */
+diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
+index fb7117c13eec..d975000abd78 100644
+--- a/drivers/accel/ivpu/ivpu_gem.h
++++ b/drivers/accel/ivpu/ivpu_gem.h
+@@ -60,14 +60,17 @@ static inline u32 ivpu_bo_cache_mode(struct ivpu_bo *bo)
+ 	return bo->flags & DRM_IVPU_BO_CACHE_MASK;
+ }
  
- 	ret = ivpu_resume(vdev);
+-static inline bool ivpu_bo_is_snooped(struct ivpu_bo *bo)
++static inline struct ivpu_device *ivpu_bo_to_vdev(struct ivpu_bo *bo)
+ {
+-	return ivpu_bo_cache_mode(bo) == DRM_IVPU_BO_CACHED;
++	return to_ivpu_device(bo->base.base.dev);
+ }
+ 
+-static inline struct ivpu_device *ivpu_bo_to_vdev(struct ivpu_bo *bo)
++static inline bool ivpu_bo_is_snooped(struct ivpu_bo *bo)
+ {
+-	return to_ivpu_device(bo->base.base.dev);
++	if (ivpu_is_force_snoop_enabled(ivpu_bo_to_vdev(bo)))
++		return true;
++
++	return ivpu_bo_cache_mode(bo) == DRM_IVPU_BO_CACHED;
+ }
+ 
+ static inline void *ivpu_to_cpu_addr(struct ivpu_bo *bo, u32 vpu_addr)
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index ce664b6515aa..250291cc1f3a 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -514,7 +514,11 @@ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
+ 
+ 	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, NOSNOOP_OVERRIDE_EN, val);
+ 	val = REG_CLR_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AW_NOSNOOP_OVERRIDE, val);
+-	val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AR_NOSNOOP_OVERRIDE, val);
++
++	if (ivpu_is_force_snoop_enabled(vdev))
++		val = REG_CLR_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AR_NOSNOOP_OVERRIDE, val);
++	else
++		val = REG_SET_FLD(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, AR_NOSNOOP_OVERRIDE, val);
+ 
+ 	REGV_WR32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES, val);
+ }
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+index 186cd87079c2..e64ee705d00c 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -531,7 +531,11 @@ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
+ 
+ 	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, SNOOP_OVERRIDE_EN, val);
+ 	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AW_SNOOP_OVERRIDE, val);
+-	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AR_SNOOP_OVERRIDE, val);
++
++	if (ivpu_is_force_snoop_enabled(vdev))
++		val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AR_SNOOP_OVERRIDE, val);
++	else
++		val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AR_SNOOP_OVERRIDE, val);
+ 
+ 	REGV_WR32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, val);
+ }
+diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+index 2e46b322c450..8682e6145520 100644
+--- a/drivers/accel/ivpu/ivpu_mmu.c
++++ b/drivers/accel/ivpu/ivpu_mmu.c
+@@ -519,7 +519,8 @@ static int ivpu_mmu_cmdq_sync(struct ivpu_device *vdev)
  	if (ret)
-@@ -333,6 +335,8 @@ void ivpu_pm_reset_prepare_cb(struct pci_dev *pdev)
- 	ivpu_hw_reset(vdev);
- 	ivpu_pm_prepare_cold_boot(vdev);
- 	ivpu_jobs_abort_all(vdev);
-+	ivpu_ms_cleanup_all(vdev);
-+
- 	ivpu_dbg(vdev, PM, "Pre-reset done.\n");
+ 		return ret;
+ 
+-	clflush_cache_range(q->base, IVPU_MMU_CMDQ_SIZE);
++	if (!ivpu_is_force_snoop_enabled(vdev))
++		clflush_cache_range(q->base, IVPU_MMU_CMDQ_SIZE);
+ 	REGV_WR32(IVPU_MMU_REG_CMDQ_PROD, q->prod);
+ 
+ 	ret = ivpu_mmu_cmdq_wait_for_cons(vdev);
+@@ -567,7 +568,8 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
+ 	int ret;
+ 
+ 	memset(mmu->cmdq.base, 0, IVPU_MMU_CMDQ_SIZE);
+-	clflush_cache_range(mmu->cmdq.base, IVPU_MMU_CMDQ_SIZE);
++	if (!ivpu_is_force_snoop_enabled(vdev))
++		clflush_cache_range(mmu->cmdq.base, IVPU_MMU_CMDQ_SIZE);
+ 	mmu->cmdq.prod = 0;
+ 	mmu->cmdq.cons = 0;
+ 
+@@ -661,7 +663,8 @@ static void ivpu_mmu_strtab_link_cd(struct ivpu_device *vdev, u32 sid)
+ 	WRITE_ONCE(entry[1], str[1]);
+ 	WRITE_ONCE(entry[0], str[0]);
+ 
+-	clflush_cache_range(entry, IVPU_MMU_STRTAB_ENT_SIZE);
++	if (!ivpu_is_force_snoop_enabled(vdev))
++		clflush_cache_range(entry, IVPU_MMU_STRTAB_ENT_SIZE);
+ 
+ 	ivpu_dbg(vdev, MMU, "STRTAB write entry (SSID=%u): 0x%llx, 0x%llx\n", sid, str[0], str[1]);
  }
+@@ -735,7 +738,8 @@ static int ivpu_mmu_cd_add(struct ivpu_device *vdev, u32 ssid, u64 cd_dma)
+ 	WRITE_ONCE(entry[3], cd[3]);
+ 	WRITE_ONCE(entry[0], cd[0]);
  
-diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-index 19a13468eca5..084fb529e1e9 100644
---- a/include/uapi/drm/ivpu_accel.h
-+++ b/include/uapi/drm/ivpu_accel.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
- /*
-- * Copyright (C) 2020-2023 Intel Corporation
-+ * Copyright (C) 2020-2024 Intel Corporation
-  */
+-	clflush_cache_range(entry, IVPU_MMU_CDTAB_ENT_SIZE);
++	if (!ivpu_is_force_snoop_enabled(vdev))
++		clflush_cache_range(entry, IVPU_MMU_CDTAB_ENT_SIZE);
  
- #ifndef __UAPI_IVPU_DRM_H__
-@@ -21,6 +21,10 @@ extern "C" {
- #define DRM_IVPU_BO_INFO		  0x03
- #define DRM_IVPU_SUBMIT			  0x05
- #define DRM_IVPU_BO_WAIT		  0x06
-+#define DRM_IVPU_METRIC_STREAMER_START	  0x07
-+#define DRM_IVPU_METRIC_STREAMER_STOP	  0x08
-+#define DRM_IVPU_METRIC_STREAMER_GET_DATA 0x09
-+#define DRM_IVPU_METRIC_STREAMER_GET_INFO 0x0a
- 
- #define DRM_IOCTL_IVPU_GET_PARAM                                               \
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_GET_PARAM, struct drm_ivpu_param)
-@@ -40,6 +44,22 @@ extern "C" {
- #define DRM_IOCTL_IVPU_BO_WAIT                                                 \
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_WAIT, struct drm_ivpu_bo_wait)
- 
-+#define DRM_IOCTL_IVPU_METRIC_STREAMER_START                                   \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_METRIC_STREAMER_START,            \
-+		 struct drm_ivpu_metric_streamer_start)
-+
-+#define DRM_IOCTL_IVPU_METRIC_STREAMER_STOP                                    \
-+	DRM_IOW(DRM_COMMAND_BASE + DRM_IVPU_METRIC_STREAMER_STOP,              \
-+		struct drm_ivpu_metric_streamer_stop)
-+
-+#define DRM_IOCTL_IVPU_METRIC_STREAMER_GET_DATA                                \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_METRIC_STREAMER_GET_DATA,         \
-+		 struct drm_ivpu_metric_streamer_get_data)
-+
-+#define DRM_IOCTL_IVPU_METRIC_STREAMER_GET_INFO                                \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_METRIC_STREAMER_GET_INFO,         \
-+		 struct drm_ivpu_metric_streamer_get_data)
-+
- /**
-  * DOC: contexts
-  *
-@@ -336,6 +356,53 @@ struct drm_ivpu_bo_wait {
- 	__u32 pad;
- };
- 
-+/**
-+ * struct drm_ivpu_metric_streamer_start - Start collecting metric data
-+ */
-+struct drm_ivpu_metric_streamer_start {
-+	/** @metric_group_mask: Indicates metric streamer instance */
-+	__u64 metric_group_mask;
-+	/** @sampling_period_ns: Sampling period in nanoseconds */
-+	__u64 sampling_period_ns;
-+	/**
-+	 * @read_period_samples:
-+	 *
-+	 * Number of samples after which user space will try to read the data.
-+	 * Reading the data after significantly longer period may cause data loss.
-+	 */
-+	__u32 read_period_samples;
-+	/** @sample_size: Returned size of a single sample in bytes */
-+	__u32 sample_size;
-+	/** @max_data_size: Returned max @data_size from %DRM_IOCTL_IVPU_METRIC_STREAMER_GET_DATA */
-+	__u32 max_data_size;
-+};
-+
-+/**
-+ * struct drm_ivpu_metric_streamer_get_data - Copy collected metric data
-+ */
-+struct drm_ivpu_metric_streamer_get_data {
-+	/** @metric_group_mask: Indicates metric streamer instance */
-+	__u64 metric_group_mask;
-+	/** @buffer_ptr: A pointer to a destination for the copied data */
-+	__u64 buffer_ptr;
-+	/** @buffer_size: Size of the destination buffer */
-+	__u64 buffer_size;
-+	/**
-+	 * @data_size: Returned size of copied metric data
-+	 *
-+	 * If the @buffer_size is zero, returns the amount of data ready to be copied.
-+	 */
-+	__u64 data_size;
-+};
-+
-+/**
-+ * struct drm_ivpu_metric_streamer_stop - Stop collecting metric data
-+ */
-+struct drm_ivpu_metric_streamer_stop {
-+	/** @metric_group_mask: Indicates metric streamer instance */
-+	__u64 metric_group_mask;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
+ 	ivpu_dbg(vdev, MMU, "CDTAB %s entry (SSID=%u, dma=%pad): 0x%llx, 0x%llx, 0x%llx, 0x%llx\n",
+ 		 cd_dma ? "write" : "clear", ssid, &cd_dma, cd[0], cd[1], cd[2], cd[3]);
 -- 
 2.43.2
 
