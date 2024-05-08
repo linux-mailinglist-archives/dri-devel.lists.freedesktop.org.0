@@ -2,77 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B4A8BF9FC
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 12:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CAA88BF9D0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 11:51:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBDE113536;
-	Wed,  8 May 2024 10:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7ED110FA86;
+	Wed,  8 May 2024 09:51:51 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="bFSwIteg";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id BB315113533
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 10:02:56 +0000 (UTC)
-X-AuditID: a67dfc5b-d85ff70000001748-d9-663b4a3c0e6c
-From: Byungchul Park <byungchul@sk.com>
-To: linux-kernel@vger.kernel.org
-Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
- damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
- adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
- peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
- rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
- daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
- tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
- amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
- linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
- sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
- linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, 42.hyeyoo@gmail.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
- max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
- hdanton@sina.com, her0gyugyu@gmail.com
-Subject: [PATCH v14 28/28] dept: Add documentation for Dept's APIs
-Date: Wed,  8 May 2024 18:47:25 +0900
-Message-Id: <20240508094726.35754-29-byungchul@sk.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240508094726.35754-1-byungchul@sk.com>
-References: <20240508094726.35754-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0iTYRTHe97rXK5eltCrkdUggsLKyDqVRBTYUxEUXakPNdprG02TmbdA
- 0rxU3khDV9NELdbS1Wzbhy5qa+F0hTbLcuaFNMssLzSbaNplKn45/Pif8/99OiJSaqWDRKro
- C4ImWq6WMWJKPORfHhK+d1vkemtXMOTnrAfvr6sUlJiMDLgeViEwWlMJGKjfDW1jgwgmm96Q
- oC10ISjv6SLB6uhGUGu4zMC7vgXQ6h1hwFmYzUDaHRMDLT+mCOgsKiCgyrwfXl+vIMA20U+B
- doCBYm0a4RvfCJjQV7KgT1kJvQYdC1M9oeDs/kBD7cc1cKu0k4GaWicFjse9BLx7WsJAt/Ef
- Da8djRS48nNpeDBcwcCPMT0Jeu8IC29tZQRUp/tEmaN/aWjItRGQefcRAa3tzxDUXf1EgNn4
- gYGX3kECLOZCEn7fq0fQmzfEQkbOBAvFqXkIsjOKKEjvDIPJ8RJmxxb8cnCExOmWBFw7Vkbh
- VxU8fqLrYnF63UcWl5njsMWwGt+pGSBwucdLY3PlNQabPQUszhpqJfBwczOLG29OUrivVUsc
- CDohDlcIalW8oFm3/bRYmeFsYGNKZYnVTXEpKH9JFvIT8dxG/vZvDzXHn0tHZ5jhVvFu9wQ5
- zQHcct6S+5WeZpIbFPN3myOmeRG3k3eMvkfTTHEr+Uxny0xXwm3ibxQ40KxzGV9VbZvx+Pny
- 9v7hmVzKhfHP0nRsFhL7bsZFfNv7Unq2EMi/MLip60hShuZVIqkqOj5KrlJvXKtMilYlrj1z
- PsqMfL+kT546+Rh5XIfsiBMhmb/EtnhrpJSWx8cmRdkRLyJlAZL6K5sjpRKFPOmioDl/ShOn
- FmLtaImIki2WbBhLUEi5s/ILwjlBiBE0c1tC5BeUghbWdeh0l1YcW3E4yjQQY+l4eON5VlNa
- oNq41G21NR9pbDsuDrbYU/ECuX2n64i/OnENV4PF24wJ88e/7/H2L/t1tNPzpd2rLtocv+5+
- Y9fPlojiP3/CziWHK4cK9yqGtR2mE3k5+9zKgIN1ZGVoiJX793RX7iVTgMKQ3XD/SYhURsUq
- 5aGrSU2s/D9L025kRwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSf0yMcRzH+36fX9ets2dX41nZ4qYh82sTHw4zjEfGzGxt/UGH53TrKu4q
- Yua4fqhkLurIlZOcVofcxUJnt9LltE6UiLRKQ6SsuubU0GX+ee+192ef119vESEtokJFqqQU
- QZOkUMtoMSneKdcvlkfLlct6ateC4dwy8I6dJcF010pD650qBNaa0xgGGrfCm/FBBBMtLwgw
- FrYiuN77gYAaVzcCR8UZGtr6Z0C7d5gGd2EeDfobd2l4+W0SQ1dRAYYq2w5ovlCGwen7TIJx
- gIarRj2eii8YfJZKBiy6COirKGZgsnc5uLs7KGgocVPgeLcIrpR20VDncJPgqu3D0PbIREO3
- 9Q8Fza5nJLQa8im4PVRGw7dxCwEW7zADr5xmDNUZU7as0d8UNOU7MWSV38PQ3vkYwZOzPRhs
- 1g4aGryDGOy2QgJ+3WpE0Hf+OwOZ53wMXD19HkFeZhEJGV1RMPHTRG9YwzcMDhN8hv0o7xg3
- k/zzMo5/WPyB4TOevGN4sy2Vt1dE8jfqBjB/fcRL8bbKHJq3jRQwfO73dswPeTwM/+zyBMn3
- txvxrrBY8dqDglqVJmiWro8Tx2e6m5jDpbJj1S2pOmQIy0WBIo5dwX0sHSX9TLPzubdvfYSf
- Q9g5nD3/E+Vngh0Uc+WeLX4OZjdyrtHXyM8kG8FluV9O/0rYldzFAhf65wznqqqd057Aqb7z
- 89B0L2WjuMf6YuYCEptRQCUKUSWlJSpU6qgl2oT49CTVsSUHkhNtaGotlpOThlo01ra1HrEi
- JAuStNJypZRSpGnTE+sRJyJkIZLG7FVKqeSgIv24oEnep0lVC9p6FCYiZbMk0TFCnJQ9pEgR
- EgThsKD5f8WiwFAduo+jT62brDPFlji/apqRY6ZhZPX28pBkpUd35URTV9jCH+qle/eXa3cH
- xW3y3Nx81O7bWLvN2p+84dFs/dwOpTEgRnvtgfip0hTckmBeMOxInRP1/ogqeN7TyEvyrEs1
- KfNMtj1ljLM6r8cVtG/Px/zeJnN2drhWt+tAjmyd/EyJjNTGK5ZHEhqt4i/zXmBuKQMAAA==
-X-CFilter-Loop: Reflected
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 512A510FA86
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 09:51:49 +0000 (UTC)
+X-UUID: 9416d58e0d2011efb92737409a0e9459-20240508
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=EpbT5fkgin4b8SqQc5adWxDC5bZ2ttTXku30oyuQHbw=; 
+ b=bFSwItegwhH7VnuTFtnAqYOAtfLYcKtr2df+Ukm1X2pAdf7MtT8plA9bjhH26C420GOkPWT+aLD/37abeBL3850QrVbXMlN7dnFl9OtzF2IXoO+v9f9fSyvMEMkEG7z8HjcXwQfXQurr32CtaZAFgFgcM7glNxHk6nunfw8iRRc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38, REQID:dd9d5ad5-4e05-4884-9de1-38c3080c3812, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:82c5f88, CLOUDID:a5b68092-e2c0-40b0-a8fe-7c7e47299109,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+ :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 9416d58e0d2011efb92737409a0e9459-20240508
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 583157918; Wed, 08 May 2024 17:51:44 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 8 May 2024 17:51:43 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 8 May 2024 17:51:43 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Mergnat <amergnat@baylibre.com>, Jason-ch Chen
+ <jason-ch.chen@mediatek.com>, Johnson Wang <johnson.wang@mediatek.com>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, Singo Chang
+ <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, Shawn Sung
+ <shawn.sung@mediatek.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>, 
+ <linux-kernel@vger.kernel.org>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, Fei Shao
+ <fshao@chromium.org>
+Subject: [PATCH v2] mailbox: mtk-cmdq: Fix sleeping function called from
+ invalid context
+Date: Wed, 8 May 2024 17:51:43 +0800
+Message-ID: <20240508095143.12023-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,137 +81,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This document describes the APIs of Dept.
+When we run kernel with lockdebug option, we will get the BUG below:
+[  106.692124] BUG: sleeping function called from invalid context at drivers/base/power/runtime.c:1164
+[  106.692190] in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid: 3616, name: kworker/u17:3
+[  106.692226] preempt_count: 1, expected: 0
+[  106.692254] RCU nest depth: 0, expected: 0
+[  106.692282] INFO: lockdep is turned off.
+[  106.692306] irq event stamp: 0
+[  106.692331] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+[  106.692376] hardirqs last disabled at (0): [<ffffffee15d37fa0>] copy_process+0xc90/0x2ac0
+[  106.692429] softirqs last  enabled at (0): [<ffffffee15d37fc4>] copy_process+0xcb4/0x2ac0
+[  106.692473] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[  106.692513] CPU: 1 PID: 3616 Comm: kworker/u17:3 Not tainted 6.1.87-lockdep-14133-g26e933aca785 #1 6839942e1cf34914b0a366137843dd2366f52aa9
+[  106.692556] Hardware name: Google Ciri sku0/unprovisioned board (DT)
+[  106.692586] Workqueue: imgsys_runner imgsys_runner_func
+[  106.692638] Call trace:
+[  106.692662]  dump_backtrace+0x100/0x120
+[  106.692702]  show_stack+0x20/0x2c
+[  106.692737]  dump_stack_lvl+0x84/0xb4
+[  106.692775]  dump_stack+0x18/0x48
+[  106.692809]  __might_resched+0x354/0x4c0
+[  106.692847]  __might_sleep+0x98/0xe4
+[  106.692883]  __pm_runtime_resume+0x70/0x124
+[  106.692921]  cmdq_mbox_send_data+0xe4/0xb1c
+[  106.692964]  msg_submit+0x194/0x2dc
+[  106.693003]  mbox_send_message+0x190/0x330
+[  106.693043]  imgsys_cmdq_sendtask+0x1618/0x2224
+[  106.693082]  imgsys_runner_func+0xac/0x11c
+[  106.693118]  process_one_work+0x638/0xf84
+[  106.693158]  worker_thread+0x808/0xcd0
+[  106.693196]  kthread+0x24c/0x324
+[  106.693231]  ret_from_fork+0x10/0x20
 
-Signed-off-by: Byungchul Park <byungchul@sk.com>
+We found that there is a spin_lock_irqsave protection in msg_submit()
+of mailbox.c and it is in the atomic context.
+So when cmdq driver calls pm_runtime_get_sync() in cmdq_mbox_send_data(),
+it will get this BUG report.
+
+1. Change pm_runtime_get_sync() to pm_runtime_get() to avoid using sleep
+   in atomic context.
+2. Move clk_bulk_enable() outside cmdq_runtime_resume() to ensure GCE
+   clocks are enabled before configuring GCE register.
+3. Add used_count to avoid cmdq_runtime_suspend() being called before
+   calling cmdq_runtime_resume().
+
+Fixes: 8afe816b0c99 ("mailbox: mtk-cmdq-mailbox: Implement Runtime PM with autosuspend")
+Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 ---
- Documentation/dependency/dept_api.txt | 117 ++++++++++++++++++++++++++
- 1 file changed, 117 insertions(+)
- create mode 100644 Documentation/dependency/dept_api.txt
+ drivers/mailbox/mtk-cmdq-mailbox.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/dependency/dept_api.txt b/Documentation/dependency/dept_api.txt
-new file mode 100644
-index 000000000000..8e0d5a118a46
---- /dev/null
-+++ b/Documentation/dependency/dept_api.txt
-@@ -0,0 +1,117 @@
-+DEPT(DEPendency Tracker) APIs
-+=============================
+diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
+index 033aff11f87c..b50f42e69aab 100644
+--- a/drivers/mailbox/mtk-cmdq-mailbox.c
++++ b/drivers/mailbox/mtk-cmdq-mailbox.c
+@@ -82,6 +82,7 @@ struct cmdq {
+ 	const struct gce_plat	*pdata;
+ 	struct cmdq_thread	*thread;
+ 	struct clk_bulk_data	clocks[CMDQ_GCE_NUM_MAX];
++	atomic_t		used_count;
+ 	bool			suspended;
+ };
+ 
+@@ -317,14 +318,21 @@ static int cmdq_runtime_resume(struct device *dev)
+ {
+ 	struct cmdq *cmdq = dev_get_drvdata(dev);
+ 
+-	return clk_bulk_enable(cmdq->pdata->gce_num, cmdq->clocks);
++	atomic_inc(&cmdq->used_count);
++	return 0;
+ }
+ 
+ static int cmdq_runtime_suspend(struct device *dev)
+ {
+ 	struct cmdq *cmdq = dev_get_drvdata(dev);
+ 
++	if (atomic_read(&cmdq->used_count) == 0) {
++		dev_warn(dev, "%s when used_count is 0!", __func__);
++		return -EINVAL;
++	}
 +
-+Started by Byungchul Park <max.byungchul.park@sk.com>
-+
-+SDT(Single-event Dependency Tracker) APIs
-+-----------------------------------------
-+Use these APIs to annotate on either wait or event.  These have been
-+already applied into the existing synchronization primitives e.g.
-+waitqueue, swait, wait_for_completion(), dma fence and so on.  The basic
-+APIs of SDT are:
-+
-+   /*
-+    * After defining 'struct dept_map map', initialize the instance.
-+    */
-+   sdt_map_init(map);
-+
-+   /*
-+    * Place just before the interesting wait.
-+    */
-+   sdt_wait(map);
-+
-+   /*
-+    * Place just before the interesting event.
-+    */
-+   sdt_event(map);
-+
-+The advanced APIs of SDT are:
-+
-+   /*
-+    * After defining 'struct dept_map map', initialize the instance
-+    * using an external key.
-+    */
-+   sdt_map_init_key(map, key);
-+
-+   /*
-+    * Place just before the interesting timeout wait.
-+    */
-+   sdt_wait_timeout(map, time);
-+
-+   /*
-+    * Use sdt_might_sleep_start() and sdt_might_sleep_end() in pair.
-+    * Place at the start of the interesting section that might enter
-+    * schedule() or its family that needs to be woken up by
-+    * try_to_wake_up().
-+    */
-+   sdt_might_sleep_start(map);
-+
-+   /*
-+    * Use sdt_might_sleep_start_timeout() and sdt_might_sleep_end() in
-+    * pair.  Place at the start of the interesting section that might
-+    * enter schedule_timeout() or its family that needs to be woken up
-+    * by try_to_wake_up().
-+    */
-+   sdt_might_sleep_start_timeout(map, time);
-+
-+   /*
-+    * Use sdt_might_sleep_start() and sdt_might_sleep_end() in pair.
-+    * Place at the end of the interesting section that might enter
-+    * schedule(), schedule_timeout() or its family that needs to be
-+    * woken up by try_to_wake_up().
-+    */
-+   sdt_might_sleep_end();
-+
-+   /*
-+    * Use sdt_ecxt_enter() and sdt_ecxt_exit() in pair.  Place at the
-+    * start of the interesting section where the interesting event might
-+    * be triggered.
-+    */
-+   sdt_ecxt_enter(map);
-+
-+   /*
-+    * Use sdt_ecxt_enter() and sdt_ecxt_exit() in pair.  Place at the
-+    * end of the interesting section where the interesting event might
-+    * be triggered.
-+    */
-+   sdt_ecxt_exit(map);
-+
-+
-+LDT(Lock Dependency Tracker) APIs
-+---------------------------------
-+Do not use these APIs directly.  These are the wrappers for typical
-+locks, that have been already applied into major locks internally e.g.
-+spin lock, mutex, rwlock and so on.  The APIs of LDT are:
-+
-+   ldt_init(map, key, sub, name);
-+   ldt_lock(map, sub_local, try, nest, ip);
-+   ldt_rlock(map, sub_local, try, nest, ip, queued);
-+   ldt_wlock(map, sub_local, try, nest, ip);
-+   ldt_unlock(map, ip);
-+   ldt_downgrade(map, ip);
-+   ldt_set_class(map, name, key, sub_local, ip);
-+
-+
-+Raw APIs
-+--------
-+Do not use these APIs directly.  The raw APIs of dept are:
-+
-+   dept_free_range(start, size);
-+   dept_map_init(map, key, sub, name);
-+   dept_map_reinit(map, key, sub, name);
-+   dept_ext_wgen_init(ext_wgen);
-+   dept_map_copy(map_to, map_from);
-+   dept_wait(map, wait_flags, ip, wait_func, sub_local, time);
-+   dept_stage_wait(map, key, ip, wait_func, time);
-+   dept_request_event_wait_commit();
-+   dept_clean_stage();
-+   dept_stage_event(task, ip);
-+   dept_ecxt_enter(map, evt_flags, ip, ecxt_func, evt_func, sub_local);
-+   dept_ecxt_holding(map, evt_flags);
-+   dept_request_event(map, ext_wgen);
-+   dept_event(map, evt_flags, ip, evt_func, ext_wgen);
-+   dept_ecxt_exit(map, evt_flags, ip);
-+   dept_ecxt_enter_nokeep(map);
-+   dept_key_init(key);
-+   dept_key_destroy(key);
-+   dept_map_ecxt_modify(map, cur_evt_flags, key, evt_flags, ip, ecxt_func, evt_func, sub_local);
+ 	clk_bulk_disable(cmdq->pdata->gce_num, cmdq->clocks);
++	atomic_dec(&cmdq->used_count);
+ 	return 0;
+ }
+ 
+@@ -392,9 +400,8 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
+ 	/* Client should not flush new tasks if suspended. */
+ 	WARN_ON(cmdq->suspended);
+ 
+-	ret = pm_runtime_get_sync(cmdq->mbox.dev);
+-	if (ret < 0)
+-		return ret;
++	WARN_ON(pm_runtime_get(cmdq->mbox.dev) < 0);
++	WARN_ON(clk_bulk_enable(cmdq->pdata->gce_num, cmdq->clocks));
+ 
+ 	task = kzalloc(sizeof(*task), GFP_ATOMIC);
+ 	if (!task) {
+@@ -465,7 +472,8 @@ static void cmdq_mbox_shutdown(struct mbox_chan *chan)
+ 	struct cmdq_task *task, *tmp;
+ 	unsigned long flags;
+ 
+-	WARN_ON(pm_runtime_get_sync(cmdq->mbox.dev) < 0);
++	WARN_ON(pm_runtime_get(cmdq->mbox.dev) < 0);
++	WARN_ON(clk_bulk_enable(cmdq->pdata->gce_num, cmdq->clocks));
+ 
+ 	spin_lock_irqsave(&thread->chan->lock, flags);
+ 	if (list_empty(&thread->task_busy_list))
+@@ -507,11 +515,9 @@ static int cmdq_mbox_flush(struct mbox_chan *chan, unsigned long timeout)
+ 	struct cmdq_task *task, *tmp;
+ 	unsigned long flags;
+ 	u32 enable;
+-	int ret;
+ 
+-	ret = pm_runtime_get_sync(cmdq->mbox.dev);
+-	if (ret < 0)
+-		return ret;
++	WARN_ON(pm_runtime_get(cmdq->mbox.dev) < 0);
++	WARN_ON(clk_bulk_enable(cmdq->pdata->gce_num, cmdq->clocks));
+ 
+ 	spin_lock_irqsave(&thread->chan->lock, flags);
+ 	if (list_empty(&thread->task_busy_list))
 -- 
-2.17.1
+2.18.0
 
