@@ -2,78 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7460C8C0390
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 19:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9648C0429
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 20:10:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 493F0112920;
-	Wed,  8 May 2024 17:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B50FE11316F;
+	Wed,  8 May 2024 18:10:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rSf/6E85";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NEbAvdIU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80E1A11291D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 17:46:40 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-51ef64d051bso4050298e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 10:46:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715190398; x=1715795198; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tBqc0otO/1vZytz7RpFsktZzqG8V8CralOjrOLBef2c=;
- b=rSf/6E851JaYzCP58k7Xwxujiy6Xqpgprc59R17lLw9cDQRHQuzNY6+MGj0+WqApGn
- W+tpSjXFk41M30cMWteMJxdUr+ONiRw0mBJxapQa9x7OO2K4vsWmWNiK6v/6EihkyMmU
- xy5+JxqxXT7wYDI4kg9kknjJ5ge+eD+SNcaXe1tCu5/jm4pvO2C10hW7QGBddWLt3MkR
- VpbmMTaV+RB0jQetUTvH/vEaClu8HDdFwxib6z/0C8VruK6rtDHSsJ0QXLsoCwJW6mqV
- A4HASsO2BNfL5iwVuK/+GRNYjKVjlJUDrALhH0lJeCGAfGNDCibPPNftuEh4ZwQjgLG/
- o5ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715190398; x=1715795198;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tBqc0otO/1vZytz7RpFsktZzqG8V8CralOjrOLBef2c=;
- b=MOyWw3cOuQP76E+cuSL//6Lt7p3nGbxdU3ZO35oOvM4zFrf4KyFe0ni4cRQNUoi+iR
- pFR+2dyeX+ZoV5mMBwRch5uHkiHLyDH/Mduqi2DQ/4Zt8OWyMCp5CUUJdxUCtQZvZ/dE
- RMnPBbdmslxdcW/7GApIBJJS19My3YKcG97RqKuT67rCVD/nDcF6aJzx7oFeudA63sNo
- lev0sN16eFIPafmuZ0Ekig7IZA7RXveoyN8Ghz37EHmpU6tI9tdagTjNzEDjrqnCSde+
- TMAUZbnVidBP4rUOYdxvmYuVB63NBektcMpqzloCWDKsaBKc0l1mLykLrzvtgwxTOfpP
- kPzw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQok7EYOOOwZemEddkWdYMu+ogUU/5CRtGQ68jOCPrGle3C48MJd6WV1FMLmHdtnpzzkZCrFeJeLHWGmdOngMyBvpR5rOMlR83hqHl4+xq
-X-Gm-Message-State: AOJu0YzqEOY/8x401GMB8wS4jnLnzl5AAj4Xms2ny1PwHJ3X9mzm4eIZ
- bUJkJP9cyqt5eHYCmaQr4EomGqQbKf7NsRkAZfQ0+7nEi++fKOefdcCl0SDAZlQ=
-X-Google-Smtp-Source: AGHT+IG+Rmny74VZr2L+E6k80Nq9iEIJnnTkrW4sDMxKn1aUHIiF+KJWt9jPP/boB01r67V0blTUSw==
-X-Received: by 2002:a05:6512:3a89:b0:521:b333:6f02 with SMTP id
- 2adb3069b0e04-521b3336f3cmr1623400e87.14.1715190398393; 
- Wed, 08 May 2024 10:46:38 -0700 (PDT)
-Received: from [127.0.1.1] (UNUSED.212-182-62-129.lubman.net.pl.
- [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
- z19-20020a195e53000000b0051b6f060248sm2635543lfi.134.2024.05.08.10.46.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 May 2024 10:46:38 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 08 May 2024 19:46:31 +0200
-Subject: [PATCH] drm/msm/adreno: De-spaghettify the use of memory barriers
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 052B111316F;
+ Wed,  8 May 2024 18:10:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=oo5hLL9fENgZv7D4DWM1MUQ95tH/SYYP523mfBORQWQ=; b=NEbAvdIUsrB03zhl9nn1nZNdQw
+ Xc/Pl3xwXx92no8Yypom0SYkcRI9lCeu7inEYZfDQVOe7HjlxmE5m8K+4GcODAMrQ5M1atcz4PRuV
+ Euf68TEPj/5p+DYHPlWa8DqWB9pRHo+M9l7tsrFcS6v7+J73vUG/smTJwTB8BWsxwAVFkIImcMfDx
+ tVhtt0dbW3lN8xDnylAQytaGNbJhkuAx+RLWD/CmLvcq9azkbYXKmAymdKixmbIcKr7mmBI02s4KF
+ bGgCeYNof7haiP4smNq3vKZJAKpXvck5XS+Ml77eQevvY8yPdKnV5iRGFMTOyJ3wEl77ja/UVsDvO
+ 5O56Vaqw==;
+Received: from [84.69.19.168] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1s4ljn-002zR6-Jb; Wed, 08 May 2024 20:09:55 +0200
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Friedrich Vock <friedrich.vock@gmx.de>
+Subject: [RFC 0/5] Discussion around eviction improvements
+Date: Wed,  8 May 2024 19:09:40 +0100
+Message-ID: <20240508180946.96863-1-tursulin@igalia.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240508-topic-adreno-v1-1-1babd05c119d@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAHa6O2YC/x3MQQqAIBBA0avIrBN0UMiuEi1Ep5qNikYE4d2Tl
- m/x/wuNKlODRbxQ6ebGOQ3oSUA4fTpIchwGVGiUVbO8cuEgfayUsvQYtXMhGm0RRlIq7fz8u3X
- r/QNAVpdUXgAAAA==
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
-X-Mailer: b4 0.14-dev
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,80 +60,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Memory barriers help ensure instruction ordering, NOT time and order
-of actual write arrival at other observers (e.g. memory-mapped IP).
-On architectures employing weak memory ordering, the latter can be a
-giant pain point, and it has been as part of this driver.
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Moreover, the gpu_/gmu_ accessors already use non-relaxed versions of
-readl/writel, which include r/w (respectively) barriers.
+Last few days I was looking at the situation with VRAM over subscription, what
+happens versus what perhaps should happen. Browsing through the driver and
+running some simple experiments.
 
-Replace the barriers with a readback that ensures the previous writes
-have exited the write buffer (as the CPU must flush the write to the
-register it's trying to read back) and subsequently remove the hack
-introduced in commit b77532803d11 ("drm/msm/a6xx: Poll for GBIF unhalt
-status in hw_init").
+I ended up with this patch series which, as a disclaimer, may be completely
+wrong but as I found some suspicious things, to me at least, I thought it was a
+good point to stop and request some comments.
 
-Fixes: b77532803d11 ("drm/msm/a6xx: Poll for GBIF unhalt status in hw_init")
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  5 ++---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 14 ++++----------
- 2 files changed, 6 insertions(+), 13 deletions(-)
+To perhaps summarise what are the main issues I think I found:
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 0e3dfd4c2bc8..4135a53b55a7 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -466,9 +466,8 @@ static int a6xx_rpmh_start(struct a6xx_gmu *gmu)
- 	int ret;
- 	u32 val;
- 
--	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, 1 << 1);
--	/* Wait for the register to finish posting */
--	wmb();
-+	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, BIT(1));
-+	gmu_read(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ);
- 
- 	ret = gmu_poll_timeout(gmu, REG_A6XX_GMU_RSCC_CONTROL_ACK, val,
- 		val & (1 << 1), 100, 10000);
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 973872ad0474..0acbc38b8e70 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1713,22 +1713,16 @@ static int hw_init(struct msm_gpu *gpu)
- 	}
- 
- 	/* Clear GBIF halt in case GX domain was not collapsed */
-+	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
-+	gpu_read(gpu, REG_A6XX_GBIF_HALT);
- 	if (adreno_is_a619_holi(adreno_gpu)) {
--		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
- 		gpu_write(gpu, REG_A6XX_RBBM_GPR0_CNTL, 0);
--		/* Let's make extra sure that the GPU can access the memory.. */
--		mb();
-+		gpu_read(gpu, REG_A6XX_RBBM_GPR0_CNTL);
- 	} else if (a6xx_has_gbif(adreno_gpu)) {
--		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
- 		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
--		/* Let's make extra sure that the GPU can access the memory.. */
--		mb();
-+		gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT);
- 	}
- 
--	/* Some GPUs are stubborn and take their sweet time to unhalt GBIF! */
--	if (adreno_is_a7xx(adreno_gpu) && a6xx_has_gbif(adreno_gpu))
--		spin_until(!gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK));
--
- 	gpu_write(gpu, REG_A6XX_RBBM_SECVID_TSB_CNTL, 0);
- 
- 	if (adreno_is_a619_holi(adreno_gpu))
+ * Migration rate limiting does not bother knowing if actual migration happened
+   and so can over-account and unfairly penalise.
 
----
-base-commit: 93a39e4766083050ca0ecd6a3548093a3b9eb60c
-change-id: 20240508-topic-adreno-a2d199cd4152
+ * Migration rate limiting does not even work, at least not for the common case
+   where userspace configures VRAM+GTT. It thinks it can stop migration attempts
+   by playing with bo->allowed_domains vs bo->preferred domains but, both from
+   the code, and from empirical experiments, I see that not working at all. Both
+   masks are identical so fiddling with them achieves nothing.
 
-Best regards,
+ * Idea of the fallback placement only works when VRAM has free space. As soon
+   as it does not, ttm_resource_compatible is happy to leave the buffers in the
+   secondary placement forever.
+
+ * Driver thinks it will be re-validating evicted buffers on the next submission
+   but it does not for the very common case of VRAM+GTT because it only checks
+   if current placement is *none* of the preferred placements.
+
+All those problems are addressed in individual patches.
+
+End result of this series appears to be driver which will try harder to move
+buffers back into VRAM, but will be (more) correctly throttled in doing so by
+the existing rate limiting logic.
+
+I have run a quick benchmark of Cyberpunk 2077 and cannot say that I saw a
+change but that could be a good thing too. At least I did not break anything,
+perhaps.. On one occassion I did see the rate limiting logic get confused while
+for a period of few minutes it went to a mode where it was constantly giving a
+high migration budget. But that recovered itself when I switched clients and did
+not come back so I don't know. If there is something wrong there I don't think
+it would be caused by any patches in this series.
+
+Series is probably rough but should be good enough for dicsussion. I am curious
+to hear if I identified at least something correctly as a real problem.
+
+It would also be good to hear what are the suggested games to check and see
+whether there is any improvement.
+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Friedrich Vock <friedrich.vock@gmx.de>
+
+Tvrtko Ursulin (5):
+  drm/amdgpu: Fix migration rate limiting accounting
+  drm/amdgpu: Actually respect buffer migration budget
+  drm/ttm: Add preferred placement flag
+  drm/amdgpu: Use preferred placement for VRAM+GTT
+  drm/amdgpu: Re-validate evicted buffers
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c     | 38 +++++++++++++++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  8 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c     | 21 ++++++++++--
+ drivers/gpu/drm/ttm/ttm_resource.c         | 13 +++++---
+ include/drm/ttm/ttm_placement.h            |  3 ++
+ 5 files changed, 65 insertions(+), 18 deletions(-)
+
 -- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+2.44.0
 
