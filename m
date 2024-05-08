@@ -2,110 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC5028C0612
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 23:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E988C061B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 23:14:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE98A10F70E;
-	Wed,  8 May 2024 21:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66EC01129CC;
+	Wed,  8 May 2024 21:14:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LkpFwnSa";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="YzjWdeHa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E705D10F70E;
- Wed,  8 May 2024 21:12:39 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-1ed41eb3382so1032635ad.0; 
- Wed, 08 May 2024 14:12:39 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 383ED1129CC
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 21:14:43 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id
+ d75a77b69052e-43df14d8a27so739041cf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 14:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715202759; x=1715807559; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1715202881; x=1715807681;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pZrJFIbLTxTYrbPISz2hMEePGMl55QlS4SmkJ5sghxc=;
- b=LkpFwnSar0R81RifQoYT8suCEgUQySymb7FwhX6znUiPuF3FzIRDLpUT78BQj2aODp
- b8X3FMlqdz6NihPEN9W8CBKHNGtNVGuv7PuXKGqZIe7nlPVJCE+w+145YJlAFIqU18jn
- pOsoTlEcaA+0DhC49Hb/vCZ8YhuGtsBoI6gd/NLTR5Pw5ybqZLdCDBcjMq1bv5NU9JuH
- jULlo8FQLXMTHI2gVrQqxs7TQArrF5XB3u/X57hXfo2SznKFF5edQAPC42/kXgP1A1UI
- UfgucPuW9ib/GO2NYa61mZ4iGHpM0FC6fsqPmip/XMdOt9jBYD4RPBAI0G//HA6CIjUf
- O6pg==
+ bh=buSNW1rXJ5tp0mHF2b1c12zxGyNSJnH+cWUgnRIBSqA=;
+ b=YzjWdeHarJsY1pHqmkkyjs74n9dBmVqy2e/lvQyw4WL5qS9iyRtsJ5CjoArjNtBqXL
+ njGXfCt2phHxx7saOUgOxaPK6HfPYf9Su/q/NhOvvV1emSLGcoUnKmssPaEdQSkx4QRc
+ pJSisdQgMqYpysaU6NaRfSVQJtTKHtGJQ3/A4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715202759; x=1715807559;
+ d=1e100.net; s=20230601; t=1715202881; x=1715807681;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pZrJFIbLTxTYrbPISz2hMEePGMl55QlS4SmkJ5sghxc=;
- b=vY9TVLoo8XcIU5O2RiZRCBtw6j9lQe2Rq9DSPC4MpdGcYPSXNAJ7L3o1h3s5MY6k7C
- TAJMLPNPjeFI99KTHHdgFOHPyrHpEz5StJXyFXAft+ixaRVBcRCzQSg5BdySiV0skuvy
- zxKsqcv+09pcBJdEVnkXBsUGna+W77SCRDctW3dzaV52xXgnF69ApzsjFKwnV+wz4ZAe
- X7b3hK0WB80cIibkeB2M4dTGKs3xAE9I0MmAUEn5UbzMZz6akxQbgS63KP0Pen7OEYWf
- 70ZyTRCM3vjOkZ0pEdtJh640uox2PilwAolMG9cKZe+D7OH/+BXY3fO6mhlKB249oo4a
- EHJw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWL0aCs9AhXOxia3a0crXz6q1JlxJUKUv6Pqyx2946+NGm5DkHA+Uz89LhBOupBomuoaD2yeJYykdaOkgj94YgSPkqKBZ52s7zsJwyh96DUb1+imi1s/DTetS6/ljFN8Vf/TThT9YgR1pfcNvy011sheXl8bPHTvAXvz4N0DG0bVtORyR8HDWIshXaW1LX269TF87SX8czRJIJhi1XmSWmZvUbV7ea0uIFQvrH+UFojfskvILP5GEFUY3KW6zQcURHEmDJGRWtp50wVTryc3Q==
-X-Gm-Message-State: AOJu0Yxzs+DBEu5JTBWg1Z/tytBU4GtRw0yRS8XjcDpCmuHiZStdOU7A
- ifzJ91E42oe5MNGW3gK28w6xK/PkOJ1+6/WyO0LOm1HcMPZrOPN+nyxOkAXnXU0/7dtxbRmTz3a
- smFXbVQi+i+lLl3OUvgV/tAczpesbGaWj
-X-Google-Smtp-Source: AGHT+IHxDh3V7MlhtBOeSZmaUOUREgbpbUX+stT5ktTHA7M8CkQTRfPTcAkO7AsXwTWHGXOdozSH9iqT5gOxtlkl7Mw=
-X-Received: by 2002:a17:902:b110:b0:1e4:b4f5:5cfa with SMTP id
- d9443c01a7336-1eeb03a05d3mr37380885ad.27.1715202759142; Wed, 08 May 2024
- 14:12:39 -0700 (PDT)
+ bh=buSNW1rXJ5tp0mHF2b1c12zxGyNSJnH+cWUgnRIBSqA=;
+ b=BDsn691hxBs7ut4ywn+zFVco5xzGCP9nSwGEHNbbr5KdOiq/8Bbk4PZutFL9VHK4bz
+ lAlZdQ6O06zYw0OASRKoh8QxQD19XV7JLCJrBOIz37aENiqtDSTCm7DGsqk1i+7naxbi
+ 28Uryij4hGRUzSPe+1p77lelqZcbCUDKfR7u9YNxYCKsfE0OXUM6mM2rMaim5DW0p3yZ
+ GE+oA/57BKwq/w928KNF4vK5kTVn3Bxy1IHIleSAgbzdn0cXyzoNwLr6zIXmJWPhNVKd
+ izMJZVyyQo3xWv/KFaFTi758+JSkDVOLP7uVPu+dcBdBJJROr3Jc4/eABUUC0gHsAfYV
+ e7QA==
+X-Gm-Message-State: AOJu0Yw9SQlgjfr+Aqsu9B/0ehU1K9yw4uIbaMLisJ202b38JdBY4ISv
+ t1EK6m0Ux8Phw50TYWFc8I+RvzI72m4xFR8e+wxU1fzUUWa+Y+e44IAAeWoYP5FIV8JMJZb/wgU
+ =
+X-Google-Smtp-Source: AGHT+IGhIdHCKHUdpFoIg0+2Qs+xzjObn1kXDgYPjIOxYFP9hEgV9ZfwCk+vKHe9OnopI86jP3GDgQ==
+X-Received: by 2002:a05:622a:1ba4:b0:43a:6226:db5 with SMTP id
+ d75a77b69052e-43dbec04e00mr44614291cf.13.1715202881387; 
+ Wed, 08 May 2024 14:14:41 -0700 (PDT)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com.
+ [209.85.160.173]) by smtp.gmail.com with ESMTPSA id
+ t13-20020ac8738d000000b0043de59d1a11sm530565qtp.18.2024.05.08.14.14.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 May 2024 14:14:39 -0700 (PDT)
+Received: by mail-qt1-f173.google.com with SMTP id
+ d75a77b69052e-43ae23431fbso57541cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 14:14:39 -0700 (PDT)
+X-Received: by 2002:a05:622a:1c0d:b0:43a:c1cd:2f4c with SMTP id
+ d75a77b69052e-43df44dc04cmr169931cf.5.1715202879034; Wed, 08 May 2024
+ 14:14:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240503181333.2336999-1-eahariha@linux.microsoft.com>
- <20240503181333.2336999-2-eahariha@linux.microsoft.com>
- <0a6d4fa9-169f-425b-93d6-04314c617090@linux.microsoft.com>
- <CADnq5_NpxPM-FTcCchdBMRng=6xdM03s93XEX2_8fx44MRVYag@mail.gmail.com>
- <2654ad6e-66b7-4698-94da-892cc9d0802c@linux.microsoft.com>
-In-Reply-To: <2654ad6e-66b7-4698-94da-892cc9d0802c@linux.microsoft.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 8 May 2024 17:12:26 -0400
-Message-ID: <CADnq5_PAr6GHEBuStcJ6KVBS+mg64koqJwTDcz+7UcaEy_P_qA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/12] drm/amdgpu, drm/radeon: Make I2C terminology
- more inclusive
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-gfx@lists.freedesktop.org>, 
- "open list:INTEL DRM DISPLAY FOR XE AND I915 DRIVERS"
- <intel-xe@lists.freedesktop.org>, 
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, 
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>, 
- "open list:BTTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>, 
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Evan Quan <evan.quan@amd.com>, 
- Hawking Zhang <Hawking.Zhang@amd.com>, Candice Li <candice.li@amd.com>, 
- Ran Sun <sunran001@208suo.com>, Alexander Richards <electrodeyt@gmail.com>, 
- Wolfram Sang <wsa@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Heiko Stuebner <heiko@sntech.de>, 
- Heiner Kallweit <hkallweit1@gmail.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>, 
- Ruan Jinjie <ruanjinjie@huawei.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, 
- Wayne Lin <wayne.lin@amd.com>, Samson Tam <samson.tam@amd.com>,
- Alvin Lee <alvin.lee2@amd.com>, 
- Sohaib Nadeem <sohaib.nadeem@amd.com>, Charlene Liu <charlene.liu@amd.com>, 
- Tom Chung <chiahsuan.chung@amd.com>, Alan Liu <haoping.liu@amd.com>, 
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, 
- Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
- George Shen <george.shen@amd.com>, 
- Aric Cyr <aric.cyr@amd.com>, Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Qingqing Zhuo <Qingqing.Zhuo@amd.com>, Dillon Varone <dillon.varone@amd.com>, 
- Lijo Lazar <lijo.lazar@amd.com>, Asad kamal <asad.kamal@amd.com>, 
- Kenneth Feng <kenneth.feng@amd.com>, Ma Jun <Jun.Ma2@amd.com>, 
- Darren Powell <darren.powell@amd.com>, Yang Wang <kevinyang.wang@amd.com>, 
- Mario Limonciello <mario.limonciello@amd.com>,
- Yifan Zhang <yifan1.zhang@amd.com>, Le Ma <Le.Ma@amd.com>, 
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, 
- open list <linux-kernel@vger.kernel.org>
+References: <20240503213441.177109-1-dianders@chromium.org>
+ <CACRpkdYbtfE9RLsDewV2UwnJknCp_sFEgc+cq=OF+Qd3tkTcwA@mail.gmail.com>
+In-Reply-To: <CACRpkdYbtfE9RLsDewV2UwnJknCp_sFEgc+cq=OF+Qd3tkTcwA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 8 May 2024 14:14:22 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WoYm43SzrdrSZ1Np58iQ4nMwF0u6uamOAnZc4pqmBpsg@mail.gmail.com>
+Message-ID: <CAD=FV=WoYm43SzrdrSZ1Np58iQ4nMwF0u6uamOAnZc4pqmBpsg@mail.gmail.com>
+Subject: Re: [RFT PATCH v2 00/48] drm/panel: Remove most store/double-check of
+ prepared/enabled state
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ Chris Morgan <macromorgan@hotmail.com>,
+ Yuran Pereira <yuran.pereira@hotmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Ondrej Jirman <megi@xff.cz>, 
+ Purism Kernel Team <kernel@puri.sm>, Robert Chiras <robert.chiras@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>, 
+ Stefan Mavrodiev <stefan@olimex.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,104 +105,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 8, 2024 at 4:12=E2=80=AFPM Easwar Hariharan
-<eahariha@linux.microsoft.com> wrote:
->
-> On 5/8/2024 7:53 AM, Alex Deucher wrote:
-> > On Tue, May 7, 2024 at 2:32=E2=80=AFPM Easwar Hariharan
-> > <eahariha@linux.microsoft.com> wrote:
-> >>
-> >> On 5/3/2024 11:13 AM, Easwar Hariharan wrote:
-> >>> I2C v7, SMBus 3.2, and I3C 1.1.1 specifications have replaced "master=
-/slave"
-> >>> with more appropriate terms. Inspired by and following on to Wolfram'=
-s
-> >>> series to fix drivers/i2c/[1], fix the terminology for users of
-> >>> I2C_ALGOBIT bitbanging interface, now that the approved verbiage exis=
-ts
-> >>> in the specification.
-> >>>
-> >>> Compile tested, no functionality changes intended
-> >>>
-> >>> [1]: https://lore.kernel.org/all/20240322132619.6389-1-wsa+renesas@sa=
-ng-engineering.com/
-> >>>
-> >>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> >>> ---
-> >>>  .../gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c  |  8 +++---
-> >>>  drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c       | 10 +++----
-> >>>  drivers/gpu/drm/amd/amdgpu/atombios_i2c.c     |  8 +++---
-> >>>  drivers/gpu/drm/amd/amdgpu/atombios_i2c.h     |  2 +-
-> >>>  drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c    | 20 ++++++-------
-> >>>  .../gpu/drm/amd/display/dc/bios/bios_parser.c |  2 +-
-> >>>  .../drm/amd/display/dc/bios/bios_parser2.c    |  2 +-
-> >>>  .../drm/amd/display/dc/core/dc_link_exports.c |  4 +--
-> >>>  drivers/gpu/drm/amd/display/dc/dc.h           |  2 +-
-> >>>  drivers/gpu/drm/amd/display/dc/dce/dce_i2c.c  |  4 +--
-> >>>  .../display/include/grph_object_ctrl_defs.h   |  2 +-
-> >>>  drivers/gpu/drm/amd/include/atombios.h        |  2 +-
-> >>>  drivers/gpu/drm/amd/include/atomfirmware.h    | 26 ++++++++---------
-> >>>  .../powerplay/hwmgr/vega20_processpptables.c  |  4 +--
-> >>>  .../amd/pm/powerplay/inc/smu11_driver_if.h    |  2 +-
-> >>>  .../inc/pmfw_if/smu11_driver_if_arcturus.h    |  2 +-
-> >>>  .../inc/pmfw_if/smu11_driver_if_navi10.h      |  2 +-
-> >>>  .../pmfw_if/smu11_driver_if_sienna_cichlid.h  |  2 +-
-> >>>  .../inc/pmfw_if/smu13_driver_if_aldebaran.h   |  2 +-
-> >>>  .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  2 +-
-> >>>  .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  2 +-
-> >>>  .../gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c |  4 +--
-> >>>  .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   |  8 +++---
-> >>>  drivers/gpu/drm/radeon/atombios.h             | 16 +++++------
-> >>>  drivers/gpu/drm/radeon/atombios_i2c.c         |  4 +--
-> >>>  drivers/gpu/drm/radeon/radeon_combios.c       | 28 +++++++++--------=
---
-> >>>  drivers/gpu/drm/radeon/radeon_i2c.c           | 10 +++----
-> >>>  drivers/gpu/drm/radeon/radeon_mode.h          |  6 ++--
-> >>>  28 files changed, 93 insertions(+), 93 deletions(-)
-> >>>
-> >>
-> >> <snip>
-> >>
-> >> Hello Christian, Daniel, David, others,
-> >>
-> >> Could you re-review v2 since the feedback provided in v0 [1] has now b=
-een addressed? I can send v3 with
-> >> all other feedback and signoffs from the other maintainers incorporate=
-d when I have something for amdgpu
-> >> and radeon.
-> >
-> > This seems like a lot of churn.  Additionally, a bunch of these
-> > headers are shared with other OSes, so it's possible some of the
-> > changes may end up getting reverted accidently when we sync up or we
-> > may add new headers in new code with the old nomenclature and then
-> > we'd need to make sure to adjust it to make sure everything was
-> > aligned again.  I would just as soon leave things as is, but I'm open
-> > to acking them if there is a strong desire to update things.
-> >
-> > Alex
->
-> The way I see it, this is a small downpayment on the debt we have built u=
-p so far. Internship
-> programs like LF Outreachy to get more underrepresented groups involved i=
-n open source are trying to
-> change the open source community culture to be more inclusive, but simult=
-aneously rely on the culture
-> being welcoming enough as well.
->
-> I do see the challenge involved in preserving the changes and ensuring no=
- new code is added with
-> outdated nomenclature (but see [1]), but culture changes one person at a =
-time, and I'd encourage the community
-> to do the work needed so we can move past our (mostly) inadvertent role i=
-n perpetuating it.
->
-> That's my 2c (or your sub-unit currency of choice).
+Hi,
 
-Fair enough.
-Acked-by: Aex Deucher <alexander.deucher@amd.com>
+On Sun, May 5, 2024 at 11:52=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
+>
+> On Fri, May 3, 2024 at 11:36=E2=80=AFPM Douglas Anderson <dianders@chromi=
+um.org> wrote:
+>
+> > As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+> > prepared/enabled in drm_panel"), we want to remove needless code from
+> > panel drivers that was storing and double-checking the
+> > prepared/enabled state. Even if someone was relying on the
+> > double-check before, that double-check is now in the core and not
+> > needed in individual drivers.
+> >
+> > This series attempts to do just that. While the original grep, AKA:
+> >   git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+> >   git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+> > ...still produces a few hits after my series, they are _mostly_ all
+> > gone. The ones that are left are less trivial to fix.
+> >
+> > One of the main reasons that many panels probably needed to store and
+> > double-check their prepared/enabled appears to have been to handle
+> > shutdown and/or remove. Panels drivers often wanted to force the power
+> > off for panels in these cases and this was a good reason for the
+> > double-check.
+> >
+> > In response to my V1 series [1] we had much discussion of what to
+> > do. The conclusion was that as long as DRM modeset drivers properly
+> > called drm_atomic_helper_shutdown() that we should be able to remove
+> > the explicit shutdown/remove handling in the panel drivers. Most of
+> > the patches to improve DRM modeset drivers [2] [3] [4] have now
+> > landed.
+> >
+> > In contrast to my V1 series, I broke the V2 series up a lot
+> > more. Since a few of the panel drivers in V1 already landed, we had
+> > fewer total drivers and so we could devote a patch to each panel.
+> > Also, since we were now relying on DRM modeset drivers I felt like we
+> > should split the patches for each panel into two: one that's
+> > definitely safe and one that could be reverted if we found a
+> > problematic DRM modeset driver that we couldn't fix.
+> >
+> > Sorry for the large number of patches. I've set things to mostly just
+> > CC people on the cover letter and the patches that are relevant to
+> > them. I've tried to CC people on the whole series that have shown
+> > interest in this TODO item.
+> >
+> > As patches in this series are reviewed and/or tested they could be
+> > landed. There's really no ordering requirement for the series unless
+> > patches touch the same driver.
+> >
+> > NOTE: this touches _a lot_ of drivers, is repetitive, and is not
+> > really possible to generate automatically. That means it's entirely
+> > possible that my eyes glazed over and I did something wrong. Please
+> > double-check me and don't assume that I got everything perfect, though
+> > I did my best. I have at least confirmed that "allmodconfig" for arm64
+> > doesn't fall on its face with this series. I haven't done a ton of
+> > other testing.
+> >
+> > [1] https://lore.kernel.org/r/20230804140605.RFC.4.I930069a32baab6faf46=
+d6b234f89613b5cec0f14@changeid
+> > [2] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium=
+.org
+> > [3] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium=
+.org
+> > [4] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromiu=
+m.org
+>
+> This is the right thing to do, thanks for looking into this!
+>
+> As for the behaviour of .remove() I doubt whether in many cases
+> the original driver authors have even tested this themselves.
 
->
-> Easwar
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
-mmit/?id=3D49decddd39e5f6132ccd7d9fdc3d7c470b0061bb
+Yeah, I'd tend to agree.
+
+
+> I would say we should just apply the series as soon as it's non-RFC
+
+It's not actually RFC now, but "RFT" (request for testing). I don't
+_think_ there's any need to send a version without the RFT tag before
+landing unless someone really feels strongly about it.
+
+
+> after the next merge window
+
+With drm-misc there's not really any specific reason to wait for the
+merge window to open/close as we can land in drm-misc-next at any time
+regardless of the merge window. drm-misc-next will simply stop feeding
+linuxnext for a while.
+
+That all being said, I'm happy to delay landing this until after the
+next -rc1 comes out if people would prefer that. If I don't hear
+anything, I guess I'll just wait until -rc1 before landing any of
+these.
+
+
+> and see what happens. I doubt it
+> will cause much trouble.
+
+I can land the whole series if that's what everyone agrees on. As I
+mentioned above, I'm at least slightly worried that I did something
+stupid _somewhere_ in this series since no automation was possible and
+with repetitive tasks like this it's super easy to flub something up.
+It's _probably_ fine, but I guess I still have the worry in the back
+of my mind.
+
+If folks think I should just apply the whole series then I'm happy to
+do that. If folks think I should just land parts of the series as they
+are reviewed/tested I can do that as well. Let me know. If I don't
+hear anything I'd tend to just land patches that are reviewed/tested.
+Then after a month or so (hopefully) I'd send out a v2 with anything
+left.
+
+
+> The series:
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+
+Thanks!
+
+-Doug
