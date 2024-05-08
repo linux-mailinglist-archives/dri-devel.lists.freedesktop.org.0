@@ -2,134 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250598C0278
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 19:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CDE8C02C9
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 19:15:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3493D1128FC;
-	Wed,  8 May 2024 17:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C54511310C;
+	Wed,  8 May 2024 17:15:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PMWErUa0";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="GlK0tXWz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D786F1128FC
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 17:02:09 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a59a5f81af4so1214800566b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 10:02:09 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB8DA11310C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 17:15:03 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a59a0e4b773so1122133166b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 10:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715187728; x=1715792528; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=w63SX1W8IWtKWaRdVmF8DRJBTDth/aiRDPCWeP/m/u8=;
- b=PMWErUa05PaeHTgbxpSnnmHyYuxfwozcdNXbxxmDUXZwADuMQApPf1aZDKmPcezaYa
- iJlufDdP4htFVKJLvz6VaDMn5fcZLlPlRmsWxspSB+gdME5MbrvCX2zeTfFKZ2VQ20ou
- 0Mh8BTc0POZQ9Rc8Ko/iq7/WPSCWRb4W2ZTwo/PdjXE4b/j5XZ56+OSVfFc2svie5diZ
- H13021YPdKaReCOThTMiC1cGtkl8ogmo5UXiyUewc1gKtJw6yWF8Ed23IEp00fz+b0KY
- zT5VJBiMZZshhsTSd497wmmuJYkqSro8mRqN9/5e/FY6UM5+R8RfKx5bwZktG6n+i4C3
- jM3g==
+ d=linux-foundation.org; s=google; t=1715188501; x=1715793301;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=U/4yjhmm7i2TdW/kF2dab+x944KGHXX8XGDp8OQOwgM=;
+ b=GlK0tXWzgN63C6tr4h7kqwLc3c8pOjgBN/BDzvlqG+z7Ml/ccr1sbVcK7d9zPfHozw
+ TuJoTydMwBloKWe2Q+Vh1L+7e2zqsKBe538O2zlM5k/1TBL6cZuKr/6lTNZVCxwlOdLQ
+ i163akUZEuZ8CqJveFTCHBS1GDw96yoQ5PU3Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715187728; x=1715792528;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=w63SX1W8IWtKWaRdVmF8DRJBTDth/aiRDPCWeP/m/u8=;
- b=boAhoVVTZbkDidiVLe7/AxBhZbtxRjEE+JL2TqPSmrHM8gdi4qskE7zLiTc9YOkm4F
- bEAiGVavxMEEFvhfKvyw51OtA6EV84BMtbmx1vU3XOCTKR5TUVJ2LTlSlDFbK6DVxFMo
- AVqNJjrey+sXmboQmjFcsGSo8ipq+YtcIzh6dUgAL83sm4HXjwXNfIslMNv5uYo0e0BK
- SD1yKvcmt0CQ9OX110p4etc5SZOoADg9sFZQsguPdkkdxCWpys2N2bgTGv5HtEIBPMtD
- BCSeip6J88kN4cO7Xk3U6PFXq20Y1DgbkE5LBPHB9xAZHy+yKdR3z98rKHSiJ/Prb5AV
- cutA==
+ d=1e100.net; s=20230601; t=1715188501; x=1715793301;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=U/4yjhmm7i2TdW/kF2dab+x944KGHXX8XGDp8OQOwgM=;
+ b=VTHRKaEFMZcfV7k+nnB8UcqJ2zWVTdUGHtLxJ2AtRhlwdfEm8htdYPSRFT86tp4i0I
+ cciFYnqHxfBbfrqqPlgvH+MipMIIVUlXhWdL5CoSjn6/lmGkB67YAddlDQd0PEXs3Tdv
+ M5pf1X9u7XOXHqrNzAYWG87QM7PVJ+4T2/RcYuWifDcCZGWJB6HkfAjysTvRU8dco4Ka
+ 59JRTzF1HHkFUkfuWPiwSmpu5dDtw/9b1/YdY0xvsdlIfNDc9RuPCy3aCXzn933ZbdEC
+ Unr4DZl/yr1cGMOdpUervzi0PPBDokH+0sJNsrx8FBiIQ1gwRgDsTPw21CKNN0mb1SbO
+ YG9w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWjPNodcH5kv+AYJ9cYjvD777GxzK1e25uvYT2q5nePFBQ8ifDa/4s5LCgv8yFGAp1Yv8vo4J6kzh/lOb/wQddPEUY0+gTWYmy5dzOlR9wG
-X-Gm-Message-State: AOJu0Yx9PLWz9pY/9fBzWg5WtI/9SN3BTT/z4DJF6i0E+urCNCIjmqIj
- LS1HSwuYEAzSmcMfSCHN+zCsed1qlD+duriIXbNffTyBe9ybUhUF
-X-Google-Smtp-Source: AGHT+IGnIbHLe2S57apepPi+KOdstUOemuaNblSGc79A9OnsYp187XWHNbGjxYPqzEX3412l6BXKTQ==
-X-Received: by 2002:a17:907:7286:b0:a59:bacc:b07f with SMTP id
- a640c23a62f3a-a59fb9d6452mr265356266b.52.1715187727754; 
- Wed, 08 May 2024 10:02:07 -0700 (PDT)
-Received: from [192.168.42.40] ([163.114.131.193])
- by smtp.gmail.com with ESMTPSA id
- n18-20020a170906841200b00a59a8a5dd15sm5634228ejx.206.2024.05.08.10.02.05
+ AJvYcCXE7ezrUVtuCbhtRs2HDjmXF0PL0igG7zOVghhvZfOwdGSQYFZF0m5xCU1JyzSVEHCN+51ai8eOhlNoaA7KsoR6u4HRzUf0lgvrmA8lWBH7
+X-Gm-Message-State: AOJu0Yz7YN7h0nrhOIC99mnfFtFJEW+H/1d2xUm1Fi6XT8sTpZd0NR5N
+ mXtUPgxupOJ8OCwdRhP1Qz0MQ55pfzRZtsj0FJUacaMWUN0dLkdxN2wJJP8tL7SMU8tgkejZSjb
+ yeBNGDQ==
+X-Google-Smtp-Source: AGHT+IHAi6DC3qNEQMincyeS6SKTZyfuO6q9qxuz6wjAE4RWa4MaWmCyLBbTIAveTOyuCOg2iv75LQ==
+X-Received: by 2002:a17:906:69cf:b0:a58:5ee1:db43 with SMTP id
+ a640c23a62f3a-a59fb95876amr204782266b.23.1715188501639; 
+ Wed, 08 May 2024 10:15:01 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com.
+ [209.85.218.53]) by smtp.gmail.com with ESMTPSA id
+ ze16-20020a170906ef9000b00a59b9b1abdfsm4938715ejb.185.2024.05.08.10.15.01
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 May 2024 10:02:07 -0700 (PDT)
-Message-ID: <8ced4c49-d153-40fb-9e62-0a5784cfa864@gmail.com>
-Date: Wed, 8 May 2024 18:02:14 +0100
+ Wed, 08 May 2024 10:15:01 -0700 (PDT)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a59a17fcc6bso1092724966b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 10:15:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXn/3qntcJ5YEQJIPqo7hko6T13DPUfofjUS6lk2wG7cxS/xgqvxeZVg7T4AhapnQocAyj7Q1ad5Ng25cwQpdnA2U1vbgvOWCP/uOEg7bKG
+X-Received: by 2002:a17:906:a996:b0:a59:ca9c:4de9 with SMTP id
+ a640c23a62f3a-a59fb9f5184mr235459866b.76.1715188500986; Wed, 08 May 2024
+ 10:15:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
- custom page providers
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Mina Almasry <almasrymina@google.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Amritha Nambiar <amritha.nambiar@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
- Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240507161857.GA4718@ziepe.ca> <ZjpVfPqGNfE5N4bl@infradead.org>
- <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
- <20240507164838.GG4718@ziepe.ca>
- <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
- <20240507175644.GJ4718@ziepe.ca>
- <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
- <20240507233247.GK4718@ziepe.ca> <Zjsm3vO6rIY_sw5A@phenom.ffwll.local>
- <1e2823db-504b-4829-856f-3f45a45ccada@gmail.com>
- <ZjufddNVJs5Csaix@infradead.org>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <ZjufddNVJs5Csaix@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <202405031110.6F47982593@keescook>
+ <20240503211129.679762-2-torvalds@linux-foundation.org>
+ <20240503212428.GY2118490@ZenIV>
+ <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
+ <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
+ <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
+ <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
+ <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
+ <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
+ <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
+ <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
+ <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+ <CAHk-=wixO-fmQYgbGic-BQVUd9RQhwGsF4bGk8ufWDKnRS1v_A@mail.gmail.com>
+In-Reply-To: <CAHk-=wixO-fmQYgbGic-BQVUd9RQhwGsF4bGk8ufWDKnRS1v_A@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 8 May 2024 10:14:44 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjmC+coFdA_k6_JODD8_bvad=H4pn4yGREqOTm+eMB+rg@mail.gmail.com>
+Message-ID: <CAHk-=wjmC+coFdA_k6_JODD8_bvad=H4pn4yGREqOTm+eMB+rg@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
+ file lifetimes
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Simon Ser <contact@emersion.fr>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ keescook@chromium.org, 
+ axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+ io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
+ linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
+ syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,43 +113,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/8/24 16:51, Christoph Hellwig wrote:
-> On Wed, May 08, 2024 at 12:35:52PM +0100, Pavel Begunkov wrote:
->>> all these, because e.g. ttm internally does have a page pool because
->>> depending upon allocator, that's indeed beneficial. Other drm drivers have
->>> more buffer-based concepts for opportunistically memory around, usually
->>> by marking buffers that are just kept as cache as purgeable (which is a
->>> concept that goes all the way to opengl/vulkan).
->>
->> Because in this case it solves nothing and helps with nothing, quite
->> the opposite. Just as well we can ask why NVMe doesn't wrap user pages
->> into a dmabuf while doing IO.
-> 
-> You seem to confused totally unrelated things.
+On Wed, 8 May 2024 at 09:19, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> For short-term pins, that is pin_user_pages without FOLL_LONGTERM there
-> would never be any point in using a dmabuf as the pin is transient.  For
-> long-term pin dmabufs in the block layer absolutely make sense, and I
+> So since we already have two versions of F_DUPFD (the other being
+> F_DUPFD_CLOEXEC) I decided that the best thing to do is to just extend
+> on that existing naming pattern, and called it F_DUPFD_QUERY instead.
+>
+> I'm not married to the name, so if somebody hates it, feel free to
+> argue otherwise.
 
-Well, the example fell flat, but you don't use dmabuf when there are
-no upsides from using it. For instance, when you already have pinned
-pages, you're going to use pages, and there are no other refcounting
-concerns. Unless there is an advantage of dmabufs over FOLL_LONGTERM
-that I don't know about when used with normal user pages.
+Side note: with this patch, doing
 
-> wish io_uring would have just implemented them from the start instead of
-> the current fixed buffers that are not quite as useful by not
-> pre-mapping DMA and not supporting P2P.
+   ret = fcntl(fd1, F_DUPFD_QUERY, fd2);
 
-fdget(dmabuf) would be horrible, I assume that's not the suggestion.
-But then it's really about kernel internals, and theoretically can
-be patched to wrap user pages into a dmabuf and pass it in. The tricky
-part is how that "pass it in" should looks like. Keith tried to cover
-both pre-mapping and p2p by registering dmabuf and passing the mapped
-addresses in an iter IIRC.
+will result in:
 
-Anyway, this discussion should better move from to block/fs lists,
-if there is any interest.
+ -1 (EBADF): 'fd1' is not a valid file descriptor
+ -1 (EINVAL): old kernel that doesn't support F_DUPFD_QUERY
+ 0: fd2 does not refer to the same file as fd1
+ 1: fd2 is the same 'struct file' as fd1
 
--- 
-Pavel Begunkov
+and it might be worth noting a couple of things here:
+
+ (a) fd2 being an invalid file descriptor does not cause EBADF, it
+just causes "does not match".
+
+ (b) we *could* use more bits for more equality
+
+IOW, it would possibly make sense to extend the 0/1 result to be
+
+- bit #0: same file pointer
+- bit #1: same path
+- bit #2: same dentry
+- bit #3: same inode
+
+which are all different levels of "sameness".
+
+Does anybody care? Do we want to extend on this "sameness"? I'm not
+convinced, but it might be a good idea to document this as a possibly
+future extension, ie *if* what you care about is "same file pointer",
+maybe you should make sure to only look at bit #0.
+
+               Linus
