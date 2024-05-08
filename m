@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C2D8BFCAA
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 13:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF40B8BFCBC
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 13:56:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3100B1135FA;
-	Wed,  8 May 2024 11:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A941128BF;
+	Wed,  8 May 2024 11:56:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="dS79yHl7";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="wOBNSsmI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A43D1135FA
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 11:52:02 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-2b12b52fbe0so2900323a91.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 04:52:02 -0700 (PDT)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BBD21128BF
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 11:56:09 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-6f450f43971so3353854b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 04:56:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1715169121; x=1715773921;
+ d=google.com; s=20230601; t=1715169368; x=1715774168;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wYxgECP19KQcIH0PhiMfWn89B9REarDnlrwf/7Dgpy8=;
- b=dS79yHl7Z5Wt38hPwlzJf/RkEmKaIzLMfErYP05ui53YITphJcuUQu9ESuRuF6wUcl
- LipSoNipm9GE4yqR0aFux2hvccTLtoFrH6PbKyDa89ycQPxLSfEw+lX+Ern0TxLOzFtU
- L0aB72IeI7QIEPDPKcC57nUDH05/aNy46M0N/MID5SYcjR3yPXcWx9I+AZceJzNxpsLK
- PwjmWx7EJkPElRgAsXUsznXcQDqHkw+x2yytN+3TMjv4fd696Iv6GSRTvWhsOPJAGTPe
- 8eNT4YIteMqQPCpqeVWs6twGEMTt6loT7B47QCppetHDqTlIJV3246EeSFs7tF1QBaa9
- nbRg==
+ bh=rzBWZByfqdZx/hPlpPIy1POerUtgZPZjzuSa/z5kMRo=;
+ b=wOBNSsmI2+RvaeuPsLDxGHuaVgIq3Csvq280IdnnsYBktyRv4aLIYBiJg80G2zyW/9
+ x78KBMMh5yDqBL/sM1Ozh+kHKVpqoI957SpdB9+bpB7LsPzpExakVnfzHpE+mC9/wX2/
+ CcxMot2TTInvzlnxBC/P/kmNwog97rMF5EKCDWoM5Sz+vLzl8lZW1FuTwCATkLmQnyp1
+ UyLoaefoqGG6/VvkdKhA940N6tTcTzKt4jcAeaXPc/q1PRxUoCwy1zieZHkaQKg9E88j
+ zE/jgV8PAjSX9wXzJOEta0XSGePz2rH3UKf/5r6mJ5n5b3UzRwTY8mEy5CxqT7LuJ2XR
+ v7Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715169121; x=1715773921;
+ d=1e100.net; s=20230601; t=1715169368; x=1715774168;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wYxgECP19KQcIH0PhiMfWn89B9REarDnlrwf/7Dgpy8=;
- b=b8myrHDZjkP4hr711a4+xLjSWaAR8J6fgJa9Mc4lGiNph7TJSEekK2UxT9Y1c3tYcV
- txBgGVv7mUIMNSKKfcE7djcA0/3kZXdduvZvArfzJTdEp4XrZ06uHIUJkOlzkezxK8Cu
- DxnR39Qom64mTWZpMIqv9BhmKZB7xuid+QKmdcr1GJR5yXOWSdxsfgTtKd6/IUt+Ell3
- k5IAW1JIw4FhHLa7FJKEySV/Hum6HZZ6VbBzPUPJrYTpxY2cqzz8D3eQUHVqDaN+9ppJ
- jRbccwkmkeQnQ9RyzFpgXd833rqz6caQt2M84ITz7xr0Pb3XRjSw1KfQ9lp/HWZy5KGs
- Wf3w==
+ bh=rzBWZByfqdZx/hPlpPIy1POerUtgZPZjzuSa/z5kMRo=;
+ b=wycJmo5nuSOuhxKHufW8KztHpDO89qD1eTIGpw/KG6bn3Ef6SrA6N1hVKG9cjd1iGJ
+ d4pMR21Z5/QPk10At/QF9JWHg6m/f+jKXmTN77TN+Q6Q6W3HIoPWWKIRGXx6svrkrpAw
+ mBssGeVMuwkrVGo2WR3sKl6wmtA1+l78Mn+nxwYltJSIZwlQAEkjyXDJoYxi90rtX9CX
+ DABoQICxzJGYLYqvSk8t1M1CHRsK81ztgaqek5EIFTqWCMHuifOLOcF/yQhKmUxuEUdd
+ PfzwMFg75PqaTQTXdKfhgexPmL94XuF1aR9VzWkshEky9Cyk2Mp3F0MR4JvjxLJNDM2s
+ pJWQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX1rNNrM0ExrXP2aPNM+2uTsRQCQ9pJEJGswfaS23lB0dKAOVcXYZPTGbZ962jhnUAGU3PPuZ+6kZkoh14Ubm1pI1+bbm3BGk5szG8HodSH
-X-Gm-Message-State: AOJu0YzV6zn8Ybi5u3/BOxsJxp/NrHgQnF4CLis/6rkNTGMXF72XqoKK
- KT8X9k4iltuHVW0ZSMxnJc9F+nwKMQWpz3CA1MoHpbrgbr+XXpriAVXL5FURAFw41Cu2XcHcAWo
- tGKH4sO81NYSjVg4heQ0vD+t73uvosLdajDyG3g==
-X-Google-Smtp-Source: AGHT+IEhdE+GG8XxwKNRlclHRbBSycIrPohs+PTxSK9Z3F9iJMuBG2HZF6XAdrrAJXkCh/xJgPaDBMp9H0/wPUP9epQ=
-X-Received: by 2002:a17:90a:d386:b0:2b6:22f0:3b8a with SMTP id
- 98e67ed59e1d1-2b622f03bc3mr1840592a91.36.1715169121651; Wed, 08 May 2024
- 04:52:01 -0700 (PDT)
+ AJvYcCX5PQQcuv1dZ79yXIZQ7wtVP9rim93BA67BR8DVIcv8JlOSX4Wve1wvq2CTaFodvDa4KyUszQJitDPtvcaGIC85gIjk7HSq1jPyVtVQDg4N
+X-Gm-Message-State: AOJu0Yz7CQ0gZfZZX4dhzQqHORN0z19AZ8OaEYinZ64LSTXVxTk4KaS2
+ PvGVUyRFl7kJrGEcbPHgorzrLeoYe65fdutWYbK7ZmmiaKGmZw6ZPOgqCBoe2nVhvh5IwF//X0e
+ 3XuuhxB1+BsrZDvTKJIgv68+XGan88En1cqVodQ==
+X-Google-Smtp-Source: AGHT+IE4iAufvNLrHlSAWygkM7cmsvfktyL3UoTB3p6BWDfJXKoN/b0exVyFToTRexZifcgUkoKRBcwkpcWi6GUpDBc=
+X-Received: by 2002:a05:6a21:168e:b0:1a3:65af:9baa with SMTP id
+ adf61e73a8af0-1afc8de0229mr2361763637.62.1715169368633; Wed, 08 May 2024
+ 04:56:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240507135234.1356855-1-yangcong5@huaqin.corp-partner.google.com>
- <20240507135234.1356855-3-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=Wj5WKcVbNGHQ_BbZa_fsVJkpYb2C8TE8bjhvJvx+N_hw@mail.gmail.com>
-In-Reply-To: <CAD=FV=Wj5WKcVbNGHQ_BbZa_fsVJkpYb2C8TE8bjhvJvx+N_hw@mail.gmail.com>
+ <20240507135234.1356855-6-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=WR0o1Z4c4+GjrZw8mTJPZnP8uB_gWhX1QuOxxm4qhroA@mail.gmail.com>
+In-Reply-To: <CAD=FV=WR0o1Z4c4+GjrZw8mTJPZnP8uB_gWhX1QuOxxm4qhroA@mail.gmail.com>
 From: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date: Wed, 8 May 2024 19:51:50 +0800
-Message-ID: <CAHwB_NKPswAvE5TjRxWMR8LLV5sNuMmymXr4nhDc3r_AdRKr8A@mail.gmail.com>
-Subject: Re: [PATCH v4 2/7] drm/panel: himax-hx83102: Break out as separate
- driver
+Date: Wed, 8 May 2024 19:55:57 +0800
+Message-ID: <CAHwB_NJHOphvydx8=HjgroE6ZXyJz-MHsJUwiedsMhshG0CMkQ@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] drm/panel: himax-hx83102: Support for BOE
+ nv110wum-l60 MIPI-DSI panel
 To: Doug Anderson <dianders@chromium.org>
 Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
  linus.walleij@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
@@ -96,107 +96,188 @@ Doug Anderson <dianders@chromium.org> =E4=BA=8E2024=E5=B9=B45=E6=9C=888=E6=
 > On Tue, May 7, 2024 at 6:53=E2=80=AFAM Cong Yang
 > <yangcong5@huaqin.corp-partner.google.com> wrote:
 > >
-> > +static int hx83102_enable_extended_cmds(struct hx83102 *ctx, bool enab=
-le)
+> > +static int boe_nv110wum_init(struct hx83102 *ctx)
 > > +{
 > > +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D ctx->dsi }=
 ;
 > > +
-> > +       if (enable)
-> > +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETEXTC,=
- 0x83, 0x10, 0x21, 0x55, 0x00);
-> > +       else
-> > +               mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETEXTC,=
- 0x00, 0x00, 0x00);
-> > +
-> > +       return 0;
->
-> You're throwing away the error codes returned by the
-> mipi_dsi_dcs_write_seq_multi(), which you shouldn't do. You have two
-> options:
->
-> Option #1: return dsi_ctx.accum_err here and then check the return
-> value in callers.
->
-> Option #2: instead of having this function take "struct hx83102 *ctx",
-> just have it take "struct mipi_dsi_multi_context *dsi_ctx". Then it
-> can return void and everything will be fine.
->
-> I'd prefer option #2 but either is OK w/ me.
-
-Ok,I will fix in V4, thanks.
-
->
->
-> > +static int starry_himax83102_j02_init(struct hx83102 *ctx)
-> > +{
-> > +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D ctx->dsi }=
-;
+> > +       msleep(60);
 > > +
 > > +       hx83102_enable_extended_cmds(ctx, true);
 > > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x2c, =
-0xb5, 0xb5, 0x31, 0xf1,
-> > +                                        0x31, 0xd7, 0x2f, 0x36, 0x36, =
-0x36, 0x36, 0x1a, 0x8b, 0x11,
-> > +                                        0x65, 0x00, 0x88, 0xfa, 0xff, =
-0xff, 0x8f, 0xff, 0x08, 0x74,
-> > +                                        0x33);
->
-> The indentation is still off here. You have 5 tabs followed by a
-> space. To make things line up with the opening brace I think it should
-> be 4 tabs followed by 5 spaces.
-
-Sorry, my  editor 'Visual Studio Code' It seems that the correct indentatio=
-n
-is not recognized. I have checked it through the 'vim' editor in the V4 ver=
-sion.
-Thanks.
-
->
->
-> > +static int hx83102_enable(struct drm_panel *panel)
-> > +{
-> > +       struct hx83102 *ctx =3D panel_to_hx83102(panel);
-> > +       struct mipi_dsi_device *dsi =3D ctx->dsi;
-> > +       struct device *dev =3D &dsi->dev;
-> > +       int ret;
-> > +
-> > +       ret =3D ctx->desc->init(ctx);
-> > +       if (ret)
-> > +               return ret;
->
-> You're still changing behavior here. In the old boe-tv101wum-nl6
-> driver the init() function was invoked at the end of prepare(). Now
-> you've got it at the beginning of enable(). If this change is
-> important it should be in a separate commit and explained.
->
->
-> > +       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
-> > +       if (ret) {
-> > +               dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       msleep(120);
-> > +
-> > +       ret =3D mipi_dsi_dcs_set_display_on(dsi);
-> > +       if (ret) {
-> > +               dev_err(dev, "Failed to turn on the display: %d\n", ret=
+0xaf, 0xaf, 0x2b, 0xeb, 0x42,
+> > +                                        0xe1, 0x4d, 0x36, 0x36, 0x36, =
+0x36, 0x1a, 0x8b, 0x11, 0x65, 0x00,
+> > +                                        0x88, 0xfa, 0xff, 0xff, 0x8f, =
+0xff, 0x08, 0x9a, 0x33);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETDISP, 0x00, 0=
+x47, 0xb0, 0x80, 0x00, 0x12,
+> > +                                        0x71, 0x3c, 0xa3, 0x11, 0x00, =
+0x00, 0x00, 0x88, 0xf5, 0x22, 0x8f);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x49, 0x=
+49, 0x32, 0x32, 0x14, 0x32,
+> > +                                        0x84, 0x6e, 0x84, 0x6e, 0x01, =
+0x9c);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcd)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x84);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETVDC, 0x1b, 0x=
+04);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_BE, 0x20=
 );
-> > +       }
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xfc, 0=
+x84);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSTBA, 0x36, 0=
+x36, 0x22, 0x00, 0x00, 0xa0,
+> > +                                        0x61, 0x08, 0xf5, 0x03);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcc)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTCON, 0x80);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETRAMDMY, 0x97)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPWM, 0x00, 0x=
+1e, 0x30, 0xd4, 0x01);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x08, =
+0x13, 0x07, 0x00, 0x0f, 0x34);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPANEL, 0x02, =
+0x03, 0x44);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCASCADE, 0x03=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPCTRL, 0x37, =
+0x06, 0x00, 0x02, 0x04, 0x0c, 0xff);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_D2, 0x1f=
+, 0x11, 0x1f, 0x11);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x06, 0=
+x00, 0x00, 0x00, 0x00, 0x04,
+> > +                                        0x08, 0x04, 0x08, 0x37, 0x37, =
+0x64, 0x4b, 0x11, 0x11, 0x03, 0x03, 0x32,
+> > +                                        0x10, 0x0e, 0x00, 0x0e, 0x32, =
+0x10, 0x0a, 0x00, 0x0a, 0x32, 0x17, 0x98,
+> > +                                        0x07, 0x98, 0x00, 0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP1, 0x18, 0=
+x18, 0x18, 0x18, 0x1e, 0x1e,
+> > +                                        0x1e, 0x1e, 0x1f, 0x1f, 0x1f, =
+0x1f, 0x24, 0x24, 0x24, 0x24, 0x07, 0x06,
+> > +                                        0x07, 0x06, 0x05, 0x04, 0x05, =
+0x04, 0x03, 0x02, 0x03, 0x02, 0x01, 0x00,
+> > +                                        0x01, 0x00, 0x21, 0x20, 0x21, =
+0x20, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+> > +                                        0x18, 0x18);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xaf, 0=
+xaa, 0xaa, 0xaa, 0xaa, 0xa0,
+> > +                                        0xaf, 0xaa, 0xaa, 0xaa, 0xaa, =
+0xa0);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGMA, 0x00, 0x=
+05, 0x0d, 0x14, 0x1b, 0x2c,
+> > +                                        0x44, 0x49, 0x51, 0x4c, 0x67, =
+0x6c, 0x71, 0x80, 0x7d, 0x84, 0x8d, 0xa0,
+> > +                                        0xa0, 0x4f, 0x58, 0x64, 0x73, =
+0x00, 0x05, 0x0d, 0x14, 0x1b, 0x2c, 0x44,
+> > +                                        0x49, 0x51, 0x4c, 0x67, 0x6c, =
+0x71, 0x80, 0x7d, 0x84, 0x8d, 0xa0, 0xa0,
+> > +                                        0x4f, 0x58, 0x64, 0x73);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x07, 0x=
+10, 0x10, 0x1a, 0x26, 0x9e,
+> > +                                        0x00, 0x53, 0x9b, 0x14, 0x14);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_E1, 0x11=
+, 0x00, 0x00, 0x89, 0x30, 0x80,
+> > +                                        0x07, 0x80, 0x02, 0x58, 0x00, =
+0x14, 0x02, 0x58, 0x02, 0x58, 0x02, 0x00,
+> > +                                        0x02, 0x2c, 0x00, 0x20, 0x02, =
+0x02, 0x00, 0x08, 0x00, 0x0c, 0x05, 0x0e,
+> > +                                        0x04, 0x94, 0x18, 0x00, 0x10, =
+0xf0, 0x03, 0x0c, 0x20, 0x00, 0x06, 0x0b,
+> > +                                        0x0b, 0x33, 0x0e);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xff, 0=
+xff, 0xff, 0xff, 0xfa, 0xa0,
+> > +                                        0xff, 0xff, 0xff, 0xff, 0xfa, =
+0xa0);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x01, =
+0xbf, 0x11);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x86);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_D2, 0x96=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc9)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x84);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xd1)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_E1, 0xf6=
+, 0x2b, 0x34, 0x2b, 0x74, 0x3b,
+> > +                                        0x74, 0x6b, 0x74);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x02, 0x=
+00, 0x2b, 0x01, 0x7e, 0x0f,
+> > +                                        0x7e, 0x10, 0xa0, 0x00, 0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x02, 0x=
+00, 0xbb, 0x11);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xff, 0=
+xaf, 0xff, 0xff, 0xfa, 0xa0,
+> > +                                        0xff, 0xaf, 0xff, 0xff, 0xfa, =
+0xa0);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0xfe, 0x=
+01, 0xfe, 0x01, 0xfe, 0x01,
+> > +                                        0x00, 0x00, 0x00, 0x23, 0x00, =
+0x23, 0x81, 0x02, 0x40, 0x00, 0x20, 0x65,
+> > +                                        0x02, 0x01, 0x00, 0x00, 0x00, =
+0x00, 0x00, 0x00, 0x01, 0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x03);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xaa, 0=
+xaf, 0xaa, 0xaa, 0xa0, 0x00,
+> > +                                        0xaa, 0xaf, 0xaa, 0xaa, 0xa0, =
+0x00, 0xaa, 0xaf, 0xaa, 0xaa, 0xa0, 0x00,
+> > +                                        0xaa, 0xaf, 0xaa, 0xaa, 0xa0, =
+0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x03, 0x=
+ff, 0xf8);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_E1, 0x00=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x96);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc5)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x4f);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
+> > +       hx83102_enable_extended_cmds(ctx, false);
 >
-> The old boe-tv101wum-nl6 driver didn't call
-> mipi_dsi_dcs_exit_sleep_mode() nor mipi_dsi_dcs_set_display_on() in
-> its enable routine, did it? If this change is important please put it
-> in a separate change and justify it.
+> It's not super important, but in panel drivers I converted to the
+> mipi_dsi_dcs_write_seq_multi() I checked the "accum_err" and did an
+> early return right before any mdelay() calls. This means that if any
+> of the above failed then we didn't waste time with the mdelay().
 
-In the old boe-tv101wum-nl6 driver inital cmds was invoked at the end of
-prepare() function , and call 0x11 and 0x29 at end of inital. For
-himax-hx83102 driver, we move inital cmds invoked at enable() function.
-For panel timing, I think there is no much difference. They are
-all initial cmds executed after meeting the power-on sequence.
-I will update these in the v4 commit message.
-
+Ok, I wiil add check accum_err before calling mdelay in V4.
+Thanks.
 >
->
-> -Doug
+> > +
+> > +       msleep(50);
+> > +
+> > +       return dsi_ctx.accum_err;
+> > +};
