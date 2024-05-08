@@ -2,120 +2,206 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C658BF6A7
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 08:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67AB48BF6D3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 09:16:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC8CF11283F;
-	Wed,  8 May 2024 06:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB51011285E;
+	Wed,  8 May 2024 07:16:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jbnAf9sK";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Rrh0tOyT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2069.outbound.protection.outlook.com [40.107.220.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A61D11283C;
- Wed,  8 May 2024 06:58:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PxwuA65C3pUHntChYcLtQnqrvpMgScSfkkAV+3actM5pmbtOuhTz1p493wDBiApqger1Y+/n1bC4zAL/0h12EWIijR9IQREBHQV0oW1dEpoZh35Xrucgw8hxcrY8uMLTGPw123YCbdMCvPRiSLUig9OjmoD8fXPpj/oq2DRaj9dx9Ti5mr+sqNfXY7Q7bTjpuZdbIq3TINxgS4Y2snube2+9+y47abG6magb1/LI/+cRxqjJaVWXR2CL8TyHUVJrmvEaaw/TEUA6jIWWW1SSqnlD5WVXi5XBOfM+aQ3LSeusPwoyShVian0pyYX+kDp/CsT2eFacpSlB56nmsiojKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nv7RQPnGu+XOKJeivKGIMC0Kby47e5wQRfScDT46mew=;
- b=XEdpBNBYgY4W7r/LQU6qyz17Sekr8rSfH+vsvtjBSwiI5KWn0RsvI71sO4D5ROCewL7rPdtQlUBsI7qJgzjb6NoeklmBeGQonPiAOtTcTUMT7EFL8FFbCP2HDege3kcLJUpAdeFWkNADTl7U4RFgH4StfS+cAnor36s+LdyCSwO2iQt2inSsByNwinhHlLq11Ubfi4bz3MkYALDioC9fMpyyTEEzkk+/Li/wVDb89o1N3200QzHK/GTcixfxmSwzo9+mTdzh/KIgI5VsbH9PmuSMAr4CGGbTmEmxcE5o5ehjoCPpG+Q9VRc/R6IkTZRJGm33LMOlEcefTfpauHQF+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nv7RQPnGu+XOKJeivKGIMC0Kby47e5wQRfScDT46mew=;
- b=jbnAf9sKV4yevXCFmvrcuIvIUO/VweIXQRRulG3IulHyRzxB5iUJDNCd719VyrDNHYdj2PSd5Sm2Ds1AVNeXpV2gwn/UdfWG8sMNtiO82ZUM8y8HLqtclqcv5r7gdEybBOmEKQ5tFpJ7xM8qiEa35En6p0xzRY1d//ZvBmjorZM=
-Received: from CH0P221CA0017.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:11c::26)
- by DS0PR12MB8765.namprd12.prod.outlook.com (2603:10b6:8:14e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.42; Wed, 8 May
- 2024 06:57:56 +0000
-Received: from CH3PEPF00000009.namprd04.prod.outlook.com
- (2603:10b6:610:11c:cafe::e9) by CH0P221CA0017.outlook.office365.com
- (2603:10b6:610:11c::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.45 via Frontend
- Transport; Wed, 8 May 2024 06:57:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH3PEPF00000009.mail.protection.outlook.com (10.167.244.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7544.18 via Frontend Transport; Wed, 8 May 2024 06:57:56 +0000
-Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 8 May 2024 01:57:54 -0500
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <matthew.auld@intel.com>
-CC: <christian.koenig@amd.com>, <alexander.deucher@amd.com>, "Arunpravin
- Paneer Selvam" <Arunpravin.PaneerSelvam@amd.com>
-Subject: [PATCH] drm/buddy: Fix the range bias clear memory allocation issue
-Date: Wed, 8 May 2024 12:27:20 +0530
-Message-ID: <20240508065720.125846-1-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45D3C11285E
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 07:16:52 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-a59cac06ec3so80474866b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 00:16:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1715152610; x=1715757410; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CeBqT9Zed0z1jUGrfvGp1XN4J6QgdBnyIkuy1n0h3cY=;
+ b=Rrh0tOyTLATFoKAQfmGmXQcTmCPBu5AAc6g1x1kYuYRkI1D0s/fzPh+Uf488nhJ+Nh
+ J8PrZg6WJxWWJNNBrZz3giRaD64f3fbJQCVHFk8dteQ5xf/Z46OzCI1fwrmmeLEljWEA
+ dK7J20dQR7d4VrJlI62WOH1hnv2hwiBqfOU3s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715152610; x=1715757410;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CeBqT9Zed0z1jUGrfvGp1XN4J6QgdBnyIkuy1n0h3cY=;
+ b=Z8SKyyTWWelHiBCfErvmmASkYgnbHhU/Wfo4Ad7ZfjRF/JO26Wqdj+GvKAMlF+abn7
+ TwxsASHQTupp2MzUs3V0PNOyXD7RZrWGzp70SW4JWtFQtyG/dN9wxQrwNcUa8TTEEFDt
+ 5Ghopa5XOqsrbgeMVtDsBx/SWqF+71Fb+Kunez+DoErI6dc79SLxVKLgQ05C+7RiQgln
+ 2gcwEHWGh/s5feQa7nvRwKut091NCOPlLSeBrM29KDB8LFUVIf1DE9SUVQ7xAEZGlF3W
+ LL6gRj7Ri1WOqMEViKJq9nPRRqy8Q7CRXtRuIg68lY4Of3BC//X3qjRfTaoaZdaDEFuK
+ liKQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV/3L48v/VF9M2+laN8IJFw1gd99qeUR0YpOJbtNFTJrDKoHKELpE+5mjMBSO0CTUzvwlw/L5hvXSfsitSf/a1GP6nx1g671lMya8utSVcY
+X-Gm-Message-State: AOJu0YwEZ0iPBQrn4vkeA/nzJOttHugJGQyQqbglvgWQQi9o2xa9lOhm
+ E5DFVyqp0BSqmDd6fNDKjK7T63w1n13/gB8IDXJhX7JNvQULRDiBAlAzxe5dCQA=
+X-Google-Smtp-Source: AGHT+IHGhXCUeVIYLmH7Uo4M9BmI6iPWf/Ls31PQQRWTBdNBS6P3e6HNMCsyKMnZNizlrV6npyfCDA==
+X-Received: by 2002:a05:6402:378a:b0:572:d841:1189 with SMTP id
+ 4fb4d7f45d1cf-5731da624efmr899529a12.3.1715152610093; 
+ Wed, 08 May 2024 00:16:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ n18-20020a05640205d200b00572f0438b02sm4124571edx.6.2024.05.08.00.16.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 May 2024 00:16:49 -0700 (PDT)
+Date: Wed, 8 May 2024 09:16:46 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Pavel Begunkov <asml.silence@gmail.com>,
+ Mina Almasry <almasrymina@google.com>,
+ Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>,
+ Christian Brauner <brauner@kernel.org>, Simon Horman <horms@kernel.org>,
+ David Howells <dhowells@redhat.com>, Florian Westphal <fw@strlen.de>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>,
+ Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <Zjsm3vO6rIY_sw5A@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
+ Pavel Begunkov <asml.silence@gmail.com>,
+ Mina Almasry <almasrymina@google.com>,
+ Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Simon Horman <horms@kernel.org>,
+ David Howells <dhowells@redhat.com>,
+ Florian Westphal <fw@strlen.de>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>,
+ Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>
+References: <ZjjHUh1eINPg1wkn@infradead.org>
+ <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
+ <20240507161857.GA4718@ziepe.ca> <ZjpVfPqGNfE5N4bl@infradead.org>
+ <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
+ <20240507164838.GG4718@ziepe.ca>
+ <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
+ <20240507175644.GJ4718@ziepe.ca>
+ <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
+ <20240507233247.GK4718@ziepe.ca>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000009:EE_|DS0PR12MB8765:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fb8e123-e5a8-4481-eadd-08dc6f2c3092
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230031|1800799015|82310400017|376005|36860700004; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GOEgJp3IbuTWi1CHJbqS11TZNWvK8S758AQulLmv1dvu9DBa5rlK9g4TnAMd?=
- =?us-ascii?Q?YSlPohxThmwB9helGzyOgbXOIYEyQG1WHVNPitGvzgURxgKXmbP3qtoebinH?=
- =?us-ascii?Q?UQ1JzNTvrU4DvCF0p8KHZGkRo93ERSKk5ZV4w+ZLmRr6AfWA/gSaGCONySKX?=
- =?us-ascii?Q?Nh2IZc44fs4eQkjkWOT9Em3Oa4Mkn9ZbHrQg7SXosyKJSWxIY7yH1oPWwsav?=
- =?us-ascii?Q?ya3TQEOS3MQTvd3ttWgtPq2d8kg1ErC+gqxP00kr3BhHa5xkRs0ctBsDStBq?=
- =?us-ascii?Q?J0ok951Ovs6A90EMROrqbfb1kxlaS3GO3IKd6VOB7nuCsrJaXaFjxEpOlfeJ?=
- =?us-ascii?Q?jpWeDTyMWKns00hlw+hPcNT7jN9gEmoV8IpZuvVVFK9YbMWIe8SGA6J2Cv/B?=
- =?us-ascii?Q?UiQSxfg4N3Tj6sva6rPC0njtlJnJchGEZ5+KSNM5A1u4BJtu12A/UR0eP6IE?=
- =?us-ascii?Q?yQu33Om4ZMtFgTmnhf6pbOnTj5rdacXQrb1tcV2Z9xDgLKDuXwNfYnGVS+NE?=
- =?us-ascii?Q?z9n/U/uKlE5ffb0kA6h7WL41wC5o0SboQDQiWnbgRjweCA8iz7pUeD7XyBW3?=
- =?us-ascii?Q?NYZNQj9mw9f/qIjMmd/d3Q8kKbQuVuCRR7CfV+d6irHIQcdp2vDab/ZfRf48?=
- =?us-ascii?Q?wa92uyQz0KteCGgnK0iWu/cnjS0dDOWPOhkf147m0jjm5tRFJeU52cTpk2Tw?=
- =?us-ascii?Q?VQ4rVb4ZwaOXJrHitCP5Zjz+vkQIxdVedYrBfR9AaA415cEfg/M7/TdPZs1g?=
- =?us-ascii?Q?v1kq0YdP+0g0DbBW9cEh1F8iCIOK7rlX+DJyCSb1knZ9iYNG2DBPQrpp5GAL?=
- =?us-ascii?Q?yKjJd2gQCPIG1NEWDweR53531hsR9Y4+IoJnU8uIgTR1JKs3z7DVvlwSa6oT?=
- =?us-ascii?Q?AN+b8aYs9pjpEohTgRZEl0W+HHSO1KaiXa4Ou2feeAlesXB0N11rrLnDbYx8?=
- =?us-ascii?Q?1DUPhg2EK2KDOxYb/TjhCZvMaww5EDKKasnArdW0TVhjPTHnpYJ0HZeGmy8n?=
- =?us-ascii?Q?/yA6YktI28MINPTU1BU5wpoXelpXws1LLTDwmXf3tkNN4Luo9eiwbh0lKnlt?=
- =?us-ascii?Q?zzv930SVoKXEJJ17fOaOnMB1bW/haNJLiNAbP2eiemJLc42aiJOXspx0rxsj?=
- =?us-ascii?Q?oMrC5Pyut6ieUUueEtjYT+KF/rmac7tjo7a80ypB9nPd48WeNFTynMKfk7qB?=
- =?us-ascii?Q?wFrlD/V3sPB9sdJfTmgYgxmajBOhHvh/+bQ09Z9i/5ogQ3L4efkkZS+qhbJ8?=
- =?us-ascii?Q?+z355+hedyWhyCAG95AVUPqHzFevvT6z8k1W7i6yICslC0D2mZxP8cnMgn64?=
- =?us-ascii?Q?Qm0GUZ3HDYqc3RwqdrsuJugfmZ+lTp0i9GLdoASmVvGQz2pbqAqoGZvh4HAK?=
- =?us-ascii?Q?dIhLE1Z1q35R1Os98HoYP3wwIUDq?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(1800799015)(82310400017)(376005)(36860700004); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 06:57:56.3322 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fb8e123-e5a8-4481-eadd-08dc6f2c3092
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF00000009.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8765
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240507233247.GK4718@ziepe.ca>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,35 +217,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Problem statement: During the system boot time, an application request
-for the bulk volume of cleared range bias memory when the clear_avail
-is zero, we dont fallback into normal allocation method as we had an
-unnecessary clear_avail check which prevents the fallback method leads
-to fb allocation failure following system goes into unresponsive state.
+On Tue, May 07, 2024 at 08:32:47PM -0300, Jason Gunthorpe wrote:
+> On Tue, May 07, 2024 at 08:35:37PM +0100, Pavel Begunkov wrote:
+> > On 5/7/24 18:56, Jason Gunthorpe wrote:
+> > > On Tue, May 07, 2024 at 06:25:52PM +0100, Pavel Begunkov wrote:
+> > > > On 5/7/24 17:48, Jason Gunthorpe wrote:
+> > > > > On Tue, May 07, 2024 at 09:42:05AM -0700, Mina Almasry wrote:
+> > > > > 
+> > > > > > 1. Align with devmem TCP to use udmabuf for your io_uring memory. I
+> > > > > > think in the past you said it's a uapi you don't link but in the face
+> > > > > > of this pushback you may want to reconsider.
+> > > > > 
+> > > > > dmabuf does not force a uapi, you can acquire your pages however you
+> > > > > want and wrap them up in a dmabuf. No uapi at all.
+> > > > > 
+> > > > > The point is that dmabuf already provides ops that do basically what
+> > > > > is needed here. We don't need ops calling ops just because dmabuf's
+> > > > > ops are not understsood or not perfect. Fixup dmabuf.
+> > > > 
+> > > > Those ops, for example, are used to efficiently return used buffers
+> > > > back to the kernel, which is uapi, I don't see how dmabuf can be
+> > > > fixed up to cover it.
+> > > 
+> > > Sure, but that doesn't mean you can't use dma buf for the other parts
+> > > of the flow. The per-page lifetime is a different topic than the
+> > > refcounting and access of the entire bulk of memory.
+> > 
+> > Ok, so if we're leaving uapi (and ops) and keep per page/sub-buffer as
+> > is, the rest is resolving uptr -> pages, and passing it to page pool in
+> > a convenient to page pool format (net_iov).
+> 
+> I'm not going to pretend to know about page pool details, but dmabuf
+> is the way to get the bulk of pages into a pool within the net stack's
+> allocator and keep that bulk properly refcounted while.
+> 
+> An object like dmabuf is needed for the general case because there are
+> not going to be per-page references or otherwise available.
+> 
+> What you seem to want is to alter how the actual allocation flow works
+> from that bulk of memory and delay the free. It seems like a different
+> topic to me, and honestly hacking into the allocator free function
+> seems a bit weird..
 
-Solution: Remove the unnecessary clear_avail check in the range bias
-allocation function.
+Also I don't see how it's an argument against dma-buf as the interface for
+all these, because e.g. ttm internally does have a page pool because
+depending upon allocator, that's indeed beneficial. Other drm drivers have
+more buffer-based concepts for opportunistically memory around, usually
+by marking buffers that are just kept as cache as purgeable (which is a
+concept that goes all the way to opengl/vulkan).
 
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Fixes: 96950929eb23 ("drm/buddy: Implement tracking clear page feature")
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
----
- drivers/gpu/drm/drm_buddy.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index 284ebae71cc4..831929ac95eb 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -574,7 +574,7 @@ __drm_buddy_alloc_range_bias(struct drm_buddy *mm,
- 
- 	block = __alloc_range_bias(mm, start, end, order,
- 				   flags, fallback);
--	if (IS_ERR(block) && mm->clear_avail)
-+	if (IS_ERR(block))
- 		return __alloc_range_bias(mm, start, end, order,
- 					  flags, !fallback);
- 
+But these are all internals of the dma-buf exporter, the dma-buf api users
+don't ever need to care.
+-Sima
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
