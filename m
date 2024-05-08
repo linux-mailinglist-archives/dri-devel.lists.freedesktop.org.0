@@ -2,66 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0688BF809
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 10:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91CFC8BF843
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 10:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89ED311348A;
-	Wed,  8 May 2024 08:05:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ovjlFQ8u";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2528111349C;
+	Wed,  8 May 2024 08:16:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50B6611348A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 08:05:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D5BD1CE17DF;
- Wed,  8 May 2024 08:05:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57027C4AF18;
- Wed,  8 May 2024 08:05:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715155548;
- bh=hs3mKg+OQgaq+nvum86puw6d4BslQHZXpTBdAaPI+nY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ovjlFQ8ukkRvL4ghs8zz4V4Kw25gMFTaKuE5sx+j5PMt25EqkuW7RedC1pfMLWx63
- QEOFtHNRBffi6eG8d4Mc8xu7/ZyYm2seS4ecvxSlxfPCTPsLhk5MqZ4Pugbnx9ygmJ
- ygElqYKrHzPHkKg9gGbFrHYd8hMkQbOsVRr/ndDF8RPm+r98qt4Kj+lyRf4fsULQpg
- HMs+r9d6EMaqu/xPzpW45mnmK24O45KOknIWxUeRCB4Cob5QR2kfh7BNtNmwrHvghE
- yU8xCwRc7djD6gRoEWtKEOpa2BXeXhzcE5Wh5AZUeXxQ0HUevyciP88YZ8/e6YgjI2
- tLmeOlFmOHC2Q==
-Date: Wed, 8 May 2024 10:05:40 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>, 
- Pekka Paalanen <pekka.paalanen@collabora.com>, 
- Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, 
- axboe@kernel.dk, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name,
- linaro-mm-sig@lists.linaro.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 
- minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better
- about file lifetimes
-Message-ID: <20240508-gefangen-unberechenbar-96845bd61def@brauner>
-References: <20240503212428.GY2118490@ZenIV>
- <CAHk-=wjpsTEkHgo1uev3xGJ2bQXYShaRf3GPEqDWNgUuKx0JFw@mail.gmail.com>
- <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
- <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
- <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB60113495
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 08:16:28 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1s4cTQ-0003ai-TA; Wed, 08 May 2024 10:16:24 +0200
+Message-ID: <3ac1eadc86772deb12af77e890b2a59a34fa847a.camel@pengutronix.de>
+Subject: Re: NXP i.MX8MM GPU performances
+From: Lucas Stach <l.stach@pengutronix.de>
+To: =?ISO-8859-1?Q?Jo=E3o?= Paulo =?ISO-8859-1?Q?Gon=E7alves?=
+ <jpaulo.silvagoncalves@gmail.com>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Russell King
+ <linux+etnaviv@armlinux.org.uk>,  Christian Gmeiner
+ <christian.gmeiner@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ joao.goncalves@toradex.com
+Date: Wed, 08 May 2024 10:16:24 +0200
+In-Reply-To: <20240507181712.svjjaryisdgfxkle@joaog-nb>
+References: <20240507181712.svjjaryisdgfxkle@joaog-nb>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,32 +55,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 07, 2024 at 12:07:10PM -0700, Linus Torvalds wrote:
-> On Tue, 7 May 2024 at 11:04, Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Tue, May 07, 2024 at 09:46:31AM -0700, Linus Torvalds wrote:
-> >
-> > > I'd be perfectly ok with adding a generic "FISAME" VFS level ioctl
-> > > too, if this is possibly a more common thing. and not just DRM wants
-> > > it.
-> > >
-> > > Would something like that work for you?
-> >
-> > Yes.
-> >
-> > Adding Simon and Pekka as two of the usual suspects for this kind of
-> > stuff. Also example code (the int return value is just so that callers know
-> > when kcmp isn't available, they all only care about equality):
-> >
-> > https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/util/os_file.c#L239
-> 
-> That example thing shows that we shouldn't make it a FISAME ioctl - we
-> should make it a fcntl() instead, and it would just be a companion to
-> F_DUPFD.
-> 
-> Doesn't that strike everybody as a *much* cleaner interface? I think
+Hi Jo=C3=A3o Paulo,
 
-+1
-See
-https://github.com/systemd/systemd/blob/a4f0e0da3573a10bc5404142be8799418760b1d1/src/basic/fd-util.c#L517
-that's another heavy user of this kind of functionality.
+Am Dienstag, dem 07.05.2024 um 15:17 -0300 schrieb Jo=C3=A3o Paulo
+Gon=C3=A7alves:
+> Hello all,
+>=20
+> I did run some benchmark on i.MX8MM GPU and I have some concerns on the
+> differences between mainline Linux/etnaviv/Mesa and the proprietary NXP/V=
+ivante
+> solution.
+>=20
+> The tests were executed comparing glmark2 results between a mainline kern=
+el
+> (6.9.0-rc6) running Mesa 24.0.3 and NXP provided galcore driver
+> 6.4.3.p4.398061 running with a 5.15 based NXP downstream kernel.
+>=20
+> The GPU is running in overdrive mode (see [1]).
+>=20
+> mainline infos (etnaviv):
+>=20
+> > dmesg | grep -i -E '(gpu|etnaviv)'
+> [    9.113389] etnaviv-gpu 38000000.gpu: model: GC600, revision: 4653
+> [    9.120939] etnaviv-gpu 38000000.gpu: Need to move linear window on MC=
+1.0, disabling TS
+
+That's a problem. This will prevent TS from being used, which has a
+large performance impact. But it shouldn't be necessary to disable it
+on the i.MX8MM GPU, as all memory accesses aside from the initial MMU
+commandstream go through MMU translation, so the issue with MC1.0 will
+not be hit. Can you try patching out the check in the kernel and see if
+it helps?
+
+I'll also send a proper patch for this.
+
+Regards,
+Lucas
+
+> [    9.129238] etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
+> [    9.138463] [drm] Initialized etnaviv 1.4.0 20151214 for etnaviv on mi=
+nor 1
+>=20
+> glmark2-es2-wayland info output:=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>     glmark2 2023.01
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>     OpenGL Information
+>     GL_VENDOR:      Mesa
+>     GL_RENDERER:    Vivante GC600 rev 4653
+>     GL_VERSION:     OpenGL ES 2.0 Mesa 24.0.3
+>     Surface Config: buf=3D32 r=3D8 g=3D8 b=3D8 a=3D8 depth=3D24 stencil=
+=3D0 samples=3D0
+>     Surface Size:   640x480 windowed
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>=20
+> galcore infos (vivante):
+>=20
+> > dmesg | grep -i -E '(gpu|vivante|gal)'
+> [    4.524977] Galcore version 6.4.3.p4.398061
+> [    4.587654] [drm] Initialized vivante 1.0.0 20170808 for 38000000.gpu =
+on minor 0
+>=20
+> glmark2-es2-wayland info output:=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>     glmark2 2023.01
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>     OpenGL Information
+>     GL_VENDOR:      Vivante Corporation
+>     GL_RENDERER:    Vivante GC7000NanoUltra
+>     GL_VERSION:     OpenGL ES 2.0 V6.4.3.p4.398061
+>     Surface Config: buf=3D32 r=3D8 g=3D8 b=3D8 a=3D8 depth=3D24 stencil=
+=3D0 samples=3D0
+>     Surface Size:   640x480 windowed
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>=20
+>=20
+> In screen (weston + DSI) test results:
+>=20
+> glmark2 command:=20
+> > glmark2-es2-wayland -b shading:duration=3D5.0 -b refract -b build -b te=
+xture -b shadow -b bump -s 640x480 2>&1
+>=20
+> >         |          glmark2 tests                  |
+> > sw ver  |shading|build|texture|refract|shadow|bump|
+> > ---------|-------|-----|-------|-------|------|----|
+> > etnaviv | 263   | 334 | 291   | 22    | 63   | 328|
+> > vivante | 544   | 956 | 790   | 26    | 225  | 894|
+>=20
+> we have 50-60% smaller number with etnaviv.
+>=20
+> Offscreen test results:
+>=20
+> glmark2 command:=20
+> > glmark2-es2-wayland  --off-screen -b shading:duration=3D5.0 -b refract =
+-b build -b texture -b shadow -b bump -s 640x480 2>&1
+>=20
+> >         |          glmark2 tests                  |
+> > sw ver  |shading|build|texture|refract|shadow|bump|
+> > ---------|-------|-----|-------|-------|------|----|
+> > etnaviv | 348   | 541 | 466   | 24    | 81   | 498|
+> > vivante | 402   | 624 | 520   | 26    | 177  | 557|
+>=20
+> we have a 10~13% smaller number with etnaviv.
+>=20
+> Do anybody did run similar benchmark in the past on NXP i.MX8MM? With wha=
+t
+> results?
+>=20
+> Is it expected such a difference in the glmark2 tests results?
+> Any idea on this big difference between running the test offscreen or not=
+?
+>=20
+> Jo=C3=A3o Paulo
+>=20
+> [1] https://lore.kernel.org/all/20240507143555.471025-1-jpaulo.silvagonca=
+lves@gmail.com/
+
