@@ -2,67 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769818C069B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 23:55:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763A38C06A7
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 23:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB186113258;
-	Wed,  8 May 2024 21:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB77511322C;
+	Wed,  8 May 2024 21:55:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Lngs/k/w";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="N2aWZLLw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09C5B113233
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 21:55:00 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF36616D4;
- Wed,  8 May 2024 23:54:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1715205295;
- bh=dgQ14T7IWo3V5R5DFVrfrvyMq34UxkAK3satbMJu2i4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Lngs/k/wwpmHemT1wGeOaMh+WqgUSB8rYzqf5OvEUah3M/U0kv8F3XMydwvtuCVcl
- jWEaWpSKHvzvqilNyrOh/tOZO5/TnzuKr2Bf0V6AX2d99MubyfSnv3vvnSX1AyISLw
- 2tQ7lOlWezSB/rlPYm1nO6WD1iSd3Eb2VsCg4m2o=
-Date: Thu, 9 May 2024 00:54:50 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Lennart Poettering <mzxreary@0pointer.de>,
- Robert Mader <robert.mader@collabora.com>,
- Sebastien Bacher <sebastien.bacher@canonical.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Milan Zamazal <mzamazal@redhat.com>, Maxime Ripard <mripard@redhat.com>,
- Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-Message-ID: <20240508215450.GC24860@pendragon.ideasonboard.com>
-References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
- <ojduxo54lpcbfg2wfuhqhy7k3phncamtklh65z7gvttcwztmhk@zkifewcy4ovi>
- <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
- <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
- <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
- <CAA8EJpr4bJUQt2T63_FZ=KHGEm4vixfpk3pMV9naABEONJfMmQ@mail.gmail.com>
- <20240507184049.GC20390@pendragon.ideasonboard.com>
- <CAA8EJpqLu5w7gnqtDyuDDQBd7AEROTd6LTYi8muzjToXmkKR3w@mail.gmail.com>
- <Zjs6Xt_W0VsY8wJc@phenom.ffwll.local>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59CF61126A7
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 21:55:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1715205332;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AKch4oA/eppOIE56CNYm+6BP4SPb2sY9h6SgFBB2PmA=;
+ b=N2aWZLLwlY+LIRvd3xnC1fDz49hD1mqnmyJurtK1TVusoT68limMIIYcfoxIWm8qAAk0lo
+ MgeMB0k4K8x9QhXWPIthz0C6o4e48mC4YTT6bPnWGdxVsig1d34LkWOL9jaW+48IyY1TtC
+ MSlfBeehIHeOBaPAZPazzx66bleCoRM=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-659-a_ko_7EzOOiL2uykrvSHhw-1; Wed, 08 May 2024 17:55:31 -0400
+X-MC-Unique: a_ko_7EzOOiL2uykrvSHhw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-6a0e2e00bddso2083446d6.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 14:55:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715205330; x=1715810130;
+ h=mime-version:user-agent:content-transfer-encoding:organization:date
+ :to:from:subject:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=AKch4oA/eppOIE56CNYm+6BP4SPb2sY9h6SgFBB2PmA=;
+ b=btv4N1OBTtjWtiEMpUaIfOiu8Do2lSVTYXEyQNWZj/CD1j5E/9a/Kqa5P7R0iQBIZH
+ 6hteBS+Li5ycXJr4HrsNFT2K4mgmcpc2UjReJuoZapnixWN+SasBW1NuXwvzW5/m6CIq
+ k+NzxAaEZL6g/ZksFwNm6c+Pke6LiDQ+sm7PJZorpo1bZb0FBV2IpUIW2vxF72W7h6P/
+ 5zRswd+Ozdo7J4dZoJb9CDwmGoY8qI/gQe3OTNED7rhxrd4+nNkJNEU9pozEi7irg/qn
+ HvKot+OvuTdF1wiIgSPDy6IfwguIUTB2B3AeXTwOfhcuJwH2Oy+zgsngjP20tIvyax+/
+ C6Ng==
+X-Gm-Message-State: AOJu0Ywkf1blkdE+WbPZIrm69bmewsw67uwvVZCldv5AyoTudKTwb1LG
+ sFsqyQ+InT2RwPKpQSYJkx0yUJBgn1Yh5jRVwnUD3Z6TLNmW69IZm/BwqWYodtONzIFSNYM3Okh
+ ttk1bOQgz5KnrFSpqTzZn7GQxHUvXYY+2aEDbtVIQwVV6drYShmILHlc8eTLSvnZ1WbAGhwpYZB
+ p6KQVz5y0i518eGp3fDm7H5HPx3lS+yPqt/+NuVsSXnf6dKQ==
+X-Received: by 2002:ad4:5ca6:0:b0:6a0:5664:a46f with SMTP id
+ 6a1803df08f44-6a1514788bbmr47047026d6.26.1715205330000; 
+ Wed, 08 May 2024 14:55:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH8NsbnUiVxoJWZfczwtrsh7be9Rr22nR4qe36TCKekjl53Kt1cG4qKpUHPToSNv3gWKRr29A==
+X-Received: by 2002:ad4:5ca6:0:b0:6a0:5664:a46f with SMTP id
+ 6a1803df08f44-6a1514788bbmr47046836d6.26.1715205329529; 
+ Wed, 08 May 2024 14:55:29 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c6c:a300:ded4:e2aa:1dec:4d9?
+ ([2600:4040:5c6c:a300:ded4:e2aa:1dec:4d9])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6a15f194d2esm256466d6.68.2024.05.08.14.55.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 May 2024 14:55:28 -0700 (PDT)
+Message-ID: <069ec9c5b1488e1c2f500106aa07f7aa66afef72.camel@redhat.com>
+Subject: Don't forget, freedesktop.org offers free CoC training for
+ inquiring projects
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, mesa-dev@lists.freedesktop.org, 
+ members@x.org
+Date: Wed, 08 May 2024 17:55:15 -0400
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.52.1 (3.52.1-1.fc40)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Zjs6Xt_W0VsY8wJc@phenom.ffwll.local>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,81 +91,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 08, 2024 at 10:39:58AM +0200, Daniel Vetter wrote:
-> On Tue, May 07, 2024 at 10:59:42PM +0300, Dmitry Baryshkov wrote:
-> > On Tue, 7 May 2024 at 21:40, Laurent Pinchart wrote:
-> > > On Tue, May 07, 2024 at 06:19:18PM +0300, Dmitry Baryshkov wrote:
-> > > > On Tue, 7 May 2024 at 18:15, Bryan O'Donoghue wrote:
-> > > > > On 07/05/2024 16:09, Dmitry Baryshkov wrote:
-> > > > > > Ah, I see. Then why do you require the DMA-ble buffer at all? If you are
-> > > > > > providing data to VPU or DRM, then you should be able to get the buffer
-> > > > > > from the data-consuming device.
-> > > > >
-> > > > > Because we don't necessarily know what the consuming device is, if any.
-> > > > >
-> > > > > Could be VPU, could be Zoom/Hangouts via pipewire, could for argument
-> > > > > sake be GPU or DSP.
-> > > > >
-> > > > > Also if we introduce a dependency on another device to allocate the
-> > > > > output buffers - say always taking the output buffer from the GPU, then
-> > > > > we've added another dependency which is more difficult to guarantee
-> > > > > across different arches.
-> > > >
-> > > > Yes. And it should be expected. It's a consumer who knows the
-> > > > restrictions on the buffer. As I wrote, Zoom/Hangouts should not
-> > > > require a DMA buffer at all.
-> > >
-> > > Why not ? If you want to capture to a buffer that you then compose on
-> > > the screen without copying data, dma-buf is the way to go. That's the
-> > > Linux solution for buffer sharing.
-> > 
-> > Yes. But it should be allocated by the DRM driver. As Sima wrote,
-> > there is no guarantee that the buffer allocated from dma-heaps is
-> > accessible to the GPU.
-> > 
-> > >
-> > > > Applications should be able to allocate
-> > > > the buffer out of the generic memory.
-> > >
-> > > If applications really want to copy data and degrade performance, they
-> > > are free to shoot themselves in the foot of course. Applications (or
-> > > compositors) need to support copying as a fallback in the worst case,
-> > > but all components should at least aim for the zero-copy case.
-> > 
-> > I'd say that they should aim for the optimal case. It might include
-> > both zero-copying access from another DMA master or simple software
-> > processing of some kind.
-> > 
-> > > > GPUs might also have different
-> > > > requirements. Consider GPUs with VRAM. It might be beneficial to
-> > > > allocate a buffer out of VRAM rather than generic DMA mem.
-> > >
-> > > Absolutely. For that we need a centralized device memory allocator in
-> > > userspace. An effort was started by James Jones in 2016, see [1]. It has
-> > > unfortunately stalled. If I didn't have a camera framework to develop, I
-> > > would try to tackle that issue :-)
-> > 
-> > I'll review the talk. However the fact that the effort has stalled
-> > most likely means that 'one fits them all' approach didn't really fly
-> > well. We have too many usecases.
-> 
-> I think there's two reasons:
-> 
-> - It's a really hard problem with many aspects. Where you need to allocate
->   the buffer is just one of the myriad of issues a common allocator needs
->   to solve.
+Hey everyone! This is just a general reminder that if you're interested
+in receiving professional Code of Conduct enforcement training for your
+project - freedesktop.org is happy to cover the costs for doing such
+training through the wonderful services of https://otter.technology/ .
+All that's needed is to send an email to the board, and we can handle
+setting up scheduling :).
 
-The other large problem is picking up an optimal pixel format. I wonder
-if that could be decoupled from the allocation. That could help moving
-forward.
+And of course as always, the Code of Conduct team is always looking for
+new volunteers.
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-> - Every linux-based os has their own solution for these, and the one that
->   suffers most has an entirely different one from everyone else: Android
->   uses binder services to allow apps to make these allocations, keep track
->   of them and make sure there's no abuse. And if there is, it can just
->   nuke the app.
-
--- 
-Regards,
-
-Laurent Pinchart
