@@ -2,75 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF40B8BFCBC
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 13:56:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2D38BFD0E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2024 14:22:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06A941128BF;
-	Wed,  8 May 2024 11:56:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC3FA10FB8C;
+	Wed,  8 May 2024 12:22:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="wOBNSsmI";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fp3+9PMz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BBD21128BF
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 11:56:09 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-6f450f43971so3353854b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 04:56:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1715169368; x=1715774168;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rzBWZByfqdZx/hPlpPIy1POerUtgZPZjzuSa/z5kMRo=;
- b=wOBNSsmI2+RvaeuPsLDxGHuaVgIq3Csvq280IdnnsYBktyRv4aLIYBiJg80G2zyW/9
- x78KBMMh5yDqBL/sM1Ozh+kHKVpqoI957SpdB9+bpB7LsPzpExakVnfzHpE+mC9/wX2/
- CcxMot2TTInvzlnxBC/P/kmNwog97rMF5EKCDWoM5Sz+vLzl8lZW1FuTwCATkLmQnyp1
- UyLoaefoqGG6/VvkdKhA940N6tTcTzKt4jcAeaXPc/q1PRxUoCwy1zieZHkaQKg9E88j
- zE/jgV8PAjSX9wXzJOEta0XSGePz2rH3UKf/5r6mJ5n5b3UzRwTY8mEy5CxqT7LuJ2XR
- v7Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715169368; x=1715774168;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rzBWZByfqdZx/hPlpPIy1POerUtgZPZjzuSa/z5kMRo=;
- b=wycJmo5nuSOuhxKHufW8KztHpDO89qD1eTIGpw/KG6bn3Ef6SrA6N1hVKG9cjd1iGJ
- d4pMR21Z5/QPk10At/QF9JWHg6m/f+jKXmTN77TN+Q6Q6W3HIoPWWKIRGXx6svrkrpAw
- mBssGeVMuwkrVGo2WR3sKl6wmtA1+l78Mn+nxwYltJSIZwlQAEkjyXDJoYxi90rtX9CX
- DABoQICxzJGYLYqvSk8t1M1CHRsK81ztgaqek5EIFTqWCMHuifOLOcF/yQhKmUxuEUdd
- PfzwMFg75PqaTQTXdKfhgexPmL94XuF1aR9VzWkshEky9Cyk2Mp3F0MR4JvjxLJNDM2s
- pJWQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX5PQQcuv1dZ79yXIZQ7wtVP9rim93BA67BR8DVIcv8JlOSX4Wve1wvq2CTaFodvDa4KyUszQJitDPtvcaGIC85gIjk7HSq1jPyVtVQDg4N
-X-Gm-Message-State: AOJu0Yz7CQ0gZfZZX4dhzQqHORN0z19AZ8OaEYinZ64LSTXVxTk4KaS2
- PvGVUyRFl7kJrGEcbPHgorzrLeoYe65fdutWYbK7ZmmiaKGmZw6ZPOgqCBoe2nVhvh5IwF//X0e
- 3XuuhxB1+BsrZDvTKJIgv68+XGan88En1cqVodQ==
-X-Google-Smtp-Source: AGHT+IE4iAufvNLrHlSAWygkM7cmsvfktyL3UoTB3p6BWDfJXKoN/b0exVyFToTRexZifcgUkoKRBcwkpcWi6GUpDBc=
-X-Received: by 2002:a05:6a21:168e:b0:1a3:65af:9baa with SMTP id
- adf61e73a8af0-1afc8de0229mr2361763637.62.1715169368633; Wed, 08 May 2024
- 04:56:08 -0700 (PDT)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2078.outbound.protection.outlook.com [40.107.93.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2420910FB8C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 12:22:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rh+wFljY+1UUMpgVHQi+sYNHG91/PxV8Emyb3u6kTg7xit7zctx+b/+peRAIPJ2ERK7EJVCO3BruVRULtpkSuV+z7Nevx4q9BCeRscSb2jQsDI00QlTVTv43GCRZ27VX7KTc3ZWAx/DyzGI867ApYHM2/IXiRiuqKQt8IDh/dm3lht1yMynog02UnBI985V46Xju9dDK2klLQmsHKEh971E+/ON9LUtSEKX5o8tfx4eR09GenUh3KotTaCN8l80Wm/CGzGexWMMovWlm4LvElfSI7EF853J/3KFbSHv8I+itF+BsO7pBbr7bRarcN6+2HjNjdzOomBa8pWg+LzJWJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C8voy6oaEH+U6LAL3exko8Sn2j7x7CxBU0t7bx5isO8=;
+ b=QhVJjIAMR86/vFx6c6AM4/V+XKP2Z/xPGHwXXsvLgOKs8HOlyHmM9tqkAGBdGlDOFl9Jmcd0zdVlXgTMMElRtwUp33TQJX5ig1Cr5vKTHMSBNZOmJ8Z/vBDd8+v6XWYCpSp8I++qmzigOTBhctVVRRyUq7RpPTDC1BQWqRV+QuWs1S8gK5qTnPtTBeRhOeskp2EEVGwtVBP4cy6YuM1IAS/IaKOQKAD2Q+mXX4jDzBYbbhxjFvsx9dSp9IBJk46DX+KR9DV6CC43gs5Uixd4Y5L3AYN+HYU4kFnHcJK7o6TxCQFS668ZmsYBlr/d8BgkdTXyETudPtfAoDjYRXjJDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C8voy6oaEH+U6LAL3exko8Sn2j7x7CxBU0t7bx5isO8=;
+ b=fp3+9PMzAZQqdSmJM1HxPcLvidob7fYepna3gFN0GNxBGsKbu/mXv7YJyhWpTgwioip0cD5KwkyNBufAOi82Vj3itAwCY52sW2rKkDdSwa7iy61g7rJ3wF6/i9LuC0uLCqj8oYCfw6MgCo8rrTl/IiJt6MyDe0lHaIWXufk7r54=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB8755.namprd12.prod.outlook.com (2603:10b6:610:17e::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.42; Wed, 8 May
+ 2024 12:22:08 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7544.041; Wed, 8 May 2024
+ 12:22:08 +0000
+Content-Type: multipart/alternative;
+ boundary="------------1ZwzVE4eoGd2lFKru0aC4Zl0"
+Message-ID: <facb101b-3535-421d-bffb-c4ea675c9107@amd.com>
+Date: Wed, 8 May 2024 14:21:58 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dmabuf: fix dmabuf file poll uaf issue
+To: David Laight <David.Laight@ACULAB.COM>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Charan Teja Kalla <quic_charante@quicinc.com>,
+ zhiguojiang <justinjiang@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
+References: <4fedd80c-d5b6-4478-bfd3-02d1ee1a26e5@vivo.com>
+ <aab5ec51-fcff-44f2-a4f5-2979bd776a03@amd.com>
+ <2ebca2fd-9465-4e64-b3cc-ffb88ef87800@vivo.com>
+ <d4209754-5f26-422d-aca0-45cccbc44ad0@amd.com>
+ <289b9ad6-58a3-aa39-48ae-a244fe108354@quicinc.com>
+ <CABdmKX3Zu8LihAFjMuUHx4xzZoqgmY7OKdyVz-D26gM-LECn6A@mail.gmail.com>
+ <8ca45837-cbed-28da-4a6f-0dcec8294f51@quicinc.com>
+ <83605228-92ee-b666-d894-1c145af2e5ab@quicinc.com>
+ <CABdmKX2MWU9-9YN46PXx-Jy-O9CHMv8hCkvArd7BbWUBs=GPnw@mail.gmail.com>
+ <8915fcc1-d8f1-48c2-9e51-65159aaa5a3b@amd.com>
+ <ZjovD5WaWjknd-qv@phenom.ffwll.local>
+ <44b08793-cf44-4cbd-a3bb-583af351ab9e@amd.com>
+ <c0fe95949d4f41449f17add8300270b9@AcuMS.aculab.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <c0fe95949d4f41449f17add8300270b9@AcuMS.aculab.com>
+X-ClientProxiedBy: VI1PR0102CA0047.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803::24) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20240507135234.1356855-1-yangcong5@huaqin.corp-partner.google.com>
- <20240507135234.1356855-6-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=WR0o1Z4c4+GjrZw8mTJPZnP8uB_gWhX1QuOxxm4qhroA@mail.gmail.com>
-In-Reply-To: <CAD=FV=WR0o1Z4c4+GjrZw8mTJPZnP8uB_gWhX1QuOxxm4qhroA@mail.gmail.com>
-From: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date: Wed, 8 May 2024 19:55:57 +0800
-Message-ID: <CAHwB_NJHOphvydx8=HjgroE6ZXyJz-MHsJUwiedsMhshG0CMkQ@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] drm/panel: himax-hx83102: Support for BOE
- nv110wum-l60 MIPI-DSI panel
-To: Doug Anderson <dianders@chromium.org>
-Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
- linus.walleij@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
- robh+dt@kernel.org, conor+dt@kernel.org, airlied@gmail.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB8755:EE_
+X-MS-Office365-Filtering-Correlation-Id: 80af52e4-a9a2-45e5-5205-08dc6f597abe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|366007|1800799015|7416005|376005|921011; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WFFIZ2xtNGZpYXZZbi9vTlcwdDlKTnZLekJKSkpXbmkvQ3l1RjU5UUYvT2Zn?=
+ =?utf-8?B?aGxMQVVhOVR1SWNmNlp2MGVGdHdscXpUU0oydlBVM3hrbHB5RDJpM0ttbmNw?=
+ =?utf-8?B?cGYwamZweWpRTUcyVlJ0ZHhqSFY4dGNzS3Z4SDk0NlQzaCtkSUZYQVViSDR0?=
+ =?utf-8?B?dFJlM3RXcS9VK1B0WWhKZnZnWkNEWGVESDBQaDd6a0wxUHZaS2lmcHBFUFlv?=
+ =?utf-8?B?ZjZJZklmWE10dUgxeUlabEJJNzhWdnhSMDRPT0g4Y3RrQm1OMFQ4UUVldWdS?=
+ =?utf-8?B?N0drU0dCTDhFQXZYRUlFSEVld2xEb2grbzltNytmeTVxaWZLZTcxMzVxeCtt?=
+ =?utf-8?B?cE1wSi91a1RmYWt0KzA4QWN0cm5YRlVvZ3ZVWVhZc0gzLzAyaUxCM25hek1L?=
+ =?utf-8?B?RzVMOUhteXozQm5MOWVKN2pFUmZLZTBMbU9YRTk5dW5TZW5tRFpRQ3RvZm9L?=
+ =?utf-8?B?LzhmSzZDTGo1TFg5cWJzdWNqWmhWNG96VndVVXNCVmFNcTRSazI2MFZyZ1or?=
+ =?utf-8?B?R09UMnhhZEdHK1V3M0pjakFLT2FuZS9XcmppNUtBK0padXBmVXlWUEdseG0x?=
+ =?utf-8?B?cm1ZcW1nS3ByTmJubHRCSlpSYkFMUm9YNGFBT1NBZUxvK3FaU1NFNFZKc2hP?=
+ =?utf-8?B?VTYyQ2VZdm1JTmNZMkh6UENaNWlxcWgyNnZRY09MdkZ6Z3k1NzBkV01qSEs2?=
+ =?utf-8?B?NnJ3ZVBjVXRoeE96bHFmU2VMYmpTK0dQZHFFOGo1cG9qOGtZVEpXeUV5MHc2?=
+ =?utf-8?B?K2hVcTU2Qkg1WXJqWkhydjdBQ1kydFdONnlLRlBodnJBU3VBZFJCTnVxQUV3?=
+ =?utf-8?B?cC9BUDV0UUxXNXgyWFgydUsxZnlnV3ZZcHY1UFNYK05nWW9RUVB6NEM1QlFB?=
+ =?utf-8?B?bDhPSENFMTk2ejZlVkNTMFhzYWJHb1JrM1BZR0RzQitsQmtIWkJYdUp2bU4v?=
+ =?utf-8?B?d1BCQlR1WHJodmNxLzB3U0o5cENoZERxMXp1eUhOV0pTNG53aHlhNHM0M1VU?=
+ =?utf-8?B?YVhaeEM3STJuaUw1Tzk1MnRGc1hIaG5ZT2JUMWNtZVl1TUJoMHhuS2JvUmVD?=
+ =?utf-8?B?QUhOQUh4L0ppOXMzdmtrajZ3bG5wQ2xWQ0VZWXJZVEltc3VOUFlQYkJPRjMx?=
+ =?utf-8?B?V3NLYTZIdFB2WU5SbHByR1hGaTdoeG16ei84TndlSXZIN0V6MFhBcDJWZ0NU?=
+ =?utf-8?B?b1JDNS9QcGZiZ0xsblRtOGRRQjMyL2l2c2xIeklHWE9lRnNoS0t2TFg0S1dh?=
+ =?utf-8?B?WHA1VlBzU2poR1hzZ1hFOVNiSTVYcGRRYzk2eG5VWUtoaXlBVm14bUxGZ2JJ?=
+ =?utf-8?B?bTVtRXlHWmZHcjRTVHdTUlhTeitrL0ZndmtIbVVQdW5BQzYydk1BbTlJSGxx?=
+ =?utf-8?B?MkcwMTRRTFYycmdDV1BPbjh5dFhzbHphd0FJZE5XMGFYSU1PbW1hUWRTY2l5?=
+ =?utf-8?B?TjhWeWgrMkZZMWdQNVplQm5lcjJkN0JYUGpwOHQ1QUlQN2hQaDNEWkIyMWZB?=
+ =?utf-8?B?WkIzZXhETTViald4VDRsQVdiejFOWWg5di9YNVk0eXFzNmpwZUJCRDBaUXVr?=
+ =?utf-8?B?cnQxMHgwZGxzL3FIazdBUmtsTFdKREtISFl1SVYweVFwT0RWdzJRT3BKMUxj?=
+ =?utf-8?B?c0gxREtUcjBMaXFhb25XUjJGL21Gd1hIS1NBbmxQMncycG1vNm8rVno1Mnpt?=
+ =?utf-8?B?RGI5eEdGT3hhWXNsakdiRXpaWHJGMDFKVWJuc0MzRzJab1hhYWtJa2RaUG4y?=
+ =?utf-8?Q?BqV5LI2GTnNgXht2WkweX/FBiPk7zexOsbDBlg6?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(1800799015)(7416005)(376005)(921011); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1BlUXJMckd3eHp2MytwWFVnVjRhVVFRc3pNNkZwVE1uTFBqdjZuRld4ZnRn?=
+ =?utf-8?B?L056VUdUU21xN3JWWWFVdkFITEMwaXRsWGVOMDRxMHAvQUpqRkVUOXdERzR3?=
+ =?utf-8?B?N1BQMjlVVy8wdGF0dlA2bitKdkxFc3ZTWEEvMStONjB6OXpoMy9DMUpQRm04?=
+ =?utf-8?B?TGh0cWtHb1lTeUNLR1ozblNsdldpWTFxMHZuNUdQMktWUFJwYnlqZWFQeGVH?=
+ =?utf-8?B?SDk5RU8vY3BFUFVjdHlYYTcrUmdiYmNLV25Ia0hLNkpLaEk1MHVSZlBGWk5q?=
+ =?utf-8?B?eUJJc0JPRUlDRFpITFVybDdRVFFFT2dBenZ0cExtZjRUcGM0Wkp1N0JPWi8x?=
+ =?utf-8?B?aitYQnFscXFSWGFkVWNhcEpsS2paQVlUaGVDSHhQQjNnYVRTSm9IWlZBdldt?=
+ =?utf-8?B?Zm03dDcwa0tCL0UwOVkwQVpPS0Iwa3NFazA2Q2JLVGJ2ajU2d1ZOSXN1a01H?=
+ =?utf-8?B?U3ByZ2x6Ymp2bHVhOWEveWU5ODVpd2d4eHQ2NklDQVJybE5aQWt4L0hjOTZX?=
+ =?utf-8?B?K2hMRHhEMlpJZlI2dkordmo5MHU0d3lhRmJZckVab1AreHJHdFNhWWhZYW8r?=
+ =?utf-8?B?NlQxL0swVUExdFltTEttUmhkRitvNmNJRnZiK2NUVklxSE9tbjg1N0FKZ0E3?=
+ =?utf-8?B?aitKS1JDYXFyczc5b2ZPYXNlNzc0K3BzWTRIN09scXNrMUFrOXZtZVJjWnJN?=
+ =?utf-8?B?eG1mL1BZY2VUL1N1bWlZU3hNanFBNHA5R3BKaVZMTmNDNTllaUExUWdFQWFO?=
+ =?utf-8?B?M0pYNHRITEZWOTFsNTJGNFIrUTdkWk9lR05OOE5oRS9SQXhPZ3BickY4SDRo?=
+ =?utf-8?B?L0NBQUxNeVVtRndUR0luOWc4UVpiZEU1ZmpLU1c0NFNlaEpobDRuK3k0QnBT?=
+ =?utf-8?B?NnFpNEt1TUFsUHRWNURocTZUQmltcDh6UlIxcllYNmMrUXFUZnY1YTBQK3Zi?=
+ =?utf-8?B?U1FZK1NRYkNVNndLRTVEWENCdjZwclg5OGlHUWExYWdzZ05vVTRNRG1MR0dY?=
+ =?utf-8?B?R0c3MkRNZDhkSWNMTVI5TkFYTXJMSWQ5ZTc3UU1oWlVCZDk5UmNmWEJleFFp?=
+ =?utf-8?B?a0loNGNtQ3hiMnAwUkxGSFhjd0NVSnVVSTd2d2RVdE01RXY5b05YeGRkK0Vr?=
+ =?utf-8?B?Y0plNnVUL1Q3ZXQyLzNNa1dWYllPdmZQcDNpWlRFbWdERmZkUWsyVTBDaGtm?=
+ =?utf-8?B?KzNDd1JjSXJQM1FuazkrK3F5eXVueUdNM1dra3dJdnZOZEw0a1RQTVEvNmdH?=
+ =?utf-8?B?dTA3WG12Nm1ZcWgvSVM3czFsUlZHaXdJWmk4dGN6OVBnWnZhK3MxVXM2bXFm?=
+ =?utf-8?B?R1AxVDJzVVpQUEQxUFY3bXNZZXZoNTd1RzZCb056M210Z3l0RUpyOGJzbWd1?=
+ =?utf-8?B?UGlHWjAvNGQydy9jN2ZzYmx2ZWc2aEYvYjFhVCt2S0lWZkhjLzZnRkdKcjJU?=
+ =?utf-8?B?NXNoUXNjTkkxdUVwcUZCVTlKVkFJMVFrZDdSb09SRnc2YmxyOEhnUENLdGNW?=
+ =?utf-8?B?NUFUYUl3ZVM0aVQzMmVobXlMSnBTQjVnb2g3ZlFlU0xnS08yWmRkWUpkL09t?=
+ =?utf-8?B?SVhvNGFOZXFpdzc5VTFkRFpzVjAzOFVYdXFLVkJCalplbXlGMDFMNm11eUJC?=
+ =?utf-8?B?TWo4aDFsMFZBNW5ZM0I3NGhDdTlIV2FTRnJ5NzZFbmk0ZklHWUtuWHUva0dy?=
+ =?utf-8?B?UVovZnBBVDdwbDMxTHRYNFFVUXNYQXVDZzVNVnpvK0dnNFlrTWtmbGpUT3ln?=
+ =?utf-8?B?a3lhRjRQeFVPYzgzMjdMTEFHN0RKcENaUlNWNFRpVkJ0eEV5S2cweXVTSklr?=
+ =?utf-8?B?ZlVoZWJTem80Q0ROZmFub0JxeUxGeHR2QktmQ2lHdU5uSm5HZlNHOTcvUzhR?=
+ =?utf-8?B?R04zdHpBWVVtMmpzdVdXZ0VLZUhMZGd5WnZkQjJqSGF0UjZZSmRLWWQwcUlK?=
+ =?utf-8?B?OXRoREhOVzF3citMY3YyZ3FHakl3dy9SY2R1dm04S0RGc3lpeWVpWHNDaHVR?=
+ =?utf-8?B?YjRUL2ttMTQ0U2pUVlc1ZEhtZnFlTlVxTGc0VW9LUTBFM1ZjRjdzdnhLWU9W?=
+ =?utf-8?B?bXM1YkhKa2hJeEs4RDArK3lBampxK2V3cjh1SzIxTUwvanhyTWNiTEI2cVFR?=
+ =?utf-8?Q?CwpiEPTlJtoW1ObtW0axNZcdj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80af52e4-a9a2-45e5-5205-08dc6f597abe
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 12:22:08.2916 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dYC1peof3w3fxOtUJgFQzvAPep3NO1XFTDnbw1T1DcWyDHLIa3b8dtKCOWAtmkRC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8755
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,198 +178,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--------------1ZwzVE4eoGd2lFKru0aC4Zl0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Doug Anderson <dianders@chromium.org> =E4=BA=8E2024=E5=B9=B45=E6=9C=888=E6=
-=97=A5=E5=91=A8=E4=B8=89 07:35=E5=86=99=E9=81=93=EF=BC=9A
->
-> Hi,
->
-> On Tue, May 7, 2024 at 6:53=E2=80=AFAM Cong Yang
-> <yangcong5@huaqin.corp-partner.google.com> wrote:
-> >
-> > +static int boe_nv110wum_init(struct hx83102 *ctx)
-> > +{
-> > +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D ctx->dsi }=
-;
-> > +
-> > +       msleep(60);
-> > +
-> > +       hx83102_enable_extended_cmds(ctx, true);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x2c, =
-0xaf, 0xaf, 0x2b, 0xeb, 0x42,
-> > +                                        0xe1, 0x4d, 0x36, 0x36, 0x36, =
-0x36, 0x1a, 0x8b, 0x11, 0x65, 0x00,
-> > +                                        0x88, 0xfa, 0xff, 0xff, 0x8f, =
-0xff, 0x08, 0x9a, 0x33);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETDISP, 0x00, 0=
-x47, 0xb0, 0x80, 0x00, 0x12,
-> > +                                        0x71, 0x3c, 0xa3, 0x11, 0x00, =
-0x00, 0x00, 0x88, 0xf5, 0x22, 0x8f);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x49, 0x=
-49, 0x32, 0x32, 0x14, 0x32,
-> > +                                        0x84, 0x6e, 0x84, 0x6e, 0x01, =
-0x9c);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcd)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x84);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETVDC, 0x1b, 0x=
-04);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_BE, 0x20=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xfc, 0=
-x84);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSTBA, 0x36, 0=
-x36, 0x22, 0x00, 0x00, 0xa0,
-> > +                                        0x61, 0x08, 0xf5, 0x03);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcc)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTCON, 0x80);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETRAMDMY, 0x97)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPWM, 0x00, 0x=
-1e, 0x30, 0xd4, 0x01);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x08, =
-0x13, 0x07, 0x00, 0x0f, 0x34);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPANEL, 0x02, =
-0x03, 0x44);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCASCADE, 0x03=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPCTRL, 0x37, =
-0x06, 0x00, 0x02, 0x04, 0x0c, 0xff);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_D2, 0x1f=
-, 0x11, 0x1f, 0x11);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x06, 0=
-x00, 0x00, 0x00, 0x00, 0x04,
-> > +                                        0x08, 0x04, 0x08, 0x37, 0x37, =
-0x64, 0x4b, 0x11, 0x11, 0x03, 0x03, 0x32,
-> > +                                        0x10, 0x0e, 0x00, 0x0e, 0x32, =
-0x10, 0x0a, 0x00, 0x0a, 0x32, 0x17, 0x98,
-> > +                                        0x07, 0x98, 0x00, 0x00);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP1, 0x18, 0=
-x18, 0x18, 0x18, 0x1e, 0x1e,
-> > +                                        0x1e, 0x1e, 0x1f, 0x1f, 0x1f, =
-0x1f, 0x24, 0x24, 0x24, 0x24, 0x07, 0x06,
-> > +                                        0x07, 0x06, 0x05, 0x04, 0x05, =
-0x04, 0x03, 0x02, 0x03, 0x02, 0x01, 0x00,
-> > +                                        0x01, 0x00, 0x21, 0x20, 0x21, =
-0x20, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-> > +                                        0x18, 0x18);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xaf, 0=
-xaa, 0xaa, 0xaa, 0xaa, 0xa0,
-> > +                                        0xaf, 0xaa, 0xaa, 0xaa, 0xaa, =
-0xa0);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGMA, 0x00, 0x=
-05, 0x0d, 0x14, 0x1b, 0x2c,
-> > +                                        0x44, 0x49, 0x51, 0x4c, 0x67, =
-0x6c, 0x71, 0x80, 0x7d, 0x84, 0x8d, 0xa0,
-> > +                                        0xa0, 0x4f, 0x58, 0x64, 0x73, =
-0x00, 0x05, 0x0d, 0x14, 0x1b, 0x2c, 0x44,
-> > +                                        0x49, 0x51, 0x4c, 0x67, 0x6c, =
-0x71, 0x80, 0x7d, 0x84, 0x8d, 0xa0, 0xa0,
-> > +                                        0x4f, 0x58, 0x64, 0x73);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x07, 0x=
-10, 0x10, 0x1a, 0x26, 0x9e,
-> > +                                        0x00, 0x53, 0x9b, 0x14, 0x14);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_E1, 0x11=
-, 0x00, 0x00, 0x89, 0x30, 0x80,
-> > +                                        0x07, 0x80, 0x02, 0x58, 0x00, =
-0x14, 0x02, 0x58, 0x02, 0x58, 0x02, 0x00,
-> > +                                        0x02, 0x2c, 0x00, 0x20, 0x02, =
-0x02, 0x00, 0x08, 0x00, 0x0c, 0x05, 0x0e,
-> > +                                        0x04, 0x94, 0x18, 0x00, 0x10, =
-0xf0, 0x03, 0x0c, 0x20, 0x00, 0x06, 0x0b,
-> > +                                        0x0b, 0x33, 0x0e);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xff, 0=
-xff, 0xff, 0xff, 0xfa, 0xa0,
-> > +                                        0xff, 0xff, 0xff, 0xff, 0xfa, =
-0xa0);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x01, =
-0xbf, 0x11);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x86);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_D2, 0x96=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc9)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x84);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xd1)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_E1, 0xf6=
-, 0x2b, 0x34, 0x2b, 0x74, 0x3b,
-> > +                                        0x74, 0x6b, 0x74);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x02, 0x=
-00, 0x2b, 0x01, 0x7e, 0x0f,
-> > +                                        0x7e, 0x10, 0xa0, 0x00, 0x00);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x02, 0x=
-00, 0xbb, 0x11);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xff, 0=
-xaf, 0xff, 0xff, 0xfa, 0xa0,
-> > +                                        0xff, 0xaf, 0xff, 0xff, 0xfa, =
-0xa0);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0xfe, 0x=
-01, 0xfe, 0x01, 0xfe, 0x01,
-> > +                                        0x00, 0x00, 0x00, 0x23, 0x00, =
-0x23, 0x81, 0x02, 0x40, 0x00, 0x20, 0x65,
-> > +                                        0x02, 0x01, 0x00, 0x00, 0x00, =
-0x00, 0x00, 0x00, 0x01, 0x00);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x03);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xaa, 0=
-xaf, 0xaa, 0xaa, 0xa0, 0x00,
-> > +                                        0xaa, 0xaf, 0xaa, 0xaa, 0xa0, =
-0x00, 0xaa, 0xaf, 0xaa, 0xaa, 0xa0, 0x00,
-> > +                                        0xaa, 0xaf, 0xaa, 0xaa, 0xa0, =
-0x00);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x03, 0x=
-ff, 0xf8);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_E1, 0x00=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x96);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc5)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x4f);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
-> > +       hx83102_enable_extended_cmds(ctx, false);
->
-> It's not super important, but in panel drivers I converted to the
-> mipi_dsi_dcs_write_seq_multi() I checked the "accum_err" and did an
-> early return right before any mdelay() calls. This means that if any
-> of the above failed then we didn't waste time with the mdelay().
+Am 08.05.24 um 13:51 schrieb David Laight:
+> From: Christian König
+>> Sent: 07 May 2024 15:05
+> ...
+>> I actually have been telling people to (ab)use the epoll behavior to
+>> check if two file descriptors point to the same underlying file when
+>> KCMP isn't available.
+> In what way?
 
-Ok, I wiil add check accum_err before calling mdelay in V4.
-Thanks.
+Something like this:
+
+fd_e = epoll_create1(EPOLL_CLOEXEC);
+
+tmp = dup(fd_A)
+epoll_ctl(fd_e, EPOLL_CTL_ADD, tmp, ....);
+dup2(fd_B, tmp);
+
+/* If this return -EEXISTS then the fd_A and fd_B are pointing to the 
+same struct file */
+epoll_ctl(fd_e, EPOLL_CTL_ADD, tmp, ....);
+
+close (tmp);
+close (fd_e
+
+
+> You can add both fd to the same epoll fd.
+> Relying on the implicit EPOLL_CTL_DEL not happening until both fd are
+> closed is a recipe for disaster.
+> (And I can't see an obvious way of testing it.)
 >
-> > +
-> > +       msleep(50);
-> > +
-> > +       return dsi_ctx.accum_err;
-> > +};
+> Q6/A6 on epoll(7) should always have had a caveat that it is an
+> 'implementation detail' and shouldn't be relied on.
+> (it is written as a 'beware of' ...)
+>
+> The other point is that there are two ways to get multiple fd that
+> reference the same underlying file.
+> dup() fork() etc share the file offset, but open("/dev/fd/n") adds
+> a reference count later and has a separate file offset.
+
+No it doesn't.
+
+Accessing /dev/fd/n or /proc/*/fd/n ideally accesses the same inode, but 
+gives you a new struct file.
+
+dup(), fork() etc.. make you actually reference the same struct file 
+inside the kernel.
+
+That turned out to be a rather important distinction when working with 
+device drivers and DMA-buf.
+
+Regards,
+Christian.
+
+>
+> I don't know which structure epoll is using, but I suspect it is
+> the former.
+> So it may not tell you what you want to know.
+>
+> 	David
+>
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
+
+--------------1ZwzVE4eoGd2lFKru0aC4Zl0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 08.05.24 um 13:51 schrieb David Laight:<br>
+    <blockquote type="cite" cite="mid:c0fe95949d4f41449f17add8300270b9@AcuMS.aculab.com">
+      <pre class="moz-quote-pre" wrap="">From: Christian König
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Sent: 07 May 2024 15:05
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">...
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">I actually have been telling people to (ab)use the epoll behavior to
+check if two file descriptors point to the same underlying file when
+KCMP isn't available.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+In what way?</pre>
+    </blockquote>
+    <br>
+    Something like this:<br>
+    <span><span class="ui-provider eb blt avv blu blv blw blx bly blz bma bmb bmc bmd bme bmf bmg bmh bmi bmj bmk bml bmm bmn bmo bmp bmq bmr bms bmt bmu bmv bmw bmx bmy bmz" dir="ltr">
+        <p>fd_e = epoll_create1(EPOLL_CLOEXEC);</p>
+        <p>tmp = dup(fd_A)<br>
+          epoll_ctl(fd_e, EPOLL_CTL_ADD, tmp, ....);<br>
+          dup2(fd_B, tmp);</p>
+        <p>/* If this return -EEXISTS then the fd_A and fd_B are
+          pointing to the same struct file */<br>
+          epoll_ctl(fd_e, EPOLL_CTL_ADD, tmp, ....);</p>
+        <p>close (tmp);<br>
+          close (fd_e</p>
+      </span></span><br>
+    <blockquote type="cite" cite="mid:c0fe95949d4f41449f17add8300270b9@AcuMS.aculab.com">
+      <pre class="moz-quote-pre" wrap="">
+You can add both fd to the same epoll fd.
+Relying on the implicit EPOLL_CTL_DEL not happening until both fd are
+closed is a recipe for disaster.
+(And I can't see an obvious way of testing it.)
+
+Q6/A6 on epoll(7) should always have had a caveat that it is an
+'implementation detail' and shouldn't be relied on.
+(it is written as a 'beware of' ...)
+
+The other point is that there are two ways to get multiple fd that
+reference the same underlying file.
+dup() fork() etc share the file offset, but open(&quot;/dev/fd/n&quot;) adds
+a reference count later and has a separate file offset.</pre>
+    </blockquote>
+    <br>
+    No it doesn't.<br>
+    <br>
+    Accessing /dev/fd/n or /proc/*/fd/n ideally accesses the same inode,
+    but gives you a new struct file.<br>
+    <br>
+    dup(), fork() etc.. make you actually reference the same struct file
+    inside the kernel.<br>
+    <br>
+    That turned out to be a rather important distinction when working
+    with device drivers and DMA-buf.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite" cite="mid:c0fe95949d4f41449f17add8300270b9@AcuMS.aculab.com">
+      <pre class="moz-quote-pre" wrap="">
+
+I don't know which structure epoll is using, but I suspect it is
+the former.
+So it may not tell you what you want to know.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------1ZwzVE4eoGd2lFKru0aC4Zl0--
