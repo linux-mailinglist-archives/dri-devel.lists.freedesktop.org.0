@@ -2,63 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D8D8C0825
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 01:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6898C0869
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 02:28:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99D7111326A;
-	Wed,  8 May 2024 23:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2300C10E23E;
+	Thu,  9 May 2024 00:28:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mRT8jxVP";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dnDCf7sQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2DB810E2F9
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2024 23:55:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715212552; x=1746748552;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=9rINs3VyCm6tAEZfoaCS30hypmdP4mKel8NcCO8rrfs=;
- b=mRT8jxVPPJ0MTZwryu8M2YteIB4z8p/RHW4fqJ+8jvlDJqiK3nAbUm90
- 53S9YIwjpgFGprn0cWf90EDipX0DoEHrKrS0Mg1B+zgjoIimueTndW6wD
- IbXYTxR7/d13tCkzSlM7DYv8a6w1dP/CIZN6H23ysmEHBlwiYMgzV2qsK
- BHPCHrTG54+EG4nFcbauPSbnOT0btw536fc5gadDeSBRq7GpwOFfWHq5p
- UxQiw2JRwQHwI/5nrUleCq2Z+VwowFlwCYICb6x7mmHT+EIYgBLOeqGpO
- M+/ECX+6J2GQ6g3eo9ZyWV52c+p9sKjBo1CZqdW8zUh4CQR5i7fxeyH7Z A==;
-X-CSE-ConnectionGUID: jo2RTlrOTqWI+iViic7g/w==
-X-CSE-MsgGUID: HlpTFc/yTRy/txPz1ckz1Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="10956802"
-X-IronPort-AV: E=Sophos;i="6.08,146,1712646000"; d="scan'208";a="10956802"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2024 16:55:52 -0700
-X-CSE-ConnectionGUID: X/OteO3aRomYYA8wFp2YLg==
-X-CSE-MsgGUID: f5oQNoN6QmeVs2GRYmxOeg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,146,1712646000"; d="scan'208";a="28936000"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
- by orviesa010.jf.intel.com with ESMTP; 08 May 2024 16:55:48 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s4r8T-0004F6-1w;
- Wed, 08 May 2024 23:55:45 +0000
-Date: Thu, 9 May 2024 07:55:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Weishi Li <liweishi@kylinos.cn>, airlied@redhat.com, kraxel@redhat.com,
- gurchetansingh@chromium.org, olvaffe@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, daniel@ffwll.ch
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, liweishi@kylinos.cn
-Subject: Re: [PATCH] [PATCH RESEND] drm/virtio: fix memory leak of vbuf
-Message-ID: <202405090747.y8ofUE7r-lkp@intel.com>
-References: <20240507033814.57906-1-liweishi@kylinos.cn>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 642FA10E0EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 00:28:36 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-51f17ac14daso340705e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 17:28:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1715214513; x=1715819313;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZNeX2fBf0OvUGSKCQhqRKM/UWS2VcuqiFL3hMwMX2kY=;
+ b=dnDCf7sQBgwV/z70GBxvcPibkF0dZxUK4GTuVS1le35KoewGPbmCm3PZlD4ajzs6To
+ pHexLPusx5pzjBKpMfaTfhzKgV9qTxaA29jUrX+0NKr87JwXVxnVafgygCTnhLDwd/Ts
+ wui95Cr1FqfSGHanBtrv525LderVUvcxR8VT8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715214513; x=1715819313;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZNeX2fBf0OvUGSKCQhqRKM/UWS2VcuqiFL3hMwMX2kY=;
+ b=rTBdmcKPsDokG6CQ9XuS1Up1Y21xZ+bBVbfyMNhcgrF9JyUOb02FduFYkqW67Sc6wY
+ IGV7/f3Rhd9w1B0abSr9pUKvDiJkv7KW7Ys85oFaX66a+mOAQ0kS4BUQh32uymLXgdBa
+ xd5K7w5/xGBKXUaGoz/EWuaGic1Ap2fAmao8bOeqAgdhPayfzDd2ianIAjz9VyxO/WlM
+ Ro7bvsyPVW2z2r7yJ4q5hBAM93DYrid3c4XAoTWSzQRJzcqksoB0OUK4mThpJR1E5XSO
+ QCJzyu6e8GFI9Ci+695pq8CDE1r1hIY+p6+V7vHHODiL0om1hI3HBlw4jpu4ddfV4iyH
+ ZkEw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW3hfxRUzDHTB2NNteaBmk0DYk1JvHAfEZtM/1nB8UXo13xDrxViuSlVZzco0544ZrxiLJv4UGoaQfZ7dl5K+y0RW5P696TRqnl/fYMpb+i
+X-Gm-Message-State: AOJu0Yz9pxvorXJE5doZnOdaaUV649Wu8QWqRPsVtnYLQvmlyePmOg+g
+ /0XLe+JZYSI/i2HdSQxxsGpoj/MHSiHGAlNov4ibo6SiCSTG1N/s1SW+ZnAHGIBjU5eVFxVBwFc
+ 5oO/s
+X-Google-Smtp-Source: AGHT+IHYYXzBOe4FCxSS1QDIv+B3rFd7sAAG2fGyV6HMNYB//SYlx2Z0eSVNs0TCzIFhoejqqoGdyQ==
+X-Received: by 2002:ac2:5211:0:b0:520:ed4e:2200 with SMTP id
+ 2adb3069b0e04-5217cd49625mr2466613e87.54.1715214512722; 
+ Wed, 08 May 2024 17:28:32 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
+ [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a5a179c814dsm15038166b.118.2024.05.08.17.28.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 May 2024 17:28:32 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-41a428374b9so17825e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 17:28:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUJ5qG5/3eXPPt5pc+46AQzIPH76NdSDUod3zYgcRw+KrWFSNvMOAkrOudBlsoK0sWZErFadTSSi3nqdNGT8kLcI4C+/TAjOi8mO2B57l9k
+X-Received: by 2002:a05:600c:35d1:b0:41f:a15d:2228 with SMTP id
+ 5b1f17b1804b1-41fc26b9f66mr933245e9.0.1715214511425; Wed, 08 May 2024
+ 17:28:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240507033814.57906-1-liweishi@kylinos.cn>
+References: <20240507230440.3384949-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <20240507230440.3384949-1-quic_abhinavk@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 8 May 2024 17:28:14 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xa6LJEWZwdUXvFVPQ0-qnDZroDi6tkZaLFHiarJ2gyew@mail.gmail.com>
+Message-ID: <CAD=FV=Xa6LJEWZwdUXvFVPQ0-qnDZroDi6tkZaLFHiarJ2gyew@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: remove python 3.9 dependency for compiling msm
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ seanpaul@chromium.org, 
+ swboyd@chromium.org, quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,99 +98,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Weishi,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On Tue, May 7, 2024 at 4:05=E2=80=AFPM Abhinav Kumar <quic_abhinavk@quicinc=
+.com> wrote:
+>
+> Since commit 5acf49119630 ("drm/msm: import gen_header.py script from Mes=
+a"),
+> compilation is broken on machines having python versions older than 3.9
+> due to dependency on argparse.BooleanOptionalAction.
+>
+> Switch to use simple bool for the validate flag to remove the dependency.
+>
+> Fixes: 5acf49119630 ("drm/msm: import gen_header.py script from Mesa")
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/registers/gen_header.py | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next linus/master v6.9-rc7 next-20240508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+No idea if we're supposed to allow python as a build dependency. That
+being said, I can confirm that this fixes the problem for me since I
+ran into it too [1].
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Weishi-Li/drm-virtio-fix-memory-leak-of-vbuf/20240507-114452
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240507033814.57906-1-liweishi%40kylinos.cn
-patch subject: [PATCH] [PATCH RESEND] drm/virtio: fix memory leak of vbuf
-config: i386-buildonly-randconfig-001-20240508 (https://download.01.org/0day-ci/archive/20240509/202405090747.y8ofUE7r-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240509/202405090747.y8ofUE7r-lkp@intel.com/reproduce)
+Tested-by: Douglas Anderson <dianders@chromium.org>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405090747.y8ofUE7r-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/virtio/virtgpu_vq.c:474:13: warning: variable 'notify' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     474 |         } else if (ret < 0) {
-         |                    ^~~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:487:6: note: uninitialized use occurs here
-     487 |         if (notify)
-         |             ^~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:474:9: note: remove the 'if' if its condition is always false
-     474 |         } else if (ret < 0) {
-         |                ^~~~~~~~~~~~~~
-     475 |                 free_vbuf(vgdev, vbuf);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~
-     476 |         } else {
-         |         ~~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:455:13: note: initialize the variable 'notify' to silence this warning
-     455 |         bool notify;
-         |                    ^
-         |                     = 0
-   1 warning generated.
-
-
-vim +474 drivers/gpu/drm/virtio/virtgpu_vq.c
-
-   448	
-   449	static void virtio_gpu_queue_cursor(struct virtio_gpu_device *vgdev,
-   450					    struct virtio_gpu_vbuffer *vbuf)
-   451	{
-   452		struct virtqueue *vq = vgdev->cursorq.vq;
-   453		struct scatterlist *sgs[1], ccmd;
-   454		int idx, ret, outcnt;
-   455		bool notify;
-   456	
-   457		if (!drm_dev_enter(vgdev->ddev, &idx)) {
-   458			free_vbuf(vgdev, vbuf);
-   459			return;
-   460		}
-   461	
-   462		sg_init_one(&ccmd, vbuf->buf, vbuf->size);
-   463		sgs[0] = &ccmd;
-   464		outcnt = 1;
-   465	
-   466		spin_lock(&vgdev->cursorq.qlock);
-   467	retry:
-   468		ret = virtqueue_add_sgs(vq, sgs, outcnt, 0, vbuf, GFP_ATOMIC);
-   469		if (ret == -ENOSPC) {
-   470			spin_unlock(&vgdev->cursorq.qlock);
-   471			wait_event(vgdev->cursorq.ack_queue, vq->num_free >= outcnt);
-   472			spin_lock(&vgdev->cursorq.qlock);
-   473			goto retry;
- > 474		} else if (ret < 0) {
-   475			free_vbuf(vgdev, vbuf);
-   476		} else {
-   477			vbuf->seqno = ++vgdev->cursorq.seqno;
-   478			trace_virtio_gpu_cmd_queue(vq,
-   479				virtio_gpu_vbuf_ctrl_hdr(vbuf),
-   480				vbuf->seqno);
-   481	
-   482			notify = virtqueue_kick_prepare(vq);
-   483		}
-   484	
-   485		spin_unlock(&vgdev->cursorq.qlock);
-   486	
-   487		if (notify)
-   488			virtqueue_notify(vq);
-   489	
-   490		drm_dev_exit(idx);
-   491	}
-   492	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[1] https://lore.kernel.org/r/CAD=3DFV=3DXnpS-=3DCookKxzFM8og9WCSEMxfESmfTY=
+H811438qg4ng@mail.gmail.com
