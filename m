@@ -2,54 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA988C0D6C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 11:20:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD5A8C0D72
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 11:23:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F08010E5C6;
-	Thu,  9 May 2024 09:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E278710E681;
+	Thu,  9 May 2024 09:23:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GcqfAsS1";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="s+xAWd2d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA58210E5C6;
- Thu,  9 May 2024 09:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=YqSBSPXbblCzbepnSg2ca1qS6LP1N7SJ9yy+Kx9xyJs=; b=GcqfAsS1NPijTvtz+DvYU5MRgx
- OgDye838DLan4jPmt8lDRkpWqV6MWShsj9HrjfclEdLt6MtOmE94mY9pxdzttM0Aex7AsaJKdXpcZ
- whoomdLZbdWQqcWfhukDeiVxtREcnlsfd25BkI4lDWgWMYXitU5g2UqKl1F4IZxecuTp4cX+aFD6M
- Eb1/9gA8ZsxCFMNVdciGLVaKPGTfy8kGwC+rgUwSqC617KmxX4SwuIq2gUKdVbD1P46V+nPu0sT0/
- 76namRihpbAPWpoKuSZji7U/4SOOuH669Gv6cwyvwrCCoCfHqa2UQtWDtOLOdjuuff2KBtDmtIeDR
- VfyMHdJQ==;
-Received: from [84.69.19.168] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1s4zwQ-003jq7-Hv; Thu, 09 May 2024 11:19:54 +0200
-Message-ID: <1a2788ef-6969-4f4c-95e9-cf5f2c7e0872@igalia.com>
-Date: Thu, 9 May 2024 10:19:53 +0100
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB3510E65D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 09:23:30 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id
+ 6a1803df08f44-6a071595d22so3408036d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 02:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1715246609; x=1715851409;
+ darn=lists.freedesktop.org; 
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nCxyHA4H0zlDgKUBRKhP1uHW5cceyxKQ1uLbmFwQQPk=;
+ b=s+xAWd2dxl/nmxaPN/9PIZOg/E1Vs8u52o21jMyUa4mMos1XhBtc51x6tMOz3aRrDV
+ c5IjgAUtN4ix8a9JrHdU8Ju+pBaVHSDTnwIUYeIJSgidJeEY+gBWsYQZQ2WXpzCPcgv+
+ QmlfQLkVZHDl2RoZpNmr0XCvUr5smcgJOsDt0FFj2/BF2rIvO/a5PO/wjRBG8ZERBxQ3
+ Dr+WJAqGxJztO6298jdTpPTSCPuqBPg6gxbOEFl1ome2UDwJxUk2G0tIIulZFmMxDcHp
+ 5kpvU08a3PUyjH4ckKbcbD7XVptTbdqld6Sn3TZ4L/bhg6Ea+IM1VhV58rNbI1T9SoPv
+ Jykg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715246609; x=1715851409;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nCxyHA4H0zlDgKUBRKhP1uHW5cceyxKQ1uLbmFwQQPk=;
+ b=Wl5NPSLUCmloAUIdNIhYmHcATvToFtu+7xr9JG+9ylPsn55WJsxxfjRrOCS0cUSOZO
+ VX54xBHqaLyIB7510y+K0Z82xWK1Gt73wAuZsOLYIBghPs1WgNYW6UiEy809i/F4nWvA
+ p0FwJ2b5jVHvbmFNIIklGH/EizwugsHY8W9sGmQsZjCEq3IwaMdnIbsxevk/yteIaFnY
+ UZM6dB+zvBa4SI8qjwY02wQ5nf9MF+EhkeERcF3TVe5GVBTEK3rMQRChinYJUFJbs7yZ
+ DIm5GLnCTsOdWcwy+gcCieRxxM8g46ETk5EnOeC4xtOztXg2zPEbvuzbn2tAbBjV7Ulm
+ RoRA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWQuyj2b8jS4wCF7AD1wbbhyYyVQtdOGyuEOpL+tf397Vspv+Db8dzbgy5SL6Jx31RNj0Jz06Ia9CTvWHitLHcR7HzuorJQm2GCIDJRKr9j
+X-Gm-Message-State: AOJu0YzFUakkEwzX/8GEIO6kyDFvfnPF7iQBhq7lGV9H35D+TN2ReTQo
+ 2M5FdxsH5veCc9R6KKZEc0tqzJ4Si1nn5EWuc6Qc4JjRPYLwsh3zTwYwZQGs3ASL4AjV7nBgYP5
+ mBy9hsOPMPfCeuJGaFS8BHApZ/Nn+Frtq0cf04Q==
+X-Google-Smtp-Source: AGHT+IF6PhCgk1o7f4b1gc4aesQqVT1tyRMXdb/II5WaUUVRVGN+oa4txBNRnx7jzplgxY+HJ/x6UmsSdSVG8eSyBMk=
+X-Received: by 2002:a05:6214:1cc2:b0:6a0:d32d:79d with SMTP id
+ 6a1803df08f44-6a1514dfd79mr58597296d6.56.1715246609461; Thu, 09 May 2024
+ 02:23:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 1/5] drm/amdgpu: Fix migration rate limiting accounting
-Content-Language: en-GB
-To: Friedrich Vock <friedrich.vock@gmx.de>,
- Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>
-References: <20240508180946.96863-1-tursulin@igalia.com>
- <20240508180946.96863-2-tursulin@igalia.com>
- <146d615c-6eb1-491a-9494-cacb9337f13e@gmx.de>
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <146d615c-6eb1-491a-9494-cacb9337f13e@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
+ <20240506-dazzling-nippy-rhino-eabccd@houat>
+ <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
+ <cbe5a743-d8be-4b0e-99c4-e804fbadc099@redhat.com>
+ <ZjoNTw-TkPnnWLTG@phenom.ffwll.local>
+ <CAPj87rN3uSZoHpWLSQqz1SW9YMZNj9fkoA_EDEE_bzv-Tw8tSw@mail.gmail.com>
+ <Zjs42PGvilLlF0Cg@phenom.ffwll.local>
+ <CAPj87rN-wSbGSAoB8y3MXCS20_MAQvfpWSeUKYR6XzQ+Oh0FZA@mail.gmail.com>
+ <Zjue98r4ZgGbMN5K@phenom.ffwll.local>
+In-Reply-To: <Zjue98r4ZgGbMN5K@phenom.ffwll.local>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 9 May 2024 10:23:16 +0100
+Message-ID: <CAPj87rPywSjKLrv00N-0SrkDndPdYGCBeveO0adh4xGCp20h9g@mail.gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+To: Daniel Stone <daniel@fooishbar.org>, Hans de Goede <hdegoede@redhat.com>, 
+ Maxime Ripard <mripard@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>, 
+ Sebastien Bacher <sebastien.bacher@canonical.com>, 
+ Linux Media Mailing List <linux-media@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+ Milan Zamazal <mzamazal@redhat.com>, 
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,131 +99,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 08/05/2024 20:08, Friedrich Vock wrote:
-> On 08.05.24 20:09, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>
->> The logic assumed any migration attempt worked and therefore would over-
->> account the amount of data migrated during buffer re-validation. As a
->> consequence client can be unfairly penalised by incorrectly considering
->> its migration budget spent.
-> 
-> If the migration failed but data was still moved (which I think could be
-> the case when we try evicting everything but it still doesn't work?),
-> shouldn't the eviction movements count towards the ratelimit too?
+On Wed, 8 May 2024 at 16:49, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Wed, May 08, 2024 at 09:38:33AM +0100, Daniel Stone wrote:
+> > Right now, if your platform requires CMA for display, then the app
+> > needs access to the GPU render node and the display node too, in order
+> > to allocate buffers which the compositor can scan out directly. If it
+> > only has access to the render nodes and not the display node, it won't
+> > be able to allocate correctly, so its content will need a composition
+> > pass, i.e. performance penalty for sandboxing. But if it can allocate
+> > correctly, then hey, it can exhaust CMA just like heaps can.
+> >
+> > Personally I think we'd be better off just allowing access and
+> > figuring out cgroups later. It's not like the OOM story is great
+> > generally, and hey, you can get there with just render nodes ...
+>
+> Imo the right fix is to ask the compositor to allocate the buffers in this
+> case, and then maybe have some kind of revoke/purge behaviour on these
+> buffers. Compositor has an actual idea of who's a candidate for direct
+> scanout after all, not the app. Or well at least force migrate the memory
+> from cma to shmem.
+>
+> If you only whack cgroups on this issue you're still stuck in the world
+> where either all apps together can ddos the display or no one can
+> realistically direct scanout.
 
-Possibly, which path would that be?
+Mmm, back to DRI2. I can't say I'm wildly enthused about that, not
+least because a client using GPU/codec/etc for those buffers would
+have to communicate its requirements (alignment etc) forward to the
+compositor in order for the compositor to allocate for it. Obviously
+passing the constraints etc around isn't a solved problem yet, but it
+is at least contained down in clients rather than making it back and
+forth between client and compositor.
 
-I mean there are definitely more migration which *should not* be counted 
-which I think your mini-series approaches more accurately. What this 
-patch achieves, in its current RFC form, is reduces the "false-positive" 
-migration budget depletions.
+I'm extremely not-wild about the compositor migrating memory from CMA
+to shmem behind the client's back, and tbh I'm not sure how that would
+even work if the client has it pinned through whatever API it's
+imported into.
 
-So larger improvements aside, point of the series was to illustrate that 
-even the things which were said to be working do not seem to. See cover 
-letter to see what I thought does not work either well or at all.
->> Fix it by looking at the before and after buffer object backing store and
->> only account if there was a change.
->>
->> FIXME:
->> I think this needs a better solution to account for migrations between
->> VRAM visible and non-visible portions.
-> 
-> FWIW, I have some WIP patches (not posted on any MLs yet though) that
-> attempt to solve this issue (+actually enforcing ratelimits) by moving
-> the ratelimit accounting/enforcement to TTM entirely.
-> 
-> By moving the accounting to TTM we can count moved bytes when we move
-> them, and don't have to rely on comparing resources to determine whether
-> moving actually happened. This should address your FIXME as well.
+Anyway, like Laurent says, if we're deciding that heaps can't be used
+by generic apps (unlike DRM/V4L2/etc), then we need gralloc.
 
-Yep, I've seen them. They are not necessarily conflicting with this 
-series, potentialy TTM placement flag aside. *If* something like this 
-can be kept small and still manage to fix up a few simple things which 
-do not appear to work at all at the moment.
-
-For the larger re-work it is quite, well, large and it is not easy to be 
-certain the end result would work as expected. IMO it would be best to 
-sketch out a larger series which brings some practical and masurable 
-change in behaviour before commiting to merge things piecemeal.
-
-For instance I have a niggling feeling the runtime games driver plays 
-with placements and domains are not great and wonder if things could be 
-cleaner if simplified by letting TTM manage things more, more 
-explicitly, and having the list of placements more static. Thinking 
-about it seems a step too far for now though.
-
-Regards,
-
-Tvrtko
-
-> 
-> Regards,
-> Friedrich
-> 
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Friedrich Vock <friedrich.vock@gmx.de>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 26 +++++++++++++++++++++-----
->>   1 file changed, 21 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> index ec888fc6ead8..22708954ae68 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> @@ -784,12 +784,15 @@ static int amdgpu_cs_bo_validate(void *param, 
->> struct amdgpu_bo *bo)
->>           .no_wait_gpu = false,
->>           .resv = bo->tbo.base.resv
->>       };
->> +    struct ttm_resource *old_res;
->>       uint32_t domain;
->>       int r;
->>
->>       if (bo->tbo.pin_count)
->>           return 0;
->>
->> +    old_res = bo->tbo.resource;
->> +
->>       /* Don't move this buffer if we have depleted our allowance
->>        * to move it. Don't move anything if the threshold is zero.
->>        */
->> @@ -817,16 +820,29 @@ static int amdgpu_cs_bo_validate(void *param, 
->> struct amdgpu_bo *bo)
->>       amdgpu_bo_placement_from_domain(bo, domain);
->>       r = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
->>
->> -    p->bytes_moved += ctx.bytes_moved;
->> -    if (!amdgpu_gmc_vram_full_visible(&adev->gmc) &&
->> -        amdgpu_res_cpu_visible(adev, bo->tbo.resource))
->> -        p->bytes_moved_vis += ctx.bytes_moved;
->> -
->>       if (unlikely(r == -ENOMEM) && domain != bo->allowed_domains) {
->>           domain = bo->allowed_domains;
->>           goto retry;
->>       }
->>
->> +    if (!r) {
->> +        struct ttm_resource *new_res = bo->tbo.resource;
->> +        bool moved = true;
->> +
->> +        if (old_res == new_res)
->> +            moved = false;
->> +        else if (old_res && new_res &&
->> +             old_res->mem_type == new_res->mem_type)
->> +            moved = false;
->> +
->> +        if (moved) {
->> +            p->bytes_moved += ctx.bytes_moved;
->> +            if (!amdgpu_gmc_vram_full_visible(&adev->gmc) &&
->> +                amdgpu_res_cpu_visible(adev, bo->tbo.resource))
->> +                p->bytes_moved_vis += ctx.bytes_moved;
->> +        }
->> +    }
->> +
->>       return r;
->>   }
->>
+Cheers,
+Daniel
