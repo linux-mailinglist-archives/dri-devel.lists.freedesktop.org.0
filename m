@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603F38C182E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 23:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE908C16A7
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 22:15:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70C6110F2B7;
-	Thu,  9 May 2024 21:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EA2010F30D;
+	Thu,  9 May 2024 20:15:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Y6l4wMuU";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="l4O12OvF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 9499 seconds by postgrey-1.36 at gabe;
- Thu, 09 May 2024 21:18:25 UTC
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1BD110F2B7
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 21:18:25 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 449Ids7A090810;
- Thu, 9 May 2024 13:39:54 -0500
+X-Greylist: delayed 5681 seconds by postgrey-1.36 at gabe;
+ Thu, 09 May 2024 20:15:01 UTC
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 792D910F30D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 20:15:01 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 449IeCwH059877;
+ Thu, 9 May 2024 13:40:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1715279994;
- bh=lrdTPlSx5uWnTmoVruaPcAiqQdb2LlFFka9SllqeKfQ=;
+ s=ti-com-17Q1; t=1715280012;
+ bh=aMNcaysqDJDn+h1D5ugEv/Q4TocmhRT2g7o4pHDXixo=;
  h=From:To:CC:Subject:Date;
- b=Y6l4wMuU3sCR4/pnLAByHJRo+7spyl3CQdZm7bJXqaXDi1ofG08qVgz0FQKnTG0Hu
- qmlmptMVUmE2iB6iWIyRXzeeieINGClAv+9uCGAkJ57bhGflIj10+RICSo4kjYl/6N
- MU3rJySLo7EwN235+EacWkv1CBtLRqNqe5p0CMkw=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 449Idsjr028411
+ b=l4O12OvFcUPsy8dMLaXN0DGXhKBtkvcCCBIzSVNQLeejlbIbypSyde7w63neEf3UN
+ w8MuW4kx4Bvg2A6JnMhOxMW/tk0DZ/P/iDeniKChGtU4oLrfrUPp5ZZqdiH09HpsmK
+ 2Wu9xoAL9qCQSQ27Y3i16FP+nfurCTA7iEAc1254=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 449IeCLN070670
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 9 May 2024 13:39:54 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 9 May 2024 13:40:12 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 9
- May 2024 13:39:54 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 13:40:11 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 9 May 2024 13:39:54 -0500
+ Frontend Transport; Thu, 9 May 2024 13:40:11 -0500
 Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 449IdrZA004938;
- Thu, 9 May 2024 13:39:53 -0500
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 449IeBEc006178;
+ Thu, 9 May 2024 13:40:11 -0500
 From: Devarsh Thakkar <devarsht@ti.com>
 To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
  <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
- <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
- <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
- <jani.nikula@intel.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
+ <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>
 CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
  <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
  <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
  <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
- <nicolas@ndufresne.ca>
-Subject: [PATCH v7 6/8] math.h Add macros to round to closest specified power
- of 2
-Date: Fri, 10 May 2024 00:09:52 +0530
-Message-ID: <20240509183952.4064331-1-devarsht@ti.com>
+ <nicolas@ndufresne.ca>, <akpm@linux-foundation.org>,
+ <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
+ <adobriyan@gmail.com>, <jani.nikula@intel.com>
+Subject: [PATCH v7 8/8] gpu: ipu-v3: Use generic macro for rounding to nearest
+ multiple
+Date: Fri, 10 May 2024 00:10:10 +0530
+Message-ID: <20240509184010.4065359-1-devarsht@ti.com>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -79,72 +79,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add macros to round to nearest specified power of 2. Two macros are added :
-round_closest_up and round_closest_down which round up to nearest multiple
-of 2 with a preference to round up or round down respectively if there are
-two possible nearest values to the given number.
-
-This patch is inspired from the Mentor Graphics IPU driver [1] which uses
-similar macro locally and which can be updated to use this generic macro
-instead along with other drivers having similar requirements.
-
-[1]:
-https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480
+Use generic macro round_closest_up for rounding to nearest multiple instead
+of using local function.
 
 Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
 ---
 V1->V6 (No change, patch introduced in V7)
 ---
- include/linux/math.h | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ drivers/gpu/ipu-v3/ipu-image-convert.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/include/linux/math.h b/include/linux/math.h
-index dd4152711de7..82ee3265c910 100644
---- a/include/linux/math.h
-+++ b/include/linux/math.h
-@@ -34,6 +34,42 @@
-  */
- #define round_down(x, y) ((x) & ~__round_mask(x, y))
+diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
+index 841316582ea9..5192a8b5c02c 100644
+--- a/drivers/gpu/ipu-v3/ipu-image-convert.c
++++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
+@@ -477,8 +477,6 @@ static int calc_image_resize_coefficients(struct ipu_image_convert_ctx *ctx,
+ 	return 0;
+ }
  
-+/**
-+ * round_closest_up - round to nearest specified power of 2 with preference
-+ *		      to rounding up
-+ * @x: the value to round
-+ * @y: multiple to round to (must be a power of 2)
-+ *
-+ * Rounds @x to nearest multiple of @y (which must be a power of 2).
-+ * The rounded value can be greater than or less than @x depending
-+ * upon it's nearness to @x. If there are two nearest possible values,
-+ * then preference will be given to the greater value.
-+ *
-+ * Examples :
-+ * round_closest_up(17, 4) = 16
-+ * round_closest_up(15, 4) = 16
-+ * round_closest_up(14, 4) = 16
-+ */
-+#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
-+
-+/**
-+ * round_closest_down - round to nearest specified power of 2 with preference
-+ *			to rounding down
-+ * @x: the value to round
-+ * @y: multiple to round down to (must be a power of 2)
-+ *
-+ * Rounds @x to nearest multiple of @y (which must be a power of 2).
-+ * The rounded value can be greater than or less than @x depending
-+ * upon it's nearness to @x. If there are two nearest possible values,
-+ * then preference will be given to the lesser value.
-+ *
-+ * Examples :
-+ * round_closest_down(17, 4) = 16
-+ * round_closest_down(15, 4) = 16
-+ * round_closest_down(14, 4) = 12
-+ */
-+#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
-+
- #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+-#define round_closest(x, y) round_down((x) + (y)/2, (y))
+-
+ /*
+  * Find the best aligned seam position for the given column / row index.
+  * Rotation and image offsets are out of scope.
+@@ -565,7 +563,7 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
+ 		 * The closest input sample position that we could actually
+ 		 * start the input tile at, 19.13 fixed point.
+ 		 */
+-		in_pos_aligned = round_closest(in_pos, 8192U * in_align);
++		in_pos_aligned = round_closest_up(in_pos, 8192U * in_align);
+ 		/* Convert 19.13 fixed point to integer */
+ 		in_pos_rounded = in_pos_aligned / 8192U;
  
- #define DIV_ROUND_DOWN_ULL(ll, d) \
 -- 
 2.39.1
 
