@@ -2,76 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C87C8C0D78
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 11:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E3F8C0DA2
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 11:40:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E80710E6D3;
-	Thu,  9 May 2024 09:27:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C1B10E86B;
+	Thu,  9 May 2024 09:40:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="zl5gjXe0";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="ijoSrCmT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E119210E6D3
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 09:27:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715246826;
- bh=XuB1Tp/2hhUGIjkVXi/GCYKRi7UG3QTh5SlJG8iuj0M=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=zl5gjXe0P6Loam7OyGCZdlE+g/snO8ZI5LLyTMmZwysn2RcXoOso+9V+AdBSrQlWM
- sRQ5PWr45b6CDjqU1cUsg/z2ozfuidbA/IonZGcAdv3f1Pk/31NWvv1DhhkWvHoH1c
- QYnz+iPOjVPua4ZF37VXFxkH0E3ZE58ftOu/Vmi55CX7C+nJyFAXlxZ1d3UFPDuSjP
- yp+kZ+IroXSWt4YZg12nbSPvk/7jynxfcvHSfKJ4LjwqZpgi/E3ishGYustnpZsG98
- 3WXR6lzWkWuWXIJgvaX/G4vLzTXAqDMn7GoDuvy/zWzhvPPi+GbcZHCuyl80PRgODr
- 45/C8QokQAbNw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8FA5B37820FA;
- Thu,  9 May 2024 09:27:04 +0000 (UTC)
-Message-ID: <34caf545-1fc9-4905-a82f-2596f053b3ff@collabora.com>
-Date: Thu, 9 May 2024 11:27:03 +0200
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45D8610E5A1
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 09:39:59 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-41fd5dc0508so2067235e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 02:39:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1715247597; x=1715852397;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MwiwwNdKg2Ic82Yv97muzU/CMbsfDzNfh2F7gfIB8tw=;
+ b=ijoSrCmT5x2/JFKocQEq9j0DFacg8dIiTN7Hc5tqqFs6Px/zOMLjFfd62B8H/OmhUj
+ PpuY+bCiXWv5IHIiipt1FbAWJKDfvev6bCy7zln7ANtsR9nCgqf6b5Agm9OgqPJrNXzC
+ yRVldISmOFargWUYElFTm6/rXnn4TnSXRJUVUXjIFzpUnWqv4Xhgri6ik2R5vXOyPzJg
+ nGoZtypXV/XdVQBswhJeaE0G70eN8ho+LxLODiCvjVZ48QOUvLDgk64ZetE0r8bgYQkA
+ /ZnQvK2zEP3Gu8h3zw2viRRdBZPX8Aa9AOFfP65yI7a6YqfqBg0B7kyjAHw02VjNUhAt
+ GV6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715247597; x=1715852397;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MwiwwNdKg2Ic82Yv97muzU/CMbsfDzNfh2F7gfIB8tw=;
+ b=LaeUkmkGLf0JwZSsQ5NMQUiW90j7hLcs7wZWK3ErH5JWtbQFVPdHwAGodwg1ikQjWx
+ mpjAQnV/k1RM7poHSgyRJFE9cgb9kK+2ZJKbGPb3VPEEZ6Yt9BGrsrAsznyzl7hyMcgS
+ YTd8ZnCCSAUXvpR89c6AtRm7s7Jyt8EaX1q6kfhcncA0pHxp29ZKN68BL8CkQx0RbSm3
+ kp78uBwGE8PI5YDXrR9520j/ylk/jPf/gSbKtYjF1ma0BxgpzWyw0inCD2+6T2Hpi7Rg
+ l1MNr0DuF+ChlMvKZ9zSVOR05OwUgK1g3GE0OyXlNGIW3jX5mqytBdz+Lcs16otwVeg0
+ f8zg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVR3ut2HojB0MjmbGLG2B2mPwmzq2Pl6loH1Ww2+H4Q1paExttYj1c7TbnEfDlzuczvd2SdaK6tTuElQj4q5ofMKIk7dQU38+6pwEog2R6h
+X-Gm-Message-State: AOJu0YyzQNL96t8YawT1Ze1sxVRGaJI3JLr89caOiIDWoak8FXEZNbA9
+ EYo6esuxGb98gsk+QKZQnuOD+M0C3/OebEMXXCPfHfWrYlqXUsOw9n9K+iWDMWA=
+X-Google-Smtp-Source: AGHT+IGVg0t2RMtmzRkFuSx+80jxyWrMV9RecVeYZ30/FskpqWeV4hHmFAK/FswH73aZj3/9MPmA8w==
+X-Received: by 2002:a05:600c:35c1:b0:416:536b:683a with SMTP id
+ 5b1f17b1804b1-41f719d5dccmr42242825e9.32.1715247596959; 
+ Thu, 09 May 2024 02:39:56 -0700 (PDT)
+Received: from [192.168.0.101] ([84.69.19.168])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3502b8969f0sm1220025f8f.28.2024.05.09.02.39.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 May 2024 02:39:56 -0700 (PDT)
+Message-ID: <99781bf8-bd3e-4069-9712-4edb0a52ae42@ursulin.net>
+Date: Thu, 9 May 2024 10:39:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] dt-bindings: arm: mediatek: mmsys: Add OF graph
- support for board path
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "robh@kernel.org" <robh@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-References: <20240409120211.321153-1-angelogioacchino.delregno@collabora.com>
- <20240409120211.321153-3-angelogioacchino.delregno@collabora.com>
- <aa7e3bcf70383e563a65919f924ec2e5e4cd778c.camel@mediatek.com>
- <becdc2e5-4a1d-4280-b6f8-78d4903be283@collabora.com>
- <4dfb09b9c437ab2baa0898eca13a43fd7475047a.camel@mediatek.com>
- <46347f5d-e09b-4e83-a5a2-e12407f442a4@collabora.com>
- <847e1a84b532956f697d24014d684c86f0b76f03.camel@mediatek.com>
- <cbf73111-a6cf-47da-9563-89d49fbdb17d@collabora.com>
- <ee721fd3339f8b3a25464ca57ca192343a51e514.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <ee721fd3339f8b3a25464ca57ca192343a51e514.camel@mediatek.com>
+Subject: Re: [PATCH v2 6/6] drm/xe/client: Print runtime to fdinfo
+Content-Language: en-GB
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+References: <20240423235652.1959945-1-lucas.demarchi@intel.com>
+ <20240423235652.1959945-7-lucas.demarchi@intel.com>
+ <ed28cb4e-a417-4255-b034-778dbfdaf6ec@ursulin.net>
+ <xwp77yi7y3e3f6eyqf3qqeawsv3nh4db4vwmok3pccdddnimce@n7rts73arupp>
+ <88d6eeee-fa6f-4e5e-9304-22df8fb0f63c@ursulin.net>
+ <h2xkygfdjfmjzb7i7i6vec7o6zbslfdrjdm6lutpn4plicggeg@h6cyouletta4>
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <h2xkygfdjfmjzb7i7i6vec7o6zbslfdrjdm6lutpn4plicggeg@h6cyouletta4>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,509 +95,283 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 09/05/24 07:42, CK Hu (胡俊光) ha scritto:
-> On Wed, 2024-05-08 at 15:03 +0200, AngeloGioacchino Del Regno wrote:
->> Il 08/05/24 09:19, CK Hu (胡俊光) ha scritto:
->>> On Tue, 2024-05-07 at 16:07 +0200, AngeloGioacchino Del Regno
->>> wrote:
->>>> Il 07/05/24 08:59, CK Hu (胡俊光) ha scritto:
->>>>> On Thu, 2024-05-02 at 10:50 +0200, AngeloGioacchino Del Regno
->>>>> wrote:
->>>>>> Il 25/04/24 04:23, CK Hu (胡俊光) ha scritto:
->>>>>>> Hi, Angelo:
->>>>>>>
->>>>>>> On Tue, 2024-04-09 at 14:02 +0200, AngeloGioacchino Del
->>>>>>> Regno
->>>>>>> wrote:
->>>>>>>> Document OF graph on MMSYS/VDOSYS: this supports up to
->>>>>>>> three
->>>>>>>> DDP
->>>>>>>> paths
->>>>>>>> per HW instance (so potentially up to six displays for
->>>>>>>> multi-
->>>>>>>> vdo
->>>>>>>> SoCs).
->>>>>>>>
->>>>>>>> The MMSYS or VDOSYS is always the first component in the
->>>>>>>> DDP
->>>>>>>> pipeline,
->>>>>>>> so it only supports an output port with multiple
->>>>>>>> endpoints -
->>>>>>>> where
->>>>>>>> each
->>>>>>>> endpoint defines the starting point for one of the
->>>>>>>> (currently
->>>>>>>> three)
->>>>>>>> possible hardware paths.
->>>>>>>>
->>>>>>>> Signed-off-by: AngeloGioacchino Del Regno <
->>>>>>>> angelogioacchino.delregno@collabora.com>
->>>>>>>> ---
->>>>>>>>      .../bindings/arm/mediatek/mediatek,mmsys.yaml | 23
->>>>>>>> +++++++++++++++++++
->>>>>>>>      1 file changed, 23 insertions(+)
->>>>>>>>
->>>>>>>> diff --git
->>>>>>>> a/Documentation/devicetree/bindings/arm/mediatek/mediatek
->>>>>>>> ,mms
->>>>>>>> ys.y
->>>>>>>> aml
->>>>>>>> b/Documentation/devicetree/bindings/arm/mediatek/mediatek
->>>>>>>> ,mms
->>>>>>>> ys.y
->>>>>>>> aml
->>>>>>>> index b3c6888c1457..4e9acd966aa5 100644
->>>>>>>> ---
->>>>>>>> a/Documentation/devicetree/bindings/arm/mediatek/mediatek
->>>>>>>> ,mms
->>>>>>>> ys.y
->>>>>>>> aml
->>>>>>>> +++
->>>>>>>> b/Documentation/devicetree/bindings/arm/mediatek/mediatek
->>>>>>>> ,mms
->>>>>>>> ys.y
->>>>>>>> aml
->>>>>>>> @@ -93,6 +93,29 @@ properties:
->>>>>>>>        '#reset-cells':
->>>>>>>>          const: 1
->>>>>>>>      
->>>>>>>> +  port:
->>>>>>>> +    $ref: /schemas/graph.yaml#/properties/port
->>>>>>>> +    description:
->>>>>>>> +      Output port node. This port connects the
->>>>>>>> MMSYS/VDOSYS
->>>>>>>> output
->>>>>>>> to
->>>>>>>> +      the first component of one display pipeline, for
->>>>>>>> example
->>>>>>>> one
->>>>>>>> of
->>>>>>>> +      the available OVL or RDMA blocks.
->>>>>>>> +      Some MediaTek SoCs support up to three display
->>>>>>>> outputs
->>>>>>>> per
->>>>>>>> MMSYS.
->>>>>>>> +    properties:
->>>>>>>> +      endpoint@0:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/endpoint
->>>>>>>> +        description: Output to the primary display
->>>>>>>> pipeline
->>>>>>>> +
->>>>>>>> +      endpoint@1:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/endpoint
->>>>>>>> +        description: Output to the secondary display
->>>>>>>> pipeline
->>>>>>>> +
->>>>>>>> +      endpoint@2:
->>>>>>>> +        $ref: /schemas/graph.yaml#/properties/endpoint
->>>>>>>> +        description: Output to the tertiary display
->>>>>>>> pipeline
->>>>>>>> +
->>>>>>>> +    required:
->>>>>>>> +      - endpoint@0
->>>>>>>> +
->>>>>>>
->>>>>>> mmsys/vdosys does not output data to the first component of
->>>>>>> display
->>>>>>> pipeline, so this connection looks 'virtual'. Shall we add
->>>>>>> something
->>>>>>> virtual in device tree? You add this in order to decide
->>>>>>> which
->>>>>>> pipeline
->>>>>>> is 1st, 2nd, 3rd, but for device it don't care which one is
->>>>>>> first.
->>>>>>> In
->>>>>>> computer, software could change which display is the
->>>>>>> primary
->>>>>>> display.
->>>>>>> I'm not sure it's good to decide display order in device
->>>>>>> tree?
->>>>>>>
->>>>>>
->>>>>> Devicetree describes hardware, so nothing virtual can be
->>>>>> present
->>>>>> -
->>>>>> and in any case,
->>>>>> the primary/secondary/tertiary pipeline is in relation to
->>>>>> MM/VDO
->>>>>> SYS,
->>>>>> not referred
->>>>>> to software.
->>>>>>
->>>>>> Better explaining, the primary pipeline is not necessarily
->>>>>> the
->>>>>> primary display in
->>>>>> DRM terms: that's a concept that is completely detached from
->>>>>> the
->>>>>> scope of this
->>>>>> series and this graph - and it's something that shall be
->>>>>> managed
->>>>>> solely by the
->>>>>> driver (mediatek-drm in this case).
->>>>>>
->>>>>> Coming back to the connection looking, but *not* being
->>>>>> virtual:
->>>>>> the
->>>>>> sense here is
->>>>>> that the MM/VDOSYS blocks are used in the display pipeline to
->>>>>> "stitch" together
->>>>>> the various display pipeline hardware blocks, or, said
->>>>>> differently,
->>>>>> setting up the
->>>>>> routing between all of those (P.S.:
->>>>>> mmsys_mtxxxx_routing_table!)
->>>>>> through the VDO
->>>>>> Input Selection (VDOx_SEL_IN) or Output Selection
->>>>>> (VDOx_SEL_OUT)
->>>>>> and
->>>>>> with the
->>>>>> assistance of the VDO Multiple Output Mask (VDOx_MOUT) for
->>>>>> the
->>>>>> multiple outputs
->>>>>> usecase, both of which, are described by this graph.
->>>>>
->>>>> I agree this part, but this is related to display device OF
->>>>> graph.
->>>>> These display device would output video data from one device
->>>>> and
->>>>> input
->>>>> to another video device. These video device would not input or
->>>>> output
->>>>> video data to mmsys/vdosys.
->>>>>
->>>>>>
->>>>>> This means that the VDOSYS is really the "master" of the
->>>>>> display
->>>>>> pipeline since
->>>>>> everything gets enabled, mixed and matched from there - and
->>>>>> that's in
->>>>>> the sense
->>>>>> of hardware operation, so we are *really* (and not
->>>>>> virtually!)
->>>>>> flipping switches.
->>>>>
->>>>> I agree mmsys/vdosys is master of video pipeline, so let's
->>>>> define
->>>>> what
->>>>> the port in mmsys/vdosys is. If the port means the master
->>>>> relationship,
->>>>> mmsys/vdosys should output port to every display device. Or use
->>>>> a
->>>>> simply way to show the master relation ship
->>>>>
->>>>> mmsys-subdev = <&ovl0, &rdma0, &color0, ...>, <&ovl1, &rdma1,
->>>>> &color1,
->>>>> ...>;
->>>>>
+
+On 08/05/2024 21:53, Lucas De Marchi wrote:
+> On Wed, May 08, 2024 at 09:23:17AM GMT, Tvrtko Ursulin wrote:
+>>
+>> On 07/05/2024 22:35, Lucas De Marchi wrote:
+>>> On Fri, Apr 26, 2024 at 11:47:37AM GMT, Tvrtko Ursulin wrote:
 >>>>
->>>> There's no need to list all of the VDO0/VDO1/mmsys devices in one
->>>> big
->>>> array
->>>> property, because the actual possible devices can be defined:
->>>>      1. In the bindings; and
->>>>      2. In the actual OF graph that we write for each SoC+board
->>>> combination.
->>>>
->>>> A graph cannot contain a connection to a device that cannot be
->>>> connected to
->>>> the previous, so, your "mmsys-subdev" list can be retrieved by
->>>> looking at the
->>>> graph:
->>>>     - Start from VDO0/1 or MMSYS
->>>>     - Walk through (visually, even) OUTPUT ports
->>>>       - VDO0 (read output ep) -> ovl0 (read output ep) -> rdma0
->>>> (read
->>>> output ep) ->
->>>>         color0 (...) -> etc
->>>>     - Nothing more - it's all defined there.
->>>>
+>>>> On 24/04/2024 00:56, Lucas De Marchi wrote:
+>>>>> Print the accumulated runtime for client when printing fdinfo.
+>>>>> Each time a query is done it first does 2 things:
 >>>>>
->>>>> Another problem is how to group display device? If two pipeline
->>>>> could
->>>>> be route to the same display interface, such as
+>>>>> 1) loop through all the exec queues for the current client and
+>>>>>    accumulate the runtime, per engine class. CTX_TIMESTAMP is used for
+>>>>>    that, being read from the context image.
 >>>>>
->>>>> rdma0 -> dsi
->>>>> rdma1 -> dsi
+>>>>> 2) Read a "GPU timestamp" that can be used for considering "how 
+>>>>> much GPU
+>>>>>    time has passed" and that has the same unit/refclock as the one
+>>>>>    recording the runtime. RING_TIMESTAMP is used for that via MMIO.
 >>>>>
->>>>> Would this be single group?
+>>>>> Since for all current platforms RING_TIMESTAMP follows the same
+>>>>> refclock, just read it once, using any first engine.
+>>>>>
+>>>>> This is exported to userspace as 2 numbers in fdinfo:
+>>>>>
+>>>>>     drm-cycles-<class>: <RUNTIME>
+>>>>>     drm-total-cycles-<class>: <TIMESTAMP>
+>>>>>
+>>>>> Userspace is expected to collect at least 2 samples, which allows to
+>>>>> know the client engine busyness as per:
+>>>>>
+>>>>>             RUNTIME1 - RUNTIME0
+>>>>>     busyness = ---------------------
+>>>>>               T1 - T0
+>>>>>
+>>>>> Another thing to point out is that it's expected that userspace will
+>>>>> read any 2 samples every few seconds.  Given the update frequency 
+>>>>> of the
+>>>>> counters involved and that CTX_TIMESTAMP is 32-bits, the counter for
+>>>>> each exec_queue can wrap around (assuming 100% utilization) after 
+>>>>> ~200s.
+>>>>> The wraparound is not perceived by userspace since it's just 
+>>>>> accumulated
+>>>>> for all the exec_queues in a 64-bit counter), but the measurement will
+>>>>> not be accurate if the samples are too far apart.
+>>>>>
+>>>>> This could be mitigated by adding a workqueue to accumulate the 
+>>>>> counters
+>>>>> every so often, but it's additional complexity for something that is
+>>>>> done already by userspace every few seconds in tools like gputop (from
+>>>>> igt), htop, nvtop, etc with none of them really defaulting to 1 sample
+>>>>> per minute or more.
+>>>>>
+>>>>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>>>>> ---
+>>>>>  Documentation/gpu/drm-usage-stats.rst       |  16 ++-
+>>>>>  Documentation/gpu/xe/index.rst              |   1 +
+>>>>>  Documentation/gpu/xe/xe-drm-usage-stats.rst |  10 ++
+>>>>>  drivers/gpu/drm/xe/xe_drm_client.c          | 138 
+>>>>> +++++++++++++++++++-
+>>>>>  4 files changed, 162 insertions(+), 3 deletions(-)
+>>>>>  create mode 100644 Documentation/gpu/xe/xe-drm-usage-stats.rst
+>>>>>
+>>>>> diff --git a/Documentation/gpu/drm-usage-stats.rst 
+>>>>> b/Documentation/gpu/drm-usage-stats.rst
+>>>>> index 6dc299343b48..421766289b78 100644
+>>>>> --- a/Documentation/gpu/drm-usage-stats.rst
+>>>>> +++ b/Documentation/gpu/drm-usage-stats.rst
+>>>>> @@ -112,6 +112,17 @@ larger value within a reasonable period. Upon 
+>>>>> observing a value lower than what
+>>>>>  was previously read, userspace is expected to stay with that 
+>>>>> larger previous
+>>>>>  value until a monotonic update is seen.
+>>>>> +- drm-total-cycles-<keystr>: <uint>
+>>>>> +
+>>>>> +Engine identifier string must be the same as the one specified in the
+>>>>> +drm-cycles-<keystr> tag and shall contain the total number cycles 
+>>>>> for the given
+>>>>> +engine.
+>>>>> +
+>>>>> +This is a timestamp in GPU unspecified unit that matches the 
+>>>>> update rate
+>>>>> +of drm-cycles-<keystr>. For drivers that implement this interface, 
+>>>>> the engine
+>>>>> +utilization can be calculated entirely on the GPU clock domain, 
+>>>>> without
+>>>>> +considering the CPU sleep time between 2 samples.
 >>>>
->>>> There are multiple ways of doing this, but one that comes to my
->>>> mind
->>>> right now and
->>>> that looks clean as well is the following:
+>>>> Two opens.
 >>>>
->>>> ovl0@ef01 {
->>>>       .....
->>>>      ports {
->>>>        port@0 {
->>>>          reg = <0>;
->>>>          ovl0_in: endpoint {
->>>>            remote-endpoint = <&vdosys0_out>;
->>>>          };
->>>>        };
+>>>> 1)
+>>>> Do we need to explicity document that drm-total-cycles and 
+>>>> drm-maxfreq are mutually exclusive?
 >>>
->>> I'm not sure how do you define this port from OVL to vdosys. If
->>> this
->>> port means 'master relationship', others could add port in COLOR to
->>> point to vdosys because COLOR and vdosys has the 'master
->>> relationship'
->>> and I could not reject this. So we need more specific definition of
->>> this port.
+>>> so userspace has a fallback mechanism to calculate utilization depending
+>>> on what keys are available?
 >>
->>
->>> Only the 'first' device in pipeline could have this port?
->>
->> Correct. Only the first device in a pipeline - and this is actually a
->> restriction
->> that the generic binding definition of port already gives, in a way.
->>
->>
->>> In mt8173, one pipeline is
->>>
->>> ovl -> color -> aal -> od -> rdma -> ufo -> dsi
->>>
->>> But rdma has an option to read data from od or directly from DRAM.
->>> If
->>> from DRAM, the pipeline would be changed to
->>>
->>> rdma -> ufo -> dsi
->>>
->>>
->>> So it's confused which one is 'first'.
->>
->> That's why the pipeline is *board-specific* and not soc-generic!
->>
->> And what you described is *exactly* the reason why I'm adding support
->> for the
->> OF graphs in mediatek-drm: specifying the correct pipeline for each
->> board as per
->> what each board wants to use (said differently: for each board's
->> *capabilities*).
->>
->> So, if on a certain board you want to skip OD, you can hook RDMA up
->> directly to
->> MMSYS/VDOSYS.
->>
->> In MT8173, one pipeline for one board uses endpoints IN/OUT like
->> this:
->>
->> MMSYS -> OVL -> COLOR -> AAL -> OD -> RDMA -> UFO -> DSI
->>
->> and for another board, endpoints will be like
->>
->> MMSYS -> RDMA -> UFO -> DSI
->>
->> ...which is the exact same as you described, and I think that your
->> confusion comes
->> from the fact that you didn't put MMSYS at the beginning of the
->> pipeline :-)
+>> No, to document all three at once do not make sense. Or at least are 
+>> not expected. Or you envisage someone might legitimately emit all 
+>> three? I don't see what would be the semantics. When we have 
+>> cycles+maxfreq the latter is in Hz. And when we have cycles+total then 
+>> it is unitless. All three?
 > 
-> In one board, both OVL and RDMA could switch dynamically. Because each
-> one could be the first in one board, mmsys point to both ovl and rdma?
+> I don't follow what you mean here. *cycles* is actually a unit.
 > 
-
-No.
-
-MMSYS would still point ONLY to OVL, because OVL is the "earliest point"
-of the pipeline that this one board does support.
-
-In that case, RDMA being present at a later point in the pipeline does not
-matter and does not prevent us from *temporarily* skipping OVL-COLOR-AAL-OD
-and going MMSYS->RDMA *directly*.
-
-Switching dynamically is a driver duty and will be 100% possible (as much
-as it is right now) to dynamically switch OVL and RDMA as long as both are
-present in the pipeline.
-
-With this exact pipeline:
-
-MMSYS -> OVL -> COLOR -> AAL -> OD -> RDMA -> UFO -> DSI
-
-the driver _can switch dynamically_ between MMSYS->OVL->...->RDMA and
-MMSYS->RDMA as the driver itself *is allowed to* temporarily ignore part
-of the pipeline.
-
-Please note that, in case it is needed (trust me on this: it's not needed)
-a custom property in the endpoint node can always be introduced later, so
-that you can declare a node like
-
-          endpoint@0 {
-            remote-endpoint = <&ovl0_in>;
-            mediatek,short-path = <&rdma0_in>;
-          };
-
-...but again, that's never going to be needed, as the driver already does
-have knowledge of the fact that RDMA is in the pipeline, so it is possible
-to simply do a temporary override in the driver.
-
-What the OF Graph support does is to build the same arrays, that we currently
-have hardcoded in mediatek-drm, by reading from device tree.
-
-Nothing else and nothing more - for now.
-
-Having the OF Graph support makes us able to also add new dual-path support
-with more complicated connections than the current ones, without any problem
-and, in many cases, without even modifying the bindings from what I provided
-in this series.
-
-Cheers,
-Angelo
-
-> Regards,
-> CK
+> The engine spent 10 cycles running this context (drm-cycles). In the
+> same period there were 100 cycles available (drm-total-cycles). Current
+> frequency is X MHz. Max frequency is Y MHz. For me all of them make
+> sense if one wants to mix them together. For xe it doesn't make sense
+> because the counter backing drm-cycles and drm-total-cycles is unrelated
+> to the engine frequency.
 > 
->>
->>
->>
->>
->> In case you need any *temporary override* on any board that defines a
->> pipeline like
->>
->> MMSYS -> OVL -> COLOR -> AAL -> OD -> RDMA -> UFO -> DSI
->>
->> so that the pipeline *temporarily* becomes (for power management, or
->> for any other
->> reason) RDMA -> UFO -> DSI .... that's not a concern: the graph is
->> present, and it
->> is used to tell to the driver what is the regular pipeline to use.
->> Eventual temporary overrides can be managed transparently inside of
->> the driver with
->> C code and no changes to the devicetree are required.
->>
->>
->>> I don't know how to decide which device could point to
->>> mmsys/vdosys. So
->>> please give a specific definition.
+> I can add something in the doc that we do not expected to see all of them
+> together until we see a usecase. Each driver may implement a subset.
+
+I still don't quite see how a combination of cycles, total cycles and 
+maxfreq makes sense together. It would require a driver where cycle 
+period is equal to 1 / maxfreq, which also means total-cycles would be 
+equal to maxfreq, making one of them redundant. So both for drivers like 
+xe where cycle period is unrelated to maxfreq (or even the fataly 
+misguided curfreq) it doens't make sense, and for driver like above is 
+not needed. What use case am I missing?
+
+We need to document this properly so userspace knows how to do the right 
+thing depending on what keys they discover.
+
+>>>> 2)
+>>>> Should drm-total-cycles for now be documents as driver specific?
 >>>
+>>> you mean to call it xe-total-cycles?
 >>
->> Nothing points TO mmsys/vdosys. It is mmsys/vdosys pointing to a
->> device.
->>
->> So, mmsys/vdosys must point to the *first device in the pipeline*.
->>
->> Any other doubt?
->>
->> Cheers,
->> Angelo
->>
->>> Regards,
->>> CK
+>> Yes but it is not an ask, just an open.
+> 
+> Ok, my opinion is that we shouldn't. Just like we have drm-cycles today
+> implemented by some drivers, but not all. I'd consider the drm-curfreq,
+> not documented in the drm layer as something to be fixed or migrated to
+> a driver-only interface (probably not possible anymore as it'd break the
+> uapi).  Problem I see with turning it into xe-total-cycles, is that the
+> moment another driver decide to implement they will either have to use
+> xe- prefix or xe will need to start publishing both keys.
+> As said above, I can document that it's not expected to use both total
+> and maxfreq as it's currently the case.
+
+I see your point. If as an alternative solution we would say it is okay 
+to prefix driver specific keys drm-? It would legitimise panfrost 
+drm-curfreq. Downside would be anyone adding new common keys would have 
+to inspect all driver specific docs, and worse, the actual source since 
+people do forget to document things.
+
+Even having drm-cycles + xe-total-cycles wouldn't be spec compliant. 
+Okay.. drm-total-cycles- sounds like the least bad solution. Luckily it 
+feels a clean concept with some chance of reuse.
+
+Regards,
+
+Tvrtko
+
+>>>> I have added some more poeple in the cc who were involved with 
+>>>> driver fdinfo implementations if they will have an opinion.
+>>>>
+>>>> I would say potentially yes, and promote it to common if more than 
+>>>> one driver would use it.
+>>>>
+>>>> For instance I see panfrost has the driver specific drm-curfreq 
+>>>> (although isn't documenting it fully in panfrost.rst). And I have to 
+>>>> say it is somewhat questionable to expose the current frequency per 
+>>>> fdinfo per engine but not my call.
+>>>
+>>> aren't all of Documentation/gpu/drm-usage-stats.rst optional that
+>>> driver may or may not implement? When you say driver-specific I'd think
+>>> more of the ones not using <drm> as prefix as e.g. amd-*.
+>>>
+>>> I think drm-cycles + drm-total-cycles is just an alternative
+>>> implementation for engine utilization. Like drm-cycles + drm-maxfreq
+>>> already is an alternative to drm-engine and is not implemented by e.g.
+>>> amdgpu/i915.
+>>>
+>>> I will submit a new version of the entire patch series to get the ball
+>>> rolling, but let's keep this open for now.
+>>>
+>>> <...>
+>>>
+>>>>> +static void show_runtime(struct drm_printer *p, struct drm_file 
+>>>>> *file)
+>>>>> +{
+>>>>> +    struct xe_file *xef = file->driver_priv;
+>>>>> +    struct xe_device *xe = xef->xe;
+>>>>> +    struct xe_gt *gt;
+>>>>> +    struct xe_hw_engine *hwe;
+>>>>> +    struct xe_exec_queue *q;
+>>>>> +    unsigned long i, id_hwe, id_gt, capacity[XE_ENGINE_CLASS_MAX] 
+>>>>> = { };
+>>>>> +    u64 gpu_timestamp, engine_mask = 0;
+>>>>> +    bool gpu_stamp = false;
+>>>>> +
+>>>>> +    xe_pm_runtime_get(xe);
+>>>>> +
+>>>>> +    /* Accumulate all the exec queues from this client */
+>>>>> +    mutex_lock(&xef->exec_queue.lock);
+>>>>> +    xa_for_each(&xef->exec_queue.xa, i, q)
+>>>>> +        xe_exec_queue_update_runtime(q);
+>>>>> +    mutex_unlock(&xef->exec_queue.lock);
+>>>>> +
+>>>>> +
+>>>>> +    /* Calculate capacity of each engine class */
+>>>>> +    BUILD_BUG_ON(ARRAY_SIZE(class_to_mask) != XE_ENGINE_CLASS_MAX);
+>>>>> +    for_each_gt(gt, xe, id_gt)
+>>>>> +        engine_mask |= gt->info.engine_mask;
+>>>>> +    for (i = 0; i < XE_ENGINE_CLASS_MAX; i++)
+>>>>> +        capacity[i] = hweight64(engine_mask & class_to_mask[i]);
+>>>>
+>>>> FWIW the above two loops are static so could store capacity in 
+>>>> struct xe_device.
+>>>
+>>> yes, but just creating a cache in xe of something derived from gt is not
+>>> something to consider lightly. Particularly considering the small number
+>>> of xe->info.gt_count we have. For something that runs only when someone
+>>> cat the fdinfo, this doesn't seem terrible.
 >>>
 >>>>
->>>>        port@1 {
->>>>          reg = <1>;
->>>>          ovl0_out0: endpoint@0 {
->>>>            remote-endpoint = <&rdma0_in>;
->>>>          };
->>>>          ovl0_out1: endpoint@1 {
->>>>            remote-endpoint = <&rdma1_in>;
->>>>          };
->>>>        };
->>>>      };
->>>> };
+>>>>> +
+>>>>> +    /*
+>>>>> +     * Iterate over all engines, printing the accumulated
+>>>>> +     * runtime for this client, per engine class
+>>>>> +     */
+>>>>> +    for_each_gt(gt, xe, id_gt) {
+>>>>> +        xe_force_wake_get(gt_to_fw(gt), XE_FW_GT);
+>>>>> +        for_each_hw_engine(hwe, gt, id_hwe) {
+>>>>> +            const char *class_name;
+>>>>> +
+>>>>> +            if (!capacity[hwe->class])
+>>>>> +                continue;
+>>>>> +
+>>>>> +            /*
+>>>>> +             * Use any (first) engine to have a timestamp to be 
+>>>>> used every
+>>>>> +             * time
+>>>>> +             */
+>>>>> +            if (!gpu_stamp) {
+>>>>> +                gpu_timestamp = xe_hw_engine_read_timestamp(hwe);
+>>>>> +                gpu_stamp = true;
+>>>>> +            }
+>>>>> +
+>>>>> +            class_name = xe_hw_engine_class_to_str(hwe->class);
+>>>>> +
+>>>>> +            drm_printf(p, "drm-cycles-%s:\t%llu\n",
+>>>>> +                   class_name, xef->runtime[hwe->class]);
+>>>>> +            drm_printf(p, "drm-total-cycles-%s:\t%llu\n",
+>>>>> +                   class_name, gpu_timestamp);
+>>>>> +
+>>>>> +            if (capacity[hwe->class] > 1)
+>>>>> +                drm_printf(p, "drm-engine-capacity-%s:\t%lu\n",
+>>>>> +                       class_name, capacity[hwe->class]);
+>>>>> +
+>>>>> +            /* engine class already handled, skip next iterations */
+>>>>> +            capacity[hwe->class] = 0;
+>>>>> +        }
+>>>>> +        xe_force_wake_put(gt_to_fw(gt), XE_FW_GT);
+>>>>> +    }
 >>>>
->>>> rdma0@1234 {
->>>>       .....
->>>>      ports {
->>>>        port@0 {
->>>>          reg = <0>;
->>>>          rdma0_in: endpoint {
->>>>            remote-endpoint = <&ovl0_out0>; /* assuming ovl0
->>>> outputs to
->>>> rdma0...*/
->>>>          };
->>>>        };
->>>>        port@1 {
->>>>          reg = <1>;
->>>>          rdma0_out: endpoint@1 {
->>>>            remote-endpoint = <&dsi_dual_intf0_in>;
->>>>          };
->>>>        };
->>>>      };
->>>> };
->>>>
->>>>
->>>> rdma1@5678 {
->>>>       .....
->>>>      ports {
->>>>        port@0 {
->>>>          reg = <0>;
->>>>          rdma1_in: endpoint {
->>>>            /* assuming ovl0 outputs to rdma1 as well... can be
->>>> something else. */
->>>>            remote-endpoint = <&ovl0_out1>;
->>>>          };
->>>>        };
->>>>        port@1 {
->>>>          reg = <1>;
->>>>          rdma1_out: endpoint {
->>>>            remote-endpoint = <&dsi_dual_intf1_in>;
->>>>          };
->>>>        };
->>>>      };
->>>> };
->>>>
->>>>
->>>> dsi@9abcd {
->>>>       .....
->>>>      ports {
->>>>        port@0 {
->>>>          reg = <0>;
->>>>          /* Where endpoint@0 could be always DSI LEFT CTRL */
->>>>          dsi_dual_intf0_in: endpoint@0 {
->>>>            remote-endpoint = <&rdma0_out>;
->>>>          };
->>>>          /* ...and @1 could be always DSI RIGHT CTRL */
->>>>          dsi_dual_intf1_in: endpoint@1 {
->>>>            remote-endpoint = <&rdma1_out>;
->>>>          };
->>>>        };
->>>>
->>>>        port@1 {
->>>>          reg = <1>;
->>>>          dsi0_out: endpoint {
->>>>            remote-endpoint = <&dsi_panel_in>;
->>>>          };
->>>>        };
->>>>      };
->>>> };
->>>>
->>>> ...for a dual-dsi panel, it'd be a similar graph.
->>>>
->>>> Cheers,
->>>> Angelo
->>>>
->>>>>
->>>>> mmsys-subdev = <&rdma0, &rdma1, &dsi>;
->>>>>
->>>>> Or two group?
->>>>>
->>>>> mmsys-subdev = <&rdma0, &dsi>, <&rdma1, &dsi>;
->>>>>
->>>>> I think we should clearly define this.
->>>>>
->>>>> Regards,
->>>>> CK
->>>>>
->>>>>>
->>>>>>
->>>>>> Cheers,
->>>>>> Angelo
->>>>>>
->>>>>>> Regards,
->>>>>>> CK
->>>>>>>
->>>>>>>
->>>>>>>>      required:
->>>>>>>>        - compatible
->>>>>>>>        - reg
->>>>>>
->>>>>>
->>>>
->>>>
->>>>
+>>>> More FWIW and AFAICT, could just walk the "list" of classes instead of
+>>>
+>>> xe_force_wake_get() is per gt, so the alternative would be... loop
+>>> through the gts to get all forcewakes, loop through all engine 
+>>> classes, loop
+>>> again through all gts to put the forcewake. And we also need to consider
+>>> that an engine class may not be available in all GTs... example:
+>>> vcs/vecs in MTL and later, so we need to track it globally across GTs
+>>> anyway.
 >>
->>
-
-
-
+>> Forcewake is only needed once for the gpu_timestamp, no? At least I 
+>> don't see any other potential hardware access in the loop. Hence I 
+>> thought if you could have a known engine to get the timestamp outside 
+>> the loop, you could then run a flat loop (over classes) avoiding the 
+>> per gt fw dance. Your choice ofc.
+> 
+> makes sense... I will try this and run some tests.
+> 
+> thanks
+> Lucas De Marchi
