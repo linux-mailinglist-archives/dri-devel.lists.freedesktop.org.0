@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21AA18C0CB8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 10:40:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F9B8C0CC4
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 10:43:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7752710E364;
-	Thu,  9 May 2024 08:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B67910E4CC;
+	Thu,  9 May 2024 08:43:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FmnTUG66";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="L13rhRY7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01BFF10E364
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 08:40:38 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-572c65cea55so1127192a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 01:40:38 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5F410E38D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 08:43:54 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-a59cdf7cd78so154188466b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 01:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715244037; x=1715848837; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1715244232; x=1715849032; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=zqLAjg1hRCipJw/nc3mM4kgs0PTcSNAKwMinAhtsjdE=;
- b=FmnTUG66j4g2p8HBFuHqd8QShmsOeXC141id/4qvg1BCO75uIGfqIhrLsP0sXe6PlN
- FDMqIMrHgCZZAlp0rXfB+MzH+MqvrwL/9kXxhxbxGVchyQjHrto9tFM1MHp2GB0V3JEo
- Hdclrw9KGH6rLIAGhX82UhbxALVzdWaonQzaUHi6XVRnnc2BTCNlHsjPBlSYMGBU3ldK
- mHzb0yU1ApDHwoOdAhfW/agpgUyl7JtGgqqmy+sr1UGhB4HcMrBLHrEi5o3O/FX9RDF4
- ZVBVaoGKeG6dSno8nYLiGQZLA4C1GQ/2Z5xKIwgsyYxjnWzW+ClWBeuTuQTc9V+RgKSX
- invA==
+ bh=t9dUj3IwQQ0Gpo8gs9ays/Q0U2/Vfwpvl9S6n5N9NEw=;
+ b=L13rhRY73vGdzNjKLzVNoiIsJ9NVNoDN/mhZcXqYj+ZBRu+BdREisRpxYfkKZI9F+r
+ Gp906BabJa9DRNqeuMNVDydUQFl04e8zJ2DLuH/6gzNl4BUCpQsK6VqNyo7stYYTTSFP
+ oASgBRLhNSswNZ2vvGx1DQFOVO7/Dk8T24/rpIJzrKEjqpsTmgn66R4V36C/5Uu2e/Gm
+ WVPXktfS5wFXIs96Mev/0k1mMLcfrNt6kR0J0cAmMa160ApUeYL1C5JX+nuEddDRnmc+
+ nkFIauPyQRmXrfyy/uMg/Po4qUMzGNI74/Fg4wcyBoafL/9H2PPAyI1CC7UX5plwZvEr
+ lKng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715244037; x=1715848837;
+ d=1e100.net; s=20230601; t=1715244232; x=1715849032;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=zqLAjg1hRCipJw/nc3mM4kgs0PTcSNAKwMinAhtsjdE=;
- b=Ydsyb9wkSBIuNUoE36ozdjJMX/RJHrmShA31IYgSeUbwUGlwSXOZe8SO5ZzHpmt9HB
- KFpOgLOuP/XmkmTcgr/3doN3VFBbqfkz8/SaiFLMlLlN3oP8DirjJ00sjBjApBFUHk8V
- jy3zznvhW0NK1AjtWEZZRDI9tFby4pwECCu9zsXOfNU9INyNrFlv951M9QGNJYM849l8
- 7Y23bB0/66UzR1VmwGh4ksB9S1Hi2Fb89UevLSh58M+2sdJIgibf/Jk5l8heFR1Xjlwa
- bYt8DPbwzPUGPWu1AOhk3QEK7SR3pwj+dQWMuEQbw4wwNkIrqCnqoMGnYvTBhhI8700O
- bD+g==
-X-Gm-Message-State: AOJu0Yx6XsflTsK/WJpvPG/1oQGX2i40x0xTPElIZAsGBm+0TNKjtTUU
- 6QiRwUlKuhKtSrTWUhGG4xxzNQpGkylVz6MG9Z2caHiwBEtDEChK7JXYo0fhdv0=
-X-Google-Smtp-Source: AGHT+IHVIOp2U+LWWVlaJwVL6i6ttY+ZB6g5+IEEKA1wti9cs3yhwDIeod8voxY4eG7/M8gODG53VA==
-X-Received: by 2002:a05:6402:5247:b0:56e:7281:55eb with SMTP id
- 4fb4d7f45d1cf-57332786715mr1989034a12.9.1715244037049; 
- Thu, 09 May 2024 01:40:37 -0700 (PDT)
+ bh=t9dUj3IwQQ0Gpo8gs9ays/Q0U2/Vfwpvl9S6n5N9NEw=;
+ b=lpEkGMDTizwCniEmoSYAvgPTgswF6HFyULzESPBVLUW11ykxpPFLU6HU7di4A8oP9Z
+ L09HJQTxAnaY3TykMvRx/wgw5TkqdJZIHEk029HweZlcgHT1lvbyn8jU9E5yRlmGhOn7
+ e52n6k7B1FDfo8poztPDV85CGW5XjXndoIoyUoZ3jToNO79HsfgRcV5P3p9fVFTBfnjn
+ o+zWDszZ4oQztK4ulfW0k7+bSN4H6EabBDbaclFcfG+G0Yeli7FymPoDWwFLltQb2XMD
+ rc3kQVTOvbeds+u1VR7tK49XdJMMZDmXvd+wdW88H2oKe5QToNJ8YBH86sdBgB8wdLL6
+ 05CQ==
+X-Gm-Message-State: AOJu0Yzrd/H2lV3G5yg6O70Lgu45Fn4uDTFypvW8+wQcLiT0Wtveq6EH
+ FfcA+8MRu/tJ5g+sl4gefLN1bx0SqQFMtAcWbA7KNh59kSJbnd9kEqNzxOHvxnI=
+X-Google-Smtp-Source: AGHT+IEYJ/sf0DaUY6lp8CxvURp8xUa14QSdOf06kKhTXuoobG3Y8iiu9jINGhxP39Ham1SploqrbA==
+X-Received: by 2002:a17:907:6d1a:b0:a59:cbb5:e09e with SMTP id
+ a640c23a62f3a-a59fb9dc86emr384089866b.58.1715244232513; 
+ Thu, 09 May 2024 01:43:52 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.206.169])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5733bea65e2sm464889a12.19.2024.05.09.01.40.35
+ a640c23a62f3a-a5a1787c686sm50225566b.47.2024.05.09.01.43.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 May 2024 01:40:36 -0700 (PDT)
-Message-ID: <82685064-5163-4f83-88c8-b29fcb63ef08@linaro.org>
-Date: Thu, 9 May 2024 10:40:35 +0200
+ Thu, 09 May 2024 01:43:51 -0700 (PDT)
+Message-ID: <c5eb37eb-1ef7-4ae9-9b9a-972157320f43@linaro.org>
+Date: Thu, 9 May 2024 10:43:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: Add Starry-er88577
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: Add Starry-er88577
  support
 To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>,
  dmitry.torokhov@gmail.com, robh@kernel.org,
@@ -67,8 +67,8 @@ To: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>,
  benjamin.tissoires@redhat.co, dianders@google.com, hsinyi@google.com
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20240509064959.23550-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240509064959.23550-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+References: <20240509083453.14073-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+ <20240509083453.14073-2-lvzhaoxiong@huaqin.corp-partner.google.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -115,7 +115,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240509064959.23550-2-lvzhaoxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20240509083453.14073-2-lvzhaoxiong@huaqin.corp-partner.google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -133,89 +133,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/05/2024 08:49, Zhaoxiong Lv wrote:
+On 09/05/2024 10:34, Zhaoxiong Lv wrote:
 > Create a new dt-scheam for the Starry-er88577.
-
-typo, but anyway, this is not a "dt-schema".
-
-Describe hardware instead in one sentence.
-
 > 
 > Signed-off-by: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
 > ---
->  .../display/panel/starry,er88577.yaml         | 59 +++++++++++++++++++
->  1 file changed, 59 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/starry,er88577.yaml
+> Chage since V2:
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/starry,er88577.yaml b/Documentation/devicetree/bindings/display/panel/starry,er88577.yaml
-> new file mode 100644
-> index 000000000000..6686beaf0f16
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/starry,er88577.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/starry,er88577.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Starry Display ER88577 based MIPI-DSI panels
-> +
-> +description: |
+> -  Unmodified
+> 
+> V1: https://lore.kernel.org/all/20240509064959.23550-2-lvzhaoxiong@huaqin.corp-partner.google.com/
 
-Do not need '|' unless you need to preserve formatting.
+You just sent v1 2 hours before! Allow people to actually review your
+patches - one submission per 24h.
 
-
-> +  -This binding is for display panels using an ER88577 controller
-
-No need to say binding is a binding. Describe hardware instead.
-
-> +
-> +maintainers:
-> +  - Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: starry,er88577
-> +
-> +  pp3300-supply: true
-> +  reg: true
-
-Hm, I wonder why we do not have constraints here in most of the bindings...
-
-Anyway, keep the same order as in required:
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - enable-gpios
-> +  - pp3300-supply
-> +  - backlight
-> +  - port
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-
-You include this header for?
-
-> +
-> +    dsi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        panel: panel@0 {
-> +            compatible = "starry,er88577";
-> +            reg = <0>;
-> +            enable-gpios = <&pio 98 0>;
-
-And here do not use it? Use the define.
-
+Implement feedback you already got.
 
 Best regards,
 Krzysztof
