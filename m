@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82ED8C10CD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 16:04:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735FB8C10D4
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 16:07:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC2710E9AE;
-	Thu,  9 May 2024 14:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8250410EA2E;
+	Thu,  9 May 2024 14:06:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VrUYsT2V";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K4M3laul";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DE0610E9AE
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 14:04:51 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-34d8f6cfe5bso625236f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 07:04:51 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20BA910EA2E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 14:06:58 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-41b79450f78so5856915e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 07:06:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715263489; x=1715868289; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1715263616; x=1715868416; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
  bh=ygKOaLULm9Ty8/azGUq2u8NIEd5rcobuUSoqUbVVSBY=;
- b=VrUYsT2VnKzJqfRmKW1G9duWWQ/bunRioZmXGi878aCGHLgpoDn3D4Nskk3mGb1V60
- zCbFFkhGMVLQDux8cZ59SgOgfyUy5hbitP9vDXIskZuuD3bAxmKI4d+5kSO4pVJP45qM
- Z4848HW1sICiy3brPhYxZYtzoW71LYI7b/g6kUWpl1DAo0LHOL2h9WMehI16BAQaB4zp
- TCnXew7APUpn/gNZ+kr6EJ+UCmiQJZYr4yHjZND5OgclALJnQbSCTNcc4u9zd+CWD3+J
- JM6/TrZase4egLhQYO6IzwBtYR7fwWJHp1hMlAfg1f/ekxxJ179MpWymYsCGMEyyCU2d
- bCew==
+ b=K4M3laulfyrZkwzCXYZRVosY5yPkAFaiIQpqJobyrhuIaOgF+cxI9azSGgRmy/8k/L
+ CZhOQCHpWMbWsN3FwdBg/UarsfMNREeKWqR4WcL/21YRbj1hNaYjLXxfhX5BI2E4KN69
+ K8Tcod54hCAIpRjMQdojH6BIUregy775wTZNm57M+1PHIFZPNZ5/LMJRUb2G9Z2ZrRN+
+ IV11MBjbYmCAmSufEFTb5TrxUcoTii6ilTZi7cJyclzXwAooJVwTK0vHlx4ivRs+z7pP
+ 39jqc+a0We0EodRUqNMsZaR919r2D1ELTtSIgWRmAy++Gt162vdwCnBTsgbdD2GqdvSM
+ EwMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715263489; x=1715868289;
+ d=1e100.net; s=20230601; t=1715263616; x=1715868416;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=ygKOaLULm9Ty8/azGUq2u8NIEd5rcobuUSoqUbVVSBY=;
- b=G52bXD1+l9PbCZcNzBNgpzjNLia1KoJxc1wTmoxKWJ4C6KQDHa8UF0DGSqU/3vg86n
- ltkXo2PIIHa25xrmc5XqJ21Nn0cUF8EcvU+gQfXy0DPhDMZFU8Aeof/ZaGsq69JGeNZ1
- uDmY0lUvmr7xUb0Z1ll9UlID2RsO7fFj2uirHtzuzGx4FTOKkMPZUyFZbMYvTX9pCYWH
- 8t0Yq/64+FnOevjctCiWdketpkm7GT5SEfK3BewgEMh+lnDpMbibto9u9PthuqXvWaOd
- m7wwS59F3gzd+LIJZ60sgCImtc5MKppdhE/KdTlzlatytpOv0H5AHL9mgUC99pjI6L6y
- IA0g==
-X-Gm-Message-State: AOJu0Yw5qoXGspSP7pYgsPTmI9HzdrSO0a8n7d6m9xlsIvtffDSyexfb
- kAmOFwNKMNSu86MDs+y2kFNextf629wU7fXUaqRYgkvBKjUEFh4=
-X-Google-Smtp-Source: AGHT+IGJQUoq4KBpZVLF1jIA/JtqfJbPLkQQBLMgSeQVY1xajdJgFURlR2LWCEqpPMRCfEMg1QA8dQ==
-X-Received: by 2002:a5d:6e55:0:b0:34a:3f3d:bb14 with SMTP id
- ffacd0b85a97d-34fca242709mr3566295f8f.27.1715263489393; 
- Thu, 09 May 2024 07:04:49 -0700 (PDT)
+ b=NbMeJTyrSb3MZFS8hfi8po8g0fqVOOCSaNLKARxXJS+CiKq+eBb+vE3GTid/YlwWtK
+ A9J5zP4rO6grqzeqAsGoRutszhAmB7YiuV704F/1Uydko2HmXg6yGVyBHFlI4XJmiB4o
+ xQPlweBP5IWaMFoZeNUVTjGvlrgpUf+gI4zhW2yG9T8xKay0Ag71yAOw9iywgdpj1yIO
+ g8xX8jF8XlhBsT3WjuA2aDNk9+rEWPyK81euZ8YQmmsTxhIk5HtB9AuPxdL0zeMZbOLI
+ TylMXy+54El08OKTtKTS5/bNyL1brlH8o1PflasCNTAYY+zVS1NUtpTQq07UYHZfYVze
+ oqxQ==
+X-Gm-Message-State: AOJu0YyhchzjP3BL+f80bSDl1/hAsPXXq8aAd0KeU8yzdGJxTrJd9bk0
+ WWUhfHVHY/t0f+qOfxIDuMI2aB5VLv5CXnNN0xHcdn3dNZ0FD7k=
+X-Google-Smtp-Source: AGHT+IHVkPjBZZWpO88u2YrMojjQRZm2+OXl2pDCRbpsX72BfqrrTJABv2eO9OkV1+awudthPDrRNQ==
+X-Received: by 2002:a05:600c:4f0c:b0:41a:8b39:8040 with SMTP id
+ 5b1f17b1804b1-41f71ec26d4mr53830265e9.20.1715263616318; 
+ Thu, 09 May 2024 07:06:56 -0700 (PDT)
 Received: from U4.lan ([2a02:810b:f40:4600:b44:d8c3:6fa8:c46f])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3502b896a29sm1788467f8f.43.2024.05.09.07.04.48
+ ffacd0b85a97d-3502baad058sm1793311f8f.66.2024.05.09.07.06.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 May 2024 07:04:48 -0700 (PDT)
+ Thu, 09 May 2024 07:06:55 -0700 (PDT)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -70,8 +70,8 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  Alex Bee <knaerzche@gmail.com>
 Subject: [PATCH v3 0/7] Add DSI support for RK3128
-Date: Thu,  9 May 2024 16:04:32 +0200
-Message-ID: <20240509140438.168429-2-knaerzche@gmail.com>
+Date: Thu,  9 May 2024 16:06:46 +0200
+Message-ID: <20240509140653.168591-1-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
