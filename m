@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B84F8C10DD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 16:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDF28C10DC
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 16:07:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 895F510EA96;
-	Thu,  9 May 2024 14:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0F7610EA8D;
+	Thu,  9 May 2024 14:07:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dmGSghZb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lsePVrKl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFFC910EA96
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 14:07:03 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-34d9c9f2cf0so725664f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 07:07:03 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AC2A10EA8D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 14:07:04 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-34de61b7ca4so600047f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 07:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715263622; x=1715868422; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1715263623; x=1715868423; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=W7sDaxG0HvtHzdSFKGwBhhlzSS8/ejghi2usyHe6yIk=;
- b=dmGSghZblw/OmynoUti6PPa7I91jokCCvjHGS3Pk8+H0uIyUUC5l4o0HXD1sFH9wHl
- AoA6dgS1tArscyo15e4XoHQOTAiD9ZQps5G3qCVXeuMX4RGzLiqwIKV+Hdo2uYlN/U2l
- XAgC1OGq9K4Z750d5B0Z4stw7toQHdSZO7Wch1cxj9Ve0dKgqMgq+0EZKxHq40wRuvOv
- aOwNVMJ5tmnFKaGRxyHJkL9rZpIlQloaZ5AKnyvHrPrRpZKNlHomO/0SR9OI9Ox3wDOt
- ZF7/tSEB6jdrIHHVOE6XTQC9jXYZ+fuuzyB0//m1AnTvUKJ0Hs7KLGq45uSifeCtsJQq
- vcVw==
+ bh=gG8NnG9MCxt3FCrGHfY+CHmnXlhVbyAkGBrDmW81e5k=;
+ b=lsePVrKl0s3wgxsPzW+0V0D6qdnC4y3NU5iuGppOu0IBeKYmKbzyIwBboR5o7T3Grb
+ 4dOyZQtSGyz6Qi9mQJOSazHNT90lPGAm2mutectLmCtbnSYIsmo05KPMCyitWZRHc1tv
+ 36nDz93k5h/u7SJqMtBpNpxzfQqDqkK52Bglf0nWcT2lOeCSvDUaxT539wAkoYN4rOK7
+ OuhaYtEyDzzyIMYNskEX8y7Uita2n0FSdstVXO/ko4yqdfbQ1/fL+q+l0aXDJ+6NP0jp
+ E3mGGlvg+YZLORBKrjS9spgQx5lqdYalAECl1AVKKLhKdNyr7wGq4+rvBeExZznJnvsW
+ r8FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715263622; x=1715868422;
+ d=1e100.net; s=20230601; t=1715263623; x=1715868423;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=W7sDaxG0HvtHzdSFKGwBhhlzSS8/ejghi2usyHe6yIk=;
- b=ZtTBw3lTl7l57ZiL/T2lv4rERS7Qh70Hx+m9G3npH8amSvp3lwuiuxOUjnfR0SRTka
- cuVpXSc4aaGixPOpqCEHQKlBwFXJZTOHexe24+yxayX9fetJ9z+3yQQh39X2DEFskbnG
- p2Ha7P5pOggpIHnOSU+Zvwr0mAvmF65WwIs0Bk5z1DQ03IgS2j0nC8sYAPIylhOUlwZn
- /oO0K2iS3a6ZjKlTvzKzWX9hk5N4TV8zmr1xr2NlYUiUjrFuS6wxJnbP7ZVMXE+sF4lD
- 60aMGig7y4VHNg67IhVAqlhJyoZ6VdbJ+O9lAhqVlfzPKUgfyO5LLkm6+/0VWAxUTCE9
- 5q3w==
-X-Gm-Message-State: AOJu0YzHTAJxLJib44tIH8nhQnmOLg1yXVssOa8YnJLchpCVwKaVUsBg
- NkIRj+8shxxhzIiOOZxoXM43qG1hvfSRuy7YdvX03tfSPU21skM=
-X-Google-Smtp-Source: AGHT+IFljPNeI2NnGG45C+k3hGACkIN7MrrcjptnJgVqnmjgLGPcaqegGP1B5NCUyh20R+F22xanOQ==
-X-Received: by 2002:a05:6000:120d:b0:34d:8fac:9540 with SMTP id
- ffacd0b85a97d-34fca80df25mr5625135f8f.59.1715263621985; 
- Thu, 09 May 2024 07:07:01 -0700 (PDT)
+ bh=gG8NnG9MCxt3FCrGHfY+CHmnXlhVbyAkGBrDmW81e5k=;
+ b=i8jqgBqxyatZd5urj8B1NZWc0vqi4g3xS9id6Vb/VDGGzTcQnF0XfZyVFOl1ubUh5E
+ qPeyrJk/DQDSkyEt2R+x3dh8W7TBJ/HHCdzDJ4QHUSoyTmYMz5EUJfilZZOi5pgXH51T
+ ejqCZTpSILkWt+1tDUfcGRRn3SIKkdc+gbnzRqOQSpA9uMn64AZtSA+o6KWbZ8gK43Oz
+ YadmGMveZjuQbMAaabbV11HW2xzy+f+l0lJ+ZOY7hOOxAsH3I1Itl6YxCiv4zHdDxHzh
+ 3oqFPGENTw/W1rb0q+H1a8x2gg8f7OPBhLNIlV4HyYbTZhLyxCs6NkyA9woglXczHWgf
+ OIyQ==
+X-Gm-Message-State: AOJu0YwZ7V+Uijnti5AJgqzUpz+yIcioKPgbrZ33HSs8Z3wmSZkFr6JW
+ pNvAUl2lYE8eaElPiCyo1snnmrZXHg0jzCalQkVh9+o7E8s0gjM=
+X-Google-Smtp-Source: AGHT+IF638N9r8RenDUS5cIi1bm0ckYuTr7cNtt0tRexV/Fy7f9WgU1uTe9kWso6VR3HVhKQKBvSlQ==
+X-Received: by 2002:a5d:68c8:0:b0:34a:d1d4:cb3c with SMTP id
+ ffacd0b85a97d-34fca6233aamr5597109f8f.39.1715263623270; 
+ Thu, 09 May 2024 07:07:03 -0700 (PDT)
 Received: from U4.lan ([2a02:810b:f40:4600:b44:d8c3:6fa8:c46f])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3502baad058sm1793311f8f.66.2024.05.09.07.07.00
+ ffacd0b85a97d-3502baad058sm1793311f8f.66.2024.05.09.07.07.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 May 2024 07:07:01 -0700 (PDT)
+ Thu, 09 May 2024 07:07:02 -0700 (PDT)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -70,10 +70,9 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  Alex Bee <knaerzche@gmail.com>
-Subject: [PATCH v3 4/7] clk: rockchip: rk3128: Add hclk_vio_h2p to critical
- clocks
-Date: Thu,  9 May 2024 16:06:50 +0200
-Message-ID: <20240509140653.168591-5-knaerzche@gmail.com>
+Subject: [PATCH v3 5/7] drm/rockchip: dsi: Add support for RK3128
+Date: Thu,  9 May 2024 16:06:51 +0200
+Message-ID: <20240509140653.168591-6-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240509140653.168591-1-knaerzche@gmail.com>
 References: <20240509140653.168591-1-knaerzche@gmail.com>
@@ -94,32 +93,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSI controller needs this clock to be enabled in order to be able to
-access the registers. Make it critical for that purpose.
+The DesignWare MIPI DSI controller found RK3128 SoCs supports up to 4 DSI
+data lanes. Similar to PX30/RK356x/RV1126 it uses an external D-PHY.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
 changes since v1:
- - dropped patch
+ - none
+
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index 4cc8ed8f4fbd..58a44af0e9ad 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -153,6 +153,11 @@
+ #define PX30_DSI_TURNDISABLE		BIT(5)
+ #define PX30_DSI_LCDC_SEL		BIT(0)
  
-changes since v2:
- -re-added patch
-
- drivers/clk/rockchip/clk-rk3128.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/clk/rockchip/clk-rk3128.c b/drivers/clk/rockchip/clk-rk3128.c
-index a20d1fd25e2a..d076b7971f33 100644
---- a/drivers/clk/rockchip/clk-rk3128.c
-+++ b/drivers/clk/rockchip/clk-rk3128.c
-@@ -563,6 +563,7 @@ static const char *const rk3128_critical_clocks[] __initconst = {
- 	"pclk_cpu",
- 	"aclk_peri",
- 	"hclk_peri",
-+	"hclk_vio_h2p",
- 	"pclk_peri",
- 	"pclk_pmu",
- 	"sclk_timer5",
++#define RK3128_GRF_LVDS_CON0		0x0150
++#define RK3128_DSI_FORCETXSTOPMODE	GENMASK(13, 10)
++#define RK3128_DSI_FORCERXMODE		BIT(9)
++#define RK3128_DSI_TURNDISABLE		BIT(8)
++
+ #define RK3288_GRF_SOC_CON6		0x025c
+ #define RK3288_DSI0_LCDC_SEL		BIT(6)
+ #define RK3288_DSI1_LCDC_SEL		BIT(9)
+@@ -1493,6 +1498,18 @@ static const struct rockchip_dw_dsi_chip_data px30_chip_data[] = {
+ 	{ /* sentinel */ }
+ };
+ 
++static const struct rockchip_dw_dsi_chip_data rk3128_chip_data[] = {
++	{
++		.reg = 0x10110000,
++		.lanecfg1_grf_reg = RK3128_GRF_LVDS_CON0,
++		.lanecfg1 = HIWORD_UPDATE(0, RK3128_DSI_TURNDISABLE |
++					     RK3128_DSI_FORCERXMODE |
++					     RK3128_DSI_FORCETXSTOPMODE),
++		.max_data_lanes = 4,
++	},
++	{ /* sentinel */ }
++};
++
+ static const struct rockchip_dw_dsi_chip_data rk3288_chip_data[] = {
+ 	{
+ 		.reg = 0xff960000,
+@@ -1670,6 +1687,9 @@ static const struct of_device_id dw_mipi_dsi_rockchip_dt_ids[] = {
+ 	{
+ 	 .compatible = "rockchip,px30-mipi-dsi",
+ 	 .data = &px30_chip_data,
++	}, {
++	 .compatible = "rockchip,rk3128-mipi-dsi",
++	 .data = &rk3128_chip_data,
+ 	}, {
+ 	 .compatible = "rockchip,rk3288-mipi-dsi",
+ 	 .data = &rk3288_chip_data,
 -- 
 2.43.2
 
