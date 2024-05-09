@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368428C0F35
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 14:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808628C0F3D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 14:07:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2CC410E4A0;
-	Thu,  9 May 2024 12:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA2F10E793;
+	Thu,  9 May 2024 12:07:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CNSAu6dC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="edbeEeMc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B629110E110
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 12:07:25 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-51f3761c96aso999150e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 05:07:25 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2F210E298
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 12:07:26 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-2dfb4ea2bbfso8074621fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 05:07:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715256443; x=1715861243; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1715256444; x=1715861244; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CkypWPW9zjRDxFdsbSAq2JqA2c+afHrqHIvisMDjIts=;
- b=CNSAu6dCdK6rs5er/r7u9nPTBz71Ot3gQy+CjbuVuy+YtcyK5IdiGo8+sH6vjmEXnd
- XDN2/ohLJRCXygfbTfz6JawZ/EyvVs2fQ+DB7g2OE+cWcDFwCqPUe0kawQah9Q0wmtxQ
- 4eHL7LhNnQK8s8/aKzzrA+EhPBUqzwlVknWu4zef595ufb4eV/2CsR6QTTPmQrE7cn97
- wQmMhnPv/u2k47nZTooG7aw+fdtgeab83BglcnoXkbJLvvI0O+1zHEGRQZps2VMgNjEI
- te1kGGJ/ISvqID59M2m3+V34zOUU1nvNnDbUPBw0PoOJbv0RWe61Eu0t83kZTSFio6ot
- ggxQ==
+ bh=lAJ0ir3EvsiOixSkrLpbfd6IrLvM1qhtQ0lJENdLIss=;
+ b=edbeEeMclk9FcA3/bttYrrs4nplabeq6pXkrRl55Llepy9H2LT+jC2sCGdQXWn6baI
+ KRDukVtMjFTL+caFsdVaIdeLfGtjd+tlAQOOHTOvmTycidVrFKaDWvposaRZCr3DwBk8
+ bK1Te4Pmnj80CUQ7U0O+mX9S0kGYWSECnAPUVLUebsuAz27cxtY+OEi2oFlsDMMHvcSK
+ YRXzzY7H8tjP5NQXs2zyYuy9QALYJeG9tFTN+oGHewNNqYDAwQqQtIvlMLHiRjgLztLU
+ 4G5bapKsW7oxl8l8cjdcRCQtqPNALSIR9/+kpKsDtN0kQWldIpAOcVt4wRH6Ywq7NthV
+ P1Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715256443; x=1715861243;
+ d=1e100.net; s=20230601; t=1715256444; x=1715861244;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CkypWPW9zjRDxFdsbSAq2JqA2c+afHrqHIvisMDjIts=;
- b=qMNJ5JQzbp7/pO8RqdevCTq3I1mHjXGkDF64URTcamoZw4gCzs9Dl7hP7PjeCXniP0
- wRiyNCKcFbhqqTXWEMpg/FSEeQFCFU3MkqWD+GG0z78H6/UYAKDEPI5irMmSF4t3eu9h
- u6eCChwqJ0/4ILejP2XcPhJ+OsrMpuC09Z2nrq22KGHmO+3oTDHzv+gGRb3dBOo59Cgw
- yJbDalWBNzDRKOEpQyofe2JQlvxXNyajw54mu5UyLsr5Q1LFVoAW3igrP2zduGNl7n4m
- RDDPi0/lz/ARDHF2wpmlLTYfsPWZcq3sCgkL0nhTjjn5jbURGLI1U5BWoZCo+t6HUoIT
- BkaA==
-X-Gm-Message-State: AOJu0YyGwFflKLP+VbuOjwtRlTy+/rT/dQrWS2Y3uasudlCzItGXJtDI
- rAyrf2aTBVp+WQRCkca22IQso93LPu0pZ4LbX0qe+lnLaGWPf0Q=
-X-Google-Smtp-Source: AGHT+IHys9c5rfgObjKdpLe0taBmnOFFOHsrH8dMTFsMSmyd7UfuBmkk0BjGCiFKBOXChJJYLuzTew==
-X-Received: by 2002:ac2:5388:0:b0:51a:e305:eb20 with SMTP id
- 2adb3069b0e04-5217c567012mr4863974e87.17.1715256443303; 
- Thu, 09 May 2024 05:07:23 -0700 (PDT)
+ bh=lAJ0ir3EvsiOixSkrLpbfd6IrLvM1qhtQ0lJENdLIss=;
+ b=ri6VgJR/0Q7jpEztW6c/OacXlo90lCZAVh7Nu4Z9P9R0AHAqgHla6GmMwNHgnmJY0o
+ sjsFBLsIGPljDrAgCX+FZlpLrIi0Nde3Y8XJ1x/jpXCg4jWVZ+qVkwL9AUiGjmrty6WD
+ FHenlPpfTv5Uw7S/tLJC38n9k5A7kNDy4w5dPusPR94HnatOyokmIp/02lNEtEqb7T4T
+ EKOJSTYQL6ubqceTw7JuBu7ouGABbBOCMMP23VS9v/YjwRXhfVBtkU9F28FDHXL7m7o7
+ ki2jEcYFQVn6HkozgX3kC7rbCPhU9R3eQKwcQm8qr7PuhclD+umKYoJWewCTRyOJ0LqN
+ p/EQ==
+X-Gm-Message-State: AOJu0YzGkFiruKkASuGgUo1oPGXOxjsC7i0WoyykJ2sVLR6BcZh91Sf8
+ nMQw7ek2SchAtVBCPfjQAWiK4UcRSrqsJ+3nx587btZIp2FDqTQ=
+X-Google-Smtp-Source: AGHT+IFUYRwayrG45zhDJt6ESVgR9RDCoOYAoZNv9N+U2t+cQ8R6nC8DmHzJhqkPB1HbzzA7y03QZQ==
+X-Received: by 2002:a2e:9005:0:b0:2df:dae1:b2c0 with SMTP id
+ 38308e7fff4ca-2e4473a9373mr34950901fa.13.1715256444099; 
+ Thu, 09 May 2024 05:07:24 -0700 (PDT)
 Received: from U4.lan ([2a02:810b:f40:4600:b44:d8c3:6fa8:c46f])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-41fccce1912sm24112005e9.11.2024.05.09.05.07.22
+ 5b1f17b1804b1-41fccce1912sm24112005e9.11.2024.05.09.05.07.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 May 2024 05:07:23 -0700 (PDT)
 From: Alex Bee <knaerzche@gmail.com>
@@ -69,10 +69,10 @@ To: Sandy Huang <hjc@rock-chips.com>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- Alex Bee <knaerzche@gmail.com>, Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 2/7] dt-bindings: clock: rk3128: Add PCLK_MIPIPHY
-Date: Thu,  9 May 2024 14:07:10 +0200
-Message-ID: <20240509120715.86694-3-knaerzche@gmail.com>
+ Alex Bee <knaerzche@gmail.com>
+Subject: [PATCH v2 3/7] clk: rockchip: rk3128: Export PCLK_MIPIPHY
+Date: Thu,  9 May 2024 14:07:11 +0200
+Message-ID: <20240509120715.86694-4-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240509120715.86694-1-knaerzche@gmail.com>
 References: <20240509120715.86694-1-knaerzche@gmail.com>
@@ -93,30 +93,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DPHY's APB clock is required to be exposed in order to be able to
-enable it and access the phy's registers.
+Export the D-DHY's APB clock for usage in the DT. Also drop the
+CLK_IGNORE_UNUSED-flag, as the clock will be enabled on demand.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 changes since v1:
- - none
+ - reword commit message
 
- include/dt-bindings/clock/rk3128-cru.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/clk/rockchip/clk-rk3128.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/dt-bindings/clock/rk3128-cru.h b/include/dt-bindings/clock/rk3128-cru.h
-index 6a47825dac5d..1be455ba4985 100644
---- a/include/dt-bindings/clock/rk3128-cru.h
-+++ b/include/dt-bindings/clock/rk3128-cru.h
-@@ -116,6 +116,7 @@
- #define PCLK_GMAC		367
- #define PCLK_PMU_PRE		368
- #define PCLK_SIM_CARD		369
-+#define PCLK_MIPIPHY		370
+diff --git a/drivers/clk/rockchip/clk-rk3128.c b/drivers/clk/rockchip/clk-rk3128.c
+index 75071e0cd321..a20d1fd25e2a 100644
+--- a/drivers/clk/rockchip/clk-rk3128.c
++++ b/drivers/clk/rockchip/clk-rk3128.c
+@@ -526,7 +526,7 @@ static struct rockchip_clk_branch common_clk_branches[] __initdata = {
+ 	GATE(PCLK_ACODEC, "pclk_acodec", "pclk_cpu", 0, RK2928_CLKGATE_CON(5), 14, GFLAGS),
+ 	GATE(0, "pclk_ddrupctl", "pclk_cpu", CLK_IGNORE_UNUSED, RK2928_CLKGATE_CON(5), 7, GFLAGS),
+ 	GATE(0, "pclk_grf", "pclk_cpu", CLK_IGNORE_UNUSED, RK2928_CLKGATE_CON(5), 4, GFLAGS),
+-	GATE(0, "pclk_mipiphy", "pclk_cpu", CLK_IGNORE_UNUSED, RK2928_CLKGATE_CON(5), 0, GFLAGS),
++	GATE(PCLK_MIPIPHY, "pclk_mipiphy", "pclk_cpu", 0, RK2928_CLKGATE_CON(5), 0, GFLAGS),
  
- /* hclk gates */
- #define HCLK_SPDIF		440
+ 	GATE(0, "pclk_pmu", "pclk_pmu_pre", 0, RK2928_CLKGATE_CON(9), 2, GFLAGS),
+ 	GATE(0, "pclk_pmu_niu", "pclk_pmu_pre", CLK_IGNORE_UNUSED, RK2928_CLKGATE_CON(9), 3, GFLAGS),
 -- 
 2.43.2
 
