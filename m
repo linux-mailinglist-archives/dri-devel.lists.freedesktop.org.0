@@ -2,43 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0217C8C0F92
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 14:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207898C0FBD
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 14:40:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2CA10E21E;
-	Thu,  9 May 2024 12:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD6910E0D5;
+	Thu,  9 May 2024 12:40:23 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="08RXUR8S";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C70010E21E
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 12:22:01 +0000 (UTC)
-Received: from i53875b5d.versanet.de ([83.135.91.93] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1s52mU-0007xX-8U; Thu, 09 May 2024 14:21:50 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Alex Bee <knaerzche@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- Alex Bee <knaerzche@gmail.com>, sebastian.reichel@collabora.com
-Subject: Re: [PATCH v2 0/7] Add DSI support for RK3128
-Date: Thu, 09 May 2024 14:21:47 +0200
-Message-ID: <38423821.XM6RcZxFsP@diego>
-In-Reply-To: <20240509120715.86694-1-knaerzche@gmail.com>
-References: <20240509120715.86694-1-knaerzche@gmail.com>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6334C10E1F4
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 12:40:21 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-518931f8d23so870558e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 05:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1715258419; x=1715863219;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=n3NirfJeXWYYIR5R2uPMTQMrKgE4eFI2a/JfUV4vtog=;
+ b=08RXUR8S0AAQrs65fLj8iOe0drfYqnIfXYIdb+T00eTyLbZIinOo9DP2ssHySYrhsY
+ NSyGpCoAU2dAi7TaCDGRFiH5+2AkBAyYRwjrcVzo5GcKgBwzioorV0Wx0GvSxJqjet4Z
+ sptRJ84fnLjl1p/XSf8dqt7Sd0KUuYPtT7TYykJZ2p36VnP7Uw1wuMUYbp2eacyx3ZMh
+ EMFLJ8bX1x9H4ZUBl8QTda8vMl2p0xoLpjXlf2xQUXRbYNnhkadbVHGbmpW1CTKltnkZ
+ HkkJv7T46xeaYyyRhhCDimT6a3jn2xs7U1SY1Ro2oFFecVt6paook4cSKgnANRoS6IMc
+ sfrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715258419; x=1715863219;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=n3NirfJeXWYYIR5R2uPMTQMrKgE4eFI2a/JfUV4vtog=;
+ b=E9Q8nUD+HUXZXKE9bM9hHmrsacLXTHqLQggkq+fOvWMiaM24PsbeaiOTukC97DNFVb
+ FBsMn09/AZN6QiFJ/X/JUGUAmhf1SJiiESpynk08idb1AgyRdlosRo9T8HlmhYu+1H1C
+ tvjYOm3SHHyp3xznm13VlEZKl2v+JcQ9lP/ijfGV9jLMy2d8PIyF7fKHT/aQVJBFqw42
+ RV9hC1LlczLXb4JIsc+hbM/zIa6Qwnf2u1xn+I4FyrTZC8OsiIW2gscpatoA6k14uiL7
+ e3rxGD1gvDoXUUU/17+x/oDceoF5HsTvzpuKpH0gHo5oa6m+qJfSWf/6w530+JDQUPRu
+ lYkg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXz691zPKm1xdEp2U91pGRnHB76KKUeSF1tFJYI+8ql498syJytG7t+85gc3BrwRwEqAWtftsSdvr5hpW9+Hhhnn9Nq3DdbnoyLpDXIpQi5
+X-Gm-Message-State: AOJu0YxO0RowbhBZGXI1SAdP9KxT+p5FSeb2bN1Ee573a5rF/JsTRma4
+ 9hxz6BiSD81yIoWSE5J+3qdvHd4xf9nBXk5f0EXcI/ZkN9FiRryLdYfQyZwQcv0=
+X-Google-Smtp-Source: AGHT+IHL0A6wEwx4JimOBgRRojYWD3H9Z5e/uxRyzaiU217ufBs0ILdpp0w4zg84WxySIS97nfeQIg==
+X-Received: by 2002:a05:6512:344c:b0:519:2828:c284 with SMTP id
+ 2adb3069b0e04-5217ce42f3cmr3353348e87.65.1715258418996; 
+ Thu, 09 May 2024 05:40:18 -0700 (PDT)
+Received: from [192.168.0.101] ([84.69.19.168])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-41fccfe1527sm24010745e9.44.2024.05.09.05.40.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 May 2024 05:40:18 -0700 (PDT)
+Message-ID: <e39bcdd1-90e7-42f3-94a9-ea1af6b0d278@ursulin.net>
+Date: Thu, 9 May 2024 13:40:17 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/5] Discussion around eviction improvements
+Content-Language: en-GB
+To: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Friedrich Vock <friedrich.vock@gmx.de>
+References: <20240508180946.96863-1-tursulin@igalia.com>
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20240508180946.96863-1-tursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,47 +88,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
 
-Am Donnerstag, 9. Mai 2024, 14:07:08 CEST schrieb Alex Bee:
-> This series aims to add support for the DesignWare MIPI DSI controller and
-> the Innoslicon D-PHY found in RK3128 SoCs. The code additions are rather
-> tiny: It only need some code in the Rockchip dw-mipi-dsi glue layer for
-> this SoC, add support for an additional clock and do some changes in the
-> SoC's clock driver. Support for the phy was already added when the
-> Innosilicon D-PHY driver was initially submitted. I tested it with a
-> 800x1280 DSI panel where all 4 lanes that are supported are used.
+On 08/05/2024 19:09, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 > 
-> changes in v2:
->   To improve power-efficiency when the DSI controller is not in use, I
->   dropped the patch which made hclk_vio_h2p a critical clock and instead
->   added support for an AHB clock to the DSI controller driver and updated
->   the bindings and the addition to the SoC DT accordingly.
+> Last few days I was looking at the situation with VRAM over subscription, what
+> happens versus what perhaps should happen. Browsing through the driver and
+> running some simple experiments.
+> 
+> I ended up with this patch series which, as a disclaimer, may be completely
+> wrong but as I found some suspicious things, to me at least, I thought it was a
+> good point to stop and request some comments.
+> 
+> To perhaps summarise what are the main issues I think I found:
+> 
+>   * Migration rate limiting does not bother knowing if actual migration happened
+>     and so can over-account and unfairly penalise.
+> 
+>   * Migration rate limiting does not even work, at least not for the common case
+>     where userspace configures VRAM+GTT. It thinks it can stop migration attempts
+>     by playing with bo->allowed_domains vs bo->preferred domains but, both from
+>     the code, and from empirical experiments, I see that not working at all. Both
+>     masks are identical so fiddling with them achieves nothing.
+> 
+>   * Idea of the fallback placement only works when VRAM has free space. As soon
+>     as it does not, ttm_resource_compatible is happy to leave the buffers in the
+>     secondary placement forever.
+> 
+>   * Driver thinks it will be re-validating evicted buffers on the next submission
+>     but it does not for the very common case of VRAM+GTT because it only checks
+>     if current placement is *none* of the preferred placements.
+> 
+> All those problems are addressed in individual patches.
+> 
+> End result of this series appears to be driver which will try harder to move
+> buffers back into VRAM, but will be (more) correctly throttled in doing so by
+> the existing rate limiting logic.
+> 
+> I have run a quick benchmark of Cyberpunk 2077 and cannot say that I saw a
+> change but that could be a good thing too. At least I did not break anything,
+> perhaps.. On one occassion I did see the rate limiting logic get confused while
+> for a period of few minutes it went to a mode where it was constantly giving a
+> high migration budget. But that recovered itself when I switched clients and did
+> not come back so I don't know. If there is something wrong there I don't think
+> it would be caused by any patches in this series.
 
-The naming already suggests that hclk_vio_h2p is not a clock-part of
-the actual dsi controller, but more an internal thing inside the clock
-controller.
+Since yesterday I also briefly tested with Far Cry New Dawn. One run 
+each so possibly doesn't mean anything apart that there isn't a 
+regression aka migration throttling is keeping things at bay even with 
+increased requests to migrate things back to VRAM:
+			
+		     before		 after
+min/avg/max fps	    36/44/54		37/45/55
 
-At least naming and perceived functionality would suggest a chain of
-	hclk_vio -> hclk_vio_h2p -> pclk_mipi
+Cyberpunk 2077 from yesterday was similarly close:
 
-In any case, I really don't see hclk_vio_h2p to be in the realm of the
-actual DSI controller, but more a part of clock-controller / interconnect.
-Similar to the NIU clocks for the interconnect.
+		26.96/29.59/30.40	29.70/30.00/30.32
 
-rk3588 actually tries to implement this already and while the
-gate-link clocks are described as "recent", I think this definitly the same
-concept used a most/all older Rockchip SoCs, just nobody cared about that
-till now ;-) [0] .
+I guess the real story is proper DGPU where misplaced buffers have a 
+real cost.
 
-So TL;DR I'd really prefer to not leak CRU-details into the DSI controller.
+Regards,
 
+Tvrtko
 
-Heiko
-
-[0] Which reminds me that I should look at Sebastian's make GATE-LINK
-actually-work-patch.
-
-
-
-
+> Series is probably rough but should be good enough for dicsussion. I am curious
+> to hear if I identified at least something correctly as a real problem.
+> 
+> It would also be good to hear what are the suggested games to check and see
+> whether there is any improvement.
+> 
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Friedrich Vock <friedrich.vock@gmx.de>
+> 
+> Tvrtko Ursulin (5):
+>    drm/amdgpu: Fix migration rate limiting accounting
+>    drm/amdgpu: Actually respect buffer migration budget
+>    drm/ttm: Add preferred placement flag
+>    drm/amdgpu: Use preferred placement for VRAM+GTT
+>    drm/amdgpu: Re-validate evicted buffers
+> 
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c     | 38 +++++++++++++++++-----
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  8 +++--
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c     | 21 ++++++++++--
+>   drivers/gpu/drm/ttm/ttm_resource.c         | 13 +++++---
+>   include/drm/ttm/ttm_placement.h            |  3 ++
+>   5 files changed, 65 insertions(+), 18 deletions(-)
+> 
