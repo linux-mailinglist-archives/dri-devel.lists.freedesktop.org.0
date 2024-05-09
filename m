@@ -2,72 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F458C1572
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 21:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638988C1590
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 21:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16BC510F165;
-	Thu,  9 May 2024 19:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF27310ECD2;
+	Thu,  9 May 2024 19:40:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="izaCufKR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X170h4NS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 465AD10F165;
- Thu,  9 May 2024 19:28:00 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-2b239b5fedaso1068775a91.0; 
- Thu, 09 May 2024 12:28:00 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64DAF10EBDE;
+ Thu,  9 May 2024 19:40:47 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-a599eedc8eeso334940066b.1; 
+ Thu, 09 May 2024 12:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715282879; x=1715887679; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4q15vxk3U5tCW6AqzqeDT1BCURgzaUxT8LIVZ+ub84w=;
- b=izaCufKRC+Wuqk/9aQ55DDHzKny9EccCG6LIIuGWEGDG4SV3sp7GOIywIGO3q60+v7
- oMnP7M6e/pb+pjjt0mTWFcU4958A/T06DLlisPPbJsLhFJ3q5yDqZ5PQIi8/BSJr7qRO
- q5WuAYQhdysvW0moaaWbU1fW4JFM4waaKgjokOGiTT4gk99gkwBJT/DYaxc+J6fDPD+Y
- FsubCU2HZeiPxn0LUS9bXvth5lqkZdCu7nNEWfoclpA+oEISMBxlHiU4teGIy8+zf81a
- NDWMz7oHnWhXDV46XMJRMJH5ZpwqFu9uZ4G/G4wEEm2u/MAHX7z/paMQzGdwmzzPdYUc
- b5Ug==
+ d=gmail.com; s=20230601; t=1715283645; x=1715888445; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=G4PT/MoPGuaS1M3d3mLhAo2ZTc6fbniavNZr/SQBEv4=;
+ b=X170h4NSBawTsdXocQdAnzGPh4UpSCsUC8zeDIOg9bq1aqqV25Cm+Wt/CFjyh3Uknq
+ WbPP+BwVWCoytOtKI3qVY76yZd5VU0mzxgQz0/3pWZCrDmasvv8CxA06ginVPMmcsX8x
+ yhS4IOcMiJ2SxACBWM1M30Kg3E6VhMYNYjN25cWWdUsRpw//w+UjkAX2fb/zGdjzsMDb
+ z6+GIML0BQCH4jy7YGT1u1vgHQ4YqFBX8NN5vXE9wECnA5PSX1bfX3LVSwT7ouIwZ2lP
+ /sWUcmaKncT6dTdJVKeepfbmrR5KaG5SKzLPBwstsUDL7X0I+l6mGpUYFMKE5VFx95z3
+ cV1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715282879; x=1715887679;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1715283645; x=1715888445;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4q15vxk3U5tCW6AqzqeDT1BCURgzaUxT8LIVZ+ub84w=;
- b=kkpXdJhmH/DXW6Jud9ANlqNPObX8lFw/m2ts97VBZZPE7RAsW7LeVXjt3tbxQupYOn
- ASILFS2wHg3tbeTMCXhRDT4dfktDTGZJ6OpOvtP5cWm+Y8rhVWreL+y5HBo0qFd7sOEL
- HD7sn9HczY9RErnk3JfudKQ5E+JYu4lENuUDpWh2ZmElKZ9utOAigYKP96DaS1jynSEr
- MAnLR98k5oyZNtqXXsyrm1f1YAY7rj+mKHEGFS8ZiPObj1Wayv42YIMWnM4Z13nuOCSb
- dP5uhu/iAcgrRikUjGJHKyfvff2INAxu5SKhzp8pmxl+WlT3BCUJvoIt+yQ4ZZCxmnhl
- blRg==
+ bh=G4PT/MoPGuaS1M3d3mLhAo2ZTc6fbniavNZr/SQBEv4=;
+ b=J77BttDzno6ALAg1Q2BVUVXx7kcmqmFheFGxokD+CpVdcNiOO8K162i206GKqQu6Ey
+ tvE4a6zFTve3qFucrqRCRtbWYL2WEh3RsVetrV2Ci/vjeRm6n/nFdsPhDdz7MIIO3RWW
+ z2SWGXmoe+Ou9RPVapQSA5FpM+Lg2rERn52NFW8DioLsw2VcDrAJJ7CK7dIqunXLtVuZ
+ /gs6iBCC4E71iIncsrlG8QtRnYIZYtg+K81y2oeFArqHK3otwO5ZCsBe7y/bhdzXHLTb
+ YRVgesaxXpb4D+vyWOFftFruFLtzg8m34iSVRu7tFiguQZu6UEe8IWbGbGIn5k5kuMcW
+ sc3Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXzuiVdwTnIomi2JG2wSoiyql2QatzM684xbKYyuSX4Ibyb5xjhQTvhgnxyaMrBdhNFOli7jpn25/VLgIm22AlfYsGuRKWhATOMe84f5fmZpHN34UDv9SneJ0Q0zU3foBRCe84xc1JjGUyc/FDc1s4J
-X-Gm-Message-State: AOJu0YwObshjHd46eWi1PK7h2CryFH/r+3mrLLvG6E8eUImtSjdn139s
- 6Qce84qgrSM0lAFiXgjfHH/mfWTUeGP2mhM6DxxKWqh4auWvWqzHgivAk2bf9tix5K3hLVrmANY
- cZhfwnfDHpfJIDwccyPTQBrqRBMw=
-X-Google-Smtp-Source: AGHT+IFD2St8xMS5+Rfyw+Ljbcn5AcM1Wr/haO1ug4eK3rhYqRM3DPV+yzOiYy33989tocEobfL+9d6S07ZnmExnzgs=
-X-Received: by 2002:a17:90b:185:b0:2b6:c4d7:fbf9 with SMTP id
- 98e67ed59e1d1-2b6cc758aa9mr396866a91.13.1715282879509; Thu, 09 May 2024
- 12:27:59 -0700 (PDT)
+ AJvYcCXywR/WvUQbH6NbEv78AAA2kIyr6/zQpQecPxrD56nE2tFjuco36ojZ1TDLZj2qz0RKOvsDwqceqkjVND6uKZrL3G93BWUzadZE64ndDOB6nNEiWZMR7nE2TDxcTaj0sqQc2nk6sJvfE951Rtxi9AzS
+X-Gm-Message-State: AOJu0Yw+LoimZmi3f27zaBzzYlVIp4SrK5OA2LssjQoUysZGUt63OUSw
+ o0XvRc5nh8IdULEzonv5Vf7x1h+CQJTybAhvED/mQVUwr7Xfc9Gq
+X-Google-Smtp-Source: AGHT+IHiO7Yr5WIi7nR3XWhfO60riQOA4TSD1gQ1bqLHTx1IqEBI50QKKl536wB4J5uETi16lW6qmg==
+X-Received: by 2002:a50:cd42:0:b0:570:5b71:4859 with SMTP id
+ 4fb4d7f45d1cf-5734d704dc8mr352178a12.41.1715283645237; 
+ Thu, 09 May 2024 12:40:45 -0700 (PDT)
+Received: from [192.168.1.130] (51B6DCE0.unconfigured.pool.telekom.hu.
+ [81.182.220.224]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5733c322c61sm1032619a12.86.2024.05.09.12.40.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 May 2024 12:40:44 -0700 (PDT)
+From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
+Date: Thu, 09 May 2024 21:40:41 +0200
+Subject: [PATCH v2] drm/msm/dpu: fix encoder irq wait skip
 MIME-Version: 1.0
-References: <20240509-ctl_irq-v1-1-9433f2da9dc7@gmail.com>
- <151f3503-d7ce-b11d-0658-1d26a47b1920@quicinc.com>
-In-Reply-To: <151f3503-d7ce-b11d-0658-1d26a47b1920@quicinc.com>
-From: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>
-Date: Thu, 9 May 2024 21:27:48 +0200
-Message-ID: <CAGsSOWXFoFte_Ubbzudo3Ru=s35xsuiSwkOC3zHnZHM7_zj7pQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: guard ctl irq callback register/unregister
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240509-irq_wait-v2-1-b8b687b22cc4@gmail.com>
+X-B4-Tracking: v=1; b=H4sIALgmPWYC/23MQQ7CIBCF4as0sxYDdCrWlfcwjSF0bCexRaFBT
+ cPdxa5d/i8v3wqRAlOEU7VCoMSR/VxC7ypwo50HEtyXBi01yka2gsPz+rK8CGwR0ZE1hjSU+yP
+ Qjd8bdelKjxwXHz6bnNRv/YMkJZRA1R+ammpzRDoPk+X73vkJupzzF9MsxU+gAAAA
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,8 +89,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There was some previously sent patch series made by Dmitry for these soc,
-msm8996 was sent together by sdm660 but in the last version it was dropped.
-I have recreated msm8996 DPU support from that series but it will need
-some more test.
-I am testing msm8953 series but it is depend on msm8996.
+The irq_idx is unsigned so it cannot be lower than zero, better
+to change the condition to check if it is equal with zero.
+It could not cause any issue because a valid irq index starts from one.
+
+Fixes: 5a9d50150c2c ("drm/msm/dpu: shift IRQ indices by 1")
+Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+---
+Changes in v2:
+- Add Fixes in commit message.
+- Link to v1: https://lore.kernel.org/r/20240509-irq_wait-v1-1-41d653e3784e@gmail.com
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 119f3ea50a7c..cf7d769ab3b9 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -428,7 +428,7 @@ int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
+ 		return -EWOULDBLOCK;
+ 	}
+ 
+-	if (irq_idx < 0) {
++	if (irq_idx == 0) {
+ 		DRM_DEBUG_KMS("skip irq wait id=%u, callback=%ps\n",
+ 			      DRMID(phys_enc->parent), func);
+ 		return 0;
+
+---
+base-commit: 704ba27ac55579704ba1289392448b0c66b56258
+change-id: 20240509-irq_wait-49444cea77e2
+
+Best regards,
+-- 
+Barnabás Czémán <trabarni@gmail.com>
+
