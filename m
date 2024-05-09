@@ -2,81 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A238C13B6
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 19:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9E38C13F9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 19:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C550210E3A0;
-	Thu,  9 May 2024 17:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C905910E18A;
+	Thu,  9 May 2024 17:24:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=yahoo.com header.i=@yahoo.com header.b="E/sGQ9XS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KACqIESz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic301-32.consmr.mail.ne1.yahoo.com
- (sonic301-32.consmr.mail.ne1.yahoo.com [66.163.184.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6622410E3A0
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 17:19:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1715275172; bh=NZbNRrxw4TZ5GUHo6xbduEkO3V+u7bBWuS3fZOqgnWw=;
- h=Date:From:To:Subject:References:From:Subject:Reply-To;
- b=E/sGQ9XSQAInYBcCAr59IhHBQXni3bhPlU8Kgm/Pj2cAKpb7uaK7/kw+fMjFppy3kOTBmW/jtCEybtg5MTLzsOTnCCpr3HUpu3TzWcIfIFQDJQu5759hjR4DtUBtmkafrOO2eNix8t9aF0lAj3kIdV8dhv5SfVUOu3od6OcBe3c4z4WpnsMxptvobPv1Pk8OeKjm3LRk4bVIS966ZDuofIppwtnj7qdm/nxtGlN663ayGGissB3ntg5xnJa1hlEnF12BJavjN7OlsU/yXiv2o01KflE0vMWU4TdLKYnq6cZMTc2ReWhkGOoPzFr2U2SdTFjFh1XMYh0PonQNfyaVhw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1715275172; bh=6PzBqGn1mN9HfO1K0PxSsW8pRPgg8FNbGJqdYvpAzIJ=;
- h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
- b=TctDPwm9EgDLpZ/B2h55RnpXsINTP9p71zzI1BEiiBtvCvHK6dA3/YCzFgbDwKRsiuNglTgrYhgeBY1S5cYEoIAwID4w9u0NbQiayRURmi9d2MMmwwsXsXZ1t3lVdtm5xtJQAaBjeFmIqsoPSuDJHnVnZHkFuDjGQO4WAusoiaDmaGgDMcCiCcCX5rrPEDZcznVLcT18OXAJPjoWb18iqc9jLoepNM/HF9eM8gy16Nyy+IP4NelqwaY673PQgNBkgl51wGW0u49MaGfl2s9nRFwNvw2WvzsJXeTqNCGcpSN3W+jM1pKVDE/z5LM71ZbT2Vl8hCQNwbGRTpIfTt3bHw==
-X-YMail-OSG: PkdX.QkVM1kpyhiQ7hOHI.512rSweFleKGxwxW59QRIDbtep3ObYtuyUTwSuxff
- AGaSjyJQsnB6yDFrwLl5iVQ3dNJ6YOFVA4fptDODHPf_y9mSfTjaD9McrOuOCsf6vGNW3MEZHk49
- jA.xARcbFCCqbR14Nq7JCBA_KrFXRu8m3g81G_Dmz.XnIH4mr_t6npgLLarcq.V2jsucCDS1m2Jk
- oEZViNZo_Ls78C91WAAeCRs_vEGQMns8eR4jdjXN14gdiwGcF5IA4BAARXHxZ_L0AXdb2E2G3hFz
- 75lwFDVVypkctsXxNYeVYqhbgJD0NwUHycxRPNaZKO7gjO3YHFSxtZ.zqK7SeTITncn6C09nczVA
- CXfSohnBV4vNf0FqPfMe4GBCX.5ahxuh6xeKk_M4OwSWmDK6rXmlsEGxtMxheds5Pkrh82p9Hl5a
- eQWiayE2GYQlRmfZeDjzFb53uupFXxYxm00Pzgznc0yrPOmAXE.n4pbOe7AD1OW70Bwht9tjyMgW
- b2cq2c_3BbF3xEMti2hM8l_SlsQ1q6rGUDDlFICDJ4s7fhsgPGknwJslqXrBznmhhYhguiatRJXg
- KtS.RiZhpvCYt0Uc9o0H4f7enyEXGqjpRC1RFasWtRRPMUdLRsWgL8e3GfzfKhqz6Gfsaq0MCgxu
- 0rqWszq_Y4_iB0YJo6_C.bt8BOoyKkWsxqYE49lsLKFgGSZZ7yorp25FxAlM2ks4erHf9I0EoGSW
- asSbVHGJyCZ_w2JDWLOLg6iNVnMozj.dE.ua_L6kCF.KqLFr7guemEyuWiGLoYCoVpboEn6k9OK_
- QKj1ZNkU6BB0DuNqYdfjNadhZE3yJvhOxBjfO2LmwJ7h56qvpeqfhCH5990jorXPK4vpeS12Ap8J
- HkeY8g2vSdQqCBZSizCOeWWPljDPopP5a7JmxNRDqkrynzoLXCgAk6KQ0O0m_0t2W0hGZgg87wF1
- aLpmntWbCcLlC6dJR7ZQrMgodV460CrRrg1qBAeGsKmbUFBm7joDLK6wMyeur9PjX3Q7xLYlYN2E
- BEaPipw3TSD3xeDLOam3EaIN4o9viXOTasTRC_6871iskeYLJ6hgPwIV_10BlpG2QmazMxC_Yd_x
- ymLm.ThPVTNmB.K5nWl5FbBzWg8JljuH5yvyvzcdZPSGQsvCCVJcWsDkPRlzt70ZBwQYOq09anuP
- SyOtbvNgUisYCxgyikZX9Brf.tx4LJV9p6b28W2enzdiMZv4INj6bvKN2AbJetGrHaiOLSxcvD4Y
- p3tBIK51D8hpbzZLC6xYUn0.y2YDonFezMIbMpngkJ1LdsS66Nl40FfPp2lteqtJvlAVtufr5GLE
- I6bf6kl07TBCZN3L59QNceTG22lDe4C40E1qm4Rr7_b2iNmURWKr9mLBHECB98t4V4CIBalf8YH9
- _mcUJP_a4R55nOWd.0VN31up_HbQ1DBsX0ds_CRBibSl8DlIvZI8.3oKsQEPrTOYZcGU2MiwK9Xv
- 3HWcsQKjB_7fEsXuN0kSF8rJQhQ4CPZrYEHo65LvNbnMe9SFC0PmYFkymEcw7XyV1VSY5RvJaVDX
- 3IeeFx8r_z9SeU3v5KrZ0idxMvLuZU9tiNsYZGZDaJXDaZgAw.jiy.szEZIMt_5yxETOLkiWn2Vf
- ATR1_IjwgvJGkos5Ki9bodAMtycLm1ibnGuB8ZtXX9ahIDAbwRKtbN.C4nWnlHfjw7aL5sU4v1OV
- mdpcCflLVin2haFqC7Gi_gjA0Coxsn_cFg73mdH3VxvqJS7J5vTPJkof7HVGGAMxFFNG29cM6q9o
- UYGKEWV0Unv3_GGPu4VXJ3wx9GKRR0PIWCvq0sCsYGMR780K0yuOGET3jeQ73m79exLF.jMMvCWM
- qHpUsdxEfyw7MAUiIZus_0BER_N6aUtRDj2o3OsKRsBqaZ8WfMmvfsHbDOEiof.t3CEvYkPyFTF5
- c3TKCjl3q4MofUDMMMlhYLZnO.kfqpJg0.KwRv29iF.o.ZJ20zfNzIQFK1lK1ZunWVd6gbmKBYdR
- NaCA6CMmMN0xq4IPpsacONpQLsGtgi7o0eUklNph_jVV_EonFhLQaW36Ji047gqf6.4CTFXpq2kS
- 7SHGeg_x9XttOrknHlHix61fWTBwih3G4PXXbVvt5A6AstCbqd__7jLjQnYOesn8p7rKkPRXsJdZ
- 382CdREwKOniRcxTqHvI6U9FI9Y3MzB7fGVU89c_lZRzoA.UALDNvtwX.S_CTe4vnhYpR5qfcLJV
- 4Yzl0VgX.bzMUwXpK1wzoxDp.dpYm4_SkFSKeq7LjD.2srIBDXx9yWjP6rlkxoKjVFz5mXC01x6g
- zGg--
-X-Sonic-MF: <ashokemailat@yahoo.com>
-X-Sonic-ID: baa26a51-26d1-4fe6-8191-d04c43177dae
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic301.consmr.mail.ne1.yahoo.com with HTTP; Thu, 9 May 2024 17:19:32 +0000
-Received: by hermes--production-bf1-5cc9fc94c8-dv569 (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 6f8786067ae67dbd6de1c4462c36a576; 
- Thu, 09 May 2024 17:19:26 +0000 (UTC)
-Date: Thu, 9 May 2024 10:19:23 -0700
-From: Ashok Kumar <ashokemailat@yahoo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- outreachy@lists.linux.dev
-Subject: [PATCH] staging:vme_user: Add blank line after struct decl
-Message-ID: <Zj0Fm+vBdzPHlZKS@c>
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com
+ [209.85.217.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B146010E18A;
+ Thu,  9 May 2024 17:24:16 +0000 (UTC)
+Received: by mail-vs1-f47.google.com with SMTP id
+ ada2fe7eead31-47ef107b07fso592050137.0; 
+ Thu, 09 May 2024 10:24:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715275455; x=1715880255; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GJd+PuqR17Eq0A33REJzZo/D4RiASDpPnK9j9wlnmj0=;
+ b=KACqIESzpEiMd04Gib99HhpG3r+qb+WfYDb7GEEeTf+YQEfHvNy52+KxlqFQIFmr8a
+ VK045ieVSuf2zJj83dtdTq6Lx+C4VFaFQXmQMwSTOHcz84UFhBeT9PWSX5jWkof42i6X
+ prv7XdvwYK8gc3Ug8M/9feiufK5VQEA9com0BZkx9NJF6QSSY9kpWlITnI76Ehvow3dz
+ 4etuigg//Uf4lTpSzomEocXEcJHePU4cb6b1Uq/UrpiWvEftZPnmtdZG6f2P3SxyiFTQ
+ dBc5hKQJL0BX3ldrJEmYA+2jJBc9DeGfwpIVjtirgKA+FFkCt93AmTXq6mQIjtjuSntu
+ CMIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715275455; x=1715880255;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GJd+PuqR17Eq0A33REJzZo/D4RiASDpPnK9j9wlnmj0=;
+ b=ewTE9RCj1vpl5iZvwY+z13jhtsDgCqL2tb/0TySP81Q2gvAx3VW3PgiwtjRFlkR1PR
+ cDiKPg4NLWRkOZyu8r/AvspyPGKH+rEo/uAshL4Fwg6EjS9RvyhDCS+2xQU/At8s8liy
+ cGKdOS6lrgiy4t8+QDznvGL9K6r3LlJc9tHXEEwJDgv1MlI580U3QSWEJfb8tuJgdoXB
+ b7BLObFWbH4Kap5uCP2qxfOksXGZPAgOK8qqkGElRs63SyRUMZW4yaI2fYJBa7YNyhaH
+ l0AE6+AGwHGCkzutd/w8n03XtXMFhiJS/kJMW7nygh4zfcKJOq1b2DBR5AuW+ZbqCrCd
+ YiRA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVsBFCiEU+G79KQCa8YdBxp1QBbZLfU0TClKUDuq/BeMxHjpAuwyQXxfUs+H3vJemUTmjwHR5/v9tG2qGU8XAuRHGt9XwSiN7kYcmYYFDdBA4Q23YH4ioEr/WTr9VvUjrgN+CGamaNksrHfIzRy3g==
+X-Gm-Message-State: AOJu0YwLi/Rjdj0YrNQRfIzCykegpguIUxQ/yu7VfTawu61C1/h12Ipc
+ hjJXgD19GtRfrZO9yaWbbJRL8IOjfbCa3dudBbUDmzuVEtMPZwo/JUDseqyty/cOhfWzPvocISf
+ 6gqvZ2SlHM1cJ92Jebdmx6YeT5XU=
+X-Google-Smtp-Source: AGHT+IFIfCPVf9kp5qmitEYk8xDqLze2HZWBff7JeN7fK57HlQlsrtYhoPHxCRxQqqzqofCsWzPXPyIKBQYvrDLRxn4=
+X-Received: by 2002:a05:6102:162a:b0:47b:9844:8f8 with SMTP id
+ ada2fe7eead31-48077b68500mr680273137.6.1715275455196; Thu, 09 May 2024
+ 10:24:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-References: <Zj0Fm+vBdzPHlZKS.ref@c>
-X-Mailer: WebService/1.1.22321
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+References: <20240509085758.123046-1-oushixiong@kylinos.cn>
+In-Reply-To: <20240509085758.123046-1-oushixiong@kylinos.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 9 May 2024 13:24:03 -0400
+Message-ID: <CADnq5_PB_6Cz0UuYh+jEZeuE0Ld4f_ehf_H4N_rO=-ZqdfSQdw@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Delay Connector detecting when HPD singals is
+ unstable
+To: oushixiong <oushixiong@kylinos.cn>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Xinhui.Pan@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,26 +84,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Added blank line after struct declarions for improving readability indicated by
-checkpatch.pl
+On Thu, May 9, 2024 at 4:58=E2=80=AFAM oushixiong <oushixiong@kylinos.cn> w=
+rote:
+>
+> From: Shixiong Ou <oushixiong@kylinos.cn>
+>
+> In some causes, HPD signals will jitter when plugging in
+> or unplugging HDMI.
+>
+> Rescheduling the hotplug work for a second when EDID may still be
+> readable but HDP is disconnected, and fixes this issue.
+>
+> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 
-Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
----
- drivers/staging/vme_user/vme_user.c | 1 +
- 1 file changed, 1 insertion(+)
+Applied.  Thanks!
 
-diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
-index 36183f923768..5829a4141561 100644
---- a/drivers/staging/vme_user/vme_user.c
-+++ b/drivers/staging/vme_user/vme_user.c
-@@ -106,6 +106,7 @@ static struct vme_dev *vme_user_bridge;		/* Pointer to user device */
- static const struct class vme_user_sysfs_class = {
- 	.name = DRIVER_NAME,
- };
-+
- static const int type[VME_DEVS] = {	MASTER_MINOR,	MASTER_MINOR,
- 					MASTER_MINOR,	MASTER_MINOR,
- 					SLAVE_MINOR,	SLAVE_MINOR,
--- 
-2.34.1
+Alex
 
+> ---
+>  drivers/gpu/drm/radeon/radeon_connectors.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm=
+/radeon/radeon_connectors.c
+> index b84b58926106..cf0114ca59a4 100644
+> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
+> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+> @@ -1267,6 +1267,16 @@ radeon_dvi_detect(struct drm_connector *connector,=
+ bool force)
+>                         goto exit;
+>                 }
+>         }
+> +
+> +       if (dret && radeon_connector->hpd.hpd !=3D RADEON_HPD_NONE &&
+> +           !radeon_hpd_sense(rdev, radeon_connector->hpd.hpd) &&
+> +           connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA) {
+> +               DRM_DEBUG_KMS("EDID is readable when HPD disconnected\n")=
+;
+> +               schedule_delayed_work(&rdev->hotplug_work, msecs_to_jiffi=
+es(1000));
+> +               ret =3D connector_status_disconnected;
+> +               goto exit;
+> +       }
+> +
+>         if (dret) {
+>                 radeon_connector->detected_by_load =3D false;
+>                 radeon_connector_free_edid(connector);
+> --
+> 2.17.1
+>
