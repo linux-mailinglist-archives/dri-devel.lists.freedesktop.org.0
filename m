@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808628C0F3D
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 14:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3F98C0F36
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 14:07:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA2F10E793;
-	Thu,  9 May 2024 12:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD2D10E4E8;
+	Thu,  9 May 2024 12:07:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="edbeEeMc";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kdDrzeeg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2F210E298
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 12:07:26 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2dfb4ea2bbfso8074621fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 05:07:26 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 440CA10E4E8
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 12:07:27 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-51f1bf83f06so789684e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 05:07:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715256444; x=1715861244; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1715256445; x=1715861245; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lAJ0ir3EvsiOixSkrLpbfd6IrLvM1qhtQ0lJENdLIss=;
- b=edbeEeMclk9FcA3/bttYrrs4nplabeq6pXkrRl55Llepy9H2LT+jC2sCGdQXWn6baI
- KRDukVtMjFTL+caFsdVaIdeLfGtjd+tlAQOOHTOvmTycidVrFKaDWvposaRZCr3DwBk8
- bK1Te4Pmnj80CUQ7U0O+mX9S0kGYWSECnAPUVLUebsuAz27cxtY+OEi2oFlsDMMHvcSK
- YRXzzY7H8tjP5NQXs2zyYuy9QALYJeG9tFTN+oGHewNNqYDAwQqQtIvlMLHiRjgLztLU
- 4G5bapKsW7oxl8l8cjdcRCQtqPNALSIR9/+kpKsDtN0kQWldIpAOcVt4wRH6Ywq7NthV
- P1Qw==
+ bh=q8klZW1X3Sda14Lq0eRI1WDVW4JJJl7xuMqHEZ5sEhE=;
+ b=kdDrzeegXX1hXNPCx9ArV7au1O0x+mJ90MPTxK7DLVTUHZm8HJsvQP3+gIhk/O68Kq
+ dtItGR3frHFAJhZCU7OJsdLtjBwvazo4atfqTSTV8+RSDzD88wpoWUIKrC9tVCKfZ8HK
+ eD4HT+xY7fCbDl5kwGAbAD6SS7RaEY2HA/ij8zvfUoItDzUpohrpkPTQClf/Su9sFjmz
+ EgAwDDu6g3/g1CEoO3IBdgoPvfIpxIQaSihdnIlhOMkGm2wWq6Xnok8oqw9QiVTbnKOw
+ jzXY/mptrd/QKbGeVG4bfGcts1GRFZL+srLuqokbkLm/OqRZR4O2FMZ6217FRY6z6MnC
+ P6Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715256444; x=1715861244;
+ d=1e100.net; s=20230601; t=1715256445; x=1715861245;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lAJ0ir3EvsiOixSkrLpbfd6IrLvM1qhtQ0lJENdLIss=;
- b=ri6VgJR/0Q7jpEztW6c/OacXlo90lCZAVh7Nu4Z9P9R0AHAqgHla6GmMwNHgnmJY0o
- sjsFBLsIGPljDrAgCX+FZlpLrIi0Nde3Y8XJ1x/jpXCg4jWVZ+qVkwL9AUiGjmrty6WD
- FHenlPpfTv5Uw7S/tLJC38n9k5A7kNDy4w5dPusPR94HnatOyokmIp/02lNEtEqb7T4T
- EKOJSTYQL6ubqceTw7JuBu7ouGABbBOCMMP23VS9v/YjwRXhfVBtkU9F28FDHXL7m7o7
- ki2jEcYFQVn6HkozgX3kC7rbCPhU9R3eQKwcQm8qr7PuhclD+umKYoJWewCTRyOJ0LqN
- p/EQ==
-X-Gm-Message-State: AOJu0YzGkFiruKkASuGgUo1oPGXOxjsC7i0WoyykJ2sVLR6BcZh91Sf8
- nMQw7ek2SchAtVBCPfjQAWiK4UcRSrqsJ+3nx587btZIp2FDqTQ=
-X-Google-Smtp-Source: AGHT+IFUYRwayrG45zhDJt6ESVgR9RDCoOYAoZNv9N+U2t+cQ8R6nC8DmHzJhqkPB1HbzzA7y03QZQ==
-X-Received: by 2002:a2e:9005:0:b0:2df:dae1:b2c0 with SMTP id
- 38308e7fff4ca-2e4473a9373mr34950901fa.13.1715256444099; 
- Thu, 09 May 2024 05:07:24 -0700 (PDT)
+ bh=q8klZW1X3Sda14Lq0eRI1WDVW4JJJl7xuMqHEZ5sEhE=;
+ b=gd93iZccmlyxSRkwT/Qc9U8y+rETDp72mgnLwdkZm2pYJu9o8uyWUf76My8/W8gYJP
+ kButjsQx38OhQzP6NbJXQI8uPluH8EYVVkRrb925o/egO/4ZiJJWiCSmEx/q/iy3UehW
+ 6fldzjvcwW88Jn7OyTJu/XboVzLlDVaPpA11payNTw3W13/JxB5F/qrq8JGP6rCO7Zx7
+ H2IZP0vuv5bh/XCKBJyUrbix9hgrzqrkpm7UJIXSDjhiAGlk/4M16xaE8f495n1sUta8
+ E9XJRNxEDbrGExnDPp/cglHNAW7zi8OEeziIxRwQNgxliGxgpZoyUr0tPZSKr/s5p+nl
+ UW3w==
+X-Gm-Message-State: AOJu0YyrvsghMCwNret8dmChKqnQIaGfwbDnxOzckIFDBcUBA13qwrAC
+ 7+HnUDNejef9nPrf0g+9ga6+EINcbDzUOdJ49QFIFB+5Snj6p2o=
+X-Google-Smtp-Source: AGHT+IFecuxCJWM/nUWDhGJ7gBSfItZDqcg8FMCaOxeHy6FMY+wOyJdPzB48iweW2PiFVOX6Z6J58A==
+X-Received: by 2002:a05:6512:210a:b0:51d:9921:20f7 with SMTP id
+ 2adb3069b0e04-5217c56f496mr3116279e87.40.1715256445211; 
+ Thu, 09 May 2024 05:07:25 -0700 (PDT)
 Received: from U4.lan ([2a02:810b:f40:4600:b44:d8c3:6fa8:c46f])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-41fccce1912sm24112005e9.11.2024.05.09.05.07.23
+ 5b1f17b1804b1-41fccce1912sm24112005e9.11.2024.05.09.05.07.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 May 2024 05:07:23 -0700 (PDT)
+ Thu, 09 May 2024 05:07:24 -0700 (PDT)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -70,9 +70,9 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  Alex Bee <knaerzche@gmail.com>
-Subject: [PATCH v2 3/7] clk: rockchip: rk3128: Export PCLK_MIPIPHY
-Date: Thu,  9 May 2024 14:07:11 +0200
-Message-ID: <20240509120715.86694-4-knaerzche@gmail.com>
+Subject: [PATCH v2 4/7] drm/rockchip: dsi: Support optional AHB clock
+Date: Thu,  9 May 2024 14:07:12 +0200
+Message-ID: <20240509120715.86694-5-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240509120715.86694-1-knaerzche@gmail.com>
 References: <20240509120715.86694-1-knaerzche@gmail.com>
@@ -93,30 +93,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Export the D-DHY's APB clock for usage in the DT. Also drop the
-CLK_IGNORE_UNUSED-flag, as the clock will be enabled on demand.
+Some integrations of the IP additionally have an AHB clock which has to be
+enabled before accessing the registers is possible.
+
+Add support for it as an optional clock.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
 changes since v1:
- - reword commit message
+ - new patch
 
- drivers/clk/rockchip/clk-rk3128.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/clk/rockchip/clk-rk3128.c b/drivers/clk/rockchip/clk-rk3128.c
-index 75071e0cd321..a20d1fd25e2a 100644
---- a/drivers/clk/rockchip/clk-rk3128.c
-+++ b/drivers/clk/rockchip/clk-rk3128.c
-@@ -526,7 +526,7 @@ static struct rockchip_clk_branch common_clk_branches[] __initdata = {
- 	GATE(PCLK_ACODEC, "pclk_acodec", "pclk_cpu", 0, RK2928_CLKGATE_CON(5), 14, GFLAGS),
- 	GATE(0, "pclk_ddrupctl", "pclk_cpu", CLK_IGNORE_UNUSED, RK2928_CLKGATE_CON(5), 7, GFLAGS),
- 	GATE(0, "pclk_grf", "pclk_cpu", CLK_IGNORE_UNUSED, RK2928_CLKGATE_CON(5), 4, GFLAGS),
--	GATE(0, "pclk_mipiphy", "pclk_cpu", CLK_IGNORE_UNUSED, RK2928_CLKGATE_CON(5), 0, GFLAGS),
-+	GATE(PCLK_MIPIPHY, "pclk_mipiphy", "pclk_cpu", 0, RK2928_CLKGATE_CON(5), 0, GFLAGS),
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index 4cc8ed8f4fbd..6ed64cc35275 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -265,6 +265,7 @@ struct dw_mipi_dsi_rockchip {
+ 	struct clk *pllref_clk;
+ 	struct clk *grf_clk;
+ 	struct clk *phy_cfg_clk;
++	struct clk *ahb_clk;
  
- 	GATE(0, "pclk_pmu", "pclk_pmu_pre", 0, RK2928_CLKGATE_CON(9), 2, GFLAGS),
- 	GATE(0, "pclk_pmu_niu", "pclk_pmu_pre", CLK_IGNORE_UNUSED, RK2928_CLKGATE_CON(9), 3, GFLAGS),
+ 	/* dual-channel */
+ 	bool is_slave;
+@@ -1153,7 +1154,15 @@ static int dw_mipi_dsi_dphy_init(struct phy *phy)
+ 			goto err_init;
+ 		}
+ 
++		ret = clk_prepare_enable(dsi->ahb_clk);
++		if (ret) {
++			clk_disable_unprepare(dsi->grf_clk);
++			clk_disable_unprepare(dsi->pclk);
++			goto err_init;
++		}
++
+ 		ret = dsi->cdata->dphy_rx_init(phy);
++		clk_disable_unprepare(dsi->ahb_clk);
+ 		clk_disable_unprepare(dsi->grf_clk);
+ 		clk_disable_unprepare(dsi->pclk);
+ 		if (ret < 0)
+@@ -1240,6 +1249,12 @@ static int dw_mipi_dsi_dphy_power_on(struct phy *phy)
+ 		goto err_phy_cfg_clk;
+ 	}
+ 
++	ret = clk_prepare_enable(dsi->ahb_clk);
++	if (ret) {
++		DRM_DEV_ERROR(dsi->dev, "Failed to enable ahb_clk: %d\n", ret);
++		goto err_ahb_clk;
++	}
++
+ 	/* do soc-variant specific init */
+ 	if (dsi->cdata->dphy_rx_power_on) {
+ 		ret = dsi->cdata->dphy_rx_power_on(phy);
+@@ -1269,6 +1284,8 @@ static int dw_mipi_dsi_dphy_power_on(struct phy *phy)
+ 	return ret;
+ 
+ err_pwr_on:
++	clk_disable_unprepare(dsi->ahb_clk);
++err_ahb_clk:
+ 	clk_disable_unprepare(dsi->phy_cfg_clk);
+ err_phy_cfg_clk:
+ 	clk_disable_unprepare(dsi->grf_clk);
+@@ -1296,6 +1313,7 @@ static int dw_mipi_dsi_dphy_power_off(struct phy *phy)
+ 			DRM_DEV_ERROR(dsi->dev, "hardware-specific phy shutdown failed: %d\n", ret);
+ 	}
+ 
++	clk_disable_unprepare(dsi->ahb_clk);
+ 	clk_disable_unprepare(dsi->grf_clk);
+ 	clk_disable_unprepare(dsi->pclk);
+ 
+@@ -1429,6 +1447,13 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
++	dsi->ahb_clk = devm_clk_get_optional(dev, "ahb");
++	if (IS_ERR(dsi->ahb_clk)) {
++		ret = PTR_ERR(dsi->ahb_clk);
++		DRM_DEV_ERROR(dev, "Unable to get ahb_clk: %d\n", ret);
++		return ret;
++	}
++
+ 	dsi->grf_regmap = syscon_regmap_lookup_by_phandle(np, "rockchip,grf");
+ 	if (IS_ERR(dsi->grf_regmap)) {
+ 		DRM_DEV_ERROR(dev, "Unable to get rockchip,grf\n");
 -- 
 2.43.2
 
