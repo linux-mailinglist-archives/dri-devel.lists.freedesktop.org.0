@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A998C199F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 00:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4CD8C1A01
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 01:42:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8618A10ECC8;
-	Thu,  9 May 2024 22:57:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E673D10E05C;
+	Thu,  9 May 2024 23:42:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Np+gggfX";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="KpnIozH4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78F7A10F82D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 22:57:30 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id
- 41be03b00d2f7-61bbb208ea5so1158532a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 15:57:30 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C906310E05C
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 23:42:04 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1ec41d82b8bso13109055ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 16:42:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1715295450; x=1715900250;
+ d=broadcom.com; s=google; t=1715298124; x=1715902924;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=Ilb5Zzj/rMc2xfxLCKhyEqQhug1Rqb3YSQDWbnIpur0=;
- b=Np+gggfXeDS1OVvxtCZOMd484U7W90m4umA7M3RoDhxcDKqA0MZY6lzlkaRHcnk0x3
- xtQqyN5kYsPhojb54mJbgGDsrFrTmXnZvB/cr6UcyQ1WOZ6+R+7s4+DdkzdVAwB15ig0
- qvaeSZuU62Uh8sks/efiQPZ3kw9LjQrNt/p3Q=
+ bh=qcQ+E1QA8l+ah/ENXdvarlO1w5eDBmEI+kx8d052/jY=;
+ b=KpnIozH4JH3QnMSMtNUwIQwSW+P6mPM52kKPpu4+4+1GwzhanZ8mP+GYEjzoWHX8fY
+ /WXksEhsybtjsmXYjY7/a4Fs2HLCt9+ozQLbDVuY73arSVg/bDGjHQBIFOh8ZyQkPiDk
+ kUb+QvwSZL6LVU2SD+HaJbQ6dZx7sqkCTAk9I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715295450; x=1715900250;
+ d=1e100.net; s=20230601; t=1715298124; x=1715902924;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ilb5Zzj/rMc2xfxLCKhyEqQhug1Rqb3YSQDWbnIpur0=;
- b=AzWB/sTEZxQCm8wq1HCUrRc3KLwlPqO2iGxDSej/Wf4KmfA6DA1cNO9bBfgIv/AB71
- F6idg119z3pAW79Bf6OhbOR6lKXVGDJKGqBx43bb2PUfh6FVTqpvlKfT0F2DX+2D4XJD
- hrgcfwDvrYchFvxxcv6JOVS6rbW/YCyb8wF5U3f/4uNqwNu5gZtRABr2FKmMRHoeG6cL
- yTaX5aaP+p058Onaq8IezGgyYvqupD6jXLjZExAJt8/lRUE9hwKZkKNLmLq5INKPXRM8
- JbpRODslL+PUPpJhCcBO503zkbeDmNJ5QfKOOyE5RdRhSmakgFF7Ng0UvhNyyH9p3H3Q
- OqZg==
+ bh=qcQ+E1QA8l+ah/ENXdvarlO1w5eDBmEI+kx8d052/jY=;
+ b=ni8CcbbbMNRGqfN8SuqWKmOvfh1P+Hm/9ridNC6ni1wkXISOhrbFJd9F5z/MeRgkhf
+ 6CbXZSb+18LCErvbMUuqSuyQvFn2Qs/qPmBpLWFJzS8BSdTnE3UxaK/SmQNyKdgIp8TJ
+ bEN5cYOdaC6sdA7j96e5m+KVOM/fIMjpEJszv4xpFdcuFHHnS1jdtccnsOj1gHDkGPk1
+ Esphb9FBR4fHEJNXjbrQfkqVAexgjisEEUl4djy5lVZEYtDwIPJwMYKgj9KmQk86jtJn
+ KgKY7WyFMQ6zxwsgjDYZobSfdDPV/1J7TF2IT0NoIRwdZGWCMJ1KLUZoGxv0sYbWG0Eh
+ P/Zw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUTMofHrMGW7aNhieob0l8w6+iqEDoS2j+nORDU/lSmC1i8470J1TgCCGnlreo/hCdNlr7n4OsI5S6GiOm9wqab0pNaBwdhwoorJGesZNU9
-X-Gm-Message-State: AOJu0YzFlY1rwiomWxhEjnOkBRWsTDyvpAfSTNjdpi/R4/OitKjQU8/b
- 5vTWalEivMTsJPRPgIUpu+sQ8zuoCc0A4NrmHeXANkNaGwsqIbyPl0x1O4z56A==
-X-Google-Smtp-Source: AGHT+IH5vOP57x3V1CiZy66ayl1ctIudQSQY6XNjhzRbK0HQXXM6WPYJ1nKRuqnzXEdfc1QIL40KYw==
-X-Received: by 2002:a17:90b:2252:b0:2b1:8210:56bb with SMTP id
- 98e67ed59e1d1-2b6cc342e4amr894347a91.3.1715295449675; 
- Thu, 09 May 2024 15:57:29 -0700 (PDT)
+ AJvYcCWXwFv6OWrciXnUJDepwvZZmVdikWdM0iCik/LihQQjintK4Zi45/dAWltUhcmoAIA8sD3ZsnNnG0OceZz1igG+G/jPWMiIn45QOpJGMsEW
+X-Gm-Message-State: AOJu0YwbYqPZHPZzh43miMU5LhR9tvAHu3AwhhBYTFcPD0QvCsKOcglF
+ EnkYE4jmQoQjq3HYDLUoLAyArSpmcuaTSvg9Yyy7ML24CtatTeZ1qVEtHMZKuA==
+X-Google-Smtp-Source: AGHT+IEUXVntNOdIl0JFIcu3FbFOnabVgHUgiNiHs/V/L6l5se4Qx1VFF0gI5J1ocymcGEaLDXx4BQ==
+X-Received: by 2002:a17:903:120e:b0:1e4:6519:816d with SMTP id
+ d9443c01a7336-1ef43f51feamr13083235ad.48.1715298124022; 
+ Thu, 09 May 2024 16:42:04 -0700 (PDT)
 Received: from [10.62.14.240] ([128.177.82.146])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2b67178353bsm2016548a91.56.2024.05.09.15.57.27
+ d9443c01a7336-1ef0b9d176fsm19965805ad.58.2024.05.09.16.42.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 May 2024 15:57:29 -0700 (PDT)
-Message-ID: <53ff9535-d4cc-4d72-9e60-f43aaba5485c@broadcom.com>
-Date: Thu, 9 May 2024 15:57:25 -0700
+ Thu, 09 May 2024 16:42:03 -0700 (PDT)
+Message-ID: <a503d8b3-d31c-46e9-a4a2-538312e850c5@broadcom.com>
+Date: Thu, 9 May 2024 16:42:00 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/8] x86/vmware: Move common macros to vmware.h
+Subject: Re: [PATCH v9 3/8] x86/vmware: Introduce VMware hypercall API
 To: Borislav Petkov <bp@alien8.de>
 Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
  hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
@@ -70,11 +70,12 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
  timothym@vmware.com, akaher@vmware.com, dri-devel@lists.freedesktop.org,
  daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, horms@kernel.org,
- kirill.shutemov@linux.intel.com, Nadav Amit <nadav.amit@gmail.com>
+ kirill.shutemov@linux.intel.com, Nadav Amit <nadav.amit@gmail.com>,
+ Jeff Sipek <jsipek@vmware.com>
 References: <20240505182829.GBZjfPzeEijTsBUth5@fat_crate.local>
  <20240506215305.30756-1-alexey.makhalov@broadcom.com>
- <20240506215305.30756-2-alexey.makhalov@broadcom.com>
- <20240507091424.GUZjnw8ErpQT6XJLVM@fat_crate.local>
+ <20240506215305.30756-4-alexey.makhalov@broadcom.com>
+ <20240507095852.GVZjn7XM0VMXzBfKsd@fat_crate.local>
 Content-Language: en-US
 From: Alexey Makhalov <alexey.makhalov@broadcom.com>
 Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
@@ -120,7 +121,7 @@ Autocrypt: addr=alexey.makhalov@broadcom.com; keydata=
  fqqZgi3rxgu4sc5lmR846emZ/Tx85/nizqWCv7xUBxQwmhRPZRW+37vS2OLpyrTtBj3/tEM9
  m9GMmTZqaJFeK7WCpprJV4jNHpWZuNAsQrdK1MrceIxb0/6wYe0xK79lScxms+zs9pGTrO4U
  5RoS4gXK65ECcBH8/mumV6oBmLrNxKUrzTczdo9PnkmRyZcAa6AndbjmQDznwxvTZu2LjMPC EuY0
-In-Reply-To: <20240507091424.GUZjnw8ErpQT6XJLVM@fat_crate.local>
+In-Reply-To: <20240507095852.GVZjn7XM0VMXzBfKsd@fat_crate.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -140,29 +141,131 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 5/7/24 2:14 AM, Borislav Petkov wrote:
-> On Mon, May 06, 2024 at 02:52:58PM -0700, Alexey Makhalov wrote:
->> +#define VMWARE_HYPERVISOR_PORT		0x5658
->> +#define VMWARE_HYPERVISOR_PORT_HB	(VMWARE_HYPERVISOR_PORT | \
->> +					 VMWARE_HYPERVISOR_HB)
+On 5/7/24 2:58 AM, Borislav Petkov wrote:
+> On Mon, May 06, 2024 at 02:53:00PM -0700, Alexey Makhalov wrote:
+>> +#define VMWARE_HYPERCALL						\
+>> +	ALTERNATIVE_3("cmpb $"						\
+>> +			__stringify(CPUID_VMWARE_FEATURES_ECX_VMMCALL)	\
+>> +			", %[mode]\n\t"					\
+>> +		      "jg 2f\n\t"					\
+>> +		      "je 1f\n\t"					\
+>> +		      "movw %[port], %%dx\n\t"				\
+>> +		      "inl (%%dx), %%eax\n\t"				\
+>> +		      "jmp 3f\n\t"					\
+>> +		      "1: vmmcall\n\t"					\
+>> +		      "jmp 3f\n\t"					\
+>> +		      "2: vmcall\n\t"					\
+>> +		      "3:\n\t",						\
+>> +		      "movw %[port], %%dx\n\t"				\
+>> +		      "inl (%%dx), %%eax", X86_FEATURE_HYPERVISOR,	\
 > 
-> You can't help yourself not sneaking in any changes which are not code
-> movement, can ya?
-Indeed! My fault.
+> That's a bunch of insns and their size would inadvertently go into the final
+> image.
+> 
+> What you should try to do is something like this:
+> 
+> ALTERNATIVE_3("jmp .Lend_legacy_call", "", X86_FEATURE_HYPERVISOR,
+> 	      "vmcall; jmp .Lend_legacy_call", X86_FEATURE_VMCALL,
+> 	      "vmmcall; jmp .Lend_legacy_call", X86_FEATURE_VMW_VMMCALL)
+> 
+> 		/* bunch of conditional branches and INs and V*MCALLs, etc go here */
+> 
+> 		.Lend_legacy_call:
+> 
+> so that you don't have these 26 bytes, as you say, of alternatives to patch but
+> only the JMPs and the VM*CALLs.
+> 
+> See for an example the macros in arch/x86/entry/calling.h which simply jump
+> over the code when not needed.
+Good idea!
 
 > 
-> The purpose of a sole code movement patch is to ease the review. Not to
-> have to look at the code movement *and* some *additional* changes which
-> you've done in-flight. Just because you felt like it. But which is nasty
-> to review.
+> Also, you could restructure the alternative differently so that that bunch of
+> insns call is completely out-of-line because all current machines support
+> VM*CALL so you won't even need to patch. You only get to patch when running on
+> some old rust and there you can just as well go completely out-of-line.
+> 
+Alternatives patching has not been performed at platform detection time.
+And platform detection hypercalls should work on all machines.
+That is the reason we have IN as a default hypercall behavior.
 
-Agree. I should not claim it as sole code movement then.
-At least moving macros from .c to .h file requires changing 
-vmware_hypercall_mode variable visibility from static to global.
+> Something along those lines, anyway.
+> 
+>> - * The high bandwidth in call. The low word of edx is presumed to have the
+>> - * HB bit set.
+>> + * High bandwidth calls are not supported on encrypted memory guests.
+>> + * The caller should check cc_platform_has(CC_ATTR_MEM_ENCRYPT) and use
+>> + * low bandwidth hypercall it memory encryption is set.
+> 
+> s/it/if/
+Acked.
 
-If you think this type of changes is Ok for sole code movement patch,
-then I'll continue following this path. Otherwise, will change patch
-description.
+> 
+>> -#define VMWARE_PORT(cmd, eax, ebx, ecx, edx)				\
+>> -	__asm__("inl (%%dx), %%eax" :					\
+>> -		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
+>> -		"a"(VMWARE_HYPERVISOR_MAGIC),				\
+>> -		"c"(VMWARE_CMD_##cmd),					\
+>> -		"d"(VMWARE_HYPERVISOR_PORT), "b"(UINT_MAX) :		\
+>> -		"memory")
+>> -
+>> -#define VMWARE_VMCALL(cmd, eax, ebx, ecx, edx)				\
+>> -	__asm__("vmcall" :						\
+>> -		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
+>> -		"a"(VMWARE_HYPERVISOR_MAGIC),				\
+>> -		"c"(VMWARE_CMD_##cmd),					\
+>> -		"d"(0), "b"(UINT_MAX) :					\
+>> -		"memory")
+>> -
+>> -#define VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx)				\
+>> -	__asm__("vmmcall" :						\
+>> -		"=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :		\
+>> -		"a"(VMWARE_HYPERVISOR_MAGIC),				\
+>> -		"c"(VMWARE_CMD_##cmd),					\
+>> -		"d"(0), "b"(UINT_MAX) :					\
+>> -		"memory")
+>> -
+>> -#define VMWARE_CMD(cmd, eax, ebx, ecx, edx) do {		\
+>> -	switch (vmware_hypercall_mode) {			\
+>> -	case CPUID_VMWARE_FEATURES_ECX_VMCALL:			\
+>> -		VMWARE_VMCALL(cmd, eax, ebx, ecx, edx);		\
+>> -		break;						\
+>> -	case CPUID_VMWARE_FEATURES_ECX_VMMCALL:			\
+>> -		VMWARE_VMMCALL(cmd, eax, ebx, ecx, edx);	\
+>> -		break;						\
+>> -	default:						\
+>> -		VMWARE_PORT(cmd, eax, ebx, ecx, edx);		\
+>> -		break;						\
+>> -	}							\
+>> -	} while (0)
+> 
+> You're kidding, right?
+> 
+> You went to all that trouble in patch 1 to move those to the header only to
+> *remove* them here?
+> 
+> You do realize that that is a unnecessary churn for no good reason, right?
+> 
+> So that set needs to be restructured differently.
+> 
+> * first patch introduces those new API calls.
+> 
+> * follow-on patches convert the callers to the new API
+> 
+> * last patch removes the old API.
+> 
+> Ok?
+My intention was to have a implementation transformation from locals 
+macro through common macros to common API.
 
-Thanks for the patience.
+What you are suggesting will eliminate unnecessary patches. It makes sense.
+
+Will perform this restructuring in v10.
+
+> 
+> And when you redo them, make sure you drop all Reviewed-by tags because the new
+> versions are not reviewed anymore.
+Noted.
+
+Thanks again,
 --Alexey
