@@ -2,74 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB4A8C13A0
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 19:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 573898C13A6
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 19:16:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82E1710E190;
-	Thu,  9 May 2024 17:15:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 994DF10E21F;
+	Thu,  9 May 2024 17:16:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ak/4WUt1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oXcSLdt7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
- [209.85.161.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E210B10E12F;
- Thu,  9 May 2024 17:15:45 +0000 (UTC)
-Received: by mail-oo1-f43.google.com with SMTP id
- 006d021491bc7-5b2761611e8so396202eaf.2; 
- Thu, 09 May 2024 10:15:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715274945; x=1715879745; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rZiLZP5/kk1vwmeb8DDi1DAoGL+kKQ0mz5pqsLRVAiQ=;
- b=Ak/4WUt1dxspYYrnMi6Oe0yD66VbozP6S8ROgM7SFLs7ObXqTYCYH3WnimclJXzvUq
- XcFnjB8WHpiniCWXCJWihBZDe7sAWjz/tcmac61643zQbnsBwjnSwoeFiXdJ73vJ/Nvj
- g2jIlO6Zd7vfiyk5/ngwVnt477fLZACh6lZ4WnV6IgJlPK97nKow8WSQy3vIfGuv0NeD
- gTzqCyiKT2Rt6s/jIbXhn3Cyg5oBd/jc2Mh4uO/zDNLfDvmRtJsiGVO1oLVQlc8Rqt1A
- yytVWmSxs3/BdFKIrbmaT/ASOv54al83iE241+DyEBUIMC0LSSYZZ6EHhAFik1IdhJJG
- nAmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715274945; x=1715879745;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rZiLZP5/kk1vwmeb8DDi1DAoGL+kKQ0mz5pqsLRVAiQ=;
- b=HRvhe5aP5buyzBZ9pkwSJi0OaQHkoyhFh03GJCOWqLX6ial3Gm/ae3GV5Qmvu2YSAq
- CzChYf5M+O5VjBEuBUmOEPGAvbvmk/5uJJunOuKvCM7AmCGZzLrYRj4dyMMTJuTf2fDO
- d9zQ0uPJVs8ow7KE1inN4380VJ/7M9aPx8yA3MSX7wJATAGhHMvwEFQnHM18v5Xfx/sb
- gpOKzJFIkF8C9mRj4fN5eo8ZlZvni16+awqzFAR9uYVPB4umq1vR6qG6h9G8ou8iX1J4
- zdD7gIk7vPcFPZPZj9k46ISQkrsskqeQSmzobT747va4lsAV4yClnEN/EWqhPmA8LPGB
- yIQQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVan2VLaNAP52GwWxMZ5/1ztclyJETkU79MBkuaIhjQYkBmyPu1klAnkPafKWDpjdFKuw6jbGOAEN4MJz2Og5BtzaL+92Evsmcw6QB96FGQcBiFcRDU39tFgdCu/zo1PimI3yqNtpY2H+MS9XVzvg==
-X-Gm-Message-State: AOJu0YwjjodJ2oCr51tCYyn5Xi1mivfKcqcDsk6M8GidiaJurhsnIM/r
- GxqQnCxm3KytmStwra2/6KjjNSJLIkiXMojSRBZyhRJSb211EEbCXN0adpp+mvM5mf950oRmrqB
- 98ag3g6v6nxokK2bpJ4km7FtN/EY=
-X-Google-Smtp-Source: AGHT+IFjOz6jnY4i1OrbGHKdaDsm499HKePTZlD2L0qp+QR8Q9Mn7Vch8xVCZnWFEm9GLy0s0Bh0wQ4Age78L8ztfQg=
-X-Received: by 2002:a05:6358:430f:b0:186:1b7f:e885 with SMTP id
- e5c5f4694b2df-193bb656d21mr4476955d.17.1715274944693; Thu, 09 May 2024
- 10:15:44 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F9AE10E21F
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 17:16:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8ED5F61D5A;
+ Thu,  9 May 2024 17:16:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83522C116B1;
+ Thu,  9 May 2024 17:16:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715274999;
+ bh=973lRpNkD5J9l+d336n7NUlE/nZ9DF8NwU/k6a2Ez3o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oXcSLdt7LvEnsnJJoeHM78dSo0hKxgKPKHlcqoeiz0V6zkXKHRgd+lZCnw0Z+LFBj
+ cP8h05WwELK4HxoFYC9Y2RxvQmSiH1MCzJIU6jMzN9D59llt5Qg9IXW1L8OVl8u/9J
+ 2J5IiUGjD/at+lYV2DQqPOvFgnqvPXBplQ686rUJNr7CVkneOc4cmgNhLwu6Htboto
+ 5WmmPzCa/g8XKMEyVRHPYtlBNyWNA1/MLeMgXl41G0pbsEslJ30RFeVCdaeO7P/uHq
+ wPg4UlGIz5lHzRDqokPJvnUtQtI4pIhAJf8fid0kKNriY6se9IAB554he7KSc+/fzs
+ qEHodZz5WgArQ==
+Date: Thu, 9 May 2024 18:16:34 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@chromium.org, linus.walleij@linaro.org,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+ conor+dt@kernel.org, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
+Subject: Re: [PATCH v5 1/7] dt-bindings: display: panel: Add himax hx83102
+ panel bindings
+Message-ID: <20240509-regretful-trombone-42ed9d7a3817@spud>
+References: <20240509015207.3271370-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240509015207.3271370-2-yangcong5@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
-References: <ed236ed6-0e6d-4243-8316-28485c9797c0@gmail.com>
-In-Reply-To: <ed236ed6-0e6d-4243-8316-28485c9797c0@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 9 May 2024 13:15:32 -0400
-Message-ID: <CADnq5_O6YMr2EK3J+NnnfycLpq321PTwgt2-NNE0X82Jq+DC=A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: remove deprecated I2C_CLASS_SPD support from
- newly added SMU_14_0_2
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, 
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
- "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ncHccA2eRd27cZCy"
+Content-Disposition: inline
+In-Reply-To: <20240509015207.3271370-2-yangcong5@huaqin.corp-partner.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,40 +64,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 9, 2024 at 8:02=E2=80=AFAM Heiner Kallweit <hkallweit1@gmail.co=
-m> wrote:
->
-> Support for I2C_CLASS_SPD  is currently being removed from the kernel.
-> Only remaining step is to remove the definition of I2C_CLASS_SPD.
-> Setting I2C_CLASS_SPD  in a driver is a no-op meanwhile, so remove it
-> here.
->
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-and applied.
+--ncHccA2eRd27cZCy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+On Thu, May 09, 2024 at 09:52:01AM +0800, Cong Yang wrote:
+> In V1, discussed with Doug and Linus [1], we need break out as separate
+> driver for the himax83102-j02 controller. Beacuse "starry,himax83102-j02"
+> and in this series "BOE nv110wum-l60" "IVO t109nw41" panels use same
+> controller, they have some common CMDS. So add new documentation for
+> this panels.
+>=20
+> For himax83102-j02 controller, no need 3v3 supply, so remove it.
+>=20
+> [1]: https://lore.kernel.org/all/CACRpkdbzYZAS0=3DzBQJUC4CB2wj4s1h6n6aSAZ=
+QvdMV95r3zRUw@mail.gmail.com
+>=20
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 
-> ---
->  drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c b/drive=
-rs/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c
-> index 0d5ad531c..fb6f3bbe2 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c
-> @@ -1616,7 +1616,6 @@ static int smu_v14_0_2_i2c_control_init(struct smu_=
-context *smu)
->                 smu_i2c->port =3D i;
->                 mutex_init(&smu_i2c->mutex);
->                 control->owner =3D THIS_MODULE;
-> -               control->class =3D I2C_CLASS_SPD;
->                 control->dev.parent =3D &adev->pdev->dev;
->                 control->algo =3D &smu_v14_0_2_i2c_algo;
->                 snprintf(control->name, sizeof(control->name), "AMDGPU SM=
-U %d", i);
-> --
-> 2.45.0
->
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Cheers,
+Conor.
+
+--ncHccA2eRd27cZCy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj0E8gAKCRB4tDGHoIJi
+0g5CAQDdF++R3wBg5Amvd/uInS7O/p6gOkr7yA9Poj2KRSaGWwEA1n7FZs3H0ZeE
+NJTFuluFnC5smgyw1ffLSVO+JzeBoA0=
+=8+Bx
+-----END PGP SIGNATURE-----
+
+--ncHccA2eRd27cZCy--
