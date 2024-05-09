@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B3C8C0F30
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 14:07:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88B28C0F33
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 14:07:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC6B110E110;
-	Thu,  9 May 2024 12:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9492210E298;
+	Thu,  9 May 2024 12:07:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a2+HdN29";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kWBKlAWW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B117B10E110
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 12:07:23 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-41fd5dc0439so2814045e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 05:07:23 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53D3F10E110
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 12:07:24 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-41fd5dc0480so2781275e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 05:07:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1715256442; x=1715861242; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wXW0NpQxST0KcyNsoS559akCnXX6lhKBOvqAS2ZY6IQ=;
- b=a2+HdN29+gQy0gK0hwDPKH+VlNREAnikoR8oQSAwVtUks3JFnOjYVXJRnGJDv7GdS6
- 2/+OOJd9yXOwUeyyQ1u6c1NeNsNubF8kZPnU1y8Qr2OS/HIfjwZcw0bfsqqEs6DdehL3
- l0HhsEgfIgYqvfwo+NoEVJD4UAzP8OUEiT8AkrDFEjfttcMT7xKkWtIDQjHv+ubID7MM
- f3OVyhqmHAuKrfdnSTv3T8CE1xBHtFtqHdHvtCeVagB0fTaNlrkHFp113WbXspQMzVxW
- cJo1t81a5ELUlDZqeeea8sbzS9PLdQlttLPU6k5ebtE6338lMpFd24wP+RYLcbntJthr
- 9G9w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TAif8iJN8V1k3wa8UJdZQ5GifnX9nyDTgUZq5/d7HCc=;
+ b=kWBKlAWWs25VtzZubCPysJyZLFl67RAjjPTtDGLXF+VcKsGjgC6zLsQZ2eHAx2WzVg
+ aJ9i4BXtCVRJuYERikTZlDKPJv1C3HBhERurQwpCk22YPUWbs4MQXfwpDMm4K7SLfVbu
+ RYtLKeTzWHEdWqmCvBPj18bc/iW+dgBEWXSgNjIYpEj/bCGVUd64TfQ61DF5HRLzapIQ
+ W0nLWZQuTn4Lj6aA2lezybhMvWIX0LS5xGGfkEyDUv3Zbg6wrYYp4rHV5DQH8JUmUrkQ
+ 2irDbhm+w+LqRH0usJbAMCSEF/xBFnYoxADigHyOEUzbrSX/ZAK3ppWz7GFI4bJJwYTX
+ bd0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1715256442; x=1715861242;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wXW0NpQxST0KcyNsoS559akCnXX6lhKBOvqAS2ZY6IQ=;
- b=Xhtj6WYta7IHo3SwFpYNOWjt4FblFVMzIzom+Tux8qf3PilCi8K+6jKqdh5PED5D4a
- buapBld7K0YzciduDPDl0OwDbFaER/hg10YSKogwZJEFEuRXVz709mBI8ZBdTO3LBAFr
- Foq0vdEC7DDvoJskwhUI8ZLKykR4FVYjy15wRgIUD+YLuNM+jf/g1u/OVof/xM+fevN+
- tHvnZGZqqGBHmcgctAUyKGMiRsk501j4CUJfy0uQSi6YssAyowBdZilG183/POpfVTly
- SvyDxGiQxllFaKLdjjTJm4DE6ehMDKhR3h8Y0e4T83SaXcl15MiaowRCP6IZS4Yq1SZS
- SziA==
-X-Gm-Message-State: AOJu0Yw+l9KcQJSfUKiFmKcBNi1o6ykuZu2LvOMQumoOfsl9+KUG7SSy
- n8llBFSaXi8qcpXPbXMZDax9zNxS77kHnmSm9nPRXytydOafvPk=
-X-Google-Smtp-Source: AGHT+IHiTcqgDtLhCAgVy2xR30nYXqmOfWtS5RaJG90R9viY5LmZtTGSnjgy7WvJDU+f7B9EzWGwWg==
-X-Received: by 2002:a05:600c:348c:b0:41c:1434:f571 with SMTP id
- 5b1f17b1804b1-41f71ad0a6amr46179165e9.37.1715256441686; 
- Thu, 09 May 2024 05:07:21 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TAif8iJN8V1k3wa8UJdZQ5GifnX9nyDTgUZq5/d7HCc=;
+ b=Sk2Wc2JK/d6rSEQxW7yA7b/ooaJfMYp5ey3G8vBaUJU+xBDgnWbdK1Z23cIXotkcMm
+ eryHzc9ml5m5HhyKOiBKfCwGxc+3o3qEMG5r/RjvNiqpkyS9aoceGxIcM0RYtGqGzP+x
+ WUxHjTQdXJDfr6rvS87jDlZdzwtP0dsGAH/nT1+TIptsEOjGPydPxH2a3dKb29WMB0Jq
+ 8l0Ng4+hVb8trpENE9k1QtQ72KjzE8M9Z8xqndQTJL1hDurczAXzERBaj39RbZFDW7PJ
+ MLhzNxG6zFMvfsycVmXTjqA6lUhZegWpHuc/UbsdmASIMby4ZBALJGOQQI3ulJAKPV8H
+ 44fQ==
+X-Gm-Message-State: AOJu0YxOzcfzU5DWKy8HCaogyGqJGzw3Ii2xVfU3gquQ8/1eWgYKGsIB
+ 47Tiqssc3Bo57IFBZLWJtFxVsQyI8TcPl4HVGNhLpcwtRlNhKfI=
+X-Google-Smtp-Source: AGHT+IHTG1IHRUpJsEvbfsclIDD11n/Cn0Dv06smo6eYHnW+6ah5dzq6AfYFQdIT1VKgAJhmoFvavg==
+X-Received: by 2002:a05:600c:5128:b0:418:2b26:47a3 with SMTP id
+ 5b1f17b1804b1-41f71ecb1fcmr44191365e9.32.1715256442507; 
+ Thu, 09 May 2024 05:07:22 -0700 (PDT)
 Received: from U4.lan ([2a02:810b:f40:4600:b44:d8c3:6fa8:c46f])
  by smtp.gmail.com with ESMTPSA id
  5b1f17b1804b1-41fccce1912sm24112005e9.11.2024.05.09.05.07.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 May 2024 05:07:21 -0700 (PDT)
+ Thu, 09 May 2024 05:07:22 -0700 (PDT)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
@@ -69,10 +70,13 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  Alex Bee <knaerzche@gmail.com>
-Subject: [PATCH v2 0/7] Add DSI support for RK3128
-Date: Thu,  9 May 2024 14:07:08 +0200
-Message-ID: <20240509120715.86694-1-knaerzche@gmail.com>
+Subject: [PATCH v2 1/7] dt-bindings: display: rockchip,
+ dw-mipi-dsi: Document RK3128 DSI
+Date: Thu,  9 May 2024 14:07:09 +0200
+Message-ID: <20240509120715.86694-2-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.43.2
+In-Reply-To: <20240509120715.86694-1-knaerzche@gmail.com>
+References: <20240509120715.86694-1-knaerzche@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,41 +94,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series aims to add support for the DesignWare MIPI DSI controller and
-the Innoslicon D-PHY found in RK3128 SoCs. The code additions are rather
-tiny: It only need some code in the Rockchip dw-mipi-dsi glue layer for
-this SoC, add support for an additional clock and do some changes in the
-SoC's clock driver. Support for the phy was already added when the
-Innosilicon D-PHY driver was initially submitted. I tested it with a
-800x1280 DSI panel where all 4 lanes that are supported are used.
+Document the MIPI DSI controller for Rockchip RK3128. The integration is
+very similar to PX30, but it has an additional AHB clock.
 
-changes in v2:
-  To improve power-efficiency when the DSI controller is not in use, I
-  dropped the patch which made hclk_vio_h2p a critical clock and instead
-  added support for an AHB clock to the DSI controller driver and updated
-  the bindings and the addition to the SoC DT accordingly.
+Signed-off-by: Alex Bee <knaerzche@gmail.com>
+---
+changes since v1:
+ - added ahb clock
+ 
+ .../rockchip/rockchip,dw-mipi-dsi.yaml        | 25 ++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-Link to v1:
-https://lore.kernel.org/linux-kernel/20240506194343.282119-1-knaerzche@gmail.com/
-
-Please see individual patches for details about the changes.
-
-Alex Bee (7):
-  dt-bindings: display: rockchip,dw-mipi-dsi: Document RK3128 DSI
-  dt-bindings: clock: rk3128: Add PCLK_MIPIPHY
-  clk: rockchip: rk3128: Export PCLK_MIPIPHY
-  drm/rockchip: dsi: Support optional AHB clock
-  drm/rockchip: dsi: Add support for RK3128
-  ARM: dts: rockchip: Add D-PHY for RK3128
-  ARM: dts: rockchip: Add DSI for RK3128
-
- .../rockchip/rockchip,dw-mipi-dsi.yaml        | 25 +++++++++-
- arch/arm/boot/dts/rockchip/rk3128.dtsi        | 50 +++++++++++++++++++
- drivers/clk/rockchip/clk-rk3128.c             |  2 +-
- .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 45 +++++++++++++++++
- include/dt-bindings/clock/rk3128-cru.h        |  1 +
- 5 files changed, 121 insertions(+), 2 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-mipi-dsi.yaml
+index ccf79e738fa1..fdd1c8ad6045 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-mipi-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-mipi-dsi.yaml
+@@ -15,6 +15,7 @@ properties:
+     items:
+       - enum:
+           - rockchip,px30-mipi-dsi
++          - rockchip,rk3128-mipi-dsi
+           - rockchip,rk3288-mipi-dsi
+           - rockchip,rk3399-mipi-dsi
+           - rockchip,rk3568-mipi-dsi
+@@ -36,7 +37,10 @@ properties:
+           - const: pclk
+           - const: phy_cfg
+           - const: grf
+-      - const: pclk
++      - minItems: 1
++        items:
++          - const: pclk
++          - const: ahb
+ 
+   rockchip,grf:
+     $ref: /schemas/types.yaml#/definitions/phandle
+@@ -120,6 +124,25 @@ allOf:
+         clock-names:
+           minItems: 4
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - rockchip,rk3128-mipi-dsi
++
++    then:
++      properties:
++        clocks:
++          minItems: 2
++
++        clock-names:
++          minItems: 2
++
++      required:
++        - phys
++        - phy-names
++
+ unevaluatedProperties: false
+ 
+ examples:
 -- 
 2.43.2
 
