@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95588C0BA2
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 08:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87378C0BA4
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 08:43:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD7910E212;
-	Thu,  9 May 2024 06:43:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7058D10E287;
+	Thu,  9 May 2024 06:43:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="vg7xp+yM";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="2qQh6Ei4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D363710E212
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 06:43:46 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-6f447260f9dso519748b3a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 23:43:46 -0700 (PDT)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 357C810E287
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 06:43:51 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-6f457853950so1173752b3a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2024 23:43:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1715237026; x=1715841826; darn=lists.freedesktop.org; 
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1ZP8vuwqcYibUQ8arS+ZFPZGUpG90sM0PAkwSsCd8m8=;
- b=vg7xp+yMljmw0OAy/xvsk9VOrwLyo/TyJ5Nf1jmMVvAP5QBwb5CeAelzvJt/Wgjwdd
- qc1y70+IQFJa/kWDsE8uOra4M0yjWLKjazGIPqI8z32AndYYjSLvPfaEHJ/dlWXv03lu
- wP2Wuad8fVDb81ooASWs58KABp8BvtOJdBdzZDZHSEIUjszInxfU5lFAPmKOFUfuF/uG
- sCrli2SXKup7uM76PqI5pdTgwEq5Ok3RYHpR4y0LvdGaAP+O1jlDMyRLGqg7+Pdc61HP
- D5F03ff+LuqtZa/aOkmIjE6gxCc1Ak0b1vcX2jwrV25kZn3wcSDwBhg1wSRVlru59bWi
- tZcA==
+ t=1715237030; x=1715841830; darn=lists.freedesktop.org; 
+ h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=qdNwDMuXrR6P9sQoTx7HaymUgCSP7NbO1d3jQaKTXrw=;
+ b=2qQh6Ei4q6eJcs9jy5oxra9ugzamBAzjP4DTR/y6jpPyxYT2WqdbrDlmfluc9L1OOr
+ zCRqLS8sXP/ACa1/Rl79I6b2THil4yql4CZVYpXtmvqBnmSJmzxfSMzqdVAPLrjs+jyD
+ twTD6vnLA8Uitmx9kDW89uSw6NYB38KMoJwUCufR6RTPQX6k4cSApNiMqQyZTFfiV+5y
+ ADkHr2RsldyUgngTvBcylu8vZwOmA/OhSpbPDYlFDNOgEq92XFniTNilusv2WBolbduA
+ /Vi54SU7mfV6CTEX75jgA4bvoqlJ4uHExfkNfepOnw9AXdzY9lou0xzwBg02CxCJwssj
+ 5v1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715237026; x=1715841826;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1ZP8vuwqcYibUQ8arS+ZFPZGUpG90sM0PAkwSsCd8m8=;
- b=WyKJwnj7Wor/JYNIK4TfGjMkxYT8Rv/ELWrXvsG987V8P8ZDxrO109dV1ot+ngQnRm
- 369BG5hyaH9v5cCacg+Ivb91w8+ayLOm3BBZtkt2SKD03092Oh0FtyYOy4XjM1lM/9oj
- hujFy6hX9qvpK/WN9Dwas5vsMv3sl4Z49DeIiRP0Pe4ChyyCCL9fg/vJRC2I6lcCaXnb
- vjUR2ZTc/McZFgwSHk6I/HAOeHCr+FSx0URklcvCqdF2gBgWozsgVlzl5AKFo1T/2qjd
- VW5QqFWePjtfIjhVYJQQFCdSJkR/FNQ9txDnI5YjgSZtTtckR05gTqcK8RC1CkOCIDBo
- BhNg==
-X-Gm-Message-State: AOJu0Yygn9VLx7jlJ/orMbExtBtH2uiXwZP8TWlfeLQM07kP4H+PaUmB
- 7UbVjKEOf5Pp42i7nt9tm724OOyC3ctfR5hS962GtL9IGqahdh0eGI/1+xZUIiI=
-X-Google-Smtp-Source: AGHT+IH2e92mWa+Ee26OZVg7GLAYUFnsK02ab7TTviHRZ+fbVid3mBljDBESNTHh0xXoRwh9tqj7Cw==
-X-Received: by 2002:a05:6a00:9295:b0:6ec:fe38:d94 with SMTP id
- d2e1a72fcca58-6f49c2a6840mr6617887b3a.33.1715237026094; 
- Wed, 08 May 2024 23:43:46 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1715237030; x=1715841830;
+ h=references:in-reply-to:message-id:date:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qdNwDMuXrR6P9sQoTx7HaymUgCSP7NbO1d3jQaKTXrw=;
+ b=PMG3qkio0rsCgr2b2bGHkt+cBy6ITp6FC283iRotUrlMAY5nxfP046RtVw+kErEuun
+ wPr3LLlCyRePvNnCGW9eKbu02D3VR4d0G/kAjBpolfwSu2q4/VGEcAiGCTTFADefyfoJ
+ RFEqpgTnmbN7IWmPAWbGYZqpuSBfUjiIEhBB9++CXKyM1/+pp57xcd12wjikKZKJDk/L
+ AgwkCklszbOec6xNYrPlHhJaqOeIFj4iIFuLv463RO0pm4Cb87kCWyHqfYfrVth+jQsm
+ 5aCoGBSfK6D/Cn6ME17OjJu1LfakIJubyGq0AvAPIJ0qTWg7nsTfBkrx26LHoRIVrH9w
+ P0ew==
+X-Gm-Message-State: AOJu0YyxMHhB0j7JS7Eo/cyiWAHpGvjVe5NxRVJqh8KkdaXlrzOOUHYy
+ lH9byjhXt8ezpm77+XaOWFG86oulEVwE1fjNmn2m2ts4FTHrKOtLnsEAelbIebg=
+X-Google-Smtp-Source: AGHT+IFtEWfX91TqFZW9UFRmOuHgn5tfP7k3JfcAXizZ5z6i731Dyk1Sl8kjv7kTqNMiRG6Xt8qz4Q==
+X-Received: by 2002:a05:6a20:4322:b0:1a9:d27c:3151 with SMTP id
+ adf61e73a8af0-1afd14746a3mr3092502637.23.1715237030525; 
+ Wed, 08 May 2024 23:43:50 -0700 (PDT)
 Received: from lvzhaoxiong-KLVC-WXX9.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-634103f7237sm597394a12.71.2024.05.08.23.43.43
+ 41be03b00d2f7-634103f7237sm597394a12.71.2024.05.08.23.43.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 May 2024 23:43:45 -0700 (PDT)
+ Wed, 08 May 2024 23:43:50 -0700 (PDT)
 From: Zhaoxiong Lv <lvzhaoxiong@huaqin.corp-partner.google.com>
 To: dmitry.torokhov@gmail.com, robh@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org,
@@ -60,10 +60,12 @@ To: dmitry.torokhov@gmail.com, robh@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-Subject: [PATCH v1 1/2] dt-bindings: input: i2c-hid: Introduce Ilitek ili2900
-Date: Thu,  9 May 2024 14:43:35 +0800
-Message-Id: <20240509064336.9803-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+Subject: [PATCH v1 2/2] HID: i2c-hid: elan: Add ili2900 timing
+Date: Thu,  9 May 2024 14:43:36 +0800
+Message-Id: <20240509064336.9803-2-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240509064336.9803-1-lvzhaoxiong@huaqin.corp-partner.google.com>
+References: <20240509064336.9803-1-lvzhaoxiong@huaqin.corp-partner.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,26 +83,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
 
-The ili2900 touch screen chip same as ilitek ili9882t controller
-has a reset gpio.
+ILI2900 requires reset to pull down time greater than 10ms,
+so the configuration post_power_delay_ms is 10, and the chipset
+initial time is required to be greater than 100ms,
+so the post_gpio_reset_on_delay_ms is set to 100.
 
 Signed-off-by: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
 ---
- Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml b/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
-index c5d9e0e919f9..5063ea2c8375 100644
---- a/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
-+++ b/Documentation/devicetree/bindings/input/ilitek,ili9882t.yaml
-@@ -19,6 +19,7 @@ allOf:
- properties:
-   compatible:
-     const: ilitek,ili9882t
-+    const: ilitek,ili2900
+diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
+index 5b91fb106cfc..3073620b2dec 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
++++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
+@@ -137,10 +137,18 @@ static const struct elan_i2c_hid_chip_data ilitek_ili2901_chip_data = {
+ 	.main_supply_name = "vcc33",
+ };
  
-   reg:
-     const: 0x41
++static const struct elan_i2c_hid_chip_data ilitek_ili2900_chip_data = {
++	.post_power_delay_ms = 10,
++	.post_gpio_reset_on_delay_ms = 100,
++	.hid_descriptor_address = 0x0001,
++	.main_supply_name = NULL,
++};
++
+ static const struct of_device_id elan_i2c_hid_of_match[] = {
+ 	{ .compatible = "elan,ekth6915", .data = &elan_ekth6915_chip_data },
+ 	{ .compatible = "ilitek,ili9882t", .data = &ilitek_ili9882t_chip_data },
+ 	{ .compatible = "ilitek,ili2901", .data = &ilitek_ili2901_chip_data },
++	{ .compatible = "ilitek,ili2900", .data = &ilitek_ili2900_chip_data },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, elan_i2c_hid_of_match);
 -- 
 2.17.1
 
