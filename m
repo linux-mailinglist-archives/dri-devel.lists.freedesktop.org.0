@@ -2,83 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A108C102B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 15:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D7C8C1064
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 15:31:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE9110E950;
-	Thu,  9 May 2024 13:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 358A810E7AF;
+	Thu,  9 May 2024 13:31:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gAP5Ae/r";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F6bmcvY8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2319210E950
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 13:12:48 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-34e663aa217so570319f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 06:12:47 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC11F10E7AF
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 13:31:09 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-51f2ebbd8a7so910903e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 06:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715260366; x=1715865166; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=AeqYlf9c4EFhi9TNIZzRvyO42T/eA+jGpWv1NKDPZXk=;
- b=gAP5Ae/rpJ6n8zr/34WX8jl10kkjSGSqqbG+pFnwdcab0Jx2iau82VIl0Htie9+oaz
- xMwhYZE5WQJ8Sjx/rVQ4Ak9vpF4mKN3XzxDT6N9ltcR/z4eSzfgM8fBaQDCHqGh47PhS
- Cspy4W9VGcUVTwi1qgre2WyN1F4JFBU/Odz33Levxused4utfdSMVjFqHpPnD99tyBDb
- Gb/lYFm55zEWX09Swbr7iQR2huYkO47m1d+y2Ycb9iMASs1r7wr3rMI8aGa1SHaQVJd8
- ME0zMzpuHqBXQAeIyKzNf15NUhhtO1TNZjeldmlthbVYLxZUTcVVENl7+6+gtSDXyGQc
- SP6w==
+ d=linaro.org; s=google; t=1715261468; x=1715866268; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=r33dW7cmB/GM8ATE+hQpOZIrBaphuEwRmQOpy16eaJk=;
+ b=F6bmcvY8KJR/cG+uHsbfvknty0TD5KQYIW119Z1jYkFrmD/SAKAI5nY1raMvgyc2K+
+ 2ll7Jg0o5XvkEuyYL7t8RyX3Bo49SQ/yDJITRWjJ35OPYz6faEieHq+c/vtJolWNnUPM
+ nu0aJn0GEcG/U3PQjtyNsNxetsmQNBVyF9Uw/ePxTXucoG9K1qr9NF/Jyek1c3xQ5ko8
+ SMTPTI0tUtB2REAEY2XkUb51nPQLA0kTlYaUzRtazE6U9sMEm19JdQS0sBEsSNL5B8tg
+ LhszTMTP95qPxig2GBnJognstcTsPjMFg6U1cHLASxxt/JFMNnKgYy6kiLdmXpHHSO+U
+ F8ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715260366; x=1715865166;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AeqYlf9c4EFhi9TNIZzRvyO42T/eA+jGpWv1NKDPZXk=;
- b=VW71j31hBVIl78jP/C6+1NafNWqJ0h54l2zwm1xqCREcQOK74y6cDZ0t3jf+j/X63X
- 0EK98Es6nVNI+FOaTdmhzI8UNlvoL7aWoVplUs/qgVloQUVTt/Zvzmv8Do6EF+UQj0pM
- fg4oDf+8BtJtz3y1CCiENvZBl5dARJZzs8Sza9a9oagn8OrVhym8r3pbB/zHSqsKQ1VL
- p1yrzI6JwbRRfC3eYDV8pouuvnz6rMwQq6j60sIIwqp30W/4dBTQ8WrB0wFFxtKyfspW
- HXFUD9AOMl35qQtPV40yJ2FNnMo1qamu9Th+mkbf4Frj01+iDEb/NoaMEwrRHH07x3xg
- axfg==
-X-Gm-Message-State: AOJu0Yw9zJDvct+7iyZh59mUg44GSzZ4kOqWCCEpP8LgOzCR11ICHclU
- 47tANHmHcRriT/7AhXSKbu2C3D6Cs+TLnoT78Y3V6OZKOiaDum4=
-X-Google-Smtp-Source: AGHT+IEC7WafECIZydYUdeAbxXAmqunwb457qqLbk5bNV+opK2hsUeI5mP0GAZJxRMOafc4vJyH5uQ==
-X-Received: by 2002:adf:cd89:0:b0:343:65a8:406d with SMTP id
- ffacd0b85a97d-34fcb3acc64mr4369892f8f.64.1715260366006; 
- Thu, 09 May 2024 06:12:46 -0700 (PDT)
-Received: from ?IPV6:2a02:810b:f40:4600:b44:d8c3:6fa8:c46f?
- ([2a02:810b:f40:4600:b44:d8c3:6fa8:c46f])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3502b896a45sm1697584f8f.39.2024.05.09.06.12.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 May 2024 06:12:45 -0700 (PDT)
-Message-ID: <d5fcf678-741b-48c0-988e-4722ac756a11@gmail.com>
-Date: Thu, 9 May 2024 15:12:44 +0200
+ d=1e100.net; s=20230601; t=1715261468; x=1715866268;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=r33dW7cmB/GM8ATE+hQpOZIrBaphuEwRmQOpy16eaJk=;
+ b=e9ank6ziPmMlYULov6S2YWO72oYmyo1B9KWX3slY5PSB1xkyAdDWf99cZU6o6UUTtC
+ dmK+8iJkgnWxUq+zOd40Bhv7RL1bAtUJIupsLJAreV+Ozo6zmJ5pyk3/Jd8vpMI+sNzs
+ o+GeBzy1fju76/Epc/P+/g2YiZc7A81Qdypo7DhEJU1C9BD/dQGqEnWy1ivxMp/ZdSgB
+ XnHyLYgYfPjFy2itmXIAaon5qNYUKwQSOIMUMwG9uWj9b3gupsV+rzh14fq/S8dt+mU/
+ 6PN2E6uZ+gd1EJTZuUmL0eQwXC0Jd/mU99TaY0n59hE9eTLBzeubdZYyzGMEtb98hC0m
+ /tYg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUcTHSn3hUtoIXdfDTtJEcoyp9qdyfxdVbfwq4JxGfyRHfVdP6PSccM/NfUtmcJRDAw2tb2gBL9s4yfdgCE/SKuihtofCXOoU+FZ7MI1bdF
+X-Gm-Message-State: AOJu0Yywy+mU8pji4bSuzSVyeLwrSRqrMIVW170eqjqZ6sIn6ToHJZ3T
+ aqMry3kWa4AKq+Yo7IjTuhvnv4NNWLnwNenBh97edfbE+9ZV9fsXekX7jpGRHFM=
+X-Google-Smtp-Source: AGHT+IGIi4Tl8j+UerHfiw+tKEBIcpBqxthj+u4dQ+d8NON2NF/1TsiNDVaH03l0MKLov5/iuRPKUw==
+X-Received: by 2002:a05:6512:b23:b0:51c:f21c:518f with SMTP id
+ 2adb3069b0e04-5217c27c36dmr4667766e87.12.1715261467693; 
+ Thu, 09 May 2024 06:31:07 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-521f39d367fsm294566e87.297.2024.05.09.06.31.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 May 2024 06:31:07 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 09 May 2024 16:31:05 +0300
+Subject: [PATCH] docs: document python version used for compilation
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] Add DSI support for RK3128
-From: Alex Bee <knaerzche@gmail.com>
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- sebastian.reichel@collabora.com, Sandy Huang <hjc@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-References: <20240509120715.86694-1-knaerzche@gmail.com>
- <38423821.XM6RcZxFsP@diego> <1190cfb6-e2d1-4910-ad57-f7566343ff19@gmail.com>
-Content-Language: en-US
-In-Reply-To: <1190cfb6-e2d1-4910-ad57-f7566343ff19@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
+X-B4-Tracking: v=1; b=H4sIABjQPGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDUwNL3YLKkoz8PN2y1CKQUt1EiySz5EQjQyPTtDQloKaCotS0zAqwgdG
+ xtbUAHGnRaWAAAAA=
+To: Jonathan Corbet <corbet@lwn.net>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1194;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=m2zEtruGkvxujMPhBXY7kQd55f5ocV/KfUBbo1KLpSg=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmPNAa5VIUfz7hTsz50vCSYcPRyiOjpAP0rwDte
+ rlsD/kOqriJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZjzQGgAKCRCLPIo+Aiko
+ 1SxAB/oC205Rgfupf6dxpqFBFVJhaoZiJlIjwQWT+zfYMi92ykQccxZj7Qy3bVawLRrUo23vC8Q
+ BLhTPBNplGA9OkEp/5goS084ThepWCY6xdBBLSha6PEEPPTtIQi5Q5jC6Tb+KMQ7TduZbwmH8nq
+ ogkKYKqzSDEADEybi/tJc+/6gP7vuI97Mv+OyXK0gNThg9AJcnW5K1aZ/v1u1qNWIVw8hyEStpd
+ g/10UDekOGJQsO6vpyIcptXKcopqIaxCPqgo20WeD1RbFo9RwVKQGwWzC0nAVhobYfOBCDeTT3X
+ kN8f9G9VEohrzHtr+a0GvxzZlSMBOFbMhZTEhxOP8H2Z+bug
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,85 +100,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.05.24 um 14:43 schrieb Alex Bee:
+The drm/msm driver had adopted using Python3 script to generate register
+header files instead of shipping pre-generated header files. Document
+the minimal Python version supported by the script.
 
-> Hi Heiko
->
-> Am 09.05.24 um 14:21 schrieb Heiko Stübner:
->> Hi Alex,
->>
->> Am Donnerstag, 9. Mai 2024, 14:07:08 CEST schrieb Alex Bee:
->>> This series aims to add support for the DesignWare MIPI DSI 
->>> controller and
->>> the Innoslicon D-PHY found in RK3128 SoCs. The code additions are 
->>> rather
->>> tiny: It only need some code in the Rockchip dw-mipi-dsi glue layer for
->>> this SoC, add support for an additional clock and do some changes in 
->>> the
->>> SoC's clock driver. Support for the phy was already added when the
->>> Innosilicon D-PHY driver was initially submitted. I tested it with a
->>> 800x1280 DSI panel where all 4 lanes that are supported are used.
->>>
->>> changes in v2:
->>>    To improve power-efficiency when the DSI controller is not in use, I
->>>    dropped the patch which made hclk_vio_h2p a critical clock and 
->>> instead
->>>    added support for an AHB clock to the DSI controller driver and 
->>> updated
->>>    the bindings and the addition to the SoC DT accordingly.
->> The naming already suggests that hclk_vio_h2p is not a clock-part of
->> the actual dsi controller, but more an internal thing inside the clock
->> controller.
->>
->> At least naming and perceived functionality would suggest a chain of
->>     hclk_vio -> hclk_vio_h2p -> pclk_mipi
-> I personally wouldn't give to much on naming when it comes to Rockchip
-> CRUs. Actually looking at "Fig. 2-5 Chip Clock Architecture Diagram 4" of
-> RK312x its:
->
->
-> ... -> hclk_vio
->
->                    -> hclk_h2p (clock in question)
->                    -> pclk_mipi (DSI APB clock)
->                    -> hclk_rga
->                    -> hclk_vop
->                    ....
->
-> Also there is no other display output path (HDMI, LVDS) which requires 
-> this
-> clock to be enabled. They all work when it's disabled. That really 
-> makes me
-> think it's just the AHB clock line for the DSI controller. Maybe Andy can
-> share some details?
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ Documentation/process/changes.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-Anyway: I just looked at the "MIPI Controller architecture" part of the 
-TRM - there is not even AHB clock line, only APB. So I revert the change 
-with the additional clock, make the h2p-clock critical again and resend.
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 5685d7bfe4d0..8d225a9f65a2 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -63,6 +63,7 @@ cpio                   any              cpio --version
+ GNU tar                1.28             tar --version
+ gtags (optional)       6.6.5            gtags --version
+ mkimage (optional)     2017.01          mkimage --version
++Python (optional)      3.5.x            python3 --version
+ ====================== ===============  ========================================
+ 
+ .. [#f1] Sphinx is needed only to build the Kernel documentation
 
-Alex
+---
+base-commit: 704ba27ac55579704ba1289392448b0c66b56258
+change-id: 20240509-python-version-a8b6ca2125ff
 
->> In any case, I really don't see hclk_vio_h2p to be in the realm of the
->> actual DSI controller, but more a part of clock-controller / 
->> interconnect.
->> Similar to the NIU clocks for the interconnect.
->>
->> rk3588 actually tries to implement this already and while the
->> gate-link clocks are described as "recent", I think this definitly 
->> the same
->> concept used a most/all older Rockchip SoCs, just nobody cared about 
->> that
->> till now ;-) [0] .
->>
->> So TL;DR I'd really prefer to not leak CRU-details into the DSI 
->> controller.
->>
->>
->> Heiko
->>
->> [0] Which reminds me that I should look at Sebastian's make GATE-LINK
->> actually-work-patch.
->>
->>
->>
->>
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
