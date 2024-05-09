@@ -2,82 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBDC8C156F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 21:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F458C1572
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 21:28:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E518810F140;
-	Thu,  9 May 2024 19:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16BC510F165;
+	Thu,  9 May 2024 19:28:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RlU7l2ER";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="izaCufKR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2737710F13B;
- Thu,  9 May 2024 19:27:17 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 449DcT1g011436;
- Thu, 9 May 2024 19:27:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=GDuI+FONF4k4STlgME8DvLuc5b4wpOL/cwLiyZ0C66w=; b=Rl
- U7l2ERTvW9F3bxil03h3vKmZeWi0cQz3Z/qjF8TeYgPy51IcAhIFTO4o/I3f8b/O
- F5yH3MThV9EOomI6C7ImfdB2VeoT279nx4MD2xKJs+AsjbcQojtEHlJPeqKzMYY5
- ckDAHStrSEVeo2Ct9xtvRgp8DXUZYWDSq/x9QxNqUTdu+fmCHaG9UynD42AfxHD6
- OrvU2YbV43bMV7eoli+AJY4499IubARpGWIwYWwK7pfQ4E/Drelplm5YFpl34fnX
- rhD1wHUZUQ6FSDP4GjPp3Fz9EQywuDun8entbpfTPc4Z8c/URYb6QVvfAP7/szPu
- A5dOKN2+JD5mJTQoJmJQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y09ejufs3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 May 2024 19:27:14 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 449JRCwQ022111
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 9 May 2024 19:27:12 GMT
-Received: from [10.110.104.129] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 9 May 2024
- 12:27:11 -0700
-Message-ID: <389f63a0-c00f-719b-085f-d562c2b5da08@quicinc.com>
-Date: Thu, 9 May 2024 12:27:10 -0700
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 465AD10F165;
+ Thu,  9 May 2024 19:28:00 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-2b239b5fedaso1068775a91.0; 
+ Thu, 09 May 2024 12:28:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715282879; x=1715887679; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=4q15vxk3U5tCW6AqzqeDT1BCURgzaUxT8LIVZ+ub84w=;
+ b=izaCufKRC+Wuqk/9aQ55DDHzKny9EccCG6LIIuGWEGDG4SV3sp7GOIywIGO3q60+v7
+ oMnP7M6e/pb+pjjt0mTWFcU4958A/T06DLlisPPbJsLhFJ3q5yDqZ5PQIi8/BSJr7qRO
+ q5WuAYQhdysvW0moaaWbU1fW4JFM4waaKgjokOGiTT4gk99gkwBJT/DYaxc+J6fDPD+Y
+ FsubCU2HZeiPxn0LUS9bXvth5lqkZdCu7nNEWfoclpA+oEISMBxlHiU4teGIy8+zf81a
+ NDWMz7oHnWhXDV46XMJRMJH5ZpwqFu9uZ4G/G4wEEm2u/MAHX7z/paMQzGdwmzzPdYUc
+ b5Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715282879; x=1715887679;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4q15vxk3U5tCW6AqzqeDT1BCURgzaUxT8LIVZ+ub84w=;
+ b=kkpXdJhmH/DXW6Jud9ANlqNPObX8lFw/m2ts97VBZZPE7RAsW7LeVXjt3tbxQupYOn
+ ASILFS2wHg3tbeTMCXhRDT4dfktDTGZJ6OpOvtP5cWm+Y8rhVWreL+y5HBo0qFd7sOEL
+ HD7sn9HczY9RErnk3JfudKQ5E+JYu4lENuUDpWh2ZmElKZ9utOAigYKP96DaS1jynSEr
+ MAnLR98k5oyZNtqXXsyrm1f1YAY7rj+mKHEGFS8ZiPObj1Wayv42YIMWnM4Z13nuOCSb
+ dP5uhu/iAcgrRikUjGJHKyfvff2INAxu5SKhzp8pmxl+WlT3BCUJvoIt+yQ4ZZCxmnhl
+ blRg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXzuiVdwTnIomi2JG2wSoiyql2QatzM684xbKYyuSX4Ibyb5xjhQTvhgnxyaMrBdhNFOli7jpn25/VLgIm22AlfYsGuRKWhATOMe84f5fmZpHN34UDv9SneJ0Q0zU3foBRCe84xc1JjGUyc/FDc1s4J
+X-Gm-Message-State: AOJu0YwObshjHd46eWi1PK7h2CryFH/r+3mrLLvG6E8eUImtSjdn139s
+ 6Qce84qgrSM0lAFiXgjfHH/mfWTUeGP2mhM6DxxKWqh4auWvWqzHgivAk2bf9tix5K3hLVrmANY
+ cZhfwnfDHpfJIDwccyPTQBrqRBMw=
+X-Google-Smtp-Source: AGHT+IFD2St8xMS5+Rfyw+Ljbcn5AcM1Wr/haO1ug4eK3rhYqRM3DPV+yzOiYy33989tocEobfL+9d6S07ZnmExnzgs=
+X-Received: by 2002:a17:90b:185:b0:2b6:c4d7:fbf9 with SMTP id
+ 98e67ed59e1d1-2b6cc758aa9mr396866a91.13.1715282879509; Thu, 09 May 2024
+ 12:27:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/dpu: fix encoder irq wait skip
-Content-Language: en-US
-To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean
- Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240509-irq_wait-v1-1-41d653e3784e@gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240509-irq_wait-v1-1-41d653e3784e@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: TIX1gsMOKwQammEIUK1RvTdPG5U7ZaA6
-X-Proofpoint-ORIG-GUID: TIX1gsMOKwQammEIUK1RvTdPG5U7ZaA6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-09_11,2024-05-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 adultscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
- priorityscore=1501 clxscore=1015 mlxlogscore=999 malwarescore=0
- bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405090136
+References: <20240509-ctl_irq-v1-1-9433f2da9dc7@gmail.com>
+ <151f3503-d7ce-b11d-0658-1d26a47b1920@quicinc.com>
+In-Reply-To: <151f3503-d7ce-b11d-0658-1d26a47b1920@quicinc.com>
+From: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>
+Date: Thu, 9 May 2024 21:27:48 +0200
+Message-ID: <CAGsSOWXFoFte_Ubbzudo3Ru=s35xsuiSwkOC3zHnZHM7_zj7pQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: guard ctl irq callback register/unregister
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,43 +83,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/9/2024 10:39 AM, Barnabás Czémán wrote:
-> The irq_idx is unsigned so it cannot be lower than zero, better
-> to change the condition to check if it is equal with zero.
-> It could not cause any issue because a valid irq index starts from one.
-> 
-> Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-
-I think we also need
-
-Fixes: 5a9d50150c2c ("drm/msm/dpu: shift IRQ indices by 1")
-
-With that,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 119f3ea50a7c..cf7d769ab3b9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -428,7 +428,7 @@ int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
->   		return -EWOULDBLOCK;
->   	}
->   
-> -	if (irq_idx < 0) {
-> +	if (irq_idx == 0) {
->   		DRM_DEBUG_KMS("skip irq wait id=%u, callback=%ps\n",
->   			      DRMID(phys_enc->parent), func);
->   		return 0;
-> 
-> ---
-> base-commit: 704ba27ac55579704ba1289392448b0c66b56258
-> change-id: 20240509-irq_wait-49444cea77e2
-> 
-> Best regards,
+There was some previously sent patch series made by Dmitry for these soc,
+msm8996 was sent together by sdm660 but in the last version it was dropped.
+I have recreated msm8996 DPU support from that series but it will need
+some more test.
+I am testing msm8953 series but it is depend on msm8996.
