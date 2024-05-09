@@ -2,73 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9E38C13F9
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 19:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFFD8C142F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 19:39:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C905910E18A;
-	Thu,  9 May 2024 17:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38B8210E831;
+	Thu,  9 May 2024 17:39:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KACqIESz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jM/Y9IfK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com
- [209.85.217.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B146010E18A;
- Thu,  9 May 2024 17:24:16 +0000 (UTC)
-Received: by mail-vs1-f47.google.com with SMTP id
- ada2fe7eead31-47ef107b07fso592050137.0; 
- Thu, 09 May 2024 10:24:16 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1487810E831;
+ Thu,  9 May 2024 17:39:50 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-41ba1ba55e9so8608105e9.3; 
+ Thu, 09 May 2024 10:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715275455; x=1715880255; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GJd+PuqR17Eq0A33REJzZo/D4RiASDpPnK9j9wlnmj0=;
- b=KACqIESzpEiMd04Gib99HhpG3r+qb+WfYDb7GEEeTf+YQEfHvNy52+KxlqFQIFmr8a
- VK045ieVSuf2zJj83dtdTq6Lx+C4VFaFQXmQMwSTOHcz84UFhBeT9PWSX5jWkof42i6X
- prv7XdvwYK8gc3Ug8M/9feiufK5VQEA9com0BZkx9NJF6QSSY9kpWlITnI76Ehvow3dz
- 4etuigg//Uf4lTpSzomEocXEcJHePU4cb6b1Uq/UrpiWvEftZPnmtdZG6f2P3SxyiFTQ
- dBc5hKQJL0BX3ldrJEmYA+2jJBc9DeGfwpIVjtirgKA+FFkCt93AmTXq6mQIjtjuSntu
- CMIQ==
+ d=gmail.com; s=20230601; t=1715276389; x=1715881189; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZXUU3H+PgMe++t6s6Yb4nLqL9mCXFnF+1t6Xu9YIDmo=;
+ b=jM/Y9IfKP5y7OuxpTO4ywxL8BuIak+Sm2HPO1MVQKyffrx/4MAUsu5i6ezhwHmtoPW
+ MnnXd1wH5pvuKCCZEx/P+Xjt7ZT5ZtBx27iQKhCLnbwoAclkzYcUQNTHmrUFJIyZmkT2
+ CuisQzr9aKF9rXUD0a2h+ouhwXk4BRvMfDlU02EP3CVdM9fFIihsV9jHw+dWyG37mPOD
+ OvsBAtaxQL4MnR827RYxcb6kLVx3EM/0ndOLbOzHGY0FZHiwPHIAtF95QGvKbKjWvyqM
+ v59DOI1SUH0oWSm/mrwTvgjtV7vgpKFISuuvLp3mivqMjAYj4R5qPM6/6nIAKQnpmbIA
+ inPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715275455; x=1715880255;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GJd+PuqR17Eq0A33REJzZo/D4RiASDpPnK9j9wlnmj0=;
- b=ewTE9RCj1vpl5iZvwY+z13jhtsDgCqL2tb/0TySP81Q2gvAx3VW3PgiwtjRFlkR1PR
- cDiKPg4NLWRkOZyu8r/AvspyPGKH+rEo/uAshL4Fwg6EjS9RvyhDCS+2xQU/At8s8liy
- cGKdOS6lrgiy4t8+QDznvGL9K6r3LlJc9tHXEEwJDgv1MlI580U3QSWEJfb8tuJgdoXB
- b7BLObFWbH4Kap5uCP2qxfOksXGZPAgOK8qqkGElRs63SyRUMZW4yaI2fYJBa7YNyhaH
- l0AE6+AGwHGCkzutd/w8n03XtXMFhiJS/kJMW7nygh4zfcKJOq1b2DBR5AuW+ZbqCrCd
- YiRA==
+ d=1e100.net; s=20230601; t=1715276389; x=1715881189;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZXUU3H+PgMe++t6s6Yb4nLqL9mCXFnF+1t6Xu9YIDmo=;
+ b=pIb2Ug1ucJpZO/yqUQe6EOvQTjvV3EZCXEzXNXGcP7zFkGFwg293lAGBSI9J3dBWta
+ 5I9o0m+dgld8T2zc2tQ4lrcdbL/uLxfoycCQILg8B9XHOK9qUoQ8hBic0zFovTmz+XpZ
+ NHkSNLGkeZwryquzsNeW0JD12aEPMXnVh5XcT3eCh+D8vOXJJHs3QZMWdD0BsCQqDcAZ
+ nK/6hK3zBt1J6KwZSFdhWMICbvHzCuZ4CgFPf5bg/FAfFrp5Zf8Cwyt/7zhjwxYk5Wle
+ os6wCvGVsQ9Y+vw3bmInFB1WC+iENj+L2aEyeYJcQ201JJYz9NpwzBkafFKVGwqUTPUu
+ 1vRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVsBFCiEU+G79KQCa8YdBxp1QBbZLfU0TClKUDuq/BeMxHjpAuwyQXxfUs+H3vJemUTmjwHR5/v9tG2qGU8XAuRHGt9XwSiN7kYcmYYFDdBA4Q23YH4ioEr/WTr9VvUjrgN+CGamaNksrHfIzRy3g==
-X-Gm-Message-State: AOJu0YwLi/Rjdj0YrNQRfIzCykegpguIUxQ/yu7VfTawu61C1/h12Ipc
- hjJXgD19GtRfrZO9yaWbbJRL8IOjfbCa3dudBbUDmzuVEtMPZwo/JUDseqyty/cOhfWzPvocISf
- 6gqvZ2SlHM1cJ92Jebdmx6YeT5XU=
-X-Google-Smtp-Source: AGHT+IFIfCPVf9kp5qmitEYk8xDqLze2HZWBff7JeN7fK57HlQlsrtYhoPHxCRxQqqzqofCsWzPXPyIKBQYvrDLRxn4=
-X-Received: by 2002:a05:6102:162a:b0:47b:9844:8f8 with SMTP id
- ada2fe7eead31-48077b68500mr680273137.6.1715275455196; Thu, 09 May 2024
- 10:24:15 -0700 (PDT)
+ AJvYcCWDCITKHgZ/+NmJ2lw756/pJ41lZluSkosUoY5o8fW8sMHbU1xL1PCBfzWpuexk2JkxGQYDGMm5phm80lYs9nvmDnG74daoh9n5TNhyLETF3RCMLp4GTKoBtRiznKuIH/8KjIQbuHBQO+TThVw2+Ben
+X-Gm-Message-State: AOJu0YwoEUVM5iWfETzxtiNlimdwsbYb6ffTxHuqfLzNGjT1w0k7wJBu
+ X08KWbHPYZtv+bn8dDTUdEQUcD6Hvq2oNbbjMW8hriGkmhqY8137
+X-Google-Smtp-Source: AGHT+IE/7GfRfJfa/usca0jgdG6bN6wknL+/x51vAqqUu0ualXn47t8uTJpGHDXedlmsL6jkzbA3kQ==
+X-Received: by 2002:a5d:550b:0:b0:34c:67d6:8dec with SMTP id
+ ffacd0b85a97d-3504a62fec5mr244132f8f.6.1715276389048; 
+ Thu, 09 May 2024 10:39:49 -0700 (PDT)
+Received: from [192.168.1.130] (51B6DCE0.unconfigured.pool.telekom.hu.
+ [81.182.220.224]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3502b79bc99sm2268546f8f.11.2024.05.09.10.39.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 May 2024 10:39:48 -0700 (PDT)
+From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
+Date: Thu, 09 May 2024 19:39:30 +0200
+Subject: [PATCH] drm/msm/dpu: fix encoder irq wait skip
 MIME-Version: 1.0
-References: <20240509085758.123046-1-oushixiong@kylinos.cn>
-In-Reply-To: <20240509085758.123046-1-oushixiong@kylinos.cn>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 9 May 2024 13:24:03 -0400
-Message-ID: <CADnq5_PB_6Cz0UuYh+jEZeuE0Ld4f_ehf_H4N_rO=-ZqdfSQdw@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: Delay Connector detecting when HPD singals is
- unstable
-To: oushixiong <oushixiong@kylinos.cn>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Xinhui.Pan@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240509-irq_wait-v1-1-41d653e3784e@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAFEKPWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDUwNL3cyiwvjyxMwSXRNLExOT5NREc/NUIyWg8oKi1LTMCrBR0bG1tQD
+ MGOmlWgAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <trabarni@gmail.com>
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,52 +89,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 9, 2024 at 4:58=E2=80=AFAM oushixiong <oushixiong@kylinos.cn> w=
-rote:
->
-> From: Shixiong Ou <oushixiong@kylinos.cn>
->
-> In some causes, HPD signals will jitter when plugging in
-> or unplugging HDMI.
->
-> Rescheduling the hotplug work for a second when EDID may still be
-> readable but HDP is disconnected, and fixes this issue.
->
-> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+The irq_idx is unsigned so it cannot be lower than zero, better
+to change the condition to check if it is equal with zero.
+It could not cause any issue because a valid irq index starts from one.
 
-Applied.  Thanks!
+Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 119f3ea50a7c..cf7d769ab3b9 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -428,7 +428,7 @@ int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
+ 		return -EWOULDBLOCK;
+ 	}
+ 
+-	if (irq_idx < 0) {
++	if (irq_idx == 0) {
+ 		DRM_DEBUG_KMS("skip irq wait id=%u, callback=%ps\n",
+ 			      DRMID(phys_enc->parent), func);
+ 		return 0;
 
-> ---
->  drivers/gpu/drm/radeon/radeon_connectors.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm=
-/radeon/radeon_connectors.c
-> index b84b58926106..cf0114ca59a4 100644
-> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
-> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-> @@ -1267,6 +1267,16 @@ radeon_dvi_detect(struct drm_connector *connector,=
- bool force)
->                         goto exit;
->                 }
->         }
-> +
-> +       if (dret && radeon_connector->hpd.hpd !=3D RADEON_HPD_NONE &&
-> +           !radeon_hpd_sense(rdev, radeon_connector->hpd.hpd) &&
-> +           connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA) {
-> +               DRM_DEBUG_KMS("EDID is readable when HPD disconnected\n")=
-;
-> +               schedule_delayed_work(&rdev->hotplug_work, msecs_to_jiffi=
-es(1000));
-> +               ret =3D connector_status_disconnected;
-> +               goto exit;
-> +       }
-> +
->         if (dret) {
->                 radeon_connector->detected_by_load =3D false;
->                 radeon_connector_free_edid(connector);
-> --
-> 2.17.1
->
+---
+base-commit: 704ba27ac55579704ba1289392448b0c66b56258
+change-id: 20240509-irq_wait-49444cea77e2
+
+Best regards,
+-- 
+Barnabás Czémán <trabarni@gmail.com>
+
