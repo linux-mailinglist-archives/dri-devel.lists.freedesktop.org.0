@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BE6E8C1978
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 00:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43D78C1975
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 00:37:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4617710F569;
-	Thu,  9 May 2024 22:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D3F10ECEF;
+	Thu,  9 May 2024 22:37:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TMrNCDbC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NB+W4fIM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2DD10E6B3
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 22:37:39 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-51ff65b1e14so1516992e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 15:37:39 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31E9B10ECEF
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 22:37:40 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-2e521817c1fso4986671fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 15:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715294257; x=1715899057; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1715294258; x=1715899058; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=a2fkQEr6eD7CRzENX13yKAuKTWqMq+M/tO0KGCERLKE=;
- b=TMrNCDbCHczAF/P+/InUw+VTGi76GO/nSB2ttOtbCa9Q7gD5wt+B8oaER49mKPLum5
- peG+ysN46UAQVCJHrQuDBi9xQcelXHcJmIRfd78H7puGOXQoqlLxR/SPpwqFz5kd2A8G
- qT2ME1vVIl61eL/C2CR89oCQalzheg1/gVOa0mQVRU7kUGufaXvksYmb201F7jK1MVlQ
- 8iBisXpQjAsqrQpbK2g0UquUOyTsUJqCsNHJFYzrMRfGakg04rFL8cwKjpgp6MchKUUm
- VeilyjnHJSABm1jP+SPjeYBvDnYmxBtTRyLGv/c4dsV1GCWw5VSSctdhbArWsUuAeNlJ
- j1nQ==
+ :reply-to; bh=MJY1WdpDYNtMmaPK1COHpoOEPTHjLRXGYqacL5vf5B8=;
+ b=NB+W4fIM3WbI0x66cSH1JoNfUU80KsDjRPeHRhp7KpkUYHzl6DH4AvGyi0zEgVMaVr
+ WKsinojDEhrcMhWMCywtXa3ukftjcyQ68R5sBU3beop+YQUYrncmsv9BWELFtCBbSvf4
+ YtZ/d2gLh8sWhF7RKcebOOaFDqXxni9XhD7/MFnZ5wfC/B8VM0tPRNl6tovlf9dc7g4X
+ /L4oxiuEi0Kl9yXWLzb2s/Sto+YTMbf427U0dsc4A73z1+Dcw0eICDrMBxmheSB+aT3S
+ iA/2oi7Gkzp2NWGaXRkGhoU8HOAPaqO81AZ1BNaeDmNqOZmv/oWseIGuvOhCj77d1ohB
+ J0JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715294257; x=1715899057;
+ d=1e100.net; s=20230601; t=1715294258; x=1715899058;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=a2fkQEr6eD7CRzENX13yKAuKTWqMq+M/tO0KGCERLKE=;
- b=wLBMLApJmPuvMyjwscUYKcFsqPNIMt3IyR2zlk8Sz3Ga4T97lONLa5vHuACyRAcIJS
- S778mZELwNoIsu7cMjurOrZuBnUZFF8DjfXweKXpUZ8sbuamrW9OfO27UZi7J9YtWu/p
- GfKZ7Wx7Wz+qgvfRkmAodkzux/IxbUNReaoqr0pPHcF6JkVoawctksv8YJo2JYkMFZra
- Y8+dwPcExSH2pXfdL1SK/FIL0eU3LlDJuWebjm/ZjO66cwYxP61JuvPFMEpo0hAmt/93
- AhfZQx4njxsvSS8SLdofeRQea21lpXhRhTV7KyEMrbzantFtmXg7gAlB4O9nLerhuWo0
- tB3Q==
-X-Gm-Message-State: AOJu0YxBgc1P9q7nLmen3t9XT4CdkFvZ/PMoHHJHpwfg671dhtkIG/N0
- x+U3CMQ0CJT05b8gZ74GU77qjPvH8vBLxmwnYcYoupcT+kF0VXfrd5ZsurjV5Yo=
-X-Google-Smtp-Source: AGHT+IHIGDQk1/cR1Ijjw8/YhWlQDoNEI2P8frX0ryotsgebdB4Pvl9HL4FG6+YRX/QVkOW+BTjnxg==
-X-Received: by 2002:ac2:4c55:0:b0:51f:4165:9305 with SMTP id
- 2adb3069b0e04-5221007016dmr553026e87.55.1715294257577; 
- Thu, 09 May 2024 15:37:37 -0700 (PDT)
+ bh=MJY1WdpDYNtMmaPK1COHpoOEPTHjLRXGYqacL5vf5B8=;
+ b=iYoV2JRkmnQigYdCLzi8eFYBnnm3XT5d2Y0rZOlSHQ+IR88eMxrlsMhHPOLFfpcRzZ
+ e6D22MLNUocIzeR5csS0zOepQPjF5dPQjdp6n+k7edLlU6Yyioa0NM4K9I1PW2n08X1C
+ SP9xkIBIxtCn24Sma+gJFHocjlu8B25uwApRtT9KdzfhwUXLpTl2RIwXzS5h2MOh6ll1
+ oorLafKBBh7WrbKNoDKcfps4F8Tz/XgSXNzwqP1lXFxbbw8xXbeyvL1ra01nkMUhy6Uo
+ FFJeskciA/Xt4/usnU9PtXlxnMK+WzXj92rW9VyfmW1TOJWMncDKZTY5QquxbZYEIvUf
+ USuw==
+X-Gm-Message-State: AOJu0YxCBtLrK7Z+5FIZLpPItT7FEYtIcevk+iKAtpfT3g07RKCH8yPv
+ LVwM13oDHfXPz/OQRNTGR/XGC3ogrHA2fIhsj9oi7kmb1rn+ibk0Mj9j43g6vvQ=
+X-Google-Smtp-Source: AGHT+IGFTvw1vxx85dKbJll5ZaDg39l0SDuhBFDjN3HTXmrCOzJmUUBmBQXdeARfZ/bdKcDF52kWww==
+X-Received: by 2002:a05:6512:451:b0:51e:ff32:16a8 with SMTP id
+ 2adb3069b0e04-52210273f01mr460200e87.62.1715294258223; 
+ Thu, 09 May 2024 15:37:38 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
  2adb3069b0e04-521f38d32f1sm457974e87.181.2024.05.09.15.37.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 May 2024 15:37:37 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 10 May 2024 01:37:35 +0300
-Subject: [PATCH RFC 2/7] drm/panel: boe-tv101wum-nl6: use wrapped MIPI DCS
+Date: Fri, 10 May 2024 01:37:36 +0300
+Subject: [PATCH RFC 3/7] drm/panel: ilitek-ili9882t: use wrapped MIPI DCS
  functions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240510-dsi-panels-upd-api-v1-2-317c78a0dcc8@linaro.org>
+Message-Id: <20240510-dsi-panels-upd-api-v1-3-317c78a0dcc8@linaro.org>
 References: <20240510-dsi-panels-upd-api-v1-0-317c78a0dcc8@linaro.org>
 In-Reply-To: <20240510-dsi-panels-upd-api-v1-0-317c78a0dcc8@linaro.org>
 To: Douglas Anderson <dianders@chromium.org>, 
@@ -75,16 +75,16 @@ To: Douglas Anderson <dianders@chromium.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4789;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2005;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=u3yXba0jhIsz5BJfPsDI7HZ3897wJIDUeZTmdvqZ37g=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ5ptgN5k7t8f7LdnPmr5YqjeduNPwsvnmuKdC9e+zb3NZ
- 5WcIyjUyWjMwsDIxSArpsjiU9AyNWZTctiHHVPrYQaxMoFMYeDiFICJfO9n/18tNMH4xx+D7hW2
- jnYVSfl+flaKuZ7/mkJvXLzTJ5aX3BuTfnxzUtYqud67+p/f74st7Tliku+zMWACT7fQ1vtL564
- zn33Wuz3SR/TY56Tqre7xZxr+LJ4SlnXO4izLxSU3M9g2Zcdy2D/VnTpTjMl1Pvc9donUcps1tt
- 1izVNyNDIr+TdsuhYQmNV5qLVRc5qi5hGPGM/39po5nBZs5y8LrKo8VrinwizteQlH8RZRtUjXX
- 3NSOezuaxhe9WbT36N5dHX4ZqEdc6a7rGxcInu0QKFMYuaTT4Fsp24dXiBqwc/4Y+KW3JUrI2Q+
- detb6Mvc+bruaYmCqYuP8bxIKas5P++bNHPsT6gPvvEYAA==
+ bh=LbXKWqiDtaK+AQ1NXY6dRRGJIa5nbJ3JMjRjO+iNdK4=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmPVAuGD8s+0CZnKan0NSsgk22yRkq0bYPJEx4s
+ J4D6SGoo62JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZj1QLgAKCRCLPIo+Aiko
+ 1U1QB/9jf6h6hbySFkd5s3YSe7Rk72+e2cx8A9V4vSgxt24eApZJ8tUZarJ3aHGtZ2fr2/pPdLz
+ /Eq6giUUMEAURLyx956TTierWY5J7Ifq9AVSoQDdyxcmMMiXdclrpBzeR/fPA3br+R+xqBoXhHb
+ DAKhaiXm776JWUDqglqM6VoEaH+ciW2ZQG1Wa1jKU92K3EHRzTaDFa3xruoems2yPxoQvy69N+k
+ E7hAEAhb9IF5gVcFYPUWKKyUHsPRB6jIJ2xMeuNX2WkR7G15sr33GQvQLlaSVdAnEm4nMIyBn7h
+ X4myAKi0Qf2VNKhrFKpGwzMDBu9PkLnkloCNcZZaRHBlc2xY
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,159 +107,52 @@ simplify driver's init/exit code.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 73 ++++++++------------------
- 1 file changed, 21 insertions(+), 52 deletions(-)
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 30 +++++++++------------------
+ 1 file changed, 10 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index aab60cec0603..456c1a5a2110 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -448,22 +448,16 @@ static int boe_tv110c9m_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x55, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xbb, 0x13);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3b, 0x03, 0x96, 0x1a, 0x04, 0x04);
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+index 58fc1d799371..e7a74d5443b0 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+@@ -402,19 +402,15 @@ static int starry_ili9882t_init(struct ili9882t *ili)
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x92, 0x22);
+ 
+ 	ili9882t_switch_page(&ctx, 0x00);
+-	mipi_dsi_dcs_write_seq_multi(&ctx, MIPI_DCS_EXIT_SLEEP_MODE);
 -	if (ctx.accum_err)
 -		return ctx.accum_err;
- 
--	msleep(100);
-+	mipi_dsi_msleep(&ctx, 100);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(200);
-+	mipi_dsi_msleep(&ctx, 200);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(100);
-+	mipi_dsi_msleep(&ctx, 100);
- 
- 	return 0;
- };
-@@ -893,22 +887,16 @@ static int inx_hj110iz_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x01);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x35, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3b, 0x03, 0xae, 0x1a, 0x04, 0x04);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(100);
-+	mipi_dsi_msleep(&ctx, 100);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(200);
-+	mipi_dsi_msleep(&ctx, 200);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(100);
-+	mipi_dsi_msleep(&ctx, 100);
- 
- 	return 0;
- };
-@@ -1207,10 +1195,8 @@ static int boe_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb3, 0x08);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x04);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb8, 0x68);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(150);
-+	mipi_dsi_msleep(&ctx, 150);
- 
- 	return 0;
- };
-@@ -1222,16 +1208,12 @@ static int auo_kd101n80_45na_init(struct boe_panel *boe)
- 	msleep(24);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(120);
-+	mipi_dsi_msleep(&ctx, 120);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(120);
-+	mipi_dsi_msleep(&ctx, 120);
- 
- 	return 0;
- };
-@@ -1283,10 +1265,8 @@ static int auo_b101uan08_3_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe5, 0x4f);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe6, 0x41);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe7, 0x41);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(150);
-+	mipi_dsi_msleep(&ctx, 150);
- 
- 	return 0;
- };
-@@ -1385,16 +1365,12 @@ static int starry_qfh032011_53g_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe1, 0x23);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe2, 0x07);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0X11);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(120);
-+	mipi_dsi_msleep(&ctx, 120);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(80);
-+	mipi_dsi_msleep(&ctx, 80);
- 
- 	return 0;
- };
-@@ -1490,13 +1466,12 @@ static int starry_himax83102_j02_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xba, 0x4f);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe9, 0x3f);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xbd, 0x00);
--	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(120);
 +	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
  
--	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
+-	msleep(120);
 +	mipi_dsi_msleep(&ctx, 120);
-+
+ 
+-	mipi_dsi_dcs_write_seq_multi(&ctx, MIPI_DCS_SET_DISPLAY_ON);
+-	if (ctx.accum_err)
+-		return ctx.accum_err;
 +	mipi_dsi_dcs_set_display_on_multi(&ctx);
  
- 	return ctx.accum_err;
- };
-@@ -1508,20 +1483,14 @@ static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
+-	msleep(20);
++	mipi_dsi_msleep(&ctx, 20);
  
- static int boe_panel_enter_sleep_mode(struct boe_panel *boe)
+-	return 0;
++	return ctx.accum_err;
+ };
+ 
+ static inline struct ili9882t *to_ili9882t(struct drm_panel *panel)
+@@ -424,20 +420,14 @@ static inline struct ili9882t *to_ili9882t(struct drm_panel *panel)
+ 
+ static int ili9882t_enter_sleep_mode(struct ili9882t *ili)
  {
--	struct mipi_dsi_device *dsi = boe->dsi;
+-	struct mipi_dsi_device *dsi = ili->dsi;
 -	int ret;
 -
 -	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+	struct mipi_dsi_multi_context ctx = { .dsi = boe->dsi };
++	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
  
 -	ret = mipi_dsi_dcs_set_display_off(dsi);
 -	if (ret < 0)
 -		return ret;
-+	boe->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++	ili->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
  
 -	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
 -	if (ret < 0)
@@ -271,7 +164,7 @@ index aab60cec0603..456c1a5a2110 100644
 +	return ctx.accum_err;
  }
  
- static int boe_panel_disable(struct drm_panel *panel)
+ static int ili9882t_disable(struct drm_panel *panel)
 
 -- 
 2.39.2
