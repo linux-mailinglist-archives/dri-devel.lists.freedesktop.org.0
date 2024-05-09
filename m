@@ -2,99 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD218C1232
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 17:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BDAD8C130B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 18:35:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F96410E30F;
-	Thu,  9 May 2024 15:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A10510E0FB;
+	Thu,  9 May 2024 16:35:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Q7uowmsP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mCPov13r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD6210E30F
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 15:48:38 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-a59a352bbd9so188083566b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 08:48:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1715269717; x=1715874517;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=38BuvpIpkB3oaxq+zw4VsWBKcS3P81IEjFcYuWVYCpU=;
- b=Q7uowmsPcWD4j1ez/l1XvmFfmE3Z7z9hToS51F7WrbSKicBNKIcBgq13I5Tb6lDjkb
- c1UKo7y90x8gBJhH/8BwYwNvMps5N5ys1eDFiQPW+fP5vzz7lu2gId8ko7DZ9qSDUX1s
- dk829lFjyJo2RG3ZOJ6RHtKa1+U2zsqPlP1Sg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715269717; x=1715874517;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=38BuvpIpkB3oaxq+zw4VsWBKcS3P81IEjFcYuWVYCpU=;
- b=Z71gP4QI6JRMCKRgmec3wscKsRAlho8r1MR8dcpTo7eaHU9ZXnZPT9WSWX9HVAiw4W
- PBbuYb9aG5tZHCPmmn/XnCPxmHoycn5WQqTlsIyWvx8/sxPc9uREkVWN7vfoMIukpLdW
- 6hLWjvayk9tQGM+6rxjojU98mGPzpSbIj6adCZ6xQxwB8s+4sbQyQzNeglIfFxHyjIcm
- aDDwUBydK/Q6BoLP1xWlhfZ4XfVTeF/BaK9g9nwt5tvT1ePInsUvQdgDeAka3ApfsWcK
- MsBi5EnDGtiDVmRfrQl+b3YDN979fdx1Hxq7uAO6drGA7xOuJImqLkKyubiM7vbfsCqc
- vmKQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKxm4Oa7RhAbpPf7VAYCLhGopsKepzB4yaX2jNy+jOvfKrLbul5/+kczBOd6AMMSiK+WDQjM5tU470yWA+pVGb9zBBb8HLGW3Bfyw1zdPf
-X-Gm-Message-State: AOJu0YwkCG6eIvXRj+SYHki58C6yP5VJ0hVk8oCCBenrECRCQLnRoCoy
- Vpal9xDgIC+RDQA5k5hGUCzvkZa0i187PGsnlaOfe7FCD4XwKUf8oDQrvs5xqT2KraOriUtnuYc
- HNzRUAQ==
-X-Google-Smtp-Source: AGHT+IGbjOaXZxD57WyK2p9fwGVxyCYTl9E2nVD74y2hNLBvZvd/91Bp4+j/zobKRxuNORIEUWfIRw==
-X-Received: by 2002:a17:907:bb8a:b0:a55:5698:3ea6 with SMTP id
- a640c23a62f3a-a5a11842569mr247865266b.29.1715269717216; 
- Thu, 09 May 2024 08:48:37 -0700 (PDT)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com.
- [209.85.218.41]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a5a1787c70asm86470166b.56.2024.05.09.08.48.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 May 2024 08:48:37 -0700 (PDT)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-a59cdd185b9so384556666b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 08:48:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWn6XVfO2SB+awgCi6EXZWuVchfcNV6OugjLYKHy2oLIbi/6cNswX/soq7y7RVmi8gxvCdln3PMLC09C+jIrRYnT9M5nhmU2d/oGA1WWvit
-X-Received: by 2002:a17:906:19d0:b0:a59:fb06:5d35 with SMTP id
- a640c23a62f3a-a5a1156665fmr240732966b.8.1715269716628; Thu, 09 May 2024
- 08:48:36 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36E7210E011;
+ Thu,  9 May 2024 16:35:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715272543; x=1746808543;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=mHJd8p5Tjz0afxfdDn3nOYI76VYbyKUrqy+KDEXsM4A=;
+ b=mCPov13rKf2UY67Y2JMxJlyDvW7hEpGrMvVBOaD76Ble91het1xdiVKA
+ Codv5Gklae0ziIdDzRZ7UAUKfYy8v+o8ac2OV0oPz0Jr4Swb/DZZuxgcF
+ pgeymP/R85EQ+Ktz+J024clZX4iubcyj0GYTogQ95bhXPUNeKoGsdz7zK
+ xBT88xSK7slUS6w/2U3Vh0YOHoGDbJFOgYqAnRJcuf68+2TJPXMoRn2Ri
+ 0bFDYeXSQ6SW6YqKu8fIdZaHP92O24yTesFC2QhJduVOwRqWWpPNzp7vB
+ HWDouXhord1XvNUx2YsxzXzwt/FqI8ynbIywzUZ04+njoN39Ei+oJ3rZ+ A==;
+X-CSE-ConnectionGUID: V6hn4NwwRT+82jyEsFKJKw==
+X-CSE-MsgGUID: bbhqHzUBQ2aYw0hDzQ+/RQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="28691397"
+X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; d="scan'208";a="28691397"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2024 09:35:42 -0700
+X-CSE-ConnectionGUID: +av35eoIQQm7W/rBSD1WlQ==
+X-CSE-MsgGUID: jt1AFr10S6i4iBwn7XCAqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; d="scan'208";a="60158199"
+Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
+ fedora) ([10.245.246.154])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2024 09:35:37 -0700
+Date: Thu, 9 May 2024 18:35:23 +0200
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-next-fixes
+Message-ID: <Zjz7SzCvfA3vQRxu@fedora>
 MIME-Version: 1.0
-References: <20240504-wohngebiet-restwert-6c3c94fddbdd@brauner>
- <CAHk-=wj_Fu1FkMFrjivQ=MGkwkKXZBuh0f4BEhcZHD5WCvHesw@mail.gmail.com>
- <CAHk-=wj6XL9MGCd_nUzRj6SaKeN0TsyTTZDFpGdW34R+zMZaSg@mail.gmail.com>
- <b1728d20-047c-4e28-8458-bf3206a1c97c@gmail.com>
- <ZjoKX4nmrRdevyxm@phenom.ffwll.local>
- <CAHk-=wgh5S-7sCCqXBxGcXHZDhe4U8cuaXpVTjtXLej2si2f3g@mail.gmail.com>
- <CAKMK7uGzhAHHkWj0N33NB3OXMFtNHv7=h=P-bdtYkw=Ja9kwHw@mail.gmail.com>
- <CAHk-=whFyOn4vp7+++MTOd1Y3wgVFxRoVdSuPmN1_b6q_Jjkxg@mail.gmail.com>
- <CAHk-=wixO-fmQYgbGic-BQVUd9RQhwGsF4bGk8ufWDKnRS1v_A@mail.gmail.com>
- <CAHk-=wjmC+coFdA_k6_JODD8_bvad=H4pn4yGREqOTm+eMB+rg@mail.gmail.com>
- <20240509-kutschieren-tacker-c3968b8d3853@brauner>
-In-Reply-To: <20240509-kutschieren-tacker-c3968b8d3853@brauner>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 9 May 2024 08:48:20 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgKdWwdVUvjSNLL-ne9ezQN=BrwN34Kq38_=9yF8c03uA@mail.gmail.com>
-Message-ID: <CAHk-=wgKdWwdVUvjSNLL-ne9ezQN=BrwN34Kq38_=9yF8c03uA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] epoll: try to be a _bit_ better about
- file lifetimes
-To: Christian Brauner <brauner@kernel.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>, 
- Pekka Paalanen <pekka.paalanen@collabora.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Al Viro <viro@zeniv.linux.org.uk>, keescook@chromium.org, axboe@kernel.dk, 
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- io-uring@vger.kernel.org, jack@suse.cz, laura@labbott.name, 
- linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- minhquangbui99@gmail.com, sumit.semwal@linaro.org, 
- syzbot+045b454ab35fd82a35fb@syzkaller.appspotmail.com, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,25 +76,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 9 May 2024 at 04:39, Christian Brauner <brauner@kernel.org> wrote:
->
-> Not worth it without someone explaining in detail why imho. First pass
-> should be to try and replace kcmp() in scenarios where it's obviously
-> not needed or overkill.
+Hi, Dave & Sima
 
-Ack.
+This weeks -next-fixes. Two fixes breifly described below.
 
-> I've added a CLASS(fd_raw) in a preliminary patch since we'll need that
-> anyway which means that your comparison patch becomes even simpler imho.
-> I've also added a selftest patch:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=vfs.misc
+Driver Changes:
+- Use ordered WQ for G2H handler. (Matthew Brost)
+- Use flexible-array rather than zero-sized (Lucas De Marchi)
 
-LGTM.
+Thanks,
+Thomas
 
-Maybe worth adding an explicit test for "open same file, but two
-separate opens, F_DUPFD_QUERY returns 0? Just to clarify the "it's not
-testing the file on the filesystem for equality, but the file pointer
-itself".
+The following changes since commit 3bc8848bb7f7478e6806e4522b06b63f40a53e1e:
 
-             Linus
+  drm/xe: Merge 16021540221 and 18034896535 WAs (2024-05-02 11:29:42 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-fixes-2024-05-09-1
+
+for you to fetch changes up to d69c3d4b53829097b8948d6791ea32c07de3faab:
+
+  drm/xe/ads: Use flexible-array (2024-05-09 17:51:46 +0200)
+
+----------------------------------------------------------------
+Driver Changes:
+- Use ordered WQ for G2H handler. (Matthew Brost)
+- Use flexible-array rather than zero-sized (Lucas De Marchi)
+
+----------------------------------------------------------------
+Lucas De Marchi (1):
+      drm/xe/ads: Use flexible-array
+
+Matthew Brost (1):
+      drm/xe: Use ordered WQ for G2H handler
+
+ drivers/gpu/drm/xe/xe_guc_ads.c      | 2 +-
+ drivers/gpu/drm/xe/xe_guc_ct.c       | 5 +++++
+ drivers/gpu/drm/xe/xe_guc_ct.h       | 2 +-
+ drivers/gpu/drm/xe/xe_guc_ct_types.h | 2 ++
+ 4 files changed, 9 insertions(+), 2 deletions(-)
