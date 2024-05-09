@@ -2,77 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207898C0FBD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 14:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CB08C0FC2
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 14:41:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD6910E0D5;
-	Thu,  9 May 2024 12:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A5010E68C;
+	Thu,  9 May 2024 12:41:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="08RXUR8S";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cmZn6Ymx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6334C10E1F4
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2024 12:40:21 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-518931f8d23so870558e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 05:40:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1715258419; x=1715863219;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=n3NirfJeXWYYIR5R2uPMTQMrKgE4eFI2a/JfUV4vtog=;
- b=08RXUR8S0AAQrs65fLj8iOe0drfYqnIfXYIdb+T00eTyLbZIinOo9DP2ssHySYrhsY
- NSyGpCoAU2dAi7TaCDGRFiH5+2AkBAyYRwjrcVzo5GcKgBwzioorV0Wx0GvSxJqjet4Z
- sptRJ84fnLjl1p/XSf8dqt7Sd0KUuYPtT7TYykJZ2p36VnP7Uw1wuMUYbp2eacyx3ZMh
- EMFLJ8bX1x9H4ZUBl8QTda8vMl2p0xoLpjXlf2xQUXRbYNnhkadbVHGbmpW1CTKltnkZ
- HkkJv7T46xeaYyyRhhCDimT6a3jn2xs7U1SY1Ro2oFFecVt6paook4cSKgnANRoS6IMc
- sfrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715258419; x=1715863219;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=n3NirfJeXWYYIR5R2uPMTQMrKgE4eFI2a/JfUV4vtog=;
- b=E9Q8nUD+HUXZXKE9bM9hHmrsacLXTHqLQggkq+fOvWMiaM24PsbeaiOTukC97DNFVb
- FBsMn09/AZN6QiFJ/X/JUGUAmhf1SJiiESpynk08idb1AgyRdlosRo9T8HlmhYu+1H1C
- tvjYOm3SHHyp3xznm13VlEZKl2v+JcQ9lP/ijfGV9jLMy2d8PIyF7fKHT/aQVJBFqw42
- RV9hC1LlczLXb4JIsc+hbM/zIa6Qwnf2u1xn+I4FyrTZC8OsiIW2gscpatoA6k14uiL7
- e3rxGD1gvDoXUUU/17+x/oDceoF5HsTvzpuKpH0gHo5oa6m+qJfSWf/6w530+JDQUPRu
- lYkg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXz691zPKm1xdEp2U91pGRnHB76KKUeSF1tFJYI+8ql498syJytG7t+85gc3BrwRwEqAWtftsSdvr5hpW9+Hhhnn9Nq3DdbnoyLpDXIpQi5
-X-Gm-Message-State: AOJu0YxO0RowbhBZGXI1SAdP9KxT+p5FSeb2bN1Ee573a5rF/JsTRma4
- 9hxz6BiSD81yIoWSE5J+3qdvHd4xf9nBXk5f0EXcI/ZkN9FiRryLdYfQyZwQcv0=
-X-Google-Smtp-Source: AGHT+IHL0A6wEwx4JimOBgRRojYWD3H9Z5e/uxRyzaiU217ufBs0ILdpp0w4zg84WxySIS97nfeQIg==
-X-Received: by 2002:a05:6512:344c:b0:519:2828:c284 with SMTP id
- 2adb3069b0e04-5217ce42f3cmr3353348e87.65.1715258418996; 
- Thu, 09 May 2024 05:40:18 -0700 (PDT)
-Received: from [192.168.0.101] ([84.69.19.168])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-41fccfe1527sm24010745e9.44.2024.05.09.05.40.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 May 2024 05:40:18 -0700 (PDT)
-Message-ID: <e39bcdd1-90e7-42f3-94a9-ea1af6b0d278@ursulin.net>
-Date: Thu, 9 May 2024 13:40:17 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11AB410E684;
+ Thu,  9 May 2024 12:41:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715258487; x=1746794487;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=6pbefjLKJhvOdZI1dD1jrgcdxXYoJrlekTBRjWnVafc=;
+ b=cmZn6YmxGmcRymZnb9UIpTMiddSMSNJeSApAu5kXVs42t06fppWFnGNz
+ N0SV+J0xbekOcGUhjtBQIqwkB59JEW968FTfJvD6ymB6UxNOv9aaJaFut
+ ClCsVBiPP+VddS6CogbpMF5mQ7qFWVCxAG7KmyCcXR56uqsCBHYx6EwIQ
+ IS0+rOdSjPEUh14U9LsR7vVAuyA9ilTNhUucGwIkXeprZmogTnn+wzLKa
+ HcCipJ9vRe+9A9HPWlIs1K+eLY9eYDZmnCsJ3w6xVUJ8in3UlIxhhT497
+ xnt6k06gAQ5y/RBEMGB4TTUzQq5gYLTzBTNfuAO51vDnl+lVLOus9flJl g==;
+X-CSE-ConnectionGUID: AAwzWHBkT16LWSBSukaEBg==
+X-CSE-MsgGUID: +aEla2dRRZm7hRvn1U00UA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="21744676"
+X-IronPort-AV: E=Sophos;i="6.08,147,1712646000"; d="scan'208";a="21744676"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2024 05:41:25 -0700
+X-CSE-ConnectionGUID: babgHg71SXep+9+1qTPv8w==
+X-CSE-MsgGUID: LZWrGUFSS/Cs/KMzce+EMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,147,1712646000"; d="scan'208";a="29205111"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.246.4.197])
+ ([10.246.4.197])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2024 05:41:21 -0700
+Message-ID: <b086ed94-f562-48af-97a1-2e472d3c2125@intel.com>
+Date: Thu, 9 May 2024 14:41:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/5] Discussion around eviction improvements
-Content-Language: en-GB
-To: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Friedrich Vock <friedrich.vock@gmx.de>
-References: <20240508180946.96863-1-tursulin@igalia.com>
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20240508180946.96863-1-tursulin@igalia.com>
+Subject: Re: [PATCH] drm/i915/gt: Disarm breadcrumbs if engines are already
+ idle
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>
+References: <20240423165505.465734-2-janusz.krzysztofik@linux.intel.com>
+Content-Language: en-US
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20240423165505.465734-2-janusz.krzysztofik@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,90 +78,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 23.04.2024 18:23, Janusz Krzysztofik wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> The breadcrumbs use a GT wakeref for guarding the interrupt, but are
+> disarmed during release of the engine wakeref. This leaves a hole where
+> we may attach a breadcrumb just as the engine is parking (after it has
+> parked its breadcrumbs), execute the irq worker with some signalers still
+> attached, but never be woken again.
+> 
+> That issue manifests itself in CI with IGT runner timeouts while tests
+> are waiting indefinitely for release of all GT wakerefs.
+> 
+> <6> [209.151778] i915: Running live_engine_pm_selftests/live_engine_busy_stats
+> <7> [209.231628] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_5
+> <7> [209.231816] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_4
+> <7> [209.231944] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_3
+> <7> [209.232056] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_2
+> <7> [209.232166] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling DC_off
+> <7> [209.232270] i915 0000:00:02.0: [drm:skl_enable_dc6 [i915]] Enabling DC6
+> <7> [209.232368] i915 0000:00:02.0: [drm:gen9_set_dc_state.part.0 [i915]] Setting DC state from 00 to 02
+> <4> [299.356116] [IGT] Inactivity timeout exceeded. Killing the current test with SIGQUIT.
+> ...
+> <6> [299.356526] sysrq: Show State
+> ...
+> <6> [299.373964] task:i915_selftest   state:D stack:11784 pid:5578  tgid:5578  ppid:873    flags:0x00004002
+> <6> [299.373967] Call Trace:
+> <6> [299.373968]  <TASK>
+> <6> [299.373970]  __schedule+0x3bb/0xda0
+> <6> [299.373974]  schedule+0x41/0x110
+> <6> [299.373976]  intel_wakeref_wait_for_idle+0x82/0x100 [i915]
+> <6> [299.374083]  ? __pfx_var_wake_function+0x10/0x10
+> <6> [299.374087]  live_engine_busy_stats+0x9b/0x500 [i915]
+> <6> [299.374173]  __i915_subtests+0xbe/0x240 [i915]
+> <6> [299.374277]  ? __pfx___intel_gt_live_setup+0x10/0x10 [i915]
+> <6> [299.374369]  ? __pfx___intel_gt_live_teardown+0x10/0x10 [i915]
+> <6> [299.374456]  intel_engine_live_selftests+0x1c/0x30 [i915]
+> <6> [299.374547]  __run_selftests+0xbb/0x190 [i915]
+> <6> [299.374635]  i915_live_selftests+0x4b/0x90 [i915]
+> <6> [299.374717]  i915_pci_probe+0x10d/0x210 [i915]
+> 
+> At the end of the interrupt worker, if there are no more engines awake,
+> disarm the breadcrumb and go to sleep.
+> 
+> Fixes: 9d5612ca165a ("drm/i915/gt: Defer enabling the breadcrumb interrupt to after submission")
+> Closes: https://gitlab.freedesktop.org/drm/intel/issues/10026
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: <stable@vger.kernel.org> # v5.12+
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 
-On 08/05/2024 19:09, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> 
-> Last few days I was looking at the situation with VRAM over subscription, what
-> happens versus what perhaps should happen. Browsing through the driver and
-> running some simple experiments.
-> 
-> I ended up with this patch series which, as a disclaimer, may be completely
-> wrong but as I found some suspicious things, to me at least, I thought it was a
-> good point to stop and request some comments.
-> 
-> To perhaps summarise what are the main issues I think I found:
-> 
->   * Migration rate limiting does not bother knowing if actual migration happened
->     and so can over-account and unfairly penalise.
-> 
->   * Migration rate limiting does not even work, at least not for the common case
->     where userspace configures VRAM+GTT. It thinks it can stop migration attempts
->     by playing with bo->allowed_domains vs bo->preferred domains but, both from
->     the code, and from empirical experiments, I see that not working at all. Both
->     masks are identical so fiddling with them achieves nothing.
-> 
->   * Idea of the fallback placement only works when VRAM has free space. As soon
->     as it does not, ttm_resource_compatible is happy to leave the buffers in the
->     secondary placement forever.
-> 
->   * Driver thinks it will be re-validating evicted buffers on the next submission
->     but it does not for the very common case of VRAM+GTT because it only checks
->     if current placement is *none* of the preferred placements.
-> 
-> All those problems are addressed in individual patches.
-> 
-> End result of this series appears to be driver which will try harder to move
-> buffers back into VRAM, but will be (more) correctly throttled in doing so by
-> the existing rate limiting logic.
-> 
-> I have run a quick benchmark of Cyberpunk 2077 and cannot say that I saw a
-> change but that could be a good thing too. At least I did not break anything,
-> perhaps.. On one occassion I did see the rate limiting logic get confused while
-> for a period of few minutes it went to a mode where it was constantly giving a
-> high migration budget. But that recovered itself when I switched clients and did
-> not come back so I don't know. If there is something wrong there I don't think
-> it would be caused by any patches in this series.
+Completely forgot this one.
 
-Since yesterday I also briefly tested with Far Cry New Dawn. One run 
-each so possibly doesn't mean anything apart that there isn't a 
-regression aka migration throttling is keeping things at bay even with 
-increased requests to migrate things back to VRAM:
-			
-		     before		 after
-min/avg/max fps	    36/44/54		37/45/55
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Cyberpunk 2077 from yesterday was similarly close:
+Regards
+Andrzej
 
-		26.96/29.59/30.40	29.70/30.00/30.32
 
-I guess the real story is proper DGPU where misplaced buffers have a 
-real cost.
-
-Regards,
-
-Tvrtko
-
-> Series is probably rough but should be good enough for dicsussion. I am curious
-> to hear if I identified at least something correctly as a real problem.
+> ---
+>   drivers/gpu/drm/i915/gt/intel_breadcrumbs.c | 15 +++++++--------
+>   1 file changed, 7 insertions(+), 8 deletions(-)
 > 
-> It would also be good to hear what are the suggested games to check and see
-> whether there is any improvement.
-> 
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Friedrich Vock <friedrich.vock@gmx.de>
-> 
-> Tvrtko Ursulin (5):
->    drm/amdgpu: Fix migration rate limiting accounting
->    drm/amdgpu: Actually respect buffer migration budget
->    drm/ttm: Add preferred placement flag
->    drm/amdgpu: Use preferred placement for VRAM+GTT
->    drm/amdgpu: Re-validate evicted buffers
-> 
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c     | 38 +++++++++++++++++-----
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  8 +++--
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c     | 21 ++++++++++--
->   drivers/gpu/drm/ttm/ttm_resource.c         | 13 +++++---
->   include/drm/ttm/ttm_placement.h            |  3 ++
->   5 files changed, 65 insertions(+), 18 deletions(-)
-> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
+> index d650beb8ed22f..20b9b04ec1e0b 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
+> @@ -263,8 +263,13 @@ static void signal_irq_work(struct irq_work *work)
+>   		i915_request_put(rq);
+>   	}
+>   
+> +	/* Lazy irq enabling after HW submission */
+>   	if (!READ_ONCE(b->irq_armed) && !list_empty(&b->signalers))
+>   		intel_breadcrumbs_arm_irq(b);
+> +
+> +	/* And confirm that we still want irqs enabled before we yield */
+> +	if (READ_ONCE(b->irq_armed) && !atomic_read(&b->active))
+> +		intel_breadcrumbs_disarm_irq(b);
+>   }
+>   
+>   struct intel_breadcrumbs *
+> @@ -315,13 +320,7 @@ void __intel_breadcrumbs_park(struct intel_breadcrumbs *b)
+>   		return;
+>   
+>   	/* Kick the work once more to drain the signalers, and disarm the irq */
+> -	irq_work_sync(&b->irq_work);
+> -	while (READ_ONCE(b->irq_armed) && !atomic_read(&b->active)) {
+> -		local_irq_disable();
+> -		signal_irq_work(&b->irq_work);
+> -		local_irq_enable();
+> -		cond_resched();
+> -	}
+> +	irq_work_queue(&b->irq_work);
+>   }
+>   
+>   void intel_breadcrumbs_free(struct kref *kref)
+> @@ -404,7 +403,7 @@ static void insert_breadcrumb(struct i915_request *rq)
+>   	 * the request as it may have completed and raised the interrupt as
+>   	 * we were attaching it into the lists.
+>   	 */
+> -	if (!b->irq_armed || __i915_request_is_complete(rq))
+> +	if (!READ_ONCE(b->irq_armed) || __i915_request_is_complete(rq))
+>   		irq_work_queue(&b->irq_work);
+>   }
+>   
+
