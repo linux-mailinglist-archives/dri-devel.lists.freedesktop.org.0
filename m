@@ -2,51 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BCE48C1338
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 18:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB4A8C13A0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2024 19:15:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23EBB10E108;
-	Thu,  9 May 2024 16:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82E1710E190;
+	Thu,  9 May 2024 17:15:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=lwn.net header.i=@lwn.net header.b="IhnoF1G3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ak/4WUt1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFC5110E062;
- Thu,  9 May 2024 16:48:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8EC1647C39
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1715273286; bh=3qFwjzw8Vw1OvsBGlcfK09vFEBAUZplKcKp8nfsKqto=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=IhnoF1G3IdGk/iRQpZeEEkmumlwkGNvlLtO+iLFf3hoa1dJeJkfNaGcLsrwDXhiQK
- IzZ6Zi2kGNxPjVur1GEQZ66yUX2mNQ455AmvJIaFHzndC3i7+dpCrBia2hoImT9x9Y
- FNsbSsmRDNrosuTPSxUsN9CoaRLw77uqv4mUHeXNNK1kB5/AKpln+jnBSJH8O/tkHn
- nWm4vYRiuVkE2mOQaG75amaRFrd0dadaM4GGwOkCYMzSHW77PN0/L32sf0USMaOp/z
- tqXqIsmN25QlME069Pd0UNXoAdH0of3wGRYO1kzF8NbCxjs0uHM6EX7OB0V3fzTyNG
- 6zC6BGxZwtM0w==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 8EC1647C39;
- Thu,  9 May 2024 16:48:06 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH] docs: document python version used for compilation
-In-Reply-To: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
-References: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
-Date: Thu, 09 May 2024 10:48:05 -0600
-Message-ID: <87o79faq4a.fsf@meer.lwn.net>
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
+ [209.85.161.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E210B10E12F;
+ Thu,  9 May 2024 17:15:45 +0000 (UTC)
+Received: by mail-oo1-f43.google.com with SMTP id
+ 006d021491bc7-5b2761611e8so396202eaf.2; 
+ Thu, 09 May 2024 10:15:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715274945; x=1715879745; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rZiLZP5/kk1vwmeb8DDi1DAoGL+kKQ0mz5pqsLRVAiQ=;
+ b=Ak/4WUt1dxspYYrnMi6Oe0yD66VbozP6S8ROgM7SFLs7ObXqTYCYH3WnimclJXzvUq
+ XcFnjB8WHpiniCWXCJWihBZDe7sAWjz/tcmac61643zQbnsBwjnSwoeFiXdJ73vJ/Nvj
+ g2jIlO6Zd7vfiyk5/ngwVnt477fLZACh6lZ4WnV6IgJlPK97nKow8WSQy3vIfGuv0NeD
+ gTzqCyiKT2Rt6s/jIbXhn3Cyg5oBd/jc2Mh4uO/zDNLfDvmRtJsiGVO1oLVQlc8Rqt1A
+ yytVWmSxs3/BdFKIrbmaT/ASOv54al83iE241+DyEBUIMC0LSSYZZ6EHhAFik1IdhJJG
+ nAmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715274945; x=1715879745;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rZiLZP5/kk1vwmeb8DDi1DAoGL+kKQ0mz5pqsLRVAiQ=;
+ b=HRvhe5aP5buyzBZ9pkwSJi0OaQHkoyhFh03GJCOWqLX6ial3Gm/ae3GV5Qmvu2YSAq
+ CzChYf5M+O5VjBEuBUmOEPGAvbvmk/5uJJunOuKvCM7AmCGZzLrYRj4dyMMTJuTf2fDO
+ d9zQ0uPJVs8ow7KE1inN4380VJ/7M9aPx8yA3MSX7wJATAGhHMvwEFQnHM18v5Xfx/sb
+ gpOKzJFIkF8C9mRj4fN5eo8ZlZvni16+awqzFAR9uYVPB4umq1vR6qG6h9G8ou8iX1J4
+ zdD7gIk7vPcFPZPZj9k46ISQkrsskqeQSmzobT747va4lsAV4yClnEN/EWqhPmA8LPGB
+ yIQQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVan2VLaNAP52GwWxMZ5/1ztclyJETkU79MBkuaIhjQYkBmyPu1klAnkPafKWDpjdFKuw6jbGOAEN4MJz2Og5BtzaL+92Evsmcw6QB96FGQcBiFcRDU39tFgdCu/zo1PimI3yqNtpY2H+MS9XVzvg==
+X-Gm-Message-State: AOJu0YwjjodJ2oCr51tCYyn5Xi1mivfKcqcDsk6M8GidiaJurhsnIM/r
+ GxqQnCxm3KytmStwra2/6KjjNSJLIkiXMojSRBZyhRJSb211EEbCXN0adpp+mvM5mf950oRmrqB
+ 98ag3g6v6nxokK2bpJ4km7FtN/EY=
+X-Google-Smtp-Source: AGHT+IFjOz6jnY4i1OrbGHKdaDsm499HKePTZlD2L0qp+QR8Q9Mn7Vch8xVCZnWFEm9GLy0s0Bh0wQ4Age78L8ztfQg=
+X-Received: by 2002:a05:6358:430f:b0:186:1b7f:e885 with SMTP id
+ e5c5f4694b2df-193bb656d21mr4476955d.17.1715274944693; Thu, 09 May 2024
+ 10:15:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <ed236ed6-0e6d-4243-8316-28485c9797c0@gmail.com>
+In-Reply-To: <ed236ed6-0e6d-4243-8316-28485c9797c0@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 9 May 2024 13:15:32 -0400
+Message-ID: <CADnq5_O6YMr2EK3J+NnnfycLpq321PTwgt2-NNE0X82Jq+DC=A@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: remove deprecated I2C_CLASS_SPD support from
+ newly added SMU_14_0_2
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, 
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
+ "open list:AMD KFD" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,38 +85,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> writes:
-
-> The drm/msm driver had adopted using Python3 script to generate register
-> header files instead of shipping pre-generated header files. Document
-> the minimal Python version supported by the script.
+On Thu, May 9, 2024 at 8:02=E2=80=AFAM Heiner Kallweit <hkallweit1@gmail.co=
+m> wrote:
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Support for I2C_CLASS_SPD  is currently being removed from the kernel.
+> Only remaining step is to remove the definition of I2C_CLASS_SPD.
+> Setting I2C_CLASS_SPD  in a driver is a no-op meanwhile, so remove it
+> here.
+>
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+and applied.
+
+Thanks!
+
 > ---
->  Documentation/process/changes.rst | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index 5685d7bfe4d0..8d225a9f65a2 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -63,6 +63,7 @@ cpio                   any              cpio --version
->  GNU tar                1.28             tar --version
->  gtags (optional)       6.6.5            gtags --version
->  mkimage (optional)     2017.01          mkimage --version
-> +Python (optional)      3.5.x            python3 --version
->  ====================== ===============  ========================================
-
-Is it really optional - can you build the driver without it?
-
-This document needs some help... I'm missing a number of things that are
-*not* marked as "optional" (jfsutils, reiserfsprogs, pcmciautils, ppp,
-...) and somehow my system works fine :)  It would be nice to document
-*why* users might need a specific tool.
-
-But I guess we aren't going to do that now.  I can apply this, but I do
-wonder about the "optional" marking.
-
-Thanks,
-
-jon
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c b/drive=
+rs/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c
+> index 0d5ad531c..fb6f3bbe2 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c
+> @@ -1616,7 +1616,6 @@ static int smu_v14_0_2_i2c_control_init(struct smu_=
+context *smu)
+>                 smu_i2c->port =3D i;
+>                 mutex_init(&smu_i2c->mutex);
+>                 control->owner =3D THIS_MODULE;
+> -               control->class =3D I2C_CLASS_SPD;
+>                 control->dev.parent =3D &adev->pdev->dev;
+>                 control->algo =3D &smu_v14_0_2_i2c_algo;
+>                 snprintf(control->name, sizeof(control->name), "AMDGPU SM=
+U %d", i);
+> --
+> 2.45.0
+>
