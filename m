@@ -2,68 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6E08C281D
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:45:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4618C282B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:48:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96B5710E7E2;
-	Fri, 10 May 2024 15:45:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B95610EE1C;
+	Fri, 10 May 2024 15:48:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HlfQ1CQz";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="qKOrLZcL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oqzay6jg";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2Np2PDX2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/32zYFta";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBB2E10E7E2;
- Fri, 10 May 2024 15:45:49 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-2b3646494a8so1760764a91.2; 
- Fri, 10 May 2024 08:45:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715355949; x=1715960749; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eCyaxRcT2+wbZVhzZ1BB+Dli+tMLqeMid3YFa7QuT48=;
- b=HlfQ1CQzInpT1uaCJ9ZTwCTSO0mcS50Ej2uRS/4Z7MzDkq8+C8J0aSqtRh6rkjMX+G
- 9iAh92sFos1TcnnHAzOeCJ+lFsbmozaSBK7OBjtmzRgb+cJHH9dccD9XUbNboKldp20B
- ghxaEnpLucJY3OlkqzS+xLu+UIUkTECjqN3qRC2eyfzB6VA61EdF7wdfgZu1aJC63Kfv
- EJKYd/lTcnfU/pANckgb9U+u/aQtu8MgAsAtB0O5LX7lW+HVYgO5asMj3hKLN8UzArJg
- uA6yQsr5XxhK9TzFLfpD1GncN7oXHdA2CbPsya5z3civnDYoEuLn5bLPLDkdZBoksnzd
- 4X+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715355949; x=1715960749;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eCyaxRcT2+wbZVhzZ1BB+Dli+tMLqeMid3YFa7QuT48=;
- b=qYWmCgznZsluWppKwDbicKj8E5SUHoA01a/rchZkW0W2Uuyg7qAABVAsx3jjbnqqYE
- JK3htMU2PFP0cxPO/UxBh+o8JfhpoFwq1mrFTLYOsP2Ivs5ZBZ06DL+SDE5wQvkcYJp8
- 5cgFn9WN/Di+JF0UJCj0uqmjpaQiV9RH1KDjP2yxt3pt16cbmbJWnMW0YUm7mu1Q13ry
- hGAIU1v4GLtSsXUMkVdjraVV7qOGYHnuzH4lUog+fZZcqVahphoj78vRhRmhxSTeXUrD
- z9K8DzUdg6cRmf+ObTX170z6zGMEA2E3RMDpmxFXHUdVEjKa43hnB/EDJMXj9vwPWvNF
- 5DhQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWwOsTv+kpVX/vdvna5wp06Qu4jWi8d4/7KQ2Txk9A9uce3hpvJR549SKLqy7Nop93zyalFbI+5shARtEUQ///6E+SbSKd/9wOalUqziDitX/xPKmYN1pTlmvy0OfKGM8vI+9OHDxlrszy5c7ReduOS73RERxcUigMqeBgDquN70AQY2UGY7eW/jTAucUU=
-X-Gm-Message-State: AOJu0YzLxiuGkgZwHx7OCviCFbWlz4Hx1QvcCCeRj1PYhScgAxf7KJ/0
- lHU4S5E7p+mqYizqw+J1K7A6syL73wwuY3EzhY/C5s1l9FCVHqpxvJ9DMSbknpNVk/+AqHnZHSf
- OfIPWIiQR9PDpu6wSLrQTYBcdf8TcLQ==
-X-Google-Smtp-Source: AGHT+IETRwCKCw5m2fwIY96WLnlfk+Xo7r6OSlnsL1Thi1F8xij/i5eRt60qHpLaH05c4+ESTk8DDeRm9Swp55raUW4=
-X-Received: by 2002:a17:90a:1f04:b0:2af:8fa4:40e with SMTP id
- 98e67ed59e1d1-2b6cc340faemr2850546a91.1.1715355948584; Fri, 10 May 2024
- 08:45:48 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6254210E2C2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:48:46 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E2F7E67382;
+ Fri, 10 May 2024 15:48:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1715356124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=brZYaMq+dkbNagOrmCBmet1YpOZ0xZ6fXkP8RN7yUco=;
+ b=qKOrLZcLdZ/lAcXpLefBzKgrdGT7J9eUpZro5v5ogmz1XGMU3y3ER0XPfaZHoLPB1o0tEG
+ JhWmB36pNIPfEMZfp+CgMyJElNibhDfO9c2I2YaNPMspnzCtDIbEMWQaa2EfCp5NoWbFAk
+ 9OantBQytD5Hsaq0bcNWeSgtyAOp7pw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1715356124;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=brZYaMq+dkbNagOrmCBmet1YpOZ0xZ6fXkP8RN7yUco=;
+ b=Oqzay6jgIBWvOz1IBbZH6H4euWNdSyibdXTIOpnJUQi4H8NeKbg/F7DPHNRZQqqGA4t58X
+ gLFZzRW/48W2IRAw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2Np2PDX2;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/32zYFta"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1715356123; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=brZYaMq+dkbNagOrmCBmet1YpOZ0xZ6fXkP8RN7yUco=;
+ b=2Np2PDX2YBuMviDtucAFbO3e990MufgH72XfLvkYJZ8vkyuG0dgkbGk6x8CxtsrTA8lRyr
+ 8d814acRDFPlWTd6tx/Ct0yWjf7rf9DwAmqeoCIpIRU+Rqxjcw+Sxzuo2LPduEhUIxSHlU
+ 01j+qZayBkqCvA3byfG+3QsmQJRmiu0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1715356123;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=brZYaMq+dkbNagOrmCBmet1YpOZ0xZ6fXkP8RN7yUco=;
+ b=/32zYFtamPO7T0WK4TTTigPWkk0VrF2RE27PDptL0tOWA4JW8ZY+1ub7IRX10udB880sym
+ XHNPgMAC22eK1ADQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B4F61139AA;
+ Fri, 10 May 2024 15:48:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id mDD2KttBPma7MgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 10 May 2024 15:48:43 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, jani.nikula@linux.intel.com, airlied@redhat.com,
+ sean@poorly.run
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 0/5] drm/udl: Convert to struct drm_edid
+Date: Fri, 10 May 2024 17:47:07 +0200
+Message-ID: <20240510154841.11370-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <cover.1715353572.git.jani.nikula@intel.com>
-In-Reply-To: <cover.1715353572.git.jani.nikula@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 10 May 2024 11:45:36 -0400
-Message-ID: <CADnq5_OMOuz_T-OUZ4jVELEAL1FfFdqoFukKdvZA0eSoPQExLg@mail.gmail.com>
-Subject: Re: [RESEND 0/6] drm, nouveau/radeon/amdpgu: edid_blob_ptr cleanups
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: E2F7E67382
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
+ DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+ RCPT_COUNT_FIVE(0.00)[6]; DKIM_TRACE(0.00)[suse.de:+]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,50 +111,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 10, 2024 at 11:17=E2=80=AFAM Jani Nikula <jani.nikula@intel.com=
-> wrote:
->
-> I've sent this some moths ago, let's try again...
->
-> BR,
-> Jani.
->
-> Jani Nikula (6):
->   drm/nouveau: convert to using is_hdmi and has_audio from display info
->   drm/radeon: convert to using is_hdmi and has_audio from display info
->   drm/radeon: remove radeon_connector_edid() and stop using
->     edid_blob_ptr
->   drm/amdgpu: remove amdgpu_connector_edid() and stop using
->     edid_blob_ptr
->   drm/edid: add a helper for EDID sysfs property show
->   drm/connector: update edid_blob_ptr documentation
+Convert udl to use struct drm_edid and its helpers. Also clean up
+a few things in the process.
 
-Series is:
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Patch 1 fixes a bug.
 
->
->  .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 16 ---------
->  .../gpu/drm/amd/amdgpu/amdgpu_connectors.h    |  1 -
->  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  4 +--
->  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  4 +--
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  4 +--
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  4 +--
->  drivers/gpu/drm/drm_crtc_internal.h           |  2 ++
->  drivers/gpu/drm/drm_edid.c                    | 33 +++++++++++++++++++
->  drivers/gpu/drm/drm_sysfs.c                   | 24 ++------------
->  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  8 ++---
->  drivers/gpu/drm/nouveau/dispnv50/head.c       |  8 +----
->  drivers/gpu/drm/nouveau/nouveau_connector.c   |  2 +-
->  drivers/gpu/drm/radeon/atombios_encoders.c    | 10 +++---
->  drivers/gpu/drm/radeon/evergreen_hdmi.c       |  5 ++-
->  drivers/gpu/drm/radeon/radeon_audio.c         | 13 ++++----
->  drivers/gpu/drm/radeon/radeon_connectors.c    | 27 ++++-----------
->  drivers/gpu/drm/radeon/radeon_display.c       |  2 +-
->  drivers/gpu/drm/radeon/radeon_encoders.c      |  4 +--
->  drivers/gpu/drm/radeon/radeon_mode.h          |  2 --
->  include/drm/drm_connector.h                   |  6 +++-
->  20 files changed, 79 insertions(+), 100 deletions(-)
->
-> --
-> 2.39.2
->
+Patches 2 to 4 convert the current EDID handling to struct drm_edid
+and its helpers. Patch 4 also separates the helpers for .get_modes()
+and .detect_ctx() from each other.
+
+Patch 5 removes the obsolete struct udl_connector.
+
+v3:
+- implement udl_probe_edid() with memchr_inv() (Jani)
+v2:
+- drop the generic EDID probing (Jani)
+- fixes
+
+Thomas Zimmermann (5):
+  drm/udl: Remove DRM_CONNECTOR_POLL_HPD
+  drm/udl: Move drm_dev_{enter,exit}() into udl_get_edid_block()
+  drm/udl: Clean up Makefile
+  drm/udl: Untangle .get_modes() and .detect_ctx()
+  drm/udl: Remove struct udl_connector
+
+ drivers/gpu/drm/udl/Makefile      |   8 +-
+ drivers/gpu/drm/udl/udl_drv.h     |  12 +--
+ drivers/gpu/drm/udl/udl_edid.c    |  80 +++++++++++++++++
+ drivers/gpu/drm/udl/udl_edid.h    |  15 ++++
+ drivers/gpu/drm/udl/udl_modeset.c | 138 +++++++-----------------------
+ 5 files changed, 132 insertions(+), 121 deletions(-)
+ create mode 100644 drivers/gpu/drm/udl/udl_edid.c
+ create mode 100644 drivers/gpu/drm/udl/udl_edid.h
+
+-- 
+2.44.0
+
