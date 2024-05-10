@@ -2,69 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDE18C2746
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB06D8C274B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:06:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4BCB10E55F;
-	Fri, 10 May 2024 15:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34F6810E6CC;
+	Fri, 10 May 2024 15:06:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WHQffnzF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bQ/X+aqJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8A010E55F
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:04:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84ED010E6CC
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:06:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715353444; x=1746889444;
+ t=1715353575; x=1746889575;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=DfIwLOulQLcLembSLllTkooRPlHt5xY4HjiqBcwUzpw=;
- b=WHQffnzFzpDRRgk8AJLgcCgfRIr2pXQ1GuwkCDuI3vX2FAWpPzx+z3PR
- Nm/hp96kMgmq9Gjyzb6Ti0wyvTafru9H6+rpgq/4UQ6FxRgRIKS5Hw0Y1
- ihiZ2GI+2oD5l8IdxGwDSslapIDZ7EqQbZ/kqROO/fOWRQLHiAKXNSrYn
- qN6yAbT4Xe/i8yP3h/1Jo9Zy/FAb+/wUXtEXoIah1V1t3BCuRRCcObtEG
- pjifHQJCUcwpulsU0vygI4huPzjPecF3V3UCp5dG/JiCvPZYHS2d563tv
- 0QTr6Hn4QxwR5gwEds+0hj+kRbG4hjpJ5WiyZr6MXlkgnkB5p7hzsyfky w==;
-X-CSE-ConnectionGUID: 5oJzmvaZQ/WSN82rU4RMZg==
-X-CSE-MsgGUID: HKPRZ1V9QRu8kbVKDAuRHg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11200619"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11200619"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 08:04:03 -0700
-X-CSE-ConnectionGUID: GHZdCY6/TtajG/italIwTA==
-X-CSE-MsgGUID: 7K0z7nQkRdS4ezJTcxrYqQ==
+ bh=CXDcdUm+eyJsZfLXxHCGcniGzdrK5T6k16E5ckZ3gVw=;
+ b=bQ/X+aqJmm9NngTKNZaUVoFISMUTERsquudLaHrEGimW7IjtIPRsB2lr
+ OdHVMzI9CD/hsWbY/7k/H1NTuhsV0XasLbEz6TuNT0CXT3J02kkAY2nuT
+ etlQzH/nBTQVWHsOikSsoU0WV4r2WNhbFU/MqDr1GpmHaqmVEYobfNLGU
+ bnPmh7WomZ3ACvZXpY5sORJVyNsXqw4PKoFXPtIO4dtdHcbHf+R89h9f+
+ NlO3UPmw4TWp/kkClEskqmVo/c8Q5Yr//LDbk3uDPmiI09iSkHBXddM9D
+ 479PmIcXp+dFccpZNixYjUqipa+5+45v+y8AUNF9twJNKv+qOYXhs1Z8d g==;
+X-CSE-ConnectionGUID: nrPmE+/SQRWu7iIREvy7Pg==
+X-CSE-MsgGUID: YYcMkwPHRwyRyc5E17l4NQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11465497"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11465497"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 08:06:14 -0700
+X-CSE-ConnectionGUID: k+ktbkYoRAu6iUMkqzeu+g==
+X-CSE-MsgGUID: Q1f6jHyaQ9a9ZPs/EZ2JtA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="29489293"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="34516794"
 Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 08:03:57 -0700
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 08:06:07 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.97)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1s5Rmq-000000068aS-1p1l; Fri, 10 May 2024 18:03:52 +0300
-Date: Fri, 10 May 2024 18:03:52 +0300
+ id 1s5Rox-000000068cr-1lcA; Fri, 10 May 2024 18:06:03 +0300
+Date: Fri, 10 May 2024 18:06:03 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Devarsh Thakkar <devarsht@ti.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+Cc: mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, hverkuil-cisco@xs4all.nl,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
+ sebastian.fricke@collabora.com, laurent.pinchart@ideasonboard.com,
  praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
  j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
  p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
  nicolas@ndufresne.ca, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, adobriyan@gmail.com, jani.nikula@intel.com
-Subject: Re: [PATCH v7 8/8] gpu: ipu-v3: Use generic macro for rounding to
- nearest multiple
-Message-ID: <Zj43WDlT1aFpgdVv@smile.fi.intel.com>
-References: <20240509184010.4065359-1-devarsht@ti.com>
+ gregkh@linuxfoundation.org, adobriyan@gmail.com,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ jani.nikula@intel.com, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH RESEND v7 0/8] Add V4L2 M2M Driver for E5010 JPEG Encoder
+Message-ID: <Zj4327rHvNGF8H-Q@smile.fi.intel.com>
+References: <20240510082603.1263256-1-devarsht@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240509184010.4065359-1-devarsht@ti.com>
+In-Reply-To: <20240510082603.1263256-1-devarsht@ti.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,28 +83,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 10, 2024 at 12:10:10AM +0530, Devarsh Thakkar wrote:
-> Use generic macro round_closest_up for rounding to nearest multiple instead
+On Fri, May 10, 2024 at 01:56:03PM +0530, Devarsh Thakkar wrote:
+> Resending this V7 series to have proper linking of patches in the series
+> with cover-letter while doing git send-email.
+> 
+> Original cover letter: 
+> This adds support for V4L2 M2M based driver for E5010 JPEG Encoder
+> which is a stateful JPEG encoder from Imagination technologies
+> and is present in TI AM62A SoC.
+> 
+> While adding support for it, following additional framework changes were
+> made:
+>  - Moved reference quantization and huffman tables provided in
+>    ITU-T-REC-T.81 to v4l2-jpeg.c as suggested in mailing list [1].
+>  - Add macros to round to closest integer (either higher or lower) while
+>    rounding in order of 2.
 
-round_closest_up()
+Nice, now it's chained!
 
-We refer to the functions as func().
-
-> of using local function.
-
-...
-
-> @@ -565,7 +563,7 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
->  		 * The closest input sample position that we could actually
->  		 * start the input tile at, 19.13 fixed point.
->  		 */
-> -		in_pos_aligned = round_closest(in_pos, 8192U * in_align);
-> +		in_pos_aligned = round_closest_up(in_pos, 8192U * in_align);
->  		/* Convert 19.13 fixed point to integer */
->  		in_pos_rounded = in_pos_aligned / 8192U;
-
-Oh, these seems to be better to use either ALIGN*(), or PFN_*() / PAGE_*()
-families of macros. What the semantic of 8192 is?
+But all my comments to the previous mails are still applicable here.
 
 -- 
 With Best Regards,
