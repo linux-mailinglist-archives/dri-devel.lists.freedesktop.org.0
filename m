@@ -2,78 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B865B8C2C12
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 23:47:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 191D18C2C1E
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 23:53:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE98E10F1A1;
-	Fri, 10 May 2024 21:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04EA010E142;
+	Fri, 10 May 2024 21:53:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fhUFuXTX";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="de08xAd/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
- [209.85.219.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E51F310E2AD
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 21:47:16 +0000 (UTC)
-Received: by mail-qv1-f46.google.com with SMTP id
- 6a1803df08f44-69b44071a07so21065456d6.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:47:16 -0700 (PDT)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
+ [209.85.160.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD96410E142
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 21:53:05 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id
+ 586e51a60fabf-23d16b9bca7so1241241fac.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:53:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715377632; x=1715982432;
+ d=chromium.org; s=google; t=1715377984; x=1715982784;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=S2YIl+MQvRGvQIN5Fz+YZaIiDbAnY60xDJHXBLWCOro=;
- b=fhUFuXTXCmKel52LQvbF7cTDkcc1cUrcfq1z9hONMk6ci6HGL+Xl5zwN4SSt+kCXiH
- 3VuHg6eKxEJywX+oaIIjIK1g/OjLFfSxXaVv0T69PhzTdVMc/wmskRSkE/MI8CP0fXAK
- sn5EGBgLKAHA2fN0rwR2Y6Y/eQIUYYAKXcyDg=
+ bh=g/extV98TSdFy/1bGvQt4l7C040wMqG+QLoAthDMEcc=;
+ b=de08xAd/GoxoFC8tBJmJYNoBvcBmiduNDLfOeJfg9w3esi6YyKo1rh9T1ySvZu8fyJ
+ i20/jht8xH7JNVyOrTZoWDLUgfpjQtMueLHi/9XC6tB1f9KnPvGj1sV0GSHoldIN7PGx
+ +LQy6lQhv4GttXVqllWBtuRM4NLHq+UIobjBI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715377632; x=1715982432;
+ d=1e100.net; s=20230601; t=1715377984; x=1715982784;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=S2YIl+MQvRGvQIN5Fz+YZaIiDbAnY60xDJHXBLWCOro=;
- b=Sy17Qa4RwYEPOkYVEvqHSaydRDciFyNHPXbKrxoEsgKpPddjyOdPibIvZPs2q/C1Ks
- 8VuglBAU9zKYb0ufAQkn9iC/kgarL4xPbSrmL0KWQ0UnkQSJh3SC/xXJtLaeOV+sLDnn
- X4pl5hDVx2wsuT6m6ZTPGBLWjhKRFqMKd5utUK7rcU60UVsGqYrYDL4qFWypE7KTXl5d
- AcG1cBySRPeIMj3Z+WdPjkCSL3ImgAgBzCCNXRtrApTW87VJ/DAnWsVBkzkW7lo7LBpU
- D9iAATKgQfkOHdnVPqEkovuR3Hb82lk/qGHxO25QGPh5yaAAjagB31Om/1H1XxxdP29v
- ke+Q==
+ bh=g/extV98TSdFy/1bGvQt4l7C040wMqG+QLoAthDMEcc=;
+ b=BiaUGqRUuRb0aRwYFWg1p4ViuwRE7zfEBEbkKBlA1/l3Hlq26vUf3v/4Ez3TXifb+W
+ UVDb7ekVkEFflsUm/RP0PXtkjpL+3p0jLtS3geOMbC7WUHrUpZZjsVnIr9kIKFSm3Jmb
+ ktygVi0L9tMb03zPdFEdc6eTMZ/50qV3S0H6erneoNYpXvx+EjSfaqkWaY81A9hB/8/v
+ Jnjwh4Jzmf5oEEYYXIDHh63kuG8VCWiFD6xcBcby4HfrQAWMKaZOVi2nDNMVw78xkWLU
+ mg1ToHv/q65wDf2B5GyboE1Kpaz7uZXheAXLqLaXmrKBBc9pgxleAAHbU+hN+G1WNbMJ
+ tp1Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXIBWl9giwYnV4xL6QRxR2Mx35fLxO1/S4dcwk6zBBvqbOLBVdTDC4cref4x2qiHio33K+cF5bIYhjZ2lYciZq9ofjvp2LmIFPQJivDtxJY
-X-Gm-Message-State: AOJu0YxlY6aZhTv+l851czDmwgLO7NM2XOK5CElgRwyoBiqQ7PVq/khH
- FknDucPCteSl+X2O0vXgxgC/P5wo3HtvrnGc1GKoO9G0lXtGWhhvdckNqZxhKovXvjZwLbJ3Hpc
+ AJvYcCWCU6pp4+hlFZJqpAFmSOLD7fhAfYmv5yzTxfmBZc1v4I3bHDG6cC+oKXx6+MG3RvOIyX13PwSpvPA1n63EnJipERShYMj48L96t4mZywPs
+X-Gm-Message-State: AOJu0YwsZ2BvVWSn72vwR8yQBbucE2h6Bnqq4vY6sEH93OVYUkagKS8K
+ G0/7xu3mkSzSxgsV6Ty0KP4Z8qQ84ut2elGZWhsYLnHyNTxq6saHFT+BQIiYnzwra4VM9FBzhAM
  =
-X-Google-Smtp-Source: AGHT+IHZ4KLSlkoZqGreYhW0qvuOfPszcQbF3CzSed984erqaWohZqsHMJ4f3eT4HhO+DDpGfI4TMg==
-X-Received: by 2002:a05:6214:33c2:b0:6a0:cad1:9ccf with SMTP id
- 6a1803df08f44-6a16824bb59mr39609616d6.51.1715377631841; 
- Fri, 10 May 2024 14:47:11 -0700 (PDT)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com.
- [209.85.160.177]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6a15f1857f9sm20809336d6.49.2024.05.10.14.47.00
+X-Google-Smtp-Source: AGHT+IFJWXY8p+jc2+GpYMZIAXG34am78CGo6Mo8/V9bzn0recKn+KVpmPpEMvA/5P90Fsx72ua2vA==
+X-Received: by 2002:a05:6870:568a:b0:23d:63cd:8b43 with SMTP id
+ 586e51a60fabf-24172a4515cmr4576778fac.7.1715377984289; 
+ Fri, 10 May 2024 14:53:04 -0700 (PDT)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com.
+ [209.85.160.169]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-792bf310713sm218062185a.109.2024.05.10.14.53.04
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 May 2024 14:47:11 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-439b1c72676so42121cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:47:00 -0700 (PDT)
+ Fri, 10 May 2024 14:53:04 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-43df9ac3ebcso98661cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:53:04 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCU0O5AqR7q1erwnaNkfAaDc9RWRGaGtw1CMKvMYk9RHcfo9ojsJgZ6iz/LElXZxQudexVWgQ9OwJM92Y69FeHMNS45jpQdTAMEWu+iGGOXj
-X-Received: by 2002:a05:622a:5883:b0:437:c89e:245b with SMTP id
- d75a77b69052e-43e0a1d2a53mr207461cf.15.1715377619819; Fri, 10 May 2024
- 14:46:59 -0700 (PDT)
+ AJvYcCUgZoTs4YOFXweAfSYxDyO36hrntW4Rzz1cTkvyczSab+71QBuEy3/PrauzKkCEljEs0Ra94wYfKlywvcRT3VZTbAA6QvP2yfeMtrrokaPE
+X-Received: by 2002:a05:622a:192a:b0:439:d5e3:1f31 with SMTP id
+ d75a77b69052e-43e094b27d5mr781411cf.4.1715377636922; Fri, 10 May 2024
+ 14:47:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240510-dsi-panels-upd-api-v1-0-317c78a0dcc8@linaro.org>
- <20240510-dsi-panels-upd-api-v1-5-317c78a0dcc8@linaro.org>
-In-Reply-To: <20240510-dsi-panels-upd-api-v1-5-317c78a0dcc8@linaro.org>
+ <20240510-dsi-panels-upd-api-v1-6-317c78a0dcc8@linaro.org>
+In-Reply-To: <20240510-dsi-panels-upd-api-v1-6-317c78a0dcc8@linaro.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 10 May 2024 14:46:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VG7fSNoSo61T71PdciXHPVZhUE1Gr-8_sBXXsJZ9MGiw@mail.gmail.com>
-Message-ID: <CAD=FV=VG7fSNoSo61T71PdciXHPVZhUE1Gr-8_sBXXsJZ9MGiw@mail.gmail.com>
-Subject: Re: [PATCH RFC 5/7] drm/panel: novatek-nt36672e: use wrapped MIPI DCS
- functions
+Date: Fri, 10 May 2024 14:47:05 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Uu2=6c_3Q44BK384cgSLX=++_bBbg6=CCqBaXnqcEK=g@mail.gmail.com>
+Message-ID: <CAD=FV=Uu2=6c_3Q44BK384cgSLX=++_bBbg6=CCqBaXnqcEK=g@mail.gmail.com>
+Subject: Re: [PATCH RFC 6/7] drm/panel: lg-sw43408: add missing error handling
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -108,121 +107,20 @@ Hi,
 On Thu, May 9, 2024 at 3:37=E2=80=AFPM Dmitry Baryshkov
 <dmitry.baryshkov@linaro.org> wrote:
 >
-> Remove conditional code and always use mipi_dsi_dcs_*multi() wrappers to
-> simplify driver's init/exit code. This also includes passing context to
-> the init_sequence() function instead of passing the DSI device.
+> Add missing error handling for the mipi_dsi_ functions that actually
+> return error code instead of silently ignoring it.
 >
+> Fixes: 069a6c0e94f9 ("drm: panel: Add LG sw43408 panel driver")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/panel/panel-novatek-nt36672e.c | 587 ++++++++++++-------=
+>  drivers/gpu/drm/panel/panel-lg-sw43408.c | 33 ++++++++++++++++++++++++++=
 ------
->  1 file changed, 281 insertions(+), 306 deletions(-)
+>  1 file changed, 27 insertions(+), 6 deletions(-)
 
-One note is that we might not be able to land ${SUBJECT} patch since
-the patch it's based on [1] doesn't have any Reviewed-by tags. Just
-sayin'. ;-)
-
-[1] https://lore.kernel.org/r/20240508135148.v4.6.I3c08a7d02c467d2bc88da14e=
-513ea4c8649fce45@changeid
-
-
-> @@ -381,61 +377,40 @@ static int nt36672e_power_off(struct nt36672e_panel=
- *ctx)
->         return ret;
->  }
->
-> -static int nt36672e_on(struct nt36672e_panel *ctx)
-> +static int nt36672e_on(struct nt36672e_panel *panel)
-
-Small nit that I think of the variable "panel" as referring to a
-"struct drm_panel". I'd personally rather this be named something
-else, like "nt36672e".
-
-
->  {
-> -       struct mipi_dsi_device *dsi =3D ctx->dsi;
-> -       const struct panel_desc *desc =3D ctx->desc;
-> -       int ret =3D 0;
-> +       struct mipi_dsi_multi_context ctx =3D { .dsi =3D panel->dsi };
-> +       struct mipi_dsi_device *dsi =3D panel->dsi;
-> +       const struct panel_desc *desc =3D panel->desc;
->
->         dsi->mode_flags |=3D MIPI_DSI_MODE_LPM;
->
-> -       if (desc->init_sequence) {
-> -               ret =3D desc->init_sequence(dsi);
-> -               if (ret < 0) {
-> -                       dev_err(&dsi->dev, "panel init sequence failed: %=
-d\n", ret);
-> -                       return ret;
-> -               }
-> -       }
-> +       if (desc->init_sequence)
-> +               desc->init_sequence(&ctx);
->
-> -       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
-> -       if (ret < 0) {
-> -               dev_err(&dsi->dev, "Failed to exit sleep mode: %d\n", ret=
-);
-> -               return ret;
-> -       }
-> -       msleep(120);
-> +       mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
-> +       mipi_dsi_msleep(&ctx, 120);
->
-> -       ret =3D mipi_dsi_dcs_set_display_on(dsi);
-> -       if (ret < 0) {
-> -               dev_err(&dsi->dev, "Failed to set display on: %d\n", ret)=
-;
-> -               return ret;
-> -       }
-> -       msleep(100);
-> +       mipi_dsi_dcs_set_display_on_multi(&ctx);
->
-> -       return 0;
-> +       mipi_dsi_msleep(&ctx, 100);
-> +
-> +       return ctx.accum_err;
->  }
->
-> -static int nt36672e_off(struct nt36672e_panel *ctx)
-> +static int nt36672e_off(struct nt36672e_panel *panel)
->  {
-> -       struct mipi_dsi_device *dsi =3D ctx->dsi;
-> -       int ret =3D 0;
-> +       struct mipi_dsi_multi_context ctx =3D { .dsi =3D panel->dsi };
->
-> -       dsi->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
-> +       panel->dsi->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
->
-> -       ret =3D mipi_dsi_dcs_set_display_off(dsi);
-> -       if (ret < 0) {
-> -               dev_err(&dsi->dev, "Failed to set display off: %d\n", ret=
-);
-> -               return ret;
-> -       }
-> -       msleep(20);
-> +       mipi_dsi_dcs_set_display_off_multi(&ctx);
-> +       mipi_dsi_msleep(&ctx, 20);
->
-> -       ret =3D mipi_dsi_dcs_enter_sleep_mode(dsi);
-> -       if (ret < 0) {
-> -               dev_err(&dsi->dev, "Failed to enter sleep mode: %d\n", re=
-t);
-> -               return ret;
-> -       }
-> -       msleep(60);
-> +       mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
-> +       mipi_dsi_msleep(&ctx, 60);
->
-> -       return 0;
-> +       return ctx.accum_err;
->  }
-
-nit: similar to other patches in the series, the callers of
-nt36672e_on() and nt36672e_off() should be able to get rid of their
-error prints.
-
-In any case:
+Looks right to me. Only slight nit would be that I'd put this as the
+first patch in the series to make it obvious to anyone backporting it
+to older kernels that it doesn't have any dependencies on the earlier
+patches in the series. It's fairly obvious so this isn't a huge deal,
+but still could be nice.
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
