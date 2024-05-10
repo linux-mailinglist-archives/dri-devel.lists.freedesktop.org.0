@@ -2,77 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191D18C2C1E
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 23:53:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC7DC8C2C20
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 23:54:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04EA010E142;
-	Fri, 10 May 2024 21:53:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4869710E2AD;
+	Fri, 10 May 2024 21:54:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="de08xAd/";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Ew8CfFgA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
- [209.85.160.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD96410E142
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 21:53:05 +0000 (UTC)
-Received: by mail-oa1-f43.google.com with SMTP id
- 586e51a60fabf-23d16b9bca7so1241241fac.2
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:53:05 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D09710E2AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 21:54:09 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-620390308e5so23096217b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:54:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715377984; x=1715982784;
+ d=chromium.org; s=google; t=1715378048; x=1715982848;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=g/extV98TSdFy/1bGvQt4l7C040wMqG+QLoAthDMEcc=;
- b=de08xAd/GoxoFC8tBJmJYNoBvcBmiduNDLfOeJfg9w3esi6YyKo1rh9T1ySvZu8fyJ
- i20/jht8xH7JNVyOrTZoWDLUgfpjQtMueLHi/9XC6tB1f9KnPvGj1sV0GSHoldIN7PGx
- +LQy6lQhv4GttXVqllWBtuRM4NLHq+UIobjBI=
+ bh=rt6iJAjgKn/wqu2ZEGbXptum/Kwuofy0xQtcrLEeDd0=;
+ b=Ew8CfFgAYEOy7UQn9dL/KKEHGm969BQ9E5FgDLsKL0xt3cAJI1oxFFnrmOyXqWASOG
+ BLlOt2gHmh36hDZIS6KYzopRnWLKT7+dWL3B9F4/m2rlBVGjOeymFTbAkvTA+0366Q6V
+ 21pjdr6zErafjY+eMLYLSq7odMBIYqS8bi+2E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715377984; x=1715982784;
+ d=1e100.net; s=20230601; t=1715378048; x=1715982848;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=g/extV98TSdFy/1bGvQt4l7C040wMqG+QLoAthDMEcc=;
- b=BiaUGqRUuRb0aRwYFWg1p4ViuwRE7zfEBEbkKBlA1/l3Hlq26vUf3v/4Ez3TXifb+W
- UVDb7ekVkEFflsUm/RP0PXtkjpL+3p0jLtS3geOMbC7WUHrUpZZjsVnIr9kIKFSm3Jmb
- ktygVi0L9tMb03zPdFEdc6eTMZ/50qV3S0H6erneoNYpXvx+EjSfaqkWaY81A9hB/8/v
- Jnjwh4Jzmf5oEEYYXIDHh63kuG8VCWiFD6xcBcby4HfrQAWMKaZOVi2nDNMVw78xkWLU
- mg1ToHv/q65wDf2B5GyboE1Kpaz7uZXheAXLqLaXmrKBBc9pgxleAAHbU+hN+G1WNbMJ
- tp1Q==
+ bh=rt6iJAjgKn/wqu2ZEGbXptum/Kwuofy0xQtcrLEeDd0=;
+ b=Ep7iTnYCMHPFnP59/Uaf4/Od79wGPXGc3SjPHmHdWIbbFDAWxuq3yjnJKBafPjqsSz
+ kvI4DVKSMeEerkuBs6lUrcUli8B1MiPiSOOiuEejXd8OjzzgxHHb2qlriiYczYazrX+I
+ qMhLMBTXDxk0Fz8ivIgof9A2ehEzfgpQRIWyUP4Bt+P2Dgl9U6ndhHdJyWS8GPpjy2KV
+ sNdCj/LV2/4dkzJ0ThYGCYZhCQyF8zFOZxHCGSzaKMjloK3J1WVTzpfrVguC7lLYWbBt
+ RZff2xe6DVoQY67DJb0KShrT5OwCunMhdl0CwsrAZ8nioa70fRE55DbK3VJ3udeC7K3D
+ zDLQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWCU6pp4+hlFZJqpAFmSOLD7fhAfYmv5yzTxfmBZc1v4I3bHDG6cC+oKXx6+MG3RvOIyX13PwSpvPA1n63EnJipERShYMj48L96t4mZywPs
-X-Gm-Message-State: AOJu0YwsZ2BvVWSn72vwR8yQBbucE2h6Bnqq4vY6sEH93OVYUkagKS8K
- G0/7xu3mkSzSxgsV6Ty0KP4Z8qQ84ut2elGZWhsYLnHyNTxq6saHFT+BQIiYnzwra4VM9FBzhAM
+ AJvYcCWkxJmKisvqoCdmJ0gcc1SR0G9LMk8ivyJAgAJKV6kibfS2UODXSbRLd7YYkYVaw9iY3scPGVgoHxP3RoCvgmM8JpiUOwqB6FHmpY6CDUbe
+X-Gm-Message-State: AOJu0YzfeRWoHC4Xgp4zqPWTKLZeyZ9Agt0QKOYbBSJ7zMYjXu1ARTOo
+ by9phRzkJ9qxXhcUnwuBLSCsnjdbC39gQUmi9J6cIkHyjc6WpbPtJ/vyKLslaZcMzFZVkankom8
  =
-X-Google-Smtp-Source: AGHT+IFJWXY8p+jc2+GpYMZIAXG34am78CGo6Mo8/V9bzn0recKn+KVpmPpEMvA/5P90Fsx72ua2vA==
-X-Received: by 2002:a05:6870:568a:b0:23d:63cd:8b43 with SMTP id
- 586e51a60fabf-24172a4515cmr4576778fac.7.1715377984289; 
- Fri, 10 May 2024 14:53:04 -0700 (PDT)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com.
- [209.85.160.169]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-792bf310713sm218062185a.109.2024.05.10.14.53.04
+X-Google-Smtp-Source: AGHT+IFZZ6p22fUmViszt22UYL1wQT/sEQBsLEJ7xiRKdcVuCnO9YgYvI9r/PzttOCwv3Fll2N7iDQ==
+X-Received: by 2002:a81:4e06:0:b0:61a:b7c8:ea05 with SMTP id
+ 00721157ae682-622b001ec63mr43501417b3.35.1715378047412; 
+ Fri, 10 May 2024 14:54:07 -0700 (PDT)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com.
+ [209.85.160.171]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-43df569f78bsm25339091cf.61.2024.05.10.14.54.07
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 May 2024 14:53:04 -0700 (PDT)
-Received: by mail-qt1-f169.google.com with SMTP id
- d75a77b69052e-43df9ac3ebcso98661cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:53:04 -0700 (PDT)
+ Fri, 10 May 2024 14:54:07 -0700 (PDT)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-43dfe020675so144551cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:54:07 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUgZoTs4YOFXweAfSYxDyO36hrntW4Rzz1cTkvyczSab+71QBuEy3/PrauzKkCEljEs0Ra94wYfKlywvcRT3VZTbAA6QvP2yfeMtrrokaPE
-X-Received: by 2002:a05:622a:192a:b0:439:d5e3:1f31 with SMTP id
- d75a77b69052e-43e094b27d5mr781411cf.4.1715377636922; Fri, 10 May 2024
- 14:47:16 -0700 (PDT)
+ AJvYcCWFQAF7WP5ApwS+/4bnWBuKHLmo3omB5E6JjH21HKsxAd+lc3KVadt0tB9b1A03j/pwBcsgpCh28OzyJJzhh+hRznHPuyJ4zLP/lTfTZdGM
+X-Received: by 2002:a05:622a:2610:b0:437:c4ae:f3b4 with SMTP id
+ d75a77b69052e-43e09557d5bmr805221cf.26.1715377642591; Fri, 10 May 2024
+ 14:47:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240510-dsi-panels-upd-api-v1-0-317c78a0dcc8@linaro.org>
- <20240510-dsi-panels-upd-api-v1-6-317c78a0dcc8@linaro.org>
-In-Reply-To: <20240510-dsi-panels-upd-api-v1-6-317c78a0dcc8@linaro.org>
+ <20240510-dsi-panels-upd-api-v1-7-317c78a0dcc8@linaro.org>
+In-Reply-To: <20240510-dsi-panels-upd-api-v1-7-317c78a0dcc8@linaro.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 10 May 2024 14:47:05 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Uu2=6c_3Q44BK384cgSLX=++_bBbg6=CCqBaXnqcEK=g@mail.gmail.com>
-Message-ID: <CAD=FV=Uu2=6c_3Q44BK384cgSLX=++_bBbg6=CCqBaXnqcEK=g@mail.gmail.com>
-Subject: Re: [PATCH RFC 6/7] drm/panel: lg-sw43408: add missing error handling
+Date: Fri, 10 May 2024 14:47:10 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vs4-vWby5YXxzbb1881DjeFWm0fRQCkPTDJYzTX61wSA@mail.gmail.com>
+Message-ID: <CAD=FV=Vs4-vWby5YXxzbb1881DjeFWm0fRQCkPTDJYzTX61wSA@mail.gmail.com>
+Subject: Re: [PATCH RFC 7/7] drm/panel: lg-sw43408: use new streamlined MIPI
+ DSI API
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -107,20 +108,13 @@ Hi,
 On Thu, May 9, 2024 at 3:37=E2=80=AFPM Dmitry Baryshkov
 <dmitry.baryshkov@linaro.org> wrote:
 >
-> Add missing error handling for the mipi_dsi_ functions that actually
-> return error code instead of silently ignoring it.
+> Use newer mipi_dsi_*_multi() functions in order to simplify and cleanup
+> panel's prepare() and unprepare() functions.
 >
-> Fixes: 069a6c0e94f9 ("drm: panel: Add LG sw43408 panel driver")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/panel/panel-lg-sw43408.c | 33 ++++++++++++++++++++++++++=
+>  drivers/gpu/drm/panel/panel-lg-sw43408.c | 95 +++++++++++++-------------=
 ------
->  1 file changed, 27 insertions(+), 6 deletions(-)
-
-Looks right to me. Only slight nit would be that I'd put this as the
-first patch in the series to make it obvious to anyone backporting it
-to older kernels that it doesn't have any dependencies on the earlier
-patches in the series. It's fairly obvious so this isn't a huge deal,
-but still could be nice.
+>  1 file changed, 37 insertions(+), 58 deletions(-)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
