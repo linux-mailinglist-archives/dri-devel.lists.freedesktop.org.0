@@ -2,71 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE04D8C1EFE
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 09:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAD58C1EFB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 09:32:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C5E10E0D9;
-	Fri, 10 May 2024 07:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1577110E0C1;
+	Fri, 10 May 2024 07:32:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="edgCFKau";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MzzrrDtt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BMiGYrU7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MzzrrDtt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BMiGYrU7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 034B710E0D9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 07:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715326378; x=1746862378;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ByEC9kiMaabF3vVkEOp8v75OMBj+coHKSUUUS2mNNEA=;
- b=edgCFKauxBiN6Fvb2QgyEqZvaoVcoCK8xIhGWzVcxo8kEf+LLmO68tPN
- sT7dI9zDb443eoYEzJsE5S9kHr+ot9jNJX14n+JhcGTUEqjNEOBFUYOdh
- udJZ1R9IaGP709RSeUSgeA8pWiRlquVRGR+5ZpBuiDU//zPoJHk2PIa4n
- 1qCfxztafrEva7MtdmIZF4DSfiL6IaNcOlwG90+MU8a3mmfM83PKjjK5P
- yMbeQ4wtQqz54ZsnAR98IDGGootS036hVf+Ph3J+G8gb1m+GlAU+/UI5+
- gXGoaFGDMkB+TVr6Pvkq/uDbIpwp2zB3kRo1T/ivB2OGDN1YBnkh2weOo w==;
-X-CSE-ConnectionGUID: EpNkW+jfSFijJnShLBAvKw==
-X-CSE-MsgGUID: zNJ+6UDmRsWWmfjtlAqhVQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="14245276"
-X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; d="scan'208";a="14245276"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 00:32:58 -0700
-X-CSE-ConnectionGUID: ybRwEvJsRIG5YlmeO+pHBg==
-X-CSE-MsgGUID: mvMVWbM1Qkmt1ZMeJojlcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; d="scan'208";a="29589840"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
- by fmviesa010.fm.intel.com with ESMTP; 10 May 2024 00:32:51 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s5KkK-0005qp-2s;
- Fri, 10 May 2024 07:32:48 +0000
-Date: Fri, 10 May 2024 15:31:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>,
- linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
- mingo@redhat.com, tglx@linutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-input@vger.kernel.org,
- dmitry.torokhov@gmail.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
- timothym@vmware.com, akaher@vmware.com,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, horms@kernel.org,
- kirill.shutemov@linux.intel.com,
- Alexey Makhalov <alexey.makhalov@broadcom.com>,
- Nadav Amit <nadav.amit@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>
-Subject: Re: [PATCH v9 6/8] drm/vmwgfx: Use VMware hypercall API
-Message-ID: <202405101512.NJRbYcaH-lkp@intel.com>
-References: <20240506215305.30756-7-alexey.makhalov@broadcom.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C150810E0C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 07:32:03 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 74EBB350F8;
+ Fri, 10 May 2024 07:32:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1715326322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qgLTu6ojNC1LYvNtdAHcRvXL7v76gaVC0vMu+ow8NCA=;
+ b=MzzrrDttOIy+esuAr88JvIiM8lYckYKuioeESsATlJ7kVuuqi3d40CDtJXAawdAo7FDS+O
+ T5EaTfTo8RTf4/vIlXOQPElWGYps8lOSDxN4A4YaUcO+8S43Ip3g5HWZU1K7gLe+czlNHA
+ FVAAFRc/mWP7gvRrQwI5Qw+bgcZO9Sc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1715326322;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qgLTu6ojNC1LYvNtdAHcRvXL7v76gaVC0vMu+ow8NCA=;
+ b=BMiGYrU7LRTDT66q+UbW/BOVxgPEokA6r2/QKkB1tYzbSt3DeT4zISK71MkltWRti3+M4o
+ raCCdU3OpWyTnLDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1715326322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qgLTu6ojNC1LYvNtdAHcRvXL7v76gaVC0vMu+ow8NCA=;
+ b=MzzrrDttOIy+esuAr88JvIiM8lYckYKuioeESsATlJ7kVuuqi3d40CDtJXAawdAo7FDS+O
+ T5EaTfTo8RTf4/vIlXOQPElWGYps8lOSDxN4A4YaUcO+8S43Ip3g5HWZU1K7gLe+czlNHA
+ FVAAFRc/mWP7gvRrQwI5Qw+bgcZO9Sc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1715326322;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qgLTu6ojNC1LYvNtdAHcRvXL7v76gaVC0vMu+ow8NCA=;
+ b=BMiGYrU7LRTDT66q+UbW/BOVxgPEokA6r2/QKkB1tYzbSt3DeT4zISK71MkltWRti3+M4o
+ raCCdU3OpWyTnLDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F87B139AA;
+ Fri, 10 May 2024 07:32:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id lmHtFXLNPWYXEwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 10 May 2024 07:32:02 +0000
+Message-ID: <d8822317-db81-4179-93b8-18629a95af73@suse.de>
+Date: Fri, 10 May 2024 09:32:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240506215305.30756-7-alexey.makhalov@broadcom.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: simpledrm, running display servers, and drivers replacing
+ simpledrm while the display server is running
+To: nerdopolis <bluescreen_avenger@verizon.net>,
+ dri-devel@lists.freedesktop.org
+References: <9215788.EvYhyI6sBW.ref@nerdopolis2>
+ <9215788.EvYhyI6sBW@nerdopolis2>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <9215788.EvYhyI6sBW@nerdopolis2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.996]; MIME_GOOD(-0.10)[text/plain];
+ XM_UA_NO_VERSION(0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[verizon.net];
+ FREEMAIL_TO(0.00)[verizon.net,lists.freedesktop.org];
+ RCPT_COUNT_TWO(0.00)[2]; ARC_NA(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FROM_EQ_ENVFROM(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_DN_SOME(0.00)[]
+X-Spam-Score: -4.29
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,42 +141,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alexey,
+Hi
 
-kernel test robot noticed the following build errors:
+Am 09.05.24 um 15:06 schrieb nerdopolis:
+>
+> Hi
+>
+>
+> So I have been made aware of an apparent race condition of some 
+> drivers taking a bit longer to load, which could lead to a possible 
+> race condition of display servers/greeters using the simpledrm device, 
+> and then experiencing problems once the real driver loads, the 
+> simpledrm device that the display servers are using as their primary 
+> GPU goes away.
+>
+>
+> For example Weston crashes, Xorg crashes, wlroots seems to stay 
+> running, but doesn't draw anything on the screen, kwin aborts,
+>
+> This is if you boot on a QEMU machine with the virtio card, with 
+> modprobe.blacklist=virtio_gpu, and then, when the display server is 
+> running, run sudo modprobe virtio-gpu
+>
+>
+> Namely, it's been recently reported here: 
+> https://github.com/sddm/sddm/issues/1917 and here 
+> https://github.com/systemd/systemd/issues/32509
+>
+>
+> My thinking: Instead of simpledrm's /dev/dri/card0 device going away 
+> when the real driver loads, is it possible for simpledrm to instead 
+> simulate an unplug of the fake display/CRTC?
+>
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on dtor-input/next dtor-input/for-linus linus/master v6.9-rc7 next-20240509]
-[cannot apply to tip/x86/vmware]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+To my knowledge, there's no hotplugging for CRTCs.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Makhalov/x86-vmware-Move-common-macros-to-vmware-h/20240507-055606
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240506215305.30756-7-alexey.makhalov%40broadcom.com
-patch subject: [PATCH v9 6/8] drm/vmwgfx: Use VMware hypercall API
-config: x86_64-buildonly-randconfig-003-20240510 (https://download.01.org/0day-ci/archive/20240510/202405101512.NJRbYcaH-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101512.NJRbYcaH-lkp@intel.com/reproduce)
+> That way in theory, the simpledrm device will now be useless for 
+> drawing for drawing to the screen at that point, since the real driver 
+> is now taken over, but this way here, at least the display server 
+> doesn't lose its handles to the /dev/dri/card0 device, (and then maybe 
+> only remove itself once the final handle to it closes?)
+>
+>
+> Is something like this possible to do with the way simpledrm works 
+> with the low level video memory? Or is this not possible?
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405101512.NJRbYcaH-lkp@intel.com/
+Userspace needs to be prepared that graphics devices can do hotplugging. 
+The correct solution is to make compositors work without graphics devices.
 
-All errors (new ones prefixed by >>):
+The next best solution is to keep the final DRM device open until a new 
+one shows up. All DRM graphics drivers with hotplugging support are 
+required to accept commands after their hardware has been unplugged. 
+They simply won't display anything.
 
-   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_port_hb_out':
-   vmwgfx_msg.c:(.text+0x182): undefined reference to `vmware_hypercall_mode'
-   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_send_msg':
-   vmwgfx_msg.c:(.text+0x46d): undefined reference to `vmware_hypercall_mode'
-   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_recv_msg':
-   vmwgfx_msg.c:(.text+0x6f4): undefined reference to `vmware_hypercall_mode'
->> ld: vmwgfx_msg.c:(.text+0x875): undefined reference to `vmware_hypercall_mode'
-   ld: vmwgfx_msg.c:(.text+0xae0): undefined reference to `vmware_hypercall_mode'
-   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o:vmwgfx_msg.c:(.text+0x136e): more undefined references to `vmware_hypercall_mode' follow
+Best regards
+Thomas
+
+
+>
+> Thanks
+>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
