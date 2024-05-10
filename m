@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6F58C1EBA
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 09:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3938C1EBB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 09:11:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F2FA10E5A9;
-	Fri, 10 May 2024 07:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF6810E5B3;
+	Fri, 10 May 2024 07:11:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="NJxcAq6a";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cKv4aZNM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2B2B10E672
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 07:11:40 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 42E5B1C0008;
- Fri, 10 May 2024 07:11:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8C110E5A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 07:11:42 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6C3741C000A;
+ Fri, 10 May 2024 07:11:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1715325099;
+ t=1715325101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9tQ2I912nJpQUdQ/fzcPYIYXSS509BxvAE7KubLaYHk=;
- b=NJxcAq6asu4d1TUZRMce2Oo7hzModSm7j+waNZvqo6PGi5tRMF1TvzGvHfcZ6DUjN6OxlL
- MwYdEvhaCXF4leQJh/77rmEpvHyAJu1mCysV1uzB3pRAcFM8pFrhQe/7vqyZICw42veNwO
- YRCSGATX70thNwER6CPfXkECM0rmr3Fd1cPrY+vHdvqm8jdyu11HNCBCPidCrYN0vfMW5f
- CPnsj0NHskhU+c4tUodbdX4UXscnD3D/K+87vLbIoL3KqGPJGzRPF1yPaNKTTE1bOTOlzO
- BDAx/PPptR4UsLRrUmlfLNJfUkXxl1Sy0SOTWrTR99O6zYpqUJIkye9y9sthaA==
+ bh=W7prO++ZWIkCoDMrn6Uhrn59R5uZQF5zUa4NeJy+SNA=;
+ b=cKv4aZNMdXs4VBDyHTtZhBKsaXL4Ww2i8eJQ8V+4PoXipqgV5TWB0ZOHDS9AJZrrp+2h+T
+ yWln1ewmmoR7c+9QLN54qEVORM36FdcVEqxCQZn0F76Xk9rTu9uHVqatuFvP2fQP/z2G2T
+ qBNFk5gsnvtz/tjxX2QlknT/GeE1zjE8UNcwRRXcnVNfNB2G0CbvP8L7egSa1ldRJ99bNe
+ nGREvm/ULTYooJ5+tFSF+MkUSDKhqhxFymyGAIF2Qw4Wpa7Rlvzdxn7OhPSkOJBWt7gBtQ
+ ehgOTLjYzRyHGl9LrX0XkIZc4CuvLrDFP0DFOum5lsjAQk9tipWsrkWZHK9H1w==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 10 May 2024 09:10:40 +0200
-Subject: [PATCH v2 4/5] drm/bridge: hotplug-bridge: add driver to support
- hot-pluggable DSI bridges
+Date: Fri, 10 May 2024 09:10:41 +0200
+Subject: [PATCH v2 5/5] misc: add ge-addon-connector driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240510-hotplug-drm-bridge-v2-4-ec32f2c66d56@bootlin.com>
+Message-Id: <20240510-hotplug-drm-bridge-v2-5-ec32f2c66d56@bootlin.com>
 References: <20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com>
 In-Reply-To: <20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -75,731 +74,547 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver implements the point of a DRM pipeline where a connector allows
-removal of all the following bridges up to the panel.
+Add a driver to support the runtime hot-pluggable add-on connector on the
+GE SUNH device. This connector allows connecting and disconnecting an
+add-on to/from the main device to augment its features. Connection and
+disconnection can happen at runtime at any moment without notice.
 
-The DRM subsystem currently allows hotplug of the monitor but not preceding
-components. However there are embedded devices where the "tail" of the DRM
-pipeline, including one or more bridges, can be physically removed:
+Different add-on models can be connected, and each has an EEPROM with a
+model identifier at a fixed address.
 
- .------------------------.
- |   DISPLAY CONTROLLER   |
- | .---------.   .------. |
- | | ENCODER |<--| CRTC | |
- | '---------'   '------' |
- '------|-----------------'
-        |
-        |               HOTPLUG
-        V              CONNECTOR
-   .---------.        .--.    .-.        .---------.         .-------.
-   | 0 to N  |        | _|   _| |        | 1 to N  |         |       |
-   | BRIDGES |--DSI-->||_   |_  |--DSI-->| BRIDGES |--LVDS-->| PANEL |
-   |         |        |  |    | |        |         |         |       |
-   '---------'        '--'    '-'        '---------'         '-------'
+The add-on hardware is added and removed using device tree overlay loading
+and unloading.
 
- [--- fixed components --]  [----------- removable add-on -----------]
-
-This driver supports such devices, where the final segment of a MIPI DSI
-bus, including one or more bridges, can be physically disconnected and
-reconnected at runtime, possibly with a different model.
-
-This implementation supports a MIPI DSI bus only, but it is designed to be
-as far as possible generic and extendable to other busses that have no
-native hotplug and model ID discovery.
-
-This driver does not provide facilities to add and remove the hot-pluggable
-components from the kernel: this needs to be done by other means
-(e.g. device tree overlay runtime insertion and removal). The
-hotplug-bridge gets notified of hot-plugging by the DRM bridge notifier
-callbacks after they get added or before they get removed.
-
-The hotplug-bridge role is to implement the "hot-pluggable connector" in
-the bridge chain. In this position, what the hotplug-bridge should ideally
-do is:
-
- * communicate with the previous component (bridge or encoder) so that it
-   believes it always has a connected bridge following it and the DRM card
-   is always present
- * be notified of the addition and removal of the following bridge and
-   attach/detach to/from it
- * communicate with the following bridge so that it will attach and detach
-   using the normal procedure (as if the entire pipeline were being created
-   or destroyed, not only the tail)
- * expose the "add-on connected/disconnected" status via the DRM connector
-   connected/disconnected status, so that users of the DRM pipeline know
-   when they can render output on the display
-
-However some aspects make it a bit more complex than that. Most notably:
-
- * the next bridge can be probed and removed at any moment and all probing
-   sequences need to be handled
- * the DSI host/device registration process, which adds to the DRM bridge
-   attach process, makes the initial card registration tricky
- * the need to register and deregister the following bridges at runtime
-   without tearing down the whole DRM card prevents using the functions
-   that are normally recommended
- * the automatic mechanism to call the appropriate .get_modes operation
-   (typically provided by the panel bridge) cannot work as the panel can
-   disappear and reappear as a different model, so an ad-hoc lookup is
-   needed
-
-The code handling these and other tricky aspects is accurately documented
-by comments in the code.
-
-Co-developed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Co-developed-by: Herve Codina <herve.codina@bootlin.com>
+Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Changed in v2:
- - change to be a platform device instantiated from the connector driver
-   instead of a self-standing OF driver
- - add missing error handling for devm_drm_bridge_add()
- - various cleanups and style improvements
+This commit is new in v2.
 ---
- MAINTAINERS                             |   5 +
- drivers/gpu/drm/bridge/Kconfig          |  15 +
- drivers/gpu/drm/bridge/Makefile         |   1 +
- drivers/gpu/drm/bridge/hotplug-bridge.c | 577 ++++++++++++++++++++++++++++++++
- 4 files changed, 598 insertions(+)
+ MAINTAINERS                      |   1 +
+ drivers/misc/Kconfig             |  15 ++
+ drivers/misc/Makefile            |   1 +
+ drivers/misc/ge-sunh-connector.c | 464 +++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 481 insertions(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 4955501217eb..672c26372c92 100644
+index 672c26372c92..0bdb4fc496b8 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -6712,6 +6712,11 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
- F:	drivers/gpu/drm/panel/panel-himax-hx8394.c
+@@ -9905,6 +9905,7 @@ F:	drivers/iio/pressure/mprls0025pa*
+ HOTPLUG CONNECTOR FOR GE SUNH ADDONS
+ M:	Luca Ceresoli <luca.ceresoli@bootlin.com>
+ S:	Maintained
++F:	drivers/misc/ge-sunh-connector.c
+ F:	Documentation/devicetree/bindings/connector/ge,sunh-addon-connector.yaml
  
-+DRM DRIVER FOR HOTPLUG VIDEO CONNECTOR BRIDGE
-+M:	Luca Ceresoli <luca.ceresoli@bootlin.com>
-+S:	Maintained
-+F:	drivers/gpu/drm/bridge/hotplug-bridge.c
-+
- DRM DRIVER FOR HX8357D PANELS
- S:	Orphan
- T:	git git://anongit.freedesktop.org/drm/drm-misc
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index efd996f6c138..409d090ee94d 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -90,6 +90,21 @@ config DRM_FSL_LDB
- 	help
- 	  Support for i.MX8MP DPI-to-LVDS on-SoC encoder.
+ HP BIOSCFG DRIVER
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 4fb291f0bf7c..99ef2eccbbaa 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -574,6 +574,21 @@ config NSM
+ 	  To compile this driver as a module, choose M here.
+ 	  The module will be called nsm.
  
-+config DRM_HOTPLUG_BRIDGE
-+	tristate "Hotplug DRM bridge support"
++config GE_SUNH_CONNECTOR
++	tristate "GE SUNH hotplug add-on connector"
 +	depends on OF
-+	select DRM_PANEL_BRIDGE
-+	select DRM_MIPI_DSI
-+	select DRM_KMS_HELPER
++	select OF_OVERLAY
++	select FW_LOADER
++	select NVMEM
++	select DRM_HOTPLUG_BRIDGE
 +	help
-+	  Driver for a DRM bridge representing a physical connector that
-+	  splits a DRM pipeline into a fixed part and a physically
-+	  removable part. The fixed part includes up to the encoder and
-+	  zero or more bridges. The removable part includes any following
-+	  bridges up to the connector and panel and can be physically
-+	  removed and connected at runtime, possibly with different
-+	  components.
++	  Driver for the runtime hot-pluggable add-on connector on the GE SUNH
++	  device. This connector allows connecting and disconnecting an add-on
++	  to/from the main device to augment its features. Connection and
++	  disconnection can be done at runtime at any moment without
++	  notice. Different add-on models can be connected, and each has an EEPROM
++	  with a model identifier at a fixed address.
 +
- config DRM_ITE_IT6505
- 	tristate "ITE IT6505 DisplayPort bridge"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 017b5832733b..278f20729c6c 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -6,6 +6,7 @@ obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
- obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
- obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
- obj-$(CONFIG_DRM_FSL_LDB) += fsl-ldb.o
-+obj-$(CONFIG_DRM_HOTPLUG_BRIDGE) += hotplug-bridge.o
- obj-$(CONFIG_DRM_ITE_IT6505) += ite-it6505.o
- obj-$(CONFIG_DRM_LONTIUM_LT8912B) += lontium-lt8912b.o
- obj-$(CONFIG_DRM_LONTIUM_LT9211) += lontium-lt9211.o
-diff --git a/drivers/gpu/drm/bridge/hotplug-bridge.c b/drivers/gpu/drm/bridge/hotplug-bridge.c
+ source "drivers/misc/c2port/Kconfig"
+ source "drivers/misc/eeprom/Kconfig"
+ source "drivers/misc/cb710/Kconfig"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index ea6ea5bbbc9c..d973de89bd19 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -68,3 +68,4 @@ obj-$(CONFIG_TMR_INJECT)	+= xilinx_tmr_inject.o
+ obj-$(CONFIG_TPS6594_ESM)	+= tps6594-esm.o
+ obj-$(CONFIG_TPS6594_PFSM)	+= tps6594-pfsm.o
+ obj-$(CONFIG_NSM)		+= nsm.o
++obj-$(CONFIG_GE_SUNH_CONNECTOR)	+= ge-sunh-connector.o
+diff --git a/drivers/misc/ge-sunh-connector.c b/drivers/misc/ge-sunh-connector.c
 new file mode 100644
-index 000000000000..cd663b7fbdbd
+index 000000000000..a40bf4bb56bf
 --- /dev/null
-+++ b/drivers/gpu/drm/bridge/hotplug-bridge.c
-@@ -0,0 +1,577 @@
++++ b/drivers/misc/ge-sunh-connector.c
+@@ -0,0 +1,464 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * A DRM bridge representing the split point between a fixed part of the
-+ * DRM pipeline and a physically removable part. The fixed part includes up
-+ * to the encoder and zero or more bridges. Insertion and removal of the
-+ * "downstream" components happens via device driver probe/removal.
++ * GE SUNH hotplug add-on connector
++ *
++ * Driver for the runtime hot-pluggable add-on connector on the GE SUNH
++ * device. Add-on connection is detected via GPIOs (+ a debugfs
++ * trigger). On connection, a "base" DT overlay is added that describes
++ * enough to reach the NVMEM cell with the model ID. Based on the ID, an
++ * add-on-specific overlay is loaded on top to describe everything else.
 + *
 + * Copyright (C) 2024, GE HealthCare
 + *
 + * Authors:
 + * Luca Ceresoli <luca.ceresoli@bootlin.com>
-+ * Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++ * Herve Codina <herve.codina@bootlin.com>
 + */
 +
++#include <linux/debugfs.h>
++#include <linux/delay.h>
++#include <linux/firmware.h>
++#include <linux/gpio/consumer.h>
++#include <linux/interrupt.h>
++#include <linux/module.h>
 +#include <linux/mutex.h>
++#include <linux/nvmem-consumer.h>
 +#include <linux/of.h>
-+#include <linux/of_graph.h>
 +#include <linux/platform_device.h>
++#include <linux/workqueue.h>
 +
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_probe_helper.h>
-+
-+struct hotplug_bridge {
-+	struct device *dev;
-+
-+	/* Local bridge */
-+	struct drm_bridge bridge;
-+	/* Local connector for the bridge chain */
-+	struct drm_connector *connector;
-+	/* Downstream bridge (next in the chain) */
-+	struct drm_bridge *next_bridge;
-+	struct mutex next_bridge_mutex;
-+
-+	struct work_struct hpd_work;
-+	struct notifier_block drm_bridge_nb;
-+
-+	/* Local DSI host, for the downstream DSI device to attach to */
-+	struct mipi_dsi_host dsi_host;
-+	/* Local DSI device, attached to the upstream DSI host */
-+	struct mipi_dsi_device *dsi_dev;
-+	/* Upstream DSI host (the actual DSI controller) */
-+	struct mipi_dsi_host *prev_dsi_host;
++enum sunh_conn_overlay_level {
++	SUNH_CONN_OVERLAY_BASE,
++	SUNH_CONN_OVERLAY_ADDON,
++	SUNH_CONN_OVERLAY_N_LEVELS
 +};
 +
-+static struct hotplug_bridge *hotplug_bridge_from_drm_bridge(struct drm_bridge *bridge)
++#define SUNH_CONN_N_STATUS_GPIOS 2
++static const char * const sunh_conn_status_gpio_name[SUNH_CONN_N_STATUS_GPIOS] = {
++	"plugged", "powergood"
++};
++
++struct sunh_conn {
++	struct device *dev;
++	struct gpio_desc *reset_gpio;
++	struct gpio_desc *status_gpio[SUNH_CONN_N_STATUS_GPIOS];
++
++	bool plugged;
++	int ovcs_id[SUNH_CONN_OVERLAY_N_LEVELS];
++	struct mutex ovl_mutex; // serialize overlay code
++	struct notifier_block nvmem_nb;
++	struct work_struct nvmem_notifier_work;
++
++	struct platform_device *hpb_pdev;
++	struct dentry *debugfs_root;
++};
++
++static int sunh_conn_insert_overlay(struct sunh_conn *conn,
++				    enum sunh_conn_overlay_level level,
++				    const char *filename)
 +{
-+	return container_of(bridge, struct hotplug_bridge, bridge);
++	const struct firmware *fw;
++	int err;
++
++	err = request_firmware(&fw, filename, conn->dev);
++	if (err)
++		return dev_err_probe(conn->dev, err, "Error requesting overlay %s", filename);
++
++	dev_dbg(conn->dev, "insert overlay %d: %s", level, filename);
++	err = of_overlay_fdt_apply(fw->data, fw->size, &conn->ovcs_id[level], NULL);
++	if (err) {
++		int err2;
++
++		dev_err_probe(conn->dev, err, "Failed to apply overlay %s\n", filename);
++
++		/* changeset may be partially applied */
++		err2 = of_overlay_remove(&conn->ovcs_id[level]);
++		if (err2 < 0)
++			dev_err_probe(conn->dev, err2,
++				      "Failed to remove failed overlay %s\n", filename);
++	}
++
++	release_firmware(fw);
++	return err;
 +}
 +
-+/*
-+ * Attach the remote bridge to the encoder and to the next bridge in the
-+ * chain, if possible. For this to succeed, we need to know:
-+ *
-+ * - the encoder, which is set at the first drm_bridge_attach() time
-+ * - the next bridge, which is obtained via a notifier whenever the next
-+ *   bridge is (re)probed, or at probe time in case it was probed before us
-+ *
-+ * In order to handle different execution sequences, this function can be
-+ * called from multiple places and needs to check all the prerequisites
-+ * every time, and it will act only if both are met.
-+ *
-+ * Must be called with hpb->next_bridge_mutex held.
-+ *
-+ * Returns 0 if the encoder was attached successfully, -ENODEV if any of
-+ * the two prerequisites above is not met (no encoder or no next bridge),
-+ * the error returned by drm_bridge_attach() otherwise.
-+ */
-+static int hotplug_bridge_attach_to_encoder_chain(struct hotplug_bridge *hpb)
++static int sunh_conn_load_base_overlay(struct sunh_conn *conn)
 +{
-+	int ret;
++	int err = 0;
 +
-+	if (!hpb->next_bridge || !hpb->bridge.encoder)
-+		return -ENODEV;
++	mutex_lock(&conn->ovl_mutex);
 +
-+	ret = drm_bridge_attach(hpb->bridge.encoder, hpb->next_bridge, &hpb->bridge,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+	if (ret)
-+		return dev_err_probe(hpb->dev, ret, "drm_bridge_attach failed\n");
++	if (conn->ovcs_id[0] != 0) {
++		dev_dbg(conn->dev, "base overlay already loaded\n");
++		goto out_unlock;
++	}
 +
-+	dev_dbg(hpb->dev, "attached to encoder chain\n");
++	err = sunh_conn_insert_overlay(conn, 0, "imx8mp-sundv1-addon-base.dtbo");
 +
++out_unlock:
++	mutex_unlock(&conn->ovl_mutex);
++	return err;
++}
++
++static int sunh_conn_load_addon_overlay(struct sunh_conn *conn)
++{
++	u8 addon_id;
++	const char *filename;
++	int err;
++
++	mutex_lock(&conn->ovl_mutex);
++
++	if (conn->ovcs_id[0] == 0) {
++		dev_dbg(conn->dev, "base overlay not loaded\n");
++		err = -EINVAL;
++		goto out_unlock;
++	}
++
++	if (conn->ovcs_id[1] != 0) {
++		dev_dbg(conn->dev, "addon overlay already loaded\n");
++		err = -EEXIST;
++		goto out_unlock;
++	}
++
++	err = nvmem_cell_read_u8(conn->dev, "id", &addon_id);
++	if (err)
++		goto out_unlock;
++
++	dev_dbg(conn->dev, "Found add-on ID %d\n", addon_id);
++
++	switch (addon_id) {
++	case 23:
++		filename = "imx8mp-sundv1-addon-13.dtbo";
++		break;
++	case 24:
++		filename = "imx8mp-sundv1-addon-15.dtbo";
++		break;
++	case 25:
++		filename = "imx8mp-sundv1-addon-18.dtbo";
++		break;
++	default:
++		dev_warn(conn->dev, "Unknown add-on ID %d\n", addon_id);
++		err = -ENODEV;
++		goto out_unlock;
++	}
++
++	err = sunh_conn_insert_overlay(conn, 1, filename);
++
++out_unlock:
++	mutex_unlock(&conn->ovl_mutex);
++	return err;
++}
++
++static void sunh_conn_unload_overlays(struct sunh_conn *conn)
++{
++	int level = SUNH_CONN_OVERLAY_N_LEVELS;
++	int err;
++
++	mutex_lock(&conn->ovl_mutex);
++	while (level) {
++		level--;
++
++		if (conn->ovcs_id[level] == 0)
++			continue;
++
++		dev_dbg(conn->dev, "remove overlay %d (ovcs id %d)",
++			level, conn->ovcs_id[level]);
++
++		err = of_overlay_remove(&conn->ovcs_id[level]);
++		if (err)
++			dev_err_probe(conn->dev, err, "Failed to remove overlay %d\n", level);
++	}
++	mutex_unlock(&conn->ovl_mutex);
++}
++
++static void sunh_conn_reset(struct sunh_conn *conn, bool keep_reset)
++{
++	dev_dbg(conn->dev, "reset\n");
++
++	gpiod_set_value_cansleep(conn->reset_gpio, 1);
++
++	if (keep_reset)
++		return;
++
++	mdelay(10);
++	gpiod_set_value_cansleep(conn->reset_gpio, 0);
++	mdelay(10);
++}
++
++static int sunh_conn_detach(struct sunh_conn *conn)
++{
++	/* Cancel any pending NVMEM notification jobs */
++	cancel_work_sync(&conn->nvmem_notifier_work);
++
++	/* Unload previouly loaded overlays */
++	sunh_conn_unload_overlays(conn);
++
++	/* Set reset signal to have it set on next plug */
++	sunh_conn_reset(conn, true);
++
++	dev_info(conn->dev, "detached\n");
 +	return 0;
 +}
 +
-+/*
-+ * Stop the video pipeline and detach next_bridge.
-+ *
-+ * Must be called with hpb->next_bridge_mutex held.
-+ */
-+static void hotplug_bridge_detach_from_encoder_chain(struct hotplug_bridge *hpb)
++static int sunh_conn_attach(struct sunh_conn *conn)
 +{
-+	WARN_ON_ONCE(!hpb->next_bridge);
-+
-+	dev_dbg(hpb->dev, "detaching from encoder chain\n");
-+
-+	drm_atomic_helper_shutdown(hpb->bridge.dev);
-+
-+	drm_encoder_cleanup_from(hpb->bridge.encoder, hpb->next_bridge);
-+}
-+
-+static void hotplug_bridge_grab(struct hotplug_bridge *hpb)
-+{
-+	struct device *dev = hpb->dev;
-+	struct drm_bridge *bridge;
-+	struct drm_panel *panel;
 +	int err;
 +
-+	mutex_lock(&hpb->next_bridge_mutex);
++	/* Reset the plugged board in order to start from a stable state */
++	sunh_conn_reset(conn, false);
 +
-+	if (hpb->next_bridge)
-+		goto out;
-+
-+	/*
-+	 * This is supposed to be replaced by devm_drm_of_get_bridge(), but
-+	 * that is a devm_, and we need to remove the panel bridge also on
-+	 * next_bridge disconnect.
-+	 */
-+	err = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, &bridge);
++	err = sunh_conn_load_base_overlay(conn);
 +	if (err)
-+		goto out;
-+
-+	/* Convert the remote panel to a bridge */
-+	if (panel)
-+		bridge = drm_panel_bridge_add(panel);
-+
-+	hpb->next_bridge = bridge;
-+
-+	dev_dbg(dev, "grabbed next bridge (%pOFn)\n", hpb->next_bridge->of_node);
-+
-+	hpb->bridge.pre_enable_prev_first = hpb->next_bridge->pre_enable_prev_first;
-+
-+	hotplug_bridge_attach_to_encoder_chain(hpb);
-+
-+	queue_work(system_wq, &hpb->hpd_work);
-+
-+out:
-+	mutex_unlock(&hpb->next_bridge_mutex);
-+}
-+
-+/*
-+ * Detach from the next bridge and remove the panel bridge, either on
-+ * release or when the downstream bridge is being removed.
-+ *
-+ * Can be called in these ways:
-+ *
-+ * - bridge_being_removed is NULL: detach unconditionally
-+ *   (this is useful on .remove() to teardown everything)
-+ * - bridge_being_removed == hpb->next_bridge: detach
-+ *   (the downstream bridge is being removed)
-+ * - bridge_being_removed != hpb->next_bridge: do nothing
-+ *   (the bridge being removed is not the downstream bridge)
-+ *
-+ * In all cases, does nothing when there is no downstream bridge.
-+ */
-+static void hotplug_bridge_release(struct hotplug_bridge *hpb,
-+				   struct drm_bridge *bridge_being_removed)
-+{
-+	mutex_lock(&hpb->next_bridge_mutex);
-+
-+	if (!hpb->next_bridge)
-+		goto out;
-+
-+	if (bridge_being_removed && bridge_being_removed != hpb->next_bridge)
-+		goto out;
-+
-+	dev_dbg(hpb->dev, "releasing next bridge (%pOFn)\n", hpb->next_bridge->of_node);
-+
-+	hotplug_bridge_detach_from_encoder_chain(hpb);
++		goto err;
 +
 +	/*
-+	 * This will check that the bridge actually belongs to panel-bridge
-+	 * before doing anything with it, so we can safely always call it.
++	 * -EPROBE_DEFER can be due to NVMEM cell not yet available, so
++	 * don't give up, an NVMEM event could arrive later
 +	 */
-+	drm_panel_bridge_remove(hpb->next_bridge);
-+	hpb->next_bridge = NULL;
++	err = sunh_conn_load_addon_overlay(conn);
++	if (err && err != -EPROBE_DEFER)
++		goto err;
 +
-+	queue_work(system_wq, &hpb->hpd_work);
++	dev_info(conn->dev, "attached\n");
++	return 0;
 +
-+out:
-+	mutex_unlock(&hpb->next_bridge_mutex);
++err:
++	sunh_conn_detach(conn);
++	return err;
 +}
 +
-+static int hotplug_bridge_notifier_call(struct notifier_block *nb,
-+					unsigned long event, void *private)
++static int sunh_conn_handle_event(struct sunh_conn *conn, bool plugged)
 +{
-+	struct hotplug_bridge *hpb = container_of(nb, struct hotplug_bridge, drm_bridge_nb);
-+	struct drm_bridge *bridge = private;
-+
-+	switch (event) {
-+	case DRM_BRIDGE_NOTIFY_ADD:
-+		hotplug_bridge_grab(hpb);
-+		break;
-+	case DRM_BRIDGE_NOTIFY_REMOVE:
-+		hotplug_bridge_release(hpb, bridge);
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static int hotplug_bridge_attach(struct drm_bridge *bridge,
-+				 enum drm_bridge_attach_flags flags)
-+{
-+	struct hotplug_bridge *hpb = hotplug_bridge_from_drm_bridge(bridge);
-+	struct device *dev = hpb->dev;
-+	struct drm_connector *connector;
-+	struct drm_encoder *encoder = hpb->bridge.encoder;
 +	int err;
 +
-+	/* Encoder was not yet provided to our bridge */
-+	if (!encoder)
-+		return -ENODEV;
++	if (plugged == conn->plugged)
++		return 0;
 +
-+	/* Connector was already created */
-+	if (hpb->connector)
-+		return dev_err_probe(dev, -EBUSY, "connector already created\n");
++	dev_info(conn->dev, "%s\n", plugged ? "connected" : "disconnected");
 +
-+	connector = drm_bridge_connector_init(bridge->dev, encoder);
-+	if (IS_ERR(connector))
-+		return dev_err_probe(dev, PTR_ERR(connector), "failed to initialize connector\n");
++	err = (plugged ?
++	       sunh_conn_attach(conn) :
++	       sunh_conn_detach(conn));
 +
-+	drm_connector_attach_encoder(connector, encoder);
-+
-+	hpb->connector = connector;
-+
-+	drm_connector_register(connector);
-+
-+	mutex_lock(&hpb->next_bridge_mutex);
-+	err = hotplug_bridge_attach_to_encoder_chain(hpb);
-+	mutex_unlock(&hpb->next_bridge_mutex);
-+
-+	/* -ENODEV is acceptable, in case next_bridge is not yet known */
-+	if (err == -ENODEV)
-+		err = 0;
++	conn->plugged = plugged;
 +
 +	return err;
 +}
 +
-+static void hotplug_bridge_detach(struct drm_bridge *bridge)
++/*
++ * Return the current status of the connector as reported by the hardware.
++ *
++ * Returns:
++ * - 0 if not connected (any of the existing status GPIOs not asserted) or
++ *   no status GPIOs exist
++ * - 1 if connected in a stable manner (all status GPIOs are asserted)
++ * - a negative error code in case reading the GPIOs fail
++ */
++static int sunh_conn_get_connector_status(struct sunh_conn *conn)
 +{
-+	struct hotplug_bridge *hpb = hotplug_bridge_from_drm_bridge(bridge);
++	int status = 0;
++	int i;
 +
-+	mutex_lock(&hpb->next_bridge_mutex);
-+	hotplug_bridge_detach_from_encoder_chain(hpb);
-+	mutex_unlock(&hpb->next_bridge_mutex);
++	for (i = 0; i < SUNH_CONN_N_STATUS_GPIOS; i++) {
++		int val;
 +
-+	if (hpb->connector) {
-+		drm_connector_unregister(hpb->connector);
-+		drm_connector_cleanup(hpb->connector);
-+		hpb->connector = NULL;
++		if (!conn->status_gpio[i])
++			continue;
++
++		val = gpiod_get_value_cansleep(conn->status_gpio[i]);
++
++		if (val < 0) {
++			dev_err(conn->dev, "Error reading %s GPIO (%d)\n",
++				sunh_conn_status_gpio_name[i], val);
++			return val;
++		}
++
++		if (val == 0) {
++			dev_dbg(conn->dev, "%s GPIO deasserted\n",
++				sunh_conn_status_gpio_name[i]);
++			return 0;
++		}
++
++		status = 1;
 +	}
++
++	return status;
 +}
 +
-+static enum drm_connector_status hotplug_bridge_detect(struct drm_bridge *bridge)
++static irqreturn_t sunh_conn_gpio_irq(int irq, void *data)
 +{
-+	struct hotplug_bridge *hpb = hotplug_bridge_from_drm_bridge(bridge);
++	struct sunh_conn *conn = data;
++	int conn_status;
 +
-+	return hpb->next_bridge ? connector_status_connected : connector_status_disconnected;
++	conn_status = sunh_conn_get_connector_status(conn);
++	if (conn_status >= 0)
++		sunh_conn_handle_event(conn, conn_status);
++
++	return IRQ_HANDLED;
 +}
 +
-+static void hotplug_bridge_hpd_work_func(struct work_struct *work)
++static int plugged_read(void *dat, u64 *val)
 +{
-+	struct hotplug_bridge *hpd = container_of(work, struct hotplug_bridge, hpd_work);
++	struct sunh_conn *conn = dat;
 +
-+	if (hpd->bridge.dev)
-+		drm_helper_hpd_irq_event(hpd->bridge.dev);
++	*val = conn->plugged;
++
++	return 0;
 +}
 +
-+static int hotplug_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *connector)
++static int plugged_write(void *dat, u64 val)
 +{
-+	struct hotplug_bridge *hpb = hotplug_bridge_from_drm_bridge(bridge);
-+	struct drm_bridge *br;
-+	int nmodes = 0;
++	struct sunh_conn *conn = dat;
 +
-+	mutex_lock(&hpb->next_bridge_mutex);
++	if (val > 1)
++		return -EINVAL;
 +
-+	if (!hpb->next_bridge || !hpb->bridge.encoder)
-+		goto out;
++	return sunh_conn_handle_event(conn, val);
++}
 +
-+	/*
-+	 * In non-removable pipelines, drm_bridge_connector_init() stores
-+	 * in the bridge_connector a pointer to the first bridge having
-+	 * OP_MODES (typically the panel bridge), so the .get_modes op will
-+	 * be automatically be called on that bridge. In our case the
-+	 * connector is created once when attaching to the encoder, but the
-+	 * panel bridge will appear later and can disappear and change at
-+	 * runtime, so we need to look for it every time dynamically.
-+	 */
-+	br = hpb->next_bridge;
-+	list_for_each_entry_from(br, &hpb->bridge.encoder->bridge_chain, chain_node) {
-+		if (br->ops & DRM_BRIDGE_OP_MODES) {
-+			nmodes = br->funcs->get_modes(br, connector);
-+			break;
++DEFINE_DEBUGFS_ATTRIBUTE(plugged_fops, plugged_read, plugged_write, "%lld\n");
++
++static void sunh_conn_nvmem_notifier_work(struct work_struct *work)
++{
++	struct sunh_conn *conn = container_of(work, struct sunh_conn, nvmem_notifier_work);
++
++	sunh_conn_load_addon_overlay(conn);
++}
++
++static int sunh_conn_nvmem_notifier(struct notifier_block *nb, unsigned long action, void *arg)
++{
++	struct sunh_conn *conn = container_of(nb, struct sunh_conn, nvmem_nb);
++
++	if (action == NVMEM_CELL_ADD)
++		queue_work(system_power_efficient_wq, &conn->nvmem_notifier_work);
++
++	return NOTIFY_OK;
++}
++
++static int sunh_conn_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct sunh_conn *conn;
++	int conn_status;
++	int err;
++	int i;
++
++	const struct platform_device_info hpb_info = {
++		.parent = dev,
++		.fwnode = dev->fwnode,
++		.of_node_reused = true,
++		.name = "hotplug-dsi-bridge",
++		.id = PLATFORM_DEVID_NONE,
++	};
++
++	/* Cannot load overlay from filesystem before rootfs is mounted */
++	if (system_state < SYSTEM_RUNNING)
++		return -EPROBE_DEFER;
++
++	conn = devm_kzalloc(dev, sizeof(*conn), GFP_KERNEL);
++	if (!conn)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, conn);
++	conn->dev = dev;
++
++	mutex_init(&conn->ovl_mutex);
++	INIT_WORK(&conn->nvmem_notifier_work, sunh_conn_nvmem_notifier_work);
++
++	conn->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(conn->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(conn->reset_gpio),
++				     "Error getting reset GPIO\n");
++
++	for (i = 0; i < SUNH_CONN_N_STATUS_GPIOS; i++) {
++		conn->status_gpio[i] =
++			devm_gpiod_get_optional(dev, sunh_conn_status_gpio_name[i], GPIOD_IN);
++		if (IS_ERR(conn->status_gpio[i]))
++			return dev_err_probe(dev, PTR_ERR(conn->status_gpio[i]),
++					     "Error getting %s GPIO\n",
++					     sunh_conn_status_gpio_name[i]);
++	}
++
++	conn->hpb_pdev = platform_device_register_full(&hpb_info);
++	if (IS_ERR(conn->hpb_pdev)) {
++		err = PTR_ERR(conn->hpb_pdev);
++		return dev_err_probe(dev, err, "Error registering DRM bridge\n");
++	}
++
++	conn->nvmem_nb.notifier_call = sunh_conn_nvmem_notifier;
++	err = nvmem_register_notifier(&conn->nvmem_nb);
++	if (err) {
++		dev_err_probe(dev, err, "Error registering NVMEM notifier\n");
++		goto err_unregister_drm_bridge;
++	}
++
++	for (i = 0; i < SUNH_CONN_N_STATUS_GPIOS; i++) {
++		if (conn->status_gpio[i]) {
++			err = devm_request_threaded_irq(dev, gpiod_to_irq(conn->status_gpio[i]),
++							NULL, sunh_conn_gpio_irq,
++							IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
++							IRQF_ONESHOT,
++							dev_name(dev), conn);
++			if (err) {
++				dev_err_probe(dev, err, "Error getting %s GPIO IRQ\n",
++					sunh_conn_status_gpio_name[i]);
++				goto err_nvmem_unregister_notifier;
++			}
 +		}
 +	}
 +
-+out:
-+	mutex_unlock(&hpb->next_bridge_mutex);
-+
-+	return nmodes;
-+}
-+
-+static const struct drm_bridge_funcs hotplug_bridge_funcs = {
-+	.attach		= hotplug_bridge_attach,
-+	.detach		= hotplug_bridge_detach,
-+	.detect		= hotplug_bridge_detect,
-+	.get_modes	= hotplug_bridge_get_modes,
-+};
-+
-+static int hotplug_bridge_dsi_detach(struct mipi_dsi_host *host,
-+				     struct mipi_dsi_device *device_remote)
-+{
-+	struct hotplug_bridge *hpb = dev_get_drvdata(host->dev);
-+
-+	if (!hpb->dsi_dev)
-+		return -ENODEV;
-+
-+	mipi_dsi_detach(hpb->dsi_dev);
-+	mipi_dsi_device_unregister(hpb->dsi_dev);
-+	hpb->dsi_dev = NULL;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Attach the local DSI device to the upstream DSI host, possibly with a
-+ * "null" format.
-+ *
-+ * In "normal" bridges this function should be _only_ used as the .attach
-+ * callback of hotplug_bridge_dsi_ops. But "normal" bridges have their
-+ * downstream DSI device always connected, which we don't. When booting
-+ * without anything connected downstream, our upstream bridge could be not
-+ * even calling drm_bridge_add() until we do attach ourselves as a DSI
-+ * device, preventing the whole DRM card from being instantiated.
-+ *
-+ * In order to always have a DRM card after boot, we do call this same
-+ * function while probing in order to attach as a DSI device to the DSI
-+ * master. However during probe we don't know the bus format yet. It would
-+ * be nice to be able to update the format afterwards when a downstream DSI
-+ * device is attaching to our local host, but there is no callback for
-+ * that. To overcome this limitation, this function can be called in two
-+ * ways:
-+ *
-+ * - during probe, to make the upstream bridge happy, when there is no
-+ *   next_dsi_dev yet and thus the lanes/format/etc are unknown
-+ * - as the mipi_dsi_host_ops.attach callback proper, as soon as the
-+ *   next_dsi_dev is known
-+ *
-+ * The resulting call sequence is:
-+ *
-+ * 1. hotplug_bridge_dsi_attach() called by hotplug_bridge_probe() with
-+ *    next_dsi_dev == NULL: we attach to the host but with a fake format
-+ *    so the DRM card can be populated. hpb->dsi_dev becomes non-NULL.
-+ * 2. hotplug_bridge_dsi_attach() called as .attach callback from a
-+ *    downstream device when it becomes available: we need to detach in
-+ *    order to re-attach with the format of the device. hpb->dsi_dev
-+ *    is found non-NULL, then reused so it will be non-NULL again.
-+ * 3. hotplug_bridge_dsi_detach() called as the .detach callback by a
-+ *    downstream device: cleans up everything normally. hpb->dsi_dev goes
-+ *    from non-NULL to NULL.
-+ * 4. hotplug_bridge_dsi_attach() called by a downstream device: attaches
-+ *    normally to the upstream DSI host. hpb->dsi_dev goes from NULL to
-+ *    non-NULL.
-+ *
-+ * Steps 3 and 4 are the "normal" attach/detach steps as on "normal"
-+ * bridges.
-+ *
-+ * Steps 1 and 2 happen only the first time, steps 3 and 4 will happen
-+ * every time the downstream bridge disconnects and reconnects.
-+ */
-+static int hotplug_bridge_dsi_attach(struct mipi_dsi_host *host,
-+				     struct mipi_dsi_device *next_dsi_dev)
-+{
-+	struct device *dev = host->dev;
-+	struct hotplug_bridge *hpb = dev_get_drvdata(dev);
-+	struct mipi_dsi_device *dsi_dev;
-+	const struct mipi_dsi_device_info dsi_info = {
-+		.type = "hotplug-bridge",
-+		.channel = 0,
-+		.node = NULL,
-+	};
-+	int err;
-+
-+	/*
-+	 * Step 2 only (first time we are called for an actual device
-+	 * attaching): clean up the fake attach done at step 1
-+	 */
-+	if (hpb->dsi_dev)
-+		hotplug_bridge_dsi_detach(&hpb->dsi_host, NULL);
-+
-+	/* Register a local DSI device with the remote DSI host */
-+	dsi_dev = mipi_dsi_device_register_full(hpb->prev_dsi_host,
-+						&dsi_info);
-+	if (IS_ERR(dsi_dev))
-+		return PTR_ERR(dsi_dev);
-+
-+	/* At step 1 we have no downstream device to get the format from */
-+	if (next_dsi_dev) {
-+		dsi_dev->channel    = next_dsi_dev->channel;
-+		dsi_dev->lanes      = next_dsi_dev->lanes;
-+		dsi_dev->format     = next_dsi_dev->format;
-+		dsi_dev->mode_flags = next_dsi_dev->mode_flags;
++	conn_status = sunh_conn_get_connector_status(conn);
++	if (conn_status < 0) {
++		err = conn_status;
++		goto err_nvmem_unregister_notifier;
 +	}
 +
-+	/* Attach our local DSI device to the remote DSI host */
-+	err = mipi_dsi_attach(dsi_dev);
-+	if (err) {
-+		mipi_dsi_device_unregister(dsi_dev);
-+		return dev_err_probe(dev, err, "failed to attach hotplug dsi device to host\n");
-+	}
++	/* Ensure initial state is known and overlay loaded if plugged */
++	sunh_conn_handle_event(conn, conn_status);
 +
-+	hpb->dsi_dev = dsi_dev;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Propagate mipi_dsi_device_transfer() to the upstream DSI host.
-+ *
-+ * Reimplements identically the minimal needed part of
-+ * mipi_dsi_device_transfer(), including the -ENOSYS return value.
-+ */
-+static ssize_t hotplug_bridge_dsi_transfer(struct mipi_dsi_host *host,
-+					   const struct mipi_dsi_msg *msg)
-+{
-+	struct hotplug_bridge *hpb = dev_get_drvdata(host->dev);
-+	const struct mipi_dsi_host_ops *ops;
-+
-+	if (!hpb->dsi_dev)
-+		return -ENODEV;
-+
-+	ops = hpb->dsi_dev->host->ops;
-+
-+	if (!ops || !ops->transfer)
-+		return -ENOSYS;
-+
-+	return ops->transfer(hpb->dsi_dev->host, msg);
-+}
-+
-+static const struct mipi_dsi_host_ops hotplug_bridge_dsi_ops = {
-+	.attach		= hotplug_bridge_dsi_attach,
-+	.detach		= hotplug_bridge_dsi_detach,
-+	.transfer	= hotplug_bridge_dsi_transfer,
-+};
-+
-+/*
-+ * Find the upstream DSI host and register our downstream-facing DSI host.
-+ */
-+static int hotplug_bridge_dsi_setup(struct hotplug_bridge *hpb)
-+{
-+	struct device *dev = hpb->dev;
-+	struct device_node *endpoint;
-+	struct device_node *node;
-+
-+	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-+	node = of_graph_get_remote_port_parent(endpoint);
-+
-+	hpb->prev_dsi_host = of_find_mipi_dsi_host_by_node(node);
-+
-+	of_node_put(node);
-+	of_node_put(endpoint);
-+
-+	if (!hpb->prev_dsi_host)
-+		return -EPROBE_DEFER;
-+
-+	hpb->dsi_host.dev = dev;
-+	hpb->dsi_host.ops = &hotplug_bridge_dsi_ops;
-+
-+	return mipi_dsi_host_register(&hpb->dsi_host);
-+}
-+
-+static void hotplug_bridge_dsi_cleanup(struct hotplug_bridge *hpb)
-+{
-+	mipi_dsi_host_unregister(&hpb->dsi_host);
-+}
-+
-+static int hotplug_bridge_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct hotplug_bridge *hpb;
-+	struct drm_bridge *bridge;
-+	int err;
-+
-+	hpb = devm_kzalloc(dev, sizeof(*hpb), GFP_KERNEL);
-+	if (!hpb)
-+		return -ENOMEM;
-+
-+	device_set_node(dev, dev_fwnode(dev->parent));
-+
-+	hpb->dev = dev;
-+
-+	mutex_init(&hpb->next_bridge_mutex);
-+	INIT_WORK(&hpb->hpd_work, hotplug_bridge_hpd_work_func);
-+
-+	hpb->drm_bridge_nb.notifier_call = hotplug_bridge_notifier_call;
-+
-+	err = hotplug_bridge_dsi_setup(hpb);
-+	if (err) {
-+		dev_err_probe(dev, err, "failed to setup DSI\n");
-+		goto err_unset_node;
-+	}
-+
-+	bridge = &hpb->bridge;
-+	bridge->of_node = dev->of_node;
-+	bridge->funcs = &hotplug_bridge_funcs;
-+	bridge->type = DRM_MODE_CONNECTOR_DSI;
-+	bridge->ops |= DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_HPD | DRM_BRIDGE_OP_MODES;
-+
-+	platform_set_drvdata(pdev, hpb);
-+
-+	err = devm_drm_bridge_add(dev, bridge);
-+	if (err) {
-+		dev_err_probe(dev, err, "failed adding bridge\n");
-+		goto err_dsi_cleanup;
-+	}
-+
-+	err = hotplug_bridge_dsi_attach(&hpb->dsi_host, NULL);
-+	if (err) {
-+		dev_err_probe(dev, err, "failed first attach to upstream DSI host\n");
-+		goto err_dsi_cleanup;
-+	}
-+
-+	/* To be notified when the next bridge appears... */
-+	drm_bridge_notifier_register(&hpb->drm_bridge_nb);
-+
-+	/* ...but also check now, in case the next bridge was probed earlier */
-+	hotplug_bridge_grab(hpb);
++	conn->debugfs_root = debugfs_create_dir(dev_name(dev), NULL);
++	debugfs_create_file("plugged", 0644, conn->debugfs_root, conn, &plugged_fops);
 +
 +	return 0;
 +
-+err_dsi_cleanup:
-+	hotplug_bridge_dsi_cleanup(hpb);
-+err_unset_node:
-+	device_set_node(dev, NULL);
++err_nvmem_unregister_notifier:
++	nvmem_unregister_notifier(&conn->nvmem_nb);
++	cancel_work_sync(&conn->nvmem_notifier_work);
++err_unregister_drm_bridge:
++	platform_device_unregister(conn->hpb_pdev);
 +	return err;
 +}
 +
-+static void hotplug_bridge_remove(struct platform_device *pdev)
++static void sunh_conn_remove(struct platform_device *pdev)
 +{
-+	struct hotplug_bridge *hpb = platform_get_drvdata(pdev);
++	struct sunh_conn *conn = platform_get_drvdata(pdev);
 +
-+	cancel_work_sync(&hpb->hpd_work);
++	debugfs_remove(conn->debugfs_root);
++	sunh_conn_detach(conn);
 +
-+	drm_bridge_notifier_unregister(&hpb->drm_bridge_nb);
++	nvmem_unregister_notifier(&conn->nvmem_nb);
++	cancel_work_sync(&conn->nvmem_notifier_work);
 +
-+	hotplug_bridge_release(hpb, NULL);
-+
-+	hotplug_bridge_dsi_cleanup(hpb);
-+
-+	device_set_node(hpb->dev, NULL);
++	platform_device_unregister(conn->hpb_pdev);
 +}
 +
-+static const struct platform_device_id hotplug_bridge_platform_ids[] = {
-+	{ .name = "hotplug-dsi-bridge" },
-+	{},
++static const struct of_device_id sunh_conn_dt_ids[] = {
++	{ .compatible = "ge,sunh-addon-connector" },
++	{}
 +};
-+MODULE_DEVICE_TABLE(platform, hotplug_bridge_platform_ids);
++MODULE_DEVICE_TABLE(of, sunh_conn_dt_ids);
 +
-+static struct platform_driver hotplug_bridge_driver = {
-+	.probe		= hotplug_bridge_probe,
-+	.remove_new	= hotplug_bridge_remove,
-+	.id_table	= hotplug_bridge_platform_ids,
-+	.driver		= {
-+		.name		= "hotplug-drm-bridge",
++static struct platform_driver sunh_conn_driver = {
++	.driver = {
++		.name = "sunh-addon-connector",
++		.of_match_table = sunh_conn_dt_ids,
 +	},
++	.probe = sunh_conn_probe,
++	.remove_new = sunh_conn_remove,
 +};
-+
-+module_platform_driver(hotplug_bridge_driver);
++module_platform_driver(sunh_conn_driver);
 +
 +MODULE_AUTHOR("Luca Ceresoli <luca.ceresoli@bootlin.com>");
-+MODULE_AUTHOR("Paul Kocialkowski <paul.kocialkowski@bootlin.com>");
-+MODULE_DESCRIPTION("Hotplug DRM Bridge");
++MODULE_AUTHOR("Herve Codina <herve.codina@bootlin.com>");
++MODULE_DESCRIPTION("GE SUNH hotplug add-on connector");
 +MODULE_LICENSE("GPL");
 
 -- 
