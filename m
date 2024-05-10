@@ -2,80 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DD28C28F9
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 18:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A398C2910
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 19:06:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9277610E758;
-	Fri, 10 May 2024 16:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A394110E4C9;
+	Fri, 10 May 2024 17:06:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BGJlCPZA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N4mVNRJ6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E261810E85D
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 16:55:29 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44AE94FR000365;
- Fri, 10 May 2024 16:55:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=AqTkPMAOUPd59As1vNtWnebyqM5vJ6ujfME/KvQ5HU4=; b=BG
- JlCPZAoGeUFpOKvl+4XzlEKBZbj5fGX9QAqy8+8HFkkRI83FMPCvNv5LgFp+n5MQ
- yEHxklT1FKdlMCJPJhiSVa3YFMcTlbvCHXS4tVA7t0o4x62oYGo2XdfIgqS/zRFF
- 8keGIQe5Lp29hkg/UbX4lervnvO5fiiyCF6HT1xkAEu9hRktvpbSjVPSMoa1ovxN
- 0xG2O+1RG0LNs0MWTE/gnp49cyK71w5BG77lgZ+5u9n6wA1dSj5fPQedcijS2pU/
- VOcph4JdHq43QzDBeqqMPwwU5meLi8WDwxsHItb1yUd//JtAbS8T9ae0uj4yKG3w
- ERE5geVxBu+IqNDyalYw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y16w2a1cn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 May 2024 16:55:27 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44AGtQ8O009472
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 May 2024 16:55:26 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 10 May
- 2024 09:55:26 -0700
-Message-ID: <aad0fac7-279a-0b40-569e-73acf8b77db2@quicinc.com>
-Date: Fri, 10 May 2024 10:55:25 -0600
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 538B210E4C9;
+ Fri, 10 May 2024 17:06:07 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-1e4c4fb6af3so14104485ad.0; 
+ Fri, 10 May 2024 10:06:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715360766; x=1715965566; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4E70zH6D9J6uqf65FkKdMGHZDeZ8TODhT6vKym2/Plo=;
+ b=N4mVNRJ6zBgs2LeOkSk57YXwbCjC7ViQyeY1fzaQzkKPo8GVbDqrDI1SEY1WTEu97h
+ wsZs1Pw1qEpLNYK8f+VJ85XSpYKFnA0Ak3IK/2aljyAQiVH/oHSL6F1WGmjVm9n4Gu74
+ N0gKeSeVdRwcwuwJp+Ei4Wq+ub9Nj/99NRSLZ9Q6zmDgOULMwEqj8kBXuBDLcxSt+iXM
+ 3KThznlF0ZquOpe7Rr3LrZglPdft99JLQCaDLqBjL07XdcbHLKaLPkn7XDj8zDVtTJ+E
+ VXKMIvmn24EZu4sWm+JEgF8sjWzN/yJ8JAlvMo4HgYywtirbPVBEsqeBySboqf7xDNZg
+ yLXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715360766; x=1715965566;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4E70zH6D9J6uqf65FkKdMGHZDeZ8TODhT6vKym2/Plo=;
+ b=YZozkSe4LOshf9Dyo4PJ9AtPTjW1ezsClGxULybL3Hek9Vr9nnmWAbNr6TC957XbFR
+ 2IfQPCs4XUx6lSsunhPXdXbkFH3Mdvbm0IjIURj8DU5WjajJpcQ/YycOZ2cXYtnY1NJ9
+ KRrIgWkaKuWokLlFBNsrjzGkcBi1VE9PM9d+dn4M3wrw3v2dVuC2WNQ3lcXaKCtufTjE
+ B18IDto7NrcR9G0lnOJv+tUP3t4eMb92G23gRGUCVJxW84AAFoJOqLNTgKaZHC+fGoYV
+ 1YSu0y41fIpWauPTe87FlL6B/paoKxAefi1q7y5+t8yk+mVki7PH+xbXYoSAWW80L448
+ BaUQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVZyKVlYo0bpsEYaHYfuBv2GXVZaxo6GDLBoXR53R/LSsm1cR9EeGH6G48bFvyjGDxXLoafIAFM4LDSSTQiv/dNY4gSS3kVv8vnJPthDDMg14rmFrbpGqUBCQ3mlkOCjf3OPbpr/FebJLMH/Lx8PQ==
+X-Gm-Message-State: AOJu0Ywl1WmWp+42pWkJeGZfK5hoIYwNH8j+pR8Ef3MAOelE4XqWHLh5
+ JqrSzmjNgeZo87ZRyI5OC2LidKFF6f40jtyCmXVTgW+8Onk6i6iwD+BzIqvlaXYE9PdTy+HPMUM
+ eqr6zTkklisu5fv0oxDvOVHRGyJk=
+X-Google-Smtp-Source: AGHT+IFvo59CeIQxzqPOEh0llojW8r+d1B6Re4qxAxKmuCTUkEg5XPWWujBgnKkROi9ERc5qREtg59Lq5QMUuZjDh9g=
+X-Received: by 2002:a17:903:190:b0:1eb:d72e:82ae with SMTP id
+ d9443c01a7336-1eefa03a3b3mr92736455ad.13.1715360766497; Fri, 10 May 2024
+ 10:06:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 12/12] accel/ivpu: Share NPU busy time in sysfs
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>, Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
-References: <20240508132106.2387464-1-jacek.lawrynowicz@linux.intel.com>
- <20240508132931.2388996-1-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240508132931.2388996-1-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: bNtsx_obLPr-xj0aL418Bl-sGr8--qFh
-X-Proofpoint-GUID: bNtsx_obLPr-xj0aL418Bl-sGr8--qFh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-10_12,2024-05-10_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 mlxscore=0 malwarescore=0 phishscore=0 spamscore=0
- mlxlogscore=904 suspectscore=0 clxscore=1015 priorityscore=1501
- adultscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2405010000 definitions=main-2405100122
+References: <20240508230035.222124-1-alexander.deucher@amd.com>
+ <CAPM=9tw1S3yFL7FF-DQqcwjnQuj=nF+ER+_nJWvOQWmUF=oLyw@mail.gmail.com>
+ <CADnq5_O5F9ootuKi4B--xZE3CQfAgfTWks38PbmRPHfwJ1bngA@mail.gmail.com>
+In-Reply-To: <CADnq5_O5F9ootuKi4B--xZE3CQfAgfTWks38PbmRPHfwJ1bngA@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 10 May 2024 13:05:53 -0400
+Message-ID: <CADnq5_OUAB5W0Ko92bDE6QQjNzVDnWGAAM8YjziFgOq9TM6TfQ@mail.gmail.com>
+Subject: Re: [pull] amdgpu, amdkfd drm-fixes-6.9
+To: Dave Airlie <airlied@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,21 +81,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/8/2024 7:29 AM, Jacek Lawrynowicz wrote:
-> From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
-> 
-> The driver tracks the time spent by NPU executing jobs
-> and shares it through sysfs `npu_busy_time_us` file.
-> It can be then used by user space applications to monitor device
-> utilization.
-> 
-> NPU is considered 'busy' starting with a first job submitted
-> to firmware and ending when there is no more jobs pending/executing.
-> 
-> Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Never mind.  I'll send a new PR now.
 
-This feels like something that would normally be handled by perf. Why 
-not use that mechanism?
+Alex
 
--Jeff
+On Fri, May 10, 2024 at 10:01=E2=80=AFAM Alex Deucher <alexdeucher@gmail.co=
+m> wrote:
+>
+> On Thu, May 9, 2024 at 11:22=E2=80=AFPM Dave Airlie <airlied@gmail.com> w=
+rote:
+> >
+> > On Thu, 9 May 2024 at 09:00, Alex Deucher <alexander.deucher@amd.com> w=
+rote:
+> > >
+> > > Hi Dave, Sima,
+> > >
+> > > Fixes for 6.9.
+> > >
+> > > The following changes since commit dd5a440a31fae6e459c0d6271dddd62825=
+505361:
+> > >
+> > >   Linux 6.9-rc7 (2024-05-05 14:06:01 -0700)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6=
+.9-2024-05-08
+> > >
+> > > for you to fetch changes up to 3d09248a06d285397e7b873415505d299202e1=
+c6:
+> > >
+> > >   drm/amdgpu: Fix comparison in amdgpu_res_cpu_visible (2024-05-08 18=
+:47:52 -0400)
+> > >
+> > > ----------------------------------------------------------------
+> > > amd-drm-fixes-6.9-2024-05-08:
+> > >
+> > > amdgpu:
+> > > - DCN 3.5 fix
+> > > - MST DSC fixes
+> > > - S0i3 fix
+> > > - S4 fix
+> > > - Warning fix
+> > > - HDP MMIO mapping fix
+> > > - Fix a regression in visible vram handling
+> > >
+> > > amdkfd:
+> > > - Spatial partition fix
+> > >
+> > > ----------------------------------------------------------------
+> > > Agustin Gutierrez (2):
+> > >       drm/amd/display: Fix DSC-re-computing
+> > >       drm/amd/display: MST DSC check for older devices
+> > >
+> > > Alex Deucher (1):
+> > >       drm/amdkfd: don't allow mapping the MMIO HDP page with large pa=
+ges
+> > >
+> > > Lijo Lazar (2):
+> > >       Revert "drm/amdkfd: Add partition id field to location_id"
+> > >       drm/amd/amdxcp: Fix warnings
+> >
+> > Hey, this has a "fixes:" for a patch that doesn't exist.
+> >
+> > Can we fix that up? I can pull this but I'd prefer it to get fixed if
+> > you have a chance.
+>
+> Sorry, that was the commit from -next.  I cherry-picked the original
+> patch to -fixes as well, but forgot to fix up the fixes tag when I
+> cherry-picked the fix to -fixes.  I can create a new PR if you'd like.
+>
+> Thanks,
+>
+> Alex
