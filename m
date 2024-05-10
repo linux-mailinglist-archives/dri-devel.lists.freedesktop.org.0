@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15E48C2770
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D514A8C277A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:15:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36BB610ED44;
-	Fri, 10 May 2024 15:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7759E10ED45;
+	Fri, 10 May 2024 15:15:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BpprehXU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NSPHihDw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4ED010ED44
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:10:48 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7480B10ED45
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:15:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715353848; x=1746889848;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=1j7eg+9n1ylc7PMU1qKoy953XxcAw3FLb1qDay6E/FI=;
- b=BpprehXUhdtp8LWG3bdIzCRxhOUpbTOTYLmJivb1nK14IVm1o33jOWrk
- fU26FbyZEv+HRhvADwQxjoGDyNW82R4CME2mlRUvw44Z44G9cS0fqPqvZ
- MytA1HjaODFN121a4kcRjTrBkp1p/Ux52mcd8BEoW1Z8LLfaTvncej33+
- 4ysy8ozR2SnKKfKFWuTVb8utj3dJOC9k3GTAeqiyYizq0bUEzhyCqvPa7
- 0sabDT4M5NQ3YMj738qfcKleWe3RuXUoQfi1aXd4qcPOpxKJR5nmrkrN3
- GGYR7j2LzgkCUmJbjyWIdMPX7uPKtZrxGNIjruDBlKuD5MwEE/CURp12W g==;
-X-CSE-ConnectionGUID: qs+CCeHhQOOc87bSJwTYug==
-X-CSE-MsgGUID: /hk6DxUbQeq5WNUG9y8eCg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11468757"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11468757"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 08:10:46 -0700
-X-CSE-ConnectionGUID: NAF67pl8Qe+TSKl8VaEpXQ==
-X-CSE-MsgGUID: SGb+tI1vQvi8k665RFaHhQ==
+ t=1715354146; x=1746890146;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=clOzaIBNsY8/hFI2FBTqNXQdU+W7K+KPlCnXMEt9Pew=;
+ b=NSPHihDwaFoAOusgL7dwF+6qwmcWcmj45U+LCiGpyasj9XUq2XX01GVw
+ G4OwJ/6w5YhkwXvTh8KIhd/lPflX6A8JLPSOoT8tBfjl6jdIPi3qDPoPA
+ r+q2d4utK3iDUN8b0Cj14u6FAW9zXICjgifkSpOiz/sXq2sGsQz7SjZzp
+ Gxpa07azDkbbxtgCSz/LDo0wjQdzuuVn5nVMXvnb0FYQw0J4GiifjgTSw
+ t/1m/MqJcNoJ0WvI1XI64aYjZhl8m6/UUnmZql+oqOtJqet1/HQIg/UwV
+ jXUrrKzwQEbikLYwQELvR0FX0cjDOx4tjtXBlYLrPHC/dUaPzjIGUKD8D A==;
+X-CSE-ConnectionGUID: +4My+cjeSZ6sxV6jEkEEgQ==
+X-CSE-MsgGUID: 2Vqac02YQHmqbcSF4KUJWQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11470255"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11470255"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 08:15:46 -0700
+X-CSE-ConnectionGUID: kf/AJuQaQ+iJD6cngGl3BQ==
+X-CSE-MsgGUID: yPGCvjS7TmuhlfgQHIQaJg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="29592182"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 08:10:41 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1s5RtN-000000068i4-1K3v; Fri, 10 May 2024 18:10:37 +0300
-Date: Fri, 10 May 2024 18:10:37 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="34083467"
+Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.180])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 08:15:36 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Devarsh Thakkar
+ <devarsht@ti.com>
 Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
- dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
- praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
- j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
- p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
- nicolas@ndufresne.ca, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, adobriyan@gmail.com, jani.nikula@intel.com
-Subject: Re: [PATCH v7 7/8] media: imagination: Round to closest multiple for
- cropping region
-Message-ID: <Zj447ePSnccbj76v@smile.fi.intel.com>
-References: <20240509184001.4064820-1-devarsht@ti.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240509184001.4064820-1-devarsht@ti.com>
+ akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+ adobriyan@gmail.com, p.zabel@pengutronix.de, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+ vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+ detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+ andrzej.p@collabora.com, nicolas@ndufresne.ca
+Subject: Re: [PATCH v7 6/8] math.h Add macros to round to closest specified
+ power of 2
+In-Reply-To: <Zj42vTpyH71TWeTk@smile.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240509183952.4064331-1-devarsht@ti.com>
+ <Zj42vTpyH71TWeTk@smile.fi.intel.com>
+Date: Fri, 10 May 2024 18:15:34 +0300
+Message-ID: <87fruphf55.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,20 +80,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 10, 2024 at 12:10:01AM +0530, Devarsh Thakkar wrote:
-> If neither of the flags to round down (V4L2_SEL_FLAG_LE) or round up
-> (V4L2_SEL_FLAG_GE) are specified by the user, then round to nearest
-> multiple of requested value while updating the crop rectangle coordinates.
-> 
-> Use the rounding macro which gives preference to rounding down in case two
-> nearest values (high and low) are possible to raise the probability of
-> cropping rectangle falling inside the bound region.
+On Fri, 10 May 2024, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> On Fri, May 10, 2024 at 12:09:52AM +0530, Devarsh Thakkar wrote:
+>> Add macros to round to nearest specified power of 2.
+>
+> This is not what they are doing. For the above we already have macros defined.
+>
+>> Two macros are added :
+>
+> (Yes, after I wrapped to comment this line looks better on its own,
+>  so whatever will be the first sentence, this line should be separated
+>  from.)
+>
+>> round_closest_up and round_closest_down which round up to nearest multiple
+>
+> round_closest_up() and round_closest_down()
+>
+>
+>> of 2 with a preference to round up or round down respectively if there are
+>> two possible nearest values to the given number.
+>
+> You should reformulate, because AFAICS there is the crucial difference
+> from these and existing round_*_pow_of_two().
 
-This is arguable. How do we know that the bigger range is supported?
-The safest side is to go smaller than bigger.
+Moreover, I think the naming of round_up() and round_down() should have
+reflected the fact that they operate on powers of 2. It's unfortunate
+that the difference to roundup() and rounddown() is just the underscore!
+That's just a trap.
+
+So let's perhaps not repeat the same with round_closest_up() and
+round_closest_down()?
+
+BR,
+Jani.
+
+
+>
+>> This patch is inspired from the Mentor Graphics IPU driver [1] which uses
+>> similar macro locally and which can be updated to use this generic macro
+>> instead along with other drivers having similar requirements.
+>> 
+>> [1]:
+>> https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480
+>
+> Instead of this, just add a patch to convert that driver to use this new macro.
+> Besides, this paragraph should go to the comment/changelog area below.
+>
+>> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+>> ---
+>> V1->V6 (No change, patch introduced in V7)
+>> ---
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jani Nikula, Intel
