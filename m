@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B463C8C2C8F
-	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 00:23:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837748C2C94
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 00:25:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4E1310E0BE;
-	Fri, 10 May 2024 22:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B45D810E074;
+	Fri, 10 May 2024 22:25:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lTHS3V79";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PEaZdnvb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA44410E074
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 22:23:02 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2e1fa824504so32478431fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:23:02 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9996D10E074
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 22:25:37 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-51f174e316eso3023833e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715379781; x=1715984581; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1715379935; x=1715984735; darn=lists.freedesktop.org;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=G0Uyr1pN8k/ARGpxhDyBbiCgjg0OynDBUphzu3LkFrg=;
- b=lTHS3V79gHCVdSk1H5UpsH2lq5L3ZJd0IUmgQM7ZJ9Gbtq/HOKw3m4vaxHpH5plXil
- xAf05Ytp8Q/7+1/VUqV5nOwGI83bjGRJfAuqW24jjF/HxPDZUxVFrQJ/+UE1QG57mjBe
- Av33ClPTZ0ij9sSJn87Pnoi89eMsrAXbu1HJq608TQ+dhq+UuEP0xapGa4T0IWevTCwF
- 01aNEd+CXBG+7YRoEbhxOY6NyulmlLQzSRsckKw0bSSoAm9M8d5rV4GusCyM6nCoQpQQ
- DHm5pHcqZ6VIlXKmWu/EhlmdZMheuAkNTCGWyufADcEZ+QKTv0Iui1BEpjAd3plHH6Ww
- UiMg==
+ bh=W6HjquRKOFN+fNdCcBFqV2IKTVODauXieX60eZohwyo=;
+ b=PEaZdnvbcFDFkIQkb5FZtlAHBwr1AGQ4OKZ5jU6S+lQBP/d51Xt+BWEC7dRjmx8Zhn
+ C7z5imSrIctx0qQfZ+wpaeNe6Qq/uQF+dLmRfO/+IsNziSGv0eE6ZUtI8nmKdkN80ah1
+ pJEwlvlOzj3JkBla3HY4Ha3vWyo+BRqO+VsLUXeZjzYJnp6T9jke096CMg3iTSwLH11E
+ ZtEdBWA0Kq+lK3ksD+ZaXlhW/uKRuQn+w6o4b4ADOJLtSlkJ1H5Xd1krZnyOG7PR1sxB
+ 58VKHbqSmaOn3lnySIcgXhIscLhcTZDgeklEUZslBc88GLWwHEtpWq79iQZ3usMuN0v+
+ ffIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715379781; x=1715984581;
+ d=1e100.net; s=20230601; t=1715379935; x=1715984735;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=G0Uyr1pN8k/ARGpxhDyBbiCgjg0OynDBUphzu3LkFrg=;
- b=N21IAx+OrK3EZchUxiD6onwsg+zWq1FGretY6tgLCgkamGdwboQTu06t21qhfwUrym
- /c0uWZBCAK9zajYA19LI7VtQ3K/ZZD2G0lWtZuXmnEqQ9UIY5881sot9DcUFJCJD+oei
- vSi75XkfE8R2xPx+0wDxn0qTx+vaE6aeOJqX46gKYu4VFSyWUcv6kGKqAsHZJyusYjwK
- FXJhGXqR7Doefqyiz/Y4LX7jOJpZzZGwkTIbiLpYsbBSgKixygnR8HmhbbO8NmO7/40a
- Mo5/JeFu+nClaNoa8ShUwzwgSCNu0THyus6JaPyn7WZQsnTFFsUJdEzQySPeBZx6+f7g
- MhfQ==
+ bh=W6HjquRKOFN+fNdCcBFqV2IKTVODauXieX60eZohwyo=;
+ b=TAeVJGDrt5Q25UU1xCAFQFeu0llAHw0dCbI9IAbSydlZY9bKCXkJkq/PtL1qX0OpJS
+ 49/jk5lGC96cd+GQbvVTVbbmCQAMpDCElrmu93KPWMBLoXfljKdphIxESV1XLoAikLRQ
+ L7daiuLtfkJcnZRAuRPSbna9A3aB8ORKXapzDA8dVjSNq07QGSTSX/potZPQiY4oviNv
+ K/6j3GUqaao6y3er/KtwwjVwElI9jmX42txAa+ctguBsg+37qykR1gbn/TzgKWviteAw
+ 0ltcH2JMUvyFrOwPWQDOUJje53vEh5sFTkLS+IB7ErwnS++QAOPTm2lOtDpgMnuBf25S
+ VCMg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW90VtH8nmzp2tmJdXu11ZflZil/eVnt/8uA6l55U0W5H5egZYHcGu+BB5GyyEVXhYU+EMKqi/QE2D4ne4ubldscXa9kD6HdJPpV3fs7255
-X-Gm-Message-State: AOJu0YzPWj/o89h0zt3aPoCNV3YxrKbd3jDgNeyIzQjBv4MnbBLBwwON
- /Bht9SzqxEtq90nZH9vsTwShuPr56Whtjnov1Um6/Dz1Q30LG1mtpylO1KVxLS0=
-X-Google-Smtp-Source: AGHT+IF1IRH4d76n4pNOyKYDdO40mH/uIs2el/Qhpb/0zJQWJsLL3MOXUVp9zI7G4e8SrdOea3SYfg==
-X-Received: by 2002:a19:2d07:0:b0:522:e58:86b3 with SMTP id
- 2adb3069b0e04-5220fc6d53emr2348194e87.36.1715379780683; 
- Fri, 10 May 2024 15:23:00 -0700 (PDT)
+ AJvYcCUs9uFagkyDDr3j2JJKlollPsdVIGdNkChBWVdbmFHx4iqy8j9UDzt4QyYaWTaBL/S1xoLi1AnHatWz6R7+lKH4mmb8BOBB8xzTomaFrcxV
+X-Gm-Message-State: AOJu0YxptBI4Up6eHX0vgIBoK9RN9vsy+uRLLnxej/DB8kOLNB783Nqs
+ Hvutwm/jZlb4QxIe3QaCfI8V06dfuVDB98wuxty1y4KhPWy595jRnENiSZAwd94=
+X-Google-Smtp-Source: AGHT+IEFoajKWL5Ia66X2EESRVbXuMiDkkxy0S8gKkoH1kR/jrIMoqoUuKrVGiU/0xgAGVyjDlJflg==
+X-Received: by 2002:a05:6512:358e:b0:522:2990:7739 with SMTP id
+ 2adb3069b0e04-522299078a7mr1051254e87.20.1715379935513; 
+ Fri, 10 May 2024 15:25:35 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f39d2db3sm832202e87.269.2024.05.10.15.23.00
+ 2adb3069b0e04-521f35ad535sm835358e87.28.2024.05.10.15.25.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 May 2024 15:23:00 -0700 (PDT)
-Date: Sat, 11 May 2024 01:22:58 +0300
+ Fri, 10 May 2024 15:25:35 -0700 (PDT)
+Date: Sat, 11 May 2024 01:25:33 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Doug Anderson <dianders@chromium.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -70,17 +70,16 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Marijn Suijten <marijn.suijten@somainline.org>, 
  Vinod Koul <vkoul@kernel.org>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 1/7] drm/mipi-dsi: wrap more functions for streamline
- handling
-Message-ID: <3ooczfup63gjhuphlujaq26ggo4rasu6c5j2ki3avzxs5wgcqn@lx55p76myvpn>
+Subject: Re: [PATCH RFC 6/7] drm/panel: lg-sw43408: add missing error handling
+Message-ID: <hf7u3rxard7yg2z3fkmntemhnnmwnsgmhmfhpt74modswg7nj4@7kwyba55x6o7>
 References: <20240510-dsi-panels-upd-api-v1-0-317c78a0dcc8@linaro.org>
- <20240510-dsi-panels-upd-api-v1-1-317c78a0dcc8@linaro.org>
- <CAD=FV=UuJF5Nv6qLzH8SK8NPfHa6Qwp4XOwkLUYt2Rv8ACjfeQ@mail.gmail.com>
+ <20240510-dsi-panels-upd-api-v1-6-317c78a0dcc8@linaro.org>
+ <CAD=FV=Uu2=6c_3Q44BK384cgSLX=++_bBbg6=CCqBaXnqcEK=g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=UuJF5Nv6qLzH8SK8NPfHa6Qwp4XOwkLUYt2Rv8ACjfeQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=Uu2=6c_3Q44BK384cgSLX=++_bBbg6=CCqBaXnqcEK=g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,69 +95,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 10, 2024 at 02:45:45PM -0700, Doug Anderson wrote:
+On Fri, May 10, 2024 at 02:47:05PM -0700, Doug Anderson wrote:
 > Hi,
 > 
 > On Thu, May 9, 2024 at 3:37 PM Dmitry Baryshkov
 > <dmitry.baryshkov@linaro.org> wrote:
 > >
-> > +/**
-> > + * mipi_dsi_compression_mode_ext() - enable/disable DSC on the peripheral
-> > + * @ctx: Context for multiple DSI transactions
-> > + * @enable: Whether to enable or disable the DSC
-> > + * @algo: Selected compression algorithm
-> > + * @pps_selector: Select PPS from the table of pre-stored or uploaded PPS entries
-> > + *
-> > + * Like mipi_dsi_compression_mode_ext_multi() but deals with errors in a way that
-> > + * makes it convenient to make several calls in a row.
-> 
-> Your comment is backward. The name of the function is
-
-True, my bad.
-
-> mipi_dsi_compression_mode_ext_multi() not
-> mipi_dsi_compression_mode_ext(). ...and it's like
-> mipi_dsi_compression_mode_ext() not like
-> mipi_dsi_compression_mode_ext_multi().
-> 
-> 
-> > @@ -338,6 +345,18 @@ int mipi_dsi_dcs_set_display_brightness_large(struct mipi_dsi_device *dsi,
-> >  int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
-> >                                              u16 *brightness);
+> > Add missing error handling for the mipi_dsi_ functions that actually
+> > return error code instead of silently ignoring it.
 > >
-> > +void mipi_dsi_dcs_nop_multi(struct mipi_dsi_multi_context *ctx);
-> > +void mipi_dsi_dcs_enter_sleep_mode_multi(struct mipi_dsi_multi_context *ctx);
-> > +void mipi_dsi_dcs_exit_sleep_mode_multi(struct mipi_dsi_multi_context *ctx);
-> > +void mipi_dsi_dcs_set_display_off_multi(struct mipi_dsi_multi_context *ctx);
-> > +void mipi_dsi_dcs_set_display_on_multi(struct mipi_dsi_multi_context *ctx);
-> > +void mipi_dsi_dcs_set_tear_on_multi(struct mipi_dsi_multi_context *ctx,
-> > +                                   enum mipi_dsi_dcs_tear_mode mode);
-> > +
-> > +#define mipi_dsi_msleep(ctx, delay)    \
-> > +       if (!ctx.accum_err)             \
-> > +               msleep(delay)           \
+> > Fixes: 069a6c0e94f9 ("drm: panel: Add LG sw43408 panel driver")
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/panel/panel-lg-sw43408.c | 33 ++++++++++++++++++++++++++------
+> >  1 file changed, 27 insertions(+), 6 deletions(-)
 > 
-> Please enclose the above in a "do { ... } while (0)" as typical for
-> macros. Otherwise you could possibly get some very surprising
-> behavior:
+> Looks right to me. Only slight nit would be that I'd put this as the
+> first patch in the series to make it obvious to anyone backporting it
+> to older kernels that it doesn't have any dependencies on the earlier
+> patches in the series. It's fairly obvious so this isn't a huge deal,
+> but still could be nice.
 
-Ack.
+Yes. I wanted to emphasise the _multi stuff rather than this fix. I'll
+reorder patches for v2. Maybe I should also rebase the series on top of
+patches by Cong Yang. WDYT?
 
 > 
-> if (needs_big_delay)
->   mipi_dsi_msleep(ctx, 50)
-> else
->   mipi_dsi_msleep(ctx, 10)
-> 
-> ...with your macro as it is I think the "else" will match up against
-> the "if !(ctx.accum_err)" inside the macro and not against the "if
-> (needs_big_delay)"
-> 
-> Also: nit that the mipi_dsi_msleep() should probably be defined above
-> the "mipi_dsi_dcs" section.
-> 
-> 
-> -Doug
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
 -- 
 With best wishes
