@@ -2,44 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EBB78C223E
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 12:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D8C8C2248
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 12:37:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7895F10E49F;
-	Fri, 10 May 2024 10:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1472010E4A4;
+	Fri, 10 May 2024 10:37:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="H3MAYKRU";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pxKg9ilE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0169A10E49F
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 10:36:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1715337378; x=1715596578;
- bh=W6ldrZHyhNbaLwRUyHUt1fUzGd1gchc7ZpEta+RuCHM=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=H3MAYKRUXM6dhlKd+WmmJcHSKq890Wb0QY7esHVNi42UyKff8ZPyUyhUe+fc3lt3J
- xpZp2Cu8EaOWOXI1Ru5fk6JcAVb04NgEFO58GpkZljQyXF7VWGfYP16dHRzafs6i+j
- q71SUTilLCIinHbtQrBrZ8DCH8ThjtN0k/mT/yMhnjfcHFuH3RcRja27cbYYHpJaKc
- q4Wb6lslW//yaEtFjbBlq3CNeARt6PYb1l7F0bjSeWpudLRvV877nJNOEbsoZfRnC+
- hPAKx3MQM4MPEwbY2V+/wnkZB7DVZMPcMByeooACEXdx6qwpE8lpdppj6WQnB0jrXS
- 25ViuoGxmeE3Q==
-Date: Fri, 10 May 2024 10:36:16 +0000
-To: Jani Nikula <jani.nikula@intel.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] drm: use "0" instead of "" for deprecated driver date
-Message-ID: <ia3bVucInjRPA5zIVPlcqrKq7dvZvbRQpiz4TbXNtY6R_J2JWjbq3pvY1VEWUQi-lFvIczft6nftX4GNFz1GtZba1ys3HHSAgPb8mG8UfAE=@emersion.fr>
-In-Reply-To: <20240510090951.3398882-1-jani.nikula@intel.com>
-References: <20240510090951.3398882-1-jani.nikula@intel.com>
-Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 8f057f7f065eeb364c61c645663933a4505ead3b
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECDE510E4A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 10:37:23 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 92529E0008;
+ Fri, 10 May 2024 10:37:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1715337441;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vDoiNwoii/qxjT77o/j0b4b+dq8b/9g1u0a5i+nOs94=;
+ b=pxKg9ilEFyj+MjnvdsxaawKTc/71y4mfiays6/uP89nhdZCPgTSzPxKqOU1qD1YJCmwLXI
+ 1cx3CaLdieq2d5Ft73Ox5XAnV0V7cf8ae6rYtj5X205BwbVfmMK2dBbzt/fZcpAYPuY1C+
+ JX1z0CaLoazA169azpGi0OTg5bSfchq/qOAegPiAQDey1UmRYtrej1NRSqeSjf5HtZXuuM
+ 3ClcLEgb6nEAhp/pQbdB1e1KX00m+W8NxsWJ0zTm52RwIh/xBNKvsLGtYQRlhA+fgycaUV
+ zeLMVppJY9VI5G01FGM4SeoXBgc62FQv5V8Ift1NrTevKctAYVJpjCmPutKKCg==
+Date: Fri, 10 May 2024 12:37:17 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Dragan Cvetic
+ <dragan.cvetic@amd.com>, Maxime Ripard <mripard@kernel.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>, Robert Foss <rfoss@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9?= Codina <herve.codina@bootlin.com>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Derek Kiernan
+ <derek.kiernan@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Saravana Kannan <saravanak@google.com>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Paul Kocialkowski
+ <contact@paulk.fr>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>, Jonas
+ Karlman <jonas@kwiboo.se>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: connector: add GE SUNH hotplug
+ addon connector
+Message-ID: <20240510123717.437ffe6e@booty>
+In-Reply-To: <171533049583.3304069.11759668175103213313.robh@kernel.org>
+References: <20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com>
+ <20240510-hotplug-drm-bridge-v2-1-ec32f2c66d56@bootlin.com>
+ <171533049583.3304069.11759668175103213313.robh@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,6 +76,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sounds good to me.
+Hello Rob,
 
-Reviewed-by: Simon Ser <contact@emersion.fr>
+On Fri, 10 May 2024 03:41:35 -0500
+"Rob Herring (Arm)" <robh@kernel.org> wrote:
+
+> On Fri, 10 May 2024 09:10:37 +0200, Luca Ceresoli wrote:
+> > Add bindings for the GE SUNH add-on connector. This is a physical,
+> > hot-pluggable connector that allows to attach and detach at runtime an
+> > add-on adding peripherals on non-discoverable busses.
+> > 
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > 
+> > ---
+> > 
+> > NOTE: the second and third examples fail 'make dt_binding_check' because
+> >       they are example of DT overlay code -- I'm not aware of a way to
+> >       validate overlay examples as of now
+
+As mentioned here...
+
+> > 
+> > This patch is new in v2.
+> > ---
+> >  .../connector/ge,sunh-addon-connector.yaml         | 197 +++++++++++++++++++++
+> >  MAINTAINERS                                        |   5 +
+> >  2 files changed, 202 insertions(+)
+> >   
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> Error: Documentation/devicetree/bindings/connector/ge,sunh-addon-connector.example.dts:49.9-14 syntax error
+> FATAL ERROR: Unable to parse input tree
+
+...this is expected.
+
+Any hints on how this can be managed in bindings examples would be very
+useful.
+
+Best regards,
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
