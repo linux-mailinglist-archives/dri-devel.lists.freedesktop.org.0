@@ -2,72 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E6B8C27C3
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710BD8C27E2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:33:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 310D510E52E;
-	Fri, 10 May 2024 15:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B711410E99E;
+	Fri, 10 May 2024 15:32:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V0oBaUaS";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FY24Fgx4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF43A10E52E
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:29:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715354943; x=1746890943;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=glm6K5/Xk0wjpLSBdU0Yd+zs1pppGMGVEKiFN3HdM7c=;
- b=V0oBaUaSq3vQI6HDPV+CA0n861nzJC4MGRiWQsUiRx0NcHb9icvRPJgs
- apUVxpX+B8GJs6qBcDPizB740Qm3uu1jrZFMtop2fHJhQuBL42Wv0ZYn5
- RfXarzGduYNhrQq01bHBMLvEiWQQ/2Cpug1PgWkHfy7jLZexlYAyK6Ndx
- Sy5wE5yjJs97zHnYlYupx8X4wMGiHwIHO7wb6aL0STvRPhmptcqzFn17+
- v185yoCnHeNJewDeuMmIV8VEDS/kFQvhR+1osCfJtxN8pZElIkw0dsjSl
- zWkN8Xwq/erC1AG1rtJO4fqD7W4Xw9SbYQBKBlDa4uBYk7DuhHddWIUS5 w==;
-X-CSE-ConnectionGUID: aX3358RXS/CvDHqcOPxRMg==
-X-CSE-MsgGUID: KdhmdWpSRpayykdnYvHweg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="28825466"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="28825466"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 08:29:03 -0700
-X-CSE-ConnectionGUID: ww4RHDtNREOiGbN3Z/4+6Q==
-X-CSE-MsgGUID: YuXYbDQITCqLG7bhB9KUqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="29757874"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 08:28:56 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1s5SB2-0000000695W-188w; Fri, 10 May 2024 18:28:52 +0300
-Date: Fri, 10 May 2024 18:28:51 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
- sebastian.fricke@collabora.com, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, adobriyan@gmail.com,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
- praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
- j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
- p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
- nicolas@ndufresne.ca
-Subject: Re: [PATCH v7 6/8] math.h Add macros to round to closest specified
- power of 2
-Message-ID: <Zj49M4ZwSChNRuXs@smile.fi.intel.com>
-References: <20240509183952.4064331-1-devarsht@ti.com>
- <Zj42vTpyH71TWeTk@smile.fi.intel.com> <87fruphf55.fsf@intel.com>
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2899F10E99E
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:32:55 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3152820009;
+ Fri, 10 May 2024 15:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1715355173;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NvpIh3MztCy78ewXd3YEalmoL2kGSw4XpNzZDNRi4V0=;
+ b=FY24Fgx49n4qxpJMFZ2zNBe4gD+NlYtYM+K2PWhBQIMz4VY3rBsbjivq51AzhfKaaPzBhL
+ Ny1rTrjzvpHiG/Qjeotb652MOoT2be5dc0tgEilX2ZBMygBFeCLBbNT5qjU4kDyhPpaNp7
+ UM0UxV2I0xVHNWGbkT32xL7p3F7RIm+T+RC/vfNHqeix/MI11t4mGJbSYFYhWWxcXm8BD2
+ q1xiL13YX42hg89tlNgFd3UYeZTHkZfOLp98HmkA7SLK9Rxt5wiBnmwklHF36EK+xFY1yg
+ ufym7uB3GJoauepOfcs0ghanlGM5elnTMzy/snz/qeOMAGthHqiM8kSMmmYolA==
+Date: Fri, 10 May 2024 17:32:48 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Arnd Bergmann" <arnd@arndb.de>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>
+Cc: "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "laurent.pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie"
+ <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "derek.kiernan@amd.com" <derek.kiernan@amd.com>, "dragan.cvetic@amd.com"
+ <dragan.cvetic@amd.com>, "Saravana Kannan" <saravanak@google.com>, "Paul
+ Kocialkowski" <contact@paulk.fr>, "Herve Codina"
+ <herve.codina@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, "Paul
+ Kocialkowski" <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v2 5/5] misc: add ge-addon-connector driver
+Message-ID: <20240510173248.70fa3b60@booty>
+In-Reply-To: <a4c55013-048f-4056-9866-f0505507d501@app.fastmail.com>
+References: <20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com>
+ <20240510-hotplug-drm-bridge-v2-5-ec32f2c66d56@bootlin.com>
+ <2024051039-decree-shrimp-45c6@gregkh>
+ <a1970921-f00b-411d-832d-5289f9812ba0@app.fastmail.com>
+ <20240510125423.25d4b3ed@booty>
+ <a4c55013-048f-4056-9866-f0505507d501@app.fastmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fruphf55.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,44 +80,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 10, 2024 at 06:15:34PM +0300, Jani Nikula wrote:
-> On Fri, 10 May 2024, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > On Fri, May 10, 2024 at 12:09:52AM +0530, Devarsh Thakkar wrote:
-> >> Add macros to round to nearest specified power of 2.
+Hi Greg, Arnd,
+
+On Fri, 10 May 2024 12:57:24 +0200
+"Arnd Bergmann" <arnd@arndb.de> wrote:
+
+> On Fri, May 10, 2024, at 12:54, Luca Ceresoli wrote:
+> > On Fri, 10 May 2024 12:24:06 +0200 "Arnd Bergmann" <arnd@arndb.de> wrote:  
+> >> On Fri, May 10, 2024, at 09:55, Greg Kroah-Hartman wrote:  
+> >> > On Fri, May 10, 2024 at 09:10:41AM +0200, Luca Ceresoli wrote:    
+> >> >>  
+> >> >> +config GE_SUNH_CONNECTOR
+> >> >> +	tristate "GE SUNH hotplug add-on connector"
+> >> >> +	depends on OF
+> >> >> +	select OF_OVERLAY
+> >> >> +	select FW_LOADER
+> >> >> +	select NVMEM
+> >> >> +	select DRM_HOTPLUG_BRIDGE    
+> >> >
+> >> > Can these be depends instead of select?  'select' causes dependencies
+> >> > that are hard, if not almost impossible, to detect at times why
+> >> > something is being enabled.    
+> >> 
+> >> I think FW_LOADER needs to be 'select' since it is normally
+> >> a hidden symbol and gets selected by its users, all the other
+> >> ones should be 'depends on'.  
 > >
-> > This is not what they are doing. For the above we already have macros defined.
+> > I see, makes sense.
 > >
-> >> Two macros are added :
-> >
-> > (Yes, after I wrapped to comment this line looks better on its own,
-> >  so whatever will be the first sentence, this line should be separated
-> >  from.)
-> >
-> >> round_closest_up and round_closest_down which round up to nearest multiple
-> >
-> > round_closest_up() and round_closest_down()
-> >
-> >
-> >> of 2 with a preference to round up or round down respectively if there are
-> >> two possible nearest values to the given number.
-> >
-> > You should reformulate, because AFAICS there is the crucial difference
-> > from these and existing round_*_pow_of_two().
+> > And as you pointed that out, I realize perhaps DRM_HOTPLUG_BRIDGE could
+> > become a hidden symbol as it's not expected to be used alone.  
 > 
-> Moreover, I think the naming of round_up() and round_down() should have
-> reflected the fact that they operate on powers of 2. It's unfortunate
-> that the difference to roundup() and rounddown() is just the underscore!
-> That's just a trap.
+> It's slightly easier to keep it as a visible symbol
+> with 'depends on' though, since otherwise you have to
+> add 'depends on' statments for anything that DRM_HOTPLUG_BRIDGE
+> in turn depends on, most notably DRM itself.
 
-FYI:
-https://stackoverflow.com/questions/58139219/difference-of-align-and-round-up-macro-in-the-linux-kernel
+I see, sure. Thanks both, changes applied locally.
 
-> So let's perhaps not repeat the same with round_closest_up() and
-> round_closest_down()?
-
+Luca
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
