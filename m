@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFC68C1DE2
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 08:05:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFDB48C1EA5
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 09:07:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF0B10E0B8;
-	Fri, 10 May 2024 06:05:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E45E110E55A;
+	Fri, 10 May 2024 07:07:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Ou32VF6Q";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="pS73xYb6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48EC310E0B8
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 06:05:21 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-1ec41d82b8bso15090975ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 23:05:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1715321120; x=1715925920;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3l9Zhk1CinuAg1XYDxK911+bsjq1ZwhNZoOZALb8UiE=;
- b=Ou32VF6QMGoLrRUGT9zK5ckj7uZ6xJdF8HWpXztZrAMokGXTK21aZap7fYeM4X2YHh
- yQHVBoEsDo7s2E0Bm+ED9Y+ttRoBwIUE//EM/6gIKBtjOWQiy0QQ4UG+8TfybmCW2c/C
- verUVJcnumn/G1w98P3w1GvTvQnZedvzzVRBBCeSIl3c0Lzzsc7o/e3vtv9XkBl/ecym
- Sx71GevzsW6Dm8sSRpnH/cbARYlNiUhez2/FTSkTnFrv3pTicWBkS1jhqhCJ+ozOdOon
- 5srCzAaDWU7maXpnJSc1b376a8XpV1PCWhITUEm1dhMDZuMvMfncM2rVb2lU93RE4Vmk
- DiIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715321120; x=1715925920;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3l9Zhk1CinuAg1XYDxK911+bsjq1ZwhNZoOZALb8UiE=;
- b=xSwjXYt9qD9ssRRBtpguLr9yvnDUjJLuGORM237uTyaAQHQdnw6XpxM0E3HHTB/0T/
- r0mvR/f9r+DB72x1s97ICH7TxAhcceTahp1/OoAZ8o7Kl8GjymiFUDqbiWTdSOOIvMo1
- X+itHz9tjcHTxgbClK9ziYxNKj8nehabw3ToBTg2EO8c3wZCK40kClE64S7ZfWCMVQnC
- IbnkKlVp4AfLwa13jxAos2HKmXsf8MFcB/jVUkN9UMm8DPRyLgceLxnJ59+90XGrH6oG
- 8gttHFumHLfYhNnG8lDCZaZlxH0pzMB9uAIMjk2eO3C1z0KIj+E+H+QPvCCDQlSQuYUI
- 3WJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPR/OxCggQ+q/1xh6W3QO4zkQIPSB3BF1+L+/hJitScnpNgQ1YVATEwM2oqQkZtE0O7BkratEE1fScB80792KWnGL0BKIXE/lRzme1qVXY
-X-Gm-Message-State: AOJu0YwO46LnmPhtKr+gAYKJVACa9tdb3H8xeCb2DJhWKJ4bzgfOwm79
- bHouwu9wUlMvvgw2sRKUzTnitZ6hyexgJCDBWa0tCBiPAwWKLfHyfsfrFeKNTarwGV4JVK9aBWA
- YKhk07CFkmmrnUCOIWJuwFSmX1L8G/WH00jdSsw==
-X-Google-Smtp-Source: AGHT+IHHD/CHw//DnmrclZoHVWyraKaM7aOGtysmOL6I5Ech4AujZ822XKMc9TvmkKxt5ikp+pwjEo1hUxbShHn5m4c=
-X-Received: by 2002:a17:90a:df85:b0:2b1:e314:a5e6 with SMTP id
- 98e67ed59e1d1-2b6cc144d48mr1628397a91.7.1715321120379; Thu, 09 May 2024
- 23:05:20 -0700 (PDT)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4184C10E317
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 06:17:28 +0000 (UTC)
+X-UUID: f6f19e1c0e9411efb92737409a0e9459-20240510
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=puTXK9xgqDgUnsxXNMU30peMYkT6Y/1bWHM3NEeCpa8=; 
+ b=pS73xYb6hWbILobQQNhJ5Oidfng9mKHqYvKZy62QXbwbQD8XfjWJD6uSckuyAPdaCZS0ONCIWg/INO1QKy7Z35Cn7lcD4/CgpRblLQfDlgLSVsquBm6cZZPSFXup0KMOvxMnHODe7zfwqDwy6Umrq0Qj3sIlok7jgyPMTAGpo3g=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38, REQID:2dc44579-df8a-481f-9aaf-650356b23347, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:-30,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-30
+X-CID-META: VersionHash:82c5f88, CLOUDID:7a13af83-4f93-4875-95e7-8c66ea833d57,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:2,IP:nil,UR
+ L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+ PR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: f6f19e1c0e9411efb92737409a0e9459-20240510
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1872033711; Fri, 10 May 2024 14:17:23 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 10 May 2024 14:17:19 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 10 May 2024 14:17:18 +0800
+From: Liankun Yang <liankun.yang@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
+ <mac.shen@mediatek.com>, <liankun.yang@mediatek.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v1 1/1] Fix get efuse issue for MT8188 DPTX
+Date: Fri, 10 May 2024 14:16:57 +0800
+Message-ID: <20240510061716.31103-1-liankun.yang@mediatek.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240509015207.3271370-1-yangcong5@huaqin.corp-partner.google.com>
- <20240509015207.3271370-8-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=Vd34kBy4meaqqYECQKaT1=XcCFdq3qaU5n=YBWVAVi-Q@mail.gmail.com>
-In-Reply-To: <CAD=FV=Vd34kBy4meaqqYECQKaT1=XcCFdq3qaU5n=YBWVAVi-Q@mail.gmail.com>
-From: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date: Fri, 10 May 2024 14:05:09 +0800
-Message-ID: <CAHwB_N+4_cJ3NuEm+AxqhxYosLvJ+WA6SG9HhTckCxNEBkvwSw@mail.gmail.com>
-Subject: Re: [PATCH v5 7/7] drm/panel: himax-hx83102: Support for IVO t109nw41
- MIPI-DSI panel
-To: Doug Anderson <dianders@chromium.org>
-Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
- linus.walleij@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
- robh+dt@kernel.org, conor+dt@kernel.org, airlied@gmail.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--3.274600-8.000000
+X-TMASE-MatchedRID: HyBr+9HIEazPvAv72Y9dJYzb2GR6Ttd3nhD9A3Sa7pZcU0dNErOD+vlY
+ oV6p/cSxhVmF9kz2wxKE+/1bNiTZfFqxshHHoiYzbT3mGmWPpNdaNaxZBRbNWmlUUOdVs6yao8W
+ MkQWv6iXBcIE78YqRWvcUt5lc1lLgKIzdZS3ou0WbFewbmqprKsJKuC5FVjYYlFxPBKXM9hY3vL
+ qlRqyqyx2YKru/07rb6P6EiJbjbgHVW6hawn5RRbnypOu9sm/kLl13mrjijIwc/j4aI5S1Lnr9G
+ D0zfOvEAaqvv/mhgrFLtG3H3wC1xA==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--3.274600-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 6A4A9F5F72FA535015BBD4F07CE0894FCBC069D93143B8DE1EEA6D1714DD3D332000:8
+X-MTK: N
+X-Mailman-Approved-At: Fri, 10 May 2024 07:07:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,208 +89,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Fix get efuse issue for MT8188 DPTX.
 
-Doug Anderson <dianders@chromium.org> =E4=BA=8E2024=E5=B9=B45=E6=9C=8810=E6=
-=97=A5=E5=91=A8=E4=BA=94 00:49=E5=86=99=E9=81=93=EF=BC=9A
->
-> Hi,
->
-> On Wed, May 8, 2024 at 6:53=E2=80=AFPM Cong Yang
-> <yangcong5@huaqin.corp-partner.google.com> wrote:
-> >
-> > +static int ivo_t109nw41_init(struct hx83102 *ctx)
-> > +{
-> > +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D ctx->dsi }=
-;
-> > +
-> > +       msleep(60);
-> > +
-> > +       hx83102_enable_extended_cmds(&dsi_ctx, true);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x2c, =
-0xed, 0xed, 0x0f, 0xcf, 0x42,
-> > +                                    0xf5, 0x39, 0x36, 0x36, 0x36, 0x36=
-, 0x32, 0x8b, 0x11, 0x65, 0x00, 0x88,
-> > +                                    0xfa, 0xff, 0xff, 0x8f, 0xff, 0x08=
-, 0xd6, 0x33);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETDISP, 0x00, 0=
-x47, 0xb0, 0x80, 0x00, 0x12,
-> > +                                    0x71, 0x3c, 0xa3, 0x22, 0x20, 0x00=
-, 0x00, 0x88, 0x01);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x35, 0x=
-35, 0x43, 0x43, 0x35, 0x35,
-> > +                                    0x30, 0x7a, 0x30, 0x7a, 0x01, 0x9d=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcd)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x84);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETVDC, 0x1b, 0x=
-04);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_BE, 0x20=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xfc, 0=
-xc4);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSTBA, 0x34, 0=
-x34, 0x22, 0x11, 0x22, 0xa0,
-> > +                                    0x31, 0x08, 0xf5, 0x03);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcc)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTCON, 0x80);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xd3)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTCON, 0x22);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETRAMDMY, 0x97)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPWM, 0x00, 0x=
-1e, 0x13, 0x88, 0x01);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x08, =
-0x13, 0x07, 0x00, 0x0f, 0x34);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPANEL, 0x02, =
-0x03, 0x44);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCASCADE, 0x03=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPCTRL, 0x07, =
-0x06, 0x00, 0x02, 0x04, 0x2c,
-> > +                                    0xff);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x06, 0=
-x00, 0x00, 0x00, 0x00, 0x08,
-> > +                                    0x08, 0x08, 0x08, 0x37, 0x07, 0x64=
-, 0x7c, 0x11, 0x11, 0x03, 0x03, 0x32,
-> > +                                    0x10, 0x0e, 0x00, 0x0e, 0x32, 0x17=
-, 0x97, 0x07, 0x97, 0x32, 0x00, 0x02,
-> > +                                    0x00, 0x02, 0x00, 0x00);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP1, 0x25, 0=
-x24, 0x25, 0x24, 0x18, 0x18,
-> > +                                    0x18, 0x18, 0x07, 0x06, 0x07, 0x06=
-, 0x05, 0x04, 0x05, 0x04, 0x03, 0x02,
-> > +                                    0x03, 0x02, 0x01, 0x00, 0x01, 0x00=
-, 0x1e, 0x1e, 0x1e, 0x1e, 0x1f, 0x1f,
-> > +                                    0x1f, 0x1f, 0x21, 0x20, 0x21, 0x20=
-, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-> > +                                    0x18, 0x18);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xaa, 0=
-xaa, 0xaa, 0xaa, 0xaa, 0xa0,
-> > +                                    0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> > +                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> > +                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGMA, 0x04, 0x=
-04, 0x06, 0x0a, 0x0a, 0x05,
-> > +                                    0x12, 0x14, 0x17, 0x13, 0x2c, 0x33=
-, 0x39, 0x4b, 0x4c, 0x56, 0x61, 0x78,
-> > +                                    0x7a, 0x41, 0x50, 0x68, 0x73, 0x04=
-, 0x04, 0x06, 0x0a, 0x0a, 0x05, 0x12,
-> > +                                    0x14, 0x17, 0x13, 0x2c, 0x33, 0x39=
-, 0x4b, 0x4c, 0x56, 0x61, 0x78, 0x7a,
-> > +                                    0x41, 0x50, 0x68, 0x73);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x07, 0x=
-10, 0x10, 0x1a, 0x26, 0x9e,
-> > +                                    0x00, 0x4f, 0xa0, 0x14, 0x14, 0x00=
-, 0x00, 0x00, 0x00, 0x12, 0x0a, 0x02,
-> > +                                    0x02, 0x00, 0x33, 0x02, 0x04, 0x18=
-, 0x01);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x01, =
-0x7f, 0x11, 0xfd);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x86);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x00, 0=
-x00, 0x04, 0x00, 0x00);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0x00, 0=
-x00, 0x00, 0x00, 0x00, 0x00,
-> > +                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
-, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0,
-> > +                                    0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> > +                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x02, 0x=
-00, 0x2b, 0x01, 0x7e, 0x0f,
-> > +                                    0x7e, 0x10, 0xa0, 0x00, 0x00, 0x77=
-, 0x00, 0x00, 0x00);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xf2);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x03, =
-0x07, 0x00, 0x10, 0x79);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xff, 0=
-xff, 0xff, 0xff, 0xfa, 0xa0,
-> > +                                    0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0xfe, 0x=
-01, 0xfe, 0x01, 0xfe, 0x01,
-> > +                                    0x00, 0x00, 0x00, 0x23, 0x00, 0x23=
-, 0x81, 0x02, 0x40, 0x00, 0x20, 0x6e,
-> > +                                    0x02, 0x01, 0x00, 0x00, 0x00, 0x00=
-, 0x00, 0x00, 0x00, 0x00);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x03);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xaa,=
- 0xaa, 0xaa, 0xaa, 0xaa, 0xa0,
-> > +                                    0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0=
-, 0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0,
-> > +                                    0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0=
-, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0,
-> > +                                    0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> > +                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x03, 0x=
-ff, 0xf8);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_E1, 0x00=
-);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_D2, 0xff=
-, 0xff, 0xff, 0xff, 0xff, 0xff);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x96);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc5)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x4f);
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
-;
-> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
-> > +       if (dsi_ctx.accum_err)
-> > +               return dsi_ctx.accum_err;
->
-> Since this is a new panel you're adding support for and there's no
-> excuse that we don't want to change the old command sequence, it seems
-> like you should add the call to:
->
-> hx83102_enable_extended_cmds(&dsi_ctx, false);
->
-> If for some reason that would be a bad idea, let me know.
+Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dp.c | 85 ++++++++++++++++++++++++++++++-
+ 1 file changed, 84 insertions(+), 1 deletion(-)
 
-Confirm with the vendor again , disable extended cmds is prevent the ESD
-mechanism write (currently there is no ESD check mechanism) ic register.
-So it may not have any impact whether add disable extended cmds or not.
-Of course for me, I prefer to upload according to the initial code
-provided by  vendor.
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index 2136a596efa1..32b36b63a4e1 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -145,6 +145,89 @@ struct mtk_dp_data {
+ 	u16 audio_m_div2_bit;
+ };
+ 
++static const struct mtk_dp_efuse_fmt mt8188_dp_efuse_fmt[MTK_DP_CAL_MAX] = {
++	[MTK_DP_CAL_GLB_BIAS_TRIM] = {
++		.idx = 0,
++		.shift = 10,
++		.mask = 0x1f,
++		.min_val = 1,
++		.max_val = 0x1e,
++		.default_val = 0xf,
++	},
++	[MTK_DP_CAL_CLKTX_IMPSE] = {
++		.idx = 0,
++		.shift = 15,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_0] = {
++		.idx = 1,
++		.shift = 0,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_1] = {
++		.idx = 1,
++		.shift = 8,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_2] = {
++		.idx = 1,
++		.shift = 16,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_PMOS_3] = {
++		.idx = 1,
++		.shift = 24,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_0] = {
++		.idx = 1,
++		.shift = 4,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_1] = {
++		.idx = 1,
++		.shift = 12,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_2] = {
++		.idx = 1,
++		.shift = 20,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++	[MTK_DP_CAL_LN_TX_IMPSEL_NMOS_3] = {
++		.idx = 1,
++		.shift = 28,
++		.mask = 0xf,
++		.min_val = 1,
++		.max_val = 0xe,
++		.default_val = 0x8,
++	},
++};
++
+ static const struct mtk_dp_efuse_fmt mt8195_edp_efuse_fmt[MTK_DP_CAL_MAX] = {
+ 	[MTK_DP_CAL_GLB_BIAS_TRIM] = {
+ 		.idx = 3,
+@@ -2758,7 +2841,7 @@ static SIMPLE_DEV_PM_OPS(mtk_dp_pm_ops, mtk_dp_suspend, mtk_dp_resume);
+ static const struct mtk_dp_data mt8188_dp_data = {
+ 	.bridge_type = DRM_MODE_CONNECTOR_DisplayPort,
+ 	.smc_cmd = MTK_DP_SIP_ATF_VIDEO_UNMUTE,
+-	.efuse_fmt = mt8195_dp_efuse_fmt,
++	.efuse_fmt = mt8188_dp_efuse_fmt,
+ 	.audio_supported = true,
+ 	.audio_pkt_in_hblank_area = true,
+ 	.audio_m_div2_bit = MT8188_AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2,
+-- 
+2.18.0
 
-If you prefer add it I also can fix in V6.
-
-Thanks.
-
->
-> -Doug
