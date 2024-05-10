@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FD68C25A7
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 15:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D282B8C25A8
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 15:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C5F510EA0B;
-	Fri, 10 May 2024 13:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0586B10EA1D;
+	Fri, 10 May 2024 13:26:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bVBhwD5A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g34kFjzw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 546BF10EA0B
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 13:26:39 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDF9210EA1D
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 13:26:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715347599; x=1746883599;
+ t=1715347605; x=1746883605;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=b4rFXO4I5gNMTvpzxi2svMqDHQ3KZ32z6a0swYTaFRk=;
- b=bVBhwD5APwTgTYUo1X/VykKSb5WIAoRXm0gCB77dQb4dGrjAAv0lKSAl
- BOScia6EnmjHjLdoAfCX4gld01qXzWXDyCjVcpGqp2l/5YQ9fputW3Pht
- DQO/BPRfDX+BkDPOb+ChA3ZiphWhwtfPaimkYUNjVyFiEKOrq/91cv8ed
- Cw4/4v0ad8w34vHOccubQv0Df37waWH/Pb+BE+PrlPM/QLmwvCQSO0Y9o
- Cz5rc51KUV6INc8/1jZtW6wT1o59CqD9jk0R3bdG44/xpKLHdBAey0yTv
- 0XiIJGJd1Cu67VvHTJvKcvjXDg8dsRE2E4KgD4goGSnwwJdWuWhdIy20Z w==;
-X-CSE-ConnectionGUID: Oaq5cAm4RlezYmrNlkbHaw==
-X-CSE-MsgGUID: wqOHiGcBTQK6FxxULFmDWg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11489583"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11489583"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 06:26:39 -0700
-X-CSE-ConnectionGUID: qvcomucnSz6VM7i3736bTA==
-X-CSE-MsgGUID: KBsTt6RlRee3s6Ig45n38A==
+ bh=qbGksS+c77n27GaUMP1vp6e/Bg5X8SWyvezjtiDsHHg=;
+ b=g34kFjzweFKDM9GMx5Kr9HfvOp9p3HjFyxgvfD03ntVfakgPmAjyvPrY
+ OlIcQXknH/SuxX9uPyOfO5UcgIu5AEw8v6/7wqNpbI5JCGrKxHWngwnV9
+ SBELge+7LCYmKzlp5DttaudwUwuLqbfFv5We0tqomom1tcWuxNQL8b8I3
+ TWMUwai7CKyHW0qYOJ0N1Bp8e3CMC4fnvztTsbTNyVGHgrjU8HN91FpkZ
+ oNVCakl13VsHWkHUICMt7yY7E926UhWrQwdmV+cuvybZ7jUjkgfdRc5TW
+ dChfUfdoYvLkMLohUm1tA14709lV4dsOSWERJgImdXQ1ypfURv5fZq//D Q==;
+X-CSE-ConnectionGUID: 4qszeNo3SxS+TBFg0/DCpw==
+X-CSE-MsgGUID: F8MwV4glRnibBMr7NydjNg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11489977"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11489977"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 06:26:44 -0700
+X-CSE-ConnectionGUID: ewdiqt6QT9yM8csIhcPWzQ==
+X-CSE-MsgGUID: yPxnscI1SpCkr7huABmVjQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="67089414"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="30168809"
 Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.180])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 06:26:37 -0700
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 06:26:43 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: jani.nikula@intel.com,
-	Russell King <linux@armlinux.org.uk>
-Subject: [RESEND 4/6] drm/i2c: tda998x: switch to struct drm_edid
-Date: Fri, 10 May 2024 16:26:07 +0300
-Message-Id: <485a33bc4eba9daae109d3f4795bc695e026ba0c.1715347488.git.jani.nikula@intel.com>
+Cc: jani.nikula@intel.com, Gerd Hoffmann <kraxel@redhat.com>,
+ virtualization@lists.linux.dev
+Subject: [RESEND 5/6] drm/bochs: switch to struct drm_edid
+Date: Fri, 10 May 2024 16:26:08 +0300
+Message-Id: <24536f4a1a12af7b43ba86e9761dfeef179b72df.1715347488.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1715347488.git.jani.nikula@intel.com>
 References: <cover.1715347488.git.jani.nikula@intel.com>
@@ -76,59 +76,77 @@ Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 ---
 
-Cc: Russell King <linux@armlinux.org.uk>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: virtualization@lists.linux.dev
 ---
- drivers/gpu/drm/i2c/tda998x_drv.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/tiny/bochs.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index d8d7de18dd65..2160f05bbd16 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -1283,7 +1283,7 @@ static int read_edid_block(void *data, u8 *buf, unsigned int blk, size_t length)
- static int tda998x_connector_get_modes(struct drm_connector *connector)
- {
- 	struct tda998x_priv *priv = conn_to_tda998x_priv(connector);
+diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+index 2d7ad808cc0e..d12d6e0bf3df 100644
+--- a/drivers/gpu/drm/tiny/bochs.c
++++ b/drivers/gpu/drm/tiny/bochs.c
+@@ -85,7 +85,7 @@ struct bochs_device {
+ 	u16 yres_virtual;
+ 	u32 stride;
+ 	u32 bpp;
 -	struct edid *edid;
 +	const struct drm_edid *drm_edid;
- 	int n;
  
- 	/*
-@@ -1297,25 +1297,26 @@ static int tda998x_connector_get_modes(struct drm_connector *connector)
- 	if (priv->rev == TDA19988)
- 		reg_clear(priv, REG_TX4, TX4_PD_RAM);
+ 	/* drm */
+ 	struct drm_device *dev;
+@@ -199,10 +199,10 @@ static int bochs_hw_load_edid(struct bochs_device *bochs)
+ 	if (drm_edid_header_is_valid(header) != 8)
+ 		return -1;
  
--	edid = drm_do_get_edid(connector, read_edid_block, priv);
-+	drm_edid = drm_edid_read_custom(connector, read_edid_block, priv);
+-	kfree(bochs->edid);
+-	bochs->edid = drm_do_get_edid(&bochs->connector,
+-				      bochs_get_edid_block, bochs);
+-	if (bochs->edid == NULL)
++	drm_edid_free(bochs->drm_edid);
++	bochs->drm_edid = drm_edid_read_custom(&bochs->connector,
++					       bochs_get_edid_block, bochs);
++	if (bochs->drm_edid == NULL)
+ 		return -1;
  
- 	if (priv->rev == TDA19988)
- 		reg_set(priv, REG_TX4, TX4_PD_RAM);
- 
--	if (!edid) {
-+	drm_edid_connector_update(connector, drm_edid);
-+	cec_notifier_set_phys_addr(priv->cec_notify,
-+				   connector->display_info.source_physical_address);
-+
-+	if (!drm_edid) {
- 		dev_warn(&priv->hdmi->dev, "failed to read EDID\n");
- 		return 0;
- 	}
- 
--	drm_connector_update_edid_property(connector, edid);
--	cec_notifier_set_phys_addr_from_edid(priv->cec_notify, edid);
--
- 	mutex_lock(&priv->audio_mutex);
--	n = drm_add_edid_modes(connector, edid);
--	priv->sink_has_audio = drm_detect_monitor_audio(edid);
-+	n = drm_edid_connector_add_modes(connector);
-+	priv->sink_has_audio = connector->display_info.has_audio;
- 	mutex_unlock(&priv->audio_mutex);
- 
--	kfree(edid);
-+	drm_edid_free(drm_edid);
- 
- 	return n;
+ 	return 0;
+@@ -303,7 +303,7 @@ static void bochs_hw_fini(struct drm_device *dev)
+ 	if (bochs->fb_map)
+ 		iounmap(bochs->fb_map);
+ 	pci_release_regions(to_pci_dev(dev->dev));
+-	kfree(bochs->edid);
++	drm_edid_free(bochs->drm_edid);
  }
+ 
+ static void bochs_hw_blank(struct bochs_device *bochs, bool blank)
+@@ -471,12 +471,9 @@ static const struct drm_simple_display_pipe_funcs bochs_pipe_funcs = {
+ 
+ static int bochs_connector_get_modes(struct drm_connector *connector)
+ {
+-	struct bochs_device *bochs =
+-		container_of(connector, struct bochs_device, connector);
+-	int count = 0;
++	int count;
+ 
+-	if (bochs->edid)
+-		count = drm_add_edid_modes(connector, bochs->edid);
++	count = drm_edid_connector_add_modes(connector);
+ 
+ 	if (!count) {
+ 		count = drm_add_modes_noedid(connector, 8192, 8192);
+@@ -507,10 +504,10 @@ static void bochs_connector_init(struct drm_device *dev)
+ 	drm_connector_helper_add(connector, &bochs_connector_connector_helper_funcs);
+ 
+ 	bochs_hw_load_edid(bochs);
+-	if (bochs->edid) {
++	if (bochs->drm_edid) {
+ 		DRM_INFO("Found EDID data blob.\n");
+ 		drm_connector_attach_edid_property(connector);
+-		drm_connector_update_edid_property(connector, bochs->edid);
++		drm_edid_connector_update(&bochs->connector, bochs->drm_edid);
+ 	}
+ }
+ 
 -- 
 2.39.2
 
