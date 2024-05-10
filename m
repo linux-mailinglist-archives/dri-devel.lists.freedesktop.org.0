@@ -2,60 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F548C29A2
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 19:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582188C29AB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 20:02:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3045910E060;
-	Fri, 10 May 2024 17:59:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5668C10E0A9;
+	Fri, 10 May 2024 18:02:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LV9ScJWU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZivbLkVz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2894210E060
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 17:59:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715363962; x=1746899962;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=zxvakhd8r61CwFADJbv6yraK/E7zSDvNgrdZKueZ+ZI=;
- b=LV9ScJWUUS82hZ2bAqw6MNVslmoC1EwJ4GyQD2YXKDm9nRbvhUTDkwQj
- KCUVfKutgUaS57UAyYxIqR/MhnYU2F9K9K/xPngGT5Qr8DVwBYV52zFOU
- Asy9hT0VLiD2sYjm5BFOa639DaHSKzgL6OFQeSDdiPTnssDGgjRHv7zTf
- Hcmquq7Bao9eclvUeweFytAhI/OUDKDFs5txTT7XhR6ybCiqhNQgy2DQU
- CLOYKle/QD2KeQCbWpz1HHDFsBf177v8PiyhlNZEMaotQEXGBBUzPk/gk
- N4wgsT9boYY8nTNyUcg0E3oDGVinQuzBsXU6a/P0X8yQTUsCuxfJw/4e3 g==;
-X-CSE-ConnectionGUID: qL+/QflYTmqWaFA3qPM/0w==
-X-CSE-MsgGUID: U76+O1HDQhCOiZwORdCYAw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="28842775"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="28842775"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 10:59:22 -0700
-X-CSE-ConnectionGUID: 8+f3upVySxWNtQxv9T2pYQ==
-X-CSE-MsgGUID: VFCeQIZyQ4qGwwxtr/KNCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="29636801"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 10 May 2024 10:59:19 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 10 May 2024 20:59:18 +0300
-Date: Fri, 10 May 2024 20:59:18 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] drm: use "0" instead of "" for deprecated driver date
-Message-ID: <Zj5gdo4oqHb4--cG@intel.com>
-References: <20240510090951.3398882-1-jani.nikula@intel.com>
- <Zj5ah06WvSb0XP6l@intel.com>
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52ED410E0A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 18:02:08 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-51f174e316eso2790817e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 11:02:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1715364126; x=1715968926; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ElFboxhq5Mn4V6HoClPLbitGjO20T62uh+wRM77AIu8=;
+ b=ZivbLkVzsaHHkvgzwHOa6iB+wD56bD+9m/l+8sl2VFU7okPbfTpLBBUi0y15NY+6d9
+ n651U3u68LNhPRnCjFNd6gV2nt8s2t8+K3pKIaHlOLvnJrxtbs6jdSY+rdlvUCGUZskQ
+ 5M1PD36TalOFKheJvB2mmEhf8ki3pqkwLE3VlySibKxTVpvAE/XPPNfOh29vIjmk7yie
+ IgFqfY9DqVCcB334RW2BLgi1gRlCpjvLGFvdL79p4/DN/6H1LgLxlCC1BNJWzY+wHgDy
+ xaWzUJ9jwyNW/2oEpEbW1MLKrui2H3+yqoI/kZ8IJo/cHSSmclWOv/pGTDfcsjdlq0Hd
+ llbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715364126; x=1715968926;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ElFboxhq5Mn4V6HoClPLbitGjO20T62uh+wRM77AIu8=;
+ b=Nk/gZLv8eplIt7XNMTwkZrf2bNqvigKp+J53LRz+eW+6UEnPsCZLN5xG5Wuq0CA+B3
+ 4A3Kj1TWm9Ueb4+o1Rh9pUrc72vBGheafwRS5LpS0qbuXH3Ma+4wFiAn4Tet6UWDophp
+ k04u/xfFl3N6wDuBRi4OGaMDXnXsZ3p2kYDMDnt/gbbv2pLYFvx9rsShqyXI3NDzc+W5
+ n7Ls81gwc9AZMUrT7wUkD4kRUqwRhkXkjY5f3avWypXHrvVGQLQa9K0Dhv9ATvsbXNC5
+ T/X2i03/0xjhMXIVi9Ce1+mQmDGUx3zfFffrfVcC1Gu/JDyVF2RIqQE3btTN8PNsag0h
+ /hew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVXAziTbewvnToKqnnGnp00NeeiDEHlTvmWiigk+WKAP4CWNx3/HE3SDIvefxKLWTZouMnnJbf+tnB7qzolKWjVdguT10ToSJk+aD6DsiLx
+X-Gm-Message-State: AOJu0YzawIdxwPC7sgqK1+y+mswhQwpn5EEExsJc71H6koT0yfW+Dm4O
+ UcVnB4GaifLE6+gK+JAV50WZ5v9blUjuWYUQw4O+zpAcJDyqV0dJ0mpG60PMufE=
+X-Google-Smtp-Source: AGHT+IFusX5MOdbRcwF97iEcqtLVbvmUBFmNSuhXU+WbubEJNOeY/GCO+g7Qgmz8sIfmntnCjhbEnw==
+X-Received: by 2002:a05:6512:2214:b0:519:33a5:973e with SMTP id
+ 2adb3069b0e04-5220fa71886mr3182690e87.6.1715364126158; 
+ Fri, 10 May 2024 11:02:06 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-521f39d2c9asm761699e87.275.2024.05.10.11.02.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 May 2024 11:02:05 -0700 (PDT)
+Date: Fri, 10 May 2024 21:02:04 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: =?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <trabarni@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panel: jdi-fhd-r63452: move DCS off commands to
+ disable
+Message-ID: <kjlcqkfipct4d54hrtmwdsrifxvuq3qocv5bcmwsufrbxtvvq2@52grw5ijqx4k>
+References: <20240509-jdi-use-disable-v1-1-5c175b2ea1ee@gmail.com>
+ <rpita5o6za64p7tamasssb2fja6h6ipr5cibh6gs7klkijyk6r@mausrcet2ycx>
+ <CAGsSOWWAotJPz+o8HSYTrXtq6H7Vrw9KXZX1jDZLgqfudKsnyg@mail.gmail.com>
+ <CAGsSOWX9YcuBpxQZ5kPm6zbMbM6iZqPK3bk=dgKyUZPjq++GXQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zj5ah06WvSb0XP6l@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <CAGsSOWX9YcuBpxQZ5kPm6zbMbM6iZqPK3bk=dgKyUZPjq++GXQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,50 +94,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 10, 2024 at 08:33:59PM +0300, Ville Syrj�l� wrote:
-> On Fri, May 10, 2024 at 12:09:51PM +0300, Jani Nikula wrote:
-> > libdrm does not like the empty string for driver date. Use "0" instead,
-> > which has been used by virtio previously.
-> > 
-> > Reported-by: Steven Price <steven.price@arm.com>
-> > Closes: https://lore.kernel.org/r/9d0cff47-308e-4b11-a9f3-4157dc26b6fa@arm.com
-> > Fixes: 7fb8af6798e8 ("drm: deprecate driver date")
-> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_ioctl.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> > index 89feb7306e47..51f39912866f 100644
-> > --- a/drivers/gpu/drm/drm_ioctl.c
-> > +++ b/drivers/gpu/drm/drm_ioctl.c
-> > @@ -530,9 +530,9 @@ int drm_version(struct drm_device *dev, void *data,
-> >  	err = drm_copy_field(version->name, &version->name_len,
-> >  			dev->driver->name);
-> >  
-> > -	/* Driver date is deprecated. Return the empty string. */
-> > +	/* Driver date is deprecated. Userspace expects a non-empty string. */
-> >  	if (!err)
-> > -		err = drm_copy_field(version->date, &version->date_len, "");
-> > +		err = drm_copy_field(version->date, &version->date_len, "0");
-> 
-> Does this also fix igt/core_getversion which is on fire now?
+On Fri, May 10, 2024 at 09:10:34AM +0200, Barnabás Czémán wrote:
+> On Fri, May 10, 2024 at 8:46 AM Barnabás Czémán <trabarni@gmail.com> wrote:
+> >
+> > On Fri, May 10, 2024 at 2:56 AM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
+> > >
+> > > On Thu, May 09, 2024 at 08:14:07PM +0200, Barnabás Czémán wrote:
+> > > > Move DCS off commands from .unprepare to .disable so that they
+> > > > actually reach the DSI host.
+> > > >
+> > > > Signed-off-by: Barnabás Czémán <trabarni@gmail.com>
+> > > > ---
+> > > >  drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 12 ++++++++++--
+> > > >  1 file changed, 10 insertions(+), 2 deletions(-)
+> > >
+> > > I don't think this is correct. If the driver sends enable commands in
+> > > prepare, it should be able to send commands during unprepare too.
+> > >
+> > It cannot send commands in unprepare, there are multiple panel drivers
+> > what do the same.
+> > Every panel drivers which have DCS commands to be sent in unprepare
+> > has similar error messages with mdp5/dpu.
+> >
+> > [   92.322564] panel-td4320-boeplus c994000.dsi.0: sending command
+> > 0x28 failed: -22
+> > [   92.322635] panel-td4320-boeplus c994000.dsi.0: Failed to
+> > un-initialize panel: -22
+> >
+> >
+> Here is the error messages, these are comes from unprepare by every panel off:
+> [  121.295290] panel-jdi-fhd-r63452 994000.dsi.0: transmit data failed: -22
+> [  121.295368] panel-jdi-fhd-r63452 994000.dsi.0: Failed to
+> un-initialize panel: -22
+> [  184.783019] panel-jdi-fhd-r63452 994000.dsi.0: transmit data failed: -22
+> [  184.783066] panel-jdi-fhd-r63452 994000.dsi.0: Failed to
+> un-initialize panel: -22
+> with this patch these errors no more.
+> .prepare works because of this flag ctx->panel.prepare_prev_first = true;
 
-At least it fixes Xorg which currently just segfaults.
-
-Pushed to drm-misc-next. Thanks everyone.
-
-> 
-> >  	if (!err)
-> >  		err = drm_copy_field(version->desc, &version->desc_len,
-> >  				dev->driver->desc);
-> > -- 
-> > 2.39.2
-> 
-> -- 
-> Ville Syrj�l�
-> Intel
+The flag should also invert the order of post_disable chain. It well
+might be that the drm/msm/dsi driver shuts down the DSI link too soon.
+Please consider fixing the MSM DSI driver instead.
 
 -- 
-Ville Syrj�l�
-Intel
+With best wishes
+Dmitry
