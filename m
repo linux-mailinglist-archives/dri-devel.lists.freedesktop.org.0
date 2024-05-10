@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909C28C2C0E
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 23:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A718C2C0F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 23:46:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0BAC10E25C;
-	Fri, 10 May 2024 21:46:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBF7E10E2A2;
+	Fri, 10 May 2024 21:46:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="j9nJ/xMR";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="HjOTkXD2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D83510E25C
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 21:46:37 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id
- d75a77b69052e-43df44ef2f9so13070141cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:46:37 -0700 (PDT)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28C4410E2A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 21:46:42 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id
+ 6a1803df08f44-69b47833dc5so11949396d6.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:46:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715377592; x=1715982392;
+ d=chromium.org; s=google; t=1715377598; x=1715982398;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Svr4jT9bdrpFXgOEkVqTf+8fIAlHYmRmltVZYBHBIQc=;
- b=j9nJ/xMR1WJ1+cmL8I/NEv3RYHqUXAP9Xdv86KsL05qCYHqZqXS59CnRiLzrzaF+oO
- K4/HtmZRlSUL3ChRMNoDKKcq2Ix6e93QBltFmONw/VA7w7kjgL+/400ZFYQD0+IXzjJa
- aYobTb0KNgDYTP0N6rOFrDMFNMkat4EY6Ma3A=
+ bh=6d1FNJJ0J0NTz+lnDF9EyOouM1r5fViFb+y/0QDXvNM=;
+ b=HjOTkXD20936aCDt0699wY4jBgRE1ziLjJVNcVqJ85iY56fc40gQD4ZSn1Hsr9jMNT
+ 0/XM1DW20n6dyiKu39Ulp66DGoytaFT65kdcffNjglAnK0BKMvxCg9YyDrDGftKQou/M
+ tjvFBbIZVs0js9EywyhUTYWorCxLah3N/DK90=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715377592; x=1715982392;
+ d=1e100.net; s=20230601; t=1715377598; x=1715982398;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Svr4jT9bdrpFXgOEkVqTf+8fIAlHYmRmltVZYBHBIQc=;
- b=mnQ81pEtCMCYinm45YL8Lu0R5qdxD4AJH4n6NkHF//cICp3Bj57tycFpDxArDbxRON
- cVmqmVaEyLsNKAX9eoxacoXudHzyHfFuZBQNwljv98zBTxRaaEEYMN2wm96h1VzItoZS
- VNHGRxMtHrF1BE+i44KebbTlJBgpVBhotn/FZPA2Bq9eB0Z0hAbEeMF8ThXLqn6QzN5/
- HpDDiZwDKDZ2X7RBmnEPYuxOmzyHsGFs3qnJcHuSZZJxQqiEAUUYMhqLkC7991KDKNLA
- vKfXX+G8JGkTipjtNMixy3uUDVgjFPZnQbbq1lApsd0fZV1NbRTePNagSNq6zipaZFcu
- wF2w==
+ bh=6d1FNJJ0J0NTz+lnDF9EyOouM1r5fViFb+y/0QDXvNM=;
+ b=NGLe4v3NKNmRCao0xO3bGW6Tl+PE1HOgQz3YIBXID2lnYHoh8xzlR5kTQmpXWpyWlD
+ /yKZ0Y8JALHgwPfoH6W69oEWzaeSzhbKxtYFP7YHFCyHh4QOWHw2y1db+nZhBzrcbaw1
+ LqKROzP6RVT77hTDlD9VRxFvUw3Cs8ZtMj7+ZLefX5CviN9DrCLPXLN9Q8Y7AHQquuGA
+ k7uUM+wGry5QDlMMt2ZWR0bntRhhS66ApJxkSBVns7l13r6ZepsHJM4fq7uZ6MvS/hf7
+ NyzPthWkWFIZWyJS1RDb6urwSXFbxCo4IPY/e7rYO2KEfZOx3kLwsw0lOl7bFhWMbEhE
+ aGlA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUYPG2OYjppkh6Qhr9K+m0A6clgg/I/RSOkwqzJXziW1CjjbpRQn6Jm2q3b/3xbWezkfiHeNrYp3VWG5OhImJYXJLHA5au98Ek6e51gLvYu
-X-Gm-Message-State: AOJu0Ywsy8OXGi6C3JRWqj5eRmhalHwERflIoTtLU3McMztO9RU2q8dd
- sAMGYeZhH7qag0W8JIcx8FVYd6Ou71nJ4l3NBqorOjWax/mjmwihPO9mGNcCugPbbm4ErEzX7gw
+ AJvYcCW5e21IHTTwjx1kjQnyGlmnDX/FfdfPeqWaFghqLt4qOAp8qUqxt+SVp8WybP48fhXAhUb85Xz8A4YkC58LDM/S9UwehbY7sLMToIIvTGk5
+X-Gm-Message-State: AOJu0YzAQ3qc9utHoHDbrv6GFub5PsduzYHqbG0AriVmtgLOnkI9GRDQ
+ +BCoKSGsXLF3zkFz1B8WVM7ROruIBEcCmcPU7QtfwYeWiE1IJLYcOiiYLfStXyIkJQSiDMWzmyM
  =
-X-Google-Smtp-Source: AGHT+IEkI63QG1rcXY8KGrglMXySh+WxIHvDWjV+grbsGmXdC1fcDUEoC9S4wmn17aOYPr+2+C4ndw==
-X-Received: by 2002:a05:622a:1f19:b0:43a:3857:fbcc with SMTP id
- d75a77b69052e-43dfde98f4bmr48620161cf.68.1715377592064; 
- Fri, 10 May 2024 14:46:32 -0700 (PDT)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com.
- [209.85.160.182]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-43e069a24basm6247701cf.67.2024.05.10.14.46.30
+X-Google-Smtp-Source: AGHT+IFunuKEYMfbaPXIBiAn6FmAP26pCaaWcbxrfKXwS8fToFGKx00IyGqbVefUf4LJyNtcWFBCTQ==
+X-Received: by 2002:a05:6214:4984:b0:6a0:d713:9b1e with SMTP id
+ 6a1803df08f44-6a1681bc173mr49492466d6.34.1715377598638; 
+ Fri, 10 May 2024 14:46:38 -0700 (PDT)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com.
+ [209.85.160.179]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6a15f1ce896sm20799206d6.92.2024.05.10.14.46.34
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 May 2024 14:46:31 -0700 (PDT)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-43df9ac3ebcso97311cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:46:30 -0700 (PDT)
+ Fri, 10 May 2024 14:46:34 -0700 (PDT)
+Received: by mail-qt1-f179.google.com with SMTP id
+ d75a77b69052e-439b1c72676so41871cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:46:34 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWJPpsfYHu4XqycQlkBCvOEUtKpPxWIRjnBZ/iAgd4nWRIeiI3g5xLrjc19JybGbYM/Bh3ux0NhmnV7lkUG/lFVGse3jz1tHcpdY8Ew1o9E
-X-Received: by 2002:a05:622a:510e:b0:437:b572:6d with SMTP id
- d75a77b69052e-43e0a2240ccmr150251cf.21.1715377589421; Fri, 10 May 2024
- 14:46:29 -0700 (PDT)
+ AJvYcCVkKN6q/p1TlocHN194MBAJnP4hkXCfxw7le95gADw0R4tkkHwsNsIRD/lSPK/uLIHvuv7ZV5gS53u+o9aP3ODKKzygRerKrCMHObyAGbzW
+X-Received: by 2002:a05:622a:4808:b0:43a:c9a0:6dae with SMTP id
+ d75a77b69052e-43e0a1d2690mr272721cf.13.1715377594210; Fri, 10 May 2024
+ 14:46:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240510-dsi-panels-upd-api-v1-0-317c78a0dcc8@linaro.org>
- <20240510-dsi-panels-upd-api-v1-3-317c78a0dcc8@linaro.org>
-In-Reply-To: <20240510-dsi-panels-upd-api-v1-3-317c78a0dcc8@linaro.org>
+ <20240510-dsi-panels-upd-api-v1-4-317c78a0dcc8@linaro.org>
+In-Reply-To: <20240510-dsi-panels-upd-api-v1-4-317c78a0dcc8@linaro.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 10 May 2024 14:46:16 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UkCr62jBtvTmYASxEBT8oOv7yZq=XjDCtEsOxgyQwV4Q@mail.gmail.com>
-Message-ID: <CAD=FV=UkCr62jBtvTmYASxEBT8oOv7yZq=XjDCtEsOxgyQwV4Q@mail.gmail.com>
-Subject: Re: [PATCH RFC 3/7] drm/panel: ilitek-ili9882t: use wrapped MIPI DCS
- functions
+Date: Fri, 10 May 2024 14:46:22 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Ud3ocRYyGPPUvv4V8KN2pBTFPZey1vYTvBSNL6ty-knw@mail.gmail.com>
+Message-ID: <CAD=FV=Ud3ocRYyGPPUvv4V8KN2pBTFPZey1vYTvBSNL6ty-knw@mail.gmail.com>
+Subject: Re: [PATCH RFC 4/7] drm/panel: innolux-p079zca: use
+ mipi_dsi_dcs_nop_multi()
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -108,36 +108,12 @@ Hi,
 On Thu, May 9, 2024 at 3:37=E2=80=AFPM Dmitry Baryshkov
 <dmitry.baryshkov@linaro.org> wrote:
 >
-> @@ -424,20 +420,14 @@ static inline struct ili9882t *to_ili9882t(struct d=
-rm_panel *panel)
+> Remove conditional code and use mipi_dsi_dcs_nop_multi() wrapper to
+> simplify driver code.
 >
->  static int ili9882t_enter_sleep_mode(struct ili9882t *ili)
->  {
-> -       struct mipi_dsi_device *dsi =3D ili->dsi;
-> -       int ret;
-> -
-> -       dsi->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
-> +       struct mipi_dsi_multi_context ctx =3D { .dsi =3D ili->dsi };
->
-> -       ret =3D mipi_dsi_dcs_set_display_off(dsi);
-> -       if (ret < 0)
-> -               return ret;
-> +       ili->dsi->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
->
-> -       ret =3D mipi_dsi_dcs_enter_sleep_mode(dsi);
-> -       if (ret < 0)
-> -               return ret;
-> +       mipi_dsi_dcs_set_display_off_multi(&ctx);
-> +       mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
->
-> -       return 0;
-> +       return ctx.accum_err;
->  }
-
-nit: Same comments I had on patch #2 (boe-tv101wum-nl6) about inlining
-this to the caller. Here it's even better since the caller already has
-a multi_context...
-
-In any case:
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/panel/panel-innolux-p079zca.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
