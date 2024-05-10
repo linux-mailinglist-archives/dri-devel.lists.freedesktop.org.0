@@ -2,111 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B718C2828
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E25E8C2829
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:48:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39A8610EE12;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF1E910EE0B;
 	Fri, 10 May 2024 15:48:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cafOYiSN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="svngPe3s";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ju/0Rk75";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7EQsqbXr";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="G5qfFtHK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uVshRpfr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G5qfFtHK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uVshRpfr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6873A10ED80
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72AF510EE01
  for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:48:46 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E754067431;
- Fri, 10 May 2024 15:48:44 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 29A2A3F039;
+ Fri, 10 May 2024 15:48:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1715356125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y8qyw+XKhKEb5aa1OZTo1CW/JkH37z58owvoTc6eEm0=;
- b=cafOYiSN5cywuTiJq6OXxWYmkMCdkOFs0yqyZRHhu0nofwFZDH4vpzISdFIbnheOA60a3a
- cdD5gsX1/KT4oQtwZGG8T3ghYGuaWdCDSekUFSspGbqzphsP61Nkn7LqKn3kcXraK/VvOe
- piMopdHsObPaUnYqcuNzNdTfnNmKy+k=
+ bh=sBbuvYc0xtKs+62nfoU1LLj3l2O89uBqCEqbrfxsVEI=;
+ b=G5qfFtHK9yuDtU8XN3grAr8uXQk1C9Nt6HtNXbnEhx5IsXzfuiYpSLVAhuWO1wcBcubyya
+ czjTNJTyEDunoIZFKgCDhwNVz/GS7MwpWJmFRDVnvqV4bplzbIjuavn7QxJusKSMq/f4g9
+ Hogu4Ek8g0lQds68NGoZy3meSxU13NE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1715356125;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y8qyw+XKhKEb5aa1OZTo1CW/JkH37z58owvoTc6eEm0=;
- b=svngPe3s2kq8S8DiAPlsYpsBDL6mLsQ3SRmGLR9HP+Y+7CSM1zzxSmJhMy8eut+mbWvdYP
- LM/kIet9iYF3QRAw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ju/0Rk75";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7EQsqbXr
+ bh=sBbuvYc0xtKs+62nfoU1LLj3l2O89uBqCEqbrfxsVEI=;
+ b=uVshRpfrEnqmlw0KiigH4eNUtBZ14L8CrlP9iHA7NdqnLrU1RNL4fw17msA0HoIk8vALQ7
+ RUcpBAyXOhVvFRBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715356124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1715356125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y8qyw+XKhKEb5aa1OZTo1CW/JkH37z58owvoTc6eEm0=;
- b=ju/0Rk75u8gL+oeEnN9yE8FbOWx/cHaoD4bzCqe8xWJgxttykJzpENrpF2mQZ2cLANqtVJ
- jOMmC/5vp3cCv8vZBSf5QcnJcVJxl1+v/s4CC6023LJCq5H1/Ol3NVDgEeFLu+dIFV3JyP
- mlPNHytCbtwMA6s6TMcsK2EPo5oCT8s=
+ bh=sBbuvYc0xtKs+62nfoU1LLj3l2O89uBqCEqbrfxsVEI=;
+ b=G5qfFtHK9yuDtU8XN3grAr8uXQk1C9Nt6HtNXbnEhx5IsXzfuiYpSLVAhuWO1wcBcubyya
+ czjTNJTyEDunoIZFKgCDhwNVz/GS7MwpWJmFRDVnvqV4bplzbIjuavn7QxJusKSMq/f4g9
+ Hogu4Ek8g0lQds68NGoZy3meSxU13NE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715356124;
+ s=susede2_ed25519; t=1715356125;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y8qyw+XKhKEb5aa1OZTo1CW/JkH37z58owvoTc6eEm0=;
- b=7EQsqbXrMpMPomQMo6uVsyEygT/AXEjrlCUorNyPu8ke9Ewp3lAoqoU3CJeo/uMe+RWAWQ
- CYSMkN1UtenvRkDA==
+ bh=sBbuvYc0xtKs+62nfoU1LLj3l2O89uBqCEqbrfxsVEI=;
+ b=uVshRpfrEnqmlw0KiigH4eNUtBZ14L8CrlP9iHA7NdqnLrU1RNL4fw17msA0HoIk8vALQ7
+ RUcpBAyXOhVvFRBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B4CD913A31;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ED23A13A32;
  Fri, 10 May 2024 15:48:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id EID+KtxBPma7MgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id SOKmONxBPma7MgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 10 May 2024 15:48:44 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, jani.nikula@linux.intel.com, airlied@redhat.com,
  sean@poorly.run
 Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v3 4/5] drm/udl: Untangle .get_modes() and .detect_ctx()
-Date: Fri, 10 May 2024 17:47:11 +0200
-Message-ID: <20240510154841.11370-5-tzimmermann@suse.de>
+Subject: [PATCH v3 5/5] drm/udl: Remove struct udl_connector
+Date: Fri, 10 May 2024 17:47:12 +0200
+Message-ID: <20240510154841.11370-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240510154841.11370-1-tzimmermann@suse.de>
 References: <20240510154841.11370-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+]; FROM_HAS_DN(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[7];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
- DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim]; TO_DN_SOME(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: E754067431
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_SEVEN(0.00)[7];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+ RCVD_TLS_ALL(0.00)[]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,312 +114,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide separate implementations of .get_modes() and .detect_ctx()
-from struct drm_connector. Switch to struct drm_edid.
-
-Udl's .detect() helper used to fetch the EDID from the adapter and the
-.get_modes() helper provided display modes from the data. But this
-relied on the DRM helpers to call the functions in the correct order.
-When no EDID could be retrieved, .detect() regularly printed a warning
-to the kernel log.
-
-Switching to the new helpers around struct drm_edid separates both from
-each other. The .get_modes() helper now fetches the EDID by itself and
-the .detect_ctx() helper only tests for its presence. The patch does a
-number of things to implement this.
-
-- Move udl_get_edid_block() to udl_edid.c and rename it to
-udl_read_edid_block(). Then use the helper to implement probing in
-udl_probe_edid() and reading in udl_edid_read(). The latter helper
-is build on top of DRM helpers.
-
-- Replace the existing code in .get_modes() and .detect() with udl's
-new EDID helpers. The new code behaves like DRM's similar DDC-based
-helpers. Instead of .detect(), udl now implements .detect_ctx().
-
-- Remove the edid data from struct udl_connector. The field cached
-the EDID data between calls to .detect() and .get_modes(), but is now
-unused.
-
-v3:
-- implement udl_probe_edid() with memchr_inv() (Jani)
+Udl's struct udl_connector is an empty wrapper around struct
+drm_connector. Remove it. Allocate the connector as part of struct
+udl_device and inline the init function into its only caller.
 
 v2:
-- implement udl_probe_edid() within udl
-- reword commit description
+- fix return value in udl_modeset_init() (Dan)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/udl/Makefile      |  1 +
- drivers/gpu/drm/udl/udl_drv.h     |  2 -
- drivers/gpu/drm/udl/udl_edid.c    | 80 +++++++++++++++++++++++++++
- drivers/gpu/drm/udl/udl_edid.h    | 15 ++++++
- drivers/gpu/drm/udl/udl_modeset.c | 90 +++++++------------------------
- 5 files changed, 115 insertions(+), 73 deletions(-)
- create mode 100644 drivers/gpu/drm/udl/udl_edid.c
- create mode 100644 drivers/gpu/drm/udl/udl_edid.h
+ drivers/gpu/drm/udl/udl_drv.h     | 10 +------
+ drivers/gpu/drm/udl/udl_modeset.c | 49 +++++++------------------------
+ 2 files changed, 11 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/gpu/drm/udl/Makefile b/drivers/gpu/drm/udl/Makefile
-index 00690741db376..43d69a16af183 100644
---- a/drivers/gpu/drm/udl/Makefile
-+++ b/drivers/gpu/drm/udl/Makefile
-@@ -2,6 +2,7 @@
- 
- udl-y := \
- 	udl_drv.o \
-+	udl_edid.o \
- 	udl_main.o \
- 	udl_modeset.o \
- 	udl_transfer.o
 diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index 282ebd6c02fda..f112cfb270f31 100644
+index f112cfb270f31..1eb716d9dad57 100644
 --- a/drivers/gpu/drm/udl/udl_drv.h
 +++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -51,8 +51,6 @@ struct urb_list {
- 
- struct udl_connector {
- 	struct drm_connector connector;
--	/* last udl_detect edid */
--	struct edid *edid;
+@@ -49,15 +49,6 @@ struct urb_list {
+ 	size_t size;
  };
  
- static inline struct udl_connector *to_udl_connector(struct drm_connector *connector)
-diff --git a/drivers/gpu/drm/udl/udl_edid.c b/drivers/gpu/drm/udl/udl_edid.c
-new file mode 100644
-index 0000000000000..d67e6bf1f2aec
---- /dev/null
-+++ b/drivers/gpu/drm/udl/udl_edid.c
-@@ -0,0 +1,80 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/string.h>
-+
-+#include <drm/drm_drv.h>
-+#include <drm/drm_edid.h>
-+
-+#include "udl_drv.h"
-+#include "udl_edid.h"
-+
-+static int udl_read_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
-+{
-+	struct udl_device *udl = data;
-+	struct drm_device *dev = &udl->drm;
-+	struct usb_device *udev = udl_to_usb_device(udl);
-+	u8 *read_buff;
-+	int idx, ret;
-+	size_t i;
-+
-+	read_buff = kmalloc(2, GFP_KERNEL);
-+	if (!read_buff)
-+		return -ENOMEM;
-+
-+	if (!drm_dev_enter(dev, &idx)) {
-+		ret = -ENODEV;
-+		goto err_kfree;
-+	}
-+
-+	for (i = 0; i < len; i++) {
-+		int bval = (i + block * EDID_LENGTH) << 8;
-+
-+		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
-+				      0x02, (0x80 | (0x02 << 5)), bval,
-+				      0xA1, read_buff, 2, USB_CTRL_GET_TIMEOUT);
-+		if (ret < 0) {
-+			drm_err(dev, "Read EDID byte %zu failed err %x\n", i, ret);
-+			goto err_drm_dev_exit;
-+		} else if (ret < 1) {
-+			ret = -EIO;
-+			drm_err(dev, "Read EDID byte %zu failed\n", i);
-+			goto err_drm_dev_exit;
-+		}
-+
-+		buf[i] = read_buff[1];
-+	}
-+
-+	drm_dev_exit(idx);
-+	kfree(read_buff);
-+
-+	return 0;
-+
-+err_drm_dev_exit:
-+	drm_dev_exit(idx);
-+err_kfree:
-+	kfree(read_buff);
-+	return ret;
-+}
-+
-+bool udl_probe_edid(struct udl_device *udl)
-+{
-+	u8 hdr[8];
-+	int ret;
-+
-+	ret = udl_read_edid_block(udl, hdr, 0, sizeof(hdr));
-+	if (ret)
-+		return false;
-+
-+	/*
-+	 * The adapter sends all-zeros if no monitor has been
-+	 * connected. We consider anything else a connection.
-+	 */
-+	return !!memchr_inv(hdr, 0, sizeof(hdr));
-+}
-+
-+const struct drm_edid *udl_edid_read(struct drm_connector *connector)
-+{
-+	struct udl_device *udl = to_udl(connector->dev);
-+
-+	return drm_edid_read_custom(connector, udl_read_edid_block, udl);
-+}
-diff --git a/drivers/gpu/drm/udl/udl_edid.h b/drivers/gpu/drm/udl/udl_edid.h
-new file mode 100644
-index 0000000000000..fe15ff3752b7d
---- /dev/null
-+++ b/drivers/gpu/drm/udl/udl_edid.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef UDL_EDID_H
-+#define UDL_EDID_H
-+
-+#include <linux/types.h>
-+
-+struct drm_connector;
-+struct drm_edid;
-+struct udl_device;
-+
-+bool udl_probe_edid(struct udl_device *udl);
-+const struct drm_edid *udl_edid_read(struct drm_connector *connector);
-+
-+#endif
-diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 3df9fc38388b4..4236ce57f5945 100644
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -25,6 +25,7 @@
- #include <drm/drm_vblank.h>
- 
- #include "udl_drv.h"
-+#include "udl_edid.h"
- #include "udl_proto.h"
- 
- /*
-@@ -415,97 +416,44 @@ static const struct drm_encoder_funcs udl_encoder_funcs = {
- 
- static int udl_connector_helper_get_modes(struct drm_connector *connector)
- {
--	struct udl_connector *udl_connector = to_udl_connector(connector);
-+	const struct drm_edid *drm_edid;
-+	int count;
- 
--	drm_connector_update_edid_property(connector, udl_connector->edid);
--	if (udl_connector->edid)
--		return drm_add_edid_modes(connector, udl_connector->edid);
-+	drm_edid = udl_edid_read(connector);
-+	drm_edid_connector_update(connector, drm_edid);
-+	count = drm_edid_connector_add_modes(connector);
-+	drm_edid_free(drm_edid);
- 
--	return 0;
-+	return count;
- }
- 
--static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
--	.get_modes = udl_connector_helper_get_modes,
+-struct udl_connector {
+-	struct drm_connector connector;
 -};
 -
--static int udl_get_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
-+static int udl_connector_helper_detect_ctx(struct drm_connector *connector,
-+					   struct drm_modeset_acquire_ctx *ctx,
-+					   bool force)
- {
--	struct udl_device *udl = data;
--	struct drm_device *dev = &udl->drm;
--	struct usb_device *udev = udl_to_usb_device(udl);
--	u8 *read_buff;
--	int idx, ret;
--	size_t i;
--
--	read_buff = kmalloc(2, GFP_KERNEL);
--	if (!read_buff)
--		return -ENOMEM;
-+	struct udl_device *udl = to_udl(connector->dev);
- 
--	if (!drm_dev_enter(dev, &idx)) {
--		ret = -ENODEV;
--		goto err_kfree;
--	}
--
--	for (i = 0; i < len; i++) {
--		int bval = (i + block * EDID_LENGTH) << 8;
--
--		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
--				      0x02, (0x80 | (0x02 << 5)), bval,
--				      0xA1, read_buff, 2, USB_CTRL_GET_TIMEOUT);
--		if (ret < 0) {
--			drm_err(dev, "Read EDID byte %zu failed err %x\n", i, ret);
--			goto err_drm_dev_exit;
--		} else if (ret < 1) {
--			ret = -EIO;
--			drm_err(dev, "Read EDID byte %zu failed\n", i);
--			goto err_drm_dev_exit;
--		}
--
--		buf[i] = read_buff[1];
--	}
-+	if (udl_probe_edid(udl))
-+		return connector_status_connected;
- 
--	drm_dev_exit(idx);
--	kfree(read_buff);
--
--	return 0;
--
--err_drm_dev_exit:
--	drm_dev_exit(idx);
--err_kfree:
--	kfree(read_buff);
--	return ret;
-+	return connector_status_disconnected;
- }
- 
--static enum drm_connector_status udl_connector_detect(struct drm_connector *connector, bool force)
+-static inline struct udl_connector *to_udl_connector(struct drm_connector *connector)
 -{
--	struct drm_device *dev = connector->dev;
--	struct udl_device *udl = to_udl(dev);
--	struct udl_connector *udl_connector = to_udl_connector(connector);
--	enum drm_connector_status status = connector_status_disconnected;
--
--	/* cleanup previous EDID */
--	kfree(udl_connector->edid);
--	udl_connector->edid = NULL;
--
--	udl_connector->edid = drm_do_get_edid(connector, udl_get_edid_block, udl);
--	if (udl_connector->edid)
--		status = connector_status_connected;
--
--	return status;
+-	return container_of(connector, struct udl_connector, connector);
 -}
-+static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
-+	.get_modes = udl_connector_helper_get_modes,
-+	.detect_ctx = udl_connector_helper_detect_ctx,
-+};
+-
+ struct udl_device {
+ 	struct drm_device drm;
+ 	struct device *dev;
+@@ -66,6 +57,7 @@ struct udl_device {
+ 	struct drm_plane primary_plane;
+ 	struct drm_crtc crtc;
+ 	struct drm_encoder encoder;
++	struct drm_connector connector;
  
- static void udl_connector_destroy(struct drm_connector *connector)
- {
- 	struct udl_connector *udl_connector = to_udl_connector(connector);
+ 	struct mutex gem_lock;
  
- 	drm_connector_cleanup(connector);
--	kfree(udl_connector->edid);
- 	kfree(udl_connector);
- }
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index 4236ce57f5945..bbb04f98886a2 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -444,49 +444,14 @@ static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
+ 	.detect_ctx = udl_connector_helper_detect_ctx,
+ };
  
+-static void udl_connector_destroy(struct drm_connector *connector)
+-{
+-	struct udl_connector *udl_connector = to_udl_connector(connector);
+-
+-	drm_connector_cleanup(connector);
+-	kfree(udl_connector);
+-}
+-
  static const struct drm_connector_funcs udl_connector_funcs = {
  	.reset = drm_atomic_helper_connector_reset,
--	.detect = udl_connector_detect,
  	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = udl_connector_destroy,
+-	.destroy = udl_connector_destroy,
++	.destroy = drm_connector_cleanup,
  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ };
+ 
+-struct drm_connector *udl_connector_init(struct drm_device *dev)
+-{
+-	struct udl_connector *udl_connector;
+-	struct drm_connector *connector;
+-	int ret;
+-
+-	udl_connector = kzalloc(sizeof(*udl_connector), GFP_KERNEL);
+-	if (!udl_connector)
+-		return ERR_PTR(-ENOMEM);
+-
+-	connector = &udl_connector->connector;
+-	ret = drm_connector_init(dev, connector, &udl_connector_funcs, DRM_MODE_CONNECTOR_VGA);
+-	if (ret)
+-		goto err_kfree;
+-
+-	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
+-
+-	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
+-			    DRM_CONNECTOR_POLL_DISCONNECT;
+-
+-	return connector;
+-
+-err_kfree:
+-	kfree(udl_connector);
+-	return ERR_PTR(ret);
+-}
+-
+ /*
+  * Modesetting
+  */
+@@ -556,9 +521,15 @@ int udl_modeset_init(struct drm_device *dev)
+ 		return ret;
+ 	encoder->possible_crtcs = drm_crtc_mask(crtc);
+ 
+-	connector = udl_connector_init(dev);
+-	if (IS_ERR(connector))
+-		return PTR_ERR(connector);
++	connector = &udl->connector;
++	ret = drm_connector_init(dev, connector, &udl_connector_funcs, DRM_MODE_CONNECTOR_VGA);
++	if (ret)
++		return ret;
++	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
++
++	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
++			    DRM_CONNECTOR_POLL_DISCONNECT;
++
+ 	ret = drm_connector_attach_encoder(connector, encoder);
+ 	if (ret)
+ 		return ret;
 -- 
 2.44.0
 
