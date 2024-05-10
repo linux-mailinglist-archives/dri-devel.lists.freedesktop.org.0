@@ -2,56 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754A68C250C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 14:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7AE78C2510
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 14:49:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9BCB10E253;
-	Fri, 10 May 2024 12:48:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C069610E6EE;
+	Fri, 10 May 2024 12:49:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="elRO8c91";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DcoudDZD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEAB110E253
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 12:48:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 107B361E66;
- Fri, 10 May 2024 12:48:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84EA9C113CC;
- Fri, 10 May 2024 12:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715345320;
- bh=V8xD1Koidl+pNdYoJfQFLAiAFVdTfdYB2dUbuhjigGw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=elRO8c91+R0DCAXv7+SLp8jJSCziQgTrHU6dWu9qwHD6XqKBCLiHuCKHNSbrgbcQg
- eJsQ0tFhCPQE2Y4O65z6uB4IrPGycaFkyuaOcB+YtDbvnjSSu49cJ0WU6MuQoLwWy3
- VxtXhLaNg2Y2Mv5eWn/LmrdnOqvHRlj/7/dCfxp9tpC9NhIxjD1VnxnJ7Maz3PCPe7
- LUqVWh0Ve9W2L+elph2QaZ0lc0RXMVlxbhOlTEuz25bOZUBWskDyl4CnteT7owXUgs
- jlwx/DYGCq9Hoav6/8i3JoYd0Ef4TlYm3FuTRoOTqnsoenH6UTmIUB8FSOwqSIeAVX
- EXF9K5LfHBQVg==
-Date: Fri, 10 May 2024 07:48:38 -0500
-From: Rob Herring <robh@kernel.org>
-To: Liankun Yang <liankun.yang@mediatek.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- chunfeng.yun@mediatek.com, vkoul@kernel.org, kishon@kernel.org,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- jitao.shi@mediatek.com, mac.shen@mediatek.com,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v2 2/2] Add dp PHY dt-bindings
-Message-ID: <20240510124838.GA3916816-robh@kernel.org>
-References: <20240510110523.12524-1-liankun.yang@mediatek.com>
- <20240510110523.12524-3-liankun.yang@mediatek.com>
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60EA410E3F8;
+ Fri, 10 May 2024 12:49:21 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-1eb24e3a2d9so17590385ad.1; 
+ Fri, 10 May 2024 05:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715345361; x=1715950161; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=4bGB69MaITj0lj1rbpzgDk3jxO2MebXh7Pspyb5Ws2g=;
+ b=DcoudDZDEiM7gy9uMdHXaMnq30gUSRSmG2sdLJup0RPjHlimwXM9uiDFOE7RBguvuH
+ aAAdoLFp3oDCiX4qpRW+Q/14a9Q6VOw8sbis5AEVwdQJuEfkKXgbK2IKvcA7JseTcUWA
+ 8WgLEPabmJJ9nYd+pByUFBxS8iXSHYuxWxHKhkL5FqNowPdVRpWPf9c1049U9eUSheQ3
+ 2z6bVPTKjRnR6pgQ7JBfG+nMbsOHPHm7OpPiNtiZrSMw/4t/tJTtPgTBQ9Zd5MVF7KHB
+ +c2dQpptkOHy2lM8D21VfvOpeJTB/nW/VeNXUeylOPLB9wLM6M06qIW2xDNwyTqfh4za
+ wWpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715345361; x=1715950161;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4bGB69MaITj0lj1rbpzgDk3jxO2MebXh7Pspyb5Ws2g=;
+ b=XSx3urk6bTtHGMkiWS1HDkcxRyRakxm5W7Z8bc8HR2hn4VyPMby3En7g0zUn/fy0Qn
+ XoN/OrA/Gwp7uaoOHtLjRe0uxaUTd019v/8gulbaUFuyIAYmUEpIfvzH7YzonXs+RpSx
+ I2JiuIPJSAegwZkoSZ9QwBj2pK4rJ+oLNL1ZwkBPJ41ZLshey66BQSai5tNT271jQlnh
+ eY/qGk89CX2GJ4NfJlXk1/1aXpF9F0JMPUbJPYNa4/stCTusss5txru5iryHWtVPQrQO
+ Ss7J101LhQTrI6RQVyZqlimQRfrOhjj5LwNS9hVfVcaOYinFzE5m2b4ZQx7MKffVQrhw
+ vqfw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWH2udn1vhRHT2uj8CG53Y5PzIoVfoeoBMt5RevD/fXA2XZrf7CLkTtQ9aJgCwR5VhLfhHJ+guqhOyowebHRTIKdzhe+JqR7VZS4F/XhKGeQS2D1sbnXPltURRrv0ADPEYPjlK89qNkRsk4sbKqPvo=
+X-Gm-Message-State: AOJu0YyNl22KEVADN20E156D+k1jSIseau43SeuHdsuOSKQs1URXtzUG
+ MoHwQoMTq7mw0hanUl8Y2EW2L/GdoAD7KIXeMGk13SbXnYyntkrWzIP0lM2E
+X-Google-Smtp-Source: AGHT+IE4v/ivolAQj9E6utIZxiGgbJt/dzyCsfbI4cr7prZz85w5gF7mk58fxK9ySkhc71ElRiMz6A==
+X-Received: by 2002:a17:902:db0a:b0:1e3:e243:1995 with SMTP id
+ d9443c01a7336-1ef43c095cdmr40207065ad.1.1715345360681; 
+ Fri, 10 May 2024 05:49:20 -0700 (PDT)
+Received: from joaog-nb ([189.78.25.116]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1ef0b9d35fcsm31842095ad.25.2024.05.10.05.49.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 May 2024 05:49:20 -0700 (PDT)
+Date: Fri, 10 May 2024 09:49:15 -0300
+From: =?utf-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?=
+ <jpaulo.silvagoncalves@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mesa-dev@lists.freedesktop.org, Marek Vasut <marex@denx.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, joao.goncalves@toradex.com
+Subject: Re: NXP i.MX8MM GPU performances
+Message-ID: <20240510124915.ilu6nbtlyv6nvixh@joaog-nb>
+References: <20240507181712.svjjaryisdgfxkle@joaog-nb>
+ <3ac1eadc86772deb12af77e890b2a59a34fa847a.camel@pengutronix.de>
+ <20240508143252.kacr3fmrhcx4jkjn@joaog-nb>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240510110523.12524-3-liankun.yang@mediatek.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240508143252.kacr3fmrhcx4jkjn@joaog-nb>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,80 +89,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 10, 2024 at 07:04:15PM +0800, Liankun Yang wrote:
-> Add dp PHY dt-bindings.
-> 
-> Changeds in v2:
-> - Add dp PHY dt-bindings.
-> https://patchwork.kernel.org/project/linux-mediatek/patch/
-> 20240403040517.3279-1-liankun.yang@mediatek.com/
-> 
-> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
-> ---
->  .../display/mediatek/mediatek.phy-dp.yaml     | 45 +++++++++++++++++++
->  1 file changed, 45 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml
 
-git refuses to apply your patch because 'new file mode 100644' is 
-missing. You must have edited the patch or something.
+> Offscreen test results:
+>
+> glmark2 command:
+> glmark2-es2-wayland  --off-screen -b shading:duration=5.0 -b refract -b build -b texture -b shadow -b bump -s 640x480 2>&1
+> |                 |       glmark2 tests                     |
+> | sw ver          |shading|build|texture|refract|shadow|bump|
+> |-----------------|-------|-----|-------|-------|------|----|
+> | etnaviv (no TS) | 348   | 541 | 466   | 24    | 81   | 498|
+> | etnaviv         | 434   | 901 | 832   | 19    | 106  | 871|
+> | vivante         | 544   | 956 | 790   | 26    | 225  | 894|
+>
+> With TS enabled, offscreen scores improved considerably in some
+> individual benchmarks.
 
-If it did apply, you'd notice it fails testing.
+Ralized that the last line (vivante) of the above table is wrong for offscreen
+results with TS enabled. Correcting it:
 
-> index 000000000000..476bc329363f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml
-> @@ -0,0 +1,45 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,phy-dp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek Display Port Controller
-> +
-> +maintainers:
-> +  - Mac shen <mac.shen@mediatek.com>
-> +  - Liankun yang <Liankun.yang@mediatek.com>
-> +
-> +description: |
-> +  Special settings need to be configured by MediaTek DP based on the actual
-> +  hardware situation. For example, when using a certain brand's docking
-> +  station for display projection, garbage may appear. Adjusting the specific
-> +  ssc value can resolve this issue.
-> +
-> +properties:
-> +  status: disabled
-> +    description: |
-> +      Since the DP driver has already registered the DP PHY device
-> +      through mtk_dp_register_phy(), so the status is disabled.
+glmark2-es2-wayland  --off-screen -b shading:duration=5.0 -b refract -b build -b texture -b shadow -b bump -s 640x480 2>&1
 
-What!? Please show me any other binding that has 'status' in it. Go read 
-up on how to write bindings and what goes in them.
+|                      |                  glmark2 tests                              |
+| sw ver               |shading|build|texture   |refract|shadow|bump |
+|----------------------|-------|-----|----------|-------|------|-----|
+| etnaviv (no TS)      | 348   | 541 | 466      | 24    | 81   | 498 |
+| etnaviv              | 434   | 901 | 832      | 19    | 106  | 871 |
+| vivante              | 402   | 624 | 520      | 26    | 177  | 557 |
 
-> +
-> +  dp-ssc-setting:
-> +    - ssc-delta-hbr
-> +    description: Specific values are set based on the actual HW situation.
-> +
-> +required:
-> +  - status
-> +  - dp-ssc-setting
-> +
-> +examples:
-> +  - |
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        phy-dp@1c600000 {
-> +          status = "disabled";
-> +          dp-ssc-setting {
-> +            ssc-delta-hbr = <0x01fe>;
-> +          }
-> +        };
-> +    };
-> -- 
-> 2.18.0
-> 
+With TS enabled, etnaviv offscreen scores seems to be overall better
+than galcore.
+
+Thanks!
+
+Regards,
+João Paulo
