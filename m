@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B5718C275D
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CBE8C2762
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:08:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C6BB10ECD4;
-	Fri, 10 May 2024 15:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 315E310ED5B;
+	Fri, 10 May 2024 15:08:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DMlfS+bx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="awCnzf5u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A6E910ECE9;
- Fri, 10 May 2024 15:08:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5803010ED5B;
+ Fri, 10 May 2024 15:08:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715353721; x=1746889721;
+ t=1715353727; x=1746889727;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=VygzENeS9ofiv5mahiPKTFpKMSK0qMIQDak/swZqdwg=;
- b=DMlfS+bx6WiE1OAkBkQ7sbW/q5RyWgirNwo+mMOjiZ9zrkpnYenyODnC
- BycJEG0IAXhPKy7VA1zPpxNe0/WfDPhNlUScuZfJ5fhufmuzv3B4n8zK8
- aZ5hXVAHX6pJfZkC0tAEniE26iUN7OG9seXc251z6vu08PBH/PTpVIBhH
- dEVgdGC0IpcnMgFanfVTI4dpfFgrpCJvFd6h/G7u9rstF0TH5K0i/JBku
- qgfBuPZJhdutWH3gfOoA2xDXnCViyHKuYD8KqNdbg5BtXwtwBQGheR0ZB
- gwgb5xORHttxlbbV9HxFkO1M/GGU3DCWQqC/2GnUUqWrL3KCKTaiV+XHE Q==;
-X-CSE-ConnectionGUID: Abb/DMPoTquvSzvnw69tJQ==
-X-CSE-MsgGUID: /nOmPWasQqSHr/EvwpOoWg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="22009794"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="22009794"
+ bh=hgzsZ39uasRxg6TKbY+6GW+l8ksDza+pCBco8vABFkg=;
+ b=awCnzf5u5C5ItTvRG2xwbFhgjmWE5REXh64Y3t4Y5EW+Ptx3EQsDPOQn
+ 9sp+XSfNVkUEglE2QWoMlghiUI9TZrlSxvnOcu+cs4XdB6Oc6AI6ps6Py
+ e0aMk6wzxXtgJNR6ALpuSJ1UTRZG6mQe1dnlFlgOq6xBTjd/zIMG7g50W
+ V+JPt1q2g+reRdnQtfh2MN8iupEmlC8PuvD/GmbFxNeVF1DsgDFlR+ol+
+ scq4T2DPPEsqtVMs2rQt3lJc5GXb+k2YTCq2xfRhg/2UveWVVDllKDuyr
+ knOC6NATPiC5NbqgiignmqLBnkLYivXNSkJwLNX4Z+j3AV0emC/s+6nbd g==;
+X-CSE-ConnectionGUID: d2gVh7IOQFCdb7e/27ZdhA==
+X-CSE-MsgGUID: ZjHG1J60SC2ziuKk3RR6wg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="22009799"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="22009799"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 08:08:40 -0700
-X-CSE-ConnectionGUID: ddQn4QFlQaq+Hy6+lZz7bQ==
-X-CSE-MsgGUID: eELxkMKESRqmLgeIcqUG1w==
+ 10 May 2024 08:08:46 -0700
+X-CSE-ConnectionGUID: TSc5F6kXRn+ATukVp3prIQ==
+X-CSE-MsgGUID: 3d0VL4rFRpqRLIwelny5qw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="30204418"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="30204439"
 Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.180])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 08:08:36 -0700
+ 10 May 2024 08:08:43 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
@@ -49,10 +49,10 @@ Cc: amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
 	Alex Deucher <alexander.deucher@amd.com>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
 	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>
-Subject: [RESEND 3/6] drm/radeon: remove radeon_connector_edid() and stop
+Subject: [RESEND 4/6] drm/amdgpu: remove amdgpu_connector_edid() and stop
  using edid_blob_ptr
-Date: Fri, 10 May 2024 18:08:10 +0300
-Message-Id: <b2bdec9161ddcbf79c8516aeea508a9903bd0074.1715353572.git.jani.nikula@intel.com>
+Date: Fri, 10 May 2024 18:08:11 +0300
+Message-Id: <1463862965d76e9458551598fd4d287a08d3d264.1715353572.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1715353572.git.jani.nikula@intel.com>
 References: <cover.1715353572.git.jani.nikula@intel.com>
@@ -75,8 +75,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-radeon_connector_edid() copies the EDID from edid_blob_ptr as a side
-effect if radeon_connector->edid isn't initialized. However, everywhere
+amdgpu_connector_edid() copies the EDID from edid_blob_ptr as a side
+effect if amdgpu_connector->edid isn't initialized. However, everywhere
 that the returned EDID is used, the EDID should have been set
 beforehands.
 
@@ -89,89 +89,141 @@ Cc: Pan, Xinhui <Xinhui.Pan@amd.com>
 Cc: amd-gfx@lists.freedesktop.org
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/radeon/radeon_audio.c      |  7 ++++---
- drivers/gpu/drm/radeon/radeon_connectors.c | 15 ---------------
- drivers/gpu/drm/radeon/radeon_mode.h       |  2 --
- 3 files changed, 4 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 16 ----------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.h |  1 -
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c         |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c         |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c          |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c          |  4 ++--
+ 6 files changed, 8 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
-index 16c10db3ce6f..0bcd767b9f47 100644
---- a/drivers/gpu/drm/radeon/radeon_audio.c
-+++ b/drivers/gpu/drm/radeon/radeon_audio.c
-@@ -303,6 +303,7 @@ void radeon_audio_endpoint_wreg(struct radeon_device *rdev, u32 offset,
- static void radeon_audio_write_sad_regs(struct drm_encoder *encoder)
- {
- 	struct drm_connector *connector = radeon_get_connector_for_encoder(encoder);
-+	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 	struct radeon_encoder *radeon_encoder = to_radeon_encoder(encoder);
- 	struct cea_sad *sads;
- 	int sad_count;
-@@ -310,7 +311,7 @@ static void radeon_audio_write_sad_regs(struct drm_encoder *encoder)
- 	if (!connector)
- 		return;
- 
--	sad_count = drm_edid_to_sad(radeon_connector_edid(connector), &sads);
-+	sad_count = drm_edid_to_sad(radeon_connector->edid, &sads);
- 	if (sad_count < 0)
- 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
- 	if (sad_count <= 0)
-@@ -326,6 +327,7 @@ static void radeon_audio_write_sad_regs(struct drm_encoder *encoder)
- static void radeon_audio_write_speaker_allocation(struct drm_encoder *encoder)
- {
- 	struct drm_connector *connector = radeon_get_connector_for_encoder(encoder);
-+	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 	struct radeon_encoder *radeon_encoder = to_radeon_encoder(encoder);
- 	u8 *sadb = NULL;
- 	int sad_count;
-@@ -333,8 +335,7 @@ static void radeon_audio_write_speaker_allocation(struct drm_encoder *encoder)
- 	if (!connector)
- 		return;
- 
--	sad_count = drm_edid_to_speaker_allocation(radeon_connector_edid(connector),
--						   &sadb);
-+	sad_count = drm_edid_to_speaker_allocation(radeon_connector->edid, &sadb);
- 	if (sad_count < 0) {
- 		DRM_DEBUG("Couldn't read Speaker Allocation Data Block: %d\n",
- 			  sad_count);
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index 81b5c3c8f658..80879e946342 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -255,21 +255,6 @@ static struct drm_encoder *radeon_find_encoder(struct drm_connector *connector,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index 9caba10315a8..cae7479c3ecf 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -246,22 +246,6 @@ amdgpu_connector_find_encoder(struct drm_connector *connector,
  	return NULL;
  }
  
--struct edid *radeon_connector_edid(struct drm_connector *connector)
+-struct edid *amdgpu_connector_edid(struct drm_connector *connector)
 -{
--	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
+-	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
 -	struct drm_property_blob *edid_blob = connector->edid_blob_ptr;
 -
--	if (radeon_connector->edid) {
--		return radeon_connector->edid;
+-	if (amdgpu_connector->edid) {
+-		return amdgpu_connector->edid;
 -	} else if (edid_blob) {
 -		struct edid *edid = kmemdup(edid_blob->data, edid_blob->length, GFP_KERNEL);
+-
 -		if (edid)
--			radeon_connector->edid = edid;
+-			amdgpu_connector->edid = edid;
 -	}
--	return radeon_connector->edid;
+-	return amdgpu_connector->edid;
 -}
 -
- static void radeon_connector_get_edid(struct drm_connector *connector)
+ static struct edid *
+ amdgpu_connector_get_hardcoded_edid(struct amdgpu_device *adev)
  {
- 	struct drm_device *dev = connector->dev;
-diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
-index 546381a5c918..e0a5af180801 100644
---- a/drivers/gpu/drm/radeon/radeon_mode.h
-+++ b/drivers/gpu/drm/radeon/radeon_mode.h
-@@ -701,8 +701,6 @@ extern u16 radeon_connector_encoder_get_dp_bridge_encoder_id(struct drm_connecto
- extern bool radeon_connector_is_dp12_capable(struct drm_connector *connector);
- extern int radeon_get_monitor_bpc(struct drm_connector *connector);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.h
+index 61fcef15ad72..eff833b6ed31 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.h
+@@ -24,7 +24,6 @@
+ #ifndef __AMDGPU_CONNECTORS_H__
+ #define __AMDGPU_CONNECTORS_H__
  
--extern struct edid *radeon_connector_edid(struct drm_connector *connector);
--
- extern void radeon_connector_hotplug(struct drm_connector *connector);
- extern int radeon_dp_mode_valid_helper(struct drm_connector *connector,
- 				       struct drm_display_mode *mode);
+-struct edid *amdgpu_connector_edid(struct drm_connector *connector);
+ void amdgpu_connector_hotplug(struct drm_connector *connector);
+ int amdgpu_connector_get_monitor_bpc(struct drm_connector *connector);
+ u16 amdgpu_connector_encoder_get_dp_bridge_encoder_id(struct drm_connector *connector);
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+index b44fce44c066..dddb5fe16f2c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+@@ -1299,7 +1299,7 @@ static void dce_v10_0_audio_write_speaker_allocation(struct drm_encoder *encoder
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector_edid(connector), &sadb);
++	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector->edid, &sadb);
+ 	if (sad_count < 0) {
+ 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_count);
+ 		sad_count = 0;
+@@ -1369,7 +1369,7 @@ static void dce_v10_0_audio_write_sad_regs(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_sad(amdgpu_connector_edid(connector), &sads);
++	sad_count = drm_edid_to_sad(amdgpu_connector->edid, &sads);
+ 	if (sad_count < 0)
+ 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
+ 	if (sad_count <= 0)
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+index 80b2e7f79acf..11780e4d7e9f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+@@ -1331,7 +1331,7 @@ static void dce_v11_0_audio_write_speaker_allocation(struct drm_encoder *encoder
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector_edid(connector), &sadb);
++	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector->edid, &sadb);
+ 	if (sad_count < 0) {
+ 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_count);
+ 		sad_count = 0;
+@@ -1401,7 +1401,7 @@ static void dce_v11_0_audio_write_sad_regs(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_sad(amdgpu_connector_edid(connector), &sads);
++	sad_count = drm_edid_to_sad(amdgpu_connector->edid, &sads);
+ 	if (sad_count < 0)
+ 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
+ 	if (sad_count <= 0)
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+index db20012600f5..05c0df97f01d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+@@ -1217,7 +1217,7 @@ static void dce_v6_0_audio_write_speaker_allocation(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector_edid(connector), &sadb);
++	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector->edid, &sadb);
+ 	if (sad_count < 0) {
+ 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_count);
+ 		sad_count = 0;
+@@ -1292,7 +1292,7 @@ static void dce_v6_0_audio_write_sad_regs(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_sad(amdgpu_connector_edid(connector), &sads);
++	sad_count = drm_edid_to_sad(amdgpu_connector->edid, &sads);
+ 	if (sad_count < 0)
+ 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
+ 	if (sad_count <= 0)
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+index 5b56100ec902..dc73e301d937 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+@@ -1272,7 +1272,7 @@ static void dce_v8_0_audio_write_speaker_allocation(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector_edid(connector), &sadb);
++	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector->edid, &sadb);
+ 	if (sad_count < 0) {
+ 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_count);
+ 		sad_count = 0;
+@@ -1340,7 +1340,7 @@ static void dce_v8_0_audio_write_sad_regs(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_sad(amdgpu_connector_edid(connector), &sads);
++	sad_count = drm_edid_to_sad(amdgpu_connector->edid, &sads);
+ 	if (sad_count < 0)
+ 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
+ 	if (sad_count <= 0)
 -- 
 2.39.2
 
