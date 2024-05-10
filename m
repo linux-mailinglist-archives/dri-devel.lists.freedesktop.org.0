@@ -2,74 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106308C248C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 14:07:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A188C24AE
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 14:17:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21E6910E353;
-	Fri, 10 May 2024 12:07:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2F0B10E9CB;
+	Fri, 10 May 2024 12:17:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mLf7Fpp9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nqzn8lBs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F03310E2A5
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 12:07:52 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-a59b81d087aso485584466b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 05:07:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1715342870; x=1715947670;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dXNTsezNdWYZnRG6QT+6065F4f+qKGd7L1PVmOIUWNk=;
- b=mLf7Fpp90w1dF2OstivUfPJb4Gmt3AxFb5zlS236XePISGShdP8v5kjtZ1qQhgsIJ9
- dvqilJ+NWiY3BXSu5jnSIoR8JbhGTUb0V1c8XGaPRwokD8fbrpTi3p1PgOFKvo1swO/d
- iSoNp2iNII7XUJQ5Y0uOQ2n+LDtT6IKCaMKA64B7o0z9V4nOfP2huqOlnQo/gmmtUikc
- ZnCOujnnS54LzNYDkZW6bpxMwJJ73DOkWVB2bs3ulEdpkuYQQGOdHxHYICVaQfxDqmdB
- F9WfPRuz+0Wj4qAub2Y4W9jQk0i1bT4Y6Q4jKYBOgpTG0H18Ts5cOsIQI0nymZOrB4S+
- g3dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715342870; x=1715947670;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dXNTsezNdWYZnRG6QT+6065F4f+qKGd7L1PVmOIUWNk=;
- b=JGOA+GWKn1uYeKv/LrxlO+2UCX2Iiy1YIFqi/yClswQQzhdC7y5vSU+5lbDK9c6Vtj
- BR1lXXZeN3iJzFPpqdBIGjiK9ldF1orjSROg8v5EWuGEz9A8pUhM2+RkKqWtsFGDEhOS
- o2XVLRzETFf610aY9bNslWOkwupXBKmI7+U9rGdRZOVJCg7WXi9A4ePE65ZVbvhlSQqN
- tJn9UqnpZomvRIbe8SFNbil+iTFjg48mZAkzgPk6FVVz1JBaXOzsVKFQezB4mdMzZApN
- emia9kxN1FsvwhmfTwi6NZ5WwuDMTlRL8EQT8BSbdcLoI9ic4XzU+SZgkHfOd2ZDl6oF
- uf3g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUwdm/QqKiH3q5lfSLQ62vNv97Bc87Zr2XuonEDCvStlzILLML6HjRj3i9yIqRp8HJlWwyi3eLKwullpnngSLbRmS2K/tbyUrim896IdcLS
-X-Gm-Message-State: AOJu0Yy5zcBWVIaDOfNZMr/38GaqNZkZFH7Vd6K3pFO/sp7BkP/QSoE6
- hiZOjReLukAYvhFdrZFG5gXb2bahNqhX/OHgCkrg14veplYRnTMunug5nGBhIO1qG56kPGfFCa3
- aCmpW1byw0Y9UoQLPyZLPdAwlCuSqecKc55zxfg==
-X-Google-Smtp-Source: AGHT+IEkHxt5s7tS/c4364g3R4A35U02lj+aw795XFRizFnPsmEQIe0dq0uquDwKAXYE18v7icvEqSCP0RKxgMk+VtM=
-X-Received: by 2002:a50:9e61:0:b0:56e:23e3:bdc2 with SMTP id
- 4fb4d7f45d1cf-5734d5cf9b4mr2375799a12.13.1715342870410; Fri, 10 May 2024
- 05:07:50 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C341310E06E
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 12:17:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715343436; x=1746879436;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=XLUVqcYatjg7IVAYa9hGddIBTsktRkER0why1Wz2KK4=;
+ b=Nqzn8lBsBTLxbFtb134IMkCSC58Agupr7/xPB0HVovgthexKgHVE1puC
+ pvPO3VmJZzByynIqiQSR5gKsAhnZEXcrw5NFpnFhkGk9QEzttQQ+PPKZ8
+ zE54wNGH9VrwwXQ/AhqHGoFvr2e5KwxtpXHusGJ6368H+fO7w4bbVkqVh
+ uuBZ37wiLh+Q9C3Hlk4O80YYOOgrNsHmh2GeK1X3YHKBx8J6+UmVqnsno
+ Tgo8c/8arPk6AGZOjICu5caLqlf/bXFSeQLWivMCpKjyzlkhPHMhGwLjS
+ sY1z7+j/FavCxnd4AWQ5BWhyvANAx1RJkiJc5dxU9w52T/nvVOqKWfHv+ Q==;
+X-CSE-ConnectionGUID: Vzet0D0QTlG8Vi2RBHL6nA==
+X-CSE-MsgGUID: dN8Qm9PCT0Kc+TZ0TccUUA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11153824"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11153824"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 05:17:15 -0700
+X-CSE-ConnectionGUID: AOa7KYi0RaW8rR96NKMbhw==
+X-CSE-MsgGUID: H6RvwJmsRn6vH8W0hJOTZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="60767336"
+Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.180])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 05:17:13 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ airlied@redhat.com, sean@poorly.run
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 4/5] drm/udl: Untangle .get_modes() and .detect_ctx()
+In-Reply-To: <20240410120928.26487-5-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240410120928.26487-1-tzimmermann@suse.de>
+ <20240410120928.26487-5-tzimmermann@suse.de>
+Date: Fri, 10 May 2024 15:17:09 +0300
+Message-ID: <87ttj5hnei.fsf@intel.com>
 MIME-Version: 1.0
-References: <20240509064336.9803-1-lvzhaoxiong@huaqin.corp-partner.google.com>
- <20240509064336.9803-2-lvzhaoxiong@huaqin.corp-partner.google.com>
- <CAD=FV=Ugm+-ziY+8f93KOChvmkbf_MdxEOoyJP5WJq70m-aOGQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=Ugm+-ziY+8f93KOChvmkbf_MdxEOoyJP5WJq70m-aOGQ@mail.gmail.com>
-From: zhaoxiong lv <lvzhaoxiong@huaqin.corp-partner.google.com>
-Date: Fri, 10 May 2024 20:07:39 +0800
-Message-ID: <CA+6=WdT=eoh+qc=O+YzxmugotZvkfcdXxiK4S9Mg++6EtR8vkg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] HID: i2c-hid: elan: Add ili2900 timing
-To: Doug Anderson <dianders@google.com>
-Cc: dmitry.torokhov@gmail.com, robh@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jikos@kernel.org, 
- benjamin.tissoires@redhat.co, hsinyi@google.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,54 +70,318 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-hi Doug
-
-Sorry, This patch was accidentally sent when sending other patches.
-Please ignore this patch.
-
->  Also: other than the main power supply, there is no difference between
-
-> this and the ili2901. If you actually do have a main power supply,
-> then you probably don't need a new table. You probably don't even need
-> your own compatible string and in the device tree you could just
-> specify:
-
-> compatible =3D "ilitek,ili2900, "ilitek,ili2901";
-
-> ...which says "I actually have an ILI 2900, but if you don't have any
-> special driver for the ILI 2900 it's likely that the driver for the
-> ILI 2901 will work because the hardware is almost the same."
-
-In addition, in the previous patch, we have made modifications based
-on your suggestions. "ilitek ili2900" and "ilitek ili2901" use the
-same driver. Upstream may not be needed in the future. Thank you for
-your previous suggestions.
-[1] https://lore.kernel.org/r/CAD=3DFV=3DX5tk0tCcDa+vLnu0aoas1TDWuqvkMzM-27=
-8dOCX8K1gw@mail.gmail.com
-
-
-On Thu, May 9, 2024 at 10:35=E2=80=AFPM Doug Anderson <dianders@google.com>=
- wrote:
+On Wed, 10 Apr 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Provide separate implementations of .get_modes() and .detect_ctx()
+> from struct drm_connector. Switch to struct drm_edid.
 >
-> Hi,
+> Udl's .detect() helper used to fetch the EDID from the adapter and the
+> .get_modes() helper provided display modes from the data. But this
+> relied on the DRM helpers to call the functions in the correct order.
+> When no EDID could be retrieved, .detect() regularly printed a warning
+> to the kernel log.
 >
-> On Wed, May 8, 2024 at 11:43=E2=80=AFPM Zhaoxiong Lv
-> <lvzhaoxiong@huaqin.corp-partner.google.com> wrote:
-> >
-> > From: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-> >
-> > ILI2900 requires reset to pull down time greater than 10ms,
-> > so the configuration post_power_delay_ms is 10, and the chipset
-> > initial time is required to be greater than 100ms,
-> > so the post_gpio_reset_on_delay_ms is set to 100.
-> >
-> > Signed-off-by: lvzhaoxiong <lvzhaoxiong@huaqin.corp-partner.google.com>
-> > ---
-> >  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
+> Switching to the new helpers around struct drm_edid separates both from
+> each other. The .get_modes() helper now fetches the EDID by itself and
+> the .detect_ctx() helper only tests for its presence. The patch does a
+> number of things to implement this.
 >
-> You silently ignored pretty much all of the feedback from the previous
-> version [1], so I'm not planning to review this version.
+> - Move udl_get_edid_block() to udl_edid.c and rename it to
+> udl_read_edid_block(). Then use the helper to implement probing in
+> udl_probe_edid() and reading in udl_edid_read(). The latter helper
+> is build on top of DRM helpers.
 >
-> [1] https://lore.kernel.org/r/CAD=3DFV=3DX5tk0tCcDa+vLnu0aoas1TDWuqvkMzM-=
-278dOCX8K1gw@mail.gmail.com
+> - Replace the existing code in .get_modes() and .detect() with udl's
+> new EDID helpers. The new code behaves like DRM's similar DDC-based
+> helpers. Instead of .detect(), udl now implements .detect_ctx().
+>
+> - Remove the edid data from struct udl_connector. The field cached
+> the EDID data between calls to .detect() and .get_modes(), but is now
+> unused.
+>
+> v2:
+> - implement udl_probe_edid() within udl
+> - reword commit description
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/udl/Makefile      |  1 +
+>  drivers/gpu/drm/udl/udl_drv.h     |  2 -
+>  drivers/gpu/drm/udl/udl_edid.c    | 79 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/udl/udl_edid.h    | 15 ++++++
+>  drivers/gpu/drm/udl/udl_modeset.c | 90 +++++++------------------------
+>  5 files changed, 114 insertions(+), 73 deletions(-)
+>  create mode 100644 drivers/gpu/drm/udl/udl_edid.c
+>  create mode 100644 drivers/gpu/drm/udl/udl_edid.h
+>
+> diff --git a/drivers/gpu/drm/udl/Makefile b/drivers/gpu/drm/udl/Makefile
+> index 00690741db376..43d69a16af183 100644
+> --- a/drivers/gpu/drm/udl/Makefile
+> +++ b/drivers/gpu/drm/udl/Makefile
+> @@ -2,6 +2,7 @@
+>  
+>  udl-y := \
+>  	udl_drv.o \
+> +	udl_edid.o \
+>  	udl_main.o \
+>  	udl_modeset.o \
+>  	udl_transfer.o
+> diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
+> index 282ebd6c02fda..f112cfb270f31 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.h
+> +++ b/drivers/gpu/drm/udl/udl_drv.h
+> @@ -51,8 +51,6 @@ struct urb_list {
+>  
+>  struct udl_connector {
+>  	struct drm_connector connector;
+> -	/* last udl_detect edid */
+> -	struct edid *edid;
+>  };
+>  
+>  static inline struct udl_connector *to_udl_connector(struct drm_connector *connector)
+> diff --git a/drivers/gpu/drm/udl/udl_edid.c b/drivers/gpu/drm/udl/udl_edid.c
+> new file mode 100644
+> index 0000000000000..626f1badea90a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/udl/udl_edid.c
+> @@ -0,0 +1,79 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_edid.h>
+> +
+> +#include "udl_drv.h"
+> +#include "udl_edid.h"
+> +
+> +static int udl_read_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
+> +{
+> +	struct udl_device *udl = data;
+> +	struct drm_device *dev = &udl->drm;
+> +	struct usb_device *udev = udl_to_usb_device(udl);
+> +	u8 *read_buff;
+> +	int idx, ret;
+> +	size_t i;
+> +
+> +	read_buff = kmalloc(2, GFP_KERNEL);
+> +	if (!read_buff)
+> +		return -ENOMEM;
+> +
+> +	if (!drm_dev_enter(dev, &idx)) {
+> +		ret = -ENODEV;
+> +		goto err_kfree;
+> +	}
+> +
+> +	for (i = 0; i < len; i++) {
+> +		int bval = (i + block * EDID_LENGTH) << 8;
+> +
+> +		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+> +				      0x02, (0x80 | (0x02 << 5)), bval,
+> +				      0xA1, read_buff, 2, USB_CTRL_GET_TIMEOUT);
+> +		if (ret < 0) {
+> +			drm_err(dev, "Read EDID byte %zu failed err %x\n", i, ret);
+> +			goto err_drm_dev_exit;
+> +		} else if (ret < 1) {
+> +			ret = -EIO;
+> +			drm_err(dev, "Read EDID byte %zu failed\n", i);
+> +			goto err_drm_dev_exit;
+> +		}
+> +
+> +		buf[i] = read_buff[1];
+> +	}
+> +
+> +	drm_dev_exit(idx);
+> +	kfree(read_buff);
+> +
+> +	return 0;
+> +
+> +err_drm_dev_exit:
+> +	drm_dev_exit(idx);
+> +err_kfree:
+> +	kfree(read_buff);
+> +	return ret;
+> +}
+> +
+> +bool udl_probe_edid(struct udl_device *udl)
+> +{
+> +	static const u8 no_edid[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+> +	u8 hdr[8];
+> +	int ret;
+> +
+> +	ret = udl_read_edid_block(udl, hdr, 0, sizeof(hdr));
+> +	if (ret)
+> +		return false;
+> +
+> +	/*
+> +	 * The adapter sends all-zeros if no monitor has been
+> +	 * connected. We consider anything else a connection.
+> +	 */
+> +	return memcmp(no_edid, hdr, 8) != 0;
+
+Nitpick, this works, but you can drop the no_edid buf by using:
+
+	return memchr_inv(hdr, 0, sizeof(hdr));
+
+Up to you,
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+
+> +}
+> +
+> +const struct drm_edid *udl_edid_read(struct drm_connector *connector)
+> +{
+> +	struct udl_device *udl = to_udl(connector->dev);
+> +
+> +	return drm_edid_read_custom(connector, udl_read_edid_block, udl);
+> +}
+> diff --git a/drivers/gpu/drm/udl/udl_edid.h b/drivers/gpu/drm/udl/udl_edid.h
+> new file mode 100644
+> index 0000000000000..fe15ff3752b7d
+> --- /dev/null
+> +++ b/drivers/gpu/drm/udl/udl_edid.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +
+> +#ifndef UDL_EDID_H
+> +#define UDL_EDID_H
+> +
+> +#include <linux/types.h>
+> +
+> +struct drm_connector;
+> +struct drm_edid;
+> +struct udl_device;
+> +
+> +bool udl_probe_edid(struct udl_device *udl);
+> +const struct drm_edid *udl_edid_read(struct drm_connector *connector);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+> index 3df9fc38388b4..4236ce57f5945 100644
+> --- a/drivers/gpu/drm/udl/udl_modeset.c
+> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> @@ -25,6 +25,7 @@
+>  #include <drm/drm_vblank.h>
+>  
+>  #include "udl_drv.h"
+> +#include "udl_edid.h"
+>  #include "udl_proto.h"
+>  
+>  /*
+> @@ -415,97 +416,44 @@ static const struct drm_encoder_funcs udl_encoder_funcs = {
+>  
+>  static int udl_connector_helper_get_modes(struct drm_connector *connector)
+>  {
+> -	struct udl_connector *udl_connector = to_udl_connector(connector);
+> +	const struct drm_edid *drm_edid;
+> +	int count;
+>  
+> -	drm_connector_update_edid_property(connector, udl_connector->edid);
+> -	if (udl_connector->edid)
+> -		return drm_add_edid_modes(connector, udl_connector->edid);
+> +	drm_edid = udl_edid_read(connector);
+> +	drm_edid_connector_update(connector, drm_edid);
+> +	count = drm_edid_connector_add_modes(connector);
+> +	drm_edid_free(drm_edid);
+>  
+> -	return 0;
+> +	return count;
+>  }
+>  
+> -static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
+> -	.get_modes = udl_connector_helper_get_modes,
+> -};
+> -
+> -static int udl_get_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
+> +static int udl_connector_helper_detect_ctx(struct drm_connector *connector,
+> +					   struct drm_modeset_acquire_ctx *ctx,
+> +					   bool force)
+>  {
+> -	struct udl_device *udl = data;
+> -	struct drm_device *dev = &udl->drm;
+> -	struct usb_device *udev = udl_to_usb_device(udl);
+> -	u8 *read_buff;
+> -	int idx, ret;
+> -	size_t i;
+> -
+> -	read_buff = kmalloc(2, GFP_KERNEL);
+> -	if (!read_buff)
+> -		return -ENOMEM;
+> +	struct udl_device *udl = to_udl(connector->dev);
+>  
+> -	if (!drm_dev_enter(dev, &idx)) {
+> -		ret = -ENODEV;
+> -		goto err_kfree;
+> -	}
+> -
+> -	for (i = 0; i < len; i++) {
+> -		int bval = (i + block * EDID_LENGTH) << 8;
+> -
+> -		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+> -				      0x02, (0x80 | (0x02 << 5)), bval,
+> -				      0xA1, read_buff, 2, USB_CTRL_GET_TIMEOUT);
+> -		if (ret < 0) {
+> -			drm_err(dev, "Read EDID byte %zu failed err %x\n", i, ret);
+> -			goto err_drm_dev_exit;
+> -		} else if (ret < 1) {
+> -			ret = -EIO;
+> -			drm_err(dev, "Read EDID byte %zu failed\n", i);
+> -			goto err_drm_dev_exit;
+> -		}
+> -
+> -		buf[i] = read_buff[1];
+> -	}
+> +	if (udl_probe_edid(udl))
+> +		return connector_status_connected;
+>  
+> -	drm_dev_exit(idx);
+> -	kfree(read_buff);
+> -
+> -	return 0;
+> -
+> -err_drm_dev_exit:
+> -	drm_dev_exit(idx);
+> -err_kfree:
+> -	kfree(read_buff);
+> -	return ret;
+> +	return connector_status_disconnected;
+>  }
+>  
+> -static enum drm_connector_status udl_connector_detect(struct drm_connector *connector, bool force)
+> -{
+> -	struct drm_device *dev = connector->dev;
+> -	struct udl_device *udl = to_udl(dev);
+> -	struct udl_connector *udl_connector = to_udl_connector(connector);
+> -	enum drm_connector_status status = connector_status_disconnected;
+> -
+> -	/* cleanup previous EDID */
+> -	kfree(udl_connector->edid);
+> -	udl_connector->edid = NULL;
+> -
+> -	udl_connector->edid = drm_do_get_edid(connector, udl_get_edid_block, udl);
+> -	if (udl_connector->edid)
+> -		status = connector_status_connected;
+> -
+> -	return status;
+> -}
+> +static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
+> +	.get_modes = udl_connector_helper_get_modes,
+> +	.detect_ctx = udl_connector_helper_detect_ctx,
+> +};
+>  
+>  static void udl_connector_destroy(struct drm_connector *connector)
+>  {
+>  	struct udl_connector *udl_connector = to_udl_connector(connector);
+>  
+>  	drm_connector_cleanup(connector);
+> -	kfree(udl_connector->edid);
+>  	kfree(udl_connector);
+>  }
+>  
+>  static const struct drm_connector_funcs udl_connector_funcs = {
+>  	.reset = drm_atomic_helper_connector_reset,
+> -	.detect = udl_connector_detect,
+>  	.fill_modes = drm_helper_probe_single_connector_modes,
+>  	.destroy = udl_connector_destroy,
+>  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+
+-- 
+Jani Nikula, Intel
