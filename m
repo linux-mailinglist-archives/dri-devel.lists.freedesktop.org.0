@@ -2,80 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1615F8C21D2
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 12:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0DF8C21F0
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 12:19:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B96010E3F1;
-	Fri, 10 May 2024 10:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A091710E3CB;
+	Fri, 10 May 2024 10:19:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aAkz0fCK";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rgAfOqvI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7591A10E3F1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 10:14:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715336097;
- bh=eEvKXAUQ5A4b2EeP4Ht3ji4R3WsRlGq0L4ayYLtpeso=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACA1F10E3CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 10:19:49 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi
+ [91.158.144.210])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4E50289;
+ Fri, 10 May 2024 12:19:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1715336383;
+ bh=XquHpfJBGLMPKDC3WMGLV4QXHnt2QU1T4KJjffskmRg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aAkz0fCKJoq0h5FWrDDhkZnZr5FMcZrkMUdsNqZCcPYEXv7rVL1MbobGnLECk9JqL
- BqD+67jav4FhTI1WLOkcgw/ABPLAmxSGU56MXGQm6COoP4phDSdHxeJb+cqvrpeia7
- i7D1WBYxQfO0TITM8VtQi320OcmTUwYSfh9iTCQ1GLEpmqkmNAJH/V16GqabGCYYvk
- 7E8u00r4E/x6JwaVzGRnoGvOLBkqymY5BWDBMK4f05x4rQsYLwAiVNj+EBAvzZpme3
- Av0+zkg+QyYtpxjGzLQd1jHCFzDucxI2taqY/K51uuqP9AaEFJ5c8nNkpXB3bhMPII
- W56Zxah+qtnkw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id D87303780C6C;
- Fri, 10 May 2024 10:14:55 +0000 (UTC)
-Message-ID: <c384946a-e151-4afb-82f7-d31a5a26aff6@collabora.com>
-Date: Fri, 10 May 2024 12:14:55 +0200
+ b=rgAfOqvIa2cIlLqdpEdAV+UUIz/fIH2/gzisNoQikBdDSp74BqE8eSCoS7pb1332z
+ uNvHlaxQU9QVH3rRWd7Onnu8h9pgJxQ5K01Qj9b1JyXTYdVeb3FDGvCJarV0DhocDZ
+ MAbpW7PYPTOhizEHjpu3A+qHRduDZO6mpolCx/f4=
+Message-ID: <d7bf10d1-9294-44b0-b9f4-193d1a4f26a0@ideasonboard.com>
+Date: Fri, 10 May 2024 13:19:43 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] dt-bindings: arm: mediatek: mmsys: Add OF graph
- support for board path
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "robh@kernel.org" <robh@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-References: <20240409120211.321153-1-angelogioacchino.delregno@collabora.com>
- <20240409120211.321153-3-angelogioacchino.delregno@collabora.com>
- <aa7e3bcf70383e563a65919f924ec2e5e4cd778c.camel@mediatek.com>
- <becdc2e5-4a1d-4280-b6f8-78d4903be283@collabora.com>
- <4dfb09b9c437ab2baa0898eca13a43fd7475047a.camel@mediatek.com>
- <46347f5d-e09b-4e83-a5a2-e12407f442a4@collabora.com>
- <847e1a84b532956f697d24014d684c86f0b76f03.camel@mediatek.com>
- <cbf73111-a6cf-47da-9563-89d49fbdb17d@collabora.com>
- <ee721fd3339f8b3a25464ca57ca192343a51e514.camel@mediatek.com>
- <34caf545-1fc9-4905-a82f-2596f053b3ff@collabora.com>
- <de23d55dd1c84bf9b04119014c3785189ce6f9da.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH RFC 2/2] pmdomain: ti-sci: Support retaining PD boot time
+ state
+To: Ulf Hansson <ulf.hansson@linaro.org>, Abel Vesa <abel.vesa@linaro.org>,
+ Saravana Kannan <saravanak@google.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <kristo@kernel.org>,
+ Santosh Shilimkar <ssantosh@kernel.org>, Dave Gerlach <d-gerlach@ti.com>,
+ J Keerthy <j-keerthy@ti.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+ linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Devarsh Thakkar <devarsht@ti.com>
+References: <20240415-ti-sci-pd-v1-0-a0e56b8ad897@ideasonboard.com>
+ <20240415-ti-sci-pd-v1-2-a0e56b8ad897@ideasonboard.com>
+ <d4cd0323-4792-49b0-a4e2-0bc92068e7f0@ideasonboard.com>
+ <CAPDyKFqShuq98qV5nSPzSqwLLUZ7LxLvp1eihGRBkU4qUKdWwQ@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
-In-Reply-To: <de23d55dd1c84bf9b04119014c3785189ce6f9da.camel@mediatek.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+In-Reply-To: <CAPDyKFqShuq98qV5nSPzSqwLLUZ7LxLvp1eihGRBkU4qUKdWwQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,596 +110,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 10/05/24 11:34, CK Hu (胡俊光) ha scritto:
-> On Thu, 2024-05-09 at 11:27 +0200, AngeloGioacchino Del Regno wrote:
->> Il 09/05/24 07:42, CK Hu (胡俊光) ha scritto:
->>> On Wed, 2024-05-08 at 15:03 +0200, AngeloGioacchino Del Regno
->>> wrote:
->>>> Il 08/05/24 09:19, CK Hu (胡俊光) ha scritto:
->>>>> On Tue, 2024-05-07 at 16:07 +0200, AngeloGioacchino Del Regno
->>>>> wrote:
->>>>>> Il 07/05/24 08:59, CK Hu (胡俊光) ha scritto:
->>>>>>> On Thu, 2024-05-02 at 10:50 +0200, AngeloGioacchino Del
->>>>>>> Regno
->>>>>>> wrote:
->>>>>>>> Il 25/04/24 04:23, CK Hu (胡俊光) ha scritto:
->>>>>>>>> Hi, Angelo:
->>>>>>>>>
->>>>>>>>> On Tue, 2024-04-09 at 14:02 +0200, AngeloGioacchino Del
->>>>>>>>> Regno
->>>>>>>>> wrote:
->>>>>>>>>> Document OF graph on MMSYS/VDOSYS: this supports up
->>>>>>>>>> to
->>>>>>>>>> three
->>>>>>>>>> DDP
->>>>>>>>>> paths
->>>>>>>>>> per HW instance (so potentially up to six displays
->>>>>>>>>> for
->>>>>>>>>> multi-
->>>>>>>>>> vdo
->>>>>>>>>> SoCs).
->>>>>>>>>>
->>>>>>>>>> The MMSYS or VDOSYS is always the first component in
->>>>>>>>>> the
->>>>>>>>>> DDP
->>>>>>>>>> pipeline,
->>>>>>>>>> so it only supports an output port with multiple
->>>>>>>>>> endpoints -
->>>>>>>>>> where
->>>>>>>>>> each
->>>>>>>>>> endpoint defines the starting point for one of the
->>>>>>>>>> (currently
->>>>>>>>>> three)
->>>>>>>>>> possible hardware paths.
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: AngeloGioacchino Del Regno <
->>>>>>>>>> angelogioacchino.delregno@collabora.com>
->>>>>>>>>> ---
->>>>>>>>>>       .../bindings/arm/mediatek/mediatek,mmsys.yaml |
->>>>>>>>>> 23
->>>>>>>>>> +++++++++++++++++++
->>>>>>>>>>       1 file changed, 23 insertions(+)
->>>>>>>>>>
->>>>>>>>>> diff --git
->>>>>>>>>> a/Documentation/devicetree/bindings/arm/mediatek/medi
->>>>>>>>>> atek
->>>>>>>>>> ,mms
->>>>>>>>>> ys.y
->>>>>>>>>> aml
->>>>>>>>>> b/Documentation/devicetree/bindings/arm/mediatek/medi
->>>>>>>>>> atek
->>>>>>>>>> ,mms
->>>>>>>>>> ys.y
->>>>>>>>>> aml
->>>>>>>>>> index b3c6888c1457..4e9acd966aa5 100644
->>>>>>>>>> ---
->>>>>>>>>> a/Documentation/devicetree/bindings/arm/mediatek/medi
->>>>>>>>>> atek
->>>>>>>>>> ,mms
->>>>>>>>>> ys.y
->>>>>>>>>> aml
->>>>>>>>>> +++
->>>>>>>>>> b/Documentation/devicetree/bindings/arm/mediatek/medi
->>>>>>>>>> atek
->>>>>>>>>> ,mms
->>>>>>>>>> ys.y
->>>>>>>>>> aml
->>>>>>>>>> @@ -93,6 +93,29 @@ properties:
->>>>>>>>>>         '#reset-cells':
->>>>>>>>>>           const: 1
->>>>>>>>>>       
->>>>>>>>>> +  port:
->>>>>>>>>> +    $ref: /schemas/graph.yaml#/properties/port
->>>>>>>>>> +    description:
->>>>>>>>>> +      Output port node. This port connects the
->>>>>>>>>> MMSYS/VDOSYS
->>>>>>>>>> output
->>>>>>>>>> to
->>>>>>>>>> +      the first component of one display pipeline,
->>>>>>>>>> for
->>>>>>>>>> example
->>>>>>>>>> one
->>>>>>>>>> of
->>>>>>>>>> +      the available OVL or RDMA blocks.
->>>>>>>>>> +      Some MediaTek SoCs support up to three display
->>>>>>>>>> outputs
->>>>>>>>>> per
->>>>>>>>>> MMSYS.
->>>>>>>>>> +    properties:
->>>>>>>>>> +      endpoint@0:
->>>>>>>>>> +        $ref:
->>>>>>>>>> /schemas/graph.yaml#/properties/endpoint
->>>>>>>>>> +        description: Output to the primary display
->>>>>>>>>> pipeline
->>>>>>>>>> +
->>>>>>>>>> +      endpoint@1:
->>>>>>>>>> +        $ref:
->>>>>>>>>> /schemas/graph.yaml#/properties/endpoint
->>>>>>>>>> +        description: Output to the secondary display
->>>>>>>>>> pipeline
->>>>>>>>>> +
->>>>>>>>>> +      endpoint@2:
->>>>>>>>>> +        $ref:
->>>>>>>>>> /schemas/graph.yaml#/properties/endpoint
->>>>>>>>>> +        description: Output to the tertiary display
->>>>>>>>>> pipeline
->>>>>>>>>> +
->>>>>>>>>> +    required:
->>>>>>>>>> +      - endpoint@0
->>>>>>>>>> +
->>>>>>>>>
->>>>>>>>> mmsys/vdosys does not output data to the first
->>>>>>>>> component of
->>>>>>>>> display
->>>>>>>>> pipeline, so this connection looks 'virtual'. Shall we
->>>>>>>>> add
->>>>>>>>> something
->>>>>>>>> virtual in device tree? You add this in order to decide
->>>>>>>>> which
->>>>>>>>> pipeline
->>>>>>>>> is 1st, 2nd, 3rd, but for device it don't care which
->>>>>>>>> one is
->>>>>>>>> first.
->>>>>>>>> In
->>>>>>>>> computer, software could change which display is the
->>>>>>>>> primary
->>>>>>>>> display.
->>>>>>>>> I'm not sure it's good to decide display order in
->>>>>>>>> device
->>>>>>>>> tree?
->>>>>>>>>
->>>>>>>>
->>>>>>>> Devicetree describes hardware, so nothing virtual can be
->>>>>>>> present
->>>>>>>> -
->>>>>>>> and in any case,
->>>>>>>> the primary/secondary/tertiary pipeline is in relation to
->>>>>>>> MM/VDO
->>>>>>>> SYS,
->>>>>>>> not referred
->>>>>>>> to software.
->>>>>>>>
->>>>>>>> Better explaining, the primary pipeline is not
->>>>>>>> necessarily
->>>>>>>> the
->>>>>>>> primary display in
->>>>>>>> DRM terms: that's a concept that is completely detached
->>>>>>>> from
->>>>>>>> the
->>>>>>>> scope of this
->>>>>>>> series and this graph - and it's something that shall be
->>>>>>>> managed
->>>>>>>> solely by the
->>>>>>>> driver (mediatek-drm in this case).
->>>>>>>>
->>>>>>>> Coming back to the connection looking, but *not* being
->>>>>>>> virtual:
->>>>>>>> the
->>>>>>>> sense here is
->>>>>>>> that the MM/VDOSYS blocks are used in the display
->>>>>>>> pipeline to
->>>>>>>> "stitch" together
->>>>>>>> the various display pipeline hardware blocks, or, said
->>>>>>>> differently,
->>>>>>>> setting up the
->>>>>>>> routing between all of those (P.S.:
->>>>>>>> mmsys_mtxxxx_routing_table!)
->>>>>>>> through the VDO
->>>>>>>> Input Selection (VDOx_SEL_IN) or Output Selection
->>>>>>>> (VDOx_SEL_OUT)
->>>>>>>> and
->>>>>>>> with the
->>>>>>>> assistance of the VDO Multiple Output Mask (VDOx_MOUT)
->>>>>>>> for
->>>>>>>> the
->>>>>>>> multiple outputs
->>>>>>>> usecase, both of which, are described by this graph.
->>>>>>>
->>>>>>> I agree this part, but this is related to display device OF
->>>>>>> graph.
->>>>>>> These display device would output video data from one
->>>>>>> device
->>>>>>> and
->>>>>>> input
->>>>>>> to another video device. These video device would not input
->>>>>>> or
->>>>>>> output
->>>>>>> video data to mmsys/vdosys.
->>>>>>>
->>>>>>>>
->>>>>>>> This means that the VDOSYS is really the "master" of the
->>>>>>>> display
->>>>>>>> pipeline since
->>>>>>>> everything gets enabled, mixed and matched from there -
->>>>>>>> and
->>>>>>>> that's in
->>>>>>>> the sense
->>>>>>>> of hardware operation, so we are *really* (and not
->>>>>>>> virtually!)
->>>>>>>> flipping switches.
->>>>>>>
->>>>>>> I agree mmsys/vdosys is master of video pipeline, so let's
->>>>>>> define
->>>>>>> what
->>>>>>> the port in mmsys/vdosys is. If the port means the master
->>>>>>> relationship,
->>>>>>> mmsys/vdosys should output port to every display device. Or
->>>>>>> use
->>>>>>> a
->>>>>>> simply way to show the master relation ship
->>>>>>>
->>>>>>> mmsys-subdev = <&ovl0, &rdma0, &color0, ...>, <&ovl1,
->>>>>>> &rdma1,
->>>>>>> &color1,
->>>>>>> ...>;
->>>>>>>
->>>>>>
->>>>>> There's no need to list all of the VDO0/VDO1/mmsys devices in
->>>>>> one
->>>>>> big
->>>>>> array
->>>>>> property, because the actual possible devices can be defined:
->>>>>>       1. In the bindings; and
->>>>>>       2. In the actual OF graph that we write for each
->>>>>> SoC+board
->>>>>> combination.
->>>>>>
->>>>>> A graph cannot contain a connection to a device that cannot
->>>>>> be
->>>>>> connected to
->>>>>> the previous, so, your "mmsys-subdev" list can be retrieved
->>>>>> by
->>>>>> looking at the
->>>>>> graph:
->>>>>>      - Start from VDO0/1 or MMSYS
->>>>>>      - Walk through (visually, even) OUTPUT ports
->>>>>>        - VDO0 (read output ep) -> ovl0 (read output ep) ->
->>>>>> rdma0
->>>>>> (read
->>>>>> output ep) ->
->>>>>>          color0 (...) -> etc
->>>>>>      - Nothing more - it's all defined there.
->>>>>>
->>>>>>>
->>>>>>> Another problem is how to group display device? If two
->>>>>>> pipeline
->>>>>>> could
->>>>>>> be route to the same display interface, such as
->>>>>>>
->>>>>>> rdma0 -> dsi
->>>>>>> rdma1 -> dsi
->>>>>>>
->>>>>>> Would this be single group?
->>>>>>
->>>>>> There are multiple ways of doing this, but one that comes to
->>>>>> my
->>>>>> mind
->>>>>> right now and
->>>>>> that looks clean as well is the following:
->>>>>>
->>>>>> ovl0@ef01 {
->>>>>>        .....
->>>>>>       ports {
->>>>>>         port@0 {
->>>>>>           reg = <0>;
->>>>>>           ovl0_in: endpoint {
->>>>>>             remote-endpoint = <&vdosys0_out>;
->>>>>>           };
->>>>>>         };
->>>>>
->>>>> I'm not sure how do you define this port from OVL to vdosys. If
->>>>> this
->>>>> port means 'master relationship', others could add port in
->>>>> COLOR to
->>>>> point to vdosys because COLOR and vdosys has the 'master
->>>>> relationship'
->>>>> and I could not reject this. So we need more specific
->>>>> definition of
->>>>> this port.
->>>>
->>>>
->>>>> Only the 'first' device in pipeline could have this port?
->>>>
->>>> Correct. Only the first device in a pipeline - and this is
->>>> actually a
->>>> restriction
->>>> that the generic binding definition of port already gives, in a
->>>> way.
->>>>
->>>>
->>>>> In mt8173, one pipeline is
->>>>>
->>>>> ovl -> color -> aal -> od -> rdma -> ufo -> dsi
->>>>>
->>>>> But rdma has an option to read data from od or directly from
->>>>> DRAM.
->>>>> If
->>>>> from DRAM, the pipeline would be changed to
->>>>>
->>>>> rdma -> ufo -> dsi
->>>>>
->>>>>
->>>>> So it's confused which one is 'first'.
->>>>
->>>> That's why the pipeline is *board-specific* and not soc-generic!
->>>>
->>>> And what you described is *exactly* the reason why I'm adding
->>>> support
->>>> for the
->>>> OF graphs in mediatek-drm: specifying the correct pipeline for
->>>> each
->>>> board as per
->>>> what each board wants to use (said differently: for each board's
->>>> *capabilities*).
->>>>
->>>> So, if on a certain board you want to skip OD, you can hook RDMA
->>>> up
->>>> directly to
->>>> MMSYS/VDOSYS.
->>>>
->>>> In MT8173, one pipeline for one board uses endpoints IN/OUT like
->>>> this:
->>>>
->>>> MMSYS -> OVL -> COLOR -> AAL -> OD -> RDMA -> UFO -> DSI
->>>>
->>>> and for another board, endpoints will be like
->>>>
->>>> MMSYS -> RDMA -> UFO -> DSI
->>>>
->>>> ...which is the exact same as you described, and I think that
->>>> your
->>>> confusion comes
->>>> from the fact that you didn't put MMSYS at the beginning of the
->>>> pipeline :-)
->>>
->>> In one board, both OVL and RDMA could switch dynamically. Because
->>> each
->>> one could be the first in one board, mmsys point to both ovl and
->>> rdma?
->>>
->>
->> No.
->>
->> MMSYS would still point ONLY to OVL, because OVL is the "earliest
->> point"
->> of the pipeline that this one board does support.
->>
->> In that case, RDMA being present at a later point in the pipeline
->> does not
->> matter and does not prevent us from *temporarily* skipping OVL-COLOR-
->> AAL-OD
->> and going MMSYS->RDMA *directly*.
->>
->> Switching dynamically is a driver duty and will be 100% possible (as
->> much
->> as it is right now) to dynamically switch OVL and RDMA as long as
->> both are
->> present in the pipeline.
->>
->> With this exact pipeline:
->>
->> MMSYS -> OVL -> COLOR -> AAL -> OD -> RDMA -> UFO -> DSI
->>
->> the driver _can switch dynamically_ between MMSYS->OVL->...->RDMA and
->> MMSYS->RDMA as the driver itself *is allowed to* temporarily ignore
->> part
->> of the pipeline.
->>
->> Please note that, in case it is needed (trust me on this: it's not
->> needed)
->> a custom property in the endpoint node can always be introduced
->> later, so
->> that you can declare a node like
->>
->>            endpoint@0 {
->>              remote-endpoint = <&ovl0_in>;
->>              mediatek,short-path = <&rdma0_in>;
->>            };
->>
->> ...but again, that's never going to be needed, as the driver already
->> does
->> have knowledge of the fact that RDMA is in the pipeline, so it is
->> possible
->> to simply do a temporary override in the driver.
->>
->> What the OF Graph support does is to build the same arrays, that we
->> currently
->> have hardcoded in mediatek-drm, by reading from device tree.
->>
->> Nothing else and nothing more - for now.
->>
->> Having the OF Graph support makes us able to also add new dual-path
->> support
->> with more complicated connections than the current ones, without any
->> problem
->> and, in many cases, without even modifying the bindings from what I
->> provided
->> in this series.
+Hi,
+
+On 03/05/2024 16:45, Ulf Hansson wrote:
+> + Abel, Saravanna, Stephen
 > 
-> OK, please add the information we discussed into binding document to
-> prevent anyone misusing this binding.
+> On Mon, 15 Apr 2024 at 19:17, Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+>>
+>> On 15/04/2024 19:00, Tomi Valkeinen wrote:
+>>> Add a new flag, TI_SCI_PD_KEEP_BOOT_STATE, which can be set in the dts
+>>> when referring to power domains. When this flag is set, the ti-sci
+>>> driver will check if the PD is currently enabled in the HW, and if so,
+>>> set the GENPD_FLAG_ALWAYS_ON flag so that the PD will stay enabled.
+>>>
+>>> The main issue I'm trying to solve here is this:
+>>>
+>>> If the Display Subsystem (DSS) has been enabled by the bootloader, the
+>>> related PD has also been enabled in the HW. When the tidss driver
+>>> probes, the driver framework will automatically enable the PD. While
+>>> executing the probe function it is very common for the probe to return
+>>> EPROBE_DEFER, and, in rarer cases, an actual error. When this happens
+>>> (probe() returns an error), the driver framework will automatically
+>>> disable the related PD.
+>>>
+>>> Powering off the PD while the DSS is enabled and displaying a picture
+>>> will cause the DSS HW to enter a bad state, from which (afaik) it can't
+>>> be woken up except with full power-cycle. Trying to access the DSS in
+>>> this state (e.g. when retrying the probe) will usually cause the board
+>>> to hang sooner or later.
+>>>
+>>> Even if we wouldn't have this board-hangs issue, it's nice to be able to
+>>> keep the DSS PD enabled: we want to keep the DSS enabled when the
+>>> bootloader has enabled the screen. If, instead, we disable the PD at the
+>>> first EPROBE_DEFER, the screen will (probably) go black.
+>>
+>> A few things occurred to me. The driver is supposed to clear the
+>> GENPD_FLAG_ALWAYS_ON when the driver has probed successfully. There are
+>> two possible issues with that:
+>>
+>> - Afaics, there's no API to do that, and currently I just clear the bit
+>> in genpd->flags. There's a clear race there, so some locking would be
+>> required.
+>>
+>> - This uses the GENPD_FLAG_ALWAYS_ON flag to say "PD is always on, until
+>> the driver has started". If the PD would have GENPD_FLAG_ALWAYS_ON set
+>> for other reasons, the driver would still go and clear the flag, which
+>> might break things.
+>>
+>> Also, unrelated to the above and not a problem in practice at the very
+>> moment, but I think clocks should also be dealt with somehow. Something,
+>> at early-ish boot stage, should mark the relevant clocks as in use, so
+>> that there's no chance they would be turned off when the main kernel has
+>> started (the main display driver is often a module).
+>>
+>> It would be nice to deal with all the above in a single place. I wonder
+>> if the tidss driver itself could somehow be split into two parts, an
+>> early part that would probe with minimal dependencies, mainly to reserve
+>> the core resources without doing any kind of DRM init. And a main part
+>> which would (somehow) finish the initialization at a later point, when
+>> we have the filesystem (for firmware) and the other bridge/panel drivers
+>> have probed.
+>>
+>> That can be somewhat achieved with simplefb or simpledrm, though, but we
+>> can't do any TI DSS specific things there, and it also creates a
+>> requirement to have either of those drivers built-in, and the related DT
+>> nodes to be added.
 > 
+> Without going into too much detail, this and similar problems have
+> been discussed in the past. With the fw_devlink and the ->sync_state()
+> callback we are getting closer to a solution, but for genpd a solution
+> is still pending.
+> 
+> If you want to read up on earlier discussions and join us moving
+> forward, that would be great. The last attempt for genpd to move this
+> forward was posted by Abel Vesa:
+> https://lore.kernel.org/linux-pm/20230621144019.3219858-1-abel.vesa@linaro.org/
+> 
+> Beyond that, we have also discussed various solutions at the last LPC
+> in Richmond. I think the consensus at that point was that Saravana
+> targeted to post something for clocks - and when that was done, we
+> should do the similar thing for genpd. Anyway, I have looped them into
+> this thread, so they can share any updates on their side of the
+> matter.
 
-Sorry CK, but the binding *does* already have this information inside - not
-in terms of "phrases", but in terms of restrictions of the binding...
+If I understand the series correctly, it has an issue at least for this 
+case/platform.
 
-If you want, though, I can add this information in the description of the
-commit that is adding this binding, is that okay for you?
+The devlinks are between the consumer devices and the PD provider 
+device. TI SCI PD provider has quite a lot of PDs, and all the consumers 
+would have to be probed before any of the PDs could be disabled. So, to 
+get the display PD disabled, I would have to load, e.g., the GPU driver 
+(which I don't even have).
 
-Thanks,
-Angelo
+I believe this is the case for the clocks also.
 
-> Regards,
-> CK
+Perhaps that can be considered a feature, but I fear that in practice it 
+would mean that most of the time for most users all the boot-time 
+enabled powerdomains would be always on.
+
+Nevertheless, I believe the series would fix the issue mentioned in this 
+patch, so I'll see if I can get the series working on the TI platform to 
+get a bit more experience on this whole issue.
+
+  Tomi
+
 > 
 >>
->> Cheers,
->> Angelo
+>>    Tomi
+> 
+> Kind regards
+> Uffe
+> 
 >>
->>> Regards,
->>> CK
+>>> Another option here would perhaps be to change the driver framework
+>>> (drivers/base/platform.c) which attaches and detaches the PD, and make
+>>> it somehow optional, allowing the driver the manage the PD. That option
+>>> has two downsides: 1) the driver _has_ to manage the PD, which would
+>>> rule out the use of simplefb and simpledrm, and 2) it would leave the PD
+>>> in off state from Linux's perspective until a driver enables the PD, and
+>>> that might mean that the PD gets actually disabled as part of normal
+>>> system wide power management (disabling unused resources).
 >>>
->>>>
->>>>
->>>>
->>>>
->>>> In case you need any *temporary override* on any board that
->>>> defines a
->>>> pipeline like
->>>>
->>>> MMSYS -> OVL -> COLOR -> AAL -> OD -> RDMA -> UFO -> DSI
->>>>
->>>> so that the pipeline *temporarily* becomes (for power management,
->>>> or
->>>> for any other
->>>> reason) RDMA -> UFO -> DSI .... that's not a concern: the graph
->>>> is
->>>> present, and it
->>>> is used to tell to the driver what is the regular pipeline to
->>>> use.
->>>> Eventual temporary overrides can be managed transparently inside
->>>> of
->>>> the driver with
->>>> C code and no changes to the devicetree are required.
->>>>
->>>>
->>>>> I don't know how to decide which device could point to
->>>>> mmsys/vdosys. So
->>>>> please give a specific definition.
->>>>>
->>>>
->>>> Nothing points TO mmsys/vdosys. It is mmsys/vdosys pointing to a
->>>> device.
->>>>
->>>> So, mmsys/vdosys must point to the *first device in the
->>>> pipeline*.
->>>>
->>>> Any other doubt?
->>>>
->>>> Cheers,
->>>> Angelo
->>>>
->>>>> Regards,
->>>>> CK
->>>>>
->>>>>>
->>>>>>         port@1 {
->>>>>>           reg = <1>;
->>>>>>           ovl0_out0: endpoint@0 {
->>>>>>             remote-endpoint = <&rdma0_in>;
->>>>>>           };
->>>>>>           ovl0_out1: endpoint@1 {
->>>>>>             remote-endpoint = <&rdma1_in>;
->>>>>>           };
->>>>>>         };
->>>>>>       };
->>>>>> };
->>>>>>
->>>>>> rdma0@1234 {
->>>>>>        .....
->>>>>>       ports {
->>>>>>         port@0 {
->>>>>>           reg = <0>;
->>>>>>           rdma0_in: endpoint {
->>>>>>             remote-endpoint = <&ovl0_out0>; /* assuming ovl0
->>>>>> outputs to
->>>>>> rdma0...*/
->>>>>>           };
->>>>>>         };
->>>>>>         port@1 {
->>>>>>           reg = <1>;
->>>>>>           rdma0_out: endpoint@1 {
->>>>>>             remote-endpoint = <&dsi_dual_intf0_in>;
->>>>>>           };
->>>>>>         };
->>>>>>       };
->>>>>> };
->>>>>>
->>>>>>
->>>>>> rdma1@5678 {
->>>>>>        .....
->>>>>>       ports {
->>>>>>         port@0 {
->>>>>>           reg = <0>;
->>>>>>           rdma1_in: endpoint {
->>>>>>             /* assuming ovl0 outputs to rdma1 as well... can
->>>>>> be
->>>>>> something else. */
->>>>>>             remote-endpoint = <&ovl0_out1>;
->>>>>>           };
->>>>>>         };
->>>>>>         port@1 {
->>>>>>           reg = <1>;
->>>>>>           rdma1_out: endpoint {
->>>>>>             remote-endpoint = <&dsi_dual_intf1_in>;
->>>>>>           };
->>>>>>         };
->>>>>>       };
->>>>>> };
->>>>>>
->>>>>>
->>>>>> dsi@9abcd {
->>>>>>        .....
->>>>>>       ports {
->>>>>>         port@0 {
->>>>>>           reg = <0>;
->>>>>>           /* Where endpoint@0 could be always DSI LEFT CTRL */
->>>>>>           dsi_dual_intf0_in: endpoint@0 {
->>>>>>             remote-endpoint = <&rdma0_out>;
->>>>>>           };
->>>>>>           /* ...and @1 could be always DSI RIGHT CTRL */
->>>>>>           dsi_dual_intf1_in: endpoint@1 {
->>>>>>             remote-endpoint = <&rdma1_out>;
->>>>>>           };
->>>>>>         };
->>>>>>
->>>>>>         port@1 {
->>>>>>           reg = <1>;
->>>>>>           dsi0_out: endpoint {
->>>>>>             remote-endpoint = <&dsi_panel_in>;
->>>>>>           };
->>>>>>         };
->>>>>>       };
->>>>>> };
->>>>>>
->>>>>> ...for a dual-dsi panel, it'd be a similar graph.
->>>>>>
->>>>>> Cheers,
->>>>>> Angelo
->>>>>>
->>>>>>>
->>>>>>> mmsys-subdev = <&rdma0, &rdma1, &dsi>;
->>>>>>>
->>>>>>> Or two group?
->>>>>>>
->>>>>>> mmsys-subdev = <&rdma0, &dsi>, <&rdma1, &dsi>;
->>>>>>>
->>>>>>> I think we should clearly define this.
->>>>>>>
->>>>>>> Regards,
->>>>>>> CK
->>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>> Cheers,
->>>>>>>> Angelo
->>>>>>>>
->>>>>>>>> Regards,
->>>>>>>>> CK
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>>       required:
->>>>>>>>>>         - compatible
->>>>>>>>>>         - reg
->>>>>>>>
->>>>>>>>
->>>>>>
->>>>>>
->>>>>>
->>>>
->>>>
+>>> Yet another option would be to do this outside the ti_sci_pm_domains
+>>> driver: a piece of code that would somehow be ran after the
+>>> ti_sci_pm_domains driver has probed (so that we have the PDs), but
+>>> before tidss/simplefb/simpledrm probes. The problem here is the
+>>> "somehow" part. Also, this would partly have the same issue 2) as
+>>> mentioned above.
+>>>
+>>> TODO: If this approach is ok, sci-pm-domain.yaml needs to be extended.
+>>> Also, it sounds a bit like the cell value is not a bit-mask, so maybe
+>>> adding TI_SCI_PD_KEEP_BOOT_STATE flag this way is not fine.
+>>>
+>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> ---
+>>>    drivers/pmdomain/ti/ti_sci_pm_domains.c    | 27 +++++++++++++++++++++++++--
+>>>    include/dt-bindings/soc/ti,sci_pm_domain.h |  1 +
+>>>    2 files changed, 26 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/pmdomain/ti/ti_sci_pm_domains.c b/drivers/pmdomain/ti/ti_sci_pm_domains.c
+>>> index 1510d5ddae3d..b71b390aaa39 100644
+>>> --- a/drivers/pmdomain/ti/ti_sci_pm_domains.c
+>>> +++ b/drivers/pmdomain/ti/ti_sci_pm_domains.c
+>>> @@ -103,7 +103,7 @@ static struct generic_pm_domain *ti_sci_pd_xlate(
+>>>                return ERR_PTR(-ENOENT);
+>>>
+>>>        genpd_to_ti_sci_pd(genpd_data->domains[idx])->exclusive =
+>>> -             genpdspec->args[1];
+>>> +             genpdspec->args[1] & TI_SCI_PD_EXCLUSIVE;
+>>>
+>>>        return genpd_data->domains[idx];
+>>>    }
+>>> @@ -161,6 +161,8 @@ static int ti_sci_pm_domain_probe(struct platform_device *pdev)
+>>>                                break;
+>>>
+>>>                        if (args.args_count >= 1 && args.np == dev->of_node) {
+>>> +                             bool is_on = false;
+>>> +
+>>>                                if (args.args[0] > max_id) {
+>>>                                        max_id = args.args[0];
+>>>                                } else {
+>>> @@ -189,7 +191,28 @@ static int ti_sci_pm_domain_probe(struct platform_device *pdev)
+>>>                                pd->idx = args.args[0];
+>>>                                pd->parent = pd_provider;
+>>>
+>>> -                             pm_genpd_init(&pd->pd, NULL, true);
+>>> +                             /*
+>>> +                              * If TI_SCI_PD_KEEP_BOOT_STATE is set and the
+>>> +                              * PD has been enabled by the bootloader, set
+>>> +                              * the PD to GENPD_FLAG_ALWAYS_ON. This will
+>>> +                              * make sure the PD stays enabled until a driver
+>>> +                              * takes over and clears the GENPD_FLAG_ALWAYS_ON
+>>> +                              * flag.
+>>> +                              */
+>>> +                             if (args.args_count > 1 &&
+>>> +                                 args.args[1] & TI_SCI_PD_KEEP_BOOT_STATE) {
+>>> +                                     /*
+>>> +                                      * We ignore any error here, and in case
+>>> +                                      * of error just assume the PD is off.
+>>> +                                      */
+>>> +                                     pd_provider->ti_sci->ops.dev_ops.is_on(pd_provider->ti_sci,
+>>> +                                             pd->idx, NULL, &is_on);
+>>> +
+>>> +                                     if (is_on)
+>>> +                                             pd->pd.flags |= GENPD_FLAG_ALWAYS_ON;
+>>> +                             }
+>>> +
+>>> +                             pm_genpd_init(&pd->pd, NULL, !is_on);
+>>>
+>>>                                list_add(&pd->node, &pd_provider->pd_list);
+>>>                        }
+>>> diff --git a/include/dt-bindings/soc/ti,sci_pm_domain.h b/include/dt-bindings/soc/ti,sci_pm_domain.h
+>>> index 8f2a7360b65e..af610208e3a3 100644
+>>> --- a/include/dt-bindings/soc/ti,sci_pm_domain.h
+>>> +++ b/include/dt-bindings/soc/ti,sci_pm_domain.h
+>>> @@ -3,6 +3,7 @@
+>>>    #ifndef __DT_BINDINGS_TI_SCI_PM_DOMAIN_H
+>>>    #define __DT_BINDINGS_TI_SCI_PM_DOMAIN_H
+>>>
+>>> +#define TI_SCI_PD_KEEP_BOOT_STATE 2
+>>>    #define TI_SCI_PD_EXCLUSIVE 1
+>>>    #define TI_SCI_PD_SHARED    0
+>>>
+>>>
 >>
->>
->>
-
 
