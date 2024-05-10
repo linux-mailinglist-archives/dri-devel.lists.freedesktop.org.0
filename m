@@ -2,62 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6F08C1EF7
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 09:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE04D8C1EFE
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 09:33:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E62610E00C;
-	Fri, 10 May 2024 07:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C5E10E0D9;
+	Fri, 10 May 2024 07:32:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="ZtbpYljy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="edgCFKau";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 690AF10E00C
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 07:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=tDeBDTlHhRotNJXbXQD3Xhybil+lKJGxwg0oZinj7HA=; b=ZtbpYljyIxDLeyBoqwPxMxsh6k
- TpCIvR5er9mKr05u9YolMcxmGgQinH9dsMYCrCAdkvyKHG3sU+F/AF5/W2OJE/QyeC0X7Tp6L3Jyo
- fIEOMxDR3dmGNPvi1kJv+FhSDJLt+/r6dROJqFu1ZM/1UJ3AZi5+1eRzNp482vbUgCvPzVD9MwRsl
- A0FTlWylDqaAanYXpZUx3QDKJ8daAE73VKpRQM3+5px+X6qNWxm6LiiInZqZlZKBABd4PmlSqjS5c
- bfaj42jAEOKk3ys+cOIOcfLW8NyA+IQFMsJPz+D9N0052u3jJQUuJXzORCubIpqnaJWUrtMx83uxZ
- mrvTyH5A==;
-Received: from [194.136.85.206] (port=47052 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1s5Kgr-00015I-0q;
- Fri, 10 May 2024 10:29:13 +0300
-Date: Fri, 10 May 2024 10:29:05 +0300
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: nerdopolis <bluescreen_avenger@verizon.net>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: simpledrm, running display servers, and drivers replacing
- simpledrm while the display server is running
-Message-ID: <20240510102905.4a19f5da@eldfell>
-In-Reply-To: <9215788.EvYhyI6sBW@nerdopolis2>
-References: <9215788.EvYhyI6sBW.ref@nerdopolis2>
- <9215788.EvYhyI6sBW@nerdopolis2>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 034B710E0D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 07:32:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715326378; x=1746862378;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ByEC9kiMaabF3vVkEOp8v75OMBj+coHKSUUUS2mNNEA=;
+ b=edgCFKauxBiN6Fvb2QgyEqZvaoVcoCK8xIhGWzVcxo8kEf+LLmO68tPN
+ sT7dI9zDb443eoYEzJsE5S9kHr+ot9jNJX14n+JhcGTUEqjNEOBFUYOdh
+ udJZ1R9IaGP709RSeUSgeA8pWiRlquVRGR+5ZpBuiDU//zPoJHk2PIa4n
+ 1qCfxztafrEva7MtdmIZF4DSfiL6IaNcOlwG90+MU8a3mmfM83PKjjK5P
+ yMbeQ4wtQqz54ZsnAR98IDGGootS036hVf+Ph3J+G8gb1m+GlAU+/UI5+
+ gXGoaFGDMkB+TVr6Pvkq/uDbIpwp2zB3kRo1T/ivB2OGDN1YBnkh2weOo w==;
+X-CSE-ConnectionGUID: EpNkW+jfSFijJnShLBAvKw==
+X-CSE-MsgGUID: zNJ+6UDmRsWWmfjtlAqhVQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="14245276"
+X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; d="scan'208";a="14245276"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 00:32:58 -0700
+X-CSE-ConnectionGUID: ybRwEvJsRIG5YlmeO+pHBg==
+X-CSE-MsgGUID: mvMVWbM1Qkmt1ZMeJojlcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; d="scan'208";a="29589840"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 10 May 2024 00:32:51 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1s5KkK-0005qp-2s;
+ Fri, 10 May 2024 07:32:48 +0000
+Date: Fri, 10 May 2024 15:31:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexey Makhalov <alexey.makhalov@broadcom.com>,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+ bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
+ mingo@redhat.com, tglx@linutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, netdev@vger.kernel.org,
+ richardcochran@gmail.com, linux-input@vger.kernel.org,
+ dmitry.torokhov@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+ timothym@vmware.com, akaher@vmware.com,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
+ tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, horms@kernel.org,
+ kirill.shutemov@linux.intel.com,
+ Alexey Makhalov <alexey.makhalov@broadcom.com>,
+ Nadav Amit <nadav.amit@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>
+Subject: Re: [PATCH v9 6/8] drm/vmwgfx: Use VMware hypercall API
+Message-ID: <202405101512.NJRbYcaH-lkp@intel.com>
+References: <20240506215305.30756-7-alexey.makhalov@broadcom.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/b8enHR9N0q+fhSJaW0i3ike";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240506215305.30756-7-alexey.makhalov@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,105 +82,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/b8enHR9N0q+fhSJaW0i3ike
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Alexey,
 
-On Thu, 09 May 2024 09:06:29 -0400
-nerdopolis <bluescreen_avenger@verizon.net> wrote:
+kernel test robot noticed the following build errors:
 
-> Hi
->=20
-> So I have been made aware of an apparent race condition of some
-> drivers taking a bit longer to load, which could lead to a possible
-> race condition of display servers/greeters using the simpledrm
-> device, and then experiencing problems once the real driver loads,
-> the simpledrm device that the display servers are using as their
-> primary GPU goes away.=20
->=20
-> For example Weston crashes, Xorg crashes, wlroots seems to stay
-> running, but doesn't draw anything on the screen, kwin aborts, This
-> is if you boot on a QEMU machine with the virtio card, with
-> modprobe.blacklist=3Dvirtio_gpu, and then, when the display server is
-> running, run sudo modprobe virtio-gpu
->=20
-> Namely, it's been recently reported here:
-> https://github.com/sddm/sddm/issues/1917[1] and here
-> https://github.com/systemd/systemd/issues/32509[2]
->=20
-> My thinking: Instead of simpledrm's /dev/dri/card0 device going away
-> when the real driver loads, is it possible for simpledrm to instead
-> simulate an unplug of the fake display/CRTC? That way in theory, the
-> simpledrm device will now be useless for drawing for drawing to the
-> screen at that point, since the real driver is now taken over, but
-> this way here, at least the display server doesn't lose its handles
-> to the /dev/dri/card0 device, (and then maybe only remove itself once
-> the final handle to it closes?)
->=20
-> Is something like this possible to do with the way simpledrm works
-> with the low level video memory? Or is this not possible?
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on dtor-input/next dtor-input/for-linus linus/master v6.9-rc7 next-20240509]
+[cannot apply to tip/x86/vmware]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Hi,
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Makhalov/x86-vmware-Move-common-macros-to-vmware-h/20240507-055606
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240506215305.30756-7-alexey.makhalov%40broadcom.com
+patch subject: [PATCH v9 6/8] drm/vmwgfx: Use VMware hypercall API
+config: x86_64-buildonly-randconfig-003-20240510 (https://download.01.org/0day-ci/archive/20240510/202405101512.NJRbYcaH-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405101512.NJRbYcaH-lkp@intel.com/reproduce)
 
-what you describe sounds similar to what has been agreed that drivers
-should implement:
-https://docs.kernel.org/gpu/drm-uapi.html#device-hot-unplug
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405101512.NJRbYcaH-lkp@intel.com/
 
-That would be the first step. Then display servers would need fixing to
-handle the hot-unplug. Then they would need to handle hot-plug of the
-new DRM devices and ideally migrate to GPU accelerated compositing in
-order to support GPU accelerated applications.
+All errors (new ones prefixed by >>):
 
-Simpledrm is not a GPU driver, and I assume that in the case you
-describe, the GPU driver comes up later, just like the
-hardware-specific display driver. Any userspace that initialized with
-simpledrm will be using software rendering. Ideally if a hardware
-rendering GPU driver turns up later and is usable with the displays,
-userspace would migrate to that.
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_port_hb_out':
+   vmwgfx_msg.c:(.text+0x182): undefined reference to `vmware_hypercall_mode'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_send_msg':
+   vmwgfx_msg.c:(.text+0x46d): undefined reference to `vmware_hypercall_mode'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: in function `vmw_recv_msg':
+   vmwgfx_msg.c:(.text+0x6f4): undefined reference to `vmware_hypercall_mode'
+>> ld: vmwgfx_msg.c:(.text+0x875): undefined reference to `vmware_hypercall_mode'
+   ld: vmwgfx_msg.c:(.text+0xae0): undefined reference to `vmware_hypercall_mode'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_msg.o:vmwgfx_msg.c:(.text+0x136e): more undefined references to `vmware_hypercall_mode' follow
 
-Essentially this is a display/GPU device switch. In general that's a
-big problem, needing all applications to be able to handle a GPU
-disappearing and another GPU appearing, and not die in between. For
-the simpledrm case it is easier, because the migration is from no GPU
-to a maybe GPU. So applications like Wayland clients could stay alive
-as-is, they just don't use a GPU until they restart.
-
-The problem is making display servers handle this switch of display
-devices and a GPU hotplug. Theoretically I believe it is doable. E.g.
-Weston used to be able to migrate from pixman-renderer to GL-renderer,
-but I suspect it is lacking support for hot-unplug of the "main" DRM
-display device.
-
-
-Thanks,
-pq
-
-> Thanks
->=20
-> --------
-> [1] https://github.com/sddm/sddm/issues/1917
-> [2] https://github.com/systemd/systemd/issues/32509
-
-
---Sig_/b8enHR9N0q+fhSJaW0i3ike
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmY9zMEACgkQI1/ltBGq
-qqeHPA/8D/f09DWUu8IR7UFeuhY7DHD0PhmFrSa/SqczsaWtZ3zI17r/08jhCOCC
-w56LznS6J0+OKkQ9lbVtcIVLY51in0sij0YBk/xefCcJGP8arKOE9XiRlm7AgR8/
-e1HmK1IyumHWBKzhZHXPmlIQ2xz/f+JNbFGB9N9esQlbbfQLwIdJ1WdcXj+zGIyz
-RdiLhkPjyrBdXfdneu/OI0R0kwwMD9zeEi0QaHunt8wgGoDDoWlA5oS2mHlH5aNf
-y3Aop6ukkR3fnZ6JKcSY8C/Zg//m/Er4PcQrEZS2tbOEAEvUxJIrDIh4rD5qFpXO
-NHtn+5stiZ9Q+SRuhn2/2z+x7u23L8xqGzQv/g3WaGDrcm07HPi49ulLRX9uhI+5
-QYMTRBKlwslFGjjHRoiOY0LHCk4MVfjGdx3mZb81WDgJB12BXnw/+JIpW82JI0qc
-nDhfeBYm9jezyQ8/WmHVfVJiz27gs26RbDFGovlhKjFJUyglhnpxsSgI6gcPJSOq
-qyQLdMrRkLqwHx5h682RoEi1BTL3v3eM4YrhdKPt++xkCEQIftvWHB9POe29BhG/
-4m9W5/RFTiKz/GiQVplBD5yhuWzQtCLXUeeQjV49ATpesX0RkuN+o7U8Bq7kfX+c
-0B40eAIDtYr/dXBvLEfuu1aDmlMzXVA2PkUcAXS/v2oklLipeHU=
-=oTtz
------END PGP SIGNATURE-----
-
---Sig_/b8enHR9N0q+fhSJaW0i3ike--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
