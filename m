@@ -2,92 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7DC8C2C20
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 23:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B463C8C2C8F
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 00:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4869710E2AD;
-	Fri, 10 May 2024 21:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4E1310E0BE;
+	Fri, 10 May 2024 22:23:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Ew8CfFgA";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lTHS3V79";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D09710E2AD
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 21:54:09 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-620390308e5so23096217b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:54:09 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA44410E074
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 22:23:02 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-2e1fa824504so32478431fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715378048; x=1715982848;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rt6iJAjgKn/wqu2ZEGbXptum/Kwuofy0xQtcrLEeDd0=;
- b=Ew8CfFgAYEOy7UQn9dL/KKEHGm969BQ9E5FgDLsKL0xt3cAJI1oxFFnrmOyXqWASOG
- BLlOt2gHmh36hDZIS6KYzopRnWLKT7+dWL3B9F4/m2rlBVGjOeymFTbAkvTA+0366Q6V
- 21pjdr6zErafjY+eMLYLSq7odMBIYqS8bi+2E=
+ d=linaro.org; s=google; t=1715379781; x=1715984581; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=G0Uyr1pN8k/ARGpxhDyBbiCgjg0OynDBUphzu3LkFrg=;
+ b=lTHS3V79gHCVdSk1H5UpsH2lq5L3ZJd0IUmgQM7ZJ9Gbtq/HOKw3m4vaxHpH5plXil
+ xAf05Ytp8Q/7+1/VUqV5nOwGI83bjGRJfAuqW24jjF/HxPDZUxVFrQJ/+UE1QG57mjBe
+ Av33ClPTZ0ij9sSJn87Pnoi89eMsrAXbu1HJq608TQ+dhq+UuEP0xapGa4T0IWevTCwF
+ 01aNEd+CXBG+7YRoEbhxOY6NyulmlLQzSRsckKw0bSSoAm9M8d5rV4GusCyM6nCoQpQQ
+ DHm5pHcqZ6VIlXKmWu/EhlmdZMheuAkNTCGWyufADcEZ+QKTv0Iui1BEpjAd3plHH6Ww
+ UiMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715378048; x=1715982848;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rt6iJAjgKn/wqu2ZEGbXptum/Kwuofy0xQtcrLEeDd0=;
- b=Ep7iTnYCMHPFnP59/Uaf4/Od79wGPXGc3SjPHmHdWIbbFDAWxuq3yjnJKBafPjqsSz
- kvI4DVKSMeEerkuBs6lUrcUli8B1MiPiSOOiuEejXd8OjzzgxHHb2qlriiYczYazrX+I
- qMhLMBTXDxk0Fz8ivIgof9A2ehEzfgpQRIWyUP4Bt+P2Dgl9U6ndhHdJyWS8GPpjy2KV
- sNdCj/LV2/4dkzJ0ThYGCYZhCQyF8zFOZxHCGSzaKMjloK3J1WVTzpfrVguC7lLYWbBt
- RZff2xe6DVoQY67DJb0KShrT5OwCunMhdl0CwsrAZ8nioa70fRE55DbK3VJ3udeC7K3D
- zDLQ==
+ d=1e100.net; s=20230601; t=1715379781; x=1715984581;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=G0Uyr1pN8k/ARGpxhDyBbiCgjg0OynDBUphzu3LkFrg=;
+ b=N21IAx+OrK3EZchUxiD6onwsg+zWq1FGretY6tgLCgkamGdwboQTu06t21qhfwUrym
+ /c0uWZBCAK9zajYA19LI7VtQ3K/ZZD2G0lWtZuXmnEqQ9UIY5881sot9DcUFJCJD+oei
+ vSi75XkfE8R2xPx+0wDxn0qTx+vaE6aeOJqX46gKYu4VFSyWUcv6kGKqAsHZJyusYjwK
+ FXJhGXqR7Doefqyiz/Y4LX7jOJpZzZGwkTIbiLpYsbBSgKixygnR8HmhbbO8NmO7/40a
+ Mo5/JeFu+nClaNoa8ShUwzwgSCNu0THyus6JaPyn7WZQsnTFFsUJdEzQySPeBZx6+f7g
+ MhfQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWkxJmKisvqoCdmJ0gcc1SR0G9LMk8ivyJAgAJKV6kibfS2UODXSbRLd7YYkYVaw9iY3scPGVgoHxP3RoCvgmM8JpiUOwqB6FHmpY6CDUbe
-X-Gm-Message-State: AOJu0YzfeRWoHC4Xgp4zqPWTKLZeyZ9Agt0QKOYbBSJ7zMYjXu1ARTOo
- by9phRzkJ9qxXhcUnwuBLSCsnjdbC39gQUmi9J6cIkHyjc6WpbPtJ/vyKLslaZcMzFZVkankom8
- =
-X-Google-Smtp-Source: AGHT+IFZZ6p22fUmViszt22UYL1wQT/sEQBsLEJ7xiRKdcVuCnO9YgYvI9r/PzttOCwv3Fll2N7iDQ==
-X-Received: by 2002:a81:4e06:0:b0:61a:b7c8:ea05 with SMTP id
- 00721157ae682-622b001ec63mr43501417b3.35.1715378047412; 
- Fri, 10 May 2024 14:54:07 -0700 (PDT)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com.
- [209.85.160.171]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-43df569f78bsm25339091cf.61.2024.05.10.14.54.07
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 May 2024 14:54:07 -0700 (PDT)
-Received: by mail-qt1-f171.google.com with SMTP id
- d75a77b69052e-43dfe020675so144551cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:54:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWFQAF7WP5ApwS+/4bnWBuKHLmo3omB5E6JjH21HKsxAd+lc3KVadt0tB9b1A03j/pwBcsgpCh28OzyJJzhh+hRznHPuyJ4zLP/lTfTZdGM
-X-Received: by 2002:a05:622a:2610:b0:437:c4ae:f3b4 with SMTP id
- d75a77b69052e-43e09557d5bmr805221cf.26.1715377642591; Fri, 10 May 2024
- 14:47:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240510-dsi-panels-upd-api-v1-0-317c78a0dcc8@linaro.org>
- <20240510-dsi-panels-upd-api-v1-7-317c78a0dcc8@linaro.org>
-In-Reply-To: <20240510-dsi-panels-upd-api-v1-7-317c78a0dcc8@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 10 May 2024 14:47:10 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vs4-vWby5YXxzbb1881DjeFWm0fRQCkPTDJYzTX61wSA@mail.gmail.com>
-Message-ID: <CAD=FV=Vs4-vWby5YXxzbb1881DjeFWm0fRQCkPTDJYzTX61wSA@mail.gmail.com>
-Subject: Re: [PATCH RFC 7/7] drm/panel: lg-sw43408: use new streamlined MIPI
- DSI API
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
+ AJvYcCW90VtH8nmzp2tmJdXu11ZflZil/eVnt/8uA6l55U0W5H5egZYHcGu+BB5GyyEVXhYU+EMKqi/QE2D4ne4ubldscXa9kD6HdJPpV3fs7255
+X-Gm-Message-State: AOJu0YzPWj/o89h0zt3aPoCNV3YxrKbd3jDgNeyIzQjBv4MnbBLBwwON
+ /Bht9SzqxEtq90nZH9vsTwShuPr56Whtjnov1Um6/Dz1Q30LG1mtpylO1KVxLS0=
+X-Google-Smtp-Source: AGHT+IF1IRH4d76n4pNOyKYDdO40mH/uIs2el/Qhpb/0zJQWJsLL3MOXUVp9zI7G4e8SrdOea3SYfg==
+X-Received: by 2002:a19:2d07:0:b0:522:e58:86b3 with SMTP id
+ 2adb3069b0e04-5220fc6d53emr2348194e87.36.1715379780683; 
+ Fri, 10 May 2024 15:23:00 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-521f39d2db3sm832202e87.269.2024.05.10.15.23.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 May 2024 15:23:00 -0700 (PDT)
+Date: Sat, 11 May 2024 01:22:58 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Sam Ravnborg <sam@ravnborg.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
  Caleb Connolly <caleb.connolly@linaro.org>,
  Marijn Suijten <marijn.suijten@somainline.org>, 
- Vinod Koul <vkoul@kernel.org>, dri-devel@lists.freedesktop.org, 
+ Vinod Koul <vkoul@kernel.org>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC 1/7] drm/mipi-dsi: wrap more functions for streamline
+ handling
+Message-ID: <3ooczfup63gjhuphlujaq26ggo4rasu6c5j2ki3avzxs5wgcqn@lx55p76myvpn>
+References: <20240510-dsi-panels-upd-api-v1-0-317c78a0dcc8@linaro.org>
+ <20240510-dsi-panels-upd-api-v1-1-317c78a0dcc8@linaro.org>
+ <CAD=FV=UuJF5Nv6qLzH8SK8NPfHa6Qwp4XOwkLUYt2Rv8ACjfeQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=UuJF5Nv6qLzH8SK8NPfHa6Qwp4XOwkLUYt2Rv8ACjfeQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,18 +96,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, May 10, 2024 at 02:45:45PM -0700, Doug Anderson wrote:
+> Hi,
+> 
+> On Thu, May 9, 2024 at 3:37 PM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > +/**
+> > + * mipi_dsi_compression_mode_ext() - enable/disable DSC on the peripheral
+> > + * @ctx: Context for multiple DSI transactions
+> > + * @enable: Whether to enable or disable the DSC
+> > + * @algo: Selected compression algorithm
+> > + * @pps_selector: Select PPS from the table of pre-stored or uploaded PPS entries
+> > + *
+> > + * Like mipi_dsi_compression_mode_ext_multi() but deals with errors in a way that
+> > + * makes it convenient to make several calls in a row.
+> 
+> Your comment is backward. The name of the function is
 
-On Thu, May 9, 2024 at 3:37=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Use newer mipi_dsi_*_multi() functions in order to simplify and cleanup
-> panel's prepare() and unprepare() functions.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/panel/panel-lg-sw43408.c | 95 +++++++++++++-------------=
-------
->  1 file changed, 37 insertions(+), 58 deletions(-)
+True, my bad.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> mipi_dsi_compression_mode_ext_multi() not
+> mipi_dsi_compression_mode_ext(). ...and it's like
+> mipi_dsi_compression_mode_ext() not like
+> mipi_dsi_compression_mode_ext_multi().
+> 
+> 
+> > @@ -338,6 +345,18 @@ int mipi_dsi_dcs_set_display_brightness_large(struct mipi_dsi_device *dsi,
+> >  int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+> >                                              u16 *brightness);
+> >
+> > +void mipi_dsi_dcs_nop_multi(struct mipi_dsi_multi_context *ctx);
+> > +void mipi_dsi_dcs_enter_sleep_mode_multi(struct mipi_dsi_multi_context *ctx);
+> > +void mipi_dsi_dcs_exit_sleep_mode_multi(struct mipi_dsi_multi_context *ctx);
+> > +void mipi_dsi_dcs_set_display_off_multi(struct mipi_dsi_multi_context *ctx);
+> > +void mipi_dsi_dcs_set_display_on_multi(struct mipi_dsi_multi_context *ctx);
+> > +void mipi_dsi_dcs_set_tear_on_multi(struct mipi_dsi_multi_context *ctx,
+> > +                                   enum mipi_dsi_dcs_tear_mode mode);
+> > +
+> > +#define mipi_dsi_msleep(ctx, delay)    \
+> > +       if (!ctx.accum_err)             \
+> > +               msleep(delay)           \
+> 
+> Please enclose the above in a "do { ... } while (0)" as typical for
+> macros. Otherwise you could possibly get some very surprising
+> behavior:
+
+Ack.
+
+> 
+> if (needs_big_delay)
+>   mipi_dsi_msleep(ctx, 50)
+> else
+>   mipi_dsi_msleep(ctx, 10)
+> 
+> ...with your macro as it is I think the "else" will match up against
+> the "if !(ctx.accum_err)" inside the macro and not against the "if
+> (needs_big_delay)"
+> 
+> Also: nit that the mipi_dsi_msleep() should probably be defined above
+> the "mipi_dsi_dcs" section.
+> 
+> 
+> -Doug
+
+-- 
+With best wishes
+Dmitry
