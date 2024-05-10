@@ -2,72 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABDF8C27E5
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6E08C281D
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:45:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA5B610E2CD;
-	Fri, 10 May 2024 15:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96B5710E7E2;
+	Fri, 10 May 2024 15:45:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NuddutjB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HlfQ1CQz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC04310E2CD
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:33:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715355219; x=1746891219;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=FyxosxiDRe7kVFCrtSH8YTzfIKGevBBbWmNlhONBN+4=;
- b=NuddutjBatgF5Eclz78Dm9SDO0gyjMaas3erYSmW+pHXWKd04rskzQtJ
- ZuzymTaWmsqVWxH8apDDxXuchDsTs+fwXImkSlBKhIGnWqqKADg6wpXom
- YMUIauK5DGV0hA/F77zAGGRFPotkXjkb5Ztq2gDz/CKNnmpfFLEsLLM5h
- WWr5y6b/eQAd+++dwSBcsyGukuRu22AMieQS5wT/W/teW7EvRWEsKEmW+
- vpZnWn3jnl7E20RlQyqK0Y2ERbEbNMEDnmKFcxnuKDw2TN4rTRuLvh8+z
- 9MCwa1Ihz1rUGJJ2aaZ5+bGRPQy3J5ZIwGJg7bXvQTLGUHy65ukbJFoDh Q==;
-X-CSE-ConnectionGUID: vUphZErtR5an4S4+DpxdCw==
-X-CSE-MsgGUID: tUe4vpeuT9iDySnT8UKGzg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11473312"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11473312"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 08:33:39 -0700
-X-CSE-ConnectionGUID: 89FEUiuBR0m5PfFMMwgE1w==
-X-CSE-MsgGUID: GBexyAV4TMKoXywh+6+7qQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="34090819"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 08:33:33 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1s5SFV-000000069Cb-2rTA; Fri, 10 May 2024 18:33:29 +0300
-Date: Fri, 10 May 2024 18:33:29 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
- sebastian.fricke@collabora.com, p.zabel@pengutronix.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
- j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
- p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
- nicolas@ndufresne.ca, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, adobriyan@gmail.com, jani.nikula@intel.com
-Subject: Re: [PATCH v7 8/8] gpu: ipu-v3: Use generic macro for rounding to
- nearest multiple
-Message-ID: <Zj4-SfdNjRHxpHhe@smile.fi.intel.com>
-References: <20240509184010.4065359-1-devarsht@ti.com>
- <Zj43WDlT1aFpgdVv@smile.fi.intel.com>
- <20240510151642.GA17158@pendragon.ideasonboard.com>
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBB2E10E7E2;
+ Fri, 10 May 2024 15:45:49 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-2b3646494a8so1760764a91.2; 
+ Fri, 10 May 2024 08:45:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715355949; x=1715960749; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eCyaxRcT2+wbZVhzZ1BB+Dli+tMLqeMid3YFa7QuT48=;
+ b=HlfQ1CQzInpT1uaCJ9ZTwCTSO0mcS50Ej2uRS/4Z7MzDkq8+C8J0aSqtRh6rkjMX+G
+ 9iAh92sFos1TcnnHAzOeCJ+lFsbmozaSBK7OBjtmzRgb+cJHH9dccD9XUbNboKldp20B
+ ghxaEnpLucJY3OlkqzS+xLu+UIUkTECjqN3qRC2eyfzB6VA61EdF7wdfgZu1aJC63Kfv
+ EJKYd/lTcnfU/pANckgb9U+u/aQtu8MgAsAtB0O5LX7lW+HVYgO5asMj3hKLN8UzArJg
+ uA6yQsr5XxhK9TzFLfpD1GncN7oXHdA2CbPsya5z3civnDYoEuLn5bLPLDkdZBoksnzd
+ 4X+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715355949; x=1715960749;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eCyaxRcT2+wbZVhzZ1BB+Dli+tMLqeMid3YFa7QuT48=;
+ b=qYWmCgznZsluWppKwDbicKj8E5SUHoA01a/rchZkW0W2Uuyg7qAABVAsx3jjbnqqYE
+ JK3htMU2PFP0cxPO/UxBh+o8JfhpoFwq1mrFTLYOsP2Ivs5ZBZ06DL+SDE5wQvkcYJp8
+ 5cgFn9WN/Di+JF0UJCj0uqmjpaQiV9RH1KDjP2yxt3pt16cbmbJWnMW0YUm7mu1Q13ry
+ hGAIU1v4GLtSsXUMkVdjraVV7qOGYHnuzH4lUog+fZZcqVahphoj78vRhRmhxSTeXUrD
+ z9K8DzUdg6cRmf+ObTX170z6zGMEA2E3RMDpmxFXHUdVEjKa43hnB/EDJMXj9vwPWvNF
+ 5DhQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWwOsTv+kpVX/vdvna5wp06Qu4jWi8d4/7KQ2Txk9A9uce3hpvJR549SKLqy7Nop93zyalFbI+5shARtEUQ///6E+SbSKd/9wOalUqziDitX/xPKmYN1pTlmvy0OfKGM8vI+9OHDxlrszy5c7ReduOS73RERxcUigMqeBgDquN70AQY2UGY7eW/jTAucUU=
+X-Gm-Message-State: AOJu0YzLxiuGkgZwHx7OCviCFbWlz4Hx1QvcCCeRj1PYhScgAxf7KJ/0
+ lHU4S5E7p+mqYizqw+J1K7A6syL73wwuY3EzhY/C5s1l9FCVHqpxvJ9DMSbknpNVk/+AqHnZHSf
+ OfIPWIiQR9PDpu6wSLrQTYBcdf8TcLQ==
+X-Google-Smtp-Source: AGHT+IETRwCKCw5m2fwIY96WLnlfk+Xo7r6OSlnsL1Thi1F8xij/i5eRt60qHpLaH05c4+ESTk8DDeRm9Swp55raUW4=
+X-Received: by 2002:a17:90a:1f04:b0:2af:8fa4:40e with SMTP id
+ 98e67ed59e1d1-2b6cc340faemr2850546a91.1.1715355948584; Fri, 10 May 2024
+ 08:45:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240510151642.GA17158@pendragon.ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1715353572.git.jani.nikula@intel.com>
+In-Reply-To: <cover.1715353572.git.jani.nikula@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 10 May 2024 11:45:36 -0400
+Message-ID: <CADnq5_OMOuz_T-OUZ4jVELEAL1FfFdqoFukKdvZA0eSoPQExLg@mail.gmail.com>
+Subject: Re: [RESEND 0/6] drm, nouveau/radeon/amdpgu: edid_blob_ptr cleanups
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,38 +79,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 10, 2024 at 06:16:42PM +0300, Laurent Pinchart wrote:
-> On Fri, May 10, 2024 at 06:03:52PM +0300, Andy Shevchenko wrote:
-> > On Fri, May 10, 2024 at 12:10:10AM +0530, Devarsh Thakkar wrote:
-> > > Use generic macro round_closest_up for rounding to nearest multiple instead
-> > 
-> > round_closest_up()
-> > 
-> > We refer to the functions as func().
-> > 
-> > > of using local function.
+On Fri, May 10, 2024 at 11:17=E2=80=AFAM Jani Nikula <jani.nikula@intel.com=
+> wrote:
+>
+> I've sent this some moths ago, let's try again...
+>
+> BR,
+> Jani.
+>
+> Jani Nikula (6):
+>   drm/nouveau: convert to using is_hdmi and has_audio from display info
+>   drm/radeon: convert to using is_hdmi and has_audio from display info
+>   drm/radeon: remove radeon_connector_edid() and stop using
+>     edid_blob_ptr
+>   drm/amdgpu: remove amdgpu_connector_edid() and stop using
+>     edid_blob_ptr
+>   drm/edid: add a helper for EDID sysfs property show
+>   drm/connector: update edid_blob_ptr documentation
 
-...
+Series is:
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-> > > @@ -565,7 +563,7 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
-> > >  		 * The closest input sample position that we could actually
-> > >  		 * start the input tile at, 19.13 fixed point.
-> > >  		 */
-> > > -		in_pos_aligned = round_closest(in_pos, 8192U * in_align);
-> > > +		in_pos_aligned = round_closest_up(in_pos, 8192U * in_align);
-> > >  		/* Convert 19.13 fixed point to integer */
-> > >  		in_pos_rounded = in_pos_aligned / 8192U;
-> > 
-> > Oh, these seems to be better to use either ALIGN*(), or PFN_*() / PAGE_*()
-> > families of macros. What the semantic of 8192 is?
-> 
-> The comment mentions 19.13 fixed point, so I assume that's the
-> fractional part of the integer. It doesn't seem related to pages.
-
-Okay, and align word in all those variable names?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+>
+>  .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 16 ---------
+>  .../gpu/drm/amd/amdgpu/amdgpu_connectors.h    |  1 -
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  4 +--
+>  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  4 +--
+>  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  4 +--
+>  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  4 +--
+>  drivers/gpu/drm/drm_crtc_internal.h           |  2 ++
+>  drivers/gpu/drm/drm_edid.c                    | 33 +++++++++++++++++++
+>  drivers/gpu/drm/drm_sysfs.c                   | 24 ++------------
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  8 ++---
+>  drivers/gpu/drm/nouveau/dispnv50/head.c       |  8 +----
+>  drivers/gpu/drm/nouveau/nouveau_connector.c   |  2 +-
+>  drivers/gpu/drm/radeon/atombios_encoders.c    | 10 +++---
+>  drivers/gpu/drm/radeon/evergreen_hdmi.c       |  5 ++-
+>  drivers/gpu/drm/radeon/radeon_audio.c         | 13 ++++----
+>  drivers/gpu/drm/radeon/radeon_connectors.c    | 27 ++++-----------
+>  drivers/gpu/drm/radeon/radeon_display.c       |  2 +-
+>  drivers/gpu/drm/radeon/radeon_encoders.c      |  4 +--
+>  drivers/gpu/drm/radeon/radeon_mode.h          |  2 --
+>  include/drm/drm_connector.h                   |  6 +++-
+>  20 files changed, 79 insertions(+), 100 deletions(-)
+>
+> --
+> 2.39.2
+>
