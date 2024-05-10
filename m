@@ -2,76 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16AA8C214B
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 11:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB938C2194
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 12:05:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4293A10E7D3;
-	Fri, 10 May 2024 09:49:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EECA110E2E1;
+	Fri, 10 May 2024 10:05:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q0dgsQ8F";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="2IQqdwqP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC5D210E7D3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 09:49:52 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-51fc01b6fe7so1875119e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 02:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715334591; x=1715939391; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=8kejXjU7NtMflI94b0gV8g2qi50Wy/WZEOfDbw8gB8k=;
- b=Q0dgsQ8FB1U5JFMbxOp5c4MtO5zR2l4lorloowrBarmpBY3CAIL49Ls3CxQU4H7BO2
- eCgIayFOf4ZuX5T5A9ozOZLlXT8cpPtygFst9oaeDms/5e8n2HgkficTJs4JLORPU7qP
- VI07pjqH+1/96Popp8Awd3+0BhU2/tOYH+V2/fmXsVV8N9ZxYjqUliqpUgTDozQPp8Lx
- btPiEc1vyvcU1Ad5aoKclC9zSfUkUg/azjzJBlr4XM16au/UnBQCyTI4Uq9QsZPtFnn2
- IQ5NSR88SIpUnri4G0oMTZRGeE0GCDDds4bAqlBu/8OUBeObGegYZv8IxGZMgx3oql9T
- 3KpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715334591; x=1715939391;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8kejXjU7NtMflI94b0gV8g2qi50Wy/WZEOfDbw8gB8k=;
- b=O+2E34flh3GbpgbRJoNh4tjv4bFG0P1Ni45qZWH41VkFaUqY7CGuUfn5EhoUDzYvii
- 5AYHYEAh+Y7ONeJH2YxnZjMjDfkvQ4YHZmkrssuwMlzNHCZpgB7QUuQK2aDA6JrwZIjw
- qx1RTI5TY0OBQUfvzPDKGIfDIUIfgI0dhDgtsOJ2TYFawkndxrm0Bpj4GWxFL4kb+/Ab
- s7nDNFGVerr+fWWzuNAWy2Kz45nYu7D8Ksd2zHIl4vpx3CPE5sy4cCATHd86d+qhGqQ4
- BDvoMbS37bJ2Sy4S36PVttL6RFDb7vQWXr4PIN3utRJJ1lH8/wldqUcd4Z9q2RYHpjL6
- HJ5w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV4mydXNqCnHN0W1rSJd8BgBsrEeku5/swWmOS+LrneRs9qIhayalb8t9yJ0/q2wewZUzO4bpEsBHlKXqp5pbt94h/t4CLGxhn0KWvZWVmB
-X-Gm-Message-State: AOJu0YxlodG21LmobnO3WE5AjKoCvyUouwwhbCi3GO+HMy9lXNGez5y3
- G7Y9ZzJFNMN3rJbOZOBFjGzgYFiSkGViJbPW3kmgNDIo/RT5QOpt
-X-Google-Smtp-Source: AGHT+IHcw5DK2C4vIz7qxBseM/a5qW4yMYfhNGT4GIOurqe51vwjmKCreziJLPrH7cRBtQ3dsqL5YA==
-X-Received: by 2002:a05:6512:230a:b0:51c:c2c1:6f58 with SMTP id
- 2adb3069b0e04-522105792e0mr1540231e87.55.1715334590298; 
- Fri, 10 May 2024 02:49:50 -0700 (PDT)
-Received: from gmail.com (host-90-235-80-216.mobileonline.telia.com.
- [90.235.80.216]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f38d8af5sm626396e87.234.2024.05.10.02.49.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 May 2024 02:49:49 -0700 (PDT)
-Date: Fri, 10 May 2024 11:49:48 +0200
-From: Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: nerdopolis <bluescreen_avenger@verizon.net>,
- dri-devel@lists.freedesktop.org
-Subject: Re: simpledrm, running display servers, and drivers replacing
- simpledrm while the display server is running
-Message-ID: <Zj3tvKayXdn2_JMq@gmail.com>
-References: <9215788.EvYhyI6sBW.ref@nerdopolis2>
- <9215788.EvYhyI6sBW@nerdopolis2>
- <d8822317-db81-4179-93b8-18629a95af73@suse.de>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4144310E918
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 10:05:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1715335550;
+ bh=vtrYm/vQSHim3jgRX04nOQj9guH68BZEvaolheL2Xv0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=2IQqdwqPtoZkkk19USWWt8xgqlcwa+gPD66JC9VAEpwOYIPtXk4CcL340IG3zLdxP
+ nzVp/rwU70UIPRcxvhfHIAobSvLl++PUysKOpB++6Q2BiGJvL4zoPGhKuK52g3RbCJ
+ sUcfDpqiOIe43x1vzTgceS5gGHgqIdDsvw1WuhyHTjzO8LQJRL3MdvPT8U5xiYubn/
+ l7/HEJNl93y2U8hJN0yc7i6GMo1sFCkhbR2EQJA8v4P7sMAAZyG1tVvGCrU5ew6Ew/
+ WxdygCOQ+rLS/K6NZCU7LvPUAHPqq/v+4+UKcbchzpBVRKRbRfkdTqHhcvOm39v6x9
+ olb7rHKz8B05g==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 92DD6378217A;
+ Fri, 10 May 2024 10:05:49 +0000 (UTC)
+Message-ID: <8d624845-7450-485c-8000-0194bcf56458@collabora.com>
+Date: Fri, 10 May 2024 12:05:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d8822317-db81-4179-93b8-18629a95af73@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] Support YUV422 for DPTX.
+To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ matthias.bgg@gmail.com, jitao.shi@mediatek.com, mac.shen@mediatek.com
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240510021810.19302-1-liankun.yang@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240510021810.19302-1-liankun.yang@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,129 +63,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 10, 2024 at 09:32:02AM +0200, Thomas Zimmermann wrote:
-> Hi
+Il 10/05/24 04:15, Liankun Yang ha scritto:
+> Adjust the training sequence.Detects the actual link condition
+> and calculates the bandwidth where the relevant resolution resides.
 > 
-> Am 09.05.24 um 15:06 schrieb nerdopolis:
-> > 
-> > Hi
-> > 
-> > 
-> > So I have been made aware of an apparent race condition of some drivers
-> > taking a bit longer to load, which could lead to a possible race
-> > condition of display servers/greeters using the simpledrm device, and
-> > then experiencing problems once the real driver loads, the simpledrm
-> > device that the display servers are using as their primary GPU goes
-> > away.
-> > 
-> > 
-> > For example Weston crashes, Xorg crashes, wlroots seems to stay running,
-> > but doesn't draw anything on the screen, kwin aborts,
-> > 
-> > This is if you boot on a QEMU machine with the virtio card, with
-> > modprobe.blacklist=virtio_gpu, and then, when the display server is
-> > running, run sudo modprobe virtio-gpu
-> > 
-> > 
-> > Namely, it's been recently reported here:
-> > https://github.com/sddm/sddm/issues/1917 and here
-> > https://github.com/systemd/systemd/issues/32509
-> > 
-> > 
-> > My thinking: Instead of simpledrm's /dev/dri/card0 device going away
-> > when the real driver loads, is it possible for simpledrm to instead
-> > simulate an unplug of the fake display/CRTC?
-> > 
+> The bandwidth is recalculated and modes that exceed the bandwidth are
+> filtered.
 > 
-> To my knowledge, there's no hotplugging for CRTCs.
+> Example Modify bandwidth filtering requirements.
 > 
-> > That way in theory, the simpledrm device will now be useless for drawing
-> > for drawing to the screen at that point, since the real driver is now
-> > taken over, but this way here, at least the display server doesn't lose
-> > its handles to the /dev/dri/card0 device, (and then maybe only remove
-> > itself once the final handle to it closes?)
-> > 
-> > 
-> > Is something like this possible to do with the way simpledrm works with
-> > the low level video memory? Or is this not possible?
-> > 
+> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dp.c | 81 ++++++++++++++++++-------------
+>   1 file changed, 46 insertions(+), 35 deletions(-)
 > 
-> Userspace needs to be prepared that graphics devices can do hotplugging. The
-> correct solution is to make compositors work without graphics devices.
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+> index 2136a596efa1..3e645bd6fe27 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> @@ -66,6 +66,13 @@ enum {
+>   	MTK_DP_CAL_MAX,
+>   };
+>   
+> +enum mtk_dp_color_format {
+> +	MTK_DP_COLOR_FORMAT_RGB = 0,
+> +	MTK_DP_COLOR_FORMAT_YUV422 = 0x1,
+> +	MTK_DP_COLOR_FORMAT_YUV444 = 0x2,
+> +	MTK_DP_COLOR_FORMAT_YUV420 = 0x3,
+> +};
 
-(This was discussed on #dri-devel, but I'll reiterate here as well).
+This is giving the same values as drm_dp.h, hence unneeded.
 
-There are two problems at hand; one is the race condition during boot
-when the login screen (or whatever display server appears first) is
-launched with simpledrm, only some moments later having the real GPU
-driver appear.
+> +
+>   struct mtk_dp_train_info {
+>   	bool sink_ssc;
+>   	bool cable_plugged_in;
+> @@ -84,7 +91,7 @@ struct mtk_dp_audio_cfg {
+>   };
+>   
+>   struct mtk_dp_info {
+> -	enum dp_pixelformat format;
+> +	enum mtk_dp_color_format format;
+>   	struct videomode vm;
+>   	struct mtk_dp_audio_cfg audio_cur_cfg;
+>   };
+> @@ -457,7 +464,7 @@ static void mtk_dp_set_msa(struct mtk_dp *mtk_dp)
 
-The other is general purpose GPU hotplugging, including the unplugging
-the GPU decided by the compositor to be the primary one.
+..snip..
 
-The latter is something that should be handled in userspace, by
-compositors, etc, I agree.
+> @@ -1888,9 +1896,28 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
+>   			memset(&mtk_dp->info.audio_cur_cfg, 0,
+>   			       sizeof(mtk_dp->info.audio_cur_cfg));
+>   
+> +			mtk_dp->enabled = false;
+> +			/* power off aux */
+> +			mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
+> +			       DP_PWR_STATE_BANDGAP_TPLL,
+> +			       DP_PWR_STATE_MASK);
+> +
 
-The former, however, is not properly solved by userspace learning how to
-deal with primary GPU unplugging and switching to using a real GPU
-driver, as it'd break the booting and login experience.
+This commit is not even based on upstream, so you haven't even tested it upstream.
 
-When it works, i.e. the race condition is not hit, is this:
+Don't send untested commits.
+There's nothing to review here.
 
- * System boots
- * Plymouth shows a "splash" screen
- * The login screen display server is launched with the real GPU driver
- * The login screen interface is smoothly animating using hardware
-   accelerating, presenting "advanced" graphical content depending on
-   hardware capabilities (e.g. high color bit depth, HDR, and so on)
-
-If the race condition is hit, with a compositor supporting primary GPU
-hotplugging, it'll work like this:
-
- * System boots
- * Plymouth shows a "splash" screen
- * The login screen display server is launched with simpledrm
- * Due to using simpldrm, the login screen interface is not animated and
-   just plops up, and no "advanced" graphical content is enabled due to
-   apparent missing hardware capabilities
- * The real GPU driver appears, the login screen now starts to become
-   animated, and may suddenly change appearance due to capabilties
-   having changed
-
-Thus, by just supporting hotplugging the primary GPU in userspace, we'll
-still end up with a glitchy boot experience, and it forces userspace to
-add things like sleep(10) to work around this.
-
-In other words, fixing userspace is *not* a correct solution to the
-problem, it's a work around (albeit a behaivor we want for other
-reasons) for the race condition.
-
-Arguably, the only place a more educated guess about whether to wait or
-not, and if so how long, is the kernel.
-
-
-Jonas
-
-> 
-> The next best solution is to keep the final DRM device open until a new one
-> shows up. All DRM graphics drivers with hotplugging support are required to
-> accept commands after their hardware has been unplugged. They simply won't
-> display anything.
-> 
-> Best regards
-> Thomas
-> 
-> 
-> > 
-> > Thanks
-> > 
-> 
-> -- 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-> 
+Regards,
+Angelo
