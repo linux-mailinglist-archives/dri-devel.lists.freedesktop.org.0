@@ -2,80 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5E58C1F0C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 09:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005098C1F55
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 09:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4E5410E0F5;
-	Fri, 10 May 2024 07:37:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0549A10E36B;
+	Fri, 10 May 2024 07:55:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AyWcIMBv";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Xo1NTgKJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BFE310E0F5
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 07:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1715326623;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=f3snRDY5LM+E4fFNdUEk/aHSs6UauMwWG/qLALDMApo=;
- b=AyWcIMBv0iV0HpbaRZK449Q/gTPfhr2eSIttjIXTL4iyqFic7JrixkPpJ6fzP6zTLmkFZo
- aQva0djSlmRlP3FXtWaNVLftVrUXvdqGVM16jZSrUcjKuwdzRezgAqb2ZNPgvEdkBh43dW
- k1kuqUWZ2/KST0CHx+tVd8XMOsjDO6Q=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-385-Z1wANACsP06aT4yL1NerYg-1; Fri, 10 May 2024 03:37:01 -0400
-X-MC-Unique: Z1wANACsP06aT4yL1NerYg-1
-Received: by mail-lj1-f199.google.com with SMTP id
- 38308e7fff4ca-2e289eec4d1so15056981fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 00:37:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715326619; x=1715931419;
- h=mime-version:message-id:date:references:in-reply-to:subject:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=f3snRDY5LM+E4fFNdUEk/aHSs6UauMwWG/qLALDMApo=;
- b=DRSffFU8slsuuh0xHQKNOscdzqYxzS6OLiLvEDWGI8v9toOU5soDtcJsb0v+VTM0WS
- R9gbeGZ/9BGFqHprtMQemV6rEhHdbi6UtIQsSsjL6qMtOMXnHFXuoylXGr8ktRngPvmI
- qhLkhvazR1anKwayx7LRFDgfJ+w2QZ+Pf3SkNSk5a9+SVhggxB3Vg5Bzq01n3fbJkfbJ
- LTKzGBrVmJnCbAPYmWPFqoYKKuJ92yJ+QiuZKgBpODSiqPmw7+0mErzapqhoECw1msua
- lmxmdOc9i49zmrHQypR5o94UTGAJEENNlvfvUoYlazNXmmaMpzeyt68q+uBXSLpP0Qfp
- 9AQw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX2xYeUkTxEfuDrC+EOGrWql9metglXCXwkO1pi2ZrjxwWvy7PHoOHKONrLk0OTlTY4kWzoDp4CemJKqCueKovbwT+Brk8VEySL6XqJKkjz
-X-Gm-Message-State: AOJu0Yyl+OLxcW0m3uPE9w7oQMgAw7neRpD+ZyrspTAWXc5HKKaawplY
- jDTTwvRXC4VHhEkd/XPW5IH4rr52X673FaAjHZCHe1veJ8WxFyXO0QhqZNtY51FyTU0T2r3T2lv
- bIzLvxeTUfKIR3EgcCbBqephZf84t2WRwOno1lz1aiQzRawZJOL1Zv26y1j7O0wTARduLf26xyQ
- ==
-X-Received: by 2002:a2e:b01a:0:b0:2de:3421:9edd with SMTP id
- 38308e7fff4ca-2e5203a4665mr9366431fa.33.1715326619401; 
- Fri, 10 May 2024 00:36:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFUOLfzWovTQltZ8oy0Cew/16VSGPB4VeoKBOb8QA63KKZYPiO5xFEAjB05GyRI7xxMzqtBrQ==
-X-Received: by 2002:a2e:b01a:0:b0:2de:3421:9edd with SMTP id
- 38308e7fff4ca-2e5203a4665mr9366321fa.33.1715326618792; 
- Fri, 10 May 2024 00:36:58 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-41f87d20488sm87796615e9.25.2024.05.10.00.36.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 May 2024 00:36:58 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: nerdopolis <bluescreen_avenger@verizon.net>,
- dri-devel@lists.freedesktop.org
-Subject: Re: simpledrm, running display servers, and drivers replacing
- simpledrm while the display server is running
-In-Reply-To: <9215788.EvYhyI6sBW@nerdopolis2>
-References: <9215788.EvYhyI6sBW.ref@nerdopolis2>
- <9215788.EvYhyI6sBW@nerdopolis2>
-Date: Fri, 10 May 2024 09:36:57 +0200
-Message-ID: <87seyqce3q.fsf@minerva.mail-host-address-is-not-set>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8D5210E36B
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 07:55:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9736C61E32;
+ Fri, 10 May 2024 07:55:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0EE9C113CC;
+ Fri, 10 May 2024 07:55:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1715327732;
+ bh=NfCq0znA9xiQQKOgqCjjhCeBv5JL4GapTvi5dTTgNg4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Xo1NTgKJVcIRWizY4Moj56cCaQqKaTr4IAt9qxFmN4ftE2ovyUckVKIsaj6OQWTdN
+ p86jCzWoCSRCCiTfMnXkXGX3NXMw08h66lE5PowpDhAXWq2u3Y+Z7pr5/8a4Fpw19p
+ ndykkCosAuEu5zcVjtsTvIIljbS1e25t5ZhP5xMI=
+Date: Fri, 10 May 2024 08:55:29 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Derek Kiernan <derek.kiernan@amd.com>,
+ Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ Saravana Kannan <saravanak@google.com>,
+ Paul Kocialkowski <contact@paulk.fr>,
+ =?iso-8859-1?Q?Herv=E9?= Codina <herve.codina@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v2 5/5] misc: add ge-addon-connector driver
+Message-ID: <2024051039-decree-shrimp-45c6@gregkh>
+References: <20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com>
+ <20240510-hotplug-drm-bridge-v2-5-ec32f2c66d56@bootlin.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240510-hotplug-drm-bridge-v2-5-ec32f2c66d56@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,46 +72,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-nerdopolis <bluescreen_avenger@verizon.net> writes:
+On Fri, May 10, 2024 at 09:10:41AM +0200, Luca Ceresoli wrote:
+> Add a driver to support the runtime hot-pluggable add-on connector on the
+> GE SUNH device. This connector allows connecting and disconnecting an
+> add-on to/from the main device to augment its features. Connection and
+> disconnection can happen at runtime at any moment without notice.
+> 
+> Different add-on models can be connected, and each has an EEPROM with a
+> model identifier at a fixed address.
+> 
+> The add-on hardware is added and removed using device tree overlay loading
+> and unloading.
+> 
+> Co-developed-by: Herve Codina <herve.codina@bootlin.com>
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> ---
+> 
+> This commit is new in v2.
+> ---
+>  MAINTAINERS                      |   1 +
+>  drivers/misc/Kconfig             |  15 ++
+>  drivers/misc/Makefile            |   1 +
+>  drivers/misc/ge-sunh-connector.c | 464 +++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 481 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 672c26372c92..0bdb4fc496b8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9905,6 +9905,7 @@ F:	drivers/iio/pressure/mprls0025pa*
+>  HOTPLUG CONNECTOR FOR GE SUNH ADDONS
+>  M:	Luca Ceresoli <luca.ceresoli@bootlin.com>
+>  S:	Maintained
+> +F:	drivers/misc/ge-sunh-connector.c
+>  F:	Documentation/devicetree/bindings/connector/ge,sunh-addon-connector.yaml
+>  
+>  HP BIOSCFG DRIVER
+> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+> index 4fb291f0bf7c..99ef2eccbbaa 100644
+> --- a/drivers/misc/Kconfig
+> +++ b/drivers/misc/Kconfig
+> @@ -574,6 +574,21 @@ config NSM
+>  	  To compile this driver as a module, choose M here.
+>  	  The module will be called nsm.
+>  
+> +config GE_SUNH_CONNECTOR
+> +	tristate "GE SUNH hotplug add-on connector"
+> +	depends on OF
+> +	select OF_OVERLAY
+> +	select FW_LOADER
+> +	select NVMEM
+> +	select DRM_HOTPLUG_BRIDGE
 
-Hello,
+Can these be depends instead of select?  'select' causes dependencies
+that are hard, if not almost impossible, to detect at times why
+something is being enabled.
 
-> Hi
->
-> So I have been made aware of an apparent race condition of some drivers taking a bit longer to load, which could lead to a possible race condition of display servers/greeters using the simpledrm device, and then experiencing problems once the real driver loads, the simpledrm device that the display servers are using as their primary GPU goes away. 
->
+> +	help
+> +	  Driver for the runtime hot-pluggable add-on connector on the GE SUNH
+> +	  device. This connector allows connecting and disconnecting an add-on
+> +	  to/from the main device to augment its features. Connection and
+> +	  disconnection can be done at runtime at any moment without
+> +	  notice. Different add-on models can be connected, and each has an EEPROM
+> +	  with a model identifier at a fixed address.
 
-Plymouth also had this issue and that is the reason why simpledrm is not
-treated as a KMS device by default (unless plymouth.use-simpledrm used).
+Module name?
 
-> For example Weston crashes, Xorg crashes, wlroots seems to stay running, but doesn't draw anything on the screen, kwin aborts, 
-> This is if you boot on a QEMU machine with the virtio card, with modprobe.blacklist=virtio_gpu, and then, when the display server is running, run sudo modprobe virtio-gpu
->
-> Namely, it's been recently reported here: https://github.com/sddm/sddm/issues/1917[1] and here https://github.com/systemd/systemd/issues/32509[2]
->
-> My thinking: Instead of simpledrm's /dev/dri/card0 device going away when the real driver loads, is it possible for simpledrm to instead simulate an unplug of the fake display/CRTC?
-> That way in theory, the simpledrm device will now be useless for drawing for drawing to the screen at that point, since the real driver is now taken over, but this way here, at least the display server doesn't lose its handles to the /dev/dri/card0 device, (and then maybe only remove itself once the final handle to it closes?)
->
-> Is something like this possible to do with the way simpledrm works with the low level video memory? Or is this not possible?
->
 
-How it works is that when a native DRM driver is probed, it calls to the
-drm_aperture_remove_conflicting_framebuffers() to kick out the generic
-system framebuffer video drivers and the aperture infrastructure does a
-device (e.g: "simple-framebuffer", "efi-framebuffer", etc) unregistration.
+> +static void sunh_conn_reset(struct sunh_conn *conn, bool keep_reset)
+> +{
+> +	dev_dbg(conn->dev, "reset\n");
 
-So is not only that the /dev/dri/card0 devnode is unregistered but that the
-underlaying platform device bound to the simpledrm/efifb/vesafb/simplefb
-drivers are unregistered, and this leads to the drivers being unregistered
-as well by the Linux device model infrastructure.
+ftrace is your friend.
 
-But also, this seems to be user-space bugs for me and doing anything in
-the kernel is papering over the real problem IMO.
+> +static int sunh_conn_handle_event(struct sunh_conn *conn, bool plugged)
+> +{
+> +	int err;
+> +
+> +	if (plugged == conn->plugged)
+> +		return 0;
+> +
+> +	dev_info(conn->dev, "%s\n", plugged ? "connected" : "disconnected");
 
--- 
-Best regards,
+Please remove debugging code from stuff you want to see merged.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Same for all dev_info() calls here, when drivers work properly, they are
+quiet.
 
+thanks,
+
+greg k-h
