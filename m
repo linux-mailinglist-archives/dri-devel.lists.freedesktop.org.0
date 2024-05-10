@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083928C25B0
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 15:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFD18C25DF
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 15:37:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F032310E5CB;
-	Fri, 10 May 2024 13:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3900E10EC0D;
+	Fri, 10 May 2024 13:37:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bUTmW4pp";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="y6ng1k1C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6380610E5CB
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 13:28:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715347730; x=1746883730;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=JNVUJHF2a+qB/u4b9hHmU8iljMDVm45a4r29Vy/xOKI=;
- b=bUTmW4ppbACbScQnEJqFOGiCelSlE7XTU76oBHdYt35rdA5vD5zqO39o
- 4IlBLiSxoXe+z8mIl+BPLM5X3qM4uCr6JSUtiG9eNE8TQ+WrYWdL9QWgS
- ddom8jzuWTF/mMHAzX/JhXMLPF7EdnYh867s6F9ZAKvJBv9iIXG8iYL0u
- L7l+ymu9vHsdTCP5xoC48ubJAEydI7rGfCfOAM6OPuDtGvbxgV0WJmrt0
- caPfugTLl2UlYxAi+hpgGWb+V1zBzeYwL9cb12yRtazVbYzGQwVtVAvap
- uaqIEnif06p0g3vycV+WdXcKz3m/j43tcC/67kdKWwIpw+ghbj1rLHHHm Q==;
-X-CSE-ConnectionGUID: FwtvTawcSSWa0qR8IwOS5w==
-X-CSE-MsgGUID: 6mI26aEnSfGRxbR6fUk81w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11489794"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11489794"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 06:28:50 -0700
-X-CSE-ConnectionGUID: TQC6vgJvQ7mrZNubXAEeog==
-X-CSE-MsgGUID: a7T0rqirS/y00cxbPZSn9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="67089879"
-Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.180])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 06:28:48 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 00/15] drm: struct drm_edid conversions
-In-Reply-To: <649cda91-767c-4683-b217-ff4e14ba3f30@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1713273659.git.jani.nikula@intel.com>
- <649cda91-767c-4683-b217-ff4e14ba3f30@suse.de>
-Date: Fri, 10 May 2024 16:28:45 +0300
-Message-ID: <87le4hhk36.fsf@intel.com>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CB7610EBBF;
+ Fri, 10 May 2024 13:37:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1715348230;
+ bh=3Jq1Hi7P/s1vouFwybYjISD8sE06aiZGtuaccX8h5E4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=y6ng1k1CJmLR2SuMPRKqpljD80OMMjZpbOloF8AOvEl6Eq1ivcCRtNcDPEgbdM9Vq
+ YwryKLfdKhALR7DVA11jzg++215zWNssyG6VMw7lS0npoakBNJ/HBHYBLrMv3chicy
+ JYvp4xYEaQheUuoDfOO9DZsL/rshooJcjEgmB3mYH0RiMwEM2cHpDxY5i0L4Zv3fV4
+ 7UiREiX6GLNcczr0CBuKCByAs3ifsG+xgndnrFzFrYekFEXJpI5kKquAtkb3BTEc/O
+ BXmJjaPFg2Gd9taG3Uhyw89Givq1kQxjTYjQUYX/J4qQEL0Mr5+5II7ULDYrOYnH1F
+ J5pdV33EB+QoA==
+Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: koike)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id CCA413781183;
+ Fri, 10 May 2024 13:37:05 +0000 (UTC)
+Message-ID: <c86ab913-dc0a-4ded-951a-5ae9ccb334b2@collabora.com>
+Date: Fri, 10 May 2024 10:37:03 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] drm/ci: validate drm/msm XML register files
+ against schema
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20240503-fd-fix-lxml-v2-0-f80a60ce21a1@linaro.org>
+ <20240503-fd-fix-lxml-v2-2-f80a60ce21a1@linaro.org>
+ <69b593b7-109c-825f-3dbb-5e8cce63ff01@quicinc.com>
+ <CAA8EJpp4x+NEpMAGtgOmu-0NY8ycTu0iQX6-1Vv76mkKPea_Cw@mail.gmail.com>
+ <24fb0b07-af03-1341-d98c-46f4f167fbbb@quicinc.com>
+ <CAA8EJporB9jjKtT-XS4PcRSYzi+FJh1smsjnBCgy8f5JvDtjAg@mail.gmail.com>
+ <e082de17-f4f7-1923-cfe0-10916c2e3caa@quicinc.com>
+Content-Language: en-US
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <e082de17-f4f7-1923-cfe0-10916c2e3caa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,79 +74,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 07 May 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 16.04.24 um 15:22 schrieb Jani Nikula:
->> I've these laying in a branch for a while, maybe let's try to make some
->> forward progress in this front.
->
-> Could you take another look at the udl patches at [1]? The second 
-> iteration of the patches is self-contained within the driver. So the 
-> most-controversial points should be resolved now.
-
-Done.
-
-I've also resent the remaining patches from this series [2]. With [1]
-and [2] merged, we could remove drm_do_get_edid() interface altogether.
-
-BR,
-Jani.
 
 
-[2] https://lore.kernel.org/r/cover.1715347488.git.jani.nikula@intel.com
-
->
-> Best regards
-> Thomas
->
-> [1] https://patchwork.freedesktop.org/series/132039/#rev2
->
+On 03/05/2024 21:07, Abhinav Kumar wrote:
+> 
+> 
+> On 5/3/2024 5:02 PM, Dmitry Baryshkov wrote:
+>> On Sat, 4 May 2024 at 01:38, Abhinav Kumar <quic_abhinavk@quicinc.com> 
+>> wrote:
+>>>
+>>>
+>>>
+>>> On 5/3/2024 1:20 PM, Dmitry Baryshkov wrote:
+>>>> On Fri, 3 May 2024 at 22:42, Abhinav Kumar 
+>>>> <quic_abhinavk@quicinc.com> wrote:
+>>>>>
+>>>>>
+>>>>>
+>>>>> On 5/3/2024 11:15 AM, Dmitry Baryshkov wrote:
+>>>>>> In order to validate drm/msm register definition files against 
+>>>>>> schema,
+>>>>>> reuse the nodebugfs build step. The validation entry is guarded by
+>>>>>> the EXPERT Kconfig option and we don't want to enable that option for
+>>>>>> all the builds.
+>>>>>>
+>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/ci/build.sh  | 3 +++
+>>>>>>     drivers/gpu/drm/ci/build.yml | 1 +
+>>>>>>     2 files changed, 4 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/ci/build.sh 
+>>>>>> b/drivers/gpu/drm/ci/build.sh
+>>>>>> index 106f2d40d222..28a495c0c39c 100644
+>>>>>> --- a/drivers/gpu/drm/ci/build.sh
+>>>>>> +++ b/drivers/gpu/drm/ci/build.sh
+>>>>>> @@ -12,6 +12,9 @@ rm -rf .git/rebase-apply
+>>>>>>     apt-get update
+>>>>>>     apt-get install -y libssl-dev
+>>>>>>
+>>>>>> +# for msm header validation
+>>>>>> +apt-get install -y python3-lxml
+>>>>>> +
+>>>>>>     if [[ "$KERNEL_ARCH" = "arm64" ]]; then
+>>>>>>         GCC_ARCH="aarch64-linux-gnu"
+>>>>>>         DEBIAN_ARCH="arm64"
+>>>>>> diff --git a/drivers/gpu/drm/ci/build.yml 
+>>>>>> b/drivers/gpu/drm/ci/build.yml
+>>>>>> index 17ab38304885..9c198239033d 100644
+>>>>>> --- a/drivers/gpu/drm/ci/build.yml
+>>>>>> +++ b/drivers/gpu/drm/ci/build.yml
+>>>>>> @@ -106,6 +106,7 @@ build-nodebugfs:arm64:
+>>>>>>       extends: .build:arm64
+>>>>>>       variables:
+>>>>>>         DISABLE_KCONFIGS: "DEBUG_FS"
+>>>>>> +    ENABLE_KCONFIGS: "EXPERT DRM_MSM_VALIDATE_XML"
+>>>>>>
+>>>>>
+>>>>> Wouldnt this end up enabling DRM_MSM_VALIDATE_XML for any arm64 
+>>>>> device.
+>>>>>
+>>>>> Cant we make this build rule msm specific?
+>>>>
+>>>> No need to. We just need to validate the files at least once during
+>>>> the whole pipeline build.
+>>>>
+>>>
+>>> ah okay, today the arm64 config anyway sets all arm64 vendor drm configs
+>>> to y.
+>>>
+>>> A couple of more questions:
+>>>
+>>> 1) Why is this enabled only for no-debugfs option?
+>>> 2) Will there be any concerns from other vendors to enable CONFIG_EXPERT
+>>> in their CI runs as the arm64 config is shared across all arm64 vendors.
 >>
->> Build tested only, on x86, arm, and arm64.
+>> I don't get the second question. This option is only enabled for
+>> no-debugfs, which isn't used for execution.
 >>
->> BR,
->> Jani.
+> 
+> Ah I see, makes sense.
+> 
+>> I didn't want to add an extra build stage, just for the sake of
+>> validating regs against the schema, nor did I want EXPERT to find its
+>> way into the actual running kernels.
 >>
->>
->> Jani Nikula (15):
->>    drm/panel: simple: switch to struct drm_edid
->>    drm/panel-samsung-atna33xc20: switch to struct drm_edid
->>    drm/panel-edp: switch to struct drm_edid
->>    drm/bridge/analogix/anx6345: switch to struct drm_edid
->>    drm/bridge/analogix/anx78xx: switch to struct drm_edid
->>    drm/sun4i: hdmi: switch to struct drm_edid
->>    drm/vc4: hdmi: switch to struct drm_edid
->>    drm/bridge: anx7625: use struct drm_edid more
->>    drm/gud: switch to struct drm_edid
->>    drm/i2c: tda998x: switch to struct drm_edid
->>    drm/bochs: switch to struct drm_edid
->>    drm/virtio: switch to struct drm_edid
->>    drm/rockchip: cdn-dp: switch to struct drm_edid
->>    drm/rockchip: inno_hdmi: switch to struct drm_edid
->>    drm/rockchip: rk3066_hdmi: switch to struct drm_edid
->>
->>   .../drm/bridge/analogix/analogix-anx6345.c    | 15 +++---
->>   .../drm/bridge/analogix/analogix-anx78xx.c    | 23 +++++-----
->>   drivers/gpu/drm/bridge/analogix/anx7625.c     | 26 +++++++----
->>   drivers/gpu/drm/bridge/analogix/anx7625.h     | 10 +---
->>   drivers/gpu/drm/gud/gud_connector.c           | 12 ++---
->>   drivers/gpu/drm/i2c/tda998x_drv.c             | 19 ++++----
->>   drivers/gpu/drm/panel/panel-edp.c             | 17 ++++---
->>   .../gpu/drm/panel/panel-samsung-atna33xc20.c  | 13 ++++--
->>   drivers/gpu/drm/panel/panel-simple.c          | 15 +++---
->>   drivers/gpu/drm/rockchip/cdn-dp-core.c        | 33 +++++++------
->>   drivers/gpu/drm/rockchip/cdn-dp-core.h        |  2 +-
->>   drivers/gpu/drm/rockchip/inno_hdmi.c          | 12 ++---
->>   drivers/gpu/drm/rockchip/rk3066_hdmi.c        | 12 ++---
->>   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c        | 18 +++++---
->>   drivers/gpu/drm/tiny/bochs.c                  | 23 ++++------
->>   drivers/gpu/drm/vc4/vc4_hdmi.c                | 46 ++++++++++---------
->>   drivers/gpu/drm/virtio/virtgpu_display.c      | 10 ++--
->>   drivers/gpu/drm/virtio/virtgpu_drv.h          |  2 +-
->>   drivers/gpu/drm/virtio/virtgpu_vq.c           | 12 ++---
->>   19 files changed, 167 insertions(+), 153 deletions(-)
->>
+> 
+> This answered my second question actually. That basically I didnt also 
+> want EXPERT to find its way into actual running kernels.
+> 
+> Hence, I am fine with this change now
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> But, I will wait to hear from helen, vignesh about what they think of this.
 
--- 
-Jani Nikula, Intel
+
+lgfm
+
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
+Thanks
+Helen
