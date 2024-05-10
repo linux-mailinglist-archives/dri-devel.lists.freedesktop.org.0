@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790968C25AA
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 15:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083928C25B0
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 15:28:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E24310EA28;
-	Fri, 10 May 2024 13:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F032310E5CB;
+	Fri, 10 May 2024 13:28:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TUHyJHGI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bUTmW4pp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 991BA10EA28
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 13:26:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6380610E5CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 13:28:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715347613; x=1746883613;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=DQTcuRJ6jV+KHtqCB34fEC2WDqRthotEQh0eyz/EF8M=;
- b=TUHyJHGIwaniR3nxAIbzEs5GzQ3UggRRrcNeHGFXoNx6/iPRUfc7kD2E
- Ui8UbhUEyG8EqtSkmWjXR8GfOXx++A27B+iPjuS09xn2VftYCQZKYgX1X
- e6s0KjBeBWuvaAEGq0cV/FkRH1al0Nn4gvWpeMoNF/Udda1bDVYvVdxn8
- YUD6fY08530PrA6bAV/cT1wj4Blsh5SAZToOGI3YHJuUQeAyUhFAHky1x
- 787kDnmvPpqKsIds+SH08HFC6vM9/pO0M6UbTnWzQJrqby2b7kF/hObLX
- qWQzDH28/EO4ALoASfRhb97M0ZgMbSe80MfMLfRcrrJ4E6ZE3oF7ChOh+ g==;
-X-CSE-ConnectionGUID: HSRKH5PTS4uEGCmC49tpzA==
-X-CSE-MsgGUID: xTR9qUXUQwijefIhsbE1PA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11489602"
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11489602"
+ t=1715347730; x=1746883730;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=JNVUJHF2a+qB/u4b9hHmU8iljMDVm45a4r29Vy/xOKI=;
+ b=bUTmW4ppbACbScQnEJqFOGiCelSlE7XTU76oBHdYt35rdA5vD5zqO39o
+ 4IlBLiSxoXe+z8mIl+BPLM5X3qM4uCr6JSUtiG9eNE8TQ+WrYWdL9QWgS
+ ddom8jzuWTF/mMHAzX/JhXMLPF7EdnYh867s6F9ZAKvJBv9iIXG8iYL0u
+ L7l+ymu9vHsdTCP5xoC48ubJAEydI7rGfCfOAM6OPuDtGvbxgV0WJmrt0
+ caPfugTLl2UlYxAi+hpgGWb+V1zBzeYwL9cb12yRtazVbYzGQwVtVAvap
+ uaqIEnif06p0g3vycV+WdXcKz3m/j43tcC/67kdKWwIpw+ghbj1rLHHHm Q==;
+X-CSE-ConnectionGUID: FwtvTawcSSWa0qR8IwOS5w==
+X-CSE-MsgGUID: 6mI26aEnSfGRxbR6fUk81w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11489794"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11489794"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 06:26:52 -0700
-X-CSE-ConnectionGUID: G6i9VGmWQdWNsv+qrGnAxg==
-X-CSE-MsgGUID: H/U/M+ufSq6ZU5gbYQ8jUA==
+ 10 May 2024 06:28:50 -0700
+X-CSE-ConnectionGUID: TQC6vgJvQ7mrZNubXAEeog==
+X-CSE-MsgGUID: a7T0rqirS/y00cxbPZSn9g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="67089443"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="67089879"
 Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.180])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2024 06:26:49 -0700
+ 10 May 2024 06:28:48 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: jani.nikula@intel.com, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, virtualization@lists.linux.dev
-Subject: [RESEND 6/6] drm/virtio: switch to struct drm_edid
-Date: Fri, 10 May 2024 16:26:09 +0300
-Message-Id: <ed6e76a9e94816789ca9caf8775d6a6156877496.1715347488.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1715347488.git.jani.nikula@intel.com>
-References: <cover.1715347488.git.jani.nikula@intel.com>
-MIME-Version: 1.0
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 00/15] drm: struct drm_edid conversions
+In-Reply-To: <649cda91-767c-4683-b217-ff4e14ba3f30@suse.de>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <cover.1713273659.git.jani.nikula@intel.com>
+ <649cda91-767c-4683-b217-ff4e14ba3f30@suse.de>
+Date: Fri, 10 May 2024 16:28:45 +0300
+Message-ID: <87le4hhk36.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,94 +67,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer struct drm_edid based functions over struct edid.
+On Tue, 07 May 2024, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Hi
+>
+> Am 16.04.24 um 15:22 schrieb Jani Nikula:
+>> I've these laying in a branch for a while, maybe let's try to make some
+>> forward progress in this front.
+>
+> Could you take another look at the udl patches at [1]? The second 
+> iteration of the patches is self-contained within the driver. So the 
+> most-controversial points should be resolved now.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Done.
 
----
+I've also resent the remaining patches from this series [2]. With [1]
+and [2] merged, we could remove drm_do_get_edid() interface altogether.
 
-Cc: David Airlie <airlied@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: Chia-I Wu <olvaffe@gmail.com>
-Cc: virtualization@lists.linux.dev
----
- drivers/gpu/drm/virtio/virtgpu_display.c | 10 ++++------
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  2 +-
- drivers/gpu/drm/virtio/virtgpu_vq.c      | 12 ++++++------
- 3 files changed, 11 insertions(+), 13 deletions(-)
+BR,
+Jani.
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index ad924a8502e9..64baf2f22d9f 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -164,11 +164,9 @@ static int virtio_gpu_conn_get_modes(struct drm_connector *connector)
- 	struct drm_display_mode *mode = NULL;
- 	int count, width, height;
- 
--	if (output->edid) {
--		count = drm_add_edid_modes(connector, output->edid);
--		if (count)
--			return count;
--	}
-+	count = drm_edid_connector_add_modes(connector);
-+	if (count)
-+		return count;
- 
- 	width  = le32_to_cpu(output->info.r.width);
- 	height = le32_to_cpu(output->info.r.height);
-@@ -369,5 +367,5 @@ void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev)
- 		return;
- 
- 	for (i = 0 ; i < vgdev->num_scanouts; ++i)
--		kfree(vgdev->outputs[i].edid);
-+		drm_edid_free(vgdev->outputs[i].drm_edid);
- }
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index bb7d86a0c6a1..64c236169db8 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -179,7 +179,7 @@ struct virtio_gpu_output {
- 	struct drm_encoder enc;
- 	struct virtio_gpu_display_one info;
- 	struct virtio_gpu_update_cursor cursor;
--	struct edid *edid;
-+	const struct drm_edid *drm_edid;
- 	int cur_x;
- 	int cur_y;
- 	bool needs_modeset;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index b1a00c0c25a7..0d3d0d09f39b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -741,21 +741,21 @@ static void virtio_gpu_cmd_get_edid_cb(struct virtio_gpu_device *vgdev,
- 		(struct virtio_gpu_resp_edid *)vbuf->resp_buf;
- 	uint32_t scanout = le32_to_cpu(cmd->scanout);
- 	struct virtio_gpu_output *output;
--	struct edid *new_edid, *old_edid;
-+	const struct drm_edid *new_edid, *old_edid;
- 
- 	if (scanout >= vgdev->num_scanouts)
- 		return;
- 	output = vgdev->outputs + scanout;
- 
--	new_edid = drm_do_get_edid(&output->conn, virtio_get_edid_block, resp);
--	drm_connector_update_edid_property(&output->conn, new_edid);
-+	new_edid = drm_edid_read_custom(&output->conn, virtio_get_edid_block, resp);
-+	drm_edid_connector_update(&output->conn, new_edid);
- 
- 	spin_lock(&vgdev->display_info_lock);
--	old_edid = output->edid;
--	output->edid = new_edid;
-+	old_edid = output->drm_edid;
-+	output->drm_edid = new_edid;
- 	spin_unlock(&vgdev->display_info_lock);
- 
--	kfree(old_edid);
-+	drm_edid_free(old_edid);
- 	wake_up(&vgdev->resp_wq);
- }
- 
+
+[2] https://lore.kernel.org/r/cover.1715347488.git.jani.nikula@intel.com
+
+>
+> Best regards
+> Thomas
+>
+> [1] https://patchwork.freedesktop.org/series/132039/#rev2
+>
+>>
+>> Build tested only, on x86, arm, and arm64.
+>>
+>> BR,
+>> Jani.
+>>
+>>
+>> Jani Nikula (15):
+>>    drm/panel: simple: switch to struct drm_edid
+>>    drm/panel-samsung-atna33xc20: switch to struct drm_edid
+>>    drm/panel-edp: switch to struct drm_edid
+>>    drm/bridge/analogix/anx6345: switch to struct drm_edid
+>>    drm/bridge/analogix/anx78xx: switch to struct drm_edid
+>>    drm/sun4i: hdmi: switch to struct drm_edid
+>>    drm/vc4: hdmi: switch to struct drm_edid
+>>    drm/bridge: anx7625: use struct drm_edid more
+>>    drm/gud: switch to struct drm_edid
+>>    drm/i2c: tda998x: switch to struct drm_edid
+>>    drm/bochs: switch to struct drm_edid
+>>    drm/virtio: switch to struct drm_edid
+>>    drm/rockchip: cdn-dp: switch to struct drm_edid
+>>    drm/rockchip: inno_hdmi: switch to struct drm_edid
+>>    drm/rockchip: rk3066_hdmi: switch to struct drm_edid
+>>
+>>   .../drm/bridge/analogix/analogix-anx6345.c    | 15 +++---
+>>   .../drm/bridge/analogix/analogix-anx78xx.c    | 23 +++++-----
+>>   drivers/gpu/drm/bridge/analogix/anx7625.c     | 26 +++++++----
+>>   drivers/gpu/drm/bridge/analogix/anx7625.h     | 10 +---
+>>   drivers/gpu/drm/gud/gud_connector.c           | 12 ++---
+>>   drivers/gpu/drm/i2c/tda998x_drv.c             | 19 ++++----
+>>   drivers/gpu/drm/panel/panel-edp.c             | 17 ++++---
+>>   .../gpu/drm/panel/panel-samsung-atna33xc20.c  | 13 ++++--
+>>   drivers/gpu/drm/panel/panel-simple.c          | 15 +++---
+>>   drivers/gpu/drm/rockchip/cdn-dp-core.c        | 33 +++++++------
+>>   drivers/gpu/drm/rockchip/cdn-dp-core.h        |  2 +-
+>>   drivers/gpu/drm/rockchip/inno_hdmi.c          | 12 ++---
+>>   drivers/gpu/drm/rockchip/rk3066_hdmi.c        | 12 ++---
+>>   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c        | 18 +++++---
+>>   drivers/gpu/drm/tiny/bochs.c                  | 23 ++++------
+>>   drivers/gpu/drm/vc4/vc4_hdmi.c                | 46 ++++++++++---------
+>>   drivers/gpu/drm/virtio/virtgpu_display.c      | 10 ++--
+>>   drivers/gpu/drm/virtio/virtgpu_drv.h          |  2 +-
+>>   drivers/gpu/drm/virtio/virtgpu_vq.c           | 12 ++---
+>>   19 files changed, 167 insertions(+), 153 deletions(-)
+>>
+
 -- 
-2.39.2
-
+Jani Nikula, Intel
