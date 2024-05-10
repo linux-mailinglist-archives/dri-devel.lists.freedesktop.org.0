@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E149E8C2CE2
-	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 01:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B27C8C2CE3
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 01:21:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F376110E118;
-	Fri, 10 May 2024 23:21:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8482610E349;
+	Fri, 10 May 2024 23:21:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="LeSEb8tt";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="vRstCV1I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com
- [209.85.128.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D484510E118
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 23:21:35 +0000 (UTC)
-Received: by mail-yw1-f202.google.com with SMTP id
- 00721157ae682-6202fd268c1so43213387b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 16:21:35 -0700 (PDT)
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com
+ [209.85.128.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D712910E349
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 23:21:37 +0000 (UTC)
+Received: by mail-yw1-f201.google.com with SMTP id
+ 00721157ae682-61bb09d8fecso44521837b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 16:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1715383295; x=1715988095;
+ d=google.com; s=20230601; t=1715383297; x=1715988097;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=MdPPwqmw2OB2eps2P/fXT/DBVgNwUukZ4bhTdtZp228=;
- b=LeSEb8tt645X6EbiBBk9TN60hNSSweLSq4hpxJ1NJX33jQBEpOff0QcwCNtEEOkvW4
- kIfw3pc8FFV4lNkHGsMqFY6r/wJ8L5xdy1rMwUoEXOEMbhkjSki4fiqP9zG885b01zA7
- 248syStNOU3iPk5EPWElRnXv3GHdG1ErP/A6V6ZpE3P5vDYYFvK6/ByceOdmbyXDfW+q
- 3vD2D+Wad2Co7H8+XNpS7kA/18deDD4INizzU0C9aNgW90z8L/ll/s7DSQUil4Rf3W2m
- aCtE7lC1NyTgX7KP9DLQia5vqoaSLHf9FA4elLvi6ckqlOFBZLJXw9qd5WKpKf0yXkhb
- nY6Q==
+ bh=xF9DcpJoLgJZU1T6Q4IRPCuOLCY+nprTpvGu9aP6Tnw=;
+ b=vRstCV1IkblwSvD7uU64EwGOKB6myHZLkm0ra2ZLi3P1uiS27fqjDcUJFjYCerOCjP
+ Sly6Xpub/OmR7U/D8TgAYZityCla0ARPHjBzaE2AmBXVOqhw9EldlwjQIFISzSajU7S6
+ Csy7nD+djE0Zodwvm4rk84uZgdBAvQNLwu//gOowQKCQckk10uhnNvCWLtQhTEdi2Mw9
+ 19JZ426D0J6TWDQ96ASvDHF1YRPdFXAj3QDOfLQIokl9ETwMnLdxS7+sIowcR7+gfh5y
+ Ve39DUPVF6LnG3vUray3oR5K24WcWTOi/pWLjpDstGzCfC8KZt2/Daa6iShIIB+Xi1r6
+ kmrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715383295; x=1715988095;
+ d=1e100.net; s=20230601; t=1715383297; x=1715988097;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MdPPwqmw2OB2eps2P/fXT/DBVgNwUukZ4bhTdtZp228=;
- b=qTqxvaP1nvs4FVA2xg1cfFX1WxI3Ir4PjV7uDhnvE7f7dCbEEiUl7G7yEttrd1vH/m
- 0WKZs9000/xCEyLaot8I3Z7049q/PmNX8l/VV7fGvvoUhMDDX/V+NePzCztpK6CRdAZw
- CHKQrace+ONRgiXNMpavvny5nFy0BBtLEAw93M5vPD5Sl8CoduvvtIiZ0GQR/jt4L8pY
- ZK8ioWKO8jAe7yf9+FSdDGzTsz75qDRtjQb+vkWS3+0C8wg99rz/zm1nIDQKUylpg9XG
- 7yFt02CIvZt6hIXpuwy2TFhteGQne8/OOvRJ0gcJj96PiAY6QIp2gmB4Ab/3w5/Ij3FY
- +dgw==
+ bh=xF9DcpJoLgJZU1T6Q4IRPCuOLCY+nprTpvGu9aP6Tnw=;
+ b=QHQ7dr+q/sGR/qTFUsgk0szovTDbXsicoBJjbz4Lil17d9BO/BEA+wrT1rc3mo9lfE
+ qVsBokELvyux4tMqTgUT9ZSA8hvGg6PFhn35Dml+10qXonAIUFEoV2W0isX5bDG81ewU
+ SkU5/PApWMl+VFzaehPLGpJaBcsHrZp8UbdY7s6kntXHTYRZK7WV28vLEc4tAG3CMGCQ
+ wxZL/mzJNHy1/ML1lqnX5LX9PV8ZNMtpxKwK8XgASbGjolMMPGnOZjvixK7/lI/GlU29
+ 7KZE6eLVsGJ/Ct4IKxNjGIxq7+HTeT47KCQuEmMHqx+byIt820IPZg83cATQNxhRs/YL
+ 7Deg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXl5g1zGULanqaDvf9Sxm2tDuuikoUwcGCRvZDzaFTVkvYuGn1c4ROyAMIzEjavHZA/yzZ0sUH8sfFN0S2UnO3W/DHdGrJhl66d4J1nLgD+
-X-Gm-Message-State: AOJu0Ywl2PbRrlUW7jC0PCzeKIvB77zQT5WLrFtkc9IZ5mAZNhdb6lM9
- H0HaqpdgC286pSrriTzuhPlfBKfit/nwBqXuCsBWdLbt9h0FVwCsRaPwBzHKy1houW2lBQGkIGK
- M5TuM0euc1vSr8pueu+sQjA==
-X-Google-Smtp-Source: AGHT+IHMXabhPnmA8ZNpFjS6LuGhr4/4Qtsxh1KKctSTjcGfvpS/yXd7v1SAm2EHkPFeDF0lY3JAnqUdXw/wbkGhCQ==
+ AJvYcCXLRFOJNavFFhz1RCmmUTM6aR4ZOFx5F4XMGLNVvH9O/j0+ISRRsFsI360unF3rVuIRRjsVH9ASj3ju5FOebcfVldsiOXw7VsBfvTfkikpz
+X-Gm-Message-State: AOJu0YxrEG+ITVCzA2Ji+10Gyeq5DqIrKsrVXdPxPdrvkABhmk2q94yd
+ HOuSRgezsPTIyRA5izUdVoQey9FP6XHxKzUx4G40xiKG24FkTEo0qpRw/9f/n/tjeGfCcjbjdOq
+ SIXfQMblqBFtJWc5uGsmT3g==
+X-Google-Smtp-Source: AGHT+IHyy1zdjYt14WuzL8ym16Mq2uHGoZIET4EFDeRi6dpgQgb7i6+tMrcwUYVLihO97jB0eo61thDqNoYgijbY8A==
 X-Received: from almasrymina.svl.corp.google.com
  ([2620:15c:2c4:200:3428:1b4e:e75a:d31b])
- (user=almasrymina job=sendgmr) by 2002:a05:690c:c9d:b0:618:8e4b:f49d with
- SMTP id 00721157ae682-622aff868c9mr10915787b3.4.1715383294779; Fri, 10 May
- 2024 16:21:34 -0700 (PDT)
-Date: Fri, 10 May 2024 16:21:12 -0700
+ (user=almasrymina job=sendgmr) by 2002:a05:690c:4508:b0:61b:e1cf:44f1 with
+ SMTP id 00721157ae682-622b0169688mr8577047b3.9.1715383296884; Fri, 10 May
+ 2024 16:21:36 -0700 (PDT)
+Date: Fri, 10 May 2024 16:21:13 -0700
 In-Reply-To: <20240510232128.1105145-1-almasrymina@google.com>
 Mime-Version: 1.0
 References: <20240510232128.1105145-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.45.0.118.g7fe29c98d7-goog
-Message-ID: <20240510232128.1105145-2-almasrymina@google.com>
-Subject: [PATCH net-next v9 01/14] netdev: add netdev_rx_queue_restart()
+Message-ID: <20240510232128.1105145-3-almasrymina@google.com>
+Subject: [PATCH net-next v9 02/14] net: page_pool: create hooks for custom
+ page providers
 From: Mina Almasry <almasrymina@google.com>
 To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
@@ -102,7 +103,8 @@ Cc: Mina Almasry <almasrymina@google.com>,
  Shailend Chand <shailend@google.com>,
  Harshitha Ramamurthy <hramamurthy@google.com>, 
  Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Christoph Hellwig <hch@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -119,132 +121,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add netdev_rx_queue_restart() function to netdev_rx_queue.h
+From: Jakub Kicinski <kuba@kernel.org>
 
-Signed-off-by: David Wei <dw@davidwei.uk>
+The page providers which try to reuse the same pages will
+need to hold onto the ref, even if page gets released from
+the pool - as in releasing the page from the pp just transfers
+the "ownership" reference from pp to the provider, and provider
+will wait for other references to be gone before feeding this
+page back into the pool.
+
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 Signed-off-by: Mina Almasry <almasrymina@google.com>
 
 ---
 
-v9: https://lore.kernel.org/all/20240502045410.3524155-4-dw@davidwei.uk/
-(submitted by David).
-- fixed SPDX license identifier (Simon).
-- Rebased on top of merged queue API definition, and changed
-  implementation to match that.
-- Replace rtnl_lock() with rtnl_is_locked() to make it useable from my
-  netlink code where rtnl is already locked.
+- This is implemented by Jakub in his RFC:
+https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@redhat.com/T/
+
+I take no credit for the idea or implementation; I only added minor
+edits to make this workable with device memory TCP, and removed some
+hacky test code. This is a critical dependency of device memory TCP
+and thus I'm pulling it into this series to make it revewable and
+mergeable.
+
+- There is a pending discussion about the acceptance of the page_pool
+  memory provider hooks:
+
+https://lore.kernel.org/netdev/20240403002053.2376017-3-almasrymina@google.com/
+
+I'm unsure if the discussion has been resolved yet. There seems to be
+agreement that the io_uring use case without dmabuf is good but unsure
+about the ops. The conversation will likely continue to this iteration.
+
+Cc: Christoph Hellwig <hch@infradead.org>
+
+RFC v3 -> v1
+- Removed unusued mem_provider. (Yunsheng).
+- Replaced memory_provider & mp_priv with netdev_rx_queue (Jakub).
 
 ---
- include/net/netdev_rx_queue.h |  3 ++
- net/core/Makefile             |  1 +
- net/core/netdev_rx_queue.c    | 74 +++++++++++++++++++++++++++++++++++
- 3 files changed, 78 insertions(+)
- create mode 100644 net/core/netdev_rx_queue.c
+ include/net/page_pool/types.h | 12 ++++++++++
+ net/core/page_pool.c          | 43 +++++++++++++++++++++++++++++++----
+ 2 files changed, 50 insertions(+), 5 deletions(-)
 
-diff --git a/include/net/netdev_rx_queue.h b/include/net/netdev_rx_queue.h
-index aa1716fb0e53c..e78ca52d67fbf 100644
---- a/include/net/netdev_rx_queue.h
-+++ b/include/net/netdev_rx_queue.h
-@@ -54,4 +54,7 @@ get_netdev_rx_queue_index(struct netdev_rx_queue *queue)
- 	return index;
- }
+diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
+index a6ebed0022160..2bf15ca6bfd48 100644
+--- a/include/net/page_pool/types.h
++++ b/include/net/page_pool/types.h
+@@ -52,6 +52,7 @@ struct pp_alloc_cache {
+  * @dev:	device, for DMA pre-mapping purposes
+  * @netdev:	netdev this pool will serve (leave as NULL if none or multiple)
+  * @napi:	NAPI which is the sole consumer of pages, otherwise NULL
++ * @queue:	struct netdev_rx_queue this page_pool is being created for.
+  * @dma_dir:	DMA mapping direction
+  * @max_len:	max DMA sync memory size for PP_FLAG_DMA_SYNC_DEV
+  * @offset:	DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
+@@ -64,6 +65,7 @@ struct page_pool_params {
+ 		int		nid;
+ 		struct device	*dev;
+ 		struct napi_struct *napi;
++		struct netdev_rx_queue *queue;
+ 		enum dma_data_direction dma_dir;
+ 		unsigned int	max_len;
+ 		unsigned int	offset;
+@@ -126,6 +128,13 @@ struct page_pool_stats {
+ };
  #endif
-+
-+int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq);
-+
- #endif
-diff --git a/net/core/Makefile b/net/core/Makefile
-index 62be9aef25285..f82232b358a2c 100644
---- a/net/core/Makefile
-+++ b/net/core/Makefile
-@@ -19,6 +19,7 @@ obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
  
- obj-y += net-sysfs.o
- obj-y += hotdata.o
-+obj-y += netdev_rx_queue.o
- obj-$(CONFIG_PAGE_POOL) += page_pool.o page_pool_user.o
- obj-$(CONFIG_PROC_FS) += net-procfs.o
- obj-$(CONFIG_NET_PKTGEN) += pktgen.o
-diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
-new file mode 100644
-index 0000000000000..b3899358e5a9c
---- /dev/null
-+++ b/net/core/netdev_rx_queue.c
-@@ -0,0 +1,74 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
++struct memory_provider_ops {
++	int (*init)(struct page_pool *pool);
++	void (*destroy)(struct page_pool *pool);
++	struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
++	bool (*release_page)(struct page_pool *pool, struct page *page);
++};
 +
-+#include <linux/netdevice.h>
-+#include <net/netdev_queues.h>
-+#include <net/netdev_rx_queue.h>
+ struct page_pool {
+ 	struct page_pool_params_fast p;
+ 
+@@ -176,6 +185,9 @@ struct page_pool {
+ 	 */
+ 	struct ptr_ring ring;
+ 
++	void *mp_priv;
++	const struct memory_provider_ops *mp_ops;
 +
-+int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq_idx)
-+{
-+	void *new_mem, *old_mem;
+ #ifdef CONFIG_PAGE_POOL_STATS
+ 	/* recycle stats are per-cpu to avoid locking */
+ 	struct page_pool_recycle_stats __percpu *recycle_stats;
+diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+index 8bcc7014a61a0..ae403397df09d 100644
+--- a/net/core/page_pool.c
++++ b/net/core/page_pool.c
+@@ -26,6 +26,8 @@
+ 
+ #include "page_pool_priv.h"
+ 
++static DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
++
+ #define DEFER_TIME (msecs_to_jiffies(1000))
+ #define DEFER_WARN_INTERVAL (60 * HZ)
+ 
+@@ -178,6 +180,7 @@ static int page_pool_init(struct page_pool *pool,
+ 			  int cpuid)
+ {
+ 	unsigned int ring_qsize = 1024; /* Default */
 +	int err;
+ 
+ 	memcpy(&pool->p, &params->fast, sizeof(pool->p));
+ 	memcpy(&pool->slow, &params->slow, sizeof(pool->slow));
+@@ -249,10 +252,25 @@ static int page_pool_init(struct page_pool *pool,
+ 	/* Driver calling page_pool_create() also call page_pool_destroy() */
+ 	refcount_set(&pool->user_cnt, 1);
+ 
++	if (pool->mp_ops) {
++		err = pool->mp_ops->init(pool);
++		if (err) {
++			pr_warn("%s() mem-provider init failed %d\n", __func__,
++				err);
++			goto free_ptr_ring;
++		}
 +
-+	if (!dev->queue_mgmt_ops->ndo_queue_stop ||
-+	    !dev->queue_mgmt_ops->ndo_queue_mem_free ||
-+	    !dev->queue_mgmt_ops->ndo_queue_mem_alloc ||
-+	    !dev->queue_mgmt_ops->ndo_queue_start)
-+		return -EOPNOTSUPP;
-+
-+	DEBUG_NET_WARN_ON_ONCE(!rtnl_is_locked());
-+
-+	new_mem = kvzalloc(dev->queue_mgmt_ops->ndo_queue_mem_size, GFP_KERNEL);
-+	if (!new_mem)
-+		return -ENOMEM;
-+
-+	old_mem = kvzalloc(dev->queue_mgmt_ops->ndo_queue_mem_size, GFP_KERNEL);
-+	if (!old_mem) {
-+		err = -ENOMEM;
-+		goto err_free_new_mem;
++		static_branch_inc(&page_pool_mem_providers);
 +	}
 +
-+	err = dev->queue_mgmt_ops->ndo_queue_mem_alloc(dev, new_mem, rxq_idx);
-+	if (err)
-+		goto err_free_old_mem;
+ 	if (pool->p.flags & PP_FLAG_DMA_MAP)
+ 		get_device(pool->p.dev);
+ 
+ 	return 0;
 +
-+	err = dev->queue_mgmt_ops->ndo_queue_stop(dev, old_mem, rxq_idx);
-+	if (err)
-+		goto err_free_new_queue_mem;
-+
-+	err = dev->queue_mgmt_ops->ndo_queue_start(dev, new_mem, rxq_idx);
-+	if (err)
-+		goto err_start_queue;
-+
-+	dev->queue_mgmt_ops->ndo_queue_mem_free(dev, old_mem);
-+
-+	kvfree(old_mem);
-+	kvfree(new_mem);
-+
-+	return 0;
-+
-+err_start_queue:
-+	/* Restarting the queue with old_mem should be successful as we haven't
-+	 * changed any of the queue configuration, and there is not much we can
-+	 * do to recover from a failure here.
-+	 *
-+	 * WARN if the we fail to recover the old rx queue, and at least free
-+	 * old_mem so we don't also leak that.
-+	 */
-+	if (dev->queue_mgmt_ops->ndo_queue_start(dev, old_mem, rxq_idx)) {
-+		WARN(1,
-+		     "Failed to restart old queue in error path. RX queue %d may be unhealthy.",
-+		     rxq_idx);
-+		dev->queue_mgmt_ops->ndo_queue_mem_free(dev, &old_mem);
-+	}
-+
-+err_free_new_queue_mem:
-+	dev->queue_mgmt_ops->ndo_queue_mem_free(dev, new_mem);
-+
-+err_free_old_mem:
-+	kvfree(old_mem);
-+
-+err_free_new_mem:
-+	kvfree(new_mem);
-+
++free_ptr_ring:
++	ptr_ring_cleanup(&pool->ring, NULL);
 +	return err;
-+}
+ }
+ 
+ static void page_pool_uninit(struct page_pool *pool)
+@@ -547,7 +565,10 @@ struct page *page_pool_alloc_pages(struct page_pool *pool, gfp_t gfp)
+ 		return page;
+ 
+ 	/* Slow-path: cache empty, do real allocation */
+-	page = __page_pool_alloc_pages_slow(pool, gfp);
++	if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
++		page = pool->mp_ops->alloc_pages(pool, gfp);
++	else
++		page = __page_pool_alloc_pages_slow(pool, gfp);
+ 	return page;
+ }
+ EXPORT_SYMBOL(page_pool_alloc_pages);
+@@ -605,10 +626,13 @@ void __page_pool_release_page_dma(struct page_pool *pool, struct page *page)
+ void page_pool_return_page(struct page_pool *pool, struct page *page)
+ {
+ 	int count;
++	bool put;
+ 
+-	__page_pool_release_page_dma(pool, page);
+-
+-	page_pool_clear_pp_info(page);
++	put = true;
++	if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
++		put = pool->mp_ops->release_page(pool, page);
++	else
++		__page_pool_release_page_dma(pool, page);
+ 
+ 	/* This may be the last page returned, releasing the pool, so
+ 	 * it is not safe to reference pool afterwards.
+@@ -616,7 +640,10 @@ void page_pool_return_page(struct page_pool *pool, struct page *page)
+ 	count = atomic_inc_return_relaxed(&pool->pages_state_release_cnt);
+ 	trace_page_pool_state_release(pool, page, count);
+ 
+-	put_page(page);
++	if (put) {
++		page_pool_clear_pp_info(page);
++		put_page(page);
++	}
+ 	/* An optimization would be to call __free_pages(page, pool->p.order)
+ 	 * knowing page is not part of page-cache (thus avoiding a
+ 	 * __page_cache_release() call).
+@@ -919,6 +946,12 @@ static void __page_pool_destroy(struct page_pool *pool)
+ 
+ 	page_pool_unlist(pool);
+ 	page_pool_uninit(pool);
++
++	if (pool->mp_ops) {
++		pool->mp_ops->destroy(pool);
++		static_branch_dec(&page_pool_mem_providers);
++	}
++
+ 	kfree(pool);
+ }
+ 
 -- 
 2.45.0.118.g7fe29c98d7-goog
 
