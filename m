@@ -2,81 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EBF38C1EA6
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 09:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFC68C1DE2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 08:05:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6223510E53B;
-	Fri, 10 May 2024 07:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF0B10E0B8;
+	Fri, 10 May 2024 06:05:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="PDFEemqR";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Ou32VF6Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1825D10E04A
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 02:18:24 +0000 (UTC)
-X-UUID: 9197f03c0e7311ef8065b7b53f7091ad-20240510
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=DQMjWMZ5it8OZyRBbUrQVWokP1+YbLgDB/9+MCPLpVQ=; 
- b=PDFEemqR/w0/yqQQ7l/P/cErFe2kgjlMvWtMjC7+1eTYWdc6wOhqtBDESAspqaesZG5il+7hUZpt6p5qdjlH94hQW7JSyvxAplzA0gfTobJj3lD2beKzc/1dXtQbarchLBiGNiGkP7pgU92Pp93rwEfCm9rxWy1hviZmZ4Q/6hg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38, REQID:8f3e01a1-1cb7-4e93-8d8e-9a87f5f31950, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:82c5f88, CLOUDID:c3c72c87-8d4f-477b-89d2-1e3bdbef96d1,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:5,IP:nil,UR
- L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
- PR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 9197f03c0e7311ef8065b7b53f7091ad-20240510
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw02.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 536206815; Fri, 10 May 2024 10:18:19 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 10 May 2024 10:18:14 +0800
-Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 10 May 2024 10:18:14 +0800
-From: Liankun Yang <liankun.yang@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
- <mac.shen@mediatek.com>, <liankun.yang@mediatek.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 1/1] Support YUV422 for DPTX.
-Date: Fri, 10 May 2024 10:15:29 +0800
-Message-ID: <20240510021810.19302-1-liankun.yang@mediatek.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48EC310E0B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 06:05:21 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-1ec41d82b8bso15090975ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2024 23:05:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1715321120; x=1715925920;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3l9Zhk1CinuAg1XYDxK911+bsjq1ZwhNZoOZALb8UiE=;
+ b=Ou32VF6QMGoLrRUGT9zK5ckj7uZ6xJdF8HWpXztZrAMokGXTK21aZap7fYeM4X2YHh
+ yQHVBoEsDo7s2E0Bm+ED9Y+ttRoBwIUE//EM/6gIKBtjOWQiy0QQ4UG+8TfybmCW2c/C
+ verUVJcnumn/G1w98P3w1GvTvQnZedvzzVRBBCeSIl3c0Lzzsc7o/e3vtv9XkBl/ecym
+ Sx71GevzsW6Dm8sSRpnH/cbARYlNiUhez2/FTSkTnFrv3pTicWBkS1jhqhCJ+ozOdOon
+ 5srCzAaDWU7maXpnJSc1b376a8XpV1PCWhITUEm1dhMDZuMvMfncM2rVb2lU93RE4Vmk
+ DiIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715321120; x=1715925920;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3l9Zhk1CinuAg1XYDxK911+bsjq1ZwhNZoOZALb8UiE=;
+ b=xSwjXYt9qD9ssRRBtpguLr9yvnDUjJLuGORM237uTyaAQHQdnw6XpxM0E3HHTB/0T/
+ r0mvR/f9r+DB72x1s97ICH7TxAhcceTahp1/OoAZ8o7Kl8GjymiFUDqbiWTdSOOIvMo1
+ X+itHz9tjcHTxgbClK9ziYxNKj8nehabw3ToBTg2EO8c3wZCK40kClE64S7ZfWCMVQnC
+ IbnkKlVp4AfLwa13jxAos2HKmXsf8MFcB/jVUkN9UMm8DPRyLgceLxnJ59+90XGrH6oG
+ 8gttHFumHLfYhNnG8lDCZaZlxH0pzMB9uAIMjk2eO3C1z0KIj+E+H+QPvCCDQlSQuYUI
+ 3WJg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXPR/OxCggQ+q/1xh6W3QO4zkQIPSB3BF1+L+/hJitScnpNgQ1YVATEwM2oqQkZtE0O7BkratEE1fScB80792KWnGL0BKIXE/lRzme1qVXY
+X-Gm-Message-State: AOJu0YwO46LnmPhtKr+gAYKJVACa9tdb3H8xeCb2DJhWKJ4bzgfOwm79
+ bHouwu9wUlMvvgw2sRKUzTnitZ6hyexgJCDBWa0tCBiPAwWKLfHyfsfrFeKNTarwGV4JVK9aBWA
+ YKhk07CFkmmrnUCOIWJuwFSmX1L8G/WH00jdSsw==
+X-Google-Smtp-Source: AGHT+IHHD/CHw//DnmrclZoHVWyraKaM7aOGtysmOL6I5Ech4AujZ822XKMc9TvmkKxt5ikp+pwjEo1hUxbShHn5m4c=
+X-Received: by 2002:a17:90a:df85:b0:2b1:e314:a5e6 with SMTP id
+ 98e67ed59e1d1-2b6cc144d48mr1628397a91.7.1715321120379; Thu, 09 May 2024
+ 23:05:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--4.021300-8.000000
-X-TMASE-MatchedRID: UqpZKsHsMCd6C/DhL53MofU1Xpm2N12SEbxKVXd70tXfUZT83lbkEH3q
- 33AN90RFNEOprWfLXKfxmtEYLZtVoj3BvXglGRuk4pdq9sdj8LU7r2Gtb9iBYWHtZs6e3ZMHgSk
- lFxt6Wp0ANcTxXeakRbFdDzVRJSPNxz6opuAAUJKO0rt0LpQGeVo1rFkFFs1atK3FOVf6Entlln
- dVQSPeh37oxe7d+k8QcAwOsowI+VKlTHNxJDwdpELEoH0ynuZVFk73i4rVVIH4JyR+b5tvoBFG4
- EGBR4d4XLIhLtaujX6/GjIHLzn7BgEzlKcqjzGckDpLRKO9xhThKQh1LCmGBpsoi2XrUn/Jn6Kd
- MrRsL14qtq5d3cxkNRz4tF/sDU5vhRA3SI9h7KmYftgi7sAl3zpKgU6ixfgAeW4/xVzXMTY/l3L
- cZRxL5jxLPNsXewJyspCzPmuFTck1skRKpMV4OkGv8R81e9TV82Gj2QC3yG0smXVK/H8eHzG7sr
- 7xobSAzcDEvJaUSgU=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--4.021300-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: E8F621250D14A1442EC801CC57FAB1D2DE56DC6ACD66D8FDC57EB1D2246BAA102000:8
-X-MTK: N
-X-Mailman-Approved-At: Fri, 10 May 2024 07:07:42 +0000
+References: <20240509015207.3271370-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240509015207.3271370-8-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=Vd34kBy4meaqqYECQKaT1=XcCFdq3qaU5n=YBWVAVi-Q@mail.gmail.com>
+In-Reply-To: <CAD=FV=Vd34kBy4meaqqYECQKaT1=XcCFdq3qaU5n=YBWVAVi-Q@mail.gmail.com>
+From: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date: Fri, 10 May 2024 14:05:09 +0800
+Message-ID: <CAHwB_N+4_cJ3NuEm+AxqhxYosLvJ+WA6SG9HhTckCxNEBkvwSw@mail.gmail.com>
+Subject: Re: [PATCH v5 7/7] drm/panel: himax-hx83102: Support for IVO t109nw41
+ MIPI-DSI panel
+To: Doug Anderson <dianders@chromium.org>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
+ linus.walleij@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
+ robh+dt@kernel.org, conor+dt@kernel.org, airlied@gmail.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,202 +86,208 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adjust the training sequence.Detects the actual link condition
-and calculates the bandwidth where the relevant resolution resides.
+Hi,
 
-The bandwidth is recalculated and modes that exceed the bandwidth are
-filtered.
+Doug Anderson <dianders@chromium.org> =E4=BA=8E2024=E5=B9=B45=E6=9C=8810=E6=
+=97=A5=E5=91=A8=E4=BA=94 00:49=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi,
+>
+> On Wed, May 8, 2024 at 6:53=E2=80=AFPM Cong Yang
+> <yangcong5@huaqin.corp-partner.google.com> wrote:
+> >
+> > +static int ivo_t109nw41_init(struct hx83102 *ctx)
+> > +{
+> > +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D ctx->dsi }=
+;
+> > +
+> > +       msleep(60);
+> > +
+> > +       hx83102_enable_extended_cmds(&dsi_ctx, true);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x2c, =
+0xed, 0xed, 0x0f, 0xcf, 0x42,
+> > +                                    0xf5, 0x39, 0x36, 0x36, 0x36, 0x36=
+, 0x32, 0x8b, 0x11, 0x65, 0x00, 0x88,
+> > +                                    0xfa, 0xff, 0xff, 0x8f, 0xff, 0x08=
+, 0xd6, 0x33);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETDISP, 0x00, 0=
+x47, 0xb0, 0x80, 0x00, 0x12,
+> > +                                    0x71, 0x3c, 0xa3, 0x22, 0x20, 0x00=
+, 0x00, 0x88, 0x01);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x35, 0x=
+35, 0x43, 0x43, 0x35, 0x35,
+> > +                                    0x30, 0x7a, 0x30, 0x7a, 0x01, 0x9d=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcd)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x84);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETVDC, 0x1b, 0x=
+04);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_BE, 0x20=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xfc, 0=
+xc4);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSTBA, 0x34, 0=
+x34, 0x22, 0x11, 0x22, 0xa0,
+> > +                                    0x31, 0x08, 0xf5, 0x03);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcc)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTCON, 0x80);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xd3)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTCON, 0x22);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETRAMDMY, 0x97)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPWM, 0x00, 0x=
+1e, 0x13, 0x88, 0x01);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x08, =
+0x13, 0x07, 0x00, 0x0f, 0x34);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPANEL, 0x02, =
+0x03, 0x44);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCASCADE, 0x03=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPCTRL, 0x07, =
+0x06, 0x00, 0x02, 0x04, 0x2c,
+> > +                                    0xff);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x06, 0=
+x00, 0x00, 0x00, 0x00, 0x08,
+> > +                                    0x08, 0x08, 0x08, 0x37, 0x07, 0x64=
+, 0x7c, 0x11, 0x11, 0x03, 0x03, 0x32,
+> > +                                    0x10, 0x0e, 0x00, 0x0e, 0x32, 0x17=
+, 0x97, 0x07, 0x97, 0x32, 0x00, 0x02,
+> > +                                    0x00, 0x02, 0x00, 0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP1, 0x25, 0=
+x24, 0x25, 0x24, 0x18, 0x18,
+> > +                                    0x18, 0x18, 0x07, 0x06, 0x07, 0x06=
+, 0x05, 0x04, 0x05, 0x04, 0x03, 0x02,
+> > +                                    0x03, 0x02, 0x01, 0x00, 0x01, 0x00=
+, 0x1e, 0x1e, 0x1e, 0x1e, 0x1f, 0x1f,
+> > +                                    0x1f, 0x1f, 0x21, 0x20, 0x21, 0x20=
+, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+> > +                                    0x18, 0x18);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xaa, 0=
+xaa, 0xaa, 0xaa, 0xaa, 0xa0,
+> > +                                    0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGMA, 0x04, 0x=
+04, 0x06, 0x0a, 0x0a, 0x05,
+> > +                                    0x12, 0x14, 0x17, 0x13, 0x2c, 0x33=
+, 0x39, 0x4b, 0x4c, 0x56, 0x61, 0x78,
+> > +                                    0x7a, 0x41, 0x50, 0x68, 0x73, 0x04=
+, 0x04, 0x06, 0x0a, 0x0a, 0x05, 0x12,
+> > +                                    0x14, 0x17, 0x13, 0x2c, 0x33, 0x39=
+, 0x4b, 0x4c, 0x56, 0x61, 0x78, 0x7a,
+> > +                                    0x41, 0x50, 0x68, 0x73);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x07, 0x=
+10, 0x10, 0x1a, 0x26, 0x9e,
+> > +                                    0x00, 0x4f, 0xa0, 0x14, 0x14, 0x00=
+, 0x00, 0x00, 0x00, 0x12, 0x0a, 0x02,
+> > +                                    0x02, 0x00, 0x33, 0x02, 0x04, 0x18=
+, 0x01);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x01, =
+0x7f, 0x11, 0xfd);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x86);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x00, 0=
+x00, 0x04, 0x00, 0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0x00, 0=
+x00, 0x00, 0x00, 0x00, 0x00,
+> > +                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
+, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0,
+> > +                                    0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x02, 0x=
+00, 0x2b, 0x01, 0x7e, 0x0f,
+> > +                                    0x7e, 0x10, 0xa0, 0x00, 0x00, 0x77=
+, 0x00, 0x00, 0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xf2);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x03, =
+0x07, 0x00, 0x10, 0x79);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xff, 0=
+xff, 0xff, 0xff, 0xfa, 0xa0,
+> > +                                    0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0xfe, 0x=
+01, 0xfe, 0x01, 0xfe, 0x01,
+> > +                                    0x00, 0x00, 0x00, 0x23, 0x00, 0x23=
+, 0x81, 0x02, 0x40, 0x00, 0x20, 0x6e,
+> > +                                    0x02, 0x01, 0x00, 0x00, 0x00, 0x00=
+, 0x00, 0x00, 0x00, 0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x03);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xaa,=
+ 0xaa, 0xaa, 0xaa, 0xaa, 0xa0,
+> > +                                    0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0=
+, 0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0,
+> > +                                    0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0=
+, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0,
+> > +                                    0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x03, 0x=
+ff, 0xf8);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_E1, 0x00=
+);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_D2, 0xff=
+, 0xff, 0xff, 0xff, 0xff, 0xff);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x96);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc5)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x4f);
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f)=
+;
+> > +       mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
+> > +       if (dsi_ctx.accum_err)
+> > +               return dsi_ctx.accum_err;
+>
+> Since this is a new panel you're adding support for and there's no
+> excuse that we don't want to change the old command sequence, it seems
+> like you should add the call to:
+>
+> hx83102_enable_extended_cmds(&dsi_ctx, false);
+>
+> If for some reason that would be a bad idea, let me know.
 
-Example Modify bandwidth filtering requirements.
+Confirm with the vendor again , disable extended cmds is prevent the ESD
+mechanism write (currently there is no ESD check mechanism) ic register.
+So it may not have any impact whether add disable extended cmds or not.
+Of course for me, I prefer to upload according to the initial code
+provided by  vendor.
 
-Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dp.c | 81 ++++++++++++++++++-------------
- 1 file changed, 46 insertions(+), 35 deletions(-)
+If you prefer add it I also can fix in V6.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 2136a596efa1..3e645bd6fe27 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -66,6 +66,13 @@ enum {
- 	MTK_DP_CAL_MAX,
- };
- 
-+enum mtk_dp_color_format {
-+	MTK_DP_COLOR_FORMAT_RGB = 0,
-+	MTK_DP_COLOR_FORMAT_YUV422 = 0x1,
-+	MTK_DP_COLOR_FORMAT_YUV444 = 0x2,
-+	MTK_DP_COLOR_FORMAT_YUV420 = 0x3,
-+};
-+
- struct mtk_dp_train_info {
- 	bool sink_ssc;
- 	bool cable_plugged_in;
-@@ -84,7 +91,7 @@ struct mtk_dp_audio_cfg {
- };
- 
- struct mtk_dp_info {
--	enum dp_pixelformat format;
-+	enum mtk_dp_color_format format;
- 	struct videomode vm;
- 	struct mtk_dp_audio_cfg audio_cur_cfg;
- };
-@@ -457,7 +464,7 @@ static void mtk_dp_set_msa(struct mtk_dp *mtk_dp)
- }
- 
- static int mtk_dp_set_color_format(struct mtk_dp *mtk_dp,
--				   enum dp_pixelformat color_format)
-+				   enum mtk_dp_color_format color_format)
- {
- 	u32 val;
- 
-@@ -467,10 +474,10 @@ static int mtk_dp_set_color_format(struct mtk_dp *mtk_dp,
- 			   DP_TEST_COLOR_FORMAT_MASK);
- 
- 	switch (color_format) {
--	case DP_PIXELFORMAT_YUV422:
-+	case MTK_DP_COLOR_FORMAT_YUV422:
- 		val = PIXEL_ENCODE_FORMAT_DP_ENC0_P0_YCBCR422;
- 		break;
--	case DP_PIXELFORMAT_RGB:
-+	case MTK_DP_COLOR_FORMAT_RGB:
- 		val = PIXEL_ENCODE_FORMAT_DP_ENC0_P0_RGB;
- 		break;
- 	default:
-@@ -1322,7 +1329,7 @@ static void mtk_dp_initialize_priv_data(struct mtk_dp *mtk_dp)
- 	mtk_dp->train_info.lane_count = mtk_dp->max_lanes;
- 	mtk_dp->train_info.cable_plugged_in = plugged_in;
- 
--	mtk_dp->info.format = DP_PIXELFORMAT_RGB;
-+	mtk_dp->info.format = MTK_DP_COLOR_FORMAT_YUV422;
- 	memset(&mtk_dp->info.vm, 0, sizeof(struct videomode));
- 	mtk_dp->audio_enable = false;
- }
-@@ -1371,7 +1378,7 @@ static void mtk_dp_sdp_set_down_cnt_init_in_hblank(struct mtk_dp *mtk_dp)
- 
- 	drm_display_mode_from_videomode(vm, &mode);
- 
--	pix_clk_mhz = mtk_dp->info.format == DP_PIXELFORMAT_YUV420 ?
-+	pix_clk_mhz = mtk_dp->info.format == MTK_DP_COLOR_FORMAT_YUV420 ?
- 		      mode.clock / 2000 : mode.clock / 1000;
- 
- 	switch (mtk_dp->train_info.lane_count) {
-@@ -1870,6 +1877,7 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
- 	struct mtk_dp *mtk_dp = dev;
- 	unsigned long flags;
- 	u32 status;
-+	int ret;
- 
- 	if (mtk_dp->need_debounce && mtk_dp->train_info.cable_plugged_in)
- 		msleep(100);
-@@ -1888,9 +1896,28 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
- 			memset(&mtk_dp->info.audio_cur_cfg, 0,
- 			       sizeof(mtk_dp->info.audio_cur_cfg));
- 
-+			mtk_dp->enabled = false;
-+			/* power off aux */
-+			mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-+			       DP_PWR_STATE_BANDGAP_TPLL,
-+			       DP_PWR_STATE_MASK);
-+
- 			mtk_dp->need_debounce = false;
- 			mod_timer(&mtk_dp->debounce_timer,
- 				  jiffies + msecs_to_jiffies(100) - 1);
-+		} else {
-+			mtk_dp_aux_panel_poweron(mtk_dp, true);
-+
-+			ret = mtk_dp_parse_capabilities(mtk_dp);
-+			if (ret)
-+				drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
-+
-+			/* Training */
-+			ret = mtk_dp_training(mtk_dp);
-+			if (ret)
-+				drm_err(mtk_dp->drm_dev, "Training failed, %d\n", ret);
-+
-+			mtk_dp->enabled = true;
- 		}
- 	}
- 
-@@ -2057,16 +2084,6 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
- 
- 	new_edid = drm_get_edid(connector, &mtk_dp->aux.ddc);
- 
--	/*
--	 * Parse capability here to let atomic_get_input_bus_fmts and
--	 * mode_valid use the capability to calculate sink bitrates.
--	 */
--	if (mtk_dp_parse_capabilities(mtk_dp)) {
--		drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
--		kfree(new_edid);
--		new_edid = NULL;
--	}
--
- 	if (new_edid) {
- 		struct cea_sad *sads;
- 
-@@ -2243,14 +2260,10 @@ static void mtk_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 		return;
- 	}
- 
--	mtk_dp_aux_panel_poweron(mtk_dp, true);
--
--	/* Training */
--	ret = mtk_dp_training(mtk_dp);
--	if (ret) {
--		drm_err(mtk_dp->drm_dev, "Training failed, %d\n", ret);
--		goto power_off_aux;
--	}
-+	/* power on aux */
-+	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-+			   DP_PWR_STATE_BANDGAP_TPLL_LANE,
-+			   DP_PWR_STATE_MASK);
- 
- 	ret = mtk_dp_video_config(mtk_dp);
- 	if (ret)
-@@ -2310,12 +2323,11 @@ mtk_dp_bridge_mode_valid(struct drm_bridge *bridge,
- {
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
- 	u32 bpp = info->color_formats & DRM_COLOR_FORMAT_YCBCR422 ? 16 : 24;
--	u32 rate = min_t(u32, drm_dp_max_link_rate(mtk_dp->rx_cap) *
--			      drm_dp_max_lane_count(mtk_dp->rx_cap),
--			 drm_dp_bw_code_to_link_rate(mtk_dp->max_linkrate) *
--			 mtk_dp->max_lanes);
-+	u32 lane_count_min = mtk_dp->train_info.lane_count;
-+	u32 rate = drm_dp_bw_code_to_link_rate(mtk_dp->train_info.link_rate) *
-+			 lane_count_min;
- 
--	if (rate < mode->clock * bpp / 8)
-+	if (rate * 97 / 100 < (mode->clock * bpp / 8))
- 		return MODE_CLOCK_HIGH;
- 
- 	return MODE_OK;
-@@ -2356,10 +2368,9 @@ static u32 *mtk_dp_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	struct drm_display_info *display_info =
- 		&conn_state->connector->display_info;
--	u32 rate = min_t(u32, drm_dp_max_link_rate(mtk_dp->rx_cap) *
--			      drm_dp_max_lane_count(mtk_dp->rx_cap),
--			 drm_dp_bw_code_to_link_rate(mtk_dp->max_linkrate) *
--			 mtk_dp->max_lanes);
-+	u32 lane_count_min = mtk_dp->train_info.lane_count;
-+	u32 rate = drm_dp_bw_code_to_link_rate(mtk_dp->train_info.link_rate) *
-+			 lane_count_min;
- 
- 	*num_input_fmts = 0;
- 
-@@ -2406,9 +2417,9 @@ static int mtk_dp_bridge_atomic_check(struct drm_bridge *bridge,
- 		 bridge_state->output_bus_cfg.format);
- 
- 	if (input_bus_format == MEDIA_BUS_FMT_YUYV8_1X16)
--		mtk_dp->info.format = DP_PIXELFORMAT_YUV422;
-+		mtk_dp->info.format = MTK_DP_COLOR_FORMAT_YUV422;
- 	else
--		mtk_dp->info.format = DP_PIXELFORMAT_RGB;
-+		mtk_dp->info.format = MTK_DP_COLOR_FORMAT_RGB;
- 
- 	if (!crtc) {
- 		drm_err(mtk_dp->drm_dev,
--- 
-2.18.0
+Thanks.
 
+>
+> -Doug
