@@ -2,103 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E25E8C2829
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:48:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2A68C2899
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 18:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF1E910EE0B;
-	Fri, 10 May 2024 15:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA2110E5BF;
+	Fri, 10 May 2024 16:19:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="G5qfFtHK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uVshRpfr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G5qfFtHK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uVshRpfr";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="O3Pq4O36";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72AF510EE01
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:48:46 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 29A2A3F039;
- Fri, 10 May 2024 15:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715356125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E07210E5BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 16:19:51 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9D3FD1C0005;
+ Fri, 10 May 2024 16:19:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1715357988;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sBbuvYc0xtKs+62nfoU1LLj3l2O89uBqCEqbrfxsVEI=;
- b=G5qfFtHK9yuDtU8XN3grAr8uXQk1C9Nt6HtNXbnEhx5IsXzfuiYpSLVAhuWO1wcBcubyya
- czjTNJTyEDunoIZFKgCDhwNVz/GS7MwpWJmFRDVnvqV4bplzbIjuavn7QxJusKSMq/f4g9
- Hogu4Ek8g0lQds68NGoZy3meSxU13NE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715356125;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sBbuvYc0xtKs+62nfoU1LLj3l2O89uBqCEqbrfxsVEI=;
- b=uVshRpfrEnqmlw0KiigH4eNUtBZ14L8CrlP9iHA7NdqnLrU1RNL4fw17msA0HoIk8vALQ7
- RUcpBAyXOhVvFRBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715356125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sBbuvYc0xtKs+62nfoU1LLj3l2O89uBqCEqbrfxsVEI=;
- b=G5qfFtHK9yuDtU8XN3grAr8uXQk1C9Nt6HtNXbnEhx5IsXzfuiYpSLVAhuWO1wcBcubyya
- czjTNJTyEDunoIZFKgCDhwNVz/GS7MwpWJmFRDVnvqV4bplzbIjuavn7QxJusKSMq/f4g9
- Hogu4Ek8g0lQds68NGoZy3meSxU13NE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715356125;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sBbuvYc0xtKs+62nfoU1LLj3l2O89uBqCEqbrfxsVEI=;
- b=uVshRpfrEnqmlw0KiigH4eNUtBZ14L8CrlP9iHA7NdqnLrU1RNL4fw17msA0HoIk8vALQ7
- RUcpBAyXOhVvFRBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ED23A13A32;
- Fri, 10 May 2024 15:48:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id SOKmONxBPma7MgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 10 May 2024 15:48:44 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, jani.nikula@linux.intel.com, airlied@redhat.com,
- sean@poorly.run
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v3 5/5] drm/udl: Remove struct udl_connector
-Date: Fri, 10 May 2024 17:47:12 +0200
-Message-ID: <20240510154841.11370-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240510154841.11370-1-tzimmermann@suse.de>
-References: <20240510154841.11370-1-tzimmermann@suse.de>
+ bh=qbabZJ/2W2xFmYWiTlcU5Sr+WrjFVh8Q4pQSbiNIFzU=;
+ b=O3Pq4O36UcSLsRyGKiy+PiMqvNUx9X/1DUatpy134SIpYRFn8rhReygYL0CVB+BGCwk6fZ
+ YZP0/b5iKrIfhme5Bx77TR5eQdjQp9V/fFB1ycAMT/rdGpTmdW8JkS8Jn+vr5bXvgn88EX
+ IvAP5E0PS8htzcI3nvFtwP3ayiRgpj3QJ1DG6zj09Z9ec69cOs9b0vNt9/HcF9TnJOron7
+ 2C3gmqD+GMuXyXFryMVfoAVwLYWInvEESrq6J1r9cEv5vzr4TkEr9m9Sjb+d7n/5Qbfsov
+ 9J5TF1dki3TkzOI5DxCWU+MULXs3azP6JW3IQaF1AOuskaHomx1481s/qg9vkA==
+Date: Fri, 10 May 2024 18:19:45 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Jim Shargo <jshargo@google.com>
+Cc: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+ daniel@ffwll.ch, brpol@chromium.org, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+ hirono@chromium.org, jshargo@chromium.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mairacanal@riseup.net, marius.vlad@collabora.com,
+ mduggan@chromium.org, melissa.srw@gmail.com, mripard@kernel.org,
+ rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
+Subject: Re: [PATCH v6 0/7] Adds support for ConfigFS to VKMS!
+Message-ID: <Zj5JIah0jWnIn2Ix@localhost.localdomain>
+Mail-Followup-To: Jim Shargo <jshargo@google.com>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+ daniel@ffwll.ch, brpol@chromium.org, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+ hirono@chromium.org, jshargo@chromium.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mairacanal@riseup.net, marius.vlad@collabora.com,
+ mduggan@chromium.org, melissa.srw@gmail.com, mripard@kernel.org,
+ rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
+References: <ZjCtgSaL50YrS-F-@phenom.ffwll.local>
+ <20240508181744.7030-1-jose.exposito89@gmail.com>
+ <CACmi3jF6Dp3PE8X=T5kTO2+eYJQi7jWACFdmp9jzKxUtcQphnQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_SEVEN(0.00)[7];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
- RCVD_TLS_ALL(0.00)[]
+In-Reply-To: <CACmi3jF6Dp3PE8X=T5kTO2+eYJQi7jWACFdmp9jzKxUtcQphnQ@mail.gmail.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,122 +76,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Udl's struct udl_connector is an empty wrapper around struct
-drm_connector. Remove it. Allocate the connector as part of struct
-udl_device and inline the init function into its only caller.
+Le 09/05/24 - 18:18, Jim Shargo a écrit :
+> Sima--thanks SO MUCH for going through with everything leaving a
+> detailed review. I am excited to go through your feedback.
+> 
+> It makes me extremely happy to see these patches get people excited.
+> 
+> They've bounced between a few people, and I recently asked to take
+> them over again from the folks who were most recently looking at them
+> but haven't since had capacity to revisit them. I'd love to contribute
+> more but I am currently pretty swamped and I probably couldn't
+> realistically make too much headway before the middle of June.
+> 
+> José--if you've got capacity and interest, I'd love to see this work
+> get in! Thanks!! Please let me know your timeline and if you want to
+> split anything up or have any questions, I'd love to help if possible.
+> But most important to me is seeing the community benefit from the
+> feature.
+> 
+> And (in case it got lost in the shuffle of all these patches) the IGT
+> tests really make it much easier to develop this thing. Marius has
+> posted the most recent patches:
+> https://lore.kernel.org/igt-dev/?q=configfs
+> 
+> Thanks!
+> -- Jim
+> 
+> 
+> 
+> On Wed, May 8, 2024 at 2:17 PM José Expósito <jose.exposito89@gmail.com> wrote:
+> >
+> > Hi everyone,
+> >
+> > I wasn't aware of these patches, but I'm really glad they are getting
+> > some attention, thanks a lot for your review Sima.
+> >
+> > Given that it's been a while since the patches were emailed, I'm not
+> > sure if the original authors of the patches could implement your
+> > comments. If not, I can work on it. Please let me know.
+> >
+> > I'm working on a Mutter feature that'd greatly benefit from this uapi
+> > and I'm sure other compositors would find it useful.
+> >
+> > I'll start working on a new version in a few days if nobody else is
+> > already working on it.
+> >
+> > Best wishes,
+> > José Expósito
 
-v2:
-- fix return value in udl_modeset_init() (Dan)
+Hi all!
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/udl/udl_drv.h     | 10 +------
- drivers/gpu/drm/udl/udl_modeset.c | 49 +++++++------------------------
- 2 files changed, 11 insertions(+), 48 deletions(-)
+Very nice to see other people working on this subject. As the series 
+seemed inactive, I started two weeks ago to rebase it on top of [1]. I 
+also started some work to use drmm_* helpers instead of using lists in 
+vkms. I currently struggle with a deadlock during rmmod.
 
-diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index f112cfb270f31..1eb716d9dad57 100644
---- a/drivers/gpu/drm/udl/udl_drv.h
-+++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -49,15 +49,6 @@ struct urb_list {
- 	size_t size;
- };
- 
--struct udl_connector {
--	struct drm_connector connector;
--};
--
--static inline struct udl_connector *to_udl_connector(struct drm_connector *connector)
--{
--	return container_of(connector, struct udl_connector, connector);
--}
--
- struct udl_device {
- 	struct drm_device drm;
- 	struct device *dev;
-@@ -66,6 +57,7 @@ struct udl_device {
- 	struct drm_plane primary_plane;
- 	struct drm_crtc crtc;
- 	struct drm_encoder encoder;
-+	struct drm_connector connector;
- 
- 	struct mutex gem_lock;
- 
-diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index 4236ce57f5945..bbb04f98886a2 100644
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -444,49 +444,14 @@ static const struct drm_connector_helper_funcs udl_connector_helper_funcs = {
- 	.detect_ctx = udl_connector_helper_detect_ctx,
- };
- 
--static void udl_connector_destroy(struct drm_connector *connector)
--{
--	struct udl_connector *udl_connector = to_udl_connector(connector);
--
--	drm_connector_cleanup(connector);
--	kfree(udl_connector);
--}
--
- static const struct drm_connector_funcs udl_connector_funcs = {
- 	.reset = drm_atomic_helper_connector_reset,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = udl_connector_destroy,
-+	.destroy = drm_connector_cleanup,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--struct drm_connector *udl_connector_init(struct drm_device *dev)
--{
--	struct udl_connector *udl_connector;
--	struct drm_connector *connector;
--	int ret;
--
--	udl_connector = kzalloc(sizeof(*udl_connector), GFP_KERNEL);
--	if (!udl_connector)
--		return ERR_PTR(-ENOMEM);
--
--	connector = &udl_connector->connector;
--	ret = drm_connector_init(dev, connector, &udl_connector_funcs, DRM_MODE_CONNECTOR_VGA);
--	if (ret)
--		goto err_kfree;
--
--	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
--
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
--			    DRM_CONNECTOR_POLL_DISCONNECT;
--
--	return connector;
--
--err_kfree:
--	kfree(udl_connector);
--	return ERR_PTR(ret);
--}
--
- /*
-  * Modesetting
-  */
-@@ -556,9 +521,15 @@ int udl_modeset_init(struct drm_device *dev)
- 		return ret;
- 	encoder->possible_crtcs = drm_crtc_mask(crtc);
- 
--	connector = udl_connector_init(dev);
--	if (IS_ERR(connector))
--		return PTR_ERR(connector);
-+	connector = &udl->connector;
-+	ret = drm_connector_init(dev, connector, &udl_connector_funcs, DRM_MODE_CONNECTOR_VGA);
-+	if (ret)
-+		return ret;
-+	drm_connector_helper_add(connector, &udl_connector_helper_funcs);
-+
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
-+			    DRM_CONNECTOR_POLL_DISCONNECT;
-+
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret)
- 		return ret;
+I need to clean my commits, but I can share a WIP version.
+
+Maybe we can discuss a bit the comment from Daniel (split init between 
+default/configfs, use or not a real platform device...)
+
+For the split, I think the first solution (struct vkms_config) can be 
+easier to understand and to implement, for two reasons:
+- No need to distinguish between the "default" and the "configfs" devices 
+  in the VKMS "core". All is managed with only one struct vkms_config.
+- Most of the lifetime issue should be gone. The only thing to 
+  synchronize is passing this vkms_config from ConfigFS to VKMS.
+
+The drawback of this is that it can become difficult to do the "runtime" 
+configuration (today only hotplug, but I plan to add more complex stuff 
+like DP emulation, EDID selection, MST support...). Those configuration 
+must be done "at runtime" and will require a strong synchronization with 
+the vkms "core".
+
+Maybe we can distinguish between the "creation" and the "runtime 
+configuration", in two different configFS directory? Once a device is 
+created, it is moved to the "enabled" directory and will have a different 
+set of attribute (connection status, current EDID...)
+
+For the platform driver part, it seems logic to me to use a "real" 
+platform driver and a platform device for each pipeline, but I don't have 
+the experience to tell if this is a good idea or not.
+
+[1]: https://lore.kernel.org/dri-devel/20240409-yuv-v6-0-de1c5728fd70@bootlin.com/
+
+Thanks,
+Louis Chauvet
+
 -- 
-2.44.0
-
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
