@@ -2,70 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A398C2910
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 19:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DE98C2920
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 19:11:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A394110E4C9;
-	Fri, 10 May 2024 17:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E23F10E85D;
+	Fri, 10 May 2024 17:11:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N4mVNRJ6";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jkFeUnTs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 538B210E4C9;
- Fri, 10 May 2024 17:06:07 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-1e4c4fb6af3so14104485ad.0; 
- Fri, 10 May 2024 10:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715360766; x=1715965566; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4E70zH6D9J6uqf65FkKdMGHZDeZ8TODhT6vKym2/Plo=;
- b=N4mVNRJ6zBgs2LeOkSk57YXwbCjC7ViQyeY1fzaQzkKPo8GVbDqrDI1SEY1WTEu97h
- wsZs1Pw1qEpLNYK8f+VJ85XSpYKFnA0Ak3IK/2aljyAQiVH/oHSL6F1WGmjVm9n4Gu74
- N0gKeSeVdRwcwuwJp+Ei4Wq+ub9Nj/99NRSLZ9Q6zmDgOULMwEqj8kBXuBDLcxSt+iXM
- 3KThznlF0ZquOpe7Rr3LrZglPdft99JLQCaDLqBjL07XdcbHLKaLPkn7XDj8zDVtTJ+E
- VXKMIvmn24EZu4sWm+JEgF8sjWzN/yJ8JAlvMo4HgYywtirbPVBEsqeBySboqf7xDNZg
- yLXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715360766; x=1715965566;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4E70zH6D9J6uqf65FkKdMGHZDeZ8TODhT6vKym2/Plo=;
- b=YZozkSe4LOshf9Dyo4PJ9AtPTjW1ezsClGxULybL3Hek9Vr9nnmWAbNr6TC957XbFR
- 2IfQPCs4XUx6lSsunhPXdXbkFH3Mdvbm0IjIURj8DU5WjajJpcQ/YycOZ2cXYtnY1NJ9
- KRrIgWkaKuWokLlFBNsrjzGkcBi1VE9PM9d+dn4M3wrw3v2dVuC2WNQ3lcXaKCtufTjE
- B18IDto7NrcR9G0lnOJv+tUP3t4eMb92G23gRGUCVJxW84AAFoJOqLNTgKaZHC+fGoYV
- 1YSu0y41fIpWauPTe87FlL6B/paoKxAefi1q7y5+t8yk+mVki7PH+xbXYoSAWW80L448
- BaUQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZyKVlYo0bpsEYaHYfuBv2GXVZaxo6GDLBoXR53R/LSsm1cR9EeGH6G48bFvyjGDxXLoafIAFM4LDSSTQiv/dNY4gSS3kVv8vnJPthDDMg14rmFrbpGqUBCQ3mlkOCjf3OPbpr/FebJLMH/Lx8PQ==
-X-Gm-Message-State: AOJu0Ywl1WmWp+42pWkJeGZfK5hoIYwNH8j+pR8Ef3MAOelE4XqWHLh5
- JqrSzmjNgeZo87ZRyI5OC2LidKFF6f40jtyCmXVTgW+8Onk6i6iwD+BzIqvlaXYE9PdTy+HPMUM
- eqr6zTkklisu5fv0oxDvOVHRGyJk=
-X-Google-Smtp-Source: AGHT+IFvo59CeIQxzqPOEh0llojW8r+d1B6Re4qxAxKmuCTUkEg5XPWWujBgnKkROi9ERc5qREtg59Lq5QMUuZjDh9g=
-X-Received: by 2002:a17:903:190:b0:1eb:d72e:82ae with SMTP id
- d9443c01a7336-1eefa03a3b3mr92736455ad.13.1715360766497; Fri, 10 May 2024
- 10:06:06 -0700 (PDT)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2076.outbound.protection.outlook.com [40.107.243.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80B3D10E85D;
+ Fri, 10 May 2024 17:11:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WLA4syltxHaCUTAqOmD/fZeMF9jPhRZXhjxwv8h8mvLFXgq7OfvaIYze5rj7ODYXiLGJrTaafrRhj+CsCCkkgqiAPKiSoKMbRVGVxI6ZKHyPzcm9uY/6E+K02Lnx8RChcW5dzTRmJWEQVbjoGbVNAQgw6LmmKaOh3B1Nf8YOqXvxvP9ybURTkYKapCHHEMEyXlcHpu0IUlfcs0An/XsWDct8a3x+HZ7NL7rs2siUum0UxfIFsKvBps61bp0As5sAeXXvL7kk0Y6q0dRtMyMzWehq/eKiUGtlw1lzWb3zs64zT08VOsQDJeLE91cg4O+bQ/8r/7ZH9U/v1pzhV3fwrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DtKTR49O88NrFp85TLxad1DKwTceZ7AhEiwxJXtYkeA=;
+ b=DAPkGCRnEPEHnZm9WLSzWFBSA5lmO3OTox8So7LHWG7YtKMnVHYi53Yap+CzKe9cPRMvty96yR5ecm3UMV678UAigMLLAyPke6K5uklnSguSvF3oeIiSd4/XpIEx/cl8NQ7zT6hJveO1lFmOjqwhF3/Q1DhI4ljgQMN1IxvG6gl2Lc0VpznVK096ciN0PQWsrM26vx4+kXlrlyk3b4s7NGy+EWYiiK1AnimOaWIceTpT14lnHOZGJo3IdjITxDySnaraEnisdQAu+EiUDJ7vTIDXlAzKlzBxOkbA+zds6RWy6w/2jcT8ImQWmxAOdXSqGunqS6accvIo1NO2ULMjSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DtKTR49O88NrFp85TLxad1DKwTceZ7AhEiwxJXtYkeA=;
+ b=jkFeUnTsTCIw++FczO6n0s9K/gAUQ380zWQK0o+6ggbodJ3+k42rqodNsNtPeXXebwMbYrmHSfZI+cOh5zkxJ1a4bZq3YmuvM9dc3t7o0wOU8aZv/WjTZHr7VOV+q/ZD5nNSKGSHyrD7hBEZx2u7ESOC+9dH9jvfg/1UMz4X2MU=
+Received: from CH5P222CA0017.NAMP222.PROD.OUTLOOK.COM (2603:10b6:610:1ee::21)
+ by SA1PR12MB7341.namprd12.prod.outlook.com (2603:10b6:806:2ba::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.47; Fri, 10 May
+ 2024 17:11:28 +0000
+Received: from DS3PEPF000099D9.namprd04.prod.outlook.com
+ (2603:10b6:610:1ee:cafe::21) by CH5P222CA0017.outlook.office365.com
+ (2603:10b6:610:1ee::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.51 via Frontend
+ Transport; Fri, 10 May 2024 17:11:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF000099D9.mail.protection.outlook.com (10.167.17.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7544.18 via Frontend Transport; Fri, 10 May 2024 17:11:27 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 10 May
+ 2024 12:11:26 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu, amdkfd drm-fixes-6.9
+Date: Fri, 10 May 2024 13:11:10 -0400
+Message-ID: <20240510171110.1394940-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.45.0
 MIME-Version: 1.0
-References: <20240508230035.222124-1-alexander.deucher@amd.com>
- <CAPM=9tw1S3yFL7FF-DQqcwjnQuj=nF+ER+_nJWvOQWmUF=oLyw@mail.gmail.com>
- <CADnq5_O5F9ootuKi4B--xZE3CQfAgfTWks38PbmRPHfwJ1bngA@mail.gmail.com>
-In-Reply-To: <CADnq5_O5F9ootuKi4B--xZE3CQfAgfTWks38PbmRPHfwJ1bngA@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 10 May 2024 13:05:53 -0400
-Message-ID: <CADnq5_OUAB5W0Ko92bDE6QQjNzVDnWGAAM8YjziFgOq9TM6TfQ@mail.gmail.com>
-Subject: Re: [pull] amdgpu, amdkfd drm-fixes-6.9
-To: Dave Airlie <airlied@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099D9:EE_|SA1PR12MB7341:EE_
+X-MS-Office365-Filtering-Correlation-Id: 63d58e74-9c78-4bea-1c59-08dc71143a96
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|36860700004|82310400017|376005|1800799015; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VFYyRWVDclA0bTJobzJmdXJkd3hTRkVUTVp2Z1dLbkRqQVYvY3phVVpkTXhq?=
+ =?utf-8?B?WkdGWlJSLzNGck00WnlRZ1dBQmJiYm1IcWd1c01DbHhuYnpGM3h1V3RaNEh0?=
+ =?utf-8?B?ZVlKeVZZZ2h0Zk9idUFydmMwcEQ1V21ETmRORVhCdjcvQndCRVhNVStxUXRF?=
+ =?utf-8?B?RlU4dnlnUUFleDRjZ2lBV2p2NjdoZGw2Z0FMU0doSUJ2K3h5MjFSL25YS01W?=
+ =?utf-8?B?VlNLOTk2WGxXQ3RuNlFHMitxYWo3UEljK2NEYnlKU0tSNURHVHJweEloeFEr?=
+ =?utf-8?B?SWdJM284blp1L1Q0cHpXYzJNQzZIUUNYQnpBRU9hdXFYUzdhR3ZRRVgvTi8x?=
+ =?utf-8?B?QXdodk5ORFEzWHZUaVlkbm15bkIrMnJoK2Y4SGExZ0ZCRVhZQldIR2g3YVJ4?=
+ =?utf-8?B?dGxFYU1jU2NPVE5UL0xWTDVNN3JXM3Fua2o0ODlPTGcxNFl2ZEV6YjY4WkVN?=
+ =?utf-8?B?Y0cyUzJySkhMUEVibkZKM2ljbXkvUE0yQkxDcm5Cdkx2RnRTSy8wT1JOTmRF?=
+ =?utf-8?B?WTQ0MmFoT2VSVjdOOEtWaWtsZzhaVnluMU9IZjFqaUJmS09zakdLbEZGSmg3?=
+ =?utf-8?B?WUU0L1dXSm9GQUFmYXlLNnFZNWtHUnpLTWlOUHV2RzFnb1JuRkVHU3c0bkNi?=
+ =?utf-8?B?TWpnbE5hZmkyUGRQbzBZbXJkY2hzaU9PUDE3enM5OGxvSTVURk5TaVZqN1dy?=
+ =?utf-8?B?TVlFRWlDUldtOUdoNndRakd6TFJIMFpRNSt5RGxCaWF1S2FFcXdJd3ZieVZk?=
+ =?utf-8?B?SjR1Q0RydmJlait5ZU5LNXJZNGd0SHNJN0V6TDNPd2RoZHpBR2owcW1GU1c0?=
+ =?utf-8?B?NzlIVjQ2MWFJYno1WXVucCtNUFRuVWgvNVhiRVBlb0I0SFBlcUhVYThtbjIr?=
+ =?utf-8?B?OTNoOTRsSDJCM0xJYVg0SzA2ZE1kSzdlK2Q2cFlLYWlKN3Y4Z2N4Ylp4U1Bw?=
+ =?utf-8?B?RFIwa3dHaVpmMHpUVmZ0QXZZV1ZTQWdmTktZb25IWGNYaXQrTVp1eDg2Y1Bn?=
+ =?utf-8?B?TmZtbnIxUWsralNiRmx2UDcrVXJ2dHkxQ05OSnhPZ3llS2ZEcjUrNjQxalZN?=
+ =?utf-8?B?U1lNdHZyd0E4MmE5T3JZNGd3bm9Wdm01SXNURm5SMUVyaTU2QTkxbE9VNlp3?=
+ =?utf-8?B?U2k5R0R5VW1xYXQ1eHFCUUptQnRRQUlTWWR5VlMyVFl1TGYwOXNEWkE0QVh2?=
+ =?utf-8?B?Y0o0U0o2Z1lzTGMydEhOSGlTanROS1B1THBueGtSMHhLMGVmY3lwemhoci9H?=
+ =?utf-8?B?c0U4TTh5WVFFYk9relF4K3BRR0FwM0V0R0RkZ3o2QWZJb3VER1V1ZXN6akYy?=
+ =?utf-8?B?M280U05MWHRHY1ZrTDkyV2p1MDhjMGZOQ29kTU1TRFF0VjlJdWxOUXdEWUdk?=
+ =?utf-8?B?UzdZckFTdXgrY1ZrNCtrMWF2KzlueG40UFUxSTRuREVrNk5YZjRsOXZHZmdi?=
+ =?utf-8?B?dDZ6eG16MmJkNnI1OVB2MVRiK2tvN1h6QjdlZ2tRaTJTcVVkbkx0Z05YVUdq?=
+ =?utf-8?B?UWxFN3FZblhOWVJNK2gyYmNFR09lMVhOQ2lhci9IbGQyT0JPZS9PbUo4MHpn?=
+ =?utf-8?B?Y3R4Z2VZdXR5OGd0S21zUUJiR0RMT3JwRmxxV0hCcktyRisyUDVNK1ROWWh3?=
+ =?utf-8?B?RDR4Y20vWFFiZ1hBL3VTOFA5U0ZjNzBmWm5IY3MwMnJWTEFiYWpSSWp5UUlH?=
+ =?utf-8?B?UGhRSXJWYmxzS3lnYmRRcGc1ZGp4QnFlTGlnbkx4MWdTbVBEV2QyZnpXYTVO?=
+ =?utf-8?Q?cG4BKNSSpvx4dutMW973Yt/H3H6ZibyYRTfM8Fa?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(36860700004)(82310400017)(376005)(1800799015); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2024 17:11:27.5187 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63d58e74-9c78-4bea-1c59-08dc71143a96
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099D9.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7341
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,76 +136,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Never mind.  I'll send a new PR now.
+Hi Dave, Sima,
 
-Alex
+Fixes for 6.9.  Same as Wednesday, but drop unncessary patch.
 
-On Fri, May 10, 2024 at 10:01=E2=80=AFAM Alex Deucher <alexdeucher@gmail.co=
-m> wrote:
->
-> On Thu, May 9, 2024 at 11:22=E2=80=AFPM Dave Airlie <airlied@gmail.com> w=
-rote:
-> >
-> > On Thu, 9 May 2024 at 09:00, Alex Deucher <alexander.deucher@amd.com> w=
-rote:
-> > >
-> > > Hi Dave, Sima,
-> > >
-> > > Fixes for 6.9.
-> > >
-> > > The following changes since commit dd5a440a31fae6e459c0d6271dddd62825=
-505361:
-> > >
-> > >   Linux 6.9-rc7 (2024-05-05 14:06:01 -0700)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6=
-.9-2024-05-08
-> > >
-> > > for you to fetch changes up to 3d09248a06d285397e7b873415505d299202e1=
-c6:
-> > >
-> > >   drm/amdgpu: Fix comparison in amdgpu_res_cpu_visible (2024-05-08 18=
-:47:52 -0400)
-> > >
-> > > ----------------------------------------------------------------
-> > > amd-drm-fixes-6.9-2024-05-08:
-> > >
-> > > amdgpu:
-> > > - DCN 3.5 fix
-> > > - MST DSC fixes
-> > > - S0i3 fix
-> > > - S4 fix
-> > > - Warning fix
-> > > - HDP MMIO mapping fix
-> > > - Fix a regression in visible vram handling
-> > >
-> > > amdkfd:
-> > > - Spatial partition fix
-> > >
-> > > ----------------------------------------------------------------
-> > > Agustin Gutierrez (2):
-> > >       drm/amd/display: Fix DSC-re-computing
-> > >       drm/amd/display: MST DSC check for older devices
-> > >
-> > > Alex Deucher (1):
-> > >       drm/amdkfd: don't allow mapping the MMIO HDP page with large pa=
-ges
-> > >
-> > > Lijo Lazar (2):
-> > >       Revert "drm/amdkfd: Add partition id field to location_id"
-> > >       drm/amd/amdxcp: Fix warnings
-> >
-> > Hey, this has a "fixes:" for a patch that doesn't exist.
-> >
-> > Can we fix that up? I can pull this but I'd prefer it to get fixed if
-> > you have a chance.
->
-> Sorry, that was the commit from -next.  I cherry-picked the original
-> patch to -fixes as well, but forgot to fix up the fixes tag when I
-> cherry-picked the fix to -fixes.  I can create a new PR if you'd like.
->
-> Thanks,
->
-> Alex
+The following changes since commit dd5a440a31fae6e459c0d6271dddd62825505361:
+
+  Linux 6.9-rc7 (2024-05-05 14:06:01 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.9-2024-05-10
+
+for you to fetch changes up to 8d2c930735f850e5be6860aeb39b27ac73ca192f:
+
+  drm/amdgpu: Fix comparison in amdgpu_res_cpu_visible (2024-05-10 13:05:13 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.9-2024-05-10:
+
+amdgpu:
+- DCN 3.5 fix
+- MST DSC fixes
+- S0i3 fix
+- S4 fix
+- HDP MMIO mapping fix
+- Fix a regression in visible vram handling
+
+amdkfd:
+- Spatial partition fix
+
+----------------------------------------------------------------
+Agustin Gutierrez (2):
+      drm/amd/display: Fix DSC-re-computing
+      drm/amd/display: MST DSC check for older devices
+
+Alex Deucher (1):
+      drm/amdkfd: don't allow mapping the MMIO HDP page with large pages
+
+Lijo Lazar (1):
+      Revert "drm/amdkfd: Add partition id field to location_id"
+
+Mario Limonciello (1):
+      dm/amd/pm: Fix problems with reboot/shutdown for some SMU 13.0.4/13.0.11 users
+
+Michel Dänzer (1):
+      drm/amdgpu: Fix comparison in amdgpu_res_cpu_visible
+
+Nicholas Kazlauskas (1):
+      drm/amd/display: Fix idle optimization checks for multi-display and dual eDP
+
+Nicholas Susanto (1):
+      drm/amd/display: Enable urgent latency adjustments for DCN35
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |  7 +++--
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c          |  5 ++--
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 16 +++++++++--
+ .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |  4 +--
+ .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c    | 33 ++++++++++++++++++----
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c   |  2 +-
+ 7 files changed, 51 insertions(+), 18 deletions(-)
