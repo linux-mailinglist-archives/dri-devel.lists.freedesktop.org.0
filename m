@@ -2,80 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7248C28DF
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 18:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1598C28E8
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 18:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 958EC10E783;
-	Fri, 10 May 2024 16:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9DC10E1BE;
+	Fri, 10 May 2024 16:44:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="PjAXnWxT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iwHTst/P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F27210EEB6
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 16:42:55 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44ADvuZb009516;
- Fri, 10 May 2024 16:42:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=BjFwsESSYIUaVQeKsVEQ6rcQwgXvEUum7xXa4jUX2Mk=; b=Pj
- AXnWxTjeWdjJnjFERB46bPkHJWrnsInvMKniLXsiiVADGcGHLZsvsOUM/TxLCJ5c
- FqZV2OhOYWsoM2BDKQqGAhpRI4bOcbEyFFrEOVR6tZbTAl7bgLomhLsuEX6F4wOm
- w8eMm6LQwipMUGFfAsVGLLgsurxdsycGo4BiorOWFMWs/Jxu+3u/3jYxw4KmCkb0
- j+9vzjRp1Dg0Deo7EzOTAP3Q5ftGDHsTJhtWjsYQasTHSuRmMQX7iNalL25W7oyj
- NEWVxOihr6KwQ5PIcZOCnoraqJb7wfR0UF9nWWZHJtg7QXTTzGbEofSOMmMPwYKq
- kQKUNJIEfmWVdbC8JVuw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y16w2a14d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 May 2024 16:42:52 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44AGgqdp025558
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 May 2024 16:42:52 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 10 May
- 2024 09:42:51 -0700
-Message-ID: <064c4c36-e9ce-6643-9916-7f226053caed@quicinc.com>
-Date: Fri, 10 May 2024 10:42:51 -0600
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86B4010E1BE
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 16:44:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id C2353CE1C99;
+ Fri, 10 May 2024 16:44:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3646C113CC;
+ Fri, 10 May 2024 16:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715359492;
+ bh=AKsuHfdNxYnH+Bp33dxu23hQYlBdH9/kq/GhGgLGp4Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iwHTst/PUBaIDeL/0I7NTk6xdKrE2X80x2nY/g63GwvfMQVE1XEAa5PIKamvPjV1w
+ VzjanQL9YWSBgknLqj26H5/YGRB9ZpqfJFHSGV6wD1ewNvxq6GJ+toQkC+TfU14C/L
+ IsbH/tSPax7zc+RF5X48zbJ8c96raFp0f0qYon0mY2yQ9YxBHOpwQL+lTZH+/sR3kK
+ v5BjCblwT1wySlwrB7BwFo+/EPQGeFMEZJRvFZpTWUD0ocC1SuCfaq5v+YNRzz8efF
+ DELIcPiCsxkxSHeQUEugE64fp389T9nMEWUCoHKmaM2zRP2Nz0r659xkK2aQC8w7b9
+ aD+YspMtBolAw==
+Date: Fri, 10 May 2024 11:44:49 -0500
+From: Rob Herring <robh@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Derek Kiernan <derek.kiernan@amd.com>,
+ Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Paul Kocialkowski <contact@paulk.fr>,
+ =?iso-8859-1?Q?Herv=E9?= Codina <herve.codina@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v2 0/5] Add support for GE SUNH hot-pluggable connector
+ (was: "drm: add support for hot-pluggable bridges")
+Message-ID: <20240510164449.GB336987-robh@kernel.org>
+References: <20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 07/12] accel/ivpu: Add resume engine support
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>, "Wachowski, Karol" <karol.wachowski@intel.com>
-References: <20240508132106.2387464-1-jacek.lawrynowicz@linux.intel.com>
- <20240508132106.2387464-8-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240508132106.2387464-8-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: qXUd63VQQm7EiHjokJtIJGiPjkDO2RHx
-X-Proofpoint-ORIG-GUID: qXUd63VQQm7EiHjokJtIJGiPjkDO2RHx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-10_12,2024-05-10_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 impostorscore=0 priorityscore=1501 malwarescore=0 phishscore=0
- adultscore=0 suspectscore=0 spamscore=0 clxscore=1015 mlxlogscore=697
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405100121
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,12 +76,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/8/2024 7:21 AM, Jacek Lawrynowicz wrote:
-> From: "Wachowski, Karol" <karol.wachowski@intel.com>
+On Fri, May 10, 2024 at 09:10:36AM +0200, Luca Ceresoli wrote:
+> Hello,
 > 
-> Create debugfs interface that triggers sending resume engine IPC
-> command to VPU.
+> this series aims at supporting a Linux device with a connector to
+> physically add and remove an add-on to/from the main device to augment its
+> features at runtime, using device tree overlays.
+> 
+> This is the v2 of "drm: add support for hot-pluggable bridges" [0] which
+> was however more limited in scope, covering only the DRM aspects. This new
+> series also takes a different approach to the DRM bridge instantiation.
+> 
+> [0] https://lore.kernel.org/all/20240326-hotplug-drm-bridge-v1-0-4b51b5eb75d5@bootlin.com/
+> 
+> Use case
+> ========
+> 
+> This series targets a professional product (GE SUNH) that is composed of a
+> "main" part running on battery, with the main SoC and able to work
+> autonomously with limited features, and an optional "add-on" that enables
+> more features by adding more hardware peripherals, some of which are on
+> non-discoverable busses such as I2C and MIPI DSI.
+> 
+> The add-on can be connected and disconnected at runtime at any moment by
+> the end user, and add-on features need to be enabled and disabled
+> automatically at runtime.
+> 
+> The add-on has status pins that are connected to GPIOs on the main board,
+> allowing the CPU to detect add-on insertion and removal. It also has a
+> reset GPIO allowign to reset all peripherals on the add-on at once.
+> 
+> The features provided by the add-on include a display and a battery charger
+> to recharge the battery of the main part. The display on the add-on has an
+> LVDS input but the connector between the base and the add-on has a MIPI DSI
+> bus, so a DSI-to-LVDS bridge is present on the add-on.
+> 
+> Different add-on models can be connected to the main part, and for this a
+> model ID is stored in the add-on itself so the software running on the CPU
+> on the main part knows which non-discoverable hardware to probe.
+> 
+> Overall approach
+> ================
+> 
+> Device tree overlays appear as the most natural solution to support the
+> addition and removal of devices from a running system.
+> 
+> Several features are missing from the mainline Linux kernel in order to
+> support this use case:
+> 
+>  1. runtime (un)loading of device tree overlays is not supported
 
-Why?  Who would use this and for what purpose?
+Not true. Device specific applying of overlays has been supported 
+since we merged DT overlay support. What's not supported is a general 
+purpose interface to userspace to change any part of the DT at any point 
+in time.
 
--Jeff
+>  2. if enabled, overlay (un)loading exposes several bugs
+
+Hence why there is no general purpose interface.
+
+>  3. the DRM subsystem assumes video bridges are non-removable
+
+Rob
