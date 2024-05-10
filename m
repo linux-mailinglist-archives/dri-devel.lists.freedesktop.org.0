@@ -2,58 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7148C2739
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 16:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7558C273F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2024 17:01:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B503410E0B9;
-	Fri, 10 May 2024 14:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA00410E4C2;
+	Fri, 10 May 2024 15:01:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Qk+QHBRU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MwvST95I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69ED510E0B9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 14:55:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0BD80CE1DF9;
- Fri, 10 May 2024 14:55:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B805BC113CC;
- Fri, 10 May 2024 14:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715352942;
- bh=sLxTchYz896sDj6qbtwDuUDSEIrv3OIFfIsIipZpE5U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Qk+QHBRUz835G4CYflpo32U3bgdyaL3BSq2dIP7JPTBxppCQBluDy5JvM3o97jF80
- iEALaNAdz3a/+xGsLAEiu9b9vQ8IOnPt5tIhImEP0eGpneYwpJjwpuG02fLkJ3yi68
- nhbRbKKys1TrAkL5vW0TVsZ1OZcRgEjvN426FUx7zeuaqiU+tMqyApz+JEHhGlVjsp
- zDEVo4rZ2XssiB7JTh43TEhLtOPYXIZhhcknhTJmh/C+HOdQCExA3ZWfYGTj7MIeOv
- FQzyk2hH6uVo11vyU+GDq7RXKXBnosQk38Lr2DJANEJLXeauHqnO5s9JAJ0Ew2Q7b5
- NjdJU+QN1zb3Q==
-Date: Fri, 10 May 2024 15:55:34 +0100
-From: Lee Jones <lee@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- Alexander Shiyan <shc_work@mail.ru>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-omap@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: [GIT PULL] Immutable branch between Backlight, HID and fbdev due for
- the v6.10 merge window
-Message-ID: <20240510145534.GD6146@google.com>
-References: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 546A910EDA6
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 15:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715353290; x=1746889290;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=dMN3JddNCU2TCtaus7k5EYytVw6hgfYHO3cWEFNdI7w=;
+ b=MwvST95IbpIMG4njNBrQY+2x6UC1MOw3N3LQ1qTEeF2pzIV1Hy7MQ1Jn
+ +N2hEVZQ+RgAAXD6wb54E3zVc4kJQs+KTxaqengb0a7TLQ2uQnqnHQWVY
+ OnJfIp4QuiuL5iifKxTlyMulIApUdgq7ZDMes7HSqQOk47Uhx/3vi1Fg9
+ c8sPrD2DmcFuJ8G8SChzjlHsnDBxRv+4X6r6Tw6ISVYhAN3IYee799M0P
+ G5gJxfA1TESf0PUsxleaoOpwhzAuNPNRKT+mJBmqnJi6Kf2uNhckEcP1C
+ enzzEwHrP1DuuRUvy995Rp/z6fxiVtV1Uz9nTjvI3dJyg/fJrtOZIn5+a A==;
+X-CSE-ConnectionGUID: Uda4BrUJQzCUxaaLavWMxQ==
+X-CSE-MsgGUID: vWp/EugwRg6TzG8M/w4JHA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11189306"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="11189306"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 08:01:29 -0700
+X-CSE-ConnectionGUID: /PStARpCQnOn9LyomMB+qw==
+X-CSE-MsgGUID: dtewjjKuS5WbMxK+3Las3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; d="scan'208";a="34288929"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2024 08:01:22 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1s5RkM-000000068XT-0pEH; Fri, 10 May 2024 18:01:18 +0300
+Date: Fri, 10 May 2024 18:01:17 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
+ akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+ adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+ vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+ detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+ andrzej.p@collabora.com, nicolas@ndufresne.ca
+Subject: Re: [PATCH v7 6/8] math.h Add macros to round to closest specified
+ power of 2
+Message-ID: <Zj42vTpyH71TWeTk@smile.fi.intel.com>
+References: <20240509183952.4064331-1-devarsht@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240424-video-backlight-lcd-ops-v2-0-1aaa82b07bc6@kernel.org>
+In-Reply-To: <20240509183952.4064331-1-devarsht@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,66 +81,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enjoy!
+On Fri, May 10, 2024 at 12:09:52AM +0530, Devarsh Thakkar wrote:
+> Add macros to round to nearest specified power of 2.
 
-The following changes since commit 4cece764965020c22cff7665b18a012006359095:
+This is not what they are doing. For the above we already have macros defined.
 
-  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
+> Two macros are added :
 
-are available in the Git repository at:
+(Yes, after I wrapped to comment this line looks better on its own,
+ so whatever will be the first sentence, this line should be separated
+ from.)
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git ib-backlight-hid-fbdev-lcd-scripts-v6.10
+> round_closest_up and round_closest_down which round up to nearest multiple
 
-for you to fetch changes up to 82b9007bc4f8c22975d640d7df6743366f25a353:
+round_closest_up() and round_closest_down()
 
-  const_structs.checkpatch: add lcd_ops (2024-05-03 10:45:55 +0100)
 
-----------------------------------------------------------------
-Immutable branch between Backlight, HID and fbdev due for the v6.10 merge window
+> of 2 with a preference to round up or round down respectively if there are
+> two possible nearest values to the given number.
 
-----------------------------------------------------------------
-Krzysztof Kozlowski (19):
-      backlight: lcd: Constify lcd_ops
-      backlight: ams369fg06: Constify lcd_ops
-      backlight: corgi_lcd: Constify lcd_ops
-      backlight: hx8357: Constify lcd_ops
-      backlight: ili922x: Constify lcd_ops
-      backlight: ili9320: Constify lcd_ops
-      backlight: jornada720_lcd: Constify lcd_ops
-      backlight: l4f00242t03: Constify lcd_ops
-      backlight: lms283gf05: Constify lcd_ops
-      backlight: lms501kf03: Constify lcd_ops
-      backlight: ltv350qv: Constify lcd_ops
-      backlight: otm3225a: Constify lcd_ops
-      backlight: platform_lcd: Constify lcd_ops
-      backlight: tdo24m: Constify lcd_ops
-      HID: picoLCD: Constify lcd_ops
-      fbdev: clps711x: Constify lcd_ops
-      fbdev: imx: Constify lcd_ops
-      fbdev: omap: lcd_ams_delta: Constify lcd_ops
-      const_structs.checkpatch: add lcd_ops
+You should reformulate, because AFAICS there is the crucial difference
+from these and existing round_*_pow_of_two().
 
- drivers/hid/hid-picolcd_lcd.c            | 2 +-
- drivers/video/backlight/ams369fg06.c     | 2 +-
- drivers/video/backlight/corgi_lcd.c      | 2 +-
- drivers/video/backlight/hx8357.c         | 2 +-
- drivers/video/backlight/ili922x.c        | 2 +-
- drivers/video/backlight/ili9320.c        | 2 +-
- drivers/video/backlight/jornada720_lcd.c | 2 +-
- drivers/video/backlight/l4f00242t03.c    | 2 +-
- drivers/video/backlight/lcd.c            | 4 ++--
- drivers/video/backlight/lms283gf05.c     | 2 +-
- drivers/video/backlight/lms501kf03.c     | 2 +-
- drivers/video/backlight/ltv350qv.c       | 2 +-
- drivers/video/backlight/otm3225a.c       | 2 +-
- drivers/video/backlight/platform_lcd.c   | 2 +-
- drivers/video/backlight/tdo24m.c         | 2 +-
- drivers/video/fbdev/clps711x-fb.c        | 2 +-
- drivers/video/fbdev/imxfb.c              | 2 +-
- drivers/video/fbdev/omap/lcd_ams_delta.c | 2 +-
- include/linux/lcd.h                      | 6 +++---
- scripts/const_structs.checkpatch         | 1 +
- 20 files changed, 23 insertions(+), 22 deletions(-)
+> This patch is inspired from the Mentor Graphics IPU driver [1] which uses
+> similar macro locally and which can be updated to use this generic macro
+> instead along with other drivers having similar requirements.
+> 
+> [1]:
+> https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480
+
+Instead of this, just add a patch to convert that driver to use this new macro.
+Besides, this paragraph should go to the comment/changelog area below.
+
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> ---
+> V1->V6 (No change, patch introduced in V7)
+> ---
 
 -- 
-Lee Jones [李琼斯]
+With Best Regards,
+Andy Shevchenko
+
+
