@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083CF8C31FF
-	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 17:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29EFB8C3206
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 17:08:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94A7F10E07B;
-	Sat, 11 May 2024 15:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A5DD10E41E;
+	Sat, 11 May 2024 15:08:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EOQJlBLk";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="KbRZWvpc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C333910E07B
- for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 15:02:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E1EBB612F5;
- Sat, 11 May 2024 15:02:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CCBCC2BBFC;
- Sat, 11 May 2024 15:02:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715439754;
- bh=MZAWv/ScyEBJVD21IicPp5L10HCN0chmKIi6qdoF9E0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EOQJlBLkU83hwtxIzoRrpInNyQTz0MO/2OhNMD2dLwkHCxFfjmMQ5NiQmctLMLTWk
- Il6ktAJwEbqlKLiSm3cUHjNhMTy/XdqXbtUMFW2Umkx9EpwkBrkN+EVdeW+O6qXEAq
- vqK6X61CaKrd2Z3hruLVZy4nU+9MyLljT7j4Qc5Zy/4i4FhOcEXXyNBpkJiZ5vMLON
- vAjOzytqc+LdsIBpL9Hcd+ORNqxpTDuUe0y596Dd9TKtRNuuGwQtEkfB3LVFOmCp+n
- PlpZuRVhpeVaCcWF5ta1lHDGzebwXWHQ5graYzlNckH2mcii1gkgJPNWDb5/Tg14hg
- OaHIGXKF2hJQQ==
-Date: Sat, 11 May 2024 16:02:25 +0100
-From: Simon Horman <horms@kernel.org>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
- mingo@redhat.com, tglx@linutronix.de, x86@kernel.org,
- netdev@vger.kernel.org, richardcochran@gmail.com,
- linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
- zackr@vmware.com, linux-graphics-maintainer@vmware.com,
- pv-drivers@vmware.com, timothym@vmware.com, akaher@vmware.com,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, kirill.shutemov@linux.intel.com,
- Nadav Amit <nadav.amit@gmail.com>, Jeff Sipek <jsipek@vmware.com>
-Subject: Re: [PATCH v9 3/8] x86/vmware: Introduce VMware hypercall API
-Message-ID: <20240511150225.GK2347895@kernel.org>
-References: <20240505182829.GBZjfPzeEijTsBUth5@fat_crate.local>
- <20240506215305.30756-1-alexey.makhalov@broadcom.com>
- <20240506215305.30756-4-alexey.makhalov@broadcom.com>
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com
+ [95.215.58.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A067C10E1E9
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 15:08:29 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1715440107;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BrwfjmHQzRbVwVRIA4mdb2bxyIDiwh21dDndDJSDjI4=;
+ b=KbRZWvpcq2OrkrvxekTl+Uh8I+6BKMZ1Ekcu1hlSayRkYu0rdB2Q1Xf5nKS+eU1mI/hbw0
+ d2nb9H6HZf+Ij4W+t/apgT8Gj1889aDvLXsNJySANuA+5G3hzkCDlH1hyulxbmzkwBh5BM
+ ro5xjYtalztTMVOMVjULykhw3L6jMO8=
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: [PATCH] drm/bridge: imx: Remove redundant checks on existence of
+ bridge->encoder
+Date: Sat, 11 May 2024 23:08:16 +0800
+Message-ID: <20240511150816.326846-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240506215305.30756-4-alexey.makhalov@broadcom.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,60 +61,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 06, 2024 at 02:53:00PM -0700, Alexey Makhalov wrote:
-> Introduce vmware_hypercall family of functions. It is a common
-> implementation to be used by the VMware guest code and virtual
-> device drivers in architecture independent manner.
-> 
-> The API consists of vmware_hypercallX and vmware_hypercall_hb_{out,in}
-> set of functions by analogy with KVM hypercall API. Architecture
-> specific implementation is hidden inside.
-> 
-> It will simplify future enhancements in VMware hypercalls such
-> as SEV-ES and TDX related changes without needs to modify a
-> caller in device drivers code.
-> 
-> Current implementation extends an idea from commit bac7b4e84323
-> ("x86/vmware: Update platform detection code for VMCALL/VMMCALL
-> hypercalls") to have a slow, but safe path in VMWARE_HYPERCALL
-> earlier during the boot when alternatives are not yet applied.
-> This logic was inherited from VMWARE_CMD from the commit mentioned
-> above. Default alternative code was optimized by size to reduce
-> excessive nop alignment once alternatives are applied. Total
-> default code size is 26 bytes, in worse case (3 bytes alternative)
-> remaining 23 bytes will be aligned by only 3 long NOP instructions.
-> 
-> Signed-off-by: Alexey Makhalov <alexey.makhalov@broadcom.com>
-> Reviewed-by: Nadav Amit <nadav.amit@gmail.com>
-> Reviewed-by: Jeff Sipek <jsipek@vmware.com>
+The check on the existence of bridge->encoder on the implementation layer
+of drm bridge driver is not necessary, as it has already been done in the
+drm_bridge_attach() function. It is guaranteed that the .encoder member
+of the drm_bridge instance is not NULL when various imx_xxx_bridge_attach()
+function gets called.
 
-...
+Remove the redundant checking codes "if (!bridge->encoder) { ... }".
 
-> diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
+Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+---
+ drivers/gpu/drm/bridge/imx/imx-ldb-helper.c         | 5 -----
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c | 5 -----
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c     | 5 -----
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c        | 5 -----
+ 4 files changed, 20 deletions(-)
 
-...
+diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
+index 6967325cd8ee..9b5bebbe357d 100644
+--- a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
++++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
+@@ -116,11 +116,6 @@ int ldb_bridge_attach_helper(struct drm_bridge *bridge,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!bridge->encoder) {
+-		DRM_DEV_ERROR(ldb->dev, "missing encoder\n");
+-		return -ENODEV;
+-	}
+-
+ 	return drm_bridge_attach(bridge->encoder,
+ 				ldb_ch->next_bridge, bridge,
+ 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+index d0868a6ac6c9..e6dbbdc87ce2 100644
+--- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
++++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+@@ -119,11 +119,6 @@ static int imx8qxp_pc_bridge_attach(struct drm_bridge *bridge,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!bridge->encoder) {
+-		DRM_DEV_ERROR(pc->dev, "missing encoder\n");
+-		return -ENODEV;
+-	}
+-
+ 	return drm_bridge_attach(bridge->encoder,
+ 				 ch->next_bridge, bridge,
+ 				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
+index ed8b7a4e0e11..1d11cc1df43c 100644
+--- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
++++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
+@@ -138,11 +138,6 @@ static int imx8qxp_pixel_link_bridge_attach(struct drm_bridge *bridge,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!bridge->encoder) {
+-		DRM_DEV_ERROR(pl->dev, "missing encoder\n");
+-		return -ENODEV;
+-	}
+-
+ 	return drm_bridge_attach(bridge->encoder,
+ 				 pl->next_bridge, bridge,
+ 				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
+index 4a886cb808ca..fb7cf4369bb8 100644
+--- a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
++++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
+@@ -58,11 +58,6 @@ static int imx8qxp_pxl2dpi_bridge_attach(struct drm_bridge *bridge,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!bridge->encoder) {
+-		DRM_DEV_ERROR(p2d->dev, "missing encoder\n");
+-		return -ENODEV;
+-	}
+-
+ 	return drm_bridge_attach(bridge->encoder,
+ 				 p2d->next_bridge, bridge,
+ 				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-- 
+2.43.0
 
-> +static inline
-> +unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
-> +				uint32_t *out1, uint32_t *out2)
-
-nit: u32 is preferred over uint32_t.
-     Likewise elsewhere in this patch-set.
-...
-
->  /*
-> - * The high bandwidth in call. The low word of edx is presumed to have the
-> - * HB bit set.
-> + * High bandwidth calls are not supported on encrypted memory guests.
-> + * The caller should check cc_platform_has(CC_ATTR_MEM_ENCRYPT) and use
-> + * low bandwidth hypercall it memory encryption is set.
-> + * This assumption simplifies HB hypercall impementation to just I/O port
-
-nit: implementation
-
-     checkpatch.pl --codespell is your friend
-
-> + * based approach without alternative patching.
->   */
-
-...
