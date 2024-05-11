@@ -2,109 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3DA8C2CFA
-	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 01:22:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75D38C2DC6
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 02:02:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF18310E4D0;
-	Fri, 10 May 2024 23:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3D6410E13D;
+	Sat, 11 May 2024 00:02:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="b6KamI27";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H6pZd7OW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com
- [209.85.219.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECC5110E5D4
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 23:22:02 +0000 (UTC)
-Received: by mail-yb1-f202.google.com with SMTP id
- 3f1490d57ef6-de604ccb373so3983570276.2
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 16:22:02 -0700 (PDT)
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com
+ [209.85.161.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10E4710E040;
+ Sat, 11 May 2024 00:02:15 +0000 (UTC)
+Received: by mail-oo1-f47.google.com with SMTP id
+ 006d021491bc7-5b2735f217aso1254580eaf.2; 
+ Fri, 10 May 2024 17:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1715383322; x=1715988122;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=X8Y591fAVbsy0Ggn3mk3MJ+twsFTaAcwQ3TT1QOpE7E=;
- b=b6KamI27m/BO4gTWBByECchr16eHn+rUIaV3tXTACUsGfFMrwxqxX2XY7wIegFYcRI
- OYv0l5G1Ic5kaBPbzp40LbFt0v30HUpUHQbvweugy/IAwIqWCy0gu06BZ0UsTUfQ0DGi
- PUdI8qylOC+NuU9EGn4E9DIyQ455qbZ1ObKX//QArwlPfbsqAMhV3D3/FuKuiO7O/a65
- nqBans4Ket2+vHttnrPijQB6Fafsx6pVL+/nmqOJC2KVXYkfuCdAgJG6YkjjhDXB/+aj
- VjjiHtjqIZdW1MiKqK0lffOogYQBOwKMuw5eyZbu96e1tamwHizIRNIz1OBMtPWKn5eJ
- VufQ==
+ d=gmail.com; s=20230601; t=1715385734; x=1715990534; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6+FoKAVeV49C3d+lzTBF5gbN6+gbGxYKcKh2tpj3LNU=;
+ b=H6pZd7OW+9M+1G8kIG2xU19Ugsmyt55YkEiCM71ehPiJx0ILaFZ0fCM6rv1378olFD
+ 0jTXSS/0Jhn5kocDDSI42/kojF7w757Qd6kOQxET/PTkqY/AYq+5w0l2jfMlaMpWP/Ze
+ lXTjemV3xTIjDCik8tOAcnbGmxmRCeGNT5uLV+0D+2o3Xqy1n5k2fLZ8F3Vu63R8f3Ol
+ WGG8ltRwUC9Vta1bUKPfE2avuptg1rxAirfRRY1XFKbBlN8RIrWs79c8ib2vWJKh3WqL
+ yeML8TppRnqzydzzrWCsUm6XoiCmmOVRz7Ea7h9u4O/vEXUXKLqpCwDQEKgKV8QOut2x
+ IZnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715383322; x=1715988122;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=X8Y591fAVbsy0Ggn3mk3MJ+twsFTaAcwQ3TT1QOpE7E=;
- b=JGKtVNK3QV+PxHsHDSxia2MhKC6vRp/6m4mmvh32bMLth7i0PX5B17KDQNd7wQ5dvJ
- ePSbd/3vPiQzfnzil38qlaiLFHn71NUmx0tcHA53yHaH5WV+/eNa6qK0hbSOdizuXvKl
- Y6RRfq/d5gPAwJLuT8PIO1lN4nxqIQ9romWQZTPjS6MjuGpOswRZcFE2ewFM7YvdGKCZ
- ryRdzBJqfKSak5avmM6H6xJev1/x3wsFdGcaeNg4da6AnAmJ8sewIfddhyQ9+cJ5XzTY
- N44t/hWA/Hrn5DTx6hXuxvO2Tdad/s/K0qPMynp04lupS2wX5mUS1KCR4gyovN7Na3rv
- bG5A==
+ d=1e100.net; s=20230601; t=1715385734; x=1715990534;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6+FoKAVeV49C3d+lzTBF5gbN6+gbGxYKcKh2tpj3LNU=;
+ b=BTey/nDV3aLuibc/Tynu4aTZ+qF3BAGXPAvfgoLnXGMg73SglXdXPJ9BF03cWWzBqL
+ 6VozwVO5zIM7F4TyDLrdchypmlTBKGREdCKjfXRIGtT3RZkzes18JRBGIX0uIu2fs4Di
+ ywDdmWuFLqeItBoAZQxEjveUcCeEe3RtLSEILTzJPZmE/TASL7B6jv1wb+8H37yldMim
+ 9J4kXEWnWu99ml6iXZhkr05JwgRvdimq3UtuNKQ99/mFP4QoQD4h8ml3sVei3/8jzkAr
+ BUz5dA+/AWF5nDGEhBdR2CRCrPvfOh2Q699DTuscboRjDidUvTbwD4F5Z+oBiy50txP7
+ a9JA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWvoLXUBulG4p4hYJ85jG6x0YLJYW2iDi/9YalKP3V6INOfr30oyMgBq4fBrMAfkaXSBbZCgI7d9FVuJskmG9DskKMlEm+ylA4VKOuJk9jo
-X-Gm-Message-State: AOJu0YzTVlXZ285AOK6KBZQnqeCdqKLUAPM4V2U5qEqlcBCD32a6xjll
- rhuXXDXfwdCtVYtRbqHmym4pJTRP0TsK9qDLw/sz1y0KBDHNS5pzP2TyhaVht1xHkYBKjV30GBs
- SeClXa79buHDS4rJD556nTg==
-X-Google-Smtp-Source: AGHT+IED7Dya2yCZvsAa2tqUP6b4trNlcTkvQdXgr8QhwxGpvcUjUK6qnI+lJS2kIeTKisYDFk3nzyqGOECpK5X2mA==
-X-Received: from almasrymina.svl.corp.google.com
- ([2620:15c:2c4:200:3428:1b4e:e75a:d31b])
- (user=almasrymina job=sendgmr) by 2002:a05:6902:1881:b0:de4:7a4b:903 with
- SMTP id 3f1490d57ef6-dee4f30f717mr342350276.3.1715383321941; Fri, 10 May 2024
- 16:22:01 -0700 (PDT)
-Date: Fri, 10 May 2024 16:21:25 -0700
-In-Reply-To: <20240510232128.1105145-1-almasrymina@google.com>
-Mime-Version: 1.0
-References: <20240510232128.1105145-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.45.0.118.g7fe29c98d7-goog
-Message-ID: <20240510232128.1105145-15-almasrymina@google.com>
-Subject: [PATCH net-next v9 14/14] selftests: add ncdevmem,
- netcat for devmem TCP
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Cc: Mina Almasry <almasrymina@google.com>,
- Donald Hunter <donald.hunter@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, 
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
- Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, 
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, 
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
+ AJvYcCU3a+vpBXcPvksSICkEt4ffHYEQifT2MFNWeTLu7Wi3LTWajNkMqxbaVHwPf+wZ+CnWHw9u/C8PPLgAQbAFmXtz29TO791Ufmc34xq8LBefzF9ErGHGEBX0OByJVYrVfV3dg8TWqAGmzO0ts8SYIw==
+X-Gm-Message-State: AOJu0Yw86uwaWRtCPjTuNylLXRuOtzqmOYKaaST5vWlBYPzt/2Fj8gVB
+ opXU46nHPw+/tIue8vUjS+DFY49W31ErgFSAsooVSRupnS9/2B08
+X-Google-Smtp-Source: AGHT+IFmt1mR0GVX6HytJXSpYSFJDvybWwQqJhZtHE4qTOEoJzu4+YXsr4sa5kZN+uWTOc9mluvEsA==
+X-Received: by 2002:a05:6870:8dc9:b0:23b:ed9:1f53 with SMTP id
+ 586e51a60fabf-24172fd265fmr5138016fac.53.1715385733361; 
+ Fri, 10 May 2024 17:02:13 -0700 (PDT)
+Received: from localhost.localdomain ([2804:7f0:7580:e32:4cfd:93f8:bdfd:52e8])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-6f4d2a81478sm3477423b3a.59.2024.05.10.17.02.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 May 2024 17:02:12 -0700 (PDT)
+From: Marcelo Mendes Spessoto Junior <marcelomspessoto@gmail.com>
+To: sfr@canb.auug.org.au, harry.wentland@amd.com, sunpeng.li@amd.com,
+ Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: Marcelo Mendes Spessoto Junior <marcelomspessoto@gmail.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/amd/display: fix documentation warnings for mpc.h
+Date: Fri, 10 May 2024 21:02:02 -0300
+Message-ID: <20240511000203.28505-1-marcelomspessoto@gmail.com>
+X-Mailer: git-send-email 2.45.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,625 +83,905 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ncdevmem is a devmem TCP netcat. It works similarly to netcat, but it
-sends and receives data using the devmem TCP APIs. It uses udmabuf as
-the dmabuf provider. It is compatible with a regular netcat running on
-a peer, or a ncdevmem running on a peer.
+Fix most of the display documentation compile warnings by
+documenting struct mpc_funcs functions in dc/inc/hw/mpc.h file.
 
-In addition to normal netcat support, ncdevmem has a validation mode,
-where it sends a specific pattern and validates this pattern on the
-receiver side to ensure data integrity.
+Remove the following warnings:
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'read_mpcc_state' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'mpc_init_single_inst' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'get_mpcc_for_dpp_from_secondary' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'get_mpcc_for_dpp' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'wait_for_idle' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'assert_mpcc_idle_before_connect' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'init_mpcc_list_from_hw' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_denorm' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_denorm_clamp' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_output_csc' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_ocsc_default' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_output_gamma' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'power_on_mpc_mem_pwr' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_dwb_mux' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'disable_dwb_mux' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'is_dwb_idle' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_out_rate_control' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_gamut_remap' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'program_1dlut' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'program_shaper' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'acquire_rmu' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'program_3dlut' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'release_rmu' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'get_mpc_out_mux' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_bg_color' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_mpc_mem_lp_mode' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'set_movable_cm_location' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'update_3dlut_fast_load_select' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'get_3dlut_fast_load_status' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'populate_lut' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'program_lut_read_write_control' not described in 'mpc_funcs'
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:579: warning: Function parameter or struct member 'program_lut_mode' not described in 'mpc_funcs'
 
-Suggested-by: Stanislav Fomichev <sdf@google.com>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
+Fixes:
+b8c1c3a82e75 ("Documentation/gpu: Add kernel doc entry for MPC")
 
+Signed-off-by: Marcelo Mendes Spessoto Junior <marcelomspessoto@gmail.com>
 ---
-v9: https://lore.kernel.org/netdev/20240403002053.2376017-15-almasrymina@google.com/
-- Remove unused nic_pci_addr entry (Cong).
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h | 689 ++++++++++++++++----
+ 1 file changed, 576 insertions(+), 113 deletions(-)
 
-v6:
-- Updated to bind 8 queues.
-- Added RSS configuration.
-- Added some more tests for the netlink API.
-
-Changes in v1:
-- Many more general cleanups (Willem).
-- Removed driver reset (Jakub).
-- Removed hardcoded if index (Paolo).
-
-RFC v2:
-- General cleanups (Willem).
-
----
- tools/testing/selftests/net/.gitignore |   1 +
- tools/testing/selftests/net/Makefile   |   5 +
- tools/testing/selftests/net/ncdevmem.c | 542 +++++++++++++++++++++++++
- 3 files changed, 548 insertions(+)
- create mode 100644 tools/testing/selftests/net/ncdevmem.c
-
-diff --git a/tools/testing/selftests/net/.gitignore b/tools/testing/selftests/net/.gitignore
-index 49a56eb5d0368..9cd3c99c6e5d4 100644
---- a/tools/testing/selftests/net/.gitignore
-+++ b/tools/testing/selftests/net/.gitignore
-@@ -17,6 +17,7 @@ ipv6_flowlabel
- ipv6_flowlabel_mgr
- log.txt
- msg_zerocopy
-+ncdevmem
- nettest
- psock_fanout
- psock_snd
-diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
-index bd01e4a0be2c2..df3fdd727ffb3 100644
---- a/tools/testing/selftests/net/Makefile
-+++ b/tools/testing/selftests/net/Makefile
-@@ -5,6 +5,10 @@ CFLAGS =  -Wall -Wl,--no-as-needed -O2 -g
- CFLAGS += -I../../../../usr/include/ $(KHDR_INCLUDES)
- # Additional include paths needed by kselftest.h
- CFLAGS += -I../
-+CFLAGS += -I../../../net/ynl/generated/
-+CFLAGS += -I../../../net/ynl/lib/
-+
-+LDLIBS += ../../../net/ynl/lib/ynl.a ../../../net/ynl/generated/protos.a
- 
- TEST_PROGS := run_netsocktests run_afpackettests test_bpf.sh netdevice.sh \
- 	      rtnetlink.sh xfrm_policy.sh test_blackhole_dev.sh
-@@ -91,6 +95,7 @@ TEST_PROGS += fdb_flush.sh
- TEST_PROGS += fq_band_pktlimit.sh
- TEST_PROGS += vlan_hw_filter.sh
- TEST_PROGS += bpf_offload.py
-+TEST_GEN_FILES += ncdevmem
- 
- TEST_FILES := settings
- TEST_FILES += in_netns.sh lib.sh net_helper.sh setup_loopback.sh setup_veth.sh
-diff --git a/tools/testing/selftests/net/ncdevmem.c b/tools/testing/selftests/net/ncdevmem.c
-new file mode 100644
-index 0000000000000..e00255e54f77b
---- /dev/null
-+++ b/tools/testing/selftests/net/ncdevmem.c
-@@ -0,0 +1,542 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#define __EXPORTED_HEADERS__
-+
-+#include <linux/uio.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <stdbool.h>
-+#include <string.h>
-+#include <errno.h>
-+#define __iovec_defined
-+#include <fcntl.h>
-+#include <malloc.h>
-+#include <error.h>
-+
-+#include <arpa/inet.h>
-+#include <sys/socket.h>
-+#include <sys/mman.h>
-+#include <sys/ioctl.h>
-+#include <sys/syscall.h>
-+
-+#include <linux/memfd.h>
-+#include <linux/if.h>
-+#include <linux/dma-buf.h>
-+#include <linux/udmabuf.h>
-+#include <libmnl/libmnl.h>
-+#include <linux/types.h>
-+#include <linux/netlink.h>
-+#include <linux/genetlink.h>
-+#include <linux/netdev.h>
-+#include <time.h>
-+
-+#include "netdev-user.h"
-+#include <ynl.h>
-+
-+#define PAGE_SHIFT 12
-+#define TEST_PREFIX "ncdevmem"
-+#define NUM_PAGES 16000
-+
-+#ifndef MSG_SOCK_DEVMEM
-+#define MSG_SOCK_DEVMEM 0x2000000
-+#endif
-+
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+index dd786600668f..14813891baa4 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+@@ -1,4 +1,5 @@
+-/* Copyright 2012-15 Advanced Micro Devices, Inc.
 +/*
-+ * tcpdevmem netcat. Works similarly to netcat but does device memory TCP
-+ * instead of regular TCP. Uses udmabuf to mock a dmabuf provider.
-+ *
-+ * Usage:
-+ *
-+ *	On server:
-+ *	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
-+ *		-p 5201 -v 7
-+ *
-+ *	On client:
-+ *	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
-+ *		tr \\n \\0 | \
-+ *		head -c 5G | \
-+ *		nc <server IP> 5201 -p 5201
-+ *
-+ * Note this is compatible with regular netcat. i.e. the sender or receiver can
-+ * be replaced with regular netcat to test the RX or TX path in isolation.
-+ */
-+
-+static char *server_ip = "192.168.1.4";
-+static char *client_ip = "192.168.1.2";
-+static char *port = "5201";
-+static size_t do_validation;
-+static int start_queue = 8;
-+static int num_queues = 8;
-+static char *ifname = "eth1";
-+static unsigned int ifindex = 3;
-+static unsigned int iterations;
-+static unsigned int dmabuf_id;
-+
-+void print_bytes(void *ptr, size_t size)
-+{
-+	unsigned char *p = ptr;
-+	int i;
-+
-+	for (i = 0; i < size; i++)
-+		printf("%02hhX ", p[i]);
-+	printf("\n");
-+}
-+
-+void print_nonzero_bytes(void *ptr, size_t size)
-+{
-+	unsigned char *p = ptr;
-+	unsigned int i;
-+
-+	for (i = 0; i < size; i++)
-+		putchar(p[i]);
-+	printf("\n");
-+}
-+
-+void validate_buffer(void *line, size_t size)
-+{
-+	static unsigned char seed = 1;
-+	unsigned char *ptr = line;
-+	int errors = 0;
-+	size_t i;
-+
-+	for (i = 0; i < size; i++) {
-+		if (ptr[i] != seed) {
-+			fprintf(stderr,
-+				"Failed validation: expected=%u, actual=%u, index=%lu\n",
-+				seed, ptr[i], i);
-+			errors++;
-+			if (errors > 20)
-+				error(1, 0, "validation failed.");
-+		}
-+		seed++;
-+		if (seed == do_validation)
-+			seed = 0;
-+	}
-+
-+	fprintf(stdout, "Validated buffer\n");
-+}
-+
-+static void reset_flow_steering(void)
-+{
-+	char command[256];
-+
-+	memset(command, 0, sizeof(command));
-+	snprintf(command, sizeof(command), "sudo ethtool -K %s ntuple off",
-+		 "eth1");
-+	system(command);
-+
-+	memset(command, 0, sizeof(command));
-+	snprintf(command, sizeof(command), "sudo ethtool -K %s ntuple on",
-+		 "eth1");
-+	system(command);
-+}
-+
-+static void configure_rss(void)
-+{
-+	char command[256];
-+
-+	memset(command, 0, sizeof(command));
-+	snprintf(command, sizeof(command), "sudo ethtool -X %s equal %d",
-+		 ifname, start_queue);
-+	system(command);
-+}
-+
-+static void configure_flow_steering(void)
-+{
-+	char command[256];
-+
-+	memset(command, 0, sizeof(command));
-+	snprintf(command, sizeof(command),
-+		 "sudo ethtool -N %s flow-type tcp4 src-ip %s dst-ip %s src-port %s dst-port %s queue %d",
-+		 ifname, client_ip, server_ip, port, port, start_queue);
-+	system(command);
-+}
-+
-+static int bind_rx_queue(unsigned int ifindex, unsigned int dmabuf_fd,
-+			 struct netdev_queue_dmabuf *queues,
-+			 unsigned int n_queue_index, struct ynl_sock **ys)
-+{
-+	struct netdev_bind_rx_req *req = NULL;
-+	struct netdev_bind_rx_rsp *rsp = NULL;
-+	struct ynl_error yerr;
-+
-+	*ys = ynl_sock_create(&ynl_netdev_family, &yerr);
-+	if (!*ys) {
-+		fprintf(stderr, "YNL: %s\n", yerr.msg);
-+		return -1;
-+	}
-+
-+	req = netdev_bind_rx_req_alloc();
-+	netdev_bind_rx_req_set_ifindex(req, ifindex);
-+	netdev_bind_rx_req_set_dmabuf_fd(req, dmabuf_fd);
-+	__netdev_bind_rx_req_set_queues(req, queues, n_queue_index);
-+
-+	rsp = netdev_bind_rx(*ys, req);
-+	if (!rsp) {
-+		perror("netdev_bind_rx");
-+		goto err_close;
-+	}
-+
-+	if (!rsp->_present.dmabuf_id) {
-+		perror("dmabuf_id not present");
-+		goto err_close;
-+	}
-+
-+	printf("got dmabuf id=%d\n", rsp->dmabuf_id);
-+	dmabuf_id = rsp->dmabuf_id;
-+
-+	netdev_bind_rx_req_free(req);
-+	netdev_bind_rx_rsp_free(rsp);
-+
-+	return 0;
-+
-+err_close:
-+	fprintf(stderr, "YNL failed: %s\n", (*ys)->err.msg);
-+	netdev_bind_rx_req_free(req);
-+	ynl_sock_destroy(*ys);
-+	return -1;
-+}
-+
-+static void create_udmabuf(int *devfd, int *memfd, int *buf, size_t dmabuf_size)
-+{
-+	struct udmabuf_create create;
-+	int ret;
-+
-+	*devfd = open("/dev/udmabuf", O_RDWR);
-+	if (*devfd < 0) {
-+		error(70, 0,
-+		      "%s: [skip,no-udmabuf: Unable to access DMA buffer device file]\n",
-+		      TEST_PREFIX);
-+	}
-+
-+	*memfd = memfd_create("udmabuf-test", MFD_ALLOW_SEALING);
-+	if (*memfd < 0)
-+		error(70, 0, "%s: [skip,no-memfd]\n", TEST_PREFIX);
-+
-+	/* Required for udmabuf */
-+	ret = fcntl(*memfd, F_ADD_SEALS, F_SEAL_SHRINK);
-+	if (ret < 0)
-+		error(73, 0, "%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
-+
-+	ret = ftruncate(*memfd, dmabuf_size);
-+	if (ret == -1)
-+		error(74, 0, "%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
-+
-+	memset(&create, 0, sizeof(create));
-+
-+	create.memfd = *memfd;
-+	create.offset = 0;
-+	create.size = dmabuf_size;
-+	*buf = ioctl(*devfd, UDMABUF_CREATE, &create);
-+	if (*buf < 0)
-+		error(75, 0, "%s: [FAIL, create udmabuf]\n", TEST_PREFIX);
-+}
-+
-+int do_server(void)
-+{
-+	char ctrl_data[sizeof(int) * 20000];
-+	struct netdev_queue_dmabuf *queues;
-+	size_t non_page_aligned_frags = 0;
-+	struct sockaddr_in client_addr;
-+	struct sockaddr_in server_sin;
-+	size_t page_aligned_frags = 0;
-+	int devfd, memfd, buf, ret;
-+	size_t total_received = 0;
-+	socklen_t client_addr_len;
-+	bool is_devmem = false;
-+	char *buf_mem = NULL;
-+	struct ynl_sock *ys;
-+	size_t dmabuf_size;
-+	char iobuf[819200];
-+	char buffer[256];
-+	int socket_fd;
-+	int client_fd;
-+	size_t i = 0;
-+	int opt = 1;
-+
-+	dmabuf_size = getpagesize() * NUM_PAGES;
-+
-+	create_udmabuf(&devfd, &memfd, &buf, dmabuf_size);
-+
-+	reset_flow_steering();
-+
-+	/* Configure RSS to divert all traffic from our devmem queues */
-+	configure_rss();
-+
-+	/* Flow steer our devmem flows to start_queue */
-+	configure_flow_steering();
-+
-+	sleep(1);
-+
-+	queues = malloc(sizeof(*queues) * num_queues);
-+
-+	for (i = 0; i < num_queues; i++) {
-+		queues[i]._present.type = 1;
-+		queues[i]._present.idx = 1;
-+		queues[i].type = NETDEV_QUEUE_TYPE_RX;
-+		queues[i].idx = start_queue + i;
-+	}
-+
-+	if (bind_rx_queue(ifindex, buf, queues, num_queues, &ys))
-+		error(1, 0, "Failed to bind\n");
-+
-+	buf_mem = mmap(NULL, dmabuf_size, PROT_READ | PROT_WRITE, MAP_SHARED,
-+		       buf, 0);
-+	if (buf_mem == MAP_FAILED)
-+		error(1, 0, "mmap()");
-+
-+	server_sin.sin_family = AF_INET;
-+	server_sin.sin_port = htons(atoi(port));
-+
-+	ret = inet_pton(server_sin.sin_family, server_ip, &server_sin.sin_addr);
-+	if (socket < 0)
-+		error(79, 0, "%s: [FAIL, create socket]\n", TEST_PREFIX);
-+
-+	socket_fd = socket(server_sin.sin_family, SOCK_STREAM, 0);
-+	if (socket < 0)
-+		error(errno, errno, "%s: [FAIL, create socket]\n", TEST_PREFIX);
-+
-+	ret = setsockopt(socket_fd, SOL_SOCKET, SO_REUSEPORT, &opt,
-+			 sizeof(opt));
-+	if (ret)
-+		error(errno, errno, "%s: [FAIL, set sock opt]\n", TEST_PREFIX);
-+
-+	ret = setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt,
-+			 sizeof(opt));
-+	if (ret)
-+		error(errno, errno, "%s: [FAIL, set sock opt]\n", TEST_PREFIX);
-+
-+	printf("binding to address %s:%d\n", server_ip,
-+	       ntohs(server_sin.sin_port));
-+
-+	ret = bind(socket_fd, &server_sin, sizeof(server_sin));
-+	if (ret)
-+		error(errno, errno, "%s: [FAIL, bind]\n", TEST_PREFIX);
-+
-+	ret = listen(socket_fd, 1);
-+	if (ret)
-+		error(errno, errno, "%s: [FAIL, listen]\n", TEST_PREFIX);
-+
-+	client_addr_len = sizeof(client_addr);
-+
-+	inet_ntop(server_sin.sin_family, &server_sin.sin_addr, buffer,
-+		  sizeof(buffer));
-+	printf("Waiting or connection on %s:%d\n", buffer,
-+	       ntohs(server_sin.sin_port));
-+	client_fd = accept(socket_fd, &client_addr, &client_addr_len);
-+
-+	inet_ntop(client_addr.sin_family, &client_addr.sin_addr, buffer,
-+		  sizeof(buffer));
-+	printf("Got connection from %s:%d\n", buffer,
-+	       ntohs(client_addr.sin_port));
-+
-+	while (1) {
-+		struct iovec iov = { .iov_base = iobuf,
-+				     .iov_len = sizeof(iobuf) };
-+		struct dmabuf_cmsg *dmabuf_cmsg = NULL;
-+		struct dma_buf_sync sync = { 0 };
-+		struct cmsghdr *cm = NULL;
-+		struct msghdr msg = { 0 };
-+		struct dmabuf_token token;
-+		ssize_t ret;
-+
-+		is_devmem = false;
-+		printf("\n\n");
-+
-+		msg.msg_iov = &iov;
-+		msg.msg_iovlen = 1;
-+		msg.msg_control = ctrl_data;
-+		msg.msg_controllen = sizeof(ctrl_data);
-+		ret = recvmsg(client_fd, &msg, MSG_SOCK_DEVMEM);
-+		printf("recvmsg ret=%ld\n", ret);
-+		if (ret < 0 && (errno == EAGAIN || errno == EWOULDBLOCK))
-+			continue;
-+		if (ret < 0) {
-+			perror("recvmsg");
-+			continue;
-+		}
-+		if (ret == 0) {
-+			printf("client exited\n");
-+			goto cleanup;
-+		}
-+
-+		i++;
-+		for (cm = CMSG_FIRSTHDR(&msg); cm; cm = CMSG_NXTHDR(&msg, cm)) {
-+			if (cm->cmsg_level != SOL_SOCKET ||
-+			    (cm->cmsg_type != SCM_DEVMEM_DMABUF &&
-+			     cm->cmsg_type != SCM_DEVMEM_LINEAR)) {
-+				fprintf(stdout, "skipping non-devmem cmsg\n");
-+				continue;
-+			}
-+
-+			dmabuf_cmsg = (struct dmabuf_cmsg *)CMSG_DATA(cm);
-+			is_devmem = true;
-+
-+			if (cm->cmsg_type == SCM_DEVMEM_LINEAR) {
-+				/* TODO: process data copied from skb's linear
-+				 * buffer.
-+				 */
-+				fprintf(stdout,
-+					"SCM_DEVMEM_LINEAR. dmabuf_cmsg->frag_size=%u\n",
-+					dmabuf_cmsg->frag_size);
-+
-+				continue;
-+			}
-+
-+			token.token_start = dmabuf_cmsg->frag_token;
-+			token.token_count = 1;
-+
-+			total_received += dmabuf_cmsg->frag_size;
-+			printf("received frag_page=%llu, in_page_offset=%llu, frag_offset=%llu, frag_size=%u, token=%u, total_received=%lu, dmabuf_id=%u\n",
-+			       dmabuf_cmsg->frag_offset >> PAGE_SHIFT,
-+			       dmabuf_cmsg->frag_offset % getpagesize(),
-+			       dmabuf_cmsg->frag_offset, dmabuf_cmsg->frag_size,
-+			       dmabuf_cmsg->frag_token, total_received,
-+			       dmabuf_cmsg->dmabuf_id);
-+
-+			if (dmabuf_cmsg->dmabuf_id != dmabuf_id)
-+				error(1, 0,
-+				      "received on wrong dmabuf_id: flow steering error\n");
-+
-+			if (dmabuf_cmsg->frag_size % getpagesize())
-+				non_page_aligned_frags++;
-+			else
-+				page_aligned_frags++;
-+
-+			sync.flags = DMA_BUF_SYNC_READ | DMA_BUF_SYNC_START;
-+			ioctl(buf, DMA_BUF_IOCTL_SYNC, &sync);
-+
-+			if (do_validation)
-+				validate_buffer(
-+					((unsigned char *)buf_mem) +
-+						dmabuf_cmsg->frag_offset,
-+					dmabuf_cmsg->frag_size);
-+			else
-+				print_nonzero_bytes(
-+					((unsigned char *)buf_mem) +
-+						dmabuf_cmsg->frag_offset,
-+					dmabuf_cmsg->frag_size);
-+
-+			sync.flags = DMA_BUF_SYNC_READ | DMA_BUF_SYNC_END;
-+			ioctl(buf, DMA_BUF_IOCTL_SYNC, &sync);
-+
-+			ret = setsockopt(client_fd, SOL_SOCKET,
-+					 SO_DEVMEM_DONTNEED, &token,
-+					 sizeof(token));
-+			if (ret != 1)
-+				error(1, 0,
-+				      "SO_DEVMEM_DONTNEED not enough tokens");
-+		}
-+		if (!is_devmem)
-+			error(1, 0, "flow steering error\n");
-+
-+		printf("total_received=%lu\n", total_received);
-+	}
-+
-+	fprintf(stdout, "%s: ok\n", TEST_PREFIX);
-+
-+	fprintf(stdout, "page_aligned_frags=%lu, non_page_aligned_frags=%lu\n",
-+		page_aligned_frags, non_page_aligned_frags);
-+
-+	fprintf(stdout, "page_aligned_frags=%lu, non_page_aligned_frags=%lu\n",
-+		page_aligned_frags, non_page_aligned_frags);
-+
-+cleanup:
-+
-+	munmap(buf_mem, dmabuf_size);
-+	close(client_fd);
-+	close(socket_fd);
-+	close(buf);
-+	close(memfd);
-+	close(devfd);
-+	ynl_sock_destroy(ys);
-+
-+	return 0;
-+}
-+
-+void run_devmem_tests(void)
-+{
-+	struct netdev_queue_dmabuf *queues;
-+	int devfd, memfd, buf;
-+	struct ynl_sock *ys;
-+	size_t dmabuf_size;
-+	size_t i = 0;
-+
-+	dmabuf_size = getpagesize() * NUM_PAGES;
-+
-+	create_udmabuf(&devfd, &memfd, &buf, dmabuf_size);
-+
-+	/* Configure RSS to divert all traffic from our devmem queues */
-+	configure_rss();
-+
-+	sleep(1);
-+
-+	queues = malloc(sizeof(*queues) * num_queues);
-+
-+	for (i = 0; i < num_queues; i++) {
-+		queues[i]._present.type = 1;
-+		queues[i]._present.idx = 1;
-+		queues[i].type = NETDEV_QUEUE_TYPE_RX;
-+		queues[i].idx = start_queue + i;
-+	}
-+
-+	if (bind_rx_queue(ifindex, buf, queues, num_queues, &ys))
-+		error(1, 0, "Failed to bind\n");
-+
-+	/* Closing the netlink socket does an implicit unbind */
-+	ynl_sock_destroy(ys);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	int is_server = 0, opt;
-+
-+	while ((opt = getopt(argc, argv, "ls:c:p:v:q:f:n:i:d:")) != -1) {
-+		switch (opt) {
-+		case 'l':
-+			is_server = 1;
-+			break;
-+		case 's':
-+			server_ip = optarg;
-+			break;
-+		case 'c':
-+			client_ip = optarg;
-+			break;
-+		case 'p':
-+			port = optarg;
-+			break;
-+		case 'v':
-+			do_validation = atoll(optarg);
-+			break;
-+		case 'q':
-+			num_queues = atoi(optarg);
-+			break;
-+		case 't':
-+			start_queue = atoi(optarg);
-+			break;
-+		case 'f':
-+			ifname = optarg;
-+			break;
-+		case 'd':
-+			ifindex = atoi(optarg);
-+			break;
-+		case 'i':
-+			iterations = atoll(optarg);
-+			break;
-+		case '?':
-+			printf("unknown option: %c\n", optopt);
-+			break;
-+		}
-+	}
-+
-+	for (; optind < argc; optind++)
-+		printf("extra arguments: %s\n", argv[optind]);
-+
-+	run_devmem_tests();
-+
-+	if (is_server)
-+		return do_server();
-+
-+	return 0;
-+}
++ * Copyright 2012-15 Advanced Micro Devices, Inc.
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the "Software"),
+@@ -306,33 +307,48 @@ struct mpcc_state {
+  * struct mpc_funcs - funcs
+  */
+ struct mpc_funcs {
++	/**
++	* @read_mpcc_state:
++	*
++	* Read register content from given MPCC physical instance.
++	*
++	* Parameters:
++	*
++	* - [in/out] mpc - MPC context
++	* - [in] mpcc_instance - MPC context instance
++	* - [in] mpcc_state - MPC context state
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*read_mpcc_state)(
+ 			struct mpc *mpc,
+ 			int mpcc_inst,
+ 			struct mpcc_state *s);
+ 
+ 	/**
+-	 * @insert_plane:
+-	 *
+-	 * Insert DPP into MPC tree based on specified blending position.
+-	 * Only used for planes that are part of blending chain for OPP output
+-	 *
+-	 * Parameters:
+-	 *
+-	 * - [in/out] mpc  - MPC context.
+-	 * - [in/out] tree - MPC tree structure that plane will be added to.
+-	 * - [in] blnd_cfg - MPCC blending configuration for the new blending layer.
+-	 * - [in] sm_cfg   - MPCC stereo mix configuration for the new blending layer.
+-	 *                   stereo mix must disable for the very bottom layer of the tree config.
+-	 * - [in] insert_above_mpcc - Insert new plane above this MPCC.
+-	 *                          If NULL, insert as bottom plane.
+-	 * - [in] dpp_id  - DPP instance for the plane to be added.
+-	 * - [in] mpcc_id - The MPCC physical instance to use for blending.
+-	 *
+-	 * Return:
+-	 *
+-	 * struct mpcc* - MPCC that was added.
+-	 */
++	* @insert_plane:
++	*
++	* Insert DPP into MPC tree based on specified blending position.
++	* Only used for planes that are part of blending chain for OPP output
++	*
++	* Parameters:
++	*
++	* - [in/out] mpc  - MPC context.
++	* - [in/out] tree - MPC tree structure that plane will be added to.
++	* - [in] blnd_cfg - MPCC blending configuration for the new blending layer.
++	* - [in] sm_cfg   - MPCC stereo mix configuration for the new blending layer.
++	*                   stereo mix must disable for the very bottom layer of the tree config.
++	* - [in] insert_above_mpcc - Insert new plane above this MPCC.
++	*                          If NULL, insert as bottom plane.
++	* - [in] dpp_id  - DPP instance for the plane to be added.
++	* - [in] mpcc_id - The MPCC physical instance to use for blending.
++	*
++	* Return:
++	*
++	* struct mpcc* - MPCC that was added.
++	*/
+ 	struct mpcc* (*insert_plane)(
+ 			struct mpc *mpc,
+ 			struct mpc_tree *tree,
+@@ -343,107 +359,117 @@ struct mpc_funcs {
+ 			int mpcc_id);
+ 
+ 	/**
+-	 * @remove_mpcc:
+-	 *
+-	 * Remove a specified MPCC from the MPC tree.
+-	 *
+-	 * Parameters:
+-	 *
+-	 * - [in/out] mpc   - MPC context.
+-	 * - [in/out] tree  - MPC tree structure that plane will be removed from.
+-	 * - [in/out] mpcc  - MPCC to be removed from tree.
+-	 *
+-	 * Return:
+-	 *
+-	 * void
+-	 */
++	* @remove_mpcc:
++	*
++	* Remove a specified MPCC from the MPC tree.
++	*
++	* Parameters:
++	*
++	* - [in/out] mpc   - MPC context.
++	* - [in/out] tree  - MPC tree structure that plane will be removed from.
++	* - [in/out] mpcc  - MPCC to be removed from tree.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*remove_mpcc)(
+ 			struct mpc *mpc,
+ 			struct mpc_tree *tree,
+ 			struct mpcc *mpcc);
+ 
+ 	/**
+-	 * @mpc_init:
+-	 *
+-	 * Reset the MPCC HW status by disconnecting all muxes.
+-	 *
+-	 * Parameters:
+-	 *
+-	 * - [in/out] mpc - MPC context.
+-	 *
+-	 * Return:
+-	 *
+-	 * void
+-	 */
++	* @mpc_init:
++	*
++	* Reset the MPCC HW status by disconnecting all muxes.
++	*
++	* Parameters:
++	*
++	* - [in/out] mpc - MPC context.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*mpc_init)(struct mpc *mpc);
++
++	/**
++	* @mpc_init_single_inst:
++	*
++	* Initialize given MPCC physical instance.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] mpcc_id - The MPCC physical instance to be initialized.
++	*/
+ 	void (*mpc_init_single_inst)(
+ 			struct mpc *mpc,
+ 			unsigned int mpcc_id);
+ 
+ 	/**
+-	 * @update_blending:
+-	 *
+-	 * Update the blending configuration for a specified MPCC.
+-	 *
+-	 * Parameters:
+-	 *
+-	 * - [in/out] mpc - MPC context.
+-	 * - [in] blnd_cfg - MPCC blending configuration.
+-	 * - [in] mpcc_id  - The MPCC physical instance.
+-	 *
+-	 * Return:
+-	 *
+-	 * void
+-	 */
++	* @update_blending:
++	*
++	* Update the blending configuration for a specified MPCC.
++	*
++	* Parameters:
++	*
++	* - [in/out] mpc - MPC context.
++	* - [in] blnd_cfg - MPCC blending configuration.
++	* - [in] mpcc_id  - The MPCC physical instance.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*update_blending)(
+ 		struct mpc *mpc,
+ 		struct mpcc_blnd_cfg *blnd_cfg,
+ 		int mpcc_id);
+ 
+ 	/**
+-	 * @cursor_lock:
+-	 *
+-	 * Lock cursor updates for the specified OPP. OPP defines the set of
+-	 * MPCC that are locked together for cursor.
+-	 *
+-	 * Parameters:
+-	 *
+-	 * - [in] mpc - MPC context.
+-	 * - [in] opp_id  - The OPP to lock cursor updates on
+-	 * - [in] lock - lock/unlock the OPP
+-	 *
+-	 * Return:
+-	 *
+-	 * void
+-	 */
++	* @cursor_lock:
++	*
++	* Lock cursor updates for the specified OPP. OPP defines the set of
++	* MPCC that are locked together for cursor.
++	*
++	* Parameters:
++	*
++	* - [in] mpc - MPC context.
++	* - [in] opp_id  - The OPP to lock cursor updates on
++	* - [in] lock - lock/unlock the OPP
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*cursor_lock)(
+ 			struct mpc *mpc,
+ 			int opp_id,
+ 			bool lock);
+ 
+ 	/**
+-	 * @insert_plane_to_secondary:
+-	 *
+-	 * Add DPP into secondary MPC tree based on specified blending
+-	 * position.  Only used for planes that are part of blending chain for
+-	 * DWB output
+-	 *
+-	 * Parameters:
+-	 *
+-	 * - [in/out] mpc  - MPC context.
+-	 * - [in/out] tree - MPC tree structure that plane will be added to.
+-	 * - [in] blnd_cfg - MPCC blending configuration for the new blending layer.
+-	 * - [in] sm_cfg   - MPCC stereo mix configuration for the new blending layer.
+-	 *	    stereo mix must disable for the very bottom layer of the tree config.
+-	 * - [in] insert_above_mpcc - Insert new plane above this MPCC.  If
+-	 *          NULL, insert as bottom plane.
+-	 * - [in] dpp_id - DPP instance for the plane to be added.
+-	 * - [in] mpcc_id - The MPCC physical instance to use for blending.
+-	 *
+-	 * Return:
+-	 *
+-	 * struct mpcc* - MPCC that was added.
+-	 */
++	* @insert_plane_to_secondary:
++	*
++	* Add DPP into secondary MPC tree based on specified blending
++	* position.  Only used for planes that are part of blending chain for
++	* DWB output
++	*
++	* Parameters:
++	*
++	* - [in/out] mpc  - MPC context.
++	* - [in/out] tree - MPC tree structure that plane will be added to.
++	* - [in] blnd_cfg - MPCC blending configuration for the new blending layer.
++	* - [in] sm_cfg   - MPCC stereo mix configuration for the new blending layer.
++	*	    stereo mix must disable for the very bottom layer of the tree config.
++	* - [in] insert_above_mpcc - Insert new plane above this MPCC.  If
++	*          NULL, insert as bottom plane.
++	* - [in] dpp_id - DPP instance for the plane to be added.
++	* - [in] mpcc_id - The MPCC physical instance to use for blending.
++	*
++	* Return:
++	*
++	* struct mpcc* - MPCC that was added.
++	*/
+ 	struct mpcc* (*insert_plane_to_secondary)(
+ 			struct mpc *mpc,
+ 			struct mpc_tree *tree,
+@@ -454,81 +480,301 @@ struct mpc_funcs {
+ 			int mpcc_id);
+ 
+ 	/**
+-	 * @remove_mpcc_from_secondary:
+-	 *
+-	 * Remove a specified DPP from the 'secondary' MPC tree.
+-	 *
+-	 * Parameters:
+-	 *
+-	 * - [in/out] mpc  - MPC context.
+-	 * - [in/out] tree - MPC tree structure that plane will be removed from.
+-	 * - [in]     mpcc - MPCC to be removed from tree.
+-	 *
+-	 * Return:
+-	 *
+-	 * void
+-	 */
++	* @remove_mpcc_from_secondary:
++	*
++	* Remove a specified DPP from the 'secondary' MPC tree.
++	*
++	* Parameters:
++	*
++	* - [in/out] mpc  - MPC context.
++	* - [in/out] tree - MPC tree structure that plane will be removed from.
++	* - [in]     mpcc - MPCC to be removed from tree.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*remove_mpcc_from_secondary)(
+ 			struct mpc *mpc,
+ 			struct mpc_tree *tree,
+ 			struct mpcc *mpcc);
+ 
++	/**
++	* @get_mpcc_for_dpp_from_secondary:
++	*
++	* Find, if it exists, a MPCC from a given 'secondary' MPC tree that
++	* is associated with specified plane.
++	*
++	* Parameters:
++	* - [in/out] tree - MPC tree structure to search for plane.
++	* - [in] dpp_id - DPP to be searched.
++	*
++	* Return:
++	*
++	* struct mpcc* - pointer to plane or NULL if no plane found.
++	*/
+ 	struct mpcc* (*get_mpcc_for_dpp_from_secondary)(
+ 			struct mpc_tree *tree,
+ 			int dpp_id);
+ 
++	/**
++	* @get_mpcc_for_dpp:
++	*
++	* Find, if it exists, a MPCC from a given MPC tree that
++	* is associated with specified plane.
++	*
++	* Parameters:
++	* - [in/out] tree - MPC tree structure to search for plane.
++	* - [in] dpp_id - DPP to be searched.
++	*
++	* Return:
++	*
++	* struct mpcc* - pointer to plane or NULL if no plane found.
++	*/
+ 	struct mpcc* (*get_mpcc_for_dpp)(
+ 			struct mpc_tree *tree,
+ 			int dpp_id);
+ 
++	/**
++	* @wait_for_idle:
++	*
++	* Wait for a MPCC in MPC context to enter idle state.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC Context.
++	* - [in] id - MPCC to wait for idle state.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*wait_for_idle)(struct mpc *mpc, int id);
+ 
++	/**
++	* @assert_mpcc_idle_before_connect:
++	*
++	* Assert if MPCC in MPC context is in idle state.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] id - MPCC to assert idle state.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*assert_mpcc_idle_before_connect)(struct mpc *mpc, int mpcc_id);
+ 
++	/**
++	* @init_mpcc_list_from_hw:
++	*
++	* Iterate through the MPCC array from a given MPC context struct
++	* and configure each MPCC according to its registers' values.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context to initialize MPCC array.
++	* - [in/out] tree - MPC tree structure containing MPCC contexts to initialize.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*init_mpcc_list_from_hw)(
+ 		struct mpc *mpc,
+ 		struct mpc_tree *tree);
+ 
++	/**
++	* @set_denorm:
++	*
++	* Set corresponding OPP DENORM_CONTROL register value to specific denorm_mode
++	* based on given color depth.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] opp_id - Corresponding OPP to update register.
++	* - [in] output_depth - Arbitrary color depth to set denorm_mode.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*set_denorm)(struct mpc *mpc,
+ 			int opp_id,
+ 			enum dc_color_depth output_depth);
+ 
++	/**
++	* @set_denorm_clamp:
++	*
++	* Set denorm clamp values on corresponding OPP DENORM CONTROL register.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] opp_id - Corresponding OPP to update register.
++	* - [in] denorm_clamp - Arbitrary denorm clamp to be set.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*set_denorm_clamp)(
+ 			struct mpc *mpc,
+ 			int opp_id,
+ 			struct mpc_denorm_clamp denorm_clamp);
+ 
++	/**
++	* @set_output_csc:
++	*
++	* Set the Output Color Space Conversion matrix
++	* with given values and mode.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] opp_id - Corresponding OPP to update register.
++	* - [in] regval - Values to set in CSC matrix.
++	* - [in] ocsc_mode - Mode to set CSC.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*set_output_csc)(struct mpc *mpc,
+ 			int opp_id,
+ 			const uint16_t *regval,
+ 			enum mpc_output_csc_mode ocsc_mode);
+ 
++	/**
++	* @set_ocsc_default:
++	*
++	* Set the Output Color Space Conversion matrix
++	* to default values according to color space.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] opp_id - Corresponding OPP to update register.
++	* - [in] color_space - OCSC color space.
++	* - [in] ocsc_mode - Mode to set CSC.
++	*
++	* Return:
++	*
++	* void
++	*
++	*/
+ 	void (*set_ocsc_default)(struct mpc *mpc,
+ 			int opp_id,
+ 			enum dc_color_space color_space,
+ 			enum mpc_output_csc_mode ocsc_mode);
+ 
++	/**
++	* @set_output_gamma:
++	*
++	* Set Output Gamma with given curve parameters.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] mpcc_id - Corresponding MPC to update registers.
++	* - [in] params - Parameters.
++	*
++	* Return:
++	*
++	* void
++	*
++	*/
+ 	void (*set_output_gamma)(
+ 			struct mpc *mpc,
+ 			int mpcc_id,
+ 			const struct pwl_params *params);
++	/**
++	* @power_on_mpc_mem_pwr:
++	*
++	* Power on/off memory LUT for given MPCC.
++	* Powering on enables LUT to be updated.
++	* Powering off allows entering low power mode.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] mpcc_id - MPCC to power on.
++	* - [in] power_on
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*power_on_mpc_mem_pwr)(
+ 			struct mpc *mpc,
+ 			int mpcc_id,
+ 			bool power_on);
++	/**
++	* @set_dwb_mux:
++	*
++	* Set corresponding Display Writeback mux
++	* MPC register field to given MPCC id.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] dwb_id - DWB to be set.
++	* - [in] mpcc_id - MPCC id to be stored in DWB mux register.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*set_dwb_mux)(
+ 			struct mpc *mpc,
+ 			int dwb_id,
+ 			int mpcc_id);
+ 
++	/**
++	* @disable_dwb_mux:
++	*
++	* Reset corresponding Display Writeback mux
++	* MPC register field.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] dwb_id - DWB to be set.
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*disable_dwb_mux)(
+ 		struct mpc *mpc,
+ 		int dwb_id);
+ 
++	/**
++	* @is_dwb_idle:
++	*
++	* Check DWB status on MPC_DWB0_MUX_STATUS register field.
++	* Return if it is null.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] dwb_id - DWB to be checked.
++	*
++	* Return:
++	*
++	* bool - wheter DWB is idle or not
++	*/
+ 	bool (*is_dwb_idle)(
+ 		struct mpc *mpc,
+ 		int dwb_id);
+ 
++	/**
++	* @set_out_rate_control:
++	*
++	* Set display output rate control.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] opp_id - OPP to be set.
++	* - [in] enable
++	* - [in] rate_2x_mode
++	* - [in] flow_control
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*set_out_rate_control)(
+ 		struct mpc *mpc,
+ 		int opp_id,
+@@ -536,44 +782,261 @@ struct mpc_funcs {
+ 		bool rate_2x_mode,
+ 		struct mpc_dwb_flow_control *flow_control);
+ 
++	/**
++	* @set_gamut_remap:
++	*
++	* Set post-blending CTM for given MPCC.
++	*
++	* Parameters:
++	* - [in] mpc - MPC context.
++	* - [in] mpcc_id - MPCC to set gamut map.
++	* - [in] adjust
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*set_gamut_remap)(
+ 			struct mpc *mpc,
+ 			int mpcc_id,
+ 			const struct mpc_grph_gamut_adjustment *adjust);
+ 
++	/**
++	* @program_1dlut:
++	*
++	* Set 1 dimensional Lookup Table.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context
++	* - [in] params - curve parameters for the LUT configuration
++	* - [in] rmu_idx
++	*
++	* bool - wheter LUT was set (set with given parameters) or not (params is NULL and LUT is disabled).
++	*/
+ 	bool (*program_1dlut)(
+ 			struct mpc *mpc,
+ 			const struct pwl_params *params,
+ 			uint32_t rmu_idx);
+ 
++	/**
++	* @program_shaper:
++	*
++	* Set shaper.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context
++	* - [in] params - curve parameters to be set
++	* - [in] rmu_idx
++	*
++	* Return:
++	*
++	* bool - wheter shaper was set (set with given parameters) or not (params is NULL and LUT is disabled).
++	*/
+ 	bool (*program_shaper)(
+ 			struct mpc *mpc,
+ 			const struct pwl_params *params,
+ 			uint32_t rmu_idx);
+ 
++	/**
++	* @acquire_rmu:
++	*
++	* Set given MPCC to be multiplexed to given RMU unit.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context
++	* - [in] mpcc_id - MPCC
++	* - [in] rmu_idx - Given RMU unit to set MPCC to be multiplexed to.
++	*
++	* Return:
++	*
++	* unit32_t - rmu_idx if operation was successful, -1 else.
++	*/
+ 	uint32_t (*acquire_rmu)(struct mpc *mpc, int mpcc_id, int rmu_idx);
+ 
++	/**
++	* @program_3dlut:
++	*
++	* Set 3 dimensional Lookup Table.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context
++	* - [in] params - tetrahedral parameters for the LUT configuration
++	* - [in] rmu_idx
++	*
++	* bool - wheter LUT was set (set with given parameters) or not (params is NULL and LUT is disabled).
++	*/
+ 	bool (*program_3dlut)(
+ 			struct mpc *mpc,
+ 			const struct tetrahedral_params *params,
+ 			int rmu_idx);
+ 
++	/**
++	* @release_rmu:
++	*
++	* For a given MPCC, release the RMU unit it muliplexes to.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context
++	* - [in] mpcc_id - MPCC
++	*
++	* Return:
++	*
++	* int - a valid rmu_idx representing released RMU unit or -1 if there was no RMU unit to release.
++	*/
+ 	int (*release_rmu)(struct mpc *mpc, int mpcc_id);
+ 
++	/**
++	* @get_mpc_out_mux:
++	*
++	* Return MPC out mux.
++	*
++	* Parameters:
++	* - [in] mpc - MPC context.
++	* - [in] opp_id - OPP
++	*
++	* Return:
++	*
++	* unsigned int - Out Mux
++	*/
+ 	unsigned int (*get_mpc_out_mux)(
+ 				struct mpc *mpc,
+ 				int opp_id);
+ 
++	/**
++	* @set_bg_color:
++	*
++	* Find corresponding bottommost MPCC and
++	* set its bg color.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] bg_color - background color to be set.
++	* - [in] mpcc_id
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*set_bg_color)(struct mpc *mpc,
+ 			struct tg_color *bg_color,
+ 			int mpcc_id);
++
++	/**
++	* @set_mpc_mem_lp_mode:
++	*
++	* Set mpc_mem_lp_mode.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	*
++	* Return:
++	*
++	* void
++	*/
++
+ 	void (*set_mpc_mem_lp_mode)(struct mpc *mpc);
++	/**
++	* @set_movable_cm_location:
++	*
++	* Set Movable CM Location.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] location
++	* - [in] mpcc_id
++	*
++	* Return:
++	*
++	* void
++	*/
++
+ 	void (*set_movable_cm_location)(struct mpc *mpc, enum mpcc_movable_cm_location location, int mpcc_id);
++	/**
++	* @update_3dlut_fast_load_select:
++	*
++	* Update 3D LUT fast load select.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] mpcc_id
++	* - [in] hubp_idx
++	*
++	* Return:
++	*
++	* void
++	*/
++
+ 	void (*update_3dlut_fast_load_select)(struct mpc *mpc, int mpcc_id, int hubp_idx);
++	/**
++	* @get_3dlut_fast_load_status:
++	*
++	* Get 3D LUT fast load status and reference them with done, soft_underflow and hard_underflow pointers.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] mpcc_id
++	* - [in/out] done
++	* - [in/out] soft_underflow
++	* - [in/out] hard_underflow
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*get_3dlut_fast_load_status)(struct mpc *mpc, int mpcc_id, uint32_t *done, uint32_t *soft_underflow, uint32_t *hard_underflow);
++
++	/**
++	* @populate_lut:
++	*
++	* Populate LUT with given tetrahedral parameters.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] id
++	* - [in] params
++	* - [in] lut_bank_a
++	* - [in] mpcc_id
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*populate_lut)(struct mpc *mpc, const enum MCM_LUT_ID id, const union mcm_lut_params params,
+ 			bool lut_bank_a, int mpcc_id);
++
++	/**
++	* @program_lut_read_write_control:
++	*
++	* Program LUT RW control.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] id
++	* - [in] lut_bank_a
++	* - [in] mpcc_id
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*program_lut_read_write_control)(struct mpc *mpc, const enum MCM_LUT_ID id, bool lut_bank_a, int mpcc_id);
++
++	/**
++	* @program_lut_mode:
++	*
++	* Program LUT mode.
++	*
++	* Parameters:
++	* - [in/out] mpc - MPC context.
++	* - [in] id
++	* - [in] xable
++	* - [in] lut_bank_a
++	* - [in] mpcc_id
++	*
++	* Return:
++	*
++	* void
++	*/
+ 	void (*program_lut_mode)(struct mpc *mpc, const enum MCM_LUT_ID id, const enum MCM_LUT_XABLE xable,
+ 			bool lut_bank_a, int mpcc_id);
+ };
 -- 
-2.45.0.118.g7fe29c98d7-goog
+2.45.0
 
