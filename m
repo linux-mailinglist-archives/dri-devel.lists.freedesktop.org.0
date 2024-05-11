@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C172A8C33C7
-	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 22:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6068C33C8
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 22:45:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6B710E02D;
-	Sat, 11 May 2024 20:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65A0210E139;
+	Sat, 11 May 2024 20:45:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cyIFQzGo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j1VoofTs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B14D110E468;
- Sat, 11 May 2024 19:36:00 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-41b2119da94so19672315e9.0; 
- Sat, 11 May 2024 12:36:00 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CDBF10E1E2;
+ Sat, 11 May 2024 19:56:31 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-a59cc765c29so685752266b.3; 
+ Sat, 11 May 2024 12:56:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715456159; x=1716060959; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1715457389; x=1716062189; darn=lists.freedesktop.org;
  h=cc:to:message-id:content-transfer-encoding:mime-version:subject
  :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rk1GGf5u2kjIs5FRwMwrvHf3FLz3D5a84ZblldMBK6I=;
- b=cyIFQzGoy9OkKRhG3JeDlPPR93Fqi7rJWYheJdTdCAGUoW0jloL48P9hkB31+6aKbT
- 60agSuHPxQvobxr5tHLmNwXUV93KXCBxDgIzLmatcvQeG/gbO6M5/1jeNcZeBfyCYQWt
- F2QZrRJieFwOE0C/+QLudfBBfO1Zd8ZC65W89WqIyfV5NNZBgPsbRgQwtKxURHdg7gTk
- S+ynBpry0LbBLgEYoC/U7NC+GCfU9JvVpmZP56yrJPDUd6ycdb6W+WszCQ4EEWCQZMax
- ZyhEcg/OZ018nLPPknzMBgKGTxyCPHMGS+SrMULFI6GM+ly8Vhj+UvjU13L+mx8ZbeQn
- SWnQ==
+ bh=NGvm3p9bLyz+wL65ct/g8IDZ6ekVX//stBZqTjD+xqQ=;
+ b=j1VoofTs02H5ZHhVK2GEXJPBiFGAJEBmNzmcABfjLW1+TxVTE9f11cFyHx8LPR83Qq
+ jriSnrpdtuUgUUqe/jmDrJO3wtgNFXacLWIyAtTWYdS4g5s3LmgazDgLM5/xfVBgSTZa
+ 3RyDRNLBMbYDj8bi9n+x8/5enMeZMie7YuBxlLZQ8oDrqOqwiKYZbetGvzB4c/hAiidr
+ 01XqocRrp3PYps2R++8vBXODdr1bw14iOCNjwcPiXOWpxDAr9tE+pNKiD3SXsoSAxypq
+ UoI0Pe4e1KfFNptxDTeTdLR5s3BtqQC5HbZico2oC7vlrPvWFR1ZtjXBzcgDnY7beoAh
+ NFAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715456159; x=1716060959;
+ d=1e100.net; s=20230601; t=1715457389; x=1716062189;
  h=cc:to:message-id:content-transfer-encoding:mime-version:subject
  :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rk1GGf5u2kjIs5FRwMwrvHf3FLz3D5a84ZblldMBK6I=;
- b=gjaGdCscsEe6ZMuxtRdTzbO3zDBSVdpx99kBjTUEGvkMHI+dSbEEjWoRc5CT4lLuSK
- tH+H94ilkP1nyPZSqKZdQZ5AVw3h1HNVzn3W2dGvoqiD7kTMu2P1z93XH0oNQEhaKpm0
- 0fk4TEbJGEWlHT9JHkQ/nTnNw5V4XO2xDMhEXXtJvVBxkCtU+WIjn5sGR+8XPvHnUjGf
- 8U855kMjfnT/WHnfyShD/CqOJsDF+v9nkt0Z0+OIoxZ2zstP2U0+sv0JLGqeGT30Nn3g
- Lj8ZrAah7BX3U3rmHOa0ovWORgxalNVt/Ken6f9SvLCpSFa7w/KKkwpbiblEfEy2u2Lv
- NBGQ==
+ bh=NGvm3p9bLyz+wL65ct/g8IDZ6ekVX//stBZqTjD+xqQ=;
+ b=B08xcGHNIKURW/55uhGIMSMF6hgqxeR9I6ixNaoHNRfK1JSYAcSeD/8y5gMYXSY4Io
+ 89XwVrYJIBfRQv95DJ6NIydPYSepkUAX7pcbM6LQeoNzgQ3irb+C9/jKDrF0F48ftQ+d
+ sD/3Ip7mmfY5hMrLeFW2k51hdrsmFirasPMHuyvHCFWyK9swlYHzpxZkpwCgkekff57G
+ UXDJb1k3Mc8UMrFoJksUXMLFlAyuWSmk1MMRcmMDqURLWAjXJUQuO/Vx5m3v6C893iFh
+ J01VNHZP/fHwzyz1NCA8TeUqRh28bsW68q0C2tOu2gTmXouATYq84P8dblq7ExtxVsT/
+ fvbA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUfmAZeDEzozCJwbrKjr2wRz/lgNOHGVPF0P7fkj3NAQY0LJT8mj+2SKO4OiXdYLQrvo68U7LDEww04gVZZ/xqSMGrg45sZt8ocKBmH977uxiTPp9qFFEFM8PS0CmMvzXxuPkJke4/scM03axAhaZlC
-X-Gm-Message-State: AOJu0YzkUaYu4TU3En09Q+rEnq7cukIgeUQ2IwelUImMMj/Bc233FoxI
- zZX7PPh0l6W8UURdk7pwupLprBaShcct4YS3rS4bNvoflvqFMFLCfenQ9ru5
-X-Google-Smtp-Source: AGHT+IHNZr5UOEOlj4LbyMiTffRVh/9Js+pHnWyuPyA8+dZpJwtYVgCLefI1MHZuCCqZvCMlnJBUJQ==
-X-Received: by 2002:a05:600c:4686:b0:419:d5cd:5ba with SMTP id
- 5b1f17b1804b1-41feaa2f45cmr37412975e9.7.1715456158673; 
- Sat, 11 May 2024 12:35:58 -0700 (PDT)
+ AJvYcCVcnfAuNAcjJS7PyHeJv7oWrdiKxBQnrF0+uwhPCdsmPJgozEcyvQiMuNVCcXyo/tUK7DsF1oaLowXVOK9gIpn4NaL9vsYQZnlpnqpW4/q/XAC6RPz9PQGRnMk+TDmytObm9r1Fo6Qlhf4wCGNbFr31
+X-Gm-Message-State: AOJu0Yy8aQdfZjDv2EOZjBuBi37klmbhk2lGgU99lf2g0/sv8emj+rAJ
+ G8x3HUrFHoAttee390ydlRJwcSmr3TN2gZY2ug9m+flPPvhf4bmj
+X-Google-Smtp-Source: AGHT+IF8McTVHedPSuIB5wsij8lnSLuLWg+aOftSh+YKkOPAG0g0Grl8ZL0aSd4tj4HMdc84OnD5Eg==
+X-Received: by 2002:a50:d583:0:b0:56c:5a12:ac53 with SMTP id
+ 4fb4d7f45d1cf-5734d5e5066mr3799708a12.24.1715457389039; 
+ Sat, 11 May 2024 12:56:29 -0700 (PDT)
 Received: from kali.localhost ([5.208.232.15])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-41facbd295fsm125245835e9.36.2024.05.11.12.35.55
+ 4fb4d7f45d1cf-5733becfe87sm3807787a12.53.2024.05.11.12.56.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 May 2024 12:35:58 -0700 (PDT)
+ Sat, 11 May 2024 12:56:28 -0700 (PDT)
 From: Kiarash Hajian <kiarash8112hajian@gmail.com>
-Date: Sat, 11 May 2024 15:35:41 -0400
-Subject: [PATCH] drm/msm/adreno: request memory region
+Date: Sat, 11 May 2024 15:56:21 -0400
+Subject: [PATCH v2] drm/msm/a6xx: request memory region
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240511-msm-adreno-memory-region-v1-1-d73970717d42@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAIzIP2YC/x3MMQqAMAxA0atIZgOmqKhXEYdao2ZoKymIIt7d4
- viH9x9IrMIJhuIB5VOSxJCDygLcbsPGKEtuMJWpq4YIffJoF+UQ0bOPeqPylhGa2c3k+qZrDUH
- mh/Iq178ep/f9AM1XAQFqAAAA
+Message-Id: <20240511-msm-adreno-memory-region-v2-1-9f33f42e7b99@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAGTNP2YC/42NQQ6CMBBFr0Jm7RimghVX3sOwgHYsk9iWtIZoC
+ He3cgKX7+e//1fInIQzXKsVEi+SJYYC6lCBmYbgGMUWBlWrpm6J0GePg00cInr2MX0wsSsSqtG
+ MZLr2clYERZ8TP+S9T9/7wpPkV6nvTwv90j9GF0JCq0+drjVp26ib84M8jyZ66Ldt+wKh85jfw
+ AAAAA==
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -74,11 +75,11 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Kiarash Hajian <kiarash8112hajian@gmail.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1715456155; l=2175;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1715457385; l=2298;
  i=kiarash8112hajian@gmail.com; s=20240409; h=from:subject:message-id;
- bh=OiMNVneXw39Z/+zBoGpu2bdamhnv48eIjRCJNeLqROs=;
- b=5UKYF4UqI69vJ0gbgJ/UKLd1lWu7EAUd4vrov1D/sQ4sogduWXDoZtBc4Xe9+JFyIxEhXz98m
- UO9OpHAI4ZWAUuRZuUFQjs2dSfE+hSH/g2IdcyRFdHq2yswd9yXJjd6
+ bh=k+MAjMj2wjU9VF/M8E+gsqgzopHilvL8N0NCA8TcfwY=;
+ b=8s0VghrWWMpg7z31JDCVg/sR31wkqzyAuwh28K4fosIOnRkovI7Y2k1290HSp/JzJa8vLFzPL
+ LSYW88pVFd2CImMLgi1L7Qo+HLPRU9qcyYCYui7I272Bu+pnYMGSHk2
 X-Developer-Key: i=kiarash8112hajian@gmail.com; a=ed25519;
  pk=ehVBr28gPcA8cMB/wneVh0Mj6WGkqZoyYRdRNi5+aI0=
 X-Mailman-Approved-At: Sat, 11 May 2024 20:45:36 +0000
@@ -105,6 +106,9 @@ Implement the region-request through the corresponding managed
 devres-function.
 
 Signed-off-by: Kiarash Hajian <kiarash8112hajian@gmail.com>
+---
+Changes in v2:
+- update the subject prefix to "drm/msm/a6xx:", to match the majority of other changes to this file.
 ---
  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
