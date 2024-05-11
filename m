@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E863C8C3235
-	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 17:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58FF8C3230
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 17:39:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E67210E1D0;
-	Sat, 11 May 2024 15:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90EDD10E1F5;
+	Sat, 11 May 2024 15:39:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="f3nmc0DO";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="D4yJdfVN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 858 seconds by postgrey-1.36 at gabe;
- Sat, 11 May 2024 15:45:40 UTC
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55B0910E1D0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 15:45:40 +0000 (UTC)
+X-Greylist: delayed 500 seconds by postgrey-1.36 at gabe;
+ Sat, 11 May 2024 15:39:33 UTC
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F88010E1D0
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 15:39:32 +0000 (UTC)
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44BFUu7V123386;
- Sat, 11 May 2024 10:30:56 -0500
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44BFUvP3024724;
+ Sat, 11 May 2024 10:30:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1715441456;
- bh=JVCLeYkjk+2KS5dCU/Zbfc6/YUsDSBMlJ8VlBcQesC0=;
+ s=ti-com-17Q1; t=1715441457;
+ bh=x/pvU5rR0a3PNbNa2MowlDacRschbmWjyicuIb3k5Qc=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=f3nmc0DOghCfOp0p27C5xx2bPHIyFs7SgOaVH8JlLDu8NiFoIuNk/zV7jnWuqH4WS
- sO5Q7z6GUHV+BjPLlm4k8161Te75QRdBPS46rVhucbX3MCgoBqftoJvkngZmkX7BiD
- AdA4vb4SLE2kL1G1ieAFWJzTH8b+9DuJWh2KTfGU=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44BFUuO4033001
+ b=D4yJdfVNoOsDAST3X8/k681dqr6pl4zCwa663i28WiPgjS8YjKANqeaqmguc0LhXG
+ jzm+zJWUEHGTPT+l652HyrRI9Cyx5MmpEHOFxekTG3NSNBjZDURKbBhblrv+daf3//
+ V7/+1FATVrF6tce7oBuRqSLhleolHaM/6BGK2jL4=
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44BFUvYj033016
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 11 May 2024 10:30:56 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ Sat, 11 May 2024 10:30:57 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 11
- May 2024 10:30:55 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 10:30:57 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 11 May 2024 10:30:55 -0500
+ Frontend Transport; Sat, 11 May 2024 10:30:57 -0500
 Received: from localhost (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44BFUtpU043186;
- Sat, 11 May 2024 10:30:55 -0500
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44BFUut8043225;
+ Sat, 11 May 2024 10:30:57 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda
  <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
@@ -62,9 +62,10 @@ CC: DRI Development List <dri-devel@lists.freedesktop.org>, Linux Kernel List
  Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary
  <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>, Aradhya Bhatia
  <a-bhatia1@ti.com>
-Subject: [PATCH 2/7] drm/bridge: cdns-dsi: Fix minor bugs
-Date: Sat, 11 May 2024 21:00:46 +0530
-Message-ID: <20240511153051.1355825-3-a-bhatia1@ti.com>
+Subject: [PATCH 3/7] drm/bridge: cdns-dsi: Wait for Clk and Data Lanes to be
+ ready
+Date: Sat, 11 May 2024 21:00:47 +0530
+Message-ID: <20240511153051.1355825-4-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240511153051.1355825-1-a-bhatia1@ti.com>
 References: <20240511153051.1355825-1-a-bhatia1@ti.com>
@@ -87,69 +88,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the Phy initialized state to "not initialized" when the driver
-(and the hardware by extension) gets suspended. This will allow the Phy
-to get initialized again after resume.
+Once the DSI Link and DSI Phy are initialized, the code needs to wait
+for Clk and Data Lanes to be ready, before continuing configuration.
+This is in accordance with the DSI Start-up procedure, found in the
+Technical Reference Manual of Texas Instrument's J721E SoC[0] which
+houses this DSI TX controller.
 
-Fix the OF node that gets passed to find the next available bridge in
-the display pipeline.
+If the previous bridge (or crtc/encoder) are configured pre-maturely,
+the input signal FIFO gets corrupt. This introduces a color-shift on the
+display.
 
-Fix the order of DSI Link and DSI Phy inits. The link init needs to
-happen before the Phy is initialized, so the Phy can lock on the
-incoming PLL reference clock. If this doesn't happen, the Phy cannot
-lock (until DSI Link is init later on). This causes a warning dump
-during the kernel boot.
-
-Allow the D-Phy config checks to use mode->clock instead of
-mode->crtc_clock during mode_valid checks, like everywhere else in the
-driver.
+Allow the driver to wait for the clk and data lanes to get ready during
+DSI enable.
 
 Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 7457d38622b0..557b037bbc67 100644
+index 557b037bbc67..05d2f4cc50da 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -574,7 +574,7 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
- 	if (ret)
- 		return ret;
+@@ -761,7 +761,7 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
+ 	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
+ 	unsigned long tx_byte_period;
+ 	struct cdns_dsi_cfg dsi_cfg;
+-	u32 tmp, reg_wakeup, div;
++	u32 tmp, reg_wakeup, div, status;
+ 	int nlanes;
  
--	phy_mipi_dphy_get_default_config(mode->crtc_clock * 1000,
-+	phy_mipi_dphy_get_default_config((mode_valid_check ? mode->clock : mode->crtc_clock) * 1000,
- 					 mipi_dsi_pixel_format_to_bpp(output->dev->format),
- 					 nlanes, phy_cfg);
- 
-@@ -775,8 +775,8 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
- 
- 	WARN_ON_ONCE(cdns_dsi_check_conf(dsi, mode, &dsi_cfg, false));
- 
--	cdns_dsi_hs_init(dsi);
+ 	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
+@@ -778,6 +778,17 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
  	cdns_dsi_init_link(dsi);
-+	cdns_dsi_hs_init(dsi);
+ 	cdns_dsi_hs_init(dsi);
  
++	/*
++	 * Now that the DSI Link and DSI Phy are initialized,
++	 * wait for the CLK and Data Lanes to be ready.
++	 */
++	tmp = CLK_LANE_RDY;
++	for (int i = 0; i < nlanes; i++)
++		tmp |= DATA_LANE_RDY(i);
++
++	WARN_ON_ONCE(readl_poll_timeout(dsi->regs + MCTL_MAIN_STS, status,
++					status & tmp, 100, 0));
++
  	writel(HBP_LEN(dsi_cfg.hbp) | HSA_LEN(dsi_cfg.hsa),
  	       dsi->regs + VID_HSIZE1);
-@@ -952,7 +952,7 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
- 		bridge = drm_panel_bridge_add_typed(panel,
- 						    DRM_MODE_CONNECTOR_DSI);
- 	} else {
--		bridge = of_drm_find_bridge(dev->dev.of_node);
-+		bridge = of_drm_find_bridge(np);
- 		if (!bridge)
- 			bridge = ERR_PTR(-EINVAL);
- 	}
-@@ -1153,6 +1153,7 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
- 	clk_disable_unprepare(dsi->dsi_p_clk);
- 	reset_control_assert(dsi->dsi_p_rst);
- 	dsi->link_initialized = false;
-+	dsi->phy_initialized = false;
- 	return 0;
- }
- 
+ 	writel(HFP_LEN(dsi_cfg.hfp) | HACT_LEN(dsi_cfg.hact),
 -- 
 2.34.1
 
