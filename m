@@ -2,86 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C478C347B
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 00:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691038C349F
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 01:00:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 399C410E084;
-	Sat, 11 May 2024 22:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A4CF10E045;
+	Sat, 11 May 2024 23:00:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zUL5jI1h";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RVMZ00Gh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA0410E045
- for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 22:32:49 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-2df848f9325so39282521fa.1
- for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 15:32:49 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF62F10E045
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 23:00:28 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-51f0f6b613dso3703514e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 16:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715466767; x=1716071567; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ayQkPZ/+Ja6xRaXyLxW87mdfZ/SJLfKA5C9uQsxLStw=;
- b=zUL5jI1hBda/iD2u10afFVeCI3nWlqtBTWZo2SXRULVrwfW2vJZTQZ9kSFig8wNnUE
- mLnNLst1S7svdTq38uSKVNn9c/nv7PSxPQHa4UcNqdpjHIdvUpHbW8fW/7hd2jQX3nji
- cGHp06JB9RAEne2HeTc3gRSLPZUpw1RGzRjtBLXA0OiGtNnomqy8Xt6J9jhaR7s+DH+W
- X7sB9Dm4sIeFacR7MFj8r3dsfVEq/IhsIsd6WNrzSWZ5GuYigPLunKC3m/gwRjjeQiv0
- tlZBoeWxg5przpv/kFbXeYGvz9lPytW0AU1Y+eCW9b6NOMNSdpRcYH8/XE5XOJLdHc3e
- IUaw==
+ d=linaro.org; s=google; t=1715468426; x=1716073226; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=w1crgjrJgHOKBr+imw+Nt/0ShicbgCAQX722QtzGop8=;
+ b=RVMZ00GhlR38LcPFU355KMQ5k4c/OTHGR2xHul/ISGatQQH/zAbOYY0Dyy1CGI3ee3
+ zufTu+M9DmxGkTJwQLg+Pjc8glzLeSM6A+c6cvGFFA3RpvxFtSRCmLGs2MVbDxz1N48G
+ gSbEPI4aocq06DmGKL85Nkf2au4fu+JFEP/US4qn9+ITwYgDaP2Kr72K1BOgmdY5fnYa
+ bhqeDphXQTFOJ+1fOdIU0uVfM3QpThPMfDnL3+pgg2ku7ZVT5ZQHCcw9gup8scJk9jjt
+ eT35mKIvdyUMvoQJkUz825YRONmr8amEH3Lgsw5Ajb6q7XWinGcmIUnywgRSESRhme1m
+ jKKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715466767; x=1716071567;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1715468426; x=1716073226;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ayQkPZ/+Ja6xRaXyLxW87mdfZ/SJLfKA5C9uQsxLStw=;
- b=dE6DX0QgX4h1J9bPXTLD2/uXgitYphwbvoy94+RUieMdmtK1vwrEwIbbcqw8G1EBWx
- jCPxc4YmE70dIRLdO5kvx7K7Y4yHowLBgUJYbUcsTx5HSeEFh4SE1nBcQ9WhfjRYCaDe
- bl3LTqkYN2jKwj4wysuYoaaKnc5YL5vMCVxhCXf1YhQDLkAqAVBprkZuyCzX4/nwNcMx
- +rjGY8imSgl3LWpAXNev5fay9v5PIc7yGxqF45HkHn3coSI4agnbwezGhzYoaEbQVu0S
- ckMOmDyBUVDMaMZZ3z3t1B7nKKcKlw/991pHUesoc4fX++dlLl7lmvsWS/xN+1Vp1T9p
- 6Hdg==
+ bh=w1crgjrJgHOKBr+imw+Nt/0ShicbgCAQX722QtzGop8=;
+ b=k/MLkmtTqbhRbEz0JTOcOJ/2uk1xaMC5dD7pi9anA2J/9eLTqaYrA3waF5bu7W9/yl
+ ZxlKbOkfH4K0VwUgaacSDSe5Z7OqP+Ts7Kr0UrQfOv7iqbDCWqqfUr3A7M2JirZQfCIp
+ 43j7If0sjcOpeDFIrWpKI+9f4ENb9j7fx/lMNR5SQZ7xx4uNUoUmciBTeR+a58DBD0ZG
+ Qq790enhfVXmqQxZccE72R10NIMdwZddVPjGePvWlhdoZUNc85Aw5fgnOBSDGNpYNbcx
+ jsYMqMA0c1cqZDmsVv91UWfyZd0HbW5z5T8GPUz8ykVx3TcdV9xugyUN12yzwXiEuP5Q
+ cT2g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVoiTSN2vY4tiQUFqPZ5ZPHjIRjjZ/F+/38JtmQGZLwWR/ITNKP6hE+a4fpM0Hpw74AVu0wLftE1tRp8wv1Z2Iy43uJ1UHiFToErnsnFhvl
-X-Gm-Message-State: AOJu0YwaGhqETv+6gBhxDUiZScUkcgTCY/DpYwmY1uWpD+wT6qkg0NIY
- s/Lr+kDCPAP1r/xoi/JfOmxhUUmVX1HoCMg7nY9qG9442Cgkn2KYvq5Hui81O5c=
-X-Google-Smtp-Source: AGHT+IHIZPF1F7rpdmiB8zVjvs9j63L4ySis6WkHrE1pCnC9pnyXQKMMTw9kUd9VUQgA/K9/tkLJUQ==
-X-Received: by 2002:a05:6512:785:b0:51e:11d5:bca3 with SMTP id
- 2adb3069b0e04-5221006e61amr3469492e87.18.1715466766866; 
- Sat, 11 May 2024 15:32:46 -0700 (PDT)
+ AJvYcCWR9oZoPPyqJpwvTCTOgDOrb5+cyfTcNqaFEXuoYtefuMN88ODyhroV2FM4QKxrjzyWOvgOnQq75mmtPkRq+b/dGIhc41sXkrJksRuw7RFf
+X-Gm-Message-State: AOJu0Yy7WX0WzLJv1ljqOk95qylXIhFd0rMFO83awByH7lT3SYAm1I4c
+ L4ACTcXQb/+5LjEOFcFvrM/Lx1DxIu4KjvIPuwrLjFH8T7R5bF/KIjYI3c5V3gI=
+X-Google-Smtp-Source: AGHT+IHOGC+XRG2Kq/VfByDdZEWx08N/OcEscIp/vQc/nukNXhNojPs9d+F3zg4lu3WjZRcCkjlBRg==
+X-Received: by 2002:ac2:55a4:0:b0:521:533d:6367 with SMTP id
+ 2adb3069b0e04-5221027bad5mr3264708e87.63.1715468426639; 
+ Sat, 11 May 2024 16:00:26 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f35ba81fsm1127956e87.100.2024.05.11.15.32.45
+ 2adb3069b0e04-521f38d3717sm1134222e87.173.2024.05.11.16.00.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 May 2024 15:32:45 -0700 (PDT)
+ Sat, 11 May 2024 16:00:26 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 12 May 2024 01:32:45 +0300
-Subject: [PATCH v2] docs: document python version used for compilation
+Subject: [PATCH v2 0/7] drm/mipi-dsi: simplify MIPI DSI init/cleanup even more
+Date: Sun, 12 May 2024 02:00:17 +0300
+Message-Id: <20240512-dsi-panels-upd-api-v2-0-e31ca14d102e@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240512-python-version-v2-1-382870a1fa1d@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAAzyP2YC/3WMQQ7CIBBFr9LMWgygqHXlPUwX0wLtJAaaoSE2D
- XeXdu/y/fz3NkiOySV4Nhuwy5Qohgr61MAwYRidIFsZtNRXaWQr5nWZYhDZ8X4V+OhvA2qljfd
- QpZmdp+8RfHeVJ0pL5PXoZ7Wvf1NZCSXwbi1esDW98a8PBeR4jjxCV0r5AfO3uyWtAAAA
-To: Jonathan Corbet <corbet@lwn.net>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>
+X-B4-Tracking: v=1; b=H4sIAIH4P2YC/32NQQrCMBBFr1Jm7cgkVlpdeQ/pIk3GdqAkIdGil
+ Nzd2AO4fA/++xtkTsIZrs0GiVfJEnwFfWjAzsZPjOIqgybd0lkRuiwYjecl4ys6NFGw7S7GjXo
+ kJgV1GBM/5L1H70PlWfIzpM/+saqf/ZtbFRKeVGe73pCztr8t4k0Kx5AmGEopX6G9Al21AAAA
+To: Douglas Anderson <dianders@chromium.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Caleb Connolly <caleb.connolly@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Vinod Koul <vkoul@kernel.org>
+Cc: Cong Yang <yangcong5@huaqin.corp-partner.google.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2264;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2256;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=9+jNicSIoeudc+F3EPpKSthDjra2W3jAMeqKdhOWTK4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmP/IN6moNPSkS5RdVGvLI1pvK47IdjjvwevOEi
- H2N8KH5JNiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZj/yDQAKCRCLPIo+Aiko
- 1b7/B/90NPkOoZ8qSWRYxnXABQCgT9LTVkXhfbbO7/Pc+dOo3/3TONJGInxKeUn490eaRHwHeuz
- 9vE/piFYctiN3nBqMCPgU1wdwSXkpXG7aO9uzxVYZFda4T5iH2sg9LNMPG9vd66Y4MPRE5UShNJ
- jIpW2um9X15VUVS0GLR7oExe3jVHOeBe/vsDVyejvXnNd3Y5oHdKUkjX9DqJzfDulLMqZU1Lm5A
- Kf5du4NmIlp3XZvESVP9Xu0jkrLiVubjYMnd1ZmlmcuriIwkRqRtGpkSMcvPn/76OfkfYf6gqV1
- cCpzDfuZXB8BAxj27gFWTe6ZxmgVGDu7p0QYa2hoioSCMCOB
+ bh=GhJMJKGVASCLWmDBvP3xUjiHWJu10Z7FtTbPQeRjNs4=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmP/iIfiL837D5WZQ2bWaZtrjxYgMPZDItB4OxM
+ ojSbdARTaaJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZj/4iAAKCRCLPIo+Aiko
+ 1fdiB/9+QLRt7ECfH3CzlQmvUmSg5waLTJLqtQvSjUmr71DqTi+fKsZbgXnf33KmfC2IABElpwm
+ Nj0WJzND7JoeSolP8g+ww3fpHOj+xHWIQNgOkrB3WSEKxwuTtkA8p0gvNbqquU84NNnMcjqDTGk
+ oq+kQ7GAK5TQn1Zlc4/P/n5TeJVsY4GUGysPLZ2KNXJdcw4TzxBB2hwYFL99SASG6i84ZaGtgsp
+ Q1VFderVjXIFu4ubx8f2ODnvN2GA11XXXbWgloZ9/mdsr9AdNAbOT0P6q8Po6Tx6Mc8HC4OfX1E
+ WYTgEnI+ndySL2JorOGx7F94j1j+WOxttx193ePxlQCf4D6r
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,57 +105,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm/msm driver had adopted using Python3 script to generate register
-header files instead of shipping pre-generated header files. Document
-the minimal Python version supported by the script. Per request by Jon
-Hunter, the script is required to be compatible with Python 3.5.
+Follow the example of mipi_dsi_generic_write_multi(),
+mipi_dsi_dcs_write_buffer_multi(), mipi_dsi_generic_write_seq_multi()
+and mipi_dsi_dcs_write_seq_multi(). Define _multi variants for several
+other common MIPI DSI functions and use these functions in the panel
+code.
 
-Python is documented as an optional dependency, as it is required only
-in a limited set of kernel configurations (following the example of
-other optional dependencies).
+This series also includes a fix for the LG SW43408. If the proposed
+approach is declined, the fix will be submitted separately.
 
-Cc: Jon Hunter <jonathanh@nvidia.com>
+Depends:
+- https://lore.kernel.org/dri-devel/20240508205222.2251854-1-dianders@chromium.org/
+- https://lore.kernel.org/dri-devel/20240511021326.288728-1-yangcong5@huaqin.corp-partner.google.com/
+
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Depends: https://lore.kernel.org/dri-devel/20240507230440.3384949-1-quic_abhinavk@quicinc.com/
----
 Changes in v2:
-- Expanded documentation for the Python usage.
-- Link to v1: https://lore.kernel.org/r/20240509-python-version-v1-1-a7dda3a95b5f@linaro.org
----
- Documentation/process/changes.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 5685d7bfe4d0..30f17e3f954f 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -63,6 +63,7 @@ cpio                   any              cpio --version
- GNU tar                1.28             tar --version
- gtags (optional)       6.6.5            gtags --version
- mkimage (optional)     2017.01          mkimage --version
-+Python (optional)      3.5.x            python3 --version
- ====================== ===============  ========================================
- 
- .. [#f1] Sphinx is needed only to build the Kernel documentation
-@@ -198,6 +199,13 @@ platforms. The tool is available via the ``u-boot-tools`` package or can be
- built from the U-Boot source code. See the instructions at
- https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
- 
-+Python
-+------
-+
-+Python is required to generate register headers for the drm/msm driver or to
-+build the linker script if the kernel is built using Clang compiler if LTO
-+(Link Time Optimisation) is enabled.
-+
- System utilities
- ****************
- 
+- Rebased on top of Cong's series
+- Fixed mipi_dsi_compression_mode_ext_multi() docs (Doug)
+- Added do/while(0) wrapping to mipi_dsi_msleep() macro (Doug)
+- Inlined boe_panel_enter_sleep_mode(), ili9882t_enter_sleep_mode()
+  (Doug)
+- Dropped error prints around nt36672e_on() and nt36672e_off() (Doug)
+- Link to v1: https://lore.kernel.org/r/20240510-dsi-panels-upd-api-v1-0-317c78a0dcc8@linaro.org
 
 ---
-base-commit: e8bd80985f8ed4c04e36209228163fcf06496763
-change-id: 20240509-python-version-a8b6ca2125ff
+Dmitry Baryshkov (7):
+      drm/panel: lg-sw43408: add missing error handling
+      drm/mipi-dsi: wrap more functions for streamline handling
+      drm/panel: boe-tv101wum-nl6: use wrapped MIPI DCS functions
+      drm/panel: ilitek-ili9882t: use wrapped MIPI DCS functions
+      drm/panel: innolux-p079zca: use mipi_dsi_dcs_nop_multi()
+      drm/panel: novatek-nt36672e: use wrapped MIPI DCS functions
+      drm/panel: lg-sw43408: use new streamlined MIPI DSI API
+
+ drivers/gpu/drm/drm_mipi_dsi.c                 | 210 +++++++++
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c |  81 +---
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c  |  48 +-
+ drivers/gpu/drm/panel/panel-innolux-p079zca.c  |   9 +-
+ drivers/gpu/drm/panel/panel-lg-sw43408.c       |  74 +--
+ drivers/gpu/drm/panel/panel-novatek-nt36672e.c | 597 ++++++++++++-------------
+ include/drm/drm_mipi_dsi.h                     |  21 +
+ 7 files changed, 583 insertions(+), 457 deletions(-)
+---
+base-commit: 7dd7a948b03724e4c63271bd96830059bc62a1ef
+change-id: 20240510-dsi-panels-upd-api-479adb2b0e01
 
 Best regards,
 -- 
