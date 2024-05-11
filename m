@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077218C34A5
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 01:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D41278C34A7
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 01:00:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A912310E12D;
-	Sat, 11 May 2024 23:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61BAE10E19E;
+	Sat, 11 May 2024 23:00:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Vc87N9F+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NXhSm97W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB8B010E0A3
- for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 23:00:30 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-51f40b5e059so3530611e87.0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 16:00:30 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94B5710E0A3
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 23:00:31 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2e43c481b53so38810521fa.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 16:00:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1715468429; x=1716073229; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Hu0NGC1822F78E4qEEGMD+epvzx8Hq6ZdfvN33IsmMQ=;
- b=Vc87N9F+7tvD/RAcoAI1MRMgV7rtPjk5Bt8uPHAzFpL8XqtNAZE/8R/LPZx7OIRpHQ
- USSmvE1PIzY/eA0qePT7jPpqmIMo9L+V72l196cvwL/grbt9Yyo0Diy5ErLP9AY4w80m
- VXNR4aR1pOrtGfutTKhpo/ysvQg7fxYLpYz6lKUrCl0BoLgBCG5IWPJNahHnB4m1b07n
- VXL4GGDqjzVj5k7xA7sJtaX3ZXvhxmD4PLIOTGsAAewH/I4gqA2TuaTo895pjXbAr1id
- pHRtb1DjHyGMa9EMjKb0RF+j/J+QgbiL40JlawblsK2hrchvh7QT6xPA39+KOjcBddGG
- cQ5A==
+ :reply-to; bh=/qHpoqYTUuOwsjGMAXRWRB1z/cT96H3/x5oO5XeWouE=;
+ b=NXhSm97WZtjsXhkR6S696odQtHLaoCLbVsq6PD2SPfa2Y0n4ZT5q10ZEzGs8MoThzH
+ Sxqml+LokEDaVsjLFUhaw8z75SSUhFctr/MexocU7LhFwOrToOSWAjrN2fxyWCyO5Qu0
+ v62oeslOCgQl0+Kj4p2SaOvr6XDqWfr/CDZTvsYCOIu7p+uflovNwMhge/WgVe0jLiA2
+ T8rlAaahWG6LMUCAw2pKqIqSLqe4rpu8ubXIKJlzVPK3z3AQwkGzn47lL8jkHoeOvTg6
+ 6GJ0KTYZzWiWaYxHPGZpoH41H8XBuxMitcPD8uD1VZAsapBQM9LOox9IkoFma5nvvmY0
+ CBaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1715468429; x=1716073229;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Hu0NGC1822F78E4qEEGMD+epvzx8Hq6ZdfvN33IsmMQ=;
- b=om4IHMFpqsvxjFwFXm0e3h/Im42VvvInwPTlOT94GQNwy/eVpqBEp4O7srbsuqEICI
- E7YRvQ0/AUsTLVgusI1MlcmEDUqtruuAmkXcqehrtqvSBeAc6IaT6WGFG1LCJA53X6oH
- 4XSe1Mfzik2TGDEtzgsQ5tXeg0y4N7QxUL1BJV5O2rBnt3K8QQa/BItFK6ibEs0QFjUB
- N9l8Kj9p7muV0GAii/+atBh/yyBD/27dEfUwRtdtab3Ga2iEhZkNrIEZg3Pmjnj/o7Sk
- Vh2TxwWSvFxyP0UooMDaS60ylaQ2galeIQ1Ckcsg/TnpCMSz/PfIISIiFdpRZNaovlTw
- Ti6g==
+ bh=/qHpoqYTUuOwsjGMAXRWRB1z/cT96H3/x5oO5XeWouE=;
+ b=Q7BkbSii7GsTl3GU8HMgY7Yu4owm0DJOic4jWcz21kHkKD2EAJkMqVXPnbCDVFQnMg
+ venluXZ8iWa5nkf3qkyDFuxwMy6LAf7M4CljRbHg334TUB0D4IJm8Xtt7G4eCBgjIs2S
+ EYfosY5rUx6TZjFXjSabspBTIvV0X016Ji/qaeNEuJ18MgkJ9aZ7kOBSFIftf4ODQZ6Z
+ mpYdMaP5YE4HSvqQvjuQXUpUF0SzN/OvNrDShOdifnsPiTOljG4WcsEshA6nbzzEqvqB
+ iQLLE2AYimQkwEdIoocd7hhvZEqjd0Xhyi4sSg9OtNOkvzdNzg1BhRc9emT1+qUXx3I7
+ 2MmQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUPXjE1NrEB/PD5LpdzMD1lU2/nQ53H2bha+cIJbwrmCBluYegYCFdMZQ6LkqXAQiYpfbRolgc0wAYXUBh56aXFSZNTi8p9pVYKHFibPdrd
-X-Gm-Message-State: AOJu0YwZC5N7HcYOQc658MThHebB4ZRHeAxOe9U3mtJzNMpSyT3ma+zu
- gl4KqbntKJYN1YUQodM1XRS0R6mkZFrW1WMeGskxHZJpSMYa5dB7h4TgH4b7ooM=
-X-Google-Smtp-Source: AGHT+IFr3JJ2vBf6ZQy+IfFzBDbsVRhgW4zc3ltkOgtdnJYsgPSuJLiHSVasG/nFGY1o3ezKQcVUvQ==
-X-Received: by 2002:ac2:4437:0:b0:519:2d60:d71b with SMTP id
- 2adb3069b0e04-5220fb748e2mr3750214e87.22.1715468428990; 
- Sat, 11 May 2024 16:00:28 -0700 (PDT)
+ AJvYcCWwSjK02lKqWodkHH2mvBSxWLQk8zbF81AXzZQ9WE7KGAf0M8uN7nZVadowI21sy+tlaAJOIRe33jSrI7171yilO2y65EtOb8lU7bbwFrJ6
+X-Gm-Message-State: AOJu0YwxKZjZgfccB+zw4SpbqDVOcM19RJWOddhdx54S/7YmV6xlr66S
+ Cc/HgO3wfjO4/dKHlW4XQP8BdJyk3+wYMHv0gKO+RK3VHoD5TwvErJCGLccm510=
+X-Google-Smtp-Source: AGHT+IE59BTbplb1hjthCMm6iJl5mfrsnrvXEpw54uV1KjAjRpehYXJtF5g8OLkmTkJPEP9brZ7nKA==
+X-Received: by 2002:ac2:454b:0:b0:51d:8283:cf72 with SMTP id
+ 2adb3069b0e04-5221017e670mr3705647e87.57.1715468429712; 
+ Sat, 11 May 2024 16:00:29 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f38d3717sm1134222e87.173.2024.05.11.16.00.28
+ 2adb3069b0e04-521f38d3717sm1134222e87.173.2024.05.11.16.00.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 May 2024 16:00:28 -0700 (PDT)
+ Sat, 11 May 2024 16:00:29 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 12 May 2024 02:00:20 +0300
-Subject: [PATCH v2 3/7] drm/panel: boe-tv101wum-nl6: use wrapped MIPI DCS
+Date: Sun, 12 May 2024 02:00:21 +0300
+Subject: [PATCH v2 4/7] drm/panel: ilitek-ili9882t: use wrapped MIPI DCS
  functions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240512-dsi-panels-upd-api-v2-3-e31ca14d102e@linaro.org>
+Message-Id: <20240512-dsi-panels-upd-api-v2-4-e31ca14d102e@linaro.org>
 References: <20240512-dsi-panels-upd-api-v2-0-e31ca14d102e@linaro.org>
 In-Reply-To: <20240512-dsi-panels-upd-api-v2-0-e31ca14d102e@linaro.org>
 To: Douglas Anderson <dianders@chromium.org>, 
@@ -78,16 +78,16 @@ Cc: Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4693;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2547;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Nb2j0chWOl3K4obprfCylvl2x756Dew7S8N3+vA9f8A=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmP/iJPUx6S2iov6pW2UiDrNkON3xTRY9bGzjD5
- M6NaOHeuR6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZj/4iQAKCRCLPIo+Aiko
- 1eFkB/9JXBh7kAEoKU1ZGODiXQ9dFDltFasZEZd5OcbnNrPxpevLyXu0CWhZj2Bn6+lGaZ/TfUR
- Psn26XBaBBlqancXr61dMYJfulvUJkDEqsWiAg0/KHwm82Z7aWBd5y7I52BR00EI5g/CMYIuTDP
- o628o7vV2AmVFLEAXfuoisFcYBbeAXsbhIf0SpvmwmMo3ovCgtkm1LbuVhz1uEcfNkeQyaXgzro
- AXUmpdFU72BV6AkBvd3T+g4gyTJjiEfNCxt7jV4A+2VG+E/Ug+WcPe63OOJyurrC2x6V7Gbpw2M
- LPoIuKd5xUrtL1U/xgk6pNCXKJN/r1iyGExMS2bjIZZ2NyOw
+ bh=DOHrqeOiwanjV11JDXphoCFUegn+i/jlXSehEJEsJf0=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmP/iJCMI0EmGQFpfABnhOIgzvW0Z2hfEur/bwd
+ ugzH9cTMtOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZj/4iQAKCRCLPIo+Aiko
+ 1dm6B/9UyHT0uKo3SGYHl3YEsREl/QK/u8yxWXXZGGKUeL6QEasG5JyllkZFtnO+imD5Ymx3bp0
+ qDxkn2q9eZXR15gVxhb6zBJo2I7vwAcY8iANJFj8e2Pb33sUuH7xK7WaAsC4fHTQ8TrCB0foybd
+ AXinWoceTGIIzNIAG2YcxkdD7c9LCgNsXa1L60Id9fx6sO2rzZTs2EypVKAM7Jl7cTx0vuOSHp0
+ sdupSoLMb0KAfvMc6kykz1/IsflTSETD0/ajwNsvk4jceIGjbYFsMWrve54LRZBczwLnqUm9Q+q
+ EzQ+nDtBl+of7NvZPFyDPxftwjiqewsCCf20OlCe6uhIxVou
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,134 +111,45 @@ simplify driver's init/exit code.
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 81 ++++++--------------------
- 1 file changed, 19 insertions(+), 62 deletions(-)
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 48 ++++++---------------------
+ 1 file changed, 11 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 4b4b125a6c6b..8e839a1749e4 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -448,22 +448,16 @@ static int boe_tv110c9m_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x55, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xbb, 0x13);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3b, 0x03, 0x96, 0x1a, 0x04, 0x04);
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+index 58fc1d799371..830d7cfbe857 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+@@ -402,19 +402,15 @@ static int starry_ili9882t_init(struct ili9882t *ili)
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x92, 0x22);
+ 
+ 	ili9882t_switch_page(&ctx, 0x00);
+-	mipi_dsi_dcs_write_seq_multi(&ctx, MIPI_DCS_EXIT_SLEEP_MODE);
 -	if (ctx.accum_err)
 -		return ctx.accum_err;
- 
--	msleep(100);
-+	mipi_dsi_msleep(&ctx, 100);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(200);
-+	mipi_dsi_msleep(&ctx, 200);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(100);
-+	mipi_dsi_msleep(&ctx, 100);
- 
- 	return 0;
- };
-@@ -893,22 +887,16 @@ static int inx_hj110iz_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x01);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x35, 0x00);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3b, 0x03, 0xae, 0x1a, 0x04, 0x04);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(100);
-+	mipi_dsi_msleep(&ctx, 100);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(200);
-+	mipi_dsi_msleep(&ctx, 200);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(100);
-+	mipi_dsi_msleep(&ctx, 100);
- 
- 	return 0;
- };
-@@ -1207,10 +1195,8 @@ static int boe_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb3, 0x08);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x04);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb8, 0x68);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(150);
-+	mipi_dsi_msleep(&ctx, 150);
- 
- 	return 0;
- };
-@@ -1222,16 +1208,12 @@ static int auo_kd101n80_45na_init(struct boe_panel *boe)
- 	msleep(24);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
--	if (ctx.accum_err)
--		return ctx.accum_err;
++	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
  
 -	msleep(120);
 +	mipi_dsi_msleep(&ctx, 120);
  
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
+-	mipi_dsi_dcs_write_seq_multi(&ctx, MIPI_DCS_SET_DISPLAY_ON);
 -	if (ctx.accum_err)
 -		return ctx.accum_err;
++	mipi_dsi_dcs_set_display_on_multi(&ctx);
  
--	msleep(120);
-+	mipi_dsi_msleep(&ctx, 120);
+-	msleep(20);
++	mipi_dsi_msleep(&ctx, 20);
  
- 	return 0;
+-	return 0;
++	return ctx.accum_err;
  };
-@@ -1283,10 +1265,8 @@ static int auo_b101uan08_3_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe5, 0x4f);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe6, 0x41);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe7, 0x41);
--	if (ctx.accum_err)
--		return ctx.accum_err;
  
--	msleep(150);
-+	mipi_dsi_msleep(&ctx, 150);
- 
- 	return 0;
- };
-@@ -1385,16 +1365,12 @@ static int starry_qfh032011_53g_init(struct boe_panel *boe)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe1, 0x23);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xe2, 0x07);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0X11);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(120);
-+	mipi_dsi_msleep(&ctx, 120);
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29);
--	if (ctx.accum_err)
--		return ctx.accum_err;
- 
--	msleep(80);
-+	mipi_dsi_msleep(&ctx, 80);
- 
- 	return 0;
- };
-@@ -1404,38 +1380,19 @@ static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
- 	return container_of(panel, struct boe_panel, base);
+ static inline struct ili9882t *to_ili9882t(struct drm_panel *panel)
+@@ -422,43 +418,21 @@ static inline struct ili9882t *to_ili9882t(struct drm_panel *panel)
+ 	return container_of(panel, struct ili9882t, base);
  }
  
--static int boe_panel_enter_sleep_mode(struct boe_panel *boe)
+-static int ili9882t_enter_sleep_mode(struct ili9882t *ili)
 -{
--	struct mipi_dsi_device *dsi = boe->dsi;
+-	struct mipi_dsi_device *dsi = ili->dsi;
 -	int ret;
 -
 -	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
@@ -254,18 +165,22 @@ index 4b4b125a6c6b..8e839a1749e4 100644
 -	return 0;
 -}
 -
- static int boe_panel_disable(struct drm_panel *panel)
+ static int ili9882t_disable(struct drm_panel *panel)
  {
- 	struct boe_panel *boe = to_boe_panel(panel);
+ 	struct ili9882t *ili = to_ili9882t(panel);
+ 	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
 -	int ret;
-+	struct mipi_dsi_multi_context ctx = { .dsi = boe->dsi };
  
--	ret = boe_panel_enter_sleep_mode(boe);
+ 	ili9882t_switch_page(&ctx, 0x00);
+-	if (ctx.accum_err)
+-		return ctx.accum_err;
+ 
+-	ret = ili9882t_enter_sleep_mode(ili);
 -	if (ret < 0) {
 -		dev_err(panel->dev, "failed to set panel off: %d\n", ret);
 -		return ret;
 -	}
-+	boe->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++	ili->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
  
 -	msleep(150);
 +	mipi_dsi_dcs_set_display_off_multi(&ctx);
@@ -277,7 +192,7 @@ index 4b4b125a6c6b..8e839a1749e4 100644
 +	return ctx.accum_err;
  }
  
- static int boe_panel_unprepare(struct drm_panel *panel)
+ static int ili9882t_unprepare(struct drm_panel *panel)
 
 -- 
 2.39.2
