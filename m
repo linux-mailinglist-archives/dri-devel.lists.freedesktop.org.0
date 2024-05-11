@@ -2,46 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F198C314E
-	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 14:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE01A8C3163
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 14:57:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D044F10E00D;
-	Sat, 11 May 2024 12:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C347B10E02F;
+	Sat, 11 May 2024 12:57:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Rnl2UFX/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f4dZTZ4N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30F6C10E00D
- for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 12:42:56 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1715431374;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=5Mlk8jFKvoypD9IZYpI3BVSdxetHEe1rriO0cIJzkmo=;
- b=Rnl2UFX/CCFkmjgSw8t9xem4X/DuUT4GTH4ZefCtr3W9ufq9lIMQAo9rMIqPcC7Z4lu/ke
- qkvjoTDCwgIO2jP4xHrEIajjK3jDOfLjDEWbOuTe7VyuJ0NeWV0MynxnFZFsbIL2g60lP9
- Q6VrTpvROk4YSvqllU8Vox+Q/1Y7ifU=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44E3210E048
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 12:57:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id E6CE26117E;
+ Sat, 11 May 2024 12:57:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 301DEC2BBFC;
+ Sat, 11 May 2024 12:57:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715432249;
+ bh=RWNbN/njK6wiOv9OAhu8J3IBvFOEIPFY4gNdL026NKk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=f4dZTZ4NkC2yeKdkHWoLB3uKpvLzNYJZM7/Dmn7TtZlctDYUb9g4POSi770fEpVQl
+ umghgzNJRejcHjMog/GvLP3uz++uB0MPmllpzy+g2ioCNhOmHrO54Iqx1S9YL2YjxU
+ 5BUnTjWh9xhpTGnLRklf5zxcEMNK5x7gThOQqc1fJiV9rM7yjXZUQ2lsz/34JLpoXX
+ YHUCrztvC+nUwscpBuI9ZrfPPaP45xFfEZJHoOTldvBtNtBXlRWi27zJ9QzdofFYa4
+ 1N1AlYJLbXHhdNCQ/thTahSxqV68OHVxzbE/ZzDWjM6dMlphc+e9H2Qc2AS+KTOL2R
+ 1l7VvQZpUIPlA==
+Date: Sat, 11 May 2024 13:57:23 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH] drm/bridge: Remove a small useless code snippet
-Date: Sat, 11 May 2024 20:42:38 +0800
-Message-ID: <20240511124238.297192-1-sui.jingfeng@linux.dev>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Konrad Dybcio <konradybcio@gmail.com>,
+ Del Regno <angelogioacchino.delregno@somainline.org>,
+ Heiko Stuebner <heiko@sntech.de>, Luca Weiss <luca.weiss@fairphone.com>,
+ Dmitry Baryskov <dmitry.baryshkov@linaro.org>,
+ Shawn Guo <shawn.guo@linaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] dt-bindings: display: panel: constrain 'reg' in DSI
+ panels
+Message-ID: <20240511-unturned-bubbling-fc90b310c5f1@spud>
+References: <20240509-dt-bindings-dsi-panel-reg-v1-0-8b2443705be0@linaro.org>
+ <20240509-dt-bindings-dsi-panel-reg-v1-3-8b2443705be0@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HTAa7j2IxMwfD4P2"
+Content-Disposition: inline
+In-Reply-To: <20240509-dt-bindings-dsi-panel-reg-v1-3-8b2443705be0@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,36 +75,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because the check on the non-existence (encoder == NULL) has already been
-done in the implementation of drm_bridge_attach() function, and
-drm_bridge_attach() is called earlier. The driver won't get to check point
-even if drm_bridge_attach() fails for some reasons, as it will clear the
-bridge->encoder to NULL and return a negective error code.
 
-Therefore, there is no need to check another again. Remove the redundant
-codes at the later.
+--HTAa7j2IxMwfD4P2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/bridge/simple-bridge.c | 5 -----
- 1 file changed, 5 deletions(-)
+On Thu, May 09, 2024 at 11:42:53AM +0200, Krzysztof Kozlowski wrote:
+> DSI-attached devices could respond to more than one virtual channel
+> number, thus their bindings are supposed to constrain the 'reg' property
+> to match hardware.  Add missing 'reg' constrain for DSI-attached display
+> panels, based on DTS sources in Linux kernel (assume all devices take
+> only one channel number).
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index 28376d0ecd09..3caa918ac2e0 100644
---- a/drivers/gpu/drm/bridge/simple-bridge.c
-+++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -116,11 +116,6 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
- 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
- 		return 0;
- 
--	if (!bridge->encoder) {
--		DRM_ERROR("Missing encoder\n");
--		return -ENODEV;
--	}
--
- 	drm_connector_helper_add(&sbridge->connector,
- 				 &simple_bridge_con_helper_funcs);
- 	ret = drm_connector_init_with_ddc(bridge->dev, &sbridge->connector,
--- 
-2.43.0
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
+Thanks,
+Conor.
+
+--HTAa7j2IxMwfD4P2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj9rMgAKCRB4tDGHoIJi
+0rD/AP9+Gs0oiRtbfQUrh44iaHJuc/JQaNQ+Wy4jwt0yI2XP5QD/cRuuA4zX971s
+PPQqGvSsOiXgR7eOBgd8Xob8Gg8ZFwY=
+=TLGw
+-----END PGP SIGNATURE-----
+
+--HTAa7j2IxMwfD4P2--
