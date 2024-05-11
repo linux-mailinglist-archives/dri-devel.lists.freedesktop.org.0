@@ -2,77 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7678C2EE6
-	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 04:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3CF8C2F1E
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2024 04:43:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67FA410E534;
-	Sat, 11 May 2024 02:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40CCA10E089;
+	Sat, 11 May 2024 02:43:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="brWxqXK9";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="inEFmg9F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBF1D10E534
- for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 02:14:00 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-6f45f1179c3so2647330b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2024 19:14:00 -0700 (PDT)
+Received: from out30-133.freemail.mail.aliyun.com
+ (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4DB10E089;
+ Sat, 11 May 2024 02:43:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1715393640; x=1715998440; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Hmq0817Vprwao9AhZz+2kpPOT6znnCX0Xkc1suXQYLU=;
- b=brWxqXK9lFZHj23psc6M1ZRmc9r1qplVe1I1mX2rsJxZDDO0aoP41BlbI3AoqzZmN4
- r2h51D3TKqDXfDV+vjJYKmepgB4EjthRfuAwQf1mN2gA9WpFsbzeRVeBdbAP10m18Qy+
- dGBlzmtNo/Frsd2MyHOcdf6z+pjuw0I+WRw0gIjKQv74P8W8nzLIL+pzap/SY/MQxHx8
- 4sLHUypIPUpy65UUdgmmskVQuVOQG/OhUXfYlyyqEAEYKsB2hdsdbx8KTAGHM1TmEPIj
- srmXOo1W0l5mg2ErYQDlJkKWGfzIEzFclIhwxHmD4Y4iForBVXfxTed9RDplUKgMKU4w
- UCnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715393640; x=1715998440;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Hmq0817Vprwao9AhZz+2kpPOT6znnCX0Xkc1suXQYLU=;
- b=rRM0IjDPylgtYCDAh78W2v4cbUE00iK6DCw3MiQL7Vb75M4nijGnA4rgD8DY26jIkx
- FRU1UJAbaVdswh4NWjBIid0/Dk8PGEmyBeOYyHR1fgSA7OWnFmhv2/hAntFUNkh73gyc
- j4gFk8bTxIZvJYPWmuSeR8JuABsxwT+o3JgnfBcI+Cs6KH3lGYJP+HnjCdqgat/u8F2k
- vIxEoMFuJ48Bz/vAD4gfEL5Hb57kMIs+M3AsPKV4iXgN0u58m8FAMAOAMfqOTxv4Db5B
- o0qFZeWbx92qtgwmd2KXJ+Eq/p/Tl3GvGK9IcCX6g6yE/m0jVecXUHoAH1EXIWvf22W0
- agJQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVi7qWcZved9ZdOUU2+GIskKEonwHmoz+ojoIe88TWxw3nIfVGbwNJvCVbTpAXaLBZju1XDqkrmMzEPaQ9UUi9/23yNPj8uGxLFDl7BZ4Iw
-X-Gm-Message-State: AOJu0Yy6/f3maRAqUyfjQmRMRa8Vffxoltm1chYesHznETyjW3RtQN4C
- EDEDBHDxK5JOZYOYRWTSSHzvMHtWz9IGqiPZDJjobak5DMkUs01BCOod9Y1zqDM=
-X-Google-Smtp-Source: AGHT+IEiy2xQwsNQZ6Uhh9NFQFUCdvrVhk0TKJBLWjna9Ks6nJ7jd0oNFQlzmpQdgfbDHpP6X62c3w==
-X-Received: by 2002:a05:6a00:4645:b0:6ec:d76b:6fac with SMTP id
- d2e1a72fcca58-6f4e02ad046mr4104333b3a.12.1715393640233; 
- Fri, 10 May 2024 19:14:00 -0700 (PDT)
-Received: from localhost.localdomain ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-6f4d2a9d9acsm3680340b3a.90.2024.05.10.19.13.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 May 2024 19:13:59 -0700 (PDT)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
- dianders@chromium.org, linus.walleij@linaro.org,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org,
- airlied@gmail.com
-Cc: dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- xuxinxiong@huaqin.corp-partner.google.com,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH v6 7/7] drm/panel: himax-hx83102: Support for IVO t109nw41
- MIPI-DSI panel
-Date: Sat, 11 May 2024 10:13:26 +0800
-Message-Id: <20240511021326.288728-8-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240511021326.288728-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20240511021326.288728-1-yangcong5@huaqin.corp-partner.google.com>
+ d=linux.alibaba.com; s=default;
+ t=1715395400; h=From:To:Subject:Date:Message-Id:MIME-Version;
+ bh=xMWB7tcK9lh6tvkjem4+oVbLaB6u7ih0rPhd/ngxidw=;
+ b=inEFmg9FitvymYcDonH+TUX3oHAQa3p4885bEAThVSINGDXNR7ZnA+3pbVAlYR9MABP/iW+iFJgIC7NxBOHEgj0UMrvC6KPqtJIIIBJfYPW01fnsKbojl9dnYce4DQ/Chh4zuaau+8eRF0iYcuVMNIlvg+NQI3SR0hHDT4i5t/o=
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R801e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=maildocker-contentspam033037067112;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0W6BjtCT_1715395382; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0W6BjtCT_1715395382) by smtp.aliyun-inc.com;
+ Sat, 11 May 2024 10:43:19 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Cc: christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH] drm/amd/display: clean up some inconsistent indenting
+Date: Sat, 11 May 2024 10:43:01 +0800
+Message-Id: <20240511024301.81075-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,199 +56,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IVO t109nw41 is a 11.0" WUXGA TFT LCD panel, use hx83102 controller
-which fits in nicely with the existing panel-himax-hx83102 driver. Hence,
-we add a new compatible with panel specific config.
+No functional modification involved.
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.c:792 dcn401_i2c_hw_create() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.c:894 dcn401_hubp_create() warn: inconsistent indenting.
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.c:1738 dcn401_resource_construct() warn: inconsistent indenting.
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9002
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
-Chage since V6:
+ .../dc/resource/dcn401/dcn401_resource.c      | 29 +++++++++----------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
-- Add hx83102_enable_extended_cmds(&dsi_ctx, false) at end of inital cmds.
-
-V5: https://lore.kernel.org/all/20240509015207.3271370-8-yangcong5@huaqin.corp-partner.google.com
-
-Chage since V5:
-
-- Adjust inital cmds indentation and check accum_err before calling mdelay in init().
-- Adjust somes inital cmds to Optimize gamma.
-
-V4: https://lore.kernel.org/all/20240507135234.1356855-8-yangcong5@huaqin.corp-partner.google.com
-
-Chage since V4:
-
-- inital cmds use lowercasehex.
-
-V3: https://lore.kernel.org/all/20240424023010.2099949-8-yangcong5@huaqin.corp-partner.google.com
-
-Chage since V3:
-
-- Depend Dous'series [1].
-[1]: https://lore.kernel.org/all/20240501154251.3302887-1-dianders@chromium.org
-
-V2: https://lore.kernel.org/all/20240422090310.3311429-8-yangcong5@huaqin.corp-partner.google.com
-
----
- drivers/gpu/drm/panel/panel-himax-hx83102.c | 131 ++++++++++++++++++++
- 1 file changed, 131 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-himax-hx83102.c b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-index 0496e39ca5b8..37b2f04bc13a 100644
---- a/drivers/gpu/drm/panel/panel-himax-hx83102.c
-+++ b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-@@ -293,6 +293,113 @@ static int boe_nv110wum_init(struct hx83102 *ctx)
- 	return 0;
- };
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
+index 75e2c62ae792..3e1bfddc6e43 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn401/dcn401_resource.c
+@@ -784,14 +784,13 @@ static struct dce_i2c_hw *dcn401_i2c_hw_create(
  
-+static int ivo_t109nw41_init(struct hx83102 *ctx)
-+{
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
-+
-+	msleep(60);
-+
-+	hx83102_enable_extended_cmds(&dsi_ctx, true);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x2c, 0xed, 0xed, 0x0f, 0xcf, 0x42,
-+				     0xf5, 0x39, 0x36, 0x36, 0x36, 0x36, 0x32, 0x8b, 0x11, 0x65, 0x00, 0x88,
-+				     0xfa, 0xff, 0xff, 0x8f, 0xff, 0x08, 0xd6, 0x33);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETDISP, 0x00, 0x47, 0xb0, 0x80, 0x00, 0x12,
-+				     0x71, 0x3c, 0xa3, 0x22, 0x20, 0x00, 0x00, 0x88, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x35, 0x35, 0x43, 0x43, 0x35, 0x35,
-+				     0x30, 0x7a, 0x30, 0x7a, 0x01, 0x9d);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcd);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x84);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETVDC, 0x1b, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_BE, 0x20);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xfc, 0xc4);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSTBA, 0x34, 0x34, 0x22, 0x11, 0x22, 0xa0,
-+				     0x31, 0x08, 0xf5, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcc);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTCON, 0x80);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xd3);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTCON, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETRAMDMY, 0x97);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPWM, 0x00, 0x1e, 0x13, 0x88, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x08, 0x13, 0x07, 0x00, 0x0f, 0x34);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPANEL, 0x02, 0x03, 0x44);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCASCADE, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPCTRL, 0x07, 0x06, 0x00, 0x02, 0x04, 0x2c,
-+				     0xff);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x06, 0x00, 0x00, 0x00, 0x00, 0x08,
-+				     0x08, 0x08, 0x08, 0x37, 0x07, 0x64, 0x7c, 0x11, 0x11, 0x03, 0x03, 0x32,
-+				     0x10, 0x0e, 0x00, 0x0e, 0x32, 0x17, 0x97, 0x07, 0x97, 0x32, 0x00, 0x02,
-+				     0x00, 0x02, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP1, 0x25, 0x24, 0x25, 0x24, 0x18, 0x18,
-+				     0x18, 0x18, 0x07, 0x06, 0x07, 0x06, 0x05, 0x04, 0x05, 0x04, 0x03, 0x02,
-+				     0x03, 0x02, 0x01, 0x00, 0x01, 0x00, 0x1e, 0x1e, 0x1e, 0x1e, 0x1f, 0x1f,
-+				     0x1f, 0x1f, 0x21, 0x20, 0x21, 0x20, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-+				     0x18, 0x18);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0,
-+				     0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGMA, 0x04, 0x04, 0x06, 0x0a, 0x0a, 0x05,
-+				     0x12, 0x14, 0x17, 0x13, 0x2c, 0x33, 0x39, 0x4b, 0x4c, 0x56, 0x61, 0x78,
-+				     0x7a, 0x41, 0x50, 0x68, 0x73, 0x04, 0x04, 0x06, 0x0a, 0x0a, 0x05, 0x12,
-+				     0x14, 0x17, 0x13, 0x2c, 0x33, 0x39, 0x4b, 0x4c, 0x56, 0x61, 0x78, 0x7a,
-+				     0x41, 0x50, 0x68, 0x73);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x07, 0x10, 0x10, 0x1a, 0x26, 0x9e,
-+				     0x00, 0x4f, 0xa0, 0x14, 0x14, 0x00, 0x00, 0x00, 0x00, 0x12, 0x0a, 0x02,
-+				     0x02, 0x00, 0x33, 0x02, 0x04, 0x18, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x01, 0x7f, 0x11, 0xfd);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x86);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x00, 0x00, 0x04, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0,
-+				     0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x02, 0x00, 0x2b, 0x01, 0x7e, 0x0f,
-+				     0x7e, 0x10, 0xa0, 0x00, 0x00, 0x77, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xf2);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x03, 0x07, 0x00, 0x10, 0x79);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0,
-+				     0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0xfe, 0x01, 0xfe, 0x01, 0xfe, 0x01,
-+				     0x00, 0x00, 0x00, 0x23, 0x00, 0x23, 0x81, 0x02, 0x40, 0x00, 0x20, 0x6e,
-+				     0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0,
-+				     0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0, 0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0,
-+				     0xff, 0xff, 0xff, 0xff, 0xfa, 0xa0, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0,
-+				     0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x03, 0xff, 0xf8);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_E1, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_D2, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x96);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc5);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x4f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
-+	hx83102_enable_extended_cmds(&dsi_ctx, false);
-+	if (dsi_ctx.accum_err)
-+		return dsi_ctx.accum_err;
-+
-+	msleep(60);
-+
-+	return 0;
-+};
-+
- static const struct drm_display_mode starry_mode = {
- 	.clock = 162680,
- 	.hdisplay = 1200,
-@@ -337,6 +444,28 @@ static const struct hx83102_panel_desc boe_nv110wum_desc = {
- 	.init = boe_nv110wum_init,
- };
+ #undef REG_STRUCT
+ #define REG_STRUCT i2c_hw_regs
+-		i2c_inst_regs_init(1),
+-		i2c_inst_regs_init(2),
+-		i2c_inst_regs_init(3),
+-		i2c_inst_regs_init(4);
++	i2c_inst_regs_init(1),
++	i2c_inst_regs_init(2),
++	i2c_inst_regs_init(3),
++	i2c_inst_regs_init(4);
  
-+static const struct drm_display_mode ivo_t109nw41_default_mode = {
-+	.clock = 166400,
-+	.hdisplay = 1200,
-+	.hsync_start = 1200 + 75,
-+	.hsync_end = 1200 + 75 + 20,
-+	.htotal = 1200 + 75 + 20 + 55,
-+	.vdisplay = 1920,
-+	.vsync_start = 1920 + 115,
-+	.vsync_end = 1920 + 115 + 8,
-+	.vtotal = 1920 + 115 + 8 + 12,
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static const struct hx83102_panel_desc ivo_t109nw41_desc = {
-+	.modes = &ivo_t109nw41_default_mode,
-+	.size = {
-+		.width_mm = 147,
-+		.height_mm = 235,
-+	},
-+	.init = ivo_t109nw41_init,
-+};
-+
- static int hx83102_enable(struct drm_panel *panel)
- {
- 	msleep(130);
-@@ -584,6 +713,9 @@ static const struct of_device_id hx83102_of_match[] = {
- 	{ .compatible = "boe,nv110wum-l60",
- 	.data = &boe_nv110wum_desc
- 	},
-+	{ .compatible = "ivo,t109nw41",
-+	  .data = &ivo_t109nw41_desc
-+	},
- 	{ .compatible = "starry,himax83102-j02",
- 	  .data = &starry_desc
- 	},
+ 	dcn2_i2c_hw_construct(dce_i2c_hw, ctx, inst,
+-				    &i2c_hw_regs[inst], &i2c_shifts, &i2c_masks);
+-
++			      &i2c_hw_regs[inst], &i2c_shifts, &i2c_masks);
+ 	return dce_i2c_hw;
+ }
+ 
+@@ -886,13 +885,13 @@ static struct hubp *dcn401_hubp_create(
+ 
+ #undef REG_STRUCT
+ #define REG_STRUCT hubp_regs
+-		hubp_regs_init(0),
+-		hubp_regs_init(1),
+-		hubp_regs_init(2),
+-		hubp_regs_init(3);
++	hubp_regs_init(0),
++	hubp_regs_init(1),
++	hubp_regs_init(2),
++	hubp_regs_init(3);
+ 
+ 	if (hubp401_construct(hubp2, ctx, inst,
+-			&hubp_regs[inst], &hubp_shift, &hubp_mask))
++			      &hubp_regs[inst], &hubp_shift, &hubp_mask))
+ 		return &hubp2->base;
+ 
+ 	BREAK_TO_DEBUGGER();
+@@ -1735,10 +1734,10 @@ static bool dcn401_resource_construct(
+ 
+ #undef REG_STRUCT
+ #define REG_STRUCT abm_regs
+-		abm_regs_init(0),
+-		abm_regs_init(1),
+-		abm_regs_init(2),
+-		abm_regs_init(3);
++	abm_regs_init(0),
++	abm_regs_init(1),
++	abm_regs_init(2),
++	abm_regs_init(3);
+ 
+ #undef REG_STRUCT
+ #define REG_STRUCT dccg_regs
 -- 
-2.25.1
+2.20.1.7.g153144c
 
