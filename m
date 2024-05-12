@@ -2,76 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12A58C36F6
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 17:23:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FD88C3701
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 17:25:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C42B810E08D;
-	Sun, 12 May 2024 15:23:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 541CB10E0DE;
+	Sun, 12 May 2024 15:25:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="gDfarrKr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Gq3PPCkn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 383A410E08D
- for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 15:23:50 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44CFNOLi104054;
- Sun, 12 May 2024 10:23:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1715527404;
- bh=iPt9kUUsTlBAWuNAoPBMtkKgtnn+LDWAMV58Vn9IFvA=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=gDfarrKrX3LbWffw/cxWr8PUQ1no0AAh2nX2j/FMZVG6mNQ1MYrCN/N1oBL8wuTPC
- tSdNxtNLhQLXWIb2eLxBfiRxcG0vjj1ovcU605jREoeUuqFQPgVSSOU8ndwQPfrRlg
- Al+C8/6X8adOaWSS2kb8rj8iLWHz6sy1ShRdAf8w=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44CFNO90022407
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sun, 12 May 2024 10:23:24 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sun, 12
- May 2024 10:23:23 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sun, 12 May 2024 10:23:23 -0500
-Received: from [10.249.131.75] ([10.249.131.75])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44CFNEba016476;
- Sun, 12 May 2024 10:23:15 -0500
-Message-ID: <e34dc434-7922-4b47-bc41-c06f13366194@ti.com>
-Date: Sun, 12 May 2024 20:53:12 +0530
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4362410E0DE
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 15:25:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 569C960B54;
+ Sun, 12 May 2024 15:25:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F2A7CC116B1;
+ Sun, 12 May 2024 15:25:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715527547;
+ bh=lhIYri0VaZW515AxkaDskA2UPG8MGvocYjopSK7g3Pw=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=Gq3PPCknLgA5jRAf2hAjvhbDQR8eP+RHIBtSjyfWrvDO41JA0H5TX2Cz0bMmJvz05
+ 0ecBsVtNeQuQtwNK9M6SZlyM1CQ5DI8/FjZe+yTNebM+d4DOnNcVoq6VzNc1rKFeiL
+ Sg0JSj0JTze6vkkJKrIOYrAPY57+nwts3x29L/WrIWSxyk0ysEOt+PA0bf0RkffT0z
+ +ppAXmeLTCvgiahefVpPFCopa/rgpPwfWgxfHZmrmNBD1VNyuWuQmyDPTF9ptIIii9
+ bIOT+hA4jasTfcDFvhaRqnzhYyfO/x8PDV9f5VCwSo7PBL/DQbYIIj+3IF8aNEl2fD
+ g5iC/pIhFr/mg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id E4BA9C10F1A;
+ Sun, 12 May 2024 15:25:46 +0000 (UTC)
+From: =?utf-8?q?Noralf_Tr=C3=B8nnes_via_B4_Relay?=
+ <devnull+noralf.tronnes.org@kernel.org>
+Subject: [PATCH v2 0/5] drm/tiny: panel-mipi-dbi: Support 18 bits per color
+ RGB666
+Date: Sun, 12 May 2024 17:25:37 +0200
+Message-Id: <20240512-panel-mipi-dbi-rgb666-v2-0-49dd266328a0@tronnes.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/tidss: Add OLDI bridge support
-To: Francesco Dolcini <francesco@dolcini.it>
-CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
- <jyri.sarha@iki.fi>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <neil.armstrong@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, DRI Development
- List <dri-devel@lists.freedesktop.org>, Devicetree List
- <devicetree@vger.kernel.org>, Linux Kernel List
- <linux-kernel@vger.kernel.org>, Nishanth Menon <nm@ti.com>, Vignesh
- Raghavendra <vigneshr@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>,
- Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>, Jayesh
- Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
-References: <20240511193055.1686149-1-a-bhatia1@ti.com>
- <20240511193055.1686149-5-a-bhatia1@ti.com>
- <ZkCsfH1qeSsXyQz4@gaggiata.pivistrello.it>
-Content-Language: en-US
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <ZkCsfH1qeSsXyQz4@gaggiata.pivistrello.it>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAHHfQGYC/3WNQQ6CMBBFr0Jm7ZjSllZceQ/DosAAk2hLWkI0h
+ Ltbce3yveS/v0GiyJTgWmwQaeXEwWeQpwK6yfmRkPvMIIXUQosKZ+fpgU+eGfuWMY6tMQY1CaX
+ sxfamqyFv50gDv47uvck8cVpCfB83a/m1v2Il7J/iWqJAY+taKu0Gp+i2xOA9pXOIIzT7vn8Ap
+ iCUF7wAAAA=
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>, 
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>, 
+ =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1715527545; l=3424;
+ i=noralf@tronnes.org; s=20221122; h=from:subject:message-id;
+ bh=lhIYri0VaZW515AxkaDskA2UPG8MGvocYjopSK7g3Pw=;
+ b=Hm7kK0xxbaHX6CQpob3kWLmmM048BNaVDwi2knrix2FxbeJoZxjXsSRUnypwyVUXKTOCovlmY
+ oRHFC4Nzee1BvJjgEbiEMaaHLBG3uwcHZSoW+9S4D5M4ekFc3q45eLW
+X-Developer-Key: i=noralf@tronnes.org; a=ed25519;
+ pk=0o9is4iddvvlrY3yON5SVtAbgPnVs0LfQsjfqR2Hvz8=
+X-Endpoint-Received: by B4 Relay for noralf@tronnes.org/20221122 with auth_id=8
+X-Original-From: =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,230 +82,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: noralf@tronnes.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Francesco,
+Hi,
 
-On 12/05/24 17:18, Francesco Dolcini wrote:
-> Hello Aradhya, thanks for you patch, I should be able to test your patch on my
-> hardware in the coming days.
+To my suprise I have discovered that the MIPI DBI specification does only
+list RGB111 as a pixel format for the Serial Interface (Type C).
 
-That's appreciated. Thank you! =)
+For the parallel interface type (Type A and B) it lists: RGB332, RGB444,
+RGB565, RGB666 and RGB888.
 
-> 
-> On Sun, May 12, 2024 at 01:00:55AM +0530, Aradhya Bhatia wrote:
->> Up till now, the OLDI support in tidss was integrated within the tidss dispc.
->> This was fine till the OLDI was one-to-mapped with the DSS video-port (VP).
->> The AM62 and AM62P SoCs have 2 OLDI TXes that can support dual-lvds / lvds-clone
->> modes.
->>
->> Add OLDI TXes as separate DRM bridge entities to better support the new LVDS
->> configurations.
->>
->> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->> ---
->>  drivers/gpu/drm/tidss/Makefile      |   3 +-
->>  drivers/gpu/drm/tidss/tidss_dispc.c |  11 +-
->>  drivers/gpu/drm/tidss/tidss_dispc.h |   4 +
->>  drivers/gpu/drm/tidss/tidss_drv.c   |  13 +-
->>  drivers/gpu/drm/tidss/tidss_drv.h   |   4 +
->>  drivers/gpu/drm/tidss/tidss_oldi.c  | 568 ++++++++++++++++++++++++++++
->>  drivers/gpu/drm/tidss/tidss_oldi.h  |  73 ++++
->>  7 files changed, 673 insertions(+), 3 deletions(-)
->>  create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.c
->>  create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.h
->>
->> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
->> index d15f836dca95..fd90e8498cc2 100644
->> --- a/drivers/gpu/drm/tidss/tidss_drv.c
->> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
->> @@ -23,6 +23,7 @@
->>  #include "tidss_drv.h"
->>  #include "tidss_kms.h"
->>  #include "tidss_irq.h"
->> +#include "tidss_oldi.h"
->>  
->>  /* Power management */
->>  
->> @@ -140,10 +141,17 @@ static int tidss_probe(struct platform_device *pdev)
->>  
->>  	spin_lock_init(&tidss->wait_lock);
->>  
->> +	ret = tidss_oldi_init(tidss);
->> +	if (ret) {
->> +		if (ret != -EPROBE_DEFER)
->> +			dev_err(dev, "failed to init OLDI (%d)\n", ret);
->> +		return ret;
->> +	}
-> 
-> return dev_err_probe()
-> 
->> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
->> new file mode 100644
->> index 000000000000..fd96ca815542
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
->> @@ -0,0 +1,568 @@
-> 
-> ...
-> 
->> +		ret = drm_of_find_panel_or_bridge(child, OLDI_OURPUT_PORT, -1,
->> +						  &panel, &bridge);
->> +		if (ret) {
->> +			/*
->> +			 * Either there was no OLDI sink in the devicetree, or
->> +			 * the OLDI sink has not been added yet. In any case,
->> +			 * return.
->> +			 * We don't want to have an OLDI node connected to DSS
->> +			 * but not to any sink.
->> +			 */
->> +			if (ret != -EPROBE_DEFER)
->> +				dev_err(tidss->dev,
->> +					"no panel/bridge for OLDI%d. Error %d\n",
->> +					oldi_instance, ret);
-> 
-> just dev_err_probe
-> 
->> +			goto err_put_node;
->> +		}
-> 
-> ...
-> 
->> +		if (IS_ERR(oldi->io_ctrl)) {
->> +			dev_err(oldi->dev,
->> +				"%s: oldi%d syscon_regmap_lookup_by_phandle failed %ld\n",
->> +			       __func__, oldi_instance, PTR_ERR(oldi->io_ctrl));
->> +			ret = PTR_ERR(oldi->io_ctrl);
-> 
-> dev_err_probe 
-> 
->> +			goto err_put_node;
->> +		}
->> +
->> +		oldi->s_clk = of_clk_get_by_name(child, "s_clk");
->> +		if (IS_ERR(oldi->s_clk)) {
->> +			dev_err(oldi->dev,
->> +				"%s: oldi%d Failed to get s_clk: %ld\n",
->> +				__func__, oldi_instance, PTR_ERR(oldi->s_clk));
->> +			ret = PTR_ERR(oldi->s_clk);
-> 
-> dev_err_probe
+I have never read the specification closely enough to discover this always
+assuming that the datasheets for the various MIPI DBI compatible
+controllers I've looked at over the years did follow the specification
+when they supported RGB565 and RGB666 on the serial interface.
 
-Got it. Will update in all the 4 places.
+So it is quite clear that the industry has chosen to extend the standard
+and provide support for more pixel formats over the serial interface.
 
-> 
-> In general, in this function, sometime you print an error and goto
-> err_put_node, sometime you just goto err_put_node.  Not sure what's the
-> rationale on this.
+drm_mipi_dbi and its predecessor fbtft support only RGB565 over SPI since
+RGB666 uses 3 bytes per pixel instead of 2 bytes, severly impacting the
+framerate.
 
-There hasn't been any real logic behind the prints, except that I have
-added them whenever there was something (specifc) to be explained. Other
-times, for example, if the error is -ENOMEM, or any other systemic API
-failure, there isn't any print required.
+The reason I started to look at this is that there seem to be an increase
+in cheap SPI displays that is based on the ILI9488 controller. The
+datasheet for this controller states that it supports RGB565, but
+experience[1] shows that this is not true and that the controller only
+supports RGB666 over SPI.
 
-If this function does exit in an error, however, tidss_probe will always
-throw a print (except in the case of -EPROBE_DEFER).
+I have known for some time that the ILI9486 controller does not support
+RGB565 over SPI, it only supports RGB111 and RGB666. Some display
+breakoutboard manufacturers have solved this by putting a shift register
+in front of the parallel bus on this controller in order to support
+RGB565. This requires some custom code when writing to the SPI bus as
+shown in the tiny/ili9486.c driver. The downside is that these displays
+are really slow due to the slow shift registers used.
 
-> 
->> +			goto err_put_node;
->> +		}
->> +
->> +		/* Register the bridge. */
->> +		oldi->bridge.of_node = child;
->> +		oldi->bridge.driver_private = oldi;
->> +		oldi->bridge.funcs = &tidss_oldi_bridge_funcs;
->> +		oldi->bridge.timings = &default_tidss_oldi_timings;
->> +
->> +		tidss->oldis[tidss->num_oldis++] = oldi;
->> +		oldi->tidss = tidss;
->> +
->> +		drm_bridge_add(&oldi->bridge);
->> +	}
->> +
->> +err_put_node:
->> +	of_node_put(child);
->> +	of_node_put(oldi_parent);
->> +	return ret;
->> +}
->> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.h b/drivers/gpu/drm/tidss/tidss_oldi.h
->> new file mode 100644
->> index 000000000000..5ad02ddea11a
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tidss/tidss_oldi.h
->> @@ -0,0 +1,73 @@
->> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->> +/*
->> + * Copyright (C) 2023 - Texas Instruments Incorporated
->> + *
->> + * Aradhya Bhatia <a-bhati1@ti.com>
->> + */
->> +
->> +#ifndef __TIDSS_OLDI_H__
->> +#define __TIDSS_OLDI_H__
->> +
->> +#include <linux/media-bus-format.h>
->> +
->> +#include "tidss_drv.h"
->> +#include "tidss_dispc.h"
->> +
->> +struct tidss_oldi;
-> 
-> why do you need this here? 
+This patchset documents the defacto industry standard wrt pixel formats
+over SPI and adds support for RGB666 in the panel-mipi-dbi driver.
 
-So that struct tidss_device can store pointers to struct tidss_oldi
-instances.
+There have been two previous attempts to add a DRM driver for
+ili9488[2][3]. The panel-mipi-dbi driver is a generic MIPI DBI driver
+supporting controller initialization via a firmware file and with the help
+of this patchset it will support ILI9488 based SPI displays.
 
-> 
->> +
->> +/* OLDI Instances */
->> +#define OLDI(n)		n
->> +
->> +/* OLDI PORTS */
->> +#define OLDI_INPUT_PORT		0
->> +#define OLDI_OURPUT_PORT	1
->> +
->> +/* OLDI Config Bits */
->> +#define OLDI_ENABLE		BIT(0)
->> +#define OLDI_MAP		(BIT(1) | BIT(2) | BIT(3))
->> +#define OLDI_SRC		BIT(4)
->> +#define OLDI_CLONE_MODE		BIT(5)
->> +#define OLDI_MASTERSLAVE	BIT(6)
->> +#define OLDI_DEPOL		BIT(7)
->> +#define OLDI_MSB		BIT(8)
->> +#define OLDI_LBEN		BIT(9)
->> +#define OLDI_LBDATA		BIT(10)
->> +#define OLDI_DUALMODESYNC	BIT(11)
->> +#define OLDI_SOFTRST		BIT(12)
->> +#define OLDI_TPATCFG		BIT(13)
->> +
->> +/* Control MMR Register */
->> +
->> +/* Register offsets */
->> +#define OLDI_PD_CTRL            0x100
->> +#define OLDI_LB_CTRL            0x104
->> +
->> +/* Power control bits */
->> +#define OLDI_PWRDN_TX(n)	BIT(n)
->> +
->> +/* LVDS Bandgap reference Enable/Disable */
->> +#define OLDI_PWRDN_BG		BIT(8)
->> +
->> +#define OLDI_IDLE_CLK_HZ	25000000 /*25 MHz */
-> this is used only on a single C files, move it there?
-> 
-> I would consider this comment in general for this header file,
-> from a quick check most of this is used only in tidss_oldi.c.
+[1] https://github.com/notro/panel-mipi-dbi/issues/2#issuecomment-2016857690
+[2] https://lore.kernel.org/dri-devel/cover.1592055494.git.kamlesh.gurudasani@gmail.com/
+[3] https://lore.kernel.org/dri-devel/20221018164532.1705215-1-tommaso.merciai@amarulasolutions.com/
 
-Apart from struct tidss_device being able to access struct tidss_oldi,
-there is no direct access to any of the above.
+Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+---
+Changes in v2:
+- binding: Use 'default: r5g6b5' (Rob)
+- Link to v1: https://lore.kernel.org/r/20240507-panel-mipi-dbi-rgb666-v1-0-6799234afa3e@tronnes.org
 
-Perhaps I can move the idle clock definition into the C file.
+---
+Noralf Trønnes (5):
+      dt-bindings: display: panel: mipi-dbi-spi: Add a pixel format property
+      drm/mipi-dbi: Remove mipi_dbi_machine_little_endian()
+      drm/mipi-dbi: Make bits per word configurable for pixel transfers
+      drm/mipi-dbi: Add support for DRM_FORMAT_RGB888
+      drm/tiny: panel-mipi-dbi: Support the pixel format property
 
-However, before tidss_oldi.h, all the register definitions have been
-stored in tidss_dispc_regs.h. It just seemed right to keep them out in
-the header file and maintain the status quo.
+ .../bindings/display/panel/panel-mipi-dbi-spi.yaml | 30 +++++++++
+ drivers/gpu/drm/drm_mipi_dbi.c                     | 76 +++++++++++++++-------
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c              | 55 +++++++++++++++-
+ include/drm/drm_mipi_dbi.h                         | 10 +++
+ 4 files changed, 147 insertions(+), 24 deletions(-)
+---
+base-commit: 0209df3b4731516fe77638bfc52ba2e9629c67cd
+change-id: 20240405-panel-mipi-dbi-rgb666-4e033787d6c9
+
+Best regards,
+-- 
+Noralf Trønnes <noralf@tronnes.org>
 
 
-Regards
-Aradhya
