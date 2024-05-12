@@ -2,86 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FDD8C35D2
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 11:04:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE918C3649
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 13:55:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3172F10E0FD;
-	Sun, 12 May 2024 09:04:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6852410E009;
+	Sun, 12 May 2024 11:55:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HsypAjXe";
+	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="0kmb2Owc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67B6910E0FD;
- Sun, 12 May 2024 09:04:07 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-52327368e59so146182e87.1; 
- Sun, 12 May 2024 02:04:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715504645; x=1716109445; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Om7z4z/nZPkmvzc/xv1BUHiiD4wa9VFdhmgBrAsUs88=;
- b=HsypAjXeylkQxPCVRqPNS/XxZmxWxGxoRvSKz+6nq879PsGUTifpe2M5y65P5NcqwA
- A8yHAZttnxQx6a+l8jDtdoUY6ERnnAlLvt8lz2gBWbZYHGjuwD3fzvBSIuO98TeUkU5R
- Uk7aT79yPOU9jp9PN1aNa9+4IlVuQSvPSoZZbM/b4rChizEi+GVkWGpDOlNqPMDWw9kk
- 4f04DWZvCtw/+WknhzBKC8onkKUoC9OAian/RMQN/ImQTDg3BAi3aqaQxhFWM8s304oW
- ZWDB4CWaiwTaNH7rZtASmuAOzBZDXcU9CLLrJVS4cXKsyyaYVKlzWPm/yT3F6LfXdQI6
- 5Ywg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715504645; x=1716109445;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Om7z4z/nZPkmvzc/xv1BUHiiD4wa9VFdhmgBrAsUs88=;
- b=dCahjNNwTePvu9qyQx8kU8Mb1vfgO0SbBei4axcW1aPCEtvya7xRf/nknx84ms6sWQ
- cNHLXwQPJvtUYNP4Z3/lieHevQPsDS3iJdzduImRy3zX805P9x2Go8npSOETPz0s51yT
- gDiGCWg3HYnGG8E54J6Cq381MuBo+24u64TJuH0gBLcuVEW31LUhLsZetlQVhsfNhLkK
- VDd2z250fgBG8QyWR8CyQC2CbcseE7n6lAaPFgZmkr5k2WCpAY5EedWenO0PuTdGCGOK
- IQulUitFB6zFGGbCduwUStLzeSG4JfBsrAHAZPOv+vjnY+mejmoq6+/xhIWT/KyVe5c0
- z16Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU2ZZ/pFTA3brYeudBbQ9nA67n1msIJ1Lq0+Ho0blDIUgJLqBnfo1vNAhiFO77wQnnUcBjnXwoNuzlK7m6tX9IgmRQK3Z+J6kqlKWPwyUegV+NK+lbuzetqANsZvorgyRm9CFH4n7qJ5IkwLF+e9B5V
-X-Gm-Message-State: AOJu0YzjqbqIim6xCpu+PsDK5Q52ZPg812K7ZZDtAVq7Nasv7YRI5Bo8
- 8rJQko5hgyVDeXeOuvZDBXCuOle6UzR7oMxmzVB0+KLw2xJPnsPX
-X-Google-Smtp-Source: AGHT+IGmyKXU7smaDw09zDngJdmSsV9gZLDt6vpCR+JOFX7ZIkID5MSda4g1IoGmjVtbcawOzD+2+Q==
-X-Received: by 2002:a05:6512:158d:b0:519:5df9:d945 with SMTP id
- 2adb3069b0e04-5220fb77429mr6289711e87.4.1715504644872; 
- Sun, 12 May 2024 02:04:04 -0700 (PDT)
-Received: from kali.localhost (static.47.50.88.23.clients.your-server.de.
- [23.88.50.47]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a5a1781cd9csm431372766b.37.2024.05.12.02.04.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 May 2024 02:04:04 -0700 (PDT)
-From: Kiarash Hajian <kiarash8112hajian@gmail.com>
-Date: Sun, 12 May 2024 05:03:53 -0400
-Subject: [PATCH v4] drm/msm/a6xx: request memory region
+X-Greylist: delayed 436 seconds by postgrey-1.36 at gabe;
+ Sun, 12 May 2024 11:55:33 UTC
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49CD210E009
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 11:55:33 +0000 (UTC)
+Received: from gaggiata.pivistrello.it (93-49-2-63.ip317.fastwebnet.it
+ [93.49.2.63])
+ by mail11.truemail.it (Postfix) with ESMTPA id 7E6081FA0A;
+ Sun, 12 May 2024 13:48:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+ s=default; t=1715514493;
+ bh=h0z00hFgh4UUjW8xjsLXv7Y36CFzGdOnXABZK2z+T8E=;
+ h=Received:From:To:Subject;
+ b=0kmb2Owch7ccpjr4CzvDlwCyQcDbQL/navgz7mJJnrdKG6zWp+U2OcHP8I9gYZiYy
+ /q2yQCEnsgM/wtoxjQTiK360leWExG3pE0/yLGsAv1VpkR/dVzOe1VC2ZGIjK32m11
+ JBPuTgB+0/yKwNdozsIkoBOLM05koOpaPulZI0iADs5wUc3audNKGVhjiBZLuAhZQR
+ EpMeqq1VlgthSjVSKusPRbgFemA4Li6y1ZSRAXL5J3g7VuR4LfP53suGUkUZ/D9eVu
+ zxqwwsbvrU7fQLX0mFxmeR7yXYx4Gndej8IexOKFtIUC4Cb4WHYAETvp6m3btAKCv8
+ XFbV5taFPx/CQ==
+Received: by gaggiata.pivistrello.it (Postfix, from userid 1000)
+ id 117787F95F; Sun, 12 May 2024 13:48:13 +0200 (CEST)
+Date: Sun, 12 May 2024 13:48:12 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Francesco Dolcini <francesco@dolcini.it>,
+ Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+ Randolph Sapp <rs@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
+Subject: Re: [PATCH 4/4] drm/tidss: Add OLDI bridge support
+Message-ID: <ZkCsfH1qeSsXyQz4@gaggiata.pivistrello.it>
+References: <20240511193055.1686149-1-a-bhatia1@ti.com>
+ <20240511193055.1686149-5-a-bhatia1@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240512-msm-adreno-memory-region-v4-1-3881a64088e6@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAPiFQGYC/43NQQ7CIBAF0KsY1o5hBiriynsYF7RMK4m0Bkyja
- Xp30VXjwnT5f+a/mUTmFDiL42YSiceQw9CXoLcb0Vxd3zEEX7IgSVpWiBBzBOcT9wNEjkN6QeK
- ujIDqpsbGVoc9oSjze+I2PL/0+VLyNeRHOf9+GvHTrkBHBARvlDXSoPGaTl104bZrhig+6EhrI
- SqQbZVqNbGprf2F1BKiP5ACCdIZOjivK4lyCc3z/Aa630hMUgEAAA==
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Kiarash Hajian <kiarash8112hajian@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1715504642; l=3699;
- i=kiarash8112hajian@gmail.com; s=20240409; h=from:subject:message-id;
- bh=kxKl9BXWLII/5XSxmShz9Co5it81zM/OD7dKzTsMN9M=;
- b=xRPIc85k3y6TGkCNJxSA4BeWf0WJ7DJiAXVEhvBPjZehWCkKoB4l8MM88zzi4HYJcgmofRN/o
- fJ3Zn/CLvVnA27wDoh3NXuF70UpNoRuIhMhYVcitDiqaoBICyaolCZo
-X-Developer-Key: i=kiarash8112hajian@gmail.com; a=ed25519;
- pk=ehVBr28gPcA8cMB/wneVh0Mj6WGkqZoyYRdRNi5+aI0=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240511193055.1686149-5-a-bhatia1@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,121 +78,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver's memory regions are currently just ioremap()ed, but not
-reserved through a request. That's not a bug, but having the request is
-a little more robust.
+Hello Aradhya, thanks for you patch, I should be able to test your patch on my
+hardware in the coming days.
 
-Implement the region-request through the corresponding managed
-devres-function.
+On Sun, May 12, 2024 at 01:00:55AM +0530, Aradhya Bhatia wrote:
+> Up till now, the OLDI support in tidss was integrated within the tidss dispc.
+> This was fine till the OLDI was one-to-mapped with the DSS video-port (VP).
+> The AM62 and AM62P SoCs have 2 OLDI TXes that can support dual-lvds / lvds-clone
+> modes.
+> 
+> Add OLDI TXes as separate DRM bridge entities to better support the new LVDS
+> configurations.
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
+>  drivers/gpu/drm/tidss/Makefile      |   3 +-
+>  drivers/gpu/drm/tidss/tidss_dispc.c |  11 +-
+>  drivers/gpu/drm/tidss/tidss_dispc.h |   4 +
+>  drivers/gpu/drm/tidss/tidss_drv.c   |  13 +-
+>  drivers/gpu/drm/tidss/tidss_drv.h   |   4 +
+>  drivers/gpu/drm/tidss/tidss_oldi.c  | 568 ++++++++++++++++++++++++++++
+>  drivers/gpu/drm/tidss/tidss_oldi.h  |  73 ++++
+>  7 files changed, 673 insertions(+), 3 deletions(-)
+>  create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.c
+>  create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.h
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+> index d15f836dca95..fd90e8498cc2 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.c
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
+> @@ -23,6 +23,7 @@
+>  #include "tidss_drv.h"
+>  #include "tidss_kms.h"
+>  #include "tidss_irq.h"
+> +#include "tidss_oldi.h"
+>  
+>  /* Power management */
+>  
+> @@ -140,10 +141,17 @@ static int tidss_probe(struct platform_device *pdev)
+>  
+>  	spin_lock_init(&tidss->wait_lock);
+>  
+> +	ret = tidss_oldi_init(tidss);
+> +	if (ret) {
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dev, "failed to init OLDI (%d)\n", ret);
+> +		return ret;
+> +	}
 
-Signed-off-by: Kiarash Hajian <kiarash8112hajian@gmail.com>
----
-Changes in v4:
-- Combine v3 commits into a singel commit
-- Link to v3: https://lore.kernel.org/r/20240512-msm-adreno-memory-region-v3-0-0a728ad45010@gmail.com
+return dev_err_probe()
 
-Changes in v3:
-- Remove redundant devm_iounmap calls, relying on devres for automatic resource cleanup.
+> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
+> new file mode 100644
+> index 000000000000..fd96ca815542
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
+> @@ -0,0 +1,568 @@
 
-Changes in v2:
-- update the subject prefix to "drm/msm/a6xx:", to match the majority of other changes to this file.
----
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 22 +---------------------
- 1 file changed, 1 insertion(+), 21 deletions(-)
+...
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 8bea8ef26f77..cf0b3b3d8f34 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -524,9 +524,6 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
- 	uint32_t pdc_address_offset;
- 	bool pdc_in_aop = false;
- 
--	if (IS_ERR(pdcptr))
--		goto err;
--
- 	if (adreno_is_a650(adreno_gpu) ||
- 	    adreno_is_a660_family(adreno_gpu) ||
- 	    adreno_is_a7xx(adreno_gpu))
-@@ -540,8 +537,6 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
- 
- 	if (!pdc_in_aop) {
- 		seqptr = a6xx_gmu_get_mmio(pdev, "gmu_pdc_seq");
--		if (IS_ERR(seqptr))
--			goto err;
- 	}
- 
- 	/* Disable SDE clock gating */
-@@ -633,12 +628,6 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
- 	wmb();
- 
- 	a6xx_rpmh_stop(gmu);
--
--err:
--	if (!IS_ERR_OR_NULL(pdcptr))
--		iounmap(pdcptr);
--	if (!IS_ERR_OR_NULL(seqptr))
--		iounmap(seqptr);
- }
- 
- /*
-@@ -1503,7 +1492,7 @@ static void __iomem *a6xx_gmu_get_mmio(struct platform_device *pdev,
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	ret = ioremap(res->start, resource_size(res));
-+	ret = devm_ioremap_resource(&pdev->dev, res);
- 	if (!ret) {
- 		DRM_DEV_ERROR(&pdev->dev, "Unable to map the %s registers\n", name);
- 		return ERR_PTR(-EINVAL);
-@@ -1613,13 +1602,11 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	gmu->mmio = a6xx_gmu_get_mmio(pdev, "gmu");
- 	if (IS_ERR(gmu->mmio)) {
- 		ret = PTR_ERR(gmu->mmio);
--		goto err_mmio;
- 	}
- 
- 	gmu->cxpd = dev_pm_domain_attach_by_name(gmu->dev, "cx");
- 	if (IS_ERR(gmu->cxpd)) {
- 		ret = PTR_ERR(gmu->cxpd);
--		goto err_mmio;
- 	}
- 
- 	if (!device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME)) {
-@@ -1635,7 +1622,6 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	gmu->gxpd = dev_pm_domain_attach_by_name(gmu->dev, "gx");
- 	if (IS_ERR(gmu->gxpd)) {
- 		ret = PTR_ERR(gmu->gxpd);
--		goto err_mmio;
- 	}
- 
- 	gmu->initialized = true;
-@@ -1645,9 +1631,6 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- detach_cxpd:
- 	dev_pm_domain_detach(gmu->cxpd, false);
- 
--err_mmio:
--	iounmap(gmu->mmio);
--
- 	/* Drop reference taken in of_find_device_by_node */
- 	put_device(gmu->dev);
- 
-@@ -1825,9 +1808,6 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	dev_pm_domain_detach(gmu->cxpd, false);
- 
- err_mmio:
--	iounmap(gmu->mmio);
--	if (platform_get_resource_byname(pdev, IORESOURCE_MEM, "rscc"))
--		iounmap(gmu->rscc);
- 	free_irq(gmu->gmu_irq, gmu);
- 	free_irq(gmu->hfi_irq, gmu);
- 
+> +		ret = drm_of_find_panel_or_bridge(child, OLDI_OURPUT_PORT, -1,
+> +						  &panel, &bridge);
+> +		if (ret) {
+> +			/*
+> +			 * Either there was no OLDI sink in the devicetree, or
+> +			 * the OLDI sink has not been added yet. In any case,
+> +			 * return.
+> +			 * We don't want to have an OLDI node connected to DSS
+> +			 * but not to any sink.
+> +			 */
+> +			if (ret != -EPROBE_DEFER)
+> +				dev_err(tidss->dev,
+> +					"no panel/bridge for OLDI%d. Error %d\n",
+> +					oldi_instance, ret);
 
----
-base-commit: cf87f46fd34d6c19283d9625a7822f20d90b64a4
-change-id: 20240511-msm-adreno-memory-region-2bcb1c958621
+just dev_err_probe
 
-Best regards,
--- 
-Kiarash Hajian <kiarash8112hajian@gmail.com>
+> +			goto err_put_node;
+> +		}
+
+...
+
+> +		if (IS_ERR(oldi->io_ctrl)) {
+> +			dev_err(oldi->dev,
+> +				"%s: oldi%d syscon_regmap_lookup_by_phandle failed %ld\n",
+> +			       __func__, oldi_instance, PTR_ERR(oldi->io_ctrl));
+> +			ret = PTR_ERR(oldi->io_ctrl);
+
+dev_err_probe 
+
+> +			goto err_put_node;
+> +		}
+> +
+> +		oldi->s_clk = of_clk_get_by_name(child, "s_clk");
+> +		if (IS_ERR(oldi->s_clk)) {
+> +			dev_err(oldi->dev,
+> +				"%s: oldi%d Failed to get s_clk: %ld\n",
+> +				__func__, oldi_instance, PTR_ERR(oldi->s_clk));
+> +			ret = PTR_ERR(oldi->s_clk);
+
+dev_err_probe
+
+In general, in this function, sometime you print an error and goto
+err_put_node, sometime you just goto err_put_node.  Not sure what's the
+rationale on this.
+
+> +			goto err_put_node;
+> +		}
+> +
+> +		/* Register the bridge. */
+> +		oldi->bridge.of_node = child;
+> +		oldi->bridge.driver_private = oldi;
+> +		oldi->bridge.funcs = &tidss_oldi_bridge_funcs;
+> +		oldi->bridge.timings = &default_tidss_oldi_timings;
+> +
+> +		tidss->oldis[tidss->num_oldis++] = oldi;
+> +		oldi->tidss = tidss;
+> +
+> +		drm_bridge_add(&oldi->bridge);
+> +	}
+> +
+> +err_put_node:
+> +	of_node_put(child);
+> +	of_node_put(oldi_parent);
+> +	return ret;
+> +}
+> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.h b/drivers/gpu/drm/tidss/tidss_oldi.h
+> new file mode 100644
+> index 000000000000..5ad02ddea11a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tidss/tidss_oldi.h
+> @@ -0,0 +1,73 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Copyright (C) 2023 - Texas Instruments Incorporated
+> + *
+> + * Aradhya Bhatia <a-bhati1@ti.com>
+> + */
+> +
+> +#ifndef __TIDSS_OLDI_H__
+> +#define __TIDSS_OLDI_H__
+> +
+> +#include <linux/media-bus-format.h>
+> +
+> +#include "tidss_drv.h"
+> +#include "tidss_dispc.h"
+> +
+> +struct tidss_oldi;
+
+why do you need this here? 
+
+> +
+> +/* OLDI Instances */
+> +#define OLDI(n)		n
+> +
+> +/* OLDI PORTS */
+> +#define OLDI_INPUT_PORT		0
+> +#define OLDI_OURPUT_PORT	1
+> +
+> +/* OLDI Config Bits */
+> +#define OLDI_ENABLE		BIT(0)
+> +#define OLDI_MAP		(BIT(1) | BIT(2) | BIT(3))
+> +#define OLDI_SRC		BIT(4)
+> +#define OLDI_CLONE_MODE		BIT(5)
+> +#define OLDI_MASTERSLAVE	BIT(6)
+> +#define OLDI_DEPOL		BIT(7)
+> +#define OLDI_MSB		BIT(8)
+> +#define OLDI_LBEN		BIT(9)
+> +#define OLDI_LBDATA		BIT(10)
+> +#define OLDI_DUALMODESYNC	BIT(11)
+> +#define OLDI_SOFTRST		BIT(12)
+> +#define OLDI_TPATCFG		BIT(13)
+> +
+> +/* Control MMR Register */
+> +
+> +/* Register offsets */
+> +#define OLDI_PD_CTRL            0x100
+> +#define OLDI_LB_CTRL            0x104
+> +
+> +/* Power control bits */
+> +#define OLDI_PWRDN_TX(n)	BIT(n)
+> +
+> +/* LVDS Bandgap reference Enable/Disable */
+> +#define OLDI_PWRDN_BG		BIT(8)
+> +
+> +#define OLDI_IDLE_CLK_HZ	25000000 /*25 MHz */
+this is used only on a single C files, move it there?
+
+I would consider this comment in general for this header file,
+from a quick check most of this is used only in tidss_oldi.c.
+
+Francesco
 
