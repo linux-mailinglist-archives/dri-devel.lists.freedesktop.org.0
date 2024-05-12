@@ -2,66 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 664708C35AD
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 10:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FDD8C35D2
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 11:04:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 795B110E148;
-	Sun, 12 May 2024 08:30:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3172F10E0FD;
+	Sun, 12 May 2024 09:04:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ZIjDaLCE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HsypAjXe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 686 seconds by postgrey-1.36 at gabe;
- Sun, 12 May 2024 08:30:30 UTC
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
- by gabe.freedesktop.org (Postfix) with ESMTP id ABC1D10E148
- for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 08:30:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=laQYefkku3gVwt8bMMDsCuBt7YXFxaCqejXoM5vQ4W4=; b=Z
- IjDaLCEaRuCWq3ETlfqalEf5VujhfSfQvhODF3naoLI/papZfPOAhb1wAS3CAThi
- Wi1m75Un/rkdoQcN9IUPPE/sIRIWczncmigVlG0JhAVX/66TGvXm5czyNNWV2otW
- 09oO6eykb+hcVJfAFMJuAgW94d1vAvsmeaGkZxq3pI=
-Received: from andyshrk$163.com ( [103.29.142.67] ) by
- ajax-webmail-wmsvr-40-121 (Coremail) ; Sun, 12 May 2024 16:29:47 +0800
- (CST)
-X-Originating-IP: [103.29.142.67]
-Date: Sun, 12 May 2024 16:29:47 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Maxime Ripard" <mripard@kernel.org>
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, 
- "Thomas Zimmermann" <tzimmermann@suse.de>, 
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>, 
- "Jonathan Corbet" <corbet@lwn.net>, "Sandy Huang" <hjc@rock-chips.com>, 
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- "Chen-Yu Tsai" <wens@csie.org>, 
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, 
- "Samuel Holland" <samuel@sholland.org>, 
- "Andy Yan" <andy.yan@rock-chips.com>, 
- "Hans Verkuil" <hverkuil@xs4all.nl>, 
- "Sebastian Wick" <sebastian.wick@redhat.com>, 
- =?UTF-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re:[PATCH v13 27/28] drm/rockchip: inno_hdmi: Switch to HDMI connector
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20240507-kms-hdmi-connector-state-v13-27-8fafc5efe8be@kernel.org>
-References: <20240507-kms-hdmi-connector-state-v13-0-8fafc5efe8be@kernel.org>
- <20240507-kms-hdmi-connector-state-v13-27-8fafc5efe8be@kernel.org>
-X-NTES-SC: AL_Qu2aB/mbvU0j4SKaYukZnEobh+Y5UcK2s/ki2YFXN5k0kiTIwAsfYWZeB3v3zsWCGgGlqQGVcDpD0Pp9R4t8TZkAHubVysdUlb/POX51X+YZ
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67B6910E0FD;
+ Sun, 12 May 2024 09:04:07 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-52327368e59so146182e87.1; 
+ Sun, 12 May 2024 02:04:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715504645; x=1716109445; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Om7z4z/nZPkmvzc/xv1BUHiiD4wa9VFdhmgBrAsUs88=;
+ b=HsypAjXeylkQxPCVRqPNS/XxZmxWxGxoRvSKz+6nq879PsGUTifpe2M5y65P5NcqwA
+ A8yHAZttnxQx6a+l8jDtdoUY6ERnnAlLvt8lz2gBWbZYHGjuwD3fzvBSIuO98TeUkU5R
+ Uk7aT79yPOU9jp9PN1aNa9+4IlVuQSvPSoZZbM/b4rChizEi+GVkWGpDOlNqPMDWw9kk
+ 4f04DWZvCtw/+WknhzBKC8onkKUoC9OAian/RMQN/ImQTDg3BAi3aqaQxhFWM8s304oW
+ ZWDB4CWaiwTaNH7rZtASmuAOzBZDXcU9CLLrJVS4cXKsyyaYVKlzWPm/yT3F6LfXdQI6
+ 5Ywg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715504645; x=1716109445;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Om7z4z/nZPkmvzc/xv1BUHiiD4wa9VFdhmgBrAsUs88=;
+ b=dCahjNNwTePvu9qyQx8kU8Mb1vfgO0SbBei4axcW1aPCEtvya7xRf/nknx84ms6sWQ
+ cNHLXwQPJvtUYNP4Z3/lieHevQPsDS3iJdzduImRy3zX805P9x2Go8npSOETPz0s51yT
+ gDiGCWg3HYnGG8E54J6Cq381MuBo+24u64TJuH0gBLcuVEW31LUhLsZetlQVhsfNhLkK
+ VDd2z250fgBG8QyWR8CyQC2CbcseE7n6lAaPFgZmkr5k2WCpAY5EedWenO0PuTdGCGOK
+ IQulUitFB6zFGGbCduwUStLzeSG4JfBsrAHAZPOv+vjnY+mejmoq6+/xhIWT/KyVe5c0
+ z16Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU2ZZ/pFTA3brYeudBbQ9nA67n1msIJ1Lq0+Ho0blDIUgJLqBnfo1vNAhiFO77wQnnUcBjnXwoNuzlK7m6tX9IgmRQK3Z+J6kqlKWPwyUegV+NK+lbuzetqANsZvorgyRm9CFH4n7qJ5IkwLF+e9B5V
+X-Gm-Message-State: AOJu0YzjqbqIim6xCpu+PsDK5Q52ZPg812K7ZZDtAVq7Nasv7YRI5Bo8
+ 8rJQko5hgyVDeXeOuvZDBXCuOle6UzR7oMxmzVB0+KLw2xJPnsPX
+X-Google-Smtp-Source: AGHT+IGmyKXU7smaDw09zDngJdmSsV9gZLDt6vpCR+JOFX7ZIkID5MSda4g1IoGmjVtbcawOzD+2+Q==
+X-Received: by 2002:a05:6512:158d:b0:519:5df9:d945 with SMTP id
+ 2adb3069b0e04-5220fb77429mr6289711e87.4.1715504644872; 
+ Sun, 12 May 2024 02:04:04 -0700 (PDT)
+Received: from kali.localhost (static.47.50.88.23.clients.your-server.de.
+ [23.88.50.47]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a5a1781cd9csm431372766b.37.2024.05.12.02.04.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 12 May 2024 02:04:04 -0700 (PDT)
+From: Kiarash Hajian <kiarash8112hajian@gmail.com>
+Date: Sun, 12 May 2024 05:03:53 -0400
+Subject: [PATCH v4] drm/msm/a6xx: request memory region
 MIME-Version: 1.0
-Message-ID: <2d3073ce.16e2.18f6bec1d61.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: _____wD338T7fUBmWJopAA--.47081W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEBzcXmVOD6eJvQADs6
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240512-msm-adreno-memory-region-v4-1-3881a64088e6@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAPiFQGYC/43NQQ7CIBAF0KsY1o5hBiriynsYF7RMK4m0Bkyja
+ Xp30VXjwnT5f+a/mUTmFDiL42YSiceQw9CXoLcb0Vxd3zEEX7IgSVpWiBBzBOcT9wNEjkN6QeK
+ ujIDqpsbGVoc9oSjze+I2PL/0+VLyNeRHOf9+GvHTrkBHBARvlDXSoPGaTl104bZrhig+6EhrI
+ SqQbZVqNbGprf2F1BKiP5ACCdIZOjivK4lyCc3z/Aa630hMUgEAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Kiarash Hajian <kiarash8112hajian@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1715504642; l=3699;
+ i=kiarash8112hajian@gmail.com; s=20240409; h=from:subject:message-id;
+ bh=kxKl9BXWLII/5XSxmShz9Co5it81zM/OD7dKzTsMN9M=;
+ b=xRPIc85k3y6TGkCNJxSA4BeWf0WJ7DJiAXVEhvBPjZehWCkKoB4l8MM88zzi4HYJcgmofRN/o
+ fJ3Zn/CLvVnA27wDoh3NXuF70UpNoRuIhMhYVcitDiqaoBICyaolCZo
+X-Developer-Key: i=kiarash8112hajian@gmail.com; a=ed25519;
+ pk=ehVBr28gPcA8cMB/wneVh0Mj6WGkqZoyYRdRNi5+aI0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,101 +97,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIE1heGltZSwKCkF0IDIwMjQtMDUtMDcgMjE6MTc6NDUsICJNYXhpbWUgUmlwYXJkIiA8bXJp
-cGFyZEBrZXJuZWwub3JnPiB3cm90ZToKPlRoZSBuZXcgSERNSSBjb25uZWN0b3IgaW5mcmFzdHJ1
-Y3R1cmUgYWxsb3dzIHRvIHJlbW92ZSBzb21lIGJvaWxlcnBsYXRlLAo+ZXNwZWNpYWxseSB0byBn
-ZW5lcmF0ZSBpbmZvZnJhbWVzLiBMZXQncyBzd2l0Y2ggdG8gaXQuCj4KPlJldmlld2VkLWJ5OiBI
-ZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNoLmRlPgo+QWNrZWQtYnk6IEhlaWtvIFN0dWVibmVy
-IDxoZWlrb0BzbnRlY2guZGU+Cj5TaWduZWQtb2ZmLWJ5OiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJk
-QGtlcm5lbC5vcmc+Cj4tLS0KPiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2NvbmZpZyAgICAg
-ICB8ICAgMyArCj4gZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9faGRtaS5jICAgfCAxNTMg
-KysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gZHJpdmVycy9ncHUvZHJtL3N1bjRp
-L3N1bjRpX2hkbWlfZW5jLmMgfCAgIDMgKwo+IDMgZmlsZXMgY2hhbmdlZCwgNjEgaW5zZXJ0aW9u
-cygrKSwgOTggZGVsZXRpb25zKC0pCj4KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9j
-a2NoaXAvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9LY29uZmlnCj5pbmRleCAx
-YmYzZTI4MjljZDAuLjdkZjg3NWUzODUxNyAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9y
-b2NrY2hpcC9LY29uZmlnCj4rKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2NvbmZpZwo+
-QEAgLTcyLDEwICs3MiwxMyBAQCBjb25maWcgUk9DS0NISVBfRFdfTUlQSV9EU0kKPiAJICBlbmFi
-bGUgTUlQSSBEU0kgb24gUkszMjg4IG9yIFJLMzM5OSBiYXNlZCBTb0MsIHlvdSBzaG91bGQKPiAJ
-ICBzZWxlY3QgdGhpcyBvcHRpb24uCj4gCj4gY29uZmlnIFJPQ0tDSElQX0lOTk9fSERNSQo+IAli
-b29sICJSb2NrY2hpcCBzcGVjaWZpYyBleHRlbnNpb25zIGZvciBJbm5vc2lsaWNvbiBIRE1JIgo+
-KwlzZWxlY3QgRFJNX0RJU1BMQVlfSERNSV9IRUxQRVIKPisJc2VsZWN0IERSTV9ESVNQTEFZX0hE
-TUlfU1RBVEVfSEVMUEVSCj4rCXNlbGVjdCBEUk1fRElTUExBWV9IRUxQRVIKPiAJaGVscAo+IAkg
-IFRoaXMgc2VsZWN0cyBzdXBwb3J0IGZvciBSb2NrY2hpcCBTb0Mgc3BlY2lmaWMgZXh0ZW5zaW9u
-cwo+IAkgIGZvciB0aGUgSW5ub3NpbGljb24gSERNSSBkcml2ZXIuIElmIHlvdSB3YW50IHRvIGVu
-YWJsZQo+IAkgIEhETUkgb24gUkszMDM2IGJhc2VkIFNvQywgeW91IHNob3VsZCBzZWxlY3QgdGhp
-cyBvcHRpb24uCj4gCj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9f
-aGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9faGRtaS5jCj5pbmRleCAzZGYy
-Y2ZjZjk5OTguLjUwNjk0MDNjM2I4MCAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yb2Nr
-Y2hpcC9pbm5vX2hkbWkuYwo+KysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9faGRt
-aS5jCj5AQCAtMjAsMTAgKzIwLDEzIEBACj4gI2luY2x1ZGUgPGRybS9kcm1fZWRpZC5oPgo+ICNp
-bmNsdWRlIDxkcm0vZHJtX29mLmg+Cj4gI2luY2x1ZGUgPGRybS9kcm1fcHJvYmVfaGVscGVyLmg+
-Cj4gI2luY2x1ZGUgPGRybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuaD4KPiAKPisjaW5jbHVkZSA8
-ZHJtL2Rpc3BsYXkvZHJtX2hkbWlfaGVscGVyLmg+Cj4rI2luY2x1ZGUgPGRybS9kaXNwbGF5L2Ry
-bV9oZG1pX3N0YXRlX2hlbHBlci5oPgo+KwouLi4uLi4KPiAKPiBzdGF0aWMgaW50IGlubm9faGRt
-aV9jb25maWdfdmlkZW9fY3NjKHN0cnVjdCBpbm5vX2hkbWkgKmhkbWkpCj4gewo+IAlzdHJ1Y3Qg
-ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yID0gJmhkbWktPmNvbm5lY3RvcjsKPiAJc3RydWN0IGRy
-bV9jb25uZWN0b3Jfc3RhdGUgKmNvbm5fc3RhdGUgPSBjb25uZWN0b3ItPnN0YXRlOwo+QEAgLTM1
-OSwxMiArMzIzLDEyIEBAIHN0YXRpYyBpbnQgaW5ub19oZG1pX2NvbmZpZ192aWRlb19jc2Moc3Ry
-dWN0IGlubm9faGRtaSAqaGRtaSkKPiAJdmFsdWUgPSB2X1ZJREVPX0lOUFVUX0JJVFMoVklERU9f
-SU5QVVRfOEJJVFMpIHwKPiAJCXZfVklERU9fT1VUUFVUX0NPTE9SKDApIHwKPiAJCXZfVklERU9f
-SU5QVVRfQ1NQKDApOwo+IAloZG1pX3dyaXRlYihoZG1pLCBIRE1JX1ZJREVPX0NPTlRSTDIsIHZh
-bHVlKTsKPiAKPi0JaWYgKGlubm9fY29ubl9zdGF0ZS0+ZW5jX291dF9mb3JtYXQgPT0gSERNSV9D
-T0xPUlNQQUNFX1JHQikgewo+LQkJaWYgKGlubm9fY29ubl9zdGF0ZS0+cmdiX2xpbWl0ZWRfcmFu
-Z2UpIHsKPisJaWYgKGNvbm5fc3RhdGUtPmhkbWkub3V0cHV0X2Zvcm1hdCA9PSBIRE1JX0NPTE9S
-U1BBQ0VfUkdCKSB7Cj4rCQlpZiAoY29ubl9zdGF0ZS0+aGRtaS5pc19saW1pdGVkX3JhbmdlKSB7
-Cj4gCQkJY3NjX21vZGUgPSBDU0NfUkdCXzBfMjU1X1RPX1JHQl8xNl8yMzVfOEJJVDsKPiAJCQlh
-dXRvX2NzYyA9IEFVVE9fQ1NDX0RJU0FCTEU7Cj4gCQkJYzBfYzJfY2hhbmdlID0gQzBfQzJfQ0hB
-TkdFX0RJU0FCTEU7Cj4gCQkJY3NjX2VuYWJsZSA9IHZfQ1NDX0VOQUJMRTsKPiAKPkBAIC0zNzgs
-MTggKzM0MiwxOCBAQCBzdGF0aWMgaW50IGlubm9faGRtaV9jb25maWdfdmlkZW9fY3NjKHN0cnVj
-dCBpbm5vX2hkbWkgKmhkbWkpCj4gCQkJCSAgdl9WSURFT19DMF9DMl9TV0FQKEMwX0MyX0NIQU5H
-RV9ESVNBQkxFKSk7Cj4gCQkJcmV0dXJuIDA7Cj4gCQl9Cj4gCX0gZWxzZSB7Cj4gCQlpZiAoaW5u
-b19jb25uX3N0YXRlLT5jb2xvcmltZXRyeSA9PSBIRE1JX0NPTE9SSU1FVFJZX0lUVV82MDEpIHsK
-Pi0JCQlpZiAoaW5ub19jb25uX3N0YXRlLT5lbmNfb3V0X2Zvcm1hdCA9PSBIRE1JX0NPTE9SU1BB
-Q0VfWVVWNDQ0KSB7Cj4rCQkJaWYgKGNvbm5fc3RhdGUtPmhkbWkub3V0cHV0X2Zvcm1hdCA9PSBI
-RE1JX0NPTE9SU1BBQ0VfWVVWNDQ0KSB7Cj4gCQkJCWNzY19tb2RlID0gQ1NDX1JHQl8wXzI1NV9U
-T19JVFU2MDFfMTZfMjM1XzhCSVQ7Cj4gCQkJCWF1dG9fY3NjID0gQVVUT19DU0NfRElTQUJMRTsK
-PiAJCQkJYzBfYzJfY2hhbmdlID0gQzBfQzJfQ0hBTkdFX0RJU0FCTEU7Cj4gCQkJCWNzY19lbmFi
-bGUgPSB2X0NTQ19FTkFCTEU7Cj4gCQkJfQo+IAkJfSBlbHNlIHsKPi0JCQlpZiAoaW5ub19jb25u
-X3N0YXRlLT5lbmNfb3V0X2Zvcm1hdCA9PSBIRE1JX0NPTE9SU1BBQ0VfWVVWNDQ0KSB7Cj4rCQkJ
-aWYgKGNvbm5fc3RhdGUtPmhkbWkub3V0cHV0X2Zvcm1hdCA9PSBIRE1JX0NPTE9SU1BBQ0VfWVVW
-NDQ0KSB7Cj4gCQkJCWNzY19tb2RlID0gQ1NDX1JHQl8wXzI1NV9UT19JVFU3MDlfMTZfMjM1XzhC
-SVQ7Cj4gCQkJCWF1dG9fY3NjID0gQVVUT19DU0NfRElTQUJMRTsKPiAJCQkJYzBfYzJfY2hhbmdl
-ID0gQzBfQzJfQ0hBTkdFX0RJU0FCTEU7Cj4gCQkJCWNzY19lbmFibGUgPSB2X0NTQ19FTkFCTEU7
-Cj4gCQkJfQo+QEAgLTQ2MCwxNCArNDI0LDE2IEBAIHN0YXRpYyBpbnQgaW5ub19oZG1pX2NvbmZp
-Z192aWRlb190aW1pbmcoc3RydWN0IGlubm9faGRtaSAqaGRtaSwKPiAKPiAJcmV0dXJuIDA7Cj4g
-fQo+IAo+IHN0YXRpYyBpbnQgaW5ub19oZG1pX3NldHVwKHN0cnVjdCBpbm5vX2hkbWkgKmhkbWks
-Cj4tCQkJICAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUpCj4rCQkJICAgc3RydWN0IGRy
-bV9jcnRjX3N0YXRlICpuZXdfY3J0Y19zdGF0ZSwKPisJCQkgICBzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
-cl9zdGF0ZSAqbmV3X2Nvbm5fc3RhdGUpCj4gewo+LQlzdHJ1Y3QgZHJtX2Rpc3BsYXlfaW5mbyAq
-ZGlzcGxheSA9ICZoZG1pLT5jb25uZWN0b3IuZGlzcGxheV9pbmZvOwo+LQl1bnNpZ25lZCBsb25n
-IG1waXhlbGNsb2NrID0gbW9kZS0+Y2xvY2sgKiAxMDAwOwo+KwlzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
-ciAqY29ubmVjdG9yID0gJmhkbWktPmNvbm5lY3RvcjsKPisJc3RydWN0IGRybV9kaXNwbGF5X2lu
-Zm8gKmRpc3BsYXkgPSAmY29ubmVjdG9yLT5kaXNwbGF5X2luZm87Cj4rCXN0cnVjdCBkcm1fZGlz
-cGxheV9tb2RlICptb2RlID0gJm5ld19jcnRjX3N0YXRlLT5hZGp1c3RlZF9tb2RlOwo+IAo+IAkv
-KiBNdXRlIHZpZGVvIGFuZCBhdWRpbyBvdXRwdXQgKi8KPiAJaGRtaV9tb2RiKGhkbWksIEhETUlf
-QVZfTVVURSwgbV9BVURJT19NVVRFIHwgbV9WSURFT19CTEFDSywKPiAJCSAgdl9BVURJT19NVVRF
-KDEpIHwgdl9WSURFT19NVVRFKDEpKTsKPiAKPkBAIC00NzcsMjYgKzQ0MywyNiBAQCBzdGF0aWMg
-aW50IGlubm9faGRtaV9zZXR1cChzdHJ1Y3QgaW5ub19oZG1pICpoZG1pLAo+IAo+IAlpbm5vX2hk
-bWlfY29uZmlnX3ZpZGVvX3RpbWluZyhoZG1pLCBtb2RlKTsKPiAKPiAJaW5ub19oZG1pX2NvbmZp
-Z192aWRlb19jc2MoaGRtaSk7Cj4gCj4tCWlmIChkaXNwbGF5LT5pc19oZG1pKQo+LQkJaW5ub19o
-ZG1pX2NvbmZpZ192aWRlb19hdmkoaGRtaSwgbW9kZSk7Cj4rCWRybV9hdG9taWNfaGVscGVyX2Nv
-bm5lY3Rvcl9oZG1pX3VwZGF0ZV9pbmZvZnJhbWVzKGNvbm5lY3RvciwKPisJCQkJCQkJICAgbmV3
-X2Nvbm5fc3RhdGUtPnN0YXRlKTsKPiAKCm5ld19jb25uX3N0YXRlLT5zdGF0ZSB3aWxsIGJlIHNl
-dCBOVUxMIGluIGRybV9hdG9taWNfaGVscGVyX3N3YXBfc3RhdGUsCnNvIHRoaXMgd2lsbCBjYXVz
-ZSBhIE5VTEwgcG9pbnRlciByZWZlcmVuY2UgcGFuaWMgaGVyZS4KCgo+IAkvKgo+IAkgKiBXaGVu
-IElQIGNvbnRyb2xsZXIgaGF2ZSBjb25maWd1cmVkIHRvIGFuIGFjY3VyYXRlIHZpZGVvCj4gCSAq
-IHRpbWluZywgdGhlbiB0aGUgVE1EUyBjbG9jayBzb3VyY2Ugd291bGQgYmUgc3dpdGNoZWQgdG8K
-PiAJICogRENMS19MQ0RDLCBzbyB3ZSBuZWVkIHRvIGluaXQgdGhlIFRNRFMgcmF0ZSB0byBtb2Rl
-IHBpeGVsCj4gCSAqIGNsb2NrIHJhdGUsIGFuZCByZWNvbmZpZ3VyZSB0aGUgRERDIGNsb2NrLgo+
-IAkgKi8KPi0JaW5ub19oZG1pX2kyY19pbml0KGhkbWksIG1waXhlbGNsb2NrKTsKPisJaW5ub19o
-ZG1pX2kyY19pbml0KGhkbWksIG5ld19jb25uX3N0YXRlLT5oZG1pLnRtZHNfY2hhcl9yYXRlKTsK
-PiAKPiAJLyogVW5tdXRlIHZpZGVvIGFuZCBhdWRpbyBvdXRwdXQgKi8KPiAJaGRtaV9tb2RiKGhk
-bWksIEhETUlfQVZfTVVURSwgbV9BVURJT19NVVRFIHwgbV9WSURFT19CTEFDSywKPiAJCSAgdl9B
-VURJT19NVVRFKDApIHwgdl9WSURFT19NVVRFKDApKTsKPiAKPi0JaW5ub19oZG1pX3Bvd2VyX3Vw
-KGhkbWksIG1waXhlbGNsb2NrKTsKPisJaW5ub19oZG1pX3Bvd2VyX3VwKGhkbWksIG5ld19jb25u
-X3N0YXRlLT5oZG1pLnRtZHNfY2hhcl9yYXRlKTsKPiAKPiAJcmV0dXJuIDA7Cj4gfQo+IAoKPi0t
-IAo+Mi40NS4wCj4KPgo+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KPmxpbnV4LWFybS1rZXJuZWwgbWFpbGluZyBsaXN0Cj5saW51eC1hcm0ta2VybmVsQGxp
-c3RzLmluZnJhZGVhZC5vcmcKPmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlz
-dGluZm8vbGludXgtYXJtLWtlcm5lbAo=
+The driver's memory regions are currently just ioremap()ed, but not
+reserved through a request. That's not a bug, but having the request is
+a little more robust.
+
+Implement the region-request through the corresponding managed
+devres-function.
+
+Signed-off-by: Kiarash Hajian <kiarash8112hajian@gmail.com>
+---
+Changes in v4:
+- Combine v3 commits into a singel commit
+- Link to v3: https://lore.kernel.org/r/20240512-msm-adreno-memory-region-v3-0-0a728ad45010@gmail.com
+
+Changes in v3:
+- Remove redundant devm_iounmap calls, relying on devres for automatic resource cleanup.
+
+Changes in v2:
+- update the subject prefix to "drm/msm/a6xx:", to match the majority of other changes to this file.
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 22 +---------------------
+ 1 file changed, 1 insertion(+), 21 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 8bea8ef26f77..cf0b3b3d8f34 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -524,9 +524,6 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+ 	uint32_t pdc_address_offset;
+ 	bool pdc_in_aop = false;
+ 
+-	if (IS_ERR(pdcptr))
+-		goto err;
+-
+ 	if (adreno_is_a650(adreno_gpu) ||
+ 	    adreno_is_a660_family(adreno_gpu) ||
+ 	    adreno_is_a7xx(adreno_gpu))
+@@ -540,8 +537,6 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+ 
+ 	if (!pdc_in_aop) {
+ 		seqptr = a6xx_gmu_get_mmio(pdev, "gmu_pdc_seq");
+-		if (IS_ERR(seqptr))
+-			goto err;
+ 	}
+ 
+ 	/* Disable SDE clock gating */
+@@ -633,12 +628,6 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+ 	wmb();
+ 
+ 	a6xx_rpmh_stop(gmu);
+-
+-err:
+-	if (!IS_ERR_OR_NULL(pdcptr))
+-		iounmap(pdcptr);
+-	if (!IS_ERR_OR_NULL(seqptr))
+-		iounmap(seqptr);
+ }
+ 
+ /*
+@@ -1503,7 +1492,7 @@ static void __iomem *a6xx_gmu_get_mmio(struct platform_device *pdev,
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	ret = ioremap(res->start, resource_size(res));
++	ret = devm_ioremap_resource(&pdev->dev, res);
+ 	if (!ret) {
+ 		DRM_DEV_ERROR(&pdev->dev, "Unable to map the %s registers\n", name);
+ 		return ERR_PTR(-EINVAL);
+@@ -1613,13 +1602,11 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 	gmu->mmio = a6xx_gmu_get_mmio(pdev, "gmu");
+ 	if (IS_ERR(gmu->mmio)) {
+ 		ret = PTR_ERR(gmu->mmio);
+-		goto err_mmio;
+ 	}
+ 
+ 	gmu->cxpd = dev_pm_domain_attach_by_name(gmu->dev, "cx");
+ 	if (IS_ERR(gmu->cxpd)) {
+ 		ret = PTR_ERR(gmu->cxpd);
+-		goto err_mmio;
+ 	}
+ 
+ 	if (!device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME)) {
+@@ -1635,7 +1622,6 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 	gmu->gxpd = dev_pm_domain_attach_by_name(gmu->dev, "gx");
+ 	if (IS_ERR(gmu->gxpd)) {
+ 		ret = PTR_ERR(gmu->gxpd);
+-		goto err_mmio;
+ 	}
+ 
+ 	gmu->initialized = true;
+@@ -1645,9 +1631,6 @@ int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ detach_cxpd:
+ 	dev_pm_domain_detach(gmu->cxpd, false);
+ 
+-err_mmio:
+-	iounmap(gmu->mmio);
+-
+ 	/* Drop reference taken in of_find_device_by_node */
+ 	put_device(gmu->dev);
+ 
+@@ -1825,9 +1808,6 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 	dev_pm_domain_detach(gmu->cxpd, false);
+ 
+ err_mmio:
+-	iounmap(gmu->mmio);
+-	if (platform_get_resource_byname(pdev, IORESOURCE_MEM, "rscc"))
+-		iounmap(gmu->rscc);
+ 	free_irq(gmu->gmu_irq, gmu);
+ 	free_irq(gmu->hfi_irq, gmu);
+ 
+
+---
+base-commit: cf87f46fd34d6c19283d9625a7822f20d90b64a4
+change-id: 20240511-msm-adreno-memory-region-2bcb1c958621
+
+Best regards,
+-- 
+Kiarash Hajian <kiarash8112hajian@gmail.com>
+
