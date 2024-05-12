@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B1F8C3891
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 23:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830458C3893
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 23:22:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFB0810E15C;
-	Sun, 12 May 2024 21:21:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7295B10E1AE;
+	Sun, 12 May 2024 21:22:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="q0Zgd6n1";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YxcMJYwZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C40710E15C
- for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 21:21:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF1BD10E1AE
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 21:22:29 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9485B8BE;
- Sun, 12 May 2024 23:21:20 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB2BB8BE;
+ Sun, 12 May 2024 23:22:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1715548880;
- bh=5liMwDMQqGwgDBOeSGRvPnrNGvH2XDVoxgQf1n5jyxw=;
+ s=mail; t=1715548942;
+ bh=IpE/1z4h7esQnfB3BIM9qsCQl4xVSuaOIPmnyTRgaBc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=q0Zgd6n1KxI+ollROOJQX004ZWu0/657VKEUFRgLE1wZzHEWcrEfyd328HCMPuj/P
- fvUmFwMmBzXkurYRoA/mAIzR8j3tpgvmTJFAx4ugGLHjieH2Gwc2WmAO3+7H1X8lq/
- igBpPqeezrPMsaKbcNIHaYEkSGDMeKz1A6XAre00=
-Date: Mon, 13 May 2024 00:21:18 +0300
+ b=YxcMJYwZCxTQu53OrYfLQOFrMUZazvyfuG++c0347NxPAvHlz6JXv4gaeKHyFGh0Z
+ t1LZGBRV58ZdFi4eHbd163FJPs/SZz9lz8P1XCMVp8bFSjxx6bvtl4FQ8AYydovExq
+ pCKoKqeaq0FmSJDKMIqNl7Ry8EIQjv2ccgvwKxDI=
+Date: Mon, 13 May 2024 00:22:15 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
 Cc: Maxime Ripard <mripard@kernel.org>,
@@ -38,14 +38,14 @@ Cc: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: megachips-stdpxxxx-ge-b850v3-fw: Remove a
- redundant check on existence of bridge->encoder
-Message-ID: <20240512212118.GS17158@pendragon.ideasonboard.com>
-References: <20240511143820.324369-1-sui.jingfeng@linux.dev>
+Subject: Re: [PATCH] drm/bridge: cdns-mhdp8546: Remove a redundant check on
+ existence of bridge->encoder
+Message-ID: <20240512212215.GT17158@pendragon.ideasonboard.com>
+References: <20240511143027.320180-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240511143820.324369-1-sui.jingfeng@linux.dev>
+In-Reply-To: <20240511143027.320180-1-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,13 +65,13 @@ Hi Sui,
 
 Thank you for the patch.
 
-On Sat, May 11, 2024 at 10:38:20PM +0800, Sui Jingfeng wrote:
-> In the ge_b850v3_lvds_create_connector function, the check on the existence
+On Sat, May 11, 2024 at 10:30:27PM +0800, Sui Jingfeng wrote:
+> In the cdns_mhdp_connector_init() function, the check on the existence
 > of bridge->encoder is not necessary, as it has already been done in the
 > drm_bridge_attach() function. And the check on the drm bridge core
 > happens before check in the implementation. Hence, it is guaranteed that
 > the .encoder member of the struct drm_bridge is not NULL when
-> ge_b850v3_lvds_attach() function gets called.
+> adv7511_bridge_attach() function gets called.
 > 
 > Remove the redundant checking codes "if (!bridge->encoder) { ... }".
 > 
@@ -80,25 +80,25 @@ On Sat, May 11, 2024 at 10:38:20PM +0800, Sui Jingfeng wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 5 -----
+>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 5 -----
 >  1 file changed, 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> index 4480523244e4..37f1acf5c0f8 100644
-> --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-> @@ -165,11 +165,6 @@ static int ge_b850v3_lvds_create_connector(struct drm_bridge *bridge)
->  	struct drm_connector *connector = &ge_b850v3_lvds_ptr->connector;
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> index e226acc5c15e..16b58a7dcc54 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -1697,11 +1697,6 @@ static int cdns_mhdp_connector_init(struct cdns_mhdp_device *mhdp)
+>  	struct drm_bridge *bridge = &mhdp->bridge;
 >  	int ret;
 >  
 > -	if (!bridge->encoder) {
-> -		DRM_ERROR("Parent encoder object not found");
+> -		dev_err(mhdp->dev, "Parent encoder object not found");
 > -		return -ENODEV;
 > -	}
 > -
->  	connector->polled = DRM_CONNECTOR_POLL_HPD;
+>  	conn->polled = DRM_CONNECTOR_POLL_HPD;
 >  
->  	drm_connector_helper_add(connector,
+>  	ret = drm_connector_init(bridge->dev, conn, &cdns_mhdp_conn_funcs,
 
 -- 
 Regards,
