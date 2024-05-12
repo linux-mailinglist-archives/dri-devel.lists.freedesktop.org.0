@@ -2,122 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D008C3566
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 09:59:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00BAF8C356C
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 10:04:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90E6D10E080;
-	Sun, 12 May 2024 07:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDE8110E145;
+	Sun, 12 May 2024 08:04:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VEc90iIx";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="uWr/WF1q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2061.outbound.protection.outlook.com [40.107.243.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFA5610E080;
- Sun, 12 May 2024 07:59:34 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2087.outbound.protection.outlook.com [40.107.223.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A62310E122;
+ Sun, 12 May 2024 08:04:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XrC7A2WYckN3/gWCCmIyEuH7e4gbyFiMfxqwYyH1qEu2hfFlWjGRwnVSUEuSKB8Ssl7u41/kzZxLn6K8/8Cnf6WXL9QZ13wQcLtwooAdPxYu0/CVuAX6c/VKUdLNA8d0mP30b2aBGq3gcNL5XPjt5vVuAAZZ18DWnt/wwb48G45Hy46mUzjg+gvN1SOgxfif5iFI2tcL5VXhXm6uAhGiuRCSCAMibPX4/YPOnZhY1y64UDjoashNZDpt215zUD4JS0y9x42RmRw7qcF6dJKVVroUx3GE8U6ukqRyd2s74SiMJQvmQFQhMQ2tEN3W/A+Rbt79A6zGcB5A+2ty3P1S9w==
+ b=er3OuwfShQuaTgpXY0p4jycP607HPL7Auhg+DXg23pNJTlV/kZXyk1sG1W6v/RJWUjp/F8tvMCNDKKewA/enDF1YtRyG/QgVzN05Bg4Q2MtILWlR/ms8VkserRAT2zx7m2dNf/Snxplbv17CPrOSMzU4hvnrRLjU6vUyz1UGa/HmUaq58NukGLhmM+MPQCWhw74Rjc5fzOoXjfULH+f52munaVuD/0PfjxlHm0SExwd2qmz7gj6X4Z1Fzqlo9NxV36/Mbsf9LNQMqK/R1MCc9BSKX+qziA29zE6BVXnIFKJIV6uQoBSFM0ZJKDPFCCBtn6mSPFic1zB0lZizkHnDtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xc3gbNccS9zJ/rrk71j++WVUrMYjipHEuqz8Z8YblXo=;
- b=gUI+HGD7xDqOC9FNEUAT5ru48UuXJ0gjGLwm4m+Zv0x5IG52/4xGNbI2IcfFNkPtwVH4n6ZQCMsO/yf3K9OOzkOIpTBFWq6LmB26Om3/kL+PXLZ0AQu8VsPCixCMJJrWQjIdILT2mGvcxobwQXtXyWWie1JhaZzFXx5oiE0kaxRjxbEt6VGv/rHLyftkEQfgo266EUDFyuHN9pkzl5d8LkKzDr5aJUiL0FBA0c9wqDGo40BlPI/EyJyorXbxILoGPoA1YE7XNsWw/bmyh2qpF9K1wTiEzMuHTibvnDMk1YrQBN5kFMUKjM9nGx/Ud6Ij9sd+kCzIkpXnrzqsDdk5ag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
+ bh=TwcsJTTNYAXjam1NZqIwh/rd4isr0wbhenOwXnbrVzo=;
+ b=RlnUbgaM/V1vzcZSUqorhDISboa5nOvGuyjEHAMnmIYXe4AISUO0zdTp7ejsNVZ2pMFwH9tiBmHeSvcNgX7u8LgR5Y2U1j1p0bpU6oM2wS84uxRlX/7zm+Gp5jatirIMhNlBZW1uyPCCSIwrnWyN7giHpVD8vl2PpDaaPbHZpYnwgn2OwNWmpwQZN8Iqe2eLvnzBnLgBzm4WxRf88yGD4wsoeyO8hu7WercgJcY8KUkJhqjnfnyVmxoAzheS+4B46fcMOtw06GEMnhc7HOXHLturDEdkjO2cHvnTwqkvWWP6p+2x2Mcyv1Wxv8Y9BzlO0sN2HMAsmiMwCsM0GF+UVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xc3gbNccS9zJ/rrk71j++WVUrMYjipHEuqz8Z8YblXo=;
- b=VEc90iIxotAagVwbA2IVlJ0uf0PqOtJAQUuQ1bH2pPr5R+we3SXbZKyP6ctV7nzIctHSebyB4+HdK7Cd1YdUbV9LI9L5c6xarVqldEipV6I5XLTFsxY3i75wZkYzyZliSXpBAEj2IUv33Et313DyquBYHQ7U4aXXhdXWpo3C/6I=
-Received: from BL1PR13CA0425.namprd13.prod.outlook.com (2603:10b6:208:2c3::10)
- by SN7PR12MB7105.namprd12.prod.outlook.com (2603:10b6:806:2a0::16)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=TwcsJTTNYAXjam1NZqIwh/rd4isr0wbhenOwXnbrVzo=;
+ b=uWr/WF1qsdj1LkvN35PeUeOzZDmCnqqyViKKmoVHZ7JxQQEi6hJpUYjEM0Iu6LA4xKecS6leJzswv9cSXVUdzCOTqRO1jwfnUvGkai2mLxgdzKuO1xFdSwQE6zilc6qkctQBvFw4JV7bL24CBBrASgMu7c51TzXKs11cntZzIEE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
+ by DM4PR12MB6470.namprd12.prod.outlook.com (2603:10b6:8:b8::12) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Sun, 12 May
- 2024 07:59:29 +0000
-Received: from BL6PEPF0002256F.namprd02.prod.outlook.com
- (2603:10b6:208:2c3:cafe::95) by BL1PR13CA0425.outlook.office365.com
- (2603:10b6:208:2c3::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.21 via Frontend
- Transport; Sun, 12 May 2024 07:59:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0002256F.mail.protection.outlook.com (10.167.249.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7587.21 via Frontend Transport; Sun, 12 May 2024 07:59:28 +0000
-Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 12 May 2024 02:59:26 -0500
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <matthew.auld@intel.com>
-CC: <christian.koenig@amd.com>, <alexander.deucher@amd.com>,
- <daniel@ffwll.ch>, Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Subject: [PATCH v2 2/2] drm/tests: Add a unit test for range bias allocation
-Date: Sun, 12 May 2024 13:29:09 +0530
-Message-ID: <20240512075909.2688-2-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240512075909.2688-1-Arunpravin.PaneerSelvam@amd.com>
-References: <20240512075909.2688-1-Arunpravin.PaneerSelvam@amd.com>
+ 2024 08:03:57 +0000
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::c55f:19e:6896:cf3]) by MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::c55f:19e:6896:cf3%6]) with mapi id 15.20.7544.052; Sun, 12 May 2024
+ 08:03:57 +0000
+Message-ID: <127e58ba-cd09-4fb7-ad9c-7f4b9efdb80b@amd.com>
+Date: Sun, 12 May 2024 13:33:48 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/buddy: Fix the range bias clear memory allocation
+ issue
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, christian.koenig@amd.com, alexander.deucher@amd.com
+References: <20240508065720.125846-1-Arunpravin.PaneerSelvam@amd.com>
+ <Zjs6wVITtRuXoRDz@phenom.ffwll.local>
+Content-Language: en-US
+From: "Paneer Selvam, Arunpravin" <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <Zjs6wVITtRuXoRDz@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0128.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:bf::13) To MN2PR12MB4342.namprd12.prod.outlook.com
+ (2603:10b6:208:264::7)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0002256F:EE_|SN7PR12MB7105:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbf741a0-6e2b-4d35-aa9f-08dc72597309
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4342:EE_|DM4PR12MB6470:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5bc0165a-c320-41eb-06dd-08dc725a12c8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230031|82310400017|1800799015|376005|36860700004; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5NiwqxvAcRL+miTYQfbpqQi+FHzFd4Pc+h894ymBAausPsOtx77zr3VxbVNR?=
- =?us-ascii?Q?KOeMjgkb+q08/V/lbjn+d7SGThKNcTA7Rqmukq6ihriIgwUjRRanGTto/8P9?=
- =?us-ascii?Q?hXmJTwnEQZfAVl0pjsaAYCd5bkh+grwn+iXs98JfGJ8Dhb5/GfwBvkQUojmA?=
- =?us-ascii?Q?P4AQGGhvVMLU9hdZf3SvKYP5ej6pFqnEZHfSiYKF8hmTKkx38FnGTsxjExRV?=
- =?us-ascii?Q?nxsNF6f2GgCldmlkaLDw0u1m8UF5rwVv4W3LKF4eo8wPyrq/v4Xjv7TrBz/o?=
- =?us-ascii?Q?5fru0846ZT/UQacqJdiQFzV4hQ2E7eB7equ3NQD6HN0YUL+Bi2RnPZdWsuea?=
- =?us-ascii?Q?IvcoduHAJe5amZ7iS5Cqw4GxKVfkUfq7kFsHC5MIWekDj/I1hgL3C9shsqXV?=
- =?us-ascii?Q?eBth87jXsYfbfuUWxU6SQzA6rcIcbXQx+46mAAAyybTtXvo3Xe1Qb7cAMGlX?=
- =?us-ascii?Q?HVxQZWoi0UxVqcq6CAgqDRtMnHsaRbutASjOnp2dUQL0v1LvkftuY4HNcvEs?=
- =?us-ascii?Q?2lSJmadh5NGQbrGmi6uaYlBVOxVhLrnEALftgoZq9HuGsFlK2fuCdY+rfvPJ?=
- =?us-ascii?Q?OsNCibFOLYtA0eYolH48OpcjBVxSpxl8muzL0+ksdaMp6UxQUkOiFPTJcug9?=
- =?us-ascii?Q?nY/9L4nNCQC2nUncKG/SQ5yyXQMd55bel0yVPIQwQbVGTo+bcx03lHCFGr0P?=
- =?us-ascii?Q?AtUsa4JolxEfgb8fe6jxloNENPWX2Rg+PohlvUbtjLwMcrcysCm11qcwGDOA?=
- =?us-ascii?Q?2lHzLkuBrnyM2nGB7WgGfkmQOwm/fXFl7Q7ENzm85+1PqZV6JYU2SdK62iMT?=
- =?us-ascii?Q?PzKNQsBKbiJ0MMxl7u/hkETr5yjD8QWqcKlYpw/sA9az6AMsSum4rlndt4e2?=
- =?us-ascii?Q?8C8m5HLJiVhcc+3oZSpnj8JklqAk0ZnpknG28GISz5p0GqvxwiHqqF4eQqCE?=
- =?us-ascii?Q?QCmsJSx4KZZ6+S0YjRWec5B/e3xx/8fv7IzKo8T/ecWt5+YXC6ceKmtWaCS8?=
- =?us-ascii?Q?XpbLrXm2rcAYzgfQQdi/nFQAyTQKpM8FDW6xJ8E1/5xT/Sh/uRYSmcnlWfFg?=
- =?us-ascii?Q?PvVUcV1Vkyf8XRe7f0lPWmHLLKfYQrqrA/Mfe1NbxsfElJ3Ud+D2ziKjvsNK?=
- =?us-ascii?Q?pp1B0qWzRg2cWhlnUDBKS3lMWAavIaztx/hs72gXii9sagqFGLjP/H5nDNE+?=
- =?us-ascii?Q?mb39y0oXknQCjg5uWtwSBrFJoe56nrY29LlRthmY5CWaorpk1FfjCmJ6y/mq?=
- =?us-ascii?Q?E5Rtuhtq5F0M02LnlqfUxHAh+rYsFJC87UAXeOoyz9edmTvsTcYbbUuWfP2L?=
- =?us-ascii?Q?LO+OtczvfG0iMHLzC/TQuto/kwtx+FeCV6L3vd3WyIabk559za+bnp3CgyDf?=
- =?us-ascii?Q?2qbVxR7MYrCwRXnyN8iDEc756FvW?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(82310400017)(1800799015)(376005)(36860700004); DIR:OUT;
- SFP:1101; 
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YmZLdG9zM0VPcnEzaUN3SDlhaVRnTk1MU25WOWgyeis3a1A4WUdQTmZYdi82?=
+ =?utf-8?B?ZWM5RGRCWmZsa0tsbDk5djRZWFAreWVwanZCWHNIenlEaDV0UE9ZZnNTOWsv?=
+ =?utf-8?B?WnlLUko4dlA1T3FVdlI1TlU2K0hFYVphUlQ4bktvbjFiMExUSFVWcTlqNlpU?=
+ =?utf-8?B?SXRXbU11ZnBMaUh4V051c0diUStOSG9GK09UNjUvT2ZrYW9uMEFjTnZqdzdZ?=
+ =?utf-8?B?YmtSZllQN2Q5Yjg5RXA5T2hJeTVkaTg0UjF2N0xzMUF5b3lrYkhEZ2xMNExa?=
+ =?utf-8?B?dVExYW01WmMreWl2OHdlQ21tZ1NzR2hFQmZTUHEyWHljcTlMV2NpSFZoaVJH?=
+ =?utf-8?B?bFV4c2phMUxTN0NtcXhlTkx0bEJkSGRMallqcDhoenBKb1QvajhsZk5mQUtp?=
+ =?utf-8?B?bkdpdERDUUxuZ3BZTXQ0TWdvUmhZamlJcHVpajUwZXRaWU1jZmROd0graS9x?=
+ =?utf-8?B?VDlEMHJrcjJPQlZLYmRYeG83bk1oQTFsQ2YycUlKY0xqbnZOV1oreUZoQVFm?=
+ =?utf-8?B?WTQzKzlkaUtFOSsrOTl6MUZuTVhxOXNUbTRtcnJOQms2aHNqdksyYnNZNG94?=
+ =?utf-8?B?SFpEdW5teHRuamZCOTdTU1ZNcXVYT3M3ZldqUzExeDFMWFRrVXlZL3lWNmhw?=
+ =?utf-8?B?U3FmQkFsNHRmOVRoMy90ZTRsaW9VL0JibDIzZ3p2THdkRUphSzYvNE1sUmxC?=
+ =?utf-8?B?MDQ1aHcrbEduQ2lrVDgvWE92VUhqeFowZklYdWVCUXRQNnJBcmZZb2JyZzJh?=
+ =?utf-8?B?blJVdHFsakUreUhKYUlwdDJiL1FyUnJiZ0NTNEFsS1Z5UENtYTVNK2tlMFA0?=
+ =?utf-8?B?UWQ0WGdadkRGSFNvSVhlUXRsTmJsQVlsWDRZUU5tblN6ZFExYkRuUS9IL2FX?=
+ =?utf-8?B?eUplbk5ad1RMdVVGY1RWK0k4d0Vjays2aVpUcnVTUS9HdGNKcCtTcEU0Nzhv?=
+ =?utf-8?B?Wm1VTDlRVklXSm9vYVZJQkIrcDFmY3ZGRzRTREFWcFBiUHJ5SWJ3OW5ob2FK?=
+ =?utf-8?B?MHZaYUNFVmVSM2t2dndQV3hVWGV5Z3RUODBMODBQcE9vRmZKZy9mKy9NMkRl?=
+ =?utf-8?B?TTZSRnNXT2Z3N3VrK0diV0VRbm8rWnpGTlljaitkUU5RbE1Ieng0cGpRZzBG?=
+ =?utf-8?B?V3JLaFJXTDQrWVQrWVdRWWg1VkFkZ3U1UUJqZzdBNExGaVM5MFR3S0ZOQnlH?=
+ =?utf-8?B?MTQ5N3pwa2NzcTI0MUkzc0tibFN6bUZ2MkdFVURlS0ZCVEp3ZmRJaE0vSk51?=
+ =?utf-8?B?T0pIbCtIaEtPTEJtTGZhUzM1S3YwSFlneHVZYXE2dXRBVThXbjZMOUV3VW14?=
+ =?utf-8?B?WXF6S1VvVjBzbjBWTmFGUERUZm5VT1NGakZ3VTBaQ3Z5bkdVSzlqT0FDR0FU?=
+ =?utf-8?B?M24rL2JUVHlDZHlCL2ordXlZZFZkWC9YbFNxWTRmcERLQmRWTVhxTlhZWkFi?=
+ =?utf-8?B?YkpvZ1ZzcytndExKQTlVdGpFblNYMjBZLzhMTXVJa0RxSElFdU1TTFpyZmt0?=
+ =?utf-8?B?Y0Zub0JTR3Y1UkpYSEduY1FsRTFUTkhYMUNLMmpyVEdhQmYwNTBoUVBLYkNQ?=
+ =?utf-8?B?Vjl3a1Q2YkZGNkxhYkM2ejNkTkVleFZKTHpuUm50MFcyRUIyeFg0MGhQaUsy?=
+ =?utf-8?B?S1luRTZVd1BxMGxDT3F5ZnFvSGYwZkxqcTJCdmYwNUVJeHhOd2ZvYUdBWlo0?=
+ =?utf-8?B?MVhqUGloVzdSUlZyQk9MM3h0K2hIWWdXNkp5Njg0aXNaZXNlcG5pQzlRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(1800799015)(376005); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bTJxVHV3SWdxOENIUFdjazZXNlR1K3ZyMmNYUDFlSFRkYk1Tdi9FMVBPN0Rl?=
+ =?utf-8?B?VnpqMmpCNnBGM0NCWUlYZU53M2JFVUYyTEFYQU9SU1NSck5wd1pBMGZjb3JB?=
+ =?utf-8?B?TUc4LytpYXZpZDA4ZndFOGZobHh2ZUU4SEFRRmgxRVU0K0Z0dE41aHA1OTA1?=
+ =?utf-8?B?bVZvQlkvNG9Ndi9kbUpCdlRaOFVLU3pWYlM4K0ZRTzhMTFNEV05YeXhMYmd2?=
+ =?utf-8?B?VXVVcmZzM2lrbDQ3TURyMm56dVdCQlN5VDdqMk9WUFVSdEpmWlJlTitPditu?=
+ =?utf-8?B?Mmc0RThiWWVMMTJSRUxYR2l5QlRYYzJETmpPampWOWFnZ1gvc2VOVVNGRWlv?=
+ =?utf-8?B?OEg5UUdjNHZDWGdkT2l3cUg3MW1Wb1FvYk8rSDQ4Ulh4cGJwNDd2WVFGNC83?=
+ =?utf-8?B?dUttbUZFNVlwS3lOS3R0R3VscGFLaktuYmRSZ29sbWVJWGxmRzBpT0xOSlFX?=
+ =?utf-8?B?L1Bvclp0N0V5ZmJ0TGozNmptRjZaKzc2Uy9hcHJhWDFXcFhIQlpDZW1nWWcw?=
+ =?utf-8?B?L3lyaFVuR1p0RVpjaDVHWFgyV1A5VkxjcDh4dGxpOU41UGpEWDEzcTRMYlpM?=
+ =?utf-8?B?NVlQZnpaa1M1V0o3ejIxbkNQU0RqRE91amVvWUdub1NkVE8xSkNOTFprQUZP?=
+ =?utf-8?B?dU10RDdSZE96OU9UcEJ1SDVwUjNUdjhFZ2FFL3RkN0N2cEVRYUNSeVAvSDNl?=
+ =?utf-8?B?clR1UFFiUXE5Yi85TU1RS0RycG9WNTArRXNNd2xHcGQwbU1xdnpwN00yTXdE?=
+ =?utf-8?B?VXFjZk1BYURBOVc1QXlUSXFKeGxybm04Vjh6ditFNHlBL2dvOTYvYnZJaWdr?=
+ =?utf-8?B?Vm1tUEZBbTdmL3pEMG5lSllGRllLZkk3Zng5OFlsSEQvRDdTWi9KeXc1U09H?=
+ =?utf-8?B?NlFUNnFHSmU4U3hkSG4yUmhhZHF4TFpWZWVqNUJYYTJRTStwZFgwMHRxSjFm?=
+ =?utf-8?B?VmNFdVlFRytJa2pPMm90eVVhQUxsdlgxUXlKUzkrc2NTZFdva3lxL01UYko3?=
+ =?utf-8?B?ZTZyT1c3U25Yd0tjemtyTENpRFI2ZE0xL0NpbDhsSStXY1BEK2JzTDlJcUR1?=
+ =?utf-8?B?UEdBWlZDREJPMStWT0tRa0pyU251L1lOUlRrNVJ6QlkwUWJSSnhXS2JJbkc2?=
+ =?utf-8?B?U0VVNFJkakFNcmdNbVVBSUlGYVVHZlJhMkxqdjNRQ3RTRVoxUW95bTU4QXha?=
+ =?utf-8?B?SGFUa215NEZ2TWU1SlhwS212MW80WDV3NUpzOW85MExWQmVUNTZ0NXVuZCtD?=
+ =?utf-8?B?WXNjVzZvUzZNRkxLblN1WlE3UlovTzU0QVZhMnMxbDEwOE83UTBhZjA3Z3JV?=
+ =?utf-8?B?eUgxdkFBN1BORDJjK0ZpcURaK1J2c3NQSjZqSVYzVHRIbEJUS05lNDc4bXVn?=
+ =?utf-8?B?OCszVXZxb3RXQm5kdVNyVzBRWW9hWFB4M1JCeTVUMnp3UTdEVzVRTWZtSTVZ?=
+ =?utf-8?B?am9QcTVTMWxsSE1tQzcvS3BCaGNLYU1nRG1aZ09qV2VBZ1FySWIvL2lyWFBC?=
+ =?utf-8?B?dFZNMnlyYUp2SUd1SG5RZHpIOWFnUzVRekRNQ0UyRmtsdjIvZldQWDA0SkpR?=
+ =?utf-8?B?S2IzZVJUVC9mc1d5cmFvZ00yb0doVmF0OEFjUko1ZTZjcllrRUg2Tmc2UHBM?=
+ =?utf-8?B?Ry9vdnhpR29ob2RVSkpiOVhjbkplb2xXcEF0alFCMlhxNGpaRmZUeUZKYlFY?=
+ =?utf-8?B?Z01Cc3FnaUtpMUtmbUFFM2lyakNTV2Z3clBIUmg3L3VtdVYxWWZUTlJ5UkpP?=
+ =?utf-8?B?ZG5CQ2U5K2ROZkFGNzRuaGNwYzFBRW5rWnNBSXJJMmlOKzZaZzIyc3p2dnJN?=
+ =?utf-8?B?aXF2WjFqcXhUQTR3SWNHZ3FkditEWkFYU2RNMHpjWUhqenFMdjU5ZmdicGJr?=
+ =?utf-8?B?Q2QxZTRjeXo0MGdzWXQwbmR2elJHbEQrN3VwV3hsK3RldXVvalBsZVNiM1lu?=
+ =?utf-8?B?aTkvT1JnbGpESGpuYUVhUW5hVmZydmxQM3FQSzBQTzI3V1R3MUx4K01nZ0dl?=
+ =?utf-8?B?ZjJsbXNOYWZXOWFON2dWb0grQlFKVG9JRmVyZEFBZTRZZ1BhRitobGVUSXdH?=
+ =?utf-8?B?THY0R2tsbW1XN3N0UG1RbDFwbzA3UXM0N2d4ejlMeFBtV1c5WGxEMHNoVGoy?=
+ =?utf-8?Q?dMCmiLx9rz4TXiE/urwiv+hgX?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2024 07:59:28.6968 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbf741a0-6e2b-4d35-aa9f-08dc72597309
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bc0165a-c320-41eb-06dd-08dc725a12c8
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2024 08:03:57.0822 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0002256F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7105
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: txbhYawv4Wi594L7nXSopE1cjA4tbS067V78HqBYYyRjwjCRecbfu/MltAbE8FnsJx3awm4S2L9v3onyJ233Dg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6470
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,70 +160,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allocate cleared blocks in the bias range when the DRM
-buddy's clear avail is zero. This will validate the bias
-range allocation in scenarios like system boot when no
-cleared blocks are available and exercise the fallback
-path too. The resulting blocks should always be dirty.
+Hi Daniel,
 
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
----
- drivers/gpu/drm/tests/drm_buddy_test.c | 35 ++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+On 5/8/2024 2:11 PM, Daniel Vetter wrote:
+> On Wed, May 08, 2024 at 12:27:20PM +0530, Arunpravin Paneer Selvam wrote:
+>> Problem statement: During the system boot time, an application request
+>> for the bulk volume of cleared range bias memory when the clear_avail
+>> is zero, we dont fallback into normal allocation method as we had an
+>> unnecessary clear_avail check which prevents the fallback method leads
+>> to fb allocation failure following system goes into unresponsive state.
+>>
+>> Solution: Remove the unnecessary clear_avail check in the range bias
+>> allocation function.
+>>
+>> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+>> Fixes: 96950929eb23 ("drm/buddy: Implement tracking clear page feature")
+>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>> ---
+>>   drivers/gpu/drm/drm_buddy.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> Can you please also add a kunit test case to exercise this corner case and
+> make sure it stays fixed?
+I have sent the v2 along with a kunit test case for this corner case.
 
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index e3b50e240d36..a194f271bc55 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -26,6 +26,8 @@ static void drm_test_buddy_alloc_range_bias(struct kunit *test)
- 	u32 mm_size, ps, bias_size, bias_start, bias_end, bias_rem;
- 	DRM_RND_STATE(prng, random_seed);
- 	unsigned int i, count, *order;
-+	struct drm_buddy_block *block;
-+	unsigned long flags;
- 	struct drm_buddy mm;
- 	LIST_HEAD(allocated);
- 
-@@ -222,6 +224,39 @@ static void drm_test_buddy_alloc_range_bias(struct kunit *test)
- 
- 	drm_buddy_free_list(&mm, &allocated, 0);
- 	drm_buddy_fini(&mm);
-+
-+	/*
-+	 * Allocate cleared blocks in the bias range when the DRM buddy's clear avail is
-+	 * zero. This will validate the bias range allocation in scenarios like system boot
-+	 * when no cleared blocks are available and exercise the fallback path too. The resulting
-+	 * blocks should always be dirty.
-+	 */
-+
-+	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_init(&mm, mm_size, ps),
-+			       "buddy_init failed\n");
-+	mm.clear_avail = 0;
-+
-+	bias_start = round_up(prandom_u32_state(&prng) % (mm_size - ps), ps);
-+	bias_end = round_up(bias_start + prandom_u32_state(&prng) % (mm_size - bias_start), ps);
-+	bias_end = max(bias_end, bias_start + ps);
-+	bias_rem = bias_end - bias_start;
-+
-+	flags = DRM_BUDDY_CLEAR_ALLOCATION | DRM_BUDDY_RANGE_ALLOCATION;
-+	u32 size = max(round_up(prandom_u32_state(&prng) % bias_rem, ps), ps);
-+
-+	KUNIT_ASSERT_FALSE_MSG(test,
-+			       drm_buddy_alloc_blocks(&mm, bias_start,
-+						      bias_end, size, ps,
-+						      &allocated,
-+						      flags),
-+			       "buddy_alloc failed with bias(%x-%x), size=%u, ps=%u\n",
-+			       bias_start, bias_end, size, ps);
-+
-+	list_for_each_entry(block, &allocated, link)
-+		KUNIT_EXPECT_EQ(test, drm_buddy_block_is_clear(block), false);
-+
-+	drm_buddy_free_list(&mm, &allocated, 0);
-+	drm_buddy_fini(&mm);
- }
- 
- static void drm_test_buddy_alloc_clear(struct kunit *test)
--- 
-2.25.1
+Thanks,
+Arun.
+>
+> Thanks, Sima
+>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>> index 284ebae71cc4..831929ac95eb 100644
+>> --- a/drivers/gpu/drm/drm_buddy.c
+>> +++ b/drivers/gpu/drm/drm_buddy.c
+>> @@ -574,7 +574,7 @@ __drm_buddy_alloc_range_bias(struct drm_buddy *mm,
+>>   
+>>   	block = __alloc_range_bias(mm, start, end, order,
+>>   				   flags, fallback);
+>> -	if (IS_ERR(block) && mm->clear_avail)
+>> +	if (IS_ERR(block))
+>>   		return __alloc_range_bias(mm, start, end, order,
+>>   					  flags, !fallback);
+>>   
+>> -- 
+>> 2.25.1
+>>
 
