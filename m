@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D135E8C387C
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 23:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABB78C387E
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 23:12:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E36C710E00E;
-	Sun, 12 May 2024 21:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DB4F10E036;
+	Sun, 12 May 2024 21:12:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TRAw1oL2";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="o7zlbeth";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF4810E00E
- for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 21:09:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 514A210E036
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 21:12:48 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58CE38BE;
- Sun, 12 May 2024 23:09:10 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 200EB8BE;
+ Sun, 12 May 2024 23:12:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1715548150;
- bh=fCWAahIT/hAJe3k/y0iiyAVf9CH7viLpCUTVy233AxU=;
+ s=mail; t=1715548361;
+ bh=0Y6YWsXVS/Pnd6DKSQDP6mb62MOpLyFDRoFLxmIMW+w=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TRAw1oL2FDVmkRCJkBG0UC1UZ0E7Ofluwevib+Yj9OVIqA8WrBz6hXvauu8LJMfhd
- 5nQ3hZGgq+/hBLIBJ278QThc1H+LYWnJcBs9ALdcDM5MemCAb9wei1mM2Z8TigIatO
- lpT1WBSToTWeCc4nXJvbZeuhkmKG1K3ocNakGYk0=
-Date: Mon, 13 May 2024 00:09:07 +0300
+ b=o7zlbethJzCmIh/T5QP+RvEyUBA1J1mLuWM5vdGx+4UXJlCMKHlbuB+SKrwmkQDtI
+ 3u186NcufAoj1bahm1S3g05e3bgH+vqrOgewA2XvNOfu7rRh42RHkhO4RXgfhKFt/s
+ WdXUz65vxVJjLulfIsbaXWJt5EtmqQttzp2rM0ZI=
+Date: Mon, 13 May 2024 00:12:38 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
 Cc: Maxime Ripard <mripard@kernel.org>,
@@ -38,13 +38,13 @@ Cc: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: Remove a small useless code snippet
-Message-ID: <20240512210907.GI17158@pendragon.ideasonboard.com>
-References: <20240511124238.297192-1-sui.jingfeng@linux.dev>
+Subject: Re: [PATCH] drm/bridge: tfp410: Remove a small useless code snippet
+Message-ID: <20240512211238.GJ17158@pendragon.ideasonboard.com>
+References: <20240511132423.311884-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240511124238.297192-1-sui.jingfeng@linux.dev>
+In-Reply-To: <20240511132423.311884-1-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,47 +64,39 @@ Hi Sui,
 
 Thank you for the patch.
 
-On Sat, May 11, 2024 at 08:42:38PM +0800, Sui Jingfeng wrote:
-> Because the check on the non-existence (encoder == NULL) has already been
-> done in the implementation of drm_bridge_attach() function, and
-> drm_bridge_attach() is called earlier. The driver won't get to check point
-> even if drm_bridge_attach() fails for some reasons, as it will clear the
-> bridge->encoder to NULL and return a negective error code.
-
-s/negective/negative/
-
+On Sat, May 11, 2024 at 09:24:23PM +0800, Sui Jingfeng wrote:
+> In the tfp410_attach(), the check on the existence of bridge->encoder has
+> already been done in the implementation of drm_bridge_attach() function.
+> The driver won't go further if bridge->encoder is NULL and the driver will
+> quit even if drm_bridge_attach() fails for some reasons.
 > 
-> Therefore, there is no need to check another again. Remove the redundant
-> codes at the later.
+> Therefore there is no need to check another time at the later, remove the
+> redundant checking codes "if (!bridge->encoder) { ... }".
 > 
 > Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-If you end up sending a second version of this patch, please include all
-similar patches you have sent at the same time in a patch series,
-instead of sending them separately.
-
 > ---
->  drivers/gpu/drm/bridge/simple-bridge.c | 5 -----
+>  drivers/gpu/drm/bridge/ti-tfp410.c | 5 -----
 >  1 file changed, 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-> index 28376d0ecd09..3caa918ac2e0 100644
-> --- a/drivers/gpu/drm/bridge/simple-bridge.c
-> +++ b/drivers/gpu/drm/bridge/simple-bridge.c
-> @@ -116,11 +116,6 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
+> index c7bef5c23927..b1b1e4d5a24a 100644
+> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
+> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+> @@ -133,11 +133,6 @@ static int tfp410_attach(struct drm_bridge *bridge,
 >  	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
 >  		return 0;
 >  
 > -	if (!bridge->encoder) {
-> -		DRM_ERROR("Missing encoder\n");
+> -		dev_err(dvi->dev, "Missing encoder\n");
 > -		return -ENODEV;
 > -	}
 > -
->  	drm_connector_helper_add(&sbridge->connector,
->  				 &simple_bridge_con_helper_funcs);
->  	ret = drm_connector_init_with_ddc(bridge->dev, &sbridge->connector,
+>  	if (dvi->next_bridge->ops & DRM_BRIDGE_OP_DETECT)
+>  		dvi->connector.polled = DRM_CONNECTOR_POLL_HPD;
+>  	else
 
 -- 
 Regards,
