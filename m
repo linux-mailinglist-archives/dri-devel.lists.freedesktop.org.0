@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5EF98C371D
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 17:36:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CD08C371F
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 17:36:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15CF810E2B4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8853D10E2BB;
 	Sun, 12 May 2024 15:36:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J/w4m01x";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DRQ+NXX/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6E9010E29F;
- Sun, 12 May 2024 15:36:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6B110E2B4;
+ Sun, 12 May 2024 15:36:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715528193; x=1747064193;
+ t=1715528195; x=1747064195;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=UpBLsNtwkuXGVcD/TaGHbR2icCa517yQEVl4pgTWrf8=;
- b=J/w4m01x4FVA+MhFym54jYC3/gZATPi/ti33afaaVNguy2wFJ4Cgp60b
- 4v/2Qbn/rYdPIWsTSJI7sHZWN9IHr6qSia1R7FMYHFG/Av3RIEBkF9J5u
- lnmK5ZaNuaoxlD5sj8r9RhDxgpP6LGielCMexCyLQrPkgPZgzU0nm+P5E
- ycELFFZ1vDbcTdn44J0E/d8H1XEhj3GzHtN6njw6Qb7ce4CvKYXTBn5yu
- HkSPWCVyJzTV7y8OFeSZvStAArTpqGGJg+RNw3p1vOekr4roKHu7PIu3L
- zjaVMCsJrDOG2u0jcu0VuIt2pnSdXCa7ZjnitEXKr3O5nL4X2AVthYYZz g==;
-X-CSE-ConnectionGUID: rtewN1tGTq+wUDH3KLvUVg==
-X-CSE-MsgGUID: AJ7Af+wwR4yZFDekfqKElA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11403306"
-X-IronPort-AV: E=Sophos;i="6.08,156,1712646000"; d="scan'208";a="11403306"
+ bh=Zv3dENl+B07Af4W2wswlYvH7KrFD7s2CNxHPDgLv2v4=;
+ b=DRQ+NXX/Y+HERE2kXCtfoIhZ7t5GihEP1Xg9wjle5Zayg3+RcAKFUAgE
+ Z8ECiAZF4i9mJV37UvCkmQZgZi14nbpXuA1KeTrDxiGUt3PvimMyvYcpp
+ Yluz8wGncOFAY3B7Lzl+diKHVbltJv0Vup69ti5vo9aIocTQiLCWfUBbn
+ p4LUiYGNwWpCZzU5zX6KnTQhIGdHavZDquZo4fi/LCDFXAqeZOrGkQqrD
+ 0HxbZABwY+4bA6TqBPmqyk7mL9kEtqziYNTbepuyxJmk5qPiEsBIGl6Ph
+ Ha95+QVLhGh34444XWkQLiU0gcBI68iBAVEWDjUm4nrkCGpMuq22IgyQr w==;
+X-CSE-ConnectionGUID: LEVHqAWQRfWaJTgZveZHNw==
+X-CSE-MsgGUID: Ztsq0CQWRLSFoTvGPJ41UQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11403311"
+X-IronPort-AV: E=Sophos;i="6.08,156,1712646000"; d="scan'208";a="11403311"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2024 08:36:33 -0700
-X-CSE-ConnectionGUID: xRUy/3fVTKG3IzZ9/ieCOg==
-X-CSE-MsgGUID: Xe/sFGcnRIubxVaa9acUJQ==
+ 12 May 2024 08:36:35 -0700
+X-CSE-ConnectionGUID: +MHMnX9jRyuzFWgXe65Z6w==
+X-CSE-MsgGUID: wC86a7wLSWqmGz0G1nk7Jg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,156,1712646000"; d="scan'208";a="34976572"
+X-IronPort-AV: E=Sophos;i="6.08,156,1712646000"; d="scan'208";a="34976581"
 Received: from mwajdecz-mobl.ger.corp.intel.com ([10.246.25.139])
  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2024 08:36:29 -0700
+ 12 May 2024 08:36:32 -0700
 From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- linux-fsdevel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [PATCH 2/4] iosys-map: add iosys_map_read_from() helper
-Date: Sun, 12 May 2024 17:36:04 +0200
-Message-Id: <20240512153606.1996-3-michal.wajdeczko@intel.com>
+ Lucas De Marchi <lucas.demarchi@intel.com>, linux-fsdevel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 3/4] drm/xe: Add wrapper for iosys_map_read_from
+Date: Sun, 12 May 2024 17:36:05 +0200
+Message-Id: <20240512153606.1996-4-michal.wajdeczko@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20240512153606.1996-1-michal.wajdeczko@intel.com>
 References: <20240512153606.1996-1-michal.wajdeczko@intel.com>
@@ -69,60 +69,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It allows to copy data from iosys_map into the user memory,
-regardless whether iosys_map points to memory or I/O memory.
+It is preferable to use the xe_map layer instead of directly
+accessing iosys_map, so add a wrapper for the recently added
+iosys_map_read_from() function.
 
 Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
 Cc: linux-fsdevel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- include/linux/iosys-map.h | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ drivers/gpu/drm/xe/xe_map.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
-index 4696abfd311c..eb79da976211 100644
---- a/include/linux/iosys-map.h
-+++ b/include/linux/iosys-map.h
-@@ -7,6 +7,7 @@
- #define __IOSYS_MAP_H__
- 
- #include <linux/compiler_types.h>
-+#include <linux/fs.h>
- #include <linux/io.h>
- #include <linux/string.h>
- 
-@@ -312,6 +313,29 @@ static inline void iosys_map_memcpy_from(void *dst, const struct iosys_map *src,
- 		memcpy(dst, src->vaddr + src_offset, len);
+diff --git a/drivers/gpu/drm/xe/xe_map.h b/drivers/gpu/drm/xe/xe_map.h
+index f62e0c8b67ab..1db1d23c4f69 100644
+--- a/drivers/gpu/drm/xe/xe_map.h
++++ b/drivers/gpu/drm/xe/xe_map.h
+@@ -44,6 +44,15 @@ static inline void xe_map_memset(struct xe_device *xe,
+ 	iosys_map_memset(dst, offset, value, len);
  }
  
-+/**
-+ * iosys_map_read_from - Copy data from iosys_map into user memory
-+ * @to: the user space buffer to read to
-+ * @count: the maximum number of bytes to read
-+ * @ppos: the current position in the buffer
-+ * @map: the iosys_map structure to read from
-+ * @available: the size of the data in iosys_map
-+ *
-+ * Copies up to @count bytes from a iosys_map @map at offset @ppos into the user
-+ * space address starting at @to.
-+ *
-+ * Return: On success, the number of bytes read is returned and the offset
-+ * @ppos is advanced by this number, or negative value is returned on error.
-+ */
-+static inline ssize_t iosys_map_read_from(void __user *to, size_t count, loff_t *ppos,
-+					  const struct iosys_map *map, size_t available)
++static inline ssize_t xe_map_read_from(struct xe_device *xe, void __user *to,
++				       size_t count, loff_t *ppos,
++				       const struct iosys_map *map,
++				       size_t available)
 +{
-+	if (map->is_iomem)
-+		return simple_read_from_iomem(to, count, ppos, map->vaddr_iomem, available);
-+	else
-+		return simple_read_from_buffer(to, count, ppos, map->vaddr, available);
++	xe_device_assert_mem_access(xe);
++	return iosys_map_read_from(to, count, ppos, map, available);
 +}
 +
- /**
-  * iosys_map_incr - Increments the address stored in a iosys mapping
-  * @map:	The iosys_map structure
+ /* FIXME: We likely should kill these two functions sooner or later */
+ static inline u32 xe_map_read32(struct xe_device *xe, struct iosys_map *map)
+ {
 -- 
 2.43.0
 
