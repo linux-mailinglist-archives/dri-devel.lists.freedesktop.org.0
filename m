@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957088C3900
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 00:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C138C3929
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 01:07:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57B9A10E010;
-	Sun, 12 May 2024 22:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8511710E163;
+	Sun, 12 May 2024 23:06:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iXNYfd9s";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A3Lb7/eV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF6B10E010;
- Sun, 12 May 2024 22:24:50 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2334D10E163;
+ Sun, 12 May 2024 23:06:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715552690; x=1747088690;
+ t=1715555218; x=1747091218;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=3C4Tsvi8zQ8/WgqGGbU/HP9bh5KBCx36pvVCbqCn/0w=;
- b=iXNYfd9szR6wC9iYsMiXt9fJjmM0e6OJ83iQ3+wF+UayFCuYxFqfLOoJ
- iY0BEPC1rqcru37GJWeKahbd9NqFNoydvhFcylCZWbr/Ru+NKCTxl6BoW
- d6vz7s4AXSRciHY/8VLxzyihM+ZKOKk9ITF2w7hEt2Bj6a6TFtLeVmhoe
- j0r6slEZXe1v5W6G7rrQzLJKqVqqev6mrt6NqmcfblfEttFvfNcDMFne6
- FGnXWg/UxdA8q4XUZVs1wJ/Lwhom9ehqSQFqhTOgC+mMlMPZ4B1tHiVrp
- NoDUjGOI/wMSYg6svVXCQSiDDAKFEFmJH7kA5OumxxaqNFZTTm5qwARwf Q==;
-X-CSE-ConnectionGUID: c2pV4GCUR+OyRzcmM4uTvw==
-X-CSE-MsgGUID: LRuKZmrWT5Wo/JXuyYjWcg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11328009"
-X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; d="scan'208";a="11328009"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2024 15:24:49 -0700
-X-CSE-ConnectionGUID: IKZ0fXjETquK9VRyvxP70g==
-X-CSE-MsgGUID: v+CBfvrHRqO8IEHv9CUAeA==
+ bh=iIroH5Y9NmxigOjMGmDqMn7BK8xc09nKaScH6g5IsMc=;
+ b=A3Lb7/eVR9RO3fEWdnwbPq0x9bgx/i43RAykBNknhszbl3q+XROToNDo
+ 3uc0CLKssXqtqmJrF83cf+JnyCqeEcFFYyA/HRM9TR5RRPnGWjbyalVJt
+ XhPnzZQy3dt0ahogoBy/U+SFr29nzHiSCTHuv4Yi6ZHyS4JYkwynIs0nc
+ rmBQ/j9Eu/BbcHmyDmVHbvbBmXE85yAKG8iaoa0q6nC5ZN+Tb1x8o65Fn
+ En7kpgE5H/dF20r2eky83REa3S6l5AeiBtnZUvDA52zbHTsutEJLp1aL7
+ mgxZdLO81lmo1Ung1+XiPiJcW6sf8mkr9IFzrYW3J3LyrW+jIPy08ZtYw A==;
+X-CSE-ConnectionGUID: FNb0bRyYQH63ydmTUqKp3A==
+X-CSE-MsgGUID: dhqJmf50RD6pZwp39BSwuw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="15286297"
+X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; d="scan'208";a="15286297"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2024 16:06:56 -0700
+X-CSE-ConnectionGUID: Hi4M41MxT7CnFoyyZkt3fQ==
+X-CSE-MsgGUID: ikHENWtfSTW23qyf6SLTyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; d="scan'208";a="30717284"
+X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; d="scan'208";a="53390460"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
- by orviesa008.jf.intel.com with ESMTP; 12 May 2024 15:24:46 -0700
+ by fmviesa002.fm.intel.com with ESMTP; 12 May 2024 16:06:53 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s6HcZ-0009Fn-29;
- Sun, 12 May 2024 22:24:43 +0000
-Date: Mon, 13 May 2024 06:24:00 +0800
+ (envelope-from <lkp@intel.com>) id 1s6IHL-0009H1-13;
+ Sun, 12 May 2024 23:06:51 +0000
+Date: Mon, 13 May 2024 07:06:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kiarash Hajian <kiarash8112hajian@gmail.com>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -51,12 +51,11 @@ To: Kiarash Hajian <kiarash8112hajian@gmail.com>,
  Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Kiarash Hajian <kiarash8112hajian@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Kiarash Hajian <kiarash8112hajian@gmail.com>
 Subject: Re: [PATCH v3 2/2] drm/msm/a6xx: request memory region
-Message-ID: <202405130618.N7QKeg94-lkp@intel.com>
+Message-ID: <202405130628.7LSM1hPA-lkp@intel.com>
 References: <20240512-msm-adreno-memory-region-v3-2-0a728ad45010@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -87,24 +86,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Kiarash-Hajian/drm-msm-a6
 base:   cf87f46fd34d6c19283d9625a7822f20d90b64a4
 patch link:    https://lore.kernel.org/r/20240512-msm-adreno-memory-region-v3-2-0a728ad45010%40gmail.com
 patch subject: [PATCH v3 2/2] drm/msm/a6xx: request memory region
-config: i386-buildonly-randconfig-001-20240513 (https://download.01.org/0day-ci/archive/20240513/202405130618.N7QKeg94-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405130618.N7QKeg94-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-003-20240513 (https://download.01.org/0day-ci/archive/20240513/202405130628.7LSM1hPA-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405130628.7LSM1hPA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405130618.N7QKeg94-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405130628.7LSM1hPA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1605:8: error: use of undeclared label 'err_mmio'
-    1605 |                 goto err_mmio;
-         |                      ^
-   1 error generated.
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c: In function 'a6xx_gmu_wrapper_init':
+>> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1611:17: error: label 'err_mmio' used but not defined
+    1611 |                 goto err_mmio;
+         |                 ^~~~
 
 
-vim +/err_mmio +1605 drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+vim +/err_mmio +1611 drivers/gpu/drm/msm/adreno/a6xx_gmu.c
 
 c11fa1204fe940 Akhil P Oommen 2023-01-02  1582  
 5a903a44a98471 Konrad Dybcio  2023-06-16  1583  int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
@@ -129,13 +128,13 @@ c11fa1204fe940 Akhil P Oommen 2023-01-02  1582
 5a903a44a98471 Konrad Dybcio  2023-06-16  1602  	gmu->mmio = a6xx_gmu_get_mmio(pdev, "gmu");
 5a903a44a98471 Konrad Dybcio  2023-06-16  1603  	if (IS_ERR(gmu->mmio)) {
 5a903a44a98471 Konrad Dybcio  2023-06-16  1604  		ret = PTR_ERR(gmu->mmio);
-5a903a44a98471 Konrad Dybcio  2023-06-16 @1605  		goto err_mmio;
+5a903a44a98471 Konrad Dybcio  2023-06-16  1605  		goto err_mmio;
 5a903a44a98471 Konrad Dybcio  2023-06-16  1606  	}
 5a903a44a98471 Konrad Dybcio  2023-06-16  1607  
 5a903a44a98471 Konrad Dybcio  2023-06-16  1608  	gmu->cxpd = dev_pm_domain_attach_by_name(gmu->dev, "cx");
 5a903a44a98471 Konrad Dybcio  2023-06-16  1609  	if (IS_ERR(gmu->cxpd)) {
 5a903a44a98471 Konrad Dybcio  2023-06-16  1610  		ret = PTR_ERR(gmu->cxpd);
-5a903a44a98471 Konrad Dybcio  2023-06-16  1611  		goto err_mmio;
+5a903a44a98471 Konrad Dybcio  2023-06-16 @1611  		goto err_mmio;
 5a903a44a98471 Konrad Dybcio  2023-06-16  1612  	}
 5a903a44a98471 Konrad Dybcio  2023-06-16  1613  
 5a903a44a98471 Konrad Dybcio  2023-06-16  1614  	if (!device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME)) {
