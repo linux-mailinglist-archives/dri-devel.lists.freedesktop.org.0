@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ACD98C34BF
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 01:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23CD8C3516
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 06:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B456910E032;
-	Sat, 11 May 2024 23:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8231510E02B;
+	Sun, 12 May 2024 04:47:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="eNwt+8lq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DgkPBnrJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8E310E032;
- Sat, 11 May 2024 23:52:40 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44BNX2fd025593;
- Sat, 11 May 2024 23:52:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=e6ENqyxIQZA/ZVDqighZgSXE2MZS1LUDrO/qoWPPNGA=; b=eN
- wt+8lqC4gIrnr9Xm2yo9GPHQOO+Zf4sv7INC+7cfM4O8aHeIOam03FdL04HoaD3e
- 07wURugB04HLiSgkmbskN5tg7O3TOHnOsNQk3+m9SX3ycuvZwcdOesLSdMHvOpJE
- /cpjSGKZ1YZCgBtQm+kxtnTELYgFTyMjQNiG2+zGHDQZCu/kgLA0ebLw0Q5Ym40+
- bUJ2HLl8FZAfiWds+bxewYNI8lFIiIX2c9zWOXh2scMi1ihMz8Njl0a1nyvjG7DV
- 7E+WbFMVbzNNfqW7KSG3z5IePezgZtuNa2q2ky4+FzZtDL5aJ3IpoouELD3svbul
- pnULTxt0YepXnLq0fQcw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y212593w2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 11 May 2024 23:52:34 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44BNqWVJ005233
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 11 May 2024 23:52:32 GMT
-Received: from [10.110.113.192] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sat, 11 May
- 2024 16:52:31 -0700
-Message-ID: <68e05c6f-d0ed-efea-6eef-a9ee008c6c24@quicinc.com>
-Date: Sat, 11 May 2024 16:52:29 -0700
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE0A910E02B
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 04:47:03 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-4200ee47de7so6628515e9.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2024 21:47:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715489222; x=1716094022; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KK6TsAwtGjBbTSQzMUzip8w3QmdfL6P+ac45Lx3W0NM=;
+ b=DgkPBnrJ8qeGOppRssUzhSuhEBDliGmCp6rnWWQIue3srjtOXxRhjNqkIUeSyr17zs
+ 8ZgrT+mlk4Q628pRiUpYGQoFrlYl+Si7QytfPZWw/rhvEFdBxOSl5/hSBAoQI1QmSpMa
+ oLvJHz0O9OMt8cs+yr0wmmF3du5/FsyzkyhehYiRlJeStfiXoxllpmqm1GfsDOryIekQ
+ Dpx0BpMBkdILV6LryfR3cPLE2EGRB0Srimtpn31rsKxQc2oOsu4D74zSp1MI9unDGkdj
+ vUI/wGNJhr0+DZHy2FHyt02c+7KVG3l+LwNqo4Nd1jBckjZnzm+K+a1BQyHDqnVuMEH2
+ cksA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715489222; x=1716094022;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KK6TsAwtGjBbTSQzMUzip8w3QmdfL6P+ac45Lx3W0NM=;
+ b=DIiKx/1KSWt/uojFI5nAqCeh9kgHqe5sH6TZYPOTXMdYgjIrBvPKQlLut9FRIhRoOK
+ jSp0UP47k4MNlseyGAqcC6BcDk5TE0JcO/TsRO0gL8hiXE549yx8XEeMiC8kueO+ESh+
+ a41XEFN/2hNsMuVDkeO6qzkf1yTO0FjBRHXTMJ0Rp7U/DQ2q4wKm0VV639bZMXGwNNY3
+ 7T5sJNOHcwyMbLFS9kYBxbjxh/w+taDfnt9wFPjhsMh+RWxT2mnSFPXXXRYRZ0CTaQUW
+ qyA2m2aeVM2uaCGpTSmSFll/Kek299tf7A8gTbX1M1yAw2gfDaxqVd6eY0YBXKdh7cea
+ XVeQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWe2VVxR/aLPq/yTttS87Akdbc7Ufhy7HhaTgk2H3WSbA0uMHK5gl6tNZu65znzUbtVE+Om4wvjuluuAYpr8pAcyIkYX/t+Mdw6TkZHa14h
+X-Gm-Message-State: AOJu0YzkabO7DWI1ioYzlu1WNNXg9G+wrpU8eO1t3G/b4JS9EPWe/yNF
+ L+gvGcPdZxnWoeGq2PPOOmjxcPiONwFK9FEkOapZujgHqxcj7So=
+X-Google-Smtp-Source: AGHT+IF2rV2/5tiwIRZTS6xAYsYRSQHNfOqwPFODg+hwu4WCB8tZoVeySO0NHnVdDaz/CbLzulaUBA==
+X-Received: by 2002:a05:600c:3508:b0:41a:7065:430a with SMTP id
+ 5b1f17b1804b1-41fead7b138mr40562765e9.41.1715489221923; 
+ Sat, 11 May 2024 21:47:01 -0700 (PDT)
+Received: from p183 ([46.53.251.9]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3502b79bd09sm8074593f8f.14.2024.05.11.21.47.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 May 2024 21:47:01 -0700 (PDT)
+Date: Sun, 12 May 2024 07:46:58 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, mchehab@kernel.org,
+ hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
+ sebastian.fricke@collabora.com, akpm@linux-foundation.org,
+ gregkh@linuxfoundation.org, jani.nikula@intel.com,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+ praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
+ j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
+ p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
+ nicolas@ndufresne.ca
+Subject: Re: [PATCH v7 6/8] math.h Add macros to round to closest specified
+ power of 2
+Message-ID: <0e72422c-8c83-4991-8def-97c40e0c06ff@p183>
+References: <20240509183952.4064331-1-devarsht@ti.com>
+ <Zj42vTpyH71TWeTk@smile.fi.intel.com>
+ <7214a8b5-16d4-42a1-868e-9574c506be85@ti.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] docs: document python version used for compilation
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jonathan Corbet
- <corbet@lwn.net>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
-CC: <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>
-References: <20240512-python-version-v2-1-382870a1fa1d@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240512-python-version-v2-1-382870a1fa1d@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: w0cgzoGxbAFqIURiF96Y0iqyA8G6T8BB
-X-Proofpoint-ORIG-GUID: w0cgzoGxbAFqIURiF96Y0iqyA8G6T8BB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-11_06,2024-05-10_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405110180
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7214a8b5-16d4-42a1-868e-9574c506be85@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,30 +93,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+I think
 
+	roundup(x, 1 << n)
 
-On 5/11/2024 3:32 PM, Dmitry Baryshkov wrote:
-> The drm/msm driver had adopted using Python3 script to generate register
-> header files instead of shipping pre-generated header files. Document
-> the minimal Python version supported by the script. Per request by Jon
-> Hunter, the script is required to be compatible with Python 3.5.
-> 
-> Python is documented as an optional dependency, as it is required only
-> in a limited set of kernel configurations (following the example of
-> other optional dependencies).
-> 
-> Cc: Jon Hunter <jonathanh@nvidia.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> Depends: https://lore.kernel.org/dri-devel/20240507230440.3384949-1-quic_abhinavk@quicinc.com/
-> ---
-> Changes in v2:
-> - Expanded documentation for the Python usage.
-> - Link to v1: https://lore.kernel.org/r/20240509-python-version-v1-1-a7dda3a95b5f@linaro.org
-> ---
->   Documentation/process/changes.rst | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+is more readable.
