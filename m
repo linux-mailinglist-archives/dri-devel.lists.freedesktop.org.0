@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2288C36FE
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 17:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489348C3706
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2024 17:26:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2865710E091;
-	Sun, 12 May 2024 15:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C7210E1C4;
+	Sun, 12 May 2024 15:25:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MMdX122x";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T3ce5ziH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65ADD10E135
- for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 15:25:48 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 587A110E1C4
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2024 15:25:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AA09460B5C;
- Sun, 12 May 2024 15:25:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 18CFEC32782;
+ by sin.source.kernel.org (Postfix) with ESMTP id 9F44ACE0AC4;
+ Sun, 12 May 2024 15:25:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 29795C4AF0C;
  Sun, 12 May 2024 15:25:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1715527547;
- bh=9Q7FX+bi2hsHAUuIvpT+48xO8EBaKLzZBmZKdjo3YBo=;
+ bh=pzTBdFsY2vgyd0djOYwWeG/Np5eTTYFhGJ8Nr6OdFJ4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=MMdX122xAz3cMLpjakzsVfj/ajx2X135P+m7CAAiFr2saCwAl7AFmW+3jpUTue9Mz
- 23QJDOIGoDoH2fQN6CNDVZEasKj1id6lvRbrSYG0xDfmEKgv80iEJYpX39M/yF1JJw
- wI38I/ypqjPn/0M/2NVIY5NcWfnIUBax1qvD5JoNQ3VrnvZ3JxHCR4aivZReXTbxkp
- 4eHsblkHyCWM67htNaEABW1OUFSzMwH43guyqRCuc8sorI2pXP54HMXyXxySsgvY5H
- ipTW7tbc1oDl7MYxD5/oLRhSEALiKxb8d3+JS3LFbYxdm6IUG+mzcA5fAl3Y8W73y5
- ESiraYEM6qc/A==
+ b=T3ce5ziHAazKs1K9z/PCZQ9PMx+0nbo7rimPK0mv23v0hOkU0U+ITfh0A9tSKMMeh
+ DVsFSO3XnI1e3Z2KWo8pVXfTmCs2SutRDBnBiSUoLRn0bOiys31JcxmkC+5OX508Si
+ AxtafWrWhPoU8OGCf/ZbvOu96FWQG4mt2AF7FeNAlqSxeyu84g6n4penMk7OrJcvuO
+ QWFvyVacK51Gi0/hyBF4/94T2dAJuc7Hal7Q6541czYDpYyDj1Px1vMc7ieXtCzXDA
+ JybemcPHlVTSAgBpmVvDV+V/QB3d87+7S2oUGtMoremXmmJNfzfPFcj0Cpfn7rCUgE
+ TFsyio2xyWelg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 0FBECC25B77;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 1D808C25B78;
  Sun, 12 May 2024 15:25:47 +0000 (UTC)
 From: =?utf-8?q?Noralf_Tr=C3=B8nnes_via_B4_Relay?=
  <devnull+noralf.tronnes.org@kernel.org>
-Date: Sun, 12 May 2024 17:25:39 +0200
-Subject: [PATCH v2 2/5] drm/mipi-dbi: Remove mipi_dbi_machine_little_endian()
+Date: Sun, 12 May 2024 17:25:40 +0200
+Subject: [PATCH v2 3/5] drm/mipi-dbi: Make bits per word configurable for
+ pixel transfers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240512-panel-mipi-dbi-rgb666-v2-2-49dd266328a0@tronnes.org>
+Message-Id: <20240512-panel-mipi-dbi-rgb666-v2-3-49dd266328a0@tronnes.org>
 References: <20240512-panel-mipi-dbi-rgb666-v2-0-49dd266328a0@tronnes.org>
 In-Reply-To: <20240512-panel-mipi-dbi-rgb666-v2-0-49dd266328a0@tronnes.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -58,11 +59,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>, 
  =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1715527545; l=4005;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1715527545; l=2428;
  i=noralf@tronnes.org; s=20221122; h=from:subject:message-id;
- bh=o8822dmDCmIZ+eXgpabob1UA7CmuRC6Tz8lk2h5f5EE=;
- b=DKlRBRjgWpfrJZkZm8XnwzRg/KuifvRx6XeLUMT8yW4w8diqVQApBOvVLitC86yGsgqKTNud3
- PH8lkI1vwsDBiRt+OEb1zX5L5He+oZYzh8s9D+JplIThThXP2egSa9y
+ bh=AmIGEMAdFZS+jdfkVlUhkfNHhhJJe5S4I+SgbI8FWNw=;
+ b=JpIHKuXIFUzjCg+W8+Ng8gQ+C59kZRxPrueVKFUoVCdyZPsQPkHVeDCHh3YlC5tNx+sgS3mnO
+ MFSlFEs4kAYC2mI9OTNli8uCUZIHJkfeC52MjHa1sOMBMBc3e3jDpxg
 X-Developer-Key: i=noralf@tronnes.org; a=ed25519;
  pk=0o9is4iddvvlrY3yON5SVtAbgPnVs0LfQsjfqR2Hvz8=
 X-Endpoint-Received: by B4 Relay for noralf@tronnes.org/20221122 with auth_id=8
@@ -85,99 +86,81 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Noralf Trønnes <noralf@tronnes.org>
 
-mipi_dbi_machine_little_endian() should really have been called
-mipi_dbi_framebuffer_little_endian() because that's the function it
-performs. When I added support for these SPI displays I thought that the
-framebuffers on big endian machines were also big endian, but I have
-later learned that this is not the case. There's a bit in the fourcc code
-that controls this: DRM_FORMAT_BIG_ENDIAN.
-
-Just remove the function to avoid confusion. We can add big endian support
-later should the need arise and we have hardware to test on.
-
-Instead of just amending the docs, expand it to explain the endianness
-handling.
+This prepares for supporting other pixel formats than RGB565.
 
 Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 ---
- drivers/gpu/drm/drm_mipi_dbi.c | 35 +++++++++++++++++++----------------
- 1 file changed, 19 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/drm_mipi_dbi.c | 14 ++++++++++----
+ include/drm/drm_mipi_dbi.h     |  5 +++++
+ 2 files changed, 15 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index daac649aabdb..fa8aba6dc81c 100644
+index fa8aba6dc81c..77f8a828d6e0 100644
 --- a/drivers/gpu/drm/drm_mipi_dbi.c
 +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -824,15 +824,6 @@ u32 mipi_dbi_spi_cmd_max_speed(struct spi_device *spi, size_t len)
- }
- EXPORT_SYMBOL(mipi_dbi_spi_cmd_max_speed);
- 
--static bool mipi_dbi_machine_little_endian(void)
--{
--#if defined(__LITTLE_ENDIAN)
--	return true;
--#else
--	return false;
--#endif
--}
--
- /*
-  * MIPI DBI Type C Option 1
-  *
-@@ -855,7 +846,7 @@ static int mipi_dbi_spi1e_transfer(struct mipi_dbi *dbi, int dc,
- 				   const void *buf, size_t len,
- 				   unsigned int bpw)
+@@ -1079,7 +1079,7 @@ static int mipi_dbi_typec1_command_read(struct mipi_dbi *dbi, u8 *cmd,
+ static int mipi_dbi_typec1_command(struct mipi_dbi *dbi, u8 *cmd,
+ 				   u8 *parameters, size_t num)
  {
--	bool swap_bytes = (bpw == 16 && mipi_dbi_machine_little_endian());
-+	bool swap_bytes = (bpw == 16);
- 	size_t chunk, max_chunk = dbi->tx_buf9_len;
- 	struct spi_device *spi = dbi->spi;
- 	struct spi_transfer tr = {
-@@ -1004,7 +995,7 @@ static int mipi_dbi_spi1_transfer(struct mipi_dbi *dbi, int dc,
- 		size_t chunk = min(len, max_chunk);
- 		unsigned int i;
+-	unsigned int bpw = (*cmd == MIPI_DCS_WRITE_MEMORY_START) ? 16 : 8;
++	unsigned int bpw = 8;
+ 	int ret;
  
--		if (bpw == 16 && mipi_dbi_machine_little_endian()) {
-+		if (bpw == 16) {
- 			for (i = 0; i < (chunk * 2); i += 2) {
- 				dst16[i]     = *src16 >> 8;
- 				dst16[i + 1] = *src16++ & 0xFF;
-@@ -1218,11 +1209,23 @@ static int mipi_dbi_typec3_command(struct mipi_dbi *dbi, u8 *cmd,
-  * If @dc is set, a Type C Option 3 interface is assumed, if not
-  * Type C Option 1.
-  *
-- * If the SPI master driver doesn't support the necessary bits per word,
-- * the following transformation is used:
-+ * If the command is %MIPI_DCS_WRITE_MEMORY_START and the pixel format is RGB565, endianness has
-+ * to be taken into account. The MIPI DBI serial interface is big endian and framebuffers are
-+ * assumed stored in memory as little endian (%DRM_FORMAT_BIG_ENDIAN is not supported).
-  *
-- * - 9-bit: reorder buffer as 9x 8-bit words, padded with no-op command.
-- * - 16-bit: if big endian send as 8-bit, if little endian swap bytes
-+ * This is how endianness is handled:
-+ *
-+ * Option 1 (D/C as a bit): The buffer is sent on the wire byte by byte so the 16-bit buffer is
-+ *                          byteswapped before transfer.
-+ *
-+ * Option 3 (D/C as a gpio): If the SPI controller supports 16 bits per word the buffer can be
-+ *                           sent as-is. If not the caller is responsible for swapping the bytes
-+ *                           before calling mipi_dbi_command_buf() and the buffer is sent 8 bpw.
-+ *
-+ * This handling is optimised for %DRM_FORMAT_RGB565 framebuffers.
-+ *
-+ * If the interface is Option 1 and the SPI controller doesn't support 9 bits per word,
-+ * the buffer is sent as 9x 8-bit words, padded with MIPI DCS no-op commands if necessary.
-  *
-  * Returns:
-  * Zero on success, negative error code on failure.
-@@ -1257,7 +1260,7 @@ int mipi_dbi_spi_init(struct spi_device *spi, struct mipi_dbi *dbi,
+ 	if (mipi_dbi_command_is_read(dbi, *cmd))
+@@ -1091,6 +1091,9 @@ static int mipi_dbi_typec1_command(struct mipi_dbi *dbi, u8 *cmd,
+ 	if (ret || !num)
+ 		return ret;
+ 
++	if (*cmd == MIPI_DCS_WRITE_MEMORY_START)
++		bpw = dbi->write_memory_bpw;
++
+ 	return mipi_dbi_spi1_transfer(dbi, 1, parameters, num, bpw);
+ }
+ 
+@@ -1184,8 +1187,8 @@ static int mipi_dbi_typec3_command(struct mipi_dbi *dbi, u8 *cmd,
+ 	if (ret || !num)
+ 		return ret;
+ 
+-	if (*cmd == MIPI_DCS_WRITE_MEMORY_START && !dbi->swap_bytes)
+-		bpw = 16;
++	if (*cmd == MIPI_DCS_WRITE_MEMORY_START)
++		bpw = dbi->write_memory_bpw;
+ 
+ 	spi_bus_lock(spi->controller);
+ 	gpiod_set_value_cansleep(dbi->dc, 1);
+@@ -1256,12 +1259,15 @@ int mipi_dbi_spi_init(struct spi_device *spi, struct mipi_dbi *dbi,
+ 
+ 	dbi->spi = spi;
+ 	dbi->read_commands = mipi_dbi_dcs_read_commands;
++	dbi->write_memory_bpw = 16;
+ 
  	if (dc) {
  		dbi->command = mipi_dbi_typec3_command;
  		dbi->dc = dc;
--		if (mipi_dbi_machine_little_endian() && !spi_is_bpw_supported(spi, 16))
-+		if (!spi_is_bpw_supported(spi, 16))
+-		if (!spi_is_bpw_supported(spi, 16))
++		if (!spi_is_bpw_supported(spi, 16)) {
++			dbi->write_memory_bpw = 8;
  			dbi->swap_bytes = true;
++		}
  	} else {
  		dbi->command = mipi_dbi_typec1_command;
+ 		dbi->tx_buf9_len = SZ_16K;
+diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+index e8e0f8d39f3a..b36596efdcc3 100644
+--- a/include/drm/drm_mipi_dbi.h
++++ b/include/drm/drm_mipi_dbi.h
+@@ -56,6 +56,11 @@ struct mipi_dbi {
+ 	 */
+ 	struct spi_device *spi;
+ 
++	/**
++	 * @write_memory_bpw: Bits per word used on a MIPI_DCS_WRITE_MEMORY_START transfer
++	 */
++	unsigned int write_memory_bpw;
++
+ 	/**
+ 	 * @dc: Optional D/C gpio.
+ 	 */
 
 -- 
 2.45.0
