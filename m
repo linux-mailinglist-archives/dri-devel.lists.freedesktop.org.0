@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515D88C45B6
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 19:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978DE8C45BD
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 19:10:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F15D010E8B5;
-	Mon, 13 May 2024 17:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B67C10E8BE;
+	Mon, 13 May 2024 17:10:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ARmBpdZ9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tWSFBrX4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E28DE10E8B5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 17:09:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9555610E8BE
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 17:10:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5779D60DB7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 17:09:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 094F9C2BD11
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 17:09:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D67D860DB7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 17:10:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87178C113CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 17:10:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715620186;
- bh=NUKDNm9YYmo0TWz565PZu1Vg4+IaNQPFBZdIUqn+A4s=;
+ s=k20201202; t=1715620237;
+ bh=Ow7ES7ABB/hlYbM0TfIvANfNu1VvDM7zdASVvaJXsuo=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ARmBpdZ9rVYY+LfdsxAJz2UOqv8EVDWTuC3c8u5cKhT40STjSNvUifoicx+r0sWfv
- XX4AI1h11XWe/j0HVv+pkk3K1wtL+0eym9COpxwyRUpZ4xMiYK9Lw/5Ok70r5IXl3u
- xghiDb7rOddSCBpywexEx7MzE/kJz6deiRNRwr7pLvefzOpBjQeLjvKrMQOgp+vrR0
- FYYse3JnwK9lewca6fyuyYIGtPZqky2KwUUznp2ceo3vH9qpnF1U6HWn5yLZibdIQm
- PEZowHV0NGGaaoPi2l2O+y3e4OnfzrKslkTtt+cIQezTg50YvlCAn52IisEp83BTcy
- e9IbdBQu6dTwA==
-Received: by mail-oo1-f43.google.com with SMTP id
- 006d021491bc7-5acb737b508so1932912eaf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 10:09:46 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxgU5UfjW7Flt+tgjBGT3mfhWouhr/1xxaMMQJ6A/gac/I6FSY2
- fTRqKffbRWKy3GfxRdZoTs3v7P5AMu7ed0yndAAr/QTu7MbYPCEhSOySrPytckXPWhHD4RS2ntJ
- kIdQZ00fwvJRbzUFOLxrRHlAnqKoKPmR/28hJbQ==
-X-Google-Smtp-Source: AGHT+IF2Ffpde5HkpcU33neHNG69ERzJu0l1dy+KxdZ5vQVzS5h8n6cnJybu9TGTf3mzh6eldjN3LiRONBn4UB4CvxM=
-X-Received: by 2002:a05:6870:71d4:b0:244:c312:4c7c with SMTP id
- 586e51a60fabf-244c3125884mr6908894fac.16.1715620185339; Mon, 13 May 2024
- 10:09:45 -0700 (PDT)
+ b=tWSFBrX4ppP7HrKjmkv8ncDzZEmaDRN/plttnztJxK3BCwd27bRBQ2TUbas+JELLw
+ +PcaTOvLkT6oT/UwHVEgYyF2FP6vhUbKNdWP21dVO4HuyqqYO/jkQLIW9stWkeW1bl
+ pQo9xEUyweyDWDbyk9tHmsoEZm2MMV0JKBrLTvt+TBetjaSbuOQlYsZ7Nw5WL6Jhij
+ JCu/Tknn0HCVSPSfCbgMjjOSxIUPYeZVVR26A3bP3Ma7OV5g90ZWQwnnA96PokCTyy
+ wPh9hlM9ri04z3Q4aqpKAZRyxDFH/xZ3Kt4C9bu9eW8Jfl/9pQpTjHCGWZcPlblPJ0
+ 6ZWlSicx/4rIQ==
+Received: by mail-oo1-f50.google.com with SMTP id
+ 006d021491bc7-5b2a2ef4e4cso1350860eaf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 10:10:37 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwNA3e7lz3sxWblMql4soj1CqvjWB6YkqzUhOPW1/Cm0iBwDGxS
+ 6VE2i3QKGeWIRBp8scFFBIB+px3KaCoXTi2nzMDdEeKvjdNgqlm14VWi6p4cPhlg92F9BvoqbfF
+ WX6UDJVo29+Gux/XvN4hg+2B/XlIIwCHfRICfbQ==
+X-Google-Smtp-Source: AGHT+IGlqHf3xQ3SnUkv+moS8kskuEVrSYy9Pmplg7qCZuWLNcm3lghOawCcvftXlcsM77rEo30rUf5vFJKQ9zd6EBE=
+X-Received: by 2002:a05:6870:6783:b0:23a:980f:1fb8 with SMTP id
+ 586e51a60fabf-24172fb5f20mr12647618fac.53.1715620236976; Mon, 13 May 2024
+ 10:10:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1715347488.git.jani.nikula@intel.com>
- <035c7c31a3e096625a69eb4657c1727da4021a62.1715347488.git.jani.nikula@intel.com>
-In-Reply-To: <035c7c31a3e096625a69eb4657c1727da4021a62.1715347488.git.jani.nikula@intel.com>
+ <1d1290829fa463237b560c43e77170a986186031.1715347488.git.jani.nikula@intel.com>
+In-Reply-To: <1d1290829fa463237b560c43e77170a986186031.1715347488.git.jani.nikula@intel.com>
 From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 13 May 2024 19:09:32 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi59FK=z_nt+XrV1W3nUNOE+jfYRQ140YzEWvc4EGuroig@mail.gmail.com>
-Message-ID: <CAN6tsi59FK=z_nt+XrV1W3nUNOE+jfYRQ140YzEWvc4EGuroig@mail.gmail.com>
-Subject: Re: [RESEND 2/6] drm/bridge/analogix/anx78xx: switch to struct
- drm_edid
+Date: Mon, 13 May 2024 19:10:25 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi7ecz7fg1H8_KsPNewMXjuHjDGdM=ibqTWpL6WCqTKifA@mail.gmail.com>
+Message-ID: <CAN6tsi7ecz7fg1H8_KsPNewMXjuHjDGdM=ibqTWpL6WCqTKifA@mail.gmail.com>
+Subject: Re: [RESEND 3/6] drm/bridge: anx7625: use struct drm_edid more
 To: Jani Nikula <jani.nikula@intel.com>
 Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -88,86 +87,122 @@ On Fri, May 10, 2024 at 3:26=E2=80=AFPM Jani Nikula <jani.nikula@intel.com>=
 > Cc: Jonas Karlman <jonas@kwiboo.se>
 > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  .../drm/bridge/analogix/analogix-anx78xx.c    | 23 ++++++++++---------
->  1 file changed, 12 insertions(+), 11 deletions(-)
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 26 +++++++++++++++--------
+>  drivers/gpu/drm/bridge/analogix/anx7625.h | 10 ++-------
+>  2 files changed, 19 insertions(+), 17 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers=
-/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> index 5748a8581af4..ae79bcd8fa55 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-> @@ -67,7 +67,7 @@ struct anx78xx {
->         struct drm_dp_aux aux;
->         struct drm_bridge bridge;
->         struct i2c_client *client;
-> -       struct edid *edid;
-> +       const struct drm_edid *drm_edid;
->         struct drm_connector connector;
->         struct anx78xx_platform_data pdata;
->         struct mutex lock;
-> @@ -830,8 +830,8 @@ static int anx78xx_get_modes(struct drm_connector *co=
-nnector)
->         if (WARN_ON(!anx78xx->powered))
->                 return 0;
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/=
+bridge/analogix/anx7625.c
+> index 59e9ad349969..d19975c5e5e5 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -464,9 +464,11 @@ static int anx7625_odfc_config(struct anx7625_data *=
+ctx,
+>   */
+>  static int anx7625_set_k_value(struct anx7625_data *ctx)
+>  {
+> -       struct edid *edid =3D (struct edid *)ctx->slimport_edid_p.edid_ra=
+w_data;
+> +       struct drm_edid_product_id id;
 >
-> -       if (anx78xx->edid)
-> -               return drm_add_edid_modes(connector, anx78xx->edid);
-> +       if (anx78xx->drm_edid)
-> +               return drm_edid_connector_add_modes(connector);
->
->         mutex_lock(&anx78xx->lock);
->
-> @@ -841,20 +841,21 @@ static int anx78xx_get_modes(struct drm_connector *=
-connector)
->                 goto unlock;
->         }
->
-> -       anx78xx->edid =3D drm_get_edid(connector, &anx78xx->aux.ddc);
-> -       if (!anx78xx->edid) {
-> +       anx78xx->drm_edid =3D drm_edid_read_ddc(connector, &anx78xx->aux.=
-ddc);
+> -       if (edid->mfg_id[0] =3D=3D IVO_MID0 && edid->mfg_id[1] =3D=3D IVO=
+_MID1)
+> +       drm_edid_get_product_id(ctx->cached_drm_edid, &id);
 > +
-> +       err =3D drm_edid_connector_update(connector, anx78xx->drm_edid);
-> +
-> +       if (!anx78xx->drm_edid) {
->                 DRM_ERROR("Failed to read EDID\n");
->                 goto unlock;
->         }
+> +       if (be16_to_cpu(id.manufacturer_name) =3D=3D IVO_MID)
+>                 return anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
+>                                          MIPI_DIGITAL_ADJ_1, 0x3B);
 >
-> -       err =3D drm_connector_update_edid_property(connector,
-> -                                                anx78xx->edid);
->         if (err) {
->                 DRM_ERROR("Failed to update EDID property: %d\n", err);
->                 goto unlock;
->         }
+> @@ -1526,7 +1528,8 @@ static int anx7625_wait_hpd_asserted(struct drm_dp_=
+aux *aux,
 >
-> -       num_modes =3D drm_add_edid_modes(connector, anx78xx->edid);
-> +       num_modes =3D drm_edid_connector_add_modes(connector);
->
->  unlock:
->         mutex_unlock(&anx78xx->lock);
-> @@ -1091,8 +1092,8 @@ static bool anx78xx_handle_common_int_4(struct anx7=
-8xx *anx78xx, u8 irq)
->                 event =3D true;
->                 anx78xx_poweroff(anx78xx);
->                 /* Free cached EDID */
-> -               kfree(anx78xx->edid);
-> -               anx78xx->edid =3D NULL;
-> +               drm_edid_free(anx78xx->drm_edid);
-> +               anx78xx->drm_edid =3D NULL;
->         } else if (irq & SP_HPD_PLUG) {
->                 DRM_DEBUG_KMS("IRQ: Hot plug detect - cable plug\n");
->                 event =3D true;
-> @@ -1363,7 +1364,7 @@ static void anx78xx_i2c_remove(struct i2c_client *c=
-lient)
->
->         unregister_i2c_dummy_clients(anx78xx);
->
-> -       kfree(anx78xx->edid);
-> +       drm_edid_free(anx78xx->drm_edid);
+>  static void anx7625_remove_edid(struct anx7625_data *ctx)
+>  {
+> -       ctx->slimport_edid_p.edid_block_num =3D -1;
+> +       drm_edid_free(ctx->cached_drm_edid);
+> +       ctx->cached_drm_edid =3D NULL;
 >  }
 >
->  static const struct of_device_id anx78xx_match_table[] =3D {
+>  static void anx7625_dp_adjust_swing(struct anx7625_data *ctx)
+> @@ -1787,27 +1790,32 @@ static ssize_t anx7625_aux_transfer(struct drm_dp=
+_aux *aux,
+>  static const struct drm_edid *anx7625_edid_read(struct anx7625_data *ctx=
+)
+>  {
+>         struct device *dev =3D ctx->dev;
+> -       struct s_edid_data *p_edid =3D &ctx->slimport_edid_p;
+> +       u8 *edid_buf;
+>         int edid_num;
+>
+> -       if (ctx->slimport_edid_p.edid_block_num > 0)
+> +       if (ctx->cached_drm_edid)
+>                 goto out;
+>
+> +       edid_buf =3D kmalloc(FOUR_BLOCK_SIZE, GFP_KERNEL);
+> +       if (!edid_buf)
+> +               return NULL;
+> +
+>         pm_runtime_get_sync(dev);
+>         _anx7625_hpd_polling(ctx, 5000 * 100);
+> -       edid_num =3D sp_tx_edid_read(ctx, p_edid->edid_raw_data);
+> +       edid_num =3D sp_tx_edid_read(ctx, edid_buf);
+>         pm_runtime_put_sync(dev);
+>
+>         if (edid_num < 1) {
+>                 DRM_DEV_ERROR(dev, "Fail to read EDID: %d\n", edid_num);
+> +               kfree(edid_buf);
+>                 return NULL;
+>         }
+>
+> -       p_edid->edid_block_num =3D edid_num;
+> +       ctx->cached_drm_edid =3D drm_edid_alloc(edid_buf, FOUR_BLOCK_SIZE=
+);
+> +       kfree(edid_buf);
+>
+>  out:
+> -       return drm_edid_alloc(ctx->slimport_edid_p.edid_raw_data,
+> -                             FOUR_BLOCK_SIZE);
+> +       return drm_edid_dup(ctx->cached_drm_edid);
+>  }
+>
+>  static enum drm_connector_status anx7625_sink_detect(struct anx7625_data=
+ *ctx)
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/=
+bridge/analogix/anx7625.h
+> index 39ed35d33836..eb5580f1ab2f 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+> @@ -286,8 +286,7 @@
+>
+>  #define  MIPI_LANE_CTRL_10               0x0F
+>  #define  MIPI_DIGITAL_ADJ_1     0x1B
+> -#define  IVO_MID0               0x26
+> -#define  IVO_MID1               0xCF
+> +#define  IVO_MID                0x26CF
+>
+>  #define  MIPI_PLL_M_NUM_23_16   0x1E
+>  #define  MIPI_PLL_M_NUM_15_8    0x1F
+> @@ -417,11 +416,6 @@ enum audio_wd_len {
+>  #define EDID_TRY_CNT   3
+>  #define SUPPORT_PIXEL_CLOCK    300000
+>
+> -struct s_edid_data {
+> -       int edid_block_num;
+> -       u8 edid_raw_data[FOUR_BLOCK_SIZE];
+> -};
+> -
+>  /***************** Display End *****************/
+>
+>  #define MAX_LANES_SUPPORT      4
+> @@ -466,7 +460,7 @@ struct anx7625_data {
+>         struct anx7625_i2c_client i2c;
+>         struct i2c_client *last_client;
+>         struct timer_list hdcp_timer;
+> -       struct s_edid_data slimport_edid_p;
+> +       const struct drm_edid *cached_drm_edid;
+>         struct device *codec_dev;
+>         hdmi_codec_plugged_cb plugged_cb;
+>         struct work_struct work;
 > --
 > 2.39.2
 >
