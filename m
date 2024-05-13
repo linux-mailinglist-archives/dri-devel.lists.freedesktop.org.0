@@ -2,52 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5CD48C443E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 17:32:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EAA8C445F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 17:36:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F3610E84C;
-	Mon, 13 May 2024 15:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1F7910E541;
+	Mon, 13 May 2024 15:36:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="nhcZDRYN";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X7in3EA5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
- [95.215.58.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC5D10E855
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 15:32:00 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1715614318;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J5+V1S9388YXGse4Sl78OBq2S/qOMf7C/8WKdb7RqiQ=;
- b=nhcZDRYN54cD/TsvPcSD91AHbbllmZLhrQztxz4D3HC29SFhukyJHM4ObtTd2TA6d0n4jg
- 7CTKFvBjuPxckIOdORe8mBHDJFRR8+yjhwa5Fu40wh7QZBnGn60j4aZNoGYDGl1ZPPDXEK
- 0p1FrwK/5A7PS0MyRv30nx/3Hk8ss0g=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Douglas Anderson <dianders@chromium.org>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Liu Ying <victor.liu@nxp.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, Sui Jingfeng <sui.jingfeng@linux.dev>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v2 12/12] drm/bridge: analogix: Remove redundant checks on
- existence of bridge->encoder
-Date: Mon, 13 May 2024 23:31:09 +0800
-Message-ID: <20240513153109.46786-13-sui.jingfeng@linux.dev>
-In-Reply-To: <20240513153109.46786-1-sui.jingfeng@linux.dev>
-References: <20240513153109.46786-1-sui.jingfeng@linux.dev>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F4110E541
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 15:36:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2730B60C77;
+ Mon, 13 May 2024 15:36:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74FB7C2BD11;
+ Mon, 13 May 2024 15:36:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1715614604;
+ bh=gC7QIBi4pGEfC7vMumfJ0K0MT/Ky6JDUJbmwcstJyLw=;
+ h=Subject:To:Cc:From:Date:From;
+ b=X7in3EA5/lv6gAvkvV+ZyUlmdt5X2aw6cuYB5CZK/Gca6oe6mE4o9y6o1t/0pbOFe
+ 8UTA0cNDdvPnfYWmv+QtOjamJ4M4G5/LYwRwHUlXzr36EZq/jL1lmDz+DsmKGhoobw
+ aNYBbT/gylhz2C9hbkCc+vnxY4cSWPuaL12aUcEM=
+Subject: Patch "drm/vmwgfx: Fix invalid reads in fence signaled events" has
+ been added to the 6.1-stable tree
+To: airlied@gmail.com, bcm-kernel-feedback-list@broadcom.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ maaz.mombasawala@broadcom.com, martin.krastev@broadcom.com,
+ zack.rusin@broadcom.com, zdi-disclosures@trendmicro.com
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 13 May 2024 17:36:19 +0200
+Message-ID: <2024051319-reattach-speed-da81@gregkh>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,101 +57,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The checks on the existence of bridge->encoder in the implementation of
-drm_bridge_funcs::attach() is not necessary, as it has already been checked
-in the drm_bridge_attach() function call by previous bridge or KMS driver.
-The drm_bridge_attach() will quit with a negative error code returned if
-it fails for some reasons, hence, it is guaranteed that the .encoder member
-of the drm_bridge instance is not NULL when various bridge attach functions
-are called.
 
-Remove the redundant checking codes "if (!bridge->encoder) { ... }".
+This is a note to let you know that I've just added the patch titled
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+    drm/vmwgfx: Fix invalid reads in fence signaled events
+
+to the 6.1-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-vmwgfx-fix-invalid-reads-in-fence-signaled-events.patch
+and it can be found in the queue-6.1 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From a37ef7613c00f2d72c8fc08bd83fb6cc76926c8c Mon Sep 17 00:00:00 2001
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Thu, 25 Apr 2024 15:27:48 -0400
+Subject: drm/vmwgfx: Fix invalid reads in fence signaled events
+
+From: Zack Rusin <zack.rusin@broadcom.com>
+
+commit a37ef7613c00f2d72c8fc08bd83fb6cc76926c8c upstream.
+
+Correctly set the length of the drm_event to the size of the structure
+that's actually used.
+
+The length of the drm_event was set to the parent structure instead of
+to the drm_vmw_event_fence which is supposed to be read. drm_read
+uses the length parameter to copy the event to the user space thus
+resuling in oob reads.
+
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: 8b7de6aa8468 ("vmwgfx: Rework fence event action")
+Reported-by: zdi-disclosures@trendmicro.com # ZDI-CAN-23566
+Cc: David Airlie <airlied@gmail.com>
+CC: Daniel Vetter <daniel@ffwll.ch>
+Cc: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: <stable@vger.kernel.org> # v3.4+
+Reviewed-by: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Reviewed-by: Martin Krastev <martin.krastev@broadcom.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240425192748.1761522-1-zack.rusin@broadcom.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |  5 -----
- drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c |  5 -----
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  5 -----
- drivers/gpu/drm/bridge/analogix/anx7625.c          | 10 ----------
- 4 files changed, 25 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-index c9e35731e6a1..cfe43d2ca3be 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-@@ -528,11 +528,6 @@ static int anx6345_bridge_attach(struct drm_bridge *bridge,
- 		return -EINVAL;
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -991,7 +991,7 @@ static int vmw_event_fence_action_create
  	}
  
--	if (!bridge->encoder) {
--		DRM_ERROR("Parent encoder object not found");
--		return -ENODEV;
--	}
--
- 	/* Register aux channel */
- 	anx6345->aux.name = "DP-AUX";
- 	anx6345->aux.dev = &anx6345->client->dev;
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-index 5748a8581af4..58875dde496f 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-@@ -897,11 +897,6 @@ static int anx78xx_bridge_attach(struct drm_bridge *bridge,
- 		return -EINVAL;
- 	}
+ 	event->event.base.type = DRM_VMW_EVENT_FENCE_SIGNALED;
+-	event->event.base.length = sizeof(*event);
++	event->event.base.length = sizeof(event->event);
+ 	event->event.user_data = user_data;
  
--	if (!bridge->encoder) {
--		DRM_ERROR("Parent encoder object not found");
--		return -ENODEV;
--	}
--
- 	/* Register aux channel */
- 	anx78xx->aux.name = "DP-AUX";
- 	anx78xx->aux.dev = &anx78xx->client->dev;
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index df9370e0ff23..7b841232321f 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1228,11 +1228,6 @@ static int analogix_dp_bridge_attach(struct drm_bridge *bridge,
- 		return -EINVAL;
- 	}
- 
--	if (!bridge->encoder) {
--		DRM_ERROR("Parent encoder object not found");
--		return -ENODEV;
--	}
--
- 	if (!dp->plat_data->skip_connector) {
- 		connector = &dp->connector;
- 		connector->polled = DRM_CONNECTOR_POLL_HPD;
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 59e9ad349969..3d09efa4199c 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2193,11 +2193,6 @@ static int anx7625_bridge_attach(struct drm_bridge *bridge,
- 	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
- 		return -EINVAL;
- 
--	if (!bridge->encoder) {
--		DRM_DEV_ERROR(dev, "Parent encoder object not found");
--		return -ENODEV;
--	}
--
- 	ctx->aux.drm_dev = bridge->dev;
- 	err = drm_dp_aux_register(&ctx->aux);
- 	if (err) {
-@@ -2435,11 +2430,6 @@ static void anx7625_bridge_atomic_enable(struct drm_bridge *bridge,
- 
- 	dev_dbg(dev, "drm atomic enable\n");
- 
--	if (!bridge->encoder) {
--		dev_err(dev, "Parent encoder object not found");
--		return;
--	}
--
- 	connector = drm_atomic_get_new_connector_for_encoder(state->base.state,
- 							     bridge->encoder);
- 	if (!connector)
--- 
-2.43.0
+ 	ret = drm_event_reserve_init(dev, file_priv, &event->base, &event->event.base);
 
+
+Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
+
+queue-6.1/drm-vmwgfx-fix-invalid-reads-in-fence-signaled-events.patch
