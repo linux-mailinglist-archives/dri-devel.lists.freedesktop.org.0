@@ -2,79 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5AA8C47CB
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 21:46:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E5B8C47D2
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 21:47:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADD4D10E1CD;
-	Mon, 13 May 2024 19:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC6C10E6B4;
+	Mon, 13 May 2024 19:47:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Mg7EQLX9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ivce/GJ2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E55D910E1CD
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 19:46:18 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-61be674f5d1so52204357b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 12:46:18 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38A2C10E3B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 19:47:50 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-61816fc256dso47146767b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 12:47:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715629578; x=1716234378; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1715629669; x=1716234469; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QJEfzwkd2qxnsKE/Vy91fWDkVPR6tUmf6vlcyzKqO+0=;
- b=Mg7EQLX9YO6ACm2ToA+T0kBMHl/UfpguEMnCT8Ub87h+ARqg3QcNAwUuhrXzf0jByl
- swBBaaSQGXS+yOmyVLz/qGTvNn+8dDCZb/wnDD62ehccbNDqwnud/eeacsq/3CME9Idf
- d9Bj1N1UL0g2nIpsTyxYuD8UEhTMgfkhhA6CUYuXMjXdJOIF7Wjko2gV8haIGaVnKS8W
- feo3wke5exSEtsDs3om2l4YpBS7RRss8LuoOC8S7URtiJfUMES7+6+RsGFJTl6/QxpaU
- GTfxVHiZ1kf7c1R5n+SdH5TaOFgx+QGOqhp1Di1UskcHcGwuZBqPCCZE6qtMfkMEGEEc
- JOLw==
+ bh=DUknfNXk78tNoNSV/FKbuOTqBHWDprugew7p/EYSaSg=;
+ b=Ivce/GJ2X9nhj6yhOMj5lEQW1tLbh3xNUv/7S1SGokmtjZkwLAynaGliw07FtmPKYc
+ tAayaGjZePjDWqqBut251uUXZXnXkfu5agRYBaxD/qY3vayHPR5HCVANr57B5zxDvdB+
+ mq9w3XsbOCu4Wy6Ifug8Df0xF7pb1jztV+bef2MzNYZz69Xnf+TL63kju/t4/J0FWMhD
+ XJ+IXC/HqMP+lMxe0C3+OL+xa16J9SazfYMuz8q7QEnGb42my90I9KKh/709g5hhCScm
+ myaMqy3B0K38j828KdVJhzS6Wh4Xmf9GiMdanBHiy3pmWevsp9NoGYNCs0dT1vK+Q3h0
+ ijoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715629578; x=1716234378;
+ d=1e100.net; s=20230601; t=1715629669; x=1716234469;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QJEfzwkd2qxnsKE/Vy91fWDkVPR6tUmf6vlcyzKqO+0=;
- b=hXrZ4oH+5LwxvsbCNE4bKe18dIXMSaEItXx0kZbqB1jRpG+a2SlgDTtC3XCfPa1n89
- Wyi4+cyJ+aZhgLoNiZAT9srJx27krhwrFgn66aSQH3BNmjjbTaPzJbZ56jwRn3TtsIWJ
- K9EIIly5d0ihpWBWunfgUED64CJXIsqOFZApsKhWcmLso5lOk5cSvVUGel7EF1TDJqjn
- s1TPueCmy8OzgG8onft/Ex3IbOTlfEHpfo9U+TU1Aaoe5qzBt4APGK73Qq3joe1F+W5b
- oiiSGYKQogvnh0IUom60mWQqEedYpby/SG+k7e3khcZ142x63pwRPsYmKATYoHbmUgjG
- IUJg==
-X-Gm-Message-State: AOJu0YzJ+XmPFhPrb2d/o6E4vZz0+loFFLE/v29OlTNDSFEn3K+5cNux
- c3+eFlnZMWEKEW/Uwd/cju4TuLJfBiTOWWnkG8lUFREk8E2qKafYrVYqmNPi6lehCAEwSqAfrX/
- gTe07Qfr5jcmiJhuxAaVrRdQ12y57F8aPY0dZIg==
-X-Google-Smtp-Source: AGHT+IGPz3LnxD+FGgFaCeFXh78jEmepPyxiwe+4wcuPzQbaTP/typ2A4tlWBQFabmLYpFP+8e9pZBIybxpkvek/nwE=
-X-Received: by 2002:a05:690c:3805:b0:61e:a66:bccd with SMTP id
- 00721157ae682-622afff95e1mr158687087b3.38.1715629577353; Mon, 13 May 2024
- 12:46:17 -0700 (PDT)
+ bh=DUknfNXk78tNoNSV/FKbuOTqBHWDprugew7p/EYSaSg=;
+ b=CPCPYKZXmltb4wRDLh7cJCzlrEUdCdUHuT+EyjGHaT7wRIFnkVWgIblUWrFjs117rO
+ DzuNFSSaGOJkN2NS3EXrNQHzTJXwF92/ittiixhiiR9yBvTUJL5qVV9Us4FErwn40ECi
+ 3EYOUCpWEN90i+I1Slhl0iuYE/RO59UHvdb8vmAJqOxuJGBY1Jrbn0n5YdZP19Jb3c2N
+ iF32muGQkvQKxLp4wnugfu4MxaWyVWzA8bOofnPh5SQySbqU3zUCr460yZYG16PUY+e7
+ uJBNafgv+cksL2xZxSf7k1CvwBScMzCZSte3Y84Bz/LWqb3WzTXUaEHLP5Gnxla/gS5U
+ DN0g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV03dLFX52Y4KI6gPrM96juplv3FfA4t15DSDotnN8dOWplU5CdijcxAfk3t3yH7avEGxZHyhMFwvirq5h8IlAs4Y5afm3S6Ier1sT7/p6k
+X-Gm-Message-State: AOJu0YxDhfKQQGlxdULCxNCE0OmSRDxrSWNIR1BU8tcCDiAsMptTmhRl
+ cdIWGXCFWXSJpkJtjQDDt+Vhi4gkmohnMKwDGW1qfq3ywJJrH99AbaPmT5sp/JIDEG+vj3PuHk5
+ sD0U3uJkZVpdeH4BoLmmPr5Au6JCzWAKuydNJrw==
+X-Google-Smtp-Source: AGHT+IGnYYmt0EOnAPY00AN8x9tLJNXpR+W6Srvl1WDn62aWdwxJ3ONetwGbkGS/UdOHkoVbG62q60/rx6bF8LH6+Ns=
+X-Received: by 2002:a25:f90e:0:b0:dc6:ff32:aae2 with SMTP id
+ 3f1490d57ef6-dee4f3356e2mr8656703276.63.1715629669087; Mon, 13 May 2024
+ 12:47:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240508205222.2251854-1-dianders@chromium.org>
- <20240508135148.v4.6.I3c08a7d02c467d2bc88da14e513ea4c8649fce45@changeid>
-In-Reply-To: <20240508135148.v4.6.I3c08a7d02c467d2bc88da14e513ea4c8649fce45@changeid>
+References: <20240509-dt-bindings-dsi-panel-reg-v1-0-8b2443705be0@linaro.org>
+ <20240509-dt-bindings-dsi-panel-reg-v1-3-8b2443705be0@linaro.org>
+In-Reply-To: <20240509-dt-bindings-dsi-panel-reg-v1-3-8b2443705be0@linaro.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 13 May 2024 21:46:06 +0200
-Message-ID: <CACRpkdZjaqAr6s-VUTw52qNmkP1aFxXdjdKd+JC_ukC5fKL0kw@mail.gmail.com>
-Subject: Re: [PATCH v4 6/9] drm/panel: novatek-nt36672e: Switch to
- mipi_dsi_dcs_write_seq_multi()
-To: Douglas Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, 
- lvzhaoxiong@huaqin.corp-partner.google.com, 
- Jani Nikula <jani.nikula@linux.intel.com>, Hsin-Yi Wang <hsinyi@google.com>, 
- Javier Martinez Canillas <javierm@redhat.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- Sam Ravnborg <sam@ravnborg.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Joel Selvaraj <jo@jsfamily.in>,
- Brian Norris <briannorris@chromium.org>,
- Ritesh Kumar <quic_riteshk@quicinc.com>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+Date: Mon, 13 May 2024 21:47:38 +0200
+Message-ID: <CACRpkdaE0tMQ5=pSofT9pGVcSBLp=dm_7WedpO2EnkbP1w+08A@mail.gmail.com>
+Subject: Re: [PATCH 3/3] dt-bindings: display: panel: constrain 'reg' in DSI
+ panels
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Chris Morgan <macromorgan@hotmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Konrad Dybcio <konradybcio@gmail.com>, 
+ Del Regno <angelogioacchino.delregno@somainline.org>,
+ Heiko Stuebner <heiko@sntech.de>, Luca Weiss <luca.weiss@fairphone.com>,
+ Dmitry Baryskov <dmitry.baryshkov@linaro.org>, 
+ Shawn Guo <shawn.guo@linaro.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,25 +95,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 8, 2024 at 10:53=E2=80=AFPM Douglas Anderson <dianders@chromium=
-.org> wrote:
+On Thu, May 9, 2024 at 11:43=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 
-> This is a mechanical conversion of the novatek-nt36672e driver to use
-> the new mipi_dsi_dcs_write_seq_multi(). The new function is easier for
-> clients to understand and using it also causes smaller code to be
-> generated. Specifically:
+> DSI-attached devices could respond to more than one virtual channel
+> number, thus their bindings are supposed to constrain the 'reg' property
+> to match hardware.  Add missing 'reg' constrain for DSI-attached display
+> panels, based on DTS sources in Linux kernel (assume all devices take
+> only one channel number).
 >
-> $ scripts/bloat-o-meter \
->   ...after/panel-novatek-nt36672e.ko \
->   ...ctx/panel-novatek-nt36672e.ko
-> add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-988 (-988)
-> Function                                     old     new   delta
-> nt36672e_1080x2408_60hz_init                6236    5248    -988
-> Total: Before=3D10651, After=3D9663, chg -9.28%
->
-> Cc: Ritesh Kumar <quic_riteshk@quicinc.com>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+Looks right to me.
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
