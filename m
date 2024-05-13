@@ -2,59 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8133E8C4183
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 15:11:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 751038C4193
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 15:14:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 182A410E784;
-	Mon, 13 May 2024 13:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B3010E06D;
+	Mon, 13 May 2024 13:14:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="I32CpzZM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HTAifjR8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFC9910E784
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 13:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715605867;
- bh=vb6VU8I039xfs50EqqXBhoNIQO7NhR8KG4nRvOrcCHk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=I32CpzZMSeEnyQQCPetjzV9Baf0RaDjXYyWuOQ7GalN+1Snmnyj2y5odmTtvsfEbn
- eY6qK+WoDRvy6NqqRZ1qi3OQw5Wug8y0FrgEwyHAiX3laIbkUf2WolxGx57mvVWnTM
- so1gyFQccRJL6+MiYYOGxyCvGrf3jMVbwuwAsFTB6X6WwIkXOfT/cWZEv+91soz08w
- IXZhG0wH/tSdB5mvWOG0kE0hkl82yBmMTB6PgyuDLcp2mbvajMZ17OflNB9Y0maGww
- Q92JrkYD8782MJcckvuL29IpeF35t5+Xp7JYHiKpfu2tJ8W7Tl6kspnb/EqRAzEQ3B
- kFp+dQgqwr5Hw==
-Received: from [IPV6:fd00::2a:39ce] (cola.collaboradmins.com
- [IPv6:2a01:4f8:1c1c:5717::1])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7380A3782139;
- Mon, 13 May 2024 13:11:05 +0000 (UTC)
-Message-ID: <ffa57617-3c87-47d7-8882-becfe40abc17@collabora.com>
-Date: Mon, 13 May 2024 15:11:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] Add write DP phyd register from parse dts
-To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60D7010E06D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 13:14:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715606055; x=1747142055;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fZPA2U0w/NaPd1XPXrH9KUPReWy8Mu/+vRwHo8Emv3A=;
+ b=HTAifjR8rlutgfCDh22fQkiJbeyODvI8uAWfUVsVPT1OL4IsnP/Ncv33
+ jObe8GTaCmwILV8mXsrasEPbd/ehHtXOfLqL1ZVTkPQ3kK8acRV8f22pt
+ uaUyiJamNbRCBTaEapsY3spv0BwmzY0XTOUMY+AQGx7W5U3eo5K1Iq9pE
+ 4SbOQGPkq0Ej+SHVQYyVWqhiMPzeoH7Gg9Cr0OWSwWdj/8gAym9RCFTI1
+ u6ti0+JSNIKKGjRPR29vYn5eomQbmqgb6/QL+5qjfLL8GDBgcgCW47u9l
+ XpwUAn28xoulJKD0IPXI4nEN7kG7B8KJ5CSNyYs1FNZ/CEKh9wQMP7dWI Q==;
+X-CSE-ConnectionGUID: DkGt/0FxSCK4kLdGLUZqow==
+X-CSE-MsgGUID: ri29Zxs2RQS2zaUrY2AZVA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11390407"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="11390407"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2024 06:14:14 -0700
+X-CSE-ConnectionGUID: HrSYo+lVRL2UPrBM1JzUzw==
+X-CSE-MsgGUID: AhNYnZ1gQ/y065zn5CRwig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30456394"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2024 06:14:08 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1s6VVE-000000078wG-0cig; Mon, 13 May 2024 16:14:04 +0300
+Date: Mon, 13 May 2024 16:14:03 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, mchehab@kernel.org,
+ hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
+ sebastian.fricke@collabora.com, akpm@linux-foundation.org,
+ gregkh@linuxfoundation.org, adobriyan@gmail.com,
  p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- chunfeng.yun@mediatek.com, vkoul@kernel.org, kishon@kernel.org,
- matthias.bgg@gmail.com, jitao.shi@mediatek.com, mac.shen@mediatek.com,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-References: <20240510110523.12524-1-liankun.yang@mediatek.com>
- <20240510110523.12524-2-liankun.yang@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240510110523.12524-2-liankun.yang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+ praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
+ j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
+ p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
+ nicolas@ndufresne.ca
+Subject: Re: [PATCH v7 6/8] math.h Add macros to round to closest specified
+ power of 2
+Message-ID: <ZkISG6p1tn9Do-xY@smile.fi.intel.com>
+References: <20240509183952.4064331-1-devarsht@ti.com>
+ <Zj42vTpyH71TWeTk@smile.fi.intel.com> <87fruphf55.fsf@intel.com>
+ <5ebcf480-81c6-4c2d-96e8-727d44f21ca9@ti.com>
+ <ZkHWbS4raU_BPlpm@smile.fi.intel.com>
+ <6557050e-6b18-2628-cbab-1a811b2190ba@ti.com>
+ <ZkIG0-01pz632l4R@smile.fi.intel.com>
+ <d63ae19c-9316-3a4c-e9ed-1672ace068b6@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d63ae19c-9316-3a4c-e9ed-1672ace068b6@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,108 +88,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 10/05/24 13:04, Liankun Yang ha scritto:
-> During the testing phase, screen flickering is observed when
-> using displayport for screen casting. Relevant SSC register parameters
-> are set in dts to address the screen flickering issue effectively and
-> improve compatibility with different devices by adjusting the SSC gear.
+On Mon, May 13, 2024 at 06:34:19PM +0530, Devarsh Thakkar wrote:
+> On 13/05/24 17:55, Andy Shevchenko wrote:
+> > On Mon, May 13, 2024 at 04:55:58PM +0530, Devarsh Thakkar wrote:
+> >> On 13/05/24 14:29, Andy Shevchenko wrote:
+> >>> On Sat, May 11, 2024 at 11:11:14PM +0530, Devarsh Thakkar wrote:
+> >>>> On 10/05/24 20:45, Jani Nikula wrote:
+
+[...]
+
+> > - align naming (with the existing round*() macros)
 > 
-> Obtaining the DPTX node, parsing the dts to obtain PHY register address
-> and value can adapt to settings of different manufacturers projects.
+> I think round_closest_up/round_closest_down align already and inspired by the
+> existing naming convention used for round*() and DIV_ROUND_CLOSEST() macros in
+> math.h as explained below (copied from my previous reply [1])
 > 
-> Changeds in v2:
-> - Optimized method of writing to DP PHY register
-> https://patchwork.kernel.org/project/linux-mediatek/patch/
-> 20240403040517.3279-1-liankun.yang@mediatek.com/
+> "Coming back to naming, this is as per existing convention used for naming
+> round_up, round_down (notice the `_` being used for macros working with pow of
+> 2) and DIV_ROUND_CLOSEST (notice the work `closest` used to specify the answer
+>  to be nearest to specified value)"
 > 
-> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+> But do let me know if you have any other suggestions for naming?
 
-There's no devicetree support in this driver - infact, it's being probed by
-mtk-dp as a platform device.
+Just make sure that semantically the naming is aligned, that's it.
+If you think it's already done that way, fine!
 
-You keep sending untested stuff. Fourth time in a row.
-
-Please, TEST YOUR COMMITS upstream before sending!
-
-Regards,
-Angelo
-
-> ---
->   drivers/phy/mediatek/phy-mtk-dp.c | 37 +++++++++++++++++++++++++++++++
->   1 file changed, 37 insertions(+)
-> 
-> diff --git a/drivers/phy/mediatek/phy-mtk-dp.c b/drivers/phy/mediatek/phy-mtk-dp.c
-> index d7024a144335..ce78112d5938 100644
-> --- a/drivers/phy/mediatek/phy-mtk-dp.c
-> +++ b/drivers/phy/mediatek/phy-mtk-dp.c
-> @@ -28,6 +28,10 @@
->   #define MTK_DP_PHY_DIG_SW_RST		(PHY_OFFSET + 0x38)
->   #define DP_GLB_SW_RST_PHYD		BIT(0)
->   
-> +#define MTK_DP_PHY_DIG_GLB_DA_REG_14	(PHY_OFFSET + 0xD8)
-> +#define XTP_GLB_TXPLL_SSC_DELTA_RBR_DEFAULT	GENMASK(15, 0)
-> +#define XTP_GLB_TXPLL_SSC_DELTA_HBR_DEFAULT	GENMASK(31, 16)
-> +
->   #define MTK_DP_LANE0_DRIVING_PARAM_3		(PHY_OFFSET + 0x138)
->   #define MTK_DP_LANE1_DRIVING_PARAM_3		(PHY_OFFSET + 0x238)
->   #define MTK_DP_LANE2_DRIVING_PARAM_3		(PHY_OFFSET + 0x338)
-> @@ -78,10 +82,39 @@
->   #define DRIVING_PARAM_8_DEFAULT	(XTP_LN_TX_LCTXCP1_SW2_PRE1_DEFAULT | \
->   				 XTP_LN_TX_LCTXCP1_SW3_PRE0_DEFAULT)
->   
-> +#define SSC_SETTING	"dp-ssc-setting"
-> +#define RG_XTP_GLB_TXPLL_SSC_DELTA_HBR	"ssc-delta-hbr"
-> +
->   struct mtk_dp_phy {
->   	struct regmap *regs;
-> +	struct device *dev;
->   };
->   
-> +static int mtk_dp_set_ssc_config(struct phy *phy, struct mtk_dp_phy *dp_phy)
-> +{
-> +	int ret;
-> +	u32 read_value = 0, reg_mask = 0;
-> +	struct device_node *ssc_node = NULL;
-> +
-> +	ssc_node = of_find_node_by_name(dp_phy->dev->of_node, SSC_SETTING);
-> +	if (!ssc_node) {
-> +		dev_err(&phy->dev, "SSC node is NULL\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = of_property_read_u32(ssc_node, RG_XTP_GLB_TXPLL_SSC_DELTA_HBR, &read_value);
-> +	if (ret < 0 || !read_value) {
-> +		dev_err(&phy->dev, "Read SSC vlaue fail!\n");
-> +		return -EINVAL;
-> +	}
-> +	read_value |= read_value << 16;
-> +	reg_mask |= XTP_GLB_TXPLL_SSC_DELTA_HBR_DEFAULT;
-> +
-> +	regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_GLB_DA_REG_14, reg_mask, read_value);
-> +
-> +	return 0;
-> +}
-> +
->   static int mtk_dp_phy_init(struct phy *phy)
->   {
->   	struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
-> @@ -137,6 +170,8 @@ static int mtk_dp_phy_configure(struct phy *phy, union phy_configure_opts *opts)
->   	regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_PLL_CTL_1,
->   			   TPLL_SSC_EN, opts->dp.ssc ? TPLL_SSC_EN : 0);
->   
-> +	mtk_dp_set_ssc_config(phy, dp_phy);
-> +
->   	return 0;
->   }
->   
-> @@ -186,6 +221,8 @@ static int mtk_dp_phy_probe(struct platform_device *pdev)
->   	if (!dev->of_node)
->   		phy_create_lookup(phy, "dp", dev_name(dev));
->   
-> +	dp_phy->dev = dev;
-> +
->   	return 0;
->   }
->   
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
