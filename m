@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56FE8C3A1A
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 04:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3FF8C3A21
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 04:19:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BEDD10E0E0;
-	Mon, 13 May 2024 02:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6EA10E100;
+	Mon, 13 May 2024 02:19:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="hrjmOMks";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="TjcGT5yg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 010F510E0E0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 02:16:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58F0510E100
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 02:19:11 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 8A8E2882B4;
- Mon, 13 May 2024 04:16:21 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id EA1F487D46;
+ Mon, 13 May 2024 04:19:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1715566583;
- bh=w/+/XlJv4789+wWI5bO1oX5fy4cOISLUA0D3f37T2Hk=;
+ s=phobos-20191101; t=1715566750;
+ bh=yYjUoubo7oJSxL6WNhIWYEkFHtlrVGykg7J5NjBwY+o=;
  h=From:To:Cc:Subject:Date:From;
- b=hrjmOMkspvnPJGj/u8t392ssjddmlA/SJnhOA/i3dPrqeAMyXgDxg7CZ8QI0MX/5a
- nIMFeVXNJ+f6lrtTAt+3oTQ4I1NcX5YVuiZ1ZWb3hACwRt8sijbas3CaH+d4eUi5z8
- U8L6BV27ZO9jfW9uOvb/AdDGV4Es3MCYYC+dOll8i6inuJoXEkigPD/IHX9u/0X98Y
- 2HHy7qX6Ns7BjNZuXkUiJ+8HSKycWK28SiZlqBx0B0CzDg/f+qBaygKH4xbIaY31/+
- 9cKtyydYchfBCtkzqHaphtvtckgu1eJiXMcc894kqtz19xtvwpjvtEPYpsPGYPeV7x
- tYrvLKP2fYv2Q==
+ b=TjcGT5yg+OjRLwUBppu3P0dhfikzsJ14dNgRjkBWfpnmb4iVBZ7qTbM16V63kRe3v
+ LrbBYErNqNks+FyCZaT6k6Wp9oCbNxARAHv9Smeovz6m2mw/U2oZEQ/dLNaZZ4FLa+
+ Z6ttUdjGQmZvxDVFCx+aDki8XfoqaCsgsTJX1fLxMeQKCry2A4Ys53yyGlozri4j3M
+ 6kdl/DucmcaEpwK0tfogPFtO7Ujod2cp2U94s0kmEALDnNdjOTBvsoLBLzSR7S9UtS
+ +jAkoNiqJ8FaS8sadAc7iXXJjlW73n0EMjmyXgBqzFVnfGhp3YpWL2ovV2SxeyNguN
+ cF0lzw/PVOvCw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
@@ -38,16 +38,18 @@ Cc: Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@gmail.com>,
  Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
  Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-Subject: [PATCH] drm/bridge: tc358767: Enable FRMSYNC timing generator
-Date: Mon, 13 May 2024 04:16:04 +0200
-Message-ID: <20240513021607.129111-1-marex@denx.de>
+Subject: [PATCH 1/2] drm: bridge: samsung-dsim: Initialize bridge on attach
+Date: Mon, 13 May 2024 04:16:27 +0200
+Message-ID: <20240513021849.129136-1-marex@denx.de>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,21 +70,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TC9595 datasheet Video Path0 Control (VPCTRL0) Register bit FRMSYNC description
-says "This bit should be disabled only in video mode transmission where Host
-transmits video timing together with video data and where pixel clock source
-is from DSI clock." . This driver always sources pixel clock from external xtal,
-therefore the FRMSYNC bit must always be enabled, enable it.
+Initialize the bridge on attach already, to force lanes into LP11
+state, since attach does trigger attach of downstream bridges which
+may trigger (e)DP AUX channel mode read.
 
-This fixes an actual issue with DSI-to-DPI mode, where the display would
-randomly show subtle pixel flickering, or wobble, or shimmering. This is
-visible on solid gray color, but the degree of the shimmering differs
-between boots, which makes it hard to debug.
-
-There is a caveat to the FRMSYNC and this bridge pixel PLL, which can only
-generate pixel clock with limited accuracy, it may therefore be necessary
-to reduce the HFP to fit into line length of input pixel data, to avoid any
-possible overflows, which make the output video look striped horizontally.
+This fixes a corner case where DSIM with TC9595 attached to it fails
+to operate the DP AUX channel, because the TC9595 enters some debug
+mode when it is released from reset without lanes in LP11 mode. By
+ensuring the DSIM lanes are in LP11, the TC9595 (tc358767.c driver)
+can be reset in its attach callback called from DSIM attach callback,
+and recovered out of the debug mode just before TC9595 performs first
+AUX channel access later in its attach callback.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -92,11 +90,14 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Lucas Stach <l.stach@pengutronix.de>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Michael Walle <mwalle@kernel.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>
@@ -105,71 +106,37 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: dri-devel@lists.freedesktop.org
 Cc: kernel@dh-electronics.com
 ---
- drivers/gpu/drm/bridge/tc358767.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 166f9a3e9622d..fe2b93546eaef 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -382,6 +382,9 @@ struct tc_data {
- 
- 	/* HPD pin number (0 or 1) or -ENODEV */
- 	int			hpd_pin;
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index 95fedc68b0ae5..56093fc3d62cc 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1622,9 +1622,21 @@ static int samsung_dsim_attach(struct drm_bridge *bridge,
+ 			       enum drm_bridge_attach_flags flags)
+ {
+ 	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
++	int ret;
 +
-+	/* Number of pixels to subtract from a line due to pixel clock delta */
-+	u32			line_pixel_subtract;
- };
++	ret = pm_runtime_resume_and_get(dsi->dev);
++	if (ret < 0)
++		return ret;
  
- static inline struct tc_data *aux_to_tc(struct drm_dp_aux *a)
-@@ -577,6 +580,11 @@ static int tc_pllupdate(struct tc_data *tc, unsigned int pllctrl)
- 	return 0;
+-	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
+-				 flags);
++	ret = samsung_dsim_init(dsi);
++	if (ret < 0)
++		goto err;
++
++	ret = drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
++				flags);
++err:
++	pm_runtime_put_sync(dsi->dev);
++	return ret;
  }
  
-+static u32 div64_round_up(u64 v, u32 d)
-+{
-+	return div_u64(v + d - 1, d);
-+}
-+
- static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
- {
- 	int ret;
-@@ -658,8 +666,11 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
- 		return -EINVAL;
- 	}
- 
--	dev_dbg(tc->dev, "PLL: got %d, delta %d\n", best_pixelclock,
--		best_delta);
-+	tc->line_pixel_subtract = tc->mode.htotal -
-+		div64_round_up(tc->mode.htotal * (u64)best_pixelclock, pixelclock);
-+
-+	dev_dbg(tc->dev, "PLL: got %d, delta %d (subtract %d px)\n", best_pixelclock,
-+		best_delta, tc->line_pixel_subtract);
- 	dev_dbg(tc->dev, "PLL: %d / %d / %d * %d / %d\n", refclk,
- 		ext_div[best_pre], best_div, best_mul, ext_div[best_post]);
- 
-@@ -885,6 +896,12 @@ static int tc_set_common_video_mode(struct tc_data *tc,
- 		upper_margin, lower_margin, vsync_len);
- 	dev_dbg(tc->dev, "total: %dx%d\n", mode->htotal, mode->vtotal);
- 
-+	if (right_margin > tc->line_pixel_subtract) {
-+		right_margin -= tc->line_pixel_subtract;
-+	} else {
-+		dev_err(tc->dev, "Bridge pixel clock too slow for mode\n");
-+		right_margin = 0;
-+	}
- 
- 	/*
- 	 * LCD Ctl Frame Size
-@@ -894,7 +911,7 @@ static int tc_set_common_video_mode(struct tc_data *tc,
- 	 */
- 	ret = regmap_write(tc->regmap, VPCTRL0,
- 			   FIELD_PREP(VSDELAY, right_margin + 10) |
--			   OPXLFMT_RGB888 | FRMSYNC_DISABLED | MSF_DISABLED);
-+			   OPXLFMT_RGB888 | FRMSYNC_ENABLED | MSF_DISABLED);
- 	if (ret)
- 		return ret;
- 
+ static const struct drm_bridge_funcs samsung_dsim_bridge_funcs = {
 -- 
 2.43.0
 
