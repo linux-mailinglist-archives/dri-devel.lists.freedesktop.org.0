@@ -2,77 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2278C3B57
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 08:31:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABDAB8C3B6E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 08:37:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E99AE10E1AA;
-	Mon, 13 May 2024 06:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46AA010E1CC;
+	Mon, 13 May 2024 06:37:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="D94ZXrYs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pD/Np6Po";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF9810E1AA
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 06:31:21 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 59EABE0009;
- Mon, 13 May 2024 06:31:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1715581879;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VfRoAFfC/1PV/3iC+jAvDAhNdr3/rvOcMyIFh+A5RLE=;
- b=D94ZXrYsv0C3e3g1KLqfGtvFsrQmwc5/78CFWP+o/WShVTsybRFJLQ2Pg8IcyaRue3JkDD
- ADn7ebqLAmz7Vp7+YW7qkeNxnjcViTJX/Axrp+LKxIrSwLL/7tKFkOPTZay7DYxJVvmjRD
- GTJYx6SzalaL4eGRfOHLWWAJiDo9w82cXlQxmPREzhtutkYxOgVz0ZLQqoW94GYMX9subN
- P9/Vrw0UhFRyQ1DTmS+dDvXv/+qP1yMNqien+fSxBtV52xpDx17ix3ORlbVZKaAD6fxQ4L
- yD0tsfJHGjbJQ4+s4o5AxK7hZv0yOp+fzv8C2PPeqiyMTzICbVpRlH57N11Teg==
-Date: Mon, 13 May 2024 08:31:15 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com,
- marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v6 03/17] drm/vkms: write/update the documentation for
- pixel conversion and pixel write functions
-Message-ID: <ZkGzsyR3U1fhpPqZ@localhost.localdomain>
-Mail-Followup-To: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com,
- marcheu@google.com, nicolejadeyee@google.com
-References: <20240409-yuv-v6-0-de1c5728fd70@bootlin.com>
- <20240409-yuv-v6-3-de1c5728fd70@bootlin.com>
- <20240422133358.59fb6221.pekka.paalanen@collabora.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FBC910E1CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 06:37:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 60DA260BED;
+ Mon, 13 May 2024 06:37:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1CBEC113CC;
+ Mon, 13 May 2024 06:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715582257;
+ bh=S52a+RqrGVrObrUsSMPbS/sGgUDY4gm9+SbH53KZ9OI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=pD/Np6Pocn3xRzPS6Dfcg1ZtVYUoCC+tlMDa4x6CinzBOGJbhENxMkiHxjuzS2K1Z
+ xb6puXRvuBzhyWMoxsVdWg72dI1Lt00hQelKOL6+sp2p7I9oz44kJCvVYyN8JzAixI
+ HDp3h4kh8WNRS+Y+RKSbq4cGjrSDakPwILvoY8WUZ772KewHzkLHWT8Xw58+Sb/+Y5
+ 2wUD5cmOaIPvHyvtO0NR5ETh92Y7YATvfHzRkhBD5oxzfTq+i23S2dFE66TvrgsFg3
+ L3qxBjqU+l6IxKMm3lk0BdSFyJxDvBG0KrfSVqNjXCRFtmzVU4hgv9hlxDDwA1dH04
+ 4UiSXu8D3TM2A==
+Message-ID: <e02c2f42-b5e4-4200-8131-3881b7034625@kernel.org>
+Date: Mon, 13 May 2024 08:37:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240422133358.59fb6221.pekka.paalanen@collabora.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] Add dp PHY dt-bindings
+To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ chunfeng.yun@mediatek.com, vkoul@kernel.org, kishon@kernel.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ jitao.shi@mediatek.com, mac.shen@mediatek.com,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+References: <20240510110523.12524-1-liankun.yang@mediatek.com>
+ <20240510110523.12524-3-liankun.yang@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240510110523.12524-3-liankun.yang@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,68 +111,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 22/04/24 - 13:33, Pekka Paalanen a écrit :
-> On Tue, 09 Apr 2024 15:25:21 +0200
-> Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> 
-> > Add some documentation on pixel conversion functions.
-> > Update of outdated comments for pixel_write functions.
-> > 
-> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > ---
-> >  drivers/gpu/drm/vkms/vkms_composer.c |  7 ++++
-> >  drivers/gpu/drm/vkms/vkms_drv.h      | 15 ++++++++-
-> >  drivers/gpu/drm/vkms/vkms_formats.c  | 62 ++++++++++++++++++++++++++++++------
-> >  3 files changed, 74 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> > index c6d9b4a65809..da0651a94c9b 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> > @@ -189,6 +189,13 @@ static void blend(struct vkms_writeback_job *wb,
-> >  
-> >  	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
-> >  
-> > +	/*
-> > +	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
-> > +	 * complexity to avoid poor blending performance.
-> > +	 *
-> > +	 * The function vkms_compose_row is used to read a line, pixel-by-pixel, into the staging
-> > +	 * buffer.
-> > +	 */
-> >  	for (size_t y = 0; y < crtc_y_limit; y++) {
-> >  		fill_background(&background_color, output_buffer);
-> >  
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> > index b4b357447292..a86cb537d6aa 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> > @@ -25,6 +25,17 @@
-> >  
-> >  #define VKMS_LUT_SIZE 256
-> >  
-> > +/**
-> > + * struct vkms_frame_info - structure to store the state of a frame
-> > + *
-> > + * @fb: backing drm framebuffer
-> > + * @src: source rectangle of this frame in the source framebuffer
-> > + * @dst: destination rectangle in the crtc buffer
-> 
-> Are both src and dst using whole pixel units, or is src using 1/65536th
-> pixel units?
+On 10/05/2024 13:04, Liankun Yang wrote:
+> Add dp PHY dt-bindings.
 
-dst is in whole pixels, src in 1/65536 yes, I will clarify.
- 
-> Asking because UAPI has src rect in 16.16 fixed-point, IIRC.
-> 
-> With that clarified:
-> 
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+This tells me nothing. Read submitting patches.
 
-[...]
+> 
+> Changeds in v2:
+
+This does goes to changelog, not commit log.
+
+> - Add dp PHY dt-bindings.
+> https://patchwork.kernel.org/project/linux-mediatek/patch/
+> 20240403040517.3279-1-liankun.yang@mediatek.com/
+> 
+> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+
+This patch looks terrible... there's so many wrong things I don't even
+know where to start.
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
+Please run scripts/checkpatch.pl and fix reported warnings. Then please
+run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.
+Some warnings can be ignored, especially from --strict run, but the code
+here looks like it needs a fix. Feel free to get in touch if the warning
+is not clear.
 
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> ---
+>  .../display/mediatek/mediatek.phy-dp.yaml     | 45 +++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml
+
+Wrong filename
+
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml
+> index 000000000000..476bc329363f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml
+> @@ -0,0 +1,45 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,phy-dp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Display Port Controller
+> +
+> +maintainers:
+> +  - Mac shen <mac.shen@mediatek.com>
+> +  - Liankun yang <Liankun.yang@mediatek.com>
+> +
+> +description: |
+> +  Special settings need to be configured by MediaTek DP based on the actual
+> +  hardware situation. For example, when using a certain brand's docking
+> +  station for display projection, garbage may appear. Adjusting the specific
+> +  ssc value can resolve this issue.
+> +
+> +properties:
+> +  status: disabled
+
+I think you nicely shocked Rob already.
+
+Please reach internally to Mediatek or collaborating companies to get
+basic training and instructions how to write patches and bindings.
+
+Otherwise it is waste of our time. Mediatek is not a small company so
+there is no excuse in sending such poor quality patches, which would be
+EASILY spotted by the MOST BASIC review.
+
+Best regards,
+Krzysztof
+
