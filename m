@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFD98C430D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 16:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1B88C4325
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 16:21:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7243B10E7CC;
-	Mon, 13 May 2024 14:17:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4CF510E7DB;
+	Mon, 13 May 2024 14:21:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W91De+dP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U/LNEcHr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE8810E7D4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 14:17:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3CD10E7E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 14:21:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 52D5960DDA;
- Mon, 13 May 2024 14:17:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68C7BC4AF0C;
- Mon, 13 May 2024 14:17:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4C35060DC5;
+ Mon, 13 May 2024 14:21:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63897C32782;
+ Mon, 13 May 2024 14:21:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715609860;
- bh=/vPJpE4pp5NAuUGy0qriY6DZV2OLGz/Fs1yxdax2XUU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=W91De+dPXNkp8Cg8/fH0pR2jb23Nd2ZlKNyCC0Q2DVKlM/fcqagl4F28UsxaE0aIx
- P87FJ6agLNCUKoK7MBVUlkf3HEOnJVCL0Dahrlow/rA3meYeUYvQ5pFbFiHhIaa8EL
- IXT42kj9JrnedzcnLNscgQzAv+r4wZs9aX2G5Csd+K5geeotS6TaIGGJUKbWp+GWbM
- PNc1SVMqL7JPSclnPVVNqVAKOLEfDMXEDHdPtW4joJUNZSU7XYMG+TgzT+EAVV/1If
- xc2Tv4VxQDNsWveO5PvjxV3pEb/181d+2fXde243vqvMSjBUWGNE69QxeLhKbEbLgg
- +9lMhOPl5Yq2g==
-Message-ID: <f4f85f0b-49eb-4fba-ac76-2df845571b12@kernel.org>
-Date: Mon, 13 May 2024 16:17:31 +0200
+ s=k20201202; t=1715610068;
+ bh=F7Da7ZL3zBg2AHT/qoDMrvqxjoFBxdXnMxiethSrStQ=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=U/LNEcHrQLcM9RcgwIxbLr5MVqCXvg+LYw6q4KfC9bKMGKqviU7iLn4dxpJ+4/5mt
+ 4/4HSYgyWHX346gicoF9xSFyjILtd8GXFINUUKmhjpaqEcDgjCnZJB961enTFkxZGa
+ snZG76fDOGuHMEVDpCrms24alA6TOEq53yvdEuotLUXu+SJu45mvJlknrIL33BQiSf
+ phlDAqsL4eliM6DlCaVLQARf+ppwFwClOUUMSDAVpfH3p2qW6IxXFj8DLRx+v1RFbE
+ jsf80w9nElSt3+eFaBdHVili9zuRCWHbftnQgcUp/YGOtn7MVdr1WX/sbY/BIPSJiL
+ I35D4GfOsh4LA==
+Message-ID: <4a147f2d-71c8-4acf-aab4-9d761b81bc73@kernel.org>
+Date: Mon, 13 May 2024 16:20:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 2/2] Add dp PHY dt-bindings
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: =?UTF-8?B?TElBTktVTiBZQU5HICjmnajov57lnaQp?= <Liankun.Yang@mediatek.com>, 
  "robh+dt@kernel.org" <robh+dt@kernel.org>,
  =?UTF-8?B?Q2h1bmZlbmcgWXVuICjkupHmmKXls7Ap?= <Chunfeng.Yun@mediatek.com>,
@@ -67,7 +68,7 @@ References: <20240510110523.12524-1-liankun.yang@mediatek.com>
  <20240510110523.12524-3-liankun.yang@mediatek.com>
  <e02c2f42-b5e4-4200-8131-3881b7034625@kernel.org>
  <3f387c9e8ac34ca25ec7b6bfb02536cd4ebbc508.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <f4f85f0b-49eb-4fba-ac76-2df845571b12@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -112,9 +113,9 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <3f387c9e8ac34ca25ec7b6bfb02536cd4ebbc508.camel@mediatek.com>
+In-Reply-To: <f4f85f0b-49eb-4fba-ac76-2df845571b12@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,118 +131,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/05/2024 16:15, LIANKUN YANG (杨连坤) wrote:
-> On Mon, 2024-05-13 at 08:37 +0200, Krzysztof Kozlowski wrote:
->>  	 
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>  On 10/05/2024 13:04, Liankun Yang wrote:
->>> Add dp PHY dt-bindings.
->>
->> This tells me nothing. Read submitting patches.
->>
+On 13/05/2024 16:17, Krzysztof Kozlowski wrote:
+>>> dp.yaml
+>>>> @@ -0,0 +1,45 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: 
+>>> http://devicetree.org/schemas/display/mediatek/mediatek,phy-dp.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: MediaTek Display Port Controller
+>>>> +
+>>>> +maintainers:
+>>>> +  - Mac shen <mac.shen@mediatek.com>
+>>>> +  - Liankun yang <Liankun.yang@mediatek.com>
+>>>> +
+>>>> +description: |
+>>>> +  Special settings need to be configured by MediaTek DP based on
+>>> the actual
+>>>> +  hardware situation. For example, when using a certain brand's
+>>> docking
+>>>> +  station for display projection, garbage may appear. Adjusting
+>>> the specific
+>>>> +  ssc value can resolve this issue.
+>>>> +
+>>>> +properties:
+>>>> +  status: disabled
 >>>
->>> Changeds in v2:
->>
->> This does goes to changelog, not commit log.
->>
->>> - Add dp PHY dt-bindings.
->>> https://patchwork.kernel.org/project/linux-mediatek/patch/
->>> 20240403040517.3279-1-liankun.yang@mediatek.com/
+>>> I think you nicely shocked Rob already.
 >>>
->>> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
->>
->> This patch looks terrible... there's so many wrong things I don't
->> even
->> know where to start.
->>
->> Please use subject prefixes matching the subsystem. You can get them
->> for
->> example with `git log --oneline -- DIRECTORY_OR_FILE` on the
->> directory
->> your patch is touching. For bindings, the preferred subjects are
->> explained here:
->>
-> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
->>
->> Please run scripts/checkpatch.pl and fix reported warnings. Then
->> please
->> run `scripts/checkpatch.pl --strict` and (probably) fix more
->> warnings.
->> Some warnings can be ignored, especially from --strict run, but the
->> code
->> here looks like it needs a fix. Feel free to get in touch if the
->> warning
->> is not clear.
->>
->>
->>> ---
->>>  .../display/mediatek/mediatek.phy-dp.yaml     | 45
->> +++++++++++++++++++
->>>  1 file changed, 45 insertions(+)
->>>  create mode 100644
->> Documentation/devicetree/bindings/display/mediatek/mediatek.phy-
->> dp.yaml
->>
->> Wrong filename
->>
+>>> Please reach internally to Mediatek or collaborating companies to get
+>>> basic training and instructions how to write patches and bindings.
 >>>
->>> diff --git
->> a/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-
->> dp.yaml
->> b/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-
->> dp.yaml
->>> index 000000000000..476bc329363f
->>> --- /dev/null
->>> +++
->> b/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-
->> dp.yaml
->>> @@ -0,0 +1,45 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: 
->> http://devicetree.org/schemas/display/mediatek/mediatek,phy-dp.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: MediaTek Display Port Controller
->>> +
->>> +maintainers:
->>> +  - Mac shen <mac.shen@mediatek.com>
->>> +  - Liankun yang <Liankun.yang@mediatek.com>
->>> +
->>> +description: |
->>> +  Special settings need to be configured by MediaTek DP based on
->> the actual
->>> +  hardware situation. For example, when using a certain brand's
->> docking
->>> +  station for display projection, garbage may appear. Adjusting
->> the specific
->>> +  ssc value can resolve this issue.
->>> +
->>> +properties:
->>> +  status: disabled
+>>> Otherwise it is waste of our time. Mediatek is not a small company so
+>>> there is no excuse in sending such poor quality patches, which would
+>>> be
+>>> EASILY spotted by the MOST BASIC review.
+>>>
+>>> Best regards,
+>>> Krzysztof
+>>>
 >>
->> I think you nicely shocked Rob already.
->>
->> Please reach internally to Mediatek or collaborating companies to get
->> basic training and instructions how to write patches and bindings.
->>
->> Otherwise it is waste of our time. Mediatek is not a small company so
->> there is no excuse in sending such poor quality patches, which would
->> be
->> EASILY spotted by the MOST BASIC review.
->>
->> Best regards,
->> Krzysztof
->>
+>> I used scripts/checkpatch.pl and fix reported error and warnings.
+>> I am resumbmitting bindings by the MOST BASIC review.
 > 
-> I used scripts/checkpatch.pl and fix reported error and warnings.
-> I am resumbmitting bindings by the MOST BASIC review.
+> No, please wait. Who did the basic review of your patch? Who from
+> Mediatek? Upstream is not a workhorse to use instead of your resources
+> for the absolute basic stuff... This feels such exploiting.
+> 
 
-No, please wait. Who did the basic review of your patch? Who from
-Mediatek? Upstream is not a workhorse to use instead of your resources
-for the absolute basic stuff... This feels such exploiting.
+After reading AngeloGioacchino's response, it looks even worse... This
+was never tested...
+
+So not only exploiting but also feels like wasting our time.
 
 Best regards,
 Krzysztof
