@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDAB8C3B6E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 08:37:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C638C3B75
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 08:38:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46AA010E1CC;
-	Mon, 13 May 2024 06:37:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2490E10E3A8;
+	Mon, 13 May 2024 06:38:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pD/Np6Po";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VD284AOp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FBC910E1CC
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 06:37:38 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C06A310E40B
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 06:38:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 60DA260BED;
- Mon, 13 May 2024 06:37:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1CBEC113CC;
- Mon, 13 May 2024 06:37:31 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 820E5CE0BAB;
+ Mon, 13 May 2024 06:38:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51529C113CC;
+ Mon, 13 May 2024 06:38:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715582257;
- bh=S52a+RqrGVrObrUsSMPbS/sGgUDY4gm9+SbH53KZ9OI=;
+ s=k20201202; t=1715582325;
+ bh=rheX3UDLWx2TrGDc2WgD/M6QRBNEUGJmYCKleNbGYx8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pD/Np6Pocn3xRzPS6Dfcg1ZtVYUoCC+tlMDa4x6CinzBOGJbhENxMkiHxjuzS2K1Z
- xb6puXRvuBzhyWMoxsVdWg72dI1Lt00hQelKOL6+sp2p7I9oz44kJCvVYyN8JzAixI
- HDp3h4kh8WNRS+Y+RKSbq4cGjrSDakPwILvoY8WUZ772KewHzkLHWT8Xw58+Sb/+Y5
- 2wUD5cmOaIPvHyvtO0NR5ETh92Y7YATvfHzRkhBD5oxzfTq+i23S2dFE66TvrgsFg3
- L3qxBjqU+l6IxKMm3lk0BdSFyJxDvBG0KrfSVqNjXCRFtmzVU4hgv9hlxDDwA1dH04
- 4UiSXu8D3TM2A==
-Message-ID: <e02c2f42-b5e4-4200-8131-3881b7034625@kernel.org>
-Date: Mon, 13 May 2024 08:37:29 +0200
+ b=VD284AOpyhEN5r1wOAV4ARcCs40eM38v1f3mQ6sLZ7oOgtcy1nuXYTfx1PBNN805/
+ iWQcitKNgX/gIz4u4gVX1rpjW2VIVhVz/aLuBX6WpUfWfg8njSTchd2QTmEwQG7uCR
+ 0iK37aDvz8+KWnuE7iyGE8zxrky/KQ/cDJfW+A1L32M+w9TYt0kP+ML+AHupiTipTw
+ egYsbP1vEIb+8ygIgPZjVoZsma1uwsb0JLxSSogtjG+hhdwRlOZYeifw0V9lEiEXVQ
+ h6i8H5mXGf39PQV03JAhSVBD69iJSwhcRB3YaKlanKqDxrnd4PsJzxbjiRy81yGXuu
+ CKHG2MOWE5ECQ==
+Message-ID: <93690c52-7da7-4fee-9b58-6087b3fb1d71@kernel.org>
+Date: Mon, 13 May 2024 08:38:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] Add dp PHY dt-bindings
+Subject: Re: [PATCH v2 1/2] Add write DP phyd register from parse dts
 To: Liankun Yang <liankun.yang@mediatek.com>, chunkuang.hu@kernel.org,
  p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -47,7 +47,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
 References: <20240510110523.12524-1-liankun.yang@mediatek.com>
- <20240510110523.12524-3-liankun.yang@mediatek.com>
+ <20240510110523.12524-2-liankun.yang@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +93,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240510110523.12524-3-liankun.yang@mediatek.com>
+In-Reply-To: <20240510110523.12524-2-liankun.yang@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,79 +112,60 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/05/2024 13:04, Liankun Yang wrote:
-> Add dp PHY dt-bindings.
-
-This tells me nothing. Read submitting patches.
-
+> During the testing phase, screen flickering is observed when
+> using displayport for screen casting. Relevant SSC register parameters
+> are set in dts to address the screen flickering issue effectively and
+> improve compatibility with different devices by adjusting the SSC gear.
+> 
+> Obtaining the DPTX node, parsing the dts to obtain PHY register address
+> and value can adapt to settings of different manufacturers projects.
 > 
 > Changeds in v2:
-
-This does goes to changelog, not commit log.
-
-> - Add dp PHY dt-bindings.
+> - Optimized method of writing to DP PHY register
 > https://patchwork.kernel.org/project/linux-mediatek/patch/
 > 20240403040517.3279-1-liankun.yang@mediatek.com/
 > 
 > Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
-
-This patch looks terrible... there's so many wrong things I don't even
-know where to start.
-
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
-
-Please run scripts/checkpatch.pl and fix reported warnings. Then please
-run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.
-Some warnings can be ignored, especially from --strict run, but the code
-here looks like it needs a fix. Feel free to get in touch if the warning
-is not clear.
-
-
 > ---
->  .../display/mediatek/mediatek.phy-dp.yaml     | 45 +++++++++++++++++++
->  1 file changed, 45 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml
-
-Wrong filename
-
+>  drivers/phy/mediatek/phy-mtk-dp.c | 37 +++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml
-> index 000000000000..476bc329363f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek.phy-dp.yaml
-> @@ -0,0 +1,45 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,phy-dp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/drivers/phy/mediatek/phy-mtk-dp.c b/drivers/phy/mediatek/phy-mtk-dp.c
+> index d7024a144335..ce78112d5938 100644
+> --- a/drivers/phy/mediatek/phy-mtk-dp.c
+> +++ b/drivers/phy/mediatek/phy-mtk-dp.c
+> @@ -28,6 +28,10 @@
+>  #define MTK_DP_PHY_DIG_SW_RST		(PHY_OFFSET + 0x38)
+>  #define DP_GLB_SW_RST_PHYD		BIT(0)
+>  
+> +#define MTK_DP_PHY_DIG_GLB_DA_REG_14	(PHY_OFFSET + 0xD8)
+> +#define XTP_GLB_TXPLL_SSC_DELTA_RBR_DEFAULT	GENMASK(15, 0)
+> +#define XTP_GLB_TXPLL_SSC_DELTA_HBR_DEFAULT	GENMASK(31, 16)
 > +
-> +title: MediaTek Display Port Controller
+>  #define MTK_DP_LANE0_DRIVING_PARAM_3		(PHY_OFFSET + 0x138)
+>  #define MTK_DP_LANE1_DRIVING_PARAM_3		(PHY_OFFSET + 0x238)
+>  #define MTK_DP_LANE2_DRIVING_PARAM_3		(PHY_OFFSET + 0x338)
+> @@ -78,10 +82,39 @@
+>  #define DRIVING_PARAM_8_DEFAULT	(XTP_LN_TX_LCTXCP1_SW2_PRE1_DEFAULT | \
+>  				 XTP_LN_TX_LCTXCP1_SW3_PRE0_DEFAULT)
+>  
+> +#define SSC_SETTING	"dp-ssc-setting"
+> +#define RG_XTP_GLB_TXPLL_SSC_DELTA_HBR	"ssc-delta-hbr"
 > +
-> +maintainers:
-> +  - Mac shen <mac.shen@mediatek.com>
-> +  - Liankun yang <Liankun.yang@mediatek.com>
+>  struct mtk_dp_phy {
+>  	struct regmap *regs;
+> +	struct device *dev;
+>  };
+>  
+> +static int mtk_dp_set_ssc_config(struct phy *phy, struct mtk_dp_phy *dp_phy)
+> +{
+> +	int ret;
+> +	u32 read_value = 0, reg_mask = 0;
+> +	struct device_node *ssc_node = NULL;
 > +
-> +description: |
-> +  Special settings need to be configured by MediaTek DP based on the actual
-> +  hardware situation. For example, when using a certain brand's docking
-> +  station for display projection, garbage may appear. Adjusting the specific
-> +  ssc value can resolve this issue.
-> +
-> +properties:
-> +  status: disabled
+> +	ssc_node = of_find_node_by_name(dp_phy->dev->of_node, SSC_SETTING);
 
-I think you nicely shocked Rob already.
-
-Please reach internally to Mediatek or collaborating companies to get
-basic training and instructions how to write patches and bindings.
-
-Otherwise it is waste of our time. Mediatek is not a small company so
-there is no excuse in sending such poor quality patches, which would be
-EASILY spotted by the MOST BASIC review.
+No, really. Node name can change.
 
 Best regards,
 Krzysztof
