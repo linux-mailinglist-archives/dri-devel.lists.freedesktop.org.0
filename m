@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A788C443D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 17:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5CD48C443E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 17:32:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38C1910E851;
-	Mon, 13 May 2024 15:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12F3610E84C;
+	Mon, 13 May 2024 15:32:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="rOpSbqL4";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="nhcZDRYN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
- [95.215.58.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6EB10E84B
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 15:31:57 +0000 (UTC)
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com
+ [95.215.58.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC5D10E855
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 15:32:00 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1715614315;
+ t=1715614318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DJD65cDkBGq+4KCHhX+gz6i6UVlK6CB2GRuKzloyONE=;
- b=rOpSbqL4dMh9y8dqICIcFR6YBE2NzkpmEIsI0+MoDxOUpT74bJID04JhgbWWs+NgYL6zaO
- RU3hOwZmp6gmy9bO1yitBWm+gRJ4Hg8fX7/ltRZD1OiCsevJcoAKX3pKahTvb4jOXE5qjD
- ZbxzSw93+CXlVuCt9yCJlLC4J6Rg4j4=
+ bh=J5+V1S9388YXGse4Sl78OBq2S/qOMf7C/8WKdb7RqiQ=;
+ b=nhcZDRYN54cD/TsvPcSD91AHbbllmZLhrQztxz4D3HC29SFhukyJHM4ObtTd2TA6d0n4jg
+ 7CTKFvBjuPxckIOdORe8mBHDJFRR8+yjhwa5Fu40wh7QZBnGn60j4aZNoGYDGl1ZPPDXEK
+ 0p1FrwK/5A7PS0MyRv30nx/3Hk8ss0g=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -39,10 +39,10 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  imx@lists.linux.dev, Sui Jingfeng <sui.jingfeng@linux.dev>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v2 11/12] drm/bridge: imx: Remove redundant checks on
+Subject: [PATCH v2 12/12] drm/bridge: analogix: Remove redundant checks on
  existence of bridge->encoder
-Date: Mon, 13 May 2024 23:31:08 +0800
-Message-ID: <20240513153109.46786-12-sui.jingfeng@linux.dev>
+Date: Mon, 13 May 2024 23:31:09 +0800
+Message-ID: <20240513153109.46786-13-sui.jingfeng@linux.dev>
 In-Reply-To: <20240513153109.46786-1-sui.jingfeng@linux.dev>
 References: <20240513153109.46786-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -68,84 +68,96 @@ drm_bridge_funcs::attach() is not necessary, as it has already been checked
 in the drm_bridge_attach() function call by previous bridge or KMS driver.
 The drm_bridge_attach() will quit with a negative error code returned if
 it fails for some reasons, hence, it is guaranteed that the .encoder member
-of the drm_bridge instance is not NULL when various i.MX specific bridge
-attach functions are called.
+of the drm_bridge instance is not NULL when various bridge attach functions
+are called.
 
 Remove the redundant checking codes "if (!bridge->encoder) { ... }".
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/bridge/imx/imx-ldb-helper.c         | 5 -----
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c | 5 -----
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c     | 5 -----
- drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c        | 5 -----
- 4 files changed, 20 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |  5 -----
+ drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c |  5 -----
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  5 -----
+ drivers/gpu/drm/bridge/analogix/anx7625.c          | 10 ----------
+ 4 files changed, 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-index 6967325cd8ee..9b5bebbe357d 100644
---- a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-+++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-@@ -116,11 +116,6 @@ int ldb_bridge_attach_helper(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+index c9e35731e6a1..cfe43d2ca3be 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+@@ -528,11 +528,6 @@ static int anx6345_bridge_attach(struct drm_bridge *bridge,
  		return -EINVAL;
  	}
  
 -	if (!bridge->encoder) {
--		DRM_DEV_ERROR(ldb->dev, "missing encoder\n");
+-		DRM_ERROR("Parent encoder object not found");
 -		return -ENODEV;
 -	}
 -
- 	return drm_bridge_attach(bridge->encoder,
- 				ldb_ch->next_bridge, bridge,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
-index d0868a6ac6c9..e6dbbdc87ce2 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
-@@ -119,11 +119,6 @@ static int imx8qxp_pc_bridge_attach(struct drm_bridge *bridge,
+ 	/* Register aux channel */
+ 	anx6345->aux.name = "DP-AUX";
+ 	anx6345->aux.dev = &anx6345->client->dev;
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+index 5748a8581af4..58875dde496f 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+@@ -897,11 +897,6 @@ static int anx78xx_bridge_attach(struct drm_bridge *bridge,
  		return -EINVAL;
  	}
  
 -	if (!bridge->encoder) {
--		DRM_DEV_ERROR(pc->dev, "missing encoder\n");
+-		DRM_ERROR("Parent encoder object not found");
 -		return -ENODEV;
 -	}
 -
- 	return drm_bridge_attach(bridge->encoder,
- 				 ch->next_bridge, bridge,
- 				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-index ed8b7a4e0e11..1d11cc1df43c 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-@@ -138,11 +138,6 @@ static int imx8qxp_pixel_link_bridge_attach(struct drm_bridge *bridge,
+ 	/* Register aux channel */
+ 	anx78xx->aux.name = "DP-AUX";
+ 	anx78xx->aux.dev = &anx78xx->client->dev;
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index df9370e0ff23..7b841232321f 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1228,11 +1228,6 @@ static int analogix_dp_bridge_attach(struct drm_bridge *bridge,
  		return -EINVAL;
  	}
  
 -	if (!bridge->encoder) {
--		DRM_DEV_ERROR(pl->dev, "missing encoder\n");
+-		DRM_ERROR("Parent encoder object not found");
 -		return -ENODEV;
 -	}
 -
- 	return drm_bridge_attach(bridge->encoder,
- 				 pl->next_bridge, bridge,
- 				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-index 4a886cb808ca..fb7cf4369bb8 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-@@ -58,11 +58,6 @@ static int imx8qxp_pxl2dpi_bridge_attach(struct drm_bridge *bridge,
+ 	if (!dp->plat_data->skip_connector) {
+ 		connector = &dp->connector;
+ 		connector->polled = DRM_CONNECTOR_POLL_HPD;
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 59e9ad349969..3d09efa4199c 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -2193,11 +2193,6 @@ static int anx7625_bridge_attach(struct drm_bridge *bridge,
+ 	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
  		return -EINVAL;
- 	}
  
 -	if (!bridge->encoder) {
--		DRM_DEV_ERROR(p2d->dev, "missing encoder\n");
+-		DRM_DEV_ERROR(dev, "Parent encoder object not found");
 -		return -ENODEV;
 -	}
 -
- 	return drm_bridge_attach(bridge->encoder,
- 				 p2d->next_bridge, bridge,
- 				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 	ctx->aux.drm_dev = bridge->dev;
+ 	err = drm_dp_aux_register(&ctx->aux);
+ 	if (err) {
+@@ -2435,11 +2430,6 @@ static void anx7625_bridge_atomic_enable(struct drm_bridge *bridge,
+ 
+ 	dev_dbg(dev, "drm atomic enable\n");
+ 
+-	if (!bridge->encoder) {
+-		dev_err(dev, "Parent encoder object not found");
+-		return;
+-	}
+-
+ 	connector = drm_atomic_get_new_connector_for_encoder(state->base.state,
+ 							     bridge->encoder);
+ 	if (!connector)
 -- 
 2.43.0
 
