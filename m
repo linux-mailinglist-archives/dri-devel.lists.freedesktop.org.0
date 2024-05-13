@@ -2,71 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E36F8C4845
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 22:35:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D038C484A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 22:36:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25E2410E957;
-	Mon, 13 May 2024 20:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA0A10E970;
+	Mon, 13 May 2024 20:36:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iB88xcWr";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XdCSNthx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
- [209.85.128.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B874310E957
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 20:35:39 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-61be4b986aaso55055597b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 13:35:39 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4D8210E970
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 20:36:26 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-dcc71031680so5088085276.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 13:36:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715632539; x=1716237339; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1715632586; x=1716237386; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K5gJymEU887CrNC6X289CM2zG0sNjhqiEQwzbLWQ8aI=;
- b=iB88xcWrQ9nWKX67qw1NghsJlyB5HRNB+hSJaxNY4juvZYXGRIQ6LVomETaa0Sy0b1
- lQp53IJSVAvciW3IHE2JxG9Edr6iLuV0o8MYTdvl1JX1UEI8fTBrVioStBKoxdTfbjFL
- oyHacs1keIH6pIBGTtywuUtSpuP+juDOgHKgymlB+Xv2YXDJOU2/wexZCN+XBHKK/Chp
- R5TJCnregG1Wk53nw1Oq9YiteS9J8Ub4Imbve84qLg8GVxF1NWfvWshFaRmZneb6Ygay
- mHgpybBR0nWp80td85iQyVCSsaw1iytyz44fduV42urhafRgJgUZGlZKg3Mg6T+LUnfk
- js6w==
+ bh=SA4bW/xLJg6YuBcd2QES1hRhoe/jYuqsZNcpNb5KJNY=;
+ b=XdCSNthx8FCL9P0aBTAdUU2iXNuWKTY2khaQIjb8wP60kEjhOGZZ3NLn61HpoSRHvV
+ LhyxWcnXC5U5pQr3xwGW6k2FJaCRhYlCi3BGcIdK49JE0qFCW5kQ7ricJMKm4tgM0D2c
+ P8QcwSWhoIxUKUnZg7f5BetMNYDPN5Sv/zcy3Jf32vwrlDE7vXka/rYA5oAskxJquXwS
+ 3W6NWiVcJ55jxkMqpXrohqjuEej+58fvwO1hH2xRClWjnrilCxZik9PA7yCo2CzVYc7w
+ iOGXDDhDP+KoBZVfobfhvxWAFaR9kWlx1F2AiYunb9GkGTLkaErcCZfLoPEg6zdoVoq6
+ LDFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715632539; x=1716237339;
+ d=1e100.net; s=20230601; t=1715632586; x=1716237386;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=K5gJymEU887CrNC6X289CM2zG0sNjhqiEQwzbLWQ8aI=;
- b=d3lQCpynbopVPWnfpxvER92R9r3IqmmGOUMX17DQvlqyXVgtqNwngWkHjTe772rydD
- jJmpXtFBpnLjeKJ1zxab/BxK08qGpx/Gx1qTKvLRKNy81buDlRqndxdiYmA0GBWoWbmB
- Hq63btUXAy6qElYBKVFtfDtvmcNoBYw2yyaEIRKOANQwamv7ohTxm6otB8UQ/OboJOAw
- jTQYME2iQoJcGZVSggBu9DBrrY8ELq2gjmc0d3QD7EQejcB6aPRyLK6sH1g3echj973p
- fav6Ziwttuy8u82qp3A1eWAP8a6tNeNPYYCB6o/oIaPF7QZo33XGGELl9Gnv05nny1aj
- WZOQ==
+ bh=SA4bW/xLJg6YuBcd2QES1hRhoe/jYuqsZNcpNb5KJNY=;
+ b=LKC6U3PO7NemeMZ0BvKbAD7JrR6JMx0UKyr3kuX7NuMJxJEnLteETU+N7YMY+bcto0
+ O4FVtTrWh7S5HaW3I0oFZwmifEX8wkNvCqNN+lss0ER2+eDZEU7QiIdjCI6fTU/6C389
+ SM3Z2g8E84kbjiDd6CoHOeXiWlVWaseMrgd2tEQCLOB+/1nR1CuP5w57ziqlNVFFLv5K
+ zQWW7PrEHEZWzPdQ3+b9uoUIUyIT3XAUmHzQ5EDg00A8yUU3iLQ4vXVgBt9SGU6tEbGK
+ gwKB4EXON/ejn11c6MXTPHJJgog8XNaJRGJy6WU1bgHJMfZv/V2rrUJALmo7JWUmdzHE
+ ZuSg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWy67VWE4uxng6kSb9r8G2V92NHQPu6/jptWHOiv8ZILToR7xfun2czbB/SM9yRqam8fHuzRurAOwwxLb1s4cEGTpMJBxCDJFQdLJONVPcc
-X-Gm-Message-State: AOJu0YypuTzFrr/P+nPpjFKvlLhu5y8YCZIMHOhmDDkPmI7MJwP4uAE7
- EfAxiUg1ivWOpZFjV373HgGJkikERXCmL3d+MFn6Xt2vWHT3yqBaNiP0ueDlLNFsKBEsFJtWob1
- QezfyI5IceyIsE/ie+duEGSypry8FJOF72dp4KQ==
-X-Google-Smtp-Source: AGHT+IHSl/yR0nTZcRlSe+ORPztjmoog4CRZc8k44qPEv4107dBUri0sSEMdFfUGHggaDXOsYQE07EPlHgu7P5eK1hg=
-X-Received: by 2002:a0d:df16:0:b0:618:83a4:588e with SMTP id
- 00721157ae682-622b013d333mr108562117b3.37.1715632537678; Mon, 13 May 2024
- 13:35:37 -0700 (PDT)
+ AJvYcCXyxnauSIQBqmmA+n5S8TJAHI7Gi4rvCywHr8bGJKVUHViGtQtRbmwnbZ3Hs6d+hEO6jKALwH4QGj5ZpcxTqT0eIT/GQcXjujvDmNlxzbbA
+X-Gm-Message-State: AOJu0Yw60se8xWNPNSSNOLvHketSjmOGGwz5yj0uoNA+L/Vr9HsKCBFz
+ Iy79HoBsrNbuv4j3hPmtyo140GCGpLQ89hngWVDIwzLDWRFIArVh7ISq02XXGrUzX+/4NwC6jhF
+ kyZCUVibOmj/m+5KtQHxZ8vUl++pYHDpq1GrfFw==
+X-Google-Smtp-Source: AGHT+IGLloi3lhRWV20W7xA9r5SsU5g+2Owk/UejzB1t2DecP+EHOQs1IPoWLpxgX7GwAk9KqeJ7Ka+d0dhqsAlSfWU=
+X-Received: by 2002:a25:bc3:0:b0:dcc:8f97:9744 with SMTP id
+ 3f1490d57ef6-dee4f3a9f25mr9748339276.43.1715632585931; Mon, 13 May 2024
+ 13:36:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240511021326.288728-1-yangcong5@huaqin.corp-partner.google.com>
- <20240511021326.288728-8-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20240511021326.288728-8-yangcong5@huaqin.corp-partner.google.com>
+References: <20240509-dt-bindings-dsi-panel-reg-v1-0-8b2443705be0@linaro.org>
+ <20240509-dt-bindings-dsi-panel-reg-v1-2-8b2443705be0@linaro.org>
+In-Reply-To: <20240509-dt-bindings-dsi-panel-reg-v1-2-8b2443705be0@linaro.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 13 May 2024 22:35:27 +0200
-Message-ID: <CACRpkdb0YQZsFY-uYFKLo_aqE_G4mQ+5mtiszDGsrgFz5R+CcQ@mail.gmail.com>
-Subject: Re: [PATCH v6 7/7] drm/panel: himax-hx83102: Support for IVO t109nw41
- MIPI-DSI panel
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
- dianders@chromium.org, krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, 
- conor+dt@kernel.org, airlied@gmail.com, dmitry.baryshkov@linaro.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
+Date: Mon, 13 May 2024 22:36:15 +0200
+Message-ID: <CACRpkdaeXcy4uYTD1Ub-BRG9RCDKaY0wCbe4xoUpLwZWuy+KuQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: display: panel: constrain 'reg' in SPI
+ panels
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Chris Morgan <macromorgan@hotmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Konrad Dybcio <konradybcio@gmail.com>, 
+ Del Regno <angelogioacchino.delregno@somainline.org>,
+ Heiko Stuebner <heiko@sntech.de>, Luca Weiss <luca.weiss@fairphone.com>,
+ Dmitry Baryskov <dmitry.baryshkov@linaro.org>, 
+ Shawn Guo <shawn.guo@linaro.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,14 +95,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 11, 2024 at 4:14=E2=80=AFAM Cong Yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
+On Thu, May 9, 2024 at 11:43=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 
-> The IVO t109nw41 is a 11.0" WUXGA TFT LCD panel, use hx83102 controller
-> which fits in nicely with the existing panel-himax-hx83102 driver. Hence,
-> we add a new compatible with panel specific config.
+> SPI-attached devices could have more than one chip-select, thus their
+> bindings are supposed to constrain the 'reg' property to match hardware.
+> Add missing 'reg' constrain for SPI-attached display panels.
 >
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
