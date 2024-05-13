@@ -2,139 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779538C3CB7
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 09:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDEE8C3D01
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 10:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD2410E2BD;
-	Mon, 13 May 2024 07:55:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="KeCVmwyE";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 171A110E4E3;
+	Mon, 13 May 2024 08:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
- (mail-dbaeur03on2079.outbound.protection.outlook.com [40.107.104.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72EE910E2BD
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 07:55:13 +0000 (UTC)
+X-Greylist: delayed 1895 seconds by postgrey-1.36 at gabe;
+ Mon, 13 May 2024 08:17:56 UTC
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn
+ (mail-bjschn02on2093.outbound.protection.partner.outlook.cn [139.219.17.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A6F910E4E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 08:17:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TXstsC6ccLamlhO989NZ3YwIy427VU2Bs9162colSgLCpaeC2Gx8Bqz2czHiK/39+BFlSuhnEEThwm4I/jLXvMNS1d6sA+JscNJSNHos2JLv050yCs6e/GJvKGUTSscYgwOx+ym2/bMRfUnU84PFDYSsGZ/QJ8jI3Momeo8VhzSUWdATjkpSqPy4OiSJ7c5e/B276nmOfFJdiJ8EccWk5qyw3KzPrzxiJ01eYhaq+cfX2qsfFeaVyACvEDMaiv8x2uNmUIHPKIjtDJ9dadkuLF02Mo1LU3yDDGOqPe6UqBtRvNTKGmexCR7fgy7K9Y5PtzQOwSmffPh2dJHyNkXeQQ==
+ b=YRx4zWWijHI40O6luWvPVP5YS+lJQ0zJ6IIM4sAaryri7TK08kFCVi4tw93SnmiLM+otlugciSBAinz0ZGq6Yv+rnaeWr19ppuOxW0/ziE2lgWE4MvM/VwjBZ4uBxpLGyT7z8FHukg94hkm0CnCjqX6snqsoOADuFm/mSLQhWTEQHPMrFtaGJdtHf3/5l6++7CPQeLudHJlr3Au7UufRiZ9scZMeDbCL+vZI9QbMaW05hDspvjiOK/3tLb9qUm1SUaaIJylKhVsgdVKDDHRwcrT/0vSVgR1OL4hDq81Ek8oeEF8j0DmhpMCSwcSru6ygTM6+0OD9S4OaWSUv3JkAmg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0CehvpRZ6SLcC8HjwubxbY4iMS7lPFJU1Mnh2vcavGA=;
- b=GgB5rZEpH4bSCR0OsEKQ/8zvxUZg2XeYcMFwTiy1LPxKRVlFwNg5aZ/uojig7TMrCy6yp1w8lEjHg8LUM5zyme21+2xqp/O/kUA0ur8ioETeskYxR7/N+MqKiVGEwUDFXRbJNAGFp+BRa5zrDbaXZC7XLBuVY/nWCBUGXHxLtZC8f13rJUnDQ8sLzA8t+U7G+cqQfMn+/WQglmSTyYthVdbTHuiCb57w2KuD3f/jnpq+D7XHcheP9x+7qmURewPdGBNmJXTWb0HpxarJceuuxSVZ6yIm+cixSHFynZNfQnq1oXGVMI+GxwUNNzb4y5eDABshmw/jv0bv3vyNs9bK+A==
+ bh=uaNyDTvKdSI5ZXeAMRZ6b+VexMfA48M5hTi7Iepd86U=;
+ b=l0arDzdHYSc3uuTL0gXJY/j9vTVHGvVf3w2kuBmf5MFAfJp2HEeSem1bhS2M+ZGDiDBUkWDkW0VdYpHtcwvgDEiEVbUlV8pujJaOJ1EqxhKtpvQXLHO2Cic9BcruFbX30bAAX0rQAWiZVgLYPrd1GFelhQvDb5FygM3XVMuROGZijBcSeDTP/YVBNczIVTzB/ErCoZG2sEsUPJzh8DAPdmsORgtRPJ51qtRhHi/3PDvOIGjxJKIPwT9An14smHoo4g88CXIf1fQfBLd4mvV4ztPXk559NwkLW06uvnMM4A+ZK6crv7UbubgkJXZ+shtz4+FPzbjIQtEdNMO1uxt1Nw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0CehvpRZ6SLcC8HjwubxbY4iMS7lPFJU1Mnh2vcavGA=;
- b=KeCVmwyECXqRTZZxr1xcdfGgBLZL6oVYFUM/o6RlG89CVnDGERKDrwRCyhXrt4oVdvgv+yceJObP54l6asWkNcFkVTiYJg2lT3glDCXDnylPq3vQks5E+jv9sPMUPaE5mwdt4pBmdBX1Fqqr5dKxQiLRJUptWZVeZpwSAI5MsUw=
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by VI1PR04MB7149.eurprd04.prod.outlook.com (2603:10a6:800:12e::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Mon, 13 May
- 2024 07:55:10 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%3]) with mapi id 15.20.7544.052; Mon, 13 May 2024
- 07:55:09 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:3::6) by NT0PR01MB0990.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:7::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.29; Mon, 13 May
+ 2024 07:46:14 +0000
+Received: from NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
+ ([fe80::2bb1:5ec6:5260:17bd]) by
+ NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn ([fe80::2bb1:5ec6:5260:17bd%6])
+ with mapi id 15.20.7472.042; Mon, 13 May 2024 07:46:14 +0000
+From: Shengyang Chen <shengyang.chen@starfivetech.com>
+To: devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
 Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, dmitry.baryshkov@linaro.org, biju.das.jz@bp.renesas.com,
- aford173@gmail.com, bli@bang-olufsen.dk, robh@kernel.org,
- jani.nikula@intel.com
-Subject: [PATCH] drm/bridge: adv7511: Attach next bridge without creating
- connector
-Date: Mon, 13 May 2024 16:02:43 +0800
-Message-Id: <20240513080243.3952292-1-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
+ daniel@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ p.zabel@pengutronix.de, aford173@gmail.com, agx@sigxcpu.org,
+ rdunlap@infradead.org, u.kleine-koenig@pengutronix.de, sam@ravnborg.org,
+ steven.price@arm.com, bbrezillon@kernel.org,
+ changhuang.liang@starfivetech.com, keith.zhao@starfivetech.com,
+ shengyang.chen@starfivetech.com, jack.zhu@starfivetech.com,
+ linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH v4 0/2] Add StarFive JH7110 SoC DSI support
+Date: Mon, 13 May 2024 15:46:05 +0800
+Message-Id: <20240513074607.28271-1-shengyang.chen@starfivetech.com>
+X-Mailer: git-send-email 2.17.1
 Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0042.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::17) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+X-ClientProxiedBy: SHXPR01CA0005.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1b::14) To NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:3::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI1PR04MB7149:EE_
-X-MS-Office365-Filtering-Correlation-Id: 714afeda-1190-4b58-4581-08dc7322030c
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: NT0PR01MB1070:EE_|NT0PR01MB0990:EE_
+X-MS-Office365-Filtering-Correlation-Id: 48aeb285-ba62-4935-fe84-08dc7320c3f5
 X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230031|376005|52116005|366007|7416005|1800799015|38350700005; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ivFclt3C4PIZ2+E/T3/Nf3sIVh+6oEu6qmHneJRilN2rl8AQwLajxuWftfxg?=
- =?us-ascii?Q?YYT/aSSqSSZIXzocMYQhix+tsqGVwCd9WxA2EjV8HAJe2RKXhcGJqYuort5o?=
- =?us-ascii?Q?vRT7WU+5OyFzwFRGmE/KRiaP3/IqZJLEqLp6AvP0Xy9l68XGdQ86VOXB92VT?=
- =?us-ascii?Q?UEegub/VkTi/VFbj8xekYvvocrMVot/eBHQ1rbTkEEMfK5Rb46tkfPjJIy9k?=
- =?us-ascii?Q?V2Y3w5nbMEdwhcGek+G7G4HbGoAtAsYppZsV/dWr5WnHFIiZxV8i5HmfXXud?=
- =?us-ascii?Q?lRx0QjeZZ8HUMGQ4B2E1x4Ahp1cvpSwm90tyYXpZls1139VGHRfVd+xvGxUs?=
- =?us-ascii?Q?uk4aoYrRaGMlTH9Si94Ig/LAzxVEuMMMoIT1mLj/7YcnYrE2kawY3525P6Bg?=
- =?us-ascii?Q?MLz5vepRBzFX8rPxHM2DwDgZVjzGuUlMYYdrsRfRPOk/Gr211MDAOL3cWMNS?=
- =?us-ascii?Q?pXxZhnTzFZUABE0qVEWQzf9LPLnw50RJkVIbvlLg4NxerPJxwZMnqxxNJMGt?=
- =?us-ascii?Q?H5U2kbDJBGrqyZ+G/MXutRXl8kum8qmVEPL5YUadDyZLC5MUJmHv9E6m9wgr?=
- =?us-ascii?Q?6alJ1yp2p6b5AXhokL96go/ycu5eWigmMkWLeffQn/seuPMZrN8e+WsX8TGF?=
- =?us-ascii?Q?Gbb2fY+oWVG6JniIDZjUhhyGv7Idj/ORzHpdpmjE12FFzJ+Wd9Hbzpf2cf3Z?=
- =?us-ascii?Q?l0R2W3DIsk5uYI/oXAnfcO5lOajaW+CI/eIeO36aSHNh03XaBZ2qLH79iUKV?=
- =?us-ascii?Q?dMGRwUFY7Jr///G3pMipWBvZoyG9Ov4/dt4BlLN1sVCUnFqZ18UTpfLmDPKg?=
- =?us-ascii?Q?jkllXZSCV6n2LVzc2UjI/1FYDoSWHJ8GYMHoqTrvTOpGri4+E5m0owaOl5pT?=
- =?us-ascii?Q?A7zttejKQZ0eYD3kmgwXUzCvnITFaR9gkxFgNoTlPN/vbKDI/iej9uLTqFBj?=
- =?us-ascii?Q?RWoYdvxAGQtToqJqZK7bUO/DCw0yym9mr6yUIesDJUk6XrhuUG91XuWWyu//?=
- =?us-ascii?Q?2Ztral91Qfdph+UHCilih9RlkdL2Js98aD25cpa1IprTZUmVb7rZPR+reAkh?=
- =?us-ascii?Q?ppaeWl7XvDRoBJxCYcEKc18zSpEzitNP5hJ1GN/yvYVWyrl5qgWCufHnID/E?=
- =?us-ascii?Q?VR6vXvueejh7WD3QbyxsJJudgS6GHbmI/GpwxcttJmHduqvojjZP6jl/DNyC?=
- =?us-ascii?Q?hDj4Vp0UzQSzWfMtUT78CdBeHWhVUgfdKi+JIqdzKuG8tKQyK1j2OSIi3dpb?=
- =?us-ascii?Q?Ry4HD6cSWl/FTlm/CUzUROvrduigFWaNTXth7+l3BwqGva5fBKsk7H5vD+2u?=
- =?us-ascii?Q?ikLzafxtWrIOofcEfTK77KLL/tssh/ClvZ8iwD1j829a7g=3D=3D?=
+X-Microsoft-Antispam-Message-Info: C4cXfxT0hMpb9/s08nnNpTyAa8vb4TzzBQlDryCRFLM4I5TyrTfy7ucGTYsXnXJKYP2fXW+CXSZcyTwyPlQC6qI5JvK+DZWqH2NN4jQvgi4sUe1+5nPtebLK/f+9JKPC/F4Bmh3GLodPrdAse2p9dfc5GXgop/hOdLUENhBF/Do+bFM/9Tcd0/7x+NCsRFHJ+8aJL/Q1jPJ75LiNhEMVYgCaIBgz44BiB9j8Jlob+l4d8OAd2SyjQiQKFnVyY9YEPKn7iQvqqv56/jXNq+nZeuE295Kz0YPFGhxsGLBRGLVgXDnwurqHfJgXQdL82tKzcNuixQN8O3Iivyn4k2KmY+sI9s+BcoxKPS4G06aReTIlWWgl/gmYZUJHbakU/OTN5nWNHCKOF5P6xyEtvrPSamROXLH15GOw8lQdaR6TAniUE0V6/bATj7FeXoSHbvqeSymPmKCYbrWqi4VynvtK3KFrXzRmll1zIDQsv0phcOPy6Io3HOdI3yqttAZRPFORTNWjUr/ckeXnsZ9GHKpnnkpA1SKyt+pppWG7/o16is9t+o6K38bvUuABmiG2R0/mxXsOccmqG3fKJ2Jc4g/4Qjp86BbqNmEPmQ9IV0lJ9GeX6IgAaDXiXBV/H0A4IaPy
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(52116005)(366007)(7416005)(1800799015)(38350700005);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn; PTR:;
+ CAT:NONE;
+ SFS:(13230031)(41320700004)(7416005)(52116005)(366007)(1800799015)(38350700005);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9vbjX+KB1y8vdH9wCtz0PQZVF5mTGEoLMx8SQs8QTtCVNTy8ynyFXqeAVVMF?=
- =?us-ascii?Q?tW8uhNV2jHc/pGKXQBAiH7jZ065/5jlr5DQmM02j+oHKOafhoAj7s8CUfvVG?=
- =?us-ascii?Q?qlyLPupcbFk4HqSh3hdXPNH3LpzMBkfm1bkHwqdzDmMHlEmUJ5UDQAAa9BvT?=
- =?us-ascii?Q?AG0Mh0E0g/63G1hr4mfz/ppPO8wTHTn8EfI64DNczCXb0McK0OOa4CwG9sLy?=
- =?us-ascii?Q?MFmF5FyAOq6ccQWDnHdvNd/G3q54W3+AOXWIKrwsTjv1aNWWKDXE2PnC+j5K?=
- =?us-ascii?Q?yvKaRfNU2Wp4ilil0ymp8nqcm0tDJAZGhgeRdXLdCBAiye8WaEvj6OCUyAiP?=
- =?us-ascii?Q?iT/KYH9gc37mmyIcd4RulO0qklWNgJhMnX6UYBx9QFmsadAhI2gxfl3A8iMK?=
- =?us-ascii?Q?Gd05kijgdwmNZvsvv7n3Y4ymnG54UpCRgRBgJn4qqQABMLZvIVuz7MQgUuDe?=
- =?us-ascii?Q?9xplJDMyMGkD+73BVErM6QCp6PKsZB9Mdhje9aqBCF94UDZ7VpsAHTw38J99?=
- =?us-ascii?Q?m8S6EqqkZz5H49zyx8w1qVrFxcNg2gLFv4FVXIEylgoIWvzX1fL5+Ha8JeJr?=
- =?us-ascii?Q?qSiDwG+n9HDRVld7/EFGlqSj3fSw9cxqZthlbpH2Cu+gx1S6NXypxl4FRNwX?=
- =?us-ascii?Q?8cP4IxCZCxAxf9SFsxkI/KWChf41RPqk5UN8Bzi/5R9v5s6ajPMP44Fr4sWs?=
- =?us-ascii?Q?VW6zW8vSFri2IuDr6hfIH1bZPcsWLyOG5w54H27lJbkKWU0bQcyo7MLIehPH?=
- =?us-ascii?Q?se7+xCsTZEuZem2BqQHJbZtsQw8yoNwyVO44v2zOwxiiv6eTxUrrByDpA1o9?=
- =?us-ascii?Q?RpAgcrdJ5XdcZHrLYbid2rDS85cXZZ4hjM1n15hnMHdhQvWTkn3/nKGDohee?=
- =?us-ascii?Q?QTdBKc5TFj8rJeEdIUxAYxahyYse/KFAccfne2EXqLGMHo3J7pRElqQBfZCt?=
- =?us-ascii?Q?16sepomYz9dYMOalJQ4GjJMT0yhlsW3qkyQmRoe8EnEp0EHTSWtMZvjhoI83?=
- =?us-ascii?Q?f0doDvEP6j/Nxblm+Gl3X9uQw16oAQHHHUknAbFYmT4qS6bBnigbrnMHc3zB?=
- =?us-ascii?Q?b/iuTg4FKnQQf2lJ7DFH5Bl43I+/AERk4g479jLkooH8Dk6NSvvf82NGMXeM?=
- =?us-ascii?Q?A6tLHWyYxNXXewQDxPvWV0YqEZS56L+Q8L14CsB2j7ITBBHhlC1UGKhxTIMq?=
- =?us-ascii?Q?2lD/r70lNUPRi0WZJBDjGeJ33YRdDAqzjMEHnzPZtylcwdv0JWmJq1jZeVO2?=
- =?us-ascii?Q?MTCHIIt8/kLcr9WAIEYEBCuZKNYKJOmdVbbQRRdY3iQq8ml5xjHCupcSWyha?=
- =?us-ascii?Q?4NpcaEZBmA2jRSbawOqHiWAwmWch9or240spTFg4JGdG40Ivz8igat3eR2bp?=
- =?us-ascii?Q?1HShEMHOHwa9lHMwgmnRGe27pO5KZVIV+h40axvW4OKqpq6C6gthwMaHrU4q?=
- =?us-ascii?Q?hrfFPkv/OoUqcT7NzYKFgoKpNKTJoyZRnGJ+4F5tarhXrdn8gjJr1IGk+Oxa?=
- =?us-ascii?Q?crgk4IxVQU4iUdLcwQfwWr//oKKyYfNyaCEYMNsLGFCJHVWDeShOg3Xb26fA?=
- =?us-ascii?Q?yE1fmfDDNlfftZuP1sDuOVRXH/WICzD6V0YN5ZWL?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 714afeda-1190-4b58-4581-08dc7322030c
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aV2+z4SD0j3uLjQzXsclVEvdiuGcd0Pj97lkHINFKNTLLwfhiuxBQKL9hZK6?=
+ =?us-ascii?Q?hJz8bfSuYsZqU4lgbpIo8syl5swZAy/pjVy2fz3VRE/bgqCgxE2+HlLRzLCX?=
+ =?us-ascii?Q?Tlw7pq8bT0w9wq43CDNAxSGJgHexQES0CPY1cDYIZuGukuT2lHu3P3i6Tsfb?=
+ =?us-ascii?Q?eaCf/pctYy4l3JAzU3tyNa+ohxDhFRs2jS66xd4CaHMQCcmEBPo6Aa1Eew03?=
+ =?us-ascii?Q?bn6QnsC4aI+ljTGIy7FewNV5FHiP7psA7c8vj28K5a1NMywuiDwrfJoAzUbw?=
+ =?us-ascii?Q?gKLzJFgimVaWiNdhknXzkh/nrYrJQxoZnYyyi/apSiq+e5/22O4O7wQBmlsX?=
+ =?us-ascii?Q?4NyINyfezoIbvaO9NA75/YXYO1xq7dcJyJoz1MSG2bkohF5GZMwXcno7xhN7?=
+ =?us-ascii?Q?t0HMPinCQ4R2HUbfOI63hvoN/1ttv7DcqYNJ3uPO06Win8iiYp55gZ6zAHPo?=
+ =?us-ascii?Q?apmDYa6c9o2r26kb6zjnVOu9MC5kV6A4eZ02Nxlp725eNkmKtlCDEzA5Prm/?=
+ =?us-ascii?Q?6G8wa/7RpBK7gjyDJfef1Mx5IcYOysPZWLqs1TigQg/bv+M9Y8sEgXHV4i5Z?=
+ =?us-ascii?Q?pZMSrRbMPbLfoHR92ruXJlgr5VVyawWziStzc+B5E7lLjFJthUUsnDrPh2+Q?=
+ =?us-ascii?Q?HnoVCZIKwwBanpAKKQl/QZBiWdXV0NPBfml/0WYlvTH8ewGVTaUH1kbq82Ny?=
+ =?us-ascii?Q?8F5ivxARqILOdlmcabKbJuoQjEDZ2T6s1byHeE7PG6O8z5pjZgrLkS6UAdyW?=
+ =?us-ascii?Q?pa4MRD1SFZi/u1vPz9gdJoktL8W9YI2McO/kmf/ZFggDYhGi4m+/roMBpUhr?=
+ =?us-ascii?Q?TNqdC9DUrUQxZwTfgeKR0oeDLOnQfPrGyYlLXrZfIe/GKkwt0oSKK/ZnLOeS?=
+ =?us-ascii?Q?4awLKe59YHr+bvQGEd2Wop6a5TbOvLLtuasg5+7o5KIzRpRCTz8zV62oBLNV?=
+ =?us-ascii?Q?+qMdkxHD2vk+zm0bmlfyLdHRcpLd+2q6XyMfoZIMvlAC71POHsgbd4LAY4FU?=
+ =?us-ascii?Q?6gk2OA6Lh1daJeemIxEXLrGcT63lKs9rUIe8RG48kjWv2fCoFYu8OYOeGJ5L?=
+ =?us-ascii?Q?c8h1/7dGlqNOYn7XQvW/cmrO/ekXrU6vAKWj5Z5Ya6q7OxO+poTb0qjNHObI?=
+ =?us-ascii?Q?5DtXlGNRg+a/2mNOY7aDTPui2ZmpiK3AvyMZjE7Vj5PDdQxaoFyPD5DgPaul?=
+ =?us-ascii?Q?1ZqOacawfzGPk1rcVijFfwzs57t41k9e7RINhCueMmSwq0YML4521lIkDN+o?=
+ =?us-ascii?Q?4UtnqR0oXf1jIy/ZsU27yzC5UqWk8aon37bleK8XyTBEmQRJES0ROlaAYwp9?=
+ =?us-ascii?Q?sLkmRsRVKduACEfLDzu/1FUXucqxQw0m2CocQjwsECXdYAWf/ncrfw5FTcq0?=
+ =?us-ascii?Q?RF5WLDkVHfEDTgGkSAYP8uuNUJZrbo1jl06AZW9sin/iSwjNGs65JYEFQqQn?=
+ =?us-ascii?Q?JOM+EkJMhMib2Ko0n9HaYSI7BSCNga++SoJvMv0YRzkoEvxY6RjZnT80WS49?=
+ =?us-ascii?Q?GEOKLT9vAd2Cc1aYsoHC3RN/2ojHx4KDAQ7tdloZteml1x0X2XTzoCameSFv?=
+ =?us-ascii?Q?2nvOGUi2ugEBHJXAm22CO0jxDlYKmi6Xjsxnm4VRoerJQJAvHuxu6Nedfjrr?=
+ =?us-ascii?Q?Cw=3D=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48aeb285-ba62-4935-fe84-08dc7320c3f5
+X-MS-Exchange-CrossTenant-AuthSource: NT0PR01MB1070.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2024 07:55:09.9051 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2024 07:46:14.6775 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nKW4QlNd1iG1D/V5NyD0ACcZjvqokHsNGhD67HB8bkBDRmM1NaizEUu0hQ04v1KZaX1n8TgnGKk7tYzhHipphg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7149
+X-MS-Exchange-CrossTenant-UserPrincipalName: sF7hVG8ZdMPpa1OXFPKCAAztm7TC7+rQIn0pZiZRaBmrxQMPd62pI3Dm11W2EQd/I2r/sYzBNt8DCe9OvXmht2lOZW7UPyeo9y0UHB9mDdo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: NT0PR01MB0990
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,48 +124,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The connector is created by either this ADV7511 bridge driver or
-any DRM device driver/previous bridge driver, so this ADV7511
-bridge driver should not let the next bridge driver create connector.
+This series is the series that attempts to support
+the CDNS DSI driver used to converts DPI to DSI.
+CDNS DSI is embedded in StarFive JH7110 SoC.
+The series has been tested on the VisionFive 2 board.
 
-If the next bridge is a HDMI connector, the next bridge driver
-would fail to attach bridge from display_connector_attach() without
-the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
 
-Add that flag to drm_bridge_attach() function call in
-adv7511_bridge_attach() to fix the issue.
+change since v3:
+- Rebased on tag v6.8-rc6.
 
-This fixes the issue where the HDMI connector bridge fails to attach
-to the previous ADV7535 bridge on i.MX8MP EVK platform:
+patch 2:
+- Replace clk API with clk_bulk_ API.
+- Replace rst API with reset_control_bulk API.
+- Use roundup() in cdns_dsi_jh7110_mode_fixup().
+- Add assert for txbytehs reset operation by reset_control_bulk API  in suspend function.
+- Add clk_bulk_disable_unprepare() in cdns_dsi_jh7110_resume() for deassert failure situation.
 
-[    2.216442] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /hdmi-connector to encoder None-37: -22
-[    2.220675] mmc1: SDHCI controller on 30b50000.mmc [30b50000.mmc] using ADMA
-[    2.226262] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/i2c@30a30000/hdmi@3d to encoder None-37: -22
-[    2.245204] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@32c00000/dsi@32e60000 to encoder None-37: -22
-[    2.256445] imx-lcdif 32e80000.display-controller: error -EINVAL: Failed to attach bridge for endpoint0
-[    2.265850] imx-lcdif 32e80000.display-controller: error -EINVAL: Cannot connect bridge
-[    2.274009] imx-lcdif 32e80000.display-controller: probe with driver imx-lcdif failed with error -22
+v3: https://patchwork.kernel.org/project/dri-devel/cover/20240206065709.108684-1-shengyang.chen@starfivetech.com/
 
-Fixes: 14b3cdbd0e5b ("drm/bridge: adv7511: make it honour next bridge in DT")
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+change since v2:
+- Rebased on tag v6.8-rc3.
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index dd21b81bd28f..66ccb61e2a66 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -953,7 +953,8 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge,
- 	int ret = 0;
- 
- 	if (adv->next_bridge) {
--		ret = drm_bridge_attach(bridge->encoder, adv->next_bridge, bridge, flags);
-+		ret = drm_bridge_attach(bridge->encoder, adv->next_bridge, bridge,
-+					flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 		if (ret)
- 			return ret;
- 	}
+patch 1:
+- Modify commit message and patch subject
+- Change 'starfve,jh7110-dsi' to 'starfive,jh7110-dsi'
+- Add constraints for reset-names and clock names
+- Add resets, reset-names attribute
+- Correct reset and clock names
+
+patch 2:
+- Modify commit message and patch subject
+- Drop useless MAINTAINERS modification
+- Change callback name from 'update' to 'mode_fixup'
+- Optimize the mode_fixup function.
+- Change devm_reset_control_get() to devm_reset_control_get_exclusive()
+- Correct reset and clock names
+
+v2: https://patchwork.kernel.org/project/dri-devel/cover/20240109072516.24328-1-shengyang.chen@starfivetech.com/
+
+
+
+changes since v1:
+- Rebased on tag v6.7.
+
+patch 1:
+- Changed the 'starfive,cdns-dsi' to 'starfve,jh7110-dsi'.
+- Changed the compatible enum alphabetical order.
+- Restrict other variants.
+- Drop 'dsi_' prefix.
+
+patch 2:
+- Optimize the calculation process.
+- Drop useless definition.
+
+v1: https://patchwork.kernel.org/project/dri-devel/cover/20231127113436.57361-1-shengyang.chen@starfivetech.com/
+
+
+Keith Zhao (2):
+  dt-bindings: display: bridge: cdns: Add display bridge support for dsi
+    on StarFive JH7110 SoC
+  drm/bridge: cdns-dsi: Add support for StarFive JH7110 SoC
+
+ .../bindings/display/bridge/cdns,dsi.yaml     |  56 ++++++-
+ drivers/gpu/drm/bridge/cadence/Kconfig        |   7 +
+ drivers/gpu/drm/bridge/cadence/Makefile       |   1 +
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    |  29 +++-
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |  19 +++
+ .../gpu/drm/bridge/cadence/cdns-dsi-jh7110.c  | 138 ++++++++++++++++++
+ .../gpu/drm/bridge/cadence/cdns-dsi-jh7110.h  |  16 ++
+ 7 files changed, 263 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-jh7110.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-jh7110.h
+
 -- 
-2.34.1
+2.17.1
 
