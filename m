@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CB18C4063
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 14:04:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71DB88C4065
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 14:04:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B155010E712;
-	Mon, 13 May 2024 12:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC38C10E71C;
+	Mon, 13 May 2024 12:04:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UqXm8WPd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VlivDavf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21D8D10E712
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 12:04:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB7A410E713
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 12:04:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715601883; x=1747137883;
+ t=1715601885; x=1747137885;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=M6JmYTuYUTRjECIrLVFhNtiL4R4KgUuEPfWNar/FT7s=;
- b=UqXm8WPdJVNS7APMNa+29HcvRVCnqW6dzdFE6BkRcESkxJes2fDEQ6hn
- GG1920DI34tMb2rhopuO5zKYEEi1SteaRHyQNmBTB7j5KduCygAfm5ctW
- f6O+AHQMiukV41L3znnQosuXdVLJqHtstJ7RGqSKdAMczq/H/RQEkHPBu
- qBEJwH+1nt32fmUU9jzJRpT9VNfKFm6U9qJ93O4RF6xRpDXmYc9YrXbZ6
- 99deuqz/7gS2gZzvgYqmeysZy1msrzIXl6yOnEERTzKvmKuOwqOmWu0iy
- mtxvrODHIVsUq7C6KQrk5iK/mUY+TH0Q4mdWvlb7i+iBWmvUegli3Zdhc w==;
-X-CSE-ConnectionGUID: ZhbgPWt0Q6auSzTLOFQuzw==
-X-CSE-MsgGUID: HuR6+8DWSNakWK5o8lP/NA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="22131736"
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="22131736"
+ bh=FbXP33nzErUUR4ttBfTR+mpFYe4t7kEqu8xWV+hy3ss=;
+ b=VlivDavfv96RAvtc3kCT80SexXduVBJKUm1tRv+3pDGqpkA/ozttDYEy
+ yvcrLwkTYrHDGW7W5uETl+DU228UibulLAHpM5LQ/5ZPAqsAa8SXpNyzL
+ kuAfMjgB3BnDzD+lOmF73GXskdUexO4p3ZWwIG38eR4V2t6T2kwnmsHBM
+ xb7r9RzoaJHS3VEdIGPNL742iNcUs5VRzRiC0gPGS29OLDg0rMrOpmLq0
+ koVIBnVqjasPPp0U+ptwSSDiEUfDaheKAIkQaJpmB7oZLXfL8OK+QX8p5
+ XhSdSzQXQVsCN6UlNZoWK6pKYE5c70pA7Cmb1Y/QpPmIRWLBuR+ITLsE5 g==;
+X-CSE-ConnectionGUID: WtmRDLLyQCaVvUPWbytjoQ==
+X-CSE-MsgGUID: 0fmqhMhJQjycVaylEofo+Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="22131741"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="22131741"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 05:04:43 -0700
-X-CSE-ConnectionGUID: HOKqAZi+Q02ABUexIY15gA==
-X-CSE-MsgGUID: /VfpkcN8Tmmm5Ri0/eOfxA==
+ 13 May 2024 05:04:44 -0700
+X-CSE-ConnectionGUID: yCwEi69hTUSFHiFqwhtWvg==
+X-CSE-MsgGUID: HipbyZILTdG4AJ+6wBcKvw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30341062"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30341071"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 05:04:41 -0700
+ 13 May 2024 05:04:42 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  "Wachowski, Karol" <karol.wachowski@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH v2 05/12] accel/ivpu: Add HWS JSM messages
-Date: Mon, 13 May 2024 14:04:24 +0200
-Message-ID: <20240513120431.3187212-6-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2 06/12] accel/ivpu: Implement support for hardware scheduler
+Date: Mon, 13 May 2024 14:04:25 +0200
+Message-ID: <20240513120431.3187212-7-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240513120431.3187212-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240513120431.3187212-1-jacek.lawrynowicz@linux.intel.com>
@@ -71,235 +71,341 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Wachowski, Karol" <karol.wachowski@intel.com>
 
-Add JSM messages that will be used to implement hardware scheduler.
-Most of these messages are used to create and manage HWS specific
-command queues.
+Add support for HWS (hardware scheduler). It is disabled by default.
+The sched_mode module param can be used to enable it.
+
+Each context has multiple command queues with different priorities and
+HWS enables priority based execution on the HW/FW side.
+
+The driver in HWS mode has to send a couple additional messages to
+initialize HWS and describe command queue priorities.
 
 Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/accel/ivpu/ivpu_drv.h     |   1 +
- drivers/accel/ivpu/ivpu_jsm_msg.c | 161 +++++++++++++++++++++++++++++-
- drivers/accel/ivpu/ivpu_jsm_msg.h |  14 ++-
- 3 files changed, 174 insertions(+), 2 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c |  20 ++++-
+ drivers/accel/ivpu/ivpu_fw.c  |   7 ++
+ drivers/accel/ivpu/ivpu_job.c | 162 ++++++++++++++++++++++++----------
+ 3 files changed, 142 insertions(+), 47 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index f500b2d92452..9e9d85ad78ea 100644
---- a/drivers/accel/ivpu/ivpu_drv.h
-+++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -171,6 +171,7 @@ extern bool ivpu_disable_mmu_cont_pages;
- #define IVPU_TEST_MODE_D0I3_MSG_DISABLE   BIT(4)
- #define IVPU_TEST_MODE_D0I3_MSG_ENABLE    BIT(5)
- #define IVPU_TEST_MODE_PREEMPTION_DISABLE BIT(6)
-+#define IVPU_TEST_MODE_HWS_EXTRA_EVENTS	  BIT(7)
- extern int ivpu_test_mode;
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index 8d80052182f0..ca4fcef7edf5 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -78,7 +78,6 @@ static void file_priv_unbind(struct ivpu_device *vdev, struct ivpu_file_priv *fi
+ 		ivpu_dbg(vdev, FILE, "file_priv unbind: ctx %u\n", file_priv->ctx.id);
  
- struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
-diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.c b/drivers/accel/ivpu/ivpu_jsm_msg.c
-index 8cea0dd731b9..4b260065ad72 100644
---- a/drivers/accel/ivpu/ivpu_jsm_msg.c
-+++ b/drivers/accel/ivpu/ivpu_jsm_msg.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (C) 2020-2023 Intel Corporation
-+ * Copyright (C) 2020-2024 Intel Corporation
-  */
- 
- #include "ivpu_drv.h"
-@@ -281,3 +281,162 @@ int ivpu_jsm_pwr_d0i3_enter(struct ivpu_device *vdev)
- 
- 	return ivpu_hw_wait_for_idle(vdev);
+ 		ivpu_cmdq_release_all_locked(file_priv);
+-		ivpu_jsm_context_release(vdev, file_priv->ctx.id);
+ 		ivpu_bo_unbind_all_bos_from_context(vdev, &file_priv->ctx);
+ 		ivpu_mmu_user_context_fini(vdev, &file_priv->ctx);
+ 		file_priv->bound = false;
+@@ -327,6 +326,21 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
+ 	return ret;
  }
-+
-+int ivpu_jsm_hws_create_cmdq(struct ivpu_device *vdev, u32 ctx_id, u32 cmdq_group, u32 cmdq_id,
-+			     u32 pid, u32 engine, u64 cmdq_base, u32 cmdq_size)
+ 
++static int ivpu_hw_sched_init(struct ivpu_device *vdev)
 +{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_CREATE_CMD_QUEUE };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	req.payload.hws_create_cmdq.host_ssid = ctx_id;
-+	req.payload.hws_create_cmdq.process_id = pid;
-+	req.payload.hws_create_cmdq.engine_idx = engine;
-+	req.payload.hws_create_cmdq.cmdq_group = cmdq_group;
-+	req.payload.hws_create_cmdq.cmdq_id = cmdq_id;
-+	req.payload.hws_create_cmdq.cmdq_base = cmdq_base;
-+	req.payload.hws_create_cmdq.cmdq_size = cmdq_size;
-+
-+	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_CREATE_CMD_QUEUE_RSP, &resp,
-+				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret)
-+		ivpu_warn_ratelimited(vdev, "Failed to create command queue: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+int ivpu_jsm_hws_destroy_cmdq(struct ivpu_device *vdev, u32 ctx_id, u32 cmdq_id)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_DESTROY_CMD_QUEUE };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	req.payload.hws_destroy_cmdq.host_ssid = ctx_id;
-+	req.payload.hws_destroy_cmdq.cmdq_id = cmdq_id;
-+
-+	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_DESTROY_CMD_QUEUE_RSP, &resp,
-+				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret)
-+		ivpu_warn_ratelimited(vdev, "Failed to destroy command queue: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+int ivpu_jsm_hws_register_db(struct ivpu_device *vdev, u32 ctx_id, u32 cmdq_id, u32 db_id,
-+			     u64 cmdq_base, u32 cmdq_size)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_HWS_REGISTER_DB };
-+	struct vpu_jsm_msg resp;
 +	int ret = 0;
 +
-+	req.payload.hws_register_db.db_id = db_id;
-+	req.payload.hws_register_db.host_ssid = ctx_id;
-+	req.payload.hws_register_db.cmdq_id = cmdq_id;
-+	req.payload.hws_register_db.cmdq_base = cmdq_base;
-+	req.payload.hws_register_db.cmdq_size = cmdq_size;
-+
-+	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_REGISTER_DB_DONE, &resp,
-+				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret)
-+		ivpu_err_ratelimited(vdev, "Failed to register doorbell %u: %d\n", db_id, ret);
++	if (vdev->hw->sched_mode == VPU_SCHEDULING_MODE_HW) {
++		ret = ivpu_jsm_hws_setup_priority_bands(vdev);
++		if (ret) {
++			ivpu_err(vdev, "Failed to enable hw scheduler: %d", ret);
++			return ret;
++		}
++	}
 +
 +	return ret;
 +}
 +
-+int ivpu_jsm_hws_resume_engine(struct ivpu_device *vdev, u32 engine)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_HWS_ENGINE_RESUME };
-+	struct vpu_jsm_msg resp;
-+	int ret;
+ /**
+  * ivpu_boot() - Start VPU firmware
+  * @vdev: VPU device
+@@ -360,6 +374,10 @@ int ivpu_boot(struct ivpu_device *vdev)
+ 	enable_irq(vdev->irq);
+ 	ivpu_hw_irq_enable(vdev);
+ 	ivpu_ipc_enable(vdev);
 +
-+	if (engine >= VPU_ENGINE_NB)
-+		return -EINVAL;
++	if (ivpu_fw_is_cold_boot(vdev))
++		return ivpu_hw_sched_init(vdev);
 +
-+	req.payload.hws_resume_engine.engine_idx = engine;
-+
-+	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_HWS_RESUME_ENGINE_DONE, &resp,
-+				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret)
-+		ivpu_err_ratelimited(vdev, "Failed to resume engine %d: %d\n", engine, ret);
-+
-+	return ret;
-+}
-+
-+int ivpu_jsm_hws_set_context_sched_properties(struct ivpu_device *vdev, u32 ctx_id, u32 cmdq_id,
-+					      u32 priority)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	req.payload.hws_set_context_sched_properties.host_ssid = ctx_id;
-+	req.payload.hws_set_context_sched_properties.cmdq_id = cmdq_id;
-+	req.payload.hws_set_context_sched_properties.priority_band = priority;
-+	req.payload.hws_set_context_sched_properties.realtime_priority_level = 0;
-+	req.payload.hws_set_context_sched_properties.in_process_priority = 0;
-+	req.payload.hws_set_context_sched_properties.context_quantum = 20000;
-+	req.payload.hws_set_context_sched_properties.grace_period_same_priority = 10000;
-+	req.payload.hws_set_context_sched_properties.grace_period_lower_priority = 0;
-+
-+	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES_RSP, &resp,
-+				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret)
-+		ivpu_warn_ratelimited(vdev, "Failed to set context sched properties: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+int ivpu_jsm_hws_set_scheduling_log(struct ivpu_device *vdev, u32 engine_idx, u32 host_ssid,
-+				    u64 vpu_log_buffer_va)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	req.payload.hws_set_scheduling_log.engine_idx = engine_idx;
-+	req.payload.hws_set_scheduling_log.host_ssid = host_ssid;
-+	req.payload.hws_set_scheduling_log.vpu_log_buffer_va = vpu_log_buffer_va;
-+	req.payload.hws_set_scheduling_log.notify_index = 0;
-+	req.payload.hws_set_scheduling_log.enable_extra_events =
-+		ivpu_test_mode & IVPU_TEST_MODE_HWS_EXTRA_EVENTS;
-+
-+	ret = ivpu_ipc_send_receive(vdev, &req, VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG_RSP, &resp,
-+				    VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret)
-+		ivpu_warn_ratelimited(vdev, "Failed to set scheduling log: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+int ivpu_jsm_hws_setup_priority_bands(struct ivpu_device *vdev)
-+{
-+	struct vpu_jsm_msg req = { .type = VPU_JSM_MSG_SET_PRIORITY_BAND_SETUP };
-+	struct vpu_jsm_msg resp;
-+	int ret;
-+
-+	/* Idle */
-+	req.payload.hws_priority_band_setup.grace_period[0] = 0;
-+	req.payload.hws_priority_band_setup.process_grace_period[0] = 50000;
-+	req.payload.hws_priority_band_setup.process_quantum[0] = 160000;
-+	/* Normal */
-+	req.payload.hws_priority_band_setup.grace_period[1] = 50000;
-+	req.payload.hws_priority_band_setup.process_grace_period[1] = 50000;
-+	req.payload.hws_priority_band_setup.process_quantum[1] = 300000;
-+	/* Focus */
-+	req.payload.hws_priority_band_setup.grace_period[2] = 50000;
-+	req.payload.hws_priority_band_setup.process_grace_period[2] = 50000;
-+	req.payload.hws_priority_band_setup.process_quantum[2] = 200000;
-+	/* Realtime */
-+	req.payload.hws_priority_band_setup.grace_period[3] = 0;
-+	req.payload.hws_priority_band_setup.process_grace_period[3] = 50000;
-+	req.payload.hws_priority_band_setup.process_quantum[3] = 200000;
-+
-+	req.payload.hws_priority_band_setup.normal_band_percentage = 10;
-+
-+	ret = ivpu_ipc_send_receive_active(vdev, &req, VPU_JSM_MSG_SET_PRIORITY_BAND_SETUP_RSP,
-+					   &resp, VPU_IPC_CHAN_ASYNC_CMD, vdev->timeout.jsm);
-+	if (ret)
-+		ivpu_warn_ratelimited(vdev, "Failed to set priority bands: %d\n", ret);
-+
-+	return ret;
-+}
-diff --git a/drivers/accel/ivpu/ivpu_jsm_msg.h b/drivers/accel/ivpu/ivpu_jsm_msg.h
-index ae75e5dbcc41..357728295fe9 100644
---- a/drivers/accel/ivpu/ivpu_jsm_msg.h
-+++ b/drivers/accel/ivpu/ivpu_jsm_msg.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * Copyright (C) 2020-2023 Intel Corporation
-+ * Copyright (C) 2020-2024 Intel Corporation
-  */
+ 	return 0;
+ }
  
- #ifndef __IVPU_JSM_MSG_H__
-@@ -23,4 +23,16 @@ int ivpu_jsm_trace_set_config(struct ivpu_device *vdev, u32 trace_level, u32 tra
- 			      u64 trace_hw_component_mask);
- int ivpu_jsm_context_release(struct ivpu_device *vdev, u32 host_ssid);
- int ivpu_jsm_pwr_d0i3_enter(struct ivpu_device *vdev);
-+int ivpu_jsm_hws_create_cmdq(struct ivpu_device *vdev, u32 ctx_id, u32 cmdq_group, u32 cmdq_id,
-+			     u32 pid, u32 engine, u64 cmdq_base, u32 cmdq_size);
-+int ivpu_jsm_hws_destroy_cmdq(struct ivpu_device *vdev, u32 ctx_id, u32 cmdq_id);
-+int ivpu_jsm_hws_register_db(struct ivpu_device *vdev, u32 ctx_id, u32 cmdq_id, u32 db_id,
-+			     u64 cmdq_base, u32 cmdq_size);
-+int ivpu_jsm_hws_resume_engine(struct ivpu_device *vdev, u32 engine);
-+int ivpu_jsm_hws_set_context_sched_properties(struct ivpu_device *vdev, u32 ctx_id, u32 cmdq_id,
-+					      u32 priority);
-+int ivpu_jsm_hws_set_scheduling_log(struct ivpu_device *vdev, u32 engine_idx, u32 host_ssid,
-+				    u64 vpu_log_buffer_va);
-+int ivpu_jsm_hws_setup_priority_bands(struct ivpu_device *vdev);
+diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+index 29ecf7db238b..427cd72bd34f 100644
+--- a/drivers/accel/ivpu/ivpu_fw.c
++++ b/drivers/accel/ivpu/ivpu_fw.c
+@@ -44,6 +44,8 @@
+ #define IVPU_FW_CHECK_API_VER_LT(vdev, fw_hdr, name, major, minor) \
+ 	ivpu_fw_check_api_ver_lt(vdev, fw_hdr, #name, VPU_##name##_API_VER_INDEX, major, minor)
+ 
++#define IVPU_FOCUS_PRESENT_TIMER_MS 1000
 +
- #endif
+ static char *ivpu_firmware;
+ module_param_named_unsafe(firmware, ivpu_firmware, charp, 0644);
+ MODULE_PARM_DESC(firmware, "NPU firmware binary in /lib/firmware/..");
+@@ -467,6 +469,8 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
+ 		 boot_params->punit_telemetry_sram_size);
+ 	ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_telemetry_enable = 0x%x\n",
+ 		 boot_params->vpu_telemetry_enable);
++	ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_scheduling_mode = 0x%x\n",
++		 boot_params->vpu_scheduling_mode);
+ 	ivpu_dbg(vdev, FW_BOOT, "boot_params.dvfs_mode = %u\n",
+ 		 boot_params->dvfs_mode);
+ 	ivpu_dbg(vdev, FW_BOOT, "boot_params.d0i3_delayed_entry = %d\n",
+@@ -567,6 +571,9 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+ 	boot_params->punit_telemetry_sram_base = ivpu_hw_reg_telemetry_offset_get(vdev);
+ 	boot_params->punit_telemetry_sram_size = ivpu_hw_reg_telemetry_size_get(vdev);
+ 	boot_params->vpu_telemetry_enable = ivpu_hw_reg_telemetry_enable_get(vdev);
++	boot_params->vpu_scheduling_mode = vdev->hw->sched_mode;
++	if (vdev->hw->sched_mode == VPU_SCHEDULING_MODE_HW)
++		boot_params->vpu_focus_present_timer_ms = IVPU_FOCUS_PRESENT_TIMER_MS;
+ 	boot_params->dvfs_mode = vdev->fw->dvfs_mode;
+ 	if (!IVPU_WA(disable_d0i3_msg))
+ 		boot_params->d0i3_delayed_entry = 1;
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index 3ef9d8022c9c..1d7b4388eb3b 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -77,11 +77,10 @@ static void ivpu_preemption_buffers_free(struct ivpu_device *vdev,
+ 	ivpu_bo_free(cmdq->secondary_preempt_buf);
+ }
+ 
+-static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv, u16 engine)
++static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv)
+ {
+ 	struct xa_limit db_xa_limit = {.max = IVPU_MAX_DB, .min = IVPU_MIN_DB};
+ 	struct ivpu_device *vdev = file_priv->vdev;
+-	struct vpu_job_queue_header *jobq_header;
+ 	struct ivpu_cmdq *cmdq;
+ 	int ret;
+ 
+@@ -103,16 +102,6 @@ static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv, u16 e
+ 	if (ret)
+ 		goto err_free_cmdq_mem;
+ 
+-	cmdq->entry_count = (u32)((ivpu_bo_size(cmdq->mem) - sizeof(struct vpu_job_queue_header)) /
+-				  sizeof(struct vpu_job_queue_entry));
+-
+-	cmdq->jobq = (struct vpu_job_queue *)ivpu_bo_vaddr(cmdq->mem);
+-	jobq_header = &cmdq->jobq->header;
+-	jobq_header->engine_idx = engine;
+-	jobq_header->head = 0;
+-	jobq_header->tail = 0;
+-	wmb(); /* Flush WC buffer for jobq->header */
+-
+ 	return cmdq;
+ 
+ err_free_cmdq_mem:
+@@ -135,33 +124,126 @@ static void ivpu_cmdq_free(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *c
+ 	kfree(cmdq);
+ }
+ 
++static int ivpu_hws_cmdq_init(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq, u16 engine,
++			      u8 priority)
++{
++	struct ivpu_device *vdev = file_priv->vdev;
++	int ret;
++
++	ret = ivpu_jsm_hws_create_cmdq(vdev, file_priv->ctx.id, file_priv->ctx.id, cmdq->db_id,
++				       task_pid_nr(current), engine,
++				       cmdq->mem->vpu_addr, ivpu_bo_size(cmdq->mem));
++	if (ret)
++		return ret;
++
++	ret = ivpu_jsm_hws_set_context_sched_properties(vdev, file_priv->ctx.id, cmdq->db_id,
++							priority);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static int ivpu_register_db(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq)
++{
++	struct ivpu_device *vdev = file_priv->vdev;
++	int ret;
++
++	if (vdev->hw->sched_mode == VPU_SCHEDULING_MODE_HW)
++		ret = ivpu_jsm_hws_register_db(vdev, file_priv->ctx.id, cmdq->db_id, cmdq->db_id,
++					       cmdq->mem->vpu_addr, ivpu_bo_size(cmdq->mem));
++	else
++		ret = ivpu_jsm_register_db(vdev, file_priv->ctx.id, cmdq->db_id,
++					   cmdq->mem->vpu_addr, ivpu_bo_size(cmdq->mem));
++
++	if (!ret)
++		ivpu_dbg(vdev, JOB, "DB %d registered to ctx %d\n", cmdq->db_id, file_priv->ctx.id);
++
++	return ret;
++}
++
++static int
++ivpu_cmdq_init(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq, u16 engine, u8 priority)
++{
++	struct ivpu_device *vdev = file_priv->vdev;
++	struct vpu_job_queue_header *jobq_header;
++	int ret;
++
++	lockdep_assert_held(&file_priv->lock);
++
++	if (cmdq->db_registered)
++		return 0;
++
++	cmdq->entry_count = (u32)((ivpu_bo_size(cmdq->mem) - sizeof(struct vpu_job_queue_header)) /
++				  sizeof(struct vpu_job_queue_entry));
++
++	cmdq->jobq = (struct vpu_job_queue *)ivpu_bo_vaddr(cmdq->mem);
++	jobq_header = &cmdq->jobq->header;
++	jobq_header->engine_idx = engine;
++	jobq_header->head = 0;
++	jobq_header->tail = 0;
++	wmb(); /* Flush WC buffer for jobq->header */
++
++	if (vdev->hw->sched_mode == VPU_SCHEDULING_MODE_HW) {
++		ret = ivpu_hws_cmdq_init(file_priv, cmdq, engine, priority);
++		if (ret)
++			return ret;
++	}
++
++	ret = ivpu_register_db(file_priv, cmdq);
++	if (ret)
++		return ret;
++
++	cmdq->db_registered = true;
++
++	return 0;
++}
++
++static int ivpu_cmdq_fini(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq)
++{
++	struct ivpu_device *vdev = file_priv->vdev;
++	int ret;
++
++	lockdep_assert_held(&file_priv->lock);
++
++	if (!cmdq->db_registered)
++		return 0;
++
++	cmdq->db_registered = false;
++
++	if (vdev->hw->sched_mode == VPU_SCHEDULING_MODE_HW) {
++		ret = ivpu_jsm_hws_destroy_cmdq(vdev, file_priv->ctx.id, cmdq->db_id);
++		if (!ret)
++			ivpu_dbg(vdev, JOB, "Command queue %d destroyed\n", cmdq->db_id);
++	}
++
++	ret = ivpu_jsm_unregister_db(vdev, cmdq->db_id);
++	if (!ret)
++		ivpu_dbg(vdev, JOB, "DB %d unregistered\n", cmdq->db_id);
++
++	return 0;
++}
++
+ static struct ivpu_cmdq *ivpu_cmdq_acquire(struct ivpu_file_priv *file_priv, u16 engine,
+ 					   u8 priority)
+ {
+ 	int cmdq_idx = IVPU_CMDQ_INDEX(engine, priority);
+ 	struct ivpu_cmdq *cmdq = file_priv->cmdq[cmdq_idx];
+-	struct ivpu_device *vdev = file_priv->vdev;
+ 	int ret;
+ 
+ 	lockdep_assert_held(&file_priv->lock);
+ 
+ 	if (!cmdq) {
+-		cmdq = ivpu_cmdq_alloc(file_priv, engine);
++		cmdq = ivpu_cmdq_alloc(file_priv);
+ 		if (!cmdq)
+ 			return NULL;
+ 		file_priv->cmdq[cmdq_idx] = cmdq;
+ 	}
+ 
+-	if (cmdq->db_registered)
+-		return cmdq;
+-
+-	ret = ivpu_jsm_register_db(vdev, file_priv->ctx.id, cmdq->db_id,
+-				   cmdq->mem->vpu_addr, ivpu_bo_size(cmdq->mem));
++	ret = ivpu_cmdq_init(file_priv, cmdq, engine, priority);
+ 	if (ret)
+ 		return NULL;
+ 
+-	cmdq->db_registered = true;
+-
+ 	return cmdq;
+ }
+ 
+@@ -174,9 +256,7 @@ static void ivpu_cmdq_release_locked(struct ivpu_file_priv *file_priv, u16 engin
+ 
+ 	if (cmdq) {
+ 		file_priv->cmdq[cmdq_idx] = NULL;
+-		if (cmdq->db_registered)
+-			ivpu_jsm_unregister_db(file_priv->vdev, cmdq->db_id);
+-
++		ivpu_cmdq_fini(file_priv, cmdq);
+ 		ivpu_cmdq_free(file_priv, cmdq);
+ 	}
+ }
+@@ -194,36 +274,27 @@ void ivpu_cmdq_release_all_locked(struct ivpu_file_priv *file_priv)
+ }
+ 
+ /*
+- * Mark the doorbell as unregistered and reset job queue pointers.
++ * Mark the doorbell as unregistered
+  * This function needs to be called when the VPU hardware is restarted
+  * and FW loses job queue state. The next time job queue is used it
+  * will be registered again.
+  */
+-static void ivpu_cmdq_reset_locked(struct ivpu_file_priv *file_priv, u16 engine, u8 priority)
+-{
+-	int cmdq_idx = IVPU_CMDQ_INDEX(engine, priority);
+-	struct ivpu_cmdq *cmdq = file_priv->cmdq[cmdq_idx];
+-
+-	lockdep_assert_held(&file_priv->lock);
+-
+-	if (cmdq) {
+-		cmdq->db_registered = false;
+-		cmdq->jobq->header.head = 0;
+-		cmdq->jobq->header.tail = 0;
+-		wmb(); /* Flush WC buffer for jobq header */
+-	}
+-}
+-
+-static void ivpu_cmdq_reset_all(struct ivpu_file_priv *file_priv)
++static void ivpu_cmdq_reset(struct ivpu_file_priv *file_priv)
+ {
+ 	u16 engine;
+ 	u8 priority;
+ 
+ 	mutex_lock(&file_priv->lock);
+ 
+-	for (engine = 0; engine < IVPU_NUM_ENGINES; engine++)
+-		for (priority = 0; priority < IVPU_NUM_PRIORITIES; priority++)
+-			ivpu_cmdq_reset_locked(file_priv, engine, priority);
++	for (engine = 0; engine < IVPU_NUM_ENGINES; engine++) {
++		for (priority = 0; priority < IVPU_NUM_PRIORITIES; priority++) {
++			int cmdq_idx = IVPU_CMDQ_INDEX(engine, priority);
++			struct ivpu_cmdq *cmdq = file_priv->cmdq[cmdq_idx];
++
++			if (cmdq)
++				cmdq->db_registered = false;
++		}
++	}
+ 
+ 	mutex_unlock(&file_priv->lock);
+ }
+@@ -236,10 +307,9 @@ void ivpu_cmdq_reset_all_contexts(struct ivpu_device *vdev)
+ 	mutex_lock(&vdev->context_list_lock);
+ 
+ 	xa_for_each(&vdev->context_xa, ctx_id, file_priv)
+-		ivpu_cmdq_reset_all(file_priv);
++		ivpu_cmdq_reset(file_priv);
+ 
+ 	mutex_unlock(&vdev->context_list_lock);
+-
+ }
+ 
+ static int ivpu_cmdq_push_job(struct ivpu_cmdq *cmdq, struct ivpu_job *job)
 -- 
 2.43.2
 
