@@ -2,69 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73AD8C4978
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 00:04:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 513BD8C4A13
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 01:31:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEF1410E295;
-	Mon, 13 May 2024 22:04:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F96C10E594;
+	Mon, 13 May 2024 23:31:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Lubn51QI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UJ4+eKX9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9138910E295
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 22:04:42 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-a59a0168c75so1272178066b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 15:04:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715637881; x=1716242681; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+0gk5sE+9z6u1bvtThXAEXcXoGXfYoS4SNzR6gH/Yac=;
- b=Lubn51QI7u3GT5/REtX7lSKG3jqOy+Gsiugn+kxauGnOOdEVTmrt9z0VTQt7VF6tsO
- LbMb+H96g6Lh7mV4P598acwNeqaLUAculGU768MtaAGG1PWTLuH8sobhacEFUp/dSMEl
- rYEQoxohnbb2gaDt+oJ3kwyylLoGIN8sKsnas4tu05kSBxzMhcRCqq2G+xUreO20Ditr
- zHdKzrnIMkw9tU6TBtMNvs20b/uLP958tcdOwhdMi1lIRv7alNwipAK7+AbDXvwDgIL7
- 36Epx8o2uppZCQMnlhKRjBJbVZXgvdA5PLQiYXKW+6WI0yo3sMDldTa3lkW9k28Uavqg
- 3eTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715637881; x=1716242681;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+0gk5sE+9z6u1bvtThXAEXcXoGXfYoS4SNzR6gH/Yac=;
- b=TUN5BY2EfHdV7o1axJd6vVQYgMuOWZOWTjqcZEL3iHX3IaV9/Ba1QLCNoeP8L1vuCx
- kV3gxSaj7f7qbQABKKuCWBPhtRwCr5IGLyWq7J2wvKVyMVEWke0tnIp8p5R1TINoF1Gr
- mZnLvA1+4jauF/NJLp97HorkEnEvtMrtmYlB4OvHuQBZSJWH9jA0p2oRvViECZrGTWx7
- yltC4Oe/jusE1qdZXVi6KxCgJNCuDC/FaCJue4zhQSkcdXwd3gkrbTWmgM7dtTUhg0mi
- OrR+s5xLBn3dCBzm+5J/EeNqDh+4lkVQ8LfPVAo1uNnqnPA8yjPcb/KHubcZdIQ03DG6
- //xA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWA1Qg4BjKbgpBJsgqJ/FKNSjHDlUtQakDGVlSZLm1/QVTbB4Dk2THCnFJKrOMs+vXnr9po8mIfVLzez6qM2CAZ7VT47v9RVGt4dRqPjMj6
-X-Gm-Message-State: AOJu0Yzcdz0t2JLZ3pN/wUoOAZ7tfqRRZ3fjxgx19Tr61jhuoOmoSP/I
- pxjO4KPnZhsMGN0dPV7wlAq3vJajH8Ah03X0AWUqRBR0pE7J7EAM5aueBwEVZq1YwtnQnMtaQ+r
- pvZuNHBcqpxxxE3B/UjT/3wo79pv+2w==
-X-Google-Smtp-Source: AGHT+IHXIGkY+GN3yrNinx8IwSkayBEpqu38CqL4pEdPdniXYCaie/XSqRAiER6yHDLE2rEn9+oZ52mLr0XtLxxsXxs=
-X-Received: by 2002:a50:d7c8:0:b0:56e:2f39:c5d2 with SMTP id
- 4fb4d7f45d1cf-5734d590143mr7512130a12.7.1715637880579; Mon, 13 May 2024
- 15:04:40 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B41D610E594
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 23:31:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 26140CE10BF;
+ Mon, 13 May 2024 23:31:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 781EFC113CC;
+ Mon, 13 May 2024 23:31:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715643077;
+ bh=edYEvfVF7LrKCEOZSZcW2VnvwSmiDi2QkoyU4leeWL4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=UJ4+eKX9Jjb5n009vEa+fw3qm93HTsbq6E/2kjaqWw2wukzg/halQAfNZEZXm/LE4
+ VseHIcoczFEhUFNJrX+hE4brEcaqhJYLF5QDeawrQXHzGtVSeWHqMAph2zfIoqyKzs
+ dOJA+Rc3OrJVxsqBTVfE67aPPpe9lMIgv3q46l/7C7ygJVD9GHoY5L6Ff+NHFHfw2i
+ EpUgZS3K/R4TIL0bsax/NTea+fsRH6i/BQKSVamsq7sDeOuVD37dm9gghM9OITGk7Y
+ MbBxbNA6+ZDp6bsz2N1nY5IAOc0jzEJb0dHK2wgUTlLTS0Qe7idImQezxoSFuJYfYW
+ r/H0ew9pGJ3Hg==
+Date: Mon, 13 May 2024 16:31:14 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
+ Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, "Christian
+ =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Pavel Begunkov
+ <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand
+ <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v9 00/14] Device Memory TCP
+Message-ID: <20240513163114.52b44f66@kernel.org>
+In-Reply-To: <20240510232128.1105145-1-almasrymina@google.com>
+References: <20240510232128.1105145-1-almasrymina@google.com>
 MIME-Version: 1.0
-References: <CABQX2QMVfsZZrHLktZ=MhJ5gG1ATRuSGa+E-CKfXATgU5BwMwQ@mail.gmail.com>
- <973b5119-0fca-4420-b5d2-b5b4862c77cc@amd.com>
-In-Reply-To: <973b5119-0fca-4420-b5d2-b5b4862c77cc@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 13 May 2024 15:04:28 -0700
-Message-ID: <CAF6AEGvm2VVQR7h2S5eM212q+AvrkdhsphAetp0ebM=t7PvN0Q@mail.gmail.com>
-Subject: Re: dma-buf sg mangling
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Zack Rusin <zack.rusin@broadcom.com>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,76 +88,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 13, 2024 at 11:27=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 10.05.24 um 18:34 schrieb Zack Rusin:
-> > Hey,
-> >
-> > so this is a bit of a silly problem but I'd still like to solve it
-> > properly. The tldr is that virtualized drivers abuse
-> > drm_driver::gem_prime_import_sg_table (at least vmwgfx and xen do,
-> > virtgpu and xen punt on it) because there doesn't seem to be a
-> > universally supported way of converting the sg_table back to a list of
-> > pages without some form of gart to do it.
->
-> Well the whole point is that you should never touch the pages in the
-> sg_table in the first place.
->
-> The long term plan is actually to completely remove the pages from that
-> interface.
->
-> > drm_prime_sg_to_page_array is deprecated (for all the right reasons on
-> > actual hardware) but in our cooky virtualized world we don't have
-> > gart's so what are we supposed to do with the dma_addr_t from the
-> > imported sg_table? What makes it worse (and definitely breaks xen) is
-> > that with CONFIG_DMABUF_DEBUG the sg page_link is mangled via
-> > mangle_sg_table so drm_prime_sg_to_page_array won't even work.
->
-> XEN and KVM were actually adjusted to not touch the struct pages any more=
-.
->
-> I'm not sure if that work is already upstream or not but I had to
-> explain it over and over again why their approach doesn't work.
->
-> > The reason why I'm saying it's a bit of a silly problem is that afaik
-> > currently it only affects IGT testing with vgem (because the rest of
-> > external gem objects will be from the virtualized gpu itself which is
-> > different). But do you have any ideas on what we'd like to do with
-> > this long term? i.e. we have a virtualized gpus without iommu, we have
-> > sg_table with some memory and we'd like to import it. Do we just
-> > assume that the sg_table on those configs will always reference cpu
-> > accessible memory (i.e. if it's external it only comes through
-> > drm_gem_shmem_object) and just do some horrific abomination like:
-> > for (i =3D 0; i < bo->ttm->num_pages; ++i) {
-> >      phys_addr_t pa =3D dma_to_phys(vmw->drm.dev, bo->ttm->dma_address[=
-i]);
-> >      pages[i] =3D pfn_to_page(PHYS_PFN(pa));
-> > }
-> > or add a "i know this is cpu accessible, please demangle" flag to
-> > drm_prime_sg_to_page_array or try to have some kind of more permanent
-> > solution?
->
-> Well there is no solution for that. Accessing the underlying struct page
-> through the sg_table is illegal in the first place.
->
-> So the question is not how to access the struct page, but rather why do
-> you want to do this?
+On Fri, 10 May 2024 16:21:11 -0700 Mina Almasry wrote:
+> Device Memory TCP
 
-It _think_ Zack is trying to map guest paged back buffers to the host
-GPU?  Which would require sending the pfn's in some form to the host
-vmm..
-
-virtgpu goes the other direction with mapping host page backed GEM
-buffers to guest as "vram" (although for various reasons I kinda want
-to go in the other direction)
-
-BR,
--R
-
-> Regards,
-> Christian.
->
-> >
-> > z
->
+Sorry Mina, this is too big to apply during the merge window :(
+-- 
+pw-bot: defer
