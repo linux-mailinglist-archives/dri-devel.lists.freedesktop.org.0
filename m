@@ -2,162 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 274688C44AC
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 17:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F009F8C4502
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 18:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39FD010E2C5;
-	Mon, 13 May 2024 15:58:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84B2610E154;
+	Mon, 13 May 2024 16:23:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H+s0afhI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k2tYHHpH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDDD210E2C5;
- Mon, 13 May 2024 15:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715615900; x=1747151900;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=Fn2EXiAI8FMWCEstqovKijm1dVrrBRM7l6SS5ZtFe9E=;
- b=H+s0afhIzVaHW8qSwpYK2mBsk46jbfew5UmXb3OJrIXHFtRh+mt+zJLT
- qve7ixHN17KnEXLf6DQBt7v7k3slkYSZQ5MHon/MJd6BuB+TqERz0epJy
- iCzFlhrE139IEImrBuDhbtCgNRdVKv7imA9Kls/x4do7KwGTyZ+4dUnK+
- feMYNm55ytG4hJRcTQFWBE+18BJRe+58H1uUqq2Uon1FbcCzLxo3gS+Ih
- PNZ79+nZLnKeIdp1doAomO0huZoOnpxf2c4yWMR7VAe7shwhZAbDzavyn
- 7izgozrhFpvbrBH1Tk+Zqfp6rpEy7B9dsxT8YLbbkUh37l+xl7mu8EJAU A==;
-X-CSE-ConnectionGUID: rLYJ8jIIReGu+fcuBIZ8TA==
-X-CSE-MsgGUID: dMQ6NW9TSg6qBePee4pyKg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="22707135"
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="22707135"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 08:58:19 -0700
-X-CSE-ConnectionGUID: hqShVNvWTc6ON+b8Ez+Pkw==
-X-CSE-MsgGUID: nL7APDTuR26Li6o3xyb9vw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="34809210"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 13 May 2024 08:58:19 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 13 May 2024 08:58:18 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 13 May 2024 08:58:18 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 13 May 2024 08:58:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NZl7CjXOu+LjDgrl+Ns6T23myMH8uz9Fe3cZ/URKcm5u2SSWHphy19cFnhg6RoKeTWChgttn9qO54WSve/P2lDecBaxyRaL1y2g198YazLV4RFRP81T+0F9sfQUzYA8CZ14nY1fY3sJM4eSxyJg0I2/mmlE868ulvBy17dfS2n+DwOTUtb0u4g649RTHYRBh6ctUQS6q4T/79Uuk8hSl36qqQvX2fymbifvF3EZ2G2FcbIXRuOYSC9ELKhzmEbYNq7kl8aYlU7Gcilabh6N1/fIuiDWa5XbnYpA+dovnjyBMSPG5vv8euB6ciaP9afeyjzHxG4rh9IGvfhiZ7reOPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xBITgpUil1EJWaIPdnWwbClxuoz3aGvsRysj4n6u24s=;
- b=MAPjskOD5l4DE7RTcbHik96rgsjbEcJqT43cazEe4zV+1armv1H1jQc8LSJMKHYV+9AcZ58Zc3DKWlx8Y2kXhhjwosjMZNnsmIztuOhZcVpI+kQRTduTT83Kl0OiKhNKoo+qbOVosCg2Q8R+ho5x6H7rcZyScAw6LW7/ZbEKFwuBAGmbU/ae4OFvJBnnfJmZqLP8F1Q/msVmqzGVtuJvPszGGh6896QZf8BGnginllFF2QSCZWWjcblQeBIz3dZk+rRxBu/PwUc9Hp4apEnL0o2AYKTmQz04R+n0fSFykq7MKO4JjVEDqnNrkaiXtOHhDGPpDaXhvZuvL5hcILvVgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by CY5PR11MB6344.namprd11.prod.outlook.com (2603:10b6:930:3b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Mon, 13 May
- 2024 15:58:10 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::cf6f:eb9e:9143:f413]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::cf6f:eb9e:9143:f413%5]) with mapi id 15.20.7544.052; Mon, 13 May 2024
- 15:58:08 +0000
-Date: Mon, 13 May 2024 11:58:04 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Deming Wang <wangdeming@inspur.com>
-CC: <airlied@linux.ie>, <daniel@ffwll.ch>, <intel-gfx@lists.freedesktop.org>, 
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/i915/gem/i915_gem_ttm_move: Fix typo
-Message-ID: <ZkI4jD4K_sRliFls@intel.com>
-References: <20240513061451.1627-1-wangdeming@inspur.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240513061451.1627-1-wangdeming@inspur.com>
-X-ClientProxiedBy: MW4PR03CA0095.namprd03.prod.outlook.com
- (2603:10b6:303:b7::10) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A881D10E154
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 16:23:07 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-a599a298990so1133068066b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 09:23:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715617386; x=1716222186; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=do8Ze4h0ioxHWgi223BvWvnwG6lXL2Rpq7UGOO6zuhE=;
+ b=k2tYHHpH6TzqPfkN6AL/LyEDpU1EfMdlAXe7+oZbPdnSW2j1syGmzDrT+J3yv1z7Do
+ WUuI+rAsVtRhXaSkNVOsJWmaIdR/ZP3yPshN/ViRbVKT1vozhEEeg7/3awE5GQPHFcWm
+ xkngwbOdrPZZG3qQ742LFp6giUmZTjl4ey0McdkK8uNKA8hB7kCyZdMyCufoaKyY0bZn
+ aNrTJNiLPA+jpzLMkwQdmpLyganFMlVp4UTtmk7r960YycR690hCNYkxRzELLoNXVm7B
+ R7EYs6YG1r/ikSdfav1FYzmTuMC/8kU3lwAZSh65j7Txu2JJz9qM1HPsukCi/aSYHDkI
+ Aycg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715617386; x=1716222186;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=do8Ze4h0ioxHWgi223BvWvnwG6lXL2Rpq7UGOO6zuhE=;
+ b=EvqFkZ2SopGNH7dk+oK60i5ELKPh4VvPlJa1C/3QS9SB3OigTE0X9aoGA+lUegkwRg
+ 2i6CMHnvJTt136hq39hEKXqfhfIfrVcxruWQJICEOSrHHaiZAmwrMlL2EKABafG0P0Tm
+ wgh2XVs49VUO2RUnttfVeSfqLdYvLJw6PT3gQD69VD/RG7aaaAB4vXC1kxVZV0LfSNJh
+ +dOWh/uVxaKbOoa6RJjzQAW8/y59kf62gI3QOvphoxA2ndb7bj1guvl4P/nQvKnxLpCW
+ VK1Tbqv/ci2mvR/mz3izWdPgfNVQo4/VTSFsm4cnvcwLdzMG/3Dp21nuGqX9nDT+XFOx
+ 69Xg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0dSGjCFxAJ99Ouct3V8kP6GocDocHN60Ar+P0ZCWy5x8CHsMv0oyYYgCdCwagEptaTi7KQqgbPbTTSCU33SBiGlhQ0Cbv6ENv2xtrEAzK
+X-Gm-Message-State: AOJu0YxuKG4PFlUbOFGjYN/UKCIjdgx2JAilGKcP4jq2XwjGZbzwR/R1
+ 3N6/s9sTmJl6HQwWk10X8eYQvtL/rFIJmGAjpaqEc0RcMkhKqC1O
+X-Google-Smtp-Source: AGHT+IHKC6CrHUOjOmuZQsPk6EGTrsHOWj8+gQvMSh7sQSxaD6YJXgmgkBvr6YUSEsKf5bV1e1GGNQ==
+X-Received: by 2002:a17:906:a08:b0:a59:c3e2:712f with SMTP id
+ a640c23a62f3a-a5a2d536941mr627228866b.9.1715617385345; 
+ Mon, 13 May 2024 09:23:05 -0700 (PDT)
+Received: from fedora ([213.94.26.172]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a5a17b016e2sm611980666b.155.2024.05.13.09.23.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 May 2024 09:23:04 -0700 (PDT)
+Date: Mon, 13 May 2024 18:23:02 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Marius Vlad <marius.vlad@collabora.com>
+Cc: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
+ brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
+ mripard@kernel.org, rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
+Subject: Re: [PATCH v6 0/7] Adds support for ConfigFS to VKMS!
+Message-ID: <ZkI-ZjAYCJaMvmQD@fedora>
+References: <ZjCtgSaL50YrS-F-@phenom.ffwll.local>
+ <20240508181744.7030-1-jose.exposito89@gmail.com>
+ <CACmi3jF6Dp3PE8X=T5kTO2+eYJQi7jWACFdmp9jzKxUtcQphnQ@mail.gmail.com>
+ <Zj5JIah0jWnIn2Ix@localhost.localdomain> <ZkHKhtBmyS12i3fH@fedora>
+ <ZkHXS6iBLgRoApNl@xpredator>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|CY5PR11MB6344:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b64c956-4cdb-44dc-3326-08dc73657bba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|1800799015;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?yjqmKFAXgDelM5N5P2g0qn6PI/U/vzG1beODiL2sxOEsKSw53NCu3ycL0Sm0?=
- =?us-ascii?Q?beE6X7p1pWlxQdj1I8DVnXxv9+IaKXmKSKo64XFD43TNJaoZpb3XsUYL4Y9V?=
- =?us-ascii?Q?0933oyVBp3bCh+VjwnXASh/Klkp2oa4S1eGB7Nht+BWrJdtnJQ3Wpij8x651?=
- =?us-ascii?Q?0QJpXOZnludTPige/QnBNAmMzpVq5lL1I1B6GIX+qj1gVnqiKO9L3b3aW8dA?=
- =?us-ascii?Q?bqXXO2d/eqor/f0OqkNV7xFKJAjYKTBOQ7CHvPVzSnM8CU8puyBURYEhtDpL?=
- =?us-ascii?Q?LV1JcmDeTLZ98UM26P3JViBiLHSledzbtgYuNTnuXwxdSvLhVvX7BdLg0DDG?=
- =?us-ascii?Q?/RkRTPgLfNsLvmF154GZSOgcU1CmfIvpjEJrwIVOxhv+sxNIYbGsodswyb6j?=
- =?us-ascii?Q?DE44JwiQClDIgHjUhwLPPIWeMkCfKcHTs5chTd1oGDykgI16rK3JVkwn4Zz4?=
- =?us-ascii?Q?jHxMnSLyoLURwme4zQs2Yasu4EelhVMsfX5UZNFsz7FM+mhQPD1FCMv29Edu?=
- =?us-ascii?Q?JMQnoGnEK/DwY2elfNQWQUBdz8/iXIxKI54qhZvYf0CoVuAOq/1Neuo8hUj2?=
- =?us-ascii?Q?s9JBTIao6/Bwjz8ttyeciXcq97PTa9/JpIJJtca+PCdkcCQ2jffDydl+eq7s?=
- =?us-ascii?Q?xXgEEGFHvU7sQ0b0uxYakV9lfEIZYIxqyzn9+QLBiJGNlNhOuGdmWa718R0t?=
- =?us-ascii?Q?tSn+pQwshBlerAS8r2pBJUbP5ivE2zvxXXQNdyvqZWuqFazCCkTp9IfsSzG4?=
- =?us-ascii?Q?bxIk9+sFHWVmfgqQizlIm2PF6nXeYpoFVXJXVDjFZLBXvPj1sqmh0m8i7zsa?=
- =?us-ascii?Q?7oXVt7/EwFBZGVBk88RavKr30BVShNSxE3z2XFY/drmrnZ3IZcLsr4OQaUj6?=
- =?us-ascii?Q?D7RxeLmz27rKM8cseQwFgfROLsZZJJkpVMDbNoc+8UYKJ5w3s0Qwz8H4w6qB?=
- =?us-ascii?Q?JqOq9UX8yUgzYwilaryvejb8AZltO8cYS7Z61FRG17aw5/ftX70u09CcVCfj?=
- =?us-ascii?Q?atSlm9Cmva5gQ/1C+0jRKL4lEwKjMzchqzcO1g6OySUle8DfjvxnXbZWdyhO?=
- =?us-ascii?Q?zgje57+OBriBJQeqavdNFmxn64v1nO5MehmeFqCry1ub5BWT6yNduBTaUV6H?=
- =?us-ascii?Q?svQAVSGNx8/N0n28gfwZQykHr8XKdg5jCpIq2q5nHxJeOgf3fuxX3AqYIkmS?=
- =?us-ascii?Q?jPmEIfCW6H/BEhwDQDmsLpXDMzbLGDs7sAJeh3lXDOuxYOSX1ks5J7j+31Mc?=
- =?us-ascii?Q?5ucYMvYEuRTE+C3xQl2K93RVgYtjl8rivB+x4DrUbA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(366007)(1800799015); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YUBAfvBWhhnTpyEGnbDYDQMIgv8BPflTZrMnB8DgLNAvU+mjmLUJAFI9tKzK?=
- =?us-ascii?Q?SzhGVS8l3F6dTfyMWDcyoGJtWeafqH1nXV5vP6fz2/Z2TuOPVcNDORf7BbY8?=
- =?us-ascii?Q?loQVNeCI9XWlXQqIZ5cFtnPiZ8ymwrtT0QIxdoJOxNNLYJKbIRJEZvimwOcG?=
- =?us-ascii?Q?+Evvg3abp50Of3gMDTiq2meZPEt/YGtHzJrNUmGgGSOJHml7AENTNd0kFeG+?=
- =?us-ascii?Q?DNZhpGc7MucxH1EvgnvgenmbO2sLp6mZYdaiHUkhXAZPDOSNZ0zYD8wOiIF6?=
- =?us-ascii?Q?p98iW6CtGGXjK93hBZ8KNIcXeB9KvVka4A5+a8uvduTwHynYPeomBD9tSPqi?=
- =?us-ascii?Q?SXmPebQ0LtU65w6pCmb3ZGu8T70urs1hpYX00DbbOxX6ZjIFdKnj+k4CCHuT?=
- =?us-ascii?Q?6VyS/GkOSQzY3o9t+DmZrRsjWb9/xkiyM68nOc4hfox55Sardhl7EpzoM9N4?=
- =?us-ascii?Q?Aad47dzTb5t6vFok9JyBiw6+3djVqoA7CSC5MLZQ9Kqv/X5hitYxp2hDyvb0?=
- =?us-ascii?Q?RdZ2MbKwSr56RGy906yWwlfZdHSCTCar0qx4aVrYZt7Dc58oj4IH9h6ZJRmR?=
- =?us-ascii?Q?ZWdElrfGBjfFXcsvlXylKlYzmMJMm59UZQHS0dkEKPlDyJ3tXp49G3eirto9?=
- =?us-ascii?Q?jwAXD3q9wbwyZxWs87Y1QP2/MnzOY1AvmggceiuPIutrC3HnpdzQfTV82YIX?=
- =?us-ascii?Q?TcPLoDmePcj8da+xjjmTWCjQI4R5scVv2HPN8C/U9nMTgun5DkUOqj+fmf4u?=
- =?us-ascii?Q?KHT3V70Nwov4TXyOQqn9kWzRCWUsS/4wkn9QKwpi9IZ0aRSpLMFBTDAR+3Hg?=
- =?us-ascii?Q?dEVCrPQoFf/xjLuPLBWgg4dWL+tI15xmO5bMQx8FWMzSkkJM9i4AEmUkiqGf?=
- =?us-ascii?Q?kpK8W55RQW7tvjOsCMhy0x7pIe9WnCjW3xMpezHXn2wjFp0z7K1PXsrb2jbG?=
- =?us-ascii?Q?5BkbCB526Z9JKpJhcXmvh46F6AYWQ+n8RWgmPN6T4cG0JG3VtfPRKLt17/iG?=
- =?us-ascii?Q?G9Fgwbn4+7UXLvaMGT4kov8k7HJre3E0GW26Gle8SKBwT7LmzCck9AEGhRLm?=
- =?us-ascii?Q?4sCWJKRuKagZz/1sZKgMsGBfr0Afkz8gBpkbv9+3rMi5KMlQi3Ih4mKEHHVK?=
- =?us-ascii?Q?Fz0dwck5EQa/sbfHultAvAhN8kNuORLJdcIry5TfsJynxQd0Nhf6mY0iBC0l?=
- =?us-ascii?Q?wsxGClI7aamFtpvDlSttfpcmdOXl+7ysPwDLr5kp2Sf1rC4Jf8Cjm5awfsZI?=
- =?us-ascii?Q?BREoncTQBBVVK1wn+VqQ7+xjpEKyBmcqFHsbCRZ37Y5ZXnjlNP5b+4XAUoI3?=
- =?us-ascii?Q?iEOYjNqxircQ98NMBK0LKarvAExsBvErE5DeoyY4owSrDU0hXfx34TvZORKF?=
- =?us-ascii?Q?Jks4gUz0fO/aP9QhSmqYGguVGL8fBg71sNmwwmTYcHp6VVuFLTl2o4AF+eVv?=
- =?us-ascii?Q?UJ9UhFXVmcvn6WVkM/A3FypZtTGXB+A2fwjCHmLDu1wqaQNwF/kcydqEvfrn?=
- =?us-ascii?Q?P7D755LGNRAjrPRmL9g22ksNBNN3giJuilp+k83JAK+HpJaInxeDbWRwYHH7?=
- =?us-ascii?Q?cB1Frk84QZEzrID12t4gN/aW+ZV3QlaqbJpbd0yx?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b64c956-4cdb-44dc-3326-08dc73657bba
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2024 15:58:08.5662 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VCiEptSQvGe0NVIr5ZjAsLj6mOBtMqVrRKheCPTQs/CtTV4xrKfUFS2obuwzylkinjrVBSlxhoMw5dCGoKd6Aw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6344
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZkHXS6iBLgRoApNl@xpredator>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,34 +92,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 13, 2024 at 02:14:51AM -0400, Deming Wang wrote:
-> The mapings should be replaced by mappings.
+On Mon, May 13, 2024 at 12:03:07PM +0300, Marius Vlad wrote:
+> Hi all,
+> On Mon, May 13, 2024 at 10:08:38AM +0200, José Expósito wrote:
+> > On Fri, May 10, 2024 at 06:19:45PM +0200, Louis Chauvet wrote:
+> > > Le 09/05/24 - 18:18, Jim Shargo a écrit :
+> > > > Sima--thanks SO MUCH for going through with everything leaving a
+> > > > detailed review. I am excited to go through your feedback.
+> > > > 
+> > > > It makes me extremely happy to see these patches get people excited.
+> > > > 
+> > > > They've bounced between a few people, and I recently asked to take
+> > > > them over again from the folks who were most recently looking at them
+> > > > but haven't since had capacity to revisit them. I'd love to contribute
+> > > > more but I am currently pretty swamped and I probably couldn't
+> > > > realistically make too much headway before the middle of June.
+> > > > 
+> > > > José--if you've got capacity and interest, I'd love to see this work
+> > > > get in! Thanks!! Please let me know your timeline and if you want to
+> > > > split anything up or have any questions, I'd love to help if possible.
+> > > > But most important to me is seeing the community benefit from the
+> > > > feature.
+> > > > 
+> > > > And (in case it got lost in the shuffle of all these patches) the IGT
+> > > > tests really make it much easier to develop this thing. Marius has
+> > > > posted the most recent patches:
+> > > > https://lore.kernel.org/igt-dev/?q=configfs
+> > > > 
+> > > > Thanks!
+> > > > -- Jim
+> > > > 
+> > > > 
+> > > > 
+> > > > On Wed, May 8, 2024 at 2:17 PM José Expósito <jose.exposito89@gmail.com> wrote:
+> > > > >
+> > > > > Hi everyone,
+> > > > >
+> > > > > I wasn't aware of these patches, but I'm really glad they are getting
+> > > > > some attention, thanks a lot for your review Sima.
+> > > > >
+> > > > > Given that it's been a while since the patches were emailed, I'm not
+> > > > > sure if the original authors of the patches could implement your
+> > > > > comments. If not, I can work on it. Please let me know.
+> > > > >
+> > > > > I'm working on a Mutter feature that'd greatly benefit from this uapi
+> > > > > and I'm sure other compositors would find it useful.
+> > > > >
+> > > > > I'll start working on a new version in a few days if nobody else is
+> > > > > already working on it.
+> > > > >
+> > > > > Best wishes,
+> > > > > José Expósito
+> > > 
+> > > Hi all!
+> > > 
+> > > Very nice to see other people working on this subject. As the series 
+> > > seemed inactive, I started two weeks ago to rebase it on top of [1]. I 
+> > > also started some work to use drmm_* helpers instead of using lists in 
+> > > vkms. I currently struggle with a deadlock during rmmod.
+> > > 
+> > > I need to clean my commits, but I can share a WIP version.
+> > 
+> > Hi Louis,
+> > 
+> > If you could share a RFC/WIP series it would be awesome!
+> > 
+> > Since you are already working on the kernel patches (and I guess IGT?),
+> > I'll start working on a libdrm high level API to interact with VKMS from
+> > user-space on top of your patches. I'll share a link as soon as I have a
+> > draft PR.
 > 
-> Signed-off-by: Deming Wang <wangdeming@inspur.com>
+> Just out of curiosity what API would that be? These should fairly
+> simple that they can be configured from a shell script 
+> (mount/mkdir/rm/echo/umount). Believe should be easy enough to test stuff with 
+> bunch scripts like that.
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+My plan is to add a very thin C API around mkdir/rmdir/etc.
 
-and pushed to drm-intel-gt-next
-
-thanks for the patch
-
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+It is true that VKMS can be configure easily using a bash script; however,
+compositors with test suites written in C (or with bindings to libdrm) would
+have to write similar wrappers around the mkdir/rmdir/etc calls.
+I think that it could be beneficial for them to have a shared wrapper available
+in libdrm.
+ 
+> Perphas landing the I-G-T tests first (assuming we're settled 
+> on how exactly this would work) might be of greated help to get a green lit 
+> the kernel driver side? Skip if vkms/configfs/something else that tells
+> us VKMS doesn't have ConfigFS eneabled, and run it when that is on.
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> index 7078af2f8f79..03b00a03a634 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> @@ -155,7 +155,7 @@ void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
->   * @bo: The ttm buffer object.
->   *
->   * This function prepares an object for move by removing all GPU bindings,
-> - * removing all CPU mapings and finally releasing the pages sg-table.
-> + * removing all CPU mappings and finally releasing the pages sg-table.
->   *
->   * Return: 0 if successful, negative error code on error.
->   */
-> -- 
-> 2.31.1
+> The lastest iteration was shared by Jim at 
+> https://lore.kernel.org/igt-dev/20230901092819.16924-1-marius.vlad@collabora.com/
 > 
+> That way sub-sequent BAT CI would pick up issues, and can also used
+> independently by Louis. Should also divide the work-load evenly with
+> Louis focusing on the just the driver. Happy to review and test it.
+> 
+> > 
+> > > Maybe we can discuss a bit the comment from Daniel (split init between 
+> > > default/configfs, use or not a real platform device...)
+> > > 
+> > > For the split, I think the first solution (struct vkms_config) can be 
+> > > easier to understand and to implement, for two reasons:
+> > > - No need to distinguish between the "default" and the "configfs" devices 
+> > >   in the VKMS "core". All is managed with only one struct vkms_config.
+> > > - Most of the lifetime issue should be gone. The only thing to 
+> > >   synchronize is passing this vkms_config from ConfigFS to VKMS.
+> > 
+> > I agree, this seems like the easiest solution.
+> > 
+> > > The drawback of this is that it can become difficult to do the "runtime" 
+> > > configuration (today only hotplug, but I plan to add more complex stuff 
+> > > like DP emulation, EDID selection, MST support...). Those configuration 
+> > > must be done "at runtime" and will require a strong synchronization with 
+> > > the vkms "core".
+> > > 
+> > > Maybe we can distinguish between the "creation" and the "runtime 
+> > > configuration", in two different configFS directory? Once a device is 
+> > > created, it is moved to the "enabled" directory and will have a different 
+> > > set of attribute (connection status, current EDID...)
+> > 
+> > Once the device is enabled (i.e, `echo 1 > /config/vkms/my-device/enabled`),
+> > would it make sense to use sysfs instead of another configfs directory?
+> > The advantage is that with sysfs the kernel controls the lifetime of the
+> > objects and I think it *might* simplify the code, but I'll need to write a
+> > proof of concept to see if this works.
+> Can indeed sysfs be used similar to ConfigFS? To me it sounds like sysfs is a
+> view into a kernel objects, mostly for viewing and slight modifications
+> but not manipulating, adding/removing, on the fly, various things. Sort
+> of see it the other way around, device enabled with sysfs but
+> configuration happens through ConfigFS. At least from a user-space pov.
+> > 
+> > > For the platform driver part, it seems logic to me to use a "real" 
+> > > platform driver and a platform device for each pipeline, but I don't have 
+> > > the experience to tell if this is a good idea or not.
+> > 
+> > I'm afraid I don't know which approach could work better. Trusting Sima and
+> > Maíra on this one.
+> > 
+> > Jose
+> > 
+> > > [1]: https://lore.kernel.org/dri-devel/20240409-yuv-v6-0-de1c5728fd70@bootlin.com/
+> > > 
+> > > Thanks,
+> > > Louis Chauvet
+> > > 
+> > > -- 
+> > > Louis Chauvet, Bootlin
+> > > Embedded Linux and Kernel engineering
+> > > https://bootlin.com
+
+
