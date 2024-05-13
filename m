@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED50D8C3C7C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 09:50:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0592A8C3C7E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 09:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D78410E4C1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3A1410E4C4;
 	Mon, 13 May 2024 07:50:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QTdchuoW";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hTkG8ejG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
  [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD9910E4AA
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 07:50:50 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A430F2000F;
- Mon, 13 May 2024 07:50:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68A1F10E4B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 07:50:52 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 596B420011;
+ Mon, 13 May 2024 07:50:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1715586649;
+ t=1715586651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5HjuSxb5tRuJlwNWUcd9b7+gNDJthW7TUH2T12QgbBU=;
- b=QTdchuoWpNDopzzioqN1xO5dZWc37CzTSAH4aXUnVcXvJYCdyYTdDVE36GZdHw9PTouGbC
- MdLWXfazsGqqD7lxRJcv8fkCsXf5FbD9C/097OT09W0UsxxmitcTPCQAa5kpnGmyYEKXxx
- 30pHiwjiWvL/VuVV+DEHM5ZtscsPZoSpwX5FpbNJGweg5o/Xfjy8VG/WNb+Ant+CkI1RTC
- LQWiT38QXy68L6OYhuxfbcEiWGDrfDSP4TpnOnQxmikSa2PKRW+Xck94pH3tQlpgr06y8c
- oAjm6Q3wFOmP5jRqXErFQmgUfuYUSUbUc/fZT4KrEOHjuYaXCbDwx7ltYQfW9Q==
+ bh=W1vS9kPXOJJ2ueN/P4vWx95hqkRfPNbDDLIVABCEPTk=;
+ b=hTkG8ejGsfs3X6Qrpwaj6olcIUNqbJrqRcMazFnLtr555V4B2E1ImCTYqPFLnkoavDDd5o
+ vvHlUZKTjgdtbOt46sBQGT7UzL1EbssYE1x3kbKzE4sXrRJMLDAtsXFFtMTiqqw09EIdUp
+ 45uJcKfXkkRiTkVT9+24uszuzrHRbu2vFCHjw2TDL+8UEqxHQRuwkblNjlF6siY53wQave
+ vRuuwHUzi5A2Wkh5ziKHvYm/+M0e37YCp8v/FeQqOoG3QoF8GBo5PpKup9Aer4gyZK/PJB
+ fQRg/SPO+jU1c9xpH37L5fGna443Vz9jqbGF8fNwhtO3KBbEKGwfpVUaaIsoWA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 13 May 2024 09:50:30 +0200
-Subject: [PATCH v7 09/17] drm/vkms: Introduce pixel_read_direction enum
+Date: Mon, 13 May 2024 09:50:31 +0200
+Subject: [PATCH v7 10/17] drm/vkms: Re-introduce line-per-line composition
+ algorithm
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240513-yuv-v7-9-380e9ffec502@bootlin.com>
+Message-Id: <20240513-yuv-v7-10-380e9ffec502@bootlin.com>
 References: <20240513-yuv-v7-0-380e9ffec502@bootlin.com>
 In-Reply-To: <20240513-yuv-v7-0-380e9ffec502@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -53,21 +54,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
  nicolejadeyee@google.com, Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5034;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=30777;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=AZnpNZYwa9/BWX42T4A3ZiOjur47FNwzryKQsxVdO6k=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmQcZDtqUy+QWYnmFFJgVMCSfiq91/LLUdr9jdO
- E03tiZywxmJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZkHGQwAKCRAgrS7GWxAs
- 4tlDEAC5Cl5bhT1Frlhp9l2nTZ5jg0DhWY/JrXO02ef4oVLOVXwmwzZ2YkVHGIEEh+ujV+NlZe/
- yVSNe/dhWUOgqk1aFT6nZThpyE8nQa9Qhw2ryEL4lm/6WCuGA4pnSAiiUEVjnnm9nQ17YyL/sIM
- xwFb9PnzWGQEy25xGZUenumrmMVkeuEgk8ajH9zU3xuFCW8yHHyKgEZeoAyS38FPSQuvzYk7mks
- Io8fyhgWcnTVcqDXfzht0LBBMxSMKXIK5yEGob5GabJQn72qBjFX9YnDkKZU4NLvjPq+6pCtSX8
- bJZtYxkEQWvlT2cMMX22eGETiHQPbcihtCGzhHRdhI9jkNVQzwLnGEYwcEAHiKpU/DS+e7MsKZe
- kc6E7WKKVD7oD0MbVKR9w1dz8Bzu3iZ4V3A83C6TMIXszV0tfgxlbHNOk5K3OYPkGdZD2ppYK7W
- nvAASlP3FWaQaW8r++AzdH8C/uEYQqrbEbfY9z7lwpjXXmtddjLcbQlbHuTgPoE/tz5q/UkwEWR
- wORSkoqwwuBwoENHlVTLXFwwaXUnVqzihw0yEou65eAOW3LaO5EIfZJ0vNyiN8Q9PlxYWR/vYa+
- J2/1V97PzY2FXfoMGNYE/3/0PPDtisT2kctHho1q+o+2Jo1+wBKRM/vDcRql3gkOuhw71w93F3M
- FAwOTDGj4cBoE3g==
+ bh=JJWoetCtLaBuULRDBJ7GfhezULrmRLy2K6wAhorCWNI=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmQcZDEQJ8JSed7ntjrO8296Nfc9FSDtmIpW1e3
+ sOHHNb9lwWJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZkHGQwAKCRAgrS7GWxAs
+ 4sjBD/4qV/AoQ4bWC4aHnOKbESBOVRNMAGOiAxXVMXzKI3ya6JHlaFK6/vSGrN7728FblJMxGEQ
+ 8Y4cJzDoA+pUCyFkcDRyHy0w2uxuPvBgfLDNymRoa3hju1xD0xaiAb1Kq00G41UqtxXGABDD9TR
+ JqwW4TMxYrr48eoXQHeTB7DCZ2Vu2E9adZfR7Q4VwWtf5xk4Z6+wWGXSEJ/Mm/pyZjMVzbJi6VY
+ U+WzX/wwmqfnOYoR2i+1+PylluIiAXB4JfKtG2vITrKG6gH/XEgyr4MsoUPhO9o561inIoupgha
+ 97skUp8mj3Zwwwrh7tMoINvEba3tdRoDaKUdE9vBHW2xcOKEw+fTE4ZnrRde7nQK91GmKmvxx2n
+ PZYtp/4yqV6hGsR1QeytW0dKHzL1SFdSJrNpQ5pFDeQTRHhkG7Y6Gp6TN30mONo8M9wnWHtImNa
+ m3chgenIWgbQRWpxbcxW+bNBuEwk/mrph1skXamqaMoVE2hEFmfW7Dpl91plJAdI9zrEEeEJp18
+ zUqcSL0d544su2Ufg7s9XzdLY0XhGAQkqi6uFi9i2dVWZ0AfudBCPXuOxkWTsqT6K2rqZeUtCPO
+ g/4Bs0IZPJaQtpUBt4hvHzpX04XfcownbnoobHIY4J/UMZjv515v5iv8a4X/fZii0prL2dhAjSR
+ 895eaQ0gy2+EgMA==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -86,140 +87,784 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pixel_read_direction enum is useful to describe the reading direction
-in a plane. It avoids using the rotation property of DRM, which not
-practical to know the direction of reading.
-This patch also introduce two helpers, one to compute the
-pixel_read_direction from the DRM rotation property, and one to compute
-the step, in byte, between two successive pixel in a specific direction.
+Re-introduce a line-by-line composition algorithm for each pixel format.
+This allows more performance by not requiring an indirection per pixel
+read. This patch is focused on readability of the code.
+
+Line-by-line composition was introduced by [1] but rewritten back to
+pixel-by-pixel algorithm in [2]. At this time, nobody noticed the impact
+on performance, and it was merged.
+
+This patch is almost a revert of [2], but in addition efforts have been
+made to increase readability and maintainability of the rotation handling.
+The blend function is now divided in two parts:
+- Transformation of coordinates from the output referential to the source
+referential
+- Line conversion and blending
+
+Most of the complexity of the rotation management is avoided by using
+drm_rect_* helpers. The remaining complexity is around the clipping, to
+avoid reading/writing outside source/destination buffers.
+
+The pixel conversion is now done line-by-line, so the read_pixel_t was
+replaced with read_pixel_line_t callback. This way the indirection is only
+required once per line and per plane, instead of once per pixel and per
+plane.
+
+The read_line_t callbacks are very similar for most pixel format, but it
+is required to avoid performance impact. Some helpers for color
+conversion were introduced to avoid code repetition:
+- *_to_argb_u16: perform colors conversion. They should be inlined by the
+  compiler, and they are used to avoid repetition between multiple variants
+  of the same format (argb/xrgb and maybe in the future for formats like
+  bgr formats).
+
+This new algorithm was tested with:
+- kms_plane (for color conversions)
+- kms_rotation_crc (for rotations of planes)
+- kms_cursor_crc (for translations of planes)
+- kms_rotation (for all rotations and formats combinations) [3]
+The performance gain was mesured with:
+- kms_fb_stress
+
+TODO: insert performance numbers once this patch is reviewed
+
+[1]: commit 8ba1648567e2 ("drm: vkms: Refactor the plane composer to accept
+     new formats")
+     https://lore.kernel.org/all/20220905190811.25024-7-igormtorrente@gmail.com/
+[2]: commit 322d716a3e8a ("drm/vkms: isolate pixel conversion
+     functionality")
+     https://lore.kernel.org/all/20230418130525.128733-2-mcanal@igalia.com/
+[3]: https://lore.kernel.org/igt-dev/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com/
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_composer.c | 46 ++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_drv.h      | 11 +++++++++
- drivers/gpu/drm/vkms/vkms_formats.c  | 30 +++++++++++++++++++++++
- 3 files changed, 87 insertions(+)
+ drivers/gpu/drm/vkms/vkms_composer.c | 235 +++++++++++++++++++++++++++-------
+ drivers/gpu/drm/vkms/vkms_drv.h      |  28 ++--
+ drivers/gpu/drm/vkms/vkms_formats.c  | 240 +++++++++++++++++++++--------------
+ drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
+ drivers/gpu/drm/vkms/vkms_plane.c    |   5 +-
+ 5 files changed, 352 insertions(+), 158 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 45b111c74884..fb4967a00398 100644
+index fb4967a00398..0f2b90234d3a 100644
 --- a/drivers/gpu/drm/vkms/vkms_composer.c
 +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -159,6 +159,52 @@ static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buff
+@@ -29,8 +29,8 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+  * @x_start: The start offset
+  * @pixel_count: The number of pixels to blend
+  *
+- * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
+- * output_buffer.
++ * The pixels @x_start..@x_start+@pixel_count in stage_buffer are blended at
++ * @x_start..@x_start+@pixel_count in output_buffer.
+  *
+  * The current DRM assumption is that pixel color values have been already
+  * pre-multiplied with the alpha channel values. See more
+@@ -41,7 +41,7 @@ static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
+ 				struct line_buffer *output_buffer, int x_start, int pixel_count)
+ {
+ 	struct pixel_argb_u16 *out = &output_buffer->pixels[x_start];
+-	const struct pixel_argb_u16 *in = stage_buffer->pixels;
++	const struct pixel_argb_u16 *in = &stage_buffer->pixels[x_start];
+ 
+ 	for (int i = 0; i < pixel_count; i++) {
+ 		out[i].a = (u16)0xffff;
+@@ -51,33 +51,6 @@ static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
  	}
  }
  
+-static int get_y_pos(struct vkms_frame_info *frame_info, int y)
+-{
+-	if (frame_info->rotation & DRM_MODE_REFLECT_Y)
+-		return drm_rect_height(&frame_info->rotated) - y - 1;
+-
+-	switch (frame_info->rotation & DRM_MODE_ROTATE_MASK) {
+-	case DRM_MODE_ROTATE_90:
+-		return frame_info->rotated.x2 - y - 1;
+-	case DRM_MODE_ROTATE_270:
+-		return y + frame_info->rotated.x1;
+-	default:
+-		return y;
+-	}
+-}
+-
+-static bool check_limit(struct vkms_frame_info *frame_info, int pos)
+-{
+-	if (drm_rotation_90_or_270(frame_info->rotation)) {
+-		if (pos >= 0 && pos < drm_rect_width(&frame_info->rotated))
+-			return true;
+-	} else {
+-		if (pos >= frame_info->rotated.y1 && pos < frame_info->rotated.y2)
+-			return true;
+-	}
+-
+-	return false;
+-}
+ 
+ static void fill_background(const struct pixel_argb_u16 *background_color,
+ 			    struct line_buffer *output_buffer)
+@@ -205,6 +178,183 @@ static enum pixel_read_direction direction_for_rotation(unsigned int rotation)
+ 	return READ_LEFT_TO_RIGHT;
+ }
+ 
 +/**
-+ * direction_for_rotation() - Get the correct reading direction for a given rotation
++ * clamp_line_coordinates() - Compute and clamp the coordinate to read and write during the blend
++ * process.
 + *
-+ * @rotation: Rotation to analyze. It correspond the field @frame_info.rotation.
++ * @direction: direction of the reading
++ * @current_plane: current plane blended
++ * @src_line: source line of the reading. Only the top-left coordinate is used. This rectangle
++ * must be rotated and have a shape of 1*pixel_count if @direction is vertical and a shape of
++ * pixel_count*1 if @direction is horizontal.
++ * @src_x_start: x start coordinate for the line reading
++ * @src_y_start: y start coordinate for the line reading
++ * @dst_x_start: x coordinate to blend the read line
++ * @pixel_count: number of pixels to blend
 + *
-+ * This function will use the @rotation setting of a source plane to compute the reading
-+ * direction in this plane which correspond to a "left to right writing" in the CRTC.
-+ * For example, if the buffer is reflected on X axis, the pixel must be read from right to left
-+ * to be written from left to right on the CRTC.
++ * This function is mainly a safety net to avoid reading outside the source buffer. As the
++ * userspace should never ask to read outside the source plane, all the cases covered here should
++ * be dead code.
 + */
-+static enum pixel_read_direction direction_for_rotation(unsigned int rotation)
++static void clamp_line_coordinates(enum pixel_read_direction direction,
++				   const struct vkms_plane_state *current_plane,
++				   const struct drm_rect *src_line, int *src_x_start,
++				   int *src_y_start, int *dst_x_start, int *pixel_count)
 +{
-+	struct drm_rect tmp_a, tmp_b;
-+	int x, y;
++	/* By default the start points are correct */
++	*src_x_start = src_line->x1;
++	*src_y_start = src_line->y1;
++	*dst_x_start = current_plane->frame_info->dst.x1;
++
++	/* Get the correct number of pixel to blend, it depends of the direction */
++	switch (direction) {
++	case READ_LEFT_TO_RIGHT:
++	case READ_RIGHT_TO_LEFT:
++		*pixel_count = drm_rect_width(src_line);
++		break;
++	case READ_BOTTOM_TO_TOP:
++	case READ_TOP_TO_BOTTOM:
++		*pixel_count = drm_rect_height(src_line);
++		break;
++	}
 +
 +	/*
-+
-+	 * Points A and B are depicted as zero-size rectangles on the CRTC.
-+	 * The CRTC writing direction is from A to B. The plane reading direction
-+	 * is discovered by inverse-transforming A and B.
-+	 * The reading direction is computed by rotating the vector AB (top-left to top-right) in a
-+	 * 1x1 square.
++	 * Clamp the coordinates to avoid reading outside the buffer
++	 *
++	 * This is mainly a security to avoid reading outside the buffer, the userspace should
++	 * never request to read outside the source buffer.
 +	 */
++	switch (direction) {
++	case READ_LEFT_TO_RIGHT:
++	case READ_RIGHT_TO_LEFT:
++		if (*src_x_start < 0) {
++			*pixel_count += *src_x_start;
++			*dst_x_start -= *src_x_start;
++			*src_x_start = 0;
++		}
++		if (*src_x_start + *pixel_count > current_plane->frame_info->fb->width)
++			*pixel_count = max(0, (int)current_plane->frame_info->fb->width -
++				*src_x_start);
++		break;
++	case READ_BOTTOM_TO_TOP:
++	case READ_TOP_TO_BOTTOM:
++		if (*src_y_start < 0) {
++			*pixel_count += *src_y_start;
++			*dst_x_start -= *src_y_start;
++			*src_y_start = 0;
++		}
++		if (*src_y_start + *pixel_count > current_plane->frame_info->fb->height)
++			*pixel_count = max(0, (int)current_plane->frame_info->fb->height -
++				*src_y_start);
++		break;
++	}
++}
 +
-+	tmp_a = DRM_RECT_INIT(0, 0, 0, 0);
-+	tmp_b = DRM_RECT_INIT(1, 0, 0, 0);
-+	drm_rect_rotate_inv(&tmp_a, 1, 1, rotation);
-+	drm_rect_rotate_inv(&tmp_b, 1, 1, rotation);
++/**
++ * blend_line() - Blend a line from a plane to the output buffer
++ *
++ * @current_plane: current plane to work on
++ * @y: line to write in the output buffer
++ * @crtc_x_limit: width of the output buffer
++ * @stage_buffer: temporary buffer to convert the pixel line from the source buffer
++ * @output_buffer: buffer to blend the read line into.
++ */
++static void blend_line(struct vkms_plane_state *current_plane, int y,
++		       int crtc_x_limit, struct line_buffer *stage_buffer,
++		       struct line_buffer *output_buffer)
++{
++	int src_x_start, src_y_start, dst_x_start, pixel_count;
++	struct drm_rect dst_line, tmp_src, src_line;
 +
-+	x = tmp_b.x1 - tmp_a.x1;
-+	y = tmp_b.y1 - tmp_a.y1;
++	/* Avoid rendering useless lines */
++	if (y < current_plane->frame_info->dst.y1 ||
++	    y >= current_plane->frame_info->dst.y2)
++		return;
 +
-+	if (x == 1 && y == 0)
-+		return READ_LEFT_TO_RIGHT;
-+	else if (x == -1 && y == 0)
-+		return READ_RIGHT_TO_LEFT;
-+	else if (y == 1 && x == 0)
-+		return READ_TOP_TO_BOTTOM;
-+	else if (y == -1 && x == 0)
-+		return READ_BOTTOM_TO_TOP;
++	/*
++	 * dst_line is the line to copy. The initial coordinates are inside the
++	 * destination framebuffer, and then drm_rect_* helpers are used to
++	 * compute the correct position into the source framebuffer.
++	 */
++	dst_line = DRM_RECT_INIT(current_plane->frame_info->dst.x1, y,
++				 drm_rect_width(&current_plane->frame_info->dst),
++				 1);
 +
++	drm_rect_fp_to_int(&tmp_src, &current_plane->frame_info->src);
 +
-+	WARN_ONCE(true, "The inverse of the rotation gives an incorrect direction.");
-+	return READ_LEFT_TO_RIGHT;
++	/*
++	 * [1]: Clamping src_line to the crtc_x_limit to avoid writing outside of
++	 * the destination buffer
++	 */
++	dst_line.x1 = max_t(int, dst_line.x1, 0);
++	dst_line.x2 = min_t(int, dst_line.x2, crtc_x_limit);
++	/* The destination is completely outside of the crtc. */
++	if (dst_line.x2 <= dst_line.x1)
++		return;
++
++	src_line = dst_line;
++
++	/*
++	 * Transform the coordinate x/y from the crtc to coordinates into
++	 * coordinates for the src buffer.
++	 *
++	 * - Cancel the offset of the dst buffer.
++	 * - Invert the rotation. This assumes that
++	 *   dst = drm_rect_rotate(src, rotation) (dst and src have the
++	 *   same size, but can be rotated).
++	 * - Apply the offset of the source rectangle to the coordinate.
++	 */
++	drm_rect_translate(&src_line, -current_plane->frame_info->dst.x1,
++			   -current_plane->frame_info->dst.y1);
++	drm_rect_rotate_inv(&src_line, drm_rect_width(&tmp_src),
++			    drm_rect_height(&tmp_src),
++			    current_plane->frame_info->rotation);
++	drm_rect_translate(&src_line, tmp_src.x1, tmp_src.y1);
++
++	/* Get the correct reading direction in the source buffer. */
++
++	enum pixel_read_direction direction =
++		direction_for_rotation(current_plane->frame_info->rotation);
++
++	/* [2]: Compute and clamp the number of pixel to read */
++	clamp_line_coordinates(direction, current_plane, &src_line, &src_x_start, &src_y_start,
++			       &dst_x_start, &pixel_count);
++
++	if (pixel_count <= 0) {
++		/* Nothing to read, so avoid multiple function calls */
++		return;
++	}
++
++	/*
++	 * Modify the starting point to take in account the rotation
++	 *
++	 * src_line is the top-left corner, so when reading READ_RIGHT_TO_LEFT or
++	 * READ_BOTTOM_TO_TOP, it must be changed to the top-right/bottom-left
++	 * corner.
++	 */
++	if (direction == READ_RIGHT_TO_LEFT) {
++		// src_x_start is now the right point
++		src_x_start += pixel_count - 1;
++	} else if (direction == READ_BOTTOM_TO_TOP) {
++		// src_y_start is now the bottom point
++		src_y_start += pixel_count - 1;
++	}
++
++	/*
++	 * Perform the conversion and the blending
++	 *
++	 * Here we know that the read line (x_start, y_start, pixel_count) is
++	 * inside the source buffer [2] and we don't write outside the stage
++	 * buffer [1].
++	 */
++	current_plane->pixel_read_line(
++		current_plane, src_x_start, src_y_start, direction, pixel_count,
++		&stage_buffer->pixels[dst_x_start]);
++
++	pre_mul_alpha_blend(stage_buffer, output_buffer,
++			    dst_x_start, pixel_count);
 +}
 +
  /**
   * blend - blend the pixels from all planes and compute crc
   * @wb: The writeback frame buffer metadata
+@@ -225,34 +375,25 @@ static void blend(struct vkms_writeback_job *wb,
+ {
+ 	struct vkms_plane_state **plane = crtc_state->active_planes;
+ 	u32 n_active_planes = crtc_state->num_active_planes;
+-	int y_pos, x_dst, pixel_count;
+ 
+ 	const struct pixel_argb_u16 background_color = { .a = 0xffff };
+ 
+-	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
++	int crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
++	int crtc_x_limit = crtc_state->base.crtc->mode.hdisplay;
+ 
+ 	/*
+ 	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
+ 	 * complexity to avoid poor blending performance.
+ 	 *
+-	 * The function vkms_compose_row is used to read a line, pixel-by-pixel, into the staging
+-	 * buffer.
++	 * The function pixel_read_line callback is used to read a line, using an efficient
++	 * algorithm for a specific format, into the staging buffer.
+ 	 */
+-	for (size_t y = 0; y < crtc_y_limit; y++) {
++	for (int y = 0; y < crtc_y_limit; y++) {
+ 		fill_background(&background_color, output_buffer);
+ 
+ 		/* The active planes are composed associatively in z-order. */
+ 		for (size_t i = 0; i < n_active_planes; i++) {
+-			x_dst = plane[i]->frame_info->dst.x1;
+-			pixel_count = min_t(int, drm_rect_width(&plane[i]->frame_info->dst),
+-					    (int)stage_buffer->n_pixels);
+-			y_pos = get_y_pos(plane[i]->frame_info, y);
+-
+-			if (!check_limit(plane[i]->frame_info, y_pos))
+-				continue;
+-
+-			vkms_compose_row(stage_buffer, plane[i], y_pos);
+-			pre_mul_alpha_blend(stage_buffer, output_buffer, x_dst, pixel_count);
++			blend_line(plane[i], y, crtc_x_limit, stage_buffer, output_buffer);
+ 		}
+ 
+ 		apply_lut(crtc_state, output_buffer);
+@@ -260,7 +401,7 @@ static void blend(struct vkms_writeback_job *wb,
+ 		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
+ 
+ 		if (wb)
+-			vkms_writeback_row(wb, output_buffer, y_pos);
++			vkms_writeback_row(wb, output_buffer, y);
+ 	}
+ }
+ 
+@@ -271,7 +412,7 @@ static int check_format_funcs(struct vkms_crtc_state *crtc_state,
+ 	u32 n_active_planes = crtc_state->num_active_planes;
+ 
+ 	for (size_t i = 0; i < n_active_planes; i++)
+-		if (!planes[i]->pixel_read)
++		if (!planes[i]->pixel_read_line)
+ 			return -1;
+ 
+ 	if (active_wb && !active_wb->pixel_write)
 diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 17081effe99a..5d0e87fe50c0 100644
+index 5d0e87fe50c0..dc260527b74b 100644
 --- a/drivers/gpu/drm/vkms/vkms_drv.h
 +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -69,6 +69,17 @@ struct vkms_writeback_job {
- 	pixel_write_t pixel_write;
+@@ -39,7 +39,6 @@
+ struct vkms_frame_info {
+ 	struct drm_framebuffer *fb;
+ 	struct drm_rect src, dst;
+-	struct drm_rect rotated;
+ 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+ 	unsigned int rotation;
+ };
+@@ -80,26 +79,38 @@ enum pixel_read_direction {
+ 	READ_LEFT_TO_RIGHT
  };
  
-+/**
-+ * enum pixel_read_direction - Enum used internaly by VKMS to represent a reading direction in a
-+ * plane.
-+ */
-+enum pixel_read_direction {
-+	READ_BOTTOM_TO_TOP,
-+	READ_TOP_TO_BOTTOM,
-+	READ_RIGHT_TO_LEFT,
-+	READ_LEFT_TO_RIGHT
-+};
++struct vkms_plane_state;
 +
  /**
-  * typedef pixel_read_t - These functions are used to read a pixel in the source frame,
+- * typedef pixel_read_t - These functions are used to read a pixel in the source frame,
++ * typedef pixel_read_line_t - These functions are used to read a pixel line in the source frame,
   * convert it to `struct pixel_argb_u16` and write it to @out_pixel.
+  *
+- * @in_pixel: pointer to the pixel to read
+- * @out_pixel: pointer to write the converted pixel
++ * @plane: plane used as source for the pixel value
++ * @x_start: X (width) coordinate of the first pixel to copy. The caller must ensure that x_start
++ * is non-negative and smaller than @plane->frame_info->fb->width.
++ * @y_start: Y (height) coordinate of the first pixel to copy. The caller must ensure that y_start
++ * is non-negative and smaller than @plane->frame_info->fb->height.
++ * @direction: direction to use for the copy, starting at @x_start/@y_start
++ * @count: number of pixels to copy
++ * @out_pixel: pointer where to write the pixel values. They will be written from @out_pixel[0]
++ * (included) to @out_pixel[@count] (excluded). The caller must ensure that out_pixel have a
++ * length of at least @count.
+  */
+-typedef void (*pixel_read_t)(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel);
++typedef void (*pixel_read_line_t)(const struct vkms_plane_state *plane, int x_start,
++				  int y_start, enum pixel_read_direction direction, int count,
++				  struct pixel_argb_u16 out_pixel[]);
+ 
+ /**
+  * struct vkms_plane_state - Driver specific plane state
+  * @base: base plane state
+  * @frame_info: data required for composing computation
+- * @pixel_read: function to read a pixel in this plane. The creator of a vkms_plane_state must
+- * ensure that this pointer is valid
++ * @pixel_read_line: function to read a pixel line in this plane. The creator of a vkms_plane_state
++ * must ensure that this pointer is valid
+  */
+ struct vkms_plane_state {
+ 	struct drm_shadow_plane_state base;
+ 	struct vkms_frame_info *frame_info;
+-	pixel_read_t pixel_read;
++	pixel_read_line_t pixel_read_line;
+ };
+ 
+ struct vkms_plane {
+@@ -204,7 +215,6 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
+ /* Composer Support */
+ void vkms_composer_worker(struct work_struct *work);
+ void vkms_set_composer(struct vkms_output *out, bool enabled);
+-void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y);
+ void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer *src_buffer, int y);
+ 
+ /* Writeback */
 diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 9a1400ad4db6..e4cc8948e4d5 100644
+index e4cc8948e4d5..d0d26a7747b0 100644
 --- a/drivers/gpu/drm/vkms/vkms_formats.c
 +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -75,6 +75,36 @@ static void packed_pixels_addr(const struct vkms_frame_info *frame_info,
+@@ -134,83 +134,45 @@ static void packed_pixels_addr_1x1(const struct vkms_frame_info *frame_info,
  	*addr = (u8 *)frame_info->map[0].vaddr + offset;
  }
  
-+/**
-+ * get_block_step_bytes() - Common helper to compute the correct step value between each pixel block
-+ * to read in a certain direction.
-+ *
-+ * @fb: Framebuffer to iter on
-+ * @direction: Direction of the reading
-+ * @plane_index: Plane to get the step from
-+ *
-+ * As the returned count is the number of bytes between two consecutive blocks in a direction,
-+ * the caller may have to read multiple pixels before using the next one (for example, to read from
-+ * left to right in a DRM_FORMAT_R1 plane, each block contains 8 pixels, so the step must be used
-+ * only every 8 pixels).
-+ */
-+static int get_block_step_bytes(struct drm_framebuffer *fb, enum pixel_read_direction direction,
-+			       int plane_index)
-+{
-+	switch (direction) {
-+	case READ_LEFT_TO_RIGHT:
-+		return fb->format->char_per_block[plane_index];
-+	case READ_RIGHT_TO_LEFT:
-+		return -fb->format->char_per_block[plane_index];
-+	case READ_TOP_TO_BOTTOM:
-+		return (int)fb->pitches[plane_index];
-+	case READ_BOTTOM_TO_TOP:
-+		return -(int)fb->pitches[plane_index];
-+	}
+-static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y,
+-				 int plane_index)
+-{
+-	int x_src = frame_info->src.x1 >> 16;
+-	int y_src = y - frame_info->rotated.y1 + (frame_info->src.y1 >> 16);
+-	u8 *addr;
+-	int rem_x, rem_y;
+-
+-	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format, plane_index) != 1,
+-		  "%s() only support formats with block_w == 1", __func__);
+-	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format, plane_index) != 1,
+-		  "%s() only support formats with block_h == 1", __func__);
+-
+-	packed_pixels_addr(frame_info, x_src, y_src, plane_index, &addr, &rem_x, &rem_y);
+-
+-	return addr;
+-}
+-
+-static int get_x_position(const struct vkms_frame_info *frame_info, int limit, int x)
+-{
+-	if (frame_info->rotation & (DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_270))
+-		return limit - x - 1;
+-	return x;
+-}
+-
+ /*
+- * The following functions take pixel data from the buffer and convert them to the format
+- * ARGB16161616 in out_pixel.
++ * The following functions take pixel data (a, r, g, b, pixel, ...) and convert them to
++ * &struct pixel_argb_u16
+  *
+- * They are used in the vkms_compose_row() function to handle multiple formats.
++ * They are used in the `read_line`s functions to avoid duplicate work for some pixel formats.
+  */
+ 
+-static void ARGB8888_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
++static struct pixel_argb_u16 argb_u16_from_u8888(int a, int r, int g, int b)
+ {
++	struct pixel_argb_u16 out_pixel;
+ 	/*
+ 	 * The 257 is the "conversion ratio". This number is obtained by the
+ 	 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
+ 	 * the best color value in a pixel format with more possibilities.
+ 	 * A similar idea applies to others RGB color conversions.
+ 	 */
+-	out_pixel->a = (u16)in_pixel[3] * 257;
+-	out_pixel->r = (u16)in_pixel[2] * 257;
+-	out_pixel->g = (u16)in_pixel[1] * 257;
+-	out_pixel->b = (u16)in_pixel[0] * 257;
+-}
++	out_pixel.a = (u16)a * 257;
++	out_pixel.r = (u16)r * 257;
++	out_pixel.g = (u16)g * 257;
++	out_pixel.b = (u16)b * 257;
+ 
+-static void XRGB8888_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+-{
+-	out_pixel->a = (u16)0xffff;
+-	out_pixel->r = (u16)in_pixel[2] * 257;
+-	out_pixel->g = (u16)in_pixel[1] * 257;
+-	out_pixel->b = (u16)in_pixel[0] * 257;
++	return out_pixel;
+ }
+ 
+-static void ARGB16161616_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
++static struct pixel_argb_u16 argb_u16_from_u16161616(int a, int r, int g, int b)
+ {
+-	u16 *pixel = (u16 *)in_pixel;
+-
+-	out_pixel->a = le16_to_cpu(pixel[3]);
+-	out_pixel->r = le16_to_cpu(pixel[2]);
+-	out_pixel->g = le16_to_cpu(pixel[1]);
+-	out_pixel->b = le16_to_cpu(pixel[0]);
+-}
++	struct pixel_argb_u16 out_pixel;
+ 
+-static void XRGB16161616_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+-{
+-	u16 *pixel = (u16 *)in_pixel;
++	out_pixel.a = le16_to_cpu(a);
++	out_pixel.r = le16_to_cpu(r);
++	out_pixel.g = le16_to_cpu(g);
++	out_pixel.b = le16_to_cpu(b);
+ 
+-	out_pixel->a = (u16)0xffff;
+-	out_pixel->r = le16_to_cpu(pixel[2]);
+-	out_pixel->g = le16_to_cpu(pixel[1]);
+-	out_pixel->b = le16_to_cpu(pixel[0]);
++	return out_pixel;
+ }
+ 
+-static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
++static struct pixel_argb_u16 argb_u16_from_RGB565(const u16 *pixel)
+ {
+-	u16 *pixel = (u16 *)in_pixel;
++	struct pixel_argb_u16 out_pixel;
+ 
+ 	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+ 	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+@@ -220,12 +182,27 @@ static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pi
+ 	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+ 	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+ 
+-	out_pixel->a = (u16)0xffff;
+-	out_pixel->r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+-	out_pixel->g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+-	out_pixel->b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
++	out_pixel.a = (u16)0xffff;
++	out_pixel.r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
++	out_pixel.g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
++	out_pixel.b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
 +
-+	return 0;
-+}
++	return out_pixel;
+ }
+ 
++/*
++ * The following functions are read_line function for each pixel format supported by VKMS.
++ *
++ * They read a line starting at the point @x_start,@y_start following the @direction. The result
++ * is stored in @out_pixel and in the format ARGB16161616.
++ *
++ * These functions are very repetitive, but the innermost pixel loops must be kept inside these
++ * functions for performance reasons. Some benchmarking was done in [1] where having the innermost
++ * loop factored out of these functions showed a slowdown by a factor of three.
++ *
++ * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
++ */
 +
  /**
-  * packed_pixels_addr_1x1() - Get the pointer to the block containing the pixel at the given
-  * coordinates
+  * magenta_to_argb_u16() - pixel_read callback which always read magenta
+  *
+@@ -233,42 +210,111 @@ static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pi
+  * It is used to avoid null pointer to be used as a function. In theory, this function should
+  * never be called, except if you found a bug in the driver/DRM core.
+  */
+-static void magenta_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
++static void magenta_to_argb_u16(const struct vkms_plane_state *plane, int x_start,
++			      int y_start, enum pixel_read_direction direction, int count,
++			      struct pixel_argb_u16 out_pixel[])
+ {
+-	out_pixel->a = (u16)0xFFFF;
+-	out_pixel->r = (u16)0xFFFF;
+-	out_pixel->g = 0;
+-	out_pixel->b = (u16)0xFFFF;
++	struct pixel_argb_u16 *end = out_pixel + count;
++
++	while (out_pixel < end) {
++		*out_pixel = argb_u16_from_u8888(255, 255, 0, 255);
++		out_pixel += 1;
++	}
+ }
+ 
+-/**
+- * vkms_compose_row - compose a single row of a plane
+- * @stage_buffer: output line with the composed pixels
+- * @plane: state of the plane that is being composed
+- * @y: y coordinate of the row
+- *
+- * This function composes a single row of a plane. It gets the source pixels
+- * through the y coordinate (see get_packed_src_addr()) and goes linearly
+- * through the source pixel, reading the pixels and converting it to
+- * ARGB16161616 (see the pixel_read() callback). For rotate-90 and rotate-270,
+- * the source pixels are not traversed linearly. The source pixels are queried
+- * on each iteration in order to traverse the pixels vertically.
+- */
+-void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
++static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
++			       enum pixel_read_direction direction, int count,
++			       struct pixel_argb_u16 out_pixel[])
++{
++	struct pixel_argb_u16 *end = out_pixel + count;
++	u8 *src_pixels;
++
++	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
++
++	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
++
++	while (out_pixel < end) {
++		u8 *px = (u8 *)src_pixels;
++		*out_pixel = argb_u16_from_u8888(px[3], px[2], px[1], px[0]);
++		out_pixel += 1;
++		src_pixels += step;
++	}
++}
++
++static void XRGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
++			       enum pixel_read_direction direction, int count,
++			       struct pixel_argb_u16 out_pixel[])
++{
++	struct pixel_argb_u16 *end = out_pixel + count;
++	u8 *src_pixels;
++
++	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
++
++	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
++
++	while (out_pixel < end) {
++		u8 *px = (u8 *)src_pixels;
++		*out_pixel = argb_u16_from_u8888(255, px[2], px[1], px[0]);
++		out_pixel += 1;
++		src_pixels += step;
++	}
++}
++
++static void ARGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
++				   int y_start, enum pixel_read_direction direction, int count,
++				   struct pixel_argb_u16 out_pixel[])
++{
++	struct pixel_argb_u16 *end = out_pixel + count;
++	u8 *src_pixels;
++
++	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
++
++	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
++
++	while (out_pixel < end) {
++		u16 *px = (u16 *)src_pixels;
++		*out_pixel = argb_u16_from_u16161616(px[3], px[2], px[1], px[0]);
++		out_pixel += 1;
++		src_pixels += step;
++	}
++}
++
++static void XRGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
++				   int y_start, enum pixel_read_direction direction, int count,
++				   struct pixel_argb_u16 out_pixel[])
++{
++	struct pixel_argb_u16 *end = out_pixel + count;
++	u8 *src_pixels;
++
++	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
++
++	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
++
++	while (out_pixel < end) {
++		u16 *px = (u16 *)src_pixels;
++		*out_pixel = argb_u16_from_u16161616(0xFFFF, px[2], px[1], px[0]);
++		out_pixel += 1;
++		src_pixels += step;
++	}
++}
++
++static void RGB565_read_line(const struct vkms_plane_state *plane, int x_start,
++			     int y_start, enum pixel_read_direction direction, int count,
++			     struct pixel_argb_u16 out_pixel[])
+ {
+-	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+-	struct vkms_frame_info *frame_info = plane->frame_info;
+-	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
+-	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
++	struct pixel_argb_u16 *end = out_pixel + count;
++	u8 *src_pixels;
++
++	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+ 
+-	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+-		int x_pos = get_x_position(frame_info, limit, x);
++	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+ 
+-		if (drm_rotation_90_or_270(frame_info->rotation))
+-			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
+-				+ frame_info->fb->format->cpp[0] * y;
++	while (out_pixel < end) {
++		u16 *px = (u16 *)src_pixels;
+ 
+-		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
++		*out_pixel = argb_u16_from_RGB565(px);
++		out_pixel += 1;
++		src_pixels += step;
+ 	}
+ }
+ 
+@@ -378,7 +424,7 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+ }
+ 
+ /**
+- * get_pixel_conversion_function() - Retrieve the correct read_pixel function for a specific
++ * get_pixel_read_function() - Retrieve the correct read_line function for a specific
+  * format.
+  *
+  * If the format is not supported by VKMS a warning is emitted and a dummy "always read magenta"
+@@ -386,19 +432,19 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+  *
+  * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
+  */
+-pixel_read_t get_pixel_read_function(u32 format)
++pixel_read_line_t get_pixel_read_line_function(u32 format)
+ {
+ 	switch (format) {
+ 	case DRM_FORMAT_ARGB8888:
+-		return &ARGB8888_to_argb_u16;
++		return &ARGB8888_read_line;
+ 	case DRM_FORMAT_XRGB8888:
+-		return &XRGB8888_to_argb_u16;
++		return &XRGB8888_read_line;
+ 	case DRM_FORMAT_ARGB16161616:
+-		return &ARGB16161616_to_argb_u16;
++		return &ARGB16161616_read_line;
+ 	case DRM_FORMAT_XRGB16161616:
+-		return &XRGB16161616_to_argb_u16;
++		return &XRGB16161616_read_line;
+ 	case DRM_FORMAT_RGB565:
+-		return &RGB565_to_argb_u16;
++		return &RGB565_read_line;
+ 	default:
+ 		/*
+ 		 * This is a bug in vkms_plane_atomic_check(). All the supported
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+index 3ecea4563254..8d2bef95ff79 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.h
++++ b/drivers/gpu/drm/vkms/vkms_formats.h
+@@ -5,7 +5,7 @@
+ 
+ #include "vkms_drv.h"
+ 
+-pixel_read_t get_pixel_read_function(u32 format);
++pixel_read_line_t get_pixel_read_line_function(u32 format);
+ 
+ pixel_write_t get_pixel_write_function(u32 format);
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index 10e9b23dab28..8875bed76410 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -112,7 +112,6 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+ 	frame_info = vkms_plane_state->frame_info;
+ 	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
+ 	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
+-	memcpy(&frame_info->rotated, &new_state->dst, sizeof(struct drm_rect));
+ 	frame_info->fb = fb;
+ 	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+ 	drm_framebuffer_get(frame_info->fb);
+@@ -122,10 +121,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+ 									  DRM_MODE_REFLECT_X |
+ 									  DRM_MODE_REFLECT_Y);
+ 
+-	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
+-			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+ 
+-	vkms_plane_state->pixel_read = get_pixel_read_function(fmt);
++	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
+ }
+ 
+ static int vkms_plane_atomic_check(struct drm_plane *plane,
 
 -- 
 2.43.2
