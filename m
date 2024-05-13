@@ -2,108 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707C78C425B
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 15:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CEC98C427C
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 15:49:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D14E10E687;
-	Mon, 13 May 2024 13:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FED710E77D;
+	Mon, 13 May 2024 13:49:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="m0L+fG+5";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="TPPwwtUh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40CB410E431;
- Mon, 13 May 2024 13:45:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1715607900; x=1716212700; i=friedrich.vock@gmx.de;
- bh=4rk9PKS7gZNUzgdpoeDbkWJErnKSLRaEZsPgsJGt2Ko=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=m0L+fG+5D/RyfzCoRdBjDbHHKpw7U+VQoQOQcpz7VKJknyITNQosqW1BNXVQDgNM
- i1i8J0+cwR7APeFxHBqLBto98Uhf0qgyzkGlKjozzaW5Rue/O31hubSimTOAaIDtb
- YLn5FYLUeWH02NBxBkVH8SLfJoH3A2ihvOq+0K3rCHO6AiXj6g1zX7PFWDTeWgh59
- 0K7/BVOXl2d5d+pz3JSCw8r/OO/aw8yCzDkdFsnk125tFnlxBkZACMh7cFvV/zs0I
- 6vHauzbndQLLqicoMkU6m2sLwA4tnGvGiODMvBNqZqTSlPukDQ1m5So8H9ry169RI
- Kod295Yd1lENPoJGmw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.177.3] ([213.152.117.111]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MGz1f-1sJSQB2vtD-00H3S5; Mon, 13
- May 2024 15:45:00 +0200
-Message-ID: <e5184fc3-fca6-411f-8ced-92d88633bf81@gmx.de>
-Date: Mon, 13 May 2024 15:44:58 +0200
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45D8D10E77D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 13:49:54 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-41fc53252ceso31040165e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 06:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1715608192; x=1716212992;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jKUaQRVT8NcLartK7c8w6ZiEp5uv/vNiPpy09Cor7pE=;
+ b=TPPwwtUhRptP804cSdEW0PhAJeSOphOd0eHFIUG60i/w/w4+u0HLZkUwRXiLGzvMko
+ chO6CZay0zL2/cqxZZjaAxt7mEodYtIcAK9DMhPFLE6n7ca5tYAnaPZkrEAsDb9yoP67
+ Ehw/O+ScHeRsHShJZu6AqPezmreP97AkUs0s+WL5g0i+p/ibrkJY9zSPAnQE65+H/tnq
+ gn51vQMGzg/sr3F/GNGz+SnCPVesSSC5/SiY74edXG+QYqwAYAJXD55TbVe8txXJ4LWX
+ +ry1o7ySveITTwcizHmFFC+MngXnCYNDyXN4jOskhOnsWZ0trtfLRKovfB5tsb/011T6
+ VaiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715608192; x=1716212992;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jKUaQRVT8NcLartK7c8w6ZiEp5uv/vNiPpy09Cor7pE=;
+ b=xBR66qgcO6qOBIX4/goA+V9y/J+gqpF51tq8tGhhT1f2yp20MDsaOPrFyZxE3aE7gH
+ G7gikU0YVFPUjQ9ia2qhma8HAVmFm5ONXzgdf/ebzl5RIdM45ehj2ktAUGh3OkOnXiQ/
+ 1d26L6fUrE5j9lyxcpyfgg3iV8s4uTQnI4ncx4tCvadkB/2xg+icIRY+8wes/zyHzWcv
+ QlwYwJsEcr82Dz/Xb+pnN0mgK2fTFSb/JXv7RMIhJ/9ArwfXFdRHCG0o/TjTQc1EL0uN
+ dLJMk9s3EwebLyhWZmalY2x+HeEO1vyDNQQN12a5PotjqOizOUfli4gZlfHsfE9cVW70
+ WzvQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUbfOfWsF9TEgK17FszR+SFJnUDoqw2aP+aSmPML018/CEYExJJp3IFgwMKi/z5DhEnVwA8zUSo2DGD/oKFS4NPWpgrnx0h+FVAlLgKbTyp
+X-Gm-Message-State: AOJu0YxlKzvCfRRBuVy4T4ShchG4hM9WMKNlvyTGeAsags8/amOuwrBF
+ fB4rrrz1D4NI5Mp9mpUPSnHvCL+JJHOA8Wjhhioy8KeBUlP+kTKtvKtZ5ihVHiE=
+X-Google-Smtp-Source: AGHT+IFMNJ/KDjkdgPxJFA8RtrAE8j2Ed41gi3q6+pVaRLtBu1ZrQq49Dwjta2mTvCrYNdHXqedZfA==
+X-Received: by 2002:adf:f9ca:0:b0:347:2055:f49e with SMTP id
+ ffacd0b85a97d-3504a73e7admr7442429f8f.33.1715608192369; 
+ Mon, 13 May 2024 06:49:52 -0700 (PDT)
+Received: from [192.168.0.101] ([84.69.19.168])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3502bbbca98sm11181452f8f.112.2024.05.13.06.49.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 May 2024 06:49:52 -0700 (PDT)
+Message-ID: <6b4bbb02-3f12-4a6a-8e61-c776da636d1d@ursulin.net>
+Date: Mon, 13 May 2024 14:49:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/18] TTM interface for managing VRAM oversubscription
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>, Joshua Ashton
- <joshua@froggi.es>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>
-References: <20240424165937.54759-1-friedrich.vock@gmx.de>
- <ec27f4f8-77a0-45be-96a5-54985fb3ab25@linux.intel.com>
-Content-Language: en-US
-From: Friedrich Vock <friedrich.vock@gmx.de>
-Autocrypt: addr=friedrich.vock@gmx.de; keydata=
- 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
- f7+xmX0X3AMtWz/15Y+7cPO2
-In-Reply-To: <ec27f4f8-77a0-45be-96a5-54985fb3ab25@linux.intel.com>
+Subject: Re: [RFC 0/5] Discussion around eviction improvements
+Content-Language: en-GB
+To: Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Friedrich Vock <friedrich.vock@gmx.de>
+References: <20240508180946.96863-1-tursulin@igalia.com>
+ <e39bcdd1-90e7-42f3-94a9-ea1af6b0d278@ursulin.net>
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <e39bcdd1-90e7-42f3-94a9-ea1af6b0d278@ursulin.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZrF9s1jDxM0xy9YRBPAlgGQ17zEqr0MFv0R8NZoSYPeoUR2skzP
- dUjvaiaLW6fYSkRHwgEpF6C56V3OxRDL9wccH68j+yNDLEfRGIHCzV+jLK6glNNXYTQuIoC
- 90kr6BEwtzfWdJ02qPQYDgHjTMYhD83+iQh/3siexyVNBJPdtUHED/+BhcFFyM7g/SybUiY
- S9ZTBVedVBIf/HomT0syA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:LoWy7XrxLeM=;SeTgrN+c/3QixYQkOa5phX8ExHg
- 2TrECLExmJXwL6dKo4tfpUHCxwsHwq9nKxBiF+twXdp7VE7K5aEInZBL1Y8QpjnVa9yEUstGL
- Rn6jpTCIhcAAhZjXymLClsa0KqoFw+YjMTTHhaekDakM4ITISNWkvwmuGtHPmP+ILjm3MzxNf
- zcY5MNu5Va5haIm/yhvZ1s5mDb+ghL5o7aM2hbKemsLKvoepYPX6W6HtcWkFMbXOJyifySCjx
- VwJoFfwwyAA6ZfIaRUuB/TTp4t9stDhvo5y7vGIMqy5Y6mZ0KkFnqy+tyS6Wlm21jTJxYQSjo
- bsLOBuKdrjFLykx1qmOsfs7q+627trtXZVWZWapwlnsGUzOi1FKnXNXPDTA5Hclz5C/7iWG2d
- CQhobRNkj1rL0scV55dce51HX7G+Xpi/5Pz8HPqMOCtfPF1mfyDG4AuyH+ovCeoZU02yH1ErY
- 1zKJNlQhfXGyIKHsGNfAnHmRfyS2d2Bgcw/p0EnBsbTsPNZvo8BnN9x5U92mQLq/c8PKlLib8
- It6VryuZR9HCQaPNSA4qNVhHN7ALy5DHzQhYknQUjFKZ7YvHMpUFQ+giBQxAlzq0Qg14CsNVp
- AlHfewFLYGtP4i1we/SUFuEOrLt6WcroxNhd+hGvw7zqum77e/lbtqwo+cJ0PZ33ls8eQIOyZ
- NHZxPnHYO5nOc0LvUFCvmlpBwz8stdeUuHIpkNRB35SfZ+EyBmnY6YN+EjPS67fa464lIPLGr
- +se68w4O94ZvRjmt8hb3uXzc6boU9po3c866uYcfnKmyEthv91nJF2SGyDPzFdOBmdu+jShU9
- OE701EPGY1tc1RfU6MfAh6W5mnCDgfH/N+hW4u3XTqrBc=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,74 +89,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 02.05.24 16:23, Maarten Lankhorst wrote:
-> Hey,
->
-> [snip]
->
-> For Xe, I've been loking at using cgroups. A small prototype is
-> available at
->
-> https://cgit.freedesktop.org/~mlankhorst/linux/log/?h=3Ddumpcg
->
-> To stimulate discussion, I've added amdgpu support as well.
-> This should make it possible to isolate the compositor allocations
-> from the target program.
->
-> This support is still incomplete and covers vram only, but I need help
-> from userspace and consensus from other drivers on how to move forward.
->
-> I'm thinking of making 3 cgroup limits:
-> 1. Physical memory, each time a buffer is allocated, it counts towards
-> it, regardless where it resides.
-> 2. Mappable memory, all buffers allocated in sysmem or vram count
-> towards this limit.
-> 3. VRAM, only buffers residing in VRAM count here.
->
-> This ensures that VRAM can always be evicted to sysmem, by having a
-> mappable memory quota, and having a sysmem reservation.
->
-> The main trouble is that when evicting, you want to charge the
-> original process the changes in allocation limits, but it should be
-> solvable.
->
-> I've been looking for someone else needing the usecase in a different
-> context, so let me know what you think of the idea.
->
-Sorry for the late reply. The idea sounds really good! I think cgroups
-are great fit for what we'd need to prioritize game+compositor over
-other potential non-foreground apps.
+On 09/05/2024 13:40, Tvrtko Ursulin wrote:
+> 
+> On 08/05/2024 19:09, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> Last few days I was looking at the situation with VRAM over 
+>> subscription, what
+>> happens versus what perhaps should happen. Browsing through the driver 
+>> and
+>> running some simple experiments.
+>>
+>> I ended up with this patch series which, as a disclaimer, may be 
+>> completely
+>> wrong but as I found some suspicious things, to me at least, I thought 
+>> it was a
+>> good point to stop and request some comments.
+>>
+>> To perhaps summarise what are the main issues I think I found:
+>>
+>>   * Migration rate limiting does not bother knowing if actual 
+>> migration happened
+>>     and so can over-account and unfairly penalise.
+>>
+>>   * Migration rate limiting does not even work, at least not for the 
+>> common case
+>>     where userspace configures VRAM+GTT. It thinks it can stop 
+>> migration attempts
+>>     by playing with bo->allowed_domains vs bo->preferred domains but, 
+>> both from
+>>     the code, and from empirical experiments, I see that not working 
+>> at all. Both
+>>     masks are identical so fiddling with them achieves nothing.
+>>
+>>   * Idea of the fallback placement only works when VRAM has free 
+>> space. As soon
+>>     as it does not, ttm_resource_compatible is happy to leave the 
+>> buffers in the
+>>     secondary placement forever.
+>>
+>>   * Driver thinks it will be re-validating evicted buffers on the next 
+>> submission
+>>     but it does not for the very common case of VRAM+GTT because it 
+>> only checks
+>>     if current placement is *none* of the preferred placements.
+>>
+>> All those problems are addressed in individual patches.
+>>
+>> End result of this series appears to be driver which will try harder 
+>> to move
+>> buffers back into VRAM, but will be (more) correctly throttled in 
+>> doing so by
+>> the existing rate limiting logic.
+>>
+>> I have run a quick benchmark of Cyberpunk 2077 and cannot say that I 
+>> saw a
+>> change but that could be a good thing too. At least I did not break 
+>> anything,
+>> perhaps.. On one occassion I did see the rate limiting logic get 
+>> confused while
+>> for a period of few minutes it went to a mode where it was constantly 
+>> giving a
+>> high migration budget. But that recovered itself when I switched 
+>> clients and did
+>> not come back so I don't know. If there is something wrong there I 
+>> don't think
+>> it would be caused by any patches in this series.
+> 
+> Since yesterday I also briefly tested with Far Cry New Dawn. One run 
+> each so possibly doesn't mean anything apart that there isn't a 
+> regression aka migration throttling is keeping things at bay even with 
+> increased requests to migrate things back to VRAM:
+> 
+>               before         after
+> min/avg/max fps        36/44/54        37/45/55
+> 
+> Cyberpunk 2077 from yesterday was similarly close:
+> 
+>          26.96/29.59/30.40    29.70/30.00/30.32
+> 
+> I guess the real story is proper DGPU where misplaced buffers have a 
+> real cost.
 
- From what I can tell looking through the code, the current cgroup
-properties are absolute memory sizes that userspace asks the kernel to
-restrict the cgroup usage to?
-While that sounds useful for some usecases too, I'm not sure just these
-limits are a good solution for making sure that your compositor's and
-foreground app's resources stay in memory (in favor of background apps)
-when there is pressure.
+I found one game which regresses spectacularly badly with this series - 
+Assasin's Creed Valhalla. The built-in benchmark at least. The game 
+appears to have a working set much larger than the other games I tested, 
+around 5GiB total during the benchmark. And for some reason migration 
+throttling totally fails to put it in check. I will be investigating 
+this shortly.
 
-> This can be generalized towards all uses of the GPU, but the
-> compositor vs game thrashing is a good example of why it is useful to
-> have.
->
-IIRC Tvrtko's original proposal was about per-cgroup DRM scheduling
-priorities providing lower submission latency for prioritized cgroups,
-right?
+Regards,
 
-I think what we need here would pretty much exactly such a priority
-system, but for memory: The cgroup containing the foreground app/game
-and the compositor should have some hint telling TTM to try its hardest
-to avoid evicting its buffers (i.e. a high memory priority).
-Your existing drm_cgroup work looks like a great base for this, and I'd
-be happy to help/participate with the implementation for amdgpu.
+Tvrtko
 
-Thanks,
-Friedrich
-
-> I should still have my cgroup testcase somewhere, this is only a
-> rebase of my previous proposal, but I think it fits the usecase.
->
-> Cheers,
-> Maarten
+>> Series is probably rough but should be good enough for dicsussion. I 
+>> am curious
+>> to hear if I identified at least something correctly as a real problem.
+>>
+>> It would also be good to hear what are the suggested games to check 
+>> and see
+>> whether there is any improvement.
+>>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Friedrich Vock <friedrich.vock@gmx.de>
+>>
+>> Tvrtko Ursulin (5):
+>>    drm/amdgpu: Fix migration rate limiting accounting
+>>    drm/amdgpu: Actually respect buffer migration budget
+>>    drm/ttm: Add preferred placement flag
+>>    drm/amdgpu: Use preferred placement for VRAM+GTT
+>>    drm/amdgpu: Re-validate evicted buffers
+>>
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c     | 38 +++++++++++++++++-----
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  8 +++--
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c     | 21 ++++++++++--
+>>   drivers/gpu/drm/ttm/ttm_resource.c         | 13 +++++---
+>>   include/drm/ttm/ttm_placement.h            |  3 ++
+>>   5 files changed, 65 insertions(+), 18 deletions(-)
+>>
