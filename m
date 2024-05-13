@@ -2,62 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46ED28C457E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 18:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8CC8C4583
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 19:00:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D22BB10E897;
-	Mon, 13 May 2024 16:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B4210E8AC;
+	Mon, 13 May 2024 17:00:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lT2O2ydC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ag9GVljN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EFC610E8A0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 16:59:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 98875CE0C6C
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 16:59:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B3C7C4AF0A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 16:59:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715619581;
- bh=JitgSMLRZNI4ny1UnV3o1usQaHTQC5I0Tk9f27RylSQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=lT2O2ydCn169pZ6YH3hZwo6Heyyp70Py//tELvxYzOkNoYwDUkxOEYyMH4hIIseLV
- MGQLolSW/qiDKsoaU96xrQ/EO4LmABCcft0V2wqUBTBrYPBJ94Q0cRvTA2ho+ZUKVR
- wTomjz+qVTULYZpRbSjPKl0CC3JUhbqgBgjFZibk/rrerlyoNb44QfXwSamDrUdirZ
- wmrs0MJZmahc+TXDLcMPd5taMUMG/jbIF7bzilTPXo6wZiikbRrMlE1V4pqfHhwg3k
- 8LEcqwj05B2/9Pkiao1XDhLOm5rfegZUiaFq8eSCu1mnuJmSeBVUtUnxfBmrDhML97
- LrFgpuSTWvIlQ==
-Received: by mail-oa1-f48.google.com with SMTP id
- 586e51a60fabf-23f9d07829bso2465745fac.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 09:59:41 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzWlxQc7BIg6BMAN1CmzaCVz11BljgMeVRPAVXR//s2nSEfs7bU
- v8MGyQ8aSV/puoZ3z4wBP34zENm8oBAnLAcwZqlVR44YQl8cmygs6AS/HvXhvnzJAbaydHDxywi
- 6xrT93oif8pWWPEfp2xhF0ybYMntJbqqlFael/Q==
-X-Google-Smtp-Source: AGHT+IGlxh1Dy5ysKOVds09zArKG9c9noCluyALHfc5Bn+YbXeExnTTxJ5+knqKIQqmNb6mYhwGsmaYQo1ct2IYqvuU=
-X-Received: by 2002:a05:6871:729a:b0:23c:a6f8:9362 with SMTP id
- 586e51a60fabf-24172a76ff6mr13846720fac.13.1715619580755; Mon, 13 May 2024
- 09:59:40 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0578310E8AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 17:00:20 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-51f40b5e059so5334741e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 10:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1715619618; x=1716224418; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=3VvJAKTAjtjf+05qkCH0L1zTjltbF2Wcxv3NsnRIjV0=;
+ b=ag9GVljNKxKv/u24w1ucG9XCwPwkO2ywY+By2waAQWb+wX8YOl9eTBr5HiJyTCGGBL
+ f2cQVt7k29kNLKrhvXvEzfDp7ChpllsDDt9jd7ZiUMoeGamQ3AIRqPM7ETfAvD3VWLQz
+ M/aX0zNXPrdwW8kVQs2iVbhtFxuOZeL7tGsqeT3jFKsyAFTNistYmERsw5+kUa9DNE1w
+ Nz/ZpwSw2aWsB14JDJyGpkp0jrF2QkXjw6B7VyWSyAg2xAhlnXLTpx1gwvsFlIQM6FPx
+ mfIBH9oolU8DfDOLQYtWhpCAf4i+nOeEjsqwuTQ89Cjnu1pMXby/JidPJQHarHX5bRXZ
+ UY+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715619618; x=1716224418;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3VvJAKTAjtjf+05qkCH0L1zTjltbF2Wcxv3NsnRIjV0=;
+ b=tRUkkS/BC8WN0wpi+biOMi8je4ixOGTFJpVEWXQoYf0RBKOEpAxaXWDw5DWxxxG5Sk
+ 3xd2HIsxa8gxZTRPWbyU6URx4WGEDeI0dKurC2ieo0iyM98UCgHKLN6KKPtaf3TQ+Grt
+ 8HNvZFfo+hpeODLm9MwB3Nq2O2GW67WKMQpWBdSJxHa8ioesVWmQfFBFRmtldqYyPbyb
+ VKo37GIhS0YxZ7TpXt4lBiPNuusOzMi0nvVvFdCrDkywhHisIdNLR28Zttjq/VBrR8zq
+ ai+SYni1o5yNADX1SHELTSZYv2gHuMHzCXYlYg/VZK0AFrOmxrOobmD9yG6mo4bn/5DZ
+ kThw==
+X-Gm-Message-State: AOJu0Yxjd8qVOMN98TLuaat25a2QItaWl0tQh4nnarji/0yG/QxAB4op
+ Yi/8rs+mozcaibccPLoTw/UVXGEnF1Yi1M5WBLui8bZMWGby6NaotdJvcwUkNtk=
+X-Google-Smtp-Source: AGHT+IE1mwrThPnIipbuTaOPXZfA9vT+nYi8u59/SRJqtpAcxW7ICkkb44kAR6TosurkezVDg5IVjw==
+X-Received: by 2002:ac2:4437:0:b0:519:2d60:d71b with SMTP id
+ 2adb3069b0e04-5220fb748e2mr6498931e87.22.1715619618592; 
+ Mon, 13 May 2024 10:00:18 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-521f38d898fsm1828634e87.208.2024.05.13.10.00.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 May 2024 10:00:18 -0700 (PDT)
+Date: Mon, 13 May 2024 20:00:16 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, 
+ lvzhaoxiong@huaqin.corp-partner.google.com,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Hsin-Yi Wang <hsinyi@google.com>, Linus Walleij <linus.walleij@linaro.org>, 
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Joel Selvaraj <jo@jsfamily.in>, 
+ Brian Norris <briannorris@chromium.org>,
+ Ritesh Kumar <quic_riteshk@quicinc.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 6/9] drm/panel: novatek-nt36672e: Switch to
+ mipi_dsi_dcs_write_seq_multi()
+Message-ID: <ejpuzvwdzjtakhmunl3247lhnygdfxhbt36hpcqtytx5kifni7@ctfmhbr3ch6f>
+References: <20240508205222.2251854-1-dianders@chromium.org>
+ <20240508135148.v4.6.I3c08a7d02c467d2bc88da14e513ea4c8649fce45@changeid>
 MIME-Version: 1.0
-References: <cover.1715353572.git.jani.nikula@intel.com>
- <b2bdec9161ddcbf79c8516aeea508a9903bd0074.1715353572.git.jani.nikula@intel.com>
-In-Reply-To: <b2bdec9161ddcbf79c8516aeea508a9903bd0074.1715353572.git.jani.nikula@intel.com>
-From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 13 May 2024 18:59:29 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi5Og9E_thegG1-spCrYvQzuzq2tSigQ5huLHkOYE65GEw@mail.gmail.com>
-Message-ID: <CAN6tsi5Og9E_thegG1-spCrYvQzuzq2tSigQ5huLHkOYE65GEw@mail.gmail.com>
-Subject: Re: [RESEND 3/6] drm/radeon: remove radeon_connector_edid() and stop
- using edid_blob_ptr
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240508135148.v4.6.I3c08a7d02c467d2bc88da14e513ea4c8649fce45@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,132 +96,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 10, 2024 at 5:08=E2=80=AFPM Jani Nikula <jani.nikula@intel.com>=
- wrote:
->
-> radeon_connector_edid() copies the EDID from edid_blob_ptr as a side
-> effect if radeon_connector->edid isn't initialized. However, everywhere
-> that the returned EDID is used, the EDID should have been set
-> beforehands.
->
-> Only the drm EDID code should look at the EDID property, anyway, so stop
-> using it.
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Pan, Xinhui <Xinhui.Pan@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Wed, May 08, 2024 at 01:51:48PM -0700, Douglas Anderson wrote:
+> This is a mechanical conversion of the novatek-nt36672e driver to use
+> the new mipi_dsi_dcs_write_seq_multi(). The new function is easier for
+> clients to understand and using it also causes smaller code to be
+> generated. Specifically:
+> 
+> $ scripts/bloat-o-meter \
+>   ...after/panel-novatek-nt36672e.ko \
+>   ...ctx/panel-novatek-nt36672e.ko
+> add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-988 (-988)
+> Function                                     old     new   delta
+> nt36672e_1080x2408_60hz_init                6236    5248    -988
+> Total: Before=10651, After=9663, chg -9.28%
+> 
+> Cc: Ritesh Kumar <quic_riteshk@quicinc.com>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
->  drivers/gpu/drm/radeon/radeon_audio.c      |  7 ++++---
->  drivers/gpu/drm/radeon/radeon_connectors.c | 15 ---------------
->  drivers/gpu/drm/radeon/radeon_mode.h       |  2 --
->  3 files changed, 4 insertions(+), 20 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/rade=
-on/radeon_audio.c
-> index 16c10db3ce6f..0bcd767b9f47 100644
-> --- a/drivers/gpu/drm/radeon/radeon_audio.c
-> +++ b/drivers/gpu/drm/radeon/radeon_audio.c
-> @@ -303,6 +303,7 @@ void radeon_audio_endpoint_wreg(struct radeon_device =
-*rdev, u32 offset,
->  static void radeon_audio_write_sad_regs(struct drm_encoder *encoder)
->  {
->         struct drm_connector *connector =3D radeon_get_connector_for_enco=
-der(encoder);
-> +       struct radeon_connector *radeon_connector =3D to_radeon_connector=
-(connector);
->         struct radeon_encoder *radeon_encoder =3D to_radeon_encoder(encod=
-er);
->         struct cea_sad *sads;
->         int sad_count;
-> @@ -310,7 +311,7 @@ static void radeon_audio_write_sad_regs(struct drm_en=
-coder *encoder)
->         if (!connector)
->                 return;
->
-> -       sad_count =3D drm_edid_to_sad(radeon_connector_edid(connector), &=
-sads);
-> +       sad_count =3D drm_edid_to_sad(radeon_connector->edid, &sads);
->         if (sad_count < 0)
->                 DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
->         if (sad_count <=3D 0)
-> @@ -326,6 +327,7 @@ static void radeon_audio_write_sad_regs(struct drm_en=
-coder *encoder)
->  static void radeon_audio_write_speaker_allocation(struct drm_encoder *en=
-coder)
->  {
->         struct drm_connector *connector =3D radeon_get_connector_for_enco=
-der(encoder);
-> +       struct radeon_connector *radeon_connector =3D to_radeon_connector=
-(connector);
->         struct radeon_encoder *radeon_encoder =3D to_radeon_encoder(encod=
-er);
->         u8 *sadb =3D NULL;
->         int sad_count;
-> @@ -333,8 +335,7 @@ static void radeon_audio_write_speaker_allocation(str=
-uct drm_encoder *encoder)
->         if (!connector)
->                 return;
->
-> -       sad_count =3D drm_edid_to_speaker_allocation(radeon_connector_edi=
-d(connector),
-> -                                                  &sadb);
-> +       sad_count =3D drm_edid_to_speaker_allocation(radeon_connector->ed=
-id, &sadb);
->         if (sad_count < 0) {
->                 DRM_DEBUG("Couldn't read Speaker Allocation Data Block: %=
-d\n",
->                           sad_count);
-> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm=
-/radeon/radeon_connectors.c
-> index 81b5c3c8f658..80879e946342 100644
-> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
-> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-> @@ -255,21 +255,6 @@ static struct drm_encoder *radeon_find_encoder(struc=
-t drm_connector *connector,
->         return NULL;
->  }
->
-> -struct edid *radeon_connector_edid(struct drm_connector *connector)
-> -{
-> -       struct radeon_connector *radeon_connector =3D to_radeon_connector=
-(connector);
-> -       struct drm_property_blob *edid_blob =3D connector->edid_blob_ptr;
-> -
-> -       if (radeon_connector->edid) {
-> -               return radeon_connector->edid;
-> -       } else if (edid_blob) {
-> -               struct edid *edid =3D kmemdup(edid_blob->data, edid_blob-=
->length, GFP_KERNEL);
-> -               if (edid)
-> -                       radeon_connector->edid =3D edid;
-> -       }
-> -       return radeon_connector->edid;
-> -}
-> -
->  static void radeon_connector_get_edid(struct drm_connector *connector)
->  {
->         struct drm_device *dev =3D connector->dev;
-> diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeo=
-n/radeon_mode.h
-> index 546381a5c918..e0a5af180801 100644
-> --- a/drivers/gpu/drm/radeon/radeon_mode.h
-> +++ b/drivers/gpu/drm/radeon/radeon_mode.h
-> @@ -701,8 +701,6 @@ extern u16 radeon_connector_encoder_get_dp_bridge_enc=
-oder_id(struct drm_connecto
->  extern bool radeon_connector_is_dp12_capable(struct drm_connector *conne=
-ctor);
->  extern int radeon_get_monitor_bpc(struct drm_connector *connector);
->
-> -extern struct edid *radeon_connector_edid(struct drm_connector *connecto=
-r);
-> -
->  extern void radeon_connector_hotplug(struct drm_connector *connector);
->  extern int radeon_dp_mode_valid_helper(struct drm_connector *connector,
->                                        struct drm_display_mode *mode);
-> --
-> 2.39.2
->
+> This change is only compile tested. I don't use this panel myself but
+> arbitrarily picked it as an example to look at when working on the
+> MIPI DSI macros.
+> 
+> NOTE: as of the posting of v4 this change still has no tags. Without
+> any tags (Reviewed-by/Tested-by/Acked-by) I won't actually land this
+> change even if the rest of the series lands.
+> 
+> (no changes since v3)
+> 
+> Changes in v3:
+> - Fix spacing of init function.
+> 
+> Changes in v2:
+> - New
+> 
+>  .../gpu/drm/panel/panel-novatek-nt36672e.c    | 576 +++++++++---------
+>  1 file changed, 289 insertions(+), 287 deletions(-)
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
