@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59EDD8C4062
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 14:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A397A8C4064
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 14:04:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AC6010E70A;
-	Mon, 13 May 2024 12:04:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54AB510E715;
+	Mon, 13 May 2024 12:04:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="c/D5yzqN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IT6J1VnJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD4110E704
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 12:04:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78BCE10E712
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 12:04:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715601878; x=1747137878;
+ t=1715601881; x=1747137881;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7JD6wRYkYyjdyabxbynbaIGDhtHyQ3NIFRdwyc92xDw=;
- b=c/D5yzqNZFN+3HXaQQmKc8amPPxRZCXhCGAB4Grg/DuWmXYN6giQOEM2
- 9JqCb8VeJwMaNT8RNt0M3cZl/y5sYeCy8ViZMxYVvFVyEAhaDujPHuTmo
- 3WJ/4PD6PkODICiNkTFP/loG8B9Hzn3YVmURE50tMiT5g3erEqZCCBH39
- yYqX9xn/IITJZKo/C7Sd2esOyuEj9cAhbkQHgvE5Usg6nafCBNqsMaehV
- isib/vh7DOQDfY1/wr6L0ufliEHFU/fGLGviJ9MfhwKNCn21z/7F5K/La
- IxNVf3Sw1PS1QYMPlPba6x524Oi75LfBu0zdC0g+tspzoF4DTk0bZPY22 g==;
-X-CSE-ConnectionGUID: cak7K1ERRDKXSS0cpiZH3Q==
-X-CSE-MsgGUID: LqXPJdVoQ26T5ipac5VJpw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="22131724"
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="22131724"
+ bh=bCbqy8uDAVVZMMqH038VX7yGQq6CCAa7WC5mEQZj3/k=;
+ b=IT6J1VnJ+JNrtajBpg7u0vlAvH2V4zDjR7Dnbe6s7xngu8sC0A5PoUny
+ DEdo6kzp+014vU0AMA/k6Ykv4kPA45uQFcCoxQCsYOveFVWo37ZKbPy80
+ s+0Ogh5Jx1m0/hqpWrEPjfzKgXmTg2ub1e4/7vHqbXmkrxNd0Mr2QYL4u
+ 299pz8VgYf0SahaGAJ5d/oVlIgc0jSmOGZfi5ZMNmVl6qC/wPfQ2IGS9a
+ ks+MR/SJDMrFVylQW0ABN6QeBFoVExKg0EeLGw1CiuAMzZmF/gKNAsdFX
+ t1qvBjsosibitZbOPAaQb8XX36wWD/SituDbsWNPhsrHOQewQbmCvjQwM A==;
+X-CSE-ConnectionGUID: WTL/mvADQsW7r8VBFEIWgw==
+X-CSE-MsgGUID: lMSDNpDIQV6Jq55EjMstkA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="22131731"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="22131731"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 05:04:38 -0700
-X-CSE-ConnectionGUID: uzMQWPHSQjKPSRd5Dzr93g==
-X-CSE-MsgGUID: R+0C2qO3TsubGTorOWMciw==
+ 13 May 2024 05:04:41 -0700
+X-CSE-ConnectionGUID: oJKJmdxySAKpr0UuznnlvA==
+X-CSE-MsgGUID: 8UEfFI/ZS5aw1uBp+8B8Yg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30341033"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30341057"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 05:04:36 -0700
+ 13 May 2024 05:04:39 -0700
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  "Wachowski, Karol" <karol.wachowski@intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH v2 02/12] accel/ivpu: Add sched_mode module param
-Date: Mon, 13 May 2024 14:04:21 +0200
-Message-ID: <20240513120431.3187212-3-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH v2 04/12] accel/ivpu: Implement support for preemption buffers
+Date: Mon, 13 May 2024 14:04:23 +0200
+Message-ID: <20240513120431.3187212-5-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240513120431.3187212-1-jacek.lawrynowicz@linux.intel.com>
 References: <20240513120431.3187212-1-jacek.lawrynowicz@linux.intel.com>
@@ -71,99 +71,191 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Wachowski, Karol" <karol.wachowski@intel.com>
 
-This param will be used to enable/disable HWS (hardware scheduler).
-The HWS is a FW side feature and may not be available on all
-HW generations and FW versions.
+Allocate per-context preemption buffers that are required by HWS.
+
+There are two preemption buffers:
+  * primary - allocated in user memory range (PIOVA accessible)
+  * secondary - allocated in shave memory range
 
 Signed-off-by: Wachowski, Karol <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c     | 4 ++++
- drivers/accel/ivpu/ivpu_drv.h     | 1 +
- drivers/accel/ivpu/ivpu_hw.h      | 3 ++-
- drivers/accel/ivpu/ivpu_hw_37xx.c | 1 +
- drivers/accel/ivpu/ivpu_hw_40xx.c | 3 ++-
- 5 files changed, 10 insertions(+), 2 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.h |  1 +
+ drivers/accel/ivpu/ivpu_fw.c  |  3 ++
+ drivers/accel/ivpu/ivpu_fw.h  |  2 ++
+ drivers/accel/ivpu/ivpu_job.c | 65 +++++++++++++++++++++++++++++++++++
+ drivers/accel/ivpu/ivpu_job.h |  2 ++
+ 5 files changed, 73 insertions(+)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 51d3f1a55d02..8d80052182f0 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -51,6 +51,10 @@ u8 ivpu_pll_max_ratio = U8_MAX;
- module_param_named(pll_max_ratio, ivpu_pll_max_ratio, byte, 0644);
- MODULE_PARM_DESC(pll_max_ratio, "Maximum PLL ratio used to set NPU frequency");
- 
-+int ivpu_sched_mode;
-+module_param_named(sched_mode, ivpu_sched_mode, int, 0444);
-+MODULE_PARM_DESC(sched_mode, "Scheduler mode: 0 - Default scheduler, 1 - Force HW scheduler");
-+
- bool ivpu_disable_mmu_cont_pages;
- module_param_named(disable_mmu_cont_pages, ivpu_disable_mmu_cont_pages, bool, 0644);
- MODULE_PARM_DESC(disable_mmu_cont_pages, "Disable MMU contiguous pages optimization");
 diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index bb4374d0eaec..71b87455e22b 100644
+index aafc5c3e9041..f500b2d92452 100644
 --- a/drivers/accel/ivpu/ivpu_drv.h
 +++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -158,6 +158,7 @@ struct ivpu_file_priv {
- extern int ivpu_dbg_mask;
- extern u8 ivpu_pll_min_ratio;
- extern u8 ivpu_pll_max_ratio;
-+extern int ivpu_sched_mode;
- extern bool ivpu_disable_mmu_cont_pages;
+@@ -170,6 +170,7 @@ extern bool ivpu_disable_mmu_cont_pages;
+ #define IVPU_TEST_MODE_NULL_SUBMISSION    BIT(2)
+ #define IVPU_TEST_MODE_D0I3_MSG_DISABLE   BIT(4)
+ #define IVPU_TEST_MODE_D0I3_MSG_ENABLE    BIT(5)
++#define IVPU_TEST_MODE_PREEMPTION_DISABLE BIT(6)
+ extern int ivpu_test_mode;
  
- #define IVPU_TEST_MODE_FW_TEST            BIT(0)
-diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
-index 094c659d2800..d247a2e99496 100644
---- a/drivers/accel/ivpu/ivpu_hw.h
-+++ b/drivers/accel/ivpu/ivpu_hw.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * Copyright (C) 2020-2023 Intel Corporation
-+ * Copyright (C) 2020-2024 Intel Corporation
-  */
+ struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
+diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+index 1457300828bf..29ecf7db238b 100644
+--- a/drivers/accel/ivpu/ivpu_fw.c
++++ b/drivers/accel/ivpu/ivpu_fw.c
+@@ -200,6 +200,9 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
  
- #ifndef __IVPU_HW_H__
-@@ -59,6 +59,7 @@ struct ivpu_hw_info {
- 		u32 profiling_freq;
- 	} pll;
- 	u32 tile_fuse;
-+	u32 sched_mode;
- 	u32 sku;
- 	u16 config;
- 	int dma_bits;
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-index bd25e2d9fb0f..ce664b6515aa 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@ -589,6 +589,7 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
- 	hw->tile_fuse = TILE_FUSE_ENABLE_BOTH;
- 	hw->sku = TILE_SKU_BOTH;
- 	hw->config = WP_CONFIG_2_TILE_4_3_RATIO;
-+	hw->sched_mode = ivpu_sched_mode;
+ 	fw->dvfs_mode = 0;
  
- 	ivpu_pll_init_frequency_ratios(vdev);
++	fw->primary_preempt_buf_size = fw_hdr->preemption_buffer_1_size;
++	fw->secondary_preempt_buf_size = fw_hdr->preemption_buffer_2_size;
++
+ 	ivpu_dbg(vdev, FW_BOOT, "Size: file %lu image %u runtime %u shavenn %u\n",
+ 		 fw->file->size, fw->image_size, fw->runtime_size, fw->shave_nn_size);
+ 	ivpu_dbg(vdev, FW_BOOT, "Address: runtime 0x%llx, load 0x%llx, entry point 0x%llx\n",
+diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
+index 66b60fa161b5..66fc7da3ab0f 100644
+--- a/drivers/accel/ivpu/ivpu_fw.h
++++ b/drivers/accel/ivpu/ivpu_fw.h
+@@ -28,6 +28,8 @@ struct ivpu_fw_info {
+ 	u32 trace_destination_mask;
+ 	u64 trace_hw_component_mask;
+ 	u32 dvfs_mode;
++	u32 primary_preempt_buf_size;
++	u32 secondary_preempt_buf_size;
+ };
  
-diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
-index b0b88d4c8926..186cd87079c2 100644
---- a/drivers/accel/ivpu/ivpu_hw_40xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (C) 2020-2023 Intel Corporation
-+ * Copyright (C) 2020-2024 Intel Corporation
-  */
+ int ivpu_fw_init(struct ivpu_device *vdev);
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index b56035de1a59..3ef9d8022c9c 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -12,11 +12,13 @@
+ #include <uapi/drm/ivpu_accel.h>
  
  #include "ivpu_drv.h"
-@@ -724,6 +724,7 @@ static int ivpu_hw_40xx_info_init(struct ivpu_device *vdev)
- 	else
- 		ivpu_dbg(vdev, MISC, "Fuse: All %d tiles enabled\n", TILE_MAX_NUM);
++#include "ivpu_fw.h"
+ #include "ivpu_hw.h"
+ #include "ivpu_ipc.h"
+ #include "ivpu_job.h"
+ #include "ivpu_jsm_msg.h"
+ #include "ivpu_pm.h"
++#include "vpu_boot_api.h"
  
-+	hw->sched_mode = ivpu_sched_mode;
- 	hw->tile_fuse = tile_disable;
- 	hw->pll.profiling_freq = PLL_PROFILING_FREQ_DEFAULT;
+ #define CMD_BUF_IDX	     0
+ #define JOB_ID_JOB_MASK	     GENMASK(7, 0)
+@@ -28,6 +30,53 @@ static void ivpu_cmdq_ring_db(struct ivpu_device *vdev, struct ivpu_cmdq *cmdq)
+ 	ivpu_hw_reg_db_set(vdev, cmdq->db_id);
+ }
  
++static int ivpu_preemption_buffers_create(struct ivpu_device *vdev,
++					  struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq)
++{
++	u64 primary_size = ALIGN(vdev->fw->primary_preempt_buf_size, PAGE_SIZE);
++	u64 secondary_size = ALIGN(vdev->fw->secondary_preempt_buf_size, PAGE_SIZE);
++	struct ivpu_addr_range range;
++
++	if (vdev->hw->sched_mode != VPU_SCHEDULING_MODE_HW)
++		return 0;
++
++	range.start = vdev->hw->ranges.user.end - (primary_size * IVPU_NUM_CMDQS_PER_CTX);
++	range.end = vdev->hw->ranges.user.end;
++	cmdq->primary_preempt_buf = ivpu_bo_create(vdev, &file_priv->ctx, &range, primary_size,
++						   DRM_IVPU_BO_WC);
++	if (!cmdq->primary_preempt_buf) {
++		ivpu_err(vdev, "Failed to create primary preemption buffer\n");
++		return -ENOMEM;
++	}
++
++	range.start = vdev->hw->ranges.shave.end - (secondary_size * IVPU_NUM_CMDQS_PER_CTX);
++	range.end = vdev->hw->ranges.shave.end;
++	cmdq->secondary_preempt_buf = ivpu_bo_create(vdev, &file_priv->ctx, &range, secondary_size,
++						     DRM_IVPU_BO_WC);
++	if (!cmdq->secondary_preempt_buf) {
++		ivpu_err(vdev, "Failed to create secondary preemption buffer\n");
++		goto err_free_primary;
++	}
++
++	return 0;
++
++err_free_primary:
++	ivpu_bo_free(cmdq->primary_preempt_buf);
++	return -ENOMEM;
++}
++
++static void ivpu_preemption_buffers_free(struct ivpu_device *vdev,
++					 struct ivpu_file_priv *file_priv, struct ivpu_cmdq *cmdq)
++{
++	if (vdev->hw->sched_mode != VPU_SCHEDULING_MODE_HW)
++		return;
++
++	drm_WARN_ON(&vdev->drm, !cmdq->primary_preempt_buf);
++	drm_WARN_ON(&vdev->drm, !cmdq->secondary_preempt_buf);
++	ivpu_bo_free(cmdq->primary_preempt_buf);
++	ivpu_bo_free(cmdq->secondary_preempt_buf);
++}
++
+ static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv, u16 engine)
+ {
+ 	struct xa_limit db_xa_limit = {.max = IVPU_MAX_DB, .min = IVPU_MIN_DB};
+@@ -50,6 +99,10 @@ static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv, u16 e
+ 	if (!cmdq->mem)
+ 		goto err_erase_xa;
+ 
++	ret = ivpu_preemption_buffers_create(vdev, file_priv, cmdq);
++	if (ret)
++		goto err_free_cmdq_mem;
++
+ 	cmdq->entry_count = (u32)((ivpu_bo_size(cmdq->mem) - sizeof(struct vpu_job_queue_header)) /
+ 				  sizeof(struct vpu_job_queue_entry));
+ 
+@@ -62,6 +115,8 @@ static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv *file_priv, u16 e
+ 
+ 	return cmdq;
+ 
++err_free_cmdq_mem:
++	ivpu_bo_free(cmdq->mem);
+ err_erase_xa:
+ 	xa_erase(&vdev->db_xa, cmdq->db_id);
+ err_free_cmdq:
+@@ -74,6 +129,7 @@ static void ivpu_cmdq_free(struct ivpu_file_priv *file_priv, struct ivpu_cmdq *c
+ 	if (!cmdq)
+ 		return;
+ 
++	ivpu_preemption_buffers_free(file_priv->vdev, file_priv, cmdq);
+ 	ivpu_bo_free(cmdq->mem);
+ 	xa_erase(&file_priv->vdev->db_xa, cmdq->db_id);
+ 	kfree(cmdq);
+@@ -207,6 +263,15 @@ static int ivpu_cmdq_push_job(struct ivpu_cmdq *cmdq, struct ivpu_job *job)
+ 	entry->flags = 0;
+ 	if (unlikely(ivpu_test_mode & IVPU_TEST_MODE_NULL_SUBMISSION))
+ 		entry->flags = VPU_JOB_FLAGS_NULL_SUBMISSION_MASK;
++
++	if (vdev->hw->sched_mode == VPU_SCHEDULING_MODE_HW &&
++	    (unlikely(!(ivpu_test_mode & IVPU_TEST_MODE_PREEMPTION_DISABLE)))) {
++		entry->primary_preempt_buf_addr = cmdq->primary_preempt_buf->vpu_addr;
++		entry->primary_preempt_buf_size = ivpu_bo_size(cmdq->primary_preempt_buf);
++		entry->secondary_preempt_buf_addr = cmdq->secondary_preempt_buf->vpu_addr;
++		entry->secondary_preempt_buf_size = ivpu_bo_size(cmdq->secondary_preempt_buf);
++	}
++
+ 	wmb(); /* Ensure that tail is updated after filling entry */
+ 	header->tail = next_entry;
+ 	wmb(); /* Flush WC buffer for jobq header */
+diff --git a/drivers/accel/ivpu/ivpu_job.h b/drivers/accel/ivpu/ivpu_job.h
+index ca4984071cc7..e50002b5788c 100644
+--- a/drivers/accel/ivpu/ivpu_job.h
++++ b/drivers/accel/ivpu/ivpu_job.h
+@@ -24,6 +24,8 @@ struct ivpu_file_priv;
+  */
+ struct ivpu_cmdq {
+ 	struct vpu_job_queue *jobq;
++	struct ivpu_bo *primary_preempt_buf;
++	struct ivpu_bo *secondary_preempt_buf;
+ 	struct ivpu_bo *mem;
+ 	u32 entry_count;
+ 	u32 db_id;
 -- 
 2.43.2
 
