@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CBA8C442A
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 17:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833968C442B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 17:30:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A71E010E82C;
-	Mon, 13 May 2024 15:30:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C687410E82D;
+	Mon, 13 May 2024 15:30:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NwsceQPy";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="p6oyT3YA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1989310E82C
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 15:30:46 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 872F910E82D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 15:30:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 1132ACE0EC4;
- Mon, 13 May 2024 15:30:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7066C113CC;
- Mon, 13 May 2024 15:30:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D49E760E93;
+ Mon, 13 May 2024 15:30:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C8CEC2BD11;
+ Mon, 13 May 2024 15:30:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1715614240;
- bh=lbtAcZlU7zFFfxPay3fBpNeJz33GXAPwOS7fhPWPQHI=;
+ s=korg; t=1715614251;
+ bh=sPD2xk5e2vvODrgDjXPeWV7cwDFmXPmKIEJv4Qv0dFA=;
  h=Subject:To:Cc:From:Date:From;
- b=NwsceQPyD+tc8THx9Xq9EQRkaqLSu8opnIQWsCMVqhustGKrPwX+/jjJC8ocA1mXQ
- qungtf8foRkPbXIGa9D3ku0qPLyUJYdIt8qMIVnPEv6gJz/OfV0UhrC4zVFhhKEbAT
- CP/NneEEPNjGU+Esdp4uJrL0ywbm1UJIjN0pMslI=
+ b=p6oyT3YACGqetx5rFyREmE3cNNNxQr/BgvhI6RjJfF8tDyIQxtGg37Qm8tjbVa9YG
+ 1z/orFCSa7K5mwD6AJQr/SnQV/TEtqKcOfyOJQan8jeukp97xQP+kZFv3PkIGdoAU+
+ 4G2DvhsYZNvRkRddvPlH/7FDfkNDeCd02UOar0mU=
 Subject: Patch "drm/vmwgfx: Fix invalid reads in fence signaled events" has
- been added to the 5.10-stable tree
+ been added to the 5.15-stable tree
 To: airlied@gmail.com, bcm-kernel-feedback-list@broadcom.com, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  maaz.mombasawala@broadcom.com, martin.krastev@broadcom.com,
  zack.rusin@broadcom.com, zdi-disclosures@trendmicro.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 13 May 2024 17:28:19 +0200
-Message-ID: <2024051319-affidavit-eligibly-0175@gregkh>
+Date: Mon, 13 May 2024 17:28:30 +0200
+Message-ID: <2024051330-gusto-protector-b28f@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/vmwgfx: Fix invalid reads in fence signaled events
 
-to the 5.10-stable tree which can be found at:
+to the 5.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-vmwgfx-fix-invalid-reads-in-fence-signaled-events.patch
-and it can be found in the queue-5.10 subdirectory.
+and it can be found in the queue-5.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -110,7 +110,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -1066,7 +1066,7 @@ static int vmw_event_fence_action_create
+@@ -1068,7 +1068,7 @@ static int vmw_event_fence_action_create
  	}
  
  	event->event.base.type = DRM_VMW_EVENT_FENCE_SIGNALED;
@@ -123,4 +123,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from zack.rusin@broadcom.com are
 
-queue-5.10/drm-vmwgfx-fix-invalid-reads-in-fence-signaled-events.patch
+queue-5.15/drm-vmwgfx-fix-invalid-reads-in-fence-signaled-events.patch
