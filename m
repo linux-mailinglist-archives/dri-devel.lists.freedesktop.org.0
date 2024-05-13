@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312B38C3C78
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 09:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62828C3C79
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 09:50:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3399810E4B6;
-	Mon, 13 May 2024 07:50:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE9C10E4BB;
+	Mon, 13 May 2024 07:50:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="NwmM84T8";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JG9zxmx0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
  [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D0F10E4AA
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 07:50:47 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2CE472000B;
- Mon, 13 May 2024 07:50:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B917A10E4AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 07:50:48 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1C45720013;
+ Mon, 13 May 2024 07:50:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1715586646;
+ t=1715586647;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VA+3kkOkmxN6JGQji44tqIpv1ukeuuvSVGAGVFtW8cQ=;
- b=NwmM84T8tIg+NCKxfHkdmt7fawk2Nz3rrspe/kgI6rAthZBFv6cR9CDJbMpu2yBKHU9g0w
- GPL3yijPiYvN5MM3nZSTyQbmQ677PngYYYZHjfDMS7vrfMFmFxi54/HNnEKG+zl19h5rY+
- 4KcaIhlEA48yP0mh04vCzwiTouVwz7QVwnxVXEvoL9cwvnVy7YvyDigSPmpuCELBJzU58N
- rZXIigETG4abmvStJTNoVg0Hqe7L1q4rsPxJSj6GMzdmIsng+iVsfY1/8MUmloRvFp4RHw
- Totnwk7pYhyDO4QszLS7E0incba65DCFUv7x24sxTxxrGfrxVWHW/ZrJTCR9SA==
+ bh=p0FKIVGwbdpHIb8BuI5L8JvoZwrAcNtiZQ1DnM4vR/k=;
+ b=JG9zxmx0QE5XZwwAB23VPSaT876MjLJpxYpEOKyvK+6U7/doJAkLitv0fs22KEk9r2nnff
+ S76qlW1GCzw9wHOiBW0s0qF7U9fUM6a9GK76pFXEymZ5WlSxBI0y1auRYVYUTBc4MADUv+
+ W7GD0a7PvV2IB9bXEQXKUVbcpKohUdBk8oJMcb3Ff7BwAXtIZHpT/9EfI4Al9Pvsavrznv
+ aP40L+JTUXbj1ses74ogXs/CVn4GefXQBNI+kRh9RKur5V6C6+4oKov560DzzSgsqbCrwV
+ oMmQZHRYR/sGEKbxuhzmKFF5A2E1tvlYr/tJq8WYJU/GM1Lo3oSkCwDVIYISxA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 13 May 2024 09:50:28 +0200
-Subject: [PATCH v7 07/17] drm/vkms: Update pixels accessor to support
- packed and multi-plane formats.
+Date: Mon, 13 May 2024 09:50:29 +0200
+Subject: [PATCH v7 08/17] drm/vkms: Avoid computing blending limits inside
+ pre_mul_alpha_blend
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240513-yuv-v7-7-380e9ffec502@bootlin.com>
+Message-Id: <20240513-yuv-v7-8-380e9ffec502@bootlin.com>
 References: <20240513-yuv-v7-0-380e9ffec502@bootlin.com>
 In-Reply-To: <20240513-yuv-v7-0-380e9ffec502@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -52,23 +52,24 @@ To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
  thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
- nicolejadeyee@google.com, Louis Chauvet <louis.chauvet@bootlin.com>
+ nicolejadeyee@google.com, Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8553;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4075;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=ShQymX7W1zpEO2xcq1CKpIMhcZ1Q46wF+hboMw3ayvo=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmQcZDSytbFanugTfmjfHDHEXIB+GQqSmAxZaaD
- z5KV3mKDZOJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZkHGQwAKCRAgrS7GWxAs
- 4pvFEADIRVCLCYorq4Z80tIlgmFcP12nYnS14DL7Z1tJ7tsT1U5FY6azDzfQTkkQZnIKxieLbo2
- bpfvJeFhx7JJ7ExcpdV7kwyPI+XdMWdBFrfATvrsYn20z2teUknW7I7Peb8BKxvC+1zMjEVs6fp
- P0JUKD1sHi/I2VdAfT2P0B7SZxSg+sqogeG4ZiuKWTYDMXIVTV2fM5URxHC8kjKbcI11DHyz+Wf
- PKBIQADXbXl1fH7yFzSREwzWEJ+Nw3t0pX8VMJSIXy7kJQ/Q0wMgjDPsT9gG2FApkuXySzc16aj
- M3Sb/gl94n6d+qgA7YlLd3PF4uC92ndGUiEMD06s4Smzd+PT7pEEfop/Mu3UDkQONH4FXXgcSYs
- NpUQfWPFp8TkHuK2whUa1uG86uVi35quWpA9/VtayqlXa9L2LQVu4xYOirbnkFciOEKIon3glL6
- LTITUUs1lIhjseFkZSoQWABpxRVRWhAwsB0ediCZtkbkockzI8uGZGSgvIjgckDv9WMJxwYcoP4
- K80vwB7BZTrWv1PYffuY3xqwSAtRIsjwy7IWBHXZ6TOlH2Q2u4Ee5N0/UNqLHwKpX+CLRa6S0VO
- B2LhT2reFAbtiJv5TVUdOIdjTdUmoFZwFotgDSDPCzxnp1FECAd1RV9aLe3q8g5ImCFpExLXSxh
- U0sZRffc5pdy8rw==
+ bh=OA93dxY/QDeSwlJlrfR8nLFV2Zt/dq9YRAcwRpxm6+s=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmQcZDw7+y+Iv1zpmacs/s2ByIy4kkuPgEUkd6i
+ KIXbdumtgqJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZkHGQwAKCRAgrS7GWxAs
+ 4ui/EACTJGgpB/8K/B25SVUZ3HyHEzDf94M3L7psRDl6kaozHoD3oNgsuVqjiYSOsQx+LbbFSCT
+ aKiQ/xf6mS2QxLKMDFyHj38eaiMu7N6yx0qqIxjN41B9zQwVii8pYzW9l3E5OUXa5M6zQUDQuDe
+ vQTqXw4nwnTc41Gdui3TWfLGbyS2cuW89uiU8KasZjTuvcbDNm/Ipa7Y4tZGLoURdYdzpfYfd1N
+ phWVYQO92h1wlvi3fCVz2Lnx+tGdSEDhraiPh29TmtwLzIaJpCFBS4VGW6vh6d735OdVEFrX3Gg
+ tuqATNem/pIRFSiT15chhaInC3utoyHvvyjLJuQ5FkY1Vt3HPTZDB2M61B7IMDK7IYT2j2DfPl5
+ z6HVq4mjLxdHcT8p2PY+bmJe2tFAZnlxgxy1MC0TiWA4952rzOlwLFFCNF9UJ9hpSKuVrvdOR1n
+ AS3x64eGoHnMhm6kwtA1VdoxBNgMSCrXFOSS7UEQcIlEApxpVZ5t2WgcTzDhgAgpfcv/D3khu2T
+ y0UjxEM9FxvMTCV62iohWdBlc9LibGVqNFU0MuZGtC7MmY9cirZjEspvqcyaG8xlCn+JrXjM237
+ zlUIpCLMbyqLSMfC8T2fK2VZUJIW4TkH4ixXTCFnNqPb9plKO1a7YXeN9IkGPJa9ZavoqNkPkvv
+ nWk6jJpVewLVhpQ==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -87,188 +88,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce the usage of block_h/block_w to compute the offset and the
-pointer of a pixel. The previous implementation was specialized for
-planes with block_h == block_w == 1. To avoid confusion and allow easier
-implementation of tiled formats. It also remove the usage of the
-deprecated format field `cpp`.
+The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
+different concepts (coordinate calculation and color management), extract
+the x_limit and x_dst computation outside of this helper.
+It also increases the maintainability by grouping the computation related
+to coordinates in the same place: the loop in `blend`.
 
-Introduce the plane_index parameter to get an offset/pointer on a
-different plane.
-
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c | 110 ++++++++++++++++++++++++++++--------
- 1 file changed, 87 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 69cf9733fec5..9a1400ad4db6 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -10,22 +10,43 @@
- #include "vkms_formats.h"
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index da0651a94c9b..45b111c74884 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
  
  /**
-- * pixel_offset() - Get the offset of the pixel at coordinates x/y in the first plane
-+ * packed_pixels_offset() - Get the offset of the block containing the pixel at coordinates x/y
+  * pre_mul_alpha_blend - alpha blending equation
+- * @frame_info: Source framebuffer's metadata
+  * @stage_buffer: The line with the pixels from src_plane
+  * @output_buffer: A line buffer that receives all the blends output
++ * @x_start: The start offset
++ * @pixel_count: The number of pixels to blend
   *
-  * @frame_info: Buffer metadata
-  * @x: The x coordinate of the wanted pixel in the buffer
-  * @y: The y coordinate of the wanted pixel in the buffer
-+ * @plane_index: The index of the plane to use
-+ * @offset: The returned offset inside the buffer of the block
-+ * @rem_x,@rem_y: The returned coordinate of the requested pixel in the block
+- * Using the information from the `frame_info`, this blends only the
+- * necessary pixels from the `stage_buffer` to the `output_buffer`
+- * using premultiplied blend formula.
++ * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
++ * output_buffer.
   *
-- * The caller must ensure that the framebuffer associated with this request uses a pixel format
-- * where block_h == block_w == 1.
-- * If this requirement is not fulfilled, the resulting offset can point to an other pixel or
-- * outside of the buffer.
-+ * As some pixel formats store multiple pixels in a block (DRM_FORMAT_R* for example), some
-+ * pixels are not individually addressable. This function return 3 values: the offset of the
-+ * whole block, and the coordinate of the requested pixel inside this block.
-+ * For example, if the format is DRM_FORMAT_R1 and the requested coordinate is 13,5, the offset
-+ * will point to the byte 5*pitches + 13/8 (second byte of the 5th line), and the rem_x/rem_y
-+ * coordinates will be (13 % 8, 5 % 1) = (5, 0)
-+ *
-+ * With this function, the caller just have to extract the correct pixel from the block.
+  * The current DRM assumption is that pixel color values have been already
+  * pre-multiplied with the alpha channel values. See more
+  * drm_plane_create_blend_mode_property(). Also, this formula assumes a
+  * completely opaque background.
   */
--static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
-+static void packed_pixels_offset(const struct vkms_frame_info *frame_info, int x, int y,
-+				 int plane_index, int *offset, int *rem_x, int *rem_y)
+-static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
+-				struct line_buffer *stage_buffer,
+-				struct line_buffer *output_buffer)
++static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
++				struct line_buffer *output_buffer, int x_start, int pixel_count)
  {
- 	struct drm_framebuffer *fb = frame_info->fb;
-+	const struct drm_format_info *format = frame_info->fb->format;
-+	/* Directly using x and y to multiply pitches and format->ccp is not sufficient because
-+	 * in some formats a block can represent multiple pixels.
-+	 *
-+	 * Dividing x and y by the block size allows to extract the correct offset of the block
-+	 * containing the pixel.
-+	 */
- 
--	return fb->offsets[0] + (y * fb->pitches[0]) + (x * fb->format->cpp[0]);
-+	int block_x = x / drm_format_info_block_width(format, plane_index);
-+	int block_y = y / drm_format_info_block_height(format, plane_index);
-+	*rem_x = x % drm_format_info_block_width(format, plane_index);
-+	*rem_y = y % drm_format_info_block_height(format, plane_index);
-+	*offset = fb->offsets[plane_index] +
-+		  block_y * fb->pitches[plane_index] +
-+		  block_x * format->char_per_block[plane_index];
+-	int x_dst = frame_info->dst.x1;
+-	struct pixel_argb_u16 *out = output_buffer->pixels + x_dst;
+-	struct pixel_argb_u16 *in = stage_buffer->pixels;
+-	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+-			    stage_buffer->n_pixels);
+-
+-	for (int x = 0; x < x_limit; x++) {
+-		out[x].a = (u16)0xffff;
+-		out[x].r = pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
+-		out[x].g = pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
+-		out[x].b = pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
++	struct pixel_argb_u16 *out = &output_buffer->pixels[x_start];
++	const struct pixel_argb_u16 *in = stage_buffer->pixels;
++
++	for (int i = 0; i < pixel_count; i++) {
++		out[i].a = (u16)0xffff;
++		out[i].r = pre_mul_blend_channel(in[i].r, out[i].r, in[i].a);
++		out[i].g = pre_mul_blend_channel(in[i].g, out[i].g, in[i].a);
++		out[i].b = pre_mul_blend_channel(in[i].b, out[i].b, in[i].a);
+ 	}
  }
  
- /**
-@@ -35,30 +56,70 @@ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int
-  * @frame_info: Buffer metadata
-  * @x: The x (width) coordinate inside the plane
-  * @y: The y (height) coordinate inside the plane
-+ * @plane_index: The index of the plane
-+ * @addr: The returned pointer
-+ * @rem_x,@rem_y: The returned coordinate of the requested pixel in the block
-  *
-- * Takes the information stored in the frame_info, a pair of coordinates, and
-- * returns the address of the first color channel.
-- * This function assumes the channels are packed together, i.e. a color channel
-- * comes immediately after another in the memory. And therefore, this function
-- * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
-+ * Takes the information stored in the frame_info, a pair of coordinates, and returns the address
-+ * of the block containing this pixel and the pixel position inside this block.
-  *
-- * The caller must ensure that the framebuffer associated with this request uses a pixel format
-- * where block_h == block_w == 1, otherwise the returned pointer can be outside the buffer.
-+ * See @packed_pixel_offset for details about rem_x/rem_y behavior.
-  */
--static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
--				int x, int y)
-+static void packed_pixels_addr(const struct vkms_frame_info *frame_info,
-+			       int x, int y, int plane_index, u8 **addr, int *rem_x,
-+			       int *rem_y)
+@@ -183,7 +179,7 @@ static void blend(struct vkms_writeback_job *wb,
  {
--	size_t offset = pixel_offset(frame_info, x, y);
-+	int offset;
+ 	struct vkms_plane_state **plane = crtc_state->active_planes;
+ 	u32 n_active_planes = crtc_state->num_active_planes;
+-	int y_pos;
++	int y_pos, x_dst, pixel_count;
  
--	return (u8 *)frame_info->map[0].vaddr + offset;
-+	packed_pixels_offset(frame_info, x, y, plane_index, &offset, rem_x, rem_y);
-+	*addr = (u8 *)frame_info->map[0].vaddr + offset;
- }
+ 	const struct pixel_argb_u16 background_color = { .a = 0xffff };
  
--static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y)
-+/**
-+ * packed_pixels_addr_1x1() - Get the pointer to the block containing the pixel at the given
-+ * coordinates
-+ *
-+ * @frame_info: Buffer metadata
-+ * @x: The x (width) coordinate inside the plane
-+ * @y: The y (height) coordinate inside the plane
-+ * @plane_index: The index of the plane
-+ * @addr: The returned pointer
-+ *
-+ * This function can only be used with format where block_h == block_w == 1.
-+ */
-+static void packed_pixels_addr_1x1(const struct vkms_frame_info *frame_info,
-+				   int x, int y, int plane_index, u8 **addr)
-+{
-+	int offset, rem_x, rem_y;
-+
-+	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format,
-+					      plane_index) != 1,
-+		"%s() only support formats with block_w == 1", __func__);
-+	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format,
-+					       plane_index) != 1,
-+		"%s() only support formats with block_h == 1", __func__);
-+
-+	packed_pixels_offset(frame_info, x, y, plane_index, &offset, &rem_x,
-+			     &rem_y);
-+	*addr = (u8 *)frame_info->map[0].vaddr + offset;
-+}
-+
-+static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y,
-+				 int plane_index)
- {
- 	int x_src = frame_info->src.x1 >> 16;
- 	int y_src = y - frame_info->rotated.y1 + (frame_info->src.y1 >> 16);
-+	u8 *addr;
-+	int rem_x, rem_y;
-+
-+	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format, plane_index) != 1,
-+		  "%s() only support formats with block_w == 1", __func__);
-+	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format, plane_index) != 1,
-+		  "%s() only support formats with block_h == 1", __func__);
+@@ -201,14 +197,16 @@ static void blend(struct vkms_writeback_job *wb,
  
--	return packed_pixels_addr(frame_info, x_src, y_src);
-+	packed_pixels_addr(frame_info, x_src, y_src, plane_index, &addr, &rem_x, &rem_y);
-+
-+	return addr;
- }
+ 		/* The active planes are composed associatively in z-order. */
+ 		for (size_t i = 0; i < n_active_planes; i++) {
++			x_dst = plane[i]->frame_info->dst.x1;
++			pixel_count = min_t(int, drm_rect_width(&plane[i]->frame_info->dst),
++					    (int)stage_buffer->n_pixels);
+ 			y_pos = get_y_pos(plane[i]->frame_info, y);
  
- static int get_x_position(const struct vkms_frame_info *frame_info, int limit, int x)
-@@ -167,14 +228,14 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
- {
- 	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
- 	struct vkms_frame_info *frame_info = plane->frame_info;
--	u8 *src_pixels = get_packed_src_addr(frame_info, y);
-+	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
- 	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+ 			if (!check_limit(plane[i]->frame_info, y_pos))
+ 				continue;
  
- 	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
- 		int x_pos = get_x_position(frame_info, limit, x);
+ 			vkms_compose_row(stage_buffer, plane[i], y_pos);
+-			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+-					    output_buffer);
++			pre_mul_alpha_blend(stage_buffer, output_buffer, x_dst, pixel_count);
+ 		}
  
- 		if (drm_rotation_90_or_270(frame_info->rotation))
--			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
-+			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
- 				+ frame_info->fb->format->cpp[0] * y;
- 
- 		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
-@@ -275,7 +336,10 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
- {
- 	struct vkms_frame_info *frame_info = &wb->wb_frame_info;
- 	int x_dst = frame_info->dst.x1;
--	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-+	u8 *dst_pixels;
-+	int rem_x, rem_y;
-+
-+	packed_pixels_addr(frame_info, x_dst, y, 0, &dst_pixels, &rem_x, &rem_y);
- 	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
- 	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
- 
+ 		apply_lut(crtc_state, output_buffer);
 
 -- 
 2.43.2
