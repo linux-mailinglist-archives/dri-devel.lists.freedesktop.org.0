@@ -2,59 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014DB8C47AD
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 21:39:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5AA8C47CB
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 21:46:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 031B210E3C4;
-	Mon, 13 May 2024 19:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADD4D10E1CD;
+	Mon, 13 May 2024 19:46:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jcupdkxf";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Mg7EQLX9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34AFA10E3C4;
- Mon, 13 May 2024 19:39:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715629189; x=1747165189;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=axOfjCJamNTYqmF0GZOa+WjoR5wefKTKSoadyUOv1g0=;
- b=JcupdkxfVa/rXMNv9BqGm4sry/PO5T4eUR0Lw7pFXzG7/GE3D/Sc0k8Z
- jgqnM5WS75pVJ5KDEESljgJe4rtV5/YSE3vxMH3XBvxK3ieb1gN3Z+1/b
- byC18+LTHR5hf9sT+skR4Ye4M70Bp9cjO9fPineYEFE3dkMvTDsc1ckoy
- 6pF24+PFjE+yViXX/3rON1VUJQAve8zbuNkiSdYpTkU6fil4PrrhWFe/K
- DVy2TRIQKbVGhFU5i7wkWcHfCt43J4X1NL2lsPn2wvbl2WT8JQOZ2GfO+
- MZy6EIFFG+ByTUyQw25QbjOFBJ/NLw4gqUCt+nEk7ig911pnGjVQRf1Sd Q==;
-X-CSE-ConnectionGUID: V1ANlOnOTcGe7C7GYTUWLA==
-X-CSE-MsgGUID: AjPe2Yz+TpmY9klkjJugxw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="22253338"
-X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="22253338"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 12:39:48 -0700
-X-CSE-ConnectionGUID: 0FxuYqbJRAul+sZ9OO6rdA==
-X-CSE-MsgGUID: 3SIfY+gWQHWBFvSm6EgfnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="30388655"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.52])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 12:39:47 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/9] drm: Export drm_plane_has_format()
-In-Reply-To: <20240513175942.12910-3-ville.syrjala@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240513175942.12910-1-ville.syrjala@linux.intel.com>
- <20240513175942.12910-3-ville.syrjala@linux.intel.com>
-Date: Mon, 13 May 2024 22:39:44 +0300
-Message-ID: <87le4dec1r.fsf@intel.com>
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E55D910E1CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 19:46:18 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-61be674f5d1so52204357b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 12:46:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1715629578; x=1716234378; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QJEfzwkd2qxnsKE/Vy91fWDkVPR6tUmf6vlcyzKqO+0=;
+ b=Mg7EQLX9YO6ACm2ToA+T0kBMHl/UfpguEMnCT8Ub87h+ARqg3QcNAwUuhrXzf0jByl
+ swBBaaSQGXS+yOmyVLz/qGTvNn+8dDCZb/wnDD62ehccbNDqwnud/eeacsq/3CME9Idf
+ d9Bj1N1UL0g2nIpsTyxYuD8UEhTMgfkhhA6CUYuXMjXdJOIF7Wjko2gV8haIGaVnKS8W
+ feo3wke5exSEtsDs3om2l4YpBS7RRss8LuoOC8S7URtiJfUMES7+6+RsGFJTl6/QxpaU
+ GTfxVHiZ1kf7c1R5n+SdH5TaOFgx+QGOqhp1Di1UskcHcGwuZBqPCCZE6qtMfkMEGEEc
+ JOLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715629578; x=1716234378;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QJEfzwkd2qxnsKE/Vy91fWDkVPR6tUmf6vlcyzKqO+0=;
+ b=hXrZ4oH+5LwxvsbCNE4bKe18dIXMSaEItXx0kZbqB1jRpG+a2SlgDTtC3XCfPa1n89
+ Wyi4+cyJ+aZhgLoNiZAT9srJx27krhwrFgn66aSQH3BNmjjbTaPzJbZ56jwRn3TtsIWJ
+ K9EIIly5d0ihpWBWunfgUED64CJXIsqOFZApsKhWcmLso5lOk5cSvVUGel7EF1TDJqjn
+ s1TPueCmy8OzgG8onft/Ex3IbOTlfEHpfo9U+TU1Aaoe5qzBt4APGK73Qq3joe1F+W5b
+ oiiSGYKQogvnh0IUom60mWQqEedYpby/SG+k7e3khcZ142x63pwRPsYmKATYoHbmUgjG
+ IUJg==
+X-Gm-Message-State: AOJu0YzJ+XmPFhPrb2d/o6E4vZz0+loFFLE/v29OlTNDSFEn3K+5cNux
+ c3+eFlnZMWEKEW/Uwd/cju4TuLJfBiTOWWnkG8lUFREk8E2qKafYrVYqmNPi6lehCAEwSqAfrX/
+ gTe07Qfr5jcmiJhuxAaVrRdQ12y57F8aPY0dZIg==
+X-Google-Smtp-Source: AGHT+IGPz3LnxD+FGgFaCeFXh78jEmepPyxiwe+4wcuPzQbaTP/typ2A4tlWBQFabmLYpFP+8e9pZBIybxpkvek/nwE=
+X-Received: by 2002:a05:690c:3805:b0:61e:a66:bccd with SMTP id
+ 00721157ae682-622afff95e1mr158687087b3.38.1715629577353; Mon, 13 May 2024
+ 12:46:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20240508205222.2251854-1-dianders@chromium.org>
+ <20240508135148.v4.6.I3c08a7d02c467d2bc88da14e513ea4c8649fce45@changeid>
+In-Reply-To: <20240508135148.v4.6.I3c08a7d02c467d2bc88da14e513ea4c8649fce45@changeid>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 13 May 2024 21:46:06 +0200
+Message-ID: <CACRpkdZjaqAr6s-VUTw52qNmkP1aFxXdjdKd+JC_ukC5fKL0kw@mail.gmail.com>
+Subject: Re: [PATCH v4 6/9] drm/panel: novatek-nt36672e: Switch to
+ mipi_dsi_dcs_write_seq_multi()
+To: Douglas Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, 
+ lvzhaoxiong@huaqin.corp-partner.google.com, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Hsin-Yi Wang <hsinyi@google.com>, 
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Joel Selvaraj <jo@jsfamily.in>,
+ Brian Norris <briannorris@chromium.org>,
+ Ritesh Kumar <quic_riteshk@quicinc.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,60 +92,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 May 2024, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
-> Export drm_plane_has_format() so that drivers can use it.
->
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+On Wed, May 8, 2024 at 10:53=E2=80=AFPM Douglas Anderson <dianders@chromium=
+.org> wrote:
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-> ---
->  drivers/gpu/drm/drm_crtc_internal.h | 2 --
->  drivers/gpu/drm/drm_plane.c         | 1 +
->  include/drm/drm_plane.h             | 2 ++
->  3 files changed, 3 insertions(+), 2 deletions(-)
+> This is a mechanical conversion of the novatek-nt36672e driver to use
+> the new mipi_dsi_dcs_write_seq_multi(). The new function is easier for
+> clients to understand and using it also causes smaller code to be
+> generated. Specifically:
 >
-> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_cr=
-tc_internal.h
-> index 898e0e8b51be..e207759ca045 100644
-> --- a/drivers/gpu/drm/drm_crtc_internal.h
-> +++ b/drivers/gpu/drm/drm_crtc_internal.h
-> @@ -272,8 +272,6 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->  /* drm_plane.c */
->  int drm_plane_register_all(struct drm_device *dev);
->  void drm_plane_unregister_all(struct drm_device *dev);
-> -bool drm_plane_has_format(struct drm_plane *plane,
-> -			  u32 format, u64 modifier);
->  struct drm_mode_rect *
->  __drm_plane_get_damage_clips(const struct drm_plane_state *state);
->=20=20
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 268aa2299df5..a51d4dd3f7de 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -906,6 +906,7 @@ bool drm_plane_has_format(struct drm_plane *plane,
->=20=20
->  	return true;
->  }
-> +EXPORT_SYMBOL(drm_plane_has_format);
->=20=20
->  static int __setplane_check(struct drm_plane *plane,
->  			    struct drm_crtc *crtc,
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index 9507542121fa..dd718c62ac31 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -972,6 +972,8 @@ static inline struct drm_plane *drm_plane_find(struct=
- drm_device *dev,
->  #define drm_for_each_plane(plane, dev) \
->  	list_for_each_entry(plane, &(dev)->mode_config.plane_list, head)
->=20=20
-> +bool drm_plane_has_format(struct drm_plane *plane,
-> +			  u32 format, u64 modifier);
->  bool drm_any_plane_has_format(struct drm_device *dev,
->  			      u32 format, u64 modifier);
+> $ scripts/bloat-o-meter \
+>   ...after/panel-novatek-nt36672e.ko \
+>   ...ctx/panel-novatek-nt36672e.ko
+> add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-988 (-988)
+> Function                                     old     new   delta
+> nt36672e_1080x2408_60hz_init                6236    5248    -988
+> Total: Before=3D10651, After=3D9663, chg -9.28%
+>
+> Cc: Ritesh Kumar <quic_riteshk@quicinc.com>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
---=20
-Jani Nikula, Intel
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
