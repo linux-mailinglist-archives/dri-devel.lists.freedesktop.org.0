@@ -2,50 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9FAB8C39F9
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 04:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56FE8C3A1A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 04:16:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B109A10E071;
-	Mon, 13 May 2024 02:03:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BEDD10E0E0;
+	Mon, 13 May 2024 02:16:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="O9/knpBP";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="hrjmOMks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D900610E071
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 02:03:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1715565816;
- bh=TtDK2gOuNrhXeYNzr0rt8E+fUCAbs13e9V2OgjizcpY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=O9/knpBPUmsq3UAOQDPuMQfdLEnsCcuS3OEBhtXQxjwnBMUg0j5cPusEgEZ6P5I4j
- Gtzfm+Q/31klVULeGIFLK5X8on9B4QmRq5HR2itGgrAdOxWrjA0zO9uKnxuw8fisdg
- r9WrrjGbJ6gkbRgh/ZNdcSwJY/+sAimXgIy4G2FT1Bp6w5+vcOmAbHzfKB5y0892sU
- n9FT2zQz18gW5eznPFKAmEk7sfL1JjMMK7QiK+Lol7tXHrzoaHNAc0o6DqJNgN8XSh
- 9yMMALmtxITZlKzYmfcz6PgW7UhvV+xysqw+ZrYdwuO53gCvlJT5txQA3Oy5IA9ZKj
- 8wkruX8WPLXnQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 010F510E0E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 02:16:24 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Vd2pJ2mPSz4wqM;
- Mon, 13 May 2024 12:03:36 +1000 (AEST)
-Date: Mon, 13 May 2024 12:03:12 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Masahiro Yamada <masahiroy@kernel.org>, Dave Airlie <airlied@redhat.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Rob Clark <robdclark@chromium.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: manual merge of the drm-msm tree with the kbuild tree
-Message-ID: <20240513120312.55d97d04@canb.auug.org.au>
-In-Reply-To: <20240507125132.2af57c71@canb.auug.org.au>
-References: <20240507125132.2af57c71@canb.auug.org.au>
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 8A8E2882B4;
+ Mon, 13 May 2024 04:16:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1715566583;
+ bh=w/+/XlJv4789+wWI5bO1oX5fy4cOISLUA0D3f37T2Hk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hrjmOMkspvnPJGj/u8t392ssjddmlA/SJnhOA/i3dPrqeAMyXgDxg7CZ8QI0MX/5a
+ nIMFeVXNJ+f6lrtTAt+3oTQ4I1NcX5YVuiZ1ZWb3hACwRt8sijbas3CaH+d4eUi5z8
+ U8L6BV27ZO9jfW9uOvb/AdDGV4Es3MCYYC+dOll8i6inuJoXEkigPD/IHX9u/0X98Y
+ 2HHy7qX6Ns7BjNZuXkUiJ+8HSKycWK28SiZlqBx0B0CzDg/f+qBaygKH4xbIaY31/+
+ 9cKtyydYchfBCtkzqHaphtvtckgu1eJiXMcc894kqtz19xtvwpjvtEPYpsPGYPeV7x
+ tYrvLKP2fYv2Q==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
+Subject: [PATCH] drm/bridge: tc358767: Enable FRMSYNC timing generator
+Date: Mon, 13 May 2024 04:16:04 +0200
+Message-ID: <20240513021607.129111-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/9ovoDOjjHk/AwKL8atjs=DW";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,162 +68,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/9ovoDOjjHk/AwKL8atjs=DW
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+TC9595 datasheet Video Path0 Control (VPCTRL0) Register bit FRMSYNC description
+says "This bit should be disabled only in video mode transmission where Host
+transmits video timing together with video data and where pixel clock source
+is from DSI clock." . This driver always sources pixel clock from external xtal,
+therefore the FRMSYNC bit must always be enabled, enable it.
 
-Hi all,
+This fixes an actual issue with DSI-to-DPI mode, where the display would
+randomly show subtle pixel flickering, or wobble, or shimmering. This is
+visible on solid gray color, but the degree of the shimmering differs
+between boots, which makes it hard to debug.
 
-On Tue, 7 May 2024 12:51:32 +1000 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
->
-> Today's linux-next merge of the drm-msm tree got a conflict in:
->=20
->   drivers/gpu/drm/msm/Makefile
->=20
-> between commit:
->=20
->   7c972986689b ("kbuild: use $(src) instead of $(srctree)/$(src) for sour=
-ce directory")
->=20
-> from the kbuild tree and commits:
->=20
->   0fddd045f88e ("drm/msm: generate headers on the fly")
->   07a2f8716c41 ("drm/msm/gen_header: allow skipping the validation")
->=20
-> from the drm-msm tree.
->=20
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
->=20
-> diff --cc drivers/gpu/drm/msm/Makefile
-> index b8cc007fc1b9,718968717ad5..000000000000
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@@ -1,10 -1,11 +1,11 @@@
->   # SPDX-License-Identifier: GPL-2.0
->  -ccflags-y :=3D -I $(srctree)/$(src)
->  +ccflags-y :=3D -I $(src)
-> + ccflags-y +=3D -I $(obj)/generated
->  -ccflags-y +=3D -I $(srctree)/$(src)/disp/dpu1
->  -ccflags-$(CONFIG_DRM_MSM_DSI) +=3D -I $(srctree)/$(src)/dsi
->  -ccflags-$(CONFIG_DRM_MSM_DP) +=3D -I $(srctree)/$(src)/dp
->  +ccflags-y +=3D -I $(src)/disp/dpu1
->  +ccflags-$(CONFIG_DRM_MSM_DSI) +=3D -I $(src)/dsi
->  +ccflags-$(CONFIG_DRM_MSM_DP) +=3D -I $(src)/dp
->  =20
-> - msm-y :=3D \
-> + adreno-y :=3D \
->   	adreno/adreno_device.o \
->   	adreno/adreno_gpu.o \
->   	adreno/a2xx_gpu.o \
-> @@@ -140,11 -145,68 +145,68 @@@ msm-display-$(CONFIG_DRM_MSM_DSI) +=3D ds
->   			dsi/dsi_manager.o \
->   			dsi/phy/dsi_phy.o
->  =20
-> - msm-$(CONFIG_DRM_MSM_DSI_28NM_PHY) +=3D dsi/phy/dsi_phy_28nm.o
-> - msm-$(CONFIG_DRM_MSM_DSI_20NM_PHY) +=3D dsi/phy/dsi_phy_20nm.o
-> - msm-$(CONFIG_DRM_MSM_DSI_28NM_8960_PHY) +=3D dsi/phy/dsi_phy_28nm_8960.o
-> - msm-$(CONFIG_DRM_MSM_DSI_14NM_PHY) +=3D dsi/phy/dsi_phy_14nm.o
-> - msm-$(CONFIG_DRM_MSM_DSI_10NM_PHY) +=3D dsi/phy/dsi_phy_10nm.o
-> - msm-$(CONFIG_DRM_MSM_DSI_7NM_PHY) +=3D dsi/phy/dsi_phy_7nm.o
-> + msm-display-$(CONFIG_DRM_MSM_DSI_28NM_PHY) +=3D dsi/phy/dsi_phy_28nm.o
-> + msm-display-$(CONFIG_DRM_MSM_DSI_20NM_PHY) +=3D dsi/phy/dsi_phy_20nm.o
-> + msm-display-$(CONFIG_DRM_MSM_DSI_28NM_8960_PHY) +=3D dsi/phy/dsi_phy_28=
-nm_8960.o
-> + msm-display-$(CONFIG_DRM_MSM_DSI_14NM_PHY) +=3D dsi/phy/dsi_phy_14nm.o
-> + msm-display-$(CONFIG_DRM_MSM_DSI_10NM_PHY) +=3D dsi/phy/dsi_phy_10nm.o
-> + msm-display-$(CONFIG_DRM_MSM_DSI_7NM_PHY) +=3D dsi/phy/dsi_phy_7nm.o
-> +=20
-> + msm-y +=3D $(adreno-y) $(msm-display-y)
->  =20
->   obj-$(CONFIG_DRM_MSM)	+=3D msm.o
-> +=20
-> + ifeq (y,$(CONFIG_DRM_MSM_VALIDATE_XML))
-> + 	headergen-opts +=3D --validate
-> + else
-> + 	headergen-opts +=3D --no-validate
-> + endif
-> +=20
-> + quiet_cmd_headergen =3D GENHDR  $@
->  -      cmd_headergen =3D mkdir -p $(obj)/generated && $(PYTHON3) $(srctr=
-ee)/$(src)/registers/gen_header.py \
->  -		      $(headergen-opts) --rnn $(srctree)/$(src)/registers --xml $< c-=
-defines > $@
-> ++      cmd_headergen =3D mkdir -p $(obj)/generated && $(PYTHON3) $(src)/=
-registers/gen_header.py \
-> ++		      $(headergen-opts) --rnn $(src)/registers --xml $< c-defines > $@
-> +=20
-> + $(obj)/generated/%.xml.h: $(src)/registers/adreno/%.xml \
-> + 		$(src)/registers/adreno/adreno_common.xml \
-> + 		$(src)/registers/adreno/adreno_pm4.xml \
-> + 		$(src)/registers/freedreno_copyright.xml \
-> + 		$(src)/registers/gen_header.py \
-> + 		$(src)/registers/rules-fd.xsd \
-> + 		FORCE
-> + 	$(call if_changed,headergen)
-> +=20
-> + $(obj)/generated/%.xml.h: $(src)/registers/display/%.xml \
-> + 		$(src)/registers/freedreno_copyright.xml \
-> + 		$(src)/registers/gen_header.py \
-> + 		$(src)/registers/rules-fd.xsd \
-> + 		FORCE
-> + 	$(call if_changed,headergen)
-> +=20
-> + ADRENO_HEADERS =3D \
-> + 	generated/a2xx.xml.h \
-> + 	generated/a3xx.xml.h \
-> + 	generated/a4xx.xml.h \
-> + 	generated/a5xx.xml.h \
-> + 	generated/a6xx.xml.h \
-> + 	generated/a6xx_gmu.xml.h \
-> + 	generated/adreno_common.xml.h \
-> + 	generated/adreno_pm4.xml.h \
-> +=20
-> + DISPLAY_HEADERS =3D \
-> + 	generated/dsi_phy_7nm.xml.h \
-> + 	generated/dsi_phy_10nm.xml.h \
-> + 	generated/dsi_phy_14nm.xml.h \
-> + 	generated/dsi_phy_20nm.xml.h \
-> + 	generated/dsi_phy_28nm_8960.xml.h \
-> + 	generated/dsi_phy_28nm.xml.h \
-> + 	generated/dsi.xml.h \
-> + 	generated/hdmi.xml.h \
-> + 	generated/mdp4.xml.h \
-> + 	generated/mdp5.xml.h \
-> + 	generated/mdp_common.xml.h \
-> + 	generated/sfpb.xml.h
-> +=20
-> + $(addprefix $(obj)/,$(adreno-y)): $(addprefix $(obj)/,$(ADRENO_HEADERS))
-> + $(addprefix $(obj)/,$(msm-display-y)): $(addprefix $(obj)/,$(DISPLAY_HE=
-ADERS))
-> +=20
-> + targets +=3D $(ADRENO_HEADERS) $(DISPLAY_HEADERS)
+There is a caveat to the FRMSYNC and this bridge pixel PLL, which can only
+generate pixel clock with limited accuracy, it may therefore be necessary
+to reduce the HFP to fit into line length of input pixel data, to avoid any
+possible overflows, which make the output video look striped horizontally.
 
-This is now  conflict between the drm tree and the kbuild tree.
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Adam Ford <aford173@gmail.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Walle <mwalle@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: kernel@dh-electronics.com
+---
+ drivers/gpu/drm/bridge/tc358767.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
---=20
-Cheers,
-Stephen Rothwell
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 166f9a3e9622d..fe2b93546eaef 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -382,6 +382,9 @@ struct tc_data {
+ 
+ 	/* HPD pin number (0 or 1) or -ENODEV */
+ 	int			hpd_pin;
++
++	/* Number of pixels to subtract from a line due to pixel clock delta */
++	u32			line_pixel_subtract;
+ };
+ 
+ static inline struct tc_data *aux_to_tc(struct drm_dp_aux *a)
+@@ -577,6 +580,11 @@ static int tc_pllupdate(struct tc_data *tc, unsigned int pllctrl)
+ 	return 0;
+ }
+ 
++static u32 div64_round_up(u64 v, u32 d)
++{
++	return div_u64(v + d - 1, d);
++}
++
+ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+ {
+ 	int ret;
+@@ -658,8 +666,11 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
+ 		return -EINVAL;
+ 	}
+ 
+-	dev_dbg(tc->dev, "PLL: got %d, delta %d\n", best_pixelclock,
+-		best_delta);
++	tc->line_pixel_subtract = tc->mode.htotal -
++		div64_round_up(tc->mode.htotal * (u64)best_pixelclock, pixelclock);
++
++	dev_dbg(tc->dev, "PLL: got %d, delta %d (subtract %d px)\n", best_pixelclock,
++		best_delta, tc->line_pixel_subtract);
+ 	dev_dbg(tc->dev, "PLL: %d / %d / %d * %d / %d\n", refclk,
+ 		ext_div[best_pre], best_div, best_mul, ext_div[best_post]);
+ 
+@@ -885,6 +896,12 @@ static int tc_set_common_video_mode(struct tc_data *tc,
+ 		upper_margin, lower_margin, vsync_len);
+ 	dev_dbg(tc->dev, "total: %dx%d\n", mode->htotal, mode->vtotal);
+ 
++	if (right_margin > tc->line_pixel_subtract) {
++		right_margin -= tc->line_pixel_subtract;
++	} else {
++		dev_err(tc->dev, "Bridge pixel clock too slow for mode\n");
++		right_margin = 0;
++	}
+ 
+ 	/*
+ 	 * LCD Ctl Frame Size
+@@ -894,7 +911,7 @@ static int tc_set_common_video_mode(struct tc_data *tc,
+ 	 */
+ 	ret = regmap_write(tc->regmap, VPCTRL0,
+ 			   FIELD_PREP(VSDELAY, right_margin + 10) |
+-			   OPXLFMT_RGB888 | FRMSYNC_DISABLED | MSF_DISABLED);
++			   OPXLFMT_RGB888 | FRMSYNC_ENABLED | MSF_DISABLED);
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.43.0
 
---Sig_/9ovoDOjjHk/AwKL8atjs=DW
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmZBdOAACgkQAVBC80lX
-0Gz3bQgAkiAXFF6nLBuTsHzu71fph5uUENv2IXjpd4DL5oKiZBdEZ0g7c4FlwrxL
-4mrcTtYQ5N508pjgpcmhmCUxXjigZ33iFbdGP6niVHhMbiI5vZXkbvQICPg1LFW/
-7j4Yhd+cw0SnlE9dIG39mJs6SABD31ixspMK2xYmGvJl1VamXSKL4e1LkC7IpTgg
-n0SHaiJb6L5ej2XKFPeYY6atbOJvGNVGUi52/04dSoD5gHXovsZQkyprjoe+6dan
-LV7CCKzT+2QgA2nbzhOazGfRjfgrCANMvzc5he4u2HR2bK+vC6RdWGRnV2lR4oga
-c1KETvoShadWUD8+6cLtL/At2kaSmA==
-=L/I+
------END PGP SIGNATURE-----
-
---Sig_/9ovoDOjjHk/AwKL8atjs=DW--
