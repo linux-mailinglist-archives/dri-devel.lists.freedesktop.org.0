@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD698C3FFA
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 13:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6B88C3FFC
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 13:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7440710E6B8;
-	Mon, 13 May 2024 11:41:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68B9D10E6BD;
+	Mon, 13 May 2024 11:41:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PzEUJz1k";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="yyjz5oDU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B82410E6BE
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 11:40:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03E4710E6D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 11:41:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715600456;
- bh=wFeeGBKMQyo1GYou2gpNI7W2VooPrBRLPiuADwJNk3c=;
+ s=mail; t=1715600477;
+ bh=HDbJG3VcN3NoNEujZuQ4qYOxM+tcj1RO6xBsPQa3lQ8=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=PzEUJz1kXHe0Cxj06PvOXvQ4r4x3H8uXyK8/HvGm9C+xqNKjePNnozNv7OHhVwwbk
- /o97EafmR8eKJDi8mAmQ7OcrTYTjFHtvdrtRw/sVzVHn8rnDTlcawLNsYmoOjXcXrv
- fJoabcv5cnHWYPWuJc36UItZE22uuOSxJ8OsSiOkDrpHAO75odTIsCi0kaJ1g8FX/R
- McR1M+QRJdIgn/AhRIH4KAA+Dqx8k7ide68jcSMnEsbdYoTJrd+j5gkDByKzPdymSS
- z25fbX2ZjQn2X+LZBNgLUsP/Rnf5os2gSPU2GgO6VFpFBqyXLc6bUeHrNEu3QItym3
- UuLYwxxYMLFMg==
+ b=yyjz5oDUF75RhXiJUTa7wlbkCPqF1bdmt4lbAzPq5iaQqDpzxnLI1SNRV256BqF6y
+ HEWPSU6W8EOY1W3GbwI4ko0RTLEPfKhuLj/i2NOrz8iyRrGSOac1/1VHZrEaM3rkBj
+ z4vS+t6YvjDPHepMMefxYSWM4ESaob04kaxYpCYd+u9ZgU3KLLuMjSApBL/B9OOl/v
+ R9GJOsi4aqOA/wNYeTljEztoRySRezvCuBTy1R04ErysMw80RNz0b1ffewgo1GSOFa
+ j/ZrsFrC21Gmpc/zcPxJ8tyrjOYeoncFy0Nj9kVlbIjiugqXYCx6AfNXX8LYIkmyaK
+ y35EGjj0CGTWw==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 67DA1378212E;
- Mon, 13 May 2024 11:40:56 +0000 (UTC)
-Date: Mon, 13 May 2024 13:40:55 +0200
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 56676378212E;
+ Mon, 13 May 2024 11:41:17 +0000 (UTC)
+Date: Mon, 13 May 2024 13:41:15 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
  <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
  =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
- kernel@collabora.com
-Subject: Re: [PATCH 0/4] drm/panthor: More reset fixes
-Message-ID: <20240513134055.4a448383@collabora.com>
-In-Reply-To: <20240502183813.1612017-1-boris.brezillon@collabora.com>
-References: <20240502183813.1612017-1-boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v4 0/5] drm/panthor: Collection of tiler heap related fixes
+Message-ID: <20240513134115.22c59487@collabora.com>
+In-Reply-To: <20240502165158.1458959-1-boris.brezillon@collabora.com>
+References: <20240502165158.1458959-1-boris.brezillon@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -63,41 +62,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu,  2 May 2024 20:38:08 +0200
+On Thu,  2 May 2024 18:51:53 +0200
 Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-> Hello,
+> This is a collection of tiler heap fixes for bugs/oddities found while
+> looking at incremental rendering.
 > 
-> This is a collection of fixes for bugs found while chasing an
-> unrecoverable fault leading to a device unplug (because of some
-> other bugs that was introduced in my local dev branch).
+> Ideally, we want to land those before 6.10 is released, so we don't need
+> to increment the driver version to reflect the ABI changes.
 > 
-> The first patch makes sure we immediately reset the GPU on an
-> unrecoverable fault, and following patches are fixing various
-> NULL/invalid pointer derefs caused by use-after-free situations
-> following a device unplug.
+> Changelog detailed in each commit.
 > 
 > Regards,
 > 
 > Boris
 > 
+> Antonino Maniscalco (1):
+>   drm/panthor: Fix tiler OOM handling to allow incremental rendering
+> 
 > Boris Brezillon (4):
->   drm/panthor: Force an immediate reset on unrecoverable faults
->   drm/panthor: Keep a ref to the VM at the panthor_kernel_bo level
->   drm/panthor: Reset the FW VM to NULL on unplug
->   drm/panthor: Call panthor_sched_post_reset() even if the reset failed
+>   drm/panthor: Make sure the tiler initial/max chunks are consistent
+>   drm/panthor: Relax the constraints on the tiler chunk size
+>   drm/panthor: Fix an off-by-one in the heap context retrieval logic
+>   drm/panthor: Document drm_panthor_tiler_heap_destroy::handle validity
+>     constraints
 
 Queued to drm-misc-next-fixes.
 
 > 
->  drivers/gpu/drm/panthor/panthor_device.c |  8 ++---
->  drivers/gpu/drm/panthor/panthor_device.h |  1 +
->  drivers/gpu/drm/panthor/panthor_fw.c     |  5 +--
->  drivers/gpu/drm/panthor/panthor_gem.c    |  8 +++--
->  drivers/gpu/drm/panthor/panthor_gem.h    |  8 +++--
->  drivers/gpu/drm/panthor/panthor_heap.c   |  8 ++---
->  drivers/gpu/drm/panthor/panthor_sched.c  | 40 +++++++++++++++++-------
->  drivers/gpu/drm/panthor/panthor_sched.h  |  2 +-
->  8 files changed, 51 insertions(+), 29 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_heap.c  | 28 ++++++++++++++++---------
+>  drivers/gpu/drm/panthor/panthor_sched.c |  7 ++++++-
+>  include/uapi/drm/panthor_drm.h          | 20 ++++++++++++++----
+>  3 files changed, 40 insertions(+), 15 deletions(-)
 > 
 
