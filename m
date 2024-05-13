@@ -2,93 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4328C412D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 14:56:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E358C4128
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 14:56:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB0BE10E75E;
-	Mon, 13 May 2024 12:56:41 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="c5xWztIu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oA8gkBM0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c5xWztIu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oA8gkBM0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A64010E60F;
+	Mon, 13 May 2024 12:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 787E110E131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8335710E150
  for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 12:56:29 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BE511347BA;
- Mon, 13 May 2024 12:56:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715604987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=XHGmCz71iGOh1DlrZhI6prVrR2efN7O3ez/Cep7ErjU=;
- b=c5xWztIuY9yotEbY/q+hntHFXNhccCNmhz8h5isB5o4uOjYbzaZ7qipbBsZz8Htks8BCPx
- q/uohjTGDJanpH4Dt6bPBC0VRxz/LOLQNHevAe5C+u/w0AqZJpyWwy8PFWyojTCuCZSmIu
- xTtxdv/mh+O04fxbE5HJNcqYC04PFjg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715604987;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=XHGmCz71iGOh1DlrZhI6prVrR2efN7O3ez/Cep7ErjU=;
- b=oA8gkBM0mzFxQW5FlFUnGmOtxVr7Na3ETkPobkGsLS7dJjCL0xxnpH4+8ya8bF0Azh159p
- s/5fIs8mw12mxrCw==
-Authentication-Results: smtp-out1.suse.de;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 108615BEC6;
+ Mon, 13 May 2024 12:56:28 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715604987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=XHGmCz71iGOh1DlrZhI6prVrR2efN7O3ez/Cep7ErjU=;
- b=c5xWztIuY9yotEbY/q+hntHFXNhccCNmhz8h5isB5o4uOjYbzaZ7qipbBsZz8Htks8BCPx
- q/uohjTGDJanpH4Dt6bPBC0VRxz/LOLQNHevAe5C+u/w0AqZJpyWwy8PFWyojTCuCZSmIu
- xTtxdv/mh+O04fxbE5HJNcqYC04PFjg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715604987;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=XHGmCz71iGOh1DlrZhI6prVrR2efN7O3ez/Cep7ErjU=;
- b=oA8gkBM0mzFxQW5FlFUnGmOtxVr7Na3ETkPobkGsLS7dJjCL0xxnpH4+8ya8bF0Azh159p
- s/5fIs8mw12mxrCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 760FF13A52;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C141213A5C;
  Mon, 13 May 2024 12:56:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id jdDOGvsNQmZpfwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id mLD8LfsNQmZpfwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 13 May 2024 12:56:27 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, jani.nikula@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 00/10] drm/mgag200: Refactor DDC code
-Date: Mon, 13 May 2024 14:51:05 +0200
-Message-ID: <20240513125620.6337-1-tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ stable@vger.kernel.org
+Subject: [PATCH 01/10] drm/mgag200: Set DDC timeout in milliseconds
+Date: Mon, 13 May 2024 14:51:06 +0200
+Message-ID: <20240513125620.6337-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.45.0
+In-Reply-To: <20240513125620.6337-1-tzimmermann@suse.de>
+References: <20240513125620.6337-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_SEVEN(0.00)[8];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
 X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: 108615BEC6
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Rspamd-Action: no action
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,53 +70,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clean up a the driver's DDC code, make it simpler, more robust, and
-mostly self contained. The patches in this patchset have previously
-been sent as part of rev 1 of [1].
+Compute the i2c timeout in jiffies from a value in milliseconds. The
+original values of 2 jiffies equals 2 milliseconds if HZ has been
+configured to a value of 1000. This corresponds to 2.2 milliseconds
+used by most other DRM drivers. Update mgag200 accordingly.
 
-Patches 1 and 2 fix long-standing problems in the DDC code.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 414c45310625 ("mgag200: initial g200se driver (v2)")
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v3.5+
+---
+ drivers/gpu/drm/mgag200/mgag200_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Patches 3 to 9 refactor the DDC code. The code then keeps its data
-structures internal, acquires locks automatically and is much more
-readable overall.
-
-Patch 10 replaces driver code with an equivalent helper.
-
-Tested on various Matrox hardware.
-
-[1] https://patchwork.freedesktop.org/series/131977/
-
-Thomas Zimmermann (10):
-  drm/mgag200: Set DDC timeout in milliseconds
-  drm/mgag200: Bind I2C lifetime to DRM device
-  drm/mgag200: Store pointer to struct mga_device in struct mga_i2c_chan
-  drm/mgag200: Allocate instance of struct mga_i2c_chan dynamically
-  drm/mgag200: Inline mgag200_i2c_init()
-  drm/mgag200: Replace struct mga_i2c_chan with struct mgag200_ddc
-  drm/mgag200: Rename mgag200_i2c.c to mgag200_ddc.c
-  drm/mgag200: Rename struct i2c_algo_bit_data callbacks
-  drm/mgag200: Acquire I/O-register lock in DDC code
-  drm/mgag200: Use drm_connector_helper_get_modes()
-
- drivers/gpu/drm/mgag200/Makefile          |   2 +-
- drivers/gpu/drm/mgag200/mgag200_ddc.c     | 179 ++++++++++++++++++++++
- drivers/gpu/drm/mgag200/mgag200_ddc.h     |  11 ++
- drivers/gpu/drm/mgag200/mgag200_drv.h     |  18 +--
- drivers/gpu/drm/mgag200/mgag200_g200.c    |  11 +-
- drivers/gpu/drm/mgag200/mgag200_g200eh.c  |  11 +-
- drivers/gpu/drm/mgag200/mgag200_g200eh3.c |  11 +-
- drivers/gpu/drm/mgag200/mgag200_g200er.c  |  11 +-
- drivers/gpu/drm/mgag200/mgag200_g200ev.c  |  11 +-
- drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  11 +-
- drivers/gpu/drm/mgag200/mgag200_g200se.c  |  11 +-
- drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  11 +-
- drivers/gpu/drm/mgag200/mgag200_i2c.c     | 129 ----------------
- drivers/gpu/drm/mgag200/mgag200_mode.c    |  27 +---
- 14 files changed, 241 insertions(+), 213 deletions(-)
- create mode 100644 drivers/gpu/drm/mgag200/mgag200_ddc.c
- create mode 100644 drivers/gpu/drm/mgag200/mgag200_ddc.h
- delete mode 100644 drivers/gpu/drm/mgag200/mgag200_i2c.c
-
+diff --git a/drivers/gpu/drm/mgag200/mgag200_i2c.c b/drivers/gpu/drm/mgag200/mgag200_i2c.c
+index 423eb302be7eb..1029fef590f9b 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_i2c.c
++++ b/drivers/gpu/drm/mgag200/mgag200_i2c.c
+@@ -114,7 +114,7 @@ int mgag200_i2c_init(struct mga_device *mdev, struct mga_i2c_chan *i2c)
+ 	i2c->adapter.algo_data = &i2c->bit;
+ 
+ 	i2c->bit.udelay = 10;
+-	i2c->bit.timeout = 2;
++	i2c->bit.timeout = usecs_to_jiffies(2200);
+ 	i2c->bit.data = i2c;
+ 	i2c->bit.setsda		= mga_gpio_setsda;
+ 	i2c->bit.setscl		= mga_gpio_setscl;
 -- 
 2.45.0
 
