@@ -2,74 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40378C3BCA
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 09:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64DCD8C3BFA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 09:25:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E5D410E406;
-	Mon, 13 May 2024 07:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B5A10E0CA;
+	Mon, 13 May 2024 07:25:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="i6Gwne/A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MgYfy9Y9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30A9110E406
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 07:15:19 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D80F01C0009;
- Mon, 13 May 2024 07:15:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1715584518;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q5dn2MPOf1PSIm7z/V3iIjqsAJYU1Za0Jzr7Ny6Sqvw=;
- b=i6Gwne/A1aBtYIRnJIWVd1KlrxIch66paJ+HQmP5P2aG7NhH6IZTi3sIQSvpgq/kqVPNdQ
- reThlQag28kLbi1mjSrCrEGPsMUBH0FrklljBp5Pvgxc13KHYKua56IZaHkzYn0ykbM8sI
- lVKDo+Uf4crCjcbISZRc+DQJDrNixwCdD81waH8DX9Xpla0moKFzyDaCHx1O27cJ7Hr995
- u3dmdKkWDFykQoAXryEjSN9E/19jAAOXWEdlm93mARKsWqGsOB5lDvcIcdXxU/rgtb8BJZ
- MHLwkqd+KqvNdEmEZd1uNPsBdJjvbXLsXOrPaV3oRhxWxXzmx2v1pQAcKwg1HQ==
-Date: Mon, 13 May 2024 09:15:14 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com,
- marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v6 09/17] drm/vkms: Introduce pixel_read_direction enum
-Message-ID: <ZkG-AjScoFvMSA1O@localhost.localdomain>
-Mail-Followup-To: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com,
- marcheu@google.com, nicolejadeyee@google.com
-References: <20240409-yuv-v6-0-de1c5728fd70@bootlin.com>
- <20240409-yuv-v6-9-de1c5728fd70@bootlin.com>
- <20240422143918.098d3d09.pekka.paalanen@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7509610E0CA;
+ Mon, 13 May 2024 07:25:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715585152; x=1747121152;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=wMEuAI0hnZW1lo/a7h1KVjA6PRjEKyLoM0M7DADEqcA=;
+ b=MgYfy9Y9g11Cah784Hk+WlIdRkfZQM0eiMDGhdnAkSzp89iNXySOZJru
+ yQVvF541+HGUFR5rhKpFySaLzrTLVSa9ENVXf3P3sVtPISufs1+yMGMlb
+ z1fx2tE7tbVFDreioIxjfuLNq/kZPwqk47oCC25HfloV2d+w+qRvG44Ka
+ Q8IRGfSms0AO2Zo1TTtvxLBf5EoMCkK+Y+M4zYRCjuOkrgGVVukfv8192
+ ymKhXGf034WHILqDXivolT7K6satuFlhLrX9s2goRWK5qww0jpKksw8ph
+ qmhUERN+PulRGSkElDgintGcp+HTnkKzEtnZi4xy5KUE2kR+CCoK6+/9C Q==;
+X-CSE-ConnectionGUID: sKtDSeMMTr+8gMN9dvOZHQ==
+X-CSE-MsgGUID: YJlIM0QNTYC8qRXfF9iERA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="29019690"
+X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; d="scan'208";a="29019690"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2024 00:25:51 -0700
+X-CSE-ConnectionGUID: B0o9cwonRVSGhjNXnaLsSw==
+X-CSE-MsgGUID: VSbT3SNNQ2mbkjbrR83ESw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; d="scan'208";a="34761360"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.246.50.245])
+ ([10.246.50.245])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2024 00:25:50 -0700
+Message-ID: <ce1e1097-2e7d-475b-ac17-3b84aec473e2@linux.intel.com>
+Date: Mon, 13 May 2024 09:25:45 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240422143918.098d3d09.pekka.paalanen@collabora.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915: Correct error handler
+To: Jiasheng Jiang <jiashengjiangcool@outlook.com>,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ daniel@ffwll.ch, chris@chris-wilson.co.uk
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <BYAPR03MB41680146FAD88A8F26C3827BADE02@BYAPR03MB4168.namprd03.prod.outlook.com>
+Content-Language: en-US
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <BYAPR03MB41680146FAD88A8F26C3827BADE02@BYAPR03MB4168.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,110 +74,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[...]
 
-> > +/**
-> > + * direction_for_rotation() - Get the correct reading direction for a given rotation
-> > + *
-> > + * @rotation: Rotation to analyze. It correspond the field @frame_info.rotation.
-> > + *
-> > + * This function will use the @rotation setting of a source plane to compute the reading
-> > + * direction in this plane which correspond to a "left to right writing" in the CRTC.
-> > + * For example, if the buffer is reflected on X axis, the pixel must be read from right to left
-> > + * to be written from left to right on the CRTC.
-> > + */
-> > +static enum pixel_read_direction direction_for_rotation(unsigned int rotation)
-> > +{
-> > +	struct drm_rect tmp_a, tmp_b;
-> > +	int x, y;
-> > +
-> > +	/*
-> > +	 * The direction is computed by rotating the vector AB (top-left to top-right) in a
-> > +	 * 1x1 square.
-> 
-> Points A and B are depicted as zero-size rectangles on the CRTC.
-> The CRTC writing direction is from A to B. The plane reading direction
-> is discovered by inverse-transforming A and B.
-> 
-> (If you want, you can add that to the comment.)
+On 5/11/2024 5:48 PM, Jiasheng Jiang wrote:
+> Replace "slab_priorities" with "slab_dependencies" in the error handler to avoid memory leak.
 
-It is better, thanks!
- 
-> > +	 */
-> > +
-> > +	tmp_a = DRM_RECT_INIT(0, 0, 0, 0);
-> > +	tmp_b = DRM_RECT_INIT(1, 0, 0, 0);
-> > +	drm_rect_rotate_inv(&tmp_a, 1, 1, rotation);
-> > +	drm_rect_rotate_inv(&tmp_b, 1, 1, rotation);
-> > +
-> > +	x = tmp_b.x1 - tmp_a.x1;
-> > +	y = tmp_b.y1 - tmp_a.y1;
-> > +
-> > +	if (x == 1)
-> > +		return READ_LEFT_TO_RIGHT;
-> > +	else if (x == -1)
-> > +		return READ_RIGHT_TO_LEFT;
-> > +	else if (y == 1)
-> > +		return READ_TOP_TO_BOTTOM;
-> > +	else if (y == -1)
-> > +		return READ_BOTTOM_TO_TOP;
-> 
-> I find this code practically obvious. Excellent!
-> 
-> If you want to be more strict, each condition could also require the
-> other component to be zero.
+Nice catch. I would make the subject more like:
 
-I will add it.
+drm/i915: Fix memory leak by correcting cache object name in error handler
 
-[...]
+>
+> Fixes: 32eb6bcfdda9 ("drm/i915: Make request allocation caches global")
 
-> > + */
-> > +static int get_block_step_byte(struct drm_framebuffer *fb, enum pixel_read_direction direction,
-> > +			       int plane_index)
-> > +{
-> > +	switch (direction) {
-> > +	case READ_LEFT_TO_RIGHT:
-> > +		return fb->format->char_per_block[plane_index];
-> > +	case READ_RIGHT_TO_LEFT:
-> > +		return -fb->format->char_per_block[plane_index];
-> > +	case READ_TOP_TO_BOTTOM:
-> > +		return (int)fb->pitches[plane_index];
-> > +	case READ_BOTTOM_TO_TOP:
-> > +		return -(int)fb->pitches[plane_index];
-> 
-> I'm not sure if this is correct for formats with block_h > 1.
-> 
-> If a pitch is the theoretical count of bytes per line, then this should
-> return block_h * pitch. But I'm not exactly sure what is correct here.
+Also need Cc: <stable@vger.kernel.org> # v5.2+
 
-I think it is related to my answer to patch 07/17. If pitch is what you 
-describe, yes, the step should be block_h * DIV_ROUND_UP(fb_width / 
-block_w) (or something similar).
+With those:
 
-If I take X0L2 with a buffer of 9x5 pixels, the step between two blocks 
-verticaly must be 40 bytes. Your formula and interpretation of pitch will 
-give only 36 bytes (a row only need 18 bytes). So a new "pitch" is needed.
-
-> Aside from this problem, looks good.
-> 
-> 
-> Thanks,
-> pq
-> 
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  /**
-> >   * packed_pixels_addr_1x1() - Get the pointer to the block containing the pixel at the given
-> >   * coordinates
-> > 
-> 
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 
 
+Nirmoy
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> Signed-off-by: Jiasheng Jiang <jiashengjiangcool@outlook.com>
+> ---
+>   drivers/gpu/drm/i915/i915_scheduler.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
+> index 762127dd56c5..70a854557e6e 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler.c
+> +++ b/drivers/gpu/drm/i915/i915_scheduler.c
+> @@ -506,6 +506,6 @@ int __init i915_scheduler_module_init(void)
+>   	return 0;
+>   
+>   err_priorities:
+> -	kmem_cache_destroy(slab_priorities);
+> +	kmem_cache_destroy(slab_dependencies);
+>   	return -ENOMEM;
+>   }
