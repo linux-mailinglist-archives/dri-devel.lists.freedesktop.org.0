@@ -2,77 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751038C4193
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 15:14:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC348C41A1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 15:17:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B3010E06D;
-	Mon, 13 May 2024 13:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71E3A10E2E2;
+	Mon, 13 May 2024 13:17:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HTAifjR8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GVOQ6J6q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60D7010E06D
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 13:14:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715606055; x=1747142055;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=fZPA2U0w/NaPd1XPXrH9KUPReWy8Mu/+vRwHo8Emv3A=;
- b=HTAifjR8rlutgfCDh22fQkiJbeyODvI8uAWfUVsVPT1OL4IsnP/Ncv33
- jObe8GTaCmwILV8mXsrasEPbd/ehHtXOfLqL1ZVTkPQ3kK8acRV8f22pt
- uaUyiJamNbRCBTaEapsY3spv0BwmzY0XTOUMY+AQGx7W5U3eo5K1Iq9pE
- 4SbOQGPkq0Ej+SHVQYyVWqhiMPzeoH7Gg9Cr0OWSwWdj/8gAym9RCFTI1
- u6ti0+JSNIKKGjRPR29vYn5eomQbmqgb6/QL+5qjfLL8GDBgcgCW47u9l
- XpwUAn28xoulJKD0IPXI4nEN7kG7B8KJ5CSNyYs1FNZ/CEKh9wQMP7dWI Q==;
-X-CSE-ConnectionGUID: DkGt/0FxSCK4kLdGLUZqow==
-X-CSE-MsgGUID: ri29Zxs2RQS2zaUrY2AZVA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11390407"
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="11390407"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 06:14:14 -0700
-X-CSE-ConnectionGUID: HrSYo+lVRL2UPrBM1JzUzw==
-X-CSE-MsgGUID: AhNYnZ1gQ/y065zn5CRwig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30456394"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 06:14:08 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1s6VVE-000000078wG-0cig; Mon, 13 May 2024 16:14:04 +0300
-Date: Mon, 13 May 2024 16:14:03 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: Jani Nikula <jani.nikula@intel.com>, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
- sebastian.fricke@collabora.com, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, adobriyan@gmail.com,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
- praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
- j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
- p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
- nicolas@ndufresne.ca
-Subject: Re: [PATCH v7 6/8] math.h Add macros to round to closest specified
- power of 2
-Message-ID: <ZkISG6p1tn9Do-xY@smile.fi.intel.com>
-References: <20240509183952.4064331-1-devarsht@ti.com>
- <Zj42vTpyH71TWeTk@smile.fi.intel.com> <87fruphf55.fsf@intel.com>
- <5ebcf480-81c6-4c2d-96e8-727d44f21ca9@ti.com>
- <ZkHWbS4raU_BPlpm@smile.fi.intel.com>
- <6557050e-6b18-2628-cbab-1a811b2190ba@ti.com>
- <ZkIG0-01pz632l4R@smile.fi.intel.com>
- <d63ae19c-9316-3a4c-e9ed-1672ace068b6@ti.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4C9910E2E2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 13:17:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id E23FDCE0D8B;
+ Mon, 13 May 2024 13:17:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C88C32782;
+ Mon, 13 May 2024 13:17:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715606234;
+ bh=sCQQdb5fu1AI/GGQpLevWmpW1G8ldkeo47pUNmNMP28=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GVOQ6J6qh9mPjnMq3qWXWlho7YHflOLaSR7O8ow4CyTYYKWE8VLxAuwgeNWUvnhbB
+ lJHTadSnAkBn5dX3iQDDPYfwl8qEa253rLwbY80rMa6ltM8/CL90fDFQxsyO9WEIpV
+ yIFYmDclZKObVEIt5Gc5FEtij2cLgxyKYBClMwdserwKoCcjhUapvYgMRGAbUWy/3I
+ +V4XjklX7tXHR9liySEK4MtRskLrFbK5tDgx/bUnkD7AB0avM2xNxDR8vHg80WMof1
+ YgwS3ipWEE7NYv9RmhOpWWmmnzg8S3tfOuQ3eJjWVhhxk36eiilob23X8S5/0yLHWw
+ RxzmKIwNUU3Sw==
+Date: Mon, 13 May 2024 08:17:11 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Konrad Dybcio <konradybcio@gmail.com>,
+ Del Regno <angelogioacchino.delregno@somainline.org>,
+ Heiko Stuebner <heiko@sntech.de>, Luca Weiss <luca.weiss@fairphone.com>,
+ Dmitry Baryskov <dmitry.baryshkov@linaro.org>,
+ Shawn Guo <shawn.guo@linaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] dt-bindings: display: panel: constrain 'reg'
+Message-ID: <20240513131711.GA2419451-robh@kernel.org>
+References: <20240509-dt-bindings-dsi-panel-reg-v1-0-8b2443705be0@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d63ae19c-9316-3a4c-e9ed-1672ace068b6@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20240509-dt-bindings-dsi-panel-reg-v1-0-8b2443705be0@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,33 +72,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 13, 2024 at 06:34:19PM +0530, Devarsh Thakkar wrote:
-> On 13/05/24 17:55, Andy Shevchenko wrote:
-> > On Mon, May 13, 2024 at 04:55:58PM +0530, Devarsh Thakkar wrote:
-> >> On 13/05/24 14:29, Andy Shevchenko wrote:
-> >>> On Sat, May 11, 2024 at 11:11:14PM +0530, Devarsh Thakkar wrote:
-> >>>> On 10/05/24 20:45, Jani Nikula wrote:
-
-[...]
-
-> > - align naming (with the existing round*() macros)
+On Thu, May 09, 2024 at 11:42:50AM +0200, Krzysztof Kozlowski wrote:
+> Hi,
 > 
-> I think round_closest_up/round_closest_down align already and inspired by the
-> existing naming convention used for round*() and DIV_ROUND_CLOSEST() macros in
-> math.h as explained below (copied from my previous reply [1])
+> Cleanups for display panel bindings.
 > 
-> "Coming back to naming, this is as per existing convention used for naming
-> round_up, round_down (notice the `_` being used for macros working with pow of
-> 2) and DIV_ROUND_CLOSEST (notice the work `closest` used to specify the answer
->  to be nearest to specified value)"
-> 
-> But do let me know if you have any other suggestions for naming?
+> Rob, maybe you could take entire set if it applies? I based it on
+> linux-next, so letl me know if I need to rebase on your for-next.
 
-Just make sure that semantically the naming is aligned, that's it.
-If you think it's already done that way, fine!
+Applied. These 2 don't exist in my tree:
 
--- 
-With Best Regards,
-Andy Shevchenko
+Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
+Documentation/devicetree/bindings/display/panel/raydium,rm69380.yaml
 
-
+Rob
