@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8099B8C406B
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 14:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306FD8C408A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 14:18:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 850B710E722;
-	Mon, 13 May 2024 12:04:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ACCF10E737;
+	Mon, 13 May 2024 12:18:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IcP7RHu3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aqcoCq1Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA6B610E717
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 12:04:53 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAE7D10E24A;
+ Mon, 13 May 2024 12:18:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715601894; x=1747137894;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=HfJh/iJ2LS2gn4zMZVsQoTozmwf8ldUHxMmLZEWYFuo=;
- b=IcP7RHu3HoAsS12C+K6vLO3eDCMuHngg9OymC7SjUXF7bsX36OCLAS/c
- LQyX4TYIB7cfr7YW+Md7COI0taz//8F3SwsJ6xRkJGPu3c5kz1nsQL2YP
- yEVQGBVmIyLNnzB8DAFWYlCXrr7oyHOSeWktMuL4DmqLF5KZXy2IjICkj
- u4QreJSRMnSmQmxX+pD0MBpC4O65pym1c9IiUTkiQjCF0ArWPu9ZvqI4G
- Jr12BmI39pl5RMcAN0K1HUCfLTgQzU80h/Vm6Qti6Zun57jSiA5AW/Wnv
- 3Auq0jR2pMgtqKPYjMClKdS90YSkKZtPmXI4+a1Xbn1azscAvrrqkGTwU g==;
-X-CSE-ConnectionGUID: 9Jz3YoakSsiEwYtFhdT2BQ==
-X-CSE-MsgGUID: O+FaSoonTVyzBWe5Gsp66w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="22131769"
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="22131769"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 05:04:53 -0700
-X-CSE-ConnectionGUID: fiM4s0jhSLOVVP9sfU9XhA==
-X-CSE-MsgGUID: i+emeHzlSLyD4LBM+oEIPQ==
+ t=1715602701; x=1747138701;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=OrLOdhd20Ww2EGzQMmlcnwLGgqvEGB5twHwF2grXkmY=;
+ b=aqcoCq1YEKss7e7ttYAotDBuJBtaSJaqQ+B4eOGvDU4SbtvrU+iGv105
+ U61gYn5e2XBXCFbtvJYzlcFbi4I0mFHppBW6HyfVx4Ys58ZX0LYmvac12
+ AMohDvYGJ7xdIKuZJ+lv148hLV6LKp1wH5XkPUQBWzblrjfyWcZRkJvqk
+ zXE2kf3kyi3Pv2aXH19+iNHgzhU1KIExxMjS1JJbi3kc8dIqq/4JveHdA
+ pB7Etnl5RkW4t+opzP+QjUo3wbmTCsPnT7xzfWMAmnbRNEDfjVgQ3cKyO
+ eC7N1x2ECHc8L+4mp3fle/EpV8Ta+j0izMKA6h0sDXmYwBYEGcb+GriN0 g==;
+X-CSE-ConnectionGUID: MQmaicq7TOq0r7FC4F09+g==
+X-CSE-MsgGUID: cew5/9T5RH6yBhAM2HrEqw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="29022753"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="29022753"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2024 05:18:12 -0700
+X-CSE-ConnectionGUID: UiHs0f4tRlK4JOMklVbdgg==
+X-CSE-MsgGUID: TBJF+nUzRw6nsyWPIgfIKQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30341107"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 05:04:51 -0700
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
- Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH v2 12/12] accel/ivpu: Share NPU busy time in sysfs
-Date: Mon, 13 May 2024 14:04:31 +0200
-Message-ID: <20240513120431.3187212-13-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240513120431.3187212-1-jacek.lawrynowicz@linux.intel.com>
-References: <20240513120431.3187212-1-jacek.lawrynowicz@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="34877366"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.7])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2024 05:18:08 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>, Danilo
+ Krummrich <dakr@redhat.com>
+Subject: Re: [RESEND 1/6] drm/nouveau: convert to using is_hdmi and
+ has_audio from display info
+In-Reply-To: <b23e6de23a1c1d997fa5e9e9bef8c88672774d01.camel@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1715353572.git.jani.nikula@intel.com>
+ <aa45875200705205ae101c409fc2bba03b631a5e.1715353572.git.jani.nikula@intel.com>
+ <b23e6de23a1c1d997fa5e9e9bef8c88672774d01.camel@redhat.com>
+Date: Mon, 13 May 2024 15:18:06 +0300
+Message-ID: <87v83hewht.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,219 +74,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+On Fri, 10 May 2024, Lyude Paul <lyude@redhat.com> wrote:
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-The driver tracks the time spent by NPU executing jobs
-and shares it through sysfs `npu_busy_time_us` file.
-It can be then used by user space applications to monitor device
-utilization.
+Thanks, how do you want to handle merging this?
 
-NPU is considered 'busy' starting with a first job submitted
-to firmware and ending when there is no more jobs pending/executing.
+BR,
+Jani.
 
-Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
----
- drivers/accel/ivpu/Makefile     |  3 +-
- drivers/accel/ivpu/ivpu_drv.c   |  2 ++
- drivers/accel/ivpu/ivpu_drv.h   |  3 ++
- drivers/accel/ivpu/ivpu_job.c   | 23 ++++++++++++-
- drivers/accel/ivpu/ivpu_sysfs.c | 58 +++++++++++++++++++++++++++++++++
- drivers/accel/ivpu/ivpu_sysfs.h | 13 ++++++++
- 6 files changed, 100 insertions(+), 2 deletions(-)
- create mode 100644 drivers/accel/ivpu/ivpu_sysfs.c
- create mode 100644 drivers/accel/ivpu/ivpu_sysfs.h
 
-diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
-index 1c67a73cfefe..e16a9f5c1c89 100644
---- a/drivers/accel/ivpu/Makefile
-+++ b/drivers/accel/ivpu/Makefile
-@@ -14,7 +14,8 @@ intel_vpu-y := \
- 	ivpu_mmu.o \
- 	ivpu_mmu_context.o \
- 	ivpu_ms.o \
--	ivpu_pm.o
-+	ivpu_pm.o \
-+	ivpu_sysfs.o
- 
- intel_vpu-$(CONFIG_DEBUG_FS) += ivpu_debugfs.o
- 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index bd702401216c..130455d39841 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -28,6 +28,7 @@
- #include "ivpu_mmu_context.h"
- #include "ivpu_ms.h"
- #include "ivpu_pm.h"
-+#include "ivpu_sysfs.h"
- 
- #ifndef DRIVER_VERSION_STR
- #define DRIVER_VERSION_STR __stringify(DRM_IVPU_DRIVER_MAJOR) "." \
-@@ -696,6 +697,7 @@ static int ivpu_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		return ret;
- 
- 	ivpu_debugfs_init(vdev);
-+	ivpu_sysfs_init(vdev);
- 
- 	ret = drm_dev_register(&vdev->drm, 0);
- 	if (ret) {
-diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index 973f8ded23e9..4de7fc0c7026 100644
---- a/drivers/accel/ivpu/ivpu_drv.h
-+++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -135,6 +135,9 @@ struct ivpu_device {
- 
- 	atomic64_t unique_id_counter;
- 
-+	ktime_t busy_start_ts;
-+	ktime_t busy_time;
-+
- 	struct {
- 		int boot;
- 		int jsm;
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 1d7b4388eb3b..845181b48b3a 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -438,11 +438,28 @@ ivpu_job_create(struct ivpu_file_priv *file_priv, u32 engine_idx, u32 bo_count)
- 	return NULL;
- }
- 
-+static struct ivpu_job *ivpu_job_remove_from_submitted_jobs(struct ivpu_device *vdev, u32 job_id)
-+{
-+	struct ivpu_job *job;
-+
-+	xa_lock(&vdev->submitted_jobs_xa);
-+	job = __xa_erase(&vdev->submitted_jobs_xa, job_id);
-+
-+	if (xa_empty(&vdev->submitted_jobs_xa) && job) {
-+		vdev->busy_time = ktime_add(ktime_sub(ktime_get(), vdev->busy_start_ts),
-+					    vdev->busy_time);
-+	}
-+
-+	xa_unlock(&vdev->submitted_jobs_xa);
-+
-+	return job;
-+}
-+
- static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32 job_status)
- {
- 	struct ivpu_job *job;
- 
--	job = xa_erase(&vdev->submitted_jobs_xa, job_id);
-+	job = ivpu_job_remove_from_submitted_jobs(vdev, job_id);
- 	if (!job)
- 		return -ENOENT;
- 
-@@ -477,6 +494,7 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority)
- 	struct ivpu_device *vdev = job->vdev;
- 	struct xa_limit job_id_range;
- 	struct ivpu_cmdq *cmdq;
-+	bool is_first_job;
- 	int ret;
- 
- 	ret = ivpu_rpm_get(vdev);
-@@ -497,6 +515,7 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority)
- 	job_id_range.max = job_id_range.min | JOB_ID_JOB_MASK;
- 
- 	xa_lock(&vdev->submitted_jobs_xa);
-+	is_first_job = xa_empty(&vdev->submitted_jobs_xa);
- 	ret = __xa_alloc(&vdev->submitted_jobs_xa, &job->job_id, job, job_id_range, GFP_KERNEL);
- 	if (ret) {
- 		ivpu_dbg(vdev, JOB, "Too many active jobs in ctx %d\n",
-@@ -516,6 +535,8 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority)
- 		wmb(); /* Flush WC buffer for jobq header */
- 	} else {
- 		ivpu_cmdq_ring_db(vdev, cmdq);
-+		if (is_first_job)
-+			vdev->busy_start_ts = ktime_get();
- 	}
- 
- 	ivpu_dbg(vdev, JOB, "Job submitted: id %3u ctx %2d engine %d prio %d addr 0x%llx next %d\n",
-diff --git a/drivers/accel/ivpu/ivpu_sysfs.c b/drivers/accel/ivpu/ivpu_sysfs.c
-new file mode 100644
-index 000000000000..913669f1786e
---- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_sysfs.c
-@@ -0,0 +1,58 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2024 Intel Corporation
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/err.h>
-+
-+#include "ivpu_hw.h"
-+#include "ivpu_sysfs.h"
-+
-+/*
-+ * npu_busy_time_us is the time that the device spent executing jobs.
-+ * The time is counted when and only when there are jobs submitted to firmware.
-+ *
-+ * This time can be used to measure the utilization of NPU, either by calculating
-+ * npu_busy_time_us difference between two timepoints (i.e. measuring the time
-+ * that the NPU was active during some workload) or monitoring utilization percentage
-+ * by reading npu_busy_time_us periodically.
-+ *
-+ * When reading the value periodically, it shouldn't be read too often as it may have
-+ * an impact on job submission performance. Recommended period is 1 second.
-+ */
-+static ssize_t
-+npu_busy_time_us_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct ivpu_device *vdev = to_ivpu_device(drm);
-+	ktime_t total, now = 0;
-+
-+	xa_lock(&vdev->submitted_jobs_xa);
-+	total = vdev->busy_time;
-+	if (!xa_empty(&vdev->submitted_jobs_xa))
-+		now = ktime_sub(ktime_get(), vdev->busy_start_ts);
-+	xa_unlock(&vdev->submitted_jobs_xa);
-+
-+	return sysfs_emit(buf, "%lld\n", ktime_to_us(ktime_add(total, now)));
-+}
-+
-+static DEVICE_ATTR_RO(npu_busy_time_us);
-+
-+static struct attribute *ivpu_dev_attrs[] = {
-+	&dev_attr_npu_busy_time_us.attr,
-+	NULL,
-+};
-+
-+static struct attribute_group ivpu_dev_attr_group = {
-+	.attrs = ivpu_dev_attrs,
-+};
-+
-+void ivpu_sysfs_init(struct ivpu_device *vdev)
-+{
-+	int ret;
-+
-+	ret = devm_device_add_group(vdev->drm.dev, &ivpu_dev_attr_group);
-+	if (ret)
-+		ivpu_warn(vdev, "Failed to add group to device, ret %d", ret);
-+}
-diff --git a/drivers/accel/ivpu/ivpu_sysfs.h b/drivers/accel/ivpu/ivpu_sysfs.h
-new file mode 100644
-index 000000000000..9836f09b35a3
---- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_sysfs.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2024 Intel Corporation
-+ */
-+
-+#ifndef __IVPU_SYSFS_H__
-+#define __IVPU_SYSFS_H__
-+
-+#include "ivpu_drv.h"
-+
-+void ivpu_sysfs_init(struct ivpu_device *vdev);
-+
-+#endif /* __IVPU_SYSFS_H__ */
--- 
-2.43.2
+>
+> On Fri, 2024-05-10 at 18:08 +0300, Jani Nikula wrote:
+>> Prefer the parsed results for is_hdmi and has_audio in display info
+>> over
+>> calling drm_detect_hdmi_monitor() and drm_detect_monitor_audio(),
+>> respectively.
+>>=20
+>> Conveniently, this also removes the need to use edid_blob_ptr.
+>>=20
+>> v2: Reverse a backwards if condition (Ilia)
+>>=20
+>> Cc: Karol Herbst <kherbst@redhat.com>
+>> Cc: Lyude Paul <lyude@redhat.com>
+>> Cc: Danilo Krummrich <dakr@redhat.com>
+>> Cc: nouveau@lists.freedesktop.org
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>> =C2=A0drivers/gpu/drm/nouveau/dispnv50/disp.c=C2=A0=C2=A0=C2=A0=C2=A0 | =
+8 ++++----
+>> =C2=A0drivers/gpu/drm/nouveau/dispnv50/head.c=C2=A0=C2=A0=C2=A0=C2=A0 | =
+8 +-------
+>> =C2=A0drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
+>> =C2=A03 files changed, 6 insertions(+), 12 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+>> b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+>> index 0c3d88ad0b0e..168c27213287 100644
+>> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+>> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+>> @@ -751,7 +751,7 @@ nv50_audio_enable(struct drm_encoder *encoder,
+>> struct nouveau_crtc *nv_crtc,
+>> =C2=A0	struct nouveau_encoder *nv_encoder =3D
+>> nouveau_encoder(encoder);
+>> =C2=A0	struct nvif_outp *outp =3D &nv_encoder->outp;
+>> =C2=A0
+>> -	if (!nv50_audio_supported(encoder) ||
+>> !drm_detect_monitor_audio(nv_connector->edid))
+>> +	if (!nv50_audio_supported(encoder) || !nv_connector-
+>> >base.display_info.has_audio)
+>> =C2=A0		return;
+>> =C2=A0
+>> =C2=A0	mutex_lock(&drm->audio.lock);
+>> @@ -1765,7 +1765,7 @@ nv50_sor_atomic_enable(struct drm_encoder
+>> *encoder, struct drm_atomic_state *sta
+>> =C2=A0	if ((disp->disp->object.oclass =3D=3D GT214_DISP ||
+>> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0 disp->disp->object.oclass >=3D GF110_DIS=
+P) &&
+>> =C2=A0	=C2=A0=C2=A0=C2=A0 nv_encoder->dcb->type !=3D DCB_OUTPUT_LVDS &&
+>> -	=C2=A0=C2=A0=C2=A0 drm_detect_monitor_audio(nv_connector->edid))
+>> +	=C2=A0=C2=A0=C2=A0 nv_connector->base.display_info.has_audio)
+>> =C2=A0		hda =3D true;
+>> =C2=A0
+>> =C2=A0	if (!nvif_outp_acquired(outp))
+>> @@ -1774,7 +1774,7 @@ nv50_sor_atomic_enable(struct drm_encoder
+>> *encoder, struct drm_atomic_state *sta
+>> =C2=A0	switch (nv_encoder->dcb->type) {
+>> =C2=A0	case DCB_OUTPUT_TMDS:
+>> =C2=A0		if (disp->disp->object.oclass !=3D NV50_DISP &&
+>> -		=C2=A0=C2=A0=C2=A0 drm_detect_hdmi_monitor(nv_connector->edid))
+>> +		=C2=A0=C2=A0=C2=A0 nv_connector->base.display_info.is_hdmi)
+>> =C2=A0			nv50_hdmi_enable(encoder, nv_crtc,
+>> nv_connector, state, mode, hda);
+>> =C2=A0
+>> =C2=A0		if (nv_encoder->outp.or.link & 1) {
+>> @@ -1787,7 +1787,7 @@ nv50_sor_atomic_enable(struct drm_encoder
+>> *encoder, struct drm_atomic_state *sta
+>> =C2=A0			 */
+>> =C2=A0			if (mode->clock >=3D 165000 &&
+>> =C2=A0			=C2=A0=C2=A0=C2=A0 nv_encoder->dcb->duallink_possible &&
+>> -			=C2=A0=C2=A0=C2=A0 !drm_detect_hdmi_monitor(nv_connector-
+>> >edid))
+>> +			=C2=A0=C2=A0=C2=A0 !nv_connector-
+>> >base.display_info.is_hdmi)
+>> =C2=A0				proto =3D
+>> NV507D_SOR_SET_CONTROL_PROTOCOL_DUAL_TMDS;
+>> =C2=A0		} else {
+>> =C2=A0			proto =3D
+>> NV507D_SOR_SET_CONTROL_PROTOCOL_SINGLE_TMDS_B;
+>> diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c
+>> b/drivers/gpu/drm/nouveau/dispnv50/head.c
+>> index 83355dbc15ee..d7c74cc43ba5 100644
+>> --- a/drivers/gpu/drm/nouveau/dispnv50/head.c
+>> +++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
+>> @@ -127,14 +127,8 @@ nv50_head_atomic_check_view(struct
+>> nv50_head_atom *armh,
+>> =C2=A0	struct drm_display_mode *omode =3D &asyh->state.adjusted_mode;
+>> =C2=A0	struct drm_display_mode *umode =3D &asyh->state.mode;
+>> =C2=A0	int mode =3D asyc->scaler.mode;
+>> -	struct edid *edid;
+>> =C2=A0	int umode_vdisplay, omode_hdisplay, omode_vdisplay;
+>> =C2=A0
+>> -	if (connector->edid_blob_ptr)
+>> -		edid =3D (struct edid *)connector->edid_blob_ptr-
+>> >data;
+>> -	else
+>> -		edid =3D NULL;
+>> -
+>> =C2=A0	if (!asyc->scaler.full) {
+>> =C2=A0		if (mode =3D=3D DRM_MODE_SCALE_NONE)
+>> =C2=A0			omode =3D umode;
+>> @@ -162,7 +156,7 @@ nv50_head_atomic_check_view(struct nv50_head_atom
+>> *armh,
+>> =C2=A0	 */
+>> =C2=A0	if ((asyc->scaler.underscan.mode =3D=3D UNDERSCAN_ON ||
+>> =C2=A0	=C2=A0=C2=A0=C2=A0 (asyc->scaler.underscan.mode =3D=3D UNDERSCAN_=
+AUTO &&
+>> -	=C2=A0=C2=A0=C2=A0=C2=A0 drm_detect_hdmi_monitor(edid)))) {
+>> +	=C2=A0=C2=A0=C2=A0=C2=A0 connector->display_info.is_hdmi))) {
+>> =C2=A0		u32 bX =3D asyc->scaler.underscan.hborder;
+>> =C2=A0		u32 bY =3D asyc->scaler.underscan.vborder;
+>> =C2=A0		u32 r =3D (asyh->view.oH << 19) / asyh->view.oW;
+>> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c
+>> b/drivers/gpu/drm/nouveau/nouveau_connector.c
+>> index 856b3ef5edb8..938832a6af15 100644
+>> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
+>> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+>> @@ -1034,7 +1034,7 @@ get_tmds_link_bandwidth(struct drm_connector
+>> *connector)
+>> =C2=A0	unsigned duallink_scale =3D
+>> =C2=A0		nouveau_duallink && nv_encoder->dcb-
+>> >duallink_possible ? 2 : 1;
+>> =C2=A0
+>> -	if (drm_detect_hdmi_monitor(nv_connector->edid)) {
+>> +	if (nv_connector->base.display_info.is_hdmi) {
+>> =C2=A0		info =3D &nv_connector->base.display_info;
+>> =C2=A0		duallink_scale =3D 1;
+>> =C2=A0	}
 
+--=20
+Jani Nikula, Intel
