@@ -2,58 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8AF8C4491
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 17:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DCA98C4495
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 17:52:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C11C10E24C;
-	Mon, 13 May 2024 15:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A40F910E6CA;
+	Mon, 13 May 2024 15:51:56 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ePbWHC9Z";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zg8tmty3ljk5ljewns4xndka.icoremail.net
- (zg8tmty3ljk5ljewns4xndka.icoremail.net [167.99.105.149])
- by gabe.freedesktop.org (Postfix) with ESMTP id 34C6210E24C
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 15:50:10 +0000 (UTC)
-Received: from [172.38.8.164] (unknown [219.141.235.82])
- by mail (Coremail) with SMTP id AQAAfwAHudmGNkJmiep3AA--.42400S3;
- Mon, 13 May 2024 23:49:28 +0800 (CST)
-Message-ID: <ae8b7a4c-0d08-429d-9be7-e39260462e4e@bosc.ac.cn>
-Date: Mon, 13 May 2024 23:49:26 +0800
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD4C10E368;
+ Mon, 13 May 2024 15:51:55 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-5ff57410ebbso3648887a12.1; 
+ Mon, 13 May 2024 08:51:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715615514; x=1716220314; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=C1wioqfQiuQuCuNYwlP+E5Wyu8F6jbMqAw/h0oL3eqU=;
+ b=ePbWHC9ZQ7sFN4lMVGabjVpdgSkZR4gSVHphio2hNC1YwroymVGNYoK0WcEiMsf/Mv
+ D52eUli88gwNcP/6Z81st5M+PgMYaRvDUZwiLQBhshCOFofeEMv/pbvhdO9JhiCWCdC1
+ QgPN05B4LO9fPhMz2VNDn3YyqCKFelOwpEk/tYEWY0Np/M9/fEA8cOOatHSAdUaShATo
+ lqKlE2fLIS1EKEHj/9A/vC6ioNNAhCfa8HM/JX51KP6gpoulvVszJwv9QuaYOGBwcBCO
+ nTYe15BBXctXQbaoZC9ALGu3DgrJzpU7WagkZU6bp2wqtqyX/etNCpokOrBHWjCFxy4Q
+ gWYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715615514; x=1716220314;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=C1wioqfQiuQuCuNYwlP+E5Wyu8F6jbMqAw/h0oL3eqU=;
+ b=uy6X7aVVodScwucAh2xaGd2Y3CPxOxFLcII80TQICr/S+anIiuwMKp59TgkD6pe3gU
+ FptW3g/2M8u+pe11AKdCJNVBTkPw3VeTVGGEhbxFQi10IGFOuW9k+d1OWrDj9iHYf+Bw
+ E7tJ4TlTrEYNFn5Uqk7fy/dCS61e1wK5a+ZvP16P+/9MOzJroZCk7DKK4ep3+Ersw6Jv
+ +mdm/XRsn+blOQhOcVtmIbWbVFKWA0qlMrIP69xAr15j+ly1bj7n/ABw6wUf3V/LKcbB
+ xyAm1+iRQSgQTa95+p93j0Lm8eT+4SHO35Wnt6p3bK+L3hnveTED1E6aHVAiFj0R6Ywi
+ v7Fg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXw5vRmoLX9yc1iHzYneWtPueetAUvZHb5bmczCkFgTUP4Z1rSgHQcKxw48iZl2CNdcUFTDq4Wd6tiXK1X6nUQ5Pnr+S8k47CO5w/2NOaA8
+X-Gm-Message-State: AOJu0Yxa4U7t8e/VvsJUYXDH50jSa3W9eyKedXr1pvN3oc0cuTq3oPL5
+ EOwVuMh58ypK0/PvgEDwpL6/kAHJE8ekyGOTqw0sxLCiRjt40TVBmCAo1Q==
+X-Google-Smtp-Source: AGHT+IEDqMYogdWr3XOXh22OTvx+Uw4uVC3Zk4ODbviWxNXuhd9FThKOLXrM7kC6578pgduyhtA/Fw==
+X-Received: by 2002:a17:90a:d714:b0:2b8:f7c6:1581 with SMTP id
+ 98e67ed59e1d1-2b8f7c615d5mr2619575a91.23.1715615514501; 
+ Mon, 13 May 2024 08:51:54 -0700 (PDT)
+Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2b628ea6ae7sm9906113a91.51.2024.05.13.08.51.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 May 2024 08:51:53 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Connor Abbott <cwabbott0@gmail.com>, Ruan Jinjie <ruanjinjie@huawei.com>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/msm: Add obj flags to gpu devcoredump
+Date: Mon, 13 May 2024 08:51:47 -0700
+Message-ID: <20240513155150.166924-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.45.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drm/bridge: adv7511: Attach next bridge without creating connector
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dmitry.baryshkov@linaro.org, biju.das.jz@bp.renesas.com, aford173@gmail.com,
- bli@bang-olufsen.dk, robh@kernel.org, jani.nikula@intel.com
-References: <20240513080243.3952292-1-victor.liu@nxp.com>
-Content-Language: en-US, en-AU
-From: Sui Jingfeng <suijingfeng@bosc.ac.cn>
-Organization: bosc
-In-Reply-To: <20240513080243.3952292-1-victor.liu@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAfwAHudmGNkJmiep3AA--.42400S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cr15WrW5uF13XF13tw1DKFg_yoW5JF1kpF
- W2qa90yryrXF13KayDAr1UGas8Z39rJFWrAFZF93yFva4IgF1DZrWDCw1rAry7JFyUXa1Y
- yF4UJFy0gF1UCaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUv2b7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
- c2xSY4AK67AK6ryrMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
- 0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8
- ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
- CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
- wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
- 7IU8uMKtUUUUU==
-X-CM-SenderInfo: xvxlyxpqjiv03j6e02nfoduhdfq/
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,62 +89,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Rob Clark <robdclark@chromium.org>
 
+When debugging faults, it is useful to know how the BO is mapped (cached
+vs WC, gpu readonly, etc).
 
-On 5/13/24 16:02, Liu Ying wrote:
-> The connector is created by either this ADV7511 bridge driver or
-> any DRM device driver/previous bridge driver, so this ADV7511
-> bridge driver should not let the next bridge driver create connector.
-> 
-> If the next bridge is a HDMI connector, the next bridge driver
-> would fail to attach bridge from display_connector_attach() without
-> the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
-> 
-> Add that flag to drm_bridge_attach() function call in
-> adv7511_bridge_attach() to fix the issue.
-> 
-> This fixes the issue where the HDMI connector bridge fails to attach
-> to the previous ADV7535 bridge on i.MX8MP EVK platform:
-> 
-> [    2.216442] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /hdmi-connector to encoder None-37: -22
-> [    2.220675] mmc1: SDHCI controller on 30b50000.mmc [30b50000.mmc] using ADMA
-> [    2.226262] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/i2c@30a30000/hdmi@3d to encoder None-37: -22
-> [    2.245204] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@32c00000/dsi@32e60000 to encoder None-37: -22
-> [    2.256445] imx-lcdif 32e80000.display-controller: error -EINVAL: Failed to attach bridge for endpoint0
-> [    2.265850] imx-lcdif 32e80000.display-controller: error -EINVAL: Cannot connect bridge
-> [    2.274009] imx-lcdif 32e80000.display-controller: probe with driver imx-lcdif failed with error -22
-> 
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 1 +
+ drivers/gpu/drm/msm/msm_gpu.c           | 6 ++++--
+ drivers/gpu/drm/msm/msm_gpu.h           | 1 +
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
-Indeed, looks safer finally.
-
-> Fixes: 14b3cdbd0e5b ("drm/bridge: adv7511: make it honour next bridge in DT")
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-
-
-Acked-by: Sui Jingfeng <suijingfeng@bosc.ac.cn>
-
-
-> ---
->   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index dd21b81bd28f..66ccb61e2a66 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -953,7 +953,8 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge,
->   	int ret = 0;
->   
->   	if (adv->next_bridge) {
-> -		ret = drm_bridge_attach(bridge->encoder, adv->next_bridge, bridge, flags);
-> +		ret = drm_bridge_attach(bridge->encoder, adv->next_bridge, bridge,
-> +					flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->   		if (ret)
->   			return ret;
->   	}
-
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index b7bbef2eeff4..d9ea15994ae9 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -887,6 +887,7 @@ void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
+ 			drm_printf(p, "  - iova: 0x%016llx\n",
+ 				state->bos[i].iova);
+ 			drm_printf(p, "    size: %zd\n", state->bos[i].size);
++			drm_printf(p, "    flags: 0x%x\n", state->bos[i].flags);
+ 			drm_printf(p, "    name: %-32s\n", state->bos[i].name);
+ 
+ 			adreno_show_object(p, &state->bos[i].data,
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index d14ec058906f..ceaee23a4d22 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -222,14 +222,16 @@ static void msm_gpu_crashstate_get_bo(struct msm_gpu_state *state,
+ 		struct drm_gem_object *obj, u64 iova, bool full)
+ {
+ 	struct msm_gpu_state_bo *state_bo = &state->bos[state->nr_bos];
++	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 
+ 	/* Don't record write only objects */
+ 	state_bo->size = obj->size;
++	state_bo->flags = msm_obj->flags;
+ 	state_bo->iova = iova;
+ 
+-	BUILD_BUG_ON(sizeof(state_bo->name) != sizeof(to_msm_bo(obj)->name));
++	BUILD_BUG_ON(sizeof(state_bo->name) != sizeof(msm_obj->name));
+ 
+-	memcpy(state_bo->name, to_msm_bo(obj)->name, sizeof(state_bo->name));
++	memcpy(state_bo->name, msm_obj->name, sizeof(state_bo->name));
+ 
+ 	if (full) {
+ 		void *ptr;
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 685470b84708..05bb247e7210 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -527,6 +527,7 @@ struct msm_gpu_submitqueue {
+ struct msm_gpu_state_bo {
+ 	u64 iova;
+ 	size_t size;
++	u32 flags;
+ 	void *data;
+ 	bool encoded;
+ 	char name[32];
 -- 
-Best regards
-Sui Jingfeng
+2.45.0
 
