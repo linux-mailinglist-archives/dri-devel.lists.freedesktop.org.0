@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A5F8C4842
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 22:35:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E36F8C4845
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 22:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83CDF10E03E;
-	Mon, 13 May 2024 20:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25E2410E957;
+	Mon, 13 May 2024 20:35:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cGmCORiN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iB88xcWr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21A6F10E03E
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 20:35:13 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-61b68644ab4so45579167b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 13:35:13 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B874310E957
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 20:35:39 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-61be4b986aaso55055597b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 13:35:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715632512; x=1716237312; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1715632539; x=1716237339; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pTEzGIDxoUNXBmZiuvepDPcIKsUrMofBXWSemmO6LLA=;
- b=cGmCORiN4m96c4k6phFLWrW99Jv1GEgMK1K4iY/+4ODGRWDksUsYQXrIK8FIX8ipsL
- PjYshUq7zociESsPNKeaEXshEJ+ZtzJHrOGSLbBWQJ5d58x8cFc1yq0i83KZ9/HsDv2t
- 4geVtFYvCE1tq91PsSjgYDwqNZXBtHzzCYoxgSbf1QNwn8xrqUHjjHB8qjkjhO1+5m/A
- GOHKrVo/AUVDCv7ybnPUySKIOGJaIKJHxJbndWENoR4d5YNGJWFSjwDSUCBOhVgkPCiZ
- QuDrOwX9ruIWxW5PXL4gSDyl1+IXnapxYaGhOfJFTA28g8JHtCVHuRiDPaLGrzoXk0K3
- rsOg==
+ bh=K5gJymEU887CrNC6X289CM2zG0sNjhqiEQwzbLWQ8aI=;
+ b=iB88xcWrQ9nWKX67qw1NghsJlyB5HRNB+hSJaxNY4juvZYXGRIQ6LVomETaa0Sy0b1
+ lQp53IJSVAvciW3IHE2JxG9Edr6iLuV0o8MYTdvl1JX1UEI8fTBrVioStBKoxdTfbjFL
+ oyHacs1keIH6pIBGTtywuUtSpuP+juDOgHKgymlB+Xv2YXDJOU2/wexZCN+XBHKK/Chp
+ R5TJCnregG1Wk53nw1Oq9YiteS9J8Ub4Imbve84qLg8GVxF1NWfvWshFaRmZneb6Ygay
+ mHgpybBR0nWp80td85iQyVCSsaw1iytyz44fduV42urhafRgJgUZGlZKg3Mg6T+LUnfk
+ js6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715632512; x=1716237312;
+ d=1e100.net; s=20230601; t=1715632539; x=1716237339;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pTEzGIDxoUNXBmZiuvepDPcIKsUrMofBXWSemmO6LLA=;
- b=BDqJU76ujRhS37fiG6DidTdVN/McSmXFD9AeE3vmLrMoCl5Ol1CDVp+yx1b0Lw+6e9
- atsSmOdPOMpGPokAF6DntSldseiPAGOIAr8zsOt1/l4g0cce+wTeU2cX6yLJsJ+ImDNx
- O0KYUNU0d9pkBoU0DwjzuO0QF34wdDrNU9P0wxVe6HQVBli9pqm9B5D6qvWZJvJa8S3S
- 3j4BrTau7Pfy8zgt5VP7N8IaTSywLjqu5PEUYZGXOJ7XOewpn9ptOqTrwO7ZTqr7zkMn
- zYqnbBNi87q+UdKQIcIgOK5oiqT+FDn80ZhxNK2+ReZcTRgjOgDDlSs5zHWWE74XQneF
- NR7g==
+ bh=K5gJymEU887CrNC6X289CM2zG0sNjhqiEQwzbLWQ8aI=;
+ b=d3lQCpynbopVPWnfpxvER92R9r3IqmmGOUMX17DQvlqyXVgtqNwngWkHjTe772rydD
+ jJmpXtFBpnLjeKJ1zxab/BxK08qGpx/Gx1qTKvLRKNy81buDlRqndxdiYmA0GBWoWbmB
+ Hq63btUXAy6qElYBKVFtfDtvmcNoBYw2yyaEIRKOANQwamv7ohTxm6otB8UQ/OboJOAw
+ jTQYME2iQoJcGZVSggBu9DBrrY8ELq2gjmc0d3QD7EQejcB6aPRyLK6sH1g3echj973p
+ fav6Ziwttuy8u82qp3A1eWAP8a6tNeNPYYCB6o/oIaPF7QZo33XGGELl9Gnv05nny1aj
+ WZOQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUenpsCUNgIhA6pw2xj0iuaAw/u+TRA8JnK5dCdEDDUDYw0FxM6evW17mFuPI8+24zkW7JKP+ugs/RjECKkYMveq3TGOr1ZLogZJAFPlnUu
-X-Gm-Message-State: AOJu0YyWpJgXTOX1DTQFnbCQlhkZRXdxGDdrvwWK99oin8re/PwIDBMt
- iy2zkmCRZ76yF1mMamcdQdHZmywL1pYAYXE61z3HJuZYK+DmeSt/XVQPFML8UGy+cwhoyozEvfZ
- sJmrHx2apKjM1BUJSUSdEPrAKwVwriK/defbtXg==
-X-Google-Smtp-Source: AGHT+IGmJyPMVsbnq4yfAa6HqzPJ3VX1xQsgoe90edGz5HOQOSfJzFbjTDY3qBrnK5tvkbNi7jtaibG1icr0I8RbCiw=
-X-Received: by 2002:a81:4305:0:b0:61b:349c:811 with SMTP id
- 00721157ae682-622affc51e7mr108109127b3.10.1715632511805; Mon, 13 May 2024
- 13:35:11 -0700 (PDT)
+ AJvYcCWy67VWE4uxng6kSb9r8G2V92NHQPu6/jptWHOiv8ZILToR7xfun2czbB/SM9yRqam8fHuzRurAOwwxLb1s4cEGTpMJBxCDJFQdLJONVPcc
+X-Gm-Message-State: AOJu0YypuTzFrr/P+nPpjFKvlLhu5y8YCZIMHOhmDDkPmI7MJwP4uAE7
+ EfAxiUg1ivWOpZFjV373HgGJkikERXCmL3d+MFn6Xt2vWHT3yqBaNiP0ueDlLNFsKBEsFJtWob1
+ QezfyI5IceyIsE/ie+duEGSypry8FJOF72dp4KQ==
+X-Google-Smtp-Source: AGHT+IHSl/yR0nTZcRlSe+ORPztjmoog4CRZc8k44qPEv4107dBUri0sSEMdFfUGHggaDXOsYQE07EPlHgu7P5eK1hg=
+X-Received: by 2002:a0d:df16:0:b0:618:83a4:588e with SMTP id
+ 00721157ae682-622b013d333mr108562117b3.37.1715632537678; Mon, 13 May 2024
+ 13:35:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240511021326.288728-1-yangcong5@huaqin.corp-partner.google.com>
- <20240511021326.288728-6-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20240511021326.288728-6-yangcong5@huaqin.corp-partner.google.com>
+ <20240511021326.288728-8-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20240511021326.288728-8-yangcong5@huaqin.corp-partner.google.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 13 May 2024 22:35:00 +0200
-Message-ID: <CACRpkdZAwPH6J0FwCc8VfGvz6pn4_ZryMRhZG5QvdLavjvciOw@mail.gmail.com>
-Subject: Re: [PATCH v6 5/7] drm/panel: himax-hx83102: Support for BOE
- nv110wum-l60 MIPI-DSI panel
+Date: Mon, 13 May 2024 22:35:27 +0200
+Message-ID: <CACRpkdb0YQZsFY-uYFKLo_aqE_G4mQ+5mtiszDGsrgFz5R+CcQ@mail.gmail.com>
+Subject: Re: [PATCH v6 7/7] drm/panel: himax-hx83102: Support for IVO t109nw41
+ MIPI-DSI panel
 To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
  dianders@chromium.org, krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, 
@@ -84,11 +84,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 11, 2024 at 4:13=E2=80=AFAM Cong Yang
+On Sat, May 11, 2024 at 4:14=E2=80=AFAM Cong Yang
 <yangcong5@huaqin.corp-partner.google.com> wrote:
 
-> The BOE nv110wum-l60 is a 11.0" WUXGA TFT LCD panel, use hx83102 controll=
-er
+> The IVO t109nw41 is a 11.0" WUXGA TFT LCD panel, use hx83102 controller
 > which fits in nicely with the existing panel-himax-hx83102 driver. Hence,
 > we add a new compatible with panel specific config.
 >
