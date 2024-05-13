@@ -2,65 +2,183 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF35C8C4550
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 18:50:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B58C8C455E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 18:54:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E54B10E87D;
-	Mon, 13 May 2024 16:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB2510E80A;
+	Mon, 13 May 2024 16:53:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B0F0/V78";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I62n3SNU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A2A910E87D
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 16:50:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8866260E65
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 16:50:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ACEAC4AF08
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 16:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715619013;
- bh=kVSNLmMVb3ishC+4udHKioz5ZxxHmqDWUUUuuA8nWc4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=B0F0/V78joq/yEbhD0tf92fIRwmf60l5/p80nc+aV20iAs3E6+rXxrkcb6OakynYA
- DY12ZdC+uJNi2gz0XEKapwThxCA+nX7OmtJrD0/fejcce5672zFYPXlFfFtMpDV/JC
- lEI8Fv1zgWo9eSQO08Lam0LNMQXaIeBhEuzXmCzsJ7wjRPfn/skTXVBOSqUgzdGTpJ
- dwaxCOFE0NvKt6TTqYHw9yg6utRaXGrOgXHi0Ec9DcQiLcn1aB/0/l/kNPinWAIi7+
- taqDQruFTtl7XlVeVNND/EQHCEvM2Hz7mgB4a0gqnT9TzDYzpGH5ZNvXi6a0CPtBUR
- F05CKP2vwYK9A==
-Received: by mail-oa1-f54.google.com with SMTP id
- 586e51a60fabf-2450441dd16so292467fac.2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 09:50:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWlBcc5m2sAtFPz1274g0Cmf9jJ5E3Tu38TMui9HEiEx3pVLEUQNRFTsWZ4tohsq27WJjcVa+XlEWO1zODPaQ5maYh823Wk7KfrC8ke+zI6
-X-Gm-Message-State: AOJu0Yy59o7L60pgsuKT6sq380wGuSOq6qkKY9eTbzUWmKmkGhZFf5dm
- 3JNSRPOkmH4CyGlLADFybT2zZJPSoGlEY0NA8k7wSALZ6KV33UCTWkrMr0TcBG2cvefqhrGK4Em
- ewG+rEJH8nZypaZhXQTp2NLdnDowhx7+9151xww==
-X-Google-Smtp-Source: AGHT+IG9etvbYxYHR0fWxJzpfBkuEGL2PwOBWLMig6t/Z5/hSFgr76RJXGAeEjvXkZP26WGn9lBOmLwbuqRzLnLTm6Q=
-X-Received: by 2002:a05:6870:4191:b0:23c:6cb5:24f6 with SMTP id
- 586e51a60fabf-241728f480cmr13074398fac.7.1715619012605; Mon, 13 May 2024
- 09:50:12 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 216FC10E46A;
+ Mon, 13 May 2024 16:53:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715619238; x=1747155238;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=RdKuunlrirZnIOyjihWw/yPCVKi1VWTU4LHn0A+vfkU=;
+ b=I62n3SNUr5QseLQjicF30XJziSAqIjWqJqdDyajTHmA64cJuC1rIuSN4
+ c8Qeq5egvOU9zs60zID4kUtM2GcSc0k4FU0R5+9u0yeo3iGSW0bY2vk65
+ RDfdLwxFtkNqw/Qn/U52fbYq+MT4hQAv6lGHfEf1ehQUYBrMLWdZVvv9u
+ fOl848VnZ4A01NR8mWJEbrTS49xEYNpP5QVDqUoj7XIQfF0ZtSftOjCMx
+ EgT3lBV3+e/ZOUrA6Mh4sU2H63itUQ11CkpQXv9jsHGDiWAzXDOVXa9jS
+ Z4bTJRH7p/s5iiU/v/++8tOcm8ZwOhgElIHgR4nI9m9ZtD8UrErsJ03ti A==;
+X-CSE-ConnectionGUID: 7t8X1G6QRHy26xP30cSK5g==
+X-CSE-MsgGUID: ArSPp48MT4SPBeJIYn7Vtg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="15386447"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="15386447"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2024 09:53:57 -0700
+X-CSE-ConnectionGUID: 2SUNUnfNQk21EeUNtRzB4A==
+X-CSE-MsgGUID: bitLoKNpQvuQEtNSXlrzTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30431551"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 13 May 2024 09:53:56 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 13 May 2024 09:53:56 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 13 May 2024 09:53:56 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 13 May 2024 09:53:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R+cOAy/W6it3ziIxQbEMyJG9suLvuhTQNIF0sZxSZVoDf8Ym1frZl13o1mvm2sglqim5yCYqy3ggacOxMabwUzXy0JW8UMgNttGozFFhFikLEU/7xy4qioeVg1214oka8Y02cokp1dRm58LfuVhnAsLNA3e2ZSnLauIPekHS882voBM+4UH6Lxl5LWiA4fzzehVKZV/YcuCqxHH6pRX0gzOnbCT9lR/FZgD7MlK8mCPIZuh9cX6U0iGfiBPwXO1aWjyVriJLgp07ow2Lpu/cScpobkC4SXawc9JAQQSWYoQr3xPLiPBRsxCyL4LLN6oQORSDPQUrGO0UduiiY3nbpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ljbZjHpaMhbZxIq498tLNsct6nZXQApdsn2iaoQhHZc=;
+ b=lwrAEpZwwMPxSojFGNjIjEfXUcwiOuHYGWKo4DiBPXVy96nvOc+cmSQFy2FcxFJtzVwjlEdwOlY3vtURu65RCrzX+7wt/mZ3prAU0nIr+Apha50QPV27nW9wdooHGhjcc/MyWPelpeadZkfFKcmvmejMNyKuBMWHsc3m87pUqTtV4S5vuj0eiX1cGePBbJQDxjHSEh+Pwc6SZ5aZlak6Dlb+FW9luV6WGiLIiKIHYQRWPMqQ7o6HrblQkcJCAXQ/CBd81bcCPcaUv/0ORBkwDL02N7L6/Fpc7dIY/dhdu44++0iduIV2KzdOHn8nJiRdJO794/cO3S+OO9NkkA8HJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH3PR11MB8441.namprd11.prod.outlook.com (2603:10b6:610:1bc::12)
+ by PH7PR11MB7123.namprd11.prod.outlook.com (2603:10b6:510:20e::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Mon, 13 May
+ 2024 16:53:24 +0000
+Received: from CH3PR11MB8441.namprd11.prod.outlook.com
+ ([fe80::bc66:f083:da56:8550]) by CH3PR11MB8441.namprd11.prod.outlook.com
+ ([fe80::bc66:f083:da56:8550%4]) with mapi id 15.20.7544.052; Mon, 13 May 2024
+ 16:53:23 +0000
+Message-ID: <d0fd0b46-a8ac-464b-99e7-0b5384a79bf6@intel.com>
+Date: Mon, 13 May 2024 09:53:19 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] drm/xe/guc: Expose raw access to GuC log over debugfs
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ <intel-xe@lists.freedesktop.org>
+CC: Lucas De Marchi <lucas.demarchi@intel.com>,
+ <linux-fsdevel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+References: <20240512153606.1996-1-michal.wajdeczko@intel.com>
+ <20240512153606.1996-5-michal.wajdeczko@intel.com>
+Content-Language: en-GB
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <20240512153606.1996-5-michal.wajdeczko@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR11CA0092.namprd11.prod.outlook.com
+ (2603:10b6:a03:f4::33) To CH3PR11MB8441.namprd11.prod.outlook.com
+ (2603:10b6:610:1bc::12)
 MIME-Version: 1.0
-References: <20240513080243.3952292-1-victor.liu@nxp.com>
- <4b6e49ee-d2fd-4e54-88d5-ab06d8ebf644@bosc.ac.cn>
-In-Reply-To: <4b6e49ee-d2fd-4e54-88d5-ab06d8ebf644@bosc.ac.cn>
-From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 13 May 2024 18:49:59 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi5uZf57G26PmSiUZMCCPAV1dhWGDWT35HPmpVDevVJoxA@mail.gmail.com>
-Message-ID: <CAN6tsi5uZf57G26PmSiUZMCCPAV1dhWGDWT35HPmpVDevVJoxA@mail.gmail.com>
-Subject: Re: drm/bridge: adv7511: Attach next bridge without creating connector
-To: Sui Jingfeng <suijingfeng@bosc.ac.cn>
-Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
- dmitry.baryshkov@linaro.org, biju.das.jz@bp.renesas.com, aford173@gmail.com, 
- bli@bang-olufsen.dk, robh@kernel.org, jani.nikula@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8441:EE_|PH7PR11MB7123:EE_
+X-MS-Office365-Filtering-Correlation-Id: e13b3b31-d1de-4ab7-2412-08dc736d33bb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|366007|376005;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RDJSaXNxUkkvUlRXNUtyeGdGa3R5YlEyYWVoT2NqMjF0U0d1TVFKODJ6SlUv?=
+ =?utf-8?B?dWFTcDFtbEhCMTZtQzBSQ3IwczRPbTZiMWEzYWljaDkvZlViMGVFcHR6TEp6?=
+ =?utf-8?B?d0Z0UHBDZjB2VE9UOWg2OUk5anBuSStMSm53UzQ0Y1FtL1hVcTFkT3FrVFFQ?=
+ =?utf-8?B?dXh3Z3hWOFJtRVpRSWV6Y1dmVjYxd3kzbkpjdUdNUGMzS3l4enlGL05qdC9V?=
+ =?utf-8?B?aXZ4Vi85QkZHWTF0TlRCbHRRQmJuTFVaSzVocWJoVkJDUTlhcHZidERIWTNN?=
+ =?utf-8?B?dG1NdzNkcCsrRGtLSHNsYzZSL0ladktaUEVqVmszRThzWEdiTUVleEhxZ1Uz?=
+ =?utf-8?B?Y1EyNXdNb3I4Y29qbzRaM0Z4ZGlTMDV0eUdYNHNMQ2VTWmp1bEdZTmdjMFpK?=
+ =?utf-8?B?dCtlbno2OUtyUk1WNXhZRitid2V4Z1JMUkpHcUpSZUFPMkNNcjdWR0QxNTVk?=
+ =?utf-8?B?OGhSYVI0R3JmSjBuQ2FOeEJiRVh6cE11ZGdwTjEwNGlHdmpXZUFyYWtmc3FI?=
+ =?utf-8?B?YXN6Z25HbjU5SDRPaG90dk5xUnB3TUR1Z0Vzdi9KWHZ4akVka3NRNHExSklS?=
+ =?utf-8?B?K3dXTlg4YlN3bUdpWUdEelBteW4rZGJBYUdVdC9JM2lCa29GTEVxTU1NRDJU?=
+ =?utf-8?B?eHAxL1M0L3E2M1hpUWJ0RWYyeGRsUGliSTNzcCtFL0FvL0E5WllRVVBHejVn?=
+ =?utf-8?B?WHhIT1FNMUwrUFBDMit1ZDBUTU5VY0lNSDhqdmtlOXZ1MjcxL1krelpzREdD?=
+ =?utf-8?B?TUZxY2hlUlQ5YnBWQ1hFWjlqUFBJQiswY2ZYNlYzVnAwdkZGaTNualBjM0Y2?=
+ =?utf-8?B?UCs1aTY3ZVZ1OHVNMnRqQjlmaG1lT0czWDd0dENpc25JU0VUcjR1cFhXWlcr?=
+ =?utf-8?B?RjdWeTNSZlhtRHhDNjY3a01wUjBDY2VzWmVmajlDa1JmYlVDVVFOR0o2ZzY1?=
+ =?utf-8?B?VHJPeXpORnVqaWxjYW1lSlM4VlBNUktTSlZObDJpQzRZM0dXVEdIcE8zcFBW?=
+ =?utf-8?B?dkRCVUUvSDlaaDB6MFVwTFZHNElJczRMQVJrOFFEanVlUFVpRThxNm9YY09Z?=
+ =?utf-8?B?TXd2NURkRyt3eGo5cW5FN3FscXNUclZrTnpGSU9WK1N1c0trcS91d0xwdnMw?=
+ =?utf-8?B?d3V4OWMramlZREs5U0V3L09CeE5ZK3lCTzVaK1JwZ09raDFMYnRNQk1ubkFy?=
+ =?utf-8?B?a1c0NnB4bDdMQ0F5TWpYcHVTQzg2RXpJNSt4R0NGNnoyMmwvMjVueHZnNzNw?=
+ =?utf-8?B?OVVzVjh6MTJKcE5McjlEeXcydzVwUE82N0JyT2h6dDN4UVZMaUZhWlZ0UzNr?=
+ =?utf-8?B?dG4wdWF5dUhrQmtIMGpoRmpTaWx3Umx1SGZaOXlkb05pNWhWdGZ3cldFUGtl?=
+ =?utf-8?B?ZTVqWW8wYTUxbHBqS21KSTdhMDV6anBzcEdxT2pKeVcyTDFWYnJIS0R6VzNX?=
+ =?utf-8?B?Z0cxcnBFa24raTczbVpucDhGeUlQekMvNEVBWlpDbXg0Y2tha2Fta0pRR2RB?=
+ =?utf-8?B?aklVZWFzNGo2RXltU3UrSVlxS1hTNERoNGhEY2Y4aGZLek41amdWYWJhdDFq?=
+ =?utf-8?B?eEFMckIwSGZqM0tsdmFKZXhPM0tFWlVhV1N4a0poYjRCZE9GelJmeVhYMHFl?=
+ =?utf-8?B?R040V052Uk4xeXZOSzlYTUVZbmJoVUNRSjRBV01xMVp6TTFLOUJpUXVPODFR?=
+ =?utf-8?B?TkRBbW0rdVNnZXFFZzEyOXQ4K2NFRnRueXB6WXdUSG84SjNmRlhwalhRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR11MB8441.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(1800799015)(366007)(376005); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c3djLzQ4ZTVWVkNhd2hLazQvcjFObDBzclBVNmdNdXoyTzVzR002eDhVUGYr?=
+ =?utf-8?B?SWJpaFE3cU5lWkVtWnkzT2w4djc4MnJ0SkFxc2Foejh3d2djVU1kU285bkxy?=
+ =?utf-8?B?OHQ0UzJjWW5QTmNvZDFGZitwb3VkQlR0NElGTk0vc1kyWHFrYWdMQ1ZIYmE0?=
+ =?utf-8?B?blMwOEJUSVYyYW9oRWRFQ1VYTU1qYyt4YzRKK3JOckpOUm5rb3JmakRRUmNJ?=
+ =?utf-8?B?VzZ3d1IzdloybThFS2RpRHhROWwwUEwrMXRYd3lvSm4wQTdUK29pSTJ0MUxK?=
+ =?utf-8?B?NWVobmFnRU1wNVU1QXdrUGZ5SzBEaFFuK2tNb2x6S1AyUE5BYVB5ci9lOXpn?=
+ =?utf-8?B?bGdJMkwyMU5ndHEwbkx4KzZ6Y2JMVElwWVZnWmN3T2xrMVVCaEN0eVZmL2Vl?=
+ =?utf-8?B?UXBBTE52REJ0V05oV2xMZDRrTmwrcmErVTFnKzhnWUNmSU9EOUNJc092d2E0?=
+ =?utf-8?B?b0tIV0V1cDZtcU90blZYaGpKeVBJNHBiR3hNY2swWkxLSHdyUVo1RmpjNU5s?=
+ =?utf-8?B?UFdneGNyMXU0WllRek92SlQxUW1CK0NNR25VUUcwRCtlRmQ4NW1EZDVOaDdx?=
+ =?utf-8?B?Q0gzbVpSVzlRb3FpNVNHUU40Nm5paUpPaUxmRHF1RzFwRnYzTDdkNzc0VWFD?=
+ =?utf-8?B?WWVSbjcxWWhHeUxzam42S2tUbEpydmFLQm9oRE84ZndYaUNoaWJMZURuRDFM?=
+ =?utf-8?B?VXcxa2k2NEhzRTkwS1RNb0JpWEJrMDQvUndNTmg3cDBEQ3NPeG5JdytXQzhh?=
+ =?utf-8?B?R0dhLzBjVlhVWG9kQjAxWHRMMWpOeDkyZTVIOUZsRWdtVVNONVN3dEJnMmd3?=
+ =?utf-8?B?dEpyS2xqdkdvQXRVdEM2eGQ3KzErNTlDczFWSVYrTjhIcURNdnZqMVpoVDh3?=
+ =?utf-8?B?SHRNYjhyNmdCRHE1NzdLSDNBV2NFc3NScVZpdGVPcmRrQjJKNVRiYlk3SEs5?=
+ =?utf-8?B?QnVmUkd5TTNYSXRrczF3YXJ3ZUNXaEhybVlKNmJsT2V6K1FOOFZDa2h6SmU4?=
+ =?utf-8?B?bXZRb2FrS005R3oxY3dNTmJ6MmVHeGhaMno0Nk9TRk8rUWdDNzJPUEJ4Um1B?=
+ =?utf-8?B?VCt5VFVZNEdRZktZQkNvazFsem1ubWk3T2NXRWU0SHZFTVVsRnhITG5UMXc1?=
+ =?utf-8?B?UXFLQnN0RG5EZmtoc1ZQZ2ZhSks4NjlSSFJ4NVdXeXZRYmVYZTFzMmVWS2Q5?=
+ =?utf-8?B?SHl1dGJsblpwMkgxQU4yRFZ5VHB4YUppeXB4dHl4QmY3dS9Fa05STVhsbTlK?=
+ =?utf-8?B?c0tYeE5zRVR0bmE2aEg3ckpRa2YrOS96N3U1b3NuNHJ5U1B3WGd6TzNUV3hn?=
+ =?utf-8?B?dGlGcVRSdVU5U01FbnNoeW9xK3ZRRFQ1QlRMVWwxYmtJOWlBd3AvQlNBSHRl?=
+ =?utf-8?B?Z0YxeDJLNWhmdDVid3J1RkVVUEwvMmFQalBEUEwwVDRVWEFZUTRxWXZtd3Ru?=
+ =?utf-8?B?aFFIdjlUMW5FUUVuSFA4TWV3QnJYVFBVc0drMXVCTWtUV1pBODVvYmx4V3Rn?=
+ =?utf-8?B?R3d0cnF5ZDlMdlZjRTkrY3BGbVUwOVVCR1pFUzVJbmwyTmU4UEZTVWZsQkRj?=
+ =?utf-8?B?MUMrWXNoc3VncnBIQi9tQXZ4SnFybzVpMmxBeVc2RGwrZkRQRTJ0R1pnell0?=
+ =?utf-8?B?c3ZTR1dFNWtmU2o1dzNRQlBCMWUzMnBFMXNueVNBTVJEaTNnb2c4SGIzRDBs?=
+ =?utf-8?B?bDVUUDVrSVRLVHA2Yzk2VEJ3M21SUks2bTNPbGFMVXBNRFRqeTdOM0FnaFdw?=
+ =?utf-8?B?ZVIySjJuaGNWcFRJQVZTREcxTlF5N0dxVW5RZS96bS85aW5ReGI2amg3MThJ?=
+ =?utf-8?B?Qmc4NWtXdTg0SDgwTFUxenRCNCtDdlh2bW1VaW9TUC81R2FqN2JKa2Nybldy?=
+ =?utf-8?B?WHcvbFZub2JvSWx0dmxPenZ2WWFmelZCQTFLaDNSM0gyVldpaFEzWDVOS1Fx?=
+ =?utf-8?B?dXpqMlg3RDBJWWhwYmgvaEdFdXg5Nko3VElrelE1dGUra3dUaWdjYzhGU2ps?=
+ =?utf-8?B?bVVlR1NUQ3dOR1AxcHVZVXZFMUUwMGxsU0hKRUw3RmMwc21LaERNYkYyN09D?=
+ =?utf-8?B?TlhVR3hLYzZ2ejlvZDB4SVBsd3B4YU1YV3FrajlqRHhwcWJnWnprc2JtVG1o?=
+ =?utf-8?B?TURjY1RBem8wV1hLdS8rajJmWWEzbVluYlUvV3VaV3h4Y1NQa3RIKzlObjMr?=
+ =?utf-8?B?WGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e13b3b31-d1de-4ab7-2412-08dc736d33bb
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8441.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2024 16:53:23.7956 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZV0xxuv1lSHtExFNvhYsSAuNIKHcxUp1njioyegWT187lm+LOZeLad8HEE39sGjuJfo1CvjImUlhbmRFyDeOZg8HVEYcN2pS+M0zYlNdtzY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7123
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,81 +194,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 13, 2024 at 6:30=E2=80=AFPM Sui Jingfeng <suijingfeng@bosc.ac.c=
-n> wrote:
+On 5/12/2024 08:36, Michal Wajdeczko wrote:
+> We already provide the content of the GuC log in debugsfs, but it
+> is in a text format where each log dword is printed as hexadecimal
+> number, which does not scale well with large GuC log buffers.
 >
-> Hi,
+> To allow more efficient access to the GuC log, which could benefit
+> our CI systems, expose raw binary log data.  In addition to less
+> overhead in preparing text based GuC log file, the new GuC log file
+> in binary format is also almost 3x smaller.
 >
+> Any existing script that expects the GuC log buffer in text format
+> can use command like below to convert from new binary format:
 >
-> On 5/13/24 16:02, Liu Ying wrote:
-> > The connector is created by either this ADV7511 bridge driver or
-> > any DRM device driver/previous bridge driver, so this ADV7511
-> > bridge driver should not let the next bridge driver create connector.
-> >
-> > If the next bridge is a HDMI connector, the next bridge driver
-> > would fail to attach bridge from display_connector_attach() without
-> > the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
-> >
-> > Add that flag to drm_bridge_attach() function call in
-> > adv7511_bridge_attach() to fix the issue.
-> >
-> > This fixes the issue where the HDMI connector bridge fails to attach
-> > to the previous ADV7535 bridge on i.MX8MP EVK platform:
-> >
-> > [    2.216442] [drm:drm_bridge_attach] *ERROR* failed to attach bridge =
-/hdmi-connector to encoder None-37: -22
-> > [    2.220675] mmc1: SDHCI controller on 30b50000.mmc [30b50000.mmc] us=
-ing ADMA
-> > [    2.226262] [drm:drm_bridge_attach] *ERROR* failed to attach bridge =
-/soc@0/bus@30800000/i2c@30a30000/hdmi@3d to encoder None-37: -22
-> > [    2.245204] [drm:drm_bridge_attach] *ERROR* failed to attach bridge =
-/soc@0/bus@32c00000/dsi@32e60000 to encoder None-37: -22
-> > [    2.256445] imx-lcdif 32e80000.display-controller: error -EINVAL: Fa=
-iled to attach bridge for endpoint0
-> > [    2.265850] imx-lcdif 32e80000.display-controller: error -EINVAL: Ca=
-nnot connect bridge
-> > [    2.274009] imx-lcdif 32e80000.display-controller: probe with driver=
- imx-lcdif failed with error -22
-> >
-> > Fixes: 14b3cdbd0e5b ("drm/bridge: adv7511: make it honour next bridge i=
-n DT")
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> >   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu=
-/drm/bridge/adv7511/adv7511_drv.c
-> > index dd21b81bd28f..66ccb61e2a66 100644
-> > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > @@ -953,7 +953,8 @@ static int adv7511_bridge_attach(struct drm_bridge =
-*bridge,
-> >       int ret =3D 0;
-> >
-> >       if (adv->next_bridge) {
-> > -             ret =3D drm_bridge_attach(bridge->encoder, adv->next_brid=
-ge, bridge, flags);
-> > +             ret =3D drm_bridge_attach(bridge->encoder, adv->next_brid=
-ge, bridge,
-> > +                                     flags | DRM_BRIDGE_ATTACH_NO_CONN=
-ECTOR);
+> 	hexdump -e '4/4 "0x%08x " "\n"'
 >
-> As a side note, I think, maybe you could do better in the future.
->
-> If we know that the KMS display driver side has the HDMI connector
-> already created for us, we should pass DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> from the root KMS driver side. Which is to forbidden all potential
-> drm bridge drivers to create a connector in the middle.
->
-> The KMS display driver side could parse the DT to know if there is
-> a hdmi connector, or merely just hdmi connector device node, or
-> something else.
->
-> However, other maintainer and/or reviewer's opinion are of cause
-> more valuable. I send a A-b because I thought the bug is urgency
-> and it's probably more important to solve this bug first. And
-> maybe you can Cc: <stable@vger.kernel.org> if you like.
->
+> but this shouldn't be the case as most decoders expect GuC log data
+> in binary format.
+I strongly disagree with this.
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+Efficiency and file size is not an issue when accessing the GuC log via 
+debugfs on actual hardware. It is an issue when dumping via dmesg but 
+you definitely should not be dumping binary data to dmesg. Whereas, 
+dumping in binary data is much more dangerous and liable to corruption 
+because some tool along the way tries to convert to ASCII, or truncates 
+at the first zero, etc. We request GuC logs be sent by end users, 
+customer bug reports, etc. all doing things that we have no control over.
+
+Converting the hexdump back to binary is trivial for those tools which 
+require it. If you follow the acquisition and decoding instructions on 
+the wiki page then it is all done for you automatically.
+
+These patches are trying to solve a problem which does not exist and are 
+going to make working with GuC logs harder and more error prone.
+
+On the other hand, there are many other issues with GuC logs that it 
+would be useful to solves - including extra meta data, reliable output 
+via dmesg, continuous streaming, pre-sizing the debugfs file to not have 
+to generate it ~12 times for a single read, etc.
+
+Hmm. Actually, is this interface allowing the filesystem layers to issue 
+multiple read calls to read the buffer out in small chunks? That is also 
+going to break things. If the GuC is still writing to the log as the 
+user is reading from it, there is the opportunity for each chunk to not 
+follow on from the previous chunk because the data has just been 
+overwritten. This is already a problem at the moment that causes issues 
+when decoding the logs, even with an almost atomic copy of the log into 
+a temporary buffer before reading it out. Doing the read in separate 
+chunks is only going to make that problem even worse.
+
+John.
+
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> ---
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>   drivers/gpu/drm/xe/xe_guc_debugfs.c | 26 ++++++++++++++++++++++++++
+>   1 file changed, 26 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/xe/xe_guc_debugfs.c b/drivers/gpu/drm/xe/xe_guc_debugfs.c
+> index d3822cbea273..53fea952344d 100644
+> --- a/drivers/gpu/drm/xe/xe_guc_debugfs.c
+> +++ b/drivers/gpu/drm/xe/xe_guc_debugfs.c
+> @@ -8,6 +8,7 @@
+>   #include <drm/drm_debugfs.h>
+>   #include <drm/drm_managed.h>
+>   
+> +#include "xe_bo.h"
+>   #include "xe_device.h"
+>   #include "xe_gt.h"
+>   #include "xe_guc.h"
+> @@ -52,6 +53,29 @@ static const struct drm_info_list debugfs_list[] = {
+>   	{"guc_log", guc_log, 0},
+>   };
+>   
+> +static ssize_t guc_log_read(struct file *file, char __user *buf, size_t count, loff_t *pos)
+> +{
+> +	struct dentry *dent = file_dentry(file);
+> +	struct dentry *uc_dent = dent->d_parent;
+> +	struct dentry *gt_dent = uc_dent->d_parent;
+> +	struct xe_gt *gt = gt_dent->d_inode->i_private;
+> +	struct xe_guc_log *log = &gt->uc.guc.log;
+> +	struct xe_device *xe = gt_to_xe(gt);
+> +	ssize_t ret;
+> +
+> +	xe_pm_runtime_get(xe);
+> +	ret = xe_map_read_from(xe, buf, count, pos, &log->bo->vmap, log->bo->size);
+> +	xe_pm_runtime_put(xe);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct file_operations guc_log_ops = {
+> +	.owner		= THIS_MODULE,
+> +	.read		= guc_log_read,
+> +	.llseek		= default_llseek,
+> +};
+> +
+>   void xe_guc_debugfs_register(struct xe_guc *guc, struct dentry *parent)
+>   {
+>   	struct drm_minor *minor = guc_to_xe(guc)->drm.primary;
+> @@ -72,4 +96,6 @@ void xe_guc_debugfs_register(struct xe_guc *guc, struct dentry *parent)
+>   	drm_debugfs_create_files(local,
+>   				 ARRAY_SIZE(debugfs_list),
+>   				 parent, minor);
+> +
+> +	debugfs_create_file("guc_log_raw", 0600, parent, NULL, &guc_log_ops);
+>   }
+
