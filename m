@@ -2,63 +2,188 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FBC8C3F94
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 13:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B768C3FC1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 13:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8864410E652;
-	Mon, 13 May 2024 11:15:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4CB10E2F6;
+	Mon, 13 May 2024 11:22:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YRq/UkVo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kUuZIXdA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B54B510E652
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 11:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715598900;
- bh=7iUwfobNnT2nxOvxAP5Xkuao5iOl4azg6uUFMsPAI3U=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=YRq/UkVolqToE0Zlrc+rL7szh0o3Mmcpdfa+NnBhXsC30vub2FeUMwrM8yn5EjDGL
- V+PfcEEKojXLPVlMlxk1OW5grEeA/hJe5C1K48msL6ZnZ5LG+MypjGgaLy1OmTg3Ws
- MMAtX2eudEklJUbfqoCuMpxVociOK8AIDWpUKWb9mw74T6qq8SbccupIFvyu8gtuG0
- 5bpoFcBE8xowQHlzh7fEC6Et2A3h8yWm5KK+4C6h6hgqJa/1f6SBJI51/eRP0PyI9V
- 1mFT4svPol6d82/CoPqkzvHYEYOut3r8VANa1zrQQyGpdiHQUz4b1hGQzgX9e1mMML
- tIBDM3UXiDa+Q==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0B764378212E;
- Mon, 13 May 2024 11:14:58 +0000 (UTC)
-Date: Mon, 13 May 2024 14:14:49 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- rdunlap@infradead.org, arthurgrillo@riseup.net, Jonathan Corbet
- <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v6 07/17] drm/vkms: Update pixels accessor to support
- packed and multi-plane formats.
-Message-ID: <20240513141449.662ea39d.pekka.paalanen@collabora.com>
-In-Reply-To: <ZkG-AYWvyA1QOLHZ@localhost.localdomain>
-References: <20240409-yuv-v6-0-de1c5728fd70@bootlin.com>
- <20240409-yuv-v6-7-de1c5728fd70@bootlin.com>
- <20240422140757.576e363b.pekka.paalanen@collabora.com>
- <ZkG-AYWvyA1QOLHZ@localhost.localdomain>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE4C010E2F6;
+ Mon, 13 May 2024 11:22:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715599356; x=1747135356;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=/Iqm5OVzZe8QvlPd9ey9Eo76jtVCx9BBPYm5PMpaEpw=;
+ b=kUuZIXdAkHf7WZ9JHnBnwPS0q7YCrbCWQniJx1iLQWOo92mLEyx5LQV3
+ sjZGEYdVsdqqdVcGxSt1+R3qB1XcP+lyGiGnRhjfdI/lXZYNkMj19SpO0
+ +HTyM9siP+I+md5XKMDHc2Dsq/hiqqqSeqPFjz9EG+ZWsLTYmfX+Xv4pJ
+ ej1uzmd5HXuTxft+WpvUQQmbeGyDkLTMo/Jpu4f8Y8vChlAgb1GPLk60g
+ NIBe5H3IopzEU3Y3hq+wSQmHUhNO2WQ4nRoKzx18kAYYYYLuPmb1in8Uf
+ LE68Jf20cdjZxU4BEfh1yeNFPbrkDen7apx4fHq16utEgUT7GT5LEHxf8 w==;
+X-CSE-ConnectionGUID: lUrJbP5nRnmd7sozMmOPRQ==
+X-CSE-MsgGUID: x2Tsld6GSJesOoMSFulHFg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11497093"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="11497093"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2024 04:22:35 -0700
+X-CSE-ConnectionGUID: g82gL+3bQjmcu2IbDNqqGw==
+X-CSE-MsgGUID: zwR1c+SnQbW9Zx88fo36Xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30293079"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 13 May 2024 04:22:35 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 13 May 2024 04:22:34 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 13 May 2024 04:22:34 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 13 May 2024 04:22:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kJGJzFMHbgeiExBvtfaXCzf/Zwy3y/a5exK5MJ4CA6chvb5VTH664mxa44VeBfLu2iH5wO8m10PGAzo2MFbIVg0LAlBCMm87qRWNbsMeQorxrO7e8Yt7TKVSwtiAu2GKIrf2BXJxO+1shCz9uEpwkNafNvnPHgEC1ZtUdxur8/rpbRewd7tYOKfvLUmsodeiy/CyVVpUvyhe1P5cxHcgYa72xkGZnnZIjfi/dqzon81Y5V5vMj4scfFk5upVEWBsuXX5Hu4jUUB14IZP28ox85pM8Eec6s3CuM9HwOoITq4IB8/uvhsmIUiJie9bbtF0y9N5ph8PgdYXv3ZlYiiLTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/Iqm5OVzZe8QvlPd9ey9Eo76jtVCx9BBPYm5PMpaEpw=;
+ b=H1F/0piWmFLw8KOPrLAEtmQpsQFLYNIepm/olBVcKy796dhadMCQ79BtTpnl++aekNWfvynKmuis6WW0jpX8/92xpIZiSitChgOJdk+57H4+8HMnCKX00wmzyUMvbeDQGpq4jIgMzqNMbMmow5qnYQVXTCFrI6XDppXcPOs8BLNsmB4RLdI6QLB+LpQS8xlyYU/WMN0tcGrxo9FiFTN80+CzgbR6E3FCozo9BJIhCkln7PSHXbFfpeLvEQpLb24iY9xiIFNmnUoyk3UQ/70kUy9fjrtYoYMh2B7CSI52jNLEPz9AAAeXAYT3w16UoYyvwkDEnQP6ddh/+UXRScmnxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from PH7PR11MB5981.namprd11.prod.outlook.com (2603:10b6:510:1e0::15)
+ by SA2PR11MB4779.namprd11.prod.outlook.com (2603:10b6:806:11a::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Mon, 13 May
+ 2024 11:22:32 +0000
+Received: from PH7PR11MB5981.namprd11.prod.outlook.com
+ ([fe80::40e0:95a6:26e8:8de0]) by PH7PR11MB5981.namprd11.prod.outlook.com
+ ([fe80::40e0:95a6:26e8:8de0%6]) with mapi id 15.20.7544.052; Mon, 13 May 2024
+ 11:22:32 +0000
+From: "Manna, Animesh" <animesh.manna@intel.com>
+To: "Hogander, Jouni" <jouni.hogander@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Murthy, Arun R" <arun.r.murthy@intel.com>, "Nikula, Jani"
+ <jani.nikula@intel.com>
+Subject: RE: [PATCH v4 4/6] drm/i915/alpm: Add compute config for lobf
+Thread-Topic: [PATCH v4 4/6] drm/i915/alpm: Add compute config for lobf
+Thread-Index: AQHaodR9MmPcnlT5w0ivGtgD4PqjYrGUy44AgAA/4eA=
+Date: Mon, 13 May 2024 11:22:32 +0000
+Message-ID: <PH7PR11MB59815A85BEFD5FDC22798B68F9E22@PH7PR11MB5981.namprd11.prod.outlook.com>
+References: <20240509053155.327071-1-animesh.manna@intel.com>
+ <20240509053155.327071-5-animesh.manna@intel.com>
+ <f45895701e1a6d80b163fe89b3fe5995eb38bf90.camel@intel.com>
+In-Reply-To: <f45895701e1a6d80b163fe89b3fe5995eb38bf90.camel@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH7PR11MB5981:EE_|SA2PR11MB4779:EE_
+x-ms-office365-filtering-correlation-id: c1a49b6b-9a0d-4b68-fd64-08dc733efb88
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230031|366007|1800799015|376005|38070700009;
+x-microsoft-antispam-message-info: =?utf-8?B?RExXSlRKR1lnY3hzcWNMSU5uNzMySW90QXpRdzNqTWNlcFZITjRPRFFMclFJ?=
+ =?utf-8?B?anZwMVVSMGFZVElMRkpzZlJhV3BEZDVoNUJBYjkvdktxcnRnT0lvQzhGN2t6?=
+ =?utf-8?B?bzFmTWhISW91c3ZHZVI1OWxwYnR5bk45eWRTeG12ZEdEVjNEVWVrN3l3L3Fr?=
+ =?utf-8?B?d3hCYkh6RThMSnJ0eWVyYTlCOXZidmVNSnVwVGw4bjNIMWttYVRvZlhFNE05?=
+ =?utf-8?B?S0ZvbWIwanU0WHlJOG1kbEpocytKMEptb1RoZWtsaVVWcWVRZWZzVkh1VHBn?=
+ =?utf-8?B?RHpHM0kzaWlndDRramdKNHVLS3RzTnltbklIcFpEWm1NKzV5bDdNVzFTbXBv?=
+ =?utf-8?B?c3l1djVHSHo0QitzckhSYlhFd3N3NEhUYzY2aVA0Z3BJRk43RDAyRW9JVTM0?=
+ =?utf-8?B?YlVRejZ1ekFjcUw4K3hQVSszSkxCaUFCckV3clg0SE00ZmxZNnlacFZIY3Vm?=
+ =?utf-8?B?bXExMlhQWE1TcFJwbVhpUktwRVAxR0ZkcWY2N25Od1N2ZGU1Qkh0QTJia0g2?=
+ =?utf-8?B?QytMUy9LbFo0aHAyMjhnUWZaSFcvUkg5Z21QUGRRUUhqcUFBTU82RVBvaTlQ?=
+ =?utf-8?B?dUY2aDZWU25xdzJ3WjJybS81NmlDS0xRR1d6UmV0eG5yRHd3SjljMXZ6czB6?=
+ =?utf-8?B?SXRmWnBBV1NBWjVpRTREVWh2cEk1d215aEtNM3B0OXJFbVRDVjNMdjJ4WGtJ?=
+ =?utf-8?B?ZjNsSmVPdzNKMDBESTExQmFzUy9jbk94Qk5MeTYzVEFXamhqSkFQOGJlaWRM?=
+ =?utf-8?B?S1k1RmpCTHd4T3ZoVkdFeFIvR2hhSEFUaTFXSnVVTEVMMWMrTkVxd0xORDF3?=
+ =?utf-8?B?a242M0huY09TK2MvbGp6R1BpVW9tK1dDL2Y5TDdRZS9xSFkyN2VweWkwU3lS?=
+ =?utf-8?B?NktWZVNDd1FXWHRqLytJZUFkZUtYRGlkMVU5bnljT1Z2YjFlTVgyMmU2eTNy?=
+ =?utf-8?B?QlA0S3BGY21GS3pOeFdrSmFhNkN6U1BENGNPVm1CK1Y5RXpReHhONmdRdGFs?=
+ =?utf-8?B?VWgyZnc5Y0syRWJLUTh4dlhXb3lqeFp2NGZJUDJlOU9sTmxlYmRLTmREckRt?=
+ =?utf-8?B?d25HcjQyN0dDaVAxWnF3a1JhTHhuSnNycTFOa1UxUlUrOWwyci9CWGFSalcx?=
+ =?utf-8?B?UTBqSEpGZzlPR0tNWTUydGNGUWhtV0ErZWF3eWZITUM4WDlUYmExMUJlUVE2?=
+ =?utf-8?B?aUpCVTU5eVdiV2ZWNFdQT0JLei9xaHZweVc1VnNZeVdzUTczbjhLcHpuS21C?=
+ =?utf-8?B?UWxhTXVuNnM2SE5aQWcwbEtqaHpYN000QUZRK0RrT2FieVBUQ1lTSDZHUXo3?=
+ =?utf-8?B?Q0RNbDlXVXpYY2FCblpnM2JlTC9FcjdiejhJRDYzd0pQUzNpM2xBQnlFcHZG?=
+ =?utf-8?B?ZElVU3UzQXB3andocGpqVEE5cGI5Y2FGOTVRRzRBSHlUQnJsWGtJWE4xMUl3?=
+ =?utf-8?B?dldyVkxIcTZpZjlhaTNoNHcyNjlLM0dITklFUE1zNGloMXhEcmNaSGpFK3VB?=
+ =?utf-8?B?OGpFTS8zaXlCNnl2QXVSU3ZqWnJXaFByWnBTQTh6YkxQM2dUNWlpNUtXNkg3?=
+ =?utf-8?B?ME00dmhwV0thTjBnR0VpeDcwK0xqNHcvTEtYNGtBejkzZko1cTJqWFE0SnlY?=
+ =?utf-8?B?eTZFRDBHTk5iNXNVdytyaW1pcFFiVDI4TE9PTU1TMXFRbWVXOVBXY2ZCeEMw?=
+ =?utf-8?B?d1FKc0V4VXZXT2tQNFQrRU1WbCtKNEdkL2Y2QlBzK1ZmUEN6dFhLWjNPT0Jr?=
+ =?utf-8?B?d29qOVk2dWtaV1dPVGJDNzdOdk5uN25KK2ZLaXBvVTEyZHRRcmo5ZjNCZWl5?=
+ =?utf-8?B?WGhNdm5NalM0MGRGblNsdz09?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB5981.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366007)(1800799015)(376005)(38070700009); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OHNuWFBJaFlXYlh4dkZxNnFpUFpPRUJoNXlibEJ2NDVNVTNGMWpHenpCRzI1?=
+ =?utf-8?B?eENKSnNRRXB4M2FxWnRjRFMycmE2b01vclc2bmtVM0ZJQXhmYko0dEtzczU0?=
+ =?utf-8?B?T2dDbVRTNG1tWUdGbEpOYTJPSGpaUFJlVE04ck5uVW5JeGNSc1NpdDZXZ2NF?=
+ =?utf-8?B?V3doY1pNMmZNS2dvOGRGdXVJOVJQUmVCV1dMcGx0djYvQkg3THlST3F6cm41?=
+ =?utf-8?B?QlY1LzZxdi9JRk9xRHppV1VydUVpc0laY2RqT1g5K0F4eXhuNU96SnU4SGYv?=
+ =?utf-8?B?bXc3ZjYxWHlSNlhENXRIcXIvNVQ4dmVyM0dZM0FsOExRKzBvWnlmUU9JdXBD?=
+ =?utf-8?B?SkhSdWZLZFJhWmdMRDdoald2MkdzOW5aa2tzOXQ1ZGtJQW9SOWpIQjREa3hh?=
+ =?utf-8?B?MXh6ZFZNbU1oY2dLWGY3L2NJRjY1elFTb3RlNlc2NXI2WjRLWGhTMldpWkpZ?=
+ =?utf-8?B?NXB3Z3YyczV5dGl1SXlCQVJtdEs4dll4bm0rNnpvV1pBTFpwNzgxR1VtY2Vr?=
+ =?utf-8?B?cU1XWkdLcGFOdWFXd2ZVUnNHa3pUbUkxN0ZTQk8rNmdKSnJtS0dKL0xTelFH?=
+ =?utf-8?B?SWhLald4eDZYQ1Zld1BGYkhwZ3lseDZKSHArcXNVcDlBRnBzUEkrSklkNG53?=
+ =?utf-8?B?d20xTEswbUJQWVk0NHZJSkEvbTRiMmlJZ2pVWUFSTkpTdkdRS3BaQkptajBr?=
+ =?utf-8?B?WFRsSXpzQjhNZEdoSXZCODFVQ0pxUDhkaFBBaW85TlpUbmgzcjZSZnEzc0V4?=
+ =?utf-8?B?Y2M3Qm1CVEZqRFFxY0srYXBNYmJkWHZiaWxYaDZmWHNuL1dYWXlseDRpNGxh?=
+ =?utf-8?B?T1o5U0JKR2RBdGR5Mm9KVjdzRlN0YUN6alZRNlUzNk04WUpNUlBjWW1idEs3?=
+ =?utf-8?B?STVFWnVhYkhsTi8rMFVnRDFjWFpXWkwyOGt0U1NmeWlwWUk1ajVjb1A2R0Nv?=
+ =?utf-8?B?Vld0SVlXQ1I2N2tKZ1BhazJBSlpGZ2NQWVdKUWtxUHJOTjhCQjFWOWhzelgx?=
+ =?utf-8?B?RGM1Y2RWcElqb0pEb2dVQkNCdjJTN21FaVhPN0ZSd3ExbGRJaTRVK1JMMzlL?=
+ =?utf-8?B?K2pCcEZHdVdkNXZ4YnVPa2hTcG95ZWRZcTdDdGRMaE1CaW1qMGlwRmNFKzBG?=
+ =?utf-8?B?ZzM4bVpIVUNOQVEyOS9Bd0VNTUhGUTgzRGUxVHg1QkZrcjBNTUlGcDlubm9r?=
+ =?utf-8?B?dWNZRm8zOWtjZzAwb25NdnBuYUIzU0VpNlkycTJZUXhDUmdqbmtjRzh4Qkd3?=
+ =?utf-8?B?NlpSMHBFcDcyZkpsVWlBVHo1OVdQNFNseDlJb0pCVkNTTGNEWnVUTFNhOU5u?=
+ =?utf-8?B?anRPNkRDaHppMU9uVjFGM2graEgwZ2dZQnp0R0h5RU1oalBPeWM2N1Z1VGkz?=
+ =?utf-8?B?NVBCUUE4dzI3dUlMQ29QTFhGMkp0ZW5FRFZ0K1ZUSkNUYzdtdUZCcmZERy9M?=
+ =?utf-8?B?SzZnS2pjbVNnM1BkcVlBMGppSFdLV0J2WGd2cFJ4M0ZsT3NnSTZrUWJsSjlK?=
+ =?utf-8?B?Y2VlbThlMHRLZ2lLMnBNYUZnakU0QTNKbVBSczBmTHo1WDQrRm5NUDFxZkVx?=
+ =?utf-8?B?eWV0Z2ZIa2JSbEUxSXBkMlA2bDc2bHJ0WnRKZlVKeFZTbTQ3NDE5ZDdWWEl1?=
+ =?utf-8?B?dW9OV3hjOEs5RXZTaTFnSnlLdUw0UWRGaHNPc0l2dnpYWEN1NWNPbU8wRXV1?=
+ =?utf-8?B?dit0RWhKcThjamgzcFlaR3FvU1crRFRDb0E3eld0ejRmRU5uV2ZDb2NSWjBU?=
+ =?utf-8?B?N2FjSStJeTkrU2gwL2hjMTFLd3ppdEMzVENKRGJkU294Qmoxbk0zVGdwSnpW?=
+ =?utf-8?B?M3U5NlBMRzVHa2I2UlpTOTFIVUpmK3c2UHA2Vmtra092clc4OTQzV0cwWVpo?=
+ =?utf-8?B?V2hPWE1HWGt1bXRNWk01K2RhRFNSOFNuSGhLNlNNQlhSQkhvNVh6WDBZK3ZF?=
+ =?utf-8?B?RnlXdTA4c0tkSTFWU09PZkNuUFFsTDloM2wySjJacDUxM1hpaDQxNkVXOHdE?=
+ =?utf-8?B?alNQN0dCR0s0UTVQS3M4bzJOUm94TnI3SURuSWpnaXREWjVoMlNPemRuMTFO?=
+ =?utf-8?B?UFcyNlN2T2JnNW1aTEZKSGtwTnE4NFZ0dnkxanFRWGY4R1hTV2E0cEpSazVQ?=
+ =?utf-8?Q?8u4XIIlNOI4oQxptPBHGFicQ9?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/+HtRlSbEj54KW42m5d4eUu+";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB5981.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1a49b6b-9a0d-4b68-fd64-08dc733efb88
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2024 11:22:32.4633 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WUkznAdzS4W/ebTniu2MoPs1KZpA91bqXEwh+yimBA3/m5Hls5bvxJXwfcyjLNLNfglOqPMI6aEU+LNvYf19Ag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4779
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,254 +199,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/+HtRlSbEj54KW42m5d4eUu+
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 13 May 2024 09:15:13 +0200
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-
-> Le 22/04/24 - 14:07, Pekka Paalanen a =C3=A9crit :
-> > On Tue, 09 Apr 2024 15:25:25 +0200
-> > Louis Chauvet <louis.chauvet@bootlin.com> wrote:
-> >  =20
-> > > Introduce the usage of block_h/block_w to compute the offset and the
-> > > pointer of a pixel. The previous implementation was specialized for
-> > > planes with block_h =3D=3D block_w =3D=3D 1. To avoid confusion and a=
-llow easier
-> > > implementation of tiled formats. It also remove the usage of the
-> > > deprecated format field `cpp`.
-> > >=20
-> > > Introduce the plane_index parameter to get an offset/pointer on a
-> > > different plane.
-> > >=20
-> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > ---
-> > >  drivers/gpu/drm/vkms/vkms_formats.c | 110 ++++++++++++++++++++++++++=
-++--------
-> > >  1 file changed, 87 insertions(+), 23 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vk=
-ms/vkms_formats.c
-> > > index 69cf9733fec5..9a1400ad4db6 100644
-> > > --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> > > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> > > @@ -10,22 +10,43 @@
-> > >  #include "vkms_formats.h"
-> > > =20
-> > >  /**
-> > > - * pixel_offset() - Get the offset of the pixel at coordinates x/y i=
-n the first plane
-> > > + * packed_pixels_offset() - Get the offset of the block containing t=
-he pixel at coordinates x/y
-> > >   *
-> > >   * @frame_info: Buffer metadata
-> > >   * @x: The x coordinate of the wanted pixel in the buffer
-> > >   * @y: The y coordinate of the wanted pixel in the buffer
-> > > + * @plane_index: The index of the plane to use
-> > > + * @offset: The returned offset inside the buffer of the block
-> > > + * @rem_x,@rem_y: The returned coordinate of the requested pixel in =
-the block
-> > >   *
-> > > - * The caller must ensure that the framebuffer associated with this =
-request uses a pixel format
-> > > - * where block_h =3D=3D block_w =3D=3D 1.
-> > > - * If this requirement is not fulfilled, the resulting offset can po=
-int to an other pixel or
-> > > - * outside of the buffer.
-> > > + * As some pixel formats store multiple pixels in a block (DRM_FORMA=
-T_R* for example), some
-> > > + * pixels are not individually addressable. This function return 3 v=
-alues: the offset of the
-> > > + * whole block, and the coordinate of the requested pixel inside thi=
-s block.
-> > > + * For example, if the format is DRM_FORMAT_R1 and the requested coo=
-rdinate is 13,5, the offset
-> > > + * will point to the byte 5*pitches + 13/8 (second byte of the 5th l=
-ine), and the rem_x/rem_y
-> > > + * coordinates will be (13 % 8, 5 % 1) =3D (5, 0)
-> > > + *
-> > > + * With this function, the caller just have to extract the correct p=
-ixel from the block.
-> > >   */
-> > > -static size_t pixel_offset(const struct vkms_frame_info *frame_info,=
- int x, int y)
-> > > +static void packed_pixels_offset(const struct vkms_frame_info *frame=
-_info, int x, int y,
-> > > +				 int plane_index, int *offset, int *rem_x, int *rem_y)
-> > >  {
-> > >  	struct drm_framebuffer *fb =3D frame_info->fb;
-> > > +	const struct drm_format_info *format =3D frame_info->fb->format;
-> > > +	/* Directly using x and y to multiply pitches and format->ccp is no=
-t sufficient because
-> > > +	 * in some formats a block can represent multiple pixels.
-> > > +	 *
-> > > +	 * Dividing x and y by the block size allows to extract the correct=
- offset of the block
-> > > +	 * containing the pixel.
-> > > +	 */
-> > > =20
-> > > -	return fb->offsets[0] + (y * fb->pitches[0]) + (x * fb->format->cpp=
-[0]);
-> > > +	int block_x =3D x / drm_format_info_block_width(format, plane_index=
-);
-> > > +	int block_y =3D y / drm_format_info_block_height(format, plane_inde=
-x);
-> > > +	*rem_x =3D x % drm_format_info_block_width(format, plane_index);
-> > > +	*rem_y =3D y % drm_format_info_block_height(format, plane_index);
-> > > +	*offset =3D fb->offsets[plane_index] +
-> > > +		  block_y * fb->pitches[plane_index] +
-> > > +		  block_x * format->char_per_block[plane_index]; =20
-> >=20
-> > I started thinking... is
-> >=20
-> > +		  block_y * fb->pitches[plane_index] +
-> >=20
-> > correct, or should it be
-> >=20
-> > +		  y * fb->pitches[plane_index] +
-> >=20
-> > ? =20
->=20
-> The documentation is not very clear about that:
->=20
->        	 * @pitches: Line stride per buffer. For userspace created object=
- this
->        	 * is copied from drm_mode_fb_cmd2.
->=20
-> If I look at the drm_mode_fb_cmd2, there is this documentation:
->=20
->        	/** @pitches: Pitch (aka. stride) in bytes, one per plane. */
->=20
-> For me, I interpret "stride" as it is used in matrix calculation, where it
-> means "the number of bytes between two number adjacent verticaly"
-> (&matrix[x,y] + stride =3D=3D &matrix[x,y+1]).
->=20
-> So in a graphic context, I interpret a stride as the number of byte to
-> reach the next line of blocks (as pixels can not always be accessed
-> individually).
->=20
-> So, for me, buffer_size_in_byte >=3D stride * number_of_lines.
-
-This is the definition, yes. Even for blocky formats, it is still
-number of 1-pixel-high lines, even though one cannot address a line as
-such. For blocky formats it is a theoretical value, and computing with
-it only makes sense when your number of lines is a multiple of block
-height.
-
-That's my recollection. This has been hashed in issues like
-https://gitlab.freedesktop.org/wayland/weston/-/issues/896
-
-> > I'm looking at drm_format_info_min_pitch() which sounds like it should
-> > be the latter? Because of
-> >
-> >         return DIV_ROUND_UP_ULL((u64)buffer_width * info->char_per_bloc=
-k[plane],
-> >                             drm_format_info_block_width(info, plane) *
-> >                             drm_format_info_block_height(info, plane));
-> >
-> > in drm_format_info_min_pitch(). =20
->=20
-> This function doesn't make sense to me. I can't understand how it could
-> work.
->=20
-> If I consider the X0L2 format, with block_h =3D=3D block_w =3D=3D 2,
-> char_per_block =3D 8, and a framebuffer of 1 * 10 pixels, the result of
-> drm_format_info_min_pitch is 2.
-
-If buffer_width is 1, then buffer_width / block_w is 1 because of
-rounding up. Cannot have images with partial blocks. That is a
-block-row of one block. That block takes char_per_block bytes, that is,
-8 bytes here. But block height is 2, and stride is computed for
-1-pixel-high line, so we divide by block_h, and the result is stride =3D
-4 bytes.
-
-However, 1 * 8 / (2 * 2) =3D 2. I think the code is bugged, and the
-round-up happens at a wrong point. The correct form would be
-
-div_round_up(div_round_up(buffer_width, block_w) * char_per_block, block_h)
-
-in my opinion. There must always be an integer number of blocks on a
-block-row. If a block-row has multiple blocks, doing a
-div_round_up(char_per_block, block_h) would over-estimate the per-block
-bytes and add the extra for each block rather than averaging it out.
-So, multiplying by char_per_block before dividing by block_h gives a
-stricter minimum stride.
-
-The condition buffer_size_bytes >=3D buffer_height * stride is necessary
-but not always sufficient, because the buffer must hold an integer
-number of block-rows.
-
-> However, for this format and this framebuffer, I think the stride should
-> be at least 8 bytes (the buffer is "1 block width").
-
-I believe the stride is 4 bytes, because stride for a 1-pixel-high line
-on average, rounded up.
-
-Stride allows for unused blocks per block-row, but its use for buffer
-size checking with buffer_height is incomplete, I believe. For the
-question "is buffer_size enough?" it may produce false-positives, but
-it cannot produce false-negatives.
-
-
-Thanks,
-pq
-
-
-> If pitch equals 2 (as suggested by the test), it implies that
-> height * pitch is not valid for calculating the minimum size of the buffer
-> (in our case, 10 * 2 =3D 20 bytes, but the minimum framebuffer size should
-> be 5 blocks * 8 bytes_per_block =3D 40 bytes). And I don't understand what
-> the 2 represents in this context.
-> Is it the number of pixels on a line (which is strange, because pitch=20
-> should be in byte)? The width in byte of the first line, but by using the=
-=20
-> "byte per pixel" value (which make no sense when using block formats)?
->=20
-> If pitch equals 8 (as I would expect), height * pitch is not optimal (but
-> at least sufficient to contain the entire framebuffer), and height * pitch
-> / block_h is optimal (which is logical, because height/block_h is the=20
-> number of block per columns).
->=20
-> > Btw. maybe this should check that the result is not negative (e.g. due
-> > to overflow)? Or does that even work since signed overflow is undefined
-> > behavior (UB) and compilers may assume UB does not happen, causing the
-> > check to be eliminated as dead code?
-> >
-> > Otherwise this patch looks ok to me.
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >  =20
->=20
-> [...]
->=20
-> --
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-
-
---Sig_/+HtRlSbEj54KW42m5d4eUu+
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmZB9ioACgkQI1/ltBGq
-qqcUJA/+IdlwBdr+FJmO3CcHiS+nrrHFGN++uZ9PuwM5Lgej732L7EpemDQfTiUH
-wOm+QjnvbS+RxHlKDyCqD1fmHyH+nf0i1cuo6UtqeobUmaPzsKlNYdliB5nMO/ux
-czIQuObrdhSiEXeEgM8SHrY5iuKnMCwpYm9nQ4jBXCDZrzMUYgEHQXLvwRYvzVsf
-Koeoo0LMnsKzA6gDwWJpqV559x5GTFX0io2fYDHUsb6oND22fOOkPQtVE21wYjyg
-3dM58JGblCUJeP5XMrGayfCOFgB96D6p9ldjnhoXV8tAdpZnv+Xi8goDzs8gTtZV
-dINLToRWldysnAD6O7QfEPAyycp4bMupkMSZY7tyB8lHr1n/HflJndAczZwq6uza
-XeRzn88hZ0j/JA/lOvHq7kG1Bwyo3FLCmFeb5jdpiqYLvSB1EbFqonZMTjjr91YB
-bThcslH1m7mrbePXGnDMbHN2gAmRTH96uncMYCL3vZ2KPK6kxekq3FQVpclcz/1i
-qJ9H0ngeEZaTJGJTbrl6GKvGj0kxKctPVNm+v5iTzabo560gdLQPbJeD/cy2nN3J
-tMc3qKc00en9U3xCkZQyUAtcvpiOIRiQsJiuyuauA6l4DmEiIARIc8xRSjhGIDdm
-ASvVvGuGd1JON7tZHRS8BlJ1yrlg8RRZWaTIzmk1RVQ9INsndTk=
-=gM+J
------END PGP SIGNATURE-----
-
---Sig_/+HtRlSbEj54KW42m5d4eUu+--
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSG9nYW5kZXIsIEpvdW5p
+IDxqb3VuaS5ob2dhbmRlckBpbnRlbC5jb20+DQo+IFNlbnQ6IE1vbmRheSwgTWF5IDEzLCAyMDI0
+IDE6MDIgUE0NCj4gVG86IE1hbm5hLCBBbmltZXNoIDxhbmltZXNoLm1hbm5hQGludGVsLmNvbT47
+IGludGVsLQ0KPiBnZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IENjOiBkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnOyBNdXJ0aHksIEFydW4gUg0KPiA8YXJ1bi5yLm11cnRoeUBpbnRl
+bC5jb20+OyBOaWt1bGEsIEphbmkgPGphbmkubmlrdWxhQGludGVsLmNvbT4NCj4gU3ViamVjdDog
+UmU6IFtQQVRDSCB2NCA0LzZdIGRybS9pOTE1L2FscG06IEFkZCBjb21wdXRlIGNvbmZpZyBmb3Ig
+bG9iZg0KPiANCj4gT24gVGh1LCAyMDI0LTA1LTA5IGF0IDExOjAxICswNTMwLCBBbmltZXNoIE1h
+bm5hIHdyb3RlOg0KPiA+IExpbmsgT2ZmIEJldHdlZW4gQWN0aXZlIEZyYW1lcywgaXMgYSBuZXcg
+ZmVhdHVyZSBmb3IgZURQIHRoYXQgYWxsb3dzDQo+ID4gdGhlIHBhbmVsIHRvIGdvIHRvIGxvd2Vy
+IHBvd2VyIHN0YXRlIGFmdGVyIHRyYW5zbWlzc2lvbiBvZiBkYXRhLiBUaGlzDQo+ID4gaXMgYSBm
+ZWF0dXJlIG9uIHRvcCBvZiBBTFBNLCBBUyBTRFAuDQo+ID4gQWRkIGNvbXB1dGUgY29uZmlnIGR1
+cmluZyBhdG9taWMtY2hlY2sgcGhhc2UuDQo+ID4NCj4gPiB2MTogUkZDIHZlcnNpb24uDQo+ID4g
+djI6IEFkZCBzZXBhcmF0ZSBmbGFnIGZvciBhdXhsZXNzLWFscG0uIFtKYW5pXQ0KPiA+IHYzOg0K
+PiA+IC0gaW50ZWxfZHAtPmxvYmZfc3VwcG9ydGVkIHJlcGxhY2VkIHdpdGggY3J0Y19zdGF0ZS0+
+aGFzX2xvYmYuDQo+ID4gW0pvdW5pXQ0KPiA+IC0gQWRkIERJU1BMQVlfVkVSKCkgY2hlY2suIFtK
+b3VuaV0NCj4gPiAtIE1vZGlmeSBmdW5jdGlvbiBuYW1lIG9mIGdldF9hdXhfbGVzc19zdGF0dXMu
+IFtKYW5pXQ0KPiA+IHY0OiBBZGQgZW51bSBhbHBtX21vZGUgdG8gaG9sZCB0aGUgYXV4LXdha2Uv
+bGVzcyBjYXBhYmlsaXR5Lg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQW5pbWVzaCBNYW5uYSA8
+YW5pbWVzaC5tYW5uYUBpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gwqBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX2FscG0uY8KgwqDCoMKgIHwgNTgNCj4gPiArKysrKysrKysrKysr
+KysrKysrDQo+ID4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2FscG0uaMKg
+wqDCoMKgIHzCoCA1ICsrDQo+ID4gwqAuLi4vZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5
+X3R5cGVzLmjCoMKgwqAgfCAxMSArKysrDQo+ID4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
+bGF5L2ludGVsX2RwLmPCoMKgwqDCoMKgwqAgfMKgIDQgKysNCj4gPiDCoDQgZmlsZXMgY2hhbmdl
+ZCwgNzggaW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2Rpc3BsYXkvaW50ZWxfYWxwbS5jDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9k
+aXNwbGF5L2ludGVsX2FscG0uYw0KPiA+IGluZGV4IGVlNmMyYTk1OWYwOS4uNTk3OWVhYjFmMmUw
+IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfYWxw
+bS5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hbHBtLmMN
+Cj4gPiBAQCAtMTEsNiArMTEsMjMgQEANCj4gPiDCoCNpbmNsdWRlICJpbnRlbF9kcF9hdXguaCIN
+Cj4gPiDCoCNpbmNsdWRlICJpbnRlbF9wc3JfcmVncy5oIg0KPiA+DQo+ID4gK2VudW0gYWxwbV9t
+b2RlIGludGVsX2FscG1fZ2V0X2NhcGFiaWxpdHkoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCkg
+ew0KPiA+ICvCoMKgwqDCoMKgwqDCoHU4IGFscG1fY2FwcyA9IDA7DQo+ID4gKw0KPiA+ICvCoMKg
+wqDCoMKgwqDCoGlmIChkcm1fZHBfZHBjZF9yZWFkYigmaW50ZWxfZHAtPmF1eCwgRFBfUkVDRUlW
+RVJfQUxQTV9DQVAsDQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgICZhbHBtX2NhcHMpICE9IDEpDQo+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoHJldHVybiBBTFBNX0lOVkFMSUQ7DQo+ID4gKw0KPiA+ICvCoMKgwqDC
+oMKgwqDCoGlmIChhbHBtX2NhcHMgJiBEUF9BTFBNX0NBUCkNCj4gPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgcmV0dXJuIEFMUE1fQVVYX1dBS0U7DQo+ID4gKw0KPiA+ICvCoMKgwqDC
+oMKgwqDCoGlmIChhbHBtX2NhcHMgJiBEUF9BTFBNX0FVWF9MRVNTX0NBUCkNCj4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIEFMUE1fQVVYX0xFU1M7DQo+ID4gKw0KPiA+
+ICvCoMKgwqDCoMKgwqDCoHJldHVybiBBTFBNX05PVF9TVVBQT1JURUQ7DQo+ID4gK30NCj4gDQo+
+IFRoaXMgd2lsbCBhbHdheXMgcmV0dXJuIEFMUE1fQVVYX1dBS0UgaWYgYm90aCBhcmUgc3VwcG9y
+dGVkLiBJIGRvbid0IHRoaW5rDQo+IHRoaXMgaXMgd2hhdCB5b3Ugd2FudD8NCj4gDQo+IFlvdSBj
+b3VsZCBhZGQgYWxwbV9kcGNkIGludG8gaW50ZWxfZHAuIFRoZW4gZm9yIHRoaXMgcHVycG9zZSBh
+ZGQNCj4gYXV4X3dha2Vfc3VwcG9ydGVkKCkgYW5kIGF1eF9sZXNzX3dha2Vfc3VwcG9ydGVkKCk/
+DQoNCk9rLCB3aWxsIGFkZCBpbiBuZXh0IHZlcnNpb24uDQoNClJlZ2FyZHMsDQpBbmltZXNoDQoN
+Cj4gDQo+IEJSLA0KPiANCj4gSm91bmkgSMO2Z2FuZGVyDQo+IA0KPiA+ICsNCj4gPiDCoC8qDQo+
+ID4gwqAgKiBTZWUgQnNwZWM6IDcxNjMyIGZvciB0aGUgdGFibGUNCj4gPiDCoCAqDQo+ID4gQEAg
+LTI0Miw2ICsyNTksNDcgQEAgYm9vbCBpbnRlbF9hbHBtX2NvbXB1dGVfcGFyYW1zKHN0cnVjdCBp
+bnRlbF9kcA0KPiA+ICppbnRlbF9kcCwNCj4gPiDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIHRydWU7
+DQo+ID4gwqB9DQo+ID4NCj4gPiArdm9pZCBpbnRlbF9hbHBtX2NvbXB1dGVfbG9iZl9jb25maWco
+c3RydWN0IGludGVsX2RwICppbnRlbF9kcCwNCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGludGVs
+X2NydGNfc3RhdGUNCj4gPiAqY3J0Y19zdGF0ZSwNCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRy
+bV9jb25uZWN0b3Jfc3RhdGUNCj4gPiAqY29ubl9zdGF0ZSkNCj4gPiArew0KPiA+ICvCoMKgwqDC
+oMKgwqDCoHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1ID0gZHBfdG9faTkxNShpbnRlbF9k
+cCk7DQo+ID4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKmFkanVzdGVk
+X21vZGUgPSAmY3J0Y19zdGF0ZS0NCj4gPiA+aHcuYWRqdXN0ZWRfbW9kZTsNCj4gPiArwqDCoMKg
+wqDCoMKgwqBpbnQgd2FrZXRpbWVfaW5fbGluZXMsIGZpcnN0X3NkcF9wb3NpdGlvbjsNCj4gPiAr
+wqDCoMKgwqDCoMKgwqBpbnQgY29udGV4dF9sYXRlbmN5LCBndWFyZGJhbmQ7DQo+ID4gKw0KPiA+
+ICvCoMKgwqDCoMKgwqDCoGlmICghaW50ZWxfZHBfaXNfZWRwKGludGVsX2RwKSkNCj4gPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuOw0KPiA+ICsNCj4gPiArwqDCoMKgwqDC
+oMKgwqBpZiAoRElTUExBWV9WRVIoaTkxNSkgPCAyMCkNCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgcmV0dXJuOw0KPiA+ICsNCj4gPiArwqDCoMKgwqDCoMKgwqBpZiAoIWludGVs
+X2RwX2FzX3NkcF9zdXBwb3J0ZWQoaW50ZWxfZHApKQ0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqByZXR1cm47DQo+ID4gKw0KPiA+ICvCoMKgwqDCoMKgwqDCoGlmIChjcnRjX3N0
+YXRlLT5oYXNfcHNyKQ0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm47
+DQo+ID4gKw0KPiA+ICvCoMKgwqDCoMKgwqDCoGlmIChpbnRlbF9kcC0+YWxwbV9wYXJhbWV0ZXJz
+Lm1vZGUgPT0gQUxQTV9JTlZBTElEIHx8DQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgIGludGVs
+X2RwLT5hbHBtX3BhcmFtZXRlcnMubW9kZSA9PSBBTFBNX05PVF9TVVBQT1JURUQpDQo+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybjsNCj4gPiArDQo+ID4gK8KgwqDCoMKg
+wqDCoMKgaWYgKCFpbnRlbF9hbHBtX2NvbXB1dGVfcGFyYW1zKGludGVsX2RwLCBjcnRjX3N0YXRl
+KSkNCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuOw0KPiA+ICsNCj4g
+PiArwqDCoMKgwqDCoMKgwqBjb250ZXh0X2xhdGVuY3kgPSBhZGp1c3RlZF9tb2RlLT5jcnRjX3Zi
+bGFua19zdGFydCAtDQo+ID4gYWRqdXN0ZWRfbW9kZS0+Y3J0Y192ZGlzcGxheTsNCj4gPiArwqDC
+oMKgwqDCoMKgwqBndWFyZGJhbmQgPSBhZGp1c3RlZF9tb2RlLT5jcnRjX3Z0b3RhbCAtDQo+ID4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhZGp1c3RlZF9tb2RlLT5jcnRj
+X3ZkaXNwbGF5IC0gY29udGV4dF9sYXRlbmN5Ow0KPiA+ICvCoMKgwqDCoMKgwqDCoGZpcnN0X3Nk
+cF9wb3NpdGlvbiA9IGFkanVzdGVkX21vZGUtPmNydGNfdnRvdGFsIC0NCj4gPiBhZGp1c3RlZF9t
+b2RlLT5jcnRjX3ZzeW5jX3N0YXJ0Ow0KPiA+ICvCoMKgwqDCoMKgwqDCoGlmIChpbnRlbF9kcC0+
+YWxwbV9wYXJhbWV0ZXJzLm1vZGUgPT0gQUxQTV9BVVhfTEVTUykNCj4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgd2FrZXRpbWVfaW5fbGluZXMgPSBpbnRlbF9kcC0NCj4gPiA+YWxw
+bV9wYXJhbWV0ZXJzLmlvX3dha2VfbGluZXM7DQo+ID4gK8KgwqDCoMKgwqDCoMKgZWxzZQ0KPiA+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB3YWtldGltZV9pbl9saW5lcyA9IGludGVs
+X2RwLQ0KPiA+ID5hbHBtX3BhcmFtZXRlcnMuZmFzdF93YWtlX2xpbmVzOw0KPiA+ICsNCj4gPiAr
+wqDCoMKgwqDCoMKgwqBjcnRjX3N0YXRlLT5oYXNfbG9iZiA9IChjb250ZXh0X2xhdGVuY3kgKyBn
+dWFyZGJhbmQpID4NCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgKGZpcnN0X3Nk
+cF9wb3NpdGlvbiArIHdha2V0aW1lX2luX2xpbmVzKTsgfQ0KPiA+ICsNCj4gPiDCoHN0YXRpYyB2
+b2lkIGxubF9hbHBtX2NvbmZpZ3VyZShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKQ0KPiA+IMKg
+ew0KPiA+IMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYg
+PSBkcF90b19pOTE1KGludGVsX2RwKTsgZGlmZg0KPiA+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvZGlzcGxheS9pbnRlbF9hbHBtLmgNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
+c3BsYXkvaW50ZWxfYWxwbS5oDQo+ID4gaW5kZXggYzQ1ZDA3OGU1YTZiLi44MGM4YTY2YjM0YWYg
+MTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hbHBt
+LmgNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2FscG0uaA0K
+PiA+IEBAIC0xMCw5ICsxMCwxNCBAQA0KPiA+DQo+ID4gwqBzdHJ1Y3QgaW50ZWxfZHA7DQo+ID4g
+wqBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZTsNCj4gPiArc3RydWN0IGRybV9jb25uZWN0b3Jfc3Rh
+dGU7DQo+ID4NCj4gPiArZW51bSBhbHBtX21vZGUgaW50ZWxfYWxwbV9nZXRfY2FwYWJpbGl0eShz
+dHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKTsNCj4gPiDCoGJvb2wgaW50ZWxfYWxwbV9jb21wdXRl
+X3BhcmFtcyhzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwLA0KPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgaW50ZWxf
+Y3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSk7DQo+ID4gK3ZvaWQgaW50ZWxfYWxwbV9jb21wdXRlX2xv
+YmZfY29uZmlnKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAsDQo+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0
+cnVjdCBpbnRlbF9jcnRjX3N0YXRlDQo+ID4gKmNydGNfc3RhdGUsDQo+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHN0cnVjdCBkcm1fY29ubmVjdG9yX3N0YXRlDQo+ID4gKmNvbm5fc3RhdGUpOw0KPiA+IMKgdm9p
+ZCBpbnRlbF9hbHBtX2NvbmZpZ3VyZShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKTsNCj4gPg0K
+PiA+IMKgI2VuZGlmDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
+YXkvaW50ZWxfZGlzcGxheV90eXBlcy5oDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
+bGF5L2ludGVsX2Rpc3BsYXlfdHlwZXMuaA0KPiA+IGluZGV4IGU4MWZkNzFjZTU3Yi4uNzllOWU1
+NDMwMjBiIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
+ZWxfZGlzcGxheV90eXBlcy5oDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
+eS9pbnRlbF9kaXNwbGF5X3R5cGVzLmgNCj4gPiBAQCAtMTQwNSw2ICsxNDA1LDkgQEAgc3RydWN0
+IGludGVsX2NydGNfc3RhdGUgew0KPiA+DQo+ID4gwqDCoMKgwqDCoMKgwqDCoC8qIGZvciBsb2Fk
+aW5nIHNpbmdsZSBidWZmZXJlZCByZWdpc3RlcnMgZHVyaW5nIHZibGFuayAqLw0KPiA+IMKgwqDC
+oMKgwqDCoMKgwqBzdHJ1Y3QgZHJtX3ZibGFua193b3JrIHZibGFua193b3JrOw0KPiA+ICsNCj4g
+PiArwqDCoMKgwqDCoMKgwqAvKiBMT0JGIGZsYWcgKi8NCj4gPiArwqDCoMKgwqDCoMKgwqBib29s
+IGhhc19sb2JmOw0KPiA+IMKgfTsNCj4gPg0KPiA+IMKgZW51bSBpbnRlbF9waXBlX2NyY19zb3Vy
+Y2Ugew0KPiA+IEBAIC0xNzE1LDYgKzE3MTgsMTMgQEAgc3RydWN0IGludGVsX3BzciB7DQo+ID4g
+wqDCoMKgwqDCoMKgwqDCoHU4IGVudHJ5X3NldHVwX2ZyYW1lczsNCj4gPiDCoH07DQo+ID4NCj4g
+PiArZW51bSBhbHBtX21vZGUgew0KPiA+ICvCoMKgwqDCoMKgwqDCoEFMUE1fSU5WQUxJRCwNCj4g
+PiArwqDCoMKgwqDCoMKgwqBBTFBNX0FVWF9XQUtFLA0KPiA+ICvCoMKgwqDCoMKgwqDCoEFMUE1f
+QVVYX0xFU1MsDQo+ID4gK8KgwqDCoMKgwqDCoMKgQUxQTV9OT1RfU1VQUE9SVEVEDQo+ID4gK307
+DQo+ID4gKw0KPiA+IMKgc3RydWN0IGludGVsX2RwIHsNCj4gPiDCoMKgwqDCoMKgwqDCoMKgaTkx
+NV9yZWdfdCBvdXRwdXRfcmVnOw0KPiA+IMKgwqDCoMKgwqDCoMKgwqB1MzIgRFA7DQo+ID4gQEAg
+LTE4MzUsNiArMTg0NSw3IEBAIHN0cnVjdCBpbnRlbF9kcCB7DQo+ID4gwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqB1OCBmYXN0X3dha2VfbGluZXM7DQo+ID4NCj4gPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIExOTCBhbmQgYmV5b25kICovDQo+ID4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGVudW0gYWxwbV9tb2RlIG1vZGU7DQo+ID4gwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB1OCBjaGVja19lbnRyeV9saW5lczsNCj4gPiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHU4IHNpbGVuY2VfcGVyaW9kX3N5bV9jbG9ja3M7DQo+
+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB1OCBsZnBzX2hhbGZfY3ljbGVfbnVt
+X29mX3N5bXM7IGRpZmYgLS1naXQNCj4gPiBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aW50ZWxfZHAuYw0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5j
+DQo+ID4gaW5kZXggNDg2MzYxZWIwMDcwLi5kZjQyM2EzM2Y2ZmMgMTAwNjQ0DQo+ID4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jDQo+ID4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jDQo+ID4gQEAgLTQ4LDYgKzQ4LDcgQEAN
+Cj4gPiDCoCNpbmNsdWRlICJpOTE1X2Rydi5oIg0KPiA+IMKgI2luY2x1ZGUgImk5MTVfaXJxLmgi
+DQo+ID4gwqAjaW5jbHVkZSAiaTkxNV9yZWcuaCINCj4gPiArI2luY2x1ZGUgImludGVsX2FscG0u
+aCINCj4gPiDCoCNpbmNsdWRlICJpbnRlbF9hdG9taWMuaCINCj4gPiDCoCNpbmNsdWRlICJpbnRl
+bF9hdWRpby5oIg0KPiA+IMKgI2luY2x1ZGUgImludGVsX2JhY2tsaWdodC5oIg0KPiA+IEBAIC0z
+MDAwLDYgKzMwMDEsNyBAQCBpbnRlbF9kcF9jb21wdXRlX2NvbmZpZyhzdHJ1Y3QgaW50ZWxfZW5j
+b2Rlcg0KPiA+ICplbmNvZGVyLA0KPiA+IMKgwqDCoMKgwqDCoMKgwqBpbnRlbF92cnJfY29tcHV0
+ZV9jb25maWcocGlwZV9jb25maWcsIGNvbm5fc3RhdGUpOw0KPiA+IMKgwqDCoMKgwqDCoMKgwqBp
+bnRlbF9kcF9jb21wdXRlX2FzX3NkcChpbnRlbF9kcCwgcGlwZV9jb25maWcpOw0KPiA+IMKgwqDC
+oMKgwqDCoMKgwqBpbnRlbF9wc3JfY29tcHV0ZV9jb25maWcoaW50ZWxfZHAsIHBpcGVfY29uZmln
+LCBjb25uX3N0YXRlKTsNCj4gPiArwqDCoMKgwqDCoMKgwqBpbnRlbF9hbHBtX2NvbXB1dGVfbG9i
+Zl9jb25maWcoaW50ZWxfZHAsIHBpcGVfY29uZmlnLA0KPiA+IGNvbm5fc3RhdGUpOw0KPiA+IMKg
+wqDCoMKgwqDCoMKgwqBpbnRlbF9kcF9kcnJzX2NvbXB1dGVfY29uZmlnKGNvbm5lY3RvciwgcGlw
+ZV9jb25maWcsDQo+ID4gbGlua19icHBfeDE2KTsNCj4gPiDCoMKgwqDCoMKgwqDCoMKgaW50ZWxf
+ZHBfY29tcHV0ZV92c2Nfc2RwKGludGVsX2RwLCBwaXBlX2NvbmZpZywgY29ubl9zdGF0ZSk7DQo+
+ID4gwqDCoMKgwqDCoMKgwqDCoGludGVsX2RwX2NvbXB1dGVfaGRyX21ldGFkYXRhX2luZm9mcmFt
+ZV9zZHAoaW50ZWxfZHAsDQo+ID4gcGlwZV9jb25maWcsIGNvbm5fc3RhdGUpOw0KPiA+IEBAIC02
+NjE1LDYgKzY2MTcsOCBAQCBzdGF0aWMgYm9vbCBpbnRlbF9lZHBfaW5pdF9jb25uZWN0b3Ioc3Ry
+dWN0DQo+ID4gaW50ZWxfZHAgKmludGVsX2RwLA0KPiA+DQo+ID4gwqDCoMKgwqDCoMKgwqDCoGlu
+dGVsX3Bwc19pbml0X2xhdGUoaW50ZWxfZHApOw0KPiA+DQo+ID4gK8KgwqDCoMKgwqDCoMKgaW50
+ZWxfZHAtPmFscG1fcGFyYW1ldGVycy5tb2RlID0NCj4gPiBpbnRlbF9hbHBtX2dldF9jYXBhYmls
+aXR5KGludGVsX2RwKTsNCj4gPiArDQo+ID4gwqDCoMKgwqDCoMKgwqDCoHJldHVybiB0cnVlOw0K
+PiA+DQo+ID4gwqBvdXRfdmRkX29mZjoNCg0K
