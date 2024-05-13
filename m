@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43F38C3EA4
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 12:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA9A8C3EAA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 12:12:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9E3C10E5AB;
-	Mon, 13 May 2024 10:11:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BB8910E5B7;
+	Mon, 13 May 2024 10:12:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nFJJXvXr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OjDABP6E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A25010E5AB
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 10:11:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7803089137
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 10:12:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715595074; x=1747131074;
+ t=1715595153; x=1747131153;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=YP8jF3VkZdjbb/wXiA4pt83a2lqX0Uns83340RI+eco=;
- b=nFJJXvXrWMfCabfRZZg7Ke9OCSnzviUd7rLYCqMtxISR+nfME8p5xP3X
- zYn0TMxStnDza1lctqgYyH/9QynMdk+meNABdZ6MrgBiOMsSyQODAUy13
- GWY7Ve/NRIRpILa4oXBheMJih0ZYmmuUM9rtIrRACg0R41dZLhSYobEw6
- 8XBa/yRToZOG6HqiOz9sAuZCuKjs25wqB7dx+rrbCGVF+ajZ5muN28JEA
- GnLADaxBtiC4Ds55pk0JMC1O5L0Qc6qCWuQMBh8nxVOciR0cXWxb/0S5P
- UTdnsaq1U0IxUxn6D+q+wXMyfpeZtb88JIU696LHfcNO3CUbdhociA1tl A==;
-X-CSE-ConnectionGUID: xREp9mpyRcOLS6bBL+mHIw==
-X-CSE-MsgGUID: EqPkT7B+RbCbyhER8aSgNg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11356276"
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="11356276"
+ bh=SFHcjNRLriNsvFLLjb4Eg1RMpHGvbJh+maYYKWRhYmE=;
+ b=OjDABP6EzeDrwiuu5Xsrm0ZB9A2nCPYqMU+cyBULA/Hym33VTzoh5O1N
+ nmRtXv8rWLKcbsR8iZdDEK0L3G15ChTIZjYAcHpd9KSzu6pO+jUoLon8/
+ cuoxDxAsQEBh3Li3TVM2mAHOvFfVCiOdXsiTZweQWeG1GX+YXj9jFd8oT
+ 12iMrN23Xr9WrY8cZcVdmK/ZHaVW4wnQxYxFwJIkvxwVL6TfPc66UF7Tc
+ LmgEcBi1SiYLk2Jv8/i3js2w3D/40I6lEYQgeIb4xJzb9Udcze6rsLB4V
+ bQD25pKSF3lfbKzIqsU4KbJyHly6hIqk7gCAoNJPvpbBKKrqkrx/P04xu A==;
+X-CSE-ConnectionGUID: o9rsyhaKTKeO811oR6VLSw==
+X-CSE-MsgGUID: SrVDFQMFRXCJrYt6d8wC2A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11356353"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="11356353"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 03:11:14 -0700
-X-CSE-ConnectionGUID: l9uiP+AlRmiNYRmwEK59PQ==
-X-CSE-MsgGUID: g1VH/14hTPOCGpfCelE5pw==
+ 13 May 2024 03:12:33 -0700
+X-CSE-ConnectionGUID: Lw1fnTrRS+64EMHiGkYU+g==
+X-CSE-MsgGUID: LQZgRHUySGabxJZo+zf4KQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30276441"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="30276988"
 Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.246.3.118])
  ([10.246.3.118])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2024 03:11:12 -0700
-Message-ID: <09d0c6c0-24fd-4c28-bd85-09c9d1d80e97@linux.intel.com>
-Date: Mon, 13 May 2024 12:11:09 +0200
+ 13 May 2024 03:12:31 -0700
+Message-ID: <5dd51bba-b01a-4703-aa5b-daf1c13458e8@linux.intel.com>
+Date: Mon, 13 May 2024 12:12:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/12] accel/ivpu: Add resume engine support
+Subject: Re: [PATCH 08/12] accel/ivpu: Add NPU profiling support
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, "Wachowski, Karol" <karol.wachowski@intel.com>
+Cc: oded.gabbay@gmail.com, Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
 References: <20240508132106.2387464-1-jacek.lawrynowicz@linux.intel.com>
- <20240508132106.2387464-8-jacek.lawrynowicz@linux.intel.com>
- <064c4c36-e9ce-6643-9916-7f226053caed@quicinc.com>
+ <20240508132106.2387464-9-jacek.lawrynowicz@linux.intel.com>
+ <77e6e704-b377-347b-9ce8-858a36a0b269@quicinc.com>
 Content-Language: en-US
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
  Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <064c4c36-e9ce-6643-9916-7f226053caed@quicinc.com>
+In-Reply-To: <77e6e704-b377-347b-9ce8-858a36a0b269@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,12 +76,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 10.05.2024 18:42, Jeffrey Hugo wrote:
+On 10.05.2024 18:46, Jeffrey Hugo wrote:
 > On 5/8/2024 7:21 AM, Jacek Lawrynowicz wrote:
->> From: "Wachowski, Karol" <karol.wachowski@intel.com>
+>> From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
 >>
->> Create debugfs interface that triggers sending resume engine IPC
->> command to VPU.
+>> Implement time based Metric Streamer profiling UAPI.
+>>
+>> This is a generic mechanism allowing user mode tools to sample
+>> NPU metrics. These metrics are defined by the FW and transparent to
+>> the driver.
+>>
+>> The user space can check for this feature by checking
+>> DRM_IVPU_CAP_METRIC_STREAMER driver capability.
+>>
+>> Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>> ---
+>>   drivers/accel/ivpu/Makefile       |   3 +-
+>>   drivers/accel/ivpu/ivpu_drv.c     |  14 +-
+>>   drivers/accel/ivpu/ivpu_drv.h     |   3 +
+>>   drivers/accel/ivpu/ivpu_jsm_msg.c |  98 ++++++++++
+>>   drivers/accel/ivpu/ivpu_jsm_msg.h |   8 +-
+>>   drivers/accel/ivpu/ivpu_ms.c      | 309 ++++++++++++++++++++++++++++++
+>>   drivers/accel/ivpu/ivpu_ms.h      |  36 ++++
+>>   drivers/accel/ivpu/ivpu_pm.c      |   4 +
+>>   include/uapi/drm/ivpu_accel.h     |  69 ++++++-
+>>   9 files changed, 540 insertions(+), 4 deletions(-)
+>>   create mode 100644 drivers/accel/ivpu/ivpu_ms.c
+>>   create mode 100644 drivers/accel/ivpu/ivpu_ms.h
+>>
+>> diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
+>> index 95ff7ad16338..726cf8f28ea3 100644
+>> --- a/drivers/accel/ivpu/Makefile
+>> +++ b/drivers/accel/ivpu/Makefile
+>> @@ -1,5 +1,5 @@
+>>   # SPDX-License-Identifier: GPL-2.0-only
+>> -# Copyright (C) 2023 Intel Corporation
+>> +# Copyright (C) 2022-2024 Intel Corporation
 > 
-> Why?  Who would use this and for what purpose?
-This is used by our user space tests. I will extend the description.
+> Are you sure this is correct?  Seems odd to be adding 2022 in addition to 2024 at this point.
+
+This is a typo. I will fix it.
