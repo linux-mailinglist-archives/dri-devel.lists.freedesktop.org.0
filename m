@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF968C3DB6
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 11:03:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5A58C3E0E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2024 11:24:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9ECF10E54F;
-	Mon, 13 May 2024 09:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB71910E558;
+	Mon, 13 May 2024 09:24:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NhQwZoBT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JGA9LnWh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C1CD10E54F
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2024 09:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715590989;
- bh=daajJWtyQJC8cD/Rts30WijUb6z7d2RN1Sa3EFyArm8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NhQwZoBTTTQzQMdVmCdinXyaGtkanVhK52RMU0Pjt9QLy9Yx+GOhFpw1Yr6yQVCRI
- qmbUiicKfrvB/bbhbZTkGh55wYc/Lydd7oHfQN5WmTl/BlHAOPG1EdqVp7sTNoNoWt
- G3t6SgREjBvI+GD8NUv3sAoN8Rn4J00sBa3IBHRbKhPIrbst8kTG/MgaqQmulupM9h
- CgrvuYsDTSfMemLYtOgfjeJE9bvQZZ9XjvGwSngMbIbSrr19bXORCukGjWFrk23QFy
- JRz7bac8zMsOS0LIO9fs3RIrh5OrEXTdgkzoSztiF1INYx1tzohdADU9u1vpyYdYem
- EfvJ7LrGmoRow==
-Received: from xpredator (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: mvlad)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6B4193780480;
- Mon, 13 May 2024 09:03:08 +0000 (UTC)
-Date: Mon, 13 May 2024 12:03:07 +0300
-From: Marius Vlad <marius.vlad@collabora.com>
-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: Louis Chauvet <louis.chauvet@bootlin.com>,
- Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
- brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
- mripard@kernel.org, rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
-Subject: Re: [PATCH v6 0/7] Adds support for ConfigFS to VKMS!
-Message-ID: <ZkHXS6iBLgRoApNl@xpredator>
-References: <ZjCtgSaL50YrS-F-@phenom.ffwll.local>
- <20240508181744.7030-1-jose.exposito89@gmail.com>
- <CACmi3jF6Dp3PE8X=T5kTO2+eYJQi7jWACFdmp9jzKxUtcQphnQ@mail.gmail.com>
- <Zj5JIah0jWnIn2Ix@localhost.localdomain> <ZkHKhtBmyS12i3fH@fedora>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B9DD10E558;
+ Mon, 13 May 2024 09:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715592270; x=1747128270;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=J5cAD1c2dKYqVqNzS7rC6uInUn5qXdgtIdX9/3QDl08=;
+ b=JGA9LnWhUBwBytmOXMVPu8WVGpHVeqSRisA3dReIfNhFQ0vZy9o+/c41
+ 9sm5n7z2kOuKuz0wi/uRE0EDVO3D98Rs1kB7Tjqa7svQJ1EKQHmUWeDOo
+ 2ba0g2j2/HfLGcsUx+RXvpGj31wIXEM0fU+secoQ4zx5EsV84IoDhpzpG
+ OinGavnMy42Iqs46wk/m/2RTfzdV+0pwdcBdDmhAiZKS9Yz2H5G7pEET2
+ kdym1Fk2hy0U+wffQA3jaSpCzO0/Cxt9qjNnX9LmXFcHzUTBFtkPG0NCR
+ yI5WDwa9XFmJb/Jd17NLQdXT3YT2fhRjuI0yOLKGR45XwlDQM6rTQvAvv A==;
+X-CSE-ConnectionGUID: VpzMWZ2rRYCCiwoHVGL66g==
+X-CSE-MsgGUID: pR6O9acLSdaj+Dnx48o8jA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11339126"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="11339126"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2024 02:24:29 -0700
+X-CSE-ConnectionGUID: joNydMbdRNu7zZAnZp8+8A==
+X-CSE-MsgGUID: jw73td0CQkKXUpdFJwDqWA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; d="scan'208";a="34789983"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+ by fmviesa003.fm.intel.com with ESMTP; 13 May 2024 02:24:15 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1s6Rum-0009p5-2A;
+ Mon, 13 May 2024 09:24:12 +0000
+Date: Mon, 13 May 2024 17:23:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
+ dakr@redhat.com
+Subject: Re: [PATCH] nouveau/firmware: using dma non-coherent interfaces for
+ fw loading.
+Message-ID: <202405131724.YtoCSRmy-lkp@intel.com>
+References: <20240513064350.1050994-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="P6ICxzxgVt0CL0kk"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZkHKhtBmyS12i3fH@fedora>
+In-Reply-To: <20240513064350.1050994-1-airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,193 +71,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave,
 
---P6ICxzxgVt0CL0kk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build errors:
 
-Hi all,
-On Mon, May 13, 2024 at 10:08:38AM +0200, Jos=C3=A9 Exp=C3=B3sito wrote:
-> On Fri, May 10, 2024 at 06:19:45PM +0200, Louis Chauvet wrote:
-> > Le 09/05/24 - 18:18, Jim Shargo a =C3=A9crit :
-> > > Sima--thanks SO MUCH for going through with everything leaving a
-> > > detailed review. I am excited to go through your feedback.
-> > >=20
-> > > It makes me extremely happy to see these patches get people excited.
-> > >=20
-> > > They've bounced between a few people, and I recently asked to take
-> > > them over again from the folks who were most recently looking at them
-> > > but haven't since had capacity to revisit them. I'd love to contribute
-> > > more but I am currently pretty swamped and I probably couldn't
-> > > realistically make too much headway before the middle of June.
-> > >=20
-> > > Jos=C3=A9--if you've got capacity and interest, I'd love to see this =
-work
-> > > get in! Thanks!! Please let me know your timeline and if you want to
-> > > split anything up or have any questions, I'd love to help if possible.
-> > > But most important to me is seeing the community benefit from the
-> > > feature.
-> > >=20
-> > > And (in case it got lost in the shuffle of all these patches) the IGT
-> > > tests really make it much easier to develop this thing. Marius has
-> > > posted the most recent patches:
-> > > https://lore.kernel.org/igt-dev/?q=3Dconfigfs
-> > >=20
-> > > Thanks!
-> > > -- Jim
-> > >=20
-> > >=20
-> > >=20
-> > > On Wed, May 8, 2024 at 2:17=E2=80=AFPM Jos=C3=A9 Exp=C3=B3sito <jose.=
-exposito89@gmail.com> wrote:
-> > > >
-> > > > Hi everyone,
-> > > >
-> > > > I wasn't aware of these patches, but I'm really glad they are getti=
-ng
-> > > > some attention, thanks a lot for your review Sima.
-> > > >
-> > > > Given that it's been a while since the patches were emailed, I'm not
-> > > > sure if the original authors of the patches could implement your
-> > > > comments. If not, I can work on it. Please let me know.
-> > > >
-> > > > I'm working on a Mutter feature that'd greatly benefit from this ua=
-pi
-> > > > and I'm sure other compositors would find it useful.
-> > > >
-> > > > I'll start working on a new version in a few days if nobody else is
-> > > > already working on it.
-> > > >
-> > > > Best wishes,
-> > > > Jos=C3=A9 Exp=C3=B3sito
-> >=20
-> > Hi all!
-> >=20
-> > Very nice to see other people working on this subject. As the series=20
-> > seemed inactive, I started two weeks ago to rebase it on top of [1]. I=
-=20
-> > also started some work to use drmm_* helpers instead of using lists in=
-=20
-> > vkms. I currently struggle with a deadlock during rmmod.
-> >=20
-> > I need to clean my commits, but I can share a WIP version.
->=20
-> Hi Louis,
->=20
-> If you could share a RFC/WIP series it would be awesome!
->=20
-> Since you are already working on the kernel patches (and I guess IGT?),
-> I'll start working on a libdrm high level API to interact with VKMS from
-> user-space on top of your patches. I'll share a link as soon as I have a
-> draft PR.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.9 next-20240513]
+[cannot apply to drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Just out of curiosity what API would that be? These should fairly
-simple that they can be configured from a shell script=20
-(mount/mkdir/rm/echo/umount). Believe should be easy enough to test stuff w=
-ith=20
-bunch scripts like that.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/nouveau-firmware-using-dma-non-coherent-interfaces-for-fw-loading/20240513-144435
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240513064350.1050994-1-airlied%40gmail.com
+patch subject: [PATCH] nouveau/firmware: using dma non-coherent interfaces for fw loading.
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240513/202405131724.YtoCSRmy-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240513/202405131724.YtoCSRmy-lkp@intel.com/reproduce)
 
-Perphas landing the I-G-T tests first (assuming we're settled=20
-on how exactly this would work) might be of greated help to get a green lit=
-=20
-the kernel driver side? Skip if vkms/configfs/something else that tells
-us VKMS doesn't have ConfigFS eneabled, and run it when that is on.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405131724.YtoCSRmy-lkp@intel.com/
 
-The lastest iteration was shared by Jim at=20
-https://lore.kernel.org/igt-dev/20230901092819.16924-1-marius.vlad@collabor=
-a.com/
+All errors (new ones prefixed by >>):
 
-That way sub-sequent BAT CI would pick up issues, and can also used
-independently by Louis. Should also divide the work-load evenly with
-Louis focusing on the just the driver. Happy to review and test it.
+   drivers/gpu/drm/nouveau/nvkm/core/firmware.c: In function 'nvkm_firmware_ctor':
+>> drivers/gpu/drm/nouveau/nvkm/core/firmware.c:242:54: error: passing argument 3 of 'dma_alloc_noncoherent' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     242 |                                                 len, &fw->phys,
+         |                                                      ^~~~~~~~~
+         |                                                      |
+         |                                                      u64 * {aka long long unsigned int *}
+   In file included from include/linux/pci.h:2693,
+                    from drivers/gpu/drm/nouveau/include/nvif/os.h:8,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3,
+                    from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4,
+                    from drivers/gpu/drm/nouveau/nvkm/core/firmware.c:22:
+   include/linux/dma-mapping.h:321:29: note: expected 'dma_addr_t *' {aka 'unsigned int *'} but argument is of type 'u64 *' {aka 'long long unsigned int *'}
+     321 |                 dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
+         |                 ~~~~~~~~~~~~^~~~~~~~~~
+   cc1: some warnings being treated as errors
 
->=20
-> > Maybe we can discuss a bit the comment from Daniel (split init between=
-=20
-> > default/configfs, use or not a real platform device...)
-> >=20
-> > For the split, I think the first solution (struct vkms_config) can be=
-=20
-> > easier to understand and to implement, for two reasons:
-> > - No need to distinguish between the "default" and the "configfs" devic=
-es=20
-> >   in the VKMS "core". All is managed with only one struct vkms_config.
-> > - Most of the lifetime issue should be gone. The only thing to=20
-> >   synchronize is passing this vkms_config from ConfigFS to VKMS.
->=20
-> I agree, this seems like the easiest solution.
->=20
-> > The drawback of this is that it can become difficult to do the "runtime=
-"=20
-> > configuration (today only hotplug, but I plan to add more complex stuff=
-=20
-> > like DP emulation, EDID selection, MST support...). Those configuration=
-=20
-> > must be done "at runtime" and will require a strong synchronization wit=
-h=20
-> > the vkms "core".
-> >=20
-> > Maybe we can distinguish between the "creation" and the "runtime=20
-> > configuration", in two different configFS directory? Once a device is=
-=20
-> > created, it is moved to the "enabled" directory and will have a differe=
-nt=20
-> > set of attribute (connection status, current EDID...)
->=20
-> Once the device is enabled (i.e, `echo 1 > /config/vkms/my-device/enabled=
-`),
-> would it make sense to use sysfs instead of another configfs directory?
-> The advantage is that with sysfs the kernel controls the lifetime of the
-> objects and I think it *might* simplify the code, but I'll need to write a
-> proof of concept to see if this works.
-Can indeed sysfs be used similar to ConfigFS? To me it sounds like sysfs is=
- a
-view into a kernel objects, mostly for viewing and slight modifications
-but not manipulating, adding/removing, on the fly, various things. Sort
-of see it the other way around, device enabled with sysfs but
-configuration happens through ConfigFS. At least from a user-space pov.
->=20
-> > For the platform driver part, it seems logic to me to use a "real"=20
-> > platform driver and a platform device for each pipeline, but I don't ha=
-ve=20
-> > the experience to tell if this is a good idea or not.
->=20
-> I'm afraid I don't know which approach could work better. Trusting Sima a=
-nd
-> Ma=C3=ADra on this one.
->=20
-> Jose
->=20
-> > [1]: https://lore.kernel.org/dri-devel/20240409-yuv-v6-0-de1c5728fd70@b=
-ootlin.com/
-> >=20
-> > Thanks,
-> > Louis Chauvet
-> >=20
-> > --=20
-> > Louis Chauvet, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
 
---P6ICxzxgVt0CL0kk
-Content-Type: application/pgp-signature; name="signature.asc"
+vim +/dma_alloc_noncoherent +242 drivers/gpu/drm/nouveau/nvkm/core/firmware.c
 
------BEGIN PGP SIGNATURE-----
+   224	
+   225	int
+   226	nvkm_firmware_ctor(const struct nvkm_firmware_func *func, const char *name,
+   227			   struct nvkm_device *device, const void *src, int len, struct nvkm_firmware *fw)
+   228	{
+   229		fw->func = func;
+   230		fw->name = name;
+   231		fw->device = device;
+   232		fw->len = len;
+   233	
+   234		switch (fw->func->type) {
+   235		case NVKM_FIRMWARE_IMG_RAM:
+   236			fw->img = kmemdup(src, fw->len, GFP_KERNEL);
+   237			break;
+   238		case NVKM_FIRMWARE_IMG_DMA: {
+   239			len = ALIGN(fw->len, PAGE_SIZE);
+   240	
+   241			fw->img = dma_alloc_noncoherent(fw->device->dev,
+ > 242							len, &fw->phys,
 
-iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmZB10gACgkQ9jQS5glH
-1u9IhQ//YKKGQZru+mzohLxIFoZUEN+L25vQvgaQ9bHkgFsQeCooEON6j0FroHb8
-OqHCr4RHRsVTFVHlLhaYBedE+XSKvjrPkrN8BWKeGCQptcz9NKZhyo+VPUIAIpfy
-qmXvYK8IcSGU9Y7IFL1282T6FsTAg9IPRNmyH8C+t3xqsU3oiUvjldJeuPC3BO1f
-ljS9pRhi30n79U8X01zdVUQMb5epurBLCtlhP8IUSwA8ttnN/g+Npvya6w3VFUgp
-6szedYp12v0EJlIPjwbHkv0bPZ8s1akdSWsuCfcIuqZQOmX8gojIUZ32KZSMDQ6q
-Pj617jBbCl+Y/8b4P03cfhFWgfwSQoebqpoq+qiY9ywCAYBMou0D8Qg4FZ5Zyx27
-Bp81AmJ/t62rciz5QqQuhGz5DGmAE7XnBBmry8C6mhsBgMd0eqpfpjTl+9WMo5u1
-CmPpRsvA9zDB4RQkrM80Jed0ddAVPLUR3yiz7NTd6dm0fBZpGyhz5LePLtbpnyNO
-6XXiANPzBPJAR6/NJaL7NpoZt1/005SS68+TEFWzoWqWd/QHbDrPyhhiC9hUOKjm
-YoRfK6InnY8vijp6XFMRiiaIfhxwUkIs+QnBXt5WzXrQPLHGC83Efy+OacIdBnO9
-k5dcByhxrCTxZ9orig0vjf6gcTaJNO1IQ/ReErMppP8SzMA1Rco=
-=G6ed
------END PGP SIGNATURE-----
-
---P6ICxzxgVt0CL0kk--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
