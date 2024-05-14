@@ -2,65 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FEC8C5C63
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 22:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2AE8C5C68
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 22:42:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A82510EA91;
-	Tue, 14 May 2024 20:41:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8537310EB51;
+	Tue, 14 May 2024 20:42:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mzkS6wQk";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g1jd9tkR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F6610EA91;
- Tue, 14 May 2024 20:41:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715719310; x=1747255310;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=g09/tZ2igEKVH5Uk9SfvQlovguzkCymGMVtoCVdKCPg=;
- b=mzkS6wQkJ1mI1cnA7ifZ/Iae8G5BYzgdNM7YQqBRuDrLJT1uKUjhZdiG
- Msj4mrSOgGU/yUivGuqqtSmWC7ctRJHEDu4NFDcsRpELeqJc/J+WHjjGY
- JJUTa551EyPSqyIIFQecz2v7xsI6RYKelLrzf5xku298PTIOkExpNH6dj
- G7s5/7m0gWmGpTX18JrRGrKu4AVTRD5zCux/5tPxY8Z9WyJlqDgtu04aG
- 2XykB74dP/32Y7v4YLoohPV/qNMPyrfwJhTxlgs87jipiDsc0TDvoFXY+
- PgoBJYepAQ18ET8AlzH2+3HRpViH6fO7oqDexUYokcH5Q9+FEm23DaNUT g==;
-X-CSE-ConnectionGUID: LFzA9Zt4RQGu8MgRgpaSgQ==
-X-CSE-MsgGUID: QKomrSjJSOiQjM0p4gXCAw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="11864168"
-X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="11864168"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2024 13:41:49 -0700
-X-CSE-ConnectionGUID: nQa8K5a3RTyHuHK9iBZ6jg==
-X-CSE-MsgGUID: yP9VI87nTHy9Pbdj0xj1Mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="35689159"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by orviesa004.jf.intel.com with ESMTP; 14 May 2024 13:41:46 -0700
-Received: from [10.245.82.128] (unknown [10.245.82.128])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id C50A52879D;
- Tue, 14 May 2024 21:41:43 +0100 (IST)
-Message-ID: <3c8ad7c7-c144-4045-a2a2-c33f54223623@intel.com>
-Date: Tue, 14 May 2024 22:41:42 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7650C10EB51
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 20:42:33 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EED227C;
+ Tue, 14 May 2024 22:42:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1715719344;
+ bh=sRKskYXnbDMTdnVd69iQ9BIfpmmR2Am8vZGZl3ZoXN0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=g1jd9tkRfyqvU9Gw+I1xqhrRXrWM9ZBrC46Dz6Ad+zlccA7faY92a3N1c+MiojGsx
+ ihWiDquADL23deZUdwviwXFnED5gB2LnHveH6LMaA1cL33+5NfvUSyADiAOPlPsDUj
+ IeN0svCby4JyUUJDVWu+UsDm/LUR6nya/A2YUBr8=
+Date: Tue, 14 May 2024 23:42:23 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Maxime Ripard <mripard@redhat.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Milan Zamazal <mzamazal@redhat.com>,
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+Message-ID: <20240514204223.GN32013@pendragon.ideasonboard.com>
+References: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
+ <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
+ <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
+ <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
+ <20240507183613.GB20390@pendragon.ideasonboard.com>
+ <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
+ <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
+ <20240513-heretic-didactic-newt-1d6daf@penduick>
+ <20240513083417.GA18630@pendragon.ideasonboard.com>
+ <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/xe/guc: Expose raw access to GuC log over debugfs
-To: John Harrison <john.c.harrison@intel.com>, intel-xe@lists.freedesktop.org
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-fsdevel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20240512153606.1996-1-michal.wajdeczko@intel.com>
- <20240512153606.1996-5-michal.wajdeczko@intel.com>
- <d0fd0b46-a8ac-464b-99e7-0b5384a79bf6@intel.com>
- <83484000-0716-465a-b55d-70cd07205ae5@intel.com>
- <3127eb0f-ef0b-46e8-a778-df6276718d06@intel.com>
-Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <3127eb0f-ef0b-46e8-a778-df6276718d06@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,259 +81,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 14.05.2024 20:13, John Harrison wrote:
-> On 5/14/2024 07:58, Michal Wajdeczko wrote:
->> On 13.05.2024 18:53, John Harrison wrote:
->>> On 5/12/2024 08:36, Michal Wajdeczko wrote:
->>>> We already provide the content of the GuC log in debugsfs, but it
->>>> is in a text format where each log dword is printed as hexadecimal
->>>> number, which does not scale well with large GuC log buffers.
->>>>
->>>> To allow more efficient access to the GuC log, which could benefit
->>>> our CI systems, expose raw binary log data.  In addition to less
->>>> overhead in preparing text based GuC log file, the new GuC log file
->>>> in binary format is also almost 3x smaller.
->>>>
->>>> Any existing script that expects the GuC log buffer in text format
->>>> can use command like below to convert from new binary format:
->>>>
->>>>      hexdump -e '4/4 "0x%08x " "\n"'
->>>>
->>>> but this shouldn't be the case as most decoders expect GuC log data
->>>> in binary format.
->>> I strongly disagree with this.
->>>
->>> Efficiency and file size is not an issue when accessing the GuC log via
->>> debugfs on actual hardware.
->> to some extend it is as CI team used to refuse to collect GuC logs after
->> each executed test just because of it's size
-> I've never heard that argument. I've heard many different arguments but
-> not one about file size. The default GuC log size is pretty tiny. So
-> size really is not an issue.
-
-so it's tiny or 16MB as you mention below ?
-
+On Mon, May 13, 2024 at 11:10:00AM -0400, Nicolas Dufresne wrote:
+> Le lundi 13 mai 2024 à 11:34 +0300, Laurent Pinchart a écrit :
+> > On Mon, May 13, 2024 at 10:29:22AM +0200, Maxime Ripard wrote:
+> > > On Wed, May 08, 2024 at 10:36:08AM +0200, Daniel Vetter wrote:
+> > > > On Tue, May 07, 2024 at 04:07:39PM -0400, Nicolas Dufresne wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > Le mardi 07 mai 2024 à 21:36 +0300, Laurent Pinchart a écrit :
+> > > > > > Shorter term, we have a problem to solve, and the best option we have
+> > > > > > found so far is to rely on dma-buf heaps as a backend for the frame
+> > > > > > buffer allocatro helper in libcamera for the use case described above.
+> > > > > > This won't work in 100% of the cases, clearly. It's a stop-gap measure
+> > > > > > until we can do better.
+> > > > > 
+> > > > > Considering the security concerned raised on this thread with dmabuf heap
+> > > > > allocation not be restricted by quotas, you'd get what you want quickly with
+> > > > > memfd + udmabuf instead (which is accounted already).
+> > > > > 
+> > > > > It was raised that distro don't enable udmabuf, but as stated there by Hans, in
+> > > > > any cases distro needs to take action to make the softISP works. This
+> > > > > alternative is easy and does not interfere in anyway with your future plan or
+> > > > > the libcamera API. You could even have both dmabuf heap (for Raspbian) and the
+> > > > > safer memfd+udmabuf for the distro with security concerns.
+> > > > > 
+> > > > > And for the long term plan, we can certainly get closer by fixing that issue
+> > > > > with accounting. This issue also applied to v4l2 io-ops, so it would be nice to
+> > > > > find common set of helpers to fix these exporters.
+> > > > 
+> > > > Yeah if this is just for softisp, then memfd + udmabuf is also what I was
+> > > > about to suggest. Not just as a stopgap, but as the real official thing.
+> > > > 
+> > > > udmabuf does kinda allow you to pin memory, but we can easily fix that by
+> > > > adding the right accounting and then either let mlock rlimits or cgroups
+> > > > kernel memory limits enforce good behavior.
+> > > 
+> > > I think the main drawback with memfd is that it'll be broken for devices
+> > > without an IOMMU, and while you said that it's uncommon for GPUs, it's
+> > > definitely not for codecs and display engines.
+> > 
+> > If the application wants to share buffers between the camera and a
+> > display engine or codec, it should arguably not use the libcamera
+> > FrameBufferAllocator, but allocate the buffers from the display or the
+> > encoder. memfd wouldn't be used in that case.
+> > 
+> > We need to eat our own dogfood though. If we want to push the
+> > responsibility for buffer allocation in the buffer sharing case to the
+> > application, we need to modify the cam application to do so when using
+> > the KMS backend.
 > 
->>
->>> It is an issue when dumping via dmesg but
->>> you definitely should not be dumping binary data to dmesg. Whereas,
->> not following here - this is debugfs specific, not a dmesg printer
-> Except that it is preferable to have common code for both if at all
-> possible.
-
-but here, for debugfs, it's almost no code, it's 1-liner thanks to using
-generic helpers, so there is really nothing to share as common code
-
-note that with this separate raw access to guc log over debugfs, you can
-further customize xe_guc_log_dump() function for dmesg output [2]
-without worrying about impact in generating output to debugfs
-
-[2] https://patchwork.freedesktop.org/series/133349/
-
+> Agreed, and the new dmabuf feedback on wayland can also be used on top of this.
 > 
->>
->>> dumping in binary data is much more dangerous and liable to corruption
->>> because some tool along the way tries to convert to ASCII, or truncates
->>> at the first zero, etc. We request GuC logs be sent by end users,
->>> customer bug reports, etc. all doing things that we have no control
->>> over.
->> hmm, how "cp gt0/uc/guc_log_raw FILE" could end with a corrupted file ?
-> Because someone then tries to email it, or attach it or copy it via
-> Windows or any number of other ways in which a file can get munged.
+> You'll hit the same limitation as we hit in GStreamer, which is that KMS driver
+> only offer allocation for render buffers and most of them are missing allocators
+> for YUV buffers, even though they can import in these formats. (kms allocators,
+> except dumb, which has other issues, are format aware).
 
-no comment
+My experience on Arm platforms is that the KMS drivers offer allocation
+for scanout buffers, not render buffers, and mostly using the dumb
+allocator API. If the KMS device can scan out YUV natively, YUV buffer
+allocation should be supported. Am I missing something here ?
 
-> 
->>
->>> Converting the hexdump back to binary is trivial for those tools which
->>> require it. If you follow the acquisition and decoding instructions on
->>> the wiki page then it is all done for you automatically.
->> I'm afraid I don't know where this wiki page is, but I do know that hex
->> conversion dance is not needed for me to get decoded GuC log the way I
->> used to do
-> Look for the 'GuC Debug Logs' page on the developer wiki. It's pretty
-> easy to find.
+-- 
+Regards,
 
-ok, found it
-
-btw, it says "Actual log size will be significantly more (about 50MB) as
-there are multiple sections."
-
-> 
->>> These patches are trying to solve a problem which does not exist and are
->>> going to make working with GuC logs harder and more error prone.
->> it at least solves the problem of currently super inefficient way of
->> generating the GuC log in text format.
->>
->> it also opens other opportunities to develop tools that could monitor or
->> capture GuC log independently on  top of what driver is able to offer
->> today (on i915 there was guc-log-relay, but it was broken for long time,
->> not sure what are the plans for Xe)
->>
->> also still not sure how it can be more error prone.
-> As already explained, the plan is move to LFD - an extensible,
-> streamable, logging format. Any non-trivial effort that is not helping
-> to move to LFD is not worth the effort.
-
-which part from my series was non-trivial ?
-
-> 
->>
->>> On the other hand, there are many other issues with GuC logs that it
->>> would be useful to solves - including extra meta data, reliable output
->>> via dmesg, continuous streaming, pre-sizing the debugfs file to not have
->>> to generate it ~12 times for a single read, etc.
->> this series actually solves last issue but in a bit different way (we
->> even don't need to generate full GuC log dump at all if we would like to
->> capture only part of the log if we know where to look)
-> No, it doesn't solve it. Your comment below suggests it will be read in
-> 4KB chunks. 
-
-chunks will be 4K if we stick to proposed here simple_read_from_iomem()
-that initially uses hardcoded 4K chunks, but we could either modify it
-to use larger chunks by default or extend it to take additional param,
-or promote more powerful copy_to_user_fromio() from SOUND
-
-> Which means your 16MB buffer now requires 4096 separate
-> reads! And you only doing partial reads of the section you think you
-> need is never going to be reliable on live system. Not sure why you
-> would want to anyway. It is just making things much more complex. You
-> now need an intelligent user land program to read the log out and decode
-
-I don't need it. We can add it later. And we can add it on top what we
-already expose without the need to recompile/rebuild the driver.
-
-> at least the header section to know what data section to read. You can't
-> just dump the whole thing with 'cat' or 'dd'.
-
-only 'cat' wont work as it's binary file
-
-> 
->>
->> for reliable output via dmesg - see my proposal at [1]
->>
->> [1] https://patchwork.freedesktop.org/series/133613/
-> 
->>
->>> Hmm. Actually, is this interface allowing the filesystem layers to issue
->>> multiple read calls to read the buffer out in small chunks? That is also
->>> going to break things. If the GuC is still writing to the log as the
->>> user is reading from it, there is the opportunity for each chunk to not
->>> follow on from the previous chunk because the data has just been
->>> overwritten. This is already a problem at the moment that causes issues
->>> when decoding the logs, even with an almost atomic copy of the log into
->>> a temporary buffer before reading it out. Doing the read in separate
->>> chunks is only going to make that problem even worse.
->> current solution, that converts data into hex numbers, reads log buffer
->> in chunks of 128 dwords, how proposed here solution that reads in 4K
->> chunks could be "even worse" ?
-> See above, 4KB chunks means 4096 separate reads for a 16M buffer. And
-> each one of those reads is a full round trip to user land and back. If
-
-but is this a proven problem for us?
-
-> you want to get at all close to an atomic read of the log then it needs
-> to be done as a single call that copies the log into a locally allocated
-> kernel buffer and then allows user land to read out from that buffer
-> rather than from the live log. Which can be trivially done with the
-> current method (at the expense of a large memory allocation) but would
-> be much more difficult with random access reader like this as you would
-> need to say the copied buffer around until the reads have all been done.
-> Which would presumably mean adding open/close handlers to allocate and
-> free that memory.
-
-as I mentioned above if we desperately need larger copies then we can
-use the code promoted from the SOUND subsystem
-
-but for random access reader (up to 4K) this is what this patch already
-provides.
-
-> 
->>
->> and in case of some smart tool, that would understands the layout of the
->> GuC log buffer, we can even fully eliminate problem of reading stale
->> data, so why not to choose a more scalable solution ?
-> You cannot eliminate the problem of stale data. You read the header, you
-> read the data it was pointing to, you re-read the header and find that
-> the GuC has moved on. That is an infinite loop of continuously updating
-> pointers.
-
-I didn't say that I can create snapshot that is 100% free of stale data,
-what I meant was that with this proposal I can provide almost real time
-access to the GuC log, so with custom tool I can read pointers and and
-log entries as small randomly located chunks in the buffer, without the
-need to output whole log buffer snapshot as giant text file that I would
-have to parse again.
-
-> 
-> John.
-> 
->>
->>> John.
->>>
->>>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>>> Cc: John Harrison <John.C.Harrison@Intel.com>
->>>> ---
->>>> Cc: linux-fsdevel@vger.kernel.org
->>>> Cc: dri-devel@lists.freedesktop.org
->>>> ---
->>>>    drivers/gpu/drm/xe/xe_guc_debugfs.c | 26 ++++++++++++++++++++++++++
->>>>    1 file changed, 26 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/xe/xe_guc_debugfs.c
->>>> b/drivers/gpu/drm/xe/xe_guc_debugfs.c
->>>> index d3822cbea273..53fea952344d 100644
->>>> --- a/drivers/gpu/drm/xe/xe_guc_debugfs.c
->>>> +++ b/drivers/gpu/drm/xe/xe_guc_debugfs.c
->>>> @@ -8,6 +8,7 @@
->>>>    #include <drm/drm_debugfs.h>
->>>>    #include <drm/drm_managed.h>
->>>>    +#include "xe_bo.h"
->>>>    #include "xe_device.h"
->>>>    #include "xe_gt.h"
->>>>    #include "xe_guc.h"
->>>> @@ -52,6 +53,29 @@ static const struct drm_info_list debugfs_list[] = {
->>>>        {"guc_log", guc_log, 0},
->>>>    };
->>>>    +static ssize_t guc_log_read(struct file *file, char __user *buf,
->>>> size_t count, loff_t *pos)
->>>> +{
->>>> +    struct dentry *dent = file_dentry(file);
->>>> +    struct dentry *uc_dent = dent->d_parent;
->>>> +    struct dentry *gt_dent = uc_dent->d_parent;
->>>> +    struct xe_gt *gt = gt_dent->d_inode->i_private;
->>>> +    struct xe_guc_log *log = &gt->uc.guc.log;
->>>> +    struct xe_device *xe = gt_to_xe(gt);
->>>> +    ssize_t ret;
->>>> +
->>>> +    xe_pm_runtime_get(xe);
->>>> +    ret = xe_map_read_from(xe, buf, count, pos, &log->bo->vmap,
->>>> log->bo->size);
->>>> +    xe_pm_runtime_put(xe);
->>>> +
->>>> +    return ret;
->>>> +}
->>>> +
->>>> +static const struct file_operations guc_log_ops = {
->>>> +    .owner        = THIS_MODULE,
->>>> +    .read        = guc_log_read,
->>>> +    .llseek        = default_llseek,
->>>> +};
->>>> +
->>>>    void xe_guc_debugfs_register(struct xe_guc *guc, struct dentry
->>>> *parent)
->>>>    {
->>>>        struct drm_minor *minor = guc_to_xe(guc)->drm.primary;
->>>> @@ -72,4 +96,6 @@ void xe_guc_debugfs_register(struct xe_guc *guc,
->>>> struct dentry *parent)
->>>>        drm_debugfs_create_files(local,
->>>>                     ARRAY_SIZE(debugfs_list),
->>>>                     parent, minor);
->>>> +
->>>> +    debugfs_create_file("guc_log_raw", 0600, parent, NULL,
->>>> &guc_log_ops);
->>>>    }
-> 
+Laurent Pinchart
