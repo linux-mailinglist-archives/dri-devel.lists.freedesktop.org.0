@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2711F8C58A6
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 17:24:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273368C58A7
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 17:24:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55FD410EAAD;
-	Tue, 14 May 2024 15:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4052E10EABA;
+	Tue, 14 May 2024 15:24:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BXK1+Wkl";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="tV5Hda4A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D62910EAAD
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 15:24:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72AD210EABA
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 15:24:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715700258;
- bh=r3Fx1MKTIpt0X27ue0Y4XgM4MOWhxwM0vB8PYtwySfs=;
+ s=mail; t=1715700262;
+ bh=p7nTz/Irz77RiCSjoigxmGbDz02q1CnibFJajp5cPw4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BXK1+Wklm7FOLRZkfhUFoZSpyv6Dym+xBQ18JYUutLSyxwrBvBzgFT5cweUI3jcvj
- K1JiI654qKuV0zDABaBUJ/jgC0gqyXX12BCLd4JPtnqi6bFcCKDZOMA44KLA4O+6xN
- +czk+HRC89F2Fufc58nRVkWyx4xWX5L7el+lOfvSB1VdkFjcxMQroIPg2tyiHXhQax
- lkp6TOo4jjdjMZImi814JUwawbanqzYR5JmzXhAurJvCIYtnWLdumVvefw6PgwGWdg
- 2syvr382zNcyr1xQsu/OPwQoPbXOaCb1gOFrzfQwZGXCZg2RQ77uH2V6z7mDEIj7Yq
- 8i3I7rTp12WeA==
+ b=tV5Hda4AXXSV+gBLPGXMrdFGL33+gcnuSGI60CBLFQtOcWSaYTb6XDVRRmGy4DC0E
+ 08XVWtEfv8Unohji+Dqq4bAHaP2tmtAJMuAnPGHSFOHpmbjAA8rsGbveIBC14tUv9y
+ 7uFM+yfjX/p8jWMKLEi/e9CXy3IBXc/IKg0WqXq3EowUuanIJZkCyjWfd8yr39kIG7
+ XT2tsD6I6RZ6bCCa3bc9g6V6lMmvQLE03pNbrU/XP9C9iat4iqBmSc4uYU8irRpcfn
+ zFZcoZwSWXhU7f098rg64RxI0HHBz+kyPTx1e62LNMDWfyH6PUOZ6vpopQCMLIQm2b
+ 1HmBeCp4zPvJQ==
 Received: from arisu.hitronhub.home (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: detlev)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id C30FE3782197;
- Tue, 14 May 2024 15:24:14 +0000 (UTC)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 98D883782198;
+ Tue, 14 May 2024 15:24:18 +0000 (UTC)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Sandy Huang <hjc@rock-chips.com>,
@@ -51,9 +51,9 @@ Cc: Sandy Huang <hjc@rock-chips.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
  Detlev Casanova <detlev.casanova@collabora.com>
-Subject: [PATCH 2/3] arm64: dts: rockchip: Add VOP clock resets for rk3588s
-Date: Tue, 14 May 2024 11:19:46 -0400
-Message-ID: <20240514152328.21415-3-detlev.casanova@collabora.com>
+Subject: [PATCH 3/3] dt-bindings: display: vop2: Add VP clock resets
+Date: Tue, 14 May 2024 11:19:47 -0400
+Message-ID: <20240514152328.21415-4-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240514152328.21415-1-detlev.casanova@collabora.com>
 References: <20240514152328.21415-1-detlev.casanova@collabora.com>
@@ -74,32 +74,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds the needed clock resets for all rk3588(s) based SOCs.
+Add the documentation for VOP2 video ports reset clocks.
+One reset can be set per video port.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../display/rockchip/rockchip-vop2.yaml       | 27 +++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-index 6ac5ac8b48abb..8560c92cd406c 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-@@ -1193,6 +1193,14 @@ vop: vop@fdd90000 {
- 			      "pclk_vop";
- 		iommus = <&vop_mmu>;
- 		power-domains = <&power RK3588_PD_VOP>;
-+		resets = <&cru SRST_D_VOP0>,
-+			 <&cru SRST_D_VOP1>,
-+			 <&cru SRST_D_VOP2>,
-+			 <&cru SRST_D_VOP3>;
-+		reset-names = "dclk_vp0",
-+			      "dclk_vp1",
-+			      "dclk_vp2",
-+			      "dclk_vp3";
- 		rockchip,grf = <&sys_grf>;
- 		rockchip,vop-grf = <&vop_grf>;
- 		rockchip,vo1-grf = <&vo1_grf>;
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+index 2531726af306b..941fd059498d4 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+@@ -65,6 +65,22 @@ properties:
+       - const: dclk_vp3
+       - const: pclk_vop
+ 
++  resets:
++    minItems: 3
++    items:
++      - description: Pixel clock reset for video port 0.
++      - description: Pixel clock reset for video port 1.
++      - description: Pixel clock reset for video port 2.
++      - description: Pixel clock reset for video port 3.
++
++  reset-names:
++    minItems: 3
++    items:
++      - const: dclk_vp0
++      - const: dclk_vp1
++      - const: dclk_vp2
++      - const: dclk_vp3
++
+   rockchip,grf:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description:
+@@ -128,6 +144,11 @@ allOf:
+         clock-names:
+           minItems: 7
+ 
++        resets:
++          minItems: 4
++        reset-names:
++          minItems: 4
++
+         ports:
+           required:
+             - port@0
+@@ -183,6 +204,12 @@ examples:
+                               "dclk_vp0",
+                               "dclk_vp1",
+                               "dclk_vp2";
++                resets = <&cru SRST_VOP0>,
++                         <&cru SRST_VOP1>,
++                         <&cru SRST_VOP2>;
++                reset-names = "dclk_vp0",
++                              "dclk_vp1",
++                              "dclk_vp2";
+                 power-domains = <&power RK3568_PD_VO>;
+                 iommus = <&vop_mmu>;
+                 vop_out: ports {
 -- 
 2.43.2
 
