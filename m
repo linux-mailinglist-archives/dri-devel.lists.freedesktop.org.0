@@ -2,83 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960998C4DC3
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 10:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594318C4DDD
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 10:44:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3CE10E3E4;
-	Tue, 14 May 2024 08:39:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2CC10E498;
+	Tue, 14 May 2024 08:44:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lnWDa536";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rOntfd+0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D362510E2CC;
- Tue, 14 May 2024 08:39:20 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44DJ8qGb009927;
- Tue, 14 May 2024 08:39:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=W+cQzK1jV7GXUwc2V171zeRC9Hwm7VPkbzzlgUEJxjQ=; b=ln
- WDa536xBLsio82+i8IHgpANcLLAcx3OKC5Sp4/05IHmCzVEXSXi0BD8hnumKV+Ef
- 4mdUBu04nsOX9k2megVmOTegd/WWGoCNisfSewWnaBdAf+vlRV/wt0PyIF4+j16v
- kCbS2e6OSv0ToV86RY1L/n9TzaTLCmyOjzz6ZvzHSsoQhAev95dkAi8R3v+LZRhT
- WPNQscWiiwIHMXnZW0glthKr+K+o2G6efmne6Zr2EgTLygsyA7lZUyX9x27svKO0
- egzRzotUvQ/i4W5EIiaU8ocM7lrkMLKb7caAkJ6+hwYZ+IoGqaOub0DhVC+g8KtA
- hdUBdM5ovR1p9y1LpxIw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y21eddk78-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 May 2024 08:39:16 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44E8dFW7009982
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 May 2024 08:39:15 GMT
-Received: from [10.110.76.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 14 May
- 2024 01:39:14 -0700
-Message-ID: <34743d0c-287f-be2a-847e-3a65eb4815fa@quicinc.com>
-Date: Tue, 14 May 2024 01:39:13 -0700
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 857D810E498
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 08:44:29 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a59ce1e8609so1083842866b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 01:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1715676268; x=1716281068; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=R8VqkRij0WMpHYa35VasMXQrv2YaZLsJLDLUP+EZyj0=;
+ b=rOntfd+0DkBL4vJUatStBEw1A3DvxIJfbMz6l/nePwynbM3uGh0GQ+NBDhSIbHvBEy
+ IiwGwxv7g3QLvfrkX7lybASsngVKD10j7ZixRjvWVQvBFt0gttvldS++OwVtWfZxaeSZ
+ g5oTPIa4/T0/g/emfwiO7fOb3tM7Ef8yl09bzNNTzj7W3KsmjIJRcIKv1djRhXL/S0Ht
+ eoPut5ANfZ+w45/WFtnECVNBUXo5JyCa4mOLcXm1cZob1krdMGI5cIhZC/CyXCky58dj
+ L4tchxO8qegeYWGPH4D9UFD8KQRHCHYansHnD8FcdcvGBoixCIn4fJo9MYugGqtkLbsV
+ KeaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715676268; x=1716281068;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=R8VqkRij0WMpHYa35VasMXQrv2YaZLsJLDLUP+EZyj0=;
+ b=RZHtAVX+VATu7IZw0E1ixCWhYwWERoPCM+CeJDrmdx0waRYJWLIQh9HjHJv9y2XopH
+ 3rMuvgYjVhAY5Xq4o9mB0zhoXJz2tI2ayk9sxMEBzlbiLLwScAVbDBkTm52EgufF+9SV
+ ltj5qT7PMghLcDccJ0mvttC+uxYOZXbMU6WATSUFRvYkWwlh06psLZ0UP0GHINoGarqQ
+ v7obtpNUvaF39Al1VENO2qhUNufDkH10x5VbGEHhbvNjQqlYFukl4FvAgkCBct1+WN+U
+ tjj9/EvgmaD+vrigmXC0pgMf2XCJ7dipAQY3LWMB1AeQgy2x6iVMjjqvBvYX3fTtSaC6
+ tCZw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX5Wz71Lx0XLUh7TN1qdvH06qEJ1wiiwF/JRU9+55mBP2suuDajgzRzxkEam8/lTciyKRK5SFhOGp6uB4dJn65iNHehes7uaTjTzPoesysB
+X-Gm-Message-State: AOJu0YzqoeMyUB+5UzehRIrs+hXcoW0rxeBop9rvgQ9x/6ezMwyh0XA7
+ FTQUE2qJ6Wy1/Glg+JnsRnzpqcT5gjB0TGJkBMMaaLOSokfHWbk2kzGKE8VdID0=
+X-Google-Smtp-Source: AGHT+IE8nJilU29Fw1fFlxNnytzQcgglRReBkYoprBZaNxRl5+KclDd7dkoKUAr+c9rnQqQAzlKHmQ==
+X-Received: by 2002:a17:906:19d0:b0:a59:fb06:5d35 with SMTP id
+ a640c23a62f3a-a5a1156665fmr1158823466b.8.1715676267705; 
+ Tue, 14 May 2024 01:44:27 -0700 (PDT)
+Received: from [10.91.0.73] ([149.14.240.163])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a5a17891f87sm690254566b.65.2024.05.14.01.44.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 May 2024 01:44:27 -0700 (PDT)
+Message-ID: <a1108f14-9a1b-414a-97c5-0bc43457d635@linaro.org>
+Date: Tue, 14 May 2024 10:44:24 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] Revert "drm/msm/dpu: drop
- dpu_encoder_phys_ops.atomic_mode_set"
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20240514-dpu-revert-ams-v1-1-b13623d6cd5f@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240514-dpu-revert-ams-v1-1-b13623d6cd5f@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 0/3] dt-bindings: display: panel: constrain 'reg'
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Konrad Dybcio <konradybcio@gmail.com>,
+ Del Regno <angelogioacchino.delregno@somainline.org>,
+ Heiko Stuebner <heiko@sntech.de>, Luca Weiss <luca.weiss@fairphone.com>,
+ Shawn Guo <shawn.guo@linaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240509-dt-bindings-dsi-panel-reg-v1-0-8b2443705be0@linaro.org>
+ <20240513131711.GA2419451-robh@kernel.org>
+ <CAA8EJppkJ9rukeUZ=1kAL3Y0WVhN5QFXnNU3tjv4yuXMjc++7w@mail.gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <CAA8EJppkJ9rukeUZ=1kAL3Y0WVhN5QFXnNU3tjv4yuXMjc++7w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: m7lMPOgT_FuV0DG9uxJClpePdwPWOyCm
-X-Proofpoint-ORIG-GUID: m7lMPOgT_FuV0DG9uxJClpePdwPWOyCm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-14_03,2024-05-10_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- priorityscore=1501 bulkscore=0 spamscore=0 mlxscore=0 malwarescore=0
- suspectscore=0 impostorscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405140060
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,216 +124,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/14/2024 12:56 AM, Dmitry Baryshkov wrote:
-> In the DPU driver blank IRQ handling is called from a vblank worker and
-> can happen outside of the irq_enable / irq_disable pair. Revert commit
-> d13f638c9b88 ("drm/msm/dpu: drop dpu_encoder_phys_ops.atomic_mode_set")
-> to fix vblank IRQ assignment for CMD DSI panels.
+On 13/05/2024 18:41, Dmitry Baryshkov wrote:
+> On Mon, 13 May 2024 at 16:17, Rob Herring <robh@kernel.org> wrote:
+>>
+>> On Thu, May 09, 2024 at 11:42:50AM +0200, Krzysztof Kozlowski wrote:
+>>> Hi,
+>>>
+>>> Cleanups for display panel bindings.
+>>>
+>>> Rob, maybe you could take entire set if it applies? I based it on
+>>> linux-next, so letl me know if I need to rebase on your for-next.
+>>
+>> Applied. These 2 don't exist in my tree:
+> 
+> It's most likely fine, but was there an ack from drm-misc maintainers?
+> 
+>> Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
+>> Documentation/devicetree/bindings/display/panel/raydium,rm69380.yaml
+> 
+> Because those were added to drm-misc during the last cycle. So ideally
+> the patch should have gone through drm-misc.
 > 
 
-Can you please explain the sequence of events causing an issue due to 
-moving the irq assignment to init and how is moving it back to modeset 
-helping?
+Exact there's a conflict on today's next, Rob can you drop them so I can apply them via drm-misc ?
 
-> Fixes: d13f638c9b88 ("drm/msm/dpu: drop dpu_encoder_phys_ops.atomic_mode_set")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  2 ++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  5 ++++
->   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   | 32 ++++++++++++----------
->   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 13 +++++++--
->   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    | 11 +++++++-
->   5 files changed, 46 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 119f3ea50a7c..a7d8ecf3f5be 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -1200,6 +1200,8 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->   		phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
->   
->   		phys->cached_mode = crtc_state->adjusted_mode;
-> +		if (phys->ops.atomic_mode_set)
-> +			phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
->   	}
->   }
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index 002e89cc1705..30470cd15a48 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -69,6 +69,8 @@ struct dpu_encoder_phys;
->    * @is_master:			Whether this phys_enc is the current master
->    *				encoder. Can be switched at enable time. Based
->    *				on split_role and current mode (CMD/VID).
-> + * @atomic_mode_set:		DRM Call. Set a DRM mode.
-> + *				This likely caches the mode, for use at enable.
->    * @enable:			DRM Call. Enable a DRM mode.
->    * @disable:			DRM Call. Disable mode.
->    * @control_vblank_irq		Register/Deregister for VBLANK IRQ
-> @@ -93,6 +95,9 @@ struct dpu_encoder_phys;
->   struct dpu_encoder_phys_ops {
->   	void (*prepare_commit)(struct dpu_encoder_phys *encoder);
->   	bool (*is_master)(struct dpu_encoder_phys *encoder);
-> +	void (*atomic_mode_set)(struct dpu_encoder_phys *encoder,
-> +			struct drm_crtc_state *crtc_state,
-> +			struct drm_connector_state *conn_state);
->   	void (*enable)(struct dpu_encoder_phys *encoder);
->   	void (*disable)(struct dpu_encoder_phys *encoder);
->   	int (*control_vblank_irq)(struct dpu_encoder_phys *enc, bool enable);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index 489be1c0c704..95cd39b49668 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -142,6 +142,23 @@ static void dpu_encoder_phys_cmd_underrun_irq(void *arg)
->   	dpu_encoder_underrun_callback(phys_enc->parent, phys_enc);
->   }
->   
-> +static void dpu_encoder_phys_cmd_atomic_mode_set(
-> +		struct dpu_encoder_phys *phys_enc,
-> +		struct drm_crtc_state *crtc_state,
-> +		struct drm_connector_state *conn_state)
-> +{
-> +	phys_enc->irq[INTR_IDX_CTL_START] = phys_enc->hw_ctl->caps->intr_start;
-> +
-> +	phys_enc->irq[INTR_IDX_PINGPONG] = phys_enc->hw_pp->caps->intr_done;
-> +
-> +	if (phys_enc->has_intf_te)
-> +		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_intf->cap->intr_tear_rd_ptr;
-> +	else
-> +		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_pp->caps->intr_rdptr;
-> +
-> +	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
-> +}
-> +
->   static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
->   		struct dpu_encoder_phys *phys_enc)
->   {
-> @@ -280,14 +297,6 @@ static void dpu_encoder_phys_cmd_irq_enable(struct dpu_encoder_phys *phys_enc)
->   					  phys_enc->hw_pp->idx - PINGPONG_0,
->   					  phys_enc->vblank_refcount);
->   
-> -	phys_enc->irq[INTR_IDX_CTL_START] = phys_enc->hw_ctl->caps->intr_start;
-> -	phys_enc->irq[INTR_IDX_PINGPONG] = phys_enc->hw_pp->caps->intr_done;
-> -
-> -	if (phys_enc->has_intf_te)
-> -		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_intf->cap->intr_tear_rd_ptr;
-> -	else
-> -		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_pp->caps->intr_rdptr;
-> -
->   	dpu_core_irq_register_callback(phys_enc->dpu_kms,
->   				       phys_enc->irq[INTR_IDX_PINGPONG],
->   				       dpu_encoder_phys_cmd_pp_tx_done_irq,
-> @@ -318,10 +327,6 @@ static void dpu_encoder_phys_cmd_irq_disable(struct dpu_encoder_phys *phys_enc)
->   	dpu_core_irq_unregister_callback(phys_enc->dpu_kms, phys_enc->irq[INTR_IDX_UNDERRUN]);
->   	dpu_encoder_phys_cmd_control_vblank_irq(phys_enc, false);
->   	dpu_core_irq_unregister_callback(phys_enc->dpu_kms, phys_enc->irq[INTR_IDX_PINGPONG]);
-> -
-> -	phys_enc->irq[INTR_IDX_CTL_START] = 0;
-> -	phys_enc->irq[INTR_IDX_PINGPONG] = 0;
-> -	phys_enc->irq[INTR_IDX_RDPTR] = 0;
->   }
->   
->   static void dpu_encoder_phys_cmd_tearcheck_config(
-> @@ -698,6 +703,7 @@ static void dpu_encoder_phys_cmd_init_ops(
->   		struct dpu_encoder_phys_ops *ops)
->   {
->   	ops->is_master = dpu_encoder_phys_cmd_is_master;
-> +	ops->atomic_mode_set = dpu_encoder_phys_cmd_atomic_mode_set;
->   	ops->enable = dpu_encoder_phys_cmd_enable;
->   	ops->disable = dpu_encoder_phys_cmd_disable;
->   	ops->control_vblank_irq = dpu_encoder_phys_cmd_control_vblank_irq;
-> @@ -736,8 +742,6 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(struct drm_device *dev,
->   
->   	dpu_encoder_phys_cmd_init_ops(&phys_enc->ops);
->   	phys_enc->intf_mode = INTF_MODE_CMD;
-> -	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
-> -
->   	cmd_enc->stream_sel = 0;
->   
->   	if (!phys_enc->hw_intf) {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index ef69c2f408c3..636a97432d51 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -356,6 +356,16 @@ static bool dpu_encoder_phys_vid_needs_single_flush(
->   	return phys_enc->split_role != ENC_ROLE_SOLO;
->   }
->   
-> +static void dpu_encoder_phys_vid_atomic_mode_set(
-> +		struct dpu_encoder_phys *phys_enc,
-> +		struct drm_crtc_state *crtc_state,
-> +		struct drm_connector_state *conn_state)
-> +{
-> +	phys_enc->irq[INTR_IDX_VSYNC] = phys_enc->hw_intf->cap->intr_vsync;
-> +
-> +	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
-> +}
-> +
->   static int dpu_encoder_phys_vid_control_vblank_irq(
->   		struct dpu_encoder_phys *phys_enc,
->   		bool enable)
-> @@ -699,6 +709,7 @@ static int dpu_encoder_phys_vid_get_frame_count(
->   static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
->   {
->   	ops->is_master = dpu_encoder_phys_vid_is_master;
-> +	ops->atomic_mode_set = dpu_encoder_phys_vid_atomic_mode_set;
->   	ops->enable = dpu_encoder_phys_vid_enable;
->   	ops->disable = dpu_encoder_phys_vid_disable;
->   	ops->control_vblank_irq = dpu_encoder_phys_vid_control_vblank_irq;
-> @@ -737,8 +748,6 @@ struct dpu_encoder_phys *dpu_encoder_phys_vid_init(struct drm_device *dev,
->   
->   	dpu_encoder_phys_vid_init_ops(&phys_enc->ops);
->   	phys_enc->intf_mode = INTF_MODE_VIDEO;
-> -	phys_enc->irq[INTR_IDX_VSYNC] = phys_enc->hw_intf->cap->intr_vsync;
-> -	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
->   
->   	DPU_DEBUG_VIDENC(phys_enc, "created intf idx:%d\n", p->hw_intf->idx);
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> index d3ea91c1d7d2..356dca5e5ea9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> @@ -404,6 +404,15 @@ static void dpu_encoder_phys_wb_irq_disable(struct dpu_encoder_phys *phys)
->   		dpu_core_irq_unregister_callback(phys->dpu_kms, phys->irq[INTR_IDX_WB_DONE]);
->   }
->   
-> +static void dpu_encoder_phys_wb_atomic_mode_set(
-> +		struct dpu_encoder_phys *phys_enc,
-> +		struct drm_crtc_state *crtc_state,
-> +		struct drm_connector_state *conn_state)
-> +{
-> +
-> +	phys_enc->irq[INTR_IDX_WB_DONE] = phys_enc->hw_wb->caps->intr_wb_done;
-> +}
-> +
->   static void _dpu_encoder_phys_wb_handle_wbdone_timeout(
->   		struct dpu_encoder_phys *phys_enc)
->   {
-> @@ -640,6 +649,7 @@ static bool dpu_encoder_phys_wb_is_valid_for_commit(struct dpu_encoder_phys *phy
->   static void dpu_encoder_phys_wb_init_ops(struct dpu_encoder_phys_ops *ops)
->   {
->   	ops->is_master = dpu_encoder_phys_wb_is_master;
-> +	ops->atomic_mode_set = dpu_encoder_phys_wb_atomic_mode_set;
->   	ops->enable = dpu_encoder_phys_wb_enable;
->   	ops->disable = dpu_encoder_phys_wb_disable;
->   	ops->wait_for_commit_done = dpu_encoder_phys_wb_wait_for_commit_done;
-> @@ -685,7 +695,6 @@ struct dpu_encoder_phys *dpu_encoder_phys_wb_init(struct drm_device *dev,
->   
->   	dpu_encoder_phys_wb_init_ops(&phys_enc->ops);
->   	phys_enc->intf_mode = INTF_MODE_WB_LINE;
-> -	phys_enc->irq[INTR_IDX_WB_DONE] = phys_enc->hw_wb->caps->intr_wb_done;
->   
->   	atomic_set(&wb_enc->wbirq_refcount, 0);
->   
-> 
-> ---
-> base-commit: 75fa778d74b786a1608d55d655d42b480a6fa8bd
-> change-id: 20240514-dpu-revert-ams-9410abc1ee48
-> 
-> Best regards,
+Thanks,
+Neil
