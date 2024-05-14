@@ -2,46 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E6B8C58F2
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 17:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D7B8C5909
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 17:47:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 389C410E940;
-	Tue, 14 May 2024 15:41:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97AB610E57B;
+	Tue, 14 May 2024 15:47:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="s8j2imfz";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="nfSaHqM+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
- [95.215.58.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16D7F10E401
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 15:41:02 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1715701260;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YfNP57WnX9pl6oJYKjEJ2sUgdgTy1zK7aq7NNRWHH4c=;
- b=s8j2imfzNiXlXSJzj8mxbKwjRnySxRSvyknXOtmC2RT6OSzJaOqXmow0pYgUER1qXDtYOI
- EY9/ztO3ydevrkiDTIMNgvikvHBFGfUx0ntxP8iTdFBD4OHhxrpMT2gAyv0uhg0sdN++qZ
- pSJyNAPDS+hPnor07D4KIotCiCk3K+0=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH 2/2] drm/bridge: Switch to use drm_bridge_add_with_dev()
-Date: Tue, 14 May 2024 23:40:45 +0800
-Message-ID: <20240514154045.309925-3-sui.jingfeng@linux.dev>
-In-Reply-To: <20240514154045.309925-1-sui.jingfeng@linux.dev>
-References: <20240514154045.309925-1-sui.jingfeng@linux.dev>
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2071.outbound.protection.outlook.com [40.107.94.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA89510E401;
+ Tue, 14 May 2024 15:47:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bl5ruFLYthbOn37QYle+curdVqEIsUksGcfmoSKMn9pKp8WrGyIj5WgRZW5yFso2oyGZnF7T8IRRS+uPrK/GpozJjtwz7lggjHRe59ApRajf/UZsMjJrWGKme3MNdXKMsaivDCD3fWg39s3xPt6n0KXNqmMFWPRrLtHTOiLT9E38HRlEYNQGKkTJjmCNLmj6xwi9hjQXIWoCg1mX8CIo1Wq1PoL8Vr5JbSUsK1cUEIoRKcHuMqicTYf4NkQF94+0UmVW6j2FDDQlbV60iYROOIl65vnMyw5hobf0Nz0qyVLe/p6jp7/b2eoyVYr1aAQEJ5ZnbpTX1l2vGxxyxAncGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kr+kTrbXwqmVQRsKe/o2KADwtZho0NSYl3zKss3I5hw=;
+ b=N4oa47uJBgvW0GZxI3WiPHAiBZF6fsccOd9X8ybqITEUb6v3vRgEALrkxuTx8faRtxfUnBVceJTiWQRTJt5+qhe8yhR5xBl9SLcazcncMdej317MeK7BdIN9YSotRt3Gakk6QX+5AoAvlvem86XKJ2tf0aRbxvccOQgtoD0Fz0TR6Y3J6tGabUNWwZrtwPlqvE8egCTlow0fQ5f312zB2aRclKTkA23KnZUEkBUCinidnr6CptJSxdViG4Wp6786bwzWBHSiobVQf2nII4umeWfjnAwZlNWx/tRnJ9Gv4gbTdeEo6uD4FevVB8GGYs+UKMJTXtsWEzY4u35fWXEYrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kr+kTrbXwqmVQRsKe/o2KADwtZho0NSYl3zKss3I5hw=;
+ b=nfSaHqM+JneQytvWNWoax4QPUQL+UcG/Mh1TAS+Y35iiXS1BEaKtmCVaasQTaco0iQQCmnaVvOSnCVO2okky3WCrHdLJ0l1vVwK/1FAGx7gCmcoaWkx+8kEPcRqmGV2Tnm5J/zbMnFgwmv5pL58jldHt1Am49ce7BaVMVsdmogA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY5PR12MB6298.namprd12.prod.outlook.com (2603:10b6:930:21::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Tue, 14 May
+ 2024 15:47:38 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7587.025; Tue, 14 May 2024
+ 15:47:38 +0000
+Message-ID: <fc645b96-08cf-44bb-9fed-855ce537b8e7@amd.com>
+Date: Tue, 14 May 2024 17:47:32 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/5] Discussion around eviction improvements
+To: Tvrtko Ursulin <tursulin@ursulin.net>,
+ Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Friedrich Vock <friedrich.vock@gmx.de>
+References: <20240508180946.96863-1-tursulin@igalia.com>
+ <e39bcdd1-90e7-42f3-94a9-ea1af6b0d278@ursulin.net>
+ <6b4bbb02-3f12-4a6a-8e61-c776da636d1d@ursulin.net>
+ <d48740a3-ea97-447f-9103-c4bb30194971@ursulin.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <d48740a3-ea97-447f-9103-c4bb30194971@ursulin.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-ClientProxiedBy: FR5P281CA0060.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f0::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6298:EE_
+X-MS-Office365-Filtering-Correlation-Id: 06eef629-73ac-484b-d4b1-08dc742d2e43
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|1800799015|366007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YVFhZC9DLzZmZllRN3BIUzNycWxndm5YcU5JRGh3MEM0OFBma3dRNGFWQW44?=
+ =?utf-8?B?bENRenBYc2t0Sk9tTXNXUDkyVjJTOGJKc3ZrQVlta0c5NmRuYkZEOHRmNXZU?=
+ =?utf-8?B?WUE1dEpheDdySks0UndVbVJKaFlucnk5TjFyRjJscVc4RUZycDdTRUhkTFhF?=
+ =?utf-8?B?SG81RWpUc1duaGRxQ2d6cUpKUjNLZlY0MXZSeGdabFhGdmM4L29PSWdjeC96?=
+ =?utf-8?B?akc2T0Rvd01zc2ZIOGhtRTZoRW5oYzluYXZrK1UzRGlpM0x2ZGlzMHBBZ2xG?=
+ =?utf-8?B?UTNydDhJL0h5N1JsNS9paUdobFloNHVFNTdYWTdBeGlzVVdCdk5TODRhU2c0?=
+ =?utf-8?B?aTUyQzJpQjRObkhKS05MZGhoa0J5aTd0SHJHY2NibVFYSk1lbjczcUpWVjVi?=
+ =?utf-8?B?ekpncmYwdWJFdDh2aTJpUGRQaU9ySFFzVmM4OEdMeVZEUG4yZElySHJKeEt4?=
+ =?utf-8?B?d0ZPMytXUEYvK0ZYc3A5azVFUFE4Rng5RWF2bHZVODlrWDFWNVRwYnFkbjBM?=
+ =?utf-8?B?QXlBbUZRMFZReGpwTzltZkNYdmF3V25Pa0Z3YkMzZmVlNXU3THA3SDNTZXlT?=
+ =?utf-8?B?RW5rM2JTUk11NkdvQ05vYkFBOUhtcFAzNERlTXpsbWFhSy9Gdnh4alEyamcv?=
+ =?utf-8?B?TzBqZlFjNks0aFo3WGN6aktaT0F2Q0laVWw2U1hnenNBY0R0L2dzRmFEQmpa?=
+ =?utf-8?B?NXFxL0RQakRaYVFqV3A1djcwSm9RcWdmemFidVJJOHZmd0pwYXdrSHIwSzN5?=
+ =?utf-8?B?dE9lZnRFa29FWElJY2dTckd2QW1HUDI0a0RCbmlSVWErb2dOWFZLL0Vuc1pT?=
+ =?utf-8?B?ME45N0J3RGlCM2I3Q1dIWGhvMkgxc0htYm14U3g0R1R3dlpEUmVvWXZUekxx?=
+ =?utf-8?B?cTNaZk1tQndST3ZtQS81b2FjRlhGWWY0azhONloxSC9kOFl6OGl2WHdTODN5?=
+ =?utf-8?B?WjdXWmZaQkE5YmFjaVRjL0NHY0Zvc2MxN3YxK0UxSmY0SWRqUjBUdkhPd1BQ?=
+ =?utf-8?B?RXU3ck5QNFA2aXZQT0JaTU5JbUNOaldPajE2am5ZNkprZ3djTUlqUitSSFU4?=
+ =?utf-8?B?SmZuNVdFcXFFd0pQcFgycldzTG5oZmpoUHp3eXZQOTVMRjlxd1QzNWRaaGVs?=
+ =?utf-8?B?VzlpRktiTzRxaThPTEQ1MTlHcVVnY0tNUHdzSUdxT1RvTFRJZWJweGR4MlZG?=
+ =?utf-8?B?ZTUwbnZ5RGdWWnBlN0prZThqUTVVeTN2MllFNllaSG84U2ZKU1QrMkNQNE9V?=
+ =?utf-8?B?MzBaNXFVdEhOR3B3bm5QMk53TUNDRldPVmsxVkJabkFGbE1rVm9jQ3pvOUZC?=
+ =?utf-8?B?K0o5dHlnWlFWeWI2NUltenJCdUY1V2hGZHpLcWFPRGtranowaGlSWWNPajl1?=
+ =?utf-8?B?VWxFRVRUMVhWcC9YeEJvNHpoNk1odGZ0bjVic2tMVTU0V1F1U2NGVitCN1Vy?=
+ =?utf-8?B?REk4c1RNMEtaNU5EK2IvaGtVQXdSZks5Z2F6WThpcnF6di9JM0d6Ym5LZ0kw?=
+ =?utf-8?B?NXJXWkpTSjh3U3BxNG9qcGVVYThzSkt5SEEwbFh0ZlJTM2N4K1ZFMmN2ekVk?=
+ =?utf-8?B?OEcyZnJwMS91ZFVOMGh1MjRIWDRuZUFPK3V2MjFRZHJLdHhRUHRWeEZQanI3?=
+ =?utf-8?B?cEExa3A4alIzc3hTNmhEaTNQbUwreVdlYlBTWUhld2JSYXZYVVZMYVVsanFv?=
+ =?utf-8?B?MWE4N1lWQ1JpWjlDUFVNOUt0dkpVOGxMWW1ueEYxaE9FQVdSUWw3aUFBPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WjNDSFBKdXVmMGpBM2VVWG0zUys4a1JERm9ia0RiY1BpODN2QzY2SS93NFhS?=
+ =?utf-8?B?SVVWaEovZ3hiTzMxV1A5NHZlbHU0UHdHWDc1V2xaN0NyalVFRnRjN25hYVc1?=
+ =?utf-8?B?UDNLbkozTGY3TklJM1lnTDQzb3dyZW1hK0tsbmRIS2d3bUJPK1JqUERwWEFm?=
+ =?utf-8?B?bmpETGNqWGdZWnA2eE8xMHJBRlVXeUJCb25FSlZqYnpBZEJXUHVHWHZpWlk3?=
+ =?utf-8?B?VWxMRjJiVXp1ZHJ3a2xOWDhYSDNFL2k4b1RRMmVERG1nN2ZDbEFaQVRoLzQ2?=
+ =?utf-8?B?cUlZR2F0RWo3djI3YU9iK2VadnovS015azF6RVhGS0lqQ2dkdWlacElrWldP?=
+ =?utf-8?B?c1NiM3JoaFJNSkYrZEl6aGc4ekFWdWRia1pJWDNlcFRydVZjN0MxeWgweGVF?=
+ =?utf-8?B?RnZHcVFZU1RGQVRVL0kxK3lBMWUwaXFzUysxL2g4VmhxRDdhZXlJdnhlL3ZC?=
+ =?utf-8?B?SG1LTEUvSXcwekxld0N2UDNJNW1BVW51Rkc3U3g5UDdwZU4wRUlvTkJXNERR?=
+ =?utf-8?B?TXdEeTErajdEZHg3V2hGZ3plZmhZYmViajRMeHJSM1dWbjdCVHNZTHdrQnFr?=
+ =?utf-8?B?NWNWMlVOMnFSeDZaUmlnbndOKzFuZ0N1Y0FaSFQrQnZ5d1J0bXJRUzBMY0Zj?=
+ =?utf-8?B?SUVVeGVScENwVGU1QkNkY3FRVkdWS2NvLzFESkJSbmlUaEk2b1RrNEJEKzdj?=
+ =?utf-8?B?aVRMVDJqR0Q1WjF1VHR6WkYxdlFsMTN0NThtOGNvTlc1dlVIRC9aUFUwaUhj?=
+ =?utf-8?B?QTFGU2pRbjdNUWtLQStEZVRkblU2ZFJGWURMRVRETGs4b3U4UEUvVDhsR0RS?=
+ =?utf-8?B?WTUyNDZYTit6U281a3p3MFFoWFBTdjVQRTdSNngzSUEvRVFySXRXRTY5eVZw?=
+ =?utf-8?B?N2thSmJaNzM2SjNOOS90SWNUN3RoUjJRRlU4Y0ZaeFRScVFFbUFhc2sremVl?=
+ =?utf-8?B?bzk5NURBcGgvMDBOb0E1UGxnam12K0R6TnJ6bjQ4ajkxekFWaHd5eDNPcjY4?=
+ =?utf-8?B?Ry82ODJSVlV5ZGNZL3BJNis3TThqTjRxZ09JWk0wbm5vaC8yZmQ4QXAzRk1y?=
+ =?utf-8?B?VFovN281RUJTMWdvNkwxTHpWejQzN2NlMDJkWUd4eXdOODlENmRORUtpZnpM?=
+ =?utf-8?B?Q3hxdWNiMlRDQkFzaGJxN1djTkhhdHNhLzZiOSs4aW9RRDcxTG9jeFliZk1F?=
+ =?utf-8?B?UVAvcXdWVEJ2Z3BOR0NwRC9kaFdoUlN4eUlEdmxLSVZ5Y0RRWng5dmdWZ25Y?=
+ =?utf-8?B?YW9idDJsbE9kMlBRcHR1UXRTYmV1SUZCdnJkU1NoTUlsZ0RQejZnODZmVTN3?=
+ =?utf-8?B?OVVzQzlMTm84ZlB2RGFyZmxxVkVESk5BM2ZndEI0dCsxd0ZFTHlwbWFlQitj?=
+ =?utf-8?B?KzBvOThCV2U5dDBQVDI1QTZsU1RQSTNsV090bGVIODFVZkd6bHF4RXduWW5t?=
+ =?utf-8?B?STM4ZGdsajhKbmRDMzhTaksrbXhLSHBKL3NUd2NvbnBlalIxbXl2VTVIcTZi?=
+ =?utf-8?B?Vk1xTERsVUlaV1I3MVRCSVZFR0pVdys2V3dhMmNHTXlhelR3T2ZGWGM2M1pm?=
+ =?utf-8?B?d3NZOWdEcTk1cWJyWDQ1WVhtZWlmUiswSnlaa0g0MXRlMVNuS3J2MFBtamQv?=
+ =?utf-8?B?RXdWWW9XcTNYZTZkMC9JWTBDb3R6MGhNbW9UaXloQlB4dWMzSnUrMFgxUkw1?=
+ =?utf-8?B?bi9sQXI3eE5Sb0VzMG9mUjVMemsyOXR1RWpRTkdCQytRcWw0Skltb01nWmNt?=
+ =?utf-8?B?L1ZWY3dmd28zczJCK1BWYXN3U2VYV0UzSDUxemczbUtBb1BjdktkMzJEb3dj?=
+ =?utf-8?B?WlFCM3hJVC9oMFdud0toaUlsNmtReTY2b1dBOTVIZ3BaTTZiTkpWU0NmSEpQ?=
+ =?utf-8?B?SWwrMU5wdTdFVDBaVkF1T05SM3JqK0l4SzZrL2g4SXBBdXlvTkxvRzlGVnhT?=
+ =?utf-8?B?ZGlURWdDcnc4OVBIdlFYWllOdjY5RVhpbFIyS1d2VnJveGVUdE5oWThQM01q?=
+ =?utf-8?B?dW12WXpOR2hvUDJ5SHdRQUpQTVAzQmo0alVUN2tqYWhIQkwzckRHS24ydHh3?=
+ =?utf-8?B?dXNlcDFLVjQ2bWI1L1FiRklPSXhQNS94b3FzdkZIWmNBUFVWbW83dEpLVFZT?=
+ =?utf-8?Q?NnnWouIOoiCUBUE5E6pV9bpF8?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06eef629-73ac-484b-d4b1-08dc742d2e43
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2024 15:47:38.2033 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: v7WLw3NX4RTX5t5lpctj0Cj6sCELxtcWhzyn8mRqfZjXXC6OuOLLDXgGlnMefxR2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6298
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,914 +163,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Normally, the drm_bridge::of_node member won't be used by drm bridge driver
-instances, as display driver instances will use the device node fetched
-from its backing device directly. The drm_bridge::of_node is mainly for
-finding the drm bridge instance associated. Hence, display bridge drivers
-don't have to set it manually for the canonical cases.
+Am 14.05.24 um 17:14 schrieb Tvrtko Ursulin:
+>
+> On 13/05/2024 14:49, Tvrtko Ursulin wrote:
+>>
+>> On 09/05/2024 13:40, Tvrtko Ursulin wrote:
+>>>
+>>> On 08/05/2024 19:09, Tvrtko Ursulin wrote:
+>>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>
+>>>> Last few days I was looking at the situation with VRAM over 
+>>>> subscription, what
+>>>> happens versus what perhaps should happen. Browsing through the 
+>>>> driver and
+>>>> running some simple experiments.
+>>>>
+>>>> I ended up with this patch series which, as a disclaimer, may be 
+>>>> completely
+>>>> wrong but as I found some suspicious things, to me at least, I 
+>>>> thought it was a
+>>>> good point to stop and request some comments.
+>>>>
+>>>> To perhaps summarise what are the main issues I think I found:
+>>>>
+>>>>   * Migration rate limiting does not bother knowing if actual 
+>>>> migration happened
+>>>>     and so can over-account and unfairly penalise.
+>>>>
+>>>>   * Migration rate limiting does not even work, at least not for 
+>>>> the common case
+>>>>     where userspace configures VRAM+GTT. It thinks it can stop 
+>>>> migration attempts
+>>>>     by playing with bo->allowed_domains vs bo->preferred domains 
+>>>> but, both from
+>>>>     the code, and from empirical experiments, I see that not 
+>>>> working at all. Both
+>>>>     masks are identical so fiddling with them achieves nothing.
+>>>>
+>>>>   * Idea of the fallback placement only works when VRAM has free 
+>>>> space. As soon
+>>>>     as it does not, ttm_resource_compatible is happy to leave the 
+>>>> buffers in the
+>>>>     secondary placement forever.
+>>>>
+>>>>   * Driver thinks it will be re-validating evicted buffers on the 
+>>>> next submission
+>>>>     but it does not for the very common case of VRAM+GTT because it 
+>>>> only checks
+>>>>     if current placement is *none* of the preferred placements.
+>>>>
+>>>> All those problems are addressed in individual patches.
+>>>>
+>>>> End result of this series appears to be driver which will try 
+>>>> harder to move
+>>>> buffers back into VRAM, but will be (more) correctly throttled in 
+>>>> doing so by
+>>>> the existing rate limiting logic.
+>>>>
+>>>> I have run a quick benchmark of Cyberpunk 2077 and cannot say that 
+>>>> I saw a
+>>>> change but that could be a good thing too. At least I did not break 
+>>>> anything,
+>>>> perhaps.. On one occassion I did see the rate limiting logic get 
+>>>> confused while
+>>>> for a period of few minutes it went to a mode where it was 
+>>>> constantly giving a
+>>>> high migration budget. But that recovered itself when I switched 
+>>>> clients and did
+>>>> not come back so I don't know. If there is something wrong there I 
+>>>> don't think
+>>>> it would be caused by any patches in this series.
+>>>
+>>> Since yesterday I also briefly tested with Far Cry New Dawn. One run 
+>>> each so possibly doesn't mean anything apart that there isn't a 
+>>> regression aka migration throttling is keeping things at bay even 
+>>> with increased requests to migrate things back to VRAM:
+>>>
+>>>               before         after
+>>> min/avg/max fps        36/44/54        37/45/55
+>>>
+>>> Cyberpunk 2077 from yesterday was similarly close:
+>>>
+>>>          26.96/29.59/30.40    29.70/30.00/30.32
+>>>
+>>> I guess the real story is proper DGPU where misplaced buffers have a 
+>>> real cost.
+>>
+>> I found one game which regresses spectacularly badly with this series 
+>> - Assasin's Creed Valhalla. The built-in benchmark at least. The game 
+>> appears to have a working set much larger than the other games I 
+>> tested, around 5GiB total during the benchmark. And for some reason 
+>> migration throttling totally fails to put it in check. I will be 
+>> investigating this shortly.
+>
+> I think that the conclusion is everything I attempted to add relating 
+> to TTM_PL_PREFERRED does not really work as I initially thought it 
+> did. Therefore please imagine this series as only containing patches 
+> 1, 2 and 5.
 
-Let's reduce the boilerplates by using drm_bridge_add_with_dev().
+Noted (and I had just started to wrap my head around that idea).
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c             | 3 +--
- drivers/gpu/drm/bridge/analogix/analogix-anx6345.c       | 4 +---
- drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c       | 4 +---
- drivers/gpu/drm/bridge/analogix/anx7625.c                | 3 +--
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c           | 3 +--
- drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c      | 3 +--
- drivers/gpu/drm/bridge/chipone-icn6211.c                 | 5 ++---
- drivers/gpu/drm/bridge/chrontel-ch7033.c                 | 3 +--
- drivers/gpu/drm/bridge/cros-ec-anx7688.c                 | 4 +---
- drivers/gpu/drm/bridge/display-connector.c               | 3 +--
- drivers/gpu/drm/bridge/fsl-ldb.c                         | 3 +--
- drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c             | 3 +--
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c          | 3 +--
- drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c             | 3 +--
- drivers/gpu/drm/bridge/ite-it6505.c                      | 3 +--
- drivers/gpu/drm/bridge/ite-it66121.c                     | 3 +--
- drivers/gpu/drm/bridge/lontium-lt8912b.c                 | 3 +--
- drivers/gpu/drm/bridge/lontium-lt9211.c                  | 3 +--
- drivers/gpu/drm/bridge/lontium-lt9611.c                  | 3 +--
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c               | 3 +--
- drivers/gpu/drm/bridge/lvds-codec.c                      | 3 +--
- drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 3 +--
- drivers/gpu/drm/bridge/microchip-lvds.c                  | 3 +--
- drivers/gpu/drm/bridge/nwl-dsi.c                         | 3 +--
- drivers/gpu/drm/bridge/nxp-ptn3460.c                     | 3 +--
- drivers/gpu/drm/bridge/panel.c                           | 3 +--
- drivers/gpu/drm/bridge/parade-ps8622.c                   | 3 +--
- drivers/gpu/drm/bridge/parade-ps8640.c                   | 1 -
- drivers/gpu/drm/bridge/samsung-dsim.c                    | 3 +--
- drivers/gpu/drm/bridge/sii902x.c                         | 3 +--
- drivers/gpu/drm/bridge/sii9234.c                         | 3 +--
- drivers/gpu/drm/bridge/sil-sii8620.c                     | 3 +--
- drivers/gpu/drm/bridge/simple-bridge.c                   | 3 +--
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c                | 3 +--
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c            | 3 +--
- drivers/gpu/drm/bridge/tc358762.c                        | 3 +--
- drivers/gpu/drm/bridge/tc358764.c                        | 3 +--
- drivers/gpu/drm/bridge/tc358767.c                        | 3 +--
- drivers/gpu/drm/bridge/tc358768.c                        | 3 +--
- drivers/gpu/drm/bridge/tc358775.c                        | 3 +--
- drivers/gpu/drm/bridge/thc63lvd1024.c                    | 3 +--
- drivers/gpu/drm/bridge/ti-dlpc3433.c                     | 3 +--
- drivers/gpu/drm/bridge/ti-sn65dsi83.c                    | 3 +--
- drivers/gpu/drm/bridge/ti-sn65dsi86.c                    | 3 +--
- drivers/gpu/drm/bridge/ti-tfp410.c                       | 3 +--
- drivers/gpu/drm/bridge/ti-tpd12s015.c                    | 3 +--
- drivers/gpu/drm/i2c/tda998x_drv.c                        | 5 +----
- 47 files changed, 47 insertions(+), 99 deletions(-)
+>
+> (And FWIW it was quite annoying to get to the bottom of since for some 
+> reason the system exibits some sort of a latching behaviour, where on 
+> some boots and/or some minutes of runtime things were fine, and then 
+> it would latch onto a mode where the TTM_PL_PREFERRED induced breakage 
+> would show. And sometimes this breakage would appear straight away. Odd.)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 6089b0bb9321..8e4a95584ad8 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1318,10 +1318,9 @@ static int adv7511_probe(struct i2c_client *i2c)
- 	if (adv7511->i2c_main->irq)
- 		adv7511->bridge.ops |= DRM_BRIDGE_OP_HPD;
- 
--	adv7511->bridge.of_node = dev->of_node;
- 	adv7511->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 
--	drm_bridge_add(&adv7511->bridge);
-+	drm_bridge_add_with_dev(&adv7511->bridge, dev);
- 
- 	adv7511_audio_init(dev, adv7511);
- 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-index b754947e3e00..f4f3298404d2 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-@@ -697,8 +697,6 @@ static int anx6345_i2c_probe(struct i2c_client *client)
- 
- 	mutex_init(&anx6345->lock);
- 
--	anx6345->bridge.of_node = client->dev.of_node;
--
- 	anx6345->client = client;
- 	i2c_set_clientdata(client, anx6345);
- 
-@@ -766,7 +764,7 @@ static int anx6345_i2c_probe(struct i2c_client *client)
- 	anx6345_poweron(anx6345);
- 	if (anx6345_get_chip_id(anx6345)) {
- 		anx6345->bridge.funcs = &anx6345_bridge_funcs;
--		drm_bridge_add(&anx6345->bridge);
-+		drm_bridge_add_with_dev(&anx6345->bridge, dev);
- 
- 		return 0;
- 	} else {
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-index f74694bb9c50..f0b7b06a66de 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-@@ -1228,8 +1228,6 @@ static int anx78xx_i2c_probe(struct i2c_client *client)
- 
- 	mutex_init(&anx78xx->lock);
- 
--	anx78xx->bridge.of_node = client->dev.of_node;
--
- 	anx78xx->client = client;
- 	i2c_set_clientdata(client, anx78xx);
- 
-@@ -1335,7 +1333,7 @@ static int anx78xx_i2c_probe(struct i2c_client *client)
- 
- 	anx78xx->bridge.funcs = &anx78xx_bridge_funcs;
- 
--	drm_bridge_add(&anx78xx->bridge);
-+	drm_bridge_add_with_dev(&anx78xx->bridge, &client->dev);
- 
- 	/* If cable is pulled out, just poweroff and wait for HPD event */
- 	if (!gpiod_get_value(anx78xx->pdata.gpiod_hpd))
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 88e4aa5830f3..517547d56667 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2607,7 +2607,6 @@ static int anx7625_link_bridge(struct drm_dp_aux *aux)
- 	}
- 
- 	platform->bridge.funcs = &anx7625_bridge_funcs;
--	platform->bridge.of_node = dev->of_node;
- 	if (!anx7625_of_panel_on_aux_bus(dev))
- 		platform->bridge.ops |= DRM_BRIDGE_OP_EDID;
- 	if (!platform->pdata.panel_bridge)
-@@ -2617,7 +2616,7 @@ static int anx7625_link_bridge(struct drm_dp_aux *aux)
- 				    DRM_MODE_CONNECTOR_eDP :
- 				    DRM_MODE_CONNECTOR_DisplayPort;
- 
--	drm_bridge_add(&platform->bridge);
-+	drm_bridge_add_with_dev(&platform->bridge, dev);
- 
- 	if (!platform->pdata.is_dpi) {
- 		ret = anx7625_attach_dsi(platform);
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 7457d38622b0..4eb22ad229e0 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -975,7 +975,7 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
- 	 * register the input to the bridge framework so that it can take place
- 	 * in a display pipeline.
- 	 */
--	drm_bridge_add(&input->bridge);
-+	drm_bridge_add_with_dev(&input->bridge, dsi->base.dev);
- 
- 	return 0;
- }
-@@ -1227,7 +1227,6 @@ static int cdns_dsi_drm_probe(struct platform_device *pdev)
- 	 */
- 	input->id = CDNS_DPI_INPUT;
- 	input->bridge.funcs = &cdns_dsi_bridge_funcs;
--	input->bridge.of_node = pdev->dev.of_node;
- 
- 	/* Mask all interrupts before registering the IRQ handler. */
- 	writel(0, dsi->regs + MCTL_MAIN_STS_CTL);
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index dee640ab1d3a..4382b6cf76ef 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -2552,7 +2552,6 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
- 	mhdp->display_fmt.color_format = DRM_COLOR_FORMAT_RGB444;
- 	mhdp->display_fmt.bpc = 8;
- 
--	mhdp->bridge.of_node = pdev->dev.of_node;
- 	mhdp->bridge.funcs = &cdns_mhdp_bridge_funcs;
- 	mhdp->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
- 			   DRM_BRIDGE_OP_HPD;
-@@ -2578,7 +2577,7 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
- 	if (mhdp->hdcp_supported)
- 		cdns_mhdp_hdcp_init(mhdp);
- 
--	drm_bridge_add(&mhdp->bridge);
-+	drm_bridge_add_with_dev(&mhdp->bridge, dev);
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index 9eecac457dcf..cda758edd912 100644
---- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-+++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -702,7 +702,6 @@ static int chipone_common_probe(struct device *dev, struct chipone **icnr)
- 
- 	icn->bridge.funcs = &chipone_bridge_funcs;
- 	icn->bridge.type = DRM_MODE_CONNECTOR_DPI;
--	icn->bridge.of_node = dev->of_node;
- 
- 	*icnr = icn;
- 
-@@ -729,7 +728,7 @@ static int chipone_dsi_probe(struct mipi_dsi_device *dsi)
- 
- 	mipi_dsi_set_drvdata(dsi, icn);
- 
--	drm_bridge_add(&icn->bridge);
-+	drm_bridge_add_with_dev(&icn->bridge, dev);
- 
- 	ret = chipone_dsi_attach(icn);
- 	if (ret)
-@@ -757,7 +756,7 @@ static int chipone_i2c_probe(struct i2c_client *client)
- 	dev_set_drvdata(dev, icn);
- 	i2c_set_clientdata(client, icn);
- 
--	drm_bridge_add(&icn->bridge);
-+	drm_bridge_add_with_dev(&icn->bridge, dev);
- 
- 	return chipone_dsi_host_attach(icn);
- }
-diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-index c83486cf6b15..ec40e61a0bf8 100644
---- a/drivers/gpu/drm/bridge/chrontel-ch7033.c
-+++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-@@ -575,8 +575,7 @@ static int ch7033_probe(struct i2c_client *client)
- 
- 	INIT_LIST_HEAD(&priv->bridge.list);
- 	priv->bridge.funcs = &ch7033_bridge_funcs;
--	priv->bridge.of_node = dev->of_node;
--	drm_bridge_add(&priv->bridge);
-+	drm_bridge_add_with_dev(&priv->bridge, dev);
- 
- 	dev_info(dev, "Chrontel CH7033 Video Encoder\n");
- 	return 0;
-diff --git a/drivers/gpu/drm/bridge/cros-ec-anx7688.c b/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-index c8abd9920fee..0962d9e637ce 100644
---- a/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-+++ b/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-@@ -143,8 +143,6 @@ static int cros_ec_anx7688_bridge_probe(struct i2c_client *client)
- 	fw_version = (u16)buffer[0] << 8 | buffer[1];
- 	dev_info(dev, "ANX7688 firmware version 0x%04x\n", fw_version);
- 
--	anx7688->bridge.of_node = dev->of_node;
--
- 	/* FW version >= 0.85 supports bandwidth/lane count registers */
- 	if (fw_version >= ANX7688_MINIMUM_FW_VERSION)
- 		anx7688->filter = true;
-@@ -154,7 +152,7 @@ static int cros_ec_anx7688_bridge_probe(struct i2c_client *client)
- 			 fw_version);
- 
- 	anx7688->bridge.funcs = &cros_ec_anx7688_bridge_funcs;
--	drm_bridge_add(&anx7688->bridge);
-+	drm_bridge_add_with_dev(&anx7688->bridge, dev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index ab8e00baf3f1..5e822bdac78b 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -358,7 +358,6 @@ static int display_connector_probe(struct platform_device *pdev)
- 	}
- 
- 	conn->bridge.funcs = &display_connector_bridge_funcs;
--	conn->bridge.of_node = pdev->dev.of_node;
- 
- 	if (conn->bridge.ddc)
- 		conn->bridge.ops |= DRM_BRIDGE_OP_EDID
-@@ -376,7 +375,7 @@ static int display_connector_probe(struct platform_device *pdev)
- 		conn->hpd_gpio ? "with" : "without",
- 		conn->bridge.ops);
- 
--	drm_bridge_add(&conn->bridge);
-+	drm_bridge_add_with_dev(&conn->bridge, &pdev->dev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index 0e4bac7dd04f..7b11b2c74774 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -308,7 +308,6 @@ static int fsl_ldb_probe(struct platform_device *pdev)
- 
- 	fsl_ldb->dev = &pdev->dev;
- 	fsl_ldb->bridge.funcs = &funcs;
--	fsl_ldb->bridge.of_node = dev->of_node;
- 
- 	fsl_ldb->clk = devm_clk_get(dev, "ldb");
- 	if (IS_ERR(fsl_ldb->clk))
-@@ -368,7 +367,7 @@ static int fsl_ldb_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, fsl_ldb);
- 
--	drm_bridge_add(&fsl_ldb->bridge);
-+	drm_bridge_add_with_dev(&fsl_ldb->bridge, dev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-index 073e64dc200c..fb2146f525d2 100644
---- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c
-@@ -165,10 +165,9 @@ static int imx8mp_hdmi_pvi_probe(struct platform_device *pdev)
- 
- 	/* Register the bridge. */
- 	pvi->bridge.funcs = &imx_hdmi_pvi_bridge_funcs;
--	pvi->bridge.of_node = pdev->dev.of_node;
- 	pvi->bridge.timings = pvi->next_bridge->timings;
- 
--	drm_bridge_add(&pvi->bridge);
-+	drm_bridge_add_with_dev(&pvi->bridge, &pdev->dev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-index 1d11cc1df43c..e8ab951420c1 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-@@ -386,9 +386,8 @@ static int imx8qxp_pixel_link_bridge_probe(struct platform_device *pdev)
- 
- 	pl->bridge.driver_private = pl;
- 	pl->bridge.funcs = &imx8qxp_pixel_link_bridge_funcs;
--	pl->bridge.of_node = np;
- 
--	drm_bridge_add(&pl->bridge);
-+	drm_bridge_add_with_dev(&pl->bridge, dev);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-index fb7cf4369bb8..15700fab7a27 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-@@ -443,9 +443,8 @@ static int imx8qxp_pxl2dpi_bridge_probe(struct platform_device *pdev)
- 
- 	p2d->bridge.driver_private = p2d;
- 	p2d->bridge.funcs = &imx8qxp_pxl2dpi_bridge_funcs;
--	p2d->bridge.of_node = np;
- 
--	drm_bridge_add(&p2d->bridge);
-+	drm_bridge_add_with_dev(&p2d->bridge, dev);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 469157341f3a..b9b519d01e36 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -3374,7 +3374,6 @@ static int it6505_i2c_probe(struct i2c_client *client)
- 	mutex_init(&it6505->mode_lock);
- 	mutex_init(&it6505->aux_lock);
- 
--	it6505->bridge.of_node = client->dev.of_node;
- 	it6505->connector_status = connector_status_disconnected;
- 	it6505->dev = &client->dev;
- 	i2c_set_clientdata(client, it6505);
-@@ -3446,7 +3445,7 @@ static int it6505_i2c_probe(struct i2c_client *client)
- 	it6505->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
- 	it6505->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
- 			     DRM_BRIDGE_OP_HPD;
--	drm_bridge_add(&it6505->bridge);
-+	drm_bridge_add_with_dev(&it6505->bridge, dev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 925e42f46cd8..54475559cd8d 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -1578,7 +1578,6 @@ static int it66121_probe(struct i2c_client *client)
- 	}
- 
- 	ctx->bridge.funcs = &it66121_bridge_funcs;
--	ctx->bridge.of_node = dev->of_node;
- 	ctx->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 	ctx->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
- 	if (client->irq > 0) {
-@@ -1596,7 +1595,7 @@ static int it66121_probe(struct i2c_client *client)
- 
- 	it66121_audio_codec_init(ctx, dev);
- 
--	drm_bridge_add(&ctx->bridge);
-+	drm_bridge_add_with_dev(&ctx->bridge, dev);
- 
- 	dev_info(ctx->dev, "IT66121 revision %d probed\n", revision_id);
- 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-index 1a9defa15663..c774c98acb24 100644
---- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-@@ -777,11 +777,10 @@ static int lt8912_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, lt);
- 
- 	lt->bridge.funcs = &lt8912_bridge_funcs;
--	lt->bridge.of_node = dev->of_node;
- 	lt->bridge.ops = (DRM_BRIDGE_OP_EDID |
- 			  DRM_BRIDGE_OP_DETECT);
- 
--	drm_bridge_add(&lt->bridge);
-+	drm_bridge_add_with_dev(&lt->bridge, dev);
- 
- 	ret = lt8912_attach_dsi(lt);
- 	if (ret)
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9211.c b/drivers/gpu/drm/bridge/lontium-lt9211.c
-index c8881796fba4..c5d885503524 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9211.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9211.c
-@@ -756,8 +756,7 @@ static int lt9211_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, ctx);
- 
- 	ctx->bridge.funcs = &lt9211_funcs;
--	ctx->bridge.of_node = dev->of_node;
--	drm_bridge_add(&ctx->bridge);
-+	drm_bridge_add_with_dev(&ctx->bridge, dev);
- 
- 	ret = lt9211_host_attach(ctx);
- 	if (ret)
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index b99fe87ec738..48e3c078b4c2 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -1114,12 +1114,11 @@ static int lt9611_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, lt9611);
- 
- 	lt9611->bridge.funcs = &lt9611_bridge_funcs;
--	lt9611->bridge.of_node = client->dev.of_node;
- 	lt9611->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
- 			     DRM_BRIDGE_OP_HPD | DRM_BRIDGE_OP_MODES;
- 	lt9611->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 
--	drm_bridge_add(&lt9611->bridge);
-+	drm_bridge_add_with_dev(&lt9611->bridge, dev);
- 
- 	/* Attach primary DSI */
- 	lt9611->dsi0 = lt9611_attach_dsi(lt9611, lt9611->dsi0_node);
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index f864c033ba81..0ded3ec84958 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -934,13 +934,12 @@ static int lt9611uxc_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, lt9611uxc);
- 
- 	lt9611uxc->bridge.funcs = &lt9611uxc_bridge_funcs;
--	lt9611uxc->bridge.of_node = client->dev.of_node;
- 	lt9611uxc->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
- 	if (lt9611uxc->hpd_supported)
- 		lt9611uxc->bridge.ops |= DRM_BRIDGE_OP_HPD;
- 	lt9611uxc->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 
--	drm_bridge_add(&lt9611uxc->bridge);
-+	drm_bridge_add_with_dev(&lt9611uxc->bridge, dev);
- 
- 	/* Attach primary DSI */
- 	lt9611uxc->dsi0 = lt9611uxc_attach_dsi(lt9611uxc, lt9611uxc->dsi0_node);
-diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-index 991732c4b629..25106dac0b7b 100644
---- a/drivers/gpu/drm/bridge/lvds-codec.c
-+++ b/drivers/gpu/drm/bridge/lvds-codec.c
-@@ -201,9 +201,8 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 	 * but we need a bridge attached to our of_node for our user
- 	 * to look up.
- 	 */
--	lvds_codec->bridge.of_node = dev->of_node;
- 	lvds_codec->bridge.timings = &lvds_codec->timings;
--	drm_bridge_add(&lvds_codec->bridge);
-+	drm_bridge_add_with_dev(&lvds_codec->bridge, dev);
- 
- 	platform_set_drvdata(pdev, lvds_codec);
- 
-diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-index 37f1acf5c0f8..765434b61556 100644
---- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-+++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-@@ -274,8 +274,7 @@ static int ge_b850v3_register(void)
- 	ge_b850v3_lvds_ptr->bridge.ops = DRM_BRIDGE_OP_DETECT |
- 					 DRM_BRIDGE_OP_EDID;
- 	ge_b850v3_lvds_ptr->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
--	ge_b850v3_lvds_ptr->bridge.of_node = dev->of_node;
--	drm_bridge_add(&ge_b850v3_lvds_ptr->bridge);
-+	drm_bridge_add_with_dev(&ge_b850v3_lvds_ptr->bridge, dev);
- 
- 	/* Clear pending interrupts since power up. */
- 	i2c_smbus_write_word_data(stdp4028_i2c,
-diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
-index b8313dad6072..9d3327bc9fde 100644
---- a/drivers/gpu/drm/bridge/microchip-lvds.c
-+++ b/drivers/gpu/drm/bridge/microchip-lvds.c
-@@ -190,7 +190,6 @@ static int mchp_lvds_probe(struct platform_device *pdev)
- 	if (IS_ERR(lvds->panel_bridge))
- 		return PTR_ERR(lvds->panel_bridge);
- 
--	lvds->bridge.of_node = dev->of_node;
- 	lvds->bridge.type = DRM_MODE_CONNECTOR_LVDS;
- 	lvds->bridge.funcs = &mchp_lvds_bridge_funcs;
- 
-@@ -201,7 +200,7 @@ static int mchp_lvds_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	drm_bridge_add(&lvds->bridge);
-+	drm_bridge_add_with_dev(&lvds->bridge, dev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-index 8d54091ec66e..7a022ddd55eb 100644
---- a/drivers/gpu/drm/bridge/nwl-dsi.c
-+++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-@@ -1182,7 +1182,6 @@ static int nwl_dsi_probe(struct platform_device *pdev)
- 
- 	dsi->bridge.driver_private = dsi;
- 	dsi->bridge.funcs = &nwl_dsi_bridge_funcs;
--	dsi->bridge.of_node = dev->of_node;
- 	dsi->bridge.timings = &nwl_dsi_timings;
- 
- 	dev_set_drvdata(dev, dsi);
-@@ -1195,7 +1194,7 @@ static int nwl_dsi_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	drm_bridge_add(&dsi->bridge);
-+	drm_bridge_add_with_dev(&dsi->bridge, dev);
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-index e77aab965fcf..3b2517f93aab 100644
---- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
-+++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-@@ -303,8 +303,7 @@ static int ptn3460_probe(struct i2c_client *client)
- 	ptn_bridge->bridge.funcs = &ptn3460_bridge_funcs;
- 	ptn_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
- 	ptn_bridge->bridge.type = DRM_MODE_CONNECTOR_LVDS;
--	ptn_bridge->bridge.of_node = dev->of_node;
--	drm_bridge_add(&ptn_bridge->bridge);
-+	drm_bridge_add_with_dev(&ptn_bridge->bridge, dev);
- 
- 	i2c_set_clientdata(client, ptn_bridge);
- 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 56c40b516a8f..72388c6189eb 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -299,11 +299,10 @@ struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
- 	panel_bridge->panel = panel;
- 
- 	panel_bridge->bridge.funcs = &panel_bridge_bridge_funcs;
--	panel_bridge->bridge.of_node = panel->dev->of_node;
- 	panel_bridge->bridge.ops = DRM_BRIDGE_OP_MODES;
- 	panel_bridge->bridge.type = connector_type;
- 
--	drm_bridge_add(&panel_bridge->bridge);
-+	drm_bridge_add_with_dev(&panel_bridge->bridge, panel->dev);
- 
- 	return &panel_bridge->bridge;
- }
-diff --git a/drivers/gpu/drm/bridge/parade-ps8622.c b/drivers/gpu/drm/bridge/parade-ps8622.c
-index ae3ab9262ef1..7c6399b5702d 100644
---- a/drivers/gpu/drm/bridge/parade-ps8622.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8622.c
-@@ -511,8 +511,7 @@ static int ps8622_probe(struct i2c_client *client)
- 
- 	ps8622->bridge.funcs = &ps8622_bridge_funcs;
- 	ps8622->bridge.type = DRM_MODE_CONNECTOR_LVDS;
--	ps8622->bridge.of_node = dev->of_node;
--	drm_bridge_add(&ps8622->bridge);
-+	drm_bridge_add_with_dev(&ps8622->bridge, dev);
- 
- 	i2c_set_clientdata(client, ps8622);
- 
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 14d4dcf239da..723e6c7bbe7a 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -663,7 +663,6 @@ static int ps8640_probe(struct i2c_client *client)
- 		return PTR_ERR(ps_bridge->gpio_reset);
- 
- 	ps_bridge->bridge.funcs = &ps8640_bridge_funcs;
--	ps_bridge->bridge.of_node = dev->of_node;
- 	ps_bridge->bridge.type = DRM_MODE_CONNECTOR_eDP;
- 
- 	/*
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 95fedc68b0ae..3d61763aab0b 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1739,7 +1739,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 		     mipi_dsi_pixel_format_to_bpp(device->format),
- 		     device->mode_flags);
- 
--	drm_bridge_add(&dsi->bridge);
-+	drm_bridge_add_with_dev(&dsi->bridge, dev);
- 
- 	/*
- 	 * This is a temporary solution and should be made by more generic way.
-@@ -1987,7 +1987,6 @@ int samsung_dsim_probe(struct platform_device *pdev)
- 	pm_runtime_enable(dev);
- 
- 	dsi->bridge.funcs = &samsung_dsim_bridge_funcs;
--	dsi->bridge.of_node = dev->of_node;
- 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
- 
- 	/* DE_LOW: i.MX8M Mini/Nano LCDIF-DSIM glue logic inverts HS/VS/DE */
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index 8f84e98249c7..98dbff206999 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -1097,14 +1097,13 @@ static int sii902x_init(struct sii902x *sii902x)
- 		goto err_unreg_audio;
- 
- 	sii902x->bridge.funcs = &sii902x_bridge_funcs;
--	sii902x->bridge.of_node = dev->of_node;
- 	sii902x->bridge.timings = &default_sii902x_timings;
- 	sii902x->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
- 
- 	if (sii902x->i2c->irq > 0)
- 		sii902x->bridge.ops |= DRM_BRIDGE_OP_HPD;
- 
--	drm_bridge_add(&sii902x->bridge);
-+	drm_bridge_add_with_dev(&sii902x->bridge, dev);
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
-index d8373d918324..e5bc301b6d07 100644
---- a/drivers/gpu/drm/bridge/sii9234.c
-+++ b/drivers/gpu/drm/bridge/sii9234.c
-@@ -922,8 +922,7 @@ static int sii9234_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, ctx);
- 
- 	ctx->bridge.funcs = &sii9234_bridge_funcs;
--	ctx->bridge.of_node = dev->of_node;
--	drm_bridge_add(&ctx->bridge);
-+	drm_bridge_add_with_dev(&ctx->bridge, dev);
- 
- 	sii9234_cable_in(ctx);
- 
-diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
-index 599164e3877d..5ab3651ee020 100644
---- a/drivers/gpu/drm/bridge/sil-sii8620.c
-+++ b/drivers/gpu/drm/bridge/sil-sii8620.c
-@@ -2336,8 +2336,7 @@ static int sii8620_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, ctx);
- 
- 	ctx->bridge.funcs = &sii8620_bridge_funcs;
--	ctx->bridge.of_node = dev->of_node;
--	drm_bridge_add(&ctx->bridge);
-+	drm_bridge_add_with_dev(&ctx->bridge, dev);
- 
- 	if (!ctx->extcon)
- 		sii8620_cable_in(ctx);
-diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index 2ca89f313cd1..bfbb2c6bab5e 100644
---- a/drivers/gpu/drm/bridge/simple-bridge.c
-+++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -205,10 +205,9 @@ static int simple_bridge_probe(struct platform_device *pdev)
- 
- 	/* Register the bridge. */
- 	sbridge->bridge.funcs = &simple_bridge_bridge_funcs;
--	sbridge->bridge.of_node = pdev->dev.of_node;
- 	sbridge->bridge.timings = sbridge->info->timings;
- 
--	drm_bridge_add(&sbridge->bridge);
-+	drm_bridge_add_with_dev(&sbridge->bridge,  &pdev->dev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 9f2bc932c371..8ea04e0b9198 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -3525,7 +3525,6 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 			 | DRM_BRIDGE_OP_HPD;
- 	hdmi->bridge.interlace_allowed = true;
- 	hdmi->bridge.ddc = hdmi->ddc;
--	hdmi->bridge.of_node = pdev->dev.of_node;
- 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 
- 	memset(&pdevinfo, 0, sizeof(pdevinfo));
-@@ -3599,7 +3598,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 		hdmi->cec = platform_device_register_full(&pdevinfo);
- 	}
- 
--	drm_bridge_add(&hdmi->bridge);
-+	drm_bridge_add_with_dev(&hdmi->bridge, dev);
- 
- 	return hdmi;
- 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index c4e9d96933dc..b66bdcdcd580 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -339,7 +339,7 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 	bridge->pre_enable_prev_first = true;
- 	dsi->panel_bridge = bridge;
- 
--	drm_bridge_add(&dsi->bridge);
-+	drm_bridge_add_with_dev(&dsi->bridge, dsi->dev);
- 
- 	if (pdata->host_ops && pdata->host_ops->attach) {
- 		ret = pdata->host_ops->attach(pdata->priv_data, device);
-@@ -1260,7 +1260,6 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
- 
- 	dsi->bridge.driver_private = dsi;
- 	dsi->bridge.funcs = &dw_mipi_dsi_bridge_funcs;
--	dsi->bridge.of_node = pdev->dev.of_node;
- 
- 	return dsi;
- }
-diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
-index 46198af9eebb..0fb8ad339c26 100644
---- a/drivers/gpu/drm/bridge/tc358762.c
-+++ b/drivers/gpu/drm/bridge/tc358762.c
-@@ -286,10 +286,9 @@ static int tc358762_probe(struct mipi_dsi_device *dsi)
- 
- 	ctx->bridge.funcs = &tc358762_bridge_funcs;
- 	ctx->bridge.type = DRM_MODE_CONNECTOR_DPI;
--	ctx->bridge.of_node = dev->of_node;
- 	ctx->bridge.pre_enable_prev_first = true;
- 
--	drm_bridge_add(&ctx->bridge);
-+	drm_bridge_add_with_dev(&ctx->bridge, dev);
- 
- 	ret = mipi_dsi_attach(dsi);
- 	if (ret < 0) {
-diff --git a/drivers/gpu/drm/bridge/tc358764.c b/drivers/gpu/drm/bridge/tc358764.c
-index 3d3d135b4348..5491039386ea 100644
---- a/drivers/gpu/drm/bridge/tc358764.c
-+++ b/drivers/gpu/drm/bridge/tc358764.c
-@@ -368,10 +368,9 @@ static int tc358764_probe(struct mipi_dsi_device *dsi)
- 		return ret;
- 
- 	ctx->bridge.funcs = &tc358764_bridge_funcs;
--	ctx->bridge.of_node = dev->of_node;
- 	ctx->bridge.pre_enable_prev_first = true;
- 
--	drm_bridge_add(&ctx->bridge);
-+	drm_bridge_add_with_dev(&ctx->bridge, dev);
- 
- 	ret = mipi_dsi_attach(dsi);
- 	if (ret < 0) {
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 166f9a3e9622..9cf67586d6e0 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -2445,8 +2445,7 @@ static int tc_probe(struct i2c_client *client)
- 			return ret;
- 	}
- 
--	tc->bridge.of_node = dev->of_node;
--	drm_bridge_add(&tc->bridge);
-+	drm_bridge_add_with_dev(&tc->bridge, dev);
- 
- 	i2c_set_clientdata(client, tc);
- 
-diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index 0e8813278a2f..bf26f1248a9e 100644
---- a/drivers/gpu/drm/bridge/tc358768.c
-+++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -451,7 +451,7 @@ static int tc358768_dsi_host_attach(struct mipi_dsi_host *host,
- 	if (ret)
- 		priv->pd_lines = priv->dsi_bpp;
- 
--	drm_bridge_add(&priv->bridge);
-+	drm_bridge_add_with_dev(&priv->bridge, priv->dev);
- 
- 	return 0;
- }
-@@ -1299,7 +1299,6 @@ static int tc358768_i2c_probe(struct i2c_client *client)
- 
- 	priv->bridge.funcs = &tc358768_bridge_funcs;
- 	priv->bridge.timings = &default_tc358768_timings;
--	priv->bridge.of_node = np;
- 
- 	i2c_set_clientdata(client, priv);
- 
-diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-index 3b7cc3be2ccd..2b3654b1c183 100644
---- a/drivers/gpu/drm/bridge/tc358775.c
-+++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -706,9 +706,8 @@ static int tc_probe(struct i2c_client *client)
- 	}
- 
- 	tc->bridge.funcs = &tc_bridge_funcs;
--	tc->bridge.of_node = dev->of_node;
- 	tc->bridge.pre_enable_prev_first = true;
--	drm_bridge_add(&tc->bridge);
-+	drm_bridge_add_with_dev(&tc->bridge, dev);
- 
- 	i2c_set_clientdata(client, tc);
- 
-diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
-index 674efc489e3a..cbe480ccc8db 100644
---- a/drivers/gpu/drm/bridge/thc63lvd1024.c
-+++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
-@@ -206,11 +206,10 @@ static int thc63_probe(struct platform_device *pdev)
- 		return ret;
- 
- 	thc63->bridge.driver_private = thc63;
--	thc63->bridge.of_node = pdev->dev.of_node;
- 	thc63->bridge.funcs = &thc63_bridge_func;
- 	thc63->bridge.timings = &thc63->timings;
- 
--	drm_bridge_add(&thc63->bridge);
-+	drm_bridge_add_with_dev(&thc63->bridge, &pdev->dev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/bridge/ti-dlpc3433.c b/drivers/gpu/drm/bridge/ti-dlpc3433.c
-index 6b559e071301..22d2314a5672 100644
---- a/drivers/gpu/drm/bridge/ti-dlpc3433.c
-+++ b/drivers/gpu/drm/bridge/ti-dlpc3433.c
-@@ -366,8 +366,7 @@ static int dlpc3433_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, dlpc);
- 
- 	dlpc->bridge.funcs = &dlpc_bridge_funcs;
--	dlpc->bridge.of_node = dev->of_node;
--	drm_bridge_add(&dlpc->bridge);
-+	drm_bridge_add_with_dev(&dlpc->bridge, dev);
- 
- 	ret = dlpc_host_attach(dlpc);
- 	if (ret)
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 57a7ed13f996..44f95455fce5 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -708,9 +708,8 @@ static int sn65dsi83_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, ctx);
- 
- 	ctx->bridge.funcs = &sn65dsi83_funcs;
--	ctx->bridge.of_node = dev->of_node;
- 	ctx->bridge.pre_enable_prev_first = true;
--	drm_bridge_add(&ctx->bridge);
-+	drm_bridge_add_with_dev(&ctx->bridge, dev);
- 
- 	ret = sn65dsi83_host_attach(ctx);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 84698a0b27a8..52786d1421c3 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -1312,14 +1312,13 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 		return ret;
- 
- 	pdata->bridge.funcs = &ti_sn_bridge_funcs;
--	pdata->bridge.of_node = np;
- 	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
- 			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
- 
- 	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
- 		pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
- 
--	drm_bridge_add(&pdata->bridge);
-+	drm_bridge_add_with_dev(&pdata->bridge, pdata->dev);
- 
- 	ret = ti_sn_attach_host(adev, pdata);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-index b1b1e4d5a24a..e3129ba8af98 100644
---- a/drivers/gpu/drm/bridge/ti-tfp410.c
-+++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-@@ -348,7 +348,6 @@ static int tfp410_init(struct device *dev, bool i2c)
- 	dev_set_drvdata(dev, dvi);
- 
- 	dvi->bridge.funcs = &tfp410_bridge_funcs;
--	dvi->bridge.of_node = dev->of_node;
- 	dvi->bridge.timings = &dvi->timings;
- 	dvi->bridge.type = DRM_MODE_CONNECTOR_DVID;
- 
-@@ -376,7 +375,7 @@ static int tfp410_init(struct device *dev, bool i2c)
- 	}
- 
- 	/*  Register the DRM bridge. */
--	drm_bridge_add(&dvi->bridge);
-+	drm_bridge_add_with_dev(&dvi->bridge, dev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/bridge/ti-tpd12s015.c b/drivers/gpu/drm/bridge/ti-tpd12s015.c
-index f9fb35683a27..d66331c6437e 100644
---- a/drivers/gpu/drm/bridge/ti-tpd12s015.c
-+++ b/drivers/gpu/drm/bridge/ti-tpd12s015.c
-@@ -122,7 +122,6 @@ static int tpd12s015_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, tpd);
- 
- 	tpd->bridge.funcs = &tpd12s015_bridge_funcs;
--	tpd->bridge.of_node = pdev->dev.of_node;
- 	tpd->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 	tpd->bridge.ops = DRM_BRIDGE_OP_DETECT;
- 
-@@ -174,7 +173,7 @@ static int tpd12s015_probe(struct platform_device *pdev)
- 	}
- 
- 	/* Register the DRM bridge. */
--	drm_bridge_add(&tpd->bridge);
-+	drm_bridge_add_with_dev(&tpd->bridge, &pdev->dev);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index 2160f05bbd16..4088abcb265a 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -1989,11 +1989,8 @@ static int tda998x_create(struct device *dev)
- 	}
- 
- 	priv->bridge.funcs = &tda998x_bridge_funcs;
--#ifdef CONFIG_OF
--	priv->bridge.of_node = dev->of_node;
--#endif
- 
--	drm_bridge_add(&priv->bridge);
-+	drm_bridge_add_with_dev(&priv->bridge, dev);
- 
- 	return 0;
- 
--- 
-2.43.0
+Welcome to my world. You improve one use case and four other get a 
+penalty. Even when you know the code and potential use cases inside out 
+it's really hard to predict how some applications and the core memory 
+management behave sometimes.
+
+>
+> I still need to test though if the subset of patches manage to achieve 
+> some positive improvement on their own. It is possible, as patch 5 
+> marks more buffers for re-validation so once overcommit subsides they 
+> would get promoted to preferred placement straight away. And 1&2 are 
+> notionally fixes for migration throttling so at least in broad sense 
+> should be still valid as discussion points.
+
+Yeah, especially 5 kind of makes sense but could potentially lead to 
+higher overhead. Need to see how we can better handle that.
+
+Regards,
+Christian.
+
+>
+> Regards,
+>
+> Tvrtko
+>
+>>>> Series is probably rough but should be good enough for dicsussion. 
+>>>> I am curious
+>>>> to hear if I identified at least something correctly as a real 
+>>>> problem.
+>>>>
+>>>> It would also be good to hear what are the suggested games to check 
+>>>> and see
+>>>> whether there is any improvement.
+>>>>
+>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>> Cc: Friedrich Vock <friedrich.vock@gmx.de>
+>>>>
+>>>> Tvrtko Ursulin (5):
+>>>>    drm/amdgpu: Fix migration rate limiting accounting
+>>>>    drm/amdgpu: Actually respect buffer migration budget
+>>>>    drm/ttm: Add preferred placement flag
+>>>>    drm/amdgpu: Use preferred placement for VRAM+GTT
+>>>>    drm/amdgpu: Re-validate evicted buffers
+>>>>
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c     | 38 
+>>>> +++++++++++++++++-----
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  8 +++--
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c     | 21 ++++++++++--
+>>>>   drivers/gpu/drm/ttm/ttm_resource.c         | 13 +++++---
+>>>>   include/drm/ttm/ttm_placement.h            |  3 ++
+>>>>   5 files changed, 65 insertions(+), 18 deletions(-)
+>>>>
 
