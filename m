@@ -2,54 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3AAF8C565E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 14:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9928C5662
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 14:56:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA1BD10E7EA;
-	Tue, 14 May 2024 12:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 028EF10E7BE;
+	Tue, 14 May 2024 12:56:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dek77Fgp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Lii6+N3Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 694AC10E7EA
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 12:56:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 108C910E7BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 12:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715691385; x=1747227385;
+ t=1715691401; x=1747227401;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=O3WR6uh8GZmy2rdXUJXqCpt0BQUtQN00jH3P5Gn5m4E=;
- b=dek77FgpaSoCOCszmS8TV7zHFbikvaqISjpeSCZj0XmJkFbk98G3xwo3
- Dyx7jYGf/cghngnsZpc/u35SaVr4w27cORhvvCvCwIiXr22coRqPJVOVP
- 2CML+SkqxcJfbfpr8CtPoeEIXYC3j2DyoO1ja9L4KcCvJMUQ2S4hUq8GA
- Gjggnqw5JElF2Q1nlGl8uJpPJxeNRV/fBifX1xfd3uMT7jadp+Tnct0gK
- UMMWf/T2d8Qv2xMd7MFgA9oSU398++gxzd7mwL7fZbDfcY2IIhovM8AKL
- tAsV0ay+KLQ/l3kuHN2hqMRJmbi6vRR5sBei5ndd3F052LRKfe7srSETU g==;
-X-CSE-ConnectionGUID: SbmAOIzlSlqp8VE+9ooxGQ==
-X-CSE-MsgGUID: FNWxwsJPQXGCfdq6ngl8Pw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="22270730"
-X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="22270730"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2024 05:56:25 -0700
-X-CSE-ConnectionGUID: hhZRhLesSbiCjuDXCXvH7Q==
-X-CSE-MsgGUID: EcLCTva4To+gJY8/rwZ1dQ==
+ bh=sncs7CxlVP7FlPsWW7vAI9GxSz7YTTUFsPvqj+KbprM=;
+ b=Lii6+N3Z1ruyXUJlVUFXA37GSzMwDzH2bRX8PcDnbbfu7rOB4sIINlOq
+ xtIw8D/kuSGcmkRHYXVu9fATygvnjCMpM5GJbGsZlGMiQBkPtZZdusdFO
+ trqzEfOtWBDk+oXb7MW+1iBsumXW2T9PdfVEh1CwrQXJ9YL65NHPvXAKU
+ uwKLO6rhwikBzDvrQ/zgskm/xCkV3qCTjLl/iq/7Amboe2favFxjV362M
+ IoVfubuQhWgtog9HsZ3TkekSx1+GwRBXzHFRICXrKaCirHnqoLYFdiG0Z
+ qbVEThxpXxFCK9O/xQnQsCRfsItR/zo3nXL9ykjQuz1a9C6uRsOoMpv7R A==;
+X-CSE-ConnectionGUID: 4LBiaXLMREKHlxTdqoIKIw==
+X-CSE-MsgGUID: orG+NmJWR1ykdHVzMJg7XA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="11613870"
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="11613870"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2024 05:56:33 -0700
+X-CSE-ConnectionGUID: gjyKdEViQC633PClo/RP0w==
+X-CSE-MsgGUID: f4LA4gsvSUWO93oy333Ywg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="35140874"
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="31232409"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.91])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2024 05:56:22 -0700
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2024 05:56:29 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: jani.nikula@intel.com, Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
-Subject: [PATCH 09/11] drm/tegra: convert to struct drm_edid
-Date: Tue, 14 May 2024 15:55:15 +0300
-Message-Id: <e037667dfc325925bdeabff539df1e708d7c3c64.1715691257.git.jani.nikula@intel.com>
+Cc: jani.nikula@intel.com, Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 10/11] drm/imx/tve: convert to struct drm_edid
+Date: Tue, 14 May 2024 15:55:16 +0300
+Message-Id: <2f59a7ad10c29c21f08223ef19221cef48623cc8.1715691257.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1715691257.git.jani.nikula@intel.com>
 References: <cover.1715691257.git.jani.nikula@intel.com>
@@ -78,113 +83,49 @@ Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 ---
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-tegra@vger.kernel.org
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
 ---
- drivers/gpu/drm/tegra/drm.h    |  2 +-
- drivers/gpu/drm/tegra/output.c | 29 +++++++++++++++++------------
- 2 files changed, 18 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index 682011166a8f..2f3781e04b0a 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -133,7 +133,7 @@ struct tegra_output {
- 	struct drm_bridge *bridge;
- 	struct drm_panel *panel;
- 	struct i2c_adapter *ddc;
--	const struct edid *edid;
-+	const struct drm_edid *drm_edid;
- 	struct cec_notifier *cec;
- 	unsigned int hpd_irq;
- 	struct gpio_desc *hpd_gpio;
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index 4da3c3d1abbc..e6b5863fec71 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -21,7 +21,7 @@
- int tegra_output_connector_get_modes(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-tve.c b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+index b49bddb85535..29f494bfff67 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-tve.c
++++ b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+@@ -201,18 +201,16 @@ static int tve_setup_vga(struct imx_tve *tve)
+ static int imx_tve_connector_get_modes(struct drm_connector *connector)
  {
- 	struct tegra_output *output = connector_to_output(connector);
--	struct edid *edid = NULL;
+ 	struct imx_tve *tve = con_to_tve(connector);
+-	struct edid *edid;
+-	int ret = 0;
 +	const struct drm_edid *drm_edid;
- 	int err = 0;
++	int ret;
  
- 	/*
-@@ -34,18 +34,17 @@ int tegra_output_connector_get_modes(struct drm_connector *connector)
- 			return err;
- 	}
+ 	if (!tve->ddc)
+ 		return 0;
  
--	if (output->edid)
--		edid = kmemdup(output->edid, sizeof(*edid), GFP_KERNEL);
-+	if (output->drm_edid)
-+		drm_edid = drm_edid_dup(output->drm_edid);
- 	else if (output->ddc)
--		edid = drm_get_edid(connector, output->ddc);
-+		drm_edid = drm_edid_read_ddc(connector, output->ddc);
- 
--	cec_notifier_set_phys_addr_from_edid(output->cec, edid);
--	drm_connector_update_edid_property(connector, edid);
-+	drm_edid_connector_update(connector, drm_edid);
-+	cec_notifier_set_phys_addr(output->cec,
-+				   connector->display_info.source_physical_address);
- 
+-	edid = drm_get_edid(connector, tve->ddc);
 -	if (edid) {
--		err = drm_add_edid_modes(connector, edid);
+-		drm_connector_update_edid_property(connector, edid);
+-		ret = drm_add_edid_modes(connector, edid);
 -		kfree(edid);
 -	}
-+	err = drm_edid_connector_add_modes(connector);
++	drm_edid = drm_edid_read_ddc(connector, tve->ddc);
++	drm_edid_connector_update(connector, drm_edid);
++	ret = drm_edid_connector_add_modes(connector);
 +	drm_edid_free(drm_edid);
  
- 	return err;
+ 	return ret;
  }
-@@ -98,6 +97,7 @@ static irqreturn_t hpd_irq(int irq, void *data)
- int tegra_output_probe(struct tegra_output *output)
- {
- 	struct device_node *ddc, *panel;
-+	const void *edid;
- 	unsigned long flags;
- 	int err, size;
- 
-@@ -124,8 +124,6 @@ int tegra_output_probe(struct tegra_output *output)
- 			return PTR_ERR(output->panel);
- 	}
- 
--	output->edid = of_get_property(output->of_node, "nvidia,edid", &size);
--
- 	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
- 	if (ddc) {
- 		output->ddc = of_get_i2c_adapter_by_node(ddc);
-@@ -137,6 +135,9 @@ int tegra_output_probe(struct tegra_output *output)
- 		}
- 	}
- 
-+	edid = of_get_property(output->of_node, "nvidia,edid", &size);
-+	output->drm_edid = drm_edid_alloc(edid, size);
-+
- 	output->hpd_gpio = devm_fwnode_gpiod_get(output->dev,
- 					of_fwnode_handle(output->of_node),
- 					"nvidia,hpd",
-@@ -187,6 +188,8 @@ int tegra_output_probe(struct tegra_output *output)
- 	if (output->ddc)
- 		i2c_put_adapter(output->ddc);
- 
-+	drm_edid_free(output->drm_edid);
-+
- 	return err;
- }
- 
-@@ -197,6 +200,8 @@ void tegra_output_remove(struct tegra_output *output)
- 
- 	if (output->ddc)
- 		i2c_put_adapter(output->ddc);
-+
-+	drm_edid_free(output->drm_edid);
- }
- 
- int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
 -- 
 2.39.2
 
