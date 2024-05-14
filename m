@@ -2,73 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87CA8C5B7C
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 21:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B37538C5C3C
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 22:22:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB18510E136;
-	Tue, 14 May 2024 19:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD91510E20A;
+	Tue, 14 May 2024 20:22:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kR9+6zMd";
+	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Cs6nU13e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1BD110E136
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 19:08:05 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-2b37bc39decso4067667a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 12:08:05 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
+ [209.85.219.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED6C710E20A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 20:22:31 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-de604ca3cfcso5988343276.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 13:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715713685; x=1716318485; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=l7gJ1jGOfc0uuKsE3YPwqokUa9StmsGv9lzNrtz5bw8=;
- b=kR9+6zMdO0L+CdE23N3fMfMN22VYxHuezTsc4lepxf5JLu+x0LtrcDygsa6D68IBYK
- NNkRFV0maTo7I7LBP3DUItO9pNcduGoqP69DA1be6G5AhSpoemzfC1SIaYeZcfuMMqxQ
- Zp34EJ9dvtbkXlYKfuIcrMfJ7K1JKnE0hFB256bMsxquRsz6YEd0teg2PhEncNHiGMbl
- qid0CG9tSoKl0L7I9x2KCz+bCt5nxTk/52kxrMW1EiBo+hSdf/mxpQ7YKHUb2Pg5cFz9
- +InD4dQS7RIssFoVLbIdWx1rFAAIYTCq20eoGYzwYFFGUQkzqYtedqNmrFB+gcqc4HDl
- g8mw==
+ d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1715718150; x=1716322950;
+ darn=lists.freedesktop.org; 
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=d+VcjteYj9SNA9aGf0rBf0JG873t1FLnFV29qq/mXjI=;
+ b=Cs6nU13eX4yvV0+32xN23jBYD16HhZrREvsmsBXD3qOrVCw6qrDDUABv6jHxMeZpQu
+ Gem9OqYp5IqMdRK44BM8FdMii6yHmyimyO20b3+E4s8usLRIHnSx9frD7NnqGk7GsnxG
+ vYi+B5rLgeO+EyBoPGV7jnU8floJ2wWYZ09qwaobcz/3l4MK8ee3i3RP29w/m5p2a7rJ
+ mJMC7otAnzWsteayUYGvzFSz4Qwm/RvZkT7jiqSy/DaJ3QfVeJO44551DyWwGb9U1EY0
+ Kn7ctIDPJ1cEvbCsEIKt7G4YiSahrAP8OJFEgRxKzdzLm4wFaXqIiJHBiN7pmC2F2CaH
+ yr9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715713685; x=1716318485;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=l7gJ1jGOfc0uuKsE3YPwqokUa9StmsGv9lzNrtz5bw8=;
- b=d1nP+VlQFhC5aW1T0OKvEyUWoBRS89dOS3tonNiOLFe55yJas8eCF+al872yTpEhkD
- zyxd2g8stD2CTy9RHjcpPHG5KU5fHTxs4uiV3Stcp9N04/XwL7YelmaDxFuTLeMG8Edl
- RPNhfAGTcyIWWfx+Deph+CVQWcRcMSVCBNaG8c+IX27sCThXSwwKRtKfgi5C0wah76eQ
- CPrTqdu5O6xZt8CJKWg2pVCJiQCQ9HDC24EYkI44v1rkKbLxLWOurR9Gx5cEgB5di1WH
- KWlSYtfCiQXBiApHATNncCmRn4xhn0mIlrGssUXY9q3RYohbkQpKMCtzcLvVZy7TrJcJ
- 6PzA==
+ d=1e100.net; s=20230601; t=1715718150; x=1716322950;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=d+VcjteYj9SNA9aGf0rBf0JG873t1FLnFV29qq/mXjI=;
+ b=EdNtRnrAMaWnKwOIgfCNtz7gK0/HqL9Hp3XuyCT/yAOhmM47EgaBF0xEhDZVxv3gJr
+ PsYFoCSQPUom7mdIkwjlrUVztfuS6H/ZJ1AQRyClk1b8didpptwS69+BOb+gk11uzxMD
+ pGpdXqiUJ/LoNPCo1GPM1dKpTRsmoLyLAoSOD65vtGvKb2OgNiah6elABOXrfCZ/cvx2
+ nh1J1lLjRqLZgAA6iugbzt8y3BIQ1gH0N1pdtGkZJXC3t6f5KA8BZSDhVeLp0LioMuN7
+ EdYXfGh4qxkDi3TqCyQDT34y+Fhog4V1nWsNt+pmK5LQsR4umoqQEwZ2rRhNmO1FGAoW
+ qn7g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWqmrxK63oWcFqLEBLfXzibG+lK9Q04AFV6RL8Uub/O+wqeCqUEz5x0MCF1xL0GzcXodd4t4i64U2ITY/9ZH3eG8Z7aHxsBx67XzBykI5y0
-X-Gm-Message-State: AOJu0Ywj+V4S+Ra1ynpjEda67Rtdw2P3Zofo1m87GdNwJhyY5f0qgMtR
- wUK39GzpszcFc5Zbl3toYhWVB/hXdWKyobeAkpMSudFRLUhZZqWx3zLBP0k2wVIn2SgnuZiygrh
- PftDfiq1X1I772oVMm+x9GAeiqgM=
-X-Google-Smtp-Source: AGHT+IHCCEoKj19UznkogC+zYoUc7bQR4OFX0YiHMuxVUCgZ6i1gyjrpfzvT6eBTiL6WIXw1/13vW0/aDeCk+Z3YrfY=
-X-Received: by 2002:a17:90a:ff91:b0:2b6:ab87:5e5b with SMTP id
- 98e67ed59e1d1-2b6cc140159mr11949740a91.9.1715713685105; Tue, 14 May 2024
- 12:08:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240514171417.492a1301@canb.auug.org.au>
- <CY5PR12MB642964F3A1D72F422DCB814BFEE32@CY5PR12MB6429.namprd12.prod.outlook.com>
-In-Reply-To: <CY5PR12MB642964F3A1D72F422DCB814BFEE32@CY5PR12MB6429.namprd12.prod.outlook.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 14 May 2024 15:07:53 -0400
-Message-ID: <CADnq5_Mf5zUJGajNnrhJB4qAAe_H--Xd=+ABUS6JHL=vvbdVXQ@mail.gmail.com>
-Subject: Re: linux-next: build warning after merge of the amdgpu tree
-To: "Nirujogi, Pratap" <Pratap.Nirujogi@amd.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, 
- Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux Next Mailing List <linux-next@vger.kernel.org>, 
- "Chan, Benjamin (Koon Pan)" <Benjamin.Chan@amd.com>
+ AJvYcCVcrSTtFiaAgn1tyzxHBoPo7RHkeFt8VJAiy68Pk/NOL4pKVZ0DnARU8ivbR9k2YC4rqgk9efGx4WcHIIo/IdFfV62auu17Cqb88URxUiAa
+X-Gm-Message-State: AOJu0YwzPnY9rr0F20xvBDTgyrSFc08txq2HsoHDTRBIVx/mptTzEN/r
+ F9Sw2osH1zBAiWzXplMKO6gZkUw3xnjO1jpc4IuUubYdV6J5zkhrhoKtYA2+20M=
+X-Google-Smtp-Source: AGHT+IGKbrei/hBF59KPSMuKtm8FOwgj1uruWeGRRZhnJ24IqE3wDufQHwIuC3NPjleyRye7SlHKsQ==
+X-Received: by 2002:a25:a322:0:b0:de1:2843:9465 with SMTP id
+ 3f1490d57ef6-dee4f3089e4mr12934632276.30.1715718150626; 
+ Tue, 14 May 2024 13:22:30 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:17:6448::7a9])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6a15f1ccd42sm56648326d6.91.2024.05.14.13.22.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 May 2024 13:22:30 -0700 (PDT)
+Message-ID: <432f336e6d4b0666cfbb431591624d0e1fefd773.camel@ndufresne.ca>
+Subject: Re: [PATCH v7 7/8] media: imagination: Round to closest multiple
+ for cropping region
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Devarsh Thakkar <devarsht@ti.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+ linux-media@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ benjamin.gaignard@collabora.com,  sebastian.fricke@collabora.com,
+ dri-devel@lists.freedesktop.org,  laurent.pinchart@ideasonboard.com,
+ praneeth@ti.com, nm@ti.com, vigneshr@ti.com,  a-bhatia1@ti.com,
+ j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,  p-mantena@ti.com,
+ vijayp@ti.com, andrzej.p@collabora.com, p.zabel@pengutronix.de, 
+ airlied@gmail.com, daniel@ffwll.ch, akpm@linux-foundation.org, 
+ gregkh@linuxfoundation.org, adobriyan@gmail.com, jani.nikula@intel.com
+Date: Tue, 14 May 2024 16:22:28 -0400
+In-Reply-To: <7e3ad816-6a2a-4e02-9b41-03a8562812ad@ti.com>
+References: <20240509184001.4064820-1-devarsht@ti.com>
+ <Zj447ePSnccbj76v@smile.fi.intel.com>
+ <7e3ad816-6a2a-4e02-9b41-03a8562812ad@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,48 +96,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 14, 2024 at 2:20=E2=80=AFPM Nirujogi, Pratap
-<Pratap.Nirujogi@amd.com> wrote:
->
-> [AMD Official Use Only - AMD Internal Distribution Only]
->
-> Hi Stephen,
->
-> Thank you for reporting this warning, I will address this in the next amd=
-gpu patchset I will be submitting in this week.
+Le samedi 11 mai 2024 =C3=A0 22:38 +0530, Devarsh Thakkar a =C3=A9crit=C2=
+=A0:
+> Hi Andy,
+>=20
+> Thanks for the quick review.
+> On 10/05/24 20:40, Andy Shevchenko wrote:
+> > On Fri, May 10, 2024 at 12:10:01AM +0530, Devarsh Thakkar wrote:
+> > > If neither of the flags to round down (V4L2_SEL_FLAG_LE) or round up
+> > > (V4L2_SEL_FLAG_GE) are specified by the user, then round to nearest
+> > > multiple of requested value while updating the crop rectangle coordin=
+ates.
+> > >=20
+> > > Use the rounding macro which gives preference to rounding down in cas=
+e two
+> > > nearest values (high and low) are possible to raise the probability o=
+f
+> > > cropping rectangle falling inside the bound region.
+> >=20
+> > This is arguable. How do we know that the bigger range is supported?
+> > The safest side is to go smaller than bigger.
+> >=20
+>=20
+> Yes and that's what the driver does when do when application passes
+> V4L2_SEL_FLAG_LE while doing the selection. If application does not
+> specify explicitly whether to round down or round up the cropping
+> parameters requested by it (i.e app is neither passing V4L2_SEL_FLAG_LE
+> nor V4L2_SEL_FLAG_GE flags), then it is preferred by driver to round the
+> cropping parameters to nearest possible value by either rounding down or
+> rounding up to align with hardware requirements.
+>=20
+> For e.g. If requested width for cropping region is 127 and HW requires
+> width to be multiple of 64 then we would prefer to round it up to 128
+> rather than rounding down to a more distant value (i.e. 64), but if
+> requested cropping width is 129 then we would prefer to instead round it
+> down to 128. But if requested cropping width is 160 then there are two
+> nearest possible values 160 - 32 =3D 128 and 160 + 32 =3D 192 and in whic=
+h
+> case we prefer the smaller value as you suggested and that's why the
+> driver uses round_closest_down.
+>=20
+> For any reason, if still the cropping rectangle falls beyond the bound
+> region, then driver will return out of range error (-ERANGE) to
+> application.
 
-Should be fixed with this patch:
-https://patchwork.freedesktop.org/patch/593995/
-Sorry, I forgot to CC you.
+I would appreciate if this change was based on specification text, meaning
+improving the next if that behaviour is undefined. We might not be able to =
+fix
+it everywhere, but we can recommend something.
 
-Alex
+Nicolas
 
->
-> Thanks,
-> Pratap
->
-> -----Original Message-----
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Sent: Tuesday, May 14, 2024 3:14 AM
-> To: Alex Deucher <alexdeucher@gmail.com>
-> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Nirujogi, Pratap <Pra=
-tap.Nirujogi@amd.com>; Dave Airlie <airlied@redhat.com>; DRI <dri-devel@lis=
-ts.freedesktop.org>; Linux Kernel Mailing List <linux-kernel@vger.kernel.or=
-g>; Linux Next Mailing List <linux-next@vger.kernel.org>
-> Subject: linux-next: build warning after merge of the amdgpu tree
->
-> Hi all,
->
-> After merging the amdgpu tree, today's linux-next build (htmldocs) produc=
-ed this warning:
->
-> drivers/gpu/drm/amd/include/amd_shared.h:110: warning: Enum value 'AMD_IP=
-_BLOCK_TYPE_ISP' not described in enum 'amd_ip_block_type'
->
-> Introduced by commit
->
->   a83048bfa402 ("drm/amd/amdgpu: Add ISP support to amdgpu_discovery")
->
-> --
-> Cheers,
-> Stephen Rothwell
+>=20
+> Regards
+> Devarsh
+>=20
+>=20
+
