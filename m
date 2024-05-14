@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5208C58F3
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 17:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598FD8C58F5
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 17:41:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D4E910E2F5;
-	Tue, 14 May 2024 15:41:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0D510EADC;
+	Tue, 14 May 2024 15:41:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="wmYNiU8i";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="b83KCb1T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
- [95.215.58.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D98D310E2F5
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 15:40:58 +0000 (UTC)
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
+ [95.215.58.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAEB610E401
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 15:40:59 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1715701255;
+ t=1715701257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=GqWA4dxsny1RyIST0+ZaXedMLewwlAUbRrK+aI3zxqY=;
- b=wmYNiU8i7Glte1xtOP0HceYbc1gq6ZpxEuUEq+EkWRMSxetyWLm5RE8SBYA8zwP2aiLjEh
- IIsu7f/4vNWzV4a3mXxeYFGav06juT/I4051bQEoeSWK5Rfj6s3IkKNY0kuk5S1WCPHVMt
- okLhUv9DoeJNCovwTEm38fTXUa/dHpA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+05gkzCN5mCB4ObLHZD3qVmOLfaIYvz5ahLIgbHM3dE=;
+ b=b83KCb1Tg0IIJh0e+PTZYsvu7sHmyZ4628WaUjPak1hG/ZRyuUFvR1VUsHAjehi6J8w9qx
+ dwr1xixVGf18AG0ajiDQLreUdugxBgiy670YKjD/OnIwyo8WHskKETATD4OA1isHD5uGBW
+ FALM0ULUBiAVMAthwhdJMzKbtD5A8xI=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Maxime Ripard <mripard@kernel.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH 0/2] drm/bridge: Add 'struct device *' field to the drm_bridge
- structure
-Date: Tue, 14 May 2024 23:40:43 +0800
-Message-ID: <20240514154045.309925-1-sui.jingfeng@linux.dev>
+Subject: [PATCH 1/2] drm/bridge: Support finding bridge with struct device
+Date: Tue, 14 May 2024 23:40:44 +0800
+Message-ID: <20240514154045.309925-2-sui.jingfeng@linux.dev>
+In-Reply-To: <20240514154045.309925-1-sui.jingfeng@linux.dev>
+References: <20240514154045.309925-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -55,65 +57,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because a lot of implementations has already added it into their drived
-class, promote it into drm_bridge core may benifits a lot. drm bridge is
-a driver, it should know the underlying hardware entity.
+The pointer of 'struct device' can also be used as a key to search drm
+bridge instance from the global bridge list, traditionally, fwnode and
+'OF' based APIs requires the system has decent fwnode/OF Graph support.
+While the drm_find_bridge_by_dev() function introduced in this series
+don't has such a restriction. It only require you has a pointer to the
+backing device. Hence, it may suitable for some small and/or limited
+display subsystems.
 
-Sui Jingfeng (2):
-  drm/bridge: Support finding bridge with struct device
-  drm/bridge: Switch to use drm_bridge_add_with_dev()
+Also add the drm_bridge_add_with_dev() as a helper, which automatically
+set the .of_node field of drm_bridge instances if you call it. But it
+suitable for simple bridge drivers which one device backing one drm_bridge
+instance.
 
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c  |  3 +-
- .../drm/bridge/analogix/analogix-anx6345.c    |  4 +-
- .../drm/bridge/analogix/analogix-anx78xx.c    |  4 +-
- drivers/gpu/drm/bridge/analogix/anx7625.c     |  3 +-
- .../gpu/drm/bridge/cadence/cdns-dsi-core.c    |  3 +-
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  3 +-
- drivers/gpu/drm/bridge/chipone-icn6211.c      |  5 +--
- drivers/gpu/drm/bridge/chrontel-ch7033.c      |  3 +-
- drivers/gpu/drm/bridge/cros-ec-anx7688.c      |  4 +-
- drivers/gpu/drm/bridge/display-connector.c    |  3 +-
- drivers/gpu/drm/bridge/fsl-ldb.c              |  3 +-
- drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c  |  3 +-
- .../gpu/drm/bridge/imx/imx8qxp-pixel-link.c   |  3 +-
- drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c  |  3 +-
- drivers/gpu/drm/bridge/ite-it6505.c           |  3 +-
- drivers/gpu/drm/bridge/ite-it66121.c          |  3 +-
- drivers/gpu/drm/bridge/lontium-lt8912b.c      |  3 +-
- drivers/gpu/drm/bridge/lontium-lt9211.c       |  3 +-
- drivers/gpu/drm/bridge/lontium-lt9611.c       |  3 +-
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c    |  3 +-
- drivers/gpu/drm/bridge/lvds-codec.c           |  3 +-
- .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  |  3 +-
- drivers/gpu/drm/bridge/microchip-lvds.c       |  3 +-
- drivers/gpu/drm/bridge/nwl-dsi.c              |  3 +-
- drivers/gpu/drm/bridge/nxp-ptn3460.c          |  3 +-
- drivers/gpu/drm/bridge/panel.c                |  3 +-
- drivers/gpu/drm/bridge/parade-ps8622.c        |  3 +-
- drivers/gpu/drm/bridge/parade-ps8640.c        |  1 -
- drivers/gpu/drm/bridge/samsung-dsim.c         |  3 +-
- drivers/gpu/drm/bridge/sii902x.c              |  3 +-
- drivers/gpu/drm/bridge/sii9234.c              |  3 +-
- drivers/gpu/drm/bridge/sil-sii8620.c          |  3 +-
- drivers/gpu/drm/bridge/simple-bridge.c        |  3 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  3 +-
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c |  3 +-
- drivers/gpu/drm/bridge/tc358762.c             |  3 +-
- drivers/gpu/drm/bridge/tc358764.c             |  3 +-
- drivers/gpu/drm/bridge/tc358767.c             |  3 +-
- drivers/gpu/drm/bridge/tc358768.c             |  3 +-
- drivers/gpu/drm/bridge/tc358775.c             |  3 +-
- drivers/gpu/drm/bridge/thc63lvd1024.c         |  3 +-
- drivers/gpu/drm/bridge/ti-dlpc3433.c          |  3 +-
- drivers/gpu/drm/bridge/ti-sn65dsi83.c         |  3 +-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c         |  3 +-
- drivers/gpu/drm/bridge/ti-tfp410.c            |  3 +-
- drivers/gpu/drm/bridge/ti-tpd12s015.c         |  3 +-
- drivers/gpu/drm/drm_bridge.c                  | 39 +++++++++++++++++++
- drivers/gpu/drm/i2c/tda998x_drv.c             |  5 +--
- include/drm/drm_bridge.h                      |  5 +++
- 49 files changed, 91 insertions(+), 99 deletions(-)
+Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+---
+ drivers/gpu/drm/drm_bridge.c | 39 ++++++++++++++++++++++++++++++++++++
+ include/drm/drm_bridge.h     |  5 +++++
+ 2 files changed, 44 insertions(+)
 
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 584d109330ab..1928d9d0dd3c 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -213,6 +213,23 @@ void drm_bridge_add(struct drm_bridge *bridge)
+ }
+ EXPORT_SYMBOL(drm_bridge_add);
+ 
++/**
++ * drm_bridge_add_with_dev - add the given bridge to the global bridge list
++ *
++ * @bridge: bridge control structure
++ * @dev: pointer to the kernel device that this bridge is backed.
++ */
++void drm_bridge_add_with_dev(struct drm_bridge *bridge, struct device *dev)
++{
++	if (dev) {
++		bridge->kdev = dev;
++		bridge->of_node = dev->of_node;
++	}
++
++	drm_bridge_add(bridge);
++}
++EXPORT_SYMBOL_GPL(drm_bridge_add_with_dev);
++
+ static void drm_bridge_remove_void(void *bridge)
+ {
+ 	drm_bridge_remove(bridge);
+@@ -1334,6 +1351,27 @@ void drm_bridge_hpd_notify(struct drm_bridge *bridge,
+ }
+ EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
+ 
++struct drm_bridge *drm_find_bridge_by_dev(struct device *kdev)
++{
++	struct drm_bridge *bridge;
++
++	if (!kdev)
++		return NULL;
++
++	mutex_lock(&bridge_lock);
++
++	list_for_each_entry(bridge, &bridge_list, list) {
++		if (bridge->kdev == kdev) {
++			mutex_unlock(&bridge_lock);
++			return bridge;
++		}
++	}
++
++	mutex_unlock(&bridge_lock);
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(drm_find_bridge_by_dev);
++
+ #ifdef CONFIG_OF
+ /**
+  * of_drm_find_bridge - find the bridge corresponding to the device node in
+@@ -1361,6 +1399,7 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+ 	return NULL;
+ }
+ EXPORT_SYMBOL(of_drm_find_bridge);
++
+ #endif
+ 
+ MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 4baca0d9107b..70d8393bbd9c 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -715,6 +715,8 @@ struct drm_bridge {
+ 	struct drm_private_obj base;
+ 	/** @dev: DRM device this bridge belongs to */
+ 	struct drm_device *dev;
++	/** @kdev: pointer to the kernel device backing this bridge */
++	struct device *kdev;
+ 	/** @encoder: encoder to which this bridge is connected */
+ 	struct drm_encoder *encoder;
+ 	/** @chain_node: used to form a bridge chain */
+@@ -782,12 +784,15 @@ drm_priv_to_bridge(struct drm_private_obj *priv)
+ }
+ 
+ void drm_bridge_add(struct drm_bridge *bridge);
++void drm_bridge_add_with_dev(struct drm_bridge *bridge, struct device *dev);
+ int devm_drm_bridge_add(struct device *dev, struct drm_bridge *bridge);
+ void drm_bridge_remove(struct drm_bridge *bridge);
+ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 		      struct drm_bridge *previous,
+ 		      enum drm_bridge_attach_flags flags);
+ 
++struct drm_bridge *drm_find_bridge_by_dev(struct device *kdev);
++
+ #ifdef CONFIG_OF
+ struct drm_bridge *of_drm_find_bridge(struct device_node *np);
+ #else
 -- 
 2.43.0
 
