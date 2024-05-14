@@ -2,53 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929188C5858
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 16:57:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A5C8C585C
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 16:57:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99FEF10E188;
-	Tue, 14 May 2024 14:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8245310EA9A;
+	Tue, 14 May 2024 14:57:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kKqPd+ev";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="wqRPXv1T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DB4810EA2D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 14:56:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715698617; x=1747234617;
- h=from:to:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=pkwc/6ov6/WLDAENkBPu2A1v4hPmdP1ccMJ1qjgjDGs=;
- b=kKqPd+evnvx2PZcibQkq7KGcAqzKhQbgPK5SlC5A6ewjT9DsfJPMZ87e
- x3esgGfLllspY4oeWu0UgKNuAus+lP8/fwTJrcWCv3QIS+2PZtq/pQpKY
- vWWPjwoPDHuYHbGCsVT2ivtxORnVIDTf1NIZxX5SPuFtC/PFKdL3nqOPt
- DzfVWfSy31lQIaxsrIfyR9bqxBKhpRGIG5wElWNYMrTxb4u9DNOZDXSfw
- akhJGcyX3wbQwMmjjmhD9Ud0QoKiEw39mldjEiido6oLy5g76GBn5CgL6
- 9OXuq7u7HaaxPbWSc7psw/RfJHtQdDFuJBORi+abgtA8db5D+xJfG02L0 A==;
-X-CSE-ConnectionGUID: OVXy6F1qQNutaMhTdZzvDQ==
-X-CSE-MsgGUID: 4Q1zN8NOS72vMBijYe3rnA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="15522587"
-X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="15522587"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2024 07:56:57 -0700
-X-CSE-ConnectionGUID: eotxBPJ1QBGKNRyEbbm+Yg==
-X-CSE-MsgGUID: uvbQaT9xSiqZh3lI8BGlVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="35595030"
-Received: from mwajdecz-mobl.ger.corp.intel.com ([10.246.1.253])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2024 07:56:55 -0700
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC] drm/print: Introduce drm_line_printer
-Date: Tue, 14 May 2024 16:56:31 +0200
-Message-Id: <20240514145631.2128-1-michal.wajdeczko@intel.com>
-X-Mailer: git-send-email 2.21.0
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2088.outbound.protection.outlook.com [40.107.236.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD06610E1FE;
+ Tue, 14 May 2024 14:57:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h7munSpfiQ+BlYTf6aJPRZFgOAycbOI34IaNhSL28nX7f308IpTgB0O2+gvzaB03IphJgr8rGBDA8IqDHgzZawdyTr5CGU7QMVcXospJXzWIJtUeb8LG7QhWr/c+x9mVFacE84Vz5cNdGm6jcfk9UlPyKZA/IkTNjrjaMjcVF2f43AeD/RjelcxVSYntl25+n8N+pauPjifgLvyRfzOxyQK6NZK17GmBiGSLcts1YvKl8O4W1woUTKt5yzU0+r857n+2aA08mTuejvJgZGvor8PB87lTTpLu1PL6A6ueJSo95OHua0YReilBBtqDNSenngp+IQTgbiMTndnrjUEhPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p/E20Z9gdCX1NEAyYnfWKNJ4Y16ui2hB1v2a6g0lSRc=;
+ b=WcSD7TqF/NEZ4t5r0ct85p5/RgLj06uIilrrPGKhv0AY9f3YU/xsah/aioGBcSO+wR6EPgUR1Eoe8vWTVIc6hzX2J3hzY97kx95pDtSfdvjXQzTlLuQ5oZkV3NvwF2FNHBIAJTth7Aqyj8MY4MoBrcR7Mr0PMI/ii37vSJ05nT2T8tPWa2nakVq2KzG5CqwrtKZr23OPYW7jw9CoTkxJOfl57hI5OWZdv60XBbcHt7ijjLgd6rn/OxxxH72peJseXOld6cE2OfY0a1dw+73KTwkIy18gfvyMM2iFZGFeGUABAj07VI7AuSCT8M9t+dfzyiowoGSVOno1TI8iwiXAmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p/E20Z9gdCX1NEAyYnfWKNJ4Y16ui2hB1v2a6g0lSRc=;
+ b=wqRPXv1TIq6RhDxBJLv2vDYQlIExjonmiyYeJy1AVAg1KWLWwWlPhIxcsjqvIdhF33yuCQD2Vk+JPVUHyPvRf0qF6bTdGwwK15wzQaA1Lk2Nwp0tOJJuusqWp5hd5AAh7R4G3OLeefkg/jtN0EaYgQ909skM5TvHEoa9wUVauUg=
+Received: from BN9PR03CA0756.namprd03.prod.outlook.com (2603:10b6:408:13a::11)
+ by PH0PR12MB7472.namprd12.prod.outlook.com (2603:10b6:510:1e9::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.26; Tue, 14 May
+ 2024 14:57:00 +0000
+Received: from BN2PEPF0000449D.namprd02.prod.outlook.com
+ (2603:10b6:408:13a:cafe::5f) by BN9PR03CA0756.outlook.office365.com
+ (2603:10b6:408:13a::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55 via Frontend
+ Transport; Tue, 14 May 2024 14:56:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF0000449D.mail.protection.outlook.com (10.167.243.148) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7587.21 via Frontend Transport; Tue, 14 May 2024 14:56:58 +0000
+Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 14 May 2024 09:56:55 -0500
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <matthew.auld@intel.com>
+CC: <christian.koenig@amd.com>, <alexander.deucher@amd.com>,
+ <daniel@ffwll.ch>, Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Subject: [PATCH v3 1/2] drm/buddy: Fix the range bias clear memory allocation
+ issue
+Date: Tue, 14 May 2024 20:26:35 +0530
+Message-ID: <20240514145636.16253-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF0000449D:EE_|PH0PR12MB7472:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f910886-b6d2-403f-e809-08dc74261a99
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|36860700004|376005|1800799015|82310400017; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?jIaTX8Jh/p+4QSyMZSnMhu+BelEulj1tRz7/NlLus4MVXoMyF42YMA52VMcV?=
+ =?us-ascii?Q?4YSBLXVI47v2EiWzYuAyeFF9M6QPWBogqoKFKPa2ctw8f8p/W9oU+16p93I+?=
+ =?us-ascii?Q?CyDYHesbohiyvs/0zerzPbunVo1iW7ZyIkArrDZx2IDN8LMaquRGfU07VzzP?=
+ =?us-ascii?Q?qAROcWQcrlSe9SIJ4FwkECc6b8DRGq+rn/UBPjsQ+tVe/ErQKL2jCkbp2by4?=
+ =?us-ascii?Q?0K8iCdRYWxYTe8pPFOPMhsZgk+8rvz9MjLqWdtWhUyui4gWdCY8zJtADodpa?=
+ =?us-ascii?Q?i1Ulz1Ox4Kkmz2n5TVVfmIxdYZODdGRGsWgcailwtsydN5rMXjRcnhUrt0y9?=
+ =?us-ascii?Q?qPyNM/luLMOAn6pUL5T6cpz5pHypR5awvvCNT/etXau67sQdjfdrcQnRmGMA?=
+ =?us-ascii?Q?XD2Uz9iArzi6y8SU+VZ9++oCRi4j4bJK0ex3t6Tcn43xejEkrBPr/rvjsSJd?=
+ =?us-ascii?Q?RFbSbJs1G5kHXY+L/LCuKxvj2QlhvC3FUF0OoQZbgqOGD05RNyORlIfPlot7?=
+ =?us-ascii?Q?MXKjon6zsi01xbwOxWd/45Hes5jwq5Z0sDG0G/9kcn3P9ydAQdwcQCIMEESr?=
+ =?us-ascii?Q?750wvQTwxpqXcyxppguaWvMj2HPqYMkZv9Wsitq2PM4ab4yWuUjoXCyeqXH3?=
+ =?us-ascii?Q?tAgOXKNNwyI/c8gcrtMkRZPOZB/6Kdr4RGcDjUqsoHoqQhlEJvzi4MOKEW+H?=
+ =?us-ascii?Q?DlnVpl36eNFiG8MnQILA5JFijePi59+F+Eik9FICaFzBRhh3Ew6ddINHliEJ?=
+ =?us-ascii?Q?nYD+oY6zBcmXw0mWsyY1ekU2T7Ds4t+6Owa1ld870NIejd5+HTgZx+xqkRxe?=
+ =?us-ascii?Q?xf+dx2VOenVeM1oGt3nUHW/FpzqeRcC2YvdcZejruRTKYeoeDGvuhdiI/tta?=
+ =?us-ascii?Q?GbWNVHzogCaloR/12PvIKrnG1lJ2mgDhfapFg+SFhlLG79B4qf0dRGJmrsWu?=
+ =?us-ascii?Q?ef5SEhCIP6hEIqCM2zoC4ls0y+rETsug6HLqiUcnpV0Tfv6gudWQvx3xFH5K?=
+ =?us-ascii?Q?gYhn0GAo08jTO0Hr7KP6v74hBA7DKI1xJ2Uinm/o1itGkf58+37gTCCXA+kz?=
+ =?us-ascii?Q?49Uh9bNAIauQsH7aK2z/F6Kp+726dNISdabT2TnZYdl3pz+2lUPkv9H3+7Vt?=
+ =?us-ascii?Q?NA1Ov2gF4W/QIp99mQvXaRMpOZWN4N7BiKTtV2IXOusYURxhL+uKN1vVj+AW?=
+ =?us-ascii?Q?vVNK4ZYCUroDkFljTyhlj1mvURwNXCRFWHvsSeP4FaYs/BTLNm9mJOZCnBb1?=
+ =?us-ascii?Q?eR/UeGrKeuPXjtzAEuxczEP7ixRONFiTpObsUc8Z6ws5uPsH9Yvo/kkUIYE6?=
+ =?us-ascii?Q?yuACciSJ3uh8LUBUzgLOIkeUc7HNQ81cH4RzF73RCDmcs8pVuCuY1cloKaEY?=
+ =?us-ascii?Q?3fXBUCRH8exfO4cC2prB3+v3xlJK?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(36860700004)(376005)(1800799015)(82310400017); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2024 14:56:58.3172 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f910886-b6d2-403f-e809-08dc74261a99
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF0000449D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7472
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,92 +132,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This drm printer wrapper can be used to increase the robustness of
-the captured output generated by any other drm_printer to make sure
-we didn't lost any intermediate lines of the output by adding line
-numbers to each output line. Helpful for capturing some crash data.
+Problem statement: During the system boot time, an application request
+for the bulk volume of cleared range bias memory when the clear_avail
+is zero, we dont fallback into normal allocation method as we had an
+unnecessary clear_avail check which prevents the fallback method leads
+to fb allocation failure following system goes into unresponsive state.
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Solution: Remove the unnecessary clear_avail check in the range bias
+allocation function.
+
+v2: add a kunit for this corner case (Daniel Vetter)
+
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Fixes: 96950929eb23 ("drm/buddy: Implement tracking clear page feature")
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/drm_print.c |  9 +++++++++
- include/drm/drm_print.h     | 37 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+ drivers/gpu/drm/drm_buddy.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index cf2efb44722c..d6fb50d3407a 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -214,6 +214,15 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
- }
- EXPORT_SYMBOL(__drm_printfn_err);
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index 284ebae71cc4..1daf778cf6fa 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -249,6 +249,7 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
  
-+void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
-+{
-+	unsigned int line = (uintptr_t)(++p->prefix);
-+	struct drm_printer *dp = p->arg;
-+
-+	drm_printf(dp, "%u: %pV", line, vaf);
-+}
-+EXPORT_SYMBOL(__drm_printfn_line);
-+
- /**
-  * drm_puts - print a const string to a &drm_printer stream
-  * @p: the &drm printer
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 089950ad8681..58cc73c53853 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -186,6 +186,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
- void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
- void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
- void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
-+void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
+ 	mm->size = size;
+ 	mm->avail = size;
++	mm->clear_avail = 0;
+ 	mm->chunk_size = chunk_size;
+ 	mm->max_order = ilog2(size) - ilog2(chunk_size);
  
- __printf(2, 3)
- void drm_printf(struct drm_printer *p, const char *f, ...);
-@@ -357,6 +358,42 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
- 	return p;
- }
+@@ -574,7 +575,7 @@ __drm_buddy_alloc_range_bias(struct drm_buddy *mm,
  
-+/**
-+ * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
-+ * @dp: the &struct drm_printer which actually generates the output
-+ *
-+ * This printer can be used to increase the robustness of the captured output
-+ * to make sure we didn't lost any intermediate lines of the output. Helpful
-+ * while capturing some crash data.
-+ *
-+ * For example::
-+ *
-+ *	void crash_dump(struct drm_device *drm)
-+ *	{
-+ *		struct drm_printer dp = drm_err_printer(drm, "crash");
-+ *		struct drm_printer lp = drm_line_printer(&dp);
-+ *
-+ *		drm_printf(&lp, "foo");
-+ *		drm_printf(&lp, "bar");
-+ *	}
-+ *
-+ * Above code will print into the dmesg something like::
-+ *
-+ *	[ ] 0000:00:00.0: [drm] *ERROR* crash 1: foo
-+ *	[ ] 0000:00:00.0: [drm] *ERROR* crash 2: bar
-+ *
-+ * RETURNS:
-+ * The &drm_printer object
-+ */
-+static inline struct drm_printer drm_line_printer(struct drm_printer *dp)
-+{
-+	struct drm_printer lp = {
-+		.printfn = __drm_printfn_line,
-+		.arg = dp,
-+	};
-+	return lp;
-+}
-+
- /*
-  * struct device based logging
-  *
+ 	block = __alloc_range_bias(mm, start, end, order,
+ 				   flags, fallback);
+-	if (IS_ERR(block) && mm->clear_avail)
++	if (IS_ERR(block))
+ 		return __alloc_range_bias(mm, start, end, order,
+ 					  flags, !fallback);
+ 
 -- 
-2.43.0
+2.25.1
 
