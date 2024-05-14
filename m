@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52258C5142
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 13:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307548C528C
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 13:39:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17E8710E869;
-	Tue, 14 May 2024 11:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E071610E088;
+	Tue, 14 May 2024 11:38:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vOI0X34R";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0gDVtmwi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5B610E869
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 11:27:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 641A410E088
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 11:38:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 66F3260B3C;
- Tue, 14 May 2024 11:27:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F5FBC2BD10;
- Tue, 14 May 2024 11:27:15 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A4DCA611BB;
+ Tue, 14 May 2024 11:38:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8613C2BD10;
+ Tue, 14 May 2024 11:38:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1715686036;
- bh=mIEpkkY3fsKb9mL8uDhkEruO5gEVn/1RwIz+PDKz3k0=;
+ s=korg; t=1715686737;
+ bh=U5OyByZKNL7fmEp2KCPZqURBDg9PnrSPfafRZIFyhWI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vOI0X34R5H43q3+flmH3LV0lZXA+IqI6FFQs4JIKTJ+uRAMtVY+6vZyHk0451NTjI
- WhF1rhs37v7yQUnYSIh9VK95y0vCCGOxcvplErnLHXpODw4SAjIVREpCRP0etHjt0y
- 5E3aNFRbTTFjECUZm4Hvh2lf2yFSo2WncFfpS8L8=
+ b=0gDVtmwi3txH9ZKaGa1gehe8/HYZMueYQ7F1V3Oc+8bO4DtK4ZNTecHqO5vvfy/4u
+ c62H/gHfgh3+p8Cni115KS5NDbjp2zbIaaYVnco3yWdI6UlSy3jjajGWPqcFlw5X1A
+ 7DIPkmYtiYY32Thaba2Gsjt/aCe2E+yv4nf6nX6g=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -37,13 +37,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
  Martin Krastev <martin.krastev@broadcom.com>,
  zdi-disclosures@trendmicro.com
-Subject: [PATCH 6.6 271/301] drm/vmwgfx: Fix invalid reads in fence signaled
+Subject: [PATCH 6.1 221/236] drm/vmwgfx: Fix invalid reads in fence signaled
  events
-Date: Tue, 14 May 2024 12:19:02 +0200
-Message-ID: <20240514101042.497048157@linuxfoundation.org>
+Date: Tue, 14 May 2024 12:19:43 +0200
+Message-ID: <20240514101028.746271769@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240514101032.219857983@linuxfoundation.org>
-References: <20240514101032.219857983@linuxfoundation.org>
+In-Reply-To: <20240514101020.320785513@linuxfoundation.org>
+References: <20240514101020.320785513@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -64,7 +64,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
