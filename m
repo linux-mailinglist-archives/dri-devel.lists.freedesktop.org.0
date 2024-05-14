@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40CBD8C507A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 13:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3548C4FB2
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 12:52:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B14210E3DC;
-	Tue, 14 May 2024 11:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0529310E22A;
+	Tue, 14 May 2024 10:52:09 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2rq3Cz4U";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAECE10E22E
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 03:14:18 +0000 (UTC)
-X-UUID: 08a3914811a011ef9305a59a3cc225df-20240514
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38, REQID:b2ba4032-03ae-4963-8b55-f28e8b96816b, IP:15,
- URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:10
-X-CID-INFO: VERSION:1.1.38, REQID:b2ba4032-03ae-4963-8b55-f28e8b96816b, IP:15,
- UR
- L:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:10
-X-CID-META: VersionHash:82c5f88, CLOUDID:e90e5226e805bd28d80d2b63f52d0017,
- BulkI
- D:240514111412IINTNKZK,BulkQuantity:0,Recheck:0,SF:66|38|24|72|19|44|102,T
- C:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil
- ,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR
-X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME,
- HR_CTE_8B
- HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
- HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
- HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
- IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_UNTRUSTED, SA_LOWREP
- SA_EXISTED, SN_UNTRUSTED, SN_UNFAMILIAR, SPF_NOPASS, DKIM_NOPASS
- DMARC_NOPASS, CIE_BAD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
- GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI, AMN_C_BU ABX_MISS_RDNS
-X-UUID: 08a3914811a011ef9305a59a3cc225df-20240514
-X-User: cuitao@kylinos.cn
-Received: from localhost.localdomain [(39.156.73.13)] by mailgw.kylinos.cn
- (envelope-from <cuitao@kylinos.cn>)
- (Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
- with ESMTP id 1243275688; Tue, 14 May 2024 11:14:10 +0800
-From: cuitao <cuitao@kylinos.cn>
-To: maarten.lankhorst@linux.intel.com,
-	dri-devel@lists.freedesktop.org
-Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, linux-kernel@vger.kernel.org, cuitao <cuitao@kylinos.cn>
-Subject: [PATCH] drm/xe: Simplify the allocation of sync slab caches
-Date: Tue, 14 May 2024 11:13:48 +0800
-Message-Id: <20240514031348.15173-1-cuitao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D034210E22A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 10:52:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id BF000CE0C53;
+ Tue, 14 May 2024 10:52:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4469EC2BD10;
+ Tue, 14 May 2024 10:52:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1715683924;
+ bh=WMJQLQK3xvtxXIucFzzsCvik3TpnnQ8GDX/UfG/DdT4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=2rq3Cz4UrpBXEQ3MrY1RZVqRZNn1ej5WuOR1RKvOQRvf3eCpZ3O66o2wL9lJ91qxb
+ sOX8v4GYJG/5d/7S9IGARSdBhDz3eH7Z75kOOJK0/rlx8Gc9YejWmAGJa3h2UpIH4U
+ UowE86m3WpuEhLx4RkVRdC8ZqGXnXICVl4PUyuBM=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ Zack Rusin <zack.rusin@broadcom.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 6.8 296/336] drm/ttm: Print the memory decryption status just
+ once
+Date: Tue, 14 May 2024 12:18:20 +0200
+Message-ID: <20240514101049.790528517@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.0
+In-Reply-To: <20240514101038.595152603@linuxfoundation.org>
+References: <20240514101038.595152603@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 14 May 2024 11:05:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,29 +62,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the new KMEM_CACHE() macro instead of direct kmem_cache_create
-to simplify the creation of SLAB caches.
+6.8-stable review patch.  If anyone has any objections, please let me know.
 
-Signed-off-by: cuitao <cuitao@kylinos.cn>
+------------------
+
+From: Zack Rusin <zack.rusin@broadcom.com>
+
+commit 27906e5d78248b19bcdfdae72049338c828897bb upstream.
+
+Stop printing the TT memory decryption status info each time tt is created
+and instead print it just once.
+
+Reduces the spam in the system logs when running guests with SEV enabled.
+
+Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+Fixes: 71ce046327cf ("drm/ttm: Make sure the mapped tt pages are decrypted when needed")
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: <stable@vger.kernel.org> # v5.14+
+Link: https://patchwork.freedesktop.org/patch/msgid/20240408155605.1398631-1-zack.rusin@broadcom.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/xe/xe_hw_fence.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/ttm/ttm_tt.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
-index a5de3e7b0bd6..0f4eee529c6a 100644
---- a/drivers/gpu/drm/xe/xe_hw_fence.c
-+++ b/drivers/gpu/drm/xe/xe_hw_fence.c
-@@ -20,9 +20,7 @@ static struct kmem_cache *xe_hw_fence_slab;
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -92,7 +92,7 @@ int ttm_tt_create(struct ttm_buffer_obje
+ 	 */
+ 	if (bdev->pool.use_dma_alloc && cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) {
+ 		page_flags |= TTM_TT_FLAG_DECRYPTED;
+-		drm_info(ddev, "TT memory decryption enabled.");
++		drm_info_once(ddev, "TT memory decryption enabled.");
+ 	}
  
- int __init xe_hw_fence_module_init(void)
- {
--	xe_hw_fence_slab = kmem_cache_create("xe_hw_fence",
--					     sizeof(struct xe_hw_fence), 0,
--					     SLAB_HWCACHE_ALIGN, NULL);
-+	xe_hw_fence_slab = KMEM_CACHE(xe_hw_fence, SLAB_HWCACHE_ALIGN);
- 	if (!xe_hw_fence_slab)
- 		return -ENOMEM;
- 
--- 
-2.25.1
+ 	bo->ttm = bdev->funcs->ttm_tt_create(bo, page_flags);
+
 
