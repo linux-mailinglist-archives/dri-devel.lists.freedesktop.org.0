@@ -2,67 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BEE8C4E99
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 11:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4DD8C4EA9
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 11:46:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B29610E1FB;
-	Tue, 14 May 2024 09:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7605E10E0CE;
+	Tue, 14 May 2024 09:46:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="kcIndD2q";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="uLV8IJVY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A9E10E0A1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 09:20:01 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2e0a34b2899so81664851fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 02:20:01 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B569910E0CE
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 09:46:41 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-42016c8daa7so12519525e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 02:46:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715678400; x=1716283200;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1715680000; x=1716284800;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RivAlkjOqXc/pW2Qqga6qOl+AtvNBOXfDpmocTg5DSc=;
- b=kcIndD2qzbx8eoKEk0kJ7uqqQRiR/a7EKF8knsxCF4QXvcihjbPKChcU6vozfLfHee
- Q+7VCwHB6amDy6ZkV4IUkZSe2d+OZwplPtBZyirQ6rYQ3X/x8QJtINT9SVdM0WKB8D8p
- rureX1hlNsaAkf5amUYeYA7ZwYqNM2im+Ira4=
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=IkB2CmWVoQi8nHsh1zrtwZs7auH/ln4/oBpNWO83qYA=;
+ b=uLV8IJVY/bmWbt3q9DNIULrRVyZ5GgS/MhdKSME5KAZzOTJo8K+JDuhSaMNWFAhu3K
+ LHZxrHCMgmMdjHzwWNXfJH1Zl2nRETU6w9v82L9q0ufnXMidKBWR4iKesxLyUkdFo1Ui
+ l2JKP6avG/9tW//S6KaRnCddq5fb7UCzlknOKKOArw1Xsot7+JVtfbsXWrvC50yaIO9e
+ suBpY2NFVDfGZfWGwoM/VnjG5SDkgWNnBjrsj/IWC1txN9ZlE3G7gOFgeh6PnRGUM4QI
+ 7LbYsVJjsImUaL4iM81X3o944MgDeWdgeup6Rr/9X3TkN8hw9Ui0xx7CHZhPl0xSM154
+ aqKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715678400; x=1716283200;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RivAlkjOqXc/pW2Qqga6qOl+AtvNBOXfDpmocTg5DSc=;
- b=URYntbBsOs+Je9SH9XWxkY5lS52zv1nNI3mV2bTJHMm/FO13BWuikUGi96ggFMay90
- 6T4Q2vS+KcV3qIEbo2HtFCne6X6ekqcFMD/ya3KzRpYOSR2kdbXb1G4y3XeRjW//gIE0
- eYEwFQO54M7LegtGIlcuavVy4XSpSGDYDSVnPr9CAxIUyNKxhrgYxoCJcHIkMNPzm/lo
- WiVBSDaEg808HvL5kRJVtkgH+8JWn6bySRLQUbLhKPvRWC5VbgTKIejZHwiPG/LS2HMz
- /D9LnVhtojvEMVvxM7TbDLv5zzNlH4IeWb15Bdg1JIAe5g32k7kzMkpM24z/RuoaXiAu
- AiVA==
+ d=1e100.net; s=20230601; t=1715680000; x=1716284800;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IkB2CmWVoQi8nHsh1zrtwZs7auH/ln4/oBpNWO83qYA=;
+ b=GKwxnpGTrVsakG2Hh6eEfyRt0K5PBHaWmAavsegWH183t+cC63F+d5/kxQa2YxEeYw
+ k9qeo+o/k97TYG2CQqtoHDqYgZ0F6Ue4Boho85pSCQtmtGR5c82cy7CFHhYnOHDNJ2vC
+ lMwrHYraPVF7gYyqAp8KnGBTWFiNOOWYXGSPZfaIOkux5Ex+g9vMUN8VCjpe68xgQA66
+ i29t0qcLgIzcTfhYWOEZLijKGaXyCfVVhnMERMKXby4XTsWwSCv3e62/4rwcrZay5kJ5
+ +0mdt0QdL60OXrMxfs5vN1Xtv2GRLMgMwdEk/Vy9pDfdL6HdPm8l3XLENU70FiYv2khZ
+ 2Org==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWPgfJZNm5VJ8SpCeFUe70oq/JqtnGmtdWfCZiyews8f5u/HEK+a0Q4QITLvL10k2ga7gSHoCuhGwralVtSVbklynCcot5ZdIZrqx2EeNzo
-X-Gm-Message-State: AOJu0YyEZIDOtnVw9OX8Tkuh4kEd6StpA51/rLSeow91mNhUS6F1Ay3q
- BoohkBzuJc+roAfXE2N+bJo8jJxj6RseUT7+eUV+JF0lHSB9UiwJhum31PMdBgopx46FbvzRDdk
- oikvyWgg/J3/LSY2tyyooimvX/HVW7rIK152q
-X-Google-Smtp-Source: AGHT+IGnn/2XJ1U2Ocve7a3WGXIKVewBQ4dH5U6v1OBcTXc4hVtr3c246DA9rcWlw7DMhvZsqiMaFZCDFq/O2rurG4w=
-X-Received: by 2002:a2e:a685:0:b0:2e5:66b2:c5bf with SMTP id
- 38308e7fff4ca-2e566b2c83bmr72508801fa.29.1715678399754; Tue, 14 May 2024
- 02:19:59 -0700 (PDT)
+ AJvYcCWKuWxTpgH+J7i+NS/+9nYG1mKKYtpUnXlcumhLTlz0MNjpXphEwPSC5y6IfRcqOnW5I50TydDUyqluS1KnkxOQHJs+0TfgkJZyPY47pfcV
+X-Gm-Message-State: AOJu0YyIOrfXfv+KHex1xCi7yEbOuBZ/AeHeLVnthOe3lWV1sx88TyxO
+ 9uPMEhpiF10g5n6LooLZzXa4AcF8J9i9LVUucWVLwkO+R1rb2y3RwUdNOzbn8cE=
+X-Google-Smtp-Source: AGHT+IHI9NnnEnfZQk9MA7NTlxQwC32L9S31bdQwSyla8T9wKGzvt0e3SXI39TydgYKcKtH5LYQ8qw==
+X-Received: by 2002:a05:600c:4f4e:b0:41b:f577:604 with SMTP id
+ 5b1f17b1804b1-41feac5a675mr86518995e9.30.1715679999836; 
+ Tue, 14 May 2024 02:46:39 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4200e518984sm120917605e9.23.2024.05.14.02.46.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 May 2024 02:46:39 -0700 (PDT)
+Message-ID: <1815c5b4-ab7a-410c-b5ea-26ef83813d3c@baylibre.com>
+Date: Tue, 14 May 2024 11:46:37 +0200
 MIME-Version: 1.0
-References: <CAGXv+5FEmMzv9N-=vH8mr9LYD7PjWGEZ1wS0dniFECV6PJzbyg@mail.gmail.com>
- <fbba316d-2152-4567-9f5e-b8489bf9456a@imgtec.com>
-In-Reply-To: <fbba316d-2152-4567-9f5e-b8489bf9456a@imgtec.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 14 May 2024 17:19:48 +0800
-Message-ID: <CAGXv+5H--BHRa4E2oRfw_9-3wKKkPtPVouBOPptLOhup_30+zw@mail.gmail.com>
-Subject: Re: powervr lockdep warnings
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Frank Binns <Frank.Binns@imgtec.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] drm/mediatek: Add support for OF graphs
+From: Alexandre Mergnat <amergnat@baylibre.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ chunkuang.hu@kernel.org
+Cc: robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ matthias.bgg@gmail.com, shawn.sung@mediatek.com, yu-chang.lee@mediatek.com,
+ ck.hu@mediatek.com, jitao.shi@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ wenst@chromium.org, kernel@collabora.com
+References: <20240409120211.321153-1-angelogioacchino.delregno@collabora.com>
+ <1fc23530-89ba-4e36-9e9a-a1289f56a9bc@baylibre.com>
+ <608fdbde-ad06-45ec-9771-18aa9f002f2d@collabora.com>
+ <a77357c7-0442-4478-b375-436eb6b114be@baylibre.com>
+Content-Language: en-US
+In-Reply-To: <a77357c7-0442-4478-b375-436eb6b114be@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,195 +96,462 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 14, 2024 at 4:54=E2=80=AFPM Matt Coster <Matt.Coster@imgtec.com=
-> wrote:
->
-> On 10/05/2024 09:43, Chen-Yu Tsai wrote:
-> > Hi,
-> >
-> > I got the following lockdep warnings while trying to make the powervr
-> > driver work on MT8173. This was observed while trying to run vkmark.
-> > This was on the next-20240506 kernel running Debian Sid with the
-> > Mesa 24.0.6 package rebuilt to include the powervr driver.
->
-> Hi,
->
-> Thanks for the report! I've got an elm chromebook set up with the same
-> versions mentioned above, and spent yesterday trying to make it
-> reproduce the issue without success.
->
-> I don't really have time at the moment to keep working on this, but I've
-> made a note to come back to it when I get a chance.
->
->  From the traces below, it doesn't *seem* like this should be a platform
-> specific issue, so I'm definitely interested in getting it fixed.
+Hi Angelo,
 
-I broke out the BeaglePlay I got at ELC, grabbed a new image from
-beagleboard.org and upgraded the kernel to their v6.9 package, and
-used the same packages from my MT8173 run. It seemed to run OK, but
-it's possible the kernel doesn't have CONFIG_LOCKDEP enabled.
+Gentle ping because I'm stuck if I rebase my serie on top of yours.
 
-I'll do some more tests on MT8173 with a release kernel and fewer
-stuff on top.
+On 02/05/2024 18:53, Alexandre Mergnat wrote:
+> 
+> 
+> On 30/04/2024 13:33, AngeloGioacchino Del Regno wrote:
+>> Il 30/04/24 12:17, Alexandre Mergnat ha scritto:
+>>> Hi Angelo,
+>>>
+>>> On 09/04/2024 14:02, AngeloGioacchino Del Regno wrote:
+>>>> This series was tested on MT8195 Cherry Tomato and on MT8395 Radxa
+>>>> NIO-12L with both hardcoded paths, OF graph support and partially
+>>>> hardcoded paths (meaning main display through OF graph and external
+>>>> display hardcoded, because of OVL_ADAPTOR).
+>>>
+>>> Is that make sense for you to add the DTS changes of these boards into this serie ?
+>>> I asked because, IMHO, that could help to understand the serie.
+>>>
+>>
+>> Yes and no... but I imagine that you're asking this because you're trying to
+>> prepare something with a different SoC+board(s) combination :-)
+>>
+>> In that case, I'm preventively sorry because what follows here is not 100%
+>> perfectly tidy yet as I didn't mean to send the devicetree commits upstream
+>> before this series got picked....
+>>
+>> ... but there you go - I'm sure that you won't mind and that the example will
+>> be more than good enough for you.
+>>
+>> Please note that one of the reasons why I didn't want to add this to the series
+>> is that the following changes show only a mere 50% of the reasons why we want OF
+>> graph support on mediatek-drm (but mainly, it's because I didn't have time to
+>> actually rebase etc :-P )
+> 
+> Thanks for the explanations and examples.
+> Unfortunately, I have 2 display but only one is working (the main: DSI0) when I use the dts method.
+> I've probably missed something but I don't know what.
+> 
+> In my "mmsys" node, if I swap display (the ext endpoint with the main endpoint), the DPI0 is 
+> working, but not the DSI0. I conclude my both paths are good.
+> 
+> Then, I've put some trace into "mtk_drm_of_ddp_path_build" to check if it parse the two endpoint of 
+> the node. Both are parsed, but "of_ep.port" is always = 0. According to "of_graph_parse_endpoint" 
+> function, "port" is the value of the parent "reg", whereas "id" is the value of the endpoint "reg".
+> So I replaced "of_ep.port" by "of_ep.id". Now I've of_ep.id = 0 for main and of_ep.id = 1 for EXT.
+> 
+> Now I've the good CRTC path, I get this error:
+>    mediatek-drm mediatek-drm.1.auto: Invalid display hw pipeline. Last component: 54 (ret=-2)
+>    mediatek-drm mediatek-drm.1.auto: probe with driver mediatek-drm failed with error -22
+> 
+> After quick look, the "cpath" into "mtk_drm_of_ddp_path_build_one" (or deeper functions) seems not 
+> be used as it should, due to the previous "of_ep.port" => "of_ep.id" change of course.
+> 
+> But I probably have to fix "of_ep.port" because I've mis-coded something. Just in case, I share you 
+> my diff:
+> 
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
+> index 1aa3426f561b..f660481d3fe8 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
+> +++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
+> @@ -109,15 +109,51 @@ vsys_lcm_reg: regulator-vsys-lcm {
+>       };
+>   };
+> 
+> +&cpu0 {
+> +    proc-supply = <&mt6357_vproc_reg>;
+> +    sram-supply = <&mt6357_vsram_proc_reg>;
+> +};
+> +
+> +&cpu1 {
+> +    proc-supply = <&mt6357_vproc_reg>;
+> +    sram-supply = <&mt6357_vsram_proc_reg>;
+> +};
+> +
+> +&cpu2 {
+> +    proc-supply = <&mt6357_vproc_reg>;
+> +    sram-supply = <&mt6357_vsram_proc_reg>;
+> +};
+> +
+> +&cpu3 {
+> +    proc-supply = <&mt6357_vproc_reg>;
+> +    sram-supply = <&mt6357_vsram_proc_reg>;
+> +};
+> +
+> +&dither0_out {
+> +    remote-endpoint = <&dsi0_in>;
+> +};
+> +
+>   &dpi0 {
+>       pinctrl-0 = <&dpi_default_pins>;
+>       pinctrl-1 = <&dpi_idle_pins>;
+>       pinctrl-names = "default", "sleep";
+>       status = "okay";
+> +    ports {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> 
+> -    port {
+> -        dpi_out: endpoint {
+> -            remote-endpoint = <&it66121_in>;
+> +        port@0 {
+> +            reg = <0>;
+> +            dpi0_in: endpoint {
+> +                remote-endpoint = <&rdma1_out>;
+> +            };
+> +        };
+> +
+> +        port@1 {
+> +            reg = <1>;
+> +            dpi0_out: endpoint {
+> +                remote-endpoint = <&it66121_in>;
+> +            };
+>           };
+>       };
+>   };
+> @@ -137,36 +173,28 @@ panel@0 {
+> 
+>           port {
+>               panel_in: endpoint {
+> -                remote-endpoint = <&dsi_out>;
+> +                remote-endpoint = <&dsi0_out>;
+>               };
+>           };
+>       };
+> +    ports {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> 
+> -    port {
+> -        dsi_out: endpoint {
+> -            remote-endpoint = <&panel_in>;
+> +        port@0 {
+> +            reg = <0>;
+> +            dsi0_in: endpoint {
+> +                remote-endpoint = <&dither0_out>;
+> +            };
+>           };
+> -    };
+> -};
+> 
+> -&cpu0 {
+> -    proc-supply = <&mt6357_vproc_reg>;
+> -    sram-supply = <&mt6357_vsram_proc_reg>;
+> -};
+> -
+> -&cpu1 {
+> -    proc-supply = <&mt6357_vproc_reg>;
+> -    sram-supply = <&mt6357_vsram_proc_reg>;
+> -};
+> -
+> -&cpu2 {
+> -    proc-supply = <&mt6357_vproc_reg>;
+> -    sram-supply = <&mt6357_vsram_proc_reg>;
+> -};
+> -
+> -&cpu3 {
+> -    proc-supply = <&mt6357_vproc_reg>;
+> -    sram-supply = <&mt6357_vsram_proc_reg>;
+> +        port@1 {
+> +            reg = <1>;
+> +            dsi0_out: endpoint {
+> +                remote-endpoint = <&panel_in>;
+> +            };
+> +        };
+> +    };
+>   };
+> 
+>   &ethernet {
+> @@ -229,7 +257,7 @@ port@0 {
+>                   reg = <0>;
+>                   it66121_in: endpoint {
+>                       bus-width = <12>;
+> -                    remote-endpoint = <&dpi_out>;
+> +                    remote-endpoint = <&dpi0_out>;
+>                   };
+>               };
+> 
+> @@ -557,6 +585,10 @@ &pwm {
+>       status = "okay";
+>   };
+> 
+> +&rdma1_out {
+> +    remote-endpoint = <&dpi0_in>;
+> +};
+> +
+>   &ssusb {
+>       dr_mode = "otg";
+>       maximum-speed = "high-speed";
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8365.dtsi b/arch/arm64/boot/dts/mediatek/mt8365.dtsi
+> index d34519a33c90..dbb559959a9d 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8365.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8365.dtsi
+> @@ -762,6 +762,19 @@ mmsys: syscon@14000000 {
+>               compatible = "mediatek,mt8365-mmsys", "syscon";
+>               reg = <0 0x14000000 0 0x1000>;
+>               #clock-cells = <1>;
+> +            port {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                mmsys_main: endpoint@0 {
+> +                    reg = <0>;
+> +                    remote-endpoint = <&ovl0_in>;
+> +                };
+> +                mmsys_ext: endpoint@1 {
+> +                    reg = <1>;
+> +                    remote-endpoint = <&rdma1_in>;
+> +                };
+> +            };
+>           };
+> 
+>           mutex: mutex@14001000 {
+> @@ -801,6 +814,24 @@ ovl0: ovl@1400b000 {
+>               interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_LOW>;
+>               iommus = <&iommu M4U_PORT_DISP_OVL0>;
+>               power-domains = <&spm MT8365_POWER_DOMAIN_MM>;
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    ovl0_in: endpoint {
+> +                        remote-endpoint = <&mmsys_main>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    ovl0_out: endpoint {
+> +                        remote-endpoint = <&rdma0_in>;
+> +                    };
+> +                };
+> +            };
+>           };
+> 
+>           rdma0: rdma@1400d000 {
+> @@ -811,6 +842,24 @@ rdma0: rdma@1400d000 {
+>               iommus = <&iommu M4U_PORT_DISP_RDMA0>;
+>               mediatek,rdma-fifo-size = <5120>;
+>               power-domains = <&spm MT8365_POWER_DOMAIN_MM>;
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    rdma0_in: endpoint {
+> +                        remote-endpoint = <&ovl0_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    rdma0_out: endpoint {
+> +                        remote-endpoint = <&color0_in>;
+> +                    };
+> +                };
+> +            };
+>           };
+> 
+>           color0: color@1400f000 {
+> @@ -819,6 +868,24 @@ color0: color@1400f000 {
+>               clocks = <&mmsys CLK_MM_MM_DISP_COLOR0>;
+>               interrupts = <GIC_SPI 164 IRQ_TYPE_LEVEL_LOW>;
+>               power-domains = <&spm MT8365_POWER_DOMAIN_MM>;
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    color0_in: endpoint {
+> +                        remote-endpoint = <&rdma0_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    color0_out: endpoint {
+> +                        remote-endpoint = <&ccorr0_in>;
+> +                    };
+> +                };
+> +            };
+>           };
+> 
+>           ccorr0: ccorr@14010000 {
+> @@ -827,6 +894,24 @@ ccorr0: ccorr@14010000 {
+>               clocks = <&mmsys CLK_MM_MM_DISP_CCORR0>;
+>               interrupts = <GIC_SPI 165 IRQ_TYPE_LEVEL_LOW>;
+>               power-domains = <&spm MT8365_POWER_DOMAIN_MM>;
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    ccorr0_in: endpoint {
+> +                        remote-endpoint = <&color0_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    ccorr0_out: endpoint {
+> +                        remote-endpoint = <&aal0_in>;
+> +                    };
+> +                };
+> +            };
+>           };
+> 
+>           aal0: aal@14011000 {
+> @@ -835,6 +920,24 @@ aal0: aal@14011000 {
+>               clocks = <&mmsys CLK_MM_MM_DISP_AAL0>;
+>               interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_LOW>;
+>               power-domains = <&spm MT8365_POWER_DOMAIN_MM>;
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    aal0_in: endpoint {
+> +                        remote-endpoint = <&ccorr0_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    aal0_out: endpoint {
+> +                        remote-endpoint = <&gamma0_in>;
+> +                    };
+> +                };
+> +            };
+>           };
+> 
+>           gamma0: gamma@14012000 {
+> @@ -843,6 +946,24 @@ gamma0: gamma@14012000 {
+>               clocks = <&mmsys CLK_MM_MM_DISP_GAMMA0>;
+>               interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_LOW>;
+>               power-domains = <&spm MT8365_POWER_DOMAIN_MM>;
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    gamma0_in: endpoint {
+> +                        remote-endpoint = <&aal0_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    gamma0_out: endpoint {
+> +                        remote-endpoint = <&dither0_in>;
+> +                    };
+> +                };
+> +            };
+>           };
+> 
+>           dither0: dither@14013000 {
+> @@ -851,6 +972,23 @@ dither0: dither@14013000 {
+>               clocks = <&mmsys CLK_MM_MM_DISP_DITHER0>;
+>               interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_LOW>;
+>               power-domains = <&spm MT8365_POWER_DOMAIN_MM>;
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    dither0_in: endpoint {
+> +                        remote-endpoint = <&gamma0_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    dither0_out: endpoint {
+> +                    };
+> +                };
+> +            };
+>           };
+> 
+>           dsi0: dsi@14014000 {
+> @@ -874,6 +1012,23 @@ rdma1: rdma@14016000 {
+>               iommus = <&iommu M4U_PORT_DISP_RDMA1>;
+>               mediatek,rdma-fifo-size = <2048>;
+>               power-domains = <&spm MT8365_POWER_DOMAIN_MM>;
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    rdma1_in: endpoint {
+> +                        remote-endpoint = <&mmsys_ext>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    rdma1_out: endpoint {
+> +                    };
+> +                };
+> +            };
+>           };
+> 
+>           dpi0: dpi@14018000 {
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index dacf4eaa3457..5992b7865310 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -230,22 +230,6 @@ static const unsigned int mt8195_mtk_ddp_ext[] = {
+>       DDP_COMPONENT_DP_INTF1,
+>   };
+> 
+> -static const unsigned int mt8365_mtk_ddp_main[] = {
+> -    DDP_COMPONENT_OVL0,
+> -    DDP_COMPONENT_RDMA0,
+> -    DDP_COMPONENT_COLOR0,
+> -    DDP_COMPONENT_CCORR,
+> -    DDP_COMPONENT_AAL0,
+> -    DDP_COMPONENT_GAMMA,
+> -    DDP_COMPONENT_DITHER0,
+> -    DDP_COMPONENT_DSI0,
+> -};
+> -
+> -static const unsigned int mt8365_mtk_ddp_ext[] = {
+> -    DDP_COMPONENT_RDMA1,
+> -    DDP_COMPONENT_DPI0,
+> -};
+> -
+>   static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
+>       .main_path = mt2701_mtk_ddp_main,
+>       .main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
+> @@ -334,10 +318,6 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
+>   };
+> 
+>   static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data = {
+> -    .main_path = mt8365_mtk_ddp_main,
+> -    .main_len = ARRAY_SIZE(mt8365_mtk_ddp_main),
+> -    .ext_path = mt8365_mtk_ddp_ext,
+> -    .ext_len = ARRAY_SIZE(mt8365_mtk_ddp_ext),
+>       .mmsys_dev_num = 1,
+>   };
+> 
+> 
+> 
+> -- 
+> Regards,
+> Alexandre
 
-
-Thanks
-ChenYu
-
-> Cheers,
-> Matt
->
-> > [73602.438144] ------------[ cut here ]------------
-> > [73602.450563] WARNING: CPU: 3 PID: 2244 at
-> > drivers/gpu/drm/drm_gpuvm.c:1874 drm_gpuva_unlink+0xec/0x140
-> > [drm_gpuvm]
-> > [73602.468778] Modules linked in: mtk_vcodec_dec mtk_vcodec_enc
-> > v4l2_vp9 v4l2_h264 cdc_ether mtk_vcodec_dbgfs usbnet mtk_vcodec_common
-> > mtk_jpeg uvcvideo mtk_scp powervr mtk_jpeg_enc_hw mtk_rpmsg mtk_mdp
-> > rpmsg_core cros_ec_sensors mtk_jpeg_dec_hw mtk_scp_ipi
-> > cros_ec_sensors_core videobuf2_vmalloc v4l2_mem2mem r8152 uvc
-> > videobuf2_dma_contig videobuf2_v4l2 drm_gpuvm videobuf2_memops sha1_ce
-> > videobuf2_common mii drm_exec cros_ec_sensorhub mtk_vpu joydev fuse
-> > [73602.526113] CPU: 3 PID: 2244 Comm: vkmark Tainted: G        W
-> >     6.9.0-rc7-next-20240506-11489-g2585d27380e4-dirty #217
-> > b57080d80a375eadc1b59c661ce880f5be496816
-> > [73602.549750] Hardware name: Google Elm (DT)
-> > [73602.562503] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BT=
-YPE=3D--)
-> > [73602.578257] pc : drm_gpuva_unlink+0xec/0x140 [drm_gpuvm]
-> > [73602.592391] lr : drm_gpuva_unlink+0x12c/0x140 [drm_gpuvm]
-> > [73602.606597] sp : ffffffc086aa7590
-> > [73602.618660] x29: ffffffc086aa7590 x28: 0000008000000000 x27: ffffffc=
-07ca59b98
-> > [73602.634725] x26: ffffffc086aa7900 x25: 0000000000000000 x24: ffffff8=
-0c14c5980
-> > [73602.650776] x23: ffffff80054cee08 x22: ffffff80c14c5d00 x21: ffffffc=
-082f8a000
-> > [73602.666878] x20: ffffff80d1c3a000 x19: ffffff80054cee00 x18: 0000000=
-000000000
-> > [73602.682898] x17: 0000000000000000 x16: 0000000000000000 x15: 0000007=
-fc6e28c90
-> > [73602.698907] x14: 1ffffff810d54ea4 x13: 0000000041b58ab3 x12: ffffffb=
-019c8f00c
-> > [73602.714919] x11: 1ffffff019c8f00b x10: ffffffb019c8f00b x9 : ffffffc=
-07ca1dff8
-> > [73602.730964] x8 : 0000004fe6370ff5 x7 : ffffff80ce47805b x6 : 0000000=
-000000001
-> > [73602.746942] x5 : ffffff80ce478058 x4 : ffffff80ce478058 x3 : 0000000=
-000000000
-> > [73602.762920] x2 : 0000000000000000 x1 : ffffff80d1c3a1a0 x0 : 0000000=
-000000000
-> > [73602.778793] Call trace:
-> > [73602.789746]  drm_gpuva_unlink+0xec/0x140 [drm_gpuvm
-> > bbf6d948c0b434a2936abb76cd7734fb954b4801]
-> > [73602.807036]  pvr_vm_gpuva_unmap+0x88/0xb0 [powervr
-> > 3ad437ff1d69ca6bbe76c29aac5b59cf4d3e54e4]
-> > [73602.824299]  op_unmap_cb.isra.0+0xbc/0x108 [drm_gpuvm
-> > bbf6d948c0b434a2936abb76cd7734fb954b4801]
-> > [73602.841559]  __drm_gpuvm_sm_unmap+0x288/0x2c0 [drm_gpuvm
-> > bbf6d948c0b434a2936abb76cd7734fb954b4801]
-> > [73602.858863]  drm_gpuvm_sm_unmap+0x78/0xb8 [drm_gpuvm
-> > bbf6d948c0b434a2936abb76cd7734fb954b4801]
-> > [73602.875693]  pvr_vm_bind_op_exec+0x6c/0x118 [powervr
-> > 3ad437ff1d69ca6bbe76c29aac5b59cf4d3e54e4]
-> > [73602.892483]  pvr_vm_unmap+0x1f8/0x238 [powervr
-> > 3ad437ff1d69ca6bbe76c29aac5b59cf4d3e54e4]
-> > [73602.908746]  pvr_ioctl_vm_unmap+0x80/0xb8 [powervr
-> > 3ad437ff1d69ca6bbe76c29aac5b59cf4d3e54e4]
-> > [73602.925386]  drm_ioctl_kernel+0x140/0x1d0
-> > [73602.937503]  drm_ioctl+0x3e8/0x7e0
-> > [73602.948949]  __arm64_sys_ioctl+0xec/0x118
-> > [73602.960993]  invoke_syscall+0x68/0x198
-> > [73602.972749]  el0_svc_common.constprop.0+0x80/0x150
-> > [73602.985561]  do_el0_svc+0x38/0x50
-> > [73602.996856]  el0_svc+0x4c/0xc0
-> > [73603.007821]  el0t_64_sync_handler+0x120/0x130
-> > [73603.020096]  el0t_64_sync+0x1a8/0x1b0
-> > [73603.031606] irq event stamp: 153208
-> > [73603.042881] hardirqs last  enabled at (153207):
-> > [<ffffffc081475b30>] _raw_spin_unlock_irqrestore+0x98/0xa8
-> > [73603.060595] hardirqs last disabled at (153208):
-> > [<ffffffc081461a00>] el1_dbg+0x28/0x90
-> > [73603.076534] softirqs last  enabled at (153032):
-> > [<ffffffc08001a714>] fpsimd_restore_current_state+0x4c/0xf8
-> > [73603.094345] softirqs last disabled at (153030):
-> > [<ffffffc08001a6e4>] fpsimd_restore_current_state+0x1c/0xf8
-> > [73603.112041] ---[ end trace 0000000000000000 ]---
-> > [73603.125721] ------------[ cut here ]------------
-> > [73603.165947] WARNING: CPU: 0 PID: 2244 at
-> > drivers/gpu/drm/drm_gpuvm.c:1514 drm_gpuvm_bo_put.part.0+0x1c0/0x4d0
-> > [drm_gpuvm]
-> > [73603.213280] Modules linked in: mtk_vcodec_dec mtk_vcodec_enc
-> > v4l2_vp9 v4l2_h264 cdc_ether mtk_vcodec_dbgfs usbnet mtk_vcodec_common
-> > mtk_jpeg uvcvideo mtk_scp powervr mtk_jpeg_enc_hw mtk_rpmsg mtk_mdp
-> > rpmsg_core cros_ec_sensors mtk_jpeg_dec_hw mtk_scp_ipi
-> > cros_ec_sensors_core videobuf2_vmalloc v4l2_mem2mem r8152 uvc
-> > videobuf2_dma_contig videobuf2_v4l2 drm_gpuvm videobuf2_memops sha1_ce
-> > videobuf2_common mii drm_exec cros_ec_sensorhub mtk_vpu joydev fuse
-> > [73603.332160] CPU: 0 PID: 2244 Comm: vkmark Tainted: G        W
-> >     6.9.0-rc7-next-20240506-11489-g2585d27380e4-dirty #217
-> > b57080d80a375eadc1b59c661ce880f5be496816
-> > [73603.386774] Hardware name: Google Elm (DT)
-> > [73603.429641] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BT=
-YPE=3D--)
-> > [73603.475694] pc : drm_gpuvm_bo_put.part.0+0x1c0/0x4d0 [drm_gpuvm]
-> > [73603.520680] lr : drm_gpuvm_bo_put.part.0+0x49c/0x4d0 [drm_gpuvm]
-> > [73603.565596] sp : ffffffc086aa7540
-> > [73603.607495] x29: ffffffc086aa7540 x28: 0000008000000000 x27: ffffffc=
-07ca59b98
-> > [73603.653971] x26: ffffffc082f8ae24 x25: ffffff80c14c59c8 x24: ffffffc=
-07ca59b60
-> > [73603.700424] x23: ffffff80c14c59c8 x22: ffffffc082f8a000 x21: ffffff8=
-0d1c3a000
-> > [73603.746907] x20: ffffff80ce478010 x19: ffffff80c14c5980 x18: 0000000=
-000000000
-> > [73603.793539] x17: 0000000000000000 x16: 0000000000000000 x15: 0000007=
-fc6e28c90
-> > [73603.840321] x14: 1ffffff810d54e60 x13: 0000000041b58ab3 x12: ffffffb=
-019c8f02c
-> > [73603.887322] x11: 1ffffff019c8f02b x10: ffffffb019c8f02b x9 : dfffffc=
-000000000
-> > [73603.934480] x8 : 0000004fe6370fd5 x7 : ffffff80ce478158 x6 : 0000000=
-000000001
-> > [73603.981343] x5 : ffffff80ce478158 x4 : ffffffb019c8f02c x3 : 0000000=
-000000000
-> > [73604.028173] x2 : 0000000000000000 x1 : ffffff80d1c3a1a0 x0 : 0000000=
-000000000
-> > [73604.074920] Call trace:
-> > [73604.116427]  drm_gpuvm_bo_put.part.0+0x1c0/0x4d0 [drm_gpuvm
-> > bbf6d948c0b434a2936abb76cd7734fb954b4801]
-> > [73604.165828]  drm_gpuva_unlink+0xfc/0x140 [drm_gpuvm
-> > bbf6d948c0b434a2936abb76cd7734fb954b4801]
-> > [73604.214815]  pvr_vm_gpuva_unmap+0x88/0xb0 [powervr
-> > 3ad437ff1d69ca6bbe76c29aac5b59cf4d3e54e4]
-> > [73604.263747]  op_unmap_cb.isra.0+0xbc/0x108 [drm_gpuvm
-> > bbf6d948c0b434a2936abb76cd7734fb954b4801]
-> > [73604.311722]  __drm_gpuvm_sm_unmap+0x288/0x2c0 [drm_gpuvm
-> > bbf6d948c0b434a2936abb76cd7734fb954b4801]
-> > [73604.358926]  drm_gpuvm_sm_unmap+0x78/0xb8 [drm_gpuvm
-> > bbf6d948c0b434a2936abb76cd7734fb954b4801]
-> > [73604.404827]  pvr_vm_bind_op_exec+0x6c/0x118 [powervr
-> > 3ad437ff1d69ca6bbe76c29aac5b59cf4d3e54e4]
-> > [73604.450483]  pvr_vm_unmap+0x1f8/0x238 [powervr
-> > 3ad437ff1d69ca6bbe76c29aac5b59cf4d3e54e4]
-> > [73604.495629]  pvr_ioctl_vm_unmap+0x80/0xb8 [powervr
-> > 3ad437ff1d69ca6bbe76c29aac5b59cf4d3e54e4]
-> > [73604.541253]  drm_ioctl_kernel+0x140/0x1d0
-> > [73604.581936]  drm_ioctl+0x3e8/0x7e0
-> > [73604.621751]  __arm64_sys_ioctl+0xec/0x118
-> > [73604.662115]  invoke_syscall+0x68/0x198
-> > [73604.702215]  el0_svc_common.constprop.0+0x80/0x150
-> > [73604.743445]  do_el0_svc+0x38/0x50
-> > [73604.782981]  el0_svc+0x4c/0xc0
-> > [73604.822048]  el0t_64_sync_handler+0x120/0x130
-> > [73604.862456]  el0t_64_sync+0x1a8/0x1b0
-> > [73604.901872] irq event stamp: 153240
-> > [73604.940864] hardirqs last  enabled at (153239):
-> > [<ffffffc081461818>] exit_to_kernel_mode+0x40/0x128
-> > [73604.986615] hardirqs last disabled at (153240):
-> > [<ffffffc081461a00>] el1_dbg+0x28/0x90
-> > [73605.031143] softirqs last  enabled at (153232):
-> > [<ffffffc0800f7308>] handle_softirqs+0x6d8/0x708
-> > [73605.076567] softirqs last disabled at (153211):
-> > [<ffffffc080010484>] __do_softirq+0x1c/0x28
-> > [73605.121199] ---[ end trace 0000000000000000 ]---
+-- 
+Regards,
+Alexandre
