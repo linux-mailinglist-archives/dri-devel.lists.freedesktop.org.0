@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FC48C5A35
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 19:22:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962D58C5A37
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 19:22:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C507C10E26B;
-	Tue, 14 May 2024 17:22:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F05010E56C;
+	Tue, 14 May 2024 17:22:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="jmJ8muqu";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="PvpKgiWP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9E5910E1E5
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 17:21:58 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-1eb24e3a2d9so51471955ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 10:21:58 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30CCA10E2E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 17:22:01 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-1eecc71311eso49320275ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 10:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715707317; x=1716312117;
+ d=chromium.org; s=google; t=1715707319; x=1716312119;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Y+Or8KqEsgChQkx7PQCuukTAwNzg+3SO5efP38g6ozU=;
- b=jmJ8muquil/p48mKdg4BRH/AbxlF8QlcX+UWsG7mqC10Ls/xXVD/uzyp345nj1HIC6
- uELnz7/x82dd9ZhEfBNfnSjJrJYq7jFgDPOTRc1GQxXmj2Mx6NUVDC7MSeazqD4dXEmt
- ySsgZ+ytNN0M7VA2CQP+DR7EwWKQ7x5Oypv4E=
+ bh=9F2O1ySgZCzUPwkKOIVF7CvO8xaM7qBPiKzCHpLk+3I=;
+ b=PvpKgiWPKsGKGRlM98kOBxVHQ+7/Akjs7hwVQFA/X6Gt1/a51pXcvZDp6+A5aOwir0
+ Tjbuzju1WVuJpScJHNiSN+sgq8E1aPMVD4A9bWBhGbCzk0gaYPFm7lDHQPFk01Nld8IE
+ 5FTGWu9kHvM1cAZQEGr0lp7bQCmyars9TF4VM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715707317; x=1716312117;
+ d=1e100.net; s=20230601; t=1715707319; x=1716312119;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Y+Or8KqEsgChQkx7PQCuukTAwNzg+3SO5efP38g6ozU=;
- b=Me6LUS04tQjjlZ93TCuDnykDqxBpVcOX0WbPTNrvjs8TxoSzIpbKgLV6aRUgO6Ic21
- dk67NK9GAY9b4WPdJiGhC13m95H5fAvKCqklXgXg57tgk0MQ1dUvLoNcdn9JwHDxQnSa
- 1nDmbaf3JEY+VV5Csn+7QCHoGevkW3V093mVGV8pMFWK8M+aFVlphEfGlOTcij1yDJAH
- zDJrFm7IpsHJKjMIhaYhAZ/qRZRW8BIVqbkBqG/9yDKvmMk8G4NXrwM9GudP7j0TiZZP
- Y0UxtY+oNlnp/e+PUibtaL3TemcBZqsmUIE9lOHO+r+nDfNx9m5dhwdvdUqgPK5b4dN3
- Zfmg==
-X-Gm-Message-State: AOJu0Yw6pc2ZGbvKQhEM+A9U8ZLEJ+KQCrlUO4ScZEUOu8hL3IFa55oQ
- DzMeTLpzBrozzOFMJUc3Nc9yRVE1V/gt6HNnUpBXQ4qv3XL8LoK8CbYDVFN9dXAVm5pH+qLpLnI
+ bh=9F2O1ySgZCzUPwkKOIVF7CvO8xaM7qBPiKzCHpLk+3I=;
+ b=b3qhCexX2L9sYBBP3a3BZibC55f80ziqePwOv5oD2OG22gqlDXYX5Ch0u/6QAOHa2x
+ YT4lMPMn+WM9LMSY2oHOREj2VpWiAuKf5gAowqJz783HeJy3ckQUHqGD1Mmf06jUD+9V
+ N/u52QWzejRVws8YZbAN7lo3INWnku5EWiIPiuNk+Yca08rnrT7OPRQBzU9OOLpKLeV/
+ YRnberUL9Etp3+Mgqsuv8E9AmeJm4Db5IGSJZwJKtXEftt0ZIh58zWYdALYnAHquNudl
+ YSRzx815P+KZGtJYnRA9FlyRenxYeIhj3kuixzSjfyJYF5ZivJubots0uzAZEv+8Xkvh
+ vMew==
+X-Gm-Message-State: AOJu0YyX3gFkvL6yTm0u22Z/E3qRv3BKAINefS1iIdJS4QkD9tmSRL6S
+ ByygLbcO+KYDtHiRt5s1g7tIzrJIPtd58j2BR7NNkd2Eea6LvAk9ZivIkq9HzY/gBRrOdy62M5E
  =
-X-Google-Smtp-Source: AGHT+IE5+z/vnNxyc7q5T1nnaWe7eAZU+7yxjqVeuIT+BTUFK8rCGVprvdfaAHD303EVUueR7yCNug==
-X-Received: by 2002:a17:902:6542:b0:1eb:1240:1aea with SMTP id
- d9443c01a7336-1ef43d12749mr155731325ad.20.1715707317226; 
- Tue, 14 May 2024 10:21:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF5Hi8A8gvBVkU38EIZ/5cpHdnK9nFkHtcNa75rxG8dzS/5sKxvVlEhSFAbLfiuOFv8u7J5hQ==
+X-Received: by 2002:a17:902:e808:b0:1eb:4a72:91ff with SMTP id
+ d9443c01a7336-1ef43f4e4c3mr222172195ad.49.1715707319574; 
+ Tue, 14 May 2024 10:21:59 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com
  ([2620:15c:9d:2:ef10:6fdf:5041:421f])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1ef0bf3101csm100147575ad.121.2024.05.14.10.21.55
+ d9443c01a7336-1ef0bf3101csm100147575ad.121.2024.05.14.10.21.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 May 2024 10:21:56 -0700 (PDT)
+ Tue, 14 May 2024 10:21:58 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org
 Cc: Javier Martinez Canillas <javierm@redhat.com>,
@@ -70,10 +70,10 @@ Cc: Javier Martinez Canillas <javierm@redhat.com>,
  David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/9] drm/mipi-dsi: Fix theoretical int overflow in
- mipi_dsi_generic_write_seq()
-Date: Tue, 14 May 2024 10:20:52 -0700
-Message-ID: <20240514102056.v5.2.Iadb65b8add19ed3ae3ed6425011beb97e380a912@changeid>
+Subject: [PATCH v5 3/9] drm/mipi-dsi: mipi_dsi_*_write functions don't need to
+ ratelimit prints
+Date: Tue, 14 May 2024 10:20:53 -0700
+Message-ID: <20240514102056.v5.3.I9982cd5d8014de7a4513f5619f66f88da49ce4ec@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240514172136.1578498-1-dianders@chromium.org>
 References: <20240514172136.1578498-1-dianders@chromium.org>
@@ -94,25 +94,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mipi_dsi_generic_write_seq() macro makes a call to
-mipi_dsi_generic_write() which returns a type ssize_t. The macro then
-stores it in an int and checks to see if it's negative. This could
-theoretically be a problem if "ssize_t" is larger than "int".
+We really don't expect these errors to be printed over and over
+again. When a driver hits the error it should bail out. Just use a
+normal error print.
 
-To see the issue, imagine that "ssize_t" is 32-bits and "int" is
-16-bits, you could see a problem if there was some code out there that
-looked like:
+This gives a nice space savings for users of these functions:
 
-  mipi_dsi_generic_write_seq(dsi, <32768 bytes as arguments>);
+$ scripts/bloat-o-meter \
+  .../before/panel-novatek-nt36672e.ko \
+  .../after/panel-novatek-nt36672e.ko
+add/remove: 0/1 grow/shrink: 0/1 up/down: 0/-16760 (-16760)
+Function                                     old     new   delta
+nt36672e_1080x2408_60hz_init               17080   10640   -6440
+nt36672e_1080x2408_60hz_init._rs           10320       -  -10320
+Total: Before=31815, After=15055, chg -52.68%
 
-...since we'd get back that 32768 bytes were transferred and 32768
-stored in a 16-bit int would look negative.
-
-Though there are no callsites where we'd actually hit this (even if
-"int" was only 16-bit), it's cleaner to make the types match so let's
-fix it.
-
-Fixes: a9015ce59320 ("drm/mipi-dsi: Add a mipi_dsi_dcs_write_seq() macro")
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
@@ -121,47 +117,56 @@ Signed-off-by: Douglas Anderson <dianders@chromium.org>
 (no changes since v3)
 
 Changes in v3:
-- Use %zd in print instead of casting errors to int.
+- ("mipi_dsi_*_write functions don't need to ratelimit...") moved earlier.
 
 Changes in v2:
 - New
 
- include/drm/drm_mipi_dsi.h | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ include/drm/drm_mipi_dsi.h | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 70ce0b8cbc68..e0f56564bf97 100644
+index e0f56564bf97..67967be48dbd 100644
 --- a/include/drm/drm_mipi_dsi.h
 +++ b/include/drm/drm_mipi_dsi.h
-@@ -314,17 +314,17 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+@@ -314,17 +314,16 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
   * @dsi: DSI peripheral device
   * @seq: buffer containing the payload
   */
--#define mipi_dsi_generic_write_seq(dsi, seq...)                                \
--	do {                                                                   \
--		static const u8 d[] = { seq };                                 \
--		struct device *dev = &dsi->dev;                                \
--		int ret;                                                       \
--		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));           \
--		if (ret < 0) {                                                 \
--			dev_err_ratelimited(dev, "transmit data failed: %d\n", \
--					    ret);                              \
--			return ret;                                            \
--		}                                                              \
-+#define mipi_dsi_generic_write_seq(dsi, seq...)                                 \
-+	do {                                                                    \
-+		static const u8 d[] = { seq };                                  \
-+		struct device *dev = &dsi->dev;                                 \
-+		ssize_t ret;                                                    \
-+		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));            \
-+		if (ret < 0) {                                                  \
-+			dev_err_ratelimited(dev, "transmit data failed: %zd\n", \
-+					    ret);                               \
-+			return ret;                                             \
-+		}                                                               \
+-#define mipi_dsi_generic_write_seq(dsi, seq...)                                 \
+-	do {                                                                    \
+-		static const u8 d[] = { seq };                                  \
+-		struct device *dev = &dsi->dev;                                 \
+-		ssize_t ret;                                                    \
+-		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));            \
+-		if (ret < 0) {                                                  \
+-			dev_err_ratelimited(dev, "transmit data failed: %zd\n", \
+-					    ret);                               \
+-			return ret;                                             \
+-		}                                                               \
++#define mipi_dsi_generic_write_seq(dsi, seq...)                           \
++	do {                                                              \
++		static const u8 d[] = { seq };                            \
++		struct device *dev = &dsi->dev;                           \
++		ssize_t ret;                                              \
++		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));      \
++		if (ret < 0) {                                            \
++			dev_err(dev, "transmit data failed: %zd\n", ret); \
++			return ret;                                       \
++		}                                                         \
  	} while (0)
  
  /**
+@@ -340,8 +339,7 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+ 		ssize_t ret;                                                \
+ 		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));     \
+ 		if (ret < 0) {                                              \
+-			dev_err_ratelimited(                                \
+-				dev, "sending command %#02x failed: %zd\n", \
++			dev_err(dev, "sending command %#02x failed: %zd\n", \
+ 				cmd, ret);                                  \
+ 			return ret;                                         \
+ 		}                                                           \
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
