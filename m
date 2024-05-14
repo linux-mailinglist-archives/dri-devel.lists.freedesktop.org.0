@@ -2,144 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A7A8C5683
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 15:07:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4FE8C568D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 15:09:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34F4C10E0D5;
-	Tue, 14 May 2024 13:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0614210E1F4;
+	Tue, 14 May 2024 13:09:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="bdL6546r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bF9iK0Si";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bdL6546r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bF9iK0Si";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="nRZq4ENh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE13C10E0D5
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 13:07:14 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 382E938521;
- Tue, 14 May 2024 13:07:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715692033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=q7ytgcoCYHM+0m4s4ekDbBTtMPjGuVDlo0hQ/TJgTYc=;
- b=bdL6546rd8t9jmqcap9Iz9QqA1yBH3XbMqF19aDL03ZxsfDJ+Rfi/FiofFUhyLy8ZS76ew
- IC2KOmpZpbrxkAiIHMRHCbT3aSZc3LP/CzTjQfNO72B2RbxC8y+je+8XgZeB14xQt7aFGe
- NoQgYRrNUq/cbHZr0maB1QfxbILFuZU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715692033;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=q7ytgcoCYHM+0m4s4ekDbBTtMPjGuVDlo0hQ/TJgTYc=;
- b=bF9iK0SiBPFgz38jETFuUGgqbB1yzK8kvXRaEIBXFKMcnURFp2f7Pz+hip4i8N6f26Lzkt
- B6eJMDtnLFPrscCA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bdL6546r;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bF9iK0Si
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715692033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=q7ytgcoCYHM+0m4s4ekDbBTtMPjGuVDlo0hQ/TJgTYc=;
- b=bdL6546rd8t9jmqcap9Iz9QqA1yBH3XbMqF19aDL03ZxsfDJ+Rfi/FiofFUhyLy8ZS76ew
- IC2KOmpZpbrxkAiIHMRHCbT3aSZc3LP/CzTjQfNO72B2RbxC8y+je+8XgZeB14xQt7aFGe
- NoQgYRrNUq/cbHZr0maB1QfxbILFuZU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715692033;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=q7ytgcoCYHM+0m4s4ekDbBTtMPjGuVDlo0hQ/TJgTYc=;
- b=bF9iK0SiBPFgz38jETFuUGgqbB1yzK8kvXRaEIBXFKMcnURFp2f7Pz+hip4i8N6f26Lzkt
- B6eJMDtnLFPrscCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC2121372E;
- Tue, 14 May 2024 13:07:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id a7ULOABiQ2Y/JAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 14 May 2024 13:07:12 +0000
-Message-ID: <784e277b-ef15-4c82-9720-c9a03d53f3c6@suse.de>
-Date: Tue, 14 May 2024 15:07:12 +0200
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7174110E110
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 13:09:10 +0000 (UTC)
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 44EBUDW3009717; Tue, 14 May 2024 13:09:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=I17vbZiH4iZTzoMc8v6V70YjIxKVGmNtw1dSKswROtA=;
+ b=nRZq4ENhHTnEPXpKw9DWDZV5Dti5eZ7Z2kt/z/vTSZonTbA0a7SaC+VeuENJmXv3LWva
+ SqASApuVQ7h6DfMSt4hwXeOcSQ4MJxNyt4HFMs2DYAiLB4J/K4UrdA7cFC58EvJ5v/XU
+ r08+yy0Q9lS77Ynjoa83UcOf8axMOPjrYyDSK7fz8QoRWVsacNm7gB1L2SWlnDxkrhaY
+ ZtIcuM/1LdxnG5Smter+9GpBskInnpnzdgTaXrUCvlZK54UPPDpBLkb3dmFFyESOWSZN
+ CmWOvtow3RjQBTAXAAr5IeVCGgMDkIo/QK5eI0jd4F2mw6e6lthySIXQrffd2NU0umyO Lg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y474u07m4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 May 2024 13:09:05 +0000
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 44ED94nS030706;
+ Tue, 14 May 2024 13:09:04 GMT
+Received: from ppma22.wdc07v.mail.ibm.com
+ (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y474u07m2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 May 2024 13:09:04 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+ by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 44EB4ohd020388; Tue, 14 May 2024 13:09:04 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
+ by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3y2kcywnmy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 May 2024 13:09:04 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com
+ [10.39.53.232])
+ by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 44ED90Ba42795386
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 May 2024 13:09:02 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C61FE58053;
+ Tue, 14 May 2024 13:09:00 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 658F458061;
+ Tue, 14 May 2024 13:08:59 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 14 May 2024 13:08:59 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Arnd Bergmann <arnd@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+ linux-kernel@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>
+Subject: [PATCH v2 0/1] video: Handle HAS_IOPORT dependencies
+Date: Tue, 14 May 2024 15:08:57 +0200
+Message-Id: <20240514130858.3048650-1-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.40.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: QykJcn6P0RM7EhaMWuoj5CLTQ0u91Zv4
+X-Proofpoint-GUID: JNmgGelJt1xlrLlfze0rHv1rqWBc4L-F
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/11] drm/hisilicon/hibmc: convert to struct drm_edid
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao
- <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
- <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-References: <cover.1715691257.git.jani.nikula@intel.com>
- <386e3a64efbdd61c3eaed3f49ea9c3ebd4fcd41d.1715691257.git.jani.nikula@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <386e3a64efbdd61c3eaed3f49ea9c3ebd4fcd41d.1715691257.git.jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -6.50
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 382E938521
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-6.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[10]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[hisilicon.com:email, suse.de:dkim, suse.de:email,
- linaro.org:email, imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-14_06,2024-05-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ suspectscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0
+ spamscore=0 impostorscore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2405140093
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,83 +101,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi,
 
-Am 14.05.24 um 14:55 schrieb Jani Nikula:
-> Prefer the struct drm_edid based functions for reading the EDID and
-> updating the connector.
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> ---
->
-> Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> Cc: Tian Tao <tiantao6@hisilicon.com>
-> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Yongqin Liu <yongqin.liu@linaro.org>
-> Cc: John Stultz <jstultz@google.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c    | 17 ++++++++++-------
->   1 file changed, 10 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> index 94e2c573a7af..409c551c92af 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> @@ -24,14 +24,16 @@
->   
->   static int hibmc_connector_get_modes(struct drm_connector *connector)
+This is a follow up in my ongoing effort of making inb()/outb() and
+similar I/O port accessors compile-time optional. Previously I sent this
+as a treewide series titled "treewide: Remove I/O port accessors for
+HAS_IOPORT=n" with the latest being its 5th version[0]. With a significant
+subset of patches merged I've changed over to per-subsystem series. These
+series are stand alone and should be merged via the relevant tree such
+that with all subsystems complete we can follow this up with the final
+patch that will make the I/O port accessors compile-time optional.
 
-Could this function be replaced with a call to 
-drm_connector_helper_get_modes()? With the patch, the only difference is 
-the call to the _noedid() function, which the DRM core does 
-automatically. There will still be a difference in the maximum 
-resolution, but standardizing on 1024x768 seems preferable to me.
+The current state of the full series with changes to the remaining subsystems
+and the aforementioned final patch can be found for your convenience on my
+git.kernel.org tree in the has_ioport branch[1]. As for compile-time vs runtime
+see Linus' reply to my first attempt[2].
 
-Best regards
-Thomas
+Changes since v1:
+- Moved vga_mm_r(), vga_mm_w(), vga_mm_w_fast() above #ifdef CONFIG_HAS_IOPORT
+  to use them in with or without I/O port variants.
+- Duplicated vga_r(), vga_w(), vga_w_fast() functions as non-I/O port variants
+  to get rid of in-code #ifdef (Arnd)
+- Got rid of if (regbase) logic inversion needed for in-code #ifdef
 
->   {
-> -	int count;
-> -	void *edid;
->   	struct hibmc_connector *hibmc_connector = to_hibmc_connector(connector);
-> +	const struct drm_edid *drm_edid;
-> +	int count;
-> +
-> +	drm_edid = drm_edid_read_ddc(connector, &hibmc_connector->adapter);
->   
-> -	edid = drm_get_edid(connector, &hibmc_connector->adapter);
-> -	if (edid) {
-> -		drm_connector_update_edid_property(connector, edid);
-> -		count = drm_add_edid_modes(connector, edid);
-> +	drm_edid_connector_update(connector, drm_edid);
-> +
-> +	if (drm_edid) {
-> +		count = drm_edid_connector_add_modes(connector);
->   		if (count)
->   			goto out;
->   	}
-> @@ -42,7 +44,8 @@ static int hibmc_connector_get_modes(struct drm_connector *connector)
->   	drm_set_preferred_mode(connector, 1024, 768);
->   
->   out:
-> -	kfree(edid);
-> +	drm_edid_free(drm_edid);
-> +
->   	return count;
->   }
->   
+Thanks,
+Niklas
+
+[0] https://lore.kernel.org/all/20230522105049.1467313-1-schnelle@linux.ibm.com/
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git/log/?h=has_ioport
+[2] https://lore.kernel.org/lkml/CAHk-=wg80je=K7madF4e7WrRNp37e3qh6y10Svhdc7O8SZ_-8g@mail.gmail.com/
+
+Niklas Schnelle (1):
+  video: Handle HAS_IOPORT dependencies
+
+ include/video/vga.h | 58 ++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 42 insertions(+), 16 deletions(-)
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.40.1
 
