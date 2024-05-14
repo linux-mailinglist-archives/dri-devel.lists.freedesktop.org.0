@@ -2,130 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91648C561A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 14:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B718C5628
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 14:46:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE6310E039;
-	Tue, 14 May 2024 12:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7C1110E828;
+	Tue, 14 May 2024 12:46:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="OfdFJswx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jYOYD9Hc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OfdFJswx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jYOYD9Hc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AXcLaHy/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E9B10E039
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 12:43:42 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8C3F53E9B4;
- Tue, 14 May 2024 12:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715690620; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=b6+tNv49nCn2ieSVSaIM5fRcj0h4rC0itWZkCMQCCrg=;
- b=OfdFJswxiTBoiznw6QMWMjDcL/nhcYc9+MfvzqZVpLIZQVamC9mPVi2112OzDDB0ULEF74
- eveBt1u30DF4RxnCL+meNgByyodBg7ROkyQGl0d+3N0p4yZ2xYgRWP6V/AUNcMKqvaoizj
- i4+ZuLHn/yoigoEVe5cXWVJ42Rho/bE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715690620;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=b6+tNv49nCn2ieSVSaIM5fRcj0h4rC0itWZkCMQCCrg=;
- b=jYOYD9Hc6gt0PFWQBWu/snQ6WKHPQHOEIi48m1M7hmhVERDEd9R7gtkyKZj3LyZ7euWZVD
- PLyUgCTdauLSGwBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715690620; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=b6+tNv49nCn2ieSVSaIM5fRcj0h4rC0itWZkCMQCCrg=;
- b=OfdFJswxiTBoiznw6QMWMjDcL/nhcYc9+MfvzqZVpLIZQVamC9mPVi2112OzDDB0ULEF74
- eveBt1u30DF4RxnCL+meNgByyodBg7ROkyQGl0d+3N0p4yZ2xYgRWP6V/AUNcMKqvaoizj
- i4+ZuLHn/yoigoEVe5cXWVJ42Rho/bE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715690620;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=b6+tNv49nCn2ieSVSaIM5fRcj0h4rC0itWZkCMQCCrg=;
- b=jYOYD9Hc6gt0PFWQBWu/snQ6WKHPQHOEIi48m1M7hmhVERDEd9R7gtkyKZj3LyZ7euWZVD
- PLyUgCTdauLSGwBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5AFE41372E;
- Tue, 14 May 2024 12:43:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id A8z4FHxcQ2b4HAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 14 May 2024 12:43:40 +0000
-Message-ID: <e2346a0d-6360-46cb-8707-281de8f4d874@suse.de>
-Date: Tue, 14 May 2024 14:43:39 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D885E10E3BC;
+ Tue, 14 May 2024 12:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715690801; x=1747226801;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=q+euxl9+CeaiZA2voqV8Td5btJDKHhjPdMWDF9Y4osc=;
+ b=AXcLaHy/QhKhYhDexReBi4wV8D9Dyx1dqCY8KKMfTVMS2Bw7kaKTdPAZ
+ HAlxyqEU5aGjq6I7AGBY0R+Bq+tj/8ij1Mm3rNq2RT6Hz5/JkglWcbVPh
+ hbxVk1gcfCEnfNckLBC1PdIZeVNu9xKteg+7qRZkdT8Qx+p5hK88a2PcN
+ RNZ0bGWOWpV0icAgcNungOKGj5C02RyYYfOMKEAkIQyeY6bNbwgBtm1QZ
+ JDFercWf1fc6L23dxsIQcsrP4vlDZ8qh6rmGTmZCOZn+NhnQjHbYMgREJ
+ 9Fem7hH+CG+Ym4I7Gy7xuLcOgYnzj3HdP2TI9eYms/aJH7pwBc7Xqs+Qy g==;
+X-CSE-ConnectionGUID: XfR48TrhQUi2U11EJO7cIg==
+X-CSE-MsgGUID: KPKOBtJ+RyKUo9TyTm8lMA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="29188353"
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="29188353"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2024 05:46:40 -0700
+X-CSE-ConnectionGUID: K/lpEmc2S9iKJSYwoBM4vg==
+X-CSE-MsgGUID: 9DBeWJNvSiiChiF9jaekrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="35385374"
+Received: from anmitta2-mobl3.gar.corp.intel.com (HELO intel.com)
+ ([10.247.118.126])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2024 05:46:34 -0700
+Date: Tue, 14 May 2024 14:46:29 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/gt: Disarm breadcrumbs if engines are already
+ idle
+Message-ID: <ZkNdJTx8Z17oPq6z@ashyti-mobl2.lan>
+References: <20240423165505.465734-2-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drm: Remove driver dependencies on FB_DEVICE
-To: Manas Ghandat <ghandatmanas@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <e5c0a250-8c91-4523-b980-5b0e13749616@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <e5c0a250-8c91-4523-b980-5b0e13749616@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; RCPT_COUNT_SEVEN(0.00)[7];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCVD_TLS_ALL(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_DN_SOME(0.00)[]
-X-Spam-Score: -4.29
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240423165505.465734-2-janusz.krzysztofik@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,31 +76,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Janusz,
 
-Am 14.05.24 um 14:34 schrieb Manas Ghandat:
-> Hi. I recently looked at the todos of drm and found the topic 
-> interesting. I wanted to get started with this issue but having some 
-> trouble identifying the devices. What would be the right approach to 
-> get started?
+On Tue, Apr 23, 2024 at 06:23:10PM +0200, Janusz Krzysztofik wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> The breadcrumbs use a GT wakeref for guarding the interrupt, but are
+> disarmed during release of the engine wakeref. This leaves a hole where
+> we may attach a breadcrumb just as the engine is parking (after it has
+> parked its breadcrumbs), execute the irq worker with some signalers still
+> attached, but never be woken again.
+> 
+> That issue manifests itself in CI with IGT runner timeouts while tests
+> are waiting indefinitely for release of all GT wakerefs.
+> 
+> <6> [209.151778] i915: Running live_engine_pm_selftests/live_engine_busy_stats
+> <7> [209.231628] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_5
+> <7> [209.231816] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_4
+> <7> [209.231944] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_3
+> <7> [209.232056] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling PW_2
+> <7> [209.232166] i915 0000:00:02.0: [drm:intel_power_well_disable [i915]] disabling DC_off
+> <7> [209.232270] i915 0000:00:02.0: [drm:skl_enable_dc6 [i915]] Enabling DC6
+> <7> [209.232368] i915 0000:00:02.0: [drm:gen9_set_dc_state.part.0 [i915]] Setting DC state from 00 to 02
+> <4> [299.356116] [IGT] Inactivity timeout exceeded. Killing the current test with SIGQUIT.
+> ...
+> <6> [299.356526] sysrq: Show State
+> ...
+> <6> [299.373964] task:i915_selftest   state:D stack:11784 pid:5578  tgid:5578  ppid:873    flags:0x00004002
+> <6> [299.373967] Call Trace:
+> <6> [299.373968]  <TASK>
+> <6> [299.373970]  __schedule+0x3bb/0xda0
+> <6> [299.373974]  schedule+0x41/0x110
+> <6> [299.373976]  intel_wakeref_wait_for_idle+0x82/0x100 [i915]
+> <6> [299.374083]  ? __pfx_var_wake_function+0x10/0x10
+> <6> [299.374087]  live_engine_busy_stats+0x9b/0x500 [i915]
+> <6> [299.374173]  __i915_subtests+0xbe/0x240 [i915]
+> <6> [299.374277]  ? __pfx___intel_gt_live_setup+0x10/0x10 [i915]
+> <6> [299.374369]  ? __pfx___intel_gt_live_teardown+0x10/0x10 [i915]
+> <6> [299.374456]  intel_engine_live_selftests+0x1c/0x30 [i915]
+> <6> [299.374547]  __run_selftests+0xbb/0x190 [i915]
+> <6> [299.374635]  i915_live_selftests+0x4b/0x90 [i915]
+> <6> [299.374717]  i915_pci_probe+0x10d/0x210 [i915]
+> 
+> At the end of the interrupt worker, if there are no more engines awake,
+> disarm the breadcrumb and go to sleep.
+> 
+> Fixes: 9d5612ca165a ("drm/i915/gt: Defer enabling the breadcrumb interrupt to after submission")
+> Closes: https://gitlab.freedesktop.org/drm/intel/issues/10026
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: <stable@vger.kernel.org> # v5.12+
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 
-Sorry, there's already someone working on that topic.
+Reviewed and applied!
 
-Best regards
-Thomas
-
->
-> Thanks,
->
-> Manas
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Thanks,
+Andi
