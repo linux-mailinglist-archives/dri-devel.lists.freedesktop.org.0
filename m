@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A798C5465
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 13:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC4F8C558C
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 13:59:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6221310E18F;
-	Tue, 14 May 2024 11:51:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B24C310E357;
+	Tue, 14 May 2024 11:59:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yMlLDOo2";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oX1h94jR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 205E710E18F
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 11:51:14 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E81AE10E357
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 11:59:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4C02660110;
- Tue, 14 May 2024 11:51:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F36AC2BD10;
- Tue, 14 May 2024 11:51:13 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 8B560CE0FE5;
+ Tue, 14 May 2024 11:59:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A01FC2BD10;
+ Tue, 14 May 2024 11:59:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1715687474;
- bh=ob9UhLXfsEKUth0Ez4ZrkYRD2T+sIk+OWpjedlJkMZM=;
+ s=korg; t=1715687953;
+ bh=g2IbNihOtzpOb1bCRRWE5U/uOcIpNeClRG+bPOVV1Po=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=yMlLDOo2yJ+CRXhSe3U7uIGrQvnLAOrjn6MNrKtOkj/3AymEVhkVGamQuOgwlwV6x
- Fh4a3Y/oT1YojEDBEJ3q6lzZy8pfnwmAVYACnoAsIE/WONwCXbWq1eLenH4mUGzET3
- u0OSXPi0RNGdlVqaDPqNv02HeVwXraOMX1yw//ZM=
+ b=oX1h94jRJ6e3uuVGJGcL/zddfRRgG76XhTy7ikuFl2xN1eIaNesbwDp8aL73sg0jo
+ rgkq4BXJ2xgJKT7o/X1pk+Hs8xOMdOytO6Jw2NZuJA8IZcik41jJnQ8WhR40dFWU4U
+ mTi7FP1tJIEYXdfkaZmuQcqvkC9UjOmmmkhmEUfM=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -37,13 +37,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
  Martin Krastev <martin.krastev@broadcom.com>,
  zdi-disclosures@trendmicro.com
-Subject: [PATCH 5.10 108/111] drm/vmwgfx: Fix invalid reads in fence signaled
+Subject: [PATCH 5.15 162/168] drm/vmwgfx: Fix invalid reads in fence signaled
  events
-Date: Tue, 14 May 2024 12:20:46 +0200
-Message-ID: <20240514101001.236155901@linuxfoundation.org>
+Date: Tue, 14 May 2024 12:21:00 +0200
+Message-ID: <20240514101012.872812793@linuxfoundation.org>
 X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240514100957.114746054@linuxfoundation.org>
-References: <20240514100957.114746054@linuxfoundation.org>
+In-Reply-To: <20240514101006.678521560@linuxfoundation.org>
+References: <20240514101006.678521560@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -64,7 +64,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.10-stable review patch.  If anyone has any objections, please let me know.
+5.15-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -100,7 +100,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -1066,7 +1066,7 @@ static int vmw_event_fence_action_create
+@@ -1068,7 +1068,7 @@ static int vmw_event_fence_action_create
  	}
  
  	event->event.base.type = DRM_VMW_EVENT_FENCE_SIGNALED;
