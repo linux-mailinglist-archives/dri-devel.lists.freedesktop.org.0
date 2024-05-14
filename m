@@ -2,84 +2,184 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45F48C5A3D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 19:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D638C5AD7
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 20:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E29510EB12;
-	Tue, 14 May 2024 17:22:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7809010E460;
+	Tue, 14 May 2024 18:13:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="aM0P/2X5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UkXgoFA6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8102E10E5A3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 17:22:15 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-1ed904c2280so30656725ad.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 10:22:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715707334; x=1716312134;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yW0uBlTZ3/e9woMDS24BvZUziw3iMsMdY4jNiItN/KA=;
- b=aM0P/2X5fXERM56iOky6FXC/uVZN53NVe5qENFWMtlKFbTcYG5tDvAcAx+kr50QFJI
- PXkAeDsvUfY63tAtWNrvLFrEukuzzAhQSimeP5KsnG9nmVVvDOfUQkeCYRLaYXPGSs9C
- z6s6pIgoehMA/KuVUwPPgG3iGPWI16VVVDW9Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715707334; x=1716312134;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yW0uBlTZ3/e9woMDS24BvZUziw3iMsMdY4jNiItN/KA=;
- b=O6d+7RkbbX45DT6nFOg6QN9arEBmU6CK0Gw7XkmL/c5I0hdCL890k2STIpDBVMOfDy
- m41W9eLajOKZEsaOHmUaNMI/QiZzlndu0/77uj3Jlr4NxdqfFzle0xC8DIhtD05Ji8WY
- UFLEDIVAn9WdZJKk/LPxDqfmOGvXQ22PkzGF/Mt4OI6z5AOdE+sHWVgmnlXIngskrwzE
- Fj11/AHpsal2a1h+3CF28FStZBHuQc7mtCu+MIHPd1ftQIl2unHxrZSSezqfbeiKcFKK
- K7SZwK5gi4ovYDvRMHUGo0HPrcsaPb5C/P1V2LEu9QeidkMzo8EiOgeg13W7b35wjBbd
- mblQ==
-X-Gm-Message-State: AOJu0Yx0C7n3717ppZ7OfRZvEgw6t8uxl+QJYaCMEdBwXj7UOuM5jTIb
- ZpF9LhHqxpeiKPZ1g6kO/+tUNJ29t7vOnjmC1wM/vppdZ1dTV+nbXkdDuvTPVBfGLJk9h9BoryI
- =
-X-Google-Smtp-Source: AGHT+IFdOhp9yO9StSnbsxkvr+Vcmkvb5MdXfNMa2cJlvDViVyHHEcLZNjHrQO1n+yP17xrE8EwzqQ==
-X-Received: by 2002:a17:903:2288:b0:1eb:dae:714f with SMTP id
- d9443c01a7336-1ef43c0ced6mr155311975ad.9.1715707334318; 
- Tue, 14 May 2024 10:22:14 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com
- ([2620:15c:9d:2:ef10:6fdf:5041:421f])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1ef0bf3101csm100147575ad.121.2024.05.14.10.22.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 May 2024 10:22:13 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- lvzhaoxiong@huaqin.corp-partner.google.com,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Brian Norris <briannorris@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Joel Selvaraj <jo@jsfamily.in>,
- Hsin-Yi Wang <hsinyi@google.com>,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 9/9] drm/panel: innolux-p079zca: Don't use a table for
- initting panels
-Date: Tue, 14 May 2024 10:20:59 -0700
-Message-ID: <20240514102056.v5.9.I947e28c81f9ef7dcd3add6e193be72d6f8ea086f@changeid>
-X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
-In-Reply-To: <20240514172136.1578498-1-dianders@chromium.org>
-References: <20240514172136.1578498-1-dianders@chromium.org>
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF80910E3E8;
+ Tue, 14 May 2024 18:13:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715710405; x=1747246405;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=v7Uum+fETTHBYeB8fMJsl+5irHRtbo7CPOVqrsNS0lg=;
+ b=UkXgoFA6MKzy1t/IzycKp2REyIZBIil6n5TT1EKAwfl8csS6s2xn5q0S
+ ag4qWOcC81OMptgYtQhmeF/e87iZY2LaCDx4hsFGzSjqNpFiW/6MTt7Oq
+ S2uCC23CfyLpxZPyHxtqbKqJYJS0O9jfGOBLlKaXQqOGoVsfkHgXOfH7I
+ fRZhrfh7lwuQ6C9YYS1DPGXagedMr5YSdiPuVAwcH9ToDjOZBz9lmbrji
+ TYD6RoDCS/He8IlnDk2R+rS4GIcnYhj+WQnuuFq+sKRcJuO/L0IJgftvX
+ HCr54CV8D7tMSQTv2RILL3d0Prhd6YSt+Tk5IfWBLEvDPrfT9IR5W1Aio Q==;
+X-CSE-ConnectionGUID: lxDPaOoBQeO9dwiqB7HCyQ==
+X-CSE-MsgGUID: sY07qnqVSYmyJPAMJ8VpDA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="34228542"
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="34228542"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2024 11:13:22 -0700
+X-CSE-ConnectionGUID: 4xf23ZlSTeGNZU5xke5Y8g==
+X-CSE-MsgGUID: z87zoMigSlm38nY3RM6+0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="35648843"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 14 May 2024 11:13:21 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 14 May 2024 11:13:20 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 14 May 2024 11:13:20 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 14 May 2024 11:13:20 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZL9K2NQM3VbHYtj+AfAs4suBcNAdXHkfpt9/0byJeoRKIdwSVHWbVLPKdxQjpqf0nsUMz12hv0SfnEX/4c7K1jcCaDc4RhTMt+I1nyg2kiZnfO7ISkp/qC3w3DhKamn4iVMmk4VOVvHg/DHsPw/vQhJ7QteSxGwoCcavWw2eOVRqynfAr6uXLCn9oKx2mh8RGFMQVz8zLMwMYnI8whd4aAJd0WwS/oqtUQm549ovC4+I0X+qoZx4FDqGm1Fb+sckW1Z9I8CTvY8BOeOQN2PVRgIhYjn+uNhQwnHsSq36UccudH6ssrpPpuC3F1yGKhVuyMsHq+/cyRrHMJuFRqoHzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BZtieGdlMLf8dMnTybHyqUEIo3EDJKvELHQFWnA6fos=;
+ b=RdhzXR7L13YJPM0aeOTqqtmVBe7riKrGBW57iGbpGS+Sacmhr+/H4ZTOsYEmGg2Ws68okcizotCfcekA9ec1b8yfrK1c96ivXtB37StZqzuyXY1iFuQQ8Yu0vyrQ18ljUYfSExT4z0PE7p0IgUHQTCYnoKWhu8Zj6WybDZLI2tIOkYw8N0bF8mBfcD68EYnwc/7g/+teU2v+iOXig2lHz60ys1+MzZJ1Wn+5oxFRvxQL3rzeqF2+Xt1K4VpcN0er6ga+k/l2Qm0sj66/s34YzKK9H4wPg7UO/YmeYOc2o3I+1NM3tY7s2C5qTpV9yl0gFQKSeSF+vnXZpEFp6Y4Aww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH3PR11MB8441.namprd11.prod.outlook.com (2603:10b6:610:1bc::12)
+ by SA1PR11MB6917.namprd11.prod.outlook.com (2603:10b6:806:2bd::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Tue, 14 May
+ 2024 18:13:17 +0000
+Received: from CH3PR11MB8441.namprd11.prod.outlook.com
+ ([fe80::bc66:f083:da56:8550]) by CH3PR11MB8441.namprd11.prod.outlook.com
+ ([fe80::bc66:f083:da56:8550%4]) with mapi id 15.20.7544.052; Tue, 14 May 2024
+ 18:13:17 +0000
+Message-ID: <3127eb0f-ef0b-46e8-a778-df6276718d06@intel.com>
+Date: Tue, 14 May 2024 11:13:14 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] drm/xe/guc: Expose raw access to GuC log over debugfs
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ <intel-xe@lists.freedesktop.org>
+CC: Lucas De Marchi <lucas.demarchi@intel.com>,
+ <linux-fsdevel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+References: <20240512153606.1996-1-michal.wajdeczko@intel.com>
+ <20240512153606.1996-5-michal.wajdeczko@intel.com>
+ <d0fd0b46-a8ac-464b-99e7-0b5384a79bf6@intel.com>
+ <83484000-0716-465a-b55d-70cd07205ae5@intel.com>
+Content-Language: en-GB
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <83484000-0716-465a-b55d-70cd07205ae5@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR04CA0291.namprd04.prod.outlook.com
+ (2603:10b6:303:89::26) To CH3PR11MB8441.namprd11.prod.outlook.com
+ (2603:10b6:610:1bc::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8441:EE_|SA1PR11MB6917:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6940f5ba-7924-45c0-ebb3-08dc7441871e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|1800799015|366007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MHNST2NJU09yL0dkRHY4a1YzVkxEMFVldkNZOFlWRXNXSDFycldJZlV5QXRG?=
+ =?utf-8?B?dlkwdkdYTjJHR1E3TFVJYURaeEE3WUlxcHArcXBvcDI1ZjkvUFcyUTJDYmNV?=
+ =?utf-8?B?a2hmbTB0UXFWWWt0TmNKRXN4QWxXMmNLMi9rdWtwZW9CbDJGYjBOZVhFaUdh?=
+ =?utf-8?B?WUQ2N21XV2tIK0tYQXpiM0t6NDVBZWVqclJ4WTExeHdpWVhKN2g5bENJSEp0?=
+ =?utf-8?B?OUpiYWNRWmtDZjRycmxxUTRDbEpESVJ5RHRIWWpRNHZqeVBJOGVCVjROZEh2?=
+ =?utf-8?B?S3hJNlNkd00vZHVvQ05wMVB2N1RMREI0RGViN3ZPS2FwTitIcFYyZEEwRXIx?=
+ =?utf-8?B?SVluU0hWUUVBVVFqZmR0bkJIUjI3aFV1NFhnVFl2dzRLak9rWWZ2VFJzYS9R?=
+ =?utf-8?B?azByNmZBTExVNWt6OE1OSWszZzBkQU9sUHJ5Y0pJTTRnemNXc2dxZlNvNGNK?=
+ =?utf-8?B?SldmMnYzQXppalgvM0Fnak9YZTFYcDUyT3JVdnlMTFk4c0dLcGNtOTJRSDE3?=
+ =?utf-8?B?WnRIZFpqeFRhU0JPYi8yYjZTYmVFcXhDVVkwOXZnNTNBRjFEd2NHQ3J5SUxp?=
+ =?utf-8?B?WE1mdWNQVEVoMFQ4NENEL091c0RaZjUwNHZLajVOMHNsSWN3QUFiOEw4Z0lk?=
+ =?utf-8?B?dGhTamtnU2NLSGlaKzkrck5NUDNFdnlIS2pXME13UUY1U2lDbWRraUhsYXRS?=
+ =?utf-8?B?NlpGTDRsemdVNlNWemZycCtqQXd5RnFGM09seWQ0WURLbks0QmRreDQrelNE?=
+ =?utf-8?B?REtaVjBuYVRESE5COTVZN05mMnIrL3hqYWVzUThKNFFTOGw3aXFqelFUcnB1?=
+ =?utf-8?B?VjduZHBUMHdYSXJpeG5iR1JZaG10ZVBXTm9JNWJWQkpYSHFoUFBmSEEvcERS?=
+ =?utf-8?B?NEhjY25TMkRacERlTlZWSExWZzJQQm5WNUNMQkJmYk1mbVBYM2dET1JwdXp4?=
+ =?utf-8?B?UWxXL0dMTVdJVHpJWlFQVDc4SU1OMHpqNmE0MTBKM3FzNnFnUzBzY0FMeFh6?=
+ =?utf-8?B?MzIweW1COU1oUVQyV3FSQ3hWOGdTZzNVZ1lyTXMrSDV0eEVBdEZWWVAzeXZQ?=
+ =?utf-8?B?MXIyQUM0RjM2ejNOdWhwQ0xYa1FMeHI1MlYzQURqVnlTUjRNaFdnRHU0ZW9U?=
+ =?utf-8?B?MTFFU1VkVC80YjErZml3R05IbWtkOGdpZFAwUlJOTlhxUUdyaDJVT3FjREkr?=
+ =?utf-8?B?cWdvM293cmh0MkpDQUpsWnZmQ0JLWE5sdEpBdXEwSm1BMW9KQ0xSVEpYTnd3?=
+ =?utf-8?B?SUtlTFJKZW1TWFZaRUkvdzhNT2J2RjBkTUEzODJhczNYeUsvTU8rTDdPdmRx?=
+ =?utf-8?B?OVpYZUlnaFM5TFJtS0IzdTE4Z1FSZnhyMjRLRVE1RDRabjFaSnNXdEh4RkMw?=
+ =?utf-8?B?VTlxV1NsZWVsd3N0VTZ4bDBPWlNuZkdCRDdZRUpRQlRIdTZSM0kyQ2p2K21v?=
+ =?utf-8?B?RnU5YXBOc01Xc0FDM2pXSVZjb0FreEE4K2xEL3Vqemp6aWxPeE5SZDFjVTZs?=
+ =?utf-8?B?a0orV1dSWWQvelJkUlRPU282dHpjZUlxS1Rqc3hoMm0vNkJxN1dXYzZZZTda?=
+ =?utf-8?B?OFo4ZXFMbGFrRzhOMktnU2Naejh1ejJPTXRBZGJjVWdFQ3dXbUFheE9hZkZp?=
+ =?utf-8?Q?hmqc+5afZSJiScTAN+biVkQlIBvYqNcYEY/kb9siV3oM=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR11MB8441.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d2IwSk1jZzFKNjdGTEJ4UGlodmcwSldFYXUvSk5ZQW0va0tKWTdLdHdCazVX?=
+ =?utf-8?B?VTZidUdORTNJS0Z1TmpxOWNPSGgyVlNJdlZ5L25WVHN3RElLUHkyemV3MmNq?=
+ =?utf-8?B?L05hMTZhTDErdmphalF0bGREc1J6NEZEblNxMjZ3cUVPSVJlS2pnaG1KbUl1?=
+ =?utf-8?B?WWZ0USt1YzlxVC9KZGk1L0diM0VGYURmWFNUbjlUdTJ5ZWs2SisrR3lualpy?=
+ =?utf-8?B?MlZRQ0phd1pFZnNxbzZjZ241dis2U0NkSkJkcWduQlNyd0xZaERrWVJwMS9Z?=
+ =?utf-8?B?dDM1eWtPRnV2bWpDTzgwUlRnOUtpdjFtTGpkdnQ3RE11c21RZ05TMzlhTHVj?=
+ =?utf-8?B?czY2aUdmeFFOZktpSkcyZTI4eTA2OFJ4bENhS2ZZajM1THVselU3NVVxNUVz?=
+ =?utf-8?B?T201NzZ2Wk53T2w3OUxEL1J6VHY0ejA2YjVMTkdobnFsamU3Y3MybFV4bXgz?=
+ =?utf-8?B?VDFGRkxrNUo4azg0TmkweVJyL2VoL3FrTHFrM3JhQUhMc3J1dC9vbHFUOTdO?=
+ =?utf-8?B?WEdmeTZrcnNVTEZ6SEJxMjZLTUxUWVJwL1RTNFl2enZVMUxqallvb2M5cWZ5?=
+ =?utf-8?B?SkFZMnp6MEhlVGRBTStjZTNmaGJKaldvRlZxeVBxanBsRXk5MGYrL1hwVS81?=
+ =?utf-8?B?RE1WcUdhUFpNVHNrU25ENCtlcDhQMEpIQmhadW81eHExdEJtZHd5MktlQzZX?=
+ =?utf-8?B?bWUwcWZMQjZIWFpsNXN4a04wc2UvMVg4QWM5RGJPY29mQWlHemZERmZDMlRH?=
+ =?utf-8?B?blR0SkRFSTJnbnBCYmJHbEg3dkF5bjJmTTQ2MVRBQ1h5Q0ZOYVBVcjRBd3NW?=
+ =?utf-8?B?Y0dNbXltVlB4eStXU1doU25INU9LSHg3S2s1V3pzZVZtSHFiVHlhTmoyNFdo?=
+ =?utf-8?B?MEhINlFWdmFKRWxUVVRUbHhiVGF1dkJwU2ZTNW9WKzYrejhkNkU2Yko5cHZt?=
+ =?utf-8?B?L2N5c1JqYjdpZnl1ZEpwK2JidDArQzM0ckx6ZGRLUGhxVTlpbWtJMlg0Q0lp?=
+ =?utf-8?B?T01rdVZSMGpXNGFEUzFaMFBJS0dFNjNLdzdrc2NPNUg4WTVDYzNZZWpjSlRY?=
+ =?utf-8?B?bGs3NVBqaDBlWVFLY0dueTZHRmViNHRIUGZzTktsZXlyTER6QzJxMnJTQlJJ?=
+ =?utf-8?B?VGo3VERjbm5IVU1PNUplZTg0VTRyRHowemJiTmNicmkvRlBQTFpNY2hLbXJZ?=
+ =?utf-8?B?Tmo1SExrWXhmYUNpZFROR0EzSGhCM1g2ZUF6TGFzd1J0MnZpNytXRWF4TU9J?=
+ =?utf-8?B?bHNvSXBYSThkbHA4SWtyZ1VpT0tmR0pQMmlVV0hRMVZ6VDNNLyt2N0VXNnUz?=
+ =?utf-8?B?RTJHNXJBRjBxUGlXakdBL3hRVC91M0xzSUphUFdyYnVYa2VSMWRYSXBuY3lB?=
+ =?utf-8?B?TTNYUHhqSi9nWFdnN1dpN3VhdEErci9WWWEyU1cyN3I0dVc5RGc1MTVyd3dy?=
+ =?utf-8?B?VFhia1BNNVlTTEF1eGhPeHlaZjhZL2FtZlJXQmY0azNhNWVaNHVFN1BZOEtZ?=
+ =?utf-8?B?d1NTUDM5dkJWRENkVDVjQzdjYmRNWW56OFY2SzJyTlpnQ3htZkIvNC9rbkVp?=
+ =?utf-8?B?UjRhRU85NktMZStQbmNJRnIxOU1aeStMVGlNMjBOZEVhWEN4NURTTmxxSGZH?=
+ =?utf-8?B?aFZBU00rTmcvNm5QUnZuVXcvcDNTWmgxWFBaNjd2UWFaejNYRVRKNVZ5NlhD?=
+ =?utf-8?B?blZWd1k2Vi80YVVBVEVDMFVOQXhCejFGTWF5di9kb3BGQ25jcEFaK1NXaTlY?=
+ =?utf-8?B?bXM1Y25DZ0t2MUZ4TFZZYWNmd211VTNRaDZ3OVpaMnlmeWlpU2ZRc25WMytB?=
+ =?utf-8?B?YzRJNlBTSStjaUM1ZXl6Wmltb2wzRy9JdGlINDlRak96N0lNdnFITFBUZG5m?=
+ =?utf-8?B?MUJqVHc3eWNwOCtCYzg5NU13dkg0MmFrMDA4eGpEZjJvcitQaWtwZ0djM29i?=
+ =?utf-8?B?b2tIQU1naG5wKzdqSkdnV1lwMTBSdTNOV3lUbXdvVHlVT1h3M01hL1R6b1FB?=
+ =?utf-8?B?ajREVGE4ZlQ4cEhUOVQyUEd5SkZLMmM4QXIrcUhQZ2RKOUdZNHhaUDdrVHFz?=
+ =?utf-8?B?Z1o4bWx5UjFVSEpJdEJYSlUwQndJNVJlWXRocG52QWZ2dDNwam1FVVhSR0tZ?=
+ =?utf-8?B?V3lwbm1kOWN3ajAxSVV6ZE92anBHV2g4N2dVWUgxamgyekh3OG1yaTk2VGxJ?=
+ =?utf-8?B?TFE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6940f5ba-7924-45c0-ebb3-08dc7441871e
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8441.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2024 18:13:17.0435 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gjl7QYoqEUdC6PT0iI9JmJiFWukESgDdmc/zv8Pt0bLrW0lgJJf6CGZBLDZN24li+UOlZ5JLfi8bqKvc4XPkHAkrHKZd8tieAkwZ0md0Lsw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6917
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,382 +195,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Consensus on the mailing lists is that panels shouldn't use a table of
-init commands but should instead use init functions. We'll use the
-same concepts as the recently introduced
-mipi_dsi_generic_write_seq_multi() to make this clean/easy and also
-not bloat the driver too much. Measuring before/after this change:
+On 5/14/2024 07:58, Michal Wajdeczko wrote:
+> On 13.05.2024 18:53, John Harrison wrote:
+>> On 5/12/2024 08:36, Michal Wajdeczko wrote:
+>>> We already provide the content of the GuC log in debugsfs, but it
+>>> is in a text format where each log dword is printed as hexadecimal
+>>> number, which does not scale well with large GuC log buffers.
+>>>
+>>> To allow more efficient access to the GuC log, which could benefit
+>>> our CI systems, expose raw binary log data.  In addition to less
+>>> overhead in preparing text based GuC log file, the new GuC log file
+>>> in binary format is also almost 3x smaller.
+>>>
+>>> Any existing script that expects the GuC log buffer in text format
+>>> can use command like below to convert from new binary format:
+>>>
+>>>      hexdump -e '4/4 "0x%08x " "\n"'
+>>>
+>>> but this shouldn't be the case as most decoders expect GuC log data
+>>> in binary format.
+>> I strongly disagree with this.
+>>
+>> Efficiency and file size is not an issue when accessing the GuC log via
+>> debugfs on actual hardware.
+> to some extend it is as CI team used to refuse to collect GuC logs after
+> each executed test just because of it's size
+I've never heard that argument. I've heard many different arguments but 
+not one about file size. The default GuC log size is pretty tiny. So 
+size really is not an issue.
 
-$ scripts/bloat-o-meter \
-  .../before/panel-innolux-p079zca.ko \
-  .../after/panel-innolux-p079zca.ko
-add/remove: 3/2 grow/shrink: 0/1 up/down: 2356/-1944 (412)
-Function                                     old     new   delta
-innolux_p097pfg_init                           -    1772   +1772
-innolux_p097pfg_init.d                         -     480    +480
-innolux_panel_write_multi                      -     104    +104
-innolux_panel_prepare                        412     308    -104
-.compoundliteral                             480       -    -480
-innolux_p097pfg_init_cmds                   1360       -   -1360
-Total: Before=5802, After=6214, chg +7.10%
+>
+>> It is an issue when dumping via dmesg but
+>> you definitely should not be dumping binary data to dmesg. Whereas,
+> not following here - this is debugfs specific, not a dmesg printer
+Except that it is preferable to have common code for both if at all 
+possible.
 
-Note that, unlike some other drivers, we actually make this panel
-driver _bigger_ by using the new functions. This is because the
-innolux-p079zca panel driver didn't have as complex of a table and
-thus the old table was more efficient than the code. The bloat is
-still not giant (only 412 bytes).
+>
+>> dumping in binary data is much more dangerous and liable to corruption
+>> because some tool along the way tries to convert to ASCII, or truncates
+>> at the first zero, etc. We request GuC logs be sent by end users,
+>> customer bug reports, etc. all doing things that we have no control over.
+> hmm, how "cp gt0/uc/guc_log_raw FILE" could end with a corrupted file ?
+Because someone then tries to email it, or attach it or copy it via 
+Windows or any number of other ways in which a file can get munged.
 
-Also note that we can't direclty use
-mipi_dsi_generic_write_seq_multi() here because we need to deal with
-the crazy "nop" that this driver sends after all commands. This means
-that we have to write code that is "inspired" by the new macros.
+>
+>> Converting the hexdump back to binary is trivial for those tools which
+>> require it. If you follow the acquisition and decoding instructions on
+>> the wiki page then it is all done for you automatically.
+> I'm afraid I don't know where this wiki page is, but I do know that hex
+> conversion dance is not needed for me to get decoded GuC log the way I
+> used to do
+Look for the 'GuC Debug Logs' page on the developer wiki. It's pretty 
+easy to find.
 
-Since we're touching all the tables, let's also convert hex numbers to
-lower case as per kernel conventions.
+>> These patches are trying to solve a problem which does not exist and are
+>> going to make working with GuC logs harder and more error prone.
+> it at least solves the problem of currently super inefficient way of
+> generating the GuC log in text format.
+>
+> it also opens other opportunities to develop tools that could monitor or
+> capture GuC log independently on  top of what driver is able to offer
+> today (on i915 there was guc-log-relay, but it was broken for long time,
+> not sure what are the plans for Xe)
+>
+> also still not sure how it can be more error prone.
+As already explained, the plan is move to LFD - an extensible, 
+streamable, logging format. Any non-trivial effort that is not helping 
+to move to LFD is not worth the effort.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+>
+>> On the other hand, there are many other issues with GuC logs that it
+>> would be useful to solves - including extra meta data, reliable output
+>> via dmesg, continuous streaming, pre-sizing the debugfs file to not have
+>> to generate it ~12 times for a single read, etc.
+> this series actually solves last issue but in a bit different way (we
+> even don't need to generate full GuC log dump at all if we would like to
+> capture only part of the log if we know where to look)
+No, it doesn't solve it. Your comment below suggests it will be read in 
+4KB chunks. Which means your 16MB buffer now requires 4096 separate 
+reads! And you only doing partial reads of the section you think you 
+need is never going to be reliable on live system. Not sure why you 
+would want to anyway. It is just making things much more complex. You 
+now need an intelligent user land program to read the log out and decode 
+at least the header section to know what data section to read. You can't 
+just dump the whole thing with 'cat' or 'dd'.
 
-(no changes since v4)
+>
+> for reliable output via dmesg - see my proposal at [1]
+>
+> [1] https://patchwork.freedesktop.org/series/133613/
 
-Changes in v4:
-- Test to see if init is non-NULL before using it.
+>
+>> Hmm. Actually, is this interface allowing the filesystem layers to issue
+>> multiple read calls to read the buffer out in small chunks? That is also
+>> going to break things. If the GuC is still writing to the log as the
+>> user is reading from it, there is the opportunity for each chunk to not
+>> follow on from the previous chunk because the data has just been
+>> overwritten. This is already a problem at the moment that causes issues
+>> when decoding the logs, even with an almost atomic copy of the log into
+>> a temporary buffer before reading it out. Doing the read in separate
+>> chunks is only going to make that problem even worse.
+> current solution, that converts data into hex numbers, reads log buffer
+> in chunks of 128 dwords, how proposed here solution that reads in 4K
+> chunks could be "even worse" ?
+See above, 4KB chunks means 4096 separate reads for a 16M buffer. And 
+each one of those reads is a full round trip to user land and back. If 
+you want to get at all close to an atomic read of the log then it needs 
+to be done as a single call that copies the log into a locally allocated 
+kernel buffer and then allows user land to read out from that buffer 
+rather than from the live log. Which can be trivially done with the 
+current method (at the expense of a large memory allocation) but would 
+be much more difficult with random access reader like this as you would 
+need to say the copied buffer around until the reads have all been done. 
+Which would presumably mean adding open/close handlers to allocate and 
+free that memory.
 
-Changes in v3:
-- New
+>
+> and in case of some smart tool, that would understands the layout of the
+> GuC log buffer, we can even fully eliminate problem of reading stale
+> data, so why not to choose a more scalable solution ?
+You cannot eliminate the problem of stale data. You read the header, you 
+read the data it was pointing to, you re-read the header and find that 
+the GuC has moved on. That is an infinite loop of continuously updating 
+pointers.
 
- drivers/gpu/drm/panel/panel-innolux-p079zca.c | 284 +++++++++---------
- 1 file changed, 140 insertions(+), 144 deletions(-)
+John.
 
-diff --git a/drivers/gpu/drm/panel/panel-innolux-p079zca.c b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-index 485178a99910..ade8bf7491ee 100644
---- a/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-+++ b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-@@ -17,14 +17,7 @@
- #include <drm/drm_modes.h>
- #include <drm/drm_panel.h>
- 
--struct panel_init_cmd {
--	size_t len;
--	const char *data;
--};
--
--#define _INIT_CMD(...) { \
--	.len = sizeof((char[]){__VA_ARGS__}), \
--	.data = (char[]){__VA_ARGS__} }
-+struct innolux_panel;
- 
- struct panel_desc {
- 	const struct drm_display_mode *mode;
-@@ -36,7 +29,7 @@ struct panel_desc {
- 
- 	unsigned long flags;
- 	enum mipi_dsi_pixel_format format;
--	const struct panel_init_cmd *init_cmds;
-+	int (*init)(struct innolux_panel *innolux);
- 	unsigned int lanes;
- 	const char * const *supply_names;
- 	unsigned int num_supplies;
-@@ -132,32 +125,10 @@ static int innolux_panel_prepare(struct drm_panel *panel)
- 	/* p079zca: t4, p097pfg: t5 */
- 	usleep_range(20000, 21000);
- 
--	if (innolux->desc->init_cmds) {
--		const struct panel_init_cmd *cmds =
--					innolux->desc->init_cmds;
--		unsigned int i;
--
--		for (i = 0; cmds[i].len != 0; i++) {
--			const struct panel_init_cmd *cmd = &cmds[i];
--
--			err = mipi_dsi_generic_write(innolux->link, cmd->data,
--						     cmd->len);
--			if (err < 0) {
--				dev_err(panel->dev, "failed to write command %u\n", i);
--				goto poweroff;
--			}
--
--			/*
--			 * Included by random guessing, because without this
--			 * (or at least, some delay), the panel sometimes
--			 * didn't appear to pick up the command sequence.
--			 */
--			err = mipi_dsi_dcs_nop(innolux->link);
--			if (err < 0) {
--				dev_err(panel->dev, "failed to send DCS nop: %d\n", err);
--				goto poweroff;
--			}
--		}
-+	if (innolux->desc->init) {
-+		err = innolux->desc->init(innolux);
-+		if (err < 0)
-+			goto poweroff;
- 	}
- 
- 	err = mipi_dsi_dcs_exit_sleep_mode(innolux->link);
-@@ -250,119 +221,144 @@ static const struct drm_display_mode innolux_p097pfg_mode = {
- 	.vtotal = 2048 + 100 + 2 + 18,
- };
- 
-+static void innolux_panel_write_multi(struct mipi_dsi_multi_context *ctx,
-+				      const void *payload, size_t size)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+
-+	mipi_dsi_generic_write_multi(ctx, payload, size);
-+	if (ctx->accum_err)
-+		return;
-+
-+	/*
-+	 * Included by random guessing, because without this
-+	 * (or at least, some delay), the panel sometimes
-+	 * didn't appear to pick up the command sequence.
-+	 */
-+	ctx->accum_err = mipi_dsi_dcs_nop(ctx->dsi);
-+	if (ctx->accum_err)
-+		dev_err(dev, "failed to send DCS nop: %d\n", ctx->accum_err);
-+}
-+
-+#define innolux_panel_init_cmd_multi(ctx, seq...)                 \
-+	do {                                                      \
-+		static const u8 d[] = { seq };                    \
-+		innolux_panel_write_multi(ctx, d, ARRAY_SIZE(d)); \
-+	} while (0)
-+
-+#define innolux_panel_switch_page(ctx, page) \
-+	innolux_panel_init_cmd_multi(ctx, 0xf0, 0x55, 0xaa, 0x52, 0x08, (page))
-+
- /*
-  * Display manufacturer failed to provide init sequencing according to
-  * https://chromium-review.googlesource.com/c/chromiumos/third_party/coreboot/+/892065/
-  * so the init sequence stems from a register dump of a working panel.
-  */
--static const struct panel_init_cmd innolux_p097pfg_init_cmds[] = {
--	/* page 0 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x00),
--	_INIT_CMD(0xB1, 0xE8, 0x11),
--	_INIT_CMD(0xB2, 0x25, 0x02),
--	_INIT_CMD(0xB5, 0x08, 0x00),
--	_INIT_CMD(0xBC, 0x0F, 0x00),
--	_INIT_CMD(0xB8, 0x03, 0x06, 0x00, 0x00),
--	_INIT_CMD(0xBD, 0x01, 0x90, 0x14, 0x14),
--	_INIT_CMD(0x6F, 0x01),
--	_INIT_CMD(0xC0, 0x03),
--	_INIT_CMD(0x6F, 0x02),
--	_INIT_CMD(0xC1, 0x0D),
--	_INIT_CMD(0xD9, 0x01, 0x09, 0x70),
--	_INIT_CMD(0xC5, 0x12, 0x21, 0x00),
--	_INIT_CMD(0xBB, 0x93, 0x93),
--
--	/* page 1 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x01),
--	_INIT_CMD(0xB3, 0x3C, 0x3C),
--	_INIT_CMD(0xB4, 0x0F, 0x0F),
--	_INIT_CMD(0xB9, 0x45, 0x45),
--	_INIT_CMD(0xBA, 0x14, 0x14),
--	_INIT_CMD(0xCA, 0x02),
--	_INIT_CMD(0xCE, 0x04),
--	_INIT_CMD(0xC3, 0x9B, 0x9B),
--	_INIT_CMD(0xD8, 0xC0, 0x03),
--	_INIT_CMD(0xBC, 0x82, 0x01),
--	_INIT_CMD(0xBD, 0x9E, 0x01),
--
--	/* page 2 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x02),
--	_INIT_CMD(0xB0, 0x82),
--	_INIT_CMD(0xD1, 0x00, 0x00, 0x00, 0x3E, 0x00, 0x82, 0x00, 0xA5,
--		  0x00, 0xC1, 0x00, 0xEA, 0x01, 0x0D, 0x01, 0x40),
--	_INIT_CMD(0xD2, 0x01, 0x6A, 0x01, 0xA8, 0x01, 0xDC, 0x02, 0x29,
--		  0x02, 0x67, 0x02, 0x68, 0x02, 0xA8, 0x02, 0xF0),
--	_INIT_CMD(0xD3, 0x03, 0x19, 0x03, 0x49, 0x03, 0x67, 0x03, 0x8C,
--		  0x03, 0xA6, 0x03, 0xC7, 0x03, 0xDE, 0x03, 0xEC),
--	_INIT_CMD(0xD4, 0x03, 0xFF, 0x03, 0xFF),
--	_INIT_CMD(0xE0, 0x00, 0x00, 0x00, 0x86, 0x00, 0xC5, 0x00, 0xE5,
--		  0x00, 0xFF, 0x01, 0x26, 0x01, 0x45, 0x01, 0x75),
--	_INIT_CMD(0xE1, 0x01, 0x9C, 0x01, 0xD5, 0x02, 0x05, 0x02, 0x4D,
--		  0x02, 0x86, 0x02, 0x87, 0x02, 0xC3, 0x03, 0x03),
--	_INIT_CMD(0xE2, 0x03, 0x2A, 0x03, 0x56, 0x03, 0x72, 0x03, 0x94,
--		  0x03, 0xAC, 0x03, 0xCB, 0x03, 0xE0, 0x03, 0xED),
--	_INIT_CMD(0xE3, 0x03, 0xFF, 0x03, 0xFF),
--
--	/* page 3 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x03),
--	_INIT_CMD(0xB0, 0x00, 0x00, 0x00, 0x00),
--	_INIT_CMD(0xB1, 0x00, 0x00, 0x00, 0x00),
--	_INIT_CMD(0xB2, 0x00, 0x00, 0x06, 0x04, 0x01, 0x40, 0x85),
--	_INIT_CMD(0xB3, 0x10, 0x07, 0xFC, 0x04, 0x01, 0x40, 0x80),
--	_INIT_CMD(0xB6, 0xF0, 0x08, 0x00, 0x04, 0x00, 0x00, 0x00, 0x01,
--		  0x40, 0x80),
--	_INIT_CMD(0xBA, 0xC5, 0x07, 0x00, 0x04, 0x11, 0x25, 0x8C),
--	_INIT_CMD(0xBB, 0xC5, 0x07, 0x00, 0x03, 0x11, 0x25, 0x8C),
--	_INIT_CMD(0xC0, 0x00, 0x3C, 0x00, 0x00, 0x00, 0x80, 0x80),
--	_INIT_CMD(0xC1, 0x00, 0x3C, 0x00, 0x00, 0x00, 0x80, 0x80),
--	_INIT_CMD(0xC4, 0x00, 0x00),
--	_INIT_CMD(0xEF, 0x41),
--
--	/* page 4 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x04),
--	_INIT_CMD(0xEC, 0x4C),
--
--	/* page 5 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x05),
--	_INIT_CMD(0xB0, 0x13, 0x03, 0x03, 0x01),
--	_INIT_CMD(0xB1, 0x30, 0x00),
--	_INIT_CMD(0xB2, 0x02, 0x02, 0x00),
--	_INIT_CMD(0xB3, 0x82, 0x23, 0x82, 0x9D),
--	_INIT_CMD(0xB4, 0xC5, 0x75, 0x24, 0x57),
--	_INIT_CMD(0xB5, 0x00, 0xD4, 0x72, 0x11, 0x11, 0xAB, 0x0A),
--	_INIT_CMD(0xB6, 0x00, 0x00, 0xD5, 0x72, 0x24, 0x56),
--	_INIT_CMD(0xB7, 0x5C, 0xDC, 0x5C, 0x5C),
--	_INIT_CMD(0xB9, 0x0C, 0x00, 0x00, 0x01, 0x00),
--	_INIT_CMD(0xC0, 0x75, 0x11, 0x11, 0x54, 0x05),
--	_INIT_CMD(0xC6, 0x00, 0x00, 0x00, 0x00),
--	_INIT_CMD(0xD0, 0x00, 0x48, 0x08, 0x00, 0x00),
--	_INIT_CMD(0xD1, 0x00, 0x48, 0x09, 0x00, 0x00),
--
--	/* page 6 */
--	_INIT_CMD(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x06),
--	_INIT_CMD(0xB0, 0x02, 0x32, 0x32, 0x08, 0x2F),
--	_INIT_CMD(0xB1, 0x2E, 0x15, 0x14, 0x13, 0x12),
--	_INIT_CMD(0xB2, 0x11, 0x10, 0x00, 0x3D, 0x3D),
--	_INIT_CMD(0xB3, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D),
--	_INIT_CMD(0xB4, 0x3D, 0x32),
--	_INIT_CMD(0xB5, 0x03, 0x32, 0x32, 0x09, 0x2F),
--	_INIT_CMD(0xB6, 0x2E, 0x1B, 0x1A, 0x19, 0x18),
--	_INIT_CMD(0xB7, 0x17, 0x16, 0x01, 0x3D, 0x3D),
--	_INIT_CMD(0xB8, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D),
--	_INIT_CMD(0xB9, 0x3D, 0x32),
--	_INIT_CMD(0xC0, 0x01, 0x32, 0x32, 0x09, 0x2F),
--	_INIT_CMD(0xC1, 0x2E, 0x1A, 0x1B, 0x16, 0x17),
--	_INIT_CMD(0xC2, 0x18, 0x19, 0x03, 0x3D, 0x3D),
--	_INIT_CMD(0xC3, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D),
--	_INIT_CMD(0xC4, 0x3D, 0x32),
--	_INIT_CMD(0xC5, 0x00, 0x32, 0x32, 0x08, 0x2F),
--	_INIT_CMD(0xC6, 0x2E, 0x14, 0x15, 0x10, 0x11),
--	_INIT_CMD(0xC7, 0x12, 0x13, 0x02, 0x3D, 0x3D),
--	_INIT_CMD(0xC8, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D),
--	_INIT_CMD(0xC9, 0x3D, 0x32),
--
--	{},
--};
-+static int innolux_p097pfg_init(struct innolux_panel *innolux)
-+{
-+	struct mipi_dsi_multi_context ctx = { .dsi = innolux->link };
-+
-+	innolux_panel_switch_page(&ctx, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb1, 0xe8, 0x11);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb2, 0x25, 0x02);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb5, 0x08, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbc, 0x0f, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb8, 0x03, 0x06, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbd, 0x01, 0x90, 0x14, 0x14);
-+	innolux_panel_init_cmd_multi(&ctx, 0x6f, 0x01);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc0, 0x03);
-+	innolux_panel_init_cmd_multi(&ctx, 0x6f, 0x02);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc1, 0x0d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd9, 0x01, 0x09, 0x70);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc5, 0x12, 0x21, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbb, 0x93, 0x93);
-+
-+	innolux_panel_switch_page(&ctx, 0x01);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb3, 0x3c, 0x3c);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb4, 0x0f, 0x0f);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb9, 0x45, 0x45);
-+	innolux_panel_init_cmd_multi(&ctx, 0xba, 0x14, 0x14);
-+	innolux_panel_init_cmd_multi(&ctx, 0xca, 0x02);
-+	innolux_panel_init_cmd_multi(&ctx, 0xce, 0x04);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc3, 0x9b, 0x9b);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd8, 0xc0, 0x03);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbc, 0x82, 0x01);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbd, 0x9e, 0x01);
-+
-+	innolux_panel_switch_page(&ctx, 0x02);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb0, 0x82);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd1, 0x00, 0x00, 0x00, 0x3e, 0x00, 0x82, 0x00, 0xa5,
-+				     0x00, 0xc1, 0x00, 0xea, 0x01, 0x0d, 0x01, 0x40);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd2, 0x01, 0x6a, 0x01, 0xa8, 0x01, 0xdc, 0x02, 0x29,
-+				     0x02, 0x67, 0x02, 0x68, 0x02, 0xa8, 0x02, 0xf0);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd3, 0x03, 0x19, 0x03, 0x49, 0x03, 0x67, 0x03, 0x8c,
-+				     0x03, 0xa6, 0x03, 0xc7, 0x03, 0xde, 0x03, 0xec);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd4, 0x03, 0xff, 0x03, 0xff);
-+	innolux_panel_init_cmd_multi(&ctx, 0xe0, 0x00, 0x00, 0x00, 0x86, 0x00, 0xc5, 0x00, 0xe5,
-+				     0x00, 0xff, 0x01, 0x26, 0x01, 0x45, 0x01, 0x75);
-+	innolux_panel_init_cmd_multi(&ctx, 0xe1, 0x01, 0x9c, 0x01, 0xd5, 0x02, 0x05, 0x02, 0x4d,
-+				     0x02, 0x86, 0x02, 0x87, 0x02, 0xc3, 0x03, 0x03);
-+	innolux_panel_init_cmd_multi(&ctx, 0xe2, 0x03, 0x2a, 0x03, 0x56, 0x03, 0x72, 0x03, 0x94,
-+				     0x03, 0xac, 0x03, 0xcb, 0x03, 0xe0, 0x03, 0xed);
-+	innolux_panel_init_cmd_multi(&ctx, 0xe3, 0x03, 0xff, 0x03, 0xff);
-+
-+	innolux_panel_switch_page(&ctx, 0x03);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb0, 0x00, 0x00, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb1, 0x00, 0x00, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb2, 0x00, 0x00, 0x06, 0x04, 0x01, 0x40, 0x85);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb3, 0x10, 0x07, 0xfc, 0x04, 0x01, 0x40, 0x80);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb6, 0xf0, 0x08, 0x00, 0x04, 0x00, 0x00, 0x00, 0x01,
-+				     0x40, 0x80);
-+	innolux_panel_init_cmd_multi(&ctx, 0xba, 0xc5, 0x07, 0x00, 0x04, 0x11, 0x25, 0x8c);
-+	innolux_panel_init_cmd_multi(&ctx, 0xbb, 0xc5, 0x07, 0x00, 0x03, 0x11, 0x25, 0x8c);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc0, 0x00, 0x3c, 0x00, 0x00, 0x00, 0x80, 0x80);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc1, 0x00, 0x3c, 0x00, 0x00, 0x00, 0x80, 0x80);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc4, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xef, 0x41);
-+
-+	innolux_panel_switch_page(&ctx, 0x04);
-+	innolux_panel_init_cmd_multi(&ctx, 0xec, 0x4c);
-+
-+	innolux_panel_switch_page(&ctx, 0x05);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb0, 0x13, 0x03, 0x03, 0x01);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb1, 0x30, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb2, 0x02, 0x02, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb3, 0x82, 0x23, 0x82, 0x9d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb4, 0xc5, 0x75, 0x24, 0x57);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb5, 0x00, 0xd4, 0x72, 0x11, 0x11, 0xab, 0x0a);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb6, 0x00, 0x00, 0xd5, 0x72, 0x24, 0x56);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb7, 0x5c, 0xdc, 0x5c, 0x5c);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb9, 0x0c, 0x00, 0x00, 0x01, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc0, 0x75, 0x11, 0x11, 0x54, 0x05);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc6, 0x00, 0x00, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd0, 0x00, 0x48, 0x08, 0x00, 0x00);
-+	innolux_panel_init_cmd_multi(&ctx, 0xd1, 0x00, 0x48, 0x09, 0x00, 0x00);
-+
-+	innolux_panel_switch_page(&ctx, 0x06);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb0, 0x02, 0x32, 0x32, 0x08, 0x2f);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb1, 0x2e, 0x15, 0x14, 0x13, 0x12);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb2, 0x11, 0x10, 0x00, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb3, 0x3d, 0x3d, 0x3d, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb4, 0x3d, 0x32);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb5, 0x03, 0x32, 0x32, 0x09, 0x2f);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb6, 0x2e, 0x1b, 0x1a, 0x19, 0x18);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb7, 0x17, 0x16, 0x01, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb8, 0x3d, 0x3d, 0x3d, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xb9, 0x3d, 0x32);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc0, 0x01, 0x32, 0x32, 0x09, 0x2f);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc1, 0x2e, 0x1a, 0x1b, 0x16, 0x17);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc2, 0x18, 0x19, 0x03, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc3, 0x3d, 0x3d, 0x3d, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc4, 0x3d, 0x32);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc5, 0x00, 0x32, 0x32, 0x08, 0x2f);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc6, 0x2e, 0x14, 0x15, 0x10, 0x11);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc7, 0x12, 0x13, 0x02, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc8, 0x3d, 0x3d, 0x3d, 0x3d, 0x3d);
-+	innolux_panel_init_cmd_multi(&ctx, 0xc9, 0x3d, 0x32);
-+
-+	return ctx.accum_err;
-+}
- 
- static const struct panel_desc innolux_p097pfg_panel_desc = {
- 	.mode = &innolux_p097pfg_mode,
-@@ -374,7 +370,7 @@ static const struct panel_desc innolux_p097pfg_panel_desc = {
- 	.flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
- 		 MIPI_DSI_MODE_LPM,
- 	.format = MIPI_DSI_FMT_RGB888,
--	.init_cmds = innolux_p097pfg_init_cmds,
-+	.init = innolux_p097pfg_init,
- 	.lanes = 4,
- 	.supply_names = innolux_p097pfg_supply_names,
- 	.num_supplies = ARRAY_SIZE(innolux_p097pfg_supply_names),
--- 
-2.45.0.rc1.225.g2a3ae87e7f-goog
+>
+>> John.
+>>
+>>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>> Cc: John Harrison <John.C.Harrison@Intel.com>
+>>> ---
+>>> Cc: linux-fsdevel@vger.kernel.org
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> ---
+>>>    drivers/gpu/drm/xe/xe_guc_debugfs.c | 26 ++++++++++++++++++++++++++
+>>>    1 file changed, 26 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/xe/xe_guc_debugfs.c
+>>> b/drivers/gpu/drm/xe/xe_guc_debugfs.c
+>>> index d3822cbea273..53fea952344d 100644
+>>> --- a/drivers/gpu/drm/xe/xe_guc_debugfs.c
+>>> +++ b/drivers/gpu/drm/xe/xe_guc_debugfs.c
+>>> @@ -8,6 +8,7 @@
+>>>    #include <drm/drm_debugfs.h>
+>>>    #include <drm/drm_managed.h>
+>>>    +#include "xe_bo.h"
+>>>    #include "xe_device.h"
+>>>    #include "xe_gt.h"
+>>>    #include "xe_guc.h"
+>>> @@ -52,6 +53,29 @@ static const struct drm_info_list debugfs_list[] = {
+>>>        {"guc_log", guc_log, 0},
+>>>    };
+>>>    +static ssize_t guc_log_read(struct file *file, char __user *buf,
+>>> size_t count, loff_t *pos)
+>>> +{
+>>> +    struct dentry *dent = file_dentry(file);
+>>> +    struct dentry *uc_dent = dent->d_parent;
+>>> +    struct dentry *gt_dent = uc_dent->d_parent;
+>>> +    struct xe_gt *gt = gt_dent->d_inode->i_private;
+>>> +    struct xe_guc_log *log = &gt->uc.guc.log;
+>>> +    struct xe_device *xe = gt_to_xe(gt);
+>>> +    ssize_t ret;
+>>> +
+>>> +    xe_pm_runtime_get(xe);
+>>> +    ret = xe_map_read_from(xe, buf, count, pos, &log->bo->vmap,
+>>> log->bo->size);
+>>> +    xe_pm_runtime_put(xe);
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +static const struct file_operations guc_log_ops = {
+>>> +    .owner        = THIS_MODULE,
+>>> +    .read        = guc_log_read,
+>>> +    .llseek        = default_llseek,
+>>> +};
+>>> +
+>>>    void xe_guc_debugfs_register(struct xe_guc *guc, struct dentry *parent)
+>>>    {
+>>>        struct drm_minor *minor = guc_to_xe(guc)->drm.primary;
+>>> @@ -72,4 +96,6 @@ void xe_guc_debugfs_register(struct xe_guc *guc,
+>>> struct dentry *parent)
+>>>        drm_debugfs_create_files(local,
+>>>                     ARRAY_SIZE(debugfs_list),
+>>>                     parent, minor);
+>>> +
+>>> +    debugfs_create_file("guc_log_raw", 0600, parent, NULL,
+>>> &guc_log_ops);
+>>>    }
 
