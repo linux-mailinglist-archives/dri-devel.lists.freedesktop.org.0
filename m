@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B368C5652
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 14:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D928C5655
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2024 14:55:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5857F10E4E8;
-	Tue, 14 May 2024 12:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAC6110E5CC;
+	Tue, 14 May 2024 12:55:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SZY+3Gdy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MAt8yKQ1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5197110E4E8
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 12:55:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E385810E5CC
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2024 12:55:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715691338; x=1747227338;
+ t=1715691345; x=1747227345;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/ahx7M+4VUMPs/kFYvhryNMXSLkP8io89Li24iuXTng=;
- b=SZY+3GdyS6VBPoZp6ch3wtuZcX7b8/WjTlklPBvWZ5cBGDDf1LYfK7+V
- g8m0/kbq+QiIctBLJ34d5oVpLKE6dBXLIpGapeDt+q6MYOY687svM+V7b
- 9xZ7u/l9ELXxcN45+AWqDPL0MEEDmxzzO1RhM/241aJFDJw9Qdroof64W
- /X/5cqwu51e2IMbvWMMDHHaWqs1qlxRG1G0a+d3f20DHVwOoX2Wjx+vxv
- K0runi9lOweJyjqPS5numLf2FTATcU5iot9rSTCwMif1IVclpkOEZIq49
- paJSq22mpDC5QO3vHGMQCMwBgP9d4odwBxu542lPz3THqC45HBa/ssxo+ A==;
-X-CSE-ConnectionGUID: 6J25RTQmS0ey42Na96LFUg==
-X-CSE-MsgGUID: NzK/822MSlCwgtxUg1TEnA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="15458698"
-X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="15458698"
+ bh=fqmhO3wAvGOr+Ed4Ge08sneB6jFgcpp+F7cJwrcjgA8=;
+ b=MAt8yKQ1TOqcJQ+JUhCbF3XbnS02Wgu0QLC21RyXGN3h74rqtIAAUxhN
+ URAlOf0pKcaovLfGKCjEZdn6fNfHwZufulUQDURt/kUfHhemokzqLN4wq
+ KTg9BYiutvPG0OafbQp+0oz1EClXHVl4+rjA3dJt73ZyVbpZxDAo/TVZJ
+ yo0a+DgVa78FQsSGuZUa31oqBZKgN30iBUUNqijQHvrpo08HnkIB/ndzF
+ EANz3Cp3cZbv0t/iOY6yTjifTOOkxF/swvZbwYzMINEtApUWJ2skB9HQL
+ Suwh78kfBtaySZpCUDGdPEg/m+mvVrk6yj3XTEmSBSvshzCnqHUQydfvx w==;
+X-CSE-ConnectionGUID: wmwrDHttRE67zqqoNFrNLQ==
+X-CSE-MsgGUID: Dn9eRyRFSOSSL/rwRdgijg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="15458715"
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="15458715"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2024 05:55:38 -0700
-X-CSE-ConnectionGUID: AIoGnxrgQaqBynRAa1DWHA==
-X-CSE-MsgGUID: fcT6ZPIQQeubsGVmqzS+Hg==
+ 14 May 2024 05:55:45 -0700
+X-CSE-ConnectionGUID: 2GTEnCgRRKaO1AjjKzarkw==
+X-CSE-MsgGUID: E4EvIwMvSc2tg1wP9PwESw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="30507458"
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; d="scan'208";a="30507466"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.91])
  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2024 05:55:35 -0700
+ 14 May 2024 05:55:41 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: jani.nikula@intel.com, Alain Volmat <alain.volmat@foss.st.com>,
+Cc: jani.nikula@intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 02/11] drm/sti/sti_hdmi: convert to struct drm_edid
-Date: Tue, 14 May 2024 15:55:08 +0300
-Message-Id: <dd1c232cb85d5e0815af73c918953fa3b852baa2.1715691257.git.jani.nikula@intel.com>
+Subject: [PATCH 03/11] drm/bridge: analogix_dp: convert to struct drm_edid
+Date: Tue, 14 May 2024 15:55:09 +0300
+Message-Id: <6f3bd1233a0922551761666f0c96c3766e3c5f96.1715691257.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1715691257.git.jani.nikula@intel.com>
 References: <cover.1715691257.git.jani.nikula@intel.com>
@@ -74,68 +77,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Prefer the struct drm_edid based functions for reading the EDID and
 updating the connector.
 
-The functional change is that the CEC physical address gets invalidated
-when the EDID could not be read.
-
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 ---
 
-Cc: Alain Volmat <alain.volmat@foss.st.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/sti/sti_hdmi.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ .../gpu/drm/bridge/analogix/analogix_dp_core.c    | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index 500936d5743c..3b62ec2d742f 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -974,28 +974,32 @@ static const struct drm_bridge_funcs sti_hdmi_bridge_funcs = {
- 
- static int sti_hdmi_connector_get_modes(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index 7b841232321f..9360b63ad37c 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1108,7 +1108,7 @@ static int analogix_dp_prepare_panel(struct analogix_dp_device *dp,
+ static int analogix_dp_get_modes(struct drm_connector *connector)
  {
-+	const struct drm_display_info *info = &connector->display_info;
- 	struct sti_hdmi_connector *hdmi_connector
- 		= to_sti_hdmi_connector(connector);
- 	struct sti_hdmi *hdmi = hdmi_connector->hdmi;
+ 	struct analogix_dp_device *dp = to_dp(connector);
 -	struct edid *edid;
 +	const struct drm_edid *drm_edid;
- 	int count;
+ 	int ret, num_modes = 0;
  
- 	DRM_DEBUG_DRIVER("\n");
+ 	if (dp->plat_data->panel) {
+@@ -1120,12 +1120,13 @@ static int analogix_dp_get_modes(struct drm_connector *connector)
+ 			return 0;
+ 		}
  
--	edid = drm_get_edid(connector, hdmi->ddc_adapt);
--	if (!edid)
--		goto fail;
-+	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc_adapt);
+-		edid = drm_get_edid(connector, &dp->aux.ddc);
+-		if (edid) {
+-			drm_connector_update_edid_property(&dp->connector,
+-							   edid);
+-			num_modes += drm_add_edid_modes(&dp->connector, edid);
+-			kfree(edid);
++		drm_edid = drm_edid_read_ddc(connector, &dp->aux.ddc);
 +
-+	drm_edid_connector_update(connector, drm_edid);
- 
--	cec_notifier_set_phys_addr_from_edid(hdmi->notifier, edid);
-+	cec_notifier_set_phys_addr(hdmi->notifier,
-+				   connector->display_info.source_physical_address);
++		drm_edid_connector_update(&dp->connector, drm_edid);
 +
-+	if (!drm_edid)
-+		goto fail;
++		if (drm_edid) {
++			num_modes += drm_edid_connector_add_modes(&dp->connector);
++			drm_edid_free(drm_edid);
+ 		}
  
--	count = drm_add_edid_modes(connector, edid);
--	drm_connector_update_edid_property(connector, edid);
-+	count = drm_edid_connector_add_modes(connector);
- 
- 	DRM_DEBUG_KMS("%s : %dx%d cm\n",
--		      (connector->display_info.is_hdmi ? "hdmi monitor" : "dvi monitor"),
--		      edid->width_cm, edid->height_cm);
-+		      info->is_hdmi ? "hdmi monitor" : "dvi monitor",
-+		      info->width_mm / 10, info->height_mm / 10);
- 
--	kfree(edid);
-+	drm_edid_free(drm_edid);
- 	return count;
- 
- fail:
+ 		ret = analogix_dp_prepare_panel(dp, false, false);
 -- 
 2.39.2
 
