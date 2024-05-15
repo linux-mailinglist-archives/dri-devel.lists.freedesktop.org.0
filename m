@@ -2,52 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16E48C6F19
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 01:21:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2318C6F4D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 01:50:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B7EC10E0ED;
-	Wed, 15 May 2024 23:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F1310E118;
+	Wed, 15 May 2024 23:50:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="FKmkZqve";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CWR8f1yK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E50BE10E0ED
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 23:20:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1715815252;
- bh=0LbV+Pj+2FBLlnHt+buhweww+h1gkW8waguXYfTAQFU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FKmkZqveqZ7PNZX6UW1TFH5/rAXkflxjF2cO+eKPcuZQnEbi8aRqms4BedQMoOYzY
- B9qLOp/9L58I7kECBmZjTktIpYH0xPzU6Wn7+iMiXLkVUTzfwizdzJtk6x7DzGbcYu
- c1s7KnObWYSNffyIm7DORmvgOUhCDzwRhayWVR+gYEhsv07GQXgnUuO1q5ZG5EvniZ
- yzLitHAhQOpj6wLI0hvQib3dl2XP5XH50f29T1FqIlXgvcW1pNMI/NXbCg1Fm++tUb
- vUvPsqtbqcgGSGxzmQyAVizVLO/psTwMgMaIbRhL3vXYO0oB0HqH1tQEsqDrNv66d8
- tn/Go6wg0Dmfg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Vfq373LMkz4x1T;
- Thu, 16 May 2024 09:20:51 +1000 (AEST)
-Date: Thu, 16 May 2024 09:20:50 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Dave Airlie <airlied@redhat.com>, Rob Clark <robdclark@gmail.com>, Sean
- Paul <seanpaul@chromium.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Rob Clark <robdclark@chromium.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: manual merge of the drm-msm tree with the kbuild tree
-Message-ID: <20240516092050.2a258c6f@canb.auug.org.au>
-In-Reply-To: <20240513120312.55d97d04@canb.auug.org.au>
-References: <20240507125132.2af57c71@canb.auug.org.au>
- <20240513120312.55d97d04@canb.auug.org.au>
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAD210E118
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 23:50:23 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-51f72a29f13so168762e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 16:50:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715817021; x=1716421821; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=M2DfTJMriRJWzY3I1fpbPSjPaLFHGawiOuysTImuRHI=;
+ b=CWR8f1yK520FnQrCtGjWnLBwYgD0ZaFHl70Ncx4SenYPv8gmvdlYq35OzzgURESvom
+ eHnTxP1hLyG8swmAsP6MCY8ptd+m/ExpJjDVAIKyPLrQOw67F908RBAfxe/Y7Au2lpg/
+ 3A5IfWPI8ouzOM3fPe9moMpGKe7OQqUDaL9yNu8mjlfp2KplhZoNM8c1mZTRlgy76MQH
+ 0zSVsUaZ6z+laJGOTGNF1hxzNPODEUj5z4+7mnMou+SB9mvALxAYKb7erXRAQmpV9rZA
+ wjloTAisjTO+unPAY0pk8ZDuXGwT5fNWIU/ZxXOkOse47yIUl5Zv36uLrhV6GKG8U9eq
+ jZaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715817021; x=1716421821;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=M2DfTJMriRJWzY3I1fpbPSjPaLFHGawiOuysTImuRHI=;
+ b=Hp3cWETMk/TXQSTRb5wy1u/eVIzYlNGtxVkreauIyLH6+/I9InGpzMHmnB0O1hcKA2
+ 3CBVdMfUP2uXVM66OKfdT8ilPvm/bdri8yZSXloJWm5QdTo+Zp4xzlR8CPw+viKdW2mi
+ AIXZemBJ7zgRbP7AmzSvUhzdHVDMtFUy9wm6CekTJ2os8IotheV5aeJP6v1FGLW09xBY
+ 2w9ifgYnpuBWUMY6fNa4YZN/u7qRdFl/5yHEBECB/Isot5JqRXxK6xlAbA2S3I/qP5Fg
+ VTB4OZRxavSHOmjdMiUPXAC3/n8cfXhzX+9XfYT8Im/0JMcVJqZQHCvj8Th1VXGifGbz
+ Sz9g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVgbtI34ZIcujIqPFi6mrmQG92i6XqZHFuUTBJqPaSt/oObGLxxAi6zps5sH3J37svZJKRtJgwIMSWxllGsEVKIR6Bso/CeeuyBWT6B9kW8
+X-Gm-Message-State: AOJu0YwMa6EhzuWVP1t/Q8r5Q6NFkoXcN+j8ddg1B7nTK++7vC+RtQx1
+ T+q+wGsh30V4AZeP0nxYWDJwJMjRE70feQU8tgjfVFWxiB6SHlYkrhm2teL69jlp+PtNiZguOxq
+ JEVNn+ZYhn1N7b2xzR+3vAGg37HM=
+X-Google-Smtp-Source: AGHT+IEoFONe5600wbwpUr+t64TDVQ+GOCxXQFXKsCmO7k2TGzH3IpwLNHqr9mmoL9/Fry8O0asu6LZWp2AxedCnnNo=
+X-Received: by 2002:a05:6512:234a:b0:523:b261:3dde with SMTP id
+ 2adb3069b0e04-523b2613eb1mr654437e87.41.1715817021013; Wed, 15 May 2024
+ 16:50:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/sSD=YDmJ8SjJ=sPXEg5_OuR";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <CAPM=9tw-53PCvveRcdLUUQ+mjq2X2er5zp6n1KeE8Nu8x=VP2g@mail.gmail.com>
+ <CAHk-=wge0et+3PP47OBnNx66Q=i_XgqfGfrSmDGHSyp=Jn-CgQ@mail.gmail.com>
+ <CAHk-=whTqHgXZ4Aj8dNO3Peg9Rf0sh2F7zGWRUOmBwfMDxgvbQ@mail.gmail.com>
+ <CAHk-=wgWJCcJRLBZ1xoAATFyvp6YKN+qzrePhxQbN1SFrno7pQ@mail.gmail.com>
+ <CAHk-=wjm4BcsMrvgXocATBVvZ7N6LAjSvLTzTXWg9EFzyip_cA@mail.gmail.com>
+In-Reply-To: <CAHk-=wjm4BcsMrvgXocATBVvZ7N6LAjSvLTzTXWg9EFzyip_cA@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 16 May 2024 09:50:09 +1000
+Message-ID: <CAPM=9twOiwquA7Zi_mr1vKFV4RQqhnbHv+c9Xz6BadF3tGEegw@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.10-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>, 
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>
+Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Matthew Auld <matthew.auld@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="0000000000000a2d5c061886c829"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,171 +85,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/sSD=YDmJ8SjJ=sPXEg5_OuR
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+--0000000000000a2d5c061886c829
+Content-Type: text/plain; charset="UTF-8"
 
-Hi all,
-
-On Mon, 13 May 2024 12:03:12 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
+On Thu, 16 May 2024 at 06:29, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> On Tue, 7 May 2024 12:51:32 +1000 Stephen Rothwell <sfr@canb.auug.org.au>=
- wrote:
+> On Wed, 15 May 2024 at 13:24, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
 > >
-> > Today's linux-next merge of the drm-msm tree got a conflict in:
-> >=20
-> >   drivers/gpu/drm/msm/Makefile
-> >=20
-> > between commit:
-> >=20
-> >   7c972986689b ("kbuild: use $(src) instead of $(srctree)/$(src) for so=
-urce directory")
-> >=20
-> > from the kbuild tree and commits:
-> >=20
-> >   0fddd045f88e ("drm/msm: generate headers on the fly")
-> >   07a2f8716c41 ("drm/msm/gen_header: allow skipping the validation")
-> >=20
-> > from the drm-msm tree.
-> >=20
-> > I fixed it up (see below) and can carry the fix as necessary. This
-> > is now fixed as far as linux-next is concerned, but any non trivial
-> > conflicts should be mentioned to your upstream maintainer when your tree
-> > is submitted for merging.  You may also want to consider cooperating
-> > with the maintainer of the conflicting tree to minimise any particularly
-> > complex conflicts.
-> >=20
-> > diff --cc drivers/gpu/drm/msm/Makefile
-> > index b8cc007fc1b9,718968717ad5..000000000000
-> > --- a/drivers/gpu/drm/msm/Makefile
-> > +++ b/drivers/gpu/drm/msm/Makefile
-> > @@@ -1,10 -1,11 +1,11 @@@
-> >   # SPDX-License-Identifier: GPL-2.0
-> >  -ccflags-y :=3D -I $(srctree)/$(src)
-> >  +ccflags-y :=3D -I $(src)
-> > + ccflags-y +=3D -I $(obj)/generated
-> >  -ccflags-y +=3D -I $(srctree)/$(src)/disp/dpu1
-> >  -ccflags-$(CONFIG_DRM_MSM_DSI) +=3D -I $(srctree)/$(src)/dsi
-> >  -ccflags-$(CONFIG_DRM_MSM_DP) +=3D -I $(srctree)/$(src)/dp
-> >  +ccflags-y +=3D -I $(src)/disp/dpu1
-> >  +ccflags-$(CONFIG_DRM_MSM_DSI) +=3D -I $(src)/dsi
-> >  +ccflags-$(CONFIG_DRM_MSM_DP) +=3D -I $(src)/dp
-> >  =20
-> > - msm-y :=3D \
-> > + adreno-y :=3D \
-> >   	adreno/adreno_device.o \
-> >   	adreno/adreno_gpu.o \
-> >   	adreno/a2xx_gpu.o \
-> > @@@ -140,11 -145,68 +145,68 @@@ msm-display-$(CONFIG_DRM_MSM_DSI) +=3D =
-ds
-> >   			dsi/dsi_manager.o \
-> >   			dsi/phy/dsi_phy.o
-> >  =20
-> > - msm-$(CONFIG_DRM_MSM_DSI_28NM_PHY) +=3D dsi/phy/dsi_phy_28nm.o
-> > - msm-$(CONFIG_DRM_MSM_DSI_20NM_PHY) +=3D dsi/phy/dsi_phy_20nm.o
-> > - msm-$(CONFIG_DRM_MSM_DSI_28NM_8960_PHY) +=3D dsi/phy/dsi_phy_28nm_896=
-0.o
-> > - msm-$(CONFIG_DRM_MSM_DSI_14NM_PHY) +=3D dsi/phy/dsi_phy_14nm.o
-> > - msm-$(CONFIG_DRM_MSM_DSI_10NM_PHY) +=3D dsi/phy/dsi_phy_10nm.o
-> > - msm-$(CONFIG_DRM_MSM_DSI_7NM_PHY) +=3D dsi/phy/dsi_phy_7nm.o
-> > + msm-display-$(CONFIG_DRM_MSM_DSI_28NM_PHY) +=3D dsi/phy/dsi_phy_28nm.o
-> > + msm-display-$(CONFIG_DRM_MSM_DSI_20NM_PHY) +=3D dsi/phy/dsi_phy_20nm.o
-> > + msm-display-$(CONFIG_DRM_MSM_DSI_28NM_8960_PHY) +=3D dsi/phy/dsi_phy_=
-28nm_8960.o
-> > + msm-display-$(CONFIG_DRM_MSM_DSI_14NM_PHY) +=3D dsi/phy/dsi_phy_14nm.o
-> > + msm-display-$(CONFIG_DRM_MSM_DSI_10NM_PHY) +=3D dsi/phy/dsi_phy_10nm.o
-> > + msm-display-$(CONFIG_DRM_MSM_DSI_7NM_PHY) +=3D dsi/phy/dsi_phy_7nm.o
-> > +=20
-> > + msm-y +=3D $(adreno-y) $(msm-display-y)
-> >  =20
-> >   obj-$(CONFIG_DRM_MSM)	+=3D msm.o
-> > +=20
-> > + ifeq (y,$(CONFIG_DRM_MSM_VALIDATE_XML))
-> > + 	headergen-opts +=3D --validate
-> > + else
-> > + 	headergen-opts +=3D --no-validate
-> > + endif
-> > +=20
-> > + quiet_cmd_headergen =3D GENHDR  $@
-> >  -      cmd_headergen =3D mkdir -p $(obj)/generated && $(PYTHON3) $(src=
-tree)/$(src)/registers/gen_header.py \
-> >  -		      $(headergen-opts) --rnn $(srctree)/$(src)/registers --xml $< =
-c-defines > $@
-> > ++      cmd_headergen =3D mkdir -p $(obj)/generated && $(PYTHON3) $(src=
-)/registers/gen_header.py \
-> > ++		      $(headergen-opts) --rnn $(src)/registers --xml $< c-defines >=
- $@
-> > +=20
-> > + $(obj)/generated/%.xml.h: $(src)/registers/adreno/%.xml \
-> > + 		$(src)/registers/adreno/adreno_common.xml \
-> > + 		$(src)/registers/adreno/adreno_pm4.xml \
-> > + 		$(src)/registers/freedreno_copyright.xml \
-> > + 		$(src)/registers/gen_header.py \
-> > + 		$(src)/registers/rules-fd.xsd \
-> > + 		FORCE
-> > + 	$(call if_changed,headergen)
-> > +=20
-> > + $(obj)/generated/%.xml.h: $(src)/registers/display/%.xml \
-> > + 		$(src)/registers/freedreno_copyright.xml \
-> > + 		$(src)/registers/gen_header.py \
-> > + 		$(src)/registers/rules-fd.xsd \
-> > + 		FORCE
-> > + 	$(call if_changed,headergen)
-> > +=20
-> > + ADRENO_HEADERS =3D \
-> > + 	generated/a2xx.xml.h \
-> > + 	generated/a3xx.xml.h \
-> > + 	generated/a4xx.xml.h \
-> > + 	generated/a5xx.xml.h \
-> > + 	generated/a6xx.xml.h \
-> > + 	generated/a6xx_gmu.xml.h \
-> > + 	generated/adreno_common.xml.h \
-> > + 	generated/adreno_pm4.xml.h \
-> > +=20
-> > + DISPLAY_HEADERS =3D \
-> > + 	generated/dsi_phy_7nm.xml.h \
-> > + 	generated/dsi_phy_10nm.xml.h \
-> > + 	generated/dsi_phy_14nm.xml.h \
-> > + 	generated/dsi_phy_20nm.xml.h \
-> > + 	generated/dsi_phy_28nm_8960.xml.h \
-> > + 	generated/dsi_phy_28nm.xml.h \
-> > + 	generated/dsi.xml.h \
-> > + 	generated/hdmi.xml.h \
-> > + 	generated/mdp4.xml.h \
-> > + 	generated/mdp5.xml.h \
-> > + 	generated/mdp_common.xml.h \
-> > + 	generated/sfpb.xml.h
-> > +=20
-> > + $(addprefix $(obj)/,$(adreno-y)): $(addprefix $(obj)/,$(ADRENO_HEADER=
-S))
-> > + $(addprefix $(obj)/,$(msm-display-y)): $(addprefix $(obj)/,$(DISPLAY_=
-HEADERS))
-> > +=20
-> > + targets +=3D $(ADRENO_HEADERS) $(DISPLAY_HEADERS) =20
->=20
-> This is now  conflict between the drm tree and the kbuild tree.
+> > I have to revert both
+> >
+> >   a68c7eaa7a8f ("drm/amdgpu: Enable clear page functionality")
+> >   e362b7c8f8c7 ("drm/amdgpu: Modify the contiguous flags behaviour")
+> >
+> > to make things build cleanly. Next step: see if it boots and fixes the
+> > problem for me.
+>
+> Well, perhaps not surprisingly, the WARN_ON() no longer triggers with
+> this, and everything looks fine.
+>
+> Let's see if the machine ends up being stable now. It took several
+> hours for the "scary messages" state to turn into the "hung machine"
+> state, so they *could* have been independent issues, but it seems a
+> bit unlikely.
 
-And now a conflict between the kbuild tree and Linus' tree.
+I think that should be fine to do for now.
 
---=20
-Cheers,
-Stephen Rothwell
+I think it is also fine to do like I've attached, but I'm not sure if
+I'd take that chance.
 
---Sig_/sSD=YDmJ8SjJ=sPXEg5_OuR
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Two questions for Arunpravin (and Alex):
 
------BEGIN PGP SIGNATURE-----
+Is this fix correct, and can we get a good explanation of it?
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmZFQ1IACgkQAVBC80lX
-0Gy1pQf+LyZCjL7Hww6fBJsBQno7RSeYrTdWGuFi56VJVbQnO/8g1tEgkhS3bb8c
-vsry0RPJkVckPWHZZ9XewogQ+qHU/DRm3sXDC/BVQ76cFscxGjxoIN77ZFyhtF4W
-CNk6QFFdujafGCuK+nS3klKcC/LqffzoubsihmR/AKW+LFTtSSjaqnQtIW4QseIc
-ElgdmWtWJlFaZJzmKgd7w6kHqe7e9Rt3E4nScs9XkwAN30AEtuRD8bvfhhLNjTpe
-wVZyw09FeCMVkvh+06Egcwk5Kggiukua+wXCY7z5Eh0sRPcWaGQrFdJHZNCpj13R
-eNOrup6Cy6SczWCAgRoQE2R8SqgOLQ==
-=08ja
------END PGP SIGNATURE-----
+Where did this error sneak in? Is the problem in the amdgpu tree, or
+was it a drm-next only problem? If so perhaps we need to discuss
+moving amdgpu more into drm-tip to catch this sort of problem.
 
---Sig_/sSD=YDmJ8SjJ=sPXEg5_OuR--
+Dave.
+
+--0000000000000a2d5c061886c829
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-drm-buddy-convert-WARN_ON-to-an-if-continue.patch"
+Content-Disposition: attachment; 
+	filename="0001-drm-buddy-convert-WARN_ON-to-an-if-continue.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lw8h2ndb0>
+X-Attachment-Id: f_lw8h2ndb0
+
+RnJvbSAwODViODkyNzhmMjk2YzQwZTg2ZjVkMWUxYmNjMTAxN2MzOWY0MDAyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgpEYXRl
+OiBUaHUsIDE2IE1heSAyMDI0IDA5OjQ2OjM3ICsxMDAwClN1YmplY3Q6IFtQQVRDSF0gZHJtL2J1
+ZGR5OiBjb252ZXJ0IFdBUk5fT04gdG8gYW4gaWYgKyBjb250aW51ZQoKVGhpcyBXQVJOX09OIHRy
+aWdnZXJzIGEgbG90LCBidXQgSSBkb24ndCB0aGluayB0aGUgX19mb3JjZV9tZXJnZQpwYXRoIGFs
+d2F5cyBoYXMgdG8gc3VjY2VlZCwgc28ganVzdCByZXR1cm4gYSBmYWlsdXJlIGhlcmUgaW5zdGVh
+ZApvZiB3YXJuIG9uIHRvIGxldCBvdGhlciBwYXRocyBoYW5kbGUgdGhlIGFsbG9jYXRpb24uCgoo
+Tm90IDEwMCUgc3VyZSBvbiB0aGlzIHBhdGNoIC0gYWlybGllZCkuCi0tLQogZHJpdmVycy9ncHUv
+ZHJtL2RybV9idWRkeS5jIHwgNSArKystLQogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2J1ZGR5
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2J1ZGR5LmMKaW5kZXggMjg0ZWJhZTcxY2M0Li42Yjkw
+ZWM2ZWVmYTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYnVkZHkuYworKysgYi9k
+cml2ZXJzL2dwdS9kcm0vZHJtX2J1ZGR5LmMKQEAgLTE5NSw4ICsxOTUsOSBAQCBzdGF0aWMgaW50
+IF9fZm9yY2VfbWVyZ2Uoc3RydWN0IGRybV9idWRkeSAqbW0sCiAJCQlpZiAoIWRybV9idWRkeV9i
+bG9ja19pc19mcmVlKGJ1ZGR5KSkKIAkJCQljb250aW51ZTsKIAotCQkJV0FSTl9PTihkcm1fYnVk
+ZHlfYmxvY2tfaXNfY2xlYXIoYmxvY2spID09Ci0JCQkJZHJtX2J1ZGR5X2Jsb2NrX2lzX2NsZWFy
+KGJ1ZGR5KSk7CisJCQlpZiAoZHJtX2J1ZGR5X2Jsb2NrX2lzX2NsZWFyKGJsb2NrKSAhPQorCQkJ
+ICAgIGRybV9idWRkeV9ibG9ja19pc19jbGVhcihidWRkeSkpCisJCQkJY29udGludWU7CiAKIAkJ
+CS8qCiAJCQkgKiBJZiB0aGUgcHJldiBibG9jayBpcyBzYW1lIGFzIGJ1ZGR5LCBkb24ndCBhY2Nl
+c3MgdGhlCi0tIAoyLjQ0LjAKCg==
+--0000000000000a2d5c061886c829--
