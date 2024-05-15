@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F128C6D2C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 22:25:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4284B8C6D3B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 22:29:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B386C10E0E7;
-	Wed, 15 May 2024 20:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B13810E7B2;
+	Wed, 15 May 2024 20:29:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="RmIUoWf5";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="h9Q49s4z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2269E10E0E7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 20:25:06 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-a59b097b202so182498066b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:25:05 -0700 (PDT)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA5FD10E7B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 20:29:31 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-56e6affdd21so959076a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1715804704; x=1716409504;
+ d=linux-foundation.org; s=google; t=1715804970; x=1716409770;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bgHQeFNA/cjSL1J53O73FIjj3ip3FyKYiQHTHBqHu9I=;
- b=RmIUoWf5pL9GXNjoJAZIwCrTy8MoClSrOCb2WuFVx1dpzdX/S/wbztPzdlgrmm1hhR
- uumJ0/9PSh7YzaVzh53slunm5Uos5t+kjOIe6PagM4SJMK2q3bv7GS7hMd/yuQJRTnbx
- WUU9hQbLovedDLXSRbnyAS0VzyfWwEtNmdH9U=
+ bh=HySmuUBRFJcyBMiUjWtXa9eokDnDTjSCJ7VGY9yEOOE=;
+ b=h9Q49s4zKJIJVQScZiW6lwgG4fDwl/kihHDE40GFrq1/RPGHOP9snKqvlJHw3eNWJK
+ +jUhXy4TWytZdxXeXRX0thtV41EOyQj//GgiVXOKkRbcg3UrRXTEPJmvSzHYde7U8tit
+ tyX8XCCvJdzVQqjPFUEZKptFWeJkYRaRFD7Ck=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715804704; x=1716409504;
+ d=1e100.net; s=20230601; t=1715804970; x=1716409770;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=bgHQeFNA/cjSL1J53O73FIjj3ip3FyKYiQHTHBqHu9I=;
- b=HR7zl8lS7BG6cgnDu6f9jhdnOxpYtItHlvU2MGR9bp65K0WBqe/wcSztHAui9WamXU
- dKjbQCf52VuQl1A95TZwV1bZEMiKOly27j0MFqp0S7gnL0x3+s/Y8et09s7h5AHDx2Jt
- 7koSiGSG0hyXX9S/lKqtzkE5LwwAys9SENLJzRe9U6Ubs8KbE7pbLRoH7HM0JzO32wDX
- aIe6OW3n9ZuSIJKCbIasdpKcw3CzENVWuObnnJBa0kPhTh8Ou3G++JCPvpi9snSQX1k9
- FQBJ/rrYh7Zmr5bVO/nbz0UKl6NfzVtSbS8O/HY4zSbroahbwYUyPV6H7RBPiu8Q90+N
- 7KWg==
+ bh=HySmuUBRFJcyBMiUjWtXa9eokDnDTjSCJ7VGY9yEOOE=;
+ b=lsdFHp2oBLDG7xRdG209+dXZWtHE25BTcJEpZWQWrEmuU7f0b7Jm7bFg4OGDIG/tRv
+ e71XEMygocaCuO0knxR4+vqsaxLa6eWVSj1xk1SJA6V8+B9ZlXr93D3jk5jmh1rbstfz
+ orXd+4Ppg0bCDfxSwK8TPBDtgdGvtTso1ZldX3SIvscYjlBpQp2+7ieozqj85N7hII3j
+ W1utGTCUPLoE5ncHeUMHJKPpLx59GxpNF7O89682CkcIGZT4aSHr6srrvBJywWadjioy
+ hnWJ/rMn7bgufWVlleEo5mg6pbNCNH9yYbTjTWdlkxCosfUzujvg3nWof9iQe0COmM/Q
+ PJcw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX7YqPNIEAbBoYxQkmy5E2R5V0ckdyYSo1U2ABDBTFwBpCEILAQ/YYRBWZV7tKPQ05+M9WNpQR3oTCwLawQU0STCrfVRWV7QyeulcMHZ19u
-X-Gm-Message-State: AOJu0Yz0fcAoGlvPBMYLImP5qJPsTYObsvk9erCzCP4EQNJTwy8k3onT
- VzCZJHsvcbr3vEFlIs9AGaSGF9fPamxGy7PI/0O0K35bovpEMX+mC09fUflpoyVfoXJ+tKZ0leA
- tbAVJkQ==
-X-Google-Smtp-Source: AGHT+IG7O5xq+Fb0WdHTJOpZ6yIP0NkprJsAgmlH+Ed/z6DPvDj/w0lNHpv1uZony7lpH3WQRl52Zg==
-X-Received: by 2002:a17:906:3e08:b0:a5c:de12:5fbb with SMTP id
- a640c23a62f3a-a5cde12605amr77990466b.50.1715804704117; 
- Wed, 15 May 2024 13:25:04 -0700 (PDT)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com.
- [209.85.218.48]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a5a5c033afasm554382366b.156.2024.05.15.13.25.03
+ AJvYcCWb2S1swogn+ZhY28a6+i/pjiPMtY0Nmd+MMNvvcrUYm2a00bys3BxhRWXqNJtccnl/KNa58j/jW81wi3FiSjAZOzp+5Kr1WnnwXt0ZoKNh
+X-Gm-Message-State: AOJu0YyxZYMMDOs7BuaZpAasDR7ojJtLxSK3V33Ox8xc7+FxnVPq8lC5
+ mMzClA0Q+ilUGvE/+xC202iPVAiuZ9wM1zwSAZEC0M0MWkN+5b6zjVgxROzCcbWOhr67fF2nwR0
+ 7tJnQtQ==
+X-Google-Smtp-Source: AGHT+IHh85If/NZHyssdx666aqRTq3GW3PELGN55MiH1+LXDfOOQ6dQVj9Mpl48kmJNOYpLVkz5QlA==
+X-Received: by 2002:aa7:c35a:0:b0:574:b106:57db with SMTP id
+ 4fb4d7f45d1cf-574b1065a14mr11770880a12.21.1715804969850; 
+ Wed, 15 May 2024 13:29:29 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com.
+ [209.85.221.51]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5733c2c7de4sm9414457a12.63.2024.05.15.13.29.29
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 May 2024 13:25:03 -0700 (PDT)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-a59c0a6415fso227224066b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:25:03 -0700 (PDT)
+ Wed, 15 May 2024 13:29:29 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-34eb52bfca3so6257772f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:29:29 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVZBKpvih2UP6bAi8vuuqe/EOpcKZKeExWKU8BBDBdxOCPGh29Mb79VRxT4Rj1GBgKJBn7c2gM/wkvfGLAerr4/GjylwsoHOWrbpZ/Sr6sn
-X-Received: by 2002:a17:906:d9d9:b0:a59:b807:330a with SMTP id
- a640c23a62f3a-a5a2d55e4b8mr1135010966b.32.1715804702993; Wed, 15 May 2024
- 13:25:02 -0700 (PDT)
+ AJvYcCU0sZgdYbvC1t2b/H2/Nobe56yxXfuKND28SjBu4k0qCMUCldal/KdwbmDAa+NcbyxbU9DH13kblIuHmKABKfmNDPm5w6f3A1x6IAD27O8u
+X-Received: by 2002:a5d:5549:0:b0:351:c68e:48c5 with SMTP id
+ ffacd0b85a97d-351c68e4aabmr5614302f8f.29.1715804968926; Wed, 15 May 2024
+ 13:29:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAPM=9tw-53PCvveRcdLUUQ+mjq2X2er5zp6n1KeE8Nu8x=VP2g@mail.gmail.com>
  <CAHk-=wge0et+3PP47OBnNx66Q=i_XgqfGfrSmDGHSyp=Jn-CgQ@mail.gmail.com>
  <CAHk-=whTqHgXZ4Aj8dNO3Peg9Rf0sh2F7zGWRUOmBwfMDxgvbQ@mail.gmail.com>
-In-Reply-To: <CAHk-=whTqHgXZ4Aj8dNO3Peg9Rf0sh2F7zGWRUOmBwfMDxgvbQ@mail.gmail.com>
+ <CAHk-=wgWJCcJRLBZ1xoAATFyvp6YKN+qzrePhxQbN1SFrno7pQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wgWJCcJRLBZ1xoAATFyvp6YKN+qzrePhxQbN1SFrno7pQ@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 15 May 2024 13:24:46 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgWJCcJRLBZ1xoAATFyvp6YKN+qzrePhxQbN1SFrno7pQ@mail.gmail.com>
-Message-ID: <CAHk-=wgWJCcJRLBZ1xoAATFyvp6YKN+qzrePhxQbN1SFrno7pQ@mail.gmail.com>
+Date: Wed, 15 May 2024 13:29:12 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjm4BcsMrvgXocATBVvZ7N6LAjSvLTzTXWg9EFzyip_cA@mail.gmail.com>
+Message-ID: <CAHk-=wjm4BcsMrvgXocATBVvZ7N6LAjSvLTzTXWg9EFzyip_cA@mail.gmail.com>
 Subject: Re: [git pull] drm for 6.10-rc1
 To: Dave Airlie <airlied@gmail.com>, 
  Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>, 
@@ -96,19 +97,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 May 2024 at 13:21, Linus Torvalds
+On Wed, 15 May 2024 at 13:24, Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
 >
-> I guess I'll try to revert the later commit that enables it for amdgpu
-> (commit a68c7eaa7a8f) and see if it at least makes the horrendous
-> messages go away.
+> I have to revert both
+>
+>   a68c7eaa7a8f ("drm/amdgpu: Enable clear page functionality")
+>   e362b7c8f8c7 ("drm/amdgpu: Modify the contiguous flags behaviour")
+>
+> to make things build cleanly. Next step: see if it boots and fixes the
+> problem for me.
 
-I have to revert both
+Well, perhaps not surprisingly, the WARN_ON() no longer triggers with
+this, and everything looks fine.
 
-  a68c7eaa7a8f ("drm/amdgpu: Enable clear page functionality")
-  e362b7c8f8c7 ("drm/amdgpu: Modify the contiguous flags behaviour")
+Let's see if the machine ends up being stable now. It took several
+hours for the "scary messages" state to turn into the "hung machine"
+state, so they *could* have been independent issues, but it seems a
+bit unlikely.
 
-to make things build cleanly. Next step: see if it boots and fixes the
-problem for me.
-
-              Linus
+               Linus
