@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A669E8C6131
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 09:10:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F4F8C6133
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 09:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD47A10E475;
-	Wed, 15 May 2024 07:10:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4772810E2C0;
+	Wed, 15 May 2024 07:10:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uhZqP67s";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e37Y6nxL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5B310E2C0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:10:02 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F8B510E2C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:10:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 20B44CE1372
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:10:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 48EB0C116B1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:09:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 11419613F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:10:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B862FC2BD11
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:10:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715756999;
- bh=nAclWygVKQlAcg5x27+DOlgJAT2eFl6JSQgGsGDsVsU=;
+ s=k20201202; t=1715757027;
+ bh=JoqZejHePeMH5bUn2NFxYVp3nAT/EJvXsSafJ9Gr1HA=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=uhZqP67sTcEi2f8zvK6yaABZo0CRA2+51Ypkw1oV3I3BDocDC76P3cYSQOhLdDaAE
- 2JRAIx8sceY+/IzCo8oCAPvPoNZK2/b+2a+3ykQnOuq4AtxJm7fMobjanPWLllYcrD
- LBocw6icdi9o1KoaVV3iJFhuBRRz9IaQtBOQC+gLQt2+LUISxM+FnZTaUtpA7FdF+0
- J/HLtG6fTNTEuxksUUt4yqj6MDHEv/cCp6hxnVOv9Aid2vvxAWgL2eAnVudg47CBrn
- jAQ6ld3YiUfwUTzHWSnPHHS4xIe1+QGPOEPWCFazi54uWtE2MyjUX8yfxtQ5w+YXFu
- ppfqiKwo6XrSA==
+ b=e37Y6nxLqyxlDewcUyBUl617Jcx8M8DFww4qWnCkKYW6AP/C9+U4oQ2g2xVHGInoN
+ vqB7Ix0LjPIhzkx4xLB/lvfVS4azlSgRfSdVUGd8Uk17aidAMPeIl0o2LPV7bpNFH8
+ QeK0dmzgpT7Bq5tB7BIEnGqOea3U6RMaxNqiM0B1xxMOsdt1S+TDIyii85UW2iuNdR
+ qV7Gd7/YbfCEzBGUZcl+syWYN7CjnPqtR5wjMRM7Z0Va3AuRz7UF8woX0SGL8l82k8
+ AyNEeSAuwd41w5JPayKt5Azo3W4lbWxIJqV1QHcW5jVdVzpx9drmBnI/maN2UesuB2
+ TYHH+yLl9xoyQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 41A0BC53B73; Wed, 15 May 2024 07:09:59 +0000 (UTC)
+ from userid 48) id B12B0C53BB0; Wed, 15 May 2024 07:10:27 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 218841] Security issue (VERY old video memory displaying in
  Window preview)
-Date: Wed, 15 May 2024 07:09:59 +0000
+Date: Wed, 15 May 2024 07:10:27 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,7 +52,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218841-2300-8xNOW0f56e@https.bugzilla.kernel.org/>
+Message-ID: <bug-218841-2300-LaCsdKR8MI@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218841-2300@https.bugzilla.kernel.org/>
 References: <bug-218841-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,10 +77,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218841
 
---- Comment #1 from Trent Gamblin (trentgamblin@hotmail.com) ---
-https://youtube.com/shorts/Wn7kdBeIFdE?si=3DjJxhXi0UbVmW-xhu
-
-That's the video, it was too big to attach.
+--- Comment #2 from Trent Gamblin (trentgamblin@hotmail.com) ---
+I just installed an AMD RX 6400.
 
 --=20
 You may reply to this email to add a comment.
