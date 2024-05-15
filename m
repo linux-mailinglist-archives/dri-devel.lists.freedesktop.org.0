@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F288C65A6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 13:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86008C65BD
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 13:30:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3375B10E77C;
-	Wed, 15 May 2024 11:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B33D510E7AE;
+	Wed, 15 May 2024 11:30:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UUu/ybnI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ChVxRSxD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0944810E77C
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 11:25:12 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F71210E7D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 11:30:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715772312; x=1747308312;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=gPrHO2rRiY9nEAm+psoIvKZsFaipz8sRuJN/V/38bf4=;
- b=UUu/ybnIIYcWjMPY9f9vwRCGfclGAv22G9zDKIrtcZFXWARL+t0C7EsI
- Ulbt1teuzAcdo0u76MqG8bHWDssTHi5lvPGzxutq2nRPJlgnC5Ze1Ea+Q
- j25bP8Hfp+VjHv9uTv//fAu8Rqfu3nIKFpPNYf0NuYQlIOq9Qhsw2GobT
- eAw7rZLaXNXXI2tbuFwOeJZ7rhE0zoWGp0HUbTckOCD5t4DlUAau9j9l2
- zxmnswTl6KqbJNXAXduwW9QiUYO/eV/+d5Qp8Qevta55yz6a+pC4ltxfI
- z5Jcd1WGqrrQx3Oj527m4ai0yjkg5Hd0I/Hcu7cskQfYZXc8XJjPZ0XCc A==;
-X-CSE-ConnectionGUID: qe/APwYESYebW6KD01zAOw==
-X-CSE-MsgGUID: /Yv+5oy6R7i3gCFeY3jLFg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="22955401"
-X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; d="scan'208";a="22955401"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2024 04:25:12 -0700
-X-CSE-ConnectionGUID: sCvTdJ/sSM2lRxZzF+XqfQ==
-X-CSE-MsgGUID: S0RT5ZKzTfmSBnEA92xJHw==
+ t=1715772610; x=1747308610;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=aunZHhcNRWHGpuIghupidGgbT7o5shaH0CbRs5VTuI0=;
+ b=ChVxRSxDQsTvzc2r3IOEmRrfLT48weiXsnElbXxh/TGPH9VtE4zqiNLk
+ OwLEJFmpO8ynN7oLtAFq8f0jX8SP9dL20rpzt16lNSRn2Sc5SGXfSV91u
+ 49uxbNCL+VMK0US4kYksj10GxZKxo3zFfwlkR/CBRXOZzyaHYBhozHxC+
+ Z1AWj1tw58enIGWJaxt3TC7+EvsJq7qF6fWKeMWyz5dvGhJCSdzqcNV36
+ E7xK4qIeqUF02VLovjP3sJfLNc/2LtatcA/W1sTVt/dTWsBj6k4CiAAS2
+ dOcBPPAZmP647DhmQnEtcJg4EJWsiEBkg1q9NMpk1OEfLW4qkv5cQKz5R A==;
+X-CSE-ConnectionGUID: AA/A0r4OTpecIwF6wXkRWA==
+X-CSE-MsgGUID: b+ZtRdSSS4adTRN9UJzTEg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="22417634"
+X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; d="scan'208";a="22417634"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2024 04:30:10 -0700
+X-CSE-ConnectionGUID: UD81+afXQj2hFksn9kksDQ==
+X-CSE-MsgGUID: x96DvzscSqKYd17pKU7bVA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; d="scan'208";a="30955320"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO
- kdrobnik-desk.toya.net.pl) ([10.245.245.149])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2024 04:25:10 -0700
-From: Karolina Stolarek <karolina.stolarek@intel.com>
+X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; d="scan'208";a="35570423"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2024 04:30:08 -0700
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Amaranath Somalapuram <asomalap@amd.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>
-Subject: [PATCH v12 10/10] drm/ttm/tests: Add TODO file
-Date: Wed, 15 May 2024 13:24:33 +0200
-Message-Id: <251d347fa39ec123d4985481df8a4f7613ea8e02.1715767062.git.karolina.stolarek@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1715767062.git.karolina.stolarek@intel.com>
-References: <cover.1715767062.git.karolina.stolarek@intel.com>
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 0/3] HW layer refactor
+Date: Wed, 15 May 2024 13:30:03 +0200
+Message-ID: <20240515113006.457472-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,45 +66,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-List improvements for the test suite with some notes.
+The NPU device consists of two parts: NPU buttress and NPU IP.
+Buttress is a platform specific part that integrates the NPU IP with
+the CPU.
+NPU IP is the platform agnostic part that does the inference.
 
-Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
----
- drivers/gpu/drm/ttm/tests/TODO | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 drivers/gpu/drm/ttm/tests/TODO
+This refactor enables support for multiple platforms using
+a single NPU IP, so for example NPU IP 37XX could be integrated into
+MTL and LNL platforms.
 
-diff --git a/drivers/gpu/drm/ttm/tests/TODO b/drivers/gpu/drm/ttm/tests/TODO
-new file mode 100644
-index 000000000000..b48d83b6166e
---- /dev/null
-+++ b/drivers/gpu/drm/ttm/tests/TODO
-@@ -0,0 +1,25 @@
-+TODO
-+=====
-+
-+- Add a test case where the only evictable BO is busy
-+- Update eviction tests so they use parametrized "from" memory type
-+- Improve mock manager's implementation, e.g. allocate a block of
-+  dummy memory that can be used when testing page mapping functions
-+- Suggestion: Add test cases with external BOs
-+- Suggestion: randomize the number and size of tested buffers in
-+  ttm_bo_validate()
-+- Agree on the naming convention
-+
-+Notes and gotchas
-+=================
-+
-+- These tests are built and run with a UML kernel, because
-+  1) We are interested in hardware-independent testing
-+  2) We don't want to have actual DRM devices interacting with TTM
-+     at the same time as the test one. Getting these to work in
-+     parallel would require some time (...and that's a "todo" in itself!)
-+- Triggering ttm_bo_vm_ops callbacks from KUnit (i.e. kernel) might be
-+  a challenge, but is worth trying. Look at selftests like
-+  i915/gem/selftests/i915_gem_mman.c for inspiration
-+- The test suite uses UML where ioremap() call returns NULL, meaning that
-+  ttm_bo_ioremap() can't be tested, unless we find a way to stub it
--- 
-2.34.1
+Jacek Lawrynowicz (1):
+  accel/ivpu: Replace wake_thread with kfifo
 
+Wachowski, Karol (2):
+  accel/ivpu: Split IP and buttress headers
+  accel/ivpu: Split IP and buttress code
+
+ drivers/accel/ivpu/Makefile               |    5 +-
+ drivers/accel/ivpu/ivpu_debugfs.c         |    2 +-
+ drivers/accel/ivpu/ivpu_drv.c             |   32 +-
+ drivers/accel/ivpu/ivpu_drv.h             |   33 +-
+ drivers/accel/ivpu/ivpu_fw.c              |   20 +-
+ drivers/accel/ivpu/ivpu_hw.c              |  313 +++++
+ drivers/accel/ivpu/ivpu_hw.h              |  196 ++--
+ drivers/accel/ivpu/ivpu_hw_37xx.c         | 1070 ------------------
+ drivers/accel/ivpu/ivpu_hw_37xx_reg.h     |   72 --
+ drivers/accel/ivpu/ivpu_hw_40xx.c         | 1255 ---------------------
+ drivers/accel/ivpu/ivpu_hw_40xx_reg.h     |   94 +-
+ drivers/accel/ivpu/ivpu_hw_btrs.c         |  881 +++++++++++++++
+ drivers/accel/ivpu/ivpu_hw_btrs.h         |   46 +
+ drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h |  108 ++
+ drivers/accel/ivpu/ivpu_hw_btrs_mtl_reg.h |   83 ++
+ drivers/accel/ivpu/ivpu_hw_ip.c           | 1174 +++++++++++++++++++
+ drivers/accel/ivpu/ivpu_hw_ip.h           |   36 +
+ drivers/accel/ivpu/ivpu_ipc.c             |   17 +-
+ drivers/accel/ivpu/ivpu_ipc.h             |    4 +-
+ drivers/accel/ivpu/ivpu_job.c             |    2 +-
+ 20 files changed, 2799 insertions(+), 2644 deletions(-)
+ create mode 100644 drivers/accel/ivpu/ivpu_hw.c
+ delete mode 100644 drivers/accel/ivpu/ivpu_hw_37xx.c
+ delete mode 100644 drivers/accel/ivpu/ivpu_hw_40xx.c
+ create mode 100644 drivers/accel/ivpu/ivpu_hw_btrs.c
+ create mode 100644 drivers/accel/ivpu/ivpu_hw_btrs.h
+ create mode 100644 drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
+ create mode 100644 drivers/accel/ivpu/ivpu_hw_btrs_mtl_reg.h
+ create mode 100644 drivers/accel/ivpu/ivpu_hw_ip.c
+ create mode 100644 drivers/accel/ivpu/ivpu_hw_ip.h
+
+--
+2.43.2
