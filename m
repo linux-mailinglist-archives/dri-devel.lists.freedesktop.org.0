@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E48B8C672B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A36C78C67B3
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFA410E723;
-	Wed, 15 May 2024 13:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FFD910E749;
+	Wed, 15 May 2024 13:47:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UCjCCKsI";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nTULDYJt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75B0410E723
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:18:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715779111; x=1747315111;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=FYEVEehj3lrSoKVtdfSb4gyx8lZAMNG0IWsTUQ1reAc=;
- b=UCjCCKsIKQOc4WKaeLZh/X6yf9EO1gGU5c4LN06nzahGpPCLqNm2yuUP
- xEyWA1aFP8AdMnotTpUYhTIfU1NFTC0YbnW7H1YYjce0JLzOmLmx+Uifl
- V4psvZksCTytY7vJReShyTQSkZXQ9OF8lQc9AOQzwytFXGJBXVeXZQdwu
- 0MRG/3Bn4i5zihg49q/zg3GtugmaZAq9pQiXZYxn26lRmIiuks5ezzPF5
- aE0OGDpDwYb1yROOv73APdpc/sT9czIcMpNNwDdsccUZXVsLiP4/lzviB
- QDb0bVUK8irw+/YSqXDAwD22DZh7zdgc1OCIRLBSA8+WUPKdW28OKjdm9 g==;
-X-CSE-ConnectionGUID: naRSTl1kShWtnwNAg66cRA==
-X-CSE-MsgGUID: vWTL989/Rtysy8/369BHHA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="29318128"
-X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; d="scan'208";a="29318128"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2024 06:18:30 -0700
-X-CSE-ConnectionGUID: hNJhsufDQOqdmXk7IGHuyg==
-X-CSE-MsgGUID: zjSRxRelQ/qAvoxboq9FkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; d="scan'208";a="35520327"
-Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.141])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2024 06:18:28 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [RFC] drm/print: Introduce drm_line_printer
-In-Reply-To: <08831b00-7af1-4f06-b0fd-4ed4179fa528@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240514145631.2128-1-michal.wajdeczko@intel.com>
- <87seyjcsay.fsf@intel.com>
- <08831b00-7af1-4f06-b0fd-4ed4179fa528@intel.com>
-Date: Wed, 15 May 2024 16:18:25 +0300
-Message-ID: <878r0bcixq.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A15910E953
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:47:16 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF225975;
+ Wed, 15 May 2024 15:47:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1715780826;
+ bh=xrhUxugfQmSronO7F7nFYQOsMiIyasnr75Y/dPgA2vQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nTULDYJt7QoihhYWMNHga/yOs8nVYs4KB/g5CKPYPF5vztp3g7pYi2b5PdHQ2C9aI
+ eNCCeq3YUEYuEsW4ZqOqr0UnUP5g7N1c2smlGOHiQPmSPDokypX8DuSb6MezvFE3De
+ FCCTQv5dN9lDR1xeYAJxIrrMs0oulmtvIdjajaBs=
+Date: Wed, 15 May 2024 16:47:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Vasut <marex@denx.de>
+Cc: devicetree@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Liu Ying <victor.liu@nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Rob Herring <robh@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] dt-bindings: display: synopsys,dw-hdmi: Document
+ ddc-i2c-bus in core
+Message-ID: <20240515134705.GA12169@pendragon.ideasonboard.com>
+References: <20240515062753.111746-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240515062753.111746-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,153 +68,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 May 2024, Michal Wajdeczko <michal.wajdeczko@intel.com> wrote:
-> On 15.05.2024 11:56, Jani Nikula wrote:
->> On Tue, 14 May 2024, Michal Wajdeczko <michal.wajdeczko@intel.com> wrote:
->>> This drm printer wrapper can be used to increase the robustness of
->>> the captured output generated by any other drm_printer to make sure
->>> we didn't lost any intermediate lines of the output by adding line
->>> numbers to each output line. Helpful for capturing some crash data.
->> 
->> Interesting. Nothing another level of abstraction can't solve. ;)
->> 
->> Except maybe it'll make adding function names to debug printers harder.
->
-> but why? primary printer should work in the same way with or without
-> this line printer
+Hi Marek,
 
-Because of __builtin_return_address(0). But currently
-__drm_printfn_dbg() doesn't use that anyway, because it would already be
-off...
+Thank you for the patch.
 
-Not really a meaningful argument against this patch, to be fair.
+On Wed, May 15, 2024 at 08:27:44AM +0200, Marek Vasut wrote:
+> The DW HDMI driver core is responsible for parsing the 'ddc-i2c-bus' property,
+> move the property description into the DW HDMI common DT schema too, so this
+> property can be used on all devices integrating the DW HDMI core.
 
->> 
->> No strong feelings either way about it, I'll let others chime in.
->
-> forgot to mention that this new printer was aimed to simplify the manual
-> and error prone work done as part of [1] but I'm afraid there is little
-> traction to have any kind of generic solution at all, since it is
-> considered as 'over engineering', even at the cost of trashing other
-> printers that don't need extra robustness
->
-> [1] https://patchwork.freedesktop.org/patch/593223/?series=133349&rev=1
->
->> 
->> A few comments inline.
->> 
->> 
->> BR,
->> Jani.
->> 
->>>
->>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->>> ---
->>>  drivers/gpu/drm/drm_print.c |  9 +++++++++
->>>  include/drm/drm_print.h     | 37 +++++++++++++++++++++++++++++++++++++
->>>  2 files changed, 46 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
->>> index cf2efb44722c..d6fb50d3407a 100644
->>> --- a/drivers/gpu/drm/drm_print.c
->>> +++ b/drivers/gpu/drm/drm_print.c
->>> @@ -214,6 +214,15 @@ void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
->>>  }
->>>  EXPORT_SYMBOL(__drm_printfn_err);
->>>  
->>> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
->>> +{
->>> +	unsigned int line = (uintptr_t)(++p->prefix);
->> 
->> Subtle. Might warrant adding a union in struct drm_printer for clarity.
->
-> good idea
->
->> 
->>> +	struct drm_printer *dp = p->arg;
->>> +
->>> +	drm_printf(dp, "%u: %pV", line, vaf);
->>> +}
->>> +EXPORT_SYMBOL(__drm_printfn_line);
->>> +
->>>  /**
->>>   * drm_puts - print a const string to a &drm_printer stream
->>>   * @p: the &drm printer
->>> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
->>> index 089950ad8681..58cc73c53853 100644
->>> --- a/include/drm/drm_print.h
->>> +++ b/include/drm/drm_print.h
->>> @@ -186,6 +186,7 @@ void __drm_puts_seq_file(struct drm_printer *p, const char *str);
->>>  void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
->>>  void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
->>>  void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
->>> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
->>>  
->>>  __printf(2, 3)
->>>  void drm_printf(struct drm_printer *p, const char *f, ...);
->>> @@ -357,6 +358,42 @@ static inline struct drm_printer drm_err_printer(struct drm_device *drm,
->>>  	return p;
->>>  }
->>>  
->>> +/**
->>> + * drm_line_printer - construct a &drm_printer that prefixes outputs with line numbers
->>> + * @dp: the &struct drm_printer which actually generates the output
->>> + *
->>> + * This printer can be used to increase the robustness of the captured output
->>> + * to make sure we didn't lost any intermediate lines of the output. Helpful
->>> + * while capturing some crash data.
->>> + *
->>> + * For example::
->>> + *
->>> + *	void crash_dump(struct drm_device *drm)
->>> + *	{
->>> + *		struct drm_printer dp = drm_err_printer(drm, "crash");
->>> + *		struct drm_printer lp = drm_line_printer(&dp);
->>> + *
->>> + *		drm_printf(&lp, "foo");
->>> + *		drm_printf(&lp, "bar");
->>> + *	}
->>> + *
->>> + * Above code will print into the dmesg something like::
->>> + *
->>> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash 1: foo
->>> + *	[ ] 0000:00:00.0: [drm] *ERROR* crash 2: bar
->>> + *
->>> + * RETURNS:
->>> + * The &drm_printer object
->>> + */
->>> +static inline struct drm_printer drm_line_printer(struct drm_printer *dp)
->> 
->> Just p is customary for the drm_printer. "dp" gives me too much Display
->> Port vibes.
->
-> ha, it was 'p' initially, but then it was still asymmetric compared to
-> __drm_printfn_line where 'p' was actually referring to the line printer
->
-> maybe best option would be to don't have local vars at all:
->
-> drm_printf((struct drm_printer *)p->arg, "%u: %pV", p->line, vaf);
+De-duplicating documentation is good :-)
 
-The cast is actually not required.
+I see no reason why this property should be disallowed on any of the
+platforms that integrate a DW HDMI (unless that platform has no other
+I2C controller, but I think we can ignore that in the bindings).
 
-BR,
-Jani.
+There could be platforms where the DW HDMI DDC pins are not exposed,
+making the ddc-i2c-bus property mandatory, but that's something for
+platform-specific bindings to handle by simply adding a
 
+required:
+  - ddc-i2c-bus
 
->
->> 
->>> +{
->>> +	struct drm_printer lp = {
->>> +		.printfn = __drm_printfn_line,
->>> +		.arg = dp,
->>> +	};
->>> +	return lp;
->>> +}
->>> +
->>>  /*
->>>   * struct device based logging
->>>   *
->> 
+That's a separate issue. This patch looks good to me.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Liu Ying <victor.liu@nxp.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: kernel@dh-electronics.com
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+> V2: Update rockchip,dw-hdmi.yaml as well
+> ---
+>  .../bindings/display/bridge/synopsys,dw-hdmi.yaml         | 8 ++++++++
+>  .../devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml    | 8 --------
+>  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml       | 8 --------
+>  3 files changed, 8 insertions(+), 16 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+> index 4b7e54a8f037f..828709a8ded26 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+> @@ -45,6 +45,14 @@ properties:
+>        - const: isfr
+>      additionalItems: true
+>  
+> +  ddc-i2c-bus:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The HDMI DDC bus can be connected to either a system I2C master or the
+> +      functionally-reduced I2C master contained in the DWC HDMI. When connected
+> +      to a system I2C master this property contains a phandle to that I2C
+> +      master controller.
+> +
+>    interrupts:
+>      maxItems: 1
+>  
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> index 7979cf07f1199..180c4b510fb12 100644
+> --- a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> @@ -31,14 +31,6 @@ properties:
+>    clock-names:
+>      maxItems: 2
+>  
+> -  ddc-i2c-bus:
+> -    $ref: /schemas/types.yaml#/definitions/phandle
+> -    description:
+> -      The HDMI DDC bus can be connected to either a system I2C master or the
+> -      functionally-reduced I2C master contained in the DWC HDMI. When connected
+> -      to a system I2C master this property contains a phandle to that I2C
+> -      master controller.
+> -
+>    gpr:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+>      description:
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> index 2aac62219ff64..9d096856a79a6 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> @@ -70,14 +70,6 @@ properties:
+>            - vpll
+>            - ref
+>  
+> -  ddc-i2c-bus:
+> -    $ref: /schemas/types.yaml#/definitions/phandle
+> -    description:
+> -      The HDMI DDC bus can be connected to either a system I2C master or the
+> -      functionally-reduced I2C master contained in the DWC HDMI. When connected
+> -      to a system I2C master this property contains a phandle to that I2C
+> -      master controller.
+> -
+>    phys:
+>      maxItems: 1
+>      description: The HDMI PHY
 
 -- 
-Jani Nikula, Intel
+Regards,
+
+Laurent Pinchart
