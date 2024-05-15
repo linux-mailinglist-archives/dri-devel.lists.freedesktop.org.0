@@ -2,117 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5398C6AA9
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 18:33:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 031198C6A51
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 18:13:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A84210EBA0;
-	Wed, 15 May 2024 16:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F18710E2C2;
+	Wed, 15 May 2024 16:13:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b="X8RyRw+O";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="jhkzwcKF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66F7010E5EE
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 10:19:53 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-572ba002a6bso1491888a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 03:19:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=blackwall-org.20230601.gappssmtp.com; s=20230601; t=1715768391; x=1716373191;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=fdHvJkxYgHA+IRrFREj5QbL1lv8V1e57nVmevFIQbVs=;
- b=X8RyRw+Of6YWo7bOATTJAn4Wcz5ziOMc5PfdDTMWVXXWXazpK8+qqQ6ieUHe03W6SD
- p88QmfDE9S3J/aQN03Pz0i2sk0J90gG0neHLR/7xhzLpfLzGWiCxz8CWsP3syoOY0fj6
- EILom8HVbBrVM8TahEHij5WHTkFox7bHRkwfHdoRXNzjrSY/Kwqd8sk4lAYTh46d1ddx
- cddBf7O8j0Lvm+TUXgzXLzL42BHlpObpqyyU1nyHZEXhMgYFTSd+YzNKntqo8lppkL4W
- j3IC9jJOo6oMy0C4ZG7uau1LC75dgEfFkXd9vAroY65DqOryJEwqlsPmJMvgJ+kVA5su
- UXeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715768391; x=1716373191;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fdHvJkxYgHA+IRrFREj5QbL1lv8V1e57nVmevFIQbVs=;
- b=kvERmVkLfIPPxqURRMyQD0yF8t3bArFnQb2f6/ul3MsvDjHeu0Ws/ExPZOsTC/hl86
- HBADoPz3Xe2vraT52n1XOs3UxvgshFbCpGXZ/whtp3zWogdYt1B5rW5meyHYpkiVJ2rR
- L279ifUn9eb70Ptr+eyOvBs5Ljhg4QDG1TYrJwFhgUoQ+9uJEfRz8bH+QNWUyy/7IUV8
- 3Q0ps7Ua2iQNSWTaxQ7GxavhuHUEh2SZJ6zRQpGa9ZOWCnH8o21vRXmQq/oXSkkv1RGW
- e/jkFLlEJ9yBdzhT5z55hhQqY2KGv2cKio1KEVaPVcu8izBNBaRxDWm5zSWgWlVrSazP
- s7TQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVMC8iGiq4QqasJ+OGWn5vjzTMoFxuk0zAbBdM/TZrFsUYuvSUX0oz4ElO0mWaPu+aaXec8fp9JwC5f38DBUlk7cUHDM+3wd9URFmukxfSx
-X-Gm-Message-State: AOJu0Yxlo4y0NJwRlG+eY1DnBlE2XjGdHvjLHT3OVyhtPeA8xb0/7YHs
- QnL1fbqNI0YNQCDwiiGB/jxmf16Z9kvhZfu0Cgxv2VCR81LPuSAGnRzWUflEJbLKJz80v3KXBH/
- UWCk=
-X-Google-Smtp-Source: AGHT+IHWaSA/H+4L2d0rsT1ymvAysPmXQv4l8zitT6YQF2Rw+C8vn0POfuJW4lu+DIxHSNpoY53xBA==
-X-Received: by 2002:a50:d59d:0:b0:572:7e7e:4296 with SMTP id
- 4fb4d7f45d1cf-5734d5c152dmr11481093a12.3.1715768391400; 
- Wed, 15 May 2024 03:19:51 -0700 (PDT)
-Received: from [192.168.0.245] ([62.73.69.208])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-574b18dff66sm6291338a12.27.2024.05.15.03.19.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 May 2024 03:19:50 -0700 (PDT)
-Message-ID: <f9a8f912-5cb7-4184-be2d-187052c04e2e@blackwall.org>
-Date: Wed, 15 May 2024 13:19:47 +0300
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
+ [95.215.58.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA8E910E2C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 16:13:18 +0000 (UTC)
+Message-ID: <83f4289d-3e73-49fb-9be4-93961d3e051b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1715789594;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XazfpVPfcDOApsPFU0sOqvvodW8BpouJZj2Cr99EhUI=;
+ b=jhkzwcKFIoDNq5ipKNVZPeC0TfQReLUhzU23hRg63kZIH0HsR2VPpBTKKlBfxJWpOJ03UP
+ bv52oBlESxVQk5BYsFFQ1iQAC1F0aIOY558XgXy4HfqonZ0rpRyfhLHThQIj/MOg3P9o06
+ lgvuaCZcfnVZjJdC9qlQ2iipWx4hdv0=
+Date: Thu, 16 May 2024 00:13:03 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v9 04/14] netdev: support binding dma-buf to
- netdevice
-From: Nikolay Aleksandrov <razor@blackwall.org>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
- <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240510232128.1105145-1-almasrymina@google.com>
- <20240510232128.1105145-5-almasrymina@google.com>
- <59b1ec87-03dc-4336-8ce1-cb97e5abb7d6@blackwall.org>
-Content-Language: en-US
-In-Reply-To: <59b1ec87-03dc-4336-8ce1-cb97e5abb7d6@blackwall.org>
-Content-Type: text/plain; charset=UTF-8
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: Re: drm/bridge: adv7511: Attach next bridge without creating connector
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ dmitry.baryshkov@linaro.org, biju.das.jz@bp.renesas.com, aford173@gmail.com,
+ bli@bang-olufsen.dk, robh@kernel.org, jani.nikula@intel.com
+References: <20240513080243.3952292-1-victor.liu@nxp.com>
+ <4b6e49ee-d2fd-4e54-88d5-ab06d8ebf644@bosc.ac.cn>
+ <20240514151211.GG32013@pendragon.ideasonboard.com>
+Content-Language: en-US, en-AU
+In-Reply-To: <20240514151211.GG32013@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Wed, 15 May 2024 16:33:39 +0000
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,157 +64,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/05/2024 13:01, Nikolay Aleksandrov wrote:
-> On 11/05/2024 02:21, Mina Almasry wrote:
->> Add a netdev_dmabuf_binding struct which represents the
->> dma-buf-to-netdevice binding. The netlink API will bind the dma-buf to
->> rx queues on the netdevice. On the binding, the dma_buf_attach
->> & dma_buf_map_attachment will occur. The entries in the sg_table from
->> mapping will be inserted into a genpool to make it ready
->> for allocation.
->>
->> The chunks in the genpool are owned by a dmabuf_chunk_owner struct which
->> holds the dma-buf offset of the base of the chunk and the dma_addr of
->> the chunk. Both are needed to use allocations that come from this chunk.
->>
->> We create a new type that represents an allocation from the genpool:
->> net_iov. We setup the net_iov allocation size in the
->> genpool to PAGE_SIZE for simplicity: to match the PAGE_SIZE normally
->> allocated by the page pool and given to the drivers.
->>
->> The user can unbind the dmabuf from the netdevice by closing the netlink
->> socket that established the binding. We do this so that the binding is
->> automatically unbound even if the userspace process crashes.
->>
->> The binding and unbinding leaves an indicator in struct netdev_rx_queue
->> that the given queue is bound, but the binding doesn't take effect until
->> the driver actually reconfigures its queues, and re-initializes its page
->> pool.
->>
->> The netdev_dmabuf_binding struct is refcounted, and releases its
->> resources only when all the refs are released.
->>
->> Signed-off-by: Willem de Bruijn <willemb@google.com>
->> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
->> Signed-off-by: Mina Almasry <almasrymina@google.com>
->>
->> ---
->>
->> v9: https://lore.kernel.org/all/20240403002053.2376017-5-almasrymina@google.com/
->> - Removed net_devmem_restart_rx_queues and put it in its own patch
->>   (David).
->>
->> v8:
->> - move dmabuf_devmem_ops usage to later patch to avoid patch-by-patch
->>   build error.
->>
->> v7:
->> - Use IS_ERR() instead of IS_ERR_OR_NULL() for the dma_buf_get() return
->>   value.
->> - Changes netdev_* naming in devmem.c to net_devmem_* (Yunsheng).
->> - DMA_BIDIRECTIONAL -> DMA_FROM_DEVICE (Yunsheng).
->> - Added a comment around recovering of the old rx queue in
->>   net_devmem_restart_rx_queue(), and added freeing of old_mem if the
->>   restart of the old queue fails. (Yunsheng).
->> - Use kernel-family sock-priv (Jakub).
->> - Put pp_memory_provider_params in netdev_rx_queue instead of the
->>   dma-buf specific binding (Pavel & David).
->> - Move queue management ops to queue_mgmt_ops instead of netdev_ops
->>   (Jakub).
->> - Remove excess whitespaces (Jakub).
->> - Use genlmsg_iput (Jakub).
->>
->> v6:
->> - Validate rx queue index
->> - Refactor new functions into devmem.c (Pavel)
->>
->> v5:
->> - Renamed page_pool_iov to net_iov, and moved that support to devmem.h
->>   or netmem.h.
->>
->> v1:
->> - Introduce devmem.h instead of bloating netdevice.h (Jakub)
->> - ENOTSUPP -> EOPNOTSUPP (checkpatch.pl I think)
->> - Remove unneeded rcu protection for binding->list (rtnl protected)
->> - Removed extraneous err_binding_put: label.
->> - Removed dma_addr += len (Paolo).
->> - Don't override err on netdev_bind_dmabuf_to_queue failure.
->> - Rename devmem -> dmabuf (David).
->> - Add id to dmabuf binding (David/Stan).
->> - Fix missing xa_destroy bound_rq_list.
->> - Use queue api to reset bound RX queues (Jakub).
->> - Update netlink API for rx-queue type (tx/re) (Jakub).
->>
->> RFC v3:
->> - Support multi rx-queue binding
->>
->> ---
->>  Documentation/netlink/specs/netdev.yaml |   4 +
->>  include/net/devmem.h                    | 111 +++++++++++
->>  include/net/netdev_rx_queue.h           |   2 +
->>  include/net/netmem.h                    |  10 +
->>  include/net/page_pool/types.h           |   5 +
->>  net/core/Makefile                       |   2 +-
->>  net/core/dev.c                          |   3 +
->>  net/core/devmem.c                       | 254 ++++++++++++++++++++++++
->>  net/core/netdev-genl-gen.c              |   4 +
->>  net/core/netdev-genl-gen.h              |   4 +
->>  net/core/netdev-genl.c                  | 105 +++++++++-
->>  11 files changed, 501 insertions(+), 3 deletions(-)
->>  create mode 100644 include/net/devmem.h
->>  create mode 100644 net/core/devmem.c
->>
-> [snip]
->> +/* Protected by rtnl_lock() */
->> +static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_ALLOC1);
->> +
->> +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
->> +{
->> +	struct netdev_rx_queue *rxq;
->> +	unsigned long xa_idx;
->> +	unsigned int rxq_idx;
->> +
->> +	if (!binding)
->> +		return;
->> +
->> +	if (binding->list.next)
->> +		list_del(&binding->list);
->> +
+Hi,
+
+
+On 5/14/24 23:12, Laurent Pinchart wrote:
+> Hello,
 > 
-> minor nit:
-> In theory list.next can still be != null if it's poisoned (e.g. after del). You can
-> use the list api here (!list_empty(&binding->list) -> list_del_init(&binding->list))
-> if you initialize it in net_devmem_bind_dmabuf(), then you'll also get nice list
-> debugging.
+> On Tue, May 14, 2024 at 12:26:15AM +0800, Sui Jingfeng wrote:
+>> On 5/13/24 16:02, Liu Ying wrote:
+>>> The connector is created by either this ADV7511 bridge driver or
+>>> any DRM device driver/previous bridge driver, so this ADV7511
+>>> bridge driver should not let the next bridge driver create connector.
+>>>
+>>> If the next bridge is a HDMI connector, the next bridge driver
+>>> would fail to attach bridge from display_connector_attach() without
+>>> the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+> 
+> In theory we could have another HDMI-to-something bridge connected to
+> the ADV7511 output, and that bridge could create a connector. However,
+> before commit 14b3cdbd0e5b the adv7511 driver didn't try to attach to
+> the next bridge, so it's clear that no platform support in mainline had
+> such a setup. It should be safe to set DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> unconditionally here.
+
+
+But what if there is a drm bridge prior to adv7511 but after the KMS
+engine? Even though we are still safe if it doesn't create connector
+by obeying modern rule.
+
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+>>>
+>>> Add that flag to drm_bridge_attach() function call in
+>>> adv7511_bridge_attach() to fix the issue.
+>>>
+>>> This fixes the issue where the HDMI connector bridge fails to attach
+>>> to the previous ADV7535 bridge on i.MX8MP EVK platform:
+>>>
+>>> [    2.216442] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /hdmi-connector to encoder None-37: -22
+>>> [    2.220675] mmc1: SDHCI controller on 30b50000.mmc [30b50000.mmc] using ADMA
+>>> [    2.226262] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/i2c@30a30000/hdmi@3d to encoder None-37: -22
+>>> [    2.245204] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@32c00000/dsi@32e60000 to encoder None-37: -22
+>>> [    2.256445] imx-lcdif 32e80000.display-controller: error -EINVAL: Failed to attach bridge for endpoint0
+>>> [    2.265850] imx-lcdif 32e80000.display-controller: error -EINVAL: Cannot connect bridge
+>>> [    2.274009] imx-lcdif 32e80000.display-controller: probe with driver imx-lcdif failed with error -22
+>>>
+>>> Fixes: 14b3cdbd0e5b ("drm/bridge: adv7511: make it honour next bridge in DT")
+>>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+>>> ---
+>>>    drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 3 ++-
+>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+>>> index dd21b81bd28f..66ccb61e2a66 100644
+>>> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+>>> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+>>> @@ -953,7 +953,8 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge,
+>>>    	int ret = 0;
+>>>    
+>>>    	if (adv->next_bridge) {
+>>> -		ret = drm_bridge_attach(bridge->encoder, adv->next_bridge, bridge, flags);
+>>> +		ret = drm_bridge_attach(bridge->encoder, adv->next_bridge, bridge,
+>>> +					flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+>>
+>> As a side note, I think, maybe you could do better in the future.
+>>
+>> If we know that the KMS display driver side has the HDMI connector
+>> already created for us, we should pass DRM_BRIDGE_ATTACH_NO_CONNECTOR
+>> from the root KMS driver side. Which is to forbidden all potential
+>> drm bridge drivers to create a connector in the middle.
+> 
+> That's the recommended way for new drivers. Using the
+> drm_bridge_connector helper handles all this for you.
+> 
+>> The KMS display driver side could parse the DT to know if there is
+>> a hdmi connector, or merely just hdmi connector device node, or
+>> something else.
+> 
+> No, that would violate the basic principle of not peeking into the DT of
+> devices you know nothing about. The display engine driver can't walk the
+> pipeline in DT and expect to understand all the DT nodes on the path,
+> and what their properties mean.
 > 
 
-On second thought nevermind this, sorry for the noise.
+The (next) bridge at the remote port is not necessary a display bridge.
+Or it is a bridge from the perspective of hardware viewpoint, but under
+controlled by a more complex foreign driver which generic drm bridge
+driver has no authority to attach.
 
->> +	xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
->> +		if (rxq->mp_params.mp_priv == binding) {
->> +			/* We hold the rtnl_lock while binding/unbinding
->> +			 * dma-buf, so we can't race with another thread that
->> +			 * is also modifying this value. However, the page_pool
->> +			 * may read this config while it's creating its
->> +			 * rx-queues. WRITE_ONCE() here to match the
->> +			 * READ_ONCE() in the page_pool.
->> +			 */
->> +			WRITE_ONCE(rxq->mp_params.mp_ops, NULL);
->> +			WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
->> +
->> +			rxq_idx = get_netdev_rx_queue_index(rxq);
->> +
->> +			netdev_rx_queue_restart(binding->dev, rxq_idx);
->> +		}
->> +	}
->> +
->> +	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
->> +
->> +	net_devmem_dmabuf_binding_put(binding);
->> +}
-> [snip]
-> 
-> Cheers,
->  Nik
-> 
+> What KMS drivers should do is to use the drm_bridge_connector helper.
+> Calling drm_bridge_connector_init() will create a connector for a chain
+> of bridges. The KMS driver should then attach to the first bridge with
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR, unconditionally.
+>
 
+OK, thanks for teaching us the modern way to use drm_bridge_connector
+helper, also thanks Ying for providing the patch.
+
+
+>> However, other maintainer and/or reviewer's opinion are of cause
+>> more valuable. I send a A-b because I thought the bug is urgency
+>> and it's probably more important to solve this bug first. And
+>> maybe you can Cc: <stable@vger.kernel.org> if you like.
+>>
+>>>    		if (ret)
+>>>    			return ret;
+>>>    	}
+>
+
+-- 
+Best regards
+Sui
