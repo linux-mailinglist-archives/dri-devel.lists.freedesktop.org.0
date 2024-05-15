@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36C78C67B3
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 529238C67F6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:58:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FFD910E749;
-	Wed, 15 May 2024 13:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF8D310E990;
+	Wed, 15 May 2024 13:57:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nTULDYJt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="efVBkvUH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A15910E953
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:47:16 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF225975;
- Wed, 15 May 2024 15:47:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1715780826;
- bh=xrhUxugfQmSronO7F7nFYQOsMiIyasnr75Y/dPgA2vQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nTULDYJt7QoihhYWMNHga/yOs8nVYs4KB/g5CKPYPF5vztp3g7pYi2b5PdHQ2C9aI
- eNCCeq3YUEYuEsW4ZqOqr0UnUP5g7N1c2smlGOHiQPmSPDokypX8DuSb6MezvFE3De
- FCCTQv5dN9lDR1xeYAJxIrrMs0oulmtvIdjajaBs=
-Date: Wed, 15 May 2024 16:47:05 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Cc: devicetree@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Liu Ying <victor.liu@nxp.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- kernel@dh-electronics.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] dt-bindings: display: synopsys,dw-hdmi: Document
- ddc-i2c-bus in core
-Message-ID: <20240515134705.GA12169@pendragon.ideasonboard.com>
-References: <20240515062753.111746-1-marex@denx.de>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6833510E3F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:57:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 4F677CE16B6;
+ Wed, 15 May 2024 13:57:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 029F0C116B1;
+ Wed, 15 May 2024 13:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715781461;
+ bh=0Om0EsLkpFBVKkvz9olitc46qsiUdNn1/n5ZWkf37uM=;
+ h=From:Subject:Date:To:Cc:From;
+ b=efVBkvUHMwvEPS9v5viutvHv7Nwmm+sJx1bgg68pjDdL5tQOBfNrGoz42YlvUCiAj
+ kn9/Q2v6QxgRiNb+6xYMD68qCd3reid6n/aqHUK1/+u2URPhCIsEV/12vnr3ycQvhH
+ 0X615sQhaDfm/PRn0AnpVG2lmlq4fRLOXY2gH6Yal52hYHSmyhf+K+pMjXbHKAP6/u
+ CnZ59ZBD4F6zQ+ImRB82ZBpf4m/Is/rzzkq/FbSk/XwB7v0qyM3VAREipiMF3oxUIk
+ hZJcPiSda5+9Wpt+dsWVmhoHvv5Ce8HWDlr5HjCVBPxAidyY1xdcYyuZosqcDBUqa5
+ bW1opPrItcBIA==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
+ related-flags
+Date: Wed, 15 May 2024 15:56:55 +0200
+Message-Id: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240515062753.111746-1-marex@denx.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACe/RGYC/x3MQQqAIBBA0avIrBtIS6iuEi1Mx5pFJkoRhHdPW
+ r7F/y9kSkwZJvFCopszn6FCNgLsbsJGyK4aVKv6VkuN7jC4Xh7JWtzJRFSD6aR0yo49Qc1iIs/
+ Pv5yXUj7AlIV2YgAAAA==
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2381; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=0Om0EsLkpFBVKkvz9olitc46qsiUdNn1/n5ZWkf37uM=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGku+50Tp5XnH/PUiwzWiHWN5qhb6TVvj+JzU9WQlR+vH
+ hINFfXtmMrCIMzJICumyPJEJuz08vbFVQ72K3/AzGFlAhnCwMUpABO5OZWxzoZzzf/AWs7XRS8b
+ b2ve+P/28/yayTKc7TP4yu8EKcs9T/BblnA2Ni96fpTEgzBOSf0PjA0bdl68zBtx8n3vjmrdCjb
+ 5sNayFR9yDVdVeth++TrprFWp9qWS08IBj13Lo87oGvAt+QUA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,126 +75,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Hi,
 
-Thank you for the patch.
+This series is the follow-up of the discussion that John and I had a few
+months ago here:
 
-On Wed, May 15, 2024 at 08:27:44AM +0200, Marek Vasut wrote:
-> The DW HDMI driver core is responsible for parsing the 'ddc-i2c-bus' property,
-> move the property description into the DW HDMI common DT schema too, so this
-> property can be used on all devices integrating the DW HDMI core.
+https://lore.kernel.org/all/CANDhNCquJn6bH3KxKf65BWiTYLVqSd9892-xtFDHHqqyrroCMQ@mail.gmail.com/
 
-De-duplicating documentation is good :-)
+The initial problem we were discussing was that I'm currently working on
+a platform which has a memory layout with ECC enabled. However, enabling
+the ECC has a number of drawbacks on that platform: lower performance,
+increased memory usage, etc. So for things like framebuffers, the
+trade-off isn't great and thus there's a memory region with ECC disabled
+to allocate from for such use cases.
 
-I see no reason why this property should be disallowed on any of the
-platforms that integrate a DW HDMI (unless that platform has no other
-I2C controller, but I think we can ignore that in the bindings).
+After a suggestion from John, I chose to start using heap allocations
+flags to allow for userspace to ask for a particular ECC setup. This is
+then backed by a new heap type that runs from reserved memory chunks
+flagged as such, and the existing DT properties to specify the ECC
+properties.
 
-There could be platforms where the DW HDMI DDC pins are not exposed,
-making the ddc-i2c-bus property mandatory, but that's something for
-platform-specific bindings to handle by simply adding a
+We could also easily extend this mechanism to support more flags, or
+through a new ioctl to discover which flags a given heap supports.
 
-required:
-  - ddc-i2c-bus
+I submitted a draft PR to the DT schema for the bindings used in this
+PR:
+https://github.com/devicetree-org/dt-schema/pull/138
 
-That's a separate issue. This patch looks good to me.
+Let me know what you think,
+Maxime
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Maxime Ripard (8):
+      dma-buf: heaps: Introduce a new heap for reserved memory
+      of: Add helper to retrieve ECC memory bits
+      dma-buf: heaps: Import uAPI header
+      dma-buf: heaps: Add ECC protection flags
+      dma-buf: heaps: system: Remove global variable
+      dma-buf: heaps: system: Handle ECC flags
+      dma-buf: heaps: cma: Handle ECC flags
+      dma-buf: heaps: carveout: Handle ECC flags
 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Liu Ying <victor.liu@nxp.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: imx@lists.linux.dev
-> Cc: kernel@dh-electronics.com
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
-> V2: Update rockchip,dw-hdmi.yaml as well
-> ---
->  .../bindings/display/bridge/synopsys,dw-hdmi.yaml         | 8 ++++++++
->  .../devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml    | 8 --------
->  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml       | 8 --------
->  3 files changed, 8 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> index 4b7e54a8f037f..828709a8ded26 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> @@ -45,6 +45,14 @@ properties:
->        - const: isfr
->      additionalItems: true
->  
-> +  ddc-i2c-bus:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      The HDMI DDC bus can be connected to either a system I2C master or the
-> +      functionally-reduced I2C master contained in the DWC HDMI. When connected
-> +      to a system I2C master this property contains a phandle to that I2C
-> +      master controller.
-> +
->    interrupts:
->      maxItems: 1
->  
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
-> index 7979cf07f1199..180c4b510fb12 100644
-> --- a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
-> @@ -31,14 +31,6 @@ properties:
->    clock-names:
->      maxItems: 2
->  
-> -  ddc-i2c-bus:
-> -    $ref: /schemas/types.yaml#/definitions/phandle
-> -    description:
-> -      The HDMI DDC bus can be connected to either a system I2C master or the
-> -      functionally-reduced I2C master contained in the DWC HDMI. When connected
-> -      to a system I2C master this property contains a phandle to that I2C
-> -      master controller.
-> -
->    gpr:
->      $ref: /schemas/types.yaml#/definitions/phandle
->      description:
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> index 2aac62219ff64..9d096856a79a6 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> @@ -70,14 +70,6 @@ properties:
->            - vpll
->            - ref
->  
-> -  ddc-i2c-bus:
-> -    $ref: /schemas/types.yaml#/definitions/phandle
-> -    description:
-> -      The HDMI DDC bus can be connected to either a system I2C master or the
-> -      functionally-reduced I2C master contained in the DWC HDMI. When connected
-> -      to a system I2C master this property contains a phandle to that I2C
-> -      master controller.
-> -
->    phys:
->      maxItems: 1
->      description: The HDMI PHY
+ drivers/dma-buf/dma-heap.c            |   4 +
+ drivers/dma-buf/heaps/Kconfig         |   8 +
+ drivers/dma-buf/heaps/Makefile        |   1 +
+ drivers/dma-buf/heaps/carveout_heap.c | 330 ++++++++++++++++++++++++++++++++++
+ drivers/dma-buf/heaps/cma_heap.c      |  10 ++
+ drivers/dma-buf/heaps/system_heap.c   |  29 ++-
+ include/linux/dma-heap.h              |   2 +
+ include/linux/of.h                    |  25 +++
+ include/uapi/linux/dma-heap.h         |   5 +-
+ 9 files changed, 407 insertions(+), 7 deletions(-)
+---
+base-commit: a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
+change-id: 20240515-dma-buf-ecc-heap-28a311d2c94e
 
+Best regards,
 -- 
-Regards,
+Maxime Ripard <mripard@kernel.org>
 
-Laurent Pinchart
