@@ -2,69 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA82C8C6D42
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 22:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB028C6D5D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 22:43:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C377510E9D7;
-	Wed, 15 May 2024 20:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF3CB10E02C;
+	Wed, 15 May 2024 20:43:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="FqpW3DFX";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="TsXVZCeA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA1D610E9D7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 20:31:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1715805061; x=1716409861; i=markus.elfring@web.de;
- bh=sdz3zA2QNS5KCDlhoi4KnGrlOMS53U2mLcRDwFndvR8=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=FqpW3DFXXs5vAJKozBUsPL4DoO4zJGPM16PnuQ5u5kKvv7/tlmXxH+wNabhzD5u0
- eCerLP1Zvbqc0Aji7VrDAAkyxREcDACRsvvUCCTyhjEfFFBniqo2q9w2tHK4yn06W
- me+EO1+rqk27Bu1dH6VnfklPh2rpYQ4qzr50zsqaoMT1bRyzEaC+TDQkSEq7175U3
- jP/JqrAE1vLmPLcgyNIMlXK93B8RrvjmOsGMvVBHu6PDI9fKf1UUImqfXqRVQqrsH
- TxGf7GBsLPbx/grWmLQtUWxkO1xI3DSEVqYEw85N39iTKbTjPvfuRWs9fGpr5fjRn
- UzaAgwMV9d+1ypf0Uw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MElV3-1sN1Pa1w5b-00GH4W; Wed, 15
- May 2024 22:31:01 +0200
-Message-ID: <fe55ddf4-b86f-4d9f-aac4-373c5f2a46ac@web.de>
-Date: Wed, 15 May 2024 22:30:52 +0200
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38C2010E02C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 20:43:31 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-a59cdd185b9so311805966b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:43:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1715805810; x=1716410610;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dVdeZxY54sSH0v8wTKekTlioXCSfmbN/I2OTCQ/d+0o=;
+ b=TsXVZCeASh6ne+MOA/Z3d+9OfXHdmbTEHVjRdxCSp/mmNyaXEzn8dXZGyxRuqRJ4mk
+ L8m99+g1+20uHN0KfrESfVmY72HN17pUBfi/dkNVbxTm8FipEXsRiayQ+f4LlW4i1D1q
+ 2EBgkJQoo4qVcx9uJPgzyL7JCKmUdvfB1nX/o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715805810; x=1716410610;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dVdeZxY54sSH0v8wTKekTlioXCSfmbN/I2OTCQ/d+0o=;
+ b=AcN7kMyAr7PyB1s/4U/1XYK8urP84hBzNAKhVD+KU6TbJ6fpCmdDI0PE4r2nm7CIm6
+ avBJbV/X5B9Crwb4wbUdiYq92Pf9VRlJEp52VMfeuqyVPZ1KJRzMgRdtx5SDbFQn5WlG
+ QTme41eoq68ckVxCfYZUWtPcUIps0Ko4QDvirKAz06P+6rZgNLzEpaOzDVUxe38spzVm
+ BLSiP9aHwU0kS4DS6pkYcXAaDOoiZKoABjnMZ097m2zJ2wZVHlGGHTsZOEHBkdc3iVmY
+ oj+YEUk8rxG4Aokrfy3BzXqxZMlU84LqS99GLnXx3w07oFSxaDts+D9fktDCs3jdp1+B
+ OJnA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUTR7RxnQTxQbOqRdJlxxLgs3u6ES1vNoP7aiHQeFkhD0B19vZVhLFEOD0sYyoAq6CdRPsp6VkyqnY4VFwvGOnLrm6CfSCNTWBb0xdaM4UX
+X-Gm-Message-State: AOJu0YyMzB2IAM8zQs+yOxdlMb8Vfus/jj2ZzmAFLTV9ppfGNd3Lu6JO
+ s4RyYWHq72Uuso6R8X07iu++iE02Dy+uDL89HUydaWbWfGID/HH9Hj9YSlooEZnHPsCb1kQBmPn
+ u8BUhLw==
+X-Google-Smtp-Source: AGHT+IHE0KSo9Rq86l0pEIIs6VuC3G1PBR1F0IG22znaTMDSI9F1ejGSZs5mUSd9Qlti03w4eydARA==
+X-Received: by 2002:a17:906:6a10:b0:a59:9636:f3e with SMTP id
+ a640c23a62f3a-a5a118c520bmr1965325966b.33.1715805810137; 
+ Wed, 15 May 2024 13:43:30 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com.
+ [209.85.218.42]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a5a3c8724edsm732706666b.34.2024.05.15.13.43.29
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 May 2024 13:43:29 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-a59a609dd3fso305587966b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:43:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWrtgG6lT/4rvIWshdetjxrW4iHjakAq4Ii8i04jxC5g1M94MYtJpaYuy4+W31zPJtyALqUOwPF3AduXzJ50V3i2nH5XsOhES/FJXmGgaoH
+X-Received: by 2002:a17:906:5411:b0:a5c:dad0:c464 with SMTP id
+ a640c23a62f3a-a5cdad0c554mr155400166b.6.1715805809232; Wed, 15 May 2024
+ 13:43:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>
-References: <20240513001243.1739336-2-sui.jingfeng@linux.dev>
-Subject: Re: [PATCH 1/3] drm/loongson: Add helpers for creating subdevice
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240513001243.1739336-2-sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:w0F7NCoqBz6nd2t2/BLUjMjeh0EdR38pQr4i8RHXlrv9MsVW1ym
- eqfZd01UP6inoqqkFcXgoH6gV/kkoOD3LH0MRqjuHlwCpBYBn7cicw663GLcGCNRF0rdXqT
- +hxNNKu9EN0qhOLuFCH6Fglo8Hl0YuPoOPDcD+q3Kjkx9Q5H45n8E3ubw5YIyT5LLfcIe2b
- Ib6t4olqGEvLcz9rwxHWQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:6SvpGfh4qBQ=;4b/DOPwnftr3FIGYxF7lXtHs+xu
- jtqEw1nP+pEy73zau7GHinucKKbl8PeO6rbYLelA6JbmX2o3xVS67G1Ehsx4nYB2wAdJo+mbi
- MP5MwFN9OIXw+EsFDX/K+X5DjdyyslqyuHwM4HQQUtt+xTDRlOO4GtnkSGk42p0eGkcgdX71U
- IXxrBPBSWdKQMqeicf+RxPvxOPQdhA/zi2OTGBwXFFI6GZu0yVf8eMWXSVW0Qq6WumLSv8bdb
- Wto1+gJqMgTzOGgx93pS5k5fkzFTKiVAOVFs/h6CzQ4ee1OjKGEjc+FL9//Q8SLPHGfqOB5vf
- w/wChn6o6SrJz/e/R/7VX2nRljWo+Ho02HhKkLsbesSFrsuVv2ShSuEbI4B62W42Vk0PuAiYi
- WRllqcE1owue7a8cu76wS+89OE3mh8o8OOodCJGj6Vp5ED4OkipaUHYVklEzHpbvZqFvwQ7tk
- kv1m4hxGxKecScCSbfovCFdHIhxxI6VOxS56Mdu1kilDMb+p8h12C/4YUAa0ZVY1qriV+n3N0
- sOuE/nBSGdg4XlpCIcvWActVbJ56NS6ttGonGd8OekkbVz+cyRXuePUPpK75DWT/+yPXNY/ED
- H8oa65v5anO2+iYmuAopRebUs7PmnCESYr7wiwepvVQlNO87jJJa4B25XGET/7AHa5UmnltcL
- DdgBMTY2bD31UNUrvpsMH8yd9oSygiebP7JpPAPymSlj2+COz/1NtXPM80Z2ZYN5PfwkGIqIC
- xHXl0EGICzMgNvt2KPdW4sd0ZLwCnzuudj5ZkYG9Ud4JljbyMwigXMY3d8miOz3hNmASVja6O
- m99XN7GpMP2nHDuo7r9Ya2NcRIw5UUAxgmvGON1M54xxc=
+References: <CAPM=9tw-53PCvveRcdLUUQ+mjq2X2er5zp6n1KeE8Nu8x=VP2g@mail.gmail.com>
+In-Reply-To: <CAPM=9tw-53PCvveRcdLUUQ+mjq2X2er5zp6n1KeE8Nu8x=VP2g@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 15 May 2024 13:43:13 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whxT8D_0j=bjtrvj-O=VEOjn6GW8GK4j2V+BiDUntZKAQ@mail.gmail.com>
+Message-ID: <CAHk-=whxT8D_0j=bjtrvj-O=VEOjn6GW8GK4j2V+BiDUntZKAQ@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.10-rc1
+To: Dave Airlie <airlied@gmail.com>, Jani Nikula <jani.nikula@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,15 +91,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> In some display subsystems, the functionality of a PCI(e) device may too
-=E2=80=A6
-> of the functionality into child devices can helps to achieve better
-> modularity, eaiser for understand and maintain.
+On Tue, 14 May 2024 at 23:21, Dave Airlie <airlied@gmail.com> wrote:
 >
-> Add the loongson_create_platform_device() function to pove the way =E2=
-=80=A6
+> This is the main pull request for the drm subsystems for 6.10.
 
-Please avoid typos in such a change description.
+.. and now that I look more at this pull request, I find other things wrong.
 
-Regards,
-Markus
+Why is the DRM code asking if I want to enable -Werror? I have Werror
+enabled *already*.
+
+I hate stupid config questions. They only confuse users.
+
+If the global WERROR config is enabled, then the DRM config certainly
+shouldn't ask whether you want even more -Werror. It does nothing but
+annoy people.
+
+And no, we are not going to have subsystems that can *weaken* the
+existing CONFIG_WERROR. Happily, that doesn't seem to be what the DRM
+code wants to do, it just wants to add -Werror, but as mentioned, its'
+crazy to do that when we already have it globally enabled.
+
+Now, it might make more sense to ask if you want -Wextra. A lot of
+those warnings are bogus.
+
+               Linus
