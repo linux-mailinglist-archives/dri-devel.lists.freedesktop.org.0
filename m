@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61308C6DAB
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 23:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982E58C6DAF
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 23:17:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3681C10E23A;
-	Wed, 15 May 2024 21:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF41210E8AF;
+	Wed, 15 May 2024 21:17:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bodIrdCG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="egisHhmG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29B2410E23A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 21:16:57 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-351d309bbecso500613f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:16:56 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F45C10E8AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 21:17:06 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-351cda41b53so1041429f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:17:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715807815; x=1716412615; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1715807825; x=1716412625; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=uO72t1z4PhC45RlSB4zxjIXXfxmOyzDDnn9KfpOoEe4=;
- b=bodIrdCGtORkA+Sd+IkoboOI+u5v+NRPn6bJJs5iOxrmMTUqbdfscYqw24aoZAu7i+
- JGYLFvOiWbNFgea7ninSy31YhIrdAWNgB0GZUWH8Xm0GaoX9smc+KxjqDGq+lwhh+tVE
- cuufhfGXych1yzjT1l5IxwXjNIpyqEy6IzUoXF2caKqhr9T2jHNNzF9p5/TyCR3FZVWQ
- YLbEdjPnm+ft0RtxbFqnvKkUDkXB/hk3ABxXfrOPyXCgSvPdhjxkh+qbpX3UftRvWL4Z
- vWTd9SUv3FLIP88WVbH66kCw1XbPPiiTDwosF646M6y6pSbHR6GPhizz7Vh4vXJvQv5y
- glvQ==
+ :reply-to; bh=vBWhsyX9LLmi6Zfn+QHqsSBYed60uZAgbYOF3wTL9Z8=;
+ b=egisHhmGJs1tJf0XxUQdRvz/fREXAURCEex2wEDdSe/hYqnLfbsimeC4/grKKvNu1w
+ OEeA9x+GZlqVVK9KqqysNaCNfMkUIoCLfkpy0iyaUOib/1aagMSAEW1ZDWmEUzAOv3qx
+ 4ikFZO0NoWCq3A8ZlvSPhtiWvsCzF04H6d6fEeMeadvMTCcNJZ2/3FghqGxipLcisClW
+ UixlGZG7HF+272ZcZVdrfj6uwFmOrFXTmepFHWpdmTCkOpEL+dwPpVzYt3wjWMpQNGS5
+ D4+8NPIdSGtmsukRxh9vvo9/drzbpqHFUOdAPdMS33qRjRGjKVwCdnIXMzlD7ho6r+QU
+ 3DBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715807815; x=1716412615;
+ d=1e100.net; s=20230601; t=1715807825; x=1716412625;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=uO72t1z4PhC45RlSB4zxjIXXfxmOyzDDnn9KfpOoEe4=;
- b=YLF6mygyuW2tb65FzqukidgG+9GLpJuyPDblugCQ8rsXLj5Fc6Bd8iO1w3cbmdYX9Z
- A8ht+77MGOHjS0dZhaGts8o5Tndr6JGwsLrsyglg2u2pc9Gi16eUAVX9KO92Y4Nl7mXq
- f0ENMfxWssMUoA2tP1qSGBpsNktHii1wihDQNrnl2uJXV5LwdXfXtBf1vGxELr35pCff
- jOMp/qfaiYQwnHnFYBr5fBXbRknW4hQhklHW+H3CdUXIcslTMJXfVmzGbRzQ0E8DbsvF
- wT1Uk8bV9yUxWee5f7SjleP0DwRqXS2EOFH/nEd3guyznJmbxSKPdEqMwQoSMEkV8pfy
- YGwQ==
-X-Gm-Message-State: AOJu0YxVFg+tbLOVCvlFkCdp9GFyXR1H/I8eqhLVD4NCLEMA6cK1788G
- 1HMYR5ZfUcJX2kVcOfH+F85uNXdGaPz3eVE6GnIJQXF42xFXc571t3ywTRdLyEU=
-X-Google-Smtp-Source: AGHT+IEUctWvzTXBDh1cypHW7Zi5V2fUkv/hXY0KH6Mc4+fNR34ZBg14Lrsy8sjgxwL6kcVno6FY0A==
-X-Received: by 2002:a05:6000:1968:b0:34d:707c:922a with SMTP id
- ffacd0b85a97d-3504a6310bbmr16846290f8f.13.1715807815272; 
- Wed, 15 May 2024 14:16:55 -0700 (PDT)
+ bh=vBWhsyX9LLmi6Zfn+QHqsSBYed60uZAgbYOF3wTL9Z8=;
+ b=vXxXRpjNndAjVKmoratenveyX97XLNhCX2n7uqfKwY3KUTCFkg12Bly/2bpYH7ffM6
+ sbq78H008CP5kNtSb5i8rvK8ToRwhmDb013kwA1FpR/teqFCVqNup7Bjr59T813i6F2c
+ 0My+dJAVS29oL3Taokq8UxWmWAFV+FG+yF1EfWXvZWPb3/Yr/B1hXbSdQoFtgBW7tol4
+ y/2FqQ7pl21fmCdbzCh0lSOXLwZIHR6941bmuIqoZsxnWtHjwuwWz6XWXddTZkGw/VPF
+ KKX/G/gcFHtOU706M3B2+lHoYlfSinNthtMmpF2NpP2UbgS4af96L/kD4EG4njIF8qhp
+ GJ5g==
+X-Gm-Message-State: AOJu0Yz1s4D01C1+9+9RUJTDbt0vsK6UpQ02jGH5AH/xwGdzeBNDCqDb
+ JoP+5ttYpAvilGSGo9MFSpPvDRpIfMy5iKcDivgqUryDsu+Xjwvqa7U7Lxd0fQo=
+X-Google-Smtp-Source: AGHT+IGQw+SyF1Ngyi3PHoftO0kJoIhWYm3aqC1MeDXQ/v9s6nV3ueLPsQz8+6lxlT7itvNTlikq3Q==
+X-Received: by 2002:adf:e5cc:0:b0:351:cb2d:fd2f with SMTP id
+ ffacd0b85a97d-351cb2dffa2mr3200072f8f.19.1715807825162; 
+ Wed, 15 May 2024 14:17:05 -0700 (PDT)
 Received: from [10.1.2.176] ([149.14.240.163])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-41fccce25casm244577145e9.20.2024.05.15.14.16.53
+ ffacd0b85a97d-3502b896b00sm17241576f8f.45.2024.05.15.14.17.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 May 2024 14:16:54 -0700 (PDT)
-Message-ID: <721b4837-420f-4acf-95b4-514395ed8896@linaro.org>
-Date: Wed, 15 May 2024 23:16:52 +0200
+ Wed, 15 May 2024 14:17:04 -0700 (PDT)
+Message-ID: <a48e0ccb-43cf-4215-a725-1ed62b222ab1@linaro.org>
+Date: Wed, 15 May 2024 23:17:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 4/6] drm/panel: simple: Add Lincoln Tech Sol
- LCD185-101CT panel
+Subject: Re: [PATCH v3 5/6] drm/panel: simple: Add Microtips Technology
+ 13-101HIEBCAF0-C panel
 To: Aradhya Bhatia <a-bhatia1@ti.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -79,7 +79,7 @@ Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
  Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
  Devarsh Thakkar <devarsht@ti.com>, Jai Luthra <j-luthra@ti.com>
 References: <20240515095133.745492-1-a-bhatia1@ti.com>
- <20240515095133.745492-5-a-bhatia1@ti.com>
+ <20240515095133.745492-6-a-bhatia1@ti.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,7 +106,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240515095133.745492-5-a-bhatia1@ti.com>
+In-Reply-To: <20240515095133.745492-6-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,12 +126,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 15/05/2024 11:51, Aradhya Bhatia wrote:
-> Add support for Lincoln Technology Solutions LCD185-101CT, 10.1",
-> 1920x1200, 8-bit TFT LCD with LVDS interface, LED backlight and PCAP
-> touch support (Goodix GT928).
+> Add support for Microtips Technology USA 13-101HIECAF0-C 10.1",
+> 1920x1200, 8-bit TFT LCD with LVDS interface, LED backlight and touch
+> support (ILITEK 2511).
 > 
 > [0]: Panel Datasheet
-> https://lincolntechsolutions.com/wp-content/uploads/2023/04/LCD185-101CTL1ARNTT_DS_R1.3.pdf
+> https://simplespec.microtipsusa.com/uploads/spec/datasheetFile/2588/13-101HIEBCAF0-S_V1.1_20221104.pdf
 > 
 > Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
@@ -139,27 +139,27 @@ On 15/05/2024 11:51, Aradhya Bhatia wrote:
 >   1 file changed, 32 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index dcb6d0b6ced0..10e974bffd28 100644
+> index 10e974bffd28..3a0d8f0ff267 100644
 > --- a/drivers/gpu/drm/panel/panel-simple.c
 > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2870,6 +2870,35 @@ static const struct panel_desc lg_lb070wv8 = {
->   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> @@ -3055,6 +3055,35 @@ static const struct panel_desc logicpd_type_28 = {
+>   	.connector_type = DRM_MODE_CONNECTOR_DPI,
 >   };
 >   
-> +static const struct drm_display_mode lincolntech_lcd185_101ct_mode = {
-> +	.clock = 155127,
+> +static const struct drm_display_mode microtips_mf_101hiebcaf0_c_mode = {
+> +	.clock = 150275,
 > +	.hdisplay = 1920,
-> +	.hsync_start = 1920 + 128,
-> +	.hsync_end = 1920 + 128 + 20,
-> +	.htotal = 1920 + 128 + 20 + 12,
+> +	.hsync_start = 1920 + 32,
+> +	.hsync_end = 1920 + 32 + 52,
+> +	.htotal = 1920 + 32 + 52 + 24,
 > +	.vdisplay = 1200,
-> +	.vsync_start = 1200 + 19,
-> +	.vsync_end = 1200 + 19 + 4,
-> +	.vtotal = 1200 + 19 + 4 + 20,
+> +	.vsync_start = 1200 + 24,
+> +	.vsync_end = 1200 + 24 + 8,
+> +	.vtotal = 1200 + 24 + 8 + 3,
 > +};
 > +
-> +static const struct panel_desc lincolntech_lcd185_101ct = {
-> +	.modes = &lincolntech_lcd185_101ct_mode,
+> +static const struct panel_desc microtips_mf_101hiebcaf0_c = {
+> +	.modes = &microtips_mf_101hiebcaf0_c_mode,
 > +	.bpc = 8,
 > +	.num_modes = 1,
 > +	.size = {
@@ -175,18 +175,18 @@ On 15/05/2024 11:51, Aradhya Bhatia wrote:
 > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
 > +};
 > +
->   static const struct display_timing logictechno_lt161010_2nh_timing = {
->   	.pixelclock = { 26400000, 33300000, 46800000 },
->   	.hactive = { 800, 800, 800 },
-> @@ -4644,6 +4673,9 @@ static const struct of_device_id platform_of_match[] = {
+>   static const struct drm_display_mode mitsubishi_aa070mc01_mode = {
+>   	.clock = 30400,
+>   	.hdisplay = 800,
+> @@ -4694,6 +4723,9 @@ static const struct of_device_id platform_of_match[] = {
 >   	}, {
->   		.compatible = "lg,lb070wv8",
->   		.data = &lg_lb070wv8,
+>   		.compatible = "logictechno,lttd800480070-l6wh-rt",
+>   		.data = &logictechno_lttd800480070_l6wh_rt,
 > +	}, {
-> +		.compatible = "lincolntech,lcd185-101ct",
-> +		.data = &lincolntech_lcd185_101ct,
+> +		.compatible = "microtips,mf-101hiebcaf0",
+> +		.data = &microtips_mf_101hiebcaf0_c,
 >   	}, {
->   		.compatible = "logicpd,type28",
->   		.data = &logicpd_type_28,
+>   		.compatible = "mitsubishi,aa070mc01-ca1",
+>   		.data = &mitsubishi_aa070mc01,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
