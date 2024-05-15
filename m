@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 037F88C67FB
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1A18C67F8
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:58:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33B9510E992;
-	Wed, 15 May 2024 13:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A33C10E5D2;
+	Wed, 15 May 2024 13:58:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QXu68TXf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KtdH8diI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A665610E0D4
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:57:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 641CE10E5D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:57:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EFC81614B0;
- Wed, 15 May 2024 13:57:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EF92C116B1;
- Wed, 15 May 2024 13:57:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id CF6C7614D1;
+ Wed, 15 May 2024 13:57:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47694C2BD11;
+ Wed, 15 May 2024 13:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715781474;
- bh=3a1PkEj7cE+sch219RIbB9Jk0bMgUp62q1dLoyBXtNE=;
+ s=k20201202; t=1715781477;
+ bh=+td2VTdxnfVRiC1SSw6dBtys0XD7Sod+cqvq7T/2at8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=QXu68TXftiz2lZOlszefjpiO6hArafdb17Coy3vmlIKkWX1OTyUhmaxRP9Gkg92cH
- htkRgOtHMIewMzwPQE9UXTJz7jkSgrRdaRpNs0HD7mkSCmw/NSbr2Me1iPuizOTvpX
- xjJWdWNZYkbmCExVJkX80T7at917TAo29YHxraWuxwC2hZpBJgWFRWj74MZU/a8K62
- QTjhcN9n27uj0cTaUj/VBMnC+dlSa1CYn1E21Pyj6lT5FL6CFXiVAOC/didMJdwlPG
- RBqhC1ZopZGwWC3mrWGmGpxAHYPFEWTByZ60XzEqdIDZGy3iq3Xe5j9uxQt4n+DeHT
- R9aKXFT8gVe5g==
+ b=KtdH8diImn5gIEe0U7/AhqBlZ7YEtbhRy6QCY7F6lxBQkdF5Ctxrj9Uc7TMvLQbp7
+ Zb+vFQM9TKFFcOyEYx2GwJ1NWd4Han36isoLtvmMqXDDU6NWjUnb40FJNrywbYpmME
+ vq9Nzb0xa1oAoA3HduTOopGkMp17mn/A14jg7fcIU/ghx0AQ2hnmYDpC+H/rREJ1dA
+ HEy4TUvR4dQ4kcT2NP6sJkCBu6RkZnB9V6M1iiWYv0Qb/QkMLS4fjKtlt5gKX+Eqj8
+ VA0k9ubrvJvcZjM3JLgi3wlmippUnGZ/mDAvxVJhxYABsg+qdGtootB7uKAiHumCaH
+ z0ybkFLOOhCEw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 15 May 2024 15:56:59 +0200
-Subject: [PATCH 4/8] dma-buf: heaps: Add ECC protection flags
+Date: Wed, 15 May 2024 15:57:00 +0200
+Subject: [PATCH 5/8] dma-buf: heaps: system: Remove global variable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240515-dma-buf-ecc-heap-v1-4-54cbbd049511@kernel.org>
+Message-Id: <20240515-dma-buf-ecc-heap-v1-5-54cbbd049511@kernel.org>
 References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
 In-Reply-To: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
 To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
@@ -50,12 +50,12 @@ Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2044; i=mripard@kernel.org;
- h=from:subject:message-id; bh=3a1PkEj7cE+sch219RIbB9Jk0bMgUp62q1dLoyBXtNE=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGku+/2nKmw4Xr3PpCAtJ9HX6rfW47R9Dit2ez1IiU7p5
- phpe8G3YyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEykhImxYfev3IBfD6+9YDuc
- 2t2+614VF/dWOcUVfXc41n2rveHQrVlV4x7Qz73kL6f+39v2hZt6GRv+mvRsZot9yu0tP9m/82P
- TvNeat1UCvjcpnVfI+cYVKSlxuihVdOniK7tfLn0moneHYxYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1705; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=+td2VTdxnfVRiC1SSw6dBtys0XD7Sod+cqvq7T/2at8=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGku+/0vr4tVvXx5rcA68dY53V7P43MLbmlFVFxelf615
+ bKyDqtAx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIz1rGWvmESVdfXVrnsvWM
+ 5ZV5XTtvv5nv0vOpZ+muNZJdJ9O5jPcvSdxwp2vVjilOJ54l3/GYa89YzVJ+5U1ncHDQnzvFb1p
+ /lNm/dv6p/zB36vwJxiucfl4+53KiSET88P1HOiHcht6W3gX9AA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,59 +73,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some systems run with ECC enabled on the memory by default, but with
-some memory regions with ECC disabled to mitigate the downsides of
-enabling ECC (reduced performances, increased memory usage) for buffers
-that don't require it.
+The system heap has been using its struct dma_heap pointer but wasn't
+using it anywhere.
 
-Let's create some allocation flags to ask for a particular ECC setup
-when allocate a dma-buf through a heap.
+Since we'll need additional parameters to attach to that heap type,
+let's create a private structure and set it as the dma_heap drvdata,
+removing the global variable in the process.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/dma-buf/dma-heap.c    | 4 ++++
- include/uapi/linux/dma-heap.h | 5 +++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ drivers/dma-buf/heaps/system_heap.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 84ae708fafe7..a96c1865b627 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -106,10 +106,14 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
- 		return -EINVAL;
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 9076d47ed2ef..8b5e6344eea4 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -19,11 +19,13 @@
+ #include <linux/module.h>
+ #include <linux/scatterlist.h>
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
  
- 	if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
- 		return -EINVAL;
+-static struct dma_heap *sys_heap;
++struct system_heap {
++	struct dma_heap *heap;
++};
  
-+	if ((heap_allocation->heap_flags & DMA_HEAP_FLAG_ECC_PROTECTED) &&
-+	    (heap_allocation->heap_flags & DMA_HEAP_FLAG_ECC_UNPROTECTED))
-+		return -EINVAL;
+ struct system_heap_buffer {
+ 	struct dma_heap *heap;
+ 	struct list_head attachments;
+ 	struct mutex lock;
+@@ -422,17 +424,22 @@ static const struct dma_heap_ops system_heap_ops = {
+ };
+ 
+ static int system_heap_create(void)
+ {
+ 	struct dma_heap_export_info exp_info;
++	struct system_heap *sys_heap;
 +
- 	fd = dma_heap_buffer_alloc(heap, heap_allocation->len,
- 				   heap_allocation->fd_flags,
- 				   heap_allocation->heap_flags);
- 	if (fd < 0)
- 		return fd;
-diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-heap.h
-index 6f84fa08e074..677b6355552d 100644
---- a/include/uapi/linux/dma-heap.h
-+++ b/include/uapi/linux/dma-heap.h
-@@ -16,12 +16,13 @@
-  */
++	sys_heap = kzalloc(sizeof(*sys_heap), GFP_KERNEL);
++	if (!sys_heap)
++		return -ENOMEM;
  
- /* Valid FD_FLAGS are O_CLOEXEC, O_RDONLY, O_WRONLY, O_RDWR */
- #define DMA_HEAP_VALID_FD_FLAGS (O_CLOEXEC | O_ACCMODE)
+ 	exp_info.name = "system";
+ 	exp_info.ops = &system_heap_ops;
+-	exp_info.priv = NULL;
++	exp_info.priv = sys_heap;
  
--/* Currently no heap flags */
--#define DMA_HEAP_VALID_HEAP_FLAGS (0)
-+#define DMA_HEAP_FLAG_ECC_PROTECTED	BIT(0)
-+#define DMA_HEAP_FLAG_ECC_UNPROTECTED	BIT(1)
-+#define DMA_HEAP_VALID_HEAP_FLAGS (DMA_HEAP_FLAG_ECC_PROTECTED | DMA_HEAP_FLAG_ECC_UNPROTECTED)
+-	sys_heap = dma_heap_add(&exp_info);
+-	if (IS_ERR(sys_heap))
+-		return PTR_ERR(sys_heap);
++	sys_heap->heap = dma_heap_add(&exp_info);
++	if (IS_ERR(sys_heap->heap))
++		return PTR_ERR(sys_heap->heap);
  
- /**
-  * struct dma_heap_allocation_data - metadata passed from userspace for
-  *                                      allocations
-  * @len:		size of the allocation
+ 	return 0;
+ }
+ module_init(system_heap_create);
 
 -- 
 2.44.0
