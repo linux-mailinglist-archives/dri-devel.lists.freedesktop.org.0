@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031198C6A51
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 18:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65ECD8C6A6C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 18:19:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F18710E2C2;
-	Wed, 15 May 2024 16:13:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA3910E050;
+	Wed, 15 May 2024 16:19:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="jhkzwcKF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZCbEkMsg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
- [95.215.58.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA8E910E2C2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 16:13:18 +0000 (UTC)
-Message-ID: <83f4289d-3e73-49fb-9be4-93961d3e051b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1715789594;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XazfpVPfcDOApsPFU0sOqvvodW8BpouJZj2Cr99EhUI=;
- b=jhkzwcKFIoDNq5ipKNVZPeC0TfQReLUhzU23hRg63kZIH0HsR2VPpBTKKlBfxJWpOJ03UP
- bv52oBlESxVQk5BYsFFQ1iQAC1F0aIOY558XgXy4HfqonZ0rpRyfhLHThQIj/MOg3P9o06
- lgvuaCZcfnVZjJdC9qlQ2iipWx4hdv0=
-Date: Thu, 16 May 2024 00:13:03 +0800
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 186B810E050
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 16:19:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 5D91CCE16E9;
+ Wed, 15 May 2024 16:19:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93EB4C116B1;
+ Wed, 15 May 2024 16:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715789975;
+ bh=/He7CAq7HiGjDS6udlxRywGS+srOIUjRiPK0TOJkqk4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZCbEkMsgY8TOtD4BoWYV4ytezczs/FHfE9OtBrCmlKm5e7OxMakHsokNybGeIogcs
+ yqk/Tshaec1pcV0HOTV2rjbnc8G4I6vN+L/RzwxSFhX4Iy+TMfvCo2BVVnAbG4q7Uk
+ DxVxd+yP7NCh3Znj9ExtkE3uZhelNmIqJFnCs+lwOhgcq8W1uiNphd5UNlJXkW+SrT
+ s7g9NvY4NcQMKWfD04G3thdF/bYuCyPqeDBfzBb7F1zPFpUd8P4bwr5ASI4W7BqWa1
+ BdZauP7TVWwIZtGiDG78EBBm1eT+aCMPC4Lelzf6tBDhrwy6j/2AkBJt7rPwyQQOR9
+ 095J9zLa17mmg==
+Date: Wed, 15 May 2024 17:19:29 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Detlev Casanova <detlev.casanova@collabora.com>
+Cc: linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 3/3] dt-bindings: display: vop2: Add VP clock resets
+Message-ID: <20240515-risk-exes-13db315da6bb@spud>
+References: <20240514152328.21415-1-detlev.casanova@collabora.com>
+ <20240514152328.21415-4-detlev.casanova@collabora.com>
 MIME-Version: 1.0
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: drm/bridge: adv7511: Attach next bridge without creating connector
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- dmitry.baryshkov@linaro.org, biju.das.jz@bp.renesas.com, aford173@gmail.com,
- bli@bang-olufsen.dk, robh@kernel.org, jani.nikula@intel.com
-References: <20240513080243.3952292-1-victor.liu@nxp.com>
- <4b6e49ee-d2fd-4e54-88d5-ab06d8ebf644@bosc.ac.cn>
- <20240514151211.GG32013@pendragon.ideasonboard.com>
-Content-Language: en-US, en-AU
-In-Reply-To: <20240514151211.GG32013@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="P/Z/zOdIpdF94JWu"
+Content-Disposition: inline
+In-Reply-To: <20240514152328.21415-4-detlev.casanova@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,116 +73,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
+--P/Z/zOdIpdF94JWu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 5/14/24 23:12, Laurent Pinchart wrote:
-> Hello,
-> 
-> On Tue, May 14, 2024 at 12:26:15AM +0800, Sui Jingfeng wrote:
->> On 5/13/24 16:02, Liu Ying wrote:
->>> The connector is created by either this ADV7511 bridge driver or
->>> any DRM device driver/previous bridge driver, so this ADV7511
->>> bridge driver should not let the next bridge driver create connector.
->>>
->>> If the next bridge is a HDMI connector, the next bridge driver
->>> would fail to attach bridge from display_connector_attach() without
->>> the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
-> 
-> In theory we could have another HDMI-to-something bridge connected to
-> the ADV7511 output, and that bridge could create a connector. However,
-> before commit 14b3cdbd0e5b the adv7511 driver didn't try to attach to
-> the next bridge, so it's clear that no platform support in mainline had
-> such a setup. It should be safe to set DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> unconditionally here.
+On Tue, May 14, 2024 at 11:19:47AM -0400, Detlev Casanova wrote:
+> Add the documentation for VOP2 video ports reset clocks.
+> One reset can be set per video port.
+>=20
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 
+Are these resets valid for all VOPs or just the one on 3588?
 
-But what if there is a drm bridge prior to adv7511 but after the KMS
-engine? Even though we are still safe if it doesn't create connector
-by obeying modern rule.
+> ---
+>  .../display/rockchip/rockchip-vop2.yaml       | 27 +++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-=
+vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop=
+2.yaml
+> index 2531726af306b..941fd059498d4 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.ya=
+ml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.ya=
+ml
+> @@ -65,6 +65,22 @@ properties:
+>        - const: dclk_vp3
+>        - const: pclk_vop
+> =20
+> +  resets:
+> +    minItems: 3
+> +    items:
+> +      - description: Pixel clock reset for video port 0.
+> +      - description: Pixel clock reset for video port 1.
+> +      - description: Pixel clock reset for video port 2.
+> +      - description: Pixel clock reset for video port 3.
+> +
+> +  reset-names:
+> +    minItems: 3
+> +    items:
+> +      - const: dclk_vp0
+> +      - const: dclk_vp1
+> +      - const: dclk_vp2
+> +      - const: dclk_vp3
+> +
+>    rockchip,grf:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+>      description:
+> @@ -128,6 +144,11 @@ allOf:
+>          clock-names:
+>            minItems: 7
+> =20
+> +        resets:
+> +          minItems: 4
+> +        reset-names:
+> +          minItems: 4
+> +
+>          ports:
+>            required:
+>              - port@0
+> @@ -183,6 +204,12 @@ examples:
+>                                "dclk_vp0",
+>                                "dclk_vp1",
+>                                "dclk_vp2";
+> +                resets =3D <&cru SRST_VOP0>,
+> +                         <&cru SRST_VOP1>,
+> +                         <&cru SRST_VOP2>;
+> +                reset-names =3D "dclk_vp0",
+> +                              "dclk_vp1",
+> +                              "dclk_vp2";
+>                  power-domains =3D <&power RK3568_PD_VO>;
+>                  iommus =3D <&vop_mmu>;
+>                  vop_out: ports {
+> --=20
+> 2.43.2
+>=20
 
+--P/Z/zOdIpdF94JWu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
->>>
->>> Add that flag to drm_bridge_attach() function call in
->>> adv7511_bridge_attach() to fix the issue.
->>>
->>> This fixes the issue where the HDMI connector bridge fails to attach
->>> to the previous ADV7535 bridge on i.MX8MP EVK platform:
->>>
->>> [    2.216442] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /hdmi-connector to encoder None-37: -22
->>> [    2.220675] mmc1: SDHCI controller on 30b50000.mmc [30b50000.mmc] using ADMA
->>> [    2.226262] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/i2c@30a30000/hdmi@3d to encoder None-37: -22
->>> [    2.245204] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@32c00000/dsi@32e60000 to encoder None-37: -22
->>> [    2.256445] imx-lcdif 32e80000.display-controller: error -EINVAL: Failed to attach bridge for endpoint0
->>> [    2.265850] imx-lcdif 32e80000.display-controller: error -EINVAL: Cannot connect bridge
->>> [    2.274009] imx-lcdif 32e80000.display-controller: probe with driver imx-lcdif failed with error -22
->>>
->>> Fixes: 14b3cdbd0e5b ("drm/bridge: adv7511: make it honour next bridge in DT")
->>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
->>> ---
->>>    drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 3 ++-
->>>    1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
->>> index dd21b81bd28f..66ccb61e2a66 100644
->>> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
->>> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
->>> @@ -953,7 +953,8 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge,
->>>    	int ret = 0;
->>>    
->>>    	if (adv->next_bridge) {
->>> -		ret = drm_bridge_attach(bridge->encoder, adv->next_bridge, bridge, flags);
->>> +		ret = drm_bridge_attach(bridge->encoder, adv->next_bridge, bridge,
->>> +					flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->>
->> As a side note, I think, maybe you could do better in the future.
->>
->> If we know that the KMS display driver side has the HDMI connector
->> already created for us, we should pass DRM_BRIDGE_ATTACH_NO_CONNECTOR
->> from the root KMS driver side. Which is to forbidden all potential
->> drm bridge drivers to create a connector in the middle.
-> 
-> That's the recommended way for new drivers. Using the
-> drm_bridge_connector helper handles all this for you.
-> 
->> The KMS display driver side could parse the DT to know if there is
->> a hdmi connector, or merely just hdmi connector device node, or
->> something else.
-> 
-> No, that would violate the basic principle of not peeking into the DT of
-> devices you know nothing about. The display engine driver can't walk the
-> pipeline in DT and expect to understand all the DT nodes on the path,
-> and what their properties mean.
-> 
+-----BEGIN PGP SIGNATURE-----
 
-The (next) bridge at the remote port is not necessary a display bridge.
-Or it is a bridge from the perspective of hardware viewpoint, but under
-controlled by a more complex foreign driver which generic drm bridge
-driver has no authority to attach.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkTgkQAKCRB4tDGHoIJi
+0lwXAP9ODH1i6CX+87vgyTIDRUsnCdlaUgSTbNvl8Tlmwa+XDgD+L3V6TQMyak1G
++54i1z3/hchYtm3/A1uMHW3Irz9oKAQ=
+=h/hX
+-----END PGP SIGNATURE-----
 
-> What KMS drivers should do is to use the drm_bridge_connector helper.
-> Calling drm_bridge_connector_init() will create a connector for a chain
-> of bridges. The KMS driver should then attach to the first bridge with
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR, unconditionally.
->
-
-OK, thanks for teaching us the modern way to use drm_bridge_connector
-helper, also thanks Ying for providing the patch.
-
-
->> However, other maintainer and/or reviewer's opinion are of cause
->> more valuable. I send a A-b because I thought the bug is urgency
->> and it's probably more important to solve this bug first. And
->> maybe you can Cc: <stable@vger.kernel.org> if you like.
->>
->>>    		if (ret)
->>>    			return ret;
->>>    	}
->
-
--- 
-Best regards
-Sui
+--P/Z/zOdIpdF94JWu--
