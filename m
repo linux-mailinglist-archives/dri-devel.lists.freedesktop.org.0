@@ -2,76 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC198C6DA7
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 23:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E61308C6DAB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 23:16:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C05D10E1B5;
-	Wed, 15 May 2024 21:16:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3681C10E23A;
+	Wed, 15 May 2024 21:16:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Yj5c9Hg7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bodIrdCG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE44710E1B5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 21:16:02 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-41fd5dc04f0so47636675e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:16:02 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29B2410E23A
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 21:16:57 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-351d309bbecso500613f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:16:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715807761; x=1716412561; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1715807815; x=1716412615; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=ypQ5i7zn3O21lrbNCHNY91mwYYndLzCRxfIgm5nCfGQ=;
- b=Yj5c9Hg7gLxaVjXyyeGx94KceUxRSyxZ0s17/BxqOj2usHisW8GeF7ZeR2ZDG6zGd6
- hw24/1NNk/YBng0xfDmRaZoROTkCiVotST9fij5L1YjvQQRTggyc9JSb1pT123zOAiUT
- ESF1qjk2fGcngVpoaxP1Y/biKjNl+MRbl/YYYBpaNZ4315jEjD4ri4MVMVPZHoZ8Tqi+
- 16WtBj/a6vIK3OCaLXNMEALb6QKCggTHrDayGIshT2oSeeIxxQuQpkce3Kxj73q6YcVL
- c81X6bfi088ghJcVbbGBPHOUsKG8kJ/UXN0SIzlVvE4VBfGkAteAVPc2hLUjjThWjEg0
- U9tg==
+ :reply-to; bh=uO72t1z4PhC45RlSB4zxjIXXfxmOyzDDnn9KfpOoEe4=;
+ b=bodIrdCGtORkA+Sd+IkoboOI+u5v+NRPn6bJJs5iOxrmMTUqbdfscYqw24aoZAu7i+
+ JGYLFvOiWbNFgea7ninSy31YhIrdAWNgB0GZUWH8Xm0GaoX9smc+KxjqDGq+lwhh+tVE
+ cuufhfGXych1yzjT1l5IxwXjNIpyqEy6IzUoXF2caKqhr9T2jHNNzF9p5/TyCR3FZVWQ
+ YLbEdjPnm+ft0RtxbFqnvKkUDkXB/hk3ABxXfrOPyXCgSvPdhjxkh+qbpX3UftRvWL4Z
+ vWTd9SUv3FLIP88WVbH66kCw1XbPPiiTDwosF646M6y6pSbHR6GPhizz7Vh4vXJvQv5y
+ glvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715807761; x=1716412561;
+ d=1e100.net; s=20230601; t=1715807815; x=1716412615;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=ypQ5i7zn3O21lrbNCHNY91mwYYndLzCRxfIgm5nCfGQ=;
- b=X2mZj8eX5E2cIhjB+y30ArziLjkzGxPVThDsdf/c25bk8bF8sVlo0YrMx3cP6Hc8lz
- yAz7q8ihqQkxQrEEjxlPjtwKoBP1fx7ShqH4OUzM0h7ksIcJH7kSU/phftDAPqB/Iqxd
- 1vZT/bf7bZP3Y3Ciw5ai4iigbUcqZG1mFeBIk9qbMF2PsntWLZndd7EF6dI8xsksEqdv
- hZ2e1brfxrNbAdFyYEtXf9A219uRdzTu86O4sUIMtM2P4osNbWRwErtqjFj7m32mMatx
- EuieQZtQw3gao6KbA8d8yeeXeFv8qArwQ6In1YWdmknIs/mjMMUilStqb0vakUtUNiZ+
- TO5g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlPxl6UJobZwf1J7obYev9XAyF/Mddwqej9V9hDTDUbz0Pn6wPMIPwVaPZL0kEhGMUaFasC1l8NgMnF9u6YMoPQi+5yk779TZN18NxoL32
-X-Gm-Message-State: AOJu0YyNX01boSqYctPiNr78ph0W5H17GUw9WvwNH95Wgh/FZaUlinD0
- wOmDx3Sy+QCWi6WdOlmUlao2GQGEWqLlP1Nqw/UCiajmDNb58CpVkFub4Pi83lc=
-X-Google-Smtp-Source: AGHT+IGgcTqIf5m/0zVxc5RASNVotZp2IA/3mSrwEWRVdJbbedxdDEmum4mS9MjHSIt3r+bMIZ6N1A==
-X-Received: by 2002:adf:e586:0:b0:34f:3293:85c6 with SMTP id
- ffacd0b85a97d-3504a96b7c9mr18524413f8f.64.1715807761057; 
- Wed, 15 May 2024 14:16:01 -0700 (PDT)
+ bh=uO72t1z4PhC45RlSB4zxjIXXfxmOyzDDnn9KfpOoEe4=;
+ b=YLF6mygyuW2tb65FzqukidgG+9GLpJuyPDblugCQ8rsXLj5Fc6Bd8iO1w3cbmdYX9Z
+ A8ht+77MGOHjS0dZhaGts8o5Tndr6JGwsLrsyglg2u2pc9Gi16eUAVX9KO92Y4Nl7mXq
+ f0ENMfxWssMUoA2tP1qSGBpsNktHii1wihDQNrnl2uJXV5LwdXfXtBf1vGxELr35pCff
+ jOMp/qfaiYQwnHnFYBr5fBXbRknW4hQhklHW+H3CdUXIcslTMJXfVmzGbRzQ0E8DbsvF
+ wT1Uk8bV9yUxWee5f7SjleP0DwRqXS2EOFH/nEd3guyznJmbxSKPdEqMwQoSMEkV8pfy
+ YGwQ==
+X-Gm-Message-State: AOJu0YxVFg+tbLOVCvlFkCdp9GFyXR1H/I8eqhLVD4NCLEMA6cK1788G
+ 1HMYR5ZfUcJX2kVcOfH+F85uNXdGaPz3eVE6GnIJQXF42xFXc571t3ywTRdLyEU=
+X-Google-Smtp-Source: AGHT+IEUctWvzTXBDh1cypHW7Zi5V2fUkv/hXY0KH6Mc4+fNR34ZBg14Lrsy8sjgxwL6kcVno6FY0A==
+X-Received: by 2002:a05:6000:1968:b0:34d:707c:922a with SMTP id
+ ffacd0b85a97d-3504a6310bbmr16846290f8f.13.1715807815272; 
+ Wed, 15 May 2024 14:16:55 -0700 (PDT)
 Received: from [10.1.2.176] ([149.14.240.163])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3502b79be1dsm17462785f8f.10.2024.05.15.14.15.59
+ 5b1f17b1804b1-41fccce25casm244577145e9.20.2024.05.15.14.16.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 May 2024 14:16:00 -0700 (PDT)
-Message-ID: <0fcdb0ac-2e4a-44b2-a5d6-a67a1d747df8@linaro.org>
-Date: Wed, 15 May 2024 23:15:59 +0200
+ Wed, 15 May 2024 14:16:54 -0700 (PDT)
+Message-ID: <721b4837-420f-4acf-95b4-514395ed8896@linaro.org>
+Date: Wed, 15 May 2024 23:16:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [v7 3/7] arm64: defconfig: Enable HIMAX_HX83102 panel
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>, sam@ravnborg.org,
- daniel@ffwll.ch, dianders@chromium.org, linus.walleij@linaro.org,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org,
- airlied@gmail.com
-Cc: dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- xuxinxiong@huaqin.corp-partner.google.com
-References: <20240515014643.2715010-1-yangcong5@huaqin.corp-partner.google.com>
- <20240515014643.2715010-4-yangcong5@huaqin.corp-partner.google.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 4/6] drm/panel: simple: Add Lincoln Tech Sol
+ LCD185-101CT panel
+To: Aradhya Bhatia <a-bhatia1@ti.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liu Ying <victor.liu@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Jai Luthra <j-luthra@ti.com>
+References: <20240515095133.745492-1-a-bhatia1@ti.com>
+ <20240515095133.745492-5-a-bhatia1@ti.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -98,7 +106,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20240515014643.2715010-4-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20240515095133.745492-5-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,34 +125,68 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 15/05/2024 03:46, Cong Yang wrote:
-> DRM_PANEL_HIMAX_HX83102 is being split out from DRM_PANEL_BOE_TV101WUM_NL6.
-> Since the arm64 defconfig had the BOE panel driver enabled, let's also
-> enable the himax driver.
+On 15/05/2024 11:51, Aradhya Bhatia wrote:
+> Add support for Lincoln Technology Solutions LCD185-101CT, 10.1",
+> 1920x1200, 8-bit TFT LCD with LVDS interface, LED backlight and PCAP
+> touch support (Goodix GT928).
 > 
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> [0]: Panel Datasheet
+> https://lincolntechsolutions.com/wp-content/uploads/2023/04/LCD185-101CTL1ARNTT_DS_R1.3.pdf
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
->   arch/arm64/configs/defconfig | 1 +
->   1 file changed, 1 insertion(+)
+>   drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++
+>   1 file changed, 32 insertions(+)
 > 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index 2c30d617e180..687c86ddaece 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -864,6 +864,7 @@ CONFIG_DRM_PANEL_BOE_TV101WUM_NL6=m
->   CONFIG_DRM_PANEL_LVDS=m
->   CONFIG_DRM_PANEL_SIMPLE=m
->   CONFIG_DRM_PANEL_EDP=m
-> +CONFIG_DRM_PANEL_HIMAX_HX83102=m
->   CONFIG_DRM_PANEL_ILITEK_ILI9882T=m
->   CONFIG_DRM_PANEL_MANTIX_MLAF057WE51=m
->   CONFIG_DRM_PANEL_RAYDIUM_RM67191=m
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index dcb6d0b6ced0..10e974bffd28 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2870,6 +2870,35 @@ static const struct panel_desc lg_lb070wv8 = {
+>   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>   };
+>   
+> +static const struct drm_display_mode lincolntech_lcd185_101ct_mode = {
+> +	.clock = 155127,
+> +	.hdisplay = 1920,
+> +	.hsync_start = 1920 + 128,
+> +	.hsync_end = 1920 + 128 + 20,
+> +	.htotal = 1920 + 128 + 20 + 12,
+> +	.vdisplay = 1200,
+> +	.vsync_start = 1200 + 19,
+> +	.vsync_end = 1200 + 19 + 4,
+> +	.vtotal = 1200 + 19 + 4 + 20,
+> +};
+> +
+> +static const struct panel_desc lincolntech_lcd185_101ct = {
+> +	.modes = &lincolntech_lcd185_101ct_mode,
+> +	.bpc = 8,
+> +	.num_modes = 1,
+> +	.size = {
+> +		.width = 217,
+> +		.height = 136,
+> +	},
+> +	.delay = {
+> +		.prepare = 50,
+> +		.disable = 50,
+> +	},
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +};
+> +
+>   static const struct display_timing logictechno_lt161010_2nh_timing = {
+>   	.pixelclock = { 26400000, 33300000, 46800000 },
+>   	.hactive = { 800, 800, 800 },
+> @@ -4644,6 +4673,9 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "lg,lb070wv8",
+>   		.data = &lg_lb070wv8,
+> +	}, {
+> +		.compatible = "lincolntech,lcd185-101ct",
+> +		.data = &lincolntech_lcd185_101ct,
+>   	}, {
+>   		.compatible = "logicpd,type28",
+>   		.data = &logicpd_type_28,
 
-You should probably sent this one separately since only an ARM SoC maintainer
-can apply this, probably via the qcom tree.
-
-Thanks,
-Neil
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
