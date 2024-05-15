@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8393F8C612B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 09:09:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A669E8C6131
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 09:10:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4B810E10E;
-	Wed, 15 May 2024 07:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD47A10E475;
+	Wed, 15 May 2024 07:10:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZehL10ef";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uhZqP67s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D390B10E10E
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:09:29 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5B310E2C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:10:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D274E613F7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:09:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 856AAC32781
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:09:28 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 20B44CE1372
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:10:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 48EB0C116B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715756968;
- bh=PnE89+7XTbLbAiZImN4JhnH5VnACrUQM58fHA5RHxe0=;
- h=From:To:Subject:Date:From;
- b=ZehL10efoQmJ5qWaFIFzbLv4dEOIKB7ATF0j5dgEX6awVdhcU4WdAKXL5lFrc1EYh
- l49hMkv8VOCpr+ryoS4InWttSCIrh1gH03XzgiB5jG7EsdOwCZghUFh82nY7EPT76N
- 9d2NT0FmKsegvCfjqxvHEei3UlQjys5SMHGEEpRtoJbCGHSZbPo/iCVzh4e54XlLbY
- zYLkACDrEfogqmUWaoT0vpKoflAbAVrOeohrvvuLHNu2BHXwnU4uwrvpGsPgQLYuK3
- eTU+mHSFP8IMzlCFjcZOVEFj9EjMjIZeAswwFo+l9KasZcChZn9i9zidGGayyhMlA5
- 6vZZlPiQfU20w==
+ s=k20201202; t=1715756999;
+ bh=nAclWygVKQlAcg5x27+DOlgJAT2eFl6JSQgGsGDsVsU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=uhZqP67sTcEi2f8zvK6yaABZo0CRA2+51Ypkw1oV3I3BDocDC76P3cYSQOhLdDaAE
+ 2JRAIx8sceY+/IzCo8oCAPvPoNZK2/b+2a+3ykQnOuq4AtxJm7fMobjanPWLllYcrD
+ LBocw6icdi9o1KoaVV3iJFhuBRRz9IaQtBOQC+gLQt2+LUISxM+FnZTaUtpA7FdF+0
+ J/HLtG6fTNTEuxksUUt4yqj6MDHEv/cCp6hxnVOv9Aid2vvxAWgL2eAnVudg47CBrn
+ jAQ6ld3YiUfwUTzHWSnPHHS4xIe1+QGPOEPWCFazi54uWtE2MyjUX8yfxtQ5w+YXFu
+ ppfqiKwo6XrSA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 77C39C53BB0; Wed, 15 May 2024 07:09:28 +0000 (UTC)
+ from userid 48) id 41A0BC53B73; Wed, 15 May 2024 07:09:59 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218841] New: Security issue (VERY old video memory displaying
- in Window preview)
-Date: Wed, 15 May 2024 07:09:28 +0000
+Subject: [Bug 218841] Security issue (VERY old video memory displaying in
+ Window preview)
+Date: Wed, 15 May 2024 07:09:59 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -51,10 +51,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-218841-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218841-2300-8xNOW0f56e@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218841-2300@https.bugzilla.kernel.org/>
+References: <bug-218841-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -77,30 +77,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218841
 
-            Bug ID: 218841
-           Summary: Security issue (VERY old video memory displaying in
-                    Window preview)
-           Product: Drivers
-           Version: 2.5
-          Hardware: Intel
-                OS: Linux
-            Status: NEW
-          Severity: high
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: trentgamblin@hotmail.com
-        Regression: No
+--- Comment #1 from Trent Gamblin (trentgamblin@hotmail.com) ---
+https://youtube.com/shorts/Wn7kdBeIFdE?si=3DjJxhXi0UbVmW-xhu
 
-The window preview of Rhythmbox shows a Twitter window, even though Twitter
-isn't even open in my browsers and I actually deleted the account a few days
-ago!
-
-I deleted my Twitter account about 4 days ago. I don't think I've rebooted =
-my
-computer though. There is only one tab open in each of those browser window=
-s in
-the video.
+That's the video, it was too big to attach.
 
 --=20
 You may reply to this email to add a comment.
