@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C92E8C6A76
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 18:22:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F128C6A79
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 18:22:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85DF210E524;
-	Wed, 15 May 2024 16:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF73E10EA28;
+	Wed, 15 May 2024 16:22:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HMuQsBPV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ibTtL+uL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2713F10E35D;
- Wed, 15 May 2024 16:22:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C07610E87F;
+ Wed, 15 May 2024 16:22:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 396FE614E5;
+ by dfw.source.kernel.org (Postfix) with ESMTP id A58F6614F1;
+ Wed, 15 May 2024 16:22:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D079C32789;
  Wed, 15 May 2024 16:22:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D031C4AF07;
- Wed, 15 May 2024 16:22:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715790153;
- bh=/DDr0YT9qTvIH8iY/nkjsMi+kyIIH9WChrEk5EOyyhs=;
+ s=k20201202; t=1715790156;
+ bh=1viUCWYrFo3uJS3ITlLVjLhbJegaUQZ/hfRHcrqV1Ds=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HMuQsBPVFE9G3d5i5R0ExhGgGiXVCJ/s2Y1he2/H+0JkCz80s/dSst6Sq+7MLFzlN
- T54HdhZdqTPIOL3ELWxuo/FYCYv7pue4M/xZ+Y9UsWNcqaV9e+x0JAvON47oOE2HnK
- ZyM08aasJNuuQgsWi8vt7l/vpSd0W4Nb9o+b1bgnW+Wi2QhAVHg6v4Ol23oG0CNXVD
- 22BnXdUzw7Yyu08u5Hs7pwde0h846B6tyFfXzQ1VPoku34uKxDyB4x2PJ4MK0PgEI9
- LqJ0GixpowXUDbVM4HK2Vpg7LNlzTGS5XnSPVd0RQ9aG4pdCKBbvAikH0unHIZGWAF
- k/ZX6wf9wb6XA==
+ b=ibTtL+uLJranPiNsBTX+/GMRHyz2iKB/WQ8gLVpD71k1Hws4qZM+QoLzxv5PZXAn8
+ 9AoFHU2e/ic36BY5VFFU0Sp/hdqsckvYOD2VSdfyhGCWTslhpKt5hSiYKRH7mMRB6s
+ 9MxW0PV+vSnDyqI0pzQZAovZy9wkzvJ1ZL+f6tBKEIO2XRa0gjn6PatVtmDT8ItekS
+ pN1G3M+K/+EVbNtwKUEAqvqOX7Y0KRrJSP2vMmcpyhhrvyqgbewkcppylYelYj8HI6
+ YXpJ9izKrIIYLjscrL2AGowSIKtyfbU9QrshM0dDhMdXzEbrJP8+ITWeH+7zWmklMR
+ HgGkTF8nCu5jA==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>,
@@ -39,14 +39,14 @@ To: linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
 Cc: Jason Gunthorpe <jgg@nvidia.com>, Ofir Bitton <obitton@habana.ai>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH 1/2] MAINTAINERS: Change habanalabs maintainer and git repo
- path
-Date: Wed, 15 May 2024 19:22:21 +0300
-Message-Id: <20240515162222.12958-2-ogabbay@kernel.org>
+Subject: [PATCH 2/2] MAINTAINERS: update Xe driver maintainers
+Date: Wed, 15 May 2024 19:22:22 +0300
+Message-Id: <20240515162222.12958-3-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240515162222.12958-1-ogabbay@kernel.org>
 References: <20240515162222.12958-1-ogabbay@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=true
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,34 +63,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because I left habana, Ofir Bitton is now the habanalabs driver
-maintainer.
-
-The git repo also changed location to the Habana GitHub website.
+Because I left Intel, I'm removing myself from the list
+of Xe driver maintainers.
 
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index abd4dbe2c653..5bd45a919aff 100644
+index 5bd45a919aff..2469607ff5b7 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -9431,11 +9431,11 @@ S:	Maintained
- F:	block/partitions/efi.*
+@@ -10863,7 +10863,6 @@ F:	include/uapi/drm/i915_drm.h
  
- HABANALABS PCI DRIVER
+ INTEL DRM XE DRIVER (Lunar Lake and newer)
+ M:	Lucas De Marchi <lucas.demarchi@intel.com>
 -M:	Oded Gabbay <ogabbay@kernel.org>
-+M:	Ofir Bitton <obitton@habana.ai>
- L:	dri-devel@lists.freedesktop.org
+ M:	Thomas Hellström <thomas.hellstrom@linux.intel.com>
+ L:	intel-xe@lists.freedesktop.org
  S:	Supported
- C:	irc://irc.oftc.net/dri-devel
--T:	git https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git
-+T:	git https://github.com/HabanaAI/drivers.accel.habanalabs.kernel.git
- F:	Documentation/ABI/testing/debugfs-driver-habanalabs
- F:	Documentation/ABI/testing/sysfs-driver-habanalabs
- F:	drivers/accel/habanalabs/
 -- 
 2.34.1
 
