@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17E7C8C643A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 11:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B298C643F
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 11:51:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F9E810E2BF;
-	Wed, 15 May 2024 09:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30FB510E414;
+	Wed, 15 May 2024 09:51:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="av8mTUPd";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="xgImdqn3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A963310E067
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 09:51:44 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44F9pbki021115;
- Wed, 15 May 2024 04:51:37 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68C0610E067
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 09:51:45 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44F9pcQ5021127;
+ Wed, 15 May 2024 04:51:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1715766697;
- bh=Wn93kDZq6upNxNDUKo7Rc78V0feZq6j/+ldZl+vF3mE=;
+ s=ti-com-17Q1; t=1715766698;
+ bh=NPs3Jr0O0WStofKLR47UAOk8CXhW5/9tR0LOKBFnGvo=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=av8mTUPd3vVcom5qN0Feu3I6IZFtf4DDFz1hc5nvAXvTfqSWQv62eOPQjkn2w/XIB
- U/9tTq38gZlsA9PVN40HQvVEP2/x2zG0CLbjjYv5jCyWTryoxiwC3v5y5aBJilyO5I
- BNEZ01kDCuFtvToLPIPC7+wj1j1PS5knjorZkElY=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44F9pbhG001291
+ b=xgImdqn3RpsgoAfq9xcsFb/jho9Bw6vOk5M1FQ02cdV0ZEp8EG89u0LSrvoieCTCb
+ YMTXW/XJf+Ka9IUU/z9vlJ63gxjF4ZbAnxpOqwh6zUzGhDqfYVMUeCBwQhxN4Zwj5+
+ HaF8D7Th3HuEz+Cl5J2VreQx3cwodK7pYQuirTjI=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44F9pcU1121547
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 15 May 2024 04:51:37 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ Wed, 15 May 2024 04:51:38 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 15
- May 2024 04:51:36 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 04:51:38 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 15 May 2024 04:51:36 -0500
+ Frontend Transport; Wed, 15 May 2024 04:51:38 -0500
 Received: from localhost (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44F9pZov082819;
- Wed, 15 May 2024 04:51:36 -0500
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44F9pbr0082848;
+ Wed, 15 May 2024 04:51:38 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
  <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
@@ -58,9 +58,9 @@ CC: DRI Development List <dri-devel@lists.freedesktop.org>, Devicetree List
  Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
  Devarsh Thakkar <devarsht@ti.com>, Jai Luthra <j-luthra@ti.com>,
  Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: [PATCH v3 1/6] dt-bindings: vendor-prefixes: Add microtips
-Date: Wed, 15 May 2024 15:21:28 +0530
-Message-ID: <20240515095133.745492-2-a-bhatia1@ti.com>
+Subject: [PATCH v3 2/6] dt-bindings: vendor-prefixes: Add lincolntech
+Date: Wed, 15 May 2024 15:21:29 +0530
+Message-ID: <20240515095133.745492-3-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240515095133.745492-1-a-bhatia1@ti.com>
 References: <20240515095133.745492-1-a-bhatia1@ti.com>
@@ -83,7 +83,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add document vendor prefix for Microtips Technology USA (microtips).
+Add document vendor prefix for Lincoln Technology Solutions
+(lincolntech).
 
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
@@ -93,18 +94,18 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index fbf47f0bacf1..afebaf8e62bb 100644
+index afebaf8e62bb..51ca841db26e 100644
 --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
 +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -924,6 +924,8 @@ patternProperties:
-     description: Microsoft Corporation
-   "^microsys,.*":
-     description: MicroSys Electronics GmbH
-+  "^microtips,.*":
-+    description: Microtips Technology USA
-   "^mikroe,.*":
-     description: MikroElektronika d.o.o.
-   "^mikrotik,.*":
+@@ -820,6 +820,8 @@ patternProperties:
+     description: Lichee Pi
+   "^linaro,.*":
+     description: Linaro Limited
++  "^lincolntech,.*":
++    description: Lincoln Technology Solutions
+   "^lineartechnology,.*":
+     description: Linear Technology
+   "^linksprite,.*":
 -- 
 2.34.1
 
