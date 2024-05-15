@@ -2,118 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7058C6D84
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 23:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9BB8C6D96
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 23:13:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5095510E08F;
-	Wed, 15 May 2024 21:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E689B10E123;
+	Wed, 15 May 2024 21:13:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ReZdkRoh";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="juoV4qdw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84B3410E08F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 21:09:56 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-42016c8daa7so25409465e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:09:56 -0700 (PDT)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8DA10E123
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 21:13:37 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-6a0b4622ea0so23803596d6.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:13:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715807395; x=1716412195; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=3SnmjCK7izQwl6ASZrNS2yJUXoDimlZk3ChzYsJJLIQ=;
- b=ReZdkRohHxQ2Djm67J1AqM/mY6OLPOTA18QpA6bDtZiqXJC81RzMuIBYK+np2hvjRn
- Dgi0oFv4jJwXk0yyaMLBFmxG7gORshZfEW8TpeyahzZYn1s0W1R+bycakSr1chSQ94iH
- hCBjWRBwW8WECTdypMaBlLjy/TGnaWj6cutI96pV4Ydeca8MGpv8weKQ7b4UPZ/jU/Tt
- lEKOrcdPJ7Yxj7pdpRsPhdIf6IYakJULn3APNLoUj97FcNGSeATGprlJsKWy+zc1oM0Y
- euVv7OuRQxZ8CDmro48331aYjY6rAM2qHa2+Iqb+2Un64ADUE6GG3ymO3B1W+Njs9c1f
- DcEA==
+ d=chromium.org; s=google; t=1715807614; x=1716412414;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=renabCQBjnKbuD0E1htsmVXRz+sXl0GAkDLoNZkXQSo=;
+ b=juoV4qdwk9LolgmTsmiTq3BHeoqYlgHab3vWbV1Tr3BsE56DICpppK/N1cJSk64TYD
+ XEs2mavv0jUYN95yGuldkizSqXb/ILSwUkUqhfYkEpRJ7GsnYhN6yVbfy7n3TJWnf58g
+ UQ8kS8R9/rI7V6qgCuaT35ZpH4k0pvvDVXy+s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715807395; x=1716412195;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=3SnmjCK7izQwl6ASZrNS2yJUXoDimlZk3ChzYsJJLIQ=;
- b=tN7dmd4t+qTkRHj3DS4I2Dmrb2P97P9TjWsxmDmazqBmAV84KXNg1z3UruRq5k/l7E
- UATwZ65eQ3olFNB9TvdKCGHZWXrWykHgxZMYMv8al9ECQv12heLdDL9hP0dBsN7MTMzT
- mXxLtDhNq7bNVYazClWHM4YXA/8mwM3+81NXltn/fp7XDfne2IEfEHOEg3fOpaugWWVn
- oA6vA25inum1s6QwtdTHiFYZ/L8uBbAjNPdSxedqt/eYRGDmyJiAuW40or9cRR4HxCSS
- g995pxW5prF0XWHgk1eHmk7dv988KSqATjIC7fMU0yP26AnyHO90UL3gdMV+zaI53seC
- gLHA==
+ d=1e100.net; s=20230601; t=1715807614; x=1716412414;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=renabCQBjnKbuD0E1htsmVXRz+sXl0GAkDLoNZkXQSo=;
+ b=YgMhESz8SEVisiiPW1hP7iPvr69FRAToDec+r/g8dvY9DyHkEEKhEsEP0+WxzJrKQ1
+ 3GHBsTmj4WFqWc24fiZxb869dB1BAwV1aCCn8GS0PAPieHFIb0TSGu/Qb3vIEYlK7ux7
+ sN0GBDR1uim8eix6OtRc7Mpge4MrMRKwmuKfm5ZrlxjaSmK30ELIg38KGDJ4BYjxNJkD
+ FhF6x+bTjq18jgy9mcGJeOhj0YiC0j/U5g8SWh+6pHafbHtyvOV8bx1uO1phd7V9dM3a
+ 1js8/LNLQWHCXG8TYcmB2nZDNXSAZv57cX0O489JKHHAsVukngDzHJlW2PS1dk/rp/G9
+ UpJQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXUquiBMyRDW0z24deACr6vHQjZRfluIzi53VdlcZayHoCP9vtUQceSo0sthagfK7fuliX4ySGkW1NdDBwhSKeAukLhgTz/muT9QOgxZqA7
-X-Gm-Message-State: AOJu0YwKWFJGsgGBVuAi5exjOnDk7hu5rko5zr+AsvSZK4mL4go22N0N
- HsxXlChgFyFn5orMBQBu2Vs+ZmJbhqZjTZbO5osjVzAdogvVt3HVO7TZGRBDiDY=
-X-Google-Smtp-Source: AGHT+IH7D5pE7KpmkjyzHmFjDR+WnvIc64hJiz/d322p06M6DRxUrMx0ZmDryvZmW0Cq5TBG1J7j3Q==
-X-Received: by 2002:a05:600c:3548:b0:419:f3f9:8ee3 with SMTP id
- 5b1f17b1804b1-41fea93a80amr144473985e9.5.1715807394622; 
- Wed, 15 May 2024 14:09:54 -0700 (PDT)
-Received: from [10.1.2.176] ([149.14.240.163])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-41fccce24c0sm246328965e9.17.2024.05.15.14.09.53
+ AJvYcCVp3tPXOgXLzruKwtBx9Z8mN+LM0RG7z6NgTSopEXp2Sw1HF9/qCSBG1OCBhg9Q2qv5zVPwjm8+gIKTYwWp6jsDww/osLyrpdmB8rlqcxDs
+X-Gm-Message-State: AOJu0Yx1ahJEn69mhZDvwoDi8QIZsYO6jaCsHoZfdlHQn7noPZPtII/e
+ NQyZPtVI0Go8ef+iWgZQCSzW94IYQEFMJTNknvY8gLM87Mpg+6s3zFkEIt9f5IVYsGDiTX7E6BA
+ =
+X-Google-Smtp-Source: AGHT+IH1L9V88D8d7QW4n++iJ4ZPsSldqptKheT8hgDzsIKZOG94kWZ5QOXaq3lj/PnGgpwTRfd9Hg==
+X-Received: by 2002:ad4:5802:0:b0:69b:4c1a:83ca with SMTP id
+ 6a1803df08f44-6a328adcfcamr136719996d6.26.1715807614336; 
+ Wed, 15 May 2024 14:13:34 -0700 (PDT)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com.
+ [209.85.160.171]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6a15f185151sm68959616d6.33.2024.05.15.14.13.34
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 May 2024 14:09:54 -0700 (PDT)
-Message-ID: <4960c10d-e538-4907-a443-b4cba5e0a723@linaro.org>
-Date: Wed, 15 May 2024 23:09:52 +0200
+ Wed, 15 May 2024 14:13:34 -0700 (PDT)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-43df9ac3ebcso2215551cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:13:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWG8biYWXjkLsrERT9L+9j7A05ivQSqyMhA9Modzs5k5qqwRVYAn/LBE7ih3eFFlWB0r6iZrIRb6tLc7FDrz8ejP/SxPYEP+dduG4w5zeWD
+X-Received: by 2002:a05:622a:58c3:b0:43e:3ac1:c80 with SMTP id
+ d75a77b69052e-43e3ac11131mr1505941cf.18.1715807608625; Wed, 15 May 2024
+ 14:13:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 0/3] dt-bindings: display: panel: constrain 'reg'
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Konrad Dybcio <konradybcio@gmail.com>,
- Del Regno <angelogioacchino.delregno@somainline.org>,
- Heiko Stuebner <heiko@sntech.de>, Luca Weiss <luca.weiss@fairphone.com>,
- Shawn Guo <shawn.guo@linaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240509-dt-bindings-dsi-panel-reg-v1-0-8b2443705be0@linaro.org>
- <20240513131711.GA2419451-robh@kernel.org>
- <CAA8EJppkJ9rukeUZ=1kAL3Y0WVhN5QFXnNU3tjv4yuXMjc++7w@mail.gmail.com>
- <a1108f14-9a1b-414a-97c5-0bc43457d635@linaro.org>
- <778500c9-83bc-47b7-bf1d-28de44084776@kernel.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <778500c9-83bc-47b7-bf1d-28de44084776@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240515014643.2715010-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240515014643.2715010-3-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20240515014643.2715010-3-yangcong5@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 15 May 2024 14:13:13 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Wqiw2gi8MNnsYZkmM7H5XK1PUtxH-wqhbC-3m7Z0ur+g@mail.gmail.com>
+Message-ID: <CAD=FV=Wqiw2gi8MNnsYZkmM7H5XK1PUtxH-wqhbC-3m7Z0ur+g@mail.gmail.com>
+Subject: Re: [v7 2/7] drm/panel: himax-hx83102: Break out as separate driver
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
+ linus.walleij@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
+ robh+dt@kernel.org, conor+dt@kernel.org, airlied@gmail.com, 
+ dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ xuxinxiong@huaqin.corp-partner.google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,47 +94,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/05/2024 11:07, Krzysztof Kozlowski wrote:
-> On 14/05/2024 10:44, Neil Armstrong wrote:
->> On 13/05/2024 18:41, Dmitry Baryshkov wrote:
->>> On Mon, 13 May 2024 at 16:17, Rob Herring <robh@kernel.org> wrote:
->>>>
->>>> On Thu, May 09, 2024 at 11:42:50AM +0200, Krzysztof Kozlowski wrote:
->>>>> Hi,
->>>>>
->>>>> Cleanups for display panel bindings.
->>>>>
->>>>> Rob, maybe you could take entire set if it applies? I based it on
->>>>> linux-next, so letl me know if I need to rebase on your for-next.
->>>>
->>>> Applied. These 2 don't exist in my tree:
->>>
->>> It's most likely fine, but was there an ack from drm-misc maintainers?
->>>
->>>> Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
->>>> Documentation/devicetree/bindings/display/panel/raydium,rm69380.yaml
->>>
->>> Because those were added to drm-misc during the last cycle. So ideally
->>> the patch should have gone through drm-misc.
->>>
->>
->> Exact there's a conflict on today's next, Rob can you drop them so I can apply them via drm-misc ?
-> 
-> It's almost the first time I see bindings picked up via drm-misc. Is
-> this an exception or rather new trend (which would be awesome as this is
-> what we prefer usually)?
+Hi,
 
-I usually pick up bindings along drivers like other subsystems, and when reviewed I
-take independent bindings fixes aswell when rob doesn't pick them before.
+On Tue, May 14, 2024 at 6:47=E2=80=AFPM Cong Yang
+<yangcong5@huaqin.corp-partner.google.com> wrote:
+>
+> +static int hx83102_prepare(struct drm_panel *panel)
+> +{
+> +       struct hx83102 *ctx =3D panel_to_hx83102(panel);
+> +       struct mipi_dsi_device *dsi =3D ctx->dsi;
+> +       struct device *dev =3D &dsi->dev;
+> +       int ret;
+> +
+> +       gpiod_set_value(ctx->enable_gpio, 0);
+> +       usleep_range(1000, 1500);
+> +
+> +       ret =3D regulator_enable(ctx->pp1800);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       usleep_range(3000, 5000);
+> +
+> +       ret =3D regulator_enable(ctx->avdd);
+> +       if (ret < 0)
+> +               goto poweroff1v8;
+> +       ret =3D regulator_enable(ctx->avee);
+> +       if (ret < 0)
+> +               goto poweroffavdd;
+> +
+> +       usleep_range(10000, 11000);
+> +
+> +       mipi_dsi_dcs_nop(ctx->dsi);
+> +       usleep_range(1000, 2000);
+> +
+> +       gpiod_set_value(ctx->enable_gpio, 1);
+> +       usleep_range(1000, 2000);
+> +       gpiod_set_value(ctx->enable_gpio, 0);
+> +       usleep_range(1000, 2000);
+> +       gpiod_set_value(ctx->enable_gpio, 1);
+> +       usleep_range(6000, 10000);
+> +
+> +       ret =3D ctx->desc->init(ctx);
+> +       if (ret < 0)
+> +               goto poweroff;
+> +
+> +       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> +               return ret;
+> +       }
 
-Neil
+The above "return ret" should be "goto poweroff". Please send a v8.
 
-> 
-> Best regards,
-> Krzysztof
-> 
-
+-Doug
