@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B298C643F
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 11:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 994768C643C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 11:51:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30FB510E414;
-	Wed, 15 May 2024 09:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEC1F10E067;
+	Wed, 15 May 2024 09:51:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="xgImdqn3";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="m6XB5k5h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68C0610E067
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 09:51:45 +0000 (UTC)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7627F10E067
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 09:51:49 +0000 (UTC)
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44F9pcQ5021127;
- Wed, 15 May 2024 04:51:38 -0500
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44F9penh076984;
+ Wed, 15 May 2024 04:51:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1715766698;
- bh=NPs3Jr0O0WStofKLR47UAOk8CXhW5/9tR0LOKBFnGvo=;
+ s=ti-com-17Q1; t=1715766700;
+ bh=XcQ3QaG9B8vJcklidpDQC/jwyxQkCUMe2T5P2+EpVPo=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=xgImdqn3RpsgoAfq9xcsFb/jho9Bw6vOk5M1FQ02cdV0ZEp8EG89u0LSrvoieCTCb
- YMTXW/XJf+Ka9IUU/z9vlJ63gxjF4ZbAnxpOqwh6zUzGhDqfYVMUeCBwQhxN4Zwj5+
- HaF8D7Th3HuEz+Cl5J2VreQx3cwodK7pYQuirTjI=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44F9pcU1121547
+ b=m6XB5k5hGjctT5ha+Yp+o15TDDuQCWIWke/lA/YxVSj/VsfvqLDzSEydD2Mk2LlEA
+ zeBu2rVSeHaSNJSba8R5FRTvSBUZzY9lPNvo7Hf2BAUq1BOW+9Jk/WTQw0rqsBoKK5
+ JPQ+P6vAO1PPwfk4IJywj+Eg/hw1Pjbiq+5AtH/c=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44F9pegQ121562
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 15 May 2024 04:51:38 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ Wed, 15 May 2024 04:51:40 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 15
- May 2024 04:51:38 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 04:51:40 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 15 May 2024 04:51:38 -0500
+ Frontend Transport; Wed, 15 May 2024 04:51:40 -0500
 Received: from localhost (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44F9pbr0082848;
- Wed, 15 May 2024 04:51:38 -0500
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44F9pdiB125380;
+ Wed, 15 May 2024 04:51:39 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
  <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
@@ -58,9 +58,10 @@ CC: DRI Development List <dri-devel@lists.freedesktop.org>, Devicetree List
  Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
  Devarsh Thakkar <devarsht@ti.com>, Jai Luthra <j-luthra@ti.com>,
  Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: [PATCH v3 2/6] dt-bindings: vendor-prefixes: Add lincolntech
-Date: Wed, 15 May 2024 15:21:29 +0530
-Message-ID: <20240515095133.745492-3-a-bhatia1@ti.com>
+Subject: [PATCH v3 3/6] dt-bindings: display: simple: Add Microtips &
+ Lincolntech Dual-LVDS Panels
+Date: Wed, 15 May 2024 15:21:30 +0530
+Message-ID: <20240515095133.745492-4-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240515095133.745492-1-a-bhatia1@ti.com>
 References: <20240515095133.745492-1-a-bhatia1@ti.com>
@@ -83,29 +84,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add document vendor prefix for Lincoln Technology Solutions
-(lincolntech).
+Add the Microtips Technology USA's MF-101HIEBCAF0 10.1"[0] panel,
+MF-103HIEB0GA0 10.25"[1] panel, and Lincoln Technology Solutions'
+LCD185-101CT 10.1"[2] panel.
+
+Thes are all dual-lvds panels.
+
+Panel Links:
+[0]: https://simplespec.microtipsusa.com/uploads/spec/datasheetFile/2588/13-101HIEBCAF0-S_V1.1_20221104.pdf
+[1]: https://simplespec.microtipsusa.com/uploads/spec/datasheetFile/2660/13-103HIEB0GA0-S_V1.0_20211206.pdf
+[2]: https://lincolntechsolutions.com/wp-content/uploads/2023/04/LCD185-101CTL1ARNTT_DS_R1.3.pdf
 
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../display/panel/panel-simple-lvds-dual-ports.yaml         | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index afebaf8e62bb..51ca841db26e 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -820,6 +820,8 @@ patternProperties:
-     description: Lichee Pi
-   "^linaro,.*":
-     description: Linaro Limited
-+  "^lincolntech,.*":
-+    description: Lincoln Technology Solutions
-   "^lineartechnology,.*":
-     description: Linear Technology
-   "^linksprite,.*":
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+index 716ece5f3978..e78160d1aa24 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+@@ -41,6 +41,12 @@ properties:
+       - auo,g190ean01
+         # Kaohsiung Opto-Electronics Inc. 10.1" WUXGA (1920 x 1200) LVDS TFT LCD panel
+       - koe,tx26d202vm0bwa
++        # Lincoln Technology Solutions, LCD185-101CT 10.1" TFT 1920x1200
++      - lincolntech,lcd185-101ct
++        # Microtips Technology MF-101HIEBCAF0 10.1" WUXGA (1920x1200) TFT LCD panel
++      - microtips,mf-101hiebcaf0
++        # Microtips Technology MF-103HIEB0GA0 10.25" 1920x720 TFT LCD panel
++      - microtips,mf-103hieb0ga0
+         # NLT Technologies, Ltd. 15.6" FHD (1920x1080) LVDS TFT LCD panel
+       - nlt,nl192108ac18-02d
+ 
 -- 
 2.34.1
 
