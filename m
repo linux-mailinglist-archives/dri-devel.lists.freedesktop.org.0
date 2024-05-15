@@ -2,151 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05AEA8C68BA
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 16:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839568C68FB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 16:45:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD1A910E4D9;
-	Wed, 15 May 2024 14:31:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B983310E40C;
+	Wed, 15 May 2024 14:45:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ecud+nr/";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="h4Dzx9hz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2071.outbound.protection.outlook.com [40.107.100.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87A4310E4D9;
- Wed, 15 May 2024 14:31:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g5H97+OJVB1g1HSuU2YeXebrpLf4svwveUcyMgUl+1QdCV7TdD0CdHnwGC0vjo2wrkRd5SdK/osXvC8HvDLS2Y6C1wE4clyz9QW8muT+Qq537tKoEFnwfzrUjMXWXEYmkFRGNw0ihypguQbyRNi8zUcpmUucNxdsu1hILEIOvRYh9mkEQKYnq/p3lraQ34sqAa770UpookJWdZwGT6yU6WxY15kQ/PSfgqlJ8XOp3A0/bDu8Pm4/mZRwn9L3UJ4qJpFI8Wzy9/sj+gG2X6fFekyMb0qo/HBAZ5vxvI9TfG6bgnoEv06yh6HQ4L7roLDkoDQeUBTRFAlJQWwMX4aQMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gxi1rMr6pDZww1s+prtCgMQeFsE7w4DpVzRN/Ml1u7o=;
- b=lYTI7E1OhaicGqlzqL1hKT4YlqEuZgd2KE3RIgg6M8aaPwG4Fa9Uaw2PwpAP9ThY2tA8ToJXCUyLla8KlL/3p6s+xaONu9ajs2cJ38aklTgo48uPgkm1oIt4B5mw80bshdBDnvPFdNdtKyhAN/ED8Fatd8XwON16Qv298zmmHzjGfEnChCc60ZPorNaqL5U223Ct4zd9uFAXQI2sPCqrS93/C3QvIRWke4T1iq26x+RwLcXkpmNmGRJrimqDhVppncNl4LUKoT3bUvzqlf6mMebPBR6NLHkBDkIjY8/y69GkMzPRe6N0IjbYsLRsU+nvQOQKOZjWDoXr+vsvQkGIBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gxi1rMr6pDZww1s+prtCgMQeFsE7w4DpVzRN/Ml1u7o=;
- b=ecud+nr/aV8v9j3HZLWEJbk6mZeOtR4kjs8N3kMJZMtPhrThQlte/TkeIaL2y5xL3Fmf9qTXbmjip/fvIcwS/iTpVti/Z9KZqHH7iCPV0SEZo4NmrIiB5Xgs7wEKJbCGUBL3VF0UjR8o87Lp8wdYChqcLZcSz4vK81XWdwrPLk8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB5841.namprd12.prod.outlook.com (2603:10b6:8:64::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Wed, 15 May
- 2024 14:31:30 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%2]) with mapi id 15.20.7587.025; Wed, 15 May 2024
- 14:31:30 +0000
-Message-ID: <7a9a2819-a3f0-4a51-8ae8-bde6ff7b0aaa@amd.com>
-Date: Wed, 15 May 2024 16:31:25 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 2/5] drm/amdgpu: Actually respect buffer migration budget
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Friedrich Vock <friedrich.vock@gmx.de>
-References: <20240508180946.96863-1-tursulin@igalia.com>
- <20240508180946.96863-3-tursulin@igalia.com>
- <8a689a5a-b408-41da-b7bd-8c7a3b2f2ac7@amd.com>
- <1a20c64f-cb1c-4f68-917b-9a8a34741bff@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <1a20c64f-cb1c-4f68-917b-9a8a34741bff@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0215.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ac::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2B810E40C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:45:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1715784316;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LdrmuWBoEpOfgUpQ2v1u7u6A9FgqhZDeoL40Chq+dcE=;
+ b=h4Dzx9hzJqB/9GW1KHC9Xy2gMUylYD/q6wiAHVhRLNo0rzZyAFDAZgDtEl2hfC0DBsvR92
+ 9YWfk2yQUK/gPg3wkGzrKP/KLjiyIMEAP6MXpaebMI6Vw9s8i+tvf5knluMH0xgkKwHri9
+ ig2UoptdQHhNCCqSBKEs26iEokNqL3w=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-398-yAGWAeybOfa0j90uVcdzUw-1; Wed, 15 May 2024 10:45:13 -0400
+X-MC-Unique: yAGWAeybOfa0j90uVcdzUw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-420151eb455so15672475e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 07:45:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715784312; x=1716389112;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LdrmuWBoEpOfgUpQ2v1u7u6A9FgqhZDeoL40Chq+dcE=;
+ b=lTipfVsQZd3yfX+xIRxvXe12PZO3coPWHn5c641iCvMidZ+jghJnLKeBt1tCjKjPK2
+ 5sp/N1HWY2S3zHPGivRVwqgs6x88x1BPa8J5eMNLHEguNVzpDleUTpMXEMdB9cM8p0Ic
+ DnzbaCCFXJC4MQzDkkK+Kv2VfAms/FduowWdfVWYOzJl3bSBgrQ6YI1XiJkzyR1pzntp
+ AEzNhto6Mc/bW5cfGwyOO2TMhtVCaSRkCPOo4is46Qzo/vK4CqXGgyDmXRL2pcu4kvfb
+ nHpBWbdsk4ZC1kGXTEeE4pT2LGZ3ol5/2e/FQrJiHiBD7oeF68X/nrH15xXqn73mrWq3
+ 2zdQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXblwiQg99hxnERWIXSCexfV/Nfo3H+UxqwFelvwbKdVIzhQsHaps7PGYwh4dZuiDJjy+U/2+2gBD+cf6pT82sNJ6SBFK0hUlgNocXEKUZx
+X-Gm-Message-State: AOJu0YyizLju8TUweUTKwioRp4ycN2184g9lZgRnvmJfXkyTQNcDJVOv
+ O7IHzSyqqySOP9KJHYn+LzIIWT9+N9r+LMgWzcMhcgX3TrZ3cpZthgIapTTsmh/o9gSx1ea7BI8
+ WIZPKrDVJ8T/fB8VIMuuN//Ft2A1+NetFVkRMqeLiV6pI4pe6lRf2eyZUfCdqzn3M6tSy1iI5z6
+ Tx
+X-Received: by 2002:a05:600c:4e88:b0:420:1551:96ab with SMTP id
+ 5b1f17b1804b1-42015519952mr71004335e9.10.1715784311747; 
+ Wed, 15 May 2024 07:45:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHWZcHQ7HI53rjrQdcpiZFHaMFqKuGxfRGvmqHYTAW48AeZ9TtGLYJqRhaNP8tu9rlc5rpjPg==
+X-Received: by 2002:a05:600c:4e88:b0:420:1551:96ab with SMTP id
+ 5b1f17b1804b1-42015519952mr71003965e9.10.1715784311091; 
+ Wed, 15 May 2024 07:45:11 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3502b895731sm16785379f8f.42.2024.05.15.07.45.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 May 2024 07:45:10 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Devarsh Thakkar <devarsht@ti.com>, Maxime Ripard <mripard@kernel.org>
+Cc: jyri.sarha@iki.fi, tomi.valkeinen@ideasonboard.com, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, nm@ti.com, vigneshr@ti.com,
+ kristo@kernel.org, praneeth@ti.com, a-bhatia1@ti.com, j-luthra@ti.com
+Subject: Re: [RFC PATCH 2/3] drm/tidss: Add support for display sharing
+In-Reply-To: <03e2d653-731c-bb30-321b-b5477d7b82b2@ti.com>
+References: <20240116134142.2092483-1-devarsht@ti.com>
+ <20240116134142.2092483-3-devarsht@ti.com>
+ <vgfzhamtiwkpdyk5ndagsb63subclinotoe6tsi3wu6z7454ec@igxfzjc5gyqm>
+ <88018f5f-a7db-7278-e5c3-bb1dbf0e3f14@ti.com>
+ <qiqrhpqtnox47wj6az7t3fjp4vc6k32fw42tp5slqggrhe6utb@i7lkpaf3v3od>
+ <2f4cf2a7-ce7a-bb34-f722-7e66ea41def7@ti.com>
+ <20240314-hospitable-attractive-cuttlefish-a2f504@houat>
+ <03e2d653-731c-bb30-321b-b5477d7b82b2@ti.com>
+Date: Wed, 15 May 2024 16:45:09 +0200
+Message-ID: <87ikzf16dm.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB5841:EE_
-X-MS-Office365-Filtering-Correlation-Id: c85b59a8-0526-450c-f210-08dc74ebb60f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ejZQdFVuL2xiUU42b3pnbXJmQlJpaE5wUVpNbEw3TER4d2Z6Mm9GL3JFZWxu?=
- =?utf-8?B?UjJUelhOYnIweTBCSks3TDN5dFA4ZTFuSHhHVzVrTGtLOE53NGdWVUJkVXh1?=
- =?utf-8?B?ZHBrenZ2bWpweS9yeHpXaU1ud3dwUGpKWGlhRnd6cE5rUno4cEIyNFlLK3Bn?=
- =?utf-8?B?ZUd6d2dtc094azcxZTVJcmVKWXE3ZVgrNXBzdWZWejliOERmWEZLcHJZWk0v?=
- =?utf-8?B?SFhUeDhuK2Nqb002Tk1YWDQ3NisxSmZFS1luYUtrNnUzVWEzTGZqY1UxUy9T?=
- =?utf-8?B?aGFZUkd3UXF3ZkNoTGVsc2lJZDk2clBpMjhzQlg4bjNCTTlTWEVxRjNud3hk?=
- =?utf-8?B?ekhjOXlXdjJvSTBoWnpDQTFuWFFHRjlyS25qRFM4R3I2T2ptaXlaU1hCcVpD?=
- =?utf-8?B?ODArOGMvT09TQ2FCcWpRVW03eXE5ajZQZ3A1RnZ0TlZRNmx1SVhMOG1zR1F4?=
- =?utf-8?B?UEZUUlVxZVZwYVVrQit2MEFyUUNsNEpsY1Z0YjhzSGt3d0RWbmNYMTFGQTNi?=
- =?utf-8?B?Y1dCdEpsbjl0NjBmMFlobjM5VnN3WENCVHZQUThYV2NhTkpldVp5dndwaDRz?=
- =?utf-8?B?YjZSTnRsRmIyVGkzRHRxQVhDbWkydGtCY0lJL1VuaStKTUVtVmJFa2dvalM3?=
- =?utf-8?B?aGtacXdRNDk4Tkl0VTVwS0NDT2hEdUhLN2wrdUJUbHhPVlZadmR5WDhoTXl6?=
- =?utf-8?B?TXBTTThCb3ZhSUdIY1JValQ0OE9rQmNvWWtpaW13emxRYml1SHBPdDd0c0hG?=
- =?utf-8?B?aEYrNytKRmFWeS9NTGErMmR2ZTR3SGxqd1c1V25PcjJCeEVuejVNaHUzaE5T?=
- =?utf-8?B?bVNReFVnVU9WT1R1SjFYMW5FTHVtcHk1ZVZuYlc3eW53MitWWlMzQnRLSzVx?=
- =?utf-8?B?Y3BVa3JKNm5hRGpJbHhqRDh2WlJOY01JMy9ONTVqZE80c0c0MjdnanRzcmt2?=
- =?utf-8?B?ME1xNndCektpT280Z054N1p5YUtsRUJrNWZpRmFPYUhpOUpPbUNEd2RYYlcr?=
- =?utf-8?B?ZzI3K0JGSnJxZitzaXRmaG10dndqQ1oydms1eW5KdHc2bUdFbEVQWCtPUkZN?=
- =?utf-8?B?SWJ0aHFySFVIL3VGREp5SEJFdE84d1R5OVo3ajVlNThLNjdhMCtLSWlCbEQ4?=
- =?utf-8?B?NmdYNHBKUHFpWWV3UGJCcXo2aW5kVjkyY1lJc21XTDgwWWMxRGU3K2ZGeFd2?=
- =?utf-8?B?US82K2E3R2oyMUM4U1kwUUo5SEdBeHM2WkIvekc5cmNnLzlSODNnb1dXVUtQ?=
- =?utf-8?B?VlZwNUx5NHV5S1B5OTUycGR3QmRySmJ4Z1BKVmdsSDZVWDg2V3AxbW9iUUZN?=
- =?utf-8?B?UURXZVFlNzNkcGI5NUxUWnk0dmJwOU9FNE1QUkJ0Yml5cnRRQjVGd2tHODRn?=
- =?utf-8?B?SkE1NElsUzlOREtPSDhJMTdkbVlLaVkvcTNxS2UrOVplMkZLQUttY2NpWUJR?=
- =?utf-8?B?NDZrdlBlRUFXZVFMUkR2d1J1NG1zbHljbVJKVGRkNHIrMm9zcy9JV1d0Vm5U?=
- =?utf-8?B?RzhhUDgzUytwV1ZoZkhadWJUSGxzMDdLYktLOU4yK3JYaFhHSnZST1dZZUlt?=
- =?utf-8?B?VWpXN0E2RGdCNWxIWWZwS042L3diQWtiZnZ3RkZOWlVKR3pKclMwUmN3b2J2?=
- =?utf-8?B?akJqM1pBT3dpOUR4eXA5NjIrOXJIakN5QThUbDliVWxTaG9vTjc4bmRGaGMx?=
- =?utf-8?B?NWVESmpTQmZWempRb2hEZ0JaLzk0Y0RXQXZ3NTVoeFhoNFFXMjN1UXhnPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(1800799015)(376005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eXI1L29GTzkyZFBQbFVidWtLK0Qyb1FxVGJoMUJINVVpeGxBcTVmTitLTGU2?=
- =?utf-8?B?KzBsM2lzR1BtNEJQOSsxY3pqK0VmdUllOEVTZ0xkN0RaN0lnNEFxWTg4bXU3?=
- =?utf-8?B?b0tnRDd3OUJpNnc0SWpUS0dHb3dJd3lXd0VpeXRyMDg1MXQzalhSWExqMGRq?=
- =?utf-8?B?RDExZ01qeGdhb0RsYWU2eFRZb2d4ZzhDMVZQeDRHVm5BME5qV0ZhS3dBV2RQ?=
- =?utf-8?B?TWJHdEN1bnZoTGRhSStKV2FPWkFRUHVpOHJVNUVnd3pkSFlZYWdXVWNZR3Ey?=
- =?utf-8?B?Nnk3SEd1RTVPMUNTODNncTZBSS9URW1aRWJkbWR3aWRYbnR3UzhtUGJIeWo3?=
- =?utf-8?B?OTlIT3RQUGtzSFgrWmNRSzViMnovbWRURzNYT0tURUJ3OTUvWFZMWWxJOEhJ?=
- =?utf-8?B?SkJWOVhPSHBwdVQ3UlhmQkE3WWpnM1JvczNDRllmOUJLVWNUNGY4bVRPeDdv?=
- =?utf-8?B?TzJ0Q1VvMDlkZUR0VVN3UkhaZUZOZ0tnMUdKa3l1OS91KzZHTTFUNlh3Y3Jy?=
- =?utf-8?B?NTVTanJheFpZOTQxVU4reEg5aTQzSUIxU0d4VElPR0pqZGkyVVp2ZHo0UmN5?=
- =?utf-8?B?K1NIZmpEVjQvZmtKNU9KNGdsTTRtTUpyT29XSlR4WmlRU05DUnc5OVI0V0NW?=
- =?utf-8?B?NkgrK1Y3SllDUWFoQ0xlWWNFS2RXbW5lL3JFNjV6amN3WS9RMUVoM3BNMVpm?=
- =?utf-8?B?RFZ5eVlPMXJuQlpud3RBZkNnRlU3TUhwcGMxSDJZNndLRVNWVFI0Vnhzc3dN?=
- =?utf-8?B?ZHNVVlhqYmg1Y2pNaGlCL1lQbStMYVN0dEpJT2dIWDdvWXBXYVVtNVg2Y1ps?=
- =?utf-8?B?U1krSXdPWlpWdmtWL2hPSXRNaVNHVVdVRlVCeTdUZHFXNG1HQlpTYU9sZDda?=
- =?utf-8?B?NHBsRzZhTmk3Z0FiVHVFWFRJQlVJUFg5cUJUbjJINVAybDF1THExc2pEYlVR?=
- =?utf-8?B?TDBLV1RrYk5jVlNveUZTTSsvVURKSVNUUnpCV3NKc0FmZXlvNUFHT2l2MDdp?=
- =?utf-8?B?TW5LTmg3RXZiWEFJWlBnOVluSjdiK3A5cHRtZWU1RFU0ODhNTitJN3F2N09Y?=
- =?utf-8?B?L043UzY0MTNXSS90TXZVMTZrWk1Ld3FLdjlkR0duWXBRRURFWVNYdXdhbUZH?=
- =?utf-8?B?YW1jNDFIcXlNMnFNdDU2dHJETlpGZmtHQVJqcUQ3SkhxN3p5clpzTE9QcFJ5?=
- =?utf-8?B?OVNlYmlwV0dHRG5wYWo0UHdlMDczU25mRDlhVTlKbmljd3Y5UUI1RzZlUGk3?=
- =?utf-8?B?dHFDUWtjSDNncUM2Y3dTT1RWbTg0NXArbHRlVkUwMjJQdGtQbkJGWFkyZDQ3?=
- =?utf-8?B?WW1MZWRQWFBoZFVKVXZvS3NZZ2tvS25HdGYrSnZ0dHhGUjJRem85T2ErTGU3?=
- =?utf-8?B?RnJhRElPMlRaN3hlVnNQeWpLbkpmTDh5N1ZPOUYyNUFzM2lidmdWc3o4NnVo?=
- =?utf-8?B?OXpjWEQ4R1VZTFB5S3NFYjkvS0hZTFpkc3VqY0IydFg1OXUrNHl6TWNJTG44?=
- =?utf-8?B?NFhtMUxaTjNLNkJ0eXFTWEdhSEV0NDV2emtsK1RqUXA1bE8xeFM0d3NaZ2Ji?=
- =?utf-8?B?SjFBWnc5RkdYNXl0UWwrQVVhajVRMzd2ZHJGSFFJSFh5QmE4UGtFcE84QXJX?=
- =?utf-8?B?UVJqdHkyUWRNdHovVGNGR1NYSTZrZkFWaHNaSTh6YlVyQzJGanNYaXFCSGJt?=
- =?utf-8?B?NGl3YUp5aFpYc2xKUHBadkdVOS9ZUjg0TmI0TWppSkxTSUlzdnpnTXd6TFZj?=
- =?utf-8?B?eFUzb2M0b1VQVTF3Y3QycW4xcWhWWDNJNk5VRG9pUkMwbHBQOU81emdKOXVQ?=
- =?utf-8?B?Tk5CMEtGZG5WM2ZBRmZnb3pucVdYdW5lMVpSbEI0UFpBanV6WG5Ib3Avd2FF?=
- =?utf-8?B?YjFERE9sa05ac1JJNk9vczl1bWgxeHFaeFE4WDNPa3lrSHZrU01CY1hJWGd1?=
- =?utf-8?B?Rld3ckU1cmI1MlJjWEZ2UmRkcEVLT25iY29mZG8xRkpTRlVOTFhxbWY5bUZW?=
- =?utf-8?B?aHdWSmtIWGpZRWhHYXFTbW1CRWlISDNPREp4UkNyQlZnVzdoQVliWjJCK2Z6?=
- =?utf-8?B?ZWNWRzhsYWFxM0xJQVgwWGtBZzBFeTdJbTRaVEViajNWb0RScHRyNHp5cjZj?=
- =?utf-8?Q?p29c6ht8VFiSl5xf6jSdTGIwa?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c85b59a8-0526-450c-f210-08dc74ebb60f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2024 14:31:30.2096 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ba6hyfJcuAFUqQ/2/xkU6AFAEpBzEAozy5/6tzd0pDOy0fkI6KjehB1gx0E+XAUx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5841
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,156 +102,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.05.24 um 12:59 schrieb Tvrtko Ursulin:
+Devarsh Thakkar <devarsht@ti.com> writes:
+
+Hello Devarsh and Maxime,
+
+> Hi Maxime,
 >
-> On 15/05/2024 08:20, Christian König wrote:
->> Am 08.05.24 um 20:09 schrieb Tvrtko Ursulin:
->>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> On 14/03/24 20:04, Maxime Ripard wrote:
+>> Hi,
+>> 
+>> On Wed, Feb 14, 2024 at 09:17:12PM +0530, Devarsh Thakkar wrote:
+>>> On 13/02/24 19:34, Maxime Ripard wrote:
+>>>> On Thu, Feb 08, 2024 at 06:26:17PM +0530, Devarsh Thakkar wrote:
+>>>>> On 26/01/24 17:45, Maxime Ripard wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> Thanks a lot for working on that.
+>>>>>>
+>>>>>> On Tue, Jan 16, 2024 at 07:11:41PM +0530, Devarsh Thakkar wrote:
+>>>>>>> Display subsystem present in TI Keystone family of devices supports sharing
+>>>>>>> of display between multiple hosts as it provides separate register space
+>>>>>>> (common* region) for each host to programming display controller and also a
+>>>>>>> unique interrupt line for each host.
+>>>>>>>
+>>>>>>> This adds support for display sharing, by allowing partitioning of
+>>>>>>> resources either at video port level or at video plane level as
+>>>>>>> described below :
+>>>>>>>
+>>>>>>> 1) Linux can own (i.e have write access) completely one or more of video
+>>>>>>> ports along with corresponding resources (viz. overlay managers,
+>>>>>>> video planes) used by Linux in context of those video ports.
+>>>>>>> Even if Linux is owning
+>>>>>>> these video ports it can still share this video port with a remote core
+>>>>>>> which can own one or more video planes associated with this video port.
+>>>>>>>
+>>>>>>> 2) Linux owns one or more of the video planes with video port
+>>>>>>> (along with corresponding overlay manager) associated with these planes
+>>>>>>> being owned and controlled by a remote core. Linux still has read-only
+>>>>>>> access to the associated video port and overlay managers so that it can
+>>>>>>> parse the settings made by remote core.
+>>>>>>
+>>>>>> So, just to make sure we're on the same page. 1) means Linux drives the
+>>>>>> whole display engine, but can lend planes to the R5? How does that work,
+>>>>>> is Linux aware of the workload being there (plane size, format, etc) ?
+>>>>>>
+>>>>>
+>>>>> Well, there is no dynamic procedure being followed for lending. The
+>>>>> partitioning scheme is decided and known before hand, and the remote
+>>>>> core firmware updated and compiled accordingly, and similarly the
+>>>>> device-tree overlay for Linux is also updated with partitioning
+>>>>> information before bootup.
+>>>>>
+>>>>> What would happen here is that Linux will know before-hand this
+>>>>> partitioning information via device-tree properties and won't enumerate
+>>>>> the plane owned by RTOS, but it will enumerate the rest of the display
+>>>>> components and initialize the DSS, after which user can load the DSS
+>>>>> firmware on remote core and this firmware will only have control of
+>>>>> plane as it was compiled with that configuration.
+>>>>
+>>>> Right. If the RTOS is in control of a single plane, how it is expected
+>>>> to deal with Linux shutting the CRTC down, or enforcing a configuration
+>>>> that isn't compatible with what the RTOS expects (like a plane with a
+>>>> higher zpos masking its plane), what is the mechanism to reconcile it?
+>>>>
 >>>
->>> Current code appears to live in a misconception that playing with 
->>> buffer
->>> allowed and preferred placements can control the decision on whether
->>> backing store migration will be attempted or not.
+>>> Just for the note, for this "RTOS control single plane" mode, we don't have a
+>>> firmware available to test (right now we are only supporting example for "RTOS
+>>> controlling the display mode" as shared here [1]) and hence this is not
+>>> validated but the idea was to keep dt-bindings generic enough to support them
+>>> in future and that's why I referred to it here.
 >>>
->>> Both from code inspection and from empirical experiments I see that not
->>> being true, and that both allowed and preferred placement are typically
->>> set to the same bitmask.
->>
->> That's not correct for the use case handled here, but see below.
+
+
+If I understand you correctly, for now the only real use case is when the
+the RTOS owns / manages the complete display pipeline and Linux can only
+own video planes.
+
+The opposite is supported by the DSS hardware (thanks to its feature that
+allows partitioning the register space and having multiple per-host IRQs) 
+but it's not a real use case yet. The reason why this case is added to the
+DT binding is as you said for flexiblity and make the design future-proof.
+
+>>> separate irq
+>>> Coming back to your questions, with the current scheme the Linux (tidss) would
+>>> be expected to make sure the CRTC being shared with RTOS is never shutdown and
+>>> the RTOS plane should never gets masked.
+>> 
+>> I'm probably missing something then here, but if the Linux side of
+>> things is expected to keep the current configuration and keep it active
+>> for it to work, what use-case would it be useful for?
+>> 
 >
-> Which part is not correct, that bo->preferred_domains and 
-> bo->allower_domains are the same bitmask?
-
-Sorry totally forgot to explain that.
-
-This rate limit here was specially made for OpenGL applications which 
-over commit VRAM. In those case preferred_domains will be VRAM only and 
-allowed_domains will be VRAM|GTT.
-
-RADV always uses VRAM|GTT for both (which is correct).
-
+> It's just one of the partitioning possibilities that I mentioned here, that
+> Linux is in control of DSS as a whole and the user want the other host (be it
+> RTOS or any other core) to control a single plane. For e.g it could be Linux
+> (with GPU rendering) displaying the graphics and RTOS overlaying a real time
+> clock or any other signs which need to be displayed in real-time.
+> But more than the use-case this is inspired by the fact that we want to be
+> flexible and support in the linux driver whatever partitioning scheme
+> possibilities are there which are supported in hardware and we let user decide
+> on the partitioning scheme.
 >
+
+A possible use case here could be if Linux is safer than the other host
+owning a single plane, right? Then in that case the RTOS could fail but
+the display pipeline won't be teared down.
+
+That is, if your safety tell-tales would be driven by Linux and having
+other OS dislay the GPU-rendered QT based application on another plane.
+
+But as said, for now that's a theorethical use case since the one you
+mentioned is the opposite.
+
+[....]
+
 >>>
->>> As such, when the code decides to throttle the migration for a 
->>> client, it
->>> is in fact not achieving anything. Buffers can still be either 
->>> migrated or
->>> not migrated based on the external (to this function and facility) 
->>> logic.
+>>>> It's not just about interrupts, it's also about how your arbitrate
+>>>> between what Linux wants and what the RTOS wants. Like if the RTOS still
+>>>> wants to output something but Linux wants to disable it, how do you
+>>>> reconcile the two?
+>>>>
 >>>
->>> Fix it by not changing the buffer object placements if the migration
->>> budget has been spent.
+>>> The scheme involves static partitioning of display resource which are assigned
+>>> compile-time to RTOS and Linux. Here the RTOS firmware is compiled with
+>>> specific ownership/display resources as desired by user and this assignment
+>>> stays intact.
 >>>
->>> FIXME:
->>> Is it still required to call validate is the question..
->>>
->>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: Friedrich Vock <friedrich.vock@gmx.de>
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 12 +++++++++---
->>>   1 file changed, 9 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c 
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>> index 22708954ae68..d07a1dd7c880 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->>> @@ -784,6 +784,7 @@ static int amdgpu_cs_bo_validate(void *param, 
->>> struct amdgpu_bo *bo)
->>>           .no_wait_gpu = false,
->>>           .resv = bo->tbo.base.resv
->>>       };
->>> +    bool migration_allowed = true;
->>>       struct ttm_resource *old_res;
->>>       uint32_t domain;
->>>       int r;
->>> @@ -805,19 +806,24 @@ static int amdgpu_cs_bo_validate(void *param, 
->>> struct amdgpu_bo *bo)
->>>                * visible VRAM if we've depleted our allowance to do
->>>                * that.
->>>                */
->>> -            if (p->bytes_moved_vis < p->bytes_moved_vis_threshold)
->>> +            if (p->bytes_moved_vis < p->bytes_moved_vis_threshold) {
->>>                   domain = bo->preferred_domains;
->>> -            else
->>> +            } else {
->>>                   domain = bo->allowed_domains;
->>> +                migration_allowed = false;
->>> +            }
->>>           } else {
->>>               domain = bo->preferred_domains;
->>>           }
->>>       } else {
->>>           domain = bo->allowed_domains;
->>> +        migration_allowed = false;
->>>       }
->>>   retry:
->>> -    amdgpu_bo_placement_from_domain(bo, domain);
->>> +    if (migration_allowed)
->>> +        amdgpu_bo_placement_from_domain(bo, domain);
->>
->> That's completely invalid. Calling amdgpu_bo_placement_from_domain() 
->> is a mandatory prerequisite for calling ttm_bo_validate();
->>
->> E.g. the usually code fow is:
->>
->> /* This initializes bo->placement */
->> amdgpu_bo_placement_from_domain()
->>
->> /* Eventually modify bo->placement to fit special requirements */
->> ....
->>
->> /* Apply the placement to the BO */
->> ttm_bo_validate(&bo->tbo, &bo->placement, &ctx)
->>
->> To sum it up bo->placement should be a variable on the stack instead, 
->> but we never bothered to clean that up.
+>>> If there is a more complex use-case which requires dynamic
+>>> assignment/arbitration of resources then I agree those require some sort of
+>>> IPC scheme but this is not what we target with these series. This series is
+>>> simply to support static partitioning feature (separate register space,
+>>> separate irq, firewalling support etc) of TI DSS hardware across the multiple
+>>> hosts and there are use-cases too for which this scheme suffices.
+>> 
+>> I think you're right and we have a misunderstanding. My initial
+>> assumption was that it was to prevent the Linux side of sides from
+>> screwing up the output if it was to crash.
+>> 
+>> But it looks like it's not the main point of this series, so could you
+>> share some use-cases you're trying to address?
+>> 
 >
-> I am not clear if you agree or not that the current method of trying 
-> to avoid migration doesn't really do anything?
+> The end use-case we have demonstrated right now with this series is a
+> proof-of-concept display cluster use-case where RTOS boots early on MCU core
+> (launched at bootloader stage) and initializes the display (using the global
+> common0 register space and irq) and starts displaying safety tell-tales on one
+> plane, and once Linux boots up on application processor,
+> Linux (using common1 register space and irq) controls the other plane with GPU
+> rendering using a QT based application. And yes, we also support the scenario
+> where Linux crashes but RTOS being the DSS master and in control of DSS power,
+> clock domain and global register space is not impacted by the crash.
 
-I totally agree, but the approach you taken to fix it is just quite 
-broken. You can't leave bo->placement uninitialized and expect that 
-ttm_bo_validate() won't move the BO.
+You mention 2 scenarios but are actually the same? Or did I misunderstand?
 
->
-> On stack placements sounds plausible to force migration avoidance by 
-> putting a single current object placement in that list, if that is 
-> what you have in mind? Or a specialized flag/version of 
-> amdgpu_bo_placement_from_domain with an bool input like 
-> "allow_placement_change"?
+In both cases the RTOS own the display pipeline and Linux can just display
+using a single plane.
 
-A very rough idea with no guarantee that it actually works:
+That's why I think that agree with Maxime, that a fwkms could be a simpler
+solution to your use case instead of adding all this complexity to the DSS
+driver. Yes, I understand the HW supports all this flexibility but there's
+no real use case yet (you mentioned that don't even have firmware for this
+single plane owned by the RTOS in the R5F case).
 
-Add a TTM_PL_FLAG_RATE_LIMITED with all the TTM code to actually figure 
-out how many bytes have been moved and how many bytes the current 
-operation can move etc...
+The DT binding for a fwkms driver would be trivial, in fact maybe we might
+even leverage simpledrm for this case and not require a new driver at all.
 
-Friedrich's patches actually looked like quite a step into the right 
-direction for that already, so I would start from there.
+-- 
+Best regards,
 
-Then always feed amdgpu_bo_placement_from_domain() with the 
-allowed_domains in the CS path and VM validation.
-
-Finally extend amdgpu_bo_placement_from_domain() to take a closer look 
-at bo->preferred_domains, similar to how we do for the 
-TTM_PL_FLAG_FALLBACK already and set the TTM_PL_FLAG_RATE_LIMITED flag 
-as appropriate.
-
-Regards,
-Christian.
-
-> Regards,
->
-> Tvrtko
->
->>
->> Regards,
->> Christian.
->>
->>> +
->>>       r = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
->>>       if (unlikely(r == -ENOMEM) && domain != bo->allowed_domains) {
->>
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
