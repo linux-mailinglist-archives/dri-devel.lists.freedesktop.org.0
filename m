@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994768C643C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 11:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE9B8C6442
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 11:52:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEC1F10E067;
-	Wed, 15 May 2024 09:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11A8F10E527;
+	Wed, 15 May 2024 09:52:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="m6XB5k5h";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="MmL39VOY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7627F10E067
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B240110E067
  for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 09:51:49 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44F9penh076984;
- Wed, 15 May 2024 04:51:40 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44F9pgPE050666;
+ Wed, 15 May 2024 04:51:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1715766700;
- bh=XcQ3QaG9B8vJcklidpDQC/jwyxQkCUMe2T5P2+EpVPo=;
+ s=ti-com-17Q1; t=1715766702;
+ bh=QEDRLbkhxvtAigQy5Rs5N47y14IQjDB/BRmR0H8DoJo=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=m6XB5k5hGjctT5ha+Yp+o15TDDuQCWIWke/lA/YxVSj/VsfvqLDzSEydD2Mk2LlEA
- zeBu2rVSeHaSNJSba8R5FRTvSBUZzY9lPNvo7Hf2BAUq1BOW+9Jk/WTQw0rqsBoKK5
- JPQ+P6vAO1PPwfk4IJywj+Eg/hw1Pjbiq+5AtH/c=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44F9pegQ121562
+ b=MmL39VOYy+l7fLyQ59epnRm/k/5ZR2tVEd6kETXxVtFpDRTvfCZT98RFxq/bYRT5A
+ s9GrOF94kRsXMGaALa2H5Yay/0bmHq6qQXFGoGAJDSeFPjVDaxW+niw1OE+T3hpbbD
+ ryhrdNZEAvpEwfrzthiWTN8zkSp6rH8piwUglWZs=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44F9pgeh057794
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 15 May 2024 04:51:40 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ Wed, 15 May 2024 04:51:42 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 15
- May 2024 04:51:40 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 04:51:41 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 15 May 2024 04:51:40 -0500
+ Frontend Transport; Wed, 15 May 2024 04:51:41 -0500
 Received: from localhost (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44F9pdiB125380;
- Wed, 15 May 2024 04:51:39 -0500
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44F9pf5t125411;
+ Wed, 15 May 2024 04:51:41 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
  <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
@@ -58,10 +58,10 @@ CC: DRI Development List <dri-devel@lists.freedesktop.org>, Devicetree List
  Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
  Devarsh Thakkar <devarsht@ti.com>, Jai Luthra <j-luthra@ti.com>,
  Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: [PATCH v3 3/6] dt-bindings: display: simple: Add Microtips &
- Lincolntech Dual-LVDS Panels
-Date: Wed, 15 May 2024 15:21:30 +0530
-Message-ID: <20240515095133.745492-4-a-bhatia1@ti.com>
+Subject: [PATCH v3 4/6] drm/panel: simple: Add Lincoln Tech Sol LCD185-101CT
+ panel
+Date: Wed, 15 May 2024 15:21:31 +0530
+Message-ID: <20240515095133.745492-5-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240515095133.745492-1-a-bhatia1@ti.com>
 References: <20240515095133.745492-1-a-bhatia1@ti.com>
@@ -84,39 +84,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the Microtips Technology USA's MF-101HIEBCAF0 10.1"[0] panel,
-MF-103HIEB0GA0 10.25"[1] panel, and Lincoln Technology Solutions'
-LCD185-101CT 10.1"[2] panel.
+Add support for Lincoln Technology Solutions LCD185-101CT, 10.1",
+1920x1200, 8-bit TFT LCD with LVDS interface, LED backlight and PCAP
+touch support (Goodix GT928).
 
-Thes are all dual-lvds panels.
-
-Panel Links:
-[0]: https://simplespec.microtipsusa.com/uploads/spec/datasheetFile/2588/13-101HIEBCAF0-S_V1.1_20221104.pdf
-[1]: https://simplespec.microtipsusa.com/uploads/spec/datasheetFile/2660/13-103HIEB0GA0-S_V1.0_20211206.pdf
-[2]: https://lincolntechsolutions.com/wp-content/uploads/2023/04/LCD185-101CTL1ARNTT_DS_R1.3.pdf
+[0]: Panel Datasheet
+https://lincolntechsolutions.com/wp-content/uploads/2023/04/LCD185-101CTL1ARNTT_DS_R1.3.pdf
 
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 ---
- .../display/panel/panel-simple-lvds-dual-ports.yaml         | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-index 716ece5f3978..e78160d1aa24 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-@@ -41,6 +41,12 @@ properties:
-       - auo,g190ean01
-         # Kaohsiung Opto-Electronics Inc. 10.1" WUXGA (1920 x 1200) LVDS TFT LCD panel
-       - koe,tx26d202vm0bwa
-+        # Lincoln Technology Solutions, LCD185-101CT 10.1" TFT 1920x1200
-+      - lincolntech,lcd185-101ct
-+        # Microtips Technology MF-101HIEBCAF0 10.1" WUXGA (1920x1200) TFT LCD panel
-+      - microtips,mf-101hiebcaf0
-+        # Microtips Technology MF-103HIEB0GA0 10.25" 1920x720 TFT LCD panel
-+      - microtips,mf-103hieb0ga0
-         # NLT Technologies, Ltd. 15.6" FHD (1920x1080) LVDS TFT LCD panel
-       - nlt,nl192108ac18-02d
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index dcb6d0b6ced0..10e974bffd28 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2870,6 +2870,35 @@ static const struct panel_desc lg_lb070wv8 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
  
++static const struct drm_display_mode lincolntech_lcd185_101ct_mode = {
++	.clock = 155127,
++	.hdisplay = 1920,
++	.hsync_start = 1920 + 128,
++	.hsync_end = 1920 + 128 + 20,
++	.htotal = 1920 + 128 + 20 + 12,
++	.vdisplay = 1200,
++	.vsync_start = 1200 + 19,
++	.vsync_end = 1200 + 19 + 4,
++	.vtotal = 1200 + 19 + 4 + 20,
++};
++
++static const struct panel_desc lincolntech_lcd185_101ct = {
++	.modes = &lincolntech_lcd185_101ct_mode,
++	.bpc = 8,
++	.num_modes = 1,
++	.size = {
++		.width = 217,
++		.height = 136,
++	},
++	.delay = {
++		.prepare = 50,
++		.disable = 50,
++	},
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++};
++
+ static const struct display_timing logictechno_lt161010_2nh_timing = {
+ 	.pixelclock = { 26400000, 33300000, 46800000 },
+ 	.hactive = { 800, 800, 800 },
+@@ -4644,6 +4673,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "lg,lb070wv8",
+ 		.data = &lg_lb070wv8,
++	}, {
++		.compatible = "lincolntech,lcd185-101ct",
++		.data = &lincolntech_lcd185_101ct,
+ 	}, {
+ 		.compatible = "logicpd,type28",
+ 		.data = &logicpd_type_28,
 -- 
 2.34.1
 
