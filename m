@@ -2,57 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8FE8C6B64
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 19:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB498C6B97
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 19:38:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B12EE10E354;
-	Wed, 15 May 2024 17:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D88B10E447;
+	Wed, 15 May 2024 17:37:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GcpyKTRE";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="OFLVUKPF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01BBF10E354
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 17:20:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5EC9760ACD;
- Wed, 15 May 2024 17:20:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 11947C116B1;
- Wed, 15 May 2024 17:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715793613;
- bh=evynaZF+OdsmiraBszgjNj6hgX4XcROF8T2Q9yrv3ds=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=GcpyKTRExXUD57W/csLHMlk4AGhEijnP+27w4WQJR7tz2emsnDW5BV+zMOwsvoVMG
- mvIQ7lUYTtp76Og/PumJYFICR8zqoYHM5jVmPyzHNgNy4+ENGmyCjqEo7EX6kTXSjM
- kRw9ouHmguxOYzWxgp+d04Bl3SYx/DzVzLVEuEFZ/eqlb1WUI4A92/RQ9gJaT9i7G2
- c7dEbSNmH0ro51Bdr5OBLxhRD/i54tRDkoKJ5LyhrfprgU5XJDlB0RXLO5PdybzyxH
- bi09YQ7OEMJzdvHUBTCqL31ozDMuqepV6l2Dv4w0m7sPJcjSEN3ZRtknPf5m1xvDcz
- I/Ch3QIDTpgog==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 08C2EC433A2; Wed, 15 May 2024 17:20:13 +0000 (UTC)
-Subject: Re: [git pull] drm for 6.10-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tw-53PCvveRcdLUUQ+mjq2X2er5zp6n1KeE8Nu8x=VP2g@mail.gmail.com>
-References: <CAPM=9tw-53PCvveRcdLUUQ+mjq2X2er5zp6n1KeE8Nu8x=VP2g@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9tw-53PCvveRcdLUUQ+mjq2X2er5zp6n1KeE8Nu8x=VP2g@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-next-2024-05-15
-X-PR-Tracked-Commit-Id: 275654c02f0ba09d409c36d71dc238e470741e30
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: db5d28c0bfe566908719bec8e25443aabecbb802
-Message-Id: <171579361303.17791.11513989633899043227.pr-tracker-bot@kernel.org>
-Date: Wed, 15 May 2024 17:20:13 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
+ [91.218.175.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F52A10E447
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 17:37:55 +0000 (UTC)
+Message-ID: <59fc24e1-e63c-4636-a03f-9994e69d79b0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1715794673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8bERKWI/IwnFpV4vthqlOlLjClw09cxfO7qqfArITGQ=;
+ b=OFLVUKPFecxBcowEsWhEbNww4+rcp1+8bLRJzIgksKIMyidaLYn4A+bk3Un/7Fu/Kz2vop
+ pRe47SafI2X+dtpW4rh5kkA7RhE4ZqtiBbVIJAQwDgtlk0jQHGTbaEGkin9PciNxiNDZ8U
+ bTStaRFnUpYtqWuPQO2Or41vyhkCjQ0=
+Date: Thu, 16 May 2024 01:37:04 +0800
+MIME-Version: 1.0
+Subject: Re: [06/11] drm/loongson/7a1000: convert to struct drm_edid
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <22c66af62cd5ae1998bbaf6801cda3cc689f9e3f.1715691257.git.jani.nikula@intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <22c66af62cd5ae1998bbaf6801cda3cc689f9e3f.1715691257.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,15 +57,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Wed, 15 May 2024 16:20:56 +1000:
+Hi, Jani
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2024-05-15
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/db5d28c0bfe566908719bec8e25443aabecbb802
+I love your patch, thanks.
 
-Thank you!
+On 2024/5/14 20:55, Jani Nikula wrote:
+> Prefer the struct drm_edid based functions for reading the EDID and
+> updating the connector.
+>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+
+
+Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Best regards,
+Sui
+
