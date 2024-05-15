@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5782F8C652B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 12:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5EC8C6545
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 12:59:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1002410E1D7;
-	Wed, 15 May 2024 10:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A1010E3CB;
+	Wed, 15 May 2024 10:59:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ASaeNiPJ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bp8dnL2W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7977010E1D7;
- Wed, 15 May 2024 10:51:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82CD010E3CB;
+ Wed, 15 May 2024 10:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,31 +22,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=afyRjjNtw9jxSwdK+Df7I36gEqpjCVcr6W5AdX6qZ/M=; b=ASaeNiPJcFsifjNMaVFurZb86j
- F8oWeQtWieRCjYpKLoX1GlT6sLpfzXRO1hS8lljzrgXajMz66AJeurxde9I+TG9ZVnf8Od96C8anP
- hXGbmIFaLi5FvPdIH1o++0fYnP7rqcVnuaoRXq1wAdmRPCrn6IPxUsO+lPanHLKqM2Jfen9k7tNMQ
- G2Kh14ltGToMyF+QZ096E2q1C3P/jc46OhO6+X+VhJlj1Z/XN/Qs0yVxFC77VWFPrmnIrcb5Fuq0x
- jaUOIO4MK+QuwPSWFICCn44+3/SW/TpJFL8RKU37omn2/v5ROGc1YFDv4mhd3p/d602SBpSex8Nja
- 4Pu9p0xw==;
+ bh=ZmNwQKhv4AnCurvJXe+GQlN6R4PSbuzS8YLjTbLSgEA=; b=bp8dnL2WdRmCkx8y09cQCvW/nc
+ OYbUrtfLvkCzgUfNW4AKmWCDSHjhSaVjsooq2kOG1AWt7VQQEbhZ33vItF0I+BdO1s9WbZdBHiZE3
+ 2ZtpiTUH1oTBMW7WzJA9I73VVAChXlcL2lz3ITjTJKd0QP5gfYM4enJh0PVkSAS0Vf+YJGlDQOqCU
+ Ilh3CuwcbIS3rojcp95UWuHH2lpkP9SuPPk9c+EQCj5vl9dI7uYY9rTPovcFTMi+Hij+kbee1oLTC
+ a9rGpwci89Zv+RI1hVt2spHajwYQylvtpdYfoFsnlFJAvRwKk3YeiYM71Ej8B/+M5ISrw7CL4YeyA
+ T2LP765Q==;
 Received: from [84.69.19.168] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1s7CEg-008MDu-3Y; Wed, 15 May 2024 12:51:50 +0200
-Message-ID: <e8c4f4d6-8a49-40d4-97fc-36e6db4e7dd9@igalia.com>
-Date: Wed, 15 May 2024 11:51:49 +0100
+ id 1s7CMM-008MNv-PL; Wed, 15 May 2024 12:59:46 +0200
+Message-ID: <1a20c64f-cb1c-4f68-917b-9a8a34741bff@igalia.com>
+Date: Wed, 15 May 2024 11:59:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 1/5] drm/amdgpu: Fix migration rate limiting accounting
+Subject: Re: [RFC 2/5] drm/amdgpu: Actually respect buffer migration budget
 Content-Language: en-GB
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Tvrtko Ursulin <tursulin@igalia.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Friedrich Vock <friedrich.vock@gmx.de>
 References: <20240508180946.96863-1-tursulin@igalia.com>
- <20240508180946.96863-2-tursulin@igalia.com>
- <67c227c1-2c00-49fd-a454-ab60de7a5b96@amd.com>
+ <20240508180946.96863-3-tursulin@igalia.com>
+ <8a689a5a-b408-41da-b7bd-8c7a3b2f2ac7@amd.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <67c227c1-2c00-49fd-a454-ab60de7a5b96@amd.com>
+In-Reply-To: <8a689a5a-b408-41da-b7bd-8c7a3b2f2ac7@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,86 +65,106 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 15/05/2024 08:14, Christian König wrote:
+On 15/05/2024 08:20, Christian König wrote:
 > Am 08.05.24 um 20:09 schrieb Tvrtko Ursulin:
 >> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 >>
->> The logic assumed any migration attempt worked and therefore would over-
->> account the amount of data migrated during buffer re-validation. As a
->> consequence client can be unfairly penalised by incorrectly considering
->> its migration budget spent.
+>> Current code appears to live in a misconception that playing with buffer
+>> allowed and preferred placements can control the decision on whether
+>> backing store migration will be attempted or not.
 >>
->> Fix it by looking at the before and after buffer object backing store and
->> only account if there was a change.
+>> Both from code inspection and from empirical experiments I see that not
+>> being true, and that both allowed and preferred placement are typically
+>> set to the same bitmask.
+> 
+> That's not correct for the use case handled here, but see below.
+
+Which part is not correct, that bo->preferred_domains and 
+bo->allower_domains are the same bitmask?
+
+>>
+>> As such, when the code decides to throttle the migration for a client, it
+>> is in fact not achieving anything. Buffers can still be either 
+>> migrated or
+>> not migrated based on the external (to this function and facility) logic.
+>>
+>> Fix it by not changing the buffer object placements if the migration
+>> budget has been spent.
 >>
 >> FIXME:
->> I think this needs a better solution to account for migrations between
->> VRAM visible and non-visible portions.
+>> Is it still required to call validate is the question..
 >>
 >> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 >> Cc: Christian König <christian.koenig@amd.com>
 >> Cc: Friedrich Vock <friedrich.vock@gmx.de>
 >> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 26 +++++++++++++++++++++-----
->>   1 file changed, 21 insertions(+), 5 deletions(-)
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 12 +++++++++---
+>>   1 file changed, 9 insertions(+), 3 deletions(-)
 >>
 >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c 
 >> b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> index ec888fc6ead8..22708954ae68 100644
+>> index 22708954ae68..d07a1dd7c880 100644
 >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
 >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> @@ -784,12 +784,15 @@ static int amdgpu_cs_bo_validate(void *param, 
+>> @@ -784,6 +784,7 @@ static int amdgpu_cs_bo_validate(void *param, 
 >> struct amdgpu_bo *bo)
 >>           .no_wait_gpu = false,
 >>           .resv = bo->tbo.base.resv
 >>       };
->> +    struct ttm_resource *old_res;
+>> +    bool migration_allowed = true;
+>>       struct ttm_resource *old_res;
 >>       uint32_t domain;
 >>       int r;
->>       if (bo->tbo.pin_count)
->>           return 0;
->> +    old_res = bo->tbo.resource;
->> +
->>       /* Don't move this buffer if we have depleted our allowance
->>        * to move it. Don't move anything if the threshold is zero.
->>        */
->> @@ -817,16 +820,29 @@ static int amdgpu_cs_bo_validate(void *param, 
+>> @@ -805,19 +806,24 @@ static int amdgpu_cs_bo_validate(void *param, 
 >> struct amdgpu_bo *bo)
->>       amdgpu_bo_placement_from_domain(bo, domain);
->>       r = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
->> -    p->bytes_moved += ctx.bytes_moved;
->> -    if (!amdgpu_gmc_vram_full_visible(&adev->gmc) &&
->> -        amdgpu_res_cpu_visible(adev, bo->tbo.resource))
->> -        p->bytes_moved_vis += ctx.bytes_moved;
->> -
->>       if (unlikely(r == -ENOMEM) && domain != bo->allowed_domains) {
+>>                * visible VRAM if we've depleted our allowance to do
+>>                * that.
+>>                */
+>> -            if (p->bytes_moved_vis < p->bytes_moved_vis_threshold)
+>> +            if (p->bytes_moved_vis < p->bytes_moved_vis_threshold) {
+>>                   domain = bo->preferred_domains;
+>> -            else
+>> +            } else {
+>>                   domain = bo->allowed_domains;
+>> +                migration_allowed = false;
+>> +            }
+>>           } else {
+>>               domain = bo->preferred_domains;
+>>           }
+>>       } else {
 >>           domain = bo->allowed_domains;
->>           goto retry;
+>> +        migration_allowed = false;
 >>       }
->> +    if (!r) {
->> +        struct ttm_resource *new_res = bo->tbo.resource;
->> +        bool moved = true;
->> +
->> +        if (old_res == new_res)
->> +            moved = false;
->> +        else if (old_res && new_res &&
->> +             old_res->mem_type == new_res->mem_type)
->> +            moved = false;
+>>   retry:
+>> -    amdgpu_bo_placement_from_domain(bo, domain);
+>> +    if (migration_allowed)
+>> +        amdgpu_bo_placement_from_domain(bo, domain);
 > 
-> The old resource might already be destroyed after you return from 
-> validation. So this here won't work.
+> That's completely invalid. Calling amdgpu_bo_placement_from_domain() is 
+> a mandatory prerequisite for calling ttm_bo_validate();
 > 
-> Apart from that even when a migration attempt fails the moved bytes 
-> should be accounted.
+> E.g. the usually code fow is:
 > 
-> When the validation attempt doesn't caused any moves then the bytecount 
-> here would be zero.
+> /* This initializes bo->placement */
+> amdgpu_bo_placement_from_domain()
 > 
-> So as far as I can see that is as fair as you can get.
+> /* Eventually modify bo->placement to fit special requirements */
+> ....
+> 
+> /* Apply the placement to the BO */
+> ttm_bo_validate(&bo->tbo, &bo->placement, &ctx)
+> 
+> To sum it up bo->placement should be a variable on the stack instead, 
+> but we never bothered to clean that up.
 
-Right, I think I suffered a bit of tunnel vision here and completely 
-ignore the _ctx_.moved_bytes part. Scratch this one too then.
+I am not clear if you agree or not that the current method of trying to 
+avoid migration doesn't really do anything?
+
+On stack placements sounds plausible to force migration avoidance by 
+putting a single current object placement in that list, if that is what 
+you have in mind? Or a specialized flag/version of 
+amdgpu_bo_placement_from_domain with an bool input like 
+"allow_placement_change"?
 
 Regards,
 
@@ -154,19 +174,7 @@ Tvrtko
 > Regards,
 > Christian.
 > 
-> PS: Looks like our mail servers are once more not very reliable.
-> 
-> If you get mails from me multiple times please just ignore it.
-> 
 >> +
->> +        if (moved) {
->> +            p->bytes_moved += ctx.bytes_moved;
->> +            if (!amdgpu_gmc_vram_full_visible(&adev->gmc) &&
->> +                amdgpu_res_cpu_visible(adev, bo->tbo.resource))
->> +                p->bytes_moved_vis += ctx.bytes_moved;
->> +        }
->> +    }
->> +
->>       return r;
->>   }
+>>       r = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
+>>       if (unlikely(r == -ENOMEM) && domain != bo->allowed_domains) {
 > 
