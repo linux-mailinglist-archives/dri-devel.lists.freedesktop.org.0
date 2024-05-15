@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B4E8C67F4
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 037F88C67FB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:58:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA9E110E95A;
-	Wed, 15 May 2024 13:57:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33B9510E992;
+	Wed, 15 May 2024 13:58:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tOp4lR8X";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QXu68TXf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71C1810E3F8
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:57:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A665610E0D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:57:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C501F614C8;
- Wed, 15 May 2024 13:57:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18B28C116B1;
- Wed, 15 May 2024 13:57:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id EFC81614B0;
+ Wed, 15 May 2024 13:57:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EF92C116B1;
+ Wed, 15 May 2024 13:57:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715781471;
- bh=WlatdzDn5ln9onnNggxk+fyl1HpLY51fWYKvzy2mHOg=;
+ s=k20201202; t=1715781474;
+ bh=3a1PkEj7cE+sch219RIbB9Jk0bMgUp62q1dLoyBXtNE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=tOp4lR8Xi9y7SXrlPN4RRDtbbEihJDZsXFsYuT50HqukD2dqQDCKdRN12/0+EMRKb
- 4GxcHkEYYQwNTs55WBFKc3l8txKL7m7sWXy58yR6ih2EpH7fbVOpRIbmJzLB6y7L43
- z3tzAMtENCjfDLcFGgLMxefwVbI2x/Ra7oqPq5kA6UeMNjS2ontIRJ7DJYf23xlGTD
- xRqA61OBzd3oV7HWy8to7fJOtP3opiZ9MdMxQw1dt2zDLuA0DQztG0HIZC/g1962Us
- k5i+gtEJav11An/G8O6Hb/Kv3zajjRErguxEBm1vDSs9KJn7+vjtGWzAjdYB9tbZ1E
- XDf25KvPwtkxA==
+ b=QXu68TXftiz2lZOlszefjpiO6hArafdb17Coy3vmlIKkWX1OTyUhmaxRP9Gkg92cH
+ htkRgOtHMIewMzwPQE9UXTJz7jkSgrRdaRpNs0HD7mkSCmw/NSbr2Me1iPuizOTvpX
+ xjJWdWNZYkbmCExVJkX80T7at917TAo29YHxraWuxwC2hZpBJgWFRWj74MZU/a8K62
+ QTjhcN9n27uj0cTaUj/VBMnC+dlSa1CYn1E21Pyj6lT5FL6CFXiVAOC/didMJdwlPG
+ RBqhC1ZopZGwWC3mrWGmGpxAHYPFEWTByZ60XzEqdIDZGy3iq3Xe5j9uxQt4n+DeHT
+ R9aKXFT8gVe5g==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 15 May 2024 15:56:58 +0200
-Subject: [PATCH 3/8] dma-buf: heaps: Import uAPI header
+Date: Wed, 15 May 2024 15:56:59 +0200
+Subject: [PATCH 4/8] dma-buf: heaps: Add ECC protection flags
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240515-dma-buf-ecc-heap-v1-3-54cbbd049511@kernel.org>
+Message-Id: <20240515-dma-buf-ecc-heap-v1-4-54cbbd049511@kernel.org>
 References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
 In-Reply-To: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
 To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
@@ -50,12 +50,12 @@ Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=758; i=mripard@kernel.org;
- h=from:subject:message-id; bh=WlatdzDn5ln9onnNggxk+fyl1HpLY51fWYKvzy2mHOg=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGku+/3e/CltXrZHt3vnu0l/DhuoJs0MtQxoT13VdKcst
- 2F5oU55x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjI9cmMDY8aVp+d+WfjezXZ
- BxK7Ww+09n27yvEt6mCamVPDJU9H0ef93XVdB32ttZZOu7j37cmVVxnrPdJ8JPqMt8d3xXZP5t7
- xT1xa/dZ8lb1mKvf895zO+z7ZtenGhg5hzzuPwsUUkhKear4GAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2044; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=3a1PkEj7cE+sch219RIbB9Jk0bMgUp62q1dLoyBXtNE=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGku+/2nKmw4Xr3PpCAtJ9HX6rfW47R9Dit2ez1IiU7p5
+ phpe8G3YyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEykhImxYfev3IBfD6+9YDuc
+ 2t2+614VF/dWOcUVfXc41n2rveHQrVlV4x7Qz73kL6f+39v2hZt6GRv+mvRsZot9yu0tP9m/82P
+ TvNeat1UCvjcpnVfI+cYVKSlxuihVdOniK7tfLn0moneHYxYA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,33 +73,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The uAPI header has a bunch of constants and structures that might be
-handy in drivers.
+Some systems run with ECC enabled on the memory by default, but with
+some memory regions with ECC disabled to mitigate the downsides of
+enabling ECC (reduced performances, increased memory usage) for buffers
+that don't require it.
 
-Let's include the header in the driver-side dma-heap header.
+Let's create some allocation flags to ask for a particular ECC setup
+when allocate a dma-buf through a heap.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/linux/dma-heap.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/dma-buf/dma-heap.c    | 4 ++++
+ include/uapi/linux/dma-heap.h | 5 +++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-index 0c05561cad6e..e7cf110c5fdc 100644
---- a/include/linux/dma-heap.h
-+++ b/include/linux/dma-heap.h
-@@ -10,10 +10,12 @@
- #define _DMA_HEAPS_H
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 84ae708fafe7..a96c1865b627 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -106,10 +106,14 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
+ 		return -EINVAL;
  
- #include <linux/cdev.h>
- #include <linux/types.h>
+ 	if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
+ 		return -EINVAL;
  
-+#include <uapi/linux/dma-heap.h>
++	if ((heap_allocation->heap_flags & DMA_HEAP_FLAG_ECC_PROTECTED) &&
++	    (heap_allocation->heap_flags & DMA_HEAP_FLAG_ECC_UNPROTECTED))
++		return -EINVAL;
 +
- struct dma_heap;
+ 	fd = dma_heap_buffer_alloc(heap, heap_allocation->len,
+ 				   heap_allocation->fd_flags,
+ 				   heap_allocation->heap_flags);
+ 	if (fd < 0)
+ 		return fd;
+diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-heap.h
+index 6f84fa08e074..677b6355552d 100644
+--- a/include/uapi/linux/dma-heap.h
++++ b/include/uapi/linux/dma-heap.h
+@@ -16,12 +16,13 @@
+  */
+ 
+ /* Valid FD_FLAGS are O_CLOEXEC, O_RDONLY, O_WRONLY, O_RDWR */
+ #define DMA_HEAP_VALID_FD_FLAGS (O_CLOEXEC | O_ACCMODE)
+ 
+-/* Currently no heap flags */
+-#define DMA_HEAP_VALID_HEAP_FLAGS (0)
++#define DMA_HEAP_FLAG_ECC_PROTECTED	BIT(0)
++#define DMA_HEAP_FLAG_ECC_UNPROTECTED	BIT(1)
++#define DMA_HEAP_VALID_HEAP_FLAGS (DMA_HEAP_FLAG_ECC_PROTECTED | DMA_HEAP_FLAG_ECC_UNPROTECTED)
  
  /**
-  * struct dma_heap_ops - ops to operate on a given heap
-  * @allocate:		allocate dmabuf and return struct dma_buf ptr
+  * struct dma_heap_allocation_data - metadata passed from userspace for
+  *                                      allocations
+  * @len:		size of the allocation
 
 -- 
 2.44.0
