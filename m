@@ -2,62 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65ECD8C6A6C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 18:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9FFE8C6A77
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 18:22:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA3910E050;
-	Wed, 15 May 2024 16:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEC3110E76C;
+	Wed, 15 May 2024 16:22:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZCbEkMsg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eobG6Nhv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 186B810E050
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 16:19:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63AF610E35D;
+ Wed, 15 May 2024 16:22:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5D91CCE16E9;
- Wed, 15 May 2024 16:19:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93EB4C116B1;
- Wed, 15 May 2024 16:19:31 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id F1DA2CE172F;
+ Wed, 15 May 2024 16:22:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1D46C116B1;
+ Wed, 15 May 2024 16:22:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715789975;
- bh=/He7CAq7HiGjDS6udlxRywGS+srOIUjRiPK0TOJkqk4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZCbEkMsgY8TOtD4BoWYV4ytezczs/FHfE9OtBrCmlKm5e7OxMakHsokNybGeIogcs
- yqk/Tshaec1pcV0HOTV2rjbnc8G4I6vN+L/RzwxSFhX4Iy+TMfvCo2BVVnAbG4q7Uk
- DxVxd+yP7NCh3Znj9ExtkE3uZhelNmIqJFnCs+lwOhgcq8W1uiNphd5UNlJXkW+SrT
- s7g9NvY4NcQMKWfD04G3thdF/bYuCyPqeDBfzBb7F1zPFpUd8P4bwr5ASI4W7BqWa1
- BdZauP7TVWwIZtGiDG78EBBm1eT+aCMPC4Lelzf6tBDhrwy6j/2AkBJt7rPwyQQOR9
- 095J9zLa17mmg==
-Date: Wed, 15 May 2024 17:19:29 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Chris Morgan <macromorgan@hotmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] dt-bindings: display: vop2: Add VP clock resets
-Message-ID: <20240515-risk-exes-13db315da6bb@spud>
-References: <20240514152328.21415-1-detlev.casanova@collabora.com>
- <20240514152328.21415-4-detlev.casanova@collabora.com>
+ s=k20201202; t=1715790149;
+ bh=dyY5xHwj0t2PCxhheNyX2xM7JFQDx7iIcPYvy0V0ZcA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=eobG6NhvC9EIz45JGu6GXyPPyCjZG1Z2MiAMmxt5uPAyZjX2YPE9fhJ1h/feCwZQR
+ f5w4ygry77wpZNWqgZoGu5pVObb52ysXFYzgp2IXnE0h9daEyghWuYSrIqEo6HPIVD
+ RfvzEc1TSylMr/xYUuwz5Ba3I1Sjf+5uB1dl7E1tOsfpPNBq5WFST5s+eTsmm/tFc2
+ TF/3CMKlVJI0CsW+TJASLex+sr9t+zUJS2h2tf7NnPEqb6BSPQJVV3+7re69BwV3ue
+ ewU6ymaybKa6vz9vnc5A2uGNSBKrI4h6wgf+pj2OnbSFCue7+8xUfuxPgHZCgEvKnV
+ eqaWmk41Dia3g==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Ofir Bitton <obitton@habana.ai>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 0/2] Update on habanalabs, Xe maintainer status
+Date: Wed, 15 May 2024 19:22:20 +0300
+Message-Id: <20240515162222.12958-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="P/Z/zOdIpdF94JWu"
-Content-Disposition: inline
-In-Reply-To: <20240514152328.21415-4-detlev.casanova@collabora.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,93 +60,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave, Sima.
 
---P/Z/zOdIpdF94JWu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+A few weeks ago I left Habana and Intel. Therefore, I'm stepping down from
+the maintainer role of both habanalabs and Xe drivers.
 
-On Tue, May 14, 2024 at 11:19:47AM -0400, Detlev Casanova wrote:
-> Add the documentation for VOP2 video ports reset clocks.
-> One reset can be set per video port.
->=20
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+Ofir Bitton from Habana will replace me in the role of habanalabs driver
+maintainer and as for the Xe driver, Thomas and Lucas will probably suggest
+someone in the near future.
 
-Are these resets valid for all VOPs or just the one on 3588?
+Although I'm not going to do full-time kernel development in my next role,
+I will remain as the accel maintainer and will probably continue to
+participate in discussions from time to time.
 
-> ---
->  .../display/rockchip/rockchip-vop2.yaml       | 27 +++++++++++++++++++
->  1 file changed, 27 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-=
-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop=
-2.yaml
-> index 2531726af306b..941fd059498d4 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.ya=
-ml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.ya=
-ml
-> @@ -65,6 +65,22 @@ properties:
->        - const: dclk_vp3
->        - const: pclk_vop
-> =20
-> +  resets:
-> +    minItems: 3
-> +    items:
-> +      - description: Pixel clock reset for video port 0.
-> +      - description: Pixel clock reset for video port 1.
-> +      - description: Pixel clock reset for video port 2.
-> +      - description: Pixel clock reset for video port 3.
-> +
-> +  reset-names:
-> +    minItems: 3
-> +    items:
-> +      - const: dclk_vp0
-> +      - const: dclk_vp1
-> +      - const: dclk_vp2
-> +      - const: dclk_vp3
-> +
->    rockchip,grf:
->      $ref: /schemas/types.yaml#/definitions/phandle
->      description:
-> @@ -128,6 +144,11 @@ allOf:
->          clock-names:
->            minItems: 7
-> =20
-> +        resets:
-> +          minItems: 4
-> +        reset-names:
-> +          minItems: 4
-> +
->          ports:
->            required:
->              - port@0
-> @@ -183,6 +204,12 @@ examples:
->                                "dclk_vp0",
->                                "dclk_vp1",
->                                "dclk_vp2";
-> +                resets =3D <&cru SRST_VOP0>,
-> +                         <&cru SRST_VOP1>,
-> +                         <&cru SRST_VOP2>;
-> +                reset-names =3D "dclk_vp0",
-> +                              "dclk_vp1",
-> +                              "dclk_vp2";
->                  power-domains =3D <&power RK3568_PD_VO>;
->                  iommus =3D <&vop_mmu>;
->                  vop_out: ports {
-> --=20
-> 2.43.2
->=20
+Thanks,
+Oded
 
---P/Z/zOdIpdF94JWu
-Content-Type: application/pgp-signature; name="signature.asc"
+Oded Gabbay (2):
+  MAINTAINERS: Change habanalabs maintainer and git repo path
+  MAINTAINERS: update Xe driver maintainers
 
------BEGIN PGP SIGNATURE-----
+ MAINTAINERS | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkTgkQAKCRB4tDGHoIJi
-0lwXAP9ODH1i6CX+87vgyTIDRUsnCdlaUgSTbNvl8Tlmwa+XDgD+L3V6TQMyak1G
-+54i1z3/hchYtm3/A1uMHW3Irz9oKAQ=
-=h/hX
------END PGP SIGNATURE-----
+--
+2.34.1
 
---P/Z/zOdIpdF94JWu--
