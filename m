@@ -2,98 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F568C6CC8
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 21:26:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821278C6C47
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 20:43:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C688810E87F;
-	Wed, 15 May 2024 19:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B709F10E622;
+	Wed, 15 May 2024 18:43:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora-corp-partner-google-com.20230601.gappssmtp.com header.i=@collabora-corp-partner-google-com.20230601.gappssmtp.com header.b="vIXQSdMC";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="tdOC9MBA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
- [209.85.160.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3075710EBD3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 17:44:02 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id
- d75a77b69052e-43df751b5b8so48272791cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 10:44:02 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4B5E10E622
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 18:43:13 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-41fef5dda72so328675e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 11:43:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=collabora-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1715795041; x=1716399841; darn=lists.freedesktop.org; 
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=E0amurYLWKaRKPa/iEdq5FcEnj0UswhFN3sKXOxoIEk=;
- b=vIXQSdMCbnETqt/YwpBuLu3CfesVLRkV8LBpneXiL6FBVF56QeLBkkmb0k11RHxl+g
- NANRQ93JgqVoDF519QeXQFsDPHDvDO9gSZehFSWeqEO24Xqf9e54f2T4GuLz/Sh0rOuG
- jN0HmobOu64RGORVF8wSW0w8f7pAm+R9HdrMDUsfK8FiKRLD4XzpJmUIwIPxDl2Ut0Ai
- +ZnuZWgdZJ0lXzDaydAspVZAYWMyG8TsbpLmVlybHm0p2lbbEdjJlGeW/Vkb3a44ysIA
- 14D6QUqwdd2LrkVXgrnj/2NxgI/CxOZkY7Ertc54VX2sz24Pqyj9eaOXaKrMdTnuLo3s
- E02Q==
+ d=google.com; s=20230601; t=1715798592; x=1716403392;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EYw08SuW0XGtCkslQ7Pr4vhaF6oLwiqfmnivOAxBqiQ=;
+ b=tdOC9MBAd4SbaIWx90PwCqfmDhFNAKKYF8H4PduM77jfT/K251g3JSHcIr8F1rDbk8
+ ZYTwSaN6FhqToRJdAbzdMiPmGF7u7lWpgFCDPMrgBlFKV2O0ckFfb9JRsSDYdmDa80tX
+ r1W3GzkXMpb04lnQ6UXKA8Ug+fl3x8c8Y47MBiuOAcYxJzaUKStvNct9H+pB6uuPCUEt
+ I2LD7S9FzMEniLpV5ng4fmq70jQ39Q14KB6oyGqWj4Q3H9EDTBZDNUWJSA7DVhvA1bvp
+ htWqgRPDO8m58NrXD22Yf5oryak0+Oz2oNgtEnk4VcMK7VmCb0Nyw2zLLgcmPQ2tZnEj
+ bGVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715795041; x=1716399841;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=E0amurYLWKaRKPa/iEdq5FcEnj0UswhFN3sKXOxoIEk=;
- b=ZKq1f4L6NSs5zlR3Z6RDJdXk5SUJXZkOAH4SntnqpEzhRUgs49UytMkkF0jtlgYnr1
- ofxB3rA2MSgXFUB/Ze07nia4IK6DyvzS2cozDcCa0Ts11aUd28je60ndzZlKfPSTU+QW
- j/X92474BZ1TrHimaPfajqSiAs/KwbwSiBS2kk2ZkGjSMLUJn2eo+Af2Duga8ANdZjMX
- aXbAD4zXCaC0usNE/nm2bh5qlVsr0TvoKAQke6o30riEOCZrNQa5ilkqBxw2xM/Tk7Dh
- lLdWFKNbPQE90z81iOmku87nn7jbQeAgOpWk3eYYJq/HOK6jG3Gdh9xABqbIilUz/9mZ
- FSsw==
+ d=1e100.net; s=20230601; t=1715798592; x=1716403392;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EYw08SuW0XGtCkslQ7Pr4vhaF6oLwiqfmnivOAxBqiQ=;
+ b=ljNXpFM361AvoeYq+wdyE3NDk2LnK2kilSz6SEKuTzw6awXORGaV8NcH4neDDUQTc7
+ XxMdtgD44lC2+eQVXksAPX7XFSaKB0ThgbKevcdcjgACMUIgvKoXu7/JxQ8MSwU1aMDF
+ gw3YWWa8CnHi+ayuE5P2UCH1ru/dkmY8PYSpfUdT5uDjsObUVMkeqjwYe0YpL8TxeWnZ
+ avy0svk41kdyvoTXrgiYMg1kLVIAm7P49ywsrJneAZU2BAbp9Vmn11/kjkMgs1TKYfBS
+ 0MAHK90BC34znruN/noCExupYYxDiq8C9Xq604a5y4bIi6dD1ykek17v8BRG40t6NoD4
+ 7jzw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW3lSL/QM2qjbvwhzTwnQG81JpOUUClWQrIJzi7Rms2aNvTgPufKnlgFJt13WS+J6BaaQsQvWMuOQTRQWg4AtZ7myWVk3fbEiRyTJOcBJLd
-X-Gm-Message-State: AOJu0YxSCGFBoKNpWsdr4d11RFzynvXDz/3rwfCu+xEdBmtmJeBtX1Ue
- GpO2DhuvXI7+f1D/1dwMMqvpYuA2k+G/q9zWXGBny30aMTcrAKOXW3MRMbVJLBM=
-X-Google-Smtp-Source: AGHT+IFtGcMXjpt3HsFnPe9OF16luEvqPVOtySj8IBH0wjxyNEhyn0setwNtXCb14ES3yOalUq8alQ==
-X-Received: by 2002:a05:622a:1a96:b0:43e:3943:4379 with SMTP id
- d75a77b69052e-43e39434693mr20225301cf.19.1715795041568; 
- Wed, 15 May 2024 10:44:01 -0700 (PDT)
-Received: from nicolas-tpx395.lan ([2606:6d00:17:5985::580])
- by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-43e3a57b396sm2575901cf.24.2024.05.15.10.43.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 May 2024 10:44:00 -0700 (PDT)
-Message-ID: <a3428b0c352c24d43a2d458d41819fbf4b6cce0f.camel@collabora.corp-partner.google.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present
- users (udev uaccess tag) ?
-From: nicolas.dufresne@collabora.corp-partner.google.com
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maxime Ripard <mripard@redhat.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>,  Hans de Goede <hdegoede@redhat.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Lennart
- Poettering <mzxreary@0pointer.de>,  Robert Mader
- <robert.mader@collabora.com>, Sebastien Bacher
- <sebastien.bacher@canonical.com>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>,  linaro-mm-sig@lists.linaro.org, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Milan Zamazal
- <mzamazal@redhat.com>, Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Date: Wed, 15 May 2024 13:43:58 -0400
-In-Reply-To: <20240514204223.GN32013@pendragon.ideasonboard.com>
-References: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
- <e7ilwp3vc32xze3iu2ejgqlgz44codsktnvyiufjhuf2zxcnnf@tnwzgzoxvbg2>
- <d2a512b2-e6b1-4675-b406-478074bbbe95@linaro.org>
- <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
- <20240507183613.GB20390@pendragon.ideasonboard.com>
- <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
- <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
- <20240513-heretic-didactic-newt-1d6daf@penduick>
- <20240513083417.GA18630@pendragon.ideasonboard.com>
- <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
- <20240514204223.GN32013@pendragon.ideasonboard.com>
+ AJvYcCXAlhJV/Vu7f5nYfRXNfWNcp1Mh8PN//YHgSitmHrnO+QnlWHxHKHwb325W+7rMV8hrgG7KwVQodsiq1HBYz2toMtveNjRXVGiwelqhHH5x
+X-Gm-Message-State: AOJu0YwnkvG6mN55DtqNcI/aMgAnlKf0QLhLPAdAn0h1q2mWX1CYuM7t
+ XApB+/1oAJbWn89HXMhLs04HCEpEFAMEO73ocl4oE8d1Gvyc6zD9dLjBf/GUW16dj6myeCboCiL
+ wa7Kmb+tFGIfbjSv0Z1sX7sDldyMmYspKmiU=
+X-Google-Smtp-Source: AGHT+IFXSyoRhWYZAyF4PDyMeovRDQKPGnBFuRGgfH4SBcREIVqL7zoHTwvnfnjWyp/GpdS9YamBKyr7G4+ZcxRuOuI=
+X-Received: by 2002:a05:600c:3d9a:b0:41f:a15d:2228 with SMTP id
+ 5b1f17b1804b1-4200ebea389mr9541355e9.0.1715798591515; Wed, 15 May 2024
+ 11:43:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
+In-Reply-To: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
+From: John Stultz <jstultz@google.com>
+Date: Wed, 15 May 2024 11:42:58 -0700
+Message-ID: <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
+ related-flags
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Mattijs Korpershoek <mkorpershoek@baylibre.com>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
-MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 15 May 2024 19:25:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,39 +88,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mardi 14 mai 2024 =C3=A0 23:42 +0300, Laurent Pinchart a =C3=A9crit=C2=
-=A0:
-> > You'll hit the same limitation as we hit in GStreamer, which is that KM=
-S driver
-> > only offer allocation for render buffers and most of them are missing a=
-llocators
-> > for YUV buffers, even though they can import in these formats. (kms all=
-ocators,
-> > except dumb, which has other issues, are format aware).
->=20
-> My experience on Arm platforms is that the KMS drivers offer allocation
-> for scanout buffers, not render buffers, and mostly using the dumb
-> allocator API. If the KMS device can scan out YUV natively, YUV buffer
-> allocation should be supported. Am I missing something here ?
+On Wed, May 15, 2024 at 6:57=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+> This series is the follow-up of the discussion that John and I had a few
+> months ago here:
+>
+> https://lore.kernel.org/all/CANDhNCquJn6bH3KxKf65BWiTYLVqSd9892-xtFDHHqqy=
+rroCMQ@mail.gmail.com/
+>
+> The initial problem we were discussing was that I'm currently working on
+> a platform which has a memory layout with ECC enabled. However, enabling
+> the ECC has a number of drawbacks on that platform: lower performance,
+> increased memory usage, etc. So for things like framebuffers, the
+> trade-off isn't great and thus there's a memory region with ECC disabled
+> to allocate from for such use cases.
+>
+> After a suggestion from John, I chose to start using heap allocations
+> flags to allow for userspace to ask for a particular ECC setup. This is
+> then backed by a new heap type that runs from reserved memory chunks
+> flagged as such, and the existing DT properties to specify the ECC
+> properties.
+>
+> We could also easily extend this mechanism to support more flags, or
+> through a new ioctl to discover which flags a given heap supports.
 
-There is two APIs, Dumb is the legacy allocation API, only used by display
-drivers indeed, and the API does not include a pixel format or a modifier. =
-The
-allocation of YUV buffer has been made through a small hack,=20
+Hey! Thanks for sending this along! I'm eager to see more heap related
+work being done upstream.
 
-  bpp =3D number of bits per component (of luma plane if multiple planes)
-  width =3D width
-  height =3D height * X
+The only thing that makes me a bit hesitant, is the introduction of
+allocation flags (as opposed to a uniquely specified/named "ecc"
+heap).
 
-Where X will vary, "3 / 2" is used for 420 subsampling, "2" for 422 and "3"=
- for
-444. It is far from idea, requires deep knowledge of each formats in the
-application and cannot allocate each planes seperatly.
+We did talk about this earlier, and my earlier press that only if the
+ECC flag was general enough to apply to the majority of heaps then it
+makes sense as a flag, and your patch here does apply it to all the
+heaps. So I don't have an objection.
 
-The second is to use the driver specific allocation API. This is then abstr=
-acted
-by GBM. This allows allocating render buffers with notably modifiers and/or=
- use
-cases. But no support for YUV formats or multi-planar formats.
+But it makes me a little nervous to add a new generic allocation flag
+for a feature most hardware doesn't support (yet, at least). So it's
+hard to weigh how common the actual usage will be across all the
+heaps.
 
-Nicolas
+I apologize as my worry is mostly born out of seeing vendors really
+push opaque feature flags in their old ion heaps, so in providing a
+flags argument, it was mostly intended as an escape hatch for
+obviously common attributes. So having the first be something that
+seems reasonable, but isn't actually that common makes me fret some.
+
+So again, not an objection, just something for folks to stew on to
+make sure this is really the right approach.
+
+Another thing to discuss, that I didn't see in your mail: Do we have
+an open-source user of this new flag?
+
+thanks
+-john
