@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EBFF8C67F9
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 946118C67FD
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55F0710E91F;
-	Wed, 15 May 2024 13:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E1510E993;
+	Wed, 15 May 2024 13:58:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nIEWiQt3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YcvfAYs4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4C610E5D2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:58:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 789CF10E993
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:58:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E21A6614D5;
- Wed, 15 May 2024 13:58:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40576C32786;
- Wed, 15 May 2024 13:58:00 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id ED372614A8;
+ Wed, 15 May 2024 13:58:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A7AEC116B1;
+ Wed, 15 May 2024 13:58:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715781480;
- bh=5mlKKVq2eJW/2EfLe5DfEKj2I4ZhUMzP6qbNsK6waI0=;
+ s=k20201202; t=1715781483;
+ bh=YUErc85/2hAb52W29W1xwDRHgxBJ9b98hEp6JztRUTU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=nIEWiQt3XuLSsZQZbWwRK/SZdLBw0yS/Z0FGjHBgaacZPjdEhuvlesyZ8P2aS0pKQ
- srv93C5wQVlqvWYipTMZJtZkgbHq/VwWSyr800bzc1x5redx59NQJdYgwBXAAOXVp3
- bd/xYluu06uM4adros5GaK5yunJRLnzDWy3zsrWOlhAz4ooJ7GaW7Refb43pAaAke+
- pD4dZONJjf5kqS7QGfLgjzNkk8J9bmYLNCnLz4HFQBSobuX9Ph5jn4qfMdiIkcX4Fa
- sMtVnTiOpr2gkKTD8v9lNzqDJXZ5ixtZSVg6BTB/p1gmSmVvl0HWAyEOChq5jbIPfh
- dJB3NWSekMMSg==
+ b=YcvfAYs4MQ/iPuLlDRw7jerxbsdvqmH1YeUKSESyTVc25nYwLnn998MVTf8yNGoPt
+ CyPLk+6ErqwaAA51LtcDUbMLO6TFCHeN4Or/PCPvWSlwVVX2cTUoGxhQFra104sMzM
+ /7xjmWYePVTITzjvZL/qnMttRS1kPOKZ2kIFAYA1Gigux2Mb4B/du15eP2gq81Yl56
+ ZK3cXYmhs1Evg2FaP+ud6/SgQ3wtav4CxWHQ7NakmSB6rriIF3A37c1e7X3fPkenBG
+ 6l85/xnA0Gyc4AqpRauj3YgokQ6ZvDilnyQaA5Gnd+gdBT2SMHIyr8G96gShdeoWmg
+ LCbVU0tNoLIWg==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 15 May 2024 15:57:01 +0200
-Subject: [PATCH 6/8] dma-buf: heaps: system: Handle ECC flags
+Date: Wed, 15 May 2024 15:57:02 +0200
+Subject: [PATCH 7/8] dma-buf: heaps: cma: Handle ECC flags
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240515-dma-buf-ecc-heap-v1-6-54cbbd049511@kernel.org>
+Message-Id: <20240515-dma-buf-ecc-heap-v1-7-54cbbd049511@kernel.org>
 References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
 In-Reply-To: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
 To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
@@ -50,12 +50,12 @@ Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2333; i=mripard@kernel.org;
- h=from:subject:message-id; bh=5mlKKVq2eJW/2EfLe5DfEKj2I4ZhUMzP6qbNsK6waI0=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGku+wMqyhNdctYvMNP72vKxoNKqpU9Xykhq7o8rXG6Tn
- j5n3OvTMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACai9oKxviBz/06PH5mvm05b
- 6tktPvglcFHO/COB24oK7X9dO274mbmNbaropF3il/T3vueOYvK4zlhnOz+6QcGIT+jg7wdWG/p
- ro9hjbR7cPlj0R+6uyrtsn7LCnum7/dcYenOmb/x/NPNHRxkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1665; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=YUErc85/2hAb52W29W1xwDRHgxBJ9b98hEp6JztRUTU=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGku+wN1TUXfl925deTd7NccCpoPdkYUelmaHTfbsyOfP
+ 3CzlKhDx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIj8+MtaI9fU+M9Ka2bpzl
+ /X6HxNXHXQWLmC+06wTFNtyf2hLyfKKRZZLul5cJzAmVcU/ZLbfvYGz4pXzj6bz5vcs7rdg8QoM
+ NN0cLCe15IqKW25RYvCJyztwXz7J31R3Q/H5bwcduyeWo93YA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,72 +78,56 @@ allocations, let's honour these flags depending on the memory setup.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/dma-buf/heaps/system_heap.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/dma-buf/heaps/cma_heap.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 8b5e6344eea4..dd7c8b6f9cf6 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -18,13 +18,15 @@
- #include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
-+#include <linux/of.h>
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 4a63567e93ba..1e6babbd8eb5 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -24,10 +24,11 @@
  
- struct system_heap {
+ 
+ struct cma_heap {
  	struct dma_heap *heap;
+ 	struct cma *cma;
 +	bool ecc_enabled;
  };
  
- struct system_heap_buffer {
- 	struct dma_heap *heap;
+ struct cma_heap_buffer {
+ 	struct cma_heap *heap;
  	struct list_head attachments;
-@@ -336,10 +338,11 @@ static struct page *alloc_largest_available(unsigned long size,
- static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
- 					    unsigned long len,
- 					    unsigned long fd_flags,
- 					    unsigned long heap_flags)
- {
-+	struct system_heap *sys_heap = dma_heap_get_drvdata(heap);
- 	struct system_heap_buffer *buffer;
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
- 	unsigned long size_remaining = len;
- 	unsigned int max_order = orders[0];
+@@ -286,10 +287,16 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
+ 	struct page *cma_pages;
  	struct dma_buf *dmabuf;
-@@ -347,10 +350,16 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
- 	struct scatterlist *sg;
- 	struct list_head pages;
- 	struct page *page, *tmp_page;
- 	int i, ret = -ENOMEM;
+ 	int ret = -ENOMEM;
+ 	pgoff_t pg;
  
-+	if (!sys_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_PROTECTED))
-+		return ERR_PTR(-EINVAL);
++	if (!cma_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_PROTECTED))
++		return -EINVAL;
 +
-+	if (sys_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_UNPROTECTED))
-+		return ERR_PTR(-EINVAL);
++	if (cma_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_UNPROTECTED))
++		return -EINVAL;
 +
  	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
  	if (!buffer)
  		return ERR_PTR(-ENOMEM);
  
  	INIT_LIST_HEAD(&buffer->attachments);
-@@ -430,10 +439,13 @@ static int system_heap_create(void)
- 
- 	sys_heap = kzalloc(sizeof(*sys_heap), GFP_KERNEL);
- 	if (!sys_heap)
+@@ -374,10 +381,13 @@ static int __add_cma_heap(struct cma *cma, void *data)
+ 	cma_heap = kzalloc(sizeof(*cma_heap), GFP_KERNEL);
+ 	if (!cma_heap)
  		return -ENOMEM;
+ 	cma_heap->cma = cma;
  
 +	if (of_memory_get_ecc_correction_bits() > 0)
-+		sys_heap->ecc_enabled = true;
++		cma_heap->ecc_enabled = true;
 +
- 	exp_info.name = "system";
- 	exp_info.ops = &system_heap_ops;
- 	exp_info.priv = sys_heap;
+ 	exp_info.name = cma_get_name(cma);
+ 	exp_info.ops = &cma_heap_ops;
+ 	exp_info.priv = cma_heap;
  
- 	sys_heap->heap = dma_heap_add(&exp_info);
+ 	cma_heap->heap = dma_heap_add(&exp_info);
 
 -- 
 2.44.0
