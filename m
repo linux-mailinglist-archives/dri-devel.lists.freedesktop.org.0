@@ -2,62 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD5D8C67FF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 15:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6AC8C688A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 16:23:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A4710EA6D;
-	Wed, 15 May 2024 13:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 074D110E35C;
+	Wed, 15 May 2024 14:23:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TwfJbMJr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fGKeOwgC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1E3810E993
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 13:58:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFC6B10E9C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:23:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 55F65614CC;
- Wed, 15 May 2024 13:58:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE3B1C2BD11;
- Wed, 15 May 2024 13:58:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id F2F8D614A7;
+ Wed, 15 May 2024 14:23:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97663C116B1;
+ Wed, 15 May 2024 14:23:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715781487;
- bh=N5UwfZ1hKMI6+ZrGSh9smBi+SvvW9VpZtds2AMuGHos=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=TwfJbMJr2eudO50gB4jtqCfWmhQ4amIjE1zaF6WRdIcpHwO5rxvJbZJuVPBjUSigc
- 8TO0sFjBMWieujTeWTcuXI80s/WdCooRLCshP+Q/b0ITdjgasFFSNbNxExZovj+gwM
- MqxQyWjQ9L4GKUH5za52rqgOSxbjtXji1bS6WDBU09KLKF6xXnGxBua7W8KBwKwYTv
- kTyJG45a37w38lAwA6FHp1phbWKUmqeti4YPxDNtGMpGRIPOYhZd/GFlbyoIEyxavY
- r47jnKx51PjUmobjfH+JRFKkFOOn0ocJkOqbql9gO5OBozz9g9Hmqn6m9vT+dk6kVi
- oqdf60asXfERQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 15 May 2024 15:57:03 +0200
-Subject: [PATCH 8/8] dma-buf: heaps: carveout: Handle ECC flags
+ s=k20201202; t=1715783032;
+ bh=4JHgDMX3S+y4Cupj6k/XMYufWspUS9+Dv3f7xiWP6yI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fGKeOwgC8BAhZJxcAIicJbNQInRtikKuaBGhLY8WF09SWZIWlhCEW0tcDUqNqXPFU
+ 8lI6KAO72JrN/3Z81L+o6uvhfhPc3BjcX7FRyqIhYXChmb0ISsnT1B+HSp8Bf3GO6Y
+ AL+ZKR3hG4Udv5BUGVUkg9BH/7LJNXhvNKJ0qU8xLa8wUARmC5GSYsuhBL7J47KxlR
+ ZUAtc/z2G4y+6WlTagPzUAb4A/1YILmHbTIle9LPiay/D71uJdBF1AT/RgUb5hYObE
+ reYFjp3UH/1Mx7wqaM9LcToBYfPInnmTTi6XMeIra2BSGzB5Gg5xRn+skSmw3ZyDGk
+ W45U2qRHvhawQ==
+Message-ID: <12944aa1-1108-4a9b-a201-a724db975285@kernel.org>
+Date: Wed, 15 May 2024 16:23:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/6] dt-bindings: display: simple: Add Microtips &
+ Lincolntech Dual-LVDS Panels
+To: Aradhya Bhatia <a-bhatia1@ti.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liu Ying <victor.liu@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Jai Luthra <j-luthra@ti.com>
+References: <20240515095133.745492-1-a-bhatia1@ti.com>
+ <20240515095133.745492-4-a-bhatia1@ti.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240515095133.745492-4-a-bhatia1@ti.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240515-dma-buf-ecc-heap-v1-8-54cbbd049511@kernel.org>
-References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
-In-Reply-To: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Mattijs Korpershoek <mkorpershoek@baylibre.com>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2094; i=mripard@kernel.org;
- h=from:subject:message-id; bh=N5UwfZ1hKMI6+ZrGSh9smBi+SvvW9VpZtds2AMuGHos=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGku+wOVf9vPYLP0PMqdtrWoJ7LZR7Lp+cNXh60Z5vbwa
- D3c2HqlYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAExkbh5jnYYCo0VUtc+Dd+uE
- 2daUX+142sf9ZzNr7g5joTNPPvPvWLjxoFSLysFas91tCT8vZjzoYaxmSWWJajqzSnUrN69XyMV
- 0Lukrn8/LlLqZ6FROnnTgt2SU9adC6ZaXZtJ3NbLWr572kQ0A
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,78 +118,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have introduced ECC-related flags for the dma-heaps buffer
-allocations, let's honour these flags depending on the memory setup.
+On 15/05/2024 11:51, Aradhya Bhatia wrote:
+> Add the Microtips Technology USA's MF-101HIEBCAF0 10.1"[0] panel,
+> MF-103HIEB0GA0 10.25"[1] panel, and Lincoln Technology Solutions'
+> LCD185-101CT 10.1"[2] panel.
+> 
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/dma-buf/heaps/carveout_heap.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/dma-buf/heaps/carveout_heap.c b/drivers/dma-buf/heaps/carveout_heap.c
-index 896ca67e6bd9..81b167785999 100644
---- a/drivers/dma-buf/heaps/carveout_heap.c
-+++ b/drivers/dma-buf/heaps/carveout_heap.c
-@@ -6,10 +6,11 @@
- #include <linux/of_reserved_mem.h>
- 
- struct carveout_heap_priv {
- 	struct dma_heap *heap;
- 	struct gen_pool *pool;
-+	bool ecc_enabled;
- };
- 
- struct carveout_heap_buffer_priv {
- 	struct mutex lock;
- 	struct list_head attachments;
-@@ -182,10 +183,16 @@ static struct dma_buf *carveout_heap_allocate(struct dma_heap *heap,
- 	struct dma_buf *buf;
- 	dma_addr_t daddr;
- 	void *buffer;
- 	int ret;
- 
-+	if (!heap_priv->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_PROTECTED))
-+		return ERR_PTR(-EINVAL);
-+
-+	if (heap_priv->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_UNPROTECTED))
-+		return ERR_PTR(-EINVAL);
-+
- 	buffer_priv = kzalloc(sizeof(*buffer_priv), GFP_KERNEL);
- 	if (!buffer_priv)
- 		return ERR_PTR(-ENOMEM);
- 
- 	INIT_LIST_HEAD(&buffer_priv->attachments);
-@@ -235,20 +242,29 @@ static int __init carveout_heap_setup(struct device_node *node)
- 	const struct reserved_mem *rmem;
- 	struct carveout_heap_priv *priv;
- 	struct dma_heap *heap;
- 	struct gen_pool *pool;
- 	void *base;
-+	u32 val = 0;
- 	int ret;
- 
- 	rmem = of_reserved_mem_lookup(node);
- 	if (!rmem)
- 		return -EINVAL;
- 
- 	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
- 
-+	of_property_read_u32(node, "ecc-correction-bits", &val);
-+	if (val <= 0) {
-+		if (of_memory_get_ecc_correction_bits() > 0)
-+			priv->ecc_enabled = true;
-+	} else {
-+		priv->ecc_enabled = true;
-+	}
-+
- 	pool = gen_pool_create(PAGE_SHIFT, NUMA_NO_NODE);
- 	if (!pool) {
- 		ret = -ENOMEM;
- 		goto err_cleanup_heap;
- 	}
-
--- 
-2.44.0
+Best regards,
+Krzysztof
 
