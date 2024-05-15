@@ -2,113 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394958C6DB2
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 23:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F488C6DBF
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 23:23:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACDC10EBAC;
-	Wed, 15 May 2024 21:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC7210E0C0;
+	Wed, 15 May 2024 21:23:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Q3CvfvVL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sfL9Nc9h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
  [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97C6A10EBAC
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 21:17:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E83AF10E0C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 21:23:00 +0000 (UTC)
 Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-34e7a35d5d4so5912292f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:17:19 -0700 (PDT)
+ ffacd0b85a97d-351d3898640so382666f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 14:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715807838; x=1716412638; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=D0ecu82tuX1ni98ypLLsTpUA0kFlxPhIqL4+3/EGxOA=;
- b=Q3CvfvVLEh+fZk5J/RsAGoeVIX9pv8gOMNZJepq9VbAZ0NYGPUZXA4AsIeRkWH41B1
- qZINhgKIigXzoG16ZScLoO9FupY9+XPXHLTNoMc+A9erKuiqo0/R1KiX+NVq+kvMXvwu
- 8rrjVIGSIiPdkAoQiDWsIYf3NILppDXYIuVUk2t7VAbcuwTukFJlQPubiqdDnt2OV+1H
- 1SlDNVpvPXS1WkoIqZ5FFKLa92X9bqN4ebUhs/1ozg83rd1Eq+Z3ihc9FihdgJ07spxN
- 4p/+5kFlqKlFG2lWJwROSwoR/5PvYCa9SmOND77GvuhfE+l8SGWHmyJjY/p5m9EDZOaX
- Aehg==
+ d=linaro.org; s=google; t=1715808179; x=1716412979; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=02OMX2IuQAjEPGw2rAjJ5BimZOrw1fH/m9JV58iRemM=;
+ b=sfL9Nc9h4lKoGrHUriMu5BpdPr8TUDi2SrPbmtERhrlO8wuVoMdvZZfToKf2VXLcyl
+ ozqlrDtTfP9EMQMTOZM3ej8lW9ac4tUytAoI95bqj2jEjHS76DwOLrkpG/bTNrwUy85a
+ SaqCptHL2n0eoPiS4hSbdCwi4umRVBdb5Vczt7Gem4LLhqY999QwL26EvBn4+bWihai+
+ AH/Kx8LKZJwhfpj3IBxb1vkC/6uZVtvokHVt0hCvdFXD2Uij+FQnnWDkc3fvtyhAkQJ+
+ Ig+pdt7ceMgU3cM4QtCx1mSQN3nMshExIdKkTZ+m8COxrThZRNW9EJVmjgn9vouVaO4e
+ qAQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715807838; x=1716412638;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=D0ecu82tuX1ni98ypLLsTpUA0kFlxPhIqL4+3/EGxOA=;
- b=mmgMl7BydGSQ4i7XO7EIaUJJN6ego4NAffqgILxo5WwnvTvqfuY1bgN5O6oBkAbyh0
- YJy3pbgjoMot1pTjsE9LHswaBlpDTPIJEkButIu1Z4pQE/VRLoZqqIch8NuA9lvZQOc3
- 2/chCr7WuMr8LtS/yS2qzeU/vTcMSy0Nr1BnWVeV4cs5+JswJWdnx7/EbNz2QyAYZlFs
- o4MAXGMHF5GBK2WJA2s7ByWHkSuQE+I0TGN62dCXNMlEWqGKcB+ht9yOJKv2+lzqz76J
- wxK2nfSFQpMvk6zQy1eNv2WU2XIkXMpxCINzw/QyJmRef3l6wU9uKxEL4BSx3IND3g5C
- aG0w==
-X-Gm-Message-State: AOJu0Yxm5Jh7k1EKQpLLGMQtvA0CDpkMyas68NLo3qs+5Rhz4D4fHBDc
- ITSxQUTCvb9VsEyxbvE2t/OgW4SvBR1Te+3Zp3YF04Zyx0ogbPv4HRzSkBnun9M=
-X-Google-Smtp-Source: AGHT+IH8Iu67CkoC7/nlTrdtjmS8OSpJsiAUHCgKh2Xh/6pKxrhVkmBbpcisbLl6bNrjDPNWu/keEw==
-X-Received: by 2002:adf:f791:0:b0:343:8e85:dd7c with SMTP id
- ffacd0b85a97d-3504a9580bamr12811320f8f.55.1715807837876; 
- Wed, 15 May 2024 14:17:17 -0700 (PDT)
-Received: from [10.1.2.176] ([149.14.240.163])
+ d=1e100.net; s=20230601; t=1715808179; x=1716412979;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=02OMX2IuQAjEPGw2rAjJ5BimZOrw1fH/m9JV58iRemM=;
+ b=MPavnHRk1DqdKrW6EhKd7NIIjFKftOXysRgTPaUqroQPLlMlpU6yZGQsaxje054Y/5
+ dHoljOYFXRpHCQHz/i+Mbxhf1s599pLJQPmxdUGEXZefVkVf7CmeeOoYEL4eAgCi4Oc3
+ E9EIx/bzRrAOCD51YDcgAaZisOawe3Z0+TO/zOdq4/gqE6ZrMTbaCjXFTSsPhBhlKLpF
+ aEPR1U/lI0oxwp5aVCwGPdD3KWbBdGTu2mWqglS1EisK+6WcnZl95vpsTvM8GCNT8+yD
+ vgAM3APeb50szbBvcamNSJltx0ZI0o/Y0R6ewlUtEm/ZQZJJR4DrRwzZx//QlFlhZDMm
+ iOcQ==
+X-Gm-Message-State: AOJu0Yx5tTftP/j/6GD52aL6SH+dwilklbJgOgP9M6h2swEwJLug5UdC
+ c9xQFuDjZ+tzjMTP8oyMLqNJhCtxHchMQvtTbQWR260Wd9Qq0WppnIlImtjG8P8=
+X-Google-Smtp-Source: AGHT+IGeQbrRopmwSba59K7PV2A3scK722IGRG+7XPMRIEHVc5y/YoDGZ+vh8GIBi063AAn6tL4LqQ==
+X-Received: by 2002:adf:fb4f:0:b0:34e:e5c6:521d with SMTP id
+ ffacd0b85a97d-3504a73da61mr10904352f8f.38.1715808178716; 
+ Wed, 15 May 2024 14:22:58 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3502bbbca98sm17355196f8f.112.2024.05.15.14.17.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 May 2024 14:17:17 -0700 (PDT)
-Message-ID: <eb65ad1a-04df-42bf-8683-ba8876bb885e@linaro.org>
-Date: Wed, 15 May 2024 23:17:16 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+ ffacd0b85a97d-3502bbbbde1sm17374879f8f.97.2024.05.15.14.22.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 May 2024 14:22:58 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 6/6] drm/panel: simple: Add Microtips Technology
- MF-103HIEB0GA0 panel
-To: Aradhya Bhatia <a-bhatia1@ti.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Liu Ying <victor.liu@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: DRI Development List <dri-devel@lists.freedesktop.org>,
- Devicetree List <devicetree@vger.kernel.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon
- <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Liu Ying <victor.liu@nxp.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Aradhya Bhatia <a-bhatia1@ti.com>
+Cc: DRI Development List <dri-devel@lists.freedesktop.org>, 
+ Devicetree List <devicetree@vger.kernel.org>, 
+ Linux Kernel List <linux-kernel@vger.kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, 
  Devarsh Thakkar <devarsht@ti.com>, Jai Luthra <j-luthra@ti.com>
+In-Reply-To: <20240515095133.745492-1-a-bhatia1@ti.com>
 References: <20240515095133.745492-1-a-bhatia1@ti.com>
- <20240515095133.745492-7-a-bhatia1@ti.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240515095133.745492-7-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v3 0/6] drm/panel: simple: Add Panels and Panel Vendors
+Message-Id: <171580817744.3240821.968286353425260350.b4-ty@linaro.org>
+Date: Wed, 15 May 2024 23:22:57 +0200
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,72 +93,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/05/2024 11:51, Aradhya Bhatia wrote:
-> Add support for Microtips Technology USA MF-103HIEB0GA0 10.25"[0],
-> 1920x720, 8-bit TFT LCD with LVDS interface. Its a Dual-LVDS Panel and
-> does not support touch.
-> 
-> [0]: Panel Datasheet
-> https://simplespec.microtipsusa.com/uploads/spec/datasheetFile/2660/13-103HIEB0GA0-S_V1.0_20211206.pdf
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
->   drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++++
->   1 file changed, 32 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 3a0d8f0ff267..1b0a6b4e034c 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3084,6 +3084,35 @@ static const struct panel_desc microtips_mf_101hiebcaf0_c = {
->   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->   };
->   
-> +static const struct drm_display_mode microtips_mf_103hieb0ga0_mode = {
-> +	.clock = 93301,
-> +	.hdisplay = 1920,
-> +	.hsync_start = 1920 + 72,
-> +	.hsync_end = 1920 + 72 + 72,
-> +	.htotal = 1920 + 72 + 72 + 72,
-> +	.vdisplay = 720,
-> +	.vsync_start = 720 + 3,
-> +	.vsync_end = 720 + 3 + 3,
-> +	.vtotal = 720 + 3 + 3 + 2,
-> +};
-> +
-> +static const struct panel_desc microtips_mf_103hieb0ga0 = {
-> +	.modes = &microtips_mf_103hieb0ga0_mode,
-> +	.bpc = 8,
-> +	.num_modes = 1,
-> +	.size = {
-> +		.width = 244,
-> +		.height = 92,
-> +	},
-> +	.delay = {
-> +		.prepare = 50,
-> +		.disable = 50,
-> +	},
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +};
-> +
->   static const struct drm_display_mode mitsubishi_aa070mc01_mode = {
->   	.clock = 30400,
->   	.hdisplay = 800,
-> @@ -4726,6 +4755,9 @@ static const struct of_device_id platform_of_match[] = {
->   	}, {
->   		.compatible = "microtips,mf-101hiebcaf0",
->   		.data = &microtips_mf_101hiebcaf0_c,
-> +	}, {
-> +		.compatible = "microtips,mf-103hieb0ga0",
-> +		.data = &microtips_mf_103hieb0ga0,
->   	}, {
->   		.compatible = "mitsubishi,aa070mc01-ca1",
->   		.data = &mitsubishi_aa070mc01,
+Hi,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On Wed, 15 May 2024 15:21:27 +0530, Aradhya Bhatia wrote:
+> Picking up this long-standing series which added support for Microtips'
+> and LincolnTech's dual-lvds panels.
+> 
+> Microtips Technology Solutions USA, and Lincoln Technology Solutions are
+> 2 display panel vendors, and the patches 1/6 and 2/6 add their vendor
+> prefixes.
+> 
+> [...]
+
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+
+[1/6] dt-bindings: vendor-prefixes: Add microtips
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/71465a86296ab963bc120b5e32b9a19f69090e6f
+[2/6] dt-bindings: vendor-prefixes: Add lincolntech
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/37dbca37f3b53cb698798462f197db2637f6ab34
+[3/6] dt-bindings: display: simple: Add Microtips & Lincolntech Dual-LVDS Panels
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/43f092d2540f7869ab5dc5a53ae1f76d44fc6293
+[4/6] drm/panel: simple: Add Lincoln Tech Sol LCD185-101CT panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/ac9b8b7fee6578015483c5f130bad78d368c00cd
+[5/6] drm/panel: simple: Add Microtips Technology 13-101HIEBCAF0-C panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/f558d676cfbc388f2c3175c3c1f99c57902ea3c1
+[6/6] drm/panel: simple: Add Microtips Technology MF-103HIEB0GA0 panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/2c3d1bd284c5141a85188f48e7f42112e81ffcd8
+
+-- 
+Neil
+
