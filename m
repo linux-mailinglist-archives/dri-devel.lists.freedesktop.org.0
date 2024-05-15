@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A52A8C65C1
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 13:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAA48C65C7
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 13:34:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5353210E7CB;
-	Wed, 15 May 2024 11:30:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB70E10E4A4;
+	Wed, 15 May 2024 11:34:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JFDceEIK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OcgoRcKT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D5410E7CB
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 11:30:15 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2F1810E4A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 11:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715772616; x=1747308616;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=DuJesN9afXtSnNlsdaNHMY0HkBEo0ETEyppMQJkWeBs=;
- b=JFDceEIK6VA/KyeGBpc/vuuKJiEjcde/6Lh7m5aE65qsFVyd8klgT4sx
- jgk8Xk+94LGxQQ9egVGPDYYaou+DXPlHuQKKcF8Xz5OF9TwCQcVBrs7lu
- k8PRM4pu55NYlz5cbzxwgu2JwsC6Ucco1TBSBEpXIpZ5ZbMdly+dSZzNW
- RTQry865ooWtHTxgU3f+ffAb+Hprdlzr4d+KjRIjMfiDz0CSJahx5mVcG
- ToqOQae8smgxd/nICIQdp2yS1BwMWKAG6GkKnKFgZdBC53tO1PJPuI+hV
- 2/B0/Os03QCqMzkIEyU7BZpjXJecGBSSVVZiLDbKcXaguNyixiyVqs0/Y Q==;
-X-CSE-ConnectionGUID: L71L65ewR4CaGQDc1GkkyQ==
-X-CSE-MsgGUID: 8TdQoTyFTUmYdY0SSPmuxA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="22417659"
-X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; d="scan'208";a="22417659"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2024 04:30:15 -0700
-X-CSE-ConnectionGUID: vP4UBVJMSU2I/SMn/ZlqjQ==
-X-CSE-MsgGUID: XsiHpJu/RrW9gd0V2teBAA==
+ t=1715772847; x=1747308847;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=vjz3YtkE6x9jeBbjI+Y3bdQZjv0Zgo1PCO5LCXUI51o=;
+ b=OcgoRcKTst3gZESXJE9p0LppQ/gcFKdHmyVrQTwUDwytDvPjp5tF1+Zw
+ sozLGi2LTJawRbcaFfuDjjqUr0T8gelcTU7844ij3VV8ydWVIWTxYxTIk
+ j/PR1fYmc3BjVLjxqUU/N0bV0nt2I3pGb3B1ICOqPjcjhjkoAbMlF9k2Y
+ Gm/NfH/YyFbedTgyWfxZxtZ19x4ljkpgfZfwshHWVtgnMwpssMgj7sn0e
+ u4G8i+G7kLKUclrT+knm6SV1/gI+PFst2WYMd7aJT5Tv/SUyluiOAFE38
+ XhVFsaZayL0X6u8t/7LHwSZ4kvGe5KmRUzKdkShfmdSxQZ+AAueUudthX g==;
+X-CSE-ConnectionGUID: 102CDYrCSPCEkSgL8VzraA==
+X-CSE-MsgGUID: Uvg1cpuBRaCtnOV6OjbT0g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="15602477"
+X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; d="scan'208";a="15602477"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2024 04:34:06 -0700
+X-CSE-ConnectionGUID: c1brhzZxRc68waYgCcrztA==
+X-CSE-MsgGUID: Rnyqba5TQEOfKPYIggFvWw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; d="scan'208";a="35570510"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2024 04:30:13 -0700
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Wachowski@freedesktop.org, Karol <karol.wachowski@intel.com>
-Subject: [PATCH 3/3] accel/ivpu: Replace wake_thread with kfifo
-Date: Wed, 15 May 2024 13:30:06 +0200
-Message-ID: <20240515113006.457472-4-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240515113006.457472-1-jacek.lawrynowicz@linux.intel.com>
-References: <20240515113006.457472-1-jacek.lawrynowicz@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="6.08,161,1712646000"; d="scan'208";a="31028469"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.141])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2024 04:34:02 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Maxime Ripard <mripard@kernel.org>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/bridge: Support finding bridge with struct device
+In-Reply-To: <bd175eb3-ca70-4ce7-89ab-ca7f622ed153@linux.dev>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240514154045.309925-1-sui.jingfeng@linux.dev>
+ <20240514154045.309925-2-sui.jingfeng@linux.dev>
+ <87v83fct2e.fsf@intel.com>
+ <cd81893c-ef0b-4906-8c9c-a98b1e4669e6@linux.dev>
+ <87pltncqtg.fsf@intel.com>
+ <bd175eb3-ca70-4ce7-89ab-ca7f622ed153@linux.dev>
+Date: Wed, 15 May 2024 14:33:59 +0300
+Message-ID: <87msorcnrs.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,256 +75,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use kfifo to pass IRQ sources to IRQ thread so it will be possible to
-use IRQ thread by multiple IRQ types.
+On Wed, 15 May 2024, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+> Yes, you are right, I'll back give another try then.
 
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Wachowski, Karol <karol.wachowski@intel.com>
----
- drivers/accel/ivpu/ivpu_drv.c   | 19 +++++++++++++++++--
- drivers/accel/ivpu/ivpu_hw.c    |  9 ++++++---
- drivers/accel/ivpu/ivpu_hw.h    | 13 ++++++++++---
- drivers/accel/ivpu/ivpu_hw_ip.c |  8 ++++----
- drivers/accel/ivpu/ivpu_hw_ip.h |  4 ++--
- drivers/accel/ivpu/ivpu_ipc.c   | 11 +++++------
- drivers/accel/ivpu/ivpu_ipc.h   |  4 ++--
- 7 files changed, 46 insertions(+), 22 deletions(-)
+Thanks, but please do wait until you have feedback on whether the whole
+thing is a good idea or not. :)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 4725e3da1216..f3e0d55f4adb 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -320,7 +320,7 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
- 
- 	timeout = jiffies + msecs_to_jiffies(vdev->timeout.boot);
- 	while (1) {
--		ivpu_ipc_irq_handler(vdev, NULL);
-+		ivpu_ipc_irq_handler(vdev);
- 		ret = ivpu_ipc_receive(vdev, &cons, &ipc_hdr, NULL, 0);
- 		if (ret != -ETIMEDOUT || time_after_eq(jiffies, timeout))
- 			break;
-@@ -449,8 +449,23 @@ static const struct drm_driver driver = {
- static irqreturn_t ivpu_irq_thread_handler(int irq, void *arg)
- {
- 	struct ivpu_device *vdev = arg;
-+	u8 irq_src;
- 
--	return ivpu_ipc_irq_thread_handler(vdev);
-+	if (kfifo_is_empty(&vdev->hw->irq.fifo))
-+		return IRQ_NONE;
-+
-+	while (kfifo_get(&vdev->hw->irq.fifo, &irq_src)) {
-+		switch (irq_src) {
-+		case IVPU_HW_IRQ_SRC_IPC:
-+			ivpu_ipc_irq_thread_handler(vdev);
-+			break;
-+		default:
-+			ivpu_err_ratelimited(vdev, "Unknown IRQ source: %u\n", irq_src);
-+			break;
-+		}
-+	}
-+
-+	return IRQ_HANDLED;
- }
- 
- static int ivpu_irq_init(struct ivpu_device *vdev)
-diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
-index 1850798c3ccf..9f5e3875baf1 100644
---- a/drivers/accel/ivpu/ivpu_hw.c
-+++ b/drivers/accel/ivpu/ivpu_hw.c
-@@ -263,6 +263,8 @@ void ivpu_hw_profiling_freq_drive(struct ivpu_device *vdev, bool enable)
- 
- void ivpu_irq_handlers_init(struct ivpu_device *vdev)
- {
-+	INIT_KFIFO(vdev->hw->irq.fifo);
-+
- 	if (ivpu_hw_ip_gen(vdev) == IVPU_HW_IP_37XX)
- 		vdev->hw->irq.ip_irq_handler = ivpu_hw_ip_irq_handler_37xx;
- 	else
-@@ -276,6 +278,7 @@ void ivpu_irq_handlers_init(struct ivpu_device *vdev)
- 
- void ivpu_hw_irq_enable(struct ivpu_device *vdev)
- {
-+	kfifo_reset(&vdev->hw->irq.fifo);
- 	ivpu_hw_ip_irq_enable(vdev);
- 	ivpu_hw_btrs_irq_enable(vdev);
- }
-@@ -288,21 +291,21 @@ void ivpu_hw_irq_disable(struct ivpu_device *vdev)
- 
- irqreturn_t ivpu_hw_irq_handler(int irq, void *ptr)
- {
--	bool ip_handled, btrs_handled, wake_thread = false;
- 	struct ivpu_device *vdev = ptr;
-+	bool ip_handled, btrs_handled;
- 
- 	ivpu_hw_btrs_global_int_disable(vdev);
- 
- 	btrs_handled = ivpu_hw_btrs_irq_handler(vdev, irq);
- 	if (!ivpu_hw_is_idle((vdev)) || !btrs_handled)
--		ip_handled = ivpu_hw_ip_irq_handler(vdev, irq, &wake_thread);
-+		ip_handled = ivpu_hw_ip_irq_handler(vdev, irq);
- 	else
- 		ip_handled = false;
- 
- 	/* Re-enable global interrupts to re-trigger MSI for pending interrupts */
- 	ivpu_hw_btrs_global_int_enable(vdev);
- 
--	if (wake_thread)
-+	if (!kfifo_is_empty(&vdev->hw->irq.fifo))
- 		return IRQ_WAKE_THREAD;
- 	if (ip_handled || btrs_handled)
- 		return IRQ_HANDLED;
-diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
-index 9d400d987d04..8ddf9f93189d 100644
---- a/drivers/accel/ivpu/ivpu_hw.h
-+++ b/drivers/accel/ivpu/ivpu_hw.h
-@@ -6,10 +6,16 @@
- #ifndef __IVPU_HW_H__
- #define __IVPU_HW_H__
- 
-+#include <linux/kfifo.h>
-+
- #include "ivpu_drv.h"
- #include "ivpu_hw_btrs.h"
- #include "ivpu_hw_ip.h"
- 
-+#define IVPU_HW_IRQ_FIFO_LENGTH 1024
-+
-+#define IVPU_HW_IRQ_SRC_IPC 1
-+
- struct ivpu_addr_range {
- 	resource_size_t start;
- 	resource_size_t end;
-@@ -18,7 +24,8 @@ struct ivpu_addr_range {
- struct ivpu_hw_info {
- 	struct {
- 		bool (*btrs_irq_handler)(struct ivpu_device *vdev, int irq);
--		bool (*ip_irq_handler)(struct ivpu_device *vdev, int irq, bool *wake_thread);
-+		bool (*ip_irq_handler)(struct ivpu_device *vdev, int irq);
-+		DECLARE_KFIFO(fifo, u8, IVPU_HW_IRQ_FIFO_LENGTH);
- 	} irq;
- 	struct {
- 		struct ivpu_addr_range global;
-@@ -61,9 +68,9 @@ static inline u32 ivpu_hw_btrs_irq_handler(struct ivpu_device *vdev, int irq)
- 	return vdev->hw->irq.btrs_irq_handler(vdev, irq);
- }
- 
--static inline u32 ivpu_hw_ip_irq_handler(struct ivpu_device *vdev, int irq, bool *wake_thread)
-+static inline u32 ivpu_hw_ip_irq_handler(struct ivpu_device *vdev, int irq)
- {
--	return vdev->hw->irq.ip_irq_handler(vdev, irq, wake_thread);
-+	return vdev->hw->irq.ip_irq_handler(vdev, irq);
- }
- 
- static inline void ivpu_hw_range_init(struct ivpu_addr_range *range, u64 start, u64 size)
-diff --git a/drivers/accel/ivpu/ivpu_hw_ip.c b/drivers/accel/ivpu/ivpu_hw_ip.c
-index 00f68e2fcb3f..dfd2f4a5b526 100644
---- a/drivers/accel/ivpu/ivpu_hw_ip.c
-+++ b/drivers/accel/ivpu/ivpu_hw_ip.c
-@@ -1066,7 +1066,7 @@ static void irq_noc_firewall_handler(struct ivpu_device *vdev)
- }
- 
- /* Handler for IRQs from NPU core */
--bool ivpu_hw_ip_irq_handler_37xx(struct ivpu_device *vdev, int irq, bool *wake_thread)
-+bool ivpu_hw_ip_irq_handler_37xx(struct ivpu_device *vdev, int irq)
- {
- 	u32 status = REGV_RD32(VPU_37XX_HOST_SS_ICB_STATUS_0) & ICB_0_IRQ_MASK_37XX;
- 
-@@ -1079,7 +1079,7 @@ bool ivpu_hw_ip_irq_handler_37xx(struct ivpu_device *vdev, int irq, bool *wake_t
- 		ivpu_mmu_irq_evtq_handler(vdev);
- 
- 	if (REG_TEST_FLD(VPU_37XX_HOST_SS_ICB_STATUS_0, HOST_IPC_FIFO_INT, status))
--		ivpu_ipc_irq_handler(vdev, wake_thread);
-+		ivpu_ipc_irq_handler(vdev);
- 
- 	if (REG_TEST_FLD(VPU_37XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT, status))
- 		ivpu_dbg(vdev, IRQ, "MMU sync complete\n");
-@@ -1100,7 +1100,7 @@ bool ivpu_hw_ip_irq_handler_37xx(struct ivpu_device *vdev, int irq, bool *wake_t
- }
- 
- /* Handler for IRQs from NPU core */
--bool ivpu_hw_ip_irq_handler_40xx(struct ivpu_device *vdev, int irq, bool *wake_thread)
-+bool ivpu_hw_ip_irq_handler_40xx(struct ivpu_device *vdev, int irq)
- {
- 	u32 status = REGV_RD32(VPU_40XX_HOST_SS_ICB_STATUS_0) & ICB_0_IRQ_MASK_40XX;
- 
-@@ -1113,7 +1113,7 @@ bool ivpu_hw_ip_irq_handler_40xx(struct ivpu_device *vdev, int irq, bool *wake_t
- 		ivpu_mmu_irq_evtq_handler(vdev);
- 
- 	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, HOST_IPC_FIFO_INT, status))
--		ivpu_ipc_irq_handler(vdev, wake_thread);
-+		ivpu_ipc_irq_handler(vdev);
- 
- 	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT, status))
- 		ivpu_dbg(vdev, IRQ, "MMU sync complete\n");
-diff --git a/drivers/accel/ivpu/ivpu_hw_ip.h b/drivers/accel/ivpu/ivpu_hw_ip.h
-index 5e44b3de87aa..5b1b391aa577 100644
---- a/drivers/accel/ivpu/ivpu_hw_ip.h
-+++ b/drivers/accel/ivpu/ivpu_hw_ip.h
-@@ -22,8 +22,8 @@ void ivpu_hw_ip_wdt_disable(struct ivpu_device *vdev);
- void ivpu_hw_ip_diagnose_failure(struct ivpu_device *vdev);
- u32 ivpu_hw_ip_ipc_rx_count_get(struct ivpu_device *vdev);
- void ivpu_hw_ip_irq_clear(struct ivpu_device *vdev);
--bool ivpu_hw_ip_irq_handler_37xx(struct ivpu_device *vdev, int irq, bool *wake_thread);
--bool ivpu_hw_ip_irq_handler_40xx(struct ivpu_device *vdev, int irq, bool *wake_thread);
-+bool ivpu_hw_ip_irq_handler_37xx(struct ivpu_device *vdev, int irq);
-+bool ivpu_hw_ip_irq_handler_40xx(struct ivpu_device *vdev, int irq);
- void ivpu_hw_ip_db_set(struct ivpu_device *vdev, u32 db_id);
- u32 ivpu_hw_ip_ipc_rx_addr_get(struct ivpu_device *vdev);
- void ivpu_hw_ip_ipc_tx_set(struct ivpu_device *vdev, u32 vpu_addr);
-diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-index 82fe617e8146..74ab964d229b 100644
---- a/drivers/accel/ivpu/ivpu_ipc.c
-+++ b/drivers/accel/ivpu/ivpu_ipc.c
-@@ -378,7 +378,7 @@ ivpu_ipc_match_consumer(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons
- 	return false;
- }
- 
--void ivpu_ipc_irq_handler(struct ivpu_device *vdev, bool *wake_thread)
-+void ivpu_ipc_irq_handler(struct ivpu_device *vdev)
- {
- 	struct ivpu_ipc_info *ipc = vdev->ipc;
- 	struct ivpu_ipc_consumer *cons;
-@@ -442,11 +442,12 @@ void ivpu_ipc_irq_handler(struct ivpu_device *vdev, bool *wake_thread)
- 		}
- 	}
- 
--	if (wake_thread)
--		*wake_thread = !list_empty(&ipc->cb_msg_list);
-+	if (!list_empty(&ipc->cb_msg_list))
-+		if (!kfifo_put(&vdev->hw->irq.fifo, IVPU_HW_IRQ_SRC_IPC))
-+			ivpu_err_ratelimited(vdev, "IRQ FIFO full\n");
- }
- 
--irqreturn_t ivpu_ipc_irq_thread_handler(struct ivpu_device *vdev)
-+void ivpu_ipc_irq_thread_handler(struct ivpu_device *vdev)
- {
- 	struct ivpu_ipc_info *ipc = vdev->ipc;
- 	struct ivpu_ipc_rx_msg *rx_msg, *r;
-@@ -462,8 +463,6 @@ irqreturn_t ivpu_ipc_irq_thread_handler(struct ivpu_device *vdev)
- 		rx_msg->callback(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
- 		ivpu_ipc_rx_msg_del(vdev, rx_msg);
- 	}
--
--	return IRQ_HANDLED;
- }
- 
- int ivpu_ipc_init(struct ivpu_device *vdev)
-diff --git a/drivers/accel/ivpu/ivpu_ipc.h b/drivers/accel/ivpu/ivpu_ipc.h
-index 40ca3cc4e61f..75f532428d68 100644
---- a/drivers/accel/ivpu/ivpu_ipc.h
-+++ b/drivers/accel/ivpu/ivpu_ipc.h
-@@ -89,8 +89,8 @@ void ivpu_ipc_enable(struct ivpu_device *vdev);
- void ivpu_ipc_disable(struct ivpu_device *vdev);
- void ivpu_ipc_reset(struct ivpu_device *vdev);
- 
--void ivpu_ipc_irq_handler(struct ivpu_device *vdev, bool *wake_thread);
--irqreturn_t ivpu_ipc_irq_thread_handler(struct ivpu_device *vdev);
-+void ivpu_ipc_irq_handler(struct ivpu_device *vdev);
-+void ivpu_ipc_irq_thread_handler(struct ivpu_device *vdev);
- 
- void ivpu_ipc_consumer_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
- 			   u32 channel, ivpu_ipc_rx_callback_t callback);
+BR,
+Jani.
+
+
 -- 
-2.43.2
-
+Jani Nikula, Intel
