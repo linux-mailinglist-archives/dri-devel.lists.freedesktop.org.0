@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F028C65A9
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 13:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E523C8C65AD
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2024 13:25:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E849610E791;
-	Wed, 15 May 2024 11:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 965EB10E7C4;
+	Wed, 15 May 2024 11:25:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="mME2bu14";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="XTraS+Ia";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C972610E791
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 11:25:17 +0000 (UTC)
-X-UUID: c9f02a1012ad11efb92737409a0e9459-20240515
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE09710E7AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 11:25:29 +0000 (UTC)
+X-UUID: d119445c12ad11efb92737409a0e9459-20240515
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=FILbHLsoC2YltkJoNtU7nsRSNNn5gGVusUvbdUJZ6J8=; 
- b=mME2bu14J5R2+r6buYy5qu+Ye+27nZIUjaZb6Of9gdsjjkqVoex1HMnk5I2JkgxWiBHznCOEZKTz0o07V2RvkcVxw/aSB+b2elPMqwESo3D/21mFaUqxNtF85bFofJPzIUZDtt7qFMOacFUAHNjLvHINAumZkEUqruXuNAHsWGA=;
+ bh=pRII+MwEMjc7IBIb7T65bLDNnOYGy8L1r5/7E1ySfEk=; 
+ b=XTraS+Ia6U18kmDn890Uqw9sPEXJ3+G4x6Z4OJ9YFg2lLlvgPEoe4++0PR+c03dyKyqhMYz+VY56NyruHhFskQFY42k1jFiHTACtCglSm/Ws38y9HGTZcz3mLa3px67WfHumiqlHs6HYMJq8Z8NBDsplHWxfc/o9ZcI+EkdHJSk=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38, REQID:03726ce3-3030-43c4-a7f1-46851604b8bb, IP:0,
+X-CID-O-INFO: VERSION:1.1.38, REQID:ffd7906c-23c2-49b4-90b3-c4a06efc92bb, IP:0,
  U
  RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
  N:release,TS:-25
-X-CID-META: VersionHash:82c5f88, CLOUDID:6440ca92-e2c0-40b0-a8fe-7c7e47299109,
+X-CID-META: VersionHash:82c5f88, CLOUDID:bb2ce383-4f93-4875-95e7-8c66ea833d57,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
@@ -34,18 +34,18 @@ X-CID-META: VersionHash:82c5f88, CLOUDID:6440ca92-e2c0-40b0-a8fe-7c7e47299109,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: c9f02a1012ad11efb92737409a0e9459-20240515
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+X-UUID: d119445c12ad11efb92737409a0e9459-20240515
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
  mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 330037144; Wed, 15 May 2024 19:25:09 +0800
+ with ESMTP id 75818985; Wed, 15 May 2024 19:25:21 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 15 May 2024 19:25:05 +0800
+ 15.2.1118.26; Wed, 15 May 2024 19:25:20 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 15 May 2024 19:25:04 +0800
+ 15.2.1118.26 via Frontend Transport; Wed, 15 May 2024 19:25:19 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, <christian.koenig@amd.com>, Sumit Semwal
@@ -60,37 +60,21 @@ CC: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
  <linaro-mm-sig@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-mediatek@lists.infradead.org>, Robin Murphy <robin.murphy@arm.com>,
  Vijayanand Jitta <quic_vjitta@quicinc.com>, Joakim Bech
- <joakim.bech@linaro.org>, Jeffrey Kardatzke <jkardatzke@google.com>, "Pavel
- Machek" <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>, Pekka Paalanen
+ <joakim.bech@linaro.org>, Jeffrey Kardatzke <jkardatzke@google.com>, Pavel
+ Machek <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>, Pekka Paalanen
  <ppaalanen@gmail.com>, <willy@infradead.org>, Logan Gunthorpe
  <logang@deltatee.com>, Daniel Vetter <daniel@ffwll.ch>,
  <jianjiao.zeng@mediatek.com>, <kuohong.wang@mediatek.com>,
  <youlin.pei@mediatek.com>
-Subject: [PATCH v5 8/9] dma-buf: heaps: restricted_heap_mtk: Add TEE memory
- service call
-Date: Wed, 15 May 2024 19:23:07 +0800
-Message-ID: <20240515112308.10171-9-yong.wu@mediatek.com>
+Subject: [PATCH v5 9/9] dma_buf: heaps: restricted_heap_mtk: Add a new CMA heap
+Date: Wed, 15 May 2024 19:23:08 +0800
+Message-ID: <20240515112308.10171-10-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240515112308.10171-1-yong.wu@mediatek.com>
 References: <20240515112308.10171-1-yong.wu@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--1.973000-8.000000
-X-TMASE-MatchedRID: aB9y29Ha6vOtGUuyWCB/Khes/RxhysDbRtu4vtjjtzTW6l1sryBPgVYW
- Bwk9rOXyW8YvtW5WE4RdHuYgvxmEiiDvmSibVtANw69AIwXJn0ZAq6/y5AEOOmHZ+cd7VyKXqjK
- 1cw/inhOxyoRMFTZcHRXXfLCAeq/9QOfw0USEkBwwiJTf3kjwfdklRclwFkioHApIKLQpe4RXkH
- 7BatgOcTDXuOmpeyC0mpa5UQq0cVBveCKWtaLcaOTuT3JcmKqqhV0srjoqtx/4JyR+b5tvoPbg0
- hgNqDashVmF9kz2wxKQgguZUjlwgXW3L6pBOFB7ydRP56yRRA99LQinZ4QefPcjNeVeWlqY+gtH
- j7OwNO0Q+z869mqTM19bqZ4J9Rsn1EiKSmPYLndW5gDTm3Jrk9gxta8Rn3kRTvtyv08Sakpdanq
- 9VHjABnuHvqOnadGqqsHBx4Fj5VJFm3rJAv4l6ZG9hlNtb+P+aaeeX2Q5bK9+HGPweyal2mGdUe
- zV59DHQZpgl3CshRSeqD9WtJkSIw==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--1.973000-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: FE66631E03E60F2F85D55C5A270D96CEB3978309E7065A2F6139BD7352F4028B2000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -107,260 +91,244 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add TEE service call for MediaTek heap. We have a limited number of
-hardware entries to protect memory, therefore we cannot protect memory
-arbitrarily, and our secure memory management is actually inside OPTEE.
+Create a new MediaTek CMA heap from the CMA reserved buffer.
 
-Totally there are 3 commands:
-1) MTK_TZCMD_SECMEM_ZALLOC: The kernel tells the TEE what size I want and
-the TEE will return a "secure handle"/"secure address". To make the name
-more general, We call it "restricted_addr" here. The restricted_addr is a
-reference to the secure buffer within TEE.
-2) MTK_TZCMD_SECMEM_FREE: Free the buffer. Match with the ALLOC command
-above.
-3) MTK_TZCMD_SECMEM_RETRIEVE_SG: If the tee buffer is discrete, this
-command can retrieve the detailed PA list from the TEE with which the
-kernel will initialize the sg table. Of course, if the tee buffer is
-contiguous, the PA will be obtained directly from MTK_TZCMD_SECMEM_ZALLOC.
+In this heap, When the first allocating buffer, use cma_alloc to prepare
+whole the CMA range, then send its range to TEE to protect and manage.
+For the later allocating, we just adds the cma_used_size.
+
+When SVP done, cma_release will release the buffer, then kernel may
+reuse it.
+
+For the "CMA" restricted heap, "struct cma *cma" is a common property,
+not just for MediaTek, so put it into "struct restricted_heap" instead of
+our private data.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- drivers/dma-buf/heaps/restricted_heap.h     |   3 +
- drivers/dma-buf/heaps/restricted_heap_mtk.c | 193 ++++++++++++++++++++
- 2 files changed, 196 insertions(+)
+ drivers/dma-buf/heaps/Kconfig               |   2 +-
+ drivers/dma-buf/heaps/restricted_heap.h     |   4 +
+ drivers/dma-buf/heaps/restricted_heap_mtk.c | 121 +++++++++++++++++++-
+ 3 files changed, 123 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+index 84f748fb2856..58903bc62ac8 100644
+--- a/drivers/dma-buf/heaps/Kconfig
++++ b/drivers/dma-buf/heaps/Kconfig
+@@ -24,7 +24,7 @@ config DMABUF_HEAPS_RESTRICTED
+ 
+ config DMABUF_HEAPS_RESTRICTED_MTK
+ 	bool "MediaTek DMA-BUF Restricted Heap"
+-	depends on DMABUF_HEAPS_RESTRICTED && TEE=y
++	depends on DMABUF_HEAPS_RESTRICTED && DMA_CMA && TEE=y
+ 	help
+ 	  Enable restricted dma-buf heaps for MediaTek platform. This heap is backed by
+ 	  TEE client interfaces. If in doubt, say N.
 diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/heaps/restricted_heap.h
-index 2a33a1c7a48b..8cb9211093c5 100644
+index 8cb9211093c5..7dec4b8a471b 100644
 --- a/drivers/dma-buf/heaps/restricted_heap.h
 +++ b/drivers/dma-buf/heaps/restricted_heap.h
-@@ -13,6 +13,9 @@ struct restricted_buffer {
- 	size_t			size;
+@@ -23,6 +23,10 @@ struct restricted_heap {
  
- 	struct sg_table		sg_table;
+ 	const struct restricted_heap_ops *ops;
+ 
++	struct cma		*cma;
++	unsigned long		cma_paddr;
++	unsigned long		cma_size;
 +
-+	/* A reference to a buffer in the trusted or secure world. */
-+	u64			restricted_addr;
+ 	void			*priv_data;
  };
  
- struct restricted_heap {
 diff --git a/drivers/dma-buf/heaps/restricted_heap_mtk.c b/drivers/dma-buf/heaps/restricted_heap_mtk.c
-index 52e805eb9858..e571eae719e0 100644
+index e571eae719e0..6d8119828485 100644
 --- a/drivers/dma-buf/heaps/restricted_heap_mtk.c
 +++ b/drivers/dma-buf/heaps/restricted_heap_mtk.c
-@@ -27,6 +27,46 @@ enum mtk_secure_mem_type {
+@@ -6,9 +6,11 @@
+  */
+ #define pr_fmt(fmt)     "rheap_mtk: " fmt
+ 
++#include <linux/cma.h>
+ #include <linux/dma-buf.h>
+ #include <linux/err.h>
+ #include <linux/module.h>
++#include <linux/of_reserved_mem.h>
+ #include <linux/slab.h>
+ #include <linux/tee_drv.h>
+ #include <linux/uuid.h>
+@@ -25,6 +27,13 @@ enum mtk_secure_mem_type {
+ 	 * management is inside the TEE.
+ 	 */
  	MTK_SECURE_MEMORY_TYPE_CM_TZ	= 1,
++	/*
++	 * MediaTek dynamic chunk memory carved out from CMA.
++	 * In normal case, the CMA could be used in kernel; When SVP start, we will
++	 * allocate whole this CMA and pass whole the CMA PA and size into TEE to
++	 * protect it, then the detail memory management also is inside the TEE.
++	 */
++	MTK_SECURE_MEMORY_TYPE_CM_CMA	= 2,
  };
  
-+/* This structure also is synchronized with tee, thus not use the phys_addr_t */
-+struct mtk_tee_scatterlist {
-+	u64		pa;
-+	u32		length;
-+} __packed;
-+
-+enum mtk_secure_buffer_tee_cmd {
-+	/*
-+	 * Allocate the zeroed secure memory from TEE.
-+	 *
-+	 * [in]  value[0].a: The buffer size.
-+	 *       value[0].b: alignment.
-+	 * [in]  value[1].a: enum mtk_secure_mem_type.
-+	 * [inout]
-+	 *         [out] value[2].a: entry number of memory block.
-+	 *                           If this is 1, it means the memory is continuous.
-+	 *               value[2].b: buffer PA base.
-+	 * [out] value[3].a: The secure handle.
-+	 */
-+	MTK_TZCMD_SECMEM_ZALLOC		= 0x10000, /* MTK TEE Command ID Base */
-+
-+	/*
-+	 * Free secure memory.
-+	 *
-+	 * [in]  value[0].a: The secure handle of this buffer, It's value[3].a of
-+	 *                   MTK_TZCMD_SECMEM_ZALLOC.
-+	 * [out] value[1].a: return value, 0 means successful, otherwise fail.
-+	 */
-+	MTK_TZCMD_SECMEM_FREE		= 0x10001,
-+
-+	/*
-+	 * Get secure memory sg-list.
-+	 *
-+	 * [in]  value[0].a: The secure handle of this buffer, It's value[3].a of
-+	 *                   MTK_TZCMD_SECMEM_ZALLOC.
-+	 * [out] value[1].a: The array of sg items (struct mtk_tee_scatterlist).
-+	 */
-+	MTK_TZCMD_SECMEM_RETRIEVE_SG	= 0x10002,
-+};
-+
- struct mtk_restricted_heap_data {
- 	struct tee_context	*tee_ctx;
- 	u32			tee_session;
-@@ -76,6 +116,155 @@ static int mtk_tee_session_init(struct mtk_restricted_heap_data *data)
- 	return ret;
+ /* This structure also is synchronized with tee, thus not use the phys_addr_t */
+@@ -40,7 +49,8 @@ enum mtk_secure_buffer_tee_cmd {
+ 	 * [in]  value[0].a: The buffer size.
+ 	 *       value[0].b: alignment.
+ 	 * [in]  value[1].a: enum mtk_secure_mem_type.
+-	 * [inout]
++	 * [inout] [in]  value[2].a: pa base in cma case.
++	 *               value[2].b: The buffer size in cma case.
+ 	 *         [out] value[2].a: entry number of memory block.
+ 	 *                           If this is 1, it means the memory is continuous.
+ 	 *               value[2].b: buffer PA base.
+@@ -73,6 +83,9 @@ struct mtk_restricted_heap_data {
+ 
+ 	const enum mtk_secure_mem_type mem_type;
+ 
++	struct page		*cma_page;
++	unsigned long		cma_used_size;
++	struct mutex		lock; /* lock for cma_used_size */
+ };
+ 
+ static int mtk_tee_ctx_match(struct tee_ioctl_version_data *ver, const void *data)
+@@ -173,6 +186,10 @@ static int mtk_tee_restrict_memory(struct restricted_heap *rheap, struct restric
+ 	params[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
+ 	params[1].u.value.a = data->mem_type;
+ 	params[2].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT;
++	if (rheap->cma && data->mem_type == MTK_SECURE_MEMORY_TYPE_CM_CMA) {
++		params[2].u.value.a = rheap->cma_paddr;
++		params[2].u.value.b = rheap->cma_size;
++	}
+ 	params[3].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
+ 	ret = mtk_tee_service_call(data->tee_ctx, data->tee_session,
+ 				   MTK_TZCMD_SECMEM_ZALLOC, params);
+@@ -265,6 +282,48 @@ mtk_restricted_memory_free(struct restricted_heap *rheap, struct restricted_buff
+ {
  }
  
-+static int mtk_tee_service_call(struct tee_context *tee_ctx, u32 session,
-+				unsigned int command, struct tee_param *params)
-+{
-+	struct tee_ioctl_invoke_arg arg = {0};
-+	int ret;
-+
-+	arg.num_params = TEE_PARAM_NUM;
-+	arg.session = session;
-+	arg.func = command;
-+
-+	ret = tee_client_invoke_func(tee_ctx, &arg, params);
-+	if (ret < 0 || arg.ret) {
-+		pr_err("%s: cmd 0x%x ret %d:%x.\n", __func__, command, ret, arg.ret);
-+		ret = -EOPNOTSUPP;
-+	}
-+	return ret;
-+}
-+
-+static int mtk_tee_secmem_free(struct restricted_heap *rheap, u64 restricted_addr)
++static int mtk_restricted_memory_cma_allocate(struct restricted_heap *rheap,
++					      struct restricted_buffer *buf)
 +{
 +	struct mtk_restricted_heap_data *data = rheap->priv_data;
-+	struct tee_param params[TEE_PARAM_NUM] = {0};
-+
-+	params[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
-+	params[0].u.value.a = restricted_addr;
-+	params[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
-+
-+	mtk_tee_service_call(data->tee_ctx, data->tee_session,
-+			     MTK_TZCMD_SECMEM_FREE, params);
-+	if (params[1].u.value.a) {
-+		pr_err("%s, SECMEM_FREE buffer(0x%llx) fail(%lld) from TEE.\n",
-+		       rheap->name, restricted_addr, params[1].u.value.a);
-+		return -EINVAL;
-+	}
-+	return 0;
-+}
-+
-+static int mtk_tee_restrict_memory(struct restricted_heap *rheap, struct restricted_buffer *buf)
-+{
-+	struct mtk_restricted_heap_data *data = rheap->priv_data;
-+	struct tee_param params[TEE_PARAM_NUM] = {0};
-+	struct mtk_tee_scatterlist *tee_sg_item;
-+	struct mtk_tee_scatterlist *tee_sg_buf;
-+	unsigned int sg_num, size, i;
-+	struct tee_shm *sg_shm;
-+	struct scatterlist *sg;
-+	phys_addr_t pa_tee;
-+	u64 r_addr;
-+	int ret;
-+
-+	/* Alloc the secure buffer and get the sg-list number from TEE */
-+	params[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
-+	params[0].u.value.a = buf->size;
-+	params[0].u.value.b = PAGE_SIZE;
-+	params[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
-+	params[1].u.value.a = data->mem_type;
-+	params[2].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT;
-+	params[3].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
-+	ret = mtk_tee_service_call(data->tee_ctx, data->tee_session,
-+				   MTK_TZCMD_SECMEM_ZALLOC, params);
-+	if (ret)
-+		return -ENOMEM;
-+
-+	sg_num = params[2].u.value.a;
-+	r_addr = params[3].u.value.a;
-+
-+	/* If there is only one entry, It means the buffer is continuous, Get the PA directly. */
-+	if (sg_num == 1) {
-+		pa_tee = params[2].u.value.b;
-+		if (!pa_tee)
-+			goto tee_secmem_free;
-+		if (sg_alloc_table(&buf->sg_table, 1, GFP_KERNEL))
-+			goto tee_secmem_free;
-+		sg_set_page(buf->sg_table.sgl, phys_to_page(pa_tee), buf->size, 0);
-+		buf->restricted_addr = r_addr;
-+		return 0;
-+	}
-+
++	int ret = 0;
 +	/*
-+	 * If the buffer inside TEE are discontinuous, Use sharemem to retrieve
-+	 * the detail sg list from TEE.
++	 * Allocate CMA only when allocating buffer for the first time, and just
++	 * increase cma_used_size at the other time, Actually the memory
++	 * allocating is within the TEE.
 +	 */
-+	tee_sg_buf = kmalloc_array(sg_num, sizeof(*tee_sg_item), GFP_KERNEL);
-+	if (!tee_sg_buf) {
-+		ret = -ENOMEM;
-+		goto tee_secmem_free;
++	mutex_lock(&data->lock);
++	if (!data->cma_used_size) {
++		data->cma_page = cma_alloc(rheap->cma, rheap->cma_size >> PAGE_SHIFT,
++					   get_order(PAGE_SIZE), false);
++		if (!data->cma_page) {
++			ret = -ENOMEM;
++			goto out_unlock;
++		}
++	} else if (data->cma_used_size + buf->size > rheap->cma_size) {
++		ret = -EINVAL;
++		goto out_unlock;
 +	}
++	data->cma_used_size += buf->size;
 +
-+	size = sg_num * sizeof(*tee_sg_item);
-+	sg_shm = tee_shm_register_kernel_buf(data->tee_ctx, tee_sg_buf, size);
-+	if (!sg_shm)
-+		goto free_tee_sg_buf;
-+
-+	memset(params, 0, sizeof(params));
-+	params[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
-+	params[0].u.value.a = r_addr;
-+	params[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT;
-+	params[1].u.memref.shm = sg_shm;
-+	params[1].u.memref.size = size;
-+	ret = mtk_tee_service_call(data->tee_ctx, data->tee_session,
-+				   MTK_TZCMD_SECMEM_RETRIEVE_SG, params);
-+	if (ret)
-+		goto put_shm;
-+
-+	if (sg_alloc_table(&buf->sg_table, sg_num, GFP_KERNEL))
-+		goto put_shm;
-+
-+	for_each_sgtable_sg(&buf->sg_table, sg, i) {
-+		tee_sg_item = tee_sg_buf + i;
-+		if (!tee_sg_item->pa)
-+			goto free_buf_sg;
-+		sg_set_page(sg, phys_to_page(tee_sg_item->pa),
-+			    tee_sg_item->length, 0);
-+	}
-+
-+	tee_shm_put(sg_shm);
-+	kfree(tee_sg_buf);
-+	buf->restricted_addr = r_addr;
-+	return 0;
-+
-+free_buf_sg:
-+	sg_free_table(&buf->sg_table);
-+put_shm:
-+	tee_shm_put(sg_shm);
-+free_tee_sg_buf:
-+	kfree(tee_sg_buf);
-+tee_secmem_free:
-+	mtk_tee_secmem_free(rheap, r_addr);
++out_unlock:
++	mutex_unlock(&data->lock);
 +	return ret;
 +}
 +
-+static void mtk_tee_unrestrict_memory(struct restricted_heap *rheap, struct restricted_buffer *buf)
++static void mtk_restricted_memory_cma_free(struct restricted_heap *rheap,
++					   struct restricted_buffer *buf)
 +{
-+	sg_free_table(&buf->sg_table);
-+	mtk_tee_secmem_free(rheap, buf->restricted_addr);
-+}
++	struct mtk_restricted_heap_data *data = rheap->priv_data;
 +
-+static int
-+mtk_restricted_memory_allocate(struct restricted_heap *rheap, struct restricted_buffer *buf)
-+{
-+	/* The memory allocating is within the TEE. */
-+	return 0;
-+}
-+
-+static void
-+mtk_restricted_memory_free(struct restricted_heap *rheap, struct restricted_buffer *buf)
-+{
++	mutex_lock(&data->lock);
++	data->cma_used_size -= buf->size;
++	if (!data->cma_used_size)
++		cma_release(rheap->cma, data->cma_page,
++			    rheap->cma_size >> PAGE_SHIFT);
++	mutex_unlock(&data->lock);
 +}
 +
  static int mtk_restricted_heap_init(struct restricted_heap *rheap)
  {
  	struct mtk_restricted_heap_data *data = rheap->priv_data;
-@@ -87,6 +276,10 @@ static int mtk_restricted_heap_init(struct restricted_heap *rheap)
- 
- static const struct restricted_heap_ops mtk_restricted_heap_ops = {
- 	.heap_init		= mtk_restricted_heap_init,
-+	.alloc			= mtk_restricted_memory_allocate,
-+	.free			= mtk_restricted_memory_free,
-+	.restrict_buf		= mtk_tee_restrict_memory,
-+	.unrestrict_buf		= mtk_tee_unrestrict_memory,
+@@ -286,21 +345,77 @@ static struct mtk_restricted_heap_data mtk_restricted_heap_data = {
+ 	.mem_type		= MTK_SECURE_MEMORY_TYPE_CM_TZ,
  };
  
- static struct mtk_restricted_heap_data mtk_restricted_heap_data = {
++static const struct restricted_heap_ops mtk_restricted_heap_ops_cma = {
++	.heap_init		= mtk_restricted_heap_init,
++	.alloc			= mtk_restricted_memory_cma_allocate,
++	.free			= mtk_restricted_memory_cma_free,
++	.restrict_buf		= mtk_tee_restrict_memory,
++	.unrestrict_buf		= mtk_tee_unrestrict_memory,
++};
++
++static struct mtk_restricted_heap_data mtk_restricted_heap_data_cma = {
++	.mem_type		= MTK_SECURE_MEMORY_TYPE_CM_CMA,
++};
++
+ static struct restricted_heap mtk_restricted_heaps[] = {
+ 	{
+ 		.name		= "restricted_mtk_cm",
+ 		.ops		= &mtk_restricted_heap_ops,
+ 		.priv_data	= &mtk_restricted_heap_data,
+ 	},
++	{
++		.name		= "restricted_mtk_cma",
++		.ops		= &mtk_restricted_heap_ops_cma,
++		.priv_data	= &mtk_restricted_heap_data_cma,
++	},
+ };
+ 
++static int __init mtk_restricted_cma_init(struct reserved_mem *rmem)
++{
++	struct restricted_heap *rheap = mtk_restricted_heaps, *rheap_cma = NULL;
++	struct mtk_restricted_heap_data *data;
++	struct cma *cma;
++	int ret, i;
++
++	for (i = 0; i < ARRAY_SIZE(mtk_restricted_heaps); i++, rheap++) {
++		data = rheap->priv_data;
++		if (data->mem_type == MTK_SECURE_MEMORY_TYPE_CM_CMA) {
++			rheap_cma = rheap;
++			break;
++		}
++	}
++	if (!rheap_cma)
++		return -EINVAL;
++
++	ret = cma_init_reserved_mem(rmem->base, rmem->size, 0, rmem->name,
++				    &cma);
++	if (ret) {
++		pr_err("%s: %s set up CMA fail. ret %d.\n", __func__, rmem->name, ret);
++		return ret;
++	}
++
++	rheap_cma->cma = cma;
++	rheap_cma->cma_paddr = rmem->base;
++	rheap_cma->cma_size = rmem->size;
++	return 0;
++}
++
++RESERVEDMEM_OF_DECLARE(restricted_cma, "mediatek,dynamic-restricted-region",
++		       mtk_restricted_cma_init);
++
+ static int mtk_restricted_heap_initialize(void)
+ {
+ 	struct restricted_heap *rheap = mtk_restricted_heaps;
++	struct mtk_restricted_heap_data *data;
+ 	unsigned int i;
+ 
+-	for (i = 0; i < ARRAY_SIZE(mtk_restricted_heaps); i++, rheap++)
+-		restricted_heap_add(rheap);
++	for (i = 0; i < ARRAY_SIZE(mtk_restricted_heaps); i++, rheap++) {
++		data = rheap->priv_data;
++		if (data->mem_type == MTK_SECURE_MEMORY_TYPE_CM_CMA && !rheap->cma)
++			continue;
++		if (!restricted_heap_add(rheap))
++			mutex_init(&data->lock);
++	}
+ 	return 0;
+ }
+ module_init(mtk_restricted_heap_initialize);
 -- 
 2.25.1
 
