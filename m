@@ -2,75 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D96C8C785F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 16:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278588C789B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 16:48:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E005610ED3A;
-	Thu, 16 May 2024 14:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 001B510E166;
+	Thu, 16 May 2024 14:48:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="U00D9AVr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F7bL7J0p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com
- [209.85.219.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C36D210ED3A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 14:22:07 +0000 (UTC)
-Received: by mail-yb1-f202.google.com with SMTP id
- 3f1490d57ef6-dc6b26783b4so10654466276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 07:22:07 -0700 (PDT)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C617C10E15D;
+ Thu, 16 May 2024 14:48:24 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-2b3c711dfd3so241873a91.2; 
+ Thu, 16 May 2024 07:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1715869326; x=1716474126;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=4m68YkA2S92Eguxrloa+GQL1JjaiZ2vojYrAtugN7XQ=;
- b=U00D9AVruCO5OwFm28JQeRRQKTBjFW1XkfXqmNPNZHfwUM30bdasPcr0OeJ+Q29Ywl
- ay22K3k5/Tg8MMEEZuWtpFmAguhBleN+lEvLkwqFicLhFC0F26ywcy6h6oGlmIbCwezB
- Eh5g8Zn3HMO98ErDz+JYwVJ3CtIgK9O7oEo+VoTU3GTGXgOkVSAchKy4Mj3wcmjO9caP
- PUdHuGeKPXqHD5SGjYH+3kN8ALER8VCME20u2ygYIBysG/Z4uUDooWJCby44b6cZuN75
- S/pqisbCJSUN9l9nJ8wiCFadQ7eeC4/rXeZvXU6+TyQi7mE49ueThN0h0JXjerPOTIbi
- YU4w==
+ d=gmail.com; s=20230601; t=1715870904; x=1716475704; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BhAIBDZu/rZJp0WFWbpKewussVqiv729DUhCPvOQ+Vg=;
+ b=F7bL7J0p0Za0Jf5ONVtJ0BlVfX5NWGgVEsPSkZA3kqJo+BG2JbxCadUYUZ+g9PRDdn
+ FwujRvevCLq+k957tqTes63kOgFE8XgnO3p35xUdCeoN6O4A2tTMqPl0Z34QmAgR68sz
+ Dwe9WKmhY+cIsBTEqrDM7kIcWYIo0NCqZic1Jw3hZ8wgYS5yFHiHZfRPKE4eGcVdKudG
+ 4LhHDn/zH3QO6X798QHMXPgLt2n46jgy3iN9wFE+WVuAHRcg75GoPI8dHnP4EyPPoJl+
+ um5y4ycaTeRWWWB4niYcS3Lyjm1ytdeAbwFByI+A8fO6pauoBn0+SFlIwbWWONNiYBrw
+ VdVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715869326; x=1716474126;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4m68YkA2S92Eguxrloa+GQL1JjaiZ2vojYrAtugN7XQ=;
- b=EgqOOJZEsi0SIqfTM25p6mHdXaa+5rjArp1wwDfTY5uE88IY4tQFq9S/RQ8AnZA2Sx
- XCCp0+gyJnVQylZlFnSUZSt6OmtUx4meAcxAW6ZmoC5CwRg7hgZMeUH88vmD1fBLFPiy
- MsmwBBWCEeY0PNdC+L1gasf/+9j4hQO7D2UuKy3/b3j8jio6GVnuD13ScMzJc7X+0gh7
- BVvap0aHasUSIXxodDCsPY/ZO1nFQ9w/JZB7WPYhDiycgdQJCTWOEZAMHUarBQ9ThIsG
- 8ru9dckZru6bdmF3vb3UP9eN2AgVFtdAOsuPQuPuytb8cmSSsxL31FrqwHHY77rlDH0o
- 5WZg==
+ d=1e100.net; s=20230601; t=1715870904; x=1716475704;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BhAIBDZu/rZJp0WFWbpKewussVqiv729DUhCPvOQ+Vg=;
+ b=TP7qKUim77jf+6b6JPNEpsru6ATSq9XEpk3FT4VYtRL+C1Le8CkYJpsg8iw6Up+Noi
+ +XuFKfhEGGstRtauCPolctExOB3B0iLeRak7cmYw22wHu/RXo5cMXNv5DfHKCH3jK749
+ ME0jxehnkb2lZxuVSSUYcIDJtDRaLgsEIGVjUCWTa7Iz8mduVmNOIIAQrvzxiDkUpsbK
+ NpQJjCZ8CBrOyaXSlnFZ/+uMLb8UYEyVrPccQveLyw6bEInBhhNoIDC0eNXMA8RyJSqc
+ 2CYgWaT4AbyInjTn69TeJSNppZzhCirAH9e2QVmgxbVPk/xtwpLnxfkEJaoeF1ORHQ73
+ rGAg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWeu7F1lthrAwq3a0A+K6H9JKxB+eBTOdNCAmt1nbzfFHaG/v0RYqyIGFsfOqK7hJAy/C7H7ifq36YfPrlzuNaL309y6E1lFtPCJN0p3zD0
-X-Gm-Message-State: AOJu0YywIFei0jg8K8MvGLfrC+I/JguArL1ptmiFXmle/y/zlHW9yUCS
- FKS8NtfaLvQHwNBSbfLe5ELXZJYftmhCLN5hgzNBYnZQ17sIDGAk7TZCzwuJmYi3FcwV1mcOix0
- E1A==
-X-Google-Smtp-Source: AGHT+IELwAHgmf9QMA0EShOsWWV59MMoouxKZtjoShq1IflB10ZDo2Cz/CCMHIFS6TX9j2SWARMjV9r/sG8=
-X-Received: from zagreus.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:10c3:b0:dee:7c5c:e336 with SMTP id
- 3f1490d57ef6-dee7c5ce8a4mr1028023276.10.1715869326194; Thu, 16 May 2024
- 07:22:06 -0700 (PDT)
-Date: Thu, 16 May 2024 07:22:04 -0700
-In-Reply-To: <CAPM=9twCVkx9OqndCcvjjgx+P7ixBRwttiz25-R=bkycEo5vrQ@mail.gmail.com>
-Mime-Version: 1.0
-References: <CAPM=9tw-53PCvveRcdLUUQ+mjq2X2er5zp6n1KeE8Nu8x=VP2g@mail.gmail.com>
- <CAHk-=whxT8D_0j=bjtrvj-O=VEOjn6GW8GK4j2V+BiDUntZKAQ@mail.gmail.com>
- <CAPM=9tyOtH24Mw_2X+bgV9iChOQV3LtmRCoR5x6KXhSUD6FjUg@mail.gmail.com>
- <CAHk-=wh8DWSMrtuhZOzanfBCFcuJCihO9x7fkzx-dBhLddXF-Q@mail.gmail.com>
- <CAPM=9twCVkx9OqndCcvjjgx+P7ixBRwttiz25-R=bkycEo5vrQ@mail.gmail.com>
-Message-ID: <ZkYWjEaPcsT2-4dz@google.com>
-Subject: Re: [git pull] drm for 6.10-rc1
-From: Sean Christopherson <seanjc@google.com>
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
- Jani Nikula <jani.nikula@linux.intel.com>, Jani Nikula <jani.nikula@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+ AJvYcCWg8m6oRSFMBr9S36dHxhOBK2lyrNW28uM6UXW433nIp5q0kqCwlxRbzw83FJB4jrcU8wRZZYuYZpiKFhjHsF7AR8pn+SUAK+zqQ2ob8djt05mdULm4VdkncxqPfcSjvEgGPp1zeouJH7+wf/FMjA==
+X-Gm-Message-State: AOJu0YyzS3ttvqDw4SMElcpyBmpejs/8/7HekgWU143jrT3lab1fKk/+
+ YUKu590a8140zzQHx1Djn+8Ym5L+yT8VZ0E+s0Ceyofd9s7bua0amEjUXDHQcZhIt8e6/1HP+Vx
+ dkSeer4Pg8CB9D5nGjWDRJTVLXck=
+X-Google-Smtp-Source: AGHT+IGDyRGeEWktoobtx15T/9PFq7l6KEse0HiGU9t6T6oxLbrOTpurB+ANPxqsvO+n/pvuPTmwzkJBnFixqo9pvtk=
+X-Received: by 2002:a17:90a:bc94:b0:2af:a2a:ad67 with SMTP id
+ 98e67ed59e1d1-2b6cc34298emr15612068a91.4.1715870904070; Thu, 16 May 2024
+ 07:48:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240516082200.73480-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20240516082200.73480-1-jiapeng.chong@linux.alibaba.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 16 May 2024 10:48:11 -0400
+Message-ID: <CADnq5_O7cyNxuGXy+nv_sq8_FM9tBE4_FKAYQ1fP6La_cRkeZw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Remove duplicate amdgpu_umsch_mm.h header
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Abaci Robot <abaci@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,42 +81,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 16, 2024, Dave Airlie wrote:
-> On Thu, 16 May 2024 at 08:56, Linus Torvalds <torvalds@linux-foundation.org> wrote:
-> > If the *main* CONFIG_WERROR is on, then it does NOT MATTER if somebody
-> > sets CONFIG_DRM_WERROR or not. It's a no-op. It's pointless.
+Applied.  Thanks!
 
-+1
-
-> It's also possible it's just that hey there's a few others in the tree
-> 
-> KVM_WERROR not tied to it
-> PPC_WERROR (why does CXL uses this?)
-> AMDGPU, I915 and XE all have !COMPILE_TEST on their variants
-> 
-> We should probably add !WERROR to all of these at this point.
-
-That creates its own weirdness though, e.g. I guarantee I'll forget about the
-global WERROR at some point and wonder why I'm seeing -Werror despite having
-KVM_WERROR=n in my .config.  I would rather force KVM_WERROR if WERROR=y, so this?
-
-diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-index 2a7f69abcac3..75082c4a9ac4 100644
---- a/arch/x86/kvm/Kconfig
-+++ b/arch/x86/kvm/Kconfig
-@@ -44,6 +44,7 @@ config KVM
-        select KVM_VFIO
-        select HAVE_KVM_PM_NOTIFIER if PM
-        select KVM_GENERIC_HARDWARE_ENABLING
-+       select KVM_WERROR if WERROR
-        help
-          Support hosting fully virtualized guest machines using hardware
-          virtualization extensions.  You will need a fairly recent
-@@ -66,7 +67,7 @@ config KVM_WERROR
-        # FRAME_WARN, i.e. KVM_WERROR=y with KASAN=y requires special tuning.
-        # Building KVM with -Werror and KASAN is still doable via enabling
-        # the kernel-wide WERROR=y.
--       depends on KVM && EXPERT && !KASAN
-+       depends on KVM && ((EXPERT && !KASAN) || WERROR)
-        help
-          Add -Werror to the build flags for KVM.
+On Thu, May 16, 2024 at 4:47=E2=80=AFAM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
+>
+> ./drivers/gpu/drm/amd/amdgpu/amdgpu.h: amdgpu_umsch_mm.h is included more=
+ than once.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D9063
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/am=
+dgpu/amdgpu.h
+> index 1a14e0101dac..bfae3c17e9bd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -112,7 +112,6 @@
+>  #include "amdgpu_xcp.h"
+>  #include "amdgpu_seq64.h"
+>  #include "amdgpu_reg_state.h"
+> -#include "amdgpu_umsch_mm.h"
+>
+>  #define MAX_GPU_INSTANCE               64
+>
+> --
+> 2.20.1.7.g153144c
+>
