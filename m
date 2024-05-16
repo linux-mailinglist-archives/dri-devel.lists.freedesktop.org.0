@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1B08C7198
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 08:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6958C7199
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 08:25:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D064F10E0F2;
-	Thu, 16 May 2024 06:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20ACF10E111;
+	Thu, 16 May 2024 06:25:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="lDg5s1+m";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="sVPj6oH5";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="Kaa23Bqa";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="PnOMc5wk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CE7C10E0F2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 06:25:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B03FE10E0F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 06:25:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1715840705; x=1747376705;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=FnBWymedJjKyiLa7wqfQJM2clRoi20uCvIeRkE4sZxI=;
- b=lDg5s1+mZklyZBxT/IchCGi8N6xM/DkIPUuyU1vthynZncRVV7PMMqpG
- SiOd2H/JLx0iBpdrZx4qF/y9x5lDU5H3f4iHxr0VFL4n066Gwd5myBIpV
- 0wuUhnl0r5Omm+jPFSIoKU29M7XgKwG1FqmXz1oB1UzLCx27xUpDcNxb5
- Qubb/4ctRpdPEd7c/ellcwENpbPxTN3FbcAUyd3xr0fCmCrTbf2mViwEh
- phVQWKuUYpaT8rGi3gJ/RgvFYF2U+A2PZJACa3mhxSeDPTJ7WMs0Mm3sM
- 6oANHPxlMlg7vzuMZQ78Y90watd5V7A7v6V48qfGPhH2PPnpEOLnADOJE Q==;
-X-CSE-ConnectionGUID: BhAH7Qd5Truskt5wD/Deaw==
-X-CSE-MsgGUID: Xcc14FPeSu6hl/qb4Ys6ew==
-X-IronPort-AV: E=Sophos;i="6.08,163,1712613600"; d="scan'208";a="36926958"
+ t=1715840706; x=1747376706;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=eXSRJ9ePSQv2BRVPVAwRZ5tukZAjyNQB7JMiQsOB8x8=;
+ b=Kaa23BqalytAo7u9QfVW+BF+BjkRYmbHQl+Fi2doPJqoXFAs4lUBxyyV
+ cNOFb6QZFdkBYEh44Ti69t7CM3+fdvCPOPoKeNJdnHL4GfD8DqWMxWcOr
+ PpF/oKwTMXnIUMoVFz8GnQT5L6/HcDVgoFDtJqLJZwN16uZqXy1Ol+N2v
+ 7q/LXpfR/Lp4IhPpsulK+Aoj4rbKxNfjoEAoquATsnrctNIpJZiPAWC70
+ B771RcrTf102v/wynR3/ryjXknxlwJk7uR+0Q6JxJywcTq40OVfIGDyBM
+ FIbYe8PhUhQtTAGCu3bHJvvU6ox8MG1ALpSse8MBhiB56iiOfFCb9cvpV A==;
+X-CSE-ConnectionGUID: VszA4rqNR/qsNv/XzKy4KA==
+X-CSE-MsgGUID: Fq9c5anXSamT1K8pUT7tlw==
+X-IronPort-AV: E=Sophos;i="6.08,163,1712613600"; d="scan'208";a="36926960"
 Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 16 May 2024 08:25:01 +0200
+ by mx1.tq-group.com with ESMTP; 16 May 2024 08:25:06 +0200
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id E2F65170DD3; Thu, 16 May 2024 08:24:52 +0200 (CEST)
+ with ESMTPSA id 87495172EAE; Thu, 16 May 2024 08:25:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1715840697; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding; bh=FnBWymedJjKyiLa7wqfQJM2clRoi20uCvIeRkE4sZxI=;
- b=sVPj6oH5+DaTlWrKy0zFjGMSnkzkVp+abKxZez/0FBj26fcBDq0exQh6E+67RF2QdcRfbc
- wvDp37wQJW1Q9n2yHv1KnwGlEAFNE07NvHHXaylguU/QP0g2PU9XAaLfF7RG98cN+w0ebP
- GDWUhoPXiyLYimzhj8RWneMv7mCyomVFJaFc/EKq8IHn1nsFHVHNrt1ei+KyXAuqnPsSc9
- eDWfvGBYC16Cy/YDs6bAij/NUds/rvo8U1UDPSfgQkqrS3NB1oQ3zEkk6EQOFu6UiqSiHF
- 5bVlHN06WSgIEK3iSuSNmzurSEDk405Huu7+e49pT/9TdtZzq3fg0/lnrF8o0A==
+ s=dkim; t=1715840701; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding:in-reply-to:references;
+ bh=eXSRJ9ePSQv2BRVPVAwRZ5tukZAjyNQB7JMiQsOB8x8=;
+ b=PnOMc5wkNdlyJ2j1ykBMFHHOVXO2rQs18mSmwhOwegV8w1boATeh1sgPe3E29mVKe1beUy
+ gCkBer+x6OdCoR3iNvAhBfw3QmRZkcRwXZgcaaGgUNxHdYp3C5xAxQ5D0SYPvzrLmlOBs/
+ 5jqRtAp7hynm121UkmOPyf/IvXMcJ5WV938b7TJpMhTa4VSjBxfTvfx5zROnUeHjjWRAM4
+ p8abwya3jMT7r0IYEh46/l4xHvwfD/5qsutqErr6GWE4b0oNA5yi3AVfK5/iKRy/zVqmGt
+ YCTlvv1WnaDYASdil+CZtjduP39wQ7RmFn0M6WWkJjnyXsAhexBzKH3/CUktCQ==
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -54,10 +55,12 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Daniel Vetter <daniel@ffwll.ch>
 Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/3] Improve tc358767 debugging
-Date: Thu, 16 May 2024 08:24:52 +0200
-Message-Id: <20240516062455.106266-1-alexander.stein@ew.tq-group.com>
+Subject: [PATCH v2 1/3] drm/bridge: tc358767: Use dev_err_probe
+Date: Thu, 16 May 2024 08:24:53 +0200
+Message-Id: <20240516062455.106266-2-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240516062455.106266-1-alexander.stein@ew.tq-group.com>
+References: <20240516062455.106266-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -76,27 +79,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The function calls preceding these returns can return -EPROBE_DEFER. So
+use dev_err_probe to add some information to
+/sys/kernel/debug/devices_deferred
 
-this small series improves debugging the tc358767 driver by using
-dev_err_probe for additional information (patch 1) and print IRQ
-debug output only if hotplug status actually changed.
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+ drivers/gpu/drm/bridge/tc358767.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Changes in v2:
-* Added patch for supporting write-only registers
-
-Best regards,
-Alexander
-
-Alexander Stein (3):
-  drm/bridge: tc358767: Use dev_err_probe
-  drm/bridge: tc358767: Only print GPIO debug output if they actually
-    occur
-  drm/bridge: tc358767: Support write-only registers
-
- drivers/gpu/drm/bridge/tc358767.c | 56 +++++++++++++++++++------------
- 1 file changed, 35 insertions(+), 21 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 99e8a8cf29f5b..de62a7e2eafec 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -2215,7 +2215,8 @@ static int tc_probe_dpi_bridge_endpoint(struct tc_data *tc)
+ 	/* port@1 is the DPI input/output port */
+ 	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, &bridge);
+ 	if (ret && ret != -ENODEV)
+-		return ret;
++		return dev_err_probe(dev, ret,
++				     "Could not find DPI panel or bridge\n");
+ 
+ 	if (panel) {
+ 		bridge = devm_drm_panel_bridge_add(dev, panel);
+@@ -2243,7 +2244,8 @@ static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
+ 	/* port@2 is the output port */
+ 	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, NULL);
+ 	if (ret && ret != -ENODEV)
+-		return ret;
++		return dev_err_probe(dev, ret,
++				     "Could not find DSI panel or bridge\n");
+ 
+ 	if (panel) {
+ 		struct drm_bridge *panel_bridge;
+@@ -2455,7 +2457,7 @@ static int tc_probe(struct i2c_client *client)
+ 		ret = tc_mipi_dsi_host_attach(tc);
+ 		if (ret) {
+ 			drm_bridge_remove(&tc->bridge);
+-			return ret;
++			return dev_err_probe(dev, ret, "Failed to attach DSI host\n");
+ 		}
+ 	}
+ 
 -- 
 2.34.1
 
