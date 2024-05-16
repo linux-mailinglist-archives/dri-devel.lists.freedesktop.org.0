@@ -2,73 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D0198C74FA
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 13:07:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831128C751C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 13:21:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41AB010EC6E;
-	Thu, 16 May 2024 11:07:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBD9910E0C3;
+	Thu, 16 May 2024 11:21:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="V3QLOFjn";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Gue0RRZr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
- [95.215.58.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E48A10EC6E
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 11:07:52 +0000 (UTC)
-X-Envelope-To: victor.liu@nxp.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1715857670;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BFIHxeP9M+LmvRKzSaSABRLWtsMlPkWTGAKIdrDLly8=;
- b=V3QLOFjnOS2kYE0zTuy6tvxGcsj+0CGXSiyOwMide0cs2H/kJ3N+C3vkmgNKLYb7vSVlHb
- +3PRTkyVw38DzQoLmy4x4uo1w1lBkyRRu5eu4/tPRFcQ1VqMjuYhq6sM8GS89k2jNwZtkW
- IvSks78CXOkxPEbRNmexG96GxdpIX90=
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: andrzej.hajda@intel.com
-X-Envelope-To: neil.armstrong@linaro.org
-X-Envelope-To: rfoss@kernel.org
-X-Envelope-To: laurent.pinchart@ideasonboard.com
-X-Envelope-To: jonas@kwiboo.se
-X-Envelope-To: jernej.skrabec@gmail.com
-X-Envelope-To: maarten.lankhorst@linux.intel.com
-X-Envelope-To: mripard@kernel.org
-X-Envelope-To: tzimmermann@suse.de
-X-Envelope-To: airlied@gmail.com
-X-Envelope-To: daniel@ffwll.ch
-X-Envelope-To: biju.das.jz@bp.renesas.com
-X-Envelope-To: dmitry.baryshkov@linaro.org
-X-Envelope-To: u.kleine-koenig@pengutronix.de
-X-Envelope-To: aford173@gmail.com
-X-Envelope-To: jani.nikula@intel.com
-X-Envelope-To: bli@bang-olufsen.dk
-Message-ID: <0ae84b3c-9935-4cb5-9ed5-3fc87a416857@linux.dev>
-Date: Thu, 16 May 2024 19:07:43 +0800
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9681010E0C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 11:21:05 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1BD7527C;
+ Thu, 16 May 2024 13:20:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1715858455;
+ bh=zOS8dze4DHU+JcfmWuNExW36s1PrTMzSDeM83PQTAEo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Gue0RRZrMUUTfv1S3jH6uD0PSmsbRLpG4yyPFWD3DIXNYU2EguRKev+56NuegTm6N
+ 7ZTaGR+m0g0q+G5H+3/QBGhDxR7exhKyoV/ZrIrTylqf4XM1NMkHON/NdkeJRgfJiW
+ 0ZOaHcJADgAdNCuAb8yDlbYShhfeAjl4z9UNm9Gg=
+Date: Thu, 16 May 2024 14:20:55 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Simon Ser <contact@emersion.fr>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Maxime Ripard <mripard@redhat.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Milan Zamazal <mzamazal@redhat.com>,
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+Message-ID: <20240516112055.GB5253@pendragon.ideasonboard.com>
+References: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
+ <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
+ <20240507183613.GB20390@pendragon.ideasonboard.com>
+ <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
+ <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
+ <20240513-heretic-didactic-newt-1d6daf@penduick>
+ <20240513083417.GA18630@pendragon.ideasonboard.com>
+ <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
+ <20240514204223.GN32013@pendragon.ideasonboard.com>
+ <ttHZ6_mxyApQbVuEg7V20i3gCZ0nCr26aymroG2zxHv3CMRAA6RqZsUxNY3eBiYjycfb1r1WQdyMTwJO_I38FsJQMHA_Zdiqbbjs_YJWKr8=@emersion.fr>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/bridge: adv7511: Exit interrupt handling when
- necessary
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- biju.das.jz@bp.renesas.com, dmitry.baryshkov@linaro.org,
- u.kleine-koenig@pengutronix.de, aford173@gmail.com, jani.nikula@intel.com,
- bli@bang-olufsen.dk
-References: <20240516101006.2388767-1-victor.liu@nxp.com>
-Content-Language: en-US, en-AU
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240516101006.2388767-1-victor.liu@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ttHZ6_mxyApQbVuEg7V20i3gCZ0nCr26aymroG2zxHv3CMRAA6RqZsUxNY3eBiYjycfb1r1WQdyMTwJO_I38FsJQMHA_Zdiqbbjs_YJWKr8=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,46 +81,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-
-On 5/16/24 18:10, Liu Ying wrote:
-> Commit f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pins")
-> fails to consider the case where adv7511->i2c_main->irq is zero, i.e.,
-> no interrupt requested at all.
+On Thu, May 16, 2024 at 07:00:31AM +0000, Simon Ser wrote:
+> On Tuesday, May 14th, 2024 at 22:42, Laurent Pinchart wrote:
 > 
-> Without interrupt, adv7511_wait_for_edid() could return -EIO sometimes,
-> because it polls adv7511->edid_read flag by calling adv7511_irq_process()
-> a few times, but adv7511_irq_process() happens to refuse to handle
-> interrupt by returning -ENODATA.  Hence, EDID retrieval fails randomly.
+> > My experience on Arm platforms is that the KMS drivers offer allocation
+> > for scanout buffers, not render buffers, and mostly using the dumb
+> > allocator API. If the KMS device can scan out YUV natively, YUV buffer
+> > allocation should be supported. Am I missing something here ?
 > 
-> Fix the issue by checking adv7511->i2c_main->irq before exiting interrupt
-> handling from adv7511_irq_process().
-> 
-> Fixes: f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pins")
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
->   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index 6089b0bb9321..2074fa3c1b7b 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -479,7 +479,8 @@ static int adv7511_irq_process(struct adv7511 *adv7511, bool process_hpd)
->   		return ret;
->   
->   	/* If there is no IRQ to handle, exit indicating no IRQ data */
-> -	if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
-> +	if (adv7511->i2c_main->irq &&
+> Note that dumb buffers are only intended for simple software-rendering
+> use-cases. Anything more complicated (e.g. involving GPU rendering)
+> should use another mechanism.
 
-Maybe you could use 'if (process_hpd)' here.
+Sure. Even if dumb buffers may work for GPU rendering in some cases,
+there's no guarantee they will, so they shouldn't be used.
 
-> +	    !(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
->   	    !(irq1 & ADV7511_INT1_DDC_ERROR))
->   		return -ENODATA;
->   
+My comment was related to scanout buffers, as I was puzzled by Nicolas
+mentioning how "KMS drivers only offer allocation for render buffers".
+On Arm platforms the render buffers are allocated on the GPU's DRM
+device as far as I understand, while the KMS drivers allocate scanout
+buffers using the dumb buffers API.
 
 -- 
-Best regards
-Sui
+Regards,
+
+Laurent Pinchart
