@@ -2,56 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F79A8C746B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 12:12:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047BE8C7470
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 12:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8280110EC4F;
-	Thu, 16 May 2024 10:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A60110EC54;
+	Thu, 16 May 2024 10:13:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="U4jJXRQE";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="MnF6BDux";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10FC510EC4F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 10:12:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715854321;
- bh=fJVijZDsk7G+N5ZyDazIeeDuEW47pTV5GN2yegKbc4s=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=U4jJXRQEQ9NqrEbULaHQIdf6/LNc1tjtq9H0VDDd+AWcnVMH0yoqF1hM9h3BYYsrO
- jmTs0f+wdu4NNZF8aUQ37jo4tY5jGlupeOt0silOa73/mVBuLZK8fpib56bgU9/mxk
- hKECjqfE+bnd0ah2bzSZmtNwMw2IVBGDJgHFzw3jH2kB7fM2uMUOK/bYxzpuCDY5ov
- Y8HmqA03vGqdBQb3FEF7U+CWLdIiecb23ypUyYhLcUUTLP3d6u5vil1hR5Le0RfDb0
- xXG7jNYW21Qd71b0yl1I2wIH35KRecTOi+qBEOEmh8RRr9kKd+kVOrljGHLE1N0uyF
- CaqBGh//bGyfQ==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4A61C3780C13;
- Thu, 16 May 2024 10:12:01 +0000 (UTC)
-Message-ID: <671f4976-46e6-4873-98b2-89df896e4a4f@collabora.com>
-Date: Thu, 16 May 2024 12:12:00 +0200
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BBBA10EC54
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 10:13:46 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-351cb099fd7so538456f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 03:13:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1715854424; x=1716459224; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PL3A+Lq5qsI8B7R3zJ6ATrmpbf8tbtcXF50Qd0vm4po=;
+ b=MnF6BDuxqrZPyH8E1LSaTmLtYleTdnfhSQwsx4S/k/+URXXpe4GWY6+bUJO1rXNX4W
+ aJO1WT5dSRWPZo+peSAm+JxrK5rI18KE5Hc2Ie4yRPREDWBZrTgsMEjj4GG1odZWZqAQ
+ 8EtRVeFAQxrlPJhk9ReIyrh7NR6M7liA/imiM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715854424; x=1716459224;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PL3A+Lq5qsI8B7R3zJ6ATrmpbf8tbtcXF50Qd0vm4po=;
+ b=uL7zE/ezbAnHeACzy8/ica0SDNcti3x6btNZwsU9/6czGXP57OheyuQJo/6vOHKL3v
+ zezmN4ePS1iKr3u5xbijbdV7DSYRfA6Nx8VoxqcwU9Maxc4YSpCN6rUo9b3wHfBMBSg6
+ c6Q2F9s63hoiDmyvXr7ecK71pszakdmIREVzLCGgD0qTl8SZk6rbWAm8yawHXVplj4IM
+ Kqwdf1oGLL67gBmjehEboJrpgrNCjY8/RR8Zfcv0MZpUERsZEDaGg58wOhlTuZ7y0xKh
+ /fPgDnZ3y7cQxDsjYRHsluRC1S6EbVaUZsK0m2jBilmNqQ70ztLzYYbjnepfypALdc/6
+ UbcA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXtZLl9yxJ2kEId2u2x4/6jzxzF40ai2J8XEJ/uhPzjkauimwrqdIA0Zm34E0Jv07y97iV0SWrRMtOwBY3PFwmkEf2633JwHf2y7lYXLBcQ
+X-Gm-Message-State: AOJu0Yzda4MCsGH1Erx7lxMNuJV5854AVz0sQHz8BUk1IX4u32docAxm
+ zGRf6voe2lltIDh9gDFMtdpUK4l4XoNpPB6HwSt0OFdxuD/z7liRTATCl+zjwoU=
+X-Google-Smtp-Source: AGHT+IFrOu2mAt7C1aMAaNxTCLbsYbd5mMBXhq9WratikDD42kzQoLe9iHoqPgFyU07inK7XLQ9rtw==
+X-Received: by 2002:a05:600c:19c8:b0:419:f241:6336 with SMTP id
+ 5b1f17b1804b1-41fea928decmr132296285e9.1.1715854424390; 
+ Thu, 16 May 2024 03:13:44 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-41f87b2653bsm298218605e9.4.2024.05.16.03.13.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 May 2024 03:13:43 -0700 (PDT)
+Date: Thu, 16 May 2024 12:13:41 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>,
+ Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Milan Zamazal <mzamazal@redhat.com>,
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
+ (udev uaccess tag) ?
+Message-ID: <ZkXcVVt_G3TEh2iP@phenom.ffwll.local>
+Mail-Followup-To: Simon Ser <contact@emersion.fr>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <mripard@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Lennart Poettering <mzxreary@0pointer.de>,
+ Robert Mader <robert.mader@collabora.com>,
+ Sebastien Bacher <sebastien.bacher@canonical.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Milan Zamazal <mzamazal@redhat.com>,
+ Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+References: <bb372250-e8b8-4458-bc99-dd8365b06991@redhat.com>
+ <20240506-dazzling-nippy-rhino-eabccd@houat>
+ <ZjjdUBYYKXJ1EPr5@phenom.ffwll.local>
+ <cbe5a743-d8be-4b0e-99c4-e804fbadc099@redhat.com>
+ <ZjoNTw-TkPnnWLTG@phenom.ffwll.local>
+ <CAPj87rN3uSZoHpWLSQqz1SW9YMZNj9fkoA_EDEE_bzv-Tw8tSw@mail.gmail.com>
+ <Zjs42PGvilLlF0Cg@phenom.ffwll.local>
+ <CAPj87rN-wSbGSAoB8y3MXCS20_MAQvfpWSeUKYR6XzQ+Oh0FZA@mail.gmail.com>
+ <Zjue98r4ZgGbMN5K@phenom.ffwll.local>
+ <IXDM2ci-eGvU9RQkT6a52vcV66vr8d0ywbDRFY8gBjjNuMyv8RDgdJS0PvvfnKuPR1fXINPUjOBkKx4vIcshSb2Y11xd3DjfDQ-Np8VIFgQ=@emersion.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] drm/mediatek: Convert to platform remove callback
- returning void
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <cover.1712681770.git.u.kleine-koenig@pengutronix.de>
- <4a64dfbfbcfdf9b7cd46bc8026223e69a4b453b4.1712681770.git.u.kleine-koenig@pengutronix.de>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <4a64dfbfbcfdf9b7cd46bc8026223e69a4b453b4.1712681770.git.u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <IXDM2ci-eGvU9RQkT6a52vcV66vr8d0ywbDRFY8gBjjNuMyv8RDgdJS0PvvfnKuPR1fXINPUjOBkKx4vIcshSb2Y11xd3DjfDQ-Np8VIFgQ=@emersion.fr>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,51 +126,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 09/04/24 19:02, Uwe Kleine-König ha scritto:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
+On Mon, May 13, 2024 at 01:51:23PM +0000, Simon Ser wrote:
+> On Wednesday, May 8th, 2024 at 17:49, Daniel Vetter <daniel@ffwll.ch> wrote:
 > 
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new(), which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
+> > On Wed, May 08, 2024 at 09:38:33AM +0100, Daniel Stone wrote:
+> > 
+> > > On Wed, 8 May 2024 at 09:33, Daniel Vetter daniel@ffwll.ch wrote:
+> > > 
+> > > > On Wed, May 08, 2024 at 06:46:53AM +0100, Daniel Stone wrote:
+> > > > 
+> > > > > That would have the unfortunate side effect of making sandboxed apps
+> > > > > less efficient on some platforms, since they wouldn't be able to do
+> > > > > direct scanout anymore ...
+> > > > 
+> > > > I was assuming that everyone goes through pipewire, and ideally that is
+> > > > the only one that can even get at these special chardev.
+> > > > 
+> > > > If pipewire is only for sandboxed apps then yeah this aint great :-/
+> > > 
+> > > No, PipeWire is fine, I mean graphical apps.
+> > > 
+> > > Right now, if your platform requires CMA for display, then the app
+> > > needs access to the GPU render node and the display node too, in order
+> > > to allocate buffers which the compositor can scan out directly. If it
+> > > only has access to the render nodes and not the display node, it won't
+> > > be able to allocate correctly, so its content will need a composition
+> > > pass, i.e. performance penalty for sandboxing. But if it can allocate
+> > > correctly, then hey, it can exhaust CMA just like heaps can.
+> > > 
+> > > Personally I think we'd be better off just allowing access and
+> > > figuring out cgroups later. It's not like the OOM story is great
+> > > generally, and hey, you can get there with just render nodes ...
+> > 
+> > Imo the right fix is to ask the compositor to allocate the buffers in this
+> > case, and then maybe have some kind of revoke/purge behaviour on these
+> > buffers. Compositor has an actual idea of who's a candidate for direct
+> > scanout after all, not the app. Or well at least force migrate the memory
+> > from cma to shmem.
+> > 
+> > If you only whack cgroups on this issue you're still stuck in the world
+> > where either all apps together can ddos the display or no one can
+> > realistically direct scanout.
+> > 
+> > So yeah on the display side the problem isn't solved either, but we knew
+> > that already.
 > 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
+> What makes scanout memory so special?
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> The way I see it, any kind of memory will always be a limited resource:
+> regular programs can exhaust system memory, as well as GPU VRAM, as well
+> as scanout memory. I think we need to have ways to limit/control/arbiter
+> the allocations regardless, and I don't think scanout memory should be a
+> special case here.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+(Long w/en and I caught a cold)
 
-> ---
->   drivers/gpu/drm/mediatek/mtk_padding.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_padding.c b/drivers/gpu/drm/mediatek/mtk_padding.c
-> index 0d6451c149b6..9f92b720aaae 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_padding.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_padding.c
-> @@ -137,10 +137,9 @@ static int mtk_padding_probe(struct platform_device *pdev)
->   	return 0;
->   }
->   
-> -static int mtk_padding_remove(struct platform_device *pdev)
-> +static void mtk_padding_remove(struct platform_device *pdev)
->   {
->   	component_del(&pdev->dev, &mtk_padding_component_ops);
-> -	return 0;
->   }
->   
->   static const struct of_device_id mtk_padding_driver_dt_match[] = {
-> @@ -151,7 +150,7 @@ MODULE_DEVICE_TABLE(of, mtk_padding_driver_dt_match);
->   
->   struct platform_driver mtk_padding_driver = {
->   	.probe		= mtk_padding_probe,
-> -	.remove		= mtk_padding_remove,
-> +	.remove_new	= mtk_padding_remove,
->   	.driver		= {
->   		.name	= "mediatek-disp-padding",
->   		.owner	= THIS_MODULE,
+It's not scanout that's special, it's cma memory that's special. Because
+once you've allocated it, it's gone since it cannot be swapped out, and
+there's not a lot of it to go around. Which means even if we'd have
+cgroups for all the various gpu allocation heaps, you can't use cgroups to
+manage cma in a meaningful way:
 
+- You set the cgroup limits so low for apps that it's guaranteed that the
+  compositor will always be able to allocate enough scanout memory for
+  it's need. That will be low enough that apps can never allocate scanout
+  buffers themselves.
+
+- Or you set the limit high enough so that apps can allocate enough, which
+  means (as soon as you have more than just one app and not a totally
+  bonkers amount of cma) that the compositor might not be able to allocate
+  anymore.
+
+It's kinda shit situation, which is also why you need the compositor to be
+able to revoke cma allocations it has handed to clients (like with drm
+leases).
+
+Or we just keep the current yolo situation.
+
+For any other memory type than CMA most of the popular drivers at least
+implement swapping, which gives you a ton more flexibility in setting up
+limits in a way that actually work. But even there we'd need cgroups first
+to make sure things don't go wrong too badly in the face of evil apps ...
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
