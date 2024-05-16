@@ -2,60 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4FA8C79D2
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 17:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB378C79F3
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 18:00:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51FC710E157;
-	Thu, 16 May 2024 15:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6A510E16A;
+	Thu, 16 May 2024 16:00:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VkYGEUO1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iRtJmMCu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A140F10E157
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 15:53:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0E019CE1758;
- Thu, 16 May 2024 15:53:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 816E9C113CC;
- Thu, 16 May 2024 15:53:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715874798;
- bh=vJXNK/Tqo8zBAUsSHhEd6zAfV9a1tg/5MoYyOWTdTs0=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=VkYGEUO1BBeAKvdwFP0HGPkPnL7zHKxaGWxMoQkK92nbXG3j7yLrzn/wTu3IfokU9
- 9lNsKXyTV/t2Ze8nRekL6yE1gqsmv4EOg9aDqT73auZR4GFuT2SjiABKsO8dAWkph/
- JeOogGCYFH7IsH2jYRN/wluMc8lxPhHRBMyD072QMv3Etx/5NI7RTDkVMXx14uxqZJ
- M1mynW+M4C4a224YNYJ0YL3dCPtx2PtFgdj4KXtKL6DtcAMXHnxy9N66FP7tjGmi5J
- CbvTmDTgESagRKyh9wGoluAoLxNAkTCBWfrRafy+A+ycUT9iGPzmaYz1vcixdPCcBB
- XAhdWQdJTBhhQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 79488C41620; Thu, 16 May 2024 15:53:18 +0000 (UTC)
-Subject: Re: [git pull] drm urgent for 6.10-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tx_KS1qc8E1kUB5PPBvO9EKHNkk7hYWu-WwWJ6os=otJA@mail.gmail.com>
-References: <CAPM=9tx_KS1qc8E1kUB5PPBvO9EKHNkk7hYWu-WwWJ6os=otJA@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tx_KS1qc8E1kUB5PPBvO9EKHNkk7hYWu-WwWJ6os=otJA@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-next-2024-05-16
-X-PR-Tracked-Commit-Id: 431c590c3ab0469dfedad3a832fe73556396ee52
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 972a2543e3dd87f7310d65944b857631b4290e12
-Message-Id: <171587479849.7101.896680176648713686.pr-tracker-bot@kernel.org>
-Date: Thu, 16 May 2024 15:53:18 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F1E10E16A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 16:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715875227; x=1747411227;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=TGnzsfQc27cQgimwyIBL3uBYRd0MqgHh+V4iiIaQYgI=;
+ b=iRtJmMCuTaUNkxEeazH5k1d4lwAv/Vmj2aNtKOAhb2D/FFioVrEGdJiK
+ QaYOvqhlY6gimaiMOX0IqYs09JHHeeKnDEnPUbi90x6quasmG1XzjedCt
+ kmj16TZJkAtOnhVXGbyXmSUxUjIXN6+EXrqXhh/2rEpaWJtCqNf+Q1YvK
+ iw9yAeMBHIQVpbPEvKSVrzsxlX7KhsgSNkP7Vegawmnc5Go90VALRgxkA
+ DLg5s90257mqYAB9woN+UUp2LkSMBbPsodYT7mplNidwEEWjk4pMSlzxW
+ ZJ4Te7EniHg6TgFYLRSyhH5OFbNS0JRYN2vcIWnJLxrTofFedTcgBcVNu w==;
+X-CSE-ConnectionGUID: 1Ggz6IedRM2sU/0Z7HtNIg==
+X-CSE-MsgGUID: Dve9p7vaQq+jnO6Jq31JtA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11558521"
+X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; d="scan'208";a="11558521"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2024 09:00:27 -0700
+X-CSE-ConnectionGUID: a8Vs5sdvTLa5ydQ/0+osFw==
+X-CSE-MsgGUID: jNXFSSQERpKUyktvc1HYxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; d="scan'208";a="35976366"
+Received: from mwajdecz-mobl.ger.corp.intel.com ([10.246.25.139])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2024 09:00:25 -0700
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH] drm/print: Kill ___drm_dbg()
+Date: Thu, 16 May 2024 18:00:15 +0200
+Message-Id: <20240516160015.2260-1-michal.wajdeczko@intel.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,15 +66,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Thu, 16 May 2024 12:53:52 +1000:
+There is no point in maintaining a separate print function, while
+there is __drm_dev_dbg() function that can work with a NULL device.
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2024-05-16
+Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/drm_print.c | 19 -------------------
+ include/drm/drm_print.h     |  8 +++-----
+ 2 files changed, 3 insertions(+), 24 deletions(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/972a2543e3dd87f7310d65944b857631b4290e12
-
-Thank you!
-
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index cf2efb44722c..7e16ce7c7c7a 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -323,25 +323,6 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
+ }
+ EXPORT_SYMBOL(__drm_dev_dbg);
+ 
+-void ___drm_dbg(struct _ddebug *desc, enum drm_debug_category category, const char *format, ...)
+-{
+-	struct va_format vaf;
+-	va_list args;
+-
+-	if (!__drm_debug_enabled(category))
+-		return;
+-
+-	va_start(args, format);
+-	vaf.fmt = format;
+-	vaf.va = &args;
+-
+-	printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+-	       __builtin_return_address(0), &vaf);
+-
+-	va_end(args);
+-}
+-EXPORT_SYMBOL(___drm_dbg);
+-
+ void __drm_err(const char *format, ...)
+ {
+ 	struct va_format vaf;
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index 089950ad8681..6f8cb5fada41 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -527,17 +527,15 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
+  * Prefer drm_device based logging over device or prink based logging.
+  */
+ 
+-__printf(3, 4)
+-void ___drm_dbg(struct _ddebug *desc, enum drm_debug_category category, const char *format, ...);
+ __printf(1, 2)
+ void __drm_err(const char *format, ...);
+ 
+ #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+-#define __drm_dbg(cat, fmt, ...)		___drm_dbg(NULL, cat, fmt, ##__VA_ARGS__)
++#define __drm_dbg(cat, fmt, ...)	__drm_dev_dbg(NULL, NULL, cat, fmt, ##__VA_ARGS__)
+ #else
+ #define __drm_dbg(cat, fmt, ...)					\
+-	_dynamic_func_call_cls(cat, fmt, ___drm_dbg,			\
+-			       cat, fmt, ##__VA_ARGS__)
++	_dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,			\
++			       NULL, cat, fmt, ##__VA_ARGS__)
+ #endif
+ 
+ /* Macros to make printk easier */
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.0
+
