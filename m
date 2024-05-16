@@ -2,76 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190768C73FB
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 11:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7228C73FC
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 11:42:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E29410EC51;
-	Thu, 16 May 2024 09:42:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B220510E237;
+	Thu, 16 May 2024 09:42:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="lOZog/6R";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gnNhJynD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBBAC10EC46
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 09:42:09 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44G9fmVS056166;
- Thu, 16 May 2024 04:41:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1715852508;
- bh=wYQOXr5Vdn2rus+peaYLnfyMg1IdCq5SCmKMEecT2l4=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=lOZog/6R02eMJWGESciek9BgtgdUOHA/RIeN/A52gS847IG/2nP6fiwFcydkntCMR
- DANzLXCNaSl2HJoL/sfcEdyBd8m3PQkaJXGXCDRMI9j01ukLspmLajclg9sj6FFVsZ
- tiniWcz/Ta7ZWGZIsriWt8SVa2gJt5fXNbfrr6mk=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44G9fmEM117558
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 16 May 2024 04:41:48 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 16
- May 2024 04:41:48 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 16 May 2024 04:41:48 -0500
-Received: from [172.24.227.31] (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44G9ffH0074525;
- Thu, 16 May 2024 04:41:41 -0500
-Message-ID: <8bb974f9-90ff-4b61-9623-cf5675f35e78@ti.com>
-Date: Thu, 16 May 2024 15:11:40 +0530
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 710FC10E237
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 09:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1715852573;
+ bh=H3O243kSJW6K88T+dVi/0NKhZPWFTW+Zoxcp6Ablel0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=gnNhJynDO17dcyTxR6IcUdoYBioRyWNo6YNIhTGnexQTXUsYyAh9GShoVghxoArH6
+ qxyvmblrOC38+tgZ2W1QMK+KtFJ+z5espYG1FUXHJ4GHmSYz8iFWf2rGv5TH6oM/2t
+ kSTbK/2h6IGMLbuu7Eb2dM1Je+8U6sck88t1mdEOba1Jc056FMXxrg93uCAIscqApD
+ LPv6a3twrBJWDshPYZrzh9zIx3E/xDZUelDBzwBrl267PPBuvqmYs/a4M3jbeeKWuT
+ fnL8KRGnEwYgUY+muMuyWySO6+OTxU8xyMQbQ5P0G3zWlHcLAe97uCx9TyWvZmKMuo
+ FNeNt38DERbjw==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0726737821A9;
+ Thu, 16 May 2024 09:42:51 +0000 (UTC)
+Message-ID: <eea541cb-1917-44de-ae40-0824372baab8@collabora.com>
+Date: Thu, 16 May 2024 11:42:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] drm/bridge: cdns-dsi: Fix minor bugs
-To: Maxime Ripard <mripard@kernel.org>
-CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Jyri Sarha <jyri.sarha@iki.fi>, Thomas
- Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, DRI Development List
- <dri-devel@lists.freedesktop.org>, Linux Kernel List
- <linux-kernel@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>, Thierry
- Reding <treding@nvidia.com>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>, Boris Brezillon
- <boris.brezillon@bootlin.com>, Nishanth Menon <nm@ti.com>, Vignesh
- Raghavendra <vigneshr@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary
- <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
-References: <20240511153051.1355825-1-a-bhatia1@ti.com>
- <20240511153051.1355825-3-a-bhatia1@ti.com>
- <20240516-stereotyped-precise-wapiti-6d0cd3@penduick>
+Subject: Re: [PATCH v4 2/3] dt-bindings: arm: mediatek: mmsys: Add OF graph
+ support for board path
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?= <jitao.shi@mediatek.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?WXUtY2hhbmcgTGVlICjmnY7nprnnkosp?= <Yu-chang.Lee@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+References: <20240516081104.83458-1-angelogioacchino.delregno@collabora.com>
+ <20240516081104.83458-3-angelogioacchino.delregno@collabora.com>
+ <389716757b2a79f56b3cf4f4127549795c867785.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <20240516-stereotyped-precise-wapiti-6d0cd3@penduick>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <389716757b2a79f56b3cf4f4127549795c867785.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,31 +83,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 16/05/24 13:41, Maxime Ripard wrote:
-> On Sat, May 11, 2024 at 09:00:46PM +0530, Aradhya Bhatia wrote:
->> Update the Phy initialized state to "not initialized" when the driver
->> (and the hardware by extension) gets suspended. This will allow the Phy
->> to get initialized again after resume.
->>
->> Fix the OF node that gets passed to find the next available bridge in
->> the display pipeline.
->>
->> Fix the order of DSI Link and DSI Phy inits. The link init needs to
->> happen before the Phy is initialized, so the Phy can lock on the
->> incoming PLL reference clock. If this doesn't happen, the Phy cannot
->> lock (until DSI Link is init later on). This causes a warning dump
->> during the kernel boot.
->>
->> Allow the D-Phy config checks to use mode->clock instead of
->> mode->crtc_clock during mode_valid checks, like everywhere else in the
->> driver.
+Il 16/05/24 11:23, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
 > 
-> All these should be in separate patches.
+> On Thu, 2024-05-16 at 10:11 +0200, AngeloGioacchino Del Regno wrote:
+>> Document OF graph on MMSYS/VDOSYS: this supports up to three DDP paths
+>> per HW instance (so potentially up to six displays for multi-vdo SoCs).
+>>
+>> The MMSYS or VDOSYS is always the first component in the DDP pipeline,
+>> so it only supports an output port with multiple endpoints - where each
+>> endpoint defines the starting point for one of the (currently three)
+>> possible hardware paths.
+>>
+>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   .../bindings/arm/mediatek/mediatek,mmsys.yaml | 28 +++++++++++++++++++
+>>   1 file changed, 28 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> index b3c6888c1457..0ef67ca4122b 100644
+>> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> @@ -93,6 +93,34 @@ properties:
+>>     '#reset-cells':
+>>       const: 1
+>>   
+>> +  port:
+>> +    $ref: /schemas/graph.yaml#/properties/port
+>> +    description:
+>> +      Output port node. This port connects the MMSYS/VDOSYS output to
+>> +      the first component of one display pipeline, for example one of
+>> +      the available OVL or RDMA blocks.
+>> +      Some MediaTek SoCs support multiple display outputs per MMSYS.
+> 
+> The display pipeline number usually depend on how many display interface. Display interface is in the end of pipeline.
 > 
 
-Alright! I will split them into different patches in v2.
+I have never stated that the display pipeline number depends on that.
 
-Regards
-Aradhya
+Plus, the display interface is not described in the mmsys binding: this document
+is only saying that mmsys' endpoint is to be connected to a (supported) component
+of your choice. Nothing else.
+
+> In below case, two RDMA is merged into one pipeline and output to one display interface DP_INTF. This is usually ONE display.
+> 
+> RDMA -+
+>        Merge -> ... -> DP_INTF
+> RDMA -+
+> 
+> In below case, one RDMA data output to two display interface DSI and DPI. This is usually TWO display with the same content.
+> 
+>                 +-> DSI
+> RDMA -> ... -> +
+>                 +-> DPI
+> 
+
+The actual content of a display is a software capability - if the hardware supports
+that, and some MediaTek SoCs do, the connection does not happen at the endpoint of
+mmsys, but later.
+
+> So the display pipeline number does not depend on the number of first component. It usually depend on the number of display interface.
+> 
+
+I sure agree with that, but again, I have *never stated* that the display pipeline
+number depends on the number of the first component.
+
+> Regards,
+> CK
+> 
+> 
+>> +    properties:
+>> +      endpoint@0:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the primary display pipeline
+>> +
+>> +      endpoint@1:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the secondary display pipeline
+>> +
+>> +      endpoint@2:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +        description: Output to the tertiary display pipeline
+>> +
+>> +    oneOf:
+>> +      - required:
+>> +          - endpoint@0
+>> +      - required:
+>> +          - endpoint@1
+>> +      - required:
+>> +          - endpoint@2
+>> +
+>>   required:
+>>     - compatible
+>>     - reg
+
+
