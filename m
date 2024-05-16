@@ -2,68 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C188C719C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 08:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D571D8C71A0
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 08:27:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0003210E35B;
-	Thu, 16 May 2024 06:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE28C10E35F;
+	Thu, 16 May 2024 06:27:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="OvVRu5Be";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="GzR3r79t";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="JOFcCl99";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 631CB10E35F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 06:25:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1715840716; x=1747376716;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=pjwDRb2G8zbxPaNc+6tKezQ18Sz0q1wOIQZhKqVMLVI=;
- b=OvVRu5BebKHRHR+BtHfXcFHqHYcMldAqGx3xh3ZB+6RX5QtpSzD1ExzL
- 6OrVUN4Z04654b6H/dUolXaiBRnFdr5Yhkk5J9m2knKXVFVzA7eik0078
- xku89WTm3nwGTlxdWYoM6JWXX7Pcs4sw0y1jO4J+yOXwM+PrBP8Fqsek1
- O72G0Pl6Qyx/qVccNho8gB4Bo7GVM1JuDO176HYE1r30qlRDyU2BqO5me
- yZS6ZFYdZ0M+UmsAjk4CUVu260K+w/dx1Rq03fBKouYsJbRLDeY2qZxLy
- oR3ENDM9uOBU3cfVT/VRYWvwUOjC1MuMf1vX0CD8+eXtt8HqFaTvtuksb g==;
-X-CSE-ConnectionGUID: 8Zh0bOBDSNqc60l5W+vPSw==
-X-CSE-MsgGUID: HmPVmQodSIaBzFT1MtwTfQ==
-X-IronPort-AV: E=Sophos;i="6.08,163,1712613600"; d="scan'208";a="36926967"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 16 May 2024 08:25:15 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 54669172BB1; Thu, 16 May 2024 08:25:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1715840711; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding:in-reply-to:references;
- bh=pjwDRb2G8zbxPaNc+6tKezQ18Sz0q1wOIQZhKqVMLVI=;
- b=GzR3r79t9O7j1ByvAwCMbL1xieMpA+SDimX0ooFuOfNOlHs937Tc8x+Q7yT2Pr3gp6LEKi
- +RUePh2UyGihMp6CnJ5swrw8lTGV7bBZthQoCqXgMVGltCqUwtZAtONSkzsG6c+ByRpl9J
- XGrAPhVVMDbuqLpBf5hxrEgyCNgZfq9D1YDFvGw+JrEyfbGwNOn2UrYMSPb2k5ZvVV2LGT
- /pfwh5UKBCNwm9AOWoiniV6B20tc4QPQPCEjk0I7I51/eTgMq21/nztZa90PQExrHW2O4H
- NaIXL3cB3MB0WkdrMUqyVlcSYtOjOmTW2+ToDngyY7jn7jFvtvYzBptzlge+hA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] drm/bridge: tc358767: Support write-only registers
-Date: Thu, 16 May 2024 08:24:55 +0200
-Message-Id: <20240516062455.106266-4-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240516062455.106266-1-alexander.stein@ew.tq-group.com>
-References: <20240516062455.106266-1-alexander.stein@ew.tq-group.com>
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFD8610E35F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 06:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1715840812; x=1716445612; i=markus.elfring@web.de;
+ bh=AhiXkddz6p5J2ObTU8vOAMVtgLyhmptM7Fpfrrb0TMk=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=JOFcCl99H0ff51oT5D0nAzsbXsnIK4c9uCO7EPsqPLPCT/ZKcxOC1y+JUfrs2BKR
+ yipgx0OfTmmVkd4NG89wiK6+ysVigUr8ocUc9IMPaJ8H1SKrDJLaweftCLsdjnf6u
+ AJ26V2bPx+QqZZZWM+YtTq2WZWUIkUOJ6ODqO77DFFR7m3qpYDT4TFL2xlMqPsU4f
+ gMixLSjczZU8BarCrQy8HaqQJ0bNQRaEPukgCc3KTY/L5ur+nHXBfHNvp40US+cFQ
+ yzvFQ+ABgf+WpnGYegee3E/1TBl6t/lIUblpc/hW5VimyESFCTmqrcd/N3byTVebV
+ ZqtF3g05cVcq+ktkLw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MHEbq-1sKfr239bk-00DEk4; Thu, 16
+ May 2024 08:26:52 +0200
+Message-ID: <dc34d171-dc47-4817-a6f0-9f23a3afb8e7@web.de>
+Date: Thu, 16 May 2024 08:26:51 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>
+References: <20240513001243.1739336-4-sui.jingfeng@linux.dev>
+Subject: Re: [PATCH 3/3] drm/loongson: Refactor lsdc device initialize and the
+ output port
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240513001243.1739336-4-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Loziv5bD/koA51c/p3tvL9gE/MpR4TQk+S/VP786GZJ+8WmSCp7
+ zTZth7QHAFUuzcwLIngaqOldY208Wkeo+YOoK9oCWbvNxC6tbZXLVdvdCpH28iQQVKltGSD
+ vZIm535XdzKoBDaFg+wow82PQvX2tjbHvXorOHeeWour1l6i5JHFUGW1mguq4kAXeWd1Ed7
+ EfgWI0VtvZmQm5uJyBp6Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Gx7SC3to8nQ=;LSmx9V9mEgt0EpEx3IBuuCHPNRJ
+ p5swDHeF8XIY2A12qd3gh4b5WP9qrxrGiZp2UD3wuiibHW0G9AJe8N1K6FAALOFtC4VEhISgI
+ 4PRRE25RWUJvx3QMJ4XlwJjxbxj21iW72sBpK0qZedRKUgOTdee18ei7bawD9hrN74QmJNs4s
+ SiyPHIDWjNmiS/GoNJuUZR8DCKirP2HmMs7H3BDfdsmB5JimUsWnS5ZU6WqZvCjpMA845DUrI
+ 4AUWDqedw0QzQImxEvhyU04XoJoqSQvPsRKOjAzfUkP7GCunTC/KGpuceYX9Yik8bs4ycL2qx
+ D+JMIMLvtkfdCToxzlViMHiDpAVTux96T6ylaAhYHTSy4R2iAe1jiJhveiu9cjfkg2GAGfLR2
+ 39HIVEBenqHas+BcUDL96eXicBKC1pNt9d3tbpeGClm4P86psT4Hx0rioPmkxT5QkFFZUwAhd
+ SU7zaYvDWYV83hZ4C+uNtyjVFgIFbNI0pvLELd/b0u2r9FRA7FdSqLPec/albTUQwkRSjkCr8
+ 0ylUCi9Q+Kf+n0G2uMdmfkqxoenYVzGRfBpeoW3FD2IAEt+bE4DdQ63V91W7kaTFNuCxWDdW4
+ EY9of1jpTvZDmq0x4h7dD66YAM08GGmozXwxEsoE0UkLfIdjOPf79suX7npalsa+etENHimqg
+ OHOMWaaoKFDYSDGvCJET4wG9tuN41BRb6pDelpcFpLfTSZqcl/ong+sb6z12dmvAZH/guXvqj
+ blBgkk3UTO/U+7UW3ReA+S+Nj1+oKVOoLnhazCnP5cSBzPt4a2HNZQ4X7g1auVaqlScNylFbO
+ guTCuetUgxDG2sQC3KYvC+WPPwOmC6WcBfTZgDOvEqGWc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,77 +81,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Most registers are read-writable, but some are only RO or even WO.
-regmap does not support using readable_reg and wr_table when outputting
-in debugfs, so switch to writeable_reg.
-First check for RO or WO registers and fallback tc_readable_reg() for the
-leftover RW registers.
+=E2=80=A6
+> fullfill the implement under the new framework.
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/gpu/drm/bridge/tc358767.c | 40 ++++++++++++++++++++-----------
- 1 file changed, 26 insertions(+), 14 deletions(-)
+fulfil the implementation?
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 8874713bdd4a4..04c98ab1991bd 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -2086,19 +2086,31 @@ static const struct regmap_access_table tc_precious_table = {
- 	.n_yes_ranges = ARRAY_SIZE(tc_precious_ranges),
- };
- 
--static const struct regmap_range tc_non_writeable_ranges[] = {
--	regmap_reg_range(PPI_BUSYPPI, PPI_BUSYPPI),
--	regmap_reg_range(DSI_BUSYDSI, DSI_BUSYDSI),
--	regmap_reg_range(DSI_LANESTATUS0, DSI_INTSTATUS),
--	regmap_reg_range(TC_IDREG, SYSSTAT),
--	regmap_reg_range(GPIOI, GPIOI),
--	regmap_reg_range(DP0_LTSTAT, DP0_SNKLTCHGREQ),
--};
--
--static const struct regmap_access_table tc_writeable_table = {
--	.no_ranges = tc_non_writeable_ranges,
--	.n_no_ranges = ARRAY_SIZE(tc_non_writeable_ranges),
--};
-+static bool tc_writeable_reg(struct device *dev, unsigned int reg)
-+{
-+	/* RO reg */
-+	switch (reg) {
-+	case PPI_BUSYPPI:
-+	case DSI_BUSYDSI:
-+	case DSI_LANESTATUS0:
-+	case DSI_LANESTATUS1:
-+	case DSI_INTSTATUS:
-+	case TC_IDREG:
-+	case SYSBOOT:
-+	case SYSSTAT:
-+	case GPIOI:
-+	case DP0_LTSTAT:
-+	case DP0_SNKLTCHGREQ:
-+		return false;
-+	}
-+	/* WO reg */
-+	switch (reg) {
-+	case DSI_STARTDSI:
-+	case DSI_INTCLR:
-+		return true;
-+	}
-+	return tc_readable_reg(dev, reg);
-+}
- 
- static const struct regmap_config tc_regmap_config = {
- 	.name = "tc358767",
-@@ -2108,9 +2120,9 @@ static const struct regmap_config tc_regmap_config = {
- 	.max_register = PLL_DBG,
- 	.cache_type = REGCACHE_MAPLE,
- 	.readable_reg = tc_readable_reg,
-+	.writeable_reg = tc_writeable_reg,
- 	.volatile_table = &tc_volatile_table,
- 	.precious_table = &tc_precious_table,
--	.wr_table = &tc_writeable_table,
- 	.reg_format_endian = REGMAP_ENDIAN_BIG,
- 	.val_format_endian = REGMAP_ENDIAN_LITTLE,
- };
--- 
-2.34.1
+Please improve your change descriptions another bit.
 
+Regards,
+Markus
