@@ -2,74 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBCB8C71B7
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 08:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652988C71BE
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 08:55:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18A2F10E5F8;
-	Thu, 16 May 2024 06:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C934310E3E5;
+	Thu, 16 May 2024 06:55:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="hKs+tOtl";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Vh7qsaG3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gYO7cmmt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F53310E528
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 06:51:29 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0535410E3E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 06:55:20 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4202959b060so3598745e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 23:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1715842290; x=1747378290;
- h=from:to:cc:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding:subject;
- bh=wypPkETSMzloynFY9QRrO7afEaLRn3kz2/FH+zTewd0=;
- b=hKs+tOtlpNbCHHWeBhiMMwEzIdX4NoswbcPdTh/otK1ckr7jPBd5u6Pj
- KlZOGfqXPXleeND/Z2rlS1LLezoCnrLWa/HBOCeyPWwXOan4ufzcsvoVM
- vAuZOtdeWFx7m3gHecWel9YHkkgE4BnmupslacGDSUMy4W0h1ygcIHI1x
- Idg0oIGFnD4eP+6rXewXGsmO+1uqr0EU4RyXJocJqIQD6YeVbuSz41ljC
- a7o09XdbFTSSAc0OLNcwu7KrakFHEm8j7WjHBPi1Ilw4qZJEccmDAoufh
- z+Ztn4N8v5DbXSdi9tGiCCxUQaQHVxnoiKCD3PuBj3FAz7GZuiHX82TCi Q==;
-X-CSE-ConnectionGUID: Fi16EZj4R4eOFvjGa0vOJQ==
-X-CSE-MsgGUID: jddtXH5uTIWpvNSoBfMcjA==
-X-IronPort-AV: E=Sophos;i="6.08,163,1712613600"; d="scan'208";a="36927601"
-Subject: Re: [PATCH 1/2] drm: bridge: samsung-dsim: Initialize bridge on attach
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 16 May 2024 08:51:28 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 476E4170900; Thu, 16 May 2024 08:51:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1715842284;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=wypPkETSMzloynFY9QRrO7afEaLRn3kz2/FH+zTewd0=;
- b=Vh7qsaG3hPsU+NgwCis83thPoH3lZKaQBLXXN64a+T9S8NTDcVVc2fVwSFuWuTcGiMJll5
- 1BkxKskkDNHuHZHQcRDylLaF1MWmtzeie28CGtaQbq2Ncmttsnl00Dsu88tTyaXoC6qKuu
- afS1WEEprMKOV2rrz146lFh0lqABH5qJyCComaZgBfPGq0tLbC6vrSbgVh62trTo4dFPJD
- Cr5S1aZTFWEiKw78wqiEP8zMIYeIXKWgCsv1QTFpidmPE9imzBvw3IH2/NUlLqn75i8ZW6
- Tm2ueGRpH4Fo34wcuKmt1s5u0HUWJCTocPz+aVZtuDFjKnLSikt4defwXjVVMA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>
-Cc: Marek Vasut <marex@denx.de>, Adam Ford <aford173@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, kernel@dh-electronics.com
-Date: Thu, 16 May 2024 08:51:25 +0200
-Message-ID: <6163202.ElGaqSPkdT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240513021849.129136-1-marex@denx.de>
-References: <20240513021849.129136-1-marex@denx.de>
+ d=linaro.org; s=google; t=1715842519; x=1716447319; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=zApq4EhEn1SkxpN84kRXwF8kImjxLliRj17breW4Is4=;
+ b=gYO7cmmt7eFqPWon3fONsMBZwvbFg2KlHEinHB9NARCdALhJNnqE2PlwMd6vPFueb/
+ A2c3lOKsWJBl5MvZ7z1v24/4a+OESsBA8Miq4/HVQB0hRyHKlbCqXvGVZjdRdsdo6akp
+ H0UhpaSsMrYlLCSF+ErEbHTjWobT/eDqATWjkMGUNKFaPrMyBSRaf/Fs3MxpDz+k6sc5
+ s8Ye7JyipT2ruLyrlDdq+w+c305jfHKwCMYOzNn4jo2loVQRXqeLe4y5wqErbW1KGjgY
+ owHDP24vbO6tBEmkdrwnkKGOASVV2NS4qjf6bdzBDRXZTSvWZFHS0pU8gh2A4YW0VNii
+ 3GXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715842519; x=1716447319;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=zApq4EhEn1SkxpN84kRXwF8kImjxLliRj17breW4Is4=;
+ b=fE7x+jcM0xIXTy+Umzg7vzDkwykPMGJ1D8EAKfesRE7XPflZEpExXz/PKigKH2E84e
+ jUTIJE3ILWwvG4bJyXAMFZ7REjCSgQDL7qfxdYlSc3FxjOE9c6KFyeREhKxig1iB/DWe
+ v55iz3Gzud5EaL3OHu7P4c3DJnGlnvBdftjcH8UhxiNXOlcrSGWB0TB0FZZRk7wI04Pb
+ g31nyfmwFev6inoPeDQA6H6ab0o01M2PWQTZo8PCytSDq2rChYQIKp8lYeFelvgkPPsS
+ ivzsMPCfAHAOuBC0y321TiO2O7aoV5C2ppnCg6DTjL6KQUEdFOhFQdd8/WUHzVnhjJfr
+ SJWA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWu4bTVEtcyTb9QiVsP4t4SbO8438weZBNN+2xwNqray4TJMH/ZHWKqNLAvau6tvMt0hpXQtu+QQNJZv+nic2l0xoQoMelbXK1QbN7b46gU
+X-Gm-Message-State: AOJu0Yw9s/gIh6scS9Si8KthiAQHsb3P3AM4DsSg9LdRUaSYq/E0Ehqb
+ eEKVKS0zLqPWBGMoUW4ehgQlYRPkw5GiLL8vIP2dIYTi4MzlEniqezyAL2zccZc=
+X-Google-Smtp-Source: AGHT+IHmfhzYhswL+q5F4aVR+npRhzdTj2L7dKbOyBQ9wI3xHaXvPRu7CbbM43TEedhU2ph/itihzA==
+X-Received: by 2002:a05:600c:3108:b0:416:536b:683a with SMTP id
+ 5b1f17b1804b1-41fead65000mr120876815e9.32.1715842518928; 
+ Wed, 15 May 2024 23:55:18 -0700 (PDT)
+Received: from [10.96.0.27] ([149.14.240.163])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4201916e7c6sm118983755e9.12.2024.05.15.23.55.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 May 2024 23:55:18 -0700 (PDT)
+Message-ID: <7b488473-7fd1-4f4f-8c32-72e84420b478@linaro.org>
+Date: Thu, 16 May 2024 08:55:16 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [v7 3/7] arm64: defconfig: Enable HIMAX_HX83102 panel
+To: cong yang <yangcong5@huaqin.corp-partner.google.com>,
+ Doug Anderson <dianders@chromium.org>
+Cc: sam@ravnborg.org, daniel@ffwll.ch, linus.walleij@linaro.org,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org,
+ airlied@gmail.com, dmitry.baryshkov@linaro.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, xuxinxiong@huaqin.corp-partner.google.com
+References: <20240515014643.2715010-1-yangcong5@huaqin.corp-partner.google.com>
+ <20240515014643.2715010-4-yangcong5@huaqin.corp-partner.google.com>
+ <0fcdb0ac-2e4a-44b2-a5d6-a67a1d747df8@linaro.org>
+ <CAD=FV=XkBkQUN-93eQDKZcw_66uSeNBBhbiq2hRLcFN+Ck71RQ@mail.gmail.com>
+ <CAHwB_N+foZpCjqUy0dJdS2wBbUjHVRQQP0p7S_eTG1Yrh0bgPw@mail.gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <CAHwB_N+foZpCjqUy0dJdS2wBbUjHVRQQP0p7S_eTG1Yrh0bgPw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,98 +116,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+On 16/05/2024 08:43, cong yang wrote:
+> Hi:
+> 
+> If it is determined that a separately patch needs to be sent, then I
+> will remove this patch in V8 series?
+> 
+> Doug Anderson <dianders@chromium.org> 于2024年5月16日周四 05:28写道：
+> 
+>>
+>> Hi,
+>>
+>> On Wed, May 15, 2024 at 2:16 PM <neil.armstrong@linaro.org> wrote:
+>>>
+>>> Hi,
+>>>
+>>> On 15/05/2024 03:46, Cong Yang wrote:
+>>>> DRM_PANEL_HIMAX_HX83102 is being split out from DRM_PANEL_BOE_TV101WUM_NL6.
+>>>> Since the arm64 defconfig had the BOE panel driver enabled, let's also
+>>>> enable the himax driver.
+>>>>
+>>>> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+>>>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>>>> ---
+>>>>    arch/arm64/configs/defconfig | 1 +
+>>>>    1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+>>>> index 2c30d617e180..687c86ddaece 100644
+>>>> --- a/arch/arm64/configs/defconfig
+>>>> +++ b/arch/arm64/configs/defconfig
+>>>> @@ -864,6 +864,7 @@ CONFIG_DRM_PANEL_BOE_TV101WUM_NL6=m
+>>>>    CONFIG_DRM_PANEL_LVDS=m
+>>>>    CONFIG_DRM_PANEL_SIMPLE=m
+>>>>    CONFIG_DRM_PANEL_EDP=m
+>>>> +CONFIG_DRM_PANEL_HIMAX_HX83102=m
+>>>>    CONFIG_DRM_PANEL_ILITEK_ILI9882T=m
+>>>>    CONFIG_DRM_PANEL_MANTIX_MLAF057WE51=m
+>>>>    CONFIG_DRM_PANEL_RAYDIUM_RM67191=m
+>>>
+>>> You should probably sent this one separately since only an ARM SoC maintainer
+>>> can apply this, probably via the qcom tree.
+>>
+>> Really? I always kinda figured that this was a bit like MAINTAINERS
+>> where it can come through a bunch of different trees. Certainly I've
+>> landed changes to it before through the drm-misc tree. If that was
+>> wrong then I'll certainly stop doing it, of course.
 
-thanks for the patch.
+Yeah we usually don't mess with arch specific defconfig from drm tree
 
-Am Montag, 13. Mai 2024, 04:16:27 CEST schrieb Marek Vasut:
-> Initialize the bridge on attach already, to force lanes into LP11
-> state, since attach does trigger attach of downstream bridges which
-> may trigger (e)DP AUX channel mode read.
->=20
-> This fixes a corner case where DSIM with TC9595 attached to it fails
-> to operate the DP AUX channel, because the TC9595 enters some debug
-> mode when it is released from reset without lanes in LP11 mode. By
-> ensuring the DSIM lanes are in LP11, the TC9595 (tc358767.c driver)
-> can be reset in its attach callback called from DSIM attach callback,
-> and recovered out of the debug mode just before TC9595 performs first
-> AUX channel access later in its attach callback.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Adam Ford <aford173@gmail.com>
-> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Michael Walle <mwalle@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: kernel@dh-electronics.com
-> ---
->  drivers/gpu/drm/bridge/samsung-dsim.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
-ge/samsung-dsim.c
-> index 95fedc68b0ae5..56093fc3d62cc 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1622,9 +1622,21 @@ static int samsung_dsim_attach(struct drm_bridge *=
-bridge,
->  			       enum drm_bridge_attach_flags flags)
->  {
->  	struct samsung_dsim *dsi =3D bridge_to_dsi(bridge);
-> +	int ret;
-> +
-> +	ret =3D pm_runtime_resume_and_get(dsi->dev);
-> +	if (ret < 0)
-> +		return ret;
-> =20
-> -	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
-> -				 flags);
-> +	ret =3D samsung_dsim_init(dsi);
-> +	if (ret < 0)
-> +		goto err;
-> +
-> +	ret =3D drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
-> +				flags);
-> +err:
-> +	pm_runtime_put_sync(dsi->dev);
-> +	return ret;
->  }
-> =20
->  static const struct drm_bridge_funcs samsung_dsim_bridge_funcs =3D {
->=20
-
-It seems the right thing to do. But if 'samsung,burst-clock-frequency' is
-not specified for DSIM I get a DSI PLL configuration failure. There is no
-mode yet, thus samsung_dsim_enable_clock() tries to configure the PLL for
-0Hz. There is another reconfiguration while pre_enabling the chain targeting
-the correct clock (891000000Hz for 1920x1080), so this seems fine.
-But I'm not sure if the 1st config error has any negative side effects.
-
-Best regards,
-Alexander
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+>>
+>> -Doug
 
