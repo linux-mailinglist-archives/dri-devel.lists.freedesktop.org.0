@@ -2,54 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913B38C78CF
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 16:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F628C78D4
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 17:00:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50EA710E0DC;
-	Thu, 16 May 2024 14:58:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A33F10ED58;
+	Thu, 16 May 2024 15:00:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d6UH/ROx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cfmlJHwL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7638B10E0DC
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 14:58:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id E727FCE1844;
- Thu, 16 May 2024 14:58:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05E26C113CC;
- Thu, 16 May 2024 14:58:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715871511;
- bh=C8sulEDJMrxWYwdcSw3tGuQJg30NjDlZJQNANrn1vsA=;
- h=From:To:Cc:Subject:Date:From;
- b=d6UH/ROxjVr7ZimdfV/GmliF7x7WpcyhHXvOSEui1blfE6jsPgOz156GCqKHXQL2I
- t6xm3YjiWKqc5uXXu12LrDe2I4PP42SXuCTzTGv+DzexUMksV4+nTdLWJsnH6bjvbO
- SXdKNRcGxU9TkD9Pgo9otj4li6piB6NbW6mb5mGxlnr8DpeFM1vwx2k9UVvM7rYTdr
- /ql3G0dBSZ7+77+QvDgIje9Hpb9mheZiFqP2hPv+f/XQW4fRzAO0KXNQ5kA1GWZmD/
- EKQsLlAwTZFsjzKGq8yvpmNH/0v28+kECY2jYKNshOmefNhCBjRpmvhIUf3+EfygbN
- t3usg4GmwA92Q==
-From: Michael Walle <mwalle@kernel.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Jitao Shi <jitao.shi@mediatek.com>, Stu Hsieh <stu.hsieh@mediatek.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- dri-devel@lists.freedesktop.org,
- Frank Wunderlich <frank-w@public-files.de>,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Michael Walle <mwalle@kernel.org>,
- =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>
-Subject: [PATCH v5] drm/mediatek: dpi/dsi: fix possible_crtcs calculation
-Date: Thu, 16 May 2024 16:58:24 +0200
-Message-Id: <20240516145824.1669263-1-mwalle@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3E1E10ED55;
+ Thu, 16 May 2024 15:00:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715871635; x=1747407635;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=DmfWODIHNAA4dfjJTAnSbg1KySVd76EloNPZ+ei/Ai0=;
+ b=cfmlJHwLltcfkkIQEvT9bPmWkk5kKWRqDb4JLuS/svTLn4dL6DKkBvFL
+ 3KkwqhFoH0bhRDsUbDM8OooCYEtoKtoIaoE5zUP12o0WSlHDq7ffsDuFh
+ i4ZiC4FhuA1+0pAHZdV6OjTmPApEYrrh0JsPCP6awPiVGPMeHpWe0pecv
+ CMHaWGTgE0oqc5AGkehjkuOFRxsSHvkrOLUbryevPvMLjUiFQdyRL82Qc
+ zLrAg6X9qXrUAuDqPQmkfY87kHHtzhwOA9A347/L1Y342oswtS6DEYsoL
+ GDl4nrXb+qiACb2rGyp7QzPy5fI05aACsQGHvFQfPSvfb3H4oh34gVEdT Q==;
+X-CSE-ConnectionGUID: HxjE8gpqT6OsIaX1D/+/jg==
+X-CSE-MsgGUID: xiHNQabcTLy1bQH4pK/4Aw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12198358"
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; d="scan'208";a="12198358"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2024 08:00:34 -0700
+X-CSE-ConnectionGUID: LhWMdSOzQTqNOND/S7Fgcg==
+X-CSE-MsgGUID: sYZitjegQ3u/O+8/V2BW2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; d="scan'208";a="36230575"
+Received: from ebruchet-mobl1.ger.corp.intel.com (HELO [10.251.211.65])
+ ([10.251.211.65])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2024 08:00:29 -0700
+Message-ID: <54d2c8b9-8b04-45fc-b483-200ffac9d344@linux.intel.com>
+Date: Thu, 16 May 2024 17:00:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PULL] drm-misc-next-fixes
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,216 +77,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mtk_find_possible_crtcs() assumes that the main path will always have
-the CRTC with id 0, the ext id 1 and the third id 2. This is only true
-if the paths are all available. But paths are optional (see also
-comment in mtk_drm_kms_init()), e.g. the main path might not be enabled
-or available at all. Then the CRTC IDs will shift one up, e.g. ext will
-be 0 and the third path will be 1.
+drm-misc-next-fixes-2024-05-16:
+drm-misc-next-fixes for v6.10-rc1:
+- VM_BIND fix for nouveau.
+- Lots of panthor fixes:
+   * Fixes for panthor's heap logical block.
+   * Reset on unrecoverable fault
+   * Fix VM references.
+   * Reset fix.
+- xlnx compile and doc fixes.
+The following changes since commit be3f3042391d061cfca2bd22630e0d101acea5fc:
 
-To fix that, dynamically calculate the IDs by the presence of the paths.
+   drm: zynqmp_dpsub: Always register bridge (2024-05-02 23:40:56 +0200)
 
-While at it, make the return code a signed one and return -ENODEV if no
-path is found and handle the error in the callers.
+are available in the Git repository at:
 
-Fixes: 5aa8e7647676 ("drm/mediatek: dpi/dsi: Change the getting possible_crtc way")
-Suggested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Signed-off-by: Michael Walle <mwalle@kernel.org>
----
-You can find v4 at [1]. Unfortunately, it was never applied and in the
-meantime there was a change in mtk_find_possible_crtcs(). So I've
-dropped Nícolas Reviewed and Tested-by tags and Angelos Reviewed-by
-tag.
+   https://gitlab.freedesktop.org/drm/misc/kernel.git 
+tags/drm-misc-next-fixes-2024-05-16
 
-[1] https://lore.kernel.org/r/20230905084922.3908121-2-mwalle@kernel.org/
----
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c | 105 ++++++++++++++++--------
- drivers/gpu/drm/mediatek/mtk_ddp_comp.h |   2 +-
- drivers/gpu/drm/mediatek/mtk_dpi.c      |   5 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c      |   5 +-
- 4 files changed, 78 insertions(+), 39 deletions(-)
+for you to fetch changes up to 959314c438caf1b62d787f02d54a193efda38880:
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-index 17b036411292..9a8c1cace8a0 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-@@ -514,29 +514,42 @@ static bool mtk_ddp_comp_find(struct device *dev,
- 	return false;
- }
- 
--static unsigned int mtk_ddp_comp_find_in_route(struct device *dev,
--					       const struct mtk_drm_route *routes,
--					       unsigned int num_routes,
--					       struct mtk_ddp_comp *ddp_comp)
-+static int mtk_ddp_comp_find_in_route(struct device *dev,
-+				      const struct mtk_drm_route *routes,
-+				      unsigned int num_routes,
-+				      struct mtk_ddp_comp *ddp_comp)
- {
--	int ret;
- 	unsigned int i;
- 
--	if (!routes) {
--		ret = -EINVAL;
--		goto err;
--	}
-+	if (!routes)
-+		return -EINVAL;
- 
- 	for (i = 0; i < num_routes; i++)
- 		if (dev == ddp_comp[routes[i].route_ddp].dev)
- 			return BIT(routes[i].crtc_id);
- 
--	ret = -ENODEV;
--err:
-+	return -ENODEV;
-+}
- 
--	DRM_INFO("Failed to find comp in ddp table, ret = %d\n", ret);
-+static bool mtk_ddp_path_available(const unsigned int *path,
-+				   unsigned int path_len,
-+				   struct device_node **comp_node)
-+{
-+	unsigned int i;
- 
--	return 0;
-+	if (!path || !path_len)
-+		return false;
-+
-+	for (i = 0U; i < path_len; i++) {
-+		/* OVL_ADAPTOR doesn't have a device node */
-+		if (path[i] == DDP_COMPONENT_DRM_OVL_ADAPTOR)
-+			continue;
-+
-+		if (!comp_node[path[i]])
-+			return false;
-+	}
-+
-+	return true;
- }
- 
- int mtk_ddp_comp_get_id(struct device_node *node,
-@@ -554,32 +567,52 @@ int mtk_ddp_comp_get_id(struct device_node *node,
- 	return -EINVAL;
- }
- 
--unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev)
-+int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
--	unsigned int ret = 0;
--
--	if (mtk_ddp_comp_find(dev,
--			      private->data->main_path,
--			      private->data->main_len,
--			      private->ddp_comp))
--		ret = BIT(0);
--	else if (mtk_ddp_comp_find(dev,
--				   private->data->ext_path,
--				   private->data->ext_len,
--				   private->ddp_comp))
--		ret = BIT(1);
--	else if (mtk_ddp_comp_find(dev,
--				   private->data->third_path,
--				   private->data->third_len,
--				   private->ddp_comp))
--		ret = BIT(2);
--	else
--		ret = mtk_ddp_comp_find_in_route(dev,
--						 private->data->conn_routes,
--						 private->data->num_conn_routes,
--						 private->ddp_comp);
-+	const struct mtk_mmsys_driver_data *data;
-+	struct mtk_drm_private *priv_n;
-+	int i = 0, j;
-+	int ret;
- 
-+	for (j = 0; j < private->data->mmsys_dev_num; j++) {
-+		priv_n = private->all_drm_private[j];
-+		data = priv_n->data;
-+
-+		if (mtk_ddp_path_available(data->main_path, data->main_len,
-+					   priv_n->comp_node)) {
-+			if (mtk_ddp_comp_find(dev, data->main_path,
-+					      data->main_len,
-+					      priv_n->ddp_comp))
-+				return BIT(i);
-+			i++;
-+		}
-+
-+		if (mtk_ddp_path_available(data->ext_path, data->ext_len,
-+					   priv_n->comp_node)) {
-+			if (mtk_ddp_comp_find(dev, data->ext_path,
-+					      data->ext_len,
-+					      priv_n->ddp_comp))
-+				return BIT(i);
-+			i++;
-+		}
-+
-+		if (mtk_ddp_path_available(data->third_path, data->third_len,
-+					   priv_n->comp_node)) {
-+			if (mtk_ddp_comp_find(dev, data->third_path,
-+					      data->third_len,
-+					      priv_n->ddp_comp))
-+				return BIT(i);
-+			i++;
-+		}
-+	}
-+
-+	ret = mtk_ddp_comp_find_in_route(dev,
-+					 private->data->conn_routes,
-+					 private->data->num_conn_routes,
-+					 private->ddp_comp);
-+
-+	DRM_INFO("Failed to find comp in ddp table, ret = %d\n", ret);
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-index 26236691ce4c..e2ea19d5ddcb 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.h
-@@ -326,7 +326,7 @@ static inline void mtk_ddp_comp_encoder_index_set(struct mtk_ddp_comp *comp)
- 
- int mtk_ddp_comp_get_id(struct device_node *node,
- 			enum mtk_ddp_comp_type comp_type);
--unsigned int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev);
-+int mtk_find_possible_crtcs(struct drm_device *drm, struct device *dev);
- int mtk_ddp_comp_init(struct device_node *comp_node, struct mtk_ddp_comp *comp,
- 		      unsigned int comp_id);
- enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 5c86aa0b75b2..b894be9f1f53 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -814,7 +814,10 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 	}
- 
--	dpi->encoder.possible_crtcs = mtk_find_possible_crtcs(drm_dev, dpi->dev);
-+	ret = mtk_find_possible_crtcs(drm_dev, dpi->dev);
-+	if (ret < 0)
-+		goto err_cleanup;
-+	dpi->encoder.possible_crtcs = ret;
- 
- 	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 2b0ac859a653..b450b7223aa2 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -861,7 +861,10 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 		return ret;
- 	}
- 
--	dsi->encoder.possible_crtcs = mtk_find_possible_crtcs(drm, dsi->host.dev);
-+	ret = mtk_find_possible_crtcs(drm, dsi->host.dev);
-+	if (ret < 0)
-+		goto err_cleanup_encoder;
-+	dsi->encoder.possible_crtcs = ret;
- 
- 	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
--- 
-2.39.2
+   drm/nouveau: use tile_mode and pte_kind for VM_BIND bo allocations 
+(2024-05-13 22:27:33 +0200)
 
+----------------------------------------------------------------
+drm-misc-next-fixes for v6.10-rc1:
+- VM_BIND fix for nouveau.
+- Lots of panthor fixes:
+   * Fixes for panthor's heap logical block.
+   * Reset on unrecoverable fault
+   * Fix VM references.
+   * Reset fix.
+- xlnx compile and doc fixes.
+
+----------------------------------------------------------------
+Anatoliy Klymenko (2):
+       drm: xlnx: zynqmp_dpsub: Fix few function comments
+       drm: xlnx: zynqmp_dpsub: Fix compilation error
+
+Antonino Maniscalco (1):
+       drm/panthor: Fix tiler OOM handling to allow incremental rendering
+
+Boris Brezillon (8):
+       drm/panthor: Make sure the tiler initial/max chunks are consistent
+       drm/panthor: Relax the constraints on the tiler chunk size
+       drm/panthor: Fix an off-by-one in the heap context retrieval logic
+       drm/panthor: Document drm_panthor_tiler_heap_destroy::handle 
+validity constraints
+       drm/panthor: Force an immediate reset on unrecoverable faults
+       drm/panthor: Keep a ref to the VM at the panthor_kernel_bo level
+       drm/panthor: Reset the FW VM to NULL on unplug
+       drm/panthor: Call panthor_sched_post_reset() even if the reset failed
+
+Mohamed Ahmed (1):
+       drm/nouveau: use tile_mode and pte_kind for VM_BIND bo allocations
+
+  drivers/gpu/drm/nouveau/nouveau_abi16.c  |  3 ++
+  drivers/gpu/drm/nouveau/nouveau_bo.c     | 44 
++++++++++++++----------------
+  drivers/gpu/drm/panthor/panthor_device.c |  8 ++----
+  drivers/gpu/drm/panthor/panthor_device.h |  1 +
+  drivers/gpu/drm/panthor/panthor_fw.c     |  5 ++--
+  drivers/gpu/drm/panthor/panthor_gem.c    |  8 ++++--
+  drivers/gpu/drm/panthor/panthor_gem.h    |  8 ++++--
+  drivers/gpu/drm/panthor/panthor_heap.c   | 36 ++++++++++++++----------
+  drivers/gpu/drm/panthor/panthor_sched.c  | 48 
++++++++++++++++++++++++---------
+  drivers/gpu/drm/panthor/panthor_sched.h  |  2 +-
+  drivers/gpu/drm/xlnx/zynqmp_disp.c       |  6 ++--
+  include/uapi/drm/nouveau_drm.h           |  7 +++++
+  include/uapi/drm/panthor_drm.h           | 20 ++++++++++---
+  13 files changed, 123 insertions(+), 73 deletions(-)
