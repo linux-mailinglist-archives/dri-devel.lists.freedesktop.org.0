@@ -2,45 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709A58C6F82
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 02:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F958C6FFF
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 03:25:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2326310E31F;
-	Thu, 16 May 2024 00:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D0CA10E13D;
+	Thu, 16 May 2024 01:25:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="f1pUyeJj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PtdhQ4rF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE7D10E31F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 00:26:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=FEW5zQ+hFPy/mi8dp5190371bnzWd+5sgKI+/QgL0ew=; b=f1pUyeJj5GE3RZNc3HPEN/ZQRL
- ViRVKB0d2tKy9s4vccrYzgUral2xS9MSAWEwzBBQb5dLANG4cO73g0e+osAw0WQ3pIRjMKspxVXDR
- WFB61uRJmJdRuX6YICXtzD+DV72HgWngf0685fzGR7cfzmlkTdg6B10TJiKrZR/Pqwwe7+uQ/BjZB
- XFjSDQ6vnC5XfRyZoaZXvEZDf7lHW6hLbPA4ywHaaLObGou6gHtTKu0LqyhyksWRZ9VS//qdGerNR
- B/pSoKhwrgEITMQgIJXaU43eBQcsYLQxcRFRbL/1VbJbbgY+Apyw9oNbzhJG800Pgt/2AGA6LDwav
- TpjoF6ZA==;
-Received: from [50.53.4.147] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1s7OxQ-00000003Fxa-3mhw; Thu, 16 May 2024 00:26:53 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/mode: fix all kernel-doc warnings
-Date: Wed, 15 May 2024 17:26:52 -0700
-Message-ID: <20240516002652.6674-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.45.0
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0978210E13D
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 01:25:07 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id
+ 41be03b00d2f7-5e4f79007ffso4951194a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 18:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715822707; x=1716427507; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5fmWXC4STobP3Pb92e4kqt4VpFGocCfhWdVYzSq5P7k=;
+ b=PtdhQ4rF6oNT4NZLF6FHWcfdJoEXBec3d1JRmBXuFsuM0uhprjlvdGpgEEBXvxSgPt
+ EOXxZtnFn8QWC+KdrlDEXvF+3EbiVyqmgnTP9YdTKntupwML6ReRuKqfrG3gsc28T64M
+ R6x65CCc2SOvfs856aoejQqRBM87Mjn3T+R5Z0FPNL5rqhNxsej84zMY+dkLZ8KHhx4q
+ bgkyWdMbwPqZ1oVVHQWN5d4o7N09xuZcKA5FL7vfjiO+I5IeBNWq68/n4xNtwBLlcYO8
+ IazDaAu0p/vwJgX2Z9kXbPLQ7ad9YYg0JH71+jUxKcLGmAwDQzXqIy0KTB3JjrzQWovM
+ 9kiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715822707; x=1716427507;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5fmWXC4STobP3Pb92e4kqt4VpFGocCfhWdVYzSq5P7k=;
+ b=Z+jSQ1gvYerwB7m7s1bDpQveMfgTWYpWp7UdEmANac9jpOSxR+s+pROs/2/M9sSlVE
+ YATF4iie5tqefSBCD41du4N3v4zq8kFkspeqKVNbP2gU1K5d0FQp86zpbVKF1zMeud91
+ GVrLZItjbjnD3RPLKDURUVUZicAQIf1HghvhycUvKXXL2TlqBhmwkmfwr/AyJ0+iiXA1
+ DkJ26lQHo9y7xA22ydTlmigogS42iIFGGhHpoHuTv5hQQQb75iywpBDW5kTknxu8D2K9
+ HpL1AHU6C9tQrAlPScbGAuRW/xIe0uedSAPi1N4xMBOgJ6T5xhMcxqnYV25ZVt7WMKeN
+ FQAQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX+Mm5/vM1b7Xx5CIRuUxmkwlKKFrh/IQP3l8mMYkanYQHk/YPNMNcwxMMYUXMEopR8CYpEtHK/sU5xjAt8VA5edtGIGIpSGv380Fu+TMRM
+X-Gm-Message-State: AOJu0YwPi2oQTw7G68fqZR5iD46H6j3QpJ+14XN2tMLjS4gq3xbfVQJ/
+ MknLUjoBShZb9+XBIGdb2I0Ipjp8eT8IIW7Fo+BR7nYZ14jdBQffBXsllZUb/zFvlwJcAJ3Vfno
+ ZSy7AxEsf580bAwf2cynBDGNwljQ=
+X-Google-Smtp-Source: AGHT+IGK2DJmWdWb2pJ/jm5+3f2H2Nf0KVc5NYGgyCDQZvmuV/RjgwR54xXMLkmuUSFv44h/oUsqaa4I9KLghqoFWTI=
+X-Received: by 2002:a05:6a21:c98:b0:1a7:5e8f:8707 with SMTP id
+ adf61e73a8af0-1afde10af9emr18413459637.26.1715822707151; Wed, 15 May 2024
+ 18:25:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240513212836.292589-3-thorsten.blum@toblux.com>
+ <CAB3Z9RJ+VVAvVfKWF2LCzH3288vi6CF7uv+g+qbeu_L0c_k0Nw@mail.gmail.com>
+ <60613D48-7C93-4B9F-894C-CE70E5F8D123@toblux.com>
+ <227C6981-AFFC-4E0E-A95F-BF8979D5AD2A@toblux.com>
+In-Reply-To: <227C6981-AFFC-4E0E-A95F-BF8979D5AD2A@toblux.com>
+From: Luc Ma <onion0709@gmail.com>
+Date: Thu, 16 May 2024 09:24:55 +0800
+Message-ID: <CAB3Z9RJ3RXOMc887N3cJntC1U24HXLkS4jm72xZtcDxNawRN3Q@mail.gmail.com>
+Subject: Re: [PATCH] drm: Combine identical if/elif code blocks
+To: Thorsten Blum <thorsten.blum@toblux.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,133 +83,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add @width and @height descriptions for &struct drm_plane_size_hint
-along with a reference to more info.
+Hi,
 
-Add a short description for &struct drm_mode_closefb.
+On Wed, 15 May 2024 at 17:31, Thorsten Blum <thorsten.blum@toblux.com> wrote:
+>
+> On 15. May 2024, at 11:22, Thorsten Blum <thorsten.blum@toblux.com> wrote:
+> > On 15. May 2024, at 09:43, Luc Ma <onion0709@gmail.com> wrote:
+> >> On Tue, 14 May 2024 at 19:37, Thorsten Blum <thorsten.blum@toblux.com> wrote:
+> >>>
+> >>> Merge the identical if/elif code blocks and remove the following two
+> >>> warnings reported by make includecheck:
+> >>>
+> >>>      asm/ioctl.h is included more than once
+> >>>      linux/types.h is included more than once
+> >>>
+> >>> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+> >>> ---
+> >>> include/uapi/drm/drm.h | 8 +-------
+> >>> 1 file changed, 1 insertion(+), 7 deletions(-)
+> >>>
+> >>> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> >>> index 16122819edfe..315af7b19c97 100644
+> >>> --- a/include/uapi/drm/drm.h
+> >>> +++ b/include/uapi/drm/drm.h
+> >>> @@ -35,13 +35,7 @@
+> >>> #ifndef _DRM_H_
+> >>> #define _DRM_H_
+> >>>
+> >>> -#if defined(__KERNEL__)
+> >>> -
+> >>> -#include <linux/types.h>
+> >>> -#include <asm/ioctl.h>
+> >>> -typedef unsigned int drm_handle_t;
+> >>> -
+> >>> -#elif defined(__linux__)
+> >>
+> >> I think it is intentionally like that. Please see
+> >> https://patchwork.freedesktop.org/patch/78747/
+> >
+> > Thank you for the link.
+> >
+> > Does anyone know if the reason for the change from 2016 ("make
+> > headers_install can't handle fancy conditions, ...") is still valid?
 
-Change 7 macros not to be marked as kernel-doc notation to prevent
-warnings.
+I guess it is. If you can try ./scripts/unifdef as below[1], you might
+find out the thing.
 
-Fixes these kernel-doc warnings:
+[1]https://elixir.bootlin.com/linux/v6.9/source/scripts/headers_install.sh#L41
 
-drm_mode.h:877: warning: Function parameter or struct member 'width' not described in 'drm_plane_size_hint'
-drm_mode.h:877: warning: Function parameter or struct member 'height' not described in 'drm_plane_size_hint'
-drm_mode.h:969: warning: missing initial short description on line:
- * DRM_MODE_PAGE_FLIP_EVENT
-drm_mode.h:977: warning: missing initial short description on line:
- * DRM_MODE_PAGE_FLIP_ASYNC
-drm_mode.h:998: warning: missing initial short description on line:
- * DRM_MODE_PAGE_FLIP_FLAGS
-drm_mode.h:1108: warning: missing initial short description on line:
- * DRM_MODE_ATOMIC_TEST_ONLY
-drm_mode.h:1118: warning: missing initial short description on line:
- * DRM_MODE_ATOMIC_NONBLOCK
-drm_mode.h:1127: warning: missing initial short description on line:
- * DRM_MODE_ATOMIC_ALLOW_MODESET
-drm_mode.h:1149: warning: missing initial short description on line:
- * DRM_MODE_ATOMIC_FLAGS
-drm_mode.h:1358: warning: missing initial short description on line:
- * struct drm_mode_closefb
+> >
+> > Other headers use the same #if directive:
+> >
+> > fs/ext4/ext4.h:948:#if defined(__KERNEL__) || defined(__linux__)
+> > include/uapi/sound/asound.h:11:#if defined(__KERNEL__) || defined(__linux__)
+> >
+> > And there are many others using similar conditions:
+> >
+> > arch/arm/include/uapi/asm/swab.h:27:#if !defined(__KERNEL__) || __LINUX_ARM_ARCH__ < 6
+> > arch/sparc/include/uapi/asm/signal.h:92:#if defined(__KERNEL__) || defined(__WANT_POSIX1B_SIGNALS__)
+> > arch/sparc/include/uapi/asm/termios.h:8:#if defined(__KERNEL__) || defined(__DEFINE_BSD_TERMIOS)
+> > include/uapi/linux/soundcard.h:1040:#if !defined(__KERNEL__) || defined(USE_SEQ_MACROS)
+> > include/uapi/linux/stat.h:7:#if defined(__KERNEL__) || !defined(__GLIBC__) || (__GLIBC__ < 2)
+> > include/uapi/sound/asound.h:11:#if defined(__KERNEL__) || defined(__linux__)
+> > ...
+> >
+> > Thanks,
+> > Thorsten
+>
+> Re-sending this to linux-kernel@vger.kernel.org because the mailing list
+> somehow got lost in Luc's reply.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Sorry about that.
 
- include/uapi/drm/drm_mode.h |   21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
-
-diff -- a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -867,9 +867,12 @@ struct drm_color_lut {
- 
- /**
-  * struct drm_plane_size_hint - Plane size hints
-+ * @width: recommended plane width (no scaling)
-+ * @height: recommended plane height (no scaling)
-  *
-  * The plane SIZE_HINTS property blob contains an
-- * array of struct drm_plane_size_hint.
-+ * array of struct drm_plane_size_hint as described in
-+ * "DOC: standard plane properties".
-  */
- struct drm_plane_size_hint {
- 	__u16 width;
-@@ -962,7 +965,7 @@ struct hdr_output_metadata {
- 	};
- };
- 
--/**
-+/*
-  * DRM_MODE_PAGE_FLIP_EVENT
-  *
-  * Request that the kernel sends back a vblank event (see
-@@ -970,7 +973,7 @@ struct hdr_output_metadata {
-  * page-flip is done.
-  */
- #define DRM_MODE_PAGE_FLIP_EVENT 0x01
--/**
-+/*
-  * DRM_MODE_PAGE_FLIP_ASYNC
-  *
-  * Request that the page-flip is performed as soon as possible, ie. with no
-@@ -991,7 +994,7 @@ struct hdr_output_metadata {
- #define DRM_MODE_PAGE_FLIP_TARGET_RELATIVE 0x8
- #define DRM_MODE_PAGE_FLIP_TARGET (DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE | \
- 				   DRM_MODE_PAGE_FLIP_TARGET_RELATIVE)
--/**
-+/*
-  * DRM_MODE_PAGE_FLIP_FLAGS
-  *
-  * Bitmask of flags suitable for &drm_mode_crtc_page_flip_target.flags.
-@@ -1101,7 +1104,7 @@ struct drm_mode_destroy_dumb {
- 	__u32 handle;
- };
- 
--/**
-+/*
-  * DRM_MODE_ATOMIC_TEST_ONLY
-  *
-  * Do not apply the atomic commit, instead check whether the hardware supports
-@@ -1111,7 +1114,7 @@ struct drm_mode_destroy_dumb {
-  * commits.
-  */
- #define DRM_MODE_ATOMIC_TEST_ONLY 0x0100
--/**
-+/*
-  * DRM_MODE_ATOMIC_NONBLOCK
-  *
-  * Do not block while applying the atomic commit. The &DRM_IOCTL_MODE_ATOMIC
-@@ -1120,7 +1123,7 @@ struct drm_mode_destroy_dumb {
-  * applied before retuning.
-  */
- #define DRM_MODE_ATOMIC_NONBLOCK  0x0200
--/**
-+/*
-  * DRM_MODE_ATOMIC_ALLOW_MODESET
-  *
-  * Allow the update to result in temporary or transient visible artifacts while
-@@ -1142,7 +1145,7 @@ struct drm_mode_destroy_dumb {
-  */
- #define DRM_MODE_ATOMIC_ALLOW_MODESET 0x0400
- 
--/**
-+/*
-  * DRM_MODE_ATOMIC_FLAGS
-  *
-  * Bitfield of flags accepted by the &DRM_IOCTL_MODE_ATOMIC IOCTL in
-@@ -1352,7 +1355,7 @@ struct drm_mode_rect {
- };
- 
- /**
-- * struct drm_mode_closefb
-+ * struct drm_mode_closefb - ioctl struct to close a framebuffer
-  * @fb_id: Framebuffer ID.
-  * @pad: Must be zero.
-  */
+Regards,
+Luc
