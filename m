@@ -2,75 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9CE8C6F63
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 02:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF5B8C6F81
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 02:26:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 360BA10E349;
-	Thu, 16 May 2024 00:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB37D10E284;
+	Thu, 16 May 2024 00:26:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dc4PgiNn";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="V6+JPIJz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3CEC10E349
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 00:06:40 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-a59b178b75bso197061466b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2024 17:06:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715817999; x=1716422799; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qXkt2d5OC0yazlvXkniMYKtb6wDXdUmwsgGhPTbJ6y0=;
- b=dc4PgiNnUzLMK5rBY57QdnAe3EFyN89GvCpIBlrjZmiHZTXumbCKknmdf2JLv4TF7M
- Qpei6wGDSgfsLJGZzAbrnC0G9MFXTklcTswLsKLzjx3or+Fx3u4+9hrl1qIpWehQnB/X
- K79RqE4umFzBlxeasAxJUKN/EFBOQO7ro8rEYV22X923p+SvdjbrC3jAa+d7lsYgaHuo
- cpNHplemJXdbHcotCWL8kQiAfKPsVCWuJFjYXu37lHrs0TD2gS3jdt1GWD+qOCbeX4Nz
- /mVHO9IL9U+CfXLygFNF4Sr50f58NYY5IH+DS+/lWpHAjg4C+N+efQbRFKVsb02gPhIf
- 95DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715817999; x=1716422799;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qXkt2d5OC0yazlvXkniMYKtb6wDXdUmwsgGhPTbJ6y0=;
- b=AtW4FTcxGTlSaO5T52HatpbzuQ4ArnI4oZq5iV31+6J7WsCc0wBceStIizVZqOuiU9
- 4z6uqHt7eZSn2rhQoXI2aPjcDjx5LuEZmb8daYzTib/n8driCjX5wvf6QD7fAbFY9/OM
- Q2+Mi8QBry29NbsgEzuIOU2VjkWLYbDmA19iUsTce6UyGQUxWJOgqifKAbeXERa7dBm/
- 3deWhPHQY5qYaB5zq7DFjRODF2Q5e0e5m0kDPfnMXIaQf0BZwxC4zRsF7voHaBdeYQ1J
- 7KRZ529YWOsrKMgCzau4+HggpamfXTixqX3SRV9yjSAFkg9TUGoVsjfXX2sztaXvWZMP
- Us/w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9RCwJx2KNKjwSa3jvyilmT4uCD+RoOJCbuMHAtkoBgql8r/oSBtRGVewr2V6wNTfhZ729Ouft7JSCjgsiRuvj+7eYykIDIwMvAfzicOic
-X-Gm-Message-State: AOJu0YwoGow1a+ycJG3mnWpByMqdio2aF1uk8F0V3vb8WiKVJPKC7FG5
- iHZo7w/5wvnN1HPlDF8UQSoakLaXKyA95fVch7JH3L65YOrqSYYvU7rjHNMb+Ci/q6o1fgrM+j4
- 8umDH+aR44kwpDNS9Pmdi8hOYUlc=
-X-Google-Smtp-Source: AGHT+IFAEotjeBboaPBFp2QUGMMZIdoqD2WN1t5mGNJO/gCZeS/brOW+E0G5KfJnaQrvg7dmy3tbgJdNajWBs6sH8E4=
-X-Received: by 2002:a17:906:528b:b0:a59:cf0a:4e4d with SMTP id
- a640c23a62f3a-a5a2d55a730mr1225744166b.12.1715817998859; Wed, 15 May 2024
- 17:06:38 -0700 (PDT)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D49310E284
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 00:26:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=4DArABTCo0WR3iP3DuiOhCx7WM8NygHAkbkaCmaQADw=; b=V6+JPIJzduIeGM8NWBn9dMV9IF
+ zYNvcPk/ByTzy9ivHU79fGyWNbUKbhoAI5ujKjNa0l5MstW1bPPX87P+SXrxi7tK5OYqJeIZ8bwhE
+ oATdmt5BH/bZjtcmv6PtjT04sLy+Mv2WEuRdrCcpPk9sebaLrrua/TlfaZL9cUm3I1TcsMVdEn7NP
+ BbQdD/7Fsd/tkErTm5oOU7JHMKwBZR2FpMQb/zITMSOFr6c9J9nJ/b0NidpBIIilu9d7v8IIXFl2i
+ BUeo5Nv8W2ePOQN8my/60Tvy/8PdOPIfFXfqeVGtRN8mh9WIhrcfB/ECH4vEH17KBLHJ1oS+bH2Fk
+ 1/GGlClA==;
+Received: from [50.53.4.147] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+ id 1s7OxH-00000003Fx8-3rTy; Thu, 16 May 2024 00:26:44 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/display/dp: fix all kernel-doc warnings
+Date: Wed, 15 May 2024 17:26:42 -0700
+Message-ID: <20240516002642.6659-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.45.0
 MIME-Version: 1.0
-References: <CAPM=9tw-53PCvveRcdLUUQ+mjq2X2er5zp6n1KeE8Nu8x=VP2g@mail.gmail.com>
- <CAHk-=wge0et+3PP47OBnNx66Q=i_XgqfGfrSmDGHSyp=Jn-CgQ@mail.gmail.com>
- <CAHk-=whTqHgXZ4Aj8dNO3Peg9Rf0sh2F7zGWRUOmBwfMDxgvbQ@mail.gmail.com>
- <CAHk-=wgWJCcJRLBZ1xoAATFyvp6YKN+qzrePhxQbN1SFrno7pQ@mail.gmail.com>
- <CAHk-=wjm4BcsMrvgXocATBVvZ7N6LAjSvLTzTXWg9EFzyip_cA@mail.gmail.com>
- <CAPM=9twOiwquA7Zi_mr1vKFV4RQqhnbHv+c9Xz6BadF3tGEegw@mail.gmail.com>
-In-Reply-To: <CAPM=9twOiwquA7Zi_mr1vKFV4RQqhnbHv+c9Xz6BadF3tGEegw@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 16 May 2024 10:06:27 +1000
-Message-ID: <CAPM=9tyHnK_ReDmFf0eUGGuvKpXJQ0VWuKKhDqJt89URjOTU_A@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.10-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>, 
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthew Auld <matthew.auld@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,40 +56,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 May 2024 at 09:50, Dave Airlie <airlied@gmail.com> wrote:
->
-> On Thu, 16 May 2024 at 06:29, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > On Wed, 15 May 2024 at 13:24, Linus Torvalds
-> > <torvalds@linux-foundation.org> wrote:
-> > >
-> > > I have to revert both
-> > >
-> > >   a68c7eaa7a8f ("drm/amdgpu: Enable clear page functionality")
-> > >   e362b7c8f8c7 ("drm/amdgpu: Modify the contiguous flags behaviour")
-> > >
-> > > to make things build cleanly. Next step: see if it boots and fixes the
-> > > problem for me.
-> >
-> > Well, perhaps not surprisingly, the WARN_ON() no longer triggers with
-> > this, and everything looks fine.
-> >
-> > Let's see if the machine ends up being stable now. It took several
-> > hours for the "scary messages" state to turn into the "hung machine"
-> > state, so they *could* have been independent issues, but it seems a
-> > bit unlikely.
->
-> I think that should be fine to do for now.
->
-> I think it is also fine to do like I've attached, but I'm not sure if
-> I'd take that chance.
+Fix a struct member name in &struct drm_dp_as_sdp.
+Add Returns: kernel-doc syntax for 4 functions.
+In the Returns: sections, spell "%true" and "%false" consistently.
 
-Scrap that idea, doesn't die, but it makes my system unhappy, like
-fbdev missing,
+Fixes these kernel-doc warnings:
 
-so for quickest path forward, just make the two reverts seems best.
+drm_dp_helper.h:126: warning: Function parameter or struct member 'mode' not described in 'drm_dp_as_sdp'
+drm_dp_helper.h:126: warning: Excess struct member 'operation_mode' description in 'drm_dp_as_sdp'
+drm_dp_helper.h:237: warning: No description found for return value of 'drm_dp_dsc_sink_supports_format'
+drm_dp_helper.h:539: warning: No description found for return value of 'drm_dp_dpcd_readb'
+drm_dp_helper.h:554: warning: No description found for return value of 'drm_dp_dpcd_writeb'
+drm_dp_helper.h:721: warning: No description found for return value of 'drm_dp_has_quirk'
 
-I've reproduced it here, so I'll track it down,
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 
-Dave.
+ include/drm/display/drm_dp_helper.h |   17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff -- a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
+  * @target_rr: Target Refresh
+  * @duration_incr_ms: Successive frame duration increase
+  * @duration_decr_ms: Successive frame duration decrease
+- * @operation_mode: Adaptive Sync Operation Mode
++ * @mode: Adaptive Sync Operation Mode
+  */
+ struct drm_dp_as_sdp {
+ 	unsigned char sdp_type;
+@@ -230,7 +230,8 @@ drm_dp_dsc_sink_max_slice_width(const u8
+  * @dsc_dpcd : DSC-capability DPCDs of the sink
+  * @output_format: output_format which is to be checked
+  *
+- * Returns true if the sink supports DSC with the given output_format, false otherwise.
++ * Returns: %true if the sink supports DSC with the given output_format,
++ * %false otherwise.
+  */
+ static inline bool
+ drm_dp_dsc_sink_supports_format(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE], u8 output_format)
+@@ -280,8 +281,8 @@ drm_dp_sink_can_do_video_without_timing_
+  * backlight features but which require the brightness be set through PWM, and don't support setting
+  * the brightness level via the DPCD.
+  *
+- * Returns: %True if @edp_dpcd indicates that VESA backlight controls are supported, %false
+- * otherwise
++ * Returns: %true if @edp_dpcd indicates that VESA backlight controls are
++ * supported, %false otherwise
+  */
+ static inline bool
+ drm_edp_backlight_supported(const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
+@@ -295,7 +296,7 @@ drm_edp_backlight_supported(const u8 edp
+  *
+  * Determine if the provided link rate is an UHBR rate.
+  *
+- * Returns: %True if @link_rate is an UHBR rate.
++ * Returns: %true if @link_rate is an UHBR rate.
+  */
+ static inline bool drm_dp_is_uhbr_rate(int link_rate)
+ {
+@@ -531,7 +532,7 @@ ssize_t drm_dp_dpcd_write(struct drm_dp_
+  * @offset: address of the register to read
+  * @valuep: location where the value of the register will be stored
+  *
+- * Returns the number of bytes transferred (1) on success, or a negative
++ * Returns: the number of bytes transferred (1) on success, or a negative
+  * error code on failure.
+  */
+ static inline ssize_t drm_dp_dpcd_readb(struct drm_dp_aux *aux,
+@@ -546,7 +547,7 @@ static inline ssize_t drm_dp_dpcd_readb(
+  * @offset: address of the register to write
+  * @value: value to write to the register
+  *
+- * Returns the number of bytes transferred (1) on success, or a negative
++ * Returns: the number of bytes transferred (1) on success, or a negative
+  * error code on failure.
+  */
+ static inline ssize_t drm_dp_dpcd_writeb(struct drm_dp_aux *aux,
+@@ -714,7 +715,7 @@ enum drm_dp_quirk {
+  * @desc: Device descriptor filled by drm_dp_read_desc()
+  * @quirk: Quirk to query for
+  *
+- * Return true if DP device identified by @desc has @quirk.
++ * Returns: %true if DP device identified by @desc has @quirk.
+  */
+ static inline bool
+ drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk quirk)
