@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E11D8C7B2D
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 19:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5254A8C7C48
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 20:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0A010ED57;
-	Thu, 16 May 2024 17:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C551E10ED8C;
+	Thu, 16 May 2024 18:25:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mOaLFM3Y";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BdQeCRvM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7F610E3B5;
- Thu, 16 May 2024 17:33:28 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B59510ED8C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 18:25:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715880809; x=1747416809;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=IOeEh7kRfRKtlnqKWfmYj0750ClwuhWw8RQ+Q/sQk2g=;
- b=mOaLFM3YjqwUER1s6VE4G8aYoWpf4BT6mi/oFXiA675Ta/iG6NkpR07N
- HU1VK7nQ1yYXzH8ZgaylvtEhKNP4Ss0Gc1ioJrQNEq4INn1T2RgIt4zMC
- lV+amjreKcPfcpo5JGGM/qSIXXGgiqWLA71A+QrwgCgRUb8T0rU5AVbfC
- /2PBHBPDar0XfsON/2yOI6rnaZc3dOnb1fqRl87HABCpmPAbjFaWWMGyx
- WAN4BkycaeMa43niGTMfkR/UYFZBpSsEATK8Ago0LszdpG9KcOnxjQrLZ
- YlE5w0ghtcWsZUFf8jAjb4o+0KnMLJ2V+UkUUXaZ3XWWTK+cP3Yl665T0 w==;
-X-CSE-ConnectionGUID: 6MC1eNBySAmxQPNhfENRVw==
-X-CSE-MsgGUID: 9lRH4SVTTfiB3si9ZldoyQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="29517753"
-X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; d="scan'208";a="29517753"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 May 2024 10:33:28 -0700
-X-CSE-ConnectionGUID: DOei1TphQAeqg2T3nrzenA==
-X-CSE-MsgGUID: /yPbzQicTPeQSd+YypkeiA==
+ t=1715883901; x=1747419901;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=a1MOkWvjsExQeciF/Q/OVh0JOGmcp4r9dFASRIiqTiI=;
+ b=BdQeCRvMuau3D5HJBRt4P9Q72neTa8rXa9w6tdxZcItMrEk0FxDRNjyk
+ e6jFZkffZ8p7N6ELD9WuoTQLXJuPkT8HZeA6lGdV13aajlg/hwwdD/ftg
+ o3/qyZ4x+l20sBANuzZOHHCdipjy4jPf6mhkwgQy91zO8DOu6hfITgW2u
+ g6AffVhF9Yg4tIS1UkbCYgaqqMkr+YUQ59mPyp1kpCcpXnA9lUc5jM0HA
+ 450o4ihbxhLDZeuaiS877lNni+k3hDMhBNVh44xmW8t/Cvm456DQhU5pk
+ jHMwLm7JMYF1e83+RFelFiTOuJhAGp8KbPFwMWy0JHCCtlZv3uaw/+ZRT w==;
+X-CSE-ConnectionGUID: 1fPd5hxuTDarlaHs1NIOdQ==
+X-CSE-MsgGUID: erbdMG8RT8qRpqg5BiXFAA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11872527"
+X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; d="scan'208";a="11872527"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2024 11:24:48 -0700
+X-CSE-ConnectionGUID: n+2W+wNmRDyvotd/48QE2w==
+X-CSE-MsgGUID: 0ABB853JStir592gbjE51g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; d="scan'208";a="31512477"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 16 May 2024 10:33:25 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 16 May 2024 20:33:24 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/probe-helper: Call drm_mode_validate_ycbcr420() before
- connector->mode_valid()
-Date: Thu, 16 May 2024 20:33:24 +0300
-Message-ID: <20240516173324.18149-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.44.1
+X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; d="scan'208";a="36074616"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.208])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2024 11:24:46 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Subject: Re: [PATCH] drm/print: Kill ___drm_dbg()
+In-Reply-To: <20240516160015.2260-1-michal.wajdeczko@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240516160015.2260-1-michal.wajdeczko@intel.com>
+Date: Thu, 16 May 2024 21:24:42 +0300
+Message-ID: <87h6exbonp.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,47 +69,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Thu, 16 May 2024, Michal Wajdeczko <michal.wajdeczko@intel.com> wrote:
+> There is no point in maintaining a separate print function, while
+> there is __drm_dev_dbg() function that can work with a NULL device.
+>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
 
-Make life easier for drivers by filtering out unwanted YCbCr 4:2:0
-only modes prior to calling the connector->mode_valid() hook.
-Currently drivers will still see YCbCr 4:2:0 only modes in said
-hook, which will likely come as a suprise when the driver has
-declared no support for such modes (via setting
-connector->ycbcr_420_allowed to false).
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10992
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/drm_probe_helper.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> ---
+>  drivers/gpu/drm/drm_print.c | 19 -------------------
+>  include/drm/drm_print.h     |  8 +++-----
+>  2 files changed, 3 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index cf2efb44722c..7e16ce7c7c7a 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -323,25 +323,6 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
+>  }
+>  EXPORT_SYMBOL(__drm_dev_dbg);
+>  
+> -void ___drm_dbg(struct _ddebug *desc, enum drm_debug_category category, const char *format, ...)
+> -{
+> -	struct va_format vaf;
+> -	va_list args;
+> -
+> -	if (!__drm_debug_enabled(category))
+> -		return;
+> -
+> -	va_start(args, format);
+> -	vaf.fmt = format;
+> -	vaf.va = &args;
+> -
+> -	printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+> -	       __builtin_return_address(0), &vaf);
+> -
+> -	va_end(args);
+> -}
+> -EXPORT_SYMBOL(___drm_dbg);
+> -
+>  void __drm_err(const char *format, ...)
+>  {
+>  	struct va_format vaf;
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 089950ad8681..6f8cb5fada41 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -527,17 +527,15 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
+>   * Prefer drm_device based logging over device or prink based logging.
+>   */
+>  
+> -__printf(3, 4)
+> -void ___drm_dbg(struct _ddebug *desc, enum drm_debug_category category, const char *format, ...);
+>  __printf(1, 2)
+>  void __drm_err(const char *format, ...);
+>  
+>  #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+> -#define __drm_dbg(cat, fmt, ...)		___drm_dbg(NULL, cat, fmt, ##__VA_ARGS__)
+> +#define __drm_dbg(cat, fmt, ...)	__drm_dev_dbg(NULL, NULL, cat, fmt, ##__VA_ARGS__)
+>  #else
+>  #define __drm_dbg(cat, fmt, ...)					\
+> -	_dynamic_func_call_cls(cat, fmt, ___drm_dbg,			\
+> -			       cat, fmt, ##__VA_ARGS__)
+> +	_dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,			\
+> +			       NULL, cat, fmt, ##__VA_ARGS__)
+>  #endif
+>  
+>  /* Macros to make printk easier */
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 4f75a1cfd820..249c8c2cb319 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -474,6 +474,10 @@ static int __drm_helper_update_and_validate(struct drm_connector *connector,
- 		if (mode->status != MODE_OK)
- 			continue;
- 
-+		mode->status = drm_mode_validate_ycbcr420(mode, connector);
-+		if (mode->status != MODE_OK)
-+			continue;
-+
- 		ret = drm_mode_validate_pipeline(mode, connector, ctx,
- 						 &mode->status);
- 		if (ret) {
-@@ -486,10 +490,6 @@ static int __drm_helper_update_and_validate(struct drm_connector *connector,
- 			else
- 				return -EDEADLK;
- 		}
--
--		if (mode->status != MODE_OK)
--			continue;
--		mode->status = drm_mode_validate_ycbcr420(mode, connector);
- 	}
- 
- 	return 0;
 -- 
-2.44.1
-
+Jani Nikula, Intel
