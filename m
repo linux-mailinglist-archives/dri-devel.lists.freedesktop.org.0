@@ -2,181 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFDB8C7CB7
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 20:55:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFAAB8C7CB5
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 20:55:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3382210E4FD;
-	Thu, 16 May 2024 18:55:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E554B10E0D7;
+	Thu, 16 May 2024 18:55:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mAjye9IU";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ckV8VqxL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1E9510E470;
- Thu, 16 May 2024 18:55:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715885742; x=1747421742;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=XcK+q7NMNZjpgstw15WG99I+bmBPxIHkrJXqEC7SO8Q=;
- b=mAjye9IU8y05DTeTBmvvNvbxJo/MXJiam0KhMj5vtYBIRE+nPPGNC7j2
- 6udPJD2VLb6mY2YciwmA0q3Tx+A5Pw5YTiwg9DEHK8veCnjAmVt6bKUgv
- j9MrYwC4OXqT5HJue92VgAOdh2A4cPRmJBAWGQYyZP4Egj2SXo9LDyr82
- Z3Juz1xFJXG+M1zidQBZw6bXFXvMtjzXOa2h/an2ytc0qnR2UhcvrEPwF
- vtFkQeVObl4j4B6KqJh60Fg/A2H9DcbkFGcKMYViF86eUTHkIAcioXTPy
- X+SkwZ1IlJswRiS5iXyEUxIQin6+J7s4bqtx5qH9NelHnak60/3r4x7OC g==;
-X-CSE-ConnectionGUID: YqGEv3inQ/Sj6G+nZe+8Dw==
-X-CSE-MsgGUID: DzMQfQ8hSiarSX4AAmIVmA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="22701719"
-X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; d="scan'208";a="22701719"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 May 2024 11:55:41 -0700
-X-CSE-ConnectionGUID: sW7AgLytQI+vACi+G0cAzA==
-X-CSE-MsgGUID: PHbVqCJoRO+YlYJmAwZHVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; d="scan'208";a="32137566"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 16 May 2024 11:55:42 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 16 May 2024 11:55:41 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 16 May 2024 11:55:41 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 16 May 2024 11:55:40 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O7ApbQNs7SdszTnhoMggVFUY0t8qGpxJsZfLQ2hkL7ansVIi2OBk8mf6Vfk8mbeEyLIUD6wX7FBrSWcaMRH7YrLcuNrAXGW1fZbBpRiUM1rUH9Uf/yKwRkvmf1il/MCm8ESqjxVFklTtbiDMcLD0KsyHAru5Sk+Vta+bf4z3pAmz/gceWd2N8i5PTE4j6DZpKBMXdNZkYjcc4MZXi8KR0wkuHg6Mbf/ks/UEXgSr082oa9jgo8hGkdrgO+enwxZxyRjpHKQ+x/B4ZyvKMgbfq2ekXU+TDP8EZDKSNFhEb0TFyhIDDuGORDZO17AmnjLtxzeztCDq/63Q/ni96VPkfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KwyL1MTmD/k3BdqqyQ/t11MrMaz+uiEPxTcfmfuu5L8=;
- b=nT5FqNylIwwyqQIVe939ldMEKd5cz5xgbHt89g9L6mfspJ6ldCCet1DoxSmMUH1sRdiZ6s3t2mnVkEkBg9pJ97HaJ1p2ifZS4QJQx/cpNnMDpz4UAHW7yZvFehFfrMbZt4MBE7RPa06UHit3C7GoUouEMvVnC6x+csjXEQHJoPszaN0xa9F9VfLXZbGKBV8aUX+F/9enw1fbjsgIYGmIhN9o2sQbzgV5SrGZ8J5WxjMVY4keLxm53wAMzu2LEU0HcuQ+qidhcI0ogctMeg6uYTkt52UU0eEHR8qMqe+F0Q2XrRBU/7qdeW9b2XThybNG2Dltu+Ot8wmnwtoBuCQerw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7408.namprd11.prod.outlook.com (2603:10b6:8:136::15)
- by SN7PR11MB7706.namprd11.prod.outlook.com (2603:10b6:806:32c::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.28; Thu, 16 May
- 2024 18:55:38 +0000
-Received: from DS0PR11MB7408.namprd11.prod.outlook.com
- ([fe80::24f2:8bf0:3dbd:dc8c]) by DS0PR11MB7408.namprd11.prod.outlook.com
- ([fe80::24f2:8bf0:3dbd:dc8c%3]) with mapi id 15.20.7587.025; Thu, 16 May 2024
- 18:55:37 +0000
-Date: Thu, 16 May 2024 11:55:06 -0700
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, Tvrtko Ursulin <tursulin@ursulin.net>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v4 7/8] drm/xe: Add helper to return any available hw
- engine
-Message-ID: <ZkZWiholGBt0XHh4@orsosgc001>
-References: <20240515214258.59209-1-lucas.demarchi@intel.com>
- <20240515214258.59209-8-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240515214258.59209-8-lucas.demarchi@intel.com>
-X-ClientProxiedBy: BYAPR11CA0060.namprd11.prod.outlook.com
- (2603:10b6:a03:80::37) To DS0PR11MB7408.namprd11.prod.outlook.com
- (2603:10b6:8:136::15)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6862C10E0D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 18:55:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1715885733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CmAY6zq6VIlTkGG6Cuhy+C5anov3S7tUmGwPS9mMo4A=;
+ b=ckV8VqxLX0OSy+HuYL57pcESAyZ+81h461XVtfqX6n+At/DyOZMO7yhmTAr3Nj9p+OzkXn
+ Kgysv6yywTjk7ydLCD8EpRBIVwlxPMiheqYG02yd+216EXTtY/eFeIGD6yp9piry+Zk7MR
+ +bRcsyAB6nZaTqFSaKBI4Fn2Bc81ARg=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-352-BHw_UOuuM6-09SvbfNPAmg-1; Thu, 16 May 2024 14:55:30 -0400
+X-MC-Unique: BHw_UOuuM6-09SvbfNPAmg-1
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-61bea0c36bbso166229527b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 11:55:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715885730; x=1716490530;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CmAY6zq6VIlTkGG6Cuhy+C5anov3S7tUmGwPS9mMo4A=;
+ b=SXFmqTapBHtHcrJ9nK1oR/q0q8HD08w943XUDqy91xra0NBwpVfkmzaK/mhirTeng6
+ KI1R9o5DA8moOzFGD3t9gSX6n/oWN92QhxsK9rsNhpXEPPftKd1gh+x713aaieysja3S
+ GeEvaypZl2bEDzh2GXQGWZqjl1iQUjp7CBkHPPWAmkj7Tif4SY/ZQntBrgWxc+AD5qDU
+ E3tYLs3fcJVsWJ16p6jvV5n0JjiGtIxmb/APcbVpSzNe8IK9TbHRsaxvAyuY8X7s3cBi
+ NwD/T8e0XAdzkBsqFBgaWAo9UvbaoBlgzbIiSfpUbscnPmv/XAe0INM1LEKKDcCEnxni
+ ArmQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWX4RvjmYFdRQ7QFFBhMPvcLbtmCdyKPLGP0vzu1kNsxS4V9rWNoxnPzPDeN2X1hLgoow6q+s4ara55+Ke74aC7sfG6YG/JjUxBZxWx3Bjb
+X-Gm-Message-State: AOJu0YywHgBoalhvRTzBy53XlJ+1KoQdwCJZrTxRHOIHUcopuFOXii4P
+ 8L3J8rTxeX0OPUg+c+rkSAhcGvs7ivK0M/TGKNINhD3/zQf+LpJLGpWe4EY2Sm+/P0H6u7ineJH
+ iOTgURIh2lIaTK0pQG36l8GzY1YKqBviycsW1GICeJTZFMqKC/qCBQXnqusgYkjdiyQ==
+X-Received: by 2002:a81:7255:0:b0:61b:748:55a1 with SMTP id
+ 00721157ae682-622b7fc3cc6mr192057957b3.13.1715885729602; 
+ Thu, 16 May 2024 11:55:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF8TupsclJxzsHmIxJ4Zn15yFfg0CAESxaQctdScpMnMdlxWZgL6tCJ8+eO1hMiO56rfRpr+A==
+X-Received: by 2002:a81:7255:0:b0:61b:748:55a1 with SMTP id
+ 00721157ae682-622b7fc3cc6mr192057767b3.13.1715885729063; 
+ Thu, 16 May 2024 11:55:29 -0700 (PDT)
+Received: from x1gen2nano ([2600:1700:1ff0:d0e0::33])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-43e184af783sm58780211cf.17.2024.05.16.11.55.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 May 2024 11:55:28 -0700 (PDT)
+Date: Thu, 16 May 2024 13:55:26 -0500
+From: Andrew Halaney <ahalaney@redhat.com>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Will Deacon <will@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@chromium.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/adreno: De-spaghettify the use of memory barriers
+Message-ID: <5vyrmxvkurdstqfiatxfqcqljwyiswda2vpkea27ighb2eqbav@n24yzdykbc23>
+References: <20240508-topic-adreno-v1-1-1babd05c119d@linaro.org>
+ <20240514183849.6lpyplifero5u35r@hu-akhilpo-hyd.qualcomm.com>
+ <ae4a77wt3kc73ejshptldqx6ugzrqguyq7etbbu54y4avhbdlt@qyt4r6gma7ev>
+ <20240516145005.gdksmvxp35m45ifh@hu-akhilpo-hyd.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7408:EE_|SN7PR11MB7706:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e845b59-6e64-4d59-f40a-08dc75d9c677
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|1800799015;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SW1INFZrZ3VER1h3YVFFSng1V05hckFXa09oaDNxR003bmxKd3lhK1pjMUhl?=
- =?utf-8?B?a1hnR3lvRUh4Q1NzdW15UmFEd0JMQ2NRUS9teEVMSXRHdkZGWGRRT0lHcnpt?=
- =?utf-8?B?cTdsYVMwNnkvNVJQK2tKTzRZdDNjRWZNVTJiaUN3RXFVQzNTbTlnS0ZjdUM5?=
- =?utf-8?B?c1Ywd1BzN3hqdG84NVZxRG84a0xjZDJGVW1qSGFFYk1DSTBuQmtVVDV1cjZo?=
- =?utf-8?B?eWIwWlVRUHFEdGkvMGpMd3Jpa2tiSHc5QWJMV1NTV2JZQ0U2aTVlbGQ5QXpM?=
- =?utf-8?B?bTRid1IvUTFpc1hYajNPWSt2UDBPT0RPUkxnR2M2TmtOeXFuQWRLNkU3WEJJ?=
- =?utf-8?B?WTVWUDU1cTg3M0w1RlBzVzU2R0Q0bmtIUk5WWU9XbFkzU1RYTDVrUkJpalVv?=
- =?utf-8?B?WlNWeXBYb1J0cjlnbGVpL2FKVjRTNzZVODR5OS9BbW1DblNYV1RDV2piNDVs?=
- =?utf-8?B?K2VvUEtlSVRCb3pSUS9iWlI3TkNCUnhPTFFnbnNHbEhkOUtsR0ZMUVJiU2Fw?=
- =?utf-8?B?dTJseEZQUEtBOW5oeHBka2dESmRETUcxNXBQcGlnR1NZM01QVU1WbjBtclFG?=
- =?utf-8?B?bVA1Ui96RU1VcGYwRWttaE1GK3g5ZTNkblQxb1oxS1U5TnhyeG5NWWVSYXhy?=
- =?utf-8?B?RjVXK0dGWktqTnRPSnN5SklPSFllM1F0Nm5aMTFibjN2Njlad0pjaE1sY3Bu?=
- =?utf-8?B?cm9hclJQVGNFclpxR3JJNzA2WjIrMDhaRFN2RUJwRDRMRVRnUVRMRk8rMHJs?=
- =?utf-8?B?VnR6OFVMRFREMmV2T2E5NUV1Q2NPTkpWYTQ3ZFo5OVVaYkI3UDJsYzUrNGUr?=
- =?utf-8?B?U3hJeXZMMmJGVnp6elZSc29USW1nZk5zaXIyYWhHbmZQT1NHWnlKVHkwU28r?=
- =?utf-8?B?L2ZyRDBhbUZIQ0VXZFMvMkg4bElSUmRKWXlhOUZvZVMyNU1sYXlNMi80ZTRm?=
- =?utf-8?B?VzlhMlBrOFl3RkJkcWZkdFRFaFArbHFlb3U4dEI0dmxiUG1Eb1U5cmJQQWVW?=
- =?utf-8?B?clBsUytsRm10VHFxcDFNT3A3R2xGQnNHUndHNEhMaUc4QzZHL1lFVllsQXUr?=
- =?utf-8?B?VWpQL2lNbGIvV0IydHJDMW9VN3d3c3Y5WW5Oc3NMUHpQUjIwS0t0ZmhZUHp5?=
- =?utf-8?B?Wm0yWGhUL1RRaEg3OGRDdGg5aUlpSXRRNFB3TnYvQmNiQVU5M004dmFocjAw?=
- =?utf-8?B?L05GVWJZWEhKeW5MaFdSNjAreURPdXBkU2o2bkRHQ2VSclhxREZ2c1k0dGs0?=
- =?utf-8?B?eDFIZWFPek55UzJ2V1pucmxXZ3RsdFVtdnRBSmxqTjkvZXpKd2ozc3M0YlNh?=
- =?utf-8?B?YkpkbFhaU2EwS1k4YkhHRWhHMHlGcHBNVVBudU1TS3pDNHNTd3AwSXdLblM1?=
- =?utf-8?B?VkpQVGxsSDNoMkxiYktSalBHYm9vK1gvWGh5OFRMTElWazZ5Z0FVUWR3dE1I?=
- =?utf-8?B?ZDdwK0QvRXFZdjRPS2ZUUitBK3Z2V2ZPWjhCL1JsbEZGc2pkaEhHMGdtckVT?=
- =?utf-8?B?OU8xbW01OWJEc2JvZFNoQzY0d0laRXFFUWZJV3pONEh1VW1ZR3pFbkxrUy84?=
- =?utf-8?B?cGlLK1lKalZsV3VneXh0U3FMbU1VdGNPSFVqSTVvRTFEV2FJalpLRGQ4Qkpn?=
- =?utf-8?B?eG5Fd3pHbzQycGhjT3pCK016OEJCaktjanBKQkd6ZkJ6eGlwZ3RmdjlyNzJD?=
- =?utf-8?B?UGNCY3BLekgxbjV0NXV3S3BMdzdseFFIQzlxeDQwOGtVWWlmMWZPZDRRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB7408.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376005)(366007)(1800799015); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TXYzSFNSOUdDMW4rb0I1T1hqYXpDaEJEclQ1RFNEQTU2UlYxOS9sWmdRaGpU?=
- =?utf-8?B?WDJLKzhPTVB3ZExPUFAzcDdGNWJwOVkzdGpYUUJ3WWdzYVFRMm5vc1gydkRW?=
- =?utf-8?B?bWxGMVN4UktERHJycFVrZldBVmdYT1V6Uys2cjJIbXFPZ1FxVWlvbTR6REhS?=
- =?utf-8?B?ak5SYVVKRDRDUDFVVUsrMHJ5REhYcjdzUllsY2twcFVYNHhyRFRSNXJDSjJ3?=
- =?utf-8?B?dGZXY0FidGdBd0ZBanV6TWVyV1lQdTVWc0dOYTBqT1h6U2pUNHhwU0FWQzlH?=
- =?utf-8?B?M0hQdWtZeGV0UXBjRVRtQWF4VmZhd3ZJYUIxRFNvbytOeWUwUXVyZXlZdk5Q?=
- =?utf-8?B?d3kwaWE4d3JGam9FYk5DWW1hOVdldStXYjk2QlFZT3lPYXA1VHJQNW1DazhT?=
- =?utf-8?B?VCttenNpMTJDY0xTNXVyM0VsZFk0Qi9DQzA1OUwrU0dzYTFvVzVmSWJ2Skp1?=
- =?utf-8?B?bGxhdFVWMW5pRmNBUWFSODZDa29pbVhXUXd2RUg1ekpnVUJPL2tyTjdFRUFa?=
- =?utf-8?B?OXpISXdCYjh5TGRnWXpad0dkQmZRalJNeXBPRVJTL1hyNEZybnk2K1F2ZFEw?=
- =?utf-8?B?dktrQXI1TkU4d3lKOUhFdmNMMFBpcDFWVXloWnZUOVNEcmRaVXdVTXVFV2Zk?=
- =?utf-8?B?SDBOVEZDNmh2YkNYRmZaMHhrR1JTZlltNndwaGJDV1l2Nm5uYkVmWTVrYmpS?=
- =?utf-8?B?dGx0aTlteitoNXk2NTVma3FFckpUWWhSQ3pmcGUxZng3Y0hRbFlUT3BLWmtP?=
- =?utf-8?B?UFZWRDJYV2JCTWt2U1ZXMlY5cGI2TTJBKzdPMWJuMVhXcWJLbWZuRk12djlo?=
- =?utf-8?B?dWkxNi93dTBQbTkreFUwTUVKLzFwaGpxOXYwY096aEtQaEoreDJUVGJDazJ2?=
- =?utf-8?B?SWw2YWpNcURoRXNaQWdFSlVvT21HL01DelFlMXFmZWZkakxXL3V5WGFlYTR6?=
- =?utf-8?B?aklzbngwU3dScS9TVkFJVG1TNy9VL1I5eGwwV0xBbE9aalJENnF2YmN4Z1hj?=
- =?utf-8?B?TUFQM2hlbFhOWGhzNFRvOHFrWnpPaThrWkZNektWa1RWR29iV09VZWI3dDFs?=
- =?utf-8?B?T1pFa3kxY00xQVdjTVE1UnBYQUpDTVhXcFk0eDBDdjVuV3JTWUlFNTRZV0ZC?=
- =?utf-8?B?R25ETVFneVdJZzZBbjEyMCtMa1h5dHRnbG03UjE1d2dQRDhLbzQ5RnJmSFRj?=
- =?utf-8?B?a1dvcFZ0bWV2TG1mUW9SdGtoeUQrZElUR1RMY0pMdEFmVk9lM1E4ZUo4emNh?=
- =?utf-8?B?eHpwcy9oTjZtbXZsa1ZtbEl6dUxHY29NSG8wZDErR3pXa0M1aU1oZWZJaTZJ?=
- =?utf-8?B?UkFxYXJIYzVJVHI5RExxczMwUytGdlVJQnVuNld5L2k4ajYrOFpwYUJmU1oy?=
- =?utf-8?B?NVlRRUpZVnNmeHBCR2IzZWlIb0xzK01qa3ppZEVKZVkva296TURGcWhQRjBK?=
- =?utf-8?B?RTRrSXlzaFJJOFRNZXp2R2d6N28xeGhzR2RFS0NsSXFYY05rRGJ3OGNEOGY2?=
- =?utf-8?B?bzNrNWdhaXJsbzZHdkYydlZIQ2lvWGJsbjlNUjkrR3lxWVp2bE5qNFlQOFFJ?=
- =?utf-8?B?M3JBWDhXTHNubGxqV0llVWdkc08zTTBIZy9TYkJxdS84YWlQMmZINkcrMkx5?=
- =?utf-8?B?R0ZSTE5BYUpIUk1IV2hHalpIWEs4bmlhL2NEcE1LQWZySVVKaDEzbDBZTk5a?=
- =?utf-8?B?VVc5eUxsL3BKc0x1YWtmZDlNK1E5bittQ2RFR0JKdTJOeEhraWFhQjhTYXVo?=
- =?utf-8?B?aDZWYkxWb21xdEZWVm50c25iS1VjTk5jcjhTTG9LMEtVeHNwOFd3WjVvMmVs?=
- =?utf-8?B?aXJrNHF1K2J4aGwwRkcwNjdiNzdaQ0Q0L1VFTVBmbmZIZFpmQ09TcTc0UnBO?=
- =?utf-8?B?MHloS3Jab2pXLzJaUTcwTTViY01OUWFteERuclo3K2VROE9rdlhWY1JQa21y?=
- =?utf-8?B?MXNOVjhuSGx4TEl2ckI3VDBWSmlpa0lOa2tGd2JidUJLWllPSXVERmZwbUln?=
- =?utf-8?B?VG5UM2VZaS9aK0dCQ0Y1R3JIbzF4Wi9lYWdrcTBHVnBhb21RQTE3dWJYK05D?=
- =?utf-8?B?QXU4eXVERGpxSVVYcC9IY1I3UitGRER6Y0R2YnBzVXFYT09rMFZYaVhwaVNi?=
- =?utf-8?B?bzFiQlFBb1ZxZGx0alJCR05rbEVJamJqS3VvajlSRjV5c2JFWS92NEs0ZFZZ?=
- =?utf-8?Q?NgvjiI9k6kRotBSII4qdVgA=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e845b59-6e64-4d59-f40a-08dc75d9c677
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7408.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2024 18:55:37.9007 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 60CWKWWBmxSY3H6U5wq3TBXCpfYA+w+LLudw0UkvQuzPaga0fHrgE9R/y9dKj7BvN1Yi7PJ6637OZRlke8r0I5ZngaHXr2sHTEuG5ghOtFc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7706
-X-OriginatorOrg: intel.com
+In-Reply-To: <20240516145005.gdksmvxp35m45ifh@hu-akhilpo-hyd.qualcomm.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -192,56 +101,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 15, 2024 at 02:42:57PM -0700, Lucas De Marchi wrote:
->Get the first available engine from a gt, which helps in the case any
->engine serves as a context, like when reading RING_TIMESTAMP.
->
->Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+On Thu, May 16, 2024 at 08:20:05PM GMT, Akhil P Oommen wrote:
+> On Thu, May 16, 2024 at 08:15:34AM -0500, Andrew Halaney wrote:
+> > On Wed, May 15, 2024 at 12:08:49AM GMT, Akhil P Oommen wrote:
+> > > On Wed, May 08, 2024 at 07:46:31PM +0200, Konrad Dybcio wrote:
+> > > > Memory barriers help ensure instruction ordering, NOT time and order
+> > > > of actual write arrival at other observers (e.g. memory-mapped IP).
+> > > > On architectures employing weak memory ordering, the latter can be a
+> > > > giant pain point, and it has been as part of this driver.
+> > > > 
+> > > > Moreover, the gpu_/gmu_ accessors already use non-relaxed versions of
+> > > > readl/writel, which include r/w (respectively) barriers.
+> > > > 
+> > > > Replace the barriers with a readback that ensures the previous writes
+> > > > have exited the write buffer (as the CPU must flush the write to the
+> > > > register it's trying to read back) and subsequently remove the hack
+> > > > introduced in commit b77532803d11 ("drm/msm/a6xx: Poll for GBIF unhalt
+> > > > status in hw_init").
+> > 
+> > For what its worth, I've been eyeing (but haven't tested) sending some
+> > patches to clean up dsi_phy_write_udelay/ndelay(). There's no ordering
+> > guarantee between a writel() and a delay(), so the expected "write then
+> > delay" sequence might not be happening.. you need to write, read, delay.
+> > 
+> > memory-barriers.txt:
+> > 
+> > 	5. A readX() by a CPU thread from the peripheral will complete before
+> > 	   any subsequent delay() loop can begin execution on the same thread.
+> > 	   This ensures that two MMIO register writes by the CPU to a peripheral
+> > 	   will arrive at least 1us apart if the first write is immediately read
+> > 	   back with readX() and udelay(1) is called prior to the second
+> > 	   writeX():
+> > 
+> > 		writel(42, DEVICE_REGISTER_0); // Arrives at the device...
+> > 		readl(DEVICE_REGISTER_0);
+> > 		udelay(1);
+> > 		writel(42, DEVICE_REGISTER_1); // ...at least 1us before this.
+> 
+> Yes, udelay orders only with readl(). I saw a patch from Will Deacon
+> which fixes this for arm64 few years back:
+> https://lore.kernel.org/all/1543251228-30001-1-git-send-email-will.deacon@arm.com/T/
+> 
+> But this is needed only when you write io and do cpuside wait , not when
+> you poll io to check status.
 
-Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Sure, I'm just highlighting the bug in dsi_phy_write_*delay() functions
+here, which match the udelay case you mention.
 
->---
-> drivers/gpu/drm/xe/xe_gt.c | 11 +++++++++++
-> drivers/gpu/drm/xe/xe_gt.h |  7 +++++++
-> 2 files changed, 18 insertions(+)
->
->diff --git a/drivers/gpu/drm/xe/xe_gt.c b/drivers/gpu/drm/xe/xe_gt.c
->index 5194a3d38e76..3432fef56486 100644
->--- a/drivers/gpu/drm/xe/xe_gt.c
->+++ b/drivers/gpu/drm/xe/xe_gt.c
->@@ -833,3 +833,14 @@ struct xe_hw_engine *xe_gt_any_hw_engine_by_reset_domain(struct xe_gt *gt,
->
-> 	return NULL;
-> }
->+
->+struct xe_hw_engine *xe_gt_any_hw_engine(struct xe_gt *gt)
->+{
->+	struct xe_hw_engine *hwe;
->+	enum xe_hw_engine_id id;
->+
->+	for_each_hw_engine(hwe, gt, id)
->+		return hwe;
->+
->+	return NULL;
->+}
->diff --git a/drivers/gpu/drm/xe/xe_gt.h b/drivers/gpu/drm/xe/xe_gt.h
->index ad3fd31e0a41..a53f01362d94 100644
->--- a/drivers/gpu/drm/xe/xe_gt.h
->+++ b/drivers/gpu/drm/xe/xe_gt.h
->@@ -67,6 +67,13 @@ void xe_gt_remove(struct xe_gt *gt);
-> struct xe_hw_engine *
-> xe_gt_any_hw_engine_by_reset_domain(struct xe_gt *gt, enum xe_engine_class class);
->
->+/**
->+ * xe_gt_any_hw_engine - scan the list of engines and return the
->+ * first available
->+ * @gt: GT structure
->+ */
->+struct xe_hw_engine *xe_gt_any_hw_engine(struct xe_gt *gt);
->+
-> struct xe_hw_engine *xe_gt_hw_engine(struct xe_gt *gt,
-> 				     enum xe_engine_class class,
-> 				     u16 instance,
->-- 
->2.43.0
->
+> 
+> > 
+> > > > 
+> > > > Fixes: b77532803d11 ("drm/msm/a6xx: Poll for GBIF unhalt status in hw_init")
+> > > > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > > > ---
+> > > >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  5 ++---
+> > > >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 14 ++++----------
+> > > >  2 files changed, 6 insertions(+), 13 deletions(-)
+> > > 
+> > > I prefer this version compared to the v2. A helper routine is
+> > > unnecessary here because:
+> > > 1. there are very few scenarios where we have to read back the same
+> > > register.
+> > > 2. we may accidently readback a write only register.
+> > > 
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > > > index 0e3dfd4c2bc8..4135a53b55a7 100644
+> > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > > > @@ -466,9 +466,8 @@ static int a6xx_rpmh_start(struct a6xx_gmu *gmu)
+> > > >  	int ret;
+> > > >  	u32 val;
+> > > >  
+> > > > -	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, 1 << 1);
+> > > > -	/* Wait for the register to finish posting */
+> > > > -	wmb();
+> > > > +	gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, BIT(1));
+> > > > +	gmu_read(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ);
+> > > 
+> > > This is unnecessary because we are polling on a register on the same port below. But I think we
+> > > can replace "wmb()" above with "mb()" to avoid reordering between read
+> > > and write IO instructions.
+> > 
+> > If I understand correctly, you don't need any memory barrier.
+> > writel()/readl()'s are ordered to the same endpoint. That goes for all
+> > the reordering/barrier comments mentioned below too.
+> > 
+> > device-io.rst:
+> > 
+> >     The read and write functions are defined to be ordered. That is the
+> >     compiler is not permitted to reorder the I/O sequence. When the ordering
+> >     can be compiler optimised, you can use __readb() and friends to
+> >     indicate the relaxed ordering. Use this with care.
+> > 
+> > memory-barriers.txt:
+> > 
+> >      (*) readX(), writeX():
+> > 
+> > 	    The readX() and writeX() MMIO accessors take a pointer to the
+> > 	    peripheral being accessed as an __iomem * parameter. For pointers
+> > 	    mapped with the default I/O attributes (e.g. those returned by
+> > 	    ioremap()), the ordering guarantees are as follows:
+> > 
+> > 	    1. All readX() and writeX() accesses to the same peripheral are ordered
+> > 	       with respect to each other. This ensures that MMIO register accesses
+> > 	       by the same CPU thread to a particular device will arrive in program
+> > 	       order.
+> > 
+> 
+> In arm64, a writel followed by readl translates to roughly the following
+> sequence: dmb_wmb(), __raw_writel(), __raw_readl(), dmb_rmb(). I am not
+> sure what is stopping compiler from reordering  __raw_writel() and __raw_readl()
+> above? I am assuming iomem cookie is ignored during compilation.
+
+It seems to me that is due to some usage of volatile there in
+__raw_writel() etc, but to be honest after reading about volatile and
+some threads from gcc mailing lists, I don't have a confident answer :)
+
+> 
+> Added Will to this thread if he can throw some light on this.
+
+Hopefully Will can school us.
+
+> 
+> -Akhil
+> 
+> > 
+> > > 
+> > > >  
+> > > >  	ret = gmu_poll_timeout(gmu, REG_A6XX_GMU_RSCC_CONTROL_ACK, val,
+> > > >  		val & (1 << 1), 100, 10000);
+> > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > > index 973872ad0474..0acbc38b8e70 100644
+> > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > > > @@ -1713,22 +1713,16 @@ static int hw_init(struct msm_gpu *gpu)
+> > > >  	}
+> > > >  
+> > > >  	/* Clear GBIF halt in case GX domain was not collapsed */
+> > > > +	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
+> > > 
+> > > We need a full barrier here to avoid reordering. Also, lets add a
+> > > comment about why we are doing this odd looking sequence.
+> > > 
+> > > > +	gpu_read(gpu, REG_A6XX_GBIF_HALT);
+> > > >  	if (adreno_is_a619_holi(adreno_gpu)) {
+> > > > -		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
+> > > >  		gpu_write(gpu, REG_A6XX_RBBM_GPR0_CNTL, 0);
+> > > > -		/* Let's make extra sure that the GPU can access the memory.. */
+> > > > -		mb();
+> > > 
+> > > We need a full barrier here.
+> > > 
+> > > > +		gpu_read(gpu, REG_A6XX_RBBM_GPR0_CNTL);
+> > > >  	} else if (a6xx_has_gbif(adreno_gpu)) {
+> > > > -		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
+> > > >  		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
+> > > > -		/* Let's make extra sure that the GPU can access the memory.. */
+> > > > -		mb();
+> > > 
+> > > We need a full barrier here.
+> > > 
+> > > > +		gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT);
+> > > >  	}
+> > > >  
+> > > > -	/* Some GPUs are stubborn and take their sweet time to unhalt GBIF! */
+> > > > -	if (adreno_is_a7xx(adreno_gpu) && a6xx_has_gbif(adreno_gpu))
+> > > > -		spin_until(!gpu_read(gpu, REG_A6XX_GBIF_HALT_ACK));
+> > > > -
+> > > 
+> > > Why is this removed?
+> > > 
+> > > -Akhil
+> > > 
+> > > >  	gpu_write(gpu, REG_A6XX_RBBM_SECVID_TSB_CNTL, 0);
+> > > >  
+> > > >  	if (adreno_is_a619_holi(adreno_gpu))
+> > > > 
+> > > > ---
+> > > > base-commit: 93a39e4766083050ca0ecd6a3548093a3b9eb60c
+> > > > change-id: 20240508-topic-adreno-a2d199cd4152
+> > > > 
+> > > > Best regards,
+> > > > -- 
+> > > > Konrad Dybcio <konrad.dybcio@linaro.org>
+> > > > 
+> > > 
+> > 
+> 
+
