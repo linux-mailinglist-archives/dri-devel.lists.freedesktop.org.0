@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF7A8C7AB0
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 18:51:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29B08C7AD2
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 19:09:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4D010E1E9;
-	Thu, 16 May 2024 16:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19D6610E1AC;
+	Thu, 16 May 2024 17:09:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="BJqVmyST";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="XLp0jOfj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FC7310E1E9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 16:51:51 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-420107286ecso3225e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 09:51:51 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 502E010E1AC
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 17:09:27 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-41ff3a5af40so3525e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 10:09:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1715878309; x=1716483109;
+ d=google.com; s=20230601; t=1715879365; x=1716484165;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:to:subject:message-id:date:from
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=onRIPguZVTKnH89R9mkjKZKxwfRC8K+qmiRpCHzudec=;
- b=BJqVmyST3xX8shxnS8zYFR9Tpbl2FaTsOX8fCPPUXJuZYD4zL2dr4JYRgxTDC1jtmJ
- udifL7IeYoBWJb3vrJzSWZbPYWEveB5ybHX4yUSWV8qonvoWyIvpiLvAeu7bwqZNwYGA
- GkoHl4QTnsqK0swPbd2aaaBurV5nBGT120hViepLhsYuCw4Fyrel0kNllPOZpy9J5q7v
- XRtQEvBFNfMNvaJ4omBsuHj3AmlBZwseYOjCRiqAhTNOYCCdBzkTggVU00kdsFWikek/
- pyW4kQfvEJ1NXIi5lTH/s98aoKrqh8oQ497MB1/bAT7HiIsx6e+/RszzDQPIyhkqx7Qc
- yaYQ==
+ bh=qQzIVlQ1gpgjynAxQQJO0srkRwgd45+RmoC324lNlhs=;
+ b=XLp0jOfjLvuGp84Qjir0HJiaFwWupc1zxJ4uIkGxgMXMV4Mq78FOkGPO26DFJJZA4+
+ 9zF/BnZCpkOSFerZ82PD/uyjBebOpLiWeDO7owx6HnOsYXAm8PSWwinQAoTcPaGYM9XH
+ asdmASXrKQ7gfCoGmyCa6PCSiyN24jbco8tPxN0up1Ycw0NLAPu6hpY2dlBeqIhW9AIl
+ PTdSr8N0z47bAaspu6mwa8O0Zg59emLlCDak24IAEibDXYMFsMvo84mzdpH3gM7CNxlY
+ 1OzEWn1yldOxFtI5nvzRBMR786SUwGxp+c3oEodfOyYMUK4N1DOQ+7EsipOMGlMRYEgU
+ crcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715878309; x=1716483109;
- h=content-transfer-encoding:to:subject:message-id:date:from
+ d=1e100.net; s=20230601; t=1715879365; x=1716484165;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=onRIPguZVTKnH89R9mkjKZKxwfRC8K+qmiRpCHzudec=;
- b=tPbLmL4zjwFa2Y+egSe6/uZAyE7aRgzD41IMP0PSdyS419vgJPIi/dfmOQ+fQ6fjXQ
- k/XZUKwSZ/p6t2iptoKjfq+J0HsssPp35kMoo6hJv3bf/59SsLvGTWHhU9pwb7C2fz93
- zhG10Qx/V7jYEoz6+JR8Uj9EIzYo//zI4I8lOcahf2CjSvQn0XN6tR0vd9Hg7YHDNHgy
- aJb0Sool9TgbxOLk07GHDsDTnEun83eYmEBTr0mdSIKp+2kSzV4qxvU6/tPGMVZ7lci5
- VRrP1NJx39569ZDji9jBxtoDNm1MidsqVxKAJQWzVma9J0Eb6dQ6RZDyG6r8PiJSxlTA
- ISvg==
+ bh=qQzIVlQ1gpgjynAxQQJO0srkRwgd45+RmoC324lNlhs=;
+ b=fpjPx2Qd2XK/S9xfYx9wexBNK3xPx4SKz1CGzr8kNRTa3ImKC36xSqmpFqZ3AGd0eG
+ tl1IVgAf5KTMRm5g66PmsfiZCvpSRWhjpkpLO/8Fuz0yDtync8JNvmu4u/gEX/7AqHz8
+ RDT2t1OjV3IKYr6I5RmXwoqQ+oNdheWH+PyHg5PjbUpLTT5Vb+dhbRk6xpyctlit8xtG
+ Ss4OF7ecU9qhhysSLtIl6Ekkh1QF1I+yuLoLkXmOXxOFyoy+PQ8d3WoREio1Wl8PxJnc
+ 3Ydc6vg3zZ6hmt/w67gecopE25j7gRCC1+ls1ul2CtwlQIz2rcJciWgMJ8msJT8MkVzu
+ rMlQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWYqlwM0cCX1k5PtzYaurGG7ASZGRZj3KPwO/kkL9UD0xAWtyoDL2Tb6dT9Ig7kHvF/Vd67b8hKZ9ECr5RWuKwBuM9nV0G0KbO2ygDwU69o
-X-Gm-Message-State: AOJu0YyO7hLt4nfIysSmPon8flJdZnl0EzAiymrcunT2vXU1mN9eGJ4R
- 23eHppUuT8R2Fg4so1CaAKPmwUIqI7freDD6jCnQ6HoCvVcNvI6Hv3iOnD2LUJ0/V2aCTF4vDx/
- jod1P15Lzp3cCZT6IybIfE3htP60K7wMr+VE=
-X-Google-Smtp-Source: AGHT+IEtjZ9BDFF4UXQQ+nrOQN0XGRAp0bc3xjYZiRXnK81siroeleNET7wr5DctMi1WpgetmZ17HV2nwiWezX0TGvA=
-X-Received: by 2002:a05:600c:34c2:b0:41b:e55c:8dca with SMTP id
- 5b1f17b1804b1-4200f8c6eeamr11617495e9.7.1715878309151; Thu, 16 May 2024
- 09:51:49 -0700 (PDT)
+ AJvYcCW5e0h4QE7usw2mQYZMDbkCDey1bLbW1IMJJL20W3GvvOHNk/rFtx9sOeFeoLsKlQp5OwUwTQp5JceTTs7TvSj4JHcQOS/mnxIEm9Ph8x0p
+X-Gm-Message-State: AOJu0YzeCFzPZbPKC0PcdVDAu9d+rFK8GeC7heMh+Qn7QdUdXKRQQYo0
+ CUUU4EcA93AJXfxPY0YeLzPAU68RAXL1ovKlALWlnZYhJdEfOOio8NZ/aZxe5QNshualzezfVWU
+ /YVINWflbrtU0bDOUKvxeIRLWQ7qOssB1rF4=
+X-Google-Smtp-Source: AGHT+IEbIHaPpQUwsM2bGOORaLwAAJk/9w7y7+ELgEsY9rlNpgazkzZDH+eXj4VRQX5ZsmyvpnueMFsMKYjhmj/eslA=
+X-Received: by 2002:a05:600c:5024:b0:41b:4c6a:de7a with SMTP id
+ 5b1f17b1804b1-4200f8bbe7bmr11807905e9.3.1715879365312; Thu, 16 May 2024
+ 10:09:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
  <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
- <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
-In-Reply-To: <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
+ <20240516-truthful-fair-kudu-adb6df@penduick>
+In-Reply-To: <20240516-truthful-fair-kudu-adb6df@penduick>
 From: John Stultz <jstultz@google.com>
-Date: Thu, 16 May 2024 09:51:35 -0700
-Message-ID: <CANDhNCo5hSC-sLwdkBi3e-Ja-MzdqcGGbn-4G3XNYwCzZUwscw@mail.gmail.com>
+Date: Thu, 16 May 2024 10:09:13 -0700
+Message-ID: <CANDhNCqyh2ZKsOyb9rLBpUZZ+VTU8M70XBQC3aC2=G_v8LqciA@mail.gmail.com>
 Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
  related-flags
-To: John Stultz <jstultz@google.com>, Maxime Ripard <mripard@kernel.org>, 
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
  Sumit Semwal <sumit.semwal@linaro.org>, 
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
  Brian Starkey <Brian.Starkey@arm.com>, 
@@ -90,14 +90,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 16, 2024 at 3:56=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wro=
-te:
+On Thu, May 16, 2024 at 5:22=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
 > On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
-> > But it makes me a little nervous to add a new generic allocation flag
-> > for a feature most hardware doesn't support (yet, at least). So it's
-> > hard to weigh how common the actual usage will be across all the
-> > heaps.
-> >
 > > I apologize as my worry is mostly born out of seeing vendors really
 > > push opaque feature flags in their old ion heaps, so in providing a
 > > flags argument, it was mostly intended as an escape hatch for
@@ -107,28 +102,30 @@ te:
 > > So again, not an objection, just something for folks to stew on to
 > > make sure this is really the right approach.
 >
-> Another good reason to go with full heap names instead of opaque flags on
-> existing heaps is that with the former we can use symlinks in sysfs to
-> specify heaps, with the latter we need a new idea. We haven't yet gotten
-> around to implement this anywhere, but it's been in the dma-buf/heap todo
-> since forever, and I like it as a design approach. So would be a good ide=
-a
-> to not toss it. With that display would have symlinks to cma-ecc and cma,
-> and rendering maybe cma-ecc, shmem, cma heaps (in priority order) for a
-> SoC where the display needs contig memory for scanout.
+> I understand your hesitation and concern :) Is there anything we could
+> provide that would help moving the discussion forward?
+>
 
-So indeed that is a good point to keep in mind, but I also think it
-might re-inforce the choice of having ECC as a flag here.
+Mostly I just want to make sure it's discussed, which is why I raise
+it as a concern.
 
-Since my understanding of the sysfs symlinks to heaps idea is about
-being able to figure out a common heap from a collection of devices,
-it's really about the ability for the driver to access the type of
-memory. If ECC is just an attribute of the type of memory (as in this
-patch series), it being on or off won't necessarily affect
-compatibility of the buffer with the device.  Similarly "uncached"
-seems more of an attribute of memory type and not a type itself.
-Hardware that can access non-contiguous "system" buffers can access
-uncached system buffers.
+Getting APIs right is hard, and I know I've made my share of mistakes
+(for instance, a situation that very much echoes this current
+question: the *_ALARM clockids probably should have used a flag). So
+I've found highlighting the trade-offs and getting other folk's
+perspectives useful to avoid such issues.  But I also don't intend to
+needlessly delay things.
+
+> > Another thing to discuss, that I didn't see in your mail: Do we have
+> > an open-source user of this new flag?
+>
+> Not at the moment. I guess it would be one of the things that would
+> reduce your concerns, but is it a requirement?
+
+So I'd defer to Sima on this. There have been a number of heap
+releated changes that have had to be held out of tree on this
+requirement, but I'm hoping recent efforts on upstream device support
+will eventually unblock those.
 
 thanks
 -john
