@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E9A8C73F8
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 11:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 190768C73FB
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 11:42:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED6B110E1A4;
-	Thu, 16 May 2024 09:40:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E29410EC51;
+	Thu, 16 May 2024 09:42:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="fP4RN99z";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="lOZog/6R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB7A510E1A4
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 09:40:56 +0000 (UTC)
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBBAC10EC46
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 09:42:09 +0000 (UTC)
 Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44G9eOEN068647;
- Thu, 16 May 2024 04:40:24 -0500
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44G9fmVS056166;
+ Thu, 16 May 2024 04:41:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1715852424;
- bh=ml6HgEfz0pCFcM1KFjw67YfcKvqpKdM587cI/IJIk4g=;
+ s=ti-com-17Q1; t=1715852508;
+ bh=wYQOXr5Vdn2rus+peaYLnfyMg1IdCq5SCmKMEecT2l4=;
  h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=fP4RN99z1mpZnokn16cVVr97noUU5XphtytGCNT7Dwlt1sl/v9hIQvVPhMfMLvdDH
- cR3HY+4KdDH8uUrVgClukDtcb50adfj4VhNhxV4fgbNJR7kNoXRExlVzPEdU+rUuqt
- XF1t+m3mQb6IuYIfxCI8yssD5znMYML+g/xNW9bI=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44G9eOFP116928
+ b=lOZog/6R02eMJWGESciek9BgtgdUOHA/RIeN/A52gS847IG/2nP6fiwFcydkntCMR
+ DANzLXCNaSl2HJoL/sfcEdyBd8m3PQkaJXGXCDRMI9j01ukLspmLajclg9sj6FFVsZ
+ tiniWcz/Ta7ZWGZIsriWt8SVa2gJt5fXNbfrr6mk=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44G9fmEM117558
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 16 May 2024 04:40:24 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 16 May 2024 04:41:48 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 16
- May 2024 04:40:24 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 04:41:48 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 16 May 2024 04:40:24 -0500
+ Frontend Transport; Thu, 16 May 2024 04:41:48 -0500
 Received: from [172.24.227.31] (uda0496377.dhcp.ti.com [172.24.227.31])
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44G9eGIB064483;
- Thu, 16 May 2024 04:40:17 -0500
-Message-ID: <ba8d0b98-67d2-41e2-b568-a40543a9b0fa@ti.com>
-Date: Thu, 16 May 2024 15:10:15 +0530
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44G9ffH0074525;
+ Thu, 16 May 2024 04:41:41 -0500
+Message-ID: <8bb974f9-90ff-4b61-9623-cf5675f35e78@ti.com>
+Date: Thu, 16 May 2024 15:11:40 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] drm/bridge: Introduce early_enable and late disable
+Subject: Re: [PATCH 2/7] drm/bridge: cdns-dsi: Fix minor bugs
 To: Maxime Ripard <mripard@kernel.org>
 CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda
  <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
@@ -64,11 +64,11 @@ CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda
  Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary
  <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>
 References: <20240511153051.1355825-1-a-bhatia1@ti.com>
- <20240511153051.1355825-7-a-bhatia1@ti.com>
- <20240516-bipedal-keen-taipan-eedbe7@penduick>
+ <20240511153051.1355825-3-a-bhatia1@ti.com>
+ <20240516-stereotyped-precise-wapiti-6d0cd3@penduick>
 Content-Language: en-US
 From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <20240516-bipedal-keen-taipan-eedbe7@penduick>
+In-Reply-To: <20240516-stereotyped-precise-wapiti-6d0cd3@penduick>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
@@ -87,177 +87,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
 
-Thank you for reviewing the patches!
 
-On 16/05/24 13:52, Maxime Ripard wrote:
-> On Sat, May 11, 2024 at 09:00:50PM +0530, Aradhya Bhatia wrote:
->> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
->> index 4baca0d9107b..40f93230abb2 100644
->> --- a/include/drm/drm_bridge.h
->> +++ b/include/drm/drm_bridge.h
->> @@ -206,6 +206,20 @@ struct drm_bridge_funcs {
->>  	 */
->>  	void (*post_disable)(struct drm_bridge *bridge);
->>  
->> +	/**
->> +	 * @late_disable:
->> +	 *
->> +	 * This callback should disable the bridge. It is called right after the
->> +	 * preceding element in the display pipe is disabled. If the preceding
->> +	 * element is a bridge this means it's called after that bridge's
->> +	 * @atomic_post_disable. If the preceding element is a &drm_crtc it's
->> +	 * called right after the crtc's &drm_crtc_helper_funcs.atomic_disable
->> +	 * hook.
->> +	 *
->> +	 * The @late_disable callback is optional.
->> +	 */
->> +	void (*late_disable)(struct drm_bridge *bridge);
->> +
->>  	/**
->>  	 * @mode_set:
->>  	 *
->> @@ -235,6 +249,26 @@ struct drm_bridge_funcs {
->>  	void (*mode_set)(struct drm_bridge *bridge,
->>  			 const struct drm_display_mode *mode,
->>  			 const struct drm_display_mode *adjusted_mode);
->> +
->> +	/**
->> +	 * @early_enable:
->> +	 *
->> +	 * This callback should enable the bridge. It is called right before
->> +	 * the preceding element in the display pipe is enabled. If the
->> +	 * preceding element is a bridge this means it's called before that
->> +	 * bridge's @early_enable. If the preceding element is a &drm_crtc it's
->> +	 * called right before the crtc's &drm_crtc_helper_funcs.atomic_enable
->> +	 * hook.
->> +	 *
->> +	 * The display pipe (i.e. clocks and timing signals) feeding this bridge
->> +	 * will not yet be running when this callback is called. The bridge can
->> +	 * enable the display link feeding the next bridge in the chain (if
->> +	 * there is one) when this callback is called.
->> +	 *
->> +	 * The @early_enable callback is optional.
->> +	 */
->> +	void (*early_enable)(struct drm_bridge *bridge);
->> +
+On 16/05/24 13:41, Maxime Ripard wrote:
+> On Sat, May 11, 2024 at 09:00:46PM +0530, Aradhya Bhatia wrote:
+>> Update the Phy initialized state to "not initialized" when the driver
+>> (and the hardware by extension) gets suspended. This will allow the Phy
+>> to get initialized again after resume.
+>>
+>> Fix the OF node that gets passed to find the next available bridge in
+>> the display pipeline.
+>>
+>> Fix the order of DSI Link and DSI Phy inits. The link init needs to
+>> happen before the Phy is initialized, so the Phy can lock on the
+>> incoming PLL reference clock. If this doesn't happen, the Phy cannot
+>> lock (until DSI Link is init later on). This causes a warning dump
+>> during the kernel boot.
+>>
+>> Allow the D-Phy config checks to use mode->clock instead of
+>> mode->crtc_clock during mode_valid checks, like everywhere else in the
+>> driver.
 > 
-> You don't need the legacy option here, just go straight for the atomic one.
-
-Got it! I can remove these in v2.
-
-> 
->>  	/**
->>  	 * @pre_enable:
->>  	 *
->> @@ -285,6 +319,26 @@ struct drm_bridge_funcs {
->>  	 */
->>  	void (*enable)(struct drm_bridge *bridge);
->>  
->> +	/**
->> +	 * @atomic_early_enable:
->> +	 *
->> +	 * This callback should enable the bridge. It is called right before
->> +	 * the preceding element in the display pipe is enabled. If the
->> +	 * preceding element is a bridge this means it's called before that
->> +	 * bridge's @atomic_early_enable. If the preceding element is a
->> +	 * &drm_crtc it's called right before the crtc's
->> +	 * &drm_crtc_helper_funcs.atomic_enable hook.
->> +	 *
->> +	 * The display pipe (i.e. clocks and timing signals) feeding this bridge
->> +	 * will not yet be running when this callback is called. The bridge can
->> +	 * enable the display link feeding the next bridge in the chain (if
->> +	 * there is one) when this callback is called.
->> +	 *
->> +	 * The @early_enable callback is optional.
->> +	 */
->> +	void (*atomic_early_enable)(struct drm_bridge *bridge,
->> +				    struct drm_bridge_state *old_bridge_state);
->> +
->>  	/**
->>  	 * @atomic_pre_enable:
->>  	 *
->> @@ -361,6 +415,21 @@ struct drm_bridge_funcs {
->>  	void (*atomic_post_disable)(struct drm_bridge *bridge,
->>  				    struct drm_bridge_state *old_bridge_state);
->>  
->> +	/**
->> +	 * @atomic_late_disable:
->> +	 *
->> +	 * This callback should disable the bridge. It is called right after the
->> +	 * preceding element in the display pipe is disabled. If the preceding
->> +	 * element is a bridge this means it's called after that bridge's
->> +	 * @atomic_late_disable. If the preceding element is a &drm_crtc it's
->> +	 * called right after the crtc's &drm_crtc_helper_funcs.atomic_disable
->> +	 * hook.
->> +	 *
->> +	 * The @atomic_late_disable callback is optional.
->> +	 */
->> +	void (*atomic_late_disable)(struct drm_bridge *bridge,
->> +				    struct drm_bridge_state *old_bridge_state);
->> +
-> 
-> But more importantly, I don't quite get the use case you're trying to
-> solve here.
-> 
-> If I got the rest of your series, the Cadence DSI bridge needs to be
-> powered up before its source is started. You can't use atomic_enable or
-> atomic_pre_enable because it would start the source before the DSI
-> bridge. Is that correct?
+> All these should be in separate patches.
 > 
 
-That's right. I cannot use bridge_atomic_pre_enable /
-bridge_atomic_enable here. But that's because my source is CRTC, which
-gets enabled via crtc_atomic_enable.
-
-
-> If it is, then how is it different from what
-> drm_atomic_bridge_chain_pre_enable is doing? The assumption there is
-> that it starts enabling bridges last to first, to it should be enabled
-> before anything starts.
-> 
-> The whole bridge enabling order code starts to be a bit of a mess, so it
-> would be great if you could list all the order variations we have
-> currently, and why none work for cdns-dsi.
-> 
-
-Of course! I can elaborate on the order.
-
-Without my patches (and given there isn't any bridge setting the
-"pre_enable_prev_first" flag) the order of enable for any single display
-chain, looks like this -
-
-	crtc_enable
-	
-	bridge[n]_pre_enable
-	---
-	bridge[1]_pre_enable
-
-	encoder_enable
-
-	bridge[1]_enable
-	---
-	bridge[n]_enable
-
-The tidss enables at the crtc_enable level, and hence is the first
-entity with stream on. cdns-dsi doesn't stand a chance with
-bridge_atmoic_pre_enable / bridge_atmoic_enable hooks. And there is no
-bridge call happening before crtc currently.
-
-That's where the early_enable APIs come into picture. They are being
-called before the crtc is even enabled, helping cdns-dsi to be enabled
-before tidss. The order then looks like -
-
-
-	bridge[1]_early_enable
-	---
-	bridge[n]_early_enable
-
-	crtc_enable
-	---
-	(the order is same from here on)
-
+Alright! I will split them into different patches in v2.
 
 Regards
 Aradhya
