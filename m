@@ -2,91 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820108C78E0
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 17:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8DE28C78EA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 17:05:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95EF710E21B;
-	Thu, 16 May 2024 15:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E534610ED60;
+	Thu, 16 May 2024 15:05:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PruRqEPA";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="PrXNqlNH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E37DB10E21B
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 15:03:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1715871811;
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com
+ [91.218.175.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7CF10ED60
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 15:05:26 +0000 (UTC)
+X-Envelope-To: markus.elfring@web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1715871923;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nKBUSAzkxF9Zs4eRSjZEOq3e8C2Kq3MU7w45eIpOnW4=;
- b=PruRqEPA2Rrte/ywuqyD/wuVDEQzyCAJ9M/9tBVTwfbpHYHYwaEyRp9U/sGiPTBdmyXYEG
- oqCnzhE6AwdmvR2n9LmrKvtsbv6OAlwYkqHKxS8ET9cmGM5ozLiaDwrezDSEtZjpKKokkj
- Oh7L2rG6OtHB9Szq1gqC16+sIQpuxsQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-345-OFPQ_vpRN06q1pSStu6quA-1; Thu, 16 May 2024 11:03:28 -0400
-X-MC-Unique: OFPQ_vpRN06q1pSStu6quA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-572b993d8ffso2288473a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 08:03:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715871807; x=1716476607;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nKBUSAzkxF9Zs4eRSjZEOq3e8C2Kq3MU7w45eIpOnW4=;
- b=nPNGZRYFiLAYU6CLpxBQtc+8oJwz7hZmeaNlaqlXOipJqe+00IOZuC2tQN7G79bsL8
- x9ooAW7I0tuHO+uTDU/BvWZOjFcxx7DSycDPxextj3FDjYfjGUT9NOVLhu8p9/3W32Ot
- nRk1dkXl36wZWuBkRW2+/3nI1MstDW0XRLBkEeUhfcUPDGcxOTEFEl2tEcz5oDx27RyY
- locgIUSF4+2mrwgZXIDuIvrj6X7mBgNtK3nXZRWq6RjPVCHLFkYV8/IrwZeGdAoI4y0Z
- TP+q4qDS9AdmB8QaLHRp/70i8RKmO1T2w/G+1oqE7LQarQxSW8HUQzILa/VIsqBT25+2
- ipmw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXN+zVXazxt3IYVwh/ZSAyh6MaIUSvdrEiBH1NGuKMdGTDneupYrp1hIWM1UjquHbzkPnJ5zNemGQCujjX1/SCZTIbS3OqKVazFlZGR2xWG
-X-Gm-Message-State: AOJu0Yym0pq1TYh1DiBAm5XlNbGDgxjeGzDKVrTCdnn3D5LAMGrLTikQ
- ZtdVtz7ApEkHT34eVFqUjcgJu/HMH+FfioK8Bk3H8h9qarhyBRIjlpfMePNXJ5mTb/T1XymIXmD
- wI0F6UnX+HI7pjnBUUiYccRnat6s9vN2qMEyM+Ke5BBC8pzO1vDMmGV85n5Kd1rrMow==
-X-Received: by 2002:a50:d583:0:b0:572:637b:c7e1 with SMTP id
- 4fb4d7f45d1cf-5734d5f48b1mr19637051a12.21.1715871807578; 
- Thu, 16 May 2024 08:03:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGgvrzhNOwipq4x4p3Hw4REcPng/U01BJKv87Sp+Z20QuaHZ/2tw+/vdsLUK4lIsDrkAAHqdA==
-X-Received: by 2002:a50:d583:0:b0:572:637b:c7e1 with SMTP id
- 4fb4d7f45d1cf-5734d5f48b1mr19637027a12.21.1715871807208; 
- Thu, 16 May 2024 08:03:27 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-574f6b8b9d7sm2749663a12.82.2024.05.16.08.03.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 May 2024 08:03:26 -0700 (PDT)
-Message-ID: <1850b44d-e468-44db-82b7-f57e77fe49ba@redhat.com>
-Date: Thu, 16 May 2024 17:03:25 +0200
+ bh=k1iwDmNYqVn248UOEBvI8HJ/0owB/GDjNqpgGn9M7lk=;
+ b=PrXNqlNHE/uLlkTiBgXkBMSG+MjdD/5tNblwdqoUeBDzPesQHONfA/+xUGEo9XA5o49n5P
+ 6PyproianL5t9MIP4maWQN4JO7XNWJVlcVWtgbSZVRcz5aZwHaQbhnMnyUFX9cBr1YWgH1
+ tyLNhhmtlhr9ceEGWxA21csFAyfpi/k=
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: kernel-janitors@vger.kernel.org
+X-Envelope-To: mripard@kernel.org
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: suijingfeng@loongson.cn
+Message-ID: <42dae3a1-9817-464b-b581-529f4485be6f@linux.dev>
+Date: Thu, 16 May 2024 23:05:16 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ACPI: video: Fix name collision with architecture's
- video.o
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
+Subject: Re: [PATCH 3/3] drm/loongson: Refactor lsdc device initialize and the
+ output port
+To: Markus Elfring <Markus.Elfring@web.de>, dri-devel@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lenb@kernel.org, arnd@arndb.de, chaitanya.kumar.borah@intel.com,
- suresh.kumar.kurmi@intel.com, jani.saarinen@intel.com,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-arch@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20240516124317.710-1-tzimmermann@suse.de>
- <CAJZ5v0gw620SLfxM66FfVeWMTN=dSZZtpH-=mFT_0HsumT3SsA@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAJZ5v0gw620SLfxM66FfVeWMTN=dSZZtpH-=mFT_0HsumT3SsA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
+Cc: LKML <linux-kernel@vger.kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>
+References: <20240513001243.1739336-4-sui.jingfeng@linux.dev>
+ <dc34d171-dc47-4817-a6f0-9f23a3afb8e7@web.de>
+Content-Language: en-US, en-AU
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <dc34d171-dc47-4817-a6f0-9f23a3afb8e7@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,47 +69,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 5/16/24 3:04 PM, Rafael J. Wysocki wrote:
-> CC Hans who has been doing the majority of the ACPI video work.
+
+On 5/16/24 14:26, Markus Elfring wrote:
+> …
+>> fullfill the implement under the new framework.
 > 
-> On Thu, May 16, 2024 at 2:43 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>
->> Commit 2fd001cd3600 ("arch: Rename fbdev header and source files")
->> renames the video source files under arch/ such that they does not
->> refer to fbdev any longer. The new files named video.o conflict with
->> ACPI's video.ko module.
+> fulfil the implementation?
 > 
-> And surely nobody knew or was unable to check upfront that there was a
-> video.ko already in the kernel.
+> Please improve your change descriptions another bit.
 
-Sorry, but nack for this change. I very deliberately kept the module-name
-as video when renaming the actual .c file from video.c to acpi_video.c
-because many people pass drivers/video/acpi_video.c module arguments
-on the kernel commandline using video.param=val .
+OK, despite has a few typos. but the quality of the patch itself
+can be guaranteed. The first version is mainly for preview purpose.
+I'll fix the problem you mentioned at the next version, thanks for
+reviewing.
 
-Try e.g. doing a duckduckgo search for 1 off:
+I have tested this series before posting on ls3a6000+ls7a2000 PC:
 
-"video.only_lcd"
-"video.allow_duplicates"
-"video.brightness_switch_enabled"
+$ dmesg | grep loongson:
 
-And you will find a lot of hits. The last one is even documented as
-being "video.brightness_switch_enabled" in the main kernel-parameters.txt
-as well as separately:
+[    4.125926] loongson 0000:00:06.1: Found LS7A2000 bridge chipset, 
+revision: 2
+[    4.133035] loongson 0000:00:06.1: [drm] dc: 400MHz, gmc: 1200MHz, 
+gpu: 480MHz
+[    4.140215] loongson 0000:00:06.1: [drm] Dedicated vram start: 
+0xe0030000000, size: 256MiB
+[    4.148538] loongson 0000:00:06.1: [drm] VRAM: 16384 pages ready
+[    4.154506] loongson 0000:00:06.1: [drm] GTT: 32768 pages ready
+[    4.160410] loongson 0000:00:06.1: [drm] lsdc-i2c0(sda pin mask=1, 
+scl pin mask=2) created
+[    4.168638] loongson 0000:00:06.1: [drm] lsdc-i2c1(sda pin mask=4, 
+scl pin mask=8) created
+[    4.176938] loongson 0000:00:06.1: [drm] registered irq: 54
+[    4.189404] loongson 0000:00:06.1: [drm] Output port-0 bound, type: 
+HDMI-or-VGA-0
+[    4.196839] loongson 0000:00:06.1: bound lsdc-output-port.0 (ops 
+lsdc_output_port_component_ops)
+[    4.211629] loongson 0000:00:06.1: [drm] Output port-1 bound, type: 
+HDMI-1
+[    4.218459] loongson 0000:00:06.1: bound lsdc-output-port.1 (ops 
+lsdc_output_port_component_ops)
+[    4.227203] loongson 0000:00:06.1: [drm] Total 2 outputs
+[    4.272617] [drm] Initialized loongson 1.0.0 for 0000:00:06.1 on minor 0
+[    4.341588] loongson 0000:00:06.1: [drm] fb0: loongsondrmfb frame 
+buffer device
+[    4.348867] loongson 0000:00:06.1: loongson add component: 0
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/kernel-parameters.txt#n39
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/kernel-parameters.txt#n7152
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/firmware-guide/acpi/video_extension.rst#n118
 
-https://wiki.archlinux.org/title/Lenovo_ThinkPad_X1_Carbon#Brightness_control
 
-If you rename this module then peoples config will break for
-a whole lot of users.
+> Regards,
+> Markus
 
-So lets not do that and lets rename the new module which is causing
-the conflict in the first place instead.
-
-Regards,
-
-Hans
-
+-- 
+Best regards
+Sui
