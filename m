@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24DE8C72B1
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 10:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 908DA8C72B7
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 10:25:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F29A10E0EE;
-	Thu, 16 May 2024 08:23:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC11B10E1F1;
+	Thu, 16 May 2024 08:25:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EfRVXoVH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EO1cHYgc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCFCC10E0EE
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 08:22:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C202210E1F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 08:25:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EB2406147A;
- Thu, 16 May 2024 08:22:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A12C32782;
- Thu, 16 May 2024 08:22:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 089A0614A2;
+ Thu, 16 May 2024 08:25:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 454F1C113CC;
+ Thu, 16 May 2024 08:25:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1715847778;
- bh=ALV9uGrFv7cZdcRvwBfOfVLAhVL7+0hTT07Mfq1KqrA=;
+ s=k20201202; t=1715847910;
+ bh=wQSeNVyD2+LGMI1KSxHgOvUM6yNAJ+OyWsiLwLfXdGM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EfRVXoVHoD9Mne5Wpd6QuwDb1ZcB6EJ5ADD/ZKCrtIYNgdrhtgA8warDEO1J+B1Vm
- +ArPjI0D/r0YS7Wkh4Tf4Ldau28fx8x76b92QKcQCOTP/gHxo+wYfwLCo8rrg3dmFL
- BXSzhxabVsbIluDG0w5MHH4oo9ARHVDWnBqRG/WNlf6WWbOwSEMeRuwGgIe/0+jQSZ
- p0IYjme5nOftV6cjx7mml+PAf8bHRffVsOpaglTygE9j3kVeF9EmtgWQzdwz8Cf+Om
- 6eQwWa7/1OUVIvd+GSDcXOkpQtpDvVyBUJaWywqpVcDHXA1qJE+lvqxyNQaKu/aaj6
- wKTBwLHqiaRDQ==
-Date: Thu, 16 May 2024 10:22:55 +0200
+ b=EO1cHYgcSiyEgzOkCWNMhSk9JWysjcFy/0GEKirdIi1YG5LvOa9YIyrOSEjV8FQfh
+ 6QJdIrd4qD24cJQwdh3xVJ98gOd+lM8VXkLD5xMqY6dP44hbN79W87RoJtjjxWhkjK
+ +EJZ9/yoZSARSObIcjh9HIYRmp0s+bruSbiUP/HikocggfO+2bSgrdVlbrxth1kltf
+ 0RxHcmkiOevML+ju4hsLjuIUU6QtE5mwmnSMNd2Dg2ScM06zJuo6YvAB725psvuyyE
+ 1/7E/5oO/LqIC87zin8OT1s2sX6o3ob57vgfV8zFFHkxqUSLnkKGWCFIGqKc07CChl
+ jhAqfI+RxTpiQ==
+Date: Thu, 16 May 2024 10:25:07 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Aradhya Bhatia <a-bhatia1@ti.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- DRI Development List <dri-devel@lists.freedesktop.org>, 
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <treding@nvidia.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Boris Brezillon <boris.brezillon@bootlin.com>, Nishanth Menon <nm@ti.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, 
- Devarsh Thakkar <devarsht@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>, 
- Jai Luthra <j-luthra@ti.com>
-Subject: Re: [PATCH 6/7] drm/bridge: Introduce early_enable and late disable
-Message-ID: <20240516-bipedal-keen-taipan-eedbe7@penduick>
-References: <20240511153051.1355825-1-a-bhatia1@ti.com>
- <20240511153051.1355825-7-a-bhatia1@ti.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] drm/bridge: Add 'struct device *' field to the
+ drm_bridge structure
+Message-ID: <20240516-intrepid-uptight-tench-0df95e@penduick>
+References: <20240514154045.309925-1-sui.jingfeng@linux.dev>
+ <20240514-scarlet-corgi-of-efficiency-faf2bb@penduick>
+ <c44480ab-8d6b-4334-8eba-83db9b30ff1a@linux.dev>
+ <20240515-fair-satisfied-myna-480dea@penduick>
+ <d394ee32-4fa4-41a8-a5ca-c1c7f77f44d2@linux.dev>
+ <20240515-copper-chimpanzee-of-fortitude-ff3dab@penduick>
+ <2c15c859-6b2b-4979-8317-698bf6cc430c@linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="xi3lclbr3vvtndxj"
+ protocol="application/pgp-signature"; boundary="toq7dtu3l53x2mb5"
 Content-Disposition: inline
-In-Reply-To: <20240511153051.1355825-7-a-bhatia1@ti.com>
+In-Reply-To: <2c15c859-6b2b-4979-8317-698bf6cc430c@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,143 +67,81 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---xi3lclbr3vvtndxj
+--toq7dtu3l53x2mb5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 11, 2024 at 09:00:50PM +0530, Aradhya Bhatia wrote:
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 4baca0d9107b..40f93230abb2 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -206,6 +206,20 @@ struct drm_bridge_funcs {
->  	 */
->  	void (*post_disable)(struct drm_bridge *bridge);
-> =20
-> +	/**
-> +	 * @late_disable:
-> +	 *
-> +	 * This callback should disable the bridge. It is called right after the
-> +	 * preceding element in the display pipe is disabled. If the preceding
-> +	 * element is a bridge this means it's called after that bridge's
-> +	 * @atomic_post_disable. If the preceding element is a &drm_crtc it's
-> +	 * called right after the crtc's &drm_crtc_helper_funcs.atomic_disable
-> +	 * hook.
-> +	 *
-> +	 * The @late_disable callback is optional.
-> +	 */
-> +	void (*late_disable)(struct drm_bridge *bridge);
-> +
->  	/**
->  	 * @mode_set:
->  	 *
-> @@ -235,6 +249,26 @@ struct drm_bridge_funcs {
->  	void (*mode_set)(struct drm_bridge *bridge,
->  			 const struct drm_display_mode *mode,
->  			 const struct drm_display_mode *adjusted_mode);
-> +
-> +	/**
-> +	 * @early_enable:
-> +	 *
-> +	 * This callback should enable the bridge. It is called right before
-> +	 * the preceding element in the display pipe is enabled. If the
-> +	 * preceding element is a bridge this means it's called before that
-> +	 * bridge's @early_enable. If the preceding element is a &drm_crtc it's
-> +	 * called right before the crtc's &drm_crtc_helper_funcs.atomic_enable
-> +	 * hook.
-> +	 *
-> +	 * The display pipe (i.e. clocks and timing signals) feeding this bridge
-> +	 * will not yet be running when this callback is called. The bridge can
-> +	 * enable the display link feeding the next bridge in the chain (if
-> +	 * there is one) when this callback is called.
-> +	 *
-> +	 * The @early_enable callback is optional.
-> +	 */
-> +	void (*early_enable)(struct drm_bridge *bridge);
-> +
+On Wed, May 15, 2024 at 11:19:58PM +0800, Sui Jingfeng wrote:
+> Hi,
+>=20
+>=20
+> On 5/15/24 22:58, Maxime Ripard wrote:
+> > On Wed, May 15, 2024 at 10:53:00PM +0800, Sui Jingfeng wrote:
+> > > On 5/15/24 22:30, Maxime Ripard wrote:
+> > > > On Wed, May 15, 2024 at 12:53:33AM +0800, Sui Jingfeng wrote:
+> > > > > On 2024/5/15 00:22, Maxime Ripard wrote:
+> > > > > > Hi,
+> > > > > >=20
+> > > > > > On Tue, May 14, 2024 at 11:40:43PM +0800, Sui Jingfeng wrote:
+> > > > > > > Because a lot of implementations has already added it into th=
+eir drived
+> > > > > > > class, promote it into drm_bridge core may benifits a lot. dr=
+m bridge is
+> > > > > > > a driver, it should know the underlying hardware entity.
+> > > > > > Is there some actual benefits, or is it theoretical at this poi=
+nt?
+> > > > >=20
+> > > > >=20
+> > > > > I think, DRM bridge drivers could remove the 'struct device *dev'
+> > > > > member from their derived structure. Rely on the drm bridge core
+> > > > > when they need the 'struct device *' pointer.
+> > > >=20
+> > > > Sure, but why do we need to do so?
+> > > >=20
+> > > > The other thread you had with Jani points out that it turns out that
+> > > > things are more complicated than "every bridge driver has a struct
+> > > > device anyway", it creates inconsistency in the API (bridges would =
+have
+> > > > a struct device, but not other entities), and it looks like there's=
+ no
+> > > > use for it anyway.
+> > > >=20
+> > > > None of these things are deal-breaker by themselves, but if there's=
+ only
+> > > > downsides and no upside, it's not clear to me why we should do it a=
+t all.
+> > >=20
+> > > It can reduce boilerplate.
+> >=20
+> > You're still using a conditional here.
+>
+> It's for safety reason, prevent NULL pointer dereference.
+> drm bridge can be seen as either a software entity or a device driver.
+>=20
+> It's fine to pass NULL if specific KMS drivers intend to see
+> drm bridge as a pure software entity, and for internal use only.
+> Both use cases are valid.
 
-You don't need the legacy option here, just go straight for the atomic one.
+Sorry, I don't follow you. We can't NULL dereference a pointer that
+doesn't exist.
 
->  	/**
->  	 * @pre_enable:
->  	 *
-> @@ -285,6 +319,26 @@ struct drm_bridge_funcs {
->  	 */
->  	void (*enable)(struct drm_bridge *bridge);
-> =20
-> +	/**
-> +	 * @atomic_early_enable:
-> +	 *
-> +	 * This callback should enable the bridge. It is called right before
-> +	 * the preceding element in the display pipe is enabled. If the
-> +	 * preceding element is a bridge this means it's called before that
-> +	 * bridge's @atomic_early_enable. If the preceding element is a
-> +	 * &drm_crtc it's called right before the crtc's
-> +	 * &drm_crtc_helper_funcs.atomic_enable hook.
-> +	 *
-> +	 * The display pipe (i.e. clocks and timing signals) feeding this bridge
-> +	 * will not yet be running when this callback is called. The bridge can
-> +	 * enable the display link feeding the next bridge in the chain (if
-> +	 * there is one) when this callback is called.
-> +	 *
-> +	 * The @early_enable callback is optional.
-> +	 */
-> +	void (*atomic_early_enable)(struct drm_bridge *bridge,
-> +				    struct drm_bridge_state *old_bridge_state);
-> +
->  	/**
->  	 * @atomic_pre_enable:
->  	 *
-> @@ -361,6 +415,21 @@ struct drm_bridge_funcs {
->  	void (*atomic_post_disable)(struct drm_bridge *bridge,
->  				    struct drm_bridge_state *old_bridge_state);
-> =20
-> +	/**
-> +	 * @atomic_late_disable:
-> +	 *
-> +	 * This callback should disable the bridge. It is called right after the
-> +	 * preceding element in the display pipe is disabled. If the preceding
-> +	 * element is a bridge this means it's called after that bridge's
-> +	 * @atomic_late_disable. If the preceding element is a &drm_crtc it's
-> +	 * called right after the crtc's &drm_crtc_helper_funcs.atomic_disable
-> +	 * hook.
-> +	 *
-> +	 * The @atomic_late_disable callback is optional.
-> +	 */
-> +	void (*atomic_late_disable)(struct drm_bridge *bridge,
-> +				    struct drm_bridge_state *old_bridge_state);
-> +
-
-But more importantly, I don't quite get the use case you're trying to
-solve here.
-
-If I got the rest of your series, the Cadence DSI bridge needs to be
-powered up before its source is started. You can't use atomic_enable or
-atomic_pre_enable because it would start the source before the DSI
-bridge. Is that correct?
-
-If it is, then how is it different from what
-drm_atomic_bridge_chain_pre_enable is doing? The assumption there is
-that it starts enabling bridges last to first, to it should be enabled
-before anything starts.
-
-The whole bridge enabling order code starts to be a bit of a mess, so it
-would be great if you could list all the order variations we have
-currently, and why none work for cdns-dsi.
+Please state why we should merge this series: what does it fix or
+improve, aside from the potential gain of making bridges declare one
+less pointer in their private structure.
 
 Maxime
 
---xi3lclbr3vvtndxj
+--toq7dtu3l53x2mb5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZkXCXwAKCRAnX84Zoj2+
-du9OAYCwICdqAsCdbXf95TL0DLkl5Ns5me9WAXyJSrjsZgfFartVcHbGu45arYgr
-ZMC9F/MBgLi8V9OwNmxsbYh9VYB8cZiCNXq9mBLjGDlgsVhhhnXQm93SxrV7rP+x
-3U3viCVI7A==
-=jdzB
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZkXC4wAKCRAnX84Zoj2+
+duwLAYDJLwwZxC6nv2o6co5SHZA890EEJ4sBl7/6pKRAdMofidpb1VuuXsFJ6wuy
+1mwpPikBfjwAVJvlg/Adew0kmxARdh6BhgjhM8/XpUlkME8b39Me89obXMSOJ3U7
+iPUlp/ORmQ==
+=JFrx
 -----END PGP SIGNATURE-----
 
---xi3lclbr3vvtndxj--
+--toq7dtu3l53x2mb5--
