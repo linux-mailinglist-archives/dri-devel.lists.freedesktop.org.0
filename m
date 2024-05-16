@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7C18C717C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 07:55:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D1A8C7187
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2024 08:01:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A095810E0CC;
-	Thu, 16 May 2024 05:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DCE710E002;
+	Thu, 16 May 2024 06:01:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="llxG7/7+";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="eyN+MCwh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE41110E0CC
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 05:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715838938; x=1747374938;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=R58SNveZIj3aSv3Z2D6thaQAbSttnQhJAJZ3CW/vfFI=;
- b=llxG7/7+HickZWY9G7Skorj8+bDX3z3CC5uYLoeHvUZyxRr0o9dfT17V
- sllBFHkcOHn4iLHJvnWq6s3J2VZnFU3aPO3cpwB1JD37w3hpM0MPL1Pfv
- ZxV5et/3t4BfIT7hI2aLaWUs73GX3HHKpTLnIUlKV3P1MrAmuSmwmhscc
- gbTAyRM3Ucmu8byDHi10kkjt5a2nhGgg+9O+jK4r+oXQI+M9S2z5RGBuW
- ymwK27Iwd94CGZxWlKqEUOMlr7rBMydKdQWys7exk3PMIwfsd9xIai65L
- iqVYsGvoiVyNe7JgLGQL4s+O/ihLQ13xQ0mbEjaesYBwGVlT0WTczI8bf w==;
-X-CSE-ConnectionGUID: 7RPlil6wTMexKQSPI05VqA==
-X-CSE-MsgGUID: lMsVcuOSTVSinCz7+L3big==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11793741"
-X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; d="scan'208";a="11793741"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2024 22:55:37 -0700
-X-CSE-ConnectionGUID: P5KtU3vyTj62DIkhrBvbbg==
-X-CSE-MsgGUID: mRpI8vHgScSrDtXBQNQ8pw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; d="scan'208";a="31434644"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 15 May 2024 22:55:33 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s7U5S-000Dgt-0P;
- Thu, 16 May 2024 05:55:30 +0000
-Date: Thu, 16 May 2024 13:55:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 7/8] dma-buf: heaps: cma: Handle ECC flags
-Message-ID: <202405161341.XBePS2s0-lkp@intel.com>
-References: <20240515-dma-buf-ecc-heap-v1-7-54cbbd049511@kernel.org>
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C704D10E002
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2024 06:01:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1715839283; x=1716444083; i=markus.elfring@web.de;
+ bh=Cyh+eg/yRQoUJohGczjwN4WgfqvUfMeQ6xYM9LQpmSM=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=eyN+MCwhadgWF7AkhcROllHdp96/idsb7fQuCeahUz4X1pcYx8Lrvrndo4lCH8WK
+ OHBGvrUzuGH6/uviHkA1Mr04siqg8WoJt2j2ZsaoNRqU2xioFOcPOHV6kjDbkEADr
+ sWaJavXhxwl8xzgjncmvIp4ATu7Hp5MNau7QNCopjcNOr6JLbzh16nBBamx8/BSCK
+ bfJCp1VR0FXIMGTWgeV7zNzIup+ta0NDhCYfWI6jDxS0InYm//VFOkZeMC2yrDzAP
+ qvcWeKhkqh8dQYUAJLUeAjLiXArfnReNpgzmdaBKjfY1SUfcS4d+0VcGsPK0Frmh7
+ Knp5DXs8IeZe257v7A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MI3tF-1sJqdQ35Xz-000szD; Thu, 16
+ May 2024 08:01:23 +0200
+Message-ID: <68b2d167-6241-44af-b50a-feb4257e5a78@web.de>
+Date: Thu, 16 May 2024 08:01:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240515-dma-buf-ecc-heap-v1-7-54cbbd049511@kernel.org>
+User-Agent: Mozilla Thunderbird
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, dri-devel@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>
+References: <20240513001243.1739336-3-sui.jingfeng@linux.dev>
+Subject: Re: [PATCH 2/3] drm/loongson: Introduce component framework support
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240513001243.1739336-3-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:TaIRuGzWCIt3tYqyHddJHcD7QI6a0iTTV8jXc9ueJegtw2j5MEg
+ nYPLHiwDo6jdy3YGU8XkshijPrVdV1WsKEHB8GDRC6x03m5ur9t2DlC2JvuzOi9Q5G3LiaN
+ zDmIarFJ/Y5QJ7b/edk3MEbfiKJT/+raoY8RuKmH2NzqvakVvamhPZdW705v4tOBqdS2WVd
+ J/jCz453Xh2mFc4bEEeag==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:FVEYT3FbxY4=;tNVf7Y6TSTVEAMpSIU5NAdbOy6u
+ PaQpOQ7d1Ixbm1+WQK3wUNYpulXmpRDZpsaD8ZKbKWALzgNAp6RCngttJrH/czd48VXpLiHx6
+ XRMjCE4m6T658yi4i4ZXoZed/PtOFxjCqRWyZU/yVmX3bqS6JVpPTLvzvYqS/mf5FmVLUOYuE
+ nVMdiqYw8pGhaPJOLp3DpUisfdqTGqLG4q+MH/WvQ/xXNlFJZolfDrLComS8aaPxFFndwbaus
+ 8CVJHyRWrwHZOIudo7dGmroM2D1ix/YafcyXGyhhtJz6JANqmJcq1FXhjrTMmWBRcw9d4ou3o
+ OKkHXJul4zs8OIZzHjlsO0LKuhVwOISGaVZ6/8QQGime9lw9bXphgPZhjeC92vppL7f0qzEJ+
+ G6LT9E3qeT/xLaY+0377Abq3l8IE6Ngl2toI7J4+x33kYqa5SpEl5rwiQRWH1gSsSUTAKkOjy
+ lc/FzJiq5dJhiDKuFNr1v1THHQkE1bvc213rFnj+CjQP+/lnLFNxSelm5/2CLatf+TPuUInwX
+ fu7udLsTvDbdzZ56EnLdQlVARdpt/5nmSfG+8wTl3kqdlrtrn6A8t6aklLnBKIPAlWupmbCzG
+ GVLab7fs1NuwUz/0nxzvagACquiQGPScrl07NG8jzL6/mwGCGSh6reEZUMDcg25PFXiodvOOR
+ w6jRZANacKFdAKacMWZyGp3n2B0JrIrGkmsXIQHevR0sjCjGO3KzVyYpzCFkQEvLn6nou2qKY
+ uq0O82yz55o2m4bjww+9G/o6ZGwwQRT0GunUE9iN5ETZNg7kMxpkBw72CcFPJTOpANxWmtbBc
+ al/RSSajyeUyjyB6sM3EPCcGUHFaIl68qd5hE7mAs+VZ4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,141 +80,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+=E2=80=A6
+> The idea is to devide the exterinal module dependent part =E2=80=A6
 
-kernel test robot noticed the following build warnings:
+                 divide | separate the external?
 
-[auto build test WARNING on a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6]
+Please avoid typos in such a change description.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/dma-buf-heaps-Introduce-a-new-heap-for-reserved-memory/20240515-215850
-base:   a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
-patch link:    https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-7-54cbbd049511%40kernel.org
-patch subject: [PATCH 7/8] dma-buf: heaps: cma: Handle ECC flags
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20240516/202405161341.XBePS2s0-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240516/202405161341.XBePS2s0-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405161341.XBePS2s0-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/dma-buf/heaps/cma_heap.c: In function 'cma_heap_allocate':
->> drivers/dma-buf/heaps/cma_heap.c:293:24: warning: returning 'int' from a function with return type 'struct dma_buf *' makes pointer from integer without a cast [-Wint-conversion]
-     293 |                 return -EINVAL;
-         |                        ^
-   drivers/dma-buf/heaps/cma_heap.c:296:24: warning: returning 'int' from a function with return type 'struct dma_buf *' makes pointer from integer without a cast [-Wint-conversion]
-     296 |                 return -EINVAL;
-         |                        ^
-   drivers/dma-buf/heaps/cma_heap.c: In function '__add_cma_heap':
-   drivers/dma-buf/heaps/cma_heap.c:386:13: error: implicit declaration of function 'of_memory_get_ecc_correction_bits' [-Werror=implicit-function-declaration]
-     386 |         if (of_memory_get_ecc_correction_bits() > 0)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +293 drivers/dma-buf/heaps/cma_heap.c
-
-   275	
-   276	static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
-   277						 unsigned long len,
-   278						 unsigned long fd_flags,
-   279						 unsigned long heap_flags)
-   280	{
-   281		struct cma_heap *cma_heap = dma_heap_get_drvdata(heap);
-   282		struct cma_heap_buffer *buffer;
-   283		DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-   284		size_t size = PAGE_ALIGN(len);
-   285		pgoff_t pagecount = size >> PAGE_SHIFT;
-   286		unsigned long align = get_order(size);
-   287		struct page *cma_pages;
-   288		struct dma_buf *dmabuf;
-   289		int ret = -ENOMEM;
-   290		pgoff_t pg;
-   291	
-   292		if (!cma_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_PROTECTED))
- > 293			return -EINVAL;
-   294	
-   295		if (cma_heap->ecc_enabled && (heap_flags & DMA_HEAP_FLAG_ECC_UNPROTECTED))
-   296			return -EINVAL;
-   297	
-   298		buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-   299		if (!buffer)
-   300			return ERR_PTR(-ENOMEM);
-   301	
-   302		INIT_LIST_HEAD(&buffer->attachments);
-   303		mutex_init(&buffer->lock);
-   304		buffer->len = size;
-   305	
-   306		if (align > CONFIG_CMA_ALIGNMENT)
-   307			align = CONFIG_CMA_ALIGNMENT;
-   308	
-   309		cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
-   310		if (!cma_pages)
-   311			goto free_buffer;
-   312	
-   313		/* Clear the cma pages */
-   314		if (PageHighMem(cma_pages)) {
-   315			unsigned long nr_clear_pages = pagecount;
-   316			struct page *page = cma_pages;
-   317	
-   318			while (nr_clear_pages > 0) {
-   319				void *vaddr = kmap_atomic(page);
-   320	
-   321				memset(vaddr, 0, PAGE_SIZE);
-   322				kunmap_atomic(vaddr);
-   323				/*
-   324				 * Avoid wasting time zeroing memory if the process
-   325				 * has been killed by by SIGKILL
-   326				 */
-   327				if (fatal_signal_pending(current))
-   328					goto free_cma;
-   329				page++;
-   330				nr_clear_pages--;
-   331			}
-   332		} else {
-   333			memset(page_address(cma_pages), 0, size);
-   334		}
-   335	
-   336		buffer->pages = kmalloc_array(pagecount, sizeof(*buffer->pages), GFP_KERNEL);
-   337		if (!buffer->pages) {
-   338			ret = -ENOMEM;
-   339			goto free_cma;
-   340		}
-   341	
-   342		for (pg = 0; pg < pagecount; pg++)
-   343			buffer->pages[pg] = &cma_pages[pg];
-   344	
-   345		buffer->cma_pages = cma_pages;
-   346		buffer->heap = cma_heap;
-   347		buffer->pagecount = pagecount;
-   348	
-   349		/* create the dmabuf */
-   350		exp_info.exp_name = dma_heap_get_name(heap);
-   351		exp_info.ops = &cma_heap_buf_ops;
-   352		exp_info.size = buffer->len;
-   353		exp_info.flags = fd_flags;
-   354		exp_info.priv = buffer;
-   355		dmabuf = dma_buf_export(&exp_info);
-   356		if (IS_ERR(dmabuf)) {
-   357			ret = PTR_ERR(dmabuf);
-   358			goto free_pages;
-   359		}
-   360		return dmabuf;
-   361	
-   362	free_pages:
-   363		kfree(buffer->pages);
-   364	free_cma:
-   365		cma_release(cma_heap->cma, cma_pages, pagecount);
-   366	free_buffer:
-   367		kfree(buffer);
-   368	
-   369		return ERR_PTR(ret);
-   370	}
-   371	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Markus
