@@ -2,71 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BE78C8D38
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 22:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2174F8C8D3C
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 22:15:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C68610EEFB;
-	Fri, 17 May 2024 20:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3E210EF5C;
+	Fri, 17 May 2024 20:15:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SnPeFEJF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dIgAKZ11";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE0EE10E23D
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 20:14:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715976879; x=1747512879;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=CMo0WJMBF0rNZkT1/Sd8atUX0pOmKxbrbHh8DwrNGLM=;
- b=SnPeFEJF/Wq8eeLncbQick1leaqbI/KiQGFX+wFcJ9+hIz5wHlmO28+9
- 7wZIpnjiCnHUGhzDGkI/WlqtOqXaBUtLOgpRB3HxwfyZ2vAnMzT8juAx2
- tTMoriFBT5lPTSOIFhZmxyILYy8W+V6uxQydGfBXinN0q7N1jUSBFVEd5
- KpkHa/gIqnYzvUH+C6J65AeYmcs93xwhjstglNrWpYavlPBbZvKhzCGv+
- ptWf5hOhBFfyfZxOJnNPp9xxcn2nbk4yjF6OMU8e2Ui+04ClDHIRBSJKS
- 42stdx06DN1j5eUvizPACU+khEMFnHtOjqoH8BeoFFwKMcKsVzuN20Fo+ Q==;
-X-CSE-ConnectionGUID: ZEsu+MrBRCuSw2DDXasmCA==
-X-CSE-MsgGUID: XRjqXxtsSP6xZj/PHg/CcQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12363858"
-X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; d="scan'208";a="12363858"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2024 13:14:38 -0700
-X-CSE-ConnectionGUID: uQN1YsdERpalYkIRHbnWkw==
-X-CSE-MsgGUID: VzG7v7+/Rdy7n3ygv6cxLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; d="scan'208";a="62739448"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2024 13:14:31 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1s83yG-00000008cHX-0b7U; Fri, 17 May 2024 23:14:28 +0300
-Date: Fri, 17 May 2024 23:14:27 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
- akpm@linux-foundation.org, gregkh@linuxfoundation.org,
- adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
- vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
- detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
- andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com,
- dlatypov@google.com
-Subject: Re: [PATCH v8 07/10] lib: add basic KUnit test for lib/math
-Message-ID: <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
-References: <20240517171532.748684-1-devarsht@ti.com>
- <20240517173607.800549-1-devarsht@ti.com>
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 596F010E23D;
+ Fri, 17 May 2024 20:15:38 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-1ed0abbf706so18695185ad.2; 
+ Fri, 17 May 2024 13:15:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715976938; x=1716581738; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xfVKM6yCHTHqqF0MjeIKbFzobNgOfi1RcCAO0pIjbd4=;
+ b=dIgAKZ11pfGMTOGkUzMM2hpLzK7LR/1QDe/I4XOLLy7FF+vkNDa2gYRT1OOQjGyScs
+ dBQhO6wMjxZ/2iOpd6QwTHk97AXnAcAL/Hdwdqql/Q5db4kOgs70WqSFGnkF1jJH90zH
+ HjTHWKwULBEfU9xoypHQWhbznd3N1zpp8r7pEVRKE15texsvJdE7hhYow0YnitDB1f+8
+ Qf127tWAtsL+GhZyNbtFqk5u9rb0HdtuHwmF3rLIpbe0KFQQ3Ben63+8uvTRG19sunnK
+ 6e8TB43gOU/tUc5KwB02usVLNtMUNgMDJUsjoE9SUzriz62/YlacTNQAlisxR5xuucq/
+ NI0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715976938; x=1716581738;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xfVKM6yCHTHqqF0MjeIKbFzobNgOfi1RcCAO0pIjbd4=;
+ b=Fl7Z75U9Hx0KVqdHmYI7mx3bObAMxhcRkYmy6Amldn/1po0T545BFlVV8nrnSONS3d
+ ChFntoS9ISW5cLbAQ4yUpWM2So5fb1UsthI/vgwB8EQi8ATCZe//+SWFgJ8xGVhnllsx
+ B1OrFOnkqn+9EleMsnQ9bMzdVuBcsIGO64XNC8Kvn2df1Q0080LNfoOepM3+7MQHGED9
+ sb2lwlKvFPBaudYv4CsRw9aeAqqTQdpsEnBzDDPwg6Ndm3G6At2evntTj2Fc/dKC1gnE
+ xiD/VbyVTRkT/I17LNZld2Rnc/oUcWFbFIK6wcWEqM+LBb6SkdqjoOZBgFGAJ1zkTfoj
+ 8sqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWoNd4z7rx3ifidcxNALpUAODzI1Jhhnp48oRmNnDm8IyYZdgjDxEo8+z6m7zQMjMmzdyKCBINp48WKfiEZ6O9kW1oWaZXiXkDbmqrM5pbBAe7EWMDpODHIwyJ0ifan9pOXeJqm4GVEaaMw0Nob+g==
+X-Gm-Message-State: AOJu0YxnpJ1R/9b4iP1TbS9IRAbrhxJz7Vgxtjefx0IPBdNUNkHq028J
+ /AJnCJMIAvp14Y4t+PrLDdm0RXwXqmQ6ZXf7QQhS8PCgbBNlOEjtA+inAWok4ixjL3v5vMJx+jm
+ V3gGFc0QxcAp0lWL+0Lrx0vWk3jY=
+X-Google-Smtp-Source: AGHT+IFZwP6rWy44FU4rq3UxXiUaAdkE55laBfEUdUNPOu8ek1f785nnafJHyUKHdP0NMIfhhm7Dg4hKjJktCEChsrs=
+X-Received: by 2002:a17:90a:7d0e:b0:2a2:ba9:ba61 with SMTP id
+ 98e67ed59e1d1-2b6ccc72e91mr23681441a91.34.1715976937752; Fri, 17 May 2024
+ 13:15:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240517173607.800549-1-devarsht@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240516115721.1.I8d413e641239c059d018d46cc569048b813a5d9b@changeid>
+ <9dd1cfd1-fe13-4434-a7cc-e14113dcaf53@amd.com>
+ <CADnq5_NGLrrFmFHFX2bC7naByJGofEiYQyWvRP6CO4BDFo52TQ@mail.gmail.com>
+ <CAMaBtwFQxeARGyhVxo+WsYCHgmJNJ7ThjtPcFv=LZqRNJtVxsw@mail.gmail.com>
+In-Reply-To: <CAMaBtwFQxeARGyhVxo+WsYCHgmJNJ7ThjtPcFv=LZqRNJtVxsw@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 17 May 2024 16:15:26 -0400
+Message-ID: <CADnq5_MnsAEk_YsyMjaDH6G406E4=hQvMtOTU5xh5JeZJE7kqw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Remove GC HW IP 9.3.0 from noretry=1
+To: Tim Van Patten <timvp@chromium.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ LKML <linux-kernel@vger.kernel.org>, alexander.deucher@amd.com, 
+ prathyushi.nangia@amd.com, Tim Van Patten <timvp@google.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Ikshwaku Chauhan <ikshwaku.chauhan@amd.com>, Le Ma <le.ma@amd.com>, 
+ Lijo Lazar <lijo.lazar@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Shaoyun.liu" <Shaoyun.liu@amd.com>, 
+ Shiwu Zhang <shiwu.zhang@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,59 +91,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 17, 2024 at 11:06:07PM +0530, Devarsh Thakkar wrote:
-> From: Daniel Latypov <dlatypov@google.com>
-> 
-> Add basic test coverage for files that don't require any config options:
-> * part of math.h (what seem to be the most commonly used macros)
-> * gcd.c
-> * lcm.c
-> * int_sqrt.c
-> * reciprocal_div.c
-> (Ignored int_pow.c since it's a simple textbook algorithm.)
-> 
-> These tests aren't particularly interesting, but they
-> * provide short and simple examples of parameterized tests
-> * provide a place to add tests for any new files in this dir
-> * are written so adding new test cases to cover edge cases should be
->   easy
->   * looking at code coverage, we hit all the branches in the .c files
+On Fri, May 17, 2024 at 1:27=E2=80=AFPM Tim Van Patten <timvp@chromium.org>=
+ wrote:
+>
+> > Fair enough, but this is also the only gfx9 APU which defaults to
+> > noretry=3D1, all of the rest are dGPUs.  I'd argue it should align with
+> > the other GFX9 APUs or they should all enable noretry=3D1.
+>
+> Do you mean we should remove all IP_VERSION(9, X, X) entries from
+> amdgpu_gmc_noretry_set(), leaving just >=3D IP_VERSION(10, 3, 0)?
 
-...
+No, just take your patch as is.  All of the other 9.x IP versions in
+that check are dGPUs.  9.3.0 was the only APU in that list.
 
-> [devarsht: Rebase to 6.9 and change license to GPL]
-
-I'm not sure that you may change license. It needs the author's confirmation.
-
-> ---
-> Changes since v6:
-> * Rebase to linux-next, change license to GPL as suggested by checkpatch.
-
-Note, checkpatch.pl is not false positives free. Be careful
-with what it suggests.
-
-> +#include <kunit/test.h>
-> +#include <linux/gcd.h>
-
-> +#include <linux/kernel.h>
-
-Do you know why this header is included?
-
-> +#include <linux/lcm.h>
-
-+ math.h // obviously
-+ module.h
-
-> +#include <linux/reciprocal_div.h>
-
-+ types.h
-
-...
-
-Other than above, LGTM.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Alex
