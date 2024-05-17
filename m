@@ -2,77 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C628C8989
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 17:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6A08C89B9
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 18:00:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3D8310E135;
-	Fri, 17 May 2024 15:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 123DF10E2B4;
+	Fri, 17 May 2024 16:00:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hp82z1Gm";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZwcyNMyU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D339810E0DE;
- Fri, 17 May 2024 15:46:28 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-1eeabda8590so12153425ad.0; 
- Fri, 17 May 2024 08:46:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715960788; x=1716565588; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DgpuDYI8j+33tJ7Dk5uqzFwntZEb5ZpRgbewCzVqOoQ=;
- b=Hp82z1Gm0pb15NPEWPe+hL/lplITZSKkkHcAUUIoBXVmItMzAVqmnatp2tJx/3A9Zc
- b/VW1HcS5V8UTRP/V2EvRg4gJuaCdb6CD80PCD0RdfIUVcuCbWISP2+4CGgUTFx7SYuT
- iwGhOBAjTDKgVJUZolfRdfqjiznIFgaa96CQX28RKcElP2ffc7MdnnT2KbhMOiPmUqc4
- wF9ORtQ9cJyjh3OBvTGL+m0ikUs+NBdXT8fpuBru2Zkp2F1rt9cMAF/2nO9G0gZq7WV1
- 7KIPAmSV2ltcDZ5Go4BY5j/JxSaE53nOh32bF8h9KBKOFEgYhzD2Jc2q3YlTOfQ1kjxV
- TpBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715960788; x=1716565588;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DgpuDYI8j+33tJ7Dk5uqzFwntZEb5ZpRgbewCzVqOoQ=;
- b=I/71tBWVxUzdH9FJXoRkr4pZnwGZxYw6Bt4Q7gfaCGUISiYSmLSjta61kucB2pzoYy
- jhSgPc5k+EOg1lemQdbi5gUfVda5GOBTv1NHEgmZboWj7V+8MZVpCmD3yJglE0qCG2YT
- LUvuw9O8+b24ARDPzXN17ujBHwkL2JtyaMAWZIdnFmAjM6/o08cYXvV0mjZFHPSj9XYj
- RbZuuD3uFZiNuU64DdacDlGNgGzmajfCVboyVV5Tl4A04iaemd6c1f6z7yS7wLJl/KWG
- bKvm58b7cnnCcVC0RhUfuG4v0uf0p73ezyoAOAooCCJKw9Smmym75slvAg1zTuF/8Q5L
- j2Vw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWzqp9vOC/G0SvYJoSOzGv23qikw2i4rc9okrTiu+G9OOUrgRKOu4yyb0UTslJJm6WtcHNiKt43hQWQ9S6Xuvd6IcsYlVisJbAJ5IflN2Ymsc4/sF1PzZzpj91n8XItFYQVxVkChIVdPRDtEDtxqw==
-X-Gm-Message-State: AOJu0Yzt2TK3tTpgGKS12XdQ/TelBqPJo760ZuTwjjugQAEUzEnagmXg
- JEAfq2sjtyMC6ThjzssdFdIFBxE3wuzdF3TbTgH6Uthi8FbG4hD4QoY4t3mt6MqJm5UF+yRdHl7
- tcr/iZy00947nSLaS4/lcibkSWbw=
-X-Google-Smtp-Source: AGHT+IG4waejpOf/qZLwoj5ZE1TOjOYuV5JPU5s1UwIqmRNmcsyC3TIfxfK361yvR3M1Lc0rBKgAs5yjmvxDuRVdaMQ=
-X-Received: by 2002:a17:90b:4f45:b0:2b1:534f:ea09 with SMTP id
- 98e67ed59e1d1-2b6cc76d27amr21340210a91.23.1715960788222; Fri, 17 May 2024
- 08:46:28 -0700 (PDT)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37BDD10E1BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 16:00:21 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1DE3B20002;
+ Fri, 17 May 2024 16:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1715961619;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o8wuZGrHo8oZ1E4Q3w9lL6PcFTom5+wZeAEqfnfZ+8c=;
+ b=ZwcyNMyUTurutV9v6g/5wKIJfTR6L0Cw8z82E0LpAjKLY310LDtzkC30hHLVfd4UVW4X3L
+ byzJ0dCaNS4b2Sp4IbdPcQ9Idw9ymW+U57CAUi1JXVOjP3JIP9Z1zJpDOfnVkVuhZN2D41
+ 8ldGG/s/oHJLs6bO69vKt9Y9THV3l2pV9qEAaiZi2wc5Mo4ka2Ex4ykgYi5uYhnAZEaZVa
+ 29f3b7r22UE4uENSFfl73sk1JhreGYkqU6syQqjiKu1tjXllHcYqrAQ8Y7dJty1hyJ6O/G
+ 7iulO8o3WoQGKmtE6FqysWdNlQnmYtWV5BpJyEGtTfEtihks4VipffKqVFrt/w==
+Date: Fri, 17 May 2024 18:00:11 +0200
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: Marius Vlad <marius.vlad@collabora.com>,
+ Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
+ brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
+ mripard@kernel.org, rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
+Subject: Re: [PATCH v6 0/7] Adds support for ConfigFS to VKMS!
+Message-ID: <Zkd_C77S-ERpMiqu@localhost.localdomain>
+Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
+ <jose.exposito89@gmail.com>, 
+ Marius Vlad <marius.vlad@collabora.com>,
+ Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
+ brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
+ mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
+ tzimmermann@suse.de
+References: <ZjCtgSaL50YrS-F-@phenom.ffwll.local>
+ <20240508181744.7030-1-jose.exposito89@gmail.com>
+ <CACmi3jF6Dp3PE8X=T5kTO2+eYJQi7jWACFdmp9jzKxUtcQphnQ@mail.gmail.com>
+ <Zj5JIah0jWnIn2Ix@localhost.localdomain> <ZkHKhtBmyS12i3fH@fedora>
+ <ZkHXS6iBLgRoApNl@xpredator> <ZkI-ZjAYCJaMvmQD@fedora>
 MIME-Version: 1.0
-References: <20240516115721.1.I8d413e641239c059d018d46cc569048b813a5d9b@changeid>
- <9dd1cfd1-fe13-4434-a7cc-e14113dcaf53@amd.com>
-In-Reply-To: <9dd1cfd1-fe13-4434-a7cc-e14113dcaf53@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 17 May 2024 11:46:16 -0400
-Message-ID: <CADnq5_NGLrrFmFHFX2bC7naByJGofEiYQyWvRP6CO4BDFo52TQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Remove GC HW IP 9.3.0 from noretry=1
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Tim Van Patten <timvp@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
- alexander.deucher@amd.com, prathyushi.nangia@amd.com, 
- Tim Van Patten <timvp@google.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Ikshwaku Chauhan <ikshwaku.chauhan@amd.com>, Le Ma <le.ma@amd.com>, 
- Lijo Lazar <lijo.lazar@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Shaoyun.liu" <Shaoyun.liu@amd.com>, 
- Shiwu Zhang <shiwu.zhang@amd.com>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZkI-ZjAYCJaMvmQD@fedora>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,57 +78,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 17, 2024 at 2:35=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 16.05.24 um 19:57 schrieb Tim Van Patten:
-> > From: Tim Van Patten <timvp@google.com>
-> >
-> > The following commit updated gmc->noretry from 0 to 1 for GC HW IP
-> > 9.3.0:
-> >
-> >      commit 5f3854f1f4e2 ("drm/amdgpu: add more cases to noretry=3D1")
-> >
-> > This causes the device to hang when a page fault occurs, until the
-> > device is rebooted. Instead, revert back to gmc->noretry=3D0 so the dev=
-ice
-> > is still responsive.
->
-> Wait a second. Why does the device hang on a page fault? That shouldn't
-> happen independent of noretry.
->
-> So that strongly sounds like this is just hiding a bug elsewhere.
+> > > Hi Louis,
+> > > 
+> > > If you could share a RFC/WIP series it would be awesome!
 
-Fair enough, but this is also the only gfx9 APU which defaults to
-noretry=3D1, all of the rest are dGPUs.  I'd argue it should align with
-the other GFX9 APUs or they should all enable noretry=3D1.
+Hi all!
 
-Alex
+I just uploaded my WIP series to github here [1]. Most of the work is 
+extracted from the current ConfigFS series, I just splitted and completed 
+what was done. I also tried to take in account the comments from Sima.
 
->
-> Regards,
-> Christian.
->
-> >
-> > Fixes: 5f3854f1f4e2 ("drm/amdgpu: add more cases to noretry=3D1")
-> > Signed-off-by: Tim Van Patten <timvp@google.com>
-> > ---
-> >
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c | 1 -
-> >   1 file changed, 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_gmc.c
-> > index be4629cdac049..bff54a20835f1 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
-> > @@ -876,7 +876,6 @@ void amdgpu_gmc_noretry_set(struct amdgpu_device *a=
-dev)
-> >       struct amdgpu_gmc *gmc =3D &adev->gmc;
-> >       uint32_t gc_ver =3D amdgpu_ip_version(adev, GC_HWIP, 0);
-> >       bool noretry_default =3D (gc_ver =3D=3D IP_VERSION(9, 0, 1) ||
-> > -                             gc_ver =3D=3D IP_VERSION(9, 3, 0) ||
-> >                               gc_ver =3D=3D IP_VERSION(9, 4, 0) ||
-> >                               gc_ver =3D=3D IP_VERSION(9, 4, 1) ||
-> >                               gc_ver =3D=3D IP_VERSION(9, 4, 2) ||
->
+All commits should compile and `modprobe/rmmod/kms_plane` should not 
+crashing. The commits are not totaly clean, but it should be only cosmetic 
+stuff (formatting in the wrong commit for example). The commit messages 
+are not written yet, but the title should be sufficient to understand the 
+content of each commit.
+
+This is how I plan to split this work in series: (hash may change over 
+time, I will force push to clean commits)
+
+Some preparation stuff (no functionnal change):
+	256d7045ec70 drm/vkms: Formatting and typo fix
+	cc2de5004c42 drm/vkms: Rename index to possible_crtc
+	a74cefc87b9c drm/vkms: Add documentation
+
+More preparation to split everything properly (no functionnal change):
+	ad2d0b07558f drm/vkms: Properly extract vkms_formats header
+	f9639cca2d43 drm/vkms: Extract vkms_writeback header
+	7edda8012b44 drm/vkms: Extract vkms_plane header
+	ced09ed9d0f7 drm/vkms: Rename macro to avoid confusion
+	9f00e4823529 drm/vkms: Extract vkms_crtc header
+	b510e480ed92 drm/vkms: Extract vkms_composer header
+
+Switch all the vkms object to managed (this part need a careful review, 
+I am new with DRM, so I probably did some error):
+	ddef3c09ead6 drm/vkms: Switch to managed for connector
+	8859cad0e192 drm/vkms: Switch to managed for encoder
+	d2b8d93fb684 drm/vkms: Switch to managed for crtc
+	d1ad316b0f0d drm/vkms: Rename all vkms_crtc instance to be consistent
+
+Temporaly remove debugfs entry, I plan to remove this commit:
+	079d875c015e drm/vkms: remove debugfs entry about the current vkms configuration
+
+Clean up vkms_device and unlink vkms_config from vkms_device.
+	c782dbe9edc3 drm/vkms: Remove vkms_config from vkms_device
+	8a27c13634a3 drm/vkms: Remove (useles?) group
+	8fb24e1cdf88 drm/vkms: Introduce directly the default device as global/Remove default vkms config
+
+More cleanup:
+	2572d90723ac drm/vkms: Remove possible crtc from parameters
+
+Switching to platform driver (same thing, it is my first time, I probably 
+messed up things):
+	63be09e05760 drm/vkms: Use a real platform driver
+	5f4cf18b07d3 drm/vkms: Extract device driver in its own file
+
+The configFS implementation itself. It only allows to create/enable/delete 
+a device:
+	b34651685f2e drm/vkms: Introduce configfs
+
+Those commits were a POC to confirm that it works. They need to be 
+replaced by the "real" configuration (creation&link of crtc/connector/planes...)
+	dd55451ccef2 drm/vkms: Make overlay configurable with configfs
+	9dca357f1ee3 drm/vkms: Make cursor configurable with configfs
+	bd721f41fad9 drm/vkms: Make writeback configurable with configfs
+
+Kind regards,
+Louis Chauvet
+
+
+[1]: https://github.com/Fomys/linux/tree/b4/new-configfs
+
+> > > Since you are already working on the kernel patches (and I guess IGT?),
+> > > I'll start working on a libdrm high level API to interact with VKMS from
+> > > user-space on top of your patches. I'll share a link as soon as I have a
+> > > draft PR.
+> > 
+> > Just out of curiosity what API would that be? These should fairly
+> > simple that they can be configured from a shell script 
+> > (mount/mkdir/rm/echo/umount). Believe should be easy enough to test stuff with 
+> > bunch scripts like that.
+> 
+> My plan is to add a very thin C API around mkdir/rmdir/etc.
+> 
+> It is true that VKMS can be configure easily using a bash script; however,
+> compositors with test suites written in C (or with bindings to libdrm) would
+> have to write similar wrappers around the mkdir/rmdir/etc calls.
+> I think that it could be beneficial for them to have a shared wrapper available
+> in libdrm.
+>  
+> > Perphas landing the I-G-T tests first (assuming we're settled 
+> > on how exactly this would work) might be of greated help to get a green lit 
+> > the kernel driver side? Skip if vkms/configfs/something else that tells
+> > us VKMS doesn't have ConfigFS eneabled, and run it when that is on.
+> > 
+> > The lastest iteration was shared by Jim at 
+> > https://lore.kernel.org/igt-dev/20230901092819.16924-1-marius.vlad@collabora.com/
+> > 
+> > That way sub-sequent BAT CI would pick up issues, and can also used
+> > independently by Louis. Should also divide the work-load evenly with
+> > Louis focusing on the just the driver. Happy to review and test it.
+> > 
+> > > 
+> > > > Maybe we can discuss a bit the comment from Daniel (split init between 
+> > > > default/configfs, use or not a real platform device...)
+> > > > 
+> > > > For the split, I think the first solution (struct vkms_config) can be 
+> > > > easier to understand and to implement, for two reasons:
+> > > > - No need to distinguish between the "default" and the "configfs" devices 
+> > > >   in the VKMS "core". All is managed with only one struct vkms_config.
+> > > > - Most of the lifetime issue should be gone. The only thing to 
+> > > >   synchronize is passing this vkms_config from ConfigFS to VKMS.
+> > > 
+> > > I agree, this seems like the easiest solution.
+> > > 
+> > > > The drawback of this is that it can become difficult to do the "runtime" 
+> > > > configuration (today only hotplug, but I plan to add more complex stuff 
+> > > > like DP emulation, EDID selection, MST support...). Those configuration 
+> > > > must be done "at runtime" and will require a strong synchronization with 
+> > > > the vkms "core".
+> > > > 
+> > > > Maybe we can distinguish between the "creation" and the "runtime 
+> > > > configuration", in two different configFS directory? Once a device is 
+> > > > created, it is moved to the "enabled" directory and will have a different 
+> > > > set of attribute (connection status, current EDID...)
+> > > 
+> > > Once the device is enabled (i.e, `echo 1 > /config/vkms/my-device/enabled`),
+> > > would it make sense to use sysfs instead of another configfs directory?
+> > > The advantage is that with sysfs the kernel controls the lifetime of the
+> > > objects and I think it *might* simplify the code, but I'll need to write a
+> > > proof of concept to see if this works.
+> > Can indeed sysfs be used similar to ConfigFS? To me it sounds like sysfs is a
+> > view into a kernel objects, mostly for viewing and slight modifications
+> > but not manipulating, adding/removing, on the fly, various things. Sort
+> > of see it the other way around, device enabled with sysfs but
+> > configuration happens through ConfigFS. At least from a user-space pov.
+> > > 
+> > > > For the platform driver part, it seems logic to me to use a "real" 
+> > > > platform driver and a platform device for each pipeline, but I don't have 
+> > > > the experience to tell if this is a good idea or not.
+> > > 
+> > > I'm afraid I don't know which approach could work better. Trusting Sima and
+> > > Maíra on this one.
+> > > 
+> > > Jose
+> > > 
+> > > > [1]: https://lore.kernel.org/dri-devel/20240409-yuv-v6-0-de1c5728fd70@bootlin.com/
+> > > > 
+> > > > Thanks,
+> > > > Louis Chauvet
+> > > > 
+> > > > -- 
+> > > > Louis Chauvet, Bootlin
+> > > > Embedded Linux and Kernel engineering
+> > > > https://bootlin.com
+> 
+> 
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
