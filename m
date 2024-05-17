@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F39B58C8DC0
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 23:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2E28C8DC4
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 23:37:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F9C810E0B0;
-	Fri, 17 May 2024 21:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FD9610E12E;
+	Fri, 17 May 2024 21:37:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Thp8/NTm";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="D2QwmvNn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2830210E036
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 21:37:39 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-1edfc57ac0cso21852965ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 14:37:39 -0700 (PDT)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E49A810E036
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 21:37:40 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-1ee12baa01cso24315315ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 14:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715981858; x=1716586658;
+ d=chromium.org; s=google; t=1715981860; x=1716586660;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=otBGDKVA9IXvnt4HBmF8aixiY7lsB5c27hifCvrdcgw=;
- b=Thp8/NTmYWMSbwT++JX3ka2e+R0gRCbkKQCTyPT5PlJ1uBgeFdHrFVfBiGEI136K3K
- 57bRcrTgrf7615aYByN9qNLw9DLAcuaDxczwcd9/Ulk314W7nkPCXqKIC04qV+2l/7f9
- 2VFKLv5AeRHkZ4MP967LFkrPysGH2K3kA61Sw=
+ bh=m6V1DTOaoA4qH0IIompQM1ktLyB9pQcF5OQ8P3nV8rs=;
+ b=D2QwmvNnnehNJgFZRP5qkPdab4wmose19Hp22sryIiC7+pnadETpvPfOURQ5lxMxkG
+ TuIifn53PdXLWk4zZ5XWgnSDqQaOp9Sl5laOq6wQhQ9sDg5+fVqtYOtItV2FUwQTR9QO
+ F9CUlK5qu6T3J4zpFSpeEpUUtlBS7sGrLFPm8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715981858; x=1716586658;
+ d=1e100.net; s=20230601; t=1715981860; x=1716586660;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=otBGDKVA9IXvnt4HBmF8aixiY7lsB5c27hifCvrdcgw=;
- b=Ol0yTcaJ4sEfMtHPWlwjOCCSZJHjrA8MvWjM95O9ikXKlZfNBtkJPTaumQyZC4fVAJ
- AQG0cKCywhDLTBIlgnVGWI8By+ENjFmBIUKaQmVw5fLpLNQ7zD31EuHiyUxDw7mMJhgn
- HZeq+r26KF4zrgYKYdMbufTYg9mDv3qqGXghVC+kf+7ViCvZ5BZFF+dtS4wUpTAW4cp5
- MhbiW/sCtVfNzewhSjr11jkJshyj57UVSeNTQRbN+lE50sp6avhtnluiID1TnRqNcAvb
- PHwe3f7NcFuVsgPtC5vXDOyUIV2Q6c4behS8u6UCELtAwId7M6sJS6b/KLaAqjFvKe1j
- 4Vmw==
+ bh=m6V1DTOaoA4qH0IIompQM1ktLyB9pQcF5OQ8P3nV8rs=;
+ b=UnjWX230e28vxoAqxesFpIBEHjLG7Nw8/8S1KmaFTh9b32PgFRVQesG7GbeaNryG7u
+ 93BZUiLPs8mYtVnfLgGbJ3GVJWlsL37yo8DQtgmdV6Tk/O2mipv6K084vWqcxZ04gHOK
+ Q68UT9QDSy6HhDpn2qrbFhdt3Sw2Xgb2QNJJrYRULC06YWnUlGOEIyhk/1pv4/3jZFZm
+ RYsD6Jx1JThvPAqVtqT2L8/6917UKdhpP/Ym91kjwbxzY0KOzqk6AdWo/1/KWpFsooBs
+ 5UC1z96RB3dkCgNnDxxenz1DwB3DgHr5V3G4RE7uW5EjMH8gvitJChAQqTpK452pAnNA
+ FN6A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2EbDiZh1qgMjFVSE7UfBXcrNrG/FxXrS/lEPpBNlAmI/OoWR9zD4t+1S//kUBkO6fc8eqrNKAiTqm8AGuDApoEO4v24KG64tljS3+uqLg
-X-Gm-Message-State: AOJu0YwOfy95LmGqh6pzaYq9iRZrEh6URKiUS20I69sQpexzlfYK1pJ8
- QMwadppEWw4A6fLhkq9PaZvNAcKP4HVFtLz9UlrkVaxs2ltVMJ1TCHR2z58xWg==
-X-Google-Smtp-Source: AGHT+IG9oTcMCg7rkDReYhIwGehOkT+PViM2X4yuDk+pejmeAywc0nLdIrwyw2PSTgQN8mmuXIRQ6g==
-X-Received: by 2002:a05:6a00:1953:b0:6e7:32a0:806a with SMTP id
- d2e1a72fcca58-6f4e039bc12mr23778076b3a.28.1715981858605; 
- Fri, 17 May 2024 14:37:38 -0700 (PDT)
+ AJvYcCUw879Hcc+9ZWhvow9N5/sU5X3YoMigyCi59FdpcKwFxpB6ryxw4gXc+hHDy70hY0QK8nlrLa7ylAWkQaC9egYj7hAVjza8iSt7ch1CYWVk
+X-Gm-Message-State: AOJu0YzHalrq31qPvI0gVx12hHC0l1N0avqdRjjXZDwKYpSjLQvli76v
+ R2MhXafnzrw8H4NjBnxLx+LWAalGYOvZeGOdAk8pO77hn/YjMX8aBSIk8wM9eQ==
+X-Google-Smtp-Source: AGHT+IHm5RdVFjZ89P0T1AzZMKaNsfexwf2EZJjaYa/Kewivy7mYMercZQ/c+BtdjQ/LoSpevWMT2w==
+X-Received: by 2002:a05:6a00:3996:b0:6ec:ceb4:49b8 with SMTP id
+ d2e1a72fcca58-6f4e01ba036mr25987075b3a.0.1715981860345; 
+ Fri, 17 May 2024 14:37:40 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com ([2620:15c:9d:2:26de:b1dd:5:771c])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-6f4d2b2f8b3sm15168736b3a.211.2024.05.17.14.37.37
+ d2e1a72fcca58-6f4d2b2f8b3sm15168736b3a.211.2024.05.17.14.37.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 May 2024 14:37:38 -0700 (PDT)
+ Fri, 17 May 2024 14:37:39 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
 Cc: Linus Walleij <linus.walleij@linaro.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Douglas Anderson <dianders@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jitao Shi <jitao.shi@mediatek.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Shuijing Li <shuijing.li@mediatek.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Xinlei Lee <xinlei.lee@mediatek.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 2/8] drm/panel: boe-tv101wum-nl6: If prepare fails,
- disable GPIO before regulators
-Date: Fri, 17 May 2024 14:36:37 -0700
-Message-ID: <20240517143643.2.Ieac346cd0f1606948ba39ceea06b55359fe972b6@changeid>
+Subject: [PATCH 3/8] drm/panel: boe-tv101wum-nl6: Check for errors on the NOP
+ in prepare()
+Date: Fri, 17 May 2024 14:36:38 -0700
+Message-ID: <20240517143643.3.Ibffbaa5b4999ac0e55f43bf353144433b099d727@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240517213712.3135166-1-dianders@chromium.org>
 References: <20240517213712.3135166-1-dianders@chromium.org>
@@ -89,36 +91,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The enable GPIO should clearly be set low before turning off
-regulators. That matches both the inverse order that things were
-enabled and also the order in unprepare().
+The mipi_dsi_dcs_nop() function returns an error but we weren't
+checking it in boe_panel_prepare(). Add a check. This is highly
+unlikely to matter in practice. If the NOP failed then likely later
+MIPI commands would fail too.
 
-Fixes: a869b9db7adf ("drm/panel: support for boe tv101wum-nl6 wuxga dsi video mode panel")
+Found by code inspection.
+
+Fixes: 812562b8d881 ("drm/panel: boe-tv101wum-nl6: Fine tune the panel power sequence")
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 8e839a1749e4..028625d2d37d 100644
+index 028625d2d37d..f7beace455c3 100644
 --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
 +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -1475,13 +1475,13 @@ static int boe_panel_prepare(struct drm_panel *panel)
- 	return 0;
+@@ -1456,7 +1456,11 @@ static int boe_panel_prepare(struct drm_panel *panel)
+ 	usleep_range(10000, 11000);
  
- poweroff:
-+	gpiod_set_value(boe->enable_gpio, 0);
- 	regulator_disable(boe->avee);
- poweroffavdd:
- 	regulator_disable(boe->avdd);
- poweroff1v8:
- 	usleep_range(5000, 7000);
- 	regulator_disable(boe->pp1800);
--	gpiod_set_value(boe->enable_gpio, 0);
- 
- 	return ret;
- }
+ 	if (boe->desc->lp11_before_reset) {
+-		mipi_dsi_dcs_nop(boe->dsi);
++		ret = mipi_dsi_dcs_nop(boe->dsi);
++		if (ret < 0) {
++			dev_err(&boe->dsi->dev, "Failed to send NOP: %d\n", ret);
++			goto poweroff;
++		}
+ 		usleep_range(1000, 2000);
+ 	}
+ 	gpiod_set_value(boe->enable_gpio, 1);
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
