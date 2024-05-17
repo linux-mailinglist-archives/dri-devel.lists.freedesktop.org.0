@@ -2,145 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13978C83FA
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 11:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D088C8418
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 11:49:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE3A210EE5E;
-	Fri, 17 May 2024 09:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1BEB10E28B;
+	Fri, 17 May 2024 09:49:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="m7qf+6jX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ygx9C/dI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kCxAATtg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Fps46lkT";
+	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.b="IVhaQzs1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F5E10EE5E
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 09:39:44 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9B0310E21D
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 09:49:31 +0000 (UTC)
+Received: from localhost (unknown [213.135.10.150])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EAA865D1EF;
- Fri, 17 May 2024 09:39:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715938783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9jv8VdhpxAJBR0+sDYeiUI/cwKAgctaPKrAPkOAC9L0=;
- b=m7qf+6jXiwmBqTU26bNvU3nDZMgvvEJoqYviARKdJFgWmIlDjGEfkj4E3Yzeb7E5JKuYUF
- ngTDbsWlNFG33/E37yYrsG+Uen/TviBtmpjBmgBeaXjfStc/tIZRnf7W5qj7LwbmMH8uCp
- /ArpN2r7zluKW9zaMKpSyXl8TIAcSRE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715938783;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9jv8VdhpxAJBR0+sDYeiUI/cwKAgctaPKrAPkOAC9L0=;
- b=Ygx9C/dI/JLR0ZquwFK17yQZ7M5Q0MqmvVcMOZInp54gyMPGG5Kcx1EbirF7PkdWBlHJqk
- Mvk3ZrbiKHQ2paBw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kCxAATtg;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Fps46lkT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715938782; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9jv8VdhpxAJBR0+sDYeiUI/cwKAgctaPKrAPkOAC9L0=;
- b=kCxAATtgfgIgG8wbUm0xv6xqEpv6taWKE3YoTqLtZSiLwpS38wt4h1e/9w4heXJ3Z6fSIY
- oXRkUxSW2T9WkhMU7DwOA/vteSyc+89SXnijYmITgSp3f8wU05bzWUkkEyIxRF8Z6p8qja
- bfCsQ6kimKT+vKbcik4H/5QdHFpgYCg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715938782;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9jv8VdhpxAJBR0+sDYeiUI/cwKAgctaPKrAPkOAC9L0=;
- b=Fps46lkTmBTtrGb8COKx4hufBHLHgk8UlPUPgzBuV/EqQMS0RvDJ6t+HJpE6aDO+MOicLV
- GSSdQUtgKqoRQpAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B9F7F13991;
- Fri, 17 May 2024 09:39:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id e8FCK94lR2akPQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 17 May 2024 09:39:42 +0000
-Message-ID: <b71a2cc2-fed2-427e-bd98-f9c67917a30e@suse.de>
-Date: Fri, 17 May 2024 11:39:42 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/mgag200: Add an option to disable Write-Combine
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20240516161751.479558-1-jfalempe@redhat.com>
- <20240516161751.479558-3-jfalempe@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20240516161751.479558-3-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.50 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- XM_UA_NO_VERSION(0.01)[]; MX_GOOD(-0.01)[];
- MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_TO(0.00)[redhat.com,lists.freedesktop.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCPT_COUNT_FIVE(0.00)[6];
- RCVD_COUNT_TWO(0.00)[2]; MID_RHS_MATCH_FROM(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: EAA865D1EF
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -4.50
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.3ffe.de (Postfix) with ESMTPSA id 05DF750B;
+ Fri, 17 May 2024 11:49:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2022082101; t=1715939369;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=hUAPlHyXrESwA904RoKrpKALi6/2HCs8vSayDwgxKvE=;
+ b=IVhaQzs1ynu45luIOLSUzs2QpJIVfZo75dinI6rZBU+YAYAPv+kFqDGGXJ40WeEJGwGS+O
+ 0SZ3GW9++Y2sWVhRr7Mj5UD8PeySGEv23PIOhr0dzUv1gT8Jql4g6tKZFFyRGWCupqvRFM
+ e96t0yHhFlumCnpE5wZQkzFCFdlHUDQ4Rb4u9GOaU/6kT2UhiPpWBP/X+4oRuuL+X9kQhH
+ Nkorr+yQ7zcdKgALDUq0chynHRYtXaHO8gvP8p8qNepl15snhfkSrfYqI5morMt+6Zh7ss
+ tofi8sCK4PmMcScbAci28a3Nprlk5vSI58LLJRO8Bw3hnk++oC3PnmkoUP55og==
+Content-Type: multipart/signed;
+ boundary=18dede9a640603fdcd5671b64893c8b65da4bac91be4f9f750e9f84ab4c5;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Fri, 17 May 2024 11:49:18 +0200
+Message-Id: <D1BTQIQ2AQIS.G12ROFB149QB@walle.cc>
+Subject: Re: [PATCH v4 3/3] drm/mediatek: Implement OF graphs support for
+ display paths
+Cc: <robh@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <conor+dt@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <matthias.bgg@gmail.com>,
+ <shawn.sung@mediatek.com>, <yu-chang.lee@mediatek.com>,
+ <ck.hu@mediatek.com>, <jitao.shi@mediatek.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <wenst@chromium.org>,
+ <kernel@collabora.com>
+From: "Michael Walle" <michael@walle.cc>
+To: "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ <chunkuang.hu@kernel.org>
+X-Mailer: aerc 0.16.0
+References: <20240516081104.83458-1-angelogioacchino.delregno@collabora.com>
+ <20240516081104.83458-4-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240516081104.83458-4-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,100 +70,227 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--18dede9a640603fdcd5671b64893c8b65da4bac91be4f9f750e9f84ab4c5
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-just nits below.
+Hi Angelo,
 
-Am 16.05.24 um 18:17 schrieb Jocelyn Falempe:
-> Unfortunately, the G200 ioburst workaround doesn't work on some servers
-> like Dell poweredge XR11, XR5610, or HPE XL260
-> In this case completely disabling WC is the only option to achieve
-> low-latency.
-> So this adds a new Kconfig option, to disable WC mapping of the G200
+On Thu May 16, 2024 at 10:11 AM CEST, AngeloGioacchino Del Regno wrote:
+> Implement OF graphs support to the mediatek-drm drivers, allowing to
+> stop hardcoding the paths, and preventing this driver to get a huge
+> amount of arrays for each board and SoC combination, also paving the
+> way to share the same mtk_mmsys_driver_data between multiple SoCs,
+> making it more straightforward to add support for new chips.
 
-The formatting look off. Maybe make this one single paragraph.
+paths might be optional, see comment in mtk_drm_kms_init(). But with
+this patch, you'll get an -EINVAL with a disabled path. See my
+proposals how to fix that below.
 
-No comma after 'option'.
+With these changes and the following two patches I was able to get
+DisplayPort working on vdosys1. vdosys0 wasn't used at all.
+https://lore.kernel.org/r/20240516145824.1669263-1-mwalle@kernel.org/
+https://lore.kernel.org/r/20240517093024.1702750-1-mwalle@kernel.org/
 
->
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> ---
->   drivers/gpu/drm/mgag200/Kconfig       | 10 ++++++++++
->   drivers/gpu/drm/mgag200/mgag200_drv.c |  7 +++++++
->   2 files changed, 17 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mgag200/Kconfig b/drivers/gpu/drm/mgag200/Kconfig
-> index b28c5e4828f47..73ab5730b74d9 100644
-> --- a/drivers/gpu/drm/mgag200/Kconfig
-> +++ b/drivers/gpu/drm/mgag200/Kconfig
-> @@ -11,3 +11,13 @@ config DRM_MGAG200
->   	 MGA G200 desktop chips and the server variants. It requires 0.3.0
->   	 of the modesetting userspace driver, and a version of mga driver
->   	 that will fail on KMS enabled devices.
+I've already successfully tested a former version with DSI output on
+vdosys0.
+
+Thanks for working on this!
+
+> +/**
+> + * mtk_drm_of_ddp_path_build_one - Build a Display HW Pipeline for a CRT=
+C Path
+> + * @dev:          The mediatek-drm device
+> + * @cpath:        CRTC Path relative to a VDO or MMSYS
+> + * @out_path:     Pointer to an array that will contain the new pipeline
+> + * @out_path_len: Number of entries in the pipeline array
+> + *
+> + * MediaTek SoCs can use different DDP hardware pipelines (or paths) dep=
+ending
+> + * on the board-specific desired display configuration; this function wa=
+lks
+> + * through all of the output endpoints starting from a VDO or MMSYS hard=
+ware
+> + * instance and builds the right pipeline as specified in device trees.
+> + *
+> + * Return:
+> + * * %0       - Display HW Pipeline successfully built and validated
+> + * * %-ENOENT - Display pipeline was not specified in device tree
+> + * * %-EINVAL - Display pipeline built but validation failed
+> + * * %-ENOMEM - Failure to allocate pipeline array to pass to the caller
+> + */
+> +static int mtk_drm_of_ddp_path_build_one(struct device *dev, enum mtk_cr=
+tc_path cpath,
+> +					 const unsigned int **out_path,
+> +					 unsigned int *out_path_len)
+> +{
+> +	struct device_node *next, *prev, *vdo =3D dev->parent->of_node;
+> +	unsigned int temp_path[DDP_COMPONENT_DRM_ID_MAX] =3D { 0 };
+> +	unsigned int *final_ddp_path;
+> +	unsigned short int idx =3D 0;
+> +	bool ovl_adaptor_comp_added =3D false;
+> +	int ret;
 > +
-> +config DRM_MGAG200_DISABLE_WRITECOMBINE
-> +	bool "Disable Write Combine mapping of VRAM"
-> +	depends on DRM_MGAG200 && PREEMPT_RT
-> +	help
-> +	  The VRAM of the G200 is mapped with Write-Combine, to improve
-No comma after Write-Combine
-> +	  performances. However this increases the system latency a lot, even
-Just say "This can interfere with real-time tasks; even if they are 
-running on other CPU cores then the graphics output."
+> +	/* Get the first entry for the temp_path array */
+> +	ret =3D mtk_drm_of_get_ddp_ep_cid(vdo, 0, cpath, &next, &temp_path[idx]=
+);
+> +	if (ret) {
+> +		if (next && temp_path[idx] =3D=3D DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+> +			dev_err(dev, "Adding OVL Adaptor for %pOF\n", next);
+> +			ovl_adaptor_comp_added =3D true;
+> +		} else {
+> +			if (next)
+> +				dev_err(dev, "Invalid component %pOF\n", next);
+> +			else
+> +				dev_err(dev, "Cannot find first endpoint for path %d\n", cpath);
+> +
+> +			return ret;
+> +		}
+> +	}
+> +	idx++;
+> +
+> +	/*
+> +	 * Walk through port outputs until we reach the last valid mediatek-drm=
+ component.
+> +	 * To be valid, this must end with an "invalid" component that is a dis=
+play node.
+> +	 */
+> +	do {
+> +		prev =3D next;
+> +		ret =3D mtk_drm_of_get_ddp_ep_cid(next, 1, cpath, &next, &temp_path[id=
+x]);
+> +		of_node_put(prev);
+> +		if (ret) {
+> +			of_node_put(next);
+> +			break;
+> +		}
+> +
+> +		/*
+> +		 * If this is an OVL adaptor exclusive component and one of those
+> +		 * was already added, don't add another instance of the generic
+> +		 * DDP_COMPONENT_OVL_ADAPTOR, as this is used only to decide whether
+> +		 * to probe that component master driver of which only one instance
+> +		 * is needed and possible.
+> +		 */
+> +		if (temp_path[idx] =3D=3D DDP_COMPONENT_DRM_OVL_ADAPTOR) {
+> +			if (!ovl_adaptor_comp_added)
+> +				ovl_adaptor_comp_added =3D true;
+> +			else
+> +				idx--;
+> +		}
+> +	} while (++idx < DDP_COMPONENT_DRM_ID_MAX);
 
-> +	  for realtime tasks running on other CPU cores. Typically 40us-80us
-> +	  latencies are measured with hwlat when Write Combine is enabled.
+/* The device might not be disabled. In that case, don't check the last
+ * entry but just report the missing device. */
+if (ret =3D=3D -ENODEV)
+	return ret;
 
-Leave out the next sentence: "Typically ..." The measureed numbers 
-depend on the hardware and everyone is encouraged to test on their own 
-system. You could mention  the numbers in the commit description, as you 
-already mention the affected systems there.
-
-> +	  Recommended if you run realtime tasks on a server with a Matrox G200.
-
-I still think that we should not encourage anyone to use this option. 
-Maybe say "Enable this option only if you run..."
-
-> \ No newline at end of file
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> index 3883f25ca4d8b..7461e3f984eff 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -146,12 +146,19 @@ int mgag200_device_preinit(struct mga_device *mdev)
->   	}
->   	mdev->vram_res = res;
->   
-> +#if defined(CONFIG_DRM_MGAG200_DISABLE_WRITECOMBINE)
-> +	drm_info(dev, "Disable Write Combine\n");
-
-I would not print this drm_info() here. The user has selected the config 
-option, so they should know what happens. It's also listed in /proc/mtrr 
-IIRC.
-
-Best regards
-Thomas
-
-> +	mdev->vram = devm_ioremap(dev->dev, res->start, resource_size(res));
-> +	if (!mdev->vram)
+> +
+> +	/* If the last entry is not a final display output, the configuration i=
+s wrong */
+> +	switch (temp_path[idx - 1]) {
+> +	case DDP_COMPONENT_DP_INTF0:
+> +	case DDP_COMPONENT_DP_INTF1:
+> +	case DDP_COMPONENT_DPI0:
+> +	case DDP_COMPONENT_DPI1:
+> +	case DDP_COMPONENT_DSI0:
+> +	case DDP_COMPONENT_DSI1:
+> +	case DDP_COMPONENT_DSI2:
+> +	case DDP_COMPONENT_DSI3:
+> +		break;
+> +	default:
+> +		dev_err(dev, "Invalid display hw pipeline. Last component: %d (ret=3D%=
+d)\n",
+> +			temp_path[idx - 1], ret);
+> +		return -EINVAL;
+> +	}
+> +
+> +	final_ddp_path =3D devm_kmemdup(dev, temp_path, idx * sizeof(temp_path[=
+0]), GFP_KERNEL);
+> +	if (!final_ddp_path)
 > +		return -ENOMEM;
-> +#else
->   	mdev->vram = devm_ioremap_wc(dev->dev, res->start, resource_size(res));
->   	if (!mdev->vram)
->   		return -ENOMEM;
->   
->   	/* Don't fail on errors, but performance might be reduced. */
->   	devm_arch_phys_wc_add(dev->dev, res->start, resource_size(res));
-> +#endif
->   
->   	return 0;
->   }
+> +
+> +	dev_dbg(dev, "Display HW Pipeline built with %d components.\n", idx);
+> +
+> +	/* Pipeline built! */
+> +	*out_path =3D final_ddp_path;
+> +	*out_path_len =3D idx;
+> +
+> +	return 0;
+> +}
+> +
+> +static int mtk_drm_of_ddp_path_build(struct device *dev, struct device_n=
+ode *node,
+> +				     struct mtk_mmsys_driver_data *data)
+> +{
+> +	struct device_node *ep_node;
+> +	struct of_endpoint of_ep;
+> +	bool output_present[MAX_CRTC] =3D { false };
+> +	int ret;
+> +
+> +	for_each_endpoint_of_node(node, ep_node) {
+> +		ret =3D of_graph_parse_endpoint(ep_node, &of_ep);
+> +		of_node_put(ep_node);
+> +		if (ret) {
+> +			dev_err_probe(dev, ret, "Cannot parse endpoint\n");
+> +			break;
+> +		}
+> +
+> +		if (of_ep.id >=3D MAX_CRTC) {
+> +			ret =3D dev_err_probe(dev, -EINVAL,
+> +					    "Invalid endpoint%u number\n", of_ep.port);
+> +			break;
+> +		}
+> +
+> +		output_present[of_ep.id] =3D true;
+> +	}
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (output_present[CRTC_MAIN]) {
+> +		ret =3D mtk_drm_of_ddp_path_build_one(dev, CRTC_MAIN,
+> +						    &data->main_path, &data->main_len);
+> +		if (ret)
+if (ret && ret !=3D -ENODEV)
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+> +			return ret;
+> +	}
+> +
+> +	if (output_present[CRTC_EXT]) {
+> +		ret =3D mtk_drm_of_ddp_path_build_one(dev, CRTC_EXT,
+> +						    &data->ext_path, &data->ext_len);
+> +		if (ret)
+likewise
 
+> +			return ret;
+> +	}
+> +
+> +	if (output_present[CRTC_THIRD]) {
+> +		ret =3D mtk_drm_of_ddp_path_build_one(dev, CRTC_THIRD,
+> +						    &data->third_path, &data->third_len);
+> +		if (ret)
+likewise
+
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+
+-michael
+
+--18dede9a640603fdcd5671b64893c8b65da4bac91be4f9f750e9f84ab4c5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZkcoIBEcbWljaGFlbEB3
+YWxsZS5jYwAKCRASJzzuPgIf+F0aAYD6W0fQ3ywOFdk0kyow3ETjztMvzk4VHslN
+ZALjOF3Iw7ETvkf2VWhItnpJisgqsjsBgIIFEwBEUNRLm45iMHmXfClJJIdeKozJ
+k8J5f1QXzzkE7Jo+XWuspumSoqBP20IRgg==
+=NAvJ
+-----END PGP SIGNATURE-----
+
+--18dede9a640603fdcd5671b64893c8b65da4bac91be4f9f750e9f84ab4c5--
