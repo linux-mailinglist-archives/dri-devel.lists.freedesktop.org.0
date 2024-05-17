@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BCD98C8E74
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 01:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987788C8E7C
+	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 01:29:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A039A10E159;
-	Fri, 17 May 2024 23:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8BB710E181;
+	Fri, 17 May 2024 23:29:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="ktbVIyFr";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="IAFN0GXD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B4B610E159
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 23:26:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C3C10E181
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 23:29:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=0u7kgikaSLk5ESRxVAP69RMWkPZcQroGJaOi2Fac3E0=; b=ktbVIyFr59LYhMyF
- huNk9ziHrp5E1T2NhImL1k6eAb2IDhny9GEIZ9d3XH5OSI1GTmPiHY9su17XEhP6dH/5SZjqrVr/F
- 8VRNTOZzi94GrGuhzz6ONO6BYlsNqdoqZ3FiMmYv1wMPu9SgFcYNEYnwBSToQ9cLBsWyPUfcC2gfj
- 99Ly5tyCC0hMWz1vzQz1WI6wQcIZqCCOA7jnao/pNFZjd7PjvwsQFcu1SqHh7rIxfxO/wrhZK260D
- B6ltUBU80q3NL6XmBWHAmFQpGQRRiOSgzRULeGgZtAz5bA2dZItp76/3vCm2iOcsBNkQbX3tmoeS1
- 9+wprLqvXCyjnQykqA==;
+ :Subject; bh=ILMEqfh6mvs3M8j1PQ8qkskmAIghR6blibOu6WSgkI8=; b=IAFN0GXDM37GpEc8
+ QPOxKd6lWlXkBNOtBnJ7FyvQBhOcrNP7svoLSWggCSXmfjwvEml53oLsbc8tJbUBjrVvRT6rNgWhW
+ Z1iBzrTxITvbKsTeKQglKAnWkx132s8noF87SkyjJIuA6EDvSrvsymQUg0JRLdxVxEJqtazTn4Mgl
+ 7GFwsX0SInTFlEA2T/wqtJM8V5Jdx27uCoRIErcbveSh+9P5J1sj7p5CUmmkxNS0jIU34ggGdSQC8
+ b+hSZCT3R8+6FfYKf7mduxsr9EONaVeGa39dq4nNYN5FiXG1/cdDGZ3d33ND/pjoBDVQx3whT4Hoo
+ hOaMfqKaYCmgcSEMyg==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1s86xu-001Til-1z;
- Fri, 17 May 2024 23:26:19 +0000
+ (envelope-from <linux@treblig.org>) id 1s870g-001TlX-1J;
+ Fri, 17 May 2024 23:29:10 +0000
 From: linux@treblig.org
-To: kherbst@redhat.com,
-	lyude@redhat.com
-Cc: daniel@ffwll.ch, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 2/6] drm/nouveau: remove unused struct 'init_exec'
-Date: Sat, 18 May 2024 00:26:17 +0100
-Message-ID: <20240517232617.230767-1-linux@treblig.org>
+To: zack.rusin@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ maarten.lankhorst@linux.intel.com
+Cc: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, "Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH 3/6] drm/vmwgfx: remove unused struct 'vmw_stdu_dma'
+Date: Sat, 18 May 2024 00:28:58 +0100
+Message-ID: <20240517232858.230860-1-linux@treblig.org>
 X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -57,32 +56,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-'init_exec' is unused since
-commit cb75d97e9c77 ("drm/nouveau: implement devinit subdev, and new
-init table parser")
+'vmw_stdu_dma' is unused since
+commit 39985eea5a6d ("drm/vmwgfx: Abstract placement selection")
 Remove it.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_bios.c | 5 -----
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 5 -----
  1 file changed, 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bios.c b/drivers/gpu/drm/nouveau/nouveau_bios.c
-index 79cfab53f80e..8c3c1f1e01c5 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bios.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bios.c
-@@ -43,11 +43,6 @@
- #define BIOSLOG(sip, fmt, arg...) NV_DEBUG(sip->dev, fmt, ##arg)
- #define LOG_OLD_VALUE(x)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index 2041c4d48daa..50022e9e3519 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -85,11 +85,6 @@ struct vmw_stdu_update {
+ 	SVGA3dCmdUpdateGBScreenTarget body;
+ };
  
--struct init_exec {
--	bool execute;
--	bool repeat;
+-struct vmw_stdu_dma {
+-	SVGA3dCmdHeader     header;
+-	SVGA3dCmdSurfaceDMA body;
 -};
 -
- static bool nv_cksum(const uint8_t *data, unsigned int length)
- {
- 	/*
+ struct vmw_stdu_surface_copy {
+ 	SVGA3dCmdHeader      header;
+ 	SVGA3dCmdSurfaceCopy body;
 -- 
 2.45.1
 
