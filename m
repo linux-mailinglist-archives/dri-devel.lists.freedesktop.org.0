@@ -2,147 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70FDA8C8785
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 15:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640538C8780
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 15:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45AE110EED7;
-	Fri, 17 May 2024 13:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20F1810E9A3;
+	Fri, 17 May 2024 13:54:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="utpQkopu";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FqciInBf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2071.outbound.protection.outlook.com [40.107.93.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D850810EED5;
- Fri, 17 May 2024 13:54:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TUBbPJYOlWsPt4NR9cAFc3mrbo2zq71Ui4zi/V2ULMCQJ/P6rctPOlcXge4TvOHoljPoF9fZAaFzRD+icToFmu9mg1zJFmyNXZ7W2bNcLjHx0ioeG+uSippRudM66SGv7MU/ui04jnkEgUjpofLVydCBLDuMMaZ+6rqJRAB6+nuSNYfsPjUFa0c5///BVI99ioxWobwudn0OiSdsaLLH4CkY3RRqZSGeRcozMWszRiw4pyRyT28Q8kFmg8XqVwFKhRGMz/rGqOvxNp5HQH3oJvXOA3Xru51LGTRH/siZVG5xrenb733kjfq65sSBOiz0R71QBQvi92lFboYxodCT/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oWVbRcUWVf2DacWtGLKPeCRWhOHNrHjAyasEQJmXq38=;
- b=eb6ATBrSE4g1mqVxxewgi4z1ajRNoamhbR1/AQzJm4P66fM/IysKIwbQcAVcdL2bQ0pBZSrdO6IzVZ+LBmsNX16xua36hvfRKdI96j6cjLf5CVnlvxfW1JG/6fuoojresbAWNO4WfAPCRUsHvK2eIYENaQMLsVSCYW6ngcw+dh946hCHa3Kc4/iJEFV8YIEZD76sQ9pX1kSm5I7IaihwfebkRwFvXJAYdItUEXElNTr23cXXVNdGBlP/p/TXmJMx4dtWSBm8EfeazbBqr7y0SxAgvAxjABDjGs0MGtOjY159pytcelYFhHeHsWVkB0digXa8Tu+Yc5J9p7gpm7uCuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oWVbRcUWVf2DacWtGLKPeCRWhOHNrHjAyasEQJmXq38=;
- b=utpQkopuDwdLyio+CXOC6vieK6dV/oRGEmWXp71ybO2rjn3IWNXFLbVXc+HW+4dJ+H8alaByLycL64rshUdKwzZcTimyJH1djezHTPU2NjcPhKYvoIdy4wxwGTm2SQDJ0be3vPUFOKIzSSrClGILoGolPNDQLT7rqvTSSRX2vvg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- by MN0PR12MB6128.namprd12.prod.outlook.com (2603:10b6:208:3c4::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.58; Fri, 17 May
- 2024 13:53:59 +0000
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::c55f:19e:6896:cf3]) by MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::c55f:19e:6896:cf3%6]) with mapi id 15.20.7587.028; Fri, 17 May 2024
- 13:53:53 +0000
-Message-ID: <3455070b-13d9-4e51-826b-e256ed899344@amd.com>
-Date: Fri, 17 May 2024 19:23:44 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/buddy: Fix the warn on's during force merge
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- matthew.auld@intel.com
-Cc: christian.koenig@amd.com, alexander.deucher@amd.com, airlied@gmail.com
-References: <20240517135015.17565-1-Arunpravin.PaneerSelvam@amd.com>
-Content-Language: en-US
-From: "Paneer Selvam, Arunpravin" <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <20240517135015.17565-1-Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0173.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:de::17) To MN2PR12MB4342.namprd12.prod.outlook.com
- (2603:10b6:208:264::7)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C204110EED4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 13:54:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1715954079;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ckgzF/gF0LVkJPIHaMi6FsUAJKsbsEhiiso6m6KhFLY=;
+ b=FqciInBfECmndZ1+u6oABqdWo0Bd+IWXLMsHkU5LcTbnD3uGwMYyrRWFxww22zUPowYF96
+ 58bTT7pqs5klw0js6L9fdI5u8oBIDWZES/16652BCXIJ3+L+/tRfeWpAIUpKFmkR/4GiwI
+ DQRnfbDIzlTOgs7XpCvnkkxrUfLoefg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-388-bNDt2trpNROHW8ZMxX5_mA-1; Fri, 17 May 2024 09:54:38 -0400
+X-MC-Unique: bNDt2trpNROHW8ZMxX5_mA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-a5a84e7c884so293470166b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 06:54:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715954077; x=1716558877;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ckgzF/gF0LVkJPIHaMi6FsUAJKsbsEhiiso6m6KhFLY=;
+ b=IeXbaWiHx2jOvyIvgDHo4+QDpQBU0i67gXofqUl5SIS4DNW3KCVzJTWjhKRD2yf6qN
+ SeaSUkstWueIf60ae7PTKDY7opXGTdZnr05xfUqq6rtM6G7UftKtXknlbzrP5ekYwz1R
+ eiE8DJPCs3r2p/BguQPy7MBiYEs1apSOGqq1KbhMYJq01DbBV4D+2x7a35gCgKKEsfGX
+ TQNpPiz4ZYgbMCTX2SACKnLkAvrWvSX7/tgj07Yj14/iS2rZxl6T4rD5SVYx3IUxLr2B
+ slNmc0rBvVu7ikGUPoyFtM1k/wekWAPeDomZtTJf5H7GUKCYQVxtDzgiw79qrUn+2ZMR
+ hfrA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUvpHvnGi5S6StA+VZSrF9aLLX8QqHodquxrgrZ1iFPE9ajtgIo1jQXgZpRW9hxPwlOTohGBauTnKqcr7NkHlR0cwWJeiueixCp7bL+cA49
+X-Gm-Message-State: AOJu0Yy+yXBqWvsApWIrAG3Mlxz7UfY9iIM8vrRPZTSeWGErtpbZ3Xid
+ 9ljXUvJrju+Q7Hg/75N910tFKarlKNqpXi3ElAEbXysAvM12R9ITm5szw2TEy+nvsIhazJGlbwI
+ supftb3FlHcY8rHba55qnGQgqjehqDvLI7do18ZPgWPgrjG4x9xCA1hcBvbvnKjQG3Q==
+X-Received: by 2002:a17:906:ae45:b0:a59:c208:a4c with SMTP id
+ a640c23a62f3a-a5a2d583d60mr1357057566b.17.1715954076950; 
+ Fri, 17 May 2024 06:54:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFfJJCDx/mcZGpVUvsHhPUh6z3RkyZXkBJ3RqvMnfIOyn/dCG2D89v/HagZxG/or5jXzYtY3Q==
+X-Received: by 2002:a17:906:ae45:b0:a59:c208:a4c with SMTP id
+ a640c23a62f3a-a5a2d583d60mr1357053966b.17.1715954076330; 
+ Fri, 17 May 2024 06:54:36 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-a5a17b17cd0sm1114128366b.214.2024.05.17.06.54.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 May 2024 06:54:35 -0700 (PDT)
+Message-ID: <d074cf56-c7e4-41ba-9e8e-931a5d350578@redhat.com>
+Date: Fri, 17 May 2024 15:54:35 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4342:EE_|MN0PR12MB6128:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c07d0fd-cfb5-4f00-3223-08dc7678c9c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RHlPMlk0dEJSMkpQUnVFRzFZN3VkT0tyaFB1TU1pQmo4YUZBVjZMYW9YUXRj?=
- =?utf-8?B?MVZZTEtKSlE3RXIxQzBuNFJDS1ZuMjBkWTkwZC9jcFVhRFFZZS82c1IrTnps?=
- =?utf-8?B?VG95cUpWa2ltNktJRmZ3QlF5eDZrSEhRS1NOdFdDM3VOTERZeFFRS2VVOG9w?=
- =?utf-8?B?MDRkMU5BNGpXZzk2VkE2U2JQQ0lqMzlGZ2NGUExvOXh4dW9KWHhETVBoRDVQ?=
- =?utf-8?B?dFZjdlZEclhpVmtLNmhoQ29ST0VtUk4rVnhVRFlObVlYb01CM2FVbEVsUU9i?=
- =?utf-8?B?NTc2SThNL0lXNjFyb0paeFVLc3M0ekpXSTlOYWZvYWRLSVYzYmJ5c2Q2TTky?=
- =?utf-8?B?b1RySzQyNTIySnV1RmtoanJtOXMxSExCK3BqSlJVaVZZY0NqUmZ4Uk1xZkQx?=
- =?utf-8?B?dnRlL2I0YUZZRjRuRm5RM1QzSjU3bldIb0FBQ3JEY0ZiMHduZmlINCt2YkZp?=
- =?utf-8?B?SzllTUNtbkRxY01ORVlPbHo0V3dSNXE3enR5bnJXQnlpM0pyOCthSDZ3K20z?=
- =?utf-8?B?TzBjVTZxZVZaYkZjbmlpMkNmVmM3RUVCSXNTbmphZU5iTVR0bnNjRDRZL0R4?=
- =?utf-8?B?ZjZOMFNuUDFIQlJPaW5BZFQrVGdQRXp1Z1FYUW9aeVd2bVV6cHdZSjUrZllv?=
- =?utf-8?B?dEFMSzJDS2hvVGJCUUt3OUhtZlh2VkNvZzhjVkF1aGRsV3E2WGZIaVp4MGVt?=
- =?utf-8?B?V3VWY2UwWmtYb0ZWcGxpVHRINkxEcHFwQkVmQ3pwbGQvYk80clNlcXpyRWN4?=
- =?utf-8?B?bC85d1RWVk9PVjdma1hiVkRuYndQZ2ozaC9nQ1duWmxMdkl2TEI4clhyMjdS?=
- =?utf-8?B?WDYraUhEQlp2RzRqRWlzNk9tcVVuVTMwUEVuMWF3Nm9DTERoNUdKT0lPejFp?=
- =?utf-8?B?ekpBSVQvajM4b09FNEJqWndZYmRKdWl0Y05qZ0RyK0JCMExiVzVwK0JWTWJq?=
- =?utf-8?B?TnZJRzQvQmpuK3FsZXF6RDhjaXhmTUhYZWJHN2xucGpuR0k0THBaVHdtYXdP?=
- =?utf-8?B?OG5ranVzRnB4bUdqV2FtVXpRZ2hINTNNcDVpcC8zYjZ1ZkxqelNSaVA1V29r?=
- =?utf-8?B?Wm10L2FnNE5qSHUrNWZpVU9VZHZkdmM1U1FFOXhqanVQVld3RExjL29aNjU2?=
- =?utf-8?B?SWR6S2EvaCtmQ1ZheGk5b09URVpSVHBFSUUxT0hUN1FNK3VCaFZhSWFPT1Np?=
- =?utf-8?B?dzU4VDlxZ2RDWnpCR1k2NXJSY1phTWpkV0c2SnNQbnV3RFF6MDVlbC9zYnlu?=
- =?utf-8?B?K2dhdVg2ajN5WDBKMzlFbmcxNnpqTWVHK0QxemM1SksvUzM3eWpCR2pkTitn?=
- =?utf-8?B?NitBeXF6ZzRiaWQ2ZU5nbXJGczhsSVpVc0kvNlF6eG0wZGdRejh6VHhRQWUr?=
- =?utf-8?B?Rk81cjNZNlIyQ3BpVGx1eW1BMEU4MGNYVHc2K3NqZ29ZNUNoMWVxWjdxRVov?=
- =?utf-8?B?SXB5MzhEWk5kRzVpaHpWMmVEV0tGYUlNeEZaQ1hTUkt4bWFqaGFZQW9LdEs3?=
- =?utf-8?B?c0JXdjRlSnhSOVgzMklhVncvS1NlZ2VkTWdMZnc4dk1qZ254aXlReFErUDFG?=
- =?utf-8?B?enNyemR3Z1dab09FYXU3Y0VLV3hxWXZWN0lTcVlqVUxCN0FPcGdvSnNwNUFY?=
- =?utf-8?B?aW5DazA3UlNxYmU5c3BXK0JXVmlNVmNMN205L1FVNEpaY08weW9ENGkybklo?=
- =?utf-8?B?OTcvZEFHNHRmdE16MSt0WjZ3S1V4SDRBNHB2NWdhZGJGREJBN25FbWl3PT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(376005)(1800799015); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c2REejh0TlBMQXhERkp4K2xhZW1zdTZuL292bENoNlJpZkp3cjAyd2FwTTRs?=
- =?utf-8?B?TEtVSTFoRFB1TkIySHpJeTNDR3FvK1RlRVlxMFBsSFlBV0VFS2I5NlMzSE53?=
- =?utf-8?B?TVVmVXlCeTNoUEZIaWszNS9rL0twaHd3UG9hZDd1dHBqaDhmYk5Cam9XOGdN?=
- =?utf-8?B?RVc5L2Vzd2VRWVRuZXRyQ0VrVktQM0I3QUp6czJCRC9JNmI2YnhlVGI4Tm85?=
- =?utf-8?B?d0dJbVRYTGFXYkRPUXg1TkhBV3FwZ2xLeDRvN1dpZDcvb01QSVJpWkxYUU02?=
- =?utf-8?B?YUdpQUNwTUYyOVArL29HU2NHY0dTMU83V3VOSjFxWGV6anBKaXBteFIwcVM2?=
- =?utf-8?B?Y2U5WndxOUlhS1NhcFZzTzExM2NEUFpYaS9WWnByeURiYWdzSUV4bXN5UkhD?=
- =?utf-8?B?cTFJV2cyNUlITDNGeWM3Vmx4R2ZzUlBCYmQyRFRXbURrNHpnMmlXZThERnd6?=
- =?utf-8?B?c29LTFpCZkxMTVM4V1A3WWZOQmN4ZkFqYWdlS0VxQVJ5V3hkazVDSzkzSWJk?=
- =?utf-8?B?NGF0ZzNoRWY3K3Z0WUZxMGVQcG4zeDNmbU1oVHprMDBvNEEvRzVHM005dkJw?=
- =?utf-8?B?Y0lFSG53L0N0a2F3Uzg2c3BLWE1EeHp3bzA1Qk9NOVBUNS9Hak5qK1liMjVs?=
- =?utf-8?B?ZVAvQW5JZklvUEV1dklWOFBMZk8rNytweDJhb1JuUzdWQld6RGpXcUtsUFRM?=
- =?utf-8?B?cFE1SE41eTArTmwyTnFtMUFnNFg1aW1wM0U3ZURIc1lYcXY5N29VYWJFNDV2?=
- =?utf-8?B?RjFhMFZ3TDZVY0xkQlVWYm5aK1YreXB5aEd4alVTSS81NFZsKytaK1RRaDJy?=
- =?utf-8?B?enNuZHJyU0Y2b05NRGg2Rkg3NkNpTWhld3k1NlJEK1RISTB3RGxhOVcyZXpW?=
- =?utf-8?B?VXJyL1dlcjBHUEpJMThXMklMNHU1NkhJZlZvN1BYM3JCZVh0TlFudHVFV2JB?=
- =?utf-8?B?L0hVT0xsUWFjcVpnUFJpbTdrRWlJK0t1RDJxZkVJVGhZelc3eUJJbmhleDJl?=
- =?utf-8?B?R01LUkNqZzNLLy9mMVVwTU1DUVJXQW9pU0Q0YlhIYVhHY0pOQ1ZiZjNqemZH?=
- =?utf-8?B?U2F5VkM0WGlmTkxRbzhUaVVpVENUeWVzcVRZdU5HRUFEVVdqS0hZaGRhZVdZ?=
- =?utf-8?B?SzJUS0xNQ2JPM3lFSjNMd2ZPTmJtaWFRUm4vcDhlVGI4cjgzM3RpTktyUUY0?=
- =?utf-8?B?VTl5SmhIdkN3U0szYlNDcVZ0QVk3Zm4rcEY2dkgwSGpCL0hpMDJRT0VhUUJ5?=
- =?utf-8?B?U3dpUXVSbExRUEw1c2RqNFRaaU5OVmR5SVlrak5yRS9QNTlyNnpQaG0zbTJx?=
- =?utf-8?B?MXlVelExTnQ0K2NwNUJvazBSb3kvOW5Ddk5uODJtbTBBb3RlN2RhVERXQktY?=
- =?utf-8?B?WGZDVm9abjdQOUU5RHpFcVJSYmlBeURZYkhneUE1Y0lhNDZNNnUvaitwdGVP?=
- =?utf-8?B?d0dKUDI5eFp2RXJ4a0tWSDdNS0JRSW9STHVSTEdEbDJzVlBqcExrQXFMM0M5?=
- =?utf-8?B?N3NwRWdTK3RlOU5weDZWVVVWT2RMRjc2SUpTNUxMamR5eElRV0piZmc2Rndh?=
- =?utf-8?B?UWFVZWJBVFRlWHJxU2VuK0ZQNGtyRW1jWUVJVEM0T0JXSHpvU1Q4UENQcy9q?=
- =?utf-8?B?bi9acytSWEhhL0plYWdtbjZQRFdtSFNPbTBEQkY2TjRZV3BYMWtIb0JUOWhl?=
- =?utf-8?B?bitBemZOTHkzZThzMHJPTk14dmFaSkpzakN5NkhIOHpwUlg4bUdzWndraEth?=
- =?utf-8?B?YlNWd0MzT1NEMnEyUEhjTmRkRHRHR1k4eHR0TVo2Uk53N2ViR21aOG1tTnZw?=
- =?utf-8?B?MUtJZWEzVForNUtadnFuNndnbEE5NXdnS2JXLzBMWTl4QjRpb2dLY3ZvZUI0?=
- =?utf-8?B?QnBUQVZlQ2plYkVqVDRISlBlUmx5SGtVb1JIS0E4azVjVWVhQXZMY1laVW1n?=
- =?utf-8?B?WFpIU2gvRXNYdTEydHFNZVdCdG85QWVsVkREUm1jcy9jWUtXOXNSR0MyeDZ6?=
- =?utf-8?B?MXdpTnhhYWl5T3lkOFRQNGxyWVVRTDVMS0l2eHNXRUI0WUZnUjhEN05ieTZF?=
- =?utf-8?B?aUliR0Fodm9sdDY0SVowdmM0R1o0OEhrTTA4TmdlWnphbkVMdjVvK1VSaTVI?=
- =?utf-8?Q?R9DBnMLhwQb7lOjP9ullJ5hkq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c07d0fd-cfb5-4f00-3223-08dc7678c9c3
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2024 13:53:53.5731 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lgj9b5pJynHpYTyLGIMBgSsgv+Uf3ASwe8T23AjhminoYeO6i2exfw1ydWWxn28qUNlJ3HrNneb8Hajf610hww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6128
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arch: Fix name collision with ACPI's video.o
+To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de,
+ chaitanya.kumar.borah@intel.com, suresh.kumar.kurmi@intel.com,
+ jani.saarinen@intel.com, davem@davemloft.net, andreas@gaisler.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org
+Cc: linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-acpi@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240517091557.25800-1-tzimmermann@suse.de>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240517091557.25800-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,45 +102,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthew,
-This fixes the problem.
+Hi,
+
+On 5/17/24 11:14 AM, Thomas Zimmermann wrote:
+> Commit 2fd001cd3600 ("arch: Rename fbdev header and source files")
+> renames the video source files under arch/ such that they do not
+> refer to fbdev any longer. The new files named video.o conflict with
+> ACPI's video.ko module. Modprobing the ACPI module can then fail with
+> warnings about missing symbols, as shown below.
+> 
+>   (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol acpi_video_unregister (err -2)
+>   (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol acpi_video_register_backlight (err -2)
+>   (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol __acpi_video_get_backlight_type (err -2)
+>   (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol acpi_video_register (err -2)
+> 
+> Fix the issue by renaming the architecture's video.o to video-common.o.
+> 
+> Reported-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> Closes: https://lore.kernel.org/intel-gfx/9dcac6e9-a3bf-4ace-bbdc-f697f767f9e0@suse.de/T/#t
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 2fd001cd3600 ("arch: Rename fbdev header and source files")
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: linux-arch@vger.kernel.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+
+Thanks, patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 Regards,
-Arun.
 
-On 5/17/2024 7:20 PM, Arunpravin Paneer Selvam wrote:
-> Move the fallback and block incompatible checks
-> above, so that we dont unnecessarily split the blocks
-> and leaving the unmerged. This resolves the unnecessary
-> warn on's thrown during force_merge call.
->
-> v2:(Matthew)
->    - Move the fallback and block incompatible checks above
->      the contains check.
->
-> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> Fixes: 96950929eb23 ("drm/buddy: Implement tracking clear page feature")
+Hans
+
+
+
+
 > ---
->   drivers/gpu/drm/drm_buddy.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 1daf778cf6fa..94f8c34fc293 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -524,11 +524,11 @@ __alloc_range_bias(struct drm_buddy *mm,
->   				continue;
->   		}
->   
-> +		if (!fallback && block_incompatible(block, flags))
-> +			continue;
-> +
->   		if (contains(start, end, block_start, block_end) &&
->   		    order == drm_buddy_block_order(block)) {
-> -			if (!fallback && block_incompatible(block, flags))
-> -				continue;
-> -
->   			/*
->   			 * Find the free block within the range.
->   			 */
+>  arch/sparc/video/Makefile                    | 2 +-
+>  arch/sparc/video/{video.c => video-common.c} | 0
+>  arch/x86/video/Makefile                      | 2 +-
+>  arch/x86/video/{video.c => video-common.c}   | 0
+>  4 files changed, 2 insertions(+), 2 deletions(-)
+>  rename arch/sparc/video/{video.c => video-common.c} (100%)
+>  rename arch/x86/video/{video.c => video-common.c} (100%)
+> 
+> diff --git a/arch/sparc/video/Makefile b/arch/sparc/video/Makefile
+> index fdf83a408d750..dcfbe7a5912c0 100644
+> --- a/arch/sparc/video/Makefile
+> +++ b/arch/sparc/video/Makefile
+> @@ -1,3 +1,3 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  
+> -obj-y	+= video.o
+> +obj-y	+= video-common.o
+> diff --git a/arch/sparc/video/video.c b/arch/sparc/video/video-common.c
+> similarity index 100%
+> rename from arch/sparc/video/video.c
+> rename to arch/sparc/video/video-common.c
+> diff --git a/arch/x86/video/Makefile b/arch/x86/video/Makefile
+> index fdf83a408d750..dcfbe7a5912c0 100644
+> --- a/arch/x86/video/Makefile
+> +++ b/arch/x86/video/Makefile
+> @@ -1,3 +1,3 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  
+> -obj-y	+= video.o
+> +obj-y	+= video-common.o
+> diff --git a/arch/x86/video/video.c b/arch/x86/video/video-common.c
+> similarity index 100%
+> rename from arch/x86/video/video.c
+> rename to arch/x86/video/video-common.c
 
