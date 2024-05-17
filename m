@@ -2,91 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640538C8780
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 15:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAF28C8789
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 15:55:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20F1810E9A3;
-	Fri, 17 May 2024 13:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59B8610EED8;
+	Fri, 17 May 2024 13:55:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FqciInBf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IIU7cYPL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C204110EED4
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 13:54:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1715954079;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ckgzF/gF0LVkJPIHaMi6FsUAJKsbsEhiiso6m6KhFLY=;
- b=FqciInBfECmndZ1+u6oABqdWo0Bd+IWXLMsHkU5LcTbnD3uGwMYyrRWFxww22zUPowYF96
- 58bTT7pqs5klw0js6L9fdI5u8oBIDWZES/16652BCXIJ3+L+/tRfeWpAIUpKFmkR/4GiwI
- DQRnfbDIzlTOgs7XpCvnkkxrUfLoefg=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-388-bNDt2trpNROHW8ZMxX5_mA-1; Fri, 17 May 2024 09:54:38 -0400
-X-MC-Unique: bNDt2trpNROHW8ZMxX5_mA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-a5a84e7c884so293470166b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 06:54:37 -0700 (PDT)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F1B010EEDD
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 13:55:19 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-1ec69e3dbcfso10297205ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 06:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715954118; x=1716558918; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7ZxQSJrLWHCfnaAsDV35fIgvxplbZ5Wh2f2VjoJkfWc=;
+ b=IIU7cYPLVFY4T3VII8/l9htlKKSGLSjiN66PKxRpGrqb3S1o3SyoEx334kYwQYvHNo
+ J9NG/qtxFx2BZZvFrPfMHRZgN03RtcFJsE89Mv9uqRuqc4ZQJJFedBO3ngfWBwk94F7q
+ tQ2VebuV9uVvEewTAnc4Uq0AxdNbIx3q5/Y4sal5AYeitLDNTdhW9C2PzaIJEPOryh97
+ IyP9JKLSTMZ9dXSsYNgLuB80eHijMNJP/gaXDBt1FOmCU89B9XjdQqeoFbM+uSh5tV7E
+ F0raKlwbGDdhnGeSZg/E/nMYwoA7ME/MVfKO7kRa8wyrK/la0VCm4o8sl92WWvxxEIdw
+ kDWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715954077; x=1716558877;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ckgzF/gF0LVkJPIHaMi6FsUAJKsbsEhiiso6m6KhFLY=;
- b=IeXbaWiHx2jOvyIvgDHo4+QDpQBU0i67gXofqUl5SIS4DNW3KCVzJTWjhKRD2yf6qN
- SeaSUkstWueIf60ae7PTKDY7opXGTdZnr05xfUqq6rtM6G7UftKtXknlbzrP5ekYwz1R
- eiE8DJPCs3r2p/BguQPy7MBiYEs1apSOGqq1KbhMYJq01DbBV4D+2x7a35gCgKKEsfGX
- TQNpPiz4ZYgbMCTX2SACKnLkAvrWvSX7/tgj07Yj14/iS2rZxl6T4rD5SVYx3IUxLr2B
- slNmc0rBvVu7ikGUPoyFtM1k/wekWAPeDomZtTJf5H7GUKCYQVxtDzgiw79qrUn+2ZMR
- hfrA==
+ d=1e100.net; s=20230601; t=1715954118; x=1716558918;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7ZxQSJrLWHCfnaAsDV35fIgvxplbZ5Wh2f2VjoJkfWc=;
+ b=eXArv0JwXyyC7PikfHZuxthiEfRwJ/QEEPJ+j5b5Buca9WxhvzjCojK0FPBJZaPxEn
+ bqYvMOrFoywn/+rvC31ViP3DUd5wa+bxvQfJrzCpZa1rTcz0XDVbg09TYNgmIwYNRrh9
+ W+DXg7JKuHGpYEso9gFX8RfzBMS635/N1XiKNgmQkVyGsjQgav/hvuSKnAnvi+8DBT9C
+ zPUHo1M4c36DvID6gWnFQaCOQ9nzXo+OQoc2rUNBcl0nE1OR/VVlSOv988QWE4YlhcN1
+ s3Rl8qDD9eP4jn4VIQrbCoRGk8rUrHxSt+spf9RQBoGMt0NiEDBGIayfvcg3K56nNAeH
+ V69g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUvpHvnGi5S6StA+VZSrF9aLLX8QqHodquxrgrZ1iFPE9ajtgIo1jQXgZpRW9hxPwlOTohGBauTnKqcr7NkHlR0cwWJeiueixCp7bL+cA49
-X-Gm-Message-State: AOJu0Yy+yXBqWvsApWIrAG3Mlxz7UfY9iIM8vrRPZTSeWGErtpbZ3Xid
- 9ljXUvJrju+Q7Hg/75N910tFKarlKNqpXi3ElAEbXysAvM12R9ITm5szw2TEy+nvsIhazJGlbwI
- supftb3FlHcY8rHba55qnGQgqjehqDvLI7do18ZPgWPgrjG4x9xCA1hcBvbvnKjQG3Q==
-X-Received: by 2002:a17:906:ae45:b0:a59:c208:a4c with SMTP id
- a640c23a62f3a-a5a2d583d60mr1357057566b.17.1715954076950; 
- Fri, 17 May 2024 06:54:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFfJJCDx/mcZGpVUvsHhPUh6z3RkyZXkBJ3RqvMnfIOyn/dCG2D89v/HagZxG/or5jXzYtY3Q==
-X-Received: by 2002:a17:906:ae45:b0:a59:c208:a4c with SMTP id
- a640c23a62f3a-a5a2d583d60mr1357053966b.17.1715954076330; 
- Fri, 17 May 2024 06:54:36 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-a5a17b17cd0sm1114128366b.214.2024.05.17.06.54.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 May 2024 06:54:35 -0700 (PDT)
-Message-ID: <d074cf56-c7e4-41ba-9e8e-931a5d350578@redhat.com>
-Date: Fri, 17 May 2024 15:54:35 +0200
+ AJvYcCXF49sXPfZP5n1g69CG4xiN4GF0zTbXwJYUHMBFAi0Dq3ew+uGVqE/tHj/DOmYsmJfgqO2NsfAlVfpwtsA3tsZ8uUEbCfQqHxZgxEunp5hB
+X-Gm-Message-State: AOJu0YwDpGfPMEB/z3B4yt5S5dA/fQHKjRoV6HJFQu47orHYxvRvSrgk
+ SKfh5qmPadrhiwJzXA0gpYQwSmZcN+buxQbCrzV92r1Ji1Up9KdTiaW9rPencH1VUbrZOZ1lhBt
+ RHSnRYwUTON8r2ulAePSeKKe07lSe2tQd
+X-Google-Smtp-Source: AGHT+IGwEX78O0IPn/LXQEz9L1cBE2phMOdId85UeU23Pc2FrTGewlbOW/8t6Hjkh2Ub/HWo7jrIvmSVn/vzYm5neUc=
+X-Received: by 2002:a05:6a20:914f:b0:1ad:89e:21b5 with SMTP id
+ adf61e73a8af0-1afde0d4ce4mr24848771637.15.1715954118578; Fri, 17 May 2024
+ 06:55:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arch: Fix name collision with ACPI's video.o
-To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de,
- chaitanya.kumar.borah@intel.com, suresh.kumar.kurmi@intel.com,
- jani.saarinen@intel.com, davem@davemloft.net, andreas@gaisler.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org
-Cc: linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-acpi@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20240517091557.25800-1-tzimmermann@suse.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240517091557.25800-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAPM=9tx_KS1qc8E1kUB5PPBvO9EKHNkk7hYWu-WwWJ6os=otJA@mail.gmail.com>
+ <CAHk-=wjdyimk4t2C7xfqLYFX1HUH92yTRTFQXAitJJT+REvF3Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wjdyimk4t2C7xfqLYFX1HUH92yTRTFQXAitJJT+REvF3Q@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 17 May 2024 09:55:07 -0400
+Message-ID: <CADnq5_P3pR8C=SsZWv85h7rZUxxfoQBeMsNbTWnLpOqeQ-2m=Q@mail.gmail.com>
+Subject: Re: [git pull] drm urgent for 6.10-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>, 
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,75 +83,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, May 16, 2024 at 2:02=E2=80=AFPM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Wed, 15 May 2024 at 19:54, Dave Airlie <airlied@gmail.com> wrote:
+> >
+> > Here is the buddy allocator fix I picked up from the list, please apply=
+.
+>
+> So I removed my reverts, and am running a kernel that includes the
+> merge 972a2543e3dd ("Merge tag 'drm-next-2024-05-16' of
+> https://gitlab.freedesktop.org/drm/kernel") but I still see a lot of
+> warnings as per below.
+>
+> I was going to say that the difference is that now they trigger
+> through the page fault path (amdgpu_gem_fault) while previously they
+> triggered through the system call path and amdgpu_drm_ioctl. But it
+> turns out it's both in both cases, and it just happened to be one or
+> the other in the particular warnings that I cut-and-pasted.
+>
+> As before, there are tens of thousands of them after being up for less
+> than an hour, so this is not some kind of rare thing.
+>
+> The machine hasn't _crashed_ yet, though. But I'm going to be out and
+> about and working on my laptop the rest of the day, so I won't be able
+> to test.
+>
+> (And that kernel version of "6.9.0-08295-gfd39ab3b5289" that is quoted
+> in the WARN isn't some official kernel, I have about ten private
+> patches that I keep testing in my tree, so if you wondered what the
+> heck that git version is, it's not going to match anything you see,
+> but the ~ten patches also aren't relevant to this).
+>
+> Nothing unusual in the config, although this is clang-built. Shouldn't
+> matter, never has before.
 
-On 5/17/24 11:14 AM, Thomas Zimmermann wrote:
-> Commit 2fd001cd3600 ("arch: Rename fbdev header and source files")
-> renames the video source files under arch/ such that they do not
-> refer to fbdev any longer. The new files named video.o conflict with
-> ACPI's video.ko module. Modprobing the ACPI module can then fail with
-> warnings about missing symbols, as shown below.
-> 
->   (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol acpi_video_unregister (err -2)
->   (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol acpi_video_register_backlight (err -2)
->   (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol __acpi_video_get_backlight_type (err -2)
->   (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol acpi_video_register (err -2)
-> 
-> Fix the issue by renaming the architecture's video.o to video-common.o.
-> 
-> Reported-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> Closes: https://lore.kernel.org/intel-gfx/9dcac6e9-a3bf-4ace-bbdc-f697f767f9e0@suse.de/T/#t
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 2fd001cd3600 ("arch: Rename fbdev header and source files")
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: linux-arch@vger.kernel.org
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
+Can you try this patch?
+https://patchwork.freedesktop.org/patch/594539/
 
-Thanks, patch looks good to me:
+Alex
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-
-
+>
+>             Linus
+>
 > ---
->  arch/sparc/video/Makefile                    | 2 +-
->  arch/sparc/video/{video.c => video-common.c} | 0
->  arch/x86/video/Makefile                      | 2 +-
->  arch/x86/video/{video.c => video-common.c}   | 0
->  4 files changed, 2 insertions(+), 2 deletions(-)
->  rename arch/sparc/video/{video.c => video-common.c} (100%)
->  rename arch/x86/video/{video.c => video-common.c} (100%)
-> 
-> diff --git a/arch/sparc/video/Makefile b/arch/sparc/video/Makefile
-> index fdf83a408d750..dcfbe7a5912c0 100644
-> --- a/arch/sparc/video/Makefile
-> +++ b/arch/sparc/video/Makefile
-> @@ -1,3 +1,3 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  
-> -obj-y	+= video.o
-> +obj-y	+= video-common.o
-> diff --git a/arch/sparc/video/video.c b/arch/sparc/video/video-common.c
-> similarity index 100%
-> rename from arch/sparc/video/video.c
-> rename to arch/sparc/video/video-common.c
-> diff --git a/arch/x86/video/Makefile b/arch/x86/video/Makefile
-> index fdf83a408d750..dcfbe7a5912c0 100644
-> --- a/arch/x86/video/Makefile
-> +++ b/arch/x86/video/Makefile
-> @@ -1,3 +1,3 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  
-> -obj-y	+= video.o
-> +obj-y	+= video-common.o
-> diff --git a/arch/x86/video/video.c b/arch/x86/video/video-common.c
-> similarity index 100%
-> rename from arch/x86/video/video.c
-> rename to arch/x86/video/video-common.c
-
+> CPU: 28 PID: 3326 Comm: mutter-x11-fram Tainted: G        W
+> 6.9.0-08295-gfd39ab3b5289 #64
+> Hardware name: Gigabyte Technology Co., Ltd. TRX40 AORUS MASTER/TRX40
+> AORUS MASTER, BIOS F7 09/07/2022
+> RIP: 0010:__force_merge+0x14f/0x180 [drm_buddy]
+> Code: 74 0d 49 8b 44 24 18 48 d3 e0 49 29 44 24 30 4c 89 e7 ba 01 00
+> 00 00 e8 9f 00 00 00 44 39 e8 73 1f 49 8b 04 24 e9 25 ff ff ff <0f> 0b
+> 4c 39 c3 75 a3 eb 99 b8 f4 ff ff ff c3 b8 f4 ff ff ff eb 02
+> RSP: 0000:ffff9e350314baa0 EFLAGS: 00010246
+> RAX: ffff974a227a4a00 RBX: ffff974a2d024b88 RCX: 000000000b8eb800
+> RDX: ffff974a2d024bf8 RSI: ffff974a2d024bd0 RDI: ffff974a2d024bb0
+> RBP: 0000000000000000 R08: ffff974a2d024b88 R09: 0000000000001000
+> R10: 0000000000000800 R11: 0000000000000000 R12: ffff974a2198fa18
+> R13: 0000000000000009 R14: 0000000010000000 R15: 0000000000000000
+> FS:  00007f56a78b6540(0000) GS:ffff97591e700000(0000) knlGS:0000000000000=
+000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f5688040000 CR3: 0000000198cc9000 CR4: 0000000000350ef0
+> Call Trace:
+>  <TASK>
+>  ? __warn+0xc1/0x190
+>  ? __force_merge+0x14f/0x180 [drm_buddy]
+>  ? report_bug+0x129/0x1a0
+>  ? handle_bug+0x3d/0x70
+>  ? exc_invalid_op+0x16/0x40
+>  ? asm_exc_invalid_op+0x16/0x20
+>  ? __force_merge+0x14f/0x180 [drm_buddy]
+>  drm_buddy_alloc_blocks+0x249/0x400 [drm_buddy]
+>  ? __cond_resched+0x16/0x40
+>  amdgpu_vram_mgr_new+0x204/0x3f0 [amdgpu]
+>  ttm_resource_alloc+0x31/0x120 [ttm]
+>  ttm_bo_alloc_resource+0xbc/0x260 [ttm]
+>  ? memcg_account_kmem+0x4a/0xe0
+>  ? ttm_resource_compatible+0xbb/0xe0 [ttm]
+>  ttm_bo_validate+0x9f/0x210 [ttm]
+>  ? __alloc_pages+0x129/0x210
+>  amdgpu_bo_fault_reserve_notify+0x98/0x110 [amdgpu]
+>  amdgpu_gem_fault+0x53/0xd0 [amdgpu]
+>  __do_fault+0x41/0x140
+>  do_pte_missing+0x453/0xfd0
+>  handle_mm_fault+0x73c/0x1090
+>  do_user_addr_fault+0x2e2/0x6f0
+>  exc_page_fault+0x56/0x110
+>  asm_exc_page_fault+0x22/0x30
