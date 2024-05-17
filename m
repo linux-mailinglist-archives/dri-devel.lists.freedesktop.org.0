@@ -2,67 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6A08C89B9
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 18:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B218C8A05
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 18:23:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 123DF10E2B4;
-	Fri, 17 May 2024 16:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CEF710E29C;
+	Fri, 17 May 2024 16:23:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZwcyNMyU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F8J6rGhR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37BDD10E1BB
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 16:00:21 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1DE3B20002;
- Fri, 17 May 2024 16:00:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1715961619;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o8wuZGrHo8oZ1E4Q3w9lL6PcFTom5+wZeAEqfnfZ+8c=;
- b=ZwcyNMyUTurutV9v6g/5wKIJfTR6L0Cw8z82E0LpAjKLY310LDtzkC30hHLVfd4UVW4X3L
- byzJ0dCaNS4b2Sp4IbdPcQ9Idw9ymW+U57CAUi1JXVOjP3JIP9Z1zJpDOfnVkVuhZN2D41
- 8ldGG/s/oHJLs6bO69vKt9Y9THV3l2pV9qEAaiZi2wc5Mo4ka2Ex4ykgYi5uYhnAZEaZVa
- 29f3b7r22UE4uENSFfl73sk1JhreGYkqU6syQqjiKu1tjXllHcYqrAQ8Y7dJty1hyJ6O/G
- 7iulO8o3WoQGKmtE6FqysWdNlQnmYtWV5BpJyEGtTfEtihks4VipffKqVFrt/w==
-Date: Fri, 17 May 2024 18:00:11 +0200
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: Marius Vlad <marius.vlad@collabora.com>,
- Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
- brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
- mripard@kernel.org, rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
-Subject: Re: [PATCH v6 0/7] Adds support for ConfigFS to VKMS!
-Message-ID: <Zkd_C77S-ERpMiqu@localhost.localdomain>
-Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
- <jose.exposito89@gmail.com>, 
- Marius Vlad <marius.vlad@collabora.com>,
- Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
- brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
- mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
- tzimmermann@suse.de
-References: <ZjCtgSaL50YrS-F-@phenom.ffwll.local>
- <20240508181744.7030-1-jose.exposito89@gmail.com>
- <CACmi3jF6Dp3PE8X=T5kTO2+eYJQi7jWACFdmp9jzKxUtcQphnQ@mail.gmail.com>
- <Zj5JIah0jWnIn2Ix@localhost.localdomain> <ZkHKhtBmyS12i3fH@fedora>
- <ZkHXS6iBLgRoApNl@xpredator> <ZkI-ZjAYCJaMvmQD@fedora>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6062210E1A6;
+ Fri, 17 May 2024 16:23:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 3056CCE1B3A;
+ Fri, 17 May 2024 16:23:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70342C2BD10;
+ Fri, 17 May 2024 16:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715962993;
+ bh=uNwlZVn0k6bBYrUn2NOTbtyZjAe9hAwPUWGNLiaSzKs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=F8J6rGhR6abMw+H3e0sNsBE3c0HR9drUMq7zelYKMTQHa0vv/MIG2W8+/hD/7XTI+
+ 9VkRoCKMyZzVY3LjQAv7zTKPKrfWjp+PaYpWL+HZIXKwJ9PpfHkWCOm8/AnprKJTiS
+ x71fH3FEiRuBcJ7Snaffb4mCRWAYWAV32gCoEeO44TUBKDap7ZLHPJJXjD0QMTmCNO
+ ZUj+MK/eDva4zMj4VegTwZ0y/H/lyuO2Nk/KqN8YnLbubwD8YFqugReL9OgeiAJUxc
+ u0pTJlCPPo4/7T1+KTMYWfO14b9TwwHb+K7KeD4YmO6RNA3DpP+PsNxwbeXmOHuVhd
+ +qE7xoo2PLRTA==
+Date: Fri, 17 May 2024 09:23:12 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Linux trace kernel <linux-trace-kernel@vger.kernel.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-rdma@vger.kernel.org, linux-pm@vger.kernel.org,
+ iommu@lists.linux.dev, linux-tegra@vger.kernel.org,
+ netdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+ ath11k@lists.infradead.org, ath12k@lists.infradead.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-usb@vger.kernel.org, linux-bcachefs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-edac@vger.kernel.org, selinux@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-hwmon@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-sound@vger.kernel.org,
+ bpf@vger.kernel.org, linux-wpan@vger.kernel.org,
+ dev@openvswitch.org, linux-s390@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, Julia Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [PATCH] tracing/treewide: Remove second parameter of
+ __assign_str()
+Message-ID: <20240517162312.GZ360919@frogsfrogsfrogs>
+References: <20240516133454.681ba6a0@rorschach.local.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZkI-ZjAYCJaMvmQD@fedora>
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <20240516133454.681ba6a0@rorschach.local.home>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,164 +83,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > Hi Louis,
-> > > 
-> > > If you could share a RFC/WIP series it would be awesome!
-
-Hi all!
-
-I just uploaded my WIP series to github here [1]. Most of the work is 
-extracted from the current ConfigFS series, I just splitted and completed 
-what was done. I also tried to take in account the comments from Sima.
-
-All commits should compile and `modprobe/rmmod/kms_plane` should not 
-crashing. The commits are not totaly clean, but it should be only cosmetic 
-stuff (formatting in the wrong commit for example). The commit messages 
-are not written yet, but the title should be sufficient to understand the 
-content of each commit.
-
-This is how I plan to split this work in series: (hash may change over 
-time, I will force push to clean commits)
-
-Some preparation stuff (no functionnal change):
-	256d7045ec70 drm/vkms: Formatting and typo fix
-	cc2de5004c42 drm/vkms: Rename index to possible_crtc
-	a74cefc87b9c drm/vkms: Add documentation
-
-More preparation to split everything properly (no functionnal change):
-	ad2d0b07558f drm/vkms: Properly extract vkms_formats header
-	f9639cca2d43 drm/vkms: Extract vkms_writeback header
-	7edda8012b44 drm/vkms: Extract vkms_plane header
-	ced09ed9d0f7 drm/vkms: Rename macro to avoid confusion
-	9f00e4823529 drm/vkms: Extract vkms_crtc header
-	b510e480ed92 drm/vkms: Extract vkms_composer header
-
-Switch all the vkms object to managed (this part need a careful review, 
-I am new with DRM, so I probably did some error):
-	ddef3c09ead6 drm/vkms: Switch to managed for connector
-	8859cad0e192 drm/vkms: Switch to managed for encoder
-	d2b8d93fb684 drm/vkms: Switch to managed for crtc
-	d1ad316b0f0d drm/vkms: Rename all vkms_crtc instance to be consistent
-
-Temporaly remove debugfs entry, I plan to remove this commit:
-	079d875c015e drm/vkms: remove debugfs entry about the current vkms configuration
-
-Clean up vkms_device and unlink vkms_config from vkms_device.
-	c782dbe9edc3 drm/vkms: Remove vkms_config from vkms_device
-	8a27c13634a3 drm/vkms: Remove (useles?) group
-	8fb24e1cdf88 drm/vkms: Introduce directly the default device as global/Remove default vkms config
-
-More cleanup:
-	2572d90723ac drm/vkms: Remove possible crtc from parameters
-
-Switching to platform driver (same thing, it is my first time, I probably 
-messed up things):
-	63be09e05760 drm/vkms: Use a real platform driver
-	5f4cf18b07d3 drm/vkms: Extract device driver in its own file
-
-The configFS implementation itself. It only allows to create/enable/delete 
-a device:
-	b34651685f2e drm/vkms: Introduce configfs
-
-Those commits were a POC to confirm that it works. They need to be 
-replaced by the "real" configuration (creation&link of crtc/connector/planes...)
-	dd55451ccef2 drm/vkms: Make overlay configurable with configfs
-	9dca357f1ee3 drm/vkms: Make cursor configurable with configfs
-	bd721f41fad9 drm/vkms: Make writeback configurable with configfs
-
-Kind regards,
-Louis Chauvet
-
-
-[1]: https://github.com/Fomys/linux/tree/b4/new-configfs
-
-> > > Since you are already working on the kernel patches (and I guess IGT?),
-> > > I'll start working on a libdrm high level API to interact with VKMS from
-> > > user-space on top of your patches. I'll share a link as soon as I have a
-> > > draft PR.
-> > 
-> > Just out of curiosity what API would that be? These should fairly
-> > simple that they can be configured from a shell script 
-> > (mount/mkdir/rm/echo/umount). Believe should be easy enough to test stuff with 
-> > bunch scripts like that.
+On Thu, May 16, 2024 at 01:34:54PM -0400, Steven Rostedt wrote:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 > 
-> My plan is to add a very thin C API around mkdir/rmdir/etc.
+> [
+>    This is a treewide change. I will likely re-create this patch again in
+>    the second week of the merge window of v6.10 and submit it then. Hoping
+>    to keep the conflicts that it will cause to a minimum.
+> ]
 > 
-> It is true that VKMS can be configure easily using a bash script; however,
-> compositors with test suites written in C (or with bindings to libdrm) would
-> have to write similar wrappers around the mkdir/rmdir/etc calls.
-> I think that it could be beneficial for them to have a shared wrapper available
-> in libdrm.
->  
-> > Perphas landing the I-G-T tests first (assuming we're settled 
-> > on how exactly this would work) might be of greated help to get a green lit 
-> > the kernel driver side? Skip if vkms/configfs/something else that tells
-> > us VKMS doesn't have ConfigFS eneabled, and run it when that is on.
-> > 
-> > The lastest iteration was shared by Jim at 
-> > https://lore.kernel.org/igt-dev/20230901092819.16924-1-marius.vlad@collabora.com/
-> > 
-> > That way sub-sequent BAT CI would pick up issues, and can also used
-> > independently by Louis. Should also divide the work-load evenly with
-> > Louis focusing on the just the driver. Happy to review and test it.
-> > 
-> > > 
-> > > > Maybe we can discuss a bit the comment from Daniel (split init between 
-> > > > default/configfs, use or not a real platform device...)
-> > > > 
-> > > > For the split, I think the first solution (struct vkms_config) can be 
-> > > > easier to understand and to implement, for two reasons:
-> > > > - No need to distinguish between the "default" and the "configfs" devices 
-> > > >   in the VKMS "core". All is managed with only one struct vkms_config.
-> > > > - Most of the lifetime issue should be gone. The only thing to 
-> > > >   synchronize is passing this vkms_config from ConfigFS to VKMS.
-> > > 
-> > > I agree, this seems like the easiest solution.
-> > > 
-> > > > The drawback of this is that it can become difficult to do the "runtime" 
-> > > > configuration (today only hotplug, but I plan to add more complex stuff 
-> > > > like DP emulation, EDID selection, MST support...). Those configuration 
-> > > > must be done "at runtime" and will require a strong synchronization with 
-> > > > the vkms "core".
-> > > > 
-> > > > Maybe we can distinguish between the "creation" and the "runtime 
-> > > > configuration", in two different configFS directory? Once a device is 
-> > > > created, it is moved to the "enabled" directory and will have a different 
-> > > > set of attribute (connection status, current EDID...)
-> > > 
-> > > Once the device is enabled (i.e, `echo 1 > /config/vkms/my-device/enabled`),
-> > > would it make sense to use sysfs instead of another configfs directory?
-> > > The advantage is that with sysfs the kernel controls the lifetime of the
-> > > objects and I think it *might* simplify the code, but I'll need to write a
-> > > proof of concept to see if this works.
-> > Can indeed sysfs be used similar to ConfigFS? To me it sounds like sysfs is a
-> > view into a kernel objects, mostly for viewing and slight modifications
-> > but not manipulating, adding/removing, on the fly, various things. Sort
-> > of see it the other way around, device enabled with sysfs but
-> > configuration happens through ConfigFS. At least from a user-space pov.
-> > > 
-> > > > For the platform driver part, it seems logic to me to use a "real" 
-> > > > platform driver and a platform device for each pipeline, but I don't have 
-> > > > the experience to tell if this is a good idea or not.
-> > > 
-> > > I'm afraid I don't know which approach could work better. Trusting Sima and
-> > > Maíra on this one.
-> > > 
-> > > Jose
-> > > 
-> > > > [1]: https://lore.kernel.org/dri-devel/20240409-yuv-v6-0-de1c5728fd70@bootlin.com/
-> > > > 
-> > > > Thanks,
-> > > > Louis Chauvet
-> > > > 
-> > > > -- 
-> > > > Louis Chauvet, Bootlin
-> > > > Embedded Linux and Kernel engineering
-> > > > https://bootlin.com
+> With the rework of how the __string() handles dynamic strings where it
+> saves off the source string in field in the helper structure[1], the
+> assignment of that value to the trace event field is stored in the helper
+> value and does not need to be passed in again.
 > 
+> This means that with:
 > 
+>   __string(field, mystring)
+> 
+> Which use to be assigned with __assign_str(field, mystring), no longer
+> needs the second parameter and it is unused. With this, __assign_str()
+> will now only get a single parameter.
+> 
+> There's over 700 users of __assign_str() and because coccinelle does not
+> handle the TRACE_EVENT() macro I ended up using the following sed script:
+> 
+>   git grep -l __assign_str | while read a ; do
+>       sed -e 's/\(__assign_str([^,]*[^ ,]\) *,[^;]*/\1)/' $a > /tmp/test-file;
+>       mv /tmp/test-file $a;
+>   done
+> 
+> I then searched for __assign_str() that did not end with ';' as those
+> were multi line assignments that the sed script above would fail to catch.
+> 
+> Note, the same updates will need to be done for:
+> 
+>   __assign_str_len()
+>   __assign_rel_str()
+>   __assign_rel_str_len()
+> 
+> I tested this with both an allmodconfig and an allyesconfig (build only for both).
+> 
+> [1] https://lore.kernel.org/linux-trace-kernel/20240222211442.634192653@goodmis.org/
+> 
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Julia Lawall <Julia.Lawall@inria.fr>
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+/me finds this pretty magical, but such is the way of macros.
+Thanks for being much smarter about them than me. :)
+
+Acked-by: Darrick J. Wong <djwong@kernel.org>	# xfs
+
+--D
