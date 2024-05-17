@@ -2,78 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86F48C816E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 09:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54ED38C818F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 09:39:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE2A10EDF4;
-	Fri, 17 May 2024 07:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E46810EE12;
+	Fri, 17 May 2024 07:39:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NGCYptKW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nMuDVIS0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF1810EDF4
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 07:29:35 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-5238b5c080cso2063334e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 00:29:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715930973; x=1716535773; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=imQAT6qjO1VyC/YpAVCntCAOLNh9l2hiqOqHZIoiwR4=;
- b=NGCYptKWNKp5u5hpRF6C5Cnr/QEkMUlPpjHVpmCxwyQlcfhxgaR55+f+20IB/6hlHJ
- bDbnWJ8Rcy4a+M4SRUe9yPgRcpqTDd5/TsN8BANaKp3tv6nZTSjl8xYVlA4YFOGrNFnR
- Or3P+Ma32DF3Q0EMcZBVaoDaAe9EzJy3KG6OoM4VNl7BxMrutla0ZLd7U5ZeJvAOeUSQ
- 32Bo49HeGfOfkafRgq1yF+eGmS0cS//W29bBH8qp8pntAYtyHTib8J5rOJr0M/CpAR/q
- MSPCAQJb4ZkNWcZhALmlhQ2kgEmQACtP4mL4EKJsZ0XXHea/2pNv+0d/7D3wySHdaHMP
- 5a3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715930973; x=1716535773;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=imQAT6qjO1VyC/YpAVCntCAOLNh9l2hiqOqHZIoiwR4=;
- b=jVbHyevDEPVwHzn7uV4qZuCGvJjC0fMGpZEJBI8IBKifxJ8ErpqzExSBbB7GTXYs/l
- t3iefMFIoIBBWBBquTxkbvjAIRwuNriQfAdynm7u/bK1jga6uxEFlCQVcOTvpDIhiOCb
- HMjmjg51NgeW8v52rfNgKFbSxzrJOiZlQqQfU7cFH8sN3gDweuzBgO886I6MpjYc37dz
- uVgI9lH5abE53j1rtxDMrHORwTZkizVY/Pvx2eaP0qCEXH0F6UfCaasTtt4f4JVCpxme
- 9K+IKTbfhfgXTFfyEm/F9gpH11ylw8lGPlLnDheVhNBxpCfCcR7XzUUV0FZHqdUxLwg8
- 6lBw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVL463vOB0JzEQSSEdpDpLhQjuwkvGGrCaPUmptxy061cU2O7wJHJx8iK8O6s2ePUoUjVcP1AzHToB+ZQuT1haububwTAOLUX5S58uKgbZs
-X-Gm-Message-State: AOJu0YxhpqCOUA5frCKKLGdcppYZ9OCxA8VZJLlSpfxmmeDIk517gnyE
- J1CIRd3jrEZTcxpZXvp2CPdocZpN/PsUNHzrbHeovFWi7357DuCCA0qh7CsoBkU=
-X-Google-Smtp-Source: AGHT+IFyQ5ay96Dby18r95inH3bMvJiGqJAHZgvPjwtCGLk0VqOAEXXOxTRWJUnG0hL9xFNx69TaoQ==
-X-Received: by 2002:ac2:5331:0:b0:523:96ad:51a8 with SMTP id
- 2adb3069b0e04-52396ad5348mr4580667e87.7.1715930973181; 
- Fri, 17 May 2024 00:29:33 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3502e5e0b0esm20746461f8f.26.2024.05.17.00.29.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 May 2024 00:29:32 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: sam@ravnborg.org, daniel@ffwll.ch, dianders@chromium.org, 
- linus.walleij@linaro.org, krzysztof.kozlowski+dt@linaro.org, 
- robh+dt@kernel.org, conor+dt@kernel.org, airlied@gmail.com, 
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- xuxinxiong@huaqin.corp-partner.google.com
-In-Reply-To: <20240516072039.1287065-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20240516072039.1287065-1-yangcong5@huaqin.corp-partner.google.com>
-Subject: Re: [PATCH v8 0/6] Break out as separate driver and add BOE
- nv110wum-l60 IVO t109nw41 MIPI-DSI panel
-Message-Id: <171593097231.261191.14625926975541986060.b4-ty@linaro.org>
-Date: Fri, 17 May 2024 09:29:32 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBB0F10EE10;
+ Fri, 17 May 2024 07:39:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715931562; x=1747467562;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=bnCTXHWEkDQPHFHbQcPbiHSrmYPXAkSjLnnflBJI6kg=;
+ b=nMuDVIS0/QY3VZ6tI8GMqD1DGz6RAw50NfId79Ca8AnmbB4S8Z7fnsic
+ MrDAKRW3S9L2DOuNhudmBCxOlZq9hrz70hXlaCRMKXkrsmfBYdCBsfZ00
+ BPVVx0x7GuqdbF833soaqgXKVGhw0A+d5vygSjY+AosuqAI7vi7fKOaI3
+ Ougczt456MzIQGKmMGBO2LGGHVbKz4F5E+McrqbeF3LZixoRYtre7RwXL
+ f3fNvZVWxLyJs93b02FONM3VSFxrw+pQ2yaZfvPH3rBBhSCNnD+feMbnb
+ hg30/mFol4UotOBhbzuK45imTlp+RW6wY5I48TmG9PLlkRcuxofw0JoeU w==;
+X-CSE-ConnectionGUID: zTeypYoTRUuUKAye2fhh2Q==
+X-CSE-MsgGUID: WsrD3C6iTRWBRKyMa0clmg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12202378"
+X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="12202378"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2024 00:39:22 -0700
+X-CSE-ConnectionGUID: OYnVtnQnRHmMiz3CJA68Ng==
+X-CSE-MsgGUID: 5h7Gt5XWTFen0Rmdg4bK6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="69162344"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.7])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2024 00:39:18 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>, Andi
+ Shyti <andi.shyti@linux.intel.com>, Janusz Krzysztofik
+ <janusz.krzysztofik@linux.intel.com>, Jonathan Cavitt
+ <jonathan.cavitt@intel.com>
+Subject: Re: [PATCH] drm/i915/selftests: Set always_coherent to false when
+ reading from CPU
+In-Reply-To: <20240516151403.2875-1-nirmoy.das@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240516151403.2875-1-nirmoy.das@intel.com>
+Date: Fri, 17 May 2024 10:39:14 +0300
+Message-ID: <87bk54c2fx.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,34 +72,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, 16 May 2024, Nirmoy Das <nirmoy.das@intel.com> wrote:
+> The previous commit 'commit 8d4ba9fc1c6c ("drm/i915/selftests: Pick
 
-On Thu, 16 May 2024 15:20:33 +0800, Cong Yang wrote:
-> Discussion with Doug and Linus in V1, we need a
-> separate driver to enable the hx83102 controller.
-> 
-> So this series this series mainly Break out as separate driver
-> for Starry-himax83102-j02 panels from boe tv101wum driver.
-> 
-> Then add BOE nv110wum-l60 and IVO t109nw41 in himax-hx83102 driver.
-> 
-> [...]
+"previous commit" is a fairly vague reference once this gets
+committed. It's not going to be "previous" in any meaningful sense.
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+Please just start with:
 
-[1/6] dt-bindings: display: panel: Add himax hx83102 panel bindings
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/eba54e9c4483b585f6e2b9dd2472eb110417331b
-[2/6] drm/panel: himax-hx83102: Break out as separate driver
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0ef94554dc40fbdb7e57ff90cd1e7fa71e1e89fd
-[3/6] dt-bindings: display: panel: Add compatible for BOE nv110wum-l60
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/4fd07f679bebc432c72fc2c5cea23e39098e00c2
-[4/6] drm/panel: himax-hx83102: Support for BOE nv110wum-l60 MIPI-DSI panel
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1173db117634b42383cf5d397ddfd4d4860ae20b
-[5/6] dt-bindings: display: panel: Add compatible for IVO t109nw41
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/4020c15c0fcac8d66818dceae7f39736cf9f16b0
-[6/6] drm/panel: himax-hx83102: Support for IVO t109nw41 MIPI-DSI panel
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/3179338750d83877bbc491493032bdf192266ad9
+Commit 8d4ba9fc1c6c ("drm/i915/selftests: Pick correct caching mode.")
+was not complete...
+
+And probably add:
+
+Fixes: 8d4ba9fc1c6c ("drm/i915/selftests: Pick correct caching mode.")
+
+BR,
+Jani.
+
+> correct caching mode.")' was not complete as for non LLC  sharing platforms
+> cpu read can happen from LLC which probably doesn't have the latest
+> changes made by GPU.
+>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> index 65a931ea80e9..3527b8f446fe 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> @@ -196,7 +196,7 @@ static int verify_access(struct drm_i915_private *i915,
+>  	if (err)
+>  		goto out_file;
+>  
+> -	mode = intel_gt_coherent_map_type(to_gt(i915), native_obj, true);
+> +	mode = intel_gt_coherent_map_type(to_gt(i915), native_obj, false);
+>  	vaddr = i915_gem_object_pin_map_unlocked(native_obj, mode);
+>  	if (IS_ERR(vaddr)) {
+>  		err = PTR_ERR(vaddr);
 
 -- 
-Neil
-
+Jani Nikula, Intel
