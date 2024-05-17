@@ -2,67 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BA38C8B12
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 19:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03E08C8B17
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 19:36:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7842A10EF36;
-	Fri, 17 May 2024 17:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D39910EF3C;
+	Fri, 17 May 2024 17:36:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="lqmki4WZ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RB5PiJp6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFBD410EF36
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 17:36:21 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44HHa8AF115810;
- Fri, 17 May 2024 12:36:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1715967368;
- bh=MQg8ma3NvCMAMZesN1F4Fn5/DHwPy0dRNwAj5Idlji8=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=lqmki4WZ75LMvtJzfWqlHxn1VYNPMxa8VN+hvG6bD8gUkqUwNs2k98xT1bIdtndMb
- gFKT+tMUIbZoXtc06QIRFvUUqGRg2mzjF59vJ6/5u9Ac/NBggn7ezV3mtMT+m5jteV
- q3p+yYznzK4Ck6tpNZg8IN0mmAJkK8uVqEWx2cXo=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44HHa89c027615
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 17 May 2024 12:36:08 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 17
- May 2024 12:36:08 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 17 May 2024 12:36:08 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44HHa7k1004959;
- Fri, 17 May 2024 12:36:08 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
- <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
- <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
- <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
- <jani.nikula@intel.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
- <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
- <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
- <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
- <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
-Subject: [PATCH v8 07/10] lib: add basic KUnit test for lib/math
-Date: Fri, 17 May 2024 23:06:07 +0530
-Message-ID: <20240517173607.800549-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240517171532.748684-1-devarsht@ti.com>
-References: <20240517171532.748684-1-devarsht@ti.com>
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A97510EF37;
+ Fri, 17 May 2024 17:36:39 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-1eeabda8590so15115185ad.0; 
+ Fri, 17 May 2024 10:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1715967399; x=1716572199; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=rzMfxbAB8QJEcJdIySGROcUOqAKXWq8nqUdcExbi1Zk=;
+ b=RB5PiJp6QFwFLKg+b7D4SwL0yoN4nsX69s/iIDOwYan1XKgYWnSNKSk/5xOFSBrK+P
+ Pj1+ZqF7/rPCGwG2j+chcWb+Z4rnNlL5VaC0/3Q/e03XjPMDODyFWK7z1mHturBowJPc
+ ZaAJmXhglBQjo3ZFjeXAsuIoE1QSj4Xi1n5YPlITmxOxW02Kceu3+t9bX5wvgLduXGnC
+ YOSKG65CZaQzSwPLoZuT19hE0vtncnGtW1572LqUW965QNwy/vGwiNPoiWcDW6J98lzO
+ qcTpwLTQs0UFUqEY79tlJ7/wnKrhdllNXs2W/OnYoBqmRJE8IXKk9f4VjQeUiZVLQsGp
+ ztCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715967399; x=1716572199;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rzMfxbAB8QJEcJdIySGROcUOqAKXWq8nqUdcExbi1Zk=;
+ b=wp/lu6ZqyViFGfyDQgpiojvMnPacUSdmPbygb79J7oUl75XyF0HUBspgUCzIe/ibOn
+ Pb6yDU+Q5kBjrUdEH+BXaUtdZnmYGTqfQz7z/8BFi2uOHjX4IPgMK4ljcyLC9gjsS8Cr
+ BHq5uvTRxsC0Mq4i6ez9r91xf9yNCurdstRqGFZafIzpl0QloxoedBS5KOb5T5Q+wOJw
+ hzS6qV6WI4iNRcvCXIXfgtYBy1iHLQKuYcm1QMm+c5dvC5E9T/xqlPUnc85RTOgf+nao
+ fNR+eqyOPrMFens2eZUtuxFsQy2R5pXR8DE424p8Lf6h3CITSz3I14UH8eDZi5mHya1L
+ WowQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXMGypGSdZu/gd6V1nFzWwgVfgfjxFBmjyqGc7hlc7npj1WQYvoe/Uf64xJ0wQUewYpi9U7IiviZ3b+cnaZycUvi6RbnxOGtq3YkyqYG/HTdZrLIhDt3jZgAllMH11yY/6tFuqtjy3I/5yBd/ltH9O7FFcMkj9D3vWbzn5UHV6bxns0hsWU2fS2uz2OyQ05UsHCtktXt/2eDvCWscQ+kVTGKBvbwWPvvBvg/2OalNH1btaPgT59jQ27zI64PvU6OMkpE2+maU98Nvy6T7UOEnPf
+X-Gm-Message-State: AOJu0YyvsM8nXLvr6OfDRkdxtD4h8FgEPl0lxsUV6AS45D+BR45BNZXh
+ DDwzF0ePLL+1jjT/h8f2xU0nEpUnr3P/sq8ZsQqy1CTVQ7CkAMLWjiYDUA==
+X-Google-Smtp-Source: AGHT+IHJ9PZtASiLb9HJkYrHy1DRhdQlVEuKbRr0NYIRv4Tx+av91BIA0wx1gBcIQQlm9sd2COIQnQ==
+X-Received: by 2002:a17:90a:9606:b0:2b9:a299:928e with SMTP id
+ 98e67ed59e1d1-2b9a29994c9mr10436893a91.24.1715967398710; 
+ Fri, 17 May 2024 10:36:38 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2b67105666csm15749258a91.8.2024.05.17.10.36.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 May 2024 10:36:38 -0700 (PDT)
+Date: Fri, 17 May 2024 10:36:37 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Linux trace kernel <linux-trace-kernel@vger.kernel.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-rdma@vger.kernel.org, linux-pm@vger.kernel.org,
+ iommu@lists.linux.dev, linux-tegra@vger.kernel.org,
+ netdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+ ath11k@lists.infradead.org, ath12k@lists.infradead.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-usb@vger.kernel.org, linux-bcachefs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-edac@vger.kernel.org, selinux@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-hwmon@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-sound@vger.kernel.org,
+ bpf@vger.kernel.org, linux-wpan@vger.kernel.org,
+ dev@openvswitch.org, linux-s390@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, Julia Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [PATCH] tracing/treewide: Remove second parameter of
+ __assign_str()
+Message-ID: <5080f4c5-e0b3-4c2e-9732-f673d7e6ca66@roeck-us.net>
+References: <20240516133454.681ba6a0@rorschach.local.home>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240516133454.681ba6a0@rorschach.local.home>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,385 +108,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Latypov <dlatypov@google.com>
+On Thu, May 16, 2024 at 01:34:54PM -0400, Steven Rostedt wrote:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> 
+> [
+>    This is a treewide change. I will likely re-create this patch again in
+>    the second week of the merge window of v6.10 and submit it then. Hoping
+>    to keep the conflicts that it will cause to a minimum.
+> ]
+> 
+> With the rework of how the __string() handles dynamic strings where it
+> saves off the source string in field in the helper structure[1], the
+> assignment of that value to the trace event field is stored in the helper
+> value and does not need to be passed in again.
+> 
+> This means that with:
+> 
+>   __string(field, mystring)
+> 
+> Which use to be assigned with __assign_str(field, mystring), no longer
+> needs the second parameter and it is unused. With this, __assign_str()
+> will now only get a single parameter.
+> 
+> There's over 700 users of __assign_str() and because coccinelle does not
+> handle the TRACE_EVENT() macro I ended up using the following sed script:
+> 
+>   git grep -l __assign_str | while read a ; do
+>       sed -e 's/\(__assign_str([^,]*[^ ,]\) *,[^;]*/\1)/' $a > /tmp/test-file;
+>       mv /tmp/test-file $a;
+>   done
+> 
+> I then searched for __assign_str() that did not end with ';' as those
+> were multi line assignments that the sed script above would fail to catch.
+> 
 
-Add basic test coverage for files that don't require any config options:
-* part of math.h (what seem to be the most commonly used macros)
-* gcd.c
-* lcm.c
-* int_sqrt.c
-* reciprocal_div.c
-(Ignored int_pow.c since it's a simple textbook algorithm.)
+Building csky:allmodconfig (and others) ... failed
+--------------
+Error log:
+In file included from include/trace/trace_events.h:419,
+                 from include/trace/define_trace.h:102,
+                 from drivers/cxl/core/trace.h:737,
+                 from drivers/cxl/core/trace.c:8:
+drivers/cxl/core/./trace.h:383:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
 
-These tests aren't particularly interesting, but they
-* provide short and simple examples of parameterized tests
-* provide a place to add tests for any new files in this dir
-* are written so adding new test cases to cover edge cases should be
-  easy
-  * looking at code coverage, we hit all the branches in the .c files
+This is with the patch applied on top of v6.9-8410-gff2632d7d08e.
+So far that seems to be the only build failure.
+Introduced with commit 6aec00139d3a8 ("cxl/core: Add region info to
+cxl_general_media and cxl_dram events"). Guess we'll see more of those
+towards the end of the commit window.
 
-Signed-off-by: Daniel Latypov <dlatypov@google.com>
-Reviewed-by: David Gow <davidgow@google.com>
-[devarsht: Rebase to 6.9 and change license to GPL]
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
-Changes since v6:
-* Rebase to linux-next, change license to GPL as suggested by checkpatch.
-
-Changes since v5:
-* add in test cases for roundup/rounddown
-* address misc comments from David
-
-Changes since v4:
-* add in test cases for some math.h macros (abs, round_up/round_down,
-  div_round_down/closest)
-* use parameterized testing less to keep things terser
-
-Changes since v3:
-* fix `checkpatch.pl --strict` warnings
-* add test cases for gcd(0,0) and lcm(0,0)
-* minor: don't test both gcd(a,b) and gcd(b,a) when a == b
-
-Changes since v2: mv math_test.c => math_kunit.c
-
-Changes since v1:
-* Rebase and rewrite to use the new parameterized testing support.
-* misc: fix overflow in literal and inline int_sqrt format string.
-* related: commit 1f0e943df68a ("Documentation: kunit: provide guidance
-for testing many inputs") was merged explaining the patterns shown here.
-  * there's an in-flight patch to update it for parameterized testing.
----
- lib/math/Kconfig      |  11 ++
- lib/math/Makefile     |   1 +
- lib/math/math_kunit.c | 291 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 303 insertions(+)
- create mode 100644 lib/math/math_kunit.c
-
-diff --git a/lib/math/Kconfig b/lib/math/Kconfig
-index 0634b428d0cb..832c6989ca13 100644
---- a/lib/math/Kconfig
-+++ b/lib/math/Kconfig
-@@ -15,3 +15,14 @@ config PRIME_NUMBERS
- 
- config RATIONAL
- 	tristate
-+
-+config MATH_KUNIT_TEST
-+	tristate "KUnit test for math helper functions"
-+	help
-+	  This builds unit test for math helper functions as defined in lib/math
-+	  and math.h.
-+
-+	  For more information on KUNIT and unit tests in general, please refer
-+	  to the KUnit documentation in Documentation/dev-tools/kunit/.
-+
-+	  If unsure, say N.
-diff --git a/lib/math/Makefile b/lib/math/Makefile
-index 91fcdb0c9efe..dcf65d10dab2 100644
---- a/lib/math/Makefile
-+++ b/lib/math/Makefile
-@@ -7,3 +7,4 @@ obj-$(CONFIG_RATIONAL)		+= rational.o
- 
- obj-$(CONFIG_TEST_DIV64)	+= test_div64.o
- obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
-+obj-$(CONFIG_MATH_KUNIT_TEST) += math_kunit.o
-diff --git a/lib/math/math_kunit.c b/lib/math/math_kunit.c
-new file mode 100644
-index 000000000000..1b00e4195a1a
---- /dev/null
-+++ b/lib/math/math_kunit.c
-@@ -0,0 +1,291 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Simple KUnit suite for math helper funcs that are always enabled.
-+ *
-+ * Copyright (C) 2020, Google LLC.
-+ * Author: Daniel Latypov <dlatypov@google.com>
-+ */
-+
-+#include <kunit/test.h>
-+#include <linux/gcd.h>
-+#include <linux/kernel.h>
-+#include <linux/lcm.h>
-+#include <linux/reciprocal_div.h>
-+
-+static void abs_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, abs((char)0), (char)0);
-+	KUNIT_EXPECT_EQ(test, abs((char)42), (char)42);
-+	KUNIT_EXPECT_EQ(test, abs((char)-42), (char)42);
-+
-+	/* The expression in the macro is actually promoted to an int. */
-+	KUNIT_EXPECT_EQ(test, abs((short)0),  0);
-+	KUNIT_EXPECT_EQ(test, abs((short)42),  42);
-+	KUNIT_EXPECT_EQ(test, abs((short)-42),  42);
-+
-+	KUNIT_EXPECT_EQ(test, abs(0),  0);
-+	KUNIT_EXPECT_EQ(test, abs(42),  42);
-+	KUNIT_EXPECT_EQ(test, abs(-42),  42);
-+
-+	KUNIT_EXPECT_EQ(test, abs(0L), 0L);
-+	KUNIT_EXPECT_EQ(test, abs(42L), 42L);
-+	KUNIT_EXPECT_EQ(test, abs(-42L), 42L);
-+
-+	KUNIT_EXPECT_EQ(test, abs(0LL), 0LL);
-+	KUNIT_EXPECT_EQ(test, abs(42LL), 42LL);
-+	KUNIT_EXPECT_EQ(test, abs(-42LL), 42LL);
-+
-+	/* Unsigned types get casted to signed. */
-+	KUNIT_EXPECT_EQ(test, abs(0ULL), 0LL);
-+	KUNIT_EXPECT_EQ(test, abs(42ULL), 42LL);
-+}
-+
-+static void int_sqrt_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, int_sqrt(0UL), 0UL);
-+	KUNIT_EXPECT_EQ(test, int_sqrt(1UL), 1UL);
-+	KUNIT_EXPECT_EQ(test, int_sqrt(4UL), 2UL);
-+	KUNIT_EXPECT_EQ(test, int_sqrt(5UL), 2UL);
-+	KUNIT_EXPECT_EQ(test, int_sqrt(8UL), 2UL);
-+	KUNIT_EXPECT_EQ(test, int_sqrt(1UL << 30), 1UL << 15);
-+}
-+
-+static void round_up_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, round_up(0, 1), 0);
-+	KUNIT_EXPECT_EQ(test, round_up(1, 2), 2);
-+	KUNIT_EXPECT_EQ(test, round_up(3, 2), 4);
-+	KUNIT_EXPECT_EQ(test, round_up((1 << 30) - 1, 2), 1 << 30);
-+	KUNIT_EXPECT_EQ(test, round_up((1 << 30) - 1, 1 << 29), 1 << 30);
-+}
-+
-+static void round_down_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, round_down(0, 1), 0);
-+	KUNIT_EXPECT_EQ(test, round_down(1, 2), 0);
-+	KUNIT_EXPECT_EQ(test, round_down(3, 2), 2);
-+	KUNIT_EXPECT_EQ(test, round_down((1 << 30) - 1, 2), (1 << 30) - 2);
-+	KUNIT_EXPECT_EQ(test, round_down((1 << 30) - 1, 1 << 29), 1 << 29);
-+}
-+
-+/* These versions can round to numbers that aren't a power of two */
-+static void roundup_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, roundup(0, 1), 0);
-+	KUNIT_EXPECT_EQ(test, roundup(1, 2), 2);
-+	KUNIT_EXPECT_EQ(test, roundup(3, 2), 4);
-+	KUNIT_EXPECT_EQ(test, roundup((1 << 30) - 1, 2), 1 << 30);
-+	KUNIT_EXPECT_EQ(test, roundup((1 << 30) - 1, 1 << 29), 1 << 30);
-+
-+	KUNIT_EXPECT_EQ(test, roundup(3, 2), 4);
-+	KUNIT_EXPECT_EQ(test, roundup(4, 3), 6);
-+}
-+
-+static void rounddown_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, rounddown(0, 1), 0);
-+	KUNIT_EXPECT_EQ(test, rounddown(1, 2), 0);
-+	KUNIT_EXPECT_EQ(test, rounddown(3, 2), 2);
-+	KUNIT_EXPECT_EQ(test, rounddown((1 << 30) - 1, 2), (1 << 30) - 2);
-+	KUNIT_EXPECT_EQ(test, rounddown((1 << 30) - 1, 1 << 29), 1 << 29);
-+
-+	KUNIT_EXPECT_EQ(test, rounddown(3, 2), 2);
-+	KUNIT_EXPECT_EQ(test, rounddown(4, 3), 3);
-+}
-+
-+static void div_round_up_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(0, 1), 0);
-+	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(20, 10), 2);
-+	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(21, 10), 3);
-+	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(21, 20), 2);
-+	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(21, 99), 1);
-+}
-+
-+static void div_round_closest_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, DIV_ROUND_CLOSEST(0, 1), 0);
-+	KUNIT_EXPECT_EQ(test, DIV_ROUND_CLOSEST(20, 10), 2);
-+	KUNIT_EXPECT_EQ(test, DIV_ROUND_CLOSEST(21, 10), 2);
-+	KUNIT_EXPECT_EQ(test, DIV_ROUND_CLOSEST(25, 10), 3);
-+}
-+
-+/* Generic test case for unsigned long inputs. */
-+struct test_case {
-+	unsigned long a, b;
-+	unsigned long result;
-+};
-+
-+static struct test_case gcd_cases[] = {
-+	{
-+		.a = 0, .b = 0,
-+		.result = 0,
-+	},
-+	{
-+		.a = 0, .b = 1,
-+		.result = 1,
-+	},
-+	{
-+		.a = 2, .b = 2,
-+		.result = 2,
-+	},
-+	{
-+		.a = 2, .b = 4,
-+		.result = 2,
-+	},
-+	{
-+		.a = 3, .b = 5,
-+		.result = 1,
-+	},
-+	{
-+		.a = 3 * 9, .b = 3 * 5,
-+		.result = 3,
-+	},
-+	{
-+		.a = 3 * 5 * 7, .b = 3 * 5 * 11,
-+		.result = 15,
-+	},
-+	{
-+		.a = 1 << 21,
-+		.b = (1 << 21) - 1,
-+		.result = 1,
-+	},
-+};
-+
-+KUNIT_ARRAY_PARAM(gcd, gcd_cases, NULL);
-+
-+static void gcd_test(struct kunit *test)
-+{
-+	const char *message_fmt = "gcd(%lu, %lu)";
-+	const struct test_case *test_param = test->param_value;
-+
-+	KUNIT_EXPECT_EQ_MSG(test, test_param->result,
-+			    gcd(test_param->a, test_param->b),
-+			    message_fmt, test_param->a,
-+			    test_param->b);
-+
-+	if (test_param->a == test_param->b)
-+		return;
-+
-+	/* gcd(a,b) == gcd(b,a) */
-+	KUNIT_EXPECT_EQ_MSG(test, test_param->result,
-+			    gcd(test_param->b, test_param->a),
-+			    message_fmt, test_param->b,
-+			    test_param->a);
-+}
-+
-+static struct test_case lcm_cases[] = {
-+	{
-+		.a = 0, .b = 0,
-+		.result = 0,
-+	},
-+	{
-+		.a = 0, .b = 1,
-+		.result = 0,
-+	},
-+	{
-+		.a = 1, .b = 2,
-+		.result = 2,
-+	},
-+	{
-+		.a = 2, .b = 2,
-+		.result = 2,
-+	},
-+	{
-+		.a = 3 * 5, .b = 3 * 7,
-+		.result = 3 * 5 * 7,
-+	},
-+};
-+
-+KUNIT_ARRAY_PARAM(lcm, lcm_cases, NULL);
-+
-+static void lcm_test(struct kunit *test)
-+{
-+	const char *message_fmt = "lcm(%lu, %lu)";
-+	const struct test_case *test_param = test->param_value;
-+
-+	KUNIT_EXPECT_EQ_MSG(test, test_param->result,
-+			    lcm(test_param->a, test_param->b),
-+			    message_fmt, test_param->a,
-+			    test_param->b);
-+
-+	if (test_param->a == test_param->b)
-+		return;
-+
-+	/* lcm(a,b) == lcm(b,a) */
-+	KUNIT_EXPECT_EQ_MSG(test, test_param->result,
-+			    lcm(test_param->b, test_param->a),
-+			    message_fmt, test_param->b,
-+			    test_param->a);
-+}
-+
-+struct u32_test_case {
-+	u32 a, b;
-+	u32 result;
-+};
-+
-+static struct u32_test_case reciprocal_div_cases[] = {
-+	{
-+		.a = 0, .b = 1,
-+		.result = 0,
-+	},
-+	{
-+		.a = 42, .b = 20,
-+		.result = 2,
-+	},
-+	{
-+		.a = 42, .b = 9999,
-+		.result = 0,
-+	},
-+	{
-+		.a = (1 << 16), .b = (1 << 14),
-+		.result = 1 << 2,
-+	},
-+};
-+
-+KUNIT_ARRAY_PARAM(reciprocal_div, reciprocal_div_cases, NULL);
-+
-+static void reciprocal_div_test(struct kunit *test)
-+{
-+	const struct u32_test_case *test_param = test->param_value;
-+	struct reciprocal_value rv = reciprocal_value(test_param->b);
-+
-+	KUNIT_EXPECT_EQ_MSG(test, test_param->result,
-+			    reciprocal_divide(test_param->a, rv),
-+			    "reciprocal_divide(%u, %u)",
-+			    test_param->a, test_param->b);
-+}
-+
-+static void reciprocal_scale_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, reciprocal_scale(0u, 100), 0u);
-+	KUNIT_EXPECT_EQ(test, reciprocal_scale(1u, 100), 0u);
-+	KUNIT_EXPECT_EQ(test, reciprocal_scale(1u << 4, 1 << 28), 1u);
-+	KUNIT_EXPECT_EQ(test, reciprocal_scale(1u << 16, 1 << 28), 1u << 12);
-+	KUNIT_EXPECT_EQ(test, reciprocal_scale(~0u, 1 << 28), (1u << 28) - 1);
-+}
-+
-+static struct kunit_case math_test_cases[] = {
-+	KUNIT_CASE(abs_test),
-+	KUNIT_CASE(int_sqrt_test),
-+	KUNIT_CASE(round_up_test),
-+	KUNIT_CASE(round_down_test),
-+	KUNIT_CASE(roundup_test),
-+	KUNIT_CASE(rounddown_test),
-+	KUNIT_CASE(div_round_up_test),
-+	KUNIT_CASE(div_round_closest_test),
-+	KUNIT_CASE_PARAM(gcd_test, gcd_gen_params),
-+	KUNIT_CASE_PARAM(lcm_test, lcm_gen_params),
-+	KUNIT_CASE_PARAM(reciprocal_div_test, reciprocal_div_gen_params),
-+	KUNIT_CASE(reciprocal_scale_test),
-+	{}
-+};
-+
-+static struct kunit_suite math_test_suite = {
-+	.name = "lib-math",
-+	.test_cases = math_test_cases,
-+};
-+
-+kunit_test_suites(&math_test_suite);
-+
-+MODULE_LICENSE("GPL");
--- 
-2.39.1
-
+Guenter
