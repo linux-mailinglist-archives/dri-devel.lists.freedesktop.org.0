@@ -2,70 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159198C8C59
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 20:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1218C8CBE
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 21:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5341910EF59;
-	Fri, 17 May 2024 18:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6316810E30B;
+	Fri, 17 May 2024 19:22:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="P6rpIEza";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PZFaSNra";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
- [209.85.161.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCD7610EF59
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 18:48:54 +0000 (UTC)
-Received: by mail-oo1-f49.google.com with SMTP id
- 006d021491bc7-5aa20adda1dso1134439eaf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 11:48:54 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388E310E30B
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 19:22:44 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-52388d9ca98so1998289e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 12:22:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1715971734; x=1716576534;
+ d=linux-foundation.org; s=google; t=1715973762; x=1716578562;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4UdLzMQLvTDj1SE6a0ZZa/BWZkEe+eXQUJ5pw7bGwEM=;
- b=P6rpIEzaKWFWhpDLH9maBbN/pvQQUz/T2JDg/XjyySg1xjgulqNNtyv9CZs8DVF7/R
- bQsunxtbtGFv5jxjpt3ksf+1BLlMh3s3TOM2tz2JwxVW6pH3KL6lGpNZ0oekFY8jofir
- W96t2/9iJhRedCGGfVur/IY1W4ZaPjxXTW/jc=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Sh8TQN24HdRct7EWlhzUHnCJ0TtfqGC3HskYLHQN1S4=;
+ b=PZFaSNrapdQMoWkR1ixKg4zIuIakHU3CDRweHLgZQ61BIpMIg0mbCGBESdbLARLOZA
+ OzXQBsuQhKhJy7wxGLvZ9iFs8ndeIGh95jkfEpMZAxzchkjaV3OEdFsXsrI12qCOMRxr
+ vJHLLdHFSnPfazxpFmu0xtlThCZaN9nCDmevw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715971734; x=1716576534;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4UdLzMQLvTDj1SE6a0ZZa/BWZkEe+eXQUJ5pw7bGwEM=;
- b=XZeAbTTH7eRZciGTswAiPTbEoxPzgILiU7TAMRzBgdVPLKSxgBma0GsHmaR9y5tPKY
- EFfpOYOz9KT4zLNI2O1qSh2CUq02jb2CiNEHGSBKcTsQCEWEdTIhQmDBUaN95UeBUq6m
- jXRTsvA0S8gJEiJkV1iZnNrwUUxNpQuihcLwX419dOnrRcSVfdCK6k5vPF+uMzFOsJvF
- CVp47sDdkHs74vIc+WH7zwvIearpebUAqjWX5ezpsaFmH9U11GDUfGW7/WehylhMq/wp
- 0gHtIykZChiDYtpNZzu2NuDM7+XQxYUdjiowo+X6esM+MI7kEv5Ir7Hu2k3n7mJ1CUDo
- nUuw==
-X-Gm-Message-State: AOJu0YxCxmBhoPXR6eQX+yydzrsUFspjNwKZSRa8IGe07P464ZqszWfb
- DCQ8tQNq20QalmYqTW7kRzWmd4U/KttRDJGq11K5ZpEo+NQldk3tFSTYg2hDgtaG4XXehb3mmxB
- 6yBFkcX5ky/HraRq5DLfJ06twTvy/ctA+BHgMwjNaofVXXkyTN0zgix1WT8z10boBeq9fLt5XzU
- bsIyfEreVFzTwrTHWW+72dIsSE1kzNa59xDxgH55TgGNnDMigh4A==
-X-Google-Smtp-Source: AGHT+IF0hxRupiSUZyLaJ9CLcHMF4zlopxRg1Txpxb5FG4vBEX5mUNR2MtlLh1dWJTIhev0aQ9WCDQ==
-X-Received: by 2002:a05:6358:5694:b0:18d:f1bc:9f80 with SMTP id
- e5c5f4694b2df-193baed8126mr2275935255d.0.1715971733548; 
- Fri, 17 May 2024 11:48:53 -0700 (PDT)
-Received: from localhost ([192.19.144.250]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-43e137a737asm76461211cf.4.2024.05.17.11.48.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 May 2024 11:48:52 -0700 (PDT)
-From: Ian Forbes <ian.forbes@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
- Ian Forbes <ian.forbes@broadcom.com>
-Subject: [PATCH v2 4/4] drm/vmwgfx: Standardize use of kibibytes when logging
-Date: Fri, 17 May 2024 13:48:11 -0500
-Message-Id: <20240517184811.25807-5-ian.forbes@broadcom.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240517184811.25807-1-ian.forbes@broadcom.com>
-References: <20240517184811.25807-1-ian.forbes@broadcom.com>
+ d=1e100.net; s=20230601; t=1715973762; x=1716578562;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Sh8TQN24HdRct7EWlhzUHnCJ0TtfqGC3HskYLHQN1S4=;
+ b=OdM0cInPcTJ8oBLRAAWxcY2OkcdGpxqMecM3BIMBIzS2ez1nr5O/OHY/cdceAJE0Nh
+ M2hlT9UiwHIROkVHA2XvJ1j9Eb0vp8PjvoidE8+Rntkgrm96S79Te80uvNRptKjIXezy
+ NXJrxDYMKWiV5PpTvFSWHlv4Qmjw0U65EyOnXlmh/21Mt2juNaubzSaCTOHVxkNN1S/r
+ eJb9OpfZiMkO/Ahp0Mb3zAtzanOdHtB8aPC7mgb52HeAWf1mwrlk+NOI86W4zx9m6lMQ
+ rjb47/pSEms5X9j/2ozNBOKJqwejigB808D5r/gXhExxpF3l0I17XRyGCz/xsKcw2gL+
+ O4Kg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWZn0uNdp2F0Qg/404OAtvD1zOaxTHPWLrneSf6QXug5XHDD1wBGD2sr7dEWjOd0/ukZb8DJyhdLwhFjfKWSUeothRKmXC3f4vUIrZ+a7d4
+X-Gm-Message-State: AOJu0Yx2cgx+OfhQ5+cJ+SGlAJXqhLurjzywokiBV4JpDplEJX/Qy3v+
+ hEcKCY2fcoCvTlI6Y+NoZ067YWCf7CbAW1cfvTWtqqK56Kt+PAOoj48zZ66srQOD2IRIFajyQnW
+ e9fyLdw==
+X-Google-Smtp-Source: AGHT+IH00MStMbuaBKRMnFRY3FVp0h1s22aXqQeOax+TNHYhsPTwD88VdK0AAOyA1f7zXxN90TKtsg==
+X-Received: by 2002:a19:644d:0:b0:51f:3b4d:b087 with SMTP id
+ 2adb3069b0e04-52210473f62mr16868781e87.63.1715973761577; 
+ Fri, 17 May 2024 12:22:41 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
+ [209.85.167.53]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-523b261ace6sm764506e87.8.2024.05.17.12.22.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 May 2024 12:22:40 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-51ffff16400so3880661e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 12:22:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIpwYER5SzrsuC9/bNMMeQK+jd0rYV2IVihs1G6X9ZSQozjJ4Ma2wtOTee4UQi7HDIbmqXdcPxLsjNWSI7AAJb9OVnbznKBU1gZfluW3EB
+X-Received: by 2002:ac2:4a84:0:b0:51d:9aa7:23e with SMTP id
+ 2adb3069b0e04-52210475801mr17957902e87.65.1715973760408; Fri, 17 May 2024
+ 12:22:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAPM=9tx_KS1qc8E1kUB5PPBvO9EKHNkk7hYWu-WwWJ6os=otJA@mail.gmail.com>
+ <CAHk-=wjdyimk4t2C7xfqLYFX1HUH92yTRTFQXAitJJT+REvF3Q@mail.gmail.com>
+ <CADnq5_NmC9bYkPFUD35gBtxsk_9jYhOTugni-q4WGXggf6=rLA@mail.gmail.com>
+ <6225ecf4-f4ca-4ed7-a316-69c86f4ade7f@amd.com>
+ <CAPM=9tyJCJ+D4h7BZ3dBpm6R33gTfwtigDtmt6g9KX25Jun9Hg@mail.gmail.com>
+In-Reply-To: <CAPM=9tyJCJ+D4h7BZ3dBpm6R33gTfwtigDtmt6g9KX25Jun9Hg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 17 May 2024 12:22:23 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whp9ixiDVNvSXRcVWYifXfQaZH9taHxD-i5noppY30e1w@mail.gmail.com>
+Message-ID: <CAHk-=whp9ixiDVNvSXRcVWYifXfQaZH9taHxD-i5noppY30e1w@mail.gmail.com>
+Subject: Re: [git pull] drm urgent for 6.10-rc1
+To: Dave Airlie <airlied@gmail.com>
+Cc: "Paneer Selvam, Arunpravin" <arunpravin.paneerselvam@amd.com>,
+ Alex Deucher <alexdeucher@gmail.com>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,91 +98,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the same standard abbreviation KiB instead of incorrect variants.
+On Thu, 16 May 2024 at 18:08, Dave Airlie <airlied@gmail.com> wrote:
+>
+> Linus, do you see it a boot straight away?
 
-Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 12 ++++++------
- drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c |  4 ++--
- 2 files changed, 8 insertions(+), 8 deletions(-)
+Ok, back at that computer now, and yes, I see those messages right
+away. In fact, they seem to happen before gnome even starts up, ie I
+see those messages long before the first messages from gnome-session:
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 2e1fb46bcaa3..e03b2e682507 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -745,7 +745,7 @@ static int vmw_setup_pci_resources(struct vmw_private *dev,
- 		dev->vram_size = pci_resource_len(pdev, 2);
- 
- 		drm_info(&dev->drm,
--			"Register MMIO at 0x%pa size is %llu kiB\n",
-+			"Register MMIO at 0x%pa size is %llu KiB\n",
- 			 &rmmio_start, (uint64_t)rmmio_size / 1024);
- 		dev->rmmio = devm_ioremap(dev->drm.dev,
- 					  rmmio_start,
-@@ -764,7 +764,7 @@ static int vmw_setup_pci_resources(struct vmw_private *dev,
- 		fifo_size = pci_resource_len(pdev, 2);
- 
- 		drm_info(&dev->drm,
--			 "FIFO at %pa size is %llu kiB\n",
-+			 "FIFO at %pa size is %llu KiB\n",
- 			 &fifo_start, (uint64_t)fifo_size / 1024);
- 		dev->fifo_mem = devm_memremap(dev->drm.dev,
- 					      fifo_start,
-@@ -789,7 +789,7 @@ static int vmw_setup_pci_resources(struct vmw_private *dev,
- 	 * SVGA_REG_VRAM_SIZE.
- 	 */
- 	drm_info(&dev->drm,
--		 "VRAM at %pa size is %llu kiB\n",
-+		 "VRAM at %pa size is %llu KiB\n",
- 		 &dev->vram_start, (uint64_t)dev->vram_size / 1024);
- 
- 	return 0;
-@@ -983,13 +983,13 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 		dev_priv->max_primary_mem = dev_priv->vram_size;
- 	}
- 	drm_info(&dev_priv->drm,
--		 "Legacy memory limits: VRAM = %llu kB, FIFO = %llu kB, surface = %u kB\n",
-+		 "Legacy memory limits: VRAM = %llu KiB, FIFO = %llu KiB, surface = %u KiB\n",
- 		 (u64)dev_priv->vram_size / 1024,
- 		 (u64)dev_priv->fifo_mem_size / 1024,
- 		 dev_priv->memory_size / 1024);
- 
- 	drm_info(&dev_priv->drm,
--		 "MOB limits: max mob size = %u kB, max mob pages = %u\n",
-+		 "MOB limits: max mob size = %u KiB, max mob pages = %u\n",
- 		 dev_priv->max_mob_size / 1024, dev_priv->max_mob_pages);
- 
- 	ret = vmw_dma_masks(dev_priv);
-@@ -1007,7 +1007,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 			 (unsigned)dev_priv->max_gmr_pages);
- 	}
- 	drm_info(&dev_priv->drm,
--		 "Maximum display memory size is %llu kiB\n",
-+		 "Maximum display memory size is %llu KiB\n",
- 		 (uint64_t)dev_priv->max_primary_mem / 1024);
- 
- 	/* Need mmio memory to check for fifo pitchlock cap. */
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-index a0b47c9b33f5..5bd967fbcf55 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-@@ -94,14 +94,14 @@ static int vmw_gmrid_man_get_node(struct ttm_resource_manager *man,
- 			} else
- 				new_max_pages = gman->max_gmr_pages * 2;
- 			if (new_max_pages > gman->max_gmr_pages && new_max_pages >= gman->used_gmr_pages) {
--				DRM_WARN("vmwgfx: increasing guest mob limits to %u kB.\n",
-+				DRM_WARN("vmwgfx: increasing guest mob limits to %u KiB.\n",
- 					 ((new_max_pages) << (PAGE_SHIFT - 10)));
- 
- 				gman->max_gmr_pages = new_max_pages;
- 			} else {
- 				char buf[256];
- 				snprintf(buf, sizeof(buf),
--					 "vmwgfx, error: guest graphics is out of memory (mob limit at: %ukB).\n",
-+					 "vmwgfx, error: guest graphics is out of memory (mob limit at: %u KiB).\n",
- 					 ((gman->max_gmr_pages) << (PAGE_SHIFT - 10)));
- 				vmw_host_printf(buf);
- 				DRM_WARN("%s", buf);
--- 
-2.34.1
+    May 17 12:07:17 tr3970x kernel: WARNING: CPU: 4 PID: 1067 at
+drivers/gpu/drm/drm_buddy.c:198 __force_merge+0x184/0x1b0 [drm_buddy]
+    .. lots and lots and lots of them ..
+    ...
+    May 17 12:07:23 tr3970x systemd-cryptsetup[982]: ...
+    ...
+    May 17 12:07:25 tr3970x systemd[1]: Reached target basic.target
+    ...
+    May 17 12:07:25 tr3970x systemd[1]: Mounted sysroot.mount - /sysroot.
+    ...
+    May 17 12:07:25 tr3970x systemd[1]: Switching root.
+    ...
+    May 17 12:07:36 tr3970x gnome-session[2824]: ..
+    ...
+    May 17 12:07:36 tr3970x gnome-shell[2836]: Obtained a high
+priority EGL context
+    May 17 12:07:36 tr3970x kernel: WARNING: CPU: 31 PID: 2836 at
+drivers/gpu/drm/drm_buddy.c:198 __force_merge+0x184/0x1b0 [drm_buddy]
+    .. lots of warnings resume ...
 
+IOW, it happens already during the graphical boot before I have even
+typed in my disk encryption password.
+
+Then it starts again when gnome starts.
+
+I just checked: I have exactly 8192 warnings from the early boot
+before the first gnome warning. Which sounds like too round a number
+to be an accident.
+
+I will try the patch Alex pointed at next:
+
+    https://patchwork.freedesktop.org/patch/594539/
+
+and see if that fixes it for me.
+
+                 Linus
