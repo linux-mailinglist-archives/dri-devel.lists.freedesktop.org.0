@@ -2,63 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482168C8C2B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 20:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DF48C8C3A
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 20:31:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 142F510EF4E;
-	Fri, 17 May 2024 18:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26FF710EF51;
+	Fri, 17 May 2024 18:31:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jZcCheO8";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="AfR0tT/j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7246C10EF4E;
- Fri, 17 May 2024 18:16:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1715969782;
- bh=lT7ANqA15p++xYidjcIo07kOO4xRG9QuB0j8hQzfJzU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jZcCheO8ZjwBpoug2Q2/ytG3gx657OskG/XbaIiAZrOhXfcorzpCs4iF5I1afHlgs
- EZ4NZjPdPgX3Cp10KlT8F3s7346E8K0x0ihp4YspKbBELQdEUyW6WnexjRnIzm6Vhg
- yRMtbPnmF9eol0nJKLKxZJT7MkJ6CdvpLSjg7AOl9P5vE3FDD7G/MOiIZOXd+al0FD
- OEgg3IqeqjIFoF/SQwpHht8bL5hIC5gnDGUSIEW7rSevhet68oFAJLvlw0Un8F+BPI
- p+9/xedK8zxIpfkFnKN3HlFvDVn0KYgfrUymxPXLUFTJz3tqt6bdM3wgFaCxKbuNvE
- 79uYcdKoa1rlw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: alarumbe)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5439837821B7;
- Fri, 17 May 2024 18:16:22 +0000 (UTC)
-Date: Fri, 17 May 2024 19:16:21 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Qiang Yu <yuq825@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, 
- Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Christian Koenig= <christian.koenig@amd.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
- Zack Rusin <zack.rusin@broadcom.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, 
- lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v3 0/2] drm: Fix dma_resv deadlock at drm object pin time
-Message-ID: <t64xneene7m7x2akecvrmr44yottiicy2mle7e5fimg7vacb4n@n4cjdf7g3nlp>
-References: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
- <84a5f7b6-d20a-4c69-83a8-d8394fea2b68@suse.de>
- <20240502135941.136ad639@collabora.com>
- <20240502140012.68e88831@collabora.com>
- <d520ea1b-e399-4c3d-8546-87c68e480cbc@suse.de>
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4559810E338
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 18:31:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1715970653; x=1716575453; i=markus.elfring@web.de;
+ bh=fB7RALjxdRF1G/aDESbEsQC4h5dPoGC+cUZHy0syvLs=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=AfR0tT/jPoCyn+cHq91Ed0Lm5rF1tWGof+FhwozSIakYaT6l9p+ZXDbGMI2P1FC1
+ rLEAPjN79daag3Bw2ZbRXiAQJhO6sY57PGJmlondaBPs3w+q3+MYxoYRFmTbq0+se
+ EwdYURlcwjIsxtOYIDpyFglh//dGC31UiJV6Z5QiQMj1LxN85roWz/QHKjW9EZCC4
+ qX2mGUgRRMO4p6E2k/4l77LKCTbQ4F1yyUIxtnVRGRaXrlNOCmVag6NB/Yt+MyL0d
+ 6AiPrtJmbXP+ATx7/xQ+0tWh6GGJpMSmO1i/oAwfARdQIcYufgNBVAgJmsmz4l/ck
+ a8RJ2wGb1LBWkciSrQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N9cLR-1sbNc00Sxx-00wGrB; Fri, 17
+ May 2024 20:30:53 +0200
+Message-ID: <94ef2d0b-15d0-4c40-ab52-a5d88a666b3c@web.de>
+Date: Fri, 17 May 2024 20:30:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d520ea1b-e399-4c3d-8546-87c68e480cbc@suse.de>
+User-Agent: Mozilla Thunderbird
+To: Kuro Chung <kuro.chung@ite.corp-partner.google.com>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Kenneth Haung <kenneth.hung@ite.com.tw>,
+ Kuro Chung <kuro.chung@ite.com.tw>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pin-yen Lin <treapking@chromium.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240517021654.1034218-1-kuro.chung@ite.com.tw>
+Subject: Re: [PATCH v9] drm/bridge: it6505: This patch fixes hibernate to
+ resume no display issue
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240517021654.1034218-1-kuro.chung@ite.com.tw>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ocxBC3UDqeM5nCY06kslqg/TVkMQrEhNuG0Dw/kVCwd4cxuSw2Q
+ UY3HZYeg4IlBOVMNqRCOIb6/Tj75wO5vXhe+IL9ld1VtsU3G7M0uzhgWkrawRN7mNroeE9w
+ XJ9WDv2uYT9Eo3XIxssXaBh89q/0hHQDYbMu8BWLEJJXRtTFJXq9wWtX/koY8zbr59j/DC4
+ abhIH/nm+k+2HmFBA/jTg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:KoPW+CVPpu4=;Vrm/vaXMaVmapgFQFlZG+3gmEOr
+ 3os8JvhsNpNNGVGNCXbFspzLxWNsVQ1Iccue17QCvrdsjQrswL1tTAH/OF9oQchU385imGUuI
+ 5rxArMfrNRkJszhCVUvZjpDWtEwade/FDFj0WSWtbsNolVcbukUz6UmFEwNymnynkYbStvB+0
+ zQKdK83XkBTJtN54EKzfVHhe2erqZAbH8wEaqN0omlg5z3LX7qMbbxTDrvIVuQc7ElcYhh90A
+ iGZcnvXiVfUDglKSn6dcgdi3pBTKL6L0EKbAzvOg5upn5vEZc5f911WJNY5aHqcHajpWrjcHX
+ tkqcg34Dr57HrK8IvZ1fN1xS/BirZLuei3dijnxMXxTjUEI2F9NjMxfPtxdIDq1kSagjXjjup
+ ZvmSstHm5yNf0TxSGgoguaJnCqVXdw7E61cw1cHSB/bK9U3YSV0yv//CM/T5aUpwils0pZAcl
+ WUegrIePMVEJKwwECa14PoA2GKxqte3y03Awdj2ieyvZ0BVDjHqSfh4AEd1x3UWy7swaANpZU
+ jqNd+gYXD5anZDc6ms1kYKRtrkts7W4HVWs6BtGhV3cvPuHTB9qv5obURM8R5o+Lb4mnmjvZg
+ kLExx8yvuw9eY35jmwT1Wt4N7ArTEgJeJ3aQonwe08bDKwdcdt6FXQ+WqoQMkHGxZr+92lVSr
+ JNUxc90eiOFDiVdaMcaKAj7Yn+Eymz8Y8yntVCR9iMEpdNvk5Fy4OjRikSqQ+QDcwKXWBrM1Q
+ H4+vBmq4eZkrCZs1kPBzso1pEBCEWU0oB68ZAx4QsvyvC1Cv2SrTddwaMUOjQfIMCl49F5NR2
+ TcpB1DqJovycZmIKeRXqrEsprYtyLI/JW8pkH9BibUPJM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,77 +92,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Boris and Thomas,
+Please omit the word combination =E2=80=9CThis patch=E2=80=9D from the sum=
+mary phrase.
 
-On 02.05.2024 14:18, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 02.05.24 um 14:00 schrieb Boris Brezillon:
-> > On Thu, 2 May 2024 13:59:41 +0200
-> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> > 
-> > > Hi Thomas,
-> > > 
-> > > On Thu, 2 May 2024 13:51:16 +0200
-> > > Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > 
-> > > > Hi,
-> > > > 
-> > > > ignoring my r-b on patch 1, I'd like to rethink the current patches in
-> > > > general.
-> > > > 
-> > > > I think drm_gem_shmem_pin() should become the locked version of _pin(),
-> > > > so that drm_gem_shmem_object_pin() can call it directly. The existing
-> > > > _pin_unlocked() would not be needed any longer. Same for the _unpin()
-> > > > functions. This change would also fix the consistency with the semantics
-> > > > of the shmem _vmap() functions, which never take reservation locks.
-> > > > 
-> > > > There are only two external callers of drm_gem_shmem_pin(): the test
-> > > > case and panthor. These assume that drm_gem_shmem_pin() acquires the
-> > > > reservation lock. The test case should likely call drm_gem_pin()
-> > > > instead. That would acquire the reservation lock and the test would
-> > > > validate that shmem's pin helper integrates well into the overall GEM
-> > > > framework. The way panthor uses drm_gem_shmem_pin() looks wrong to me.
-> > > > For now, it could receive a wrapper that takes the lock and that's it.
-> > > I do agree that the current inconsistencies in the naming is
-> > > troublesome (sometimes _unlocked, sometimes _locked, with the version
-> > > without any suffix meaning either _locked or _unlocked depending on
-> > > what the suffixed version does), and that's the very reason I asked
-> > > Dmitry to address that in his shrinker series [1]. So, ideally I'd
-> > > prefer if patches from Dmitry's series were applied instead of
-> > > trying to fix that here (IIRC, we had an ack from Maxime).
-> > With the link this time :-).
-> > 
-> > [1]https://lore.kernel.org/lkml/20240105184624.508603-1-dmitry.osipenko@collabora.com/T/
-> 
-> Thanks. I remember these patches. Somehow I thought they would have been
-> merged already. I wasn't super happy about the naming changes in patch 5,
-> because the names of the GEM object callbacks do no longer correspond with
-> their implementations. But anyway.
-> 
-> If we go that direction, we should here simply push drm_gem_shmem_pin() and
-> drm_gem_shmem_unpin() into panthor and update the shmem tests with
-> drm_gem_pin(). Panfrost and lima would call drm_gem_shmem_pin_locked(). IMHO
-> we should not promote the use of drm_gem_shmem_object_*() functions, as they
-> are meant to be callbacks for struct drm_gem_object_funcs. (Auto-generating
-> them would be nice.)
 
-I'll be doing this in the next patch series iteration, casting the pin function's
-drm object parameter to an shmem object.
+=E2=80=A6
+> But the input FIFO reset will also trigger error interrupts of output
+> module rising.Thus, it6505 have to wait a period can clear those
+> expected error interrupts caused by manual hardware reset in one
+> interrupt handler calling to avoid interrupt looping.
 
-Also for the sake of leaving things in a consistent state, and against Boris' advice,
-I think I'll leave the drm WARN statement inside drm_gem_shmem_pin_locked. I guess
-even though Dmitry's working on it, rebasing his work on top of this minor change
-shouldn't be an issue.
+Please improve this change description another bit.
 
-Cheers,
-Adrian Larumbe
 
-> Best regards
-> Thomas
-> 
-> 
-> > 
-> > > Regards,
-> > > 
-> > > Boris
+=E2=80=A6
+> ---
+>  drivers/gpu/drm/bridge/ite-it6505.c | 73 +++++++++++++++++++----------
+=E2=80=A6
+
+You may present version descriptions behind the marker line.
+
+Regards,
+Markus
