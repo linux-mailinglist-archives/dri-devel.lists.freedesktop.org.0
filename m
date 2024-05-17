@@ -2,47 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C148C87C3
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 16:14:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904798C881C
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 16:33:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90E4210EEE9;
-	Fri, 17 May 2024 14:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03E9910E1D4;
+	Fri, 17 May 2024 14:33:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=scrumplex.net header.i=@scrumplex.net header.b="f1wruILn";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Ph3J5TA6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF70910EEE9
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 14:14:21 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4VgpqZ0JgMz9slm;
- Fri, 17 May 2024 16:14:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=scrumplex.net;
- s=MBO0001; t=1715955258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Krj7syU7x2ImtItEp9UbLWBRW19wRb6qinxU3qC3s44=;
- b=f1wruILn0hYACOjbwTh5K4Dqulo6rJkkslcBjPXYBVRl8j2MuhagfCCYt7M42LpzCal0+r
- a70Bwm8aZkAn6vLWCYCdBm+02Z54+SJG35S34ZCyGXRLzS4Vd4n3sz8kn+O4NMZJnCDsS8
- JsCOPU0n7JGibYDjNLAc495bVnIAZIwDec/EZ8DyW/ZY1WPipV/8j59IpXyO1//Yeu0pOC
- /3GaqiUMK/kLuYmB1mGaS6gjAo8FouEBi4WbmDB8Jj9pN6dTgEkU0PG3ROe6Hog6BcUJ/M
- mOaV0Slm6YHAOC82oYSd72slwlpuAyNfUzyHDA63rz6vExacVCYYWy6gaB3nwA==
-Message-ID: <f79b97e99f70ffcc99942df25c1c92267baef68f.camel@scrumplex.net>
-Subject: Re: [PATCH] drm/edid: add non-desktop quirk to Bigscreen Beyond HMD
-From: Sefa Eyeoglu <contact@scrumplex.net>
-To: Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org
-Date: Fri, 17 May 2024 16:14:16 +0200
-In-Reply-To: <874jawbnut.fsf@intel.com>
-References: <20240517105555.654262-1-contact@scrumplex.net>
- <874jawbnut.fsf@intel.com>
-Content-Type: multipart/signed; micalg="pgp-sha512";
- protocol="application/pgp-signature"; boundary="=-owcFmrIUIDwaBWkK5/wN"
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2068.outbound.protection.outlook.com [40.107.100.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68C4610EEF2;
+ Fri, 17 May 2024 14:33:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fmiFCQx53tLrHMBRTEDhBaQlMutn9hK4tmB10dTtw221QGiN4U+YchIsS92BTg3IctsUEwPm9qFF9c+FfypXRyWAktrucefjMiMtAL/VbRGog81OSXGaxJz5LwtiaTuh/wK1KYJnHyteRBCneHgwLJYlsaWbe1/n9tGN/F8WY2k0hk+UTL6RJSg2iwl3g2eXTmOALRvURFN7cjBWdJbilrDsYW84O46GXlUzlN8maFlJQrZtmA7qfBroT4vuJjw2pAkP6KeIhl0i3mhfAADY0oCBBOESq4YLFQiZC5KOHApeBuqWa/UNbYixoXVBGLjqA+2IegNxdz1Kg3rRFpIDpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=f9CX8cvoxqWtMEFiZgZEHU+If9mFDlK/9UtyWnjyT8g=;
+ b=e38mOYgkRCq1ik58b9t1rCsAQDnjFkKRruni4uRQwsGEiy9vZRuFNxfDzC1bcBQ0bkxccp0PmHjU4x3EvLrRaHML/dppoB+Zw4o6PNwR2tLsvNC4nEfNBmknLt9UunQKhFSCDStY5np+hZs/aKVHrkAqBzIDHXAnWeURgOBUiGUJo3/sIwr3xI0zshE98dQHzaOs+TLkGiDgetrr368YAQzun1zw1rrdiLL7zOSubL+8rtZB982YNnpCJOlZuof+xn5R+KXDxdr0P8ZHaOXX2qB9mq6KVS7AsW+cazcNXu5NuybzOab6wRJrv+lsuXKBu08dMWtmvvLAGPfXIozCtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f9CX8cvoxqWtMEFiZgZEHU+If9mFDlK/9UtyWnjyT8g=;
+ b=Ph3J5TA6/synUDIAu5wJOJVM0XhC2IjoGnjs1Fc/IPIyWaWu35HubUYx3Y7QavaAUnLLNS53xJyOiuGJ+I5Q+voi1PtMzM1nlZKU+xd9o/iPnqoXyAC3dC+cs82kba6Ca9TI19RrWenQghPCT5xGxsCVvCYNf0loq9g7n+Ab2dY=
+Received: from PH8PR07CA0016.namprd07.prod.outlook.com (2603:10b6:510:2cd::24)
+ by SA3PR12MB9200.namprd12.prod.outlook.com (2603:10b6:806:39c::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.30; Fri, 17 May
+ 2024 14:33:22 +0000
+Received: from SN1PEPF000252A1.namprd05.prod.outlook.com
+ (2603:10b6:510:2cd:cafe::21) by PH8PR07CA0016.outlook.office365.com
+ (2603:10b6:510:2cd::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.31 via Frontend
+ Transport; Fri, 17 May 2024 14:33:22 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF000252A1.mail.protection.outlook.com (10.167.242.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7587.21 via Frontend Transport; Fri, 17 May 2024 14:33:22 +0000
+Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 17 May 2024 09:33:19 -0500
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <matthew.auld@intel.com>
+CC: <christian.koenig@amd.com>, <alexander.deucher@amd.com>,
+ <airlied@gmail.com>, Arunpravin Paneer Selvam
+ <Arunpravin.PaneerSelvam@amd.com>
+Subject: [PATCH v2] drm/buddy: Fix the warn on's during force merge
+Date: Fri, 17 May 2024 20:03:05 +0530
+Message-ID: <20240517143305.17894-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000252A1:EE_|SA3PR12MB9200:EE_
+X-MS-Office365-Filtering-Correlation-Id: f64dbbe4-9797-453a-d354-08dc767e4dd0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|1800799015|36860700004|376005|82310400017; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Feb3FvEkAiksj/yf+lrtwAo59KMOIiMhtmtruqEi4VZnnNP8njoG2ACmRaOW?=
+ =?us-ascii?Q?h2jonjOBb5UqXXvhxfFR+rgpQnMEKapwgG9YhZZk2ZH8Dc2tLTeb8HDKSnOV?=
+ =?us-ascii?Q?/3qS3KCSCwikenVJqo7BX02sr42KH9pAS1LCc3j5b7TH32iE1hrPWn9UWBbx?=
+ =?us-ascii?Q?hmI851SaalYQj9G8YbWZ0bOIf8es7qQbK7LrkKrAIt8QYkVNhsf3ieKlbGdN?=
+ =?us-ascii?Q?FyKZXNlp9HFZi6R79NUYOYqAyn8rrp90hKPEijRv4wy/o9k6sE+fmGLM/4My?=
+ =?us-ascii?Q?Dh7cN8VnIkPfZAe6izNBklNG+P9On9nPnlGmdYi+QQj5HSWuhvdsIGqAqtM/?=
+ =?us-ascii?Q?VZzKH5DrhYLPNGf280xnqAEjLXU4Izi7bcYWDoBg0pT8soQzAmOVzxoHZFF3?=
+ =?us-ascii?Q?F4PDfr5K1ZibbzPaliQkaMJsGZznfFYZhnRO30U0lL2xdwF8ASkm4+oAzpeP?=
+ =?us-ascii?Q?lTqNdgh4T7o0Ngc66RIB+OnypKLHnzKX4LBQeRbipX/PG1Byq/nqyHrF0Bd4?=
+ =?us-ascii?Q?/5jrlA/kE0E8DDqA3DRJn7GfKn5cD6zaHmfqELRIXfiaIgWHbiwV+mFQiBej?=
+ =?us-ascii?Q?1L+myu2+sdxnTaGOhlYatWnleZoLRNHU0kpoQIzahjYtHlqnPXVugnnEJa3f?=
+ =?us-ascii?Q?B2IkBJmuhL5MaMlEKiM+ChC3Qj2RQrmRYhP7BXUv8+GllwRjHc02ZXA5DKAq?=
+ =?us-ascii?Q?K9yhc306mjmopy5XPHBvi4YFInxWpGSnjQ6fifbVz9edjylZZGDns4D8qGTS?=
+ =?us-ascii?Q?hfFNaojHMw/jOidjul73aLT9i6GHEl1LcMhuZAN2enAkv5jYeMeSqoO8lhsb?=
+ =?us-ascii?Q?gU5Td9kXfARc4bV2CPssHB1F7NNRAE+p7kviTtLFOBYZ2RlKlXHyxWydq+/V?=
+ =?us-ascii?Q?OajOx4y3EgGy9foO/flNjFl3Ku4pXjmLv7SUymtFvb/v6DiEQ+yEmRmhOAkL?=
+ =?us-ascii?Q?8QlZCNcDEcslaQ7f9rbzj/lSQWnr605q8oGlqtV2fE1xMA30aECYeS0PC3f4?=
+ =?us-ascii?Q?kK5vI6DSp5yJrsVzQ3eSAag9XCodfpYgw0KorFGGRUTdytEHbdJyatw9LGSc?=
+ =?us-ascii?Q?CpHOlY7ZUN8ljvFNKYi3zinThC4ej7q8N6b4POFHNxbS2AYZR7tiKC66x9mu?=
+ =?us-ascii?Q?MKWhU6wCdAFrDaaMlVTyp7IohrqjL+tJ9/7ko0odA2GLDJK/ut9G4dxFcOSY?=
+ =?us-ascii?Q?STqVNUDM4rZxvMOcXsA83LYMrgHetcDK3HTDuj85WAA0dje1gOyb4mtuxCXD?=
+ =?us-ascii?Q?xcWO7rh30jr/q+2UFeau4bP296m08Yucz8FZ0WKK9pwki8x3B6YlgwFkG6kB?=
+ =?us-ascii?Q?w0LrMdYHQX/S+QQcb0MMM19m?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(1800799015)(36860700004)(376005)(82310400017); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2024 14:33:22.2630 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f64dbbe4-9797-453a-d354-08dc767e4dd0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF000252A1.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,73 +131,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Move the fallback and block incompatible checks
+above, so that we dont unnecessarily split the blocks
+and leaving the unmerged. This resolves the unnecessary
+warn on's thrown during force_merge call.
 
---=-owcFmrIUIDwaBWkK5/wN
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v2:(Matthew)
+  - Move the fallback and block incompatible checks above
+    the contains check.
 
-Hi Jani,
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Fixes: 96950929eb23 ("drm/buddy: Implement tracking clear page feature")
+Link: https://patchwork.kernel.org/project/dri-devel/patch/20240517135015.17565-1-Arunpravin.PaneerSelvam@amd.com/
+---
+ drivers/gpu/drm/drm_buddy.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I have just just posted a modified patch with a link to the issue.
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index 1daf778cf6fa..94f8c34fc293 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -524,11 +524,11 @@ __alloc_range_bias(struct drm_buddy *mm,
+ 				continue;
+ 		}
+ 
++		if (!fallback && block_incompatible(block, flags))
++			continue;
++
+ 		if (contains(start, end, block_start, block_end) &&
+ 		    order == drm_buddy_block_order(block)) {
+-			if (!fallback && block_incompatible(block, flags))
+-				continue;
+-
+ 			/*
+ 			 * Find the free block within the range.
+ 			 */
+-- 
+2.25.1
 
-Best,
-Sefa
-
-On Fri, 2024-05-17 at 15:54 +0300, Jani Nikula wrote:
-> On Fri, 17 May 2024, Sefa Eyeoglu <contact@scrumplex.net> wrote:
-> > The Bigscreen Beyond VR headset is a non-desktop output and should
-> > be
-> > marked as such using an EDID quirk.
->=20
-> I'd appreciate a bug being filed at [1], attaching the EDID of the
-> panel
-> there, maybe dmesg with drm.debug=3D14 enabled too, and referencing the
-> bug in the commit message. It gets terribly hard to figure anything
-> out
-> about the quirks afterwards when some time has passed.
->=20
-> Thanks,
-> Jani.
->=20
->=20
->=20
-> [1] https://gitlab.freedesktop.org/drm/misc/kernel/-/issues
->=20
-> >=20
-> > Signed-off-by: Sefa Eyeoglu <contact@scrumplex.net>
-> > ---
-> > =C2=A0drivers/gpu/drm/drm_edid.c | 3 +++
-> > =C2=A01 file changed, 3 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_edid.c
-> > b/drivers/gpu/drm/drm_edid.c
-> > index 4f54c91b31b2..d407efc0fb55 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -200,6 +200,9 @@ static const struct edid_quirk {
-> > =C2=A0	/* Rotel RSX-1058 forwards sink's EDID but only does HDMI
-> > 1.1*/
-> > =C2=A0	EDID_QUIRK('E', 'T', 'R', 13896, EDID_QUIRK_FORCE_8BPC),
-> > =C2=A0
-> > +	/* Bigscreen Beyond Headset */
-> > +	EDID_QUIRK('B', 'I', 'G', 0x1234, EDID_QUIRK_NON_DESKTOP),
-> > +
-> > =C2=A0	/* Valve Index Headset */
-> > =C2=A0	EDID_QUIRK('V', 'L', 'V', 0x91a8, EDID_QUIRK_NON_DESKTOP),
-> > =C2=A0	EDID_QUIRK('V', 'L', 'V', 0x91b0, EDID_QUIRK_NON_DESKTOP),
->=20
-
-
---=-owcFmrIUIDwaBWkK5/wN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQThcyN6x4IpbZj1razhPf1LRxJ5UQUCZkdmOAAKCRDhPf1LRxJ5
-UW1rAQDUykP8xn+t+IV6blWA+OA83fznke2xeVHtr+Bz5JFtogD+IlpWdX/ginpu
-ljMhc4D0JCTkOdAFdUfTOW0sqBkB2Qk=
-=X/M1
------END PGP SIGNATURE-----
-
---=-owcFmrIUIDwaBWkK5/wN--
