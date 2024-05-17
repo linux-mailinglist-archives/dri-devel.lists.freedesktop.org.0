@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4119E8C8287
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 10:19:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D25C8C8294
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 10:31:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCCDC8911F;
-	Fri, 17 May 2024 08:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FAA310E080;
+	Fri, 17 May 2024 08:31:47 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="KEJGezyB";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E6C410E06C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 08:18:57 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1s7snk-0006ZM-JT; Fri, 17 May 2024 10:18:52 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1s7sni-001qHK-9Z; Fri, 17 May 2024 10:18:50 +0200
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1s7sni-0002Q5-0m;
- Fri, 17 May 2024 10:18:50 +0200
-Message-ID: <7740cc0acb7a4c6d168315ba94ad23df4f45d63a.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: switch devcoredump allocations to GFP_NOWAIT
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>, 
- patchwork-lst@pengutronix.de, kernel@pengutronix.de, 
- dri-devel@lists.freedesktop.org, Russell King
- <linux+etnaviv@armlinux.org.uk>
-Date: Fri, 17 May 2024 10:18:50 +0200
-In-Reply-To: <6c61933be624d8d6fe7609e56763e760c9721179.camel@pengutronix.de>
-References: <20240126164623.1191363-1-l.stach@pengutronix.de>
- <6c61933be624d8d6fe7609e56763e760c9721179.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Fri, 17 May 2024 08:31:45 UTC
+Received: from out30-101.freemail.mail.aliyun.com
+ (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60C2810E080;
+ Fri, 17 May 2024 08:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux.alibaba.com; s=default;
+ t=1715934703; h=From:To:Subject:Date:Message-Id:MIME-Version;
+ bh=Ok07d1vK/JMG0IYRwczMvV9yC90WTaW4HZWyrpjc2fM=;
+ b=KEJGezyB0KSlVpTghzfA/3gebAXXB/J+xLGayXvwVBW6UcKCLAeidjjU2nlLtFVg8kG8YZr6Z881T2fGI5uq1EkyFRVf4NhxMHZiU/VzNVKvXX1Fj27mNsrvPYourNAoFeCQlQKWyTarFwkxq99NtdH/cQDoGuDetSfXrHKEF80=
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R991e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=maildocker-contentspam033037067113;
+ MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
+ TI=SMTPD_---0W6e1kO8_1715934397; 
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0W6e1kO8_1715934397) by smtp.aliyun-inc.com;
+ Fri, 17 May 2024 16:26:38 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: alexander.deucher@amd.com,
+	airlied@gmail.com,
+	daniel@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>
+Subject: [PATCH -next] drm/amd/display: Update optc35_set_odm_combine doc to
+ match kernel-doc spec
+Date: Fri, 17 May 2024 16:26:37 +0800
+Message-Id: <20240517082637.69928-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +58,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Do, 2024-05-16 at 19:20 +0200, Lucas Stach wrote:
-> Am Freitag, dem 26.01.2024 um 17:46 +0100 schrieb Lucas Stach:
-> > The etnaviv devcoredump is created in the GPU reset path, which
-> > must make forward progress to avoid stalling memory reclaim on
-> > unsignalled dma fences. The currently used __GFP_NORETRY does not
-> > prohibit sleeping on direct reclaim, breaking the forward progress
-> > guarantee. Switch to GFP_NOWAIT, which allows background reclaim
-> > to be triggered, but avoids any stalls waiting for direct reclaim.
-> >=20
-> Any takers for reviewing this one?
->=20
-> Regards,
-> Lucas
->=20
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_dump.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/e=
-tnaviv/etnaviv_dump.c
-> > index 898f84a0fc30c..42c5028872d54 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> > @@ -159,8 +159,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *s=
-ubmit)
-> >  	file_size +=3D sizeof(*iter.hdr) * n_obj;
-> > =20
-> >  	/* Allocate the file in vmalloc memory, it's likely to be big */
-> > -	iter.start =3D __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
-> > -			__GFP_NORETRY);
-> > +	iter.start =3D __vmalloc(file_size, GFP_NOWAIT | __GFP_NOWARN);
-> >  	if (!iter.start) {
-> >  		mutex_unlock(&submit->mmu_context->lock);
-> >  		dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
-> > @@ -230,5 +229,6 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *s=
-ubmit)
-> > =20
-> >  	etnaviv_core_dump_header(&iter, ETDUMP_BUF_END, iter.data);
-> > =20
-> > -	dev_coredumpv(gpu->dev, iter.start, iter.data - iter.start, GFP_KERNE=
-L);
-> > +	dev_coredumpv(gpu->dev, iter.start, iter.data - iter.start,
-> > +		      GFP_NOWAIT | __GFP_NOWARN);
+This patch updates the function documentation comment for
+optc35_set_odm_combine to conform to the kernel-doc specification.
 
-Should this be __GFP_NOWARN? There is no fallback on failure, and if
-this fails and the __vmalloc() above didn't, there is no error message
-at all.
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-regards
-Philipp
+diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c b/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
+index 7c9faa507ec2..1f8516e5ce68 100644
+--- a/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
+@@ -50,7 +50,9 @@
+  * @optc: Output Pipe Timing Combine instance reference.
+  * @opp_id: Output Plane Processor instance ID.
+  * @opp_cnt: Output Plane Processor count.
+- * @timing: Timing parameters used to configure DCN blocks.
++ * @segment_width: Width in pixels of each segment in a horizontal direction.
++ * @last_segment_width: Width in pixels of the last segment if it differs from
++ *			other segments.
+  *
+  * Return: void.
+  */
+-- 
+2.20.1.7.g153144c
+
