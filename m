@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE658C8E8B
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 01:36:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA8F8C8E8A
+	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 01:36:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5257810E341;
-	Fri, 17 May 2024 23:36:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C34210E1F0;
+	Fri, 17 May 2024 23:36:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="lQD3r4zV";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="IZyO9295";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6314810E1F0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 23:35:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3158410E1F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 23:36:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=zCEGpkp3Zmdhb06kEQRsXk9mj5wYCe5bu+6wwSjIgUA=; b=lQD3r4zVStcDT0Rz
- L3K0k99h6eTjHTq1uMj7Pb7fRpKfCatEf+J6ysrXs5czg7mR9BJRjbhrIzmlBW9/p9OPWoWBXmyvs
- jWDNZ2U0kNqhkG8sKlkIGYCCUEteDB1Jx55QdyCQVHSDw7NC9/tZT9Sot4o1LIzCTtTIZW/ZefEaC
- N2eukhCTw7S5k9Zrkky4sHQHOMIBTSKstAvIjFbDyRYnEbBan6JfO7nhW8ugvL3TEQEVZAMPo/4rm
- E1zkAc++pw6lBfvib9Q1k3BBpX8V3mp+6tsaxE7QrBUqRKHohmqtNLYOFXtErP0lWixEFkeY22x3w
- RR5dkugoATolFb0T4A==;
+ :Subject; bh=Q0VyvDtbmcL1dq3FHqWs/cX5D8LXTUaBhnMmbxFsZGQ=; b=IZyO9295QgLrX89a
+ LkBO3bbxouDubvSE81EJbpSQ5eWvpbci6iHZro92ANhX5cJozO6QbHKsfh6spD0R3BqSQzTz218XT
+ CKG4+FNUvQF47qUiU5LhLxWrmb7BMbS3NnqCtfkg2563YSzunj64b4Xv2ogeR/9t+7WYW9Rj4QBAu
+ qkdvhV0mXaJd/VDIcCTpzSJ2lLCBKdhqbvqNtFoflfKBZoZPGumu8upf+q+Tjs74wokE5SzFKYc2Y
+ AT7gVm9SORrPbYlIejog1BfPgLut4zI818ZRw7pLgBC39phnXSrxSAOJr/DtJ800BzO3mtuqyqROB
+ 06pHCpou+Fz+vf6gtA==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1s877E-001TpV-1Y;
+ (envelope-from <linux@treblig.org>) id 1s877F-001TpV-0n;
  Fri, 17 May 2024 23:35:57 +0000
 From: linux@treblig.org
 To: alexander.deucher@amd.com,
 	christian.koenig@amd.com
 Cc: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 2/3] drm/amd/display: remove unused struct 'aux_payloads'
-Date: Sat, 18 May 2024 00:35:47 +0100
-Message-ID: <20240517233548.231120-3-linux@treblig.org>
+Subject: [PATCH 3/3] drm/amd/display: remove unused struct 'dc_reg_sequence'
+Date: Sat, 18 May 2024 00:35:48 +0100
+Message-ID: <20240517233548.231120-4-linux@treblig.org>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240517233548.231120-1-linux@treblig.org>
 References: <20240517233548.231120-1-linux@treblig.org>
@@ -58,30 +58,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-'aux_payloads' is unused since
-commit eae5ffa9bd7b ("drm/amd/display: Switch ddc to new aux interface")
+'dc_reg_sequence' was added in
+commit 44788bbc309b ("drm/amd/display: refactor reg_update")
+
+but isn't actually used.
+
 Remove it.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dc_helper.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c
-index c2d40979203e..d6d5bbf2108c 100644
---- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c
-@@ -51,10 +51,6 @@ struct i2c_payloads {
- 	struct vector payloads;
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_helper.c b/drivers/gpu/drm/amd/display/dc/dc_helper.c
+index 8f9a67825615..b81419c95222 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_helper.c
++++ b/drivers/gpu/drm/amd/display/dc/dc_helper.c
+@@ -91,11 +91,6 @@ struct dc_reg_value_masks {
+ 	uint32_t mask;
  };
  
--struct aux_payloads {
--	struct vector payloads;
+-struct dc_reg_sequence {
+-	uint32_t addr;
+-	struct dc_reg_value_masks value_masks;
 -};
 -
- static bool i2c_payloads_create(
- 		struct dc_context *ctx,
- 		struct i2c_payloads *payloads,
+ static inline void set_reg_field_value_masks(
+ 	struct dc_reg_value_masks *field_value_mask,
+ 	uint32_t value,
 -- 
 2.45.1
 
