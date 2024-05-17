@@ -2,83 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE57B8C8CDB
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 21:39:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500578C8CF8
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 21:50:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55B1010EF5B;
-	Fri, 17 May 2024 19:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA74410EED0;
+	Fri, 17 May 2024 19:50:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WWIWWlMI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a6PRcZdi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E368E10EF5B
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 19:39:40 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-34d7b0dac54so322350f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 12:39:40 -0700 (PDT)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 785CB10E00F;
+ Fri, 17 May 2024 19:50:29 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-1e4c4fb6af3so6304495ad.0; 
+ Fri, 17 May 2024 12:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1715974779; x=1716579579; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WUzOmIQGxK6ydFQshiBfQGlmu9MnDcgDBCtLK/DC/PU=;
- b=WWIWWlMInbChpl9tvAyNJeTPCRtEK3TUnnN1zWM4RAz/A8kXOeZNQjIbN6MPCiX2VP
- +06lPOhnTJFYNSbmBDnLrBKSPdVihs4+Ye32EVMAxF6FxOlZUW8xSniWWZbQVGM0zveM
- qneVq2WbqbjKDsOB9AdihYOi4OUCF5kfhq1tBwXlxY2phjfsJutAzIgu8GKtBpSWcZao
- 5yEktDy+h/4+JYkCkyjOp0mbBP7YX5kLAQ+I06UTBF81F8FKDTHqTc2O0jEeLHMBXG3e
- u+8I7cZnTqb5mF9lgFF8TWPbP7tlc3bISnGoa8T4Smy3s+qR80J2lWuHxeMbxGAcViNn
- dUig==
+ d=gmail.com; s=20230601; t=1715975428; x=1716580228; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vGDwCwwhr9iyyZbcO2LNbRmyKSJnbSVS/UCD4IYwGr8=;
+ b=a6PRcZdi5n8lu2w6/Ze+CzTG4fMhU2PzW8KgViFlz+Fk6WqKe0W4tl15oJVJdfzLcZ
+ PTxRi+xYgxPObAgefoIUeXkdxkKvUq6rzQXhRJ5cVABOTB3mJHrJNL3Pnc+Z8tgqIIQo
+ gHnHZ/kt/hzPcUdRCxn+Jv70vMsKQzdYEf9LPNhyw6puCQtseS2ZuU5XGgNValGtHzef
+ ylS8Si8rlG/ED5TT0dzOkQIqr5lYWOP3diXbMtw0RBrVgtFMiJrsnjKiTW+cVxck9shC
+ CGxMCHIFaoXqr+uWazzNtgw1+91CUWoALWNj+bZzeozuEEjmXgm7XvJJyeLv+IqXGXY+
+ p9OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715974779; x=1716579579;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WUzOmIQGxK6ydFQshiBfQGlmu9MnDcgDBCtLK/DC/PU=;
- b=Ed5bOlXLcufSxjhbeBo9GtKrCE4oWYzUxuG+SsteLcfyaFnEjpNoROHUyK6/br1qcK
- EnIZN7YraBxjhLtqrog4sRcOgwwmp09q1beAnou+wcNBF9yLQ9d0RkLyLF1m/HZBXv3/
- zldMvVXZ7Yee8kywyb20+Pu9XNX5afi9dd2V37eqaI4Vc4ZTnSy5v8KcB0VdbaOG9gbw
- jIlVqRaJ2IfE/SXbH6XwGer9kTvCp54JOYNmb2g+DCzwIiCAwJ2sncDLTQjW5yFNzUwW
- BCychE22PQXxTheLiDkRF8vQkVNTFEbWdSfb0tvazdeYYiyojSDCVD6oXOpoCs6Yi6bT
- 8zhg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVn6T5fJkPHIqqtkkQj9IdrGp12AD00V8wdpL4Yr6b81LZrlZySDPkDa394+4kS60lpqrzmyJGTXID2/yVFFyocBO4G8yoyLDTCuCjF1BMF
-X-Gm-Message-State: AOJu0YxK9dC6OgkiXHqPdd8HZ5hPF1O0OH9yCskRIH6Lap0Tk3eCiwzt
- i+9Alr5U6T7a9nuIB4FNL2Vz5yJVlNl1CO0iKJ9qeYmbAJGwyEgftVVRx9mqz7c=
-X-Google-Smtp-Source: AGHT+IFhShctHyp8EaDT1M5vh90xyK1Rl4BoMfuMGmFlgl4IyMT0z2z4s9u4Lc/iZXmU6IVZDQbEcw==
-X-Received: by 2002:adf:f652:0:b0:34d:7bbb:8d73 with SMTP id
- ffacd0b85a97d-354b8deacd1mr80637f8f.2.1715974778795; 
- Fri, 17 May 2024 12:39:38 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ d=1e100.net; s=20230601; t=1715975428; x=1716580228;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vGDwCwwhr9iyyZbcO2LNbRmyKSJnbSVS/UCD4IYwGr8=;
+ b=jmTCwTMKE/fyd79bimYMLbNuST4h2Khn+/8H7kalq0sNvi7aN6QYQtRnQKhin625Zb
+ Sq2gV9FprnWEJPhn0QBawIZpm3smZrU08Zr0OVUrfXwZ4otHoU65fFTUlBQjWVwekhBy
+ WSPY34RETtnGh0/XX6Z+JafQ63vWnIqfT5uY+XD2Pj0yczPGE7d1p1lYWh/CLScIgLr+
+ rKFgmljmTzvOkfOhmgKo2bFVEmuah8Ez58oAUfxc9vG1Hr7vx/HLweWeYop/+aufwuun
+ t3CKZzdvQbbD511IcW4XkiKMnCadqGymPg8BntVNbNoyfVQZmFZ9QoxozPXFmZ66y5bE
+ rRzg==
+X-Gm-Message-State: AOJu0YyK7xpi9ktL0p3LNvvMOy7i4QH6vd8Z+NNpGeB3HEWFsAzTCHKQ
+ yojZJ4UwZEHm0acG4Rj0ykLaxoSShBoYr+kGi1nju1Z064YOQoBkh1W+RA==
+X-Google-Smtp-Source: AGHT+IGED0PKOMspRHBg/lO86eagMfaS1Pal7MYA8gYSpyUm/2pAAGCaWIEFdpCNBk+5VKC7GhGXlA==
+X-Received: by 2002:a17:902:d4ca:b0:1eb:3d68:fc2b with SMTP id
+ d9443c01a7336-1f2ed3f863amr1029215ad.34.1715975427744; 
+ Fri, 17 May 2024 12:50:27 -0700 (PDT)
+Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3502b8a7748sm22436970f8f.49.2024.05.17.12.39.37
+ d9443c01a7336-1ef0b9d188dsm160529775ad.2.2024.05.17.12.50.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 May 2024 12:39:38 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Douglas Anderson <dianders@chromium.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Caleb Connolly <caleb.connolly@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Vinod Koul <vkoul@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Cong Yang <yangcong5@huaqin.corp-partner.google.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240512-dsi-panels-upd-api-v2-0-e31ca14d102e@linaro.org>
-References: <20240512-dsi-panels-upd-api-v2-0-e31ca14d102e@linaro.org>
-Subject: Re: [PATCH v2 0/7] drm/mipi-dsi: simplify MIPI DSI init/cleanup
- even more
-Message-Id: <171597477767.956878.712053114259327285.b4-ty@linaro.org>
-Date: Fri, 17 May 2024 21:39:37 +0200
+ Fri, 17 May 2024 12:50:26 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, Nikita Travkin <nikita@trvn.ru>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Connor Abbott <cwabbott0@gmail.com>, Ruan Jinjie <ruanjinjie@huawei.com>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/msm/adreno: Check for zap node availability
+Date: Fri, 17 May 2024 12:50:19 -0700
+Message-ID: <20240517195021.8873-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,37 +87,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Rob Clark <robdclark@chromium.org>
 
-On Sun, 12 May 2024 02:00:17 +0300, Dmitry Baryshkov wrote:
-> Follow the example of mipi_dsi_generic_write_multi(),
-> mipi_dsi_dcs_write_buffer_multi(), mipi_dsi_generic_write_seq_multi()
-> and mipi_dsi_dcs_write_seq_multi(). Define _multi variants for several
-> other common MIPI DSI functions and use these functions in the panel
-> code.
-> 
-> This series also includes a fix for the LG SW43408. If the proposed
-> approach is declined, the fix will be submitted separately.
-> 
-> [...]
+This should allow disabling the zap node via an overlay, for slbounce.
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+Suggested-by: Nikita Travkin <nikita@trvn.ru>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1/7] drm/panel: lg-sw43408: add missing error handling
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/51f9183e4af8c7f00e81180cbb9ee4a98a0f0aa1
-[2/7] drm/mipi-dsi: wrap more functions for streamline handling
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/f79d6d28d8fe77b14beeaebe5393d9f294f8d09d
-[3/7] drm/panel: boe-tv101wum-nl6: use wrapped MIPI DCS functions
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91329f921283b995ac125a0c6e61be0c1399f66f
-[4/7] drm/panel: ilitek-ili9882t: use wrapped MIPI DCS functions
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/510ba36e86eeb3ca89326dd51da32806e1ede693
-[5/7] drm/panel: innolux-p079zca: use mipi_dsi_dcs_nop_multi()
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0f43988fb9c1c0a0c2f5ccf2d1bdb914f6e4e79b
-[6/7] drm/panel: novatek-nt36672e: use wrapped MIPI DCS functions
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/67ba7a82d99a8a8b4bcc1b8124b5640c63dd51bf
-[7/7] drm/panel: lg-sw43408: use new streamlined MIPI DSI API
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/85cb9d603953d77de5cb311d229a79c439ff6bfb
-
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index d9ea15994ae9..a00241e3373b 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -46,7 +46,7 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
+ 	}
+ 
+ 	np = of_get_child_by_name(dev->of_node, "zap-shader");
+-	if (!np) {
++	if (!np || !of_device_is_available(np)) {
+ 		zap_available = false;
+ 		return -ENODEV;
+ 	}
 -- 
-Neil
+2.45.1
 
