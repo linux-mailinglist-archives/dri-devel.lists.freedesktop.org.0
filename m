@@ -2,106 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EE68C831E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 11:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4A98C8327
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 11:17:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0704010E15F;
-	Fri, 17 May 2024 09:16:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FECC10E202;
+	Fri, 17 May 2024 09:17:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="BbghCkdX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jt+OyQXy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MSoh9Pd4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6EmY1xnz";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="TRvuZVO3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K1QP8NRn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y9wj49UB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ak3a9cl/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14BE910E15F;
- Fri, 17 May 2024 09:16:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD20910E497
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 09:17:20 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D221C5D1B3;
- Fri, 17 May 2024 09:16:01 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2D50437310;
+ Fri, 17 May 2024 09:17:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715937362; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=9wYWAx2PYyOTbB/LCI3hz7bjDkyxOkz1uapIAToUark=;
- b=BbghCkdXksejkuJqJmch5Ijt4sdQZ5TDSe2a19haeMF2gXOdFAXHuIFAVy/ycjGDKXOahM
- 3s35YHDhSOBZ0DBIbMJoZwDe1zdv8qmX78wJczE5ydgpmTceUqPruOPYs17PnMEifYtyGx
- Kf3WP8IRkhI9Qg1w1JdkXa4wR3S5njo=
+ t=1715937439; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FUzCOKw8mun7sZIgFhlHHQZpTWJyZNr+767TPUTXGBU=;
+ b=TRvuZVO3azIlaC4eWpSm1c1SKx2r0VYVn2opdMmhjq/eTUB0ZDVpEYhkHb0/JZbuvVMK11
+ iFKDvaLyGMlKJzyeArOEPM4JF9zP7/8Wxy+iNGThjPp7UmwrTg5rpiB+lZioopJp33Dltv
+ jnW+RnJx9l+9oNUGWBzzDh9egv0TYMk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715937362;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=9wYWAx2PYyOTbB/LCI3hz7bjDkyxOkz1uapIAToUark=;
- b=jt+OyQXy4hJ1K2TSadbh5/0IARkIyYzVbNsRzT7YZJa0Y75FPbMfmoXTKJXCnAHwr/gG2B
- W7bx/+2Y8JLZKpAQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MSoh9Pd4;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6EmY1xnz
+ s=susede2_ed25519; t=1715937439;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FUzCOKw8mun7sZIgFhlHHQZpTWJyZNr+767TPUTXGBU=;
+ b=K1QP8NRnBx1YHdetztcHRS+mrDLM+aWy0l1rntIpis0r1I9SFd0j++lo9j28PNXg81lRuJ
+ aFMPv09NMmo0wuBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715937361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=9wYWAx2PYyOTbB/LCI3hz7bjDkyxOkz1uapIAToUark=;
- b=MSoh9Pd4EH3z9qXcQcZ1OGdOiRW1eI7a9BCPHTXAOfjkWkcMJzvy2v535t1mnqA5yaLg6e
- KIcpJzCLRWJuOmJ/gF0nIaQShxltOwTdd0B3ersi5TNR0Tlqj9WyvqXlkG2ubPrJbsH3G/
- znOmxD/guKNiOlbjZztNkImArw9SnKE=
+ t=1715937438; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FUzCOKw8mun7sZIgFhlHHQZpTWJyZNr+767TPUTXGBU=;
+ b=Y9wj49UBzMsk/klZjx1jUa8u+LZarwfznTELydTt4tu9d5UC1nWTDWFKlarjKemh/ZbEB9
+ DV77u4P9F3aqJAnlDaFu+USssr68OyGfEGulv1qupR8H187f7WprPDiS2hmRilyJ5rxYWA
+ jZkeyDnEO7YYSyjnoE2jwXyUt+tD/94=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715937361;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=9wYWAx2PYyOTbB/LCI3hz7bjDkyxOkz1uapIAToUark=;
- b=6EmY1xnz1/aS9A/f+O8Sf2mvTZcnlnUMR9VLtbJP9DiseQxwfCCDwKxnhj+6NTN3hoLP9f
- n7zleX6+JlE9M5Ag==
+ s=susede2_ed25519; t=1715937438;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FUzCOKw8mun7sZIgFhlHHQZpTWJyZNr+767TPUTXGBU=;
+ b=Ak3a9cl//yxleHFMGzk9pgWKSLQt8GySCpq6ic7zyT4BzbnhcxCE67oFANoQWuUDivw6a4
+ bpFwyG3BsBbyewBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57EBD13991;
- Fri, 17 May 2024 09:16:01 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EFB0813991;
+ Fri, 17 May 2024 09:17:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 0dNMFFEgR2ZkfAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 17 May 2024 09:16:01 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: arnd@arndb.de, chaitanya.kumar.borah@intel.com,
- suresh.kumar.kurmi@intel.com, jani.saarinen@intel.com, davem@davemloft.net,
- andreas@gaisler.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- rafael@kernel.org, hdegoede@redhat.com
-Cc: linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-acpi@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] arch: Fix name collision with ACPI's video.o
-Date: Fri, 17 May 2024 11:14:33 +0200
-Message-ID: <20240517091557.25800-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.45.0
+ by imap1.dmz-prg2.suse.org with ESMTPSA id mlwwOZ0gR2YdFgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 17 May 2024 09:17:17 +0000
+Message-ID: <8e82a1e7-b2b3-4417-9e02-197d0e0dbd5e@suse.de>
+Date: Fri, 17 May 2024 11:17:17 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -5.01
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: D221C5D1B3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] Revert "drm/mgag200: Add a workaround for low-latency"
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20240516161751.479558-1-jfalempe@redhat.com>
+ <20240516161751.479558-2-jfalempe@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240516161751.479558-2-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
+ XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,lists.freedesktop.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[22]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email];
- FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; DKIM_TRACE(0.00)[suse.de:+]
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[6]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -4.29
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,62 +143,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 2fd001cd3600 ("arch: Rename fbdev header and source files")
-renames the video source files under arch/ such that they do not
-refer to fbdev any longer. The new files named video.o conflict with
-ACPI's video.ko module. Modprobing the ACPI module can then fail with
-warnings about missing symbols, as shown below.
 
-  (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol acpi_video_unregister (err -2)
-  (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol acpi_video_register_backlight (err -2)
-  (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol __acpi_video_get_backlight_type (err -2)
-  (i915_selftest:1107) igt_kmod-WARNING: i915: Unknown symbol acpi_video_register (err -2)
 
-Fix the issue by renaming the architecture's video.o to video-common.o.
+Am 16.05.24 um 18:17 schrieb Jocelyn Falempe:
+> This reverts commit bfa4437fd3938ae2e186e7664b2db65bb8775670.
+>
+> This workaround doesn't work reliably on all servers.
+> I'll replace it with an option to disable Write-Combine,
+> which has more impact on performance, but fix the latency
+> issue on all hardware.
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-Reported-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Closes: https://lore.kernel.org/intel-gfx/9dcac6e9-a3bf-4ace-bbdc-f697f767f9e0@suse.de/T/#t
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 2fd001cd3600 ("arch: Rename fbdev header and source files")
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-arch@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
----
- arch/sparc/video/Makefile                    | 2 +-
- arch/sparc/video/{video.c => video-common.c} | 0
- arch/x86/video/Makefile                      | 2 +-
- arch/x86/video/{video.c => video-common.c}   | 0
- 4 files changed, 2 insertions(+), 2 deletions(-)
- rename arch/sparc/video/{video.c => video-common.c} (100%)
- rename arch/x86/video/{video.c => video-common.c} (100%)
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-diff --git a/arch/sparc/video/Makefile b/arch/sparc/video/Makefile
-index fdf83a408d750..dcfbe7a5912c0 100644
---- a/arch/sparc/video/Makefile
-+++ b/arch/sparc/video/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--obj-y	+= video.o
-+obj-y	+= video-common.o
-diff --git a/arch/sparc/video/video.c b/arch/sparc/video/video-common.c
-similarity index 100%
-rename from arch/sparc/video/video.c
-rename to arch/sparc/video/video-common.c
-diff --git a/arch/x86/video/Makefile b/arch/x86/video/Makefile
-index fdf83a408d750..dcfbe7a5912c0 100644
---- a/arch/x86/video/Makefile
-+++ b/arch/x86/video/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--obj-y	+= video.o
-+obj-y	+= video-common.o
-diff --git a/arch/x86/video/video.c b/arch/x86/video/video-common.c
-similarity index 100%
-rename from arch/x86/video/video.c
-rename to arch/x86/video/video-common.c
+> ---
+>   drivers/gpu/drm/mgag200/Kconfig        | 12 ------------
+>   drivers/gpu/drm/mgag200/mgag200_drv.c  | 17 -----------------
+>   drivers/gpu/drm/mgag200/mgag200_mode.c |  8 --------
+>   3 files changed, 37 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mgag200/Kconfig b/drivers/gpu/drm/mgag200/Kconfig
+> index 5e4d48df4854c..b28c5e4828f47 100644
+> --- a/drivers/gpu/drm/mgag200/Kconfig
+> +++ b/drivers/gpu/drm/mgag200/Kconfig
+> @@ -11,15 +11,3 @@ config DRM_MGAG200
+>   	 MGA G200 desktop chips and the server variants. It requires 0.3.0
+>   	 of the modesetting userspace driver, and a version of mga driver
+>   	 that will fail on KMS enabled devices.
+> -
+> -config DRM_MGAG200_IOBURST_WORKAROUND
+> -	bool "Disable buffer caching"
+> -	depends on DRM_MGAG200 && PREEMPT_RT && X86
+> -	help
+> -	  Enable a workaround to avoid I/O bursts within the mgag200 driver at
+> -	  the expense of overall display performance.
+> -	  It restores the <v5.10 behavior, by mapping the framebuffer in system
+> -	  RAM as Write-Combining, and flushing the cache after each write.
+> -	  This is only useful on x86_64 if you want to run processes with
+> -	  deterministic latency.
+> -	  If unsure, say N.
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> index 65f2ed18b31c5..3883f25ca4d8b 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> @@ -84,20 +84,6 @@ resource_size_t mgag200_probe_vram(void __iomem *mem, resource_size_t size)
+>   	return offset - 65536;
+>   }
+>   
+> -#if defined(CONFIG_DRM_MGAG200_IOBURST_WORKAROUND)
+> -static struct drm_gem_object *mgag200_create_object(struct drm_device *dev, size_t size)
+> -{
+> -	struct drm_gem_shmem_object *shmem;
+> -
+> -	shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
+> -	if (!shmem)
+> -		return NULL;
+> -
+> -	shmem->map_wc = true;
+> -	return &shmem->base;
+> -}
+> -#endif
+> -
+>   /*
+>    * DRM driver
+>    */
+> @@ -113,9 +99,6 @@ static const struct drm_driver mgag200_driver = {
+>   	.major = DRIVER_MAJOR,
+>   	.minor = DRIVER_MINOR,
+>   	.patchlevel = DRIVER_PATCHLEVEL,
+> -#if defined(CONFIG_DRM_MGAG200_IOBURST_WORKAROUND)
+> -	.gem_create_object = mgag200_create_object,
+> -#endif
+>   	DRM_GEM_SHMEM_DRIVER_OPS,
+>   };
+>   
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> index fc54851d3384d..d3d820f7a77d7 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -13,7 +13,6 @@
+>   
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+> -#include <drm/drm_cache.h>
+>   #include <drm/drm_damage_helper.h>
+>   #include <drm/drm_edid.h>
+>   #include <drm/drm_format_helper.h>
+> @@ -438,13 +437,6 @@ static void mgag200_handle_damage(struct mga_device *mdev, const struct iosys_ma
+>   
+>   	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
+>   	drm_fb_memcpy(&dst, fb->pitches, vmap, fb, clip);
+> -
+> -	/* Flushing the cache greatly improves latency on x86_64 */
+> -#if defined(CONFIG_DRM_MGAG200_IOBURST_WORKAROUND)
+> -	if (!vmap->is_iomem)
+> -		drm_clflush_virt_range(vmap->vaddr + clip->y1 * fb->pitches[0],
+> -				       drm_rect_height(clip) * fb->pitches[0]);
+> -#endif
+>   }
+>   
+>   /*
+
 -- 
-2.45.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
