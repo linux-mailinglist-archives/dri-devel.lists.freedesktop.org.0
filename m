@@ -2,104 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B748C8543
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 13:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8CB8C856B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 13:17:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADC8E10E04D;
-	Fri, 17 May 2024 11:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B212210E222;
+	Fri, 17 May 2024 11:17:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ug+QWuxz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YMhnYf3l";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ug+QWuxz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YMhnYf3l";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BSF/+khP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 752E610E04D;
- Fri, 17 May 2024 11:08:43 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AC899373D0;
- Fri, 17 May 2024 11:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715944121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=c5LlRjQBevN4JNCzX14mVk5q4A++6+lt5wmFe61+x2A=;
- b=ug+QWuxz8bAvv8CykkL5/KKcOubZjLeQVi9bm/gbxMn0Q2XvYs0Lx8M7eCqCGjkeLoztfu
- 6sFodax4PMlup1Uo3quoSnuWlWhNL1v5SX1N6ZN1t2ZhEOPAg5Hjj/yzKN2jgqt2+UGujV
- xMaLjokQtivnj9gK3C/oGsLECYgXJw8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715944121;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=c5LlRjQBevN4JNCzX14mVk5q4A++6+lt5wmFe61+x2A=;
- b=YMhnYf3lWkLNLr8RHyRFHOK6oOgNPXkcH3a9N7Cs7Ur/mU3vhmmBfXi+yBAAp1nJ2Chn0B
- olb026Judvyzf2Bg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ug+QWuxz;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YMhnYf3l
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1715944121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=c5LlRjQBevN4JNCzX14mVk5q4A++6+lt5wmFe61+x2A=;
- b=ug+QWuxz8bAvv8CykkL5/KKcOubZjLeQVi9bm/gbxMn0Q2XvYs0Lx8M7eCqCGjkeLoztfu
- 6sFodax4PMlup1Uo3quoSnuWlWhNL1v5SX1N6ZN1t2ZhEOPAg5Hjj/yzKN2jgqt2+UGujV
- xMaLjokQtivnj9gK3C/oGsLECYgXJw8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1715944121;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=c5LlRjQBevN4JNCzX14mVk5q4A++6+lt5wmFe61+x2A=;
- b=YMhnYf3lWkLNLr8RHyRFHOK6oOgNPXkcH3a9N7Cs7Ur/mU3vhmmBfXi+yBAAp1nJ2Chn0B
- olb026Judvyzf2Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7895413991;
- Fri, 17 May 2024 11:08:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id wEHRG7k6R2Z/UwAAD6G6ig
- (envelope-from <tiwai@suse.de>); Fri, 17 May 2024 11:08:41 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>
-Cc: Ben Skeggs <bskeggs@nvidia.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: [PATCH] drm/nouveau/disp: Fix missing backlight control on Macbook 5,
- 1
-Date: Fri, 17 May 2024 13:07:27 +0200
-Message-ID: <20240517110853.8481-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71E8510EE76
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 11:17:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1715944631; x=1747480631;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=hS7NlRBQ1HpfMGaEyWXHDF++JFNfFPErwh+V/Grho4s=;
+ b=BSF/+khPB2zrfC52hL7T9HeqtWWyVZaDSRttQiUole0fJxB+LjLwl4Nw
+ eSioeyPh5i+L7Cc9yjkCxmCa+nY9Iwa4s1K3bnQ5y4TCTWxc8Kx+gUT4Y
+ 9Lf6wYoynpPKEupqD8nAlwipvuBQu0hLTP2ImktAKQPO3CIUeXktJrENx
+ DmNarftjiW0Hj7K3XrULuVvaSknUX7qmtif2ebKOTe1+zVE57f0Y1doIR
+ 8tZwzQkInM/eCn9L9VPIEOQ3YlNLU9YiY6ypiY296GvqCNH3Nh6g7f0qc
+ StmfgVO20R9VYA2KrTpuATD+9tipbFVk04sSdACrMift+CJxYjT7zYZCJ Q==;
+X-CSE-ConnectionGUID: uuj647FFQgSYafxEyVKBDg==
+X-CSE-MsgGUID: 8SDqIChIQK+c3jXLQqi5xQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12328647"
+X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="12328647"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2024 04:17:11 -0700
+X-CSE-ConnectionGUID: 7zLzKfrVR8G52ZH/Yzd2EA==
+X-CSE-MsgGUID: ubpXkSihRJqqGMwOg8i5dQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="36500770"
+Received: from dneilan-mobl1.ger.corp.intel.com (HELO [10.245.244.100])
+ ([10.245.244.100])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2024 04:17:10 -0700
+Message-ID: <9dcd1af7-3716-450c-adae-ae1d04d6df79@intel.com>
+Date: Fri, 17 May 2024 12:17:07 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/buddy: stop using PAGE_SIZE
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dave Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: dri-devel@lists.freedesktop.org,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+References: <20240229105112.250077-3-matthew.auld@intel.com>
+ <06841e76-0a6d-4cbb-a903-1f2e5dfbaf46@app.fastmail.com>
+ <CAPM=9tyNrCsT27bvAVUcee-UME7568hZvU18m0k3OSopzUGaCA@mail.gmail.com>
+ <3ef0fe56-f488-452a-9d35-dc081bf59816@intel.com>
+ <2a6ea297-167f-4b0c-8aba-a4c1430f0e92@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <2a6ea297-167f-4b0c-8aba-a4c1430f0e92@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -5.01
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: AC899373D0
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- DWL_DNSWL_MED(-2.00)[suse.de:dkim];
- NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[]; ARC_NA(0.00)[];
- FROM_HAS_DN(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email];
- MIME_TRACE(0.00)[0:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- TO_DN_SOME(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_TLS_ALL(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
- DKIM_TRACE(0.00)[suse.de:+]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,34 +76,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Macbook 5,1 with MCP79 lost its backlight control since the recent
-change for supporting GFP-RM; it rewrote the whole nv50 backlight
-control code and each display engine is supposed to have an entry for
-IOR bl callback, but it didn't cover mcp77.
+On 17/05/2024 12:00, Christian König wrote:
+> Am 17.05.24 um 10:53 schrieb Matthew Auld:
+>> On 17/05/2024 02:11, Dave Airlie wrote:
+>>> On Thu, 29 Feb 2024 at 23:48, Arnd Bergmann <arnd@arndb.de> wrote:
+>>>>
+>>>> On Thu, Feb 29, 2024, at 11:51, Matthew Auld wrote:
+>>>>> The drm_buddy minimum page-size requirements should be distinct 
+>>>>> from the
+>>>>> CPU PAGE_SIZE. Only restriction is that the minimum page-size is at
+>>>>> least 4K.
+>>>>>
+>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>>>> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>> Cc: Arnd Bergmann <arnd@arndb.de>
+>>>>
+>>>> Acked-by: Arnd Bergmann <arnd@arndb.de>
+>>>
+>>> Has this landed anywhere yet?
+>>
+>> Looks like it fell through the cracks. I think it still applies, so 
+>> just needs someone with commit rights to push it.
+> 
+> Pushed to drm-misc-fixes.
 
-This patch adds the missing bl entry initialization for mcp77 display
-engine to recover the backlight control.
+Thanks.
 
-Fixes: 2274ce7e3681 ("drm/nouveau/disp: add output backlight control methods")
-Cc: <stable@vger.kernel.org>
-Link: https://bugzilla.suse.com/show_bug.cgi?id=1223838
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
-index 841e3b69fcaf..5a0c9b8a79f3 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
-@@ -31,6 +31,7 @@ mcp77_sor = {
- 	.state = g94_sor_state,
- 	.power = nv50_sor_power,
- 	.clock = nv50_sor_clock,
-+	.bl = &nv50_sor_bl,
- 	.hdmi = &g84_sor_hdmi,
- 	.dp = &g94_sor_dp,
- };
--- 
-2.43.0
-
+> 
+> Regards,
+> Christian.
+> 
+>>
+>>>
+>>> I'm been testing 6.9 on 64K pages and the buddy tests are exploding so
+>>> I wanted to pull this in.
+>>>
+>>> Dave.
+> 
