@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F5D8C85A5
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 13:26:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C28208C85E5
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 13:53:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3B2C10EE78;
-	Fri, 17 May 2024 11:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91E6A10E0D6;
+	Fri, 17 May 2024 11:53:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IRJd+3Nr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZMLxjlyq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23DCC10EE78;
- Fri, 17 May 2024 11:26:39 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4EA710E0D6;
+ Fri, 17 May 2024 11:53:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715945199; x=1747481199;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=6B9qTx8nmCoezSLzzcMRXr+s4VwpY77QrMPmH6L3Fzs=;
- b=IRJd+3NrQKpxrwQ7d7tSu9u7+v4AL6YZ5Knn3vSuNeOohb8Fm6YYVdI6
- UeHV7Y6stNkagzhGbkwwuYi1zvo1OY2evdT4tiiTqUrtKys4l03oNoRf1
- F3f1WAxVadNfaDGfUFoG3dG0Ho1M1MLx4s1UYdgXX7qIorW5b7IRExZk9
- f2fsUUyPVTg/MRUAa/vEPABIHRTqwqc8e0xaIxomnHfCTV5wkvLMweeiJ
- uOaAVbbTE1CUh2LurvZkZo3IAcAqLCmUrjGcJ6YAFNW9B6nh5E+q1/w1v
- Kwhs6y2WqyBjMKNotofh+VlT+HTjSWnayN1o3ndsK5sLBxqhqmkAKQ3Dq w==;
-X-CSE-ConnectionGUID: U2mhwmvtRtqJbdtMV/k6LA==
-X-CSE-MsgGUID: IH8t64CUTgupcfOtxwR7+Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11571494"
-X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="11571494"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2024 04:26:38 -0700
-X-CSE-ConnectionGUID: iiqb8KNNTyeMyCJHY40w4g==
-X-CSE-MsgGUID: 1pqjHUOdQ5SBOcCGum2rJw==
+ t=1715946795; x=1747482795;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=NmHDYiu9DuzvRtiaeJsydd3ZKV5k6U8m90dyBBTMp6Y=;
+ b=ZMLxjlyqmsgtRmmYu0N0qzuxc+/BQy25nDAcEOFNjzLNQON6MgjqZutR
+ mIFMDqFUWaw1IQObrn6Ia/ukjX7Kywa3683uJhdUsqK8cqDsGaKiucJhF
+ 3IbK8bZeFjbGnDTI1Eq+tHqmPYzynGXLUEg1JS7GXSnEoAQpLeOB4tTcG
+ 9jGgU7zp6ynzXN6H57Elak3qIz1V1eXEVcMO7FaSJUhBu2sYr77WIouGV
+ IHs6ALy2EtsFErO9qatuf4WBV5FwWzgmy2iTTT7Y9B+Nc4nh2OilEHYqF
+ gzOZgLBLx+w3qEX5l5RTnWhA1QTnCOQI3xg9tCPN0gU7tEQozuD73LNt7 A==;
+X-CSE-ConnectionGUID: n1bWWlxKRJehLV3Bikfnrg==
+X-CSE-MsgGUID: vWaQm9ohSHyun9ncJLTP3Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12289824"
+X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="12289824"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2024 04:53:15 -0700
+X-CSE-ConnectionGUID: LdWX7r9OSzuEipQ0XmcGAg==
+X-CSE-MsgGUID: Ci5kVUyjQ4GcC8XZl/tGCw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="31904167"
-Received: from bvivekan-mobl2.gar.corp.intel.com (HELO intel.com)
- ([10.247.118.196])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2024 04:26:33 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>
-Subject: [PATCH 2/2] drm/i915: Don't treat FLR resets as errors
-Date: Fri, 17 May 2024 13:25:50 +0200
-Message-ID: <20240517112550.251955-3-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240517112550.251955-1-andi.shyti@linux.intel.com>
-References: <20240517112550.251955-1-andi.shyti@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="36193250"
+Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.30])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2024 04:53:11 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@linux.intel.com>, Nirmoy Das
+ <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Andi Shyti
+ <andi.shyti@linux.intel.com>, Janusz Krzysztofik
+ <janusz.krzysztofik@linux.intel.com>, Jonathan Cavitt
+ <jonathan.cavitt@intel.com>
+Subject: Re: [PATCH] drm/i915/selftests: Set always_coherent to false when
+ reading from CPU
+In-Reply-To: <2034982a-6cdf-43d9-a41f-8cb1c9e071c5@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240516151403.2875-1-nirmoy.das@intel.com>
+ <87bk54c2fx.fsf@intel.com>
+ <2034982a-6cdf-43d9-a41f-8cb1c9e071c5@linux.intel.com>
+Date: Fri, 17 May 2024 14:53:06 +0300
+Message-ID: <877cfsbqot.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,50 +75,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we timeout while waiting for an FLR reset, there is nothing we
-can do and i915 doesn't have any control on it. In any case the
-system is still perfectly usable and the function returns void.
+On Fri, 17 May 2024, Nirmoy Das <nirmoy.das@linux.intel.com> wrote:
+> Hi Jani,
+>
+> On 5/17/2024 9:39 AM, Jani Nikula wrote:
+>> On Thu, 16 May 2024, Nirmoy Das <nirmoy.das@intel.com> wrote:
+>>> The previous commit 'commit 8d4ba9fc1c6c ("drm/i915/selftests: Pick
+>> "previous commit" is a fairly vague reference once this gets
+>> committed. It's not going to be "previous" in any meaningful sense.
+>>
+>> Please just start with:
+>>
+>> Commit 8d4ba9fc1c6c ("drm/i915/selftests: Pick correct caching mode.")
+>> was not complete...
+>
+> Will do that.
+>
+>
+>>
+>> And probably add:
+>>
+>> Fixes: 8d4ba9fc1c6c ("drm/i915/selftests: Pick correct caching mode.")
+>
+> Do we need Fixes for selftest ? I always assumed it is not required as 
+> this code is for debug/CI
 
-We don't need to be alarmed, therefore, print the timeout
-expiration as a debug message instead of an error.
+Maybe not for stuff that's already in stable, but we do run CI on
+drm-next and -rc kernels, and if this causes issues there, why not have
+them fixed?
 
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10955
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/intel_uncore.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+BR,
+Jani.
 
-diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-index 2eba289d88ad..a3fa2ed91aae 100644
---- a/drivers/gpu/drm/i915/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/intel_uncore.c
-@@ -2637,7 +2637,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
- 	 */
- 	ret = intel_wait_for_register_fw(uncore, GU_CNTL, DRIVERFLR, 0, flr_timeout_ms);
- 	if (ret) {
--		drm_err(&i915->drm,
-+		drm_dbg(&i915->drm,
- 			"Failed to wait for Driver-FLR bit to clear! %d\n",
- 			ret);
- 		return;
-@@ -2652,7 +2652,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
- 					 DRIVERFLR, 0,
- 					 flr_timeout_ms);
- 	if (ret) {
--		drm_err(&i915->drm, "Driver-FLR-teardown wait completion failed! %d\n", ret);
-+		drm_dbg(&i915->drm, "Driver-FLR-teardown wait completion failed! %d\n", ret);
- 		return;
- 	}
- 
-@@ -2661,7 +2661,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
- 					 DRIVERFLR_STATUS, DRIVERFLR_STATUS,
- 					 flr_timeout_ms);
- 	if (ret) {
--		drm_err(&i915->drm, "Driver-FLR-reinit wait completion failed! %d\n", ret);
-+		drm_dbg(&i915->drm, "Driver-FLR-reinit wait completion failed! %d\n", ret);
- 		return;
- 	}
- 
+>
+>
+> Thanks,
+>
+> Nirmoy
+>
+>>
+>> BR,
+>> Jani.
+>>
+>>> correct caching mode.")' was not complete as for non LLC  sharing platforms
+>>> cpu read can happen from LLC which probably doesn't have the latest
+>>> changes made by GPU.
+>>>
+>>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+>>> Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+>>> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+>>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+>>> index 65a931ea80e9..3527b8f446fe 100644
+>>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+>>> @@ -196,7 +196,7 @@ static int verify_access(struct drm_i915_private *i915,
+>>>   	if (err)
+>>>   		goto out_file;
+>>>   
+>>> -	mode = intel_gt_coherent_map_type(to_gt(i915), native_obj, true);
+>>> +	mode = intel_gt_coherent_map_type(to_gt(i915), native_obj, false);
+>>>   	vaddr = i915_gem_object_pin_map_unlocked(native_obj, mode);
+>>>   	if (IS_ERR(vaddr)) {
+>>>   		err = PTR_ERR(vaddr);
+
 -- 
-2.43.0
-
+Jani Nikula, Intel
