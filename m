@@ -2,80 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B3B8C8D78
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 22:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADFB8C8D84
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 23:04:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C361A10EF6C;
-	Fri, 17 May 2024 20:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3F6C10EF70;
+	Fri, 17 May 2024 21:04:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="3a+QHjxp";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lx8MVCMz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 960D610EF6C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 20:54:02 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-5724736770cso1018a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 13:54:02 -0700 (PDT)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC71610E243;
+ Fri, 17 May 2024 21:04:07 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-1f2ecea41deso5033525ad.1; 
+ Fri, 17 May 2024 14:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1715979241; x=1716584041;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vn13dLP5pRrsDv4NOdbcqGoQN2bmYpHdTGHpP55EB4g=;
- b=3a+QHjxpGch8c5zlYnIt809fTClYfG5ahpViULFO91B2N+At+C4yw3n/jFaNJzCexi
- w3POkFk4AXK/NaVdTnvWDYZVyEKmZDsDLxjgGJtnRvcMIx7E5yJBl16cRXXAaBbey3zw
- n+HvnMqgY/7KwNnTqjJSZ0CrNFH3J/K/eitQQ8tJi8VJsnPSB0aDMS2WlDJyaj1bzc1R
- RlbKSKv0I1qO2iHgr4rbbvz4b0UQHPNJBwOLT+IfZnoF04K/SDtjJsLgTvJKn2shn5ld
- r7wydG/8XxwscBhBnEeXoka0YYYKwjd0Xx+CTHYB6/OdK1VJhK72jL7eaT/BdVy4hGJ0
- +T3A==
+ d=gmail.com; s=20230601; t=1715979847; x=1716584647; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=LSGmPsvhsE8MetA3f75jbOyyenF8fqWa7epNrquz5fM=;
+ b=lx8MVCMzFApvijmHki46iqiwMBCvfuu6uZDdgMxC0RuXXfzh0S+4Coi/EzscsGZiDc
+ hRalUpPiXDXoTqJmlB/HL3Ge5bXpDejDzlr3HYp4nWlOuiYwM63LId5fO5pgveOxjFpv
+ dVPSbih+FLHHyIm/0XdwoilaK3UfKEa0uJ/VGYG0HeunHnOcLN8LIUM2sCHayAeeOthO
+ aMDtblbbgbvO3B3n8/mJtW0zYddmUE1GJ7qoR5XBetDg3/r2qeU2OZ2RT5VQK2BTu7WF
+ VNLzbjRZ9/9MgwUOkcUpNwrD4IyGzG43/CzecbnTv4sI7dn4Z0Z391hzGzMOA2fGw99E
+ X7hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715979241; x=1716584041;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1715979847; x=1716584647;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vn13dLP5pRrsDv4NOdbcqGoQN2bmYpHdTGHpP55EB4g=;
- b=u+/xec+baPE06nSxYGmcIe+TwaKH24qYwm1YssMe8JSgBbsqBHDQ2yMMjprB+XyAX+
- tAB71obuUMI6UZfK3IYO1lQOQ6JSPHffEWp4SIvAF0B1LheTSjOolylYE2n08h7Xv5gG
- Vdx2nr/2u92uqNsBjwcLR3XkQjkr0b2rOjwulNV5zJqCCic6w1e3X64JysKZx5UVkHXi
- nfLY2bitMWlIScbmDTXt0NGD1qoEIs9sHXmNx/PeQngUDaC5CaQkC5BVCg5vpI36OJHd
- vF900ct/x/q1oBtcm/lTXMB6Ahj3I4qTIGcd9O88Df3T0VK9FCO1NTJJMqRWSixyYDXC
- tSiQ==
+ bh=LSGmPsvhsE8MetA3f75jbOyyenF8fqWa7epNrquz5fM=;
+ b=aiCIFzKrVUPIex2Sf+9MARhEFVbqgrc2h9enW54R7NWb6vjyoAa7H8bZvLIRo2b4yg
+ Pz0fDqsCl+YjrW+UPq000VmcIn4HPPXr722tBTb+PDTFT3JOkWyEwgOwj3w9WVAkXWjS
+ r906Ena9iMtRK63KaanPPXCdYYxUp/EZTeR9s3xnInJ/tlTT5eQuLKCyui/ahjqQV9qZ
+ Eo01Sv5we/esT2M7GkS/r9fjrRLewVWWMz/+Vx5oG+OSTA8z3NAMOCQczlcaZofzMmJi
+ JNSGXJpgHkx8mbAAE89YmloAQmxGzHoqfA3gglXEEmI7Z7+B7ce31Dc+kMjzoEIoHP7r
+ ORUQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXithQtYvyoLvDz9h/iQXAPrJRI9h/BfInyWXVLtwEc+CMSf796+9iNdBTsXiehzZF1auuNmJUlubbqz3JBps5hFWib+TqCSEKlg5/V8lLw
-X-Gm-Message-State: AOJu0YzcKnf6ME+SvvB/668yRm705o69xvLSApM89MKOgMcTVhCOH9ku
- +6F0zUCUac9HiM26sSulVFjf5SVHaZE0+7WJV+ICUJtzp0/wmUxMDxcfWfYrTcC3mGFXgckHuvv
- SVlleTWVnEUViifo8p3J+45hdf8dJuMOHCrUp
-X-Google-Smtp-Source: AGHT+IFRAIfV54+Aa1LbyF88d23hN+YT1t2sexWDi9c3fyTst75D5FRNvAf6sgXSn3IVxUNlK5yurWk/GWDFHEMqw/c=
-X-Received: by 2002:a05:6402:2158:b0:573:438c:778d with SMTP id
- 4fb4d7f45d1cf-5752c3f15c3mr3670a12.1.1715979239492; Fri, 17 May 2024 13:53:59
- -0700 (PDT)
+ AJvYcCXRFPQjfCNW7WvIj6vOKe98HCW5gN4lO5qRGKvrAIZr22UdEQ96TBe+Qi1sKr+q7GQoD06FIDFoZLgWBffRve+0OLxj4YVQr++wDZyPLhvd9jp6Hbf4PPGC/JisqxnNCbaqfOLWrL8OomCWV72ElQw=
+X-Gm-Message-State: AOJu0YxsLCCBes50KSyrHJRzEVgXHiGjHF5PkDeYfDvwiujIVChX3iM7
+ e2wYa2Xg1EdGieXf3C8QlBp4vxkM6OjlY27uAmrBo6VlZsfzGPsN
+X-Google-Smtp-Source: AGHT+IGhi4Z/q/DIJ2PGOE/sA5K4Ii//7cPJVS4c4SvV5loP1DIF3BVdz0KhqlaEEe1nyqvCAR8+ew==
+X-Received: by 2002:a17:902:da87:b0:1eb:b50e:3577 with SMTP id
+ d9443c01a7336-1ef4404f4a5mr335556095ad.56.1715979847035; 
+ Fri, 17 May 2024 14:04:07 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f2e1c81db0sm17839365ad.78.2024.05.17.14.04.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 May 2024 14:04:06 -0700 (PDT)
+Date: Fri, 17 May 2024 14:04:04 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, Pan@freedesktop.org
+Subject: Re: [RESEND v3 1/2] drm: enable (most) W=1 warnings by default
+ across the subsystem
+Message-ID: <6584ea16-06f7-4a95-bd83-870f30fc4b5d@roeck-us.net>
+References: <cover.1709629403.git.jani.nikula@intel.com>
+ <a50f1a69d5af72e913996179a75bc3a71d81ebea.1709629403.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-References: <20240517171532.748684-1-devarsht@ti.com>
- <20240517173607.800549-1-devarsht@ti.com>
- <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
-In-Reply-To: <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Fri, 17 May 2024 13:53:47 -0700
-Message-ID: <CAGS_qxpCM=Aw1J_EVQPZv_nDy0zCp6JqxfQk5mGkV+5iCe1OZA@mail.gmail.com>
-Subject: Re: [PATCH v8 07/10] lib: add basic KUnit test for lib/math
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com, 
- akpm@linux-foundation.org, gregkh@linuxfoundation.org, adobriyan@gmail.com, 
- jani.nikula@intel.com, p.zabel@pengutronix.de, airlied@gmail.com, 
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com, 
- vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com, 
- detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com, 
- nicolas@ndufresne.ca, davidgow@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a50f1a69d5af72e913996179a75bc3a71d81ebea.1709629403.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,41 +100,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 17, 2024 at 1:14=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> > [devarsht: Rebase to 6.9 and change license to GPL]
->
-> I'm not sure that you may change license. It needs the author's confirmat=
-ion.
+Hi,
 
-Checking, this is referring to the MODULE_LICENSE, which used to be
-MODULE_LICENSE("GPL v2");
+On Tue, Mar 05, 2024 at 11:07:35AM +0200, Jani Nikula wrote:
+> At least the i915 and amd drivers enable a bunch more compiler warnings
+> than the kernel defaults.
+> 
+> Extend most of the W=1 warnings to the entire drm subsystem by
+> default. Use the copy-pasted warnings from scripts/Makefile.extrawarn
+> with s/KBUILD_CFLAGS/subdir-ccflags-y/ to make it easier to compare and
+> keep up with them in the future.
+> 
+> This is similar to the approach currently used in i915.
+> 
+> Some of the -Wextra warnings do need to be disabled, just like in
+> Makefile.extrawarn, but take care to not disable them for W=2 or W=3
+> builds, depending on the warning.
+> 
+> There are too many -Wformat-truncation warnings to cleanly fix up front;
+> leave that warning disabled for now.
+> 
 
-and is now
-MODULE_LICENSE("GPL");
+With this patch in the mainline kernel, I get the following build error
+when trying to build parisc:allmodconfig.
 
-If checkpatch is suggesting that now, then changing it sounds good to me.
+Error log:
+drivers/gpu/drm/nouveau/nvif/object.c: In function 'nvif_object_mthd':
+drivers/gpu/drm/nouveau/nvif/object.c:161:9: error: 'memcpy' accessing 4294967264 or more bytes at offsets 0 and 32 overlaps 6442450881 bytes at offset -2147483617 [-Werror=restrict]
+  161 |         memcpy(data, args->mthd.data, size);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/nouveau/nvif/object.c: In function 'nvif_object_ctor':
+drivers/gpu/drm/nouveau/nvif/object.c:298:17: error: 'memcpy' accessing 4294967240 or more bytes at offsets 0 and 56 overlaps 6442450833 bytes at offset -2147483593 [-Werror=restrict]
+  298 |                 memcpy(data, args->new.data, size);
 
->
-> > ---
-> > Changes since v6:
-> > * Rebase to linux-next, change license to GPL as suggested by checkpatc=
-h.
->
-> Note, checkpatch.pl is not false positives free. Be careful
-> with what it suggests.
->
-> > +#include <kunit/test.h>
-> > +#include <linux/gcd.h>
->
-> > +#include <linux/kernel.h>
->
-> Do you know why this header is included?
+The problem is also seen with v6.9 when trying to build an image
+with W=1, so it is not triggered by a code change. I don't know
+if other architectures are affected. The problem is not seen with
+gcc 11.4, but it is seen with gcc 12.3 and 13.2. I did not try
+with older versions of gcc.
 
-I think I had put it in the original before a lot of the work you did
-to split things out of kernel.h.
-I haven't had time to look apply this patch series locally yet, but
-I'd be pretty sure we can remove it without anything breaking.
+Bisect log is attached for reference.
+
+The odd error makes me wonder if I should revert to testing with gcc 11.4
+and no longer bother with later versions of gcc, at least for any affected
+architectures. Any recommendations ?
 
 Thanks,
-Daniel
+Guenter
+
+---
+# bad: [7ee332c9f12bc5b380e36919cd7d056592a7073f] Merge tag 'parisc-for-6.10-1' of git://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux
+# good: [a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6] Linux 6.9
+git bisect start 'HEAD' 'v6.9'
+# good: [1b294a1f35616977caddaddf3e9d28e576a1adbc] Merge tag 'net-next-6.10' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next
+git bisect good 1b294a1f35616977caddaddf3e9d28e576a1adbc
+# bad: [d34672777da3ea919e8adb0670ab91ddadf7dea0] Merge tag 'fbdev-for-6.10-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev
+git bisect bad d34672777da3ea919e8adb0670ab91ddadf7dea0
+# bad: [2871ec40994912ce4f2e2d5072a428eb84c77d3c] Merge tag 'drm-misc-next-2024-04-19' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
+git bisect bad 2871ec40994912ce4f2e2d5072a428eb84c77d3c
+# bad: [34633158b8eb8fca145c9a73f8fe4f98c7275b06] Merge tag 'amd-drm-next-6.10-2024-04-13' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
+git bisect bad 34633158b8eb8fca145c9a73f8fe4f98c7275b06
+# good: [4b0cb230bdb71c23981acfa5e7b367c7dde02a41] drm/amdgpu: retire UMC v12 mca_addr_to_pa
+git bisect good 4b0cb230bdb71c23981acfa5e7b367c7dde02a41
+# bad: [6376eb8b911534735fec104c1a0d780e4cf3116a] drm/dp: Clarify that wait_hpd_asserted() is not optional for panels
+git bisect bad 6376eb8b911534735fec104c1a0d780e4cf3116a
+# bad: [9c86b03863844ce69f99aa66404c79492ec9e208] drm/panthor: Fix panthor_devfreq kerneldoc
+git bisect bad 9c86b03863844ce69f99aa66404c79492ec9e208
+# bad: [b5d7cb76f2674c9d01b611141702723a95d12553] drm: add missing header guards to drm_internal.h
+git bisect bad b5d7cb76f2674c9d01b611141702723a95d12553
+# good: [4bdca11507928a4c9174e9b7240e9d058c12a71d] drm/panthor: Add the driver frontend block
+git bisect good 4bdca11507928a4c9174e9b7240e9d058c12a71d
+# good: [b2ec429b69280001d85029dc50b5427af41eb641] drm/tidss: Use dev_err_probe() over dev_dbg() when failing to probe the port
+git bisect good b2ec429b69280001d85029dc50b5427af41eb641
+# bad: [a61ddb4393ad1be61d2ffd92576d42707b05be17] drm: enable (most) W=1 warnings by default across the subsystem
+git bisect bad a61ddb4393ad1be61d2ffd92576d42707b05be17
+# good: [113cc3ad8566e06d6c8ef4fc0075a938dedefab5] drm/bridge: Document bridge init order with pre_enable_prev_first
+git bisect good 113cc3ad8566e06d6c8ef4fc0075a938dedefab5
+# good: [460be1d527a8e296d85301e8b14923299508d4fc] drm/nouveau: move more missing UAPI bits
+git bisect good 460be1d527a8e296d85301e8b14923299508d4fc
+# first bad commit: [a61ddb4393ad1be61d2ffd92576d42707b05be17] drm: enable (most) W=1 warnings by default across the subsystem
