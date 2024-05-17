@@ -2,76 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500578C8CF8
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 21:50:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49978C8D33
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 22:12:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA74410EED0;
-	Fri, 17 May 2024 19:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E039310E00F;
+	Fri, 17 May 2024 20:12:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a6PRcZdi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ur9I/fdO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785CB10E00F;
- Fri, 17 May 2024 19:50:29 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-1e4c4fb6af3so6304495ad.0; 
- Fri, 17 May 2024 12:50:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1715975428; x=1716580228; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=vGDwCwwhr9iyyZbcO2LNbRmyKSJnbSVS/UCD4IYwGr8=;
- b=a6PRcZdi5n8lu2w6/Ze+CzTG4fMhU2PzW8KgViFlz+Fk6WqKe0W4tl15oJVJdfzLcZ
- PTxRi+xYgxPObAgefoIUeXkdxkKvUq6rzQXhRJ5cVABOTB3mJHrJNL3Pnc+Z8tgqIIQo
- gHnHZ/kt/hzPcUdRCxn+Jv70vMsKQzdYEf9LPNhyw6puCQtseS2ZuU5XGgNValGtHzef
- ylS8Si8rlG/ED5TT0dzOkQIqr5lYWOP3diXbMtw0RBrVgtFMiJrsnjKiTW+cVxck9shC
- CGxMCHIFaoXqr+uWazzNtgw1+91CUWoALWNj+bZzeozuEEjmXgm7XvJJyeLv+IqXGXY+
- p9OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715975428; x=1716580228;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vGDwCwwhr9iyyZbcO2LNbRmyKSJnbSVS/UCD4IYwGr8=;
- b=jmTCwTMKE/fyd79bimYMLbNuST4h2Khn+/8H7kalq0sNvi7aN6QYQtRnQKhin625Zb
- Sq2gV9FprnWEJPhn0QBawIZpm3smZrU08Zr0OVUrfXwZ4otHoU65fFTUlBQjWVwekhBy
- WSPY34RETtnGh0/XX6Z+JafQ63vWnIqfT5uY+XD2Pj0yczPGE7d1p1lYWh/CLScIgLr+
- rKFgmljmTzvOkfOhmgKo2bFVEmuah8Ez58oAUfxc9vG1Hr7vx/HLweWeYop/+aufwuun
- t3CKZzdvQbbD511IcW4XkiKMnCadqGymPg8BntVNbNoyfVQZmFZ9QoxozPXFmZ66y5bE
- rRzg==
-X-Gm-Message-State: AOJu0YyK7xpi9ktL0p3LNvvMOy7i4QH6vd8Z+NNpGeB3HEWFsAzTCHKQ
- yojZJ4UwZEHm0acG4Rj0ykLaxoSShBoYr+kGi1nju1Z064YOQoBkh1W+RA==
-X-Google-Smtp-Source: AGHT+IGED0PKOMspRHBg/lO86eagMfaS1Pal7MYA8gYSpyUm/2pAAGCaWIEFdpCNBk+5VKC7GhGXlA==
-X-Received: by 2002:a17:902:d4ca:b0:1eb:3d68:fc2b with SMTP id
- d9443c01a7336-1f2ed3f863amr1029215ad.34.1715975427744; 
- Fri, 17 May 2024 12:50:27 -0700 (PDT)
-Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1ef0b9d188dsm160529775ad.2.2024.05.17.12.50.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 May 2024 12:50:26 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, Nikita Travkin <nikita@trvn.ru>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Bjorn Andersson <quic_bjorande@quicinc.com>,
- Connor Abbott <cwabbott0@gmail.com>, Ruan Jinjie <ruanjinjie@huawei.com>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/msm/adreno: Check for zap node availability
-Date: Fri, 17 May 2024 12:50:19 -0700
-Message-ID: <20240517195021.8873-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.45.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 745BA10E00F
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 20:12:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7209161E2A;
+ Fri, 17 May 2024 20:12:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81D93C32782;
+ Fri, 17 May 2024 20:12:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1715976744;
+ bh=S8uwpeLZ+ub2Pr8pjfgM4+SSbXbFNBtJ2z2gFUGvxh8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Ur9I/fdOwlQftj39+BLRaZvYz/EKKieyZqNSdOFkj1wv6eHn3qYhFQwVO8VNg0fy1
+ K7nLW4pt6Upyaz9lVmzGI0pELPdiicDSf8kcjqWvvJFX22MqEEtIUmSSj+VuLAXdb5
+ /h3dY/0lQlMb8FQOd9fYA2Dd73Q+sCLsyTTyNxUXSm4PhzG6/jG49d9OMVsI60dQsz
+ 5/8/mexdS6A2hqg0GrR5lQojsRfpYbnssOcP6//KL2G9fk+BvQsODdxddqjaHzGmbM
+ NFKhiUmkAwDb3rjvZaitpuhY9ST5/AuU47sYn+Eoft18j+q2SqMMJEMzOxZQmd6rXO
+ xchTC4RlyUytQ==
+Date: Fri, 17 May 2024 13:12:22 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Airlie
+ <airlied@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Michal Simek <michal.simek@amd.com>
+Subject: Re: [PATCH v3 0/2] Fix Kernel CI issues
+Message-ID: <20240517131222.2f147cf9@kernel.org>
+In-Reply-To: <2002d2b4-ab0c-4c35-9693-c2b82054262c@ideasonboard.com>
+References: <20240426-dp-live-fmt-fix-v3-0-e904b5ae51d7@amd.com>
+ <2a14d8ff-a8f5-4ebe-9f0e-a5554b417f0c@ideasonboard.com>
+ <20240503162733.GA4136865@thelio-3990X>
+ <2002d2b4-ab0c-4c35-9693-c2b82054262c@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,29 +67,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Fri, 3 May 2024 20:25:49 +0300 Tomi Valkeinen wrote:
+> > I think the second patch also needs to go to drm-misc-next-fixes? The
+> > clang warning fixed by it has returned in next-20240503 because it
+> > appears that for-linux-next was switch from drm-misc-next to
+> > drm-misc-next-fixes, as I see for-linux-next was pointing to commit
+> > 235e60653f8d ("drm/debugfs: Drop conditionals around of_node pointers")
+> > on drm-misc-next in next-20240502 but it is now pointing to commit
+> > be3f3042391d ("drm: zynqmp_dpsub: Always register bridge") on
+> > drm-misc-next-fixes in next-20240503.  
+> 
+> Oh. Hmm, did I just hit the feature-freeze point with the fixes...
+> 
+> Now I'm unsure where I should push these (if anywhere), as they already 
+> are in drm-misc-next.
+> 
+> DRM Misc maintainers, can you give me a hint? =)
 
-This should allow disabling the zap node via an overlay, for slbounce.
-
-Suggested-by: Nikita Travkin <nikita@trvn.ru>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index d9ea15994ae9..a00241e3373b 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -46,7 +46,7 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
- 	}
- 
- 	np = of_get_child_by_name(dev->of_node, "zap-shader");
--	if (!np) {
-+	if (!np || !of_device_is_available(np)) {
- 		zap_available = false;
- 		return -ENODEV;
- 	}
--- 
-2.45.1
-
+This is now breaking allmodconfig build of Linus's tree.
+Could you please get it fixed ASAP?
