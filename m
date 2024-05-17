@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659568C8E72
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 01:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BCD98C8E74
+	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 01:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5356710E117;
-	Fri, 17 May 2024 23:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A039A10E159;
+	Fri, 17 May 2024 23:26:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="QIOJ2aFW";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="ktbVIyFr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29D0010E117
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 23:24:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B4B610E159
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 23:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=EGNBwt4Jhx0eU/bSMW+HjR2avZcfPg+d5TcR4LmRDO0=; b=QIOJ2aFWqPczygka
- F251WHiGcBngjQVLpm7xkQSPFQnaFR2tb8c8vDZOiFSlljtDMCus4n8L7lZczEY0mOb0Bry3UY0F/
- p6DovP7zlrLrt5lVOAjl8Xcq+Vyz6XoHSkvtEcmPaIUPpo51PKhJWKFU/+BJNo1oRG0l4Lof1Dmcv
- Puetk0I7MjbvA0bAdPVoXGH9lFrrrftembvpS9lqEkV6qYl2PnFG7Y63FnI0z8KRF4fx3pnZNNQdW
- 8EF4RrMimQBo9but+RaHoakHGBHUu3QZbPjRKTi4mBj+DlSsA3c7PyD2FQUpfJYDtGxIAZcWvTaZi
- SP4XbjWAqSu2XcLKxg==;
+ :Subject; bh=0u7kgikaSLk5ESRxVAP69RMWkPZcQroGJaOi2Fac3E0=; b=ktbVIyFr59LYhMyF
+ huNk9ziHrp5E1T2NhImL1k6eAb2IDhny9GEIZ9d3XH5OSI1GTmPiHY9su17XEhP6dH/5SZjqrVr/F
+ 8VRNTOZzi94GrGuhzz6ONO6BYlsNqdoqZ3FiMmYv1wMPu9SgFcYNEYnwBSToQ9cLBsWyPUfcC2gfj
+ 99Ly5tyCC0hMWz1vzQz1WI6wQcIZqCCOA7jnao/pNFZjd7PjvwsQFcu1SqHh7rIxfxO/wrhZK260D
+ B6ltUBU80q3NL6XmBWHAmFQpGQRRiOSgzRULeGgZtAz5bA2dZItp76/3vCm2iOcsBNkQbX3tmoeS1
+ 9+wprLqvXCyjnQykqA==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1s86wD-001ThF-0T;
- Fri, 17 May 2024 23:24:33 +0000
+ (envelope-from <linux@treblig.org>) id 1s86xu-001Til-1z;
+ Fri, 17 May 2024 23:26:19 +0000
 From: linux@treblig.org
-To: andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org
-Cc: maarten.lankhorst@linux.intel.com, daniel@ffwll.ch,
+To: kherbst@redhat.com,
+	lyude@redhat.com
+Cc: daniel@ffwll.ch, nouveau@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 1/6] drm/bridge: analogix: remove unused struct 'bridge_init'
-Date: Sat, 18 May 2024 00:24:27 +0100
-Message-ID: <20240517232427.230709-1-linux@treblig.org>
+Subject: [PATCH 2/6] drm/nouveau: remove unused struct 'init_exec'
+Date: Sat, 18 May 2024 00:26:17 +0100
+Message-ID: <20240517232617.230767-1-linux@treblig.org>
 X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -57,34 +57,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-'bridge_init' is unused, I think following:
-commit 6a1688ae8794 ("drm/bridge: ptn3460: Convert to I2C driver model")
-(which is where a git --follow finds it)
+'init_exec' is unused since
+commit cb75d97e9c77 ("drm/nouveau: implement devinit subdev, and new
+init table parser")
 Remove it.
-
-Build tested.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 5 -----
+ drivers/gpu/drm/nouveau/nouveau_bios.c | 5 -----
  1 file changed, 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index df9370e0ff23..1e03f3525a92 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -36,11 +36,6 @@
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bios.c b/drivers/gpu/drm/nouveau/nouveau_bios.c
+index 79cfab53f80e..8c3c1f1e01c5 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bios.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bios.c
+@@ -43,11 +43,6 @@
+ #define BIOSLOG(sip, fmt, arg...) NV_DEBUG(sip->dev, fmt, ##arg)
+ #define LOG_OLD_VALUE(x)
  
- static const bool verify_fast_training;
- 
--struct bridge_init {
--	struct i2c_client *client;
--	struct device_node *node;
+-struct init_exec {
+-	bool execute;
+-	bool repeat;
 -};
 -
- static int analogix_dp_init_dp(struct analogix_dp_device *dp)
+ static bool nv_cksum(const uint8_t *data, unsigned int length)
  {
- 	int ret;
+ 	/*
 -- 
 2.45.1
 
