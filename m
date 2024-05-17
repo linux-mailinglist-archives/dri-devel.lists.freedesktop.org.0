@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E569A8C8C57
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 20:48:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159198C8C59
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 20:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 139B910EF58;
-	Fri, 17 May 2024 18:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5341910EF59;
+	Fri, 17 May 2024 18:48:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="ENKhWZbf";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="P6rpIEza";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
- [209.85.167.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC8310EF58
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 18:48:51 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id
- 5614622812f47-3c99257e0cbso332376b6e.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 11:48:51 -0700 (PDT)
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
+ [209.85.161.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCD7610EF59
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 18:48:54 +0000 (UTC)
+Received: by mail-oo1-f49.google.com with SMTP id
+ 006d021491bc7-5aa20adda1dso1134439eaf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 11:48:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1715971730; x=1716576530;
+ d=broadcom.com; s=google; t=1715971734; x=1716576534;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NwLTSzkJVjfr3yIEgVUxQAA5OYE2rQN+MHnV5J9QSpc=;
- b=ENKhWZbfyvY+25qL0EQ/0PdEFLlU3QzoN7H2zCy5EvG7PphNTCdKxXsOkkB05MA/dT
- E+K0gMPKfhLhcZnVJ4/Ot5T5mYU5LpXtr6j/41kCdE60s+gpCaOq9gR8EeoCkWqZXqyV
- uD+Gbz5w9+KtH1O3+TiWMbSr/an3Ely8TVV4Y=
+ bh=4UdLzMQLvTDj1SE6a0ZZa/BWZkEe+eXQUJ5pw7bGwEM=;
+ b=P6rpIEzaKWFWhpDLH9maBbN/pvQQUz/T2JDg/XjyySg1xjgulqNNtyv9CZs8DVF7/R
+ bQsunxtbtGFv5jxjpt3ksf+1BLlMh3s3TOM2tz2JwxVW6pH3KL6lGpNZ0oekFY8jofir
+ W96t2/9iJhRedCGGfVur/IY1W4ZaPjxXTW/jc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715971730; x=1716576530;
+ d=1e100.net; s=20230601; t=1715971734; x=1716576534;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NwLTSzkJVjfr3yIEgVUxQAA5OYE2rQN+MHnV5J9QSpc=;
- b=UEf1wMwmfWgt/azdZ9u/Y9ccfm8baYdmCmrzLtgv2M1PxzQvPo2mAJarAOT9KWOeDS
- ji6Hf6EBYDVktTW0KdRdUoNiL8573oY3K/sfstimGhLOq8AwTDHiGlVzJSOdQPaie97W
- SZ2oZonGCBkCAtT7l25+/UXNWP4KGlWk5MuPAH0FHvR4mjQGvWMcx/pSv8JVZuMkrm5D
- GWVoyqvZQU0nJoFXAL5JF+p9q2FrKnnlQRi7ShVdd2nyDn+6TMN27nj/u9+qsR8e42yq
- AKR+IpbK8vCl9AFbefxDs9cOUbnFUCqjoHjJ4nhw0shj3gDltfrNXUMIdRLFG5eo4v9l
- QEpg==
-X-Gm-Message-State: AOJu0YyyP92pmufxslomTL+WBQMEDGUrje+V73yKDXaCi4rs/qqcpIcr
- VM8WBqcMgfXzovBr2SWYVpvU/HN6po4+lhqJaBwqXJVPDqpGtSdVjiPzzQbQs4u742/gJLJPKSe
- mOhQaXMduAYOrGVZkTHHR1gom4xvo2P8kcKJorPCLwBbVDHcUkaSt3qGTKjoFYd+MBEBKAUjIEo
- 38wIcB+WOMOEck4dErZeGQVjYHuo0VI6mqjyOExMBQzdX2FyGc/Q==
-X-Google-Smtp-Source: AGHT+IEZg2+O3xTU3bgiSKRo5ReeZlsvz9ihcKmn6CWDhekeT7oUSXJ7InsqDoGQ5gB1RovbFnF/dg==
-X-Received: by 2002:a05:6808:1803:b0:3c3:d47b:e4cf with SMTP id
- 5614622812f47-3c9970bd1c0mr27607475b6e.39.1715971729953; 
- Fri, 17 May 2024 11:48:49 -0700 (PDT)
+ bh=4UdLzMQLvTDj1SE6a0ZZa/BWZkEe+eXQUJ5pw7bGwEM=;
+ b=XZeAbTTH7eRZciGTswAiPTbEoxPzgILiU7TAMRzBgdVPLKSxgBma0GsHmaR9y5tPKY
+ EFfpOYOz9KT4zLNI2O1qSh2CUq02jb2CiNEHGSBKcTsQCEWEdTIhQmDBUaN95UeBUq6m
+ jXRTsvA0S8gJEiJkV1iZnNrwUUxNpQuihcLwX419dOnrRcSVfdCK6k5vPF+uMzFOsJvF
+ CVp47sDdkHs74vIc+WH7zwvIearpebUAqjWX5ezpsaFmH9U11GDUfGW7/WehylhMq/wp
+ 0gHtIykZChiDYtpNZzu2NuDM7+XQxYUdjiowo+X6esM+MI7kEv5Ir7Hu2k3n7mJ1CUDo
+ nUuw==
+X-Gm-Message-State: AOJu0YxCxmBhoPXR6eQX+yydzrsUFspjNwKZSRa8IGe07P464ZqszWfb
+ DCQ8tQNq20QalmYqTW7kRzWmd4U/KttRDJGq11K5ZpEo+NQldk3tFSTYg2hDgtaG4XXehb3mmxB
+ 6yBFkcX5ky/HraRq5DLfJ06twTvy/ctA+BHgMwjNaofVXXkyTN0zgix1WT8z10boBeq9fLt5XzU
+ bsIyfEreVFzTwrTHWW+72dIsSE1kzNa59xDxgH55TgGNnDMigh4A==
+X-Google-Smtp-Source: AGHT+IF0hxRupiSUZyLaJ9CLcHMF4zlopxRg1Txpxb5FG4vBEX5mUNR2MtlLh1dWJTIhev0aQ9WCDQ==
+X-Received: by 2002:a05:6358:5694:b0:18d:f1bc:9f80 with SMTP id
+ e5c5f4694b2df-193baed8126mr2275935255d.0.1715971733548; 
+ Fri, 17 May 2024 11:48:53 -0700 (PDT)
 Received: from localhost ([192.19.144.250]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-792bf2fc57asm926571085a.81.2024.05.17.11.48.49
+ d75a77b69052e-43e137a737asm76461211cf.4.2024.05.17.11.48.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 May 2024 11:48:49 -0700 (PDT)
+ Fri, 17 May 2024 11:48:52 -0700 (PDT)
 From: Ian Forbes <ian.forbes@broadcom.com>
 To: dri-devel@lists.freedesktop.org
 Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
  martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
  Ian Forbes <ian.forbes@broadcom.com>
-Subject: [PATCH v2 3/4] drm/vmwgfx: Remove STDU logic from generic mode_valid
- function
-Date: Fri, 17 May 2024 13:48:10 -0500
-Message-Id: <20240517184811.25807-4-ian.forbes@broadcom.com>
+Subject: [PATCH v2 4/4] drm/vmwgfx: Standardize use of kibibytes when logging
+Date: Fri, 17 May 2024 13:48:11 -0500
+Message-Id: <20240517184811.25807-5-ian.forbes@broadcom.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240517184811.25807-1-ian.forbes@broadcom.com>
 References: <20240517184811.25807-1-ian.forbes@broadcom.com>
@@ -82,84 +81,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-STDU has its own mode_valid function now so this logic can be removed from
-the generic version.
-
-Fixes: 935f795045a6 ("drm/vmwgfx: Refactor drm connector probing for display modes")
+Use the same standard abbreviation KiB instead of incorrect variants.
 
 Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |  3 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 26 +++++++++-----------------
- 2 files changed, 9 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 12 ++++++------
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c |  4 ++--
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 4ecaea0026fc..a1ce41e1c468 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -1043,9 +1043,6 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
- int vmw_kms_write_svga(struct vmw_private *vmw_priv,
- 		       unsigned width, unsigned height, unsigned pitch,
- 		       unsigned bpp, unsigned depth);
--bool vmw_kms_validate_mode_vram(struct vmw_private *dev_priv,
--				uint32_t pitch,
--				uint32_t height);
- int vmw_kms_present(struct vmw_private *dev_priv,
- 		    struct drm_file *file_priv,
- 		    struct vmw_framebuffer *vfb,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 13b2820cae51..9532258a0848 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -2171,13 +2171,12 @@ int vmw_kms_write_svga(struct vmw_private *vmw_priv,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 2e1fb46bcaa3..e03b2e682507 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -745,7 +745,7 @@ static int vmw_setup_pci_resources(struct vmw_private *dev,
+ 		dev->vram_size = pci_resource_len(pdev, 2);
+ 
+ 		drm_info(&dev->drm,
+-			"Register MMIO at 0x%pa size is %llu kiB\n",
++			"Register MMIO at 0x%pa size is %llu KiB\n",
+ 			 &rmmio_start, (uint64_t)rmmio_size / 1024);
+ 		dev->rmmio = devm_ioremap(dev->drm.dev,
+ 					  rmmio_start,
+@@ -764,7 +764,7 @@ static int vmw_setup_pci_resources(struct vmw_private *dev,
+ 		fifo_size = pci_resource_len(pdev, 2);
+ 
+ 		drm_info(&dev->drm,
+-			 "FIFO at %pa size is %llu kiB\n",
++			 "FIFO at %pa size is %llu KiB\n",
+ 			 &fifo_start, (uint64_t)fifo_size / 1024);
+ 		dev->fifo_mem = devm_memremap(dev->drm.dev,
+ 					      fifo_start,
+@@ -789,7 +789,7 @@ static int vmw_setup_pci_resources(struct vmw_private *dev,
+ 	 * SVGA_REG_VRAM_SIZE.
+ 	 */
+ 	drm_info(&dev->drm,
+-		 "VRAM at %pa size is %llu kiB\n",
++		 "VRAM at %pa size is %llu KiB\n",
+ 		 &dev->vram_start, (uint64_t)dev->vram_size / 1024);
+ 
  	return 0;
- }
+@@ -983,13 +983,13 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 		dev_priv->max_primary_mem = dev_priv->vram_size;
+ 	}
+ 	drm_info(&dev_priv->drm,
+-		 "Legacy memory limits: VRAM = %llu kB, FIFO = %llu kB, surface = %u kB\n",
++		 "Legacy memory limits: VRAM = %llu KiB, FIFO = %llu KiB, surface = %u KiB\n",
+ 		 (u64)dev_priv->vram_size / 1024,
+ 		 (u64)dev_priv->fifo_mem_size / 1024,
+ 		 dev_priv->memory_size / 1024);
  
-+static
- bool vmw_kms_validate_mode_vram(struct vmw_private *dev_priv,
--				uint32_t pitch,
--				uint32_t height)
-+				u64 pitch,
-+				u64 height)
- {
--	return ((u64) pitch * (u64) height) < (u64)
--		((dev_priv->active_display_unit == vmw_du_screen_target) ?
--		 dev_priv->max_primary_mem : dev_priv->vram_size);
-+	return (pitch * height) < (u64)dev_priv->vram_size;
- }
+ 	drm_info(&dev_priv->drm,
+-		 "MOB limits: max mob size = %u kB, max mob pages = %u\n",
++		 "MOB limits: max mob size = %u KiB, max mob pages = %u\n",
+ 		 dev_priv->max_mob_size / 1024, dev_priv->max_mob_pages);
  
- /**
-@@ -2873,25 +2872,18 @@ int vmw_du_helper_plane_update(struct vmw_du_update_plane *update)
- enum drm_mode_status vmw_connector_mode_valid(struct drm_connector *connector,
- 					      struct drm_display_mode *mode)
- {
-+	enum drm_mode_status ret;
- 	struct drm_device *dev = connector->dev;
- 	struct vmw_private *dev_priv = vmw_priv(dev);
--	u32 max_width = dev_priv->texture_max_width;
--	u32 max_height = dev_priv->texture_max_height;
- 	u32 assumed_cpp = 4;
+ 	ret = vmw_dma_masks(dev_priv);
+@@ -1007,7 +1007,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 			 (unsigned)dev_priv->max_gmr_pages);
+ 	}
+ 	drm_info(&dev_priv->drm,
+-		 "Maximum display memory size is %llu kiB\n",
++		 "Maximum display memory size is %llu KiB\n",
+ 		 (uint64_t)dev_priv->max_primary_mem / 1024);
  
- 	if (dev_priv->assume_16bpp)
- 		assumed_cpp = 2;
+ 	/* Need mmio memory to check for fifo pitchlock cap. */
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+index a0b47c9b33f5..5bd967fbcf55 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+@@ -94,14 +94,14 @@ static int vmw_gmrid_man_get_node(struct ttm_resource_manager *man,
+ 			} else
+ 				new_max_pages = gman->max_gmr_pages * 2;
+ 			if (new_max_pages > gman->max_gmr_pages && new_max_pages >= gman->used_gmr_pages) {
+-				DRM_WARN("vmwgfx: increasing guest mob limits to %u kB.\n",
++				DRM_WARN("vmwgfx: increasing guest mob limits to %u KiB.\n",
+ 					 ((new_max_pages) << (PAGE_SHIFT - 10)));
  
--	if (dev_priv->active_display_unit == vmw_du_screen_target) {
--		max_width  = min(dev_priv->stdu_max_width,  max_width);
--		max_height = min(dev_priv->stdu_max_height, max_height);
--	}
--
--	if (max_width < mode->hdisplay)
--		return MODE_BAD_HVALUE;
--
--	if (max_height < mode->vdisplay)
--		return MODE_BAD_VVALUE;
-+	ret = drm_mode_validate_size(mode, dev_priv->texture_max_width,
-+				     dev_priv->texture_max_height);
-+	if (ret != MODE_OK)
-+		return ret;
- 
- 	if (!vmw_kms_validate_mode_vram(dev_priv,
- 					mode->hdisplay * assumed_cpp,
+ 				gman->max_gmr_pages = new_max_pages;
+ 			} else {
+ 				char buf[256];
+ 				snprintf(buf, sizeof(buf),
+-					 "vmwgfx, error: guest graphics is out of memory (mob limit at: %ukB).\n",
++					 "vmwgfx, error: guest graphics is out of memory (mob limit at: %u KiB).\n",
+ 					 ((gman->max_gmr_pages) << (PAGE_SHIFT - 10)));
+ 				vmw_host_printf(buf);
+ 				DRM_WARN("%s", buf);
 -- 
 2.34.1
 
