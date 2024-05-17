@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032E18C8B0E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 19:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71BA38C8B12
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 19:36:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B03410EF35;
-	Fri, 17 May 2024 17:35:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7842A10EF36;
+	Fri, 17 May 2024 17:36:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="PcxsyGNJ";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="lqmki4WZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB8A10EF35
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 17:35:02 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44HHYkYk070619;
- Fri, 17 May 2024 12:34:46 -0500
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFBD410EF36
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 17:36:21 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44HHa8AF115810;
+ Fri, 17 May 2024 12:36:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1715967286;
- bh=7lH6XgebuD5+cOHM5Ouf6iH8SCTXIhgdzzJycOb4RnI=;
+ s=ti-com-17Q1; t=1715967368;
+ bh=MQg8ma3NvCMAMZesN1F4Fn5/DHwPy0dRNwAj5Idlji8=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=PcxsyGNJScK4zjIqid0H0S9mIbHgYMgpC+nuQUM1BujXtCrYh1JlAD3nvwPES2tIS
- d20JI3FdDpx4pmBaOjdVDsz0tjYTXf2x6fg07ipBYcuhR3xb6Yo1PnaNJhkkzK1ZIE
- FLej0fv1jG1WMHJOiwI1hwcl/K5+leAi5e7/R5HE=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44HHYkUG116515
+ b=lqmki4WZ75LMvtJzfWqlHxn1VYNPMxa8VN+hvG6bD8gUkqUwNs2k98xT1bIdtndMb
+ gFKT+tMUIbZoXtc06QIRFvUUqGRg2mzjF59vJ6/5u9Ac/NBggn7ezV3mtMT+m5jteV
+ q3p+yYznzK4Ck6tpNZg8IN0mmAJkK8uVqEWx2cXo=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44HHa89c027615
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 17 May 2024 12:34:46 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ Fri, 17 May 2024 12:36:08 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 17
- May 2024 12:34:46 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 12:36:08 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 17 May 2024 12:34:46 -0500
+ Frontend Transport; Fri, 17 May 2024 12:36:08 -0500
 Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44HHYjE4129547;
- Fri, 17 May 2024 12:34:45 -0500
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44HHa7k1004959;
+ Fri, 17 May 2024 12:36:08 -0500
 From: Devarsh Thakkar <devarsht@ti.com>
 To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
  <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
@@ -53,9 +53,9 @@ CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
  <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
  <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
  <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
-Subject: [PATCH v8 06/10] math.h: Add macros for rounding to closest value
-Date: Fri, 17 May 2024 23:04:45 +0530
-Message-ID: <20240517173445.797071-1-devarsht@ti.com>
+Subject: [PATCH v8 07/10] lib: add basic KUnit test for lib/math
+Date: Fri, 17 May 2024 23:06:07 +0530
+Message-ID: <20240517173607.800549-1-devarsht@ti.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20240517171532.748684-1-devarsht@ti.com>
 References: <20240517171532.748684-1-devarsht@ti.com>
@@ -78,133 +78,385 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add below rounding related macros:
+From: Daniel Latypov <dlatypov@google.com>
 
-round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
-power of 2, with a preference to round up in case two nearest values are
-possible.
+Add basic test coverage for files that don't require any config options:
+* part of math.h (what seem to be the most commonly used macros)
+* gcd.c
+* lcm.c
+* int_sqrt.c
+* reciprocal_div.c
+(Ignored int_pow.c since it's a simple textbook algorithm.)
 
-round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
-power of 2, with a preference to round down in case two nearest values are
-possible.
+These tests aren't particularly interesting, but they
+* provide short and simple examples of parameterized tests
+* provide a place to add tests for any new files in this dir
+* are written so adding new test cases to cover edge cases should be
+  easy
+  * looking at code coverage, we hit all the branches in the .c files
 
-roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
-generally be used only when y is not multiple of 2 as otherwise
-round_closest* macros should be used which are much faster.
-
-Examples:
- * round_closest_up(17, 4) = 16
- * round_closest_up(15, 4) = 16
- * round_closest_up(14, 4) = 16
- * round_closest_down(17, 4) = 16
- * round_closest_down(15, 4) = 16
- * round_closest_down(14, 4) = 12
- * roundclosest(21, 5) = 20
- * roundclosest(19, 5) = 20
- * roundclosest(17, 5) = 15
-
+Signed-off-by: Daniel Latypov <dlatypov@google.com>
+Reviewed-by: David Gow <davidgow@google.com>
+[devarsht: Rebase to 6.9 and change license to GPL]
 Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
 ---
-NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
-which uses similar macro locally and which is updated in further patch
-in the series to use this generic macro instead along with other drivers
-having similar requirements.
+Changes since v6:
+* Rebase to linux-next, change license to GPL as suggested by checkpatch.
 
-[1]:
-https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480
+Changes since v5:
+* add in test cases for roundup/rounddown
+* address misc comments from David
 
-V8:
-- Add new macro to round to nearest value for non-multiple of 2
-- Update commit message as suggested
+Changes since v4:
+* add in test cases for some math.h macros (abs, round_up/round_down,
+  div_round_down/closest)
+* use parameterized testing less to keep things terser
 
-V1->V6 (No change, patch introduced in V7)
+Changes since v3:
+* fix `checkpatch.pl --strict` warnings
+* add test cases for gcd(0,0) and lcm(0,0)
+* minor: don't test both gcd(a,b) and gcd(b,a) when a == b
+
+Changes since v2: mv math_test.c => math_kunit.c
+
+Changes since v1:
+* Rebase and rewrite to use the new parameterized testing support.
+* misc: fix overflow in literal and inline int_sqrt format string.
+* related: commit 1f0e943df68a ("Documentation: kunit: provide guidance
+for testing many inputs") was merged explaining the patterns shown here.
+  * there's an in-flight patch to update it for parameterized testing.
 ---
- include/linux/math.h | 65 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ lib/math/Kconfig      |  11 ++
+ lib/math/Makefile     |   1 +
+ lib/math/math_kunit.c | 291 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 303 insertions(+)
+ create mode 100644 lib/math/math_kunit.c
 
-diff --git a/include/linux/math.h b/include/linux/math.h
-index dd4152711de7..e2cc3769ed0e 100644
---- a/include/linux/math.h
-+++ b/include/linux/math.h
-@@ -34,6 +34,54 @@
-  */
- #define round_down(x, y) ((x) & ~__round_mask(x, y))
+diff --git a/lib/math/Kconfig b/lib/math/Kconfig
+index 0634b428d0cb..832c6989ca13 100644
+--- a/lib/math/Kconfig
++++ b/lib/math/Kconfig
+@@ -15,3 +15,14 @@ config PRIME_NUMBERS
  
-+/**
-+ * round_closest_up - round closest to be multiple of specified value (which is
-+ *                    power of 2) with preference to rounding up
+ config RATIONAL
+ 	tristate
 +
-+ * @x: the value to round
-+ * @y: multiple to round closest to (must be a power of 2)
-+ *
-+ * Rounds @x to closest multiple of @y (which must be a power of 2).
-+ * The value can be either rounded up or rounded down depending upon rounded
-+ * value's closeness to the specified value. If there are two closest possible
-+ * values, i.e. the difference between the specified value and it's rounded up
-+ * and rounded down values is same then preference is given to rounded up
-+ * value.
-+ *
-+ * To perform arbitrary rounding to closest value (not multiple of 2), use
-+ * roundclosest().
-+ *
-+ * Examples :
-+ * round_closest_up(17, 4) = 16
-+ * round_closest_up(15, 4) = 16
-+ * round_closest_up(14, 4) = 16
-+ */
-+#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
++config MATH_KUNIT_TEST
++	tristate "KUnit test for math helper functions"
++	help
++	  This builds unit test for math helper functions as defined in lib/math
++	  and math.h.
 +
-+/**
-+ * round_closest_down - round closest to be multiple of specified value (which
-+ *			is power of 2) with preference to rounding down
-+ *
-+ * @x: the value to round
-+ * @y: multiple to round closest to (must be a power of 2)
-+ *
-+ * Rounds @x to closest multiple of @y (which must be a power of 2).
-+ * The value can be either rounded up or rounded down depending upon rounded
-+ * value's closeness to the specified value. If there are two closest possible
-+ * values, i.e. the difference between the specified value and it's rounded up
-+ * and rounded down values is same then preference is given to rounded up
-+ * value.
-+ *
-+ * To perform arbitrary rounding to closest value (not multiple of 2), use
-+ * roundclosest().
-+ *
-+ * Examples :
-+ * round_closest_down(17, 4) = 16
-+ * round_closest_down(15, 4) = 16
-+ * round_closest_down(14, 4) = 12
-+ */
-+#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
++	  For more information on KUNIT and unit tests in general, please refer
++	  to the KUnit documentation in Documentation/dev-tools/kunit/.
 +
- #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
++	  If unsure, say N.
+diff --git a/lib/math/Makefile b/lib/math/Makefile
+index 91fcdb0c9efe..dcf65d10dab2 100644
+--- a/lib/math/Makefile
++++ b/lib/math/Makefile
+@@ -7,3 +7,4 @@ obj-$(CONFIG_RATIONAL)		+= rational.o
  
- #define DIV_ROUND_DOWN_ULL(ll, d) \
-@@ -77,6 +125,23 @@
- }							\
- )
- 
-+/**
-+ * roundclosest - round to nearest multiple
-+ * @x: the value to round
-+ * @y: multiple to round nearest to
+ obj-$(CONFIG_TEST_DIV64)	+= test_div64.o
+ obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
++obj-$(CONFIG_MATH_KUNIT_TEST) += math_kunit.o
+diff --git a/lib/math/math_kunit.c b/lib/math/math_kunit.c
+new file mode 100644
+index 000000000000..1b00e4195a1a
+--- /dev/null
++++ b/lib/math/math_kunit.c
+@@ -0,0 +1,291 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Simple KUnit suite for math helper funcs that are always enabled.
 + *
-+ * Rounds @x to nearest multiple of @y.
-+ * The rounded value can be greater than or less than @x depending
-+ * upon it's nearness to @x. If @y will always be a power of 2, consider
-+ * using the faster round_closest_up() or round_closest_down().
-+ *
-+ * Examples :
-+ * roundclosest(21, 5) = 20
-+ * roundclosest(19, 5) = 20
-+ * roundclosest(17, 5) = 15
++ * Copyright (C) 2020, Google LLC.
++ * Author: Daniel Latypov <dlatypov@google.com>
 + */
-+#define roundclosest(x, y) rounddown((x) + (y) / 2, (y))
 +
- /*
-  * Divide positive or negative dividend by positive or negative divisor
-  * and round to closest integer. Result is undefined for negative
++#include <kunit/test.h>
++#include <linux/gcd.h>
++#include <linux/kernel.h>
++#include <linux/lcm.h>
++#include <linux/reciprocal_div.h>
++
++static void abs_test(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, abs((char)0), (char)0);
++	KUNIT_EXPECT_EQ(test, abs((char)42), (char)42);
++	KUNIT_EXPECT_EQ(test, abs((char)-42), (char)42);
++
++	/* The expression in the macro is actually promoted to an int. */
++	KUNIT_EXPECT_EQ(test, abs((short)0),  0);
++	KUNIT_EXPECT_EQ(test, abs((short)42),  42);
++	KUNIT_EXPECT_EQ(test, abs((short)-42),  42);
++
++	KUNIT_EXPECT_EQ(test, abs(0),  0);
++	KUNIT_EXPECT_EQ(test, abs(42),  42);
++	KUNIT_EXPECT_EQ(test, abs(-42),  42);
++
++	KUNIT_EXPECT_EQ(test, abs(0L), 0L);
++	KUNIT_EXPECT_EQ(test, abs(42L), 42L);
++	KUNIT_EXPECT_EQ(test, abs(-42L), 42L);
++
++	KUNIT_EXPECT_EQ(test, abs(0LL), 0LL);
++	KUNIT_EXPECT_EQ(test, abs(42LL), 42LL);
++	KUNIT_EXPECT_EQ(test, abs(-42LL), 42LL);
++
++	/* Unsigned types get casted to signed. */
++	KUNIT_EXPECT_EQ(test, abs(0ULL), 0LL);
++	KUNIT_EXPECT_EQ(test, abs(42ULL), 42LL);
++}
++
++static void int_sqrt_test(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, int_sqrt(0UL), 0UL);
++	KUNIT_EXPECT_EQ(test, int_sqrt(1UL), 1UL);
++	KUNIT_EXPECT_EQ(test, int_sqrt(4UL), 2UL);
++	KUNIT_EXPECT_EQ(test, int_sqrt(5UL), 2UL);
++	KUNIT_EXPECT_EQ(test, int_sqrt(8UL), 2UL);
++	KUNIT_EXPECT_EQ(test, int_sqrt(1UL << 30), 1UL << 15);
++}
++
++static void round_up_test(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, round_up(0, 1), 0);
++	KUNIT_EXPECT_EQ(test, round_up(1, 2), 2);
++	KUNIT_EXPECT_EQ(test, round_up(3, 2), 4);
++	KUNIT_EXPECT_EQ(test, round_up((1 << 30) - 1, 2), 1 << 30);
++	KUNIT_EXPECT_EQ(test, round_up((1 << 30) - 1, 1 << 29), 1 << 30);
++}
++
++static void round_down_test(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, round_down(0, 1), 0);
++	KUNIT_EXPECT_EQ(test, round_down(1, 2), 0);
++	KUNIT_EXPECT_EQ(test, round_down(3, 2), 2);
++	KUNIT_EXPECT_EQ(test, round_down((1 << 30) - 1, 2), (1 << 30) - 2);
++	KUNIT_EXPECT_EQ(test, round_down((1 << 30) - 1, 1 << 29), 1 << 29);
++}
++
++/* These versions can round to numbers that aren't a power of two */
++static void roundup_test(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, roundup(0, 1), 0);
++	KUNIT_EXPECT_EQ(test, roundup(1, 2), 2);
++	KUNIT_EXPECT_EQ(test, roundup(3, 2), 4);
++	KUNIT_EXPECT_EQ(test, roundup((1 << 30) - 1, 2), 1 << 30);
++	KUNIT_EXPECT_EQ(test, roundup((1 << 30) - 1, 1 << 29), 1 << 30);
++
++	KUNIT_EXPECT_EQ(test, roundup(3, 2), 4);
++	KUNIT_EXPECT_EQ(test, roundup(4, 3), 6);
++}
++
++static void rounddown_test(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, rounddown(0, 1), 0);
++	KUNIT_EXPECT_EQ(test, rounddown(1, 2), 0);
++	KUNIT_EXPECT_EQ(test, rounddown(3, 2), 2);
++	KUNIT_EXPECT_EQ(test, rounddown((1 << 30) - 1, 2), (1 << 30) - 2);
++	KUNIT_EXPECT_EQ(test, rounddown((1 << 30) - 1, 1 << 29), 1 << 29);
++
++	KUNIT_EXPECT_EQ(test, rounddown(3, 2), 2);
++	KUNIT_EXPECT_EQ(test, rounddown(4, 3), 3);
++}
++
++static void div_round_up_test(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(0, 1), 0);
++	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(20, 10), 2);
++	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(21, 10), 3);
++	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(21, 20), 2);
++	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(21, 99), 1);
++}
++
++static void div_round_closest_test(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, DIV_ROUND_CLOSEST(0, 1), 0);
++	KUNIT_EXPECT_EQ(test, DIV_ROUND_CLOSEST(20, 10), 2);
++	KUNIT_EXPECT_EQ(test, DIV_ROUND_CLOSEST(21, 10), 2);
++	KUNIT_EXPECT_EQ(test, DIV_ROUND_CLOSEST(25, 10), 3);
++}
++
++/* Generic test case for unsigned long inputs. */
++struct test_case {
++	unsigned long a, b;
++	unsigned long result;
++};
++
++static struct test_case gcd_cases[] = {
++	{
++		.a = 0, .b = 0,
++		.result = 0,
++	},
++	{
++		.a = 0, .b = 1,
++		.result = 1,
++	},
++	{
++		.a = 2, .b = 2,
++		.result = 2,
++	},
++	{
++		.a = 2, .b = 4,
++		.result = 2,
++	},
++	{
++		.a = 3, .b = 5,
++		.result = 1,
++	},
++	{
++		.a = 3 * 9, .b = 3 * 5,
++		.result = 3,
++	},
++	{
++		.a = 3 * 5 * 7, .b = 3 * 5 * 11,
++		.result = 15,
++	},
++	{
++		.a = 1 << 21,
++		.b = (1 << 21) - 1,
++		.result = 1,
++	},
++};
++
++KUNIT_ARRAY_PARAM(gcd, gcd_cases, NULL);
++
++static void gcd_test(struct kunit *test)
++{
++	const char *message_fmt = "gcd(%lu, %lu)";
++	const struct test_case *test_param = test->param_value;
++
++	KUNIT_EXPECT_EQ_MSG(test, test_param->result,
++			    gcd(test_param->a, test_param->b),
++			    message_fmt, test_param->a,
++			    test_param->b);
++
++	if (test_param->a == test_param->b)
++		return;
++
++	/* gcd(a,b) == gcd(b,a) */
++	KUNIT_EXPECT_EQ_MSG(test, test_param->result,
++			    gcd(test_param->b, test_param->a),
++			    message_fmt, test_param->b,
++			    test_param->a);
++}
++
++static struct test_case lcm_cases[] = {
++	{
++		.a = 0, .b = 0,
++		.result = 0,
++	},
++	{
++		.a = 0, .b = 1,
++		.result = 0,
++	},
++	{
++		.a = 1, .b = 2,
++		.result = 2,
++	},
++	{
++		.a = 2, .b = 2,
++		.result = 2,
++	},
++	{
++		.a = 3 * 5, .b = 3 * 7,
++		.result = 3 * 5 * 7,
++	},
++};
++
++KUNIT_ARRAY_PARAM(lcm, lcm_cases, NULL);
++
++static void lcm_test(struct kunit *test)
++{
++	const char *message_fmt = "lcm(%lu, %lu)";
++	const struct test_case *test_param = test->param_value;
++
++	KUNIT_EXPECT_EQ_MSG(test, test_param->result,
++			    lcm(test_param->a, test_param->b),
++			    message_fmt, test_param->a,
++			    test_param->b);
++
++	if (test_param->a == test_param->b)
++		return;
++
++	/* lcm(a,b) == lcm(b,a) */
++	KUNIT_EXPECT_EQ_MSG(test, test_param->result,
++			    lcm(test_param->b, test_param->a),
++			    message_fmt, test_param->b,
++			    test_param->a);
++}
++
++struct u32_test_case {
++	u32 a, b;
++	u32 result;
++};
++
++static struct u32_test_case reciprocal_div_cases[] = {
++	{
++		.a = 0, .b = 1,
++		.result = 0,
++	},
++	{
++		.a = 42, .b = 20,
++		.result = 2,
++	},
++	{
++		.a = 42, .b = 9999,
++		.result = 0,
++	},
++	{
++		.a = (1 << 16), .b = (1 << 14),
++		.result = 1 << 2,
++	},
++};
++
++KUNIT_ARRAY_PARAM(reciprocal_div, reciprocal_div_cases, NULL);
++
++static void reciprocal_div_test(struct kunit *test)
++{
++	const struct u32_test_case *test_param = test->param_value;
++	struct reciprocal_value rv = reciprocal_value(test_param->b);
++
++	KUNIT_EXPECT_EQ_MSG(test, test_param->result,
++			    reciprocal_divide(test_param->a, rv),
++			    "reciprocal_divide(%u, %u)",
++			    test_param->a, test_param->b);
++}
++
++static void reciprocal_scale_test(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, reciprocal_scale(0u, 100), 0u);
++	KUNIT_EXPECT_EQ(test, reciprocal_scale(1u, 100), 0u);
++	KUNIT_EXPECT_EQ(test, reciprocal_scale(1u << 4, 1 << 28), 1u);
++	KUNIT_EXPECT_EQ(test, reciprocal_scale(1u << 16, 1 << 28), 1u << 12);
++	KUNIT_EXPECT_EQ(test, reciprocal_scale(~0u, 1 << 28), (1u << 28) - 1);
++}
++
++static struct kunit_case math_test_cases[] = {
++	KUNIT_CASE(abs_test),
++	KUNIT_CASE(int_sqrt_test),
++	KUNIT_CASE(round_up_test),
++	KUNIT_CASE(round_down_test),
++	KUNIT_CASE(roundup_test),
++	KUNIT_CASE(rounddown_test),
++	KUNIT_CASE(div_round_up_test),
++	KUNIT_CASE(div_round_closest_test),
++	KUNIT_CASE_PARAM(gcd_test, gcd_gen_params),
++	KUNIT_CASE_PARAM(lcm_test, lcm_gen_params),
++	KUNIT_CASE_PARAM(reciprocal_div_test, reciprocal_div_gen_params),
++	KUNIT_CASE(reciprocal_scale_test),
++	{}
++};
++
++static struct kunit_suite math_test_suite = {
++	.name = "lib-math",
++	.test_cases = math_test_cases,
++};
++
++kunit_test_suites(&math_test_suite);
++
++MODULE_LICENSE("GPL");
 -- 
 2.39.1
 
