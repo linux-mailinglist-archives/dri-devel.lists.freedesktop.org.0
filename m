@@ -2,81 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15DF48C8C3A
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 20:31:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411CF8C8C54
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 20:48:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26FF710EF51;
-	Fri, 17 May 2024 18:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36F5510E338;
+	Fri, 17 May 2024 18:48:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="AfR0tT/j";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="bA24EgmB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4559810E338
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 18:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1715970653; x=1716575453; i=markus.elfring@web.de;
- bh=fB7RALjxdRF1G/aDESbEsQC4h5dPoGC+cUZHy0syvLs=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=AfR0tT/jPoCyn+cHq91Ed0Lm5rF1tWGof+FhwozSIakYaT6l9p+ZXDbGMI2P1FC1
- rLEAPjN79daag3Bw2ZbRXiAQJhO6sY57PGJmlondaBPs3w+q3+MYxoYRFmTbq0+se
- EwdYURlcwjIsxtOYIDpyFglh//dGC31UiJV6Z5QiQMj1LxN85roWz/QHKjW9EZCC4
- qX2mGUgRRMO4p6E2k/4l77LKCTbQ4F1yyUIxtnVRGRaXrlNOCmVag6NB/Yt+MyL0d
- 6AiPrtJmbXP+ATx7/xQ+0tWh6GGJpMSmO1i/oAwfARdQIcYufgNBVAgJmsmz4l/ck
- a8RJ2wGb1LBWkciSrQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N9cLR-1sbNc00Sxx-00wGrB; Fri, 17
- May 2024 20:30:53 +0200
-Message-ID: <94ef2d0b-15d0-4c40-ab52-a5d88a666b3c@web.de>
-Date: Fri, 17 May 2024 20:30:49 +0200
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2240310E338
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 18:48:32 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id
+ 6a1803df08f44-69b730fc89bso4904136d6.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 11:48:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1715971710; x=1716576510;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RHJi6vHZhlinh2jLFRXNNxKNaAlEx2EEWv3D1gLiq0E=;
+ b=bA24EgmBnV/lMI7gL7EBOm0vE2p3WqGYw+N5WTfUQPq3FDe6u3TTIhFd40/cpVC4s3
+ YmNadibCGQGRq4O8/S0b4jhCB2WoBYBAJt9iLm25w0BTDdhulNDiSKtHh3Ca8KLYuxQL
+ UmeRS6qLQO/MghCcIWE3SNuCS3qRb76dJWBT8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1715971710; x=1716576510;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RHJi6vHZhlinh2jLFRXNNxKNaAlEx2EEWv3D1gLiq0E=;
+ b=b5DVu1ojTaZZpsgtVj7B+r4uUu+9gRaiIs8nEEAqCGOhLcPdiDiuhS8CIabK0Jdo7Q
+ 6OvF6b0+qiywNUezIXPMzxebrAC/szF4RCcwna0/a4vwcB7aYGstBgrcIVVgtr1dwblK
+ /1hLomn7ypx/XkeDDnOSsqUsag4+n7zPuhg2UHpLZGotT13G8qxQ7bep1O3Px5Ou7neO
+ YSS3xT7IkwOJrrYhKerSW4LkpOx/PiPNxDwQwh045PwYHltOKgbB8w68z6MKvVw1qNnD
+ cdzABhkCT6h0HV76NlvxeP7Nt7dkYXvtygmBz1i6AtbKiJuOVxt8Peu6jOGOT5MsoTao
+ kmdQ==
+X-Gm-Message-State: AOJu0YzUPr2lYXsWySfKnI/Mavp+K70oW8W+tKaSgLC0etkJUVq96nXf
+ 0o74qeURUzIfr4WBTBMa56cwv/02qMBUMVeCwLXODKx8I8jgfsmoxu9Ys6X4Mcqi9Tma+32kN+g
+ IN+tNeSKXy6/TzdqQ0FPxpDpVWENId1+1CFG80GhxdFnIInYOBRq1DF5N/NWas82oyXUlQUHHN7
+ ePcXolrUffutliuVyAMbWrTNlIskhvqwYnmTmM+fVbb/y2/e9gqg==
+X-Google-Smtp-Source: AGHT+IHTN8hgyJLOGT71baKPyJUEJb7P6pnrkrnmKYO9Z45FUqkQ+InsJ8cZUDUkY9W5WgRp8oJfJg==
+X-Received: by 2002:a05:6214:319e:b0:6a3:5bb8:12dd with SMTP id
+ 6a1803df08f44-6a35bb83836mr93068546d6.56.1715971710476; 
+ Fri, 17 May 2024 11:48:30 -0700 (PDT)
+Received: from localhost ([192.19.144.250]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6a15f179649sm88400046d6.16.2024.05.17.11.48.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 May 2024 11:48:28 -0700 (PDT)
+From: Ian Forbes <ian.forbes@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
+ martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com,
+ Ian Forbes <ian.forbes@broadcom.com>
+Subject: [PATCH v2 0/4] Fix memory limits for STDU
+Date: Fri, 17 May 2024 13:48:07 -0500
+Message-Id: <20240517184811.25807-1-ian.forbes@broadcom.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Kuro Chung <kuro.chung@ite.corp-partner.google.com>,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Allen Chen <allen.chen@ite.com.tw>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, Kenneth Haung <kenneth.hung@ite.com.tw>,
- Kuro Chung <kuro.chung@ite.com.tw>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Pin-yen Lin <treapking@chromium.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20240517021654.1034218-1-kuro.chung@ite.com.tw>
-Subject: Re: [PATCH v9] drm/bridge: it6505: This patch fixes hibernate to
- resume no display issue
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240517021654.1034218-1-kuro.chung@ite.com.tw>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ocxBC3UDqeM5nCY06kslqg/TVkMQrEhNuG0Dw/kVCwd4cxuSw2Q
- UY3HZYeg4IlBOVMNqRCOIb6/Tj75wO5vXhe+IL9ld1VtsU3G7M0uzhgWkrawRN7mNroeE9w
- XJ9WDv2uYT9Eo3XIxssXaBh89q/0hHQDYbMu8BWLEJJXRtTFJXq9wWtX/koY8zbr59j/DC4
- abhIH/nm+k+2HmFBA/jTg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:KoPW+CVPpu4=;Vrm/vaXMaVmapgFQFlZG+3gmEOr
- 3os8JvhsNpNNGVGNCXbFspzLxWNsVQ1Iccue17QCvrdsjQrswL1tTAH/OF9oQchU385imGUuI
- 5rxArMfrNRkJszhCVUvZjpDWtEwade/FDFj0WSWtbsNolVcbukUz6UmFEwNymnynkYbStvB+0
- zQKdK83XkBTJtN54EKzfVHhe2erqZAbH8wEaqN0omlg5z3LX7qMbbxTDrvIVuQc7ElcYhh90A
- iGZcnvXiVfUDglKSn6dcgdi3pBTKL6L0EKbAzvOg5upn5vEZc5f911WJNY5aHqcHajpWrjcHX
- tkqcg34Dr57HrK8IvZ1fN1xS/BirZLuei3dijnxMXxTjUEI2F9NjMxfPtxdIDq1kSagjXjjup
- ZvmSstHm5yNf0TxSGgoguaJnCqVXdw7E61cw1cHSB/bK9U3YSV0yv//CM/T5aUpwils0pZAcl
- WUegrIePMVEJKwwECa14PoA2GKxqte3y03Awdj2ieyvZ0BVDjHqSfh4AEd1x3UWy7swaANpZU
- jqNd+gYXD5anZDc6ms1kYKRtrkts7W4HVWs6BtGhV3cvPuHTB9qv5obURM8R5o+Lb4mnmjvZg
- kLExx8yvuw9eY35jmwT1Wt4N7ArTEgJeJ3aQonwe08bDKwdcdt6FXQ+WqoQMkHGxZr+92lVSr
- JNUxc90eiOFDiVdaMcaKAj7Yn+Eymz8Y8yntVCR9iMEpdNvk5Fy4OjRikSqQ+QDcwKXWBrM1Q
- H4+vBmq4eZkrCZs1kPBzso1pEBCEWU0oB68ZAx4QsvyvC1Cv2SrTddwaMUOjQfIMCl49F5NR2
- TcpB1DqJovycZmIKeRXqrEsprYtyLI/JW8pkH9BibUPJM=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,25 +78,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Please omit the word combination =E2=80=9CThis patch=E2=80=9D from the sum=
-mary phrase.
+Fixes a bug where modes that are too large for the device are exposed
+and set causing a black screen on boot.
 
+v2: Fixed llvmpipe over-alignment bug.
 
-=E2=80=A6
-> But the input FIFO reset will also trigger error interrupts of output
-> module rising.Thus, it6505 have to wait a period can clear those
-> expected error interrupts caused by manual hardware reset in one
-> interrupt handler calling to avoid interrupt looping.
+Ian Forbes (4):
+  drm/vmwgfx: Filter modes which exceed graphics memory
+  drm/vmwgfx: 3D disabled should not effect STDU memory limits
+  drm/vmwgfx: Remove STDU logic from generic mode_valid function
+  drm/vmwgfx: Standardize use of kibibytes when logging
 
-Please improve this change description another bit.
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 19 +++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  3 --
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 26 ++++-------
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          | 43 ++++++++++++++++++-
+ 5 files changed, 58 insertions(+), 37 deletions(-)
 
+-- 
+2.34.1
 
-=E2=80=A6
-> ---
->  drivers/gpu/drm/bridge/ite-it6505.c | 73 +++++++++++++++++++----------
-=E2=80=A6
-
-You may present version descriptions behind the marker line.
-
-Regards,
-Markus
