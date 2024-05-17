@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B7A8C8DC1
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 23:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE418C8DC2
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 23:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE7410E0AD;
-	Fri, 17 May 2024 21:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD5F610E0A0;
+	Fri, 17 May 2024 21:37:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="HW+vCt/E";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="awt7eiQU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8626C10E0A0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 21:37:42 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-6f4603237e0so480281b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 14:37:42 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3941110E0A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 21:37:44 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1eeabda8590so21119895ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2024 14:37:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1715981862; x=1716586662;
+ d=chromium.org; s=google; t=1715981864; x=1716586664;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qdxmCQIjRAvO8BCfViIMJHCflXvR2bqDUxHByEsJNv0=;
- b=HW+vCt/ELzJDp0lH4raD86sG23Gyvs3a4ibU3np83eqbvNVjh1Y88W7CkDDQa0Z3ZE
- R9gSRS0+xg3E3KihC9kcqvvIu70au4v94PDU9QxdyYMtX0BIYLMo7lubKsMxnyK/m1Vt
- D/cESDuUrR3KdOlQnVvxNTKV895k/YSxfsxxQ=
+ bh=VOCpqzi3HqgLjpNBxA0mBkV791uaa9LyaeXWVqamirw=;
+ b=awt7eiQUlSzQgE+PZSZl3YWgZMJVErnSBM9jIY58Q1MVGMDmiCpDbK2JKmnYrfW0jE
+ hFw95330C2nD4Ab08+wguQOdN4vkhaZ/S95Qb5yzNMqi50cqWi8VZxvfl21jv5ErQImv
+ MPRbWgFHOJLeYPGLtT/9RcS/IUEgQOmyV9VY0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1715981862; x=1716586662;
+ d=1e100.net; s=20230601; t=1715981864; x=1716586664;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qdxmCQIjRAvO8BCfViIMJHCflXvR2bqDUxHByEsJNv0=;
- b=VNX8dEFrhuojG7w1uI1UpZWVqJDRw2bKElAH8EDN3UwV+WYKtVRPzEWOhmzt0R/9u3
- 3mHuRyZR/qO4nkyhcgunFgAlfkIqYCkn42qdsqP8BAA/ksGp+p0Ul+zBpttEqQEeGiNf
- oGCxOkeA6f9AULnhmdqKiYZwtgVb2ciTDAxyPVW+IbA/UPBKI4sk1vL3o6V3rc8O48y5
- 6XQqD6cCClll848Lt6YFHkF9dv7yRtqh+YfMnheQfRqr1rSFExRqKWSt0t5n8xFfbo6P
- jZ4IkjsvcBjucCN0/mkaF0kjD8w/RY771CPgQ+xHisTf8avdsfKhv2lpCBGtOzrYlVew
- nS9w==
+ bh=VOCpqzi3HqgLjpNBxA0mBkV791uaa9LyaeXWVqamirw=;
+ b=ormlRizC1d6tLhEaGSNMfzwdtMswY1pnBnCxyGC3olFvuGbBzCxkQuXVuRrSdp/XW1
+ lhAmq3q3cM+K6ns8QyrwNTx36PxXSycbHflPm6XDG5a8GygzGaIubO+FOkXbvQJpOA14
+ KebV9NJVZgGvLdQLggD7GOeA9c/N4CMEB6J/QLyZpAdbxgiflBelTXvT7jC9FPt3Hfo3
+ GclWLsfLFIEGP/+2zEStQdhKZthwRwgEt7vbfi/Mz+1ncpWZ8GecFaN3/h0a29pH0wUJ
+ kPalG79feEn3lfYV/vNwr4LfSGOKjB4ACVacMGBvGxCxs1LU5t7hpecEg3i7BVbDx9f/
+ uzBA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU2IPOk561i+Kf5YMS6v0hPpOavI3tkNjKhHsBwHaiposCt4U9cceUnkMLSZ7AnoBsGO60jNyfX4MZ4ucCyUxi1oQEquW75ohHhfuF7lgR1
-X-Gm-Message-State: AOJu0YwtMnNrAxzgin1QeVIBLvDuwrj8Fnq6RL6PazgM3E3vO+vlKG8B
- zkYp3A6qlAUGP6K35ltljoj8sWvXkhr7iR6+A20cZYpfXr8RF2nXiml8ZchcEQ==
-X-Google-Smtp-Source: AGHT+IHX2L9EVLQc886otDLXwIh9pr9UtYuwXLoQCTn5ubCeZ2plNpUi+ivhbdW42Vwp09Y6f6yc9w==
-X-Received: by 2002:a05:6a20:d80b:b0:1af:37bf:d7de with SMTP id
- adf61e73a8af0-1b1ca3bca44mr433294637.7.1715981862038; 
- Fri, 17 May 2024 14:37:42 -0700 (PDT)
+ AJvYcCUFKFS24+UeeH8pr5VabAaDbT7xPZqTFln8rwwWJ/VFbzoHrGAzkuO1bAG5F3tkm6LmTmHuiHRIkrp0MgFXXNBOtpY3tDIhfVrlwuj+jzfO
+X-Gm-Message-State: AOJu0YwbwCnVcDjVE/vzHE+6XjGKb6p4uMyoI3yN+NtUAg1Bn0Dd8oXq
+ vdv1XfTiNfjD6vsdwCNjWdre09Gf4hIpRAeLp9NkGqpHDEUdie6iyPz7CaOEnA==
+X-Google-Smtp-Source: AGHT+IHQeVpOpHuWwPDHwj5Y2EyRQy9AOFOGAMnBVeq9k04cNJAbxX1fcU7hJFn6i0+Z3n4aXjp8KA==
+X-Received: by 2002:a05:6a00:1ad0:b0:6e6:9f47:c18c with SMTP id
+ d2e1a72fcca58-6f4e03858b3mr27717561b3a.33.1715981863806; 
+ Fri, 17 May 2024 14:37:43 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com ([2620:15c:9d:2:26de:b1dd:5:771c])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-6f4d2b2f8b3sm15168736b3a.211.2024.05.17.14.37.40
+ d2e1a72fcca58-6f4d2b2f8b3sm15168736b3a.211.2024.05.17.14.37.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 May 2024 14:37:41 -0700 (PDT)
+ Fri, 17 May 2024 14:37:43 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
@@ -66,10 +66,10 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 4/8] drm/panel: ilitek-ili9882t: If prepare fails,
- disable GPIO before regulators
-Date: Fri, 17 May 2024 14:36:39 -0700
-Message-ID: <20240517143643.4.Ieb0179065847972a0f13e9a8574a80a5f65f3338@changeid>
+Subject: [PATCH 5/8] drm/panel: ilitek-ili9882t: Check for errors on the NOP
+ in prepare()
+Date: Fri, 17 May 2024 14:36:40 -0700
+Message-ID: <20240517143643.5.I323476ba9fa8cc7a5adee4c1ec95202785cc5686@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 In-Reply-To: <20240517213712.3135166-1-dianders@chromium.org>
 References: <20240517213712.3135166-1-dianders@chromium.org>
@@ -90,36 +90,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The enable GPIO should clearly be set low before turning off
-regulators. That matches both the inverse order that things were
-enabled and also the order in unprepare().
+The mipi_dsi_dcs_nop() function returns an error but we weren't
+checking it in ili9882t_prepare(). Add a check. This is highly
+unlikely to matter in practice. If the NOP failed then likely later
+MIPI commands would fail too.
+
+Found by code inspection.
 
 Fixes: e2450d32e5fb ("drm/panel: ili9882t: Break out as separate driver")
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-index 830d7cfbe857..a2ea25bb6624 100644
+index a2ea25bb6624..266a087fe14c 100644
 --- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
 +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-@@ -495,13 +495,13 @@ static int ili9882t_prepare(struct drm_panel *panel)
- 	return 0;
+@@ -478,7 +478,11 @@ static int ili9882t_prepare(struct drm_panel *panel)
+ 	usleep_range(10000, 11000);
  
- poweroff:
-+	gpiod_set_value(ili->enable_gpio, 0);
- 	regulator_disable(ili->avee);
- poweroffavdd:
- 	regulator_disable(ili->avdd);
- poweroff1v8:
- 	usleep_range(5000, 7000);
- 	regulator_disable(ili->pp1800);
--	gpiod_set_value(ili->enable_gpio, 0);
+ 	// MIPI needs to keep the LP11 state before the lcm_reset pin is pulled high
+-	mipi_dsi_dcs_nop(ili->dsi);
++	ret = mipi_dsi_dcs_nop(ili->dsi);
++	if (ret < 0) {
++		dev_err(&ili->dsi->dev, "Failed to send NOP: %d\n", ret);
++		goto poweroff;
++	}
+ 	usleep_range(1000, 2000);
  
- 	return ret;
- }
+ 	gpiod_set_value(ili->enable_gpio, 1);
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
