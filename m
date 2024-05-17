@@ -2,65 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB88A8C87A7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 16:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30CC88C87A9
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2024 16:00:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B79110EED9;
-	Fri, 17 May 2024 14:00:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7160C10EEE1;
+	Fri, 17 May 2024 14:00:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fPAYDAQn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aSFIUPEJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F5AE10E307;
- Fri, 17 May 2024 14:00:12 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B191D10EEDD;
+ Fri, 17 May 2024 14:00:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1715954412; x=1747490412;
+ t=1715954423; x=1747490423;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=A8jgIJtb4tQL965Td8qYgJavQdRas8UEkvgkOgxQs0I=;
- b=fPAYDAQnhGkrGvBo0xGq7XNXqkqrvGZXwmLcVnWqhAjY8n2Ap6G45NTF
- USzbBtmtN5aaW/JAxfJtyjvxWw58EvAxUZke3bAEr4jqk+hRt+HurS7LQ
- 99j9KbqXwpIOcwH7bAa9JKpuIjLp3+ib+abfuKePRJu4MZdR+wVjCmKv5
- 9orKK8dhQKodVOsfX6Od0J66Mk8QoSAJYANifoIloYXKFvUm3lK1ou5Mr
- 1MYRWuOQzmef6pf7ti7P17eeSWk5+NoBlKJu4LUICIILzVAj9i7/bPxyS
- HjhWH7ynDLD+Hnn1zLv4vJmdJ33pPt9Eq7O33Cz8kzv+NHoVctnqSCzkW g==;
-X-CSE-ConnectionGUID: lia2oUtNQKafOiEXTwQmTQ==
-X-CSE-MsgGUID: HLqopI/nS4qv9SCK9Mp5xw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12074516"
-X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="12074516"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2024 07:00:12 -0700
-X-CSE-ConnectionGUID: XCwrNQNqScebi7KQzPXJ4w==
-X-CSE-MsgGUID: GcJHKOsFQ7a5irN65iNZ/w==
+ bh=bFAXHT50ams4TC/SbEQ14VrwLZtqyLx6NKDuEkkkSv8=;
+ b=aSFIUPEJtOmuhkF3Tt75+G6jgZGBJ6R9vkMIk8ZTsIcrW/rtN60xQL9Z
+ rveZBXt5qTlsybXLiI+pv0pOeiUxM0Vqb3peP94dTsrOn4ALdDVBHPZE9
+ GcN0TDMW1NPdgfRvAu8KZYX07ZU3ofwUoCOQntehYUY81csevwoG7M086
+ uxEaoum7mSHTzj2yZ2qmPg3TsqsT+cUn1q3PJ9jZAsJZJVguCcc1wk/tP
+ RSaWSZ6QoLhQCfER14bx3tDpUYW+5Y5JdSu+5Vtzd+zlYmfLgd+zvGFCB
+ BWDV4TTVtxmvcHb6Sd0ZSwIsqV+8Ym4SNYu9ZxCI1+rC7EicoXE1qD96A g==;
+X-CSE-ConnectionGUID: HnxJ69c+RR+aAoQi8/Hrgw==
+X-CSE-MsgGUID: oaDSpWP6TBWnhPEtO1JzJw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="29648749"
+X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="29648749"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2024 07:00:22 -0700
+X-CSE-ConnectionGUID: 1fuTqR/nSu+kwl5h/XF4gw==
+X-CSE-MsgGUID: n0upUP5DQ2eHD0aRnGp4aw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="36602415"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.246.50.245])
- ([10.246.50.245])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2024 07:00:10 -0700
-Message-ID: <e2a23879-c69e-4b57-a0a0-4c1ac81d9403@linux.intel.com>
-Date: Fri, 17 May 2024 16:00:02 +0200
+X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; d="scan'208";a="36319712"
+Received: from dneilan-mobl1.ger.corp.intel.com (HELO [10.245.244.100])
+ ([10.245.244.100])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2024 07:00:20 -0700
+Message-ID: <24ed2c40-99e4-4d8d-9cf2-1e1c4a1560b6@intel.com>
+Date: Fri, 17 May 2024 15:00:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/i915: Don't treat FLR resets as errors
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>
-References: <20240517112550.251955-1-andi.shyti@linux.intel.com>
- <20240517112550.251955-3-andi.shyti@linux.intel.com>
-Content-Language: en-US
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <20240517112550.251955-3-andi.shyti@linux.intel.com>
+Subject: Re: [PATCH v2] drm/buddy: Fix the warn on's during force merge
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: christian.koenig@amd.com, alexander.deucher@amd.com, airlied@gmail.com
+References: <20240517135015.17565-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20240517135015.17565-1-Arunpravin.PaneerSelvam@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,67 +71,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andi,
+On 17/05/2024 14:50, Arunpravin Paneer Selvam wrote:
+> Move the fallback and block incompatible checks
+> above, so that we dont unnecessarily split the blocks
+> and leaving the unmerged. This resolves the unnecessary
+> warn on's thrown during force_merge call.
+> 
+> v2:(Matthew)
+>    - Move the fallback and block incompatible checks above
+>      the contains check.
+> 
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Fixes: 96950929eb23 ("drm/buddy: Implement tracking clear page feature")
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-On 5/17/2024 1:25 PM, Andi Shyti wrote:
-> If we timeout while waiting for an FLR reset, there is nothing we
-> can do and i915 doesn't have any control on it. In any case the
-> system is still perfectly usable
+A follow up unit test to catch this edge case would be lovely.
 
-If a FLR reset fails then we will have a dead GPU, I don't think the GPU 
-is usable without a cold reboot.
-
-This is a serious issue and should be report as an error.  I think we 
-need to create a HW ticket to understand
-
-why is FLR reset fails.
-
-
-Regards,
-
-Nirmoy
-
-
-
->   and the function returns void.
->
-> We don't need to be alarmed, therefore, print the timeout
-> expiration as a debug message instead of an error.
->
-> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10955
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 > ---
->   drivers/gpu/drm/i915/intel_uncore.c | 6 +++---
+>   drivers/gpu/drm/drm_buddy.c | 6 +++---
 >   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index 2eba289d88ad..a3fa2ed91aae 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -2637,7 +2637,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
->   	 */
->   	ret = intel_wait_for_register_fw(uncore, GU_CNTL, DRIVERFLR, 0, flr_timeout_ms);
->   	if (ret) {
-> -		drm_err(&i915->drm,
-> +		drm_dbg(&i915->drm,
->   			"Failed to wait for Driver-FLR bit to clear! %d\n",
->   			ret);
->   		return;
-> @@ -2652,7 +2652,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
->   					 DRIVERFLR, 0,
->   					 flr_timeout_ms);
->   	if (ret) {
-> -		drm_err(&i915->drm, "Driver-FLR-teardown wait completion failed! %d\n", ret);
-> +		drm_dbg(&i915->drm, "Driver-FLR-teardown wait completion failed! %d\n", ret);
->   		return;
->   	}
+> 
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index 1daf778cf6fa..94f8c34fc293 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -524,11 +524,11 @@ __alloc_range_bias(struct drm_buddy *mm,
+>   				continue;
+>   		}
 >   
-> @@ -2661,7 +2661,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
->   					 DRIVERFLR_STATUS, DRIVERFLR_STATUS,
->   					 flr_timeout_ms);
->   	if (ret) {
-> -		drm_err(&i915->drm, "Driver-FLR-reinit wait completion failed! %d\n", ret);
-> +		drm_dbg(&i915->drm, "Driver-FLR-reinit wait completion failed! %d\n", ret);
->   		return;
->   	}
->   
+> +		if (!fallback && block_incompatible(block, flags))
+> +			continue;
+> +
+>   		if (contains(start, end, block_start, block_end) &&
+>   		    order == drm_buddy_block_order(block)) {
+> -			if (!fallback && block_incompatible(block, flags))
+> -				continue;
+> -
+>   			/*
+>   			 * Find the free block within the range.
+>   			 */
