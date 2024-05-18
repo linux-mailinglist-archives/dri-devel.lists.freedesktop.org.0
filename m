@@ -2,94 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8648C9020
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 11:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CC68C908C
+	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 13:11:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9726610E0F4;
-	Sat, 18 May 2024 09:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2DAB10E1AA;
+	Sat, 18 May 2024 11:11:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="ENNgdlTf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I3YxrpQ0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 431 seconds by postgrey-1.36 at gabe;
- Sat, 18 May 2024 09:16:29 UTC
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
- [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A9A10E0F4
- for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 09:16:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=1a0C79DkdyNfWuSIhpXXfpQISUKfKWxaR+an4LJg0Cw=; t=1716023790; x=1716628590; 
- b=ENNgdlTfH/JCdNpIa0PM7zc2miGwx2dECwwwRzUFXAwrEJlSqgWKljvy/NpbxRisnAWaqOJay7d
- SNYO/dAvo3gWYoMhidD+uu+A+RS3S4JRTtS5UA/zveVT2eWkisksrB5yS6kPfehj9146PE8MDz5ls
- 2ftMt3h/4ThS9SDu5ux+wxFSGnZn4Dwudt6KME61eMyLk4w8+sNXl/Uewm7GkDupdT7POOmQrj3iY
- Ia6duQ0j92wFMA1VHXRJfcRLoqB4a6ZfI4CX5pWS4BfC9bdTw2gqg3zZUir1edhepSqgdX8fygiyp
- 3U56REw31vXSRh78kf1+l5uh55FYCgaLSANA==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.97) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1s8G3N-00000002L83-1Dc1; Sat, 18 May 2024 11:08:33 +0200
-Received: from dynamic-077-188-054-221.77.188.pool.telefonica.de
- ([77.188.54.221] helo=[192.168.178.20])
- by inpost2.zedat.fu-berlin.de (Exim 4.97) with esmtpsa (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1s8G3M-00000003h1e-3i5d; Sat, 18 May 2024 11:08:33 +0200
-Message-ID: <455e40c03314294f9c2e64480aa69f8261a3f2d5.camel@physik.fu-berlin.de>
-Subject: Re: [RESEND v7 00/37] Device Tree support for SH7751 based board
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, David Airlie
- <airlied@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Thomas Gleixner
- <tglx@linutronix.de>, Bjorn Helgaas <bhelgaas@google.com>, Lorenzo
- Pieralisi <lpieralisi@kernel.org>, Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?=
- <kw@linux.com>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri
- Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,  Daniel
- Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, Lee
- Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>, Heiko Stuebner
- <heiko.stuebner@cherry.de>, Shawn Guo <shawnguo@kernel.org>,  Sebastian
- Reichel <sre@kernel.org>, Chris Morgan <macromorgan@hotmail.com>, Linus
- Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>, David
- Rientjes <rientjes@google.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>, Andrew
- Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>,
- Kefeng Wang <wangkefeng.wang@huawei.com>, Stephen Rothwell
- <sfr@canb.auug.org.au>,  Javier Martinez Canillas <javierm@redhat.com>, Guo
- Ren <guoren@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>, Max
- Filippov <jcmvbkbc@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Jacky
- Huang <ychuang3@nuvoton.com>, Herve Codina <herve.codina@bootlin.com>,
- Manikanta Guntupalli <manikanta.guntupalli@amd.com>,  Anup Patel
- <apatel@ventanamicro.com>, Biju Das <biju.das.jz@bp.renesas.com>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Sam
- Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, Laurent
- Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- linux-ide@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-pci@vger.kernel.org, linux-serial@vger.kernel.org, 
- linux-fbdev@vger.kernel.org
-Date: Sat, 18 May 2024 11:08:30 +0200
-In-Reply-To: <cover.1712205900.git.ysato@users.sourceforge.jp>
-References: <cover.1712205900.git.ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 116EF10E1AA
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 11:11:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716030661; x=1747566661;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=40mRhQwl4ZDwZhzvOgGimjyfxJzi04d95tIq3H/adOQ=;
+ b=I3YxrpQ0Z4Iy6/8jTDsULf1QkkJuyH/0EgEMAhPzOIvO/Q+MV5zTPI1+
+ dynWWL/tLpBWgqRvdB7Sp03AiuIgweqCbYtai/H95qXsjbd3qHciFdpZo
+ m2j+lTfaRXCXXuP79vy4BMorTi+E4g7jg7+iR1VQOqepSAIXSaq/buGhA
+ NkrJIYGpFhXlIGAq6jUOfgWYj+lXijuYlPpz6kxHsNrz7uwUhZIz3HsMj
+ UPYuCSxCBPipUrjcfvzXItnmku4FKfnJq8XdIuFIn+tGcWs51nG7C9afd
+ aY+0P5EW2RHplAcIPvjGnv/UDbATGwiaP8PiInrJAXnxxFj0/8Zllc90r A==;
+X-CSE-ConnectionGUID: oF7lv3wXQQytRbABbHDodA==
+X-CSE-MsgGUID: R0mE5wSBRFaec2W37fp3zg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="23353423"
+X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; d="scan'208";a="23353423"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2024 04:11:01 -0700
+X-CSE-ConnectionGUID: Ea2wK3hkTs6Wjxta3b8qnA==
+X-CSE-MsgGUID: N5gRCf5VRKO7qQgnuoctfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; d="scan'208";a="55274792"
+Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
+ by fmviesa002.fm.intel.com with ESMTP; 18 May 2024 04:10:59 -0700
+Received: from kbuild by 108735ec233b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1s8Hxo-00027u-2y;
+ Sat, 18 May 2024 11:10:56 +0000
+Date: Sat, 18 May 2024 19:10:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, bcm-kernel-feedback-list@broadcom.com,
+ zack.rusin@broadcom.com, martin.krastev@broadcom.com,
+ maaz.mombasawala@broadcom.com, Ian Forbes <ian.forbes@broadcom.com>
+Subject: Re: [PATCH v2 1/4] drm/vmwgfx: Filter modes which exceed graphics
+ memory
+Message-ID: <202405181844.pA39DlHd-lkp@intel.com>
+References: <20240517184811.25807-2-ian.forbes@broadcom.com>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 77.188.54.221
-X-ZEDAT-Hint: PO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240517184811.25807-2-ian.forbes@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,38 +72,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yoshinori,
+Hi Ian,
 
-On Thu, 2024-04-04 at 14:14 +0900, Yoshinori Sato wrote:
-> Sorry. previus mail is thread broken.
->=20
-> This is an updated version of something I wrote about 7 years ago.
-> Minimum support for R2D-plus and LANDISK.
-> I think R2D-1 will work if you add AX88796 to dts.
-> And board-specific functions and SCI's SPI functions are not supported.
->=20
-> You can get it working with qemu found here.
-> https://gitlab.com/yoshinori.sato/qemu/-/tree/landisk
->=20
-> v7 changes.
-> - sh/kernel/setup.c: fix kernel parameter handling.
-> - clk-sh7750.c: cleanup.
-> - sh_tmu.c: cleanup.
-> - irq-renesas-sh7751.c: IPR definition move to code.
-> - irq-renesas-sh7751irl.c: update register definition.
-> - pci-sh7751.c: Register initialization fix.=20
-> - sm501 and sm501fb: Re-design Device Tree properties.
+kernel test robot noticed the following build warnings:
 
-Could you push your v7 version to your Gitlab [1] repository so I can fetch
-it from there?
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.9 next-20240517]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
-Adrian
+url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Forbes/drm-vmwgfx-Filter-modes-which-exceed-graphics-memory/20240518-024955
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20240517184811.25807-2-ian.forbes%40broadcom.com
+patch subject: [PATCH v2 1/4] drm/vmwgfx: Filter modes which exceed graphics memory
+config: i386-randconfig-141-20240518 (https://download.01.org/0day-ci/archive/20240518/202405181844.pA39DlHd-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405181844.pA39DlHd-lkp@intel.com/reproduce)
 
-> [1] https://gitlab.com/yoshinori.sato/linux
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405181844.pA39DlHd-lkp@intel.com/
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:47: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * llvmpipe will align the width and height of its buffers to match its
+
+
+vim +47 drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+
+    38	
+    39	#define vmw_crtc_to_stdu(x) \
+    40		container_of(x, struct vmw_screen_target_display_unit, base.crtc)
+    41	#define vmw_encoder_to_stdu(x) \
+    42		container_of(x, struct vmw_screen_target_display_unit, base.encoder)
+    43	#define vmw_connector_to_stdu(x) \
+    44		container_of(x, struct vmw_screen_target_display_unit, base.connector)
+    45	
+    46	/**
+  > 47	 * llvmpipe will align the width and height of its buffers to match its
+    48	 * tile size. We need to keep this in mind when exposing modes to userspace
+    49	 * so that this possible over-allocation will not exceed graphics memory.
+    50	 */
+    51	#define LLVM_PIPE_TILE_SIZE 64
+    52	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
