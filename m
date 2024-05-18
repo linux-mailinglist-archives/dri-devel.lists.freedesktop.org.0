@@ -2,77 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D2A8C9232
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 22:22:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E55A8C9265
+	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 23:20:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA9A10E167;
-	Sat, 18 May 2024 20:21:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59BF010E153;
+	Sat, 18 May 2024 21:20:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="gl2OouVw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ErmkiMBg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664DC10E167
- for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 20:21:58 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-1f2f566a7c7so9630695ad.1
- for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 13:21:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1716063718; x=1716668518;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YT8k8s66KczJAsNizHEAZ30DCNByiIsnyYkGU9dE27E=;
- b=gl2OouVwqA5JRctsPEcAp230+jOYRPIXlw5YxpjZfZqB0P3cx5/tgXSQY9rLLoaXbJ
- m1BGplhO2/o5Mku0SWDXbZOQthkb6x0ia1Fs2X2j1fNAPvHJPGEXa7FQOsdOvfbPaQFd
- HM6f8hXTVqIHrSdHa2zGAJ4/9DMwNgBhaki8o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716063718; x=1716668518;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YT8k8s66KczJAsNizHEAZ30DCNByiIsnyYkGU9dE27E=;
- b=XsQSjz1KpyeWk3K8HmHNuBDZ5GW8p/ol6+kFpR2qcICU4bEKoaRS2chOdnLKXTu22f
- m4ovKw3hG/T9qdTnoDrWx7GFBD9B6o8abKXfUCCpTIlH0kknYYK0mMB8AtwzHGuAgtwj
- +BPsSukqIKnWK4LqVi/erW1UNscW0cD7YsjPliNGAZxNwbALQN19LE9WSHdyXGiUYT+R
- zBQt0tagJpcBnPUQsF8XqRmNfovVvDUcqRUM8rwJcEEUZCqj/yrJskUKg+bNTy6RLcWq
- I1sKAm9UkZiqlIOcs8HqIiPELI7nKOkCxVIrWD44spnr+EY+Yg7Eyfz7EpXtrPBfwm2N
- HyJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWUN3QYfaV0y/AObRyawOvIDWXbgI8vDdo+4AbU658LfxvVdQT1iqF/8eVoSbuxCE3pf/QPiyCVfEcdArwy7IIFQ20ckyR7YAKqshk0rtjx
-X-Gm-Message-State: AOJu0YxGT+07+MGtYyleoP0cEhNmNTSPy49C0Kit208BSku+Tj/8YaZ2
- eMiZIkvkZX27h6BUSKKOrHwlIwHUmqraypF/Pj01mMunXHMhTCyJttSG7msiwg==
-X-Google-Smtp-Source: AGHT+IFRGo/TZiGmDwrA4Giz9YhglZ2J52uHVSyaj/8zAhYj57i0W4kcw475tSgmL53i3sy/nIfz7g==
-X-Received: by 2002:a17:902:f705:b0:1ee:b47e:7085 with SMTP id
- d9443c01a7336-1ef43c0c957mr310157785ad.12.1716063717708; 
- Sat, 18 May 2024 13:21:57 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1ef0bad61c7sm177715425ad.68.2024.05.18.13.21.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 May 2024 13:21:56 -0700 (PDT)
-Date: Sat, 18 May 2024 13:21:55 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: David Airlie <airlied@gmail.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Danilo Krummrich <dakr@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH v2] drm/nouveau/nvif: Avoid build error due to potential
- integer overflows
-Message-ID: <202405181321.BE7CB28587@keescook>
-References: <20240518182923.1217111-1-linux@roeck-us.net>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDD5710E153
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 21:20:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716067206; x=1747603206;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=rBj9cZeUYAoUD9odKeNyy82c0utbn05HIdZeMtOw4ac=;
+ b=ErmkiMBguMsoQ3RsuzOoCTqQpm3+iu/2B34QLt62eNaa4Ap9B8nDFycP
+ IC/1yURPzNg62YLqVn6SJwKjZv66CT6xx9g9beUJJwKp1n7PBgzlIN3Kl
+ Fr5aDwdiJ9+bq+gME3YNbwaFiEEiZZms22zL92Y/BXWoQSky5/UzERzsT
+ 5fdfjAJMeOYPZFDKpjBDxvOhHavQK8JKvwL6oQST9l97yWkWBHKn+Yp1p
+ 2KdMYogBFfNOduQNfw97JrE0Fzo6v7j3akImnSNdVDLmXuA3LCcqZBkcm
+ QdF4c3j161+BpbtploPVjtZ8XCofS2YVwt70Ee6gM1Z/44gVYuyGiEfBR g==;
+X-CSE-ConnectionGUID: RVA1m/SQS8+O0uOQjOEBLg==
+X-CSE-MsgGUID: 1wyl4AllRDCFas41k/cYdQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="12080870"
+X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; d="scan'208";a="12080870"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2024 14:20:05 -0700
+X-CSE-ConnectionGUID: ckjP751USHuvYbCxa9p+SA==
+X-CSE-MsgGUID: 5f6Dyo4sRUOfPQ1G6nGfHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,171,1712646000"; d="scan'208";a="32119398"
+Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
+ by fmviesa008.fm.intel.com with ESMTP; 18 May 2024 14:20:02 -0700
+Received: from kbuild by 108735ec233b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1s8RTE-0002d0-0r;
+ Sat, 18 May 2024 21:20:00 +0000
+Date: Sun, 19 May 2024 05:19:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+Subject: [drm-misc:drm-misc-next 10/10] drivers/gpu/drm/stm/ltdc.c:494:35:
+ error: unused function 'encoder_to_ltdc'
+Message-ID: <202405190539.epnOVnMx-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240518182923.1217111-1-linux@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,43 +68,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 18, 2024 at 11:29:23AM -0700, Guenter Roeck wrote:
-> Trying to build parisc:allmodconfig with gcc 12.x or later results
-> in the following build error.
-> 
-> drivers/gpu/drm/nouveau/nvif/object.c: In function 'nvif_object_mthd':
-> drivers/gpu/drm/nouveau/nvif/object.c:161:9: error:
-> 	'memcpy' accessing 4294967264 or more bytes at offsets 0 and 32 overlaps 6442450881 bytes at offset -2147483617 [-Werror=restrict]
->   161 |         memcpy(data, args->mthd.data, size);
->       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/nouveau/nvif/object.c: In function 'nvif_object_ctor':
-> drivers/gpu/drm/nouveau/nvif/object.c:298:17: error:
-> 	'memcpy' accessing 4294967240 or more bytes at offsets 0 and 56 overlaps 6442450833 bytes at offset -2147483593 [-Werror=restrict]
->   298 |                 memcpy(data, args->new.data, size);
-> 
-> gcc assumes that 'sizeof(*args) + size' can overflow, which would result
-> in the problem.
-> 
-> The problem is not new, only it is now no longer a warning but an error
-> since W=1 has been enabled for the drm subsystem and since Werror is
-> enabled for test builds.
-> 
-> Rearrange arithmetic and use check_add_overflow() for validating the
-> allocation size to avoid the overflow.
-> 
-> Fixes: a61ddb4393ad ("drm: enable (most) W=1 warnings by default across the subsystem")
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Hi Ville,
 
-Yeah, looks good to me. Thanks!
+First bad commit (maybe != root cause):
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   85cb9d603953d77de5cb311d229a79c439ff6bfb
+commit: 6597efcfc53585d5fb177b901a41b4ac2f282b99 [10/10] drm/stm: Allow build with COMPILE_TEST=y
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240519/202405190539.epnOVnMx-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405190539.epnOVnMx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405190539.epnOVnMx-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/stm/ltdc.c:494:35: error: unused function 'encoder_to_ltdc' [-Werror,-Wunused-function]
+     494 | static inline struct ltdc_device *encoder_to_ltdc(struct drm_encoder *enc)
+         |                                   ^~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +/encoder_to_ltdc +494 drivers/gpu/drm/stm/ltdc.c
+
+b759012c5fa761 Yannick Fertre 2017-04-14  493  
+b759012c5fa761 Yannick Fertre 2017-04-14 @494  static inline struct ltdc_device *encoder_to_ltdc(struct drm_encoder *enc)
+b759012c5fa761 Yannick Fertre 2017-04-14  495  {
+b759012c5fa761 Yannick Fertre 2017-04-14  496  	return (struct ltdc_device *)enc->dev->dev_private;
+b759012c5fa761 Yannick Fertre 2017-04-14  497  }
+b759012c5fa761 Yannick Fertre 2017-04-14  498  
+
+:::::: The code at line 494 was first introduced by commit
+:::::: b759012c5fa761ee08998c80fc4ad6343c258487 drm/stm: Add STM32 LTDC driver
+
+:::::: TO: Yannick Fertre <yannick.fertre@st.com>
+:::::: CC: Eric Anholt <eric@anholt.net>
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
