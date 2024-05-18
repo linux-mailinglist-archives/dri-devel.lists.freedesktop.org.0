@@ -2,75 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F808C9172
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 16:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40BB8C91AD
+	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 18:54:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 787B110E131;
-	Sat, 18 May 2024 14:37:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ABA610E13C;
+	Sat, 18 May 2024 16:54:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L/BSrDZu";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="TCDtg3Be";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6414B8933E;
- Sat, 18 May 2024 14:37:47 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-1ec486198b6so32984275ad.1; 
- Sat, 18 May 2024 07:37:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716043066; x=1716647866; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=FKsSBBFxiA0ly77raLTlMP1yScB2JsDo1G9Qw1p73GY=;
- b=L/BSrDZuCzaTgQ/Quh97V30u8OglPp6ZUwKWO/b5GchaeGvQlvmabe63o2VSwxyexb
- QfafyWuA1sQIRojmnNdtoJsRrQWR8cWRlLVHCy96DpW7THm8PZHtTmGAsCqfd9IW4yS9
- txKvOBrSYNI3HH9aDN6m8chLDgc6TfYPyu5uM4buU2pSY3BTXAlOlG06PFfApxI4JtT9
- hcc7/Ikccdc0yp6QSonufbLiUFm3EODKG92cb2oQsfaTppwq0jC94pSswZnFkebSk92w
- GTU9fYVnjOesscmTMpqhPOO5RrSWwTtRsgR/UYIL7SSu/oNPdvX0lxhgB5V/YWnjvXa8
- EElw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716043066; x=1716647866;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FKsSBBFxiA0ly77raLTlMP1yScB2JsDo1G9Qw1p73GY=;
- b=gsMHyiojxtfUZ1F+theFx1UMhFPbe/XtSlpXex2DuDPJNBHjt+82YK/iN7Y+W5UQLZ
- kMXGoqcYCQWNw4DzOqz42Yyj9MtFzZDvLd0Ghx8zt+r+GZZ16cO9BQDWI3sbtyP7BOkq
- GrNaTrSIjAKtpjkCvrTrR+dpioZWBhofm0vW21HF+4zNZQOMOEOO/et0fuzquq/gzKzf
- /vKSx9wO/UAtMvKaN0fnDRa1vYhlbVGIamxqHtclNSlXY0/il7A1dHPoBCMiyriBNCHR
- FkPN16/Lr9+FyVkyJuTuBdya20giGCfPFbBr9E/rBNSSbu96zNnQ0owCoB9Gv62MbsQ4
- IbQA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWImGEobSduX+9BPyMLcCj+5GijBUI4DS6W4UmDOoiQ6kW1JqLa/ZBokkbA3IxZrU2itWbTGnR3qN5Lj1U2kiC7fpELmKxYGoe5IGKO7M6gCa3ZMbQVJkiKiuDT8MmCbC19wnLiX48NVmI+A8+WAA==
-X-Gm-Message-State: AOJu0Ywu6O87228qGPJ6iOXJt3jM5IGGQpbrVTAH/NoUnGryGAducuDE
- ewd9xQZwwbYP5+9neCp3NkPf+2feLhJUtgCTlnQSCURZWraWbx2f
-X-Google-Smtp-Source: AGHT+IEU3d5YrWonxdjaRa3pMlUejZK6T/8P9yb9msWLq7aHGLOolYZGTo5U9Gm+a0ELvmk9ix2KMA==
-X-Received: by 2002:a17:902:ecd2:b0:1e3:cf2b:7151 with SMTP id
- d9443c01a7336-1ef441a6e2cmr283064855ad.59.1716043066561; 
- Sat, 18 May 2024 07:37:46 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1ef0bbde9d7sm178417435ad.106.2024.05.18.07.37.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 May 2024 07:37:45 -0700 (PDT)
-From: Guenter Roeck <linux@roeck-us.net>
-To: David Airlie <airlied@gmail.com>
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Danilo Krummrich <dakr@redhat.com>, Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH] drm/nouveau/nvif: Avoid build error due to potential integer
- overflows
-Date: Sat, 18 May 2024 07:37:43 -0700
-Message-Id: <20240518143743.313872-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.39.2
+Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr
+ [80.12.242.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9900F10E05D
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 16:54:41 +0000 (UTC)
+Received: from [192.168.1.37] ([86.243.17.157]) by smtp.orange.fr with ESMTPA
+ id 8NKOsDKB5rcIM8NKOs66mv; Sat, 18 May 2024 18:54:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1716051279;
+ bh=NQUX/UKoeWYpHl5nclkHEYXVWH0iNXBos3sbtmi02Oc=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=TCDtg3BeyPLHPzxmB8apkDFp5cEt851ceBSNxIPUG0zaEvoB1HXG9ADmllOSafhCV
+ xiMSRtrRg49ddbeGq9GBBTaiXYU9RwokOGiM6sEBkiLxmGY5axibYntwUYri5QU2PE
+ jYvKhi/zUtdYUXVh7X5PXZUgOxvIDHBl8qIGQDq1neVNDQxiJ/v7PSgNfBb5XeZHjW
+ wTEhDy7FrkJbaeMHWqV2+EFaCKZCkWNCFghQWXhaMG0/QMeySbDaywPAft9DzIOXUb
+ a/mvRt9YIiWc26GmA4Dvi8YXHGFPNcibmoHh2Wga8th0vqmO/ggx2ReILJ03dDXg1V
+ Mjeo8LUyqHyFw==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 18 May 2024 18:54:39 +0200
+X-ME-IP: 86.243.17.157
+Message-ID: <34a6d812-b4ed-4465-b0ec-e641d185b9b1@wanadoo.fr>
+Date: Sat, 18 May 2024 18:54:36 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/nouveau/nvif: Avoid build error due to potential
+ integer overflows
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: airlied@gmail.com, dakr@redhat.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, jani.nikula@intel.com, javierm@redhat.com,
+ kherbst@redhat.com, linux-kernel@vger.kernel.org, lyude@redhat.com,
+ mripard@kernel.org, nouveau@lists.freedesktop.org, tzimmermann@suse.de,
+ linux-hardening@vger.kernel.org
+References: <20240518143743.313872-1-linux@roeck-us.net>
+Content-Language: en-MW
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20240518143743.313872-1-linux@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,70 +65,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Trying to build parisc:allmodconfig with gcc 12.x or later results
-in the following build error.
+(adding linux-hardening@vger.kernel.org)
 
-drivers/gpu/drm/nouveau/nvif/object.c: In function 'nvif_object_mthd':
-drivers/gpu/drm/nouveau/nvif/object.c:161:9: error:
-	'memcpy' accessing 4294967264 or more bytes at offsets 0 and 32 overlaps 6442450881 bytes at offset -2147483617 [-Werror=restrict]
-  161 |         memcpy(data, args->mthd.data, size);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/nouveau/nvif/object.c: In function 'nvif_object_ctor':
-drivers/gpu/drm/nouveau/nvif/object.c:298:17: error:
-	'memcpy' accessing 4294967240 or more bytes at offsets 0 and 56 overlaps 6442450833 bytes at offset -2147483593 [-Werror=restrict]
-  298 |                 memcpy(data, args->new.data, size);
 
-gcc assumes that 'sizeof(*args) + size' can overflow, which would result
-in the problem.
+Le 18/05/2024 à 16:37, Guenter Roeck a écrit :
+> Trying to build parisc:allmodconfig with gcc 12.x or later results
+> in the following build error.
+> 
+> drivers/gpu/drm/nouveau/nvif/object.c: In function 'nvif_object_mthd':
+> drivers/gpu/drm/nouveau/nvif/object.c:161:9: error:
+> 	'memcpy' accessing 4294967264 or more bytes at offsets 0 and 32 overlaps 6442450881 bytes at offset -2147483617 [-Werror=restrict]
+>    161 |         memcpy(data, args->mthd.data, size);
+>        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/nouveau/nvif/object.c: In function 'nvif_object_ctor':
+> drivers/gpu/drm/nouveau/nvif/object.c:298:17: error:
+> 	'memcpy' accessing 4294967240 or more bytes at offsets 0 and 56 overlaps 6442450833 bytes at offset -2147483593 [-Werror=restrict]
+>    298 |                 memcpy(data, args->new.data, size);
+> 
+> gcc assumes that 'sizeof(*args) + size' can overflow, which would result
+> in the problem.
+> 
+> The problem is not new, only it is now no longer a warning but an error since W=1
+> has been enabled for the drm subsystem and since Werror is enabled for test builds.
+> 
+> Rearrange arithmetic and add extra size checks to avoid the overflow.
+> 
+> Fixes: a61ddb4393ad ("drm: enable (most) W=1 warnings by default across the subsystem")
+> Cc: Javier Martinez Canillas <javierm-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Cc: Jani Nikula <jani.nikula-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Cc: Thomas Zimmermann <tzimmermann-l3A5Bk7waGM@public.gmane.org>
+> Cc: Danilo Krummrich <dakr-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Cc: Maxime Ripard <mripard-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> Signed-off-by: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+> ---
+> checkpatch complains about the line length in the description and the (pre-existing)
+> assignlemts in if conditions, but I did not want to split lines in the description
+> or rearrange the code further.
+> 
+> I don't know why I only see the problem with parisc builds (at least so far).
+> 
+>   drivers/gpu/drm/nouveau/nvif/object.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvif/object.c b/drivers/gpu/drm/nouveau/nvif/object.c
+> index 4d1aaee8fe15..baf623a48874 100644
+> --- a/drivers/gpu/drm/nouveau/nvif/object.c
+> +++ b/drivers/gpu/drm/nouveau/nvif/object.c
+> @@ -145,8 +145,9 @@ nvif_object_mthd(struct nvif_object *object, u32 mthd, void *data, u32 size)
+>   	u8 stack[128];
+>   	int ret;
+>   
+> -	if (sizeof(*args) + size > sizeof(stack)) {
+> -		if (!(args = kmalloc(sizeof(*args) + size, GFP_KERNEL)))
+> +	if (size > sizeof(stack) - sizeof(*args)) {
+> +		if (size > INT_MAX ||
+> +		    !(args = kmalloc(sizeof(*args) + size, GFP_KERNEL)))
 
-The problem is not new, only it is now no longer a warning but an error since W=1
-has been enabled for the drm subsystem and since Werror is enabled for test builds.
+Hi,
 
-Rearrange arithmetic and add extra size checks to avoid the overflow.
+Would it be cleaner or better to use size_add(sizeof(*args), size)?
 
-Fixes: a61ddb4393ad ("drm: enable (most) W=1 warnings by default across the subsystem")
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-checkpatch complains about the line length in the description and the (pre-existing)
-assignlemts in if conditions, but I did not want to split lines in the description
-or rearrange the code further.
+>   			return -ENOMEM;
+>   	} else {
+>   		args = (void *)stack;
+> @@ -276,7 +277,8 @@ nvif_object_ctor(struct nvif_object *parent, const char *name, u32 handle,
+>   	object->map.size = 0;
+>   
+>   	if (parent) {
+> -		if (!(args = kmalloc(sizeof(*args) + size, GFP_KERNEL))) {
+> +		if (size > INT_MAX ||
+> +		    !(args = kmalloc(sizeof(*args) + size, GFP_KERNEL))) {
 
-I don't know why I only see the problem with parisc builds (at least so far).
+Same.
 
- drivers/gpu/drm/nouveau/nvif/object.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+CJ
 
-diff --git a/drivers/gpu/drm/nouveau/nvif/object.c b/drivers/gpu/drm/nouveau/nvif/object.c
-index 4d1aaee8fe15..baf623a48874 100644
---- a/drivers/gpu/drm/nouveau/nvif/object.c
-+++ b/drivers/gpu/drm/nouveau/nvif/object.c
-@@ -145,8 +145,9 @@ nvif_object_mthd(struct nvif_object *object, u32 mthd, void *data, u32 size)
- 	u8 stack[128];
- 	int ret;
- 
--	if (sizeof(*args) + size > sizeof(stack)) {
--		if (!(args = kmalloc(sizeof(*args) + size, GFP_KERNEL)))
-+	if (size > sizeof(stack) - sizeof(*args)) {
-+		if (size > INT_MAX ||
-+		    !(args = kmalloc(sizeof(*args) + size, GFP_KERNEL)))
- 			return -ENOMEM;
- 	} else {
- 		args = (void *)stack;
-@@ -276,7 +277,8 @@ nvif_object_ctor(struct nvif_object *parent, const char *name, u32 handle,
- 	object->map.size = 0;
- 
- 	if (parent) {
--		if (!(args = kmalloc(sizeof(*args) + size, GFP_KERNEL))) {
-+		if (size > INT_MAX ||
-+		    !(args = kmalloc(sizeof(*args) + size, GFP_KERNEL))) {
- 			nvif_object_dtor(object);
- 			return -ENOMEM;
- 		}
--- 
-2.39.2
+>   			nvif_object_dtor(object);
+>   			return -ENOMEM;
+>   		}
 
