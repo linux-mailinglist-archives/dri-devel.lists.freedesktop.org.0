@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502D48C91EE
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 20:46:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 966318C91FC
+	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 20:57:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFAD10E18E;
-	Sat, 18 May 2024 18:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 556D010E207;
+	Sat, 18 May 2024 18:57:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="g6997u9v";
+	dkim=pass (2048-bit key; unprotected) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="r/McQKWo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48E3910E18E
- for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 18:46:13 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id
- d2e1a72fcca58-6f4dcc3eeb3so63091b3a.0
- for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 11:46:13 -0700 (PDT)
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com
+ [209.85.161.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D97810E1EC
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 18:57:30 +0000 (UTC)
+Received: by mail-oo1-f50.google.com with SMTP id
+ 006d021491bc7-5b2e942171cso741543eaf.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 11:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1716057973; x=1716662773;
+ d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1716058649; x=1716663449;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=gtghe09oJ6h1zM6r9/hcuib2w+0SfFSyUIep5UEjz/8=;
- b=g6997u9v+iWBtB5vdp1OZLoBWNl/RF8gRr5fvXaSo5cA0F/BaR08rgsSjVjCC5HnvZ
- cpVAb2ZpfidTVRhFLBlMeNoF5AG04jUmAlckcVa94yTG/SAaNZIhrAYASnfMRqh89xTV
- gunTIDZysV5QLpiTSzjJFe87TUyTf15CEJlnNHYxIGqT9KJz0+mb3SV8o36ex54+wUVr
- OTY1nezUkp/p85fA43YH2Z3zR1zGxuZ7zAlomNkHygYp22o4+xRLUhUs04LYH70gkznV
- YKTXwHITFeizelOJKDCzKiVArCjZrKeeHQZU7lUEyr0lKh24eaPlk+M7mnTp1aOVFgal
- T5dg==
+ bh=YguLbfIUe9SPEVY4PVRNzJgWNLjHIbYrZNjYPjw1wDY=;
+ b=r/McQKWoiCBcz/Wi+aT30YwUTNsnD2EA6PbdhPMXtj2lKrSJk0jbRmXlPzaXl+8FCa
+ /jIFxxS1UJ/kvatL3GMRrw7rV8AXVJ+4H68ebyv8e6JKMpB7Vcw2k7rT8ebleUQNZsIN
+ oZ6W5XnfeoGIS2thj9E/qFCknMh25oJnvFys5wAxNpOodHSle+3Anw8VIUTj0kdDzi7P
+ mr8SxKqbiQg4YkJ58NiS/6+eJI5JLlbWwP7qJIjpcJv05Y0Q1GLo5ivSu5OQkBUozbIW
+ t52y1ZUxtsZgLo0ijp2ZixIplWiO5B2hYX7RqEchIhmo72COelFfr/UYuXdGUhnhs1rk
+ o1uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716057973; x=1716662773;
+ d=1e100.net; s=20230601; t=1716058649; x=1716663449;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gtghe09oJ6h1zM6r9/hcuib2w+0SfFSyUIep5UEjz/8=;
- b=piNlMtx8FyasDHm9WYpUFTKllPf4Lz2W/n/6QX8ywWCmL7xYBGUQw1dK3uZZyksTYP
- wOun1D+MjgGjCIJZv5/ZDKaJKhQmUMIpD4K6cK8Ko4OnOTL+QuPtdKZhnEhAqWAFBB7w
- hMjfWAepbfWmHB2fKL/ZYjigWiu5fqDzVDwJVM/7Zx9jArvOsy60rslbt36Zw1ovoQzR
- x6d++KlqEuVvW0XHwZM6NGLyY76Ze3PIPzeTLM3tzDCv9WbiDMCf47ruUakl65LOkMQX
- 9JpAvMsquDla3+8jQ1beI8wy+1ncSlhEKRomt2E4qnLm+8O/CAWB7BJ6vNI49DMknBqQ
- K95A==
+ bh=YguLbfIUe9SPEVY4PVRNzJgWNLjHIbYrZNjYPjw1wDY=;
+ b=ROs957MzK3NEkoIskoi9AuPlSPIruy23S5/c/101StGd3j/krsmXEeVJPGhKVH89Qc
+ pBWGG+auTISbR2ICHxPZqA1Px9FO6N70KcOT+RvQ6IOAju9iEB87z/zTTHbiBi9QnxiH
+ XPy2b3JgDWMF7G78gHYIHMY+hHWq5vT6cCrzdhEP1YOkYKBV3iAm+dQuACIfDOhnbsnU
+ 4XrM7R+os9x5zu8cmhQd1OS5G6mu3K9nQsE0BxMhu9pmTgekljPeroEbrwydRPAxxFdN
+ dct+XfunNyNdSaywP8kx5nkpcj3H8On7P56Tui7/zU+jgdYpYmeJn0WiuH2VnA6ZLeci
+ 0mPA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWFpRM51zMR+mvkprJPX2kU/fgyqUDqAglVC96X0Eu/q6b8De8tGVJHHlJ6q4sYGHSkJO//jWaFX3eWTOEhYwL3mNi2qofyQ8baN7sDdCZ8
-X-Gm-Message-State: AOJu0Ywl3dQViSBDq5Y8bFLXBdbOPaJhw1Tc+oXX+9CT9y1B1QmEClMq
- YnIOEBE9BwS8Yq7FLzdlqHxXA6Po1GAT/fthkDFtAsfXPoV7i2mTEL2tmWg+9H8=
-X-Google-Smtp-Source: AGHT+IGg0S5X0hOpYwIoBA7prkwh880WzDoU3RkbOFeT/k39JSwrbImT1CJOj9wyUMDIZCVhykRgQw==
-X-Received: by 2002:a05:6a00:1988:b0:6f3:8468:f9d1 with SMTP id
- d2e1a72fcca58-6f4e02c7d62mr28356985b3a.14.1716057972513; 
- Sat, 18 May 2024 11:46:12 -0700 (PDT)
+ AJvYcCWegDkH0C39sr58ST8tx0QRIvYbZFhC2jA34/Gtcuool534if+kj0WKr4zdGEZxdCF9lKuR8U8xmkI67FY2ktPltCiRcANHAqqvOlbKi1lb
+X-Gm-Message-State: AOJu0Yw8UAdFs8sUVF0dKIw2jd2oz+BGx2S9rvLyHre96U7fZCmQxxuY
+ MASqOH1pobxW3Vh6SdKb4qVN/yCfHT2bLoYEnw57jbbZ9IiH0FWcIoUJlvfqjQw=
+X-Google-Smtp-Source: AGHT+IHilXoeJ/w5ohYR0i7AU3401ochXIU5LArEI0v5RdvvJ31YBmDQam4A7KpiPZymCfWrte5bew==
+X-Received: by 2002:a05:6358:3a11:b0:17b:5661:5e2b with SMTP id
+ e5c5f4694b2df-193bb64065bmr2817534555d.18.1716058648846; 
+ Sat, 18 May 2024 11:57:28 -0700 (PDT)
 Received: from [192.168.1.16] (174-21-188-197.tukw.qwest.net. [174.21.188.197])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-6f4d2a6656esm16665141b3a.38.2024.05.18.11.46.10
+ 41be03b00d2f7-658764fda40sm5342410a12.5.2024.05.18.11.57.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 May 2024 11:46:11 -0700 (PDT)
-Message-ID: <d85f4ba4-774f-4577-985f-45a5a1866da7@davidwei.uk>
-Date: Sat, 18 May 2024 11:46:09 -0700
+ Sat, 18 May 2024 11:57:28 -0700 (PDT)
+Message-ID: <eeb59c4f-9208-4700-b73b-9652398371d7@davidwei.uk>
+Date: Sat, 18 May 2024 11:57:26 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH net-next v9 04/14] netdev: support binding dma-buf to
@@ -125,38 +125,104 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 2024-05-10 16:21, Mina Almasry wrote:
-> +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
-> +{
-> +	struct netdev_rx_queue *rxq;
-> +	unsigned long xa_idx;
-> +	unsigned int rxq_idx;
+> -/* Stub */
+>  int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info)
+>  {
+> -	return 0;
+> +	struct nlattr *tb[ARRAY_SIZE(netdev_queue_dmabuf_nl_policy)];
+> +	struct net_devmem_dmabuf_binding *out_binding;
+> +	struct list_head *sock_binding_list;
+> +	u32 ifindex, dmabuf_fd, rxq_idx;
+> +	struct net_device *netdev;
+> +	struct sk_buff *rsp;
+> +	struct nlattr *attr;
+> +	int rem, err = 0;
+> +	void *hdr;
 > +
-> +	if (!binding)
-> +		return;
+> +	if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_DEV_IFINDEX) ||
+> +	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_BIND_DMABUF_DMABUF_FD) ||
+> +	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_BIND_DMABUF_QUEUES))
+> +		return -EINVAL;
 > +
-> +	if (binding->list.next)
-> +		list_del(&binding->list);
+> +	ifindex = nla_get_u32(info->attrs[NETDEV_A_DEV_IFINDEX]);
+> +	dmabuf_fd = nla_get_u32(info->attrs[NETDEV_A_BIND_DMABUF_DMABUF_FD]);
 > +
-> +	xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
-> +		if (rxq->mp_params.mp_priv == binding) {
-> +			/* We hold the rtnl_lock while binding/unbinding
-> +			 * dma-buf, so we can't race with another thread that
-> +			 * is also modifying this value. However, the page_pool
-> +			 * may read this config while it's creating its
-> +			 * rx-queues. WRITE_ONCE() here to match the
-> +			 * READ_ONCE() in the page_pool.
-> +			 */
-> +			WRITE_ONCE(rxq->mp_params.mp_ops, NULL);
-> +			WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
+> +	rtnl_lock();
 > +
-> +			rxq_idx = get_netdev_rx_queue_index(rxq);
+> +	netdev = __dev_get_by_index(genl_info_net(info), ifindex);
+> +	if (!netdev) {
+> +		err = -ENODEV;
+> +		goto err_unlock;
+> +	}
 > +
-> +			netdev_rx_queue_restart(binding->dev, rxq_idx);
+> +	err = net_devmem_bind_dmabuf(netdev, dmabuf_fd, &out_binding);
+> +	if (err)
+> +		goto err_unlock;
+> +
+> +	nla_for_each_attr(attr, genlmsg_data(info->genlhdr),
+> +			  genlmsg_len(info->genlhdr), rem) {
+> +		if (nla_type(attr) != NETDEV_A_BIND_DMABUF_QUEUES)
+> +			continue;
+> +
+> +		err = nla_parse_nested(
+> +			tb, ARRAY_SIZE(netdev_queue_dmabuf_nl_policy) - 1, attr,
+> +			netdev_queue_dmabuf_nl_policy, info->extack);
+> +		if (err < 0)
+> +			goto err_unbind;
+> +
+> +		rxq_idx = nla_get_u32(tb[NETDEV_A_QUEUE_DMABUF_IDX]);
+> +		if (rxq_idx >= netdev->num_rx_queues) {
+> +			err = -ERANGE;
+> +			goto err_unbind;
+> +		}
 
-What if netdev_rx_queue_restart() fails? Depending on where it failed, a
-queue might still be filled from struct net_devmem_dmabuf_binding. This
-is one downside of the current situation with netdev_rx_queue_restart()
-needing to do allocations each time.
+net_devmem_bind_dmabuf_to_queue() checks for rxq_idx >=
+netdev->num_rx_queues as well. I'd say remove the one in
+netdev_nl_bind_rx_doit().
 
-Perhaps a full reset if individual queue restart fails?
+Also we may want a generic netdev function e.g. netdev_rx_queue_set_mp()
+since I need the same functionality.
 
+> +
+> +		err = net_devmem_bind_dmabuf_to_queue(netdev, rxq_idx,
+> +						      out_binding);
+> +		if (err)
+> +			goto err_unbind;
+> +	}
+> +
+> +	sock_binding_list = genl_sk_priv_get(&netdev_nl_family,
+> +					     NETLINK_CB(skb).sk);
+> +	if (IS_ERR(sock_binding_list)) {
+> +		err = PTR_ERR(sock_binding_list);
+> +		goto err_unbind;
+> +	}
+> +
+> +	list_add(&out_binding->list, sock_binding_list);
+> +
+> +	rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+> +	if (!rsp) {
+> +		err = -ENOMEM;
+> +		goto err_unbind;
+> +	}
+> +
+> +	hdr = genlmsg_iput(rsp, info);
+> +	if (!hdr) {
+> +		err = -EMSGSIZE;
+> +		goto err_genlmsg_free;
+> +	}
+> +
+> +	nla_put_u32(rsp, NETDEV_A_BIND_DMABUF_DMABUF_ID, out_binding->id);
+> +	genlmsg_end(rsp, hdr);
+> +
+> +	rtnl_unlock();
+> +
+> +	return genlmsg_reply(rsp, info);
+> +
+> +err_genlmsg_free:
+> +	nlmsg_free(rsp);
+> +err_unbind:
+> +	net_devmem_unbind_dmabuf(out_binding);
+> +err_unlock:
+> +	rtnl_unlock();
+> +	return err;
+>  }
