@@ -2,78 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830DB8C91DE
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 20:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502D48C91EE
+	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2024 20:46:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFB1510E168;
-	Sat, 18 May 2024 18:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFAD10E18E;
+	Sat, 18 May 2024 18:46:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KPYiKJoD";
+	dkim=pass (2048-bit key; unprotected) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="g6997u9v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02E0510E168;
- Sat, 18 May 2024 18:29:26 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-1eeb1a4c10aso39784225ad.3; 
- Sat, 18 May 2024 11:29:26 -0700 (PDT)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48E3910E18E
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 18:46:13 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-6f4dcc3eeb3so63091b3a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 11:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716056966; x=1716661766; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=JiRUq85Ly6zqWge3zqGsIH/ckCQ3+fLPP5hj7FWXBBU=;
- b=KPYiKJoDZHzYZ14Vi1ymLuv4UOrkZkug8mKNPM1FgBAXiNwcrgDJyblxWH7qUhcCHe
- Fbz9QlITiWoNtAuxQvrKf35P/A8X4O4TD1l8wBTnFv+VrMfynv/m5VDr1R7rl3WqzX/c
- MYgJeDJmy6a2gw6KS4zkNPPqFsFqYj0N2Jsdo7zV4lBvmoWYVOhCaSPdK8J/oaqFioMj
- lc57E9YXkq/6wIxIXRBw+3pPDeDQkCfuMhOr6QYXWt4D+e7Rn8ILsPZFhnqRJUx6eCLO
- a5Ee2sGie37+vDhUPMPEyh0pnDRG1q6jeziuC8S79H9F2y9vW+0vvqv5rOfwQjh1W//T
- nR3Q==
+ d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1716057973; x=1716662773;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gtghe09oJ6h1zM6r9/hcuib2w+0SfFSyUIep5UEjz/8=;
+ b=g6997u9v+iWBtB5vdp1OZLoBWNl/RF8gRr5fvXaSo5cA0F/BaR08rgsSjVjCC5HnvZ
+ cpVAb2ZpfidTVRhFLBlMeNoF5AG04jUmAlckcVa94yTG/SAaNZIhrAYASnfMRqh89xTV
+ gunTIDZysV5QLpiTSzjJFe87TUyTf15CEJlnNHYxIGqT9KJz0+mb3SV8o36ex54+wUVr
+ OTY1nezUkp/p85fA43YH2Z3zR1zGxuZ7zAlomNkHygYp22o4+xRLUhUs04LYH70gkznV
+ YKTXwHITFeizelOJKDCzKiVArCjZrKeeHQZU7lUEyr0lKh24eaPlk+M7mnTp1aOVFgal
+ T5dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716056966; x=1716661766;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JiRUq85Ly6zqWge3zqGsIH/ckCQ3+fLPP5hj7FWXBBU=;
- b=eLp4wc6iJsotWZbpx1d7UaYh7ZdiFoQhQxqZAf+CgRhTiAqKVhXUtdfH+wbl+oBk58
- b3+NYtywWn78ndP/cGcNxCdxgnPg7ZiZChjXZRvD3KpkbiIjiq0jt5PQrbbrquzxHLNh
- nF2dLpM95Pff2Tsb/cEgvmHt3gCpzhd64zVVPTPWEnejjlVNYhsOibO2cUyjB5lSL3uZ
- 7jUfohU8KT0sBdWbPCOaHuyc68A4kH3HTrA4btgMlOLuDYkCISWLgyTUNDh7s3EP2Xnn
- WMs9gYRuJncjn6KCdJGp0VUSyoMXGvrCmFPEfrrlxZ3bhPQHpSXCMsgJZMTzaROuz/hd
- uuZw==
+ d=1e100.net; s=20230601; t=1716057973; x=1716662773;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gtghe09oJ6h1zM6r9/hcuib2w+0SfFSyUIep5UEjz/8=;
+ b=piNlMtx8FyasDHm9WYpUFTKllPf4Lz2W/n/6QX8ywWCmL7xYBGUQw1dK3uZZyksTYP
+ wOun1D+MjgGjCIJZv5/ZDKaJKhQmUMIpD4K6cK8Ko4OnOTL+QuPtdKZhnEhAqWAFBB7w
+ hMjfWAepbfWmHB2fKL/ZYjigWiu5fqDzVDwJVM/7Zx9jArvOsy60rslbt36Zw1ovoQzR
+ x6d++KlqEuVvW0XHwZM6NGLyY76Ze3PIPzeTLM3tzDCv9WbiDMCf47ruUakl65LOkMQX
+ 9JpAvMsquDla3+8jQ1beI8wy+1ncSlhEKRomt2E4qnLm+8O/CAWB7BJ6vNI49DMknBqQ
+ K95A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6u3ZNm7dfLkcLHvR52tpq+vH6aVTuXv8uyCTg5oMQfbUVYt6uOwwCjHW9qgQ6IA37May8Sj6AbmaXUzzTAHnn8KpnUJrj3Z+jZpTVCEp/r0zFMidmzdtalf1f22/UiBbquyp4XSWKdfby61ktcw==
-X-Gm-Message-State: AOJu0YzQLlO7wc2lkhi2mjWUPA9z8FQpfniVDImSXX9IjGi2MMf/qsXz
- 3J5jIofcH39BR6u+G9+R3li/ae0a79by+XwIJFlISMJ5tCbIj6UA
-X-Google-Smtp-Source: AGHT+IHrchQFBqcCRziDIkRqhjVokcfHXnTHGOpiDCIh9oIqWZpJHQZ6+lBwn2M5/178hOdM1GGESw==
-X-Received: by 2002:a17:902:fc45:b0:1eb:1d30:64b5 with SMTP id
- d9443c01a7336-1ef43d170ddmr319568685ad.19.1716056966303; 
- Sat, 18 May 2024 11:29:26 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ AJvYcCWFpRM51zMR+mvkprJPX2kU/fgyqUDqAglVC96X0Eu/q6b8De8tGVJHHlJ6q4sYGHSkJO//jWaFX3eWTOEhYwL3mNi2qofyQ8baN7sDdCZ8
+X-Gm-Message-State: AOJu0Ywl3dQViSBDq5Y8bFLXBdbOPaJhw1Tc+oXX+9CT9y1B1QmEClMq
+ YnIOEBE9BwS8Yq7FLzdlqHxXA6Po1GAT/fthkDFtAsfXPoV7i2mTEL2tmWg+9H8=
+X-Google-Smtp-Source: AGHT+IGg0S5X0hOpYwIoBA7prkwh880WzDoU3RkbOFeT/k39JSwrbImT1CJOj9wyUMDIZCVhykRgQw==
+X-Received: by 2002:a05:6a00:1988:b0:6f3:8468:f9d1 with SMTP id
+ d2e1a72fcca58-6f4e02c7d62mr28356985b3a.14.1716057972513; 
+ Sat, 18 May 2024 11:46:12 -0700 (PDT)
+Received: from [192.168.1.16] (174-21-188-197.tukw.qwest.net. [174.21.188.197])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-1ef0bad61c7sm176922435ad.68.2024.05.18.11.29.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 May 2024 11:29:25 -0700 (PDT)
-From: Guenter Roeck <linux@roeck-us.net>
-To: David Airlie <airlied@gmail.com>
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Danilo Krummrich <dakr@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- Kees Cook <keescook@chromium.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH v2] drm/nouveau/nvif: Avoid build error due to potential
- integer overflows
-Date: Sat, 18 May 2024 11:29:23 -0700
-Message-Id: <20240518182923.1217111-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.39.2
+ d2e1a72fcca58-6f4d2a6656esm16665141b3a.38.2024.05.18.11.46.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 May 2024 11:46:11 -0700 (PDT)
+Message-ID: <d85f4ba4-774f-4577-985f-45a5a1866da7@davidwei.uk>
+Date: Sat, 18 May 2024 11:46:09 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 04/14] netdev: support binding dma-buf to
+ netdevice
+Content-Language: en-GB
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
+ <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240510232128.1105145-1-almasrymina@google.com>
+ <20240510232128.1105145-5-almasrymina@google.com>
+From: David Wei <dw@davidwei.uk>
+In-Reply-To: <20240510232128.1105145-5-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,102 +124,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Trying to build parisc:allmodconfig with gcc 12.x or later results
-in the following build error.
+On 2024-05-10 16:21, Mina Almasry wrote:
+> +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	struct netdev_rx_queue *rxq;
+> +	unsigned long xa_idx;
+> +	unsigned int rxq_idx;
+> +
+> +	if (!binding)
+> +		return;
+> +
+> +	if (binding->list.next)
+> +		list_del(&binding->list);
+> +
+> +	xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
+> +		if (rxq->mp_params.mp_priv == binding) {
+> +			/* We hold the rtnl_lock while binding/unbinding
+> +			 * dma-buf, so we can't race with another thread that
+> +			 * is also modifying this value. However, the page_pool
+> +			 * may read this config while it's creating its
+> +			 * rx-queues. WRITE_ONCE() here to match the
+> +			 * READ_ONCE() in the page_pool.
+> +			 */
+> +			WRITE_ONCE(rxq->mp_params.mp_ops, NULL);
+> +			WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
+> +
+> +			rxq_idx = get_netdev_rx_queue_index(rxq);
+> +
+> +			netdev_rx_queue_restart(binding->dev, rxq_idx);
 
-drivers/gpu/drm/nouveau/nvif/object.c: In function 'nvif_object_mthd':
-drivers/gpu/drm/nouveau/nvif/object.c:161:9: error:
-	'memcpy' accessing 4294967264 or more bytes at offsets 0 and 32 overlaps 6442450881 bytes at offset -2147483617 [-Werror=restrict]
-  161 |         memcpy(data, args->mthd.data, size);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/nouveau/nvif/object.c: In function 'nvif_object_ctor':
-drivers/gpu/drm/nouveau/nvif/object.c:298:17: error:
-	'memcpy' accessing 4294967240 or more bytes at offsets 0 and 56 overlaps 6442450833 bytes at offset -2147483593 [-Werror=restrict]
-  298 |                 memcpy(data, args->new.data, size);
+What if netdev_rx_queue_restart() fails? Depending on where it failed, a
+queue might still be filled from struct net_devmem_dmabuf_binding. This
+is one downside of the current situation with netdev_rx_queue_restart()
+needing to do allocations each time.
 
-gcc assumes that 'sizeof(*args) + size' can overflow, which would result
-in the problem.
-
-The problem is not new, only it is now no longer a warning but an error
-since W=1 has been enabled for the drm subsystem and since Werror is
-enabled for test builds.
-
-Rearrange arithmetic and use check_add_overflow() for validating the
-allocation size to avoid the overflow.
-
-Fixes: a61ddb4393ad ("drm: enable (most) W=1 warnings by default across the subsystem")
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-v2: Use check_add_overflow() to calculate the allocation size and to check
-    for overflows.
-
- drivers/gpu/drm/nouveau/nvif/object.c | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvif/object.c b/drivers/gpu/drm/nouveau/nvif/object.c
-index 4d1aaee8fe15..89a812f812af 100644
---- a/drivers/gpu/drm/nouveau/nvif/object.c
-+++ b/drivers/gpu/drm/nouveau/nvif/object.c
-@@ -142,11 +142,15 @@ nvif_object_mthd(struct nvif_object *object, u32 mthd, void *data, u32 size)
- 		struct nvif_ioctl_v0 ioctl;
- 		struct nvif_ioctl_mthd_v0 mthd;
- 	} *args;
-+	u32 args_size;
- 	u8 stack[128];
- 	int ret;
- 
--	if (sizeof(*args) + size > sizeof(stack)) {
--		if (!(args = kmalloc(sizeof(*args) + size, GFP_KERNEL)))
-+	if (check_add_overflow(sizeof(*args), size, &args_size))
-+		return -ENOMEM;
-+
-+	if (args_size > sizeof(stack)) {
-+		if (!(args = kmalloc(args_size, GFP_KERNEL)))
- 			return -ENOMEM;
- 	} else {
- 		args = (void *)stack;
-@@ -157,7 +161,7 @@ nvif_object_mthd(struct nvif_object *object, u32 mthd, void *data, u32 size)
- 	args->mthd.method = mthd;
- 
- 	memcpy(args->mthd.data, data, size);
--	ret = nvif_object_ioctl(object, args, sizeof(*args) + size, NULL);
-+	ret = nvif_object_ioctl(object, args, args_size, NULL);
- 	memcpy(data, args->mthd.data, size);
- 	if (args != (void *)stack)
- 		kfree(args);
-@@ -276,7 +280,14 @@ nvif_object_ctor(struct nvif_object *parent, const char *name, u32 handle,
- 	object->map.size = 0;
- 
- 	if (parent) {
--		if (!(args = kmalloc(sizeof(*args) + size, GFP_KERNEL))) {
-+		u32 args_size;
-+
-+		if (check_add_overflow(sizeof(*args), size, &args_size)) {
-+			nvif_object_dtor(object);
-+			return -ENOMEM;
-+		}
-+
-+		if (!(args = kmalloc(args_size, GFP_KERNEL))) {
- 			nvif_object_dtor(object);
- 			return -ENOMEM;
- 		}
-@@ -293,8 +304,7 @@ nvif_object_ctor(struct nvif_object *parent, const char *name, u32 handle,
- 		args->new.oclass = oclass;
- 
- 		memcpy(args->new.data, data, size);
--		ret = nvif_object_ioctl(parent, args, sizeof(*args) + size,
--					&object->priv);
-+		ret = nvif_object_ioctl(parent, args, args_size, &object->priv);
- 		memcpy(data, args->new.data, size);
- 		kfree(args);
- 		if (ret == 0)
--- 
-2.39.2
+Perhaps a full reset if individual queue restart fails?
 
