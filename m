@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FF08C9406
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 10:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4187C8C9411
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 10:39:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D84310E1C1;
-	Sun, 19 May 2024 08:39:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F117110E1E6;
+	Sun, 19 May 2024 08:39:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wiOCOSJY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="URBv7rQ0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1034E10E1C1
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 08:39:02 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2e3b1b6e9d1so38905911fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 01:39:02 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39CD310E15A
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 08:39:45 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-523b20e2615so3990003e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 01:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716107941; x=1716712741; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1716107983; x=1716712783; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=0cb4fPfYgzOYuW1pgv7CvKiZmFOMdUrHUL+6WZbiuXk=;
- b=wiOCOSJYXCAMkcjUsbkjx1ub22ODgeX0KAH+OuZHd/EADMsV0vJwyn0M4QEJB3c4nD
- ceZhdOLhqdkpTKys3MFILqXOjv/rhMwaiQHdHGQj94rg+M+y87aHSPE/ug0eCIV55v/J
- PCfmXoGPonjCnKKHxTyD10gXCzTXAPgRqegnm4tyUqjaoI59zfDKec1nOKSAq8EwilUi
- jzjRLPZM2TCiUgciOPGpvWlmE+GBT1UP2V7uaEWXYXsKeGX/4a7/6FlnXanibWZO5mmK
- d5RB2qTRT/pHKgwjisyMi4zuTFEQwF3TQjkjy4lrfcUcpsZbLD79srXcgODQ38Gg3m+8
- P3GA==
+ bh=wINRsVYOfc9e8SdgZRbrSE/ek9LX88q64lK0ONVJskM=;
+ b=URBv7rQ0QCsowPRfq2bzNxNG9hGBJZYamLVL5EbyiEKQUA+BDHhyGpkq/rPfnVfj4S
+ VohTDmWD7AX8NG2vwm5keh/Y64dFwUz/G3n9BSbuuJryWihGBzZmAUw+3th14mWfoClT
+ M1HuOwWlzzXc/UjJNLmKB81tvCM/+Rwzc4AiOoYcYOf2FC/1eHkvHi9plEfH3ZgFalG0
+ ZO72BytyFJrah+n2aYvV15nwVjwP0UpnM3mTwS1RKlsUlvZca2BbHnT1axcdMsIqVce7
+ f346Dr4VAEgc+9XpqxqsKZWYoea5izAGcxfIyQdqESCqULdCn3E6v6IK1dWwbwgY9arY
+ T9hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716107941; x=1716712741;
+ d=1e100.net; s=20230601; t=1716107983; x=1716712783;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0cb4fPfYgzOYuW1pgv7CvKiZmFOMdUrHUL+6WZbiuXk=;
- b=SbJfAp7OpWdotDcxLB598T29UcdJ5Ccj5yAbgJv762w0hbfJLedewwYYbWFTGggdNw
- ZtxX34svWYaX5c/MxCQPJieJsKgjvI3fIq3ZT/YRa7yr5pOFBnU4Fi8avTSMKUVsq2KI
- hxi0TeqEuba6+b0835UG+XzKR76prpPAm/8dFF8NXV9XIwC05NE2c245O/kbmVCYjz9S
- FjyHllSd3CFPBJtmUafAKEOOmdpkZ6wesQ4uCKR6YraY6ovxpKWX9uk9xPDNLnAxIzWH
- t4zksFzfjCIWA+IJ47hNGrKx3h4N+mbOFvoUAKGXUP1a6M+Q1Glo7zXwZ8EFUmcw3W3A
- NMAA==
+ bh=wINRsVYOfc9e8SdgZRbrSE/ek9LX88q64lK0ONVJskM=;
+ b=AOoWQfnme8c0A77aiyDC2A094iqM04EBCyE7a9KcXuSxUjC9I95z9hm4MQ5CamPpR/
+ x6mtxoZsot2Gm8QCO/B6mrUpSXHUhW2BWXPOGPRAPiEyTRT43atKiSZ+ujlDA385NjPV
+ aJda8qd4a1FMk3JzClxqQHU0D7cGu6WPuKdvUnrhYZUrGF1REGwXjh3301OxHig2x0Qy
+ onIzAZ2UHStDvHXvw05SxjjStx1Ro8nHT1mOYIgAq9KnjyS1/lLM92YI4X8GU1Kj2hus
+ 4y4a6ZmFoiR6ZOS0eAjG/PPp59zD9C5Gwaws0vuX5b5moE2eIWWuPyR4YVufPV/zkiV6
+ BqAQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWRROyGjLLmSqtbv1whTmShrOj8FL3UhYGnrIe+NOUIJxk5hqDq/MGPyalEEaoZyOUGEFj+519wmdVK/7qshMmXDZ0E/VqTjqpWWTfK9Y+m
-X-Gm-Message-State: AOJu0YxCqbAOYnb6LlF+V99l4k3RaluLfy04IbNmw/aJciJp7LRQ9Cxk
- gKxVSruqZRmwuxnZb5RIaAoyjmm9C/5LnD1r5qAGpZnaQ9602F8C6hPgmlDX+Ko=
-X-Google-Smtp-Source: AGHT+IHYefh+mQmjGIqwtgVnBkjoxCYLHGVhRTDgsf8KtbzOLp5gK7ayorEtx6Nc/vIW66BM9/XciQ==
-X-Received: by 2002:ac2:446c:0:b0:523:5dcc:c72 with SMTP id
- 2adb3069b0e04-5235dcc0ea3mr9528424e87.57.1716107941093; 
- Sun, 19 May 2024 01:39:01 -0700 (PDT)
+ AJvYcCV1+KGoxwlAWG3UWXRzPT0XY5BE+FvQcLjQoCNCb1c8mHufYkNz56zGZurzl/i2bm0TPgCqtAI0VeFrxE+uxvo0vsaPsTyCLMhsVyCWYG1f
+X-Gm-Message-State: AOJu0YzJI3GrpMGBWAfQw2nRyVeapPMUKbt1IrroARGa7gHpB1eQrGCX
+ Mvd+PuVIJ5vMJkLGsXeMlB7WIj6lsej/V+yvldgrDZR8lpuFJSsMIVDU9qdIN24=
+X-Google-Smtp-Source: AGHT+IFI6PXjXa5dIVUKDoC56AXg8GLn15W3jSRDWvlVXmFTkJPr2Sj8InmpAqQX1jsCJ0QL5wMf+w==
+X-Received: by 2002:ac2:520a:0:b0:51f:1e8e:f7d5 with SMTP id
+ 2adb3069b0e04-5220fc6d51bmr17374319e87.35.1716107983501; 
+ Sun, 19 May 2024 01:39:43 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f35ba912sm3790508e87.75.2024.05.19.01.39.00
+ 2adb3069b0e04-521f38d8d70sm3840903e87.226.2024.05.19.01.39.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 May 2024 01:39:00 -0700 (PDT)
-Date: Sun, 19 May 2024 11:38:59 +0300
+ Sun, 19 May 2024 01:39:43 -0700 (PDT)
+Date: Sun, 19 May 2024 11:39:41 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
@@ -66,15 +66,15 @@ Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
  seanpaul@chromium.org, swboyd@chromium.org, dianders@chromium.org, 
  quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/4] drm/msm: register a fault handler for display
- mmu faults
-Message-ID: <uywsmpko7ttzqxtlw6i4n5y7zvny5xgdoxc66azbts7cx6vi5d@myrilzxtu7le>
+Subject: Re: [RFC PATCH 4/4] drm/msm: switch msm_kms to use
+ msm_iommu_disp_new()
+Message-ID: <gfmxslhxpokhwsbnxucd4od2kdqldelrysl6gd2tmgb3dfx6bs@gku27mrctqfh>
 References: <20240517233801.4071868-1-quic_abhinavk@quicinc.com>
- <20240517233801.4071868-2-quic_abhinavk@quicinc.com>
+ <20240517233801.4071868-5-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240517233801.4071868-2-quic_abhinavk@quicinc.com>
+In-Reply-To: <20240517233801.4071868-5-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,70 +90,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 17, 2024 at 04:37:56PM -0700, Abhinav Kumar wrote:
-> In preparation to register a iommu fault handler for display
-> related modules, register a fault handler for the backing
-> mmu object of msm_kms.
-> 
-> Currently, the fault handler only captures the display snapshot
-> but we can expand this later if more information needs to be
-> added to debug display mmu faults.
+On Fri, May 17, 2024 at 04:37:59PM -0700, Abhinav Kumar wrote:
+> Switch msm_kms to use msm_iommu_disp_new() so that the newly
+> registered fault handler will kick-in during any mmu faults.
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/msm_kms.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+>  drivers/gpu/drm/msm/msm_kms.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
-> index af6a6fcb1173..62c8e6163e81 100644
+> index 62c8e6163e81..1859efbbff1d 100644
 > --- a/drivers/gpu/drm/msm/msm_kms.c
 > +++ b/drivers/gpu/drm/msm/msm_kms.c
-> @@ -200,6 +200,28 @@ struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
->  	return aspace;
->  }
+> @@ -181,7 +181,7 @@ struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
+>  	else
+>  		iommu_dev = mdss_dev;
 >  
-> +static int msm_kms_fault_handler(void *arg, unsigned long iova, int flags, void *data)
-> +{
-> +	struct msm_kms *kms = arg;
-> +	struct msm_disp_state *state;
-> +	int ret;
-> +
-> +	ret = mutex_lock_interruptible(&kms->dump_mutex);
-> +	if (ret)
-> +		return ret;
-> +
-> +	state = msm_disp_snapshot_state_sync(kms);
-> +
-> +	mutex_unlock(&kms->dump_mutex);
-> +
-> +	if (IS_ERR(state)) {
-> +		DRM_DEV_ERROR(kms->dev->dev, "failed to capture snapshot\n");
-> +		return PTR_ERR(state);
-> +	}
-> +
-> +	return 0;
+> -	mmu = msm_iommu_new(iommu_dev, 0);
+> +	mmu = msm_iommu_disp_new(iommu_dev, 0);
+>  	if (IS_ERR(mmu))
+>  		return ERR_CAST(mmu);
 
-Hmm, after reading the rest of the code, this means that we won't get
-the error on the console. Could you please change this to -ENOSYS?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-> +}
-> +
->  void msm_drm_kms_uninit(struct device *dev)
->  {
->  	struct platform_device *pdev = to_platform_device(dev);
-> @@ -261,6 +283,9 @@ int msm_drm_kms_init(struct device *dev, const struct drm_driver *drv)
->  		goto err_msm_uninit;
->  	}
->  
-> +	if (kms->aspace)
-> +		msm_mmu_set_fault_handler(kms->aspace->mmu, kms, msm_kms_fault_handler);
-> +
->  	drm_helper_move_panel_connectors_to_head(ddev);
->  
->  	drm_for_each_crtc(crtc, ddev) {
-> -- 
-> 2.44.0
-> 
+Note to myself: make mdp4 use msm_kms_init_aspace().
 
 -- 
 With best wishes
