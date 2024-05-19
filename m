@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0D38C94B5
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 15:06:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263EE8C94B9
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 15:06:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDA2810E20C;
-	Sun, 19 May 2024 13:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A10410E249;
+	Sun, 19 May 2024 13:06:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bYb9ww9Q";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zFOBUKeM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2070.outbound.protection.outlook.com [40.107.92.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB0710E1FD;
- Sun, 19 May 2024 13:06:31 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2068.outbound.protection.outlook.com [40.107.102.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A702910E200;
+ Sun, 19 May 2024 13:06:33 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ewRidRmidkl8d4K03Jh+1L0eyQ9/WCsirnjNiw3+5S3wZQWcRaz8Ecb7GnZ46tV/aKkqaRcU/KXRXOiNZDHpVpiDQ7hC8D5SvVjMO4+Lrl95vV/iAGjJwM8BcW9jQLQ9L2RPLYiyPzl5GnNMZQlk6+cOANQACK7WDHsPM+XcnqG9z2iV4p6FISbxaOTrXN9XVetTKM36nEZsbHAsOh8UjcetAB53KL1WuBATmcXHkjbRLMi45ceuu25xi/fNj4wsGkS1evx9olFBpYPDY6/ZmT0zUMeP8B8HaxhSuyoBQjLDiE2Z6UqneneuCI7pBoD3IdqSHU2tcBRtuNjwSmyNDA==
+ b=HGY0Zb1d2y4zntPLSEsZhhUmo76AqYQ1vSjv2B2PO50vxZ7hoQklmnyEfP/FD5zReeWzXZCr5AgGWCHLoGO0NMXQq0Udad5o8FonePACj2fj7+iBDjeFSg3NqTZUiF1AHSbLQQOrkns7kckhP8u3RC6rpMAVhdt/oqW7jeoGCtUZF/PByZSnqEMlIVD2QHBswkiL0YzFfTudIegQxKD1TIuawSrK6fNHmbTi4y+j/Tp9plAAWQ/QvN8R8w4HiUTWQc5lEbSrk+JEuqLY9XtZlMyZ/CMJZYt6egFZhaGUGVi7yE6s/UKeBG8RG6QhQeHgXDuddPycPWz251xJ4wMjzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3VrO9pp//Hr4OK8FXiX8maZfPyEvgfWcnA4gMs8vNoI=;
- b=CFlF3nRTF2geYoCpmgv4htpC9ZYSmAFhuc8q6QKUR7y0t0mx5YOS0Cyf/V3UTstiJ0koRDwkP2aoWpvJBbgPTAaTGzgFwayV67mpKHy/aO7GtUUDVEuhMi2g4TOdUdN1a09jMeHb8JdpbyA9gZrNSWhkiRkeXkWUvXqejr3/jE7ITPqGh001vMu9z4JNiPbLbTCNM/J+SZr/ye+9Gvn+7cODDS6wmF/b+5zmyo6/+turVsVgyACkxZhieAe7BNsZ/T8MhocjcG1JmZs2/BdC5wT/1O/yWZpQI0D6bpDv/gqt/+Q7PkJptEdy3eH6naR5X4SK6pyJQzqb+h8URyNn+g==
+ bh=U+0e7/5U5mxgtbXPbAdOsaM0T4CC3pVSWN+xSgNVZrI=;
+ b=J5A05Wl7UakbIs5LFjQ4zgmTsCnhe4B0TflgwlS7jEhM0o2CtHjMunIS2+jvk8QUrDLEoXp/7RFsT3qMNE4sru6jRBw/LfnqsSIJki+ZxifFRdTYdycZcISH9YSAysGcb54SiKxP1nDm0apkdADHFFMQK19M8WFSlMR5IxD+4UPBcKjZn7H+kw0ZbDRR1UtcQ64AkQoXe9wDBEYuo8NGGxzeuxZxJi6WAI5+qoR61dhgsCyHKqjONf9FO5fexuUYK+6OGCdpBbbqbE07uLq3p5p2AkYKmbdYYTe19X5lRpcKJYHWtsOCcEfVLRctNSi8/3+wizYwo4ZUkqCEfSehBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3VrO9pp//Hr4OK8FXiX8maZfPyEvgfWcnA4gMs8vNoI=;
- b=bYb9ww9QG4JaY7QcNAbqPue61+AYmLwcgv5gxzsHf+o87IpbWC4HXfWQrZyPiawqhFirkjtogfQsW6JJEtKbFoLoQ4vVKcT75+3csTWc/IpuOChTouuqig+aIae+o4YZWQkTrxfSUQZK2nvBRhU2fk30aV8SG4Dgb/XjjFViogc=
-Received: from BYAPR03CA0013.namprd03.prod.outlook.com (2603:10b6:a02:a8::26)
- by CYXPR12MB9425.namprd12.prod.outlook.com (2603:10b6:930:dc::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.34; Sun, 19 May
+ bh=U+0e7/5U5mxgtbXPbAdOsaM0T4CC3pVSWN+xSgNVZrI=;
+ b=zFOBUKeMVH5IOMErZBOPnDujs99RTJz4vJH77Sn02S3Ad7HruD8tC+bNG7WmbGA7cDbEjUwrKqIqsEhwi9SnhL+36mgifegu5mWUdxnpnNxGrPLakfcn9c3NIda4PmdbG8RmwpsxpdfUaVfOF7qRiV8DuMezp9b42VJ6yMUihXQ=
+Received: from BYAPR03CA0005.namprd03.prod.outlook.com (2603:10b6:a02:a8::18)
+ by SJ0PR12MB5612.namprd12.prod.outlook.com (2603:10b6:a03:427::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.35; Sun, 19 May
  2024 13:06:28 +0000
 Received: from SJ5PEPF000001CC.namprd05.prod.outlook.com
- (2603:10b6:a02:a8:cafe::f8) by BYAPR03CA0013.outlook.office365.com
- (2603:10b6:a02:a8::26) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:a02:a8:cafe::35) by BYAPR03CA0005.outlook.office365.com
+ (2603:10b6:a02:a8::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.34 via Frontend
  Transport; Sun, 19 May 2024 13:06:28 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
@@ -50,20 +50,22 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  SJ5PEPF000001CC.mail.protection.outlook.com (10.167.242.41) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7611.14 via Frontend Transport; Sun, 19 May 2024 13:06:27 +0000
+ 15.20.7611.14 via Frontend Transport; Sun, 19 May 2024 13:06:28 +0000
 Received: from SITE-L-T34-2.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Sun, 19 May
- 2024 08:06:26 -0500
+ 2024 08:06:27 -0500
 From: Mario Limonciello <mario.limonciello@amd.com>
 To: <amd-gfx@lists.freedesktop.org>
 CC: <Harry.Wentland@amd.com>, <xaver.hugl@gmail.com>,
  <dri-devel@lists.freedesktop.org>, Mario Limonciello
  <mario.limonciello@amd.com>
-Subject: [PATCH 0/2] Add support for Panel Power Savings property
-Date: Sun, 19 May 2024 08:06:08 -0500
-Message-ID: <20240519130610.7773-1-mario.limonciello@amd.com>
+Subject: [PATCH 1/2] drm: Introduce panel_power_saving drm property
+Date: Sun, 19 May 2024 08:06:09 -0500
+Message-ID: <20240519130610.7773-2-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240519130610.7773-1-mario.limonciello@amd.com>
+References: <20240519130610.7773-1-mario.limonciello@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -72,50 +74,50 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CC:EE_|CYXPR12MB9425:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b3aaa95-71a4-4894-36d7-08dc78047e8c
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CC:EE_|SJ0PR12MB5612:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69464b19-779b-4bc5-1b62-08dc78047f33
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230031|82310400017|36860700004|376005|1800799015; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?k0yMg/l45SqrkkSUeNvpBa4fVtuoCVBwXZ073+YQ5Nwicm9sZStg8sXOaR3w?=
- =?us-ascii?Q?Z93XfmDaLMgrUAIdEtAu8evGvsGp2Xty3TQFPhFo1YbN7vYrooa/vHNPgaWi?=
- =?us-ascii?Q?D5hSklACbcbcIImbW3kABhhuoetPVaI3xluwLraflEEx2ERGzhyxzpm99fnB?=
- =?us-ascii?Q?hhmWFHjsA3bBppO2EClzYJdJiq0hZu4A8oYLKa4ZsWqSXMlmzA4UM0OLUlvw?=
- =?us-ascii?Q?JUVTmq7d03yNSM5qUJc6jMS2uAnpO0UxFU9US82tw63yPZtLLAk3ZQ9BQPks?=
- =?us-ascii?Q?0DAliltWX66x7H8XBKFSZ6Kouon3UlhQT9Zs1IGpf1U94YTJQtegP1cerwg1?=
- =?us-ascii?Q?wEJxcT9vTuYHtmnA9b82dzKSAnvg6vzz0ydafy8Vil9UcHJkc7ZluHGn03sL?=
- =?us-ascii?Q?DLOXepRh7Pwd82N5+rsqr8LJ/0ozf0xbIXl03NMFf3NQr+iX1NN0+HC6Hq4X?=
- =?us-ascii?Q?7a0DaSx2NvyVONLivWqUaqpRMKax6PVhl8uTpjMztpzYIIbsTrohjDS6HJPd?=
- =?us-ascii?Q?cV64U2cOzwVIOvOM7o5vdITYOH/AVab8h02u4dwtqDXx5jkKjUPYVrP5+LGJ?=
- =?us-ascii?Q?LZd5cub4UVPiHLuy3Tfqq4wLRoddJTyMtREHtyPbeA2vzcVT8drciN2SbcnW?=
- =?us-ascii?Q?qM0VZupDstBdSME1uv5w2+zSUehrR1aOAZgWwDnReMUwsD2h/9wxgRCCSVcH?=
- =?us-ascii?Q?Cq96KsQ2tYSFnSz8BByklenFT/NLZbQlaH0oR7Sy/VY413+0NAEISisA5T6K?=
- =?us-ascii?Q?sjg2dCLI/1shOU9f4pZBsnMJP1bfSJ2Wr7mSWN/j5G1/OThoQLSkAqt6NLJP?=
- =?us-ascii?Q?dkyu30kNnIFMB5IzW5OhRndwHJVlf4YwCTHIwrKbxyYNPAnLi6vKzNLpVmMh?=
- =?us-ascii?Q?ZdC/YfdIYVC0QV1jL3QaFzP+TQLf8EXaTT9YeeyTNe6NTglfLfR9VYHkBgtV?=
- =?us-ascii?Q?qEQYGbvy96VTXJgAFlfxIiWqimudkDNjDT98uT0aoqf48PKdIuGvkxktPHLa?=
- =?us-ascii?Q?9mXT7k0yXNQB8f3Ll9RrRqLmp3N/UklX4ESTyQnEJmg2eEZVFMqGTbu8Mo/f?=
- =?us-ascii?Q?FOXMuRiOMnIP2fMed9ejonFoPOO7wXH8y7gaUI1HwA7Aky7eKP5mLB0rEIPQ?=
- =?us-ascii?Q?YGGtrrOSmY3RDwFzrAUzPZTIyyXELCVkOGepGOmcS9BgzwVidWRzcm7smkW/?=
- =?us-ascii?Q?xd96W4qv1c37xPYLRbcxBUZ8kV2FIu7k9rprN0GDCYroH+GAepNTae0jJTyJ?=
- =?us-ascii?Q?UgCLhBgTzfpRBOQ9qLR9KzQtWh3hILc6oAXe3zb20T2yH9/L+Sz6RROxDmNq?=
- =?us-ascii?Q?PILECT2rXgHocQd/a8A5gRTpz7xusQ34SmzmqRcRPapsFpS6lyLTNljJ1ZIO?=
- =?us-ascii?Q?K1ogwWzkrDORWh844jS+ZJ6HSPc7?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pCYM4sRhCkefM/jFWUY9PEX0lz4KKRlV60IMGyB1LezzHl6Y1uayigVVBJuj?=
+ =?us-ascii?Q?TN1Rfp+icAPfxPFVjX7kBW737cM8qEd+qpXFDxjBPGmLk1ZVjpb3uYvbx5cy?=
+ =?us-ascii?Q?NbtvMf+j148FDOPVs3mLv9FQbwHmjAw7Vgmf1zRRRMMXo57Ibc1cjQ3YLtNF?=
+ =?us-ascii?Q?mUmc3R8KZELIUlBo8ZAl9q1E1kyXE5P9bLlbDLnUa212Ed2HE5+qghM5k802?=
+ =?us-ascii?Q?nOhwY349bAop8NtUdf0i1sUdoHMd9rMGgDlxYqktjW97NTeRJjg42JkrWPWH?=
+ =?us-ascii?Q?MSbz3TL6yiOU8GWQQX4XsdwUmrfsvdF/wIeV5fW/XNKF/0mEJpYnLCeEpMwK?=
+ =?us-ascii?Q?dG5iMQeVSGeLHSb8oOE7+vQcRU65ysZgNti8m6CWB70xNZLOKuBv15WGCgaD?=
+ =?us-ascii?Q?eI5BEZutwOz3k1nCJpWNLpCAhBluYJqr20DUfM+u3ARi80vcjFRObiZH6rzN?=
+ =?us-ascii?Q?w2olR9TV+IZb7kQfesWcqkTWs065HCm1ydO7PP149yMHi+45Wr2XTRpmDfte?=
+ =?us-ascii?Q?k19iiRVgneGKk5Yu5Eo6Y1sMjK11da4j8KigJbo9vv7qnT5tsShwacVtzaAb?=
+ =?us-ascii?Q?dg1PfnpAVG9fS8UOwzg7OfCh9VkoZk9Smdei6X99QMKKbyaV43ClJlZ+H2ov?=
+ =?us-ascii?Q?uysm1xulESjA2Ce0MpI1Iw4T5WBkHYFHhAoxFA0A7/sQ6Ku/RrMyFguisnTd?=
+ =?us-ascii?Q?D7xgfC1Yyaha7w5PG9S4XPVA7lRj5R0h49XybxSqtuGKAoUP0KmN5vWpCaCK?=
+ =?us-ascii?Q?M9JHNnmCDItHpaanFrB5eZaAosMJqEFEvoE8/X4VlvGI746Yw45TBKj+M9UD?=
+ =?us-ascii?Q?31iJjEKhEiBp2To2wCGleFPauXv0BFsQarrCkTEO/6LX6bzs6E5vcjiIQWcU?=
+ =?us-ascii?Q?YfkxNVgDk92hcd6lUGihUI20DwNJXjTbUvrQeG2XPRhW9J0WMkBIcEFKxY1n?=
+ =?us-ascii?Q?tA8rBcvJTlwjDOlh6mUGzA5T6n0cSp3lEQFvRjVrnXe5+GRUUbsWiJ4I6j8+?=
+ =?us-ascii?Q?xpX+7ofi7XvL3U5IK2JYpTUQ2xQB7eGO/GWMWX4UCtaBAermMj5kht7X7OUc?=
+ =?us-ascii?Q?i5GLpFsOa/B63JgSjZsgW8oavLActAFC5xF/tPuuwt35V+JJkOuSFEbK2F0u?=
+ =?us-ascii?Q?C31jjAteREn1Kb+9XE/SpuPX5TZUw7VuxbNLxQuiObyNloIvrIk5m9NJf95S?=
+ =?us-ascii?Q?AAgTvqblqE9MSgKJ6ppS7PBhJXRVva6tAj1H+BnTfQEB3ZtEbntbZh5CxjyL?=
+ =?us-ascii?Q?umqgnbO9qFHG+WUxzlUaWwPHX9tM5GZXbrz54iMCflFEamTXNe5qjPuU68nU?=
+ =?us-ascii?Q?pJ4g+WTBSFIpcfxf7zUoURrrO3tQ9tW3t9T5OZN1e/uWY4YeZLWN/m1Oj+6x?=
+ =?us-ascii?Q?tSZWnXpbIlo6ifoVKeZ45+HtqQxR?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
  SFS:(13230031)(82310400017)(36860700004)(376005)(1800799015); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2024 13:06:27.6838 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b3aaa95-71a4-4894-36d7-08dc78047e8c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2024 13:06:28.7619 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69464b19-779b-4bc5-1b62-08dc78047f33
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001CC.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9425
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5612
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,41 +133,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During the Display Next hackfest 2024 one of the topics discussed
-was the need for compositor to be able to relay intention to drivers
-that color fidelity is preferred over power savings.
+The `panel_power_saving` DRM property is an optional property that
+can be added to a connector by a driver.
 
-To accomplish this a new optional DRM property is being introduced called
-"panel power saving".  This property is an enum that can be configured
-by the compositor to "Allowed" or "Forbidden".
+This property is for compositors to indicate intent of allowing
+policy for the driver to use power saving features that may
+compromise color fidelity.
 
-When a driver advertises support for this property and the compositor
-sets it to "Forbidden" then the driver will disable any power saving
-features that can compromise color fidelity.
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ drivers/gpu/drm/drm_connector.c | 36 +++++++++++++++++++++++++++++++++
+ include/drm/drm_connector.h     |  1 +
+ include/drm/drm_mode_config.h   |  6 ++++++
+ include/uapi/drm/drm_mode.h     |  4 ++++
+ 4 files changed, 47 insertions(+)
 
-In practice the main feature this currently applies to is the
-"Adaptive Backlight Modulation" feature within AMD DCN on eDP panels.
-
-When the compositor has marked the property  "Forbidden" then this
-feature will be disabled and any userspace that tries to turn it on
-will get an -EBUSY return code.
-
-When the compositor has restored the value back to "Allowed" then the
-previous value that would have been programmed will be restored.
-
-Mario Limonciello (2):
-  drm: Introduce panel_power_saving drm property
-  drm/amd: Add panel_power_saving drm property to eDP connectors
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  3 ++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 34 ++++++++++++++---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 +
- drivers/gpu/drm/drm_connector.c               | 37 +++++++++++++++++++
- include/drm/drm_connector.h                   |  1 +
- include/drm/drm_mode_config.h                 |  6 +++
- include/uapi/drm/drm_mode.h                   |  4 ++
- 7 files changed, 81 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 4d2df7f64dc5..ccf672c55e0c 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -961,6 +961,11 @@ static const struct drm_prop_enum_list drm_scaling_mode_enum_list[] = {
+ 	{ DRM_MODE_SCALE_ASPECT, "Full aspect" },
+ };
+ 
++static const struct drm_prop_enum_list drm_panel_power_saving_enum_list[] = {
++	{ DRM_MODE_PANEL_POWER_SAVING_ALLOWED, "Allowed" },
++	{ DRM_MODE_PANEL_POWER_SAVING_FORBIDDEN, "Forbidden" },
++};
++
+ static const struct drm_prop_enum_list drm_aspect_ratio_enum_list[] = {
+ 	{ DRM_MODE_PICTURE_ASPECT_NONE, "Automatic" },
+ 	{ DRM_MODE_PICTURE_ASPECT_4_3, "4:3" },
+@@ -1963,6 +1968,37 @@ int drm_mode_create_scaling_mode_property(struct drm_device *dev)
+ }
+ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
+ 
++/**
++ * drm_mode_create_panel_power_saving_property - create panel power saving property
++ * @dev: DRM device
++ *
++ * Called by a driver the first time it's needed, must be attached to desired
++ * connectors.
++ *
++ * Atomic drivers should use drm_mode_create_panel_power_saving_property()
++ * instead to correctly assign &drm_connector_state.panel_power_saving
++ * in the atomic state.
++ *
++ * Returns: %0
++ */
++int drm_mode_create_panel_power_saving_property(struct drm_device *dev)
++{
++	struct drm_property *panel_power_saving;
++
++	if (dev->mode_config.panel_power_saving)
++		return 0;
++
++	panel_power_saving =
++		drm_property_create_enum(dev, 0, "panel power saving",
++				drm_panel_power_saving_enum_list,
++				    ARRAY_SIZE(drm_panel_power_saving_enum_list));
++
++	dev->mode_config.panel_power_saving = panel_power_saving;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_mode_create_panel_power_saving_property);
++
+ /**
+  * DOC: Variable refresh properties
+  *
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index fe88d7fc6b8f..4ea3f912c641 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -2025,6 +2025,7 @@ int drm_mode_create_dp_colorspace_property(struct drm_connector *connector,
+ 					   u32 supported_colorspaces);
+ int drm_mode_create_content_type_property(struct drm_device *dev);
+ int drm_mode_create_suggested_offset_properties(struct drm_device *dev);
++int drm_mode_create_panel_power_saving_property(struct drm_device *dev);
+ 
+ int drm_connector_set_path_property(struct drm_connector *connector,
+ 				    const char *path);
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 973119a9176b..099ad2d8c5c1 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -954,6 +954,12 @@ struct drm_mode_config {
+ 	 */
+ 	struct drm_atomic_state *suspend_state;
+ 
++	/**
++	 * @panel_power_saving: DRM ENUM property for type of
++	 * Panel Power Saving.
++	 */
++	struct drm_property *panel_power_saving;
++
+ 	const struct drm_mode_config_helper_funcs *helper_private;
+ };
+ 
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 7040e7ea80c7..82e565cc76fb 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -152,6 +152,10 @@ extern "C" {
+ #define DRM_MODE_SCALE_CENTER		2 /* Centered, no scaling */
+ #define DRM_MODE_SCALE_ASPECT		3 /* Full screen, preserve aspect */
+ 
++/* Panel power saving options */
++#define DRM_MODE_PANEL_POWER_SAVING_ALLOWED	0 /* Panel power savings features allowed */
++#define DRM_MODE_PANEL_POWER_SAVING_FORBIDDEN	1 /* Panel power savings features not allowed */
++
+ /* Dithering mode options */
+ #define DRM_MODE_DITHERING_OFF	0
+ #define DRM_MODE_DITHERING_ON	1
 -- 
 2.45.0
 
