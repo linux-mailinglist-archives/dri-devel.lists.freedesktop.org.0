@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525CA8C955B
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 18:55:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD0E8C955D
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 18:56:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 238A610E2C7;
-	Sun, 19 May 2024 16:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E56A10E2D5;
+	Sun, 19 May 2024 16:56:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="cVpdhXYz";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="OvtOrBIa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com
- [91.218.175.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5433B10E2C7
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 16:55:46 +0000 (UTC)
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com
+ [91.218.175.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 849C110E2D5
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 16:56:14 +0000 (UTC)
 X-Envelope-To: l.stach@pengutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1716137744;
+ t=1716137770;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EFYuWykwL1U4iv85dPQQK/TFC0Vjyb1IATiwN/iE76Q=;
- b=cVpdhXYzbGvg9D3LY2MmiBLKPrGIEy/mf3TWS3BAPUz9HMPI8ILszrEsLY5Rp0HacuSaIn
- bMdWGQWdg7IWkfT/5oziJ+hhzycV7sQjLFC1obPYqGaHf0h543ME/N7rVVQ7dBbP5D0rEV
- IM1M9zkwbTWclhbIqGujBrA8psHb7xA=
+ bh=GXBVcpMLvTTn2V6PI5Jk17nPGWaXsqbtzsGA2rLsFpo=;
+ b=OvtOrBIapWAMCIxGKinBz4phnHIumhUQ6rpUPbfYbaPfpTipfVP2gtdc8F7jN1baR5EnZs
+ dcEPVXVSARixMmx0rzJtLIoxC4JvhwPtroE198OXOZ2i1dlQDdEJRCcx0M8gobnaYW8R53
+ OJhi0aMJ+0kLK8evqB3w0ww7anyU38s=
 X-Envelope-To: linux+etnaviv@armlinux.org.uk
 X-Envelope-To: christian.gmeiner@gmail.com
 X-Envelope-To: linux-kernel@vger.kernel.org
@@ -41,10 +41,10 @@ Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [etnaviv-next v14 6/8] drm/etnaviv: Replace the '&pdev->dev' with
- 'dev'
-Date: Mon, 20 May 2024 00:53:19 +0800
-Message-Id: <20240519165321.2123356-7-sui.jingfeng@linux.dev>
+Subject: [etnaviv-next v14 7/8] drm/etnaviv: Allow creating subdevices and
+ pass platform specific data
+Date: Mon, 20 May 2024 00:53:20 +0800
+Message-Id: <20240519165321.2123356-8-sui.jingfeng@linux.dev>
 In-Reply-To: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
 References: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -65,96 +65,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the etnaviv_pdev_probe(), etnaviv_gpu_platform_probe() function, the
-value of '&pdev->dev' has been cached to the 'dev' local auto variable.
-But part of callers use 'dev' as argument, while the rest use '&pdev->dev'.
+Because some hardware are too complex to be managed by a monolithic driver,
+a split of the functionality into child devices can helps to achieve better
+modularity.
 
-To keep it consistent, use 'dev' uniformly.
+We will use this function to create subdevice as a repensentation of a
+single hardware ip block, so that the same modular approach that works
+for ARM-SoC can also works for PCIe cards.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 +++++-----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 16 ++++++++--------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 33 +++++++++++++++++++++++----
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h |  9 ++++++++
+ 2 files changed, 37 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 986fd68b489a..863faac2ea19 100644
+index 863faac2ea19..dc3556aad134 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -614,7 +614,7 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 			if (!of_device_is_available(core_node))
- 				continue;
+@@ -670,16 +670,36 @@ static struct platform_driver etnaviv_platform_driver = {
+ 	},
+ };
  
--			drm_of_component_match_add(&pdev->dev, &match,
-+			drm_of_component_match_add(dev, &match,
- 						   component_compare_of, core_node);
- 		}
- 	} else {
-@@ -637,9 +637,9 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 	 * bit to make sure we are allocating the command buffers and
- 	 * TLBs in the lower 4 GiB address space.
- 	 */
--	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(40)) ||
--	    dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32))) {
--		dev_dbg(&pdev->dev, "No suitable DMA available\n");
-+	if (dma_set_mask(dev, DMA_BIT_MASK(40)) ||
-+	    dma_set_coherent_mask(dev, DMA_BIT_MASK(32))) {
-+		dev_dbg(dev, "No suitable DMA available\n");
- 		return -ENODEV;
- 	}
+-static int etnaviv_create_platform_device(const char *name,
+-					  struct platform_device **ppdev)
++int etnaviv_create_platform_device(struct device *parent,
++				   const char *name, int id,
++				   struct resource *pres,
++				   void *data,
++				   struct platform_device **ppdev)
+ {
+ 	struct platform_device *pdev;
+ 	int ret;
  
-@@ -650,7 +650,7 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
- 	 */
- 	first_node = etnaviv_of_first_available_node();
- 	if (first_node) {
--		of_dma_configure(&pdev->dev, first_node, true);
-+		of_dma_configure(dev, first_node, true);
- 		of_node_put(first_node);
- 	}
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index aa15682f94db..3a14e187388a 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1891,7 +1891,7 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	if (!gpu)
+-	pdev = platform_device_alloc(name, PLATFORM_DEVID_NONE);
++	pdev = platform_device_alloc(name, id);
+ 	if (!pdev)
  		return -ENOMEM;
  
--	gpu->dev = &pdev->dev;
-+	gpu->dev = dev;
- 	mutex_init(&gpu->lock);
- 	mutex_init(&gpu->sched_lock);
++	pdev->dev.parent = parent;
++
++	if (pres) {
++		ret = platform_device_add_resources(pdev, pres, 1);
++		if (ret) {
++			platform_device_put(pdev);
++			return ret;
++		}
++	}
++
++	if (data) {
++		void *pdata = kmalloc(sizeof(void *), GFP_KERNEL);
++
++		*(void **)pdata = data;
++		pdev->dev.platform_data = pdata;
++	}
++
+ 	ret = platform_device_add(pdev);
+ 	if (ret) {
+ 		platform_device_put(pdev);
+@@ -691,7 +711,7 @@ static int etnaviv_create_platform_device(const char *name,
+ 	return 0;
+ }
  
-@@ -1905,8 +1905,8 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	if (gpu->irq < 0)
- 		return gpu->irq;
+-static void etnaviv_destroy_platform_device(struct platform_device **ppdev)
++void etnaviv_destroy_platform_device(struct platform_device **ppdev)
+ {
+ 	struct platform_device *pdev = *ppdev;
  
--	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
--			       dev_name(gpu->dev), gpu);
-+	err = devm_request_irq(dev, gpu->irq, irq_handler, 0,
-+			       dev_name(dev), gpu);
- 	if (err) {
- 		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
- 		return err;
-@@ -1925,13 +1925,13 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	 * autosuspend delay is rather arbitary: no measurements have
- 	 * yet been performed to determine an appropriate value.
- 	 */
--	pm_runtime_use_autosuspend(gpu->dev);
--	pm_runtime_set_autosuspend_delay(gpu->dev, 200);
--	pm_runtime_enable(gpu->dev);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_set_autosuspend_delay(dev, 200);
-+	pm_runtime_enable(dev);
+@@ -728,7 +748,10 @@ static int __init etnaviv_init(void)
+ 	if (np) {
+ 		of_node_put(np);
  
--	err = component_add(&pdev->dev, &gpu_ops);
-+	err = component_add(dev, &gpu_ops);
- 	if (err < 0) {
--		dev_err(&pdev->dev, "failed to register component: %d\n", err);
-+		dev_err(dev, "failed to register component: %d\n", err);
- 		return err;
+-		ret = etnaviv_create_platform_device("etnaviv", &etnaviv_drm);
++		ret = etnaviv_create_platform_device(NULL, "etnaviv",
++						     PLATFORM_DEVID_NONE,
++						     NULL, NULL,
++						     &etnaviv_drm);
+ 		if (ret)
+ 			goto unregister_platform_driver;
  	}
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+index 4b59fdb457b7..4612843ff9f6 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+@@ -9,6 +9,7 @@
+ #include <linux/io.h>
+ #include <linux/list.h>
+ #include <linux/mm_types.h>
++#include <linux/platform_device.h>
+ #include <linux/sizes.h>
+ #include <linux/time64.h>
+ #include <linux/types.h>
+@@ -98,6 +99,14 @@ bool etnaviv_cmd_validate_one(struct etnaviv_gpu *gpu,
+ 	u32 *stream, unsigned int size,
+ 	struct drm_etnaviv_gem_submit_reloc *relocs, unsigned int reloc_size);
  
++int etnaviv_create_platform_device(struct device *parent,
++				   const char *name, int id,
++				   struct resource *pres,
++				   void *data,
++				   struct platform_device **ppdev);
++
++void etnaviv_destroy_platform_device(struct platform_device **ppdev);
++
+ #ifdef CONFIG_DEBUG_FS
+ void etnaviv_gem_describe_objects(struct etnaviv_drm_private *priv,
+ 	struct seq_file *m);
 -- 
 2.34.1
 
