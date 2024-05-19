@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDF98C9559
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 18:55:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525CA8C955B
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 18:55:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20C410E29D;
-	Sun, 19 May 2024 16:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238A610E2C7;
+	Sun, 19 May 2024 16:55:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="OKowqIjP";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="cVpdhXYz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com
- [91.218.175.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64CB310E2C7
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 16:55:35 +0000 (UTC)
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com
+ [91.218.175.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5433B10E2C7
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 16:55:46 +0000 (UTC)
 X-Envelope-To: l.stach@pengutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1716137734;
+ t=1716137744;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tJoc0KMwzsmIaav0VlUAEml/vTeXcEP0ggNixh3RBXA=;
- b=OKowqIjPtjotymtjYZy07VzQRnpNqCA8o/6QsYXk+fkQ8Aff1w7nxIkroJYKrny+HzJlNB
- v4+yKyxxwgNPfbOlcD4PLpPUJwB2S2UAGDGxaDwFFaBjeySfQz/tnhdI39MqGvl7wRqWxW
- JTQx+S+Qmxg7Hz7h6L3eTppRXyRB2M0=
+ bh=EFYuWykwL1U4iv85dPQQK/TFC0Vjyb1IATiwN/iE76Q=;
+ b=cVpdhXYzbGvg9D3LY2MmiBLKPrGIEy/mf3TWS3BAPUz9HMPI8ILszrEsLY5Rp0HacuSaIn
+ bMdWGQWdg7IWkfT/5oziJ+hhzycV7sQjLFC1obPYqGaHf0h543ME/N7rVVQ7dBbP5D0rEV
+ IM1M9zkwbTWclhbIqGujBrA8psHb7xA=
 X-Envelope-To: linux+etnaviv@armlinux.org.uk
 X-Envelope-To: christian.gmeiner@gmail.com
 X-Envelope-To: linux-kernel@vger.kernel.org
@@ -41,10 +41,10 @@ Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [etnaviv-next v14 5/8] drm/etnaviv: Add support for cached coherent
- caching mode
-Date: Mon, 20 May 2024 00:53:18 +0800
-Message-Id: <20240519165321.2123356-6-sui.jingfeng@linux.dev>
+Subject: [etnaviv-next v14 6/8] drm/etnaviv: Replace the '&pdev->dev' with
+ 'dev'
+Date: Mon, 20 May 2024 00:53:19 +0800
+Message-Id: <20240519165321.2123356-7-sui.jingfeng@linux.dev>
 In-Reply-To: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
 References: <20240519165321.2123356-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -65,99 +65,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Many modern CPUs and/or platforms choose to define their peripheral devices
-as cached coherent by default, to be specific, the PCH is capable of
-snooping CPU's cache. When hit the peripheral devices will access data
-directly from CPU's cache. This means that device drivers do not need to
-maintain the coherency issue between a processor and peripheral I/O for
-the cached buffers. Hence, it dosen't need us to sync manually on the
-software side, which is useful to avoid some overheads, especially for
-userspace, but userspace is not known yet.
+In the etnaviv_pdev_probe(), etnaviv_gpu_platform_probe() function, the
+value of '&pdev->dev' has been cached to the 'dev' local auto variable.
+But part of callers use 'dev' as argument, while the rest use '&pdev->dev'.
 
-Probe the hardware maintained cached coherent support of the host platform
-with the dev_is_dma_coherent() function, and store the result in struct
-etnaviv_drm_private. As this is a platform implementation-defined hardware
-feature and again is meant to be shared by all GPU cores. And expose it
-via etnaviv parameter mechanism to let userspace know.
-
-Please note that write-combine mapping out of scope of the discussion
-and therefore is not being addressed.
+To keep it consistent, use 'dev' uniformly.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 3 +++
- drivers/gpu/drm/etnaviv/etnaviv_drv.h | 9 +++++++++
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 4 ++++
- include/uapi/drm/etnaviv_drm.h        | 1 +
- 4 files changed, 17 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 +++++-----
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 16 ++++++++--------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index e3eb31ba9a2b..986fd68b489a 100644
+index 986fd68b489a..863faac2ea19 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -5,6 +5,7 @@
+@@ -614,7 +614,7 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+ 			if (!of_device_is_available(core_node))
+ 				continue;
  
- #include <linux/component.h>
- #include <linux/dma-mapping.h>
-+#include <linux/dma-map-ops.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-@@ -57,6 +58,8 @@ static int etnaviv_private_init(struct device *dev,
- 		return -ENOMEM;
+-			drm_of_component_match_add(&pdev->dev, &match,
++			drm_of_component_match_add(dev, &match,
+ 						   component_compare_of, core_node);
+ 		}
+ 	} else {
+@@ -637,9 +637,9 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+ 	 * bit to make sure we are allocating the command buffers and
+ 	 * TLBs in the lower 4 GiB address space.
+ 	 */
+-	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(40)) ||
+-	    dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32))) {
+-		dev_dbg(&pdev->dev, "No suitable DMA available\n");
++	if (dma_set_mask(dev, DMA_BIT_MASK(40)) ||
++	    dma_set_coherent_mask(dev, DMA_BIT_MASK(32))) {
++		dev_dbg(dev, "No suitable DMA available\n");
+ 		return -ENODEV;
  	}
  
-+	priv->cached_coherent = dev_is_dma_coherent(dev);
-+
- 	return 0;
- }
+@@ -650,7 +650,7 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+ 	 */
+ 	first_node = etnaviv_of_first_available_node();
+ 	if (first_node) {
+-		of_dma_configure(&pdev->dev, first_node, true);
++		of_dma_configure(dev, first_node, true);
+ 		of_node_put(first_node);
+ 	}
  
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-index 1f9b50b5a6aa..4b59fdb457b7 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-@@ -46,6 +46,15 @@ struct etnaviv_drm_private {
- 	struct xarray active_contexts;
- 	u32 next_context_id;
- 
-+	/*
-+	 * If true, the cached mapping is consistent for all CPU cores and
-+	 * peripheral bus masters in the system. It means that both of the
-+	 * CPU and GPU will see the same data if the buffer being accessed
-+	 * is cached. And the coherency is guaranteed by the host platform
-+	 * specific hardwares.
-+	 */
-+	bool cached_coherent;
-+
- 	/* list of GEM objects: */
- 	struct mutex gem_lock;
- 	struct list_head gem_list;
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 02d7efdc82c0..aa15682f94db 100644
+index aa15682f94db..3a14e187388a 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -164,6 +164,10 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
- 		*value = gpu->identity.eco_id;
- 		break;
+@@ -1891,7 +1891,7 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ 	if (!gpu)
+ 		return -ENOMEM;
  
-+	case ETNAVIV_PARAM_CACHED_COHERENT:
-+		*value = priv->cached_coherent;
-+		break;
-+
- 	default:
- 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
- 		return -EINVAL;
-diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
-index af024d90453d..61eaa8cd0f5e 100644
---- a/include/uapi/drm/etnaviv_drm.h
-+++ b/include/uapi/drm/etnaviv_drm.h
-@@ -77,6 +77,7 @@ struct drm_etnaviv_timespec {
- #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
- #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
- #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
-+#define ETNAVIV_PARAM_CACHED_COHERENT               0x1f
+-	gpu->dev = &pdev->dev;
++	gpu->dev = dev;
+ 	mutex_init(&gpu->lock);
+ 	mutex_init(&gpu->sched_lock);
  
- #define ETNA_MAX_PIPES 4
+@@ -1905,8 +1905,8 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ 	if (gpu->irq < 0)
+ 		return gpu->irq;
+ 
+-	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+-			       dev_name(gpu->dev), gpu);
++	err = devm_request_irq(dev, gpu->irq, irq_handler, 0,
++			       dev_name(dev), gpu);
+ 	if (err) {
+ 		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
+ 		return err;
+@@ -1925,13 +1925,13 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ 	 * autosuspend delay is rather arbitary: no measurements have
+ 	 * yet been performed to determine an appropriate value.
+ 	 */
+-	pm_runtime_use_autosuspend(gpu->dev);
+-	pm_runtime_set_autosuspend_delay(gpu->dev, 200);
+-	pm_runtime_enable(gpu->dev);
++	pm_runtime_use_autosuspend(dev);
++	pm_runtime_set_autosuspend_delay(dev, 200);
++	pm_runtime_enable(dev);
+ 
+-	err = component_add(&pdev->dev, &gpu_ops);
++	err = component_add(dev, &gpu_ops);
+ 	if (err < 0) {
+-		dev_err(&pdev->dev, "failed to register component: %d\n", err);
++		dev_err(dev, "failed to register component: %d\n", err);
+ 		return err;
+ 	}
  
 -- 
 2.34.1
