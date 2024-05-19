@@ -2,80 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DF58C941A
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 10:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 206A78C941B
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 10:42:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2755410E218;
-	Sun, 19 May 2024 08:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836FB10E232;
+	Sun, 19 May 2024 08:42:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M2baIs6p";
+	dkim=pass (2048-bit key; unprotected) header.d=packett.cool header.i=@packett.cool header.b="uyHLxjhM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D1910E072
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 03:10:51 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-6f4603237e0so958624b3a.0
- for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 20:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716088250; x=1716693050; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=lFSZbZfTC226eQMjp0sS4xniwqBXpfweUGcjqkUYZ2I=;
- b=M2baIs6ptOv5fkiL4My2gAJwKnmV6n2dKHsHFs17YsLYyQqTAB9aqZEp35UFBiZQ1Y
- raSdAynecYXUdPSebspyHoDQmZBepStcUgCmuR4XFJjRXE1ZxijUn3CR0Ley/eHAFxKx
- 3sSd1Uu6fSRL+Ai1306utpxls4pd4sKRPjD6ZnXZBzgENe+H/if1DU7jpyt3AbNaT175
- 0mksi6vXu4MmR4RujASoATMrqUeNzoJMG5dKIVmkit4/Zfz+rNarrQonogzIay3icf0d
- TW/QxSMYiVCFxK51IlrOagSLfUYOf0y50sMEWaUx7XcirxsN/F650EqLsfwpmmN+kYtR
- kurA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716088250; x=1716693050;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lFSZbZfTC226eQMjp0sS4xniwqBXpfweUGcjqkUYZ2I=;
- b=JAyUATy7yOBSm2ceUJl3oZGU0ov1O1HN0g1i8HaTzf35UgF5hv9A00Qy/uM+DoRwOm
- Xth7qOWnoOhe48nGusPi22ay7Bgfr7HPxojYRIBJEXDG/Xb4SWxWlqUD49K8gHiK+pRD
- R3/semhkLE1QPeIL017USlpjfDy2Wnm7am2M0HN3BHp/MA/FBRzmFoWVWxZT7ZH2qWlD
- E+3DxmMkKcpShYK1ltSNAMrLfh8ptz3EQhBTLB+TXBMfJHn+dTNmI+eG3RTTOZstKd6B
- ixFpiVvNUPKGczvwC43/CXjkMOqtsC72NGsacfJybMWqak+wWtCd4eoWZl5lIx/yRADO
- 0tqw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+uJhzOKl6FW/x/MyPH2w0poa6vQMOtPUCRSKynp5iLzhvIwIlIQz4R0j1Mr2nWdFIhV5htB92C/7TTSIZyUWm83kLmqD2R4hDk7Lv3YfR
-X-Gm-Message-State: AOJu0Ywa1tCgQ6i8/GLDIxV1zQ6PVFPSjN/oQkNHPad6uJ8n0PoucVLk
- DpFulQpzDB+nVifzt83/L+4Jj/1IXDRlgUbovi+jD9WqNTQieLm0
-X-Google-Smtp-Source: AGHT+IH28eff2ZIUcVS0Dp/+G5i8Aj5IcetQJoyI2wjeZ1HW4+g7K+rPcKbEzCzdIFGIFMoPbyHv4g==
-X-Received: by 2002:a05:6a00:398d:b0:6ea:dfc1:b86 with SMTP id
- d2e1a72fcca58-6f69fc15becmr3972824b3a.12.1716088250419; 
- Sat, 18 May 2024 20:10:50 -0700 (PDT)
-Received: from mari.. ([2804:431:cfd3:a689:b983:dc6d:a9d1:7485])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-6677f912880sm1025131a12.60.2024.05.18.20.10.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 May 2024 20:10:50 -0700 (PDT)
-From: MarileneGarcia <marilene.agarcia@gmail.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+X-Greylist: delayed 515 seconds by postgrey-1.36 at gabe;
+ Sun, 19 May 2024 07:50:01 UTC
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
+ [95.215.58.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB0610E099
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 07:50:01 +0000 (UTC)
+X-Envelope-To: val@packett.cool
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+ s=key1; t=1716104484;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iCzZwZj36Iz4vA1dDun7lszpPSZPxwDHKR4L5BLCjIg=;
+ b=uyHLxjhMy3s5Tm8T1twQKRP6W5/3ZNw6oYwG7SQFEmrp6HRLn9yvjp+J4WS2RYr0/Xug/7
+ IeOM96jyjfSeADjc5wXZsFDZ4PzL0NkAM2Hnekudu2iQACIYkoHkFHCOFZQeXs0KQi4HxY
+ Qz7n9kvfBdnt6WINxFLWpbPNiVTQMrghArcTu81SSvTOh6mO29DLWYTeC6gHJwKnNw3QDj
+ l0mR9Pwt6Iq2XP+guouOVkxYjVkvdwEhbxXV8CA2/ZQo//VrO1UA51+Be3fIRslylfuj3b
+ CvzZt6Tv3PIRaXu12T4LcfDUSYbmP79QoZiW1g815fC0gY//CBQtKBSTSGN+YQ==
+X-Envelope-To: stable@vger.kernel.org
+X-Envelope-To: hjc@rock-chips.com
+X-Envelope-To: heiko@sntech.de
+X-Envelope-To: andy.yan@rock-chips.com
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+X-Envelope-To: mripard@kernel.org
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: airlied@gmail.com
+X-Envelope-To: daniel@ffwll.ch
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: linux-rockchip@lists.infradead.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Val Packett <val@packett.cool>
+To: 
+Cc: Val Packett <val@packett.cool>, stable@vger.kernel.org,
+ Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- Imre Deak <imre.deak@intel.com>, Jani Nikula <jani.nikula@intel.com>,
- Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
- Douglas Anderson <dianders@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: MarileneGarcia <marilene.agarcia@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/dp: Fix documentation warning
-Date: Sun, 19 May 2024 00:10:27 -0300
-Message-Id: <20240519031027.433751-1-marilene.agarcia@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] drm/rockchip: vop: clear DMA stop bit on flush on RK3066
+Date: Sun, 19 May 2024 04:31:31 -0300
+Message-ID: <20240519074019.10424-1-val@packett.cool>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 19 May 2024 08:41:57 +0000
+X-Migadu-Flow: FLOW_OUT
+X-Mailman-Approved-At: Sun, 19 May 2024 08:41:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,42 +79,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It fixes the following warnings when
-the kernel documentation is generated:
+On the RK3066, there is a bit that must be cleared on flush, otherwise
+we do not get display output (at least for RGB).
 
-./include/drm/display/drm_dp_helper.h:126:
-warning: Function parameter or struct member
-'mode' not described in 'drm_dp_as_sdp'
-
-./include/drm/display/drm_dp_helper.h:126:
-warning: Excess struct member 'operation_mode'
-description in 'drm_dp_as_sdp'
-
-Signed-off-by: MarileneGarcia <marilene.agarcia@gmail.com>
+Signed-off-by: Val Packett <val@packett.cool>
+Cc: stable@vger.kernel.org
 ---
-Changes:
-This documentation comment should refer to the name of the 
-variable to solve the warnings. As operation_mode is the 
-name of the enum, and the declared variable name is mode.
+Hi! This was required to get display working on an old RK3066 tablet,
+along with the next tiny patch in the series enabling the RGB output.
 
-Thank you.
+I have spent quite a lot of time banging my head against the wall debugging
+that display (especially since at the same time a scaler chip is used for
+LVDS encoding), but finally adding debug prints showed that RK3066_SYS_CTRL0
+ended up being reset to all-zero after being written correctly upon init.
+Looking at the register definitions in the vendor driver revealed that the
+reason was pretty self-explanatory: "dma_stop".
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 3 +++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h | 1 +
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 1 +
+ 3 files changed, 5 insertions(+)
 
- include/drm/display/drm_dp_helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 8bed890eec2c..8defcc399f42 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
-  * @target_rr: Target Refresh
-  * @duration_incr_ms: Successive frame duration increase
-  * @duration_decr_ms: Successive frame duration decrease
-- * @operation_mode: Adaptive Sync Operation Mode
-+ * @mode: Adaptive Sync Operation Mode
-  */
- struct drm_dp_as_sdp {
- 	unsigned char sdp_type;
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index a13473b2d..d4daeba74 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1578,6 +1578,9 @@ static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ 	spin_lock(&vop->reg_lock);
+ 
++	/* If the chip has a DMA stop bit (RK3066), it must be cleared. */
++	VOP_REG_SET(vop, common, dma_stop, 0);
++
+ 	/* Enable AFBC if there is some AFBC window, disable otherwise. */
+ 	s = to_rockchip_crtc_state(crtc->state);
+ 	VOP_AFBC_SET(vop, enable, s->enable_afbc);
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+index b33e5bdc2..0cf512cc1 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+@@ -122,6 +122,7 @@ struct vop_common {
+ 	struct vop_reg lut_buffer_index;
+ 	struct vop_reg gate_en;
+ 	struct vop_reg mmu_en;
++	struct vop_reg dma_stop;
+ 	struct vop_reg out_mode;
+ 	struct vop_reg standby;
+ };
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+index b9ee02061..9bcb40a64 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+@@ -466,6 +466,7 @@ static const struct vop_output rk3066_output = {
+ };
+ 
+ static const struct vop_common rk3066_common = {
++	.dma_stop = VOP_REG(RK3066_SYS_CTRL0, 0x1, 0),
+ 	.standby = VOP_REG(RK3066_SYS_CTRL0, 0x1, 1),
+ 	.out_mode = VOP_REG(RK3066_DSP_CTRL0, 0xf, 0),
+ 	.cfg_done = VOP_REG(RK3066_REG_CFG_DONE, 0x1, 0),
 -- 
-2.34.1
+2.45.0
 
