@@ -2,56 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1F98C938F
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 08:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107D18C9392
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2024 08:18:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADB7C10E073;
-	Sun, 19 May 2024 06:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84A8710E0B4;
+	Sun, 19 May 2024 06:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iPiubOAl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Pj4IupAe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D60210E073
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 06:02:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716098551; x=1747634551;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=FxLwfDtq9X2G3z+3GDiXEtvjyrUj0G6ehXkxsxq0kBQ=;
- b=iPiubOAlxaL63BNHp64Ok6oB3FNwW/Xkvr9yo3wHmk6HOHkedTtq+XRP
- tcu3GWYcM89+CU0/q8xrhXVbjWtDgsMzTRTM0ivucBEHd64PCag8u1zRE
- q9eX5Dzdi8ydHNP7Yc1xyeXvZTKN1JD+nbM5jbkUBJJhOb8sh6F2gI4JF
- jQ1OSKmGp2zv6azvd5FUVo6aBr1VGWm1GI016lSnMpRv/BnDtfuMI0kB3
- U65YQEylOcca+c+5X9RsJkrFOgWzW6eUnY6mx0SCtdfCvVV6d5vdmOoCq
- V3D+oRFB3KUwAiGzRMmii2Q500KaIkt+Z4dT0HjFkO/ajX7ce627IWD3t A==;
-X-CSE-ConnectionGUID: zFLNM6wfT+WQpPaLwm2G6g==
-X-CSE-MsgGUID: +p7ldzAkTs64EYKTTHLFRg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11076"; a="23385288"
-X-IronPort-AV: E=Sophos;i="6.08,172,1712646000"; d="scan'208";a="23385288"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2024 23:02:30 -0700
-X-CSE-ConnectionGUID: G02znX1xTd6NS3ZINPjnLA==
-X-CSE-MsgGUID: ZXfofzoxTHq4dKFHlavG/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,172,1712646000"; d="scan'208";a="32119292"
-Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
- by fmviesa007.fm.intel.com with ESMTP; 18 May 2024 23:02:28 -0700
-Received: from kbuild by 108735ec233b with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s8Zco-0003Ci-20;
- Sun, 19 May 2024 06:02:26 +0000
-Date: Sun, 19 May 2024 14:02:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
-Subject: [drm-misc:topic/rust-drm 11/16] error: unreachable `pub` field
-Message-ID: <202405191312.68iyLxvG-lkp@intel.com>
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6253710E0B4
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2024 06:18:05 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-61e01d5ea74so15028717b3.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2024 23:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1716099484; x=1716704284; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rXriUzICpDBRNTiZbaNDcq7UfRydL6wZIv4JRQHCJnE=;
+ b=Pj4IupAeJ1QKK3BlIwVwXLpSHdJomDVuhW+lexfWELPbkrveB8NIln37WthFZsano0
+ nfImoprBQ5zBr/oN75NhMKUsQBp9DoEL0NhYYI/yRcFkgROz5QgclqKVSlOYm5gIqZBH
+ j3L3ly+zjO7BvRrEug3WpokJb4eG3jIJBrvst5wMTjY862jfYwC0xwGrfRWMpxUnJQMo
+ 4hck3PXSIwmPT5u0EM8bWZvjNH3WiA+gKkKuo06UQVXel7agLMk52iJ0iJmnr4cfsz6M
+ ZD7JEuW9xGQbzy0u5hrCXogaX8x/z5wN+EtgVasduGhwcD2Vsdav3JEEwtvAP+UX2xmT
+ uxrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716099484; x=1716704284;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rXriUzICpDBRNTiZbaNDcq7UfRydL6wZIv4JRQHCJnE=;
+ b=G1PjYwelHPO92bJqe91uqqlq2cZQia2kF1QOEbDEzp90cPGaxOTN1iUUYV+krlL1N9
+ 52qoDB7s1+WvdmRGWg14NBmYp6EtXDDyXzaSecnER+UwsQzHSSw5t83Fghwq2ve3rG9h
+ O0YYt8rgna3FYuQOLAy+PYQgQ/YDe7QfBVD2APDTLz24FcxhdC8g5QswG7QNxa23oFo4
+ cjPeVsV04NbXTxP4ObOIwzrwYBQa6Lg3mwSUpyx4N+YGTAvb9Ai9/cmBKEfPFCCh7jBo
+ rCti+gpTWX8pquKsNBdAZkmoZEFlVn54tG17NnyMvt1RcM7wzH8mY91Ro+TPdkGWA8gy
+ 7vCA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXX0NvQrPSO2gwxP92UmP+lV5xDU8YYfSAu22xnFdQOjMsbaSeGlEfzs/8Dj2zydZQyhiieJYXc7e2f25YRq/qh4uPusQo214/58HWAYOCj
+X-Gm-Message-State: AOJu0Yyk8Zt8WHONihIUSav5tUFs+yX9CNUSR5V34zNFGKnxFGoQ+Yj6
+ LSAbwiu7BRnbTYmjhWYpyil6xOTMtXAWHjS2CdHOofUBoXUbXAopGWhoNUjiggsiY1QNtEu3WRo
+ up5ha4EuzTiXUYgP8cC5/k3Uh57Op4ZJMuMUnFg==
+X-Google-Smtp-Source: AGHT+IFJD3Kq3vPuYgkMWKc7CO+LDFPu6iA9WZLK38fvfnvLK5wrb1/eN/GRsNfOPrluONXSLuJ9tQ39/0h50f+M8VQ=
+X-Received: by 2002:a25:9d83:0:b0:dee:673f:7a29 with SMTP id
+ 3f1490d57ef6-dee673f8901mr20976923276.32.1716099484044; Sat, 18 May 2024
+ 23:18:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240517213712.3135166-1-dianders@chromium.org>
+In-Reply-To: <20240517213712.3135166-1-dianders@chromium.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sun, 19 May 2024 08:17:52 +0200
+Message-ID: <CACRpkdY1hB3CABE+EJmkG6X2u7k=ETNB-7auC1EMxGui9f4JOQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] drm/panel: Some very minor err handling fixes + more
+ _multi
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@gmail.com>, Javier Martinez Canillas <javierm@redhat.com>,
+ Jitao Shi <jitao.shi@mediatek.com>,
+ =?UTF-8?Q?Kamil_Trzci=C5=84ski?= <ayufan@ayufan.eu>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Ondrej Jirman <megi@xff.cz>, Shuijing Li <shuijing.li@mediatek.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Xinlei Lee <xinlei.lee@mediatek.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,95 +92,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc topic/rust-drm
-head:   440a8db3f583392a1a894f32782ecc397911f9af
-commit: c91cc0f1abf0e3de8b46034ab2e15da4860061a7 [11/16] rust: PCI: add BAR request and ioremap
-config: x86_64-buildonly-randconfig-001-20240519 (https://download.01.org/0day-ci/archive/20240519/202405191312.68iyLxvG-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240519/202405191312.68iyLxvG-lkp@intel.com/reproduce)
+On Fri, May 17, 2024 at 11:37=E2=80=AFPM Douglas Anderson <dianders@chromiu=
+m.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405191312.68iyLxvG-lkp@intel.com/
+> This series is pretty much just addressing a few minor error handling
+> bugs that I noticed recently while reviewing some panel patches. For
+> the most part these are all old issues.
 
-All error/warnings (new ones prefixed by >>):
+All patches look good to me:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
->> warning: struct `IoMem` is never constructed
-   --> rust/kernel/iomem.rs:10:12
-   |
-   10 | pub struct IoMem {
-   |            ^^^^^
-   |
-   = note: `#[warn(dead_code)]` on by default
---
->> warning: multiple associated items are never used
-   --> rust/kernel/iomem.rs:16:19
-   |
-   15  | impl IoMem {
-   | ---------- associated items in this implementation
-   16  |     pub(crate) fn new(ioptr: usize, maxlen: usize) -> Result<Self> {
-   |                   ^^^
-   ...
-   24  |     fn get_io_addr(&self, offset: usize, len: usize) -> Result<usize> {
-   |        ^^^^^^^^^^^
-   ...
-   32  |     pub fn readb(&self, offset: usize) -> Result<u8> {
-   |            ^^^^^
-   ...
-   38  |     pub fn readw(&self, offset: usize) -> Result<u16> {
-   |            ^^^^^
-   ...
-   44  |     pub fn readl(&self, offset: usize) -> Result<u32> {
-   |            ^^^^^
-   ...
-   50  |     pub fn readq(&self, offset: usize) -> Result<u64> {
-   |            ^^^^^
-   ...
-   56  |     pub fn readb_relaxed(&self, offset: usize) -> Result<u8> {
-   |            ^^^^^^^^^^^^^
-   ...
-   62  |     pub fn readw_relaxed(&self, offset: usize) -> Result<u16> {
-   |            ^^^^^^^^^^^^^
-   ...
-   68  |     pub fn readl_relaxed(&self, offset: usize) -> Result<u32> {
-   |            ^^^^^^^^^^^^^
-   ...
-   74  |     pub fn readq_relaxed(&self, offset: usize) -> Result<u64> {
-   |            ^^^^^^^^^^^^^
-   ...
-   80  |     pub fn writeb(&self, byte: u8, offset: usize) -> Result {
-   |            ^^^^^^
-   ...
-   87  |     pub fn writew(&self, word: u16, offset: usize) -> Result {
-   |            ^^^^^^
-   ...
-   94  |     pub fn writel(&self, lword: u32, offset: usize) -> Result {
-   |            ^^^^^^
-   ...
-   101 |     pub fn writeq(&self, qword: u64, offset: usize) -> Result {
-   |            ^^^^^^
-   ...
-   108 |     pub fn writeb_relaxed(&self, byte: u8, offset: usize) -> Result {
-   |            ^^^^^^^^^^^^^^
-   ...
-   115 |     pub fn writew_relaxed(&self, word: u16, offset: usize) -> Result {
-   |            ^^^^^^^^^^^^^^
-   ...
-   122 |     pub fn writel_relaxed(&self, lword: u32, offset: usize) -> Result {
-   |            ^^^^^^^^^^^^^^
-   ...
-   129 |     pub fn writeq_relaxed(&self, qword: u64, offset: usize) -> Result {
-   |            ^^^^^^^^^^^^^^
---
->> error: unreachable `pub` field
-   --> rust/kernel/iomem.rs:11:5
-   |
-   11 |     pub ioptr: usize,
-   |     ---^^^^^^^^^^^^^
-   |     |
-   |     help: consider restricting its visibility: `pub(crate)`
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yours,
+Linus Walleij
