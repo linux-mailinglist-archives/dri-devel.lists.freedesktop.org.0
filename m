@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAFD88C9CD4
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:01:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5607E8C9CDC
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:08:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D400010E5DD;
-	Mon, 20 May 2024 12:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7D3F10E368;
+	Mon, 20 May 2024 12:08:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GF0AiLwi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R9S69HXU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E52410E59A
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 12:01:54 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3AF73E0004;
- Mon, 20 May 2024 12:01:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1716206512;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lR9VoY3FIAk89C7/g6hG/jVXz1+H90c8VcbuRj3NpC4=;
- b=GF0AiLwi4yJVNHucyiXpRqmgep7Uh0wrdMIGhCoitZAQuw1MPyjb8vrWocQR6yMhyJLfSu
- XBNgoQ4qkBFYyJ8Q3Xoxls2ktzWCUEF1J40JYnwx0VldISXYYfQtHzAVUDTo2Da2vVYXG2
- qi0Ij20xw4T++9XqNYpoG+v0Yc+N/LOml5YlAcmT7Dn+BR39cQSq/yb/daaTkE4Ob43lp8
- L3zVJk3aCHp43LWKeSZDEbTdp+lV81XbcR8Li+vCbonc8v38MdLdXXM+WEIbwE31BSQWdG
- 5yH+PQjKFf8Np9cam42IGqI5KhXYpOxloQBCIse7TjZuZZGs1dG9kpDspizI1A==
-Date: Mon, 20 May 2024 14:01:48 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Derek Kiernan <derek.kiernan@amd.com>, Dragan Cvetic
- <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Saravana Kannan <saravanak@google.com>, Paul
- Kocialkowski <contact@paulk.fr>, =?UTF-8?Q?Herv=C3=A9?= Codina
- <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v2 0/5] Add support for GE SUNH hot-pluggable connector
- (was: "drm: add support for hot-pluggable bridges")
-Message-ID: <20240520140148.26b91240@booty>
-In-Reply-To: <ZkYIeWzYyxkURS79@phenom.ffwll.local>
-References: <20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com>
- <ZkYIeWzYyxkURS79@phenom.ffwll.local>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEA6410E3DF;
+ Mon, 20 May 2024 12:08:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716206925; x=1747742925;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=BSga6ey6kC+4b2s4QyYdUg/3A+B0B4mR7EVMFqbgB28=;
+ b=R9S69HXULKKZqtBRUXxeqoyCt90k/iO19rNKkiZkCqxwZ8sXMQQCWGII
+ T4sZbBHhp2AXd+pLJcaVvx68OBN+1qAgf2kyzqEcpssKtkEEh+FBL0rG4
+ c7SX/c2BqMIRXWq0p0QzogpAIltR4t5SxGT+rIF/Vt/Aceskd6L1WG4uN
+ EszZPjKdOv91ryaaK1MzNvZZ+KY9jRCwkHmmmsrQv0ZCSueEr2F8s++Zf
+ SY9gS7dpVpAVGVs3D1eR8698GH6Ku9P0OeLm8t9Zrsglq96GDji5rl74V
+ xCdVoy3OjKtbPEebvJHxuD7onJPPZwqjL4rD9mptm8qG+Ju6760P+K4lf g==;
+X-CSE-ConnectionGUID: dXxgItZ8QV2BOVS/ELm2sA==
+X-CSE-MsgGUID: 2yKyHGcLTmCoiGmWCXKvTg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="23737056"
+X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; d="scan'208";a="23737056"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2024 05:08:38 -0700
+X-CSE-ConnectionGUID: eOP3PySuTZqLEtz9a79s4Q==
+X-CSE-MsgGUID: 8LzIpsg0TUu34P8IjNEJ5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; d="scan'208";a="37044318"
+Received: from unknown (HELO localhost) ([10.245.246.99])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2024 05:08:35 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Animesh Manna <animesh.manna@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, jouni.hogander@intel.com,
+ arun.r.murthy@intel.com, Animesh Manna <animesh.manna@intel.com>
+Subject: Re: [PATCH v5 4/6] drm/i915/alpm: Add compute config for lobf
+In-Reply-To: <20240520104822.1116122-5-animesh.manna@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240520104822.1116122-1-animesh.manna@intel.com>
+ <20240520104822.1116122-5-animesh.manna@intel.com>
+Date: Mon, 20 May 2024 15:08:31 +0300
+Message-ID: <877cfou1mo.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,248 +69,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Daniel,
+On Mon, 20 May 2024, Animesh Manna <animesh.manna@intel.com> wrote:
+> Link Off Between Active Frames, is a new feature for eDP
+> that allows the panel to go to lower power state after
+> transmission of data. This is a feature on top of ALPM, AS SDP.
+> Add compute config during atomic-check phase.
+>
+> v1: RFC version.
+> v2: Add separate flag for auxless-alpm. [Jani]
+> v3:
+> - intel_dp->lobf_supported replaced with crtc_state->has_lobf. [Jouni]
+> - Add DISPLAY_VER() check. [Jouni]
+> - Modify function name of get_aux_less_status. [Jani]
+> v4: Add enum alpm_mode to hold the aux-wake/less capability.
+> v5: Add alpm_dpcd to intel_dp and use aux_wake_supported()/
+> aux_less_wake_supported() instead of enum alpm_mode. [Jouni]
+>
+> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_alpm.c     | 61 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_alpm.h     |  5 ++
+>  .../drm/i915/display/intel_display_types.h    |  5 ++
+>  drivers/gpu/drm/i915/display/intel_dp.c       |  4 ++
+>  4 files changed, 75 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
+> index 7307e02277d6..c2334197e723 100644
+> --- a/drivers/gpu/drm/i915/display/intel_alpm.c
+> +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
+> @@ -11,6 +11,26 @@
+>  #include "intel_dp_aux.h"
+>  #include "intel_psr_regs.h"
+>  
+> +static bool intel_alpm_aux_wake_supported(struct intel_dp *intel_dp)
+> +{
+> +	return intel_dp->alpm_dpcd & DP_ALPM_CAP;
+> +}
+> +
+> +static bool intel_alpm_aux_less_wake_supported(struct intel_dp *intel_dp)
+> +{
+> +	return intel_dp->alpm_dpcd & DP_ALPM_AUX_LESS_CAP;
+> +}
+> +
+> +void intel_alpm_get_capability(struct intel_dp *intel_dp)
+> +{
+> +	u8 dpcd;
+> +
+> +	if (drm_dp_dpcd_readb(&intel_dp->aux, DP_RECEIVER_ALPM_CAP, &dpcd) < 0)
+> +		return;
+> +
+> +	intel_dp->alpm_dpcd = dpcd;
+> +}
+> +
+>  /*
+>   * See Bspec: 71632 for the table
+>   *
+> @@ -243,6 +263,47 @@ bool intel_alpm_compute_params(struct intel_dp *intel_dp,
+>  	return true;
+>  }
+>  
+> +void intel_alpm_compute_lobf_config(struct intel_dp *intel_dp,
 
-On Thu, 16 May 2024 15:22:01 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
+Please prefer something_something_compute_config() naming instead of
+something_compute_something_config().
 
-> Apologies for missing v1 ...
->=20
-> On Fri, May 10, 2024 at 09:10:36AM +0200, Luca Ceresoli wrote:
-> > DRM hotplug bridge driver
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> >=20
-> > DRM natively supports pipelines whose display can be removed, but all t=
-he
-> > components preceding it (all the display controller and any bridges) are
-> > assumed to be fixed and cannot be plugged, removed or modified at runti=
-me.
-> >=20
-> > This series adds support for DRM pipelines having a removable part after
-> > the encoder, thus also allowing bridges to be removed and reconnected at
-> > runtime, possibly with different components.
-> >=20
-> > This picture summarizes the  DRM structure implemented by this series:
-> >=20
-> >  .------------------------.
-> >  |   DISPLAY CONTROLLER   |
-> >  | .---------.   .------. |
-> >  | | ENCODER |<--| CRTC | |
-> >  | '---------'   '------' |
-> >  '------|-----------------'
-> >         |
-> >         |DSI            HOTPLUG
-> >         V              CONNECTOR
-> >    .---------.        .--.    .-.        .---------.         .-------.
-> >    | 0 to N  |        | _|   _| |        | 1 to N  |         |       |
-> >    | BRIDGES |--DSI-->||_   |_  |--DSI-->| BRIDGES |--LVDS-->| PANEL |
-> >    |         |        |  |    | |        |         |         |       |
-> >    '---------'        '--'    '-'        '---------'         '-------'
-> >=20
-> >  [--- fixed components --]  [----------- removable add-on -----------]
-> >=20
-> > Fixed components include:
-> >=20
-> >  * all components up to the DRM encoder, usually part of the SoC
-> >  * optionally some bridges, in the SoC and/or as external chips
-> >=20
-> > Components on the removable add-on include:
-> >=20
-> >  * one or more bridges
-> >  * a fixed connector (not one natively supporting hotplug such as HDMI)
-> >  * the panel =20
->=20
-> So I think at a high level this design approach makes sense,
+BR,
+Jani.
 
-Good starting point :)
+> +				    struct intel_crtc_state *crtc_state,
+> +				    struct drm_connector_state *conn_state)
+> +{
+> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> +	struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
+> +	int waketime_in_lines, first_sdp_position;
+> +	int context_latency, guardband;
+> +
+> +	if (!intel_dp_is_edp(intel_dp))
+> +		return;
+> +
+> +	if (DISPLAY_VER(i915) < 20)
+> +		return;
+> +
+> +	if (!intel_dp_as_sdp_supported(intel_dp))
+> +		return;
+> +
+> +	if (crtc_state->has_psr)
+> +		return;
+> +
+> +	if (!(intel_alpm_aux_wake_supported(intel_dp) ||
+> +	      intel_alpm_aux_less_wake_supported(intel_dp)))
+> +		return;
+> +
+> +	if (!intel_alpm_compute_params(intel_dp, crtc_state))
+> +		return;
+> +
+> +	context_latency = adjusted_mode->crtc_vblank_start - adjusted_mode->crtc_vdisplay;
+> +	guardband = adjusted_mode->crtc_vtotal -
+> +		    adjusted_mode->crtc_vdisplay - context_latency;
+> +	first_sdp_position = adjusted_mode->crtc_vtotal - adjusted_mode->crtc_vsync_start;
+> +	if (intel_alpm_aux_less_wake_supported(intel_dp))
+> +		waketime_in_lines = intel_dp->alpm_parameters.io_wake_lines;
+> +	else
+> +		waketime_in_lines = intel_dp->alpm_parameters.fast_wake_lines;
+> +
+> +	crtc_state->has_lobf = (context_latency + guardband) >
+> +		(first_sdp_position + waketime_in_lines);
+> +}
+> +
+>  static void lnl_alpm_configure(struct intel_dp *intel_dp)
+>  {
+>  	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
+> diff --git a/drivers/gpu/drm/i915/display/intel_alpm.h b/drivers/gpu/drm/i915/display/intel_alpm.h
+> index c45d078e5a6b..45c07f023a63 100644
+> --- a/drivers/gpu/drm/i915/display/intel_alpm.h
+> +++ b/drivers/gpu/drm/i915/display/intel_alpm.h
+> @@ -10,9 +10,14 @@
+>  
+>  struct intel_dp;
+>  struct intel_crtc_state;
+> +struct drm_connector_state;
+>  
+> +void intel_alpm_get_capability(struct intel_dp *intel_dp);
+>  bool intel_alpm_compute_params(struct intel_dp *intel_dp,
+>  			       struct intel_crtc_state *crtc_state);
+> +void intel_alpm_compute_lobf_config(struct intel_dp *intel_dp,
+> +				    struct intel_crtc_state *crtc_state,
+> +				    struct drm_connector_state *conn_state);
+>  void intel_alpm_configure(struct intel_dp *intel_dp);
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 0ad6134ba94e..d77a9f22b5c6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1410,6 +1410,9 @@ struct intel_crtc_state {
+>  
+>  	/* for loading single buffered registers during vblank */
+>  	struct drm_vblank_work vblank_work;
+> +
+> +	/* LOBF flag */
+> +	bool has_lobf;
+>  };
+>  
+>  enum intel_pipe_crc_source {
+> @@ -1845,6 +1848,8 @@ struct intel_dp {
+>  		u8 silence_period_sym_clocks;
+>  		u8 lfps_half_cycle_num_of_syms;
+>  	} alpm_parameters;
+> +
+> +	u8 alpm_dpcd;
+>  };
+>  
+>  enum lspcon_vendor {
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index c0a3b6d50681..61ee66ad8bd0 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -48,6 +48,7 @@
+>  #include "i915_drv.h"
+>  #include "i915_irq.h"
+>  #include "i915_reg.h"
+> +#include "intel_alpm.h"
+>  #include "intel_atomic.h"
+>  #include "intel_audio.h"
+>  #include "intel_backlight.h"
+> @@ -3000,6 +3001,7 @@ intel_dp_compute_config(struct intel_encoder *encoder,
+>  	intel_vrr_compute_config(pipe_config, conn_state);
+>  	intel_dp_compute_as_sdp(intel_dp, pipe_config);
+>  	intel_psr_compute_config(intel_dp, pipe_config, conn_state);
+> +	intel_alpm_compute_lobf_config(intel_dp, pipe_config, conn_state);
+>  	intel_dp_drrs_compute_config(connector, pipe_config, link_bpp_x16);
+>  	intel_dp_compute_vsc_sdp(intel_dp, pipe_config, conn_state);
+>  	intel_dp_compute_hdr_metadata_infoframe_sdp(intel_dp, pipe_config, conn_state);
+> @@ -6616,6 +6618,8 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+>  
+>  	intel_pps_init_late(intel_dp);
+>  
+> +	intel_alpm_get_capability(intel_dp);
+> +
+>  	return true;
+>  
+>  out_vdd_off:
 
-> but the
-> implementation needs some serious thought. One big thing upfront though,
-> we need to have a clear plan for the overlay hotunload issues, otherwise
-> trying to make drm bridges hotpluggable makes no sense to me. Hotunload is
-> very, very tricky, full of lifetime issues, and those need to be sorted
-> out first or we're just trying to build a castle on quicksand.
->=20
-> For bridges itself I don't think the current locking works. You're trying
-> to really cleverly hide it all behind a normal-looking bridge driver, but
-> there's many things beyond that which will blow up if bridges just
-> disappear. Most importantly the bridge states part of an atomic update.
-
-Surely possible as atomic updates are definitely not stimulated in my
-use case. Can you recommend any testing tools to be able to trigger any
-issues?
-
-The main setups I used for my testing so far are 'modetest -s' for my
-daily work and a simple weston setup to periodically test a complete
-user space stack.
-
-> Now in drm we have drm_connector as the only hotunpluggable thing, and it
-> took years to sort out all the issues. I think we should either model the
-> bridge hotunplug locking after that, or just outright reuse the connector
-> locking and lifetime rules. I much prefer the latter personally.
->=20
-> Anyway the big issues:
->=20
-> - We need to refcount the hotpluggable bridges, because software (like
->   atomic state updates) might hang onto pointers for longer than the
->   bridge physically exists. Assuming that you can all tear it down
->   synchronously will not work.
->=20
->   If we reuse connector locking/lifetime then we could put the
->   hotpluggable part of the bridge chain into the drm_connector, since that
->   already has refcounting as needed. It would mean that finding the next
->   bridge in the chain becomes a lot more tricky though. With that model
->   we'd create a new connector every time the bridge is hotplugged, which I
->   think is also the cleaner model (because you might plug in a hdmi
->   connector after a panel, so things like the connector type change).
-
-I have been investigating the option of adding/removing a connector
-based on hot-plug/unplug events initially, see my reply to Maxime after
-v1 [0]:
-
-> The first approach is based on removing the drm_connector. My laptop
-> uses the i915 driver, and I have observed that attaching/removing a
-> USB-C dock with an HDMI connector connected to a monitor, a new
-> drm_connector appears/disappears for the card. User space gets notified
-> and the external monitor is enabled/disabled, just the way a desktop
-> user would expect, so this is possible. I had a look at the driver but
-> how this magic happens was not clear to me honestly.
-
-So if you could point to where/how this is done, I would certainly
-reconsider that.
-
-> - No notifiers please. The create a locking mess with inversions, and
->   especially for hotunplug they create the illusion that you can
->   synchronously keep up to date with hardware state. That's not possible.
->   Fundamentally all bridge drivers which might be hotunplugged need to be
->   able to cope with the hardware disappearing any momemnt.
-
-Can you clarify this point? I'm sorry I fail to understand the
-relationship between the use of notifiers and the ability of bridge
-drivers to cope with hardware disappearing.
-
-In this patch, the hotplug-bridge uses notifiers to be informed when
-the following bridge is disappearing: which other way would you suggest
-to make the hotplug-bridge aware of that? OTOH the hotplug-bridge is
-not meant to disappear, and it has no actual hardware that can go away,
-being just a mechanical connector.
-
-On the opposite side, the following bridges are physically removable
-and so their drivers will have to be fixed (if needed) to work when
-removal happens, but I don't see how that relates to the DRM core
-emitting a notification of such bridges being removed.
-
-> - Related to this: You're not allowed to shut down hardware behind the
->   user's back with drm_atomic_helper_shutdown. We've tried that approach
->   with dp mst, it really pisses off userspace when a page_flip that it
->   expected to work doesn't work.
->=20
-> - There's also the design aspect that in atomic, only atomic_check is
->   allowed to fail, atomic_commit must succeed, even when the hardware is
->   gone. Using connectors and their refcounting should help with that.
-
-IIUC here you are suggesting again to remove the connector instead of
-marking it "disconnected". So, as above, pointers on how that is
-achieved would be helpful.
-
-> - Somewhat aside, but I noticed that the bridge->atomic_reset is in
->   drm_bridge_attach, and that's kinda the wrong place. It should be in
->   drm_mode_config_reset, like all the other ->atomic_reset hooks. That
->   would make it a lot clearer that we need to figure out who/when
->   ->atomic_reset should be called for hotplugged bridges, maybe as part o=
-f =20
->   connector registration when the entire bridge and it's new connector is
->   assembled?
->=20
-> - Finally this very much means we need to rethink who/how the connector
->   for a bridge is created. The new design is that the main driver creates
->   this connector, once the entire bridge exists. But with hotplugging this
->   gets a lot more complicated, so we might want to extract a pile of that
->   encoder related code from drivers (same way dp mst helpers take care of
->   connector creation too, it's just too much of a mess otherwise).
->=20
->   The current bridge chaining infrastructure requires a lot of hand-rolled
->   code in each bridge driver and the encoder, so that might be a good
->   thing anyway.
->=20
-> - Finally I think the entire bridge hotplug infrastructure should be
->   irrespective of the underlying bus. Which means for the mipi dsi case we
->   might also want to look into what's missing to make mipi dsi
->   hotunpluggable, at least for the case where it's a proper driver. I
->   think we should ignore the old bridge model where driver's stitched it
->   all toghether using the component framework, in my opinion that approach
->   should be deprecated.
-
-The DSI side was one of my headaches on writing this driver, and I
-must say I dislike the code in hotplug_bridge_dsi_attach(), with the
-need for an initial "dummy" attach and detach the first time. At first
-sight I think we need a .update_format callback in struct
-mipi_dsi_host_ops so the DSI host is aware of a format change.
-
-Right now there are DSI host drivers which keep a copy of the struct
-mipi_dsi_device pointer and read the format from there when starting a
-stream (e.g. the tc358768.c driver [1]). That somewhat provides a way
-to react to format changes, but keeping a pointer is bad when the DSI
-device hot-unplugs, and the new format won't be seen until a
-disable/enable cycle. So a new callback looks more robust overall.
-
-Any opinion about this?
-
-> - Finally I think we should have a lot of safety checks, like only bridges
->   which declare themselve to be hotunplug safe should be allowed as a part
->   of the hotpluggable bridge chain part. All others must still be attached
->   before the entire driver is registered with drm_dev_register.
-
-I'm fine with the principle of a "HOTPLUG" flag.
-
-I wonder how that should be implemented, though. Based on my (surely
-simplistic) understanding, right now bridges can be both added and
-removed, but only in a specific sequence:
-
- 1. add all bridges
- 2. use the card
- 3. remove all bridges
- 4. EOF
-
-We'd need to change to allow:
-
- 1. add fixed bridges (including hotplug-bridge)
- 2. add bridges on removable add-on
- 3. use card
- 4. remove bridges on removable add-on
- 5. optionally goto 2
- 6. remove fixed bridges (including hotplug-bridge)
- 7. EOF
-
-One na=C3=AFve idea is that the DRM core keeps a flag whenever any fixed
-bridge (no HOTLPUG flag) is removed and when that happens forbid adding
-bridges as we are now at line 5.
-
-Aside for tons of subtleties I'm surely missing, does this look a
-proper approach? I'd not be surprised if there is something better and
-more solid.
-
->   Or that we only allow bridges with the NO_CONNECTOR flag for
->   drm_bridge_attach.
->=20
-> There's probably a pile more fundamental issues I've missed, but this
-> should get a good discussion started.
-
-Sure, I think it has.
-
-Bottom line, I'm clearly not seeing some issues that need to be
-considered, and that do not show up for my use case. Based on my
-limited DRM knowledge, this was expected, and I'm glad to work on those
-issues with some practical indications about the path forward.
-
-Luca
-
-[0] https://lore.kernel.org/all/20240327170849.0c14728d@booty/
-[1] https://elixir.bootlin.com/linux/v6.9.1/source/drivers/gpu/drm/bridge/t=
-c358768.c#L435
-
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-- 
+Jani Nikula, Intel
