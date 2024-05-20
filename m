@@ -2,76 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1BE8C9B5E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 12:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D138C9B6C
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 12:38:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CA8310E598;
-	Mon, 20 May 2024 10:35:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5ED10E28C;
+	Mon, 20 May 2024 10:37:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EWyEbFOI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dQa+6K3K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2E010E598
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 10:35:20 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-5238fe0cfc9so2399889e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 03:35:20 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BCA010E28C
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 10:37:54 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-51f0602bc58so2322219e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 03:37:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716201318; x=1716806118; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1716201472; x=1716806272; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=M77u76U61V3fpnwyE5H4HgvMa1z+7+KqGOKbDArh6qQ=;
- b=EWyEbFOIVyUKN7A+aB5IKCugk+NyhoKkesnGvO1bEwiL4bnUlCGuK/8eoI7yGTzJix
- UcoUGL+z5urifiKSJZXRRZmDrelAJXR2hNgvtdp6yn6rAIdIkJkCeAj6Y+jG5JTA+itj
- T27kQWx5BqyJdOM8DHQHoYlJAF7rAtiodfJ7yrm7JNNX9VGhEKolAKm3Jdoi6uqzLqse
- 6CpNpJ1JFRCdGQOELtX8whjAr7k7V4zjCaRrWN0a/ucLo2m0ZlX0D8Zs9wDoh05wxEAo
- qIGVPYaEESZOwM7SZm1Q5rrk8jvRamYjeiGMfepfsoH0cqnvZdxA+LcfLaoJeB0El9KS
- +k7Q==
+ bh=vROlPILoNKAGtI5nlKIoUzWd52w8WaK5YSEJHAZoeZc=;
+ b=dQa+6K3K7FfxS4z4BR4RkKaw3wF975wQY+F67MfVF+ZTxsLYoQQ1GBy/oI8Fp1FXOP
+ l+lkHMOOwmPkmCl+a28qhbOGCK/NYOoQdRb1ZS2IBOVlV3H0tQA+96BnUD9Lq663Gvd5
+ hnv+bv0R54p//KAjdZwg0xFQ0xLp3ZWBO8raLVxbNXV1FP7gwP+Re50/P0kdmZrWvjcg
+ y72kvEumis+/PQzcuAZH7LqPJorVjQlon8msKmtJIzSvPiJ8QNBPmq0vWbCCE0fsN0/c
+ aQjTGjyyNJkd4T5NZA+5DU5rIl2GehmIHEpQEVM5SYLzFF4dd3b6hn2siGmxVmdniZCw
+ dE+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716201318; x=1716806118;
+ d=1e100.net; s=20230601; t=1716201472; x=1716806272;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=M77u76U61V3fpnwyE5H4HgvMa1z+7+KqGOKbDArh6qQ=;
- b=g1f8JOKN/FbhH+yfkOIG+h9vtqoX3htxp87sxZOKAaO18vbkruGRmL+C/Go00CzCqx
- b/Upy3lPIFjTQhyjynFqQkMJbNNbJYLFVQnODKy7aU+J+R8YollMiD86GQBv2ZB1RVmQ
- 50TjnnxMKr/DsnKR1H8MUc/PHl7IFT0Hw7OCQF0Pfv7GJz6rFZzL3VhE3g+VEFfn/xGf
- 3MNchSJTkpm1SQSsPvAAmFm+3qmx7HVG1TyZ+Jp8z4DGuQBf4XtLA+Q1fXC6iYjYAeyz
- 8QxUFjl8babh+Cw6rTjFw99189OlSQHA5Coc4hrHs7G8rc2rwn6hXpD9dBHYFKI7OzSd
- lL+w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXESjoYe8E+nwL455VClRZ+eoO8d6tjlprYbDCVJ2H1Dgfiul1nPOChSpVsA2626SXjIS9WqSiR9xKPxDUq/HTT/UdeGkOAIXIaEHOsIVWJ
-X-Gm-Message-State: AOJu0YzLBZ57chMhoRoaB9jlsjpMei0xjn8I1Ku2YWQdfvg+fOADZFzD
- HNFcOUpo+RwIilNW3M+ZAjEdgDAe5BylaenxcSvos+xtwkFemmYv8pvIye8n+l8=
-X-Google-Smtp-Source: AGHT+IG1dvoxsmukaeX1Kus3eIdC+OT63ZQWkr780bFS2L/nBs/Nzh0vDkDrMOtn4xkRBwm8TrAffQ==
-X-Received: by 2002:a05:6512:68e:b0:516:c97d:96b4 with SMTP id
- 2adb3069b0e04-524079a8708mr2172995e87.2.1716201318383; 
- Mon, 20 May 2024 03:35:18 -0700 (PDT)
+ bh=vROlPILoNKAGtI5nlKIoUzWd52w8WaK5YSEJHAZoeZc=;
+ b=xQo/zHxiW5te5Ivaw4VviRSbpTs/2j4WL0ZHZvYGTw2NWnpkjeCvR2AfCv/n3CprDA
+ H2mhCYL1jxfaNc0vFotrFtG1gylbXAHo2azM7xYNNSZzfi4avB1lQvVGAt2q793lh3qP
+ cOwNlo6K/u107TF5IyW+Za82yn9+Yv8jKAOBpxcQ8VSkBtF8maupLNeVX+43tOEms8u/
+ dSLfTQ3qqD7UGo5trW7WsgOjWA4ttAEOHf3uVfdAI88q+Sd+uErxhqVejWmc9w7NwFCx
+ 95p0HAoAbHioo2LiYz4gJ62udrAkVW0p06M5nurRz7RgpYnq23PRjxamlj4vB1+xL1L0
+ KeRQ==
+X-Gm-Message-State: AOJu0Yzrc8/y72MOSvoZvUVL2aAkmXi95PgIgI4R0RR3XK5Gp+jMSOxr
+ iRz23G0t4BIjB58manf9VCJ/NLHv7yQMql9m8K+LL2nIc8hJUQyVjHOsQ8ZRv9Q=
+X-Google-Smtp-Source: AGHT+IFaeG8xp9fMh6rVylXMaGL+biT0666eRJ9pwrJ+PIS93cu7SFiEQjQtPoC2qx+E853ZQn0GFg==
+X-Received: by 2002:a19:2d4e:0:b0:51f:9a88:be2a with SMTP id
+ 2adb3069b0e04-52407cde448mr1470423e87.23.1716201472248; 
+ Mon, 20 May 2024 03:37:52 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52434ae5899sm524387e87.119.2024.05.20.03.35.17
+ 2adb3069b0e04-521f39d32absm4245086e87.296.2024.05.20.03.37.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 May 2024 03:35:17 -0700 (PDT)
-Date: Mon, 20 May 2024 13:35:15 +0300
+ Mon, 20 May 2024 03:37:51 -0700 (PDT)
+Date: Mon, 20 May 2024 13:37:49 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
- maarten.lankhorst@linux.intel.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/6] drm/bridge: analogix: remove unused struct
- 'bridge_init'
-Message-ID: <la43b5ra7aziiv7dwt4o5zha3px7jarfmk45dwsf24qn6pgcre@pcmcsicjdrus>
-References: <20240517232427.230709-1-linux@treblig.org>
- <6tfxkc3foarpfuo6viwmsm4e2ujxjmhpqsku37d4ov6ppufpjr@byrbjs7srqri>
- <ZkqAoG9ZGg0_dC-9@gallifrey>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/display/dp: fix all kernel-doc warnings
+Message-ID: <p2n7d7lhiogmn3niblqg3sj5nx7c7tx2m6h6z2xlyf3ks74753@7qze6k4jhp2k>
+References: <20240516002642.6659-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZkqAoG9ZGg0_dC-9@gallifrey>
+In-Reply-To: <20240516002642.6659-1-rdunlap@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,86 +83,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 19, 2024 at 10:43:44PM +0000, Dr. David Alan Gilbert wrote:
-> * Dmitry Baryshkov (dmitry.baryshkov@linaro.org) wrote:
-> > On Sat, May 18, 2024 at 12:24:27AM +0100, linux@treblig.org wrote:
-> > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> > > 
-> > > 'bridge_init' is unused, I think following:
-> > > commit 6a1688ae8794 ("drm/bridge: ptn3460: Convert to I2C driver model")
-> > > (which is where a git --follow finds it)
-> > > Remove it.
-> > 
-> > Please rephrase the commit message following guidelines in
-> > Documentation/process. Use Fixes tags if suitable.
+On Wed, May 15, 2024 at 05:26:42PM -0700, Randy Dunlap wrote:
+> Fix a struct member name in &struct drm_dp_as_sdp.
+> Add Returns: kernel-doc syntax for 4 functions.
+> In the Returns: sections, spell "%true" and "%false" consistently.
 > 
-> I specifically don't want to use Fixes in these set because
-> there's no need for someone to backport this to older
-> kernels that use the original, and many backporters
-> use 'Fixes' as an automated means to find stuff they should
-> backport.
+> Fixes these kernel-doc warnings:
 > 
-> Other than that, is there something specific you think I've
-> missed?
-
-It's not about missing things. It's about a way it is written.
-Consider something like:
-
-The commit aaaaaaa ("drm/bridge: foo bar") has dropped all the users of
-the struct bridge_init from the exynos_dp_core, while retainng unused
-structure definition. Later on the driver was reworked and the
-definition migrated to the analogix_dp driver. Remove unused struct
-bridge_init definition.
-
+> drm_dp_helper.h:126: warning: Function parameter or struct member 'mode' not described in 'drm_dp_as_sdp'
+> drm_dp_helper.h:126: warning: Excess struct member 'operation_mode' description in 'drm_dp_as_sdp'
+> drm_dp_helper.h:237: warning: No description found for return value of 'drm_dp_dsc_sink_supports_format'
+> drm_dp_helper.h:539: warning: No description found for return value of 'drm_dp_dpcd_readb'
+> drm_dp_helper.h:554: warning: No description found for return value of 'drm_dp_dpcd_writeb'
+> drm_dp_helper.h:721: warning: No description found for return value of 'drm_dp_has_quirk'
 > 
-> (I'm also purposely being less certain here, because --follow
-> is showing it in a ptn3460 and I don't quite follow
-> why that changes it here).
-
-The mentioned commit is a correct one. Historically exynos_dp_core had
-been creating the ptn3460 bridge manually. Later on this was fixed in
-the ptn3640 driver and the code was dropped from exynos_dp_core.
-
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > 
-> Dave
+>  include/drm/display/drm_dp_helper.h |   17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
 > 
-> > 
-> > > 
-> > > Build tested.
-> > > 
-> > > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> > > ---
-> > >  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 5 -----
-> > >  1 file changed, 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > > index df9370e0ff23..1e03f3525a92 100644
-> > > --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > > +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > > @@ -36,11 +36,6 @@
-> > >  
-> > >  static const bool verify_fast_training;
-> > >  
-> > > -struct bridge_init {
-> > > -	struct i2c_client *client;
-> > > -	struct device_node *node;
-> > > -};
-> > > -
-> > >  static int analogix_dp_init_dp(struct analogix_dp_device *dp)
-> > >  {
-> > >  	int ret;
-> > > -- 
-> > > 2.45.1
-> > > 
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
-> -- 
->  -----Open up your eyes, open up your mind, open up your code -------   
-> / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-> \        dave @ treblig.org |                               | In Hex /
->  \ _________________________|_____ http://www.treblig.org   |_______/
+> diff -- a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
+>   * @target_rr: Target Refresh
+>   * @duration_incr_ms: Successive frame duration increase
+>   * @duration_decr_ms: Successive frame duration decrease
+> - * @operation_mode: Adaptive Sync Operation Mode
+> + * @mode: Adaptive Sync Operation Mode
+>   */
+>  struct drm_dp_as_sdp {
+>  	unsigned char sdp_type;
+> @@ -230,7 +230,8 @@ drm_dp_dsc_sink_max_slice_width(const u8
+>   * @dsc_dpcd : DSC-capability DPCDs of the sink
+>   * @output_format: output_format which is to be checked
+>   *
+> - * Returns true if the sink supports DSC with the given output_format, false otherwise.
+> + * Returns: %true if the sink supports DSC with the given output_format,
+> + * %false otherwise.
+>   */
+>  static inline bool
+>  drm_dp_dsc_sink_supports_format(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE], u8 output_format)
+> @@ -280,8 +281,8 @@ drm_dp_sink_can_do_video_without_timing_
+>   * backlight features but which require the brightness be set through PWM, and don't support setting
+>   * the brightness level via the DPCD.
+>   *
+> - * Returns: %True if @edp_dpcd indicates that VESA backlight controls are supported, %false
+> - * otherwise
+> + * Returns: %true if @edp_dpcd indicates that VESA backlight controls are
+> + * supported, %false otherwise
+
+If you are touching this part, maybe it's better to change 'Returns' to
+'Return' as documented by Documentation/doc-guide/kernel-doc.rst ?
+(the same comment applies to other chunks in the patch, I've trimmed
+them).
+
+>   */
+>  static inline bool
+>  drm_edp_backlight_supported(const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
 
 -- 
 With best wishes
