@@ -2,58 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5607E8C9CDC
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:08:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78AF8C9CE5
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:12:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7D3F10E368;
-	Mon, 20 May 2024 12:08:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81F1B10E0BB;
+	Mon, 20 May 2024 12:12:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R9S69HXU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j0gNmAme";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEA6410E3DF;
- Mon, 20 May 2024 12:08:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716206925; x=1747742925;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=BSga6ey6kC+4b2s4QyYdUg/3A+B0B4mR7EVMFqbgB28=;
- b=R9S69HXULKKZqtBRUXxeqoyCt90k/iO19rNKkiZkCqxwZ8sXMQQCWGII
- T4sZbBHhp2AXd+pLJcaVvx68OBN+1qAgf2kyzqEcpssKtkEEh+FBL0rG4
- c7SX/c2BqMIRXWq0p0QzogpAIltR4t5SxGT+rIF/Vt/Aceskd6L1WG4uN
- EszZPjKdOv91ryaaK1MzNvZZ+KY9jRCwkHmmmsrQv0ZCSueEr2F8s++Zf
- SY9gS7dpVpAVGVs3D1eR8698GH6Ku9P0OeLm8t9Zrsglq96GDji5rl74V
- xCdVoy3OjKtbPEebvJHxuD7onJPPZwqjL4rD9mptm8qG+Ju6760P+K4lf g==;
-X-CSE-ConnectionGUID: dXxgItZ8QV2BOVS/ELm2sA==
-X-CSE-MsgGUID: 2yKyHGcLTmCoiGmWCXKvTg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="23737056"
-X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; d="scan'208";a="23737056"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2024 05:08:38 -0700
-X-CSE-ConnectionGUID: eOP3PySuTZqLEtz9a79s4Q==
-X-CSE-MsgGUID: 8LzIpsg0TUu34P8IjNEJ5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; d="scan'208";a="37044318"
-Received: from unknown (HELO localhost) ([10.245.246.99])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2024 05:08:35 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Animesh Manna <animesh.manna@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, jouni.hogander@intel.com,
- arun.r.murthy@intel.com, Animesh Manna <animesh.manna@intel.com>
-Subject: Re: [PATCH v5 4/6] drm/i915/alpm: Add compute config for lobf
-In-Reply-To: <20240520104822.1116122-5-animesh.manna@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240520104822.1116122-1-animesh.manna@intel.com>
- <20240520104822.1116122-5-animesh.manna@intel.com>
-Date: Mon, 20 May 2024 15:08:31 +0300
-Message-ID: <877cfou1mo.fsf@intel.com>
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 589F010E2AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 12:12:48 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-5231efd80f2so4546665e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 05:12:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1716207166; x=1716811966; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bH/LloORtAdJqakmZhy23BG1cTvef7l0ekgFCknTjPw=;
+ b=j0gNmAmeN6/lemM1oGLHKmB8zgP0uxjqM2kiHs8MPdTBr3cGmmr6A6+fc4/GJR/Inv
+ zoampZAFCAyeul4ld/BOtD/WbmrxAFjhat2i+h0C22Xrc5MNtfXtDZakHDb8YoJyjwKC
+ 9GCMo6bbN4yX5KHzVwb1SPo+eFCvGvtap/v/NUtxg7rwgxbMWXlvY0VJKNrF+81rvFOE
+ l68XnfIOtR2Me8JPqL/qe4aPjDC4viDWfya/lrvfaGmkuSvHxf2wdA9IhMxHjqXFzzqF
+ DBQ1fpHEUEhgsw7cwt70QGMZz5o8v8xVm11IXMP/4noM7T/A6yIQTh3uFFDVBNhVAlm8
+ YTZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716207166; x=1716811966;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bH/LloORtAdJqakmZhy23BG1cTvef7l0ekgFCknTjPw=;
+ b=rE/AbqNelCtewVjWt+V5Nk/vjWGb+Iar2i2qmzp8HJio5ooWxIJvPvHAjmDOLLaoka
+ 8wLQRRiVk+dmc6luOylEUzVOzreHpjlbPE0EmF/YDgJNDczsJd4MU3/ZpTpO3qhfv1Jj
+ zKU7YI2ZfQ6cYXUF1nyTWfAGSBwrvktKJpW7S4zwVGbaa6mxrsM7y+gmg++/DMFKb0I4
+ DvC8TtqxNtDVbExQ9LV1Hm8Dnq8f7kn6jf8T/muqgHwpsHQOOCFgT1ZuRWDe6vf1yr3b
+ Yg9bZNdjjr8jFcz3LxzksHxM/d4PeS5pc4p+8iFW9pSm/nTLeICC5/5B2XA937k9su2e
+ t+oA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVgXbgnHmhSnm9jA2UYAeIYSwyulQ+NpB4zVzPccWhcX+FLl0tiv0AZTTGhhL/ZufemuDkNPSvs+xShsB3mpxLlT2+kns2tP4YbuqfUMI+M
+X-Gm-Message-State: AOJu0YzqhNdsg5IDl2Nz6Ia+w0bvjlDUPkDAn85HVKrdQ3vQFGLgjYgM
+ 5jJ+aiEO6k+GtjNei2MNfcT2Xw7TgsUz1TW3tIkms6leJxg2Pll5GGg9kjNCLK0=
+X-Google-Smtp-Source: AGHT+IFLqYhkFTSfEMengeFM9Uixm1e8E4F2WchZdLT/7cV4/a/D9WE0HWBrmfZuNn4yGUJDqaS60w==
+X-Received: by 2002:a05:6512:3ca4:b0:51d:67a0:2433 with SMTP id
+ 2adb3069b0e04-52210074979mr23298869e87.46.1716207166288; 
+ Mon, 20 May 2024 05:12:46 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-521f35ad6c0sm4273682e87.30.2024.05.20.05.12.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 May 2024 05:12:45 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/7] drm/msm/dpu: handle non-default TE source pins
+Date: Mon, 20 May 2024 15:12:42 +0300
+Message-Id: <20240520-dpu-handle-te-signal-v1-0-f273b42a089c@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADo+S2YC/x2MQQqAIBAAvxJ7bkHNIvpKdDDdakFMtCKI/p50H
+ IaZBzIlpgxD9UCiizPvoYCsK7CbCSshu8KghNKilRpdPLEI5wkPwsxrMB571XWNFUrK2UFJY6K
+ F7387Tu/7Ab5JQl9mAAAA
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1857;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=DX93PVbvVm550XJ59hPJYzMq0R5QP/h0qcUJAnqZViU=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ5q3nc2rPoM8cbUfKw6Z8B5c9+LDB33zPGWRzaH3z+7hS
+ Hm2PaS4k9GYhYGRi0FWTJHFp6Blasym5LAPO6bWwwxiZQKZwsDFKQATiXnL/j9yqUNBoLjfdW3N
+ PXxeK15W8Va0J/3cIbd2dfrSRMHSJq+vwpu9Q5ZW9vZcu3TP9uyJH4vK8+fvirBwN1cMYvC7NYl
+ 900H1thDroFkmuRPWrP/lMOdMSLS2yHSPLrZTlaed9zJd5pL2toidc/3VaduWHYURah9NV6Zt+e
+ V/5vGa75OjjLySrN3qOkoLa+/e/C2Vrvkurc7mzmKzNoUL+4+Kb0s83V2oeyCsq8sk6MWGJaZZP
+ Mc+7Lcuj3kVypHT4KHLlf5C6AGzwGJdzTsiBWVC2x57njoR92NDi8210pBrgvkrmZUXljzgXahl
+ yRsk0DxrhrvnO9PwZ+zuhxhSopQrVHr6Xfw6NymX3/wFAA==
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,187 +104,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 May 2024, Animesh Manna <animesh.manna@intel.com> wrote:
-> Link Off Between Active Frames, is a new feature for eDP
-> that allows the panel to go to lower power state after
-> transmission of data. This is a feature on top of ALPM, AS SDP.
-> Add compute config during atomic-check phase.
->
-> v1: RFC version.
-> v2: Add separate flag for auxless-alpm. [Jani]
-> v3:
-> - intel_dp->lobf_supported replaced with crtc_state->has_lobf. [Jouni]
-> - Add DISPLAY_VER() check. [Jouni]
-> - Modify function name of get_aux_less_status. [Jani]
-> v4: Add enum alpm_mode to hold the aux-wake/less capability.
-> v5: Add alpm_dpcd to intel_dp and use aux_wake_supported()/
-> aux_less_wake_supported() instead of enum alpm_mode. [Jouni]
->
-> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_alpm.c     | 61 +++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_alpm.h     |  5 ++
->  .../drm/i915/display/intel_display_types.h    |  5 ++
->  drivers/gpu/drm/i915/display/intel_dp.c       |  4 ++
->  4 files changed, 75 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
-> index 7307e02277d6..c2334197e723 100644
-> --- a/drivers/gpu/drm/i915/display/intel_alpm.c
-> +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
-> @@ -11,6 +11,26 @@
->  #include "intel_dp_aux.h"
->  #include "intel_psr_regs.h"
->  
-> +static bool intel_alpm_aux_wake_supported(struct intel_dp *intel_dp)
-> +{
-> +	return intel_dp->alpm_dpcd & DP_ALPM_CAP;
-> +}
-> +
-> +static bool intel_alpm_aux_less_wake_supported(struct intel_dp *intel_dp)
-> +{
-> +	return intel_dp->alpm_dpcd & DP_ALPM_AUX_LESS_CAP;
-> +}
-> +
-> +void intel_alpm_get_capability(struct intel_dp *intel_dp)
-> +{
-> +	u8 dpcd;
-> +
-> +	if (drm_dp_dpcd_readb(&intel_dp->aux, DP_RECEIVER_ALPM_CAP, &dpcd) < 0)
-> +		return;
-> +
-> +	intel_dp->alpm_dpcd = dpcd;
-> +}
-> +
->  /*
->   * See Bspec: 71632 for the table
->   *
-> @@ -243,6 +263,47 @@ bool intel_alpm_compute_params(struct intel_dp *intel_dp,
->  	return true;
->  }
->  
-> +void intel_alpm_compute_lobf_config(struct intel_dp *intel_dp,
+Command-mode DSI panels need to signal the display controlller when
+vsync happens, so that the device can start sending the next frame. Some
+devices (Google Pixel 3) use a non-default pin, so additional
+configuration is required. Add a way to specify this information in DT
+and handle it in the DSI and DPU drivers.
 
-Please prefer something_something_compute_config() naming instead of
-something_compute_something_config().
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Dmitry Baryshkov (7):
+      dt-bindings: display/msm/dsi: allow specifying TE source
+      drm/msm/dpu: convert vsync source defines to the enum
+      drm/msm/dsi: drop unused GPIOs handling
+      drm/msm/dpu: pull the is_cmd_mode out of _dpu_encoder_update_vsync_source()
+      drm/msm/dpu: rework vsync_source handling
+      drm/msm/dsi: parse vsync source from device tree
+      drm/msm/dpu: support setting the TE source
 
-BR,
-Jani.
+ .../bindings/display/msm/dsi-controller-main.yaml  | 16 ++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 11 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  5 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        | 26 ++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h         |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            | 44 ++++++++++++++++++++
+ drivers/gpu/drm/msm/dsi/dsi.h                      |  1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 | 48 +++++-----------------
+ drivers/gpu/drm/msm/dsi/dsi_manager.c              |  5 +++
+ drivers/gpu/drm/msm/msm_drv.h                      |  6 +++
+ 12 files changed, 106 insertions(+), 62 deletions(-)
+---
+base-commit: 75fa778d74b786a1608d55d655d42b480a6fa8bd
+change-id: 20240514-dpu-handle-te-signal-82663c0211bd
 
-> +				    struct intel_crtc_state *crtc_state,
-> +				    struct drm_connector_state *conn_state)
-> +{
-> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> +	struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
-> +	int waketime_in_lines, first_sdp_position;
-> +	int context_latency, guardband;
-> +
-> +	if (!intel_dp_is_edp(intel_dp))
-> +		return;
-> +
-> +	if (DISPLAY_VER(i915) < 20)
-> +		return;
-> +
-> +	if (!intel_dp_as_sdp_supported(intel_dp))
-> +		return;
-> +
-> +	if (crtc_state->has_psr)
-> +		return;
-> +
-> +	if (!(intel_alpm_aux_wake_supported(intel_dp) ||
-> +	      intel_alpm_aux_less_wake_supported(intel_dp)))
-> +		return;
-> +
-> +	if (!intel_alpm_compute_params(intel_dp, crtc_state))
-> +		return;
-> +
-> +	context_latency = adjusted_mode->crtc_vblank_start - adjusted_mode->crtc_vdisplay;
-> +	guardband = adjusted_mode->crtc_vtotal -
-> +		    adjusted_mode->crtc_vdisplay - context_latency;
-> +	first_sdp_position = adjusted_mode->crtc_vtotal - adjusted_mode->crtc_vsync_start;
-> +	if (intel_alpm_aux_less_wake_supported(intel_dp))
-> +		waketime_in_lines = intel_dp->alpm_parameters.io_wake_lines;
-> +	else
-> +		waketime_in_lines = intel_dp->alpm_parameters.fast_wake_lines;
-> +
-> +	crtc_state->has_lobf = (context_latency + guardband) >
-> +		(first_sdp_position + waketime_in_lines);
-> +}
-> +
->  static void lnl_alpm_configure(struct intel_dp *intel_dp)
->  {
->  	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
-> diff --git a/drivers/gpu/drm/i915/display/intel_alpm.h b/drivers/gpu/drm/i915/display/intel_alpm.h
-> index c45d078e5a6b..45c07f023a63 100644
-> --- a/drivers/gpu/drm/i915/display/intel_alpm.h
-> +++ b/drivers/gpu/drm/i915/display/intel_alpm.h
-> @@ -10,9 +10,14 @@
->  
->  struct intel_dp;
->  struct intel_crtc_state;
-> +struct drm_connector_state;
->  
-> +void intel_alpm_get_capability(struct intel_dp *intel_dp);
->  bool intel_alpm_compute_params(struct intel_dp *intel_dp,
->  			       struct intel_crtc_state *crtc_state);
-> +void intel_alpm_compute_lobf_config(struct intel_dp *intel_dp,
-> +				    struct intel_crtc_state *crtc_state,
-> +				    struct drm_connector_state *conn_state);
->  void intel_alpm_configure(struct intel_dp *intel_dp);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 0ad6134ba94e..d77a9f22b5c6 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1410,6 +1410,9 @@ struct intel_crtc_state {
->  
->  	/* for loading single buffered registers during vblank */
->  	struct drm_vblank_work vblank_work;
-> +
-> +	/* LOBF flag */
-> +	bool has_lobf;
->  };
->  
->  enum intel_pipe_crc_source {
-> @@ -1845,6 +1848,8 @@ struct intel_dp {
->  		u8 silence_period_sym_clocks;
->  		u8 lfps_half_cycle_num_of_syms;
->  	} alpm_parameters;
-> +
-> +	u8 alpm_dpcd;
->  };
->  
->  enum lspcon_vendor {
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index c0a3b6d50681..61ee66ad8bd0 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -48,6 +48,7 @@
->  #include "i915_drv.h"
->  #include "i915_irq.h"
->  #include "i915_reg.h"
-> +#include "intel_alpm.h"
->  #include "intel_atomic.h"
->  #include "intel_audio.h"
->  #include "intel_backlight.h"
-> @@ -3000,6 +3001,7 @@ intel_dp_compute_config(struct intel_encoder *encoder,
->  	intel_vrr_compute_config(pipe_config, conn_state);
->  	intel_dp_compute_as_sdp(intel_dp, pipe_config);
->  	intel_psr_compute_config(intel_dp, pipe_config, conn_state);
-> +	intel_alpm_compute_lobf_config(intel_dp, pipe_config, conn_state);
->  	intel_dp_drrs_compute_config(connector, pipe_config, link_bpp_x16);
->  	intel_dp_compute_vsc_sdp(intel_dp, pipe_config, conn_state);
->  	intel_dp_compute_hdr_metadata_infoframe_sdp(intel_dp, pipe_config, conn_state);
-> @@ -6616,6 +6618,8 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
->  
->  	intel_pps_init_late(intel_dp);
->  
-> +	intel_alpm_get_capability(intel_dp);
-> +
->  	return true;
->  
->  out_vdd_off:
-
+Best regards,
 -- 
-Jani Nikula, Intel
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
