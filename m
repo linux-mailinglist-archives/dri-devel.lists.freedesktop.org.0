@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914388CA13A
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 19:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 496DA8CA141
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 19:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7963E10E690;
-	Mon, 20 May 2024 17:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A5D10E536;
+	Mon, 20 May 2024 17:24:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="K6mB9qZO";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZSfJyjAN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C48EC10E690
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 17:21:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63B7810E3E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 17:24:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1716225696;
+ s=mimecast20190719; t=1716225869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
  bh=Ieml4cQgLdOB6f1Tq+rgmDncA9spVWDVEosV1A4OpmA=;
- b=K6mB9qZOMfBH/2IW4JXa8B3L5GXokZVOvkQfJE3xCIAE6yvKTgOpjNoyCeu9IRasl09r3M
- zCVK2ldGpFZuRwO8VScJ5rB8ybI/w+lX1vFsQCWcP+8LW3f4yfGnWi5cnaFodp0khCqMSv
- 9HqWwbYYC+1O1eEOvjgXsnCH1gEIeM8=
+ b=ZSfJyjANNpNEwnbiu0txkm4VuRZRVk5BcOU4WLrJJNrP1iF2DFG+oAy4y1wg3SUN7IflHa
+ yW7M4ZU1FpeeFZ7ibED0iWkTxWFtVl59UhNqCI57PpWniAfXSHTGEGBY2prbFbTY7iX1rY
+ hvT1ECR9vLkjXvOU5ahA/5P27peE4Yc=
 Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
  [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-665-ytS4i4duNt6qUACPbYwh_g-1; Mon, 20 May 2024 13:21:31 -0400
-X-MC-Unique: ytS4i4duNt6qUACPbYwh_g-1
+ us-mta-479-MkAuPxTON9GTG674C2DSyA-1; Mon, 20 May 2024 13:24:27 -0400
+X-MC-Unique: MkAuPxTON9GTG674C2DSyA-1
 Received: by mail-lj1-f199.google.com with SMTP id
- 38308e7fff4ca-2e41bd70238so107412331fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 10:21:31 -0700 (PDT)
+ 38308e7fff4ca-2e2ec0c8807so85763141fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 10:24:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716225690; x=1716830490;
+ d=1e100.net; s=20230601; t=1716225866; x=1716830666;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
  bh=Ieml4cQgLdOB6f1Tq+rgmDncA9spVWDVEosV1A4OpmA=;
- b=v7NIwfm0Wi8cioH3ljU4sQ/xwsGHvgC/IcijeISGGOT1ISt3cmxs+8Dg5owrI1UFjY
- 2LmMj0jFgmruR0V39gXFqkEMDvIdR4O7gV6/G0OoAr8cvbnmbF2KMRX+COPKPjQgvrrP
- TSuxgynLI1vNp+YvP/MjneT6jfJJu2jvsjhgbJhivSqCYv2477X3wURDw8vtXAM6xfMv
- crpgdAj+1bcOJSmYYuHdWWNHDnzB5+S6g06gQGGNXLGelBqNN+UpHq8uUCh80Rd9hn1D
- bbOjSz94beexqjsNLGZrJNCNQ92r7Kl3XDFjnrXZNZJfc/s2XYNlxEwnKuUbK++DxUCJ
- yShA==
+ b=srRX0ogWGgR4eF7bkZA2z0i0Y2Mu6u235QF+uAO1D8KlZnji0hKakP8/p8iI92OGsz
+ sc2LjfbGaUXyCkvx5nnb15h2WXTiRsfqqDE9yYGPC/jJc1c1+gSbqC5JbY9qMzGaq5b5
+ fZwXuRcIeC9eXNqO10t/KoeTv968VIeaQUwf4MhzKUcz6xjRl9MAW87QeTuagKlBblqG
+ 5U7rWQJ0J5YtCcTHFNpxmHBlViYRkj1odqoseBjqwNbFjfeW9uifXLL+RvMnjuOWylZv
+ 9NY88TQp+josS+bWXBR+9ueuW+GcZvOBO3qd6kWFsDYqLC4xHbUGvu9Y9aW/sd81uSbl
+ 7QRg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXQphjmpYvVEe8YQ25WU3qzA2rDg1uKdPjrUPYjfysE23wOpNxca4BHpnzmaSYvzmjM2+ctwVkEHyeAXzSOQvLxW2gPPPql/DfgV0aTvwWI
-X-Gm-Message-State: AOJu0YwPHzcC2Xjs1tNemqd6Jmm8RVJbXOkLJ45qlk7UQlD9lY9SbfUM
- 5gqId3YTaJrJ1n9vx384KtoOaUFy+78vNJzOeQsRBllefCRhlEZ+FebTPywcBbd/L5YL3STjVsF
- 9/Yh+sLBe9nQzcBJ/pO7O7jHolQfYvbGiFvs8BPI93K99AeNl6KtE9tCzCXgVGHf5ng==
-X-Received: by 2002:a2e:d09:0:b0:2e5:2eaf:b095 with SMTP id
- 38308e7fff4ca-2e52eafb1f7mr191077721fa.39.1716225690430; 
- Mon, 20 May 2024 10:21:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG7q/RlyHXDaQZTvhlrA4Lq5+xbLf2b2bh7WpMR1SX2pe4dg+hi0hk9TL8lOhimdQzmJb/j0w==
-X-Received: by 2002:a2e:d09:0:b0:2e5:2eaf:b095 with SMTP id
- 38308e7fff4ca-2e52eafb1f7mr191077521fa.39.1716225690105; 
- Mon, 20 May 2024 10:21:30 -0700 (PDT)
+ AJvYcCXPNZRRqKEfFZjPIrkpb7QC5H5E6JJV+cCmTEjJ+J6heqe66ul20z/0FfJiVM93YdLmVpW5TvA7NI4WpuxaGlVCzWDfocxpHnV60JfkEWxw
+X-Gm-Message-State: AOJu0YzUuHCw2u6yJayN1/MAnanK60K+IXkGdKjs0qchQI+SBzNq0b/7
+ CrLyez0z5pOYo2HNHzYHYbocEABNAhcxQZWqLlPr9OYIM4gzvBMp3OcMD4+4YCdWo2s/U5LT0cv
+ GOTK9ZhU3h/D8yLbvm7tw+f73xLyjkNvL9c1OdPNId20Ojqluv7dwl1UTG91dGDIS9A==
+X-Received: by 2002:a2e:8654:0:b0:2e5:6add:e863 with SMTP id
+ 38308e7fff4ca-2e714547d3emr54063791fa.53.1716225865736; 
+ Mon, 20 May 2024 10:24:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEMpsCQkOJtvD6AnOHOUhRrq0Egu+U6M7/zg6S8BPHCPo8n8IiM12UdEpbE9vwd95n/xh9GOQ==
+X-Received: by 2002:a2e:8654:0:b0:2e5:6add:e863 with SMTP id
+ 38308e7fff4ca-2e714547d3emr54063441fa.53.1716225865309; 
+ Mon, 20 May 2024 10:24:25 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:ee94:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42013bf1a5dsm326293055e9.30.2024.05.20.10.21.26
+ 5b1f17b1804b1-41f87b2653bsm462686635e9.4.2024.05.20.10.24.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 May 2024 10:21:27 -0700 (PDT)
+ Mon, 20 May 2024 10:24:24 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, ojeda@kernel.org,
@@ -74,8 +74,8 @@ To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
 Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>
 Subject: [RFC PATCH 4/8] rust: drm: implement `AsRef` for DRM device
-Date: Mon, 20 May 2024 19:20:51 +0200
-Message-ID: <20240520172059.181256-5-dakr@redhat.com>
+Date: Mon, 20 May 2024 19:24:16 +0200
+Message-ID: <20240520172422.181763-1-dakr@redhat.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240520172059.181256-1-dakr@redhat.com>
 References: <20240520172059.181256-1-dakr@redhat.com>
