@@ -2,92 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE618C9CF3
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:13:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9B28C9D17
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82A9810E616;
-	Mon, 20 May 2024 12:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2D610E2AE;
+	Mon, 20 May 2024 12:23:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ci4e7uLi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ESZzYUld";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E367110E2AE
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 12:12:53 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5238b5c07efso3093577e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 05:12:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716207172; x=1716811972; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ULxxOqfo9Pk/FYLX1o7pjkmz9b8tvWaEdfCGOVJ/5lk=;
- b=ci4e7uLizpBb4w3JjMVYwFwFYNTv3uO1tF2AgnpGYuQWFjntccwF9B/T9W86hE0uxP
- 0MSwrzPwIy4UA+jdPkNbqLQX0buryA26nBylgaSzZK0Bat8FCISWokoNjVCfW9cN+ZUd
- oJAtMPYenJ6mzR8l+p9lRBjWaKRidPhgoKMg72KYBp8AG60ziNtRfZVTepeQJ+fI3h+e
- ceYUBsAXxAUmB0MMWDxwTIWNSkb3XC/4qQYKu9JmARvYmCA1IkBAwYLWBXx5yYRYOV0H
- gEQUnElsReSfK2Sy6FJgSn8TbX0O5c+EBCma1UuynCAJWiU/ueVV4uLWfKwJm//9WfV+
- zLOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716207172; x=1716811972;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ULxxOqfo9Pk/FYLX1o7pjkmz9b8tvWaEdfCGOVJ/5lk=;
- b=NVpz+aZla0DCSJaBfXRBeQcod6c/8kFlB3ya9vNBnYgaDSLa+P/6sWvqFNIrh0gnpa
- 2Xf1mhuchVhfWSfap+QAk4h9U3t69HRCVWWTThEJZxD8XTF1h6Ocyr2Ny3tPYw9du+Wu
- lXBX1K/cRPXWEjT97gB9CMgQ7Nr1A3Hp1ulMqQx4fBsZcd2VWLjP9/y3NEbzizXy61wV
- MVW532dvZKgBLzxUHdd/emjODTt8bav3cjK9v0d7aV4jZlOHoCPBMVHgosIiE9ICtFvS
- FSA67aLuxEyzjs/eCHAgUPTOTgyNRYsTcPvzD4SnDY+zWfMm3JnNrflZrrAay0lx7spv
- dToA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWeFMFjEis5jOrEc7a8XrzadNHqKinTDBoQTfz6jK19Ds4XJ4W4f0JJnyorkqOV8ctk4Z6jyPsno2++NJvAYONTwoKvg/1CeUmViY0F+ZZA
-X-Gm-Message-State: AOJu0YxhNBsx2Jf4+1LtQsxyWkQbyiE2wzgreGGjGPDfSEGJBpUtPGln
- 4V2KTypLS2OfLnjZZYcIlLOT9p+xQi7Af+y0Pw53/WM95N/a7uah7GFfQjFqwsA=
-X-Google-Smtp-Source: AGHT+IEDFC64P7lE2vW5UORuevJHqYD3lJ0Q6Zft1XJ6vcIYM0CJ08aXQGuk8wnlRo9yyagOOlQICw==
-X-Received: by 2002:a05:6512:131d:b0:523:6354:881e with SMTP id
- 2adb3069b0e04-523635488aemr15069284e87.39.1716207172166; 
- Mon, 20 May 2024 05:12:52 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f35ad6c0sm4273682e87.30.2024.05.20.05.12.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 May 2024 05:12:51 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 20 May 2024 15:12:49 +0300
-Subject: [PATCH 7/7] drm/msm/dpu: support setting the TE source
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F14510E238
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 12:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716207781; x=1747743781;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=FIHPzrYBeBwApuNIfaSlsYWDNvGy7ZbVQrqLmZ/82pg=;
+ b=ESZzYUldxLB3sNapFojSLiB66WseEOXPKtt7F3n0kf9a8S1KFOcNTV0x
+ NdpUbGszxJjKubNDSRFWZ9MRwg32v7AUOQ45zPEwE7MiN5PM2X3of5Ddl
+ VEFaeivgQYO5dpIW4rbsejvCmDNbuDLKCv7fPXWEGs74Ue7vllL1IS9Gf
+ GjmUBJM0xhjqwb8vv65u/DInPLlwKSXJ9o6IryK7UTyBR8A5X6yT3gO57
+ FDbtUUO+ZunUt0Z7Oyk9ihMxlKrlmAKQZK+j8Q1yzo1/aqizuE7jpnp40
+ TltcwxVXc2+fQqkAc4sXCAw6rzeCw+/v4I/jM7/6C8bTgUXIESwEmGTVU A==;
+X-CSE-ConnectionGUID: EGTDy9EUT0GLGn18fmS6cA==
+X-CSE-MsgGUID: SefXA20JQFGWFe10qWk6sw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="16121085"
+X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; d="scan'208";a="16121085"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2024 05:22:57 -0700
+X-CSE-ConnectionGUID: BwU7Y7GMQkeBw3e/17TV/w==
+X-CSE-MsgGUID: BjQEzPg3QwSQCXAimCM+iQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; d="scan'208";a="32652526"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2024 05:22:51 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1s922R-00000009J9i-2ohd; Mon, 20 May 2024 15:22:47 +0300
+Date: Mon, 20 May 2024 15:22:47 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: Daniel Latypov <dlatypov@google.com>, mchehab@kernel.org,
+ hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
+ sebastian.fricke@collabora.com, akpm@linux-foundation.org,
+ gregkh@linuxfoundation.org, adobriyan@gmail.com,
+ jani.nikula@intel.com, p.zabel@pengutronix.de, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+ vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+ detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+ andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com
+Subject: Re: [PATCH v8 07/10] lib: add basic KUnit test for lib/math
+Message-ID: <ZktAlza1zEke1eCx@smile.fi.intel.com>
+References: <20240517171532.748684-1-devarsht@ti.com>
+ <20240517173607.800549-1-devarsht@ti.com>
+ <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
+ <7b8cd37b-5b16-2d99-ab62-5d6876e6571c@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240520-dpu-handle-te-signal-v1-7-f273b42a089c@linaro.org>
-References: <20240520-dpu-handle-te-signal-v1-0-f273b42a089c@linaro.org>
-In-Reply-To: <20240520-dpu-handle-te-signal-v1-0-f273b42a089c@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2472;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=7toqt7l/FlYTMysY7uvgS2eGA3+iqhKd5LCxscTShxo=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmSz49WIb9pbWI8TEiPIPXPOC3FSWNeWUL14WsI
- Cl+eS3sn9OJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZks+PQAKCRCLPIo+Aiko
- 1RnvB/9kbIvgXcAMipTZjqDLOnWLatyxEZ8kKnjX/HWgL2JAGdYCEGDObvhFcTO41hlHIOKoe9N
- 9xxZ1mkjyG9+P4JGTWNY1JGLzwZLtB/N7TNfWj6I8Waqk+fJPORv1NZCAQ1hbBhSrW8q7s+0PWZ
- 6WSW0+aGHoeCqTuDPPbRr+01mtXipqi38tfbtpwDc2nIArQJc1A4vaV+NM40dJkEQXdd7cA6Fo1
- aMsqoc3Cp/Ty8gAZ87mVwenhKHZmWo1lmzBKKqdrXQf5QcyC8VHJ2Dr3dy5d/VnsUuhVL7SgCzz
- L6eKGZWd/c8XhHZRsQj7dilyZX8mx8vkB4t1LEt69lbdDoV0
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7b8cd37b-5b16-2d99-ab62-5d6876e6571c@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,77 +84,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make the DPU driver use the TE source specified in the DT. If none is
-specified, the driver defaults to the first GPIO (mdp_vsync0).
+On Mon, May 20, 2024 at 05:11:18PM +0530, Devarsh Thakkar wrote:
+> On 18/05/24 01:44, Andy Shevchenko wrote:
+> > On Fri, May 17, 2024 at 11:06:07PM +0530, Devarsh Thakkar wrote:
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 44 ++++++++++++++++++++++++++++++++-
- 1 file changed, 43 insertions(+), 1 deletion(-)
+[..]
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index e9991f3756d4..932d0bb41d7e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -505,6 +505,44 @@ static void dpu_kms_wait_flush(struct msm_kms *kms, unsigned crtc_mask)
- 		dpu_kms_wait_for_commit_done(kms, crtc);
- }
- 
-+static const char *dpu_vsync_sources[] = {
-+	[DPU_VSYNC_SOURCE_GPIO_0] = "mdp_gpio0",
-+	[DPU_VSYNC_SOURCE_GPIO_1] = "mdp_gpio1",
-+	[DPU_VSYNC_SOURCE_GPIO_2] = "mdp_gpio2",
-+	[DPU_VSYNC_SOURCE_INTF_0] = "mdp_intf0",
-+	[DPU_VSYNC_SOURCE_INTF_1] = "mdp_intf1",
-+	[DPU_VSYNC_SOURCE_INTF_2] = "mdp_intf2",
-+	[DPU_VSYNC_SOURCE_INTF_3] = "mdp_intf3",
-+	[DPU_VSYNC_SOURCE_WD_TIMER_0] = "timer0",
-+	[DPU_VSYNC_SOURCE_WD_TIMER_1] = "timer1",
-+	[DPU_VSYNC_SOURCE_WD_TIMER_2] = "timer2",
-+	[DPU_VSYNC_SOURCE_WD_TIMER_3] = "timer3",
-+	[DPU_VSYNC_SOURCE_WD_TIMER_4] = "timer4",
-+};
-+
-+static int dpu_kms_dsi_set_te_source(struct msm_display_info *info,
-+				     struct msm_dsi *dsi)
-+{
-+	const char *te_source = msm_dsi_get_te_source(dsi);
-+	int i;
-+
-+	if (!te_source) {
-+		info->vsync_source = DPU_VSYNC_SOURCE_GPIO_0;
-+		return 0;
-+	}
-+
-+	/* we can not use match_string since dpu_vsync_sources is a sparse array */
-+	for (i = 0; i < ARRAY_SIZE(dpu_vsync_sources); i++) {
-+		if (dpu_vsync_sources[i] &&
-+		    !strcmp(dpu_vsync_sources[i], te_source)) {
-+			info->vsync_source = i;
-+			return 0;
-+		}
-+	}
-+
-+	return -EINVAL;
-+}
-+
- static int _dpu_kms_initialize_dsi(struct drm_device *dev,
- 				    struct msm_drm_private *priv,
- 				    struct dpu_kms *dpu_kms)
-@@ -543,7 +581,11 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
- 
- 		info.is_cmd_mode = msm_dsi_is_cmd_mode(priv->dsi[i]);
- 
--		info.vsync_source = DPU_VSYNC_SOURCE_GPIO_0;
-+		rc = dpu_kms_dsi_set_te_source(&info, priv->dsi[i]);
-+		if (rc) {
-+			DPU_ERROR("failed to identify TE source for dsi display\n");
-+			return rc;
-+		}
- 
- 		encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_DSI, &info);
- 		if (IS_ERR(encoder)) {
+> >> +#include <kunit/test.h>
+> >> +#include <linux/gcd.h>
+> > 
+> >> +#include <linux/kernel.h>
+> > 
+> > Do you know why this header is included?
+> 
+> It includes all the other required headers (including those you mentioned
+> below), and header list is probably copied from other files in same directory.
+> But it does suffice the requirements as I have verified the compilation.
+
+Yes, and one should follow IWYU principle and not cargo cult or whatever
+arbitrary lists.
+
+> >> +#include <linux/lcm.h>
+> > 
+> > + math.h // obviously
+> > + module.h
+> > 
+> >> +#include <linux/reciprocal_div.h>
+> > 
+> > + types.h
+> 
+> All the above headers are already included as part of kernel.h
+
+Yes, that's why you should not use "proxy" headers.
+Have you read the top comment in the kernel.h?
 
 -- 
-2.39.2
+With Best Regards,
+Andy Shevchenko
+
 
