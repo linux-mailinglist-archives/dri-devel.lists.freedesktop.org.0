@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84878C99E8
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 10:40:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883E58C99F1
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 10:49:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE35A10E0D1;
-	Mon, 20 May 2024 08:40:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A9610E0C1;
+	Mon, 20 May 2024 08:49:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z2dVLog1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a5f+0oqG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED9910E0D1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 08:40:48 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3986510E0C1;
+ Mon, 20 May 2024 08:49:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716194448; x=1747730448;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version:content-transfer-encoding;
- bh=ib4up5biJ9yf4E2dMluX5ULhfpfioZatI8DjMHoloqg=;
- b=Z2dVLog1HLB8R/E/p9fxPDYrZBwJ+ajnpaIkLdtIDz7gJyzce2pPz5et
- Geoo378dvfMp1TlZL5GIqjVMLL1l2DTeUcppUgdRKvS74/r64QuL38PtC
- vc90W322SLE56eAlYXqLsO3tOA7ju4t60mzxK5ENOzsL2ZZPvPabkObUM
- 2++6r9qWZ1OVn+9Wt/UF+snKtT3g+rqQqaxEN32gDMc0YV42YIGv0a6Ah
- VDiXpprqhxhn3RBYCVnkYxgYNnX4X7T/KOJyHlRZHm7kVcESBlgfdoa+1
- glm5l8wvgNFVZtDZdYitLRkamTszDMsE8XilzJwpbe9RxADhIpYHjBvaR w==;
-X-CSE-ConnectionGUID: QQ0xArOyRdypnnscQaihSA==
-X-CSE-MsgGUID: 18TIyqvnSfils3Uj+3aJWg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="12158088"
-X-IronPort-AV: E=Sophos;i="6.08,174,1712646000"; d="scan'208";a="12158088"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2024 01:40:47 -0700
-X-CSE-ConnectionGUID: RXJ//5FNQUi4RJZ18kcG3g==
-X-CSE-MsgGUID: 6jXx3veLQxOyNFreuVrnkg==
+ t=1716194946; x=1747730946;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=VeCkoFL8Vx/YZSEbvNVZZlATFTbysr5tLY6dJRKYuaY=;
+ b=a5f+0oqGjJSCjgIm/EWjPYIk/irWnnl1BMRwCyYZP/Q7GA6yH9v0OSe6
+ 6eFPZmxgUTvoc2GMVLuw2mfauQaMwCXq9Hw/0yu8+M9J4KuoxI8jYqIeY
+ mp+PACzF2t5FPBnG0abpnqXUXHZv/6P9CNaArSkbTCGUo/IUnzsixo+OU
+ mGfK5MePbKevHZicgclEQsIyBaXcZ+3eYVKPz/KU87NL7PgF9XMp1moXe
+ cINsWbzOmXeUAAuTRu5EMIHFfwYGMETm4WyEJMbNfil8EmdNVSVsANC/E
+ Kmlkd/lnVxCIkTcKoO57ft6f+FGtM5ocWMNPHqlUVR13TqebHWOBnfoRO w==;
+X-CSE-ConnectionGUID: g+2Xxy0lShGrZBDlNMXJyA==
+X-CSE-MsgGUID: NFln2QEWTuS72Y26+Tma+g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11077"; a="12108628"
+X-IronPort-AV: E=Sophos;i="6.08,174,1712646000"; d="scan'208";a="12108628"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2024 01:49:05 -0700
+X-CSE-ConnectionGUID: RxIT3kDjSTW+7xbBdT/xyw==
+X-CSE-MsgGUID: zj6sEMBLQd6EffDNd+eV+w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,174,1712646000"; d="scan'208";a="36873752"
+X-IronPort-AV: E=Sophos;i="6.08,174,1712646000"; d="scan'208";a="63688284"
 Received: from unknown (HELO localhost) ([10.245.246.99])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2024 01:40:45 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sefa Eyeoglu <contact@scrumplex.net>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/edid: add non-desktop quirk to Bigscreen Beyond HMD
-In-Reply-To: <0d800997f7dab23514160ed6a61e8778b7bee57e.camel@scrumplex.net>
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2024 01:49:03 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Subject: Re: [PATCH v2 1/3] drm/print: Add generic drm dev printk function
+In-Reply-To: <20240517163406.2348-2-michal.wajdeczko@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240517105555.654262-1-contact@scrumplex.net>
- <20240517141049.896023-3-contact@scrumplex.net>
- <2d9d1985284b0255e7366ded97124b3590261a6e.camel@pengutronix.de>
- <0d800997f7dab23514160ed6a61e8778b7bee57e.camel@scrumplex.net>
-Date: Mon, 20 May 2024 11:40:42 +0300
-Message-ID: <87h6esvpth.fsf@intel.com>
+References: <20240517163406.2348-1-michal.wajdeczko@intel.com>
+ <20240517163406.2348-2-michal.wajdeczko@intel.com>
+Date: Mon, 20 May 2024 11:48:59 +0300
+Message-ID: <87ed9wvpfo.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,55 +69,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 May 2024, Sefa Eyeoglu <contact@scrumplex.net> wrote:
-> On Fri, 2024-05-17 at 16:52 +0200, Philipp Zabel wrote:
->> On Fr, 2024-05-17 at 16:09 +0200, Sefa Eyeoglu wrote:
->> > The Bigscreen Beyond VR headset is a non-desktop output and should
->> > be
->> > marked as such using an EDID quirk.
->> >=20
->> > Closes https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/39
->>=20
->> From the EDID posted there, it looks like the quirk should not be
->> necessary?
->>=20
->> The quoted DisplayID extension block correctly marks this as an HMD:
->>=20
->> =C2=A0 "Display Product Primary Use Case: Head-mounted Virtual Reality
->> (VR) display"
->>=20
->> The update_displayid_info() function in drm_edid.c should use this
->> information to set the non_desktop flag already. Doesn't this work as
->> expected?
->>=20
->>=20
->> regards
->> Philipp
+On Fri, 17 May 2024, Michal Wajdeczko <michal.wajdeczko@intel.com> wrote:
+> We already have some drm printk functions that need to duplicate
+> a code to get a similar format of the final result, for example:
 >
-> I see.
+>   [ ] 0000:00:00.0: [drm:foo] bar
+>   [ ] 0000:00:00.0: [drm] foo bar
+>   [ ] 0000:00:00.0: [drm] *ERROR* foo
 >
-> The only potential reason I can come up with is that the DisplayID
-> block is incomplete.
+> Add a generic __drm_dev_vprintk() function that can format the
+> final message like all other existing function do and allows us
+> to keep the formatting code in one place.
 >
-> $ edid-decode --check
-> Failures:
->
-> Block 0, Base EDID:
->   Standard Timings: Missing preferred timing.
-> EDID:
->   DisplayID: Missing DisplayID Product Identification Data Block.
->   DisplayID: Missing DisplayID Display Parameters Data Block.
->   DisplayID: Missing DisplayID Display Interface Features Data Block.
->
-> EDID conformity: FAIL
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-I've commented on the bug, but I don't think these should matter. We
-should be able to deduce the primary use from the DisplayID header.
-
-BR,
-Jani.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
 
+> ---
+> v2: make it static, keep it simple and use braces (Jani)
+> ---
+>  drivers/gpu/drm/drm_print.c | 52 +++++++++++++++++++++----------------
+>  1 file changed, 30 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index cf2efb44722c..41892491a12c 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -176,6 +176,32 @@ void __drm_printfn_seq_file(struct drm_printer *p, struct va_format *vaf)
+>  }
+>  EXPORT_SYMBOL(__drm_printfn_seq_file);
+>  
+> +static void __drm_dev_vprintk(const struct device *dev, const char *level,
+> +			      const void *origin, const char *prefix,
+> +			      struct va_format *vaf)
+> +{
+> +	const char *prefix_pad = prefix ? " " : "";
+> +
+> +	if (!prefix)
+> +		prefix = "";
+> +
+> +	if (dev) {
+> +		if (origin)
+> +			dev_printk(level, dev, "[" DRM_NAME ":%ps]%s%s %pV",
+> +				   origin, prefix_pad, prefix, vaf);
+> +		else
+> +			dev_printk(level, dev, "[" DRM_NAME "]%s%s %pV",
+> +				   prefix_pad, prefix, vaf);
+> +	} else {
+> +		if (origin)
+> +			printk("%s" "[" DRM_NAME ":%ps]%s%s %pV",
+> +			       level, origin, prefix_pad, prefix, vaf);
+> +		else
+> +			printk("%s" "[" DRM_NAME "]%s%s %pV",
+> +			       level, prefix_pad, prefix, vaf);
+> +	}
+> +}
+> +
+>  void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf)
+>  {
+>  	dev_info(p->arg, "[" DRM_NAME "] %pV", vaf);
+> @@ -187,19 +213,12 @@ void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf)
+>  	const struct drm_device *drm = p->arg;
+>  	const struct device *dev = drm ? drm->dev : NULL;
+>  	enum drm_debug_category category = p->category;
+> -	const char *prefix = p->prefix ?: "";
+> -	const char *prefix_pad = p->prefix ? " " : "";
+>  
+>  	if (!__drm_debug_enabled(category))
+>  		return;
+>  
+>  	/* Note: __builtin_return_address(0) is useless here. */
+> -	if (dev)
+> -		dev_printk(KERN_DEBUG, dev, "[" DRM_NAME "]%s%s %pV",
+> -			   prefix_pad, prefix, vaf);
+> -	else
+> -		printk(KERN_DEBUG "[" DRM_NAME "]%s%s %pV",
+> -		       prefix_pad, prefix, vaf);
+> +	__drm_dev_vprintk(dev, KERN_DEBUG, NULL, p->prefix, vaf);
+>  }
+>  EXPORT_SYMBOL(__drm_printfn_dbg);
+>  
+> @@ -287,12 +306,7 @@ void drm_dev_printk(const struct device *dev, const char *level,
+>  	vaf.fmt = format;
+>  	vaf.va = &args;
+>  
+> -	if (dev)
+> -		dev_printk(level, dev, "[" DRM_NAME ":%ps] %pV",
+> -			   __builtin_return_address(0), &vaf);
+> -	else
+> -		printk("%s" "[" DRM_NAME ":%ps] %pV",
+> -		       level, __builtin_return_address(0), &vaf);
+> +	__drm_dev_vprintk(dev, level, __builtin_return_address(0), NULL, &vaf);
+>  
+>  	va_end(args);
+>  }
+> @@ -312,12 +326,7 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
+>  	vaf.fmt = format;
+>  	vaf.va = &args;
+>  
+> -	if (dev)
+> -		dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
+> -			   __builtin_return_address(0), &vaf);
+> -	else
+> -		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+> -		       __builtin_return_address(0), &vaf);
+> +	__drm_dev_vprintk(dev, KERN_DEBUG, __builtin_return_address(0), NULL, &vaf);
+>  
+>  	va_end(args);
+>  }
+> @@ -351,8 +360,7 @@ void __drm_err(const char *format, ...)
+>  	vaf.fmt = format;
+>  	vaf.va = &args;
+>  
+> -	printk(KERN_ERR "[" DRM_NAME ":%ps] *ERROR* %pV",
+> -	       __builtin_return_address(0), &vaf);
+> +	__drm_dev_vprintk(NULL, KERN_ERR, __builtin_return_address(0), "*ERROR*", &vaf);
+>  
+>  	va_end(args);
+>  }
 
---=20
+-- 
 Jani Nikula, Intel
