@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40DB78C9F52
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 17:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855788C9F63
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 17:12:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14DEA10E782;
-	Mon, 20 May 2024 15:07:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8584710E0D4;
+	Mon, 20 May 2024 15:12:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bsq4SDPC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nX8JwXgd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 354DF10E77F;
- Mon, 20 May 2024 15:07:50 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-1ec4dc64c6cso72844535ad.0; 
- Mon, 20 May 2024 08:07:50 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51EA610E0D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 15:12:16 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-1edc696df2bso10979165ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 08:12:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716217669; x=1716822469; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1716217936; x=1716822736; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IhwVQj77q9WsVa/PNIbqf67vLZaFOrT0DXfZ5Ha2VXE=;
- b=bsq4SDPCUpE8TmIx0RqMfexF/upHCKS411B5nGAppZGZThA2fKa8MjYRIH6s6wMcVs
- OUqgixcWCpX3j9CgwAohHtDxeRP89AFZ1rw8TI0gZ7T7X8mC8RY0m53Hmx6OfHlzv+Jz
- PCWuO/+hPt9s05Bd36PyMr7uPXmBLg0zgaw4W2HBinQcSyy8H+jUnbsZe2dkUfoy3TXj
- p09RvPF1SWAeFj5ZuvFYQhhGosplE8Du67EwZ8FMY5Z1gKpDU5HfNq1Niy+0ld8catBS
- UzcypeF8yXHEyfZdLLh+ZhLu74rlvd/cutL+Cabk9QzYLuBfA4pnqtVe9f4tO77ezMGC
- eLrw==
+ bh=Wz2DF7y1Qr5mH4wb4c2w0AUoZg9A/thbi3cZqGi2HnM=;
+ b=nX8JwXgdweDthDj0iPieLDoZJitt5KGs+1TRh/pSqIzyONpZ0Lr6CrhFE3SGULCLp8
+ ORTuHIl7dAigOyWtl6zJljs+WaltWdcbm2eNEtPfkLRQTEWSpWrS8kUHC05eFd7TSXMm
+ c9PceyfaLWqITyibSw+q3Fu84UvEwFEpJ9R0CEgFuEkwxMTvdmQSnrGD4RklYkRRHLam
+ FJ/DGSG4DGUZpYUXDehj54yejvQtj7Jc/imIBaoWp10iUvWXgsNayOjnzw9ZZix6c0ld
+ yHt0RAycaR35hc7D7wR4uXjCcUcwjvjihpJnJGznuz8zL0PyxsFZpAvcBnYionTfH7sb
+ KnWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716217669; x=1716822469;
+ d=1e100.net; s=20230601; t=1716217936; x=1716822736;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IhwVQj77q9WsVa/PNIbqf67vLZaFOrT0DXfZ5Ha2VXE=;
- b=OsuF0CHS3jmsyuOAFy9rBfzv992ZSbvflqFxixl5IspmaP72yzvLJVA1AUKi8A8qwl
- wzMOxidaH0b3MebLI2GCkd7bAieEZvJtn/04Eu1xeiJKLiC+6s7X9W8aTE60pn9DUX3r
- UwktvYeg1e37O3YyFr6io35Tfa9DItuTLLTvbNsO5+I7ihiaGQmLPOt1vK+oGIlSOy0s
- WFGlsKCL/e6sxbE6mf64RZeka1dLNOA/KSonEwwURzOVAqKR38W3wRBra/LX/ITCD9g3
- 3bN9AYKq9fb7a1WgzA07fG873k6nqykt8yq5D7u21IBNLtRdUrD/KoGyI7d+7VCiLRxP
- RZ/w==
+ bh=Wz2DF7y1Qr5mH4wb4c2w0AUoZg9A/thbi3cZqGi2HnM=;
+ b=C46YjAQqudGf7tx+SeZQsCtdidmVapwhk+sk7emCh/hXjDLNLBPEf94Rgjf5ZDMsWy
+ OzoZqTBqBLMkNXLEz88r3fTQ4Dg1rVOqQ+JgH0+FAyRcHG5/kSdEKXWed10s7CwNkA7d
+ wgypPw1dA1AkEuxv1dgJZH4NqdAA1fAWG6l3SuDLS6twoMHhZOJSiMN67WNu1GUD7IRK
+ gLY8vGszDp3aodj5Nupr+Qix8qYEP096cr1JSy9VygVl9kcc3JINqfLvqFv6F8aHM/Jd
+ D0wvbm0tP2+dDBPmhw+ZfYWzHcG7vlZ7oSYb6RSUJrUX6GavezC4lJtrJfRvI9ltF9Cs
+ GIlQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXPZFnu+3gOt6TLYW2sdq1yhm0N/6NxX8A/dogbT8m5GoWX7ZHVMbGwvsehW0cXIl3E/6nIY5n4TPyqnYxRIFru8viEjFiO4KGAql2eavN8X47n/FRYCWSxMUYkSAljCUU8GMnkGlOcp8ObEllYmQ==
-X-Gm-Message-State: AOJu0YxaMECFQ7Sc3/pyErtyt2tW53y+pyswdBm+2sro2UBNzH/B0o90
- RpJ3PV5ogbiSxISr6BVMEIkF0jPUxzy9Z7LIgci4crC5ZxANbaFFHPIFWg10oHi/C4ic5GvoUeo
- QUih/WdsscGMSKHtVFESLlsiNPl0=
-X-Google-Smtp-Source: AGHT+IFPFW/F5D24m94Tz0YHdPMZG54zKWfl02ijEGW9135nYPbQuliZTHA0+CJ4LJGqGqLCQ22PggF4KPszeIb267g=
-X-Received: by 2002:a17:90a:e389:b0:2af:2be3:89c5 with SMTP id
- 98e67ed59e1d1-2b6cc76d2bamr26474648a91.29.1716217669551; Mon, 20 May 2024
- 08:07:49 -0700 (PDT)
+ AJvYcCUddyo2Auy7bKe+LbW9nJB4OGJJxQTqKYA2MEZe+6gg8HFbnqgZMfM08mQqNMwV3ppX+lNFfSlHey8c4lJcVUyRdhik3duSnCCuglUDRRV7
+X-Gm-Message-State: AOJu0Yzv3xQq+XyawBQuOdHgek2u0kymFFqrbZxpj0sevcIl/SugN0j7
+ QtmMuC+7Xbn68UwNneAi+0CDaMrY1c1vESFCm9Tc/ZlOWmm/M8obXFS+q5Wq2fnObHHJa4qAC9K
+ g+6IZNeyLhFiggNwoBGYTYmlRcdU=
+X-Google-Smtp-Source: AGHT+IEVcRvxcDC68E699ppW3ZebEFtvfHkfkJZmo7cCBgvWqWCG855W+ec0A4hUDM8jqcLX3i9PK8jreumPYZwOBjA=
+X-Received: by 2002:a17:90a:cf0e:b0:2ae:cffa:9b2c with SMTP id
+ 98e67ed59e1d1-2b6ccd8e06dmr25209675a91.44.1716217935699; Mon, 20 May 2024
+ 08:12:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240517082637.69928-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20240517082637.69928-1-yang.lee@linux.alibaba.com>
+References: <20240517233548.231120-1-linux@treblig.org>
+ <20240517233548.231120-4-linux@treblig.org>
+In-Reply-To: <20240517233548.231120-4-linux@treblig.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 20 May 2024 11:07:37 -0400
-Message-ID: <CADnq5_MTOUOdesLtSY_8X5kHVmGvXxSCY3Lh54RwGutysj=p1g@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amd/display: Update optc35_set_odm_combine doc
- to match kernel-doc spec
-To: Yang Li <yang.lee@linux.alibaba.com>
-Cc: alexander.deucher@amd.com, airlied@gmail.com, daniel@ffwll.ch, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+Date: Mon, 20 May 2024 11:12:04 -0400
+Message-ID: <CADnq5_OwD0=y2UKJ3Ajp54_dGzs-LCwLe1wtcqE19r5qpLzrCA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/amd/display: remove unused struct
+ 'dc_reg_sequence'
+To: linux@treblig.org
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -81,40 +82,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 17, 2024 at 4:42=E2=80=AFAM Yang Li <yang.lee@linux.alibaba.com=
-> wrote:
->
-> This patch updates the function documentation comment for
-> optc35_set_odm_combine to conform to the kernel-doc specification.
->
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-
-Thanks for the patch.  Srini already fixed this last week.
+Applied the series.  Thanks!
 
 Alex
 
-> ---
->  drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+On Fri, May 17, 2024 at 8:12=E2=80=AFPM <linux@treblig.org> wrote:
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c b/dri=
-vers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
-> index 7c9faa507ec2..1f8516e5ce68 100644
-> --- a/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/optc/dcn35/dcn35_optc.c
-> @@ -50,7 +50,9 @@
->   * @optc: Output Pipe Timing Combine instance reference.
->   * @opp_id: Output Plane Processor instance ID.
->   * @opp_cnt: Output Plane Processor count.
-> - * @timing: Timing parameters used to configure DCN blocks.
-> + * @segment_width: Width in pixels of each segment in a horizontal direc=
-tion.
-> + * @last_segment_width: Width in pixels of the last segment if it differ=
-s from
-> + *                     other segments.
->   *
->   * Return: void.
->   */
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>
+> 'dc_reg_sequence' was added in
+> commit 44788bbc309b ("drm/amd/display: refactor reg_update")
+>
+> but isn't actually used.
+>
+> Remove it.
+>
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dc_helper.c | 5 -----
+>  1 file changed, 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dc_helper.c b/drivers/gpu/drm=
+/amd/display/dc/dc_helper.c
+> index 8f9a67825615..b81419c95222 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dc_helper.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dc_helper.c
+> @@ -91,11 +91,6 @@ struct dc_reg_value_masks {
+>         uint32_t mask;
+>  };
+>
+> -struct dc_reg_sequence {
+> -       uint32_t addr;
+> -       struct dc_reg_value_masks value_masks;
+> -};
+> -
+>  static inline void set_reg_field_value_masks(
+>         struct dc_reg_value_masks *field_value_mask,
+>         uint32_t value,
 > --
-> 2.20.1.7.g153144c
+> 2.45.1
 >
