@@ -2,67 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DF18C9908
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 08:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434B88C9969
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 09:39:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14CC910E0B8;
-	Mon, 20 May 2024 06:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4C110E19D;
+	Mon, 20 May 2024 07:39:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="oXKhlD2T";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="SyIZ43pI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E713910E0B8
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 06:53:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=eUy2/8y84vz5smLa+9O8KjGZa8QisMDqGetd1j7XITc=;
- b=oXKhlD2TRaFUGIincIX0pXmYkpIAySNunRVC4+x1tDLebCs3Tg+1UrJ6
- 6T3Fh3lWHpEJUEKi4tvyaARfZYgBBMvrwshXTCQ6X/uBgp2mHfPKZ3A1J
- Sqg12jEvI0C/g+eHja1cFN90eV5JC7fk98jVeZ+geTrpm2KjvD7a57cB4
- 6wJ34z/djF6xKzPjRINe3Gea7kF6jeGSgvo6sEqlT/W03Hlk0/J1OQ8tm
- 0s1ansuXcic5LuQxBjtZGutJINjV18a9cyLLa3+Xt+V1xPpokcti8a0Dy
- kFgn36MYpqPKyLrgfBdnDTziFH0LWp6fZOjhJy1eR+Tq3buCbvuhA8gOY g==;
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 20 May 2024 14:53:36 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 44K6rU4n010202;
- Mon, 20 May 2024 14:53:30 +0800 (GMT-8)
- (envelope-from kuro.chung@ite.com.tw)
-Received: from ite-XPS-13-9360.internal.ite.com.tw (192.168.72.42) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 20 May 2024 14:53:30 +0800
-From: kuro <kuro.chung@ite.com.tw>
-To: Pin-yen Lin <treapking@chromium.org>, Kenneth Haung
- <kenneth.hung@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, AngeloGioacchino Del
- Regno <angelogioacchino.delregno@collabora.com>, Allen Chen
- <allen.chen@ite.com.tw>, Hermes Wu <hermes.wu@ite.com.tw>, "open list:DRM
- DRIVERS" <dri-devel@lists.freedesktop.org>, open list
- <linux-kernel@vger.kernel.org>
-CC: Kuro Chung <kuro.chung@ite.com.tw>
-Subject: [PATCH v11] drm/bridge: it6505: fix hibernate to resume no display
- issue
-Date: Mon, 20 May 2024 15:04:09 +0800
-Message-ID: <20240520070409.1044236-1-kuro.chung@ite.com.tw>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF0F310E124
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 07:39:30 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-61bee45d035so21892537b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 00:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1716190770;
+ x=1716795570; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ow9jbuVKIW09zvKzQpjf809fGluRD4ku6Wkb2RBqfMs=;
+ b=SyIZ43pIwkFqdD0mAqdZKCRpwzZB6DGHdkAcPBegRT9eIM2zjtu0iHTCjdSuGc5vkT
+ 0oD9Hw8SLPMHKhg1l9GGkuHhcIVtm+tJMNkuQ3tIHepEvUCFwo55rMP/8k9inn5HKGGM
+ pEJsuKaloPNuG5qz+teweG8Xeb2ISariklbizvM/aWhlrurW3HtSpeZHiQjuyoM2uU4W
+ d+mYipzhNRqqoJHV7W9tMuHMmcT6dChcpblD1k4k79xCMRwJAXQyQHP0X1XHg8VMhEBr
+ UYbhWHJlaM5QXqd1O8/pZR1k4jveOWPAoP0SIM3Qqu7l9XfScA+aT0g2hlwd2wd2+FJG
+ DXhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716190770; x=1716795570;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ow9jbuVKIW09zvKzQpjf809fGluRD4ku6Wkb2RBqfMs=;
+ b=vrHq/0jXr2Vz17DXINECpnLJWagl356v5vugzpeNipnWG5QeBTsjYuQlY6kvGVZqzg
+ kBUKwOBhq/lp0+VRUL/WpMDqyXUhXvcLqdSVGDsJUC677MlyfqqgXQTByZ7FRpMcZgW6
+ BCxf9Q3K72RGcnNDClz1nUBA8g647yd2p5u0pjq1B4R8wbR4lvS1DmrtWPnTVvNblbEN
+ Gb05COcZntntmq5xinh21KrkA4kIzdd5KwUuJ3tqGMSqKZSAWpN7x5XDULQyHXxqZA9F
+ neFuinIxH2ELTPfXdPVHLkQb/VBxQfNlSELvJwjs/yI1LUIjRU8514Yg4vPAf6O0olQj
+ M5vg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9jVsHqKgYZcD9u9fT9CGq2qnryjJpUg9yz6EOfFWyAveQCmA/1aRrJIkL+qpRReOlWowCSo1bFI9y3I2Mva06dE0XMytnkTtc+xlqxYvs
+X-Gm-Message-State: AOJu0YzoFEP0OSAgT42yhB7KFddgAt6HHfuK7Sf2m6G59m9MxsaKlNM8
+ QUzdu1quMSkJlH/k2U+9uQRmf/3uL2xU1CjQUGm6kByuPBj0lAW3i8dL9XCl25bSoT9JEUqB9d7
+ 5rSU=
+X-Google-Smtp-Source: AGHT+IFqb9nuBFQeOXGAPvFgRgWHb0JrgkE8TxlyisKizY9+JcmzWl618Ca47S47aQ3EQIscZDd2oQ==
+X-Received: by 2002:a81:a744:0:b0:618:6aa1:a972 with SMTP id
+ 00721157ae682-622affc78eemr254888727b3.5.1716190769777; 
+ Mon, 20 May 2024 00:39:29 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
+ [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-6209e379521sm47607937b3.120.2024.05.20.00.39.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 May 2024 00:39:29 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-db4364ecd6aso2001895276.2; 
+ Mon, 20 May 2024 00:39:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXh49GXk3Sxi6sETdjwP55qcOET/A3LE0DGJTqv0+408/5jWA9beutxvJa1JH1oZsU02H0BD/7SiF8gsSus1SdjTK2gfDkwV5/YXzLqc5WgtuN1Ijy596QRPY61ONWFFCN7aWTKVXjOckBQddeMQg==
+X-Received: by 2002:a5b:7c6:0:b0:df4:969f:3dcd with SMTP id
+ 3f1490d57ef6-df4969f3f35mr3728366276.50.1716190768803; Mon, 20 May 2024
+ 00:39:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.72.42]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: 32CE3029E6253C26B22258C158503B563CB29E6C12715E4EF3F8DD316004466A2002:8
-X-MAIL: mse.ite.com.tw 44K6rU4n010202
+References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
+ <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
+In-Reply-To: <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Mon, 20 May 2024 09:39:17 +0200
+X-Gmail-Original-Message-ID: <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
+Message-ID: <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: linux-kernel@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,165 +99,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kuro Chung <kuro.chung@ite.com.tw>
+Hi Lucas,
 
-When the system power resumes, the TTL input of IT6505 may experience
-some noise before the video signal stabilizes, necessitating a video 
-reset. This patch has been implemented to prevent a loop of video error
-interrupts, which can occur when a video reset in the video FIFO error
-interrupt triggers another such interrupt. The patch processes the SCDT
-and FIFO error interrupts simultaneously and ignores any video FIFO 
-error interrupts caused by a video reset.
+On Fri, May 10, 2024 at 10:34=E2=80=AFAM Lucas Stach <l.stach@pengutronix.d=
+e> wrote:
+>
+> Hi Tomeu,
+>
+> Am Mittwoch, dem 24.04.2024 um 08:37 +0200 schrieb Tomeu Vizoso:
+> > If we expose a render node for NPUs without rendering capabilities, the
+> > userspace stack will offer it to compositors and applications for
+> > rendering, which of course won't work.
+> >
+> > Userspace is probably right in not questioning whether a render node
+> > might not be capable of supporting rendering, so change it in the kerne=
+l
+> > instead by exposing a /dev/accel node.
+> >
+> > Before we bring the device up we don't know whether it is capable of
+> > rendering or not (depends on the features of its blocks), so first try
+> > to probe a rendering node, and if we find out that there is no renderin=
+g
+> > hardware, abort and retry with an accel node.
+> >
+> I thought about this for a while. My opinion is that this is the wrong
+> approach. We are adding another path to the kernel driver, potentially
+> complicating the userspace side, as now the NPU backend needs to look
+> for both render and accel nodes. While currently accel and drm are
+> pretty closely related and we can share most of the driver, it might
+> still be a maintenance hassle in the long run.
+>
+> On the other hand we already have precedence of compute only DRM
+> devices exposing a render node: there are AMD GPUs that don't expose a
+> graphics queue and are thus not able to actually render graphics. Mesa
+> already handles this in part via the PIPE_CAP_GRAPHICS and I think we
+> should simply extend this to not offer a EGL display on screens without
+> that capability.
 
-Signed-off-by: Kuro Chung <kuro.chung@ite.com.tw>
-Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
-Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
----
-V1->V3: update MAINTAINERS mail list
-V3->V4: remove function it6505_irq_video_fifo_error/it6505_irq_io_latch_fifo_overflow
-V4->V5: customer feedback again, update again, kernel build pass
-V5->V6: remove unrelated patch change, split into another patch
-V6->V7: modify code 0x02 to TX_FIFO_RESET by macro define
-V7->V8: fix merge conflict, change mail from 'cc' to 'to'
-V8->V9: modify patch description, patch summary
-V9->V10: modify patch summary, add Fixes
-V10->V11: modify patch description, add Signed-off-by
+The problem with this is that the compositors I know don't loop over
+/dev/dri files, trying to create EGL screens and moving to the next
+one until they find one that works.
 
----
- drivers/gpu/drm/bridge/ite-it6505.c | 73 +++++++++++++++++++----------
- 1 file changed, 49 insertions(+), 24 deletions(-)
+They take the first render node (unless a specific one has been
+configured), and assumes it will be able to render with it.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 469157341f3ab..5703fcf4b7b00 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -1307,9 +1307,15 @@ static void it6505_video_reset(struct it6505 *it6505)
- 	it6505_link_reset_step_train(it6505);
- 	it6505_set_bits(it6505, REG_DATA_MUTE_CTRL, EN_VID_MUTE, EN_VID_MUTE);
- 	it6505_set_bits(it6505, REG_INFOFRAME_CTRL, EN_VID_CTRL_PKT, 0x00);
--	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, VIDEO_RESET);
-+
-+	it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, TX_FIFO_RESET);
-+	it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, 0x00);
-+
- 	it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, RST_501_FIFO);
- 	it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, 0x00);
-+
-+	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, VIDEO_RESET);
-+	usleep_range(1000, 2000);
- 	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, 0x00);
- }
- 
-@@ -2245,12 +2251,11 @@ static void it6505_link_training_work(struct work_struct *work)
- 	if (ret) {
- 		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
- 		it6505_link_train_ok(it6505);
--		return;
- 	} else {
- 		it6505->auto_train_retry--;
-+		it6505_dump(it6505);
- 	}
- 
--	it6505_dump(it6505);
- }
- 
- static void it6505_plugged_status_to_codec(struct it6505 *it6505)
-@@ -2471,31 +2476,53 @@ static void it6505_irq_link_train_fail(struct it6505 *it6505)
- 	schedule_work(&it6505->link_works);
- }
- 
--static void it6505_irq_video_fifo_error(struct it6505 *it6505)
-+static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
- {
--	struct device *dev = it6505->dev;
--
--	DRM_DEV_DEBUG_DRIVER(dev, "video fifo overflow interrupt");
--	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
--	flush_work(&it6505->link_works);
--	it6505_stop_hdcp(it6505);
--	it6505_video_reset(it6505);
-+	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
- }
- 
--static void it6505_irq_io_latch_fifo_overflow(struct it6505 *it6505)
-+static void it6505_irq_video_handler(struct it6505 *it6505, const int *int_status)
- {
- 	struct device *dev = it6505->dev;
-+	int reg_0d, reg_int03;
- 
--	DRM_DEV_DEBUG_DRIVER(dev, "IO latch fifo overflow interrupt");
--	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
--	flush_work(&it6505->link_works);
--	it6505_stop_hdcp(it6505);
--	it6505_video_reset(it6505);
--}
-+	/*
-+	 * When video SCDT change with video not stable,
-+	 * Or video FIFO error, need video reset
-+	 */
- 
--static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
--{
--	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
-+	if ((!it6505_get_video_status(it6505) &&
-+		(it6505_test_bit(INT_SCDT_CHANGE, (unsigned int *) int_status))) ||
-+		(it6505_test_bit(BIT_INT_IO_FIFO_OVERFLOW, (unsigned int *) int_status)) ||
-+		(it6505_test_bit(BIT_INT_VID_FIFO_ERROR, (unsigned int *) int_status))) {
-+
-+		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-+		flush_work(&it6505->link_works);
-+		it6505_stop_hdcp(it6505);
-+		it6505_video_reset(it6505);
-+
-+		usleep_range(10000, 11000);
-+
-+		/*
-+		 * Clear FIFO error IRQ to prevent fifo error -> reset loop
-+		 * HW will trigger SCDT change IRQ again when video stable
-+		 */
-+
-+		reg_int03 = it6505_read(it6505, INT_STATUS_03);
-+		reg_0d = it6505_read(it6505, REG_SYSTEM_STS);
-+
-+		reg_int03 &= (BIT(INT_VID_FIFO_ERROR) | BIT(INT_IO_LATCH_FIFO_OVERFLOW));
-+		it6505_write(it6505, INT_STATUS_03, reg_int03);
-+
-+		DRM_DEV_DEBUG_DRIVER(dev, "reg08 = 0x%02x", reg_int03);
-+		DRM_DEV_DEBUG_DRIVER(dev, "reg0D = 0x%02x", reg_0d);
-+
-+		return;
-+	}
-+
-+
-+	if (it6505_test_bit(INT_SCDT_CHANGE, (unsigned int *) int_status))
-+		it6505_irq_scdt(it6505);
- }
- 
- static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
-@@ -2508,15 +2535,12 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- 	} irq_vec[] = {
- 		{ BIT_INT_HPD, it6505_irq_hpd },
- 		{ BIT_INT_HPD_IRQ, it6505_irq_hpd_irq },
--		{ BIT_INT_SCDT, it6505_irq_scdt },
- 		{ BIT_INT_HDCP_FAIL, it6505_irq_hdcp_fail },
- 		{ BIT_INT_HDCP_DONE, it6505_irq_hdcp_done },
- 		{ BIT_INT_AUX_CMD_FAIL, it6505_irq_aux_cmd_fail },
- 		{ BIT_INT_HDCP_KSV_CHECK, it6505_irq_hdcp_ksv_check },
- 		{ BIT_INT_AUDIO_FIFO_ERROR, it6505_irq_audio_fifo_error },
- 		{ BIT_INT_LINK_TRAIN_FAIL, it6505_irq_link_train_fail },
--		{ BIT_INT_VID_FIFO_ERROR, it6505_irq_video_fifo_error },
--		{ BIT_INT_IO_FIFO_OVERFLOW, it6505_irq_io_latch_fifo_overflow },
- 	};
- 	int int_status[3], i;
- 
-@@ -2546,6 +2570,7 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- 			if (it6505_test_bit(irq_vec[i].bit, (unsigned int *)int_status))
- 				irq_vec[i].handler(it6505);
- 		}
-+		it6505_irq_video_handler(it6505, (unsigned int *) int_status);
- 	}
- 
- 	pm_runtime_put_sync(dev);
--- 
-2.25.1
+To me it seems as if userspace expects that /dev/dri/renderD* devices
+can be used for rendering and by breaking this assumption we would be
+breaking existing software.
 
+Which is what I understood to be the whole point behind the decision
+to create a new device file hierarchy for accelerators. Or am I
+missing something?
+
+Adding Daniel Stone to CC in case he wants to give his opinion from
+the compositor point of view.
+
+Cheers,
+
+Tomeu
+
+> Regards,
+> Lucas
+>
+> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > Cc: Oded Gabbay <ogabbay@kernel.org>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 46 ++++++++++++++++++++++-----
+> >  1 file changed, 38 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/et=
+naviv/etnaviv_drv.c
+> > index 6500f3999c5f..8e7dd23115f4 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > @@ -11,6 +11,7 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/uaccess.h>
+> >
+> > +#include <drm/drm_accel.h>
+> >  #include <drm/drm_debugfs.h>
+> >  #include <drm/drm_drv.h>
+> >  #include <drm/drm_file.h>
+> > @@ -488,10 +489,10 @@ static const struct drm_ioctl_desc etnaviv_ioctls=
+[] =3D {
+> >       ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+> >  };
+> >
+> > -DEFINE_DRM_GEM_FOPS(fops);
+> > +DEFINE_DRM_GEM_FOPS(render_fops);
+> > +DEFINE_DRM_ACCEL_FOPS(accel_fops);
+> >
+> > -static const struct drm_driver etnaviv_drm_driver =3D {
+> > -     .driver_features    =3D DRIVER_GEM | DRIVER_RENDER,
+> > +static struct drm_driver etnaviv_drm_driver =3D {
+> >       .open               =3D etnaviv_open,
+> >       .postclose           =3D etnaviv_postclose,
+> >       .gem_prime_import_sg_table =3D etnaviv_gem_prime_import_sg_table,
+> > @@ -500,7 +501,6 @@ static const struct drm_driver etnaviv_drm_driver =
+=3D {
+> >  #endif
+> >       .ioctls             =3D etnaviv_ioctls,
+> >       .num_ioctls         =3D DRM_ETNAVIV_NUM_IOCTLS,
+> > -     .fops               =3D &fops,
+> >       .name               =3D "etnaviv",
+> >       .desc               =3D "etnaviv DRM",
+> >       .date               =3D "20151214",
+> > @@ -508,15 +508,20 @@ static const struct drm_driver etnaviv_drm_driver=
+ =3D {
+> >       .minor              =3D 4,
+> >  };
+> >
+> > -/*
+> > - * Platform driver:
+> > - */
+> > -static int etnaviv_bind(struct device *dev)
+> > +static int etnaviv_bind_with_type(struct device *dev, u32 type)
+> >  {
+> >       struct etnaviv_drm_private *priv;
+> >       struct drm_device *drm;
+> > +     bool is_compute_only =3D true;
+> >       int ret;
+> >
+> > +     etnaviv_drm_driver.driver_features =3D DRIVER_GEM | type;
+> > +
+> > +     if (type =3D=3D DRIVER_RENDER)
+> > +             etnaviv_drm_driver.fops =3D &render_fops;
+> > +     else
+> > +             etnaviv_drm_driver.fops =3D &accel_fops;
+> > +
+> >       drm =3D drm_dev_alloc(&etnaviv_drm_driver, dev);
+> >       if (IS_ERR(drm))
+> >               return PTR_ERR(drm);
+> > @@ -553,6 +558,18 @@ static int etnaviv_bind(struct device *dev)
+> >
+> >       load_gpu(drm);
+> >
+> > +     for (unsigned int i =3D 0; i < ETNA_MAX_PIPES; i++) {
+> > +             struct etnaviv_gpu *g =3D priv->gpu[i];
+> > +
+> > +             if (g && (g->identity.minor_features8 & chipMinorFeatures=
+8_COMPUTE_ONLY) =3D=3D 0)
+> > +                     is_compute_only =3D false;
+> > +     }
+> > +
+> > +     if (type =3D=3D DRIVER_RENDER && is_compute_only) {
+> > +             ret =3D -EINVAL;
+> > +             goto out_unbind;
+> > +     }
+> > +
+> >       ret =3D drm_dev_register(drm, 0);
+> >       if (ret)
+> >               goto out_unbind;
+> > @@ -571,6 +588,19 @@ static int etnaviv_bind(struct device *dev)
+> >       return ret;
+> >  }
+> >
+> > +/*
+> > + * Platform driver:
+> > + */
+> > +static int etnaviv_bind(struct device *dev)
+> > +{
+> > +     int ret =3D etnaviv_bind_with_type(dev, DRIVER_RENDER);
+> > +
+> > +     if (ret =3D=3D -EINVAL)
+> > +             return etnaviv_bind_with_type(dev, DRIVER_COMPUTE_ACCEL);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> >  static void etnaviv_unbind(struct device *dev)
+> >  {
+> >       struct drm_device *drm =3D dev_get_drvdata(dev);
+>
