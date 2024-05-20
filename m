@@ -2,72 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D138C9B6C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 12:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A548C9B6E
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 12:38:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5ED10E28C;
-	Mon, 20 May 2024 10:37:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60BE110E361;
+	Mon, 20 May 2024 10:38:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dQa+6K3K";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SB22LO1C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BCA010E28C
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 10:37:54 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-51f0602bc58so2322219e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 03:37:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716201472; x=1716806272; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vROlPILoNKAGtI5nlKIoUzWd52w8WaK5YSEJHAZoeZc=;
- b=dQa+6K3K7FfxS4z4BR4RkKaw3wF975wQY+F67MfVF+ZTxsLYoQQ1GBy/oI8Fp1FXOP
- l+lkHMOOwmPkmCl+a28qhbOGCK/NYOoQdRb1ZS2IBOVlV3H0tQA+96BnUD9Lq663Gvd5
- hnv+bv0R54p//KAjdZwg0xFQ0xLp3ZWBO8raLVxbNXV1FP7gwP+Re50/P0kdmZrWvjcg
- y72kvEumis+/PQzcuAZH7LqPJorVjQlon8msKmtJIzSvPiJ8QNBPmq0vWbCCE0fsN0/c
- aQjTGjyyNJkd4T5NZA+5DU5rIl2GehmIHEpQEVM5SYLzFF4dd3b6hn2siGmxVmdniZCw
- dE+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716201472; x=1716806272;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vROlPILoNKAGtI5nlKIoUzWd52w8WaK5YSEJHAZoeZc=;
- b=xQo/zHxiW5te5Ivaw4VviRSbpTs/2j4WL0ZHZvYGTw2NWnpkjeCvR2AfCv/n3CprDA
- H2mhCYL1jxfaNc0vFotrFtG1gylbXAHo2azM7xYNNSZzfi4avB1lQvVGAt2q793lh3qP
- cOwNlo6K/u107TF5IyW+Za82yn9+Yv8jKAOBpxcQ8VSkBtF8maupLNeVX+43tOEms8u/
- dSLfTQ3qqD7UGo5trW7WsgOjWA4ttAEOHf3uVfdAI88q+Sd+uErxhqVejWmc9w7NwFCx
- 95p0HAoAbHioo2LiYz4gJ62udrAkVW0p06M5nurRz7RgpYnq23PRjxamlj4vB1+xL1L0
- KeRQ==
-X-Gm-Message-State: AOJu0Yzrc8/y72MOSvoZvUVL2aAkmXi95PgIgI4R0RR3XK5Gp+jMSOxr
- iRz23G0t4BIjB58manf9VCJ/NLHv7yQMql9m8K+LL2nIc8hJUQyVjHOsQ8ZRv9Q=
-X-Google-Smtp-Source: AGHT+IFaeG8xp9fMh6rVylXMaGL+biT0666eRJ9pwrJ+PIS93cu7SFiEQjQtPoC2qx+E853ZQn0GFg==
-X-Received: by 2002:a19:2d4e:0:b0:51f:9a88:be2a with SMTP id
- 2adb3069b0e04-52407cde448mr1470423e87.23.1716201472248; 
- Mon, 20 May 2024 03:37:52 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f39d32absm4245086e87.296.2024.05.20.03.37.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 May 2024 03:37:51 -0700 (PDT)
-Date: Mon, 20 May 2024 13:37:49 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/display/dp: fix all kernel-doc warnings
-Message-ID: <p2n7d7lhiogmn3niblqg3sj5nx7c7tx2m6h6z2xlyf3ks74753@7qze6k4jhp2k>
-References: <20240516002642.6659-1-rdunlap@infradead.org>
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5565510E361
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 10:38:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1716201519;
+ bh=hwIUK11OjdQdaDBHznDyjBuzHAdXk6WYhTMYBV91TIc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=SB22LO1CBQBi40bGyF59OeVMVjdBz/3MlrstfXnlBGP01JRu1wzKLolmHtIRAgNbp
+ zeiIBPLTuIgAxcLjQyy+ONxM1+XumLowRQ7KvmSMgEZqJ+bgW/chVLiv6apmdLvPr9
+ 63FzeJ4I4W0sLtBHB0AVoDxwiFJ9q3U454GZOoKMfszMVrITUoAQA1MyXiY8LSVRxj
+ ATTcPH9ysQMPkyOZi1DeP5wt58mbAOJJavg3KltR9CbEU18CgVXw5XxXV0ChUdOBO/
+ n2yXM5dGfsFDvMmo7ek2EYnxGdKpBaHZi+clA6T74xrGGkbg9xGt8B3HM0k8uPQeJX
+ F4VX3Oi3ZA/ZQ==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5FA72378219E;
+ Mon, 20 May 2024 10:38:38 +0000 (UTC)
+Message-ID: <448db9fa-22c4-4123-892c-8d1fe4e7d562@collabora.com>
+Date: Mon, 20 May 2024 12:38:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240516002642.6659-1-rdunlap@infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 05/16] SoC: mediatek: mt8365: support audio clock
+ control
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
+ Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v4-0-082b22186d4c@baylibre.com>
+ <20240226-audio-i350-v4-5-082b22186d4c@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240226-audio-i350-v4-5-082b22186d4c@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,72 +75,302 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 15, 2024 at 05:26:42PM -0700, Randy Dunlap wrote:
-> Fix a struct member name in &struct drm_dp_as_sdp.
-> Add Returns: kernel-doc syntax for 4 functions.
-> In the Returns: sections, spell "%true" and "%false" consistently.
+Il 26/04/24 19:22, Alexandre Mergnat ha scritto:
+> Add audio clock wrapper and audio tuner control.
 > 
-> Fixes these kernel-doc warnings:
-> 
-> drm_dp_helper.h:126: warning: Function parameter or struct member 'mode' not described in 'drm_dp_as_sdp'
-> drm_dp_helper.h:126: warning: Excess struct member 'operation_mode' description in 'drm_dp_as_sdp'
-> drm_dp_helper.h:237: warning: No description found for return value of 'drm_dp_dsc_sink_supports_format'
-> drm_dp_helper.h:539: warning: No description found for return value of 'drm_dp_dpcd_readb'
-> drm_dp_helper.h:554: warning: No description found for return value of 'drm_dp_dpcd_writeb'
-> drm_dp_helper.h:721: warning: No description found for return value of 'drm_dp_has_quirk'
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 > ---
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>   sound/soc/mediatek/mt8365/mt8365-afe-clk.c | 443 +++++++++++++++++++++++++++++
+>   sound/soc/mediatek/mt8365/mt8365-afe-clk.h |  49 ++++
+>   2 files changed, 492 insertions(+)
 > 
->  include/drm/display/drm_dp_helper.h |   17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
+> diff --git a/sound/soc/mediatek/mt8365/mt8365-afe-clk.c b/sound/soc/mediatek/mt8365/mt8365-afe-clk.c
+> new file mode 100644
+> index 000000000000..3a525dae857c
+> --- /dev/null
+> +++ b/sound/soc/mediatek/mt8365/mt8365-afe-clk.c
+> @@ -0,0 +1,443 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Mediatek 8365 AFE clock control
+> + *
+> + * Copyright (c) 2024 MediaTek Inc.
+> + * Authors: Jia Zeng <jia.zeng@mediatek.com>
+> + *          Alexandre Mergnat <amergnat@baylibre.com>
+> + */
+> +
+> +#include "mt8365-afe-clk.h"
+> +#include "mt8365-afe-common.h"
+> +#include "mt8365-reg.h"
+> +#include "../common/mtk-base-afe.h"
+> +#include <linux/device.h>
+> +#include <linux/mfd/syscon.h>
+> +
+> +static const char *aud_clks[MT8365_CLK_NUM] = {
+> +	[MT8365_CLK_TOP_AUD_SEL] = "top_audio_sel",
+> +	[MT8365_CLK_AUD_I2S0_M] = "audio_i2s0_m",
+> +	[MT8365_CLK_AUD_I2S1_M] = "audio_i2s1_m",
+> +	[MT8365_CLK_AUD_I2S2_M] = "audio_i2s2_m",
+> +	[MT8365_CLK_AUD_I2S3_M] = "audio_i2s3_m",
+> +	[MT8365_CLK_ENGEN1] = "engen1",
+> +	[MT8365_CLK_ENGEN2] = "engen2",
+> +	[MT8365_CLK_AUD1] = "aud1",
+> +	[MT8365_CLK_AUD2] = "aud2",
+> +	[MT8365_CLK_I2S0_M_SEL] = "i2s0_m_sel",
+> +	[MT8365_CLK_I2S1_M_SEL] = "i2s1_m_sel",
+> +	[MT8365_CLK_I2S2_M_SEL] = "i2s2_m_sel",
+> +	[MT8365_CLK_I2S3_M_SEL] = "i2s3_m_sel",
+> +	[MT8365_CLK_CLK26M] = "top_clk26m_clk",
+> +};
+> +
+> +int mt8365_afe_init_audio_clk(struct mtk_base_afe *afe)
+> +{
+> +	size_t i;
+> +	struct mt8365_afe_private *afe_priv = afe->platform_priv;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(aud_clks); i++) {
+> +		afe_priv->clocks[i] = devm_clk_get(afe->dev, aud_clks[i]);
+> +		if (IS_ERR(afe_priv->clocks[i])) {
+> +			dev_err(afe->dev, "%s devm_clk_get %s fail\n",
+> +				__func__, aud_clks[i]);
+> +			return PTR_ERR(afe_priv->clocks[i]);
+> +		}
+> +	}
+> +	return 0;
+> +}
+> +
+> +int mt8365_afe_enable_clk(struct mtk_base_afe *afe, struct clk *clk)
+
+Do you really really really need those helper functions?
+I say that you can simply call the clk API from the users instead, as you are
+really just doing that in those functions...
+
+> +{
+> +	int ret;
+> +
+> +	if (clk) {
+> +		ret = clk_prepare_enable(clk);
+> +		if (ret) {
+> +			dev_err(afe->dev, "Failed to enable clk\n");
+> +			return ret;
+> +		}
+> +	}
+> +	return 0;
+> +}
+> +
+> +void mt8365_afe_disable_clk(struct mtk_base_afe *afe, struct clk *clk)
+> +{
+> +	if (clk)
+> +		clk_disable_unprepare(clk);
+> +}
+> +
+> +int mt8365_afe_set_clk_rate(struct mtk_base_afe *afe, struct clk *clk,
+> +			    unsigned int rate)
+> +{
+> +	int ret;
+> +
+> +	if (clk) {
+> +		ret = clk_set_rate(clk, rate);
+> +		if (ret) {
+> +			dev_err(afe->dev, "Failed to set rate\n");
+> +			return ret;
+> +		}
+> +	}
+> +	return 0;
+> +}
+> +
+> +int mt8365_afe_set_clk_parent(struct mtk_base_afe *afe, struct clk *clk,
+> +			      struct clk *parent)
+> +{
+> +	int ret;
+> +
+> +	if (clk && parent) {
+> +		ret = clk_set_parent(clk, parent);
+> +		if (ret) {
+> +			dev_err(afe->dev, "Failed to set parent\n");
+> +			return ret;
+> +		}
+> +	}
+> +	return 0;
+> +}
+> +
+
+..snip..
+
+> +int mt8365_afe_enable_apll_tuner_cfg(struct mtk_base_afe *afe, unsigned int apll)
+> +{
+> +	struct mt8365_afe_private *afe_priv = afe->platform_priv;
+> +
+> +	mutex_lock(&afe_priv->afe_clk_mutex);
+> +
+> +	afe_priv->apll_tuner_ref_cnt[apll]++;
+> +	if (afe_priv->apll_tuner_ref_cnt[apll] != 1) {
+> +		mutex_unlock(&afe_priv->afe_clk_mutex);
+> +		return 0;
+> +	}
+> +
+> +	if (apll == MT8365_AFE_APLL1) {
+> +		regmap_update_bits(afe->regmap, AFE_APLL_TUNER_CFG,
+> +				   AFE_APLL_TUNER_CFG_MASK, 0x432);
+> +		regmap_update_bits(afe->regmap, AFE_APLL_TUNER_CFG,
+> +				   AFE_APLL_TUNER_CFG_EN_MASK, 0x1);
+> +	} else {
+> +		regmap_update_bits(afe->regmap, AFE_APLL_TUNER_CFG1,
+> +				   AFE_APLL_TUNER_CFG1_MASK, 0x434);
+> +		regmap_update_bits(afe->regmap, AFE_APLL_TUNER_CFG1,
+> +				   AFE_APLL_TUNER_CFG1_EN_MASK, 0x1);
+> +	}
+> +
+> +	mutex_unlock(&afe_priv->afe_clk_mutex);
+> +	return 0;
+> +}
+> +
+> +int mt8365_afe_disable_apll_tuner_cfg(struct mtk_base_afe *afe,	unsigned int apll)
+
+There's a tabulation here, please use spaces....
+
+> +{
+> +	struct mt8365_afe_private *afe_priv = afe->platform_priv;
+> +
+> +	mutex_lock(&afe_priv->afe_clk_mutex);
+> +
+> +	afe_priv->apll_tuner_ref_cnt[apll]--;
+> +	if (afe_priv->apll_tuner_ref_cnt[apll] == 0) {
+> +		if (apll == MT8365_AFE_APLL1)
+> +			regmap_update_bits(afe->regmap, AFE_APLL_TUNER_CFG,
+> +					   AFE_APLL_TUNER_CFG_EN_MASK, 0x0);
+> +		else
+> +			regmap_update_bits(afe->regmap, AFE_APLL_TUNER_CFG1,
+> +					   AFE_APLL_TUNER_CFG1_EN_MASK, 0x0);
+> +
+> +	} else if (afe_priv->apll_tuner_ref_cnt[apll] < 0) {
+> +		afe_priv->apll_tuner_ref_cnt[apll] = 0;
+> +	}
+> +
+> +	mutex_unlock(&afe_priv->afe_clk_mutex);
+> +	return 0;
+> +}
+> +
+> +int mt8365_afe_enable_apll_associated_cfg(struct mtk_base_afe *afe, unsigned int apll)
+> +{
+> +	struct mt8365_afe_private *afe_priv = afe->platform_priv;
+> +
+> +	if (apll == MT8365_AFE_APLL1) {
+> +		if (clk_prepare_enable(afe_priv->clocks[MT8365_CLK_ENGEN1])) {
+> +			dev_info(afe->dev, "%s Failed to enable ENGEN1 clk\n",
+> +				 __func__);
+> +			return 0;
+> +		}
+> +		mt8365_afe_enable_top_cg(afe, MT8365_TOP_CG_22M);
+> +		mt8365_afe_hd_engen_enable(afe, true);
+> +#ifdef ENABLE_AFE_APLL_TUNER
+> +		mt8365_afe_enable_top_cg(afe, MT8365_TOP_CG_APLL_TUNER);
+> +		mt8365_afe_enable_apll_tuner_cfg(afe, MT8365_AFE_APLL1);
+> +#endif
+> +	} else {
+> +		if (clk_prepare_enable(afe_priv->clocks[MT8365_CLK_ENGEN2])) {
+> +			dev_info(afe->dev, "%s Failed to enable ENGEN2 clk\n",
+> +				 __func__);
+> +			return 0;
+> +		}
+> +		mt8365_afe_enable_top_cg(afe, MT8365_TOP_CG_24M);
+> +		mt8365_afe_hd_engen_enable(afe, false);
+> +#ifdef ENABLE_AFE_APLL_TUNER
+
+Those ifdefs are ugly. If you're not using that code, please remove.
+
+> +		mt8365_afe_enable_top_cg(afe, MT8365_TOP_CG_APLL2_TUNER);
+> +		mt8365_afe_enable_apll_tuner_cfg(afe, MT8365_AFE_APLL2);
+> +#endif
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +int mt8365_afe_disable_apll_associated_cfg(struct mtk_base_afe *afe, unsigned int apll)
+> +{
+> +	struct mt8365_afe_private *afe_priv = afe->platform_priv;
+> +
+> +	if (apll == MT8365_AFE_APLL1) {
+> +#ifdef ENABLE_AFE_APLL_TUNER
+> +		mt8365_afe_disable_apll_tuner_cfg(afe, MT8365_AFE_APLL1);
+> +		mt8365_afe_disable_top_cg(afe, MT8365_TOP_CG_APLL_TUNER);
+> +#endif
+> +		mt8365_afe_hd_engen_disable(afe, true);
+> +		mt8365_afe_disable_top_cg(afe, MT8365_TOP_CG_22M);
+> +		clk_disable_unprepare(afe_priv->clocks[MT8365_CLK_ENGEN1]);
+> +	} else {
+> +#ifdef ENABLE_AFE_APLL_TUNER
+> +		mt8365_afe_disable_apll_tuner_cfg(afe, MT8365_AFE_APLL2);
+> +		mt8365_afe_disable_top_cg(afe, MT8365_TOP_CG_APLL2_TUNER);
+> +#endif
+> +		mt8365_afe_hd_engen_disable(afe, false);
+> +		mt8365_afe_disable_top_cg(afe, MT8365_TOP_CG_24M);
+> +		clk_disable_unprepare(afe_priv->clocks[MT8365_CLK_ENGEN2]);
+> +	}
+> +
+> +	return 0;
+> +}
+> diff --git a/sound/soc/mediatek/mt8365/mt8365-afe-clk.h b/sound/soc/mediatek/mt8365/mt8365-afe-clk.h
+> new file mode 100644
+> index 000000000000..14fca6ae2641
+> --- /dev/null
+> +++ b/sound/soc/mediatek/mt8365/mt8365-afe-clk.h
+> @@ -0,0 +1,49 @@
+> +/* SPDX-License-Identifier: GPL-2.0
+> + *
+> + * Mediatek 8365 AFE clock control definitions
+> + *
+> + * Copyright (c) 2024 MediaTek Inc.
+> + * Authors: Jia Zeng <jia.zeng@mediatek.com>
+> + *          Alexandre Mergnat <amergnat@baylibre.com>
+> + */
+> +
+> +#ifndef _MT8365_AFE_UTILS_H_
+> +#define _MT8365_AFE_UTILS_H_
+> +
+> +struct mtk_base_afe;
+> +struct clk;
+> +
+> +int mt8365_afe_init_audio_clk(struct mtk_base_afe *afe);
+> +
+
+Please drop all those blank lines between function signatures, they're not needed.
+
+Cheers,
+Angelo
+
+> +int mt8365_afe_enable_clk(struct mtk_base_afe *afe, struct clk *clk);
+> +
+> +void mt8365_afe_disable_clk(struct mtk_base_afe *afe, struct clk *clk);
+> +
+> +int mt8365_afe_set_clk_rate(struct mtk_base_afe *afe, struct clk *clk, unsigned int rate);
+> +
+> +int mt8365_afe_set_clk_parent(struct mtk_base_afe *afe, struct clk *clk, struct clk *parent);
+> +
+> +int mt8365_afe_enable_top_cg(struct mtk_base_afe *afe, unsigned int cg_type);
+> +
+> +int mt8365_afe_disable_top_cg(struct mtk_base_afe *afe, unsigned int cg_type);
+> +
+> +int mt8365_afe_enable_main_clk(struct mtk_base_afe *afe);
+> +
+> +int mt8365_afe_disable_main_clk(struct mtk_base_afe *afe);
+> +
+> +int mt8365_afe_emi_clk_on(struct mtk_base_afe *afe);
+> +
+> +int mt8365_afe_emi_clk_off(struct mtk_base_afe *afe);
+> +
+> +int mt8365_afe_enable_afe_on(struct mtk_base_afe *afe);
+> +
+> +int mt8365_afe_disable_afe_on(struct mtk_base_afe *afe);
+> +
+> +int mt8365_afe_enable_apll_tuner_cfg(struct mtk_base_afe *afe, unsigned int apll);
+> +
+> +int mt8365_afe_disable_apll_tuner_cfg(struct mtk_base_afe *afe, unsigned int apll);
+> +
+> +int mt8365_afe_enable_apll_associated_cfg(struct mtk_base_afe *afe, unsigned int apll);
+> +
+> +int mt8365_afe_disable_apll_associated_cfg(struct mtk_base_afe *afe, unsigned int apll);
+> +#endif
 > 
-> diff -- a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> --- a/include/drm/display/drm_dp_helper.h
-> +++ b/include/drm/display/drm_dp_helper.h
-> @@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
->   * @target_rr: Target Refresh
->   * @duration_incr_ms: Successive frame duration increase
->   * @duration_decr_ms: Successive frame duration decrease
-> - * @operation_mode: Adaptive Sync Operation Mode
-> + * @mode: Adaptive Sync Operation Mode
->   */
->  struct drm_dp_as_sdp {
->  	unsigned char sdp_type;
-> @@ -230,7 +230,8 @@ drm_dp_dsc_sink_max_slice_width(const u8
->   * @dsc_dpcd : DSC-capability DPCDs of the sink
->   * @output_format: output_format which is to be checked
->   *
-> - * Returns true if the sink supports DSC with the given output_format, false otherwise.
-> + * Returns: %true if the sink supports DSC with the given output_format,
-> + * %false otherwise.
->   */
->  static inline bool
->  drm_dp_dsc_sink_supports_format(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE], u8 output_format)
-> @@ -280,8 +281,8 @@ drm_dp_sink_can_do_video_without_timing_
->   * backlight features but which require the brightness be set through PWM, and don't support setting
->   * the brightness level via the DPCD.
->   *
-> - * Returns: %True if @edp_dpcd indicates that VESA backlight controls are supported, %false
-> - * otherwise
-> + * Returns: %true if @edp_dpcd indicates that VESA backlight controls are
-> + * supported, %false otherwise
 
-If you are touching this part, maybe it's better to change 'Returns' to
-'Return' as documented by Documentation/doc-guide/kernel-doc.rst ?
-(the same comment applies to other chunks in the patch, I've trimmed
-them).
-
->   */
->  static inline bool
->  drm_edp_backlight_supported(const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
-
--- 
-With best wishes
-Dmitry
