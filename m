@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B6FE8C9C0E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 13:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2929F8C9C3F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 13:41:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB6EE10E669;
-	Mon, 20 May 2024 11:19:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA08410E2E1;
+	Mon, 20 May 2024 11:41:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar-org.20230601.gappssmtp.com header.i=@fooishbar-org.20230601.gappssmtp.com header.b="tIBE99c0";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="VwFnbDv5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52D5110E673
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 11:19:53 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id
- af79cd13be357-792b8d98a56so246982285a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 04:19:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20230601.gappssmtp.com; s=20230601; t=1716203992; x=1716808792;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XcAkCrUUp3v82N3Nes852/6WDKEZVaV70AZavoqjXfU=;
- b=tIBE99c0OQAqdzgBpgMjP0SzuD1sMFk0iD16aTE+yv/hWk24FeB66HbCAdyV21KDa7
- 3uCXoI0dPZOOYzBYavOnYB1CDagTipKqXvt07M6gGCaNEHnuBKxpm7T8mUikPj4YfMP4
- ncJ9sWrcb5dDPbflFVSFu99dx5YFzsIYTlMTMPdAl1pLQwQ6GCdLngguLfgDO42mZeHK
- 5MMzwQKfOgHhHQm+d9Gn6D4J1+E5kBl5unYf/HgzTUmtnhJ42ozgxj0UE1NAIsAZ9flw
- OLeur/skzEWTwd4V/hxZxet+EKxp0ifbiZE1Y9UIFvlPzY1zjK5KaSC0Si+SMTxX+WjQ
- Eq+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716203992; x=1716808792;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XcAkCrUUp3v82N3Nes852/6WDKEZVaV70AZavoqjXfU=;
- b=pLXI+Vwz8dVO1+Wcg36a1LcPvC+1vVQjvySzXP6L9Yh2wF5xga4b+TXgnUtTQVMoYM
- I3QSyiG9vD4lb+lF02/tTLO7MZpzPJ/wx1eXFfTuhw5zdwY/k22IKBEw6yZlNSSJGmEt
- pNES50zBkq67wsEEyS1daPN9EP6j6YR8+C7Ne/cUHTmxZynpTmR1MgkDy2/I3A7zKE1+
- rl9qa/3pKDSJfM9UMq10QY61vzQu6RIPtX+7m5zGPVa+ILnIH0i+Szd3kKaPqgG5Nx5G
- F0gahOCgtZbRtcOt2YkiFkD5USCSOgq6a54/ZfASejpX5x+fCb1oss3hMXi9I1wbbRHO
- +LfQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUvU2Q2hftzO0Bp38AO8/i64oTV8+gFQKMPvm4ZqHGBxWjzk0C+b+EbPvsfoe++cZ8x6osyLsSAy+vNkhG/1ZvVuCNT9fC7Sfw5ylj7qW1W
-X-Gm-Message-State: AOJu0Yxn7fAQ7MOnyxLlBJP+/pjyXGtgwnSDt+oR3e7sN0c0Pq8jGyJ4
- UAD6hzYxt0IpHpS6nbeIRT13cq75FRBMZ0inFL/cPMJlwlAAOEnfpn8mKwMUeq7+COUjqBrEcL3
- zHr2hBd6GU2+MxacI8KNVOqZGB6qC9PqNKhWEnA==
-X-Google-Smtp-Source: AGHT+IF9QqTZAJOGL9hX5enwhsws06RKb4rc6h3DEa//4Gpj+yXe03WFhBY5czWR0TmSy2w5QCwMYSbalfMBsJ2uDWE=
-X-Received: by 2002:a05:620a:56d2:b0:790:c017:89e2 with SMTP id
- af79cd13be357-792c7577a26mr3027043685a.16.1716203991836; Mon, 20 May 2024
- 04:19:51 -0700 (PDT)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C057310E2E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 11:41:42 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44KBfRqK032177;
+ Mon, 20 May 2024 06:41:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1716205287;
+ bh=a76NLsOqpAhT7UPR9aUmjJ2mg4WHgQRk5YjCt6+gAeM=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=VwFnbDv5uflaIET3e5IHt6ObbQTtfqczMDLmIuuyRwkr+PMKbO6KDftOndM5S4Kk3
+ EFwR2f0t4y5Ky2JyTwmRMBI0sbHzhh9dvO0Ycjr5fxMiFRZ9XSTBtBokTWcx6QxG/l
+ jVwN1nNzquaUcJv4fRQ8FtcRR7Zo1D83GZB/SvXI=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44KBfRQV120258
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 20 May 2024 06:41:27 -0500
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 20
+ May 2024 06:41:27 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 20 May 2024 06:41:26 -0500
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be
+ forged))
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44KBfJ8A078373;
+ Mon, 20 May 2024 06:41:19 -0500
+Message-ID: <7b8cd37b-5b16-2d99-ab62-5d6876e6571c@ti.com>
+Date: Mon, 20 May 2024 17:11:18 +0530
 MIME-Version: 1.0
-References: <20240424063753.3740664-1-tomeu@tomeuvizoso.net>
- <97eadcba7cabe56f0f4b4d753bd3d53f8540ef4b.camel@pengutronix.de>
- <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
-In-Reply-To: <CAAObsKAQ=pWQ8MR1W7WwK1nVEeiCFNC3k+NZKsu4Fkts-_+zWg@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 20 May 2024 12:19:40 +0100
-Message-ID: <CAPj87rO7zyDsqUWnkF0pZeNFnNK2UnAVJy4RmB3jmPkKQ+zbEw@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: Create an accel device node if compute-only
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Lucas Stach <l.stach@pengutronix.de>, linux-kernel@vger.kernel.org, 
- Oded Gabbay <ogabbay@kernel.org>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v8 07/10] lib: add basic KUnit test for lib/math
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Latypov
+ <dlatypov@google.com>
+CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+ <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
+ <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
+ <adobriyan@gmail.com>, <jani.nikula@intel.com>,
+ <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <laurent.pinchart@ideasonboard.com>,
+ <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
+ <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
+ <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
+ <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
+References: <20240517171532.748684-1-devarsht@ti.com>
+ <20240517173607.800549-1-devarsht@ti.com>
+ <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,62 +84,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Andy, Daniel,
 
-On Mon, 20 May 2024 at 08:39, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
-> On Fri, May 10, 2024 at 10:34=E2=80=AFAM Lucas Stach <l.stach@pengutronix=
-.de> wrote:
-> > Am Mittwoch, dem 24.04.2024 um 08:37 +0200 schrieb Tomeu Vizoso:
-> > > If we expose a render node for NPUs without rendering capabilities, t=
-he
-> > > userspace stack will offer it to compositors and applications for
-> > > rendering, which of course won't work.
-> > >
-> > > Userspace is probably right in not questioning whether a render node
-> > > might not be capable of supporting rendering, so change it in the ker=
-nel
-> > > instead by exposing a /dev/accel node.
-> > >
-> > > Before we bring the device up we don't know whether it is capable of
-> > > rendering or not (depends on the features of its blocks), so first tr=
-y
-> > > to probe a rendering node, and if we find out that there is no render=
-ing
-> > > hardware, abort and retry with an accel node.
-> >
-> > On the other hand we already have precedence of compute only DRM
-> > devices exposing a render node: there are AMD GPUs that don't expose a
-> > graphics queue and are thus not able to actually render graphics. Mesa
-> > already handles this in part via the PIPE_CAP_GRAPHICS and I think we
-> > should simply extend this to not offer a EGL display on screens without
-> > that capability.
->
-> The problem with this is that the compositors I know don't loop over
-> /dev/dri files, trying to create EGL screens and moving to the next
-> one until they find one that works.
->
-> They take the first render node (unless a specific one has been
-> configured), and assumes it will be able to render with it.
->
-> To me it seems as if userspace expects that /dev/dri/renderD* devices
-> can be used for rendering and by breaking this assumption we would be
-> breaking existing software.
+On 18/05/24 01:44, Andy Shevchenko wrote:
+> On Fri, May 17, 2024 at 11:06:07PM +0530, Devarsh Thakkar wrote:
+[..]
+> 
+>> [devarsht: Rebase to 6.9 and change license to GPL]
+> 
+> I'm not sure that you may change license. It needs the author's confirmation.
+> 
 
-Mm, it's sort of backwards from that. Compositors just take a
-non-render DRM node for KMS, then ask GBM+EGL to instantiate a GPU
-which can work with that. When run in headless mode, we don't take
-render nodes directly, but instead just create an EGLDisplay or
-VkPhysicalDevice and work backwards to a render node, rather than
-selecting a render node and going from there.
+As per latest licensing doc [1], It quotes that GPL  is same as GPL v2 and GPL
+v2 exists only for historical reasons as shared below :
 
-So from that PoV I don't think it's really that harmful. The only
-complication is in Mesa, where it would see an etnaviv/amdgpu/...
-render node and potentially try to use it as a device. As long as Mesa
-can correctly skip, there should be no userspace API implications.
+“GPL v2 Same as “GPL”. It exists for historic reasons."
 
-That being said, I'm not entirely sure what the _benefit_ would be of
-exposing a render node for a device which can't be used by any
-'traditional' DRM consumers, i.e. GL/Vulkan/winsys.
+So I think it should be fine and more apt to use GPL. This is also highlighted
+in below commit:
+bf7fbeeae6db644ef5995085de2bc5c6121f8c8d module: Cure the MODULE_LICENSE "GPL"
+vs. "GPL v2" bogosity
 
-Cheers,
-Daniel
+>> ---
+>> Changes since v6:
+>> * Rebase to linux-next, change license to GPL as suggested by checkpatch.
+> 
+> Note, checkpatch.pl is not false positives free. Be careful
+> with what it suggests.
+> 
+>> +#include <kunit/test.h>
+>> +#include <linux/gcd.h>
+> 
+>> +#include <linux/kernel.h>
+> 
+> Do you know why this header is included?
+> 
+
+It includes all the other required headers (including those you mentioned
+below), and header list is probably copied from other files in same directory.
+But it does suffice the requirements as I have verified the compilation.
+
+>> +#include <linux/lcm.h>
+> 
+> + math.h // obviously
+> + module.h
+> 
+>> +#include <linux/reciprocal_div.h>
+> 
+> + types.h
+> 
+
+All the above headers are already included as part of kernel.h
+
+Kindly let me know if any queries.
+
+[1]: https://docs.kernel.org/process/license-rules.html
+
+Regards
+Devarsh
