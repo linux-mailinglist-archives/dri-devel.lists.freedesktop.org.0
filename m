@@ -2,63 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314B08C9DD1
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 15:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B20E68C9DEE
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 15:13:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CA7210E6FF;
-	Mon, 20 May 2024 13:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2F9910E49F;
+	Mon, 20 May 2024 13:13:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lpslbmVb";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="rRKX+eZW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81B3310E6FF
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 13:06:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716210387; x=1747746387;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=QNxMxsp5f2IJVZm6nz8esw+/sZvJ7kDRqA+fh+kKJJQ=;
- b=lpslbmVbUZK/tUUDWvGrxAz6PxdcS5MEXNZliCfBga3oKlgMDQmr6+YU
- Uq/37Dbmb3/2mTybaX31RFJt0i/yrpOJp/ZgO9JM8CmuplEP1SBvQgaIz
- 8JJNl5amNIDwtmlNgDI7qHqVErnd/DzoV7+ZEJOj6PCQAh1oJERxZB7MV
- PK9NzBMTuL9pxKccsogyzhZiyamb+01DQSfacwCAak40EqmSgWEbnQDH3
- MQbst3yeaKeDKozI27186U3KcSWlH4BxvqWypd1xEJk47GPq1sGCp15lh
- cXdVnnJdJNdVN5eIeJ7TeYVL8zlYsJEP3Att6lRTQuZ7xNhFroIaYrQRv Q==;
-X-CSE-ConnectionGUID: rPEhhJhrSkuSt+1IwMlpWA==
-X-CSE-MsgGUID: 8W++96brSB+OQ6PXibs5tQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="12526300"
-X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; d="scan'208";a="12526300"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2024 06:06:27 -0700
-X-CSE-ConnectionGUID: F6+f0sAaTM632rEMs4GzRw==
-X-CSE-MsgGUID: aBJJoIvDS6qStyLHllYAIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; d="scan'208";a="32554370"
-Received: from unknown (HELO localhost) ([10.245.246.99])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2024 06:06:22 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 10/11] drm/imx/tve: convert to struct drm_edid
-In-Reply-To: <opukbtmhml563rxrjkg2d6ynysth3id6acscnnnbkrds3ix2xf@gbdxb6e5vvxz>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1715691257.git.jani.nikula@intel.com>
- <2f59a7ad10c29c21f08223ef19221cef48623cc8.1715691257.git.jani.nikula@intel.com>
- <opukbtmhml563rxrjkg2d6ynysth3id6acscnnnbkrds3ix2xf@gbdxb6e5vvxz>
-Date: Mon, 20 May 2024 16:06:19 +0300
-Message-ID: <87v838skdw.fsf@intel.com>
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2EF610E49F
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 13:13:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1716210778; x=1716815578; i=markus.elfring@web.de;
+ bh=f7zIlcknMaJuKJEVnpdofgraR6IhmhMEOVN5APWMJaY=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=rRKX+eZW4YisSpqIwURkjHdrCoQ/cTALVkoumsDk8JeHbsMRgIsJ5fvEE49HoKAd
+ /w3jBufKysgBSEiEnBOR05kdvySaQe8G/pzEZlsc0SsBm5plG+ZQf4nUTaN5f2UD/
+ IPGwTQDfaPu51nbR19f5sKgRjt8iEnpeQhoEmKdeqchHmVW/08zmo1c3rVIMM7Hzw
+ 5sv2M8+qOZvtH5/2fPJzZsS5qqZg4qchEsn/wUot7o6HHEBTwTa1JD+jRv7xKXgBa
+ V86Ly+rUqRzU+IarWJw9xhhaiIK6Q+75rKgJQUuWzQx8xkZjrgt9Qobv3Uh3GVNfM
+ gOn2coD7PS8iKnYpFg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M6HKG-1sBFju1vkO-006kUJ; Mon, 20
+ May 2024 15:12:58 +0200
+Message-ID: <303106f2-181c-46d7-9f76-223f9cf9e4aa@web.de>
+Date: Mon, 20 May 2024 15:12:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+To: Kuro Chung <kuro.chung@ite.com.tw>, Hermes Wu <hermes.wu@ite.com.tw>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Kenneth Haung <kenneth.hung@ite.com.tw>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pin-yen Lin <treapking@chromium.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240520070409.1044236-1-kuro.chung@ite.com.tw>
+Subject: Re: [PATCH v11] drm/bridge: it6505: fix hibernate to resume no
+ display issue
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240520070409.1044236-1-kuro.chung@ite.com.tw>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:cLdn9iPKctZqvcO23ZhFt2x4JHo3hW6ETj0a6+vbqB0ZbV28ic8
+ 7/ebCRl5ftwg62yCO/c/Oy8hkeWmPJfa9y5ilNGf+mK6zzohSpEH7PgJqXhrJTxmfN809fo
+ t1KFv5atAjdOcNNktb3JJYcE4B2eA5Xz8sbOMebkQvvjdV7XGnUhYEX0dvSoI+ArkOu+Qfr
+ utsmq8XtdLCGBoO+K12uA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:1V/0Y0MN62s=;C5nde+mng12X55c4UQ1OmScX4o9
+ 62fZhHFqQHumjOwBfAgOQGH8TOTeCBZhPDfPqPXEYL2bq07M/72kT2X1fC9cjpeXHvBgY09KC
+ iuGHYs0lWKc1XfS7t4zsdzym5PAspEgfR2jKWgiiilkCNoHuY7nbdrTpa2QpsWSPZVM4804aP
+ LXeF6d0EtN8zmIpwl85oj8Ao0jsOoLg4TiMyBvvw6EeNjHAIoXW98y72MXQWLcWYy4CrJA8c3
+ StDqaXR1HiTPw/J29AmhsX16zKBcbw4g4IE/A/fwMnSAAyEjPbIfGlNhgZ2VSZuaZ2uJizBhe
+ n1Q+c95IJk9GpzASZ+/zWqxl0z3ExaQGsO9CtKEhj4G+cG4a5SsK61yLs+4OpUwvkTDIHsLCv
+ /PxDWDIkZXdJyhZgAnEVqz0Q+673xkjONKuAwFZxGL/FCTzCoyA5pmDVEjv0sWY3j67pbFk1h
+ JrRPmvuxyE4FMoHOkk18NYXKUhzu+lyHcLj3Jt4FX9dCns4Id5VpWtuMVmQb71710WJFh63uJ
+ wkQvqfswUYOCmHxtp+jqTyy2hxx8NXL4C0RHcPSOK1ic7/NhhOpEOx91bgCq4YTZu+X8b6VJP
+ yH6fkAIga675dl/DetfRnlXS1nRX3xVggla7eZYM1/CComh361T7KwSpVAu1Kpy6T1ZtkkMqG
+ DFbmP5QlKsyhaEa04wgIZLciYGa1eV6xiRTZ9WNgLtRZOoY2SF2ntKyNMxCVacA4FKL00FguS
+ i+Z1qJhtFwUFDQ3X7oaGwWjnSI4swldtQ+8Qd6WUJDsBAzsXq87LBitc/fQ5X6bZGBjbibvIa
+ 7GFvn80/XjzoowhlhqBycOtWQEs2ThBArhkR5GI2LZ9xk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,89 +91,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 May 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> On Tue, May 14, 2024 at 03:55:16PM +0300, Jani Nikula wrote:
->> Prefer the struct drm_edid based functions for reading the EDID and
->> updating the connector.
->> 
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> 
->> ---
->> 
->> Cc: Philipp Zabel <p.zabel@pengutronix.de>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Shawn Guo <shawnguo@kernel.org>
->> Cc: Sascha Hauer <s.hauer@pengutronix.de>
->> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
->> Cc: Fabio Estevam <festevam@gmail.com>
->> Cc: imx@lists.linux.dev
->> Cc: linux-arm-kernel@lists.infradead.org
->> ---
->>  drivers/gpu/drm/imx/ipuv3/imx-tve.c | 14 ++++++--------
->>  1 file changed, 6 insertions(+), 8 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-tve.c b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
->> index b49bddb85535..29f494bfff67 100644
->> --- a/drivers/gpu/drm/imx/ipuv3/imx-tve.c
->> +++ b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
->> @@ -201,18 +201,16 @@ static int tve_setup_vga(struct imx_tve *tve)
->>  static int imx_tve_connector_get_modes(struct drm_connector *connector)
->>  {
->>  	struct imx_tve *tve = con_to_tve(connector);
->> -	struct edid *edid;
->> -	int ret = 0;
->> +	const struct drm_edid *drm_edid;
->> +	int ret;
->>  
->>  	if (!tve->ddc)
->>  		return 0;
->>  
->> -	edid = drm_get_edid(connector, tve->ddc);
->> -	if (edid) {
->> -		drm_connector_update_edid_property(connector, edid);
->> -		ret = drm_add_edid_modes(connector, edid);
->> -		kfree(edid);
->> -	}
->> +	drm_edid = drm_edid_read_ddc(connector, tve->ddc);
->> +	drm_edid_connector_update(connector, drm_edid);
->> +	ret = drm_edid_connector_add_modes(connector);
->> +	drm_edid_free(drm_edid);
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> Nit: if you change two last lines, you can drop ret= assignment and use
-> return drm_edid_connector_add_modes(connector).
->
-> Maybe we shoud add cocci rule for such cases.
+> =E2=80=A6 This patch has been implemented to prevent =E2=80=A6
 
-I think there was a cocci rule like that, but a lot of people (including
-yours truly) preferred to keep the assignment, and the patches ended up
-in bikeshedding, so the cocci was removed.
+Under which circumstances will imperative wordings be applied for
+another improved change description?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.9#n94
 
-My argument is that it's not uncommon to keep adding and removing stuff
-while the code evolves, and having to change the return statement is
-boring and makes the diff harder to follow. It's a bit like that extra
-comma at the end of initialization lists or enumeration definitions.
-
-Others think the code should reflect current state and not prepare for
-scenarios that might never arrive.
-
-Both are correct, so it's perfect for never ending bikeshedding. ;)
-
-
-BR,
-Jani.
-
-
->
->>  
->>  	return ret;
->>  }
->> -- 
->> 2.39.2
->> 
-
--- 
-Jani Nikula, Intel
+Regards,
+Markus
