@@ -2,52 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48D78C9DC0
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524F48C9DDF
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 15:11:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78F0710E294;
-	Mon, 20 May 2024 12:57:45 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="eda2OZxY";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7884610E70A;
+	Mon, 20 May 2024 13:11:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 723E210E2A5
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 12:57:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=FC82UVm0nxuHlkVFmwyybG3PQLsRDR21pe9bb6BPHdU=; b=eda2OZxYl8OiNQHS
- VtHxZlq2kddk2ePPDL7FY0UQ+TmTixzqliTNw2ZEChfdtaZSeshkyN2gZ28XshpU9zjTcr4b/KXdL
- jYQM0r3Nw8CiZ0A3+TWpor7FuLBBhAg9xbLzYiMqFNnJxjAjxmV7/vxT8oRsNXWJ8ftK4FbIVAlje
- DPrwSKD3ImxaKAoFjAIv0bTKraq7qa8kcFAhm8y0DOVA9q1Tv4TBWKGci5njpm8lIuJnhcJq+7n7f
- CJbCVvFGtXtAv+p9dcmra1P5DzH96jpNV5+H16olnDel8hNpw3WPEdzN1X2j2ceySqyYjIn9rMf2s
- 8JzAOT8w0d2jj50evg==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1s92a8-001g5e-0T;
- Mon, 20 May 2024 12:57:36 +0000
-Date: Mon, 20 May 2024 12:57:36 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- maarten.lankhorst@linux.intel.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/6] drm/bridge: analogix: remove unused struct
- 'bridge_init'
-Message-ID: <ZktIwMWtQXuxCgRN@gallifrey>
-References: <20240517232427.230709-1-linux@treblig.org>
- <6tfxkc3foarpfuo6viwmsm4e2ujxjmhpqsku37d4ov6ppufpjr@byrbjs7srqri>
- <ZkqAoG9ZGg0_dC-9@gallifrey>
- <la43b5ra7aziiv7dwt4o5zha3px7jarfmk45dwsf24qn6pgcre@pcmcsicjdrus>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <la43b5ra7aziiv7dwt4o5zha3px7jarfmk45dwsf24qn6pgcre@pcmcsicjdrus>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 12:56:59 up 12 days, 11 min,  1 user,  load average: 0.06, 0.03, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+X-Greylist: delayed 314 seconds by postgrey-1.36 at gabe;
+ Mon, 20 May 2024 13:11:28 UTC
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8225510E70A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 13:11:28 +0000 (UTC)
+Received: from SIOS1075.ysato.ml (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+ by sakura.ysato.name (Postfix) with ESMTPSA id 770791C00F9;
+ Mon, 20 May 2024 22:06:04 +0900 (JST)
+Date: Mon, 20 May 2024 22:06:03 +0900
+Message-ID: <87fruc8wg4.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: linux-sh@vger.kernel.org,	Damien Le Moal <dlemoal@kernel.org>,	Niklas
+ Cassel <cassel@kernel.org>,	Rob Herring <robh@kernel.org>,	Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,	Conor Dooley
+ <conor+dt@kernel.org>,	Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>,	Stephen Boyd
+ <sboyd@kernel.org>,	David Airlie <airlied@gmail.com>,	Daniel Vetter
+ <daniel@ffwll.ch>,	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,	Thomas Zimmermann
+ <tzimmermann@suse.de>,	Thomas Gleixner <tglx@linutronix.de>,	Bjorn Helgaas
+ <bhelgaas@google.com>,	Lorenzo Pieralisi <lpieralisi@kernel.org>,	Krzysztof
+ =?ISO-8859-2?Q?Wilczy=F1ski?= <kw@linux.com>,	Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,	Jiri Slaby <jirislaby@kernel.org>,	Magnus
+ Damm <magnus.damm@gmail.com>,	Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Rich Felker <dalias@libc.org>,	Lee Jones <lee@kernel.org>,	Helge Deller
+ <deller@gmx.de>,	Heiko Stuebner <heiko.stuebner@cherry.de>,	Shawn Guo
+ <shawnguo@kernel.org>,	Sebastian Reichel <sre@kernel.org>,	Chris Morgan
+ <macromorgan@hotmail.com>,	Linus Walleij <linus.walleij@linaro.org>,	Arnd
+ Bergmann <arnd@arndb.de>,	David Rientjes <rientjes@google.com>,	Hyeonggon
+ Yoo <42.hyeyoo@gmail.com>,	Vlastimil Babka <vbabka@suse.cz>,	Baoquan He
+ <bhe@redhat.com>,	Andrew Morton <akpm@linux-foundation.org>,	Guenter Roeck
+ <linux@roeck-us.net>,	Kefeng Wang <wangkefeng.wang@huawei.com>,	Stephen
+ Rothwell <sfr@canb.auug.org.au>,	Javier Martinez Canillas
+ <javierm@redhat.com>,	Guo Ren <guoren@kernel.org>,	Azeem Shaikh
+ <azeemshaikh38@gmail.com>,	Max Filippov <jcmvbkbc@gmail.com>,	Jonathan
+ Corbet <corbet@lwn.net>,	Jacky Huang <ychuang3@nuvoton.com>,	Herve Codina
+ <herve.codina@bootlin.com>,	Manikanta Guntupalli
+ <manikanta.guntupalli@amd.com>,	Anup Patel <apatel@ventanamicro.com>,	Biju
+ Das <biju.das.jz@bp.renesas.com>,	Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+ <u.kleine-koenig@pengutronix.de>,	Sam Ravnborg <sam@ravnborg.org>,	Sergey
+ Shtylyov <s.shtylyov@omp.ru>,	Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>,	linux-ide@vger.kernel.org,
+ devicetree@vger.kernel.org,	linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,	linux-clk@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,	linux-pci@vger.kernel.org,
+ linux-serial@vger.kernel.org,	linux-fbdev@vger.kernel.org
+Subject: Re: [RESEND v7 00/37] Device Tree support for SH7751 based board
+In-Reply-To: <455e40c03314294f9c2e64480aa69f8261a3f2d5.camel@physik.fu-berlin.de>
+References: <cover.1712205900.git.ysato@users.sourceforge.jp>
+ <455e40c03314294f9c2e64480aa69f8261a3f2d5.camel@physik.fu-berlin.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,101 +81,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Dmitry Baryshkov (dmitry.baryshkov@linaro.org) wrote:
-> On Sun, May 19, 2024 at 10:43:44PM +0000, Dr. David Alan Gilbert wrote:
-> > * Dmitry Baryshkov (dmitry.baryshkov@linaro.org) wrote:
-> > > On Sat, May 18, 2024 at 12:24:27AM +0100, linux@treblig.org wrote:
-> > > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> > > > 
-> > > > 'bridge_init' is unused, I think following:
-> > > > commit 6a1688ae8794 ("drm/bridge: ptn3460: Convert to I2C driver model")
-> > > > (which is where a git --follow finds it)
-> > > > Remove it.
-> > > 
-> > > Please rephrase the commit message following guidelines in
-> > > Documentation/process. Use Fixes tags if suitable.
-> > 
-> > I specifically don't want to use Fixes in these set because
-> > there's no need for someone to backport this to older
-> > kernels that use the original, and many backporters
-> > use 'Fixes' as an automated means to find stuff they should
-> > backport.
-> > 
-> > Other than that, is there something specific you think I've
-> > missed?
+On Sat, 18 May 2024 18:08:30 +0900,
+John Paul Adrian Glaubitz wrote:
 > 
-> It's not about missing things. It's about a way it is written.
-> Consider something like:
+> Hi Yoshinori,
 > 
-> The commit aaaaaaa ("drm/bridge: foo bar") has dropped all the users of
-> the struct bridge_init from the exynos_dp_core, while retainng unused
-> structure definition. Later on the driver was reworked and the
-> definition migrated to the analogix_dp driver. Remove unused struct
-> bridge_init definition.
-
-OK, v2 sent with text close to that.
-
+> On Thu, 2024-04-04 at 14:14 +0900, Yoshinori Sato wrote:
+> > Sorry. previus mail is thread broken.
+> > 
+> > This is an updated version of something I wrote about 7 years ago.
+> > Minimum support for R2D-plus and LANDISK.
+> > I think R2D-1 will work if you add AX88796 to dts.
+> > And board-specific functions and SCI's SPI functions are not supported.
+> > 
+> > You can get it working with qemu found here.
+> > https://gitlab.com/yoshinori.sato/qemu/-/tree/landisk
+> > 
+> > v7 changes.
+> > - sh/kernel/setup.c: fix kernel parameter handling.
+> > - clk-sh7750.c: cleanup.
+> > - sh_tmu.c: cleanup.
+> > - irq-renesas-sh7751.c: IPR definition move to code.
+> > - irq-renesas-sh7751irl.c: update register definition.
+> > - pci-sh7751.c: Register initialization fix. 
+> > - sm501 and sm501fb: Re-design Device Tree properties.
 > 
-> > 
-> > (I'm also purposely being less certain here, because --follow
-> > is showing it in a ptn3460 and I don't quite follow
-> > why that changes it here).
+> Could you push your v7 version to your Gitlab [1] repository so I can fetch
+> it from there?
+
+updated it.
+I'll be posting v8 soon.
+
+> Thanks,
+> Adrian
 > 
-> The mentioned commit is a correct one. Historically exynos_dp_core had
-> been creating the ptn3460 bridge manually. Later on this was fixed in
-> the ptn3640 driver and the code was dropped from exynos_dp_core.
-
-Ah OK; remember I don't know the actual structure of these devices
-or the history.
-
-Dave
-
-> > 
-> > Dave
-> > 
-> > > 
-> > > > 
-> > > > Build tested.
-> > > > 
-> > > > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> > > > ---
-> > > >  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 5 -----
-> > > >  1 file changed, 5 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > > > index df9370e0ff23..1e03f3525a92 100644
-> > > > --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > > > +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > > > @@ -36,11 +36,6 @@
-> > > >  
-> > > >  static const bool verify_fast_training;
-> > > >  
-> > > > -struct bridge_init {
-> > > > -	struct i2c_client *client;
-> > > > -	struct device_node *node;
-> > > > -};
-> > > > -
-> > > >  static int analogix_dp_init_dp(struct analogix_dp_device *dp)
-> > > >  {
-> > > >  	int ret;
-> > > > -- 
-> > > > 2.45.1
-> > > > 
-> > > 
-> > > -- 
-> > > With best wishes
-> > > Dmitry
-> > -- 
-> >  -----Open up your eyes, open up your mind, open up your code -------   
-> > / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-> > \        dave @ treblig.org |                               | In Hex /
-> >  \ _________________________|_____ http://www.treblig.org   |_______/
+> > [1] https://gitlab.com/yoshinori.sato/linux
 > 
 > -- 
-> With best wishes
-> Dmitry
+>  .''`.  John Paul Adrian Glaubitz
+> : :' :  Debian Developer
+> `. `'   Physicist
+>   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+> 
+
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Yosinori Sato
