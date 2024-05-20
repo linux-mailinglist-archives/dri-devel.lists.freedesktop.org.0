@@ -2,87 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FC08CA286
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 21:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DF48CA32A
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 22:13:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED9D910E3C4;
-	Mon, 20 May 2024 19:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96E7110E3BC;
+	Mon, 20 May 2024 20:13:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MROHSrH7";
+	dkim=pass (2048-bit key; secure) header.d=craftyguy.net header.i=@craftyguy.net header.b="k3OWUPG6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
- [209.85.222.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF2C10E3C4
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 19:05:02 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id
- af79cd13be357-792b8d30075so270097785a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 12:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1716231900; x=1716836700;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=df0l1z5z3FCtw3Ch204FxFA5rR9YqNy64rwyV2fw88o=;
- b=MROHSrH7qb6Q1JjhveaOi1ALwzpSjXfvJ2BNRkdZjhMGjPsOhKQD+tBRRGd0pCS3mK
- GkMu5bheIg+va1eB3DvdHyqtbFKSZiy+7ZpMznuiwFmOIp+tgDxXPuEmZXHDu8HTf5tG
- BAQu0+hur95sFMXxTTzpCaNcyIcrAyh6+rGY0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716231900; x=1716836700;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=df0l1z5z3FCtw3Ch204FxFA5rR9YqNy64rwyV2fw88o=;
- b=C/GrqcgH15VlvEj/AKgz3UUHOiQ01MLQE9J8MVi74tJAXe005ct71Sgt+W79VeuQuO
- vIyGIZptbvGyYBmVqK89BnMEYHwS68p0/yL7PITSWfzr00VpVsHnqNc/W4E5qz6MUyt5
- WO0fI17DcpNuT42ECN7CWz0ScfRgWEI0tSGC69h7txKx3BDjW1bz2w66avkPIyoWXhBo
- sxieMrhHgCQTrexz3DIkO87cg5LvOgclfJxguyElAj2seCwhJiKm2DSWIVoIOm2okMUc
- mI7K+GErY6QK1y+a1Ai8rgKmxxohr5B6vOFg2st2ON3gbFNRZNSaViHkd9+sAjS8ePn9
- hkrA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQdRorEF+NZq0OVHHDtK89PLswBif9eQkACugMI0w7xrowHr1a6O+1Ebs/af7lX33V4rcqD1jzyNZuJ/ONh+AdGyxq9NLbozc/CFo9+Jcw
-X-Gm-Message-State: AOJu0YzPL78rxyrnJQG5WfLAx1dwwh2/wA1hVjivZwMDM6VlyhEGo4N5
- wGBxDboUnCzoGywr8IQPTJRUqMQ5uHSEfCcVdBKHTD8oWAPrfs0hM/UWAniluA1exgVCRFu1AZA
- =
-X-Google-Smtp-Source: AGHT+IH79fGn2KFBwoQ7Zv2I9vUIttM3PLZ4NU+Tv04L2wrOHnOXAKbIS8BKhOfHdtJF0a7s7VBrmw==
-X-Received: by 2002:a05:620a:5a43:b0:792:9f96:f7a with SMTP id
- af79cd13be357-792c7600b84mr3017633285a.66.1716231900108; 
- Mon, 20 May 2024 12:05:00 -0700 (PDT)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com.
- [209.85.160.173]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-43e2e4e1419sm82777501cf.51.2024.05.20.12.04.59
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 May 2024 12:05:00 -0700 (PDT)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-43f87dd6866so391671cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 12:04:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/R7bq8ZQUakw7Ic1rtkg0kDlmem/m3/ZV9ogalKyCCSj2FZuktAkjLXDi8WxcnFX8CGRkNrDwVc1bDcdvU+J0Tuasuv+SHOj3Wn+Cghs7
-X-Received: by 2002:a05:622a:1918:b0:43d:a002:b with SMTP id
- d75a77b69052e-43f7a91b195mr5561141cf.9.1716231529626; Mon, 20 May 2024
- 11:58:49 -0700 (PDT)
+X-Greylist: delayed 404 seconds by postgrey-1.36 at gabe;
+ Mon, 20 May 2024 20:13:02 UTC
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com
+ [95.215.58.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E87E10E3BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 20:13:02 +0000 (UTC)
+X-Envelope-To: dmitry.baryshkov@linaro.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=craftyguy.net;
+ s=key1; t=1716235575;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5pgb9HpMlYja56AtV4h4FfdFHjqmjLlGePeCHySyRgs=;
+ b=k3OWUPG62K5PcGfXbMY/qnJ8bn7v/VPSZRGb3+XQu3WQjqiRDfRtDP3/nXP4nQvX3tHayS
+ qySE5pK/1DvMl8MpfdXcSP4aC6e0fkKav9rOpAaHHzL8oIiGxzDbGvgXl3gOpQ/ZB3sEu6
+ KJC9Kns9GijIOUJNb813PD3m+eINJpimMDVgQRJft74AjFKWL2j/q1Y68iXd8dIFWPVH0r
+ oWprdyI083ll6bX5VltbUl+Cuzrqz2rIn2xDR/xfF7ZQJyswnFcsXfmBjrcyOalZOg2JPZ
+ 3GzII0zcb5ISg0LzStX97Za2DMaEaUhsEnx1sKROiPv1Vi/g2V/jr8BANeuIog==
+X-Envelope-To: clayton@craftyguy.net
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Clayton Craft <clayton@craftyguy.net>
+To: dmitry.baryshkov@linaro.org
+Cc: clayton@craftyguy.net,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/panel-edp: Add entry for BOE NV133WUM-N63 panel
+Date: Mon, 20 May 2024 13:06:00 -0700
+Message-ID: <20240520200611.6279-1-clayton@craftyguy.net>
+In-Reply-To: <CAA8EJpoobfosRMMNm2uDY3dNXgCU+LauRvg9-2MrQBwHO0q1Cg@mail.gmail.com>
+References: <CAA8EJpoobfosRMMNm2uDY3dNXgCU+LauRvg9-2MrQBwHO0q1Cg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20240507230440.3384949-1-quic_abhinavk@quicinc.com>
-In-Reply-To: <20240507230440.3384949-1-quic_abhinavk@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 20 May 2024 11:58:33 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Us-459kG-h1xT2+ffuSGuTLJ-UrJBD-5seRh4jAeHxmQ@mail.gmail.com>
-Message-ID: <CAD=FV=Us-459kG-h1xT2+ffuSGuTLJ-UrJBD-5seRh4jAeHxmQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: remove python 3.9 dependency for compiling msm
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- seanpaul@chromium.org, 
- swboyd@chromium.org, quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,28 +62,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This panel is found on some laptops e.g., variants of the Thinkpad X13s.
 
-On Tue, May 7, 2024 at 4:05=E2=80=AFPM Abhinav Kumar <quic_abhinavk@quicinc=
-.com> wrote:
->
-> Since commit 5acf49119630 ("drm/msm: import gen_header.py script from Mes=
-a"),
-> compilation is broken on machines having python versions older than 3.9
-> due to dependency on argparse.BooleanOptionalAction.
->
-> Switch to use simple bool for the validate flag to remove the dependency.
->
-> Fixes: 5acf49119630 ("drm/msm: import gen_header.py script from Mesa")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/registers/gen_header.py | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+Signed-off-by: Clayton Craft <clayton@craftyguy.net>
+---
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-FWIW, it looks like the commit this is fixing is now present in
-Linus's tree. Is there any plan to land this fix? It would be nifty if
-it could somehow make it in time for -rc1 so I don't need to track
-down this patch every time I need to build a subsystem tree for the
-next several weeks...
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 6db277efcbb7..f75db9917667 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -2047,6 +2047,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80, "NV122WUM-N41"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a1b, &delay_200_500_e50, "NV133WUM-N63"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV140FHM-T09"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c20, &delay_200_500_e80, "NT140FHM-N47"),
+-- 
+2.45.1
 
--Doug
