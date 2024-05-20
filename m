@@ -2,79 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB6F68C9BF1
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 13:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EDB48C9BFC
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 13:11:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B993410E628;
-	Mon, 20 May 2024 11:05:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 748D910E038;
+	Mon, 20 May 2024 11:11:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vj2UBb4M";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="L+IExyoC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0143D10E629
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 11:05:50 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-5238b7d0494so3426242e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 04:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716203149; x=1716807949; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=nsnKmHuBmN6J2mWJ2RFHNEE84aeXrDEHjd3h7k4ZwUU=;
- b=vj2UBb4MAbzKU3KPttxwyylPv5xiv3hFEcCmADWTWJBbDJpp7yErrX/cglQo4JFHrw
- UOMgbqHwxtsmBYYyAw70r0d2/AT+u2iNyp8uKHb9SLNMkcyi3MYzRIXsXdmjESMeVn/S
- TF+vr03AfrfWHBCE/svFRHRotDE3bkWkhekTDn1bbyCERjwG6gUldhhSbA7qRkgh2xup
- /egsk5nH3u4wyA3FsnywffN7zoeAVO2+4SeYY5X11BDv7yX+BoLnJnDsiAOdRU8AD8cw
- sd+iZFWx4EvaI5bebQnC9wUG2rimlCTi+7WF21CH8MYa5nHMya5i2ntkviGI6W/y0uLj
- +m1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716203149; x=1716807949;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nsnKmHuBmN6J2mWJ2RFHNEE84aeXrDEHjd3h7k4ZwUU=;
- b=MDyPGMT/tBfsJlRdp372GfERMt5pDKfxjcrFLxEeX5UUCM3D1ZNDYoW/Rmwt0HOOqO
- YEdvupgjRiOH2bbC8po1abqpK/xWQ5rsxZK8UMT2kOSxdYUInPWXkyWrKj+Sbrf3l35R
- TkO0vIt0j43dlSqtULJ1ZETWBp0eocW/a5GJL6AAVPYnVqb+HtFMsnec/wc4I5sqTfrA
- Np75SwTYjS/f0+prMSXGikdu8SIukgN/emcThhm3Jh4r6hl3p6i9z/Qm2kHlgcPt1aQQ
- s89v8Cgb/zz6KWyI9QFlsUg+BesW0Cb1xLWIvwhXHnnrQBNC1L6ifQPsnHFn69h8zsUE
- ighg==
-X-Gm-Message-State: AOJu0YwUAw3DoY63zgFwmqgqom0ZOur7eQgQ9y3FL/FoAAxwfUd02taY
- glpaYR+/y4tUeczowgt6FWu4/CErn0KaZuq4F+F8c1KfwDN1ZAAmt4KHwr57j14=
-X-Google-Smtp-Source: AGHT+IECc0/QGytciTsg1Ow4YOo2yweKq3yn/cTZEcTK3KUAdVVZMShgvpI1frMYPXAmC2Lq22cwUA==
-X-Received: by 2002:a19:2d09:0:b0:523:919d:302e with SMTP id
- 2adb3069b0e04-523919d325dmr15436572e87.7.1716203149103; 
- Mon, 20 May 2024 04:05:49 -0700 (PDT)
-Received: from eriador.lumag.spb.ru
- (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f35ba912sm4180788e87.75.2024.05.20.04.05.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 May 2024 04:05:48 -0700 (PDT)
-Date: Mon, 20 May 2024 14:05:47 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
- helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
- robdclark@gmail.com, 
- david.heidelberg@collabora.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, 
- mcanal@igalia.com, linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, 
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] drm/ci: update xfails for the new testlist
-Message-ID: <fbfo4juetokyhe6xsvxbfr3fakdushntnhlrpgbfttc22kvrc3@p3qr6qh4w3rc>
-References: <20240517092502.647420-1-vignesh.raman@collabora.com>
- <20240517092502.647420-7-vignesh.raman@collabora.com>
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com
+ [91.218.175.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE6DF10E038
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 11:11:22 +0000 (UTC)
+X-Envelope-To: dmitry.baryshkov@linaro.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1716203479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eTAHXovdMrNnDX5CNIwPDo86fcFlzz9zi6EnBgBKmYI=;
+ b=L+IExyoCRf2audl+y/F/pxSEby+KilHy6ybQ/3eRbsJoKvj+RfSH97i+B5mHHq+8wdGhHH
+ W+/LctJSgWUC1aQJ+dqn2RKySgnLqbfBmfUvTgOux5aH1N9tUkB3yBsoCE7B9stC7UtMRo
+ famdbdf2KGjdOnrMEBs2FN5PxCGhMzA=
+X-Envelope-To: victor.liu@nxp.com
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: andrzej.hajda@intel.com
+X-Envelope-To: neil.armstrong@linaro.org
+X-Envelope-To: rfoss@kernel.org
+X-Envelope-To: laurent.pinchart@ideasonboard.com
+X-Envelope-To: jonas@kwiboo.se
+X-Envelope-To: jernej.skrabec@gmail.com
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+X-Envelope-To: mripard@kernel.org
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: airlied@gmail.com
+X-Envelope-To: daniel@ffwll.ch
+X-Envelope-To: biju.das.jz@bp.renesas.com
+X-Envelope-To: u.kleine-koenig@pengutronix.de
+X-Envelope-To: aford173@gmail.com
+X-Envelope-To: jani.nikula@intel.com
+X-Envelope-To: bli@bang-olufsen.dk
+Message-ID: <e2d4e8b4-bab4-448f-8b67-21f2902fdcd2@linux.dev>
+Date: Mon, 20 May 2024 19:11:10 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240517092502.647420-7-vignesh.raman@collabora.com>
+Subject: Re: [PATCH] drm/bridge: adv7511: Exit interrupt handling when
+ necessary
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ biju.das.jz@bp.renesas.com, u.kleine-koenig@pengutronix.de,
+ aford173@gmail.com, jani.nikula@intel.com, bli@bang-olufsen.dk
+References: <20240516101006.2388767-1-victor.liu@nxp.com>
+ <evnxopqt5be56vxuxqdj4l3mcd5nrrvucio7jhwgg4emraai3t@gherubdynyip>
+Content-Language: en-US, en-AU
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <evnxopqt5be56vxuxqdj4l3mcd5nrrvucio7jhwgg4emraai3t@gherubdynyip>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,90 +85,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 17, 2024 at 02:55:02PM +0530, Vignesh Raman wrote:
-> Now the testlist is used from IGT build, so update
-> xfails with the new testlist.
-> 
-> Set the timeout of all i915 jobs to 1h30m since some jobs
-> takes more than 1 hour to complete.
-> 
-> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> ---
-> 
-> v2:
->   - Set the timeout of all i915 jobs to 1h30m and updated expectations file.
-> 
-> ---
->  drivers/gpu/drm/ci/test.yml                   |   6 +-
->  .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |  41 ++--
->  .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |   6 +
->  .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |  18 ++
->  drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |  31 ++++
->  .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |   8 +
->  drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |  11 ++
->  drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |  46 +++--
->  drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |   5 +
->  drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |  15 ++
->  drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |  38 ++++
->  drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |   5 +
->  drivers/gpu/drm/ci/xfails/i915-cml-skips.txt  |  14 ++
->  drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |  41 +++-
->  drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |   6 +
->  drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |  15 ++
->  drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |  42 ++---
->  drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |   6 +-
->  drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |  25 +++
->  drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |  77 ++++----
->  drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |  16 ++
->  drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |  63 ++++---
->  drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |   5 +
->  drivers/gpu/drm/ci/xfails/i915-whl-skips.txt  |  11 ++
->  .../drm/ci/xfails/mediatek-mt8173-fails.txt   |  30 ++-
->  .../drm/ci/xfails/mediatek-mt8173-flakes.txt  |  10 +
->  .../drm/ci/xfails/mediatek-mt8173-skips.txt   |   4 +
->  .../drm/ci/xfails/mediatek-mt8183-fails.txt   |  21 +--
->  .../drm/ci/xfails/mediatek-mt8183-skips.txt   |   4 +
->  .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |  24 +--
->  .../gpu/drm/ci/xfails/meson-g12b-skips.txt    |   4 +
->  .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |  12 +-
->  .../gpu/drm/ci/xfails/msm-apq8016-skips.txt   |   4 +
->  .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |   7 +
->  .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |   5 +
->  .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |  12 ++
->  .../msm-sc7180-trogdor-kingoftown-fails.txt   | 175 +++++++++++++++++-
->  .../msm-sc7180-trogdor-kingoftown-flakes.txt  |   7 +
->  .../msm-sc7180-trogdor-kingoftown-skips.txt   |   7 +
->  ...sm-sc7180-trogdor-lazor-limozeen-fails.txt | 175 +++++++++++++++++-
->  ...m-sc7180-trogdor-lazor-limozeen-flakes.txt |   5 +
->  ...sm-sc7180-trogdor-lazor-limozeen-skips.txt |   4 +
->  .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |  38 +---
->  .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   |  26 ++-
->  .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |   7 +
+Hi,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # msm testlists
+On 5/20/24 06:11, Dmitry Baryshkov wrote:
+> On Thu, May 16, 2024 at 06:10:06PM +0800, Liu Ying wrote:
+>> Commit f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pins")
+>> fails to consider the case where adv7511->i2c_main->irq is zero, i.e.,
+>> no interrupt requested at all.
+>>
+>> Without interrupt, adv7511_wait_for_edid() could return -EIO sometimes,
+>> because it polls adv7511->edid_read flag by calling adv7511_irq_process()
+>> a few times, but adv7511_irq_process() happens to refuse to handle
+>> interrupt by returning -ENODATA.  Hence, EDID retrieval fails randomly.
+>>
+>> Fix the issue by checking adv7511->i2c_main->irq before exiting interrupt
+>> handling from adv7511_irq_process().
+>>
+>> Fixes: f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pins")
+>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+>> ---
+>>   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+>> index 6089b0bb9321..2074fa3c1b7b 100644
+>> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+>> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+>> @@ -479,7 +479,8 @@ static int adv7511_irq_process(struct adv7511 *adv7511, bool process_hpd)
+>>   		return ret;
+>>   
+>>   	/* If there is no IRQ to handle, exit indicating no IRQ data */
+>> -	if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
+>> +	if (adv7511->i2c_main->irq &&
+>> +	    !(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
+>>   	    !(irq1 & ADV7511_INT1_DDC_ERROR))
+>>   		return -ENODATA;
+> 
+> I think it might be better to handle -ENODATA in adv7511_wait_for_edid()
+> instead. WDYT?
+> 
 
-We'd need to triage why the tests are failing, but at least it looks
-logical from my POV, no more full-test skips, etc.
-
->  .../drm/ci/xfails/rockchip-rk3288-fails.txt   |  62 +------
->  .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   4 +
->  .../drm/ci/xfails/rockchip-rk3399-fails.txt   |  83 +--------
->  .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |  12 +-
->  .../drm/ci/xfails/rockchip-rk3399-skips.txt   |   4 +
->  drivers/gpu/drm/ci/xfails/update-xfails.py    |   4 +-
->  .../drm/ci/xfails/virtio_gpu-none-fails.txt   |  94 +++++++---
->  .../drm/ci/xfails/virtio_gpu-none-skips.txt   |   4 +
->  53 files changed, 1010 insertions(+), 389 deletions(-)
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-flakes.txt
+I think this is may deserve another patch.
 
 -- 
-With best wishes
-Dmitry
+Best regards
+Sui
