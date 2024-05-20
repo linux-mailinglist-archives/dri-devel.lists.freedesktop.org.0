@@ -2,63 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B2A8C9B3F
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 12:28:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4308C9B44
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 12:29:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2172510E261;
-	Mon, 20 May 2024 10:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDDB10E467;
+	Mon, 20 May 2024 10:29:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oH2UqPcV";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="heIlTYju";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A195E10E261
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 10:28:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1716200907;
- bh=bRKzyqcLlrX4+PGCOXat0+khakBlpiwK24ehTi1z8yM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oH2UqPcVf6XjzjCSoqpkEqHstieql7cPzcsJsWmHIXOChB7KUapE0PdJGKSIRy41J
- CXWTBi+k2jE8u/cFQL2b1EM+QEJu/jIQU5dsC83XXrIuCf5NL4M1xrLnzgvK/9VpGp
- 0lFlw7NDXoq4SjbEIn96ZNluNpPQiYuz3cPKdEmlRIQudJQHUNE39e9LPi6GjaMJ00
- v9BjDdn3thsHM3OCvIrScN/zKKGJNbU/t227ZVc4FUrDP1Lia4DyfgRxTyodCfIHVH
- 1Xei0WncqWb5WcAePLRDmSSLDNSV4FAo3FQFR6Q78RqO24etRNvRJCzXx/tIRPj94M
- 8r5mmvtLAMauw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2E64137821B2;
- Mon, 20 May 2024 10:28:26 +0000 (UTC)
-Message-ID: <08b60894-0023-4ad7-9c6b-b1e99b1b4cd8@collabora.com>
-Date: Mon, 20 May 2024 12:28:25 +0200
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A461D10E4FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 10:29:13 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-5206a5854adso2763661e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 03:29:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1716200951; x=1716805751; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=p5BgnpxvIdvwCUBBX92qJk66NJ04cMwQMD5QktP8CYA=;
+ b=heIlTYju9lc627lII1h33tkaIhJ7hrJp+6UXAXokI7f4zYCE6zI2uvulJbYxXl42RI
+ a9v/v57hx30CcxoGabtuQVywxqR/1IGgl+CYPp7Z54+nO/z7UVXGTr74poBteeWWYGDE
+ fjpV+T4MU0MkI6iL9AhEFlgV+FuZgEKRLz2kaXiLtpP7PisMV7+HWMro+MoCC/mLnHXY
+ THN2V3jgpF+40WRlg+4HJzTbiXt11L0yqQDn+fK/2sHZDFMWMOZb/eyc6JiY6ZCi85H4
+ L19c+CK3ELuw2xApWkzNa1eetZ148vTNHU68JfDnp3C7KVJ7LsbaVJnQVS5r4Uf4+ZD+
+ AdJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716200951; x=1716805751;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p5BgnpxvIdvwCUBBX92qJk66NJ04cMwQMD5QktP8CYA=;
+ b=fhQTfcbyxWy3dybolG9ubjuk/RSRUE14uOYSCShabYeMmgg1SDL4H3VH90Pr14ZrS2
+ b3C5lkPtXhDukwLFJqJpxpA+iM9IXnSpeaz59xlARlAr98MzatcxA6Hg4EWUMi1Harp7
+ Fz/lqvjTd47E81cducIfGXtFgb/GnJD8UTn87s5HwlrO8i7TbDD7L5ruKgCQLXTvQmlC
+ AxUZ1tyW+ReajugcRRKtfnLAUTryIrlkRLCAxCq2KXYz9qq9DIDtNkRCI6/KkPsBHibb
+ 4ltIVh5NB5s+asE9sAjoBU2ggyv6sA5KmNPb4tsdNUyRsDn8jzEH0DCROVd08pNFMQik
+ 0+Fg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXFYzfdUtZOWxLiTNeq5RIpgbhzAcHEy5ce7JDQ6CBdN604kVt3tbUGYOmHhE9r/lIn7QbrWxGunERHx3CCrPRGiJmeJwpKyFysfppFKX5q
+X-Gm-Message-State: AOJu0Yx0cgKlAsuBL68ra9agQnTfvYi2zt+YHkF7jlPdX6OUrRGMn8gy
+ vsdOM1FP6dboKteTuHkn3I6aAFXyxwT7q9y2qDotiTsuxrcv0BCSVAOG+XkpBt4=
+X-Google-Smtp-Source: AGHT+IHbw7vdPZW/Q/3B127sO5ThFAPWGOkk69KJmFFZ4bAg3sJj0kVFt4UGPkQjZh5b3l81NcjHxw==
+X-Received: by 2002:a05:6512:459:b0:516:d0e3:9275 with SMTP id
+ 2adb3069b0e04-5220fc735e5mr16898943e87.11.1716200951305; 
+ Mon, 20 May 2024 03:29:11 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-521f38d33dfsm4221651e87.139.2024.05.20.03.29.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 May 2024 03:29:10 -0700 (PDT)
+Date: Mon, 20 May 2024 13:29:08 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Caleb Connolly <caleb.connolly@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, 
+ Caleb Connolly <caleb@connolly.tech>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/panel: lg-sw43408: Fix an error handling path in
+ sw43408_probe()
+Message-ID: <e7dvsrbaaltfqncnlxh7fp27ffkaeylpsih45lzfsawz3vdqih@btzvr72epgrp>
+References: <b8dfafaf1516b33dfc21e9ad27e31fe2a5820a5c.1716197626.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/16] ASoC: mediatek: mt8365: Add PCM DAI support
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v4-0-082b22186d4c@baylibre.com>
- <20240226-audio-i350-v4-9-082b22186d4c@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240226-audio-i350-v4-9-082b22186d4c@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b8dfafaf1516b33dfc21e9ad27e31fe2a5820a5c.1716197626.git.christophe.jaillet@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,91 +93,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 26/04/24 19:22, Alexandre Mergnat ha scritto:
-> Add Pulse Code Modulation Device Audio Interface support for MT8365 SoC.
+On Mon, May 20, 2024 at 11:34:31AM +0200, Christophe JAILLET wrote:
+> If mipi_dsi_attach() fails, we must undo the drm_panel_add() call hidden in
+> sw43408_add(), as already done in the remove function.
 > 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> Fixes: 069a6c0e94f9 ("drm: panel: Add LG sw43408 panel driver")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
->   sound/soc/mediatek/mt8365/mt8365-dai-pcm.c | 293 +++++++++++++++++++++++++++++
->   1 file changed, 293 insertions(+)
+> Compile tested only
+> ---
+>  drivers/gpu/drm/panel/panel-lg-sw43408.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/sound/soc/mediatek/mt8365/mt8365-dai-pcm.c b/sound/soc/mediatek/mt8365/mt8365-dai-pcm.c
-> new file mode 100644
-> index 000000000000..a5de47c69620
-> --- /dev/null
-> +++ b/sound/soc/mediatek/mt8365/mt8365-dai-pcm.c
-> @@ -0,0 +1,293 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Mediatek 8365 ALSA SoC Audio DAI PCM Control
-> + *
-> + * Copyright (c) 2024 MediaTek Inc.
-> + * Authors: Jia Zeng <jia.zeng@mediatek.com>
-> + *          Alexandre Mergnat <amergnat@baylibre.com>
-> + */
-> +
-> +#include <linux/bitops.h>
-> +#include <linux/regmap.h>
-> +#include <sound/pcm_params.h>
-> +#include "mt8365-afe-clk.h"
-> +#include "mt8365-afe-common.h"
-> +
-> +struct mt8365_pcm_intf_data {
-> +	bool slave_mode;
-> +	bool lrck_inv;
-> +	bool bck_inv;
-> +	unsigned int format;
-> +};
-> +
-> +/* DAI Drivers */
-> +
-> +static void mt8365_dai_enable_pcm1(struct mtk_base_afe *afe)
-> +{
-> +	regmap_update_bits(afe->regmap, PCM_INTF_CON1,
-> +			   PCM_INTF_CON1_EN, PCM_INTF_CON1_EN);
-> +}
-> +
-> +static void mt8365_dai_disable_pcm1(struct mtk_base_afe *afe)
-> +{
-> +	regmap_update_bits(afe->regmap, PCM_INTF_CON1,
-> +			   PCM_INTF_CON1_EN, 0x0);
-> +}
-> +
-> +static int mt8365_dai_configure_pcm1(struct snd_pcm_substream *substream,
-> +				     struct snd_soc_dai *dai)
-> +{
-> +	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
-> +	struct mt8365_afe_private *afe_priv = afe->platform_priv;
-> +	struct mt8365_pcm_intf_data *pcm_priv = afe_priv->dai_priv[MT8365_AFE_IO_PCM1];
-> +	bool slave_mode = pcm_priv->slave_mode;
-> +	bool lrck_inv = pcm_priv->lrck_inv;
-> +	bool bck_inv = pcm_priv->bck_inv;
-> +	unsigned int fmt = pcm_priv->format;
-> +	unsigned int bit_width = dai->sample_bits;
-> +	unsigned int val = 0;
-> +
-> +	if (!slave_mode) {
-> +		val |= PCM_INTF_CON1_MASTER_MODE |
-> +		       PCM_INTF_CON1_BYPASS_ASRC;
-> +
-> +		if (lrck_inv)
-> +			val |= PCM_INTF_CON1_SYNC_OUT_INV;
-> +		if (bck_inv)
-> +			val |= PCM_INTF_CON1_BCLK_OUT_INV;
-> +	} else {
-> +		val |= PCM_INTF_CON1_SLAVE_MODE;
-> +
-> +		if (lrck_inv)
-> +			val |= PCM_INTF_CON1_SYNC_IN_INV;
-> +		if (bck_inv)
-> +			val |= PCM_INTF_CON1_BCLK_IN_INV;
-> +
-> +		// TODO: add asrc setting
 
-/* TODO ... */
-
-after which:
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 
+-- 
+With best wishes
+Dmitry
