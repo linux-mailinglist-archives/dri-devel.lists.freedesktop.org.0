@@ -2,75 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E789F8C9EE1
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 16:35:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D948C9F45
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 17:06:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA8A110E22D;
-	Mon, 20 May 2024 14:35:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0662710E06B;
+	Mon, 20 May 2024 15:06:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U5u7d1NX";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Uzpt5Kd+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9414A10E22D
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 14:35:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716215714; x=1747751714;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=yCoPR1d+Zt+QtoUbnC3otqSv3QoByt1aVGPymXoVu5Y=;
- b=U5u7d1NXhq4z7FMTINQmbgMHKIHAiZ8OarvD4hIpHE8Cba9PCjWn1C8w
- GGv0AteNCSIQlMkpe6NPOXtoAwQf6l7rmXyYOWj8kBHRFsCRm2s+YoGzY
- J4JGrfSyNtVGNGK2Ez/bNRBtYuF8lGLUYA4V9dKjQPboZs6veT3KlVfrN
- a11ifo05wzrPePviDMU92Gyu4awXnbqfoIb8N6wE1ctOKkUEKzEoFLsVx
- 4vo5AiUVqylIpmNHYbz37/cXNXyQTBjz6s85PQwg0ReGr02qc7HdbljWa
- iMighBxHslfh499uG5BCx9xgsEO1v0Oda4niYRN/agRaMr7lLg2l+yWhg w==;
-X-CSE-ConnectionGUID: piAmpckWS32UmsJwdwQXRA==
-X-CSE-MsgGUID: NBZDsUwhQteWSg1cGHksxg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="29866683"
-X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; d="scan'208";a="29866683"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2024 07:35:13 -0700
-X-CSE-ConnectionGUID: 8ZK9kJk8RlmKxp8jpC69jA==
-X-CSE-MsgGUID: SsWd1+giTGaMnFnAdrEnAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; d="scan'208";a="32588040"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2024 07:35:07 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1s946S-00000009L88-12iK; Mon, 20 May 2024 17:35:04 +0300
-Date: Mon, 20 May 2024 17:35:04 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: Daniel Latypov <dlatypov@google.com>, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
- sebastian.fricke@collabora.com, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, adobriyan@gmail.com,
- jani.nikula@intel.com, p.zabel@pengutronix.de, airlied@gmail.com,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
- vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
- detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
- andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com
-Subject: Re: [PATCH v8 07/10] lib: add basic KUnit test for lib/math
-Message-ID: <ZktfmF1a7gzc-hqB@smile.fi.intel.com>
-References: <20240517171532.748684-1-devarsht@ti.com>
- <20240517173607.800549-1-devarsht@ti.com>
- <Zke6o3HYnUrgtD0K@smile.fi.intel.com>
- <7b8cd37b-5b16-2d99-ab62-5d6876e6571c@ti.com>
- <ZktAlza1zEke1eCx@smile.fi.intel.com>
- <01bd1d88-2cff-ad12-c7fb-3f2eddcfd899@ti.com>
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
+ [91.218.175.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A87E010E06B
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 15:06:04 +0000 (UTC)
+X-Envelope-To: christophe.jaillet@wanadoo.fr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1716217561;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PwzdzS+RKJr1SA2chiorO8WaCu0QC0RukkB2yaWaCbI=;
+ b=Uzpt5Kd+17UKpR36Q0DeS3Lt/g1qwjtJTqxlAfr8GAv0kuaC6N/zuahihA9JVeyHFziDYt
+ Tdaa5+yq08fncTmJuDeQppq6srA3Mp8ea6E2EYxVzzgZfTribQEy4P/HFKeUezQzYSIhwr
+ ta4lJ5r09VJjB7qIYEdzwDfPQktOYvE=
+X-Envelope-To: laurent.pinchart@ideasonboard.com
+X-Envelope-To: tomi.valkeinen@ideasonboard.com
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+X-Envelope-To: mripard@kernel.org
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: airlied@gmail.com
+X-Envelope-To: daniel@ffwll.ch
+X-Envelope-To: michal.simek@amd.com
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: kernel-janitors@vger.kernel.org
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+Message-ID: <5288867f-ee45-4930-bde0-14b24b878181@linux.dev>
+Date: Mon, 20 May 2024 11:05:57 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <01bd1d88-2cff-ad12-c7fb-3f2eddcfd899@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Subject: Re: [PATCH] drm: zynqmp_dpsub: Fix an error handling path in
+ zynqmp_dpsub_probe()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+References: <974d1b062d7c61ee6db00d16fa7c69aa1218ee02.1716198025.git.christophe.jaillet@wanadoo.fr>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <974d1b062d7c61ee6db00d16fa7c69aa1218ee02.1716198025.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,49 +77,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 20, 2024 at 07:51:24PM +0530, Devarsh Thakkar wrote:
-> On 20/05/24 17:52, Andy Shevchenko wrote:
-> > On Mon, May 20, 2024 at 05:11:18PM +0530, Devarsh Thakkar wrote:
-> >> On 18/05/24 01:44, Andy Shevchenko wrote:
-> >>> On Fri, May 17, 2024 at 11:06:07PM +0530, Devarsh Thakkar wrote:
-
-[..]
-
-> > Yes, and one should follow IWYU principle and not cargo cult or whatever
-> > arbitrary lists.
+On 5/20/24 05:40, Christophe JAILLET wrote:
+> If zynqmp_dpsub_drm_init() fails, we must undo the previous
+> drm_bridge_add() call.
 > 
-> Agreed.
-
-> >>>> +#include <linux/lcm.h>
-> >>>
-> >>> + math.h // obviously
-> >>> + module.h
-> >>>
-> >>>> +#include <linux/reciprocal_div.h>
-> >>>
-> >>> + types.h
-> >>
-> >> All the above headers are already included as part of kernel.h
-> > 
-> > Yes, that's why you should not use "proxy" headers.
-> > Have you read the top comment in the kernel.h?
+> Fixes: be3f3042391d ("drm: zynqmp_dpsub: Always register bridge")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> Compile tested only
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Yes, it says it is not recommended to include this inside another header file.
-> Although here we are adding it inside c file, but I can still try avoid it and
-> include only the required headers instead of kernel.h as you recommended.
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> index face8d6b2a6f..f5781939de9c 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> @@ -269,6 +269,7 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+>  	return 0;
+>  
+>  err_disp:
+> +	drm_bridge_remove(dpsub->bridge);
+>  	zynqmp_disp_remove(dpsub);
+>  err_dp:
+>  	zynqmp_dp_remove(dpsub);
 
-Right, but the first sentence there is
-"This header has combined a lot of unrelated to each other stuff."
-
-Can you explain how you use in your code all that unrelated stuff?
-For example, how do you use *trace_*() calls? Or maybe might_*() calls?
-or anything else that is directly provided by kernel.h?
-
-Besides IWYU principle above, it's good to have a justification for each
-inclusion the C file has. I believe there is no a such in _this_ case.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Sean Anderson <sean.anderso@linux.dev>
