@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA938C9CE1
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D918C9CED
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:13:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1110010E609;
-	Mon, 20 May 2024 12:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 512EC10E606;
+	Mon, 20 May 2024 12:12:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eiu/AI4Q";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uetiVop8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 150D810E0BB
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8FCC10E2AE
  for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 12:12:49 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-51f0602bc58so2392584e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 05:12:48 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-5241b49c0daso1758984e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 05:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716207167; x=1716811967; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1716207168; x=1716811968; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=u5zLKnMtRb2Yx+jUatqEm2tktsnKzIpv+CHT4vbWSNo=;
- b=eiu/AI4Qd35PYqqhBjdQfpsSGgV+teqRQ5RkC4mhoA8GeNlz1y9G6agSEespE7RjWb
- MZIGDqad94y95KmmTyxL/svV8O9DvJ8t8UW4S78FSWLxipCMGOrBMBOz2iZuzfzp3Aw/
- klshHTAemxZ1wfLKkQMmA9JmtQuWuKxuuypTTGEYP2FA6dSKd/6yCfAaFojD5MqCX0f3
- XWAkxtNgv9VEAmErSEhK1R5sjmFv4+tgihhzlsa6erYmMWS/xF9ZnZROGk7m5g6ATYzy
- tAQ+iug6QOW7WqyvVEws4Liddvq8laaD4yiLEL2SElYRh03taj86655wvJmd/BINuaES
- IXXw==
+ :reply-to; bh=azCAUbP81p6FXz3Lrf7UeBHi+32GPaYrpMLE7+SkPh0=;
+ b=uetiVop843gfr2/9NjDob5bFxiJq4r071IIWO8EAzCmqj5xe4y65HeJUv6meDRFMQQ
+ nML/A0xLSYzdr+vtT6looI4teD1BktULj4nHeqUPQ+xxoFbFMlQsxmDNF9E8qejECjou
+ Rl6G0wahOGXOhrVNAE5MVfARZEDsphbhHuHuruVP3u8tE033scr+LuLtPt8rshjvYsAv
+ ZPifN9Tu9VDjjyTJtKjBzRSy3XvHe2xU6+jqI/Fu3GBiH8sm6Amob/9S8FhElpwFKDsD
+ WYP6ZJcLaH9Okk+OQ+vOCrqhqPgmDkhO2/ebWyU5gzwte1eWn+bZudFaiBLUxU61gm6n
+ HKWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716207167; x=1716811967;
+ d=1e100.net; s=20230601; t=1716207168; x=1716811968;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=u5zLKnMtRb2Yx+jUatqEm2tktsnKzIpv+CHT4vbWSNo=;
- b=Nf+XKHNMhkl1rhwU0Ity/5Svfk0vGMKcsPCh0AoTrZH14n5PDQt29vkFbAFdLxOqbL
- o/yv72YOFWBu3GCXiNjMrvAK6oolJkPEq2/YThiRIDqRJ+FnpkAGz3tyhAisEw82j3Co
- oNyWkH8kQ49XGjFe58owUBg77d5TVNoygV1RDWbeJ0vUNCX1+ZHqt6G/JhPvOEl8JXWR
- TT2jd6M14YdWvJQQT7h13wSvOE3/3XPZBmESNi0diJOO2GJc32+jstph3XqQ00nZbKmK
- CY2nzCnGDpy3UXn6G7OWorGpjC5a0AJRLseTG3fredPn8S2pEODx5g/UVL89TuUFC4Th
- grdA==
+ bh=azCAUbP81p6FXz3Lrf7UeBHi+32GPaYrpMLE7+SkPh0=;
+ b=vFwlcUFGqevnQD5m34gq8iqrpUQBn94k7pCe69KjBTQLMEZwT3OaZI7S/DlNB0Zkj5
+ v2Y94Ax7z2k7Z8AUoKU6iBk8CzD6bGieTOysaFsux71aAsV6uNHjrzij8Y88xzhqDKfp
+ Mth/BwWsywXruQsLI25Boa7E37IYKytMIBFlMnIx1Ax3tNg/hLmeyQ+F6DMrGeon99yT
+ n1H7LtfkTG2fp8EwiE/xEd/HvM2e0De0gchf3xxhL32cLCJhpMmG5+M8E95QyTeBEc7K
+ SGa2vfLuimhCq1DI/V2KokUsyem6Navv7cUlImPlwesKXsNdAgbhtSdJMYiPd1SktUZ2
+ TaQA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWLOciAy1fuEhNRxVKpbDHmQvFuBXCn7CrQewegKY7qo4Sblsp/STBmU5t9dHwVwz7b0P5ctzUJDw4ARO2oYMeJABYVDzcbY/DvDIoLO35v
-X-Gm-Message-State: AOJu0Yx5FlnHDHwZYOrdhxiAFhg0OeLMjdv6WXHFSZwspbNqCzumsTPt
- HbeViXEca7ZVR6qC9ghUOt2ACHY73TfGCejbMCUHC4Qtl5mp8543e23T44ZfXuU=
-X-Google-Smtp-Source: AGHT+IFmCz2UjdpX2jReHWPeQmSe3l39pMsynvOjbskQ/rKPTL0Rxr5iRCVGRc6KIMGt0K9PVz9jrQ==
-X-Received: by 2002:ac2:504a:0:b0:523:7680:d07 with SMTP id
- 2adb3069b0e04-52407ac106bmr2029575e87.6.1716207167313; 
+ AJvYcCVJ2M1lxWE/vy8sSSzGcB5YD3DOhZkC4FKIWL2Fcoyug4+MlPLHemnXN9MslNvBYU5v50Z+w7k+QEAYblhT6k7W+VSkXzxu8jizrEN+eW0I
+X-Gm-Message-State: AOJu0Yxd2vhxC+HTvFj3uAA/MNWCpaoYUSUpVuEepona/aCqahDuZ5N1
+ 6VfBz3cd+Dl0lRHdxtBVKHSqNXe2OBlRt6dxeoXrEuIyz4+qQ1PhR6qwFYkEnYc=
+X-Google-Smtp-Source: AGHT+IFHXDg+EVY96/TXoydluRSvx4tfTtHcuReGqwXRhizYWJfHYfKjYmaD7LxLO00+dtpo3Ayx1g==
+X-Received: by 2002:a05:6512:1386:b0:51d:aae8:646 with SMTP id
+ 2adb3069b0e04-5220fb7671fmr24010121e87.11.1716207167999; 
  Mon, 20 May 2024 05:12:47 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f35ad6c0sm4273682e87.30.2024.05.20.05.12.46
+ 2adb3069b0e04-521f35ad6c0sm4273682e87.30.2024.05.20.05.12.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 May 2024 05:12:46 -0700 (PDT)
+ Mon, 20 May 2024 05:12:47 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 20 May 2024 15:12:43 +0300
-Subject: [PATCH 1/7] dt-bindings: display/msm/dsi: allow specifying TE source
+Date: Mon, 20 May 2024 15:12:44 +0300
+Subject: [PATCH 2/7] drm/msm/dpu: convert vsync source defines to the enum
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240520-dpu-handle-te-signal-v1-1-f273b42a089c@linaro.org>
+Message-Id: <20240520-dpu-handle-te-signal-v1-2-f273b42a089c@linaro.org>
 References: <20240520-dpu-handle-te-signal-v1-0-f273b42a089c@linaro.org>
 In-Reply-To: <20240520-dpu-handle-te-signal-v1-0-f273b42a089c@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -76,16 +76,16 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1898;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3962;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=jse+EfinCh8AnjkQx3C/iJk2/gtirSq7agUZaG5U5so=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmSz48jwip4m8plivDyhrPuFWOv0Ug1EGy9W0K9
- cDJzlc2sZeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZks+PAAKCRCLPIo+Aiko
- 1Y8uB/985G/uHWGA0fZD2EfZLAaCrUvpeIOFfLeCFEa028C+6blQHf0FSdKZqvw3Zj2Pzfptf9k
- 4mn6ZhLgH3HoSk9Lur7syvZFJflVZn9Zyxo2U9VTjxi+78uTiZuZevLadDhhwvjNTghv6uqvqMH
- oDXwGp6eReQbD5gvE+TYsw3cn/6zdGzRcus9oMvln5mkk91k/aoLNpTaBGJ3y5wREkYW0xC22QB
- NTKhnNxwNfYb40pqUpqyMwMIXJp4dwrM8pITaxgYhp1RoskLo7YpNb1tNMWTSmM2LbpkqXyb4zV
- Zt71RD+a1F2Wvdbr2bBMwR4o1PYlHQF+NVi+mylASA5FrqWX
+ bh=J8Xb1/I3EmuS+Y/A0WKJ5x+Y52MqFdPOqf+7n3dQ3/c=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmSz48m8V7fkZ7xpTmWfwckD/lkB5CTS/3Sbupp
+ RcBptnAar6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZks+PAAKCRCLPIo+Aiko
+ 1aacCACnwDVWWZYxOsZbcmthWWJS6loboPeeug/ROWmbTwwjN10uUUwWW0eu2lybLGygqkmy3W7
+ QKHxF1p+W5nO1sh5Pa9Qk2HeYNDXpFR+nrq75nOspJ9zpcKzhxzykvT0q1XVWdPo6lXPFXoaZM5
+ PQzA9UnhBW/7FBKuXtWXsDy3fmw0eJTOQqPuan8YbS8tWku9NL4nrSUJfS2WUkv63KFVHVGmMMW
+ 58CcML6DyJhjjSF1QwtdOrMVHno/dZK98oNQ+9z8SeVvK8FOcTIKZSSFVMcB6R2JXOTQyvdjYmH
+ oJes68AqV53eIzoJrLnSt1TL26CHugIboG9SW4bvDRnXGZp3
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,51 +103,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Command mode panels provide TE signal back to the DSI host to signal
-that the frame display has completed and update of the image will not
-cause tearing. Usually it is connected to the first GPIO with the
-mdp_vsync function, which is the default. In such case the property can
-be skipped.
+Add enum dpu_vsync_source instead of a series of defines. Use this enum
+to pass vsync information.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../bindings/display/msm/dsi-controller-main.yaml        | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h | 26 ++++++++++++++------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h  |  2 +-
+ 5 files changed, 18 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index 1fa28e976559..c1771c69b247 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -162,6 +162,21 @@ properties:
-                 items:
-                   enum: [ 0, 1, 2, 3 ]
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 119f3ea50a7c..4988a1029431 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -747,7 +747,7 @@ static void _dpu_encoder_update_vsync_source(struct dpu_encoder_virt *dpu_enc,
+ 		if (disp_info->is_te_using_watchdog_timer)
+ 			vsync_cfg.vsync_source = DPU_VSYNC_SOURCE_WD_TIMER_0;
+ 		else
+-			vsync_cfg.vsync_source = DPU_VSYNC0_SOURCE_GPIO;
++			vsync_cfg.vsync_source = DPU_VSYNC_SOURCE_GPIO_0;
  
-+              qcom,te-source:
-+                $ref: /schemas/types.yaml#/definitions/string
-+                description:
-+                  Specifies the source of vsync signal from the panel used for
-+                  tearing elimination. The default is mdp_gpio0.
-+                enum:
-+                  - mdp_gpio0
-+                  - mdp_gpio1
-+                  - mdp_gpio2
-+                  - timer0
-+                  - timer1
-+                  - timer2
-+                  - timer3
-+                  - timer4
-+
-     required:
-       - port@0
-       - port@1
-@@ -452,6 +467,7 @@ examples:
-                           dsi0_out: endpoint {
-                                    remote-endpoint = <&sn65dsi86_in>;
-                                    data-lanes = <0 1 2 3>;
-+                                   qcom,te-source = "mdp_gpio2";
-                           };
-                   };
-            };
+ 		hw_mdptop->ops.setup_vsync_source(hw_mdptop, &vsync_cfg);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index 225c1c7768ff..96f6160cf607 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -462,7 +462,7 @@ static int dpu_hw_intf_get_vsync_info(struct dpu_hw_intf *intf,
+ }
+ 
+ static void dpu_hw_intf_vsync_sel(struct dpu_hw_intf *intf,
+-		u32 vsync_source)
++				  enum dpu_vsync_source vsync_source)
+ {
+ 	struct dpu_hw_blk_reg_map *c;
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+index f9015c67a574..ac244f0b33fb 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+@@ -107,7 +107,7 @@ struct dpu_hw_intf_ops {
+ 
+ 	int (*connect_external_te)(struct dpu_hw_intf *intf, bool enable_external_te);
+ 
+-	void (*vsync_sel)(struct dpu_hw_intf *intf, u32 vsync_source);
++	void (*vsync_sel)(struct dpu_hw_intf *intf, enum dpu_vsync_source vsync_source);
+ 
+ 	/**
+ 	 * Disable autorefresh if enabled
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+index 66759623fc42..a2eff36a2224 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+@@ -54,18 +54,20 @@
+ #define DPU_BLEND_BG_INV_MOD_ALPHA	(1 << 12)
+ #define DPU_BLEND_BG_TRANSP_EN		(1 << 13)
+ 
+-#define DPU_VSYNC0_SOURCE_GPIO		0
+-#define DPU_VSYNC1_SOURCE_GPIO		1
+-#define DPU_VSYNC2_SOURCE_GPIO		2
+-#define DPU_VSYNC_SOURCE_INTF_0		3
+-#define DPU_VSYNC_SOURCE_INTF_1		4
+-#define DPU_VSYNC_SOURCE_INTF_2		5
+-#define DPU_VSYNC_SOURCE_INTF_3		6
+-#define DPU_VSYNC_SOURCE_WD_TIMER_4	11
+-#define DPU_VSYNC_SOURCE_WD_TIMER_3	12
+-#define DPU_VSYNC_SOURCE_WD_TIMER_2	13
+-#define DPU_VSYNC_SOURCE_WD_TIMER_1	14
+-#define DPU_VSYNC_SOURCE_WD_TIMER_0	15
++enum dpu_vsync_source {
++	DPU_VSYNC_SOURCE_GPIO_0,
++	DPU_VSYNC_SOURCE_GPIO_1,
++	DPU_VSYNC_SOURCE_GPIO_2,
++	DPU_VSYNC_SOURCE_INTF_0 = 3,
++	DPU_VSYNC_SOURCE_INTF_1,
++	DPU_VSYNC_SOURCE_INTF_2,
++	DPU_VSYNC_SOURCE_INTF_3,
++	DPU_VSYNC_SOURCE_WD_TIMER_4 = 11,
++	DPU_VSYNC_SOURCE_WD_TIMER_3,
++	DPU_VSYNC_SOURCE_WD_TIMER_2,
++	DPU_VSYNC_SOURCE_WD_TIMER_1,
++	DPU_VSYNC_SOURCE_WD_TIMER_0,
++};
+ 
+ enum dpu_hw_blk_type {
+ 	DPU_HW_BLK_TOP = 0,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+index 6f3dc98087df..5c9a7ede991e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+@@ -64,7 +64,7 @@ struct dpu_vsync_source_cfg {
+ 	u32 pp_count;
+ 	u32 frame_rate;
+ 	u32 ppnumber[PINGPONG_MAX];
+-	u32 vsync_source;
++	enum dpu_vsync_source vsync_source;
+ };
+ 
+ /**
 
 -- 
 2.39.2
