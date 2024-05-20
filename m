@@ -2,75 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385138C9BFD
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 13:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B348C9BFF
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 13:13:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F44F10E2FB;
-	Mon, 20 May 2024 11:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30BAD10E49D;
+	Mon, 20 May 2024 11:13:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TPXRIKxo";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ZEDyxW5T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC7D10E2FB
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 11:13:19 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-de462979e00so2640317276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 04:13:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716203598; x=1716808398; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=O5jh8Q3/PtVQ/wHNrcuIbE1MuAYfpZQK0CvL7Pv+jlo=;
- b=TPXRIKxoBq0tr5EyEx01Ssg9L9WQGTKZraQIcXXaCh9cYrrMSMd/mKoRWb89gH9qVQ
- Yk+h76WMCZZBVQax3L3kX/DsQ/IQalvKJolvAqWWsXbTWEVujDbmGApvmuJ39GyuVJD4
- v5dJxIctcztddDkaTqZ3Wqn7dfjgRvwUd1ohNiuphGuNALTi4YhK+n7vu/cZJBVcgCn1
- i9UWHdiHqvWNcouDJSLBGxweLkZuXNySbqvG7SECNa3pJLYEJtnjSFAZR8TmS1p/ZiTn
- k92DuvrxRQqXKS8W3sZmC/RRJzqaZxPc+f+6Dbp2wyfn2YMoEvQ5XlKWrOi+NKHMxy6j
- 7FOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716203598; x=1716808398;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=O5jh8Q3/PtVQ/wHNrcuIbE1MuAYfpZQK0CvL7Pv+jlo=;
- b=NDbJj2M5RxRtwmnLiB06gXfVldRSdqHs6uyshEN0BdNFa3ho205UgN4Kc0mdM1yR8R
- 0ICcrQfPDPI3opDR5j1xE+5mpC/cuROLJ1T0yPe1Iq7XUGFcujRZgrgPxrUxbAHOfPMI
- Yr+uw4BmU7cJrVQCRpC5Ugaldja2xz3egxdeJnddOEeEdAJuk2YeLT11iRzmNo2LNTZA
- Em42xXY4b0sxlcZ6Og9bAW2qYJeKVyFTU12YnX66OHLUUqgblXH5b/IYrn/OUjs3mNOA
- FAJWYBzNXmtPl+4qW2JNaiSiP8uCDqhYLk0BKeXLnw+PnGO5JtzyGRQwvymhseVlGgrL
- W/ag==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU4318X3MPdTAlQ/SnkGHuOBwe7GqmVFulC9NxpxiyC+tcQQQwDt9s4os+sORRq5FXiGqI9JpOiogeu4J9Y8nNfg0DET1OXFRsMXw1xVdFv
-X-Gm-Message-State: AOJu0YyKmX0ZNYdLEpKIRc4gIAYypso38cK4i01HzhFJl3p0/qhKz8u+
- QTYP7FayOAI/dBb7g1BHQChQ0GmRJzBkSZsTvPqneGlKHe3LP2jWO+ohABzrcyhWjNjF4z64xqj
- Zu85wGWuEIw947fR6VmDnDtPho4QzPwn97cB+TQ==
-X-Google-Smtp-Source: AGHT+IHgw3R2VDG3/RcUEiQCjrLCQ2HYddtsmPFqDCMLDMd5M1yfaM/WnZRHZJBTrNeCwPZKpwSj4dE7NBwdkz/lREo=
-X-Received: by 2002:a25:ae18:0:b0:dee:607c:3528 with SMTP id
- 3f1490d57ef6-dee607c3793mr25911507276.3.1716203598470; Mon, 20 May 2024
- 04:13:18 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97DD410E574;
+ Mon, 20 May 2024 11:13:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=CJ3zenJyPRyF+UxJWs53C+Y2mTQnMda3jzpN66kAPZc=; b=ZEDyxW5TI9DTxZjxy5D9MWeDfo
+ o61SGj9SffHN8c7EZ3RaN2Lv+pH1zjfHs4Iy65aFcLUup7ewbOfBSQEtpRkJvlnMh5sPcayms0cJC
+ ZsorHoWyxNteBUfQ+cVsjjId50N7mMgJVhQfXQ6rDRQJ1RnVlu7tZb0zUwEZ8QNvFHlavGIheVpRE
+ S7Tum8/z422+9uw+mz0A/8lzDbbxR9DCseoq/YY66Z/ZpE+6hYyi1Ro7UcjK0rXEejoqn0q3Ak0mN
+ /Lw/DgEHrb/yy6EyednFGThVxSMn5TZ67yolamjLjlZs7E+f2KS4eJJ+wB8jxLKMZufb+wqPKJJ04
+ xYnc8beA==;
+Received: from [84.69.19.168] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1s90xZ-00ADSQ-3W; Mon, 20 May 2024 13:13:41 +0200
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.keonig@amd.com>,
+ Rob Clark <robdclark@chromium.org>
+Subject: [PATCH 1/2] Documentation/gpu: Document the situation with
+ unqualified drm-memory-
+Date: Mon, 20 May 2024 12:13:37 +0100
+Message-ID: <20240520111338.10110-1-tursulin@igalia.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <20240516101006.2388767-1-victor.liu@nxp.com>
- <evnxopqt5be56vxuxqdj4l3mcd5nrrvucio7jhwgg4emraai3t@gherubdynyip>
- <e2d4e8b4-bab4-448f-8b67-21f2902fdcd2@linux.dev>
-In-Reply-To: <e2d4e8b4-bab4-448f-8b67-21f2902fdcd2@linux.dev>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 20 May 2024 14:13:07 +0300
-Message-ID: <CAA8EJppH1rYQ5pzkGP+V-=cOPBYMWm=ZK2Ei1ttjOiN6GRDP+w@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: adv7511: Exit interrupt handling when
- necessary
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, biju.das.jz@bp.renesas.com, 
- u.kleine-koenig@pengutronix.de, aford173@gmail.com, jani.nikula@intel.com, 
- bli@bang-olufsen.dk
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,55 +62,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 May 2024 at 14:11, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->
-> Hi,
->
-> On 5/20/24 06:11, Dmitry Baryshkov wrote:
-> > On Thu, May 16, 2024 at 06:10:06PM +0800, Liu Ying wrote:
-> >> Commit f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pins")
-> >> fails to consider the case where adv7511->i2c_main->irq is zero, i.e.,
-> >> no interrupt requested at all.
-> >>
-> >> Without interrupt, adv7511_wait_for_edid() could return -EIO sometimes,
-> >> because it polls adv7511->edid_read flag by calling adv7511_irq_process()
-> >> a few times, but adv7511_irq_process() happens to refuse to handle
-> >> interrupt by returning -ENODATA.  Hence, EDID retrieval fails randomly.
-> >>
-> >> Fix the issue by checking adv7511->i2c_main->irq before exiting interrupt
-> >> handling from adv7511_irq_process().
-> >>
-> >> Fixes: f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pins")
-> >> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> >> ---
-> >>   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 3 ++-
-> >>   1 file changed, 2 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> >> index 6089b0bb9321..2074fa3c1b7b 100644
-> >> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> >> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> >> @@ -479,7 +479,8 @@ static int adv7511_irq_process(struct adv7511 *adv7511, bool process_hpd)
-> >>              return ret;
-> >>
-> >>      /* If there is no IRQ to handle, exit indicating no IRQ data */
-> >> -    if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
-> >> +    if (adv7511->i2c_main->irq &&
-> >> +        !(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
-> >>          !(irq1 & ADV7511_INT1_DDC_ERROR))
-> >>              return -ENODATA;
-> >
-> > I think it might be better to handle -ENODATA in adv7511_wait_for_edid()
-> > instead. WDYT?
-> >
->
-> I think this is may deserve another patch.
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-My point is that the IRQ handler is fine to remove -ENODATA here,
-there is no pending IRQ that can be handled. So instead of continuing
-the execution when we know that IRQ bits are not set, it's better to
-ignore -ENODATA in the calling code and go on with msleep().
+Currently it is not well defined what is drm-memory- compared to other
+categories.
 
+In practice the only driver which emits these keys is amdgpu and in them
+exposes the current resident buffer object memory (including shared).
+
+To prevent any confusion, document that drm-memory- is deprecated and an
+alias for drm-resident-memory-.
+
+While at it also clarify that the reserved sub-string 'memory' refers to
+the memory region component, and also clarify the intended semantics of
+other memory categories.
+
+v2:
+ * Also mark drm-memory- as deprecated.
+ * Add some more text describing memory categories. (Alex)
+
+v3:
+ * Semantics of the amdgpu drm-memory is actually as drm-resident.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Christian König <christian.keonig@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>
+---
+ Documentation/gpu/drm-usage-stats.rst | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+index 6dc299343b48..45d9b76a5748 100644
+--- a/Documentation/gpu/drm-usage-stats.rst
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -128,7 +128,9 @@ Memory
+ 
+ Each possible memory type which can be used to store buffer objects by the
+ GPU in question shall be given a stable and unique name to be returned as the
+-string here.  The name "memory" is reserved to refer to normal system memory.
++string here.
++
++The region name "memory" is reserved to refer to normal system memory.
+ 
+ Value shall reflect the amount of storage currently consumed by the buffer
+ objects belong to this client, in the respective memory region.
+@@ -136,6 +138,9 @@ objects belong to this client, in the respective memory region.
+ Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+ indicating kibi- or mebi-bytes.
+ 
++This key is deprecated and is an alias for drm-resident-<region>. Only one of
++the two should be present in the output.
++
+ - drm-shared-<region>: <uint> [KiB|MiB]
+ 
+ The total size of buffers that are shared with another file (e.g., have more
+@@ -143,20 +148,34 @@ than a single handle).
+ 
+ - drm-total-<region>: <uint> [KiB|MiB]
+ 
+-The total size of buffers that including shared and private memory.
++The total size of all created buffers including shared and private memory. The
++backing store for the buffers does not have to be currently instantiated to be
++counted under this category.
+ 
+ - drm-resident-<region>: <uint> [KiB|MiB]
+ 
+-The total size of buffers that are resident in the specified region.
++The total size of buffers that are resident (have their backing store present or
++instantiated) in the specified region.
++
++This is an alias for drm-memory-<region> and only one of the two should be
++present in the output.
+ 
+ - drm-purgeable-<region>: <uint> [KiB|MiB]
+ 
+ The total size of buffers that are purgeable.
+ 
++For example drivers which implement a form of 'madvise' like functionality can
++here count buffers which have instantiated backing store, but have been marked
++with an equivalent of MADV_DONTNEED.
++
+ - drm-active-<region>: <uint> [KiB|MiB]
+ 
+ The total size of buffers that are active on one or more engines.
+ 
++One practical example of this can be presence of unsignaled fences in an GEM
++buffer reservation object. Therefore the active category is a subset of
++resident.
++
+ Implementation Details
+ ======================
+ 
 -- 
-With best wishes
-Dmitry
+2.44.0
+
