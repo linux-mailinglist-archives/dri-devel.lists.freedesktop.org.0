@@ -2,71 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1396F8C9D63
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:33:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A808C9DA8
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2024 14:46:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48D3510E6CF;
-	Mon, 20 May 2024 12:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5424910E6AA;
+	Mon, 20 May 2024 12:46:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DZOykOjG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lAGA5er1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1075810E429
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 12:33:22 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-61e01d5ea74so24467497b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 05:33:22 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2F4D10E6AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 12:46:18 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-1ecd3867556so75488955ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 05:46:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716208402; x=1716813202; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ovkEWaQCA7eBKIybUwU0MV7EJ/U35ld+RDcvKJwMYS0=;
- b=DZOykOjGuR7zq4VU5w0c5x+oxy0oHc3fmrmuwZrMbCN3Z1nmwxJD2OdOAb8ProZNRt
- LJnDdt48T9SEREEETAYg5/cLj6hgXe+40zOCWNUs1X5aSa5s2DusueAoRRssoj1WyTVy
- z3fVrFj5nzUcZ16dfTKTpm+sEXE8iuQfXTNKww4sGncF/xdn4ZUwAMsLSQ5uYZEQ9aLs
- 51Zobh0WFaWt0yoWMQazBXlm+Ofhpl5R5JTuTHoOP0kRhP9wrnZBn+kCiiOrXiXT2mzV
- R8uZ2VAVQPgAnaVxnHLixmqKWdb/ci32pMZuLkLNUKuCiX5MSGAsKRIMsWUb1MOQ95Rm
- qVxQ==
+ d=gmail.com; s=20230601; t=1716209178; x=1716813978; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BwMxQZoH/pdYWGNQ/YeZLuMCW+PYBbYOJhWPSoR82r8=;
+ b=lAGA5er1Hc0VMTzgdFMikwTGrs78g+y70qO+CUzmQVQWpO5bNw+Gmb5fK6xdpnJX1x
+ 8OgtgIcTlJIlUjUVxiNoL8ptCUAk6pL+Zj8r0rgn3QK/LRqM0DqK8wYPpLJwKf0kEacA
+ Qwomz6Qtgl9pnO8Xg0frB4bPZ+/1LREKXm6uXLqinhLqiauR6RUyYpFFRMZjKZegxogL
+ 9xO6ayJZp+QHRpNQwENGMtKvXS193XKVFdPtXjaOlqJOV6iKhW9rpy/Pr6AXi0oQTlT6
+ RWIBPD3ZO8sjj2JQ/5Z8LWn9iklyBJJ+XM2q2iEiSwyNqhrpmp+6lyE9zaTAI9Ny76hX
+ MBcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716208402; x=1716813202;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ovkEWaQCA7eBKIybUwU0MV7EJ/U35ld+RDcvKJwMYS0=;
- b=e0efcdF9SlVLh2wCY5mfEZ/oEIROH6OClDEqVx8RoyZu+uovymON28ka55tzrhG9Nt
- 21tzYyhMO1yjyzUwqXOQbllcujV7g+/JevrbXZhbkqde33vkZC/oo67gjUHa8jjmHaY2
- I1I9HG6EQaXGPoojNjSWg2MOej8mEYFsCeG3rgpVOvlqr3+oYm9an1tKr54MVw4H6u87
- VPDkYfFJn2+Iva6pLii4RiY6QHHba1jd5xR+TnCGiNyq2ELQZ3JaePKrzmiv6s4mKWc3
- bfb5E60dytMZ19KfYCRoj2X/hNrulKLxWJv1tOxnECGayQJFDcMeuMx27gB/50NJ2mHK
- tx5w==
+ d=1e100.net; s=20230601; t=1716209178; x=1716813978;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BwMxQZoH/pdYWGNQ/YeZLuMCW+PYBbYOJhWPSoR82r8=;
+ b=DxVO4FpnvLVsC0lhXhD1aGksBog1J76qfR8SxDSQv3oyqmiYBv20n03EJWizIGhtxX
+ Nw3gFHvLXQ0wOKLdO+Q5X+r3JJqXv6hK2vQSaY9y4dMZVMrsp7uVAvky0GFXGjgI63Jg
+ frWPYoY65hSQcB6rOK0aqUTRqoI9Tc9UHGg3JG29OdHdtE4WJrY3jyJ4aPC9Q5a3Boz2
+ pF5u4qkQcT8bWQjkPdoEiSTDpCq+7GcRLUjFqbLs3ecYygwPcOpADXnFf5GQWtpp9C8z
+ dBxrVcbKsBRznPYcPbPk+1u5AZKw0bNw1Dy5SRffQVg5JPQkoNItutx3zPXIqW/XQZ1F
+ OxHw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXrA9eVdAcxRlwjWK4HuW/6dfUC8NHTFFsLwIIqvLoXxP69AiFUPT2JFmwdHs4iLY8srujzI5CDKjFCihm18einiA2Ja/psTtCv2HaNfbmW
-X-Gm-Message-State: AOJu0YwQXzwcBGn+2Aj43CnGW9iQi/GIS5m928hFPqZNW4WhwVNHvTnz
- uhnt78z7FLd0+z43eDe42CvKfGo7eBvHzfPGubGy/hVfqktKSted2TG68Rckv/Ki9ejRMizCcrJ
- LCIIMNso6SL5P29tASRx5dX9o6QdtAw2+4FWIFA==
-X-Google-Smtp-Source: AGHT+IGs0xMhNjXBQwaD1yEBLjIanzDkrGthytqkRz05Fj5APi4G3kf/ZJJYkvM5bAuoB6pl+p9xmBERmiYfprGkWU8=
-X-Received: by 2002:a25:ada8:0:b0:de6:17e7:ddd1 with SMTP id
- 3f1490d57ef6-dee4f30c3f1mr26969452276.34.1716208401987; Mon, 20 May 2024
- 05:33:21 -0700 (PDT)
+ AJvYcCUs2bJvI9HMEoOf/t9YAey0DWevlzwXX/gvTBSM277Xrm0lm9wiCrm7BLZ7abHylcJZfy6JXuITEmmyuL5qqNGSZiin8xgXJ6LLVb3wc8sC
+X-Gm-Message-State: AOJu0YyGXILWo0aoLX4YT5JY27JGeA42kEpr+bvQIUV8Odj8FSvxqr41
+ P9lVILNZ7n2oP6AH1Db38MWPpE523oKjhWLaBBom9CrfD8Ik2RTb07jA1GD53y5T+uHAemB2pvn
+ cnP5bqP5PKMiqHLSmY5haCnC6h1Q=
+X-Google-Smtp-Source: AGHT+IFUnnZlAeieYu0zFoMsxuuu/4UuL7b2X7zXorwXsTylOgzNhcytGNxmAggfeSnd7meG6r8sXMoCV6AF4xcfMoE=
+X-Received: by 2002:a05:6a20:d70b:b0:1af:d6dc:86b9 with SMTP id
+ adf61e73a8af0-1afde1faeb8mr29071654637.53.1716209177746; Mon, 20 May 2024
+ 05:46:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1715691257.git.jani.nikula@intel.com>
- <93d6c446ed4831dadfb4a77635a67cf5f27e19ff.1715691257.git.jani.nikula@intel.com>
- <i7labithttzkv62nybrtpucoklycz76ykgj2zjf3qnwycjjsyt@wck7s5uxg2bt>
- <871q5wu0u2.fsf@intel.com>
-In-Reply-To: <871q5wu0u2.fsf@intel.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 20 May 2024 15:33:09 +0300
-Message-ID: <CAA8EJprJg_yzembu2zb3=r8gGTEbq3fiYqpdNFQyBSGw+9+qcA@mail.gmail.com>
-Subject: Re: [PATCH 08/11] drm/msm/dp: switch to struct drm_edid
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+References: <20240516101006.2388767-1-victor.liu@nxp.com>
+ <evnxopqt5be56vxuxqdj4l3mcd5nrrvucio7jhwgg4emraai3t@gherubdynyip>
+ <e2d4e8b4-bab4-448f-8b67-21f2902fdcd2@linux.dev>
+ <CAA8EJppH1rYQ5pzkGP+V-=cOPBYMWm=ZK2Ei1ttjOiN6GRDP+w@mail.gmail.com>
+ <acc508e2-b067-47ef-b3e2-fcac51403fe0@linux.dev>
+ <CAA8EJpowLnrnV8ezXYj=oWBFFTa6LqkPFFHc9F49un6AYgZvzw@mail.gmail.com>
+In-Reply-To: <CAA8EJpowLnrnV8ezXYj=oWBFFTa6LqkPFFHc9F49un6AYgZvzw@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 20 May 2024 07:46:05 -0500
+Message-ID: <CAHCN7x+5L+fjkDgR_mJ2BQ1M52oBZyU0nUca1Uvhyh1pFSJChw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: adv7511: Exit interrupt handling when
+ necessary
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, Liu Ying <victor.liu@nxp.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, daniel@ffwll.ch, biju.das.jz@bp.renesas.com, 
+ u.kleine-koenig@pengutronix.de, jani.nikula@intel.com, bli@bang-olufsen.dk
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,103 +90,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 May 2024 at 15:25, Jani Nikula <jani.nikula@intel.com> wrote:
+On Mon, May 20, 2024 at 7:00=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> On Sun, 19 May 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> > On Tue, May 14, 2024 at 03:55:14PM +0300, Jani Nikula wrote:
-> >> Prefer the struct drm_edid based functions for reading the EDID and
-> >> updating the connector.
-> >>
-> >> Simplify the flow by updating the EDID property when the EDID is read
-> >> instead of at .get_modes.
-> >>
-> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >>
-> >> ---
+> On Mon, 20 May 2024 at 14:48, Sui Jingfeng <sui.jingfeng@linux.dev> wrote=
+:
 > >
-> > The patch looks good to me, I'd like to hear an opinion from Doug (added
-> > to CC).
-> >
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> Thanks!
->
-> > What is the merge strategy for the series? Do you plan to pick up all
-> > the patches to drm-misc or should we pick up individual patches into
-> > driver trees?
->
-> I think all of the patches here are connected in theme, but
-> independent. Either way is fine by me.
->
+> > Hi,
 > >
 > >
-> >>
-> >> Cc: Rob Clark <robdclark@gmail.com>
-> >> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> >> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> Cc: Sean Paul <sean@poorly.run>
-> >> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> >> Cc: linux-arm-msm@vger.kernel.org
-> >> Cc: freedreno@lists.freedesktop.org
-> >> ---
-> >>  drivers/gpu/drm/msm/dp/dp_display.c | 11 +++----
-> >>  drivers/gpu/drm/msm/dp/dp_panel.c   | 47 +++++++++--------------------
-> >>  drivers/gpu/drm/msm/dp/dp_panel.h   |  2 +-
-> >>  3 files changed, 20 insertions(+), 40 deletions(-)
-> >
-> > [skipped]
-> >
-> >> @@ -249,10 +228,12 @@ void dp_panel_handle_sink_request(struct dp_panel *dp_panel)
-> >>      panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
-> >>
-> >>      if (panel->link->sink_request & DP_TEST_LINK_EDID_READ) {
-> >> +            /* FIXME: get rid of drm_edid_raw() */
-> >
-> > The code here can get use of something like drm_edid_smth_checksum().
-> > 'Something', because I could not come up with the word that would make
-> > it clear that it is the declared checksum instead of the actual /
-> > computed one.
->
-> This is an annoying one, to be honest, and linked to the historical fact
-> that we filter some EDID blocks that have an incorrect checksum.
+> > On 5/20/24 19:13, Dmitry Baryshkov wrote:
+> > > On Mon, 20 May 2024 at 14:11, Sui Jingfeng <sui.jingfeng@linux.dev> w=
+rote:
+> > >>
+> > >> Hi,
+> > >>
+> > >> On 5/20/24 06:11, Dmitry Baryshkov wrote:
+> > >>> On Thu, May 16, 2024 at 06:10:06PM +0800, Liu Ying wrote:
+> > >>>> Commit f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO=
+ pins")
+> > >>>> fails to consider the case where adv7511->i2c_main->irq is zero, i=
+.e.,
+> > >>>> no interrupt requested at all.
+> > >>>>
+> > >>>> Without interrupt, adv7511_wait_for_edid() could return -EIO somet=
+imes,
+> > >>>> because it polls adv7511->edid_read flag by calling adv7511_irq_pr=
+ocess()
+> > >>>> a few times, but adv7511_irq_process() happens to refuse to handle
+> > >>>> interrupt by returning -ENODATA.  Hence, EDID retrieval fails rand=
+omly.
 
-It is a part of the DP test suite if I remember correctly.
+Sorry about that.  I did some testing and didn't see any regressions,
+but if it was random, it's likely I just was lucky to not see it.
 
+> > >>>>
+> > >>>> Fix the issue by checking adv7511->i2c_main->irq before exiting in=
+terrupt
+> > >>>> handling from adv7511_irq_process().
+> > >>>>
+> > >>>> Fixes: f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO=
+ pins")
+> > >>>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > >>>> ---
+> > >>>>    drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 3 ++-
+> > >>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+> > >>>>
+> > >>>> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/driver=
+s/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > >>>> index 6089b0bb9321..2074fa3c1b7b 100644
+> > >>>> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > >>>> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > >>>> @@ -479,7 +479,8 @@ static int adv7511_irq_process(struct adv7511 =
+*adv7511, bool process_hpd)
+> > >>>>               return ret;
+> > >>>>
+> > >>>>       /* If there is no IRQ to handle, exit indicating no IRQ data=
+ */
+> > >>>> -    if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
+> > >>>> +    if (adv7511->i2c_main->irq &&
+> > >>>> +        !(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
+> > >>>>           !(irq1 & ADV7511_INT1_DDC_ERROR))
+> > >>>>               return -ENODATA;
+> > >>>
+> > >>> I think it might be better to handle -ENODATA in adv7511_wait_for_e=
+did()
+> > >>> instead. WDYT?
+> > >>>
+> > >>
+> > >> I think this is may deserve another patch.
+> > >
+> > > My point is that the IRQ handler is fine to remove -ENODATA here,
+> >
+> > [...]
+> >
+> > > there is no pending IRQ that can be handled.
+> >
+> > But there may has other things need to do in the adv7511_irq_process()
+> > function.
 >
-> (Some blocks, yes. We don't filter all blocks, because there are some
-> nasty docks out there that modify the CTA block but fail to update the
-> checksum, and filtering the CTA blocks would render the display
-> useless. So we accept CTA blocks with incorrect checksums. But reject
-> others. Yay.)
->
-> IMO the real fix would be to stop mucking with the EDID, and just expose
-> it to userspace, warts and all. We could still ignore the EDID blocks
-> with incorrect checksum while using it ourselves if we want to. And with
-> that, we could just have a function that checks the last EDID block's
-> checksum, and stop using this ->real_edid_checksum thing.
->
-> Anyway, yes, we could add the function already.
->
-> BR,
-> Jani.
+> But the function returns anyway. So, we know that the condition is broken=
+.
+
+When I originally submitted the patch, I only added the shared IRQ
+flag without any IRQ condition checks, IRQ because I didn't want to
+break anything. The feedback I got was to check to see if the IRQ was
+intended by the device.  My focus was the adv7511_drv.c file because
+that appears to be what the registered IRQ hander was, but after
+looking through adv7511_cec, I see that adv7511_cec_irq_process checks
+adv_cec_tx_raw_status and returns if there is nothing to do.
+
+Would it make sense to move the if statement  did the following things:
+
+-  Make adv7511_cec_irq_process return an int and modify it to return
+0 in normal operation or return -ENODATA where there is nothing to do.
+It already has the checks in place to determine if there is work to
+do, so the impact here should be minimal.
+
+- Move the check I added on whether or not there is an interrupt  to
+the very end of adv7511_irq_process just before the return 0.
+
+- Instead of blindly returning 0, modify the if statement to read the
+state of the return code of adv7511_cec_irq_process and the IRQ flags
+it already checks.  If ADV7511_INT0_HPD, ADV7511_INT0_EDID_READY and
+ADV7511_INT1_DDC_ERROR are all not true and adv7511_cec_irq_process
+returned early, return ENODATA, but if any of the interrupts was
+present and adv7511_cec_irq_process did work, it would return 0.
+
+I think that would cover the situation where adv7511_cec_irq_process
+would get called, and also prevent a false return of the IRQ being
+handled when this part didn't handle anything.
+
+It would look something like:
+
+cec_irq =3D adv7511_cec_irq_process(adv7511, irq1);
+
+/* If there is no IRQ to handle, exit indicating no IRQ data */)
+if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
+   !(irq1 & ADV7511_INT1_DDC_ERROR) &&
+  cec_irq =3D=3D  -ENODATA)
+        return -ENODATA;
+else
+        return 0
+
+
+OR...
+
+
+Another alternative to all this is to modify the check that I added to
+verify all the following flags which are currently checked in
+adv7511_cec_irq_process :
+
+ADV7511_INT1_CEC_TX_READY
+ADV7511_INT1_CEC_TX_ARBIT_LOST
+ADV7511_INT1_CEC_TX_RETRY_TIMEOUT
+ADV7511_INT1_CEC_RX_READY1
+ADV7511_INT1_CEC_RX_READY2
+ADV7511_INT1_CEC_RX_READY3
+
+It would look something like:
+
+/* If there is no IRQ to handle, exit indicating no IRQ data */
+if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
+   !(irq1 & ADV7511_INT1_DDC_ERROR) &&
+   !(irq1 & ADV7511_INT1_CEC_TX_READY) &&
+  !(irq1 & ADV7511_INT1_CEC_TX_ARBIT_LOST) &&
+  !(irq1 & ADV7511_INT1_CEC_TX_RETRY_TIMEOUT) &&
+  !(irq1 & ADV7511_INT1_CEC_RX_READY1) &&
+  !(irq1 & ADV7511_INT1_CEC_RX_READY2) &&
+  !(irq1 & ADV7511_INT1_CEC_RX_READY3))
+return -ENODATA;
+
+
+Please let me know what is preferred or if there is a third possible soluti=
+on.
+
+I can write up a patch with a fixes tag later today when I get back to
+my build machine.
+
+adam
 >
 > >
-> >> +            const struct edid *edid = drm_edid_raw(dp_panel->drm_edid);
-> >>              u8 checksum;
-> >>
-> >> -            if (dp_panel->edid)
-> >> -                    checksum = dp_panel_get_edid_checksum(dp_panel->edid);
-> >> +            if (edid)
-> >> +                    checksum = dp_panel_get_edid_checksum(edid);
-> >>              else
-> >>                      checksum = dp_panel->connector->real_edid_checksum;
-> >>
+> > > So instead of continuing
+> > > the execution when we know that IRQ bits are not set,
+> >
+> > Even when IRQ bits are not set, it just means that there is no HPD
+> > and no EDID ready-to-read signal. HDMI CEC interrupts still need
+> > to process.
+>
+> Yes. Let's get the CEC fixed. Then maybe we won't need this commit at all=
+.
+>
+> >
+> >
+> > > it's better to
+> > > ignore -ENODATA in the calling code and go on with msleep().
+> > >
+> >
+> > So, It's confusing to ignore the -ENODATA here.
+>
+> [BTW: you had quotation levels wrong in two places, I've fixed them]
 >
 > --
-> Jani Nikula, Intel
-
-
-
--- 
-With best wishes
-Dmitry
+> With best wishes
+> Dmitry
