@@ -2,68 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26598CB1FF
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 18:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419168CB20A
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 18:18:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9532810E16D;
-	Tue, 21 May 2024 16:14:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5114210E16A;
+	Tue, 21 May 2024 16:18:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="agqS5B0w";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="2ePbt1cS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74EB610E16D;
- Tue, 21 May 2024 16:14:23 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-a59c0a6415fso926261066b.1; 
- Tue, 21 May 2024 09:14:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716308062; x=1716912862; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+jEvCUCDoXYBbE4FQ3RJq8YjtPQCnUNkD4QkhJYzsSQ=;
- b=agqS5B0wtITEo5cUOVtVAgDKVvnfRI/Ito20TYeAWRAK3hl9J4J6tSYUTErba+CHdu
- TUxIhiY/AUHBnd3DikhaP7gzd160VzbEZPNw3mCt49ayXoG9ryvNFkZyHbCFjAu2m/On
- UTH4kqiVD95DAAAg22AU+bzhkTaesHHruDilT5EqK0RyxHJa+wDsxswLI2vFtzg1YDMR
- D0s9WLH2DbFtgV2GhaylVCjWQPZmRFy8ckB8i8egu5YnAbybGHGOmIkVArpD2iRWWzPI
- N9dsd6gIer/SzLWQhrOsfDaB/btui8jQ2VfOWkbNJBgwSCSIueeVg+NehWE19PZaX8n8
- is2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716308062; x=1716912862;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+jEvCUCDoXYBbE4FQ3RJq8YjtPQCnUNkD4QkhJYzsSQ=;
- b=Gs90P93cYf/mUxfwMzsY/BKJhya3p2kfniTq0ApUV9JOqbqz9adsJlBGY5FOrh35rY
- rFbWnvszGEz6zdxnPFa7QuIH9VApDaNh7oDWWQFSnMexS95k6XZyDUrSlFJGtHbMpd3z
- nBzh+tS61QvnBp6zrbiYnAj07QvaEpl5y02JzNhpX8rJtYW3OqIEGcYEQZRTBYAZBhD8
- cKtaXdW1ZYV2GNGqK5OALmzKtozXyiocKbdMHGsfDOc/hJbqAon6wawTjfazVCmVQ3H6
- P4ultHAxStP0YnZ/nUf/UC8r6iLumusTIWTqGVf5XqAijoPgf4Fb+9wc0NB4dEs9iJEL
- s1Ww==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVHJcKrY5AxFEkWafYx80CvpDHK/pPndJsz1xIhp7+Moj6b/FH7T+Yw/lpyoxARsUEg7VdSIHEUot+8br3n+GQ0ncjHwMYx3tcRT+XRisqLQKjbkpHcPzEeRVszXoLLmAdyCRkmwozlVRCYTj31cQ==
-X-Gm-Message-State: AOJu0YzuIwalnmYlzaVM3SMf0Gdmkzqf/65Q6Tz3kJsuZtfsFYKcpca5
- la+Rl1qi5KBgE187hQbeQ08q2sG4oKEhNB05iMVlIkzeqJLJigqGJK9qLqX1aPsPkG0xtZLzoSe
- pXWw8/EEMc6zGot2oMqu7HPIwWG0=
-X-Google-Smtp-Source: AGHT+IGPRoAXk5U2yAfKtV0N3oif9F4OVIW98u5OknoEe47c+70asB6Vsquc+Kc+Z5MoNSiJc9ijasGI4a5zTiewc9c=
-X-Received: by 2002:a17:906:a8f:b0:a55:acd8:996c with SMTP id
- a640c23a62f3a-a5a2d55af14mr2108031766b.29.1716308061560; Tue, 21 May 2024
- 09:14:21 -0700 (PDT)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1CC010E16A;
+ Tue, 21 May 2024 16:18:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1716308299;
+ bh=bA0tI6GGwwdaer6m/e4cegaAzkbPrHmQiPYZHjJJzSU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=2ePbt1cSLye6Jut4LJ0iwx44sKk10UDJ0K45HFlR+YX01ZdJ2OJMQL6bPnCbWCCJx
+ nTpvL4+zoaCMwbbjDu5Zz3iyUbz8xlNJr/vbYwOPPdm6OADtHRFTfzKVM3+F6psMqP
+ ED6Db6iBbhIfUibCyhCTgC7ZmR/sgEu0zzFmXed1M5Sj4mUqcCNHaelaz6qNyB4Vyi
+ fJm6lqYE3YE53jAlwer7wlKeh7laXL7qCLulSYCCsD+s8xcFmI6UxKD0vYPrUa8/ii
+ 6m1Z9p0/4XnxTv0kNMmZ5MWt5gOuTP+3RtOVJnjqedeZ45rQq2LhVRW5EBVIqRBbNi
+ zqtoKAx+wZwlw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id A7BE5378001E;
+ Tue, 21 May 2024 16:18:18 +0000 (UTC)
+Date: Tue, 21 May 2024 18:18:17 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Qiang Yu <yuq825@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, Steven Price
+ <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ Koenig= <christian.koenig@amd.com>, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>, Zack Rusin <zack.rusin@broadcom.com>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v3 0/2] drm: Fix dma_resv deadlock at drm object pin time
+Message-ID: <20240521181817.097af5e1@collabora.com>
+In-Reply-To: <t64xneene7m7x2akecvrmr44yottiicy2mle7e5fimg7vacb4n@n4cjdf7g3nlp>
+References: <20240501065650.2809530-1-adrian.larumbe@collabora.com>
+ <84a5f7b6-d20a-4c69-83a8-d8394fea2b68@suse.de>
+ <20240502135941.136ad639@collabora.com>
+ <20240502140012.68e88831@collabora.com>
+ <d520ea1b-e399-4c3d-8546-87c68e480cbc@suse.de>
+ <t64xneene7m7x2akecvrmr44yottiicy2mle7e5fimg7vacb4n@n4cjdf7g3nlp>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20240519130610.7773-1-mario.limonciello@amd.com>
- <-KAO9zJq5vTiesgtw-PMO0lDkSH1tuV271WNqlVuh3ZSkMzKWB9JQJce68-X-GwhD57QilHIBnLxN9k03I3-CMeYQm30NJMLizfyUUxTqHA=@emersion.fr>
- <e3a4331a-307e-4377-a349-8699024f8459@amd.com>
-In-Reply-To: <e3a4331a-307e-4377-a349-8699024f8459@amd.com>
-From: Xaver Hugl <xaver.hugl@gmail.com>
-Date: Tue, 21 May 2024 18:14:10 +0200
-Message-ID: <CAFZQkGyupsydjSEfv6OgMqPmHm9kMy4HQs7aNvzn77omSN+ZhQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Add support for Panel Power Savings property
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Simon Ser <contact@emersion.fr>, amd-gfx@lists.freedesktop.org, 
- Harry.Wentland@amd.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,33 +74,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Di., 21. Mai 2024 um 16:00 Uhr schrieb Mario Limonciello
-<mario.limonciello@amd.com>:
->
-> On 5/21/2024 08:43, Simon Ser wrote:
-> > This makes sense to me in general. I like the fact that it's simple and
-> > vendor-neutral.
-> >
-> > Do we want to hardcode "panel" in the name? Are we sure that this will
-> > ever only apply to panels?
-> >
-> > Do we want to use a name which reflects the intent, rather than the
-> > mechanism? In other words, something like "color fidelity" = "preferred"
-> > maybe? (I don't know, just throwing ideas around.)
->
-> In that vein, how about:
->
-> "power saving policy"
-> --> "power saving"
-> --> "color fidelity"
+On Fri, 17 May 2024 19:16:21 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-It's not just about colors though, is it? The compositor might want to
-disable it to increase the backlight brightness in bright
-environments, so "color fidelity" doesn't really sound right
+> Hi Boris and Thomas,
+>=20
+> On 02.05.2024 14:18, Thomas Zimmermann wrote:
+> > Hi
+> >=20
+> > Am 02.05.24 um 14:00 schrieb Boris Brezillon: =20
+> > > On Thu, 2 May 2024 13:59:41 +0200
+> > > Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> > >  =20
+> > > > Hi Thomas,
+> > > >=20
+> > > > On Thu, 2 May 2024 13:51:16 +0200
+> > > > Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > >  =20
+> > > > > Hi,
+> > > > >=20
+> > > > > ignoring my r-b on patch 1, I'd like to rethink the current patch=
+es in
+> > > > > general.
+> > > > >=20
+> > > > > I think drm_gem_shmem_pin() should become the locked version of _=
+pin(),
+> > > > > so that drm_gem_shmem_object_pin() can call it directly. The exis=
+ting
+> > > > > _pin_unlocked() would not be needed any longer. Same for the _unp=
+in()
+> > > > > functions. This change would also fix the consistency with the se=
+mantics
+> > > > > of the shmem _vmap() functions, which never take reservation lock=
+s.
+> > > > >=20
+> > > > > There are only two external callers of drm_gem_shmem_pin(): the t=
+est
+> > > > > case and panthor. These assume that drm_gem_shmem_pin() acquires =
+the
+> > > > > reservation lock. The test case should likely call drm_gem_pin()
+> > > > > instead. That would acquire the reservation lock and the test wou=
+ld
+> > > > > validate that shmem's pin helper integrates well into the overall=
+ GEM
+> > > > > framework. The way panthor uses drm_gem_shmem_pin() looks wrong t=
+o me.
+> > > > > For now, it could receive a wrapper that takes the lock and that'=
+s it. =20
+> > > > I do agree that the current inconsistencies in the naming is
+> > > > troublesome (sometimes _unlocked, sometimes _locked, with the versi=
+on
+> > > > without any suffix meaning either _locked or _unlocked depending on
+> > > > what the suffixed version does), and that's the very reason I asked
+> > > > Dmitry to address that in his shrinker series [1]. So, ideally I'd
+> > > > prefer if patches from Dmitry's series were applied instead of
+> > > > trying to fix that here (IIRC, we had an ack from Maxime). =20
+> > > With the link this time :-).
+> > >=20
+> > > [1]https://lore.kernel.org/lkml/20240105184624.508603-1-dmitry.osipen=
+ko@collabora.com/T/ =20
+> >=20
+> > Thanks. I remember these patches. Somehow I thought they would have been
+> > merged already. I wasn't super happy about the naming changes in patch =
+5,
+> > because the names of the GEM object callbacks do no longer correspond w=
+ith
+> > their implementations. But anyway.
+> >=20
+> > If we go that direction, we should here simply push drm_gem_shmem_pin()=
+ and
+> > drm_gem_shmem_unpin() into panthor and update the shmem tests with
+> > drm_gem_pin(). Panfrost and lima would call drm_gem_shmem_pin_locked().=
+ IMHO
+> > we should not promote the use of drm_gem_shmem_object_*() functions, as=
+ they
+> > are meant to be callbacks for struct drm_gem_object_funcs. (Auto-genera=
+ting
+> > them would be nice.) =20
+>=20
+> I'll be doing this in the next patch series iteration, casting the pin fu=
+nction's
+> drm object parameter to an shmem object.
+>=20
+> Also for the sake of leaving things in a consistent state, and against Bo=
+ris' advice,
+> I think I'll leave the drm WARN statement inside drm_gem_shmem_pin_locked.
 
-> >
-> > Would be nice to add documentation for the property in the "standard
-> > connector properties" section.
->
-> Ack.
->
+Sure, that's fine.
