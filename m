@@ -2,72 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA7A8CA73F
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 06:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E73E78CA790
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 07:12:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C92D010E91B;
-	Tue, 21 May 2024 04:12:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E27110EAF1;
+	Tue, 21 May 2024 05:12:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TRd1x4eW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m7/SkQPl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB7F10EABF
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 04:12:41 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id
- af79cd13be357-792b934de39so269649385a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 21:12:41 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF2BD10EAF1;
+ Tue, 21 May 2024 05:12:27 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-2e1e8c880ffso8693401fa.2; 
+ Mon, 20 May 2024 22:12:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1716264760; x=1716869560;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=HDK8WDfUBYYirSWO06T0TVOheARrNR/0B8M0BZ3uAqU=;
- b=TRd1x4eWomRJaCeMM8IoOVndkRo7qMx6TCHIulmoBpNywikLyD8d1IHkL++SV1sBxQ
- qJPStbmpdvb/GyJ2zcH3YNT5O4Pq7K+6IgLYT+fG+En5g98Qc1wBmeOKSaDSYA8loEmS
- bZwdRRXlN8f6RyvttoosELal4EZ1nKxIAhiIM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716264760; x=1716869560;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1716268346; x=1716873146; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HDK8WDfUBYYirSWO06T0TVOheARrNR/0B8M0BZ3uAqU=;
- b=vFB0L95Wjlmo+WQXa10BEU75lHuBCR9oDMld0qDVun6+3wUBUbZPCm39mnNGL5XBfO
- rMKQDVOrOnkmuELel+rhaY3zurF7HHh1ocvektqHBfUwyPHOpQvjaEVHF6XZ0aE+JubI
- LydAGnv3QdZ4sSnRKMd6EanVKY4Pj56D7xzGpg0KV85YZJzL3L5bbsCvykZVshNqy/yc
- ngKXF0fUbh7M+6R82NG34hFfnSsvnu1FZwU+X9qFEebLhanUr1a7JajqylqWugutIuQZ
- hirgaSPzv9Mih5OfJqUjLoR989CUHNq3G12W36YonZ/6dq6eSKN6EPKtI5X1JWimat9Q
- 20Lg==
-X-Gm-Message-State: AOJu0Yzt7FTZsdaQq0TyGiydq1WEZTngJjHyVDmyGfC26uyn9QLisSFk
- +f7FIVCkCnODRlQoVOGZELyAx3FvMm/p1h6o2lfIMHhQ/xknlYxFou9DkJcSTbFo6ENRPlKmCaU
- iE2ELFFSoAk5K+yOLnqX5//9jZkheMgbMAdbo
-X-Google-Smtp-Source: AGHT+IH+wekBZ0lrLtGQB1o7O9rCbCkIv21Dk0Sq8vPde6mos/k0ulEy29KCnMHFyBn7FO/k9cX+aqOaPP9RXBhho0Q=
-X-Received: by 2002:a05:620a:280e:b0:793:b91:2dbe with SMTP id
- af79cd13be357-7930b912e08mr1615135785a.40.1716264760099; Mon, 20 May 2024
- 21:12:40 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 21 May 2024 00:12:39 -0400
+ bh=GUapn7dPFkmrdlk6ElpkaCznwDwGsC/allixWXQKesY=;
+ b=m7/SkQPlGeT8Q0Xrq6E/EmDpzy+66YeU3OEY5TDv5rUeHX4odJoUD6Vdjvp4MiCnos
+ LPjfVw2IPbn+ByIyp6eT+xPVB5Y1Tm69J11SfMvmmIR0MITlQGitarjxm63LQaVH6alD
+ HX0AzeGRclaHLvvpapAQyjbKwJoWwLsuIaXq9lIdrJDH21tuPyPP0vFiFtFZdf/LdCwG
+ 1ul6sZZb6b3RtZWI1kHN3ox37yppQwINH5n9EyqyDg5G98LBaIsHpb5/6iy8Vkqz2uqI
+ 8NRPR6FjUtGKUYOwCn9TZtoa8xXSvqAZZ689Kx2LHM+PB+TNH8WdlKutJL79OuAh3I3v
+ JdpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716268346; x=1716873146;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GUapn7dPFkmrdlk6ElpkaCznwDwGsC/allixWXQKesY=;
+ b=s5Tty5ymkZ3PLvqGgNKX1hpTPMX3YmIqMsqu9GiDW0KtVawKaiKn3kggsaJVT+TuJn
+ PVPN8SOw6kaTDCHKrAHTN2KkXdlXnWvprtARlmb0lR+u92w9/Ow213wYxCAVsZWoBqvn
+ aTzGR7akll8sUQWPfkYNi8qZ5WC44Cb/ToOOncdhQmPTnYpX0XUTOtMOQUkPCUR+omA7
+ LaG+uy9hlxNYQrxnxOG5Y+5DghYpGOF7DQekjW+YS22L9OQXCxvaKwDBZDfmhvZCcwyJ
+ RAStiJqf3dLz8bf76YCwdWLYWJavY+A1H4FCsMgDCDeGGuyAMzgWwlVDK0O2LnvdfUkA
+ uARA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWziIJ0DdzXlj0FJTp5Y/QPG1XospAqTeWtwBjOrGM9JEE4fsc8H+4QgxfZ35z96a3gFOLt3gA+VtUpMXWX2bUX/ZgggKv/EgCCEjE/3MYi8d0qMR5uDkAQ6B/xXCc+9EZeEvNs43NOfV7kwB0iyA==
+X-Gm-Message-State: AOJu0YyI5plJi9dRJB1NGpBIa3LvzvfgHPGhC32SOrl8yHYoYhvdXDZa
+ zJp7R9jCJdDZio1K9NVY7w/BlHpTcQCHMmyrVG4WKnTrntOs7vUB
+X-Google-Smtp-Source: AGHT+IE2K6Julfu2AI4B9GNwgJRleFux2hV74ux3F8eePubIgAX73mqeQXyDMoHW0hxgc0awiuq59g==
+X-Received: by 2002:a2e:a1ca:0:b0:2e5:67a7:dda7 with SMTP id
+ 38308e7fff4ca-2e567a7df67mr201821891fa.3.1716268345399; 
+ Mon, 20 May 2024 22:12:25 -0700 (PDT)
+Received: from workstation.localdomain ([2001:4647:930d:0:6cc8:8362:4e13:c7e4])
+ by smtp.googlemail.com with ESMTPSA id
+ 38308e7fff4ca-2e4d0ef09ffsm35540931fa.59.2024.05.20.22.12.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 May 2024 22:12:24 -0700 (PDT)
+From: Rino Andre Johnsen <rinoandrejohnsen@gmail.com>
+To: alexander.deucher@amd.com
+Cc: Rino Andre Johnsen <rinoandrejohnsen@gmail.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Wayne Lin <wayne.lin@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Fangzhi Zuo <jerry.zuo@amd.com>, Tom Chung <chiahsuan.chung@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/amd/display: Add pixel encoding info to debugfs
+Date: Tue, 21 May 2024 07:11:23 +0200
+Message-ID: <20240521051140.30509-1-rinoandrejohnsen@gmail.com>
+X-Mailer: git-send-email 2.45.1
+In-Reply-To: <fa885eca-d7e6-415a-8a08-9103b002c6bb@amd.com>
+References: <fa885eca-d7e6-415a-8a08-9103b002c6bb@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20240517233801.4071868-2-quic_abhinavk@quicinc.com>
-References: <20240517233801.4071868-1-quic_abhinavk@quicinc.com>
- <20240517233801.4071868-2-quic_abhinavk@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 21 May 2024 00:12:39 -0400
-Message-ID: <CAE-0n517DSbNim+K3=N2J2R0iZn44MS3siLKkhdLq05GTfaHtQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] drm/msm: register a fault handler for display mmu
- faults
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, seanpaul@chromium.org, 
- dianders@chromium.org, quic_jesszhan@quicinc.com, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,32 +96,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Abhinav Kumar (2024-05-17 16:37:56)
-> diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
-> index af6a6fcb1173..62c8e6163e81 100644
-> --- a/drivers/gpu/drm/msm/msm_kms.c
-> +++ b/drivers/gpu/drm/msm/msm_kms.c
-> @@ -200,6 +200,28 @@ struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
->         return aspace;
->  }
->
-> +static int msm_kms_fault_handler(void *arg, unsigned long iova, int flags, void *data)
-> +{
-> +       struct msm_kms *kms = arg;
-> +       struct msm_disp_state *state;
-> +       int ret;
-> +
-> +       ret = mutex_lock_interruptible(&kms->dump_mutex);
+[Why]
+For debugging and testing purposes.
 
-From past experience I've seen the smmu fault handler called in hardirq
-context, so it can't sleep. Is there some way to grab the register
-contents without sleeping? Otherwise this will have to fork off
-somewhere else that can take locks, runtime PM resume, etc.
+[How]
+Create amdgpu_current_pixelencoding debugfs entry.
+Usage: cat /sys/kernel/debug/dri/1/crtc-0/amdgpu_current_pixelencoding
 
-> +       if (ret)
-> +               return ret;
-> +
-> +       state = msm_disp_snapshot_state_sync(kms);
-> +
-> +       mutex_unlock(&kms->dump_mutex);
-> +
+Signed-off-by: Rino Andre Johnsen <rinoandrejohnsen@gmail.com>
+---
+
+Changes in v2:
+1. Do not initialize dm_crtc_state to NULL.
+---
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index 27d5c6077630..4254d4a4b56b 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -1160,6 +1160,51 @@ static int amdgpu_current_colorspace_show(struct seq_file *m, void *data)
+ }
+ DEFINE_SHOW_ATTRIBUTE(amdgpu_current_colorspace);
+ 
++/*
++ * Returns the current pixelencoding for the crtc.
++ * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/amdgpu_current_pixelencoding
++ */
++static int amdgpu_current_pixelencoding_show(struct seq_file *m, void *data)
++{
++	struct drm_crtc *crtc = m->private;
++	struct drm_device *dev = crtc->dev;
++	struct dm_crtc_state *dm_crtc_state;
++	int res = -ENODEV;
++
++	mutex_lock(&dev->mode_config.mutex);
++	drm_modeset_lock(&crtc->mutex, NULL);
++	if (crtc->state == NULL)
++		goto unlock;
++
++	dm_crtc_state = to_dm_crtc_state(crtc->state);
++	if (dm_crtc_state->stream == NULL)
++		goto unlock;
++
++	switch (dm_crtc_state->stream->timing.pixel_encoding) {
++	case PIXEL_ENCODING_RGB:
++		seq_puts(m, "RGB");
++		break;
++	case PIXEL_ENCODING_YCBCR422:
++		seq_puts(m, "YCBCR422");
++		break;
++	case PIXEL_ENCODING_YCBCR444:
++		seq_puts(m, "YCBCR444");
++		break;
++	case PIXEL_ENCODING_YCBCR420:
++		seq_puts(m, "YCBCR420");
++		break;
++	default:
++		goto unlock;
++	}
++	res = 0;
++
++unlock:
++	drm_modeset_unlock(&crtc->mutex);
++	mutex_unlock(&dev->mode_config.mutex);
++
++	return res;
++}
++DEFINE_SHOW_ATTRIBUTE(amdgpu_current_pixelencoding);
+ 
+ /*
+  * Example usage:
+@@ -3688,6 +3733,8 @@ void crtc_debugfs_init(struct drm_crtc *crtc)
+ 			    crtc, &amdgpu_current_bpc_fops);
+ 	debugfs_create_file("amdgpu_current_colorspace", 0644, crtc->debugfs_entry,
+ 			    crtc, &amdgpu_current_colorspace_fops);
++	debugfs_create_file("amdgpu_current_pixelencoding", 0644, crtc->debugfs_entry,
++			    crtc, &amdgpu_current_pixelencoding_fops);
+ }
+ 
+ /*
+-- 
+2.45.1
+
