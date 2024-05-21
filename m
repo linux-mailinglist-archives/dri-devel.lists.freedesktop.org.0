@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C67E8CAACF
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 11:30:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73EDB8CAAD2
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 11:32:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCFBF10E902;
-	Tue, 21 May 2024 09:30:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7853C10E99D;
+	Tue, 21 May 2024 09:32:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QOV95p0M";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GPrBYDFC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B558810E902
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 09:30:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3554210E99D
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 09:31:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0AD67CE0EB3;
- Tue, 21 May 2024 09:30:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E071C2BD11;
- Tue, 21 May 2024 09:30:21 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 89745CE0E77;
+ Tue, 21 May 2024 09:31:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FDEC2BD11;
+ Tue, 21 May 2024 09:31:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716283829;
- bh=dK7zzThPWoX0Tl/h413qAPmj7A3KkKjcLZB+0ecLH1o=;
+ s=k20201202; t=1716283913;
+ bh=UWCVCjCl906tjXacuShzM1G1T44KjkD2GCeJ9RE58ZE=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QOV95p0MwWmW0FKD2XbVKxIjoQAppi/NX9+/wU29NCp/RXB29DzQPbF10NVE5vLUJ
- lqtBOvgI01OiyXmRKf6IszObIIItcD/drHBtiwjragDmbnDN1JEZfZ+fLNGsUN+iG2
- ay6kDfdUO3nxEPuBwnuCHEmzgsAGT2NnEsYCERLSzYyK7r4TTnewguQg0HyxFpVTYa
- yfgfULe9H8Gn6bAb5CO7zebi2njO8/b38rjxjZM0l4vLY132LBdDnri/Boxar+JmLx
- 6qHqFql9LJ/fMzI3aw+x75d8bVNkyIkl2uoMzd2+xOIySGKWSKsxbDs9a2olMB5K9N
- 7zr2eJ+njU8oQ==
-Message-ID: <f09e599b-15df-4a15-ada0-09278ab4991e@kernel.org>
-Date: Tue, 21 May 2024 11:30:18 +0200
+ b=GPrBYDFCLb7oH1fnTJb3RthIZJRAGxX4QWMFlYRjJpLobkalbXqGxRAmZ5WILY3Oe
+ qfL7Nppcy3DMA1rIurkwUhtwDOXaZIc/8US5QmoNAS/a0yvSurSx4liX2vmSLj6YFk
+ eH9N/r7c01KSo/zoIzHo0WTt0paoChUc8SvLV/1RiqCB8hGLCi4m01n5PslUkOSKWO
+ OcQd3YB1FynF9Njl1TvmGD6gYHzDcPjV0pP9lpr0qNV+A4VI5rbzfn6V4rqSKOnU/4
+ 4cbjUFWl0ZJ94EOvz+aEevKATlmXbh+SYrae3FsRLZRzrkasgdp/ESzQ2MI+RAOsi0
+ b4FwXwr9va0Fg==
+Message-ID: <6c936567-bb22-47d0-8759-983a2d99c994@kernel.org>
+Date: Tue, 21 May 2024 11:31:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/10] drm/bridge: add common api for inno hdmi
+Subject: Re: [PATCH v4 09/10] drm/vs: Innosilicon HDMI support
 To: keith <keith.zhao@starfivetech.com>, andrzej.hajda@intel.com,
  neil.armstrong@linaro.org, rfoss@kernel.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
@@ -47,7 +47,7 @@ To: keith <keith.zhao@starfivetech.com>, andrzej.hajda@intel.com,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
- <20240521105817.3301-3-keith.zhao@starfivetech.com>
+ <20240521105817.3301-10-keith.zhao@starfivetech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +93,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240521105817.3301-3-keith.zhao@starfivetech.com>
+In-Reply-To: <20240521105817.3301-10-keith.zhao@starfivetech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,65 +112,61 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 21/05/2024 12:58, keith wrote:
-> Add INNO common api so that it can be used by vendor
-> drivers which implement vendor specific extensions to Innosilicon HDMI.
+> add inno hdmi driver which binds to vs display controller
+> and this driver uses the commom api from the inno hdmi
 > 
 > Signed-off-by: keith <keith.zhao@starfivetech.com>
 > ---
->  MAINTAINERS                                   |   2 +
 
-> +}
-> +
-> +static u32 inno_hdmi_i2c_func(struct i2c_adapter *adapter)
+...
+
+> +static int starfive_hdmi_bind(struct device *dev, struct device *master,
+> +			      void *data)
 > +{
-> +	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
-> +}
+> +	struct platform_device *pdev = to_platform_device(dev);
+> +	struct drm_device *drm = dev_get_drvdata(master);
+> +	struct stf_inno_hdmi *stf_hdmi;
+> +	struct inno_hdmi *hdmi;
+> +	struct resource *iores;
 > +
-> +static const struct i2c_algorithm inno_hdmi_algorithm = {
-> +	.master_xfer	= inno_hdmi_i2c_xfer,
-> +	.functionality	= inno_hdmi_i2c_func,
-> +};
-> +
-> +static struct i2c_adapter *inno_hdmi_i2c_adapter(struct inno_hdmi *hdmi)
-> +{
-> +	struct i2c_adapter *adap;
-> +	struct inno_hdmi_i2c *i2c;
 > +	int ret;
+> +	unsigned long long rate;
 > +
-> +	i2c = devm_kzalloc(hdmi->dev, sizeof(*i2c), GFP_KERNEL);
-> +	if (!i2c)
-> +		return ERR_PTR(-ENOMEM);
+> +	stf_hdmi = drmm_simple_encoder_alloc(drm, struct stf_inno_hdmi,
+> +					     encoder, DRM_MODE_ENCODER_TMDS);
+> +	hdmi = &stf_hdmi->inno_hdmi;
 > +
-> +	mutex_init(&i2c->lock);
-> +	init_completion(&i2c->cmp);
+> +	hdmi->dev = dev;
+> +	hdmi->plat_data = (struct inno_hdmi_plat_data *)of_device_get_match_data(dev);
 > +
-> +	adap = &i2c->adap;
-> +	adap->owner = THIS_MODULE;
-> +	adap->dev.parent = hdmi->dev;
-> +	adap->dev.of_node = hdmi->dev->of_node;
-> +	adap->algo = &inno_hdmi_algorithm;
-> +	strscpy(adap->name, "Inno HDMI", sizeof(adap->name));
-> +	i2c_set_adapdata(adap, hdmi);
-> +
-> +	ret = i2c_add_adapter(adap);
-> +	if (ret) {
-> +		dev_warn(hdmi->dev, "cannot add %s I2C adapter\n", adap->name);
-> +		devm_kfree(hdmi->dev, i2c);
+> +	iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	hdmi->regs = devm_ioremap_resource(dev, iores);
 
-Hm, why freeing? That's a devm. You don't free other pieces in bind paths...
+There's a helper combining these two.
 
-> +		return ERR_PTR(ret);
-> +	}
+> +	if (IS_ERR(hdmi->regs))
+> +		return PTR_ERR(hdmi->regs);
 > +
-> +	hdmi->i2c = i2c;
+> +	ret = starfive_hdmi_get_clk_rst(dev, stf_hdmi);
+> +	if (ret < 0)
+> +		return ret;
 > +
-> +	DRM_DEV_INFO(hdmi->dev, "registered %s I2C bus driver\n", adap->name);
+> +	ret = starfive_hdmi_enable_clk_rst(dev, stf_hdmi);
+> +	if (ret)
+> +		return ret;
+> +
+> +	rate = clk_get_rate(stf_hdmi->clk_hdmi[CLK_SYS].clk);
+> +	inno_hdmi_i2c_init(hdmi, rate);
+> +
+> +	ret = inno_hdmi_bind(drm, hdmi, &stf_hdmi->encoder);
+> +	if (ret)
+> +		goto err_disable_clk;
+> +
+> +	dev_set_drvdata(dev, stf_hdmi);
+> +
+> +	return 0;
+> +
 
-Please do not print simple success messages. Tracing tells you this and
-driver should be quiet in typical cases.
-
-You have also some weird tabs instead of spaces here and there... like
-before 'encoder' arguments. This is needs some basic style check.
 
 
 Best regards,
