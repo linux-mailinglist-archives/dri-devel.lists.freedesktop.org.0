@@ -2,108 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19518CA92A
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 09:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEABE8CA935
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 09:44:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E06110E1DF;
-	Tue, 21 May 2024 07:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 969E910E37F;
+	Tue, 21 May 2024 07:44:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IhZ0SrkN";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D13E10E1DF
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 07:41:55 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id
- 46e09a7af769-6f1242f1dcdso2060813a34.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 00:41:55 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A194510E37F
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 07:44:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1716277458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uwFqJtJUXSCHxBWiKxXppUa/vqVLObUiAN0E0dFGxo0=;
+ b=IhZ0SrkNT0X9cvIJrIwwxL88axvNDjxqKeo4y2Sub7LegcGu4ND1qb8K9hJZtjZcc5U8NW
+ 562GtKJCwNugfoTOZvNocaP+v470YwGFrB1hVsxQ5VIGjt9xcC8QRvzJv5KSchvS+kUs2L
+ akGfQvFhPDZOY2dCY8RLE21eiu9+skc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-626-5EcSmHH9PKei3s4eZ_ULAQ-1; Tue, 21 May 2024 03:44:17 -0400
+X-MC-Unique: 5EcSmHH9PKei3s4eZ_ULAQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-42015260835so43722275e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 00:44:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716277311; x=1716882111;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WETFSWDeBrd8hie/jL0FRiOzrF4PlBR3z9DNDu6qHzE=;
- b=EYYIKOMZ0IAKKO4TXWPZy1vjkg0PuIB5MR2nh50m4tz7ZDhBejgZ+PfhObFhNCJ3xE
- jncJnqTyzDczF5XBMdRwUNQnTAmnjqeXADWAGD4gmHem5/yac0HAQ/INOjvqHZirh4Ng
- Oe9iJjziWifg/Fvol4myzzjhTc8nZQI2WbkpGDxLMdznOY5fBB2fAmnlDzBUP5s5+E3X
- beLQbYDqE/Uk0rl9snFpQab/boVQUJWmtJixjz0P49pWKdkHEtnhOesn7VN/wRzblLis
- MXM/bti4y7xzmuRQqbMP0R04zhKshsNirUNFprYUAIr0S8H/aREVsDrQVjTkry5XcoWo
- 8NfA==
+ d=1e100.net; s=20230601; t=1716277456; x=1716882256;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uwFqJtJUXSCHxBWiKxXppUa/vqVLObUiAN0E0dFGxo0=;
+ b=S5QlZHg/TYT6olN7qCcpTqdOTe/qIhjRoM+6vy6qHJFSzYWP8vEDIPRyGuHbCUIGkI
+ A7ZUbFNGALJ+oFGHOSQrOjr0IxiLMUJ7pgwJgbIDLQ/uC4F0XPJfwgiJWbIKb16bywbs
+ r2Zg2nJCRSiWSu0HFG3nRnQ//yiFjMDDqgHkGDie6UeY78IZ7VcLEWbqL4lsZ6eliDY6
+ pLP51bYGZbV0hxmgv9HyQ8aIYqgBLN4gQtw5J6pzixbrdu4nTyiHzuj9TvN1jf4J3yJC
+ tWlSC525dAlkOV8wtI/GY9x0Ct20nkYjzjGPVoLnfErNSk276wRsaiRKs2zuE64lIrUH
+ 7/xg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVCIytYRkED95X/KYveD7t3E3cr49kg4s8zsrn/KqrwCetcD2K1dv2MwLkB6JzcnTYlbr6YaCHA0JJJETEfUhDtxLu//XGYxIU4RbtdR29y
-X-Gm-Message-State: AOJu0YxMVvtoqT+2YO35zCXBS3lZvgzrBDa+hVxNpDMTh23exnlXNJHW
- Hi9MOJj+aZSFZ1+mLnYLgDM3rlWf32kULX+qH9rN4Jn4z4pZsU1u/uO724i4
-X-Google-Smtp-Source: AGHT+IFe8V8ADkTqtL5O6SIODe/TsV2DxVIdODtHyBuEZ5e8LHP+zqr3OelUHhML6BfkVDePRNzdnw==
-X-Received: by 2002:a9d:5d19:0:b0:6f0:e5d4:ccf3 with SMTP id
- 46e09a7af769-6f0e91336afmr32003841a34.15.1716277311230; 
- Tue, 21 May 2024 00:41:51 -0700 (PDT)
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com.
- [209.85.161.42]) by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-6f1032e1a4asm3358366a34.72.2024.05.21.00.41.49
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCV1bikjNzIOHxDfINyui2JAG9Lk9sG9f4IEs4Zx+w6G+z5seppQOOYqOoXIk817VfDJKmlLyVvFM6c5OPhTASJ2QQ8k5WJCyzRegM6AmW1R
+X-Gm-Message-State: AOJu0YwswibHGN+mfb245IN3mZVMa511sOIiKAf958SkxnuEgPbw5VPN
+ sF03TZaeRyjSIG4lVlXiVSjQVKZyYBiTK/lPNaHFDKxlexQOLonJ5qnRVkhIfNyqXBagE7aZ9Qa
+ f2pwH1ce1sPs76JPTs9cB6o3O8xB1GktWQA7HQeCcYDJSQgAwxHvnCaEfiyZ/fA6OBQ==
+X-Received: by 2002:a05:600c:2d53:b0:41b:dabe:8633 with SMTP id
+ 5b1f17b1804b1-41feab40bc9mr222710475e9.21.1716277456297; 
+ Tue, 21 May 2024 00:44:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG17D1mr3KiBg4b/6YqwMLtg30s0aeRAkG2VJMZtV5vJuHvrwL27RPE81Cm5EONRm5rCa4GTA==
+X-Received: by 2002:a05:600c:2d53:b0:41b:dabe:8633 with SMTP id
+ 5b1f17b1804b1-41feab40bc9mr222710345e9.21.1716277455875; 
+ Tue, 21 May 2024 00:44:15 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-41ff063d8cesm418948055e9.46.2024.05.21.00.44.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 May 2024 00:41:50 -0700 (PDT)
-Received: by mail-oo1-f42.google.com with SMTP id
- 006d021491bc7-5b2761611e8so2527000eaf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 00:41:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUym6RTGJZLcV4BPHrj/k+SCk9r9zyYsJbMHFRfVff+dGfxasCs/nQGhN3IVKW5Jqj2CZm8mSp0OEvhrZI+7XSTKNQ+/45D8MLsVcSUP4Ue
-X-Received: by 2002:a05:6902:220c:b0:de8:a770:4812 with SMTP id
- 3f1490d57ef6-df4a41d6187mr6078081276.40.1716277288715; Tue, 21 May 2024
- 00:41:28 -0700 (PDT)
+ Tue, 21 May 2024 00:44:15 -0700 (PDT)
+Message-ID: <a59c24db-1987-4a18-803c-4b4ea7b70458@redhat.com>
+Date: Tue, 21 May 2024 09:44:14 +0200
 MIME-Version: 1.0
-References: <cover.1712207606.git.ysato@users.sourceforge.jp>
- <0a30dbe6d096c38d612279349293162a2ccca149.1712207606.git.ysato@users.sourceforge.jp>
-In-Reply-To: <0a30dbe6d096c38d612279349293162a2ccca149.1712207606.git.ysato@users.sourceforge.jp>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 21 May 2024 09:41:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUQ4u2yiDbEobVqD5y_MtU+XU19cx_kWT66yv1jGZMk6Q@mail.gmail.com>
-Message-ID: <CAMuHMdUQ4u2yiDbEobVqD5y_MtU+XU19cx_kWT66yv1jGZMk6Q@mail.gmail.com>
-Subject: Re: [RESEND v7 15/37] clk: renesas: Add SH7750/7751 CPG Driver
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
- Niklas Cassel <cassel@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] drm/mgag200: Add an option to disable Write-Combine
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Thomas Gleixner <tglx@linutronix.de>, 
- Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>, 
- Heiko Stuebner <heiko.stuebner@cherry.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sebastian Reichel <sre@kernel.org>, Chris Morgan <macromorgan@hotmail.com>, 
- Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
- David Rientjes <rientjes@google.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
- Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, 
- Javier Martinez Canillas <javierm@redhat.com>, Guo Ren <guoren@kernel.org>, 
- Azeem Shaikh <azeemshaikh38@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>, 
- Herve Codina <herve.codina@bootlin.com>, 
- Manikanta Guntupalli <manikanta.guntupalli@amd.com>,
- Anup Patel <apatel@ventanamicro.com>, 
- Biju Das <biju.das.jz@bp.renesas.com>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-ide@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
- linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20240517151050.624797-1-jfalempe@redhat.com>
+ <20240517151050.624797-3-jfalempe@redhat.com>
+ <e6edbe57-16d9-4dae-b73e-95236922c669@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <e6edbe57-16d9-4dae-b73e-95236922c669@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,60 +98,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sato-san,
 
-On Thu, Apr 4, 2024 at 7:15=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
-> Renesas SH7750 and SH7751 series CPG driver.
-> This driver supported frequency control and clock gating.
->
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Thanks for the update!
+On 17/05/2024 17:16, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 17.05.24 um 17:09 schrieb Jocelyn Falempe:
+>> Unfortunately, the G200 ioburst workaround doesn't work on some
+>> servers like Dell poweredge XR11, XR5610, or HPE XL260. In this case
+>> completely disabling WC is the only option to achieve low-latency.
+>> So this adds a new Kconfig option to disable WC mapping of the G200.
+>>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> Thanks a lot for the fix.
 
-As you plan to send a v8 soon, I'm sending you a comment from the
-(incomplete) review I started a while ago...
+Thanks for the review, I just merged it to drm-misc-next.
 
-> --- /dev/null
-> +++ b/drivers/clk/renesas/clk-sh7750.c
+> 
+> Best regards
+> Thomas
+> 
+>> ---
+>>   drivers/gpu/drm/mgag200/Kconfig       | 10 ++++++++++
+>>   drivers/gpu/drm/mgag200/mgag200_drv.c |  6 ++++++
+>>   2 files changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/mgag200/Kconfig 
+>> b/drivers/gpu/drm/mgag200/Kconfig
+>> index b28c5e4828f47..3096944a8f0ab 100644
+>> --- a/drivers/gpu/drm/mgag200/Kconfig
+>> +++ b/drivers/gpu/drm/mgag200/Kconfig
+>> @@ -11,3 +11,13 @@ config DRM_MGAG200
+>>        MGA G200 desktop chips and the server variants. It requires 0.3.0
+>>        of the modesetting userspace driver, and a version of mga driver
+>>        that will fail on KMS enabled devices.
+>> +
+>> +config DRM_MGAG200_DISABLE_WRITECOMBINE
+>> +    bool "Disable Write Combine mapping of VRAM"
+>> +    depends on DRM_MGAG200 && PREEMPT_RT
+>> +    help
+>> +      The VRAM of the G200 is mapped with Write-Combine to improve
+>> +      performances. This can interfere with real-time tasks; even if 
+>> they
+>> +      are running on other CPU cores than the graphics output.
+>> +      Enable this option only if you run realtime tasks on a server 
+>> with a
+>> +      Matrox G200.
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_drv.c
+>> index 3883f25ca4d8b..62080cf0f2da4 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+>> @@ -146,12 +146,18 @@ int mgag200_device_preinit(struct mga_device *mdev)
+>>       }
+>>       mdev->vram_res = res;
+>> +#if defined(CONFIG_DRM_MGAG200_DISABLE_WRITECOMBINE)
+>> +    mdev->vram = devm_ioremap(dev->dev, res->start, resource_size(res));
+>> +    if (!mdev->vram)
+>> +        return -ENOMEM;
+>> +#else
+>>       mdev->vram = devm_ioremap_wc(dev->dev, res->start, 
+>> resource_size(res));
+>>       if (!mdev->vram)
+>>           return -ENOMEM;
+>>       /* Don't fail on errors, but performance might be reduced. */
+>>       devm_arch_phys_wc_add(dev->dev, res->start, resource_size(res));
+>> +#endif
+>>       return 0;
+>>   }
+> 
 
-> +static int register_pll(struct device_node *node, struct cpg_priv *cpg)
-> +{
-> +       const char *clk_name =3D node->name;
-> +       const char *parent_name;
-> +       struct clk_init_data init =3D {
-> +               .name =3D PLLOUT,
-> +               .ops =3D &pll_ops,
-> +               .flags =3D 0,
-> +               .num_parents =3D 1,
-> +       };
-> +       int ret;
-> +
-> +       parent_name =3D of_clk_get_parent_name(node, 0);
-> +       init.parent_names =3D &parent_name;
-> +       cpg->hw.init =3D &init;
-> +
-> +       ret =3D of_clk_hw_register(node, &cpg->hw);
-> +       if (ret < 0)
-> +               pr_err("%pOF: failed to add provider %s (%d)\n",
-
-I think you retained the wrong error message?
-"%s: failed to register %s pll clock (%d)\n" sounds more suitable to me.
-
-> +                      node, clk_name, ret);
-> +       return ret;
-> +}
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
