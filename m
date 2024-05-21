@@ -2,82 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456CC8CB4A1
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 22:21:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A528CB4C8
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 22:40:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5ECE10E1D0;
-	Tue, 21 May 2024 20:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EADA010E0D7;
+	Tue, 21 May 2024 20:40:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="qILuSzRd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hDwHdGYG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87E2410E1D0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 20:20:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1716322829; x=1716927629; i=markus.elfring@web.de;
- bh=/9aJTNuA6pnci53Ve+OUeYBzwYFSE2CeDkBygRRm59g=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=qILuSzRdTrgUMnsc4QpigO2TZXL8A0BhsJPzrynsu7rrr3d8k9kHouqHUX1zbFAM
- CBmqKGoM7BgIRj9mp0REzMz5SmZB2v37pvu4T9JYUMnijXXVwezgyGf6F1ADruDJ6
- dT/6O6075oWTsEQqvSnhFQS3Rj2wiG1vfsi4T5rToAdzrPoLoxeYRhWWw1bttFANO
- +aJZu92WMIBXwXASID5hi+wT62bwr766G2gZHUw3mFb9nKxTu7xQmfAq1Y8V6BGn1
- m0jW/4EPaw3zV4HA5pfksbr2pQpWoAkYmAryUC9c1SavExbercQ0OM0l5E+bwxUfI
- 3rH8G0sRey4r5WWl9Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mae3q-1shCtT1L10-00byUi; Tue, 21
- May 2024 22:20:29 +0200
-Message-ID: <3a12e09d-9a1d-4aa3-8114-83797290a724@web.de>
-Date: Tue, 21 May 2024 22:20:17 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F39EC10E0D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 20:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716324032; x=1747860032;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=a7HBpYV952J/NzsIFy4t5Olu/Ny1r0SLPd7DBdGJaTc=;
+ b=hDwHdGYGIx4gDiMbR+Q9sxdGcwBnCaQNiPAUEnmE5IYRwVmuQoSpgmJo
+ DuIPAMcJC0WoMfAnO6zI054Vcb4fWmCvd02WUN+aCkJhYfQ5f0pbTU1A4
+ 2i6Wm3yXHJHAjxC4esDh8tIC7hZCBA6Ak9G8sNbzclXvcyuLeGZHzUTC/
+ TnYlFlS3+IE6ZUpP+CeoDyutMw2yGH9cTeL+F03NesngKEodohAfb646B
+ s6G1EkxrMeEMLLsAhpNLlNE13yDchW2Rt9SVpcuu/RaJYUQKhOqJsuZvn
+ VGTi5QH4AkoFtub0cwtF4o8+GJNVwenCJK8fyQCQ3xiUAhCu8VJjjLa5y g==;
+X-CSE-ConnectionGUID: a4XDi9/NTDe7fjD9tqQWuA==
+X-CSE-MsgGUID: IFDGpOFTQG6Mwj7kH1Eh8g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="30068666"
+X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; d="scan'208";a="30068666"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 May 2024 13:40:31 -0700
+X-CSE-ConnectionGUID: gobwC626TcO4ZqmEhMLEXA==
+X-CSE-MsgGUID: FYk2rclmRAKYeyzfQKofPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; d="scan'208";a="37813587"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+ by orviesa003.jf.intel.com with ESMTP; 21 May 2024 13:40:24 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1s9WHG-0000i1-1y;
+ Tue, 21 May 2024 20:40:21 +0000
+Date: Wed, 22 May 2024 04:39:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: keith <keith.zhao@starfivetech.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
+ andy.yan@rock-chips.com, xingyu.wu@starfivetech.com,
+ p.zabel@pengutronix.de, jack.zhu@starfivetech.com,
+ shengyang.chen@starfivetech.com
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, keith.zhao@starfivetech.com
+Subject: Re: [PATCH v4 06/10] drm/vs: add vs plane api
+Message-ID: <202405220419.2XNzWyBP-lkp@intel.com>
+References: <20240521105817.3301-7-keith.zhao@starfivetech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Aradhya Bhatia <a-bhatia1@ti.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jyri Sarha <jyri.sarha@iki.fi>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Boris Brezillon <boris.brezillon@bootlin.com>,
- Devarsh Thakkar <devarsht@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Jayesh Choudhary <j-choudhary@ti.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>, Nishanth Menon
- <nm@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <treding@nvidia.com>,
- Udit Kumar <u-kumar1@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>
-References: <20240511153051.1355825-6-a-bhatia1@ti.com>
-Subject: Re: [PATCH 5/7] drm/bridge: cdns-dsi: Support atomic bridge APIs
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240511153051.1355825-6-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:4YQQRdwKiPutjczFXvMWniMXGjriuJnx7Q/D5rQhHqGPgLZYwAR
- LQYe8g8eb5ynwTghmOA8F+dcuWjxa0QH7gZIljat00ooKdm29HZC7xRIMIcnrK41NEMgpJi
- Zy0l1tDPLqGc/Ct+7DCxuvSjVb/hY3sAGOac3pPS57vGZqMbbYg2SiEJrIFX1o4r9al/kC5
- oSGQzEZZd3ljWCtV7buXw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Zcpg8i+p0DI=;PKbrw9hi43jmMaCbO31CO+HkuEJ
- QkZXdNDi0pjHbH7ld8kzYFbUozwH9NyeKLqemGr9LHh4TW2amYXLE5Mk4z4AZseRJkDzH+6K/
- KbtH/pUVgMehnt8iow+De5tuWgrUmwAnJXTtjpO2sDrdARRFaYaneJTJNBmvx90R1VZn9AXo0
- 8AQfgSikBPeXLG1WYkfDnSaMIU3vUiE/ihrZPje+Xy0sd4UB5rxg4MNX2k7kv/wHRG0zZNX+G
- ZQkdCk3rD8fb0e1bIiTjc+dEBZolktc5B9vo3N5H+Faq+dE/XZP8h3AZEoY/L5Q/LtBbBPAej
- x889vZO/vXDzhMo1Cjg9tfSD3TCQKeWBN0lY8NGNoJkGiTNI8vIzOVfpwng7APKohC7F1pnvH
- WS5U6jmK85k3FqyN1wT1gf9G0gZ5VTHsg3mtbGYH4bIxkhRV1j5WX4LkQTBd1qnMLwLNqu5eb
- GhUL4h/VDJwJMlLYv/nQ249apjzULISVD3fsyi4JlSS5VjBlufRMh9DnYxaasZpHRovFEj9kO
- +yJFJ875glyTGdb628aTwqeGIfwYSM9xV07wwkFKeaIZE1QKV1pgD3By1P/ksYabuM6uSa37v
- jN8nxfz+PkSE6PqALcW6IV7az+XXEroHtOnTCo8UxBTBmPgyuLteO70ujHoX2nKmuKDA2PyAk
- fIClu4sE+IuL6AbTneEvan8m6jxy1V+cemqFpn/3XaADcZ3RarasV7D9zZG4gHaXYUaGOzU0h
- DH1/5KQM7N6/SBtAXEdbRk0pyn5iL4jXvARVqPSEgTokK7CIYDBts55MJWed+hE2uw0/LtpLq
- lPWfrio3SzNjBdm78AYqwiAo6FuVoiGV4J8h6/ldMcQdY=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240521105817.3301-7-keith.zhao@starfivetech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,8 +80,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Change the existing (and deparacated) bridge hooks, =E2=80=A6
-                           deprecated?
+Hi keith,
 
-Regards,
-Markus
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master next-20240521]
+[cannot apply to robh/for-next rockchip/for-next v6.9]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/keith/dt-bindings-display-Add-YAML-schema-for-JH7110-display-pipeline/20240521-110316
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240521105817.3301-7-keith.zhao%40starfivetech.com
+patch subject: [PATCH v4 06/10] drm/vs: add vs plane api
+config: m68k-randconfig-r133-20240522 (https://download.01.org/0day-ci/archive/20240522/202405220419.2XNzWyBP-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240522/202405220419.2XNzWyBP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405220419.2XNzWyBP-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/verisilicon/vs_plane.c:83:30: sparse: sparse: symbol 'vs_plane_funcs' was not declared. Should it be static?
+>> drivers/gpu/drm/verisilicon/vs_plane.c:339:37: sparse: sparse: symbol 'primary_plane_helpers' was not declared. Should it be static?
+>> drivers/gpu/drm/verisilicon/vs_plane.c:345:37: sparse: sparse: symbol 'overlay_plane_helpers' was not declared. Should it be static?
+>> drivers/gpu/drm/verisilicon/vs_plane.c:351:37: sparse: sparse: symbol 'cursor_plane_helpers' was not declared. Should it be static?
+
+vim +/vs_plane_funcs +83 drivers/gpu/drm/verisilicon/vs_plane.c
+
+    82	
+  > 83	const struct drm_plane_funcs vs_plane_funcs = {
+    84		.update_plane		= drm_atomic_helper_update_plane,
+    85		.disable_plane		= drm_atomic_helper_disable_plane,
+    86		.reset			= vs_plane_reset,
+    87		.atomic_duplicate_state = vs_plane_atomic_duplicate_state,
+    88		.atomic_destroy_state	= vs_plane_atomic_destroy_state,
+    89		.format_mod_supported	= vs_format_mod_supported,
+    90	};
+    91	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
