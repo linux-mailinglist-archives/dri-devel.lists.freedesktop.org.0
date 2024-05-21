@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBFA8CA85D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 09:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DF58CA879
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 09:09:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6DB10E09C;
-	Tue, 21 May 2024 07:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0BA10E14E;
+	Tue, 21 May 2024 07:09:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qm0vO6hS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dMb57hvR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
  [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4200910E09C;
- Tue, 21 May 2024 07:05:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B91CB10E11B;
+ Tue, 21 May 2024 07:09:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1716275137;
- bh=nS/Dr2W3vGanwW9ifFd+bOFrHEwvBrs3b1sW5lLV82U=;
+ s=mail; t=1716275365;
+ bh=2kRe9Ce8rakW5lnoclVrGvOqgAaS9QJgR7+JBCR7qys=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=qm0vO6hSCRlLszYJes6vtZsP0qVLDOWOlMVSXIEkovjNeL4Dq+Cc+8MXdXP7o9Ngt
- dEgAlzV+KObOGcAdS/6I44aVkdi+dzENzBC+C8438w5ZDIY3qhWEdam1o+AodVwzjv
- LXMakGJRGQchKxC8P/1xweTSAiUSv5m/wIebY9OQ7ZoehiIA9kMjvWzZlPc043uEtL
- I9WPKXT+MUL2ESyAvmJo630D/7kottF1JQB7ihruCKvj6sjbQnA/ZmNcTgV2aj4M44
- yBEOL1WXeyBsLFdR4/W1aZOQopqDRLXK/J8L1Xq3XC3FW2nsXiT1XtAj/HU/gghFaX
- X7t22RCH7dZsQ==
+ b=dMb57hvRLq5Ogx/eVkr0GikvvOOcmA5elS88vCrGss1/i4ZaMGyJDakkzpsPqdKT0
+ orLLIzRjSegeeBGqdqT+YLzJOOqeU4I3VEw+Wyz6V/8JUomxmKVqURakWOBdWDGMhc
+ a8uCQLH53IZiJhwL5OhP7wuPoxDUYVsSHadDZiP0iwDeoqLby10l9/7WR9H1v92C4z
+ GO4BQg9kw2QgpPDnELBL9rBKXBR05jMVNEwyv7QDoC9dNX7xJ579aMYDO0a3pLAUBx
+ e4xY/BitVag16MsRrKACbRbrpr6Ufokn02bNWB4NaOnAPDNsq22TPAVjmswEHYFEQY
+ Uo90BDiUZNPUQ==
 Received: from [100.66.96.193] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id E0B0A378202E;
- Tue, 21 May 2024 07:05:33 +0000 (UTC)
-Message-ID: <9ab7eb04-d4c6-4a79-87cb-2d21e4bfa9c4@collabora.com>
-Date: Tue, 21 May 2024 12:35:32 +0530
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 97C6B378202E;
+ Tue, 21 May 2024 07:09:21 +0000 (UTC)
+Message-ID: <f3646d66-01f0-476c-8b7f-5df102790fcb@collabora.com>
+Date: Tue, 21 May 2024 12:39:19 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] drm/ci: generate testlist from build
+Subject: Re: [PATCH v2 3/6] drm/ci: build virtual GPU driver as module
 Content-Language: en-US
-To: Helen Koike <helen.koike@collabora.com>, dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
+ helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
  robdclark@gmail.com, david.heidelberg@collabora.com,
  guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- dmitry.baryshkov@linaro.org, mcanal@igalia.com,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+ mcanal@igalia.com, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org
 References: <20240517092502.647420-1-vignesh.raman@collabora.com>
- <20240517092502.647420-3-vignesh.raman@collabora.com>
- <c7e0a8b1-5be6-460b-b489-2ab5a8248d32@collabora.com>
+ <20240517092502.647420-4-vignesh.raman@collabora.com>
+ <elftuzsd7lhz6y5ow6rb5uu5fb5b5jcprxtvxtxtojo774rnyr@swpeg4vkgtnc>
 From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <c7e0a8b1-5be6-460b-b489-2ab5a8248d32@collabora.com>
+In-Reply-To: <elftuzsd7lhz6y5ow6rb5uu5fb5b5jcprxtvxtxtojo774rnyr@swpeg4vkgtnc>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,70 +70,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Helen,
+Hi Dmitry,
 
-On 21/05/24 01:54, Helen Koike wrote:
+On 20/05/24 16:32, Dmitry Baryshkov wrote:
+> On Fri, May 17, 2024 at 02:54:59PM +0530, Vignesh Raman wrote:
+>> With latest IGT, the tests tries to load the module and it
+>> fails. So build the virtual GPU driver for virtio as module.
 > 
+> Why? If the test fails on module loading (if the driver is built-in)
+> then it's the test that needs to be fixed, not the kerenel config.
 > 
-> On 17/05/2024 06:24, Vignesh Raman wrote:
->> Stop vendoring the testlist into the kernel. Instead, use the
->> testlist from the IGT build to ensure we do not miss renamed
->> or newly added tests.
->>
->> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
->> ---
->>
->> v2:
->>    - Fix testlist generation for arm and arm64 builds.
->>
->> ---
->>   drivers/gpu/drm/ci/build-igt.sh  |   34 +
->>   drivers/gpu/drm/ci/igt_runner.sh |    9 +-
->>   drivers/gpu/drm/ci/testlist.txt  | 2761 ------------------------------
->>   3 files changed, 39 insertions(+), 2765 deletions(-)
->>   delete mode 100644 drivers/gpu/drm/ci/testlist.txt
->>
->> diff --git a/drivers/gpu/drm/ci/build-igt.sh 
->> b/drivers/gpu/drm/ci/build-igt.sh
->> index 7859554756c4..e62244728613 100644
->> --- a/drivers/gpu/drm/ci/build-igt.sh
->> +++ b/drivers/gpu/drm/ci/build-igt.sh
->> @@ -3,6 +3,30 @@
->>   set -ex
->> +function generate_testlist {
->> +    set +x
->> +    while read -r line; do
->> +        if [ "$line" = "TESTLIST" ] || [ "$line" = "END TESTLIST" ]; 
->> then
->> +            continue
->> +        fi
->> +
->> +        tests=$(echo "$line" | tr ' ' '\n')
->> +
->> +        for test in $tests; do
->> +            output=$(/igt/libexec/igt-gpu-tools/"$test" 
->> --list-subtests || true)
->> +
->> +            if [ -z "$output" ]; then
->> +                echo "$test"
->> +            else
->> +                echo "$output" | while read -r subtest; do
->> +                    echo "$test@$subtest"
->> +                done
->> +            fi
->> +        done
->> +    done < /igt/libexec/igt-gpu-tools/test-list.txt > 
->> /igt/libexec/igt-gpu-tools/testlist.txt
-> 
-> Just a nit, could you rename the file to ci-testlist.txt ? Since 
-> test-list.txt and testlist.txt can be easily confused.
+> It's fine as a temporal workaround, but please include a link to the
+> patch posted to fix the issue.
 
-Sure, will rename it. I missed to add the generating testlist print also.
+I will recheck this issue and post a link to the fix.
 
 Regards,
 Vignesh
 
 > 
-> Regards,
-> Helen
+>>
+>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>> ---
+>>
+>> v2:
+>>    - No changes.
+>>
+>> ---
+>>   drivers/gpu/drm/ci/build.sh       | 1 -
+>>   drivers/gpu/drm/ci/igt_runner.sh  | 6 +++---
+>>   drivers/gpu/drm/ci/image-tags.yml | 4 ++--
+>>   drivers/gpu/drm/ci/test.yml       | 1 +
+>>   drivers/gpu/drm/ci/x86_64.config  | 2 +-
+>>   5 files changed, 7 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+>> index a67871fdcd3f..e938074ac8e7 100644
+>> --- a/drivers/gpu/drm/ci/build.sh
+>> +++ b/drivers/gpu/drm/ci/build.sh
+>> @@ -157,7 +157,6 @@ fi
+>>   
+>>   mkdir -p artifacts/install/lib
+>>   mv install/* artifacts/install/.
+>> -rm -rf artifacts/install/modules
+>>   ln -s common artifacts/install/ci-common
+>>   cp .config artifacts/${CI_JOB_NAME}_config
+>>   
+>> diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
+>> index 20026612a9bd..55532f79fbdc 100755
+>> --- a/drivers/gpu/drm/ci/igt_runner.sh
+>> +++ b/drivers/gpu/drm/ci/igt_runner.sh
+>> @@ -30,10 +30,10 @@ case "$DRIVER_NAME" in
+>>               export IGT_FORCE_DRIVER="panfrost"
+>>           fi
+>>           ;;
+>> -    amdgpu)
+>> +    amdgpu|virtio_gpu)
+>>           # Cannot use HWCI_KERNEL_MODULES as at that point we don't have the module in /lib
+>> -        mv /install/modules/lib/modules/* /lib/modules/.
+>> -        modprobe amdgpu
+>> +        mv /install/modules/lib/modules/* /lib/modules/. || true
+>> +        modprobe --first-time $DRIVER_NAME
+>>           ;;
+>>   esac
+>>   
+>> diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
+>> index 60323ebc7304..328f5c560742 100644
+>> --- a/drivers/gpu/drm/ci/image-tags.yml
+>> +++ b/drivers/gpu/drm/ci/image-tags.yml
+>> @@ -4,9 +4,9 @@ variables:
+>>      DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
+>>   
+>>      DEBIAN_X86_64_BUILD_IMAGE_PATH: "debian/x86_64_build"
+>> -   DEBIAN_BUILD_TAG: "2023-10-08-config"
+>> +   DEBIAN_BUILD_TAG: "2024-05-09-virtio"
+>>   
+>> -   KERNEL_ROOTFS_TAG: "2023-10-06-amd"
+>> +   KERNEL_ROOTFS_TAG: "2024-05-09-virtio"
+>>   
+>>      DEBIAN_X86_64_TEST_BASE_IMAGE: "debian/x86_64_test-base"
+>>      DEBIAN_X86_64_TEST_IMAGE_GL_PATH: "debian/x86_64_test-gl"
+>> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+>> index 612c9ede3507..864ac3809d84 100644
+>> --- a/drivers/gpu/drm/ci/test.yml
+>> +++ b/drivers/gpu/drm/ci/test.yml
+>> @@ -350,6 +350,7 @@ virtio_gpu:none:
+>>     script:
+>>       - ln -sf $CI_PROJECT_DIR/install /install
+>>       - mv install/bzImage /lava-files/bzImage
+>> +    - mkdir -p /lib/modules
+> 
+> Is it necessary to create it manually here?
+> 
+>>       - mkdir -p $CI_PROJECT_DIR/results
+>>       - ln -sf $CI_PROJECT_DIR/results /results
+>>       - install/crosvm-runner.sh install/igt_runner.sh
+>> diff --git a/drivers/gpu/drm/ci/x86_64.config b/drivers/gpu/drm/ci/x86_64.config
+>> index 1cbd49a5b23a..78479f063e8e 100644
+>> --- a/drivers/gpu/drm/ci/x86_64.config
+>> +++ b/drivers/gpu/drm/ci/x86_64.config
+>> @@ -91,7 +91,7 @@ CONFIG_KVM=y
+>>   CONFIG_KVM_GUEST=y
+>>   CONFIG_VIRT_DRIVERS=y
+>>   CONFIG_VIRTIO_FS=y
+>> -CONFIG_DRM_VIRTIO_GPU=y
+>> +CONFIG_DRM_VIRTIO_GPU=m
+>>   CONFIG_SERIAL_8250_CONSOLE=y
+>>   CONFIG_VIRTIO_NET=y
+>>   CONFIG_VIRTIO_CONSOLE=y
+>> -- 
+>> 2.40.1
+>>
 > 
