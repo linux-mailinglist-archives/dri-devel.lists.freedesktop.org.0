@@ -2,73 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433218CAD74
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 13:38:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBA48CAD80
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 13:45:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32BA110E916;
-	Tue, 21 May 2024 11:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A33610E4A0;
+	Tue, 21 May 2024 11:45:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="kzhoysrv";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="fjgoCNr/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C7410E916
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 11:38:50 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-354c28d4e2aso76685f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 04:38:50 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D48110E4A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 11:45:03 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-56e6583942dso1477276a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 04:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1716291529; x=1716896329; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=javIARIQYa6PXJ+GHsHLdFJuCntUaJgV+5ZQt3fbfwo=;
- b=kzhoysrv1twBRJziH1yXGIFu8vajqk8RcuIBm359TO7unnWfuY3lDIGTOewKs4ukdU
- 4bGWCdyrvValI7IiomKHk+nxVafTgnMumCGcTAEtK1L9XNdkrqIzuu8PjyK41mrs8t9E
- yWRMBYIL9XdOR76bVADI2QqVDwamt7/+n3E5Q=
+ d=ffwll.ch; s=google; t=1716291902; x=1716896702; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=IOG87kRKqhGoWjQDtxhtb40Vr6tjKxEiEr57hLDOyAs=;
+ b=fjgoCNr/Kh4XVqDLhoxy6NNOaZmrEe5F1hH92PaDmEI0FosoNz95/rKBereds+JOCt
+ i8TkmIJC8iedPvahHD4Uw290K6iLPOwa67jUKqekezVoEfbUkPZ8PbTffn+BSSRdmo10
+ pCvNK5u73JQjtjsOb8publmfTRSWwMNjMfB9o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716291529; x=1716896329;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=javIARIQYa6PXJ+GHsHLdFJuCntUaJgV+5ZQt3fbfwo=;
- b=wbTGmLE8xZMEFC9ehz3X1g+Z8rhvTbfewhhx0hIN/I2bPJ3snMsof41PbF5d4Nw/jP
- kdArwAOcAwz+CkY5KZeOuhU80Hiri7jHaBmyJ+ogNXqIcg+CLVkkcqd2sse8g64Qfg1x
- Y7I8SMElo186tzpFN4OafQdQ+l+Ee7rEFa868VQhCnhxleYbhbEsxCBMuzcsqzxswVgX
- uJBFnQFBrOa3CwG2zW4Vl53mwlbs3f0UssBYtUNifurkyLBywLQBgNHBe607BLLzx5ul
- thae9nXHj8+feeqtXXifS4CWV3VRupuZfU6J+qv7u0vr15KZGUYTTiTH/y2CNrfHKLGb
- IMWA==
+ d=1e100.net; s=20230601; t=1716291902; x=1716896702;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IOG87kRKqhGoWjQDtxhtb40Vr6tjKxEiEr57hLDOyAs=;
+ b=YE9yl4Xinc+TsGFbHW6bpe1ygl0Basv/Qeq/q3EjT9GcvWDPXp8N+BT7SwtpkC8aqX
+ bPx4RhOt2/kTn6dc6Rtiz8WRo4NRXBGFrxT/VUeQW0cS2ceHViq5hWkeVwsjds12vnDM
+ rnyx3b4hpxhCq0IkY15MtY7wDYuyrk/1Yj+Tj5fiiHb3Qon9xJIPV1nDsg7qPEUaqCE8
+ z7asPHzjlvukqR5n4yO3p7kKWUf5UYLPE7ns4UzADHC/jduKtqPs8s4Vrn0xCAMz08rD
+ CMRnwlRwYTuTAl5hh4vau8ywbelgiWy81nFupmKjPRyiGt6H2UFmhL1PzQVXHZF6vmI1
+ d6mA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX+2+TXhQQLYdZXGCzp1QZlBvJobj8QXf6VzcRfIIpkDAiymuZScIKRSvhzvunDAUm79mJlGnj+RuQ1W3cHsBxUQB19jVw8wl7uuTbgTSyd
-X-Gm-Message-State: AOJu0Yy7UkLE0rGsx1aIR6Xz/MEKdEzNYrnz5i6ne78nJw9HHxpX99wL
- tAg1U0goFz6FUCJGqkBTDTPSrGSizMnWmYRO1Q7TS9ZvForHGhgLvasCxvquMg4=
-X-Google-Smtp-Source: AGHT+IGl5K7kDjgb0LE1RiE7z5Mn0bPHCIyADdQYsK8/33rqu8b6GsIF9Hj9cddcGA0YRsVeQ3UTOQ==
-X-Received: by 2002:a05:600c:3582:b0:41a:bb50:92bb with SMTP id
- 5b1f17b1804b1-41fea539aafmr233712465e9.0.1716291528455; 
- Tue, 21 May 2024 04:38:48 -0700 (PDT)
+ AJvYcCVtqzjSCtmM+w4hfJfHs0tHWEhG6hxqZFzIcT3U8tPCScwsW95OrVkiGAYDj/Luti7n/xViYfIGUxkDCug2ySWR35PD9EDWN+0FJC77XEkh
+X-Gm-Message-State: AOJu0Ywv4vxpuTwugx3KjVvaVX4w48XzWhL9zm56mEF7oHkV/uQLcgqb
+ 6mZWgmY3PU4uPPzW8tsBvuWH8WSBSdTrHn0xMDb4GPZZFULWv2HjZoaHBRq3/t0=
+X-Google-Smtp-Source: AGHT+IHpqPsQEMClqFfPwE8hlGKP0FeodEfBdWinlRo0GJs8wdzebX+3CZQPu/6okkJEhteu1rblhw==
+X-Received: by 2002:a05:6402:8d0:b0:572:5c95:50fe with SMTP id
+ 4fb4d7f45d1cf-5734d444320mr21767661a12.0.1716291901588; 
+ Tue, 21 May 2024 04:45:01 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42013b4e9aesm353748295e9.40.2024.05.21.04.38.47
+ 4fb4d7f45d1cf-574bcad0362sm13110306a12.20.2024.05.21.04.45.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 May 2024 04:38:47 -0700 (PDT)
-Date: Tue, 21 May 2024 13:38:45 +0200
+ Tue, 21 May 2024 04:45:01 -0700 (PDT)
+Date: Tue, 21 May 2024 13:44:59 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
-Subject: Re: [PATCH] drm/etnaviv: switch devcoredump allocations to GFP_NOWAIT
-Message-ID: <ZkyHxStIbBv2JLav@phenom.ffwll.local>
-References: <20240126164623.1191363-1-l.stach@pengutronix.de>
- <6c61933be624d8d6fe7609e56763e760c9721179.camel@pengutronix.de>
- <7740cc0acb7a4c6d168315ba94ad23df4f45d63a.camel@pengutronix.de>
+To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, Tvrtko Ursulin <tursulin@ursulin.net>
+Subject: Re: [PATCH v2 1/1] drm: Add ioctl for querying a DRM device's list
+ of open client PIDs
+Message-ID: <ZkyJO01lvuVhFlMG@phenom.ffwll.local>
+Mail-Followup-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe
+ <adrian.larumbe@collabora.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>
+References: <20240501185047.3126832-1-adrian.larumbe@collabora.com>
+ <20240501185047.3126832-2-adrian.larumbe@collabora.com>
+ <ZjNKLVZgekRqw5AL@phenom.ffwll.local>
+ <a3hakatontuh535xkvwz3txbaocjx44ajkarmiigt3prekqysc@hp2zayht4hbh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <7740cc0acb7a4c6d168315ba94ad23df4f45d63a.camel@pengutronix.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a3hakatontuh535xkvwz3txbaocjx44ajkarmiigt3prekqysc@hp2zayht4hbh>
 X-Operating-System: Linux phenom 6.8.9-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,62 +100,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 17, 2024 at 10:18:50AM +0200, Philipp Zabel wrote:
-> On Do, 2024-05-16 at 19:20 +0200, Lucas Stach wrote:
-> > Am Freitag, dem 26.01.2024 um 17:46 +0100 schrieb Lucas Stach:
-> > > The etnaviv devcoredump is created in the GPU reset path, which
-> > > must make forward progress to avoid stalling memory reclaim on
-> > > unsignalled dma fences. The currently used __GFP_NORETRY does not
-> > > prohibit sleeping on direct reclaim, breaking the forward progress
-> > > guarantee. Switch to GFP_NOWAIT, which allows background reclaim
-> > > to be triggered, but avoids any stalls waiting for direct reclaim.
-> > > 
-> > Any takers for reviewing this one?
-> > 
-> > Regards,
-> > Lucas
-> > 
-> > > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > > ---
-> > >  drivers/gpu/drm/etnaviv/etnaviv_dump.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> > > index 898f84a0fc30c..42c5028872d54 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> > > @@ -159,8 +159,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
-> > >  	file_size += sizeof(*iter.hdr) * n_obj;
-> > >  
-> > >  	/* Allocate the file in vmalloc memory, it's likely to be big */
-> > > -	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
-> > > -			__GFP_NORETRY);
-> > > +	iter.start = __vmalloc(file_size, GFP_NOWAIT | __GFP_NOWARN);
-> > >  	if (!iter.start) {
-> > >  		mutex_unlock(&submit->mmu_context->lock);
-> > >  		dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
-> > > @@ -230,5 +229,6 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
-> > >  
-> > >  	etnaviv_core_dump_header(&iter, ETDUMP_BUF_END, iter.data);
-> > >  
-> > > -	dev_coredumpv(gpu->dev, iter.start, iter.data - iter.start, GFP_KERNEL);
-> > > +	dev_coredumpv(gpu->dev, iter.start, iter.data - iter.start,
-> > > +		      GFP_NOWAIT | __GFP_NOWARN);
+On Thu, May 16, 2024 at 11:12:19PM +0100, Adrián Larumbe wrote:
+> Hi Daniel,
 > 
-> Should this be __GFP_NOWARN? There is no fallback on failure, and if
-> this fails and the __vmalloc() above didn't, there is no error message
-> at all.
+> On 02.05.2024 10:09, Daniel Vetter wrote:
+> > On Wed, May 01, 2024 at 07:50:43PM +0100, Adrián Larumbe wrote:
+> > > Up to this day, all fdinfo-based GPU profilers must traverse the entire
+> > > /proc directory structure to find open DRM clients with fdinfo file
+> > > descriptors. This is inefficient and time-consuming.
+> > > 
+> > > This patch adds a new DRM ioctl that allows users to obtain a list of PIDs
+> > > for clients who have opened the DRM device. Output from the ioctl isn't
+> > > human-readable, and it's meant to be retrieved only by GPU profilers like
+> > > gputop and nvtop.
+> > > 
+> > > Cc: Rob Clark <robdclark@gmail.com>
+> > > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> > > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_internal.h |  1 +
+> > >  drivers/gpu/drm/drm_ioctl.c    | 89 ++++++++++++++++++++++++++++++++++
+> > >  include/uapi/drm/drm.h         |  7 +++
+> > >  3 files changed, 97 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> > > index 690505a1f7a5..6f78954cae16 100644
+> > > --- a/drivers/gpu/drm/drm_internal.h
+> > > +++ b/drivers/gpu/drm/drm_internal.h
+> > > @@ -243,6 +243,7 @@ static inline void drm_debugfs_encoder_remove(struct drm_encoder *encoder)
+> > >  drm_ioctl_t drm_version;
+> > >  drm_ioctl_t drm_getunique;
+> > >  drm_ioctl_t drm_getclient;
+> > > +drm_ioctl_t drm_getclients;
+> > >  
+> > >  /* drm_syncobj.c */
+> > >  void drm_syncobj_open(struct drm_file *file_private);
+> > > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> > > index e368fc084c77..da7057376581 100644
+> > > --- a/drivers/gpu/drm/drm_ioctl.c
+> > > +++ b/drivers/gpu/drm/drm_ioctl.c
+> > > @@ -207,6 +207,93 @@ int drm_getclient(struct drm_device *dev, void *data,
+> > >  	}
+> > >  }
+> > >  
+> > > +/*
+> > > + * Get list of client PIDs who have opened a DRM file
+> > > + *
+> > > + * \param dev DRM device we are querying
+> > > + * \param data IOCTL command input.
+> > > + * \param file_priv DRM file private.
+> > > + *
+> > > + * \return zero on success or a negative number on failure.
+> > > + *
+> > > + * Traverses list of open clients for the given DRM device, and
+> > > + * copies them into userpace as an array of PIDs
+> > > + */
+> > > +int drm_getclients(struct drm_device *dev, void *data,
+> > > +		   struct drm_file *file_priv)
+> > > +
+> > > +{
+> > > +	struct drm_get_clients *get_clients = data;
+> > > +	ssize_t size = get_clients->len;
+> > > +	char __user *pid_buf;
+> > > +	ssize_t offset = 0;
+> > > +	int ret = 0;
+> > > +
+> > > +	/*
+> > > +	 * We do not want to show clients of display only devices so
+> > > +	 * as to avoid confusing UM GPU profilers
+> > > +	 */
+> > > +	if (!dev->render) {
+> > > +		get_clients->len = 0;
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * An input size of zero means UM wants to know the size of the PID buffer
+> > > +	 * We round it up to the nearest multiple of the page size so that we can have
+> > > +	 * some spare headroom in case more clients came in between successive calls
+> > > +	 * of this ioctl, and also to simplify parsing of the PIDs buffer, because
+> > > +	 * sizeof(pid_t) will hopefully always divide PAGE_SIZE
+> > > +	 */
+> > > +	if (size == 0) {
+> > > +		get_clients->len =
+> > > +			roundup(atomic_read(&dev->open_count) * sizeof(pid_t), PAGE_SIZE);
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	pid_buf = (char *)(void *)get_clients->user_data;
+> > > +
+> > > +	if (!pid_buf)
+> > > +		return -EINVAL;
+> > > +
+> > > +	mutex_lock(&dev->filelist_mutex);
+> > > +	list_for_each_entry_reverse(file_priv, &dev->filelist, lhead) {
+> > > +		pid_t pid_num;
+> > > +
+> > > +		if ((size - offset) < sizeof(pid_t))
+> > > +			break;
+> > > +
+> > > +		rcu_read_lock();
+> > > +		pid_num = pid_vnr(rcu_dereference(file_priv->pid));
+> > > +		rcu_read_unlock();
+> > > +
+> > > +		/* We do not want to return the profiler's PID */
+> > > +		if (pid_vnr(task_tgid(current)) == pid_num)
+> > > +			continue;
+> > > +
+> > > +		ret = copy_to_user(pid_buf + offset, &pid_num, sizeof(pid_t));
+> > > +		if (ret)
+> > > +			break;
+> > > +
+> > > +		offset += sizeof(pid_t);
+> > > +	}
+> > > +	mutex_unlock(&dev->filelist_mutex);
+> > > +
+> > > +	if (ret)
+> > > +		return -EFAULT;
+> > > +
+> > > +	if ((size - offset) >= sizeof(pid_t)) {
+> > > +		pid_t pid_zero = 0;
+> > > +
+> > > +		ret = copy_to_user(pid_buf + offset,
+> > > +				   &pid_zero, sizeof(pid_t));
+> > > +		if (ret)
+> > > +			return -EFAULT;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  /*
+> > >   * Get statistics information.
+> > >   *
+> > > @@ -672,6 +759,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+> > >  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
+> > >  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
+> > >  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
+> > > +
+> > > +	DRM_IOCTL_DEF(DRM_IOCTL_GET_CLIENTS, drm_getclients, DRM_RENDER_ALLOW),
+> > 
+> > Uh RENDER_ALLOW sounds like a very bad idea for this, flat out leaks
+> > information that really paranoid people don't want to have leaked.
+> 
+> I'm curious, how is this ioctl leakier than, let's say, any of the driver
+> getparam ioctls, like Panfrost's panfrost_ioctl_get_param() ?
+> 
+> I'm asking this because I checked the way access to a drm file is being handled
+> in drm_ioctl_permit(), and it seems in the case of a render node (which are the
+> kind we're most interested in retrieving the list of client PIDs for),
+> DRM_RENDER_ALLOW access is mandatory.
 
-GFP_NOWAIT already has __GFP_NOWARN, so redundant. And there's really
-nothing you can do as a fallback (aside from dmesg output, which this code
-already does - ok mabye dev_coredump could also do warnings, but that's a
-separate patch).
+All the resources are attached to a file, and that's fundamentally what
+the ioctls we have operate on. Or invariant stuff from the driver/hw, like
+the get_param ioctl you mention.
 
-With the __GFP_NOWARN dropped:
+What your ioctl does is give us information about _other_ files opened of
+the same underlying render node, which is entirely new and does break the
+full isolation between different open render node files we've hade thus
+far.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Natural would be to limit to ptrace ability, but ptrace is for processes
+> > and fd aren't tied to that. So I'm not sure ...
+> > 
+> > I think a separate file (whether in procfs or a special chardev) where you
+> > can set access rights that suit feels a lot better for this. Plus putting
+> > it into procfs would also give the natural property that you can only read
+> > it if you have access to procfs anyway, so imo that feels like the best
+> > place for this ...
+> > 
+> > And yes that means some lkml bikeshedding with procfs folks, but I do
+> > think that's good here since we're likely not the only ones who need a bit
+> > faster procfs trawling for some special use-cases. So consistency across
+> > subsystems would be nice to at least try to aim for.
+> > -Sima
+> 
+> I think using procfs would make sense if we were displaying process-specific
+> information, and such is the case of fdinfo directories therein, but this ioctl
+> (and the device sysfs knob that it replaces from a previous patch series) is
+> meant to yield all the device's client PIDs. To me that doesn't sound like
+> something that is tied to a single render client, but to the device as a whole.
 
-Cheers, Sima
+procfs because it's an algorithmic improvement for an interface that _is_
+in procfs. If you don't have access to procfs and it's fdinfo files, then
+this "give me the list of all open files" is no use. Also with pid name
+spaces we need to make sure that the list we hand out matches the relevant
+pid name space, if it's global that's a bug. So it's also relevant to the
+specific procfs instance a process has.
+
+So from a security pov, that's where it belongs.
+-Sima
+
+> 
+> > >  };
+> > >  
+> > >  #define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE(drm_ioctls)
+> > > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> > > index 16122819edfe..c47aa9de51ab 100644
+> > > --- a/include/uapi/drm/drm.h
+> > > +++ b/include/uapi/drm/drm.h
+> > > @@ -1024,6 +1024,11 @@ struct drm_crtc_queue_sequence {
+> > >  	__u64 user_data;	/* user data passed to event */
+> > >  };
+> > >  
+> > > +struct drm_get_clients {
+> > > +	__u64 user_data;
+> > > +	__kernel_size_t len;
+> > > +};
+> > > +
+> > >  #if defined(__cplusplus)
+> > >  }
+> > >  #endif
+> > > @@ -1236,6 +1241,8 @@ extern "C" {
+> > >  #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_transfer)
+> > >  #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_syncobj_timeline_array)
+> > >  
+> > > +#define DRM_IOCTL_GET_CLIENTS		DRM_IOWR(0xD1, struct drm_get_clients)
+> > > +
+> > >  /**
+> > >   * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
+> > >   *
+> > > -- 
+> > > 2.44.0
+> > > 
+> 
+> Adrian Larumbe
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
