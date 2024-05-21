@@ -2,67 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F26F8CA959
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 09:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0FDC8CA98F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 10:04:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37ECD10E3AB;
-	Tue, 21 May 2024 07:51:22 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="jkYkyCPZ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E17910E317;
+	Tue, 21 May 2024 08:04:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCA5110E2A5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 07:51:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=rJA9OD/hotGu+pdBYSa5wol5mrcgE/6y01wA9gkNaok=;
- b=jkYkyCPZj+YAIvNbRY5Cs5xD8fbAoOAB42BGJ4k1y7N4FzoWvAcIdbYb
- tCPZ3zJFh8zt127AwRj3FyfXFRL2z1hSZE9veKyll+sxiigH/GLLgthpA
- XsXvl5scqblpB3zYG65lvIpuVWMFXVVyZW7N8FSeZYwB/orrnoEO5Zv9M
- s5B8nIcrgGlo1cISjxiB8fUJoJlsIiDgAvsCyJTXqoVDz0rPoxHsfNYk7
- PuTPwulx6FCRqb6gVRg5FVaxeA35kjGAWMpGt9reqtm/QGXNtzhDVzBBK
- yWCR/Xxxg12dNiyXSpLmPDJ22ENKNvPPjoJCzm73VVGfy81hcBe6eHtNm A==;
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 21 May 2024 15:51:12 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 44L7p9ME031040;
- Tue, 21 May 2024 15:51:09 +0800 (GMT-8)
- (envelope-from kuro.chung@ite.com.tw)
-Received: from ite-XPS-13-9360.internal.ite.com.tw (192.168.72.42) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 21 May 2024 15:51:08 +0800
-From: kuro <kuro.chung@ite.com.tw>
-To: Pin-yen Lin <treapking@chromium.org>, Kenneth Haung
- <kenneth.hung@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Allen Chen
- <allen.chen@ite.com.tw>, Hermes Wu <hermes.wu@ite.com.tw>, AngeloGioacchino
- Del Regno <angelogioacchino.delregno@collabora.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-CC: Kuro Chung <kuro.chung@ite.com.tw>
-Subject: [PATCH v12] drm/bridge: it6505: fix hibernate to resume no display
- issue
-Date: Tue, 21 May 2024 16:01:48 +0800
-Message-ID: <20240521080149.1047892-1-kuro.chung@ite.com.tw>
-X-Mailer: git-send-email 2.25.1
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7837D10E317
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 08:04:01 +0000 (UTC)
+Received: from i53875abf.versanet.de ([83.135.90.191] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1s9KSz-0007vG-WB; Tue, 21 May 2024 10:03:26 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, hjc@rock-chips.com, andy.yan@rock-chips.com,
+ xingyu.wu@starfivetech.com, p.zabel@pengutronix.de,
+ jack.zhu@starfivetech.com, shengyang.chen@starfivetech.com,
+ keith <keith.zhao@starfivetech.com>, Alex Bee <knaerzche@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ keith.zhao@starfivetech.com
+Subject: Re: [PATCH v4 00/10] drm/verisilicon : support DC8200 and inno hdmi
+Date: Tue, 21 May 2024 10:03:24 +0200
+Message-ID: <3222561.5fSG56mABF@diego>
+In-Reply-To: <20240521105817.3301-1-keith.zhao@starfivetech.com>
+References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.72.42]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: F9F34C0A94CA35CD4F5911CF8E0B2FE07EA2AA2D0DBBCFD05078346A7B31A6D02002:8
-X-MAIL: mse.ite.com.tw 44L7p9ME031040
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,167 +52,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kuro Chung <kuro.chung@ite.com.tw>
+Hi Alex,
 
-When the system power resumes, the TTL input of IT6505 may experience
-some noise before the video signal stabilizes, necessitating a video
-reset. This patch is implemented to prevent a loop of video error
-interrupts, which can occur when a video reset in the video FIFO error
-interrupt triggers another such interrupt. The patch processes the SCDT
-and FIFO error interrupts simultaneously and ignores any video FIFO
-error interrupts caused by a video reset.
+Am Dienstag, 21. Mai 2024, 12:58:07 CEST schrieb keith:
+> Verisilicon/DC8200 display controller IP has 2 display pipes and each 
+> pipe support a primary plane and a cursor plane . 
+> In addition, there are four overlay planes as two display pipes common resources.
+> 
+> The first display pipe is bound to the inno HDMI encoder.
+> The second display pipe is bound to a simple encoder, which is used to
+> find dsi bridge by dts node. 
+> 
+> Patch 1 adds YAML schema for JH7110 display pipeline.
+> 
+> Patches 2 to 3 add inno common api and match the ROCKCHIP inno hdmi driver 
+> by calling the common api. 
+> The collating public interface is based on ROCKCHIP inno hdmi, 
+> and it can be resused by JH7110 inno hdmi.
+> Those common api are tested on rk-3128 SDK, which kernel version is 4.x. 
 
-Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
-Signed-off-by: Kuro Chung <kuro.chung@ite.com.tw>
-Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
+as you were working on the rk3128-inno-hdmi variant recently
+and I don't really have a rk3036 or rk3128 in working condition
+right now, could you give this series a try.
 
----
-V1->V3: update MAINTAINERS mail list
-V3->V4: remove function it6505_irq_video_fifo_error,it6505_irq_io_latch_fifo_overflow
-V4->V5: customer feedback again, update again, kernel build pass
-V5->V6: remove unrelated patch change, split into another patch
-V6->V7: modify code 0x02 to TX_FIFO_RESET by macro define
-V7->V8: fix merge conflict, change mail from 'cc' to 'to'
-V8->V9: modify patch description, patch summary
-V9->V10: modify patch summary, add Fixes
-V10->V11: modify patch description, add Signed-off-by
-V11->V12: moidfy patch description.
+For reference, the full series is at lore:
+https://lore.kernel.org/dri-devel/20240521105817.3301-1-keith.zhao@starfivetech.com/
 
----
- drivers/gpu/drm/bridge/ite-it6505.c | 73 +++++++++++++++++++----------
- 1 file changed, 49 insertions(+), 24 deletions(-)
+and generalizes the inno-hdmi driver into the bridge model we
+have in a number of other places already.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 469157341f3ab..5703fcf4b7b00 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -1307,9 +1307,15 @@ static void it6505_video_reset(struct it6505 *it6505)
- 	it6505_link_reset_step_train(it6505);
- 	it6505_set_bits(it6505, REG_DATA_MUTE_CTRL, EN_VID_MUTE, EN_VID_MUTE);
- 	it6505_set_bits(it6505, REG_INFOFRAME_CTRL, EN_VID_CTRL_PKT, 0x00);
--	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, VIDEO_RESET);
-+
-+	it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, TX_FIFO_RESET);
-+	it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, 0x00);
-+
- 	it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, RST_501_FIFO);
- 	it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, 0x00);
-+
-+	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, VIDEO_RESET);
-+	usleep_range(1000, 2000);
- 	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, 0x00);
- }
- 
-@@ -2245,12 +2251,11 @@ static void it6505_link_training_work(struct work_struct *work)
- 	if (ret) {
- 		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
- 		it6505_link_train_ok(it6505);
--		return;
- 	} else {
- 		it6505->auto_train_retry--;
-+		it6505_dump(it6505);
- 	}
- 
--	it6505_dump(it6505);
- }
- 
- static void it6505_plugged_status_to_codec(struct it6505 *it6505)
-@@ -2471,31 +2476,53 @@ static void it6505_irq_link_train_fail(struct it6505 *it6505)
- 	schedule_work(&it6505->link_works);
- }
- 
--static void it6505_irq_video_fifo_error(struct it6505 *it6505)
-+static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
- {
--	struct device *dev = it6505->dev;
--
--	DRM_DEV_DEBUG_DRIVER(dev, "video fifo overflow interrupt");
--	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
--	flush_work(&it6505->link_works);
--	it6505_stop_hdcp(it6505);
--	it6505_video_reset(it6505);
-+	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
- }
- 
--static void it6505_irq_io_latch_fifo_overflow(struct it6505 *it6505)
-+static void it6505_irq_video_handler(struct it6505 *it6505, const int *int_status)
- {
- 	struct device *dev = it6505->dev;
-+	int reg_0d, reg_int03;
- 
--	DRM_DEV_DEBUG_DRIVER(dev, "IO latch fifo overflow interrupt");
--	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
--	flush_work(&it6505->link_works);
--	it6505_stop_hdcp(it6505);
--	it6505_video_reset(it6505);
--}
-+	/*
-+	 * When video SCDT change with video not stable,
-+	 * Or video FIFO error, need video reset
-+	 */
- 
--static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
--{
--	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
-+	if ((!it6505_get_video_status(it6505) &&
-+		(it6505_test_bit(INT_SCDT_CHANGE, (unsigned int *) int_status))) ||
-+		(it6505_test_bit(BIT_INT_IO_FIFO_OVERFLOW, (unsigned int *) int_status)) ||
-+		(it6505_test_bit(BIT_INT_VID_FIFO_ERROR, (unsigned int *) int_status))) {
-+
-+		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-+		flush_work(&it6505->link_works);
-+		it6505_stop_hdcp(it6505);
-+		it6505_video_reset(it6505);
-+
-+		usleep_range(10000, 11000);
-+
-+		/*
-+		 * Clear FIFO error IRQ to prevent fifo error -> reset loop
-+		 * HW will trigger SCDT change IRQ again when video stable
-+		 */
-+
-+		reg_int03 = it6505_read(it6505, INT_STATUS_03);
-+		reg_0d = it6505_read(it6505, REG_SYSTEM_STS);
-+
-+		reg_int03 &= (BIT(INT_VID_FIFO_ERROR) | BIT(INT_IO_LATCH_FIFO_OVERFLOW));
-+		it6505_write(it6505, INT_STATUS_03, reg_int03);
-+
-+		DRM_DEV_DEBUG_DRIVER(dev, "reg08 = 0x%02x", reg_int03);
-+		DRM_DEV_DEBUG_DRIVER(dev, "reg0D = 0x%02x", reg_0d);
-+
-+		return;
-+	}
-+
-+
-+	if (it6505_test_bit(INT_SCDT_CHANGE, (unsigned int *) int_status))
-+		it6505_irq_scdt(it6505);
- }
- 
- static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
-@@ -2508,15 +2535,12 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- 	} irq_vec[] = {
- 		{ BIT_INT_HPD, it6505_irq_hpd },
- 		{ BIT_INT_HPD_IRQ, it6505_irq_hpd_irq },
--		{ BIT_INT_SCDT, it6505_irq_scdt },
- 		{ BIT_INT_HDCP_FAIL, it6505_irq_hdcp_fail },
- 		{ BIT_INT_HDCP_DONE, it6505_irq_hdcp_done },
- 		{ BIT_INT_AUX_CMD_FAIL, it6505_irq_aux_cmd_fail },
- 		{ BIT_INT_HDCP_KSV_CHECK, it6505_irq_hdcp_ksv_check },
- 		{ BIT_INT_AUDIO_FIFO_ERROR, it6505_irq_audio_fifo_error },
- 		{ BIT_INT_LINK_TRAIN_FAIL, it6505_irq_link_train_fail },
--		{ BIT_INT_VID_FIFO_ERROR, it6505_irq_video_fifo_error },
--		{ BIT_INT_IO_FIFO_OVERFLOW, it6505_irq_io_latch_fifo_overflow },
- 	};
- 	int int_status[3], i;
- 
-@@ -2546,6 +2570,7 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- 			if (it6505_test_bit(irq_vec[i].bit, (unsigned int *)int_status))
- 				irq_vec[i].handler(it6505);
- 		}
-+		it6505_irq_video_handler(it6505, (unsigned int *) int_status);
- 	}
- 
- 	pm_runtime_put_sync(dev);
--- 
-2.25.1
+
+Thanks
+Heiko
+
+
+
+> step1, make sure the process is consistent with the latest kernel version.
+> step2, just remove the interface and add a common interface. 
+> 
+> Patches 4 to 8 add kms driver for dc8200 display controller.
+> 
+> Patch 9 adds inno hdmi support for JH7110 display pipeline.
+> 
+> Patch 10 adds a simple encoder.
+> 
+> This patchset should be applied on next branch.
+> 
+> V1:
+> Changes since v1:
+> - Further standardize the yaml file.
+> - Dts naming convention improved.
+> - Fix the problem of compiling and loading ko files.
+> - Use drm new api to automatically manage resources.
+> - Drop vs_crtc_funcs&vs_plane_funcs, subdivide the plane's help interface.
+> - Reduce the modifiers unused.
+> - Optimize the hdmi driver code
+> 
+> V2:
+> Changes since v2:
+> - fix the error about checking the yaml file.
+> - match drm driver GEM DMA API.
+> - Delete the custom crtc property .
+> - hdmi use drmm_ new api to automatically manage resources.
+> - update the modifiers comments.
+> - enabling KASAN, fix the error during removing module 
+> 
+> V3:
+> Changes since v3:
+> - Delete the custom plane property.
+> - Delete the custom fourcc modifiers.
+> - Adjust the calculation mode of hdmi pixclock.
+> - Add match data for dc8200 driver.
+> - Adjust some magic values.
+> - Add a simple encoder for dsi output.
+> 
+> V4:
+> Changes since v4:
+> - Delete the display subsystem module as all crtcs and planes are a driver.
+> - Delete the custom struct, directly use the drm struct data.
+> - Tidy up the inno hdmi public interface.
+> - Add a simple encoder for dsi output.
+> 
+> keith (10):
+>   dt-bindings: display: Add YAML schema for JH7110 display pipeline
+>   drm/bridge: add common api for inno hdmi
+>   drm/rockchip:hdmi: migrate to use inno-hdmi bridge driver
+>   drm/vs: Add hardware funcs for vs.
+>   drm/vs: add vs mode config init
+>   drm/vs: add vs plane api
+>   drm/vs: add ctrc fun
+>   drm/vs: add vs drm master driver
+>   drm/vs: Innosilicon HDMI support
+>   drm/vs: add simple dsi encoder
+> 
+>  .../display/bridge/innosilicon,inno-hdmi.yaml |   49 +
+>  .../display/rockchip/rockchip,inno-hdmi.yaml  |   27 +-
+>  .../starfive/starfive,dsi-encoder.yaml        |   92 ++
+>  .../starfive/starfive,jh7110-dc8200.yaml      |  169 +++
+>  .../starfive/starfive,jh7110-inno-hdmi.yaml   |   75 ++
+>  .../soc/starfive/starfive,jh7110-syscon.yaml  |    1 +
+>  MAINTAINERS                                   |   11 +
+>  drivers/gpu/drm/Kconfig                       |    2 +
+>  drivers/gpu/drm/Makefile                      |    1 +
+>  drivers/gpu/drm/bridge/Kconfig                |    2 +
+>  drivers/gpu/drm/bridge/Makefile               |    1 +
+>  drivers/gpu/drm/bridge/innosilicon/Kconfig    |    6 +
+>  drivers/gpu/drm/bridge/innosilicon/Makefile   |    2 +
+>  .../gpu/drm/bridge/innosilicon/inno-hdmi.c    |  587 +++++++++
+>  .../gpu/drm/bridge/innosilicon/inno-hdmi.h    |   97 ++
+>  drivers/gpu/drm/rockchip/Kconfig              |    1 +
+>  drivers/gpu/drm/rockchip/Makefile             |    2 +-
+>  drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c |  517 ++++++++
+>  .../{inno_hdmi.h => inno_hdmi-rockchip.h}     |   45 -
+>  drivers/gpu/drm/rockchip/inno_hdmi.c          | 1073 -----------------
+>  drivers/gpu/drm/verisilicon/Kconfig           |   23 +
+>  drivers/gpu/drm/verisilicon/Makefile          |   11 +
+>  .../gpu/drm/verisilicon/inno_hdmi-starfive.c  |  481 ++++++++
+>  .../gpu/drm/verisilicon/inno_hdmi-starfive.h  |  152 +++
+>  drivers/gpu/drm/verisilicon/vs_crtc.c         |  241 ++++
+>  drivers/gpu/drm/verisilicon/vs_crtc.h         |   17 +
+>  drivers/gpu/drm/verisilicon/vs_dc_hw.c        | 1060 ++++++++++++++++
+>  drivers/gpu/drm/verisilicon/vs_dc_hw.h        |  493 ++++++++
+>  drivers/gpu/drm/verisilicon/vs_drv.c          |  721 +++++++++++
+>  drivers/gpu/drm/verisilicon/vs_drv.h          |   98 ++
+>  drivers/gpu/drm/verisilicon/vs_modeset.c      |   36 +
+>  drivers/gpu/drm/verisilicon/vs_modeset.h      |   10 +
+>  drivers/gpu/drm/verisilicon/vs_plane.c        |  487 ++++++++
+>  drivers/gpu/drm/verisilicon/vs_plane.h        |   26 +
+>  drivers/gpu/drm/verisilicon/vs_simple_enc.c   |  190 +++
+>  drivers/gpu/drm/verisilicon/vs_simple_enc.h   |   25 +
+>  drivers/gpu/drm/verisilicon/vs_type.h         |   84 ++
+>  include/drm/bridge/inno_hdmi.h                |   69 ++
+>  38 files changed, 5840 insertions(+), 1144 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/innosilicon,inno-hdmi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,dsi-encoder.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+>  create mode 100644 drivers/gpu/drm/bridge/innosilicon/Kconfig
+>  create mode 100644 drivers/gpu/drm/bridge/innosilicon/Makefile
+>  create mode 100644 drivers/gpu/drm/bridge/innosilicon/inno-hdmi.c
+>  create mode 100644 drivers/gpu/drm/bridge/innosilicon/inno-hdmi.h
+>  create mode 100644 drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c
+>  rename drivers/gpu/drm/rockchip/{inno_hdmi.h => inno_hdmi-rockchip.h} (85%)
+>  delete mode 100644 drivers/gpu/drm/rockchip/inno_hdmi.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
+>  create mode 100644 drivers/gpu/drm/verisilicon/Makefile
+>  create mode 100644 drivers/gpu/drm/verisilicon/inno_hdmi-starfive.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/inno_hdmi-starfive.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_modeset.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_modeset.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_simple_enc.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_simple_enc.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_type.h
+>  create mode 100644 include/drm/bridge/inno_hdmi.h
+> 
+> 
+
+
+
 
