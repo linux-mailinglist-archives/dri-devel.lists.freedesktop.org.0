@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53678CA676
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 04:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F213D8CA677
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 04:58:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED25210E227;
-	Tue, 21 May 2024 02:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 435C210E215;
+	Tue, 21 May 2024 02:58:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn
  (mail-bjschn02on2139.outbound.protection.partner.outlook.cn [139.219.17.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8E2610E051
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 02:58:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE8E10E051
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 02:58:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mrz4ZLARi7iCIk2AzWAuw4XcPkQmjAbMA+FQ1qmUITEz1X6ihwQlpOk2H6OXoDyJ0C+RaynvORQ8V436GHafsU75WfQQg3Hue5bkqLHAUmCj2ZG4y+pDDW3x53UKwpeptKnBhgplA5LAvrxXaLWCg3YTlY9j7dfoFQHJZS9MYRi2WLxviVckTMGgYG2SR3uF1EW+pZggxHng9rnKWm7QmVh9dAQyqxKx8wIrJ8hHCMZpARXZbYPh2cV3mxjcOaxL5X/yE/GscYrObjl0bTb3zLlhcCeyNJYIlGp3rnSlT2d254MHWio5ZA0M1eStZ1H5JD/IERRmjqtgNU1PLsFYVQ==
+ b=bDvf08b3mYfLZqMxLL/YU/cAuzI+YgriLKHVlP22sjIQA3MBomL8XBSG24hZfmgSJU0Gi/9+rMrF0ngHkldh/NvSgBTjGNNst7cE8hWaffgi+R1rrBYaD5TEj5Emg9oKyEdLEFTr2wM9QC3ty0BqP5ozusqS/N56gWv4bdntL1dIV9WLVrwRK0eqcORetB57TdxgK1tA8NOzNq8eGlnH3/MBgguf+JPdBu1ep3x1iUqmhV9JNNKpjq4t+/6m6OpMG9Asueoaf7iXsILKLwF0daKTs+Hzz6xNfZIuVhtdQO2asrUdmLjTBXeqZnTbPNOVZiNGX2AUWNEYRrqgUwNhoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BRQeh9nlH+L9Jtph5WFyf5IA3DuCg54oBBKn9zKOaxc=;
- b=BOQjGiWceeHt7EpK5nf81huhd4NUOK0o6zGhxUrXYLCCLfPhW/dmmjXjTsgKQS6iEhmnKtWEtUNbNjAsR0rhOyxuBBhT66IMkyGz2xuJu41CBdxVLQDqPs8Jk/pmLGUYbBhdt9kG02rQuHkw3CcufakQqIaT6vJfBFWNY1u3ojZJt1kKoHMRccJSGavUN+EK9oyQWjQWCJzmIGW0kLMRrGIS2jx3UWY0Nva3oifLgKDrJ2tyOtocTI4opvjG+Fl8GGmjik3MjQDKKPpq+BuXK1DIMjWf5OBVNWRf5m/s6bDMfavoC9tXqS4KlTpZoR3RjOVwmp3l3ny5NxeQgq22RA==
+ bh=k5VUIs5MMdlJBghMXADd8XuNM290vTkawbPugNbSF5c=;
+ b=ljGx9q7j0sRSB6nEJm/FHbxzwkZPrdYd4eW9T0/5avrHr+niRE3U6evA/Ot6oTs1eVLi49ET+oazDDSPpAsM2AO5McKZORLNv0XsCAVPrVKtIxEeLDq93kH/Rb++ZXKQFugryHzEeqnH06fvBpeX4sXX7JJmXv3hSX+dVeppNZkiDaGRQcDAu8ZxGSFqbhHzPGOFyXmSKIz6tI3lf8gHrdQZjuVRU63SAAZOG495tg49nNzLEJOC7HZoE+eBHBxvI00nKa0AKFAPBVmwgraGfAC/4rdpBjPf5NYn0LDhKe32dhdp/bWbEktv+ettmNdH2e6cfgk2hOHv5dCLqT96Sw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=starfivetech.com; dmarc=pass action=none
  header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
@@ -29,11 +29,11 @@ Received: from ZQ0PR01MB1047.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:c::7) by ZQ0PR01MB1255.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:19::12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Tue, 21 May
- 2024 02:58:25 +0000
+ 2024 02:58:26 +0000
 Received: from ZQ0PR01MB1047.CHNPR01.prod.partner.outlook.cn
  ([fe80::39be:8ed9:67b7:adc6]) by
  ZQ0PR01MB1047.CHNPR01.prod.partner.outlook.cn ([fe80::39be:8ed9:67b7:adc6%6])
- with mapi id 15.20.7472.044; Tue, 21 May 2024 02:58:25 +0000
+ with mapi id 15.20.7472.044; Tue, 21 May 2024 02:58:26 +0000
 From: keith <keith.zhao@starfivetech.com>
 To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
@@ -46,10 +46,13 @@ To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  keith.zhao@starfivetech.com
-Subject: [PATCH v4 00/10] drm/verisilicon : support DC8200 and inno hdmi
-Date: Tue, 21 May 2024 18:58:07 +0800
-Message-Id: <20240521105817.3301-1-keith.zhao@starfivetech.com>
+Subject: [PATCH v4 01/10] dt-bindings: display: Add YAML schema for JH7110
+ display pipeline
+Date: Tue, 21 May 2024 18:58:08 +0800
+Message-Id: <20240521105817.3301-2-keith.zhao@starfivetech.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20240521105817.3301-1-keith.zhao@starfivetech.com>
+References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SHXPR01CA0020.CHNPR01.prod.partner.outlook.cn
@@ -58,54 +61,54 @@ X-ClientProxiedBy: SHXPR01CA0020.CHNPR01.prod.partner.outlook.cn
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1047:EE_|ZQ0PR01MB1255:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6793486f-8676-484a-ddcd-08dc7941e227
+X-MS-Office365-Filtering-Correlation-Id: 9a9bd704-9c9c-4091-1f94-08dc7941e2d4
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
  ARA:13230031|366007|41320700004|1800799015|7416005|52116005|921011|38350700005;
-X-Microsoft-Antispam-Message-Info: 4AczXecf2/nVAQSxQxf7QPytkn2KwbWR2WCOx2sfop3yQiRQ3rQRNPjUyZH1mmO4qnprxFnOdENKrpwl6FMqQz4usxTjZkOkVUskxWdLi5X8kpKjP/sVLWqSH52OY9lhd/gCb50vhoObErYu428dY2EOwJNSjNVTgTKjw2eevguRVbrHj7z0I58DtbzzHBbvh9plXrD3znPyGR/KV5KWpjYuIuhuM3hoGjqS5UjOkmFEHALQJdkr5tMEhwWh2mOouh+wWiyXC8f6Vk9VymCSSC/O9zq3G1FAzQJEeQGrykL1ovq1IaPVGMzL6l3pj30griy0igpKATkN1HVgZb37bkVxb01Vkp19dIsBbB3aUT5Ae3DGyJqkKpeXTrWERyXLZ0BQPpuIVo6hrgib6fU6fp+XD1/EF7RRvRjp5ksEA7Nd2HaDsXh4UZZtgMU+ZSchRCeWi4Le4931FslvJwiCLRXUbOzwiwqpqOsVZAtY4rU2NXJRzFywqY64MrRW/BMc78BU3VX6o7zTokXEajBE1bMozGFj6vW+9pVGKITvaZOAcbk2YJYR5cmUn3Ggidi/+X93ZUdH4MpfuGOR00R/XRWzZOZgtRUK9k2hXNNWoTYbVnzWWkNuaETIE7APfaevOHJfenLly8El5f87qDkCCg==
+X-Microsoft-Antispam-Message-Info: n2h6KG2idrbtjLH3cJrOZlvC3/zpleNsoJzW3tkBtC8tGqzFfjQXlBM6lH7i69g9M3plRsnlvSfL5dCqhcPGrKCElMxceb7jnQvXrRHsK8VoqkQ+gs/CMwC2Ho/ofWxeG3/kc0TqDLfGSbTwVQfxAd5Rdxvb6lUUCJ+OXIqEG+Jkz74HX5t3JwqAjf0wnJR4qYFVqytaH/HFfPh5k87VdoQYXVtz9RBp7UdludA8uBXL2vtJUjXTzSyLFRUssLDvnRr5Odzh885OyDm58PkAXtW6zUW06P4ciETtWRQVH/OCAYJdNwBY/kYaje/1evF3Ei/EFe/YZa9EvVtyBqLTglxTj3pKzvy+02tJmhy9lxayRwzc82shL/iLXAiy0hdj82n6Gw3mUbaMjM8Fd4Uf2RiFJnFY2PiNI5XzovhRpAX111pENaJNPqXt0xnr9O4mQrwy+4vPf3z+6DJ/6o9T7h8XaEKQDuA5piyIDIrUS92y9RpnkWWlJLlctQfcdLbswpMmWPzKqchlz/5W8TPvVgXFUFDxJoIPEp2g5nmSyB525RoK9VCADaxcrWLpRP1bDzbIaJDAmzGEKIqD2Mev3YpjvP+vMtb5yeqXJ4ZqzU5T0kqU7D89/msokFNIaw3ZxnCUd7QWBKcs3fZq/hUIwg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:ZQ0PR01MB1047.CHNPR01.prod.partner.outlook.cn; PTR:;
  CAT:NONE;
  SFS:(13230031)(366007)(41320700004)(1800799015)(7416005)(52116005)(921011)(38350700005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s0QntV5gAVltFNocsAjb6Udl9/UAUoReW4r7fdU67POye1tZsIeul52vpVSJ?=
- =?us-ascii?Q?6HhdTL8tVmoDUxYBZYMuxXG9ZHPLdi6GpDQCs2QPSSF0QSzgYbsuWH0DfjCT?=
- =?us-ascii?Q?8TA99RoDg2qCvQWThn6E61vUVh3BpOaeybYK3M5qIyob7+XsdDSEHjZSKqJ5?=
- =?us-ascii?Q?iCVykzclhncYEw5UVo/y97rCoLlwYdJX5OYwrYSiUoMg917g66WBM02iEzEb?=
- =?us-ascii?Q?hzyqFjpP4gz0Vc6tQqMPuVG4aY4IEz5DCXTo2q+pYSAKOljisrAg47AMlS+T?=
- =?us-ascii?Q?vzh7C8Z259AyVwsmgopUh2ZjMjdU5R35Ofj+aBqMQ3c7e99Fkm4qb6i9uK3D?=
- =?us-ascii?Q?IE9OY4outXiR9eh3sebZhpc7GOcs83+k2BpsrD2G1fRciOu3yvNjcjpX0ezG?=
- =?us-ascii?Q?KZsHJ8Wcqj5LiDZiGxVngoftO1H5iDmXKhgv1KSvPkrX4ymq3WgyqxkrvHiH?=
- =?us-ascii?Q?xq3nOb+CL5tkjxjDHpoB7DBhB2mBxCs1eGj0nJwBLN1S6Bz+YyGZuqa1sSbq?=
- =?us-ascii?Q?Q9w4TlnsiiLHSo3a35Cw3QQGuzq2q2Q4DFN00+MyGYLIc9O3chLmorxUuyT1?=
- =?us-ascii?Q?Vn/q4layTWNqImD/05Dh4i7wpCxdXIAOhj3XTZA/oH3piSlNmvCfQe1teVgy?=
- =?us-ascii?Q?617pbOAJtqmh2F7c0jizIdqTK39QrZTv46qVpbg6/WUEPreP3VIMWpyUZAe5?=
- =?us-ascii?Q?zt/w60RlkALDF4s+liU2IFA5KWDYRKqbbNQATiVD7oq+I+6x8qh5Q+6HFAmb?=
- =?us-ascii?Q?9qUY3Aioi7x6fDDyIVD2nmOLl1a66y72GYUyh9oH/agMGk+IrG3hqFSqRFzJ?=
- =?us-ascii?Q?cE0fNVCUAngkDNhLykSsw3aft0KYt948bwGw+GJ/y7Nz5p6SC0akAaX9n9ee?=
- =?us-ascii?Q?wCvNVSzIttXYrLZR2H+clYhiP0Vzlq+tUL/T6miJ1qhF+JjEIekXCKCRNYcQ?=
- =?us-ascii?Q?l8thCsNEBxJ5rQ6yM5K2nfLNY0Ry9OYif+/GGXuMi5y64yaInozMohNFk/Co?=
- =?us-ascii?Q?Sbwc++tKqoa9gV+TzCMJ6O8kEUL+e29rw0zz0cZOrGHgsU5A8ddIISpCO44/?=
- =?us-ascii?Q?DgGIuLYeOAlz/+3FRB97eNsUc9q6yxH3PbdsaNbydeKo8iqhG7pThZnizTyv?=
- =?us-ascii?Q?cnExCIjjrUrvq6A/wDO2a1O2NNBfK8iFAGLAE58sJuAofAvzWbBj4Q7IusT5?=
- =?us-ascii?Q?PdGDCiJHE1r2Lvirb8V99kFHT1NotaXsDFh+T/9T+YoZaauEpT8LksqqIPHL?=
- =?us-ascii?Q?n8YmTuN2TMrk4E0C5q5SaPz/vly5g3soGf98ab8vFGxSjKgqjEM2Op74CA4F?=
- =?us-ascii?Q?Sl+KlxutsQ7SEhmszqXaMhadcMpi2z9MAjYQsVZ73BugWuO3qUW/kwNt4VtO?=
- =?us-ascii?Q?q5E0aQbqIC3IW2RjECgiflwTFZ6dVjffvoy3gnlnp66/0OYFSJemK5myKTzq?=
- =?us-ascii?Q?F+jdDeA773YdgJfhhUgPEaZoEfEzuaUK+SsGJClYWbvNCfK46b86K8PTNl37?=
- =?us-ascii?Q?T3VW5ZHhPkah4zOkcUSKtMHoSH37Uf1cG5OBhPA9zEHiqqie0oKMkg5kC5pB?=
- =?us-ascii?Q?zficqJBaIgiyNKWi7lPDC6LW0R/ZGpnYKqu0iru1O8UicTpAHQKBO5q1vkZC?=
- =?us-ascii?Q?5A=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BuR1p1pSS4aaMoRyH50CHuQ4U72whXbfr7+BlvFAmVMv1HYkOpid9/W+AD9O?=
+ =?us-ascii?Q?Tm1G4puPBJTR5lwNwm1P7suBSHyhbaxYRP1yW8OfhBIuonW/JS68TxAfDzjo?=
+ =?us-ascii?Q?6to1Fhq4vcdRAC39havT2sCF1OdHug448vveF/h7sgf5rRfkQPOv1MmKkhx3?=
+ =?us-ascii?Q?dDQWIEntLMh1kzETXYIF861jopGDuUmpgT8W7Z893JZ8QeNe3SRpWhb99mx6?=
+ =?us-ascii?Q?kzCgnOrluQfnSXsSMlFasEpVnEH0lg3Si1vWIT/5U3Zv941VNUl+u7E+nBv6?=
+ =?us-ascii?Q?SrW6XzTbMhFdPv2w68MPkzvjs5jRPuRxArPGH39xLDopeDRSPYSGEI9dHmD8?=
+ =?us-ascii?Q?sRUKreedFfuZmngXk782faiVvyItSLOMrUZvI8j3Nu5ybG85CBMrFRFT0Jjr?=
+ =?us-ascii?Q?bsw3vCXmXvqxTSqq9lJMNuU2a23U3McAnrG51KxE0iPoscdLjA21ftLIkwSx?=
+ =?us-ascii?Q?7Prsep3brZcXElAcD+v7nB2pIL5esPUvxajqRDEOgtjSP7opF+5+4yHB+tzj?=
+ =?us-ascii?Q?A5RVqgKOyYNkeosqiVqD9yiB5KhPdLC0HOXevU89fieesx5VTpzxish1L5f+?=
+ =?us-ascii?Q?cA9tUGkkpDlbl9Q0+vSV2E3T2i+1WB6aKAkPWUYa1cOgLn1syowjYm+fx/pl?=
+ =?us-ascii?Q?QWQXdTpKF5Iuhg29k9HBvVGRIk1mNYPFNyVg0EmBKl2AxVCTfVqOj1Xj2nTP?=
+ =?us-ascii?Q?cznMQOgYUUNhW15QepeFEZKZIiEbHvJx4aJAHHhhp/6f3DPPDkS9xv8ikvkp?=
+ =?us-ascii?Q?jzk95+G/m0hZcIaTGFM8nVvlZxKmegrNU+Ct8716Qv3DmdiGpGPBUL8xPSch?=
+ =?us-ascii?Q?bv6Wz4nzoIe35sI2OA18DfNgGK3FxdL6swfZM6T9YSShGIoW5SHlnAuFb+KN?=
+ =?us-ascii?Q?ytHogfeAMlk2TI7HC7aex+y4icV1sAE+cvOz97XDWANkC99KrYZj9kzqhiTe?=
+ =?us-ascii?Q?tZwpLkYLFi3dDYcah+1TjPZL4WeFM0j536ncSqf73dBnARUwuL3QZpcihmzu?=
+ =?us-ascii?Q?nSNrFGzCkCRVqDWQMe6GbDjdY5pWuRn+91BOYncxxHFfxrVPJY5IB2bizw++?=
+ =?us-ascii?Q?baJNP78nPZj2WfBVVeiIVs82dkyvx+5gazy4ASSQOuY9zimpEUDL1vfbZ1cM?=
+ =?us-ascii?Q?kS4iMPH59WkeFDQVNsws5V0qOD0JKlWsOtzFGvbNnut6qoWKD7MDoCtz4Dvo?=
+ =?us-ascii?Q?agm0J/moXc5eu9DrEm/CDAOKFL9SakVgVmwciTEeuDJbOs0uQJ3uLzUot58q?=
+ =?us-ascii?Q?0weU//jQ0WpCy7L0p6KYjMbbfqjdB3qoqrZMZ9ls6aUtSfmpk43xB3XBKQ6O?=
+ =?us-ascii?Q?KCp7Hd1znHAw4wCU021wDdlmQTOoJb2cRHyI4jp6YrfW2F8bvWnt0eKW2FOb?=
+ =?us-ascii?Q?U3xxO2jEPyNjS5Xuq822JihAAFzayaeJ3h1Md2pGAj9BBonQIWy6BopCjQQQ?=
+ =?us-ascii?Q?xxD9tDLFv5+LhZglDr8in2jIwaSeBaHuXOyI+BH4VnNChunLd90BVIgydt4V?=
+ =?us-ascii?Q?auk/WgmjT3CgfvZJgmn2/SHh1n3TFQlHngnFcG5tOMgugyfaxIIz/lTfLJzt?=
+ =?us-ascii?Q?T0/pzEyR4zfKeBa71bwrjwQZccH3jHybPyCgTJBMW4XwzofsghP2W2YFYBxV?=
+ =?us-ascii?Q?KA=3D=3D?=
 X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6793486f-8676-484a-ddcd-08dc7941e227
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a9bd704-9c9c-4091-1f94-08dc7941e2d4
 X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1047.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2024 02:58:25.5119 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2024 02:58:26.5977 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HiDc8aGu7aLK6lDIsxsmTVUD0YPkbgRXeY7b+fHHQ+SkaPegSXTBpWGzUCwSYIMOSOXLlSWycodrBIr8kjiiAwGuOG7S0dhZHdwzEyWVMi8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Ij55wm/vMphgWFYssISW5nuOES20StNfwQdRiMC0eKRB3pjy1y/WaHMiY/t/Hp15n8bf0YxKdcUeO92pCbvagAzTqpTCoA6F55i8WoSiIw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1255
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -122,148 +125,530 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Verisilicon/DC8200 display controller IP has 2 display pipes and each 
-pipe support a primary plane and a cursor plane . 
-In addition, there are four overlay planes as two display pipes common resources.
+JH7110 SoC display pipeline includes a display controller and hdmi.
+Dc controller IP : Vivante DC8200 Dual Display
+HDMI IP : INNOSILICON HDMI2.0
 
-The first display pipe is bound to the inno HDMI encoder.
-The second display pipe is bound to a simple encoder, which is used to
-find dsi bridge by dts node. 
+As the INNO hdmi ip is also used by rockchip SoC in the driver code,
+the innosilicon,inno-hdmi.yaml schema containing the common properties
+for the INNO DesignWare HDMI TX controller isn't a full device
+tree binding specification, but is meant to be referenced by
+platform-specific bindings for the IP core.
 
-Patch 1 adds YAML schema for JH7110 display pipeline.
-
-Patches 2 to 3 add inno common api and match the ROCKCHIP inno hdmi driver 
-by calling the common api. 
-The collating public interface is based on ROCKCHIP inno hdmi, 
-and it can be resused by JH7110 inno hdmi.
-Those common api are tested on rk-3128 SDK, which kernel version is 4.x. 
-step1, make sure the process is consistent with the latest kernel version.
-step2, just remove the interface and add a common interface. 
-
-Patches 4 to 8 add kms driver for dc8200 display controller.
-
-Patch 9 adds inno hdmi support for JH7110 display pipeline.
-
-Patch 10 adds a simple encoder.
-
-This patchset should be applied on next branch.
-
-V1:
-Changes since v1:
-- Further standardize the yaml file.
-- Dts naming convention improved.
-- Fix the problem of compiling and loading ko files.
-- Use drm new api to automatically manage resources.
-- Drop vs_crtc_funcs&vs_plane_funcs, subdivide the plane's help interface.
-- Reduce the modifiers unused.
-- Optimize the hdmi driver code
-
-V2:
-Changes since v2:
-- fix the error about checking the yaml file.
-- match drm driver GEM DMA API.
-- Delete the custom crtc property .
-- hdmi use drmm_ new api to automatically manage resources.
-- update the modifiers comments.
-- enabling KASAN, fix the error during removing module 
-
-V3:
-Changes since v3:
-- Delete the custom plane property.
-- Delete the custom fourcc modifiers.
-- Adjust the calculation mode of hdmi pixclock.
-- Add match data for dc8200 driver.
-- Adjust some magic values.
-- Add a simple encoder for dsi output.
-
-V4:
-Changes since v4:
-- Delete the display subsystem module as all crtcs and planes are a driver.
-- Delete the custom struct, directly use the drm struct data.
-- Tidy up the inno hdmi public interface.
-- Add a simple encoder for dsi output.
-
-keith (10):
-  dt-bindings: display: Add YAML schema for JH7110 display pipeline
-  drm/bridge: add common api for inno hdmi
-  drm/rockchip:hdmi: migrate to use inno-hdmi bridge driver
-  drm/vs: Add hardware funcs for vs.
-  drm/vs: add vs mode config init
-  drm/vs: add vs plane api
-  drm/vs: add ctrc fun
-  drm/vs: add vs drm master driver
-  drm/vs: Innosilicon HDMI support
-  drm/vs: add simple dsi encoder
-
- .../display/bridge/innosilicon,inno-hdmi.yaml |   49 +
- .../display/rockchip/rockchip,inno-hdmi.yaml  |   27 +-
- .../starfive/starfive,dsi-encoder.yaml        |   92 ++
- .../starfive/starfive,jh7110-dc8200.yaml      |  169 +++
- .../starfive/starfive,jh7110-inno-hdmi.yaml   |   75 ++
- .../soc/starfive/starfive,jh7110-syscon.yaml  |    1 +
- MAINTAINERS                                   |   11 +
- drivers/gpu/drm/Kconfig                       |    2 +
- drivers/gpu/drm/Makefile                      |    1 +
- drivers/gpu/drm/bridge/Kconfig                |    2 +
- drivers/gpu/drm/bridge/Makefile               |    1 +
- drivers/gpu/drm/bridge/innosilicon/Kconfig    |    6 +
- drivers/gpu/drm/bridge/innosilicon/Makefile   |    2 +
- .../gpu/drm/bridge/innosilicon/inno-hdmi.c    |  587 +++++++++
- .../gpu/drm/bridge/innosilicon/inno-hdmi.h    |   97 ++
- drivers/gpu/drm/rockchip/Kconfig              |    1 +
- drivers/gpu/drm/rockchip/Makefile             |    2 +-
- drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c |  517 ++++++++
- .../{inno_hdmi.h => inno_hdmi-rockchip.h}     |   45 -
- drivers/gpu/drm/rockchip/inno_hdmi.c          | 1073 -----------------
- drivers/gpu/drm/verisilicon/Kconfig           |   23 +
- drivers/gpu/drm/verisilicon/Makefile          |   11 +
- .../gpu/drm/verisilicon/inno_hdmi-starfive.c  |  481 ++++++++
- .../gpu/drm/verisilicon/inno_hdmi-starfive.h  |  152 +++
- drivers/gpu/drm/verisilicon/vs_crtc.c         |  241 ++++
- drivers/gpu/drm/verisilicon/vs_crtc.h         |   17 +
- drivers/gpu/drm/verisilicon/vs_dc_hw.c        | 1060 ++++++++++++++++
- drivers/gpu/drm/verisilicon/vs_dc_hw.h        |  493 ++++++++
- drivers/gpu/drm/verisilicon/vs_drv.c          |  721 +++++++++++
- drivers/gpu/drm/verisilicon/vs_drv.h          |   98 ++
- drivers/gpu/drm/verisilicon/vs_modeset.c      |   36 +
- drivers/gpu/drm/verisilicon/vs_modeset.h      |   10 +
- drivers/gpu/drm/verisilicon/vs_plane.c        |  487 ++++++++
- drivers/gpu/drm/verisilicon/vs_plane.h        |   26 +
- drivers/gpu/drm/verisilicon/vs_simple_enc.c   |  190 +++
- drivers/gpu/drm/verisilicon/vs_simple_enc.h   |   25 +
- drivers/gpu/drm/verisilicon/vs_type.h         |   84 ++
- include/drm/bridge/inno_hdmi.h                |   69 ++
- 38 files changed, 5840 insertions(+), 1144 deletions(-)
+Signed-off-by: keith <keith.zhao@starfivetech.com>
+---
+ .../display/bridge/innosilicon,inno-hdmi.yaml |  49 +++++
+ .../display/rockchip/rockchip,inno-hdmi.yaml  |  27 +--
+ .../starfive/starfive,dsi-encoder.yaml        |  92 ++++++++++
+ .../starfive/starfive,jh7110-dc8200.yaml      | 169 ++++++++++++++++++
+ .../starfive/starfive,jh7110-inno-hdmi.yaml   |  75 ++++++++
+ .../soc/starfive/starfive,jh7110-syscon.yaml  |   1 +
+ MAINTAINERS                                   |   8 +
+ 7 files changed, 396 insertions(+), 25 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/display/bridge/innosilicon,inno-hdmi.yaml
  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,dsi-encoder.yaml
  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
- create mode 100644 drivers/gpu/drm/bridge/innosilicon/Kconfig
- create mode 100644 drivers/gpu/drm/bridge/innosilicon/Makefile
- create mode 100644 drivers/gpu/drm/bridge/innosilicon/inno-hdmi.c
- create mode 100644 drivers/gpu/drm/bridge/innosilicon/inno-hdmi.h
- create mode 100644 drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c
- rename drivers/gpu/drm/rockchip/{inno_hdmi.h => inno_hdmi-rockchip.h} (85%)
- delete mode 100644 drivers/gpu/drm/rockchip/inno_hdmi.c
- create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
- create mode 100644 drivers/gpu/drm/verisilicon/Makefile
- create mode 100644 drivers/gpu/drm/verisilicon/inno_hdmi-starfive.c
- create mode 100644 drivers/gpu/drm/verisilicon/inno_hdmi-starfive.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_modeset.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_modeset.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_simple_enc.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_simple_enc.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_type.h
- create mode 100644 include/drm/bridge/inno_hdmi.h
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/innosilicon,inno-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/innosilicon,inno-hdmi.yaml
+new file mode 100644
+index 000000000000..8540174dcaeb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/innosilicon,inno-hdmi.yaml
+@@ -0,0 +1,49 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/innosilicon,inno-hdmi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Common Properties for Innosilicon HDMI TX IP
++
++maintainers:
++  - Keith Zhao <keith.zhao@starfivetech.com>
++
++description: |
++  This document defines device tree properties for the Innosilicon HDMI TX
++  controller (INNO HDMI) IP core. It doesn't constitute a full device tree
++  binding specification by itself but is meant to be referenced by device tree
++  bindings for the platform-specific integrations of the INNO HDMI.
++
++  When referenced from platform device tree bindings the properties defined in
++  this document are defined as follows. The platform device tree bindings are
++  responsible for defining whether each property is required or optional.
++
++properties:
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Port node with one endpoint connected to a display controller node.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Port node with one endpoint connected to a hdmi-connector node.
++
++    required:
++      - port@0
++      - port@1
++
++additionalProperties: true
++
++...
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
+index 5b87b0f1963e..589dedfcbee0 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
+@@ -16,12 +16,6 @@ properties:
+       - rockchip,rk3036-inno-hdmi
+       - rockchip,rk3128-inno-hdmi
+ 
+-  reg:
+-    maxItems: 1
+-
+-  interrupts:
+-    maxItems: 1
+-
+   clocks:
+     minItems: 1
+     items:
+@@ -40,24 +34,6 @@ properties:
+   "#sound-dai-cells":
+     const: 0
+ 
+-  ports:
+-    $ref: /schemas/graph.yaml#/properties/ports
+-
+-    properties:
+-      port@0:
+-        $ref: /schemas/graph.yaml#/properties/port
+-        description:
+-          Port node with one endpoint connected to a vop node.
+-
+-      port@1:
+-        $ref: /schemas/graph.yaml#/properties/port
+-        description:
+-          Port node with one endpoint connected to a hdmi-connector node.
+-
+-    required:
+-      - port@0
+-      - port@1
+-
+ required:
+   - compatible
+   - reg
+@@ -69,6 +45,7 @@ required:
+   - ports
+ 
+ allOf:
++  - $ref: ../bridge/innosilicon,inno-hdmi.yaml#
+   - $ref: /schemas/sound/dai-common.yaml#
+   - if:
+       properties:
+@@ -95,7 +72,7 @@ allOf:
+       required:
+         - power-domains
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,dsi-encoder.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,dsi-encoder.yaml
+new file mode 100644
+index 000000000000..07aa147a9db1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/starfive/starfive,dsi-encoder.yaml
+@@ -0,0 +1,92 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/starfive/starfive,dsi-encoder.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: starfive jh7110 SoC Encoder
++
++maintainers:
++  - Keith Zhao <keith.zhao@starfivetech.com>
++
++description:
++  Device-Tree bindings for simple encoder.
++  Simple encoder driver only has basic functionality.
++  the hardware of dc8200 has 2 output interface, and uses
++  syscon to select which one to be used.
++
++properties:
++  compatible:
++    const: starfive,dsi-encoder
++
++  starfive,syscon:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    items:
++      - items:
++          - description: phandle to syscon that select crtc output.
++          - description: Offset of crtc selection
++          - description: Shift of crtc selection
++    description:
++      A phandle to syscon with two arguments that configure select output.
++      The argument one is the offset of crtc selection, the
++      argument two is the shift of crtc selection.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          The first port should be the input coming from the associated dc channel.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          The second port should be the output coming from the associated bridge.
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++        dssctrl: dssctrl@295b0000 {
++            compatible = "starfive,jh7110-vout-syscon", "syscon";
++            reg = <0x295b0000 0x90>;
++        };
++
++        dsi_encoder: dsi_encoder {
++            compatible = "starfive,dsi-encoder";
++            starfive,syscon = <&dssctrl 0x8 0x12>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                /* input */
++                port@0 {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++                    reg = <0>;
++                    dsi_input0:endpoint@0 {
++                        reg = <0>;
++                        remote-endpoint = <&dc_out_dpi1>;
++                    };
++                };
++                /* output */
++                port@1 {
++                    reg = <1>;
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++                    dsi_out:endpoint {
++                        remote-endpoint = <&mipi_in>;
++                    };
++                };
++            };
++        };
+diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
+new file mode 100644
+index 000000000000..a28dfdd471b6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
+@@ -0,0 +1,169 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-dc8200.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: STARFIVE JH7110 SoC display controller
++
++description:
++  The STARFIVE JH7110 SoC uses the display controller based on Verisilicon IP(DC8200)
++  to transfer the image data from a video memory buffer to an external LCD interface.
++
++  pipe0 binds HDMI for primary display,
++  pipe1 binds DSI for external display.
++
++          +------------------------------+
++          |                              |
++          |                              |
++  +----+  |   +-------------------+      |   +-------+   +------+   +------+
++  |    +----->+  dc controller 0  +--->----->+HDMICtl| ->+ PHY  +-->+PANEL0+
++  |AXI |  |   +-------------------+      |   +-------+   +------+   +------+
++  |    |  |                              |
++  |    |  |                              |
++  |    |  |                              |
++  |    |  |                              |
++  |APB |  |   +-------------------+         +---------+    +------+  +-------+
++  |    +----->+  dc controller 1  +--->---->+ dsiTx   +--->+DPHY  +->+ PANEL1+
++  |    |  |   +-------------------+         +---------+    +------+  +-------+
++  +----+  |                              |
++          +------------------------------+
++
++maintainers:
++  - Keith Zhao <keith.zhao@starfivetech.com>
++
++properties:
++  compatible:
++    const: starfive,jh7110-dc8200
++
++  reg:
++    items:
++      - description: host interface address and length
++      - description: display physical base address and length
++
++  reg-names:
++    items:
++      - const: host
++      - const: base
++
++  clocks:
++    items:
++      - description: Clock for display system noc bus.
++      - description: Core clock for display controller.
++      - description: Clock for axi bus to access ddr.
++      - description: Clock for ahb bus to R/W the phy regs.
++      - description: Pixel clock for display channel 0.
++      - description: Pixel clock for display channel 1.
++      - description: Pixel clock from hdmi.
++      - description: Pixel clock for soc .
++
++  clock-names:
++    items:
++      - const: noc_bus
++      - const: dc_core
++      - const: axi_core
++      - const: ahb
++      - const: channel0
++      - const: channel1
++      - const: hdmi_tx
++      - const: dc_parent
++
++  resets:
++    items:
++      - description: Reset for axi bus.
++      - description: Reset for ahb bus.
++      - description: Core reset of display controller.
++
++  reset-names:
++    items:
++      - const: axi
++      - const: ahb
++      - const: core
++
++  interrupts:
++    items:
++      - description: The interrupt will be generated when DC finish one frame
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          channel 0 output
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          channel 1 output
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/starfive,jh7110-crg.h>
++    #include <dt-bindings/reset/starfive,jh7110-crg.h>
++    dc8200: lcd-controller@29400000 {
++      compatible = "starfive,jh7110-dc8200";
++        reg = <0x29400000 0x100>,
++              <0x29400800 0x2000>;
++        reg-names = "host", "base";
++
++        interrupts = <95>;
++        clocks = <&syscrg JH7110_SYSCLK_NOC_BUS_DISP_AXI>,
++            <&voutcrg JH7110_VOUTCLK_DC8200_CORE>,
++            <&voutcrg JH7110_VOUTCLK_DC8200_AXI>,
++            <&voutcrg JH7110_VOUTCLK_DC8200_AHB>,
++            <&voutcrg JH7110_VOUTCLK_DC8200_PIX0>,
++            <&voutcrg JH7110_VOUTCLK_DC8200_PIX1>,
++            <&hdmitx0_pixelclk>,
++            <&voutcrg JH7110_VOUTCLK_DC8200_PIX>;
++        clock-names = "noc_bus", "dc_core", "axi_core", "ahb",
++                  "channel0", "channel1", "hdmi_tx", "dc_parent";
++        resets = <&voutcrg JH7110_VOUTRST_DC8200_AXI>,
++             <&voutcrg JH7110_VOUTRST_DC8200_AHB>,
++             <&voutcrg JH7110_VOUTRST_DC8200_CORE>;
++        reset-names = "axi","ahb", "core";
++
++      crtc_out: ports {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        dc_out0: port@0 {
++          reg = <0>;
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          dc_out_dpi0: endpoint@0 {
++              reg = <0>;
++              remote-endpoint = <&hdmi_enc>;
++          };
++
++        };
++
++        dc_out1: port@1 {
++          reg = <1>;
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          dc_out_dpi1: endpoint@1 {
++              reg = <1>;
++              remote-endpoint = <&dsi_enc>;
++          };
++
++        };
++      };
++    };
+diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+new file mode 100644
+index 000000000000..bfd7dc41fc14
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+@@ -0,0 +1,75 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-inno-hdmi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Starfive JH7110 Innosilicon HDMI controller
++
++maintainers:
++  - Keith Zhao <keith.zhao@starfivetech.com>
++
++allOf:
++  - $ref: ../bridge/innosilicon,inno-hdmi.yaml#
++
++properties:
++  compatible:
++    const: "starfive,jh7110-inno-hdmi"
++
++  clocks:
++    items:
++      - description: System clock of HDMI module.
++      - description: Mclk clock of HDMI audio.
++      - description: Bclk clock of HDMI audio.
++
++  clock-names:
++    items:
++      - const: sysclk
++      - const: mclk
++      - const: bclk
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++  - ports
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/pinctrl/starfive,jh7110-pinctrl.h>
++    #include <dt-bindings/gpio/gpio.h>
++    hdmi: hdmi@29590000 {
++      compatible = "starfive,jh7110-inno-hdmi";
++      reg = <0x29590000 0x4000>;
++      interrupts = <99>;
++      clocks = <&voutcrg 17>, <&voutcrg 15>, <&voutcrg 16>;
++      clock-names = "sysclk", "mclk","bclk";
++      resets = <&voutcrg 9>;
++
++        ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          hdmi_in: port@0 {
++            reg = <0>;
++            hdmi_in_vop: endpoint {
++              remote-endpoint = <&dc_out_dpi0>;
++            };
++          };
++
++          hdmi_out: port@1 {
++            reg = <1>;
++            hdmi_out_con: endpoint {
++              remote-endpoint = <&hdmi_con_in>;
++            };
++          };
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-syscon.yaml b/Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-syscon.yaml
+index 0039319e91fe..cf9b657d0e8a 100644
+--- a/Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-syscon.yaml
++++ b/Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-syscon.yaml
+@@ -24,6 +24,7 @@ properties:
+           - enum:
+               - starfive,jh7110-aon-syscon
+               - starfive,jh7110-stg-syscon
++              - starfive,jh7110-vout-syscon
+           - const: syscon
+ 
+   reg:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c675fc296b19..8881652bb8b6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7148,6 +7148,14 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/ste,mcde.yaml
+ F:	drivers/gpu/drm/mcde/
+ 
++DRM DRIVERS FOR STARFIVE
++M:	Keith Zhao <keith.zhao@starfivetech.com>
++L:	dri-devel@lists.freedesktop.org
++S:	Maintained
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	Documentation/devicetree/bindings/display/bridge/innosilicon,inno-hdmi.yaml
++F:	Documentation/devicetree/bindings/display/starfive/
++
+ DRM DRIVER FOR SYNAPTICS R63353 PANELS
+ M:	Michael Trimarchi <michael@amarulasolutions.com>
+ S:	Maintained
 -- 
 2.27.0
 
