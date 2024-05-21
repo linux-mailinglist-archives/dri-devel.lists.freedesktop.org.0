@@ -2,104 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD2B8CAA34
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 10:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CC08CAAC6
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 11:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC10010E03F;
-	Tue, 21 May 2024 08:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABF8310E858;
+	Tue, 21 May 2024 09:28:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="G5/6+Hku";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="omHaxv8U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4058F10E03F
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 08:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1716281019;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=x8k5q7R1XQcUXB4Szn34j6F6QdxRYsMfl6BtJBFY45A=;
- b=G5/6+HkuZkMA0LREFOl44E1vQqCKwZxc/0dNOctFfTYQltmdA/2OXeRuftz1YeGUwat8XD
- u9QnRj71Uy4Abbh3MuDgR+Ex7AXsbHDqmDlEGbmPNQWPi11pcY2kWSDckS4Z6vBW2a9cuY
- 8Ql4QL3H4sO8jrdfmp9ONknyGjblgMk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-501-ffz6BE1YMIGG543ddQz62A-1; Tue, 21 May 2024 04:43:37 -0400
-X-MC-Unique: ffz6BE1YMIGG543ddQz62A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-351bd229b88so6529613f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 01:43:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716281016; x=1716885816;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=x8k5q7R1XQcUXB4Szn34j6F6QdxRYsMfl6BtJBFY45A=;
- b=wP14qzOO4Odzmg0nYzRRE1cGKaJscp2bO8DTOOchAZx5OFAyRM2wwUQgHnvDDgbNBS
- 0uGJY+/T0KHCwDges37x+qYAjRtKWA9+EDuveTHBeER/MVhm2IskoKuzp8HfcLAi3v6z
- F3alt+Z50sqJH0Hd6JyYanloqPW9o2hy005LOg52F9FVRfxW8pmp4PUQvQFeBORjBhau
- vBG5j/eBzVml8ND8F6wzLH+K2ZTUZBaie9PO9/2hhzgiD3MQWpsDPTMH/dRiZCxDIjEG
- XNIFmoM6JlGi9+sI9029OPzOj6l6iDihgcipFGy2aDsUozxzslyizZyZlD2K3Zk/0NbU
- wYtg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWSZsSLNNNQ1GMyetLHXeYvZnuC5SLWyh3FvqDTc8Tfsh4udNa4EGAumV1H6iAxazt2tvTYu+Rpe0lnVo0ekO7JwiKj/YoWTz9NoJgxemzm
-X-Gm-Message-State: AOJu0Yww9vzTq+GUy+HZKON0oFeDEg7rygBTQUqjfUJ8VKCDaAQtv40M
- VO/2q6MuKt4HKsuwb0UddRapGRYPVCHZLApMJUQKwOX6omjKZS/+wvuHX3o9eGZuoeS2PozORsc
- WfVLf7GxE+GFpsypIq1gMzSs7EPRUz6UyxelJ1a6zvTA4VkrR05XuK3+q0KG1A1nKSw==
-X-Received: by 2002:a5d:4537:0:b0:351:cb0a:5da9 with SMTP id
- ffacd0b85a97d-351cb0a5e27mr13610771f8f.54.1716281015800; 
- Tue, 21 May 2024 01:43:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGViPbX2DDsBlX4k8bygNk8RERf9FOVVEI+UM+O9otWpAASEUQBvdHR9iUQt2Q/LtMHcgtmzA==
-X-Received: by 2002:a5d:4537:0:b0:351:cb0a:5da9 with SMTP id
- ffacd0b85a97d-351cb0a5e27mr13610740f8f.54.1716281015294; 
- Tue, 21 May 2024 01:43:35 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3502b79bd4fsm31573798f8f.7.2024.05.21.01.43.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 May 2024 01:43:34 -0700 (PDT)
-Date: Tue, 21 May 2024 10:43:34 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: nicolas.dufresne@collabora.corp-partner.google.com
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Hans de Goede <hdegoede@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Lennart Poettering <mzxreary@0pointer.de>, 
- Robert Mader <robert.mader@collabora.com>,
- Sebastien Bacher <sebastien.bacher@canonical.com>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Milan Zamazal <mzamazal@redhat.com>, 
- Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present users
- (udev uaccess tag) ?
-Message-ID: <20240521-thick-messy-lemur-c8cebe@houat>
-References: <20240507183613.GB20390@pendragon.ideasonboard.com>
- <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
- <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
- <20240513-heretic-didactic-newt-1d6daf@penduick>
- <20240513083417.GA18630@pendragon.ideasonboard.com>
- <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
- <20240514204223.GN32013@pendragon.ideasonboard.com>
- <a3428b0c352c24d43a2d458d41819fbf4b6cce0f.camel@collabora.corp-partner.google.com>
- <20240516112720.GA12714@pendragon.ideasonboard.com>
- <08b882dd036367c4d78a5b33f5d11cdb347823bb.camel@collabora.corp-partner.google.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="3ur3lppetxpfcjb6"
-Content-Disposition: inline
-In-Reply-To: <08b882dd036367c4d78a5b33f5d11cdb347823bb.camel@collabora.corp-partner.google.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC3410E858
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 09:28:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 827AC620A0;
+ Tue, 21 May 2024 09:28:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6333FC4AF07;
+ Tue, 21 May 2024 09:28:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716283709;
+ bh=vu4Fr4NnQHtFu5eBOffzT74hbPy+G9MfIqvA0bqoLfU=;
+ h=Date:Subject:From:To:References:In-Reply-To:From;
+ b=omHaxv8UqD3LFxWqgzUNsyO6tACio0yOaRVMzFye9QZ/qJNp6cNQr0UvJVp/4Avid
+ 6U1H6sZaemnnsr40Pg4Ht3rmux9P4Mzx5l1XI3uLUDAL2jcf8lvdCzgKyaE+vFIf80
+ qcF4N2wlwKiJzaxB3ZeuolKbTQS4kn3AUXZK7NB+yWRxojT0HV4N/nU0/hYEU7AiNM
+ ofhCMO74eWNQTnLzekiPXedVkuKXwVRJJboiD3zYbxaxpQAeqi3Hu8Pz6D/6PH4GeR
+ soTOpWI1wnyHRYvBisDBNRlfq23AHV0FGPmixl5LiKCmfqTHS8O/EMYwf7Q3nGfdPC
+ Tw7uecJM7mxEg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 21 May 2024 12:28:22 +0300
+Message-Id: <D1F7SODNAG8W.1OR5BWUWSM4EA@kernel.org>
+Subject: Re: [PATCH 0/3] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Helen Koike" <helen.koike@collabora.com>, <linuxtv-ci@linuxtv.org>,
+ <dave.pigott@collabora.com>, <mripard@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kselftest@vger.kernel.org>, <gustavo.padovan@collabora.com>,
+ <pawiecz@collabora.com>, <spbnick@gmail.com>, <tales.aparecida@gmail.com>,
+ <workflows@vger.kernel.org>, <kernelci@lists.linux.dev>,
+ <skhan@linuxfoundation.org>, <kunit-dev@googlegroups.com>,
+ <nfraprado@collabora.com>, <davidgow@google.com>, <cocci@inria.fr>,
+ <Julia.Lawall@inria.fr>, <laura.nao@collabora.com>,
+ <ricardo.canuelo@collabora.com>, <kernel@collabora.com>,
+ <torvalds@linuxfoundation.org>, <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.17.0
+References: <20240228225527.1052240-1-helen.koike@collabora.com>
+In-Reply-To: <20240228225527.1052240-1-helen.koike@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,153 +67,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---3ur3lppetxpfcjb6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 16, 2024 at 01:11:51PM GMT, nicolas.dufresne@collabora.corp-par=
-tner.google.com wrote:
-> Le jeudi 16 mai 2024 =E0 14:27 +0300, Laurent Pinchart a =E9crit=A0:
-> > Hi Nicolas,
-> >=20
-> > On Wed, May 15, 2024 at 01:43:58PM -0400, nicolas.dufresne@collabora.co=
-rp-partner.google.com wrote:
-> > > Le mardi 14 mai 2024 =E0 23:42 +0300, Laurent Pinchart a =E9crit=A0:
-> > > > > You'll hit the same limitation as we hit in GStreamer, which is t=
-hat KMS driver
-> > > > > only offer allocation for render buffers and most of them are mis=
-sing allocators
-> > > > > for YUV buffers, even though they can import in these formats. (k=
-ms allocators,
-> > > > > except dumb, which has other issues, are format aware).
-> > > >=20
-> > > > My experience on Arm platforms is that the KMS drivers offer alloca=
-tion
-> > > > for scanout buffers, not render buffers, and mostly using the dumb
-> > > > allocator API. If the KMS device can scan out YUV natively, YUV buf=
-fer
-> > > > allocation should be supported. Am I missing something here ?
-> > >=20
-> > > There is two APIs, Dumb is the legacy allocation API, only used by di=
-splay
-> >=20
-> > Is it legacy only ? I understand the dumb buffers API to be officially
-> > supported, to allocate scanout buffers suitable for software rendering.
-> >=20
-> > > drivers indeed, and the API does not include a pixel format or a modi=
-fier. The
-> > > allocation of YUV buffer has been made through a small hack,=20
-> > >=20
-> > >   bpp =3D number of bits per component (of luma plane if multiple pla=
-nes)
-> > >   width =3D width
-> > >   height =3D height * X
-> > >=20
-> > > Where X will vary, "3 / 2" is used for 420 subsampling, "2" for 422 a=
-nd "3" for
-> > > 444. It is far from idea, requires deep knowledge of each formats in =
+On Thu Feb 29, 2024 at 12:55 AM EET, Helen Koike wrote:
+> Dear Kernel Community,
+>
+> This patch introduces a `.gitlab-ci` file along with a `ci/` folder, defi=
+ning a
+> basic test pipeline triggered by code pushes to a GitLab-CI instance. Thi=
+s
+> initial version includes static checks (checkpatch and smatch for now) an=
+d build
+> tests across various architectures and configurations. It leverages an
+> integrated cache for efficient build times and introduces a flexible 'sce=
+narios'
+> mechanism for subsystem-specific extensions.
+>
+> tl;dr: check this video to see a quick demo: https://youtu.be/TWiTjhjOuzg=
+,
+> but don't forget to check the "Motivation for this work" below. Your feed=
+back,
+> whether a simple thumbs up or down, is crucial to determine if it is wort=
+hwhile
+> to pursue this initiative.
+>
+> GitLab is an Open Source platform that includes integrated CI/CD. The pip=
+eline
+> provided in this patch is designed to work out-of-the-box with any GitLab
+> instance, including the gitlab.com Free Tier. If you reach the limits of =
 the
-> > > application
-> >=20
-> > I'm not sure I see that as an issue, but our experiences and uses cases
-> > may vary :-)
->=20
-> Its extra burden, and does not scale to all available pixel formats. My r=
-eply
-> was for readers education as I feel like a lot of linux-media dev don't h=
-ave a
-> clue of what is going on at the rendering side. This ensure a minimum kno=
-wledge
-> to everyone commenting.
->=20
-> And yes, within the GFX community, Dumb allocation is to be killed and
-> replacement completely in the future, it simply does not have a complete
-> replacement yet.
->=20
-> >=20
-> > > and cannot allocate each planes seperatly.
-> >=20
-> > For semi-planar or planar formats, unless I'm mistaken, you can either
-> > allocate a single buffer and use it with appropriate offsets when
-> > constructing your framebuffer (with DRM_IOCTL_MODE_ADDFB2), or allocate
-> > one buffer per plane.
->=20
-> We have use cases were single allocation is undesirable, but I don't real=
-ly feel
-> like this is important enough for me to type this explanation. Ping me if=
- you
-> care.
-> >=20
-> > > The second is to use the driver specific allocation API. This is then=
- abstracted
-> > > by GBM. This allows allocating render buffers with notably modifiers =
-and/or use
-> > > cases. But no support for YUV formats or multi-planar formats.
-> >=20
-> > GBM is the way to go for render buffers indeed. It has been designed
-> > with only graphics buffer management use cases in mind, so it's
-> > unfortunately not an option as a generic allocator, at least in its
-> > current form.
-> >=20
->=20
-> What I perhaps should have highlighted that is that all these allocators =
-in the
-> GFX (called DRM, but meh) subsystem abstract away some deep knowledge of =
-the HW
-> requirements. Heaps are lower level APIs that assume that userspace have =
-this
-> knowledge. The Android and ChromeOS solution is to take the implementatio=
-n from
-> the kernel and move it into userspace, see minigbm from chromeos, or gral=
-loc
-> from Android. As these two projects are device centric, they are not usab=
-le on
-> generic Linux. Heaps might have some future, but not without other piece =
-of the
-> puzzle.
->=20
-> To come back to you wanting heaps in libcamera, because it makes them bet=
-ter for
-> rendered or display. Well today this is a lie you make to yourself, becau=
-se this
-> is just a tiny bit of the puzzle, it is pure luck if you allocate dmabuf =
+> Free Tier, consider using community instances like https://gitlab.freedes=
+ktop.org/.
+> Alternatively, you can set up a local runner for more flexibility. The
+> bootstrap-gitlab-runner.sh script included with this patch simplifies thi=
+s
+> process, enabling you to run tests on your preferred infrastructure, incl=
+uding
+> your own machine.
+>
+> For detailed information, please refer to the documentation included in t=
+he
+> patch, or check the rendered version here: https://koike.pages.collabora.=
+com/-/linux/-/jobs/298498/artifacts/artifacts/Documentation-output/ci/gitla=
+b-ci/gitlab-ci.html .
+>
+>
+> Motivation for this Work
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> We all know tests are a major topic in the community, so let's mention th=
+e
+> specificities of this approach:
+>
+> 1. **Built-in User Interface:** GitLab CI/CD is growing in popularity and=
+ has an
+> user-friendly interface. Our experience with the upstream DRM-CI in the k=
+ernel
+> tree (see this blog post [https://www.collabora.com/news-and-blog/blog/20=
+24/02/08/drm-ci-a-gitlab-ci-pipeline-for-linux-kernel-testing/] )
+> has provided insights into how such a system can benefit the wider commun=
+ity.
+>
+> 2. **Distributed Infrastructure:**
+> The proposed GitLab-CI pipeline is designed with a distributed infrastruc=
+ture
+> model, being possible to run in any gitlab instance.=20
+>
+> 3. **Reduce regressions:** Fostering a culture where people habitually ru=
+n
+> validated tests and post their results can prevent many issues in post-me=
+rge
+> tests.
+>
+> 4. **Collaborative Testing Environment:** The kernel community is already
+> engaged in numerous testing efforts, including various GitLab-CI pipeline=
+s such
+> as DRM-CI, which I maintain, along with other solutions like KernelCI and
+> BPF-CI. This proposal is designed to further stimulate contributions to t=
+he
+> evolving testing landscape. Our goal is to establish a comprehensive suit=
+e of
+> common tools and files.
+>
+> 5. **Ownership of QA:**=20
+> Discrepancies between kernel code and outdated tests often lead to misatt=
+ributed
+> failures, complicating regression tracking. This issue, often arising fro=
+m
+> neglected or deprioritized test updates, creates uncertainty about the so=
+urce of
+> failures. Adopting an "always green pipeline" approach, as detailed in th=
 is
-> usable but a foreign device. At the end of the day, this is just a fallba=
-ck to
-> satisfy that application are not forced to allocate that memory in libcam=
-era.
+> patch's documentation, encourages timely maintenance and validation of te=
+sts.
+> This ensures that testing accurately reflects the current state of the ke=
+rnel,
+> thereby improving the effectiveness of our QA processes.
+>
+> Additionally, if we discover that this method isn't working for us, we ca=
+n
+> easily remove it from the codebase, as it is primarily contained within t=
+he ci/
+> folder.
 
-I mean, it's pure luck, but can you point to any platform supported
-upstream where it wouldn't work?
+Not to criticize but I can do  tests I ever want with either Github
+or Gitlab simply by bootstrapping BuildRoot on top of whatever the CI
+runner has. So I essentially need just enough deps to make a BR build,
+and that's it. And e.g. could run x86 tests on ARM ISA runner with zero
+issues. And can even have emulated TPM chip in the QEMU VM by building
+swtpm.
 
-> Thus, I strongly recommend the udmabuf in the short term. Finally, moving=
- to
-> heaps when the reported issue is resolved, as then it gives more options =
-and
-> reduce the number of layers.
+I had this for some time running actually Gitlab runner. It does not
+currently build QEMU but then it also did that:
 
-udmabuf wouldn't work with any platform without an IOMMU. We have plenty
-of those.
+https://gitlab.com/jarkkojs/linux-tpmdd-test
 
-All things considered, while I agree that it isn't the ideal solution,
-we really don't have a better (ie, works on a larger set of platforms)
-solution at the moment or in the next 5 years.
+Essentially just executing this sequence:
 
-Maxime
+git clone https://gitlab.com/jarkkojs/linux-tpmdd-test.git
+cd linux-tpmdd-test
+cmake -Bbuild && make -Cbuild buildroot-prepare
+make -Cbuild/buildroot/build
+build/buildroot/build/images/run-tests.sh
 
---3ur3lppetxpfcjb6
-Content-Type: application/pgp-signature; name="signature.asc"
+I use TCL's "expect" to make conclusions from the output :-)
 
------BEGIN PGP SIGNATURE-----
+I'm assuming that this has a bigger point that I can understand right
+now but makes me a bit puzzled given that it is quite trivial problem
+to my understanding (if you want to pursue to it). Like one work=20
+week maybe but not more than that...
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZkxetgAKCRAnX84Zoj2+
-dowVAYD+pixkM6lIhnLksc0THKJNXz5j3y7vVB903apxbhINtgV4AYh1nkv/zhcQ
-iVGGJq8BgKzX+k9pfyDC1fMIarAnVyKH2XjGA5SJ8N18wPOrO6zuNN89CbWbOv7e
-QtoE2jvRCg==
-=vQjI
------END PGP SIGNATURE-----
+Especially it feels weird that it needs kernel to be patched at all and
+when I did read the motivation but it has sort of whitepaperish stuff
+that does not really explain me the edge of this compared to e.g. to my
+ad-hoc but still very usable solution (which is agnostic to runner's CPU
+architecture, can emulated hardware and works in any possible hosting
+with CI).
 
---3ur3lppetxpfcjb6--
+So maybe my review comment it this: do not assume that this would be
+entirely new thing. It is not, and I'm sure some other people have
+done this too in the past rather than just me. Instead this should
+explain why this is so great that even kernel tree needs to be patched?
 
+BR, Jarkko
