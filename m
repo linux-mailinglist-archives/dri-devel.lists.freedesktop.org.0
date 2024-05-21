@@ -2,85 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354608CB308
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 19:40:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080C18CB30F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 19:40:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75DB010F015;
-	Tue, 21 May 2024 17:39:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D4610F016;
+	Tue, 21 May 2024 17:40:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KJbzsR2m";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OSbnpOWe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD2D10F013;
- Tue, 21 May 2024 17:39:56 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-5c6bd3100fcso421899a12.3; 
- Tue, 21 May 2024 10:39:56 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7ED510F016;
+ Tue, 21 May 2024 17:40:45 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2e1fa1f1d9bso73814641fa.0; 
+ Tue, 21 May 2024 10:40:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716313196; x=1716917996; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=l6naY1ebYgtBqBr6FtFx0JuqKFL0i54ZhF9HoediEIY=;
- b=KJbzsR2mYC/ZuZrvoOs8RONKeRvuFYok80Cvj01Poy+1pgNVmnq0j3Km1xNQ89DpnO
- /NmYjdzqltjyywf7mKWBS9ixo8eaBM8mobrkg0Z4aW7G5i/mDF075zonOHQJcz533BSe
- efEwm/rYPp+aA+Z0MdFbBQt3ViPV77KpdCe3pjD0+41rt/KCpQZ2dYnbthCjMbA4g5P1
- EtBdin5ctxMcBRIGklZXoH0z4tWO+/TXEO2TwmLpbpLZoMdLfGNFG5cToHhe+Y65U8Ze
- mqTexo52iuG949HV6KLicSIL5+DEjbr9RBsrHPt9RTZhTe4r/5IvG9TAwPrf0JIfbQTS
- mCsQ==
+ d=gmail.com; s=20230601; t=1716313244; x=1716918044; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=BGtR1ws+JRg9IaP0YvowCKNdfiSrHkAApZjY1DSgmn0=;
+ b=OSbnpOWe+7kr7S9djRO3o+Kta9ojXxwM9idukYgpjej+GJ7nKi2UJGKy0XzGHUf3p5
+ rl0ZhNXbQmnpWo5xmgq0LiQO73Ar4cg0+bYyzDNN1QIQmSBBDeI/jlCmfGStKqdR/7Cj
+ ZM1k5bzBL/hoV/07B8U+EVjd6sdDJWaJhMjT/qijsTtLtjKvhJhLUD25TxnWXu2IPKNu
+ mKciq6+PC113J1zdHNm3hgrzOwtrqXWxlWaEECLpy4kn2D2ZHJOQnc+ruzWxs2IGnnaG
+ gJczlYCaayOK+yjwyPPXSBZQ6N4nA+kbpNBwZ7rhw5k81r5q0RJHxIWAjmPsnubrQaY2
+ jOlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716313196; x=1716917996;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=l6naY1ebYgtBqBr6FtFx0JuqKFL0i54ZhF9HoediEIY=;
- b=bNFZuWP3nd+BjsaLZOQL/BN9r/DD/lLrEzXKarz+rSh1tN7oItvVqiH5Tt54ApZKuQ
- UC/ZgWfETohEpPZK64jCXSulgxUUgRZ46PDtHo28RiXLVzJl/NoTCdOuqS6/YsR/ArpT
- +5TR1FYuBtkIho2Vbl1bfBduMkZA7wyXXJkQnKhHdqFB5MVPkKzvgRcRUSpqmeCE2mi7
- IqvRbi3s90a7owI/wk05zHsJB0MLceBc847cTYbdgc/KtLCeHP+kYDTKt3X5yNTm28+Q
- 3fe60Txzmg5Bo9gqJNBY58/Z/mQ8EZiO935M+Lg7RsKW6pFRd7xVn/vIeGp0fSNkcB3/
- eQtQ==
+ d=1e100.net; s=20230601; t=1716313244; x=1716918044;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BGtR1ws+JRg9IaP0YvowCKNdfiSrHkAApZjY1DSgmn0=;
+ b=uh7EfF1oIGEoObaLlx7T7IP0STFHH0inJ5fxF35JVSqBC7XTokaA9kYQ2MP1FQe8iX
+ k4q3vtggAHCESEHYhoSQc0X9YyUkSxrEt74+O4aFMcmB2Jsfg8lTIbT8j+hHganwp4Er
+ V4rJB2qMxUOEShpjqUJn/SrM5JjftzgBo7bHU35W85J1YWB+d2qqCP0oDkmJh6dWrPGZ
+ 49rFsqW+psL8yHPTpiDO8D6e4TW+y7pME1vruFRkF63BQ2aHZCPoK+kD6u8gr5toOxMg
+ CqDm7qhaYqaw+hJWBL47Qqf30+zBtNkF9z913cYcG80ZgYcvZG20vE21M6tRF3zxv73l
+ TtbA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWl0ee4ZNhcjciykQQH7XB7DTNB1SDeJ8qWwCLPFWY4wOBuyXxMmxE948YIarYC3dHLVBUyxvoO1adk4l7LOJuhe4FnH8AljXl6yJAgEiZM4G47JcdX3ITAWCbF1PePnoLRjA6XdPWvW8AuV8HrvF8uv2/geaV3qeiU/nqYRIFROB/4+7dyyWojVaD5Y7Q5mQ==
-X-Gm-Message-State: AOJu0YxMnSCfk+gmaB0b106srtVh+cu6Mgk4zuGifQ2dbI9a1Fsa0JQK
- yjNMvTHHklPacfOiisK3g1m4DRjceHGfPckMt2y4UJ6EmCmr0wx/phO6e8LgFzwJ2ev0dVfdue4
- HQiN9CVnEfmN62l6UREOQDRnF7Qc=
-X-Google-Smtp-Source: AGHT+IEtIwnLHEJom7EzPs7RT34MstjtZMfmyW9DXLDXYepTOE0snpQgoUF0SiAcYhvLERYK6iuAIEpcIVtspvvn1Wc=
-X-Received: by 2002:a17:90a:fd8a:b0:2bc:9bce:19c3 with SMTP id
- 98e67ed59e1d1-2bc9bce1df0mr12631794a91.43.1716313195890; Tue, 21 May 2024
- 10:39:55 -0700 (PDT)
+ AJvYcCWr501z5bMW6IMHM2+lMPu3/Ta7UOrZSrERLT4prBEXuhJDkTuYqWiFqA7B/3c1Jc12jSw7IW5jnxRZqFXYcamCDh7wjTCHJYJbhY5p+DjEJo/5w0joJsALNRmEaCctIayvnRXkHzqulwBzFffZCA==
+X-Gm-Message-State: AOJu0YyfWD0M0C1AM7B3dlkMIr2NDa6TqOD/zfMziZObLj16HC3cLi7y
+ +QUKOY7ZdXubMkhmZtlW50ypTxjDe06dMXNk6pzXVL4ah7Q5WG0/eSP9dDfv/B9JAYkiAbiSd7X
+ ApjT5Rc9SFgIKimNveQRacafvbTA=
+X-Google-Smtp-Source: AGHT+IHYEuO5MgwTyT5sB8of44MmsDP4esL79AuzjW60jj/rU/cDu1ZEmGk9v0lit8+7zoyMMlf33gCrlcw+m0dJHxo=
+X-Received: by 2002:a2e:461a:0:b0:2e5:2414:a205 with SMTP id
+ 38308e7fff4ca-2e52414a255mr244516321fa.27.1716313243532; Tue, 21 May 2024
+ 10:40:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240307062957.2323620-1-Wayne.Lin@amd.com>
- <0847dc03-c7db-47d7-998b-bda2e82ed442@amd.com>
- <41b87510-7abf-47e8-b28a-9ccc91bbd3c1@leemhuis.info>
- <177cfae4-b2b5-4e2c-9f1e-9ebe262ce48c@amd.com>
- <CO6PR12MB5489FA9307280A4442BAD51DFCE72@CO6PR12MB5489.namprd12.prod.outlook.com>
- <87wmo2hver.fsf@intel.com> <6f66e479-2f5a-477a-9705-dca4a3606760@amd.com>
- <83df4e94-e1ec-42f6-8a15-6439ef4a25b7@leemhuis.info>
- <CADnq5_P+WsL8B6B2vK5ENe8VWdvheoHyxoUfgF3Oex8Gvp7Lbg@mail.gmail.com>
-In-Reply-To: <CADnq5_P+WsL8B6B2vK5ENe8VWdvheoHyxoUfgF3Oex8Gvp7Lbg@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 21 May 2024 13:39:44 -0400
-Message-ID: <CADnq5_MYDNBpqXT8snztEGxqHh3N8_7wktNdjedkjnhe1Te6CQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/mst: Fix NULL pointer dereference at
- drm_dp_add_payload_part2
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: "Limonciello, Mario" <mario.limonciello@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- "Lin, Wayne" <Wayne.Lin@amd.com>, "Wentland, Harry" <Harry.Wentland@amd.com>, 
- "lyude@redhat.com" <lyude@redhat.com>,
- "imre.deak@intel.com" <imre.deak@intel.com>, 
- =?UTF-8?Q?Leon_Wei=C3=9F?= <leon.weiss@ruhr-uni-bochum.de>, 
- "stable@vger.kernel.org" <stable@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20240519130610.7773-1-mario.limonciello@amd.com>
+ <-KAO9zJq5vTiesgtw-PMO0lDkSH1tuV271WNqlVuh3ZSkMzKWB9JQJce68-X-GwhD57QilHIBnLxN9k03I3-CMeYQm30NJMLizfyUUxTqHA=@emersion.fr>
+ <e3a4331a-307e-4377-a349-8699024f8459@amd.com>
+ <CAFZQkGyupsydjSEfv6OgMqPmHm9kMy4HQs7aNvzn77omSN+ZhQ@mail.gmail.com>
+ <a35f2f5b-024f-42ed-9d59-48efcf4516a8@amd.com>
+ <55205499-293e-45cd-870c-1ccccd05145d@amd.com>
+In-Reply-To: <55205499-293e-45cd-870c-1ccccd05145d@amd.com>
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Tue, 21 May 2024 19:40:31 +0200
+Message-ID: <CAFZQkGzNJiG=gAW-zaMyT+Dct50tLTanpiqko6MxL9c=aLuh7Q@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Add support for Panel Power Savings property
+To: Leo Li <sunpeng.li@amd.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Simon Ser <contact@emersion.fr>, 
+ amd-gfx@lists.freedesktop.org, Harry.Wentland@amd.com, 
+ dri-devel@lists.freedesktop.org, "seanpaul@google.com" <seanpaul@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,118 +84,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied and pushed out:
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3D8a0a7b98d4b6eeeab337=
-ec25daa4bc0a5e710a15
+Am Di., 21. Mai 2024 um 19:28 Uhr schrieb Leo Li <sunpeng.li@amd.com>:
+>
+>
+>
+> On 2024-05-21 12:21, Mario Limonciello wrote:
+> > On 5/21/2024 11:14, Xaver Hugl wrote:
+> >> Am Di., 21. Mai 2024 um 16:00 Uhr schrieb Mario Limonciello
+> >> <mario.limonciello@amd.com>:
+> >>>
+> >>> On 5/21/2024 08:43, Simon Ser wrote:
+> >>>> This makes sense to me in general. I like the fact that it's simple and
+> >>>> vendor-neutral.
+> >>>>
+> >>>> Do we want to hardcode "panel" in the name? Are we sure that this will
+> >>>> ever only apply to panels?
+> >>>>
+> >>>> Do we want to use a name which reflects the intent, rather than the
+> >>>> mechanism? In other words, something like "color fidelity" = "preferred"
+> >>>> maybe? (I don't know, just throwing ideas around.)
+> >>>
+> >>> In that vein, how about:
+> >>>
+> >>> "power saving policy"
+> >>> --> "power saving"
+> >>> --> "color fidelity"
+> >>
+> >> It's not just about colors though, is it? The compositor might want to
+> >> disable it to increase the backlight brightness in bright
+> >> environments, so "color fidelity" doesn't really sound right
+> >
+> > Either of these better?
+> >
+> > "power saving policy"
+> > --> "power saving"
+> > --> "accuracy"
+> >
+> > "power saving policy"
+> > --> "allowed"
+> > --> "forbidden"
+> >
+> > Or any other idea?
+>
+> Another consideration in addition to accuracy is latency.
+>
+> I suppose a compositor may want to disable features such as PSR for use-cases
+> requiring low latency. Touch and stylus input are some examples.
+>
+> I wonder if flags would work better than enums? A compositor can set something
+> like `REQUIRE_ACCURACY & REQUIRE_LOW_LATENCY`, for example.
 
-Alex
+I think that's a good idea. With a flag for color accuracy and one for
+brightness, the compositor's intent would be communicated well.
 
-On Tue, May 21, 2024 at 12:12=E2=80=AFPM Alex Deucher <alexdeucher@gmail.co=
-m> wrote:
+> - Leo
 >
-> I've got it teed up.  Is drm-misc-fixes the right branch since we are
-> in the merge window?
->
-> Alex
->
-> On Tue, May 21, 2024 at 7:20=E2=80=AFAM Linux regression tracking (Thorst=
-en
-> Leemhuis) <regressions@leemhuis.info> wrote:
 > >
-> > Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
-> > for once, to make this easily accessible to everyone.
+> >>
+> >>>>
+> >>>> Would be nice to add documentation for the property in the "standard
+> >>>> connector properties" section.
+> >>>
+> >>> Ack.
+> >>>
 > >
-> > Hmm, from here it looks like the patch now that it was reviewed more
-> > that a week ago is still not even in -next. Is there a reason?
-> >
-> > I know, we are in the merge window. But at the same time this is a fix
-> > (that already lingered on the lists for way too long before it was
-> > reviewed) for a regression in a somewhat recent kernel, so it in Linus
-> > own words should be "expedited"[1].
-> >
-> > Or are we again just missing a right person for the job in the CC?
-> > Adding Dave and Sima just in case.
-> >
-> > Ciao, Thorsten
-> >
-> > [1]
-> > https://lore.kernel.org/all/CAHk-=3Dwis_qQy4oDNynNKi5b7Qhosmxtoj1jxo5wm=
-B6SRUwQUBQ@mail.gmail.com/
-> >
-> > On 12.05.24 18:11, Limonciello, Mario wrote:
-> > > On 5/10/2024 4:24 AM, Jani Nikula wrote:
-> > >> On Fri, 10 May 2024, "Lin, Wayne" <Wayne.Lin@amd.com> wrote:
-> > >>>> -----Original Message-----
-> > >>>> From: Limonciello, Mario <Mario.Limonciello@amd.com>
-> > >>>> Sent: Friday, May 10, 2024 3:18 AM
-> > >>>> To: Linux regressions mailing list <regressions@lists.linux.dev>;
-> > >>>> Wentland, Harry
-> > >>>> <Harry.Wentland@amd.com>; Lin, Wayne <Wayne.Lin@amd.com>
-> > >>>> Cc: lyude@redhat.com; imre.deak@intel.com; Leon Wei=C3=9F
-> > >>>> <leon.weiss@ruhr-uni-
-> > >>>> bochum.de>; stable@vger.kernel.org; dri-devel@lists.freedesktop.or=
-g;
-> > >>>> amd-
-> > >>>> gfx@lists.freedesktop.org; intel-gfx@lists.freedesktop.org
-> > >>>> Subject: Re: [PATCH] drm/mst: Fix NULL pointer dereference at
-> > >>>> drm_dp_add_payload_part2
-> > >>>>
-> > >>>> On 5/9/2024 07:43, Linux regression tracking (Thorsten Leemhuis) w=
-rote:
-> > >>>>> On 18.04.24 21:43, Harry Wentland wrote:
-> > >>>>>> On 2024-03-07 01:29, Wayne Lin wrote:
-> > >>>>>>> [Why]
-> > >>>>>>> Commit:
-> > >>>>>>> - commit 5aa1dfcdf0a4 ("drm/mst: Refactor the flow for payload
-> > >>>>>>> allocation/removement") accidently overwrite the commit
-> > >>>>>>> - commit 54d217406afe ("drm: use mgr->dev in drm_dbg_kms in
-> > >>>>>>> drm_dp_add_payload_part2") which cause regression.
-> > >>>>>>>
-> > >>>>>>> [How]
-> > >>>>>>> Recover the original NULL fix and remove the unnecessary input
-> > >>>>>>> parameter 'state' for drm_dp_add_payload_part2().
-> > >>>>>>>
-> > >>>>>>> Fixes: 5aa1dfcdf0a4 ("drm/mst: Refactor the flow for payload
-> > >>>>>>> allocation/removement")
-> > >>>>>>> Reported-by: Leon Wei=C3=9F <leon.weiss@ruhr-uni-bochum.de>
-> > >>>>>>> Link:
-> > >>>>>>> https://lore.kernel.org/r/38c253ea42072cc825dc969ac4e6b9b600371=
-cc8.c
-> > >>>>>>> amel@ruhr-uni-bochum.de/
-> > >>>>>>> Cc: lyude@redhat.com
-> > >>>>>>> Cc: imre.deak@intel.com
-> > >>>>>>> Cc: stable@vger.kernel.org
-> > >>>>>>> Cc: regressions@lists.linux.dev
-> > >>>>>>> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> > >>>>>>
-> > >>>>>> I haven't been deep in MST code in a while but this all looks pr=
-etty
-> > >>>>>> straightforward and good.
-> > >>>>>>
-> > >>>>>> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-> > >>>>>
-> > >>>>> Hmmm, that was three weeks ago, but it seems since then nothing
-> > >>>>> happened to fix the linked regression through this or some other
-> > >>>>> patch. Is there a reason? The build failure report from the CI ma=
-ybe?
-> > >>>>
-> > >>>> It touches files outside of amd but only has an ack from AMD.  I
-> > >>>> think we
-> > >>>> /probably/ want an ack from i915 and nouveau to take it through.
-> > >>>
-> > >>> Thanks, Mario!
-> > >>>
-> > >>> Hi Thorsten,
-> > >>> Yeah, like what Mario said. Would also like to have ack from i915 a=
-nd
-> > >>> nouveau.
-> > >>
-> > >> It usually works better if you Cc the folks you want an ack from! ;)
-> > >>
-> > >> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> > >>
-> > >
-> > > Thanks! Can someone with commit permissions take this to drm-misc?
-> > >
-> > >
-> > >
