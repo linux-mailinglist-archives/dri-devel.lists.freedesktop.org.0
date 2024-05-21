@@ -2,153 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A868CB2EC
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 19:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 354608CB308
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 19:40:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0F7A10E35E;
-	Tue, 21 May 2024 17:32:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75DB010F015;
+	Tue, 21 May 2024 17:39:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ScNN9Sdm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KJbzsR2m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2052.outbound.protection.outlook.com [40.107.236.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D1810E1AC;
- Tue, 21 May 2024 17:32:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RSmgrDSrk54OMdVbNz2Ed6Kw14dZjbTfqrVQoLqtzyu5fhwLlfN/Zg+/o1TUhLg5Cd2IF68Sp8RDMxf6zrwCfYu0qkJYvdcK2K0RL3m/QGjmA8EfpyUEQ1DX/BPdFO2/nfEODU/qUIdEvBVC46tk3SiZbTdwRzhaDdSzmv8x+m1fsBhHmEF4UjcOR7gg5cGzeojN5iblY63H+qYwILxS80rlY1kikTm1/9wLZ9n7w+o6lf1ehboVhD6MxmmiOy4xV1v5iLPci/jheTLnIa5LK3y1u/7NnRnP16EilulCdnqRnmJB/FYaMGGeRzLwptejHcGM1eLOSYiUcLx+b3jnzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jzaJtcfdS/825trcYILAzZbJYbQINNf4eiNhZRGL18k=;
- b=D2LapdjBML+6BdJ8zBAhjdd08vyA8o17q3Ckdqj1DDFXZN7wv/phO55mBAkRfJtyee0A+G/PK/C6vb+cpObKlerAX+XLq1pxJFwFzDClRPqhQ9fCStlr4zJvmZFO2A0LgmIw57FoWTyJlalYlggXLxkezZ5t2wnyGtkPv8WPp24rdsoX3BNl4SWJyPmZN2hpoqdGcy5e5iD4T/8eIYX++H2mg/Q5rDNZ50sXM32NaugoTnoInEo7Yn5XZMYZ+HZkPe7tooiwvOYUzbwiRe2iH5usSK5ZO0D8ZGMXXI3dHXMjQV1SXpT7jWYY52WNJofowcRvGiG9okl9m2/F3JltuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jzaJtcfdS/825trcYILAzZbJYbQINNf4eiNhZRGL18k=;
- b=ScNN9SdmG5rRbFn97NFXt3tnV26wFQ2oZgDODUv7WzOtMiGCcbAZSGw4yCm7KonUrVXNOXQe8xAcVxE3C4wqEq94v6YhoQ6uKrz3ZkXYiZxUMgeFUm/6TtYZUmIK2XEJ5487Oqa1cKEvz2d6Qkqn8FhGpB2sTHKlUQamiyhBYAE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by SA1PR12MB8988.namprd12.prod.outlook.com (2603:10b6:806:38e::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.35; Tue, 21 May
- 2024 17:32:06 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.7587.035; Tue, 21 May 2024
- 17:32:06 +0000
-Message-ID: <3dc3f386-9a6d-48ed-bf35-c445b1d0120d@amd.com>
-Date: Tue, 21 May 2024 12:32:03 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Add support for Panel Power Savings property
-To: Leo Li <sunpeng.li@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>
-Cc: Simon Ser <contact@emersion.fr>, amd-gfx@lists.freedesktop.org,
- Harry.Wentland@amd.com, dri-devel@lists.freedesktop.org,
- "seanpaul@google.com" <seanpaul@google.com>
-References: <20240519130610.7773-1-mario.limonciello@amd.com>
- <-KAO9zJq5vTiesgtw-PMO0lDkSH1tuV271WNqlVuh3ZSkMzKWB9JQJce68-X-GwhD57QilHIBnLxN9k03I3-CMeYQm30NJMLizfyUUxTqHA=@emersion.fr>
- <e3a4331a-307e-4377-a349-8699024f8459@amd.com>
- <CAFZQkGyupsydjSEfv6OgMqPmHm9kMy4HQs7aNvzn77omSN+ZhQ@mail.gmail.com>
- <a35f2f5b-024f-42ed-9d59-48efcf4516a8@amd.com>
- <55205499-293e-45cd-870c-1ccccd05145d@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <55205499-293e-45cd-870c-1ccccd05145d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR04CA0092.namprd04.prod.outlook.com
- (2603:10b6:805:f2::33) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD2D10F013;
+ Tue, 21 May 2024 17:39:56 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-5c6bd3100fcso421899a12.3; 
+ Tue, 21 May 2024 10:39:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716313196; x=1716917996; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=l6naY1ebYgtBqBr6FtFx0JuqKFL0i54ZhF9HoediEIY=;
+ b=KJbzsR2mYC/ZuZrvoOs8RONKeRvuFYok80Cvj01Poy+1pgNVmnq0j3Km1xNQ89DpnO
+ /NmYjdzqltjyywf7mKWBS9ixo8eaBM8mobrkg0Z4aW7G5i/mDF075zonOHQJcz533BSe
+ efEwm/rYPp+aA+Z0MdFbBQt3ViPV77KpdCe3pjD0+41rt/KCpQZ2dYnbthCjMbA4g5P1
+ EtBdin5ctxMcBRIGklZXoH0z4tWO+/TXEO2TwmLpbpLZoMdLfGNFG5cToHhe+Y65U8Ze
+ mqTexo52iuG949HV6KLicSIL5+DEjbr9RBsrHPt9RTZhTe4r/5IvG9TAwPrf0JIfbQTS
+ mCsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716313196; x=1716917996;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=l6naY1ebYgtBqBr6FtFx0JuqKFL0i54ZhF9HoediEIY=;
+ b=bNFZuWP3nd+BjsaLZOQL/BN9r/DD/lLrEzXKarz+rSh1tN7oItvVqiH5Tt54ApZKuQ
+ UC/ZgWfETohEpPZK64jCXSulgxUUgRZ46PDtHo28RiXLVzJl/NoTCdOuqS6/YsR/ArpT
+ +5TR1FYuBtkIho2Vbl1bfBduMkZA7wyXXJkQnKhHdqFB5MVPkKzvgRcRUSpqmeCE2mi7
+ IqvRbi3s90a7owI/wk05zHsJB0MLceBc847cTYbdgc/KtLCeHP+kYDTKt3X5yNTm28+Q
+ 3fe60Txzmg5Bo9gqJNBY58/Z/mQ8EZiO935M+Lg7RsKW6pFRd7xVn/vIeGp0fSNkcB3/
+ eQtQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWl0ee4ZNhcjciykQQH7XB7DTNB1SDeJ8qWwCLPFWY4wOBuyXxMmxE948YIarYC3dHLVBUyxvoO1adk4l7LOJuhe4FnH8AljXl6yJAgEiZM4G47JcdX3ITAWCbF1PePnoLRjA6XdPWvW8AuV8HrvF8uv2/geaV3qeiU/nqYRIFROB/4+7dyyWojVaD5Y7Q5mQ==
+X-Gm-Message-State: AOJu0YxMnSCfk+gmaB0b106srtVh+cu6Mgk4zuGifQ2dbI9a1Fsa0JQK
+ yjNMvTHHklPacfOiisK3g1m4DRjceHGfPckMt2y4UJ6EmCmr0wx/phO6e8LgFzwJ2ev0dVfdue4
+ HQiN9CVnEfmN62l6UREOQDRnF7Qc=
+X-Google-Smtp-Source: AGHT+IEtIwnLHEJom7EzPs7RT34MstjtZMfmyW9DXLDXYepTOE0snpQgoUF0SiAcYhvLERYK6iuAIEpcIVtspvvn1Wc=
+X-Received: by 2002:a17:90a:fd8a:b0:2bc:9bce:19c3 with SMTP id
+ 98e67ed59e1d1-2bc9bce1df0mr12631794a91.43.1716313195890; Tue, 21 May 2024
+ 10:39:55 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|SA1PR12MB8988:EE_
-X-MS-Office365-Filtering-Correlation-Id: 806f1490-3e74-43f8-dc37-08dc79bbef5a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|366007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?T1FTdXlwUytacXpMV2NkMjBuSXU3M0tDQmJ2THhzUmRna3ZEQmNZV2JQQTkr?=
- =?utf-8?B?ZE5Sb3llblBqUFJMNlhZWHNxbG5BeHlSZ0l5ZnFLWGVqTitPZS9EamQ5NDhw?=
- =?utf-8?B?dFg2MHh1Rzd1aC9NU3A3bVpiTEp3SGVCR2lsTmE1ZVNMbGQ1N2RnSDdWWmVX?=
- =?utf-8?B?NnkxcnN3K3YvbEZRNHpXRm5wTlJ0NjM2MHoweVJoclUra2QvSHR3L0JtQTJ2?=
- =?utf-8?B?SERMQVFtVitxb3JOQzBKWFFTK0s0Znc5NEpvRVVkZDVsL0RBa3BZQ0lVSFRy?=
- =?utf-8?B?MndBRXpWNE5UelhSTUlYTmUxa3MwY1JvbHNaQWRNakNaeGoyRkV3ZG1YQy9X?=
- =?utf-8?B?RkJDNCtyUzU1aWN3cVZXSzQ1Z2NrK3RGTDNVeTFMR0ZjRFByM21DcjNuS2c4?=
- =?utf-8?B?RW83VDZsSWRHV2dRem5XdjhsOU94N3FPYWFWbVlUK01QWGdHamgrN3dEWERn?=
- =?utf-8?B?NmVlSmkrbkNkdUlvSzhrSCtNK1dvYko5cDRwQWRVZW9OM1FBWkpiMUc3N1NI?=
- =?utf-8?B?SkwrTXp6QVNyOGZSTkpodzI2OW5VekR0ZlJqVjFyQWh3MXRrUmthUFNTU2g3?=
- =?utf-8?B?OTRoVEdyM0cxSUpiMnp6ZlhHLzU4T21tSnhrS3BmS1BmRVljS3hDRWQ3M1M4?=
- =?utf-8?B?ZVBQRkJLUlVjcnFyY2JwaWo2MTVmaGNmbzB4QklUNEs0RlJpN3kyemRqbjlK?=
- =?utf-8?B?ZVQ2VmxZOHZ1eGxidW5NMFBtSlFuT0RwZ21RcTBvVGN5dlM5ZUhha2VpVGN5?=
- =?utf-8?B?aFFuNXlRV3BQbkk3THhlVW54UHhIZlNucTJObDF0NmdrWHgwN3JJcEJya3dE?=
- =?utf-8?B?NVRtUjdRaStzU2ErNDhmTE51NUJ3Mk93VnpkVnN1TEd1SCt2ZzVlcW5ra1ov?=
- =?utf-8?B?ajZiNG9mcG02Vkp5Q0hlWndqZnZkOGk1Q3gyLzEzZDJVaDNNUStZMzIzR2sr?=
- =?utf-8?B?enVQczVFOThFaS9majZrZm04RzdPSWduSy9vSHFlNlMzbWtOeFp0eFVtNWNp?=
- =?utf-8?B?VENYcjJUYmxIRFNmWEYxcGxhaXFpdnRPVjU5T1dLQVEvUHEvN2M5a2pQQXVj?=
- =?utf-8?B?KzBGNGFkOC91OG5MeDNLL2RYaVc4Z3g4YUR5dWpmdW85b0tJL1lVRU1qL0Q2?=
- =?utf-8?B?YjQrUDJRank3LzFleEVBVlU4ejJxUmxVdEdERHkzNktHb2FkcHJXcmFuL2VI?=
- =?utf-8?B?Vmg3WUJyVUpncDcyOUlSNk9nNGRzelpzb3RSYnNwbDZoNCthZ2hCQ2lJcTdP?=
- =?utf-8?B?QlI3d0FnRUp4dUhSekYxRVVvdWVmUjFHbGYrRzVHaExLMWdLTnNpZDNONmJW?=
- =?utf-8?B?cmdGTHBpVE03dHdyYnNzd0t0cEp3bzNrdE1HeWw4Snp3N29NNTNTRTJ1ZmNy?=
- =?utf-8?B?N3hmMjVabTN2bDJNRHNDZklMQ0JCWmMwZnF6dTBNRElsejVDOXQ0bDBxc2lX?=
- =?utf-8?B?TmpWV28rcER4d3ZNOHZjMVUrRklNNm1HYWw1S05SUU11akRhWVBQcFVDQ2I0?=
- =?utf-8?B?dFBRTGM1dlljY3ZaY2lwNERwSHZLbzRKSXRFelZFL3hpT1RnWkpiQ3I2bEVM?=
- =?utf-8?B?N2duS1ZhcE9IdktRdHpnTHl5M2lNMDJlRUlCZmx6MzdwRU5qQ2FmLzZkd04z?=
- =?utf-8?B?a0hKY2Z3cUYwS1F1OGtiRStQTk8zQWVWaUl5aDluMmxrMDdlejE5R1JGR3pF?=
- =?utf-8?B?b2ltOU0wMXJFWmNSY0JwcFFaVDh3ejdQc2VhK0syemRMMy82RHozb1h3PT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(1800799015)(376005)(366007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFUzSmVFUzVmNHQ3TjE4QVdXMzdUa2hUK05GaU9rc005S0NlcGgzNEVQREZE?=
- =?utf-8?B?MzlJT3hFcy85Ky9rMVZnVjN4VjNVNkJyR1Q5QzJYNldsaXhRWFNlZWNvQm5x?=
- =?utf-8?B?OHJtTVlDNlpVQ3lXRXRqOWQ1clBUUEszelJZUk8raEd1dDRSMEgxM1NhdklE?=
- =?utf-8?B?algrbTRmZWFTUTZWODNIVmxRcUZRb0E2bDV2WkJUZkxkM0o4U0pjcTMxRmRq?=
- =?utf-8?B?cGJBZzJ0cGErLzVqQkc4LzkzWTQ4aU92RWE0Vys1YVlmNi9aTUFQVXFaN2Vy?=
- =?utf-8?B?R21PYXFxRVUxWlM4WktkdEI5UlcvUUpGQXNVTjR6c1pZTTJ2Yms5ajM3Vk56?=
- =?utf-8?B?Zm03MTgzeDlqVmtnZmtrS0N5WUZzSTZhOXBxODBEeURmcjVZcVJFQndxMzJt?=
- =?utf-8?B?c1d6S3ZMencwRXY4aU55MTg2SUJoZDlpQ3NjN3hHSnRsWlMyLzdBWSt1cS9W?=
- =?utf-8?B?WGYvU1VhZU51NHdWWUErN0FSVEFOYzhGclpzbHVCUExjak9MWFY0S3Q1L1Vl?=
- =?utf-8?B?Q2dhWWJtV0RGR3R0VHV2RTlFZHlzV0prVk9YUWwzV1ZqZk1oK1pYLys1dzZZ?=
- =?utf-8?B?N0piUk9meFcxMXgydXJwZXluTGF1cDB0RHVPTlg3T1RLa2lQbXl5dnJFbmRo?=
- =?utf-8?B?eXB1LzVhU1p4Y1pHNEpESkZnbFRHK0RReGhIYkpnK2hSenZEZW1uc0lSOU54?=
- =?utf-8?B?aUVUbjAvekZRRGJZR3VEQWVYRXRTdjVyZ2xmWTkxcW8vckloTVFCTDM2bWJp?=
- =?utf-8?B?a1VwUVdrNTd3RG1FSFIwUnoySkxRZGtHY1Q2OStKZkZEZTNkNzVsQlR5dUJ6?=
- =?utf-8?B?RWM1Q1A4aFdFUFI1QXF3WlhpZktYbDNIQ0FOQ290eFRkUXQxK3JPOEUyMWNv?=
- =?utf-8?B?clNYa1RDRTNoSnFlM1dIK3NSRG5SYlZGUTNFL0YwaTVJbnhiOTFVaXBLR0Vk?=
- =?utf-8?B?YUxyRkJIb001eFArejIvRXlMc2h1TStBS1RMUm5xK0tCdjFmbUJMN3Z6bmw4?=
- =?utf-8?B?MGEzTVo0UHFMV21Va1hHektyMmtRR3JESUx0RFpHencvRlkrT3RtUXFRYW9D?=
- =?utf-8?B?RXorWG1oNVd3K1VDSnZXaFVJTFNVWFhldTZ5Yjl5cGlUWUJmTk82T3pmVDZN?=
- =?utf-8?B?VktFbE1idUVDN0twN242bW9zY0grUkl6cy9ibUJvVjBaSUdDanhlTUE3SUVZ?=
- =?utf-8?B?eVN5VllmRzk4L0k3R054RlJMY2pxdFp2MWF6OG95VkFrb2xwbS9mWDluVHNl?=
- =?utf-8?B?YytNQTlyQ2xvdE4wYUpSS0F3Q0VzZDhvYzRHTzNnL3Q0RlhHYnhULzdZY2dl?=
- =?utf-8?B?WWpUYlowam9ieGRWRS9UOFUwR05wa205WGQwRzA3bmZrcXBoN0ErT1p4Q1VL?=
- =?utf-8?B?VHpjTUF5cVV0RnR3R0hXVytJQm05S2ZTaEVVL3EyZ0wzbnoyOFU3SXhNdHBE?=
- =?utf-8?B?M3dBcys5OFBJSWJBWDlsVE9WQnQ4ck1UaEFLMkRxZGl4Vy92ekVWNlQ2cGp0?=
- =?utf-8?B?eTVUSlZoM3Vyb1ljM0FsSlYrN3ZnUTV2MFBySXBZeUE0REwwWENlWHN5Qnd0?=
- =?utf-8?B?eEI0ODh5TldVRld0Yk1GZkxCeVRzVXJKNGFlemZiU3JYNTg2REdUQk12YzhJ?=
- =?utf-8?B?VmtCQUJnMUJKU3RHQ04zN0tORXJzZm5vSTR3OGhSUnpjeFByYVNWQ0MvZEl4?=
- =?utf-8?B?UTFScGlwY3VRNDc2VGhjRFdXNnkwWjNLcU9zZ2NrSlZPd0trejZscXBBbEND?=
- =?utf-8?B?bkl1d29oSjl5Vng5VXR6Q0N5cWtDUk1pOXNlZ1JXMSsxSlI5dnlwMDVibW9x?=
- =?utf-8?B?OCt5K21DZmtRaXAwdlF6WUMybGhOKzJmbEpVbGRNVndkRUd4ZFlvSlBFRnVs?=
- =?utf-8?B?WHVNUmlQSUdJOEpnV1JNdGtrSTRWZ0N5TmFDVjBPejVwaUR5WlRjVWV5NWJE?=
- =?utf-8?B?YkpjeEFyb3VMZm5DZFVDNythMUZrQU1zaG90eWxVMk1qRC9NQ3FtRGlwQzY4?=
- =?utf-8?B?cllsL0V6YTlqODZzTlVieEVKcXd5SlZUUHErSzNMS2liTm54NzBod1N3MFhn?=
- =?utf-8?B?RFQzd3orVXRjS0NOUVhHRitKY1A3SHJYU29IU2RRelJxdWdLYjR4dC9xY2dO?=
- =?utf-8?Q?pbDKWlUPGkp7BJNEPebb/X15j?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 806f1490-3e74-43f8-dc37-08dc79bbef5a
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2024 17:32:06.3000 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5DpW9cb8a/2tgPzEg+vmwgDCSzd9E2HfAcvAZCWttdaAUNZ6NCXFRa2KeLvJtQAKgsVKBAiqVnwcMwUBzOFQjQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8988
+References: <20240307062957.2323620-1-Wayne.Lin@amd.com>
+ <0847dc03-c7db-47d7-998b-bda2e82ed442@amd.com>
+ <41b87510-7abf-47e8-b28a-9ccc91bbd3c1@leemhuis.info>
+ <177cfae4-b2b5-4e2c-9f1e-9ebe262ce48c@amd.com>
+ <CO6PR12MB5489FA9307280A4442BAD51DFCE72@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <87wmo2hver.fsf@intel.com> <6f66e479-2f5a-477a-9705-dca4a3606760@amd.com>
+ <83df4e94-e1ec-42f6-8a15-6439ef4a25b7@leemhuis.info>
+ <CADnq5_P+WsL8B6B2vK5ENe8VWdvheoHyxoUfgF3Oex8Gvp7Lbg@mail.gmail.com>
+In-Reply-To: <CADnq5_P+WsL8B6B2vK5ENe8VWdvheoHyxoUfgF3Oex8Gvp7Lbg@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 21 May 2024 13:39:44 -0400
+Message-ID: <CADnq5_MYDNBpqXT8snztEGxqHh3N8_7wktNdjedkjnhe1Te6CQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/mst: Fix NULL pointer dereference at
+ drm_dp_add_payload_part2
+To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: "Limonciello, Mario" <mario.limonciello@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ "Lin, Wayne" <Wayne.Lin@amd.com>, "Wentland, Harry" <Harry.Wentland@amd.com>, 
+ "lyude@redhat.com" <lyude@redhat.com>,
+ "imre.deak@intel.com" <imre.deak@intel.com>, 
+ =?UTF-8?Q?Leon_Wei=C3=9F?= <leon.weiss@ruhr-uni-bochum.de>, 
+ "stable@vger.kernel.org" <stable@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, 
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,74 +96,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/21/2024 12:27, Leo Li wrote:
-> 
-> 
-> On 2024-05-21 12:21, Mario Limonciello wrote:
->> On 5/21/2024 11:14, Xaver Hugl wrote:
->>> Am Di., 21. Mai 2024 um 16:00 Uhr schrieb Mario Limonciello
->>> <mario.limonciello@amd.com>:
->>>>
->>>> On 5/21/2024 08:43, Simon Ser wrote:
->>>>> This makes sense to me in general. I like the fact that it's simple 
->>>>> and
->>>>> vendor-neutral.
->>>>>
->>>>> Do we want to hardcode "panel" in the name? Are we sure that this will
->>>>> ever only apply to panels?
->>>>>
->>>>> Do we want to use a name which reflects the intent, rather than the
->>>>> mechanism? In other words, something like "color fidelity" = 
->>>>> "preferred"
->>>>> maybe? (I don't know, just throwing ideas around.)
->>>>
->>>> In that vein, how about:
->>>>
->>>> "power saving policy"
->>>> --> "power saving"
->>>> --> "color fidelity"
->>>
->>> It's not just about colors though, is it? The compositor might want to
->>> disable it to increase the backlight brightness in bright
->>> environments, so "color fidelity" doesn't really sound right
->>
->> Either of these better?
->>
->> "power saving policy"
->> --> "power saving"
->> --> "accuracy"
->>
->> "power saving policy"
->> --> "allowed"
->> --> "forbidden"
->>
->> Or any other idea?
-> 
-> Another consideration in addition to accuracy is latency.
-> 
-> I suppose a compositor may want to disable features such as PSR for 
-> use-cases requiring low latency. Touch and stylus input are some examples.
-> 
-> I wonder if flags would work better than enums? A compositor can set 
-> something like `REQUIRE_ACCURACY & REQUIRE_LOW_LATENCY`, for example.
-> 
+Applied and pushed out:
+https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3D8a0a7b98d4b6eeeab337=
+ec25daa4bc0a5e710a15
 
-I thought we had said the PSR latency issue discussed at the hackfest 
-was likely just a bug and that nominally it won't matter?
+Alex
 
-If it really will matter enough then yeah I think you're right that 
-flags would be better.  More drivers would probably want to opt into the 
-property for the purpose of turning off PSR/PSR2/panel replay as well then.
-
-> - Leo
-> 
->>
->>>
->>>>>
->>>>> Would be nice to add documentation for the property in the "standard
->>>>> connector properties" section.
->>>>
->>>> Ack.
->>>>
->>
-
+On Tue, May 21, 2024 at 12:12=E2=80=AFPM Alex Deucher <alexdeucher@gmail.co=
+m> wrote:
+>
+> I've got it teed up.  Is drm-misc-fixes the right branch since we are
+> in the merge window?
+>
+> Alex
+>
+> On Tue, May 21, 2024 at 7:20=E2=80=AFAM Linux regression tracking (Thorst=
+en
+> Leemhuis) <regressions@leemhuis.info> wrote:
+> >
+> > Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
+> > for once, to make this easily accessible to everyone.
+> >
+> > Hmm, from here it looks like the patch now that it was reviewed more
+> > that a week ago is still not even in -next. Is there a reason?
+> >
+> > I know, we are in the merge window. But at the same time this is a fix
+> > (that already lingered on the lists for way too long before it was
+> > reviewed) for a regression in a somewhat recent kernel, so it in Linus
+> > own words should be "expedited"[1].
+> >
+> > Or are we again just missing a right person for the job in the CC?
+> > Adding Dave and Sima just in case.
+> >
+> > Ciao, Thorsten
+> >
+> > [1]
+> > https://lore.kernel.org/all/CAHk-=3Dwis_qQy4oDNynNKi5b7Qhosmxtoj1jxo5wm=
+B6SRUwQUBQ@mail.gmail.com/
+> >
+> > On 12.05.24 18:11, Limonciello, Mario wrote:
+> > > On 5/10/2024 4:24 AM, Jani Nikula wrote:
+> > >> On Fri, 10 May 2024, "Lin, Wayne" <Wayne.Lin@amd.com> wrote:
+> > >>>> -----Original Message-----
+> > >>>> From: Limonciello, Mario <Mario.Limonciello@amd.com>
+> > >>>> Sent: Friday, May 10, 2024 3:18 AM
+> > >>>> To: Linux regressions mailing list <regressions@lists.linux.dev>;
+> > >>>> Wentland, Harry
+> > >>>> <Harry.Wentland@amd.com>; Lin, Wayne <Wayne.Lin@amd.com>
+> > >>>> Cc: lyude@redhat.com; imre.deak@intel.com; Leon Wei=C3=9F
+> > >>>> <leon.weiss@ruhr-uni-
+> > >>>> bochum.de>; stable@vger.kernel.org; dri-devel@lists.freedesktop.or=
+g;
+> > >>>> amd-
+> > >>>> gfx@lists.freedesktop.org; intel-gfx@lists.freedesktop.org
+> > >>>> Subject: Re: [PATCH] drm/mst: Fix NULL pointer dereference at
+> > >>>> drm_dp_add_payload_part2
+> > >>>>
+> > >>>> On 5/9/2024 07:43, Linux regression tracking (Thorsten Leemhuis) w=
+rote:
+> > >>>>> On 18.04.24 21:43, Harry Wentland wrote:
+> > >>>>>> On 2024-03-07 01:29, Wayne Lin wrote:
+> > >>>>>>> [Why]
+> > >>>>>>> Commit:
+> > >>>>>>> - commit 5aa1dfcdf0a4 ("drm/mst: Refactor the flow for payload
+> > >>>>>>> allocation/removement") accidently overwrite the commit
+> > >>>>>>> - commit 54d217406afe ("drm: use mgr->dev in drm_dbg_kms in
+> > >>>>>>> drm_dp_add_payload_part2") which cause regression.
+> > >>>>>>>
+> > >>>>>>> [How]
+> > >>>>>>> Recover the original NULL fix and remove the unnecessary input
+> > >>>>>>> parameter 'state' for drm_dp_add_payload_part2().
+> > >>>>>>>
+> > >>>>>>> Fixes: 5aa1dfcdf0a4 ("drm/mst: Refactor the flow for payload
+> > >>>>>>> allocation/removement")
+> > >>>>>>> Reported-by: Leon Wei=C3=9F <leon.weiss@ruhr-uni-bochum.de>
+> > >>>>>>> Link:
+> > >>>>>>> https://lore.kernel.org/r/38c253ea42072cc825dc969ac4e6b9b600371=
+cc8.c
+> > >>>>>>> amel@ruhr-uni-bochum.de/
+> > >>>>>>> Cc: lyude@redhat.com
+> > >>>>>>> Cc: imre.deak@intel.com
+> > >>>>>>> Cc: stable@vger.kernel.org
+> > >>>>>>> Cc: regressions@lists.linux.dev
+> > >>>>>>> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+> > >>>>>>
+> > >>>>>> I haven't been deep in MST code in a while but this all looks pr=
+etty
+> > >>>>>> straightforward and good.
+> > >>>>>>
+> > >>>>>> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+> > >>>>>
+> > >>>>> Hmmm, that was three weeks ago, but it seems since then nothing
+> > >>>>> happened to fix the linked regression through this or some other
+> > >>>>> patch. Is there a reason? The build failure report from the CI ma=
+ybe?
+> > >>>>
+> > >>>> It touches files outside of amd but only has an ack from AMD.  I
+> > >>>> think we
+> > >>>> /probably/ want an ack from i915 and nouveau to take it through.
+> > >>>
+> > >>> Thanks, Mario!
+> > >>>
+> > >>> Hi Thorsten,
+> > >>> Yeah, like what Mario said. Would also like to have ack from i915 a=
+nd
+> > >>> nouveau.
+> > >>
+> > >> It usually works better if you Cc the folks you want an ack from! ;)
+> > >>
+> > >> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> > >>
+> > >
+> > > Thanks! Can someone with commit permissions take this to drm-misc?
+> > >
+> > >
+> > >
