@@ -2,82 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013568CB17E
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 17:36:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F050E8CB183
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 17:38:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 030DC10EFD0;
-	Tue, 21 May 2024 15:36:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8EF10E15D;
+	Tue, 21 May 2024 15:38:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LcnTsaJC";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JbcXK/z3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E885B10EFD0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 15:36:46 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-41fd5dc04f0so24460695e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 08:36:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716305805; x=1716910605; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=46MBRG1SoxQr9SxFCn07JGJ8jdLms6wT8cP/QcL3Nhw=;
- b=LcnTsaJCgS5Ql6DBP4OClplI/GlElf6XW76MdE/nwClfETu9VdGw9XUaFaUeSx7tuD
- ieyg/JYgEzf3RZbAe1f4YId04lxKqNgdFfQ8v26NrTvHwbKAMea/KtmzmvKcYx/1Tlv0
- kV/s16zETRZ9U1GbFiXwWjz15K631MIhpBP1LGf7U072ktvhy/HUAw7Y1MUipWPf6tUU
- PLxj4RXQemYpCDPJ59o+wNwSBUKRBW4BpdmvdxCVBaFkNMgFaPTNFLwKTULzXbFCsfm/
- f6wrFpfGvdeHQiL+aINa8lEqtlyLMvkh3/GbkaHRxoTCsoIsyslxzEi/4B3sNCG14LMt
- h37g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716305805; x=1716910605;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=46MBRG1SoxQr9SxFCn07JGJ8jdLms6wT8cP/QcL3Nhw=;
- b=p7tyoZYkcBc9d9GXBIXfzf89fyEDMizIQxWNTgGQXt1OPF7G9tX15ngENTkK9a/SOu
- ur08mHg4BmBHXqMDix0bc/2OMETCaS4U05ViILvPAIigXeqBpu/QR13BvnroRWa1HvTe
- 8TayJ8gWReQPUQh7tgZWoAzqnD3jheIVanbhxGaa8sSxIXgX7Wxv0Hxmguz/N93fIBK+
- CPLABnTgz2CHof52PyiDsd39jwzekBw8pq4ObOdF/aBB/QRnbc13aAkytP+jfTVhfXZu
- kka/9dLrXcfrtlzXMXrrflvPm6mzaX2+h7jOha61foH0rwLE6oMm1L+8c9395TKNnE4V
- bysw==
-X-Gm-Message-State: AOJu0YzO6Qm2zk5XMnb/izj7xZ+H1fmfkU420TEoh0dlrFjuFLSuDdch
- IZ3iZ9+tcifMJMY8jHN0g5tx0+NNmCoX3AsBdyY43kVvnSHXVQ4=
-X-Google-Smtp-Source: AGHT+IFi6H7xCiBQJNeJFOntXvHJMi8HPJVCQ5T8EDXf2/2DlOHcElz5RxvKkaL/QDJl/17ygKhYrg==
-X-Received: by 2002:a05:600c:1c9e:b0:420:29dd:84e3 with SMTP id
- 5b1f17b1804b1-42029dd8829mr162105465e9.26.1716305804872; 
- Tue, 21 May 2024 08:36:44 -0700 (PDT)
-Received: from ?IPV6:2a02:810b:f40:4600:a828:7263:6693:6f6a?
- ([2a02:810b:f40:4600:a828:7263:6693:6f6a])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-42010940845sm391038675e9.35.2024.05.21.08.36.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 May 2024 08:36:44 -0700 (PDT)
-Message-ID: <58ddfc8f-1995-4f41-9d63-35a00c6f92b9@gmail.com>
-Date: Tue, 21 May 2024 17:36:43 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F232D10E2C8;
+ Tue, 21 May 2024 15:38:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=COb2kmr3gM5P1kCCxQjsjSUfGcP4aWSoaPzMlKcB/L8=; b=JbcXK/z3Nq36K/+EuLL0nfDGOA
+ ebWB0fHqW0z1MkCZKwS12jr3lqHcl0O2J3JJcj9gC020eU+/JqqM7hx5Ag2YUbYS8Oon4EJtrWgVO
+ JDbeZ+41MCBIislX6ItvPLvb4yq5eBc5K8Yn8QysoCVvYu2Aqs0p1YATjMOoigM4X99GXNRR9tgcV
+ k2QokQbhdlLnkWDdpQio1J+SJ/R6tYta2eNqPpKtap3dV8J6iQpt4X/QV8ZRHesQ5y8ZMVD87AvPx
+ SW9CCYGWxkUbbiUgxKOOJrFvZTtRBOpNmF27Sd/7A+ED1UFj3snkiX4DVRVtuhCCmk7zrUa+bRH/y
+ kPrxv4TA==;
+Received: from [192.168.13.219] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1s9RZN-00Ahzh-Pl; Tue, 21 May 2024 17:38:29 +0200
+Date: Tue, 21 May 2024 17:38:20 +0200
+From: Melissa Wen <mwen@igalia.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, Alex Hung <alex.hung@amd.com>
+Subject: Re: [RFC PATCH v4 41/42] drm/colorop: Add mutliplier type
+Message-ID: <36ye5xqrcgxqwhiqiylfjuuz3mzb4agfsqlimt74iildgd2k2p@tsithai6xhh3>
+References: <20240226211100.100108-1-harry.wentland@amd.com>
+ <20240226211100.100108-42-harry.wentland@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/10] drm/bridge: add common api for inno hdmi
-To: keith <keith.zhao@starfivetech.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- xingyu.wu@starfivetech.com, p.zabel@pengutronix.de,
- jack.zhu@starfivetech.com, shengyang.chen@starfivetech.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
- <20240521105817.3301-3-keith.zhao@starfivetech.com>
-Content-Language: en-US
-From: Alex Bee <knaerzche@gmail.com>
-In-Reply-To: <20240521105817.3301-3-keith.zhao@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240226211100.100108-42-harry.wentland@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,58 +60,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Keith,
-
-thanks a lot for working on this. See some general remarks below
-Am 21.05.24 um 12:58 schrieb keith:
-> Add INNO common api so that it can be used by vendor
-> drivers which implement vendor specific extensions to Innosilicon HDMI.
+On 02/26, Harry Wentland wrote:
+> From: Alex Hung <alex.hung@amd.com>
 > 
-> Signed-off-by: keith <keith.zhao@starfivetech.com>
+> This introduces a new drm_colorop_type: DRM_COLOROP_MULTIPLIER.
+> 
+> It's a simple multiplier to all pixel values. The value is
+> specified via a S31.32 fixed point provided via the
+> "MULTIPLIER" property.
+> 
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
 > ---
->   MAINTAINERS                                   |   2 +
->   drivers/gpu/drm/bridge/Kconfig                |   2 +
->   drivers/gpu/drm/bridge/Makefile               |   1 +
->   drivers/gpu/drm/bridge/innosilicon/Kconfig    |   6 +
->   drivers/gpu/drm/bridge/innosilicon/Makefile   |   2 +
->   .../gpu/drm/bridge/innosilicon/inno-hdmi.c    | 587 ++++++++++++++++++
->   .../gpu/drm/bridge/innosilicon/inno-hdmi.h    |  97 +++
->   include/drm/bridge/inno_hdmi.h                |  69 ++
->   8 files changed, 766 insertions(+)
->   create mode 100644 drivers/gpu/drm/bridge/innosilicon/Kconfig
->   create mode 100644 drivers/gpu/drm/bridge/innosilicon/Makefile
->   create mode 100644 drivers/gpu/drm/bridge/innosilicon/inno-hdmi.c
->   create mode 100644 drivers/gpu/drm/bridge/innosilicon/inno-hdmi.h
->   create mode 100644 include/drm/bridge/inno_hdmi.h
+>  drivers/gpu/drm/drm_atomic.c      |  3 +++
+>  drivers/gpu/drm/drm_atomic_uapi.c |  4 ++++
+>  drivers/gpu/drm/drm_colorop.c     | 29 +++++++++++++++++++++++++++--
+>  include/drm/drm_colorop.h         | 16 ++++++++++++++++
+>  include/uapi/drm/drm_mode.h       |  1 +
+>  5 files changed, 51 insertions(+), 2 deletions(-)
 > 
-....
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index f7d51839ca03..af0b6338a55c 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -806,6 +806,9 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
+>  	case DRM_COLOROP_CTM_3X4:
+>  		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
+>  		break;
+> +	case DRM_COLOROP_MULTIPLIER:
+> +		drm_printf(p, "\tmultiplier=%u\n", state->multiplier);
 
-> +	drm_encoder_helper_add(encoder, pdata->helper_private);
-> +
-> +	hdmi->connector.polled = DRM_CONNECTOR_POLL_HPD;
-> +
-> +	drm_connector_helper_add(&hdmi->connector,
-> +				 &inno_hdmi_connector_helper_funcs);
-> +
-> +	drmm_connector_init(drm, &hdmi->connector,
-> +			    &inno_hdmi_connector_funcs,
-> +			    DRM_MODE_CONNECTOR_HDMIA,
-> +			    hdmi->ddc);
-> +
-I really don't want to anticipate bridge maintainer's feedback, but new
-bridge drivers must not contain connector creation. That must happen
-somewhere else.
-Also I'm neither seeing any drm_brige struct nor drm_bridge_funcs, which
-are both essential for a bridge driver. I don't think moving a part of a
-driver to .../drm/bridge/ makes it a bridge driver.
+Compiler complains of unsigned int instead of llu.
 
-Regeards,
-Alex
-
-> +	drm_connector_attach_encoder(&hdmi->connector, encoder);
+> +		break;
+>  	default:
+>  		break;
+>  	}
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 6bfe857720cd..b4ecda563728 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -727,6 +727,8 @@ static int drm_atomic_colorop_set_property(struct drm_colorop *colorop,
+>  		state->bypass = val;
+>  	} else if (property == colorop->curve_1d_type_property) {
+>  		state->curve_1d_type = val;
+> +	} else if (property == colorop->multiplier_property) {
+> +		state->multiplier = val;
+>  	} else if (property == colorop->data_property) {
+>  		return drm_atomic_color_set_data_property(colorop,
+>  					state, property, val);
+> @@ -752,6 +754,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *colorop,
+>  		*val = state->bypass;
+>  	} else if (property == colorop->curve_1d_type_property) {
+>  		*val = state->curve_1d_type;
+> +	} else if (property == colorop->multiplier_property) {
+> +		*val = state->multiplier;
+>  	} else if (property == colorop->size_property) {
+>  		*val = state->size;
+>  	} else if (property == colorop->data_property) {
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index 4452eaeeb242..c6cdd743de51 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -35,7 +35,8 @@
+>  static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
+>  	{ DRM_COLOROP_1D_CURVE, "1D Curve" },
+>  	{ DRM_COLOROP_1D_LUT, "1D Curve Custom LUT" },
+> -	{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"}
+> +	{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
+> +	{ DRM_COLOROP_MULTIPLIER, "Multiplier"},
+>  };
+>  
+>  static const char * const colorop_curve_1d_type_names[] = {
+> @@ -231,6 +232,29 @@ int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop
+>  }
+>  EXPORT_SYMBOL(drm_colorop_ctm_3x4_init);
+>  
+> +int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +			      struct drm_plane *plane)
+> +{
+> +	struct drm_property *prop;
+> +	int ret;
+> +
+> +	ret = drm_colorop_init(dev, colorop, plane, DRM_COLOROP_MULTIPLIER);
+> +	if (ret)
+> +		return ret;
+> +
+> +	prop = drm_property_create_range(dev, DRM_MODE_PROP_ATOMIC, "MULTIPLIER", 0, U64_MAX);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	colorop->multiplier_property = prop;
+> +	drm_object_attach_property(&colorop->base, colorop->multiplier_property, 0);
+> +
+> +	drm_colorop_reset(colorop);
 > +
 > +	return 0;
 > +}
+> +EXPORT_SYMBOL(drm_colorop_mult_init);
 > +
-....
-
+>  static void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
+>  							struct drm_colorop_state *state)
+>  {
+> @@ -333,7 +357,8 @@ EXPORT_SYMBOL(drm_colorop_reset);
+>  static const char * const colorop_type_name[] = {
+>  	[DRM_COLOROP_1D_CURVE] = "1D Curve",
+>  	[DRM_COLOROP_1D_LUT] = "1D Curve Custom LUT",
+> -	[DRM_COLOROP_CTM_3X4] = "3x4 Matrix"
+> +	[DRM_COLOROP_CTM_3X4] = "3x4 Matrix",
+> +	[DRM_COLOROP_MULTIPLIER] = "Multiplier",
+>  };
+>  
+>  /**
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index 8adc7ece3bd1..f9f83644cc9f 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -64,6 +64,13 @@ struct drm_colorop_state {
+>  	 */
+>  	enum drm_colorop_curve_1d_type curve_1d_type;
+>  
+> +	/**
+> +	 * @multiplier:
+> +	 *
+> +	 * Multiplier to 'gain' the plane. Format is S31.32 sign-magnitude.
+> +	 */
+> +	uint64_t multiplier;
+> +
+>  	/**
+>  	 * @size:
+>  	 *
+> @@ -186,6 +193,13 @@ struct drm_colorop {
+>  	 */
+>  	struct drm_property *curve_1d_type_property;
+>  
+> +	/**
+> +	 * @multiplier_property:
+> +	 *
+> +	 * Multiplier property for plane gain
+> +	 */
+> +	struct drm_property *multiplier_property;
+> +
+>  	/**
+>  	 * @size_property:
+>  	 *
+> @@ -246,6 +260,8 @@ int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *co
+>  				  struct drm_plane *plane, uint32_t lut_size);
+>  int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+>  			     struct drm_plane *plane);
+> +int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +			      struct drm_plane *plane);
+>  
+>  struct drm_colorop_state *
+>  drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 07fd66dc477c..754fd4c48123 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -876,6 +876,7 @@ enum drm_colorop_type {
+>  	DRM_COLOROP_1D_CURVE,
+>  	DRM_COLOROP_1D_LUT,
+>  	DRM_COLOROP_CTM_3X4,
+> +	DRM_COLOROP_MULTIPLIER,
+>  };
+>  
+>  /**
+> -- 
+> 2.44.0
+> 
