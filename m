@@ -2,68 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819EA8CACE7
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 12:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0F18CAD04
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 13:04:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B092310EAD7;
-	Tue, 21 May 2024 10:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D419B10E156;
+	Tue, 21 May 2024 11:04:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eEU2o//b";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Pjtt6TSD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48B3A10EAD1;
- Tue, 21 May 2024 10:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716289058; x=1747825058;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=HEEgfecDfT/gFkSpbYtQGgMvA7+rpSr2/rQpdv6Or0Y=;
- b=eEU2o//bs1nygYkwupA+DE4NRYRVJsEG0QaqA7lgLN/JTaSP9ab51ceL
- thYYJaYrw+s7/+1c07uAgI0AL8I1ImaDRlXgohh/xB+G5IHFFgu3pxXUa
- hALKVbJKA4shIl7DpKKsUnl15u9FFnuBRPrvJgjngClaQmLJo1BhqW8iJ
- xpfxejCB4KO0x6Im8A8f2HoAdb3UliILF5NdeMuKGMkdgHLocNxlIYzhF
- gR5SG+vBsPXMGRkle91QHs4eC8xbKQMARc8zSl69TfKfv9RXFxiHmKPw7
- 6ucCrTYGWEfAZdyqNvomyEhzzwclPh5KHye3gtHywi75s1R9CbD3NmgiN Q==;
-X-CSE-ConnectionGUID: Tci0BN1uQYyHte6Ve3T2sQ==
-X-CSE-MsgGUID: GozRdBcKR7KMUwCaQ9kVPA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="11630058"
-X-IronPort-AV: E=Sophos;i="6.08,177,1712646000"; d="scan'208";a="11630058"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2024 03:57:37 -0700
-X-CSE-ConnectionGUID: y6Ar1L17SxWajSSBnIYSRA==
-X-CSE-MsgGUID: V3j7ATB+SzWJIuHMc2Ag0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,177,1712646000"; d="scan'208";a="32891204"
-Received: from bvivekan-mobl2.gar.corp.intel.com (HELO intel.com)
- ([10.247.118.249])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2024 03:57:16 -0700
-Date: Tue, 21 May 2024 12:56:57 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@linux.intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH 2/2] drm/i915: Don't treat FLR resets as errors
-Message-ID: <Zkx9-RHwTEnblEXo@ashyti-mobl2.lan>
-References: <20240517112550.251955-1-andi.shyti@linux.intel.com>
- <20240517112550.251955-3-andi.shyti@linux.intel.com>
- <e2a23879-c69e-4b57-a0a0-4c1ac81d9403@linux.intel.com>
- <ZkexSOO9MYt7Y9-8@ashyti-mobl2.lan>
- <b78fea46-2db1-45f9-9d7a-e257bc242c91@linux.intel.com>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B85EF10E07D;
+ Tue, 21 May 2024 11:04:14 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-354cd8da8b9so871698f8f.0; 
+ Tue, 21 May 2024 04:04:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716289453; x=1716894253; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KSXIhpVryOt7s4zHDJSLS8LgF9+/tvqxquQt58i9klo=;
+ b=Pjtt6TSDP27oRZWscMV/MN6JD9gEydegqL+lEKq16PvS+vg9vjMGiDWqCMJUuGmSHR
+ Jqs7ebhF9s/7TzVB9RReL2nIK9efdiQuXaWn6KfRBJqpiFN2pcbet7weTc7LlS5oOXNP
+ DTwxQyl+2BZNaZ2AzodZX5DtYkihNoq3deFHL/0gnvY3iyXurhlSiAUu+s7fo+qKkixi
+ A21ZIQgB05mTEgHD7bHDC1Uqd9mGu2Xf6apNpRvDnQ7Jce2rFkCME1mAdvCTLWXf7nFC
+ aWQMmS6wzJHJPMWXX9YIgB0s/ZTQKS+B0PAtZXEOzK3LjR6gH76gpSsEZ95Ew/1DVeYw
+ clpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716289453; x=1716894253;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KSXIhpVryOt7s4zHDJSLS8LgF9+/tvqxquQt58i9klo=;
+ b=T5yvcNuMor75drsI8T3/usNi53kdY3+oLrM3Zi2+VgI9X8Jocz8Ym47XG5hO05l5ZU
+ Ji8YSMYT0e1RfMjY51453+CUfnCQfhjf+m2EWXjCHqM3AFN6xxCqQUNbgQ2EwqogRwBb
+ 6vjkVRhqJnOpkyXx6eH7jXnkMdHVYkHN85ZWkBT38p0CCPYvzpnMs0jcZyhsAN5SJwIR
+ Fs7mjRQgM5C9U6t4OGUQSpKt9S+ocS9gDI1iM36Ngl2D3yHYhZUCT/fshZncJ4yDdCkg
+ GXAyRCc5QbFdyBBsKopN/wWNG59KnDx1V7TRHR2qUh1LIrdigpIjF7zsv1i9F/cuTTL+
+ U+cg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXe8YjhracVIr/xuKE3ICBQRBko0Rn4aNRhINjBcvGvoqqbGBF3YnkGpiWpkMi5K2uKPKsyyKKC6udCnDNpp2kmJzmjRFkgrn/QZhZAax3kcrn3eJBdHWk/t3/4NCkYe+jt1gLAkZLD9HeJ9B3FkA==
+X-Gm-Message-State: AOJu0YzrxSk3+4aX4iIIEzR2op923CwwV+noWuopFOJJ7OUTJXjFNfWu
+ QPeyMfkTWJa/wtBsC4pOjL70t+VvMyjU/R5RzpYO/xQOiFemtuRf
+X-Google-Smtp-Source: AGHT+IEl//NivIIcUS3kBHqz17NWQPQUFeUg+fzch19f3EUMPQ/DZUm1QYVnnrX9Wyjb4wvmUZL9Fw==
+X-Received: by 2002:adf:ee8d:0:b0:354:d052:e485 with SMTP id
+ ffacd0b85a97d-354d052f128mr898918f8f.63.1716289452677; 
+ Tue, 21 May 2024 04:04:12 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-354c7df311esm4932168f8f.3.2024.05.21.04.04.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 May 2024 04:04:12 -0700 (PDT)
+Message-ID: <d1cea1c8-bef0-48fb-887a-88d0eee9ad6d@gmail.com>
+Date: Tue, 21 May 2024 13:04:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: Remove GC HW IP 9.3.0 from noretry=1
+To: Alex Deucher <alexdeucher@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Tim Van Patten <timvp@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
+ alexander.deucher@amd.com, prathyushi.nangia@amd.com,
+ Tim Van Patten <timvp@google.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Ikshwaku Chauhan <ikshwaku.chauhan@amd.com>, Le Ma <le.ma@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Shaoyun.liu" <Shaoyun.liu@amd.com>,
+ Shiwu Zhang <shiwu.zhang@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20240516115721.1.I8d413e641239c059d018d46cc569048b813a5d9b@changeid>
+ <9dd1cfd1-fe13-4434-a7cc-e14113dcaf53@amd.com>
+ <CADnq5_NGLrrFmFHFX2bC7naByJGofEiYQyWvRP6CO4BDFo52TQ@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <CADnq5_NGLrrFmFHFX2bC7naByJGofEiYQyWvRP6CO4BDFo52TQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b78fea46-2db1-45f9-9d7a-e257bc242c91@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,73 +97,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
+Am 17.05.24 um 17:46 schrieb Alex Deucher:
+> On Fri, May 17, 2024 at 2:35 AM Christian König
+> <christian.koenig@amd.com> wrote:
+>> Am 16.05.24 um 19:57 schrieb Tim Van Patten:
+>>> From: Tim Van Patten <timvp@google.com>
+>>>
+>>> The following commit updated gmc->noretry from 0 to 1 for GC HW IP
+>>> 9.3.0:
+>>>
+>>>       commit 5f3854f1f4e2 ("drm/amdgpu: add more cases to noretry=1")
+>>>
+>>> This causes the device to hang when a page fault occurs, until the
+>>> device is rebooted. Instead, revert back to gmc->noretry=0 so the device
+>>> is still responsive.
+>> Wait a second. Why does the device hang on a page fault? That shouldn't
+>> happen independent of noretry.
+>>
+>> So that strongly sounds like this is just hiding a bug elsewhere.
+> Fair enough, but this is also the only gfx9 APU which defaults to
+> noretry=1, all of the rest are dGPUs.  I'd argue it should align with
+> the other GFX9 APUs or they should all enable noretry=1.
 
-On Fri, May 17, 2024 at 10:13:37PM +0200, Nirmoy Das wrote:
-> Hi Andi,
-> 
-> On 5/17/2024 9:34 PM, Andi Shyti wrote:
-> 
->     Hi Nirmoy,
-> 
->     On Fri, May 17, 2024 at 04:00:02PM +0200, Nirmoy Das wrote:
-> 
->         On 5/17/2024 1:25 PM, Andi Shyti wrote:
-> 
->             If we timeout while waiting for an FLR reset, there is nothing we
->             can do and i915 doesn't have any control on it. In any case the
->             system is still perfectly usable
-> 
->         If a FLR reset fails then we will have a dead GPU, I don't think the GPU is
->         usable without a cold reboot.
-> 
->     fact is that the GPU keeps going and even though the timeout has
->     expired, the system moves to the next phase.
-> 
-> The current test might look like it is has passed, but if you look into the
-> subsequent tests you can see a dead GPU:
-> 
-> <7>[  369.168121] pci 0000:00:02.0: [drm:intel_uncore_fini_mmio [i915]] Triggering Driver-FLR
-> <3>[  372.170189] pci 0000:00:02.0: [drm] *ERROR* Driver-FLR-teardown wait completion failed! -110
-> <7>[  372.437630] [IGT] i915_selftest: finished subtest requests, SUCCESS
-> <7>[  372.438356] [IGT] i915_selftest: starting dynamic subtest migrate
-> <5>[  373.110580] Setting dangerous option live_selftests - tainting kernel
-> <3>[  373.183499] i915 0000:00:02.0: Unable to change power state from D0 to D0, device inaccessible
-> <3>[  373.246921] i915 0000:00:02.0: [drm] *ERROR* Unrecognized display IP version 1023.255; disabling display.
-> <7>[  373.247130] i915 0000:00:02.0: [drm:intel_step_init [i915]] Using future steppings
-> <7>[  373.247716] i915 0000:00:02.0: [drm:intel_step_init [i915]] Using future steppings
-> <7>[  373.248263] i915 0000:00:02.0: [drm:intel_step_init [i915]] Using future display steppings
-> <7>[  373.251843] i915 0000:00:02.0: [drm:intel_gt_common_init_early [i915]] WOPCM: 2048K
-> <7>[  373.252505] i915 0000:00:02.0: [drm:intel_uc_init_early [i915]] GT0: enable_guc=3 (guc:yes submission:yes huc:no slpc:yes)
-> <7>[  373.253140] i915 0000:00:02.0: [drm:intel_gt_probe_all [i915]] GT0: Setting up Primary GT
-> <7>[  373.253556] i915 0000:00:02.0: [drm:intel_gt_probe_all [i915]] GT1: Setting up Standalone Media GT
-> <7>[  373.253941] i915 0000:00:02.0: [drm:intel_gt_common_init_early [i915]] WOPCM: 2048K
-> <7>[  373.254365] i915 0000:00:02.0: [drm:intel_uc_init_early [i915]] GT1: enable_guc=3 (guc:yes submission:yes huc:yes slpc:yes)
-> <3>[  375.256235] i915 0000:00:02.0: [drm] *ERROR* Device is non-operational; MMIO access returns 0xFFFFFFFF!
-> <3>[  375.259089] i915 0000:00:02.0: Device initialization failed (-5)
-> <3>[  375.260521] i915 0000:00:02.0: probe with driver i915 failed with error -5
-> <7>[  375.392209] [IGT] i915_selftest: finished subtest migrate, FAIL
-> 
-> https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_14724/bat-arls-3/dmesg0.txt
+Completely agree.
 
-Are we sure this is dependent on the FLR reset? There are cases
-when the FLR reset doesn't make any difference and in any case
-this error is completely ignored by the driver.
+It's just that while the hardware should theoretically be able to handle 
+recoverable page faults it's just that this features is never tested on 
+APUs because our hw engineering assumes that they don't have to support 
+the use case. That's also the reason why we physically don't have the 
+second IH ring on APUs.
 
-Perhaps we can change it to a warning?
+I strongly suggest that instead of doing that for each hw generations 
+individually to just disallow enabling retry on APUs.
 
->         This is a serious issue and should be report as an error.� I think we need
->         to create a HW ticket to understand
-> 
->         why is FLR reset fails.
-> 
->     Maybe it takes longer and longer to reset. We've been sending
->     several patches in the latest years to fix the timings.
-> 
-> HW spec says 3 sec but we can try increasing it bit higher to try it out.
+Alternatively we could start testing it on hw and sw side and try to fix 
+all the bugs.
 
-We could go, then, with just patch 1 and see if it improves. Also
-because, the FLR reset might also depend on the firmware.
+Regards,
+Christian.
 
-Thanks, Nirmoy,
-Andi
+>
+> Alex
+>
+>> Regards,
+>> Christian.
+>>
+>>> Fixes: 5f3854f1f4e2 ("drm/amdgpu: add more cases to noretry=1")
+>>> Signed-off-by: Tim Van Patten <timvp@google.com>
+>>> ---
+>>>
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c | 1 -
+>>>    1 file changed, 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+>>> index be4629cdac049..bff54a20835f1 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+>>> @@ -876,7 +876,6 @@ void amdgpu_gmc_noretry_set(struct amdgpu_device *adev)
+>>>        struct amdgpu_gmc *gmc = &adev->gmc;
+>>>        uint32_t gc_ver = amdgpu_ip_version(adev, GC_HWIP, 0);
+>>>        bool noretry_default = (gc_ver == IP_VERSION(9, 0, 1) ||
+>>> -                             gc_ver == IP_VERSION(9, 3, 0) ||
+>>>                                gc_ver == IP_VERSION(9, 4, 0) ||
+>>>                                gc_ver == IP_VERSION(9, 4, 1) ||
+>>>                                gc_ver == IP_VERSION(9, 4, 2) ||
+
