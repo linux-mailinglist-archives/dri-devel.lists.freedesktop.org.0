@@ -2,66 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BD88CB1B1
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 17:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088DB8CB1CA
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 17:56:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 436AE10E8C8;
-	Tue, 21 May 2024 15:50:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAC0F10E429;
+	Tue, 21 May 2024 15:56:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XyF6mf72";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qUYMhR9e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1173510E41E;
- Tue, 21 May 2024 15:50:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22D3010E429;
+ Tue, 21 May 2024 15:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=zgVQ90bRfVkCYbEAThB69F+DNsyvAWhF8aqGLJ/Suv4=; b=XyF6mf72COXW9tScnLurZ67fIY
- 8uIHrbm+tRz7dUKWbppyVH711TU206dIyU5ozkyHgxD19gVwjGtXVvqCiqVQI7RArwCPRcJE2ZDsY
- IAoKAVPEQrkWSuDHlAUNTenJkbahh2l5aKDTrU2COY9s+lk9qaFbi60vepBODSHbeiIPTrmRtS9I0
- MXCxRh9OhN84MQ8mKtSZioCXEfxTKPw3WjvnxMdZNY+QX9ZHWK1YF8Q5aPDmyuvrpPSCK4wUUYU/6
- h/R3T1vrvex+KBtVOvqPbg041TEdCrw1gonp/NEuX0Nmac+Oz5SFx7riWS51WdkLO/VjOIp6m68rT
- vb4yDGKA==;
+ bh=GDNuJga51pGTo2RftM9ydGBivel+0kcxb28rX0scxeM=; b=qUYMhR9e5HoNW5+o0fosRNpjIL
+ l/ldChz+gxHFhybNDD7ufgEc1/sHJRmzBk/TUiemzriUze+j6VJ/BuOwK4VN/pMt9WFGeFHkZDNtZ
+ RDPFx3p2mCGjwIR1zrAY4n1W0Bv4Q6mc/55XI5oD4x4yhfPL1XHAhvxAWOnY+SsilP9nuWgz2FGs5
+ 5VHzhCgIJO97lQgW/bhvmwYC3pFP2gfUBTNFRUrjMJa98QwQ6hEaGCKbjy0RxPRFMFF7nwcxJZest
+ lhWc+/ioDCkxTAymMk927MnhXgZqyAzTsr06RXFlNpc8ClFP8nWIBhp5rpR0rt4fKPx9Igyzm8ANx
+ 5PabeIfA==;
 Received: from [192.168.13.219] (helo=mail.igalia.com)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1s9Rkb-00AiHA-Oq; Tue, 21 May 2024 17:50:05 +0200
-Date: Tue, 21 May 2024 17:50:02 +0200
+ id 1s9RqQ-00AiOA-Lr; Tue, 21 May 2024 17:56:06 +0200
+Date: Tue, 21 May 2024 17:55:55 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: Harry Wentland <harry.wentland@amd.com>
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- wayland-devel@lists.freedesktop.org,
- Ville Syrjala <ville.syrjala@linux.intel.com>, 
- Pekka Paalanen <pekka.paalanen@collabora.com>, Simon Ser <contact@emersion.fr>,
- Jonas =?utf-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Sebastian Wick <sebastian.wick@redhat.com>, 
- Shashank Sharma <shashank.sharma@amd.com>, Alexander Goins <agoins@nvidia.com>,
- Joshua Ashton <joshua@froggi.es>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <mdaenzer@redhat.com>, 
- Aleix Pol <aleixpol@kde.org>, Xaver Hugl <xaver.hugl@gmail.com>, 
- Victoria Brekenfeld <victoria@system76.com>, Sima <daniel@ffwll.ch>,
- Uma Shankar <uma.shankar@intel.com>, 
- Naseer Ahmed <quic_naseer@quicinc.com>,
- Christopher Braga <quic_cbraga@quicinc.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Arthur Grillo <arthurgrillo@riseup.net>, 
- Hector Martin <marcan@marcan.st>, Liviu Dudau <Liviu.Dudau@arm.com>, 
- Sasha McIntosh <sashamcintosh@google.com>,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Subject: Re: [RFC PATCH v4 00/42] Color Pipeline API w/ VKMS
-Message-ID: <6kns5q2t5xodt47mywh4xoebdghqhwmuhayds7dqia22cvayph@ambkn3cwrdmf>
+ wayland-devel@lists.freedesktop.org, Alex Hung <alex.hung@amd.com>
+Subject: Re: [RFC PATCH v4 31/42] drm/amd/display: Add support for sRGB EOTF
+ in DEGAM block
+Message-ID: <7uq56gktwrdctjiceztykimxhhhbctal3i44e6boi6pjynkgh3@7dkc7ama75pf>
 References: <20240226211100.100108-1-harry.wentland@amd.com>
+ <20240226211100.100108-32-harry.wentland@amd.com>
+ <irl6ryufwrzapa4beqqixx33bedzsev35spj6rh2ln54vhi25f@haapi627kfyl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240226211100.100108-1-harry.wentland@amd.com>
+In-Reply-To: <irl6ryufwrzapa4beqqixx33bedzsev35spj6rh2ln54vhi25f@haapi627kfyl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,262 +62,310 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/26, Harry Wentland wrote:
-> This is an RFC set for a color pipeline API, along with a sample
-> implementation in VKMS. All the key API bits are here. VKMS now
-> supports two named transfer function colorops and two matrix
-> colorops. We have IGT tests that check all four of these colorops
-> with a pixel-by-pixel comparison that checks that these colorops
-> do what we expect them to do with a +/- 1 8 bpc code point margin.
-> 
-> The big new change with v4 is the addition of an amdgpu color
-> pipeline, for all AMD GPUs with DCN 3 and newer. Amdgpu now support
-> the following:
-> 
-> 1. 1D Curve EOTF
-> 2. 3x4 CTM
-> 3. Multiplier
-> 4. 1D Curve Inverse EOTF
-> 5. 1D LUT
-> 6. 1D Curve EOTF
-> 7. 1D LUT
-> 
-> The supported curves for the 1D Curve type are:
-> - sRGB EOTF and its inverse
-> - PQ EOTF, scaled to [0.0, 125.0] and its inverse
-> - BT.2020/BT.709 OETF and its inverse
-> 
-> Note that the 1st and 5th colorops take the EOTF or Inverse
-> OETF while the 3rd colorop takes the Inverse EOTF or OETF.
-> 
-> We are working on two more ops for amdgpu, the HDR multiplier
-> and the 3DLUT, which will give us this:
-> 
-> 1. 1D Curve EOTF
-> 2. 3x4 CTM
-> 3. HDR Multiplier
-> 4. 1D Curve Inverse EOTF
-> 5. 1D LUT
-> 6. 3D LUT
-> 7. 1D Curve EOTF
-> 8. 1D LUT
-> 
-> This, essentially mirrors the color pipeline used by gamescope
-> and presented by Melissa Wen, with the exception of the DEGAM
-> LUT, which is not currently used. See
-> [1] https://indico.freedesktop.org/event/4/contributions/186/attachments/138/218/xdc2023-TheRainbowTreasureMap-MelissaWen.pdf
-> 
-> After this we'd like to also add the following ops:
-> - Scaler (Informational only)
-> - Color Encoding, to replace drm_plane's COLOR_ENCODING
-> - Color Range, to replace drm_plane's COLOR_RANGE
-> 
-> This patchset is grouped as follows:
->  - Patches 1-3: couple general patches/fixes
->  - Patches 4-7: introduce kunit to VKMS
->  - Patch 7: description of motivation and details behind the
->             Color Pipeline API. If you're reading nothing else
->             but are interested in the topic I highly recommend
->             you take a look at this.
->  - Patches 7-27: DRM core and VKMS changes for color pipeline API
->  - Patches 28-40: DRM core and amdgpu changes for color pipeline API
-> 
-> VKMS patches could still be improved in a few ways, though the
-> payoff might be limited and I would rather focus on other work
-> at the moment. The most obvious thing to improve would be to
-> eliminate the hard-coded LUTs for identity, and sRGB, and replace
-> them with fixed-point math instead.
-> 
-> There are plenty of things that I would like to see here but
-> haven't had a chance to look at. These will (hopefully) be
-> addressed in future iterations, either in VKMS or amdgpu:
->  - Clear documentation for each drm_colorop_type
->  - Add custom LUT colorops to VKMS
->  - Add pre-blending 3DLUT
->  - How to support HW which can't bypass entire pipeline?
->  - Add ability to create colorops that don't have BYPASS
->  - Can we do a LOAD / COMMIT model for LUTs (and other properties)?
->  - read-only scaling colorop which defines scaling taps and position
->  - read-only color format colorop to define supported color formats
->    for a pipeline
->  - named matrices, for things like converting YUV to RGB
-> 
-> IGT tests can be found at
-> https://gitlab.freedesktop.org/hwentland/igt-gpu-tools/-/merge_requests/1
-> 
-> IGT patches are also being sent to the igt-dev mailing list.
-> 
-> If you prefer a gitlab MR for review you can find it at
-> https://gitlab.freedesktop.org/hwentland/linux/-/merge_requests/5
-> 
-> v4:
+On 05/21, Melissa Wen wrote:
+> On 02/26, Harry Wentland wrote:
+> > From: Alex Hung <alex.hung@amd.com>
+> > 
+> > Expose one 1D curve colorop with support for
+> > DRM_COLOROP_1D_CURVE_SRGB_EOTF and program HW to perform
+> > the sRGB transform when the colorop is not in bypass.
+> > 
+> > With this change the following IGT test passes:
+> > kms_colorop --run plane-XR30-XR30-srgb_eotf
+> > 
+> > The color pipeline now consists of a single colorop:
+> > 1. 1D curve colorop w/ sRGB EOTF
+> > 
+> > Signed-off-by: Alex Hung <alex.hung@amd.com>
+> > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > Co-developed-by: Harry Wentland <harry.wentland@amd.com>
+> > ---
+> >  .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  3 +-
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 88 +++++++++++++++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 58 ++++++++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h | 34 +++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 10 +++
+> >  5 files changed, 192 insertions(+), 1 deletion(-)
+> >  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> >  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+> > 
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > index ab2a97e354da..46158d67ab12 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > @@ -38,7 +38,8 @@ AMDGPUDM = \
+> >  	amdgpu_dm_pp_smu.o \
+> >  	amdgpu_dm_psr.o \
+> >  	amdgpu_dm_replay.o \
+> > -	amdgpu_dm_wb.o
+> > +	amdgpu_dm_wb.o \
+> > +	amdgpu_dm_colorop.o
+> >  
+> >  ifdef CONFIG_DRM_AMD_DC_FP
+> >  AMDGPUDM += dc_fpu.o
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > index 9b527bffe11a..3ec759934669 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> > @@ -668,6 +668,19 @@ amdgpu_tf_to_dc_tf(enum amdgpu_transfer_function tf)
+> >  	}
+> >  }
+> >  
+> > +static enum dc_transfer_func_predefined
+> > +amdgpu_colorop_tf_to_dc_tf(enum drm_colorop_curve_1d_type tf)
+> > +{
+> > +	switch (tf)
+> > +	{
+> > +	case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
+> > +	case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
+> > +		return TRANSFER_FUNCTION_SRGB;
+> > +	default:
+> > +		return TRANSFER_FUNCTION_LINEAR;;
+Nitpick: double `;` 
 
-Hey,
-
-I'm not sure if this is the latest version, but this is the one I'm
-using now. I just pointed out some minor issues that I found when
-applying this series for testing, so I won't forget to report. But I'm
-still performing tests and validations on my side.
-
-Melissa
-
->  - Add amdgpu color pipeline (WIP)
->  - Don't block setting of deprecated properties, instead pass client cap
->    to atomic check so drivers can ignore these props
->  - Drop IOCTL definitions (Pekka)
->  - Use enum property for colorop TYPE (Pekka)
->  - A few cleanups to the docs (Pekka)
->  - Rework the TYPE enum to name relation to avoid code duplication (Pekka)
->  - Add missing function declarations (Chaitanya Kumar Borah)
->  - Allow setting of NEXT property to NULL in _set_ function (Chaitanya Kumar Borah)
->  - Add helper for creation of pipeline drm_plane property (Pekka)
->  - Always create Bypass pipeline (Pekka)
->  - A bunch of changes to VKMS kunit tests (Pekka)
->  - Fix index in CTM doc (Pekka)
+> > +	}
+> > +}
+> > +
+> >  static void __to_dc_lut3d_color(struct dc_rgb *rgb,
+> >  				const struct drm_color_lut lut,
+> >  				int bit_precision)
+> > @@ -1137,6 +1150,59 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+> >  	return 0;
+> >  }
+> >  
+> > +static int
+> > +__set_colorop_in_tf_1d_curve(struct dc_plane_state *dc_plane_state,
+> > +		       struct drm_colorop_state *colorop_state)
+> > +{
+> > +	struct dc_transfer_func *tf = dc_plane_state->in_transfer_func;
 > 
-> v3:
->  - Abandon IOCTLs and discover colorops as clients iterate the pipeline
->  - Remove need for libdrm
->  - Add color_pipeline client cap and make mutually exclusive with
->    COLOR_RANGE and COLOR_ENCODING properties
->  - add CTM colorop to VKMS
->  - Use include way for kunit testing static functions (Arthur)
->  - Make TYPE a range property
->  - Move enum drm_colorop_type to uapi header
->  - and a bunch of smaller bits that are highlighted in the relevant commit
->    description
+> For this patch and the next two, it ^ should be:
+> `&dc_plane_state->in_transfer_func` (same for shape and blend), right?
 > 
-> v2:
->  - Rebased on drm-misc-next
->  - Introduce a VKMS Kunit so we can test LUT functionality in vkms_composer
->  - Incorporate feedback in color_pipeline.rst doc
->  - Add support for sRGB inverse EOTF
->  - Add 2nd enumerated TF colorop to VKMS
->  - Fix LUTs and some issues with applying LUTs in VKMS
-> 
-> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Melissa Wen <mwen@igalia.com>
-> Cc: Jonas Ådahl <jadahl@redhat.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Shashank Sharma <shashank.sharma@amd.com>
-> Cc: Alexander Goins <agoins@nvidia.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: Michel Dänzer <mdaenzer@redhat.com>
-> Cc: Aleix Pol <aleixpol@kde.org>
-> Cc: Xaver Hugl <xaver.hugl@gmail.com>
-> Cc: Victoria Brekenfeld <victoria@system76.com>
-> Cc: Sima <daniel@ffwll.ch>
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Naseer Ahmed <quic_naseer@quicinc.com>
-> Cc: Christopher Braga <quic_cbraga@quicinc.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Arthur Grillo <arthurgrillo@riseup.net>
-> Cc: Hector Martin <marcan@marcan.st>
-> Cc: Liviu Dudau <Liviu.Dudau@arm.com>
-> Cc: Sasha McIntosh <sashamcintosh@google.com>
-> Cc: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> 
-> Alex Hung (10):
->   drm/colorop: define a new macro for_each_new_colorop_in_state
->   drm/amd/display: Skip color pipeline initialization for cursor plane
->   drm/amd/display: Add support for sRGB EOTF in DEGAM block
->   drm/amd/display: Add support for sRGB Inverse EOTF in SHAPER block
->   drm/amd/display: Add support for sRGB EOTF in BLND block
->   drm/colorop: Add 1D Curve Custom LUT type
->   drm/amd/display: add shaper and blend colorops for 1D Curve Custom LUT
->   drm/amd/display: add 3x4 matrix colorop
->   drm/colorop: Add mutliplier type
->   drm/amd/display: add multiplier colorop
-> 
-> Harry Wentland (32):
->   drm: Don't treat 0 as -1 in drm_fixp2int_ceil
->   drm: Add helper for conversion from signed-magnitude
->   drm: Correctly round for fixp2int_round
->   drm/vkms: Round fixp2int conversion in lerp_u16
->   drm/vkms: Create separate Kconfig file for VKMS
->   drm/vkms: Add kunit tests for VKMS LUT handling
->   drm/vkms: Avoid reading beyond LUT array
->   drm/doc/rfc: Describe why prescriptive color pipeline is needed
->   drm/colorop: Introduce new drm_colorop mode object
->   drm/colorop: Add TYPE property
->   drm/colorop: Add 1D Curve subtype
->   drm/colorop: Add BYPASS property
->   drm/colorop: Add NEXT property
->   drm/colorop: Add atomic state print for drm_colorop
->   drm/plane: Add COLOR PIPELINE property
->   drm/colorop: Add NEXT to colorop state print
->   drm/vkms: Add enumerated 1D curve colorop
->   drm/vkms: Add kunit tests for linear and sRGB LUTs
->   drm/colorop: Introduce DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE
->   drm/colorop: Add 3x4 CTM type
->   drm/vkms: Pull apply_colorop out of pre_blend_color_transform
->   drm/vkms: Use s32 for internal color pipeline precision
->   drm/vkms: add 3x4 matrix in color pipeline
->   drm/tests: Add a few tests around drm_fixed.h
->   drm/vkms: Add tests for CTM handling
->   drm/colorop: pass plane_color_pipeline client cap to atomic check
->   drm/amd/display: Ignore deprecated props when plane_color_pipeline set
->   drm/amd/display: Add bypass COLOR PIPELINE
->   drm/colorop: Add PQ 125 EOTF and its inverse
->   drm/amd/display: Enable support for PQ 125 EOTF and Inverse
->   drm/colorop: add BT2020/BT709 OETF and Inverse OETF
->   drm/amd/display: Add support for BT.709 and BT.2020 TFs
-> 
->  Documentation/gpu/rfc/color_pipeline.rst      | 360 ++++++++
->  drivers/gpu/drm/Kconfig                       |  14 +-
->  drivers/gpu/drm/Makefile                      |   1 +
->  .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   3 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   4 +
->  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 352 ++++++++
->  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 160 ++++
->  .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h |  36 +
->  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  32 +
->  drivers/gpu/drm/drm_atomic.c                  | 161 +++-
->  drivers/gpu/drm/drm_atomic_helper.c           |  12 +
->  drivers/gpu/drm/drm_atomic_state_helper.c     |   5 +
->  drivers/gpu/drm/drm_atomic_uapi.c             | 158 ++++
->  drivers/gpu/drm/drm_colorop.c                 | 411 +++++++++
->  drivers/gpu/drm/drm_ioctl.c                   |   7 +
->  drivers/gpu/drm/drm_mode_config.c             |   7 +
->  drivers/gpu/drm/drm_plane.c                   |  52 ++
->  drivers/gpu/drm/tests/Makefile                |   3 +-
->  drivers/gpu/drm/tests/drm_fixp_test.c         |  69 ++
->  drivers/gpu/drm/vkms/Kconfig                  |  20 +
->  drivers/gpu/drm/vkms/Makefile                 |   4 +-
->  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
->  drivers/gpu/drm/vkms/tests/vkms_color_tests.c | 449 ++++++++++
->  drivers/gpu/drm/vkms/vkms_colorop.c           | 100 +++
->  drivers/gpu/drm/vkms/vkms_composer.c          | 135 ++-
->  drivers/gpu/drm/vkms/vkms_drv.h               |   8 +
->  drivers/gpu/drm/vkms/vkms_luts.c              | 802 ++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_luts.h              |  12 +
->  drivers/gpu/drm/vkms/vkms_plane.c             |   2 +
->  include/drm/drm_atomic.h                      | 122 +++
->  include/drm/drm_atomic_uapi.h                 |   3 +
->  include/drm/drm_colorop.h                     | 301 +++++++
->  include/drm/drm_file.h                        |   7 +
->  include/drm/drm_fixed.h                       |  35 +-
->  include/drm/drm_mode_config.h                 |  18 +
->  include/drm/drm_plane.h                       |  13 +
->  include/uapi/drm/drm.h                        |  16 +
->  include/uapi/drm/drm_mode.h                   |  14 +
->  38 files changed, 3882 insertions(+), 30 deletions(-)
->  create mode 100644 Documentation/gpu/rfc/color_pipeline.rst
->  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
->  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
->  create mode 100644 drivers/gpu/drm/drm_colorop.c
->  create mode 100644 drivers/gpu/drm/tests/drm_fixp_test.c
->  create mode 100644 drivers/gpu/drm/vkms/Kconfig
->  create mode 100644 drivers/gpu/drm/vkms/tests/.kunitconfig
->  create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_tests.c
->  create mode 100644 drivers/gpu/drm/vkms/vkms_colorop.c
->  create mode 100644 drivers/gpu/drm/vkms/vkms_luts.c
->  create mode 100644 drivers/gpu/drm/vkms/vkms_luts.h
->  create mode 100644 include/drm/drm_colorop.h
-> 
-> --
-> 2.44.0
-> 
+> > +	struct drm_colorop *colorop = colorop_state->colorop;
+> > +	struct drm_device *drm = colorop->dev;
+> > +
+> > +	if (colorop->type != DRM_COLOROP_1D_CURVE &&
+> > +	    colorop_state->curve_1d_type != DRM_COLOROP_1D_CURVE_SRGB_EOTF)
+> > +		return -EINVAL;
+> > +
+> > +	if (colorop_state->bypass) {
+> > +		tf->type = TF_TYPE_BYPASS;
+> > +		tf->tf = TRANSFER_FUNCTION_LINEAR;
+> > +		return 0;
+> > +	}
+> > +
+> > +	drm_dbg(drm, "Degamma colorop with ID: %d\n", colorop->base.id);
+> > +
+> > +	tf->type = TF_TYPE_PREDEFINED;
+> > +	tf->tf = amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int
+> > +__set_dm_plane_colorop_degamma(struct drm_plane_state *plane_state,
+> > +			       struct dc_plane_state *dc_plane_state,
+> > +			       struct drm_colorop *colorop)
+> > +{
+> > +	struct drm_colorop *old_colorop;
+> > +	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
+> > +	struct drm_atomic_state *state = plane_state->state;
+> > +	int i = 0;
+> > +
+> > +	old_colorop = colorop;
+> > +
+> > +	/* 1st op: 1d curve - degamma */
+> > +	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
+> > +		if (new_colorop_state->colorop == old_colorop &&
+> > +		    new_colorop_state->curve_1d_type == DRM_COLOROP_1D_CURVE_SRGB_EOTF) {
+> > +			colorop_state = new_colorop_state;
+> > +			break;
+> > +		}
+> > +	}
+> > +
+> > +	if (!colorop_state)
+> > +		return -EINVAL;
+> > +
+> > +	return __set_colorop_in_tf_1d_curve(dc_plane_state, colorop_state);
+> > +}
+> > +
+> >  static int
+> >  amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
+> >  				     struct dc_plane_state *dc_plane_state)
+> > @@ -1187,6 +1253,25 @@ amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
+> >  	return 0;
+> >  }
+> >  
+> > +static int
+> > +amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
+> > +		       struct dc_plane_state *dc_plane_state)
+> > +{
+> > +	struct drm_colorop *colorop = plane_state->color_pipeline;
+> > +	int ret;
+> > +
+> > +	/* 1D Curve - DEGAM TF */
+> > +	if (!colorop) {
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	ret = __set_dm_plane_colorop_degamma(plane_state, dc_plane_state, colorop);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  /**
+> >   * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC plane.
+> >   * @crtc: amdgpu_dm crtc state
+> > @@ -1283,5 +1368,8 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+> >  		dc_plane_state->input_csc_color_matrix.enable_adjustment = false;
+> >  	}
+> >  
+> > +	if (!amdgpu_dm_plane_set_colorop_properties(plane_state, dc_plane_state))
+> > +		return 0;
+> > +
+> >  	return amdgpu_dm_plane_set_color_properties(plane_state, dc_plane_state);
+> >  }
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> > new file mode 100644
+> > index 000000000000..e8b7fc8bb0f1
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> > @@ -0,0 +1,58 @@
+> > +// SPDX-License-Identifier: MIT
+> > +/*
+> > + * Copyright 2023 Advanced Micro Devices, Inc.
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person obtaining a
+> > + * copy of this software and associated documentation files (the "Software"),
+> > + * to deal in the Software without restriction, including without limitation
+> > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> > + * and/or sell copies of the Software, and to permit persons to whom the
+> > + * Software is furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be included in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> > + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> > + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> > + * OTHER DEALINGS IN THE SOFTWARE.
+> > + *
+> > + * Authors: AMD
+> > + *
+> > + */
+> > +
+> > +#include <drm/drm_print.h>
+> > +#include <drm/drm_plane.h>
+> > +#include <drm/drm_property.h>
+> > +#include <drm/drm_colorop.h>
+> > +
+> > +#include "amdgpu_dm_colorop.h"
+> > +
+> > +const u64 amdgpu_dm_supported_degam_tfs =
+> > +	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF);
+> > +
+> > +int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
+> > +{
+> > +	struct drm_colorop *op;
+> > +	struct drm_device *dev = plane->dev;
+> > +	int ret;
+> > +
+> > +	/* 1D curve - DEGAM TF */
+> > +	op = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+> > +	if (!op) {
+> > +		DRM_ERROR("KMS: Failed to allocate colorop\n");
+> > +		return -ENOMEM;
+> > +	}
+> > +
+> > +	ret = drm_colorop_curve_1d_init(dev, op, plane, amdgpu_dm_supported_degam_tfs);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	list->type = op->base.id;
+> > +	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", op->base.id);
+> > +
+> > +	return 0;
+> > +}
+> > \ No newline at end of file
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+> > new file mode 100644
+> > index 000000000000..f16de6a9fbde
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+> > @@ -0,0 +1,34 @@
+> > +// SPDX-License-Identifier: MIT
+> > +/*
+> > + * Copyright 2023 Advanced Micro Devices, Inc.
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person obtaining a
+> > + * copy of this software and associated documentation files (the "Software"),
+> > + * to deal in the Software without restriction, including without limitation
+> > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> > + * and/or sell copies of the Software, and to permit persons to whom the
+> > + * Software is furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be included in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> > + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> > + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> > + * OTHER DEALINGS IN THE SOFTWARE.
+> > + *
+> > + * Authors: AMD
+> > + *
+> > + */
+> > +
+> > +#ifndef __AMDGPU_DM_COLOROP_H__
+> > +#define __AMDGPU_DM_COLOROP_H__
+> > +
+> > +extern const u64 amdgpu_dm_supported_degam_tfs;
+> > +
+> > +int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list);
+> > +
+> > +#endif /* __AMDGPU_DM_COLOROP_H__*/
+> > \ No newline at end of file
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > index d3f64f586243..3adab18332d8 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > @@ -35,6 +35,7 @@
+> >  #include "amdgpu_display.h"
+> >  #include "amdgpu_dm_trace.h"
+> >  #include "amdgpu_dm_plane.h"
+> > +#include "amdgpu_dm_colorop.h"
+> >  #include "gc/gc_11_0_0_offset.h"
+> >  #include "gc/gc_11_0_0_sh_mask.h"
+> >  
+> > @@ -1658,10 +1659,19 @@ dm_plane_init_colorops(struct drm_plane *plane)
+> >  {
+> >  	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
+> >  	int len = 0;
+> > +	int ret;
+> >  
+> >  	if (plane->type == DRM_PLANE_TYPE_CURSOR)
+> >  		return 0;
+> >  
+> > +	/* initialize default pipeline */
+> > +	ret = amdgpu_dm_initialize_default_pipeline(plane, &(pipelines[len]));
+> > +	if (ret) {
+> > +		DRM_ERROR("Failed to create color pipeline for plane %d: %d\n", plane->base.id, ret);
+> > +		return ret;
+> > +	}
+> > +	len++;
+> > +
+> >  	/* Create COLOR_PIPELINE property and attach */
+> >  	drm_plane_create_color_pipeline_property(plane, pipelines, len);
+> >  
+> > -- 
+> > 2.44.0
+> > 
