@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A528CB4C8
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 22:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700BB8CB4EE
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 22:53:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EADA010E0D7;
-	Tue, 21 May 2024 20:40:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39D9D10E935;
+	Tue, 21 May 2024 20:53:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hDwHdGYG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GPMGC4rc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F39EC10E0D7
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 20:40:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02F9310E935
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 20:53:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716324032; x=1747860032;
+ t=1716324797; x=1747860797;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=a7HBpYV952J/NzsIFy4t5Olu/Ny1r0SLPd7DBdGJaTc=;
- b=hDwHdGYGIx4gDiMbR+Q9sxdGcwBnCaQNiPAUEnmE5IYRwVmuQoSpgmJo
- DuIPAMcJC0WoMfAnO6zI054Vcb4fWmCvd02WUN+aCkJhYfQ5f0pbTU1A4
- 2i6Wm3yXHJHAjxC4esDh8tIC7hZCBA6Ak9G8sNbzclXvcyuLeGZHzUTC/
- TnYlFlS3+IE6ZUpP+CeoDyutMw2yGH9cTeL+F03NesngKEodohAfb646B
- s6G1EkxrMeEMLLsAhpNLlNE13yDchW2Rt9SVpcuu/RaJYUQKhOqJsuZvn
- VGTi5QH4AkoFtub0cwtF4o8+GJNVwenCJK8fyQCQ3xiUAhCu8VJjjLa5y g==;
-X-CSE-ConnectionGUID: a4XDi9/NTDe7fjD9tqQWuA==
-X-CSE-MsgGUID: IFDGpOFTQG6Mwj7kH1Eh8g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="30068666"
-X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; d="scan'208";a="30068666"
+ bh=Nk2m5drImbAFQMh1gv5SA4MPVptzBY8LHz5L3E6IPO4=;
+ b=GPMGC4rcacZTBYqUmjHjHsdfJ+WG21uAyqekWFbTeyzdzgnLN8BrDTn4
+ nw3ShJS5HFaqhABtfnFvjaXdAMfaOcx7ye3wFi+q+QpKdGF92anCqk/99
+ RqacaRP/LSvlfvWMtZulS0aF5J4ilIQdz+R3TwR0nhrlTEy4hDyrrTH75
+ rBJ/isi2tSfxcNDO7RiRHud0OueDkGMKfpKijwOlVQdUhWUIZAzWZ4+gG
+ watrrpVHBKMfwFY1HeFN1Ludb/UPjDKw6XT2XfKuoHLC58MtlrZzgZTFf
+ wrp3aVAn3g06bK2gn0yLTft1Y5+iayJEy7ByL5SA1fm0V0QRsQC1e+w6h w==;
+X-CSE-ConnectionGUID: AmlypPriQ5asLeee8W8ayg==
+X-CSE-MsgGUID: m6yzbY30RzyvFmdTGzAMxA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="30069553"
+X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; d="scan'208";a="30069553"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2024 13:40:31 -0700
-X-CSE-ConnectionGUID: gobwC626TcO4ZqmEhMLEXA==
-X-CSE-MsgGUID: FYk2rclmRAKYeyzfQKofPQ==
+ 21 May 2024 13:53:16 -0700
+X-CSE-ConnectionGUID: xGwXe5saR4eZACAD1ZMX5A==
+X-CSE-MsgGUID: Bh7ZAIoNSDSkYE0WYniw5Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; d="scan'208";a="37813587"
+X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; d="scan'208";a="37816431"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
- by orviesa003.jf.intel.com with ESMTP; 21 May 2024 13:40:24 -0700
+ by orviesa003.jf.intel.com with ESMTP; 21 May 2024 13:53:08 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1s9WHG-0000i1-1y;
- Tue, 21 May 2024 20:40:21 +0000
-Date: Wed, 22 May 2024 04:39:47 +0800
+ (envelope-from <lkp@intel.com>) id 1s9WTa-0000ih-1m;
+ Tue, 21 May 2024 20:52:55 +0000
+Date: Wed, 22 May 2024 04:50:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: keith <keith.zhao@starfivetech.com>, andrzej.hajda@intel.com,
  neil.armstrong@linaro.org, rfoss@kernel.org,
@@ -55,16 +55,18 @@ To: keith <keith.zhao@starfivetech.com>, andrzej.hajda@intel.com,
  andy.yan@rock-chips.com, xingyu.wu@starfivetech.com,
  p.zabel@pengutronix.de, jack.zhu@starfivetech.com,
  shengyang.chen@starfivetech.com
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, keith.zhao@starfivetech.com
-Subject: Re: [PATCH v4 06/10] drm/vs: add vs plane api
-Message-ID: <202405220419.2XNzWyBP-lkp@intel.com>
-References: <20240521105817.3301-7-keith.zhao@starfivetech.com>
+Subject: Re: [PATCH v4 04/10] drm/vs: Add hardware funcs for vs.
+Message-ID: <202405220427.loHTDi8t-lkp@intel.com>
+References: <20240521105817.3301-5-keith.zhao@starfivetech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240521105817.3301-7-keith.zhao@starfivetech.com>
+In-Reply-To: <20240521105817.3301-5-keith.zhao@starfivetech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,35 +95,22 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/keith/dt-bindings-display-Add-YAML-schema-for-JH7110-display-pipeline/20240521-110316
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240521105817.3301-7-keith.zhao%40starfivetech.com
-patch subject: [PATCH v4 06/10] drm/vs: add vs plane api
-config: m68k-randconfig-r133-20240522 (https://download.01.org/0day-ci/archive/20240522/202405220419.2XNzWyBP-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240522/202405220419.2XNzWyBP-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240521105817.3301-5-keith.zhao%40starfivetech.com
+patch subject: [PATCH v4 04/10] drm/vs: Add hardware funcs for vs.
+config: arc-kismet-CONFIG_DMA_CMA-CONFIG_DRM_VERISILICON_DC8200-0-0 (https://download.01.org/0day-ci/archive/20240522/202405220427.loHTDi8t-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240522/202405220427.loHTDi8t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405220419.2XNzWyBP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405220427.loHTDi8t-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/verisilicon/vs_plane.c:83:30: sparse: sparse: symbol 'vs_plane_funcs' was not declared. Should it be static?
->> drivers/gpu/drm/verisilicon/vs_plane.c:339:37: sparse: sparse: symbol 'primary_plane_helpers' was not declared. Should it be static?
->> drivers/gpu/drm/verisilicon/vs_plane.c:345:37: sparse: sparse: symbol 'overlay_plane_helpers' was not declared. Should it be static?
->> drivers/gpu/drm/verisilicon/vs_plane.c:351:37: sparse: sparse: symbol 'cursor_plane_helpers' was not declared. Should it be static?
-
-vim +/vs_plane_funcs +83 drivers/gpu/drm/verisilicon/vs_plane.c
-
-    82	
-  > 83	const struct drm_plane_funcs vs_plane_funcs = {
-    84		.update_plane		= drm_atomic_helper_update_plane,
-    85		.disable_plane		= drm_atomic_helper_disable_plane,
-    86		.reset			= vs_plane_reset,
-    87		.atomic_duplicate_state = vs_plane_atomic_duplicate_state,
-    88		.atomic_destroy_state	= vs_plane_atomic_destroy_state,
-    89		.format_mod_supported	= vs_format_mod_supported,
-    90	};
-    91	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DMA_CMA when selected by DRM_VERISILICON_DC8200
+   WARNING: unmet direct dependencies detected for DMA_CMA
+     Depends on [n]: HAVE_DMA_CONTIGUOUS [=n] && CMA [=y]
+     Selected by [y]:
+     - DRM_VERISILICON_DC8200 [=y] && HAS_IOMEM [=y] && DRM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
