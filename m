@@ -2,76 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED75C8CA5A7
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 03:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B1A8CA5DA
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 03:35:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C57A10E401;
-	Tue, 21 May 2024 01:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37E5210E4AC;
+	Tue, 21 May 2024 01:35:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QmXrbNgK";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bIqCixtd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com
- [209.85.166.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5178910E401
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 01:16:21 +0000 (UTC)
-Received: by mail-il1-f171.google.com with SMTP id
- e9e14a558f8ab-36c791e9faaso20783455ab.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2024 18:16:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716254180; x=1716858980; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wk1PVGEUqYUMHx3xjwbIQevWry9UO/Bto1LV6ZupLw4=;
- b=QmXrbNgKpLLt+A6Ssvi1LyeeajoFsHq7Wghso1U+16xIyLL1pLEyL6T2n9LBbBVfZQ
- u8yGkrGzR3AIhXTX/OB4qAjbW+iH6km57hTGsKDSVzo3WyJdo2TvDvi0tltLYr1PipH2
- YpzfwHXD+enUCPKevVO0Cbyk5kz5CqyGsuXHULgA13JnHn6JymAngD8fsRZjj9qamPDm
- UR6BljheCyU++/+6KwWcA5qXEut2hzeEe3oLrCcy+RYip608UcTMDjtzVexG21HkMzxe
- sH5IF56DQDHToV+UkkTTRKzK4ltpcbylb7fL3zc5zxXy2oEVMPzgPNwMNuuR9k8T0nPj
- Igfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716254180; x=1716858980;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wk1PVGEUqYUMHx3xjwbIQevWry9UO/Bto1LV6ZupLw4=;
- b=lZVMs+PYspe1wyvyHfsEU7WVvZ3JdmWxYCJZzs+H2WAD1Mp1VsqhONyrCrl0g3iH5+
- +yyWUuHjb4MNwU0O2FuF3i6tGZ+jH+gQyu50zEWrkg3dx2TW/icf94IFhxKNecRvuMJm
- oZhzwbrM1N3UeqAagCKJ8pSLvNphktUjH3g/JVqX64TN4dWS+o/rxpO20QBHK4xVhKr+
- oTacmzsao6w9aEvSilYz9mETztfIuVZ4qCMMgeCaNAxosfJ1XhNe9a2AFDFd/W5y9+i6
- 9Sur3Is70mOifAag/rUzbC9D5jnLAWN/eqYBO+R+3IjrMhIvntqOHCBA0/iZSzF1UE8N
- AMhw==
-X-Gm-Message-State: AOJu0YxJDXfJEa2yueYGF6egadhEyioYvGe1Y2bkbKuYtbBSRL4eWcUr
- PQ40LZfGc4QrQF5MPWrHtrEFrY9sQnfTU4gA2fdXp3xh0P+pHp5mg0j5LQ==
-X-Google-Smtp-Source: AGHT+IEJiw0554sm+YCYgsX80AUBApa7ps6YI9bAy/tOYNreoqOPuVjaxcu+geidy7Fe5pe8Z3rLfQ==
-X-Received: by 2002:a05:6e02:1607:b0:36b:2438:8805 with SMTP id
- e9e14a558f8ab-36cc1488a5fmr410004665ab.12.1716254179699; 
- Mon, 20 May 2024 18:16:19 -0700 (PDT)
-Received: from aford-System-Version.lan
- ([2601:447:d002:5be:7221:2803:58e7:1e5f])
- by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-489376dc92bsm6510089173.134.2024.05.20.18.16.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 May 2024 18:16:19 -0700 (PDT)
-From: Adam Ford <aford173@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: dmitry.baryshkov@linaro.org, ictor.liu@nxp.com, sui.jingfeng@linux.dev,
- aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/bridge: adv7511:  Fix Intermittent EDID failures
-Date: Mon, 20 May 2024 20:16:14 -0500
-Message-ID: <20240521011614.496421-1-aford173@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2051.outbound.protection.outlook.com [40.107.100.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6F9D10E349;
+ Tue, 21 May 2024 01:35:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LnefnSw/K+tq853OR5BWjXQ1RRS0vWrRWN1yg5RVdQXz/dlz46M3CZlJbA8O326EhvPxcvbbatHFH/1GGsw88LMjYDKZx0aw/LVTr/s3/Yp65/82hp2VJ4Wq0ylivRvYRACLaj6VD5orPA2UiatwOhF/3O19C7YC6OL9/EJj90EjHTMOmrYBtEYVzOYuN0+gq3itaA4L8gxcs0wDKvQZzFMX7KIKN1aX3UIHZons+NQBMjaBzJ/vtT70KAdX8AnIu5fg8Q0PfFHnOsZAZJ09ZXET4YpPDORh19gwi4/cQ9mc8K9j7Mvgf4y6B/VxJtQeQ+eBTQOay/QiyJ8wk2fVDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TMIe1tkasjQPYAJ8pFqVS+FNpmlqlj2k+Hj1dhqykIU=;
+ b=Ey6VewMwbhCE4PJgYCB7fgk89qI+aXF5gypTpozqDLofWOXVqPRWH/Jzly/kn45Da19M5MNa4ct+4/qZJORGahDr2s17kOElyebBlunXooazdiymB4FsRk8WSlWh155oL1E4NMnaDSh3+7+YObinUDQeR4OAaM0hJ0d5dak3UoDjbdpXOimHhjKCjQmarzG11Ea79o0a8OgOCm6mLSDPi81yKGZ3BDJg87AI4EsOr9XPWYrANTn61PFO7R3Jo6mhn6fhc1tBuA0upmdfRcMx2mhQ7AsB1btFGeNdqzdjGqf8x2PFHLyd6XS0gNwN44tKZLpt1rn9DY2fK1MXbOkTuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TMIe1tkasjQPYAJ8pFqVS+FNpmlqlj2k+Hj1dhqykIU=;
+ b=bIqCixtdAdZFhmevGDf3OvyssLeflM50o38szhrJNE9b4StHOEk5+k1ZiPJuFxZ/jhPBnxVL8z2mLyOoKS7bPBXXTNx+Hble8rUmBLCtby5uf7qUXJkIa9nm2MmukWp1sM9kyGK7fu7EElMwwzXFARgYrJa9ObAfcyCdp+2bLp8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DS7PR12MB6069.namprd12.prod.outlook.com (2603:10b6:8:9f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Tue, 21 May
+ 2024 01:35:10 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.7587.035; Tue, 21 May 2024
+ 01:35:10 +0000
+Message-ID: <fa885eca-d7e6-415a-8a08-9103b002c6bb@amd.com>
+Date: Mon, 20 May 2024 20:35:06 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: Add pixel encoding info to debugfs
+To: Rino Andre Johnsen <rinoandrejohnsen@gmail.com>, alexander.deucher@amd.com
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Aurabindo Pillai
+ <aurabindo.pillai@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Wayne Lin <wayne.lin@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Fangzhi Zuo <jerry.zuo@amd.com>, Tom Chung <chiahsuan.chung@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20240520210817.9943-1-rinoandrejohnsen@gmail.com>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20240520210817.9943-1-rinoandrejohnsen@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DS7PR03CA0169.namprd03.prod.outlook.com
+ (2603:10b6:5:3b2::24) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS7PR12MB6069:EE_
+X-MS-Office365-Filtering-Correlation-Id: 414dadd2-9f49-4fb4-d133-08dc793640a5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|1800799015|366007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K3paQkNXOGJtdTgrZkJVaGZXazRmeWZGNTJOWkdDKzk2cWJXNnhmU3dEanNw?=
+ =?utf-8?B?bnY5M2VDREE4Vk0yZUpUdk1nS1JZUzJ6ZCtVbm5EWkVvYVNxMEJXQUF2cXVY?=
+ =?utf-8?B?MWlmcXV3aXBLenp4OCtNajQ5QTE3V3JlYzJEY240dGllYXp3aS8vOGw3S3Vk?=
+ =?utf-8?B?Nk9SMVZxcVpQc0F6U2NuaGlHWkNQcTFQWlc1eVBJRlNhWSswTWxhOW1MY3Zo?=
+ =?utf-8?B?K29XRUhwWVM4KzRaOHIxUGZUby9acXJlVHVZd2hsQWdtV2NxeCtSOUJ0cDlS?=
+ =?utf-8?B?ZjFNSlduamVkVVI1SjFmSDkySVN6dGRDTXdvWndwT29oRHBuWWMvMDlMLzQv?=
+ =?utf-8?B?bzNVZkowWncrZkVlaTNEUVY3OWlFWFU3VmZWYnRsQTVoWnZ5eVYxTlpiWm1m?=
+ =?utf-8?B?TFBLU1BTbXJkdUE3RnpPbC9lK1laUlpKZVpJdmtSNjg3bXp4TWloMks4d2x0?=
+ =?utf-8?B?QkhBdk1HNVE3dGpMSWM2cEkrdS81SWNBbkxOZ1REcU5uM0JVa3VwYjgzTVJK?=
+ =?utf-8?B?R2xOazIrNlI5cXY5amgrMGlFZk1HMlpSc3M0andadnF4NS9nQW5WV05hekdu?=
+ =?utf-8?B?b1JmS01MakNZY0hHeURwYXRhQ0c4d3piS2dabnNpNUszVTFMV1hQcFpSN1Vx?=
+ =?utf-8?B?TFBZSTBpRUpSYk5JaGpOZUllUU5mQzVpTnNpc2lHTG5hZWdUdllSbGhsekU5?=
+ =?utf-8?B?cEZsZHVJOTJvbmFLK2s5YTg4UTc3dlhTTC93WnZzdWxSU2s3czZoU1FZcVMv?=
+ =?utf-8?B?V0RLd1lHaVFxZ2g3Q2ZqcEs2QVl2VlNHaVlBdEZZM2xGeUVtY3BQTGc4cUs5?=
+ =?utf-8?B?OEg2MzJDWjRhTzdJS0ZZNE1aV3JCYjBIY3RENFZDSUxxT1czM0o4dnpuZjFZ?=
+ =?utf-8?B?K3d5bkdTZE9TU2JDOE9jZ1NJQTY4MnZFV2t1L1YyRXdPd0xCWUlGYTRVZlJV?=
+ =?utf-8?B?Y0xackxsVEg2Z1c1bm9EL2JjUUlFa1JUUEIzUStDbGthY0hQc1A5TGtoU296?=
+ =?utf-8?B?TjRFZkJiYUt3S01hWGhMQ2xvSEUvMFBvR2NFbkpwZnBsZkQyTnRlb01mRGJt?=
+ =?utf-8?B?dHRTRXNZeDBwN2l2ZHpkVlpEbEZ4SGJkQlF2WWwzZzZNZVZQMHROM0E5UnBo?=
+ =?utf-8?B?M0pDMHB0TFhaeFphTmMxL0c3ZUFPWmcxVzVHb1VVcVZNak5sVnhRaFRpRWcw?=
+ =?utf-8?B?L25ScC92cnE0OTNQalArUmVreE0zRHdkZWtaMkNNcW1NaHlwUWxWcnh6NTM3?=
+ =?utf-8?B?QUNUdENXQjVEeGdhdElENU1yb1dta3crbldTR29HODlLbis2UTlPcWVHVDZN?=
+ =?utf-8?B?aXU0ZXpFMXNkd0o0dGljakVOS1pSdk83VE5ObS9qR3Z4RnBpUUlHQXlNbk5y?=
+ =?utf-8?B?YWpRWU5CWXBsZVJ4Y0ZFblIrTkpBb0pONnQvZUh6MVFXS3Q2dDUydElzNjBP?=
+ =?utf-8?B?ZWdpbmRXcDlwSWRiNFErZ1VZTzF0TVdKZzJmTG5FTHNrRHpOKytZb2pBNm9C?=
+ =?utf-8?B?MDJ3Q1oyNitSaStGWmxsNU1PVy9VS2ZybVZ3dVBkaXlJYW5DNCtIUkx6TmNn?=
+ =?utf-8?B?OUxxbWk1MTJtSWxuUHF4TU0wc0Jidk1qNElweDg2S2xEU29SVE9KalR6WWMy?=
+ =?utf-8?B?bFlpS09GNEkyRllDR25pRHByUDhCWEYyN0hISEI1SHhaYUdKbDYvbXRmeDkx?=
+ =?utf-8?B?VVFVMCsrTWVjbW1wUVVWOXRRM1ozcEl4WUNybkZhOUcxSko2MFlvVmlnPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376005)(1800799015)(366007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TzZXcWJOSmNYd3FsTEdrRWRQTXJMcGtTdmpXYVU2N2JpdmNmT2JqQ3ZSQUVh?=
+ =?utf-8?B?eWxlM29RU3R1YU1tQUwxdVYrK0VtQlZuaUdlNGpmL0VCbWtQZHdhRzJCT3FD?=
+ =?utf-8?B?dWp3WlFFZUVqNXdXUlJISHB0ejI5TWN2bjVvWk00elZpN0xuVm44TEkwTXpQ?=
+ =?utf-8?B?ZWZpRVkyZ2lzN2JFU3c5enlKT04wL3FLNjdFY3lhcThjVDRSTzhOV0dvc3lF?=
+ =?utf-8?B?UXd2dHBEc25QQnI0NjBBelA1Uk9BSDFOUExUR0dJV2JqTjNTdTFBcnFiT1Jn?=
+ =?utf-8?B?ZDhyUjJQWk8yNTBOWDB0OVVxcHRyeTE0L096L1ZKNXY3RzRhZU1hM0RYK2xB?=
+ =?utf-8?B?V016WVlKN1loTkJyRjJ1NVBLTERobTFZV0dmWjUxSWFvRVBWZE5ZOXlNSXdG?=
+ =?utf-8?B?WXptajcrbEtCU0I3Rlp4aXp6aC9SdC8vVEE4SWtvN0U4ckwyemVnQWliK3JQ?=
+ =?utf-8?B?b04xRGZ0TklKd3ZsMDRDZ0lSWDllY1p1c0RMcUd0SlNjLzQxVVlQenVsczcr?=
+ =?utf-8?B?QWt2VzVucEVOTW5uemNEN3BucWs3VjQ2UVdoSW83NUJwL1E2WDZ1L203SUI2?=
+ =?utf-8?B?MnZkZ280eWY0YkNPazduQzR3Ly92dHo2S3hnTC82cXdiMFFaalNDeFh0WElq?=
+ =?utf-8?B?QXFrT3dyRGc1MXlZSnl2Ymh5Sk9LQ1BaRWFOTUNJRE0zbDdRaXBqc3BXbC9Z?=
+ =?utf-8?B?dTBoWTdpRENQRkJBOUhjb1NWcGM2RW9Eb1F3OTRmaHVrQWJ1SDRrSDN5SHAx?=
+ =?utf-8?B?c2FkcENTUUF0OUswVG5pSnpiL3R0bWQ1QmN2Zlhua1hzWC9ONFlHOHJNUm5J?=
+ =?utf-8?B?K1VFZXJsaXFleGVieERJSlVlRDNMR0NJSG8zeU5wZWZSRUoxWEJwSk5LbWVQ?=
+ =?utf-8?B?dTdDU2tjVUx1YzNJWkp2dVk5Mm9wSHEvb1UyYk12YmZUOHZjcytMNElIS1Vv?=
+ =?utf-8?B?a0MxSlRoMWY2Tm1yTFlma3lXeFBmcitia08zUkZwcEhJLzQ1eTRSalZOTkRR?=
+ =?utf-8?B?ZzJxcTVpNHNJV0EyVWZzQVFJVXNFbVV0b3VMTUhaRnFiK2VRc2hLVE5UcW40?=
+ =?utf-8?B?SHBsdXd4a1JtYTkzTkx0d2FWc1NqenRwRGxJRzlwWUZpalhXSVpaa0ovODRi?=
+ =?utf-8?B?V0d2b20vY3pXV0RuRGJHSEVKbmx0NTBUNmNoRTVqekNjNDM3cVAwYmRDYVBB?=
+ =?utf-8?B?SHBZTVYzVjZyTFN4NUt5TC9qNTNsYzNvVTNNUjR2WnowQmpEcjJ1bm1PWHpJ?=
+ =?utf-8?B?c0w2d3JxcnEzYStuN1kzSE82Q3g4Ym1GLzVaQ2NIUXpNdmlEN1lKQ0lIMWN6?=
+ =?utf-8?B?T3FCNllkTUdjc2crSUJxcGkwUU52ZHZ1MzBOVk1pZ3N1MGlTOWhUVkg2blMz?=
+ =?utf-8?B?NkhFcVEzeWRNb0puYmhBRmlyUFAvL01abnlXK1Nzbnpmb1RJRU1WUzNQSGti?=
+ =?utf-8?B?akhLN0ljMjNSVU95NFo1U3Z2MEZMWUJ2bEQzZzhJYTF4Z1N3QTJNUzVMc2Nz?=
+ =?utf-8?B?Z0FlQmtoZzRZM1lDUldoL202eDVEWDhGL3IvclZRWFVmRTBuRUZJR0wxSXBF?=
+ =?utf-8?B?T0J5VXUrZzBxWk9Md1pPRHlUUm9zaHdlUjNMLzQ4NnJWZEpkaWNQU3V4aWNx?=
+ =?utf-8?B?cEhKMG9lVHE2cEc4SXFYNzREVWJVVzk2c09zRUNRSVNZN0FSNWFvZUdvMFIr?=
+ =?utf-8?B?QkNPV0NPQVhqVmxzVndBcUQvNDVuRkhaOVF6ZXNYbzBoenF1KzlDalR4UHhD?=
+ =?utf-8?B?ZmttMjFMRDh4UzVSK1U2U3dyc0dWcHJJQUtsUDgveU53WTFJeW1lUmp1dDdR?=
+ =?utf-8?B?bkxyeG1nZHI0Z2dLR1NvcWtHY1dWVnVURVlLYWgvTjVveHQ3d083RUJEUk1S?=
+ =?utf-8?B?R0F2Rk5CcnIwaE9INGIvQWFXaERRd3VQNVpGQXZ2YUtsRFJPMXkzSHhoYlFS?=
+ =?utf-8?B?L1ZsUkNnT2pva1o0OEN2SE94NFdPQjZnSERHZm5PSlhEaDlxZ1k0c29ZSE96?=
+ =?utf-8?B?L0MzWWNabDBzdE9OTWl2ZWJINHM5dmNwLzhkRlJyZXYrVmxvZnhGMTM0V25r?=
+ =?utf-8?B?M1J1dHJoMEJXNXNwM2tzbngvOCt0c3BuUUxOMGRuaU5uYWlCOGhHeE92U2lB?=
+ =?utf-8?Q?KxV+yDNU2SQE6KjoyK5toy9ZS?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 414dadd2-9f49-4fb4-d133-08dc793640a5
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2024 01:35:10.1101 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0kJy8j+7pAWbBpp9Ftk4QOjHy1U4qjkLShaYu5goIQGESGdYIDEV8wCoX9v3QY+9VATxll1VrM9mF6IQJTIwSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,152 +168,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the process of adding support for shared IRQ pins, a scenario
-was accidentally created where adv7511_irq_process returned
-prematurely causing the EDID to fail randomly.
+On 5/20/2024 16:07, Rino Andre Johnsen wrote:
+> [Why]
+> For debugging and testing purposes.
+> 
+> [How]
+> Create amdgpu_current_pixelencoding debugfs entry.
+> Usage: cat /sys/kernel/debug/dri/1/crtc-0/amdgpu_current_pixelencoding
+> 
+> Signed-off-by: Rino Andre Johnsen <rinoandrejohnsen@gmail.com>
+> ---
+>   .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 47 +++++++++++++++++++
+>   1 file changed, 47 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> index 27d5c6077630..d275e5522335 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> @@ -1160,6 +1160,51 @@ static int amdgpu_current_colorspace_show(struct seq_file *m, void *data)
+>   }
+>   DEFINE_SHOW_ATTRIBUTE(amdgpu_current_colorspace);
+>   
+> +/*
+> + * Returns the current pixelencoding for the crtc.
+> + * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/amdgpu_current_pixelencoding
+> + */
+> +static int amdgpu_current_pixelencoding_show(struct seq_file *m, void *data)
+> +{
+> +	struct drm_crtc *crtc = m->private;
+> +	struct drm_device *dev = crtc->dev;
+> +	struct dm_crtc_state *dm_crtc_state = NULL;
 
-Since the interrupt handler is broken up into two main helper functions,
-update both of them to treat the helper functions as IRQ handlers. These
-IRQ routines process their respective tasks as before, but if they
-determine that actual work was done, mark the respective IRQ status
-accordingly, and delay the check until everything has been processed.
+There is no need to initialize dm_crtc_state to NULL.  You set it before 
+its first use.
 
-This should guarantee the helper functions don't return prematurely
-while still returning proper values of either IRQ_HANDLED or IRQ_NONE.
-
-Reported by: Liu Ying <victor.liu@nxp.com>
-Fixes: f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pins")
-Signed-off-by: Adam Ford <aford173@gmail.com>
-
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index ea271f62b214..ec0b7f3d889c 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -401,7 +401,7 @@ struct adv7511 {
- 
- #ifdef CONFIG_DRM_I2C_ADV7511_CEC
- int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511);
--void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
-+int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
- #else
- static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
- {
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-index 44451a9658a3..4efb2cabf1b5 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-@@ -119,7 +119,7 @@ static void adv7511_cec_rx(struct adv7511 *adv7511, int rx_buf)
- 	cec_received_msg(adv7511->cec_adap, &msg);
- }
- 
--void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
-+int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
- {
- 	unsigned int offset = adv7511->info->reg_cec_offset;
- 	const u32 irq_tx_mask = ADV7511_INT1_CEC_TX_READY |
-@@ -130,17 +130,21 @@ void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
- 				ADV7511_INT1_CEC_RX_READY3;
- 	unsigned int rx_status;
- 	int rx_order[3] = { -1, -1, -1 };
--	int i;
-+	int i, ret = 0;
-+	int irq_status = IRQ_NONE;
- 
--	if (irq1 & irq_tx_mask)
-+	if (irq1 & irq_tx_mask) {
- 		adv_cec_tx_raw_status(adv7511, irq1);
-+		irq_status = IRQ_HANDLED;
-+	}
- 
- 	if (!(irq1 & irq_rx_mask))
--		return;
-+		return irq_status;
- 
--	if (regmap_read(adv7511->regmap_cec,
--			ADV7511_REG_CEC_RX_STATUS + offset, &rx_status))
--		return;
-+	ret = regmap_read(adv7511->regmap_cec,
-+			ADV7511_REG_CEC_RX_STATUS + offset, &rx_status);
-+	if (ret < 0)
-+		return ret;
- 
- 	/*
- 	 * ADV7511_REG_CEC_RX_STATUS[5:0] contains the reception order of RX
-@@ -172,6 +176,8 @@ void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
- 
- 		adv7511_cec_rx(adv7511, rx_buf);
- 	}
-+
-+	return IRQ_HANDLED;
- }
- 
- static int adv7511_cec_adap_enable(struct cec_adapter *adap, bool enable)
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 66ccb61e2a66..56dd2d5a0376 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -469,6 +469,8 @@ static int adv7511_irq_process(struct adv7511 *adv7511, bool process_hpd)
- {
- 	unsigned int irq0, irq1;
- 	int ret;
-+	int cec_status;
-+	int irq_status = IRQ_NONE;
- 
- 	ret = regmap_read(adv7511->regmap, ADV7511_REG_INT(0), &irq0);
- 	if (ret < 0)
-@@ -478,38 +480,41 @@ static int adv7511_irq_process(struct adv7511 *adv7511, bool process_hpd)
- 	if (ret < 0)
- 		return ret;
- 
--	/* If there is no IRQ to handle, exit indicating no IRQ data */
--	if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
--	    !(irq1 & ADV7511_INT1_DDC_ERROR))
--		return -ENODATA;
--
- 	regmap_write(adv7511->regmap, ADV7511_REG_INT(0), irq0);
- 	regmap_write(adv7511->regmap, ADV7511_REG_INT(1), irq1);
- 
--	if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.encoder)
-+	if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.encoder) {
- 		schedule_work(&adv7511->hpd_work);
-+		irq_status = IRQ_HANDLED;
-+	}
- 
- 	if (irq0 & ADV7511_INT0_EDID_READY || irq1 & ADV7511_INT1_DDC_ERROR) {
- 		adv7511->edid_read = true;
- 
- 		if (adv7511->i2c_main->irq)
- 			wake_up_all(&adv7511->wq);
-+		irq_status = IRQ_HANDLED;
- 	}
- 
- #ifdef CONFIG_DRM_I2C_ADV7511_CEC
--	adv7511_cec_irq_process(adv7511, irq1);
-+	cec_status = adv7511_cec_irq_process(adv7511, irq1);
-+
-+	if (cec_status < 0)
-+		return cec_status;
- #endif
- 
--	return 0;
-+	/* If there is no IRQ to handle, exit indicating no IRQ data */
-+	if (irq_status == IRQ_HANDLED || cec_status == IRQ_HANDLED)
-+		return IRQ_HANDLED;
-+
-+	return IRQ_NONE;
- }
- 
- static irqreturn_t adv7511_irq_handler(int irq, void *devid)
- {
- 	struct adv7511 *adv7511 = devid;
--	int ret;
- 
--	ret = adv7511_irq_process(adv7511, true);
--	return ret < 0 ? IRQ_NONE : IRQ_HANDLED;
-+	return adv7511_irq_process(adv7511, true);
- }
- 
- /* -----------------------------------------------------------------------------
--- 
-2.43.0
+> +	int res = -ENODEV;
+> +
+> +	mutex_lock(&dev->mode_config.mutex);
+> +	drm_modeset_lock(&crtc->mutex, NULL);
+> +	if (crtc->state == NULL)
+> +		goto unlock;
+> +
+> +	dm_crtc_state = to_dm_crtc_state(crtc->state);
+> +	if (dm_crtc_state->stream == NULL)
+> +		goto unlock;
+> +
+> +	switch (dm_crtc_state->stream->timing.pixel_encoding) {
+> +	case PIXEL_ENCODING_RGB:
+> +		seq_puts(m, "RGB");
+> +		break;
+> +	case PIXEL_ENCODING_YCBCR422:
+> +		seq_puts(m, "YCBCR422");
+> +		break;
+> +	case PIXEL_ENCODING_YCBCR444:
+> +		seq_puts(m, "YCBCR444");
+> +		break;
+> +	case PIXEL_ENCODING_YCBCR420:
+> +		seq_puts(m, "YCBCR420");
+> +		break;
+> +	default:
+> +		goto unlock;
+> +	}
+> +	res = 0;
+> +
+> +unlock:
+> +	drm_modeset_unlock(&crtc->mutex);
+> +	mutex_unlock(&dev->mode_config.mutex);
+> +
+> +	return res;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(amdgpu_current_pixelencoding);
+>   
+>   /*
+>    * Example usage:
+> @@ -3688,6 +3733,8 @@ void crtc_debugfs_init(struct drm_crtc *crtc)
+>   			    crtc, &amdgpu_current_bpc_fops);
+>   	debugfs_create_file("amdgpu_current_colorspace", 0644, crtc->debugfs_entry,
+>   			    crtc, &amdgpu_current_colorspace_fops);
+> +	debugfs_create_file("amdgpu_current_pixelencoding", 0644, crtc->debugfs_entry,
+> +			    crtc, &amdgpu_current_pixelencoding_fops);
+>   }
+>   
+>   /*
 
