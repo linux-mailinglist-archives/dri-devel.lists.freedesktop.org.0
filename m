@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EFC8CAB9C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 12:14:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8568CAB9E
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 12:14:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31C0110E607;
-	Tue, 21 May 2024 10:14:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D995E10E53B;
+	Tue, 21 May 2024 10:14:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MMnapase";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eyauIFA5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65F2E10E53B
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 10:14:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A16C10E53B
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 10:14:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D25D362124;
- Tue, 21 May 2024 10:14:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50A4BC4AF09;
- Tue, 21 May 2024 10:14:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D215262130;
+ Tue, 21 May 2024 10:14:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CACEC32782;
+ Tue, 21 May 2024 10:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716286443;
- bh=ZxPNHVmZZvp6DhYb1bewrikyiz/zTJuIlSDKJ6zcGWQ=;
+ s=k20201202; t=1716286446;
+ bh=owP35/lfcIiPjLv3YT3El2ep8MeKMiw13ZPb1964ipI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=MMnapaseLFpD314Otxm3BfG3VHbI4flbt9FmTQw9kOjW1Nq0rPwfFmvHrPq/cb3kE
- nh3PBI/ybYdP2hsmzoVXK0bPAC42/1tD4fVj47UYNvY/UXFVz9Qh3BElF+1WPvuPP6
- q+2AnKZV6d6t5FIif3c+gFk7Zug8ZAutrqJHo6b+lP4PIzzqw/CvBowDB2n3fjSXxZ
- ntQJEUSxw1Uh7eyRQmdiGYBS1ZKcABg55u/eNqdoSEmCFk5eb7xBYI+tg88ao58Ku0
- p69plKZCgUhkwsODnIRUX3SbOp+I/xRnMwnArva75RWrv7zRSBtaopg3wrlawjKKac
- Zy742JGqAHryQ==
+ b=eyauIFA5CNTPF6JAw1CAcXT42apkFEEl9khIPYCcur8pl/eodVcBXKN9mJ2c7XFwL
+ /MEllCQmjcEb3QQkcsbHoNTm8Kjd125icBE4KZL3eIE6xA7Rr6cePn3M3XzU4/vDZu
+ nsLcFxkhfhZq4/CZMUX0/KcqGFOvbRJsZwTjUKYA4gSAi1wJD4pSefkTPA6HvoUlXE
+ rXXrGo5PbciSeo+UUnwW0gUaXv3/WAbsgfvD8jHScRq5FysOGzlRy3KyVZwLpY7Spv
+ YlkXBj0H5w8Z6Lb+lhYnzek6TC1hQWrtXqewti6AI6Pcs3AUQApa8YWMLxsCHJ2F9U
+ WtYGYqb3cZ8yQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 21 May 2024 12:13:37 +0200
-Subject: [PATCH v14 04/28] drm/connector: hdmi: Create an HDMI sub-state
+Date: Tue, 21 May 2024 12:13:38 +0200
+Subject: [PATCH v14 05/28] drm/connector: hdmi: Add output BPC to the
+ connector state
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240521-kms-hdmi-connector-state-v14-4-51950db4fedb@kernel.org>
+Message-Id: <20240521-kms-hdmi-connector-state-v14-5-51950db4fedb@kernel.org>
 References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
 In-Reply-To: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -53,15 +54,14 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5176; i=mripard@kernel.org;
- h=from:subject:message-id; bh=ZxPNHVmZZvp6DhYb1bewrikyiz/zTJuIlSDKJ6zcGWQ=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGk+xZf6KrM42/qeivAU9kf/S9h+Ui8gbdWumqeOKxeFq
- pS85VbtmMLCIMzJICumyPJEJuz08vbFVQ72K3/AzGFlAhnCwMUpABO5kclY8VxvoeXP8MlNt1d7
- X0lT0zl6OZdvFvv10wGbfqVdcdnuMdVY5u+UYxyTxb9bqQo5sQkwNmydyrho4o1nMQ/v/E9xbON
- Y2LffiOHpcl833ueTEzWe7Nua8Dw1ivt4tMSyg5WtqiUrVQE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8958; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=owP35/lfcIiPjLv3YT3El2ep8MeKMiw13ZPb1964ipI=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGk+xZe2cMz8z8T/0TL/qefZv/Y+XEIZ/PNquOXslP96P
+ bms8uh0x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIsxDGhtduRn5+lzMONR3e
+ 2Jvw3vPsG7W/S2s17KY1ThCvcQ769Eztpf37443mrrkXhSRTBQzPMTbsruipXdVQzDrJUn2WcMu
+ 2wpbG9+YFK47YunZvv5ey8wCf+a6SPRJvJ53y2774QqfYvFYA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,148 +79,249 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The next features we will need to share across drivers will need to
-store some parameters for drivers to use, such as the selected output
-format.
-
-Let's create a new connector sub-state dedicated to HDMI controllers,
-that will eventually store everything we need.
+We'll add automatic selection of the output BPC in a following patch,
+but let's add it to the HDMI connector state already.
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/display/Kconfig                 |  7 +++++
- drivers/gpu/drm/display/Makefile                |  2 ++
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 41 +++++++++++++++++++++++++
- include/drm/display/drm_hdmi_state_helper.h     | 16 ++++++++++
- include/drm/drm_connector.h                     |  7 +++++
- 5 files changed, 73 insertions(+)
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 20 ++++++++++++++++++++
+ drivers/gpu/drm/drm_atomic.c                    |  5 +++++
+ drivers/gpu/drm/drm_connector.c                 | 20 +++++++++++++++++++-
+ drivers/gpu/drm/tests/drm_connector_test.c      | 12 ++++++++----
+ include/drm/drm_connector.h                     | 12 +++++++++++-
+ 5 files changed, 63 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-index 864a6488bfdf..14114b597ef4 100644
---- a/drivers/gpu/drm/display/Kconfig
-+++ b/drivers/gpu/drm/display/Kconfig
-@@ -68,5 +68,12 @@ config DRM_DISPLAY_HDCP_HELPER
- config DRM_DISPLAY_HDMI_HELPER
- 	bool
- 	depends on DRM_DISPLAY_HELPER
- 	help
- 	  DRM display helpers for HDMI.
-+
-+config DRM_DISPLAY_HDMI_STATE_HELPER
-+	bool
-+	depends on DRM_DISPLAY_HELPER
-+	depends on DRM_DISPLAY_HDMI_HELPER
-+	help
-+	  DRM KMS state helpers for HDMI.
-diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
-index 17d2cc73ff56..629df2f4d322 100644
---- a/drivers/gpu/drm/display/Makefile
-+++ b/drivers/gpu/drm/display/Makefile
-@@ -12,9 +12,11 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_TUNNEL) += \
- 	drm_dp_tunnel.o
- drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
- drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += \
- 	drm_hdmi_helper.o \
- 	drm_scdc_helper.o
-+drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_STATE_HELPER) += \
-+	drm_hdmi_state_helper.o
- drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
- drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_AUX_CEC) += drm_dp_cec.o
- 
- obj-$(CONFIG_DRM_DISPLAY_HELPER) += drm_display_helper.o
 diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-new file mode 100644
-index 000000000000..1e92c1108d23
---- /dev/null
+index 1e92c1108d23..82293d93b5f8 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
 +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -0,0 +1,41 @@
-+// SPDX-License-Identifier: MIT
+@@ -16,10 +16,14 @@
+  * drm_atomic_helper_connector_reset().
+  */
+ void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *connector,
+ 					      struct drm_connector_state *new_conn_state)
+ {
++	unsigned int max_bpc = connector->max_bpc;
 +
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_connector.h>
++	new_conn_state->max_bpc = max_bpc;
++	new_conn_state->max_requested_bpc = max_bpc;
+ }
+ EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
+ 
+ /**
+  * drm_atomic_helper_connector_hdmi_check() - Helper to check HDMI connector atomic state
+@@ -34,8 +38,24 @@ EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
+  * Zero on success, or an errno code otherwise.
+  */
+ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+ 					   struct drm_atomic_state *state)
+ {
++	struct drm_connector_state *old_conn_state =
++		drm_atomic_get_old_connector_state(state, connector);
++	struct drm_connector_state *new_conn_state =
++		drm_atomic_get_new_connector_state(state, connector);
 +
-+#include <drm/display/drm_hdmi_state_helper.h>
++	if (old_conn_state->hdmi.output_bpc != new_conn_state->hdmi.output_bpc) {
++		struct drm_crtc *crtc = new_conn_state->crtc;
++		struct drm_crtc_state *crtc_state;
 +
-+/**
-+ * __drm_atomic_helper_connector_hdmi_reset() - Initializes all HDMI @drm_connector_state resources
-+ * @connector: DRM connector
-+ * @new_conn_state: connector state to reset
-+ *
-+ * Initializes all HDMI resources from a @drm_connector_state without
-+ * actually allocating it. This is useful for HDMI drivers, in
-+ * combination with __drm_atomic_helper_connector_reset() or
-+ * drm_atomic_helper_connector_reset().
-+ */
-+void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *connector,
-+					      struct drm_connector_state *new_conn_state)
-+{
-+}
-+EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
++		crtc_state = drm_atomic_get_crtc_state(state, crtc);
++		if (IS_ERR(crtc_state))
++			return PTR_ERR(crtc_state);
 +
-+/**
-+ * drm_atomic_helper_connector_hdmi_check() - Helper to check HDMI connector atomic state
-+ * @connector: DRM Connector
-+ * @state: the DRM State object
-+ *
-+ * Provides a default connector state check handler for HDMI connectors.
-+ * Checks that a desired connector update is valid, and updates various
-+ * fields of derived state.
-+ *
-+ * RETURNS:
-+ * Zero on success, or an errno code otherwise.
-+ */
-+int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
-+					   struct drm_atomic_state *state)
-+{
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
-diff --git a/include/drm/display/drm_hdmi_state_helper.h b/include/drm/display/drm_hdmi_state_helper.h
-new file mode 100644
-index 000000000000..6021983e2602
---- /dev/null
-+++ b/include/drm/display/drm_hdmi_state_helper.h
-@@ -0,0 +1,16 @@
-+#/* SPDX-License-Identifier: MIT */
++		crtc_state->mode_changed = true;
++	}
 +
-+#ifndef DRM_HDMI_STATE_HELPER_H_
-+#define DRM_HDMI_STATE_HELPER_H_
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index a91737adf8e7..4e11cfb4518b 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1141,10 +1141,15 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
+ 	drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
+ 	drm_printf(p, "\tself_refresh_aware=%d\n", state->self_refresh_aware);
+ 	drm_printf(p, "\tmax_requested_bpc=%d\n", state->max_requested_bpc);
+ 	drm_printf(p, "\tcolorspace=%s\n", drm_get_colorspace_name(state->colorspace));
+ 
++	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
++	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
++		drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
++	}
 +
-+struct drm_atomic_state;
-+struct drm_connector;
-+struct drm_connector_state;
+ 	if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
+ 		if (state->writeback_job && state->writeback_job->fb)
+ 			drm_printf(p, "\tfb=%d\n", state->writeback_job->fb->base.id);
+ 
+ 	if (connector->funcs->atomic_print_state)
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index d9961cce8245..da51a2bcb978 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -457,10 +457,11 @@ EXPORT_SYMBOL(drmm_connector_init);
+  * @dev: DRM device
+  * @connector: A pointer to the HDMI connector to init
+  * @funcs: callbacks for this connector
+  * @connector_type: user visible type of the connector
+  * @ddc: optional pointer to the associated ddc adapter
++ * @max_bpc: Maximum bits per char the HDMI connector supports
+  *
+  * Initialises a preallocated HDMI connector. Connectors can be
+  * subclassed as part of driver connector objects.
+  *
+  * Cleanup is automatically handled with a call to
+@@ -473,22 +474,39 @@ EXPORT_SYMBOL(drmm_connector_init);
+  */
+ int drmm_connector_hdmi_init(struct drm_device *dev,
+ 			     struct drm_connector *connector,
+ 			     const struct drm_connector_funcs *funcs,
+ 			     int connector_type,
+-			     struct i2c_adapter *ddc)
++			     struct i2c_adapter *ddc,
++			     unsigned int max_bpc)
+ {
+ 	int ret;
+ 
+ 	if (!(connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+ 	      connector_type == DRM_MODE_CONNECTOR_HDMIB))
+ 		return -EINVAL;
+ 
++	if (!(max_bpc == 8 || max_bpc == 10 || max_bpc == 12))
++		return -EINVAL;
 +
-+void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *connector,
-+					      struct drm_connector_state *new_conn_state);
+ 	ret = drmm_connector_init(dev, connector, funcs, connector_type, ddc);
+ 	if (ret)
+ 		return ret;
+ 
++	/*
++	 * drm_connector_attach_max_bpc_property() requires the
++	 * connector to have a state.
++	 */
++	if (connector->funcs->reset)
++		connector->funcs->reset(connector);
 +
-+int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
-+					   struct drm_atomic_state *state);
++	drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
++	connector->max_bpc = max_bpc;
 +
-+#endif // DRM_HDMI_STATE_HELPER_H_
++	if (max_bpc > 8)
++		drm_connector_attach_hdr_output_metadata_property(connector);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drmm_connector_hdmi_init);
+ 
+ /**
+diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
+index 261d4109946d..2661eb64a5cd 100644
+--- a/drivers/gpu/drm/tests/drm_connector_test.c
++++ b/drivers/gpu/drm/tests/drm_connector_test.c
+@@ -182,11 +182,12 @@ static void drm_test_connector_hdmi_init_valid(struct kunit *test)
+ 	int ret;
+ 
+ 	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+ 				       &dummy_funcs,
+ 				       DRM_MODE_CONNECTOR_HDMIA,
+-				       &priv->ddc);
++				       &priv->ddc,
++				       8);
+ 	KUNIT_EXPECT_EQ(test, ret, 0);
+ }
+ 
+ /*
+  * Test that the registration of a connector without a DDC adapter
+@@ -198,11 +199,12 @@ static void drm_test_connector_hdmi_init_null_ddc(struct kunit *test)
+ 	int ret;
+ 
+ 	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+ 				       &dummy_funcs,
+ 				       DRM_MODE_CONNECTOR_HDMIA,
+-				       NULL);
++				       NULL,
++				       8);
+ 	KUNIT_EXPECT_EQ(test, ret, 0);
+ }
+ 
+ /*
+  * Test that the registration of an HDMI connector with an HDMI
+@@ -215,11 +217,12 @@ static void drm_test_connector_hdmi_init_type_valid(struct kunit *test)
+ 	int ret;
+ 
+ 	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+ 				       &dummy_funcs,
+ 				       connector_type,
+-				       &priv->ddc);
++				       &priv->ddc,
++				       8);
+ 	KUNIT_EXPECT_EQ(test, ret, 0);
+ }
+ 
+ static const unsigned int drm_connector_hdmi_init_type_valid_tests[] = {
+ 	DRM_MODE_CONNECTOR_HDMIA,
+@@ -246,11 +249,12 @@ static void drm_test_connector_hdmi_init_type_invalid(struct kunit *test)
+ 	int ret;
+ 
+ 	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+ 				       &dummy_funcs,
+ 				       connector_type,
+-				       &priv->ddc);
++				       &priv->ddc,
++				       8);
+ 	KUNIT_EXPECT_LT(test, ret, 0);
+ }
+ 
+ static const unsigned int drm_connector_hdmi_init_type_invalid_tests[] = {
+ 	DRM_MODE_CONNECTOR_Unknown,
 diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 4491c4c2fb6e..000a2a156619 100644
+index 000a2a156619..d4d2ae15bc1e 100644
 --- a/include/drm/drm_connector.h
 +++ b/include/drm/drm_connector.h
-@@ -1029,10 +1029,17 @@ struct drm_connector_state {
+@@ -1035,10 +1035,14 @@ struct drm_connector_state {
  	/**
- 	 * @hdr_output_metadata:
- 	 * DRM blob property for HDR output metadata
+ 	 * @hdmi: HDMI-related variable and properties. Filled by
+ 	 * @drm_atomic_helper_connector_hdmi_check().
  	 */
- 	struct drm_property_blob *hdr_output_metadata;
-+
-+	/**
-+	 * @hdmi: HDMI-related variable and properties. Filled by
-+	 * @drm_atomic_helper_connector_hdmi_check().
-+	 */
-+	struct {
-+	} hdmi;
+ 	struct {
++		/**
++		 * @output_bpc: Bits per color channel to output.
++		 */
++		unsigned int output_bpc;
+ 	} hdmi;
  };
  
  /**
   * struct drm_connector_funcs - control connectors on a given device
-  *
+@@ -1680,10 +1684,15 @@ struct drm_connector {
+ 	 * DRM blob property data for the DP MST path property. This should only
+ 	 * be updated by calling drm_connector_set_path_property().
+ 	 */
+ 	struct drm_property_blob *path_blob_ptr;
+ 
++	/**
++	 * @max_bpc: Maximum bits per color channel the connector supports.
++	 */
++	unsigned int max_bpc;
++
+ 	/**
+ 	 * @max_bpc_property: Default connector property for the max bpc to be
+ 	 * driven out of the connector.
+ 	 */
+ 	struct drm_property *max_bpc_property;
+@@ -1913,11 +1922,12 @@ int drmm_connector_init(struct drm_device *dev,
+ 			struct i2c_adapter *ddc);
+ int drmm_connector_hdmi_init(struct drm_device *dev,
+ 			     struct drm_connector *connector,
+ 			     const struct drm_connector_funcs *funcs,
+ 			     int connector_type,
+-			     struct i2c_adapter *ddc);
++			     struct i2c_adapter *ddc,
++			     unsigned int max_bpc);
+ void drm_connector_attach_edid_property(struct drm_connector *connector);
+ int drm_connector_register(struct drm_connector *connector);
+ void drm_connector_unregister(struct drm_connector *connector);
+ int drm_connector_attach_encoder(struct drm_connector *connector,
+ 				      struct drm_encoder *encoder);
 
 -- 
 2.45.0
