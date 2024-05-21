@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A57C8CA682
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 04:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6DF8CA684
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 04:59:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C986A10E680;
-	Tue, 21 May 2024 02:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C12410EA7F;
+	Tue, 21 May 2024 02:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn
  (mail-bjschn02on2106.outbound.protection.partner.outlook.cn [139.219.17.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5FED10E52C
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 02:58:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA7710E465
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 02:58:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YSRP7vjQrMYm6PRNkVpAmQoyCh5dV6Xs8LfxKruJUacUDTE/p+TbZh6YqHsaEckbM9S8iHtrq4yQdm9qEYYr+6yigndFi3kUDyQ8zJ7tdOdsS0jzd/0yLaOEzJYtpd7ghzReFFeeJvmN3/Vvzz2wTSjeviZbQV3OdnXon1fH2k+w+1SwczEuTXurqbXRHuz1fac+jW76/v+WrHBVQZNMoTRmF6/VXgEOApuqjjTibdvrb/OzRPh8zuevxQim6E+klbgZwkDgV0K+QtgpNUdaLTuMhawaTbjnjhCK3OqkApbXzdrBPNhhufzPRQ5Eq5rlQNMsCM+Gla9U+P9KAYCOzA==
+ b=IwQKgxlszXQIjm1CJ559Tyb9amWP6JCSrXPOISMBaExvR1IfFTBoJCQqTa3+Hjg+8ou30oTYWYXivss9cjLjgjj+1TPsvAdcwb1LlPVQTIOglMq96gCpeRsjLksy+lPVn01QmqxfyCWWe9l1EMaWwOcSgjyAvKhIKGqhYAdbRYBNEkiXcYKMD3SGAft/kalhLi5Sf5xLPzFCw4+5PyyOaaKD5Vy2Bf7bFcEXe8RlHXcNcq/sd8TJtTrseK45b/io0eVGTRi0r+1l39CmnhBxrvcyUNEkExItFIQEwQTPjpyTqYfoELwkgYUckBG749xYW8kasNZshM6LyOY503amRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AkanxACpTfIFOqDB9PJsu6F6rwpEXlCbOXcNKMYl7AU=;
- b=GQgjTDXmnS/hCD0pksGGB61lqx8Cb+bE6oSrIeCWJVrOagVq21RpVb07oRjopDLsX5yX9//QGM7TIPNLa5sbmAFapFRf9Ucz+MBmxI85nIBx/UIIc/9gzHVlkgsYfwSAOAbNQFg9IcQAv3PspuW/4B10qj0UJuT9J5ZlB/Mag4YGiqjqR95tRN3VH9tYPag7Dp3BjGbXwo+KBycORb+FrV7pW2o38pnQiMCYq9SZ+BEpzBBmc+uFa2q7ZwawwrgJEX1x6lTzDAtoyW7thAX27FWlQ/pm1YAP/FK7PkVNQWZwp7fDSugkR0EsrZ2yit8YYTTkGF+drt4MGC6RzH+Pkw==
+ bh=ImRJqOjUKRUALgJH4yL5SYVCqs+ZZF49yWn6rduhMTM=;
+ b=k3rfaZ9utWQrg3qoKf3hpHg4vZi3JF3krkbUDX8On7jS/1JZeJKlp2oOgJ1Akom5LvV1YTKeBJFRP+sjI/7tNJctuf0Xbo4zHyxktl3LSfIYmsIxE6pidIOYa3QAOzdpExZSvC7E53gRdSM2YXkg5ssa/njn6lQ8ABN9+hNUlUAai3cngMS8nlOO0zWzT+sMuawaX2KMXb1D+vlrxjhz7PeOiw6ToQAfZqIkSnLzg9VLEU5FkilbQnCCABCGizJArB3Br780seOe3hNmmKBN9lTJpQ/nebSB+GAMTfz9JKOMzM5/Kx2jR0wqA+0XZBtRXILYu2beBXB9jm0IDdVeSA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=starfivetech.com; dmarc=pass action=none
  header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
@@ -29,11 +29,11 @@ Received: from ZQ0PR01MB1047.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:c::7) by ZQ0PR01MB1128.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:c::6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Tue, 21 May
- 2024 02:58:35 +0000
+ 2024 02:58:36 +0000
 Received: from ZQ0PR01MB1047.CHNPR01.prod.partner.outlook.cn
  ([fe80::39be:8ed9:67b7:adc6]) by
  ZQ0PR01MB1047.CHNPR01.prod.partner.outlook.cn ([fe80::39be:8ed9:67b7:adc6%6])
- with mapi id 15.20.7472.044; Tue, 21 May 2024 02:58:35 +0000
+ with mapi id 15.20.7472.044; Tue, 21 May 2024 02:58:36 +0000
 From: keith <keith.zhao@starfivetech.com>
 To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
@@ -46,9 +46,9 @@ To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  keith.zhao@starfivetech.com
-Subject: [PATCH v4 09/10] drm/vs: Innosilicon HDMI support
-Date: Tue, 21 May 2024 18:58:16 +0800
-Message-Id: <20240521105817.3301-10-keith.zhao@starfivetech.com>
+Subject: [PATCH v4 10/10] drm/vs: add simple dsi encoder
+Date: Tue, 21 May 2024 18:58:17 +0800
+Message-Id: <20240521105817.3301-11-keith.zhao@starfivetech.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20240521105817.3301-1-keith.zhao@starfivetech.com>
 References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
@@ -60,53 +60,53 @@ X-ClientProxiedBy: SHXPR01CA0020.CHNPR01.prod.partner.outlook.cn
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1047:EE_|ZQ0PR01MB1128:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22ab1e45-76b2-4aab-e552-08dc7941e835
+X-MS-Office365-Filtering-Correlation-Id: ee1c1c63-5995-4f54-43ec-08dc7941e8e0
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wZWpK/wlW5M0EabwC0YpGPmOAy702Ym3vpaeD5k/eS6FdkxsbrasXnJxkRSFd1wL41r90ov450nPv6HaXz3XN7wO8oO9AvXBnNrejtGrWyR7ii/JKVjiMNeQV2TgaDMQCI+ujMGFcYC97O6DPIqJcW1DK7SKXpe7QIGILEVpaZCz4wTV52Wcf4NLZHytYfBPmtC5a6YtBauUpU5F67L6bvXpEAF1rCBO2+jtiqbAm2+8k793J/Tus/sRRZITr1ui0BHaxou50WHSb1+I1JEYa30rzKY0CRfFzJ9/IqlEUUKhrAooSldM2t48qq2l0R8gOIOSOBuG5cEOY+2RVpgkvXXpSNxNlc3dVQRcOY9RrHt1GPOux1aSdOC3kw/D/U/AudHYuUYvxU/kH9k11+Jjhmmp8G+Su6rnYiPm47zN9H0iKtenW1owu1ZBmFXFwt0oTI4FURarNCigGLOU/DwEI8BDjwsiWt5pYDTzOsBQyD6QRevonMHRBj0/wV+dnJMevAI3URSUeH/qjLDTYkVZ5PjYkdGZ+KIuVEpq1bUW1b18UbzRjwOahhggAU0pTwd8wYJWl5TgCPNp8z3sqBSN9NWVsX0TvsQDX4G/5771H4DbOHNOYRbHHHzScf9kmrm8AQ8sU9y6IyCX/LZqmoFuVA==
+X-Microsoft-Antispam-Message-Info: X+anbPRpR4G3glKdGF5S/M0uZdIxmF63ePgLHKxPOa2Quk6oCxbZ4atbTvJB0XkF6ldl8UEftCE695qhgGmWiJXjk2mhkZ/pbxUI2BDy8ukRePZEK3A0bQg2qOL1pNOQOMposbiZWy4ZUsUkdXtwuB7AlyM8n3oceB+E9xX3yXfp1NRGI4Qn5QHH1kt2WW1Xk8OGWd2YuFBzo+htofe91QqIH1PhNfL/5tgFniNHH5xSFlsXLbE6MrxqvgCsEppH9qpo26Zyv2XHII/XzqL0GDm9bIk0LACa1/XOgeyvnU4rxXE+zF+SKIWbrpLeUSfbGTmObeVztKZli7M0RavpbSnMkbgk31ESE4qFcoi4nQ3YRYbvUg6Q0h1OQrKBIXer82PdoVRjTeKbyoSwwAZkJRb2lB4N5H41A2TSUYeyQCUCJmBTLgBJJ8GgdL59KURcNgrEU0N5vM2lc2LgE4QVUWweJr6AsyaacejJ18VyqjD6YLxIY11KQ1cEU6kdv1JNnye3ySl0rJ/DxxUHc8H7MenAhYNJ84Njt/80W1hrj2AZYEzFM919GORlNxBb3FpPqnuBQ7BuxzEsYRgfwkJ40F/1vniRLwa+cnFkZd0cJVGfjBUrxnOpXRrVWvV2z73c4JI/+aoe0Afu+PPxVy/V5g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:ZQ0PR01MB1047.CHNPR01.prod.partner.outlook.cn; PTR:;
  CAT:NONE;
  SFS:(13230031)(41320700004)(52116005)(7416005)(1800799015)(366007)(38350700005)(921011);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1ppOXVrEYYka5dDmIUy2lYUsBfJvA9BvkBXW0u9xaKFo82Ig7XbnSbV4YB7u?=
- =?us-ascii?Q?ik8VfWsTFenbuQkmliHM91k0YIo5RExbRY9FLPKgpNO304r3JNiEJafn0SSs?=
- =?us-ascii?Q?JYpQlvRFpkofZpBZUxE9dxusd0KbQKUc1WS/FKwRVPTBZzj5DauC+9FHf5pA?=
- =?us-ascii?Q?C0bQrbq6NP0qUIZB9HRFuX8ofUAUbQvfp5UINhQqsvqC4zebOkJmSg9NQk3U?=
- =?us-ascii?Q?Adfr6Hh7QYthXv4xESW/aQPjbzkbShPdcZdafLDpHgV+3YlByBV09lKXGYTV?=
- =?us-ascii?Q?lNnAW6MrC9NnKg57tV9E9+w+mpwQxRNi2XUAGvpmurpOgaDqFsQ+5MrmtKU/?=
- =?us-ascii?Q?j4z1WHVMoku4+VM5F1TdMMrrfDWjndxdzZ8FF44Qiw0wGqLCN0syNaH0CFdM?=
- =?us-ascii?Q?7xopxVtwSaj5Bb1svUErmXZ/RYgGR+DPQEF02qzfdUfXGUoitFo8233d1eZS?=
- =?us-ascii?Q?12DNc+lAJPgLp3aft4iZr6e8P2ol77WXJMRp3J79N/QnhdjP1s7TMtIWUdzI?=
- =?us-ascii?Q?GhvCHdbeJQfIRpExmusJCewUQ1kcDqx6qlvFPh91sCEjAT38oIg8baZk3PVI?=
- =?us-ascii?Q?eIHxMuzQeCQr1wpVeQQI6L6h7bgtkumjqPkldqhufHfT/AnZKdHcIjpf1zwi?=
- =?us-ascii?Q?J7/0zCSnmucikW0k1TGK4oIcWhutjwvFiLsGwUcNGw73smKHESh/EQ8y2eKi?=
- =?us-ascii?Q?WPD4yONsfOZN8GCYrMgz1vLhNcCRRESgtyVaH44GNRTW54t1q5D/p9h3dfY/?=
- =?us-ascii?Q?MrK0ANRNdHV7Mw+5bx0No+GcJkOXl9tnL24QWFdRHZIlZ0uo3Bh5NsgLhrAn?=
- =?us-ascii?Q?En0dSvMIwtiAsoEYDh3/7Lk/MJuqGkNbzigfCx5JTHIBF5e2FKWWxBenW/hV?=
- =?us-ascii?Q?taqwKH5wh+wIdwjicRKlCcS1OTLWr6FyoZ9AlInnmeTXftNwHQnb/YqxbaST?=
- =?us-ascii?Q?3oImHp5qXo6fT7B7hF/9KpmKXCvnJFb+IyIXho5rODPy51jKR851pTKFeV8/?=
- =?us-ascii?Q?zidmfPKrbI07n8e83cZQ6xwy9f8CLPmLNNM5UXamRYGAfCX1PRPKTFkFlHgh?=
- =?us-ascii?Q?FgywmRX5QcBHF+5rkPdVMIY2V6htaJ/J7kCREOjgFpFKqIfdDq/RN6XMh88l?=
- =?us-ascii?Q?KHmfS+scvJAWJygKUNzqVSmjD9NmdzVGM1jqTqGSakttc8+475IiTRaTVOuR?=
- =?us-ascii?Q?JXKoQ23F3Tmn4PK1wO7UuG/IgPSidr9K9cORzXMMKowmWU04oKGuG1Kg02G8?=
- =?us-ascii?Q?pjZF9EvJ1D0O70JACxSJn0ulVsypwMcT+bVFbCDeo2Sz9lYusPZdwbW1TU8U?=
- =?us-ascii?Q?iVAciLIkrXHv/oI8CNphiCJmHYhA568+4xC9Egs41ovUZJyqvKx5i3JsCili?=
- =?us-ascii?Q?2dhNSQOU8QcXpuZkYclT2kG/XcWrCKZTxlFAKugvqsv7B/2vhMaq3nnwH1B2?=
- =?us-ascii?Q?mhgJKWb49NOe/faSSmi2zPL3IWGami89RhIzmZweas0+Rx1Upq1or+N3arv7?=
- =?us-ascii?Q?8jw/EM9dw8Hm+S9uwLNU38yDLw+mfeKj4XNZ5vFTloyWZfYlttDKJ8ibkbqb?=
- =?us-ascii?Q?sKBPso0fFByZt+hqW7i4pHrhlpI5DN+6s/gNRDng5/ssfiC5Sj5ZrDaCSCsF?=
- =?us-ascii?Q?WA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PODdSKnexI6aBQ2l46x+jGk9ocxa41YJNpuOkoq8yeLMgz+I/NCVLZoqRx1O?=
+ =?us-ascii?Q?18Vbt+82tY0IBe7k1Vf4rYaqA80yLeusXCbZfYUL50PVkQZrgx5sc669Fj6w?=
+ =?us-ascii?Q?0Mc4T8Q6NTanEbpBy94MruNDwdFrdz+L6V+mkh15YhUCujbOzcnBNqsD25jK?=
+ =?us-ascii?Q?GASIDHF2OuPshSGumQkKMc0VqEfHYqNJGbPqJjBoS2wYksvanZe4HhDpXPR3?=
+ =?us-ascii?Q?wb1i/W44YYvXQ4aFEPwr0HTWSguVQd60qZuXRuSiKghyRm9aJIsM3HtkSeWr?=
+ =?us-ascii?Q?fVFK7A/MkGwFZ+4+g7xLg7tFNr9FfKTXXJKbxuN9FLU2Q5WkJHXHcL+x6FFC?=
+ =?us-ascii?Q?zOKa/lX6SOcxeuFzGCW4rMbnowJgewQRQzNbKXGfxt8GKENvEy94WClsU3u5?=
+ =?us-ascii?Q?nzqQW5K/pFKXbTjq4Gc/+4Wm8QNtSGBPGaK2L9eNbWZSLsGZU830hX9XAp4l?=
+ =?us-ascii?Q?9NOMs2K0c++kAacCFkeGP/f+4AJChT+OVTFyiGSlSs45ncoWNc8Wa1aCFdzA?=
+ =?us-ascii?Q?KPcG4C6x58uhjHnacAW377arQflGd5Yv5vd/rVL3aMMmLUmNhDkM6ZKQ+7Ei?=
+ =?us-ascii?Q?elip8s4S0G4xiY/T/urS5gnABsxCyAp/CsNq0yLTOJR2c8Sb4ELO9o4S03dZ?=
+ =?us-ascii?Q?aRWElYLqbcpKDCYN5KyWxycrZ+VwFRTvAhnviFyEAlPbDY7oTBpXoWBvW1f4?=
+ =?us-ascii?Q?EteEKhd29HZujUcSkt6eOlacBRXC/Z5g0nfHaSgPbT5L9BSejyuWcFV5O2ew?=
+ =?us-ascii?Q?0G5W7yN4nQEX2MQk0J89ygWR783uRnovA20QAKPIEKmVK1ya4Y4cfRuqKSoO?=
+ =?us-ascii?Q?L/dZ7EPCWnlFcDcusY99uIgCTiCEKMbp9zoEwqAnIxAroMvqP1zyyL0cLwYN?=
+ =?us-ascii?Q?VHdEjJt3vylzp0EuuTUYNy6f6QTcFZ3zYfQRQFtfkANbJxGs3MYaREB+0Oms?=
+ =?us-ascii?Q?Noa51vxwhxqoNaBgZjlOo2cZcOp1FlXUrrFDgQFge+ag2YUDeNWcBiljP1O9?=
+ =?us-ascii?Q?udiydsRkFXTDT3UXeXsGbtktGG/D2D0hBl/LGKEK5cyz5kZgn5qv/l2KqCiv?=
+ =?us-ascii?Q?yhKgXSx2/B2Hh8xioD8iTP2n8Gwdnaso8UxopHKLelozH8P+krobDBWAm6QL?=
+ =?us-ascii?Q?kVCkgaaS5bO14r6dCku0iIQCUWXDBfRC6wWCWeVlL4neI0UKOEMkTNzsilTl?=
+ =?us-ascii?Q?8HOe+lm3K+hZXsrMdVCY74OYMrTTcwXF3sPoCaGTW1Z6VlQjQNCdERHrpqP2?=
+ =?us-ascii?Q?/00SwS2Uw81XJzrQ9mv4SpdFR3ZztSIEd3K2cBeKPk7oUoXRUBrSlLUuKnWn?=
+ =?us-ascii?Q?lZT9VRD2gcAg+PNFHJ62Oyrv6AqnIM29zsuwd5LnkompEn86GkVWQtiix/31?=
+ =?us-ascii?Q?TlwcLkxD5IMJNqdBX/2RpOLuHWid3OGs5STdIxTmh7sf8OR6hkblDSN1WJP6?=
+ =?us-ascii?Q?8lWhBFXhjmAahXmZ0itPIR1IWJgXm7ls8ByjGODB7VKR8UY4txDgxmJGwTVD?=
+ =?us-ascii?Q?rgtkdkQGFGWr/sWj29XAeeb1GQwd3iea0kZiuWjersANfbPk91c3Ri85D4Sd?=
+ =?us-ascii?Q?RE0YjoP5x8fbKoj5jn+cVuYY+meqItlApOGYL5iDmZ9pPA1Wket7AwUdjGlk?=
+ =?us-ascii?Q?fQ=3D=3D?=
 X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22ab1e45-76b2-4aab-e552-08dc7941e835
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee1c1c63-5995-4f54-43ec-08dc7941e8e0
 X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1047.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2024 02:58:35.6532 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2024 02:58:36.7699 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WuF7H/xdgXAFcXNoIucvUK3TmFObl81klAVIXPcCr+o8dyw/DUSzdjryGMTcwijOflqssuGswhLP3zNANAa+ZsWO6SwBfi38h8y5P6lLgVw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: PMRyhVvmRJxHiiRYTM4Poz0em0d2Zurn1A80bYQ6TFvm4Dgz+8wVPLjerPhTbQx3dnTaAz1uHpTnEUFsO6XPUZQdi8l82ToHXvoTpOYKNmc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1128
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -123,722 +123,284 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add inno hdmi driver which binds to vs display controller
-and this driver uses the commom api from the inno hdmi
+add encoder to match cdns dsi driver
 
 Signed-off-by: keith <keith.zhao@starfivetech.com>
 ---
- drivers/gpu/drm/verisilicon/Kconfig           |  10 +
- drivers/gpu/drm/verisilicon/Makefile          |   1 +
- .../gpu/drm/verisilicon/inno_hdmi-starfive.c  | 481 ++++++++++++++++++
- .../gpu/drm/verisilicon/inno_hdmi-starfive.h  | 152 ++++++
- drivers/gpu/drm/verisilicon/vs_drv.c          |   4 +-
- drivers/gpu/drm/verisilicon/vs_drv.h          |   4 +
- 6 files changed, 651 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/verisilicon/inno_hdmi-starfive.c
- create mode 100644 drivers/gpu/drm/verisilicon/inno_hdmi-starfive.h
+ drivers/gpu/drm/verisilicon/Makefile        |   3 +-
+ drivers/gpu/drm/verisilicon/vs_drv.c        |   1 +
+ drivers/gpu/drm/verisilicon/vs_drv.h        |   1 +
+ drivers/gpu/drm/verisilicon/vs_simple_enc.c | 190 ++++++++++++++++++++
+ drivers/gpu/drm/verisilicon/vs_simple_enc.h |  25 +++
+ 5 files changed, 219 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_simple_enc.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_simple_enc.h
 
-diff --git a/drivers/gpu/drm/verisilicon/Kconfig b/drivers/gpu/drm/verisilicon/Kconfig
-index 2d733f93439e..228732d21e40 100644
---- a/drivers/gpu/drm/verisilicon/Kconfig
-+++ b/drivers/gpu/drm/verisilicon/Kconfig
-@@ -11,3 +11,13 @@ config DRM_VERISILICON_DC8200
- 	  This driver provides VeriSilicon kernel mode
- 	  setting and buffer management. It does not
- 	  provide 2D or 3D acceleration.
-+
-+if DRM_VERISILICON_DC8200
-+config DRM_INNO_STARFIVE_HDMI
-+	bool "Starfive JH7110 specific extensions for Innosilicon HDMI"
-+	select DRM_INNO_HDMI
-+	help
-+	  This selects support for StarFive SoC specific extensions
-+	  for the Innosilicon HDMI driver. If you want to enable
-+	  HDMI on JH7110 based SoC, you should select this option.
-+endif
 diff --git a/drivers/gpu/drm/verisilicon/Makefile b/drivers/gpu/drm/verisilicon/Makefile
-index 88a07a308e31..2d02b4a3a567 100644
+index 2d02b4a3a567..c35ba9bd6f81 100644
 --- a/drivers/gpu/drm/verisilicon/Makefile
 +++ b/drivers/gpu/drm/verisilicon/Makefile
-@@ -6,4 +6,5 @@ vs_drm-objs := vs_dc_hw.o \
+@@ -4,7 +4,8 @@ vs_drm-objs := vs_dc_hw.o \
+ 		vs_modeset.o \
+ 		vs_plane.o \
  		vs_crtc.o \
- 		vs_drv.o
+-		vs_drv.o
++		vs_drv.o \
++		vs_simple_enc.o
  
-+vs_drm-$(CONFIG_DRM_INNO_STARFIVE_HDMI) += inno_hdmi-starfive.o
+ vs_drm-$(CONFIG_DRM_INNO_STARFIVE_HDMI) += inno_hdmi-starfive.o
  obj-$(CONFIG_DRM_VERISILICON_DC8200) += vs_drm.o
-diff --git a/drivers/gpu/drm/verisilicon/inno_hdmi-starfive.c b/drivers/gpu/drm/verisilicon/inno_hdmi-starfive.c
-new file mode 100644
-index 000000000000..f27b04ef5690
---- /dev/null
-+++ b/drivers/gpu/drm/verisilicon/inno_hdmi-starfive.c
-@@ -0,0 +1,481 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2023 StarFive Technology Co., Ltd.
-+ */
-+
-+#include <linux/component.h>
-+#include <linux/i2c.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/module.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_edid.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_simple_kms_helper.h>
-+#include <drm/bridge/inno_hdmi.h>
-+#include <sound/hdmi-codec.h>
-+
-+#include "vs_drv.h"
-+#include "inno_hdmi-starfive.h"
-+
-+enum hdmi_clk {
-+	CLK_SYS = 0,
-+	CLK_M,
-+	CLK_B,
-+	CLK_HDMI_NUM
-+};
-+
-+struct pre_pll_config {
-+	unsigned long pixclock;
-+	unsigned long tmdsclock;
-+	u8 prediv;
-+	u16 fbdiv;
-+	u8 tmds_div_a;
-+	u8 tmds_div_b;
-+	u8 tmds_div_c;
-+	u8 pclk_div_a;
-+	u8 pclk_div_b;
-+	u8 pclk_div_c;
-+	u8 pclk_div_d;
-+	u8 vco_div_5_en;
-+	u32 fracdiv;
-+};
-+
-+struct post_pll_config {
-+	unsigned long tmdsclock;
-+	u8 prediv;
-+	u16 fbdiv;
-+	u8 postdiv;
-+	u8 post_div_en;
-+	u8 version;
-+};
-+
-+struct stf_inno_hdmi {
-+	struct drm_encoder	encoder;
-+	struct inno_hdmi inno_hdmi;
-+	struct clk_bulk_data clk_hdmi[CLK_HDMI_NUM];
-+	struct reset_control *tx_rst;
-+	int	nclks;
-+	unsigned long tmds_rate;
-+	struct pre_pll_config pre_cfg;
-+	const struct post_pll_config *post_cfg;
-+};
-+
-+static inline struct stf_inno_hdmi *to_starfive_inno_hdmi(struct drm_encoder *encoder)
-+{
-+	return container_of(encoder, struct stf_inno_hdmi, encoder);
-+}
-+
-+static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
-+{
-+	struct stf_inno_hdmi *stf_hdmi = to_starfive_inno_hdmi(encoder);
-+
-+	return &stf_hdmi->inno_hdmi;
-+}
-+
-+static const struct post_pll_config post_pll_cfg_table[] = {
-+	{25200000, 1, 80, 13, 3, 1},
-+	{27000000, 1, 40, 11, 3, 1},
-+	{33750000, 1, 40, 11, 3, 1},
-+	{49000000, 1, 20, 1, 3, 3},
-+	{241700000, 1, 20, 1, 3, 3},
-+	{297000000, 4, 20, 0, 0, 3},
-+	{ /* sentinel */ }
-+};
-+
-+static int starfive_hdmi_enable_clk_rst(struct device *dev, struct stf_inno_hdmi *stf_inno_hdmi)
-+{
-+	int ret;
-+
-+	ret = clk_bulk_prepare_enable(stf_inno_hdmi->nclks, stf_inno_hdmi->clk_hdmi);
-+	if (ret) {
-+		dev_err(dev, "failed to enable clocks\n");
-+		return ret;
-+	}
-+
-+	ret = reset_control_deassert(stf_inno_hdmi->tx_rst);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to deassert tx_rst\n");
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static void starfive_hdmi_disable_clk_rst(struct device *dev, struct stf_inno_hdmi *stf_inno_hdmi)
-+{
-+	int ret;
-+
-+	ret = reset_control_assert(stf_inno_hdmi->tx_rst);
-+	if (ret < 0)
-+		dev_err(dev, "failed to assert tx_rst\n");
-+
-+	clk_bulk_disable_unprepare(stf_inno_hdmi->nclks, stf_inno_hdmi->clk_hdmi);
-+}
-+
-+static void starfive_hdmi_config_pll(struct stf_inno_hdmi *stf_inno_hdmi)
-+{
-+	u32 val;
-+	struct inno_hdmi *hdmi;
-+
-+	hdmi = &stf_inno_hdmi->inno_hdmi;
-+	u8 reg_1ad_value = stf_inno_hdmi->post_cfg->post_div_en ?
-+			   stf_inno_hdmi->post_cfg->postdiv : 0x00;
-+	u8 reg_1aa_value = stf_inno_hdmi->post_cfg->post_div_en ?
-+			   0x0e : 0x02;
-+
-+	hdmi_writeb(hdmi, STF_INNO_PRE_PLL_CONTROL, STF_INNO_PRE_PLL_POWER_DOWN);
-+	hdmi_writeb(hdmi, STF_INNO_POST_PLL_DIV_1,
-+		    STF_INNO_POST_PLL_POST_DIV_ENABLE |
-+		    STF_INNO_POST_PLL_REFCLK_SEL_TMDS |
-+		    STF_INNO_POST_PLL_POWER_DOWN);
-+	hdmi_writeb(hdmi, STF_INNO_PRE_PLL_DIV_1,
-+		    STF_INNO_PRE_PLL_PRE_DIV(stf_inno_hdmi->pre_cfg.prediv));
-+
-+	val = STF_INNO_SPREAD_SPECTRUM_MOD_DISABLE | STF_INNO_SPREAD_SPECTRUM_MOD_DOWN;
-+	if (!stf_inno_hdmi->pre_cfg.fracdiv)
-+		val |= STF_INNO_PRE_PLL_FRAC_DIV_DISABLE;
-+	hdmi_writeb(hdmi, STF_INNO_PRE_PLL_DIV_2,
-+		    STF_INNO_PRE_PLL_FB_DIV_11_8(stf_inno_hdmi->pre_cfg.fbdiv) | val);
-+	hdmi_writeb(hdmi, STF_INNO_PRE_PLL_DIV_3,
-+		    STF_INNO_PRE_PLL_FB_DIV_7_0(stf_inno_hdmi->pre_cfg.fbdiv));
-+	hdmi_writeb(hdmi, STF_INNO_PRE_PLL_DIV_4,
-+		    STF_INNO_PRE_PLL_TMDSCLK_DIV_C(stf_inno_hdmi->pre_cfg.tmds_div_c) |
-+		    STF_INNO_PRE_PLL_TMDSCLK_DIV_A(stf_inno_hdmi->pre_cfg.tmds_div_a) |
-+		    STF_INNO_PRE_PLL_TMDSCLK_DIV_B(stf_inno_hdmi->pre_cfg.tmds_div_b));
-+
-+	if (stf_inno_hdmi->pre_cfg.fracdiv) {
-+		hdmi_writeb(hdmi, STF_INNO_PRE_PLL_FRAC_DIV_L,
-+			    STF_INNO_PRE_PLL_FRAC_DIV_7_0(stf_inno_hdmi->pre_cfg.fracdiv));
-+		hdmi_writeb(hdmi, STF_INNO_PRE_PLL_FRAC_DIV_M,
-+			    STF_INNO_PRE_PLL_FRAC_DIV_15_8(stf_inno_hdmi->pre_cfg.fracdiv));
-+		hdmi_writeb(hdmi, STF_INNO_PRE_PLL_FRAC_DIV_H,
-+			    STF_INNO_PRE_PLL_FRAC_DIV_23_16(stf_inno_hdmi->pre_cfg.fracdiv));
-+	}
-+
-+	hdmi_writeb(hdmi, STF_INNO_PRE_PLL_DIV_5,
-+		    STF_INNO_PRE_PLL_PCLK_DIV_A(stf_inno_hdmi->pre_cfg.pclk_div_a) |
-+		    STF_INNO_PRE_PLL_PCLK_DIV_B(stf_inno_hdmi->pre_cfg.pclk_div_b));
-+	hdmi_writeb(hdmi, STF_INNO_PRE_PLL_DIV_6,
-+		    STF_INNO_PRE_PLL_PCLK_DIV_C(stf_inno_hdmi->pre_cfg.pclk_div_c) |
-+		    STF_INNO_PRE_PLL_PCLK_DIV_D(stf_inno_hdmi->pre_cfg.pclk_div_d));
-+
-+	/*pre-pll power down*/
-+	hdmi_modb(hdmi, STF_INNO_PRE_PLL_CONTROL, STF_INNO_PRE_PLL_POWER_DOWN, 0);
-+
-+	hdmi_modb(hdmi, STF_INNO_POST_PLL_DIV_2, STF_INNO_POST_PLL_Pre_DIV_MASK,
-+		  STF_INNO_POST_PLL_PRE_DIV(stf_inno_hdmi->post_cfg->prediv));
-+	hdmi_writeb(hdmi, STF_INNO_POST_PLL_DIV_3, stf_inno_hdmi->post_cfg->fbdiv & 0xff);
-+	hdmi_writeb(hdmi, STF_INNO_POST_PLL_DIV_4, reg_1ad_value);
-+	hdmi_writeb(hdmi, STF_INNO_POST_PLL_DIV_1, reg_1aa_value);
-+}
-+
-+static void starfive_hdmi_tmds_driver_on(struct inno_hdmi *hdmi)
-+{
-+	hdmi_modb(hdmi, STF_INNO_TMDS_CONTROL,
-+		  STF_INNO_TMDS_DRIVER_ENABLE, STF_INNO_TMDS_DRIVER_ENABLE);
-+}
-+
-+static void starfive_hdmi_sync_tmds(struct inno_hdmi *hdmi)
-+{
-+	/*first send 0 to this bit, then send 1 and keep 1 into this bit*/
-+	hdmi_writeb(hdmi, HDMI_SYNC, 0x0);
-+	hdmi_writeb(hdmi, HDMI_SYNC, 0x1);
-+}
-+
-+static void starfive_hdmi_phy_get_pre_pll_cfg(struct stf_inno_hdmi *hdmi)
-+{
-+	if (hdmi->tmds_rate > 30000000) {
-+		hdmi->pre_cfg.pixclock = hdmi->tmds_rate;
-+		hdmi->pre_cfg.tmdsclock = hdmi->tmds_rate;
-+		hdmi->pre_cfg.prediv = 1;
-+		hdmi->pre_cfg.fbdiv = hdmi->tmds_rate / 3000000;
-+		hdmi->pre_cfg.tmds_div_a = 0;
-+		hdmi->pre_cfg.tmds_div_b = 1;
-+		hdmi->pre_cfg.tmds_div_c = 1;
-+		hdmi->pre_cfg.pclk_div_a = 1;
-+		hdmi->pre_cfg.pclk_div_b = 0;
-+		hdmi->pre_cfg.pclk_div_c = 2;
-+		hdmi->pre_cfg.pclk_div_d = 2;
-+		hdmi->pre_cfg.vco_div_5_en = hdmi->tmds_rate % 3000000 ? 1 : 0;
-+
-+		if (hdmi->pre_cfg.vco_div_5_en) {
-+			hdmi->pre_cfg.fracdiv = (hdmi->tmds_rate % 3000000) *
-+						 0xffffff / 1000000;
-+		}
-+	} else {
-+		hdmi->pre_cfg.pixclock = hdmi->tmds_rate;
-+		hdmi->pre_cfg.tmdsclock = hdmi->tmds_rate;
-+		hdmi->pre_cfg.prediv = 1;
-+		hdmi->pre_cfg.fbdiv = hdmi->tmds_rate / 1000000;
-+		hdmi->pre_cfg.tmds_div_a = 2;
-+		hdmi->pre_cfg.tmds_div_b = 1;
-+		hdmi->pre_cfg.tmds_div_c = 1;
-+		hdmi->pre_cfg.pclk_div_a = 3;
-+		hdmi->pre_cfg.pclk_div_b = 0;
-+		hdmi->pre_cfg.pclk_div_c = 3;
-+		hdmi->pre_cfg.pclk_div_d = 4;
-+		hdmi->pre_cfg.vco_div_5_en = hdmi->tmds_rate % 1000000 ? 1 : 0;
-+
-+		if (hdmi->pre_cfg.vco_div_5_en) {
-+			hdmi->pre_cfg.fracdiv = (hdmi->tmds_rate % 1000000) *
-+						 0xffffff / 1000000;
-+		}
-+	}
-+}
-+
-+static int starfive_hdmi_phy_clk_set_rate(struct stf_inno_hdmi *stf_inno_hdmi)
-+{
-+	stf_inno_hdmi->post_cfg = post_pll_cfg_table;
-+
-+	starfive_hdmi_phy_get_pre_pll_cfg(stf_inno_hdmi);
-+
-+	for (; stf_inno_hdmi->post_cfg->tmdsclock != 0; stf_inno_hdmi->post_cfg++)
-+		if (stf_inno_hdmi->tmds_rate <= stf_inno_hdmi->post_cfg->tmdsclock)
-+			break;
-+
-+	starfive_hdmi_config_pll(stf_inno_hdmi);
-+
-+	return 0;
-+}
-+
-+static int starfive_hdmi_setup(struct inno_hdmi *hdmi,
-+			       struct drm_display_mode *mode)
-+{
-+	struct stf_inno_hdmi *stf_inno_hdmi = dev_get_drvdata(hdmi->dev);
-+	struct drm_display_info *display = &hdmi->connector.display_info;
-+	int ret;
-+	u32 val;
-+
-+	hdmi_modb(hdmi, STF_INNO_BIAS_CONTROL, STF_INNO_BIAS_ENABLE, STF_INNO_BIAS_ENABLE);
-+	hdmi_writeb(hdmi, STF_INNO_RX_CONTROL, STF_INNO_RX_ENABLE);
-+
-+	stf_inno_hdmi->tmds_rate = mode->clock * 1000;
-+	starfive_hdmi_phy_clk_set_rate(stf_inno_hdmi);
-+
-+	ret = readx_poll_timeout(readl_relaxed,
-+				 hdmi->regs + (STF_INNO_PRE_PLL_LOCK_STATUS) * 0x04,
-+				 val, val & 0x1, 1000, 100000);
-+	if (ret < 0) {
-+		dev_err(hdmi->dev, "failed to wait pre-pll lock\n");
-+		return ret;
-+	}
-+
-+	ret = readx_poll_timeout(readl_relaxed,
-+				 hdmi->regs + (STF_INNO_POST_PLL_LOCK_STATUS) * 0x04,
-+				 val, val & 0x1, 1000, 100000);
-+	if (ret < 0) {
-+		dev_err(hdmi->dev, "failed to wait post-pll lock\n");
-+		return ret;
-+	}
-+
-+	/*turn on LDO*/
-+	hdmi_writeb(hdmi, STF_INNO_LDO_CONTROL, STF_INNO_LDO_ENABLE);
-+	/*turn on serializer*/
-+	hdmi_writeb(hdmi, STF_INNO_SERIALIER_CONTROL, STF_INNO_SERIALIER_ENABLE);
-+
-+	if (display->is_hdmi)
-+		inno_hdmi_config_video_avi(hdmi, mode);
-+
-+	inno_hdmi_sys_power(hdmi, false);
-+	inno_hdmi_config_video_timing(hdmi, mode);
-+	inno_hdmi_sys_power(hdmi, true);
-+
-+	starfive_hdmi_tmds_driver_on(hdmi);
-+	starfive_hdmi_sync_tmds(hdmi);
-+
-+	return 0;
-+}
-+
-+static enum drm_mode_status
-+starfive_hdmi_connector_mode_valid(struct drm_connector *connector, struct drm_display_mode *mode)
-+{
-+	int pclk = mode->clock * 1000;
-+	bool valid = false;
-+
-+	if (pclk <= PIXCLOCK_4K_30FPS)
-+		valid = true;
-+
-+	return (valid) ? MODE_OK : MODE_BAD;
-+}
-+
-+static void starfive_hdmi_encoder_enable(struct drm_encoder *encoder,
-+					 struct drm_atomic_state *state)
-+{
-+	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
-+	struct drm_connector_state *conn_state;
-+	struct drm_crtc_state *crtc_state;
-+
-+	conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-+	if (WARN_ON(!conn_state))
-+		return;
-+
-+	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-+	if (WARN_ON(!crtc_state))
-+		return;
-+
-+	starfive_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
-+}
-+
-+static void starfive_hdmi_encoder_disable(struct drm_encoder *encoder,
-+					  struct drm_atomic_state *state)
-+{
-+	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
-+
-+	inno_hdmi_sys_power(hdmi, false);
-+}
-+
-+static int
-+starfive_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
-+				   struct drm_crtc_state *crtc_state,
-+				   struct drm_connector_state *conn_state)
-+{
-+	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-+	u8 vic = drm_match_cea_mode(mode);
-+	struct inno_hdmi_connector_state *inno_conn_state = to_inno_hdmi_conn_state(conn_state);
-+
-+	struct vs_crtc_state *vs_crtc_state = to_vs_crtc_state(crtc_state);
-+
-+	vs_crtc_state->encoder_type = encoder->encoder_type;
-+	vs_crtc_state->output_fmt = MEDIA_BUS_FMT_RGB888_1X24;
-+
-+	if (vic == 6 || vic == 7 || vic == 21 || vic == 22 ||
-+	    vic == 2 || vic == 3 || vic == 17 || vic == 18)
-+		inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_601;
-+	else
-+		inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
-+
-+	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
-+	inno_conn_state->rgb_limited_range =
-+		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED;
-+
-+	return  starfive_hdmi_connector_mode_valid(conn_state->connector,
-+			&crtc_state->adjusted_mode) == MODE_OK ? 0 : -EINVAL;
-+}
-+
-+static const struct drm_encoder_helper_funcs stf_inno_encoder_helper_funcs = {
-+	.atomic_check   = starfive_hdmi_encoder_atomic_check,
-+	.atomic_enable  = starfive_hdmi_encoder_enable,
-+	.atomic_disable = starfive_hdmi_encoder_disable,
-+};
-+
-+static int starfive_hdmi_get_clk_rst(struct device *dev, struct stf_inno_hdmi *stf_hdmi)
-+{
-+	int ret;
-+
-+	stf_hdmi->nclks = ARRAY_SIZE(stf_hdmi->clk_hdmi);
-+
-+	ret = devm_clk_bulk_get(dev, stf_hdmi->nclks, stf_hdmi->clk_hdmi);
-+	if (ret) {
-+		dev_err(dev, "Failed to get clk controls\n");
-+		return ret;
-+	}
-+
-+	stf_hdmi->tx_rst = devm_reset_control_get_by_index(dev, 0);
-+	if (IS_ERR(stf_hdmi->tx_rst)) {
-+		dev_err(dev, "failed to get tx_rst reset\n");
-+		return PTR_ERR(stf_hdmi->tx_rst);
-+	}
-+
-+	return 0;
-+}
-+
-+static int starfive_hdmi_bind(struct device *dev, struct device *master,
-+			      void *data)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct drm_device *drm = dev_get_drvdata(master);
-+	struct stf_inno_hdmi *stf_hdmi;
-+	struct inno_hdmi *hdmi;
-+	struct resource *iores;
-+
-+	int ret;
-+	unsigned long long rate;
-+
-+	stf_hdmi = drmm_simple_encoder_alloc(drm, struct stf_inno_hdmi,
-+					     encoder, DRM_MODE_ENCODER_TMDS);
-+	hdmi = &stf_hdmi->inno_hdmi;
-+
-+	hdmi->dev = dev;
-+	hdmi->plat_data = (struct inno_hdmi_plat_data *)of_device_get_match_data(dev);
-+
-+	iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	hdmi->regs = devm_ioremap_resource(dev, iores);
-+	if (IS_ERR(hdmi->regs))
-+		return PTR_ERR(hdmi->regs);
-+
-+	ret = starfive_hdmi_get_clk_rst(dev, stf_hdmi);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = starfive_hdmi_enable_clk_rst(dev, stf_hdmi);
-+	if (ret)
-+		return ret;
-+
-+	rate = clk_get_rate(stf_hdmi->clk_hdmi[CLK_SYS].clk);
-+	inno_hdmi_i2c_init(hdmi, rate);
-+
-+	ret = inno_hdmi_bind(drm, hdmi, &stf_hdmi->encoder);
-+	if (ret)
-+		goto err_disable_clk;
-+
-+	dev_set_drvdata(dev, stf_hdmi);
-+
-+	return 0;
-+
-+err_disable_clk:
-+	starfive_hdmi_disable_clk_rst(dev, stf_hdmi);
-+	return ret;
-+}
-+
-+static void starfive_hdmi_unbind(struct device *dev, struct device *master, void *data)
-+{
-+	struct stf_inno_hdmi *stf_hdmi = dev_get_drvdata(dev);
-+
-+	struct inno_hdmi *hdmi = &stf_hdmi->inno_hdmi;
-+
-+	i2c_put_adapter(hdmi->ddc);
-+	starfive_hdmi_disable_clk_rst(dev, stf_hdmi);
-+}
-+
-+static const struct component_ops starfive_hdmi_ops = {
-+	.bind	= starfive_hdmi_bind,
-+	.unbind	= starfive_hdmi_unbind,
-+};
-+
-+static int starfive_hdmi_probe(struct platform_device *pdev)
-+{
-+	return component_add(&pdev->dev, &starfive_hdmi_ops);
-+}
-+
-+static int starfive_hdmi_remove(struct platform_device *pdev)
-+{
-+	component_del(&pdev->dev, &starfive_hdmi_ops);
-+
-+	return 0;
-+}
-+
-+static const struct inno_hdmi_plat_data stf_inno_info = {
-+	.soc_type = STARFIVE_HDMI,
-+	.mode_valid = starfive_hdmi_connector_mode_valid,
-+	.helper_private = &stf_inno_encoder_helper_funcs,
-+};
-+
-+static const struct of_device_id starfive_hdmi_dt_ids[] = {
-+	{ .compatible = "starfive,jh7110-inno-hdmi", .data = &stf_inno_info,},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, starfive_hdmi_dt_ids);
-+
-+struct platform_driver starfive_hdmi_driver = {
-+	.probe  = starfive_hdmi_probe,
-+	.remove = starfive_hdmi_remove,
-+	.driver = {
-+		.name = "starfive-hdmi",
-+		.of_match_table = starfive_hdmi_dt_ids,
-+	},
-+};
-+
-+MODULE_AUTHOR("StarFive Corporation");
-+MODULE_DESCRIPTION("Starfive Specific INNO-HDMI Driver");
-diff --git a/drivers/gpu/drm/verisilicon/inno_hdmi-starfive.h b/drivers/gpu/drm/verisilicon/inno_hdmi-starfive.h
-new file mode 100644
-index 000000000000..c64374208b58
---- /dev/null
-+++ b/drivers/gpu/drm/verisilicon/inno_hdmi-starfive.h
-@@ -0,0 +1,152 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2023 StarFive Technology Co., Ltd.
-+ */
-+
-+#ifndef __STARFIVE_HDMI_H__
-+#define __STARFIVE_HDMI_H__
-+
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+
-+#define HDMI_SYNC					0xce
-+
-+#define UPDATE(x, h, l)					FIELD_PREP(GENMASK(h, l), x)
-+
-+/* REG: 0x1a0 */
-+#define STF_INNO_PRE_PLL_CONTROL			0x1a0
-+#define STF_INNO_PCLK_VCO_DIV_5_MASK			BIT(1)
-+#define STF_INNO_PCLK_VCO_DIV_5(x)			UPDATE(x, 1, 1)
-+#define STF_INNO_PRE_PLL_POWER_DOWN			BIT(0)
-+
-+/* REG: 0x1a1 */
-+#define STF_INNO_PRE_PLL_DIV_1				0x1a1
-+#define STF_INNO_PRE_PLL_PRE_DIV_MASK			GENMASK(5, 0)
-+#define STF_INNO_PRE_PLL_PRE_DIV(x)			UPDATE(x, 5, 0)
-+
-+/* REG: 0x1a2 */
-+#define STF_INNO_PRE_PLL_DIV_2					0x1a2
-+#define STF_INNO_SPREAD_SPECTRUM_MOD_DOWN		BIT(7)
-+#define STF_INNO_SPREAD_SPECTRUM_MOD_DISABLE		BIT(6)
-+#define STF_INNO_PRE_PLL_FRAC_DIV_DISABLE		UPDATE(3, 5, 4)
-+#define STF_INNO_PRE_PLL_FB_DIV_11_8_MASK		GENMASK(3, 0)
-+#define STF_INNO_PRE_PLL_FB_DIV_11_8(x)			UPDATE((x) >> 8, 3, 0)
-+
-+/* REG: 0x1a3 */
-+#define STF_INNO_PRE_PLL_DIV_3				0x1a3
-+#define STF_INNO_PRE_PLL_FB_DIV_7_0(x)			UPDATE(x, 7, 0)
-+
-+/* REG: 0x1a4*/
-+#define STF_INNO_PRE_PLL_DIV_4				0x1a4
-+#define STF_INNO_PRE_PLL_TMDSCLK_DIV_C_MASK		GENMASK(1, 0)
-+#define STF_INNO_PRE_PLL_TMDSCLK_DIV_C(x)		UPDATE(x, 1, 0)
-+#define STF_INNO_PRE_PLL_TMDSCLK_DIV_B_MASK		GENMASK(3, 2)
-+#define STF_INNO_PRE_PLL_TMDSCLK_DIV_B(x)		UPDATE(x, 3, 2)
-+#define STF_INNO_PRE_PLL_TMDSCLK_DIV_A_MASK		GENMASK(5, 4)
-+#define STF_INNO_PRE_PLL_TMDSCLK_DIV_A(x)		UPDATE(x, 5, 4)
-+
-+/* REG: 0x1a5 */
-+#define STF_INNO_PRE_PLL_DIV_5				0x1a5
-+#define STF_INNO_PRE_PLL_PCLK_DIV_B_SHIFT		5
-+#define STF_INNO_PRE_PLL_PCLK_DIV_B_MASK		GENMASK(6, 5)
-+#define STF_INNO_PRE_PLL_PCLK_DIV_B(x)			UPDATE(x, 6, 5)
-+#define STF_INNO_PRE_PLL_PCLK_DIV_A_MASK		GENMASK(4, 0)
-+#define STF_INNO_PRE_PLL_PCLK_DIV_A(x)			UPDATE(x, 4, 0)
-+
-+/* REG: 0x1a6 */
-+#define STF_INNO_PRE_PLL_DIV_6				0x1a6
-+#define STF_INNO_PRE_PLL_PCLK_DIV_C_SHIFT		5
-+#define STF_INNO_PRE_PLL_PCLK_DIV_C_MASK		GENMASK(6, 5)
-+#define STF_INNO_PRE_PLL_PCLK_DIV_C(x)			UPDATE(x, 6, 5)
-+#define STF_INNO_PRE_PLL_PCLK_DIV_D_MASK		GENMASK(4, 0)
-+#define STF_INNO_PRE_PLL_PCLK_DIV_D(x)			UPDATE(x, 4, 0)
-+
-+/* REG: 0x1a9 */
-+#define STF_INNO_PRE_PLL_LOCK_STATUS			0x1a9
-+
-+/* REG: 0x1aa */
-+#define STF_INNO_POST_PLL_DIV_1				0x1aa
-+#define STF_INNO_POST_PLL_POST_DIV_ENABLE		GENMASK(3, 2)
-+#define STF_INNO_POST_PLL_REFCLK_SEL_TMDS		BIT(1)
-+#define STF_INNO_POST_PLL_POWER_DOWN			BIT(0)
-+#define STF_INNO_POST_PLL_FB_DIV_8(x)			UPDATE(((x) >> 8) << 4, 4, 4)
-+
-+/* REG:0x1ab */
-+#define STF_INNO_POST_PLL_DIV_2				0x1ab
-+#define STF_INNO_POST_PLL_Pre_DIV_MASK			GENMASK(5, 0)
-+#define STF_INNO_POST_PLL_PRE_DIV(x)			UPDATE(x, 5, 0)
-+
-+/* REG: 0x1ac */
-+#define STF_INNO_POST_PLL_DIV_3				0x1ac
-+#define STF_INNO_POST_PLL_FB_DIV_7_0(x)			UPDATE(x, 7, 0)
-+
-+/* REG: 0x1ad */
-+#define STF_INNO_POST_PLL_DIV_4				0x1ad
-+#define STF_INNO_POST_PLL_POST_DIV_MASK			GENMASK(2, 0)
-+#define STF_INNO_POST_PLL_POST_DIV_2			0x0
-+#define STF_INNO_POST_PLL_POST_DIV_4			0x1
-+#define STF_INNO_POST_PLL_POST_DIV_8			0x3
-+
-+/* REG: 0x1af */
-+#define STF_INNO_POST_PLL_LOCK_STATUS			0x1af
-+
-+/* REG: 0x1b0 */
-+#define STF_INNO_BIAS_CONTROL				0x1b0
-+#define STF_INNO_BIAS_ENABLE				BIT(2)
-+
-+/* REG: 0x1b2 */
-+#define STF_INNO_TMDS_CONTROL				0x1b2
-+#define STF_INNO_TMDS_CLK_DRIVER_EN			BIT(3)
-+#define STF_INNO_TMDS_D2_DRIVER_EN			BIT(2)
-+#define STF_INNO_TMDS_D1_DRIVER_EN			BIT(1)
-+#define STF_INNO_TMDS_D0_DRIVER_EN			BIT(0)
-+#define STF_INNO_TMDS_DRIVER_ENABLE			(STF_INNO_TMDS_CLK_DRIVER_EN | \
-+							 STF_INNO_TMDS_D2_DRIVER_EN | \
-+							 STF_INNO_TMDS_D1_DRIVER_EN | \
-+							 STF_INNO_TMDS_D0_DRIVER_EN)
-+
-+/* REG: 0x1b4 */
-+#define STF_INNO_LDO_CONTROL				0x1b4
-+#define STF_INNO_LDO_D2_EN				BIT(2)
-+#define STF_INNO_LDO_D1_EN				BIT(1)
-+#define STF_INNO_LDO_D0_EN				BIT(0)
-+#define STF_INNO_LDO_ENABLE				(STF_INNO_LDO_D2_EN | \
-+							 STF_INNO_LDO_D1_EN | \
-+							 STF_INNO_LDO_D0_EN)
-+
-+/* REG: 0x1be */
-+#define STF_INNO_SERIALIER_CONTROL			0x1be
-+#define STF_INNO_SERIALIER_D2_EN			BIT(6)
-+#define STF_INNO_SERIALIER_D1_EN			BIT(5)
-+#define STF_INNO_SERIALIER_D0_EN			BIT(4)
-+#define STF_INNO_SERIALIER_EN				BIT(0)
-+
-+#define STF_INNO_SERIALIER_ENABLE			(STF_INNO_SERIALIER_D2_EN | \
-+							 STF_INNO_SERIALIER_D1_EN | \
-+							 STF_INNO_SERIALIER_D0_EN | \
-+							 STF_INNO_SERIALIER_EN)
-+
-+/* REG: 0x1cc */
-+#define STF_INNO_RX_CONTROL				0x1cc
-+#define STF_INNO_RX_EN					BIT(3)
-+#define STF_INNO_RX_CHANNEL_2_EN			BIT(2)
-+#define STF_INNO_RX_CHANNEL_1_EN			BIT(1)
-+#define STF_INNO_RX_CHANNEL_0_EN			BIT(0)
-+#define STF_INNO_RX_ENABLE				(STF_INNO_RX_EN | \
-+							 STF_INNO_RX_CHANNEL_2_EN | \
-+							 STF_INNO_RX_CHANNEL_1_EN | \
-+							 STF_INNO_RX_CHANNEL_0_EN)
-+
-+/* REG: 0x1d1 */
-+#define STF_INNO_PRE_PLL_FRAC_DIV_H			0x1d1
-+#define STF_INNO_PRE_PLL_FRAC_DIV_23_16(x)		UPDATE((x) >> 16, 7, 0)
-+/* REG: 0x1d2 */
-+#define STF_INNO_PRE_PLL_FRAC_DIV_M			0x1d2
-+#define STF_INNO_PRE_PLL_FRAC_DIV_15_8(x)		UPDATE((x) >> 8, 7, 0)
-+/* REG: 0x1d3 */
-+#define STF_INNO_PRE_PLL_FRAC_DIV_L			0x1d3
-+#define STF_INNO_PRE_PLL_FRAC_DIV_7_0(x)		UPDATE(x, 7, 0)
-+
-+#define PIXCLOCK_4K_30FPS				297000000
-+
-+#endif /* __STARFIVE_HDMI_H__ */
 diff --git a/drivers/gpu/drm/verisilicon/vs_drv.c b/drivers/gpu/drm/verisilicon/vs_drv.c
-index c22fd2199fe2..6f04102b05b3 100644
+index 6f04102b05b3..2748d48f2c7e 100644
 --- a/drivers/gpu/drm/verisilicon/vs_drv.c
 +++ b/drivers/gpu/drm/verisilicon/vs_drv.c
-@@ -609,7 +609,9 @@ static const struct component_master_ops vs_drm_ops = {
- };
- 
- static struct platform_driver *drm_sub_drivers[] = {
--
-+#ifdef CONFIG_DRM_INNO_STARFIVE_HDMI
-+	&starfive_hdmi_driver,
-+#endif
+@@ -612,6 +612,7 @@ static struct platform_driver *drm_sub_drivers[] = {
+ #ifdef CONFIG_DRM_INNO_STARFIVE_HDMI
+ 	&starfive_hdmi_driver,
+ #endif
++	&simple_encoder_driver,
  };
  
  static struct component_match *vs_add_external_components(struct device *dev)
 diff --git a/drivers/gpu/drm/verisilicon/vs_drv.h b/drivers/gpu/drm/verisilicon/vs_drv.h
-index d9f6efa7c8f9..c3c08ed5f8ac 100644
+index c3c08ed5f8ac..f3f0f170777d 100644
 --- a/drivers/gpu/drm/verisilicon/vs_drv.h
 +++ b/drivers/gpu/drm/verisilicon/vs_drv.h
-@@ -90,4 +90,8 @@ to_vs_plane_state(struct drm_plane_state *state)
- 	return container_of(state, struct vs_plane_state, base);
- }
+@@ -17,6 +17,7 @@
+ #include <drm/drm_managed.h>
  
-+#ifdef CONFIG_DRM_INNO_STARFIVE_HDMI
-+extern struct platform_driver starfive_hdmi_driver;
-+#endif
+ #include "vs_dc_hw.h"
++#include "vs_simple_enc.h"
+ 
+ /*@pitch_alignment: buffer pitch alignment required by sub-devices.*/
+ struct vs_drm_device {
+diff --git a/drivers/gpu/drm/verisilicon/vs_simple_enc.c b/drivers/gpu/drm/verisilicon/vs_simple_enc.c
+new file mode 100644
+index 000000000000..d0b1755d77d2
+--- /dev/null
++++ b/drivers/gpu/drm/verisilicon/vs_simple_enc.c
+@@ -0,0 +1,190 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2020 VeriSilicon Holdings Co., Ltd.
++ */
++#include <linux/component.h>
++#include <linux/of_device.h>
++#include <linux/module.h>
++#include <linux/regmap.h>
++#include <linux/media-bus-format.h>
++#include <linux/mfd/syscon.h>
++#include <linux/platform_device.h>
++#include <linux/of.h>
 +
- #endif /* __VS_DRV_H__ */
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_bridge.h>
++#include <drm/drm_crtc_helper.h>
++#include <drm/drm_of.h>
++
++#include "vs_crtc.h"
++#include "vs_simple_enc.h"
++
++static const struct simple_encoder_priv dsi_priv = {
++	.encoder_type = DRM_MODE_ENCODER_DSI
++};
++
++static inline struct vs_simple_encoder *to_simple_encoder(struct drm_encoder *enc)
++{
++	return container_of(enc, struct vs_simple_encoder, encoder);
++}
++
++static int encoder_parse_dt(struct device *dev)
++{
++	struct vs_simple_encoder *simple = dev_get_drvdata(dev);
++	unsigned int args[2];
++
++	simple->dss_regmap = syscon_regmap_lookup_by_phandle_args(dev->of_node,
++								  "starfive,syscon",
++								  2, args);
++
++	if (IS_ERR(simple->dss_regmap)) {
++		return dev_err_probe(dev, PTR_ERR(simple->dss_regmap),
++				     "getting the regmap failed\n");
++	}
++
++	simple->offset = args[0];
++	simple->mask = args[1];
++
++	return 0;
++}
++
++static void vs_encoder_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *state)
++{
++	struct vs_simple_encoder *simple = to_simple_encoder(encoder);
++
++	regmap_update_bits(simple->dss_regmap, simple->offset, simple->mask, simple->mask);
++}
++
++static int vs_encoder_atomic_check(struct drm_encoder *encoder,
++				   struct drm_crtc_state *crtc_state,
++				   struct drm_connector_state *conn_state)
++{
++	struct vs_crtc_state *vs_crtc_state = to_vs_crtc_state(crtc_state);
++	struct drm_connector *connector = conn_state->connector;
++	int ret = 0;
++
++	vs_crtc_state->encoder_type = encoder->encoder_type;
++	if (connector->display_info.num_bus_formats)
++		vs_crtc_state->output_fmt = connector->display_info.bus_formats[0];
++	else
++		vs_crtc_state->output_fmt = MEDIA_BUS_FMT_FIXED;
++
++	switch (vs_crtc_state->output_fmt) {
++	case MEDIA_BUS_FMT_FIXED:
++	case MEDIA_BUS_FMT_RGB565_1X16:
++	case MEDIA_BUS_FMT_RGB666_1X18:
++	case MEDIA_BUS_FMT_RGB888_1X24:
++	case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
++	case MEDIA_BUS_FMT_RGB101010_1X30:
++	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++	case MEDIA_BUS_FMT_YUV8_1X24:
++	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
++	case MEDIA_BUS_FMT_UYVY10_1X20:
++	case MEDIA_BUS_FMT_YUV10_1X30:
++		ret = 0;
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	/* If MEDIA_BUS_FMT_FIXED, set it to default value */
++	if (vs_crtc_state->output_fmt == MEDIA_BUS_FMT_FIXED)
++		vs_crtc_state->output_fmt = MEDIA_BUS_FMT_RGB888_1X24;
++
++	return ret;
++}
++
++static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
++	.atomic_check = vs_encoder_atomic_check,
++	.atomic_enable = vs_encoder_atomic_enable,
++};
++
++static int vs_encoder_bind(struct device *dev, struct device *master, void *data)
++{
++	struct drm_device *drm_dev = data;
++	struct vs_simple_encoder *simple = dev_get_drvdata(dev);
++	struct drm_encoder *encoder;
++	struct drm_bridge *bridge;
++	int ret;
++
++	encoder = &simple->encoder;
++
++	ret = drmm_encoder_init(drm_dev, encoder, NULL, simple->priv->encoder_type, NULL);
++	if (ret)
++		return ret;
++
++	drm_encoder_helper_add(encoder, &encoder_helper_funcs);
++
++	encoder->possible_crtcs =
++			drm_of_find_possible_crtcs(drm_dev, dev->of_node);
++
++	/* output port is port1*/
++	bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
++	if (IS_ERR(bridge)) {
++		if (PTR_ERR(bridge) == -ENODEV) {
++			bridge = NULL;
++			return 0;
++		}
++
++		return PTR_ERR(bridge);
++	}
++
++	return drm_bridge_attach(encoder, bridge, NULL, 0);
++}
++
++static const struct component_ops encoder_component_ops = {
++	.bind = vs_encoder_bind,
++};
++
++static int vs_encoder_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct vs_simple_encoder *simple;
++	int ret;
++
++	simple = devm_kzalloc(dev, sizeof(*simple), GFP_KERNEL);
++	if (!simple)
++		return -ENOMEM;
++
++	simple->priv = of_device_get_match_data(dev);
++
++	simple->dev = dev;
++
++	dev_set_drvdata(dev, simple);
++
++	ret = encoder_parse_dt(dev);
++	if (ret)
++		return ret;
++
++	return component_add(dev, &encoder_component_ops);
++}
++
++static int vs_encoder_remove(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++
++	component_del(dev, &encoder_component_ops);
++	dev_set_drvdata(dev, NULL);
++
++	return 0;
++}
++
++static const struct of_device_id simple_encoder_dt_match[] = {
++	{ .compatible = "starfive,dsi-encoder", .data = &dsi_priv},
++	{},
++};
++MODULE_DEVICE_TABLE(of, simple_encoder_dt_match);
++
++struct platform_driver simple_encoder_driver = {
++	.probe = vs_encoder_probe,
++	.remove = vs_encoder_remove,
++	.driver = {
++		.name = "vs-simple-encoder",
++		.of_match_table = of_match_ptr(simple_encoder_dt_match),
++	},
++};
++
++MODULE_DESCRIPTION("Simple Encoder Driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/verisilicon/vs_simple_enc.h b/drivers/gpu/drm/verisilicon/vs_simple_enc.h
+new file mode 100644
+index 000000000000..73e356bfeb2c
+--- /dev/null
++++ b/drivers/gpu/drm/verisilicon/vs_simple_enc.h
+@@ -0,0 +1,25 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2022 VeriSilicon Holdings Co., Ltd.
++ */
++
++#ifndef __VS_SIMPLE_ENC_H_
++#define __VS_SIMPLE_ENC_H_
++
++#include <drm/drm_encoder.h>
++
++struct simple_encoder_priv {
++	unsigned char encoder_type;
++};
++
++struct vs_simple_encoder {
++	struct drm_encoder encoder;
++	struct device *dev;
++	const struct simple_encoder_priv *priv;
++	struct regmap *dss_regmap;
++	unsigned int offset;
++	unsigned int mask;
++};
++
++extern struct platform_driver simple_encoder_driver;
++#endif /* __VS_SIMPLE_ENC_H_ */
 -- 
 2.27.0
 
