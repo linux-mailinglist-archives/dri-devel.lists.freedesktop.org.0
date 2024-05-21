@@ -2,163 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64D28CB086
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 16:30:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09AE78CB093
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2024 16:40:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4F8B10E876;
-	Tue, 21 May 2024 14:30:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B383C10E10C;
+	Tue, 21 May 2024 14:40:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VCmfN3ty";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PbTu3n/U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6892210E84A;
- Tue, 21 May 2024 14:30:14 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2CD10E10C
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 14:40:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716301828; x=1747837828;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=+8aeYzEQLcQmsrEU5MLq5px/3ze1q5hQUJcr02mZuaI=;
- b=VCmfN3tycnqip4t0E2/0h1aA+KcVFj/EMsBeQNxAMu2iqbDvQYqE3wvW
- PwOaB6viTMHnbv8FyBKQ+IJrFd8x51Xz84j9rDikjRzjhgJMi65SHmNz4
- RBdYhx5wuAW6hQY0nMfymbToqjY9H+o3SFSLlWqBzg3kHBIx/S/fpO7nX
- X3nwkRq7TYBuul7kqRnLcF312oqiEnXfCXyaXJR5gcXPd+EDZeXqOJeWY
- CCIlb8rRK7pRrGjVwQWGPHijWu2j+X1PTqm0+L7k72eAAgSXh5PQcS6Jz
- /qOUV2+lnUZon4MsXmxOP/PzM7psjt/KJMTy6KqlAHh8fU5D8tUNZWJxm g==;
-X-CSE-ConnectionGUID: 9L7w2GgjT36Qvqw4Iyz7rg==
-X-CSE-MsgGUID: vQE4aunqTK2acrRLB0Paqg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="16327644"
-X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; d="scan'208";a="16327644"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2024 07:29:58 -0700
-X-CSE-ConnectionGUID: Lj+nor6CQzGE4aXIV0gj8A==
-X-CSE-MsgGUID: YBZDNKnHT8qwlVA4C5Et+Q==
+ t=1716302440; x=1747838440;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=/oMa4YQLz4xBg+aIPYZB2MREAQr5+j1JjbMQaLrxuxo=;
+ b=PbTu3n/UnbcW68m+wHINLMS0HNUvp66ZeUmHq5SDAlH5Ru/8gz/lcaiF
+ 0A5JqWEPFikSNsWEXKp6hxZt51VbcYaK6UCFk8qcE4xDO1uwdfBxuEeTK
+ Ya3M+rsHrS9wMpoM8IivjKGu2JKqpinGLFHkQT0V6Vsnhl/WoOSs6yVIT
+ TQ/49P6dHs/+ETZroZ39j7YvbIyFRu3a9zkuBP3ZdcEIGVpJBEXoOffVi
+ KtesGldDE/yORe9dsblI6Ep2rxlZmwQw245V8bTqRNbzjokoTHKB70lpm
+ IRa0g1cn7Sfsfgp8HsmC/DY6Z8EpQsC42rFpcrJqBHl+vRiLL1C5Mobza g==;
+X-CSE-ConnectionGUID: NfG2kCNGRQScsT3BltoAdA==
+X-CSE-MsgGUID: qchIsgkqQgeLBh1ee96srA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="16288954"
+X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; d="scan'208";a="16288954"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 May 2024 07:40:40 -0700
+X-CSE-ConnectionGUID: qtALT4MiSU2FhqgtXgNYEg==
+X-CSE-MsgGUID: SjjzsiPRSr29HwoA9eO28A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; d="scan'208";a="64165562"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 21 May 2024 07:29:59 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 21 May 2024 07:29:57 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 21 May 2024 07:29:57 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 21 May 2024 07:29:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GZK1NDIbthzM7awRKB+Zn4eaygSc5Uec98lkZFKUDk/XoHBdG4IOCPX1ulf1isKE/KmcA9l88ixgd+rIXJjksDhvkig7/GODFvpGYMug3H5ZEAGWmkBBxz0568qrNZ6TJk5PlylWTyWlEWiRtTiDfEJ/3H9n+NSngm+iOPdoyaKddvzyqEAccP2qOdxBAi/PM8lGp2B2+OJ74wkVRlqeOzUpj5zcxcOaKE37CrLbRQurdadn6vbvYh4fNRiWGgMeu3avNxNt0LdKuMGrk/UvnsPSj16k97SKeIwUm0O9dAjaasfATZEGDLttzi5Sp5E8ar8yW4QPylSZreE6H8sUrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+8aeYzEQLcQmsrEU5MLq5px/3ze1q5hQUJcr02mZuaI=;
- b=Aq4Tqq7iu5S75sDVGwYYYP9l/CFOsn1GIqWXwBaMPaMdnCXDOtn6vujdoh0azZ6OmfYMcs00M8Hi2CcJB7OBaHsqUUXel2d++S1dzB7J3uYsWONcZTvTWw3DYRD8zGNP8j9mQjcm4lU2gD6JBdd1rWRzK5HUL2Mg5nr75AaCKT2OtFrcvp6rJgFZEVG6LkIExjSn5zGimVG0RG/GNcKKyJYOlhFz00oTIX9PVXaLUhU6doVdE8scDUpN81CgCqOdXFZaEVEwTCX4bbfKhGoU6p9MJBFXfS7mDZIp4uUP+H42OqNsL8bISuPcDWm7zxMOBLUXngrxJMRpcFTWlWKHLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by SA3PR11MB7534.namprd11.prod.outlook.com (2603:10b6:806:305::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.35; Tue, 21 May
- 2024 14:29:55 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.7587.035; Tue, 21 May 2024
- 14:29:55 +0000
-Date: Tue, 21 May 2024 09:29:52 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Ryszard Knop <ryszard.knop@intel.com>
-CC: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH] nightly.conf: Update drm-intel URLs, add missing bare
- ssh drm-xe URL
-Message-ID: <cholsrq7njebasvtouqno37cr33lw3nt4x6qbwuvvbwahnheq2@6x5izk7p6epq>
-References: <20240424113218.37162-2-ryszard.knop@intel.com>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240424113218.37162-2-ryszard.knop@intel.com>
-X-ClientProxiedBy: MW3PR06CA0016.namprd06.prod.outlook.com
- (2603:10b6:303:2a::21) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; d="scan'208";a="32996927"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+ by fmviesa009.fm.intel.com with ESMTP; 21 May 2024 07:40:38 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1s9QfL-0000RV-2X;
+ Tue, 21 May 2024 14:40:35 +0000
+Date: Tue, 21 May 2024 22:40:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Iago Toral Quiroga <itoral@igalia.com>
+Subject: [drm-misc:drm-misc-next 1/6]
+ drivers/gpu/drm/v3d/v3d_performance_counters.h:118:43: error:
+ 'v3d_v42_performance_counters' defined but not used
+Message-ID: <202405212244.ANdkqVFN-lkp@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SA3PR11MB7534:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1343d969-d2ac-4807-5e8c-08dc79a27bca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?jSDeG05wWljOPms3Ob6JgQUY8Fhwtx6sD7wt0qfNcv1taUfpFUaThNszQUAy?=
- =?us-ascii?Q?F04m22AA/wrwjOC9xJuCOj/5NEBb8In7YO54d6v/efufxOUzRzuXBrLI2Pzx?=
- =?us-ascii?Q?SnCDFpm8SmiA7mCUi3OAxNRC/AFa5+z1/QTjsw9rEoJ47Fg2ryZhx9WMGoIC?=
- =?us-ascii?Q?ZBAC0w/XBkaXAYdqfY2s/VhLDCEsxf40NjDIusMEskiONPLVw811EWligUAG?=
- =?us-ascii?Q?JeIZaVr8Y3O0PKxNSa3MKkpBbuRdYRUABhdIci9XXEFBOjoqE6frEtwbpyEB?=
- =?us-ascii?Q?ddH0x7e1IjMKfLT44yP3lEj3AEaY653HIEtppcAzvHBIEkXrmaZLzYsp3mH8?=
- =?us-ascii?Q?urQxjyuipQmZ8RGmA/NW8uZixBx8TZo53VdmnLiBXLEH6tut4qH+1AsLAzKH?=
- =?us-ascii?Q?XoxiOdHS+cW3loK6D9iQ4DWa2CIMXtr9d0uBV09icnLIVmmhk/47DiaMu7bC?=
- =?us-ascii?Q?7wa62w9Nk4a3KcRfBy/k/f0Qx3tjo64+HxIu7XHCuexu0MW2NnUu+JqnHtMy?=
- =?us-ascii?Q?8kO6Zq42gTf7sx0nkooEuZKz2K6/TuA0frBcTmFS5WpzN43lM6kjlxNj/g2e?=
- =?us-ascii?Q?5K8Twmlh/T+VQO1qVL3haIWqNNqbN0fzEtzuwjJacvNqH/zhuuKUUlgRPyHU?=
- =?us-ascii?Q?kPYgwf4ehfgLiikNamy6ddFtiOk5zTzfejEfM1mU7I4aJTnco21vhVX5k01W?=
- =?us-ascii?Q?Nfy87VE9qPYGQRYF79RWmVM2ulVavDdPDZ5JYm76ZO4gLaiSNto1c6N2BXfZ?=
- =?us-ascii?Q?BWGr+2q+TO+l4kqct6YZAaoCwV8pQJRDo2ACdV4ey7QdAKSz8JpNhH98n8dC?=
- =?us-ascii?Q?A/6vm5JjxyfF1z7yUkqy3SBEBIa7el3/n0PHuXwSTtzyGvQk615iO8WBbuom?=
- =?us-ascii?Q?F5FjcsKlBrLHBm9unbyCHhgDphfW0WHlXg1KuCTdn1FQsXthQyQEkwYM4d3J?=
- =?us-ascii?Q?aZhcByWMB2PJ9UAemmnlrlHPE6OFvOEpohs2U0u+bLReG/PTUunzOs/gGivH?=
- =?us-ascii?Q?XZQknpD3Tphz0APikpCEkKNN99TYXmMyQwgn2/MPODSOf5KqBGVpENiSFY5r?=
- =?us-ascii?Q?Ig8zKtEi22uMFNR6JknhpkUP3NTuE0+3X4J2jUDrWgOwdbzNuHisG563wtRP?=
- =?us-ascii?Q?LXJxBDbyCb7P83QjII9WMBUoEexuZtF863wAwmTqi9OHulK7soNR2xh3frOx?=
- =?us-ascii?Q?wN6MSKyqf24i8qHrM8nNJq+Sk2UwoUkq4/ySJEy+B9iACoWaS52F+/lEjQrc?=
- =?us-ascii?Q?Z7s4zrqrGZpv/lYBdeOTBCub87EBVZ0H6YAcpRLzLA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366007)(1800799015)(376005); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8hmfvb8pgjaQg8yOWiIDnirQ+SpIit5BcbvmRAhbAgfi4dD9btyn4xsc9kWT?=
- =?us-ascii?Q?i5f/XajbneOb+ONRXVNs6DAkeoD81kuu4wL8gTmip8Q1ojn0T4Io3uzikZ6/?=
- =?us-ascii?Q?D+WVhIj2tjr2dKzQtxgTIFMiYkQUCOi23m/V+ren0OP4Drq8JlhxVFdEnW4L?=
- =?us-ascii?Q?h//363ea0nro05t3YWyjD3IC0XAghITZcQ1ixE2XJTK/OzZUvbCDaDpEoYPe?=
- =?us-ascii?Q?V7K8Ii4rS63IMyg+gB5lTP73BS+WjcJh4C9El9i9f7W9bfOVdHgdOOvOfYif?=
- =?us-ascii?Q?ZmMWKNB+YxAfujOS/7vWNm7XRrR2kW8Eq5laSodBCKhK1HnbGzQoKXLWSrD8?=
- =?us-ascii?Q?a8DdbtgTjNHoU2l1Mkd8L/+mhBGh0zhZz+YC8Z9jvSfbwZefXYT4eyed5iSJ?=
- =?us-ascii?Q?KeZGRn6ltlxlG4ETW25l4AFppsr9UyIecmcz1Tz5LNzzGxjQMmqguuGyeslr?=
- =?us-ascii?Q?5gn/o23CaVXcFN1hhYpEd4cV2we0zBSl/ZQ9h6PJI60xGfr4jl1SwOyph9xL?=
- =?us-ascii?Q?y3p6yj9GlLdJHhBLDBG3NtRTZoBbPVF7MtfBx9X72gtGQ5K11k0wrp72EedA?=
- =?us-ascii?Q?NexhMTDKbdKItQxKepDexTttPiyYFQzZRRdL0eTqDyF6ZbItDY9HJzqXOqaP?=
- =?us-ascii?Q?gId3bjwLqAWqEHi2+uTZDP62PuQMENgiuMLxD5nYgE2O6KbyMr6lyFlQHu05?=
- =?us-ascii?Q?61XtgXurrmj2DG52Hd8+ObmLYtDfJ6+fHgVlfphBgjr0+LtHOe8kBM1sO5SV?=
- =?us-ascii?Q?0Qyh8CEMT0Yo13ix80d4WhyFQpGcUJJ5U3vfCzHVUNu4bjgbls1QfDZcLSMp?=
- =?us-ascii?Q?T+HrQ75Ndw9BrQ5sWVxIlP/OrsH34BJLsyFaPb4Pn1iiURacv50QH3iATHPX?=
- =?us-ascii?Q?PwL5sR3CC0QLECd5FVUYLcPlAby8p7tpf8Yg7T2NpETniQozOtzpjuNW1AHv?=
- =?us-ascii?Q?eOdI1PjBClFXUVNkkQ/q228z334KfqhLMrbyL+O6MgFsKZUNMqy9BPAZnO7+?=
- =?us-ascii?Q?WLjltB2prCjVx8nRc3x120cMbIPqcoecQZTR91bKqINq9spYXSo4AuRK+FYO?=
- =?us-ascii?Q?CdUcJl5pGGsTjubLnt0ORRtoRZv3ecw+s0aca85MmIXkb/zjplZnjcFiylOb?=
- =?us-ascii?Q?sCKGtb54dUHP0ullra7k5dL54I6O9AXxiC+/2D7CRmZbkCwgCiHIDo8eeZza?=
- =?us-ascii?Q?LIYUOUvX3SZVa/NF4c1suQg+cDALQp7X0cGFDTOAb6XyWFy8vgSKy5SOexVZ?=
- =?us-ascii?Q?ICd69+Ql8GUKDQcVXRhixK5kuvjau5VxiGBqL1f8W+0E2DKX6/gGRzDUXfnP?=
- =?us-ascii?Q?3wTh7YHh2COK0z0A2ZNnNNSiH1m/auo788io1ynr1vjS17hh6f6QWx+WgkX8?=
- =?us-ascii?Q?fElzQwXQLLd4k1Bv2Pub5n2Hi1p82OhANY7OdaFwCPLYdNF46qC1Pmi9E3MY?=
- =?us-ascii?Q?dshghjetgGxP2kJx4dc1lCjaToE7E0G580LU5QSpqxT8fRVhqjrv52dGAtGi?=
- =?us-ascii?Q?i2qXUE5FfAAcEKkyZGvoV5JzRkA1En5JznqIpTmXr9Y9ct9zk/lPJhmaexo1?=
- =?us-ascii?Q?RqWCiBEjlL2b6Bg4fV9MEEBXo5INm32jnIhYVvl5Hx9Tc63kw7mc4HiPf6qH?=
- =?us-ascii?Q?ZA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1343d969-d2ac-4807-5e8c-08dc79a27bca
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2024 14:29:54.9620 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WFVNFW/wfjvNSNoZkE4B8Pa3umMaeEFFiArAt4Xa4SfEFFUQBn8q8Jw0QsI77fRB9rl+0AOR+HlT8uX9EipBVcbiY2GtNt5wu+CNYgBUeEY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7534
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,12 +69,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 24, 2024 at 01:32:19PM GMT, Ryszard Knop wrote:
->- Switch drm-intel URLs to the new GitLab location.
->- Add a short SSH link for drm-xe for completeness with other blocks.
->- Add a missing tab in drm_tip_config for column alignment.
->
->Signed-off-by: Ryszard Knop <ryszard.knop@intel.com>
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   a2ab7cb169da38757323929f7b3b4cf396ec53b5
+commit: 3cbcbe016c31ad4fe1b7a53b325c1a36be6191f4 [1/6] drm/v3d: Add Performance Counters descriptions for V3D 4.2 and 7.1
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240521/202405212244.ANdkqVFN-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240521/202405212244.ANdkqVFN-lkp@intel.com/reproduce)
 
-Applied, thanks
-Lucas De Marchi
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405212244.ANdkqVFN-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/v3d/v3d_drv.h:14,
+                    from drivers/gpu/drm/v3d/v3d_bo.c:25:
+>> drivers/gpu/drm/v3d/v3d_performance_counters.h:118:43: error: 'v3d_v42_performance_counters' defined but not used [-Werror=unused-const-variable=]
+     118 | static const struct v3d_perf_counter_desc v3d_v42_performance_counters[] = {
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/v3d/v3d_performance_counters.h:22:43: error: 'v3d_v71_performance_counters' defined but not used [-Werror=unused-const-variable=]
+      22 | static const struct v3d_perf_counter_desc v3d_v71_performance_counters[] = {
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +/v3d_v42_performance_counters +118 drivers/gpu/drm/v3d/v3d_performance_counters.h
+
+   117	
+ > 118	static const struct v3d_perf_counter_desc v3d_v42_performance_counters[] = {
+   119		{"FEP", "FEP-valid-primitives-no-rendered-pixels", "[FEP] Valid primitives that result in no rendered pixels, for all rendered tiles"},
+   120		{"FEP", "FEP-valid-primitives-rendered-pixels", "[FEP] Valid primitives for all rendered tiles (primitives may be counted in more than one tile)"},
+   121		{"FEP", "FEP-clipped-quads", "[FEP] Early-Z/Near/Far clipped quads"},
+   122		{"FEP", "FEP-valid-quads", "[FEP] Valid quads"},
+   123		{"TLB", "TLB-quads-not-passing-stencil-test", "[TLB] Quads with no pixels passing the stencil test"},
+   124		{"TLB", "TLB-quads-not-passing-z-and-stencil-test", "[TLB] Quads with no pixels passing the Z and stencil tests"},
+   125		{"TLB", "TLB-quads-passing-z-and-stencil-test", "[TLB] Quads with any pixels passing the Z and stencil tests"},
+   126		{"TLB", "TLB-quads-with-zero-coverage", "[TLB] Quads with all pixels having zero coverage"},
+   127		{"TLB", "TLB-quads-with-non-zero-coverage", "[TLB] Quads with any pixels having non-zero coverage"},
+   128		{"TLB", "TLB-quads-written-to-color-buffer", "[TLB] Quads with valid pixels written to colour buffer"},
+   129		{"PTB", "PTB-primitives-discarded-outside-viewport", "[PTB] Primitives discarded by being outside the viewport"},
+   130		{"PTB", "PTB-primitives-need-clipping", "[PTB] Primitives that need clipping"},
+   131		{"PTB", "PTB-primitives-discarded-reversed", "[PTB] Primitives that are discarded because they are reversed"},
+   132		{"QPU", "QPU-total-idle-clk-cycles", "[QPU] Total idle clock cycles for all QPUs"},
+   133		{"QPU", "QPU-total-active-clk-cycles-vertex-coord-shading", "[QPU] Total active clock cycles for all QPUs doing vertex/coordinate/user shading (counts only when QPU is not stalled)"},
+   134		{"QPU", "QPU-total-active-clk-cycles-fragment-shading", "[QPU] Total active clock cycles for all QPUs doing fragment shading (counts only when QPU is not stalled)"},
+   135		{"QPU", "QPU-total-clk-cycles-executing-valid-instr", "[QPU] Total clock cycles for all QPUs executing valid instructions"},
+   136		{"QPU", "QPU-total-clk-cycles-waiting-TMU", "[QPU] Total clock cycles for all QPUs stalled waiting for TMUs only (counter won't increment if QPU also stalling for another reason)"},
+   137		{"QPU", "QPU-total-clk-cycles-waiting-scoreboard", "[QPU] Total clock cycles for all QPUs stalled waiting for Scoreboard only (counter won't increment if QPU also stalling for another reason)"},
+   138		{"QPU", "QPU-total-clk-cycles-waiting-varyings", "[QPU] Total clock cycles for all QPUs stalled waiting for Varyings only (counter won't increment if QPU also stalling for another reason)"},
+   139		{"QPU", "QPU-total-instr-cache-hit", "[QPU] Total instruction cache hits for all slices"},
+   140		{"QPU", "QPU-total-instr-cache-miss", "[QPU] Total instruction cache misses for all slices"},
+   141		{"QPU", "QPU-total-uniform-cache-hit", "[QPU] Total uniforms cache hits for all slices"},
+   142		{"QPU", "QPU-total-uniform-cache-miss", "[QPU] Total uniforms cache misses for all slices"},
+   143		{"TMU", "TMU-total-text-quads-access", "[TMU] Total texture cache accesses"},
+   144		{"TMU", "TMU-total-text-cache-miss", "[TMU] Total texture cache misses (number of fetches from memory/L2cache)"},
+   145		{"VPM", "VPM-total-clk-cycles-VDW-stalled", "[VPM] Total clock cycles VDW is stalled waiting for VPM access"},
+   146		{"VPM", "VPM-total-clk-cycles-VCD-stalled", "[VPM] Total clock cycles VCD is stalled waiting for VPM access"},
+   147		{"CLE", "CLE-bin-thread-active-cycles", "[CLE] Bin thread active cycles"},
+   148		{"CLE", "CLE-render-thread-active-cycles", "[CLE] Render thread active cycles"},
+   149		{"L2T", "L2T-total-cache-hit", "[L2T] Total Level 2 cache hits"},
+   150		{"L2T", "L2T-total-cache-miss", "[L2T] Total Level 2 cache misses"},
+   151		{"CORE", "cycle-count", "[CORE] Cycle counter"},
+   152		{"QPU", "QPU-total-clk-cycles-waiting-vertex-coord-shading", "[QPU] Total stalled clock cycles for all QPUs doing vertex/coordinate/user shading"},
+   153		{"QPU", "QPU-total-clk-cycles-waiting-fragment-shading", "[QPU] Total stalled clock cycles for all QPUs doing fragment shading"},
+   154		{"PTB", "PTB-primitives-binned", "[PTB] Total primitives binned"},
+   155		{"AXI", "AXI-writes-seen-watch-0", "[AXI] Writes seen by watch 0"},
+   156		{"AXI", "AXI-reads-seen-watch-0", "[AXI] Reads seen by watch 0"},
+   157		{"AXI", "AXI-writes-stalled-seen-watch-0", "[AXI] Write stalls seen by watch 0"},
+   158		{"AXI", "AXI-reads-stalled-seen-watch-0", "[AXI] Read stalls seen by watch 0"},
+   159		{"AXI", "AXI-write-bytes-seen-watch-0", "[AXI] Total bytes written seen by watch 0"},
+   160		{"AXI", "AXI-read-bytes-seen-watch-0", "[AXI] Total bytes read seen by watch 0"},
+   161		{"AXI", "AXI-writes-seen-watch-1", "[AXI] Writes seen by watch 1"},
+   162		{"AXI", "AXI-reads-seen-watch-1", "[AXI] Reads seen by watch 1"},
+   163		{"AXI", "AXI-writes-stalled-seen-watch-1", "[AXI] Write stalls seen by watch 1"},
+   164		{"AXI", "AXI-reads-stalled-seen-watch-1", "[AXI] Read stalls seen by watch 1"},
+   165		{"AXI", "AXI-write-bytes-seen-watch-1", "[AXI] Total bytes written seen by watch 1"},
+   166		{"AXI", "AXI-read-bytes-seen-watch-1", "[AXI] Total bytes read seen by watch 1"},
+   167		{"TLB", "TLB-partial-quads-written-to-color-buffer", "[TLB] Partial quads written to the colour buffer"},
+   168		{"TMU", "TMU-total-config-access", "[TMU] Total config accesses"},
+   169		{"L2T", "L2T-no-id-stalled", "[L2T] No ID stall"},
+   170		{"L2T", "L2T-command-queue-stalled", "[L2T] Command queue full stall"},
+   171		{"L2T", "L2T-TMU-writes", "[L2T] TMU write accesses"},
+   172		{"TMU", "TMU-active-cycles", "[TMU] Active cycles"},
+   173		{"TMU", "TMU-stalled-cycles", "[TMU] Stalled cycles"},
+   174		{"CLE", "CLE-thread-active-cycles", "[CLE] Bin or render thread active cycles"},
+   175		{"L2T", "L2T-TMU-reads", "[L2T] TMU read accesses"},
+   176		{"L2T", "L2T-CLE-reads", "[L2T] CLE read accesses"},
+   177		{"L2T", "L2T-VCD-reads", "[L2T] VCD read accesses"},
+   178		{"L2T", "L2T-TMU-config-reads", "[L2T] TMU CFG read accesses"},
+   179		{"L2T", "L2T-SLC0-reads", "[L2T] SLC0 read accesses"},
+   180		{"L2T", "L2T-SLC1-reads", "[L2T] SLC1 read accesses"},
+   181		{"L2T", "L2T-SLC2-reads", "[L2T] SLC2 read accesses"},
+   182		{"L2T", "L2T-TMU-write-miss", "[L2T] TMU write misses"},
+   183		{"L2T", "L2T-TMU-read-miss", "[L2T] TMU read misses"},
+   184		{"L2T", "L2T-CLE-read-miss", "[L2T] CLE read misses"},
+   185		{"L2T", "L2T-VCD-read-miss", "[L2T] VCD read misses"},
+   186		{"L2T", "L2T-TMU-config-read-miss", "[L2T] TMU CFG read misses"},
+   187		{"L2T", "L2T-SLC0-read-miss", "[L2T] SLC0 read misses"},
+   188		{"L2T", "L2T-SLC1-read-miss", "[L2T] SLC1 read misses"},
+   189		{"L2T", "L2T-SLC2-read-miss", "[L2T] SLC2 read misses"},
+   190		{"CORE", "core-memory-writes", "[CORE] Total memory writes"},
+   191		{"L2T", "L2T-memory-writes", "[L2T] Total memory writes"},
+   192		{"PTB", "PTB-memory-writes", "[PTB] Total memory writes"},
+   193		{"TLB", "TLB-memory-writes", "[TLB] Total memory writes"},
+   194		{"CORE", "core-memory-reads", "[CORE] Total memory reads"},
+   195		{"L2T", "L2T-memory-reads", "[L2T] Total memory reads"},
+   196		{"PTB", "PTB-memory-reads", "[PTB] Total memory reads"},
+   197		{"PSE", "PSE-memory-reads", "[PSE] Total memory reads"},
+   198		{"TLB", "TLB-memory-reads", "[TLB] Total memory reads"},
+   199		{"GMP", "GMP-memory-reads", "[GMP] Total memory reads"},
+   200		{"PTB", "PTB-memory-words-writes", "[PTB] Total memory words written"},
+   201		{"TLB", "TLB-memory-words-writes", "[TLB] Total memory words written"},
+   202		{"PSE", "PSE-memory-words-reads", "[PSE] Total memory words read"},
+   203		{"TLB", "TLB-memory-words-reads", "[TLB] Total memory words read"},
+   204		{"TMU", "TMU-MRU-hits", "[TMU] Total MRU hits"},
+   205		{"CORE", "compute-active-cycles", "[CORE] Compute active cycles"},
+   206	};
+   207	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
