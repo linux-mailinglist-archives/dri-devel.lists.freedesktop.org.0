@@ -2,64 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369228CC14B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 14:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119BE8CC1B1
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 15:02:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B282510E0D6;
-	Wed, 22 May 2024 12:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E60410EB11;
+	Wed, 22 May 2024 13:02:34 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UCBffbdq";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1158 seconds by postgrey-1.36 at gabe;
- Wed, 22 May 2024 12:33:08 UTC
-Received: from zg8tmtyylji0my4xnjqunzqa.icoremail.net
- (zg8tmtyylji0my4xnjqunzqa.icoremail.net [162.243.164.74])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2887310E0D6
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 12:33:07 +0000 (UTC)
-Received: from [172.38.8.164] (unknown [219.141.235.82])
- by mail (Coremail) with SMTP id AQAAfwD3yiD15U1mzP2uAA--.51920S2;
- Wed, 22 May 2024 20:32:54 +0800 (CST)
-Message-ID: <eca4d113-ba59-45aa-9224-22235fb09ddc@bosc.ac.cn>
-Date: Wed, 22 May 2024 20:32:53 +0800
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E150F10EE84
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 13:02:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1716382950;
+ bh=ItsWZl5G0QS+oyguQ25DhfIuHBh030DblZ9aQCQY95k=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=UCBffbdq7PTT1pW6SE6MgvG+WM4DODVOJFjRzCDlbmQ1RJFvw62WNDMfgNRnxsfHH
+ SWAWH8h1YU5krcMnQ3DhsE9bJ/gidkKGU1VvKgfFLQhwiXYY71y+quk5UqltVe3ZCq
+ XYevBLhGL32zpU0s6iZYpRd0HX2Enw9yjUr2NPyt6S1uTSKpBiNFgCdkfe0ae2AEk5
+ VeR8gsX4v6OEtpt291agBR5ADepRGvMZ/XAfvVrN2MrSB6V3di7ECXZtgtlobTDRca
+ XgAoJjf8wt7PnhH2MG2gJXN4B7jPZcO42l4EPiDUQOC6fSuav+Yqu/n3o6d+bHFv1d
+ rF0g+053IwU4w==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com
+ [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: nicolas)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id 63DBA37821AE;
+ Wed, 22 May 2024 13:02:27 +0000 (UTC)
+Message-ID: <656423737618913a19633b4b4c39e2e8de54546d.camel@collabora.com>
+Subject: Re: Safety of opening up /dev/dma_heap/* to physically present
+ users (udev uaccess tag) ?
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Simon Ser
+ <contact@emersion.fr>
+Cc: Maxime Ripard <mripard@redhat.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>,  Hans de Goede <hdegoede@redhat.com>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Lennart
+ Poettering <mzxreary@0pointer.de>,  Robert Mader
+ <robert.mader@collabora.com>, Sebastien Bacher
+ <sebastien.bacher@canonical.com>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>,  linaro-mm-sig@lists.linaro.org, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>, Milan Zamazal
+ <mzamazal@redhat.com>, Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
+Date: Wed, 22 May 2024 09:02:21 -0400
+In-Reply-To: <20240516112055.GB5253@pendragon.ideasonboard.com>
+References: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
+ <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
+ <20240507183613.GB20390@pendragon.ideasonboard.com>
+ <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
+ <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
+ <20240513-heretic-didactic-newt-1d6daf@penduick>
+ <20240513083417.GA18630@pendragon.ideasonboard.com>
+ <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
+ <20240514204223.GN32013@pendragon.ideasonboard.com>
+ <ttHZ6_mxyApQbVuEg7V20i3gCZ0nCr26aymroG2zxHv3CMRAA6RqZsUxNY3eBiYjycfb1r1WQdyMTwJO_I38FsJQMHA_Zdiqbbjs_YJWKr8=@emersion.fr>
+ <20240516112055.GB5253@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v5,3/3] drm/mediatek: Implement OF graphs support for display
- paths
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-Cc: robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- matthias.bgg@gmail.com, shawn.sung@mediatek.com, yu-chang.lee@mediatek.com,
- ck.hu@mediatek.com, jitao.shi@mediatek.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- wenst@chromium.org, kernel@collabora.com,
- Alexandre Mergnat <amergnat@baylibre.com>
-References: <20240521075717.50330-4-angelogioacchino.delregno@collabora.com>
-Content-Language: en-US, en-AU
-From: Sui Jingfeng <suijingfeng@bosc.ac.cn>
-Organization: bosc
-In-Reply-To: <20240521075717.50330-4-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAfwD3yiD15U1mzP2uAA--.51920S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tFW3Cw15GF1UJw4DKryrCrg_yoW8Wr4rpa
- yUuFWrZrZ7Jrs7W3y0vr4DCrZYkr10yF9xXw1fGF10yrsIqr9aka1kKrWjvrsIkryDurn2
- qw48Kaya9ws5AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUv2b7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
- c2xSY4AK67AK6ryUMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
- 0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8
- ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
- CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
- wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
- 7IU0wL05UUUUU==
-X-CM-SenderInfo: xvxlyxpqjiv03j6e02nfoduhdfq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,77 +85,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Le jeudi 16 mai 2024 =C3=A0 14:20 +0300, Laurent Pinchart a =C3=A9crit=C2=
+=A0:
+> On Thu, May 16, 2024 at 07:00:31AM +0000, Simon Ser wrote:
+> > On Tuesday, May 14th, 2024 at 22:42, Laurent Pinchart wrote:
+> >=20
+> > > My experience on Arm platforms is that the KMS drivers offer allocati=
+on
+> > > for scanout buffers, not render buffers, and mostly using the dumb
+> > > allocator API. If the KMS device can scan out YUV natively, YUV buffe=
+r
+> > > allocation should be supported. Am I missing something here ?
+> >=20
+> > Note that dumb buffers are only intended for simple software-rendering
+> > use-cases. Anything more complicated (e.g. involving GPU rendering)
+> > should use another mechanism.
+>=20
+> Sure. Even if dumb buffers may work for GPU rendering in some cases,
+> there's no guarantee they will, so they shouldn't be used.
+>=20
+> My comment was related to scanout buffers, as I was puzzled by Nicolas
+> mentioning how "KMS drivers only offer allocation for render buffers".
+> On Arm platforms the render buffers are allocated on the GPU's DRM
+> device as far as I understand, while the KMS drivers allocate scanout
+> buffers using the dumb buffers API.
+>=20
 
+The message is getting distorted. I'm saying that not all supported formats=
+ have
+an allocation API in DRM/KMS drivers. Most YUV formats needed for media han=
+dling
+(GPU or scannout) are not supported.
 
-On 5/21/24 15:57, AngeloGioacchino Del Regno wrote:
-> +static int mtk_drm_of_ddp_path_build(struct device *dev, struct device_node *node,
-> +				     struct mtk_mmsys_driver_data *data)
-> +{
-> +	struct device_node *ep_node;
-> +	struct of_endpoint of_ep;
-> +	bool output_present[MAX_CRTC] = { false };
-> +	int ret;
-> +
-> +	for_each_endpoint_of_node(node, ep_node) {
-> +		ret = of_graph_parse_endpoint(ep_node, &of_ep);
-> +		of_node_put(ep_node);
+Nicolas
 
-There is going to *double* decline the reference counter, as the 
-__of_get_next_child() will decrease the reference counter for us
-on the next iteration.
-
-
-> +		if (ret) {
-> +			dev_err_probe(dev, ret, "Cannot parse endpoint\n");
-> +			break;
-> +		}
-
-Move the 'of_node_put(ep_node)' into brace '{}' here, if we really cares
-about the reference count.
-
-> +
-> +		if (of_ep.id >= MAX_CRTC) {
-
-ditto ?
-
-> +			ret = dev_err_probe(dev, -EINVAL,
-> +					    "Invalid endpoint%u number\n", of_ep.port);
-> +			break;
-> +		}
-> +
-> +		output_present[of_ep.id] = true;
-> +	}
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (output_present[CRTC_MAIN]) {
-> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_MAIN,
-> +						    &data->main_path, &data->main_len);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (output_present[CRTC_EXT]) {
-> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_EXT,
-> +						    &data->ext_path, &data->ext_len);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (output_present[CRTC_THIRD]) {
-> +		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_THIRD,
-> +						    &data->third_path, &data->third_len);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-
--- 
-Best regards
-Sui Jingfeng
+p.s. I feel like commenters thinks its evident for userspace application to=
+ know
+if they are doing scanout or GPU ... while in reality, they offload their
+allocated buffer to a compositor which will have to dynamically juggle betw=
+een
+these two with its own heuristic.
 
