@@ -2,52 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00AE68CC3E4
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 17:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2F98CC41E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 17:32:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 777D110EF04;
-	Wed, 22 May 2024 15:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB07D10EEBF;
+	Wed, 22 May 2024 15:32:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="rWli4Ug/";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="4NYcg31O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3950B10EF04
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 15:12:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=nSoJJiwwzp87yvVkXYkB8RsZAhVEmfC9M1NZ6wVDvfs=; b=rWli4Ug/juiaCj4Nq/03xCcYny
- 4qzp8OacJPblkyrusEHc771lCNK1HlqcAFgKBeV6U6ElwCEzUC0s5mq4yA9GhYIxWwUwIe5tx8MGU
- 4PPx+DixYSAeIHP0oSbPKgO0LBBNQ+SwLA+Zr76B6exSeHPJ/re4cRu5mrw1gJFDMDYD0gomyJFcS
- h6Op1cXDAGkfHsxcAxnEx1YN4mbRxkj+Q/QrGi+epSqop5fdGc3GwTNoTEip6WkHAVWz5nI1zibyT
- +uk3P8+2wFMhpCQcL1vI46AVJpUw/htoej+NFAfJJuJp84RahOUnQMNi1PloMWtIdP2QG0MZtG9Lg
- PQT3g4rA==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1s9ndZ-00000003KLv-2HKP; Wed, 22 May 2024 15:12:18 +0000
-Message-ID: <aeb0fddd-09ff-4b96-9905-927427b51838@infradead.org>
-Date: Wed, 22 May 2024 08:12:15 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/display/dp: fix all kernel-doc warnings
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
+ [46.235.227.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E082910E33C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 15:32:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1716391918;
+ bh=kUTVaEv+CluhtL7Oa3Hy8QzRC+vL3NJAb+fI1CqZcJE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=4NYcg31OsYHSC+HF3tIyiUc8hndE22wxc7pw+Q//fSm65c4ZbKpBNGiXNEakYxEKh
+ kFWIaK4OWeKsH84HGAYssMKq5MBRpgzAoN1s03GfYY7LGjcjXBPiiVrMAD8HqMxS7q
+ viLAhoCr/Nz8JNU7TxFJ0vq2SkqG3bLvrrb+seTGVSE3CRBVotdfU6equ9jLzrF5Bn
+ Am5+q5tl0byg9K2Sn+vTLN20ze4856ucuQbsxGdS5+X56VQmtzLdUY1hg6YUGAzqjo
+ ozxWLSPJUKpRuDwxk24x483I5nOEfa9oUMRoUr7AZ006YwG2xkAqMZMkJO6GKoV9Ja
+ /GxF7YCrLeABQ==
+Received: from arisu.localnet (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: detlev)
+ by madrid.collaboradmins.com (Postfix) with ESMTPSA id BE6243782170;
+ Wed, 22 May 2024 15:31:55 +0000 (UTC)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20240516002642.6659-1-rdunlap@infradead.org>
- <p2n7d7lhiogmn3niblqg3sj5nx7c7tx2m6h6z2xlyf3ks74753@7qze6k4jhp2k>
- <b47a415d-2e8c-4d09-8131-d361aa28dc60@infradead.org>
- <q3525v4os3yrrgr2bcllc7xbnw4tdtc3373hsqg7cxfpea7isp@wxdh3xrz6vb4>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <q3525v4os3yrrgr2bcllc7xbnw4tdtc3373hsqg7cxfpea7isp@wxdh3xrz6vb4>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 3/3] dt-bindings: display: vop2: Add VP clock resets
+Date: Wed, 22 May 2024 11:31:36 -0400
+Message-ID: <3334403.5fSG56mABF@arisu>
+Organization: Collabora
+In-Reply-To: <20240521-silver-exciting-bb3725dc495d@spud>
+References: <20240514152328.21415-1-detlev.casanova@collabora.com>
+ <13628421.uLZWGnKmhe@arisu> <20240521-silver-exciting-bb3725dc495d@spud>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="nextPart6053228.MhkbZ0Pkbq";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,97 +74,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--nextPart6053228.MhkbZ0Pkbq
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Conor Dooley <conor@kernel.org>
+Date: Wed, 22 May 2024 11:31:36 -0400
+Message-ID: <3334403.5fSG56mABF@arisu>
+Organization: Collabora
+In-Reply-To: <20240521-silver-exciting-bb3725dc495d@spud>
+MIME-Version: 1.0
+
+On Tuesday, May 21, 2024 2:31:51 P.M. EDT Conor Dooley wrote:
+> On Tue, May 21, 2024 at 01:15:46PM -0400, Detlev Casanova wrote:
+> > On Wednesday, May 15, 2024 12:33:22 P.M. EDT Heiko St=FCbner wrote:
+> > > Am Mittwoch, 15. Mai 2024, 18:19:29 CEST schrieb Conor Dooley:
+> > > > On Tue, May 14, 2024 at 11:19:47AM -0400, Detlev Casanova wrote:
+> > > > > Add the documentation for VOP2 video ports reset clocks.
+> > > > > One reset can be set per video port.
+> > > > >=20
+> > > > > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> > > >=20
+> > > > Are these resets valid for all VOPs or just the one on 3588?
+> > >=20
+> > > Not in that form.
+> > > I.e. rk3588 has 4 video-ports (0-3), while rk3568 has 3 (0-2).
+> > >=20
+> > > So the binding should take into account that rk3568 also has the
+> > > SRST_VOP0 ... SRST_VOP2.
+> >=20
+> > That is what is set in the example and the reason why I set minItems to=
+ 3
+> > in the main bindings.
+> > Then, the rk3588 specific part sets it to 4.
+> >=20
+> > Isn't that enough ?
+>=20
+> Not quite - you need to restrict maxItems to 3 for the other devices if
+> the clocks are not valid. What you've got says that 4 clocks are
+> possible but not needed on !rk3588.
+>=20
+> Cheers,
+> Conor.
+
+I don't understand what "properties: resets: minItems: 3" means then. I=20
+thought it means that all devices should have at least 3 resets. Then the=20
+allOf below specifies the special case of rk3588 which has a minimum of 4=20
+resets.
+
+Do I need to add=20
+        resets:
+          minItems: 3
+        reset-names:
+          minItems: 3
+in the "else:" ?
+
+So in that case, I can remove "properties: resets: minItems: 3" above ?
+
+Also, what do you mean "If the clocks are not valid" ?
+
+Detlev.
 
 
-On 5/22/24 2:37 AM, Dmitry Baryshkov wrote:
-> On Tue, May 21, 2024 at 08:59:06PM -0700, Randy Dunlap wrote:
->> Hi Dmitry,
->>
->> On 5/20/24 3:37 AM, Dmitry Baryshkov wrote:
->>> On Wed, May 15, 2024 at 05:26:42PM -0700, Randy Dunlap wrote:
->>>> Fix a struct member name in &struct drm_dp_as_sdp.
->>>> Add Returns: kernel-doc syntax for 4 functions.
->>>> In the Returns: sections, spell "%true" and "%false" consistently.
->>>>
->>>> Fixes these kernel-doc warnings:
->>>>
->>>> drm_dp_helper.h:126: warning: Function parameter or struct member 'mode' not described in 'drm_dp_as_sdp'
->>>> drm_dp_helper.h:126: warning: Excess struct member 'operation_mode' description in 'drm_dp_as_sdp'
->>>> drm_dp_helper.h:237: warning: No description found for return value of 'drm_dp_dsc_sink_supports_format'
->>>> drm_dp_helper.h:539: warning: No description found for return value of 'drm_dp_dpcd_readb'
->>>> drm_dp_helper.h:554: warning: No description found for return value of 'drm_dp_dpcd_writeb'
->>>> drm_dp_helper.h:721: warning: No description found for return value of 'drm_dp_has_quirk'
->>>>
->>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->>>> ---
->>>> Cc: David Airlie <airlied@gmail.com>
->>>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>>> Cc: dri-devel@lists.freedesktop.org
->>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>> Cc: Maxime Ripard <mripard@kernel.org>
->>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>
->>>>  include/drm/display/drm_dp_helper.h |   17 +++++++++--------
->>>>  1 file changed, 9 insertions(+), 8 deletions(-)
->>>>
->>>> diff -- a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
->>>> --- a/include/drm/display/drm_dp_helper.h
->>>> +++ b/include/drm/display/drm_dp_helper.h
->>>> @@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
->>>>   * @target_rr: Target Refresh
->>>>   * @duration_incr_ms: Successive frame duration increase
->>>>   * @duration_decr_ms: Successive frame duration decrease
->>>> - * @operation_mode: Adaptive Sync Operation Mode
->>>> + * @mode: Adaptive Sync Operation Mode
->>>>   */
->>>>  struct drm_dp_as_sdp {
->>>>  	unsigned char sdp_type;
->>>> @@ -230,7 +230,8 @@ drm_dp_dsc_sink_max_slice_width(const u8
->>>>   * @dsc_dpcd : DSC-capability DPCDs of the sink
->>>>   * @output_format: output_format which is to be checked
->>>>   *
->>>> - * Returns true if the sink supports DSC with the given output_format, false otherwise.
->>>> + * Returns: %true if the sink supports DSC with the given output_format,
->>>> + * %false otherwise.
->>>>   */
->>>>  static inline bool
->>>>  drm_dp_dsc_sink_supports_format(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE], u8 output_format)
->>>> @@ -280,8 +281,8 @@ drm_dp_sink_can_do_video_without_timing_
->>>>   * backlight features but which require the brightness be set through PWM, and don't support setting
->>>>   * the brightness level via the DPCD.
->>>>   *
->>>> - * Returns: %True if @edp_dpcd indicates that VESA backlight controls are supported, %false
->>>> - * otherwise
->>>> + * Returns: %true if @edp_dpcd indicates that VESA backlight controls are
->>>> + * supported, %false otherwise
->>>
->>> If you are touching this part, maybe it's better to change 'Returns' to
->>> 'Return' as documented by Documentation/doc-guide/kernel-doc.rst ?
->>> (the same comment applies to other chunks in the patch, I've trimmed
->>> them).
->>
->> scripts/kernel-doc accepts either spelling, but sure, I can change these.
->> Thanks.
-> 
-> An alternative way would be to fix kernel-doc.rst :-)
+--nextPart6053228.MhkbZ0Pkbq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-Yes, I thought of that last night.
-I'll submit such a change.
-Thanks.
+-----BEGIN PGP SIGNATURE-----
 
->>
->>>>   */
->>>>  static inline bool
->>>>  drm_edp_backlight_supported(const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
->>>
->>
->> -- 
->> #Randy
->> https://people.kernel.org/tglx/notes-about-netiquette
->> https://subspace.kernel.org/etiquette.html
-> 
+iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmZOD9gACgkQ5EFKUk4x
+7bY7TQf+JupJtDv/HvUIX8L38oBOIr0TEHcquMrWumq4ACE/y2HjwxHAhYw7NufO
+qC1OuNVis+e3pQ5kqoy5z9iNiyvA8weC2Uu2Ig0UgtdLPwhf88oj9IxHr9OtzY0J
+Z1019PaHyov5yb3copVh66aW8rtadOKfNCio2F+zSNITxfwzdFJJ3pbk5JqHf4de
+06zd16nvuYlQ6IUoony8xKi+NfJICvmo8XvR/UR5EEtlYPto8SnLPhqRw+vbRe4U
+Bia87NTBM9o7bkq8kk00EOyO+PDEYlg3AU5mGLnnf0ES5kZPa10EDHJQZ1SHeM8k
+sUP3VPs8I/S9Jk1QMusS6foYdtbshQ==
+=vt+N
+-----END PGP SIGNATURE-----
 
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+--nextPart6053228.MhkbZ0Pkbq--
+
+
+
