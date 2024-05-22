@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3E98CBA23
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 05:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6B68CBA25
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 06:00:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B67910E246;
-	Wed, 22 May 2024 03:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0AC10E262;
+	Wed, 22 May 2024 04:00:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="LlID4CcQ";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="LHd+Jvjx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA96A10E246
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 03:59:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D788110E262
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 04:00:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
  Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=osxaeLaX5nBB9D5+ieZeEr9PNV6/GcH4p3qbFsmiY1A=; b=LlID4CcQ1pVEsx8hhj0Mg9wEKk
- uqAOcPKtWtlBrS1JpFGIJwTNrsRahTTxE4Xbt3BtnL+rTQ5sJzpf0jFk0NCEav9a5yio9q6uL7wtY
- y29o1aIIsNcUZ7z1dRPqNGmvGrI0Ma2GiTFAPvL0B9lVTJjlaqbTTNvgsvQK/m53wjHv5ZfPOnAHR
- TAVLUA0P05RCbQSwEm4HIJvHAZoWGI4nN3dgaynNHiDEuwhsO4zKk1LSadJngoNlLHujKoriBayQ+
- hupDTLqxhZo/md516s1m0S4NscU77a0O/yAOWggTwcardVdBwh9XVfOOzJADs5Lhfo1h/DtzeJDfX
- 0dC7qrYA==;
+ bh=t/UDeE8Cad8Z+8paF4xeyiMUCLQbywiFVoqScgnFMkI=; b=LHd+JvjxcACKxVQRI0KuWYz9Vb
+ +pzdZeRuUVLfFyelr13Y6N/1rxlKO1RFDdy0moMB2rokcFku6/xCxew1rc/1vLS41P5M/1quBHOt2
+ cPT6rpi5gnu8WQb69uhI+4c447NsFuALzJjWTn7KDvGDdUzis0fG5/TVR1gK6l4KgDwgJDZqmqJ0s
+ 79efMjmZhgeyd21rUzfIrb2UHO6u5Ce5YsC58pUY/nqfD7M7fhFj2dbSTxbs14hWR0BKZSKezqIom
+ E6QZbYDeLgZfTKWe0vgNzfx4nT130ewYCngfIFBpheoyznMt05e/x6sa1OqYQ5XrJzSogMm8+dJ67
+ UhFlxPoQ==;
 Received: from [50.53.4.147] (helo=[192.168.254.15])
  by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1s9d86-00000001vfS-46es; Wed, 22 May 2024 03:59:07 +0000
-Message-ID: <b47a415d-2e8c-4d09-8131-d361aa28dc60@infradead.org>
-Date: Tue, 21 May 2024 20:59:06 -0700
+ id 1s9d9L-00000001viv-1P7v; Wed, 22 May 2024 04:00:23 +0000
+Message-ID: <6f3380ef-d0c2-45e4-a9f9-af238e2321e8@infradead.org>
+Date: Tue, 21 May 2024 21:00:22 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/display/dp: fix all kernel-doc warnings
+Subject: Re: [PATCH] drm/mode: fix all kernel-doc warnings
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20240516002642.6659-1-rdunlap@infradead.org>
- <p2n7d7lhiogmn3niblqg3sj5nx7c7tx2m6h6z2xlyf3ks74753@7qze6k4jhp2k>
+References: <20240516002652.6674-1-rdunlap@infradead.org>
+ <lxwelnavt5cbrqyasdl4jlzig4ib34pf6retwwxxpzyy5l3bap@l5gp2ydqrudy>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <p2n7d7lhiogmn3niblqg3sj5nx7c7tx2m6h6z2xlyf3ks74753@7qze6k4jhp2k>
+In-Reply-To: <lxwelnavt5cbrqyasdl4jlzig4ib34pf6retwwxxpzyy5l3bap@l5gp2ydqrudy>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,22 +61,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Hi,
 
-On 5/20/24 3:37 AM, Dmitry Baryshkov wrote:
-> On Wed, May 15, 2024 at 05:26:42PM -0700, Randy Dunlap wrote:
->> Fix a struct member name in &struct drm_dp_as_sdp.
->> Add Returns: kernel-doc syntax for 4 functions.
->> In the Returns: sections, spell "%true" and "%false" consistently.
+On 5/20/24 3:39 AM, Dmitry Baryshkov wrote:
+> On Wed, May 15, 2024 at 05:26:52PM -0700, Randy Dunlap wrote:
+>> Add @width and @height descriptions for &struct drm_plane_size_hint
+>> along with a reference to more info.
+>>
+>> Add a short description for &struct drm_mode_closefb.
+>>
+>> Change 7 macros not to be marked as kernel-doc notation to prevent
+>> warnings.
 >>
 >> Fixes these kernel-doc warnings:
 >>
->> drm_dp_helper.h:126: warning: Function parameter or struct member 'mode' not described in 'drm_dp_as_sdp'
->> drm_dp_helper.h:126: warning: Excess struct member 'operation_mode' description in 'drm_dp_as_sdp'
->> drm_dp_helper.h:237: warning: No description found for return value of 'drm_dp_dsc_sink_supports_format'
->> drm_dp_helper.h:539: warning: No description found for return value of 'drm_dp_dpcd_readb'
->> drm_dp_helper.h:554: warning: No description found for return value of 'drm_dp_dpcd_writeb'
->> drm_dp_helper.h:721: warning: No description found for return value of 'drm_dp_has_quirk'
+>> drm_mode.h:877: warning: Function parameter or struct member 'width' not described in 'drm_plane_size_hint'
+>> drm_mode.h:877: warning: Function parameter or struct member 'height' not described in 'drm_plane_size_hint'
+>> drm_mode.h:969: warning: missing initial short description on line:
+>>  * DRM_MODE_PAGE_FLIP_EVENT
+>> drm_mode.h:977: warning: missing initial short description on line:
+>>  * DRM_MODE_PAGE_FLIP_ASYNC
+>> drm_mode.h:998: warning: missing initial short description on line:
+>>  * DRM_MODE_PAGE_FLIP_FLAGS
+>> drm_mode.h:1108: warning: missing initial short description on line:
+>>  * DRM_MODE_ATOMIC_TEST_ONLY
+>> drm_mode.h:1118: warning: missing initial short description on line:
+>>  * DRM_MODE_ATOMIC_NONBLOCK
+>> drm_mode.h:1127: warning: missing initial short description on line:
+>>  * DRM_MODE_ATOMIC_ALLOW_MODESET
+>> drm_mode.h:1149: warning: missing initial short description on line:
+>>  * DRM_MODE_ATOMIC_FLAGS
+>> drm_mode.h:1358: warning: missing initial short description on line:
+>>  * struct drm_mode_closefb
 >>
 >> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 >> ---
@@ -87,53 +103,108 @@ On 5/20/24 3:37 AM, Dmitry Baryshkov wrote:
 >> Cc: Maxime Ripard <mripard@kernel.org>
 >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
 >>
->>  include/drm/display/drm_dp_helper.h |   17 +++++++++--------
->>  1 file changed, 9 insertions(+), 8 deletions(-)
+>>  include/uapi/drm/drm_mode.h |   21 ++++++++++++---------
+>>  1 file changed, 12 insertions(+), 9 deletions(-)
 >>
->> diff -- a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
->> --- a/include/drm/display/drm_dp_helper.h
->> +++ b/include/drm/display/drm_dp_helper.h
->> @@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
->>   * @target_rr: Target Refresh
->>   * @duration_incr_ms: Successive frame duration increase
->>   * @duration_decr_ms: Successive frame duration decrease
->> - * @operation_mode: Adaptive Sync Operation Mode
->> + * @mode: Adaptive Sync Operation Mode
->>   */
->>  struct drm_dp_as_sdp {
->>  	unsigned char sdp_type;
->> @@ -230,7 +230,8 @@ drm_dp_dsc_sink_max_slice_width(const u8
->>   * @dsc_dpcd : DSC-capability DPCDs of the sink
->>   * @output_format: output_format which is to be checked
+>> diff -- a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+>> --- a/include/uapi/drm/drm_mode.h
+>> +++ b/include/uapi/drm/drm_mode.h
+>> @@ -867,9 +867,12 @@ struct drm_color_lut {
+>>  
+>>  /**
+>>   * struct drm_plane_size_hint - Plane size hints
+>> + * @width: recommended plane width (no scaling)
+>> + * @height: recommended plane height (no scaling)
 >>   *
->> - * Returns true if the sink supports DSC with the given output_format, false otherwise.
->> + * Returns: %true if the sink supports DSC with the given output_format,
->> + * %false otherwise.
+>>   * The plane SIZE_HINTS property blob contains an
+>> - * array of struct drm_plane_size_hint.
+>> + * array of struct drm_plane_size_hint as described in
+>> + * "DOC: standard plane properties".
 >>   */
->>  static inline bool
->>  drm_dp_dsc_sink_supports_format(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE], u8 output_format)
->> @@ -280,8 +281,8 @@ drm_dp_sink_can_do_video_without_timing_
->>   * backlight features but which require the brightness be set through PWM, and don't support setting
->>   * the brightness level via the DPCD.
->>   *
->> - * Returns: %True if @edp_dpcd indicates that VESA backlight controls are supported, %false
->> - * otherwise
->> + * Returns: %true if @edp_dpcd indicates that VESA backlight controls are
->> + * supported, %false otherwise
+>>  struct drm_plane_size_hint {
+>>  	__u16 width;
+>> @@ -962,7 +965,7 @@ struct hdr_output_metadata {
+>>  	};
+>>  };
+>>  
+>> -/**
+>> +/*
+>>   * DRM_MODE_PAGE_FLIP_EVENT
 > 
-> If you are touching this part, maybe it's better to change 'Returns' to
-> 'Return' as documented by Documentation/doc-guide/kernel-doc.rst ?
-> (the same comment applies to other chunks in the patch, I've trimmed
-> them).
+> What about convering to the proper kerneldoc instead of dropping the
+> kerneldoc part?
 
-scripts/kernel-doc accepts either spelling, but sure, I can change these.
+If someone with knowledge of these macros can provide the text that should
+be there, I can add that info.
+
+>>   *
+>>   * Request that the kernel sends back a vblank event (see
+>> @@ -970,7 +973,7 @@ struct hdr_output_metadata {
+>>   * page-flip is done.
+>>   */
+>>  #define DRM_MODE_PAGE_FLIP_EVENT 0x01
+>> -/**
+>> +/*
+>>   * DRM_MODE_PAGE_FLIP_ASYNC
+>>   *
+>>   * Request that the page-flip is performed as soon as possible, ie. with no
+>> @@ -991,7 +994,7 @@ struct hdr_output_metadata {
+>>  #define DRM_MODE_PAGE_FLIP_TARGET_RELATIVE 0x8
+>>  #define DRM_MODE_PAGE_FLIP_TARGET (DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE | \
+>>  				   DRM_MODE_PAGE_FLIP_TARGET_RELATIVE)
+>> -/**
+>> +/*
+>>   * DRM_MODE_PAGE_FLIP_FLAGS
+>>   *
+>>   * Bitmask of flags suitable for &drm_mode_crtc_page_flip_target.flags.
+>> @@ -1101,7 +1104,7 @@ struct drm_mode_destroy_dumb {
+>>  	__u32 handle;
+>>  };
+>>  
+>> -/**
+>> +/*
+>>   * DRM_MODE_ATOMIC_TEST_ONLY
+>>   *
+>>   * Do not apply the atomic commit, instead check whether the hardware supports
+>> @@ -1111,7 +1114,7 @@ struct drm_mode_destroy_dumb {
+>>   * commits.
+>>   */
+>>  #define DRM_MODE_ATOMIC_TEST_ONLY 0x0100
+>> -/**
+>> +/*
+>>   * DRM_MODE_ATOMIC_NONBLOCK
+>>   *
+>>   * Do not block while applying the atomic commit. The &DRM_IOCTL_MODE_ATOMIC
+>> @@ -1120,7 +1123,7 @@ struct drm_mode_destroy_dumb {
+>>   * applied before retuning.
+>>   */
+>>  #define DRM_MODE_ATOMIC_NONBLOCK  0x0200
+>> -/**
+>> +/*
+>>   * DRM_MODE_ATOMIC_ALLOW_MODESET
+>>   *
+>>   * Allow the update to result in temporary or transient visible artifacts while
+>> @@ -1142,7 +1145,7 @@ struct drm_mode_destroy_dumb {
+>>   */
+>>  #define DRM_MODE_ATOMIC_ALLOW_MODESET 0x0400
+>>  
+>> -/**
+>> +/*
+>>   * DRM_MODE_ATOMIC_FLAGS
+>>   *
+>>   * Bitfield of flags accepted by the &DRM_IOCTL_MODE_ATOMIC IOCTL in
+>> @@ -1352,7 +1355,7 @@ struct drm_mode_rect {
+>>  };
+>>  
+>>  /**
+>> - * struct drm_mode_closefb
+>> + * struct drm_mode_closefb - ioctl struct to close a framebuffer
+>>   * @fb_id: Framebuffer ID.
+>>   * @pad: Must be zero.
+>>   */
+> 
+
 Thanks.
-
->>   */
->>  static inline bool
->>  drm_edp_backlight_supported(const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
-> 
-
 -- 
 #Randy
 https://people.kernel.org/tglx/notes-about-netiquette
