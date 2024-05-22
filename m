@@ -2,87 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8738CC8C2
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 00:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBEF8CC8C5
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 00:09:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDDBA10EF9C;
-	Wed, 22 May 2024 22:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED1110E2B0;
+	Wed, 22 May 2024 22:09:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tgY5a92S";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="wRmXAQNV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA38310EF9C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 22:07:04 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2e1fa824504so67626801fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 15:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716415622; x=1717020422; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Kvx6yeinoVDUi5Zfkw33aV+5YjT78WJ1rv7O0iicX/w=;
- b=tgY5a92SE9hG+cvZcZJgHIbfp2FO9skz1ShUkaBtI+Y5hrMdlrvWLUlAb1XiF/d62s
- li0f/9ESRTq+EKb97sHbPYVX9hDUu7RX9CWhR0eTfcMAqOPKejkxE2KCdSyTjjfPDWlL
- 8UNYPxsPONhb7rpS6lFfLXq4EGHvBv6o+4iJQ6x0ilvC1rIBhLCk59fFmdfrX2L0vSop
- fN2cZO9CLfTBRhn9tfQzqKL9dWdHucJ/0rg6/4VWHXGOxk57emRh6EwE8woOzQ9zkXVV
- ZEUQsQAGK9ZDUqfV2gtFadkSva5Bg3JczFMJSVRLaUUV7OK4yT6dx/7iAUOImD9Q1sRM
- OKqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716415622; x=1717020422;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Kvx6yeinoVDUi5Zfkw33aV+5YjT78WJ1rv7O0iicX/w=;
- b=PAIQ8sJlxNqV4qRUvejdf+B3dKX5AcgsajQuT3s3ChoV6j+YHDeysJazcBo5UQMiRs
- e/mlqGhYj0sep6ZQNtYyDTiBeRdTBQ4EfDaoiZNXr4b6PRAPEdt7jPIPYbh/fkJAZWgd
- nKQM2AYen5dhHqOfErx6JOwcXZLbUhfgW+4Wg+0xk3H4E8epLVlGNttvlP01sYlzEJhT
- QdDP3r5GqcLFQRgeu44K6aFm74egPl5zA3vKyiKb+ICsAm5Th0C1cTkDEgxCkyFZUnjL
- hlv0aXCb6Se2zhI8Cm7kZH1m4o4P6gilPw/WVTtQ/B8nW9jjPHUYRSnf0jm0NN8Nnt/6
- Zw0A==
-X-Gm-Message-State: AOJu0YzIWvhoK1omBqruE14m8Y5z70cjHjNJWcFmHMu4CAp+6bP9IZRJ
- IsN5sIiIcQ7qQ9tEANGPku76NdT97wtZMKPkEK0oiqE1y7Y7PpEgIbmtaXMuaD4=
-X-Google-Smtp-Source: AGHT+IHvvy96Pg+GUU/MU5q+kBLk9kzzZb38y4KNjSyfaRuJK/MxIVMkE4HTw90jn1n1wg6XsU8azw==
-X-Received: by 2002:a2e:a444:0:b0:2e5:2c7e:257 with SMTP id
- 38308e7fff4ca-2e94949dfa2mr20306221fa.30.1716415622393; 
- Wed, 22 May 2024 15:07:02 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-2e95289b4fdsm295021fa.29.2024.05.22.15.07.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 May 2024 15:07:01 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 23 May 2024 01:07:00 +0300
-Subject: [PATCH RFC] drm/panel-edp: add fat warning against adding new
- panel compatibles
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2074.outbound.protection.outlook.com [40.107.223.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80C6610E028;
+ Wed, 22 May 2024 22:09:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XqbXKoivBnCPhN7ny9NTG1g7WLaRB1UM+pJO3eqHiU3ON62gVzLQ5LAcsgE6eejXvy6dQ1Dmuk7uAbd/hSPU7aARUimkNP+CvnMh7HUJp2M+zwRj3k1saQQIOZusfmMSyy1okOPHNLp4uB0k4UC3OOmUBKOr9pLvBinP3NpJfANQJFqXIdz3rG56AjnasWhlezOxjUXbNiC1+hh+0oGdcb/aDqH8A8iKqpI+Zv+i+eAtUPiLMDcj5sAiyjpe11nWUdM7G5ITuDQhpers4Anas4d47Z4OkXYZ4BhVgZkhgWeEnQ3VwzqslSXiqQlAo8SEOtwKHZ1AiCc266Vs5JIdFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hJqA5w8+ZxQktXoYo1mGbf7lDowavN8wN0UBCDuGZBk=;
+ b=l8amHIoYD6B7AvCoXMP459cfONhAvO1B9kW1aMZ+T5Ts0eBLXRe59L9iJmjJ1McPK/Og44BB697ygq+vpcMMx1pUj7ElENoyEiF7oMLHYhIDIe2PAq3R0GnjSWIbRCO+hu49+11d3QObhuqQ7eb4Ia3rNatA71OvcEzVmPaL3c6DrpgQ/wPk/Mdi6MIXZ314KqOIOmCg3UYUA3T1Xqv0diUMW17kvLwfcx7zi2ZZXp5eXA70KnXXZlCzLzLa+HEDPl/7/SfxLSZxfavhyHwEQ1k+FFmeS1sM5PijUwORmjNEx/kDYROHl+2shuAL7M7egAH59W/QiW8P3Yk7ptX70w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hJqA5w8+ZxQktXoYo1mGbf7lDowavN8wN0UBCDuGZBk=;
+ b=wRmXAQNV19H16sqKsHPN8VS9rl1vMK9/mmxK4fgR174FOpEsBo09u4bXggEUQaz3iR/qdOR0ZwmpNMZPrRQBNgMWL3v/3zw/h3s+IdO611rzVlTKb1/6dTXJ73g+7erP5WwnK4rtNoCofkPYztYBIorv63zTINTnjHIxxjYrTlo=
+Received: from MN2PR06CA0010.namprd06.prod.outlook.com (2603:10b6:208:23d::15)
+ by DS7PR12MB6333.namprd12.prod.outlook.com (2603:10b6:8:96::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Wed, 22 May
+ 2024 22:09:07 +0000
+Received: from BL6PEPF0001AB50.namprd04.prod.outlook.com
+ (2603:10b6:208:23d:cafe::55) by MN2PR06CA0010.outlook.office365.com
+ (2603:10b6:208:23d::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36 via Frontend
+ Transport; Wed, 22 May 2024 22:09:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF0001AB50.mail.protection.outlook.com (10.167.242.74) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7611.14 via Frontend Transport; Wed, 22 May 2024 22:09:07 +0000
+Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 22 May
+ 2024 17:09:06 -0500
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, Simon Ser <contact@emersion.fr>
+CC: Harry Wentland <Harry.Wentland@amd.com>, Xaver Hugl
+ <xaver.hugl@gmail.com>, <dri-devel@lists.freedesktop.org>, Leo Li
+ <sunpeng.li@amd.com>, Sean Paul <seanpaul@google.com>, Mario Limonciello
+ <mario.limonciello@amd.com>
+Subject: [PATCH v2 0/4] Add support for testing power saving policy DRM
+ property
+Date: Wed, 22 May 2024 17:08:45 -0500
+Message-ID: <20240522220849.33343-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240523-edp-panel-drop-v1-1-045d62511d09@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAINsTmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDUyNj3dSUAt2CxLzUHN2UovwCXQODxEQjY8sk42SzJCWgpoKi1LTMCrC
- B0UpBbs5KsbW1AGgtl7RlAAAA
-To: Douglas Anderson <dianders@chromium.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2251;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=P3nfzAeDzHWCF/hR3Be4Vs0HK32RB+1TM1u0f2LLKPY=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ5pfTouUqvqtluq5hwJiZh++eFaho04xvyOfc84Jx5Liz
- DrGidadjMYsDIxcDLJiiiw+BS1TYzYlh33YMbUeZhArE8gUBi5OAZhI8g8Ohn6dWValqa4re1j8
- LjjfWDWP95XCSolzv3rCNb2XLhP/56J7UfVNnMTMD0xrHJIEGveo/6xsyosOm16eZOvUr+krm5P
- sHlNjUOZj48JUIXxtwatvCiGHNe6c+H1xVvvVWYYv/1xeoDfXxS9V7FeEq07ipUrfj1PjTghl6e
- Q8Z+bQq7e0PXVYdvXrqPslUryPJWfY8Qr09iRXWomxc/HE7GLb/bPnex/jU73oiTVb2i+4a/ueE
- RY0/D5frPFFnbjI/0cBVUvyTBRUo3+bLI90qHp+49uKM2d/5y1Sm5ArOPF+tZjx2y2O7513bTZ5
- 41Pt+mSDzAS5jLS1Sz/r+lSFaO58VrjoVuz942qBPTIA
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB50:EE_|DS7PR12MB6333:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86b36186-046a-44f6-28da-08dc7aabccde
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230031|1800799015|376005|36860700004|82310400017; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rWMkH2KIXWVEvYVcBbz0EuCK9UrnPVVMc51tVauG79x084NHyKetiPaWfWj4?=
+ =?us-ascii?Q?LlfArgCo8KMSxdHWZxbNMP4BwamqrPSLFk6SMfi/eZAB+23CLHpJX2T2QhjQ?=
+ =?us-ascii?Q?VMqwn+rLZImIB7LXFUmWKYFTiFX0KVhv2umRs4ln6c0DNxyvqRQUIE9WiHY6?=
+ =?us-ascii?Q?KnyG/p4hjw4/F+lnotNlCednLslWDJxq1zHYftnrj7UzySIyfWy+yqxU0kJ5?=
+ =?us-ascii?Q?f5KEf5zdg49qsI6TtUTEiAZleeex1cMImD1VxSiJq2E7PZDbzTGV3aMa05S8?=
+ =?us-ascii?Q?fNyPwjmELiNCrIzznRnGJDtBB0pGyu+c93DZ0zKkl9YAp8C1PAH7j20QhQKe?=
+ =?us-ascii?Q?UCa6k8avxAirAhdCv7rM04vxFbTYFSokWODaUVLR1wgHQsunlniwIzKCWITz?=
+ =?us-ascii?Q?LbR4vCG+h2G+u0lV6eMVhsz9P1Yu30vSCb9tXJytt2V7wSafto3+HeNvvJLZ?=
+ =?us-ascii?Q?0n+zFuNkMy98HdsmNxyi1qyBQZhn9o9sJzhKQPpuWY7zPyLwzbPaGeDMHVKr?=
+ =?us-ascii?Q?iFsYoywIhMCuEUMYRUfcl0Xe8hDxF8hZ1zBSFPMgXiJA9UXl+SPY8tu9c3U2?=
+ =?us-ascii?Q?hdLZqO89JCzLtF0laS6MXsPPYCocIpk5VJbkf7ppcC/ZY3aJ2kO3pHeS0TJ9?=
+ =?us-ascii?Q?Vr8p5Mgu/H2WNdpf5SdI4ty0C+pSWrUfYnKJJxiyBaEKBAJXNstl/fwoJA4Y?=
+ =?us-ascii?Q?GZ5d3K86CFiF0LlnA5TG85mvVKUbFyayaB6PvRzc+yGoxHqw5AFygLyKE3q6?=
+ =?us-ascii?Q?4L+z5Ryz+gfuPG4hVnve5eTiDMFBkH95hD6cF3G099ffvPD6A98cpBjDZqjp?=
+ =?us-ascii?Q?4ejDPWQa4Oe5Mhz9ocT/6DL4OQMsHChNHG6QlRY79uEONqb9xV3Oqc2TrdGd?=
+ =?us-ascii?Q?8E+C4Szg/mM6B0jEsVQxjgFVFBQfnZ5bXDGpNAiayucFYWkPzLS0pYZr1chT?=
+ =?us-ascii?Q?TKlyujfOqQV50Xk886CbqnC4NTh6LuCT1+y4ct1/EmrjZ4PGyB/6YsNtaxo7?=
+ =?us-ascii?Q?6do4jlhlXcLt/4SbDBFsp1TkzJzRc9+5gbhdoOJFyqucS0GjBqMvwcGwUw2V?=
+ =?us-ascii?Q?qk2MaFaTR6xydMp/OkUMFIHcr4un5yW2seLW7BCdI4yZ2amKmYI0FmdWXlh/?=
+ =?us-ascii?Q?BS8I9P/vXLqOqzUmwXC4V2H7yvrj/yWzs/3CVF5AcJY0VtJQv1Hl0xFNFhvx?=
+ =?us-ascii?Q?0l1/eBFzyCbXeQgK7uhFTZyh0pjSdQWzB8sj5vsTtsFh1s7vyO/xOfCRdyVr?=
+ =?us-ascii?Q?5AIx9yzhHeQnQDcfMQp0r6FEW5uaylIq1hGSbenFMZaGvpiFjl2IlRZ8cckI?=
+ =?us-ascii?Q?fJIvZZ4ZaN1ZC6o7H0hBBwsiBZGSfHplcIUi+tBFJ+Qas9n497avD0VtAAYn?=
+ =?us-ascii?Q?dqnqwWRCKXp7xDivhz0dFgLtxAn+?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(1800799015)(376005)(36860700004)(82310400017); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2024 22:09:07.4406 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86b36186-046a-44f6-28da-08dc7aabccde
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB50.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6333
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,70 +133,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a fat warning against adding new panel compatibles to the panel-edp
-driver. All new users of the eDP panels are supposed to use the generic
-"edp-panel" compatible device on the AUX bus. The remaining compatibles
-are either used by the existing DT or were used previously and are
-retained for backwards compatibility.
+During the Display Next hackfest 2024 one of the topics discussed
+was the need for compositor to be able to relay intention to drivers
+that color fidelity or low latency is preferred over power savings.
 
-Suggested-by: Doug Anderson <dianders@chromium.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
-The following compatibles were never used by the devices supported by
-the upstream kernel and are a subject to possible removal:
+To accomplish this a new optional DRM property is being introduced called
+"power saving policy".  This property is a bit mask that can be configured
+by the compositor to for it's requirements.
 
-- auo,b133han05
-- auo,b140han06
-- ivo,m133nwf4-r0
-- lg,lp097qx1-spa1
-- lg,lp129qe
-- samsung,lsn122dl01-c01
-- samsung,ltn140at29-301
-- sharp,ld-d5116z01b
-- sharp,lq140m1jw46
-- starry,kr122ea0sra
+When a driver advertises support for this property and the compositor
+sets requirements then the driver will disable any appplicable power saving
+features that can compromise the requirements.
 
-I'm considering dropping them, unless there is a good reason not to do
-so.
----
- drivers/gpu/drm/panel/panel-edp.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+This set of IGT changes introduces a new subtest that will cover the
+expected kernel behavior when switching between requirements.
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 6db277efcbb7..95b25ec67168 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1776,7 +1776,23 @@ static const struct of_device_id platform_of_match[] = {
- 	{
- 		/* Must be first */
- 		.compatible = "edp-panel",
--	}, {
-+	},
-+	/*
-+	 * Do not add panels to the list below unless they cannot be handled by
-+	 * the generic edp-panel compatible.
-+	 *
-+	 * The only two valid reasons are:
-+	 * - because of the panel issues (e.g. broken EDID or broken
-+	 *   identification),
-+	 * - because the platform which uses the panel didn't wire up the AUX
-+	 *   bus properly.
-+	 *
-+	 * In all other cases the platform should use the aux-bus and declare
-+	 * the panel using the 'edp-panel' compatible as a device on the AUX
-+	 * bus. The lack of the aux-bus support is not a valid case. Platforms
-+	 * are urged to be converted to declaring panels in a proper way.
-+	 */
-+	{
- 		.compatible = "auo,b101ean01",
- 		.data = &auo_b101ean01,
- 	}, {
+Mario Limonciello (4):
+  Add support for API for drivers to set power saving policy
+  tests/amdgpu/amd_abm: Make set_abm_level return type int
+  tests/amdgpu/amd_abm: Add support for panel_power_saving property
+  tests/amdgpu/amd_psr: Add support for `power saving policy` property
 
----
-base-commit: 8314289a8d50a4e05d8ece1ae0445a3b57bb4d3b
-change-id: 20240523-edp-panel-drop-00aa239b3c6b
+ lib/igt_kms.c          | 26 +++++++++++++++
+ lib/igt_kms.h          |  6 ++++
+ tests/amdgpu/amd_abm.c | 72 ++++++++++++++++++++++++++++++++++------
+ tests/amdgpu/amd_psr.c | 74 ++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 168 insertions(+), 10 deletions(-)
 
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.43.0
 
