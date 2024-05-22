@@ -2,69 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988C28CBC19
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 09:33:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFEB8CBC27
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 09:37:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AB6510EB8F;
-	Wed, 22 May 2024 07:33:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ABF810EE0E;
+	Wed, 22 May 2024 07:37:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FG7iqI6d";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iFUh+Bo4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EF8710EB8F
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 07:33:05 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 05152581;
- Wed, 22 May 2024 09:32:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1716363171;
- bh=/CP+fbgEX5XFpkxvApNtr2U9BrvlM+4DperW6OziTxQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FG7iqI6d6LiRahUeHDB38CN5sHl/Q3UAaiplBz/Pit6ghjpZHChzof2jV2Rh/Jf7v
- FENvCM2RsExg7/C1GxV5pxbvo+wJKsLPOtoGdMPXkdk+/3IUH0axyxIvZRG1bs8HMJ
- KY92D21Kq9loYMC8EazNLkHHhchWDzEmMZN71Y54=
-Date: Wed, 22 May 2024 10:32:53 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Cc: Alex Bee <knaerzche@gmail.com>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh@kernel.org" <robh@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "hjc@rock-chips.com" <hjc@rock-chips.com>,
- "heiko@sntech.de" <heiko@sntech.de>,
- "andy.yan@rock-chips.com" <andy.yan@rock-chips.com>,
- Xingyu Wu <xingyu.wu@starfivetech.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- Jack Zhu <jack.zhu@starfivetech.com>,
- Shengyang Chen <shengyang.chen@starfivetech.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v4 02/10] drm/bridge: add common api for inno hdmi
-Message-ID: <20240522073253.GF8863@pendragon.ideasonboard.com>
-References: <20240521105817.3301-1-keith.zhao@starfivetech.com>
- <20240521105817.3301-3-keith.zhao@starfivetech.com>
- <58ddfc8f-1995-4f41-9d63-35a00c6f92b9@gmail.com>
- <20240521154206.GA1935@pendragon.ideasonboard.com>
- <NTZPR01MB1050CA92FFE17AE1C9E38BF8EEEB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8928610F429
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 07:37:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1716363456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8aHWlEgygkwA3tRbeqByxQNqA067pG4KDVYSLn8mH9Y=;
+ b=iFUh+Bo42r8y+NmVT0LDUVOsrPw1+GuzkaoXKVMDj3VMm3ltK4Ou0adm64XW4Wuehj7Fhn
+ 9iDsri5Xr/7XPuv8K0wyjj1smes3rrudEEo893W4932fkVJ8XTKM8NBLUbEh/BioJh0Y0I
+ qTcrC8h80/3snI+sK4JghL9mC0UNxIg=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-465-36gF_71INsWLyy479GplYA-1; Wed, 22 May 2024 03:37:35 -0400
+X-MC-Unique: 36gF_71INsWLyy479GplYA-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-792c8f9c4f5so286435985a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 00:37:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716363455; x=1716968255;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8aHWlEgygkwA3tRbeqByxQNqA067pG4KDVYSLn8mH9Y=;
+ b=Y7s1e061A5VKpWLteRX1fPtTleEwgcAVPC6I5lDB4iO/fe2WlNfAgR54HZHWMPYQE/
+ qmecYAd5/y0Ji7adgBIAGUc51Ru89+j7f3di9mHnZA12asE/rnmh3pLwMN72Lza27bRM
+ uvvZl8gJR69pm/rBJnQ8j6HV0eyMTwsSO6SpiqL+WwV7wEoCvyP+yfP0jwAvJTyFL0x7
+ 9bXyv15bS6yWGx0ZNM3CgdfcbCrB9AgQ7Esp8Ij5F1inTrVLze/49mbSGLukOL3hhazw
+ abPsMrbZ4/uFA+L8wrDX5JzP3f/f3Mi43JbJs8IBosy71Z2QCOZD6os0c7EU2RpRXG/z
+ 3faA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDPu5GbzszExVwbnIUuihfEt1K4IzQHvVQfLa6fGXvxlCNj0CHcOFxq6b5XXn2lJTAtAaWCc4n07b7i1JU4DhkRUwq5hLzRdCS1Yd9+0XC
+X-Gm-Message-State: AOJu0YxeW6DxjxF7V+snaQuF9szBfGstx3XSzeswIkw63c01fB+1xLh2
+ v8jWRwQgwuNeNN23vBcuQVOw6q5PI0PZiu7njI/sDr8UJJR0Xy9qQz2jFxpreZdZg/YN6Lx3X1A
+ /YMVBTxDqQtE51I3Lwm57f0Qccn685IGMYbL+4Ai9/IcIIC6TE7EorrqJliZdhTLn5A==
+X-Received: by 2002:a05:620a:4491:b0:790:fbf5:e31a with SMTP id
+ af79cd13be357-794994a9433mr122623985a.3.1716363454771; 
+ Wed, 22 May 2024 00:37:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFtHk4to1dfo+BAJjETLLTN0cBCNnEmnRqv15MBpg+2BkTIqUUVEK1If53rgActa2EPcK5xJw==
+X-Received: by 2002:a05:620a:4491:b0:790:fbf5:e31a with SMTP id
+ af79cd13be357-794994a9433mr122621485a.3.1716363454268; 
+ Wed, 22 May 2024 00:37:34 -0700 (PDT)
+Received: from pstanner-thinkpadt14sgen1.remote.csb
+ (nat-pool-muc-t.redhat.com. [149.14.88.26])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-79481013155sm320794285a.115.2024.05.22.00.37.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 May 2024 00:37:34 -0700 (PDT)
+Message-ID: <35fef820ed6e67f2203e78735fc9e15248436221.camel@redhat.com>
+Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
+From: Philipp Stanner <pstanner@redhat.com>
+To: FUJITA Tomonori <fujita.tomonori@gmail.com>, dakr@redhat.com
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de,  airlied@gmail.com, daniel@ffwll.ch, ojeda@kernel.org,
+ alex.gaynor@gmail.com,  wedsonaf@gmail.com, boqun.feng@gmail.com,
+ gary@garyguo.net,  bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+ a.hindborg@samsung.com,  aliceryhl@google.com, lina@asahilina.net,
+ ajanulgu@redhat.com, lyude@redhat.com,  gregkh@linuxfoundation.org,
+ rust-for-linux@vger.kernel.org,  dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Date: Wed, 22 May 2024 09:37:30 +0200
+In-Reply-To: <20240522.085334.1009573112046880609.fujita.tomonori@gmail.com>
+References: <20240520172059.181256-1-dakr@redhat.com>
+ <20240520172422.181763-4-dakr@redhat.com>
+ <20240522.085334.1009573112046880609.fujita.tomonori@gmail.com>
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <NTZPR01MB1050CA92FFE17AE1C9E38BF8EEEB2@NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,125 +102,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Keith,
+On Wed, 2024-05-22 at 08:53 +0900, FUJITA Tomonori wrote:
+> Hi,
+> Thanks for working on the firmware API!
+>=20
+> On Mon, 20 May 2024 19:24:19 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
+>=20
+> > Add an abstraction around the kernels firmware API to request
+> > firmware
+> > images. The abstraction provides functions to access the firmware
+> > buffer and / or copy it to a new buffer allocated with a given
+> > allocator
+> > backend.
+> >=20
+> > The firmware is released once the abstraction is dropped.
+> >=20
+> > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> > ---
+> > =C2=A0 rust/bindings/bindings_helper.h |=C2=A0 1 +
+> > =C2=A0 rust/kernel/firmware.rs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 74
+> > +++++++++++++++++++++++++++++++++
+> > =C2=A0 rust/kernel/lib.rs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
+> > =C2=A0 3 files changed, 76 insertions(+)
+> > =C2=A0 create mode 100644 rust/kernel/firmware.rs
+> >=20
+> > diff --git a/rust/bindings/bindings_helper.h
+> > b/rust/bindings/bindings_helper.h
+> > index b245db8d5a87..e4ffc47da5ec 100644
+> > --- a/rust/bindings/bindings_helper.h
+> > +++ b/rust/bindings/bindings_helper.h
+> > @@ -14,6 +14,7 @@
+> > =C2=A0 #include <kunit/test.h>
+> > =C2=A0 #include <linux/errname.h>
+> > =C2=A0 #include <linux/ethtool.h>
+> > +#include <linux/firmware.h>
+> > =C2=A0 #include <linux/jiffies.h>
+> > =C2=A0 #include <linux/mdio.h>
+> > =C2=A0 #include <linux/pci.h>
+> > diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+> > new file mode 100644
+> > index 000000000000..700504fb3c9c
+> > --- /dev/null
+> > +++ b/rust/kernel/firmware.rs
+> > @@ -0,0 +1,74 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +
+> > +//! Firmware abstraction
+> > +//!
+> > +//! C header:
+> > [`include/linux/firmware.h`](../../../../include/linux/firmware.h")
+> > +
+> > +use crate::{bindings, device::Device, error::Error, error::Result,
+> > str::CStr, types::Opaque};
+> > +
+> > +/// Abstraction around a C firmware struct.
+> > +///
+> > +/// This is a simple abstraction around the C firmware API. Just
+> > like with the C API, firmware can
+> > +/// be requested. Once requested the abstraction provides direct
+> > access to the firmware buffer as
+> > +/// `&[u8]`. Alternatively, the firmware can be copied to a new
+> > buffer using `Firmware::copy`. The
+> > +/// firmware is released once [`Firmware`] is dropped.
+> > +///
+> > +/// # Examples
+> > +///
+> > +/// ```
+> > +/// let fw =3D Firmware::request("path/to/firmware.bin",
+> > dev.as_ref())?;
+> > +/// driver_load_firmware(fw.data());
+> > +/// ```
+> > +pub struct Firmware(Opaque<*const bindings::firmware>);
+>=20
+> Wrapping a raw pointer is not the intended use of Qpaque type?
+>=20
 
-On Wed, May 22, 2024 at 05:58:00AM +0000, Keith Zhao wrote:
-> Hi Alex, Laurent:
-> 
-> I want to make as few changes as possible on the current basis, and add bridge_fun, 
-> 
-> On 2024年5月21日 23:42, Laurent Pinchart wrote:
-> > On Tue, May 21, 2024 at 05:36:43PM +0200, Alex Bee wrote:
-> > > Hi Keith,
-> > >
-> > > thanks a lot for working on this. See some general remarks below
-> > >
-> > > Am 21.05.24 um 12:58 schrieb keith:
-> > > > Add INNO common api so that it can be used by vendor drivers which
-> > > > implement vendor specific extensions to Innosilicon HDMI.
-> > > >
-> > > > Signed-off-by: keith <keith.zhao@starfivetech.com>
-> > > > ---
-> > > >   MAINTAINERS                                   |   2 +
-> > > >   drivers/gpu/drm/bridge/Kconfig                |   2 +
-> > > >   drivers/gpu/drm/bridge/Makefile               |   1 +
-> > > >   drivers/gpu/drm/bridge/innosilicon/Kconfig    |   6 +
-> > > >   drivers/gpu/drm/bridge/innosilicon/Makefile   |   2 +
-> > > >   .../gpu/drm/bridge/innosilicon/inno-hdmi.c    | 587 ++++++++++++++++++
-> > > >   .../gpu/drm/bridge/innosilicon/inno-hdmi.h    |  97 +++
-> > > >   include/drm/bridge/inno_hdmi.h                |  69 ++
-> > > >   8 files changed, 766 insertions(+)
-> > > >   create mode 100644 drivers/gpu/drm/bridge/innosilicon/Kconfig
-> > > >   create mode 100644 drivers/gpu/drm/bridge/innosilicon/Makefile
-> > > >   create mode 100644 drivers/gpu/drm/bridge/innosilicon/inno-hdmi.c
-> > > >   create mode 100644 drivers/gpu/drm/bridge/innosilicon/inno-hdmi.h
-> > > >   create mode 100644 include/drm/bridge/inno_hdmi.h
-> > > >
-> > > ....
-> > >
-> > > > +	drm_encoder_helper_add(encoder, pdata->helper_private);
-> > > > +
-> > > > +	hdmi->connector.polled = DRM_CONNECTOR_POLL_HPD;
-> > > > +
-> > > > +	drm_connector_helper_add(&hdmi->connector,
-> > > > +				 &inno_hdmi_connector_helper_funcs);
-> > > > +
-> > > > +	drmm_connector_init(drm, &hdmi->connector,
-> > > > +			    &inno_hdmi_connector_funcs,
-> > > > +			    DRM_MODE_CONNECTOR_HDMIA,
-> > > > +			    hdmi->ddc);
-> > > > +
-> > >
-> > > I really don't want to anticipate bridge maintainer's feedback, but
-> > > new bridge drivers must not contain connector creation. That must
-> > > happen somewhere else.
-> > 
-> > You're absolutely right :-) Connector creation should be handled by the
-> > drm_bridge_connector helper. The HDMI bridge driver should focus on the
-> > HDMI bridge itself.
-> 
-> static int inno_bridge_attach(struct drm_bridge *bridge,
-> 				 enum drm_bridge_attach_flags flags)
-> {
-> 	struct inno_hdmi *hdmi = bridge_to_inno(bridge);
-> 
-> 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-> 		DRM_ERROR("Fix bridge driver to make connector optional!");
-> 		return -EINVAL;
-> 	}
+What is the intended use?
+As I see it, all uses wrapp some binding::* =E2=80=93 but a rawpointer to a
+binding shouldn't be wrapped by it?
 
-This kind of code was added to existing bridge drivers when we
-transitioned to the new model where bridges don't create the connectors,
-because we couldn't fix all the existing bridges in one go. New bridges
-must do the opposite. See imx8qxp-pixel-link.c for instance, it has this
-code instead in its attach function:
+Maybe we can add something to the docu in kernel/types.rs:
 
-	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-		DRM_DEV_ERROR(pl->dev,
-			      "do not support creating a drm_connector\n");
-		return -EINVAL;
-	}
 
-(I would personally drop the DRM_DEV_ERROR message)
+/// Stores an opaque value.
+///
+/// This is meant to be used with FFI objects that are never interpreted by=
+ Rust code.
+#[repr(transparent)]
+pub struct Opaque<T> {
 
-> 	hdmi->connector.polled = DRM_CONNECTOR_POLL_HPD;
-> 
-> 	drm_connector_helper_add(&hdmi->connector,
-> 				 &inno_hdmi_connector_helper_funcs);
-> 
-> 	drmm_connector_init(drm, &hdmi->connector,
-> 			    &inno_hdmi_connector_funcs,
-> 			    DRM_MODE_CONNECTOR_HDMIA,
-> 			    hdmi->ddc);
-> 
-> 	drm_connector_attach_encoder(&hdmi->connector, encoder);
-> }
-> 
-> static const struct drm_bridge_funcs inno_bridge_attach = {
-> 	.attach = inno_bridge_attach,
-> };
-> 
-> Connector creation is handled by the drm_bridge_funcs ->attach.
-> Is it ok?
 
-No, the connector should be created by the display controller driver by
-calling drm_brige_connector_init(). It should not be created by the
-bridge driver. The bridge driver should provide the bridge functions
-(drm_bridge_funcs), but not create any connector.
 
-> > > Also I'm neither seeing any drm_brige struct nor drm_bridge_funcs,
-> > > which are both essential for a bridge driver. I don't think moving a
-> > > part of a driver to .../drm/bridge/ makes it a bridge driver.
-> > >
-> > > > +	drm_connector_attach_encoder(&hdmi->connector, encoder);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > ....
-> > >
+P.
 
--- 
-Regards,
-
-Laurent Pinchart
