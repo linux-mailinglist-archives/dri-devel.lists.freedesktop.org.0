@@ -2,74 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2328CBDEB
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 11:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9298CBE7F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 11:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F30D710E15F;
-	Wed, 22 May 2024 09:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 525B710EC4C;
+	Wed, 22 May 2024 09:48:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="e3KNMcJC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rVkHzB15";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F93810E15F
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 09:37:53 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5241b49c0daso4218822e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 02:37:53 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EA8010EC4C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 09:48:13 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-5231efd80f2so6897039e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 02:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716370671; x=1716975471; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1716371291; x=1716976091; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=sZF8Y1rE8W87y+bamUNsSfTcDwSCLB9HcTvYTUeX3LE=;
- b=e3KNMcJC++7605E0t/E1Z2/6k8odfNAiEp8v5hl0jd0YPfM+yqQH+/9QtGq44mCncS
- /1HLvAEAlYbuPhpRo0MQzbxKdZpnogLJTfxRBvosj98RIumyV2YIZKr0tl9FUu0vgd7y
- BQstxGhzUCECMP+/DPMxPXKp2vnxEdpj1nT69D+wb9mPe2WOw4p43qNdTQ/SV2P5S6i3
- Pz4TM9/0OHoDaaPiLOGFWFMfIIVmb9T1ZpPUmjXoje8yCVT/GG7IuyShl8Ov0/SfoQD2
- bcN08LDgv2craBeSkC1wvo98DRWGyljHpaGlvtHeCl1KpJob+oXyUbpaReR96jpO9cbm
- VkrA==
+ bh=wOYgFzdldhFOs8AkqkazEb6OybG4e8b+WL3wRmANGa0=;
+ b=rVkHzB15DCNgfYEBrrVjthsTVTCug220O3kTc+mZmzHSRUz9X2qLSrP2R7g1RHLciz
+ BVu6NDO1Kvi18DoGmvQTa9WfiIwXpxZH0udmWK+Ca3XGn4y00IFzphaQ6A/OkO/A9Tes
+ LlSoYVO4T0gqIRYUh7xuZwq7Ca9lURwP+25E4UKySygFzQkJuOFwpbRxtBhGKcF7rLBM
+ SCpLTRtWDUYAB8K7dkjT5UPRc2oRT25kTpqtejdaV7VX6GBNNzsOi3tKDwqOPmGA9h9L
+ T+Q6PCW2HGcL+xb1JUskVortvCtPq4KOndhbESN28ydNO3ZlKpLo5qSb1fSO7QxJDD+s
+ JjrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716370671; x=1716975471;
+ d=1e100.net; s=20230601; t=1716371291; x=1716976091;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sZF8Y1rE8W87y+bamUNsSfTcDwSCLB9HcTvYTUeX3LE=;
- b=OPwg6UmFTkIdSK7YSU5ok7TzFHMmvcX1B+3C6e1qYWdsgUbQb6tKh+XQcyZjQ0KobS
- Fx9rxos6PFNlACFK0shHidbe/R3H0Tbl9oBaCDnyKK4FFZRY2o6Mhekt6wK/cllEJz7y
- /dpJc8hctyd43VFZzFveplYZOCYCI4+bgHRQwcRulbuPgoT068Ugq/V7IE1gPNFaVsrY
- x9ave7G3bG4KAs9fe1LTAy1HxNslt9KM59Ocqe1Y18y5Eq1zgM5CrT0m5SL8/e+RxpJE
- svRwzDNVbg70smZjJOiJxrBAaBO2OM+PN5trZFocJe+sulxm+eR8kHH7jyKr5k967ewE
- Bruw==
-X-Gm-Message-State: AOJu0Yyg2RXCg+SIBAuY3Wegjg5oG6g4ke8j6+F8TRhJzKjNURqFJJ9A
- OwJJZWQIeeJwlHF3JEG/HL87G4KzMGV/Ik4uTOIvenQBB2ix7B8arI9Jhymn4Bo=
-X-Google-Smtp-Source: AGHT+IEf2YOTRO3VJ2d0ZMuzHoab/K1zVfDL60pRbaPP8ah3ZaMLS3wZxTPa0AZ0Zd8NImV/sFNEAg==
-X-Received: by 2002:ac2:42d8:0:b0:51f:d989:18f6 with SMTP id
- 2adb3069b0e04-526be8d484cmr989268e87.13.1716370671033; 
- Wed, 22 May 2024 02:37:51 -0700 (PDT)
+ bh=wOYgFzdldhFOs8AkqkazEb6OybG4e8b+WL3wRmANGa0=;
+ b=psKyeyV2Iys7VGl3Cb2sY06wb8wIxpBEv6k9DhTe0tvMLNd418JcFltCuvhgjdJZty
+ cmPEybO/Xb+VjBTeIMDsukuEkheF6KDl12wGB5y6Fjf0GcvjlkqUYG3TRPfuxa0SoWKh
+ s6ZH4J7ZFtZ66mUgzP/nzubjWfKxoRr+ZI+AzBFIS51F5mNkcYEeT5AkbsY+NT4OATqj
+ pT4DzkB90eYpHVPt0gd62VqJDSinfRtWt0VrvkR+DUV8TQaUYpd2KrZX3u8kMO3cC6Da
+ JsWcuyFZOEG5Q0/aghmAiZY+9GvPh44uzWPKiESD9ikGtU+pPtw1ScnYBeAcAZAejJwE
+ GNQw==
+X-Gm-Message-State: AOJu0Ywo8ak3saPCE6B84sdPL8uE4TpvtRm7tRHRt1ZDrQctop3mC7Mi
+ cPrE6FVuJZseLTQFPYGIa9BZhSO1L45vNMUIhDoonXNMxeeQ1uOXWdVsJRxW6vM=
+X-Google-Smtp-Source: AGHT+IE2KdRn8tiZE5EhAMqBZDzzCFB+zAishxFGbPK+g4iaMbgPVJWTe8n8SoI27ZkHJmcECOuQ2w==
+X-Received: by 2002:ac2:5e85:0:b0:51f:d72:cd2d with SMTP id
+ 2adb3069b0e04-526bf35cb2amr849600e87.22.1716371291176; 
+ Wed, 22 May 2024 02:48:11 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f38d90b2sm4970070e87.242.2024.05.22.02.37.50
+ 2adb3069b0e04-521f35ad640sm4913602e87.61.2024.05.22.02.48.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 May 2024 02:37:50 -0700 (PDT)
-Date: Wed, 22 May 2024 12:37:49 +0300
+ Wed, 22 May 2024 02:48:10 -0700 (PDT)
+Date: Wed, 22 May 2024 12:48:09 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/display/dp: fix all kernel-doc warnings
-Message-ID: <q3525v4os3yrrgr2bcllc7xbnw4tdtc3373hsqg7cxfpea7isp@wxdh3xrz6vb4>
-References: <20240516002642.6659-1-rdunlap@infradead.org>
- <p2n7d7lhiogmn3niblqg3sj5nx7c7tx2m6h6z2xlyf3ks74753@7qze6k4jhp2k>
- <b47a415d-2e8c-4d09-8131-d361aa28dc60@infradead.org>
+To: Adam Ford <aford173@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, ictor.liu@nxp.com, 
+ sui.jingfeng@linux.dev, aford@beaconembedded.com, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: adv7511:  Fix Intermittent EDID failures
+Message-ID: <idjjg2lj7labpaq55u5ttn42fcp3ryae2ctvaw4c5lqlfp2wmz@2r6tilyvqbaf>
+References: <20240521011614.496421-1-aford173@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b47a415d-2e8c-4d09-8131-d361aa28dc60@infradead.org>
+In-Reply-To: <20240521011614.496421-1-aford173@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,87 +90,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 21, 2024 at 08:59:06PM -0700, Randy Dunlap wrote:
-> Hi Dmitry,
+On Mon, May 20, 2024 at 08:16:14PM -0500, Adam Ford wrote:
+> In the process of adding support for shared IRQ pins, a scenario
+> was accidentally created where adv7511_irq_process returned
+> prematurely causing the EDID to fail randomly.
 > 
-> On 5/20/24 3:37 AM, Dmitry Baryshkov wrote:
-> > On Wed, May 15, 2024 at 05:26:42PM -0700, Randy Dunlap wrote:
-> >> Fix a struct member name in &struct drm_dp_as_sdp.
-> >> Add Returns: kernel-doc syntax for 4 functions.
-> >> In the Returns: sections, spell "%true" and "%false" consistently.
-> >>
-> >> Fixes these kernel-doc warnings:
-> >>
-> >> drm_dp_helper.h:126: warning: Function parameter or struct member 'mode' not described in 'drm_dp_as_sdp'
-> >> drm_dp_helper.h:126: warning: Excess struct member 'operation_mode' description in 'drm_dp_as_sdp'
-> >> drm_dp_helper.h:237: warning: No description found for return value of 'drm_dp_dsc_sink_supports_format'
-> >> drm_dp_helper.h:539: warning: No description found for return value of 'drm_dp_dpcd_readb'
-> >> drm_dp_helper.h:554: warning: No description found for return value of 'drm_dp_dpcd_writeb'
-> >> drm_dp_helper.h:721: warning: No description found for return value of 'drm_dp_has_quirk'
-> >>
-> >> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> >> ---
-> >> Cc: David Airlie <airlied@gmail.com>
-> >> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >> Cc: dri-devel@lists.freedesktop.org
-> >> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >> Cc: Maxime Ripard <mripard@kernel.org>
-> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >>
-> >>  include/drm/display/drm_dp_helper.h |   17 +++++++++--------
-> >>  1 file changed, 9 insertions(+), 8 deletions(-)
-> >>
-> >> diff -- a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-> >> --- a/include/drm/display/drm_dp_helper.h
-> >> +++ b/include/drm/display/drm_dp_helper.h
-> >> @@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
-> >>   * @target_rr: Target Refresh
-> >>   * @duration_incr_ms: Successive frame duration increase
-> >>   * @duration_decr_ms: Successive frame duration decrease
-> >> - * @operation_mode: Adaptive Sync Operation Mode
-> >> + * @mode: Adaptive Sync Operation Mode
-> >>   */
-> >>  struct drm_dp_as_sdp {
-> >>  	unsigned char sdp_type;
-> >> @@ -230,7 +230,8 @@ drm_dp_dsc_sink_max_slice_width(const u8
-> >>   * @dsc_dpcd : DSC-capability DPCDs of the sink
-> >>   * @output_format: output_format which is to be checked
-> >>   *
-> >> - * Returns true if the sink supports DSC with the given output_format, false otherwise.
-> >> + * Returns: %true if the sink supports DSC with the given output_format,
-> >> + * %false otherwise.
-> >>   */
-> >>  static inline bool
-> >>  drm_dp_dsc_sink_supports_format(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE], u8 output_format)
-> >> @@ -280,8 +281,8 @@ drm_dp_sink_can_do_video_without_timing_
-> >>   * backlight features but which require the brightness be set through PWM, and don't support setting
-> >>   * the brightness level via the DPCD.
-> >>   *
-> >> - * Returns: %True if @edp_dpcd indicates that VESA backlight controls are supported, %false
-> >> - * otherwise
-> >> + * Returns: %true if @edp_dpcd indicates that VESA backlight controls are
-> >> + * supported, %false otherwise
-> > 
-> > If you are touching this part, maybe it's better to change 'Returns' to
-> > 'Return' as documented by Documentation/doc-guide/kernel-doc.rst ?
-> > (the same comment applies to other chunks in the patch, I've trimmed
-> > them).
+> Since the interrupt handler is broken up into two main helper functions,
+> update both of them to treat the helper functions as IRQ handlers. These
+> IRQ routines process their respective tasks as before, but if they
+> determine that actual work was done, mark the respective IRQ status
+> accordingly, and delay the check until everything has been processed.
 > 
-> scripts/kernel-doc accepts either spelling, but sure, I can change these.
-> Thanks.
+> This should guarantee the helper functions don't return prematurely
+> while still returning proper values of either IRQ_HANDLED or IRQ_NONE.
+> 
+> Reported by: Liu Ying <victor.liu@nxp.com>
+> Fixes: f3d9683346d6 ("drm/bridge: adv7511: Allow IRQ to share GPIO pins")
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> index ea271f62b214..ec0b7f3d889c 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> @@ -401,7 +401,7 @@ struct adv7511 {
+>  
+>  #ifdef CONFIG_DRM_I2C_ADV7511_CEC
+>  int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511);
+> -void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
+> +int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
+>  #else
+>  static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+>  {
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> index 44451a9658a3..4efb2cabf1b5 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> @@ -119,7 +119,7 @@ static void adv7511_cec_rx(struct adv7511 *adv7511, int rx_buf)
+>  	cec_received_msg(adv7511->cec_adap, &msg);
+>  }
+>  
+> -void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
+> +int adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
+>  {
+>  	unsigned int offset = adv7511->info->reg_cec_offset;
+>  	const u32 irq_tx_mask = ADV7511_INT1_CEC_TX_READY |
+> @@ -130,17 +130,21 @@ void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
+>  				ADV7511_INT1_CEC_RX_READY3;
+>  	unsigned int rx_status;
+>  	int rx_order[3] = { -1, -1, -1 };
+> -	int i;
+> +	int i, ret = 0;
+> +	int irq_status = IRQ_NONE;
+>  
+> -	if (irq1 & irq_tx_mask)
+> +	if (irq1 & irq_tx_mask) {
+>  		adv_cec_tx_raw_status(adv7511, irq1);
+> +		irq_status = IRQ_HANDLED;
+> +	}
+>  
+>  	if (!(irq1 & irq_rx_mask))
+> -		return;
+> +		return irq_status;
+>  
+> -	if (regmap_read(adv7511->regmap_cec,
+> -			ADV7511_REG_CEC_RX_STATUS + offset, &rx_status))
+> -		return;
+> +	ret = regmap_read(adv7511->regmap_cec,
+> +			ADV7511_REG_CEC_RX_STATUS + offset, &rx_status);
+> +	if (ret < 0)
+> +		return ret;
 
-An alternative way would be to fix kernel-doc.rst :-)
+Ok, maybe I was wrong with my previous suggestion. The code starts to
+look more and more clumsy.  Do we really care about error status at all?
+Maybe it's enough to return IRQ_NONE here from the IRQ handlers?
 
-> 
-> >>   */
-> >>  static inline bool
-> >>  drm_edp_backlight_supported(const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
-> > 
-> 
+>  
+>  	/*
+>  	 * ADV7511_REG_CEC_RX_STATUS[5:0] contains the reception order of RX
+> @@ -172,6 +176,8 @@ void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
+>  
+>  		adv7511_cec_rx(adv7511, rx_buf);
+>  	}
+> +
+> +	return IRQ_HANDLED;
+>  }
+>  
+>  static int adv7511_cec_adap_enable(struct cec_adapter *adap, bool enable)
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> index 66ccb61e2a66..56dd2d5a0376 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -469,6 +469,8 @@ static int adv7511_irq_process(struct adv7511 *adv7511, bool process_hpd)
+>  {
+>  	unsigned int irq0, irq1;
+>  	int ret;
+> +	int cec_status;
+
+cec_status ends up being unset if CEC is disabled.
+
+> +	int irq_status = IRQ_NONE;
+>  
+>  	ret = regmap_read(adv7511->regmap, ADV7511_REG_INT(0), &irq0);
+>  	if (ret < 0)
+> @@ -478,38 +480,41 @@ static int adv7511_irq_process(struct adv7511 *adv7511, bool process_hpd)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	/* If there is no IRQ to handle, exit indicating no IRQ data */
+> -	if (!(irq0 & (ADV7511_INT0_HPD | ADV7511_INT0_EDID_READY)) &&
+> -	    !(irq1 & ADV7511_INT1_DDC_ERROR))
+> -		return -ENODATA;
+> -
+>  	regmap_write(adv7511->regmap, ADV7511_REG_INT(0), irq0);
+>  	regmap_write(adv7511->regmap, ADV7511_REG_INT(1), irq1);
+>  
+> -	if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.encoder)
+> +	if (process_hpd && irq0 & ADV7511_INT0_HPD && adv7511->bridge.encoder) {
+>  		schedule_work(&adv7511->hpd_work);
+> +		irq_status = IRQ_HANDLED;
+> +	}
+>  
+>  	if (irq0 & ADV7511_INT0_EDID_READY || irq1 & ADV7511_INT1_DDC_ERROR) {
+>  		adv7511->edid_read = true;
+>  
+>  		if (adv7511->i2c_main->irq)
+>  			wake_up_all(&adv7511->wq);
+> +		irq_status = IRQ_HANDLED;
+>  	}
+>  
+>  #ifdef CONFIG_DRM_I2C_ADV7511_CEC
+> -	adv7511_cec_irq_process(adv7511, irq1);
+> +	cec_status = adv7511_cec_irq_process(adv7511, irq1);
+> +
+> +	if (cec_status < 0)
+> +		return cec_status;
+>  #endif
+>  
+> -	return 0;
+> +	/* If there is no IRQ to handle, exit indicating no IRQ data */
+> +	if (irq_status == IRQ_HANDLED || cec_status == IRQ_HANDLED)
+> +		return IRQ_HANDLED;
+> +
+> +	return IRQ_NONE;
+>  }
+>  
+>  static irqreturn_t adv7511_irq_handler(int irq, void *devid)
+>  {
+>  	struct adv7511 *adv7511 = devid;
+> -	int ret;
+>  
+> -	ret = adv7511_irq_process(adv7511, true);
+> -	return ret < 0 ? IRQ_NONE : IRQ_HANDLED;
+> +	return adv7511_irq_process(adv7511, true);
+
+This should be return ret < 0 ? IRQ_NONE : ret. We should not be
+returning negative error via irqreturn_t.
+
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
 > -- 
-> #Randy
-> https://people.kernel.org/tglx/notes-about-netiquette
-> https://subspace.kernel.org/etiquette.html
+> 2.43.0
+> 
 
 -- 
 With best wishes
