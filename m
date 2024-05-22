@@ -2,88 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DEE8CC6B8
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 21:08:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D338CC78F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 22:00:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94FB910E338;
-	Wed, 22 May 2024 19:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7F910F166;
+	Wed, 22 May 2024 20:00:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="GogqL4+5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MVcUts4x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 075DE10E1EE;
- Wed, 22 May 2024 19:07:59 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44M8ETqG030497;
- Wed, 22 May 2024 19:07:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=
- qcppdkim1; bh=YIYmoPrZ5Yq2XAWbTqHD9ZUhZHbestVjqup+laAMYF8=; b=Go
- gqL4+5f6la+lno/AlZCyGbbJIlJhNuTRI+zyMD04pbqQDosDNtq6wPBZyJmJzXrI
- Jw6zRJopsLWHOlRDGk5mpXXGpDnxHydm2lbjTvNaqfHj3USeQuLAcQNBaunBDG8R
- Z+O+Pygbp74QcG7vDByeCwi1ZFteHAkZLH79VyaV804c03J6CFfOzXxQnatBClnb
- CW26UjzMOP+xt5Vw5P38yykSd1Rheytq5wCfmtz3Y+dYCRUru69DfLRVO6OpZQGF
- Gy4J36QqxHyN9AE3eG6dR0kZEs9Ow9QEwUSzy9mGE0Wab/tIzgwLodo1kjm3zZWq
- 2IJ8KMQNV160PD71MRfQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y6pq5htte-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 May 2024 19:07:54 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44MJ7rdB030857
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 May 2024 19:07:53 GMT
-Received: from [10.110.28.32] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 22 May
- 2024 12:07:52 -0700
-Message-ID: <6b49466e-5223-6e05-5d2b-a181d9a0d3b7@quicinc.com>
-Date: Wed, 22 May 2024 12:07:52 -0700
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
+ [209.85.128.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C8B210F154
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 20:00:00 +0000 (UTC)
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-61b4cbb8834so12716467b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 13:00:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1716407999; x=1717012799; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/qhl6IWId5wrM73iQzxcnHSvXyYaW/mKPzC9kbK3RJY=;
+ b=MVcUts4xoKwlUt95e6cgQBhrRnFSzfrQ5m9aRTwP05BK0mDR8dfw9/0zwu+OCZE4n6
+ ZEvDy644sbDt24tev+7Ud/CmRH1usV9TCdX33+1aplThlajAIfjm9qyoCYZ5UCka3oKl
+ od/k5DZnmHTa2HUVCWdNv/BD7Z/g2sUo7VmrJFbbMGaR/gtAHhiFUKOx3ved57PAPrcu
+ LRtBIL9sLr2mUWmXffs8aNnrJI31SNxPNw3HOA4RaZEKY2+x6IGAMN7DrqUQbfRMjEd2
+ jqijEM8XQi5/KIkD12+XIoQIc2BTU2/YfHPodAU20qcg4Z+g8gXHbyFP5T1DE6TH/V36
+ UAbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716407999; x=1717012799;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/qhl6IWId5wrM73iQzxcnHSvXyYaW/mKPzC9kbK3RJY=;
+ b=CEAE9JjQwp4wINdOTThx1i3Iq+YGpETlZT5QCvOC5Dsog6oz9bu7iDNfGvPMB7sqPh
+ 5Dz/Qcq+ZFzcV4NbMGZntIZuGBInfu1IQ+8fuZFbjNpZ2Mbp9DU6GgoLhHoxgH3s4ywT
+ CfFaph0udPXZJERcUsAQRcQ8uioNLWpwiuMiFBx4qQI0Ye3eOnfPul+HS4IW4ECzTPVd
+ iI1I8KC4HFvWNmS2aVxQ0kF1hFppiMTBzRjC8xPj1ssi/Qji0NhXqbNY2MXwPFbvLh25
+ 0MdvR1dSHeWXP6xj0beAh5zC6kN6hLhVPoZAhP+QY8+wTNdl7ukJ7ZUQ74bbbZ+PKpBS
+ FamQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVsKb1BwoVhzyMq3sLOnQtRNx2xckTQdflKPE0yXQ+7MjtBGGyELTxWkAgAynhoU9JCKR+09oL3ULM+FLX9nmrZwyjke7D7/dpji9MDN7/u
+X-Gm-Message-State: AOJu0YzpOme4DyxVZqyRRPdztZVGMjf30bDLviE2eSyC5TutU25TPeQ7
+ E1An8gM7HOBqgWBoJ7yO2mIEs7JceJ+vGFd4VwCdkYlU8PtmpCcfZeLIs6btkgrZP2oXy9k67Vh
+ ba4jWkeZ6b6BSpYCPfKNj981oFfFmwccmXIECdg==
+X-Google-Smtp-Source: AGHT+IFBdpHbxJ+yLv993NBkaZKCxzG+KUPF15873Oa8DQwzjjPnnwpp06GCFXfzkmTafg7JcepNq4qfLzPm44EJARc=
+X-Received: by 2002:a25:2651:0:b0:de4:738b:c2e4 with SMTP id
+ 3f1490d57ef6-df4e0acfd9amr3345943276.28.1716407999068; Wed, 22 May 2024
+ 12:59:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 5/7] drm/msm/dpu: rework vsync_source handling
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
 References: <20240520-dpu-handle-te-signal-v1-0-f273b42a089c@linaro.org>
- <20240520-dpu-handle-te-signal-v1-5-f273b42a089c@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20240520-dpu-handle-te-signal-v1-5-f273b42a089c@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ltZJ-FQnnPojuSHU7ooIqN0tfowh_rir
-X-Proofpoint-ORIG-GUID: ltZJ-FQnnPojuSHU7ooIqN0tfowh_rir
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-22_10,2024-05-22_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- malwarescore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 spamscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0
- bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405220132
+ <9fc7e388-d9c7-12d1-bee5-803dd6f1ca60@quicinc.com>
+In-Reply-To: <9fc7e388-d9c7-12d1-bee5-803dd6f1ca60@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 22 May 2024 22:59:48 +0300
+Message-ID: <CAA8EJpoWUEGX8fq5qxXUebA-E25ONycm4NXscFhXAhFwcJGf0w@mail.gmail.com>
+Subject: Re: [PATCH 0/7] drm/msm/dpu: handle non-default TE source pins
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,21 +86,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 22 May 2024 at 21:39, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 5/20/2024 5:12 AM, Dmitry Baryshkov wrote:
+> > Command-mode DSI panels need to signal the display controlller when
+> > vsync happens, so that the device can start sending the next frame. Some
+> > devices (Google Pixel 3) use a non-default pin, so additional
+> > configuration is required. Add a way to specify this information in DT
+> > and handle it in the DSI and DPU drivers.
+> >
+>
+> Which pin is the pixel 3 using? Just wanted to know .. is it gpio0 or gpio1?
+
+gpio2. If it was gpio0 then there were no issues at all.
+
+>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> > Dmitry Baryshkov (7):
+> >        dt-bindings: display/msm/dsi: allow specifying TE source
+> >        drm/msm/dpu: convert vsync source defines to the enum
+> >        drm/msm/dsi: drop unused GPIOs handling
+> >        drm/msm/dpu: pull the is_cmd_mode out of _dpu_encoder_update_vsync_source()
+> >        drm/msm/dpu: rework vsync_source handling
+> >        drm/msm/dsi: parse vsync source from device tree
+> >        drm/msm/dpu: support setting the TE source
+> >
+> >   .../bindings/display/msm/dsi-controller-main.yaml  | 16 ++++++++
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 11 ++---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  5 +--
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  2 +-
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  2 +-
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        | 26 ++++++------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h         |  2 +-
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            | 44 ++++++++++++++++++++
+> >   drivers/gpu/drm/msm/dsi/dsi.h                      |  1 +
+> >   drivers/gpu/drm/msm/dsi/dsi_host.c                 | 48 +++++-----------------
+> >   drivers/gpu/drm/msm/dsi/dsi_manager.c              |  5 +++
+> >   drivers/gpu/drm/msm/msm_drv.h                      |  6 +++
+> >   12 files changed, 106 insertions(+), 62 deletions(-)
+> > ---
+> > base-commit: 75fa778d74b786a1608d55d655d42b480a6fa8bd
+> > change-id: 20240514-dpu-handle-te-signal-82663c0211bd
+> >
+> > Best regards,
 
 
-On 5/20/2024 5:12 AM, Dmitry Baryshkov wrote:
-> The struct msm_display_info has is_te_using_watchdog_timer field which
-> is neither used anywhere nor is flexible enough to specify different
-> sources. Replace it with the field specifying the vsync source using
-> enum dpu_vsync_source.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 5 +----
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 5 ++---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 2 ++
->   3 files changed, 5 insertions(+), 7 deletions(-)
-> 
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
+-- 
+With best wishes
+Dmitry
