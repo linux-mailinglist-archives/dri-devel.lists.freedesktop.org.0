@@ -2,63 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2F98CC41E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 17:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 016538CC421
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 17:32:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB07D10EEBF;
-	Wed, 22 May 2024 15:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C4910E23B;
+	Wed, 22 May 2024 15:32:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="4NYcg31O";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lbaO7fln";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E082910E33C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 15:32:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1716391918;
- bh=kUTVaEv+CluhtL7Oa3Hy8QzRC+vL3NJAb+fI1CqZcJE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=4NYcg31OsYHSC+HF3tIyiUc8hndE22wxc7pw+Q//fSm65c4ZbKpBNGiXNEakYxEKh
- kFWIaK4OWeKsH84HGAYssMKq5MBRpgzAoN1s03GfYY7LGjcjXBPiiVrMAD8HqMxS7q
- viLAhoCr/Nz8JNU7TxFJ0vq2SkqG3bLvrrb+seTGVSE3CRBVotdfU6equ9jLzrF5Bn
- Am5+q5tl0byg9K2Sn+vTLN20ze4856ucuQbsxGdS5+X56VQmtzLdUY1hg6YUGAzqjo
- ozxWLSPJUKpRuDwxk24x483I5nOEfa9oUMRoUr7AZ006YwG2xkAqMZMkJO6GKoV9Ja
- /GxF7YCrLeABQ==
-Received: from arisu.localnet (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: detlev)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id BE6243782170;
- Wed, 22 May 2024 15:31:55 +0000 (UTC)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CDD510EEB3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 15:32:02 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9392DC67;
+ Wed, 22 May 2024 17:31:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1716391908;
+ bh=3osedL4iCLeNFkMsPPLEDVo5aE+WG8KSP7dzZMbevEA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lbaO7flnIi4BGgU3rEwJGHHVz1UzS/K8diJEkbMx+XFmBhp7anHWM9h5A9UAeDI5U
+ zOErv3TDgTT5OiepgqzrVMNruJUYjLUQdpvfvi6n9UcpRS4f6bOGXk6V9qkdnKiYeX
+ CFD18xO4OffVl+8E34px8cWbnhQIc4qnF712KyMw=
+Date: Wed, 22 May 2024 18:31:51 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Chris Morgan <macromorgan@hotmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] dt-bindings: display: vop2: Add VP clock resets
-Date: Wed, 22 May 2024 11:31:36 -0400
-Message-ID: <3334403.5fSG56mABF@arisu>
-Organization: Collabora
-In-Reply-To: <20240521-silver-exciting-bb3725dc495d@spud>
-References: <20240514152328.21415-1-detlev.casanova@collabora.com>
- <13628421.uLZWGnKmhe@arisu> <20240521-silver-exciting-bb3725dc495d@spud>
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: xlnx: zynqmp_dpsub: Enable plane in atomic update
+Message-ID: <20240522153151.GB9789@pendragon.ideasonboard.com>
+References: <20240520-dp-layer-enable-v1-1-c9b481209115@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart6053228.MhkbZ0Pkbq";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240520-dp-layer-enable-v1-1-c9b481209115@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,86 +59,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart6053228.MhkbZ0Pkbq
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: Conor Dooley <conor@kernel.org>
-Date: Wed, 22 May 2024 11:31:36 -0400
-Message-ID: <3334403.5fSG56mABF@arisu>
-Organization: Collabora
-In-Reply-To: <20240521-silver-exciting-bb3725dc495d@spud>
-MIME-Version: 1.0
+Hi Anatoliy,
 
-On Tuesday, May 21, 2024 2:31:51 P.M. EDT Conor Dooley wrote:
-> On Tue, May 21, 2024 at 01:15:46PM -0400, Detlev Casanova wrote:
-> > On Wednesday, May 15, 2024 12:33:22 P.M. EDT Heiko St=FCbner wrote:
-> > > Am Mittwoch, 15. Mai 2024, 18:19:29 CEST schrieb Conor Dooley:
-> > > > On Tue, May 14, 2024 at 11:19:47AM -0400, Detlev Casanova wrote:
-> > > > > Add the documentation for VOP2 video ports reset clocks.
-> > > > > One reset can be set per video port.
-> > > > >=20
-> > > > > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> > > >=20
-> > > > Are these resets valid for all VOPs or just the one on 3588?
-> > >=20
-> > > Not in that form.
-> > > I.e. rk3588 has 4 video-ports (0-3), while rk3568 has 3 (0-2).
-> > >=20
-> > > So the binding should take into account that rk3568 also has the
-> > > SRST_VOP0 ... SRST_VOP2.
-> >=20
-> > That is what is set in the example and the reason why I set minItems to=
- 3
-> > in the main bindings.
-> > Then, the rk3588 specific part sets it to 4.
-> >=20
-> > Isn't that enough ?
->=20
-> Not quite - you need to restrict maxItems to 3 for the other devices if
-> the clocks are not valid. What you've got says that 4 clocks are
-> possible but not needed on !rk3588.
->=20
-> Cheers,
-> Conor.
+Thank you for the patch.
 
-I don't understand what "properties: resets: minItems: 3" means then. I=20
-thought it means that all devices should have at least 3 resets. Then the=20
-allOf below specifies the special case of rk3588 which has a minimum of 4=20
-resets.
+On Mon, May 20, 2024 at 08:22:31PM -0700, Anatoliy Klymenko wrote:
+> Unconditionally enable the DPSUB layer in the corresponding atomic plane
+> update callback. Setting the new display mode may require disabling and
+> re-enabling the CRTC. This effectively resets DPSUB to the default state
+> with all layers disabled.
 
-Do I need to add=20
-        resets:
-          minItems: 3
-        reset-names:
-          minItems: 3
-in the "else:" ?
+Ah, I went through the code and I see that. Oops.
 
-So in that case, I can remove "properties: resets: minItems: 3" above ?
+> The original implementation of the plane atomic
+> update enables the corresponding DPSUB layer only if the framebuffer
+> format has changed. This would leave the layer disabled after switching to
+> a different display mode with the same framebuffer format.
 
-Also, what do you mean "If the clocks are not valid" ?
+Do we need a Fixes: tag or has this issue been there since the beginning
+?
 
-Detlev.
+> Signed-off-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_kms.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> index 43bf416b33d5..c4f038e34814 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> @@ -120,9 +120,8 @@ static void zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
+>  		zynqmp_disp_blend_set_global_alpha(dpsub->disp, true,
+>  						   plane->state->alpha >> 8);
+>  
+> -	/* Enable or re-enable the plane if the format has changed. */
+> -	if (format_changed)
+> -		zynqmp_disp_layer_enable(layer);
+> +	/* Enable or re-enable the plane. */
+> +	zynqmp_disp_layer_enable(layer);
 
+This should be safe for now, as the function will just write the plane
+registers with identical values. The waste of CPU cycles may not be a
+big issue, even if it would be best to avoid it.
 
---nextPart6053228.MhkbZ0Pkbq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+What bothers me more is that we may be working around a larger problem.
+Resetting the CRTC when disabling it affects the hardware state of the
+whole device, and thus the state of all software DRM objects. The
+hardware and software states lose sync. Maybe this patch is all that is
+needed for now, but other similar issues could pop up in the future.
 
------BEGIN PGP SIGNATURE-----
+Would it be possible, at atomic check time, to detect the objects whose
+hardware state will need to be synced, and marked that in their state ?
+Then in zynqmp_dpsub_plane_atomic_update() you could re-enable the layer
+based on that. You may need to subclass the drm_plane_state if there's
+no field in that structure that is suitable to store the information.
+The format_changed local variable would move there.
 
-iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmZOD9gACgkQ5EFKUk4x
-7bY7TQf+JupJtDv/HvUIX8L38oBOIr0TEHcquMrWumq4ACE/y2HjwxHAhYw7NufO
-qC1OuNVis+e3pQ5kqoy5z9iNiyvA8weC2Uu2Ig0UgtdLPwhf88oj9IxHr9OtzY0J
-Z1019PaHyov5yb3copVh66aW8rtadOKfNCio2F+zSNITxfwzdFJJ3pbk5JqHf4de
-06zd16nvuYlQ6IUoony8xKi+NfJICvmo8XvR/UR5EEtlYPto8SnLPhqRw+vbRe4U
-Bia87NTBM9o7bkq8kk00EOyO+PDEYlg3AU5mGLnnf0ES5kZPa10EDHJQZ1SHeM8k
-sUP3VPs8I/S9Jk1QMusS6foYdtbshQ==
-=vt+N
------END PGP SIGNATURE-----
+>  }
+>  
+>  static const struct drm_plane_helper_funcs zynqmp_dpsub_plane_helper_funcs = {
+> 
+> ---
+> base-commit: 673087d8b023faf34b84e8faf63bbeea3da87bab
+> change-id: 20240520-dp-layer-enable-7b561af29ca8
 
---nextPart6053228.MhkbZ0Pkbq--
+-- 
+Regards,
 
-
-
+Laurent Pinchart
