@@ -2,47 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C1A8CC372
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 16:44:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33538CC377
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 16:45:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67CF610E389;
-	Wed, 22 May 2024 14:44:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B47E10E4FD;
+	Wed, 22 May 2024 14:45:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="v/oyrv0K";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dGDVyM7Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C965510E389
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 14:44:12 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF99AABE;
- Wed, 22 May 2024 16:43:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1716389038;
- bh=Wrhas7+z7n060qrEQIfs83yAi9030U03bjQ2PFmw0J8=;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44FEA10E4FD;
+ Wed, 22 May 2024 14:45:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5143662A22;
+ Wed, 22 May 2024 14:45:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0D54C2BBFC;
+ Wed, 22 May 2024 14:45:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716389147;
+ bh=zOLj0B1mXhNR7COAnE/xY+vZVUvYeUNisjjhU/v/78g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=v/oyrv0KILjs8z/brlz+dJvcaKKT7YhWyIzKEZPsbAHemOkYKMea/pcWGhPj8Gysg
- BWvgv3FD1uCKD74pb/o2afPBTPtcrjssf9oZ3rDmIj3AksK/3kgzWI6CWbhhGPTjmV
- i6hDsXbKfMpHeL2JYrC7gyoYGi63As6BuhFFv4Xo=
-Date: Wed, 22 May 2024 17:44:01 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Palmer Dabbelt <palmer@rivosinc.com>
-Cc: tomi.valkeinen@ideasonboard.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, michal.simek@amd.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel test robot <lkp@intel.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-Subject: Re: [PATCH] drm: xlnx: zynqmp_disp: Fix WARN_ON build warning
-Message-ID: <20240522144401.GA9789@pendragon.ideasonboard.com>
-References: <20240521142814.32145-2-palmer@rivosinc.com>
+ b=dGDVyM7ZQxZ3mpqoZ0uhm34b69z0buP3Izb2n9ZgDU3+feXDZN7rWMsfogNl/ivGd
+ ZkOAdNJ/Kvsxhp2jbQUCeHEVB77MA58eAIqHjgwvaKK4vyI7Ub5LuB9dqnNCF+DhwE
+ ovMWw1bpVyslIl/cA9hcyo1AA2jOwzt0Wj56GpgScEy5KJd6iMVTMavHx4ezyLckJE
+ 9uhsM39ri9aB9l3ro4ikqpIw+EkV+pduVJRl10bDw81LjIpB+4U/KexmhpSUUvniZV
+ wfhM3c1ds+Dye2DNIyECRmbiYEQss2mYZ8gRrj1w7Gf0mFdkXkKX/aRWtnI96dXBzJ
+ C4GWk6Z2ruZYw==
+Date: Wed, 22 May 2024 09:45:45 -0500
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/7] dt-bindings: display/msm/dsi: allow specifying TE
+ source
+Message-ID: <20240522144545.GA3271320-robh@kernel.org>
+References: <20240520-dpu-handle-te-signal-v1-0-f273b42a089c@linaro.org>
+ <20240520-dpu-handle-te-signal-v1-1-f273b42a089c@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240521142814.32145-2-palmer@rivosinc.com>
+In-Reply-To: <20240520-dpu-handle-te-signal-v1-1-f273b42a089c@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,68 +69,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Palmer,
-
-(CC'ing Anatoliy)
-
-Thank you for the patch.
-
-On Tue, May 21, 2024 at 07:28:15AM -0700, Palmer Dabbelt wrote:
-> From: Palmer Dabbelt <palmer@rivosinc.com>
+On Mon, May 20, 2024 at 03:12:43PM +0300, Dmitry Baryshkov wrote:
+> Command mode panels provide TE signal back to the DSI host to signal
+> that the frame display has completed and update of the image will not
+> cause tearing. Usually it is connected to the first GPIO with the
+> mdp_vsync function, which is the default. In such case the property can
+> be skipped.
 > 
-> Without this I get warnings along the lines of
-> 
->     drivers/gpu/drm/xlnx/zynqmp_disp.c:949:14: error: logical not is only applied to the left hand side of this comparison [-Werror,-Wlogical-not-parentheses]
->       949 |         if (WARN_ON(!layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE)) {
->           |                     ^            ~~
->     arch/s390/include/asm/bug.h:54:25: note: expanded from macro 'WARN_ON'
->        54 |         int __ret_warn_on = !!(x);                      \
->           |                                ^
->     drivers/gpu/drm/xlnx/zynqmp_disp.c:949:14: note: add parentheses after the '!' to evaluate the comparison first
->     drivers/gpu/drm/xlnx/zynqmp_disp.c:949:14: note: add parentheses around left hand side expression to silence this warning
-> 
-> which get promoted to errors in my test builds.  Adding the suggested
-> parens elides those warnings.
-
-I think this should have
-
-Fixes: b0f0469ab662 ("drm: xlnx: zynqmp_dpsub: Anounce supported input formats")
-
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202405080553.tfH9EmS8-lkp@intel.com/
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-> I couldn't find a patch for this in Linus' tree or on the lists, sorry
-> if someone's already fixed it.  No rush on my end, I'll just stash this
-> in a local branch for the tester.
-> ---
->  drivers/gpu/drm/xlnx/zynqmp_disp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../bindings/display/msm/dsi-controller-main.yaml        | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index 13157da0089e..d37b4a9c99ea 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -981,7 +981,7 @@ u32 *zynqmp_disp_layer_drm_formats(struct zynqmp_disp_layer *layer,
->  	unsigned int i;
->  	u32 *formats;
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> index 1fa28e976559..c1771c69b247 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> @@ -162,6 +162,21 @@ properties:
+>                  items:
+>                    enum: [ 0, 1, 2, 3 ]
 >  
-> -	if (WARN_ON(!layer->mode == ZYNQMP_DPSUB_LAYER_NONLIVE)) {
-> +	if (WARN_ON((!layer->mode) == ZYNQMP_DPSUB_LAYER_NONLIVE)) {
+> +              qcom,te-source:
+> +                $ref: /schemas/types.yaml#/definitions/string
+> +                description:
+> +                  Specifies the source of vsync signal from the panel used for
+> +                  tearing elimination. The default is mdp_gpio0.
 
-That doesn't seem right. layer->mode isn't a boolean, it's an enum. The
-right fix seems to be
+default: mdp_gpio0
 
-	if (WARN_ON(layer->mode != ZYNQMP_DPSUB_LAYER_NONLIVE)) {
+With that,
 
-Anatoliy, could you check this ? Palmer, do you plan to submit a new
-version of the patch, or should I send the right fix separately ?
-
->  		*num_formats = 0;
->  		return NULL;
->  	}
-
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
