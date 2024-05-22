@@ -2,50 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6B68CBA25
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 06:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC6C8CBAC5
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 07:44:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0AC10E262;
-	Wed, 22 May 2024 04:00:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="LHd+Jvjx";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0D3C10E6D2;
+	Wed, 22 May 2024 05:44:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D788110E262
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 04:00:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=t/UDeE8Cad8Z+8paF4xeyiMUCLQbywiFVoqScgnFMkI=; b=LHd+JvjxcACKxVQRI0KuWYz9Vb
- +pzdZeRuUVLfFyelr13Y6N/1rxlKO1RFDdy0moMB2rokcFku6/xCxew1rc/1vLS41P5M/1quBHOt2
- cPT6rpi5gnu8WQb69uhI+4c447NsFuALzJjWTn7KDvGDdUzis0fG5/TVR1gK6l4KgDwgJDZqmqJ0s
- 79efMjmZhgeyd21rUzfIrb2UHO6u5Ce5YsC58pUY/nqfD7M7fhFj2dbSTxbs14hWR0BKZSKezqIom
- E6QZbYDeLgZfTKWe0vgNzfx4nT130ewYCngfIFBpheoyznMt05e/x6sa1OqYQ5XrJzSogMm8+dJ67
- UhFlxPoQ==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
- by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
- id 1s9d9L-00000001viv-1P7v; Wed, 22 May 2024 04:00:23 +0000
-Message-ID: <6f3380ef-d0c2-45e4-a9f9-af238e2321e8@infradead.org>
-Date: Tue, 21 May 2024 21:00:22 -0700
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DAC810E6D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 05:44:33 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-60-IruGFEF_N2CsFYYbOeGzOw-1; Wed, 22 May 2024 01:44:30 -0400
+X-MC-Unique: IruGFEF_N2CsFYYbOeGzOw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E595E8008A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 05:44:29 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.64.136.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EDEE200A35C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 05:44:28 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/tests: fix drm_test_fb_xrgb8888_to_xrgb2101010 on big
+ endian
+Date: Wed, 22 May 2024 15:44:27 +1000
+Message-ID: <20240522054427.3393986-1-airlied@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mode: fix all kernel-doc warnings
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20240516002652.6674-1-rdunlap@infradead.org>
- <lxwelnavt5cbrqyasdl4jlzig4ib34pf6retwwxxpzyy5l3bap@l5gp2ydqrudy>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <lxwelnavt5cbrqyasdl4jlzig4ib34pf6retwwxxpzyy5l3bap@l5gp2ydqrudy>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,151 +55,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Dave Airlie <airlied@redhat.com>
 
-On 5/20/24 3:39 AM, Dmitry Baryshkov wrote:
-> On Wed, May 15, 2024 at 05:26:52PM -0700, Randy Dunlap wrote:
->> Add @width and @height descriptions for &struct drm_plane_size_hint
->> along with a reference to more info.
->>
->> Add a short description for &struct drm_mode_closefb.
->>
->> Change 7 macros not to be marked as kernel-doc notation to prevent
->> warnings.
->>
->> Fixes these kernel-doc warnings:
->>
->> drm_mode.h:877: warning: Function parameter or struct member 'width' not described in 'drm_plane_size_hint'
->> drm_mode.h:877: warning: Function parameter or struct member 'height' not described in 'drm_plane_size_hint'
->> drm_mode.h:969: warning: missing initial short description on line:
->>  * DRM_MODE_PAGE_FLIP_EVENT
->> drm_mode.h:977: warning: missing initial short description on line:
->>  * DRM_MODE_PAGE_FLIP_ASYNC
->> drm_mode.h:998: warning: missing initial short description on line:
->>  * DRM_MODE_PAGE_FLIP_FLAGS
->> drm_mode.h:1108: warning: missing initial short description on line:
->>  * DRM_MODE_ATOMIC_TEST_ONLY
->> drm_mode.h:1118: warning: missing initial short description on line:
->>  * DRM_MODE_ATOMIC_NONBLOCK
->> drm_mode.h:1127: warning: missing initial short description on line:
->>  * DRM_MODE_ATOMIC_ALLOW_MODESET
->> drm_mode.h:1149: warning: missing initial short description on line:
->>  * DRM_MODE_ATOMIC_FLAGS
->> drm_mode.h:1358: warning: missing initial short description on line:
->>  * struct drm_mode_closefb
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> ---
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>
->>  include/uapi/drm/drm_mode.h |   21 ++++++++++++---------
->>  1 file changed, 12 insertions(+), 9 deletions(-)
->>
->> diff -- a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
->> --- a/include/uapi/drm/drm_mode.h
->> +++ b/include/uapi/drm/drm_mode.h
->> @@ -867,9 +867,12 @@ struct drm_color_lut {
->>  
->>  /**
->>   * struct drm_plane_size_hint - Plane size hints
->> + * @width: recommended plane width (no scaling)
->> + * @height: recommended plane height (no scaling)
->>   *
->>   * The plane SIZE_HINTS property blob contains an
->> - * array of struct drm_plane_size_hint.
->> + * array of struct drm_plane_size_hint as described in
->> + * "DOC: standard plane properties".
->>   */
->>  struct drm_plane_size_hint {
->>  	__u16 width;
->> @@ -962,7 +965,7 @@ struct hdr_output_metadata {
->>  	};
->>  };
->>  
->> -/**
->> +/*
->>   * DRM_MODE_PAGE_FLIP_EVENT
-> 
-> What about convering to the proper kerneldoc instead of dropping the
-> kerneldoc part?
+This test is failing for me on s390x and there is a report on the list from=
+ ppc64.
 
-If someone with knowledge of these macros can provide the text that should
-be there, I can add that info.
+This aligns it with the argb test that doesn't fail.
 
->>   *
->>   * Request that the kernel sends back a vblank event (see
->> @@ -970,7 +973,7 @@ struct hdr_output_metadata {
->>   * page-flip is done.
->>   */
->>  #define DRM_MODE_PAGE_FLIP_EVENT 0x01
->> -/**
->> +/*
->>   * DRM_MODE_PAGE_FLIP_ASYNC
->>   *
->>   * Request that the page-flip is performed as soon as possible, ie. with no
->> @@ -991,7 +994,7 @@ struct hdr_output_metadata {
->>  #define DRM_MODE_PAGE_FLIP_TARGET_RELATIVE 0x8
->>  #define DRM_MODE_PAGE_FLIP_TARGET (DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE | \
->>  				   DRM_MODE_PAGE_FLIP_TARGET_RELATIVE)
->> -/**
->> +/*
->>   * DRM_MODE_PAGE_FLIP_FLAGS
->>   *
->>   * Bitmask of flags suitable for &drm_mode_crtc_page_flip_target.flags.
->> @@ -1101,7 +1104,7 @@ struct drm_mode_destroy_dumb {
->>  	__u32 handle;
->>  };
->>  
->> -/**
->> +/*
->>   * DRM_MODE_ATOMIC_TEST_ONLY
->>   *
->>   * Do not apply the atomic commit, instead check whether the hardware supports
->> @@ -1111,7 +1114,7 @@ struct drm_mode_destroy_dumb {
->>   * commits.
->>   */
->>  #define DRM_MODE_ATOMIC_TEST_ONLY 0x0100
->> -/**
->> +/*
->>   * DRM_MODE_ATOMIC_NONBLOCK
->>   *
->>   * Do not block while applying the atomic commit. The &DRM_IOCTL_MODE_ATOMIC
->> @@ -1120,7 +1123,7 @@ struct drm_mode_destroy_dumb {
->>   * applied before retuning.
->>   */
->>  #define DRM_MODE_ATOMIC_NONBLOCK  0x0200
->> -/**
->> +/*
->>   * DRM_MODE_ATOMIC_ALLOW_MODESET
->>   *
->>   * Allow the update to result in temporary or transient visible artifacts while
->> @@ -1142,7 +1145,7 @@ struct drm_mode_destroy_dumb {
->>   */
->>  #define DRM_MODE_ATOMIC_ALLOW_MODESET 0x0400
->>  
->> -/**
->> +/*
->>   * DRM_MODE_ATOMIC_FLAGS
->>   *
->>   * Bitfield of flags accepted by the &DRM_IOCTL_MODE_ATOMIC IOCTL in
->> @@ -1352,7 +1355,7 @@ struct drm_mode_rect {
->>  };
->>  
->>  /**
->> - * struct drm_mode_closefb
->> + * struct drm_mode_closefb - ioctl struct to close a framebuffer
->>   * @fb_id: Framebuffer ID.
->>   * @pad: Must be zero.
->>   */
-> 
+Fixes: 15bda1f8de5d ("drm/tests: Add calls to drm_fb_blit() on supported fo=
+rmat conversion tests")
+Reported-by: Erhard Furtner <erhard_f@mailbox.org>
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/tests/drm_format_helper_test.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Thanks.
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/d=
+rm/tests/drm_format_helper_test.c
+index 08992636ec05..d4ce2d7ced4e 100644
+--- a/drivers/gpu/drm/tests/drm_format_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+@@ -991,7 +991,7 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struct =
+kunit *test)
+ =09=09NULL : &result->dst_pitch;
+=20
+ =09drm_fb_xrgb8888_to_xrgb2101010(&dst, dst_pitch, &src, &fb, &params->cli=
+p, &fmtcnv_state);
+-=09buf =3D le32buf_to_cpu(test, buf, dst_size / sizeof(u32));
++=09buf =3D le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / si=
+zeof(u32));
+ =09KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+=20
+ =09buf =3D dst.vaddr; /* restore original value of buf */
+@@ -1002,6 +1002,8 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struc=
+t kunit *test)
+ =09blit_result =3D drm_fb_blit(&dst, dst_pitch, DRM_FORMAT_XRGB2101010, &s=
+rc, &fb,
+ =09=09=09=09  &params->clip, &fmtcnv_state);
+=20
++=09buf =3D le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / si=
+zeof(u32));
++
+ =09KUNIT_EXPECT_FALSE(test, blit_result);
+ =09KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+ }
+--=20
+2.44.0
+
