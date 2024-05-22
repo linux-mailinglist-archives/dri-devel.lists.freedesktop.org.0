@@ -2,100 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6C48CBF56
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 12:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B8758CBF35
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 12:24:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E3510EE59;
-	Wed, 22 May 2024 10:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F33010F48D;
+	Wed, 22 May 2024 10:24:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="t9ZHGlVb";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vvoSSB0O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 902 seconds by postgrey-1.36 at gabe;
- Wed, 22 May 2024 10:38:43 UTC
-Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45A2810E202
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 10:38:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
- q=dns/txt; i=@phytec.de; t=1716373418; x=1718965418;
- h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=dvZ4Vz1vz3Nu6kSflezdJ6kz7KHr3aXXTyHZga4SfAg=;
- b=t9ZHGlVbPtK/P3ecnsXvBuMC+GHwRRaH4PWN6oznpLN1ejtrpx3ibd6+ad0mTHsX
- qVYeyWDZdLXQCg+naXTY6jMZNRkSKPS/2gxGI3miX3p4LgsoylOveJgioCmfOzvQ
- q2/yQ1vKPvyZtEsdrlB8MIcmxeAl6I26RfrnA8KK4fs=;
-X-AuditID: ac14000a-03e52700000021bc-a5-664dc7aa83ff
-Received: from berlix.phytec.de (Unknown_Domain [172.25.0.12])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 32.42.08636.AA7CD466;
- Wed, 22 May 2024 12:23:38 +0200 (CEST)
-Received: from Berlix.phytec.de (172.25.0.12) by Berlix.phytec.de
- (172.25.0.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Wed, 22 May
- 2024 12:23:37 +0200
-Received: from Berlix.phytec.de ([fe80::197e:d26b:2ca:c7b4]) by
- berlix.phytec.de ([fe80::197e:d26b:2ca:c7b4%4]) with mapi id 15.01.2507.006;
- Wed, 22 May 2024 12:23:37 +0200
-From: Dominik Haller <D.Haller@phytec.de>
-To: "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
- "jyri.sarha@iki.fi" <jyri.sarha@iki.fi>, "rfoss@kernel.org"
- <rfoss@kernel.org>, "airlied@gmail.com" <airlied@gmail.com>,
- "a-bhatia1@ti.com" <a-bhatia1@ti.com>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "mripard@kernel.org"
- <mripard@kernel.org>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-CC: "devarsht@ti.com" <devarsht@ti.com>, "u-kumar1@ti.com" <u-kumar1@ti.com>, 
- "sam@ravnborg.org" <sam@ravnborg.org>, "j-choudhary@ti.com"
- <j-choudhary@ti.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "j-luthra@ti.com" <j-luthra@ti.com>,
- "boris.brezillon@bootlin.com" <boris.brezillon@bootlin.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nm@ti.com"
- <nm@ti.com>, "vigneshr@ti.com" <vigneshr@ti.com>,
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>, "treding@nvidia.com"
- <treding@nvidia.com>, "praneeth@ti.com" <praneeth@ti.com>
-Subject: Re: [EXTERNAL] [PATCH 3/7] drm/bridge: cdns-dsi: Wait for Clk and
- Data Lanes to be ready
-Thread-Topic: [EXTERNAL] [PATCH 3/7] drm/bridge: cdns-dsi: Wait for Clk and
- Data Lanes to be ready
-Thread-Index: AQHao7lwY8evdberYUusC/uCJpv4BbGi+zyA
-Date: Wed, 22 May 2024 10:23:37 +0000
-Message-ID: <f45daf0d6c0ab8a225277621b6e6b373929d145a.camel@phytec.de>
-References: <20240511153051.1355825-1-a-bhatia1@ti.com>
- <20240511153051.1355825-4-a-bhatia1@ti.com>
-In-Reply-To: <20240511153051.1355825-4-a-bhatia1@ti.com>
-Accept-Language: en-DE, de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.0.11]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4A62AE1C102C2C4C8F0DEFD6D381EC3C@phytec.de>
-Content-Transfer-Encoding: base64
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2383010F48D
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 10:24:32 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-51fdc9af005so9272370e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 03:24:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1716373470; x=1716978270; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IuuZbtTxQbyoy45odG0qTznmh20zGHX67BYPrGUhl7w=;
+ b=vvoSSB0ONQ+qnvq0WG4Ga/Cyk4baugAnrdDsdDFfgnEqVXDmKVp4NghexQzDtZ8veF
+ EKROPQ76r0hSQCOChxBxqSgPPvKF7OKsptbG7VY82XlRPPo/a3OdWzS+ipqxqwQFcrkZ
+ MLeJlZ2cvXsO+TqepQBvEQUvFPdv1n8wpVdV0rVfRtoPgkdIyZHEP/kzC3eli61NssHs
+ 2bzGN7kG2jMlHwzdwbvh/z6f9xlhC3+AnDrSiArYN1tV3x7Ouw2ThMIxiSIXheXWJuNc
+ 6q+kBL0baVaQKBwf0hQXlqL59Wb+I83iGz2V9QI/U49Z68HyqM8W1Q1Hs4CtFt9Hkken
+ NaIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716373470; x=1716978270;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IuuZbtTxQbyoy45odG0qTznmh20zGHX67BYPrGUhl7w=;
+ b=f6GqV2nge6IDaLa0ibDzHkNYHVtFWYWJDN7jxVlkeZAMqFc7eudYemnC03eqUR6/nC
+ lWgN37AqkWYUCPjFR+OMCz2yWe9I6oxU0V8Do3J0nk95Et9nTtkmsyEx8WTS7V8wqCwb
+ jyPxFEE8dyPNak8Ja9YUjFKK0JECBDaseuNLwzF0Qqos09gc94smjsQdfpLZCMyb+kDD
+ IBKITjXUHy3KMPWzU3HWGx3Lqs06S224DpAWKhNOiiRLG0NoEBnwOmS84WBKuwRBFZJA
+ WeP2ROsdORYzRDUSckwRHhUUpCZQzui4g+FlIkxGK7vwBMwrILG5c1dSmL6B3u9EG3ec
+ GBOA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV6JunRF7mm9Puv2NG7rQpUhqPKNhxBkigYXzHvKao3HaY2NmhlKOdiIPSDi8qqTgp133SaJ0AkKg93wVT+4DnVB0FhH4AJluVSyy2ZvMAN
+X-Gm-Message-State: AOJu0Yx7XrFu5pJQCR1XLgO9W5uudXrl0XJytZf5BgWGiigexDgWh8Qm
+ pvxkJujZPaIohi5Pho8ROyuxpLl9AVxX4eOWxK2rdir7ssxacot7ZDGGPCBS13OKybPu+lV5WOK
+ r
+X-Google-Smtp-Source: AGHT+IHPbVr1ifPzejL1oqr8FOtzXHojewq+wtSz0YT2lBxTujeSpXY3ge7i7C++WLRBRstGJcuY6Q==
+X-Received: by 2002:ac2:5466:0:b0:521:cc8a:46dd with SMTP id
+ 2adb3069b0e04-526bebb3e10mr1075615e87.11.1716373470166; 
+ Wed, 22 May 2024 03:24:30 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-521f9a9563dsm4801499e87.74.2024.05.22.03.24.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 May 2024 03:24:29 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 22 May 2024 13:24:28 +0300
+Subject: [PATCH v2] Revert "drm/msm/dpu: drop
+ dpu_encoder_phys_ops.atomic_mode_set"
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SWUxTQRiFnbtTrY6lygAKETVRI+BCzDy4vYhjjAkuT2qCDb1YUkQouAAv
- RBRLcSmijVRAK1URcSugYFqMYAIIDYkWUBZxC9gEBAVkUUQv1cjb958zZ/4zyQi0wsn6CTFx
- SaIuThUbxMmYEt8Zs4KLa3dErxo/OQdbc29RuK71OoW7CgcZXPXiPIMnH2XT+JajhMGu4X4O
- 91pyaewwfOBwz9V7ANf3NjP43WkHjb+1ZAGcmW3l8asneRy2fC1ncEbmTRb3V7YB3DvqpPDP
- D24OXyh4w+KisXKAG/OHedz+YzYu681msclxmcaTzgF+sz8pKEklju/XGFJp7uTJFX0uS2qG
- LQwptLspYivO5Eid8SVFOlrsHCmo30m6smopcjb9C0espmaOlDakktrXjykyaAuIgHtl69Vi
- bMxRURe68YBMk28qZeKLfI/feKvn04ALGYCXgGAYcg80sQYgExTQSqFThU95z9AFUFFx91/n
- AUBW42dainBwOXJfap8ylNDFoneDfZQ00HCMQcbJZ5x0yhtGIeNoDiOxEqrR6QwD5eE1aLSi
- m5eYgUtR2ZUcYACCIIfhaMIy1UkBo9H1niFekr0gRhfPrJRkAJegdvc4kJiGPsjWPcJ6ngCR
- 1d5Ee3gecn/89VcPRHVtJkq6hv7T+f6TUE8Uo8oTWZyHF6GLWe+nysjhXFSf+4kxAh/ztA3m
- /2nztLR5Wto8LX0NsMVAcSgmSivqYrQh8ZrkJDEqRC3agPTllDNkFeBcHqkGlACqARLoIKV8
- 3+0d0Qq5WpWcIuoOR+qOxIqJ1cBfYIJ85Hf0u0UFPKhKErWiGC/q/rmU4OWXBowdC2rsloQN
- 8aW79tdMKI89vH33uBqFrdt6KXV+YPDXh8Pc9pDFi3HEsgOmgI/Odi9X1RDvbmxYuPmsc0Cv
- fewd3jpSvsdPtY4P8H7u79A/DRuQ+4+DyFmmLWpNxejMsWf1CTVrt5WlG/uqNqXY7mbcdLfV
- jSySa7jVnc61rh9RQUyiRrV6Ba1LVP0Gv6vKkGADAAA=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240522-dpu-revert-ams-v2-1-b37825d708e1@linaro.org>
+X-B4-Tracking: v=1; b=H4sIANvHTWYC/3WMQQ6CMBBFr0Jm7RimFKKuuIdhUegAkyglUyQaw
+ t2t7F2+n//eBpFVOMIt20B5lShhSmBOGXSjmwZG8YnB5MbmJVn08wvTkXVB94x4tZS7tiNme4E
+ kzcq9vI/gvUk8SlyCfo7+Sr/1b2olJGypqEzhq86Xff2QyWk4Bx2g2ff9C04CNlutAAAA
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9785;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=/wEmGaBmLdTni55W6XkvEa18Wfmd70BaIonNgCkUxsI=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmTcfdOeXb51BBPnr7B3dfbxayUHEHecGFAvX7E
+ YByYqKbkiGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZk3H3QAKCRCLPIo+Aiko
+ 1V1pB/sG2eavn1innxyXOIT0CghxLl/OiBSpT7gFwrxWpk6n8SUzavY3m8SSzEY2qQLUoRldXk3
+ nUe+5zeQowbTJcqeqWpegGZ7FRf8NFCElx/WD77fyEJG5KTvFKG4G8gt41Odo+pnWXOtCgBsbVs
+ cIOG6ZfY8O9y5S31FQ++sUw/qxLoWUuWWXzumEogg4aMtBkUdM4qe9+kzFWGQcsQrmZ9qiFNXDj
+ 3C4AdI93ExZKF9JSgXLVeXwUZfd27VWgA7Dz50p2LhauMnNnffI40L1URwnVk6yh0JPmlF92sdf
+ X2L5s80LK6kQ7Yb215nQEWbUqDfd2opRMZiD8cvoymKCiGe1
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,45 +101,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQXJhZGh5YSwNCg0KdGhpcyBmaXhlcyB0aGUgY29sb3Itc2hpZnQgYnVnIG9uIG91ciBzZXR1
-cDoNCmo3MjFzMiAtPiB0aSxzbjY1ZHNpODMgLT4gZWR0LGV0bWwxMDEwZzNkcmENCg0KDQoNClRl
-c3RlZC1ieTogRG9taW5payBIYWxsZXIgPGQuaGFsbGVyQHBoeXRlYy5kZT4NCg0KDQpPbiBTYXQs
-IDIwMjQtMDUtMTEgYXQgMjE6MDAgKzA1MzAsIEFyYWRoeWEgQmhhdGlhIHdyb3RlOg0KPiBPbmNl
-IHRoZSBEU0kgTGluayBhbmQgRFNJIFBoeSBhcmUgaW5pdGlhbGl6ZWQsIHRoZSBjb2RlIG5lZWRz
-IHRvIHdhaXQNCj4gZm9yIENsayBhbmQgRGF0YSBMYW5lcyB0byBiZSByZWFkeSwgYmVmb3JlIGNv
-bnRpbnVpbmcgY29uZmlndXJhdGlvbi4NCj4gVGhpcyBpcyBpbiBhY2NvcmRhbmNlIHdpdGggdGhl
-IERTSSBTdGFydC11cCBwcm9jZWR1cmUsIGZvdW5kIGluIHRoZQ0KPiBUZWNobmljYWwgUmVmZXJl
-bmNlIE1hbnVhbCBvZiBUZXhhcyBJbnN0cnVtZW50J3MgSjcyMUUgU29DWzBdIHdoaWNoDQo+IGhv
-dXNlcyB0aGlzIERTSSBUWCBjb250cm9sbGVyLg0KPiANCj4gSWYgdGhlIHByZXZpb3VzIGJyaWRn
-ZSAob3IgY3J0Yy9lbmNvZGVyKSBhcmUgY29uZmlndXJlZCBwcmUtbWF0dXJlbHksDQo+IHRoZSBp
-bnB1dCBzaWduYWwgRklGTyBnZXRzIGNvcnJ1cHQuIFRoaXMgaW50cm9kdWNlcyBhIGNvbG9yLXNo
-aWZ0IG9uDQo+IHRoZQ0KPiBkaXNwbGF5Lg0KPiANCj4gQWxsb3cgdGhlIGRyaXZlciB0byB3YWl0
-IGZvciB0aGUgY2xrIGFuZCBkYXRhIGxhbmVzIHRvIGdldCByZWFkeQ0KPiBkdXJpbmcNCj4gRFNJ
-IGVuYWJsZS4NCj4gDQo+IEZpeGVzOiBlMTkyMzM5NTVkOWUgKCJkcm0vYnJpZGdlOiBBZGQgQ2Fk
-ZW5jZSBEU0kgZHJpdmVyIikNCj4gU2lnbmVkLW9mZi1ieTogQXJhZGh5YSBCaGF0aWEgPGEtYmhh
-dGlhMUB0aS5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9jYWRlbmNlL2Nk
-bnMtZHNpLWNvcmUuYyB8IDEzICsrKysrKysrKysrKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxMiBp
-bnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2JyaWRnZS9jYWRlbmNlL2NkbnMtZHNpLWNvcmUuYw0KPiBiL2RyaXZlcnMvZ3B1L2Ry
-bS9icmlkZ2UvY2FkZW5jZS9jZG5zLWRzaS1jb3JlLmMNCj4gaW5kZXggNTU3YjAzN2JiYzY3Li4w
-NWQyZjRjYzUwZGEgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvY2FkZW5j
-ZS9jZG5zLWRzaS1jb3JlLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9jYWRlbmNl
-L2NkbnMtZHNpLWNvcmUuYw0KPiBAQCAtNzYxLDcgKzc2MSw3IEBAIHN0YXRpYyB2b2lkIGNkbnNf
-ZHNpX2JyaWRnZV9lbmFibGUoc3RydWN0DQo+IGRybV9icmlkZ2UgKmJyaWRnZSkNCj4gIAlzdHJ1
-Y3QgcGh5X2NvbmZpZ3VyZV9vcHRzX21pcGlfZHBoeSAqcGh5X2NmZyA9ICZvdXRwdXQtDQo+ID5w
-aHlfb3B0cy5taXBpX2RwaHk7DQo+ICAJdW5zaWduZWQgbG9uZyB0eF9ieXRlX3BlcmlvZDsNCj4g
-IAlzdHJ1Y3QgY2Ruc19kc2lfY2ZnIGRzaV9jZmc7DQo+IC0JdTMyIHRtcCwgcmVnX3dha2V1cCwg
-ZGl2Ow0KPiArCXUzMiB0bXAsIHJlZ193YWtldXAsIGRpdiwgc3RhdHVzOw0KPiAgCWludCBubGFu
-ZXM7DQo+ICANCj4gIAlpZiAoV0FSTl9PTihwbV9ydW50aW1lX2dldF9zeW5jKGRzaS0+YmFzZS5k
-ZXYpIDwgMCkpDQo+IEBAIC03NzgsNiArNzc4LDE3IEBAIHN0YXRpYyB2b2lkIGNkbnNfZHNpX2Jy
-aWRnZV9lbmFibGUoc3RydWN0DQo+IGRybV9icmlkZ2UgKmJyaWRnZSkNCj4gIAljZG5zX2RzaV9p
-bml0X2xpbmsoZHNpKTsNCj4gIAljZG5zX2RzaV9oc19pbml0KGRzaSk7DQo+ICANCj4gKwkvKg0K
-PiArCSAqIE5vdyB0aGF0IHRoZSBEU0kgTGluayBhbmQgRFNJIFBoeSBhcmUgaW5pdGlhbGl6ZWQs
-DQo+ICsJICogd2FpdCBmb3IgdGhlIENMSyBhbmQgRGF0YSBMYW5lcyB0byBiZSByZWFkeS4NCj4g
-KwkgKi8NCj4gKwl0bXAgPSBDTEtfTEFORV9SRFk7DQo+ICsJZm9yIChpbnQgaSA9IDA7IGkgPCBu
-bGFuZXM7IGkrKykNCj4gKwkJdG1wIHw9IERBVEFfTEFORV9SRFkoaSk7DQo+ICsNCj4gKwlXQVJO
-X09OX09OQ0UocmVhZGxfcG9sbF90aW1lb3V0KGRzaS0+cmVncyArIE1DVExfTUFJTl9TVFMsDQo+
-IHN0YXR1cywNCj4gKwkJCQkJc3RhdHVzICYgdG1wLCAxMDAsIDApKTsNCj4gKw0KPiAgCXdyaXRl
-bChIQlBfTEVOKGRzaV9jZmcuaGJwKSB8IEhTQV9MRU4oZHNpX2NmZy5oc2EpLA0KPiAgCSAgICAg
-ICBkc2ktPnJlZ3MgKyBWSURfSFNJWkUxKTsNCj4gIAl3cml0ZWwoSEZQX0xFTihkc2lfY2ZnLmhm
-cCkgfCBIQUNUX0xFTihkc2lfY2ZnLmhhY3QpLA0K
+In the DPU driver blank IRQ handling is called from a vblank worker and
+can happen outside of the irq_enable / irq_disable pair. Using the
+worker makes that completely asynchronous with the rest of the code.
+Revert commit d13f638c9b88 ("drm/msm/dpu: drop
+dpu_encoder_phys_ops.atomic_mode_set") to fix vblank IRQ assignment for
+CMD DSI panels.
+
+Call trace:
+ dpu_encoder_phys_cmd_control_vblank_irq+0x218/0x294
+  dpu_encoder_toggle_vblank_for_crtc+0x160/0x194
+  dpu_crtc_vblank+0xbc/0x228
+  dpu_kms_enable_vblank+0x18/0x24
+  vblank_ctrl_worker+0x34/0x6c
+  process_one_work+0x218/0x620
+  worker_thread+0x1ac/0x37c
+  kthread+0x114/0x118
+  ret_from_fork+0x10/0x20
+
+Fixes: d13f638c9b88 ("drm/msm/dpu: drop dpu_encoder_phys_ops.atomic_mode_set")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v2:
+- Expanded commit message to describe the reason for revert and added a
+  call trace (Abhinav)
+- Link to v1: https://lore.kernel.org/r/20240514-dpu-revert-ams-v1-1-b13623d6cd5f@linaro.org
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  5 ++++
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   | 32 ++++++++++++----------
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 13 +++++++--
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    | 11 +++++++-
+ 5 files changed, 46 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 119f3ea50a7c..a7d8ecf3f5be 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1200,6 +1200,8 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+ 		phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
+ 
+ 		phys->cached_mode = crtc_state->adjusted_mode;
++		if (phys->ops.atomic_mode_set)
++			phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+index 002e89cc1705..30470cd15a48 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+@@ -69,6 +69,8 @@ struct dpu_encoder_phys;
+  * @is_master:			Whether this phys_enc is the current master
+  *				encoder. Can be switched at enable time. Based
+  *				on split_role and current mode (CMD/VID).
++ * @atomic_mode_set:		DRM Call. Set a DRM mode.
++ *				This likely caches the mode, for use at enable.
+  * @enable:			DRM Call. Enable a DRM mode.
+  * @disable:			DRM Call. Disable mode.
+  * @control_vblank_irq		Register/Deregister for VBLANK IRQ
+@@ -93,6 +95,9 @@ struct dpu_encoder_phys;
+ struct dpu_encoder_phys_ops {
+ 	void (*prepare_commit)(struct dpu_encoder_phys *encoder);
+ 	bool (*is_master)(struct dpu_encoder_phys *encoder);
++	void (*atomic_mode_set)(struct dpu_encoder_phys *encoder,
++			struct drm_crtc_state *crtc_state,
++			struct drm_connector_state *conn_state);
+ 	void (*enable)(struct dpu_encoder_phys *encoder);
+ 	void (*disable)(struct dpu_encoder_phys *encoder);
+ 	int (*control_vblank_irq)(struct dpu_encoder_phys *enc, bool enable);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+index 489be1c0c704..95cd39b49668 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+@@ -142,6 +142,23 @@ static void dpu_encoder_phys_cmd_underrun_irq(void *arg)
+ 	dpu_encoder_underrun_callback(phys_enc->parent, phys_enc);
+ }
+ 
++static void dpu_encoder_phys_cmd_atomic_mode_set(
++		struct dpu_encoder_phys *phys_enc,
++		struct drm_crtc_state *crtc_state,
++		struct drm_connector_state *conn_state)
++{
++	phys_enc->irq[INTR_IDX_CTL_START] = phys_enc->hw_ctl->caps->intr_start;
++
++	phys_enc->irq[INTR_IDX_PINGPONG] = phys_enc->hw_pp->caps->intr_done;
++
++	if (phys_enc->has_intf_te)
++		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_intf->cap->intr_tear_rd_ptr;
++	else
++		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_pp->caps->intr_rdptr;
++
++	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
++}
++
+ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
+ 		struct dpu_encoder_phys *phys_enc)
+ {
+@@ -280,14 +297,6 @@ static void dpu_encoder_phys_cmd_irq_enable(struct dpu_encoder_phys *phys_enc)
+ 					  phys_enc->hw_pp->idx - PINGPONG_0,
+ 					  phys_enc->vblank_refcount);
+ 
+-	phys_enc->irq[INTR_IDX_CTL_START] = phys_enc->hw_ctl->caps->intr_start;
+-	phys_enc->irq[INTR_IDX_PINGPONG] = phys_enc->hw_pp->caps->intr_done;
+-
+-	if (phys_enc->has_intf_te)
+-		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_intf->cap->intr_tear_rd_ptr;
+-	else
+-		phys_enc->irq[INTR_IDX_RDPTR] = phys_enc->hw_pp->caps->intr_rdptr;
+-
+ 	dpu_core_irq_register_callback(phys_enc->dpu_kms,
+ 				       phys_enc->irq[INTR_IDX_PINGPONG],
+ 				       dpu_encoder_phys_cmd_pp_tx_done_irq,
+@@ -318,10 +327,6 @@ static void dpu_encoder_phys_cmd_irq_disable(struct dpu_encoder_phys *phys_enc)
+ 	dpu_core_irq_unregister_callback(phys_enc->dpu_kms, phys_enc->irq[INTR_IDX_UNDERRUN]);
+ 	dpu_encoder_phys_cmd_control_vblank_irq(phys_enc, false);
+ 	dpu_core_irq_unregister_callback(phys_enc->dpu_kms, phys_enc->irq[INTR_IDX_PINGPONG]);
+-
+-	phys_enc->irq[INTR_IDX_CTL_START] = 0;
+-	phys_enc->irq[INTR_IDX_PINGPONG] = 0;
+-	phys_enc->irq[INTR_IDX_RDPTR] = 0;
+ }
+ 
+ static void dpu_encoder_phys_cmd_tearcheck_config(
+@@ -698,6 +703,7 @@ static void dpu_encoder_phys_cmd_init_ops(
+ 		struct dpu_encoder_phys_ops *ops)
+ {
+ 	ops->is_master = dpu_encoder_phys_cmd_is_master;
++	ops->atomic_mode_set = dpu_encoder_phys_cmd_atomic_mode_set;
+ 	ops->enable = dpu_encoder_phys_cmd_enable;
+ 	ops->disable = dpu_encoder_phys_cmd_disable;
+ 	ops->control_vblank_irq = dpu_encoder_phys_cmd_control_vblank_irq;
+@@ -736,8 +742,6 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(struct drm_device *dev,
+ 
+ 	dpu_encoder_phys_cmd_init_ops(&phys_enc->ops);
+ 	phys_enc->intf_mode = INTF_MODE_CMD;
+-	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
+-
+ 	cmd_enc->stream_sel = 0;
+ 
+ 	if (!phys_enc->hw_intf) {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index ef69c2f408c3..636a97432d51 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -356,6 +356,16 @@ static bool dpu_encoder_phys_vid_needs_single_flush(
+ 	return phys_enc->split_role != ENC_ROLE_SOLO;
+ }
+ 
++static void dpu_encoder_phys_vid_atomic_mode_set(
++		struct dpu_encoder_phys *phys_enc,
++		struct drm_crtc_state *crtc_state,
++		struct drm_connector_state *conn_state)
++{
++	phys_enc->irq[INTR_IDX_VSYNC] = phys_enc->hw_intf->cap->intr_vsync;
++
++	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
++}
++
+ static int dpu_encoder_phys_vid_control_vblank_irq(
+ 		struct dpu_encoder_phys *phys_enc,
+ 		bool enable)
+@@ -699,6 +709,7 @@ static int dpu_encoder_phys_vid_get_frame_count(
+ static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
+ {
+ 	ops->is_master = dpu_encoder_phys_vid_is_master;
++	ops->atomic_mode_set = dpu_encoder_phys_vid_atomic_mode_set;
+ 	ops->enable = dpu_encoder_phys_vid_enable;
+ 	ops->disable = dpu_encoder_phys_vid_disable;
+ 	ops->control_vblank_irq = dpu_encoder_phys_vid_control_vblank_irq;
+@@ -737,8 +748,6 @@ struct dpu_encoder_phys *dpu_encoder_phys_vid_init(struct drm_device *dev,
+ 
+ 	dpu_encoder_phys_vid_init_ops(&phys_enc->ops);
+ 	phys_enc->intf_mode = INTF_MODE_VIDEO;
+-	phys_enc->irq[INTR_IDX_VSYNC] = phys_enc->hw_intf->cap->intr_vsync;
+-	phys_enc->irq[INTR_IDX_UNDERRUN] = phys_enc->hw_intf->cap->intr_underrun;
+ 
+ 	DPU_DEBUG_VIDENC(phys_enc, "created intf idx:%d\n", p->hw_intf->idx);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+index d3ea91c1d7d2..356dca5e5ea9 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+@@ -404,6 +404,15 @@ static void dpu_encoder_phys_wb_irq_disable(struct dpu_encoder_phys *phys)
+ 		dpu_core_irq_unregister_callback(phys->dpu_kms, phys->irq[INTR_IDX_WB_DONE]);
+ }
+ 
++static void dpu_encoder_phys_wb_atomic_mode_set(
++		struct dpu_encoder_phys *phys_enc,
++		struct drm_crtc_state *crtc_state,
++		struct drm_connector_state *conn_state)
++{
++
++	phys_enc->irq[INTR_IDX_WB_DONE] = phys_enc->hw_wb->caps->intr_wb_done;
++}
++
+ static void _dpu_encoder_phys_wb_handle_wbdone_timeout(
+ 		struct dpu_encoder_phys *phys_enc)
+ {
+@@ -640,6 +649,7 @@ static bool dpu_encoder_phys_wb_is_valid_for_commit(struct dpu_encoder_phys *phy
+ static void dpu_encoder_phys_wb_init_ops(struct dpu_encoder_phys_ops *ops)
+ {
+ 	ops->is_master = dpu_encoder_phys_wb_is_master;
++	ops->atomic_mode_set = dpu_encoder_phys_wb_atomic_mode_set;
+ 	ops->enable = dpu_encoder_phys_wb_enable;
+ 	ops->disable = dpu_encoder_phys_wb_disable;
+ 	ops->wait_for_commit_done = dpu_encoder_phys_wb_wait_for_commit_done;
+@@ -685,7 +695,6 @@ struct dpu_encoder_phys *dpu_encoder_phys_wb_init(struct drm_device *dev,
+ 
+ 	dpu_encoder_phys_wb_init_ops(&phys_enc->ops);
+ 	phys_enc->intf_mode = INTF_MODE_WB_LINE;
+-	phys_enc->irq[INTR_IDX_WB_DONE] = phys_enc->hw_wb->caps->intr_wb_done;
+ 
+ 	atomic_set(&wb_enc->wbirq_refcount, 0);
+ 
+
+---
+base-commit: 75fa778d74b786a1608d55d655d42b480a6fa8bd
+change-id: 20240514-dpu-revert-ams-9410abc1ee48
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
