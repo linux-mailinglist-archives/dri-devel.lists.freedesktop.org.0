@@ -2,77 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880858CC37D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 16:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AE68CC3E4
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 17:12:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 661F110E1FA;
-	Wed, 22 May 2024 14:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 777D110EF04;
+	Wed, 22 May 2024 15:12:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cRZxpegG";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="rWli4Ug/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A04B10E1FA
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 14:48:13 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-420104e5336so5471265e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 07:48:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716389291; x=1716994091; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=xPsuD4fZJWaOvckyqtS50exhDAnEUIl9m+MkVDUOvd4=;
- b=cRZxpegGiApVt0ZYOhdafRVbk9c0AJlM8MciOWnIrmaXACspcEB1Gmk5wnyDE0swY/
- oELKfq8OMctOyBLkPy+Yls2TmUbFmFRpYmO7wbxNjiT2LUY07uisu/TFGR/hbiVDA37U
- MK71FN0tqyRCy6f6OWF1Z28Ls4Y/qbeNOpt3cF8qtAE4TVpAIfU/Pewec0eVKWpgr/aU
- bIpeOJaIB21ZIwlP59Aio1pdWu1z+AorySojp5eHfrprai6DjJgMxodFxQ5wqL9upAQW
- omNE6KRC9V3X6UghmjIUXOqhBBhjqR7Snm2s1jUIWXfqdZ1cO3RbMDzm8EdoYgR33us4
- 4/1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716389291; x=1716994091;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xPsuD4fZJWaOvckyqtS50exhDAnEUIl9m+MkVDUOvd4=;
- b=xCHaaeES/lSa5FrWhFMSblwelSyJPud3DG4lIGaN9E/Wa+YnsUnQ2mJq2whvUuCuFL
- 5w3YJHQjygyTt9DfagszvRqyC0myWR1O/0i8YUzNTIT6Sxh+EDDQxDofB0LAzmi3TMnX
- nulucri/THaQvItJRMDE0ATPXpbpYABb9PvL2H8hD8+FyAzV6dDDSkbH0lTGYvYj9xAD
- r5yX21u5RVqsqZ5HZTOniDO/WDcoxMTUGSoKrTKPzOwQwoo0ZK4zbJIs2WihMBhkmCFQ
- qwLfBnbHdLF2Y89jPez6R37ioJYHDbvBNXdDcfV869j7RhGPMt0XyDPHcZiJd9l1eVPY
- 49aA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXZzbEML9/s9y9f2/G3TO5ZRSn2ERRiFGZqyJjWvNseURZlZBMksaoXUcMDaLB3QVXSGScS5DBgy/SP4CgwDtXifElUrRNuc2gP6EcpeC0O
-X-Gm-Message-State: AOJu0YzPkD57S3LNao7YKrAQtYNcd6xbQgjVe7XuNi0kzzufXHcA2mrv
- CfyDjYXXuDljEO9K9lFk58vsJlMA0nGHoj2yy/gvjUHHk6ilV6Fx
-X-Google-Smtp-Source: AGHT+IGwx/GdGNYjlfC3GGBGIHJR2veib6YybEoxGNT5Qgi7TqYjRa+sO8i9l1uNsrT9q2aUGlfWAw==
-X-Received: by 2002:a05:600c:4f56:b0:418:9d4a:1ba5 with SMTP id
- 5b1f17b1804b1-420e19d56b1mr103855175e9.6.1716389290896; 
- Wed, 22 May 2024 07:48:10 -0700 (PDT)
-Received: from [192.168.1.127] ([185.77.198.11])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-420149b1c24sm393676565e9.41.2024.05.22.07.48.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 May 2024 07:48:10 -0700 (PDT)
-Message-ID: <df115f89-2979-42a5-b521-4bc4f8f4a335@gmail.com>
-Date: Wed, 22 May 2024 16:48:07 +0200
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3950B10EF04
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 15:12:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=nSoJJiwwzp87yvVkXYkB8RsZAhVEmfC9M1NZ6wVDvfs=; b=rWli4Ug/juiaCj4Nq/03xCcYny
+ 4qzp8OacJPblkyrusEHc771lCNK1HlqcAFgKBeV6U6ElwCEzUC0s5mq4yA9GhYIxWwUwIe5tx8MGU
+ 4PPx+DixYSAeIHP0oSbPKgO0LBBNQ+SwLA+Zr76B6exSeHPJ/re4cRu5mrw1gJFDMDYD0gomyJFcS
+ h6Op1cXDAGkfHsxcAxnEx1YN4mbRxkj+Q/QrGi+epSqop5fdGc3GwTNoTEip6WkHAVWz5nI1zibyT
+ +uk3P8+2wFMhpCQcL1vI46AVJpUw/htoej+NFAfJJuJp84RahOUnQMNi1PloMWtIdP2QG0MZtG9Lg
+ PQT3g4rA==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+ id 1s9ndZ-00000003KLv-2HKP; Wed, 22 May 2024 15:12:18 +0000
+Message-ID: <aeb0fddd-09ff-4b96-9905-927427b51838@infradead.org>
+Date: Wed, 22 May 2024 08:12:15 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vc4: remove all usages of of_node_put()
-From: Amer Al Shanawany <amer.shanawany@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>,
+Subject: Re: [PATCH] drm/display/dp: fix all kernel-doc warnings
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Julia Lawall <julia.lawall@inria.fr>, Shuah Khan <shuah@kernel.org>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-References: <20240427134044.38910-1-amer.shanawany@gmail.com>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240516002642.6659-1-rdunlap@infradead.org>
+ <p2n7d7lhiogmn3niblqg3sj5nx7c7tx2m6h6z2xlyf3ks74753@7qze6k4jhp2k>
+ <b47a415d-2e8c-4d09-8131-d361aa28dc60@infradead.org>
+ <q3525v4os3yrrgr2bcllc7xbnw4tdtc3373hsqg7cxfpea7isp@wxdh3xrz6vb4>
 Content-Language: en-US
-In-Reply-To: <20240427134044.38910-1-amer.shanawany@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <q3525v4os3yrrgr2bcllc7xbnw4tdtc3373hsqg7cxfpea7isp@wxdh3xrz6vb4>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,123 +63,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/04/2024 15.40, Amer Al Shanawany wrote:
-> Use the scope-based cleanup feature to clean up 'struct device_node *'
-> when they go out of scope, and remove all instances of of_node_put()
-> within the same scope, to simplify function exit and avoid potential
-> memory leaks.
+
+
+On 5/22/24 2:37 AM, Dmitry Baryshkov wrote:
+> On Tue, May 21, 2024 at 08:59:06PM -0700, Randy Dunlap wrote:
+>> Hi Dmitry,
+>>
+>> On 5/20/24 3:37 AM, Dmitry Baryshkov wrote:
+>>> On Wed, May 15, 2024 at 05:26:42PM -0700, Randy Dunlap wrote:
+>>>> Fix a struct member name in &struct drm_dp_as_sdp.
+>>>> Add Returns: kernel-doc syntax for 4 functions.
+>>>> In the Returns: sections, spell "%true" and "%false" consistently.
+>>>>
+>>>> Fixes these kernel-doc warnings:
+>>>>
+>>>> drm_dp_helper.h:126: warning: Function parameter or struct member 'mode' not described in 'drm_dp_as_sdp'
+>>>> drm_dp_helper.h:126: warning: Excess struct member 'operation_mode' description in 'drm_dp_as_sdp'
+>>>> drm_dp_helper.h:237: warning: No description found for return value of 'drm_dp_dsc_sink_supports_format'
+>>>> drm_dp_helper.h:539: warning: No description found for return value of 'drm_dp_dpcd_readb'
+>>>> drm_dp_helper.h:554: warning: No description found for return value of 'drm_dp_dpcd_writeb'
+>>>> drm_dp_helper.h:721: warning: No description found for return value of 'drm_dp_has_quirk'
+>>>>
+>>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>>>> ---
+>>>> Cc: David Airlie <airlied@gmail.com>
+>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>>> Cc: dri-devel@lists.freedesktop.org
+>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>>> Cc: Maxime Ripard <mripard@kernel.org>
+>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>
+>>>>  include/drm/display/drm_dp_helper.h |   17 +++++++++--------
+>>>>  1 file changed, 9 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff -- a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+>>>> --- a/include/drm/display/drm_dp_helper.h
+>>>> +++ b/include/drm/display/drm_dp_helper.h
+>>>> @@ -112,7 +112,7 @@ struct drm_dp_vsc_sdp {
+>>>>   * @target_rr: Target Refresh
+>>>>   * @duration_incr_ms: Successive frame duration increase
+>>>>   * @duration_decr_ms: Successive frame duration decrease
+>>>> - * @operation_mode: Adaptive Sync Operation Mode
+>>>> + * @mode: Adaptive Sync Operation Mode
+>>>>   */
+>>>>  struct drm_dp_as_sdp {
+>>>>  	unsigned char sdp_type;
+>>>> @@ -230,7 +230,8 @@ drm_dp_dsc_sink_max_slice_width(const u8
+>>>>   * @dsc_dpcd : DSC-capability DPCDs of the sink
+>>>>   * @output_format: output_format which is to be checked
+>>>>   *
+>>>> - * Returns true if the sink supports DSC with the given output_format, false otherwise.
+>>>> + * Returns: %true if the sink supports DSC with the given output_format,
+>>>> + * %false otherwise.
+>>>>   */
+>>>>  static inline bool
+>>>>  drm_dp_dsc_sink_supports_format(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE], u8 output_format)
+>>>> @@ -280,8 +281,8 @@ drm_dp_sink_can_do_video_without_timing_
+>>>>   * backlight features but which require the brightness be set through PWM, and don't support setting
+>>>>   * the brightness level via the DPCD.
+>>>>   *
+>>>> - * Returns: %True if @edp_dpcd indicates that VESA backlight controls are supported, %false
+>>>> - * otherwise
+>>>> + * Returns: %true if @edp_dpcd indicates that VESA backlight controls are
+>>>> + * supported, %false otherwise
+>>>
+>>> If you are touching this part, maybe it's better to change 'Returns' to
+>>> 'Return' as documented by Documentation/doc-guide/kernel-doc.rst ?
+>>> (the same comment applies to other chunks in the patch, I've trimmed
+>>> them).
+>>
+>> scripts/kernel-doc accepts either spelling, but sure, I can change these.
+>> Thanks.
 > 
-> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> Signed-off-by: Amer Al Shanawany <amer.shanawany@gmail.com>
-> ---
->   drivers/gpu/drm/vc4/vc4_drv.c  | 14 ++++++--------
->   drivers/gpu/drm/vc4/vc4_hdmi.c |  4 +---
->   drivers/gpu/drm/vc4/vc4_hvs.c  |  4 +---
->   3 files changed, 8 insertions(+), 14 deletions(-)
+> An alternative way would be to fix kernel-doc.rst :-)
+
+Yes, I thought of that last night.
+I'll submit such a change.
+Thanks.
+
+>>
+>>>>   */
+>>>>  static inline bool
+>>>>  drm_edp_backlight_supported(const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
+>>>
+>>
+>> -- 
+>> #Randy
+>> https://people.kernel.org/tglx/notes-about-netiquette
+>> https://subspace.kernel.org/etiquette.html
 > 
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-> index c133e96b8aca..bb0bb052e595 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -289,7 +289,6 @@ static int vc4_drm_bind(struct device *dev)
->   	struct rpi_firmware *firmware = NULL;
->   	struct drm_device *drm;
->   	struct vc4_dev *vc4;
-> -	struct device_node *node;
->   	struct drm_crtc *crtc;
->   	bool is_vc5;
->   	int ret = 0;
-> @@ -302,11 +301,10 @@ static int vc4_drm_bind(struct device *dev)
->   	else
->   		driver = &vc4_drm_driver;
->   
-> -	node = of_find_matching_node_and_match(NULL, vc4_dma_range_matches,
-> -					       NULL);
-> +	struct device_node *node __free(device_node) =
-> +		of_find_matching_node_and_match(NULL, vc4_dma_range_matches, NULL);
->   	if (node) {
->   		ret = of_dma_configure(dev, node, true);
-> -		of_node_put(node);
->   
->   		if (ret)
->   			return ret;
-> @@ -341,10 +339,10 @@ static int vc4_drm_bind(struct device *dev)
->   			goto err;
->   	}
->   
-> -	node = of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
-> -	if (node) {
-> -		firmware = rpi_firmware_get(node);
-> -		of_node_put(node);
-> +	struct device_node *np __free(device_node) =
-> +		of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
-> +	if (np) {
-> +		firmware = rpi_firmware_get(np);
->   
->   		if (!firmware) {
->   			ret = -EPROBE_DEFER;
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index d30f8e8e8967..915e8da3f41a 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -3661,7 +3661,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->   	struct drm_device *drm = dev_get_drvdata(master);
->   	struct vc4_hdmi *vc4_hdmi;
->   	struct drm_encoder *encoder;
-> -	struct device_node *ddc_node;
->   	int ret;
->   
->   	vc4_hdmi = drmm_kzalloc(drm, sizeof(*vc4_hdmi), GFP_KERNEL);
-> @@ -3699,14 +3698,13 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->   	if (ret)
->   		return ret;
->   
-> -	ddc_node = of_parse_phandle(dev->of_node, "ddc", 0);
-> +	struct device_node *ddc_node __free(device_node) = of_parse_phandle(dev->of_node, "ddc", 0);
->   	if (!ddc_node) {
->   		DRM_ERROR("Failed to find ddc node in device tree\n");
->   		return -ENODEV;
->   	}
->   
->   	vc4_hdmi->ddc = of_find_i2c_adapter_by_node(ddc_node);
-> -	of_node_put(ddc_node);
->   	if (!vc4_hdmi->ddc) {
->   		DRM_DEBUG("Failed to get ddc i2c adapter by node\n");
->   		return -EPROBE_DEFER;
-> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-> index 04af672caacb..6e3613e06e09 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-> @@ -845,15 +845,13 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
->   
->   	if (vc4->is_vc5) {
->   		struct rpi_firmware *firmware;
-> -		struct device_node *node;
-> +		struct device_node *node __free(device_node) = rpi_firmware_find_node();
->   		unsigned int max_rate;
->   
-> -		node = rpi_firmware_find_node();
->   		if (!node)
->   			return -EINVAL;
->   
->   		firmware = rpi_firmware_get(node);
-> -		of_node_put(node);
->   		if (!firmware)
->   			return -EPROBE_DEFER;
->   
-Hi,
 
-This patch is marked as new/archived on patchwork[1], however it didn't 
-receive any feedback, and a similar patch has been already merged [2].
-
-
-[1]: 
-https://patchwork.kernel.org/project/dri-devel/patch/20240427134044.38910-1-amer.shanawany@gmail.com/
-
-[2]: 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d65bfb9546eb627e3c578336355c5b81797f2255
-
-Thank you
-
-Amer
-
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
