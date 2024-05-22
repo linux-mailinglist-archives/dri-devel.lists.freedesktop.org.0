@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273288CB611
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 00:41:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB78B8CB677
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 02:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5D6510F159;
-	Tue, 21 May 2024 22:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06A810F22D;
+	Wed, 22 May 2024 00:10:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="b2EWdtw8";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="Ggeatj+l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A67E610F159
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 22:41:43 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-61e04fcf813so2168077b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2024 15:41:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1716331302; x=1716936102;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=N6Mpck0RGojeaLZXzpvpltg44SWf27C8Fn+3pNrIhfw=;
- b=b2EWdtw8bprt+2hpN9BAbMaezTn482sSM2Ev8D11a1Nv353HhGpUcO1jYp6Rv4Xkuy
- ZZbI1M1QsCxqJqHe/1zliljaHdueR+jx8+M0bR6vyDRM74IAxOG2S1gRDOsNbzXFiI29
- 4aPkYxKzJ7xh12eI2I33RWxcZQpj5DyIRlKjQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716331302; x=1716936102;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=N6Mpck0RGojeaLZXzpvpltg44SWf27C8Fn+3pNrIhfw=;
- b=UHRo7RDLA4naCtEJ+6ftSemePHR5poA+dLQUhVSya7m/HePr2KZszwZp0E0Bcotexr
- c0r7xkKhFmv796vBpONTxgrsmufKFUosC4sUfwfx/YiLeHmA0QphQgOpS5jPUSK6wtUV
- ZxtrxxFZg4idwNd8KrXxyNEUEa6BkZ5s1vDHq0opBbZSbZ1mUH54tgHrr+dF0Y1SFxGD
- 9bcVvnk+SMutOn3fiOxuz99DMLR1kpersKE1kUv/mjgdGacEqezS8drBpAzNDHjoFVjT
- yXR+7VgZvJcGtOm6hdxPY7p8eVf/ctHtDrfvvkClQZ/83KhslktjNyIrFRCxUs0mHZKO
- D+ZA==
-X-Gm-Message-State: AOJu0YwVTXEKVpawFYCBalLSw6B4mMpGtFJvV9FG3PQGuVpA8QUD5pmJ
- vX2ap75VlfbiPEHzYSPUhL/5Lhw83JT3huYxNM5cNnUoGzLzlDT8OPiXqx6avRpRtW95w6wov1E
- NOzNVC/yNqnm0b+ZCoEsA6zv3f/xn+du8QZGg
-X-Google-Smtp-Source: AGHT+IGeFpoW5qwZInZo/kwsp71ne4tNSItShyqOIjCLOqg+0qkWkwz2ZCwUxpfQ/q0pFZomXSg+f/5Mff7kkesI0g8=
-X-Received: by 2002:a0d:d516:0:b0:627:de8e:c951 with SMTP id
- 00721157ae682-627e46b21a6mr5328587b3.12.1716331302473; Tue, 21 May 2024
- 15:41:42 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98DE010F142
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 00:10:08 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 854DC8842C;
+ Wed, 22 May 2024 02:10:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1716336606;
+ bh=JixvmNFC9GMbSv+DKUdmSRpyGMvn+qECSeA63SnmiGg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Ggeatj+lFv3O09ow05DcWFfRO9wzfIWUoHRsM/nU2yu0enC9Rfjlee0Qa5jOnd7ju
+ v3YBHLXkBMzSTDsDp6fMysrscHyirZ8FNlQ7/4ljTpjAk1g3+yGWpT5bsiDO/Om2dq
+ FBBRRRyzh6LcjPciyRZDNUg8ayvKSbB9xLbl2FScu4AXgH6f08i+mch8fXY1upZAwC
+ L6jufsk+9+TaKcyFX/iRu8zdvNpDGgZi8LrBkcORz6jTfwK9IML8owlFLP1o0wbC+5
+ rQQw5U0k5uKL/a20gjcZ0tT1qDM+T9+ZSnIvW/KIdmOeaCHbnMGwV0Oslokdpq4lik
+ Nk0uUnj66WqTg==
+From: Marek Vasut <marex@denx.de>
+To: devicetree@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Rob Herring <robh@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Liu Ying <victor.liu@nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Yao <markyao0591@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Robert Foss <rfoss@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, kernel@dh-electronics.com,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2] dt-bindings: display: synopsys,
+ dw-hdmi: Mark ddc-i2c-bus as deprecated
+Date: Wed, 22 May 2024 02:09:31 +0200
+Message-ID: <20240522000949.49530-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240521184720.767-1-ian.forbes@broadcom.com>
-In-Reply-To: <20240521184720.767-1-ian.forbes@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Tue, 21 May 2024 18:41:31 -0400
-Message-ID: <CABQX2QOHO=Lifjpsijqv0t39McoRRzv9XhgYLtmkOJGqnuv_6Q@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Fix memory limits for STDU
-To: Ian Forbes <ian.forbes@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,29 +75,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 21, 2024 at 2:47=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com=
-> wrote:
->
-> Fixes a bug where modes that are too large for the device are exposed
-> and set causing a black screen on boot.
->
-> v2: Fixed llvmpipe over-alignment bug.
-> v3: Fix comment formatting.
->
-> Ian Forbes (4):
->   drm/vmwgfx: Filter modes which exceed graphics memory
->   drm/vmwgfx: 3D disabled should not effect STDU memory limits
->   drm/vmwgfx: Remove STDU logic from generic mode_valid function
->   drm/vmwgfx: Standardize use of kibibytes when logging
->
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 19 +++-----
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  3 --
->  drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c |  4 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 26 ++++-------
->  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          | 45 ++++++++++++++++++-
->  5 files changed, 60 insertions(+), 37 deletions(-)
+The ddc-i2c-bus property should be placed in connector node,
+mark the HDMI TX side property as deprecated.
 
-Looks great. For the series:
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Liu Ying <victor.liu@nxp.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Mark Yao <markyao0591@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
+Cc: kernel@dh-electronics.com
+Cc: linux-arm-kernel@lists.infradead.org
+---
+V2: - Expand the description
+    - Add AB from Rob and RB from Laurent/Neil
+---
+ .../devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-z
+diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+index 828709a8ded26..33481381cccc1 100644
+--- a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+@@ -47,12 +47,17 @@ properties:
+ 
+   ddc-i2c-bus:
+     $ref: /schemas/types.yaml#/definitions/phandle
++    deprecated: true
+     description:
+       The HDMI DDC bus can be connected to either a system I2C master or the
+       functionally-reduced I2C master contained in the DWC HDMI. When connected
+       to a system I2C master this property contains a phandle to that I2C
+       master controller.
+ 
++      This property is deprecated, the system I2C master controller should
++      be referenced through the ddc-i2c-bus property of the HDMI connector
++      node.
++
+   interrupts:
+     maxItems: 1
+ 
+-- 
+2.43.0
+
