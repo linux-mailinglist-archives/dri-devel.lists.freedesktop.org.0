@@ -2,88 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B378CBFA6
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 12:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56248CC00E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 13:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D2F10F4C8;
-	Wed, 22 May 2024 10:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6CED10E1E3;
+	Wed, 22 May 2024 11:16:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Oran/5jq";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YY5D39vj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55E910F4C9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 10:51:10 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-52192578b95so7498021e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 03:51:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716375069; x=1716979869; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=j/4fTIJgTEUbDdUM7ulateH0ttYK2JMK4XIQQRpRwck=;
- b=Oran/5jq6AUXgK2OahPDsez6kitq+IxBN0M9KZCqx3+uSpa2XBC2VEtwUT6BXfkSGA
- Y4sycxq1zEQzVKNhe5DAqvCnfYcGotLxhpq0nlHwE7t6sJf9eMDi+60ZrFlIc54dvFNW
- 2AkYhk30pvvdKJXmgFXxOVV00e6rlFP7hr/L+dTlktKyjPbpKRM44W10KjgR06a9tc4t
- JIVhhgHeek2ntga+U4/2Izm8ZKSEcVYnMUHxRvBgNdoSHM+720VbBH40vsgq33BKGyBB
- tN8sFCbhtGxMJ1GerzGV63uqdY/vzaWBf8tyDyOdFTFNz97eNmHVnbt4zr1nbtpBS6rH
- wfcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716375069; x=1716979869;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=j/4fTIJgTEUbDdUM7ulateH0ttYK2JMK4XIQQRpRwck=;
- b=BdfwJ6/OzUUcvIE1O4LxQMmApadARtpz1SWXc2KjMRYdH7541/MhDHjP936zg0w6Gj
- a+z7Chuswpr0BBGkNSSVbeD5FAgNYRycc2DZAxaowFcbsmFLF24kmNoy2XL4gCYhvkgH
- lBlUd9REHvvnb144NM1P5eia4bba8eFavVF3dVW84W0Xs3IJ8wtZlVaGvJVUErm5XcN0
- +V+mpAigWicfwK+8uzEBfHJyYJp3Vjf9++sUCKJWEDt5wi77gIyBSUmz6W6Nh/fAAzOn
- FbdhQfdZaotkxz2opdCkplZS/HfBMdxBSH7wGsdNpmSwqNEEPGaUIaIkwLUWLXJQnrM9
- llPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW2Kv/dmcJosM7whLUUoveShboTqLiru4mQ+4H/zqvfkfj+iDRBGdM4I6nABkudXsQsNTBC7LdROpsv0trMbJO0b4cRmTsTfyZr2e3IFjPC
-X-Gm-Message-State: AOJu0YyTiuvB8me2xlSog0ttxPSFBnlMTepa/lkkoV6bGRflr1TLqUdJ
- XuSQFZsVagaMR+f/eJfGLPmkhMZbS/6+TXktc42YB3dhiQYDPEGHnKFoE/f47mQ=
-X-Google-Smtp-Source: AGHT+IELruHphQs1lHT+YJc17lZvFaGsZaIttRkKgj/276EsYqWN2Z5w0oVEWecTGdEVYJODT/Hf7Q==
-X-Received: by 2002:ac2:4c10:0:b0:518:95b6:176f with SMTP id
- 2adb3069b0e04-526c068ea7cmr892773e87.50.1716375069078; 
- Wed, 22 May 2024 03:51:09 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-52431778ec8sm1279126e87.194.2024.05.22.03.51.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 May 2024 03:51:08 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 22 May 2024 13:51:06 +0300
-Subject: [PATCH v2 14/14] drm/msm/hdmi: wire in hpd_enable/hpd_disable
- bridge ops
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B3AD10E1E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 11:16:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED5DCD49;
+ Wed, 22 May 2024 13:16:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1716376579;
+ bh=q83AOrxhjHdDtbOcVJNIw+dm8Yj5lnBFmVhmfjLn9IA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YY5D39vjYu90YM40AKH7ctfUmXDtAh3vruu9Dqw2jQ0NLNg+p6WrLmo9V7u80L71G
+ ULiTQnW/MDSY/YmaYPNEkMMkY14OWGsTrZo+WvhbojfStattNgZP5ollUYzcsHdSof
+ gSbVh5HKYAenHcnPeB8iJ3mhIXdBV6fvJtxyM+zw=
+Date: Wed, 22 May 2024 14:16:22 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: Jeffrey Kardatzke <jkardatzke@google.com>,
+ =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
+ Nathan Hebert <nhebert@chromium.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Tomasz Figa <tfiga@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v6,04/24] v4l: add documentation for restricted memory flag
+Message-ID: <20240522111622.GA31185@pendragon.ideasonboard.com>
+References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
+ <20240516122102.16379-5-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240522-fd-hdmi-hpd-v2-14-c30bdb7c5c7e@linaro.org>
-References: <20240522-fd-hdmi-hpd-v2-0-c30bdb7c5c7e@linaro.org>
-In-Reply-To: <20240522-fd-hdmi-hpd-v2-0-c30bdb7c5c7e@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3864;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=/wrNOYlvXzRdTeplf6TZbVC8so7rhZlXjnI2QI/al7o=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmTc4RYwSU6lOZZB3KG7aLp6Cx2FiLEgfA/chDB
- bge3K0A5YmJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZk3OEQAKCRCLPIo+Aiko
- 1Rb7CACP2WFe3WKMzifDnF7L4BKpX8QNHIRZOX8BsKiod/n3IIa0usUDK3kAMOi40/U6TyKOcF6
- gqRv0D03gJMhCARcSsXKbPIjk9mKtLJlLumJGkKiVPY0MQm9hcxsx3atkHilZU1+XycaOMjW+dL
- YiHeo+COVv47oNf0ETJY25YIWK6DjkFxuYeG7F2zeK1ahF5QrIl64FxN3M73Coj/yQjKdjJUM4t
- AP4boZhBwBi02kTxoxEr2BrrrJDYNMPuS79LPR07pI5yHvcALXo3VUzqIZLAa75+VXuG8xZ3dsQ
- Z3hQXnUujcst+Q52pd4hGrHQe+Qhhli6fsO0wgDUt4l1owTm
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240516122102.16379-5-yunfei.dong@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,116 +76,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HDMI driver already has msm_hdmi_hpd_enable() and
-msm_hdmi_hpd_disable() functions. Wire them into the
-msm_hdmi_bridge_funcs, so that HPD  can be enabled and disabled
-dynamically rather than always having HPD events generation enabled.
+Hi Jefrey,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/hdmi/hdmi.c        |  9 ---------
- drivers/gpu/drm/msm/hdmi/hdmi.h        |  4 ++--
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c |  3 +++
- drivers/gpu/drm/msm/hdmi/hdmi_hpd.c    | 12 ++++++------
- 4 files changed, 11 insertions(+), 17 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 2890196857f8..06adcf4a6544 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -202,12 +202,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
- 		goto fail;
- 	}
- 
--	ret = msm_hdmi_hpd_enable(hdmi->bridge);
--	if (ret < 0) {
--		DRM_DEV_ERROR(&hdmi->pdev->dev, "failed to enable HPD: %d\n", ret);
--		goto fail;
--	}
--
- 	return 0;
- 
- fail:
-@@ -377,9 +371,6 @@ static void msm_hdmi_unbind(struct device *dev, struct device *master,
- 		if (priv->hdmi->audio_pdev)
- 			platform_device_unregister(priv->hdmi->audio_pdev);
- 
--		if (priv->hdmi->bridge)
--			msm_hdmi_hpd_disable(priv->hdmi);
--
- 		msm_hdmi_destroy(priv->hdmi);
- 		priv->hdmi = NULL;
- 	}
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-index 7f0ca5252018..c6519e6f7f2c 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-@@ -219,8 +219,8 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi);
- void msm_hdmi_hpd_irq(struct drm_bridge *bridge);
- enum drm_connector_status msm_hdmi_bridge_detect(
- 		struct drm_bridge *bridge);
--int msm_hdmi_hpd_enable(struct drm_bridge *bridge);
--void msm_hdmi_hpd_disable(struct hdmi *hdmi);
-+void msm_hdmi_hpd_enable(struct drm_bridge *bridge);
-+void msm_hdmi_hpd_disable(struct drm_bridge *bridge);
- 
- /*
-  * i2c adapter for ddc:
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index 104107ed47d0..41722b2e6b44 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -300,6 +300,9 @@ static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
- 	.mode_valid = msm_hdmi_bridge_mode_valid,
- 	.edid_read = msm_hdmi_bridge_edid_read,
- 	.detect = msm_hdmi_bridge_detect,
-+
-+	.hpd_enable = msm_hdmi_hpd_enable,
-+	.hpd_disable = msm_hdmi_hpd_disable,
- };
- 
- static void
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-index cb89e9e2c6ea..04d00b6f36fd 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-@@ -60,7 +60,7 @@ static void msm_hdmi_phy_reset(struct hdmi *hdmi)
- 	}
- }
- 
--int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
-+void msm_hdmi_hpd_enable(struct drm_bridge *bridge)
- {
- 	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
- 	struct hdmi *hdmi = hdmi_bridge->hdmi;
-@@ -70,8 +70,8 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
- 	unsigned long flags;
- 
- 	ret = pm_runtime_resume_and_get(dev);
--	if (ret)
--		return ret;
-+	if (WARN_ON(ret))
-+		return;
- 
- 	mutex_lock(&hdmi->state_mutex);
- 	msm_hdmi_set_mode(hdmi, false);
-@@ -99,12 +99,12 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
- 	hdmi_write(hdmi, REG_HDMI_HPD_CTRL,
- 			HDMI_HPD_CTRL_ENABLE | hpd_ctrl);
- 	spin_unlock_irqrestore(&hdmi->reg_lock, flags);
--
--	return 0;
- }
- 
--void msm_hdmi_hpd_disable(struct hdmi *hdmi)
-+void msm_hdmi_hpd_disable(struct drm_bridge *bridge)
- {
-+	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
-+	struct hdmi *hdmi = hdmi_bridge->hdmi;
- 	struct device *dev = &hdmi->pdev->dev;
- 
- 	/* Disable HPD interrupt */
+On Thu, May 16, 2024 at 08:20:42PM +0800, Yunfei Dong wrote:
+> From: Jeffrey Kardatzke <jkardatzke@google.com>
+> 
+> Adds documentation for V4L2_MEMORY_FLAG_RESTRICTED.
+> 
+> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  Documentation/userspace-api/media/v4l/buffer.rst | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+> index 52bbee81c080..807e43bfed2b 100644
+> --- a/Documentation/userspace-api/media/v4l/buffer.rst
+> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
+> @@ -696,7 +696,7 @@ enum v4l2_memory
+>  
+>  .. _memory-flags:
+>  
+> -Memory Consistency Flags
+> +Memory Flags
+>  ------------------------
+>  
+>  .. raw:: latex
+> @@ -728,6 +728,14 @@ Memory Consistency Flags
+>  	only if the buffer is used for :ref:`memory mapping <mmap>` I/O and the
+>  	queue reports the :ref:`V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS
+>  	<V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS>` capability.
+> +    * .. _`V4L2-MEMORY-FLAG-RESTRICTED`:
+> +
+> +      - ``V4L2_MEMORY_FLAG_RESTRICTED``
+> +      - 0x00000002
+> +      - The queued buffers are expected to be in restricted memory. If not, an
+> +	error will be returned. This flag can only be used with ``V4L2_MEMORY_DMABUF``.
+> +	Typically restricted buffers are allocated using a restricted dma-heap. This flag
+> +	can only be specified if the ``V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM`` is set.
+
+Why is this flag needed ? Given that the usage model requires the V4L2
+device to be a dma buf importer, why would userspace set the
+V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM flag and pass a non-restricted
+buffer to the device ?
+
+The V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM flag also needs to be
+documented in the relevant section, I don't think that's done in this
+series.
+
+>  
+>  .. raw:: latex
+>  
 
 -- 
-2.39.2
+Regards,
 
+Laurent Pinchart
