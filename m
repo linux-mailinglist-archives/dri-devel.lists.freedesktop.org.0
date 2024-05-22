@@ -2,73 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2DB8CBB79
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 08:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5B68CBB7D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2024 08:45:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FEAA10F3A5;
-	Wed, 22 May 2024 06:40:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74D2F10F0DF;
+	Wed, 22 May 2024 06:44:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oltmanns.dev header.i=@oltmanns.dev header.b="TICEBofL";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="JOS00aaP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 420 seconds by postgrey-1.36 at gabe;
- Wed, 22 May 2024 06:40:24 UTC
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDCA710F3FB
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 06:40:16 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4VkhMC1lBdz9sc4;
- Wed, 22 May 2024 08:33:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1716359591;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rkGfj/FEbA+an5F+yjZB4tBi8xyfqR2Y+jdjvhg9KDQ=;
- b=TICEBofLz5UznLiPJeoGTnOpGecLqJe0aBcr+fcOViso6c1VfOrlTvDrEerB9l7/wLbZC0
- D1/sMrd/fit98WK1RUEph53rT7HZ5HPCmPJZWPA9TdjCVTLBf+w8Xeec2E+BTyYiWw0UkN
- qXTxviM0EJ+PMySho3ZrHkFVhmRZw4urti/CMVdE3T6OuaZBg1jUMcdKons0ZcrCPuTBWN
- LsD5ykdH7uGgwZtrOfI1dx1ysIjYRr5N5iOONTVjt9y0HWd7LB5q7Cq5/Ce0+3PPrXb+iL
- L8zBA8Nkp/wZ77mb8fHtTiIk/QDLa8kIG0KoqgRp4DfX70kf4eHRRxi5E6lsww==
-Date: Wed, 22 May 2024 08:33:01 +0200 (GMT+02:00)
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: =?UTF-8?Q?M=C3=A5ns_Rullg=C3=A5rd?= <mans@mansr.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
- Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, stable@vger.kernel.org
-Message-ID: <c4c1229c-1ed3-4b6e-a53a-e1ace2502ded@oltmanns.dev>
-In-Reply-To: <yw1xo78z8ez0.fsf@mansr.com>
-References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
- <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
- <yw1xo78z8ez0.fsf@mansr.com>
-Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and
- maximum rate
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
+ [60.251.196.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81BFE10F0D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2024 06:44:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=6nFM5+jD8FPIWS5lx1usPnsN259GSLpHjZwehXdlMKs=;
+ b=JOS00aaPE4CT0fteQfnoggHdkejoYoWDhsh1pJMZsaWHXq/Ksu+T0AOq
+ JbedFtP7foifB9D8S0zgWIcCxo7bdkxwr/vXdZ/C8VK974L8Y9eneMcyn
+ zjYevz4Jd0fRwwoW4GNKKP6WNF1MQkl7Phmkae+DsrqtTWIqtlabVZ2Cn
+ e0niKbi7bbXL4zazwuH/49qneBKqvyZLEyyw8sMe6W3V3TRFrgDwbL+Gw
+ n/1RjkOyx+Y+DgEgpDURoC8r1x63D1tyDM/y+SnYvEZYuUP71233/c56k
+ 8Po6iqCY13Hwm80THAFNeBJjdNAb2jpGIqcAMHN6DuZfq4Dv7osQWQFJO w==;
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 22 May 2024 14:44:52 +0800
+Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
+ [192.168.65.58]) by mse.ite.com.tw with ESMTP id 44M6iku5018988;
+ Wed, 22 May 2024 14:44:46 +0800 (GMT-8)
+ (envelope-from kuro.chung@ite.com.tw)
+Received: from ite-XPS-13-9360.internal.ite.com.tw (192.168.72.42) by
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 22 May 2024 14:44:45 +0800
+From: kuro <kuro.chung@ite.com.tw>
+To: Pin-yen Lin <treapking@chromium.org>, Kenneth Haung
+ <kenneth.hung@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, AngeloGioacchino Del
+ Regno <angelogioacchino.delregno@collabora.com>, Hermes Wu
+ <hermes.wu@ite.com.tw>, Allen Chen <allen.chen@ite.com.tw>, "open list:DRM
+ DRIVERS" <dri-devel@lists.freedesktop.org>, open list
+ <linux-kernel@vger.kernel.org>
+CC: Kuro Chung <kuro.chung@ite.com.tw>
+Subject: [PATCH v13] drm/bridge: it6505: fix hibernate to resume no display
+ issue
+Date: Wed, 22 May 2024 14:55:28 +0800
+Message-ID: <20240522065528.1053439-1-kuro.chung@ite.com.tw>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Correlation-ID: <c4c1229c-1ed3-4b6e-a53a-e1ace2502ded@oltmanns.dev>
-X-Rspamd-Queue-Id: 4VkhMC1lBdz9sc4
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.72.42]
+X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
+ CSBMAIL1.internal.ite.com.tw (192.168.65.58)
+X-TM-SNTS-SMTP: 127722F295CCAE5EF0417517ECBD90D34AEFDB3A3085AF0F931D0C303D6848E62002:8
+X-MAIL: mse.ite.com.tw 44M6iku5018988
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,163 +78,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTcOlbnMsCgoyMS4wNS4yMDI0IDE1OjQzOjEwIE3DpW5zIFJ1bGxnw6VyZCA8bWFuc0BtYW5z
-ci5jb20+OgoKPiBGcmFuayBPbHRtYW5ucyA8ZnJhbmtAb2x0bWFubnMuZGV2PiB3cml0ZXM6Cj4K
-Pj4gVGhlIEFsbHdpbm5lciBTb0MncyB0eXBpY2FsbHkgaGF2ZSBhbiB1cHBlciBhbmQgbG93ZXIg
-bGltaXQgZm9yIHRoZWlyCj4+IGNsb2NrcycgcmF0ZXMuIFVwIHVudGlsIG5vdywgc3VwcG9ydCBm
-b3IgdGhhdCBoYXMgYmVlbiBpbXBsZW1lbnRlZAo+PiBzZXBhcmF0ZWx5IGZvciBlYWNoIGNsb2Nr
-IHR5cGUuCj4+Cj4+IEltcGxlbWVudCB0aGF0IGZ1bmN0aW9uYWxpdHkgaW4gdGhlIHN1bnhpLW5n
-J3MgY29tbW9uIHBhcnQgbWFraW5nIHVzZSBvZgo+PiB0aGUgQ0NGIHJhdGUgbGltaW5nIGNhcGFi
-aWxpdGllcywgc28gdGhhdCBpdCBpcyBhdmFpbGFibGUgZm9yIGFsbCBjbG9jawo+PiB0eXBlcy4K
-Pj4KPj4gU3VnZ2VzdGVkLWJ5OiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+Cj4+
-IFNpZ25lZC1vZmYtYnk6IEZyYW5rIE9sdG1hbm5zIDxmcmFua0BvbHRtYW5ucy5kZXY+Cj4+IENj
-OiBzdGFibGVAdmdlci5rZXJuZWwub3JnCj4+IC0tLQo+PiBkcml2ZXJzL2Nsay9zdW54aS1uZy9j
-Y3VfY29tbW9uLmMgfCAxOSArKysrKysrKysrKysrKysrKysrCj4+IGRyaXZlcnMvY2xrL3N1bnhp
-LW5nL2NjdV9jb21tb24uaCB8wqAgMyArKysKPj4gMiBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRp
-b25zKCspCj4KPiBUaGlzIGp1c3QgbGFuZGVkIGluIDYuNiBzdGFibGUsIGFuZCBpdCBicm9rZSBI
-RE1JIG91dHB1dCBvbiBhbiBBMjAgYmFzZWQKPiBkZXZpY2UsIHRoZSBjbG9ja3MgZW5kaW5nIHVw
-IGFsbCB3cm9uZyBhcyBzZWVuIGluIHRoaXMgZGlmZiBvZgo+IC9zeXMva2VybmVsL2RlYnVnL2Ns
-ay9jbGtfc3VtbWFyeToKPgo+IEBAIC03MCwxNiArNzEsMTQgQEAKPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBhcGIxLWkyYzDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDDCoMKgwqDC
-oMKgwqAgMMKgwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqDCoCAyNDAwMDAwMMKgwqDCoCAwwqDC
-oAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gwqDCoMKg
-wqDCoMKgwqAgcGxsLWdwdcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIDDCoMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqDCoCAxMjAwMDAw
-MDAwwqAgMMKgwqAKPiAtwqDCoMKgwqDCoMKgIHBsbC12aWRlbzHCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAzwqDCoMKgwqDCoMKgIDPCoMKgwqDCoMKgwqDCoCAxwqDCoMKg
-wqDCoMKgwqAgMTU5MDAwMDAwwqDCoCAwwqDCoAo+ICvCoMKgwqDCoMKgwqAgcGxsLXZpZGVvMcKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDLCoMKgwqDCoMKgwqAgMsKgwqDC
-oMKgwqDCoMKgIDHCoMKgwqDCoMKgwqDCoCAxNTkwMDAwMDDCoMKgIDDCoMKgCj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgaGRtacKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIDHCoMKgwqDCoMKgwqAgMcKgwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqDCoCAzOTc1MDAw
-MMKgwqDCoCAwwqDCoAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgdGNvbjAtY2gxLXNjbGsywqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAxwqDCoMKgwqDCoMKgIDHCoMKgwqDCoMKgwqDCoCAxwqDCoMKgwqDCoMKgwqAgMzk3
-NTAwMDDCoMKgwqAgMMKgwqAKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0Y29uMC1jaDEt
-c2NsazHCoMKgwqDCoMKgwqDCoMKgIDHCoMKgwqDCoMKgwqAgMcKgwqDCoMKgwqDCoMKgIDHCoMKg
-wqDCoMKgwqDCoCAzOTc1MDAwMMKgwqDCoCAwwqDCoAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gLcKgwqDCoMKgwqDCoMKgwqDCoCBwbGwtdmlkZW8xLTJ4
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMcKgwqDCoMKgwqDCoCAxwqDCoMKgwqDCoMKgwqAg
-MMKgwqDCoMKgwqDCoMKgIDMxODAwMDAwMMKgwqAgMMKgwqAKPiArwqDCoMKgwqDCoMKgwqDCoMKg
-IHBsbC12aWRlbzEtMnjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAwwqDCoMKgwqDCoMKgIDDC
-oMKgwqDCoMKgwqDCoCAwwqDCoMKgwqDCoMKgwqAgMzE4MDAwMDAwwqDCoCAwwqDCoAo+IMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gLcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBoZG1pLXRtZHPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDLCoMKgwqDC
-oMKgwqAgMsKgwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqDCoCAzOTc1MDAwMMKgwqDCoCAwwqDC
-oAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaGRtaS1kZGPCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgMcKgwqDCoMKgwqDCoCAxwqDCoMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoMKg
-IDE5ODc1MDDCoMKgwqDCoCAwwqDCoAo+IMKgwqDCoMKgwqDCoMKgIHBsbC1wZXJpcGgtYmFzZcKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMsKgwqDCoMKgwqDCoCAywqDCoMKgwqDCoMKgwqAg
-MMKgwqDCoMKgwqDCoMKgIDEyMDAwMDAwMDDCoCAwwqDCoAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IG1idXPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAxwqDCoMKg
-wqDCoMKgIDHCoMKgwqDCoMKgwqDCoCAwwqDCoMKgwqDCoMKgwqAgMzAwMDAwMDAwwqDCoCAwwqDC
-oAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBsbC1wZXJpcGgtc2F0YcKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgMMKgwqDCoMKgwqDCoCAwwqDCoMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoMKgIDEwMDAw
-MDAwMMKgwqAgMMKgwqAKPiBAQCAtMTk5LDcgKzE5OCw3IEBACj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhY2XCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqAg
-MMKgwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqDCoCAzODQwMDAwMDDCoMKgIDDCoMKgCj4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgdmXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoCAwwqDCoMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoMKg
-IDM4NDAwMDAwMMKgwqAgMMKgwqAKPiAtwqDCoMKgwqDCoMKgIHBsbC12aWRlbzDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA0wqDCoMKgwqDCoMKgIDTCoMKgwqDCoMKgwqDC
-oCAywqDCoMKgwqDCoMKgwqAgMjk3MDAwMDAwwqDCoCAwwqDCoAo+ICvCoMKgwqDCoMKgwqAgcGxs
-LXZpZGVvMMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDXCoMKgwqDCoMKg
-wqAgNcKgwqDCoMKgwqDCoMKgIDLCoMKgwqDCoMKgwqDCoCAyOTcwMDAwMDDCoMKgIDDCoMKgCj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgaGRtaTHCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoCAwwqDCoMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoMKg
-IDI5NzAwMDAwMMKgwqAgMMKgwqAKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0Y29uMS1jaDEtc2Ns
-azLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoMKgIDDC
-oMKgwqDCoMKgwqDCoCAyOTcwMDAwMDDCoMKgIDDCoMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgdGNvbjEtY2gxLXNjbGsxwqDCoMKgwqDCoMKgwqDCoCAwwqDCoMKgwqDCoMKgIDDCoMKg
-wqDCoMKgwqDCoCAwwqDCoMKgwqDCoMKgwqAgMjk3MDAwMDAwwqDCoCAwwqDCoAo+IEBAIC0yMjIs
-OCArMjIxLDEwIEBACj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkZS1iZTDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIDHCoMKgwqDCoMKgwqAgMcKgwqDCoMKgwqDCoMKgIDHCoMKgwqDCoMKg
-wqDCoCAyOTcwMDAwMDDCoMKgIDDCoMKgCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAKPiAtwqDCoMKgwqDCoMKgwqDCoMKgIHBsbC12aWRlbzAtMnjCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAwwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqDCoCAwwqDCoMKg
-wqDCoMKgwqAgNTk0MDAwMDAwwqDCoCAwwqDCoAo+ICvCoMKgwqDCoMKgwqDCoMKgwqAgcGxsLXZp
-ZGVvMC0yeMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDHCoMKgwqDCoMKgwqAgMcKgwqDCoMKg
-wqDCoMKgIDDCoMKgwqDCoMKgwqDCoCA1OTQwMDAwMDDCoMKgIDDCoMKgCj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIGhkbWktdG1kc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMsKgwqDCoMKgwqDCoCAy
-wqDCoMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoMKgIDU5NDAwMDAwMMKgwqAgMMKgwqAKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhkbWktZGRjwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIDHCoMKgwqDCoMKgwqAgMcKgwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqDCoCAyOTcwMDAw
-MMKgwqDCoCAwwqDCoAo+IMKgwqDCoMKgwqDCoMKgIHBsbC1hdWRpby1iYXNlwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoMKgIDDCoMKgwqDC
-oMKgwqDCoCAxNTAwMDAwwqDCoMKgwqAgMMKgwqAKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwbGwt
-YXVkaW8tOHjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDDCoMKgwqDCoMKgwqAgMMKgwqDC
-oMKgwqDCoMKgIDDCoMKgwqDCoMKgwqDCoCAzMDAwMDAwwqDCoMKgwqAgMMKgwqAKPiDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBpMnMywqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgMMKgwqDCoMKgwqDCoCAwwqDCoMKgwqDCoMKgwqAgMMKgwqDCoMKgwqDCoMKgIDMwMDAw
-MDDCoMKgwqDCoCAwwqDCoAo+Cj4gUmV2ZXJ0aW5nIHRoaXMgY29tbWl0IG1ha2VzIGl0IHdvcmsg
-YWdhaW4uCgpUaGFuayB5b3UgZm9yIHlvdXIgZGV0YWlsZWQgcmVwb3J0IQoKSSd2ZSBoYWQgYSBm
-aXJzdCBsb29rIGF0IGhkbWktdG1kcyBhbmQgaGRtaS1kZGMsIGFuZCBuZWl0aGVyIHNlZW1zIHRv
-IGJlIGNhbGxpbmcgY2N1X2lzX2JldHRlcl9yYXRlKCkgaW4gdGhlaXIgZGV0ZXJtaW5lX3JhdGUo
-KSBmdW5jdGlvbnMuIFRoZWlyIHBhcmVudHMgaGF2ZSB0aGUgZXhhY3Qgc2FtZSByYXRlcyBpbiB5
-b3VyIGRpZmYsIHNvLCBteSBjdXJyZW50IHdvcmtpbmcgYXNzdW1wdGlvbiBpcyB0aGF0IHRoZXkg
-Y2FuJ3QgYmUgdGhlIGNhdXNlIGVpdGhlci4KCkknbGwgaGF2ZSBhIG1vcmUgZGV0YWlsZWQgbG9v
-ayBvdmVyIHRoZSB3ZWVrZW5kLiBVbnRpbCB0aGVuLCBpZiBhbnlvbmUgaGFzIHNvbWUgaWRlYXMg
-d2hlcmUgSSBzaG91bGQgaGF2ZSBhIGxvb2sgbmV4dCwgcGxlYXNlIHNoYXJlIHlvdXIgdGhvdWdo
-dHMuCgpCZXN0IHJlZ2FyZHMsCsKgIEZyYW5rCgo+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2Ns
-ay9zdW54aS1uZy9jY3VfY29tbW9uLmMgYi9kcml2ZXJzL2Nsay9zdW54aS1uZy9jY3VfY29tbW9u
-LmMKPj4gaW5kZXggOGJhYmNlNTUzMDJmLi5hYzAwOTFiNGNlMjQgMTAwNjQ0Cj4+IC0tLSBhL2Ry
-aXZlcnMvY2xrL3N1bnhpLW5nL2NjdV9jb21tb24uYwo+PiArKysgYi9kcml2ZXJzL2Nsay9zdW54
-aS1uZy9jY3VfY29tbW9uLmMKPj4gQEAgLTQ0LDYgKzQ0LDE2IEBAIGJvb2wgY2N1X2lzX2JldHRl
-cl9yYXRlKHN0cnVjdCBjY3VfY29tbW9uICpjb21tb24sCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgdW5zaWduZWQgbG9uZyBjdXJyZW50X3JhdGUsCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-dW5zaWduZWQgbG9uZyBiZXN0X3JhdGUpCj4+IHsKPj4gK8KgwqAgdW5zaWduZWQgbG9uZyBtaW5f
-cmF0ZSwgbWF4X3JhdGU7Cj4+ICsKPj4gK8KgwqAgY2xrX2h3X2dldF9yYXRlX3JhbmdlKCZjb21t
-b24tPmh3LCAmbWluX3JhdGUsICZtYXhfcmF0ZSk7Cj4+ICsKPj4gK8KgwqAgaWYgKGN1cnJlbnRf
-cmF0ZSA+IG1heF9yYXRlKQo+PiArwqDCoMKgwqDCoMKgIHJldHVybiBmYWxzZTsKPj4gKwo+PiAr
-wqDCoCBpZiAoY3VycmVudF9yYXRlIDwgbWluX3JhdGUpCj4+ICvCoMKgwqDCoMKgwqAgcmV0dXJu
-IGZhbHNlOwo+PiArCj4+IMKgwqDCoCBpZiAoY29tbW9uLT5mZWF0dXJlcyAmIENDVV9GRUFUVVJF
-X0NMT1NFU1RfUkFURSkKPj4gwqDCoMKgwqDCoMKgwqAgcmV0dXJuIGFicyhjdXJyZW50X3JhdGUg
-LSB0YXJnZXRfcmF0ZSkgPCBhYnMoYmVzdF9yYXRlIC0gdGFyZ2V0X3JhdGUpOwo+Pgo+PiBAQCAt
-MTIyLDYgKzEzMiw3IEBAIHN0YXRpYyBpbnQgc3VueGlfY2N1X3Byb2JlKHN0cnVjdCBzdW54aV9j
-Y3UgKmNjdSwgc3RydWN0IGRldmljZSAqZGV2LAo+Pgo+PiDCoMKgwqAgZm9yIChpID0gMDsgaSA8
-IGRlc2MtPmh3X2Nsa3MtPm51bSA7IGkrKykgewo+PiDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgY2xr
-X2h3ICpodyA9IGRlc2MtPmh3X2Nsa3MtPmh3c1tpXTsKPj4gK8KgwqDCoMKgwqDCoCBzdHJ1Y3Qg
-Y2N1X2NvbW1vbiAqY29tbW9uID0gaHdfdG9fY2N1X2NvbW1vbihodyk7Cj4+IMKgwqDCoMKgwqDC
-oMKgIGNvbnN0IGNoYXIgKm5hbWU7Cj4+Cj4+IMKgwqDCoMKgwqDCoMKgIGlmICghaHcpCj4+IEBA
-IC0xMzYsNiArMTQ3LDE0IEBAIHN0YXRpYyBpbnQgc3VueGlfY2N1X3Byb2JlKHN0cnVjdCBzdW54
-aV9jY3UgKmNjdSwgc3RydWN0IGRldmljZSAqZGV2LAo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHByX2VycigiQ291bGRuJ3QgcmVnaXN0ZXIgY2xvY2sgJWQgLSAlc1xuIiwgaSwgbmFtZSk7Cj4+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBlcnJfY2xrX3VucmVnOwo+PiDCoMKgwqDCoMKg
-wqDCoCB9Cj4+ICsKPj4gK8KgwqDCoMKgwqDCoCBpZiAoY29tbW9uLT5tYXhfcmF0ZSkKPj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgIGNsa19od19zZXRfcmF0ZV9yYW5nZShodywgY29tbW9uLT5taW5f
-cmF0ZSwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBjb21tb24tPm1heF9yYXRlKTsKPj4gK8KgwqDCoMKgwqDCoCBlbHNlCj4+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBXQVJOKGNvbW1vbi0+bWluX3JhdGUsCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgIk5vIG1heF9yYXRlLCBpZ25vcmluZyBtaW5fcmF0ZSBvZiBjbG9jayAlZCAt
-ICVzXG4iLAo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGksIG5hbWUpOwo+PiDC
-oMKgwqAgfQo+Pgo+PiDCoMKgwqAgcmV0ID0gb2ZfY2xrX2FkZF9od19wcm92aWRlcihub2RlLCBv
-Zl9jbGtfaHdfb25lY2VsbF9nZXQsCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2Nsay9zdW54aS1u
-Zy9jY3VfY29tbW9uLmggYi9kcml2ZXJzL2Nsay9zdW54aS1uZy9jY3VfY29tbW9uLmgKPj4gaW5k
-ZXggOTQyYTcyYzA5NDM3Li4zMjk3MzRmOGNmNDIgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvY2xr
-L3N1bnhpLW5nL2NjdV9jb21tb24uaAo+PiArKysgYi9kcml2ZXJzL2Nsay9zdW54aS1uZy9jY3Vf
-Y29tbW9uLmgKPj4gQEAgLTMxLDYgKzMxLDkgQEAgc3RydWN0IGNjdV9jb21tb24gewo+PiDCoMKg
-wqAgdTE2wqDCoMKgwqAgbG9ja19yZWc7Cj4+IMKgwqDCoCB1MzLCoMKgwqDCoCBwcmVkaXY7Cj4+
-Cj4+ICvCoMKgIHVuc2lnbmVkIGxvbmfCoMKgIG1pbl9yYXRlOwo+PiArwqDCoCB1bnNpZ25lZCBs
-b25nwqDCoCBtYXhfcmF0ZTsKPj4gKwo+PiDCoMKgwqAgdW5zaWduZWQgbG9uZ8KgwqAgZmVhdHVy
-ZXM7Cj4+IMKgwqDCoCBzcGlubG9ja190wqAgKmxvY2s7Cj4+IMKgwqDCoCBzdHJ1Y3QgY2xrX2h3
-wqDCoCBodzsKPj4KPj4gLS0KPj4KPj4gMi40NC4wCj4+Cj4KPiAtLQo+IE3DpW5zIFJ1bGxnw6Vy
-ZAoK
+From: Kuro Chung <kuro.chung@ite.com.tw>
+
+When the system power resumes, the TTL input of IT6505 may experience
+some noise before the video signal stabilizes, necessitating a video
+reset. This patch is implemented to prevent a loop of video error
+interrupts, which can occur when a video reset in the video FIFO error
+interrupt triggers another such interrupt. The patch processes the SCDT
+and FIFO error interrupts simultaneously and ignores any video FIFO
+error interrupts caused by a video reset.
+
+Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
+Signed-off-by: Kuro Chung <kuro.chung@ite.com.tw>
+Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
+---
+V1->V3: update MAINTAINERS mail list
+V3->V4: remove function it6505_irq_video_fifo_error,it6505_irq_io_latch_fifo_overflow
+V4->V5: customer feedback again, update again, kernel build pass
+V5->V6: remove unrelated patch change, split into another patch
+V6->V7: modify code 0x02 to TX_FIFO_RESET by macro define
+V7->V8: fix merge conflict, change mail from 'cc' to 'to'
+V8->V9: modify patch description, patch summary
+V9->V10: modify patch summary, add Fixes
+V10->V11: modify patch description, add Signed-off-by
+V11->V12: moidfy patch description.
+V12->V13: fix code checkpatch.pl warning
+
+---
+ drivers/gpu/drm/bridge/ite-it6505.c | 73 +++++++++++++++++++----------
+ 1 file changed, 49 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 469157341f3ab..cd1b5057ddfb4 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -1307,9 +1307,15 @@ static void it6505_video_reset(struct it6505 *it6505)
+ 	it6505_link_reset_step_train(it6505);
+ 	it6505_set_bits(it6505, REG_DATA_MUTE_CTRL, EN_VID_MUTE, EN_VID_MUTE);
+ 	it6505_set_bits(it6505, REG_INFOFRAME_CTRL, EN_VID_CTRL_PKT, 0x00);
+-	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, VIDEO_RESET);
++
++	it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, TX_FIFO_RESET);
++	it6505_set_bits(it6505, REG_VID_BUS_CTRL1, TX_FIFO_RESET, 0x00);
++
+ 	it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, RST_501_FIFO);
+ 	it6505_set_bits(it6505, REG_501_FIFO_CTRL, RST_501_FIFO, 0x00);
++
++	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, VIDEO_RESET);
++	usleep_range(1000, 2000);
+ 	it6505_set_bits(it6505, REG_RESET_CTRL, VIDEO_RESET, 0x00);
+ }
+ 
+@@ -2245,12 +2251,11 @@ static void it6505_link_training_work(struct work_struct *work)
+ 	if (ret) {
+ 		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
+ 		it6505_link_train_ok(it6505);
+-		return;
+ 	} else {
+ 		it6505->auto_train_retry--;
++		it6505_dump(it6505);
+ 	}
+ 
+-	it6505_dump(it6505);
+ }
+ 
+ static void it6505_plugged_status_to_codec(struct it6505 *it6505)
+@@ -2471,31 +2476,53 @@ static void it6505_irq_link_train_fail(struct it6505 *it6505)
+ 	schedule_work(&it6505->link_works);
+ }
+ 
+-static void it6505_irq_video_fifo_error(struct it6505 *it6505)
++static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
+ {
+-	struct device *dev = it6505->dev;
+-
+-	DRM_DEV_DEBUG_DRIVER(dev, "video fifo overflow interrupt");
+-	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
+-	flush_work(&it6505->link_works);
+-	it6505_stop_hdcp(it6505);
+-	it6505_video_reset(it6505);
++	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
+ }
+ 
+-static void it6505_irq_io_latch_fifo_overflow(struct it6505 *it6505)
++static void it6505_irq_video_handler(struct it6505 *it6505, const int *int_status)
+ {
+ 	struct device *dev = it6505->dev;
++	int reg_0d, reg_int03;
+ 
+-	DRM_DEV_DEBUG_DRIVER(dev, "IO latch fifo overflow interrupt");
+-	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
+-	flush_work(&it6505->link_works);
+-	it6505_stop_hdcp(it6505);
+-	it6505_video_reset(it6505);
+-}
++	/*
++	 * When video SCDT change with video not stable,
++	 * Or video FIFO error, need video reset
++	 */
+ 
+-static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
+-{
+-	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
++	if ((!it6505_get_video_status(it6505) &&
++	     (it6505_test_bit(INT_SCDT_CHANGE, (unsigned int *)int_status))) ||
++	    (it6505_test_bit(BIT_INT_IO_FIFO_OVERFLOW,
++			     (unsigned int *)int_status)) ||
++	    (it6505_test_bit(BIT_INT_VID_FIFO_ERROR,
++			     (unsigned int *)int_status))) {
++		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
++		flush_work(&it6505->link_works);
++		it6505_stop_hdcp(it6505);
++		it6505_video_reset(it6505);
++
++		usleep_range(10000, 11000);
++
++		/*
++		 * Clear FIFO error IRQ to prevent fifo error -> reset loop
++		 * HW will trigger SCDT change IRQ again when video stable
++		 */
++
++		reg_int03 = it6505_read(it6505, INT_STATUS_03);
++		reg_0d = it6505_read(it6505, REG_SYSTEM_STS);
++
++		reg_int03 &= (BIT(INT_VID_FIFO_ERROR) | BIT(INT_IO_LATCH_FIFO_OVERFLOW));
++		it6505_write(it6505, INT_STATUS_03, reg_int03);
++
++		DRM_DEV_DEBUG_DRIVER(dev, "reg08 = 0x%02x", reg_int03);
++		DRM_DEV_DEBUG_DRIVER(dev, "reg0D = 0x%02x", reg_0d);
++
++		return;
++	}
++
++	if (it6505_test_bit(INT_SCDT_CHANGE, (unsigned int *)int_status))
++		it6505_irq_scdt(it6505);
+ }
+ 
+ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
+@@ -2508,15 +2535,12 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
+ 	} irq_vec[] = {
+ 		{ BIT_INT_HPD, it6505_irq_hpd },
+ 		{ BIT_INT_HPD_IRQ, it6505_irq_hpd_irq },
+-		{ BIT_INT_SCDT, it6505_irq_scdt },
+ 		{ BIT_INT_HDCP_FAIL, it6505_irq_hdcp_fail },
+ 		{ BIT_INT_HDCP_DONE, it6505_irq_hdcp_done },
+ 		{ BIT_INT_AUX_CMD_FAIL, it6505_irq_aux_cmd_fail },
+ 		{ BIT_INT_HDCP_KSV_CHECK, it6505_irq_hdcp_ksv_check },
+ 		{ BIT_INT_AUDIO_FIFO_ERROR, it6505_irq_audio_fifo_error },
+ 		{ BIT_INT_LINK_TRAIN_FAIL, it6505_irq_link_train_fail },
+-		{ BIT_INT_VID_FIFO_ERROR, it6505_irq_video_fifo_error },
+-		{ BIT_INT_IO_FIFO_OVERFLOW, it6505_irq_io_latch_fifo_overflow },
+ 	};
+ 	int int_status[3], i;
+ 
+@@ -2546,6 +2570,7 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
+ 			if (it6505_test_bit(irq_vec[i].bit, (unsigned int *)int_status))
+ 				irq_vec[i].handler(it6505);
+ 		}
++		it6505_irq_video_handler(it6505, (unsigned int *)int_status);
+ 	}
+ 
+ 	pm_runtime_put_sync(dev);
+-- 
+2.25.1
+
