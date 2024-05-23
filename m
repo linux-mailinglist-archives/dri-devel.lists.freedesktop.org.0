@@ -2,113 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE4A8CCAD1
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 04:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A178CCAD7
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 04:51:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68DAF10ECCA;
-	Thu, 23 May 2024 02:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1F010F631;
+	Thu, 23 May 2024 02:51:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YWAg08qW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c1exlQJQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
- [209.85.128.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E727110ECCA;
- Thu, 23 May 2024 02:48:57 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-61af74a010aso17376887b3.0; 
- Wed, 22 May 2024 19:48:57 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 461F010F631;
+ Thu, 23 May 2024 02:51:26 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-df1ceefd864so114737276.0; 
+ Wed, 22 May 2024 19:51:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716432537; x=1717037337; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :feedback-id:from:to:cc:subject:date:message-id:reply-to;
- bh=TJvI5ka+7JgZUuM9P+5dJkLsAfZT/399LMPF7VVV6Qw=;
- b=YWAg08qWoeRdBD/dNzOvuIGdMjjN6X4teY1Z3TPnkyvdiCSWDlt/ux7j7oQ+qIHDCZ
- QE2cd1uao5PqYiE4Lq6mqiNWL77ky0Xtb0B3mTlBM5MtQX+sckp7rMk32z4he5gpmjIU
- cORfvzHBBeboYuFC6VRyCNrC5FKMvNayrckunnDWvOw39S0ZuP77OMK6QhMjc8bqLHHJ
- xyhGaZBnxomRhV9H8JZCcFCb4h2z2R+y9JxZTGh8S17Kk34pVNrBW1/ThQHQcId7M0Ob
- qF2ZkhggTZjoRGsX1cAdgQsjd8cNx17Mi1rMjhjZ/z3o8QCDXMzN+Iol0PoRg/vrDd2c
- DmjQ==
+ d=gmail.com; s=20230601; t=1716432685; x=1717037485; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=v5LuDwEZakdwbwY0ym0Hwpmt3ZIkNDD5vuPYxuRQOvQ=;
+ b=c1exlQJQ+LjTclNIhriPZ7fBvC+TIM1RfjW6qaGbN8dcuST3LUB9X1kkibxkaKopfo
+ IE8xyZWgUEBFxotbtE7WyrfjqmCXfLuG2wbDH8XFWJmLfWUrkv1EgaF/hslk3RkwZs2I
+ JBJuFnJFt2yt3PSp/3kUp6drG5l3wmgqDkjN2Nzn1IdxgC9rcJ/FtPVsvxz6OKiwCqml
+ U77MNP8tp4NEDJM2rF+PEiA7wKZ2NuYCi3p6gtyF+cAr8HWpu7KowOpurkvzmcqzalRH
+ AiGV25kdzwy092LP4fJUITgEo3H3ThjXhSGvp5MLckb8MxSWbm0ehbzbctwU/NUuZRBl
+ x/dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716432537; x=1717037337;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TJvI5ka+7JgZUuM9P+5dJkLsAfZT/399LMPF7VVV6Qw=;
- b=CCsZlpsQs9aiEdHl6Rk5JGsn1uhFv6BZan/2Fjc+PC5y9C5l6FFUqAreDxsMlhFZeZ
- GeNKuqRjmhzoGuDyAoNoTog8uDzS1t1I8tsD1XBJ7J8I1frUq1JsRW3sFTju3uv2D08k
- Sk1SeOEYrrnW1MJHGiMU2gcmJgORX9/PU+gTvZ2c8XSF7Kn+SudtiUCN5NTO22PENMRS
- k1H1XfYLPkn8TtNcLTSeCvORdtOGUn4UHMlAvtRt75CZCaKd3vySh6c3stHpcEdsNdCI
- n9nUqXmq4r0qEQ+ioWnEmBk7BAXe7A8v9E/knurSttQgp66Ocyu8T3V9fvSHeAwF1QqR
- 0Pyg==
+ d=1e100.net; s=20230601; t=1716432685; x=1717037485;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=v5LuDwEZakdwbwY0ym0Hwpmt3ZIkNDD5vuPYxuRQOvQ=;
+ b=rOypYOAaqE7lAWZbb4DmTaM0ci2Z0vq/NTJgV2SHlkW6cScIHOdpnm96AFV3JTEJrq
+ 8ff7QjZ4logCSNimPGKAKRmjH5fT3NhMfARzjZnq4/QugQfDDV+qDvqZd8haB56UJ9EH
+ UXxVzJfdGftQXO2K9SOC+pUpcOH/ngcNK9+UAFbk0afx2sj4k8SXc0KwAm9p99Y0y6XI
+ XlFSXom3F/MHLvMIkbElcUgDhKdbPrIicv/N8Fgp32Le3s9QLwdpENPhTDoMmpGUnhUo
+ xvY39YhuKvM+k0rlq5nzmoEhmie3ArdJbc0jDpvmea+pOZok8ZRA/Pjqe/Uz7HmNkFde
+ Tdqw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX5ZQLGAtvXfwUkr+kP6U5cOuh4c+aiK6rG1jTPy3sAhL4fXmL4qRHhb0p0jyryGLW0LqspZiIS+xlbQqUDfl4D0pZysfpUKWnGmRkYXn+lUwSAcnsigwPn42BMD2J8t6g2LbFGxyp5xmp0zTg9Pw==
-X-Gm-Message-State: AOJu0Yxw1K1WCzUkIo468okM3VcZ/ShWQDFTMOTX6ezL3ygxRQx7ckEm
- NhjYBwmA/cAIjrvj5n8MSAoEzLKgUUB4yYltvoL5hpRsjKFdzDNq
-X-Google-Smtp-Source: AGHT+IH0dxdXbgmC4rYlR/hwUOO+Wp8dfkUpjfFuvGBklHjUOcOUKupWE7JhBWZ/Fbp+d7zv5g0sWA==
-X-Received: by 2002:a05:690c:660c:b0:627:88fc:61e4 with SMTP id
- 00721157ae682-627e46c77a6mr47090767b3.1.1716432536685; 
- Wed, 22 May 2024 19:48:56 -0700 (PDT)
-Received: from fauth2-smtp.messagingengine.com
- (fauth2-smtp.messagingengine.com. [103.168.172.201])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6ab9335edf3sm486806d6.54.2024.05.22.19.48.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 May 2024 19:48:56 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailfauth.nyi.internal (Postfix) with ESMTP id 5D3BB1200043;
- Wed, 22 May 2024 22:48:55 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 22 May 2024 22:48:55 -0400
-X-ME-Sender: <xms:l65OZr9JgWgOPevW5yJppccZOOcaKoF1y1Q-zOeEZOswlQ-KqF7COw>
- <xme:l65OZnscWI1OsvTggyuLZVJO_Bncv7ufzMNE5V3hj-DMKkUJf0KNMJLGKWdnpDbTf
- f1Llj0I-VdnK9fASA>
-X-ME-Received: <xmr:l65OZpD63joYbDlA02gOpBHu68Z8AqYCVeGfdTJcU5aXuCrkC93E0IM-2w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeihedgiedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeeuohhq
- uhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrf
- grthhtvghrnhepveffgedtgfetvdfgudfhgfehgffgveevvdelkefhjeeiudffkefhhfdv
- heeljeefnecuffhomhgrihhnpehgihhthhhusgdrtghomhdptghhrhguvghvrdhrshdpkh
- gvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
- lhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqie
- elvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdr
- tghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:l65OZnd7sYcwsq4EahySDVP_rcHk5LbPyZCq3gVR9UPROv5R8kxsEA>
- <xmx:l65OZgNAdnvMAm4YjgLWf2ArjzaV4-wkunlqPk7laIC3sP2UbPJumw>
- <xmx:l65OZpmPhuz8l8B2xc5bBebr2iev-w4i7F-whjk-ZadLf6TOxiFOjQ>
- <xmx:l65OZqsr-BuwfODBOdojAbsWIzKP4m-LGWgduDHqXUdk4bT6XG6DYA>
- <xmx:l65OZqsGO3Q7ks2k17BChTc3GSPOdJHTB9Od0O7mkbGZCU-g6zbTQKVf>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 May 2024 22:48:54 -0400 (EDT)
-Date: Wed, 22 May 2024 19:48:53 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: FUJITA Tomonori <fujita.tomonori@gmail.com>
-Cc: pstanner@redhat.com, dakr@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, ojeda@kernel.org, alex.gaynor@gmail.com,
- wedsonaf@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- benno.lossin@proton.me, a.hindborg@samsung.com,
- aliceryhl@google.com, lina@asahilina.net, ajanulgu@redhat.com,
- lyude@redhat.com, gregkh@linuxfoundation.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: Re: [RFC PATCH 7/8] rust: add firmware abstractions
-Message-ID: <Zk6ulWF72cbp14O3@Boquns-Mac-mini.home>
-References: <20240520172422.181763-4-dakr@redhat.com>
- <20240522.085334.1009573112046880609.fujita.tomonori@gmail.com>
- <35fef820ed6e67f2203e78735fc9e15248436221.camel@redhat.com>
- <20240523.081513.81513679981916366.fujita.tomonori@gmail.com>
+ AJvYcCXnrw/gkYEgJcQP4v0ghzqDkYuxqkjbb2cou8KDlPQutfm/rEg4zNvLVKgOkUL6vin31cyPGDFCNfD9FaIbZ2FLI/VEFvRpmTcbZVUvrJdldW4ychJ0GH7NqQjckgDOb3DovxkR51y3fKs4RX4IcA==
+X-Gm-Message-State: AOJu0YwHe8xx4mlG/ShGz8WBK+/porxEaAd0IqSI63TyapXKpJE4RJEV
+ jepCnd8kfOpL813yMIV0r05PlBZd79QfoquUkjiryAxn5x1x3i6pef7CPPbOikdKIsnroKYonT1
+ 01SxuqHLfaHeN1yCo/p3lG6JrSrM=
+X-Google-Smtp-Source: AGHT+IGoGrlyVl36Z3U/uNce2TSp6L62rcU3gkTHLc+sbhgiwRZ9seU1gNOO89339GRoQiUoYwsYHFD13z2NjWmF818=
+X-Received: by 2002:a05:6902:2003:b0:df4:d863:93f1 with SMTP id
+ 3f1490d57ef6-df4e092c8acmr3589932276.0.1716432684934; Wed, 22 May 2024
+ 19:51:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240523.081513.81513679981916366.fujita.tomonori@gmail.com>
+References: <fa885eca-d7e6-415a-8a08-9103b002c6bb@amd.com>
+ <20240521051140.30509-1-rinoandrejohnsen@gmail.com>
+ <17782a6e-db84-4c20-874a-342b9655ffc5@amd.com>
+ <CAACkh=-B-jH6g7KY7Nn_7Y_+gHPQ7G5Z5AZ0=a=_ifjcmsorcw@mail.gmail.com>
+ <86410711-9b88-448c-9148-109f81b1ca55@amd.com>
+ <CAACkh=9hY7eg_uuH7Psm=XJfSzwQTvzs8bvOXQ=wwkMPrC44SA@mail.gmail.com>
+ <666e36b7-5379-46ef-a16b-00ec499fb42c@amd.com>
+ <1XiLpoWd2E_COrHNl9BYkmCXkUKK6Bv1wibdFxiw3Vi6AQOPAIhrIMPNEZmmKAp9yxC8Er4DEMqOqjshMgRqtpV3UkS7MN2OjCsDjllvdRE=@emersion.fr>
+In-Reply-To: <1XiLpoWd2E_COrHNl9BYkmCXkUKK6Bv1wibdFxiw3Vi6AQOPAIhrIMPNEZmmKAp9yxC8Er4DEMqOqjshMgRqtpV3UkS7MN2OjCsDjllvdRE=@emersion.fr>
+From: =?UTF-8?Q?Rino_Andr=C3=A9_Johnsen?= <rinoandrejohnsen@gmail.com>
+Date: Thu, 23 May 2024 04:51:13 +0200
+Message-ID: <CAACkh=9RBVwX1-ENki9XiscH3XYzw8buab8ZFTyicTn8Yc84oQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amd/display: Add pixel encoding info to debugfs
+To: Simon Ser <contact@emersion.fr>
+Cc: Mario Limonciello <mario.limonciello@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ alexander.deucher@amd.com, Harry Wentland <harry.wentland@amd.com>, 
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Hersen Wu <hersenxs.wu@amd.com>, 
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Wayne Lin <wayne.lin@amd.com>, 
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Fangzhi Zuo <jerry.zuo@amd.com>, Tom Chung <chiahsuan.chung@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,81 +97,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 23, 2024 at 08:15:13AM +0900, FUJITA Tomonori wrote:
-> Hi,
-> 
-> On Wed, 22 May 2024 09:37:30 +0200
-> Philipp Stanner <pstanner@redhat.com> wrote:
-> 
-> >> > +/// Abstraction around a C firmware struct.
-> >> > +///
-> >> > +/// This is a simple abstraction around the C firmware API. Just
-> >> > like with the C API, firmware can
-> >> > +/// be requested. Once requested the abstraction provides direct
-> >> > access to the firmware buffer as
-> >> > +/// `&[u8]`. Alternatively, the firmware can be copied to a new
-> >> > buffer using `Firmware::copy`. The
-> >> > +/// firmware is released once [`Firmware`] is dropped.
-> >> > +///
-> >> > +/// # Examples
-> >> > +///
-> >> > +/// ```
-> >> > +/// let fw = Firmware::request("path/to/firmware.bin",
-> >> > dev.as_ref())?;
-> >> > +/// driver_load_firmware(fw.data());
-> >> > +/// ```
-> >> > +pub struct Firmware(Opaque<*const bindings::firmware>);
-> >> 
-> >> Wrapping a raw pointer is not the intended use of Qpaque type?
-> >> 
-> > 
-> > What is the intended use?
-> > As I see it, all uses wrapp some binding::* – but a rawpointer to a
-> > binding shouldn't be wrapped by it?
-> 
+Looked through the patch series from Andri Yngvason and that does
+exactly what I wanted in the first place. I think that the patch
+series should be encouraged to be merged in as fast as possible.
 
-Thank you Tomo for calling this out!
+For the patch I have submitted, it stands on its own, since the patch
+series from Andri Yngvason does not include anything in the debugfs.
+This means whenever or not the patch series gets merged, at least
+those with an AMD gpu can figure out which pixel encoding that is
+used.
 
-And yes, using `Opaque` on a pointer is weird. A `Opaque<T>` is
-`UnsafeCell<MayUninit<T>>`, `UnsafeCell` means the inner `T` may be
-accessed by C code at anytime, and `MayUninit` means that the inner `T`
-may not be properly initialized by the C code. So as the doc says:
+Rino
 
-	This is meant to be used with FFI objects that are never
-	interpreted by Rust code.
-
-that is, Rust code should never create a `&T` or `&mut T`, it should
-only be accessed with `Opaque::get()` or its friends (i.e. accessing it
-via a raw pointer), much like a black box to Rust code in some sense.
-
-Hence putting `Opaque` on a raw pointer is not what you want to do.
-
-> If I understand correctly, it's for embedding C's struct in Rust's
-> struct (as all the usage in the tree do). It gives the tricks for
-> initialization and a pointer to the embedded object.
-> 
-> The C's firmware API gives a pointer to an initialized object so no
-> reason to use Opaque.
-> 
-> With such C API, Rust's struct simply uses raw pointers in old rust
-> branch. For example,
-> 
-> https://github.com/Rust-for-Linux/linux/blob/rust/rust/kernel/chrdev.rs#L28
-> 
-> struct Cdev(*mut bindings::cdev);
-> 
-> 
-> Another choice that I know is NonNull:
-> 
-> https://lore.kernel.org/lkml/20240415-alice-mm-v5-4-6f55e4d8ef51@google.com/
-> 
-> pub struct Page {
->     page: NonNull<bindings::page>,
-> }
-
-Both are reasonable for temporary use, although, we could generify the
-"wrapping on pointer which owns the underlying object" in the future.
-
-Regards,
-Boqun
-
+On Wed, May 22, 2024 at 3:40=E2=80=AFPM Simon Ser <contact@emersion.fr> wro=
+te:
+>
+> On Wednesday, May 22nd, 2024 at 15:36, Mario Limonciello <mario.limonciel=
+lo@amd.com> wrote:
+>
+> > > To be perfectly honest with you, I haven't given that much though. I
+> > > used the 'bpc' and 'colorspace' property in debugfs, since I could no=
+t
+> > > find that information anywhere else. And since I also needed to verif=
+y
+> > > the pixel encoding being used, I added it where those other values
+> > > were. That made for a simple and easy addition for this property.
+> > >
+> > > If you want me to do this differently, let me know. And please point
+> > > me to the standardized DRM property where I should expose the values.
+>
+> FWIW, there is a patch from Andri to add a similar (?) property:
+> https://lore.kernel.org/dri-devel/20240115160554.720247-1-andri@yngvason.=
+is/
+>
+> The patch also allows user-space to set the "pixel encoding".
