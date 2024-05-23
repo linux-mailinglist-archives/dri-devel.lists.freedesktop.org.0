@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82C28CD627
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 16:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78EA58CD62A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 16:52:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A08F10E5C1;
-	Thu, 23 May 2024 14:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3979A10E10F;
+	Thu, 23 May 2024 14:52:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ToYIUUJn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J5KooSen";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37F7E10E3D8
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 14:51:29 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A769210E3F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 14:52:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5DA8162831;
- Thu, 23 May 2024 14:51:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1FAAC2BD10;
- Thu, 23 May 2024 14:51:27 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 257D5CE1395;
+ Thu, 23 May 2024 14:52:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47D0EC32781;
+ Thu, 23 May 2024 14:52:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716475888;
- bh=tcck0ca+KN6GJNPVstAL9bfBjAJE/Xw2wl7pB/dDWUg=;
+ s=k20201202; t=1716475924;
+ bh=0n5OH0k+GRei5q9zpND2pbMT2lTvBmQGE4laZAvKQMo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ToYIUUJneDWyFjY98OWXFHoRlih1OGSXJpTIzVv8QFeh35tdPT+2kcZfzf7SP9dFx
- ImQuQJgNTBfUzpR5Z5OLL5IMtUOfnyha+vAHgBY1AE1xpTXV31ArM83LgaoE7mvsMF
- 9EaqkCtPIpkbQF234BM+D9lPfySgjvccDewhdDRtygb8XEFXiaVlh8m0gvjWdz/6DY
- Mdc2TWQyCJCobCRAmmTnQoMqs+dWG0PSNXajHZv/3r/HvQ19/CIo2IXXF9kKNcm3Wj
- 9vSfOtAg6tJl1vWIn/KONpjxiad/jpjZOI0pNjxAssS/y9b62R8BesBOP6XeNjw/rb
- M6m1dzcdX5LcA==
-Date: Thu, 23 May 2024 16:51:25 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Simon Ser <contact@emersion.fr>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Pekka Paalanen <pekka.paalanen@haloniitty.fi>, 
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ b=J5KooSenMd9y77wOzWwd6Ck6YbUB2Z01Il0y3de4MXrjywybDW42k9Cq3Su8fsMMF
+ +u4jh+nwcK1orQSTRR+HA94GzWNvLBC2yoBehb9/NNGDt+1+LG6sKxoGADspETrzP+
+ CCgledNtbdNFb1qGcjZPy8FARa75nPs6cNnr1ULmrl7x1DDNta6V4YvmiQHJZOqM3A
+ 8umaZlquBRrWw1C7CsMjIzWg0idNdqvuoBZFXOd0RDw9j95UDK/eVi1FjM54i1eoHk
+ 9+dD92MQeP2chxN5Xk9QwicVGUSLAQINvu2+DUpe41UV2PBjHA5s3tfsDeNQcpkMNY
+ QRZgpgD8pRo6w==
+Date: Thu, 23 May 2024 15:51:58 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Detlev Casanova <detlev.casanova@collabora.com>
+Cc: linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>
-Subject: Re: UAPI Re: [PATCH 1/3] drm: Add DRM_MODE_TV_MODE_MONOCHROME
-Message-ID: <20240523-graceful-shellfish-of-development-db7bd8@houat>
-References: <20240216184857.245372-1-dave.stevenson@raspberrypi.com>
- <20240216184857.245372-2-dave.stevenson@raspberrypi.com>
- <20240221110751.48da8190@eldfell>
- <b43rdl7yebxn6z3pvyeyxbikccr7umrojo5kqw5i3ybloxktso@de4oxsbskkwp>
- <20240226171143.27e60c30@eldfell>
- <CAPY8ntCHi8joN-w3PNjMj31FSkCjqmJ4ZyhSDFZ1-PnfL4+FrQ@mail.gmail.com>
- <5us3AK9XJ5zu1AOKQeZxKWsK0f6Xtm7vHWttRTFPRo57Ph5WO62deVIK8TrkQIFmjFMrn-a2qusgP3W74dV6SKTA5OdTt4zncR7J2qQ_Qck=@emersion.fr>
- <20240228-nice-flat-cormorant-badff7@houat>
- <ttd0tkA6ym5NBhHqKQFa88BjxMoctTVJd03aIqnSyXZ0ve0jPPrlkTVmUNWIQGNyNBpFvxzplydGqGFQa5VaYuf5mm1n9dEGDM5MG25j_4Q=@emersion.fr>
- <ZeBh3N4uttG53qhU@phenom.ffwll.local>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] dt-bindings: display: vop2: Add VP clock resets
+Message-ID: <20240523-climate-cattail-e5e1fc8ff0a3@spud>
+References: <20240522185924.461742-1-detlev.casanova@collabora.com>
+ <20240522185924.461742-4-detlev.casanova@collabora.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="mi5wodqhzroznsoe"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jgeG1HuZXzpfSjmQ"
 Content-Disposition: inline
-In-Reply-To: <ZeBh3N4uttG53qhU@phenom.ffwll.local>
+In-Reply-To: <20240522185924.461742-4-detlev.casanova@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,55 +74,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---mi5wodqhzroznsoe
+--jgeG1HuZXzpfSjmQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, May 22, 2024 at 02:57:50PM -0400, Detlev Casanova wrote:
+> Add the documentation for VOP2 video ports reset clocks.
+> One reset can be set per video port.
 
-Reviving this thread because I'm not sure what the outcome was.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-On Thu, Feb 29, 2024 at 11:52:12AM GMT, Daniel Vetter wrote:
-> > The only thing I'm saying is that this breaks the usual DRM requirement=
-s.
-> > If, as a maintainer, you're fine with breaking the rules and have a good
-> > motivation to do so, that's fine by me. Rules are meant to be broken fr=
-om
-> > time to time depending on the situation. But please don't pretend that
-> > modetest/xrandr is valid user-space to pass the rules.
->=20
-> I think it bends it pretty badly, because people running native Xorg are
-> slowly going away, and the modetest hack does not clear the bar for "is it
-> a joke/test/demo hack" for me.
->=20
-> I think some weston (or whatever compositor you like) config file support
-> to set a bunch of "really only way to configure is by hand" output
-> properties would clear the bar here for me. Because that is a feature I
-> already mentioned that xrandr _does_ have, and which modetest hackery very
-> much does not.
+Cheers,
+Conor.
 
-The expectation (and general usage) for that property was that it was
-set by the kernel command line and then was forgotten about. Old TVs
-require one mode and that's it, so it doesn't make much sense to change
-it while the system is live, you just want the default to work.
-
-So it's not really a matter of "the user-space code should be open"
-here, there's no user-space code, and there will likely never be given
-that it's mostly used to deal with decades-old systems at this point.
-
-Maxime
-
---mi5wodqhzroznsoe
+--jgeG1HuZXzpfSjmQ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZk9X6AAKCRAnX84Zoj2+
-dvpCAYDUeHGsrgiR2qRe/wXK8ZIpvluv3J8COc4dMwZx3bG5p96YcOShgiPTnJU/
-ZHwk5AkBgO7rusLypnQqrophLuLXIHd1SFDQEZiPLZO7Wd/mkOoXM8zorNQwhiQa
-+/WRM9mLJw==
-=HVRd
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZk9YDgAKCRB4tDGHoIJi
+0j0rAP0VlFrFaDu+/KLFAsK956xCJey9qaStyOOlXTICQTGV6wEA/N9OOl/tmZru
+MK6sP4YDord/71YqPTb6mQhi9OnMlAk=
+=t2FA
 -----END PGP SIGNATURE-----
 
---mi5wodqhzroznsoe--
+--jgeG1HuZXzpfSjmQ--
