@@ -2,104 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45478CCE57
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 10:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F128CCECB
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 11:10:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6996A10E26A;
-	Thu, 23 May 2024 08:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95F4410E148;
+	Thu, 23 May 2024 09:10:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="xYmm3/yh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dZ47oO80";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E9AC10E239
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 08:43:08 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-420298ff5b1so68713965e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 01:43:08 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8243910E175
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 09:10:14 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2e576057c2bso109036531fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 02:10:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1716453786; x=1717058586;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Qj6N1XCYi9OkzD42tPPAcjKt9khuBDH5NgwwQe/Q8Ps=;
- b=xYmm3/yhRfCzwm6cMePzGRUEtamzg62xdxIbaKJymaANgW5/hAGvAZO6RYY5avQWko
- jtMWhFS59rqckPwmX6lUs7RFNG+0S1EZOLehqQwsNz/owZFfabquCEjC9Rtg6Mgwa4Fp
- agGxINmR9rB9p9F3gLONUT8RZilFItZxx3L7WEIzKXOddTPZBgUWJSZfMqssJb+ZM0vh
- BMS1opXunY7crZY2DK8oIKLhFZ4G5SQluiV9NPePxRJA9Of8D4elW/D80WF3bdAl6UPM
- /h3MZWdSVg3GwV7DVC5+tOcnRQs9jSIB5iBhkdYSskOGUZGNXGmuFmzd3MU29u0/NE3U
- lILw==
+ d=linaro.org; s=google; t=1716455412; x=1717060212; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=yLbNbEeZZx+Y9UagHOzdXnc5AHkeTqV4LNqc32hMk7o=;
+ b=dZ47oO80EMCJOBmYirdk3FK9Klo28/9vjthelRwy37DIIvEbLuGhOY65Q9KuSeYSJr
+ YxE1DAhg4gTt8HOxmI4Z4m30Lq7LuKsL5iwnwaWIM//A6XynbrZysqnFYX/Hp+6pTV4d
+ OY2/Z9qVEtH7X/U4xGfbXM17vuidbsyNZT9zk0JEfQ0dNkegxZB0ppdsJPACfhpnEuzg
+ sZH9ynUmydroSHFEke3Z2rRnczKFcY6FbgcBCT9wDPLuVFrr90DAgNw+8yEi6mBu8PVe
+ H8tPfoF1pfbE3UVStHkmSSn05dNY9s5pYJ2QnQnhy7RHoQNM8dP+7KqOq7sXYhIVk/u4
+ uVJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716453786; x=1717058586;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Qj6N1XCYi9OkzD42tPPAcjKt9khuBDH5NgwwQe/Q8Ps=;
- b=sxczZiekeGCGK85tZ0MjUH2VX9Lcu9tbntOUBDc4AbJDw1kgZ+PQLs7MbOZtXyuDbR
- zn5U0E4ENlAhEOKZHwRXoYAw/nQ+PowrCDYmZGP2ZaNMlHIVUtqBdNX6ePlaYqt/9RDz
- 6FTYj6QfgjW3nfmLnvPTLTmxl2XLAu4Xws7/Tpdq5nyVrp9mhhtqaE7Ey+yybOVwaSzk
- mWM35RlxEEck/IP2sBUjGLH/Ql7o/4TkXwlwV9hHHiQQRBqZujv79SxNJQlgcO7kW1Di
- Sy2OWc+A2ds+gV+IRO1lqcMBMvP+fZlgUupdePgQW7hc6kCJIILs07kvK49+tiLa5qG2
- zV2w==
+ d=1e100.net; s=20230601; t=1716455412; x=1717060212;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yLbNbEeZZx+Y9UagHOzdXnc5AHkeTqV4LNqc32hMk7o=;
+ b=KsS0FAZjkmGcscfGv/CIO8oJYkvry5dZ8vF8R1/7TTVXEQF5xvl/XCqSqrFRIO06dk
+ +ayHPrjjGzLJUYwOczjSftnWsILGH0s+bnnAy+S8WNQNnz60yea/U7FD426Yd1NBj1GJ
+ 1Dax+At9wGwVeYXsAvuVS7C02Y87uh5P9/OiPdHQUgfaYXlVlr68ffm2XUaQspFBwoGx
+ F8Z92c//KzbtTnJJzr0qLZPLaBNy2fr7urYWMjLT1UAehVVLhOH9Yu+ktqCOz2yhEsHt
+ 99CFkSm+1bhpC8lg3Rld+yjFQc+V7uYNI/AKTjz16OcWZ1pGf4U91a0QmlINqWQIVKCy
+ OcpA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVIbQkdJp6GFEydUlVSI6QiZIAvUGELSqp9BwvYNmJ5XNnQnNPYNL78RugWjgpYX8nm5oGNab6FSFoAK8sMCz2QrcQNiQ4R/17QVXbyZwrh
-X-Gm-Message-State: AOJu0YwaBsng0tqf5vgJFOfWhdNJILdae4CSS5fxbnPn/ErAr68d7eXA
- mHJcvBjq9jinmQqusyaWEH0/GaTETyaL7dYEGwH+q9G5zORXU6TU1tHE7sZRmeo=
-X-Google-Smtp-Source: AGHT+IFMxan85JMvlhZzNK1inKnN/olhsGGF3fE8oyneffHwEACsul7Buo/M9+QQDSM/sWz6EKTdlQ==
-X-Received: by 2002:a05:600c:21d5:b0:420:2cbe:7f16 with SMTP id
- 5b1f17b1804b1-420fd3726d5mr44037415e9.34.1716453786677; 
- Thu, 23 May 2024 01:43:06 -0700 (PDT)
-Received: from [127.0.1.1] ([93.5.22.158])
- by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-42100f3e03asm18556645e9.17.2024.05.23.01.43.05
+ AJvYcCVYRKJd9O4BQja+uxYD3pQLssIXB5b218Y6g3KxkPc4gWVCZccIcp4mUk04TTKW9RFUmUPH3CrVMipz8+TIuAaMo2uEa4518UlqFt0SisWG
+X-Gm-Message-State: AOJu0YyvV+i8TTlWap1/0JaHbBR+F9PrN+m9w5lA0tWIouNRexbdnK3g
+ axAIiXGE7LxLGsR/zYLvnz/ykZranWJuxHT9koMX26eftNfCJUEnXRa4KIkMh44=
+X-Google-Smtp-Source: AGHT+IGdSgWnLFMgir035AHyOCVqS5scq5u8M8DlUryO/CIUdmVczkNrL4TJ+hWCvcPS/dK0wrOj/Q==
+X-Received: by 2002:a05:6512:44b:b0:51e:646d:fe3b with SMTP id
+ 2adb3069b0e04-526c1213db4mr3455906e87.60.1716455412389; 
+ Thu, 23 May 2024 02:10:12 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-521f35ad640sm5253516e87.61.2024.05.23.02.10.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 May 2024 01:43:06 -0700 (PDT)
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Thu, 23 May 2024 10:42:45 +0200
-Subject: [PATCH v5 16/16] arm64: dts: mediatek: add audio support for
- mt8365-evk
+ Thu, 23 May 2024 02:10:11 -0700 (PDT)
+Date: Thu, 23 May 2024 12:10:10 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v14 06/28] drm/tests: Add output bpc tests
+Message-ID: <p6mpuna2ubfpqyfogblvknxadga2uqnm3lsocwol4npwmgw66h@42yt4b5zhk5y>
+References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240226-audio-i350-v5-16-e7e2569df481@baylibre.com>
-References: <20240226-audio-i350-v5-0-e7e2569df481@baylibre.com>
-In-Reply-To: <20240226-audio-i350-v5-0-e7e2569df481@baylibre.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- Alexandre Mergnat <amergnat@baylibre.com>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3674; i=amergnat@baylibre.com; 
- h=from:subject:message-id;
- bh=UuxD5pLm61p5B/k8KPZWLUQ0/L/5Kc/UQPpFC3tu7EE=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmTwGAyKEOwovbtoYcOuUP+1kNqMlqBHxH+fBJIpyW
- ZwNDuz2JAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZk8BgAAKCRArRkmdfjHURegwD/
- 9pP2p6C/mj0ZjZa0DuLTwTiFr0fCqnc53uXDOszeVilSx9V0w78yKnj0jmYLzMIeD795tuMlag5dwI
- aXHddglxL1jl8eZLslBYLDB60NEsBTzaw1ZCoMwEyAQ/Jjjs+QROVQL5KkoxNGRRWvx/D+fifhpwKy
- A26wfqqJroPS22VzW5IExhKlbtzWhXaXqABt5RWDQTc7OiQ9W/97F6gtGrxbK1sjD+4j3PPiTnpdIA
- WQL0k7JUDhG6TqbY8HUwhbQRMas1bl0nCAA3mwc0RtGtQxdVTDEg6T6zpMogA2JxsKTdOaT/B+QkzH
- YBbmE1/gcL/ptpvG9Hsma1Im7JoEPDpWjAJ/6jaiPvNp0ANU01fsbxz9hwlvKTPcQeug5bSp+8qxcL
- k2M88IiQiGAraDEAcATnArTpe+FHHhGJJ4O8BBda+jbmdvbTDcbYsBBViTvppuN+FTuUIal7XNHH+O
- RmfW6a4PLQEDwwNa5OjD+yRh9win0SJeCVmQ1uSqtRrhc8JeJ4WE8OPDzEQPOtTbcHzUjA3oXTBx/G
- 0tthCBA0/+lwhPVFXrq/MIHOBYNJVnPRiprUBiBjBvnrjzhrmDvU5qllQ1gneBokm+MDse+e/G9q40
- jGbeydbNzcr4b9XzMzt1sO8g8zZ8o9AS7/7Sn7jE6DcHgNByoAaIN4jTayag==
-X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
- fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,134 +97,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the sound node which is linked to the MT8365 SoC AFE and
-the MT6357 audio codec.
+On Tue, May 21, 2024 at 12:13:39PM +0200, Maxime Ripard wrote:
+> Now that we're tracking the output bpc count in the connector state,
+> let's add a few tests to make sure it works as expected.
+> 
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/Kconfig                            |   1 +
+>  drivers/gpu/drm/tests/Makefile                     |   1 +
+>  drivers/gpu/drm/tests/drm_connector_test.c         | 140 +++++++
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 438 +++++++++++++++++++++
+>  drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 +++++
+>  5 files changed, 686 insertions(+)
+> 
 
-Update the file header.
-
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
----
- arch/arm64/boot/dts/mediatek/mt8365-evk.dts | 89 +++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-index 50cbaefa1a99..1d5457f9a4c2 100644
---- a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-@@ -4,6 +4,7 @@
-  * Authors:
-  * Fabien Parent <fparent@baylibre.com>
-  * Bernhard Rosenkränzer <bero@baylibre.com>
-+ * Alexandre Mergnat <amergnat@baylibre.com>
-  */
- 
- /dts-v1/;
-@@ -86,6 +87,28 @@ optee_reserved: optee@43200000 {
- 			reg = <0 0x43200000 0 0x00c00000>;
- 		};
- 	};
-+
-+	sound: sound {
-+		compatible = "mediatek,mt8365-mt6357";
-+		pinctrl-names = "default",
-+				"dmic",
-+				"miso_off",
-+				"miso_on",
-+				"mosi_off",
-+				"mosi_on";
-+		pinctrl-0 = <&aud_default_pins>;
-+		pinctrl-1 = <&aud_dmic_pins>;
-+		pinctrl-2 = <&aud_miso_off_pins>;
-+		pinctrl-3 = <&aud_miso_on_pins>;
-+		pinctrl-4 = <&aud_mosi_off_pins>;
-+		pinctrl-5 = <&aud_mosi_on_pins>;
-+		mediatek,platform = <&afe>;
-+	};
-+};
-+
-+&afe {
-+	mediatek,dmic-mode = <1>;
-+	status = "okay";
- };
- 
- &cpu0 {
-@@ -178,9 +201,75 @@ &mt6357_pmic {
- 	interrupts-extended = <&pio 145 IRQ_TYPE_LEVEL_HIGH>;
- 	interrupt-controller;
- 	#interrupt-cells = <2>;
-+	vaud28-supply = <&mt6357_vaud28_reg>;
-+	audio-codec {
-+		mediatek,micbias0-microvolt = <1900000>;
-+		mediatek,micbias1-microvolt = <1700000>;
-+	};
- };
- 
- &pio {
-+	aud_default_pins: audiodefault-pins {
-+		pins {
-+			pinmux = <MT8365_PIN_72_CMDAT4__FUNC_I2S3_BCK>,
-+				 <MT8365_PIN_73_CMDAT5__FUNC_I2S3_LRCK>,
-+				 <MT8365_PIN_74_CMDAT6__FUNC_I2S3_MCK>,
-+				 <MT8365_PIN_75_CMDAT7__FUNC_I2S3_DO>;
-+		};
-+	};
-+
-+	aud_dmic_pins: audiodmic-pins {
-+		pins {
-+			pinmux = <MT8365_PIN_117_DMIC0_CLK__FUNC_DMIC0_CLK>,
-+				 <MT8365_PIN_118_DMIC0_DAT0__FUNC_DMIC0_DAT0>,
-+				 <MT8365_PIN_119_DMIC0_DAT1__FUNC_DMIC0_DAT1>;
-+		};
-+	};
-+
-+	aud_miso_off_pins: misooff-pins {
-+		pins {
-+			pinmux = <MT8365_PIN_53_AUD_CLK_MISO__FUNC_GPIO53>,
-+				 <MT8365_PIN_54_AUD_SYNC_MISO__FUNC_GPIO54>,
-+				 <MT8365_PIN_55_AUD_DAT_MISO0__FUNC_GPIO55>,
-+				 <MT8365_PIN_56_AUD_DAT_MISO1__FUNC_GPIO56>;
-+			input-enable;
-+			bias-pull-down;
-+			drive-strength = <MTK_DRIVE_2mA>;
-+		};
-+	};
-+
-+	aud_miso_on_pins: misoon-pins {
-+		pins {
-+			pinmux = <MT8365_PIN_53_AUD_CLK_MISO__FUNC_AUD_CLK_MISO>,
-+				 <MT8365_PIN_54_AUD_SYNC_MISO__FUNC_AUD_SYNC_MISO>,
-+				 <MT8365_PIN_55_AUD_DAT_MISO0__FUNC_AUD_DAT_MISO0>,
-+				 <MT8365_PIN_56_AUD_DAT_MISO1__FUNC_AUD_DAT_MISO1>;
-+			drive-strength = <MTK_DRIVE_6mA>;
-+		};
-+	};
-+
-+	aud_mosi_off_pins: mosioff-pins {
-+		pins {
-+			pinmux = <MT8365_PIN_49_AUD_CLK_MOSI__FUNC_GPIO49>,
-+				 <MT8365_PIN_50_AUD_SYNC_MOSI__FUNC_GPIO50>,
-+				 <MT8365_PIN_51_AUD_DAT_MOSI0__FUNC_GPIO51>,
-+				 <MT8365_PIN_52_AUD_DAT_MOSI1__FUNC_GPIO52>;
-+			input-enable;
-+			bias-pull-down;
-+			drive-strength = <MTK_DRIVE_2mA>;
-+		};
-+	};
-+
-+	aud_mosi_on_pins: mosion-pins {
-+		pins {
-+			pinmux = <MT8365_PIN_49_AUD_CLK_MOSI__FUNC_AUD_CLK_MOSI>,
-+				 <MT8365_PIN_50_AUD_SYNC_MOSI__FUNC_AUD_SYNC_MOSI>,
-+				 <MT8365_PIN_51_AUD_DAT_MOSI0__FUNC_AUD_DAT_MOSI0>,
-+				 <MT8365_PIN_52_AUD_DAT_MOSI1__FUNC_AUD_DAT_MOSI1>;
-+			drive-strength = <MTK_DRIVE_6mA>;
-+		};
-+	};
-+
- 	ethernet_pins: ethernet-pins {
- 		phy_reset_pins {
- 			pinmux = <MT8365_PIN_133_TDM_TX_DATA1__FUNC_GPIO133>;
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
-2.25.1
-
+With best wishes
+Dmitry
