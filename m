@@ -2,95 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A702B8CD882
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 18:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8768CD8D0
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 19:01:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CDFC10ED14;
-	Thu, 23 May 2024 16:36:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8134E10EE9E;
+	Thu, 23 May 2024 17:01:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kroah.com header.i=@kroah.com header.b="yPwGgC1t";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="kk5B4uKn";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="TIapE6M4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 384 seconds by postgrey-1.36 at gabe;
- Thu, 23 May 2024 16:36:27 UTC
-Received: from fhigh7-smtp.messagingengine.com
- (fhigh7-smtp.messagingengine.com [103.168.172.158])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF7710ED15;
- Thu, 23 May 2024 16:36:27 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailfhigh.nyi.internal (Postfix) with ESMTP id 9C7AE1140165;
- Thu, 23 May 2024 12:30:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 23 May 2024 12:30:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm1; t=1716481802;
- x=1716568202; bh=0rtgH1k/GZ8ZzTPeUqIg0pYzXgjqHH6dowOaWTTT9qM=; b=
- yPwGgC1tEShZcPvVD73ZEDburC7gwDZUI6P5w0RippXcGdZmfuPC0+19xSDajN/J
- hUSpE/v9/Yav44A1rqf7Lm9/V9EdMzt3ZKcKfEqCRnpW3H9QNa0T9eDmcQX//ZOF
- O1g+rBAtiKjYVjG6YbxPir6qb19gM3CS4yo7IRs6pBM89Mx9j5QqUPqmRiWE8pok
- 52oapbn6OTdLGXahKKh5m42Ud2BBO9e0H89OR2Qj5mV8X2ZDpaU6Z9lkVv8l+z54
- afEQ4oKn1VXGHZ1DZd/x5GOnmnEovpB5myAHBYZWzpxP1aOu2Y3YI6w34rm80Ro6
- IGCq6YCfmZw67A+Bz71Rxw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716481802; x=
- 1716568202; bh=0rtgH1k/GZ8ZzTPeUqIg0pYzXgjqHH6dowOaWTTT9qM=; b=k
- k5B4uKnSVwD+M1Um13gWHRQrgwxuRbO4Whsw/CahTsgOBbL3Elt3iTHK0K2FIGvY
- 2waTFftvr5sPQ+N6XLfuGsf+7r3DDut34SKbMb4t4/bhhed08QjxS1lZhGoDhjZg
- NreQQaty7NhWW/kOkz3Fl8Zj8ivx9+crIDMg7hSEQZwuo3ynFxzMPd9YpiEOCagS
- zEUJXxY30Ka6UN0et+sh15mgZApilfPMT3YY0LiriFckMaxeunKGhuW3jeMrJ+9L
- A7sMF7yo0M7Lgvy7G64X6szNbkG/AQGWtgMJM+Gim6pdGK8vh6jrzFTBdb0BnQFx
- UjY1UrOAR30TJ7Oj8zbig==
-X-ME-Sender: <xms:Cm9PZmAnyHyu7EEuv-6VZiGgTa_5Av_wx4vPFVql-GXZIc5lXNHP6w>
- <xme:Cm9PZgggD8n_F471LAmfOwJRM7ZVFayz2iBD-2q4zpsS_y0PfjHcpExDSqvhCGwl1
- X3MQS7FMUDz5w>
-X-ME-Received: <xmr:Cm9PZpkr-KDHcHdld1oH4CHL_OmILTWoWFIATcpafaCPOHTI7sqVjTU1OpRhux3IehShXQidh-Xi9IvftnVBCWVSqiIKjZHxn1s6Sg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeiiedguddttdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepifhr
- vghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepgf
- ekffeifeeiveekleetjedvtedvtdeludfgvdfhteejjeeiudeltdefffefvdeinecuvehl
- uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrh
- horghhrdgtohhm
-X-ME-Proxy: <xmx:Cm9PZkxyxaROPbkaVf_3wygNhFkPVnkTuQ0_DfbHeTUpkzgx_iU9-g>
- <xmx:Cm9PZrS2FQ9O9zCfsDeoSSCm_tmG0zefFUk3VXqVkrrPegs25NmsGw>
- <xmx:Cm9PZvYeO_W4J8fG7QDXiijUfok6U8oGrQ5WTXvrro8cGvF5WW5oFA>
- <xmx:Cm9PZkTEYtlaDabZcuRBdFp_Nlp8e-s6g-C9bpqevXRV9iYsn2AwRQ>
- <xmx:Cm9PZsBhPh2ixU81MJvT2Oe0gPHZ33zEbVyaomcE0qd_lA2x9K3oCelv>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 May 2024 12:30:01 -0400 (EDT)
-Date: Thu, 23 May 2024 18:29:58 +0200
-From: Greg KH <greg@kroah.com>
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: Barry Kauler <bkauler@gmail.com>, Alex Deucher <alexdeucher@gmail.com>,
- Yifan Zhang <yifan1.zhang@amd.com>, Prike Liang <Prike.Liang@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- amd-gfx@lists.freedesktop.org, stable@vger.kernel.org
-Subject: Re: Kernel 5.15.150 black screen with AMD Raven/Picasso GPU
-Message-ID: <2024052321-revolver-timid-3056@gregkh>
-References: <CABWT5yiejGABNXicsS7u-daKnBBjK6YTDVgaQOqwGYn8P20D8Q@mail.gmail.com>
- <6580c2d4-b084-470f-80a0-aa09f1ab880d@gmx.de>
- <CABWT5yiD110qmJcRsoGVMevULAVmYpyiW4w9MtmNjp7E0rDQ8A@mail.gmail.com>
- <CABWT5yg5jG7eMiDp7QN2yhFj6983qF9zN7eHOprH4eEjwQJLBQ@mail.gmail.com>
- <c3205455-7ad2-487e-8954-52102754e154@gmx.de>
- <CADnq5_PM_FuBE4913Z4bxiMTDYtRS+VJgLW6gfDU1qnQQ=FDzA@mail.gmail.com>
- <d04105ea-0f8a-4f0b-b4f2-bc8407d37c73@gmx.de>
- <CABWT5yibc52CTUWeCWxYQb4ooi4dsbvBWxJAJCDrG+8405RPTg@mail.gmail.com>
- <7ec6faf8-d9c1-436b-98c8-473e7ff395b3@gmx.de>
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com
+ [91.218.175.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAFC610EE9E
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 17:01:01 +0000 (UTC)
+X-Envelope-To: mripard@kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1716483657;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ykz7CSuGmpReMbjY7aKYP//JpEBEa/0nSh28NBFDVBU=;
+ b=TIapE6M4VUR7Mt+IBvSqJF4eYiwgBL6E2freRulFfb573/OkGC3cBsleiVjezpU5O/LrP1
+ lRF020YJrwQKFpNZM4J2r08fzzaqgUokU/PkR35D1Lbg9EMnRwmevbPlHxGv4TRzSSQohy
+ zFuraMMuvLnJMAiiys++zLk/KyyzzFk=
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: airlied@gmail.com
+X-Envelope-To: daniel@ffwll.ch
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: hjc@rock-chips.com
+X-Envelope-To: heiko@sntech.de
+X-Envelope-To: wens@csie.org
+X-Envelope-To: jernej.skrabec@gmail.com
+X-Envelope-To: samuel@sholland.org
+X-Envelope-To: andy.yan@rock-chips.com
+X-Envelope-To: hverkuil@xs4all.nl
+X-Envelope-To: sebastian.wick@redhat.com
+X-Envelope-To: ville.syrjala@linux.intel.com
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: linux-media@vger.kernel.org
+X-Envelope-To: linux-rockchip@lists.infradead.org
+X-Envelope-To: linux-sunxi@lists.linux.dev
+X-Envelope-To: dave.stevenson@raspberrypi.com
+Message-ID: <1e47e26f-948b-43d1-8d9f-a15e06e816f6@linux.dev>
+Date: Fri, 24 May 2024 01:00:47 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7ec6faf8-d9c1-436b-98c8-473e7ff395b3@gmx.de>
+Subject: Re: [v14,06/28] drm/tests: Add output bpc tests
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
+Content-Language: en-US, en-AU
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,66 +92,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 23, 2024 at 05:59:39PM +0200, Armin Wolf wrote:
-> Am 23.05.24 um 15:13 schrieb Barry Kauler:
+Hi, Maxime
+
+
+I love you patch, yet it generates warnning calltrace. Despite it's
+just a warning but it can overwhelm when we run kunit tests. Hence,
+I suggest switch to the drm_atomic_connector_get_property() function.
+
+Logs are pasted as below for easier to ready.
+
+
+  ------------[ cut here ]------------
+  WARNING: CPU: 3 PID: 1264 at drivers/gpu/drm/drm_mode_object.c:354 
+drm_object_property_get_value+0x2c/0x34
+  Modules linked in: drm_connector_test drm_display_helper 
+drm_kunit_helpers kunit rfkill ip_set nf_tables nfnetlink vfat fat uas 
+usb_storage kvm efi_pstore pstore spi_loongson_pci spi_loongson_core 
+fuse efivarfs [last unloaded: drm_connector_test]
+  CPU: 3 PID: 1264 Comm: kunit_try_catch Tainted: G                 N 
+6.9.0+ #443
+  Hardware name: Loongson 
+Loongson-3A6000-HV-7A2000-XA61200/Loongson-3A6000-HV-7A2000-XA61200, 
+BIOS Loongson-UDK2018-V4.0.05636-stable202311 12/
+  pc 9000000003469fec ra ffff80000225afdc tp 900000011fc54000 sp 
+900000011fc57d80
+  a0 900000010aa84658 a1 9000000104432a00 a2 900000011fc57d98 a3 
+900000011fc57d98
+  a4 9000000104432a4c a5 9000000003f14e98 a6 0000000000000008 a7 
+fffffffffffffffe
+  t0 0000000000000010 t1 900000010aa84000 t2 ffffffffffffffff t3 
+ffffffffc0c0c0c0
+  t4 ffffffffc0c0c0c0 t5 0000000000000220 t6 0000000000000001 t7 
+0000000000107203
+  t8 0000000000107303 u0 0000000000000008 s9 90000001000ebe60 s0 
+900000010aa84000
+  s1 90000001470679c8 s2 9000000104432a00 s3 ffff800002284000 s4 
+900000010aa84658
+  s5 900000010aa84618 s6 0000000000001000 s7 0000000000000001 s8 
+0000000000000000
+     ra: ffff80000225afdc drm_test_connector_hdmi_init_bpc_8+0xcc/0x2d0 
+[drm_connector_test]
+    ERA: 9000000003469fec drm_object_property_get_value+0x2c/0x34
+   CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
+   PRMD: 00000004 (PPLV0 +PIE -PWE)
+   EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
+   ECFG: 00071c1c (LIE=2-4,10-12 VS=7)
+  ESTAT: 000c0000 [BRK] (IS= ECode=12 EsubCode=0)
+   PRID: 0014d000 (Loongson-64bit, Loongson-3A6000-HV)
+  CPU: 3 PID: 1264 Comm: kunit_try_catch Tainted: G                 N 
+6.9.0+ #443
+  Hardware name: Loongson 
+Loongson-3A6000-HV-7A2000-XA61200/Loongson-3A6000-HV-7A2000-XA61200, 
+BIOS Loongson-UDK2018-V4.0.05636-stable202311 12/
+  Stack : 9000000004065000 0000000000000000 9000000002ac339c 
+900000011fc54000
+          900000011fc579f0 900000011fc579f8 0000000000000000 
+900000011fc57b38
+          900000011fc57b30 900000011fc57b30 900000011fc57940 
+0000000000000001
+          0000000000000001 900000011fc579f8 18e7bf3ffb6e59df 
+9000000100328a00
+          0000000000000001 0000000000000003 0000000000000434 
+4c206e6f73676e6f
+          6f4c203a656d616e 00000000000d0ad3 000000000704c000 
+90000001000ebe60
+          0000000000000000 0000000000000000 9000000003ee6ab0 
+9000000004065000
+          0000000000000000 900000010aa84618 0000000000001000 
+0000000000000001
+          0000000000000000 0000000000000000 9000000002ac33b4 
+000055557dd80078
+          00000000000000b0 0000000000000004 0000000000000000 
+0000000000071c1c
+          ...
+  Call Trace:
+  [<9000000002ac33b4>] show_stack+0x5c/0x180
+  [<9000000003b1ed2c>] dump_stack_lvl+0x70/0xa0
+  [<9000000003b01fd8>] __warn+0x84/0xc8
+  [<9000000003ad282c>] report_bug+0x19c/0x204
+  [<9000000003b1fe00>] do_bp+0x264/0x2b4
+  [<0000000000000000>] 0x0
+  [<9000000003469fec>] drm_object_property_get_value+0x2c/0x34
+  [<ffff80000225afdc>] drm_test_connector_hdmi_init_bpc_8+0xcc/0x2d0 
+[drm_connector_test]
+  [<ffff800002214f3c>] kunit_try_run_case+0x7c/0x18c [kunit]
+  [<ffff800002216de8>] kunit_generic_run_threadfn_adapter+0x1c/0x28 [kunit]
+  [<9000000002b06238>] kthread+0x124/0x130
+  [<9000000002ac1248>] ret_from_kernel_thread+0xc/0xa4
+
+  ---[ end trace 0000000000000000 ]---
+  ------------[ cut here ]------------
+
+
+On 5/21/24 18:13, Maxime Ripard wrote:
+> Now that we're tracking the output bpc count in the connector state,
+> let's add a few tests to make sure it works as expected.
 > 
-> > On Wed, May 22, 2024 at 12:58 AM Armin Wolf <W_Armin@gmx.de> wrote:
-> > > Am 20.05.24 um 18:22 schrieb Alex Deucher:
-> > > 
-> > > > On Sat, May 18, 2024 at 8:17 PM Armin Wolf <W_Armin@gmx.de> wrote:
-> > > > > Am 17.05.24 um 03:30 schrieb Barry Kauler:
-> > > > > 
-> > > > > > Armin, Yifan, Prike,
-> > > > > > I will top-post, so you don't have to scroll down.
-> > > > > > After identifying the commit that causes black screen with my gpu, I
-> > > > > > posted the result to you guys, on May 9.
-> > > > > > It is now May 17 and no reply.
-> > > > > > OK, I have now created a patch that reverts Yifan's commit, compiled
-> > > > > > 5.15.158, and my gpu now works.
-> > > > > > Note, the radeon module is not loaded, so it is not a factor.
-> > > > > > I'm not a kernel developer. I have identified the culprit and it is up
-> > > > > > to you guys to fix it, Yifan especially, as you are the person who has
-> > > > > > created the regression.
-> > > > > > I will attach my patch.
-> > > > > > Regards,
-> > > > > > Barry Kauler
-> > > > > Hi,
-> > > > > 
-> > > > > sorry for not responding to your findings. I normally do not work with GPU drivers,
-> > > > > so i hoped one of the amdgpu developers would handle this.
-> > > > > 
-> > > > > I CCeddri-devel@lists.freedesktop.org  and amd-gfx@lists.freedesktop.org so that other
-> > > > > amdgpu developers hear from this issue.
-> > > > > 
-> > > > > Thanks you for you persistence in finding the offending commit.
-> > > > Likely this patch should not have been ported to 5.15 in the first
-> > > > place.  The IOMMU requirements have been dropped from the driver for
-> > > > the last few kernel versions so it is no longer relevant on newer
-> > > > kernels.
-> > > > 
-> > > > Alex
-> > > Barry, can you verify that the latest upstream kernel works on you device?
-> > > If yes, then the commit itself is ok and just the backporting itself was wrong.
-> > > 
-> > > Thanks,
-> > > Armin Wolf
-> > Armin,
-> > The unmodified 6.8.1 kernel works ok.
-> > I presume that patch was applied long before 6.8.1 got released and
-> > only got backported to 5.15.x recently.
-> > 
-> > Regards,
-> > Barry
-> > 
-> Great to hear, that means we only have to revert commit 56b522f46681 ("drm/amdgpu: init iommu after amdkfd device init")
-> from the 5.15.y series.
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/Kconfig                            |   1 +
+>   drivers/gpu/drm/tests/Makefile                     |   1 +
+>   drivers/gpu/drm/tests/drm_connector_test.c         | 140 +++++++
+>   drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 438 +++++++++++++++++++++
+>   drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 +++++
+>   5 files changed, 686 insertions(+)
 > 
-> I CCed the stable mailing list so that they can revert the offending commit.
 
-Please submit the patch/revert that you wish to have applied to the tree
-so we can have the correct information in it.  I have no idea what to do
-here with this deep response thread as-is, sorry.
+[...]
 
-thanks,
+> +
+> +/*
+> + * Test that the registration of a connector with a maximum bpc count of
+> + * 8 succeeds, registers the max bpc property, but doesn't register the
+> + * HDR output metadata one.
+> + */
+> +static void drm_test_connector_hdmi_init_bpc_8(struct kunit *test)
+> +{
+> +	struct drm_connector_init_priv *priv = test->priv;
+> +	struct drm_connector *connector = &priv->connector;
+> +	struct drm_property *prop;
+> +	uint64_t val;
+> +	int ret;
+> +
+> +	ret = drmm_connector_hdmi_init(&priv->drm, connector,
+> +				       &dummy_funcs,
+> +				       DRM_MODE_CONNECTOR_HDMIA,
+> +				       &priv->ddc,
+> +				       8);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	prop = connector->max_bpc_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +
+> +	ret = drm_object_property_get_value(&connector->base, prop, &val);
 
-greg k-h
+
+Maybe we should switch to drm_atomic_connector_get_property() instead,
+as the comments of the drm_object_property_get_value() told us that
+atomic drivers should never call this function directly, otherwise it
+will print warnings and call trace.
+
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +	KUNIT_EXPECT_EQ(test, val, 8);
+> +
+> +	prop = priv->drm.mode_config.hdr_output_metadata_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +}
+> +
+> +/*
+> + * Test that the registration of a connector with a maximum bpc count of
+> + * 10 succeeds and registers the max bpc and HDR output metadata
+> + * properties.
+> + */
+> +static void drm_test_connector_hdmi_init_bpc_10(struct kunit *test)
+> +{
+> +	struct drm_connector_init_priv *priv = test->priv;
+> +	struct drm_connector *connector = &priv->connector;
+> +	struct drm_property *prop;
+> +	uint64_t val;
+> +	int ret;
+> +
+> +	ret = drmm_connector_hdmi_init(&priv->drm, connector,
+> +				       &dummy_funcs,
+> +				       DRM_MODE_CONNECTOR_HDMIA,
+> +				       &priv->ddc,
+> +				       10);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	prop = connector->max_bpc_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +
+> +	ret = drm_object_property_get_value(&connector->base, prop, &val);
+
+Ditto
+
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +	KUNIT_EXPECT_EQ(test, val, 10);
+> +
+> +	prop = priv->drm.mode_config.hdr_output_metadata_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +}
+> +
+> +/*
+> + * Test that the registration of a connector with a maximum bpc count of
+> + * 12 succeeds and registers the max bpc and HDR output metadata
+> + * properties.
+> + */
+> +static void drm_test_connector_hdmi_init_bpc_12(struct kunit *test)
+> +{
+> +	struct drm_connector_init_priv *priv = test->priv;
+> +	struct drm_connector *connector = &priv->connector;
+> +	struct drm_property *prop;
+> +	uint64_t val;
+> +	int ret;
+> +
+> +	ret = drmm_connector_hdmi_init(&priv->drm, connector,
+> +				       &dummy_funcs,
+> +				       DRM_MODE_CONNECTOR_HDMIA,
+> +				       &priv->ddc,
+> +				       12);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	prop = connector->max_bpc_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +
+> +	ret = drm_object_property_get_value(&connector->base, prop, &val);
+
+ret = drm_atomic_connector_get_property(connector,
+  connector->state, prop, &val);
+
+Note that this function is not exported, but I think you could export it
+just like what you did in the patch 02. Thank you for the amazing works.
+
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +	KUNIT_EXPECT_EQ(test, val, 12);
+> +
+> +	prop = priv->drm.mode_config.hdr_output_metadata_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +}
+> +
+
+-- 
+Best regards
+Sui
