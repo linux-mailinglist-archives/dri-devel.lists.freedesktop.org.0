@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78EA58CD62A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 16:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0BE8CD6C8
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 17:11:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3979A10E10F;
-	Thu, 23 May 2024 14:52:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD88E10EC24;
+	Thu, 23 May 2024 15:11:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J5KooSen";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="HnziyE4v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A769210E3F9
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 14:52:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 257D5CE1395;
- Thu, 23 May 2024 14:52:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47D0EC32781;
- Thu, 23 May 2024 14:52:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716475924;
- bh=0n5OH0k+GRei5q9zpND2pbMT2lTvBmQGE4laZAvKQMo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=J5KooSenMd9y77wOzWwd6Ck6YbUB2Z01Il0y3de4MXrjywybDW42k9Cq3Su8fsMMF
- +u4jh+nwcK1orQSTRR+HA94GzWNvLBC2yoBehb9/NNGDt+1+LG6sKxoGADspETrzP+
- CCgledNtbdNFb1qGcjZPy8FARa75nPs6cNnr1ULmrl7x1DDNta6V4YvmiQHJZOqM3A
- 8umaZlquBRrWw1C7CsMjIzWg0idNdqvuoBZFXOd0RDw9j95UDK/eVi1FjM54i1eoHk
- 9+dD92MQeP2chxN5Xk9QwicVGUSLAQINvu2+DUpe41UV2PBjHA5s3tfsDeNQcpkMNY
- QRZgpgD8pRo6w==
-Date: Thu, 23 May 2024 15:51:58 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E81B10EC24
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 15:11:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1716477096; x=1716736296;
+ bh=nRU4xSXIMtI2i2h+LDaYQCpy/iiJnRkDTKajfkq4M08=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=HnziyE4vJ0MXsZSdljyWe7EgGoyimom9PA6mGp3kxrcA2/VleUCG6hxFDRjNV5CdZ
+ E34YfEUDjk1/+Y5dxpRBtxCdQKxsXPAUW8j1eS/SUZ7Ma+3QhS+nqWyNn2VNocLM0c
+ zuBhdAg2bk+q0E85EhRleGroPw1vGv6hFe7ehd2X/kskcI7df2i05UQPwXhN7017vq
+ XNJof0NNjDa01KxjIZ0lLBjiV9RxikJKDRCc/P0LujP5HHWJJMQkXq29SGETDam7d8
+ Ei0kLOb5Vwbrmm9s1cRB6Zg6jksIOM5M9BNd0k5r+6Uib5valTWB5AQFBDVeMzVoFg
+ Jex+rqKav8jVw==
+Date: Thu, 23 May 2024 15:11:31 +0000
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Pekka Paalanen <pekka.paalanen@haloniitty.fi>, dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko.stuebner@cherry.de>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Chris Morgan <macromorgan@hotmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] dt-bindings: display: vop2: Add VP clock resets
-Message-ID: <20240523-climate-cattail-e5e1fc8ff0a3@spud>
-References: <20240522185924.461742-1-detlev.casanova@collabora.com>
- <20240522185924.461742-4-detlev.casanova@collabora.com>
+ Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>
+Subject: Re: UAPI Re: [PATCH 1/3] drm: Add DRM_MODE_TV_MODE_MONOCHROME
+Message-ID: <N0sGFmcyTVt8r1kwJ7MrJcDC5IbVSEaFH14nviFfU-1vbhGvERJ2eYSI7_pAeStO0_mugwxwXOF1puWojEQJxy5fcrpo1BsmQjdf-8NBYMA=@emersion.fr>
+In-Reply-To: <ZeBh3N4uttG53qhU@phenom.ffwll.local>
+References: <20240216184857.245372-1-dave.stevenson@raspberrypi.com>
+ <20240216184857.245372-2-dave.stevenson@raspberrypi.com>
+ <20240221110751.48da8190@eldfell>
+ <b43rdl7yebxn6z3pvyeyxbikccr7umrojo5kqw5i3ybloxktso@de4oxsbskkwp>
+ <20240226171143.27e60c30@eldfell>
+ <CAPY8ntCHi8joN-w3PNjMj31FSkCjqmJ4ZyhSDFZ1-PnfL4+FrQ@mail.gmail.com>
+ <5us3AK9XJ5zu1AOKQeZxKWsK0f6Xtm7vHWttRTFPRo57Ph5WO62deVIK8TrkQIFmjFMrn-a2qusgP3W74dV6SKTA5OdTt4zncR7J2qQ_Qck=@emersion.fr>
+ <20240228-nice-flat-cormorant-badff7@houat>
+ <ttd0tkA6ym5NBhHqKQFa88BjxMoctTVJd03aIqnSyXZ0ve0jPPrlkTVmUNWIQGNyNBpFvxzplydGqGFQa5VaYuf5mm1n9dEGDM5MG25j_4Q=@emersion.fr>
+ <ZeBh3N4uttG53qhU@phenom.ffwll.local>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: 832758c76b9d01ac4ced426708451eaf1a42e61b
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jgeG1HuZXzpfSjmQ"
-Content-Disposition: inline
-In-Reply-To: <20240522185924.461742-4-detlev.casanova@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,29 +69,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thursday, February 29th, 2024 at 11:52, Daniel Vetter <daniel@ffwll.ch> =
+wrote:
 
---jgeG1HuZXzpfSjmQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> I think some weston (or whatever compositor you like) config file support
+> to set a bunch of "really only way to configure is by hand" output
+> properties would clear the bar here for me. Because that is a feature I
+> already mentioned that xrandr does have, and which modetest hackery very
+> much does not.
 
-On Wed, May 22, 2024 at 02:57:50PM -0400, Detlev Casanova wrote:
-> Add the documentation for VOP2 video ports reset clocks.
-> One reset can be set per video port.
-
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-
-Cheers,
-Conor.
-
---jgeG1HuZXzpfSjmQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZk9YDgAKCRB4tDGHoIJi
-0j0rAP0VlFrFaDu+/KLFAsK956xCJey9qaStyOOlXTICQTGV6wEA/N9OOl/tmZru
-MK6sP4YDord/71YqPTb6mQhi9OnMlAk=
-=t2FA
------END PGP SIGNATURE-----
-
---jgeG1HuZXzpfSjmQ--
+FWIW, this is a feature I would very much not want to add in my own
+compositor. Not only there is a bunch of complexity exposing KMS props
+in config files (enums, bitfields, blobs, etc), but also I don't like
+the idea of having a way to set arbitrary KMS props behind my back,
+which would be a very easy way to mess up the KMS state and cause
+conflicts when the compositor is upgraded.
