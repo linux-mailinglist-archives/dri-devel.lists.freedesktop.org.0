@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227578CD4DE
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 15:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B777B8CD4E0
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 15:37:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD43F10E580;
-	Thu, 23 May 2024 13:37:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A24410E769;
+	Thu, 23 May 2024 13:37:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h8IimlC5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="L6gws5i8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC6CE10E6FC;
- Thu, 23 May 2024 13:37:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD1589FF9;
+ Thu, 23 May 2024 13:37:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716471453; x=1748007453;
+ t=1716471460; x=1748007460;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=eARXuw8obD/PHu+EJxVRcE7RxEtyJJUx+yk0jOQ9UfY=;
- b=h8IimlC57iHlqZhY0hlRsQnOOLQ6sta0Gf9VXQh0w39rGutTWyjEryry
- MmgHT8MCxiguLA/RVXoaNIgT+/P5CQWC+tJhT0kxCXDFDXD8exR34kOQ6
- mXT8Wzse6s06CAc8eOXbgWu23YX3pjVjw4rvoi1vHcwkDeecTCDUoViWe
- eiMYVNSeVrP88dmaFXLDTekqUFbmFVUDYk6kFK/bFyJTxpVyYhBNKta0V
- rS+dDeuo6YOZRlaJ6f1cF9tpwNCjm2HcF5oOAb0liWzkYerD7ze68FqJ3
- KQIqaYlIsbHXBmu6Geg6dwdCkSc7E+HNL5e5ggox3LIg5U6fjX2YJ4WHL w==;
-X-CSE-ConnectionGUID: dRJWfHjkRr6/yULC/ZbfuQ==
-X-CSE-MsgGUID: x0dsv5aISCONAY0jpU07mA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12662745"
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; d="scan'208";a="12662745"
+ bh=uNICsZF713AwJhVTdusy9Z58n5VqxDT9PsS4btSsXQI=;
+ b=L6gws5i8RW+jvLMHvpdloWHK8gj4cOEgeOxJpyiTZCvvCnuXl8EQn+im
+ tKGMg50DcG91xuadomhHUHDekq1qaN/ymxq1uUL3t7RIcfE5hi4DbkCqi
+ 3ZjTpQkDgX+9nDC5Y3yda/MSJUuQuBhoNeEX30JDTjf/+AitiEj0UDkII
+ ZWcjozjw4+73+d+Aeaf7718wzhkKqT4+1jCEJfCQhRaLH7JCGukj2lubk
+ Kctxq6dX+Xmw9oDMj10Vle8HhFiCLS9JGhenN0jw3KK49saHkicbd0DRp
+ I419U70n/yAWGAybDe3hEAN39IsdfGM9FhZr7sQxwd407L92ZmO3lHU61 w==;
+X-CSE-ConnectionGUID: jMwK70AxSIaC5XVSsVi4Mw==
+X-CSE-MsgGUID: 9tVKYQAKQZashVajQBjJuw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12662771"
+X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; d="scan'208";a="12662771"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2024 06:37:32 -0700
-X-CSE-ConnectionGUID: 1oIFpOEJRtqG+HNOhnr7iA==
-X-CSE-MsgGUID: D6sW7p0ESLG5PHLT2BZe8Q==
+ 23 May 2024 06:37:39 -0700
+X-CSE-ConnectionGUID: yltDQQKEQo+NqfOxCzfDgw==
+X-CSE-MsgGUID: CehU8C5JTI+nfQP6cABkaQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; d="scan'208";a="34210056"
+X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; d="scan'208";a="34210085"
 Received: from unknown (HELO localhost) ([10.237.66.160])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2024 06:37:27 -0700
+ 23 May 2024 06:37:35 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
@@ -52,9 +52,9 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tursulin@ursulin.net>, jani.nikula@intel.com
-Subject: [PATCH 2/3] drm/xe: drop redundant W=1 warnings from Makefile
-Date: Thu, 23 May 2024 16:37:06 +0300
-Message-Id: <958a67adcbb64d3a387d2a07d83b05d71176e938.1716471145.git.jani.nikula@intel.com>
+Subject: [PATCH 3/3] drm/amdgpu: drop redundant W=1 warnings from Makefile
+Date: Thu, 23 May 2024 16:37:07 +0300
+Message-Id: <c7dffe59c8abe6beaef70ea1f726a6598c9dad77.1716471145.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1716471145.git.jani.nikula@intel.com>
 References: <cover.1716471145.git.jani.nikula@intel.com>
@@ -85,46 +85,38 @@ enabled by default in scripts/Makefile.extrawarn.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/xe/Makefile | 25 +------------------------
- 1 file changed, 1 insertion(+), 24 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/Makefile | 18 +-----------------
+ 1 file changed, 1 insertion(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index c9f067b8f54d..f4366cb958be 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -3,31 +3,8 @@
- # Makefile for the drm device driver.  This driver provides support for the
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
+index 1f6b56ec99f6..9508d0b5708e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/Makefile
++++ b/drivers/gpu/drm/amd/amdgpu/Makefile
+@@ -39,23 +39,7 @@ ccflags-y := -I$(FULL_AMD_PATH)/include/asic_reg \
+ 	-I$(FULL_AMD_DISPLAY_PATH)/amdgpu_dm \
+ 	-I$(FULL_AMD_PATH)/amdkfd
  
--# Unconditionally enable W=1 warnings locally
--# --- begin copy-paste W=1 warnings from scripts/Makefile.extrawarn
--subdir-ccflags-y += -Wextra -Wunused -Wno-unused-parameter
--subdir-ccflags-y += -Wmissing-declarations
--subdir-ccflags-y += $(call cc-option, -Wrestrict)
--subdir-ccflags-y += -Wmissing-format-attribute
+-subdir-ccflags-y := -Wextra
+-subdir-ccflags-y += -Wunused
 -subdir-ccflags-y += -Wmissing-prototypes
--subdir-ccflags-y += -Wold-style-definition
+-subdir-ccflags-y += -Wmissing-declarations
 -subdir-ccflags-y += -Wmissing-include-dirs
--subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
--subdir-ccflags-y += $(call cc-option, -Wunused-const-variable)
--subdir-ccflags-y += $(call cc-option, -Wpacked-not-aligned)
--subdir-ccflags-y += $(call cc-option, -Wformat-overflow)
-+# Enable W=1 warnings not enabled in drm subsystem Makefile
- subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
--subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
--# The following turn off the warnings enabled by -Wextra
--ifeq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
--subdir-ccflags-y += -Wno-missing-field-initializers
+-subdir-ccflags-y += -Wold-style-definition
+-subdir-ccflags-y += -Wmissing-format-attribute
+-# Need this to avoid recursive variable evaluation issues
+-cond-flags := $(call cc-option, -Wunused-but-set-variable) \
+-	$(call cc-option, -Wunused-const-variable) \
+-	$(call cc-option, -Wstringop-truncation) \
+-	$(call cc-option, -Wpacked-not-aligned)
+-subdir-ccflags-y += $(cond-flags)
+-subdir-ccflags-y += -Wno-unused-parameter
 -subdir-ccflags-y += -Wno-type-limits
--subdir-ccflags-y += -Wno-shift-negative-value
--endif
--ifeq ($(findstring 3, $(KBUILD_EXTRA_WARN)),)
 -subdir-ccflags-y += -Wno-sign-compare
--endif
--# --- end copy-paste
+-subdir-ccflags-y += -Wno-missing-field-initializers
++# Locally disable W=1 warnings enabled in drm subsystem Makefile
+ subdir-ccflags-y += -Wno-override-init
+ subdir-ccflags-$(CONFIG_DRM_AMDGPU_WERROR) += -Werror
  
- # Enable -Werror in CI and development
- subdir-ccflags-$(CONFIG_DRM_XE_WERROR) += -Werror
 -- 
 2.39.2
 
