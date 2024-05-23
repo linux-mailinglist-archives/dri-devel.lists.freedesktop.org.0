@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 041388CD929
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 19:31:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1882B8CD92D
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 19:32:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1FB110EF95;
-	Thu, 23 May 2024 17:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2C1C10F16A;
+	Thu, 23 May 2024 17:32:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="OZEMrSjp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y7cERT8h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 042AF10EF95;
- Thu, 23 May 2024 17:30:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1716485453; x=1717090253; i=w_armin@gmx.de;
- bh=ml1OIk1ADGSN0Bv7BhxFFCfB6DaSzESeZqgOlINQEik=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
- MIME-Version:Content-Transfer-Encoding:cc:
- content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=OZEMrSjpRCpZNHtDzlmr0mM8Z76qBOA47wRnpJmk2+GZMBHSY6dP+E6IS3bEoTr2
- cs+oUuQy6G/5SvY5rTw8Y4m4iXXGV6BByaWCGWeZc1RDfIyYW60ml8hUXkBJuuWbR
- 2eN02l2UPaMHeIxBNBZdsLPCIBXuqaDAa44rc9aHt1ZvsYQQ+BwwG3DCLd9GCm5Pm
- /uxmdfHru1oAYwc2U0wyv1Ncu0C9Ob3cogxQe9ivAHrnSuP1JrV4+STZBeD5jkpdm
- Z9fIYxGnB6mkMUrCADchMsYPBnFJG/ZcZeXjzw5ZT1cphv1sTax4iraSdQLg3pNO+
- /nzBoUi8mnC8osS14w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
- (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MMXQF-1rqbKE2jRP-00Jbrc; Thu, 23 May 2024 19:30:53 +0200
-From: Armin Wolf <W_Armin@gmx.de>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- gregkh@linuxfoundation.org, sashal@kernel.org
-Cc: stable@vger.kernel.org, bkauler@gmail.com, yifan1.zhang@amd.com,
- Prike.Liang@amd.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Subject: [PATCH] Revert "drm/amdgpu: init iommu after amdkfd device init"
-Date: Thu, 23 May 2024 19:30:31 +0200
-Message-Id: <20240523173031.4212-1-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.2
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C730F10F15D;
+ Thu, 23 May 2024 17:32:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716485539; x=1748021539;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=uNcIGozZvpEAmR27nhSWVo+xVUOftbExVLTNqebYqjs=;
+ b=Y7cERT8hlFtX2hSiosTNRpFm2AGf9kLU3RoYCmQeACxUKgCxEBpycFTO
+ pSxAS9jJY5V3cjovLTbthsgRxfTKZqJLD72shKQjDnrt1zL/7Drwgl4Da
+ uv9bO2N6OIy7b+4Mytv0C8Nix3e+ezZPnSm/XJRXZ65c4LEOnY/8oDqYW
+ C/sIgx9qzPBomwHdky3HWHombE9GiHMUMumd1BWcvE35UVWev1uhJN7PN
+ dYjeJFvR/1l/J/6j9vYj/iuklg4nRnPfm7jPxt9nWzzTeMDGCcsU+gHNY
+ 6mDZc9UwjQddiBFqJYrWOFfraJ7dEfTyePtn7AoHD9nrg0dTpa9l4amKG Q==;
+X-CSE-ConnectionGUID: WQyqDWnzScSx6wP6AMB74Q==
+X-CSE-MsgGUID: 1zXkpeYoSli9nya6K/W65A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12673172"
+X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; d="scan'208";a="12673172"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2024 10:32:15 -0700
+X-CSE-ConnectionGUID: xt+TKiz4TyavmPMvRJ7mUQ==
+X-CSE-MsgGUID: 9Eeg2aYeSdigM9bHUEo3oA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; d="scan'208";a="33712668"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 23 May 2024 10:32:11 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 23 May 2024 20:32:11 +0300
+Date: Thu, 23 May 2024 20:32:11 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH 3/4] drm/imx: fix -Wformat-truncation warning in
+ imx_ldb_probe()
+Message-ID: <Zk99m4i82XnQPeKQ@intel.com>
+References: <cover.1716479340.git.jani.nikula@intel.com>
+ <c257c4174743f35bafee8492ec60e1d2734450cf.1716479340.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:0V9lwu73H77PqAdjA+YQOQLM2+3KzTTl9zrsb6I30uhUOPxiA1p
- JLJxYqkyMKgStNVIay7ID6KI216ZNz3ubM8XYpSGnu66EzUxT8sXLASfudxjjdwKULpb7VC
- +Y+O7sbY7kIa+IPrB1Bw1Am+litWkoWWTdhMITaXxEbvfBMPo2yyoGSwkhR1eikF9FRkxYj
- COK97gWxEtIP+rgPugzrw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:MEiYmEz3rHs=;s9mwmp1yHhBowpawx+LtT7SZ6Xc
- Ns4RuJiZEs1nwVj7+WoUd9e+kWZr+Q0o40l2gyQyVx+Pl2AhW7RyQm/C0NZkNySFBi16uJnV/
- BemqPt4r78N5j8CraYadRR6IObRjM6HL2dE8/YKrMW+CklnchL769R8NeiXfL2iXv+rCx2r+Y
- XTVhHXx8okDrATK3JQ3OC3H/roKRKle+RiTf1okUL6bVDnpHel803nNn1ICSfmdIWhT321T0B
- XA2ml4Ju8vSBABVVh1Gwglv9bKYenJQO8bJmG5ysh25OG7bHVeAEdrrYSVEjESKfjZhs7Nq1n
- sPlYgVJva9HRzdjlHxWUWpOjdoqBIYq8KiWPznMcS3Ter+lVQZxW6kUBL9lTbcilBF1R/f/J4
- HCv6Ju9Kxt2jADK6R6SiBLGaN2H2oKuSWJLDdG0nSrWRuNt6eiJKETz9CANksjBxd9FFeXNA/
- PodgJ2iVj4FG6GPNapewroNC/tnPTe/aMOVQ9w+eol7juR8TRHXQpkUl9bQ8hgdoIJdUGa58v
- 9mOxJkLta5cIil4bx4+1UcJn7ECpCDU8yes3PgS77R+aCbyOdD2cJjBMEdf7tJuDstRUkcmz5
- Uodv4dP8MOVzqailVNOE/Ho92XCj8tq6f3szvD0/vl29vB55RvqEiONdDAE1DOMpCZNKgoUq8
- zjqbjpkAoU8KZSpZgVJrT4a09iftR3uezi6AZwgO3s5I7lpelCfl8MQ4mjS+h30cN0kT7P+8P
- dNTWt0CfmaiIJX0Kf7BbjwEGtAD5/cYSl1pE2k7K+m0VJe5ofQkupObwyW33SuVq3VqdJVIhe
- eX3Ipoz8hnS2ekmUIwv8izc9Jv9clbiX5TyCloDiFll7g=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c257c4174743f35bafee8492ec60e1d2734450cf.1716479340.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,53 +77,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 56b522f4668167096a50c39446d6263c96219f5f.
+On Thu, May 23, 2024 at 06:51:08PM +0300, Jani Nikula wrote:
+> Enabling -Wformat-truncation yields the following warning:
+> 
+> ../drivers/gpu/drm/imx/ipuv3/imx-ldb.c: In function ‘imx_ldb_probe’:
+> ../drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:57: error: ‘_sel’ directive output may be truncated writing 4 bytes into a region of size between 3 and 13 [-Werror=format-truncation=]
+>   658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+>       |                                                         ^~~~
+> ../drivers/gpu/drm/imx/ipuv3/imx-ldb.c:658:17: note: ‘snprintf’ output between 8 and 18 bytes into a destination of size 16
+>   658 |                 snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+>       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A user reported that this commit breaks the integrated gpu of his
-notebook, causing a black screen. He was able to bisect the problematic
-commit and verified that by reverting it the notebook works again.
-He also confirmed that kernel 6.8.1 also works on his device, so the
-upstream commit itself seems to be ok.
+If only the compiler could count to three...
 
-An amdgpu developer (Alex Deucher) confirmed that this patch should
-have never been ported to 5.15 in the first place, so revert this
-commit from the 5.15 stable series.
+> 
+> Silence the warning by checking the snprintf() return value.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> 
+> ---
+> 
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> ---
+>  drivers/gpu/drm/imx/ipuv3/imx-ldb.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-ldb.c b/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
+> index 71d70194fcbd..46f779fe60ee 100644
+> --- a/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
+> +++ b/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
+> @@ -654,8 +654,12 @@ static int imx_ldb_probe(struct platform_device *pdev)
+>  	 */
+>  	for (i = 0; i < 4; i++) {
+>  		char clkname[16];
+> +		int len;
+> +
+> +		len = snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+> +		if (len >= sizeof(clkname))
+> +			dev_err(dev, "clkname truncated\n");
+>  
+> -		snprintf(clkname, sizeof(clkname), "di%d_sel", i);
+>  		imx_ldb->clk_sel[i] = devm_clk_get(imx_ldb->dev, clkname);
+>  		if (IS_ERR(imx_ldb->clk_sel[i])) {
+>  			ret = PTR_ERR(imx_ldb->clk_sel[i]);
+> -- 
+> 2.39.2
 
-Reported-by: Barry Kauler <bkauler@gmail.com>
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_device.c
-index 222a1d9ecf16..5f6c32ec674d 100644
-=2D-- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -2487,6 +2487,10 @@ static int amdgpu_device_ip_init(struct amdgpu_devi=
-ce *adev)
- 	if (r)
- 		goto init_failed;
-
-+	r =3D amdgpu_amdkfd_resume_iommu(adev);
-+	if (r)
-+		goto init_failed;
-+
- 	r =3D amdgpu_device_ip_hw_init_phase1(adev);
- 	if (r)
- 		goto init_failed;
-@@ -2525,10 +2529,6 @@ static int amdgpu_device_ip_init(struct amdgpu_devi=
-ce *adev)
- 	if (!adev->gmc.xgmi.pending_reset)
- 		amdgpu_amdkfd_device_init(adev);
-
--	r =3D amdgpu_amdkfd_resume_iommu(adev);
--	if (r)
--		goto init_failed;
--
- 	amdgpu_fru_get_product_info(adev);
-
- init_failed:
-=2D-
-2.39.2
-
+-- 
+Ville Syrjälä
+Intel
