@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A9D8CD2B6
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 14:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47AF8CD2C7
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 14:52:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D59D410E588;
-	Thu, 23 May 2024 12:51:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA13410E455;
+	Thu, 23 May 2024 12:52:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pwjod96j";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cNlP+wZc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 873E110E577
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 12:51:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F44110E578
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 12:52:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 38E5FCE1723;
- Thu, 23 May 2024 12:51:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3862C2BD10;
- Thu, 23 May 2024 12:50:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 717CD62E08;
+ Thu, 23 May 2024 12:52:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B82C4AF08;
+ Thu, 23 May 2024 12:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716468662;
- bh=SE/AcBnibbHXcnZ3edG7LB2eAeI51NeMqnEBvDf6bKI=;
- h=Date:From:To:Cc:From;
- b=pwjod96jVg2xfUFRbx1AaDAhg/huX+Go3KIY3xoGIES2JihxdndxYdDOOaT6dTa+Y
- /hyEiwsOnDAqhXATBfo9rHljyfVeazHPUHeOJbhFo4i3tLT//g/I7A8HFhWj8Aa9no
- eD3M+WDVzJzF7nNnFoDEtr71XfoJNU7l6U6Yl/ExLIgXltUngo9rXpH9OEMeZbf68W
- Ouxzf5qcD88qlLWvgvqGRkAenpfDLvLiGsB1F2tvgPiYKCnfvG44xM0gKESlxII5S6
- 517Ij8Cm9z/urcfd8gViiw2UhGug/eztfiPExUnCCqk6RzlVxk1zTCDssZ28UNBcEG
- MEAAlhgearz6w==
-Date: Thu, 23 May 2024 13:50:54 +0100
+ s=k20201202; t=1716468763;
+ bh=Ov/eNwLh6BA6kwXNxjQ7wAB32sy+biR+igd64TMYcKU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=cNlP+wZcnCn9mrC6KpXYEy4bYbB28Rhe03birPWNkEGZflvi5Iczsz3MmrtLwIfWA
+ z/oJ/1KV1bHPo4INIid6VCuAPCh5eun68WfG6WUNSr5W7vZmdJgChreV23y/oJVO7E
+ HrvQdSV2aDkr31+o6kkl2juhfqji6l2TRM4ustIgZ0eBTBWNyEs1NlTVgBMlpRadOs
+ uC5yVH2jlU4W6PjBa+vRsRqnmlgD7KRvHS1xYYClxYs/PIESZ2LReivBaDHegXB+ND
+ fD6BEvW4q1yV9+uJJHglUK1+Gxl5Mbhw0jbn64+4O3Oj4fD+cxYXesmP1yLJP8tpA8
+ I8YeB5Mj3nYHQ==
+Date: Thu, 23 May 2024 13:52:35 +0100
 From: Simon Horman <horms@kernel.org>
 To: Alexey Makhalov <alexey.makhalov@broadcom.com>
 Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
@@ -45,10 +45,12 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
  maarten.lankhorst@linux.intel.com, kirill.shutemov@linux.intel.com,
  Nadav Amit <nadav.amit@gmail.com>, Jeff Sipek <jsipek@vmware.com>,
  Joe Perches <joe@perches.com>
-Message-ID: <20240523125054.GL883722@kernel.org>
+Subject: Re: [PATCH v9 3/8] x86/vmware: Introduce VMware hypercall API
+Message-ID: <20240523125235.GA907834@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <683225e0-1cd3-4dea-bb68-086d46b233e8@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,10 +66,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Bcc: 
-Subject: Re: [PATCH v9 3/8] x86/vmware: Introduce VMware hypercall API
-Reply-To: 
-In-Reply-To: <683225e0-1cd3-4dea-bb68-086d46b233e8@broadcom.com>
+[ resending as I mangled the previous attempt , sorry ]
 
 + Joe Perches
 
