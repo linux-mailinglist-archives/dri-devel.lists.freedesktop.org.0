@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A348CD7B2
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 17:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944218CD7B3
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 17:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A7010E936;
-	Thu, 23 May 2024 15:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0BA410E95A;
+	Thu, 23 May 2024 15:51:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LGXAzZyw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VyRs39AQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3537210E934;
- Thu, 23 May 2024 15:51:21 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D88F10E941;
+ Thu, 23 May 2024 15:51:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716479481; x=1748015481;
+ t=1716479487; x=1748015487;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KFEqUVe6krk9OGtuAsBTyaSZZ/QIyp0OxOs/kRFPd2Q=;
- b=LGXAzZywLjnC6S83i0AuWSkF1EZL5j+WkxEmdZUiYUHOiHce/cJnnIVt
- EhCjYd76V9BDs5LsJTPq++9uMugtpBWWSRAQ8UNF5q63jjMsS1xRD5F5Q
- blECR/qL5DBZZlsTkMoHdrWhFdyBHpFDKmLgjEzNVG6NIvUiI5Wfez8TO
- wkFiZo4HLH1h2+usVU48fAXcJGBAMYkKDwQzj6Ngo7eXJlmeyjRHLM4xI
- lhVDJehB6DDUhtX/hVLswvbhgmGkeMK1Yhq6w7zoRNsbKvDtySx3feqqb
- B4imbPtmi9pDrFqTHIzxaegQ8Kzf4MebdND0yhMQMoypF+dLWEaU5J9HE g==;
-X-CSE-ConnectionGUID: tu27MIc/S7KI9R4Pwdgd8w==
-X-CSE-MsgGUID: 8PkIA6tZS3qidM5yuK965Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12982295"
-X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; d="scan'208";a="12982295"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2024 08:51:21 -0700
-X-CSE-ConnectionGUID: hNSDpPw8Q12d8KM0nWxpHQ==
-X-CSE-MsgGUID: GDJ3T2FGRTuYefEhWUQ1eg==
+ bh=LWxOpwsQKaJr2wkzuXxKCrV6aG4OKNoCsg0wjE3wLWw=;
+ b=VyRs39AQlmEpVfxx7D+T/PPrZnI3+g9VGYT9ec5fPXcZTPybbYutJHE6
+ klxO/H9W592m+jZeWUsRT1FUG+oMW9z+i2oPA+7mLR6x3jrN8r7XFrSyM
+ YYL8XuvnewDGnkJXIOUy+RcOtVapV86vnn5337C8CQxjCqLDVQ4qWaOEU
+ Y2L4zsvdjzuczotBnzMaTmfoaZE1np2BSnYjzCyqUJJiIB7aBIWTQgXCm
+ eZEEU7wCdBY9/HT0ExaLDEDTzFsxdqe3Hnr+gGr5XQ05w5Erjf8D9CXl0
+ YoHLsovOjK5ZaiA4OQ0f+ZRgGt0Qxuf5NQ7R8CInzEsPDcqX9C00S7bHY Q==;
+X-CSE-ConnectionGUID: 4dBmi3qaSgmKF7otBgjmUQ==
+X-CSE-MsgGUID: yNYIPyuUR6WMcDtN1xt2nQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="16644266"
+X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; d="scan'208";a="16644266"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2024 08:51:27 -0700
+X-CSE-ConnectionGUID: 1zN68PPiQrS29sCHwNf1+Q==
+X-CSE-MsgGUID: Zr6Hen4NSbeQqED/WtlVTg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; d="scan'208";a="38556335"
+X-IronPort-AV: E=Sophos;i="6.08,183,1712646000"; d="scan'208";a="34324920"
 Received: from unknown (HELO localhost) ([10.237.66.160])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2024 08:51:19 -0700
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2024 08:51:24 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: jani.nikula@intel.com, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>
-Subject: [PATCH 1/4] drm/amdgpu: fix -Wformat-truncation warning in
- amdgpu_gfx_kiq_init_ring()
-Date: Thu, 23 May 2024 18:51:06 +0300
-Message-Id: <4b9ca4a1bd8e77f2d9b912b4af5d4fbdec13e801.1716479340.git.jani.nikula@intel.com>
+Cc: jani.nikula@intel.com, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>
+Subject: [PATCH 2/4] drm/nouveau: fix -Wformat-truncation warning in
+ nouveau_backlight_init()
+Date: Thu, 23 May 2024 18:51:07 +0300
+Message-Id: <de3297edb7f22cfc0654ee15aa0f774fbe607133.1716479340.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1716479340.git.jani.nikula@intel.com>
 References: <cover.1716479340.git.jani.nikula@intel.com>
@@ -75,18 +74,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Enabling -Wformat-truncation yields the following warning:
 
-../drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c: In function ‘amdgpu_gfx_kiq_init_ring’:
-../drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:61: error: ‘%d’ directive output may be truncated writing between 1 and 10 bytes into a region of size between 0 and 8 [-Werror=format-truncation=]
-  332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
-      |                                                             ^~
-../drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:50: note: directive argument in the range [0, 2147483647]
-  332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
-      |                                                  ^~~~~~~~~~~~~~~~~
-../drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:9: note: ‘snprintf’ output between 12 and 41 bytes into a destination of size 16
-  332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  333 |                  xcc_id, ring->me, ring->pipe, ring->queue);
-      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../drivers/gpu/drm/nouveau/nouveau_backlight.c: In function ‘nouveau_backlight_init’:
+../drivers/gpu/drm/nouveau/nouveau_backlight.c:56:69: error: ‘%d’ directive output may be truncated writing between 1 and 10 bytes into a region of size 3 [-Werror=format-truncation=]
+   56 |                 snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
+      |                                                                     ^~
+In function ‘nouveau_get_backlight_name’,
+    inlined from ‘nouveau_backlight_init’ at ../drivers/gpu/drm/nouveau/nouveau_backlight.c:351:7:
+../drivers/gpu/drm/nouveau/nouveau_backlight.c:56:56: note: directive argument in the range [1, 2147483647]
+   56 |                 snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
+      |                                                        ^~~~~~~~~~~~~~~~
+../drivers/gpu/drm/nouveau/nouveau_backlight.c:56:17: note: ‘snprintf’ output between 14 and 23 bytes into a destination of size 15
+   56 |                 snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Silence the warning by checking the snprintf() return value.
 
@@ -94,32 +93,40 @@ Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 ---
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Pan Xinhui <Xinhui.Pan@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_backlight.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-index 1d955652f3ba..92744d0d2c10 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-@@ -329,8 +329,10 @@ int amdgpu_gfx_kiq_init_ring(struct amdgpu_device *adev, int xcc_id)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+index d47442125fa1..1d77a5f280c5 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
++++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+@@ -49,13 +49,18 @@ nouveau_get_backlight_name(char backlight_name[BL_NAME_SIZE],
+ 			   struct nouveau_backlight *bl)
+ {
+ 	const int nb = ida_alloc_max(&bl_ida, 99, GFP_KERNEL);
++	int ret;
  
- 	ring->eop_gpu_addr = kiq->eop_gpu_addr;
- 	ring->no_scheduler = true;
--	snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
--		 xcc_id, ring->me, ring->pipe, ring->queue);
-+	r = snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
-+		     xcc_id, ring->me, ring->pipe, ring->queue);
-+	if (r >= sizeof(ring->name))
-+		dev_warn(adev->dev, "kiq ring name truncated\n");
- 	r = amdgpu_ring_init(adev, ring, 1024, irq, AMDGPU_CP_KIQ_IRQ_DRIVER0,
- 			     AMDGPU_RING_PRIO_DEFAULT, NULL);
- 	if (r)
+ 	if (nb < 0)
+ 		return false;
+ 	if (nb > 0)
+-		snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
++		ret = snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight%d", nb);
+ 	else
+-		snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight");
++		ret = snprintf(backlight_name, BL_NAME_SIZE, "nv_backlight");
++
++	if (ret >= BL_NAME_SIZE)
++		return false;
++
+ 	bl->id = nb;
+ 	return true;
+ }
 -- 
 2.39.2
 
