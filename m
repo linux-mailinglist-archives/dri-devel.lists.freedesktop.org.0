@@ -2,60 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE718CD145
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 13:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5CD38CD16E
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 13:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E894810E259;
-	Thu, 23 May 2024 11:33:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFED10E11A;
+	Thu, 23 May 2024 11:46:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LNUJpLZP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YqYHcKuA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com
- [46.235.227.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8939810E291
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 11:32:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1716463970;
- bh=xxwOORKXpYRuv1uSmAvP8hybhQbv42S6rKt7i+RykoE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LNUJpLZPkFeJowEbnPonKue9SSW32Xo/8RewwMBwlI4V0Y9OKEIehgnw5uliyLMSw
- 8pIFNmXXEmGow99diw1Nxu9lpnN7/ft5I0Fiy5kGFFMXdJZaze4sGKrNgV5IkSpL0c
- 5vw8lo+iTNzUagaWT2qnWzDFL2WSl/5kd7UfRF2qUmZqn+MaL+WW63UHkc4SVbVcRF
- QRJYroAMWzWhNesF6yWXCmtqT7ugIRNQ4RlQ/H+nqN0PTPtnWvnlW9+AcQnp1Y01Ye
- npXQ21OcEVY/g19Kn3SXC0UTXqXTRZwyBlDT6XxTdsFk5uLKrBbucyP/lmdjVRNu5P
- meXGFS7MV5Ebw==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: alarumbe)
- by madrid.collaboradmins.com (Postfix) with ESMTPSA id A909E37821C5;
- Thu, 23 May 2024 11:32:49 +0000 (UTC)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Zack Rusin <zack.rusin@broadcom.com>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v4 3/3] drm/gem-shmem: Add import attachment warning to locked
- pin function
-Date: Thu, 23 May 2024 12:32:19 +0100
-Message-ID: <20240523113236.432585-4-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240523113236.432585-1-adrian.larumbe@collabora.com>
-References: <20240523113236.432585-1-adrian.larumbe@collabora.com>
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D59BE10E11A
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 11:46:35 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-51ff65b1e14so8814182e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 04:46:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1716464794; x=1717069594; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=uprefhCgqHmgRCR+cfAZCBDosMSOOYvyqNmZZJrA1vg=;
+ b=YqYHcKuAk74mWM/aBoZSZSTSbULwFRPB4sWZO/tIK0j7iQZC7pO+p1/X+4xFjsGHWM
+ 0o5lOdSdI7hJv2kQMc6UPYFnKpnpqVMw8PyxwN6FcqGaDc+ISbiootCkCjMfCVIQz6Sq
+ T5yUZ9qLZPAGqMjMuX7MmTku/oLAq5s1uh35AMMCqRjO+B1DgJr6PqB4CxKzPN+cxxG2
+ h0zPLocjTlTfSkmWX44S08rp205qooCvP7MKZNucNQLqjcXnbuBCrG2r7yHoYIfadSmg
+ xvO9w7wBKjkwB66fdP6MRA2mRiAgqtq5wJmmgivLoMRGsxxdsrSbaMWKR8BMtnOgRspr
+ PoKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716464794; x=1717069594;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uprefhCgqHmgRCR+cfAZCBDosMSOOYvyqNmZZJrA1vg=;
+ b=lEuyKs9tMZ7mankXa8CqFS9g819P5HyVfZcyIbpffDyVe8U02x19/Z1dWLqS5AUI29
+ lW3IaPxo9La6WnA5EJzAn9oSEWYW4FGFdoMsfcqbVXlLzICPFTkowJ7KXP74xwug4xgp
+ XRXZXFf5ratJNfBVz9JO8qH+UFMr9ISzj5h7VPhy3moKRl85Mw804FULWYN5jG4fxdsH
+ exY92YSYcmtKSzY9nRRS3FxLABVSjjCw7MP79VKqw9BpxYGwinO7lhPikQ8g6PWZgbY6
+ 0QBWdq/cN6dt4RqOcpeKH8cedhZVdCJ1K+bcoApujtpyHAG92LbprJr1ktHf42v9IPKh
+ oipw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU6YrDvhNE50TqPuXy8ynewGbABvpdBjFMZAKny3byeSV8xMXa2ROJ/HXeWhHDodeYOHzp0fu3vnSRlT2bEfio4tdHDetsM0VLCj+pBGvA9
+X-Gm-Message-State: AOJu0YwdpBQ4cVUv+Yl7NbD1Y5bel+yuMaH072dBV3bJi4I/3HUPvfzH
+ Lb8DZ+7cD+r4ysRUzjRXsNiUWLe7vhoLUP9SxZaAOgKfHHVDJqkmc73YkocMVrI=
+X-Google-Smtp-Source: AGHT+IGBiL7Oiztj/+dmQv4BL665Zqfu967E/8LJRhUrFe0HkWUk7uqDb6+uR4EPIq2SDZKgH59zZA==
+X-Received: by 2002:ac2:4d1c:0:b0:51b:248b:e768 with SMTP id
+ 2adb3069b0e04-526bef87adcmr3053749e87.25.1716464793664; 
+ Thu, 23 May 2024 04:46:33 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-521f39d2c84sm5319149e87.282.2024.05.23.04.46.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 May 2024 04:46:33 -0700 (PDT)
+Date: Thu, 23 May 2024 14:46:31 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v14 21/28] drm/connector: hdmi: Add Infoframes generation
+Message-ID: <e47uh7w6fxqdtio5qwgv7yro5mmywhbjj7v332ts4thzzg3uk5@ilke33oaczgj>
+References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-21-51950db4fedb@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-21-51950db4fedb@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,33 +98,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit ec144244a43f ("drm/gem-shmem: Acquire reservation lock in GEM
-pin/unpin callbacks") moved locking DRM object's dma reservation to
-drm_gem_shmem_object_pin, and made drm_gem_shmem_pin_locked public, so we
-need to make sure the non-NULL check warning is also added to the latter.
+On Tue, May 21, 2024 at 12:13:54PM +0200, Maxime Ripard wrote:
+> Infoframes in KMS is usually handled by a bunch of low-level helpers
+> that require quite some boilerplate for drivers. This leads to
+> discrepancies with how drivers generate them, and which are actually
+> sent.
+> 
+> Now that we have everything needed to generate them in the HDMI
+> connector state, we can generate them in our common logic so that
+> drivers can simply reuse what we precomputed.
+> 
+> Cc: Ville Syrj‰l‰ <ville.syrjala@linux.intel.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c    | 336 +++++++++++++++++++++
+>  drivers/gpu/drm/drm_connector.c                    |  14 +
+>  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |   1 +
+>  include/drm/display/drm_hdmi_state_helper.h        |   7 +
+>  include/drm/drm_connector.h                        | 111 ++++++-
+>  6 files changed, 480 insertions(+), 1 deletion(-)
+> 
 
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Fixes: a78027847226 ("drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()")
-Signed-off-by: Adri√°n Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 177773bcdbfd..ad5d9f704e15 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -233,6 +233,8 @@ int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
- 
- 	dma_resv_assert_held(shmem->base.resv);
- 
-+	drm_WARN_ON(shmem->base.dev, shmem->base.import_attach);
-+
- 	ret = drm_gem_shmem_get_pages(shmem);
- 
- 	return ret;
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 -- 
-2.45.1
-
+With best wishes
+Dmitry
