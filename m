@@ -2,74 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAD58CCFC7
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 11:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B92C8CCFDD
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 12:04:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E910410E388;
-	Thu, 23 May 2024 09:59:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3821F10E21B;
+	Thu, 23 May 2024 10:04:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CUwZwGa1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="G8FoBTk2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C941A10E388
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 09:59:48 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-de462979e00so2141342276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 02:59:48 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBB2F10E21B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 10:04:02 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-51f60817e34so8513340e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 03:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716458387; x=1717063187; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4eLg5W63v6nyWYGdaPlQGL+64DpELLePyMxWT5qrNUU=;
- b=CUwZwGa1oObdnC2Yoa+UmDfJ0Oi3NqHQ2bQCXLkKvZca40KOBADLqpEmUGYQjTzOy5
- EM9uJnzrVYEFQW6vsKl4nvN2PWTM5Xraj38NcQUjoQmcHSojZQYTXEwxr9T3+Gz9QQHN
- Z0z04VW1VD0UdHthZ0UJAfkl9M8TS+9S+J8fPsRs1y/1OzZhxUNflGXxd6mhILd9T0hd
- PA24e9McRvVmLB1HjpueDctREW41pQP5vnid+Xybotr5d1uJaLkLmSTDGvL7EKVoZuiw
- Er4/zy6RNYseJhbrbjMrUhXCOumTYB2ofHsa+twSIimhGFQXPJv4Gh/X4jkf7eja1rUQ
- +c9g==
+ d=linaro.org; s=google; t=1716458641; x=1717063441; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=TH/BUWVtxkmUJ13gtzS4sCxD7fWyObo8iOIYwJa0PIw=;
+ b=G8FoBTk2da2EDW0PXrnqCB3+DsvmkpuZfkow2Ahsewn0WYgS0M5ovRZR9ALAUV+h6u
+ 4NDhY/HLdTZPDn3dqN9Zo9Al0V9Go9Zj5ViXOaEOAM561Ar+63OD2ojDOKrDt7WTHM/S
+ xBc9GwS4N97QD8iCJn/yNOZB/NHBESbWYa+rSKIwWuqbJjWE2ox+DCcz4UKCK5TcKWJ4
+ Z+bn9t0j8ixdyz1owoSF7n633fJ1dRsQ8rB+1/k0darQTHqfZjjw8t84zKdhGorCjgrS
+ bO09/I/+t70XNbUWXZMumGWw8NcI6bNLidMtZfxeQgH2ru6Heaz3nVC75O0GEpZY7ucl
+ S4/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716458387; x=1717063187;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4eLg5W63v6nyWYGdaPlQGL+64DpELLePyMxWT5qrNUU=;
- b=JQ5acV8IL9DJ2s+ufNCqjSLgm6WuCBzjpZ775+7AYrusJ9RtdSmwx+OGyWoVHvz2Wp
- FsAlslcIDl9e27pNTdna1WP8fgjlGrqz172kVJEXN7PynIBfMLPsFBOAiIn7bvvYaoGU
- N8dy4+zjHKWSWuIunc5SZRJtK85U9f7q/zcuD1PEFx8bR4qT4WQPUlWkKuNEcdMiOaDN
- sZkU+Fh2vCcxuee0X9OR5fD2cd2rCX14QJbJzm7/hR0+mlnNOlSax4/2cPLltjJ7P/xi
- Rafzk5CP070suZj3Ex42VEwtOuUzVRYAlGG0FOo+/+5rvZKsFx1JilwL5Ww0Zx+Qp1lF
- mc8g==
-X-Gm-Message-State: AOJu0YywjGOg8hZ7qhZ5podPBVJMzKF1W03KgGuFbIqOuI7kqfRIkjUi
- 2/YJexGYptVG8wxaxZNbSrAIsZYd80f6IyhDi1OHzn+hiHZ+BV0NChIGIgFm0isjKolaQyVDxNj
- UwoPnHUklnwPe7y0t6FtS8hX0Ijzw1NKsyP+ecw==
-X-Google-Smtp-Source: AGHT+IEH2bet0vxbyQkGUI55R017CbgvtHVbrVup5m0zjkPeCkh3N7ZUjMndzd5BhJJAs4TMZp+oQ52G6r3Sss4urHM=
-X-Received: by 2002:a25:b181:0:b0:dee:607c:3528 with SMTP id
- 3f1490d57ef6-df4e0a9cfa9mr4821493276.3.1716458387642; Thu, 23 May 2024
- 02:59:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240517092502.647420-1-vignesh.raman@collabora.com>
- <20240517092502.647420-2-vignesh.raman@collabora.com>
- <2qzmfv3oc6feihwxu3tl37rg6w3qsj2vddu5olvqk6vhqr26cc@bxu5y6ijvtfa>
- <9cd0667a-12ee-4d45-80e8-dc34259bf01d@collabora.com>
-In-Reply-To: <9cd0667a-12ee-4d45-80e8-dc34259bf01d@collabora.com>
+ d=1e100.net; s=20230601; t=1716458641; x=1717063441;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TH/BUWVtxkmUJ13gtzS4sCxD7fWyObo8iOIYwJa0PIw=;
+ b=U610sr6vHZkKOLLE3YMSg/UuFGqJCRXaYEEqTCdVXALYHqVKVtY+w9PEPqcB3Ny2f1
+ cmro3yWXT9Px6XB3VMJJBv5RQss5eT95FP7I2aMuu1nJFRnyqyTO520F3yWB2BLJ3X8L
+ rqBWxQJvgz1dzBpDaQ8srjT1PoNmfJhJiPMejnUiZUJc86OVbBpXXHkXsupBREKAsfGB
+ Zar5cjvdFxl1ny/suKhXeyXoAJIb+Sk2rK8NZFYLCF8fQRmZZ6M5BLAEGa6PQG+dFULX
+ bgHOWNGAoDR7PRQlmkWzMdKmlCksczKxoh46aJKzQs6yhzXNyiwY91v/s+OmRCb3193V
+ nxpQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUUMRrghERv0NJlKngAEb4v1nmKFOF0MnMAU7YshsEsqxrGhfZg7tYyCj9uLVX63DBZLWx38ItRCfj8bnZpMhxiBotoAVSza3nEM2VK5Q5L
+X-Gm-Message-State: AOJu0Yzrr8cbo53IwE08bxWoloCHSco3uW6LIrzuNnuyCDsdbLUdCYLF
+ O2UjWkcJRtlWOEi1GG/0Js8IOo2Erri/fz4wvYshvXP5+s5/LyTS7FekKSblFfk=
+X-Google-Smtp-Source: AGHT+IGlpqecDFsJDGKpUD/L/07fSwQIVn93IEsQGl4tYZ0BdBGomkd7vGGiht1/7leKlSP/ZRYLZg==
+X-Received: by 2002:ac2:5930:0:b0:523:89b0:9b64 with SMTP id
+ 2adb3069b0e04-526bebb45afmr2452653e87.7.1716458640738; 
+ Thu, 23 May 2024 03:04:00 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-521f38d8ae2sm5423836e87.204.2024.05.23.03.04.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 May 2024 03:04:00 -0700 (PDT)
+Date: Thu, 23 May 2024 13:03:58 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 23 May 2024 12:59:36 +0300
-Message-ID: <CAA8EJprVVkQO7aPkehwL2zhYkGRkm4Foc13ErfuY6ikBA_4nLQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] drm/ci: uprev mesa version
-To: Vignesh Raman <vignesh.raman@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
- helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch, 
- robdclark@gmail.com, david.heidelberg@collabora.com, 
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com, 
- mcanal@igalia.com, linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v14 13/28] drm/connector: hdmi: Add custom hook to filter
+ TMDS character rate
+Message-ID: <hjz32n3wokppjxdpzu2lsoypno2dy6thi3tfrkhy76g7v2a5aq@5hjjd52fsqup>
+References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-13-51950db4fedb@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-13-51950db4fedb@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,86 +98,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 May 2024 at 09:07, Vignesh Raman <vignesh.raman@collabora.com> wrote:
->
-> Hi Dmitry,
->
-> On 20/05/24 16:13, Dmitry Baryshkov wrote:
-> > On Fri, May 17, 2024 at 02:54:57PM +0530, Vignesh Raman wrote:
-> >> zlib.net is not allowing tarball download anymore and results
-> >> in below error in kernel+rootfs_arm32 container build,
-> >> urllib.error.HTTPError: HTTP Error 403: Forbidden
-> >> urllib.error.HTTPError: HTTP Error 415: Unsupported Media Type
-> >>
-> >> Uprev mesa to latest version which includes a fix for this issue.
-> >> https://gitlab.freedesktop.org/mesa/mesa/-/commit/908f444e
-> >>
-> >> Use id_tokens for JWT authentication. Since s3 bucket is migrated to
-> >> mesa-rootfs, update the variables accordingly. Also copy helper scripts
-> >> to install, so that the ci jobs can use these scripts for logging.
-> >>
-> >> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-> >> ---
-> >>
-> >> v2:
-> >>    - Uprev to recent version and use id_tokens for JWT authentication
-> >>
-> >> ---
-> >>   drivers/gpu/drm/ci/build-igt.sh   |  2 +-
-> >>   drivers/gpu/drm/ci/build.sh       |  6 +++--
-> >>   drivers/gpu/drm/ci/container.yml  | 12 +++------
-> >>   drivers/gpu/drm/ci/gitlab-ci.yml  | 44 +++++++++++++++++++++----------
-> >>   drivers/gpu/drm/ci/image-tags.yml |  2 +-
-> >>   drivers/gpu/drm/ci/lava-submit.sh |  4 +--
-> >>   drivers/gpu/drm/ci/test.yml       |  2 ++
-> >>   7 files changed, 44 insertions(+), 28 deletions(-)
-> >>
-> >
-> > [skipped]
-> >
-> >> diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-> >> index 8bc63912fddb..612c9ede3507 100644
-> >> --- a/drivers/gpu/drm/ci/test.yml
-> >> +++ b/drivers/gpu/drm/ci/test.yml
-> >> @@ -150,6 +150,8 @@ msm:sdm845:
-> >>       BM_KERNEL: https://${PIPELINE_ARTIFACTS_BASE}/arm64/cheza-kernel
-> >>       GPU_VERSION: sdm845
-> >>       RUNNER_TAG: google-freedreno-cheza
-> >> +    DEVICE_TYPE: sdm845-cheza-r3
-> >> +    FARM: google
-> >
-> > I see that this is the only user of the FARM: tag. Is it correct?
->
-> No, we need to add FARM variable for other jobs as well.
-
-Why? Even if we have to, we don't have them now and the change doesn't
-seem to be related to the uprev'ing of mesa. So this probably should
-go to a separate commit.
-
->
-> > Also we miss DEVICE_TYPE for several other boards. Should we be adding
-> > them?
->
-> Yes, device type needs to be added for msm:apq8016, msm:apq8096, virtio_gpu.
->
-> I will add this. Thanks.
-
-I'd guess, separate commit too.
-
->
-> Regards,
-> Vignesh
->
-> >
-> >>     script:
-> >>       - ./install/bare-metal/cros-servo.sh
-> >>
-> >> --
-> >> 2.40.1
-> >>
-> >
+On Tue, May 21, 2024 at 12:13:46PM +0200, Maxime Ripard wrote:
+> Most of the HDMI controllers have an upper TMDS character rate limit
+> they can't exceed. On "embedded"-grade display controllers, it will
+> typically be lower than what high-grade monitors can provide these days,
+> so drivers will filter the TMDS character rate based on the controller
+> capabilities.
+> 
+> To make that easier to handle for drivers, let's provide an optional
+> hook to be implemented by drivers so they can tell the HDMI controller
+> helpers if a given TMDS character rate is reachable for them or not.
+> 
+> This will then be useful to figure out the best format and bpc count for
+> a given mode.
+> 
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  9 +++++++
+>  drivers/gpu/drm/drm_connector.c                    |  4 +++
+>  drivers/gpu/drm/tests/drm_connector_test.c         | 14 ++++++++++
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  4 +++
+>  include/drm/drm_connector.h                        | 31 ++++++++++++++++++++++
+>  5 files changed, 62 insertions(+)
+> 
 
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
