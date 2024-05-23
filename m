@@ -2,55 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26BDE8CDA4C
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 20:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13AC8CDA93
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 21:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9398310EA6C;
-	Thu, 23 May 2024 18:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF48D10E8DD;
+	Thu, 23 May 2024 19:15:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="SdMsogg+";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2EF10EA6C
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 18:58:03 +0000 (UTC)
-Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:1::3])
- by unicorn.mansr.com (Postfix) with ESMTPS id DA6A515364;
- Thu, 23 May 2024 19:58:00 +0100 (BST)
-Received: by raven.mansr.com (Postfix, from userid 51770)
- id CACE3219FCA; Thu, 23 May 2024 19:58:00 +0100 (BST)
-From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Guido
- =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Purism Kernel Team
- <kernel@puri.sm>, Ondrej
- Jirman <megi@xff.cz>, Neil Armstrong <neil.armstrong@linaro.org>, Jessica
- Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] clk: sunxi-ng: common: Support minimum and
- maximum rate
-In-Reply-To: <yw1x4jap90va.fsf@mansr.com> (=?iso-8859-1?Q?=22M=E5ns_Rullg?=
- =?iso-8859-1?Q?=E5rd=22's?= message of "Wed,
- 22 May 2024 19:07:21 +0100")
-References: <20240310-pinephone-pll-fixes-v4-0-46fc80c83637@oltmanns.dev>
- <20240310-pinephone-pll-fixes-v4-1-46fc80c83637@oltmanns.dev>
- <yw1xo78z8ez0.fsf@mansr.com>
- <c4c1229c-1ed3-4b6e-a53a-e1ace2502ded@oltmanns.dev>
- <yw1x4jap90va.fsf@mansr.com>
-Date: Thu, 23 May 2024 19:58:00 +0100
-Message-ID: <yw1xo78w73uv.fsf@mansr.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.3 (gnu/linux)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+ [209.85.167.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62C5810E17E
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 19:15:05 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id
+ 5614622812f47-3c9cc681ee0so3392692b6e.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 12:15:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1716491704; x=1717096504;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=neX9Rj9kbD2Mta30BndIslB9399YLTZUQPcD/TShwW8=;
+ b=SdMsogg+0A1etbRrg7QcOOEHQTJjF12pEHePzteRX82d9l9vIKLrNaB8wG/LYgT7mb
+ l9IczzA2hkUSwPblZVHM4OKwN/LS+y0QCMtAyQeXrZqXvjELDF7HMlJac2jVI8P1rVHX
+ 61pzAyzXxjukzqc7KJd7rBtqbrANVaLSNkUvc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716491704; x=1717096504;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=neX9Rj9kbD2Mta30BndIslB9399YLTZUQPcD/TShwW8=;
+ b=MTftdErB7t5+khjxakevrZFvDzeqmRJil0JyoztDTKBKgVGiPYU2bJ46q/HY3TDNFO
+ cX5aad3X/oKoAulXP0QEd+Jqp+nikJB6omuYyoAtEgItlI/OGcmSZXIyUhXiXbgNQl92
+ pt6aG85phMLBVu1xRCMOvW5MBFKdGL2fhqC8SdbGVVPdETHQDU7iZLI7V6vFy1+CGHk3
+ 6Sqrt1TUlDtKtanUCyh4Pb0wYjkigjkByJhBE1lbB9p9cLfIaWtVR/q4sxdKrJsj+mfw
+ pdsyv320YUUFSgw9ul8h39x2A+V25ADwFYx6RKo61xgzVdONcoNk9Xo87VPNd4GSPvRN
+ /oIA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUq4cH+v9gqOAVA6e97S9XIGVyVNJwzi2vdfkq/REFgJ+kl2mgR3EPugroRly5jn7m1gxUwyWNJooObJIi3HcThAEVIhDLyGhSBXcQh7S9A
+X-Gm-Message-State: AOJu0YwDFMBnp8xQ1mMe+GGbO89gIDK8mGCMfCQSTG5AFob3soW8GJdE
+ CQfimwaeA+ZY+doBbV+PD7VNVaEUq1eYRG53wGRf+gmAZJqXwEon9xyag+yjgw==
+X-Google-Smtp-Source: AGHT+IH/Ysnno2TkFzRL2UNNhoEarRPKJ9VjuR8XSFIlVnpcZKrEaxTEc2+rptviFCowPSempZ9ABw==
+X-Received: by 2002:a05:6808:10d4:b0:3c7:366b:980a with SMTP id
+ 5614622812f47-3d1a54835c7mr396574b6e.5.1716491704120; 
+ Thu, 23 May 2024 12:15:04 -0700 (PDT)
+Received: from amakhalov-build-vm.eng.vmware.com ([192.19.161.250])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-43e4a89b61dsm21219821cf.45.2024.05.23.12.14.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 May 2024 12:15:03 -0700 (PDT)
+From: Alexey Makhalov <alexey.makhalov@broadcom.com>
+To: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, bp@alien8.de,
+ hpa@zytor.com, dave.hansen@linux.intel.com, mingo@redhat.com,
+ tglx@linutronix.de
+Cc: x86@kernel.org, netdev@vger.kernel.org, richardcochran@gmail.com,
+ linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
+ timothym@vmware.com, akaher@vmware.com, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com, horms@kernel.org,
+ kirill.shutemov@linux.intel.com,
+ Alexey Makhalov <alexey.makhalov@broadcom.com>
+Subject: [PATCH v10 0/8] VMware hypercalls enhancements
+Date: Thu, 23 May 2024 12:14:38 -0700
+Message-Id: <20240523191446.54695-1-alexey.makhalov@broadcom.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,75 +86,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-M=E5ns Rullg=E5rd <mans@mansr.com> writes:
+VMware hypercalls invocations were all spread out across the kernel
+implementing same ABI as in-place asm-inline. With encrypted memory
+and confidential computing it became harder to maintain every changes
+in these hypercall implementations.
 
-> Frank Oltmanns <frank@oltmanns.dev> writes:
->
->> Hi M=E5ns,
->>
->> 21.05.2024 15:43:10 M=E5ns Rullg=E5rd <mans@mansr.com>:
->>
->>> Frank Oltmanns <frank@oltmanns.dev> writes:
->>>
->>>> The Allwinner SoC's typically have an upper and lower limit for their
->>>> clocks' rates. Up until now, support for that has been implemented
->>>> separately for each clock type.
->>>>
->>>> Implement that functionality in the sunxi-ng's common part making use =
-of
->>>> the CCF rate liming capabilities, so that it is available for all clock
->>>> types.
->>>>
->>>> Suggested-by: Maxime Ripard <mripard@kernel.org>
->>>> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
->>>> Cc: stable@vger.kernel.org
->>>> ---
->>>> drivers/clk/sunxi-ng/ccu_common.c | 19 +++++++++++++++++++
->>>> drivers/clk/sunxi-ng/ccu_common.h |=A0 3 +++
->>>> 2 files changed, 22 insertions(+)
->>>
->>> This just landed in 6.6 stable, and it broke HDMI output on an A20 based
->>> device, the clocks ending up all wrong as seen in this diff of
->>> /sys/kernel/debug/clk/clk_summary:
+Intention of this patchset is to introduce arch independent VMware
+hypercall API layer other subsystems such as device drivers can call
+to, while hiding architecture specific implementation behind.
 
-[...]
+First patch introduces the vmware_hypercall low and high bandwidth
+families of functions, with little enhancements there. And the last
+patch adds tdx hypercall support
 
->>> Reverting this commit makes it work again.
->>
->> Thank you for your detailed report!
->>
->> I've had a first look at hdmi-tmds and hdmi-ddc, and neither seems to
->> be calling ccu_is_better_rate() in their determine_rate()
->> functions. Their parents have the exact same rates in your diff, so,
->> my current working assumption is that they can't be the cause either.
->>
->> I'll have a more detailed look over the weekend. Until then, if anyone
->> has some ideas where I should have a look next, please share your
->> thoughts.
->
-> In case it's relevant, this system doesn't use the HDMI DDC, the
-> physical DDC pins being connected to a different I2C adapter for
-> various reasons.
->
-> From the clk_summary diff, I see a few things:
->
-> 1. hdmi-tmds has changed parent from pll-video1-2x to pll-video0-2x.
-> 2. The ratio of hdmi-tmds to its parent has changed from 1/8 to 1.
-> 3. The resulting rate bears no relation to the pixel clock from EDID.
->
-> I tried kernel 6.9.1 as well, and that doesn't work either.  I'll keep
-> digging and try to narrow it down.
+arm64 implementation of vmware_hypercalls is in drivers/gpu/drm/
+vmwgfx/vmwgfx_msg_arm64.h and going to be moved to arch/arm64 with
+a separate patchset with the introduction of VMware Linux guest
+support for arm64.
 
-It turns out HDMI output is broken in v6.9 for a different reason.
-However, this commit (b914ec33b391 clk: sunxi-ng: common: Support
-minimum and maximum rate) requires two others as well in order not
-to break things on the A20:
+No functional changes in drivers/input/mouse/vmmouse.c and
+drivers/ptp/ptp_vmw.c
 
-cedb7dd193f6 drm/sun4i: hdmi: Convert encoder to atomic
-9ca6bc246035 drm/sun4i: hdmi: Move mode_set into enable
+v9->v10 changes:
+- Restructure the patchset as was suggested by Borislav Petkov to
+  introduce vmware_hypercalls API first, then move callers to use this
+  API, and then remove the old mechanism.  
+- Reduce alternative portion of VMWARE_HYPERCALL by moving common code
+  outside of alternative block. Suggested by Borislav Petkov.
+- Use u32 instead of uint32_t in vmware_hypercall API and across vmware.c
+  as was suggested by Simon Horman.
+- Remove previous Reviewed-by and Acked-by.
+- Fix typos in comments and commit descriptions.
+- No major changes in patches 2,3,4,8 compare to v9.
 
-With those two (the second depends on the first) cherry-picked on top of
-v6.6.31, the HDMI output is working again.  Likewise on v6.8.10.
+v8->v9 change:
+First patch "x86/vmware: Move common macros to vmware.h" was split on 2 pieces:
+  "x86/vmware: Move common macros to vmware.h" - just code movement, and
+  "x86/vmware: Correct macro names" - macro renaming.
 
---=20
-M=E5ns Rullg=E5rd
+v7->v8 no functional changes. Updated authors and reviewers emails to
+@broadcom.com
+
+v6->v7 changes (only in patch 7):
+- Addressed comments from H. Peter Anvin:
+  1. Removed vmware_tdx_hypercall_args(), moved args handling inside
+     vmware_tdx_hypercall().
+  2. Added pr_warn_once() for !hypervisor_is_type(X86_HYPER_VMWARE) case.
+- Added ack by Dave Hansen.
+
+v5->v6 change:
+- Added ack by Kirill A. Shutemov in patch 7. 
+
+v4->v5 changes:
+  [patch 2]:
+- Fixed the problem reported by Simon Horman where build fails after
+  patch 2 application. Do not undefine VMWARE_HYPERCALL for now, and
+  update vmwgfx, vmmouse and ptp_vmw code for new VMWARE_HYPERCALL macro.
+- Introduce new patch 6 to undefine VMWARE_HYPERCALL, which is safe to do
+  after patches 3 to 5.
+- [patch 7 (former patch 6)]: Add missing r15 (CPL) initialization.
+
+v3->v4 changes: (no functional changes in patches 1-5)
+  [patch 2]:
+- Added the comment with VMware hypercall ABI description.
+  [patch 6]:
+- vmware_tdx_hypercall_args remove in6/out6 arguments as excessive.
+- vmware_tdx_hypercall return ULONG_MAX on error to mimic bad hypercall
+  command error from the hypervisor.
+- Replaced pr_warn by pr_warn_once as pointed by Kirill Shutemov.
+- Fixed the warning reported by Intel's kernel test robot.
+- Added the comment describing VMware TDX hypercall ABI.
+
+v2->v3 changes: (no functional changes in patches 1-5)
+- Improved commit message in patches 1, 2 and 5 as was suggested by
+  Borislav Petkov.
+- To address Dave Hansen's concern, patch 6 was reorganized to avoid
+  exporting bare __tdx_hypercall and to make exported vmware_tdx_hypercall
+  VMWare guest specific.
+
+v1->v2 changes (no functional changes):
+- Improved commit message in patches 2 and 5.
+- Added Reviewed-by for all patches.
+- Added Ack from Dmitry Torokhov in patch 4. No fixes regarding reported
+  by Simon Horman gcc error in this patch.
+
+Alexey Makhalov (8):
+  x86/vmware: Introduce VMware hypercall API
+  ptp/vmware: Use VMware hypercall API
+  input/vmmouse: Use VMware hypercall API
+  drm/vmwgfx: Use VMware hypercall API
+  x86/vmware: Use VMware hypercall API
+  x86/vmware: Correct macro names
+  x86/vmware: Remove legacy VMWARE_HYPERCALL* macros
+  x86/vmware: Add TDX hypercall support
+
+ arch/x86/include/asm/vmware.h             | 333 +++++++++++++++++++---
+ arch/x86/kernel/cpu/vmware.c              | 165 ++++++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       | 173 ++++-------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 196 +++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 185 ------------
+ drivers/input/mouse/vmmouse.c             |  76 ++---
+ drivers/ptp/ptp_vmw.c                     |  12 +-
+ 7 files changed, 602 insertions(+), 538 deletions(-)
+
+-- 
+2.39.0
+
