@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CE28CD04F
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 12:24:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4837B8CD054
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 12:25:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A078610E4C8;
-	Thu, 23 May 2024 10:24:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF91B10E8FB;
+	Thu, 23 May 2024 10:25:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qd+/wXBO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uF9nvrRu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84D0E10E4C8
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 10:24:42 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-51f174e316eso7029734e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 03:24:42 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 891F810E596
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 10:25:35 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-5210684cee6so8059627e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 03:25:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716459881; x=1717064681; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1716459934; x=1717064734; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YTs4KhPH145/AJRmP8+6lMsBop1Ixgucc2xC1shylpk=;
- b=qd+/wXBOv/YpS4aYkkRP4rRxtdiSktXtl5RKEe3+5W8MkSfBOAgrGkO+3BQZXM1wrR
- NhWJiCYo8sBY3rU3FuQ/EsLNtgQc6h4Vdpa+NjZA4CfHF5b/gQXordMUmmU+P8w3rnBY
- Pn/NTmNiWDH7rg1dR283bRy2ghikjvkKZFdhKNHDAHeb9BR/hfxasd84BD8LdD7VXY2i
- JUi7ZEwmsm5EvGjOwm1wONldCXDtbrSKF5kC4UV9V2xdr/z69a8biVGqlLvqiINbAie7
- ijWWRzS25eQfpMH1rTAWvDPRiWzBzg1h976Lwj4hQtXkLj82Z0gCxDfJXNdu9yasJArm
- Bhtw==
+ bh=h0Y/Ql63/IxwaJL+O/h+E6/ion+Rk9v6vnf8eimobm8=;
+ b=uF9nvrRumh2IzGdh7AxeWtJLFFm/uIHR43sHbC53bjNYFrrg2A3/zxzTaUbBAiiIO9
+ b4vtPjWI7aVy8/us6LNnXmk879pzHMayfGpl67n8x14Er9ez+p0FXkjytht8s9pt9FxP
+ WiWwY/caTUZycObIU2qKr6eTX7F38+min3UlOLh1uXtyQVbmd9M1K7RHmuUWWv0gQdnt
+ XW1HYUZrO3XojIOPAk/exxU5hk3Pb7+bQvTMzQXQJTkAYBvzqAJuWjFJ6DL+hyYbRX8W
+ rpSD3ldFdf+XdYc5cFGSWbu29jFN+NTW7orE5P+SnnlfgOVlSrYkhePfL4K8x6hbkM7w
+ y8Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716459881; x=1717064681;
+ d=1e100.net; s=20230601; t=1716459934; x=1717064734;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YTs4KhPH145/AJRmP8+6lMsBop1Ixgucc2xC1shylpk=;
- b=aEgbi1AhqPRHrWkPoW6fZYdQREy+XCcoxmTs310NdCTLCyOG3qOw0RcASGBImaAQDE
- q9nixqwVV+qwQBFsn37CRXUk3dLUnpNX28xSuEZ+5CE59Z+xiL2GvOw8nItPcmF8W3PA
- H3WJOwQ2HZKuLjE7DZNMs+hFGN68eeWAxFCNw3ZeBvqbWr6mtt8O8VSYdTBCHxIh129X
- kIEdfKEybuvY05OrXuIu23BnKj+T2ZsctG/1nue61IoRMagS8WCsc7g1a8H6AqtQkhgf
- 2hejgl6mEXZt7iTTqIFfF4HBUfcfMwkcDVrSaj6B9nwhRrMu5k4lA38OgkgdEIwJZy7E
- Foqg==
+ bh=h0Y/Ql63/IxwaJL+O/h+E6/ion+Rk9v6vnf8eimobm8=;
+ b=g55uIcL46gNpFERsRkx63FOnlcIop/ZDu/rPzdzv/ivbcHxllOXqhdsvo0O7XlfUrr
+ ui2DDm2QCWmvz/S2T29W5m5KSZiA2PVzyI934Y2tZ35/wEgyaMSXBlzJ30zJ0ed9RR/u
+ 5i81cYtPj1cB8nYfFWK8wd92UuoEFXMs2BC63XNn5N+XEz7Zs1ZU2y7glpSF4umCpzC5
+ OMINIFXuj7o4VF5NmCLlwN+KCq0JmX1ohUVDwZTcFh17m7qAJsqwotfJWd6qTWENxsXR
+ tolyoEk1hfU5LKXQI6AG9vrCmPhF2xLlU1UDP9KlCPkj6HKm4sPZm14THbyI2y/GIbZ4
+ 8jlA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXGbN0q/SZoQLzh6AkWHFeIR9mAUV76QVgjXzGVynqdRv9vFzin8rH6YwwoXEm6G6Zs6PGjpM1xfzavAVnYKY5jbocWAyesYu4G8Vuo45EA
-X-Gm-Message-State: AOJu0YyX6vCAzF6G+M2swWLV17/A2V8JlUYoJ+YGMw2OTEQWWxI72AuK
- t8kPTFc5ikFBkJQx7a4mEc7bhubcfOpvhWCI4p1nYb37AwlPkhl3fLEhuYVjVek=
-X-Google-Smtp-Source: AGHT+IFh8tvpeC+TwvjC1fPxZfM+UwuyED0DKgyl3oWL27XorJPrG1npFHJwvig7HdSlbfPLtqhR9Q==
-X-Received: by 2002:a05:6512:3141:b0:521:9207:189d with SMTP id
- 2adb3069b0e04-526c121522amr2191728e87.65.1716459880614; 
- Thu, 23 May 2024 03:24:40 -0700 (PDT)
+ AJvYcCV/D8LYdjcqGSNCw8az98yMlrmjqQPC+AVAOCRqOQavqRIOiD1Jl3CFIUJuVck+WqGqI1QBJ6LX9oeLCeBcMc8Sq73+8PknTTg22wfqI+7+
+X-Gm-Message-State: AOJu0Yzg+YPkEeAdqFruBLkbKWYkte45FTPAPKyqb+SHVxe+nS29k5tl
+ yjLfgjEyxw+D7cBSA3Nme0Xmt/c9/ESDO5vPB41H1h5Ryxv/KRk7oCKomPm1ms0=
+X-Google-Smtp-Source: AGHT+IG3S9HxgA+BRyKc+tEiIJocVHkYeAAUZVOvMSsA2E8b2S+QZ7Z9TP78uV3Je9C7031yrjAtlg==
+X-Received: by 2002:a19:5208:0:b0:519:2a88:add6 with SMTP id
+ 2adb3069b0e04-526c0782f50mr2886400e87.55.1716459933553; 
+ Thu, 23 May 2024 03:25:33 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f35ad526sm5387014e87.54.2024.05.23.03.24.39
+ 2adb3069b0e04-521f35ba739sm5323969e87.101.2024.05.23.03.25.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 May 2024 03:24:39 -0700 (PDT)
-Date: Thu, 23 May 2024 13:24:38 +0300
+ Thu, 23 May 2024 03:25:32 -0700 (PDT)
+Date: Thu, 23 May 2024 13:25:31 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -74,15 +74,14 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev, 
  Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v14 19/28] drm/connector: hdmi: Add RGB Quantization
- Range to the connector state
-Message-ID: <evhxta7gk6mogntoafibz7kxcgziikrhitrjg45t3p3lhify2k@uwwdo6i4bqbx>
+Subject: Re: [PATCH v14 20/28] drm/tests: Add RGB Quantization tests
+Message-ID: <pruqf2ou26m7i7ez2p6rgjdfbzkngqyuwfv3bnx5d3jzxce3af@sa3d467uka3d>
 References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-19-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-20-51950db4fedb@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240521-kms-hdmi-connector-state-v14-19-51950db4fedb@kernel.org>
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-20-51950db4fedb@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,18 +97,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 21, 2024 at 12:13:52PM +0200, Maxime Ripard wrote:
-> HDMI controller drivers will need to figure out the RGB range they need
-> to configure based on a mode and property values. Let's expose that in
-> the HDMI connector state so drivers can just use that value.
+On Tue, May 21, 2024 at 12:13:53PM +0200, Maxime Ripard wrote:
+> The previous commit added the infrastructure to the connector state to
+> track what RGB Quantization should be used in a given state for an HDMI
+> connector.
+> 
+> Let's add some kunit tests to make sure it works as expected.
 > 
 > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 29 +++++++++++++++++++++++++
->  drivers/gpu/drm/drm_atomic.c                    |  1 +
->  include/drm/drm_connector.h                     |  6 +++++
->  3 files changed, 36 insertions(+)
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 355 +++++++++++++++++++++
+>  1 file changed, 355 insertions(+)
+> 
 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
