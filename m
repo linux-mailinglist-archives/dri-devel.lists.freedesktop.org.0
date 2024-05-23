@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B92C8CCFDD
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 12:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012778CCFE2
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 12:04:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3821F10E21B;
-	Thu, 23 May 2024 10:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0700510E28A;
+	Thu, 23 May 2024 10:04:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="G8FoBTk2";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="u7R6Ct5q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
  [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBB2F10E21B
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 10:04:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 327F210E28A
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 10:04:27 +0000 (UTC)
 Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-51f60817e34so8513340e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 03:04:02 -0700 (PDT)
+ 2adb3069b0e04-51f2ebbd8a7so9061344e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 03:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1716458641; x=1717063441; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1716458665; x=1717063465; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=TH/BUWVtxkmUJ13gtzS4sCxD7fWyObo8iOIYwJa0PIw=;
- b=G8FoBTk2da2EDW0PXrnqCB3+DsvmkpuZfkow2Ahsewn0WYgS0M5ovRZR9ALAUV+h6u
- 4NDhY/HLdTZPDn3dqN9Zo9Al0V9Go9Zj5ViXOaEOAM561Ar+63OD2ojDOKrDt7WTHM/S
- xBc9GwS4N97QD8iCJn/yNOZB/NHBESbWYa+rSKIwWuqbJjWE2ox+DCcz4UKCK5TcKWJ4
- Z+bn9t0j8ixdyz1owoSF7n633fJ1dRsQ8rB+1/k0darQTHqfZjjw8t84zKdhGorCjgrS
- bO09/I/+t70XNbUWXZMumGWw8NcI6bNLidMtZfxeQgH2ru6Heaz3nVC75O0GEpZY7ucl
- S4/g==
+ bh=y4dfGDIGi6g96GxO6el+LliDi+3YKJVZHbevMlNSfR0=;
+ b=u7R6Ct5qL5iTR4dX+NT3E5wcZxywyG9mwNeS4+zz6K8UgjcolDVG0ZZ2SAhxPJJqw3
+ EAYMb3TxVYMPIiXuLC3BodA9ZG9/WopGYMUYqfs0eEQkcKqaSwttZ72u45n1cc82f269
+ pzcf6L1dvRWU+8yCBT0K6E23xtmq1DgOQE97cWWxwQQ4NAS2b0zQtcdibmxMx28H7OC9
+ xCX6MkCRLBV6pOcQVHjEEp7Hvxp1hdzuShlUudK5JYPMI3tzroEcF8snACTlDLuH4rRX
+ sYgd7DOIJd3/ZxgdEAVTDPQjGqLOCTw0Wb68jk7kL1n4JqKZne4QPoxtnU8v3QegbmhP
+ PqVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716458641; x=1717063441;
+ d=1e100.net; s=20230601; t=1716458665; x=1717063465;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TH/BUWVtxkmUJ13gtzS4sCxD7fWyObo8iOIYwJa0PIw=;
- b=U610sr6vHZkKOLLE3YMSg/UuFGqJCRXaYEEqTCdVXALYHqVKVtY+w9PEPqcB3Ny2f1
- cmro3yWXT9Px6XB3VMJJBv5RQss5eT95FP7I2aMuu1nJFRnyqyTO520F3yWB2BLJ3X8L
- rqBWxQJvgz1dzBpDaQ8srjT1PoNmfJhJiPMejnUiZUJc86OVbBpXXHkXsupBREKAsfGB
- Zar5cjvdFxl1ny/suKhXeyXoAJIb+Sk2rK8NZFYLCF8fQRmZZ6M5BLAEGa6PQG+dFULX
- bgHOWNGAoDR7PRQlmkWzMdKmlCksczKxoh46aJKzQs6yhzXNyiwY91v/s+OmRCb3193V
- nxpQ==
+ bh=y4dfGDIGi6g96GxO6el+LliDi+3YKJVZHbevMlNSfR0=;
+ b=BqZX7o0U5ShjNI33x8zfbzAcZLi6asUePzG05rVcPgORuzZUGJ9XwaSi82GWZV2ibX
+ k9j+U1WruqltcuIwUqk2ctyy1KvQC8D7k7CSL33f4kQqbmFaK0q96L/ZosewcAtNfD1v
+ H/Qhk+SBi6B910Dk7N+4R/KxJV5bUzrr4XFeSmZ8GOGmfjQPiH+PXWSbMx+qNZJ9rQ1P
+ gHA9rBHo75x6vc9T7tSawBR0X3jpS3DqANk2Vy9YZIOY8vmeqa4sqk8y7NDrfmcNUVu1
+ dpT0hEg22tVZ4NMFtyXNM8O8jl19B3R+c4fUUeVfJtEaaRy/EBQXKFOer5bRS/PSGagO
+ C+PQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUUMRrghERv0NJlKngAEb4v1nmKFOF0MnMAU7YshsEsqxrGhfZg7tYyCj9uLVX63DBZLWx38ItRCfj8bnZpMhxiBotoAVSza3nEM2VK5Q5L
-X-Gm-Message-State: AOJu0Yzrr8cbo53IwE08bxWoloCHSco3uW6LIrzuNnuyCDsdbLUdCYLF
- O2UjWkcJRtlWOEi1GG/0Js8IOo2Erri/fz4wvYshvXP5+s5/LyTS7FekKSblFfk=
-X-Google-Smtp-Source: AGHT+IGlpqecDFsJDGKpUD/L/07fSwQIVn93IEsQGl4tYZ0BdBGomkd7vGGiht1/7leKlSP/ZRYLZg==
-X-Received: by 2002:ac2:5930:0:b0:523:89b0:9b64 with SMTP id
- 2adb3069b0e04-526bebb45afmr2452653e87.7.1716458640738; 
- Thu, 23 May 2024 03:04:00 -0700 (PDT)
+ AJvYcCW2u7h+H3+06MZuKGbDAtpw8ncNWOzD/oNMZIPiBV4KftBwa3C4IAEfJooa3tfGiFHxnQj87f9IPl7L4UrTpIXINl9/yy9FC2RaHXRtbdz5
+X-Gm-Message-State: AOJu0YzxkpGFVxIIPv8qYvAlOiwnzGcO+zofC9q/y7uqAEY2YyFNsTWq
+ lX2lr3WpL/kcw39g0UJpra8DKKk+BKhBmhxgCbi6WGkmsE0N4jWKGbcEErZcVgs=
+X-Google-Smtp-Source: AGHT+IHI9JqXzb0Cyfhcs6KeNERwPEvQfkeVQfr9ZS+SMw0TkOUBh/ztRskPl/+x+XS30MmAlFxklg==
+X-Received: by 2002:ac2:5044:0:b0:523:3be3:cbfe with SMTP id
+ 2adb3069b0e04-526bfc02bbemr2577217e87.65.1716458665403; 
+ Thu, 23 May 2024 03:04:25 -0700 (PDT)
 Received: from eriador.lumag.spb.ru
  (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-521f38d8ae2sm5423836e87.204.2024.05.23.03.04.00
+ 2adb3069b0e04-5236d2e9ad9sm3382898e87.178.2024.05.23.03.04.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 May 2024 03:04:00 -0700 (PDT)
-Date: Thu, 23 May 2024 13:03:58 +0300
+ Thu, 23 May 2024 03:04:24 -0700 (PDT)
+Date: Thu, 23 May 2024 13:04:22 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -74,15 +74,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev, 
  Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v14 13/28] drm/connector: hdmi: Add custom hook to filter
- TMDS character rate
-Message-ID: <hjz32n3wokppjxdpzu2lsoypno2dy6thi3tfrkhy76g7v2a5aq@5hjjd52fsqup>
+Subject: Re: [PATCH v14 14/28] drm/tests: Add HDMI connector rate filter hook
+ tests
+Message-ID: <zds53yg36qf7ft7mrvvgv2k5avbjib3zy2pdd2azrnvthppngu@2bep5gso3wic>
 References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-13-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-14-51950db4fedb@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240521-kms-hdmi-connector-state-v14-13-51950db4fedb@kernel.org>
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-14-51950db4fedb@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,29 +98,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 21, 2024 at 12:13:46PM +0200, Maxime Ripard wrote:
-> Most of the HDMI controllers have an upper TMDS character rate limit
-> they can't exceed. On "embedded"-grade display controllers, it will
-> typically be lower than what high-grade monitors can provide these days,
-> so drivers will filter the TMDS character rate based on the controller
-> capabilities.
-> 
-> To make that easier to handle for drivers, let's provide an optional
-> hook to be implemented by drivers so they can tell the HDMI controller
-> helpers if a given TMDS character rate is reachable for them or not.
-> 
-> This will then be useful to figure out the best format and bpc count for
-> a given mode.
+On Tue, May 21, 2024 at 12:13:47PM +0200, Maxime Ripard wrote:
+> The previous patch adds a new hook for HDMI connectors to filter out
+> configurations based on the TMDS character rate. Let's add some tests to
+> make sure it works as expected.
 > 
 > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  9 +++++++
->  drivers/gpu/drm/drm_connector.c                    |  4 +++
->  drivers/gpu/drm/tests/drm_connector_test.c         | 14 ++++++++++
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  4 +++
->  include/drm/drm_connector.h                        | 31 ++++++++++++++++++++++
->  5 files changed, 62 insertions(+)
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 65 ++++++++++++++++++++++
+>  1 file changed, 65 insertions(+)
 > 
 
 
