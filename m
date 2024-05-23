@@ -2,73 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3FC8CD9A8
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 20:07:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CF48CDA1A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2024 20:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74F3010F1E2;
-	Thu, 23 May 2024 18:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5106A10EEE6;
+	Thu, 23 May 2024 18:42:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b1u6Fhc6";
+	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.b="CSNk1Yvj";
+	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="WIprwJPl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DDAB10F1E0;
- Thu, 23 May 2024 18:07:22 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-1ec92e355bfso26512015ad.3; 
- Thu, 23 May 2024 11:07:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1716487642; x=1717092442; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JFvamzZglehHBEolPcL4rA0lvGrignK3Mpdrws3oBZY=;
- b=b1u6Fhc6z8i8oSmJhIM/0yGNjvEg9ZOTF5t9O6DAxUKqJR3OrZifj8ch91fty2i3ay
- 8Alz60hXF1xI48riy4sd5Aqr+0bPvqKrpi7rHRNhgtgDYmIjU2QZttTGuvDmN3tw2Ukt
- PEhzzgk3UxAHcmCF2xM66Wqis/Jq90diqJZbNPdHvlrkjqnVd45uczEOjkQHamd88RAU
- mFqook9MRpkr4gsbxJmIPb/Jwd/Jji9DMAMqP7CUi+hBCn/YEN60+ZSd4MkazWnn2Xk/
- fl3z+t+3QGB4d0Hv+6jNwTeC/Jm+mlo0L3xCeTJk5jiKP92acbGs7b36p23qlJg6foEJ
- bstw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716487642; x=1717092442;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JFvamzZglehHBEolPcL4rA0lvGrignK3Mpdrws3oBZY=;
- b=SJuTRmcrgH2xOI063DBlFVoQYjYygMU0k1Tmc2NeHUfqEymOJXso2CozrP8N52lHPy
- O+gxLA2MWnl26ltfq8qjZbNYYDIckKKU2Z24uqLATLvHcMul9yGhteaRL5a9xcBnAEQu
- 1+qmfrVUKjIUlnGphG4+bSqwDVp8ZTftBAHqVM2bvDGm6rMUxJfgUBDq7o3JUXdCOXrA
- vz87uqONEBIrgUQ1BvwRkk/OjZzBgq0bjMnc0pH/AZo4/V8bmeEUnAIOFvgZ9ThQtiNv
- FJDe0IgnhiVx0c+fR7blmQdB0LNYzJaK3ex1v3ofzn1ez4TbIQi4zdetHnUHVeV56O3z
- hgUg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXRzQtqpuDL0PJV921Jns/fVvLAQJur/0eaN3eS4bXBRimcuurVtaJ3CnEGEDMlYy2YeHPDGAy9um+nNdWsNYOMqCh6mx8qS4L6ed7QeXMOgEQfNySal61SLws0uyTxawRd8eAt8MtKLqNPfYU=
-X-Gm-Message-State: AOJu0Ywz65+Hk0AtIxgb17XvM5jzjvPLQXNzn/ggkJKcJz0Sgy65xbc6
- 1STGH4ARKrXHJEKq4hhq5psxzG+2w4Xvb0ND8UkXgGtjiUHkCar2VeGDFO37CFMtZqq0dUNGIYi
- 27wFKk1vIlwU6Q/gegnjj3tv/3Aw=
-X-Google-Smtp-Source: AGHT+IHW5lnRSRg4PCHbuQEIiRJQV3sSxY1XjBl+l0OmlWGBWLh6ELSgenhRJyncHAlp7WNyAce/8AdoA6d3i3/47I8=
-X-Received: by 2002:a17:902:ec8a:b0:1f3:356a:a300 with SMTP id
- d9443c01a7336-1f44872bbccmr1422585ad.24.1716487641700; Thu, 23 May 2024
- 11:07:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1716479340.git.jani.nikula@intel.com>
- <4b9ca4a1bd8e77f2d9b912b4af5d4fbdec13e801.1716479340.git.jani.nikula@intel.com>
-In-Reply-To: <4b9ca4a1bd8e77f2d9b912b4af5d4fbdec13e801.1716479340.git.jani.nikula@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 23 May 2024 14:07:08 -0400
-Message-ID: <CADnq5_MDPH-WxpucjQpKsCAk8mKa75upbcGN3KJo_dqKts4kTg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/amdgpu: fix -Wformat-truncation warning in
- amdgpu_gfx_kiq_init_ring()
+Received: from mailrelay2-1.pub.mailoutpod3-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod3-cph3.one.com [46.30.211.241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 038F310EEE6
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2024 18:42:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=mqAiIL9UmsTZ5nfVp6r06fBx7paxMBf8wn1VlFeMkQE=;
+ b=CSNk1Yvjxah3rkkxgpelc0VOPWIp75OPEQqWq1pcodABKvFFnSQXrVrenDn67tfY3D8higtjFf5q+
+ f0TvD1Xu7CHYT9QFQsG9OcCU7x8/z4c95fh6Uf9WYi0vQ6qIaFLVX6h8lsXjJ4DbD84yaMWHR3pyp6
+ GZLQ6b38p9ymFQvfMUNfPMbTSUYJx15BVomjZtwE3zJL++339XDSCo0Fk7IA9cleqdQlFI2m7eHQYN
+ D2fN8Kiad80deL3bZJyVrJahjzYGWLb4MBhmBE+/PEu8u25A5abKXx2Cts49BDtJxevcGf1u14wI+b
+ 5KRl9Shn7wR/OMlcrYHM1Q8rTi1Kuyg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=mqAiIL9UmsTZ5nfVp6r06fBx7paxMBf8wn1VlFeMkQE=;
+ b=WIprwJPlFWVWsTuv+1kxtKhJKxGQvFhUAW6MY279TBYMtIaS5vQ91nOVFlbGExQxiLG2gBsvHPe9Q
+ ZgCMlemCQ==
+X-HalOne-ID: 10aba6c9-1934-11ef-91f6-953526d7c221
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay2.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+ id 10aba6c9-1934-11ef-91f6-953526d7c221;
+ Thu, 23 May 2024 18:41:29 +0000 (UTC)
+Date: Thu, 23 May 2024 20:41:28 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
 To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Pan Xinhui <Xinhui.Pan@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 4/4] drm: enable -Wformat-truncation across the subsystem
+Message-ID: <20240523184128.GA523806@ravnborg.org>
+References: <cover.1716479340.git.jani.nikula@intel.com>
+ <719debc351075abc36b2573266bfd4d963361e40.1716479340.git.jani.nikula@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <719debc351075abc36b2573266bfd4d963361e40.1716479340.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,77 +66,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 23, 2024 at 11:51=E2=80=AFAM Jani Nikula <jani.nikula@intel.com=
-> wrote:
->
-> Enabling -Wformat-truncation yields the following warning:
->
-> ../drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c: In function =E2=80=98amdgpu_g=
-fx_kiq_init_ring=E2=80=99:
-> ../drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:61: error: =E2=80=98%d=E2=
-=80=99 directive output may be truncated writing between 1 and 10 bytes int=
-o a region of size between 0 and 8 [-Werror=3Dformat-truncation=3D]
->   332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d=
-",
->       |                                                             ^~
-> ../drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:50: note: directive argume=
-nt in the range [0, 2147483647]
->   332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d=
-",
->       |                                                  ^~~~~~~~~~~~~~~~=
-~
-> ../drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:9: note: =E2=80=98snprintf=
-=E2=80=99 output between 12 and 41 bytes into a destination of size 16
->   332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d=
-",
->       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
->   333 |                  xcc_id, ring->me, ring->pipe, ring->queue);
->       |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> Silence the warning by checking the snprintf() return value.
->
+Hi Jani,
 
-Already fixed with this patch:
-https://patchwork.freedesktop.org/patch/594864/
-
-Thanks,
-
-Alex
-
+On Thu, May 23, 2024 at 06:51:09PM +0300, Jani Nikula wrote:
+> With the -Wformat-truncation warnings fixed, finish the job started in
+> commit a61ddb4393ad ("drm: enable (most) W=1 warnings by default across
+> the subsystem"), and enable that warning too.
+> 
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
+
+When it is enabled for all of drm then the explicit assignments here
+could be dropped I think:
+
+drivers/gpu/drm/i915/Makefile:subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
+drivers/gpu/drm/xe/Makefile:subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
+
+Just a drive-by comment, I know this patch was mostly for the bots.
+
+	Sam
+
+> 
 > ---
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: Pan Xinhui <Xinhui.Pan@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
+> 
+> Gut feeling says there are more issues, and my configs just don't catch
+> them all, but let's see what the build bots have to say. ;)
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_gfx.c
-> index 1d955652f3ba..92744d0d2c10 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-> @@ -329,8 +329,10 @@ int amdgpu_gfx_kiq_init_ring(struct amdgpu_device *a=
-dev, int xcc_id)
->
->         ring->eop_gpu_addr =3D kiq->eop_gpu_addr;
->         ring->no_scheduler =3D true;
-> -       snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
-> -                xcc_id, ring->me, ring->pipe, ring->queue);
-> +       r =3D snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
-> +                    xcc_id, ring->me, ring->pipe, ring->queue);
-> +       if (r >=3D sizeof(ring->name))
-> +               dev_warn(adev->dev, "kiq ring name truncated\n");
->         r =3D amdgpu_ring_init(adev, ring, 1024, irq, AMDGPU_CP_KIQ_IRQ_D=
-RIVER0,
->                              AMDGPU_RING_PRIO_DEFAULT, NULL);
->         if (r)
-> --
+>  drivers/gpu/drm/Makefile | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 68cc9258ffc4..644613dbedda 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -16,8 +16,7 @@ subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
+>  subdir-ccflags-y += $(call cc-option, -Wunused-const-variable)
+>  subdir-ccflags-y += $(call cc-option, -Wpacked-not-aligned)
+>  subdir-ccflags-y += $(call cc-option, -Wformat-overflow)
+> -# FIXME: fix -Wformat-truncation warnings and uncomment
+> -#subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
+> +subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
+>  subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
+>  # The following turn off the warnings enabled by -Wextra
+>  ifeq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
+> -- 
 > 2.39.2
->
