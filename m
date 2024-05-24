@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4B18CE185
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 09:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A0F8CE188
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 09:33:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C139510E073;
-	Fri, 24 May 2024 07:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCC1310E123;
+	Fri, 24 May 2024 07:33:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="hjOwmlws";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="QYoe6SFu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F6CA10E073
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 07:33:18 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44O7X650044481;
- Fri, 24 May 2024 02:33:06 -0500
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B01610E0B4
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 07:33:27 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44O7X87S023859;
+ Fri, 24 May 2024 02:33:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1716535986;
- bh=Hs5v3WOjE+iyvTaBgZAItEGIUyDtSVd+UbScrF+yyFo=;
- h=From:To:CC:Subject:Date;
- b=hjOwmlwsqoOvz4PMf3lUoISgg6iNhBpghqEDsuG0/DLqjVl7jRx5LTat5RlPyXKrP
- gROW5h4v3Vw5bKX+HjAGQmKgIBJyXGJ5gZ7Zal657T2hvwB4Bu4SnXt4MSApltCnm+
- 8V+k3hUeSKbXQgx69AVi5WteQCMcz6KteCHoZHwk=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44O7X6Tq033554
+ s=ti-com-17Q1; t=1716535988;
+ bh=7/O/ELBpsYqwHGgCUNWJaaXNiO3H0Vnv3in42Ax11vQ=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=QYoe6SFub1yaZPe5F3FIrm/TtcT4ZPdEOb6wGUKH2TPMRLoQbgDgIv+u/ZO4XewhP
+ XD4J9OZO8ag/adYi5scW/yw6+9QANeLZPA62xnqkPH3IGBntAcG8Z2B9jRTihOSjbP
+ In9J7CkyE/bODUG2l4Z2Q1CMAcn8cki5LCntDFpE=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44O7X8K2097755
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 24 May 2024 02:33:06 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ Fri, 24 May 2024 02:33:08 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 24
- May 2024 02:33:06 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ May 2024 02:33:08 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 24 May 2024 02:33:06 -0500
+ Frontend Transport; Fri, 24 May 2024 02:33:08 -0500
 Received: from localhost (jayesh-hp-probook-440-g8-notebook-pc.dhcp.ti.com
  [172.24.227.102] (may be forged))
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44O7X5dq121659;
- Fri, 24 May 2024 02:33:06 -0500
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44O7X7Is121697;
+ Fri, 24 May 2024 02:33:07 -0500
 From: Jayesh Choudhary <j-choudhary@ti.com>
 To: <linux-kernel@vger.kernel.org>, <andrzej.hajda@intel.com>,
  <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
@@ -49,10 +49,12 @@ To: <linux-kernel@vger.kernel.org>, <andrzej.hajda@intel.com>,
 CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
  <maarten.lankhorst@linux.intel.com>, <tzimmermann@suse.de>,
  <airlied@gmail.com>, <daniel@ffwll.ch>, <a-bhatia1@ti.com>
-Subject: [PATCH v2 0/2] Add mode_valid hook for sii902x bridge
-Date: Fri, 24 May 2024 13:03:03 +0530
-Message-ID: <20240524073305.107293-1-j-choudhary@ti.com>
+Subject: [PATCH v2 1/2] drm/bridge: sii902x: Fix mode_valid hook
+Date: Fri, 24 May 2024 13:03:04 +0530
+Message-ID: <20240524073305.107293-2-j-choudhary@ti.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240524073305.107293-1-j-choudhary@ti.com>
+References: <20240524073305.107293-1-j-choudhary@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -72,32 +74,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, there are no check to validate the modes in the bridge.
-Add pixel clock check to validate the modes that the bridge can support.
+Currently, mode_valid hook returns all mode as valid and it is
+defined only in drm_connector_helper_funcs. With the introduction of
+'DRM_BRIDGE_ATTACH_NO_CONNECTOR', connector is not initialized in
+bridge_attach call for cases when the encoder has this flag enabled.
+So add the mode_valid hook in drm_bridge_funcs as well with proper
+clock checks for maximum and minimum pixel clock supported by the
+bridge.
 
-Also add the mode_valid hook in drm_bridge_funcs structure to take care
-of the case when the encoder attaches the bridge chain with the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR flag in which case, the connector is not
-initialized in the bridge's attach call.
+Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+---
+ drivers/gpu/drm/bridge/sii902x.c | 38 ++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
 
-Also add this check to the atomic_check call as suggested by Maxime in
-v1 patch.
-
-Changelog v1->v2:
-- Add KHZ suffix in the macros to be more clear
-- Add the hook for drm_bridge_funcs as well
-- Add check in atomic_check dunction call (in a separate patch)
-
-v1 patch:
-<https://lore.kernel.org/all/20240408081435.216927-1-j-choudhary@ti.com/>
-
-Jayesh Choudhary (2):
-  drm/bridge: sii902x: Fix mode_valid hook
-  drm/bridge: Add pixel clock check in atomic_check
-
- drivers/gpu/drm/bridge/sii902x.c | 43 ++++++++++++++++++++++++++++++--
- 1 file changed, 41 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+index 2fbeda9025bf..ef7c3ab3386c 100644
+--- a/drivers/gpu/drm/bridge/sii902x.c
++++ b/drivers/gpu/drm/bridge/sii902x.c
+@@ -163,6 +163,14 @@
+ 
+ #define SII902X_AUDIO_PORT_INDEX		3
+ 
++/*
++ * The maximum resolution supported by the HDMI bridge is 1080p@60Hz
++ * and 1920x1200 requiring a pixel clock of 165MHz and the minimum
++ * resolution supported is 480p@60Hz requiring a pixel clock of 25MHz
++ */
++#define SII902X_MIN_PIXEL_CLOCK_KHZ		25000
++#define SII902X_MAX_PIXEL_CLOCK_KHZ		165000
++
+ struct sii902x {
+ 	struct i2c_client *i2c;
+ 	struct regmap *regmap;
+@@ -310,12 +318,26 @@ static int sii902x_get_modes(struct drm_connector *connector)
+ 	return num;
+ }
+ 
++static enum
++drm_mode_status sii902x_validate(struct sii902x *sii902x,
++				 const struct drm_display_mode *mode)
++{
++	if (mode->clock < SII902X_MIN_PIXEL_CLOCK_KHZ)
++		return MODE_CLOCK_LOW;
++
++	if (mode->clock > SII902X_MAX_PIXEL_CLOCK_KHZ)
++		return MODE_CLOCK_HIGH;
++
++	return MODE_OK;
++}
++
+ static enum drm_mode_status sii902x_mode_valid(struct drm_connector *connector,
+ 					       struct drm_display_mode *mode)
+ {
+-	/* TODO: check mode */
++	struct sii902x *sii902x = connector_to_sii902x(connector);
++	const struct drm_display_mode *mod = mode;
+ 
+-	return MODE_OK;
++	return sii902x_validate(sii902x, mod);
+ }
+ 
+ static const struct drm_connector_helper_funcs sii902x_connector_helper_funcs = {
+@@ -499,11 +521,22 @@ static int sii902x_bridge_atomic_check(struct drm_bridge *bridge,
+ 	 * There might be flags negotiation supported in future but
+ 	 * set the bus flags in atomic_check statically for now.
+ 	 */
++
+ 	bridge_state->input_bus_cfg.flags = bridge->timings->input_bus_flags;
+ 
+ 	return 0;
+ }
+ 
++static enum drm_mode_status
++sii902x_bridge_mode_valid(struct drm_bridge *bridge,
++			  const struct drm_display_info *info,
++			  const struct drm_display_mode *mode)
++{
++	struct sii902x *sii902x = bridge_to_sii902x(bridge);
++
++	return sii902x_validate(sii902x, mode);
++}
++
+ static const struct drm_bridge_funcs sii902x_bridge_funcs = {
+ 	.attach = sii902x_bridge_attach,
+ 	.mode_set = sii902x_bridge_mode_set,
+@@ -516,6 +549,7 @@ static const struct drm_bridge_funcs sii902x_bridge_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_get_input_bus_fmts = sii902x_bridge_atomic_get_input_bus_fmts,
+ 	.atomic_check = sii902x_bridge_atomic_check,
++	.mode_valid = sii902x_bridge_mode_valid,
+ };
+ 
+ static int sii902x_mute(struct sii902x *sii902x, bool mute)
 -- 
 2.25.1
 
