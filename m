@@ -2,58 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF318CEA2B
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 21:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 505028CEA71
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 21:47:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BFF10EA90;
-	Fri, 24 May 2024 19:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6481B10F5D6;
+	Fri, 24 May 2024 19:46:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bd+MzVyG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Rntw2+Li";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3DB110EA92
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 19:10:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1DE6362818;
- Fri, 24 May 2024 19:10:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFE6AC2BBFC;
- Fri, 24 May 2024 19:10:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716577820;
- bh=qRfM4TU7sRQJ/7eeA6XN0y8uQdtXege7cNrMTDXXWso=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Bd+MzVyGeSBmeWqjwO4x7j6KpuGsANl+9m8m1Emwh/XdOKy4QSutbnOlTvsgznLWt
- QdfVw1cqaiuHXyGtLueE7PuqP2diE2W/4UgXTKG60OV+MrOyaFMZ5AGMv+ooVhgiMf
- 11ObI3ROLz0n/MLRyQdiEgHHW/iuFXnr5LYf4LKyroDrVMwuEkqwL6MEiovPPfq8MW
- GWi/ayO90Y+WQ39y0B/dAf3PNjoSPfMDVsr7TlWOX2VKE6Bej+osCto258/GvV1uhb
- qunoYYecIcsCoj1QIcPv5y9tlqGN2X/WQCog6+RS2fYAs/TGrJxLSL3YuKvNgE8mMO
- 7eX75PvJm9Iag==
-Date: Fri, 24 May 2024 20:10:15 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Hironori KIKUCHI <kikuchan98@gmail.com>,
- Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add WL-355608-A8 panel
-Message-ID: <20240524-purveyor-outlying-5201f700a56e@spud>
-References: <20240524103506.187277-1-ryan@testtoast.com>
- <20240524103506.187277-2-ryan@testtoast.com>
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEFB910F5D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 19:46:56 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2e716e3030aso73990981fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 12:46:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1716580015; x=1717184815; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Quo9VUto6uPX81U21h21/Sote2mqJ5XSyeYi0dVaj0I=;
+ b=Rntw2+LiGOnC5KHrjEmX0qRZ76r8bEZS1CzqfzbQNveOdLcT0582QhYlKLoiaMpxDG
+ Nx9K4DZm6CaqjrIWJBxzBpcJtr+sP50H71CbZipHeNYWlUqx9xiDCQdnIklG2/r6dMJ0
+ TBvjFpCFzSyuXhJsgDAAfvp19clExyVhnAl367LLIa90bIQuLI4WTD/PBg7gXKjuRUc3
+ HCBDG+kFkCSRdYj0LsIkZyzJHBHf9zg86LhEhMPeizYtV+o/kzOGys9xEjOEB5pvN+EE
+ vW+Ai6ba1EKhAKYKuILp8RFt/2kgCwU+N/SZsem15DitosgB1kkLPaxWSCLxx7CGi+Hi
+ yJLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716580015; x=1717184815;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Quo9VUto6uPX81U21h21/Sote2mqJ5XSyeYi0dVaj0I=;
+ b=mGnxicS5vWOdbSReQsdC9c1JL8hR7YzXaVcxduKxK5eUUQ1qccmSLIc4bQHxslWVoc
+ f4BUpabZkjSWX3nC00NGnO04TtIamLomFNb8JN5jeH3ee2GOpS8HxRE06b2FfsnydjyI
+ NaxqZWTg/zKrqv2Z2IB4uOBWm0ckp+Qnk0Wp+WqE0xPK8iu2b654zxtxbS0/npZMlHzg
+ ZQfje8IJp8tuuMv66BA+zcgvYJrtXaPrf3MqqKKsQ1pO8nwiDj7FhOqfMTNRa69hWdan
+ JFA2Ts9WbuL6DWHjYNKmYgWlMCpx5k6RAtJZqDeDLwQU0j3Zja8EoRdfAeWxseYjclRr
+ XPcg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDIZsdQiTiGM7n3iBqFLC8LL4vH+MfE0/sQ7ezmj00lx1CRbNg+C/tQQFSryVTV076mtA56b/fg9P4EwjOi30o7ScbvH69BFDcx3/ggKgF
+X-Gm-Message-State: AOJu0Yxg0nMFjYiFvP1Uuo9mxAohwH/O7T8EB0RIKZBzC3MpArpiTY09
+ wYT0+2sc6kImcPbKeLc3vHlUY31a9SbWz6G7tmujguh0OlaoS87w+q+F4y8QzAs=
+X-Google-Smtp-Source: AGHT+IGGkwkIgDNujDfrkTUvU6TyZSMLZ2HS+RhhNILj1udlfwdmNchCCne3FxzMdqc27keq9rutHg==
+X-Received: by 2002:a2e:3209:0:b0:2d8:34ec:54e6 with SMTP id
+ 38308e7fff4ca-2e95b24dee7mr21133711fa.33.1716580014516; 
+ Fri, 24 May 2024 12:46:54 -0700 (PDT)
+Received: from eriador.lumag.spb.ru
+ (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2e95be00a0dsm3111601fa.105.2024.05.24.12.46.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 May 2024 12:46:54 -0700 (PDT)
+Date: Fri, 24 May 2024 22:46:52 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: linux-kernel@vger.kernel.org, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ sam@ravnborg.org, mripard@kernel.org, dri-devel@lists.freedesktop.org, 
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, a-bhatia1@ti.com
+Subject: Re: [PATCH v3 1/2] drm/bridge: sii902x: Fix mode_valid hook
+Message-ID: <x7i5miguht47wxliioos7npelzzicnwt7g5pfjqjvdztksgzga@c7djvf3lg3kf>
+References: <20240524093509.127189-1-j-choudhary@ti.com>
+ <20240524093509.127189-2-j-choudhary@ti.com>
+ <y6ersd72tp2d6k4i2hja7bg37lahnvye2qion67urxeakw6rju@dher7oomt2ks>
+ <4cd64cf5-d2b0-4aa9-b958-6b6fc54f0bf2@ti.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pLrOJBoAnsXYyrmH"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240524103506.187277-2-ryan@testtoast.com>
+In-Reply-To: <4cd64cf5-d2b0-4aa9-b958-6b6fc54f0bf2@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,137 +89,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, May 24, 2024 at 05:54:02PM +0530, Jayesh Choudhary wrote:
+> Hello Dmitry,
+> 
+> On 24/05/24 15:11, Dmitry Baryshkov wrote:
+> > On Fri, May 24, 2024 at 03:05:08PM +0530, Jayesh Choudhary wrote:
+> > > Currently, mode_valid hook returns all mode as valid and it is
+> > > defined only in drm_connector_helper_funcs. With the introduction of
+> > > 'DRM_BRIDGE_ATTACH_NO_CONNECTOR', connector is not initialized in
+> > > bridge_attach call for cases when the encoder has this flag enabled.
+> > > So add the mode_valid hook in drm_bridge_funcs as well with proper
+> > > clock checks for maximum and minimum pixel clock supported by the
+> > > bridge.
+> > > 
+> > > Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> 
+> [...]
+> 
+> > > +
+> > >   static enum drm_mode_status sii902x_mode_valid(struct drm_connector *connector,
+> > >   					       struct drm_display_mode *mode)
+> > >   {
+> > > -	/* TODO: check mode */
+> > > +	struct sii902x *sii902x = connector_to_sii902x(connector);
+> > > +	const struct drm_display_mode *mod = mode;
+> > > -	return MODE_OK;
+> > > +	return sii902x_validate(sii902x, mod);
+> > 
+> > There is no need to. The drm_bridge_chain_mode_valid() should take care
+> > of calling bridge's mode_valid callback and rejecting the mode if it is
+> > not accepted.
+> 
+> I need some clarity here.
+> 
+> IIRC, if the bridge does initialize the connector in case
+> where the encoder does not attach the bridge with the
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR (DBANC) flag (referring to tidss
+> encoder before we implemented the DBANC feature), then
+> drm_connector_helper_func are called and drm_bridge_funcs
+> are NOT called (atleast from what I have seen in detect
+> hook for cdns-mhdp-8546 driver which is there in both
+> structures).
 
---pLrOJBoAnsXYyrmH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There are different kinds of bridge_funcs. detect is a part of the
+connector-related interface, so it is not called by the drm core. On the
+other hand functions like mode_valid, enable/disable, etc. are called
+for all bridges.
 
-On Fri, May 24, 2024 at 10:33:13PM +1200, Ryan Walklin wrote:
-> The WL-355608-A8 is a 3.5" 640x480@60Hz RGB LCD display from an unknown
-> OEM, used in a number of handheld gaming devices made by Anbernic.
->=20
-> Add a device tree binding for the panel.
->=20
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> ---
->  .../bindings/display/panel/wl-355608-a8.yaml  | 68 +++++++++++++++++++
->  1 file changed, 68 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/wl-35=
-5608-a8.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/display/panel/wl-355608-a8=
-=2Eyaml b/Documentation/devicetree/bindings/display/panel/wl-355608-a8.yaml
-> new file mode 100644
-> index 000000000..af12303e2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/wl-355608-a8.yaml
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/wl-355608-a8.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: WL-355608-A8 3.5" (640x480 pixels) 24-bit IPS LCD panel
-> +
-> +maintainers:
-> +  - Ryan Walklin <ryan@testtoast.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: wl-355608-a8
+> I do not have any platform to test non-DBANC encoders.
+> And I did not want to break any platform that were still using
+> bridge_attach without DBANC flag.
+> That is why I kept mode_valid hook in both structures.
+> 
+> Are you implying that if connector_helper_funcs are not there
+> then there will be some sort of fallback to bridge_funcs instead
+> of passthrough for mode_valid check? Because that goes against my
+> previous observations.
 
-You're missing a vendor prefix here. And when you add it, update the
-filename to match.
+Not quite. See how drm_atomic_heler uses bridge_funcs.
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-3wire: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - port
-> +  - power-supply
-> +  - reset-gpios
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-
-> +    spi_lcd: spi {
-> +        compatible =3D "spi-gpio";
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        sck-gpios =3D <&pio 8 9 GPIO_ACTIVE_HIGH>; // PI9
-> +        mosi-gpios =3D <&pio 8 10 GPIO_ACTIVE_HIGH>; // PI10
-> +        cs-gpios =3D <&pio 8 8 GPIO_ACTIVE_HIGH>; // PI8
-> +        num-chipselects =3D <1>;
-
-All of this is not needed in the example, all you need to have here is:
-
-spi {
-    #address-cells =3D <1>;
-    #size-cells =3D <0>;
-
-> +
-> +        panel: panel@0 {
-
-This "panel" label is not used, you should drop it.
-
-> +            compatible =3D "wl_355608_a8";
-
-This doesn't match what you documented, be sure to run dt_binding_check.
-
-> +            reg =3D <0>;
-> +
-> +            spi-3wire;
-> +            spi-max-frequency =3D <3125000>;
-> +
-> +            reset-gpios =3D <&pio 8 14 GPIO_ACTIVE_LOW>; // PI14
-> +
-> +            backlight =3D <&backlight>;
-> +            power-supply =3D <&reg_lcd>;
-> +            pinctrl-0 =3D <&lcd0_rgb888_pins>;
-> +            pinctrl-names =3D "default";
-> +
-> +            port {
-> +            	panel_in_rgb: endpoint {
-
-Neither is this label afaict.
-
-Thanks,
-Conor.
-
-> +                    remote-endpoint =3D <&tcon_lcd0_out_lcd>;
-> +                };
-> +            };
-> +        };
-> +    };
-> --=20
-> 2.45.1
->=20
-
---pLrOJBoAnsXYyrmH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZlDmFwAKCRB4tDGHoIJi
-0sJlAPsHIXJ5RW+GGQGLu1zyH7U8LPyVW3Yh9QRjxnQie6ur3gEAzLG3B8OasbR3
-qS9DRp/1m6iEAvWbi+M9HxIMetDHbwk=
-=qrd6
------END PGP SIGNATURE-----
-
---pLrOJBoAnsXYyrmH--
+-- 
+With best wishes
+Dmitry
