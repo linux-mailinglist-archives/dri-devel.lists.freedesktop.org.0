@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561BC8CE989
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 20:28:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B488CE978
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 20:28:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD0110F280;
-	Fri, 24 May 2024 18:28:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C883810EB19;
+	Fri, 24 May 2024 18:27:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="BQA4ceN9";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="CdPhT4Zb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f98.google.com (mail-wm1-f98.google.com
- [209.85.128.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1D510EC27
+Received: from mail-wm1-f99.google.com (mail-wm1-f99.google.com
+ [209.85.128.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7AD710EC30
  for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 18:27:54 +0000 (UTC)
-Received: by mail-wm1-f98.google.com with SMTP id
- 5b1f17b1804b1-4202cea9a2fso33252925e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 11:27:53 -0700 (PDT)
+Received: by mail-wm1-f99.google.com with SMTP id
+ 5b1f17b1804b1-4202ca70318so64599175e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 11:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1716575272; x=1717180072;
+ d=raspberrypi.com; s=google; t=1716575273; x=1717180073;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MmjLsXIH2Amncxc11ehW4fWxMk13TiDZ+O44YXe6Wgk=;
- b=BQA4ceN9EV+yh0jW68pFICPVUSLA964CcWcEb+lakOvo61hgO0XIaoY0DkZpfFW1nc
- pR0APpTXFm2cLROXhKTOx+eMWFZLT2T/lczqYG/mKV61qna6yN4203ytGYtw5y3BZVhX
- ZZoEkAaAPsbQm1BTKGHBJHCxasYTyaVvTpvBOX06VOmREqI6hI2ILTPzKM3jZZb5x4Qj
- EuADtA4CWDkSVGnEYiCGxCzHkbH1+2DvrGn75aT7oJvvJxCuwVxe3ij+RDaEyVFv90eU
- YEzgtloNPYHn42wVp8sXLxT3/S7E5VEV3KNgJKMij0HyVrVTe3MfSaJKUKC+ZZDR2AHO
- WOig==
+ bh=2MV7QZf2fhH+OEhBA38QGxT92fUaASU1Nxo1nxUSVd8=;
+ b=CdPhT4ZbM5DMuzFOis1zxODSDNf7vUYM0vkFtE1srqNQaxYugtZGivb04my7Cgp9d5
+ lh82ViJ7QeE8W85u7Z5fLU8hDtPnM61xjW18zC+yVAkxdG+Jnn192eyxj9jrJRhPbD5d
+ Jjxe9mSBwKJ+4/qit22wLiK1PEnlySoEU1kdr4lQE3/UHARKgt+vfdOhuDko603fz7nG
+ yZAGxtAjxb0BMzClbgtZZNuyzg+dtYe42+T1yaBeneIHQ0E9SQJzSboqHCzdchrCh/iF
+ pwgy46qwi3LYAeCcUsdFB/iwheY4TJoOVCX4nbjJ1AcC0QpWZEzlhEg+uVyJbkHKEm39
+ 2r5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716575272; x=1717180072;
+ d=1e100.net; s=20230601; t=1716575273; x=1717180073;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MmjLsXIH2Amncxc11ehW4fWxMk13TiDZ+O44YXe6Wgk=;
- b=e8wStCO7leWAkPedSkT6WcFZGvitT1Ot4mZs8u8rRsrwvotXofluQGPoNdKQ6Yyhcj
- cOaP7vcJ1AbK4PdKFK+wfaqAvFgTf6aVlcw6MhJfslWDI+hraeiDSpBDWz0dK1w+q59K
- Ode56FDNhODHiTeEbhAI1NT49GmvLzW2b+zsk6CdWJBLTcpVTgat1ZYKC7kNQFhC8XpG
- M46j3HRIFepchPR8v3IjFWOzcSQqiU6gt17Z2q/9nwOPi28zk17MjwJ4H7Q4a23FqOWc
- DHmK7NrRCjndNv+FWSTNo1gg/B+H/dGxW7vxbmtwv3Sif+jNbmhldyVNN8ldbtU6rLTv
- jR1A==
+ bh=2MV7QZf2fhH+OEhBA38QGxT92fUaASU1Nxo1nxUSVd8=;
+ b=Hno7YaTPvCgrFTkuLcb4O6BVFdQwnqgzCg+P5U74+RyzbjgqqvatIu0Km1901wN/6t
+ TZqSyySbpx5b4Sal85bVYe6deoCGQtLQG6/GJEUG/VCbW13cOrH4F9QsG2/IFiWlWY27
+ 3PgKDiCET/IT/T0V3D2YJfX1tiNlP5hC47gIHXOb3Ku5V3/83deFRZHuNydDHhNFQBFC
+ kpC/tHx7UkwAEX9nwbmtjC0CDxDcRU8RagbpZKyW2CXpwT/zlLyLsm2Z/QzECUaW0siE
+ ZBSlb/GqWcMESu/Q7x6YagAhoigyoFTc6VTu6Uyw04BT6EGfIAvZrPZVdk1PYLOWD32S
+ WW9g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWbtsPruE4ylLm3wEPegVV+4GcIviimrJBmdIg0pXzqWU64sS5O7wHAj4fJjVjYzuRNpVtg1Yi8z6ZeAiRE7GMD3hFn9nsIA+tBxHD4RfIe
-X-Gm-Message-State: AOJu0YxSpeV67uMzLkcBVUz8wVwWwyAqj9nVJ+wzhty7iGPyJ8DsLROf
- E1Ze5uIRaGFXndOQERC/4JrVirgLOKvXhXM9BY952mBVHjVH2ia6+zohLgmgDW90+kH7Gh98LSS
- PtGWweaoG8XRr35Y1fYuztdMELH0XYJN3
-X-Google-Smtp-Source: AGHT+IGfOa5XBgeYIs/cH5TAMCHbRBfIruDizHffdZ+UPyoZ3jK796PR+KziATsAgtd+BnPEgr+Se5nRlYpt
-X-Received: by 2002:a05:600c:3114:b0:420:2cbe:7ee8 with SMTP id
- 5b1f17b1804b1-421089f1394mr28435685e9.6.1716575272442; 
+ AJvYcCVGpyaKlMlQXlqMmGoyHOSiK7S2kqwr2S0nIaQfMwzGX0JN2F75ePYov0ulYEO9gxYnxDirNK7xvGIeOxtSquiOC0G1uXUun+lVdj5LCqmX
+X-Gm-Message-State: AOJu0YxIwizEZ9PFukEluvbtP/9jJ8IlrXCJ8kASB2e6OKuZXiqjwzbE
+ toRLrd8zIRq03KgKgRkh6rYDyYAI/5TAM+NoJO5lT6MLIoZnEAiAecDDZ+XUDA+QJrigLfDl0Dy
+ +CPVfPQ65U4T4HPjuZMKSibQYZaFPXRzH
+X-Google-Smtp-Source: AGHT+IHWZ0JTRBQwe/XochchvTJaAoc7r7/ijNNUJ35CDCjZA7ALjlPQSMAk7tENe+DW/f85sGYNAcbTrrfr
+X-Received: by 2002:a05:600c:5799:b0:41b:f2ca:19cc with SMTP id
+ 5b1f17b1804b1-421089f93b7mr26088945e9.34.1716575272958; 
  Fri, 24 May 2024 11:27:52 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- ffacd0b85a97d-3557a1cd354sm56646f8f.101.2024.05.24.11.27.52
+ 5b1f17b1804b1-4210891c6edsm1217615e9.20.2024.05.24.11.27.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 24 May 2024 11:27:52 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
@@ -81,11 +81,10 @@ Cc: devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
  dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
  iommu@lists.linux.dev, linux-sound@vger.kernel.org,
- Stefan Wahren <stefan.wahren@i2se.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 02/18] dmaengine: bcm2835: Support common dma-channel-mask
-Date: Fri, 24 May 2024 19:26:46 +0100
-Message-Id: <20240524182702.1317935-3-dave.stevenson@raspberrypi.com>
+Subject: [PATCH 03/18] ARM: dts: bcm283x: Update to use dma-channel-mask
+Date: Fri, 24 May 2024 19:26:47 +0100
+Message-Id: <20240524182702.1317935-4-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240524182702.1317935-1-dave.stevenson@raspberrypi.com>
 References: <20240524182702.1317935-1-dave.stevenson@raspberrypi.com>
@@ -106,49 +105,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Stefan Wahren <stefan.wahren@i2se.com>
+Now the driver looks for the common dma-channel-mask property
+rather than the vendor-specific brcm,dma-channel-mask, update
+the dt files to follow suit.
 
-Nowadays there is a generic property for dma-channel-mask in the DMA
-controller binding. So prefer this one instead of the old vendor specific
-one. Print a warning in case the old one is used. Btw use the result of
-of_property_read_u32() as return code in error case.
-
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/dma/bcm2835-dma.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+ arch/arm/boot/dts/broadcom/bcm2711.dtsi        | 2 +-
+ arch/arm/boot/dts/broadcom/bcm2835-common.dtsi | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma/bcm2835-dma.c b/drivers/dma/bcm2835-dma.c
-index 9d74fe97452e..528c4593b45a 100644
---- a/drivers/dma/bcm2835-dma.c
-+++ b/drivers/dma/bcm2835-dma.c
-@@ -941,12 +941,19 @@ static int bcm2835_dma_probe(struct platform_device *pdev)
- 	}
+diff --git a/arch/arm/boot/dts/broadcom/bcm2711.dtsi b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
+index e4e42af21ef3..d64bf098b697 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2711.dtsi
++++ b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
+@@ -103,7 +103,7 @@ dma: dma-controller@7e007000 {
+ 					  "dma9",
+ 					  "dma10";
+ 			#dma-cells = <1>;
+-			brcm,dma-channel-mask = <0x07f5>;
++			dma-channel-mask = <0x07f5>;
+ 		};
  
- 	/* Request DMA channel mask from device tree */
--	if (of_property_read_u32(pdev->dev.of_node,
--			"brcm,dma-channel-mask",
--			&chans_available)) {
--		dev_err(&pdev->dev, "Failed to get channel mask\n");
--		rc = -EINVAL;
--		goto err_no_dma;
-+	rc = of_property_read_u32(pdev->dev.of_node, "dma-channel-mask",
-+				  &chans_available);
-+
-+	if (rc) {
-+		/* Try deprecated property */
-+		if (of_property_read_u32(pdev->dev.of_node,
-+					 "brcm,dma-channel-mask",
-+					 &chans_available)) {
-+			dev_err(&pdev->dev, "Failed to get channel mask\n");
-+			goto err_no_dma;
-+		}
-+
-+		dev_warn(&pdev->dev, "brcm,dma-channel-mask deprecated - please update DT\n");
- 	}
+ 		pm: watchdog@7e100000 {
+diff --git a/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi b/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
+index 9261b67dbee1..3ba8db8eed0f 100644
+--- a/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
++++ b/arch/arm/boot/dts/broadcom/bcm2835-common.dtsi
+@@ -46,7 +46,7 @@ dma: dma-controller@7e007000 {
+ 					  "dma14",
+ 					  "dma-shared-all";
+ 			#dma-cells = <1>;
+-			brcm,dma-channel-mask = <0x7f35>;
++			dma-channel-mask = <0x7f35>;
+ 		};
  
- 	/* get irqs for each channel that we support */
+ 		intc: interrupt-controller@7e00b200 {
 -- 
 2.34.1
 
