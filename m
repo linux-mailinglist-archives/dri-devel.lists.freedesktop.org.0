@@ -2,59 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3598CE1E6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 10:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E95D88CE309
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 11:09:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13E6310E573;
-	Fri, 24 May 2024 08:00:10 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ApgLr+eB";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CCC810E1EC;
+	Fri, 24 May 2024 09:09:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00BAB10E0EE
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 08:00:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716537604; x=1748073604;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=fOK/TVHjBWTbttyQS/h2R1BBdxC0KJFN0T3/7figorQ=;
- b=ApgLr+eBV5jSd4JrW2N1Bpju0Q+8btFOQd3Dajphb0QGgly0ZgssNlbm
- aNiQn/l/wSMZfJPHO4BFH2p7TUidD682g/J5FOgA9GrivWrNed1kfzFGx
- oL/FvJ3Qycd2eECux7NEjJbf36oBEOdyFEQ8BKq8JXtMlTdh5bHKqNjbw
- IB/QRCft/6pGIFDhZ0CjsaJ1Er+Pim3phKUilSSCxh8Z0K4oT5iqguiDl
- G8Ip4GDOKCR3WIli7BBRWkIlnmBxq5mWQGmnIPJj5PTb7z8j1sBMcrOLE
- pCtvdGHwi2EKw0JnAX4sq1ElooxZc98xqiAYqZS90YcqSw0lFxKujiRvU A==;
-X-CSE-ConnectionGUID: rYmrDKEAQhWLoHxulsn4pw==
-X-CSE-MsgGUID: 5u8pfjb3TbuCFXGVKodx6g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12753375"
-X-IronPort-AV: E=Sophos;i="6.08,184,1712646000"; d="scan'208";a="12753375"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2024 01:00:02 -0700
-X-CSE-ConnectionGUID: T52tOStORx+4KCVN5FknKQ==
-X-CSE-MsgGUID: 2V2XwxtpTfCDSN7ePRBIRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,184,1712646000"; d="scan'208";a="38927485"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.108])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2024 01:00:00 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: John Harrison <john.c.harrison@intel.com>, dri-devel
- <dri-devel@lists.freedesktop.org>, Michal Wajdeczko
- <michal.wajdeczko@intel.com>
-Subject: Re: [RFC] drm/print: Introduce drm_line_printer
-In-Reply-To: <6d88ab01-f2c8-4791-9802-87151b178c0b@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240514145631.2128-1-michal.wajdeczko@intel.com>
- <d928673b-133f-4d0d-8c8d-44f4ebad33b6@intel.com>
- <6d88ab01-f2c8-4791-9802-87151b178c0b@intel.com>
-Date: Fri, 24 May 2024 10:59:56 +0300
-Message-ID: <87zfsfod1f.fsf@intel.com>
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9999310E059
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 03:17:26 +0000 (UTC)
+Received: from localhost (unknown [124.16.138.129])
+ by APP-05 (Coremail) with SMTP id zQCowADX3eW9BlBmYwAXDQ--.41660S2;
+ Fri, 24 May 2024 11:17:18 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: kraxel@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Cc: virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] drm/bochs: Add check for drm_simple_display_pipe_init
+Date: Fri, 24 May 2024 11:06:05 +0800
+Message-Id: <20240524030605.2185210-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowADX3eW9BlBmYwAXDQ--.41660S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gw4kZF4ktw1kZr4kuFW3Jrb_yoWftFc_WF
+ 15u3s5Xr9ru3srCFnxZFnYgrWS9a4vvF48Xry2qFZ3tFyfW3ZxJrW2qryfZw4UW3yUJF1k
+ C3y7GrZ5JF1xWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbVAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+ 8cxan2IY04v7MxkIecxEwVAFwVW8GwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+ WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+ 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+ IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
+ 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
+ VjvjDU0xZFpf9x0JU-miiUUUUU=
+X-Originating-IP: [124.16.138.129]
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+X-Mailman-Approved-At: Fri, 24 May 2024 09:09:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,168 +61,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 May 2024, John Harrison <john.c.harrison@intel.com> wrote:
-> On 5/23/2024 16:54, Daniele Ceraolo Spurio wrote:
->> -------- Forwarded Message --------
->> Subject: 	[RFC] drm/print: Introduce drm_line_printer
->> Date: 	Tue, 14 May 2024 16:56:31 +0200
->> From: 	Michal Wajdeczko <michal.wajdeczko@intel.com>
->> To: 	dri-devel@lists.freedesktop.org
->>
->>
->>
->> This drm printer wrapper can be used to increase the robustness of
->> the captured output generated by any other drm_printer to make sure
->> we didn't lost any intermediate lines of the output by adding line
->> numbers to each output line. Helpful for capturing some crash data.
->>
->> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->> ---
->> drivers/gpu/drm/drm_print.c | 9 +++++++++
->> include/drm/drm_print.h | 37 +++++++++++++++++++++++++++++++++++++
->> 2 files changed, 46 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
->> index cf2efb44722c..d6fb50d3407a 100644
->> --- a/drivers/gpu/drm/drm_print.c
->> +++ b/drivers/gpu/drm/drm_print.c
->> @@ -214,6 +214,15 @@ void __drm_printfn_err(struct drm_printer *p, 
->> struct va_format *vaf)
->> }
->> EXPORT_SYMBOL(__drm_printfn_err);
->> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf)
->> +{
->> + unsigned int line = (uintptr_t)(++p->prefix);
-> The prefix field is officially supposed to be a const char *. There is 
-> no documentation to say that this is intended to be used as a private 
-> data field by random printer wrappers. So overloading it like this feels 
-> very hacky and dangerous. Also, you are mixing types - uintptr_t then 
-> uint. So an arch with 64-bit pointers but only 32-bit ints would hit a 
-> truncated compiler warning?
+Add check for the return value of drm_simple_display_pipe_init() and
+return the error if it fails in order to catch the error.
 
-I already commented on abusing the type in another reply. I think making
-prefix a union would dodge that issue. Otherwise, I think each printer
-can pretty much use the arg and prefix members as they see fit. It's not
-mucking the printer being wrapped.
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ drivers/gpu/drm/tiny/bochs.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->
->> + struct drm_printer *dp = p->arg;
->> +
->> + drm_printf(dp, "%u: %pV", line, vaf);
-> This is insufficient. As previously commented, there needs to be a 
-> global counter as well as a local line counter. The global count must be 
-> global to at least whatever entity is generating a specific set of 
-> prints. Being global to a higher level, e.g. kernel global, is fine. But 
-> without that, two concurrent dumps that get interleaved can be 
-> impossible to separate resulting in a useless bug report/log.
->
-> The prefix field could potentially be split into a 16:16 global:local 
-> index with the global master just being a static u16 inside that 
-> function. With the first print call to a given drm_printer object being 
-> defined by the global value being zero. And it then sets the global 
-> value to the next increment skipping over zero on a 16-bit wrap around. 
-> But see above about prefix not being intended for such purposes. So now 
-> you are just piling hacks upon hacks.
-
-To tackle that issue, I think I'd add a "unique id" kind of parameter to
-drm_line_printer(). If the user needs more uniqueness, they can maintain
-it locally (in a data structure or static or whatever) and id++
-it. Could even skip it in printing if set to 0 if it's not likely the
-caller needs it. This dodges the issue of having to store global stuff
-in the printer, and keeps output lean when not needed.
-
-For example:
-
-        static int id;
-	struct drm_printer dp = drm_err_printer(drm, "crash");
-	struct drm_printer lp = drm_line_printer(&dp, ++id);
-
-> Plus it would be much nicer output to have the ability to put an 
-> arbitrary prefix in front of the G.L number, as per the original 
-> implementation. The whole point of this is to aid identification of 
-> otherwise uniform data such as hexdumps. So anything that makes it less 
-> clear is bad.
-
-The prefix in the printer being wrapped is intact, so you could add it
-there. In the above example, it's "crash".
-
-BR,
-Jani.
-
-
-
-
->
-> John.
->
->
->> +}
->> +EXPORT_SYMBOL(__drm_printfn_line);
->> +
->> /**
->> * drm_puts - print a const string to a &drm_printer stream
->> * @p: the &drm printer
->> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
->> index 089950ad8681..58cc73c53853 100644
->> --- a/include/drm/drm_print.h
->> +++ b/include/drm/drm_print.h
->> @@ -186,6 +186,7 @@ void __drm_puts_seq_file(struct drm_printer *p, 
->> const char *str);
->> void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
->> void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf);
->> void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
->> +void __drm_printfn_line(struct drm_printer *p, struct va_format *vaf);
->> __printf(2, 3)
->> void drm_printf(struct drm_printer *p, const char *f, ...);
->> @@ -357,6 +358,42 @@ static inline struct drm_printer 
->> drm_err_printer(struct drm_device *drm,
->> return p;
->> }
->> +/**
->> + * drm_line_printer - construct a &drm_printer that prefixes outputs 
->> with line numbers
->> + * @dp: the &struct drm_printer which actually generates the output
->> + *
->> + * This printer can be used to increase the robustness of the 
->> captured output
->> + * to make sure we didn't lost any intermediate lines of the output. 
->> Helpful
->> + * while capturing some crash data.
->> + *
->> + * For example::
->> + *
->> + * void crash_dump(struct drm_device *drm)
->> + * {
->> + * struct drm_printer dp = drm_err_printer(drm, "crash");
->> + * struct drm_printer lp = drm_line_printer(&dp);
->> + *
->> + * drm_printf(&lp, "foo");
->> + * drm_printf(&lp, "bar");
->> + * }
->> + *
->> + * Above code will print into the dmesg something like::
->> + *
->> + * [ ] 0000:00:00.0: [drm] *ERROR* crash 1: foo
->> + * [ ] 0000:00:00.0: [drm] *ERROR* crash 2: bar
->> + *
->> + * RETURNS:
->> + * The &drm_printer object
->> + */
->> +static inline struct drm_printer drm_line_printer(struct drm_printer *dp)
->> +{
->> + struct drm_printer lp = {
->> + .printfn = __drm_printfn_line,
->> + .arg = dp,
->> + };
->> + return lp;
->> +}
->> +
->> /*
->> * struct device based logging
->> *
->> -- 
->> 2.43.0
->>
-
+diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+index c23c9f0cf49c..31ad2bc4ee22 100644
+--- a/drivers/gpu/drm/tiny/bochs.c
++++ b/drivers/gpu/drm/tiny/bochs.c
+@@ -550,13 +550,15 @@ static int bochs_kms_init(struct bochs_device *bochs)
+ 	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
+ 
+ 	bochs_connector_init(bochs->dev);
+-	drm_simple_display_pipe_init(bochs->dev,
++	ret = drm_simple_display_pipe_init(bochs->dev,
+ 				     &bochs->pipe,
+ 				     &bochs_pipe_funcs,
+ 				     bochs_formats,
+ 				     ARRAY_SIZE(bochs_formats),
+ 				     NULL,
+ 				     &bochs->connector);
++	if (ret)
++		return ret;
+ 
+ 	drm_mode_config_reset(bochs->dev);
+ 
 -- 
-Jani Nikula, Intel
+2.25.1
+
