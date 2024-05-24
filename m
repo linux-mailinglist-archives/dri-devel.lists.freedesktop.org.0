@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95D88CE309
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 11:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5388CE1F9
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 10:04:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CCC810E1EC;
-	Fri, 24 May 2024 09:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 247D510E05E;
+	Fri, 24 May 2024 08:04:48 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m9JjoEpk";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9999310E059
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 03:17:26 +0000 (UTC)
-Received: from localhost (unknown [124.16.138.129])
- by APP-05 (Coremail) with SMTP id zQCowADX3eW9BlBmYwAXDQ--.41660S2;
- Fri, 24 May 2024 11:17:18 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: kraxel@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Cc: virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] drm/bochs: Add check for drm_simple_display_pipe_init
-Date: Fri, 24 May 2024 11:06:05 +0800
-Message-Id: <20240524030605.2185210-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 060E810E05E
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 08:04:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716537886; x=1748073886;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=aZuIYpP3lludobG3UwEpELpet9iS+mzPa3YR/KfJDWw=;
+ b=m9JjoEpkrpibxesOLnNoMeDU5Ztwnez82gAoFil7CLZ7IRGdozgdlyVi
+ 8RSJlxuXgJbhbVAnJk6ytzMzQ4Cwcd1B7JqDyUvk7DIH/YKhZsCX9tVJ1
+ LbpQkbex3/eL38tp3Yj+Wa9Ltbvw3fg8FsiiCW2nQOkJ09V2V8yyyhBJ/
+ mkdwik/M7qlUqqrVfv7ngmJXtyalfhDqSBo3cyq/OSl2NXtHAxYXh5yGD
+ nTLNqb+o6a8JrnANbvub88BYxsWLs5Xo6kd6PPg0KZL7irzrcHrIenMQm
+ OtKd7R5YqL/amSOtuU0mQFQ5CVMhEYM9awW8bIHROEk96ZhRsQR74ITeF A==;
+X-CSE-ConnectionGUID: dBz3MYEBTvq1jco95qyglQ==
+X-CSE-MsgGUID: nVVFkUlbRLaCNjBHsQPKQg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12754157"
+X-IronPort-AV: E=Sophos;i="6.08,184,1712646000"; d="scan'208";a="12754157"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2024 01:04:46 -0700
+X-CSE-ConnectionGUID: t6dU7unbR5e7XXMDW62U6A==
+X-CSE-MsgGUID: Yj5bp9R4TJuFwQuY3XK5UQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,184,1712646000"; d="scan'208";a="71351376"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.108])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2024 01:04:44 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/print: Add missing [drm] prefix to drm based WARN
+In-Reply-To: <20240523174429.800-1-michal.wajdeczko@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240523174429.800-1-michal.wajdeczko@intel.com>
+Date: Fri, 24 May 2024 11:04:40 +0300
+Message-ID: <87wmnjoctj.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADX3eW9BlBmYwAXDQ--.41660S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gw4kZF4ktw1kZr4kuFW3Jrb_yoWftFc_WF
- 15u3s5Xr9ru3srCFnxZFnYgrWS9a4vvF48Xry2qFZ3tFyfW3ZxJrW2qryfZw4UW3yUJF1k
- C3y7GrZ5JF1xWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbVAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
- Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
- 8cxan2IY04v7MxkIecxEwVAFwVW8GwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
- 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
- VjvjDU0xZFpf9x0JU-miiUUUUU=
-X-Originating-IP: [124.16.138.129]
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
-X-Mailman-Approved-At: Fri, 24 May 2024 09:09:10 +0000
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,35 +71,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add check for the return value of drm_simple_display_pipe_init() and
-return the error if it fails in order to catch the error.
+On Thu, 23 May 2024, Michal Wajdeczko <michal.wajdeczko@intel.com> wrote:
+> All drm_device based logging macros, except those related to WARN,
+> include the [drm] prefix. Fix that.
+>
+>   [ ] 0000:00:00.0: this is a warning
+>   [ ] 0000:00:00.0: drm_WARN_ON(true)
+> vs
+>   [ ] 0000:00:00.0: [drm] this is a warning
+>   [ ] 0000:00:00.0: [drm] drm_WARN_ON(true)
+>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/gpu/drm/tiny/bochs.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index c23c9f0cf49c..31ad2bc4ee22 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -550,13 +550,15 @@ static int bochs_kms_init(struct bochs_device *bochs)
- 	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
- 
- 	bochs_connector_init(bochs->dev);
--	drm_simple_display_pipe_init(bochs->dev,
-+	ret = drm_simple_display_pipe_init(bochs->dev,
- 				     &bochs->pipe,
- 				     &bochs_pipe_funcs,
- 				     bochs_formats,
- 				     ARRAY_SIZE(bochs_formats),
- 				     NULL,
- 				     &bochs->connector);
-+	if (ret)
-+		return ret;
- 
- 	drm_mode_config_reset(bochs->dev);
- 
+
+> ---
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  include/drm/drm_print.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 089950ad8681..112f8830b372 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -632,12 +632,12 @@ void __drm_err(const char *format, ...);
+>  
+>  /* Helper for struct drm_device based WARNs */
+>  #define drm_WARN(drm, condition, format, arg...)			\
+> -	WARN(condition, "%s %s: " format,				\
+> +	WARN(condition, "%s %s: [drm] " format,				\
+>  			dev_driver_string((drm)->dev),			\
+>  			dev_name((drm)->dev), ## arg)
+>  
+>  #define drm_WARN_ONCE(drm, condition, format, arg...)			\
+> -	WARN_ONCE(condition, "%s %s: " format,				\
+> +	WARN_ONCE(condition, "%s %s: [drm] " format,			\
+>  			dev_driver_string((drm)->dev),			\
+>  			dev_name((drm)->dev), ## arg)
+
 -- 
-2.25.1
-
+Jani Nikula, Intel
