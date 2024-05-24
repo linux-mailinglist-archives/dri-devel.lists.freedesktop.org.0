@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14898CE9AA
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 20:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC638CE986
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 20:28:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C902910EA0E;
-	Fri, 24 May 2024 18:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4319810ED95;
+	Fri, 24 May 2024 18:28:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="fg8AO9Ly";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="tNWpll3r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f226.google.com (mail-lj1-f226.google.com
- [209.85.208.226])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38ECD10EA0E
+Received: from mail-wm1-f100.google.com (mail-wm1-f100.google.com
+ [209.85.128.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6F7A10F13C
  for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 18:28:01 +0000 (UTC)
-Received: by mail-lj1-f226.google.com with SMTP id
- 38308e7fff4ca-2e95a60dfcdso14511201fa.1
+Received: by mail-wm1-f100.google.com with SMTP id
+ 5b1f17b1804b1-4210aa012e5so6627735e9.0
  for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 11:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1716575279; x=1717180079;
+ d=raspberrypi.com; s=google; t=1716575280; x=1717180080;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JtSsjB9R4+UVIqScRuc1I4bk33cfKERDT5iPQWCGPm4=;
- b=fg8AO9LyLs466XCaJL/QaBW8FkaRfwqXBUKvBt2FhbVeaVuLbV/G3W81J6ukJf0sdB
- EvxPEfIIwLpUn2Bke8FPQ54SDHIKTpk/G5mMd+Ug6KLhDFybYilgx5M43EEGRQ+GGH8F
- UM9lZv7iDCj+sKykITOSzP2kKLCDUH/h2LJgpJ9W6q70OTg8mE2ABUn7W7h6N152Fzx9
- UUDaQEHqhoUJU7pXZ/CWah2l+8mlr3tdEXGO5EA11jU+Z9ifFXyWnKy5xVx/CAr9/p0I
- 5wqxcaN36UAHFYyC7mQ9V6UWXfAdCWCYOxqdUyCGe0ZeE2D0Y58yWM/ImWp/mxqycqOu
- kGyQ==
+ bh=FGCf1ir0ewKxnfYL+8Y6zr0drR+R4O1jhqT1oluTBL8=;
+ b=tNWpll3rRBPY+yTxIwCKKbqR2tK6L4GTYyW8lyTtTiT9b6ixobU3e8ba0cGqqLg5RJ
+ +rbuLIl2Hnpn1gkRqDvqwGI4sSXiwPFxecZX4K2vnvyHgDio5urbYyP/2+res1VrF4CA
+ hC2rRa0jzKlN4p4T3AiwdP/ZurcDTq31sh7r9ZT9bsK9BMiFytdrYjvT77+NAUpwBeBG
+ NHsmQxCpgrAd3rCK0SkmXby74oLuCObc+Vh7tp/5FDpI+J+M0ozwtvRmbIn2DDFUXzaC
+ 7whLKJv6Ic4dAo+3On7U5/ugFjzp84gRpvWZqdlMOvlaQM5TKaL1lxmEWEwqB+x54gd/
+ BJ6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1716575279; x=1717180079;
+ d=1e100.net; s=20230601; t=1716575280; x=1717180080;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JtSsjB9R4+UVIqScRuc1I4bk33cfKERDT5iPQWCGPm4=;
- b=S8pSN3iSk1NqFvhPPhjrVCeQeAt/mevPlaQ7A4RGKs/01WUYgqqd5nLwDbTRaAIw3x
- r47kVmnn7FEvLKYoo0q6ZCirLkFL4hKvgWkNIEGyIat+iUWro159qbkdog0Rjfvolxrs
- LCvRvdGKbzBlupRBGTX/iwpU+S8aZTLC9uheaYPIyFrRgafjNgxoJae/D560nEnwugxs
- pIIRAh+Gc69tRVBjcoZ4D5y6VJyRfak49t7pwBonDKx3WbzzghIKv3if05KoFR9fVMwZ
- Sqv/c8Rt550KIJV6o8jjn/id2PSslpnkScGMnJx4cqwuGJi1GTyNcrB2W4YiV7duvYQf
- 6Irw==
+ bh=FGCf1ir0ewKxnfYL+8Y6zr0drR+R4O1jhqT1oluTBL8=;
+ b=aQLJXkvM8MxcTZRn11NY2t3Vd8k8ACSmISseCUqPWB9A5l8ju4It5t4wlRHt2VTRBR
+ Lxqq9nG8SMVkoCnDY9l7s1y44bIEoq0wJERCqdK5YVZAgEErxGF3FZmHdkAIsKsh3GdV
+ VJfI9GteJh4VFnDwo8iCRI1ARcxJUUsVXr6vDZGU9s2asaUCZWqwbD9ezgEI7hqc1xaw
+ aZkwehIvOcgTsmT7Cl+YszqckkkESizkqjkL/1el5ddQpC+ipS60wvMfCOJtsQai704y
+ RqiIJzwPiWAkN1ces7/I6hjx+gMrNWXDJ/ZILPqTA0reZ2AjutQbNVDaBlSZjxvc1cqY
+ vEmQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXEuf6oalVwqH+b6Jqnb/stq+isR9me4lTQvBiWLDkpyI5g4c/1P6vSRuwjqWUJkljcY7l3pC2oFCvXZVRF1f0UpuCA6fL0jArNJGiQxnmA
-X-Gm-Message-State: AOJu0YzxNbL/BOe/kUFxLi//5V5jObOX64MrvSViZP4Iqp02HbhDPmAw
- 9eqOWjXsuQWMERMPVoYvDILDhAOEghqZod2BX14DQ3EETEDaVh9X5UoTeyEDrthZ0WH/aLEDjoZ
- VcCf1mcTOX/7R0522OnFCgnmLxzWixtc2
-X-Google-Smtp-Source: AGHT+IEUZDsi7SCR4IVByAOz4hmEEdc/AaRCJ/JoMT6C0FVxhy9anVd20JxEW5NHN8g2XEYbzyFyk0QQFB+O
-X-Received: by 2002:a2e:9c8f:0:b0:2e6:f59e:226f with SMTP id
- 38308e7fff4ca-2e95b0bce90mr19539971fa.5.1716575279453; 
- Fri, 24 May 2024 11:27:59 -0700 (PDT)
+ AJvYcCU7HpzfXacNuNMCO7wD+2YIAPTlHkB47Qe0CO7nBH9RhJrZDVM3sd6cD6a9tIBPyROy4XCCZrE4vA3a2lGaa1JJSjVMdkH5dVtDjwKvNaAu
+X-Gm-Message-State: AOJu0Yw1nvlzabp0wM1h3lea5yRmmwkZRGpTWdo9zKQ4154OZFQJ2/Xm
+ Cl8hs3vMo1wNtxmDUOA2IOyRtaTzSIKo11CE8Nrrix9Rwb2+O9eev/n1Ey5kx3DpcMb0aZfNhy3
+ QPjeGV3F9xHBWnySjdQIVNdmBorXkNHmM
+X-Google-Smtp-Source: AGHT+IHAQFzXjWnTl+TwMEnEF3wypw9s7LeiM71e7MxN0zWKYR44rUnrOPV4U43jDFBiNTbbJuux8HJQ65dC
+X-Received: by 2002:a05:600c:1381:b0:41f:b0e7:f299 with SMTP id
+ 5b1f17b1804b1-42108a59292mr20514315e9.9.1716575280074; 
+ Fri, 24 May 2024 11:28:00 -0700 (PDT)
 Received: from raspberrypi.com ([188.39.149.98])
  by smtp-relay.gmail.com with ESMTPS id
- 38308e7fff4ca-2e95be01800sm348091fa.53.2024.05.24.11.27.59
+ 5b1f17b1804b1-42100fa9eb7sm5393305e9.34.2024.05.24.11.27.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 May 2024 11:27:59 -0700 (PDT)
+ Fri, 24 May 2024 11:28:00 -0700 (PDT)
 X-Relaying-Domain: raspberrypi.com
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -82,9 +82,9 @@ Cc: devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
  linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
  iommu@lists.linux.dev, linux-sound@vger.kernel.org,
  Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 14/18] mmc: bcm2835: Use phys addresses for slave DMA config
-Date: Fri, 24 May 2024 19:26:58 +0100
-Message-Id: <20240524182702.1317935-15-dave.stevenson@raspberrypi.com>
+Subject: [PATCH 15/18] spi: bcm2835: Use phys addresses for slave DMA config
+Date: Fri, 24 May 2024 19:26:59 +0100
+Message-Id: <20240524182702.1317935-16-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240524182702.1317935-1-dave.stevenson@raspberrypi.com>
 References: <20240524182702.1317935-1-dave.stevenson@raspberrypi.com>
@@ -114,57 +114,84 @@ CPU physical addresses.
 Signed-off-by: Phil Elwell <phil@raspberrypi.com>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/mmc/host/bcm2835.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+ drivers/spi/spi-bcm2835.c | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/mmc/host/bcm2835.c b/drivers/mmc/host/bcm2835.c
-index 35d8fdea668b..746a60fac0f0 100644
---- a/drivers/mmc/host/bcm2835.c
-+++ b/drivers/mmc/host/bcm2835.c
-@@ -38,7 +38,6 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
--#include <linux/of_address.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
- #include <linux/scatterlist.h>
-@@ -1347,8 +1346,8 @@ static int bcm2835_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
+diff --git a/drivers/spi/spi-bcm2835.c b/drivers/spi/spi-bcm2835.c
+index e1b9b1235787..e8242e0c4246 100644
+--- a/drivers/spi/spi-bcm2835.c
++++ b/drivers/spi/spi-bcm2835.c
+@@ -119,6 +119,7 @@ MODULE_PARM_DESC(polling_limit_us,
+  */
+ struct bcm2835_spi {
+ 	void __iomem *regs;
++	phys_addr_t phys_addr;
  	struct clk *clk;
- 	struct bcm2835_host *host;
-+	struct resource *iomem;
- 	struct mmc_host *mmc;
--	const __be32 *regaddr_p;
+ 	struct gpio_desc *cs_gpio;
+ 	unsigned long clk_hz;
+@@ -891,19 +892,8 @@ static int bcm2835_dma_init(struct spi_controller *ctlr, struct device *dev,
+ 			    struct bcm2835_spi *bs)
+ {
+ 	struct dma_slave_config slave_config;
+-	const __be32 *addr;
+-	dma_addr_t dma_reg_base;
  	int ret;
  
- 	dev_dbg(dev, "%s\n", __func__);
-@@ -1361,23 +1360,13 @@ static int bcm2835_probe(struct platform_device *pdev)
- 	host->pdev = pdev;
- 	spin_lock_init(&host->lock);
- 
--	host->ioaddr = devm_platform_ioremap_resource(pdev, 0);
-+	host->ioaddr = devm_platform_get_and_ioremap_resource(pdev, 0, &iomem);
- 	if (IS_ERR(host->ioaddr)) {
- 		ret = PTR_ERR(host->ioaddr);
- 		goto err;
- 	}
- 
--	/* Parse OF address directly to get the physical address for
--	 * DMA to our registers.
--	 */
--	regaddr_p = of_get_address(pdev->dev.of_node, 0, NULL, NULL);
--	if (!regaddr_p) {
--		dev_err(dev, "Can't get phys address\n");
--		ret = -EINVAL;
--		goto err;
+-	/* base address in dma-space */
+-	addr = of_get_address(ctlr->dev.of_node, 0, NULL, NULL);
+-	if (!addr) {
+-		dev_err(dev, "could not get DMA-register address - not using dma mode\n");
+-		/* Fall back to interrupt mode */
+-		return 0;
 -	}
+-	dma_reg_base = be32_to_cpup(addr);
 -
--	host->phys_addr = be32_to_cpup(regaddr_p);
-+	host->phys_addr = iomem->start;
+ 	/* get tx/rx dma */
+ 	ctlr->dma_tx = dma_request_chan(dev, "tx");
+ 	if (IS_ERR(ctlr->dma_tx)) {
+@@ -925,7 +915,7 @@ static int bcm2835_dma_init(struct spi_controller *ctlr, struct device *dev,
+ 	 * or, in case of an RX-only transfer, cyclically copies from the zero
+ 	 * page to the FIFO using a preallocated, reusable descriptor.
+ 	 */
+-	slave_config.dst_addr = (u32)(dma_reg_base + BCM2835_SPI_FIFO);
++	slave_config.dst_addr = bs->phys_addr + BCM2835_SPI_FIFO;
+ 	slave_config.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
  
- 	host->dma_chan = NULL;
- 	host->dma_desc = NULL;
+ 	ret = dmaengine_slave_config(ctlr->dma_tx, &slave_config);
+@@ -964,9 +954,9 @@ static int bcm2835_dma_init(struct spi_controller *ctlr, struct device *dev,
+ 	 * RX FIFO or, in case of a TX-only transfer, cyclically writes a
+ 	 * precalculated value to the CS register to clear the RX FIFO.
+ 	 */
+-	slave_config.src_addr = (u32)(dma_reg_base + BCM2835_SPI_FIFO);
++	slave_config.src_addr = bs->phys_addr + BCM2835_SPI_FIFO;
+ 	slave_config.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+-	slave_config.dst_addr = (u32)(dma_reg_base + BCM2835_SPI_CS);
++	slave_config.dst_addr = bs->phys_addr + BCM2835_SPI_CS;
+ 	slave_config.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+ 
+ 	ret = dmaengine_slave_config(ctlr->dma_rx, &slave_config);
+@@ -1336,6 +1326,7 @@ static int bcm2835_spi_probe(struct platform_device *pdev)
+ {
+ 	struct spi_controller *ctlr;
+ 	struct bcm2835_spi *bs;
++	struct resource *iomem;
+ 	int err;
+ 
+ 	ctlr = devm_spi_alloc_host(&pdev->dev, sizeof(*bs));
+@@ -1359,10 +1350,12 @@ static int bcm2835_spi_probe(struct platform_device *pdev)
+ 	bs = spi_controller_get_devdata(ctlr);
+ 	bs->ctlr = ctlr;
+ 
+-	bs->regs = devm_platform_ioremap_resource(pdev, 0);
++	bs->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &iomem);
+ 	if (IS_ERR(bs->regs))
+ 		return PTR_ERR(bs->regs);
+ 
++	bs->phys_addr = iomem->start;
++
+ 	bs->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+ 	if (IS_ERR(bs->clk))
+ 		return dev_err_probe(&pdev->dev, PTR_ERR(bs->clk),
 -- 
 2.34.1
 
