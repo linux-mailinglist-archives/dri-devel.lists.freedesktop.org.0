@@ -2,61 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B0A8CE638
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 15:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A40C28CE64A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 15:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F0CE10EBD7;
-	Fri, 24 May 2024 13:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF8E10F31B;
+	Fri, 24 May 2024 13:44:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZleuUB2y";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BUGtP1dC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C140C10EA4C;
- Fri, 24 May 2024 13:36:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716557769; x=1748093769;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=C1PCh2T4eEpUbLo5g4nbRJtpGWGVFLkb+9vWRBO1gF0=;
- b=ZleuUB2yit82aKNd2I/Q7bb/ypM3Ow0CY6Qbb19NwsMPEr6VQarhh/oC
- scIpq+QSWRC+4wv7SqwHz0nJMPP+ydAzrwsQfvoBwqgRqZFKsPZJ+aDXZ
- r4hqh3KpiFYGUWHXsJgiEb0jK/qkzXk2bs33OXjjzSjc3B4H043rcOPlh
- 1grAaNVcDdXjZTuccEg++3txjns7v+IR4YgAnkYP2p/sGK1VtJnVXHh0A
- gfz1kTOuIzaEEhdPzLCH3joDhtksxhwvCRK3bfrEPsQbKscrbcLYZ81KK
- dyE36TRE8fvIepuWAPuR8qLGPZ6qQmzQqnw6xfCaZVOXWGZdtB4fuy6ij w==;
-X-CSE-ConnectionGUID: Fhki6aCGRquCAPo8LhgZOQ==
-X-CSE-MsgGUID: gLjfPaB6Q/Owv3Ifp2uMhQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="13110047"
-X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; d="scan'208";a="13110047"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2024 06:36:08 -0700
-X-CSE-ConnectionGUID: qddlGSzwSFu/0rNsYyVUkA==
-X-CSE-MsgGUID: HiSQpU6mQJym0tFPAhZvzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; d="scan'208";a="64834727"
-Received: from mwajdecz-mobl.ger.corp.intel.com ([10.246.49.231])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2024 06:36:07 -0700
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH 2/2] drm/xe: Use drm_device managed mutex/mm init helpers in
- GGTT
-Date: Fri, 24 May 2024 15:35:18 +0200
-Message-Id: <20240524133518.976-3-michal.wajdeczko@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20240524133518.976-1-michal.wajdeczko@intel.com>
-References: <20240524133518.976-1-michal.wajdeczko@intel.com>
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F160510F2EA;
+ Fri, 24 May 2024 13:44:53 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-2bdeb6c32fdso1364124a91.2; 
+ Fri, 24 May 2024 06:44:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716558293; x=1717163093; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=M/zRPEK4vrpDADuLrDbT9ldxIUl5LtaBJ9hW8O0AF8E=;
+ b=BUGtP1dCBgnED22gs+hjyzQzXaGkpgwXL+6hm+vbZ4biVeM5LvIKAwhFuz59KtFL11
+ kwskXeYTROUCmXGAoy/TveBvd0A/dJk4dQpL60HAh8BbXhctuQw17o/tHVl5b84unyKa
+ AMkL90ivVAlP5HI1t+HyEyxWq+/9AQVwVXgr5zToyTomvditQkSbSuQTVgjhoqn8Udyr
+ 7g5TRcv8LG64ulcekEsJPlNA5RxhM8dK3ipRyz5kXtqdyQw1Dr5garvWQasLjDliWoLV
+ 6/NFZp/QJJzS2xnIHf1h3FpQiwTZlQqQE/FyzGYa1yvg+PSCdxV5wmr/RJSYqXJWDtqI
+ q7fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716558293; x=1717163093;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=M/zRPEK4vrpDADuLrDbT9ldxIUl5LtaBJ9hW8O0AF8E=;
+ b=vRafzs2ig6C4gRKDl4Nm2HQjTewHqCCHp/6gb4wtqUOO7jt+dk5BpT6NSZbOnycBSy
+ hbWXuPoDKQRezgOTpruIWYAfLA4srskroaOGt/xqff40AhuyJKFC759Ytmdb9XVvwSML
+ /VdDMbl1o5j9+15LLBGwlKM2lQ2Xsvu8p0YaiK+3BoqHiJAg65GQRwSDaFsW7XmYcmrY
+ HQQ89aRhAEQaFk6obKcPbyFk2gzmGQkT1qL8JTDMCmnLiHlzjqkFU+deelO37/TpG76D
+ 76YxGvIOFPXsgRy7EYd7loolIUMUayA7fbR8IPJIIW7FayQFJu1QWTXPcaoirKXhq3CQ
+ NFJg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVBWpQ/nbdEbMUaOLiuoB8djdPL3OBqM5Z+Wj8/MA2JnDmCNm1XQDgnJ5TwaYDkXc+YUFssXD8EolEWrMRoLRHk00vIKE6NzlRc0gco2BLiRlpou6aQXm0UXNghw4a3usCKhryi5+PL0LFEFnDeKQ==
+X-Gm-Message-State: AOJu0Yx7y2QzpU3xR6M6eFLGnBlSYpLj9vzBxoamgZt8HrF5lAiiBmM9
+ mCaQjvWOIjyrGU90PTK0SUs4bNzItCdTZTWiQ1BzlvDYu6xUSYYExvqlHB4wJqvDrcCiM0pL4Xs
+ FqedWVWv9Xu/M3xxlREFnNHz5Oow=
+X-Google-Smtp-Source: AGHT+IH4zyIH6ONvvDrxtjrqQxGvSq6pvYG67jVQYsK3CkygUktTLOWiWqxCX0URSxq0sqp/vrHGUwVVh9lyOWZ7KEQ=
+X-Received: by 2002:a17:90b:310f:b0:2b2:9a77:3371 with SMTP id
+ 98e67ed59e1d1-2bf5ee145a3mr2085056a91.12.1716558293449; Fri, 24 May 2024
+ 06:44:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240524021920.95328-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20240524021920.95328-1-jiapeng.chong@linux.alibaba.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 24 May 2024 09:44:41 -0400
+Message-ID: <CADnq5_NaTbS-3tJGUg1Tr5-uEmeRg5cqvyYGezqPLcbxmmCy-Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: clean up some inconsistent indenting
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Abaci Robot <abaci@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,66 +81,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is not need for private release action as there are existing
-drmm_mm_init() and drmm_mutex_init() helpers that can be used.
+Applied.  Thanks!
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
----
- drivers/gpu/drm/xe/xe_ggtt.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-index 17e5066763db..7c91fe212dcb 100644
---- a/drivers/gpu/drm/xe/xe_ggtt.c
-+++ b/drivers/gpu/drm/xe/xe_ggtt.c
-@@ -96,14 +96,6 @@ static void xe_ggtt_clear(struct xe_ggtt *ggtt, u64 start, u64 size)
- 	}
- }
- 
--static void ggtt_fini_early(struct drm_device *drm, void *arg)
--{
--	struct xe_ggtt *ggtt = arg;
--
--	mutex_destroy(&ggtt->lock);
--	drm_mm_takedown(&ggtt->mm);
--}
--
- static void ggtt_fini(struct drm_device *drm, void *arg)
- {
- 	struct xe_ggtt *ggtt = arg;
-@@ -141,6 +133,7 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
- 	struct xe_device *xe = tile_to_xe(ggtt->tile);
- 	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
- 	unsigned int gsm_size;
-+	int err;
- 
- 	if (IS_SRIOV_VF(xe))
- 		gsm_size = SZ_8M; /* GGTT is expected to be 4GiB */
-@@ -189,12 +182,18 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
- 	else
- 		ggtt->pt_ops = &xelp_pt_ops;
- 
--	drm_mm_init(&ggtt->mm, xe_wopcm_size(xe),
--		    ggtt->size - xe_wopcm_size(xe));
--	mutex_init(&ggtt->lock);
-+	err = drmm_mm_init(&xe->drm, &ggtt->mm, xe_wopcm_size(xe),
-+			   ggtt->size - xe_wopcm_size(xe));
-+	if (err)
-+		return err;
-+
-+	err = drmm_mutex_init(&xe->drm, &ggtt->lock);
-+	if (err)
-+		return err;
-+
- 	primelockdep(ggtt);
- 
--	return drmm_add_action_or_reset(&xe->drm, ggtt_fini_early, ggtt);
-+	return 0;
- }
- 
- static void xe_ggtt_invalidate(struct xe_ggtt *ggtt);
--- 
-2.43.0
-
+On Thu, May 23, 2024 at 10:37=E2=80=AFPM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
+>
+> No functional modification involved.
+>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:5200 dc_power_down_on_=
+boot() warn: inconsistent indenting.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D9166
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/core/dc.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/a=
+md/display/dc/core/dc.c
+> index 3a2101b052ea..4612c60edebd 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+> @@ -5194,9 +5194,7 @@ void dc_power_down_on_boot(struct dc *dc)
+>         }
+>  }
+>
+> -void dc_set_power_state(
+> -       struct dc *dc,
+> -       enum dc_acpi_cm_power_state power_state)
+> +void dc_set_power_state(struct dc *dc, enum dc_acpi_cm_power_state power=
+_state)
+>  {
+>         if (!dc->current_state)
+>                 return;
+> --
+> 2.20.1.7.g153144c
+>
