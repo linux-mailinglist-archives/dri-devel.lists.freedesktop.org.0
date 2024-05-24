@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4868CE62C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 15:26:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850C48CE636
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 15:36:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEB2910E1B4;
-	Fri, 24 May 2024 13:26:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB43D10EA05;
+	Fri, 24 May 2024 13:36:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O/zGTG5N";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E31BE10E1B4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 13:26:44 +0000 (UTC)
-Received: from fsav313.sakura.ne.jp (fsav313.sakura.ne.jp [153.120.85.144])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 44ODQKlS037943;
- Fri, 24 May 2024 22:26:20 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav313.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp);
- Fri, 24 May 2024 22:26:20 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 44ODQJtV037935
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 24 May 2024 22:26:19 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <0204a827-ca88-4cb6-839b-f4a637bcbf71@I-love.SAKURA.ne.jp>
-Date: Fri, 24 May 2024 22:26:20 +0900
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7508710EA05;
+ Fri, 24 May 2024 13:36:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716557765; x=1748093765;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=SX98/Wn+9GoAy23Ca6rZy8+WDSxaYXSm+ew7FHW1mQo=;
+ b=O/zGTG5NWY+AV6L8mBrjlXhw0M2YzDk8K9f1T9eCxnSTXuJ6g+s5PwwV
+ yKQKMPiosNCfdQAW7bP7JgcvmOWWvYL/I1iuaBfUErB6QiJpr9hRFAJHl
+ KxPxv7oZZRVohTQlf5jlKLr4rp4NEDGgP9MJ41kh6FApdWotVBjS1wXhC
+ SLKB65DZVmKJoD56JMl1EjxEV+ieDRiGez6tgfpbTcXxlYXlA4oCA+KtB
+ Z4DfxxCz5Rhm31GWYwf9iEa4pQHxwk7J6Vb1akTIHARBUG3PdbD3rqy8n
+ GS3knUmoFWiwmX4jzf8hPozaBovBfJ9jztU/LH73TAubFiQsXtIdHLn0H A==;
+X-CSE-ConnectionGUID: f6KOlADXTBq/JGjmoJJBcA==
+X-CSE-MsgGUID: BPS5plxARl6JA+oxJa9O+Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="13110039"
+X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; d="scan'208";a="13110039"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2024 06:36:05 -0700
+X-CSE-ConnectionGUID: dzgS1wDtSJOAVvojfU/USg==
+X-CSE-MsgGUID: 1NQpfQMPTXmkB2XZdZCDRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; d="scan'208";a="64834718"
+Received: from mwajdecz-mobl.ger.corp.intel.com ([10.246.49.231])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2024 06:36:04 -0700
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Subject: [PATCH 0/2] Add DRM-managed drm_mm_init()
+Date: Fri, 24 May 2024 15:35:16 +0200
+Message-Id: <20240524133518.976-1-michal.wajdeczko@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/sw-sync: don't enable IRQ from
- sync_print_obj()
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- syzbot <syzbot+a225ee3df7e7f9372dbe@syzkaller.appspotmail.com>,
- syzkaller-bugs@googlegroups.com, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Christian Konig <christian.koenig@amd.com>, Sean Paul
- <seanpaul@chromium.org>, Chris Wilson <chris@chris-wilson.co.uk>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
-References: <0000000000000946190610bf7bd5@google.com>
- <c2e46020-aaa6-4e06-bf73-f05823f913f0@I-love.SAKURA.ne.jp>
- <8980975d-87db-4d57-9e23-4fb7fbb62e7d@gmail.com>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <8980975d-87db-4d57-9e23-4fb7fbb62e7d@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,46 +67,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024/05/07 22:09, Christian König wrote:
-> Am 05.05.24 um 16:08 schrieb Tetsuo Handa:
->> Since commit a6aa8fca4d79 ("dma-buf/sw-sync: Reduce irqsave/irqrestore from
->> known context") by error replaced spin_unlock_irqrestore() with
->> spin_unlock_irq() for both sync_debugfs_show() and sync_print_obj() despite
->> sync_print_obj() is called from sync_debugfs_show(), lockdep complains
->> inconsistent lock state warning.
->>
->> Use plain spin_{lock,unlock}() for sync_print_obj(), for
->> sync_debugfs_show() is already using spin_{lock,unlock}_irq().
->>
->> Reported-by: syzbot <syzbot+a225ee3df7e7f9372dbe@syzkaller.appspotmail.com>
->> Closes: https://syzkaller.appspot.com/bug?extid=a225ee3df7e7f9372dbe
->> Fixes: a6aa8fca4d79 ("dma-buf/sw-sync: Reduce irqsave/irqrestore from known context")
->> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+Add drmm_mm_init(), a helper that provides managed allocator cleanup,
+and start using it in the Xe driver.
 
-Thank you. Who can take this patch?
+Michal Wajdeczko (2):
+  drm: Add DRM-managed drm_mm_init()
+  drm/xe: Use drm_device managed mutex/mm init helpers in GGTT
 
-> 
->> ---
->>   drivers/dma-buf/sync_debug.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
->> index 101394f16930..237bce21d1e7 100644
->> --- a/drivers/dma-buf/sync_debug.c
->> +++ b/drivers/dma-buf/sync_debug.c
->> @@ -110,12 +110,12 @@ static void sync_print_obj(struct seq_file *s, struct sync_timeline *obj)
->>         seq_printf(s, "%s: %d\n", obj->name, obj->value);
->>   -    spin_lock_irq(&obj->lock);
->> +    spin_lock(&obj->lock); /* Caller already disabled IRQ. */
->>       list_for_each(pos, &obj->pt_list) {
->>           struct sync_pt *pt = container_of(pos, struct sync_pt, link);
->>           sync_print_fence(s, &pt->base, false);
->>       }
->> -    spin_unlock_irq(&obj->lock);
->> +    spin_unlock(&obj->lock);
->>   }
->>     static void sync_print_sync_file(struct seq_file *s,
-> 
+ drivers/gpu/drm/drm_managed.c | 27 +++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_ggtt.c  | 23 +++++++++++------------
+ include/drm/drm_managed.h     |  3 +++
+ 3 files changed, 41 insertions(+), 12 deletions(-)
+
+-- 
+2.43.0
 
