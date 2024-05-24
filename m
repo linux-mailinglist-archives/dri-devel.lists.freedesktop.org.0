@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA388CE45B
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 12:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FAD8CE47C
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 12:54:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54AAB10EF17;
-	Fri, 24 May 2024 10:42:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA3B10EBB9;
+	Fri, 24 May 2024 10:54:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="GkfVqmOe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RdJSiHoC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49243.qiye.163.com (mail-m49243.qiye.163.com
- [45.254.49.243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD1710EF1A
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 10:42:05 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=GkfVqmOeodjSsHUIq7QZo9oKtwtbKwTt1qnHgCTG7/yWGhv2yHi+u/CK66SOf+nx56G2fHNn+AAnB5zgRSEuWjsTBo7MLRQ4oNxI3lq9VLlgWAJc6ywdMRjS2vUfXHuxgqyIoQ9fOYEhpFMhZiu+gSqQmlvfR259P0J6HSLXrSY=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
- bh=vlYy6kfDRcuOHsQw1Qcrcg0CgVRI1V2ODtI9AvFKsJ4=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTPA id ADE8E840B0B;
- Fri, 24 May 2024 18:41:51 +0800 (CST)
-Message-ID: <5dec9bd2-88ed-46e6-bb8d-fa899b563fd3@rock-chips.com>
-Date: Fri, 24 May 2024 18:41:51 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64BD010E54F;
+ Fri, 24 May 2024 10:54:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716548083; x=1748084083;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=KoHqKLRDPnBBCvL3w50t/8EsHh2TwjanfPFNYjfowwo=;
+ b=RdJSiHoCivGmBjPfNh6+wm5zRwVpnav4OddchxTVX5rDtJD6gYd+1BCc
+ fn6nybQolaZWFC4EkfuUSrrkdNKtCriGB1nUTJLlwcrGWsIiRvi5+EcBd
+ tQcjHWcx5AY9NKu/CqkwtAEzlQ7SEHxJx6AdALgm1wsGz56EHWVXwZHuN
+ X2/6vvCFZhvx1IEvcC3U4eSfj5ZioK+jwVy8xWhclM8fWWHBVpoVdG1E6
+ ZBXxguSvwkyr5ZOhwX5hX+53VrgtQt2di9xs1jzIUfBYKmLLNejKcxShw
+ hVDb9iZdj4fXGc13/4FOgUOincOK8RQNbnsfNDqTxBjgMjOhYz+/OmNTK w==;
+X-CSE-ConnectionGUID: 9KmDBRqwTsG+2d3/eAN6cw==
+X-CSE-MsgGUID: 1K1vsxqtTFa/kFnr46YycA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="16748598"
+X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; d="scan'208";a="16748598"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2024 03:54:42 -0700
+X-CSE-ConnectionGUID: Vy5zMACkTb6iMNXG+CDPMQ==
+X-CSE-MsgGUID: WucLlfcHTLqDGU7fOPGOnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; d="scan'208";a="34076873"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+ by fmviesa009.fm.intel.com with ESMTP; 24 May 2024 03:54:38 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1sASZG-00050o-0n;
+ Fri, 24 May 2024 10:54:34 +0000
+Date: Fri, 24 May 2024 18:53:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>, nouveau@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH 5/5] drm/nouveau: Add drm_panic support for nv50+
+Message-ID: <202405241832.ETpErbon-lkp@intel.com>
+References: <20240523130955.428233-6-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH v5 00/16] Add VOP2 support on rk3588
-From: Andy Yan <andy.yan@rock-chips.com>
-To: Heiko Stuebner <heiko@sntech.de>, Andy Yan <andyshrk@163.com>
-Cc: sebastian.reichel@collabora.com, krzysztof.kozlowski+dt@linaro.org,
- chris.obbard@collabora.com, robh+dt@kernel.org, devicetree@vger.kernel.org,
- kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
- hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20231211115547.1784587-1-andyshrk@163.com>
- <170247871959.753029.11166929824242336708.b4-ty@sntech.de>
- <7a20761b-4cec-4b65-b9fa-efce73ac4c83@rock-chips.com>
-Content-Language: en-US
-In-Reply-To: <7a20761b-4cec-4b65-b9fa-efce73ac4c83@rock-chips.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkJOS1YdTExOHUoeTRlOTkhVEwETFh
- oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
- kG
-X-HM-Tid: 0a8faa315ab403a4kunmade8e840b0b
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MRw6Kxw6QzNDMRcDFi5ISUMR
- Gj8KCi5VSlVKTEpNTk9MSEpJTU5OVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSEhCTTcG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240523130955.428233-6-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,50 +75,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko,
+Hi Jocelyn,
 
-On 12/14/23 14:46, Andy Yan wrote:
-> Hi Heiko:
-> 
-> On 12/13/23 22:46, Heiko Stuebner wrote:
->> On Mon, 11 Dec 2023 19:55:47 +0800, Andy Yan wrote:
->>> From: Andy Yan <andy.yan@rock-chips.com>
->>>
->>> This patch sets aims at enable the VOP2 support on rk3588.
->>>
->>> Main feature of VOP2 on rk3588:
->>> Four video ports:
->>> VP0 Max 4096x2160
->>> VP1 Max 4096x2160
->>> VP2 Max 4096x2160
->>> VP3 Max 2048x1080
->>>
->>> [...]
->>
->> Applied, thanks!
->>
->> [10/16] dt-bindings: display: vop2: Add rk3588 support
->>          commit: 4ccdc92c1fea732fac8f3438d6288719055fa141
->> [11/16] dt-bindings: rockchip,vop2: Add more endpoint definition
->>          commit: dc7226acacc6502291446f9e33cf96246ec49a30
->> [12/16] drm/rockchip: vop2: Add support for rk3588
->>          commit: 5a028e8f062fc862f051f8e62a0d5a1abac91955
->> [13/16] drm/rockchip: vop2: rename VOP_FEATURE_OUTPUT_10BIT to VOP2_VP_FEATURE_OUTPUT_10BIT
->>          commit: 9d7fe7704d534c2d043aff2987f10671a8b4373d
->> [16/16] MAINTAINERS: Add myself as a reviewer for rockchip drm
->>          commit: 6c3ab21f37a97a868193ccbeb8a492e51210ff31
->>
->>
->> I skipped the debugfs patch for now, as I need to look at that separately
->> and of course the dts patch as that needs to wait for iommu maintainers
->> to pick up the binding addition.
-> 
-> That's fine. Thanks for picking these series.
+kernel test robot noticed the following build warnings:
 
-Would you please take a look at the debugfs patch when it's convenient for you?
-It's really useful for development and bug hunting.
+[auto build test WARNING on 484436ec5c2bffe8f346a09ae1cbc4cbf5e50005]
 
-> 
->>
->>
->> Best regards,
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Add-ABGR2101010-support/20240523-211335
+base:   484436ec5c2bffe8f346a09ae1cbc4cbf5e50005
+patch link:    https://lore.kernel.org/r/20240523130955.428233-6-jfalempe%40redhat.com
+patch subject: [PATCH 5/5] drm/nouveau: Add drm_panic support for nv50+
+config: x86_64-randconfig-r113-20240524 (https://download.01.org/0day-ci/archive/20240524/202405241832.ETpErbon-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240524/202405241832.ETpErbon-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405241832.ETpErbon-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/nouveau/dispnv50/wndw.c:675:66: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *vaddr_iomem @@     got void *virtual @@
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:675:66: sparse:     expected void [noderef] __iomem *vaddr_iomem
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:675:66: sparse:     got void *virtual
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c: note: in included file (through include/linux/timer.h, include/linux/workqueue.h, drivers/gpu/drm/nouveau/dispnv50/disp.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+
+vim +675 drivers/gpu/drm/nouveau/dispnv50/wndw.c
+
+   652	
+   653	static int
+   654	nv50_wndw_get_scanout_buffer(struct drm_plane *plane, struct drm_scanout_buffer *sb)
+   655	{
+   656		struct drm_framebuffer *fb;
+   657		struct nouveau_bo *nvbo;
+   658	
+   659		if (!plane->state || !plane->state->fb)
+   660			return -EINVAL;
+   661	
+   662		fb = plane->state->fb;
+   663		nvbo = nouveau_gem_object(fb->obj[0]);
+   664	
+   665		/* Don't support compressed format, or multiplane yet */
+   666		if (nvbo->comp || fb->format->num_planes != 1)
+   667			return -EOPNOTSUPP;
+   668	
+   669		if (nouveau_bo_map(nvbo)) {
+   670			pr_warn("nouveau bo map failed, panic won't be displayed\n");
+   671			return -ENOMEM;
+   672		}
+   673	
+   674		if (nvbo->kmap.bo_kmap_type & TTM_BO_MAP_IOMEM_MASK)
+ > 675			iosys_map_set_vaddr_iomem(&sb->map[0], nvbo->kmap.virtual);
+   676		else
+   677			iosys_map_set_vaddr(&sb->map[0], nvbo->kmap.virtual);
+   678	
+   679		sb->height = fb->height;
+   680		sb->width = fb->width;
+   681		sb->pitch[0] = fb->pitches[0];
+   682		sb->format = fb->format;
+   683	
+   684		/* If tiling is enabled, use the set_pixel() to display correctly */
+   685		if (fb->modifier & 0xf) {
+   686			sb->private = (void *) fb;
+   687			sb->set_pixel = nv50_set_pixel;
+   688		}
+   689		return 0;
+   690	}
+   691	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
