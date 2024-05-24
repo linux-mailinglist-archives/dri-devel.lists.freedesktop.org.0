@@ -2,60 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED058CE307
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 11:09:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7238CE38C
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2024 11:33:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53CB510E12F;
-	Fri, 24 May 2024 09:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20B0310E1B6;
+	Fri, 24 May 2024 09:33:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jDYlct/e";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="I+g0mjhl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E62D410E12F;
- Fri, 24 May 2024 09:08:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716541739; x=1748077739;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=xe/mCiADKWKoHmV7LHdspv3GXZyRbUw0F1g2MLd8RMc=;
- b=jDYlct/eBi4ri8B6r/Q1T3KLF+8tXOgx9RhqpY/WPOSGvuedWg60sUW+
- hgb5v/OuXzl3h0HVqCzjJw+I5ThGgVDF8SE2J9UR9rU7ZrGj4uR14sPfN
- ZJNUhma5KfuTLWR7mq+fJarV2chUx0qQZup1JPcIZWIx3KDJoh4r8Qxdu
- 1Z/WT3CrYfMZieeKsxJJLhCL63D4pYMl5y7TkjENsEp/OnU5NBkeTUXLz
- BldoJWopaSep2pb38+m7v8bE6KDaXarAEitec5hezKKvDjLV0fu3hft6d
- 7h9XMuqxKkxggIiu1L5B8RtsWvuOHTzKOtzL1EPZU3OBEF2urh7lWBEI0 A==;
-X-CSE-ConnectionGUID: i2qW+KZ5RMmPW0P8VUyc8w==
-X-CSE-MsgGUID: iVM9ZqA/SLyCgGn1TErqYA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="16737376"
-X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; d="scan'208";a="16737376"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2024 02:08:59 -0700
-X-CSE-ConnectionGUID: pZZKcbw2Scq9QlM7prupww==
-X-CSE-MsgGUID: qLyhjg0QRQW4/K9BALCm5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,185,1712646000"; d="scan'208";a="34066966"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.108])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2024 02:08:55 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 4/4] drm: enable -Wformat-truncation across the subsystem
-In-Reply-To: <20240523184128.GA523806@ravnborg.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1716479340.git.jani.nikula@intel.com>
- <719debc351075abc36b2573266bfd4d963361e40.1716479340.git.jani.nikula@intel.com>
- <20240523184128.GA523806@ravnborg.org>
-Date: Fri, 24 May 2024 12:08:50 +0300
-Message-ID: <87ed9ro9ul.fsf@intel.com>
+X-Greylist: delayed 729 seconds by postgrey-1.36 at gabe;
+ Fri, 24 May 2024 09:33:32 UTC
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54F1910E1B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2024 09:33:31 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44O9L9Ga035918;
+ Fri, 24 May 2024 04:21:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1716542469;
+ bh=9VqLXE+M4Ctnqzc9Y53bENjNOA1O/XSeTL4zdOP7UAI=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=I+g0mjhlTv4elitGkb1VXIeuQ3/kJDCrThpt7PZl4luKQ5qDv7Qdy407GdUCwvman
+ ZFPnsKgbZLRwTqD5/hJPQQsNmyjbrp+FHCVzItkJbfDXFcTvFBx71K8qja8c1SiIG8
+ EANAxb7A45wy5b61UGPstSKK6FAda13ojjRzVCdA=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44O9L9EP045284
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 24 May 2024 04:21:09 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 24
+ May 2024 04:21:09 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 24 May 2024 04:21:09 -0500
+Received: from [172.24.227.102]
+ (jayesh-hp-probook-440-g8-notebook-pc.dhcp.ti.com [172.24.227.102] (may be
+ forged))
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44O9L46u039745;
+ Fri, 24 May 2024 04:21:05 -0500
+Message-ID: <442d1323-b6d3-4a50-aaea-ef32dfc08741@ti.com>
+Date: Fri, 24 May 2024 14:51:03 +0530
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm/bridge: sii902x: Fix mode_valid hook
+To: Sam Ravnborg <sam@ravnborg.org>
+CC: <linux-kernel@vger.kernel.org>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <a-bhatia1@ti.com>
+References: <20240524073305.107293-1-j-choudhary@ti.com>
+ <20240524073305.107293-2-j-choudhary@ti.com>
+ <20240524081824.GA615138@ravnborg.org>
+Content-Language: en-US
+From: Jayesh Choudhary <j-choudhary@ti.com>
+In-Reply-To: <20240524081824.GA615138@ravnborg.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,61 +81,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 May 2024, Sam Ravnborg <sam@ravnborg.org> wrote:
-> Hi Jani,
->
-> On Thu, May 23, 2024 at 06:51:09PM +0300, Jani Nikula wrote:
->> With the -Wformat-truncation warnings fixed, finish the job started in
->> commit a61ddb4393ad ("drm: enable (most) W=1 warnings by default across
->> the subsystem"), and enable that warning too.
->> 
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> When it is enabled for all of drm then the explicit assignments here
-> could be dropped I think:
->
-> drivers/gpu/drm/i915/Makefile:subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
-> drivers/gpu/drm/xe/Makefile:subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
->
-> Just a drive-by comment, I know this patch was mostly for the bots.
+Hello Sam,
 
-Additionally, I didn't want to create any conflicts with [1]. There's no
-harm in having the duplication.
-
-BR,
-Jani.
-
-[1] https://lore.kernel.org/r/cover.1716471145.git.jani.nikula@intel.com
-
-
->
+On 24/05/24 13:48, Sam Ravnborg wrote:
+> Hi Jayesh,
+> 
+> On Fri, May 24, 2024 at 01:03:04PM +0530, Jayesh Choudhary wrote:
+>> Currently, mode_valid hook returns all mode as valid and it is
+>> defined only in drm_connector_helper_funcs. With the introduction of
+>> 'DRM_BRIDGE_ATTACH_NO_CONNECTOR', connector is not initialized in
+>> bridge_attach call for cases when the encoder has this flag enabled.
+>> So add the mode_valid hook in drm_bridge_funcs as well with proper
+>> clock checks for maximum and minimum pixel clock supported by the
+>> bridge.
+>>
+>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+>> ---
+>>   drivers/gpu/drm/bridge/sii902x.c | 38 ++++++++++++++++++++++++++++++--
+>>   1 file changed, 36 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+>> index 2fbeda9025bf..ef7c3ab3386c 100644
+>> --- a/drivers/gpu/drm/bridge/sii902x.c
+>> +++ b/drivers/gpu/drm/bridge/sii902x.c
+>> @@ -163,6 +163,14 @@
+>>   
+>>   #define SII902X_AUDIO_PORT_INDEX		3
+>>   
+>> +/*
+>> + * The maximum resolution supported by the HDMI bridge is 1080p@60Hz
+>> + * and 1920x1200 requiring a pixel clock of 165MHz and the minimum
+>> + * resolution supported is 480p@60Hz requiring a pixel clock of 25MHz
+>> + */
+>> +#define SII902X_MIN_PIXEL_CLOCK_KHZ		25000
+>> +#define SII902X_MAX_PIXEL_CLOCK_KHZ		165000
+>> +
+>>   struct sii902x {
+>>   	struct i2c_client *i2c;
+>>   	struct regmap *regmap;
+>> @@ -310,12 +318,26 @@ static int sii902x_get_modes(struct drm_connector *connector)
+>>   	return num;
+>>   }
+>>   
+>> +static enum
+>> +drm_mode_status sii902x_validate(struct sii902x *sii902x,
+>> +				 const struct drm_display_mode *mode)
+>> +{
+>> +	if (mode->clock < SII902X_MIN_PIXEL_CLOCK_KHZ)
+>> +		return MODE_CLOCK_LOW;
+>> +
+>> +	if (mode->clock > SII902X_MAX_PIXEL_CLOCK_KHZ)
+>> +		return MODE_CLOCK_HIGH;
+>> +
+>> +	return MODE_OK;
+>> +}
+>> +
+>>   static enum drm_mode_status sii902x_mode_valid(struct drm_connector *connector,
+>>   					       struct drm_display_mode *mode)
+>>   {
+>> -	/* TODO: check mode */
+>> +	struct sii902x *sii902x = connector_to_sii902x(connector);
+>> +	const struct drm_display_mode *mod = mode;
+>>   
+>> -	return MODE_OK;
+>> +	return sii902x_validate(sii902x, mod);
+>>   }
+>>   
+>>   static const struct drm_connector_helper_funcs sii902x_connector_helper_funcs = {
+>> @@ -499,11 +521,22 @@ static int sii902x_bridge_atomic_check(struct drm_bridge *bridge,
+>>   	 * There might be flags negotiation supported in future but
+>>   	 * set the bus flags in atomic_check statically for now.
+>>   	 */
+>> +
+>>   	bridge_state->input_bus_cfg.flags = bridge->timings->input_bus_flags;
+> 
+> If you spin a v2 then drop the above change as you delete the line again
+> in the next patch.
+> 
 > 	Sam
->
->> 
->> ---
->> 
->> Gut feeling says there are more issues, and my configs just don't catch
->> them all, but let's see what the build bots have to say. ;)
->> ---
->>  drivers/gpu/drm/Makefile | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
->> index 68cc9258ffc4..644613dbedda 100644
->> --- a/drivers/gpu/drm/Makefile
->> +++ b/drivers/gpu/drm/Makefile
->> @@ -16,8 +16,7 @@ subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
->>  subdir-ccflags-y += $(call cc-option, -Wunused-const-variable)
->>  subdir-ccflags-y += $(call cc-option, -Wpacked-not-aligned)
->>  subdir-ccflags-y += $(call cc-option, -Wformat-overflow)
->> -# FIXME: fix -Wformat-truncation warnings and uncomment
->> -#subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
->> +subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
->>  subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
->>  # The following turn off the warnings enabled by -Wextra
->>  ifeq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
->> -- 
->> 2.39.2
 
--- 
-Jani Nikula, Intel
+While splitting the patches, I must have messed up.
+I will quickly send v3 with this fixed.
+
+Thanks,
+Jayesh
