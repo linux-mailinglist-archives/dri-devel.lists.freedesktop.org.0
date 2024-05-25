@@ -2,81 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1968CEFF5
-	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2024 17:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598648CF002
+	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2024 18:07:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90CED10E0C1;
-	Sat, 25 May 2024 15:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE0810ECA0;
+	Sat, 25 May 2024 16:01:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="BB4VBiZx";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="oKBfEsCO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20DC410E0C1
- for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2024 15:53:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1716652396; x=1717257196; i=markus.elfring@web.de;
- bh=L4m7Fdh4Tj1XBqkhWZwUbBfV6T54F9ZygtQb5A6gqLg=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=BB4VBiZxXgWCAnrwgXJG5osFFN6ugZX5WYXapZDRaJ+uN/ko/DAYyv8rkQ6v5IVI
- zmO5lnS+gZmFSd3OrdraB2zcq2n2IPGKijol8Y4T7Qgj14C4iAZq9AucbGLvJK1aH
- jbfMV5PbNLG4W5fRcnht1qyVhOOdIjJF0fg5Wpw6gLhMxB8tFcr4M9ow/KKXHA1le
- I+JbCoLnPJYumnP0ICYLfk/lnkH3s2fFapEaBANIIZw9anLzjyAr6uyiDGEwQ7QYC
- uh9lG42ek/CUdavLD3Geh6jMS5lxvlTDgjwboE9N569FzefLAzm9XmemBcbDIgUTB
- rooYb/rrR1DHtwj3Gg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N2jaS-1sepe40oLE-0131uc; Sat, 25
- May 2024 17:53:16 +0200
-Message-ID: <448230a6-1afd-416f-a430-3fc83d81908f@web.de>
-Date: Sat, 25 May 2024 17:53:05 +0200
+Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr
+ [80.12.242.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5A5710E7DE
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2024 16:00:58 +0000 (UTC)
+Received: from fedora.home ([86.243.17.157]) by smtp.orange.fr with ESMTPA
+ id AtpGslhQJ3tO6AtpGsclcT; Sat, 25 May 2024 18:00:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1716652856;
+ bh=WNut/xtqmEtO3vfRepBElQ9DP3GCge0U4oTsojKf0dA=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version;
+ b=oKBfEsCODhjYN3BuoeE7mxdjrfivsP7ev1oxVxunkS7Xyq8NjX3IACLpQA8aaF4dV
+ IXUvuoWfI/e8POQL1UsoAbm9jAiUgP6m1hH7CPgcIpomq6iP4RetU5U3bx0C56vhVz
+ K2fD8tOA5/zPwuLwZvLn94m9V465MwTg+1Bn2FgM3qpS7epANCO3SJ6qrbBlLz1vGv
+ vVIq8CDs0USJrTHwiVQa7U/05dsyTG4uw7cttnaOkpEIVYKP0RSwJZjSmiTuZnxOl/
+ FMxIy6hi60srtYd527d8I+WX7MW7jI4w0gybwSUwO2vMSwyDcfK8/fFkz36bP3kgD6
+ +NYA7E3F3le5Q==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 25 May 2024 18:00:56 +0200
+X-ME-IP: 86.243.17.157
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Kees Cook <keescook@chromium.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-hardening@vger.kernel.org
+Subject: [PATCH v2] dma-buf/fence-array: Add flex array to struct
+ dma_fence_array
+Date: Sat, 25 May 2024 18:00:31 +0200
+Message-ID: <8b4e556e07b5dd78bb8a39b67ea0a43b199083c8.1716652811.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>,
- linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
- virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- kernel-janitors@vger.kernel.org, x86@kernel.org,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Ajay Kaher <akaher@vmware.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simon Horman <horms@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tim Merrifield
- <timothym@vmware.com>, Zack Rusin <zackr@vmware.com>
-References: <20240523191446.54695-7-alexey.makhalov@broadcom.com>
-Subject: Re: [PATCH v10 6/8] x86/vmware: Correct macro names
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240523191446.54695-7-alexey.makhalov@broadcom.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:cmJLXeOyO6RwrkGVOYZa3TDqSK+xvVSWKeWZu05zk6kvDxPi6KM
- VI24pllby/m9VxcIP611LmnPKT3Fkb6lA6kPaZTrlGfidwOThVsC+SImxKngIDDFV6xW6BP
- J6RXUK+VqU+ENdI7eNUSxO6SAl82GwEAtBReZA6WBG+5uxYWZk2/ZxJmuB9BaqFOoor088e
- IJYEq2ueiDM77HRnLv6Lg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:F/nmIhTSQEM=;WriBGqpL96mcTgTrjkKuqUYepA/
- UohE/5dqPTe/KgqqIo6WN4SmC2QoADhjOr1NRsUjVJlCorMWJdgT+OGfndZfvuYSll/4sGSTb
- abUFhN6sj6CunNVjqF7byQLs2Jg/VI6HlWk0ZZC20SecLBIp2/GBPqABkmr3W+PJQuSwrvXrI
- /gJwrghxNrelmCCaBCHdqtv9ndEagLjQpSGNodYv9OPFL7kYDorV4dqvT8FCcYTFrhVeV1prI
- oO6SYTA9y7H3WsRSO5s+EgGf9Ko3livXoMiaUarggm9xSeR21+EePao32z1MR0F7+sfppeo32
- dvw94GD9I+92QP+DThlY8uXQyw3SZt36Z/iNrpGUmuZjzWMtPsFzDuhuB+jLC17VP7kYO7hmn
- R3N+3K6k6h2BTGWSncnZaKW6VEYsaSzkKzVH03iQY5JyBlr1EAaDUtulo26XRNL/25ktFQf+0
- FpPsRZ+7H0ninFsvM2GhVEPzyXeRw8KjI1MQf0iAU+XOv1z4hSI61NHwzX5h1leBsQ2MwoA91
- ZLVvQdisSvpzC6VAiMNdQM1pg98ynpkS6Zfmmbv7VNr4M9pkpRsPu7A86dTm+wUPF1ge8OWTK
- UFDe5kcry8dYUDcnMpbCuOfHRaCV4MjXSKgjim82LE3reHwBHWyJD813B9dpQr7MhQrp1sVmU
- sGLuRvFwNOqz2cuRtcQ/VSL2NN6GW1GoPCAXw79Uws/tI88dgCJ0fYbc/6Mnk/XwUFWcnMLlN
- /nE9UjAnsNkT1sL97A65WFkmwcjX5aevSrBByJ3Fwuhl/tGsA6puCYjY90gRZ7vEGqmqOi9BC
- xI8eZTNeTIvWxeuVJ+1tDC82CUxAg53nQ34H/Cc0p/qlM=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,12 +65,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> VCPU_RESERVED and LEGACY_X2APIC are not VMware hypercall commands.
-> These are bits in return value of VMWARE_CMD_GETVCPU_INFO command.
-> Change VMWARE_CMD_ prefix to GETVCPU_INFO_ one. =E2=80=A6
+This is an effort to get rid of all multiplications from allocation
+functions in order to prevent integer overflows [1][2].
 
-Can such information be relevant for the addition of the tag =E2=80=9CFixe=
-s=E2=80=9D?
+The "struct dma_fence_array" can be refactored to add a flex array in order
+to have the "callback structures allocated behind the array" be more
+explicit.
 
-Regards,
-Markus
+Do so:
+   - makes the code more readable and safer.
+   - allows using __counted_by() for additional checks
+   - avoids some pointer arithmetic in dma_fence_array_enable_signaling()
+
+Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+Link: https://github.com/KSPP/linux/issues/160 [2]
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+---
+Compile tested only.
+
+Changes in v2:
+  - Name the new field 'callbacks' instead of 'cb'   [Christian König]
+
+v1: https://lore.kernel.org/all/d3204a5b4776553455c2cfb1def72f1dae0dba25.1716054403.git.christophe.jaillet@wanadoo.fr/
+---
+ drivers/dma-buf/dma-fence-array.c | 10 ++++------
+ include/linux/dma-fence-array.h   |  3 +++
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index 9b3ce8948351..c74ac197d5fe 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -70,7 +70,7 @@ static void dma_fence_array_cb_func(struct dma_fence *f,
+ static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
+ {
+ 	struct dma_fence_array *array = to_dma_fence_array(fence);
+-	struct dma_fence_array_cb *cb = (void *)(&array[1]);
++	struct dma_fence_array_cb *cb = array->callbacks;
+ 	unsigned i;
+ 
+ 	for (i = 0; i < array->num_fences; ++i) {
+@@ -168,22 +168,20 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
+ 					       bool signal_on_any)
+ {
+ 	struct dma_fence_array *array;
+-	size_t size = sizeof(*array);
+ 
+ 	WARN_ON(!num_fences || !fences);
+ 
+-	/* Allocate the callback structures behind the array. */
+-	size += num_fences * sizeof(struct dma_fence_array_cb);
+-	array = kzalloc(size, GFP_KERNEL);
++	array = kzalloc(struct_size(array, callbacks, num_fences), GFP_KERNEL);
+ 	if (!array)
+ 		return NULL;
+ 
++	array->num_fences = num_fences;
++
+ 	spin_lock_init(&array->lock);
+ 	dma_fence_init(&array->base, &dma_fence_array_ops, &array->lock,
+ 		       context, seqno);
+ 	init_irq_work(&array->work, irq_dma_fence_array_work);
+ 
+-	array->num_fences = num_fences;
+ 	atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences);
+ 	array->fences = fences;
+ 
+diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+index ec7f25def392..29c5650c1038 100644
+--- a/include/linux/dma-fence-array.h
++++ b/include/linux/dma-fence-array.h
+@@ -33,6 +33,7 @@ struct dma_fence_array_cb {
+  * @num_pending: fences in the array still pending
+  * @fences: array of the fences
+  * @work: internal irq_work function
++ * @callbacks: array of callback helpers
+  */
+ struct dma_fence_array {
+ 	struct dma_fence base;
+@@ -43,6 +44,8 @@ struct dma_fence_array {
+ 	struct dma_fence **fences;
+ 
+ 	struct irq_work work;
++
++	struct dma_fence_array_cb callbacks[] __counted_by(num_fences);
+ };
+ 
+ /**
+-- 
+2.45.1
+
