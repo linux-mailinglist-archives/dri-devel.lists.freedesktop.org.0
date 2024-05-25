@@ -2,55 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF518CED70
-	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2024 03:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4F48CEEC3
+	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2024 13:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBCEB10E07F;
-	Sat, 25 May 2024 01:41:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82DC310EE8C;
+	Sat, 25 May 2024 11:46:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LT0AXzib";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oTTdTr1i";
 	dkim-atps=neutral
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9585210E06F;
- Sat, 25 May 2024 01:41:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716601283; x=1748137283;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=22sYjeCPBLcaynIr8avI6SzCkaIP62q9DCQYQSn/QCU=;
- b=LT0AXzib3wIRzf2FgcsiSJ4fo/cFsKgxveq4qxKHcbxnUXGOhkj9AmIl
- waxB1MQ8ZjrHe9YeZixYJZugV7podbS7fpxvsoseNM3/m2wfVVVH6m0AG
- 2Aqr81/6/KQsg6YUv3uN27UDbtTynOvadql/WQLvZoORJjg/9N98Lun4x
- 8ZODEVyy/gF23b0DmTaROMwXhXnbVUfQb/LAROmFOnUhtr5cNruGlF4yc
- Nir2CtWvL7zmQqftcQ49gN4J+o83grYjwg9KCnx6li7YymP1VKXvHE8g9
- WOgq2rh2vAvO6tgdpk1JPjTxPvMVREXaF5+E8kioS3XJQByhn1y9HqRJb g==;
-X-CSE-ConnectionGUID: LPsyvM7oRJSHqNalqCceYQ==
-X-CSE-MsgGUID: zkQkvuggT8uDOIcJeD+bXA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="12865928"
-X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; d="scan'208";a="12865928"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2024 18:41:22 -0700
-X-CSE-ConnectionGUID: h6xBPJ2XSBiLqtvOTT5yQQ==
-X-CSE-MsgGUID: YByuyC/nTFy2+KaxICfjCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; d="scan'208";a="34200357"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by fmviesa006.fm.intel.com with ESMTP; 24 May 2024 18:41:21 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Cc: DRI-Devel@Lists.FreeDesktop.Org, John Harrison <John.C.Harrison@Intel.com>
-Subject: [PATCH] drm/i915/guc: Enable w/a 14019882105 for DG2 and MTL
-Date: Fri, 24 May 2024 18:41:20 -0700
-Message-ID: <20240525014121.4157254-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.43.2
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89F0610EE8C
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2024 11:46:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6FFA7614A5
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2024 11:46:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E0CFBC3277B
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2024 11:46:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716637572;
+ bh=qRjq1igu7WMv6mm2l4gVDb3jzSipku93i2aCoykKv1c=;
+ h=From:To:Subject:Date:From;
+ b=oTTdTr1isRJwGTNWB54U7aSF5XC2k8Nke4KgOVbYmN0qi53hm9P32XxPqNUdg0kTn
+ rIWwAFsJOSO/JkrwbM+WRIab6XGA8QxR/eVBUeegUGgWfuyugutpe9vhODYh+Rsx8P
+ Ql8tdb2bx6mtmEVVpOWiPmRDrRAeuUwmTA39JPfxgiG5yXXOpRGKGs5ouw3IkRbW8c
+ ezVhkphNKxcM4N2nOyek9XdCaWfTOXHQ9ovxRVZ1JX7FBrI83xmK8sW4/9knjDtzuw
+ 9SaiHlzt2ywl6RXFwf0Qyz6rpIY7ccVHZDPEQyocpyoim6gxaKfBLzzRyDSpdC88yz
+ mI/EBs/XHCSAg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id CB8AAC53B7F; Sat, 25 May 2024 11:46:12 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: =?UTF-8?B?W0J1ZyAyMTg4OTFdIE5ldzogSW4gZnVuY3Rpb24g4oCYZGNuMzIx?=
+ =?UTF-8?B?X3VwZGF0ZV9id19ib3VuZGluZ19ib3jigJkgLSB3YXJuaW5nOiB0aGUgZnJh?=
+ =?UTF-8?B?bWUgc2l6ZSBvZiAxMzM2IGJ5dGVzIGlzIGxhcmdlciB0aGFuIDEyODAgYnl0?=
+ =?UTF-8?B?ZXM=?=
+Date: Sat, 25 May 2024 11:46:12 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ionut_n2001@yahoo.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-218891-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,88 +77,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218891
 
-Enable another workaround that is implemented inside the GuC.
+            Bug ID: 218891
+           Summary: In function =E2=80=98dcn321_update_bw_bounding_box=E2=
+=80=99 - warning:
+                    the frame size of 1336 bytes is larger than 1280 bytes
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: ionut_n2001@yahoo.com
+        Regression: No
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 32 ++++++++++++-------
- 2 files changed, 21 insertions(+), 12 deletions(-)
+Kernel 6.9.0=20
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-index 525587cfe1af9..37ff539a6963d 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
-@@ -106,6 +106,7 @@ enum {
-  */
- enum {
- 	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,
-+	GUC_WORKAROUND_KLV_BLOCK_INTERRUPTS_WHEN_MGSR_BLOCKED		= 0x9002,
- };
- 
- #endif /* _ABI_GUC_KLVS_ABI_H */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index c606bb5e3b7b0..6c382785bc60b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -815,23 +815,23 @@ guc_capture_prep_lists(struct intel_guc *guc)
- 	return PAGE_ALIGN(total_size);
- }
- 
--/* Wa_14019159160 */
--static u32 guc_waklv_ra_mode(struct intel_guc *guc, u32 offset, u32 remain)
-+static void guc_waklv_enable_simple(struct intel_guc *guc,
-+				    u32 klv_id, u32 *offset, u32 *remain)
- {
- 	u32 size;
- 	u32 klv_entry[] = {
- 		/* 16:16 key/length */
--		FIELD_PREP(GUC_KLV_0_KEY, GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE) |
-+		FIELD_PREP(GUC_KLV_0_KEY, klv_id) |
- 		FIELD_PREP(GUC_KLV_0_LEN, 0),
- 		/* 0 dwords data */
- 	};
- 
- 	size = sizeof(klv_entry);
--	GEM_BUG_ON(remain < size);
-+	GEM_BUG_ON(*remain < size);
- 
--	iosys_map_memcpy_to(&guc->ads_map, offset, klv_entry, size);
--
--	return size;
-+	iosys_map_memcpy_to(&guc->ads_map, *offset, klv_entry, size);
-+	*offset += size;
-+	*remain -= size;
- }
- 
- static void guc_waklv_init(struct intel_guc *guc)
-@@ -850,11 +850,19 @@ static void guc_waklv_init(struct intel_guc *guc)
- 	remain = guc_ads_waklv_size(guc);
- 
- 	/* Wa_14019159160 */
--	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))) {
--		size = guc_waklv_ra_mode(guc, offset, remain);
--		offset += size;
--		remain -= size;
--	}
-+	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)))
-+		guc_waklv_enable_simple(guc,
-+					GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE,
-+					&offset, &remain);
-+
-+	/* Wa_14019882105 */
-+	if ((GUC_FIRMWARE_VER(guc) >= MAKE_GUC_VER(70, 21, 1)) &&
-+	    (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) ||
-+	     IS_MEDIA_GT_IP_RANGE(gt, IP_VER(13, 0), IP_VER(13, 0)) ||
-+	     IS_DG2(gt->i915)))
-+		guc_waklv_enable_simple(guc,
-+					GUC_WORKAROUND_KLV_BLOCK_INTERRUPTS_WHEN_MGSR_BLOCKED,
-+					&offset, &remain);
- 
- 	size = guc_ads_waklv_size(guc) - remain;
- 	if (!size)
--- 
-2.43.2
 
+...
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_wrapper.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_utils.o
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn321/dcn321_resource.c:=
+ In
+function =E2=80=98dcn321_update_bw_bounding_box=E2=80=99:
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn321/dcn321_resource.c:=
+1599:1:
+warning: the frame size of 1336 bytes is larger than 1280 bytes
+[-Wframe-larger-than=3D]
+ 1599 | }
+      | ^
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_policy.o
+  CC [M]=20
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_translation_helper.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_dc_resource_mg=
+mt.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_mall_phantom.o
+  CC [M]=20
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml_display_rq_dlg_calc.o
+  CC [M]=20
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce120/dce120_timing_generator.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dce112/dce112_compressor=
+.o
+  CC [M]=20
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_timing_generator.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_compressor=
+.o
+  CC [M]=20
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_opp_regamma_v.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_opp_csc_v.o
+  CC [M]=20
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_timing_generator_v.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_mem_input_=
+v.o
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn32/dcn32_resource.c: In
+function =E2=80=98dcn32_update_bw_bounding_box=E2=80=99:
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn32/dcn32_resource.c:20=
+24:1:
+warning: the frame size of 1336 bytes is larger than 1280 bytes
+[-Wframe-larger-than=3D]
+ 2024 | }
+      | ^
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_opp_v.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_transform_=
+v.o
+  CC [M]=20
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce80/dce80_timing_generator.o
+  CC [M]=20
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_timing_generator.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_hw_sequencer=
+.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/hdcp/hdcp_msg.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stat.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_hw_sequencer.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_sink.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_surface.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_debug.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_exports.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_state.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_vm_helper.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dc_helper.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dc_edid_parser.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/color/color_gamma.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/color/color_table.o
+  CC [M]=20
+drivers/gpu/drm/amd/amdgpu/../display/modules/info_packet/info_packet.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/power/power_helpers=
+.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_srv.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_srv_stat.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_reg.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn20.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn21.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn30.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn301.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn302.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn303.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn31.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn314.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn315.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn316.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn32.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn35.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn351.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_ddc.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_log.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_psp.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp1_executio=
+n.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp1_transiti=
+on.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp2_executio=
+n.o
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp2_transiti=
+on.o
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
