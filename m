@@ -2,70 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B509C8CF26C
-	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 04:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1B28CF271
+	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 04:18:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B335910F086;
-	Sun, 26 May 2024 02:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3648E10E6BD;
+	Sun, 26 May 2024 02:18:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kD8ejtD4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gwZoCPXp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A59C410F086
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 02:00:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716688840; x=1748224840;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=CzcVNZjWSshoEFL81VKFzrkOMmouWtgwix9NhZydeTI=;
- b=kD8ejtD42Yx99GUnYmnNyL+1euD3Y/dEFeTGSFgCyUNplp4JVVgzjkue
- 2XRChr5N6oBVlJaOoLmaLNEbA9iStQFZjVSc2N5b6tvN/hWcpyhxOTLeM
- xf4n1Rl3h0QPEZKv0u1gGU/2Mjr5B8pcnk6Xg7tqMJrG6r40dWAFvIhu2
- lcpI4uTYIyKzqtn3NeNF1WbiOvh8CFs3uty5vb/syztNBDv++za0JFoCu
- nsRKEsY/3PwLAWD9x45y6ZajKhuwXcmJc5wZQ5pzN4f1BE+JHEqiKsNYD
- oDZwtnTxaULB9fg1vmglI4xe4cHbVKdHHNNB9n44Fo+rdUGe7f714YSnX g==;
-X-CSE-ConnectionGUID: u2rGh+OmRl6LZRuQDEvFyQ==
-X-CSE-MsgGUID: zJZHlfAyTguWQGd9MZvHjg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11083"; a="23633383"
-X-IronPort-AV: E=Sophos;i="6.08,189,1712646000"; d="scan'208";a="23633383"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2024 19:00:37 -0700
-X-CSE-ConnectionGUID: 8bgepjOfSp2uABOKzPJRSg==
-X-CSE-MsgGUID: qqwx/AslRHOoP6sn78rbyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,189,1712646000"; d="scan'208";a="39375336"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
- by orviesa004.jf.intel.com with ESMTP; 25 May 2024 19:00:33 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sB3BW-0007df-0g;
- Sun, 26 May 2024 02:00:30 +0000
-Date: Sun, 26 May 2024 09:59:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
- Jason-ch Chen <jason-ch.chen@mediatek.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Shawn Sung <shawn.sung@mediatek.com>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v6 6/8] mailbox: mediatek: Add CMDQ secure mailbox driver
-Message-ID: <202405260953.uzQ4Rwg2-lkp@intel.com>
-References: <20240525230810.24623-7-jason-jh.lin@mediatek.com>
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57E1210E0BB
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2024 14:26:59 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-2e964acff1aso9258901fa.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2024 07:26:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716647217; x=1717252017; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=oKAAkWWMlxIl2EN1rlWZQebyBeQkVqcJLORuvsM2/HU=;
+ b=gwZoCPXpNIH7N4XcNqvMDuHPGc2cfhO5OY0soWffY0L2iKeB9vxAlbrGboDz3TAR72
+ zlL1hGq7mBOzcTKtvjhm66uG9qUG3OX9hLoKi1S+i0B9YNCKQMa0aW/5EbVtKRK0ARgP
+ GoVTsLFEnFSBPgP+8HSbQZ/TBW/ne6KCNJkIFP9/QmpHoNm/y5jd+izzwiNC/HX/L+xo
+ H1qu4j75uBCDO9cZKFiL5U708l/39RqvRpCQi3fCRB7YUmNItSbXrcx84yxDKhcZCIsc
+ DzqygOyxc5gKgIFX+wA7e4TGMvlb3nAUAWhC7wgEDMP3UzIjBXxuB6HqGhWn8PJHW3U4
+ 9mYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716647217; x=1717252017;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oKAAkWWMlxIl2EN1rlWZQebyBeQkVqcJLORuvsM2/HU=;
+ b=PhcTOyNTBJ+lyt1TBtWcv/TogfzRrdCmZuXnlH/RQKMz3d7CNj/prX1oj55f2d9jlc
+ WVEQruapGPhCmq71VHxsN/dL+IEzX4hmnkM+Uiz9SawVfdmdEyoiFxB3EVI8Kod13UIB
+ 9D8XbmHC0VcpRCtVWQ4kOM0MkOGX0OkbwiUYGR5rNrV4xwehpKYTprA5vPu19bP9LHeV
+ KwDYVvYOjRXRd+mcFgNi4DBL46ujOH5nlJjodBdIl9uEuQX+FmbPB3CVaCOMyNH/PnPG
+ CU0RQ4SwW62pF/TYjrkmgLbx22bJFWaQ39bV7/dlrNc1aqqGPYcQfS6KYH6EZB5x2Q8v
+ WSCA==
+X-Gm-Message-State: AOJu0YxPoSsmMCM4iKiMTIi8GPx9D0BrFJ46sJn9huitCC2fs9YR4w6k
+ iNQ6axJL62sfiObiIh+r213uAZ3/e5AU2PjKIquw6HSh9CFYOmSn
+X-Google-Smtp-Source: AGHT+IF3Of33Ktr4h0E4kS+dmkhk5yMGJdpEvxoOA1AG/NeJsq3KtVqBD2gwZlfYu7IiqNPzSwNtqA==
+X-Received: by 2002:a2e:9d84:0:b0:2e2:2791:9842 with SMTP id
+ 38308e7fff4ca-2e95b2da90emr34562491fa.44.1716647216785; 
+ Sat, 25 May 2024 07:26:56 -0700 (PDT)
+Received: from killbill.home (static-241-112-224-77.ipcom.comunitel.net.
+ [77.224.112.241]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3557dcf06dcsm4144451f8f.106.2024.05.25.07.26.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 25 May 2024 07:26:56 -0700 (PDT)
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org,
+	kernel-dev@igalia.com
+Subject: [PATCH] MAINTAINERS: remove myself as a VKMS maintainer
+Date: Sat, 25 May 2024 16:26:28 +0200
+Message-ID: <20240525142637.82586-1-melissa.srw@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240525230810.24623-7-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 26 May 2024 02:18:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,138 +86,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason-JH.Lin,
+I haven't been able to follow or review the work on the driver for some
+time now and I don't see the situation improving anytime soon. I'd like
+to continue being listed as a reviewer.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on next-20240523]
-[cannot apply to robh/for-next krzk-dt/for-next fujitsu-integration/mailbox-for-next v6.9]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/dt-bindings-gce-mt8195-Add-CMDQ_SYNC_TOKEN_SECURE_THR_EOF-event-id/20240526-071102
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240525230810.24623-7-jason-jh.lin%40mediatek.com
-patch subject: [PATCH v6 6/8] mailbox: mediatek: Add CMDQ secure mailbox driver
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240526/202405260953.uzQ4Rwg2-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240526/202405260953.uzQ4Rwg2-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405260953.uzQ4Rwg2-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/mailbox/mtk-cmdq-sec-mailbox.c: In function 'cmdq_sec_task_exec_work':
->> drivers/mailbox/mtk-cmdq-sec-mailbox.c:619:31: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-     619 |         struct cmdq_sec_data *data;
-         |                               ^~~~
-
-
-vim +/data +619 drivers/mailbox/mtk-cmdq-sec-mailbox.c
-
-   611	
-   612	static void cmdq_sec_task_exec_work(struct work_struct *work_item)
-   613	{
-   614		struct cmdq_sec_task *sec_task = container_of(work_item,
-   615							      struct cmdq_sec_task, exec_work);
-   616		struct cmdq_sec_thread *sec_thread = container_of(sec_task->task.thread,
-   617								 struct cmdq_sec_thread, thread);
-   618		struct cmdq_sec *cmdq = container_of(sec_thread->dev, struct cmdq_sec, dev);
- > 619		struct cmdq_sec_data *data;
-   620		unsigned long flags;
-   621		int err;
-   622	
-   623		dev_dbg(&cmdq->dev, "%s gce:%#lx sec_task:%p pkt:%p thread:%u",
-   624			__func__, (unsigned long)cmdq->base_pa,
-   625			sec_task, sec_task->task.pkt, sec_thread->idx);
-   626	
-   627		if (!sec_task->task.pkt->sec_data) {
-   628			dev_err(&cmdq->dev, "pkt:%p without sec_data", sec_task->task.pkt);
-   629			return;
-   630		}
-   631		data = (struct cmdq_sec_data *)sec_task->task.pkt->sec_data;
-   632	
-   633		mutex_lock(&cmdq->exec_lock);
-   634	
-   635		spin_lock_irqsave(&sec_thread->thread.chan->lock, flags);
-   636		if (!sec_thread->task_cnt) {
-   637			mod_timer(&sec_thread->timeout, jiffies +
-   638				  msecs_to_jiffies(sec_thread->timeout_ms));
-   639			sec_thread->wait_cookie = 1;
-   640			sec_thread->next_cookie = 1;
-   641			sec_thread->task_cnt = 0;
-   642			__raw_writel(0, (void __iomem *)cmdq->shared_mem->va +
-   643				     CMDQ_SEC_SHARED_THR_CNT_OFFSET + sec_thread->idx * sizeof(u32));
-   644		}
-   645	
-   646		sec_task->reset_exec = sec_thread->task_cnt ? false : true;
-   647		sec_task->wait_cookie = sec_thread->next_cookie;
-   648		sec_thread->next_cookie = (sec_thread->next_cookie + 1) % CMDQ_MAX_COOKIE_VALUE;
-   649		list_add_tail(&sec_task->task.list_entry, &sec_thread->thread.task_busy_list);
-   650		sec_thread->task_cnt += 1;
-   651		spin_unlock_irqrestore(&sec_thread->thread.chan->lock, flags);
-   652		sec_task->trigger = sched_clock();
-   653	
-   654		if (!atomic_cmpxchg(&cmdq_path_res, 0, 1)) {
-   655			err = cmdq_sec_task_submit(cmdq, NULL, CMD_CMDQ_IWC_PATH_RES_ALLOCATE,
-   656						   CMDQ_INVALID_THREAD);
-   657			if (err) {
-   658				atomic_set(&cmdq_path_res, 0);
-   659				goto task_end;
-   660			}
-   661		}
-   662	
-   663		if (sec_thread->task_cnt > CMDQ_MAX_TASK_IN_SECURE_THREAD) {
-   664			dev_err(&cmdq->dev, "task_cnt:%u cannot more than %u sec_task:%p thread:%u",
-   665				sec_thread->task_cnt, CMDQ_MAX_TASK_IN_SECURE_THREAD,
-   666				sec_task, sec_thread->idx);
-   667			err = -EMSGSIZE;
-   668			goto task_end;
-   669		}
-   670	
-   671		err = cmdq_sec_task_submit(cmdq, sec_task, CMD_CMDQ_IWC_SUBMIT_TASK,
-   672					   sec_thread->idx);
-   673		if (err)
-   674			dev_err(&cmdq->dev, "cmdq_sec_task_submit err:%d sec_task:%p thread:%u",
-   675				err, sec_task, sec_thread->idx);
-   676	
-   677	task_end:
-   678		if (err) {
-   679			struct cmdq_cb_data cb_data;
-   680	
-   681			cb_data.sta = err;
-   682			cb_data.pkt = sec_task->task.pkt;
-   683			mbox_chan_received_data(sec_thread->thread.chan, &cb_data);
-   684	
-   685			spin_lock_irqsave(&sec_thread->thread.chan->lock, flags);
-   686			if (!sec_thread->task_cnt)
-   687				dev_err(&cmdq->dev, "thread:%u task_cnt:%u cannot below zero",
-   688					sec_thread->idx, sec_thread->task_cnt);
-   689			else
-   690				sec_thread->task_cnt -= 1;
-   691	
-   692			sec_thread->next_cookie = (sec_thread->next_cookie - 1 +
-   693				CMDQ_MAX_COOKIE_VALUE) % CMDQ_MAX_COOKIE_VALUE;
-   694			list_del(&sec_task->task.list_entry);
-   695			dev_dbg(&cmdq->dev, "gce:%#lx err:%d sec_task:%p pkt:%p",
-   696				(unsigned long)cmdq->base_pa, err, sec_task, sec_task->task.pkt);
-   697			dev_dbg(&cmdq->dev, "thread:%u task_cnt:%u wait_cookie:%u next_cookie:%u",
-   698				sec_thread->idx, sec_thread->task_cnt,
-   699				sec_thread->wait_cookie, sec_thread->next_cookie);
-   700			spin_unlock_irqrestore(&sec_thread->thread.chan->lock, flags);
-   701	
-   702			kfree(sec_task);
-   703		}
-   704	
-   705		mutex_unlock(&cmdq->exec_lock);
-   706	}
-   707	
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7d735037a383..79fe536355b0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7027,10 +7027,10 @@ F:	drivers/gpu/drm/udl/
+ 
+ DRM DRIVER FOR VIRTUAL KERNEL MODESETTING (VKMS)
+ M:	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+-M:	Melissa Wen <melissa.srw@gmail.com>
+ M:	Maíra Canal <mairacanal@riseup.net>
+ R:	Haneen Mohammed <hamohammed.sa@gmail.com>
+ R:	Daniel Vetter <daniel@ffwll.ch>
++R:	Melissa Wen <melissa.srw@gmail.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
