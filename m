@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87BD8CED3B
-	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2024 02:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF518CED70
+	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2024 03:41:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C06A10E05D;
-	Sat, 25 May 2024 00:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBCEB10E07F;
+	Sat, 25 May 2024 01:41:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kYgPZVXC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LT0AXzib";
 	dkim-atps=neutral
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C977A10E05D
- for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2024 00:32:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 4D9B9CE1A4A;
- Sat, 25 May 2024 00:32:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 64256C2BBFC;
- Sat, 25 May 2024 00:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1716597126;
- bh=EvgWL2BDkJOvNs1ZjmnWRRwbqncAWAl+1GT4o4nFRbU=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=kYgPZVXCpjW8Rui4RXPPp7WsjXrMfr15ROG16SIJVtyuprNKJCRoQELPc83hmINRu
- sXMEAwv1PR8+BGgEjcSURe203ZpVrQZ+dalV8xoIhXuqapK1zuRXlGN3NJX9A/9IzS
- ErPh4GHoEh6Ec6SR6eMz4VNDw/skcMM5+X6krEatqv+eNPeZYfGXNL2cIwY0EtWOOY
- NCTTvcUDEmYWEv9IXLLoxjseP3jSdr5DRFo8cwmCNRXzXZ0iRbf1WIGVn7SQF06Mhw
- J2keGsjIU/UBYkjyGaueEoGXl13Qyu1UVTatpFbfuVY6kVUOw5vmLU8A6S5lcwiwCR
- rCVwUetYBOetA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 57F3AC433F2; Sat, 25 May 2024 00:32:06 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.10-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txzvSpHASKuse2VFjbdVKftTfWNtPP8Jibck6jC_n_c1Q@mail.gmail.com>
-References: <CAPM=9txzvSpHASKuse2VFjbdVKftTfWNtPP8Jibck6jC_n_c1Q@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9txzvSpHASKuse2VFjbdVKftTfWNtPP8Jibck6jC_n_c1Q@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-next-2024-05-25
-X-PR-Tracked-Commit-Id: 32a0bb7ef217aa37e6b67ca7950f5e504312ed72
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 56fb6f92854f29dcb6c3dc3ba92eeda1b615e88c
-Message-Id: <171659712634.25728.14253838140127757042.pr-tracker-bot@kernel.org>
-Date: Sat, 25 May 2024 00:32:06 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9585210E06F;
+ Sat, 25 May 2024 01:41:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1716601283; x=1748137283;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=22sYjeCPBLcaynIr8avI6SzCkaIP62q9DCQYQSn/QCU=;
+ b=LT0AXzib3wIRzf2FgcsiSJ4fo/cFsKgxveq4qxKHcbxnUXGOhkj9AmIl
+ waxB1MQ8ZjrHe9YeZixYJZugV7podbS7fpxvsoseNM3/m2wfVVVH6m0AG
+ 2Aqr81/6/KQsg6YUv3uN27UDbtTynOvadql/WQLvZoORJjg/9N98Lun4x
+ 8ZODEVyy/gF23b0DmTaROMwXhXnbVUfQb/LAROmFOnUhtr5cNruGlF4yc
+ Nir2CtWvL7zmQqftcQ49gN4J+o83grYjwg9KCnx6li7YymP1VKXvHE8g9
+ WOgq2rh2vAvO6tgdpk1JPjTxPvMVREXaF5+E8kioS3XJQByhn1y9HqRJb g==;
+X-CSE-ConnectionGUID: LPsyvM7oRJSHqNalqCceYQ==
+X-CSE-MsgGUID: zkQkvuggT8uDOIcJeD+bXA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="12865928"
+X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; d="scan'208";a="12865928"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2024 18:41:22 -0700
+X-CSE-ConnectionGUID: h6xBPJ2XSBiLqtvOTT5yQQ==
+X-CSE-MsgGUID: YByuyC/nTFy2+KaxICfjCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; d="scan'208";a="34200357"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by fmviesa006.fm.intel.com with ESMTP; 24 May 2024 18:41:21 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Cc: DRI-Devel@Lists.FreeDesktop.Org, John Harrison <John.C.Harrison@Intel.com>
+Subject: [PATCH] drm/i915/guc: Enable w/a 14019882105 for DG2 and MTL
+Date: Fri, 24 May 2024 18:41:20 -0700
+Message-ID: <20240525014121.4157254-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.43.2
+MIME-Version: 1.0
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,15 +66,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Sat, 25 May 2024 06:23:25 +1000:
+From: John Harrison <John.C.Harrison@Intel.com>
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2024-05-25
+Enable another workaround that is implemented inside the GuC.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/56fb6f92854f29dcb6c3dc3ba92eeda1b615e88c
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 32 ++++++++++++-------
+ 2 files changed, 21 insertions(+), 12 deletions(-)
 
-Thank you!
-
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+index 525587cfe1af9..37ff539a6963d 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+@@ -106,6 +106,7 @@ enum {
+  */
+ enum {
+ 	GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE				= 0x9001,
++	GUC_WORKAROUND_KLV_BLOCK_INTERRUPTS_WHEN_MGSR_BLOCKED		= 0x9002,
+ };
+ 
+ #endif /* _ABI_GUC_KLVS_ABI_H */
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index c606bb5e3b7b0..6c382785bc60b 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -815,23 +815,23 @@ guc_capture_prep_lists(struct intel_guc *guc)
+ 	return PAGE_ALIGN(total_size);
+ }
+ 
+-/* Wa_14019159160 */
+-static u32 guc_waklv_ra_mode(struct intel_guc *guc, u32 offset, u32 remain)
++static void guc_waklv_enable_simple(struct intel_guc *guc,
++				    u32 klv_id, u32 *offset, u32 *remain)
+ {
+ 	u32 size;
+ 	u32 klv_entry[] = {
+ 		/* 16:16 key/length */
+-		FIELD_PREP(GUC_KLV_0_KEY, GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE) |
++		FIELD_PREP(GUC_KLV_0_KEY, klv_id) |
+ 		FIELD_PREP(GUC_KLV_0_LEN, 0),
+ 		/* 0 dwords data */
+ 	};
+ 
+ 	size = sizeof(klv_entry);
+-	GEM_BUG_ON(remain < size);
++	GEM_BUG_ON(*remain < size);
+ 
+-	iosys_map_memcpy_to(&guc->ads_map, offset, klv_entry, size);
+-
+-	return size;
++	iosys_map_memcpy_to(&guc->ads_map, *offset, klv_entry, size);
++	*offset += size;
++	*remain -= size;
+ }
+ 
+ static void guc_waklv_init(struct intel_guc *guc)
+@@ -850,11 +850,19 @@ static void guc_waklv_init(struct intel_guc *guc)
+ 	remain = guc_ads_waklv_size(guc);
+ 
+ 	/* Wa_14019159160 */
+-	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71))) {
+-		size = guc_waklv_ra_mode(guc, offset, remain);
+-		offset += size;
+-		remain -= size;
+-	}
++	if (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)))
++		guc_waklv_enable_simple(guc,
++					GUC_WORKAROUND_KLV_SERIALIZED_RA_MODE,
++					&offset, &remain);
++
++	/* Wa_14019882105 */
++	if ((GUC_FIRMWARE_VER(guc) >= MAKE_GUC_VER(70, 21, 1)) &&
++	    (IS_GFX_GT_IP_RANGE(gt, IP_VER(12, 70), IP_VER(12, 71)) ||
++	     IS_MEDIA_GT_IP_RANGE(gt, IP_VER(13, 0), IP_VER(13, 0)) ||
++	     IS_DG2(gt->i915)))
++		guc_waklv_enable_simple(guc,
++					GUC_WORKAROUND_KLV_BLOCK_INTERRUPTS_WHEN_MGSR_BLOCKED,
++					&offset, &remain);
+ 
+ 	size = guc_ads_waklv_size(guc) - remain;
+ 	if (!size)
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.2
+
