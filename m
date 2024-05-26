@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C1D28CF5EB
-	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 22:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEF78CF5EE
+	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 22:22:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDB8010F60A;
-	Sun, 26 May 2024 20:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B07510F608;
+	Sun, 26 May 2024 20:22:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="PhiVssvG";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="RswYs/pC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com
- [95.215.58.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA34A10F609
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 20:22:14 +0000 (UTC)
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
+ [95.215.58.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D677C10F609
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 20:22:17 +0000 (UTC)
 X-Envelope-To: rfoss@kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1716754932;
+ t=1716754936;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HQejp35xdHl089YksIdueCjCLA/1BLC6JglYUKdLrzM=;
- b=PhiVssvGa0otgkxBvZ6vngXfyNqXoYz2Td1XFsCxUXvwz5Y4MevBR8yY1/HMUCcdTJRlcu
- zZXSkQan1Nyxd9NG89c86Y6VCJ+4Ok/+J8JhggcZ0Zbi3n0ejfPIpJCu2nRHTmEdOfU9+M
- 9oP9XD5m5a2RxER8e0NFI2n37N7g4lE=
+ bh=sHEGEyR5HKYcrfD9JBIV0ziW1Rx1W7V/ic0nMRKrGeo=;
+ b=RswYs/pCIv6lZwAAqKNacSfmf+2Q8+53Xm8HjQQyAgDzWNkXljRxyLKTiti8KPHXvk/06H
+ GMWBhTIghuoScRfT7eBtzJKFsl7wWFWHDyvCrlKIzF31M6rtWRFo78I4JHixpOasmTqgF8
+ TmZmtGzjItU+Eu169oGIzVKSaiwaJA4=
 X-Envelope-To: laurent.pinchart@ideasonboard.com
 X-Envelope-To: dri-devel@lists.freedesktop.org
 X-Envelope-To: linux-kernel@vger.kernel.org
@@ -38,10 +38,9 @@ To: Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v6 09/10] drm/bridge: sii9234: Use fwnode APIs to abstract DT
- dependent API away
-Date: Mon, 27 May 2024 04:21:14 +0800
-Message-Id: <20240526202115.129049-10-sui.jingfeng@linux.dev>
+Subject: [PATCH v6 10/10] drm/bridge: ch7033: Switch to use fwnode based APIs
+Date: Mon, 27 May 2024 04:21:15 +0800
+Message-Id: <20240526202115.129049-11-sui.jingfeng@linux.dev>
 In-Reply-To: <20240526202115.129049-1-sui.jingfeng@linux.dev>
 References: <20240526202115.129049-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -62,36 +61,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch to use the freshly created drm_bridge_set_node() helper, no
-functional changes. The reason behind of this introduction is that
-the name 'of_node' itself has a smell of DT dependent, and it is a
-internal memeber, when there has helper function, we should use the
-revelant helper and avoid directly referencing and/or dereferencing
-it.
+Use the freshly created helper to replace the use of DT-dependent APIs,
+also print error log if the fwnode graph is not complete which is benefit
+to debug.
 
 Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
 ---
- drivers/gpu/drm/bridge/sii9234.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/chrontel-ch7033.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
-index 7d2bbc31bac9..d930c093abb3 100644
---- a/drivers/gpu/drm/bridge/sii9234.c
-+++ b/drivers/gpu/drm/bridge/sii9234.c
-@@ -817,10 +817,11 @@ static int sii9234_init_resources(struct sii9234 *ctx,
- 				  struct i2c_client *client)
+diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
+index c6374440af7f..35dd2e6ba6c0 100644
+--- a/drivers/gpu/drm/bridge/chrontel-ch7033.c
++++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
+@@ -531,6 +531,7 @@ static const struct regmap_config ch7033_regmap_config = {
+ static int ch7033_probe(struct i2c_client *client)
  {
- 	struct i2c_adapter *adapter = client->adapter;
-+	struct fwnode_handle *fwnode = dev_fwnode(ctx->dev);
+ 	struct device *dev = &client->dev;
++	struct fwnode_handle *fwnode = dev_fwnode(dev);
+ 	struct ch7033_priv *priv;
+ 	unsigned int val;
  	int ret;
+@@ -541,10 +542,15 @@ static int ch7033_probe(struct i2c_client *client)
  
--	if (!ctx->dev->of_node) {
--		dev_err(ctx->dev, "not DT device\n");
-+	if (!fwnode) {
-+		dev_err(ctx->dev, "firmware data is missing\n");
- 		return -ENODEV;
- 	}
+ 	dev_set_drvdata(dev, priv);
  
+-	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, -1, NULL,
+-					  &priv->next_bridge);
+-	if (ret)
++	priv->next_bridge = drm_bridge_find_next_bridge_by_fwnode(fwnode, 1);
++	if (IS_ERR(priv->next_bridge)) {
++		ret = PTR_ERR(priv->next_bridge);
++		dev_err(dev, "Error in founding the next bridge: %d\n", ret);
+ 		return ret;
++	} else if (!priv->next_bridge) {
++		dev_dbg(dev, "Next bridge not found, deferring probe\n");
++		return -EPROBE_DEFER;
++	}
+ 
+ 	priv->regmap = devm_regmap_init_i2c(client, &ch7033_regmap_config);
+ 	if (IS_ERR(priv->regmap)) {
 -- 
 2.34.1
 
