@@ -2,50 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEF78CF5EE
-	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 22:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8588F8CF5F6
+	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 22:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B07510F608;
-	Sun, 26 May 2024 20:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E5E710E9D6;
+	Sun, 26 May 2024 20:27:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="RswYs/pC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dT6XOmeN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
- [95.215.58.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D677C10F609
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 20:22:17 +0000 (UTC)
-X-Envelope-To: rfoss@kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1716754936;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sHEGEyR5HKYcrfD9JBIV0ziW1Rx1W7V/ic0nMRKrGeo=;
- b=RswYs/pCIv6lZwAAqKNacSfmf+2Q8+53Xm8HjQQyAgDzWNkXljRxyLKTiti8KPHXvk/06H
- GMWBhTIghuoScRfT7eBtzJKFsl7wWFWHDyvCrlKIzF31M6rtWRFo78I4JHixpOasmTqgF8
- TmZmtGzjItU+Eu169oGIzVKSaiwaJA4=
-X-Envelope-To: laurent.pinchart@ideasonboard.com
-X-Envelope-To: dri-devel@lists.freedesktop.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: sui.jingfeng@linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v6 10/10] drm/bridge: ch7033: Switch to use fwnode based APIs
-Date: Mon, 27 May 2024 04:21:15 +0800
-Message-Id: <20240526202115.129049-11-sui.jingfeng@linux.dev>
-In-Reply-To: <20240526202115.129049-1-sui.jingfeng@linux.dev>
-References: <20240526202115.129049-1-sui.jingfeng@linux.dev>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3120810F618
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 20:27:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BDDF760A0B
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 20:27:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 70607C4AF07
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 20:27:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1716755258;
+ bh=HQ57eVROiL1wMI5w8SPIDFKhAFEoAzBfdlmKaTvl7OM=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=dT6XOmeNX0sOMij179Cf0mp1x3QSLix6PuQ6o715sYE+2CQ4k1371W/s8oJuD4aG3
+ aMgoG4B8rPBX0K1jBKFn59YDSGBcR/lb2FT2xctMmA7+BlYyKrI66+ZhzI9CfzOPbZ
+ 7U5RJgeeAlJa/u+V4odsq1J1vENihoqF6mAqRh+9P4a2JimFcpAbp1zovayY/WtGGr
+ TJFyK/diTS31SQxptYPCf+oqo0AvN/r6wyg8z5Y0huZoqFT+lR5PjrHs91jnKTouLc
+ ud7AGOaaj1TD0v92DrXOnc4pPj5qYiXlE3chu2ePe94dzxQ2w1WbPSL8b5j9eH7/C3
+ IzWJoiaFPkiXw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 686C7C53B50; Sun, 26 May 2024 20:27:38 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: =?UTF-8?B?W0J1ZyAyMTg4OTFdIEluIGZ1bmN0aW9uIOKAmGRjbjMyMV91cGRh?=
+ =?UTF-8?B?dGVfYndfYm91bmRpbmdfYm944oCZIC0gd2FybmluZzogdGhlIGZyYW1lIHNp?=
+ =?UTF-8?B?emUgb2YgMTMzNiBieXRlcyBpcyBsYXJnZXIgdGhhbiAxMjgwIGJ5dGVz?=
+Date: Sun, 26 May 2024 20:27:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-218891-2300-OQ87NE6AkX@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218891-2300@https.bugzilla.kernel.org/>
+References: <bug-218891-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,46 +76,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the freshly created helper to replace the use of DT-dependent APIs,
-also print error log if the fwnode graph is not complete which is benefit
-to debug.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D218891
 
-Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
----
- drivers/gpu/drm/bridge/chrontel-ch7033.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Artem S. Tashkinov (aros@gmx.com) changed:
 
-diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-index c6374440af7f..35dd2e6ba6c0 100644
---- a/drivers/gpu/drm/bridge/chrontel-ch7033.c
-+++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-@@ -531,6 +531,7 @@ static const struct regmap_config ch7033_regmap_config = {
- static int ch7033_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
-+	struct fwnode_handle *fwnode = dev_fwnode(dev);
- 	struct ch7033_priv *priv;
- 	unsigned int val;
- 	int ret;
-@@ -541,10 +542,15 @@ static int ch7033_probe(struct i2c_client *client)
- 
- 	dev_set_drvdata(dev, priv);
- 
--	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, -1, NULL,
--					  &priv->next_bridge);
--	if (ret)
-+	priv->next_bridge = drm_bridge_find_next_bridge_by_fwnode(fwnode, 1);
-+	if (IS_ERR(priv->next_bridge)) {
-+		ret = PTR_ERR(priv->next_bridge);
-+		dev_err(dev, "Error in founding the next bridge: %d\n", ret);
- 		return ret;
-+	} else if (!priv->next_bridge) {
-+		dev_dbg(dev, "Next bridge not found, deferring probe\n");
-+		return -EPROBE_DEFER;
-+	}
- 
- 	priv->regmap = devm_regmap_init_i2c(client, &ch7033_regmap_config);
- 	if (IS_ERR(priv->regmap)) {
--- 
-2.34.1
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |ANSWERED
 
+--- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
+Please refile here:
+
+https://gitlab.freedesktop.org/drm/amd/-/issues
+
+Thank you.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
