@@ -2,71 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0590C8CF403
-	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 13:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60E28CF472
+	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 15:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA7D10F46A;
-	Sun, 26 May 2024 11:10:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=paroga.com header.i=@paroga.com header.b="bBNvlLSD";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=paroga.com header.i=@paroga.com header.b="bBNvlLSD";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAB1410EBE6;
+	Sun, 26 May 2024 13:59:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx201.easyname.com (mx201.easyname.com [217.74.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D9C410F46A
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 11:10:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com; 
- s=easyname;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=XzK8Fn5pCU+PnGjPxXzH2BXns9LdRHAJvaS3DBH5tws=; b=bBNvlLSDeVIsKgutwwWXxfPGQH
- QqG2M/eNuzuJgd3Rr+F+rjuoTY1C/OVrEU9p2weuZVle09imos2BKxOaMEMbS5zV00J8/0czJ5zHC
- L0NCFn07SQFIfO4+rdXYnGM7A5Ff8Lg0qzP72h73LQgYyhYn0e02vr0xXRdsUNRfG8aNC6/EM3uxi
- b/rqVNpew4Zk63fTNTuEBOVIQIXIva7sb3fEazJuyu0DYTThzLYN+y1o7IALnY6w0CrHFaTRfLhDy
- ZImQEGHIG1SRvHMvr/mK+uLxIbwtMqhsoM9PhQDQp3Qi7sBZaLgwxUrcy6/OkX73MD3WHDCNgFiA/
- iklB+lnQ==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=paroga.com; 
- s=easyname;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=XzK8Fn5pCU+PnGjPxXzH2BXns9LdRHAJvaS3DBH5tws=; b=bBNvlLSDeVIsKgutwwWXxfPGQH
- QqG2M/eNuzuJgd3Rr+F+rjuoTY1C/OVrEU9p2weuZVle09imos2BKxOaMEMbS5zV00J8/0czJ5zHC
- L0NCFn07SQFIfO4+rdXYnGM7A5Ff8Lg0qzP72h73LQgYyhYn0e02vr0xXRdsUNRfG8aNC6/EM3uxi
- b/rqVNpew4Zk63fTNTuEBOVIQIXIva7sb3fEazJuyu0DYTThzLYN+y1o7IALnY6w0CrHFaTRfLhDy
- ZImQEGHIG1SRvHMvr/mK+uLxIbwtMqhsoM9PhQDQp3Qi7sBZaLgwxUrcy6/OkX73MD3WHDCNgFiA/
- iklB+lnQ==;
-Received: from 84-115-225-171.cable.dynamic.surfer.at ([84.115.225.171]
- helo=localhost.localdomain)
- by mx.easyname.com with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <paroga@paroga.com>)
- id 1sBBU0-00073L-MZ; Sun, 26 May 2024 10:52:13 +0000
-From: Patrick Gansterer <paroga@paroga.com>
-To: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-Cc: Patrick Gansterer <paroga@paroga.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v6 2/2] backlight: Add new lm3509 backlight driver
-Date: Sun, 26 May 2024 12:51:30 +0200
-Message-ID: <20240526105136.721529-3-paroga@paroga.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240526105136.721529-1-paroga@paroga.com>
-References: <20240526105136.721529-1-paroga@paroga.com>
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com
+ [209.85.166.205])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C85210EC4A
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 13:59:23 +0000 (UTC)
+Received: by mail-il1-f205.google.com with SMTP id
+ e9e14a558f8ab-3713862bcefso34174295ab.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 06:59:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716731962; x=1717336762;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jNEgY/oLrqRd+yaxQrrBw1t0SSKI8XMoyGe1kTK/1Ws=;
+ b=fgbJc/Pe2xMiDCpRB1pMiNuBASwOMS3cmmMHir83pSY+k4DkL1YCSVCLQKiIlUSoUw
+ WmATmP0WWmbyCGbvswqv/Yy61GBHrMEHJVBYaVK44iIkya5QqDLaosajnKMrXAJaIW9K
+ 3j10SdPAExC7qt24abFmx0h+uTxg87u81TkrYZQr6Sf2RUSZuys5nty3RbdBOmtVKEiM
+ RUyYh8wrUdDIFsLj/vOR7Mi6WNlzPW4P6JRVMdsMuUXFCwlDill8Ex9ShOib/NVNRkxJ
+ oiWNU7XJsuwSZvwGb1vmMsYM2gbGxKwqW+jZh6d2y5lOA022SKaU4kjBvE8UO/mWoazm
+ EyKw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX+sODT0JCpwC4hbiBlN6rqOA6exsR6N3cxkc6rns86SZwhWJ81ySqE29s8PzdX5m5mIJUg7JIQ0iM9Ci7hO74cOnqh9hd1bHZPUn4AYN4H
+X-Gm-Message-State: AOJu0YzqSOXppx5jGPgCsrRcu+2Ph5JcpqXItJZa3J+fLfEimIO+RhhM
+ eBJkUx4vMsZhIU6FuuhFm1XWI1k1JVdmE7EwBubMwLKxnzwpXni08rH7+9S89+JtMCo472oGaYW
+ 4rcJdaxO4CGErF61Xd9hTshGOW/khKSEaXCq1uM589yFj6fhxhqYgL9g=
+X-Google-Smtp-Source: AGHT+IHNNjsHcPytzQ4qNy8yJE2YJ9Q8829cNue7EDdSis/FiJ1bsV6YBDthQBQnJDzAlnUp5Xo63kcVHRe08OjvN7VW/ivZ+0hB
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Easy-Autoreply: EN
+X-Received: by 2002:a92:6408:0:b0:374:5776:de62 with SMTP id
+ e9e14a558f8ab-3745776e1bdmr112205ab.2.1716731962249; Sun, 26 May 2024
+ 06:59:22 -0700 (PDT)
+Date: Sun, 26 May 2024 06:59:22 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c8e60006195bce35@google.com>
+Subject: [syzbot] [dri?] WARNING in drm_atomic_helper_wait_for_vblanks (3)
+From: syzbot <syzbot+0ac28002caff799b9e57@syzkaller.appspotmail.com>
+To: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,397 +62,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a general driver for LM3509 backlight chip of TI.
-LM3509 is High Efficiency Boost for White LEDs and/or OLED Displays with
-Dual Current Sinks. This driver supports OLED/White LED select, brightness
-control and sub/main control.
-The datasheet can be found at http://www.ti.com/product/lm3509.
+Hello,
 
-Signed-off-by: Patrick Gansterer <paroga@paroga.com>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+syzbot found the following issue on:
+
+HEAD commit:    6d69b6c12fce Merge tag 'nfs-for-6.10-1' of git://git.linux..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14dbcda4980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=aeb4d28a6349ece
+dashboard link: https://syzkaller.appspot.com/bug?extid=0ac28002caff799b9e57
+compiler:       arm-linux-gnueabi-gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: arm
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/8ead8862021c/non_bootable_disk-6d69b6c1.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/85d8b411b76d/vmlinux-6d69b6c1.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a9fe9b7875f4/zImage-6d69b6c1.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0ac28002caff799b9e57@syzkaller.appspotmail.com
+
+input: AT Raw Set 2 keyboard as /devices/platform/bus@8000000/bus@8000000:motherboard-bus/bus@8000000:motherboard-bus:iofpga-bus@300000000/1c060000.kmi/serio0/input/input0
+input: ImExPS/2 Generic Explorer Mouse as /devices/platform/bus@8000000/bus@8000000:motherboard-bus/bus@8000000:motherboard-bus:iofpga-bus@300000000/1c070000.kmi/serio1/input/input2
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 24 at drivers/gpu/drm/drm_atomic_helper.c:1682 drm_atomic_helper_wait_for_vblanks.part.0+0x264/0x26c drivers/gpu/drm/drm_atomic_helper.c:1682
+[CRTC:34:crtc-0] vblank wait timed out
+Modules linked in:
+Kernel panic - not syncing: kernel: panic_on_warn set ...
+CPU: 1 PID: 24 Comm: kworker/1:0 Not tainted 6.9.0-syzkaller #0
+Hardware name: ARM-Versatile Express
+Workqueue: events output_poll_execute
+Call trace: 
+[<818d5898>] (dump_backtrace) from [<818d5994>] (show_stack+0x18/0x1c arch/arm/kernel/traps.c:257)
+ r7:00000000 r6:82622d44 r5:00000000 r4:81fe1500
+[<818d597c>] (show_stack) from [<818f2fa4>] (__dump_stack lib/dump_stack.c:88 [inline])
+[<818d597c>] (show_stack) from [<818f2fa4>] (dump_stack_lvl+0x54/0x7c lib/dump_stack.c:114)
+[<818f2f50>] (dump_stack_lvl) from [<818f2fe4>] (dump_stack+0x18/0x1c lib/dump_stack.c:123)
+ r5:00000000 r4:8285fd18
+[<818f2fcc>] (dump_stack) from [<818d643c>] (panic+0x120/0x358 kernel/panic.c:347)
+[<818d631c>] (panic) from [<80243dcc>] (check_panic_on_warn kernel/panic.c:240 [inline])
+[<818d631c>] (panic) from [<80243dcc>] (print_tainted+0x0/0xa0 kernel/panic.c:235)
+ r3:8260c5c4 r2:00000001 r1:81fca178 r0:81fd1dc8
+ r7:80a1fec0
+[<80243d58>] (check_panic_on_warn) from [<80243fc0>] (__warn+0x7c/0x180 kernel/panic.c:693)
+[<80243f44>] (__warn) from [<802442ac>] (warn_slowpath_fmt+0x1e8/0x1f4 kernel/panic.c:726)
+ r8:00000009 r7:820530fc r6:df87dbdc r5:82e3b000 r4:00000000
+[<802440c8>] (warn_slowpath_fmt) from [<80a1fec0>] (drm_atomic_helper_wait_for_vblanks.part.0+0x264/0x26c drivers/gpu/drm/drm_atomic_helper.c:1682)
+ r10:00000000 r9:00000001 r8:00000001 r7:00000000 r6:8405db00 r5:83ee5050
+ r4:00000000
+[<80a1fc5c>] (drm_atomic_helper_wait_for_vblanks.part.0) from [<80a2130c>] (drm_atomic_helper_wait_for_vblanks drivers/gpu/drm/drm_atomic_helper.c:1658 [inline])
+[<80a1fc5c>] (drm_atomic_helper_wait_for_vblanks.part.0) from [<80a2130c>] (drm_atomic_helper_commit_tail+0x84/0x94 drivers/gpu/drm/drm_atomic_helper.c:1758)
+ r10:8421269c r9:00000000 r8:00000000 r7:00000001 r6:217c7950 r5:841df000
+ r4:8405db00
+[<80a21288>] (drm_atomic_helper_commit_tail) from [<80a22910>] (commit_tail+0x178/0x1a0 drivers/gpu/drm/drm_atomic_helper.c:1835)
+ r5:00000000 r4:8405db00
+[<80a22798>] (commit_tail) from [<80a22aa0>] (drm_atomic_helper_commit+0x150/0x174 drivers/gpu/drm/drm_atomic_helper.c:2073)
+ r9:00000000 r8:8405db2c r7:00000000 r6:841df000 r5:00000000 r4:8405db00
+[<80a22950>] (drm_atomic_helper_commit) from [<809de954>] (drm_atomic_commit+0xc0/0xf4 drivers/gpu/drm/drm_atomic.c:1514)
+ r9:00000000 r8:83ee5520 r7:00000001 r6:841df000 r5:00000000 r4:8405db00
+[<809de894>] (drm_atomic_commit) from [<809e51c0>] (drm_client_modeset_commit_atomic+0x21c/0x25c drivers/gpu/drm/drm_client_modeset.c:1063)
+ r6:00000001 r5:841df1ac r4:8405db00
+[<809e4fa4>] (drm_client_modeset_commit_atomic) from [<809e52d8>] (drm_client_modeset_commit_locked+0x64/0x18c drivers/gpu/drm/drm_client_modeset.c:1166)
+ r10:841df1ec r9:00000001 r8:841df098 r7:83e71418 r6:83e71400 r5:841df000
+ r4:841df000
+[<809e5274>] (drm_client_modeset_commit_locked) from [<809e542c>] (drm_client_modeset_commit+0x2c/0x48 drivers/gpu/drm/drm_client_modeset.c:1192)
+ r9:00000001 r8:841df098 r7:8204c8e0 r6:83e714b8 r5:841df000 r4:83e71400
+[<809e5400>] (drm_client_modeset_commit) from [<80a2fcc8>] (__drm_fb_helper_restore_fbdev_mode_unlocked drivers/gpu/drm/drm_fb_helper.c:251 [inline])
+[<809e5400>] (drm_client_modeset_commit) from [<80a2fcc8>] (__drm_fb_helper_restore_fbdev_mode_unlocked+0x8c/0xc4 drivers/gpu/drm/drm_fb_helper.c:230)
+ r5:83e71400 r4:00000000
+[<80a2fc3c>] (__drm_fb_helper_restore_fbdev_mode_unlocked) from [<80a2fc2c>] (drm_fb_helper_set_par drivers/gpu/drm/drm_fb_helper.c:1344 [inline])
+[<80a2fc3c>] (__drm_fb_helper_restore_fbdev_mode_unlocked) from [<80a2fc2c>] (drm_fb_helper_hotplug_event+0xf8/0x108 drivers/gpu/drm/drm_fb_helper.c:1990)
+ r7:8204c8e0 r6:841df0ac r5:83e714b8 r4:83e71400
+[<80a2fb34>] (drm_fb_helper_hotplug_event) from [<80a19ed8>] (drm_fbdev_dma_client_hotplug+0x24/0xc8 drivers/gpu/drm/drm_fbdev_dma.c:182)
+ r5:841df000 r4:83e71400
+[<80a19eb4>] (drm_fbdev_dma_client_hotplug) from [<809e4750>] (drm_client_dev_hotplug drivers/gpu/drm/drm_client.c:238 [inline])
+[<80a19eb4>] (drm_fbdev_dma_client_hotplug) from [<809e4750>] (drm_client_dev_hotplug+0xbc/0x114 drivers/gpu/drm/drm_client.c:217)
+ r7:8204c8e0 r6:841df0ac r5:841df000 r4:83e71400
+[<809e4694>] (drm_client_dev_hotplug) from [<80a2a990>] (drm_kms_helper_hotplug_event drivers/gpu/drm/drm_probe_helper.c:738 [inline])
+[<809e4694>] (drm_client_dev_hotplug) from [<80a2a990>] (output_poll_execute+0x270/0x2c4 drivers/gpu/drm/drm_probe_helper.c:854)
+ r9:00000001 r8:841df0d8 r7:00000001 r6:841df000 r5:00000001 r4:82cb2180
+[<80a2a720>] (output_poll_execute) from [<802671bc>] (process_one_work+0x1c4/0x510 kernel/workqueue.c:3231)
+ r10:82c16205 r9:82e3b000 r8:01800000 r7:ddde40c0 r6:82c16200 r5:841df1ec
+ r4:82cb2180
+[<80266ff8>] (process_one_work) from [<80267df0>] (process_scheduled_works kernel/workqueue.c:3312 [inline])
+[<80266ff8>] (process_one_work) from [<80267df0>] (worker_thread+0x1ec/0x418 kernel/workqueue.c:3393)
+ r10:82e3b000 r9:82cb21ac r8:61c88647 r7:ddde40e0 r6:82604d40 r5:ddde40c0
+ r4:82cb2180
+[<80267c04>] (worker_thread) from [<80271228>] (kthread+0x104/0x134 kernel/kthread.c:389)
+ r10:00000000 r9:df819d60 r8:82cc3e40 r7:82cb2180 r6:80267c04 r5:82e3b000
+ r4:82cc3c00
+[<80271124>] (kthread) from [<80200114>] (ret_from_fork+0x14/0x20 arch/arm/kernel/entry-common.S:134)
+Exception stack(0xdf87dfb0 to 0xdf87dff8)
+dfa0:                                     00000000 00000000 00000000 00000000
+dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
+ r9:00000000 r8:00000000 r7:00000000 r6:00000000 r5:80271124 r4:82cc3c00
+Rebooting in 86400 seconds..
+
+
 ---
- drivers/video/backlight/Kconfig     |   7 +
- drivers/video/backlight/Makefile    |   1 +
- drivers/video/backlight/lm3509_bl.c | 340 ++++++++++++++++++++++++++++
- 3 files changed, 348 insertions(+)
- create mode 100644 drivers/video/backlight/lm3509_bl.c
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 230bca07b09d..3614a5d29c71 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -373,6 +373,13 @@ config BACKLIGHT_AAT2870
- 	  If you have a AnalogicTech AAT2870 say Y to enable the
- 	  backlight driver.
- 
-+config BACKLIGHT_LM3509
-+	tristate "Backlight Driver for LM3509"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  This supports TI LM3509 Backlight Driver
-+
- config BACKLIGHT_LM3630A
- 	tristate "Backlight Driver for LM3630A"
- 	depends on I2C && PWM
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index 8d2cb252042d..8fc98f760a8a 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -36,6 +36,7 @@ obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
- obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
- obj-$(CONFIG_BACKLIGHT_KTD2801)		+= ktd2801-backlight.o
- obj-$(CONFIG_BACKLIGHT_KTZ8866)		+= ktz8866.o
-+obj-$(CONFIG_BACKLIGHT_LM3509)		+= lm3509_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
-diff --git a/drivers/video/backlight/lm3509_bl.c b/drivers/video/backlight/lm3509_bl.c
-new file mode 100644
-index 000000000000..ab57f79ffe23
---- /dev/null
-+++ b/drivers/video/backlight/lm3509_bl.c
-@@ -0,0 +1,340 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+
-+#define LM3509_NAME "lm3509_bl"
-+
-+#define LM3509_SINK_MAIN 0
-+#define LM3509_SINK_SUB 1
-+#define LM3509_NUM_SINKS 2
-+
-+#define LM3509_DEF_BRIGHTNESS 0x12
-+#define LM3509_MAX_BRIGHTNESS 0x1F
-+
-+#define REG_GP 0x10
-+#define REG_BMAIN 0xA0
-+#define REG_BSUB 0xB0
-+#define REG_MAX 0xFF
-+
-+enum {
-+	REG_GP_ENM_BIT = 0,
-+	REG_GP_ENS_BIT,
-+	REG_GP_UNI_BIT,
-+	REG_GP_RMP0_BIT,
-+	REG_GP_RMP1_BIT,
-+	REG_GP_OLED_BIT,
-+};
-+
-+struct lm3509_bl {
-+	struct regmap *regmap;
-+	struct backlight_device *bl_main;
-+	struct backlight_device *bl_sub;
-+	struct gpio_desc *reset_gpio;
-+};
-+
-+struct lm3509_bl_led_data {
-+	const char *label;
-+	int led_sources;
-+	u32 brightness;
-+	u32 max_brightness;
-+};
-+
-+static void lm3509_reset(struct lm3509_bl *data)
-+{
-+	if (data->reset_gpio) {
-+		gpiod_set_value(data->reset_gpio, 1);
-+		udelay(1);
-+		gpiod_set_value(data->reset_gpio, 0);
-+		udelay(10);
-+	}
-+}
-+
-+static int lm3509_update_status(struct backlight_device *bl,
-+				unsigned int en_mask, unsigned int br_reg)
-+{
-+	struct lm3509_bl *data = bl_get_data(bl);
-+	int ret;
-+	bool en;
-+
-+	ret = regmap_write(data->regmap, br_reg, backlight_get_brightness(bl));
-+	if (ret < 0)
-+		return ret;
-+
-+	en = !backlight_is_blank(bl);
-+	return regmap_update_bits(data->regmap, REG_GP, en_mask,
-+				  en ? en_mask : 0);
-+}
-+
-+static int lm3509_main_update_status(struct backlight_device *bl)
-+{
-+	return lm3509_update_status(bl, BIT(REG_GP_ENM_BIT), REG_BMAIN);
-+}
-+
-+static const struct backlight_ops lm3509_main_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = lm3509_main_update_status,
-+};
-+
-+static int lm3509_sub_update_status(struct backlight_device *bl)
-+{
-+	return lm3509_update_status(bl, BIT(REG_GP_ENS_BIT), REG_BSUB);
-+}
-+
-+static const struct backlight_ops lm3509_sub_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = lm3509_sub_update_status,
-+};
-+
-+static struct backlight_device *
-+lm3509_backlight_register(struct device *dev, const char *name_suffix,
-+			  struct lm3509_bl *data,
-+			  const struct backlight_ops *ops,
-+			  const struct lm3509_bl_led_data *led_data)
-+
-+{
-+	struct backlight_device *bd;
-+	struct backlight_properties props;
-+	const char *label = led_data->label;
-+	char name[64];
-+
-+	memset(&props, 0, sizeof(props));
-+	props.type = BACKLIGHT_RAW;
-+	props.brightness = led_data->brightness;
-+	props.max_brightness = led_data->max_brightness;
-+	props.scale = BACKLIGHT_SCALE_NON_LINEAR;
-+
-+	if (!label) {
-+		snprintf(name, sizeof(name), "lm3509-%s-%s", dev_name(dev),
-+			 name_suffix);
-+		label = name;
-+	}
-+
-+	bd = devm_backlight_device_register(dev, label, dev, data, ops, &props);
-+	if (bd)
-+		backlight_update_status(bd);
-+
-+	return bd;
-+}
-+
-+static const struct regmap_config lm3509_regmap = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = REG_MAX,
-+};
-+
-+static int lm3509_parse_led_sources(struct device_node *node,
-+				    int default_led_sources)
-+{
-+	u32 sources[LM3509_NUM_SINKS];
-+	int ret, num_sources, i;
-+
-+	num_sources = of_property_count_u32_elems(node, "led-sources");
-+	if (num_sources < 0)
-+		return default_led_sources;
-+	else if (num_sources > ARRAY_SIZE(sources))
-+		return -EINVAL;
-+
-+	ret = of_property_read_u32_array(node, "led-sources", sources,
-+					 num_sources);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < num_sources; i++) {
-+		if (sources[i] >= LM3509_NUM_SINKS)
-+			return -EINVAL;
-+
-+		ret |= BIT(sources[i]);
-+	}
-+
-+	return ret;
-+}
-+
-+static int lm3509_parse_dt_node(struct device *dev,
-+				struct lm3509_bl_led_data *led_data)
-+{
-+	struct device_node *child;
-+	int seen_led_sources = 0;
-+
-+	for_each_child_of_node(dev->of_node, child) {
-+		struct lm3509_bl_led_data *ld;
-+		int ret;
-+		u32 reg;
-+		int valid_led_sources;
-+
-+		ret = of_property_read_u32(child, "reg", &reg);
-+		if (ret < 0)
-+			return ret;
-+		if (reg >= LM3509_NUM_SINKS)
-+			return -EINVAL;
-+		ld = &led_data[reg];
-+
-+		ld->led_sources = lm3509_parse_led_sources(child, BIT(reg));
-+		if (ld->led_sources < 0)
-+			return ld->led_sources;
-+
-+		if (reg == 0)
-+			valid_led_sources = BIT(LM3509_SINK_MAIN) |
-+					    BIT(LM3509_SINK_SUB);
-+		else
-+			valid_led_sources = BIT(LM3509_SINK_SUB);
-+
-+		if (ld->led_sources != (ld->led_sources & valid_led_sources))
-+			return -EINVAL;
-+
-+		if (seen_led_sources & ld->led_sources)
-+			return -EINVAL;
-+
-+		seen_led_sources |= ld->led_sources;
-+
-+		ld->label = NULL;
-+		of_property_read_string(child, "label", &ld->label);
-+
-+		ld->max_brightness = LM3509_MAX_BRIGHTNESS;
-+		of_property_read_u32(child, "max-brightness",
-+				     &ld->max_brightness);
-+		ld->max_brightness =
-+			min_t(u32, ld->max_brightness, LM3509_MAX_BRIGHTNESS);
-+
-+		ld->brightness = LM3509_DEF_BRIGHTNESS;
-+		of_property_read_u32(child, "default-brightness",
-+				     &ld->brightness);
-+		ld->brightness = min_t(u32, ld->brightness, ld->max_brightness);
-+	}
-+
-+	return 0;
-+}
-+
-+static int lm3509_probe(struct i2c_client *client)
-+{
-+	struct lm3509_bl *data;
-+	struct device *dev = &client->dev;
-+	int ret;
-+	bool oled_mode = false;
-+	unsigned int reg_gp_val = 0;
-+	struct lm3509_bl_led_data led_data[LM3509_NUM_SINKS];
-+	u32 rate_of_change = 0;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(dev, "i2c functionality check failed\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	data = devm_kzalloc(dev, sizeof(struct lm3509_bl), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->regmap = devm_regmap_init_i2c(client, &lm3509_regmap);
-+	if (IS_ERR(data->regmap))
-+		return PTR_ERR(data->regmap);
-+	i2c_set_clientdata(client, data);
-+
-+	data->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(data->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(data->reset_gpio),
-+				     "Failed to get 'reset' gpio\n");
-+
-+	lm3509_reset(data);
-+
-+	memset(led_data, 0, sizeof(led_data));
-+	ret = lm3509_parse_dt_node(dev, led_data);
-+	if (ret)
-+		return ret;
-+
-+	oled_mode = of_property_read_bool(dev->of_node, "ti,oled-mode");
-+
-+	if (!of_property_read_u32(dev->of_node,
-+				  "ti,brightness-rate-of-change-us",
-+				  &rate_of_change)) {
-+		switch (rate_of_change) {
-+		case 51:
-+			reg_gp_val = 0;
-+			break;
-+		case 13000:
-+			reg_gp_val = BIT(REG_GP_RMP1_BIT);
-+			break;
-+		case 26000:
-+			reg_gp_val = BIT(REG_GP_RMP0_BIT);
-+			break;
-+		case 52000:
-+			reg_gp_val = BIT(REG_GP_RMP0_BIT) |
-+				     BIT(REG_GP_RMP1_BIT);
-+			break;
-+		default:
-+			dev_warn(dev, "invalid rate of change %u\n",
-+				 rate_of_change);
-+			break;
-+		}
-+	}
-+
-+	if (led_data[0].led_sources ==
-+	    (BIT(LM3509_SINK_MAIN) | BIT(LM3509_SINK_SUB)))
-+		reg_gp_val |= BIT(REG_GP_UNI_BIT);
-+	if (oled_mode)
-+		reg_gp_val |= BIT(REG_GP_OLED_BIT);
-+
-+	ret = regmap_write(data->regmap, REG_GP, reg_gp_val);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "failed to write register\n");
-+
-+	if (led_data[0].led_sources) {
-+		data->bl_main = lm3509_backlight_register(
-+			dev, "main", data, &lm3509_main_ops, &led_data[0]);
-+		if (IS_ERR(data->bl_main)) {
-+			return dev_err_probe(
-+				dev, PTR_ERR(data->bl_main),
-+				"failed to register main backlight\n");
-+		}
-+	}
-+
-+	if (led_data[1].led_sources) {
-+		data->bl_sub = lm3509_backlight_register(
-+			dev, "sub", data, &lm3509_sub_ops, &led_data[1]);
-+		if (IS_ERR(data->bl_sub)) {
-+			return dev_err_probe(
-+				dev, PTR_ERR(data->bl_sub),
-+				"failed to register secondary backlight\n");
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void lm3509_remove(struct i2c_client *client)
-+{
-+	struct lm3509_bl *data = i2c_get_clientdata(client);
-+
-+	regmap_write(data->regmap, REG_GP, 0x00);
-+}
-+
-+static const struct i2c_device_id lm3509_id[] = { { LM3509_NAME, 0 }, {} };
-+
-+MODULE_DEVICE_TABLE(i2c, lm3509_id);
-+
-+static const struct of_device_id lm3509_match_table[] = {
-+	{
-+		.compatible = "ti,lm3509",
-+	},
-+	{},
-+};
-+
-+MODULE_DEVICE_TABLE(of, lm3509_match_table);
-+
-+static struct i2c_driver lm3509_i2c_driver = {
-+	.driver = {
-+		.name = LM3509_NAME,
-+		.of_match_table = lm3509_match_table,
-+	},
-+	.probe = lm3509_probe,
-+	.remove = lm3509_remove,
-+	.id_table = lm3509_id,
-+};
-+
-+module_i2c_driver(lm3509_i2c_driver);
-+
-+MODULE_DESCRIPTION("Texas Instruments Backlight driver for LM3509");
-+MODULE_AUTHOR("Patrick Gansterer <paroga@paroga.com>");
-+MODULE_LICENSE("GPL");
--- 
-2.45.1
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
