@@ -2,68 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E028CF544
-	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 20:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B28A8CF5D4
+	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 21:59:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7A7610EFBE;
-	Sun, 26 May 2024 18:12:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3770D10F0A1;
+	Sun, 26 May 2024 19:59:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="lz5Fykl+";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ljUUPJo5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD8F910EFBE
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 18:11:59 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44QIBnmt104929;
- Sun, 26 May 2024 13:11:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1716747109;
- bh=7b71w3wTu7ljSPqTnEpkFDRPeQGF6eQu8Nu53psHfAc=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=lz5Fykl+W5wLJD58DU4uzguynJDVuMsk7mtLDLxKJC4mgTYHQDeK1ihzeqdiahj4n
- ZFLPRPbPqRd1d6L0LkVBhMrfBCseOSJIU7rPNiZRRQNf2bFHUYsw0DhM6rLJRB+YN9
- kYUKSo+DKwTEwbgsk3DBV0TRrEnu9sTcGGmDyWFA=
-Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44QIBnm2045495
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sun, 26 May 2024 13:11:49 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sun, 26
- May 2024 13:11:49 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sun, 26 May 2024 13:11:49 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44QIBmSo101598;
- Sun, 26 May 2024 13:11:49 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
- <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
- <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
- <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
- <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
- <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
- <nicolas@ndufresne.ca>, <akpm@linux-foundation.org>,
- <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
- <adobriyan@gmail.com>, <jani.nikula@intel.com>
-Subject: [PATCH v9 10/10] gpu: ipu-v3: Use generic macro for rounding closest
- to specified value
-Date: Sun, 26 May 2024 23:41:48 +0530
-Message-ID: <20240526181148.1131956-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240526175655.1093707-1-devarsht@ti.com>
-References: <20240526175655.1093707-1-devarsht@ti.com>
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
+ [91.218.175.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7300210ED5A
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 19:59:16 +0000 (UTC)
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1716753553;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jxmqEj250Efur2ANihKilbqvxEioI+rBu1p7H01pzAk=;
+ b=ljUUPJo5WMDcfBAd7LxoCQoBhDiI8LAgymmYrjMZri0/3IqB3x3kvXmKGBoaIDgAsNRdvQ
+ 0Wv1vkXMnrEw4EQ191dItUT1zsZAsWPIAw8in9xEed5nCcCdClP+AiiNYdjzu2azrWALp6
+ OxYsqPSKVmHP8++sTaMsiHmrAFKC1Sg=
+X-Envelope-To: mripard@kernel.org
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: markus.elfring@web.de
+X-Envelope-To: sui.jingfeng@linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Markus Elfring <Markus.Elfring@web.de>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: [PATCH v2 0/3] drm/loongson: Introduce component framework support
+Date: Mon, 27 May 2024 03:58:23 +0800
+Message-Id: <20240526195826.109008-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,43 +61,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use generic macro round_closest_up() for rounding closest to specified
-value instead of using local macro round_closest().
+Introduce component framework to bind child and sibling devices, for better
+modularity and offload the deferral probe issue to submodule if it need to
+attach exterinal module someday. Also for better reflect the hardware
+layout.
 
-There is no change from functionality point of view as round_closest_up()
-is functionally same as the previously used local macro round_closest().
+Hardware units that come with PCIe are all ready to drive, but there are
+some board specific modules will return -EPROBE_DEFER to us. We need all
+submodules ready to use before we can register the drm device to userspace.
 
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
-V9: No change
-V8: Update commit message
-V1->V7 : (No change, patch introduced in V7)
----
- drivers/gpu/ipu-v3/ipu-image-convert.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+The idea is to device the exterinal module dependent part and exterinal
+module independent part. For example, the display controller and the
+GPIO-I2C just belong to exterinal module independent part. While the
+outputs are just belong to exterinal module dependent part.
 
-diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
-index 841316582ea9..5192a8b5c02c 100644
---- a/drivers/gpu/ipu-v3/ipu-image-convert.c
-+++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
-@@ -477,8 +477,6 @@ static int calc_image_resize_coefficients(struct ipu_image_convert_ctx *ctx,
- 	return 0;
- }
- 
--#define round_closest(x, y) round_down((x) + (y)/2, (y))
--
- /*
-  * Find the best aligned seam position for the given column / row index.
-  * Rotation and image offsets are out of scope.
-@@ -565,7 +563,7 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
- 		 * The closest input sample position that we could actually
- 		 * start the input tile at, 19.13 fixed point.
- 		 */
--		in_pos_aligned = round_closest(in_pos, 8192U * in_align);
-+		in_pos_aligned = round_closest_up(in_pos, 8192U * in_align);
- 		/* Convert 19.13 fixed point to integer */
- 		in_pos_rounded = in_pos_aligned / 8192U;
- 
+We abstract the output ports as child devices, the output ports may
+consists of encoder phy and level shifter. Well, the GPU are standalone
+siblings relative to the DC. Those units are relatively separated
+hardware units from display controller itself.
+
+By design, the display controller PCI(e) is selected as master, gpio-i2c
+go with master. Manually created virtual subdevice functional as agents
+for the master, it could return the -EPROBE_DEFER back to the drvier core.
+This allows the master don't have to tear down everything, thereore
+majority setups work can be preserved. The potential cyclic dependency
+problem can be solved then.
+
+v1 -> v2:
+	* Squash patch 0002 and patch 0003 into one
+	* Fill type and improve commit message
+
+Sui Jingfeng (3):
+  drm/loongson: Add a helper for creating child devices
+  drm/loongson: Introduce component framework support
+  drm/loongson: Add dummy gpu driver as a subcomponent
+
+ drivers/gpu/drm/loongson/Makefile             |   4 +
+ drivers/gpu/drm/loongson/loong_gpu_pci_drv.c  |  90 ++++++++
+ drivers/gpu/drm/loongson/loong_gpu_pci_drv.h  |  27 +++
+ drivers/gpu/drm/loongson/loongson_device.c    |  42 ++++
+ drivers/gpu/drm/loongson/loongson_module.c    |  26 ++-
+ drivers/gpu/drm/loongson/loongson_module.h    |   8 +
+ drivers/gpu/drm/loongson/lsdc_drv.c           | 217 +++++++++++-------
+ drivers/gpu/drm/loongson/lsdc_drv.h           |  45 +---
+ drivers/gpu/drm/loongson/lsdc_i2c.c           |   5 +-
+ drivers/gpu/drm/loongson/lsdc_i2c.h           |   3 -
+ drivers/gpu/drm/loongson/lsdc_output.c        | 176 ++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_output.h        |  38 ++-
+ drivers/gpu/drm/loongson/lsdc_output_7a1000.c |   3 +-
+ drivers/gpu/drm/loongson/lsdc_output_7a2000.c |  17 +-
+ 14 files changed, 564 insertions(+), 137 deletions(-)
+ create mode 100644 drivers/gpu/drm/loongson/loong_gpu_pci_drv.c
+ create mode 100644 drivers/gpu/drm/loongson/loong_gpu_pci_drv.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_output.c
+
 -- 
-2.39.1
+2.34.1
 
