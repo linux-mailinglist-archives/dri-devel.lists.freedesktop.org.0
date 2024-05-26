@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B28A8CF5D4
-	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 21:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F958CF5D6
+	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2024 21:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3770D10F0A1;
-	Sun, 26 May 2024 19:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEC310EA01;
+	Sun, 26 May 2024 19:59:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ljUUPJo5";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="K5mU3L9P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
- [91.218.175.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7300210ED5A
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 19:59:16 +0000 (UTC)
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com
+ [91.218.175.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D97410E4E0
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 19:59:17 +0000 (UTC)
 X-Envelope-To: maarten.lankhorst@linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1716753553;
+ t=1716753556;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=jxmqEj250Efur2ANihKilbqvxEioI+rBu1p7H01pzAk=;
- b=ljUUPJo5WMDcfBAd7LxoCQoBhDiI8LAgymmYrjMZri0/3IqB3x3kvXmKGBoaIDgAsNRdvQ
- 0Wv1vkXMnrEw4EQ191dItUT1zsZAsWPIAw8in9xEed5nCcCdClP+AiiNYdjzu2azrWALp6
- OxYsqPSKVmHP8++sTaMsiHmrAFKC1Sg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gt1GZxDNDVzPynPm2Fc/jjTcpRuD3aRfoyoaAWA9e3w=;
+ b=K5mU3L9PDVN6Qiciorijzn+pS4JN/fokyXR+ka1VTpYo0plVLSwMop8iUnyDiFXqZxk0kx
+ tV5Qsp4klcwmsGJi8LmuE8JQd9u1sgt5RMKgrU/KNdXVRjpNOb5h3dRxIbVC2eBhXLxBOm
+ PG4V3/tOCefTN52+8w7InI7hFTPCyt4=
 X-Envelope-To: mripard@kernel.org
 X-Envelope-To: tzimmermann@suse.de
 X-Envelope-To: linux-kernel@vger.kernel.org
@@ -40,9 +41,11 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Markus Elfring <Markus.Elfring@web.de>,
  Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: [PATCH v2 0/3] drm/loongson: Introduce component framework support
-Date: Mon, 27 May 2024 03:58:23 +0800
-Message-Id: <20240526195826.109008-1-sui.jingfeng@linux.dev>
+Subject: [PATCH v2 1/3] drm/loongson: Add a helper for creating child devices
+Date: Mon, 27 May 2024 03:58:24 +0800
+Message-Id: <20240526195826.109008-2-sui.jingfeng@linux.dev>
+In-Reply-To: <20240526195826.109008-1-sui.jingfeng@linux.dev>
+References: <20240526195826.109008-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -61,60 +64,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce component framework to bind child and sibling devices, for better
-modularity and offload the deferral probe issue to submodule if it need to
-attach exterinal module someday. Also for better reflect the hardware
-layout.
+In some display subsystems, the functionality of a PCIe device may too
+complex to be managed by a single driver. A split of the functionality
+into child devices can helpful to achieve better modularity.
 
-Hardware units that come with PCIe are all ready to drive, but there are
-some board specific modules will return -EPROBE_DEFER to us. We need all
-submodules ready to use before we can register the drm device to userspace.
+Another benefit is that we could migrate the dependency on exterinal
+modules to a submodule level with the helper created. For example, it's
+not uncommon that some exterinal module will return -EPROBE_DEFER to our
+driver during probe time. KMS driver has to tear down everything when it
+receives -EPROBE_DEFER, the problem is that it's completely not necessary
+and rising cyclic dependency problems if not process correctly.
 
-The idea is to device the exterinal module dependent part and exterinal
-module independent part. For example, the display controller and the
-GPIO-I2C just belong to exterinal module independent part. While the
-outputs are just belong to exterinal module dependent part.
+Add the loongson_create_platform_device() function, which allows the KMS
+driver to create sub-devices for it. The manually created decice acts as
+agents for the principal part, migrate the potential issue to submodule.
 
-We abstract the output ports as child devices, the output ports may
-consists of encoder phy and level shifter. Well, the GPU are standalone
-siblings relative to the DC. Those units are relatively separated
-hardware units from display controller itself.
+Signed-off-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+---
+ drivers/gpu/drm/loongson/loongson_device.c | 42 ++++++++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_drv.h        |  6 ++++
+ 2 files changed, 48 insertions(+)
 
-By design, the display controller PCI(e) is selected as master, gpio-i2c
-go with master. Manually created virtual subdevice functional as agents
-for the master, it could return the -EPROBE_DEFER back to the drvier core.
-This allows the master don't have to tear down everything, thereore
-majority setups work can be preserved. The potential cyclic dependency
-problem can be solved then.
-
-v1 -> v2:
-	* Squash patch 0002 and patch 0003 into one
-	* Fill type and improve commit message
-
-Sui Jingfeng (3):
-  drm/loongson: Add a helper for creating child devices
-  drm/loongson: Introduce component framework support
-  drm/loongson: Add dummy gpu driver as a subcomponent
-
- drivers/gpu/drm/loongson/Makefile             |   4 +
- drivers/gpu/drm/loongson/loong_gpu_pci_drv.c  |  90 ++++++++
- drivers/gpu/drm/loongson/loong_gpu_pci_drv.h  |  27 +++
- drivers/gpu/drm/loongson/loongson_device.c    |  42 ++++
- drivers/gpu/drm/loongson/loongson_module.c    |  26 ++-
- drivers/gpu/drm/loongson/loongson_module.h    |   8 +
- drivers/gpu/drm/loongson/lsdc_drv.c           | 217 +++++++++++-------
- drivers/gpu/drm/loongson/lsdc_drv.h           |  45 +---
- drivers/gpu/drm/loongson/lsdc_i2c.c           |   5 +-
- drivers/gpu/drm/loongson/lsdc_i2c.h           |   3 -
- drivers/gpu/drm/loongson/lsdc_output.c        | 176 ++++++++++++++
- drivers/gpu/drm/loongson/lsdc_output.h        |  38 ++-
- drivers/gpu/drm/loongson/lsdc_output_7a1000.c |   3 +-
- drivers/gpu/drm/loongson/lsdc_output_7a2000.c |  17 +-
- 14 files changed, 564 insertions(+), 137 deletions(-)
- create mode 100644 drivers/gpu/drm/loongson/loong_gpu_pci_drv.c
- create mode 100644 drivers/gpu/drm/loongson/loong_gpu_pci_drv.h
- create mode 100644 drivers/gpu/drm/loongson/lsdc_output.c
-
+diff --git a/drivers/gpu/drm/loongson/loongson_device.c b/drivers/gpu/drm/loongson/loongson_device.c
+index 9986c8a2a255..b268549d643e 100644
+--- a/drivers/gpu/drm/loongson/loongson_device.c
++++ b/drivers/gpu/drm/loongson/loongson_device.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/pci.h>
++#include <linux/platform_device.h>
+ 
+ #include "lsdc_drv.h"
+ 
+@@ -100,3 +101,44 @@ lsdc_device_probe(struct pci_dev *pdev, enum loongson_chip_id chip_id)
+ {
+ 	return __chip_id_desc_table[chip_id];
+ }
++
++int loongson_create_platform_device(struct device *parent,
++				    const char *name, int id,
++				    struct resource *pres,
++				    void *data,
++				    struct platform_device **ppdev)
++{
++	struct platform_device *pdev;
++	int ret;
++
++	pdev = platform_device_alloc(name, id);
++	if (!pdev)
++		return -ENOMEM;
++
++	pdev->dev.parent = parent;
++
++	if (pres) {
++		ret = platform_device_add_resources(pdev, pres, 1);
++		if (ret) {
++			platform_device_put(pdev);
++			return ret;
++		}
++	}
++
++	if (data) {
++		void *pdata = kmalloc(sizeof(void *), GFP_KERNEL);
++
++		*(void **)pdata = data;
++		pdev->dev.platform_data = pdata;
++	}
++
++	ret = platform_device_add(pdev);
++	if (ret) {
++		platform_device_put(pdev);
++		return ret;
++	}
++
++	*ppdev = pdev;
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/loongson/lsdc_drv.h b/drivers/gpu/drm/loongson/lsdc_drv.h
+index fbf2d760ef27..a2c6b496a69f 100644
+--- a/drivers/gpu/drm/loongson/lsdc_drv.h
++++ b/drivers/gpu/drm/loongson/lsdc_drv.h
+@@ -47,6 +47,12 @@ enum loongson_chip_id {
+ const struct lsdc_desc *
+ lsdc_device_probe(struct pci_dev *pdev, enum loongson_chip_id chip);
+ 
++int loongson_create_platform_device(struct device *parent,
++				    const char *name, int id,
++				    struct resource *pres,
++				    void *data,
++				    struct platform_device **ppdev);
++
+ struct lsdc_kms_funcs;
+ 
+ /* DC specific */
 -- 
 2.34.1
 
