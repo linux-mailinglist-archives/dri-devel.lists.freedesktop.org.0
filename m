@@ -2,62 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7138CF6D3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 01:34:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FCF8CF743
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2024 03:20:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E74B410F700;
-	Sun, 26 May 2024 23:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC01510F75A;
+	Mon, 27 May 2024 01:20:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R7ihNR/3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jTp/rEP6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC16A10F713
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2024 23:34:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1716766461; x=1748302461;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=YQOuh/heB2ECjajHc+hfb5AhWWtp9iWjRbj78w+1CBs=;
- b=R7ihNR/3+Zyc3PQsihdWDOxbcFe1fvc5Lo8isbCTnnS/xoImMXHGkCQ5
- YIh6BfsnhTcoqjvzrkA/W1b+9KmBFRKf3zO4X6Rp2zm94pAN7vQ838Hpw
- ZoTmPUV9+fdzL+gVN7cHxBGeD6zK9eYr7qtJEbOV2/ax22lDmIPSTb07k
- ggtaf/TcgKlB3TpoOU80F/m+yoxyQkGSGH5nT5ap9qbZAn/5jb7zgZE2U
- A1E7m5ADdvvqY3giUirPYayrcfgG4e+GjyCs1rA/vCC5pCJPSLu/GOele
- l+JU96vO+r3W+iQ0PzbOrDc1ug3QzMrBrByHjOiU+JLHqvQxtUtPenOLk g==;
-X-CSE-ConnectionGUID: IlxR8dCMQ/ulXirqw9mvNQ==
-X-CSE-MsgGUID: 174gViaXS4e7QhgfPVHwiw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="35585950"
-X-IronPort-AV: E=Sophos;i="6.08,191,1712646000"; d="scan'208";a="35585950"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2024 16:34:21 -0700
-X-CSE-ConnectionGUID: 8PV7+unKQ12ZKoBXrzU2mg==
-X-CSE-MsgGUID: rKWAxDmSRmiheDPISxCmAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,191,1712646000"; d="scan'208";a="39547247"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
- by orviesa004.jf.intel.com with ESMTP; 26 May 2024 16:34:19 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1sBNNW-0008qr-2t;
- Sun, 26 May 2024 23:34:15 +0000
-Date: Mon, 27 May 2024 07:33:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [PATCH v6 02/10] drm/bridge: Set firmware node of drm_bridge
- instances automatically
-Message-ID: <202405270622.VDMbp9FR-lkp@intel.com>
-References: <20240526202115.129049-3-sui.jingfeng@linux.dev>
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7796510F75A;
+ Mon, 27 May 2024 01:20:39 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-1f4a52b9589so1875145ad.3; 
+ Sun, 26 May 2024 18:20:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1716772839; x=1717377639; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zhri0/vJdPUtS20mPiUHFEviHxNxww/w5KVtbT8fjLg=;
+ b=jTp/rEP6vId+0vBWZR+MyEKoBVD1CPvKRHJASfwIfU2x4QAHduHR5JB9xfaLrahL4c
+ ijL1lduG92OkKo0dM9eFghU+KUQWJ8OzeMjnSATHBPmml/MyhSSdwR0RyUrJ9IHhEiXd
+ RB1dVqgbxKAnxbOxMMGr+l7mRGtki6id/aqPDu7zHrPnbSrXtY5Du5EiVgQWR86r5e9I
+ EWsm2J1iIJgAwPkRQIiyQQa8MwJ6HbXUPS//GeYrUTgboq6e5Uel4dvAYjMerjUFp4XL
+ 0ZLx+PluPVa0GO+op07oX98kkG0Ng+s2g3vFYQCazIUhz0V6AiJnFOJ3AhMio8sDfPOi
+ nemw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1716772839; x=1717377639;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zhri0/vJdPUtS20mPiUHFEviHxNxww/w5KVtbT8fjLg=;
+ b=bIJ9aamKRsGaMYWrq7CUxMi5cbahh4T6OoALIbhW9Jqg3lRWSfzo5DmA9/8qkoKAyk
+ dJ26dwW+1dFYbqc5osoFrvLAtbGCoHrz7SdZ/GmwkDn8pA6a/c+HXRVRxfGKvkm6tAsw
+ WYqTtf6rtulcIuWKC8okpDP3/at+pZo73E0rCr7UQtN0xUIgnBrmcdkjEbeanJDUtifN
+ XioWroAzVUm/q3PIzMj85y0zguSwMR5g7OIE1TOfFoIme0Ztxp2SH99hpBBtmWzzL9Ko
+ 529AJDKCl+JlUAoK2p5x7iU8bBGOe9yzP6sM40WOj6lx2GEa/JTJ9ANUu7MPfG8MYnV5
+ rJ5w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKOk4mmtOSH4WroTzxzu9rBB7aY51E2HSuxxt86LAi38kRhSDO+A9CuxOSeTgFW8Av76Y6tX58JsY8dOBSTgpQmObjfRHL74itOHsLfJWQxRzOBW0/gtGkrIbsBzGBHpi9smLfJfJ2W3a8abxi7A==
+X-Gm-Message-State: AOJu0YwwCcLtCns6k/9pm+wQ3KuXLKJpZIfqmCBrurh8p+8RitUiohIl
+ aDm+pyCDuH4+7lr9xVZIgVd5aMHfBoZleeaS6Ndz4JW3kOJP/42v
+X-Google-Smtp-Source: AGHT+IHs+AGu3AGCAaE5Icw6Mlc/9MAd2UZwxY4NIOH0MIQi/OpFV4Y12FGLctWzh8VZElCVzpEiVw==
+X-Received: by 2002:a17:902:e810:b0:1f2:fab6:294 with SMTP id
+ d9443c01a7336-1f4498e18f5mr89572135ad.56.1716772838461; 
+ Sun, 26 May 2024 18:20:38 -0700 (PDT)
+Received: from localhost.localdomain (140-211-169-189-openstack.osuosl.org.
+ [140.211.169.189]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-1f44c9a8464sm50370265ad.230.2024.05.26.18.20.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 26 May 2024 18:20:38 -0700 (PDT)
+From: Zhouyi Zhou <zhouzhouyi@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, chris@chrisdown.name,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rcu@vger.kernel.org, lance@osuosl.org
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Subject: [PATCH] drm/radeon/r100: enhance error handling in
+ r100_cp_init_microcode
+Date: Mon, 27 May 2024 01:20:18 +0000
+Message-Id: <20240527012018.351223-1-zhouzhouyi@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240526202115.129049-3-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,51 +84,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sui,
+In r100_cp_init_microcode, if rdev->family don't match any of
+if statement,  fw_name will be NULL, which will cause
+gcc (11.4.0 powerpc64le-linux-gnu) complain:
 
-kernel test robot noticed the following build errors:
+In function ‘r100_cp_init_microcode’,
+    inlined from ‘r100_cp_init’ at drivers/gpu/drm/radeon/r100.c:1136:7:
+./include/linux/printk.h:457:44: warning: ‘%s’ directive argument is null [-Wformat-overflow=]
+  457 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
 
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on linus/master v6.10-rc1 next-20240523]
-[cannot apply to shawnguo/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Above warning is emitted during the rcutorture test in
+in PPC VM of Opensource Lab of Oregon State Univerisity.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-bridge-Allow-using-fwnode-APIs-to-get-the-next-bridge/20240527-042402
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20240526202115.129049-3-sui.jingfeng%40linux.dev
-patch subject: [PATCH v6 02/10] drm/bridge: Set firmware node of drm_bridge instances automatically
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240527/202405270622.VDMbp9FR-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240527/202405270622.VDMbp9FR-lkp@intel.com/reproduce)
+Enhance error handling in r100_cp_init_microcode, let r100_cp_init_microcode
+return with -EINVAL when none of chip families is matched.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405270622.VDMbp9FR-lkp@intel.com/
+Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+---
+ drivers/gpu/drm/radeon/r100.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/omapdrm/dss/hdmi5.c:487:49: error: expected identifier
-           drm_bridge_add(&hdmi->bridge, &hdmi->pdev->dev.);
-                                                          ^
-   1 error generated.
-
-
-vim +487 drivers/gpu/drm/omapdrm/dss/hdmi5.c
-
-   480	
-   481	static void hdmi5_bridge_init(struct omap_hdmi *hdmi)
-   482	{
-   483		hdmi->bridge.funcs = &hdmi5_bridge_funcs;
-   484		hdmi->bridge.ops = DRM_BRIDGE_OP_EDID;
-   485		hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-   486	
- > 487		drm_bridge_add(&hdmi->bridge, &hdmi->pdev->dev.);
-   488	}
-   489	
-
+diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.c
+index 0b1e19345f43..4f8a1bdd9365 100644
+--- a/drivers/gpu/drm/radeon/r100.c
++++ b/drivers/gpu/drm/radeon/r100.c
+@@ -1055,6 +1055,11 @@ static int r100_cp_init_microcode(struct radeon_device *rdev)
+ 		   (rdev->family == CHIP_RV570)) {
+ 		DRM_INFO("Loading R500 Microcode\n");
+ 		fw_name = FIRMWARE_R520;
++	} else {
++		pr_err("radeon_cp: Failed to load firmware \"%d\"\n",
++			rdev->family);
++		err = -EINVAL;
++		goto out;
+ 	}
+ 
+ 	err = request_firmware(&rdev->me_fw, fw_name, rdev->dev);
+@@ -1067,6 +1072,8 @@ static int r100_cp_init_microcode(struct radeon_device *rdev)
+ 		release_firmware(rdev->me_fw);
+ 		rdev->me_fw = NULL;
+ 	}
++
++out:
+ 	return err;
+ }
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
